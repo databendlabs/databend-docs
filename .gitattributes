@@ -1,0 +1,3 @@
+docker/** -text
+scripts/** -text
+website/databend/** -text
