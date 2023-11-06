@@ -9,6 +9,7 @@ This section provides reference information for the semi-structured data functio
 - [JSON_PRETTY](json-pretty.md)
 - [JSON_TYPEOF](json-typeof.md)
 - [PARSE_JSON](parse-json.md)
+- [FLATTEN](flatten.md)
 
 ## JSON Query and Extraction:
 - [JSON_EXTRACT_PATH_TEXT](json-extract-path-text.md)
