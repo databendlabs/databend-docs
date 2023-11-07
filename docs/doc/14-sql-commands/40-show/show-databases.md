@@ -7,7 +7,7 @@ Shows the list of databases that exist on the instance.
 ## Syntax
 
 ```sql
-SHOW DATABASES [LIKE expr | WHERE expr]
+SHOW DATABASES [LIKE '<pattern>' | WHERE <expr>]
 ```
 
 ## Examples

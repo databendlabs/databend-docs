@@ -1,13 +1,16 @@
 ---
 title: SHOW METRICS
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.190"/>
 
 Shows the list of [system metrics](../../13-sql-reference/20-system-tables/system-metrics.md).
 
 ## Syntax
 
 ```sql
-SHOW METRICS
+SHOW METRICS [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
 ## Examples
