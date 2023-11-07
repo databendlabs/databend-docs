@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.190"/>
 
-Transforms nested JSON or array data into a tabular format, where each element or field is represented as a separate row.
+Transforms nested JSON data into a tabular format, where each element or field is represented as a separate row.
 
 ## Syntax
 
@@ -31,7 +31,7 @@ The following table describes the output columns of the FLATTEN function:
 | Column | Description                                                                              |
 |--------|------------------------------------------------------------------------------------------|
 | SEQ    | A unique sequence number associated with the input.                                      |
-| KEY    | Key to the expanded value.                                                               |
+| KEY    | Key to the expanded value. If the flattened element does not contain a key, it's set to NULL.|
 | PATH   | Path to the flattened element.                                                           |
 | INDEX  | If the element is an array, this column contains its index; otherwise, it's set to NULL. |
 | VALUE  | Value of the flattened element.                                                          |
