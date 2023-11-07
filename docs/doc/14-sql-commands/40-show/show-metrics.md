@@ -10,7 +10,7 @@ Shows the list of [system metrics](../../13-sql-reference/20-system-tables/syste
 ## Syntax
 
 ```sql
-SHOW METRICS [LIKE '<pattern>' | WHERE <expr> | LIMIT <limit>]
+SHOW METRICS [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
 ## Examples

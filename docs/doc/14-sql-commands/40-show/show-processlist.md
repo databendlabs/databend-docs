@@ -12,7 +12,7 @@ The SHOW PROCESSLIST statement is one source of process information.
 ## Syntax
 
 ```sql
-SHOW PROCESSLIST [LIKE '<pattern>' | WHERE <expr> | LIMIT <limit>]
+SHOW PROCESSLIST [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
 ## Examples

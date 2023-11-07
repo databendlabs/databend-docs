@@ -10,7 +10,7 @@ Shows the list of supported table functions currently.
 ## Syntax
 
 ```sql
-SHOW TABLE_FUNCTIONS [LIKE '<pattern>' | WHERE <expr> | LIMIT <limit>]
+SHOW TABLE_FUNCTIONS [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
 ## Example

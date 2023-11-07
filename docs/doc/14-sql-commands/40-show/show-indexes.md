@@ -12,7 +12,7 @@ See also: [system.indexes](../../13-sql-reference/20-system-tables/system-indexe
 ## Syntax
 
 ```sql
-SHOW INDEXES [LIKE '<pattern>' | WHERE <expr> | LIMIT <limit>]
+SHOW INDEXES [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
 ## Example

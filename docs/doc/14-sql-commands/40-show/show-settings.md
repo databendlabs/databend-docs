@@ -14,7 +14,7 @@ Databend stores the system settings in the system table [system.settings](../../
 ## Syntax
 
 ```sql
-SHOW SETTINGS [LIKE '<pattern>' | WHERE <expr> | LIMIT <limit>]
+SHOW SETTINGS [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
 ## Examples
