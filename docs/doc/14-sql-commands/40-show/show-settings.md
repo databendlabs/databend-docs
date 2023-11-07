@@ -3,7 +3,7 @@ title: SHOW SETTINGS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.187"/>
+<FunctionDescription description="Introduced or updated: v1.2.190"/>
 
 Shows all the system settings of the current session.
 
@@ -14,7 +14,7 @@ Databend stores the system settings in the system table [system.settings](../../
 ## Syntax
 
 ```sql
-SHOW SETTINGS;
+SHOW SETTINGS [LIKE '<pattern>' | WHERE <expr> | LIMIT <limit>]
 ```
 
 ## Examples

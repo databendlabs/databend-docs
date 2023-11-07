@@ -1,13 +1,16 @@
 ---
 title: SHOW TABLE_FUNCTIONS
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.190"/>
 
 Shows the list of supported table functions currently.
 
 ## Syntax
 
 ```sql
-SHOW TABLE_FUNCTIONS  [LIKE 'pattern' | WHERE expr]
+SHOW TABLE_FUNCTIONS [LIKE '<pattern>' | WHERE <expr> | LIMIT <limit>]
 ```
 
 ## Example

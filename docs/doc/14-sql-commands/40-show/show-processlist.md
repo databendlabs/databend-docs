@@ -1,6 +1,9 @@
 ---
 title: SHOW PROCESSLIST
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.190"/>
 
 The Databend process list indicates the operations currently being performed by the set of threads executed within the server.
 
@@ -9,7 +12,7 @@ The SHOW PROCESSLIST statement is one source of process information.
 ## Syntax
 
 ```sql
-SHOW PROCESSLIST
+SHOW PROCESSLIST [LIKE '<pattern>' | WHERE <expr> | LIMIT <limit>]
 ```
 
 ## Examples

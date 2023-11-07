@@ -1,10 +1,9 @@
 ---
 title: SHOW INDEXES
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.50"/>
+<FunctionDescription description="Introduced or updated: v1.2.190"/>
 
 Shows the created aggregating indexes. Equivalent to `SELECT * FROM system.indexes`.
 
@@ -13,7 +12,7 @@ See also: [system.indexes](../../13-sql-reference/20-system-tables/system-indexe
 ## Syntax
 
 ```sql
-SHOW INDEXES;
+SHOW INDEXES [LIKE '<pattern>' | WHERE <expr> | LIMIT <limit>]
 ```
 
 ## Example
