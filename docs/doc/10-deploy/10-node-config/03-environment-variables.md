@@ -1,12 +1,10 @@
 ---
-title: Setting Environment Variables
+title: Environment Variables
 ---
 
-Databend offers you the flexibility to configure your Meta and Query nodes in two ways: using environment variables or configuration files. Moreover, you have the option to utilize environment variables to point to custom configuration files. This capability empowers you to make modifications without disrupting the default setups. This is especially advantageous when you require swift adjustments, are working with containers, or need to safeguard sensitive data.
+Databend empowers you to harness the flexibility of environment variables, allowing you to both point to custom configuration files and make precise adjustments to individual configurations. This capability not only enables you to make modifications without disrupting the default setups but also proves especially beneficial when you require swift adjustments, work with containerized environments, or need to safeguard sensitive data.
 
 :::note
-- A mapping relationship exists between the parameters set through environment variables and those specified in configuration files. In cases where a configuration parameter is defined both via an environment variable and in a configuration file, Databend will prioritize the value provided by the environment variable.
-
 - Not all configurations can be managed solely through environment variables. In some cases, adjustments might necessitate modifications within the configuration files rather than relying on environment variables.
 :::
 

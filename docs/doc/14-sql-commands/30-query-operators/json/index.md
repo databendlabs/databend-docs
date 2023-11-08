@@ -12,5 +12,5 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | #> | Retrieves a JSON array or object by specifying a key path, returning a JSON object. | `PARSE_JSON('{"example": {"Databend": "Cloud Native Warehouse"}}')#>'{example, Databend}'` | Cloud Native Warehouse |
 | #>> | Retrieves a JSON array or object by specifying a key path, returning a string. | `PARSE_JSON('{"example": {"Databend": "Cloud Native Warehouse"}}')#>>'{example, Databend}'` | Cloud Native Warehouse |
 | ? | Checks if the given string exists in a JSON object as a key or array and returns a boolean result (1 for true, 0 for false). | `PARSE_JSON('{"a":1,"b":2,"c":3}') ? 'b'`| 1 |
-| ?\| | Checks if any string in the given array exists as a key or array element and returns a boolean result (1 for true, 0 for false). | `PARSE_JSON('{"a":1,"b":2,"c":3}') ?\| ['b','e']` | 1 |
+| ?\| | Checks if any string in the given array exists as a key or array element and returns a boolean result (1 for true, 0 for false). | PARSE_JSON('{"a":1,"b":2,"c":3}') ?\| ['b','e'] | 1 |
 | ?& | Checks if each string in the given array exists as a key or array element and returns a boolean result (1 for true, 0 for false). | `PARSE_JSON('{"a":1,"b":2,"c":3}') ?& ['b','e']` | 0 |
