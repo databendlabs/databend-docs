@@ -87,5 +87,6 @@ The following is a list of the parameters available within the [raft_config] sec
 | heartbeat_interval       | Heartbeat interval in milliseconds. Default: 1000                                                                       |
 | install_snapshot_timeout | Install snapshot timeout in milliseconds. Default: 4000                                                                 |
 | max_applied_log_to_keep  | Maximum number of applied Raft logs to keep. Default: 1000                                                              |
+| snapshot_chunk_size      | The size of chunk for transmitting snapshot. The default is 4MB                                                         |
 | snapshot_logs_since_last | Number of Raft logs since the last snapshot. Default: 1024                                                              |
 | wait_leader_timeout      | Wait leader timeout in milliseconds. Default: 70000                                                                     |
