@@ -13,11 +13,11 @@ External functions in Databend allow you to define custom operations for process
 
 ## Supported Programming Languages
 
-This table provides information on the supported languages and the necessary libraries to create External Functions in Databend.
+This table lists the supported languages and the required libraries for creating external functions in Databend:
 
-| Language | Required Library                                                                                                                                                                                                                                                            |
-|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Python   | **udf.py**: The library is not yet publicly available. Prior to its release, please download the 'udf.py' file from [this link](https://github.com/datafuselabs/databend/blob/main/tests/udf-server/udf.py) and ensure it is saved in the same directory as your Python script. |
+| Language | Required Library                                      |
+|----------|-------------------------------------------------------|
+| Python   | [databend-udf](https://pypi.org/project/databend-udf) |
 
 ## Managing External Functions
 
@@ -31,7 +31,7 @@ This section demonstrates how to create an external function in each of the [Sup
 
 ### Creating an External Function in Python
 
-1. Enable external server support by adding the following parameters to the [query] section in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
+1. Before starting Databend, add the following parameters to the [query] section in your [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
 ```toml title='databend-query.toml'
 [query]
@@ -43,10 +43,16 @@ udf_server_allow_list = ['http://0.0.0.0:8815']
 ...
 ```
 
-2. Define your function. This code defines and runs an external server in Python, which exposes a custom function *gcd* for calculating the greatest common divisor of two integers and allows remote execution of this function:
+2. Install [databend-udf](https://pypi.org/project/databend-udf) using pip. If you haven't installed pip, you can download and install it following the official documentation: [Installing pip](https://pip.pypa.io/en/stable/installation/).
+
+```bash
+pip install databend-udf
+```
+
+3. Define your function. This code defines and runs an external server in Python, which exposes a custom function *gcd* for calculating the greatest common divisor of two integers and allows remote execution of this function:
 
 ```python title='external_function.py'
-from udf import *
+from databend_udf import *
 
 @udf(
     input_types=["INT", "INT"],
@@ -97,13 +103,13 @@ This table illustrates the correspondence between Databend data types and their 
 | ARRAY(T)              | list[T]               |
 | TUPLE(T...)           | tuple(T...)           |
 
-3. Run the Python file to start the external server:
+4. Run the Python file to start the external server:
 
 ```shell
 python3 external_function.py
 ```
 
-4. Register the function *gcd* with the [CREATE FUNCTION](ddl-create-function.md) in Databend:
+5. Register the function *gcd* with the [CREATE FUNCTION](ddl-create-function.md) in Databend:
 
 ```sql
 CREATE FUNCTION gcd (INT, INT) RETURNS INT LANGUAGE python HANDLER = 'gcd' ADDRESS = 'http://0.0.0.0:8815'；
