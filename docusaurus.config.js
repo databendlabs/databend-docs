@@ -62,7 +62,7 @@ const config = {
                         if (locale !== config.i18n.defaultLocale) {
                             return `https://databend.crowdin.com/databend/${locale}`;
                         }
-                        return `https://github.com/datafuselabs/databend/edit/main/docs/doc/${docPath}`;
+                        return `https://github.com/datafuselabs/databend-docs/edit/main/docs/doc/${docPath}`;
                     },
                 },
                 blog: {
@@ -72,7 +72,7 @@ const config = {
                         if (locale !== config.i18n.defaultLocale) {
                             return `https://databend.crowdin.com/databend/${locale}`;
                         }
-                        return `https://github.com/datafuselabs/databend/edit/main/website/blog/${blogPath}`;
+                        return `https://github.com/datafuselabs/databend-docs/edit/main/website/blog/${blogPath}`;
                     },
                     blogSidebarCount: 5,
                     postsPerPage: 'ALL',
@@ -111,7 +111,7 @@ const config = {
                     if (locale !== config.i18n.defaultLocale) {
                         return `https://databend.crowdin.com/databend/${locale}`;
                     }
-                    return `https://github.com/datafuselabs/databend/edit/main/docs/dev/${devPath}`;
+                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/dev/${devPath}`;
                 },
             },
         ],
