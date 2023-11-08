@@ -12,6 +12,7 @@ import EEFeature from '@site/src/components/EEFeature';
 <EEFeature featureName='Storage Encryption'/>
 
 import GetLatest from '@site/src/components/GetLatest';
+import DetailsWrap from '@site/src/components/DetailsWrap';
 
 ## Deploying a Standalone Databend
 
@@ -579,8 +580,12 @@ Each time you start and stop Databend, simply run the scripts in the folder `/us
 # Stop Databend
 ./scripts/stop.sh
 ```
-:::tip
-In case you encounter the subsequent error messages while attempting to start Databend:
+
+<DetailsWrap>
+<details>
+  <summary>Permission denied?</summary>
+  <div>
+    If you encounter the subsequent error messages while attempting to start Databend:
 
 ```shell
 ==> query.log <==
@@ -596,7 +601,9 @@ sudo mkdir /var/lib/databend
 sudo chown -R $USER /var/log/databend
 sudo chown -R $USER /var/lib/databend
 ```
-:::
+  </div>
+</details>
+</DetailsWrap>
 <GetLatest/>
 
 ## Next Steps
