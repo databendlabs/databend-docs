@@ -50,7 +50,7 @@ The `MERGE INTO` statement performs insert, update, or delete operations on rows
 
 MERGE INTO has been enhanced to support distributed execution. The physical plan for distributed execution is shown as follows.
 
-![Image: Databend Copy Into](../static/img/blog/merge-into-physical-plan.png)
+![Image: Databend Merge Into](../static/img/blog/merge-into-physical-plan.png)
 
 Please [contact the Databend team](https://www.databend.com/contact-us) if you would like to learn more, or check out the resources below:
 
@@ -89,7 +89,7 @@ We're always open to cutting-edge technologies and innovative ideas. You're more
 
 ### Support for Reading Delta Lake
 
-Databend currently supports mounting and reading data from Iceberg tables through the Catalog, and the next planned target is Delta Lake.
+After successfully incorporating support for mounting and reading data from Iceberg tables through the Catalog, Databend is gearing up for adding compatibility with Delta Lake.
 
 Delta Lake, initiated and open-sourced by Databricks, is a storage format that extends Parquet data files with file-based transaction logs, enabling ACID transactions and scalable metadata handling. Delta Lake is fully compatible with Apache Spark APIs and tightly integrated with structured streaming, allowing you to easily use a single data copy in both batch and streaming operations while providing large-scale incremental processing.
 
