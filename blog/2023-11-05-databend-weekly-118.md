@@ -44,11 +44,11 @@ authors:
 
 Stay informed about the latest features of Databend.
 
-### MERGE INTO Now Supports Distributed Execution
+### MERGE INTO now Supports Distributed Execution
 
 The `MERGE INTO` statement performs insert, update, or delete operations on rows in the target table based on specified conditions and matching criteria using data from the specified source.
 
-In Databend, the `MERGE INTO` statement now supports distributed execution, which enables more efficient data integration capabilities. The physical plan for distributed execution is shown in the following diagram:
+MERGE INTO has been enhanced to support distributed execution. The physical plan for distributed execution is shown as follows.
 
 ![Image: Databend Copy Into](../static/img/blog/merge-into-physical-plan.png)
 
@@ -76,9 +76,9 @@ If you are interested in learning more, please check out the resources below:
 
 We have also made these improvements to Databend that we hope you will find helpful:
 
-- Added support for JSON operators: `?`, `?|`, and `?&`.
+- Introduced new [JSON operators](https://databend.rs/doc/sql-commands/query-operators/json/): `?`, `?|`, and `?&`.
 - Added support for permissions management on `STAGE` and `UDF`.
-- Added support for `flatten` table function.
+- Introduced new table function [FLATTEN](https://databend.rs/doc/sql-functions/semi-structured-functions/flatten).
 - Added support for creating external tables using URLs: `CREATE STAGE test_stage [URL=] 's3://load/files/'`.
 - Read the documentation [Example 2: Attaching Table in READ_ONLY Mode](https://databend.rs/doc/sql-commands/ddl/table/attach-table#example-2-attaching-table-in-read_only-mode) to learn how to use `ATTACH TABLE` in read-only mode.
 - Read the documentation [Conversion Functions](https://databend.rs/doc/sql-functions/conversion-functions/) to learn about type conversion functions and rules in Databend.
@@ -101,7 +101,7 @@ Please let us know if you're interested in contributing to this feature, or pick
 
 We always open arms to everyone and can't wait to see how you'll help our community grow and thrive.
 
-* [@guojidan](https://github.com/guojidan) added support for more filter options in the SHOW statements, [#13510](https://github.com/datafuselabs/databend/pull/13510).
+* [@guojidan](https://github.com/guojidan) added new filter parameters for the SHOW commands in [#13510](https://github.com/datafuselabs/databend/pull/13510).
 
 ## Changelog
 
