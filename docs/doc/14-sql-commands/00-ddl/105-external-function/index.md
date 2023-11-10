@@ -34,7 +34,7 @@ This section demonstrates how to create an external function in each of the [Sup
 1. Before starting Databend, add the following parameters to the [query] section in your [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
 :::note
-If you are on Databend Cloud, skip this step and contact us with your allowed IP addresses by creating a ticket on **Support** > **Create New Ticket**.
+If you are on Databend Cloud, skip this step and contact us with your allowed UDF server addresses by creating a ticket on **Support** > **Create New Ticket**.
 :::
 
 ```toml title='databend-query.toml'
