@@ -3,14 +3,14 @@ title: SHOW DROP TABLES
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.2.10"/>
+<FunctionDescription description="Introduced or updated: v1.2.203"/>
 
 Lists the dropped tables in the current or a specified database.
 
 ## Syntax
 
 ```sql
-SHOW DROP TABLES [FROM <database_name>]
+SHOW DROP TABLES [FROM <database_name>] [LIKE '<pattern>' | WHERE <expr>]
 ```
 
 ## Examples
