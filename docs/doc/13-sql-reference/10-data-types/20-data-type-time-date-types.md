@@ -126,7 +126,7 @@ See [Date & Time Functions](/doc/sql-functions/datetime-functions).
 
 ### Formatting Date and Time
 
-In Databend, certain date and time functions like [TO_DATE](../../15-sql-functions/30-datetime-functions/todate.md) and [TO_TIMESTAMP](../../15-sql-functions/30-datetime-functions/totimestamp.md) require you to specify the desired format for date and time values. To handle date and time formatting, Databend makes use of the chrono::format::strftime module, which is a standard module provided by the chrono library in Rust. This module enables precise control over the formatting of dates and times. The following content is excerpted from https://docs.rs/chrono/latest/chrono/format/strftime/index.html:
+In Databend, certain date and time functions like [TO_DATE](../../15-sql-functions/30-datetime-functions/to-date) and [TO_TIMESTAMP](../../15-sql-functions/30-datetime-functions/totimestamp.md) require you to specify the desired format for date and time values. To handle date and time formatting, Databend makes use of the chrono::format::strftime module, which is a standard module provided by the chrono library in Rust. This module enables precise control over the formatting of dates and times. The following content is excerpted from https://docs.rs/chrono/latest/chrono/format/strftime/index.html:
 
 | Spec. | Example                          | Description                                                                                                                                                                         |
 |-------|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
