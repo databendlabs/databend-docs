@@ -31,7 +31,7 @@ This section provides reference information for the datetime-related functions i
 - [TO_START_OF_TENMINUTES](to-start-of-ten-minutes)
 - [TO_START_OF_WEEK](to-start-of-week)
 - [TO_START_OF_YEAR](to-start-of-year)
-- [TOTIMESTAMP](totimestamp.md)
+- [TOTIMESTAMP](to-timestamp)
 - [TO_UNIX_TIMESTAMP](to-unix-timestamp)
 - [TO_WEEK_OF_YEAR](to-week-of-year)
 - [TO_YEAR](to-year)
