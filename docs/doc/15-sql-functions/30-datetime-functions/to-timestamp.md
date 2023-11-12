@@ -18,7 +18,7 @@ If given two arguments, the function converts the first string to a timestamp ba
 - The output timestamp reflects your Databend timezone.
 - The timezone information must be included in the string you want to convert, otherwise NULL will be returned.
 
-See also: [TO_DATE](todate.md)
+See also: [TO_DATE](to-date)
 
 ## Syntax
 
