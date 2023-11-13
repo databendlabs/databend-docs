@@ -1,17 +1,17 @@
 ---
-title: DESCRIBE TABLE
+title: SHOW FIELDS
 ---
 
-Shows information about the columns in a given table. Equivalent to [SHOW FIELDS](../../40-show/show-fields.md).
+Shows information about the columns in a given table. Equivalent to [DESCRIBE TABLE](../00-ddl/20-table/50-describe-table.md).
 
 :::tip
-[SHOW COLUMNS](../../40-show/show-full-columns.md) provides similar but more information about the columns of a table. 
+[SHOW COLUMNS](show-full-columns.md) provides similar but more information about the columns of a table. 
 :::
 
 ## Syntax
 
 ```sql
-DESC|DESCRIBE [<database_name>.]<table_name>
+SHOW FIELDS FROM [<database_name>.]<table_name>
 ```
 
 ## Examples
@@ -24,7 +24,7 @@ CREATE TABLE books
      author VARCHAR
   );
 
-DESC books; 
+SHOW FIELDS FROM books; 
 
 Field   |Type     |Null|Default                     |Extra|
 --------+---------+----+----------------------------+-----+
