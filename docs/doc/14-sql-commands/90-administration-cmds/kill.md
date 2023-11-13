@@ -1,8 +1,10 @@
 ---
-title: Kill
+title: KILL
 ---
 
 Forcibly terminates the currently running queries.
+
+See also: [SHOW PROCESSLIST](show-processlist.md)
 
 ## Syntax
 
