@@ -14,6 +14,7 @@ This page provides reference information for the show-related commands in Databe
 - [SHOW COLUMNS](show-full-columns.md)
 - [SHOW TABLE STATUS](show-table-status.md)
 - [SHOW TABLES](show-tables.md)
+- [SHOW FIELDS](show-fields.md)
 
 ## Function and Index Information:
 
@@ -27,3 +28,4 @@ This page provides reference information for the show-related commands in Databe
 - [SHOW PROCESSLIST](show-processlist.md)
 - [SHOW SETTINGS](show-settings.md)
 - [SHOW USERS](show-users.md)
+- [SHOW CATALOGS](show-catalogs.md)
