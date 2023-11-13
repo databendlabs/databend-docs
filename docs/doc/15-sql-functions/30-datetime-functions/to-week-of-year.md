@@ -28,15 +28,13 @@ Returns an integer that represents the week number within a year, with numbering
 ## Examples
 
 ```sql
-SELECT TO_WEEK_OF_YEAR('2017-01-01');
-----
-52
+SELECT
+  to_week_of_year('2023-11-12 09:38:18.165575')
 
-SELECT TO_WEEK_OF_YEAR('2016-01-02T23:39:20.123-07:00');
-----
-53
-
-SELECT TO_WEEK_OF_YEAR('2023-05-01');
-----
-18
+┌───────────────────────────────────────────────┐
+│ to_week_of_year('2023-11-12 09:38:18.165575') │
+│                     UInt8                     │
+├───────────────────────────────────────────────┤
+│                                            45 │
+└───────────────────────────────────────────────┘
 ```

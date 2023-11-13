@@ -25,20 +25,13 @@ For more information about the timestamp data type, see [Date & Time](../../13-s
 ## Examples
 
 ```sql
-SELECT TO_UNIX_TIMESTAMP(NOW())
+SELECT
+  to_unix_timestamp('2023-11-12 09:38:18.165575')
 
-----
-1681089622
-
-
-SELECT TO_UNIX_TIMESTAMP('2022-12-31T23:59:59+00:00')
-
-----
-1672531199
-
-
-SELECT TO_UNIX_TIMESTAMP('2022-12-31T23:59:59-08:00')
-
-----
-1672559999
+┌─────────────────────────────────────────────────┐
+│ to_unix_timestamp('2023-11-12 09:38:18.165575') │
+│                      UInt32                     │
+├─────────────────────────────────────────────────┤
+│                                      1699781898 │
+└─────────────────────────────────────────────────┘
 ```
