@@ -5,7 +5,7 @@ title: SHOW COLUMNS
 Shows information about the columns in a given table.
 
 :::tip
-[DESCRIBE TABLE](../00-ddl/20-table/50-describe-table.md) provides similar but less information about the columns of a table. 
+[DESCRIBE TABLE](50-describe-table.md) provides similar but less information about the columns of a table. 
 :::
 
 ## Syntax

@@ -2,7 +2,7 @@
 title: SHOW FIELDS
 ---
 
-Shows information about the columns in a given table. Equivalent to [DESCRIBE TABLE](../00-ddl/20-table/50-describe-table.md).
+Shows information about the columns in a given table. Equivalent to [DESCRIBE TABLE](50-describe-table.md).
 
 :::tip
 [SHOW COLUMNS](show-full-columns.md) provides similar but more information about the columns of a table. 

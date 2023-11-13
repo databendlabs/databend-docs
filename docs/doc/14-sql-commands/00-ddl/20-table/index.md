@@ -34,12 +34,16 @@ Databend also offers convenient methods for creating tables by copying column st
 
 [Cluster Key](../70-clusterkey/index.md) is designed to enhance query performance by physically organizing data in proximity. Databend recommends configuring cluster keys, especially for large tables encountering sluggish query performance. For the syntax to set a cluster key during table creation, see [SET CLUSTER KEY](../70-clusterkey/dml-set-cluster-key.md).
 
-
 ## Routine Table Maintenance
 
 Once your table is created, you gain the foundation for organizing and managing your data effectively. With this structure in place, you can seamlessly execute various commands to enhance, modify, or extract information from your table. Whether it's adjusting column properties, fine-tuning configurations, or querying data, Databend provides a versatile set of tools to meet your evolving needs.
 
-- [DESCRIBE TABLE](50-describe-table.md): Retrieves comprehensive details about the structure and attributes of a specific table. 
+- [DESCRIBE TABLE](50-describe-table.md), [SHOW FIELDS](show-fields.md): Shows information about the columns in a given table.
+- [SHOW FULL COLUMNS](show-full-columns.md): Retrieves comprehensive details about the columns in a given table.
+- [SHOW CREATE TABLE](show-create-table.md): Shows the CREATE TABLE statement that creates the named table.
+- [SHOW DROP TABLES](show-drop-tables.md): Lists the dropped tables in the current or a specified database.
+- [SHOW TABLE STATUS](show-table-status.md): Shows the status of the tables in a database.
+- [SHOW TABLES](show-tables.md): Lists the tables in the current or a specified database.
 - [ALTER TABLE COLUMN](90-alter-table-column.md): Modifies the structure of a table by making changes to its columns. 
 - [ALTER TABLE OPTION](90-alter-table-option.md): Modifies the Fuse engine [Options](../../../13-sql-reference/30-table-engines/00-fuse.md#options) of a table.
 - [RENAME TABLE](30-ddl-rename-table.md): Changes the name of a table.

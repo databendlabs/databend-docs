@@ -2,10 +2,10 @@
 title: DESCRIBE TABLE
 ---
 
-Shows information about the columns in a given table. Equivalent to [SHOW FIELDS](../../40-show/show-fields.md).
+Shows information about the columns in a given table. Equivalent to [SHOW FIELDS](show-fields.md).
 
 :::tip
-[SHOW COLUMNS](../../40-show/show-full-columns.md) provides similar but more information about the columns of a table. 
+[SHOW COLUMNS](show-full-columns.md) provides similar but more information about the columns of a table. 
 :::
 
 ## Syntax
