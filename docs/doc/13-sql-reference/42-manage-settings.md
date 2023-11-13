@@ -9,7 +9,7 @@ Databend provides a variety of system settings that enable you to control how Da
 
 In Databend, the system settings are divided into two levels: **Session** and **Global**. Session-level settings only apply to the current session, while global-level settings affect all the clusters of a tenant. It is possible to convert a session-level setting to a global-level setting, and vice versa. However, it's important to note that when session-level and global-level settings are not consistent, the session-level setting takes precedence and overrides the global setting.
 
-All the settings come with default values out of the box. To show the available system settings and their default values, see [SHOW SETTINGS](../14-sql-commands/40-show/show-settings.md). To update a setting, use the [SET](../14-sql-commands/80-setting-cmds/01-set-global.md) or [UNSET](../14-sql-commands/80-setting-cmds/02-unset.md) command.
+All the settings come with default values out of the box. To show the available system settings and their default values, see [SHOW SETTINGS](../14-sql-commands/90-administration-cmds/show-settings.md). To update a setting, use the [SET](../14-sql-commands/90-administration-cmds/set-global.md) or [UNSET](../14-sql-commands/90-administration-cmds/unset.md) command.
 
 After deploying Databend, it is a good idea to go through all the system settings, and tune up the levels and values before working with Databend, so that Databend can work better for you.
 

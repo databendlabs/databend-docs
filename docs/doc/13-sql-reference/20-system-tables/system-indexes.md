@@ -8,6 +8,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Contains information about the created aggregating indexes.
 
+See also: [SHOW INDEXES](../../14-sql-commands/00-ddl/103-aggregating-index/show-indexes.md)
+
 ```sql
 CREATE TABLE t1(a int,b int);
 
@@ -21,5 +23,3 @@ SELECT * FROM system.indexes；
 | test_idx | AGGREGATING | SELECT b, SUM(a) FROM default.t1 WHERE (b > 3) GROUP BY b  | 2023-05-17 11:53:54.474377 |
 +----------+-------------+------------------------------------------------------------+----------------------------+
 ```
-
-See also: [SHOW INDEXES](../../14-sql-commands/40-show/show-indexes.md)
