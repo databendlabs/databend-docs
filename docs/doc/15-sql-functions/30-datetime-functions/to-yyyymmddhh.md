@@ -23,12 +23,13 @@ Returns an unsigned 64-bit integer (UInt64) in the format "YYYYMMDDHH".
 ## Examples
 
 ```sql
-SELECT to_yyyymmddhh(to_datetime(1630833797000000))
-----
-2021090509
+SELECT
+  to_yyyymmddhh('2023-11-12 09:38:18.165575')
 
-
-SELECT to_yyyymmddhh(to_date(18875))
-----
-2021090500
+┌─────────────────────────────────────────────┐
+│ to_yyyymmddhh('2023-11-12 09:38:18.165575') │
+│                    UInt32                   │
+├─────────────────────────────────────────────┤
+│                                  2023111209 │
+└─────────────────────────────────────────────┘
 ```

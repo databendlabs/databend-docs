@@ -2,7 +2,7 @@
 title: TO_DAY_OF_YEAR
 ---
 
-Converts a date or date with time (timestamp/datetime) to a UInt16 number containing the number of the day of the year (1-366).
+Convert a date or date with time (timestamp/datetime) to a UInt16 number containing the number of the day of the year (1-366).
 
 ## Syntax
 
@@ -23,17 +23,13 @@ TO_DAY_OF_YEAR(<expr>)
 ## Examples
 
 ```sql
-SELECT to_day_of_year(to_date(18869));
-+--------------------------------+
-| to_day_of_year(to_date(18869)) |
-+--------------------------------+
-|                            242 |
-+--------------------------------+
+SELECT
+    to_day_of_year('2023-11-12 09:38:18.165575')
 
-SELECT to_day_of_year(now());
-+-----------------------+
-| to_day_of_year(now()) |
-+-----------------------+
-|                    88 |
-+-----------------------+
+┌──────────────────────────────────────────────┐
+│ to_day_of_year('2023-11-12 09:38:18.165575') │
+│                    UInt16                    │
+├──────────────────────────────────────────────┤
+│                                          316 │
+└──────────────────────────────────────────────┘
 ```
