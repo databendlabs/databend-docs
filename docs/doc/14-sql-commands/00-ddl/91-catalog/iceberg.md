@@ -33,6 +33,7 @@ Databend provides you the following commands to manage Apache Iceberg catalogs:
 
 - CREATE CATALOG
 - SHOW CREATE CATALOG
+- SHOW CATALOGS
 
 These commands share the same syntax as those used for Apache Hive. For more detailed information, see [Managing Apache Hive Catalogs](hive.md#managing-apache-hive-catalogs).
 

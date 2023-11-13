@@ -33,6 +33,7 @@ Databend provides you the following commands to manage Apache Hive catalogs:
 
 - [CREATE CATALOG](#create-catalog)
 - [SHOW CREATE CATALOG](#show-create-catalog)
+- [SHOW CATALOGS](#show-catalogs)
 
 ### CREATE CATALOG
 
@@ -77,6 +78,16 @@ Returns the detailed configuration of a specified catalog, including its type an
 
 ```sql
 SHOW CREATE CATALOG <catalog_name>;
+```
+
+### SHOW CATALOGS
+
+Shows all the created catalogs.
+
+#### Syntax
+
+```sql
+SHOW CATALOGS [LIKE '<pattern>']
 ```
 
 ## Usage Examples
