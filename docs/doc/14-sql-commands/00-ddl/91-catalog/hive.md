@@ -33,6 +33,7 @@ Databend provides you the following commands to manage Apache Hive catalogs:
 
 - [CREATE CATALOG](#create-catalog)
 - [SHOW CREATE CATALOG](#show-create-catalog)
+- [SHOW CATALOGS](../../40-show/show-catalogs.md)
 
 ### CREATE CATALOG
 
