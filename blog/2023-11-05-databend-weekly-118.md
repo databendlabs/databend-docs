@@ -107,4 +107,4 @@ We always open arms to everyone and can't wait to see how you'll help our commun
 
 You can check the changelog of Databend Nightly for details about our latest developments.
 
-**Full Changelog**: <https://github.com/datafuselabs/databend/compare/v1.2.174-nightly...v1.2.183-nightly>
+**Full Changelog**: <https://github.com/datafuselabs/databend/compare/v1.2.183-nightly...v1.2.193-nightly>
