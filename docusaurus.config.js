@@ -92,7 +92,7 @@ const config = {
                     anonymizeIP: true,
                 },
             }),
-        ],
+        ]
     ],
     plugins: [
         'docusaurus-plugin-sass',
