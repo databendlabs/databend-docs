@@ -81,7 +81,7 @@ We have also made these improvements to Databend that we hope you will find help
 
 - Introduced `translate` function.
 - Added support for `task_history` system table.
-- `MERGE INTO` now supports using table directly as data source. 
+- `MERGE INTO` now supports using table directly as a data source. 
 - `SHOW DROP TABLE` now supports filtering and `LIMIT` options.
 
 ## What's Up Next
