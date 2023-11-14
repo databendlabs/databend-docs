@@ -11,6 +11,10 @@ Databend offers the following Python packages enabling you to develop Python app
 
 To install the latest `databend-driver` or `databend-sqlalchemy` package:
 
+:::note
+Both packages require Python version 3.5 or higher. To check your Python version, run `python --version` in your command prompt. 
+:::
+
 ```bash
 # install databend-driver
 pip install databend-driver
@@ -19,15 +23,7 @@ pip install databend-driver
 pip install databend-sqlalchemy
 ```
 
-:::note
-Both packages require Python version 3.5 or higher. To check your Python version, run `python --version` in your command prompt. 
-:::
-
 In the following tutorial, you'll learn how to utilize the packages above to develop your Python applications. The tutorial will walk you through creating a SQL user in Databend and then writing Python code to create a table, insert data, and perform data queries.
-
-:::tip
-You can also connect to and interact with Databend from Jupyter Notebook. For more information, see [Jupyter Notebook](../12-visualize/jupyter.md).
-:::
 
 ## Tutorial: Developing with Databend using Python
 
