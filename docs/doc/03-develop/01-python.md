@@ -5,29 +5,25 @@ sidebar_label: Python
 
 Databend offers the following Python packages enabling you to develop Python applications that interact with Databend:
 
-- [databend-py](https://github.com/databendcloud/databend-py): Provides a direct interface to the Databend database. It allows you to perform standard Databend operations such as user login, database and table creation, data insertion/loading, and querying.
+- [databend-driver](https://pypi.org/project/databend-driver/): Provides asynchronous Python support for interacting with Databend via SQL queries and managing database connections. It's important to note that this driver exclusively operates in asynchronous mode.
 
 - [databend-sqlalchemy](https://github.com/databendcloud/databend-sqlalchemy): Provides a SQL toolkit and [Object-Relational Mapping](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) to interface with the Databend database. [SQLAlchemy](https://www.sqlalchemy.org/) is a popular SQL toolkit and ORM for Python, and databend-SQLAlchemy is a dialect for SQLAlchemy that allows you to use SQLAlchemy to interact with Databend.
 
-To install the latest databend-py or databend-sqlalchemy package:
+To install the latest `databend-driver` or `databend-sqlalchemy` package:
 
-```shell
-# install databend_py
-pip install databend_py
+:::note
+Both packages require Python version 3.5 or higher. To check your Python version, run `python --version` in your command prompt. 
+:::
+
+```bash
+# install databend-driver
+pip install databend-driver
 
 # install databend-sqlalchemy
 pip install databend-sqlalchemy
 ```
 
-:::note
-Both packages require Python version 3.5 or higher to run, so before using them, make sure that your Python environment meets the requirements. To check your Python version, run "python --version" in your command prompt. 
-:::
-
 In the following tutorial, you'll learn how to utilize the packages above to develop your Python applications. The tutorial will walk you through creating a SQL user in Databend and then writing Python code to create a table, insert data, and perform data queries.
-
-:::tip
-You can also connect to and interact with Databend from Jupyter Notebook. For more information, see [Jupyter Notebook](../12-visualize/jupyter.md).
-:::
 
 ## Tutorial: Developing with Databend using Python
 
@@ -37,38 +33,14 @@ Before you start, make sure you have successfully installed a local Databend. Fo
 
 To connect your program to Databend and execute SQL operations, you must provide a SQL user account with appropriate privileges in your code. Create one in Databend if needed, and ensure that the SQL user has only the necessary privileges for security.
 
-This tutorial uses a SQL user named 'user1' with password 'abc123' as an example. As the program will write data into Databend, the user needs ALL privileges. For how to manage SQL users and their privileges, see https://databend.rs/doc/reference/sql/ddl/user.
+This tutorial uses a SQL user named 'user1' with password 'abc123' as an example. As the program will write data into Databend, the user needs ALL privileges. For how to manage SQL users and their privileges, see [User & Role](../14-sql-commands/00-ddl/30-user/index.md).
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL on *.* TO user1;
 ```
 
-### Step 2. Configuring Connection String
-
-The driver supports various parameters that can be configured either as URL parameters or as properties passed to the Client. The two examples provided below demonstrate equivalent ways of setting these parameters for the common DSN:
-
-Example 1: Using URL parameters
-
-```python
-# Format: <schema>://<username>:<password>@<host_port>/<database>?<connection_params>
-client = Client.from_url('http://root@localhost:8000/db?secure=False&copy_purge=True&debug=True')
-```
-
-Example 2: Using Client parameters
-
-```python
-client = Client(
-    host='tenant--warehouse.ch.datafusecloud.com',
-    database="default",
-    user="user",
-    port="443",
-    password="password", settings={"copy_purge": True, "force": True})
-```
-
-To create a valid DSN, select appropriate connection parameters outlined [here](https://github.com/databendcloud/databend-py/blob/main/docs/connection.md) based on the your requirements.
-
-### Step 3. Write a Python Program
+### Step 2. Write a Python Program
 
 In this step, you'll create a simple Python program that communicates with Databend. The program will involve tasks such as creating a table, inserting data, and executing data queries.
 
@@ -76,36 +48,38 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 <Tabs groupId="python">
-<TabItem value="databend-py" label="databend-py">
+<TabItem value="databend-driver" label="databend-driver">
 
-You will use the databend-py library to create a client instance and execute SQL queries directly.
+You will use the databend-driver library to create a client instance and execute SQL queries directly.
 
-1. Install databend-py.
+1. Install databend-driver.
 
 ```shell
-pip install databend-py
+pip install databend-driver
 ```
 2. Copy and paste the following code to the file `main.py`:
 
 ```python title='main.py'
-from databend_py import Client
+from databend_driver import AsyncDatabendClient
+import asyncio
 
-# Setting secure=False means the client will connect to Databend using HTTP instead of HTTPS.
-client = Client('user1:abc123@127.0.0.1', port=8000, secure=False)
+async def main():
+    client = AsyncDatabendClient('databend+http://user1:abc123@127.0.0.1:8000/?sslmode=disable')
+    conn = await client.get_conn()
 
-client.execute("CREATE DATABASE IF NOT EXISTS bookstore")
-client.execute("USE bookstore")
-client.execute("CREATE TABLE IF NOT EXISTS booklist(title VARCHAR, author VARCHAR, date VARCHAR)")
-client.execute("INSERT INTO booklist VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')")
+    await conn.exec("CREATE DATABASE IF NOT EXISTS bookstore")
+    await conn.exec("USE bookstore")
+    await conn.exec("CREATE TABLE IF NOT EXISTS booklist(title String, author String, date String)")
+    await conn.exec("INSERT INTO booklist VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')")
 
-_, results = client.execute("SELECT * FROM booklist")
-for (title, author, date) in results:
-  print("{} {} {}".format(title, author, date))
-client.execute('drop table booklist')
-client.execute('drop database bookstore')
+    results = await conn.query_iter("SELECT * FROM booklist")
+    async for result in results:
+        print(result.values())
 
-# Close Connect.
-client.disconnect()
+    await conn.exec('DROP TABLE booklist')
+    await conn.exec('DROP DATABASE bookstore')
+
+asyncio.run(main())
 ```
 
 3. Run `python main.py`:
