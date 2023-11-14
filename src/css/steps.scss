@@ -44,7 +44,27 @@
         }
        
       }
-      span{
+      .step-outlink {
+        margin-bottom: 0;
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        scroll-margin: 5rem;
+        top: -3px;
+        letter-spacing: -.025em;
+        font-weight: 600;
+        color: var(--h3-title-color);
+        width: auto;
+        display: inline;
+        cursor: pointer;
+        &:hover { 
+          color: var(--text-blue-600);
+        }
+        text-decoration: unset;
+      }
+      span.step-n{
         display: flex;
         height: 2.25rem;
         width: 2.25rem;
@@ -61,8 +81,19 @@
         font-weight: 500;
         margin-left: -50px;
         margin-top: -4px;
+        &.step-point {
+          height: 1.25rem;
+          width: 1.25rem;
+          background-color: var(--text-blue-600);
+          margin-left: -43px;
+          margin-top: -6px;
+        }
       
       }
+    }
+    #whats-changed {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
     }
   }
 }

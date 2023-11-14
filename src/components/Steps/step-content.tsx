@@ -9,13 +9,22 @@ interface IProps {
   number: number | string;
   children: ReactNode;
   title: string;
+  outLink?: string;
 }
-const StepContent: FC<IProps> = ({number, children, title}): ReactElement=> {
+const StepContent: FC<IProps> = ({number, children, title, outLink}): ReactElement=> {
   return (
     <div className="step-container" id={title}>
       <span className="step-number">
-        <span>{number}</span> 
-        <h3 className='anchor'>
+        {
+          number === ''
+          ? <span className='step-n step-point'></span>
+          : <span className='step-n'>{number}</span> 
+        }
+       {
+         outLink
+         ? <a className='anchor step-outlink' target='_blank' href={outLink}>{title}</a>
+         : 
+         <h3 className='anchor'>
           {title}
           <a href={`#${title}`}>
           <Tooltip content="Copy Link">
@@ -23,6 +32,8 @@ const StepContent: FC<IProps> = ({number, children, title}): ReactElement=> {
           </Tooltip>
          </a>
         </h3>
+       }
+        
       </span>
       <div className="step-content">{children}</div>
     </div>
