@@ -79,7 +79,7 @@ For more information, please check out the resources below.
 
 We have also made these improvements to Databend that we hope you will find helpful:
 
-- Added `translate` function.
+- Introduced `translate` function.
 - Added support for `task_history` system table.
 - `MERGE INTO` now supports using table directly as data source. 
 - `SHOW DROP TABLE` now supports filtering and `LIMIT` options.
@@ -88,11 +88,10 @@ We have also made these improvements to Databend that we hope you will find help
 
 We're always open to cutting-edge technologies and innovative ideas. You're more than welcome to join the community and bring them to Databend.
 
-### Support `CURRENT_TIMESTAMP` Function
+### New Function: CURRENT_TIMESTAMP
 
 The `CURRENT_TIMESTAMP` function returns the current date and time, with an optional precision parameter to control the number of digits after the decimal point in the output.
 
-Reference example as follows:
 
 ```SQL
 SELECT CURRENT_TIMESTAMP(2);
