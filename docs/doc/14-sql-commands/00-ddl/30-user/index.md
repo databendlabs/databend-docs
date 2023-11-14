@@ -1,5 +1,5 @@
 ---
-title: User
+title: User & Role
 ---
 
 This page provides reference information for the user and role related commands in Databend.
