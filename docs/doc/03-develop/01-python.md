@@ -5,7 +5,7 @@ sidebar_label: Python
 
 Databend offers the following Python packages enabling you to develop Python applications that interact with Databend:
 
-- [databend-driver](https://pypi.org/project/databend-driver/): Provides asynchronous Python support for interacting with Databend via SQL queries and managing database connections.
+- [databend-driver](https://pypi.org/project/databend-driver/): Provides asynchronous Python support for interacting with Databend via SQL queries and managing database connections. It's important to note that this driver exclusively operates in asynchronous mode.
 
 - [databend-sqlalchemy](https://github.com/databendcloud/databend-sqlalchemy): Provides a SQL toolkit and [Object-Relational Mapping](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) to interface with the Databend database. [SQLAlchemy](https://www.sqlalchemy.org/) is a popular SQL toolkit and ORM for Python, and databend-SQLAlchemy is a dialect for SQLAlchemy that allows you to use SQLAlchemy to interact with Databend.
 
