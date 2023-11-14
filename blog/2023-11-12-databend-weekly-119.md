@@ -80,7 +80,7 @@ For more information, please check out the resources below.
 We have also made these improvements to Databend that we hope you will find helpful:
 
 - Introduced `translate` function.
-- Added support for `task_history` system table.
+- Introduced a new system table named `task_history` .
 - `MERGE INTO` now supports using table directly as a data source. 
 - `SHOW DROP TABLE` now supports filtering and `LIMIT` options.
 
