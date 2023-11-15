@@ -12,6 +12,8 @@ This section provides reference information for the semi-structured data functio
 - [FLATTEN](flatten.md)
 
 ## JSON Query and Extraction:
+- [JSON_ARRAY_ELEMENTS](json-array-elements.md)
+- [JSON_EACH](json-array.md)
 - [JSON_EXTRACT_PATH_TEXT](json-extract-path-text.md)
 - [JSON_PATH_EXISTS](json-path-exists.md)
 - [JSON_PATH_QUERY](json-path-query.md)
