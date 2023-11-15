@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import styles from './styles.module.scss';
 import clsx from "clsx";
 
-const Tooltip = ({ content, children, style, contentStyle }) => {
+const Tooltip = ({ content, children, contentStyle }) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleMouseEnter = () => setShowTooltip(true);
   const handleMouseLeave = () => setShowTooltip(false);
 
   return (
-    <div style={{ position: "relative", ...style }}>
+    <div style={{ position: "relative"}}>
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -33,7 +33,6 @@ const Tooltip = ({ content, children, style, contentStyle }) => {
 Tooltip.propTypes = {
   content: PropTypes.string.isRequired,
   children: PropTypes.element.isRequired,
-  style: PropTypes.object,
   contentStyle: PropTypes.object
 };
 
