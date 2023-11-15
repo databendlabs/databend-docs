@@ -10,15 +10,17 @@
     margin-right: 3px;
   }
 }
+:global {
+  .rc-tooltip {
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 1;
+  }
+}
 .tooltip {
   :global {
-    .ant-tooltip-inner {
+    .rc-tooltip-inner {
       background-color: var(--databend-tool-bg);
-    }
-    .ant-tooltip-arrow {
-      &::before {
-        --antd-arrow-background-color: var(--databend-tool-bg);
-      }
     }
   }
 }
