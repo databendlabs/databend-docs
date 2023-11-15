@@ -13,16 +13,16 @@ interface IProps {
 }
 const StepContent: FC<IProps> = ({number, children, title, outLink}): ReactElement=> {
   return (
-    <div className="step-container" id={title}>
-      <span className="step-number">
+    <div className="global-step-container" id={title}>
+      <span className="global-step-number">
         {
           number === ''
-          ? <span className='step-n step-point'></span>
-          : <span className='step-n'>{number}</span> 
+          ? <span className='global-step-n global-step-point'></span>
+          : <span className='global-step-n'>{number}</span> 
         }
        {
          outLink
-         ? <a className='anchor step-outlink' target='_blank' href={outLink}>{title}</a>
+         ? <a className='anchor global-step-outlink' target='_blank' href={outLink}>{title}</a>
          : 
          <h3 className='anchor'>
           {title}

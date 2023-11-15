@@ -1,16 +1,16 @@
-.steps-wrap {
+.global-steps-wrap {
   display: flex;
   flex-direction: column;
   padding-top: 2rem;
-  .step-container:not(:first-child){
-    .step-number {
+  .global-step-container:not(:first-child){
+    .global-step-number {
       margin-top: 2rem;
     }
   }
-  .step-container {
+  .global-step-container {
     padding-left: 2rem;
     border-left: 1px solid hsl(var(--border));
-    .step-number {
+    .global-step-number {
       display: flex;
       align-items: center;
       margin-bottom: 2rem;
@@ -44,7 +44,7 @@
         }
        
       }
-      .step-outlink {
+      .global-step-outlink {
         margin-bottom: 0;
         font-size: 1.25rem;
         line-height: 1.75rem;
@@ -64,7 +64,7 @@
         }
         text-decoration: unset;
       }
-      span.step-n{
+      span.global-step-n{
         display: flex;
         height: 2.25rem;
         width: 2.25rem;
@@ -81,7 +81,7 @@
         font-weight: 500;
         margin-left: -50px;
         margin-top: -4px;
-        &.step-point {
+        &.global-step-point {
           height: 1.25rem;
           width: 1.25rem;
           background-color: var(--text-blue-600);
