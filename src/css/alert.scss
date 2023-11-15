@@ -27,6 +27,9 @@
     border-left-color: var(--bg-yellow-left-warning-border)!important;
     color: var(--bg-yellow-warning-text)!important;
   }
+  div[class^="language-"]{
+    border-left-color: var(--color-border)!important;
+  }
 }
 .alert--success {
   --ifm-alert-background-color: var(--ifm-color-success-contrast-background);
