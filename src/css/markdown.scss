@@ -1,4 +1,4 @@
-.markdown {
+.theme-doc-markdown.markdown{
   table {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
@@ -45,10 +45,11 @@
     margin-top: 2rem;
     margin-bottom: 0;
   }
-}
-.theme-doc-markdown.markdown{
   .token.plain {
     color: var(--shiki-color-text);
+  }
+  pre {
+    background-color: unset;
   }
   pre code {
     font-size: 1rem;
@@ -70,9 +71,7 @@
     border: unset;
     padding: 0.2rem 0.3rem;
     font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
-    border-radius: 3px;  
     background-color: hsl(var(--muted));
-    border-radius: 0.25rem;
   }
   h1 {
     font-size: 2.25rem;
@@ -112,20 +111,27 @@
   code[class^="codeBlockLines"] {
     padding: 1rem;
     font-size: 0.9em;
-    border-radius: calc(var(--radius) - 2px);
+    // border-radius: calc(var(--radius) - 2px);
     border: 1px solid hsl(var(--border));
   }
+  [class^="codeBlockContainer"]:not([class*=" language-"]) {
+    border-left: 5px solid var(--color-primary);
+  }
   div[class^="language-"]{
+    border-left: 5px solid var(--color-primary);
     // --prism-background-color: var(--color-bg-5)!important;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     box-shadow: unset;
     background-color: unset;
     pre {
+      --ifm-pre-border-radius: 3px;
       background-color: unset;
     }
     div[class^="codeBlockTitle_"] {
       border: 1px solid hsl(var(--border));
+      border-left: unset;
+      border-top-left-radius: 3px;
       font-size: .75rem;
       line-height: 1rem;
       padding: 0.5rem;
@@ -142,9 +148,11 @@
     }
     code{
       padding: 1rem;
-      font-size: .9em;
-      border-radius: calc(var(--radius) - 2px);
+      font-size: .9em!important;
       border: 1px solid hsl(var(--border));
+      border-left: unset;
+      border-top-left-radius: 0!important;
+      border-bottom-left-radius: 0!important;
       .token{
         color: var(--ifm-font-color-base)!important;
         font-family: 'Source Code Pro', monospace;
