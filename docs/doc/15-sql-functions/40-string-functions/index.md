@@ -19,6 +19,7 @@ This section provides reference information for the string-related functions in 
 - [SPLIT_PART](split-part.md)
 - [SUBSTR](substr.md)
 - [SUBSTRING](substring.md)
+- [TRANSLATE](translate.md)
 - [TRIM](trim.md)
 
 ## String Information:
