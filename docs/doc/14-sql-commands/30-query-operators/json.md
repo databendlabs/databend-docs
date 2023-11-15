@@ -1,5 +1,5 @@
 ---
-title: 'JSON Operators'
+title: JSON Operators
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

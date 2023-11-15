@@ -1,5 +1,5 @@
 ---
-title: 'Logical Operators'
+title: Logical Operators
 ---
 
 | Operator | Description                            | Example       | Result |
