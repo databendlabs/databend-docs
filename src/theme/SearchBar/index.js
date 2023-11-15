@@ -1,15 +1,15 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useMemo, useState} from 'react';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
 import {isRegexpStringMatch} from '@docusaurus/theme-common';
-// import {useSearchPage} from '@docusaurus/theme-common/internal';
+import {useSearchPage} from '@docusaurus/theme-common/internal';
 import {
   useAlgoliaContextualFacetFilters,
   useSearchResultUrlProcessor,
 } from '@docusaurus/theme-search-algolia/client';
-// import Translate from '@docusaurus/Translate';
+import Translate from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {createPortal} from 'react-dom';
 import translations from '@theme/SearchTranslations';
@@ -20,18 +20,18 @@ let DocSearchModal = null;
 function Hit({hit, children}) {
   return <Link to={hit.url}>{children}</Link>;
 }
-// function ResultsFooter({state, onClose}) {
-//   const {generateSearchPageLink} = useSearchPage();
-//   return (
-//     <Link to={generateSearchPageLink(state.query)} onClick={onClose}>
-//       <Translate
-//         id="theme.SearchBar.seeAll"
-//         values={{count: state.context.nbHits}}>
-//         {'See all {count} results'}
-//       </Translate>
-//     </Link>
-//   );
-// }
+function ResultsFooter({state, onClose}) {
+  const {generateSearchPageLink} = useSearchPage();
+  return (
+    <Link to={generateSearchPageLink(state.query)} onClick={onClose}>
+      <Translate
+        id="theme.SearchBar.seeAll"
+        values={{count: state.context.nbHits}}>
+        {'See all {count} results'}
+      </Translate>
+    </Link>
+  );
+}
 function mergeFacetFilters(f1, f2) {
   const normalize = (f) => (typeof f === 'string' ? [f] : f);
   return [...normalize(f1), ...normalize(f2)];
@@ -123,13 +123,13 @@ function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
           url: processSearchResultUrl(item.url),
         })),
   ).current;
-  // const resultsFooterComponent = useMemo(
-  //   () =>
-  //     // eslint-disable-next-line react/no-unstable-nested-components
-  //     (footerProps) =>
-  //       <ResultsFooter {...footerProps} onClose={onClose} />,
-  //   [onClose],
-  // );
+  const resultsFooterComponent = useMemo(
+    () =>
+      // eslint-disable-next-line react/no-unstable-nested-components
+      (footerProps) =>
+        <ResultsFooter {...footerProps} onClose={onClose} />,
+    [onClose],
+  );
   const transformSearchClient = useCallback(
     (searchClient) => {
       searchClient.addAlgoliaAgent(
@@ -211,9 +211,9 @@ function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
             transformItems={transformItems}
             hitComponent={Hit}
             transformSearchClient={transformSearchClient}
-            // {...(props.searchPagePath && {
-            //   resultsFooterComponent,
-            // })}
+            {...(props.searchPagePath && {
+              resultsFooterComponent,
+            })}
             {...props}
             searchParameters={searchParameters}
             placeholder={translations.placeholder}
