@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced: v1.1.75"/>
 
-Databend doesn't provide any built-in admin users out-of-the-box. Before the initial startup of Databend, it is necessary to configure one in the *databend-query.toml* configuration file, which is equivalent to the root user in other databases. To do so, follow these steps:
+Databend doesn't provide any built-in admin users out-of-the-box. Before the initial startup of Databend, it is necessary to configure one in the **databend-query.toml** configuration file, which is equivalent to the root user in other databases. To do so, follow these steps:
 
 1. Open the *databend-query.toml* configuration file, then locate the [query.users] section.
 
