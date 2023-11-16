@@ -3,7 +3,7 @@ title: VACUUM DROP TABLE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.2.10"/>
+<FunctionDescription description="Introduced: v1.2.208"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
