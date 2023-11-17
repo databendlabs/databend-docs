@@ -70,7 +70,6 @@
     line-height: 1.25rem;
     border: unset;
     padding: 0.2rem 0.3rem;
-    font-style: normal;
     font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
     background-color: hsl(var(--muted));
   }
@@ -156,7 +155,6 @@
       border-bottom-left-radius: 0!important;
       .token{
         color: var(--ifm-font-color-base)!important;
-        font-style: normal;
         font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
         font-size: 0.9rem;
         line-height: 1.6rem;
