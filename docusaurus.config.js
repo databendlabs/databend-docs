@@ -5,9 +5,9 @@ const TwitterSvg =
     '<svg width="20" style="top: 5px; position: relative" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>';
 
 // @ts-ignore
-const lightCodeTheme = require('prism-react-renderer/themes/oceanicNext');
-// @ts-ignore
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+// const lightCodeTheme = require('prism-react-renderer/themes/oceanicNext');
+// // @ts-ignore
+// const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const { site_env } = process.env;
 const isProduction = site_env === 'production';
 const ASKBEND_URL = 'https://ask.databend.rs';
@@ -23,7 +23,6 @@ const config = {
     favicon: 'img/logo/logo-no-text.svg',
     organizationName: 'datafuselabs',
     projectName: 'databend',
-
     i18n: {
         defaultLocale: 'en-US',
         locales: ['en-US'],
@@ -200,8 +199,8 @@ const config = {
                 copyright: `Copyright © 2023 Datafuse Labs, Inc. Built with Docusaurus. <br><br> <img src="https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg">`,
             },
             prism: {
-                theme: lightCodeTheme,
-                darkTheme: darkCodeTheme,
+                // theme: lightCodeTheme,
+                // darkTheme: darkCodeTheme,
                 additionalLanguages: ['toml', 'rust'],
             },
             algolia: {
