@@ -1,5 +1,6 @@
 ---
 title: SHOW GRANTS
+sidebar_position: 8
 ---
 
 Lists the privileges granted on a specified shared object or lists the tenants that are added to a specified share.

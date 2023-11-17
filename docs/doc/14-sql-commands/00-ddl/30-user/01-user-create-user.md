@@ -1,6 +1,6 @@
 ---
 title: CREATE USER
-description: Create a new user.
+sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

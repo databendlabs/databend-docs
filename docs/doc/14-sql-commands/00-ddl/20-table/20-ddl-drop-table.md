@@ -1,5 +1,6 @@
 ---
 title: DROP TABLE
+sidebar_position: 19
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

@@ -1,7 +1,6 @@
 ---
-title: 'GRANT <privileges> to a User or Role'
-sidebar_label: 'GRANT <privileges>'
-description: Grants one or more access privileges to a user or a role.
+title: 'GRANT <privileges>'
+sidebar_position: 9
 ---
 
 Grants one or more access privileges to a user or role. The privileges that can be granted are grouped into the following categories:

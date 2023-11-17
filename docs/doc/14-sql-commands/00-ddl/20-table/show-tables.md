@@ -1,5 +1,6 @@
 ---
 title: SHOW TABLES
+sidebar_position: 15
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

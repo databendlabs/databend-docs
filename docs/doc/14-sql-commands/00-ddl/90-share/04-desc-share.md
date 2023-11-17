@@ -1,5 +1,6 @@
 ---
 title: DESC SHARE
+sidebar_position: 2
 ---
 
 Lists the shared objects in a share.

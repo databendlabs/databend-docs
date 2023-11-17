@@ -1,5 +1,6 @@
 ---
 title: SHOW NETWORK POLICIES
+sidebar_position: 4
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';

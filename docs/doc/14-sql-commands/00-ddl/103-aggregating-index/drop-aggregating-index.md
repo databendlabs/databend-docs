@@ -1,5 +1,6 @@
 ---
 title: DROP AGGREGATING INDEX
+sidebar_position: 4
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';

@@ -1,5 +1,6 @@
 ---
 title: SHOW DROP TABLES
+sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

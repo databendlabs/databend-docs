@@ -1,5 +1,6 @@
 ---
 title: DESC STAGE
+sidebar_position: 2
 ---
 
 Describes the properties of a stage.

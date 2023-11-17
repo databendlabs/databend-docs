@@ -1,5 +1,6 @@
 ---
 title: RECLUSTER TABLE
+sidebar_position: 2
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';

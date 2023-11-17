@@ -1,5 +1,6 @@
 ---
 title: ALTER TABLE OPTION
+sidebar_position: 5
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

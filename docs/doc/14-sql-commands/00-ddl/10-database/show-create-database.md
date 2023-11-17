@@ -1,5 +1,6 @@
 ---
 title: SHOW CREATE DATABASE
+sidebar_position: 2
 ---
 
 Shows the CREATE DATABASE statement that creates the named database.

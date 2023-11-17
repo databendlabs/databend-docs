@@ -1,5 +1,6 @@
 ---
-title: SHOW FILE FORMATS 
+title: SHOW FILE FORMATS
+sidebar_position: 2
 ---
 
 Returns a list of created file formats.

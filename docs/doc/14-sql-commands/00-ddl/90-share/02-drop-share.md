@@ -1,5 +1,6 @@
 ---
 title: DROP SHARE
+sidebar_position: 5
 ---
 
 Deletes a share. When you delete a share, the organizations added to the share will no longer have access to the database created from the share.

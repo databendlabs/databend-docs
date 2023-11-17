@@ -1,5 +1,6 @@
 ---
 title: CREATE DATABASE
+sidebar_position: 1
 ---
 
 Create a database.

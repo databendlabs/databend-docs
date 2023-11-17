@@ -1,5 +1,6 @@
 ---
 title: SHOW SHARES
+sidebar_position: 4
 ---
 
 Shows the shares you created and the ones shared with you.

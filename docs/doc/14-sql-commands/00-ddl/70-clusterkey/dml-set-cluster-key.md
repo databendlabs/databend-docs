@@ -1,7 +1,6 @@
 ---
 title: SET CLUSTER KEY
-description:
-  Sets a cluster key when creating a table.
+sidebar_position: 1
 ---
 
 Set a cluster key when creating a table.

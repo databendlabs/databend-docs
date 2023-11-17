@@ -1,7 +1,6 @@
 ---
 title: ALTER VIEW
-description:
-  Modifies the properties for an existing view.
+sidebar_position: 2
 ---
 
 Alter the existing view by using another `QUERY`.

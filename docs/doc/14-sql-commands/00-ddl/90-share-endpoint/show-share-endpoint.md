@@ -1,5 +1,6 @@
 ---
 title: SHOW SHARE ENDPOINT
+sidebar_position: 2
 ---
 
 Shows all the created share endpoints.

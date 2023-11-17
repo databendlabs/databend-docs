@@ -1,5 +1,6 @@
 ---
 title: CREATE NETWORK POLICY
+sidebar_position: 1
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';

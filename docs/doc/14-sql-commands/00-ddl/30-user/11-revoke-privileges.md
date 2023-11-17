@@ -1,7 +1,6 @@
 ---
-title: 'REVOKE <privileges> From a User or Role'
-sidebar_label: 'REVOKE <privileges>'
-description: Revoke one or more access privileges from a user or a role.
+title: 'REVOKE <privileges>'
+sidebar_position: 11
 ---
 
 Removes one or more privileges on a securable object from a user or role. The privileges that can be granted are grouped into the following categories:

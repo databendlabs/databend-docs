@@ -1,6 +1,6 @@
 ---
 title: CREATE ROLE
-description: Create a new role.
+sidebar_position: 5
 ---
 
 Create a new role.

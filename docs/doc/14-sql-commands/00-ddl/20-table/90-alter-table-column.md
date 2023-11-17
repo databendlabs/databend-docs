@@ -1,5 +1,6 @@
 ---
 title: ALTER TABLE COLUMN
+sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

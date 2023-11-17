@@ -1,11 +1,11 @@
 ---
 title: CREATE TABLE
-description: Create a new table.
+sidebar_position: 1
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.56"/>
+<FunctionDescription description="Introduced or updated: v1.1.56"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 

@@ -1,5 +1,6 @@
 ---
 title: CREATE SHARE ENDPOINT
+sidebar_position: 1
 ---
 
 Creates a share endpoint.
