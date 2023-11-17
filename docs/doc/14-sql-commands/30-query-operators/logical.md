@@ -1,7 +1,6 @@
 ---
-title: 'Logical/Boolean Operators'
+title: Logical Operators
 ---
-
 
 | Operator | Description                            | Example       | Result |
 |----------|----------------------------------------|---------------|--------|
