@@ -1,5 +1,6 @@
 ---
 title: SHOW TABLE STATUS
+sidebar_position: 14
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

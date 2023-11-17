@@ -1,7 +1,6 @@
 ---
 title: DROP CLUSTER KEY
-description:
-  Deletes the cluster key for a table.
+sidebar_position: 4
 ---
 
 Deletes the cluster key for a table.

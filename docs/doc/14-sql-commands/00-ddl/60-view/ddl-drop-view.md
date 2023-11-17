@@ -1,7 +1,6 @@
 ---
 title: DROP VIEW
-description:
-  Drop an existing view
+sidebar_position: 3
 ---
 
 Drop the view.

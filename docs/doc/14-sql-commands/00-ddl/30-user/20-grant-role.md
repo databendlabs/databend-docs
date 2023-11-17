@@ -1,7 +1,6 @@
 ---
-title: GRANT ROLE to a User
-sidebar_label: GRANT ROLE
-description: Assigns a role to a user.
+title: GRANT ROLE
+sidebar_position: 6
 ---
 
 Granting a role to a user enables the user to perform all operations allowed by the role (through the access privileges granted to the role).

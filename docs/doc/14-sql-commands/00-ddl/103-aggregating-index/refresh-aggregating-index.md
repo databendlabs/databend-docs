@@ -1,5 +1,6 @@
 ---
 title: REFRESH AGGREGATING INDEX
+sidebar_position: 2
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';

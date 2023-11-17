@@ -1,6 +1,6 @@
 ---
 title: SHOW STAGES
-sidebar_label: SHOW STAGES
+sidebar_position: 5
 ---
 
 Returns a list of the created stages. The output list does not include the user stage.

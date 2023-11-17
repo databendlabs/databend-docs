@@ -1,5 +1,6 @@
 ---
 title: CREATE SHARE
+sidebar_position: 1
 ---
 
 Creates a share.

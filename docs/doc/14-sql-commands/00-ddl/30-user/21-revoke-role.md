@@ -1,6 +1,6 @@
 ---
 title: REVOKE ROLE
-description: Removes a role from a user.
+sidebar_position: 7
 ---
 
 Removes a role from a user.

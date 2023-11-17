@@ -1,5 +1,6 @@
 ---
 title: RENAME TABLE
+sidebar_position: 3
 ---
 
 Changes the name of a table.

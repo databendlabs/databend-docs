@@ -1,7 +1,6 @@
 ---
 title: CREATE VIEW
-description:
-  Create a new view based on a query
+sidebar_position: 1
 ---
 
 Creates a new view based on a query, the Logical View does not store any physical data, when we access a logical view, it will convert the sql into the subquery format to finish it.

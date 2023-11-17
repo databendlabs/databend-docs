@@ -1,5 +1,6 @@
 ---
 title: ALTER SHARE
+sidebar_position: 3
 ---
 
 Adds / removes one or more organizations by their tenant IDs to / from a share. 

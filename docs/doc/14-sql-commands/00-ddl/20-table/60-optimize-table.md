@@ -1,5 +1,6 @@
 ---
 title: OPTIMIZE TABLE
+sidebar_position: 8
 ---
 
 import DetailsWrap from '@site/src/components/DetailsWrap';

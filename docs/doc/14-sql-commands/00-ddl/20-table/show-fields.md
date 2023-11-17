@@ -1,5 +1,6 @@
 ---
 title: SHOW FIELDS
+sidebar_position: 12
 ---
 
 Shows information about the columns in a given table. Equivalent to [DESCRIBE TABLE](50-describe-table.md).

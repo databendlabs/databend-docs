@@ -1,6 +1,6 @@
 ---
 title: SHOW USERS
-description: Lists all the users in the system
+sidebar_position: 3
 ---
 
 Lists all the users in the system.

@@ -1,5 +1,6 @@
 ---
 title: CREATE STAGE
+sidebar_position: 1
 ---
 
 Creates an internal or external stage.

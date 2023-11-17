@@ -1,5 +1,6 @@
 ---
 title: SHOW DATABASES
+sidebar_position: 5
 ---
 
 Shows the list of databases that exist on the instance.

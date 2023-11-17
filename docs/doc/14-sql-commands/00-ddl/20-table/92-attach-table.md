@@ -1,5 +1,6 @@
 ---
 title: ATTACH TABLE
+sidebar_position: 6
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

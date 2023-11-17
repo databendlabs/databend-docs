@@ -1,7 +1,6 @@
 ---
-title: 'Show Privileges Granted to User or Role'
-sidebar_label: 'SHOW GRANTS'
-description: Show Privileges Granted to User or Role
+title: SHOW GRANTS
+sidebar_position: 10
 ---
 
 Lists all the privileges that have been explicitly granted to a user or a role.

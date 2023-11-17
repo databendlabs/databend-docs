@@ -1,5 +1,6 @@
 ---
 title: FLASHBACK TABLE
+sidebar_position: 9
 ---
 
 Flashback a table to an earlier version with a snapshot ID or timestamp, only involving metadata operations, making it a fast process.

@@ -1,5 +1,6 @@
 ---
 title: SHOW COLUMNS
+sidebar_position: 13
 ---
 
 Shows information about the columns in a given table.

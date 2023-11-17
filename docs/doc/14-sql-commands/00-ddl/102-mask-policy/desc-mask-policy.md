@@ -1,5 +1,6 @@
 ---
 title: DESC MASKING POLICY
+sidebar_position: 2
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';

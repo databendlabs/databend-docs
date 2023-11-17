@@ -1,5 +1,6 @@
 ---
 title: VACUUM DROP TABLE
+sidebar_position: 18
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

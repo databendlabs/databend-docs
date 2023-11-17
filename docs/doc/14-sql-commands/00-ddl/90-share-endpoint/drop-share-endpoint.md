@@ -1,5 +1,6 @@
 ---
 title: DROP SHARE ENDPOINT
+sidebar_position: 3
 ---
 
 Deletes a share endpoint.

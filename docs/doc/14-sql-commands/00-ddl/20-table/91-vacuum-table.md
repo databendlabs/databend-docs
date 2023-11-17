@@ -1,5 +1,6 @@
 ---
 title: VACUUM TABLE
+sidebar_position: 17
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

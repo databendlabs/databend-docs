@@ -1,5 +1,6 @@
 ---
 title: RENAME DATABASE
+sidebar_position: 4
 ---
 
 Changes the name of a database.

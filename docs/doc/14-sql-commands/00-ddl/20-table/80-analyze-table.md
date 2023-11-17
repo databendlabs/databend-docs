@@ -1,5 +1,6 @@
 ---
 title: ANALYZE TABLE
+sidebar_position: 7
 ---
 
 The objective of analyzing a table in Databend is to calculate table statistics, such as a distinct number of columns.

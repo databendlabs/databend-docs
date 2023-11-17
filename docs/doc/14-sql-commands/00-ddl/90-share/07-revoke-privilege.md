@@ -1,5 +1,6 @@
 ---
 title: REVOKE <privilege> from SHARE
+sidebar_position: 7
 ---
 
 Revokes privileges on a database object from a share. 

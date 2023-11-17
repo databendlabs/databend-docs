@@ -1,5 +1,6 @@
 ---
 title: SHOW CREATE TABLE
+sidebar_position: 10
 ---
 
 Shows the CREATE TABLE statement that creates the named table.

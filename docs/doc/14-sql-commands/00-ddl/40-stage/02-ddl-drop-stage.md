@@ -1,5 +1,6 @@
 ---
 title: DROP STAGE
+sidebar_position: 6
 ---
 
 Removes a stage.

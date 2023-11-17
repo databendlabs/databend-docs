@@ -1,5 +1,6 @@
 ---
 title: GRANT <privilege> to SHARE
+sidebar_position: 6
 ---
 
 Grants privileges on a database object to a share.

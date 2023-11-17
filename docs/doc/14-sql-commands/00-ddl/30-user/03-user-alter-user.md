@@ -1,6 +1,6 @@
 ---
 title: ALTER USER
-description: Modifies the properties for an existing user.
+sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

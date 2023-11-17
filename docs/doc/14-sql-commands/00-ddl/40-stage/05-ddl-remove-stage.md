@@ -1,6 +1,6 @@
 ---
 title: REMOVE STAGE FILES
-sidebar_label: REMOVE STAGE FILES
+sidebar_position: 4
 ---
 
 Removes files from a stage.

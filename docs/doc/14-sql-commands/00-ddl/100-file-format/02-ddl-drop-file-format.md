@@ -1,5 +1,6 @@
 ---
-title: DROP FILE FORMAT 
+title: DROP FILE FORMAT
+sidebar_position: 3
 ---
 
 Removes a file format.

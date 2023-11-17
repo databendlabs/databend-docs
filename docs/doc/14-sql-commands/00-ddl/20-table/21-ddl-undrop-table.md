@@ -1,5 +1,6 @@
 ---
 title: UNDROP TABLE
+sidebar_position: 20
 ---
 
 Restores the recent version of a dropped table.
