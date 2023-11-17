@@ -1,8 +1,8 @@
 ---
-title: DATEDIFF
+title: DATE DIFF
 ---
 
-Databend does not provide a Datediff function yet, but it supports direct arithmetic operations on dates and times. For example, you can use the expression `TO_DATE(NOW())-2` to obtain the date from two days ago.
+Databend does not provide a `date_diff` function yet, but it supports direct arithmetic operations on dates and times. For example, you can use the expression `TO_DATE(NOW())-2` to obtain the date from two days ago.
 
 This flexibility of directly manipulating dates and times in Databend makes it convenient and versatile for handling date and time computations. See an example below:
 
