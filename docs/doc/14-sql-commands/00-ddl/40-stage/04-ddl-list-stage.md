@@ -1,6 +1,6 @@
 ---
 title: LIST STAGE FILES
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 Lists files in a stage.
