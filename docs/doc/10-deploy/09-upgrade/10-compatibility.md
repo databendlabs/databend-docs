@@ -9,9 +9,9 @@ This guideline will introduce how to investigate and manage the compatibility:
 - between databend-query and databend-meta.
 - between different versions of databend-meta.
 
-# Compatibility between databend-query and databend-meta
+## Compatibility between databend-query and databend-meta
 
-## Find out the versions
+### Identifying the versions
 
 - To find out the build version of databend-query and its compatible databend-meta version:
 
@@ -37,7 +37,7 @@ This guideline will introduce how to investigate and manage the compatibility:
 
   Which means this build of databend-meta(`0.7.61-nightly`) can talk to a databend-query of at least version `0.7.57`, inclusive.
 
-## Deploy compatible versions of databend-query and databend-meta
+### Maintaining compatibility
 
 A databend cluster has to be deployed with compatible versions of databend-query and databend-meta.
 A databend-query and databend-meta are compatible iff the following statements hold:
@@ -55,7 +55,7 @@ Then databend-query will stop working.
 
 :::
 
-### How compatibility is checked
+#### Compatibility verification protocol
 
 Compatibility will be checked when a connection is established between meta-client(databend-query) and databend-meta, in a `handshake` RPC.
 
@@ -91,7 +91,7 @@ S ---------------+------+------+------------>
 S.ver:           2      3      4
 ```
 
-### Compatibility status
+#### Compatibility status
 
 The following is an illustration of current query-meta compatibility:
 
@@ -107,7 +107,7 @@ The following is an illustration of current query-meta compatibility:
 <img src="/img/deploy/compatibility.excalidraw.png"/>
 
 
-# Compatibility between different versions of databend-meta
+## Compatibility between databend-meta
 
 | Meta version      | Backward compatible with |
 |:------------------|:-------------------------|
@@ -119,11 +119,11 @@ The following is an illustration of current query-meta compatibility:
   The raft-client will try to use either this new API or the original `install_snapshot()`.
 
 
-# Compatibility of Databend-Meta On-Disk Data
+## Compatibility of databend-meta on-disk data
 
 The on-disk data of Databend-meta evolves over time while maintaining backward compatibility.
 
-## Identifying the Versions
+### Identifying the versions
 
 Upon startup, Databend-meta will display the on-disk data version:
 
@@ -148,7 +148,7 @@ The Working DataVersion must be greater than or equal to the on-disk DataVersion
 The on-disk DataVersion must be compatible with the current Databend-meta version.
 If not, the system will prompt the user to downgrade Databend-meta and quit with a panic.
 
-## Automatic upgrade
+### Automatic upgrade
 
 When `databend-meta` starting up, the on-disk is upgraded if it is compatible with the working DataVersion.
 The upgrade progress will be printed to `stderr` and to log file at INFO level, e.g.:
@@ -167,7 +167,7 @@ Write header: version: V001, upgrading: None
 If `databend-meta` crashes before upgrading finishes,
 it will clear partially upgraded data and resume the upgrade when it starts up again.
 
-## Backup data
+### Backup data compatibility
 
 - The exported backup data **can only be imported** with the same version of `databend-metactl`.
 
