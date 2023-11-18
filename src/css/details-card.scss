@@ -1,5 +1,8 @@
 .details-wrap {
   margin-top: 1.5rem;
+  border-left: 5px solid var(--color-primary);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
   summary {
     padding-left: 0!important;
     &:hover {
@@ -28,6 +31,7 @@
     padding: 1rem;
     margin-bottom: 0;
     border-color: hsl(var(--border));
+    border-left: unset;
     background-color: unset;
     box-shadow: unset;
     color: var(--ifm-font-color-base);
