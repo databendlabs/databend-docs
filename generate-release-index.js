@@ -6,6 +6,9 @@ const docsDir = path.join(__dirname, './docs/doc/80-releases');
 const releaseNote = path.join(__dirname, './docs/release-notes');
 const outputPath = path.join(docsDir, 'index.md');
 
+const { site_env } = process.env;
+const isProduction = site_env === 'production';
+
 function formatTime(dateStr) {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   const dateObj = new Date(dateStr);
@@ -17,7 +20,7 @@ const mdFiles = fs.readdirSync(releaseNote).filter(file => file.endsWith('.md') 
 let imports = '';
 let content = '';
 
-mdFiles?.forEach((file, index) => {
+(isProduction ? mdFiles : mdFiles?.slice(0, 2))?.forEach((file, index) => {
   const [time, version] = file.split('_');
   const V = version.slice(0, -3);
   const varName = `MD${index + 1}`;
