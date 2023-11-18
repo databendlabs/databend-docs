@@ -107,6 +107,18 @@ The following is an illustration of current query-meta compatibility:
 <img src="/img/deploy/compatibility.excalidraw.png"/>
 
 
+# Compatibility between different versions of databend-meta
+
+| Meta version      | Backward compatible with |
+|:------------------|:-------------------------|
+| [0.9.41, 1.2.214) | [0.9.41, 1.2.214)        |
+| [1.2.214, +∞)     | [0.9.41, +∞)             |
+
+- `1.2.214` is compatible with old versions. Rolling upgrade is supported.
+  In this version, databend-meta raft-server introduced a new API `install_snapshot_v1()`.
+  The raft-client will try to use either this new API or the original `install_snapshot()`.
+
+
 # Compatibility of Databend-Meta On-Disk Data
 
 The on-disk data of Databend-meta evolves over time while maintaining backward compatibility.
@@ -161,6 +173,6 @@ it will clear partially upgraded data and resume the upgrade when it starts up a
 
 - The first line of the backup is the version, e.g.:
   `["header",{"DataHeader":{"key":"header","value":{"version":"V100","upgrading":null}}}]`
-  
+
 - **NO automatic upgrade** will be done when importing.
   Automatic upgrade will only be done when `databend-meta` is brought up.
