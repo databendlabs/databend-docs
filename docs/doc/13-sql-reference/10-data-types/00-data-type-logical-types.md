@@ -32,13 +32,26 @@ See [Conditional Functions](/doc/sql-functions/conditional-functions/).
 ## Example
 
 ```sql
-SELECT 0::BOOLEAN, 1::BOOLEAN, 'true'::BOOLEAN, 'false'::BOOLEAN, 'True'::BOOLEAN;
+SELECT 
+    0::BOOLEAN, 
+    1::BOOLEAN, 
+    'true'::BOOLEAN, 
+    'false'::BOOLEAN, 
+    'True'::BOOLEAN;
+```
+
+Result:
+```
 +------------+------------+-----------------+------------------+-----------------+
 | 0::Boolean | 1::Boolean | 'true'::Boolean | 'false'::Boolean | 'True'::Boolean |
 +------------+------------+-----------------+------------------+-----------------+
 |          0 |          1 |               1 |                0 |               1 |
 +------------+------------+-----------------+------------------+-----------------+
-
+```
+```sql
 SELECT 'xx'::BOOLEAN;
+```
+Result:
+```
 ERROR 1105 (HY000): Code: 1010, Text = Cast error happens in casting from String to Boolean.
 ```

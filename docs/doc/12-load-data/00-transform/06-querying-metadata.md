@@ -37,10 +37,11 @@ CREATE STAGE my_internal_stage;
 2. Stage the sample file using [BendSQL](../../13-sql-clients/01-bendsql.md):
 
 ```sql
-root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
-
 PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
+```
 
+Result:
+```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
 │                String               │  String │
@@ -53,13 +54,17 @@ PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
 
 ```sql
 SELECT * FROM INFER_SCHEMA(location => '@my_internal_stage/books.parquet');
+```
 
----
-column_name|type   |nullable|order_id|
------------+-------+--------+--------+
-title      |VARCHAR|       0|       0|
-author     |VARCHAR|       0|       1|
-date       |VARCHAR|       0|       2|
+Result:
+```
+┌─────────────┬─────────┬─────────┬─────────┐
+│ column_name │ type    │ nullable│ order_id│
+├─────────────┼─────────┼─────────┼─────────┤
+│ title       │ VARCHAR │       0 │       0 │
+│ author      │ VARCHAR │       0 │       1 │
+│ date        │ VARCHAR │       0 │       2 │
+└─────────────┴─────────┴─────────┴─────────┘
 ```
 
 4. Create a table named *mybooks* based on the staged sample file:
@@ -72,19 +77,29 @@ Check the created table:
 
 ```sql
 DESC mybooks;
+```
 
----
-Field |Type   |Null|Default|Extra|
-------+-------+----+-------+-----+
-title |VARCHAR|NO  |''     |     |
-author|VARCHAR|NO  |''     |     |
-date  |VARCHAR|NO  |''     |     |
+Result:
+```
+┌─────────┬─────────┬──────┬─────────┬───────┐
+│ Field   │ Type    │ Null │ Default │ Extra │
+├─────────┼─────────┼──────┼─────────┼───────┤
+│ title   │ VARCHAR │ NO   │ ''      │       │
+│ author  │ VARCHAR │ NO   │ ''      │       │
+│ date    │ VARCHAR │ NO   │ ''      │       │
+└─────────┴─────────┴──────┴─────────┴───────┘
+```
 
+```sql
 SELECT * FROM mybooks;
+```
 
----
-title                       |author             |date|
-----------------------------+-------------------+----+
-Transaction Processing      |Jim Gray           |1992|
-Readings in Database Systems|Michael Stonebraker|2004|
+Result:
+```
+┌───────────────────────────┬───────────────────┬──────┐
+│ title                     │ author            │ date │
+├───────────────────────────┼───────────────────┼──────┤
+│ Transaction Processing    │ Jim Gray          │ 1992 │
+│ Readings in Database Systems│ Michael Stonebraker│ 2004│
+└───────────────────────────┴───────────────────┴──────┘
 ```

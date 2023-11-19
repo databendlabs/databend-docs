@@ -27,25 +27,35 @@ The following examples demonstrate how to upload a sample file ([books.parquet](
 
 ```sql
 PRESIGN UPLOAD @~/books.parquet;
+```
 
-Name   |Value                                                                                                                                                                                                                                                                                                                                                       |
--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-method |PUT                                                                                                                                                                                                                                                                                                                                                         |
-headers|{"host":"s3.us-east-2.amazonaws.com"}                                                                                                                                                                                                                                                                                                                       |
-url    |https://s3.us-east-2.amazonaws.com/databend-toronto/stage/user/root/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASTQNLUZWP2UY2HSN%2F20230627%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230627T153448Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=84f1c280bff52f33c1914d64b2091d19650ad4882137013601fc44d26b607933|
+Result:
+```
+┌────────┬────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Name   │ Value                                                                                                              │
+├────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ method │ PUT                                                                                                                │
+│ headers│ {"host":"s3.us-east-2.amazonaws.com"}                                                                              │
+│ url    │ https://s3.us-east-2.amazonaws.com/databend-toronto/stage/user/root/books.parquet?X-Amz-Algorithm...               │
+└────────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 ```shell
-curl -X PUT -T books.parquet "https://s3.us-east-2.amazonaws.com/databend-toronto/stage/user/root/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASTQNLUZWP2UY2HSN%2F20230627%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230627T153448Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=84f1c280bff52f33c1914d64b2091d19650ad4882137013601fc44d26b607933"
+curl -X PUT -T books.parquet "https://s3.us-east-2.amazonaws.com/databend-toronto/stage/user/root/books.parquet?X-Amz-Algorithm=... ...
 ```
 
 Check the staged file:
 
 ```sql
 LIST @~;
+```
 
-name         |size|md5                               |last_modified                |creator|
--------------+----+----------------------------------+-----------------------------+-------+
-books.parquet| 998|"88432bf90aadb79073682988b39d461c"|2023-06-27 16:03:51.000 +0000|       |
+Result:
+```
+┌───────────────┬──────┬──────────────────────────────────────┬─────────────────────────────────┬─────────┐
+│ name          │ size │ md5                                  │ last_modified                   │ creator │
+├───────────────┼──────┼──────────────────────────────────────┼─────────────────────────────────┼─────────┤
+│ books.parquet │  998 │ 88432bf90aadb79073682988b39d461c     │ 2023-06-27 16:03:51.000 +0000   │         │
+└───────────────┴──────┴──────────────────────────────────────┴─────────────────────────────────┴─────────┘
 ```
 </TabItem>
 
@@ -56,12 +66,17 @@ CREATE STAGE my_internal_stage;
 ```
 ```sql
 PRESIGN UPLOAD @my_internal_stage/books.parquet;
+```
 
-Name   |Value                                                                                                                                                                                                                                                                                                                                                                        |
--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-method |PUT                                                                                                                                                                                                                                                                                                                                                                          |
-headers|{"host":"s3.us-east-2.amazonaws.com"}                                                                                                                                                                                                                                                                                                                                        |
-url    |https://s3.us-east-2.amazonaws.com/databend-toronto/stage/internal/my_internal_stage/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASTQNLUZWP2UY2HSN%2F20230628%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230628T022951Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=9cfcdf3b3554280211f88629d60358c6d6e6a5e49cd83146f1daea7dfe37f5c1|
+Result:
+```
+┌─────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Name    │ Value                                                                                                                                                                                                                                                                                                                                                                                                                               │
+├─────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ method  │ PUT                                                                                                                                                                                                                                                                                                                                                                                                                                 │
+│ headers │ {"host":"s3.us-east-2.amazonaws.com"}                                                                                                                                                                                                                                                                                                                                                                                               │
+│ url     │ https://s3.us-east-2.amazonaws.com/databend-toronto/stage/internal/my_internal_stage/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASTQNLUZWP2UY2HSN%2F20230628%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230628T022951Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=9cfcdf3b3554280211f88629d60358c6d6e6a5e49cd83146f1daea7dfe37f5c1 │
+└─────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ```shell
@@ -72,39 +87,58 @@ Check the staged file:
 
 ```sql
 LIST @my_internal_stage;
+```
 
-name                               |size  |md5                               |last_modified                |creator|
------------------------------------+------+----------------------------------+-----------------------------+-------+
-books.parquet                      |   998|"88432bf90aadb79073682988b39d461c"|2023-06-28 02:32:15.000 +0000|       |
+Result:
+```
+┌──────────────────────────────────┬───────┬──────────────────────────────────────┬─────────────────────────────────┬─────────┐
+│ name                             │ size  │ md5                                  │ last_modified                  │ creator │
+├──────────────────────────────────┼───────┼──────────────────────────────────────┼─────────────────────────────────┼─────────┤
+│ books.parquet                    │   998 │ "88432bf90aadb79073682988b39d461c"     │ 2023-06-28 02:32:15.000 +0000  │         │
+└──────────────────────────────────┴───────┴──────────────────────────────────────┴─────────────────────────────────┴─────────┘
 ```
 </TabItem>
 <TabItem value="external" label="Upload to External Stage">
 
 ```sql
-CREATE STAGE my_external_stage url = 's3://databend' CONNECTION =(ENDPOINT_URL= 'http://127.0.0.1:9000' aws_key_id='ROOTUSER' aws_secret_key='CHANGEME123');
+CREATE STAGE my_external_stage 
+URL = 's3://databend' 
+CONNECTION = (
+    ENDPOINT_URL = 'http://127.0.0.1:9000',
+    aws_key_id = 'ROOTUSER',
+    aws_secret_key = 'CHANGEME123'
+);
 ```
 
 ```sql
 PRESIGN UPLOAD @my_external_stage/books.parquet;
-
-Name   |Value                                                                                                                                                                                                                                                                                                      |
--------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-method |PUT                                                                                                                                                                                                                                                                                                        |
-headers|{"host":"127.0.0.1:9000"}                                                                                                                                                                                                                                                                                  |
-url    |http://127.0.0.1:9000/databend/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ROOTUSER%2F20230628%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230628T040959Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=697d608750fdcfe4a0b739b409cd340272201351023baa823382bf8c3718a4bd|
 ```
+Result:
+```
+┌─────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Name    │ Value                                                                                                                                                                                                                                                                                                                             │
+├─────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ method  │ PUT                                                                                                                                                                                                                                                                                                                               │
+│ headers │ {"host":"127.0.0.1:9000"}                                                                                                                                                                                                                                                                                                         │
+│ url     │ http://127.0.0.1:9000/databend/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ROOTUSER%2F20230628%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230628T040959Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=<signature...>                                                │
+└─────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```shell
-curl -X PUT -T books.parquet "http://127.0.0.1:9000/databend/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ROOTUSER%2F20230628%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230628T040959Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=697d608750fdcfe4a0b739b409cd340272201351023baa823382bf8c3718a4bd"
+curl -X PUT -T books.parquet "http://127.0.0.1:9000/databend/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ROOTUSER%2F20230628%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230628T040959Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=<signature...>"
 ```
 
 Check the staged file:
 
 ```sql
 LIST @my_external_stage;
+```
 
-name         |size|md5                               |last_modified                |creator|
--------------+----+----------------------------------+-----------------------------+-------+
-books.parquet| 998|"88432bf90aadb79073682988b39d461c"|2023-06-28 04:13:15.178 +0000|       |
+Result:
+```
+┌───────────────┬──────┬──────────────────────────────────────┬─────────────────────────────────┬─────────┐
+│ name          │ size │ md5                                  │ last_modified                  │ creator │
+├───────────────┼──────┼──────────────────────────────────────┼─────────────────────────────────┼─────────┤
+│ books.parquet │  998 │ "88432bf90aadb79073682988b39d461c"    │ 2023-06-28 04:13:15.178 +0000  │         │
+└───────────────┴──────┴──────────────────────────────────────┴─────────────────────────────────┴─────────┘
 ```
 </TabItem>
 </Tabs>
@@ -118,13 +152,13 @@ The following examples demonstrate how to use BendSQL to upload a sample file ([
 <TabItem value="user" label="Upload to User Stage">
 
 ```sql
-root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @~
-
 PUT fs:///Users/eric/Documents/books.parquet @~
+```
 
+Result:
+```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
-│                String               │  String │
 ├─────────────────────────────────────┼─────────┤
 │ /Users/eric/Documents/books.parquet │ SUCCESS │
 └───────────────────────────────────────────────┘
@@ -133,17 +167,16 @@ PUT fs:///Users/eric/Documents/books.parquet @~
 Check the staged file:
 
 ```sql
-root@localhost:8000/default> LIST @~;
+LIST @~;
+```
 
-LIST @ ~
-
+Result:
+```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
-│     String    │ UInt64 │     │        String        │ Nullable(String) │
 ├───────────────┼────────┼─────┼──────────────────────┼──────────────────┤
 │ books.parquet │    998 │ ... │ 2023-09-04 03:27:... │ NULL             │
 └────────────────────────────────────────────────────────────────────────┘
-1 row result in 0.287 sec. Processed 1 rows, 1 B (3.49 rows/s, 523 B/s)
 ```
 
 </TabItem>
@@ -151,19 +184,16 @@ LIST @ ~
 <TabItem value="internal" label="Upload to Internal Stage">
 
 ```sql
-root@localhost:8000/default> CREATE STAGE my_internal_stage;
+CREATE STAGE my_internal_stage;
+```
 
-CREATE STAGE my_internal_stage
-
-0 row written in 0.049 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
-
-root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
-
-PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
-
+```sql
+PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage;
+```
+Result:
+```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
-│                String               │  String │
 ├─────────────────────────────────────┼─────────┤
 │ /Users/eric/Documents/books.parquet │ SUCCESS │
 └───────────────────────────────────────────────┘
@@ -172,38 +202,39 @@ PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
 Check the staged file:
 
 ```sql
-root@localhost:8000/default> LIST @my_internal_stage;
+LIST @my_internal_stage;
+```
 
-LIST @my_internal_stage
-
+Result:
+```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
-│     String    │ UInt64 │     │        String        │ Nullable(String) │
 ├───────────────┼────────┼─────┼──────────────────────┼──────────────────┤
 │ books.parquet │    998 │ ... │ 2023-09-04 03:32:... │ NULL             │
 └────────────────────────────────────────────────────────────────────────┘
-1 row result in 0.273 sec. Processed 1 rows, 1 B (3.67 rows/s, 550 B/s)
 ```
 
 </TabItem>
 <TabItem value="external" label="Upload to External Stage">
 
+```
+CREATE STAGE my_external_stage 
+    URL = 's3://databend'
+    CONNECTION = (
+        ENDPOINT_URL = 'http://127.0.0.1:9000',
+        AWS_KEY_ID = 'ROOTUSER',
+        AWS_SECRET_KEY = 'CHANGEME123'
+    );
+```
+
 ```sql
-root@localhost:8000/default> CREATE STAGE my_external_stage url = 's3://databend' CONNECTION =(ENDPOINT_URL= 'http://127.0.0.1:9000' aws_key_id='ROOTUSER' aws_secret_key='CHANGEME123');
-
-CREATE STAGE my_external_stage url = 's3://databend' CONNECTION =(
-  ENDPOINT_URL = 'http://127.0.0.1:9000' aws_key_id = 'ROOTUSER' aws_secret_key = 'CHANGEME123'
-)
-
-0 row written in 0.024 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
-
-root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @my_external_stage
-
 PUT fs:///Users/eric/Documents/books.parquet @my_external_stage
+```
 
+Result:
+```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
-│                String               │  String │
 ├─────────────────────────────────────┼─────────┤
 │ /Users/eric/Documents/books.parquet │ SUCCESS │
 └───────────────────────────────────────────────┘
@@ -212,17 +243,16 @@ PUT fs:///Users/eric/Documents/books.parquet @my_external_stage
 Check the staged file:
 
 ```sql
-root@localhost:8000/default> LIST @my_external_stage;
+LIST @my_external_stage;
+```
 
-LIST @my_external_stage
-
+Result:
+```
 ┌──────────────────────────────────────────────────────────────────────┐
 │         name         │ ··· │     last_modified    │      creator     │
-│        String        │     │        String        │ Nullable(String) │
 ├──────────────────────┼─────┼──────────────────────┼──────────────────┤
 │ books.parquet        │ ... │ 2023-09-04 03:37:... │ NULL             │
 └──────────────────────────────────────────────────────────────────────┘
-3 rows result in 0.272 sec. Processed 3 rows, 3 B (11.05 rows/s, 1.55 KiB/s)
 ```
 
 </TabItem>
@@ -232,32 +262,31 @@ LIST @my_external_stage
 
 The following examples demonstrate how to use BendSQL to download a sample file ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)) from the user stage, an internal stage, and an external stage with the GET command.
 
-
-
 <Tabs groupId="GET">
 
 <TabItem value="user" label="Download from User Stage">
 
 ```sql
-root@localhost:8000/default> LIST @~;
+LIST @~;
+```
 
-LIST @ ~
-
+Result:
+```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
-│     String    │ UInt64 │     │        String        │ Nullable(String) │
 ├───────────────┼────────┼─────┼──────────────────────┼──────────────────┤
 │ books.parquet │    998 │ ... │ 2023-09-04 03:27:... │ NULL             │
 └────────────────────────────────────────────────────────────────────────┘
-1 row result in 0.287 sec. Processed 1 rows, 1 B (3.49 rows/s, 523 B/s)
+```
 
-root@localhost:8000/default> GET @~/ fs:///Users/eric/Downloads/fromStage/;
+```sql
+GET @~/ fs:///Users/eric/Downloads/fromStage/;
+```
 
-GET @~/ fs:///Users/eric/Downloads/fromStage/
-
+Result:
+```
 ┌─────────────────────────────────────────────────────────┐
 │                      file                     │  status │
-│                     String                    │  String │
 ├───────────────────────────────────────────────┼─────────┤
 │ /Users/eric/Downloads/fromStage/books.parquet │ SUCCESS │
 └─────────────────────────────────────────────────────────┘
@@ -267,26 +296,26 @@ GET @~/ fs:///Users/eric/Downloads/fromStage/
 <TabItem value="internal" label="Download from Internal Stage">
 
 ```sql
-root@localhost:8000/default> LIST @my_internal_stage;
+LIST @my_internal_stage;
+```
 
-LIST @my_internal_stage
-
+Result:
+```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
-│     String    │ UInt64 │     │        String        │ Nullable(String) │
 ├───────────────┼────────┼─────┼──────────────────────┼──────────────────┤
 │ books.parquet │    998 │ ... │ 2023-09-04 03:32:... │ NULL             │
 └────────────────────────────────────────────────────────────────────────┘
-1 row result in 0.273 sec. Processed 1 rows, 1 B (3.67 rows/s, 550 B/s)
+```
 
-root@localhost:8000/default> GET @my_internal_stage/ fs:///Users/eric/Downloads/fromStage/;
+```sql
+GET @my_internal_stage/ fs:///Users/eric/Downloads/fromStage/;
+```
 
-
-GET @my_internal_stage/ fs:///Users/eric/Downloads/fromStage/
-
+Result:
+```
 ┌─────────────────────────────────────────────────────────┐
 │                      file                     │  status │
-│                     String                    │  String │
 ├───────────────────────────────────────────────┼─────────┤
 │ /Users/eric/Downloads/fromStage/books.parquet │ SUCCESS │
 └─────────────────────────────────────────────────────────┘
@@ -295,26 +324,26 @@ GET @my_internal_stage/ fs:///Users/eric/Downloads/fromStage/
 <TabItem value="external" label="Download from External Stage">
 
 ```sql
-root@localhost:8000/default> LIST @my_external_stage;
+LIST @my_external_stage;
+```
 
-LIST @my_external_stage
-
+Result:
+```
 ┌──────────────────────────────────────────────────────────────────────┐
 │         name         │ ··· │     last_modified    │      creator     │
-│        String        │     │        String        │ Nullable(String) │
 ├──────────────────────┼─────┼──────────────────────┼──────────────────┤
 │ books.parquet        │ ... │ 2023-09-04 03:37:... │ NULL             │
 └──────────────────────────────────────────────────────────────────────┘
-3 rows result in 0.272 sec. Processed 3 rows, 3 B (11.05 rows/s, 1.55 KiB/s)
+```
 
-root@localhost:8000/default> GET @my_external_stage/ fs:///Users/eric/Downloads/fromStage/;
+```sql
+GET @my_external_stage/ fs:///Users/eric/Downloads/fromStage/;
+```
 
-
-GET @my_external_stage/ fs:///Users/eric/Downloads/fromStage/
-
+Result:
+```
 ┌─────────────────────────────────────────────────────────┐
 │                      file                     │  status │
-│                     String                    │  String │
 ├───────────────────────────────────────────────┼─────────┤
 │ /Users/eric/Downloads/fromStage/books.parquet │ SUCCESS │
 └─────────────────────────────────────────────────────────┘

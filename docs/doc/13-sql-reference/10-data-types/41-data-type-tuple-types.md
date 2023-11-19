@@ -44,7 +44,7 @@ The elements of a Databend tuple can be accessed by their indices, **which start
 ### Example
 
 ```sql
-mysql> select event.1 from t_table;
+select event.1 from t_table;
 +----------------------------+
 | event.1                    |
 +----------------------------+

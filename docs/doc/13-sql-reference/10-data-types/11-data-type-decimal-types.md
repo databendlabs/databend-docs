@@ -22,18 +22,28 @@ If you have a `DECIMAL(10, 2)` , you can store values with up to `10 digits`, wi
 
 ```sql
 -- Create a table with decimal data type.
-create table decimal(value decimal(36, 18));
+CREATE TABLE decimal (
+    value DECIMAL(36, 18)
+);
 
 -- Insert two values.
-insert into decimal values(0.152587668674722117), (0.017820781941443176);
+INSERT INTO decimal 
+VALUES
+    (0.152587668674722117), 
+    (0.017820781941443176);
 
-select * from decimal;
-+----------------------+
-| value                |
-+----------------------+
-| 0.152587668674722117 |
-| 0.017820781941443176 |
-+----------------------+
+-- Select all values from the table.
+SELECT * FROM decimal;
+```
+
+Result:
+```
+┌────────────────────────────┐
+│ value                      │
+├────────────────────────────┤
+│ 0.152587668674722117       │
+│ 0.017820781941443176       │
+└────────────────────────────┘
 ```
 
 ## Precision Inference
