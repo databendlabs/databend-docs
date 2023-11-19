@@ -47,9 +47,14 @@ CREATE TABLE test_numeric
     float             FLOAT,
     double            DOUBLE
 );
+```
 
+```sql
 DESC test_numeric;
+```
 
+Result:
+```
 ┌───────────────────────────────────────────────────────────────────┐
 │       Field       │        Type       │  Null  │ Default │  Extra │
 ├───────────────────┼───────────────────┼────────┼─────────┼────────┤

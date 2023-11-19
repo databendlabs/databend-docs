@@ -20,20 +20,32 @@ See [String Functions](/doc/sql-functions/string-functions).
 
 ```sql
 CREATE TABLE string_table(text VARCHAR);
+```
 
+```
 DESC string_table;
-+-------+---------+------+---------+
-| Field | Type    | Null | Default |
-+-------+---------+------+---------+
-| text  | VARCHAR | NO   |         |
-+-------+---------+------+---------+
+```
+Result:
+```
+┌──────────────────────────────────────────────┐
+│  Field │   Type  │  Null  │ Default │  Extra │
+├────────┼─────────┼────────┼─────────┼────────┤
+│ text   │ VARCHAR │ YES    │ NULL    │        │
+└──────────────────────────────────────────────┘
+```
 
+```sql
 INSERT INTO string_table VALUES('databend');
+```
 
+```
 SELECT * FROM string_table;
-+----------+
-| text     |
-+----------+
-| databend |
-+----------+
+```
+Result:
+```
+┌──────────────────┐
+│       text       │
+├──────────────────┤
+│ databend         │
+└──────────────────┘
 ```

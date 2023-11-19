@@ -52,10 +52,15 @@ The command can also load data from multiple files that are sequentially named. 
 
 ```sql
 SELECT * FROM books;
-+------------------------------+----------------------+-------+
-| title                        | author               | date  |
-+------------------------------+----------------------+-------+
-| Transaction Processing       |  Jim Gray            |  1992 |
-| Readings in Database Systems |  Michael Stonebraker |  2004 |
-+------------------------------+----------------------+-------+
+```
+
+Result:
+
+```
+┌──────────────────────────────────┬─────────────────────┬───────┐
+│ title                            │ author              │ date  │
+├──────────────────────────────────┼─────────────────────┼───────┤
+│ Transaction Processing           │ Jim Gray            │ 1992  │
+│ Readings in Database Systems     │ Michael Stonebraker │ 2004  │
+└──────────────────────────────────┴─────────────────────┴───────┘
 ```

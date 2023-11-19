@@ -42,8 +42,6 @@ Follow this tutorial to upload the sample file to the user stage and load data f
 ```sql
 root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @~
 
-PUT fs:///Users/eric/Documents/books.parquet @~
-
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
 │                String               │  String │
@@ -110,13 +108,7 @@ my_internal_stage|Internal  |              0|'root'@'%'|       |
 ```sql
 root@localhost:8000/default> CREATE STAGE my_internal_stage;
 
-CREATE STAGE my_internal_stage
-
-0 row written in 0.049 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
-
 root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
-
-PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
 
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
@@ -194,8 +186,6 @@ my_external_stage|External  |               |'root'@'%'|       |
 
 ```sql
 root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @my_external_stage
-
-PUT fs:///Users/eric/Documents/books.parquet @my_external_stage
 
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │

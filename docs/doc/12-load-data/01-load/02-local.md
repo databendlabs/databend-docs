@@ -23,10 +23,6 @@ Readings in Database Systems,Michael Stonebraker,2004
 
 ```shell
 eric@macdeMBP Documents % bendsql
-Welcome to BendSQL 0.6.7-135f76b(2023-09-18T14:39:54.786133000Z).
-Connecting to localhost:8000 as user root.
-Connected to DatabendQuery v1.2.100-nightly-29d6bf3217(rust-1.72.0-nightly-2023-09-05T16:14:14.152454000Z)
-
 root@localhost:8000/default> CREATE DATABASE book_db;
 
 root@localhost:8000/default> USE book_db;
