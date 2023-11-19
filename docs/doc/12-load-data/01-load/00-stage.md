@@ -141,7 +141,12 @@ books.parquet                      |   998|"88432bf90aadb79073682988b39d461c"|20
 1. Load data into the target table with the [COPY INTO](/14-sql-commands/10-dml/dml-copy-into-table.md) command:
 
 ```sql
-COPY INTO books FROM @my_internal_stage files=('books.parquet') FILE_FORMAT = (TYPE = PARQUET);
+COPY INTO books 
+FROM @my_internal_stage 
+FILES = ('books.parquet') 
+FILE_FORMAT = (
+    TYPE = 'PARQUET'
+);
 ```
 2. Verify the loaded data:
 
@@ -164,7 +169,13 @@ Follow this tutorial to upload the sample file to an external stage and load dat
 1. Create an external stage with the [CREATE STAGE](/14-sql-commands/00-ddl/40-stage/01-ddl-create-stage.md) command:
 
 ```sql
-CREATE STAGE my_external_stage url = 's3://databend' CONNECTION =(ENDPOINT_URL= 'http://127.0.0.1:9000' aws_key_id='ROOTUSER' aws_secret_key='CHANGEME123');
+CREATE STAGE my_external_stage
+    URL = 's3://databend'
+    CONNECTION = (
+        ENDPOINT_URL = 'http://127.0.0.1:9000', 
+        AWS_KEY_ID = 'ROOTUSER', 
+        AWS_SECRET_KEY = 'CHANGEME123'
+    );
 ```
 
 2. Verify the created stage:
@@ -209,7 +220,12 @@ books.parquet| 998|"88432bf90aadb79073682988b39d461c"|2023-06-28 04:13:15.178 +0
 1. Load data into the target table with the [COPY INTO](/14-sql-commands/10-dml/dml-copy-into-table.md) command:
 
 ```sql
-COPY INTO books FROM @my_external_stage files=('books.parquet') FILE_FORMAT = (TYPE = PARQUET);
+COPY INTO books
+FROM @my_external_stage
+FILES = ('books.parquet')
+FILE_FORMAT = (
+    TYPE = 'PARQUET'
+);
 ```
 2. Verify the loaded data:
 

@@ -29,15 +29,7 @@ Connected to DatabendQuery v1.2.100-nightly-29d6bf3217(rust-1.72.0-nightly-2023-
 
 root@localhost:8000/default> CREATE DATABASE book_db;
 
-CREATE DATABASE book_db
-
-0 row written in 0.058 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
-
 root@localhost:8000/default> USE book_db;
-
-USE book_db
-
-0 row result in 0.016 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
 
 root@localhost:8000/book_db> CREATE TABLE books
 (
@@ -51,8 +43,6 @@ CREATE TABLE books (
   author VARCHAR,
   date VARCHAR
 )
-
-0 row written in 0.063 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
 ```
 
 ### Step 2. Load Data into Table
@@ -68,11 +58,6 @@ eric@macdeMBP Documents % bendsql --query='INSERT INTO book_db.books VALUES;' --
 ```shell
 root@localhost:8000/book_db> SELECT * FROM books;
 
-SELECT
-  *
-FROM
-  books
-
 ┌───────────────────────────────────────────────────────────────────────┐
 │             title            │        author       │       date       │
 │       Nullable(String)       │   Nullable(String)  │ Nullable(String) │
@@ -80,7 +65,6 @@ FROM
 │ Transaction Processing       │ Jim Gray            │ 1992             │
 │ Readings in Database Systems │ Michael Stonebraker │ 2004             │
 └───────────────────────────────────────────────────────────────────────┘
-2 rows result in 0.046 sec. Processed 2 rows, 2 B (43.14 rows/s, 4.49 KiB/s)
 ```
 
 ## Tutorial 2 - Load into Specified Columns
@@ -111,7 +95,6 @@ CREATE TABLE bookcomments (
   date VARCHAR
 )
 
-0 row written in 0.071 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
 ```
 
 ### Step 2. Load Data into Table
@@ -129,11 +112,6 @@ Notice that the `query` part above specifies the columns (title, author, and dat
 ```shell
 root@localhost:8000/book_db> SELECT * FROM bookcomments;
 
-SELECT
-  *
-FROM
-  bookcomments
-
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
 │             title            │        author       │     comments     │       date       │
 │       Nullable(String)       │   Nullable(String)  │ Nullable(String) │ Nullable(String) │
@@ -141,5 +119,4 @@ FROM
 │ Transaction Processing       │ Jim Gray            │ NULL             │ 1992             │
 │ Readings in Database Systems │ Michael Stonebraker │ NULL             │ 2004             │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
-2 rows result in 0.037 sec. Processed 2 rows, 2 B (54.31 rows/s, 6.42 KiB/s)
 ```
