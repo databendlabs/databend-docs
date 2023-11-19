@@ -8,7 +8,7 @@ To load data from remote files into Databend, the [COPY INTO](/14-sql-commands/1
 
 ### Before You Begin
 
-Download and save the sample file [books.csv](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.csv) to a local folder. The file contains two records:
+The sample file [books.csv](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.csv) contains two records:
 
 ```text title='books.csv'
 Transaction Processing,Jim Gray,1992
@@ -32,8 +32,14 @@ CREATE TABLE books
 ### Step 2. Load Data into Table
 
 ```sql
-COPY INTO books FROM 'https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.csv'
-    FILE_FORMAT = (type = CSV field_delimiter = ','  record_delimiter = '\n' skip_header = 0);
+COPY INTO books
+FROM 'https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.csv'
+FILE_FORMAT = (
+    TYPE = 'CSV',
+    FIELD_DELIMITER = ',',
+    RECORD_DELIMITER = '\n',
+    SKIP_HEADER = 0
+);
 ```
 
 :::tip

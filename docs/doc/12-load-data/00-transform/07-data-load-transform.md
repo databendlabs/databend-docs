@@ -85,14 +85,30 @@ CREATE TABLE employees_no_age (
 ```sql
 -- Load from remote file
 COPY INTO employees_no_age
-FROM (SELECT t.id, t.name, t.onboarded FROM 'https://datasets.databend.org/employees.parquet' t)
-FILE_FORMAT = (type = parquet) PATTERN='.*parquet';
+FROM (
+    SELECT 
+        t.id, 
+        t.name, 
+        t.onboarded 
+    FROM 'https://datasets.databend.org/employees.parquet' t
+)
+FILE_FORMAT = (TYPE = PARQUET)
+PATTERN = '.*parquet';
 
 -- Load from staged file
 COPY INTO employees_no_age
-FROM (SELECT t.id, t.name, t.onboarded FROM @~ t)
-FILE_FORMAT = (type = parquet) PATTERN='.*parquet';
+FROM (
+    SELECT 
+        t.id, 
+        t.name, 
+        t.onboarded 
+    FROM @~ t
+)
+FILE_FORMAT = (TYPE = PARQUET)
+PATTERN = '.*parquet';
 ```
+
+
 3. Check the loaded data:
 
 ```sql
@@ -125,13 +141,29 @@ CREATE TABLE employees_new_order (
 ```sql
 -- Load from remote file
 COPY INTO employees_new_order
-FROM (SELECT t.id, t.age, t.name, t.onboarded FROM 'https://datasets.databend.org/employees.parquet' t)
-FILE_FORMAT = (type = parquet) PATTERN='.*parquet';
+FROM (
+    SELECT 
+        t.id, 
+        t.age, 
+        t.name, 
+        t.onboarded 
+    FROM 'https://datasets.databend.org/employees.parquet' t
+)
+FILE_FORMAT = (TYPE = PARQUET)
+PATTERN = '.*parquet';
 
 -- Load from staged file
 COPY INTO employees_new_order
-FROM (SELECT t.id, t.age, t.name, t.onboarded FROM @~ t)
-FILE_FORMAT = (type = parquet) PATTERN='.*parquet';
+FROM (
+    SELECT 
+        t.id, 
+        t.age, 
+        t.name, 
+        t.onboarded 
+    FROM @~ t
+)
+FILE_FORMAT = (TYPE = PARQUET)
+PATTERN = '.*parquet';
 ```
 
 3. Check the loaded data:
@@ -161,18 +193,34 @@ CREATE TABLE employees_date (
 );
 ```
 
-2. Load data from the remote or staged sample file and convert the 'onboarded' column to Date type.
+2. Load data from the remote or staged sample file and convert the 'onboarded' column to a Date type.
 
 ```sql
 -- Load from remote file
 COPY INTO employees_date
-FROM (SELECT t.id, t.name, t.age, to_date(t.onboarded) FROM 'https://datasets.databend.org/employees.parquet' t)
-FILE_FORMAT = (type = parquet) PATTERN='.*parquet';
+FROM (
+    SELECT 
+        t.id, 
+        t.name, 
+        t.age, 
+        to_date(t.onboarded) 
+    FROM 'https://datasets.databend.org/employees.parquet' t
+)
+FILE_FORMAT = (TYPE = PARQUET)
+PATTERN = '.*parquet';
 
 -- Load from staged file
 COPY INTO employees_date
-FROM (SELECT t.id, t.name, t.age, to_date(t.onboarded) FROM @~ t)
-FILE_FORMAT = (type = parquet) PATTERN='.*parquet';
+FROM (
+    SELECT 
+        t.id, 
+        t.name, 
+        t.age, 
+        to_date(t.onboarded) 
+    FROM @~ t
+)
+FILE_FORMAT = (TYPE = PARQUET)
+PATTERN = '.*parquet';
 ```
 
 3. Check the loaded data:
@@ -207,13 +255,29 @@ CREATE TABLE employees_new_age (
 ```sql
 -- Load from remote file
 COPY INTO employees_new_age
-FROM (SELECT t.id, t.name, t.age+1, t.onboarded FROM 'https://datasets.databend.org/employees.parquet' t)
-FILE_FORMAT = (type = parquet) PATTERN='.*parquet';
+FROM (
+    SELECT 
+        t.id, 
+        t.name, 
+        t.age + 1, 
+        t.onboarded 
+    FROM 'https://datasets.databend.org/employees.parquet' t
+)
+FILE_FORMAT = (TYPE = PARQUET)
+PATTERN = '.*parquet';
 
 -- Load from staged file
 COPY INTO employees_new_age
-FROM (SELECT t.id, t.name, t.age+1, t.onboarded FROM @~ t)
-FILE_FORMAT = (type = parquet) PATTERN='.*parquet';
+FROM (
+    SELECT 
+        t.id, 
+        t.name, 
+        t.age + 1, 
+        t.onboarded 
+    FROM @~ t
+)
+FILE_FORMAT = (TYPE = PARQUET)
+PATTERN = '.*parquet';
 ```
 
 3. Check the loaded data:
@@ -249,13 +313,29 @@ CREATE TABLE employees_plus (
 ```sql
 -- Load from remote file
 COPY INTO employees_plus (id, name, age, onboarded)
-FROM (SELECT t.id, t.name, t.age, t.onboarded FROM 'https://datasets.databend.org/employees.parquet' t)
-FILE_FORMAT = (type = parquet) PATTERN='.*parquet';
+FROM (
+    SELECT 
+        t.id, 
+        t.name, 
+        t.age, 
+        t.onboarded 
+    FROM 'https://datasets.databend.org/employees.parquet' t
+)
+FILE_FORMAT = (TYPE = PARQUET)
+PATTERN = '.*parquet';
 
 -- Load from staged file
 COPY INTO employees_plus (id, name, age, onboarded)
-FROM (SELECT t.id, t.name, t.age, t.onboarded FROM @~ t)
-FILE_FORMAT = (type = parquet) PATTERN='.*parquet';
+FROM (
+    SELECT 
+        t.id, 
+        t.name, 
+        t.age, 
+        t.onboarded 
+    FROM @~ t
+)
+FILE_FORMAT = (TYPE = PARQUET)
+PATTERN = '.*parquet';
 ```
 
 3. Check the loaded data:
