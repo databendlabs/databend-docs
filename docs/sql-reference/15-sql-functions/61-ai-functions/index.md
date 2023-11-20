@@ -144,7 +144,7 @@ Databend's AI functions are designed to be easy to use, even for users who are n
 
 ## Examples(https://ask.databend.rs)
 
-We have utilized [Databend Cloud](https://databend.com) and its AI functions to create an interactive Q&A system for the https://databend.rs website. The demo site, https://ask.databend.rs, allows users to ask questions about any topic related to the https://databend.rs website.
+We have utilized [Databend Cloud](https://databend.com) and its AI functions to create an interactive Q&A system for the [website](/doc). The demo site, https://ask.databend.rs, allows users to ask questions about any topic related to the [website](/doc).
 
 :::info
 You can also deploy Databend and configure the `openai_api_key`.

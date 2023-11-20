@@ -78,7 +78,7 @@ In addition to following the templates, please pay attention to the code include
 4. If you have added code that should be tested, add unit tests.
 5. Verify and ensure that the test suites passes, `make test`.
 6. Make sure your code passes both linters, `make lint`.
-7. Change the status to “Ready for review”.
+7. Change the status to "Ready for review".
 8. Watch out the replies from the `@mergify`, she will be your guide.
 
 ### PR Title
@@ -111,7 +111,7 @@ More types:
 Databend has a [Pull Request Template](https://github.com/datafuselabs/databend/blob/main/.github/PULL_REQUEST_TEMPLATE.md):
 
 ```shell
-I hereby agree to the terms of the CLA available at: https://databend.rs/dev/policies/cla/
+I hereby agree to the terms of the CLA available at: https://docs.databend.com/dev/policies/cla
 
 ## Summary
 
@@ -144,7 +144,7 @@ Databend uses [GitHub issues](https://github.com/datafuselabs/databend/issues) t
 
 ## Documentation
 
-All developer documentation is published on the Databend developer site, [databend.rs](https://databend.rs). 
+All developer documentation is published on the Databend developer site, [databend.com](/doc). 
 
 ## Code of Conduct
 

@@ -135,7 +135,7 @@ The following steps will guide you through the process of locally deploying Data
 
 ### Step 1. Downloading Databend
 
-1. Download the installation package suitable for your platform from the [Download](https://databend.rs/download) page.
+1. Download the installation package suitable for your platform from the [Download](/download) page.
 
 2. Extract the installation package to a local directory.
 

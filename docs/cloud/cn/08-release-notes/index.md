@@ -4,7 +4,7 @@ title: 发布记录
 
 本页面提供有关 Databend Cloud 新功能、周边工具以及问题修复的更新信息。
 
-## 2023年10月30日
+## 2023 年 10 月 30 日
 
 - 将 databend-query 升级到 v1.2.184-nightly：
   - MERGE INTO 语句已支持自动 recluster 和 compact。
@@ -14,7 +14,7 @@ title: 发布记录
   - 新增时间和日期函数 TO_WEEK_OF_YEAR 和 DATE_PART。
 - 新增对 UDF 的支持。
 
-## 2023年9月13日
+## 2023 年 9 月 13 日
 
 ### 新功能
 
@@ -29,7 +29,7 @@ title: 发布记录
   - 新创建的列将默认为 Nullable。
 - 提供 [databend-kafka-connect](https://github.com/databendcloud/databend-kafka-connect) 允许从 Kafka 无缝地实现增量数据同步。
 
-## 2023年7月25日
+## 2023 年 7 月 25 日
 
 ### 新功能
 
@@ -40,7 +40,7 @@ title: 发布记录
   - 在 system.query_profile 中增加更多执行信息，允许更好地优化你的查询。
 - 提供 [debezium-server-databend](https://github.com/databendcloud/debezium-server-databend) 允许从 MySQL、Postgres 等关系数据库 CDC 同步到 Databend。
 
-## 2023年6月30日
+## 2023 年 6 月 30 日
 
 ### 新功能
 
@@ -48,14 +48,14 @@ title: 发布记录
   - 支持通过 Flink CDC 同步来自关系式数据库的数据到 Databend。
   - 支持列重命名语法：`ALTER TABLE [ IF EXISTS ] <name> RENAME COLUMN <col_name> TO <new_col_name>`。
   - 支持按列序号进行 CSV 与 TSV 文件的查询。
-  - 支持通过 `X-DATABEND-DEDUPLICATE-LABEL` 对数据进行去重.
+  - 支持通过 `X-DATABEND-DEDUPLICATE-LABEL` 对数据进行去重。
   - 支持分布式的数据删除。
 
 ### 问题修复
 
 - 修复存储空间扫描统计的稳定性问题。
 
-## 2023年6月6日
+## 2023 年 6 月 6 日
 
 ### 新功能
 
@@ -68,7 +68,7 @@ title: 发布记录
   - 支持 IEJoin。
 - 基于 Azure OpenAI 优化工作区中的 SQL IDE 提示。
 
-## 2023年5月23日
+## 2023 年 5 月 23 日
 
 ### 新功能
 
@@ -80,19 +80,19 @@ title: 发布记录
 - 与 Tableau 集成，实现无缝数据可视化和报告。
 - 支持修改 Warehouse 大小和自动休眠时间。
 
-## 2023年5月15日
+## 2023 年 5 月 15 日
 
 ### 新功能
 
 - 将 databend-query 升级到 v1.1.30-nightly:
   - 在 COPY 中支持更高效地扫描大量小文件。
   - 优化器支持常量折叠。
-  - 新增 bitmap 函数: `bitmap_count` 和 `build_bitmap`.
+  - 新增 bitmap 函数：`bitmap_count` 和 `build_bitmap`.
   - 通过新的 Hash Table 设计优化了 Hash Join 性能。
 - 工作区支持多标签 UI，更易于切换。
 - 允许修改手机号。
 
-## 2023年4月25日
+## 2023 年 4 月 25 日
 
 ### 新功能
 
@@ -106,28 +106,28 @@ title: 发布记录
 
 - 修复在导入数据界面时未显示 default 数据库选项的问题。
 
-## 2023年4月12日
+## 2023 年 4 月 12 日
 
 ### 新功能
 
 - 将 databend-query 升级到 v1.0.60-nightly:
   - 支持通过 Eager Aggregation 优化 GROUP BY 和 JOIN 性能。
   - 支持了所有 TPC-DS 查询。
-  - 新增聚合函数: QUANTILE_DISC, KURTOSIS, SKEWNESS。
+  - 新增聚合函数：QUANTILE_DISC, KURTOSIS, SKEWNESS。
 - 新的集成：
   - 支持通过 Apache DolphinScheduler 自动导入数据。
 
-## 2023年4月4日
+## 2023 年 4 月 4 日
 
 ### 新功能
 
-- 将databend-query升级到v1.0.43-nightly：
+- 将 databend-query 升级到 v1.0.43-nightly：
   - 引入窗口函数（window functions）。
   - 支持包括 PIVOT、UNPIVOT、GROUP BY CUBE 和 ROLLUP 在内的查询语法。
-  - 新增了 cosine_distance、ai_embedding_vector 等 [AI 函数](https://databend.rs/doc/sql-functions/ai-functions/)，将 Databend 转变为一个 AI 知识存储库，允许您解锁更深入的见解，从数据中提取更多价值。
+  - 新增了 cosine_distance、ai_embedding_vector 等 [AI 函数](/doc/sql-functions/ai-functions/)，将 Databend 转变为一个 AI 知识存储库，允许您解锁更深入的见解，从数据中提取更多价值。
 - 新的集成：
-  - [DBeaver](https://databend.rs/blog/dbeaver)：现在您可以使用桌面应用程序轻松连接到 Databend Cloud，获得更无缝的体验。
-  - [Redash](https://databend.rs/doc/integrations/gui-tool/redash/): 轻松创建美丽的可视化图表，使分析和展示数据更加容易。
+  - [DBeaver](/blog/dbeaver)：现在您可以使用桌面应用程序轻松连接到 Databend Cloud，获得更无缝的体验。
+  - [Redash](/doc/integrations/gui-tool/redash/): 轻松创建美丽的可视化图表，使分析和展示数据更加容易。
 
 ### 改进
 
@@ -137,13 +137,13 @@ title: 发布记录
 
 - 改善了 Auto Suspend 机制的稳定性，确保计算集群及时地自动进入休眠。 
 
-## 2023年3月21日
+## 2023 年 3 月 21 日
 
 ### 新功能
 
 - 原生的 [Metabase 集成](https://github.com/databendcloud/metabase-databend-driver): 允许使 Metabase 连接到 Databend Cloud 制作美观的数据可视化报表。
-- 将 databend-query 升级到1.0.26-nightly：
-  - 允许在COPY INTO文件过程中进行数据转换。
+- 将 databend-query 升级到 1.0.26-nightly：
+  - 允许在 COPY INTO 文件过程中进行数据转换。
 
 ### 改进
 
@@ -151,7 +151,7 @@ title: 发布记录
 - 使计算集群和表存储大小的计量数据收集更加实时。
 - 优化套餐过期时的信息提示。
 
-## 2023年3月14日
+## 2023 年 3 月 14 日
 
 ### 新功能
 
@@ -167,7 +167,7 @@ title: 发布记录
 - 调大默认成员人数上限为 5。
 - 优化账单页的 UI 展示。
 
-## 2023年3月7日
+## 2023 年 3 月 7 日
 
 ### 新功能
 

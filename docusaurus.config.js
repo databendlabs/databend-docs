@@ -63,7 +63,7 @@ const config = {
                         if (locale !== config.i18n.defaultLocale) {
                             return `https://databend.crowdin.com/databend/${locale}`;
                         }
-                        return `https://github.com/datafuselabs/databend-docs/edit/main/docs/doc/${docPath}`;
+                        return `https://github.com/datafuselabs/databend-docs/edit/main/docs/databend/${docPath}`;
                     },
                 },
                 blog: {
@@ -99,23 +99,23 @@ const config = {
         'docusaurus-plugin-sass',
         './src/plugins/global-sass-var-inject',
         './src/plugins/fetch-databend-releases',
-        // [
-        //     '@docusaurus/plugin-content-docs',
-        //     /** @type {import('@docusaurus/plugin-content-docs').Options} */
-        //     {
-        //       id: 'dev',
-        //       path: './docs/dev',
-        //       routeBasePath: 'dev',
-        //       sidebarPath: require.resolve('./docs/dev/sidebars.js'),
-        //       editUrl: ({ locale, devPath }) => {
-        //         // @ts-ignore
-        //         if (locale !== config.i18n.defaultLocale) {
-        //             return `https://databend.crowdin.com/databend/${locale}`;
-        //         }
-        //         return `https://github.com/datafuselabs/databend-docs/edit/main/docs/dev/${devPath}`;
-        //       },
-        //     }
-        // ],
+        [
+            '@docusaurus/plugin-content-docs',
+            /** @type {import('@docusaurus/plugin-content-docs').Options} */
+            {
+              id: 'dev',
+              path: './docs/dev',
+              routeBasePath: 'dev',
+              sidebarPath: require.resolve('./docs/dev/sidebars.js'),
+              editUrl: ({ locale, devPath }) => {
+                // @ts-ignore
+                if (locale !== config.i18n.defaultLocale) {
+                    return `https://databend.crowdin.com/databend/${locale}`;
+                }
+                return `https://github.com/datafuselabs/databend-docs/edit/main/docs/dev/${devPath}`;
+              },
+            }
+        ],
         [
           '@docusaurus/plugin-content-docs',
           /** @type {import('@docusaurus/plugin-content-docs').Options} */
