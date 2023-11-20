@@ -1,0 +1,49 @@
+---
+title: Metabase
+---
+
+[Metabase](https://www.metabase.com) is an open-source business intelligence tool. Metabase lets you ask questions about your data, and displays answers in formats that make sense, whether that’s a bar chart or a detailed table.
+
+You can save your questions, and group questions into handsome dashboards. Metabase also makes it easy to share questions and dashboards with the rest of your team.
+
+This topic describes how to connect to Metabase.
+
+## Prerequisites
+
+Before you start, make sure you have successfully installed [Metabase](https://www.metabase.com/docs/latest/operations-guide/installing-metabase.html) (version 0.42) and the [Metabase ClickHouse driver](https://github.com/enqueue/metabase-clickhouse-driver) (version 0.8.1).
+
+## Step 1. Creating a Warehouse
+
+1. Create a warehouse. For more information about managing warehouses, see [Managing Warehouses](/02-using-databend-cloud/00-warehouses/01-managing-warehouses.md).
+
+2. On the details page of the warehouse you created, click **Connect** to obtain the connection information. See [Connecting to a Warehouse](../02-using-databend-cloud/00-warehouses/02-connecting-a-warehouse.md) for details.
+
+## Step 2. Creating a Connection in Metabase
+
+1. On the Metabase homepage, select **Admin** in the top right corner.
+
+![](@site/static/img/documents/BI/3.png)
+
+2. On the page that opens, select **Databases** > **Add database**.
+
+![](@site/static/img/documents/BI/4.png)
+
+3. Select **ClickHouse** for the **Database type** field, then fill the other fields with the connection information you obtained in Step 2.
+
+![](@site/static/img/documents/BI/5.png)
+
+4. Click **Save**. Then click **I'm good thanks** in the dialog box that opens.
+
+![](@site/static/img/documents/BI/6.png)
+
+5. On the Metabase homepage, click **+ Add a question** on the top, then click **Native Query**.
+
+![](@site/static/img/documents/BI/7.png)
+
+6. Select **Databend Cloud** as the database.
+
+![](@site/static/img/documents/BI/8.png)
+
+You're all set now. Refer to the Metabase documentation for how to work with the tool. 
+
+![](@site/static/img/documents/BI/9.png)

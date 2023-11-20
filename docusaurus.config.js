@@ -53,9 +53,9 @@ const config = {
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
                 docs: {
-                    path: './docs/doc',
+                    path: './docs/databend',
                     routeBasePath: 'doc',
-                    sidebarPath: require.resolve('./docs/doc/sidebars.js'),
+                    sidebarPath: require.resolve('./docs/databend/sidebars.js'),
                     editUrl: ({ locale, docPath }) => {
                         // @ts-ignore
                         if (locale !== config.i18n.defaultLocale) {
@@ -101,18 +101,57 @@ const config = {
             '@docusaurus/plugin-content-docs',
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
             {
-                id: 'dev',
-                path: './docs/dev',
-                routeBasePath: 'dev',
-                sidebarPath: require.resolve('./docs/dev/sidebars.js'),
-                editUrl: ({ locale, devPath }) => {
-                    // @ts-ignore
-                    if (locale !== config.i18n.defaultLocale) {
-                        return `https://databend.crowdin.com/databend/${locale}`;
-                    }
-                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/dev/${devPath}`;
-                },
-            },
+              id: 'dev',
+              path: './docs/dev',
+              routeBasePath: 'dev',
+              sidebarPath: require.resolve('./docs/dev/sidebars.js'),
+              editUrl: ({ locale, devPath }) => {
+                // @ts-ignore
+                if (locale !== config.i18n.defaultLocale) {
+                    return `https://databend.crowdin.com/databend/${locale}`;
+                }
+                return `https://github.com/datafuselabs/databend-docs/edit/main/docs/dev/${devPath}`;
+              },
+            }
+        ],
+        [
+          '@docusaurus/plugin-content-docs',
+          /** @type {import('@docusaurus/plugin-content-docs').Options} */
+          {
+            id: 'cloud',
+            path: './docs/cloud/docs_cn',
+            routeBasePath: 'cloud',
+            sidebarPath: require.resolve('./docs/cloud/sidebars.js'),
+            editUrl: ({ locale, devPath }) => {
+              return `https://github.com/datafuselabs/databend-docs/edit/main/cloud/dev/${devPath}`;
+            }
+          }
+        ],
+        [
+          '@docusaurus/plugin-content-docs',
+          /** @type {import('@docusaurus/plugin-content-docs').Options} */
+          {
+            id: 'sqlReference',
+            path: './docs/sql-reference',
+            routeBasePath: 'sql',
+            sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
+            editUrl: ({ locale, devPath }) => {
+              return `https://github.com/datafuselabs/databend-docs/edit/main/cloud/dev/${devPath}`;
+            }
+          }
+        ],
+        [
+          '@docusaurus/plugin-content-docs',
+          /** @type {import('@docusaurus/plugin-content-docs').Options} */
+          {
+            id: 'releaseNotes',
+            path: './docs/release-notes',
+            routeBasePath: 'release-notes',
+            sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
+            editUrl: ({ locale, devPath }) => {
+              return `https://github.com/datafuselabs/databend-docs/edit/main/cloud/dev/${devPath}`;
+            }
+          }
         ],
         'plugin-image-zoom',
         [
@@ -147,19 +186,35 @@ const config = {
                 title: 'Databend',
                 logo: {
                     alt: 'Databend Logo',
-                    src: 'img/logo/logo-no-text.svg',
+                    src: 'img/logo.svg',
                 },
                 items: [
                     {
                         to: '/doc',
-                        label: 'Documentation',
-                        position: 'right',
+                        label: 'Databend',
+                        position: 'left',
                     },
-                    { to: '/blog', label: 'Blog', position: 'right' }, // or position: 'right'
+                    {
+                      to: '/cloud',
+                      label: 'Cloud',
+                      position: 'left',
+                    },
+                    {
+                      to: '/sql/sql-reference',
+                      label: 'SQL Reference',
+                      position: 'left',
+                    },
+                    // 
+                    {
+                      to: '/release-notes',
+                      label: 'Release Notes',
+                      position: 'left',
+                    },
+                    { to: '/blog', label: 'Blog', position: 'left' }, // or position: 'right'
                     {
                         to: '/download',
                         label: 'Download',
-                        position: 'right',
+                        position: 'left',
                     },
                 ],
             },
