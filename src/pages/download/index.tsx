@@ -53,7 +53,7 @@ const Releases: FC = (): ReactElement => {
       title={`Databend - Activate your Object Storage for real-time analytics`}
       description={`A modern Elasticity and Performance Cloud Data Warehouse, activate your Object Storage(S3, Azure Blob, or MinIO) for real-time analytics`}>
       <div className={styles.wholePage}>
-        <div className={styles.download}>Download</div>
+        <div className={styles.download}>Download Databend</div>
         <div className={styles.latest}>Latest Version: {tagName}</div>
         <Card className={styles.latestBlock}>
           <div className={styles.latestVersion}>
