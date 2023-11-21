@@ -24,6 +24,7 @@
       border-right: 1px solid var(--color-border);
       .topTag {
         display: flex;
+        align-items: center;
         gap: 8px;
       }
       .version{

@@ -27,6 +27,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@crowdin/cli": "^3.9.1",
     "@docusaurus/core": "^2.2.0",
     "@docusaurus/plugin-client-redirects": "2.3.1",
@@ -38,6 +39,7 @@
     "@types/react-dom": "17.0.1",
     "add": "^2.0.6",
     "ahooks": "^3.3.10",
+    "antd": "^5.11.2",
     "axios": "^0.27.2",
     "bytes": "^3.1.2",
     "caniuse-lite": "^1.0.30001517",
@@ -53,7 +55,6 @@
     "prism-react-renderer": "^1.2.1",
     "rc-table": "^7.27.1",
     "rc-texty": "^0.2.0",
-    "rc-tooltip": "^6.1.2",
     "react": "^17.0.1",
     "react-dom": "17.0.1",
     "react-lazy-load-image-component": "^1.6.0",

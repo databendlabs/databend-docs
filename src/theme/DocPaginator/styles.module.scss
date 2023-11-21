@@ -1,3 +1,51 @@
+.evaluation {
+  background-color: var(--color-fill-0);
+  text-align: center;
+  border-radius: 6px;
+  padding: 12px 6px;
+  margin-top: 40px;
+  font-size: 14px;
+  color: var(--color-text-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span{
+    text-align: left;
+    white-space: nowrap;
+  }
+  div.button {
+    cursor: pointer;
+    width: 86px;
+    height: 32px;
+    margin-left: 6px;
+    background-color: var(--color-bg-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    svg{
+      margin-right: 12px;
+      stroke: var(--color-text-1)!important;
+    }
+    &:hover{
+      background-color: var(--color-fill-0);
+      border: 1px solid hsl(var(--border));
+    }
+  }
+  .title {
+    color: var(--color-text-1);
+    font-size: 14px;
+    line-height: 20px;
+  }
+  textarea {
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 8px;
+  }
+}
 .community {
   border-top: 1px solid var(--color-border);
   margin-top: 40px;
