@@ -3,7 +3,7 @@ title: Query Configurations
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.87"/>
+<FunctionDescription description="Introduced or updated: v1.2.199"/>
 
 This page describes the Query node configurations available in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
@@ -46,7 +46,7 @@ The following is a list of the parameters available within the [[query.users]] s
 
 ## [log] Section
 
-This section can include three subsections: [log.file], [log.stderr], and [log.query].
+This section can include three subsections: [log.file], [log.stderr], [log.query], and [log.tracing].
 
 ### [log.file] Section
 
@@ -76,6 +76,16 @@ The following is a list of the parameters available within the [log.query] secti
 | Parameter           | Description                                                                                         |
 |---------------------|-----------------------------------------------------------------------------------------------------|
 | on                  | Enables logging query execution details to the query-details folder in the log directory. Defaults to on. Consider disabling when storage space is limited. |
+
+### [log.tracing] Section
+
+The following is a list of the parameters available within the [log.tracing] section:
+
+| Parameter         | Description                                                                                                                                                   |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| capture_log_level | Sets the log level (DEBUG, TRACE, INFO, WARN, or ERROR) for capturing traces during execution.                                                                |
+| on                | Controls whether tracing is enabled. Default value is 'false' for disabled. Set to 'true' to enable tracing.                                                  |
+| otlp_endpoint     | Specifies the OpenTelemetry Protocol (OTLP) endpoint for tracing. Defaults to 'http://127.0.0.1:4317', but you can replace it with the desired OTLP endpoint. |
 
 ## [meta] Section
 

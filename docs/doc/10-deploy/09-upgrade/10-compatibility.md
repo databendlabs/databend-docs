@@ -111,10 +111,10 @@ The following is an illustration of current query-meta compatibility:
 
 | Meta version      | Backward compatible with |
 |:------------------|:-------------------------|
-| [0.9.41, 1.2.214) | [0.9.41, 1.2.214)        |
-| [1.2.214, +∞)     | [0.9.41, +∞)             |
+| [0.9.41, 1.2.212) | [0.9.41, 1.2.212)        |
+| [1.2.212, +∞)     | [0.9.41, +∞)             |
 
-- `1.2.214` is compatible with old versions. Rolling upgrade is supported.
+- `1.2.212` is compatible with old versions. Rolling upgrade is supported.
   In this version, databend-meta raft-server introduced a new API `install_snapshot_v1()`.
   The raft-client will try to use either this new API or the original `install_snapshot()`.
 
