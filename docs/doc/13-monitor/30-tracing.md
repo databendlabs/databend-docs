@@ -1,22 +1,55 @@
 ---
 title: Tracing Databend
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Databend using Rust's tracing ecosystem [tokio-tracing](https://github.com/tokio-rs/tracing) to do log and profile.
+<FunctionDescription description="Introduced or updated: v1.2.199"/>
 
-Databend default log level is `INFO`.
+Databend utilizes Rust's tracing ecosystem, specifically [tokio-tracing](https://github.com/tokio-rs/tracing), for logging and profiling purposes.
+
 
 ## Enable Tracing
 
-```sql
+Tracing in Databend can be enabled with the environment variable `LOG_LEVEL` or the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml).
+
+### Enabling with Environment Variable
+
+1. Open a terminal or command prompt on your system, then navigate to the directory where the `databend-query` binary is located.
+
+```bash
+# Replace "/path/to/databend" with the actual path on your system
+cd /path/to/databend
+```
+
+2. Once you are in the correct directory, run the following command to set the log level for the execution of the databend-query command. Adjust the log level as needed for your specific requirements. In the provided example, DEBUG is used as an illustrative log level:
+
+```bash
 LOG_LEVEL=DEBUG ./databend-query
 ```
 
-If we want to track the execution of a query:
+3. Before tracing a query's execution, set `max_threads` to 1 in Databend. This ensures a simplified environment, making it easier to trace and analyze the query, aiding in effective troubleshooting and profiling.
 
 ```sql
 SET max_threads=1;
-SELECT sum(number+1)+1 FROM numbers(10000) WHERE number>0 GROUP BY number%3;
+```
+
+### Enabling with Configuration File
+
+1. Add the following parameters to the [log] section in the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For a detailed description of each parameter, see [[log.tracing] Section](../10-deploy/10-node-config/02-query-config.md#logtracing-section).
+
+```toml title='databend-query.toml'
+...
+[log.tracing]
+tracing.capture_log_level = "TRACE"
+tracing.on = "true"
+tracing.otlp_endpoint = "http://127.0.0.1:4317"
+...
+```
+
+2. Before tracing a query's execution, set `max_threads` to 1 in Databend. This ensures a simplified environment, making it easier to trace and analyze the query, aiding in effective troubleshooting and profiling.
+
+```sql
+SET max_threads=1;
 ```
 
 ## Tracing log
