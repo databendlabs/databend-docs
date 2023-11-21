@@ -40,9 +40,9 @@ SET max_threads=1;
 ```toml title='databend-query.toml'
 ...
 [log.tracing]
-tracing.capture_log_level = "TRACE"
-tracing.on = "true"
-tracing.otlp_endpoint = "http://127.0.0.1:4317"
+capture_log_level = "TRACE"
+on = "true"
+otlp_endpoint = "http://127.0.0.1:4317"
 ...
 ```
 
