@@ -67,21 +67,21 @@ const config = {
                         return `https://github.com/datafuselabs/databend-docs/edit/main/docs/databend/${docPath}`;
                     },
                 },
-                blog: {
-                    showReadingTime: true,
-                    editUrl: ({ locale, blogPath }) => {
-                        // @ts-ignore
-                        if (locale !== config.i18n.defaultLocale) {
-                            return `https://databend.crowdin.com/databend/${locale}`;
-                        }
-                        return `https://github.com/datafuselabs/databend-docs/edit/main/website/blog/${blogPath}`;
-                    },
-                    blogSidebarCount: 5,
-                    postsPerPage: 'ALL',
-                    blogListComponent: '@site/src/components/CustomBlog/CustomBlogListPage.js',
-                    blogPostComponent: '@site/src/components/CustomBlog/BlogPostDetails.js',
-                    blogTagsPostsComponent: '@site/src/components/CustomBlog/CustomBlogTagsPostsPage.js',
-                },
+                // blog: {
+                //     showReadingTime: true,
+                //     editUrl: ({ locale, blogPath }) => {
+                //         // @ts-ignore
+                //         if (locale !== config.i18n.defaultLocale) {
+                //             return `https://databend.crowdin.com/databend/${locale}`;
+                //         }
+                //         return `https://github.com/datafuselabs/databend-docs/edit/main/website/blog/${blogPath}`;
+                //     },
+                //     blogSidebarCount: 5,
+                //     postsPerPage: 'ALL',
+                //     blogListComponent: '@site/src/components/CustomBlog/CustomBlogListPage.js',
+                //     blogPostComponent: '@site/src/components/CustomBlog/BlogPostDetails.js',
+                //     blogTagsPostsComponent: '@site/src/components/CustomBlog/CustomBlogTagsPostsPage.js',
+                // },
                 theme: {
                     customCss: require.resolve('./src/css/custom.scss'),
                 },
@@ -226,7 +226,7 @@ const config = {
                       label: 'Release Notes',
                       position: 'left',
                     },
-                    { to: '/blog', label: 'Blog', position: 'left' }, // or position: 'right'
+                    // { to: '/blog', label: 'Blog', position: 'left' }, // or position: 'right'
                     {
                         to: '/download',
                         label: 'Download',
@@ -241,7 +241,7 @@ const config = {
                         items: [
                             {
                                 label: 'Performance',
-                                to: '/blog/clickbench-databend-top'
+                                to: `${homeLink}/blog/clickbench-databend-top`
                             },
                             {
                                 label: 'Deployment',

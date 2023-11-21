@@ -4,7 +4,7 @@ title: Fuse Engine
 
 Databend utilizes the Fuse engine as its default engine, offering a data management system with a user-friendly interface reminiscent of Git. Users have the ability to effortlessly query data at any given moment and effortlessly restore data to any desired point in time.
 
-**Related topic**: [Find Peter Parker in Databend](/blog/time-travel)
+**Related topic**: [Find Peter Parker in Databend](https://www.databend.com/blog/time-travel)
 
 ## Syntax
 

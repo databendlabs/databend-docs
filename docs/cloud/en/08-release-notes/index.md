@@ -128,7 +128,7 @@ This Release Notes page provides information about recent features, enhancements
   - Introduced [AI functions](/doc/sql-functions/ai-functions/): Turns Databend Cloud into an intelligent data store, allowing you to unlock deeper insights and extract more value from your data.
   - Introduced window functions.
 - New Integrations:
-  - [DBeaver](/blog/dbeaver): Enables you to connect to Databend Cloud using the desktop application for a more seamless experience.
+  - [DBeaver](https://www.databend.cn/blog/dbeaver): Enables you to connect to Databend Cloud using the desktop application for a more seamless experience.
   - [Redash](/doc/integrations/gui-tool/redash/): Enables you to produce beautiful visualizations of your data, facilitating analysis and presentation.
 
 ### Bug Fixes
