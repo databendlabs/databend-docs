@@ -24,7 +24,7 @@ Before you start, make sure you have completed the following preparations:
 | Query-1 	| 192.168.1.10  	| -                 	| default   	| default          	|
 | Query-2 	| 192.168.1.20  	| -                 	| default   	| default          	|
 
-- [Download](https://databend.rs/download) and extract the Databend package onto each of your prepared servers according to your deployment plan.
+- [Download](/download) and extract the Databend package onto each of your prepared servers according to your deployment plan.
 
 ## Step 1: Deploy Meta Cluster
 
@@ -160,6 +160,6 @@ endpoints = ["192.168.1.100:9191","192.168.1.101:9191","192.168.1.102:9191"]
 After deploying Databend, you might need to learn about the following topics:
 
 - [SQL Clients](/doc/sql-clients): Learn to connect to Databend using SQL clients.
-- [Manage Settings](../../13-sql-reference/42-manage-settings.md): Optimize Databend for your needs. 
+- [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs. 
 - [Load & Unload Data](/doc/load-data): Manage data import/export in Databend.
 - [Visualize](/doc/visualize): Integrate Databend with visualization tools for insights.

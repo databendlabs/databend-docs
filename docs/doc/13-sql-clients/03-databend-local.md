@@ -14,7 +14,7 @@ databend-local runs a temporary databend-query process. Data storage is in a tem
 
 ### Setting up databend-local
 
-1. Download the installation package suitable for your platform from the [Download](https://databend.rs/download) page, and extract the **databend-query** binary located in the **bin** folder from the installation package.
+1. Download the installation package suitable for your platform from the [Download](/download) page, and extract the **databend-query** binary located in the **bin** folder from the installation package.
 
 2. Add the path to the **databend-query** binary to your PATH environment variable. For example, if your **databend-query** binary is located in the folder */Users/eric/Downloads/data*, set the PATH environment variable as follows:
 

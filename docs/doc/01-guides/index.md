@@ -15,29 +15,29 @@ import TabItem from '@theme/TabItem';
 <Tabs>
 <TabItem value="Deploy" label="Deploy" default>
 
-* [Understanding Deployment Modes](../10-deploy/00-understanding-deployment-modes.md)
-* [Deploying a Standalone Databend](../10-deploy/02-deploying-databend.md)
-* [Expanding a Standalone Databend](../10-deploy/03-expanding-to-a-databend-cluster.md)
-* [Deploying a Query Cluster on Kubernetes](../10-deploy/06-cluster/11-deploying-databend-on-kubernetes.md)
-* [Docker and Local Deployments](../10-deploy/05-deploying-local.md)
-* [Databend Cloud (Beta)](../02-cloud/index.md)
+* [Understanding Deployment Modes](/doc/deploy/understanding-deployment-modes)
+* [Deploying a Standalone Databend](/doc/deploy/deploying-databend)
+* [Expanding a Standalone Databend](/doc/deploy/expanding-to-a-databend-cluster)
+* [Deploying a Query Cluster on Kubernetes](/doc/deploy/cluster/deploying-databend-on-kubernetes)
+* [Docker and Local Deployments](/doc/deploy/deploying-local)
+* [Databend Cloud (Beta)](/doc/cloud/)
 
 </TabItem>
 
 <TabItem value="Connect" label="Connect">
 
-* [Connecting to Databend with BendSQL](../13-sql-clients/01-bendsql.md)
-* [Connecting to Databend with JDBC](../13-sql-clients/02-jdbc.md)
-* [Connecting to Databend with MySQL-Compatible Clients](../13-sql-clients/00-mysql.md)
+* [Connecting to Databend with BendSQL](/doc/sql-clients/bendsql)
+* [Connecting to Databend with JDBC](/doc/sql-clients/jdbc)
+* [Connecting to Databend with MySQL-Compatible Clients](/doc/sql-clients/mysql)
 
 </TabItem>
 
 <TabItem value="Manage" label="Manage">
 
-* [Managing Databend Settings](../13-sql-reference/42-manage-settings.md)
-* [Backing Up and Restoring a Meta Service Cluster](../10-deploy/06-cluster/30-metasrv-backup-restore.md)
-* [Backing Up and Restoring Schema Data](../10-deploy/09-upgrade/10-backup-and-restore-schema.md)
-* [Upgrading Databend](../10-deploy/09-upgrade/50-upgrade.md)
+* [Managing Databend Settings](/sql/sql-reference/manage-settings)
+* [Backing Up and Restoring a Meta Service Cluster](/doc/deploy/cluster/metasrv-backup-restore)
+* [Backing Up and Restoring Schema Data](/doc/deploy/upgrade/backup-and-restore-schema)
+* [Upgrading Databend](/doc/deploy/upgrade/upgrade)
 
 </TabItem>
 </Tabs>
@@ -49,27 +49,27 @@ Databend makes it easy to load data from various sources, stage, Amazon S3, loca
 <Tabs>
 <TabItem value="Stage" label="Stage" default>
 
-* [Understanding Stages](../12-load-data/00-stage/00-whystage.md)
-* [Managing Stages](../12-load-data/00-stage/01-manage-stages.md)
-* [Staging Files](../12-load-data/00-stage/01-manage-stages.md)
+* [Understanding Stages](/doc/load-data/stage/whystage)
+* [Managing Stages](/doc/load-data/stage/manage-stages)
+* [Staging Files](/doc/load-data/stage/manage-stages)
 
 </TabItem>
 
 <TabItem value="Query&Transform" label="Query & Transform" default>
 
-* [Querying Staged Files](../12-load-data/00-transform/05-querying-stage.md)
-* [Retrieving Metadata](../12-load-data/00-transform/06-querying-metadata.md)
-* [Transforming Data on Load](../12-load-data/00-transform/07-data-load-transform.md)
+* [Querying Staged Files](/doc/load-data/transform/querying-stage)
+* [Retrieving Metadata](/doc/load-data/transform/querying-metadata)
+* [Transforming Data on Load](/doc/load-data/transform/data-load-transform)
 
 </TabItem>
 
 <TabItem value="Load&Unload" label="Load & Unload">
 
-* [Loading from Stage](../12-load-data/01-load/00-stage.md)
-* [Loading from Bucket](../12-load-data/01-load/01-s3.md)
-* [Loading from Local File](../12-load-data/01-load/02-local.md)
-* [Loading from Remote File](../12-load-data/01-load/04-http.md)
-* [Unloading Data](../12-load-data/09-unload.md)
+* [Loading from Stage](/doc/load-data/load/stage)
+* [Loading from Bucket](/doc/load-data/load/s3)
+* [Loading from Local File](/doc/load-data/load/local)
+* [Loading from Remote File](/doc/load-data/load/http)
+* [Unloading Data](/doc/load-data/unload)
 
 </TabItem>
 
@@ -83,59 +83,59 @@ To make the most of Databend, learn how to manage your database by inserting, up
 <Tabs>
 <TabItem value="Data" label="Data" default>
 
-* [How to Insert Data into a Table](../14-sql-commands/10-dml/dml-insert.md)
-* [How to Update Data in a Table](../14-sql-commands/10-dml/dml-update.md)
-* [How to Replace a Row in a Table](../14-sql-commands/10-dml/dml-replace.md)
-* [How to Delete One or More Rows from a Table](../14-sql-commands/10-dml/dml-delete-from.md)
+* [How to Insert Data into a Table](/sql/sql-commands/dml/dml-insert)
+* [How to Update Data in a Table](/sql/sql-commands/dml/dml-update)
+* [How to Replace a Row in a Table](/sql/sql-commands/dml/dml-replace)
+* [How to Delete One or More Rows from a Table](/sql/sql-commands/dml/dml-delete-from)
 
 </TabItem>
 
 <TabItem value="Database" label="Database" >
 
-* [How to Create a Database](../14-sql-commands/00-ddl/10-database/ddl-create-database.md)
-* [How to Drop a Database](../14-sql-commands/00-ddl/10-database/ddl-drop-database.md)
+* [How to Create a Database](/sql/sql-commands/ddl/database/ddl-create-database)
+* [How to Drop a Database](/sql/sql-commands/ddl/database/ddl-drop-database)
 
 </TabItem>
 
 <TabItem value="Table" label="Table" >
 
-* [How to Create a Table](../14-sql-commands/00-ddl/20-table/10-ddl-create-table.md)
-* [How to Drop a Table](../14-sql-commands/00-ddl/20-table/20-ddl-drop-table.md)
-* [How to Rename a Table](../14-sql-commands/00-ddl/20-table/30-ddl-rename-table.md)
-* [How to Truncate a Table](../14-sql-commands/00-ddl/20-table/40-ddl-truncate-table.md)
-* [How to Add/Drop Table Column](../14-sql-commands/00-ddl/20-table/90-alter-table-column.md)
-* [How to Flash Back a Table](../14-sql-commands/00-ddl/20-table/70-flashback-table.md)
+* [How to Create a Table](/sql/sql-commands/ddl/table/ddl-create-table)
+* [How to Drop a Table](/sql/sql-commands/ddl/table/ddl-drop-table)
+* [How to Rename a Table](/sql/sql-commands/ddl/table/ddl-rename-table)
+* [How to Truncate a Table](/sql/sql-commands/ddl/table/ddl-truncate-table)
+* [How to Add/Drop Table Column](/sql/sql-commands/ddl/table/alter-table-column)
+* [How to Flash Back a Table](/sql/sql-commands/ddl/table/flashback-table)
 
 </TabItem>
 
 <TabItem value="View" label="View" >
 
-* [How to Create a View](../14-sql-commands/00-ddl/60-view/ddl-create-view.md)
-* [How to Drop a View](../14-sql-commands/00-ddl/60-view/ddl-drop-view.md)
-* [How to Alter a View](../14-sql-commands/00-ddl/60-view/ddl-alter-view.md)
+* [How to Create a View](/sql/sql-commands/ddl/view/ddl-create-view)
+* [How to Drop a View](/sql/sql-commands/ddl/view/ddl-drop-view)
+* [How to Alter a View](/sql/sql-commands/ddl/view/ddl-alter-view)
 
 </TabItem>
 
 <TabItem value="Function" label="Function" >
 
-* [User-Defined Functions](../14-sql-commands/00-ddl/104-udf/index.md)
-* [External Functions](../14-sql-commands/00-ddl/105-external-function/index.md)
-* [Generating SQL with AI](../15-sql-functions/61-ai-functions/01-ai-to-sql.md)
-* [Creating Embedding Vectors](../15-sql-functions/61-ai-functions/02-ai-embedding-vector.md)
-* [Text Completion with AI](../15-sql-functions/61-ai-functions/03-ai-text-completion.md)
-* [Computing Text Similarities](../15-sql-functions/61-ai-functions/04-ai-cosine-distance.md)
+* [User-Defined Functions](/sql/sql-commands/ddl/udf/)
+* [External Functions](/sql/sql-commands/ddl/external-function/)
+* [Generating SQL with AI](/sql/sql-functions/ai-functions/ai-to-sql)
+* [Creating Embedding Vectors](/sql/sql-functions/ai-functions/ai-embedding-vector)
+* [Text Completion with AI](/sql/sql-functions/ai-functions/ai-text-completion)
+* [Computing Text Similarities](/sql/sql-functions/ai-functions/ai-cosine-distance)
 
 </TabItem>
 
 <TabItem value="User" label="User" >
 
-* [How to Create a User](../14-sql-commands/00-ddl/30-user/01-user-create-user.md)
-* [How to Grant Privileges to a User](../14-sql-commands/00-ddl/30-user/10-grant-privileges.md)
-* [How to Revoke Privileges from a User](../14-sql-commands/00-ddl/30-user/11-revoke-privileges.md)
-* [How to Create a Role](../14-sql-commands/00-ddl/30-user/04-user-create-role.md)
-* [How to Grant Privileges to a Role](../14-sql-commands/00-ddl/30-user/10-grant-privileges.md)
-* [How to Grant Role to a User](../14-sql-commands/00-ddl/30-user/20-grant-role.md)
-* [How to Revoke Role from a User](../14-sql-commands/00-ddl/30-user/21-revoke-role.md)
+* [How to Create a User](/sql/sql-commands/ddl/user/user-create-user)
+* [How to Grant Privileges to a User](/sql/sql-commands/ddl/user/grant-privileges)
+* [How to Revoke Privileges from a User](/sql/sql-commands/ddl/user/revoke-privileges)
+* [How to Create a Role](/sql/sql-commands/ddl/user/user-create-role)
+* [How to Grant Privileges to a Role](/sql/sql-commands/ddl/user/grant-privileges)
+* [How to Grant Role to a User](/sql/sql-commands/ddl/user/grant-role)
+* [How to Revoke Role from a User](/sql/sql-commands/ddl/user/revoke-role)
 
 </TabItem>
 </Tabs>

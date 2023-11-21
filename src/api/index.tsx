@@ -6,3 +6,6 @@ export function getAnswers(question: string) {
     query: question
   });
 }
+export function evaluateDocs(data: {domain: string, path: string, action: 'Yes' | 'No', comment?: string}) {
+  return axios.post('/api/v1/doc-feedbacks', data);
+}

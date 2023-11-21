@@ -135,7 +135,7 @@ The following steps will guide you through the process of locally deploying Data
 
 ### Step 1. Downloading Databend
 
-1. Download the installation package suitable for your platform from the [Download](https://databend.rs/download) page.
+1. Download the installation package suitable for your platform from the [Download](/download) page.
 
 2. Extract the installation package to a local directory.
 
@@ -224,6 +224,6 @@ SELECT
 After deploying Databend, you might need to learn about the following topics:
 
 - [SQL Clients](/doc/sql-clients): Learn to connect to Databend using SQL clients.
-- [Manage Settings](../13-sql-reference/42-manage-settings.md): Optimize Databend for your needs.
+- [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs.
 - [Load & Unload Data](/doc/load-data): Manage data import/export in Databend.
 - [Visualize](/doc/visualize): Integrate Databend with visualization tools for insights.

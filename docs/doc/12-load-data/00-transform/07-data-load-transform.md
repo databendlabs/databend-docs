@@ -2,7 +2,7 @@
 title: Transforming Data on Load
 ---
 
-Databend offers a powerful feature that enables data transformation during the loading process using the [COPY INTO](/14-sql-commands/10-dml/dml-copy-into-table.md) command, with this syntax:
+Databend offers a powerful feature that enables data transformation during the loading process using the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command, with this syntax:
 
 ```sql
 COPY INTO [<database>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]

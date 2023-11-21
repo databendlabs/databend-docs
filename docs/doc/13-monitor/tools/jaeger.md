@@ -42,7 +42,7 @@ export DATABEND_OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4317
 
 ### Step 3. Deploy Databend
 
-1. Follow the [Deployment Guide](https://databend.rs/doc/deploy) to deploy Databend.
+1. Follow the [Deployment Guide](/doc/deploy) to deploy Databend.
 
 2. Run the following SQL statements:
 

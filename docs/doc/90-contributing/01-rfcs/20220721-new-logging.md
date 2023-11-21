@@ -65,7 +65,7 @@ clickhouse (HTTP): http://root:@localhost:9001
 
 Useful Links
 
-Documentation:    https://databend.rs
+Documentation:    https://docs.databend.com
 Looking for help: https://github.com/datafuselabs/databend/discussions
 ```
 

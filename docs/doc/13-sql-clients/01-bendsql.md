@@ -152,5 +152,5 @@ from file:
 :::
 
 :::tip
-For more information about `--format-opt`, please refer to [Input & Output File Formats](../13-sql-reference/50-file-format-options.md).
+For more information about `--format-opt`, please refer to [Input & Output File Formats](/sql/sql-reference/file-format-options).
 :::

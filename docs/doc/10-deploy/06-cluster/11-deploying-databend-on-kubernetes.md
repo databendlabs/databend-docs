@@ -590,6 +590,6 @@ Note the `serviceMonitor` should be enabled when deploying meta and query cluste
 After deploying Databend, you might need to learn about the following topics:
 
 - [SQL Clients](/doc/sql-clients): Learn to connect to Databend using SQL clients.
-- [Manage Settings](../../13-sql-reference/42-manage-settings.md): Optimize Databend for your needs. 
+- [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs. 
 - [Load & Unload Data](/doc/load-data): Manage data import/export in Databend.
 - [Visualize](/doc/visualize): Integrate Databend with visualization tools for insights.

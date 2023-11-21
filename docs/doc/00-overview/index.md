@@ -27,8 +27,8 @@ import TabItem from '@theme/TabItem';
 
 - Supports atomic operations such as `SELECT`, `INSERT`, `DELETE`, `UPDATE`, `REPLACE`, `COPY`, and `MERGE`.
 - Provides advanced features such as Time Travel and Multi Catalog (Apache Hive / Apache Iceberg).
-- Supports [ingestion of semi-structured data](https://databend.rs/doc/load-data/load) in various formats like CSV, JSON, and Parquet.
-- Supports semi-structured data types such as [ARRAY, MAP, and JSON](https://databend.rs/doc/sql-reference/data-types/).
+- Supports [ingestion of semi-structured data](/doc/load-data/load) in various formats like CSV, JSON, and Parquet.
+- Supports semi-structured data types such as [ARRAY, MAP, and JSON](/sql/sql-reference/data-types/).
 - Supports Git-like MVCC storage for easy querying, cloning, and restoration of historical data.
 
 </TabItem>

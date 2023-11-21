@@ -17,7 +17,6 @@
  @import './zoom-img.scss'; // 图片放大
  @import './icons-color.scss'; // 自定义 icon 颜色类
  @import './toc.scss'; // TOC
- @import '~rc-tooltip/assets/bootstrap.css';
 
 .container {
   padding-right: 2rem;
@@ -190,3 +189,8 @@ h1, h2, h3, h4, h5, h6, p {
 div[class^='announcementBar'] {
   z-index: 3;
 }
+// antd start
+.ant-input:focus{
+  box-shadow: 0px 0px 0px 4px rgba(1, 117, 246, 0.25), inset 0px 0px 0px 0.5px #0175F6;
+}
+// antd end

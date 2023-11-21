@@ -37,7 +37,7 @@ SELECT * FROM 's3://mybucket/dataset databend/' ...
 
 ### FILE_FORMAT
 
-The FILE_FORMAT parameter allows you to specify the format of your file, which can be one of the following options: CSV, TSV, NDJSON, PARQUET, XML, or a custom format that you've defined using the [CREATE FILE FORMAT](/14-sql-commands/00-ddl/100-file-format/01-ddl-create-file-format.md) command. For example, 
+The FILE_FORMAT parameter allows you to specify the format of your file, which can be one of the following options: CSV, TSV, NDJSON, PARQUET, XML, or a custom format that you've defined using the [CREATE FILE FORMAT](/sql/sql-commands/ddl/file-format/ddl-create-file-format) command. For example, 
 
 ```sql
 CREATE FILE FORMAT my_custom_csv TYPE=CSV FIELD_DELIMITER='\t';
@@ -101,7 +101,7 @@ COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (type = NDJ
 
 ### connection_parameters
 
-To query data files in a bucket or container on your storage service, provide the necessary connection parameters. For the available connection parameters for each storage service, refer to [Connection Parameters](/13-sql-reference/51-connect-parameters.md).
+To query data files in a bucket or container on your storage service, provide the necessary connection parameters. For the available connection parameters for each storage service, refer to [Connection Parameters](/sql/sql-reference/connect-parameters).
 
 ### uri
 
@@ -126,7 +126,7 @@ This example shows how to query data in a Parquet file stored in different locat
 <Tabs groupId="query2stage">
 <TabItem value="Stages" label="Stages">
 
-Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) and you have uploaded it to your user stage, an internal stage named *my_internal_stage*, and an external stage named *my_external_stage*. To upload files to a stage, use the [PRESIGN](../../14-sql-commands/00-ddl/40-stage/presign.md) method.
+Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) and you have uploaded it to your user stage, an internal stage named *my_internal_stage*, and an external stage named *my_external_stage*. To upload files to a stage, use the [PRESIGN](/sql/sql-commands/ddl/stage/presign) method.
 
 ```sql
 -- Query file in user stage
