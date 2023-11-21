@@ -1,6 +1,9 @@
 ---
 title: Input & Output File Formats
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.216"/>
 
 Databend accepts a variety of file formats both as a source and as a target for data loading or unloading. This page explains the supported file formats and their available options.
 
@@ -129,21 +132,19 @@ ERROR_ON_COLUMN_COUNT_MISMATCH is a boolean option that, when set to true, speci
 
 Specifies the compression algorithm.
 
-**Default**: `NONE`
-
 **Available Values**:
 
-| Values        | Notes                                                           |
-| ------------- | --------------------------------------------------------------- |
-| `AUTO`        | Auto detect compression via file extensions                     |
-| `GZIP`        |                                                                 |
-| `BZ2`         |                                                                 |
-| `BROTLI`      | Must be specified if loading/unloading Brotli-compressed files. |
-| `ZSTD`        | Zstandard v0.8 (and higher) is supported.                       |
-| `DEFLATE`     | Deflate-compressed files (with zlib header, RFC1950).           |
-| `RAW_DEFLATE` | Deflate-compressed files (without any header, RFC1951).         |
-| `XZ`          |                                                                 |
-| `NONE`        | Indicates that the files have not been compressed.              |
+| Value            | Description                                                     |
+|------------------|-----------------------------------------------------------------|
+| `NONE` (Default) | Indicates that the files are not compressed.                    |
+| `AUTO`           | Auto detect compression via file extensions                     |
+| `GZIP`           |                                                                 |
+| `BZ2`            |                                                                 |
+| `BROTLI`         | Must be specified if loading/unloading Brotli-compressed files. |
+| `ZSTD`           | Zstandard v0.8 (and higher) is supported.                       |
+| `DEFLATE`        | Deflate-compressed files (with zlib header, RFC1950).           |
+| `RAW_DEFLATE`    | Deflate-compressed files (without any header, RFC1951).         |
+| `XZ`             |                                                                 |
 
 ## TSV Options
 
@@ -182,6 +183,27 @@ Separates fields in a record.
 Same as [the COMPRESSION option for CSV](#compression).
 
 ## NDJSON Options
+
+### NULL_FIELD_AS
+
+Specifies how to handle null values during data loading. Refer to the options in the table below for possible configurations.
+
+| Available Values        | Description                                                                                             |
+|-------------------------|---------------------------------------------------------------------------------------------------------|
+| `NULL`                    | Interprets null values as NULL for nullable fields. An error will be generated for non-nullable fields. |
+| `FIELD_DEFAULT` (Default) | Uses the default value of the field for null values.                                                    |
+| `TYPE_DEFAULT`            | Uses the default value of the field's data type for null values.                                        |
+
+### MISSING_FIELD_AS
+
+Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
+
+| Available Values | Description                                                                                   |
+|------------------|-----------------------------------------------------------------------------------------------|
+| `ERROR` (Default)  | Generates an error if a missing field is encountered.                                         |
+| `NULL`             | Interprets missing fields as NULL values. An error will be generated for non-nullable fields. |
+| `FIELD_DEFAULT`    | Uses the default value of the field for missing fields.                                       |
+| `TYPE_DEFAULT`     | Uses the default value of the field's data type for missing fields.                           |
 
 ### COMPRESSION
 
