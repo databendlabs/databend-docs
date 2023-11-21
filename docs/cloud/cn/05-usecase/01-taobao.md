@@ -16,8 +16,6 @@ import StepContent from '@site/src/components/Steps/step-content';
 | 行为类型   | 字符串，枚举类型，包括：'pv'：商品详情页 pv，等价于点击； 'buy'：商品购买； 'cart'：将商品加入购物车； 'fav'：收藏商品 |
 | 时间戳     | 行为发生的时间戳                                                                                                      |
 
-// mark
-
 ## 准备工作
 
 <StepsWrap>
@@ -152,7 +150,7 @@ COUNT(DISTINCT user_id) as uv
 FROM user_behavior;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E6%80%BB%E8%AE%BF%E9%97%AE%E9%87%8F%E5%92%8C%E7%94%A8%E6%88%B7%E6%95%B0.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-1.png)
 
 </StepContent>
 
@@ -167,11 +165,11 @@ GROUP BY day
 ORDER BY day;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E6%97%A5%E5%9D%87%E8%AE%BF%E9%97%AE%E9%87%8F%E5%92%8C%E7%94%A8%E6%88%B7%E9%87%8F.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-2.png)
 
 也可以通过 [使用 Dashboard](../02-using-databend-cloud/02-dashboard.md) 功能，生成折线图：
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E6%97%A5%E5%9D%87%E8%AE%BF%E9%97%AE%E9%87%8F%E5%92%8C%E7%94%A8%E6%88%B7%E9%87%8F%E5%9B%BE%E8%A1%A8.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-3.png)
 
 </StepContent>
 
@@ -196,7 +194,7 @@ select sum(case when buy > 1 then 1 else 0 end) / sum(case when buy > 0 then 1 e
 from user_behavior_count;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E5%A4%8D%E8%B4%AD%E7%8E%87.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-4.png)
 
 </StepContent>
 </StepsWrap>
@@ -224,7 +222,7 @@ from user_behavior_count
 ) as a;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E5%90%84%E7%8E%AF%E8%8A%82%E8%BD%AC%E5%8C%96%E7%8E%87.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-5.png)
 
 </StepContent>
 
@@ -243,7 +241,7 @@ FROM
 );
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E4%B8%80%E5%B0%8F%E6%97%B6%E5%AE%8C%E6%88%90.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-6.png)
 
 </StepContent>
 </StepsWrap>
@@ -264,11 +262,11 @@ group by hour
 order by hour;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E6%AF%8F%E6%97%A5%E8%B4%AD%E7%89%A9.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-7.png)
 
 也可以通过 [使用 Dashboard](../02-using-databend-cloud/02-dashboard.md) 功能，生成折线图：
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E6%AF%8F%E6%97%A5%E8%B4%AD%E7%89%A9%E5%9B%BE%E8%A1%A8.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-8.png)
 
 </StepContent>
 
@@ -286,11 +284,11 @@ group by weekday,day
 order by weekday;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E6%AF%8F%E5%91%A8%E8%B4%AD%E7%89%A9.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-9.png)
 
 也可以通过 [使用 Dashboard](../02-using-databend-cloud/02-dashboard.md) 功能，生成柱状图：
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E6%AF%8F%E5%91%A8%E8%B4%AD%E7%89%A9%E5%9B%BE%E8%A1%A8.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-10.png)
 
 </StepContent>
 </StepsWrap>
@@ -316,7 +314,7 @@ group by user_id
 limit 10;
 ```
 
-![Alt text](@site/static/public/img/usecase/taobao-r.png)
+![Alt text](@site/static/public/img/usecase/taobao-11.png)
 
 </StepContent>
 
@@ -332,7 +330,7 @@ group by user_id
 limit 10;
 ```
 
-![Alt text](@site/static/public/img/usecase/taobao-f.png)
+![Alt text](@site/static/public/img/usecase/taobao-12.png)
 
 </StepContent>
 
@@ -379,7 +377,7 @@ order by score desc
 limit 20;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E7%94%A8%E6%88%B7%E5%88%86%E7%BB%84.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-13.png)
 
 </StepContent>
 </StepsWrap>
@@ -401,7 +399,7 @@ order by buy desc
 limit 10;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E9%94%80%E9%87%8F%E6%9C%80%E9%AB%98%E4%BA%A7%E5%93%81.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-14.png)
 
 </StepContent>
 
@@ -419,7 +417,7 @@ order by buy desc
 limit 10;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E9%94%80%E9%87%8F%E6%9C%80%E9%AB%98%E7%B1%BB%E5%88%AB.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-15.png)
 
 </StepContent>
 </StepsWrap>
@@ -443,7 +441,7 @@ insert into day_users select day, build_bitmap(list(user_id::UInt64)) from user_
 select day,bitmap_count(users) from day_users order by day;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%A4%A9UV.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-16.png)
 
 </StepContent>
 
@@ -457,7 +455,7 @@ from (select users from day_users where day='2017-11-25') a ,
 (select users from day_users where day='2017-12-02') b;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E7%94%A8%E6%88%B7%E5%88%86%E7%BB%84.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-17.png)
 
 </StepContent>
 
@@ -468,7 +466,7 @@ select bitmap_count(bitmap_not(b.users, a.users)) from (select users from day_us
 (select users from day_users where day='2017-12-02') b;
 ```
 
-<!-- ![Alt text](@site/static/public/img/usecase/taobao-%E7%9B%B8%E5%AF%B9%E6%96%B0%E5%A2%9E.png) -->
+![Alt text](@site/static/public/img/usecase/taobao-18.png)
 
 </StepContent>
 </StepsWrap>

@@ -24,8 +24,7 @@ Databend Cloud 服务目前支持以下开通方式：
 1. 打开[阿里云市场](https://www.aliyun.com/search?k=%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%20Databend%20Cloud&scene=market)，并搜索关键字“databend cloud”。
 2. 找到“云原生数据仓库 Databend Cloud”后，点击“立即开通”。
 
-// mark
-<!-- ![Alt text](@site/static/img/documents/getting-started/Screenshot%202023-02-06%20at%203.27.10%20PM.png) -->
+![Alt text](@site/static/img/documents/getting-started/aliyun-buy.png)
 
 3. 选择同意相关协议，然后点击“开通”。
 
