@@ -170,4 +170,4 @@ Result:
 
 ## Functions
 
-See [Variant Functions](/doc/sql-functions/semi-structured-functions).
+See [Variant Functions](/sql/sql-functions/semi-structured-functions).

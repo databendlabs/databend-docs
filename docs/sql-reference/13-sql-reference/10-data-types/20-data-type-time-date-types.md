@@ -157,7 +157,7 @@ Result:
 
 ## Functions
 
-See [Date & Time Functions](/doc/sql-functions/datetime-functions).
+See [Date & Time Functions](/sql/sql-functions/datetime-functions).
 
 ### Formatting Date and Time
 

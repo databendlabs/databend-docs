@@ -2,7 +2,7 @@
 title: UNSET
 ---
 
-Set one or more system settings back to their default values. The settings will also be reset to the initial SESSION level if they were set to GLOBAL level. See [Examples](#examples) for how to reset a GLOBAL setting with UNSET. For more information about the setting levels, see [Managing Settings](/doc/sql-reference/manage-settings). To show all the current settings, use [SHOW SETTINGS](show-settings.md).
+Set one or more system settings back to their default values. The settings will also be reset to the initial SESSION level if they were set to GLOBAL level. See [Examples](#examples) for how to reset a GLOBAL setting with UNSET. For more information about the setting levels, see [Managing Settings](/sql/sql-reference/manage-settings). To show all the current settings, use [SHOW SETTINGS](show-settings.md).
 
 See also: [SET](set-global.md)
 

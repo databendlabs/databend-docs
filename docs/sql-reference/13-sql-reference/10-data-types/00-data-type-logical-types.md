@@ -27,7 +27,7 @@ String Conversion:
 
 ## Functions
 
-See [Conditional Functions](/doc/sql-functions/conditional-functions/).
+See [Conditional Functions](/sql/sql-functions/conditional-functions/).
 
 ## Example
 

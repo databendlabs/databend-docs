@@ -5,7 +5,7 @@ description:
   Databend Access Control Privileges
 ---
 
-Databend leverages a role-based access control model to secure your data. In Databend, you can control which operations a user can perform on a specific database object (for example, database, table, view, stage, or UDF) by granting privileges to a role and then assigning the role to the user, or granting privileges to the user directly. The privileges granted to a user literally determine which operations the user can perform. To learn about the available commands for managing users and roles, as well as granting or revoking privileges, please refer to the  [Link](/doc/reference/sql/ddl/user) 
+Databend leverages a role-based access control model to secure your data. In Databend, you can control which operations a user can perform on a specific database object (for example, database, table, view, stage, or UDF) by granting privileges to a role and then assigning the role to the user, or granting privileges to the user directly. The privileges granted to a user literally determine which operations the user can perform. To learn about the available commands for managing users and roles, as well as granting or revoking privileges, please refer to the  [Link](/sql/sql-commands/ddl/user/) 
 
 Databend offers a range of privileges that allow you to exercise fine-grained control over your database objects. Databend privileges can be categorized into the following types:
 

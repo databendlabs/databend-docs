@@ -29,7 +29,7 @@ CREATE TABLE test_numeric(tiny TINYINT, tiny_unsigned TINYINT UNSIGNED)
 
 ## Functions
 
-See [Numeric Functions](/doc/sql-functions/numeric-functions).
+See [Numeric Functions](/sql/sql-functions/numeric-functions).
 
 ## Examples
 

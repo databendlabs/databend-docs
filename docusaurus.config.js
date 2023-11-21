@@ -56,9 +56,9 @@ const config = {
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
                 docs: {
-                    path: './docs/databend',
+                    path: './docs/doc',
                     routeBasePath: 'doc',
-                    sidebarPath: require.resolve('./docs/databend/sidebars.js'),
+                    sidebarPath: require.resolve('./docs/doc/sidebars.js'),
                     editUrl: ({ locale, docPath }) => {
                         // @ts-ignore
                         if (locale !== config.i18n.defaultLocale) {
@@ -100,17 +100,17 @@ const config = {
         'docusaurus-plugin-sass',
         './src/plugins/global-sass-var-inject',
         './src/plugins/fetch-databend-releases',
-        [
-          '@docusaurus/plugin-client-redirects',
-          {
-            redirects: [
-              {
-                to: '/doc',
-                from: ['/']
-              }
-            ],
-          },
-        ],
+        // [
+        //   '@docusaurus/plugin-client-redirects',
+        //   {
+        //     redirects: [
+        //       {
+        //         to: '/doc',
+        //         from: ['/']
+        //       }
+        //     ],
+        //   },
+        // ],
         [
             '@docusaurus/plugin-content-docs',
             /** @type {import('@docusaurus/plugin-content-docs').Options} */

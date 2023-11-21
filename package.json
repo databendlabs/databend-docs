@@ -5,7 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "remark": "remark",
-    "remark:docs:once": "npm run remark -- --quiet --frail ../docs/doc",
+    "remark:docs:once": "npm run remark -- --quiet --frail ./docs/doc",
     "remark:blog:once": "npm run remark -- --quiet --frail ./blog",
     "generate-release-index": "node generate-release-index.js",
     "start": "site=cn site_env=development docusaurus start",
@@ -13,7 +13,8 @@
     "dev": "npm run generate-release-index && npm run start",
     "dev:cn": "npm run dev",
     "dev:en": "npm run start:en",
-    "build": "site_env=production docusaurus build",
+    "prepublish": "npm run generate-release-index",
+    "build": "site_env=production site=en docusaurus build",
     "build:cn": "site=cn docusaurus build",
     "build:en": "site=en docusaurus build",
     "swizzle": "docusaurus swizzle",
