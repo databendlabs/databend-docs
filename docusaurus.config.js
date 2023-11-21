@@ -4,6 +4,7 @@ const { site } = process.env;
 const isCN = (site || 'cn') === 'cn';
 const lang = isCN ? 'zh' : 'en';
 const homeLink = isCN ? 'https://www.databend.cn': 'https://www.databend.com';
+const cloudLink = isCN ? 'https://app.databend.cn' :'https://app.databend.com';
 const TwitterSvg =
     '<svg width="20" style="top: 5px; position: relative" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>';
 
@@ -47,8 +48,10 @@ const config = {
         },
     ],
     customFields: {
-        blogTags: ['weekly', 'databend'],
-        askBendUrl: isProduction ? ASKBEND_URL : ''
+      homeLink,
+      cloudLink,
+      blogTags: ['weekly', 'databend'],
+      askBendUrl: isProduction ? ASKBEND_URL : ''
     },
     presets: [
         [
