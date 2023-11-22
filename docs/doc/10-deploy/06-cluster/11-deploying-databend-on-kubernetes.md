@@ -99,7 +99,7 @@ import TabItem from '@theme/TabItem';
 
   ````
 
-* **[Recommended]** Ensure Prometheus Operator running in Kubernetes cluster, if you want to monitor the status for Databend Meta and Databend Query.
+* **Recommended** Ensure Prometheus Operator running in Kubernetes cluster, if you want to monitor the status for Databend Meta and Databend Query.
 
   :::tip Steps for a simple Kube Prometheus Stack
 
