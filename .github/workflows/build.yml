@@ -29,11 +29,13 @@ jobs:
           role-session-name: github-actions-${{ github.run_id }}
           oidc-provider-arn: acs:ram::1953761221157405:oidc-provider/github
           set-outputs: 'true'
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ steps.aliyun.outputs.access-key-id }}
+          aws configure set aws_secret_access_key ${{ steps.aliyun.outputs.access-key-secret }}
+          aws configure set region cn-beijing
+          aws configure set endpoint_url https://oss-cn-beijing.aliyuncs.com
+          aws configure set addressing_style virtual
       - name: Sync to OSS
-        env:
-          AWS_ENDPOINT_URL: oss-cn-beijing.aliyuncs.com
-          AWS_ACCESS_KEY_ID: ${{ steps.aliyun.outputs.access-key-id }}
-          AWS_SECRET_ACCESS_KEY: ${{ steps.aliyun.outputs.access-key-secret }}
-          AWS_REGION: cn-beijing
         run: |
           aws s3 sync ./build/ s3://databend-docs/ --delete
