@@ -38,7 +38,7 @@ const config = {
     baseUrl: '/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'throw',
-    favicon: 'img/logo/logo-no-text.svg',
+    favicon: 'img/rect-icon.png',
     organizationName: 'datafuselabs',
     projectName: 'databend',
     i18n: {
@@ -221,7 +221,7 @@ const config = {
                 title: 'Databend',
                 logo: {
                     alt: 'Databend Logo',
-                    href: homeLink,
+                    href: '/',
                     target: '_self',
                     src: 'img/logo.svg',
                 },
@@ -229,29 +229,29 @@ const config = {
                     {
                         to: '/doc',
                         label: 'Databend',
-                        position: 'left',
+                        position: 'right',
                     },
                     {
                       to: '/cloud',
                       label: 'Cloud',
-                      position: 'left',
+                      position: 'right',
                     },
                     {
                       to: '/sql',
                       label: 'SQL Reference',
-                      position: 'left',
+                      position: 'right',
                     },
                     // 
                     {
                       to: '/release-notes',
                       label: 'Releases',
-                      position: 'left',
+                      position: 'right',
                     },
                     // { to: '/blog', label: 'Blog', position: 'left' }, // or position: 'right'
                     {
                         to: '/download',
                         label: 'Downloads',
-                        position: 'left',
+                        position: 'right',
                     },
                 ],
             },
@@ -296,7 +296,7 @@ const config = {
                 additionalLanguages: ['toml', 'rust'],
             },
             algolia: algolia,
-            image: 'img/logo/logo-no-text.png',
+            image:  'img/rect-icon.png',
             metadata: [
                 { name: 'twitter:card', content: 'summary_large_image' },
                 { name: 'twitter:site', content: '@databend.rs' }
