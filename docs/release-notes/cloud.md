@@ -1,5 +1,7 @@
 ---
 title: Release Notes
+sidebar_position: 1
+sidebar_label: Databend Cloud
 ---
 
 This Release Notes page provides information about recent features, enhancements, and bug fixes for Databend Cloud.
