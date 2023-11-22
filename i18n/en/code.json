@@ -429,5 +429,33 @@
   "Join our growing community": {
     "message": "Join our growing community",
     "description": "Join our growing community"
+  },
+  "Start your trial": {
+    "message": "Start your trial",
+    "description": "Start your trial"
+  },
+  "Databend Cloud Now Available": {
+    "message": "Databend Cloud Now Available",
+    "description": "Databend Cloud Now Available"
+  },
+  "Register now and get a $200 coupon": {
+    "message": "Register now and get a $200 coupon",
+    "description": "Register now and get a $200 coupon."
+  },
+  "What is Databend?": {
+    "message": "What is Databend?",
+    "description": "What is Databend?"
+  },
+  "The Future of": {
+    "message": "The Future of",
+    "description": "The Future of"
+  },
+  "Cloud Data Analytics": {
+    "message": "Cloud Data Analytics",
+    "description": "Cloud Data Analytics"
+  },
+  "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics.": {
+    "message": "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics.",
+    "description": "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics."
   }
 }

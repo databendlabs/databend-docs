@@ -5,7 +5,7 @@ sidebar_position: 1
 slug: '/'
 ---
 
-本页面提供有关 Databend Cloud 新功能、周边工具以及问题修复的更新信息。
+本页面提供有关 [Databend Cloud](https://app.databend.cn/) 新功能、周边工具以及问题修复的更新信息。
 
 ## 2023 年 10 月 30 日
 

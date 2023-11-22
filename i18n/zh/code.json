@@ -445,5 +445,33 @@
   "Join our growing community": {
     "message": "加入我们的社区",
     "description": "Join our growing community"
+  },
+  "Start your trial": {
+    "message": "开通 Databend Cloud",
+    "description": "Start your trial"
+  },
+  "Databend Cloud Now Available": {
+    "message": "Databend Cloud 现已开放注册",
+    "description": "Databend Cloud Now Available"
+  },
+  "Register now and get a $200 coupon": {
+    "message": "现在注册即可获得价值 200 元的优惠券",
+    "description": "Register now and get a $200 coupon."
+  },
+  "What is Databend?": {
+    "message": "什么是 Databend?",
+    "description": "What is Databend?"
+  },
+  "The Future of": {
+    "message": "",
+    "description": "The Future of"
+  },
+  "Cloud Data Analytics": {
+    "message": "云数据分析的未来",
+    "description": "Cloud Data Analytics"
+  },
+  "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics.": {
+    "message": "Databend - 替代 Snowflake 的最佳方案。高性价比且简单易用，适用于大规模数据分析。",
+    "description": "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics."
   }
 }
