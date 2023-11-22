@@ -24,7 +24,7 @@ mdFiles?.forEach((file, index) => {
   const V = version.slice(0, -3);
   const varName = `MD${index + 1}`;
   imports += `import ${varName} from '../release-nightly/${file}';\n`;
-  content += `\n\n<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/${V}" number="" title="${formatTime(time)}">\n\n<p>${V}</p>\n<${varName} />\n\n</StepContent>`;
+  content += `\n\n<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/${V}" number="" title="${formatTime(time)} (${V})">\n<${varName} />\n\n</StepContent>`;
   // posts.push({title: V, link: `https://github.com/datafuselabs/databend/releases/tag/${V}`, description: 'Databend release notes', pubDate: time})
 });
 
