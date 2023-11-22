@@ -22,6 +22,7 @@ jobs:
       # - run: |
       #     yarn install
       #     yarn build:cn
+      - run: export
       - name: Configure Aliyun credentials
         id: aliyun
         uses: mozillazg/alibabacloud-oidc-auth@v1
