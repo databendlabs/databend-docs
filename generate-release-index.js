@@ -5,8 +5,8 @@ const path = require('path');
 const docsDir = path.join(__dirname, './docs/release-nightly');
 const releaseNote = path.join(__dirname, './docs/release-notes');
 const releaseNoteCN = path.join(__dirname, './docs/release-notes-cn');
-const outputPath = path.join(releaseNote, 'index.md');
-const outputPathCN = path.join(releaseNoteCN, 'index.md');
+const outputPath = path.join(releaseNote, 'databend.md');
+const outputPathCN = path.join(releaseNoteCN, 'databend.md');
 
 function formatTime(dateStr) {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
