@@ -1,7 +1,7 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 const { site } = process.env;
-const isCN = (site || 'cn') === 'cn';
+const isCN = (site || 'en') === 'cn';
 const lang = isCN ? 'zh' : 'en';
 const homeLink = isCN ? 'https://www.databend.cn': 'https://www.databend.com';
 const cloudLink = isCN ? 'https://app.databend.cn' :'https://app.databend.com';
@@ -167,7 +167,7 @@ const config = {
           /** @type {import('@docusaurus/plugin-content-docs').Options} */
           {
             id: 'releaseNotes',
-            path: './docs/release-notes',
+            path: `./docs/${isCN ? 'release-notes-cn' : 'release-notes'}`,
             routeBasePath: 'release-notes',
             sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
             editUrl: ({ locale, devPath }) => {
@@ -231,13 +231,13 @@ const config = {
                     // 
                     {
                       to: '/release-notes',
-                      label: 'Release Notes',
+                      label: 'Releases',
                       position: 'left',
                     },
                     // { to: '/blog', label: 'Blog', position: 'left' }, // or position: 'right'
                     {
                         to: '/download',
-                        label: 'Download',
+                        label: 'Downloads',
                         position: 'left',
                     },
                 ],
