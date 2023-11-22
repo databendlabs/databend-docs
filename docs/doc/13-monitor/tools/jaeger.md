@@ -1,8 +1,11 @@
 ---
 title: Jaeger
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-[Jaeger](https://github.com/jaegertracing/jaeger) is an open-source, end-to-end distributed tracing tool that originated from [Uber](https://www.uber.com/). It helps monitor and troubleshoot microservices-based applications.
+<FunctionDescription description="Introduced or updated: v1.2.199"/>
+
+[Jaeger](https://github.com/jaegertracing/jaeger) is an open-source, end-to-end distributed tracing tool that originated from [Uber](https://www.uber.com/). It helps monitor and troubleshoot microservices-based applications. 
 
 Databend has the ability to export tracing data to Jaeger by integrating with the [OpenTelemetry](https://opentelemetry.io/) SDK. The following tutorial shows you how to deploy and use Jaeger to trace Databend.
 
@@ -28,23 +31,22 @@ docker run --rm -d --name jaeger \
   jaegertracing/all-in-one:latest
 ```
 
-### Step 2. Set Environment Variables
-
-Set the following environment variables according to your actual tracing level requirements and Jaeger endpoint.
-
-- `DATABEND_TRACING_CAPTURE_LOG_LEVEL`: Sets the log level that will attach to spans.  
-- `DATABEND_OTEL_EXPORTER_OTLP_ENDPOINT`: Sets the endpoint the OpenTelemetry Collector is listening on.
-
-```bash
-export DATABEND_TRACING_CAPTURE_LOG_LEVEL=DEBUG
-export DATABEND_OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4317
-```
-
-### Step 3. Deploy Databend
+### Step 2. Deploy Databend
 
 1. Follow the [Deployment Guide](/doc/deploy) to deploy Databend.
 
-2. Run the following SQL statements:
+2. Enable tracing in the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For more information, see [Enabling with Configuration File](../30-tracing.md#enabling-with-configuration-file).
+
+```toml title='databend-query.toml'
+...
+[log.tracing]
+capture_log_level = "DEBUG"
+on = "true"
+otlp_endpoint = "http://127.0.0.1:4317"
+...
+```
+
+3. Start Databend, and run the following SQL statements:
 
 ```sql
 CREATE TABLE t1(a INT);
@@ -52,7 +54,7 @@ INSERT INTO t1 VALUES(1);
 INSERT INTO t1 SELECT * FROM t1;
 ```
 
-### Step 4. Check Tracing Information on Jaegar
+### Step 3. Check Tracing Information on Jaegar
 
 1. Go to <http://127.0.0.1:16686/> and select the **Search** tab.
 
