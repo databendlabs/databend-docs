@@ -1,7 +1,3 @@
 {
-  "label": "General Reference",
-  "link": {
-    "type": "generated-index",
-    "slug": "/sql-reference"
-  }
+  "label": "General Reference"
 }
