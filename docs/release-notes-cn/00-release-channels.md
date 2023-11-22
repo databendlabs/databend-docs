@@ -1,6 +1,6 @@
 ---
 title: Databend Release Channels
-sidebar_label: Databend Release Channel
+sidebar_label: Databend Release Channels
 sidebar_position: 3
 description:
   What's Databend release channels?
