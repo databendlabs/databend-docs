@@ -1,0 +1,162 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.doc.category.General Reference": {
+    "message": "General Reference",
+    "description": "The label for category General Reference in sidebar doc"
+  },
+  "sidebar.doc.category.Data Types": {
+    "message": "Data Types",
+    "description": "The label for category Data Types in sidebar doc"
+  },
+  "sidebar.doc.category.System Tables": {
+    "message": "System Tables",
+    "description": "The label for category System Tables in sidebar doc"
+  },
+  "sidebar.doc.category.Table Engines": {
+    "message": "Table Engines",
+    "description": "The label for category Table Engines in sidebar doc"
+  },
+  "sidebar.doc.category.SQL Commands": {
+    "message": "SQL Commands",
+    "description": "The label for category SQL Commands in sidebar doc"
+  },
+  "sidebar.doc.category.DDL Commands": {
+    "message": "DDL Commands",
+    "description": "The label for category DDL Commands in sidebar doc"
+  },
+  "sidebar.doc.category.Catalog": {
+    "message": "Catalog",
+    "description": "The label for category Catalog in sidebar doc"
+  },
+  "sidebar.doc.category.Database": {
+    "message": "Database",
+    "description": "The label for category Database in sidebar doc"
+  },
+  "sidebar.doc.category.Table": {
+    "message": "Table",
+    "description": "The label for category Table in sidebar doc"
+  },
+  "sidebar.doc.category.View": {
+    "message": "View",
+    "description": "The label for category View in sidebar doc"
+  },
+  "sidebar.doc.category.User & Role": {
+    "message": "User & Role",
+    "description": "The label for category User & Role in sidebar doc"
+  },
+  "sidebar.doc.category.Stage": {
+    "message": "Stage",
+    "description": "The label for category Stage in sidebar doc"
+  },
+  "sidebar.doc.category.Presign": {
+    "message": "Presign",
+    "description": "The label for category Presign in sidebar doc"
+  },
+  "sidebar.doc.category.File Format": {
+    "message": "File Format",
+    "description": "The label for category File Format in sidebar doc"
+  },
+  "sidebar.doc.category.Cluster Key": {
+    "message": "Cluster Key",
+    "description": "The label for category Cluster Key in sidebar doc"
+  },
+  "sidebar.doc.category.Aggregating Index": {
+    "message": "Aggregating Index",
+    "description": "The label for category Aggregating Index in sidebar doc"
+  },
+  "sidebar.doc.category.User-Defined Function": {
+    "message": "User-Defined Function",
+    "description": "The label for category User-Defined Function in sidebar doc"
+  },
+  "sidebar.doc.category.External Function": {
+    "message": "External Function",
+    "description": "The label for category External Function in sidebar doc"
+  },
+  "sidebar.doc.category.Masking Policy": {
+    "message": "Masking Policy",
+    "description": "The label for category Masking Policy in sidebar doc"
+  },
+  "sidebar.doc.category.Network Policy": {
+    "message": "Network Policy",
+    "description": "The label for category Network Policy in sidebar doc"
+  },
+  "sidebar.doc.category.Share": {
+    "message": "Share",
+    "description": "The label for category Share in sidebar doc"
+  },
+  "sidebar.doc.category.Share Endpoint": {
+    "message": "Share Endpoint",
+    "description": "The label for category Share Endpoint in sidebar doc"
+  },
+  "sidebar.doc.category.DML Commands": {
+    "message": "DML Commands",
+    "description": "The label for category DML Commands in sidebar doc"
+  },
+  "sidebar.doc.category.Query Syntax": {
+    "message": "Query Syntax",
+    "description": "The label for category Query Syntax in sidebar doc"
+  },
+  "sidebar.doc.category.Query Operators": {
+    "message": "Query Operators",
+    "description": "The label for category Query Operators in sidebar doc"
+  },
+  "sidebar.doc.category.Administration Commands": {
+    "message": "Administration Commands",
+    "description": "The label for category Administration Commands in sidebar doc"
+  },
+  "sidebar.doc.category.Explain Commands": {
+    "message": "Explain Commands",
+    "description": "The label for category Explain Commands in sidebar doc"
+  },
+  "sidebar.doc.category.SQL Functions": {
+    "message": "SQL Functions",
+    "description": "The label for category SQL Functions in sidebar doc"
+  },
+  "sidebar.doc.category.Aggregate Functions": {
+    "message": "Aggregate Functions",
+    "description": "The label for category Aggregate Functions in sidebar doc"
+  },
+  "sidebar.doc.category.Date & Time Functions": {
+    "message": "Date & Time Functions",
+    "description": "The label for category Date & Time Functions in sidebar doc"
+  },
+  "sidebar.doc.category.String Functions": {
+    "message": "String Functions",
+    "description": "The label for category String Functions in sidebar doc"
+  },
+  "sidebar.doc.category.AI Functions": {
+    "message": "AI Functions",
+    "description": "The label for category AI Functions in sidebar doc"
+  },
+  "sidebar.doc.category.IP Address Functions": {
+    "message": "IP Address Functions",
+    "description": "The label for category IP Address Functions in sidebar doc"
+  },
+  "sidebar.doc.category.Semi-Structured Functions": {
+    "message": "Semi-Structured Functions",
+    "description": "The label for category Semi-Structured Functions in sidebar doc"
+  },
+  "sidebar.doc.category.System Functions": {
+    "message": "System Functions",
+    "description": "The label for category System Functions in sidebar doc"
+  },
+  "sidebar.doc.category.Table Functions": {
+    "message": "Table Functions",
+    "description": "The label for category Table Functions in sidebar doc"
+  },
+  "sidebar.doc.category.Other Functions": {
+    "message": "Other Functions",
+    "description": "The label for category Other Functions in sidebar doc"
+  },
+  "sidebar.doc.category.Test Functions": {
+    "message": "Test Functions",
+    "description": "The label for category Test Functions in sidebar doc"
+  },
+  "sidebar.doc.category.Window Functions": {
+    "message": "Window Functions",
+    "description": "The label for category Window Functions in sidebar doc"
+  }
+}

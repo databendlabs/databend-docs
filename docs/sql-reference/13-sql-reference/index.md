@@ -1,5 +1,6 @@
 ---
 title: SQL Reference
+slug: '/'
 ---
 
 Welcome to SQL Reference – your swift-access guide for Databend essentials!

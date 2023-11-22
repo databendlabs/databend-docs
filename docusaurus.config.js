@@ -224,7 +224,7 @@ const config = {
                       position: 'left',
                     },
                     {
-                      to: '/sql/sql-reference',
+                      to: '/sql',
                       label: 'SQL Reference',
                       position: 'left',
                     },
@@ -249,7 +249,7 @@ const config = {
                         items: [
                             {
                                 label: 'Performance',
-                                to: `${homeLink}/blog/clickbench-databend-top`
+                                to: `https://www.databend.com/blog/clickbench-databend-top`
                             },
                             {
                                 label: 'Deployment',
