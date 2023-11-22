@@ -31,7 +31,7 @@ function HomepageHeader() {
             <Link
               className={clsx("button", styles.Button)}
               to="/cloud">
-              <LightDatabendCloudSingleSvg></LightDatabendCloudSingleSvg>
+              <LightDatabendCloudSingleSvg width={40}></LightDatabendCloudSingleSvg>
               Databend Cloud
             </Link>
           </div>
