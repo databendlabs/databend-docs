@@ -9,7 +9,7 @@
     "remark:blog:once": "npm run remark -- --quiet --frail ./blog",
     "generate-release-index": "node generate-release-index.js",
     "start:cn": "site=cn site_env=development docusaurus start",
-    "start:en": "site=en docusaurus start",
+    "start:en": "site=en site_env=development docusaurus start",
     "dev": "npm run start:en",
     "dev:cn": "npm run start:cn",
     "dev:en": "npm run dev",
