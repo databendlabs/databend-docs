@@ -16,6 +16,19 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const { site_env } = process.env;
 const isProduction = site_env === 'production';
 const ASKBEND_URL = 'https://ask.databend.rs';
+const algolia = isCN 
+? {
+  appId: 'FUCSAUXK2Q',
+  apiKey: '0f200c10999f19584ec9e31b5caa9065',
+  indexName: 'databend',
+  contextualSearch: true
+} 
+: {
+  appId: 'RL7MS9PKE8',
+  apiKey: 'cb5d6af612410c0fced698ff39ccd47a',
+  indexName: 'databend-rs-docs',
+  contextualSearch: true
+}
 /** @type {import('@docusaurus/types').Config} */
 const config = {
     title: 'Databend',
@@ -282,12 +295,7 @@ const config = {
                 darkTheme: darkCodeTheme,
                 additionalLanguages: ['toml', 'rust'],
             },
-            algolia: {
-                appId: 'RL7MS9PKE8',
-                apiKey: 'cb5d6af612410c0fced698ff39ccd47a',
-                indexName: 'databend-rs-docs',
-                contextualSearch: true,
-            },
+            algolia: algolia,
             image: 'img/logo/logo-no-text.png',
             metadata: [
                 { name: 'twitter:card', content: 'summary_large_image' },
