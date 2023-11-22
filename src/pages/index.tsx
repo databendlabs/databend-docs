@@ -8,16 +8,18 @@ import * as icons from "../components/Icons"
 import JoinCommunity from '../components/JoinCommunity';
 import { LightDatabendCloudSingleSvg } from 'databend-logos';
 
+
 function HomepageHeader() {
-  const { siteConfig } = useDocusaurusContext();
+  const { siteConfig: {customFields, tagline} } = useDocusaurusContext();
   const { GitHub, Book } = icons;
+  const isChina = customFields?.isChina;
   return (
     <div className={clsx('home-page', styles.homePage)}>
       <section className={clsx(styles.heroBanner, styles.bannerItemHeight)}>
         <div className={clsx('hero-container', styles.heroContainer)}>
           <GitHub size={48} color='var(--color-text-0)' />
           <h2 className={clsx('title', styles.title)}>The Future of <br /> <span>Cloud Data Analytics</span></h2>
-          <p className={clsx('subtitle', styles.subtitle)}>{siteConfig.tagline}</p>
+          <p className={clsx('subtitle', styles.subtitle)}>{tagline}</p>
           <div className={clsx('action-group', styles.actionGroup)}>
             <Link
               className={clsx("button", styles.Button, styles.Primary)}
@@ -41,7 +43,7 @@ function HomepageHeader() {
             </div>
             <Link
               className={clsx("button", styles.Button, styles.White)}
-              to="/cloud/getting-started/new-account">
+              to={isChina ? '/cloud/getting-started/activate' : '/cloud/getting-started/new-account'}>
               🚀 Start your trial
             </Link>
           </div>
