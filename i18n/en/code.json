@@ -384,5 +384,50 @@
   "theme.SearchModal.placeholder": {
     "message": "Search docs",
     "description": "The placeholder of the input of the DocSearch pop-up modal"
+  },
+  "Leave an optional comment…": {
+    "message": "Leave an optional comment…",
+    "description": "Leave an optional comment…"
+  },
+  "Vote": {
+    "message": "Vote",
+    "description": "Vote"
+  },
+  "Thanks for voting!": {
+    "message": "Thanks for voting!",
+    "description": "Thanks for voting!"
+  }
+  ,
+  "Did this page help you?": {
+    "message": "Did this page help you?",
+    "description": "Did this page help you?"
+  },
+  "Explore Databend Cloud for FREE": {
+    "message": "Explore Databend Cloud for FREE",
+    "description": "Try Databend Cloud for FREE"
+  },
+  "Low-cost": {
+    "message": "Low-cost",
+    "description": "Low-cost"
+  },
+  "Fast Analytics": {
+    "message": "Fast Analytics",
+    "description": "Fast Analytics"
+  },
+  "Easy Data Ingestion": {
+    "message": "Easy Data Ingestion",
+    "description": "Easy Data Ingestion"
+  },
+  "Elastic Scaling": {
+    "message": "Elastic Scaling",
+    "description": "Elastic Scaling"
+  },
+  "Try it today": {
+    "message": "Try it today",
+    "description": "Try it today"
+  },
+  "Join our growing community": {
+    "message": "Join our growing community",
+    "description": "Join our growing community"
   }
 }

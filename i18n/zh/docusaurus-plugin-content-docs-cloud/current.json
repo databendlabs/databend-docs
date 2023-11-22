@@ -1,0 +1,46 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.doc.category.产品简介": {
+    "message": "产品简介",
+    "description": "The label for category 产品简介 in sidebar doc"
+  },
+  "sidebar.doc.category.新手指南": {
+    "message": "新手指南",
+    "description": "The label for category 新手指南 in sidebar doc"
+  },
+  "sidebar.doc.category.使用教程": {
+    "message": "使用教程",
+    "description": "The label for category 使用教程 in sidebar doc"
+  },
+  "sidebar.doc.category.SQL 客户端": {
+    "message": "SQL 客户端",
+    "description": "The label for category SQL 客户端 in sidebar doc"
+  },
+  "sidebar.doc.category.使用 Databend Cloud": {
+    "message": "使用 Databend Cloud",
+    "description": "The label for category 使用 Databend Cloud in sidebar doc"
+  },
+  "sidebar.doc.category.数据导入和导出": {
+    "message": "数据导入和导出",
+    "description": "The label for category 数据导入和导出 in sidebar doc"
+  },
+  "sidebar.doc.category.可视化": {
+    "message": "可视化",
+    "description": "The label for category 可视化 in sidebar doc"
+  },
+  "sidebar.doc.category.管理": {
+    "message": "管理",
+    "description": "The label for category 管理 in sidebar doc"
+  },
+  "sidebar.doc.category.应用案例": {
+    "message": "应用案例",
+    "description": "The label for category 应用案例 in sidebar doc"
+  },
+  "sidebar.doc.category.开发者": {
+    "message": "开发者",
+    "description": "The label for category 开发者 in sidebar doc"
+  }
+}

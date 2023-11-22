@@ -1,0 +1,26 @@
+{
+  "title": {
+    "message": "Databend",
+    "description": "The title in the navbar"
+  },
+  "item.label.Databend": {
+    "message": "Databend",
+    "description": "Navbar item with label Databend"
+  },
+  "item.label.Cloud": {
+    "message": "Cloud",
+    "description": "Navbar item with label Cloud"
+  },
+  "item.label.SQL Reference": {
+    "message": "SQL 语法",
+    "description": "Navbar item with label SQL Reference"
+  },
+  "item.label.Releases": {
+    "message": "发布记录",
+    "description": "Navbar item with label Releases"
+  },
+  "item.label.Downloads": {
+    "message": "下载",
+    "description": "Navbar item with label Downloads"
+  }
+}

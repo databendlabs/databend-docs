@@ -5,6 +5,7 @@ import * as icons from "../Icons"
 import useGetReleases from '@site/src/hooks/useGetReleases';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
+import $t from '@site/src/utils/tools';
 interface TProps {
   titleAlign?: 'start' | 'end' | 'left' | 'right' | 'center' | 'justify' | 'match-parent';
   maxWidth?: number;
@@ -38,7 +39,7 @@ const JoinCommunity:  FC<TProps> = ({titleAlign, maxWidth, justifyContent}): Rea
     ]
   return (
     <div className={clsx('community', styles.Community)}>
-      <h6 style={{textAlign: titleAlign}}>Join our growing community</h6>
+      <h6 style={{textAlign: titleAlign}}>{$t('Join our growing community')}</h6>
       <div className={clsx('community-group', styles.CommunityGroup)} style={{maxWidth: maxWidth+'px', justifyContent}}>
         {community.map((item,index)=>{
           const Icon =( icons as any)[item.icon]

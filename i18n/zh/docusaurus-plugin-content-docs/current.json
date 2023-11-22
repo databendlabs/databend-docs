@@ -1,0 +1,74 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.doc.category.Databend Enterprise ": {
+    "message": "Databend Enterprise ",
+    "description": "The label for category Databend Enterprise  in sidebar doc"
+  },
+  "sidebar.doc.category.Develop": {
+    "message": "Develop",
+    "description": "The label for category Develop in sidebar doc"
+  },
+  "sidebar.doc.category.Deploy & Manage": {
+    "message": "Deploy & Manage",
+    "description": "The label for category Deploy & Manage in sidebar doc"
+  },
+  "sidebar.doc.category.Cluster Deployments": {
+    "message": "Cluster Deployments",
+    "description": "The label for category Cluster Deployments in sidebar doc"
+  },
+  "sidebar.doc.category.Upgrading Databend": {
+    "message": "Upgrading Databend",
+    "description": "The label for category Upgrading Databend in sidebar doc"
+  },
+  "sidebar.doc.category.Node Configurations": {
+    "message": "Node Configurations",
+    "description": "The label for category Node Configurations in sidebar doc"
+  },
+  "sidebar.doc.category.Load & Unload Data": {
+    "message": "Load & Unload Data",
+    "description": "The label for category Load & Unload Data in sidebar doc"
+  },
+  "sidebar.doc.category.Working with Stages": {
+    "message": "Working with Stages",
+    "description": "The label for category Working with Stages in sidebar doc"
+  },
+  "sidebar.doc.category.Querying and Transforming": {
+    "message": "Querying and Transforming",
+    "description": "The label for category Querying and Transforming in sidebar doc"
+  },
+  "sidebar.doc.category.Loading Data from Files": {
+    "message": "Loading Data from Files",
+    "description": "The label for category Loading Data from Files in sidebar doc"
+  },
+  "sidebar.doc.category.Loading Data with Tools": {
+    "message": "Loading Data with Tools",
+    "description": "The label for category Loading Data with Tools in sidebar doc"
+  },
+  "sidebar.doc.category.Visualize": {
+    "message": "Visualize",
+    "description": "The label for category Visualize in sidebar doc"
+  },
+  "sidebar.doc.category.Monitor": {
+    "message": "Monitor",
+    "description": "The label for category Monitor in sidebar doc"
+  },
+  "sidebar.doc.category.3rd-Party Tools": {
+    "message": "3rd-Party Tools",
+    "description": "The label for category 3rd-Party Tools in sidebar doc"
+  },
+  "sidebar.doc.category.SQL Clients": {
+    "message": "SQL Clients",
+    "description": "The label for category SQL Clients in sidebar doc"
+  },
+  "sidebar.doc.category.Contribute to Databend": {
+    "message": "Contribute to Databend",
+    "description": "The label for category Contribute to Databend in sidebar doc"
+  },
+  "sidebar.doc.category.RFCs": {
+    "message": "RFCs",
+    "description": "The label for category RFCs in sidebar doc"
+  }
+}
