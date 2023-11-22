@@ -31,10 +31,10 @@ jobs:
           set-outputs: 'true'
       - name: Sync to OSS
         env:
-          AWS_S3_ENDPOINT: oss-cn-beijing.aliyuncs.com
+          AWS_S3_ENDPOINT_URL: oss-cn-beijing.aliyuncs.com
           AWS_S3_BUCKET: databend-docs
           AWS_ACCESS_KEY_ID: ${{ steps.aliyun.outputs.access-key-id }}
           AWS_SECRET_ACCESS_KEY: ${{ steps.aliyun.outputs.access-key-secret }}
           AWS_REGION: cn-beijing
         run: |
-          aws s3 sync ./build s3://${AWS_S3_BUCKET}/ --delete
+          aws s3 sync ./build/ s3://${AWS_S3_BUCKET}/ --delete
