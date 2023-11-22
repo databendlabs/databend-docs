@@ -22,7 +22,7 @@ const StepContent: FC<IProps> = ({number, children, title, outLink}): ReactEleme
         }
        {
          outLink
-         ? <a className='anchor global-step-outlink' target='_blank' href={outLink}>{title}</a>
+         ? <a className='anchor global-step-outlink' target='_blank' href={outLink}>{title} <LinkSvg></LinkSvg></a>
          : 
          <h3 className='anchor'>
           {title}
