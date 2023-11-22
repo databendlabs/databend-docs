@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 import * as icons from "../components/Icons"
 import JoinCommunity from '../components/JoinCommunity';
 import { LightDatabendCloudSingleSvg } from 'databend-logos';
+import $t from '../utils/tools';
 
 
 function HomepageHeader() {
@@ -19,13 +20,13 @@ function HomepageHeader() {
         <div className={clsx('hero-container', styles.heroContainer)}>
           <GitHub size={48} color='var(--color-text-0)' />
           <h2 className={clsx('title', styles.title)}>The Future of <br /> <span>Cloud Data Analytics</span></h2>
-          <p className={clsx('subtitle', styles.subtitle)}>{tagline}</p>
+          <p className={clsx('subtitle', styles.subtitle)}>{$t(tagline)}</p>
           <div className={clsx('action-group', styles.actionGroup)}>
             <Link
               className={clsx("button", styles.Button, styles.Primary)}
               to="/doc/">
               <Book size={20} />
-              What is Databend?
+              {$t('What is Databend?')}
             </Link>
             <Link
               className={clsx("button", styles.Button)}
@@ -38,13 +39,13 @@ function HomepageHeader() {
           <hr />
           <div className={clsx('cloud-banner', styles.cloudBanner)}>
             <div style={{ textAlign: 'center' }}>
-              <h5>🎉 Databend Cloud Now Available</h5>
-              <p style={{marginBottom: 0}}>Register now and get a $200 coupon.</p>
+              <h5>🎉 {$t('Databend Cloud Now Available')}</h5>
+              <p style={{marginBottom: 0}}>{$t('Register now and get a $200 coupon')}</p>
             </div>
             <Link
               className={clsx("button", styles.Button, styles.White)}
               to={isChina ? '/cloud/getting-started/activate' : '/cloud/getting-started/new-account'}>
-              🚀 Start your trial
+              🚀 {$t('Start your trial')}
             </Link>
           </div>
         </div>
