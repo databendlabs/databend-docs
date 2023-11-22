@@ -65,6 +65,7 @@ const config = {
         },
     ],
     customFields: {
+      isChina: isCN,
       docsHomeLink,
       homeLink,
       cloudLink,
