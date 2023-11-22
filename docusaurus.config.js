@@ -21,7 +21,7 @@ const config = {
     title: 'Databend',
     staticDirectories: ['static', './docs/public'],
     tagline: 'Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics.',
-    url: 'https://databend.rs/',
+    url: isCN ? 'https://docs.databend.cn' : 'https://databend.rs/',
     baseUrl: '/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'throw',
