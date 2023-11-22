@@ -1,13 +1,13 @@
 ---
 sidebar_label: Databend Nightly
-title: Release Notes
+title: Databend Nightly Builds
 sidebar_position: 2
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-The latest product updates from [Databend](https://github.com/datafuselabs/databend)
+This page presents a detailed record of Databend's Nightly Builds, offering insight into the daily progress of <a href="https://github.com/datafuselabs/databend">Databend</a> with the latest updates and improvements.
 
 
 
