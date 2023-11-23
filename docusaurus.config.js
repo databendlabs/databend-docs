@@ -235,7 +235,7 @@ const config = {
                     },
                     {
                       to: '/cloud',
-                      label: 'Cloud',
+                      label: 'Databend Cloud',
                       position: 'right',
                     },
                     {

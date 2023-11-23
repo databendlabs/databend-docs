@@ -5,7 +5,7 @@ title: Loading Data with Tools
 Databend offers a comprehensive selection of connectors and plugins that seamlessly integrate with popular data import tools. These connectors facilitate smooth data transfer and synchronization between Databend and various external platforms. The table below highlights the supported tools along with their corresponding Databend connectors and plugins:
 
 :::info
-These connectors and plugins also work with Databend Cloud. When connecting to Databend Cloud, you will need the connection information obtained from one of your warehouses. For guidance on obtaining your warehouse information and establishing the connection, please refer to the following link: [Connecting to a Warehouse](https://docs.databend.com/using-databend-cloud/warehouses/#connecting)
+These connectors and plugins also work with Databend Cloud. When connecting to Databend Cloud, you will need the connection information obtained from one of your warehouses. For guidance on obtaining your warehouse information and establishing the connection, please refer to the following link: [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses/#connecting)
 :::
 
 | Tool      	| Plugin / Connector                                                                                                                                                 	|
