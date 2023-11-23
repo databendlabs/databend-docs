@@ -98,7 +98,7 @@ Rows: 2, Bytes: 157
 
 ### 使用 COPY INTO 命令导入文件
 
-[COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 支持从 OSS、S3、Azure Blob、HTTPS 地址等不同数据源执行数据导入。
+COPY INTO 支持从 OSS、S3、Azure Blob、HTTPS 地址等不同数据源执行数据导入。
 
 在工作区中粘贴下述 SQL 语句，并点击"运行"：
 
@@ -136,5 +136,4 @@ dd:cloudapp@tn3ftqihs--bl/book=> SELECT count(*), date FROM book_db.books GROUP 
 
 现在您对 Databend Cloud 的基本使用已有所了解。接下来，怎样利用 Databend Cloud 来解决真实数据分析需求？Databend Cloud 已提供了丰富的解决方案来应对不同的场景需求，请参考下述文档：
 
-- [从文件导入数据](../03-load-transform-data/02-copy-into.md)
 - [使用 Python 脚本连接 Databend Cloud](../06-develop/01-python.md)
