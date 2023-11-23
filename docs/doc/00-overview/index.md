@@ -3,9 +3,15 @@ title: Welcome
 slug: /
 ---
 
-Welcome to the Databend documentation!
+Welcome to Databend Docs! Dive in with these tabs ↗️:
 
-**Databend** is an open-source, elastic, and workload-aware cloud data warehouse, a cutting-edge [alternative to Snowflake](https://github.com/datafuselabs/databend/issues/13059). Developed with [Rust](https://www.rust-lang.org/), it's engineered for complex analysis of the world's largest datasets.
+- [Databend](index.md): Discover core features, data import/export, third-party tool integration, and programming interfaces for **ALL** Databend editions. Additionally, find information on deploying Databend on-premises.
+
+- [Databend Cloud](/cloud): Learn about account registration, operational guidance, and organization management specific to Databend Cloud.
+
+- [SQL Reference](/sql): Explore a comprehensive reference covering Databend general essentials, along with a variety of available SQL functions and commands.
+
+- [Releases](/release-notes): Stay informed with release notes for Databend Cloud and updates on nightly builds.
 
 This welcome page guides you through the features, architecture, and other important details about Databend.
 
