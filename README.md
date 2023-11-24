@@ -15,6 +15,7 @@ The Databend docs are thoughtfully organized to provide users with a structured 
 
 ## What You can Contribute
 
+
 Share your expertise by contributing documents for new functions or commands you develop, or even improvements to existing sections. We also welcome your input for error spotting or suggestions for clarification. While the "Releases" section is dedicated to official updates, every other part of the documentation is open for your insights.
 
 ## How to Contribute
