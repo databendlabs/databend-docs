@@ -48,12 +48,12 @@ yarn run dev
 
 ## Versioning
 
-The Databend documentation website always showcases the latest content for the product. To indicate when specific features, such as commands or functions, were introduced or modified, we use a code snippet like this:
+The Databend documentation website always showcases the latest content for the product. To indicate when specific features, such as commands or functions, were introduced or modified, insert a code snippet like this:
 
-```markdown title="Example:"
+```markdown
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.2.34"/>
+<FunctionDescription description="Introduced or updated: v1.2.34"/>
 ```
 
 ### Need Help?
