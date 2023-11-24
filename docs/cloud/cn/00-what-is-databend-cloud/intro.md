@@ -3,7 +3,7 @@ title: 产品简介
 slug: /
 ---
 
-欢迎使用 Databend Cloud！这是一个先进的云数仓解决方案，基于备受青睐的开源项目 [Databend](https://github.com/datafuselabs/databend) 搭建而成，同时拥有其他领先的技术，以确保您的数据安全和高效处理。Databend Cloud 结合了现代化的数据管理和分析技术，可以满足您的各种数据需求，如数据科学、商业智能报表、日志分析等。Databend Cloud 让您轻松登上云数据的快车，高效率、低成本的使用体验等您来开启！
+Databend Cloud 是一个先进的云数仓解决方案，基于备受青睐的开源项目 [Databend](https://github.com/datafuselabs/databend) 搭建而成，同时拥有其他领先的技术，以确保您的数据安全和高效处理。Databend Cloud 结合了现代化的数据管理和分析技术，可以满足您的各种数据需求，如数据科学、商业智能报表、日志分析等。Databend Cloud 让您轻松登上云数据的快车，高效率、低成本的使用体验等您来开启！
 
 ![Alt text](@site/static/img/documents_cn/getting-started/20230223-084116.png)
 
