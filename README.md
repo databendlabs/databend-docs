@@ -1,5 +1,11 @@
 # Databend Docs: Your Contributions Matter
 
+[![GitHub stars](https://img.shields.io/github/stars/datafuselabs/databend-docs.svg?style=social&label=Stars)](https://github.com/datafuselabs/databend-docs/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/datafuselabs/databend-docs.svg?style=social&label=Forks)](https://github.com/datafuselabs/databend-docs/network/members)
+[![GitHub contributors](https://img.shields.io/github/contributors/datafuselabs/databend-docs.svg)](https://github.com/datafuselabs/databend-docs/graphs/contributors)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/datafuselabs/databend-docs.svg)](https://github.com/datafuselabs/databend-docs/pulls)
+[![GitHub issues](https://img.shields.io/github/issues/datafuselabs/databend-docs.svg)](https://github.com/datafuselabs/databend-docs/issues)
+
 Welcome to the official documentation repository for Databend! We invite you to contribute and help improve the Databend Docs.
 
 ## A Sneak Peek into Databend Docs
