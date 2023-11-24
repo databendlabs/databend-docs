@@ -12,7 +12,7 @@
     "description": "Navbar item with label Cloud"
   },
   "item.label.SQL Reference": {
-    "message": "SQL 语法",
+    "message": "SQL 参考指南",
     "description": "Navbar item with label SQL Reference"
   },
   "item.label.Releases": {
