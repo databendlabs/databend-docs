@@ -1,4 +1,4 @@
-![image](https://github.com/datafuselabs/databend-docs/assets/15354455/5173ac4d-41f7-4e80-98e9-85106c956fda)# Databend Docs: Your Contributions Matter
+# Databend Docs: Your Contributions Matter
 
 Welcome to the official documentation repository for Databend! We invite you to contribute and help improve the Databend Docs.
 
