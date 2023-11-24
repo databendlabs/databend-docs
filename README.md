@@ -30,7 +30,14 @@ To ensure a smooth collaboration process, we recommend following these best prac
     For consistency, follow the existing documentation format. For example,  if you are adding documentation for a new function, consider copying an existing markdown file from the same folder and modifying it accordingly.
 
 3. Preview Locally:
-  - To preview your changes locally and ensure they meet your expectations, ensure you have [Node.js](https://nodejs.org/) installed on your machine. Additionally, run the `npm run dev` command in your terminal to initiate a local preview. 
+  - To preview your changes locally and ensure they meet your expectations, ensure you have [Node.js](https://nodejs.org/) installed on your machine. Run the following commands in your terminal to initiate a local preview:
+    
+```bash
+yarn install
+```
+```bash
+yarn run dev
+```
   - Confirm that the formatting is correct, links work as intended, and the content aligns with your vision BEFORE you submit.
 
 ## Versioning
