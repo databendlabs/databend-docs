@@ -17,7 +17,7 @@ The Databend docs are thoughtfully organized to provide users with a structured 
 | Databend       | [docs/doc](https://github.com/datafuselabs/databend-docs/tree/main/docs/doc)           | Includes insights into the core features, data import/export, third-party tool integration, and programming interfaces across all Databend editions. Additionally, it offers valuable information on deploying Databend on-premises. |
 | Databend Cloud | [docs/cloud/en](https://github.com/datafuselabs/databend-docs/tree/main/docs/cloud/en)       | Includes details on account registration, operational guidance, and organization management tailored for Databend Cloud. Whether you're new to the cloud environment or an experienced user, contribute here to share your insights. |
 | SQL Reference  | [docs/sql-reference](https://github.com/datafuselabs/databend-docs/tree/main/docs/sql-reference)  | Explains Databend general essentials and a variety of available SQL functions and commands. Contribute to this section to help fellow users navigate the world of SQL in Databend.                                                   |
-| Releases       | -                   | Contains release notes for Databend Cloud and updates on nightly builds. Furthermore, it explains that if you have information on new features, enhancements, or bug fixes, you can share your contributions here.                   |
+| Releases       | -                   | Contains release notes for Databend Cloud and updates on nightly builds.                    |
 
 ## What You can Contribute
 
