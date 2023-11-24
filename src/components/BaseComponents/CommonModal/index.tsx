@@ -12,10 +12,7 @@ interface IProps {
 const CommonModal = ({ visible, width, children, className, onClose }: IProps) => {
   useEffect(() => {
     if (visible) {
-      const id = setTimeout(()=> {
-        document.body.style.overflow = 'hidden';
-        clearTimeout(id);
-      });
+      document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'visible';
     }
