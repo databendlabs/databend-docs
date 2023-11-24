@@ -4,7 +4,7 @@ sidebar_position: 0
 slug: /
 ---
 
-Welcome to Databend Cloud! This is an advanced cloud data warehouse solution built on the popular open-source project, [Databend](https://github.com/datafuselabs/databend), and other leading technologies to ensure your data is secure and efficiently processed. Databend Cloud combines modern data management and analysis technologies to meet all of your data needs, such as data science, business intelligence reporting, and log analysis. Databend Cloud offers you an easy and cost-effective experience to accelerate your cloud data journey!
+Databend Cloud is an advanced cloud data warehouse solution built on the popular open-source project, [Databend](https://github.com/datafuselabs/databend), and other leading technologies to ensure your data is secure and efficiently processed. Databend Cloud combines modern data management and analysis technologies to meet all of your data needs, such as data science, business intelligence reporting, and log analysis. Databend Cloud offers you an easy and cost-effective experience to accelerate your cloud data journey!
 
 ![Alt text](@site/static/img/documents/overview/1.png)
 

@@ -5,7 +5,7 @@ sidebar_label: Databend Cloud
 slug: '/'
 ---
 
-This Release Notes page provides information about recent features, enhancements, and bug fixes for [Databend Cloud](https://app.databend.com/).
+This page provides information about recent features, enhancements, and bug fixes for [Databend Cloud](https://app.databend.com/).
 
 ## Oct 30, 2023
 
