@@ -225,6 +225,7 @@ const config = {
                     alt: 'Databend Logo',
                     href: '/',
                     target: '_self',
+                    srcDark: 'img/logo-dark.svg',
                     src: 'img/logo.svg',
                 },
                 items: [
