@@ -8,7 +8,6 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/DatabendLabs?style=social)](https://twitter.com/DatabendLabs)
 [![YouTube Channel](https://img.shields.io/badge/YouTube-Subscribe-red?style=flat&logo=youtube)](https://www.youtube.com/@DatabendLabs)
 
-
 Welcome to the official documentation repository for Databend! We invite you to contribute and help improve the Databend Docs.
 
 ## A Sneak Peek into Databend Docs
@@ -24,7 +23,6 @@ The Databend docs are thoughtfully organized to provide users with a structured 
 
 ## What You can Contribute
 
-
 Share your expertise by contributing documents for new functions or commands you develop, or even improvements to existing sections. We also welcome your input for error spotting or suggestions for clarification. While the "Releases" section is dedicated to official updates, every other part of the documentation is open for your insights.
 
 ## How to Contribute
@@ -35,8 +33,7 @@ To ensure a smooth collaboration process, we recommend following these best prac
   - We recommend forking the repository on GitHub and creating a new branch for your edits. This allows for better version control and easier tracking of changes.
   - Edit the documentation on your branch and submit a Pull Request (PR) when you are ready for review.
 
-2. Follow Existing Formats: 
-    For consistency, follow the existing documentation format. For example,  if you are adding documentation for a new function, consider copying an existing markdown file from the same folder and modifying it accordingly.
+2. Follow Existing Formats: For consistency, follow the existing documentation format. For example,  if you are adding documentation for a new function, consider copying an existing markdown file from the same folder and modifying it accordingly.
 
 3. Preview Locally:
   - To preview your changes locally and ensure they meet your expectations, ensure you have [Node.js](https://nodejs.org/) installed on your machine. Run the following commands in your terminal to initiate a local preview:
@@ -59,8 +56,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 <FunctionDescription description="Introduced or updated: v1.2.34"/>
 ```
 
-### Need Help?
+## Need Help?
 
-For any questions or support, please contact [soyeric128@yahoo.com](mailto:soyeric128@yahoo.com).
+If you have any questions or need support, please feel free to reach out via email:
+
+[![Email](https://img.shields.io/badge/Email-soyeric128%40yahoo.com-blue?style=flat-square&logo=yahoo-mail)](mailto:soyeric128@yahoo.com)
 
 Happy contributing!
