@@ -11,7 +11,10 @@ Creates a connection to external storage.
 ## Syntax
 
 ```sql
-CREATE CONNECTION [IF NOT EXISTS] <connection_name> STORAGE_TYPE = '<type>' [<storage_params>]
+CREATE CONNECTION [IF NOT EXISTS] <connection_name> 
+    STORAGE_TYPE = '<type>' 
+    [<storage_params>]
+
 ```
 
 | Parameter        | Description                                                                                                                                        |
