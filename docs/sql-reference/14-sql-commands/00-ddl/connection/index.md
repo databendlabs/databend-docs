@@ -7,7 +7,7 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 A connection in Databend refers to a designated configuration that encapsulates the details required to interact with an external storage service. It serves as a centralized and reusable set of parameters, such as access credentials, endpoint URLs, and storage types, facilitating the integration of Databend with various storage services.
 
-Connection is currently utilized for creating external stages, external tables, and attaching tables, offering a streamlined and modular approach to managing and accessing data stored in external storage services through Databend. See [Usage Examples](#usage-examples) for examples.
+Connection can be utilized for creating external stages, external tables, and attaching tables, offering a streamlined and modular approach to managing and accessing data stored in external storage services through Databend. See [Usage Examples](#usage-examples) for examples.
 
 ### Managing Connections
 
