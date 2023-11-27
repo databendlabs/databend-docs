@@ -34,7 +34,10 @@ CREATE CONNECTION toronto
 The following example creates an external stage using the previously defined connection named 'toronto':
 
 ```sql
-CREATE STAGE my_s3_stage URL='s3://databend-toronto' CONNECTION = (CONNECTION_NAME = 'toronto');
+CREATE STAGE my_s3_stage 
+    URL = 's3://databend-toronto' 
+    CONNECTION = (CONNECTION_NAME = 'toronto');
+
 
 -- Equivalent to the following statement without using a connection:
 
