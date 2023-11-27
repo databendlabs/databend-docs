@@ -56,7 +56,11 @@ ATTACH TABLE employees_backup
 ```
 
 ```sql title='Databend Cloud:'
-ATTACH TABLE population_readonly 's3://databend-toronto/1/556/' CONNECTION = (CONNECTION_NAME = 'toronto') READ_ONLY;
+ATTACH TABLE population_readonly 
+    's3://databend-toronto/1/556/' 
+    CONNECTION = (CONNECTION_NAME = 'toronto') 
+    READ_ONLY;
+
 ```
 
 #### Example 3: Creating External Table with Connection
