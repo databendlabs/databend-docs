@@ -7,7 +7,7 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 A connection in Databend refers to a designated configuration that encapsulates the details required to interact with an external storage service. It serves as a centralized and reusable set of parameters, such as access credentials, endpoint URLs, and storage types, facilitating the integration of Databend with various storage services.
 
-Connection is currently utilized for creating external stages and attaching tables, offering a streamlined and modular approach to managing and accessing data stored in external storage services through Databend. See [Usage Examples](#usage-examples) for examples.
+Connection is currently utilized for creating external stages, external tables, and attaching tables, offering a streamlined and modular approach to managing and accessing data stored in external storage services through Databend. See [Usage Examples](#usage-examples) for examples.
 
 ### Managing Connections
 
@@ -47,4 +47,15 @@ ATTACH TABLE employees_backup 's3://databend-toronto/1/216/' CONNECTION = (CONNE
 
 ```sql title='Databend Cloud:'
 ATTACH TABLE population_readonly 's3://databend-toronto/1/556/' CONNECTION = (CONNECTION_NAME = 'toronto') READ_ONLY;
+```
+
+#### Example 3: Creating External Table with Connection
+
+This example demonstrates the creation of an external table named 'BOOKS' using the previously defined connection named 'toronto':
+
+```sql
+CREATE TABLE BOOKS (
+id BIGINT UNSIGNED,
+title VARCHAR,
+genre VARCHAR DEFAULT 'General') 's3://databendI-toronto' CONNECTION = (CONNECTION_NAME = 'toronto');
 ```
