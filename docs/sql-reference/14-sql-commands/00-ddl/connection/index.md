@@ -41,7 +41,13 @@ CREATE STAGE my_s3_stage
 
 -- Equivalent to the following statement without using a connection:
 
-CREATE STAGE my_s3_stage URL='s3://databend-toronto' CONNECTION = (SECRET_ACCESS_KEY = '<your-secret-access-key>' ACCESS_KEY_ID = '<your-access-key-id>');
+CREATE STAGE my_s3_stage 
+    URL = 's3://databend-toronto' 
+    CONNECTION = (
+        SECRET_ACCESS_KEY = '<your-secret-access-key>' 
+        ACCESS_KEY_ID = '<your-access-key-id>'
+    );
+
 ```
 
 #### Example 2: Attaching Table with Connection
