@@ -62,7 +62,11 @@ This example demonstrates the creation of an external table named 'BOOKS' using 
 
 ```sql
 CREATE TABLE BOOKS (
-id BIGINT UNSIGNED,
-title VARCHAR,
-genre VARCHAR DEFAULT 'General') 's3://databendI-toronto' CONNECTION = (CONNECTION_NAME = 'toronto');
+    id BIGINT UNSIGNED,
+    title VARCHAR,
+    genre VARCHAR DEFAULT 'General'
+) 
+'s3://databendI-toronto' 
+CONNECTION = (CONNECTION_NAME = 'toronto');
+
 ```
