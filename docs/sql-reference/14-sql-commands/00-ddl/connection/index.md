@@ -22,7 +22,11 @@ The examples in this section initially create a connection with the credentials 
 This statement initiates a connection to Amazon S3, specifying essential connection parameters:
 
 ```sql
-CREATE CONNECTION toronto STORAGE_TYPE = 's3' SECRET_ACCESS_KEY = '<your-secret-access-key>' ACCESS_KEY_ID = '<your-access-key-id>';
+CREATE CONNECTION toronto 
+    STORAGE_TYPE = 's3' 
+    SECRET_ACCESS_KEY = '<your-secret-access-key>' 
+    ACCESS_KEY_ID = '<your-access-key-id>';
+
 ```
 
 #### Example 1: Creating External Stage with Connection
