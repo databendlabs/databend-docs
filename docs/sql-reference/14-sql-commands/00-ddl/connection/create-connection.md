@@ -25,6 +25,9 @@ CREATE CONNECTION [IF NOT EXISTS] <connection_name>
 ## Examples
 
 ```sql
-CREATE CONNECTION toronto STORAGE_TYPE = 's3' 
-SECRET_ACCESS_KEY = '<your-secret-access-key>' ACCESS_KEY_ID = '<your-access-key-id>';
+CREATE CONNECTION toronto 
+    STORAGE_TYPE = 's3' 
+    SECRET_ACCESS_KEY = '<your-secret-access-key>' 
+    ACCESS_KEY_ID = '<your-access-key-id>';
+
 ```
