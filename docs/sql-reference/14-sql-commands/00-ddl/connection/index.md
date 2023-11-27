@@ -49,7 +49,10 @@ CREATE STAGE my_s3_stage URL='s3://databend-toronto' CONNECTION = (SECRET_ACCESS
 The [ATTACH TABLE](../20-table/92-attach-table.md) page offers [Examples](../20-table/92-attach-table.md#examples) demonstrating how to connect a new table in Databend Cloud with an existing table in Databend, where data is stored within an Amazon S3 bucket named "databend-toronto". In each example, Step 3 can be streamlined using the previously defined connection named 'toronto':
 
 ```sql title='Databend Cloud:'
-ATTACH TABLE employees_backup 's3://databend-toronto/1/216/' CONNECTION = (CONNECTION_NAME = 'toronto');
+ATTACH TABLE employees_backup 
+    's3://databend-toronto/1/216/' 
+    CONNECTION = (CONNECTION_NAME = 'toronto');
+
 ```
 
 ```sql title='Databend Cloud:'
