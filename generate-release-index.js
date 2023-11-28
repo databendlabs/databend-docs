@@ -54,4 +54,5 @@ ${content}
 fs.writeFileSync(outputPath, outputData);
 fs.writeFileSync(outputPathCN, outputData);
 
+console.log('generated');
 
