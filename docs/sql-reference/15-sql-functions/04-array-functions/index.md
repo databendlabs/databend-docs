@@ -2,8 +2,9 @@
 title: 'Array Functions'
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-SQL Array Functions and Usage.
+<FunctionDescription description="Introduced or updated: v1.2.225"/>
 
 | Function                             | Description                                                                                  | Example                               | Result                   |
 |--------------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------|--------------------------|
@@ -27,6 +28,8 @@ SQL Array Functions and Usage.
 | **ARRAY_TRANSFORM(array, lambda)**   | Returns an array that is the result of applying the lambda function to each element of the input array     | **ARRAY_TRANSFORM([1, 2, 3], x -> x + 1)**      | [2,3,4]                   |
 | **ARRAY_APPLY(array, lambda)**       | Alias for **ARRAY_TRANSFORM**                   | **ARRAY_APPLY([1, 2, 3], x -> x + 1)**      | [2,3,4]                   |
 | **ARRAY_FILTER(array, lambda)**      | Constructs an array from those elements of the input array for which the lambda function returns true     | **ARRAY_FILTER([1, 2, 3], x -> x > 1)**      | [2,3]                   |
+| **ARRAY_FLATTEN(array)**             | Flattens nested arrays, converting them into a single-level array                            | **ARRAY_FLATTEN([[1,2], [3,4,5]])** | [1,2,3,4,5]  |
+| **ARRAY_TO_STRING(array, separator)**| Concatenates elements of an array into a single string, using a specified separator          | **ARRAY_TO_STRING(['Apple', 'Banana', 'Cherry'], ', ')** | Apple, Banana, Cherry |
 
 :::note
 **ARRAY_SORT(array)** can accept two optional parameters, `order` and `nullposition`, which can be specified through the syntax **ARRAY_SORT(array, order, nullposition)**.
