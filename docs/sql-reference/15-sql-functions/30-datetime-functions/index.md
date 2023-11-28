@@ -54,6 +54,7 @@ This section provides reference information for the datetime-related functions i
 - [DATE_FORMAT](date-format)
 - [DATE_TRUNC](date-trunc)
 - [NOW](now.md)
+- [CURRENT_TIMESTAMP](current-timestamp.md)
 
 ## Others
 
