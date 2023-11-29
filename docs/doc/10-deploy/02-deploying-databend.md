@@ -165,11 +165,11 @@ f. In the MinIO Console, create a bucket named `databend`.
 
 <TabItem value="HDFS" label="HDFS">
 
-Before deploying Databend, make sure you have successfully set up your Hadoop environment, and the following tasks have been completed:
+Before deploying Databend, make sure you have successfully set up your Hadoop environment, and completed the following tasks:
 
-- Your system already has an Java SDK installed with JVM support.
+- Your system already has a Java SDK installed with JVM support.
 - Get the name node URL for connecting to HDFS.
-- You have already downloaded the Hadoop release in your system and can access the JAR packages within it.
+- You have already downloaded the Hadoop release to your system, and you can access the JAR packages in the release.
 
 </TabItem>
 
@@ -195,7 +195,7 @@ a. Create a folder named `databend` in the directory `/usr/local`.
 b. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
 
 :::note
-If you need to use HDFS as the storage backend for Stage or Databend itself, please choose a release with "hdfs" in its name, for example:
+To use HDFS as the storage backend, download a release with a file name formatted as `databend-hdfs-${version}-${target-platform}.tar.gz`.
 
 ```bash
 databend-hdfs-${version}-${target-platform}.tar.gz
@@ -571,7 +571,7 @@ d. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
 e. Run the following command to start the Query node:
 
 :::note
-If you need to use HDFS as the storage backend for Stage or Databend itself, please set the following environment variables correctly to ensure proper invocation:
+When using HDFS as the storage backend, ensure to set the following environment variables:
 
 ```bash
 export JAVA_HOME=/path/to/java
