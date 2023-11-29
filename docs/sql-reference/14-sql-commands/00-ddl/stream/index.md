@@ -58,11 +58,11 @@ ALTER TABLE test_stream SET OPTIONS(change_tracking = TRUE);
 
 A stream does NOT store any data for a table. Once change tracking is enabled, Databend adds the following hidden columns as change tracking metadata to the table for tracking the data changes of each row:
 
-| Column                | Description                                                                                    |
-|-----------------------|------------------------------------------------------------------------------------------------|
-| _origin_version       | Identifies the table version in which this row was initially created.                          |
-| _origin_block_id      | Identifies the block ID to which this row belonged when it was first added to the table.       |
-| _origin_block_row_num | Identifies the row number within the block to which this row belonged when it was first added. |
+| Column                | Description                                                                       |
+|-----------------------|-----------------------------------------------------------------------------------|
+| _origin_version       | Identifies the table version in which this row was initially created.             |
+| _origin_block_id      | Identifies the block ID to which this row belonged previously.                    |
+| _origin_block_row_num | Identifies the row number within the block to which this row belonged previously. |
 
 To display the values of these columns, use the SELECT statement:
 
