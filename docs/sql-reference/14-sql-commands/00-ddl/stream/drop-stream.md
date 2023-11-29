@@ -6,16 +6,16 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.223"/>
 
-Deletes an existing connection.
+Deletes an existing stream.
 
 ## Syntax
 
 ```sql
-DROP CONNECTION [IF EXISTS] <connection_name>
+DROP STREAM [IF EXISTS] [<database_name>.]<stream_name>
 ```
 
 ## Examples
 
 ```sql
-DROP CONNECTION toronto;
+DROP STREAM books_stream_2023;
 ```

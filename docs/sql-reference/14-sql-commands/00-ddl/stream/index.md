@@ -85,3 +85,67 @@ To manage streams in Databend, use the following commands:
 <IndexOverviewList />
 
 ### Usage Examples
+
+In this example, we assume the management of a book collection through the `books_total` table.
+
+```sql
+-- Create a table to store all books information
+CREATE TABLE books_total (
+    book_id INT,
+    title VARCHAR(255),
+    author VARCHAR(255),
+    publication_year INT
+);
+
+-- Insert records for the year 2022
+INSERT INTO books_total VALUES
+    (1, 'The Song of Achilles', 'Madeline Miller', 2022),
+    (2, 'The Night Circus', 'Erin Morgenstern', 2022),
+    (3, 'Where the Red Fern Grows', 'Wilson Rawls', 2022);
+```
+
+After populating the table with 2022 data, we enable change tracking.
+
+```sql
+ALTER TABLE books_total SET OPTIONS (change_tracking = TRUE);
+```
+
+As we transition into 2023, we introduce the `books_stream_2023` stream to capture changes at the year's onset.
+
+```sql
+CREATE STREAM books_stream_2023 ON TABLE books_total;
+```
+
+New books for 2023 are seamlessly added to books_total, and the stream efficiently records these additions.
+
+```sql
+INSERT INTO books_total VALUES
+    (4, 'The Silent Patient', 'Alex Michaelides', 2023),
+    (5, 'Where the Crawdads Sing', 'Delia Owens', 2023),
+    (6, 'Educated', 'Tara Westover', 2023);
+
+-- View the changes in the stream for the year 2023
+SELECT * FROM books_stream_2023;
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│     book_id     │          title          │      author      │ publication_year │
+├─────────────────┼─────────────────────────┼──────────────────┼──────────────────┤
+│               4 │ The Silent Patient      │ Alex Michaelides │             2023 │
+│               5 │ Where the Crawdads Sing │ Delia Owens      │             2023 │
+│               6 │ Educated                │ Tara Westover    │             2023 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+Subsequently, you can create another table `books_2023`to store information specifically for the year 2023 and populate it with the stream data.
+
+```sql
+CREATE TABLE books_2023 (
+    book_id INT,
+    title VARCHAR(255),
+    author VARCHAR(255),
+    publication_year INT
+);
+
+INSERT INTO books_2023
+SELECT * FROM books_stream_2023;
+```

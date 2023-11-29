@@ -6,22 +6,24 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.223"/>
 
-Displays a list of all available connections.
+Displays a list of all available streams.
 
 ## Syntax
 
 ```sql
-SHOW CONNECTIONS
+SHOW [FULL] STREAMS [FROM <database_name>] 
+    [LIKE '<pattern>' | WHERE <expr>]
 ```
 
 ## Examples
 
 ```sql
-SHOW CONNECTIONS;
+SHOW STREAMS;
 
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│   name  │ storage_type │                                         storage_params                            │
-├─────────┼──────────────┼───────────────────────────────────────────────────────────────────────────────────┤
-│ toronto │ s3           │ access_key_id=<your-secret-access-key> secret_access_key=<your-secret-access-key> │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│         created_on         │        name       │ database │ catalog │       table_on      │
+│          Timestamp         │       String      │  String  │  String │        String       │
+├────────────────────────────┼───────────────────┼──────────┼─────────┼─────────────────────┤
+│ 2023-11-29 02:38:29.588518 │ books_stream_2023 │ default  │ default │ default.books_total │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
 ```
