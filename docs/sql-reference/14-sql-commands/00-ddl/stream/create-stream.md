@@ -21,6 +21,8 @@ CREATE STREAM [IF NOT EXISTS] [<database_name>.]<stream_name>
     [COMMENT = '<comment>']
 ```
 
+- Change tracking must be enabled for a table before creating a stream for it. For more information, see [Enabling Change Tracking](index.md#enabling-change-tracking).
+
 - The CREATE STREAM command allows for different database names between the stream and the associated table. In Databend, a stream is treated as an object belonging to a specific database, similar to a table or a view. If a database is not explicitly specified, the current database is assumed as the default context for the stream.
 
 - The `AT (STREAM => <stream_name>)` clause establishes a dependency between the newly created stream and an existing stream. This linkage indicates that the new stream is designed to capture and reflect changes from the existing stream. 
