@@ -1,6 +1,9 @@
 ---
 title: Fuse Engine
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.223"/>
 
 Databend utilizes the Fuse engine as its default engine, offering a data management system with a user-friendly interface reminiscent of Git. Users have the ability to effortlessly query data at any given moment and effortlessly restore data to any desired point in time.
 
@@ -28,7 +31,7 @@ The `CLUSTER BY` parameter specifies the sorting method for data that consists o
 
 ### Options
 
-The Fuse engine offers options(case-insensitive) that allow you to configure various settings such as bloom index columns, compression method, storage format, snapshot location, block size threshold, block per segment, and row per block. To modify the options of an existing table, use [ALTER TABLE OPTION](../../14-sql-commands/00-ddl/20-table/90-alter-table-option.md).
+The Fuse engine offers the following options (case-insensitive) that enable you to customize the engine's functionality even further. To modify the options of an existing table, use the [ALTER TABLE OPTION](../../14-sql-commands/00-ddl/20-table/90-alter-table-option.md) command.
 
 | Option               	| Syntax                                              	| Description                                                                                                                                                                                                                                                                                           	|
 |----------------------	|-----------------------------------------------------	|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
@@ -39,3 +42,4 @@ The Fuse engine offers options(case-insensitive) that allow you to configure var
 | block_size_threshold 	| `block_size_threshold = '<block_size_threshold>'`   	| Specifies the maximum block size in bytes. Defaults to 104,857,600 bytes.                                                                                                                                                                                                                                                     	|
 | block_per_segment    	| `block_per_segment = '<block_per_segment>'`         	| Specifies the maximum number of blocks in a segment. Defaults to 1,000.                                                                                                                                                                                                                               	|
 | row_per_block        	| `row_per_block = '<row_per_block>'`                 	| Specifies the maximum number of rows in a file. Defaults to 1,000,000.                                                                                                                                                                                                                                   	|
+| change_tracking       | `change_tracking = True / False`                      | Setting this option to `True` in the Fuse engine allows for tracking changes for a table.<br/>Setting `change_tracking` to `True` will introduce additional hidden columns to the table as change tracking metadata. For more information, see [Enabling Change Tracking](../../14-sql-commands/00-ddl/stream/index.md#enabling-change-tracking).|
