@@ -2,6 +2,9 @@
 title: Stream
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='STREAM'/>
 
 ### What is Stream?
 

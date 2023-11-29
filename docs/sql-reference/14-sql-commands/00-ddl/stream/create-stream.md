@@ -6,6 +6,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.223"/>
 
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='STREAM'/>
+
 Creates a stream.
 
 ## Syntax
