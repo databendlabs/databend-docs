@@ -17,28 +17,32 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
   - [Database Privileges](#database-privileges)
   - [Session Policy Privileges](#session-policy-privileges)
   - [Stage Privileges](#stage-privileges)
+  - [UDF Privileges](#udf-privileges)
   - [Catalog Privileges](#catalog-privileges)
   - [Share Privileges](#share-privileges)
 
 ## All Privileges
 
-| Privilege   | Object Type                   | Description                                                                                                  |
-|:------------|:------------------------------|:-------------------------------------------------------------------------------------------------------------|
-| ALL         | All                           | Grants all the privileges for the specified object type.                                                     |
-| ALTER       | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                       |
-| CREATE      | Global, Database, Table       | Creates a database, table or UDF.                                                                            |
-| DELETE      | Table                         | Deletes or truncates rows in a table.                                                                        |
-| DROP        | Global, Database, Table, View | Drops a database, table, view or UDF. Undrops a table.                                                       |
-| INSERT      | Table                         | Inserts rows into a table.                                                                                   |
-| SELECT      | Database, Table               | Selects rows from a table. Shows or uses a database.                                                         |
-| UPDATE      | Table                         | Updates rows in a table.                                                                                     |
-| GRANT       | Global                        | Grants / revokes privileges to / from a user or role.                                                        |
-| SUPER       | Global, Table                 | Kills a query. Sets global configs. Optimizes a table. Analyzes a table. Operates a stage, catalog or share. |
-| USAGE       | Global                        | Synonym for “no privileges”.                                                                                 |
-| CREATE ROLE | Global                        | Creates a role.                                                                                              |
-| DROP ROLE   | Global                        | Drops a role.                                                                                                |
-| CREATE USER | Global                        | Creates a SQL user.                                                                                          |
-| CREATE USER | Global                        | Drops a SQL user.                                                                                            |
+| Privilege    | Object Type                   | Description                                                                                                                                        |
+|:-------------|:------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
+| ALL          | All                           | Grants all the privileges for the specified object type.                                                                                           |
+| ALTER        | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                                                             |
+| CREATE       | Global, Database, Table       | Creates a database, table or UDF.                                                                                                                  |
+| DELETE       | Table                         | Deletes or truncates rows in a table.                                                                                                              |
+| DROP         | Global, Database, Table, View | Drops a database, table, view or UDF. Undrops a table.                                                                                             |
+| INSERT       | Table                         | Inserts rows into a table.                                                                                                                         |
+| SELECT       | Database, Table               | Selects rows from a table. Shows or uses a database.                                                                                               |
+| UPDATE       | Table                         | Updates rows in a table.                                                                                                                           |
+| GRANT        | Global                        | Grants / revokes privileges to / from a user or role.                                                                                              |
+| SUPER        | Global, Table                 | Kills a query. Sets global configs. Optimizes a table. Analyzes a table. Operates a stage(Lists stages. Creates, Drops a stage), catalog or share. |
+| USAGE        | Global                        | Synonym for “no privileges”.                                                                                                                       |
+| CREATE ROLE  | Global                        | Creates a role.                                                                                                                                    |
+| DROP ROLE    | Global                        | Drops a role.                                                                                                                                      |
+| CREATE USER  | Global                        | Creates a SQL user.                                                                                                                                |
+| DROP USER    | Global                        | Drops a SQL user.                                                                                                                                  |
+| WRITE        | Stage                         | Write into a stage.                                                                                                                                |
+| READ         | Stage                         | Read a stage.                                                                                                                                      |
+| USAGE        | UDF                           | Use udf.                                                                                                                                           |
 
 ## Global Privileges
 
@@ -99,10 +103,28 @@ Please note that you can use the [USE DATABASE](../14-sql-commands/00-ddl/10-dat
 
 ## Stage Privileges
 
-| Privilege | Description                                              |
-|:----------|:---------------------------------------------------------|
-| SUPER     | Lists stages. Creates, drops or removes a stage.         |
-| ALL       | Grants all the privileges for the specified object type. |
+| Privilege | Description                                                                                                       |
+|:----------|:------------------------------------------------------------------------------------------------------------------|
+| WRITE     | Write into a stage. For example, copy into a stage, presign upload or removes a stage                             |
+| READ      | Read a stage. For example, list stage, query stage, copy into table from stage, presign download                  |
+| ALL       | Grants READ, WRITE privileges for the specified object type.                                                      |
+
+> Note:
+>
+> 1. Don't check external location auth.
+
+
+## UDF Privileges
+
+| Privilege | Description                                                              |
+|:----------|:-------------------------------------------------------------------------|
+| USAGE     | Can use UDF. For example, copy into a stage, presign upload |
+| ALL       | Grants READ, WRITE privileges for the specified object type.             |
+
+> Note:
+> 
+> 1. Don't check the udf auth if it's already be constantly folded.
+> 2. Don't check the udf auth if it's a value in insert.
 
 ## Catalog Privileges
 
