@@ -196,10 +196,6 @@ b. Download and extract the latest Databend release for your platform from [GitH
 
 :::note
 To use HDFS as the storage backend, download a release with a file name formatted as `databend-hdfs-${version}-${target-platform}.tar.gz`.
-
-```bash
-databend-hdfs-${version}-${target-platform}.tar.gz
-```
 :::
 
 <Tabs groupId="operating-systems">
