@@ -8,7 +8,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 ### What is Stream?
 
-A stream in Databend is a dynamic and real-time representation of changes to a table. Streams are created to capture and track modifications to the associated table, allowing continuous consumption and analysis of data changes as they occur. 
+A stream in Databend is a dynamic and real-time representation of changes to a table. Streams are created to capture and track modifications to the associated table, allowing continuous consumption and analysis of data changes as they occur.
 
 This is a quick example illustrating what a stream looks like. In the given scenario, a stream named 'my_first_st' is created for the 'test_stream' table and captures a data insertion:
  
@@ -28,7 +28,7 @@ SELECT * FROM my_first_st;
 └─────────────────┘
 ```
 
-A Databend stream currently supports **Append-only** mode, allowing it to capture **both data insertion and deletion events**, as demonstrated in the following example:
+A Databend stream currently supports **Append-only** mode, allowing it to capture data insertions. This encompasses potential data deletions or updates for the recently added rows. However, the stream consistently reflects the final changes to the table since its creation. For example, if a row is added and subsequently updated with new values, the stream will accurately describe the changes based on the updated values.
 
 ```sql title='Example continued:'
 INSERT INTO test_stream VALUES(3);
