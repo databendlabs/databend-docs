@@ -163,6 +163,16 @@ f. In the MinIO Console, create a bucket named `databend`.
 
 </TabItem>
 
+<TabItem value="HDFS" label="HDFS">
+
+Before deploying Databend, make sure you have successfully set up your Hadoop environment, and completed the following tasks:
+
+- Your system already has a Java SDK installed with JVM support.
+- Get the name node URL for connecting to HDFS.
+- You have already downloaded the Hadoop release to your system, and you can access the JAR packages in the release.
+
+</TabItem>
+
 <TabItem value="WebHDFS" label="WebHDFS">
 
 Before deploying Databend, make sure you have successfully set up your Hadoop environment, and the following tasks have been completed:
@@ -183,6 +193,10 @@ For information about how to enable and manage WebHDFS on Apache Hadoop, please 
 a. Create a folder named `databend` in the directory `/usr/local`.
 
 b. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
+
+:::note
+To use HDFS as the storage backend, download a release with a file name formatted as `databend-hdfs-${version}-${target-platform}.tar.gz`.
+:::
 
 <Tabs groupId="operating-systems">
 <TabItem value="linux-x86_64" label="Linux(x86)">
@@ -507,6 +521,17 @@ secret_access_key = "minioadmin"
 ```
 </TabItem>
 
+<TabItem value="HDFS" label="HDFS">
+
+```toml
+[storage]
+type = "hdfs"
+[storage.hdfs]
+name_node = "hdfs://hadoop.example.com:8020"
+root = "/analyses/databend/storage"
+```
+
+</TabItem>
 
 <TabItem value="WebHDFS" label="WebHDFS">
 
@@ -540,6 +565,26 @@ auth_type = "no_password"
 d. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
 
 e. Run the following command to start the Query node:
+
+:::note
+When using HDFS as the storage backend, ensure to set the following environment variables:
+
+```bash
+export JAVA_HOME=/path/to/java
+export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
+export HADOOP_HOME=/path/to/hadoop
+export CLASSPATH=/all/hadoop/jar/files
+```
+
+The following is an example:
+
+```bash
+export JAVA_HOME=/usr/lib/jvm/java-21-jdk
+export LD_LIBRARY_PATH={$JAVA_HOME}/lib/server/
+export HADOOP_HOME={$HOME}/hadoop-3.3.6
+export CLASSPATH=$(find $HADOOP_HOME -iname "*.jar" | xargs echo | tr ' ' ':')
+```
+:::
 
 ```shell
 ./databend-query -c ../configs/databend-query.toml > query.log 2>&1 &
