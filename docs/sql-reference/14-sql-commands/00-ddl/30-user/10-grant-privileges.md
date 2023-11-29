@@ -32,7 +32,10 @@ schemaObjectPrivileges ::=
   { CREATE ROLE}
   
 -- For STAGE
-  { CREATE STAGE}
+  { READ, WRITE }
+           
+-- For UDF
+  { USAGE }
 ```
 
 ```sql
@@ -40,6 +43,8 @@ privileges_level ::=
     *.*
   | db_name.*
   | db_name.tbl_name
+  | STAGE <stage_name>
+  | UDF <udf_name>
 ```
 
 ## Examples
@@ -80,6 +85,40 @@ SHOW GRANTS FOR user1;
 | GRANT ALL ON *.* TO 'user1'@'%'         |
 +-----------------------------------------+
 ```
+
+
+Grant the `ALL` privilege to the stage that named `s1` to the user `user1`:
+
+```sql
+GRANT ALL ON STAGE s1 TO 'user1';
+```
+```sql
+SHOW GRANTS FOR user1;
++-----------------------------------------------------------------+
+| Grants                                                          |
++-----------------------------------------------------------------+
+| GRANT ALL ON STAGE s1 TO 'user1'@'%'                            |
+| GRANT SELECT ON 'default'.'system'.'one' TO 'user1'@'%'         |
+| GRANT SELECT ON 'default'.'information_schema'.* TO 'user1'@'%' |
++-----------------------------------------------------------------+
+```
+
+Grant the `ALL` privilege to the UDF that named `f1` to the user `user1`:
+
+```sql
+GRANT ALL ON UDF f1 TO 'user1';
+```
+```sql
+SHOW GRANTS FOR user1;
++-----------------------------------------------------------------+
+| Grants                                                          |
++-----------------------------------------------------------------+
+| GRANT ALL ON UDF f1 TO 'user1'@'%'                              |
+| GRANT SELECT ON 'default'.'system'.'one' TO 'user1'@'%'         |
+| GRANT SELECT ON 'default'.'information_schema'.* TO 'user1'@'%' |
++-----------------------------------------------------------------+
+```
+
 
 ### Grant Privileges to a Role
 

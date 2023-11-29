@@ -30,9 +30,12 @@ schemaObjectPrivileges ::=
   
 -- For ROLE
   { CREATE ROLE}
-  
+
 -- For STAGE
-  { CREATE STAGE}
+    { READ, WRITE }
+
+-- For UDF
+    { USAGE }
 ```
 
 ```sql
@@ -40,6 +43,8 @@ privileges_level ::=
     *.*
   | db_name.*
   | db_name.tbl_name
+  | STAGE <stage_name>
+  | UDF <udf_name>
 ```
 
 ## Examples
