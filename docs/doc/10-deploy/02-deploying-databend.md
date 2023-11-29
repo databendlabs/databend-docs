@@ -575,6 +575,15 @@ export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
 export HADOOP_HOME=/path/to/hadoop
 export CLASSPATH=/all/hadoop/jar/files
 ```
+
+The following is an example:
+
+```bash
+export JAVA_HOME=/usr/lib/jvm/java-21-jdk
+export LD_LIBRARY_PATH={$JAVA_HOME}/lib/server/
+export HADOOP_HOME={$HOME}/hadoop-3.3.6
+export CLASSPATH=$(find $HADOOP_HOME -iname "*.jar" | xargs echo | tr ' ' ':')
+```
 :::
 
 ```shell
