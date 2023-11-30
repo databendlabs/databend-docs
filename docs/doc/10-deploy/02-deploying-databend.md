@@ -26,6 +26,7 @@ It is not recommended to deploy Databend on top of MinIO for production environm
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import CommonDownloadDesc from '../../public/templates/deploying-databend-common.md';
 
 <Tabs groupId="operating-systems">
 
@@ -43,6 +44,8 @@ For information about how to manage buckets and Access Keys for your cloud objec
 - <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>
 - <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>
 
+<CommonDownloadDesc />
+
 </TabItem>
 
 <TabItem value="Google GCS" label="Google GCS">
@@ -56,6 +59,8 @@ For information about how to manage buckets and OAuth2 credentials in Google Clo
 
 - <https://cloud.google.com/storage/docs/creating-buckets>
 - <https://cloud.google.com/storage/docs/authentication#apiauth>
+
+<CommonDownloadDesc />
 
 </TabItem>
 
@@ -72,6 +77,8 @@ For information about how to manage buckets and Access Keys for your cloud objec
 - <https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container>
 - <https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys>
 
+<CommonDownloadDesc />
+
 </TabItem>
 
 <TabItem value="Tencent COS" label="Tencent COS">
@@ -87,6 +94,8 @@ For information about how to manage buckets and Access Keys for your cloud objec
 - <https://cloud.tencent.com/document/product/436/13309>
 - <https://cloud.tencent.com/document/product/436/68282>
 
+<CommonDownloadDesc />
+
 </TabItem>
 
 <TabItem value="Alibaba OSS" label="Alibaba OSS">
@@ -101,6 +110,8 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 - <https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2>
 - <https://help.aliyun.com/document_detail/53045.htm>
+
+<CommonDownloadDesc />
 
 </TabItem>
 
@@ -118,6 +129,8 @@ For information about how to manage buckets and Access Keys for your cloud objec
 - <https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/>
 - <https://docs.qingcloud.com/product/api/common/overview.html>
 
+<CommonDownloadDesc />
+
 </TabItem>
 
 <TabItem value="Wasabi" label="Wasabi">
@@ -132,6 +145,8 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 - <https://docs.wasabi.com/docs/creating-a-bucket>
 - <https://docs.wasabi.com/docs/access-keys-1>
+
+<CommonDownloadDesc />
 
 </TabItem>
 
@@ -161,6 +176,8 @@ e. In your browser, go to <http://127.0.0.1:9900> and enter the credentials (`mi
 
 f. In the MinIO Console, create a bucket named `databend`.
 
+<CommonDownloadDesc />
+
 </TabItem>
 
 <TabItem value="HDFS" label="HDFS">
@@ -170,6 +187,34 @@ Before deploying Databend, make sure you have successfully set up your Hadoop en
 - Your system already has a Java SDK installed with JVM support.
 - Get the name node URL for connecting to HDFS.
 - You have already downloaded the Hadoop release to your system, and you can access the JAR packages in the release.
+
+### Downloading Databend
+
+a. Create a folder named `databend` in the directory `/usr/local`.
+
+b. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
+
+:::note
+To use HDFS as the storage backend, download a release with a file name formatted as `databend-hdfs-${version}-${target-platform}.tar.gz`.
+:::
+
+<Tabs>
+
+<TabItem value="linux-x86_64" label="Linux(x86)">
+
+```shell
+curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+```
+
+```shell
+tar xzvf databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+```
+
+</TabItem>
+
+</Tabs>
+
+c. Move the extracted folders `bin`, `configs`, and `scripts` to the folder `/usr/local/databend`.
 
 </TabItem>
 
@@ -185,82 +230,10 @@ For information about how to enable and manage WebHDFS on Apache Hadoop, please 
 
 - <https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html>
 
-</TabItem>
-</Tabs>
-
-### Downloading Databend
-
-a. Create a folder named `databend` in the directory `/usr/local`.
-
-b. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
-
-:::note
-To use HDFS as the storage backend, download a release with a file name formatted as `databend-hdfs-${version}-${target-platform}.tar.gz`.
-:::
-
-<Tabs groupId="operating-systems">
-<TabItem value="linux-x86_64" label="Linux(x86)">
-
-```shell
-curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
-```
-
-</TabItem>
-<TabItem value="linux-arm64" label="Linux(arm)">
-
-```shell
-curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
-```
-
-</TabItem>
-<TabItem value="mac-x86_64" label="MacOS(x86)">
-
-```shell
-curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-${version}-x86_64-apple-darwin.tar.gz
-```
-
-</TabItem>
-<TabItem value="mac-arm64" label="MacOS(arm)">
-
-```shell
-curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-${version}-aarch64-apple-darwin.tar.gz
-```
+<CommonDownloadDesc />
 
 </TabItem>
 </Tabs>
-
-<Tabs groupId="operating-systems">
-<TabItem value="linux-x86_64" label="Linux(x86)">
-
-```shell
-tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
-```
-
-</TabItem>
-<TabItem value="linux-arm64" label="Linux(arm)">
-
-```shell
-tar xzvf databend-${version}-aarch64-unknown-linux-musl.tar.gz
-```
-
-</TabItem>
-<TabItem value="mac-x86_64" label="MacOS(x86)">
-
-```shell
-tar xzvf databend-${version}-x86_64-apple-darwin.tar.gz
-```
-
-</TabItem>
-<TabItem value="mac-arm64" label="MacOS(arm)">
-
-```shell
-tar xzvf databend-${version}-aarch64-apple-darwin.tar.gz
-```
-
-</TabItem>
-</Tabs>
-
-c. Move the extracted folders `bin`, `configs`, and `scripts` to the folder `/usr/local/databend`.
 
 ### Deploying a Meta Node
 
