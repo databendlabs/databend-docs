@@ -15,7 +15,6 @@ This is a quick example illustrating what a stream looks like. In the given scen
 ```sql title='Example:'
 CREATE TABLE test_stream(a INT);
 INSERT INTO test_stream VALUES(1);
-ALTER TABLE test_stream SET OPTIONS(change_tracking = TRUE);
 
 CREATE STREAM my_first_st ON TABLE test_stream;
 INSERT INTO test_stream VALUES(2);
@@ -51,15 +50,9 @@ SELECT * FROM my_first_st;
 └─────────────────┘
 ```
 
-### Enabling Change Tracking
+### How Stream Works
 
-Change tracking must be enabled for a table before creating a stream for it. To enable change tracking for a table, use the [ALTER TABLE OPTION](../20-table/90-alter-table-option.md) command. In the previous example, this statement enables change tracking for the table 'test_stream':
-
-```sql
-ALTER TABLE test_stream SET OPTIONS(change_tracking = TRUE);
-```
-
-A stream does NOT store any data for a table. Once change tracking is enabled, Databend adds the following hidden columns as change tracking metadata to the table for tracking the data changes of each row:
+**A stream does not store any data for a table**. After creating a stream for a table, Databend adds the following hidden columns to the table as change tracking metadata. These columns are designed to dynamically capture and reflect alterations induced by DML operations.
 
 | Column                | Description                                                                       |
 |-----------------------|-----------------------------------------------------------------------------------|
@@ -107,19 +100,13 @@ INSERT INTO books_total VALUES
     (3, 'Where the Red Fern Grows', 'Wilson Rawls', 2022);
 ```
 
-After populating the table with 2022 data, we enable change tracking.
-
-```sql
-ALTER TABLE books_total SET OPTIONS (change_tracking = TRUE);
-```
-
 As we transition into 2023, we introduce the `books_stream_2023` stream to capture changes at the year's onset.
 
 ```sql
 CREATE STREAM books_stream_2023 ON TABLE books_total;
 ```
 
-New books for 2023 are seamlessly added to books_total, and the stream efficiently records these additions.
+New books for 2023 are seamlessly added to `books_total`, and the stream efficiently records these additions.
 
 ```sql
 INSERT INTO books_total VALUES
