@@ -7,11 +7,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Provides information about the status of a specified stream, yielding a single-column result (`has_data`) that can take on values of `true` or `false`: 
 
-- `true`: Indicates that the stream **might contain** change data capture records, implying the presence of captured changes or updates in the data.
+- `true`: Indicates that the stream **might contain** change data capture records.
 - `false`: Indicates that the stream currently does not contain any change data capture records.
 
 :::note
-The presence of a `true` in the result (`has_data`) does **not** ensure the definite existence of change data capture records. Other operations, such as inserting and then deleting a value, or performing a table compact operation, could also lead to a `true` value even when there are no actual change data capture records.
+The presence of a `true` in the result (`has_data`) does **not** ensure the definite existence of change data capture records. Other operations, such as performing a table compact operation, could also lead to a `true` value even when there are no actual change data capture records.
 :::
 
 ## Syntax
