@@ -24,10 +24,15 @@ CREATE CONNECTION [IF NOT EXISTS] <connection_name>
 
 ## Examples
 
+This example creates a connection to Amazon S3 named 'toronto' and establishes an external stage named 'my_s3_stage' linked to the 's3://databend-toronto' URL, using the 'toronto' connection. For more practical examples about connection, see [Usage Examples](index.md#usage-examples).  
+
 ```sql
 CREATE CONNECTION toronto 
     STORAGE_TYPE = 's3' 
     SECRET_ACCESS_KEY = '<your-secret-access-key>' 
     ACCESS_KEY_ID = '<your-access-key-id>';
 
+CREATE STAGE my_s3_stage 
+    URL = 's3://databend-toronto' 
+    CONNECTION = (CONNECTION_NAME = 'toronto');
 ```
