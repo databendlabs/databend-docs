@@ -16,7 +16,7 @@ Open `<your-ip>:8081` and select `Flame Graph` from the VIEW menus in the site h
 `databend-query` and `databend-meta` can be built optionally with `jemalloc`,
 which provides various memory profiling features.
 
-Currently, it does not work on Mac, with either intel or ARM.
+Currently, it does not work on Mac, with either intel or Arm.
 
 ### Enable memory profiling
 
