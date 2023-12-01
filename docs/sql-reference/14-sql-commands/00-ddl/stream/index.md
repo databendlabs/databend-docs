@@ -6,51 +6,26 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='STREAM'/>
 
-### What is Stream?
-
 A stream in Databend is a dynamic and real-time representation of changes to a table. Streams are created to capture and track modifications to the associated table, allowing continuous consumption and analysis of data changes as they occur.
 
-This is a quick example illustrating what a stream looks like. In the given scenario, a stream named 'my_first_st' is created for the 'test_stream' table and captures a data insertion:
- 
-```sql title='Example:'
-CREATE TABLE test_stream(a INT);
-INSERT INTO test_stream VALUES(1);
-
-CREATE STREAM my_first_st ON TABLE test_stream;
-INSERT INTO test_stream VALUES(2);
-SELECT * FROM my_first_st;
-
-┌─────────────────┐
-│        a        │
-├─────────────────┤
-│               2 │
-└─────────────────┘
-```
-
-A Databend stream currently supports **Append-only** mode. **This mode does not record updates or delete operations, including table truncations.** However, the stream consistently reflects the final changes to the table since its creation. For example, if a row is added and subsequently updated with new values, the stream will accurately describe the changes based on the updated values.
-
-```sql title='Example continued:'
-INSERT INTO test_stream VALUES(3);
-SELECT * FROM my_first_st;
-
-┌─────────────────┐
-│        a        │
-├─────────────────┤
-│               2 │
-│               3 │
-└─────────────────┘
-
-DELETE FROM test_stream WHERE a = 2;
-SELECT * FROM my_first_st;
-
-┌─────────────────┐
-│        a        │
-├─────────────────┤
-│               3 │
-└─────────────────┘
-```
-
 ### How Stream Works
+
+This section provides a quick example illustrating what a stream looks like and how it works. Let's say we have a table named 't' and we create a stream to capture the table changes. Once created, the stream starts to capture data changes to the table:
+
+![Alt text](../../../../../static/public/img/sql/stream-insert.png)
+
+**A Databend stream currently operates in an Append-only mode**. In this mode, the stream exclusively contains data insertion records, reflecting the latest changes to the table. Although data updates and deletions are not directly recorded, they are still taken into account. 
+
+For example, if a row is added and later updated with new values, the stream records the insertion along with the updated values. Similarly, if a row is added and subsequently deleted, the stream reflects these changes accordingly:
+
+![Alt text](../../../../../static/public/img/sql/stream-update.png)
+
+**A stream can be consumed by DML (Data Manipulation Language) operations**. After consumption, the stream contains no data but can continue to capture new changes, if any.
+
+
+![Alt text](../../../../../static/public/img/sql/stream-consume.png)
+
+### Stream Metadata
 
 **A stream does not store any data for a table**. After creating a stream for a table, Databend adds the following hidden columns to the table as change tracking metadata. These columns are designed to dynamically capture and reflect alterations induced by DML operations.
 
@@ -62,7 +37,7 @@ SELECT * FROM my_first_st;
 
 To display the values of these columns, use the SELECT statement:
 
-```sql title='Example continued:'
+```sql title='Example:'
 SELECT *, _origin_version, _origin_block_id, _origin_block_row_num 
 FROM test_stream;
 
