@@ -25,7 +25,8 @@ tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
 ```
 
 </TabItem>
-<TabItem value="linux-arm64" label="Linux(ARM)">
+
+<TabItem value="linux-arm64" label="Linux(Arm)">
 
 ```shell
 curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
@@ -48,7 +49,7 @@ tar xzvf databend-${version}-x86_64-apple-darwin.tar.gz
 
 </TabItem>
 
-<TabItem value="mac-arm64" label="MacOS(ARM)">
+<TabItem value="mac-arm64" label="MacOS(Arm)">
 
 ```shell
 curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-${version}-aarch64-apple-darwin.tar.gz
