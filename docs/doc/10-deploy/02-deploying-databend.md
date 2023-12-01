@@ -200,7 +200,7 @@ To use HDFS as the storage backend, download a release with a file name formatte
 
 <Tabs>
 
-<TabItem value="linux-x86_64" label="Linux(x86)">
+<TabItem value="linux-x86_64" label="Linux(X86)">
 
 ```shell
 curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz

@@ -27,7 +27,7 @@ SELECT * FROM my_first_st;
 └─────────────────┘
 ```
 
-A Databend stream currently supports **Append-only** mode, allowing it to capture data insertions. This encompasses potential data deletions or updates for the recently added rows. However, the stream consistently reflects the final changes to the table since its creation. For example, if a row is added and subsequently updated with new values, the stream will accurately describe the changes based on the updated values.
+A Databend stream currently supports **Append-only** mode. **This mode does not record updates or delete operations, including table truncations.** However, the stream consistently reflects the final changes to the table since its creation. For example, if a row is added and subsequently updated with new values, the stream will accurately describe the changes based on the updated values.
 
 ```sql title='Example continued:'
 INSERT INTO test_stream VALUES(3);
