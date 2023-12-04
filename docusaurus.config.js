@@ -125,24 +125,23 @@ const config = {
         './src/plugins/fetch-databend-releases',
         [
           '@docusaurus/plugin-client-redirects',
-          // mark
           {
             redirects: [
               {
-                to: '/sql/sql-functions',
-                from: ['/doc/sql-functions']
+                to: '/sql/sql-functions/:rest*',
+                from: ['/doc/sql-functions/:rest*']
               },
               {
-                to: '/sql/sql-commands',
-                from: ['/doc/sql-commands']
+                to: '/sql/sql-commands/:rest*',
+                from: ['/doc/sql-commands/:rest*']
               },
               {
-                to: '/sql/sql-reference',
-                from: ['/doc/sql-reference']
+                to: '/sql/sql-reference/:rest*',
+                from: ['/doc/sql-reference/:rest*']
               }
             ],
           },
-        ],
+        ],        
         [
             '@docusaurus/plugin-content-docs',
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
