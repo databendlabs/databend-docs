@@ -128,16 +128,16 @@ const config = {
           {
             redirects: [
               {
-                to: '/sql/sql-functions/:rest*',
-                from: ['/doc/sql-functions/:rest*']
+                to: '/sql/sql-functions/*',
+                from: ['/doc/sql-functions/*']
               },
               {
-                to: '/sql/sql-commands/:rest*',
-                from: ['/doc/sql-commands/:rest*']
+                to: '/sql/sql-commands/*',
+                from: ['/doc/sql-commands/*']
               },
               {
-                to: '/sql/sql-reference/:rest*',
-                from: ['/doc/sql-reference/:rest*']
+                to: '/sql/sql-reference/*',
+                from: ['/doc/sql-reference/*']
               }
             ],
           },
