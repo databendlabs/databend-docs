@@ -123,17 +123,25 @@ const config = {
         'docusaurus-plugin-sass',
         './src/plugins/global-sass-var-inject',
         './src/plugins/fetch-databend-releases',
-        // [
-        //   '@docusaurus/plugin-client-redirects',
-        //   {
-        //     redirects: [
-        //       {
-        //         to: '/doc',
-        //         from: ['/']
-        //       }
-        //     ],
-        //   },
-        // ],
+        [
+          '@docusaurus/plugin-client-redirects',
+          {
+            redirects: [
+              {
+                to: '/sql/sql-functions',
+                from: ['/doc/sql-functions']
+              },
+              {
+                to: '/sql/sql-commands',
+                from: ['/doc/sql-commands']
+              },
+              {
+                to: '/sql/sql-reference',
+                from: ['/doc/sql-reference']
+              }
+            ],
+          },
+        ],
         [
             '@docusaurus/plugin-content-docs',
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
