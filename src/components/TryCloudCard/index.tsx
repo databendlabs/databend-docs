@@ -5,7 +5,9 @@ import { Close } from '../Icons';
 import { useSessionStorageState } from 'ahooks';
 import CheckIcon from './CheckIcon';
 import $t from '@site/src/utils/tools';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 const TryCloudCard: FC = (): ReactElement=> {
+  const {siteConfig: {customFields: { isChina } } } = useDocusaurusContext() as any;
   const [hidden, setHiddenFlag] = useSessionStorageState('DATABEND_TOC_CARD', {
     defaultValue: ''
   });
@@ -39,7 +41,11 @@ const TryCloudCard: FC = (): ReactElement=> {
               })
             }
           </div>
-          <a href="https://www.databend.com/apply/?r=doc-card" className={styles.button}>{$t('Try it today')}</a>
+          <a href={
+            isChina
+            ? "https://app.databend.cn/register?r=doc-card"
+            : "https://www.databend.com/apply/?r=doc-card"
+          }  className={styles.button}>{$t('Try it today')}</a>
         </div>
       }
     </>
