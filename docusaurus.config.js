@@ -126,21 +126,20 @@ const config = {
         [
           '@docusaurus/plugin-client-redirects',
           {
-            redirects: [
-              {
-                to: '/sql/sql-functions/*',
-                from: ['/doc/sql-functions/*']
-              },
-              {
-                to: '/sql/sql-commands/*',
-                from: ['/doc/sql-commands/*']
-              },
-              {
-                to: '/sql/sql-reference/*',
-                from: ['/doc/sql-reference/*']
+            createRedirects(existingPath) {
+              const redirectsMap = {
+                '/doc/sql-reference': '/sql/sql-reference',
+                '/doc/sql-commands': '/sql/sql-commands',
+                '/doc/sql-functions': '/sql/sql-functions'
+              };
+              for (const [oldPath, newPath] of Object.entries(redirectsMap)) {
+                if (existingPath.includes(oldPath)) {
+                  return [existingPath.replace(oldPath, newPath)];
+                }
               }
-            ],
-          },
+              return undefined;
+            }
+          }
         ],        
         [
             '@docusaurus/plugin-content-docs',
