@@ -6,10 +6,12 @@ import { useMount } from 'ahooks';
 import NotFoundSvg from './NotFound.svg';
 import clsx from 'clsx';
 import styles from './not-found.module.scss';
-import { Button, Spin } from 'antd';
+import { Button, Spin, Space } from 'antd';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 export default function NotFound() {
+  const {siteConfig: {customFields: {homeLink}}} = useDocusaurusContext();
   const pathname = ExecutionEnvironment.canUseDOM ? window?.location?.href : '';
   const redirectsMap = {
     '/doc/sql-reference': '/sql/sql-reference',
@@ -55,7 +57,10 @@ export default function NotFound() {
                   original URL and let them know their link is broken.
                 </Translate>
               </p>
-              <Button type='primary' href='/doc'>Docs →</Button>
+             <Space size={16}>
+              <Button type='primary' href='/doc'>Docs</Button>
+              <Button href={homeLink+"/blog"} target='_blank'>Blog</Button>
+             </Space>
             </div>
           </div>
         </main>
