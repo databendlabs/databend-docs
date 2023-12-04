@@ -125,6 +125,7 @@ const config = {
         './src/plugins/fetch-databend-releases',
         [
           '@docusaurus/plugin-client-redirects',
+          // mark
           {
             redirects: [
               {
