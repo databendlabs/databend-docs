@@ -1,6 +1,9 @@
 ---
 title: SELECT
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.234"/>
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
@@ -14,7 +17,7 @@ SELECT
     [ALL | DISTINCT]
     <select_expr> | <col_name> [[AS] alias] | $<col_position> [, ...]
     [EXCLUDE (<col_name1> [, <col_name2>, <col_name3>, ...] ) ]
-    [FROM table_references
+    [FROM table_references]
     [AT ...]
     [WHERE <expr>]
     [GROUP BY {{<col_name> | <expr> | <col_alias> | <col_position>}, 
@@ -168,10 +171,17 @@ SELECT a, $2 FROM t1;
 
 ## FROM Clause
 
+The FROM clause in a SELECT statement specifies the source table or tables from which data will be queried. You can also improve code readability by placing the FROM clause before the SELECT clause, especially when managing a lengthy SELECT list or aiming to quickly identify the origins of selected columns.
+
 ```sql
+-- The following two statements are equivalent:
+
+-- Statement 1: Using SELECT clause with FROM clause
 SELECT number FROM numbers(3);
 
----
+-- Statement 2: Equivalent representation with FROM clause preceding SELECT clause
+FROM numbers(3) SELECT number;
+
 +--------+
 | number |
 +--------+
@@ -181,7 +191,7 @@ SELECT number FROM numbers(3);
 +--------+
 ```
 
-Databend supports direct querying of data from various locations without the need to load it into a table. These locations include user stages, internal stages, external stages, object storage buckets/containers (e.g., Amazon S3, Google Cloud Storage, Microsoft Azure), and remote servers accessible via HTTPS and IPFS. You can leverage this feature within the FROM clause to efficiently query data directly from these sources.
+The FROM clause can also specify a location, enabling direct querying of data from various sources and eliminating the need to first load it into a table. For more information, see [Querying Staged Files](/doc/load-data/transform/querying-stage).
 
 ## AT Clause
 
