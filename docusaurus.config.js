@@ -122,26 +122,7 @@ const config = {
     plugins: [
         'docusaurus-plugin-sass',
         './src/plugins/global-sass-var-inject',
-        './src/plugins/fetch-databend-releases',
-        [
-          '@docusaurus/plugin-client-redirects',
-          {
-            createRedirects(existingPath) {
-              console.log(existingPath, 'existingPath')
-              const redirectsMap = {
-                '/doc/sql-reference': '/sql/sql-reference',
-                '/doc/sql-commands': '/sql/sql-commands',
-                '/doc/sql-functions': '/sql/sql-functions'
-              };
-              for (const [oldPath, newPath] of Object.entries(redirectsMap)) {
-                if (existingPath.includes(oldPath)) {
-                  return [existingPath.replace(oldPath, newPath)];
-                }
-              }
-              return undefined;
-            }
-          }
-        ],        
+        './src/plugins/fetch-databend-releases',       
         [
             '@docusaurus/plugin-content-docs',
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
