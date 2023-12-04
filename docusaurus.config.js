@@ -127,6 +127,7 @@ const config = {
           '@docusaurus/plugin-client-redirects',
           {
             createRedirects(existingPath) {
+              console.log(existingPath, 'existingPath')
               const redirectsMap = {
                 '/doc/sql-reference': '/sql/sql-reference',
                 '/doc/sql-commands': '/sql/sql-commands',
