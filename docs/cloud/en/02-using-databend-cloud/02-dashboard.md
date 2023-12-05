@@ -4,7 +4,7 @@ title: Work with Dashboards
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-Dashboards are employed to present query results through a variety of chart types, including scorecards, pie charts, bar charts, and line charts. These charts are generated from the query results. You have the option to create a chart based on the query result after executing a query in a worksheet. Refreshing a dashboard allows you to re-execute the queries corresponding to the charts, thereby updating the charts with the latest results.
+Dashboards are employed to present query results through a variety of chart types, including **scorecards**, **pie charts**, **bar charts**, and **line charts**. These charts are generated from the query results. You have the option to create a chart based on the query result after executing a query in a worksheet. Refreshing a dashboard allows you to re-execute the queries corresponding to the charts, thereby updating the charts with the latest results.
 
 ![Alt text](@site/static/img/documents/dashboard/dashboard.png)
 
@@ -114,12 +114,98 @@ HAVING COUNT(*) > 1;
 This SQL statement returns `0`, indicating there are no duplicate rows in the table, and the data is now ready for analytics.
 
 </StepContent>
-
 </StepsWrap>
 
 ### Step 2: Creating Charts with Query Results
 
+In this step, we'll run four queries to extract insights from the data and visualize the results through a scorecard, pie chart, bar chart, and line chart. **Please create a separate worksheet for each query**.
 
+<StepsWrap>
+<StepContent number="1" title="US Total Deaths in 2022">
 
+1. Run the following SQL statement in a worksheet:
 
+```sql
+-- Calculate the total number of deaths in the US on December 31, 2022
+SELECT SUM(deaths)
+FROM covid_19_us_2022_3812
+WHERE date = '2022-12-31';
+```
 
+2. Create a scorecard within the worksheet using the query result:
+
+![Alt text](../../../../static/public/img/cloud/dashboard-3.gif)
+
+</StepContent>
+
+<StepContent number="2" title="Total Deaths by State in 2022">
+
+1. Run the following SQL statement in a worksheet:
+
+```sql
+-- Calculate the total number of deaths by state on December 31, 2022
+SELECT state, SUM(deaths) 
+FROM covid_19_us_2022_3812 
+WHERE date = '2022-12-31' 
+GROUP BY state;
+```
+
+2. Create a pie chart within the worksheet using the query result:
+
+![Alt text](../../../../static/public/img/cloud/dashboard-4.gif)
+
+</StepContent>
+
+<StepContent number="3" title="Cases & Deaths in Virgin Islands">
+
+1. Run the following SQL statement in a worksheet:
+
+```sql
+-- Retrieve all data for the state of Virgin Islands on December 31, 2022
+SELECT * FROM covid_19_us_2022_3812 
+WHERE date = '2022-12-31' AND state = 'Virgin Islands';
+```
+
+2. Create a bar chart within the worksheet using the query result:
+
+![Alt text](../../../../static/public/img/cloud/dashboard-5.gif)
+
+</StepContent>
+
+<StepContent number="4" title="Cumulative Cases & Deaths per Month in St. John">
+
+1. Run the following SQL statement in a worksheet:
+
+```sql
+-- Retrieve data for St. John at the end of each month
+SELECT * FROM covid_19_us_2022_3812
+WHERE 
+    (date = '2022-01-31'
+    OR date = '2022-02-28'
+    OR date = '2022-03-31'
+    OR date = '2022-04-30'
+    OR date = '2022-05-31'
+    OR date = '2022-06-30'
+    OR date = '2022-07-31'
+    OR date = '2022-08-31'
+    OR date = '2022-09-30'
+    OR date = '2022-10-31'
+    OR date = '2022-11-30'
+    OR date = '2022-12-31')
+    AND country = 'St. John' ORDER BY date;
+```
+
+2. Create a line chart within the worksheet using the query result:
+
+![Alt text](../../../../static/public/img/cloud/dashboard-6.gif)
+
+</StepContent>
+</StepsWrap>
+
+### Step 3: Adding Charts to Dashboard
+
+1. In Databend Cloud, create a dashboard on **Dashboards** > **New Dashboard**, then click **Add Chart** on the dashboard.
+
+2. Drag and drop the charts from the left onto the dashboard. You can resize or reposition a chart as needed.
+
+![Alt text](../../../../static/public/img/cloud/dashboard-7.gif)
