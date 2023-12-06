@@ -2,9 +2,11 @@
 title: Metabase
 ---
 
-[Metabase](https://www.metabase.com/) is an open-source business intelligence platform. You can use Metabase to ask questions about your data, or embed Metabase in your app to let your customers explore their data on their own. Databend provides a JDBC driver named [Metabase Databend Driver](https://github.com/databendcloud/metabase-databend-driver/releases/latest), enabling you to connect to Metabase and dashboard your data in Databend. For more information about the Metabase Databend Driver, refer to https://github.com/databendcloud/metabase-databend-driver
+[Metabase](https://www.metabase.com/) is an open-source business intelligence platform. You can use Metabase to ask questions about your data, or embed Metabase in your app to let your customers explore their data on their own. 
 
-## Downloading and Installing Metabase Databend Driver
+Databend provides a JDBC driver named [Metabase Databend Driver](https://github.com/databendcloud/metabase-databend-driver/releases/latest), enabling you to connect to Metabase and dashboard your data in Databend / Databend Cloud. For more information about the Metabase Databend Driver, refer to https://github.com/databendcloud/metabase-databend-driver
+
+## Downloading & Installing Metabase Databend Driver
 
 To download and install the Metabase Databend Driver: 
 
@@ -23,17 +25,22 @@ $ mkdir plugins
 java -jar metabase.jar
 ```
 
-## Tutorial: Integrate with Metabase
+## Tutorial: Integrating with Metabase
 
-The following tutorial shows you how to integrate Databend with Metabase through the Metabase Databend Driver. In this tutorial, you'll deploy a local Databend and install Metabase with Docker. Before you start, ensure that you have Docker installed.
+This tutorial guides you through the process of integrating Databend / Databend Cloud with Metabase using the Metabase Databend Driver. 
 
-### Step 1. Deploy Databend
+### Step 1. Set up Environment
 
-Follow the [Deployment Guide](/doc/deploy) to deploy a local Databend.
+To follow along, you'll need to install Metabase with Docker. Before you begin, make sure that Docker is installed on your system.
+
+For this tutorial, you can integrate either with Databend or Databend Cloud:
+
+- If you choose to integrate with a local Databend instance, follow the [Deployment Guide](/doc/deploy) to deploy it if you don't have one already.
+- If you prefer to integrate with Databend Cloud, make sure you can log in to your account and obtain the connection information for a warehouse. For more details, see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
 
 ### Step 2. Deploy Metabase
 
-The steps below describe how to install and deploy Metabase using Docker.
+Follow these steps to install and deploy Metabase with Docker:
 
 1. Pull the latest Docker image of Metabase from the Docker Hub registry.
 
@@ -46,13 +53,14 @@ docker pull metabase/metabase
 ```bash
 docker run  -d -p 3000:3000 --name metabase metabase/metabase
 ```
+
 3. [Download](https://github.com/databendcloud/metabase-databend-driver/releases/latest) the Metabase Databend Driver, then import it to the **plugins** folder of the Metabase container in Docker.
 
 ![Alt text](../../public/img/integration/add2plugins.gif)
 
 4. Restart the Metabase container.
 
-### Step 3. Connect Databend to Metabase
+### Step 3. Connect to Metabase
 
 1. Open your web browser, and go to http://localhost:3000/.
 
@@ -60,16 +68,19 @@ docker run  -d -p 3000:3000 --name metabase metabase/metabase
 
 ![Alt text](../../public/img/integration/add-later.png)
 
-3. On the Metabase homepage, select **Add your own data** to establish the connection to Databend:
+3. Click on the **gear** icon in the top right, and navigate to **Admin settings** > **Databases** > **Add a database** to create a connection:
 
-  - Database type: `Databend`
-  - Host: `host.docker.internal`
-  - Port: `8000`
-  - Username: `root`. No password is required if you log into a local instance of Databend with `root`.
-  - Database: `default`
+| Parameter                     | Databend               | Databend Cloud                     |
+|-------------------------------|------------------------|------------------------------------|
+| Database type                 | `Databend`             | `Databend`                         |
+| Host                          | `host.docker.internal` | Obtain from connection information |
+| Port                          | `8000`                 | `443`                              |
+| Username                      | For example, `root`    | `cloudapp`                         |
+| Password                      | Enter your password    | Obtain from connection information |
+| Use a secure connection (SSL) | Toggle off             | Toggle on                          |
 
 4. Click **Save changes**, then click **Exit admin**.
 
-You're all set! You can now start creating a query against Databend and building a dashboard. For more information, please refer to the Metabase documentation: https://www.metabase.com/docs/latest/index.html
+You're all set! You can now start creating a query and building a dashboard. For more information, please refer to the Metabase documentation: https://www.metabase.com/docs/latest/index.html
 
 ![Alt text](../../public/img/integration/allset.png)
