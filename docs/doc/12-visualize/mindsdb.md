@@ -6,7 +6,7 @@ Data that lives in your database is a valuable asset. [MindsDB](https://mindsdb.
 
 Both Databend and Databend Cloud can integrate with MindsDB as a data source, which brings Machine Learning capabilities into Databend. The following tutorials show you how to integrate with MindsDB and make data forecasts, using the [Air Pollution in Seoul](https://www.kaggle.com/datasets/bappekim/air-pollution-in-seoul) dataset as an example.
 
-## Tutorial: Integrating Databend with MindsDB
+## Tutorial-1: Integrating Databend with MindsDB
 
 Before you start, install a local MindsDB or sign up an account for MindsDB Cloud. This tutorial uses MindsDB Cloud. For more information about how to install a local MindsDB, refer to https://docs.mindsdb.com/quickstart#1-create-a-mindsdb-cloud-account-or-install-mindsdb-locally
 
@@ -100,7 +100,7 @@ Output:
 
 ![Alt text](../../public/img/integration/mindsdb-predict.png)
 
-## Tutorial: Integrating Databend Cloud with MindsDB
+## Tutorial-2: Integrating Databend Cloud with MindsDB
 
 Before you start, install a local MindsDB or sign up an account for MindsDB Cloud. This tutorial uses MindsDB Cloud. For more information about how to install a local MindsDB, refer to https://docs.mindsdb.com/quickstart#1-create-a-mindsdb-cloud-account-or-install-mindsdb-locally
 
