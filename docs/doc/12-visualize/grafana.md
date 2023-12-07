@@ -2,129 +2,46 @@
 title: Grafana
 ---
 
-## What is [Grafana](https://grafana.com/)?
+[Grafana](https://grafana.com/) is a monitoring dashboard system, which is an open-source monitoring tool developed by Grafana Labs. It can greatly simplify the complexity of monitoring by allowing us to provide the data to be monitored, and it generates various visualizations. Additionally, it has an alarm function that sends notifications when there is an issue with the system. Databend and Databend Cloud can integrate with Grafana through the [Altinity plugin for ClickHouse](https://grafana.com/grafana/plugins/vertamedia-clickhouse-datasource/).
 
-The open-source platform for monitoring and observability.
+## Tutorial: Integrating with Grafana
 
-Grafana allows you to query, visualize, alert on and understand your metrics no matter where they are stored. Create, explore, and share dashboards with your team and foster a data-driven culture.
+This tutorial guides you through the process of integrating Databend / Databend Cloud with Grafana using the Altinity plugin for ClickHouse. 
 
--- From [Grafana Project](https://github.com/grafana/grafana)
+### Step 1. Set up Environment
 
-## Grafana
+Before you start, please refer to the official installation guide to install Grafana: https://grafana.com/docs/grafana/latest/setup-grafana/installation.
 
-### Create a Databend User
+For this tutorial, you can integrate either with Databend or Databend Cloud:
 
-Connect to Databend server with [BendSQL](https://github.com/datafuselabs/BendSQL/):
+- If you choose to integrate with a local Databend instance, follow the [Deployment Guide](/doc/deploy) to deploy it if you don't have one already.
+- If you prefer to integrate with Databend Cloud, make sure you can log in to your account and obtain the connection information for a warehouse. For more details, see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
 
-```shell
-❯ bendsql
-Welcome to BendSQL.
-Trying connect to localhost:8000 as user root.
-Connected to DatabendQuery v1.1.2-nightly-8ade21e4669e0a2cc100615247705feacdf76c5b(rust-1.70.0-nightly-2023-04-15T16:08:52.195357424Z)
-```
+### Step 2. Install Altinity plugin for ClickHouse
 
-Create a user:
+1. Click on the gear icon in the sidebar on the Grafana homepage, and then select **Plugins**.
 
-```sql
-CREATE USER grafana IDENTIFIED BY 'grafana_password';
-```
+2. On the **Plugins** tab, search for and install the `Altinity plugin for ClickHouse`.
 
-Grant privileges for the user:
-```sql
-GRANT SELECT ON *.* TO grafana;
-```
+### Step 3. Create Data Source
 
-### Install Grafana
+1. Click on the gear icon in the sidebar on the Grafana homepage, and then select **Data sources**.
 
-Please refer [Grafana Installation](https://grafana.com/docs/grafana/latest/setup-grafana/installation/)
+2. On the **Data sources** tab, select **Add new data source**.
 
+3. Search for and select the data source type **Altinity plugin for ClickHouse**.
 
-### Install Grafana Datasource Plugin
+4. Configure the data source.
 
-1. Go to grafana plugin page: https://grafana.yourdomain.com/plugins.
+| Parameter | Databend                                 | Databend Cloud                     |
+|-----------|------------------------------------------|------------------------------------|
+| URL       | `http://localhost:8124`                  | Obtain from connection information |
+| Access    | `Server (default)`                       | `Server (default)`                 |
+| Auth      | `Basic auth`                             | `Basic auth`                       |
+| User      | For example, `root`                      | Obtain from connection information |
+| Password  | Enter your password                      | Obtain from connection information |
+| Additonal | Select `Use POST method to send queries` | Select `Add CORS flag to requests` |                                                                
 
-2. Search for `Altinity plugin for ClickHouse`, click install.
-
-3. Go to grafana datasource page: https://grafana.yourdomain.com/datasources.
-
-4. Click `Add data source`, select previously installed source type `Altinity plugin for ClickHouse`.
-
-5. Configure the datasource:
-    > Necessary fields:
-    > * `HTTP -> URL` Your databend query clickhouse endpoint, for example: `http://localhost:8124`
-    > * `Auth -> Basic auth` enabled
-    > * `Basic Auth Details -> User, Password` previously created grafana user
-    > * `Additional -> Use POST method to send queries` enabled
-
-    :::tip
-    For Databend Cloud users, use the endpoint in `connect`, for example:
-
-    `https://tnxxx--small-xxx.ch.aws-us-east-2.default.databend.com`
-    :::
-
-<p align="center">
-<img src="/img/integration/integration-gui-grafana-plugin-config.png" width="500px"/>
-</p>
-
-6. click `Save & Test` to verify datasource working.
+5. Click **Save & test**. If the page displays "Data source is working", it indicates that the data source has been successfully created.
 
 
-### Graphing with Databend
-
-Here we use an existing `nginx.access_logs` as an example:
-
-```sql
-CREATE TABLE `access_logs` (
-  `timestamp` TIMESTAMP,
-  `client` VARCHAR,
-  `method` VARCHAR,
-  `path` VARCHAR,
-  `protocol` VARCHAR,
-  `status` INT,
-  `size` INT,
-  `referrer` VARCHAR,
-  `agent` VARCHAR,
-  `request` VARCHAR
-);
-```
-
-1. Create a new dashboard with a new panel, select the Datasource created in previous step.
-
-2. Select `FROM` with database & table and click `Go to Query`:
-
-<p align="center">
-<img src="/img/integration/integration-gui-grafana-panel-config.png" width="500px"/>
-</p>
-
-3. Input the query with some template variables:
-
-    ```sql
-    SELECT
-        (to_int64(timestamp) div 1000000 div $interval * $interval) * 1000 as t, status,
-        count() as qps
-    FROM $table
-    WHERE timestamp >= to_datetime($from) AND timestamp <= to_datetime($to)
-    GROUP BY t, status
-    ORDER BY t
-    ```
-
-    :::tip
-    You can click `Show Help` for available macros, some frequently used are:
-
-    * `$interval` replaced with selected "Group by time interval" value (as a number of seconds)
-    * `$table` replaced with selected table name from Query Builder
-    * `$from` replaced with (timestamp with ms)/1000 value of UI selected "Time Range:From"
-    * `$to` replaced with (timestamp with ms)/1000 value of UI selected "Time Range:To"
-    :::
-
-    Then you should be able to see the graph showing:
-
-<p align="center">
-<img src="/img/integration/integration-gui-grafana-query.png" width="100%" width="500px"/>
-</p>
-
-Adding more panels with this step, we could then have an example dashboard:
-
-<p align="center">
-<img src="/img/integration/integration-gui-grafana-dashboard.png" width="100%"/>
-</p>
