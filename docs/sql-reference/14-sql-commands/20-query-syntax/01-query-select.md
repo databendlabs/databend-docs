@@ -15,8 +15,9 @@ Retrieves data from a table.
 [WITH]
 SELECT
     [ALL | DISTINCT]
-    <select_expr> | <col_name> [[AS] alias] | $<col_position> [, ...]
+    <select_expr> | <col_name> [[AS] <alias>] | $<col_position> [, ...]
     [EXCLUDE (<col_name1> [, <col_name2>, <col_name3>, ...] ) ]
+    [COLUMNS <expr>]
     [FROM table_references]
     [AT ...]
     [WHERE <expr>]
@@ -150,6 +151,66 @@ SELECT * EXCLUDE (id,lastname) FROM allemployees;
 | Lily      | F      |
 | Noah      | M      |
 | Macy      | F      |
+```
+
+### COLUMNS
+
+The COLUMNS keyword provides a flexible mechanism for column selection based on literal regular expression patterns and lambda expressions.
+
+```sql
+CREATE TABLE employee (
+    employee_id INT,
+    employee_name VARCHAR(255),
+    department VARCHAR(50),
+    salary DECIMAL(10, 2)
+);
+
+INSERT INTO employee VALUES
+(1, 'Alice', 'HR', 60000.00),
+(2, 'Bob', 'IT', 75000.00),
+(3, 'Charlie', 'Marketing', 50000.00),
+(4, 'David', 'Finance', 80000.00);
+
+
+-- Select columns with names starting with 'employee'
+SELECT COLUMNS('employee.*') FROM employee;
+
+┌────────────────────────────────────┐
+│   employee_id   │   employee_name  │
+├─────────────────┼──────────────────┤
+│               1 │ Alice            │
+│               2 │ Bob              │
+│               3 │ Charlie          │
+│               4 │ David            │
+└────────────────────────────────────┘
+
+-- Select columns where the name contains the substring 'name'
+SELECT COLUMNS(x -> x LIKE '%name%') FROM employee;
+
+┌──────────────────┐
+│   employee_name  │
+├──────────────────┤
+│ Alice            │
+│ Bob              │
+│ Charlie          │
+│ David            │
+└──────────────────┘
+```
+
+The COLUMNS keyword can also be utilized with EXCLUDE to explicitly exclude specific columns from the query result.
+
+```sql
+-- Select all columns excluding 'salary' from the 'employee' table
+SELECT COLUMNS(* EXCLUDE salary) FROM employee;
+
+┌───────────────────────────────────────────────────────┐
+│   employee_id   │   employee_name  │    department    │
+├─────────────────┼──────────────────┼──────────────────┤
+│               1 │ Alice            │ HR               │
+│               2 │ Bob              │ IT               │
+│               3 │ Charlie          │ Marketing        │
+│               4 │ David            │ Finance          │
+└───────────────────────────────────────────────────────┘
 ```
 
 ### Column Position
