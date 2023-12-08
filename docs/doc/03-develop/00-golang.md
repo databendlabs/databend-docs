@@ -1,18 +1,15 @@
 ---
-title: Developing with Databend using Golang
-sidebar_label: Golang
+title: Golang
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-Databend offers a driver (databend-go) written in Golang, which facilitates the development of applications using the Golang programming language and establishes connectivity with Databend.
+Databend offers a driver (databend-go) written in Golang, which facilitates the development of applications using the Golang programming language and establishes connectivity with Databend and Databend Cloud.
 
 For installation instructions, examples, and the source code, see the GitHub [databend-go](https://github.com/databendcloud/databend-go) repo.
 
-In the following tutorial, you'll learn how to utilize the driver `databend-go` to develop your applications. The tutorial will walk you through creating a SQL user in Databend and then writing Golang code to create a table, insert data, and perform data queries.
-
-## Tutorial: Developing with Databend using Golang
+## Tutorial-1: Integrating with Databend using Golang
 
 Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](../10-deploy/05-deploying-local.md).
 
@@ -175,3 +172,94 @@ go run main.go
 </StepContent>
 
 </StepsWrap>
+
+## Tutorial-2: Integrating with Databend Cloud using Golang
+
+Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how
+to do that, see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
+
+### Step 1. Create a Go Module
+
+```shell
+$ mkdir sample
+$ cd sample
+$ go mod init cloud.databend.com/sample
+```
+
+### Step 2. Install Dependencies
+
+```go
+$ go get github.com/databendcloud/databend-go
+```
+
+### Step 3. Connect with databend-go
+
+Create a file named `main.go` with the following code:
+
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+
+	_ "github.com/databendcloud/databend-go"
+)
+
+func main() {
+	dsn := "https://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}"
+	conn, err := sql.Open("databend", dsn)
+	if err != nil {
+		fmt.Println(err)
+	}
+	conn.Exec(`DROP TABLE IF EXISTS data`)
+	createTable := `CREATE TABLE  IF NOT EXISTS data (
+		i64 Int64,
+		u64 UInt64,
+		f64 Float64,
+		s   String,
+		s2  String,
+		a16 Array(Int16),
+		a8  Array(UInt8),
+		d   Date,
+		t   DateTime)`
+	_, err = conn.Exec(createTable)
+	if err != nil {
+		fmt.Println(err)
+	}
+	scope, err := conn.Begin()
+	batch, err := scope.Prepare(fmt.Sprintf("INSERT INTO %s VALUES", "data"))
+	if err != nil {
+		fmt.Println(err)
+    }
+	for i := 0; i < 10; i++ {
+		_, err = batch.Exec(
+			"1234",
+			"2345",
+			"3.1415",
+			"test",
+			"test2",
+			"[4, 5, 6]",
+			"[1, 2, 3]",
+			"2021-01-01",
+			"2021-01-01 00:00:00",
+		)
+	}
+	err = scope.Commit()
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+```
+
+:::tip
+Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to
+obtain the connection information,
+see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
+:::
+
+### Step 4. Run main.go
+
+```shell
+$ go run main.go
+```
