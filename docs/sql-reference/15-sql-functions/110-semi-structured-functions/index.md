@@ -16,6 +16,7 @@ This section provides reference information for the semi-structured data functio
 - [JSON_EACH](json-each.md)
 - [JSON_EXTRACT_PATH_TEXT](json-extract-path-text.md)
 - [JSON_PATH_EXISTS](json-path-exists.md)
+- [JSON_PATH_MATCH](json-path-match.md)
 - [JSON_PATH_QUERY](json-path-query.md)
 - [JSON_PATH_QUERY_ARRAY](json-path-query-array.md)
 - [JSON_PATH_QUERY_FIRST](json-path-query-first.md)

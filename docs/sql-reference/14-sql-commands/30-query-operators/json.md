@@ -3,7 +3,7 @@ title: JSON Operators
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.209"/>
+<FunctionDescription description="Introduced or updated: v1.2.241"/>
 
 | Operator | Description | Example | Result |
 |----------|-------------|---------|--------|
@@ -16,3 +16,5 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | ?& | Checks if each string in the given array exists as a key or array element, returning 1 for true and 0 for false. | `PARSE_JSON('{"a":1,"b":2,"c":3}') ?& ['b','e']` | 0 |
 | @> | Checks if the left JSON expression contains all key-value pairs of the right JSON expression, returning 1 for true and 0 for false. | `PARSE_JSON('{"name":"Alice","age":30}') @> PARSE_JSON('{"name":"Alice"}')` | 1 |
 | <@ | Checks if the left JSON expression is a subset of the right JSON expression, returning 1 for true and 0 for false. | `PARSE_JSON('{"name":"Alice"}') <@ PARSE_JSON('{"name":"Bob"}')` | 0 |
+| @@ | Checks whether a specified JSON path expression matches certain conditions within a JSON data, returning 1 for true and 0 for false. | `PARSE_JSON('{"a":1,"b":[1,2,3]}') @@ '$.a == 1'` | 1 |
+| @? | Checks whether any item is returned by the JSON path expression for the specified JSON value, returning 1 for true and 0 for false. | `PARSE_JSON('{"a":1,"b":[1,2,3]}') @? '$.b[3]'` | 0 |
