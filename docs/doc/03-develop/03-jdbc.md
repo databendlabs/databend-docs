@@ -2,7 +2,7 @@
 title: Java
 ---
 
-You can connect to and interact with Databend or Databend Cloud from various client tools and applications through a native interface designed for Java programming language, the [Databend JDBC driver](https://github.com/databendcloud/databend-jdbc).
+You can connect to and interact with Databend from various client tools and applications through a native interface designed for Java programming language, the [Databend JDBC driver](https://github.com/databendcloud/databend-jdbc).
 
 ## Installing Databend JDBC Driver
 

@@ -5,7 +5,7 @@ title: Golang
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-Databend offers a driver (databend-go) written in Golang, which facilitates the development of applications using the Golang programming language and establishes connectivity with Databend and Databend Cloud.
+Databend offers a driver (databend-go) written in Golang, which facilitates the development of applications using the Golang programming language and establishes connectivity with Databend.
 
 For installation instructions, examples, and the source code, see the GitHub [databend-go](https://github.com/databendcloud/databend-go) repo.
 
