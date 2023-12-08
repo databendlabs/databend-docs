@@ -15,9 +15,9 @@ Retrieves data from a table.
 [WITH]
 SELECT
     [ALL | DISTINCT]
-    <select_expr> | <col_name> [[AS] <alias>] | $<col_position> [, ...]
+    <select_expr> | <col_name> [[AS] <alias>] | $<col_position> [, ...] |  
+    COLUMNS <expr>
     [EXCLUDE (<col_name1> [, <col_name2>, <col_name3>, ...] ) ]
-    [COLUMNS <expr>]
     [FROM table_references]
     [AT ...]
     [WHERE <expr>]
