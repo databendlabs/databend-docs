@@ -1,6 +1,5 @@
 ---
-title: Developing with Databend using Python
-sidebar_label: Python
+title: Python
 ---
 
 Databend offers the following Python packages enabling you to develop Python applications that interact with Databend:
@@ -21,7 +20,7 @@ pip install databend-sqlalchemy
 
 In the following tutorial, you'll learn how to utilize the packages above to develop your Python applications. The tutorial will walk you through creating a SQL user in Databend and then writing Python code to create a table, insert data, and perform data queries.
 
-## Tutorial: Developing with Databend using Python
+## Tutorial-1: Integrating with Databend using Python
 
 Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](../10-deploy/05-deploying-local.md).
 
@@ -192,3 +191,54 @@ Readings in Database Systems Michael Stonebraker 2004
 ```
 </TabItem>
 </Tabs>
+
+## Tutorial-2: Integrating with Databend Cloud using Python (databend-py)
+
+Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
+
+### Step 1. Install Dependencies with pip
+
+```shell
+pip install databend-py
+```
+
+### Step 2. Connect with databend-py
+
+```python
+from databend_py import Client
+
+client = Client.from_url(f"https://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}")
+client.execute('DROP TABLE IF EXISTS data')
+client.execute('CREATE TABLE if not exists data (x Int32,y VARCHAR)')
+client.execute('DESC  data')
+client.execute("INSERT INTO data (Col1,Col2) VALUES ", [1, 'yy', 2, 'xx'])
+_, res = client.execute('select * from data')
+print(res)
+```
+
+## Tutorial-3: Integrating with Databend Cloud using Python (databend-sqlalchemy)
+
+Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
+
+### Step 1. Install Dependencies with pip
+
+```shell
+pip install databend-sqlalchemy
+```
+
+### Step 2. Connect with Databend SQLAlchemy
+
+```python
+from databend_sqlalchemy import connector
+
+cursor = connector.connect(f"{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}?secure=true").cursor()
+cursor.execute('DROP TABLE IF EXISTS data')
+cursor.execute('CREATE TABLE IF NOT EXISTS  data( Col1 TINYINT, Col2 VARCHAR )')
+cursor.execute("INSERT INTO data (Col1,Col2) VALUES ", [1, 'yy', 2, 'xx'])
+cursor.execute("SELECT * FROM data")
+print(cursor.fetchall())
+```
+
+:::tip
+Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
+:::
