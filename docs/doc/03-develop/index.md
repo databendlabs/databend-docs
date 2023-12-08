@@ -2,14 +2,15 @@
 title: Developer Resources
 ---
 
+## APIs
+
 Databend offers a variety of powerful APIs, allowing you to seamlessly interact with the system, integrate with external databases, enable real-time data ingestion, and simplify file uploads. Feel free to utilize these APIs when developing in supported languages to leverage the full potential of Databend.
 
 | API                	| Description                                                                                                    	|
 |--------------------	|----------------------------------------------------------------------------------------------------------------	|
-| HTTP Handler       	| Allows interaction with Databend through HTTP requests.                                                        	|
-| MySQL Handler      	| Enables communication between Databend and MySQL databases.                                                    	|
-| ClickHouse Handler 	| Facilitates data exchange between Databend and ClickHouse.                                                     	|
-| Streaming Load API 	| Designed for real-time data ingestion into Databend, allowing seamless streaming of data from various sources. 	|                               	|
+| HTTP Handler       	| Allows interaction with Databend through HTTP requests.                                                        	|                              	
+
+## Drivers
 
 Learn to use programming languages such as Go, Python, Node.js, Java, and Rust to develop applications that interact with Databend. Drivers described in the table below can be used to access Databend or Databend Cloud from these applications, enabling communication with Databend from the supported languages.
 
