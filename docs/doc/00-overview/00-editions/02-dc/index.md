@@ -1,6 +1,5 @@
 ---
 title: Databend Cloud
-sidebar_label: 'Databend Cloud 🔥'
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
