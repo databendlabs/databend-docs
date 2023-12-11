@@ -10,7 +10,7 @@ Databend offers different editions to cater to a variety of user needs. Dive int
 | Deployment          | Manual (Required)          | Manual (Required)           | Automatic (No Manual Setup) |
 | Upgrade & Scaling   | Manual (Required)          | Manual (Required)           | Automatic                   |
 | Core features       | Included                   | Included                    | Included                    |
-| Enterprise Features | Not Included               | Included                    | Included                    |
+| [Enterprise Features](01-dee/10-enterprise-features.md) | Not Included               | Included                    | Included                    |
 | Cost                | Free and open source       | Licensing Fees              | Pay-as-you-go               |
 
 Explore the details to find the edition that best suits your requirements:
