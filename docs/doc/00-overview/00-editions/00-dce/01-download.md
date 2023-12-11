@@ -1,8 +1,6 @@
 ---
 title: Downloading Databend
 sidebar_label: Downloading Databend
-description:
-  Downloading Databend
 ---
 
 Databend offers you these options for downloading the installation packages:
