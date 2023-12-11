@@ -17,7 +17,6 @@ curl -X PUT -T books.csv -H "<header-generated-by-presign>" <presigned-url>
 
 See also: 
 
-- [Presign RFC](../../../../doc/00-overview/02-community/01-rfcs/20220704-presign.md)
 - [LIST STAGE FILES](04-ddl-list-stage.md): Lists files in a stage.
 - [REMOVE STAGE FILES](05-ddl-remove-stage.md): Removes files from a stage.
 

@@ -25,7 +25,7 @@ The command has a limitation on the number of segments it can process, with the 
 Re-clustering a table consumes time (even longer if you include the **FINAL** option) and credits (when you are in Databend Cloud). During the optimizing process, do NOT perform DML actions to the table.
 :::
 
-The command does not cluster the table from the ground up. Instead, it selects and reorganizes the most chaotic existing storage blocks from the latest **LIMIT** segments using a clustering algorithm. For more information about how the re-clustering works, see [recluster](../../../../doc/00-overview/02-community/01-rfcs/20220729-recluster.md).
+The command does not cluster the table from the ground up. Instead, it selects and reorganizes the most chaotic existing storage blocks from the latest **LIMIT** segments using a clustering algorithm.
 
 ### Examples
 
