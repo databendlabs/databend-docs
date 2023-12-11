@@ -1,3 +1,0 @@
----
-title: Databend Enterprise Edition
----
