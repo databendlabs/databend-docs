@@ -33,7 +33,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
     name: 'fetch-databend-releases',
     async contentLoaded({ _, actions }) {
       const { setGlobalData } = actions;
-      if (!isProduction) {
+      if (isProduction) {
         let releasesList = [];
         let repoResource = {};
         try {
