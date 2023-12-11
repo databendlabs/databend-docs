@@ -16,8 +16,10 @@ import { IAssets } from '@site/src/types/download';
 const Releases: FC = (): ReactElement => {
   const { 
     releasesList, 
-    tagName
+    tagName,
+    name: releaseName
   } = useGetReleases();
+  console.log(releasesList, 'releasesList')
   const { filterBody, assets: latestAssets, published_at, prerelease} = releasesList[0];
   function Icons({isApple, size = 24, isUbuntu}: {isApple: boolean|undefined, size?: number, isUbuntu: boolean|undefined}): ReactElement {
     return (
@@ -54,11 +56,11 @@ const Releases: FC = (): ReactElement => {
       description={`A modern Elasticity and Performance Cloud Data Warehouse, activate your Object Storage(S3, Azure Blob, or MinIO) for real-time analytics`}>
       <div className={styles.wholePage}>
         <div className={styles.download}>Download Databend</div>
-        <div className={styles.latest}>Latest Version: {tagName}</div>
+        <div className={styles.latest}>Latest Version: {releaseName}</div>
         <Card className={styles.latestBlock}>
           <div className={styles.latestVersion}>
             <div className={styles.topTag}>
-              <span className={styles.version}>{tagName}</span>
+              <span className={styles.version}>{releaseName}</span>
               <Tag>Latest</Tag>
             </div>
             <div className={styles.updateTime}>{timeFormatAgo(published_at)}</div>
@@ -92,7 +94,7 @@ const Releases: FC = (): ReactElement => {
         <div className={styles.historyArea}>
           <div className={styles.historyTitle}>
             <div>History Versions</div>
-            <div>This page only displays the most recent 20 versions. For earlier versions, please refer to <a target='_blank' href='https://github.com/datafuselabs/databend/releases'>GitHub</a>.</div>
+            <div>This page only displays the latest stable versions. For earlier versions, please refer to <a target='_blank' href='https://github.com/datafuselabs/databend/releases'>GitHub</a>.</div>
           </div>
           <div className={styles.listWrap}>
             {
