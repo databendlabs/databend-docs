@@ -131,9 +131,3 @@ dd:cloudapp@tn3ftqihs--bl/book=> SELECT count(*), date FROM book_db.books GROUP 
 +----------+------+
 (2 rows)
 ```
-
-## 了解更多
-
-现在您对 Databend Cloud 的基本使用已有所了解。接下来，怎样利用 Databend Cloud 来解决真实数据分析需求？Databend Cloud 已提供了丰富的解决方案来应对不同的场景需求，请参考下述文档：
-
-- [使用 Python 脚本连接 Databend Cloud](../06-develop/01-python.md)

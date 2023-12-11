@@ -1,8 +1,6 @@
 ---
 title: HTTP Handler
-sidebar_label: REST
-description:
-  HTTP Handler.
+sidebar_label: REST API
 ---
 
 The Databend HTTP handler is a REST API that used to send query statement for execution on the server and to receive results back to the client.

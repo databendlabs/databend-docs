@@ -11,6 +11,7 @@ const useGetReleases = () => {
   return {
     releasesList,
     tagName,
+    name: releasesList[0]?.name,
     repoResource,
     stargazersCount,
     formatStargazersCount
