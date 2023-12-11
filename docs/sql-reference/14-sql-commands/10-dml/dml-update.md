@@ -13,7 +13,6 @@ Databend ensures data integrity with atomic operations. Inserts, updates, replac
 ```sql
 UPDATE <table_name>
 SET <col_name> = <value> [ , <col_name> = <value> , ... ]
-    [ FROM <table_name> ]
     [ WHERE <condition> ]
 ```
 
