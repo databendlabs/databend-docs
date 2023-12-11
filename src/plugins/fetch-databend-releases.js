@@ -19,25 +19,34 @@ const IGNORE_TEXT = /<!-- Release notes generated using configuration in .github
 const REG = /https:\/\/github\.com\/datafuselabs\/databend\/pull\/(\d+)/g;
 const REPLACE_TEXT = '[#$1](https://github.com/datafuselabs/databend/pull/$1)';
 
+function addNightlyToUrl(url) {
+  const regex = /(databend-v[\d.]+)-/;
+  if (url.match(regex) && !url.includes('nightly', url.match(regex).index)) {
+      return url.replace(regex, '$1-nightly-');
+  } else {
+      return url;
+  }
+}
+
 module.exports = function fetchDatabendReleasesPlugin() {
   return {
     name: 'fetch-databend-releases',
     async contentLoaded({ _, actions }) {
       const { setGlobalData } = actions;
-      if (isProduction) {
+      if (!isProduction) {
         let releasesList = [];
         let repoResource = {};
         try {
           const { data } = await axios.get(DATABEND_RELEASES);
           const { data: repo } = await axios.get(GITHUB_REPO);
-          releasesList = data;
+          releasesList = data?.filter((item)=> !item?.name?.includes('-nightly'));
           repoResource = repo;
         } catch (error) {
           releasesList = [];
           repoResource = { stargazers_count: 6500 };
         }
         // Preprocessing data, Just part of it
-        const releases = releasesList?.filter(release => release.assets?.length).slice(0, 21);
+        const releases = releasesList?.filter(release => release.assets?.length).slice(0, 30);
         const processedData = releases?.map(release => {
           const filterAssets = namesToMatch(release);
           const afterProcessedAssets =
@@ -60,14 +69,15 @@ module.exports = function fetchDatabendReleasesPlugin() {
               .sort((systemLinux, systemMac) => systemMac.isUbuntu - systemLinux.isUbuntu)
               .sort((systemLinux, systemMac) => systemMac.isApple - systemLinux.isApple)
               .map(asset => {
+                const downloadUrl = asset?.browser_download_url?.replace(
+                  GITHUB_DOWNLOAD,
+                  DATABEND_DOWNLOAD
+                );
                 return {
                   ...asset,
                   formatSize: bytes.format(asset?.size, { thousandsSeparator: ',', decimalPlaces: 1 }),
                   osType: asset?.osTypeDesc.match(/\(([^)]+)\)/)[1].split(',')[0],
-                  browser_download_url: asset?.browser_download_url?.replace(
-                    GITHUB_DOWNLOAD,
-                    DATABEND_DOWNLOAD
-                  )
+                  browser_download_url: addNightlyToUrl(downloadUrl)
                 }
               });
           return {
@@ -83,14 +93,14 @@ module.exports = function fetchDatabendReleasesPlugin() {
         });
         // name match list
         function namesToMatch(release) {
-          const { assets, tag_name } = release;
+          const { assets, name } = release;
           const namesDisplayList = [
-            `databend-${tag_name}-aarch64-apple-darwin.tar.gz`,
-            `databend-${tag_name}-x86_64-apple-darwin.tar.gz`,
-            `databend-${tag_name}-aarch64-unknown-linux-musl.tar.gz`,
-            `databend-${tag_name}-x86_64-unknown-linux-gnu.tar.gz`,
-            `databend-${tag_name}-aarch64-unknown-linux-gnu.tar.gz`,
-            `databend-${tag_name}-x86_64-unknown-linux-musl.tar.gz`
+            `databend-${name}-aarch64-apple-darwin.tar.gz`,
+            `databend-${name}-x86_64-apple-darwin.tar.gz`,
+            `databend-${name}-aarch64-unknown-linux-musl.tar.gz`,
+            `databend-${name}-x86_64-unknown-linux-gnu.tar.gz`,
+            `databend-${name}-aarch64-unknown-linux-gnu.tar.gz`,
+            `databend-${name}-x86_64-unknown-linux-musl.tar.gz`
           ];
           const filteredAssets = assets?.filter(item => {
             return namesDisplayList?.includes(item?.name);
