@@ -261,8 +261,8 @@ const config = {
                                 to: '/doc/deploy'
                             },
                             {
-                                label: 'Releases',
-                                to: '/release-notes'
+                                label: 'Blog',
+                                to: `${homeLink}/blog`
                             },
                         ]
                     },
