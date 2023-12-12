@@ -34,7 +34,7 @@ In this tutorial, we will guide you through the process of uploading the sample 
 CREATE STAGE my_internal_stage;
 ```
 
-2. Stage the sample file using [BendSQL](../../13-sql-clients/01-bendsql.md):
+2. Stage the sample file using [BendSQL](../../11-sql-clients/01-bendsql.md):
 
 ```sql
 PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage

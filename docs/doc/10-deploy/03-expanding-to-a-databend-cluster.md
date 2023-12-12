@@ -63,7 +63,6 @@ SELECT * FROM system.clusters
 
 After deploying Databend, you might need to learn about the following topics:
 
-- [SQL Clients](/doc/sql-clients): Learn to connect to Databend using SQL clients.
 - [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs.
 - [Load & Unload Data](/doc/load-data): Manage data import/export in Databend.
 - [Visualize](/doc/visualize): Integrate Databend with visualization tools for insights.

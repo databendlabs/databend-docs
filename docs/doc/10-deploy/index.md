@@ -1,5 +1,5 @@
 ---
-title: Deploy & Upgrade Guides
+title: Deploy & Upgrade Databend
 ---
 
 ## Overview

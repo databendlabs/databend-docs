@@ -95,7 +95,7 @@ When starting the Databend Docker container, you can specify the username and pa
 
 ### Step 3. Connecting to Databend
 
-To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../13-sql-clients/01-bendsql.md).
+To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../11-sql-clients/01-bendsql.md).
 
 1. To establish a connection with Databend using the SQL user (databend/databend), run the following command:
 
@@ -141,7 +141,7 @@ The following steps will guide you through the process of locally deploying Data
 
 ### Step 2. Starting Databend
 
-1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](../13-sql-clients/00-admin-users.md). For this example, uncomment the following lines to choose this account:
+1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](../11-sql-clients/00-admin-users.md). For this example, uncomment the following lines to choose this account:
 
 ```sql title="databend-query.toml"
 [[query.users]]
@@ -191,7 +191,7 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 
 ### Step 3. Connecting to Databend
 
-To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../13-sql-clients/01-bendsql.md).
+To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../11-sql-clients/01-bendsql.md).
 
 1. To establish a connection with a local Databend, execute the following command:
 
@@ -223,7 +223,6 @@ SELECT
 
 After deploying Databend, you might need to learn about the following topics:
 
-- [SQL Clients](/doc/sql-clients): Learn to connect to Databend using SQL clients.
 - [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs.
 - [Load & Unload Data](/doc/load-data): Manage data import/export in Databend.
 - [Visualize](/doc/visualize): Integrate Databend with visualization tools for insights.

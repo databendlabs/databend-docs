@@ -68,257 +68,257 @@ import MD51 from '../release-nightly/2023-11-02_v1.2.190-nightly.md';
 
 
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.249-nightly" number="" title="Dec 10, 2023 (v1.2.249-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.249-nightly" number="" title="Dec 9, 2023 (v1.2.249-nightly)">
 <MD1 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.248-nightly" number="" title="Dec 9, 2023 (v1.2.248-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.248-nightly" number="" title="Dec 8, 2023 (v1.2.248-nightly)">
 <MD2 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.245-nightly" number="" title="Dec 8, 2023 (v1.2.245-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.245-nightly" number="" title="Dec 7, 2023 (v1.2.245-nightly)">
 <MD3 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.244-nightly" number="" title="Dec 7, 2023 (v1.2.244-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.244-nightly" number="" title="Dec 6, 2023 (v1.2.244-nightly)">
 <MD4 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.243-nightly" number="" title="Dec 6, 2023 (v1.2.243-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.243-nightly" number="" title="Dec 5, 2023 (v1.2.243-nightly)">
 <MD5 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.242-nightly" number="" title="Dec 5, 2023 (v1.2.242-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.242-nightly" number="" title="Dec 4, 2023 (v1.2.242-nightly)">
 <MD6 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.241-nightly" number="" title="Dec 4, 2023 (v1.2.241-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.241-nightly" number="" title="Dec 3, 2023 (v1.2.241-nightly)">
 <MD7 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.240-nightly" number="" title="Dec 3, 2023 (v1.2.240-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.240-nightly" number="" title="Dec 2, 2023 (v1.2.240-nightly)">
 <MD8 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.239-nightly" number="" title="Dec 2, 2023 (v1.2.239-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.239-nightly" number="" title="Dec 1, 2023 (v1.2.239-nightly)">
 <MD9 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.238-nightly" number="" title="Dec 1, 2023 (v1.2.238-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.238-nightly" number="" title="Nov 30, 2023 (v1.2.238-nightly)">
 <MD10 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.237-nightly" number="" title="Dec 1, 2023 (v1.2.237-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.237-nightly" number="" title="Nov 30, 2023 (v1.2.237-nightly)">
 <MD11 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.236-nightly" number="" title="Dec 1, 2023 (v1.2.236-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.236-nightly" number="" title="Nov 30, 2023 (v1.2.236-nightly)">
 <MD12 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.235-nightly" number="" title="Nov 30, 2023 (v1.2.235-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.235-nightly" number="" title="Nov 29, 2023 (v1.2.235-nightly)">
 <MD13 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.234-nightly" number="" title="Nov 30, 2023 (v1.2.234-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.234-nightly" number="" title="Nov 29, 2023 (v1.2.234-nightly)">
 <MD14 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.233-nightly" number="" title="Nov 29, 2023 (v1.2.233-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.233-nightly" number="" title="Nov 28, 2023 (v1.2.233-nightly)">
 <MD15 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.232-nightly" number="" title="Nov 29, 2023 (v1.2.232-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.232-nightly" number="" title="Nov 28, 2023 (v1.2.232-nightly)">
 <MD16 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.231-nightly" number="" title="Nov 28, 2023 (v1.2.231-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.231-nightly" number="" title="Nov 27, 2023 (v1.2.231-nightly)">
 <MD17 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.230-nightly" number="" title="Nov 28, 2023 (v1.2.230-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.230-nightly" number="" title="Nov 27, 2023 (v1.2.230-nightly)">
 <MD18 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.229-nightly" number="" title="Nov 27, 2023 (v1.2.229-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.229-nightly" number="" title="Nov 26, 2023 (v1.2.229-nightly)">
 <MD19 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.228-nightly" number="" title="Nov 27, 2023 (v1.2.228-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.228-nightly" number="" title="Nov 26, 2023 (v1.2.228-nightly)">
 <MD20 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.227-nightly" number="" title="Nov 26, 2023 (v1.2.227-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.227-nightly" number="" title="Nov 25, 2023 (v1.2.227-nightly)">
 <MD21 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.226-nightly" number="" title="Nov 26, 2023 (v1.2.226-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.226-nightly" number="" title="Nov 25, 2023 (v1.2.226-nightly)">
 <MD22 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.225-nightly" number="" title="Nov 25, 2023 (v1.2.225-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.225-nightly" number="" title="Nov 24, 2023 (v1.2.225-nightly)">
 <MD23 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.224-nightly" number="" title="Nov 24, 2023 (v1.2.224-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.224-nightly" number="" title="Nov 23, 2023 (v1.2.224-nightly)">
 <MD24 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.223-nightly" number="" title="Nov 23, 2023 (v1.2.223-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.223-nightly" number="" title="Nov 22, 2023 (v1.2.223-nightly)">
 <MD25 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.222-nightly" number="" title="Nov 23, 2023 (v1.2.222-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.222-nightly" number="" title="Nov 22, 2023 (v1.2.222-nightly)">
 <MD26 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.221-nightly" number="" title="Nov 22, 2023 (v1.2.221-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.221-nightly" number="" title="Nov 21, 2023 (v1.2.221-nightly)">
 <MD27 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.220-nightly" number="" title="Nov 22, 2023 (v1.2.220-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.220-nightly" number="" title="Nov 21, 2023 (v1.2.220-nightly)">
 <MD28 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.219-nightly" number="" title="Nov 21, 2023 (v1.2.219-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.219-nightly" number="" title="Nov 20, 2023 (v1.2.219-nightly)">
 <MD29 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.218-nightly" number="" title="Nov 21, 2023 (v1.2.218-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.218-nightly" number="" title="Nov 20, 2023 (v1.2.218-nightly)">
 <MD30 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.217-nightly" number="" title="Nov 20, 2023 (v1.2.217-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.217-nightly" number="" title="Nov 19, 2023 (v1.2.217-nightly)">
 <MD31 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.216-nightly" number="" title="Nov 19, 2023 (v1.2.216-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.216-nightly" number="" title="Nov 18, 2023 (v1.2.216-nightly)">
 <MD32 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.215-nightly" number="" title="Nov 18, 2023 (v1.2.215-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.215-nightly" number="" title="Nov 17, 2023 (v1.2.215-nightly)">
 <MD33 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.214-nightly" number="" title="Nov 18, 2023 (v1.2.214-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.214-nightly" number="" title="Nov 17, 2023 (v1.2.214-nightly)">
 <MD34 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.213-nightly" number="" title="Nov 17, 2023 (v1.2.213-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.213-nightly" number="" title="Nov 16, 2023 (v1.2.213-nightly)">
 <MD35 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.212-nightly" number="" title="Nov 16, 2023 (v1.2.212-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.212-nightly" number="" title="Nov 15, 2023 (v1.2.212-nightly)">
 <MD36 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.211-nightly" number="" title="Nov 16, 2023 (v1.2.211-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.211-nightly" number="" title="Nov 15, 2023 (v1.2.211-nightly)">
 <MD37 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.210-nightly" number="" title="Nov 15, 2023 (v1.2.210-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.210-nightly" number="" title="Nov 14, 2023 (v1.2.210-nightly)">
 <MD38 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.209-nightly" number="" title="Nov 15, 2023 (v1.2.209-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.209-nightly" number="" title="Nov 14, 2023 (v1.2.209-nightly)">
 <MD39 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.208-nightly" number="" title="Nov 14, 2023 (v1.2.208-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.208-nightly" number="" title="Nov 13, 2023 (v1.2.208-nightly)">
 <MD40 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.207-nightly" number="" title="Nov 12, 2023 (v1.2.207-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.207-nightly" number="" title="Nov 11, 2023 (v1.2.207-nightly)">
 <MD41 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.206-nightly" number="" title="Nov 11, 2023 (v1.2.206-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.206-nightly" number="" title="Nov 10, 2023 (v1.2.206-nightly)">
 <MD42 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.205-nightly" number="" title="Nov 10, 2023 (v1.2.205-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.205-nightly" number="" title="Nov 9, 2023 (v1.2.205-nightly)">
 <MD43 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.204-nightly" number="" title="Nov 10, 2023 (v1.2.204-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.204-nightly" number="" title="Nov 9, 2023 (v1.2.204-nightly)">
 <MD44 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.203-nightly" number="" title="Nov 9, 2023 (v1.2.203-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.203-nightly" number="" title="Nov 8, 2023 (v1.2.203-nightly)">
 <MD45 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.202-nightly" number="" title="Nov 9, 2023 (v1.2.202-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.202-nightly" number="" title="Nov 8, 2023 (v1.2.202-nightly)">
 <MD46 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.201-nightly" number="" title="Nov 8, 2023 (v1.2.201-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.201-nightly" number="" title="Nov 7, 2023 (v1.2.201-nightly)">
 <MD47 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.200-nightly" number="" title="Nov 7, 2023 (v1.2.200-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.200-nightly" number="" title="Nov 6, 2023 (v1.2.200-nightly)">
 <MD48 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.199-nightly" number="" title="Nov 7, 2023 (v1.2.199-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.199-nightly" number="" title="Nov 6, 2023 (v1.2.199-nightly)">
 <MD49 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.191-nightly" number="" title="Nov 3, 2023 (v1.2.191-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.191-nightly" number="" title="Nov 2, 2023 (v1.2.191-nightly)">
 <MD50 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.190-nightly" number="" title="Nov 2, 2023 (v1.2.190-nightly)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.190-nightly" number="" title="Nov 1, 2023 (v1.2.190-nightly)">
 <MD51 />
 
 </StepContent>

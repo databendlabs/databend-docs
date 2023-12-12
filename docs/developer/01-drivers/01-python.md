@@ -194,7 +194,7 @@ Readings in Database Systems Michael Stonebraker 2004
 
 ## Tutorial-2: Integrating with Databend Cloud using Python (databend-py)
 
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
+Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
 
 ### Step 1. Install Dependencies with pip
 
@@ -218,7 +218,7 @@ print(res)
 
 ## Tutorial-3: Integrating with Databend Cloud using Python (databend-sqlalchemy)
 
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
+Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
 
 ### Step 1. Install Dependencies with pip
 
@@ -240,5 +240,5 @@ print(cursor.fetchall())
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
+Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
 :::

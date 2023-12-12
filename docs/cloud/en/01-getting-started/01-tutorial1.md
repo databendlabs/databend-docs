@@ -1,8 +1,9 @@
 ---
 title: "Analyzing Anonymous Click Dataset"
+slug: /
 ---
 
-In this tutorial, you will import an anonymous click traffic dataset into Databend Cloud, and do some simple queries and analysis. Before starting, please make sure you have successfully registered and logged into your Databend Cloud account. For detailed steps, please refer to [Activate Databend Cloud](../../01-getting-started/01-new-account.md).
+In this tutorial, you will import an anonymous click traffic dataset into Databend Cloud, and do some simple queries and analysis. Before starting, please make sure you have successfully registered and logged into your Databend Cloud account.
 
 The "hits_v1" dataset is sourced from the ClickBench ranking and consists of 100 million rows of data with a volume of 7.5 GB. It is real user click data that has been anonymized and reflects real user behavior for analysis.
 
