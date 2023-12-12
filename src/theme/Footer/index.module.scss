@@ -29,8 +29,9 @@
       display: flex;
       gap: 4px;
       align-items: center;
-      min-width: 72px;
+      // min-width: 72px;
       width: fit-content;
+      justify-content: center;
       &:hover{
         color: var(--color-primary);
       }
