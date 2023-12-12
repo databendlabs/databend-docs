@@ -16,7 +16,8 @@ export default function NotFound() {
   const redirectsMap = {
     '/doc/sql-reference': '/sql/sql-reference',
     '/doc/sql-commands': '/sql/sql-commands',
-    '/doc/sql-functions': '/sql/sql-functions'
+    '/doc/sql-functions': '/sql/sql-functions',
+    "/doc/develop": '/developer'
   };
   useMount(()=> {
     for (const [oldPath, newPath] of Object.entries(redirectsMap)) {

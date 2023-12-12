@@ -22,5 +22,9 @@
   "item.label.Downloads": {
     "message": "下载",
     "description": "Navbar item with label Downloads"
+  },
+  "item.label.Developer": {
+    "message": "开发者",
+    "description": "Navbar item with label Developer"
   }
 }
