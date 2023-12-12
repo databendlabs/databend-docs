@@ -1,7 +1,3 @@
 {
-  "label": "SQL Clients",
-  "link": {
-    "type": "generated-index",
-    "slug": "/sql-clients"
-  }
+  "label": Connect to Databend
 }
