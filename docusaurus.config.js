@@ -179,6 +179,19 @@ const config = {
             }
           }
         ],
+        [
+          '@docusaurus/plugin-content-docs',
+          /** @type {import('@docusaurus/plugin-content-docs').Options} */
+          {
+            id: 'developer',
+            path: './docs/developer',
+            routeBasePath: 'developer',
+            sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
+            editUrl: ({ locale, docPath }) => {
+              return `https://github.com/datafuselabs/databend-docs/edit/main/docs/developer/${docPath}`;
+            }
+          }
+        ],
         'plugin-image-zoom',
         [
             "docusaurus-plugin-devserver",
@@ -226,6 +239,11 @@ const config = {
                     {
                       to: '/cloud',
                       label: 'Databend Cloud',
+                      position: 'right',
+                    },
+                    {
+                      to: '/developer',
+                      label: 'Developer',
                       position: 'right',
                     },
                     {

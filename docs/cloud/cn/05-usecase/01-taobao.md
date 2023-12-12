@@ -40,7 +40,7 @@ gzip UserBehavior.csv
 2. 在工作区中，执行以下 SQL 语句在阿里云上创建一个名为"mycsv"的外部 Stage:
 
 ```sql
-CREATE STAGE mycsv URL = 's3://opendal-testing/' 
+CREATE STAGE mycsv URL = 's3://<YOUR_BUCKET_NAME>' 
 CONNECTION = (
   ACCESS_KEY_ID = '<YOUR_ACCESS_KEY_ID>',
   SECRET_ACCESS_KEY = '<YOUR_SECRET_ACCESS_KEY>',
@@ -63,7 +63,7 @@ LIST @mycsv;
 
 <StepContent number="3" title="上传数据集到外部 Stage">
 
-[使用 BendSQL](../01-getting-started/05-clients/09-bendsql.md)将压缩后的数据集文件 (UserBehavior.csv.gz) 上传到外部 Stage。获取计算集群的连接信息，请参考[连接到计算集群](../02-using-databend-cloud/00-warehouses.md/#连接到计算集群-connecting)。
+[使用 BendSQL](../01-getting-started/05-clients/09-bendsql.md)将压缩后的数据集文件 (UserBehavior.csv.gz) 上传到外部 Stage。获取计算集群的连接信息，请参考[连接到计算集群](../02-using-databend-cloud/00-warehouses.md#connecting)。
 
 ```bash
 (base) eric@Erics-iMac ~ % bendsql --host tenantID--YOUR_WAREHOUSE.gw.aliyun-cn-beijing.default.databend.cn \

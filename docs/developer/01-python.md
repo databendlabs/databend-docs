@@ -22,7 +22,7 @@ In the following tutorial, you'll learn how to utilize the packages above to dev
 
 ## Tutorial-1: Integrating with Databend using Python
 
-Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](../10-deploy/05-deploying-local.md).
+Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/doc/deploy/deploying-local).
 
 ### Step 1. Prepare a SQL User Account
 

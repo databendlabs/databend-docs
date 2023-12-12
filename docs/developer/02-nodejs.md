@@ -23,7 +23,7 @@ Before installing the driver, make sure to fulfill the following prerequisites:
 
 ## Tutorial-1: Integrating with Databend using Node.js
 
-Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](../10-deploy/05-deploying-local.md).
+Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/doc/deploy/deploying-local).
 
 ### Step 1. Prepare a SQL User Account
 
