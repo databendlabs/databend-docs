@@ -31,7 +31,7 @@ The Databend JDBC driver is provided as a JAR file and can be integrated directl
 ```
 
 :::tip DID YOU KNOW?
-You can also connect to Databend from DBeaver through the Databend JDBC driver. For more information, see [Connecting to Databend with JDBC](../13-sql-clients/02-jdbc.md).
+You can also connect to Databend from DBeaver through the Databend JDBC driver. For more information, see [Connecting to Databend with JDBC](/doc/sql-clients/jdbc).
 :::
 
 ## Configuring Connection String

@@ -19,7 +19,6 @@ const Releases: FC = (): ReactElement => {
     tagName,
     name: releaseName
   } = useGetReleases();
-  console.log(releasesList, 'releasesList')
   const { filterBody, assets: latestAssets, published_at, prerelease} = releasesList[0];
   function Icons({isApple, size = 24, isUbuntu}: {isApple: boolean|undefined, size?: number, isUbuntu: boolean|undefined}): ReactElement {
     return (
