@@ -9,7 +9,6 @@ The deployment documentation provides insights and instructions on various modes
 ## Table of Contents
 
 - [Understanding Deployment Modes](00-understanding-deployment-modes.md)
-- [Installing Databend](01-installing-databend.md)
 - [Deploying Databend](02-deploying-databend.md)
 - [Expanding to a Databend Cluster](03-expanding-to-a-databend-cluster.md)
 - [Deploying Locally](05-deploying-local.md)
