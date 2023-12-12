@@ -11,11 +11,11 @@ To seamlessly integrate with your workflow, Databend continually expands its eco
 Refer to the links below for integration instructions and tutorials:
 
 - **Develop**
-    - [Golang](/developer/golang)
-    - [Python](/developer/python)
-    - [Node.js](/developer/nodejs)
-    - [Java](/developer/jdbc)
-    - [Rust](/developer/rust)
+    - [Golang](/developer/drivers/golang)
+    - [Python](/developer/drivers/python)
+    - [Node.js](/developer/drivers/nodejs)
+    - [Java](/developer/drivers/jdbc)
+    - [Rust](/developer/drivers/rust)
 
 - **ETL**
     - [Airbyte](../12-load-data/02-load-db/airbyte.md)
