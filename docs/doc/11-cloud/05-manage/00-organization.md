@@ -12,7 +12,7 @@ Please note that each organization in Databend Cloud has its own pricing plan an
 
 ## Creating an Organization
 
-When you provide an organization name during the signup process, you create an organization in Databend Cloud with your account as an Admin account. You will also need to select a pricing plan, a cloud provider, and a region for the new organization. For more information, see [Activate Databend Cloud](../01-getting-started/01-new-account.md).
+When you provide an organization name during the signup process, you create an organization in Databend Cloud with your account as an Admin account. You will also need to select a pricing plan, a cloud provider, and a region for the new organization. For more information, see [Activate Databend Cloud](../01-new-account.md)).
 
 ![](@site/static/img/documents/getting-started/01.jpeg)
 

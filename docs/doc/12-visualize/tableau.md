@@ -114,7 +114,7 @@ In this tutorial, you'll integrate Databend Cloud with [Tableau Desktop](https:/
 
 ### Step 1. Obtain Connection Information
 
-Obtain the connection information from Databend Cloud. For how to do that, refer to [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
+Obtain the connection information from Databend Cloud. For how to do that, refer to [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
 
 ### Step 2. Install databend-jdbc
 

@@ -5,7 +5,7 @@ title: "Hands-On Tutorial"
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-In this tutorial, you will create a database and a data table in Databend Cloud, and import a sample data. Before getting started, please ensure that you have successfully registered and logged in to your Databend Cloud account. For detailed instructions, please refer to [Activate Databend Cloud](01-new-account.md).
+In this tutorial, you will create a database and a data table in Databend Cloud, and import a sample data. Before getting started, please ensure that you have successfully registered and logged in to your Databend Cloud account.
 
 ## Step 1: Create a Database and a Table
 
@@ -69,7 +69,7 @@ You can choose any of the following methods to import data. Before starting, ple
 
 ### Load with BendSQL
 
-Databend Cloud offers a CLI tool called BendSQL. You can also use BendSQL in your data pipeline to automate data import. To install BendSQL, please refer to [Using BendSQL](05-clients/09-bendsql.md).
+Databend Cloud offers a CLI tool called BendSQL. You can also use BendSQL in your data pipeline to automate data import.
 
 1. On the Home page, click **Connect**:
 

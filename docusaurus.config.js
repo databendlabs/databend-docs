@@ -4,8 +4,8 @@ const { site } = process.env;
 const isCN = (site || 'cn') === 'cn';
 const lang = isCN ? 'zh' : 'en';
 
-const homeLink = isCN ? 'https://www.databend.cn': 'https://www.databend.com';
-const cloudLink = isCN ? 'https://app.databend.cn' :'https://app.databend.com';
+const homeLink = isCN ? 'https://www.databend.cn' : 'https://www.databend.com';
+const cloudLink = isCN ? 'https://app.databend.cn' : 'https://app.databend.com';
 const docsHomeLink = isCN ? 'https://docs.databend.cn' : 'https://docs.databend.com';
 const TwitterSvg =
     '<svg width="20" style="top: 5px; position: relative" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>';
@@ -17,19 +17,19 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const { site_env } = process.env;
 const isProduction = site_env === 'production';
 const ASKBEND_URL = 'https://ask.databend.rs';
-const algolia = isCN 
-? {
-  appId: 'FUCSAUXK2Q',
-  apiKey: '0f200c10999f19584ec9e31b5caa9065',
-  indexName: 'databend',
-  contextualSearch: true
-} 
-: {
-  appId: 'RL7MS9PKE8',
-  apiKey: 'cb5d6af612410c0fced698ff39ccd47a',
-  indexName: 'databend-rs-docs',
-  contextualSearch: true
-}
+const algolia = isCN
+    ? {
+        appId: 'FUCSAUXK2Q',
+        apiKey: '0f200c10999f19584ec9e31b5caa9065',
+        indexName: 'databend',
+        contextualSearch: true
+    }
+    : {
+        appId: 'RL7MS9PKE8',
+        apiKey: 'cb5d6af612410c0fced698ff39ccd47a',
+        indexName: 'databend-rs-docs',
+        contextualSearch: true
+    }
 /** @type {import('@docusaurus/types').Config} */
 const config = {
     title: 'Databend',
@@ -50,7 +50,7 @@ const config = {
                 label: 'English',
             },
             'zh': {
-              label: '中文',
+                label: '中文',
             }
         },
     },
@@ -66,12 +66,12 @@ const config = {
         },
     ],
     customFields: {
-      isChina: isCN,
-      docsHomeLink,
-      homeLink,
-      cloudLink,
-      blogTags: ['weekly', 'databend'],
-      askBendUrl: isProduction ? ASKBEND_URL : ''
+        isChina: isCN,
+        docsHomeLink,
+        homeLink,
+        cloudLink,
+        blogTags: ['weekly', 'databend'],
+        askBendUrl: isProduction ? ASKBEND_URL : ''
     },
     presets: [
         [
@@ -122,75 +122,75 @@ const config = {
     plugins: [
         'docusaurus-plugin-sass',
         './src/plugins/global-sass-var-inject',
-        './src/plugins/fetch-databend-releases',       
+        './src/plugins/fetch-databend-releases',
         [
             '@docusaurus/plugin-content-docs',
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
             {
-              id: 'dev',
-              path: './docs/dev',
-              routeBasePath: 'dev',
-              sidebarPath: require.resolve('./docs/dev/sidebars.js'),
-              editUrl: ({ locale, devPath }) => {
-                // @ts-ignore
-                // if (locale !== config.i18n.defaultLocale) {
-                //     return `https://databend.crowdin.com/databend/${locale}`;
-                // }
-                return `https://github.com/datafuselabs/databend-docs/edit/main/docs/dev/${devPath}`;
-              },
+                id: 'dev',
+                path: './docs/dev',
+                routeBasePath: 'dev',
+                sidebarPath: require.resolve('./docs/dev/sidebars.js'),
+                editUrl: ({ locale, devPath }) => {
+                    // @ts-ignore
+                    // if (locale !== config.i18n.defaultLocale) {
+                    //     return `https://databend.crowdin.com/databend/${locale}`;
+                    // }
+                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/dev/${devPath}`;
+                },
             }
         ],
         [
-          '@docusaurus/plugin-content-docs',
-          /** @type {import('@docusaurus/plugin-content-docs').Options} */
-          {
-            id: 'cloud',
-            path: `./docs/cloud/${isCN ? 'cn' : 'en'}`,
-            routeBasePath: 'cloud',
-            sidebarPath: require.resolve('./docs/cloud/sidebars.js'),
-            editUrl: ({ locale, docPath }) => {
-              return `https://github.com/datafuselabs/databend-docs/tree/main/docs/cloud/${isCN ? 'cn' : 'en'}/${docPath}`;
+            '@docusaurus/plugin-content-docs',
+            /** @type {import('@docusaurus/plugin-content-docs').Options} */
+            {
+                id: 'tutorials',
+                path: `./docs/cloud/${isCN ? 'cn' : 'en'}`,
+                routeBasePath: 'tutorials',
+                sidebarPath: require.resolve('./docs/cloud/sidebars.js'),
+                editUrl: ({ locale, docPath }) => {
+                    return `https://github.com/datafuselabs/databend-docs/tree/main/docs/cloud/${isCN ? 'cn' : 'en'}/${docPath}`;
+                }
             }
-          }
         ],
         [
-          '@docusaurus/plugin-content-docs',
-          /** @type {import('@docusaurus/plugin-content-docs').Options} */
-          {
-            id: 'sqlReference',
-            path: './docs/sql-reference',
-            routeBasePath: 'sql',
-            sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
-            editUrl: ({ locale, docPath }) => {
-              return `https://github.com/datafuselabs/databend-docs/edit/main/docs/sql-reference/${docPath}`;
+            '@docusaurus/plugin-content-docs',
+            /** @type {import('@docusaurus/plugin-content-docs').Options} */
+            {
+                id: 'sqlReference',
+                path: './docs/sql-reference',
+                routeBasePath: 'sql',
+                sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
+                editUrl: ({ locale, docPath }) => {
+                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/sql-reference/${docPath}`;
+                }
             }
-          }
         ],
         [
-          '@docusaurus/plugin-content-docs',
-          /** @type {import('@docusaurus/plugin-content-docs').Options} */
-          {
-            id: 'releaseNotes',
-            path: `./docs/${isCN ? 'release-notes-cn' : 'release-notes'}`,
-            routeBasePath: 'release-notes',
-            sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
-            editUrl: ({ locale, docPath }) => {
-              return `https://github.com/datafuselabs/databend-docs/edit/main/docs/release-notes/${docPath}`;
+            '@docusaurus/plugin-content-docs',
+            /** @type {import('@docusaurus/plugin-content-docs').Options} */
+            {
+                id: 'releaseNotes',
+                path: `./docs/${isCN ? 'release-notes-cn' : 'release-notes'}`,
+                routeBasePath: 'release-notes',
+                sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
+                editUrl: ({ locale, docPath }) => {
+                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/release-notes/${docPath}`;
+                }
             }
-          }
         ],
         [
-          '@docusaurus/plugin-content-docs',
-          /** @type {import('@docusaurus/plugin-content-docs').Options} */
-          {
-            id: 'developer',
-            path: './docs/developer',
-            routeBasePath: 'developer',
-            sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
-            editUrl: ({ locale, docPath }) => {
-              return `https://github.com/datafuselabs/databend-docs/edit/main/docs/developer/${docPath}`;
+            '@docusaurus/plugin-content-docs',
+            /** @type {import('@docusaurus/plugin-content-docs').Options} */
+            {
+                id: 'developer',
+                path: './docs/developer',
+                routeBasePath: 'developer',
+                sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
+                editUrl: ({ locale, docPath }) => {
+                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/developer/${docPath}`;
+                }
             }
-          }
         ],
         'plugin-image-zoom',
         [
@@ -233,29 +233,29 @@ const config = {
                 items: [
                     {
                         to: '/doc',
-                        label: 'Databend',
+                        label: 'Guides',
                         position: 'right',
                     },
                     {
-                      to: '/cloud',
-                      label: 'Databend Cloud',
-                      position: 'right',
+                        to: '/tutorials',
+                        label: 'Tutorials',
+                        position: 'right',
                     },
                     {
-                      to: '/developer',
-                      label: 'Developer',
-                      position: 'right',
+                        to: '/developer',
+                        label: 'Developer',
+                        position: 'right',
                     },
                     {
-                      to: '/sql',
-                      label: 'SQL Reference',
-                      position: 'right',
+                        to: '/sql',
+                        label: 'SQL Reference',
+                        position: 'right',
                     },
                     // 
                     {
-                      to: '/release-notes',
-                      label: 'Releases',
-                      position: 'right',
+                        to: '/release-notes',
+                        label: 'Releases',
+                        position: 'right',
                     },
                     // { to: '/blog', label: 'Blog', position: 'left' }, // or position: 'right'
                     {
@@ -306,7 +306,7 @@ const config = {
                 additionalLanguages: ['toml', 'rust'],
             },
             algolia: algolia,
-            image:  'img/rect-icon.png',
+            image: 'img/rect-icon.png',
             metadata: [
                 { name: 'twitter:card', content: 'summary_large_image' },
                 { name: 'twitter:site', content: '@databend.rs' }

@@ -521,7 +521,7 @@ root = "/analyses/databend/storage"
 </TabItem>
 </Tabs>
 
-c. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](../13-sql-clients/00-admin-users.md). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
+c. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](../11-sql-clients/00-admin-users.md). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
 
 :::caution
 Using "no_password" authentication for the root user in this tutorial is just an example and not recommended for production due to potential security risks.
@@ -628,7 +628,6 @@ sudo chown -R $USER /var/lib/databend
 
 After deploying Databend, you might need to learn about the following topics:
 
-- [SQL Clients](/doc/sql-clients): Learn to connect to Databend using SQL clients.
 - [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs.
 - [Load & Unload Data](/doc/load-data): Manage data import/export in Databend.
 - [Visualize](/doc/visualize): Integrate Databend with visualization tools for insights.

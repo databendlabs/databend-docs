@@ -36,7 +36,7 @@ To follow along, you'll need to install Metabase with Docker. Before you begin, 
 For this tutorial, you can integrate either with Databend or Databend Cloud:
 
 - If you choose to integrate with a local Databend instance, follow the [Deployment Guide](/doc/deploy) to deploy it if you don't have one already.
-- If you prefer to integrate with Databend Cloud, make sure you can log in to your account and obtain the connection information for a warehouse. For more details, see [Connecting to a Warehouse](/cloud/using-databend-cloud/warehouses#connecting).
+- If you prefer to integrate with Databend Cloud, make sure you can log in to your account and obtain the connection information for a warehouse. For more details, see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
 
 ### Step 2. Deploy Metabase
 

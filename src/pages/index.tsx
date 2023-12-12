@@ -11,7 +11,7 @@ import $t from '../utils/tools';
 
 
 function HomepageHeader() {
-  const { siteConfig: {customFields, tagline} } = useDocusaurusContext();
+  const { siteConfig: { customFields, tagline } } = useDocusaurusContext();
   const { GitHub, Book } = icons;
   const isChina = customFields?.isChina;
   return (
@@ -30,7 +30,7 @@ function HomepageHeader() {
             </Link>
             <Link
               className={clsx("button", styles.Button)}
-              to="/cloud">
+              to="/doc/overview/editions/dc/">
               <LightDatabendCloudSingleSvg width={40}></LightDatabendCloudSingleSvg>
               Databend Cloud
             </Link>
@@ -40,11 +40,11 @@ function HomepageHeader() {
           <div className={clsx('cloud-banner', styles.cloudBanner)}>
             <div style={{ textAlign: 'center' }}>
               <h5>🎉 {$t('Databend Cloud Now Available')}</h5>
-              <p style={{marginBottom: 0}}>{$t('Register now and get a $200 coupon')}</p>
+              <p style={{ marginBottom: 0 }}>{$t('Register now and get a $200 coupon')}</p>
             </div>
             <Link
               className={clsx("button", styles.Button, styles.White)}
-              to={isChina ? '/cloud/getting-started/activate' : '/cloud/getting-started/new-account'}>
+              to={isChina ? '/doc/cloud/new-account' : '/doc/cloud/new-account'}>
               🚀 {$t('Start your trial')}
             </Link>
           </div>
