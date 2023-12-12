@@ -30,5 +30,13 @@
   "item.label.Developer": {
     "message": "Developer",
     "description": "Navbar item with label Developer"
+  },
+  "item.label.Tutorials": {
+    "message": "Tutorials",
+    "description": "Navbar item with label Tutorials"
+  },
+  "item.label.Guides": {
+    "message": "Guides",
+    "description": "Navbar item with label Guides"
   }
 }

@@ -79,7 +79,7 @@ const config = {
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
                 docs: {
-                    path: './docs/doc',
+                    path: `./docs/${isCN ? 'doc-cn' : 'doc'}`,
                     routeBasePath: 'doc',
                     sidebarPath: require.resolve('./docs/doc/sidebars.js'),
                     editUrl: ({ locale, docPath }) => {
@@ -145,9 +145,9 @@ const config = {
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
             {
                 id: 'tutorials',
-                path: `./docs/cloud/${isCN ? 'cn' : 'en'}`,
+                path: `./docs/tutorials/${isCN ? 'cn' : 'en'}`,
                 routeBasePath: 'tutorials',
-                sidebarPath: require.resolve('./docs/cloud/sidebars.js'),
+                sidebarPath: require.resolve('./docs/tutorials/sidebars.js'),
                 editUrl: ({ locale, docPath }) => {
                     return `https://github.com/datafuselabs/databend-docs/tree/main/docs/cloud/${isCN ? 'cn' : 'en'}/${docPath}`;
                 }
