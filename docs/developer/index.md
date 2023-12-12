@@ -9,7 +9,7 @@ Databend offers a variety of powerful APIs, allowing you to seamlessly interact 
 
 | API                	| Description                                                                                                    	|
 |--------------------	|----------------------------------------------------------------------------------------------------------------	|
-| [HTTP Handler](00-apis/index.md)     	| Allows interaction with Databend through HTTP requests.                                                        	|                              	
+| [HTTP Handler](00-apis/http.md)     	| Allows interaction with Databend through HTTP requests.                                                        	|                              	
 
 ## Drivers
 
