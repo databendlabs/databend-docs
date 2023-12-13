@@ -17,22 +17,23 @@ const AISearch: FC<IProps> = ({ onReturn, initialQuery}): ReactElement=> {
   const [isExample, setIsExample] = useSafeState(true);
   const [isGetting, setIsGetting] = useSafeState(false);
   useMount(()=> {
-    inputRef?.current?.focus()
+    (inputRef?.current as any)?.focus()
   });
   useEffect(()=> {
     if (initialQuery) {
       getResult(initialQuery);
     }
   }, [initialQuery]);
-  function askOnKeyDown(e) {
+  function askOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     const code = e.keyCode || e.which;
     if ((e.target as HTMLInputElement)?.id === INPUT_ID && code === 13) {
       if (isGetting) return;
-      const value = e.target.value;
+      const inputElement = e.target as HTMLInputElement;
+      const value = inputElement.value;
       getResult(value)
     }
   }
-  function askChange(e) {
+  function askChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     setValue(value)
   }

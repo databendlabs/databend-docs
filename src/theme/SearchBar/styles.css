@@ -12,3 +12,7 @@
 .DocSearch-Container {
   z-index: 100000;
 }
+
+.ant-modal-content {
+  padding: 0!important;
+}

@@ -59,7 +59,7 @@ export default function NotFound() {
                 </Translate>
               </p>
               <Space size={16}>
-                <Button type='primary' href='/doc'>Docs</Button>
+                <Button type='primary' href='/doc'>Guides</Button>
                 <Button href={homeLink + "/blog"} target='_blank'>Blog</Button>
               </Space>
             </div>
