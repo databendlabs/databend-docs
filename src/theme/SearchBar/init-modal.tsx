@@ -86,6 +86,7 @@ const items = [
 ]
 return (
   <Modal 
+    transitionName={'zoom'}
     onCancel={onClose}
     open={visible}
     closable={false}

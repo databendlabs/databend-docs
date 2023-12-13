@@ -249,11 +249,6 @@ function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
 function AIModal({ visible, onCloseAiSearch, onClose, initialQuery }) {
   return (
     <AntdModal
-      style={{
-        body: {
-          padding: 0
-        }
-      }}
       onCancel={onClose}
       open={visible}
       maskClosable
