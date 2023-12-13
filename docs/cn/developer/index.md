@@ -1,24 +1,24 @@
 ---
-title: Developer Resources
+title: 开发者资源
 sidebar_position: -2
 ---
 
 ## APIs
 
-Databend offers a variety of powerful APIs, allowing you to seamlessly interact with the system, integrate with external databases, enable real-time data ingestion, and simplify file uploads. Feel free to utilize these APIs when developing in supported languages to leverage the full potential of Databend.
+Databend提供了各种强大的API，允许您与系统无缝交互，与外部数据库集成，实现实时数据摄取，并简化文件上传。在支持的编程语言中开发时，可以自由地利用这些API来发挥Databend的全部潜力。
 
-| API                	| Description                                                                                                    	|
+| API                	| 描述                                                                                                    	|
 |--------------------	|----------------------------------------------------------------------------------------------------------------	|
-| [HTTP Handler](00-apis/http.md)     	| Allows interaction with Databend through HTTP requests.                                                        	|                              	
+| [HTTP处理程序](00-apis/http.md)     	| 允许通过HTTP请求与Databend进行交互。                                                        	|                              	
 
-## Drivers
+## 驱动程序
 
-Learn to use programming languages such as Go, Python, Node.js, Java, and Rust to develop applications that interact with Databend. Drivers described in the table below can be used to access Databend or Databend Cloud from these applications, enabling communication with Databend from the supported languages.
+学习使用Go、Python、Node.js、Java和Rust等编程语言开发与Databend交互的应用程序。下表中描述的驱动程序可用于从这些应用程序访问Databend或Databend Cloud，从而实现与Databend的通信。
 
-| Language 	 | Drivers                                                                                                                                   	 | Native? 	 | Description                                                                                                                                                                                                                                                       	                 |
+| 语言 	 | 驱动程序                                                                                                                                   	 | 本地支持? 	 | 描述                                                                                                                                                                                                                                                       	                 |
 |------------|---------------------------------------------------------------------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Go       	 | [ databend-go ]( https://github.com/databendcloud/databend-go )                                                                           	 | Yes     	 | Connect to and interact with Databend or Databend Cloud through a native interface designed for Go programming language. [Click here](./01-drivers/00-golang.md) for more information about the driver installation, tutorials, and code samples.                                              	 |
-| Python   	 | [databend-driver](https://pypi.org/project/databend-driver/) & [ databend-sqlalchemy ]( https://github.com/databendcloud/databend-py ) 	 | Yes     	 | Connect to and interact with Databend or Databend Cloud through a native interface developed for Python programming language. [Click here](./01-drivers/01-python.md) for more information about the driver installation, tutorials, and code samples.                                         	 |
-| Node.js  	 | [MySQL driver for Node.js](https://www.npmjs.com/package/mysql)                                                                           	 | No      	 | Connect to and interact with Databend or Databend Cloud using the Node.js MySQL driver interface. [Click here](./01-drivers/02-nodejs.md) for more information about the driver installation, tutorials, and code samples.                                                                     	 |
-| Java     	 | [databend-jdbc](https://github.com/databendcloud/databend-jdbc)                                                                           	 | Yes     	 | Connect to and interact with Databend or Databend Cloud from various client tools and applications through a native interface designed for Java programming language. [Click here](./01-drivers/03-jdbc.md) for more information about the driver installation, tutorials, and code samples. 	   |
-| Rust     	 | [databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver)                                                               	 | Yes     	 | Connect to and interact with Databend or Databend Cloud through a native interface developed for Rust programming language. [Click here](./01-drivers/04-rust.md) for more information about the driver installation, tutorials, and code samples.                                               |
+| Go       	 | [ databend-go ]( https://github.com/databendcloud/databend-go )                                                                           	 | 是     	 | 通过专为Go编程语言设计的本地接口连接到Databend或Databend Cloud并与之交互。有关驱动程序安装、教程和代码示例的更多信息，请单击[此处](./01-drivers/00-golang.md)。                                              	 |
+| Python   	 | [databend-driver](https://pypi.org/project/databend-driver/) & [ databend-sqlalchemy ]( https://github.com/databendcloud/databend-py ) 	 | 是     	 | 通过专为Python编程语言开发的本地接口连接到Databend或Databend Cloud并与之交互。有关驱动程序安装、教程和代码示例的更多信息，请单击[此处](./01-drivers/01-python.md)。                                         	 |
+| Node.js  	 | [Node.js的MySQL驱动程序](https://www.npmjs.com/package/mysql)                                                                           	 | 否      	 | 使用Node.js MySQL驱动程序接口连接到Databend或Databend Cloud并与之交互。有关驱动程序安装、教程和代码示例的更多信息，请单击[此处](./01-drivers/02-nodejs.md)。                                                                     	 |
+| Java     	 | [databend-jdbc](https://github.com/databendcloud/databend-jdbc)                                                                           	 | 是     	 | 通过专为Java编程语言设计的本地接口，从各种客户端工具和应用程序连接到Databend或Databend Cloud并与之交互。有关驱动程序安装、教程和代码示例的更多信息，请单击[此处](./01-drivers/03-jdbc.md)。 	   |
+| Rust     	 | [databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver)                                                               	 | 是     	 | 通过专为Rust编程语言开发的本地接口连接到Databend或Databend Cloud并与之交互。有关驱动程序安装、教程和代码示例的更多信息，请单击[此处](./01-drivers/04-rust.md)。                                               |
