@@ -9,7 +9,7 @@ Databend 提供了一个用 Golang 编写的驱动程序（databend-go），以�
 
 有关安装说明、示例和源代码，请参见位于 GitHub 上的 [databend-go](https://github.com/databendcloud/databend-go) 仓库。
 
-## 教程-1：使用 Golang 与 Databend 集成
+## 教程 -1：使用 Golang 与 Databend 集成
 
 在开始之前，请确保您已成功安装本地 Databend。有关详细说明，请参见[本地和 Docker 部署](/doc/deploy/deploying-local)。
 
@@ -171,7 +171,7 @@ go run main.go
 
 </StepsWrap>
 
-## 教程-2：使用 Golang 与 Databend Cloud 集成
+## 教程 -2：使用 Golang 与 Databend Cloud 集成
 
 在开始之前，请确保您已成功创建了一个计算集群并获取了连接信息。有关如何操作，请参见 [连接到计算集群](/doc/cloud/using-databend-cloud/warehouses#connecting)。
 
@@ -250,7 +250,7 @@ func main() {
 ```
 
 :::tip
-将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息的详细信息，请参见 [连接到计算集群](/doc/cn/cloud/using-databend-cloud/warehouses#connecting)。
+将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息的详细信息，请参见 [连接到计算集群](/doc/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 第 4 步 运行 main.go
