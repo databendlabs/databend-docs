@@ -1,0 +1,22 @@
+# .github/workflows/gpt-translate.yml
+name: GPT Translate
+
+on:
+  issue_comment:
+    types: [ created ]
+
+jobs:
+  gpt_translate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run GPT Translate
+        if: |
+          contains(github.event.comment.body, '/gt')
+        uses: 3ru/gpt-translate@master
+        with:
+          apikey: ${{ secrets.OPENAI_API_KEY }}
+          prompt: "Databend is a cloud data warehouse.\ I am translating the documentation for helping users.\ Translate the Markdown content I'll paste later into {targetLanguage}.\ You must strictly follow the rules below.\ - Never change the Markdown markup structure. Don't add or remove links. Do not change any URL.\ - Never change the contents of code blocks even if they appear to have a bug.\ - Always preserve the original line breaks. Do not add or remove blank lines.\ - Never touch the permalink such as `{/*examples*/}` at the end of each heading.\ - Never touch HTML-like tags such as `<Notes>`."
+          model: "gpt-3.5-turbo"
