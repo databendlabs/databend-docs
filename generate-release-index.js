@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 
-const docsDir = path.join(__dirname, './docs/release-nightly');
+const docsDir = path.join(__dirname, './docs/release-stable');
 const releaseNote = path.join(__dirname, './docs/release-notes');
 const releaseNoteCN = path.join(__dirname, './docs/cn/release-notes');
 const outputPath = path.join(releaseNote, 'databend.md');
@@ -22,14 +22,14 @@ mdFiles?.forEach((file, index) => {
   const [time, version] = file.split('_');
   const V = version.slice(0, -3);
   const varName = `MD${index + 1}`;
-  imports += `import ${varName} from '@site/docs/release-nightly/${file}';\n`;
+  imports += `import ${varName} from '@site/docs/release-stable/${file}';\n`;
   content += `\n\n<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/${V}" number="" title="${formatTime(time)} (${V})">\n<${varName} />\n\n</StepContent>`;
   // posts.push({title: V, link: `https://github.com/datafuselabs/databend/releases/tag/${V}`, description: 'Databend release notes', pubDate: time})
 });
 
 const outputData = `---
-sidebar_label: Databend Nightly
-title: Databend Nightly Builds
+sidebar_label: Databend Releases
+title: Databend Releases
 sidebar_position: 2
 ---
 
