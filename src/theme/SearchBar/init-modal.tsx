@@ -1,10 +1,10 @@
 // Copyright 2023 DatabendLabs.
 import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
 import styles from './init-modal.module.scss';
-import CommonModal from '@site/src/components/BaseComponents/CommonModal';
 import { Book } from '@site/src/components/Icons';
 import clsx from 'clsx';
 import LogoSvg from '@site/src/components/BaseComponents/Logo';
+import { Modal } from 'antd';
 interface IProps {
   visible: boolean;
   onSelect: (index: number)=> void;
@@ -16,8 +16,8 @@ const SearchInitModal: FC<IProps> = ({visible, onSelect, onClose, getInputValue,
   const inputRef = useRef(null);
   const [indecator, setIndecator] = useState<number>(-1);
   const ID = 'POPUP_BANNER_DOC_SEARCH'
-  function changeInput(e) {
-    const value = e.target.value?.trim();
+  function changeInput(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = (e.target as HTMLInputElement).value?.trim();
     setInputValue(value);
     getInputValue(value);
   }
@@ -48,9 +48,9 @@ useEffect(()=> {
   }
 }, [inputValue]);
 useEffect(()=> {
-  inputRef?.current?.focus();
+  (inputRef?.current as any)?.focus();
 }, [visible]);
-function dealKeyDownEvent(e) {
+function dealKeyDownEvent(e: React.KeyboardEvent<HTMLInputElement>) {
   const code = e.keyCode || e.which;
   const isTarget = (e.target as HTMLInputElement).id === ID;
   if (isTarget ) {
@@ -59,7 +59,7 @@ function dealKeyDownEvent(e) {
       setValue();
     }
     if (code === 13) { // enter
-      if (e.target.value === '') {
+      if ((e.target as HTMLInputElement).value === '') {
         onSelect(indecator === -1 ? 0 : indecator);
         getInputValue('');
         return;
@@ -85,10 +85,12 @@ const items = [
   }
 ]
 return (
-  <CommonModal 
-    onClose={onClose}
-    visible={visible}
+  <Modal 
+    onCancel={onClose}
+    open={visible}
+    closable={false}
     width={766} 
+    footer={null}
     className={styles.modalWrap} {...props}>
     <div>
       <div className={styles.topInput}>
@@ -118,7 +120,7 @@ return (
         </div>
       </div>
     </div>
-  </CommonModal>
+  </Modal>
 );
 };
 export default SearchInitModal;

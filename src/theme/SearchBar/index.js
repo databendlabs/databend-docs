@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useRef, useMemo, useState} from 'react';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
+import { Modal as AntdModal } from 'antd';
 import {useHistory} from '@docusaurus/router';
 import {isRegexpStringMatch} from '@docusaurus/theme-common';
 import {useSearchPage} from '@docusaurus/theme-common/internal';
@@ -15,7 +16,6 @@ import {createPortal} from 'react-dom';
 import translations from '@theme/SearchTranslations';
 import SearchInitModal from './init-modal';
 import AISearch from './ai-search';
-import CommonModal from '@site/src/components/BaseComponents/CommonModal';
 let DocSearchModal = null;
 function Hit({hit, children}) {
   return <Link to={hit.url}>{children}</Link>;
@@ -248,14 +248,22 @@ function DocSearch({contextualSearch, externalUrlRegex, ...props}) {
 
 function AIModal({ visible, onCloseAiSearch, onClose, initialQuery }) {
   return (
-    <CommonModal
-      onClose={onClose}
-      visible={visible}
+    <AntdModal
+      style={{
+        body: {
+          padding: 0
+        }
+      }}
+      onCancel={onClose}
+      open={visible}
+      maskClosable
+      closable={false}
+      footer={null}
       width={766}>
       <AISearch 
         initialQuery={initialQuery}
         onReturn={()=> onCloseAiSearch()}/>
-    </CommonModal>
+    </AntdModal>
   )
 }
 

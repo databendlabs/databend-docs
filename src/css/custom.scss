@@ -199,6 +199,9 @@ div[class*='searchQueryColumn'] {
 .ant-input:focus{
   box-shadow: 0px 0px 0px 4px rgba(1, 117, 246, 0.25), inset 0px 0px 0px 0.5px #0175F6;
 }
+:where(.css-dev-only-do-not-override-nllxry).ant-modal-root .ant-modal-mask{
+  background-color: var(--docsearch-container-background);
+}
 // antd end
 .margin-vert--xl {
   min-height: 62vh;

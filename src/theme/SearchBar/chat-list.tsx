@@ -20,7 +20,7 @@ interface IListType {
 const ChatList: FC<IProps> = ({ question, onGetResultDone, onGetting }): ReactElement=> {
   const [list, setList] = useSafeState<IListType[]>([]);
   const [isGetting, setIsGetting] = useState(false);
-  const listContainerRef = useRef(null);
+  const listContainerRef = useRef<HTMLDivElement | null>(null);
   useEffect(()=> {
     if(question) {
       setList([
@@ -71,12 +71,14 @@ const ChatList: FC<IProps> = ({ question, onGetResultDone, onGetting }): ReactEl
   }
   function scrollToBottom(isAsk = false) {
     setTimeout(()=> {
-      const container = listContainerRef.current;
-      if (isAsk) {
-        container.scrollTop = container.scrollHeight;
-      } else {
-        const originalScrollTop = container.scrollTop;
-        container.scrollTop = originalScrollTop + 60;
+      const container = listContainerRef?.current;
+      if (container) {
+        if (isAsk) {
+          container.scrollTop = container.scrollHeight;
+        } else {
+          const originalScrollTop = container.scrollTop;
+          container.scrollTop = originalScrollTop + 60;
+        }
       }
     }, 10);
   }
