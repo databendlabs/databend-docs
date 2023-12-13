@@ -4,10 +4,9 @@ const path = require('path');
 
 const docsDir = path.join(__dirname, './docs/release-nightly');
 const releaseNote = path.join(__dirname, './docs/release-notes');
-const releaseNoteCN = path.join(__dirname, './docs/release-notes-cn');
+const releaseNoteCN = path.join(__dirname, './docs/cn/release-notes');
 const outputPath = path.join(releaseNote, 'databend.md');
 const outputPathCN = path.join(releaseNoteCN, 'databend.md');
-
 function formatTime(dateStr) {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   const dateObj = new Date(dateStr);
@@ -23,7 +22,7 @@ mdFiles?.forEach((file, index) => {
   const [time, version] = file.split('_');
   const V = version.slice(0, -3);
   const varName = `MD${index + 1}`;
-  imports += `import ${varName} from '../release-nightly/${file}';\n`;
+  imports += `import ${varName} from '@site/docs/release-nightly/${file}';\n`;
   content += `\n\n<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/${V}" number="" title="${formatTime(time)} (${V})">\n<${varName} />\n\n</StepContent>`;
   // posts.push({title: V, link: `https://github.com/datafuselabs/databend/releases/tag/${V}`, description: 'Databend release notes', pubDate: time})
 });

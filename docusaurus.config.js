@@ -79,15 +79,15 @@ const config = {
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
                 docs: {
-                    path: `./docs/${isCN ? 'doc-cn' : 'doc'}`,
+                    path: `./docs/${isCN ? '/cn/doc' : 'doc'}`,
                     routeBasePath: 'doc',
-                    sidebarPath: require.resolve('./docs/doc/sidebars.js'),
+                    sidebarPath: require.resolve('./docs/sidebars.js'),
                     editUrl: ({ locale, docPath }) => {
                         // // @ts-ignore
                         // if (locale !== config.i18n.defaultLocale) {
                         //     return `https://databend.crowdin.com/databend/${locale}`;
                         // }
-                        return `https://github.com/datafuselabs/databend-docs/tree/main/docs/doc/${docPath}`;
+                        return `https://github.com/datafuselabs/databend-docs/tree/main/docs/${isCN ? '/cn/doc' : 'doc'}/${docPath}`;
                     },
                 },
                 // blog: {
@@ -130,7 +130,7 @@ const config = {
                 id: 'dev',
                 path: './docs/dev',
                 routeBasePath: 'dev',
-                sidebarPath: require.resolve('./docs/dev/sidebars.js'),
+                sidebarPath: require.resolve('./docs/sidebars.js'),
                 editUrl: ({ locale, devPath }) => {
                     // @ts-ignore
                     // if (locale !== config.i18n.defaultLocale) {
@@ -145,11 +145,11 @@ const config = {
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
             {
                 id: 'tutorials',
-                path: `./docs/tutorials/${isCN ? 'cn' : 'en'}`,
+                path: `./docs/${isCN ? 'cn/tutorials' : 'tutorials'}`,
                 routeBasePath: 'tutorials',
-                sidebarPath: require.resolve('./docs/tutorials/sidebars.js'),
+                sidebarPath: require.resolve('./docs/sidebars.js'),
                 editUrl: ({ locale, docPath }) => {
-                    return `https://github.com/datafuselabs/databend-docs/tree/main/docs/cloud/${isCN ? 'cn' : 'en'}/${docPath}`;
+                    return `https://github.com/datafuselabs/databend-docs/tree/main/docs/${isCN ? 'cn/tutorials' : 'tutorials'}/${docPath}`;
                 }
             }
         ],
@@ -158,11 +158,11 @@ const config = {
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
             {
                 id: 'sqlReference',
-                path: './docs/sql-reference',
+                path: `./docs/${isCN ? 'cn/sql-reference' : 'sql-reference'}`,
                 routeBasePath: 'sql',
-                sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
+                sidebarPath: require.resolve('./docs/sidebars.js'),
                 editUrl: ({ locale, docPath }) => {
-                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/sql-reference/${docPath}`;
+                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/${isCN?'cn/sql-reference':'sql-reference'}/${docPath}`;
                 }
             }
         ],
@@ -171,11 +171,11 @@ const config = {
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
             {
                 id: 'releaseNotes',
-                path: `./docs/${isCN ? 'release-notes-cn' : 'release-notes'}`,
+                path: `./docs/${isCN ? 'cn/release-notes' : 'release-notes'}`,
                 routeBasePath: 'release-notes',
-                sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
+                sidebarPath: require.resolve('./docs/sidebars.js'),
                 editUrl: ({ locale, docPath }) => {
-                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/release-notes/${docPath}`;
+                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/${isCN?'cn/release-notes':'release-notes'}/${docPath}`;
                 }
             }
         ],
@@ -184,11 +184,11 @@ const config = {
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
             {
                 id: 'developer',
-                path: './docs/developer',
+                path: `./docs/${isCN ? 'cn/developer' : 'developer'}`,
                 routeBasePath: 'developer',
-                sidebarPath: require.resolve('./docs/sql-reference/sidebars.js'),
+                sidebarPath: require.resolve('./docs/sidebars.js'),
                 editUrl: ({ locale, docPath }) => {
-                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/developer/${docPath}`;
+                    return `https://github.com/datafuselabs/databend-docs/edit/main/docs/${isCN?'cn/developer':'developer'}/${docPath}`;
                 }
             }
         ],
