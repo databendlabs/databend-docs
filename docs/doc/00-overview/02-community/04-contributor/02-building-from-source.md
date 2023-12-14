@@ -87,7 +87,7 @@ killall -9 databend-query
   - use custom jemalloc env configuration:
     ```bash
     export JEMALLOC_SYS_WITH_LG_PAGE=14
-    export JEMALLOC_SYS_WITH_MALLOC_CONF=oversize_threshold:0,dirty_decay_ms:5000,muzzy_decay_ms:5000
+    export JEMALLOC_SYS_WITH_MALLOC_CONF="oversize_threshold:0,dirty_decay_ms:5000,muzzy_decay_ms:5000"
     ```
 
 
