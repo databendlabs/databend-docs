@@ -1,30 +1,28 @@
 ---
-title: Bitmap
+title: 位图
 ---
-import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.45"/>
+位图在 Databend 中是一种高效的数据结构，用于表示集合中元素或属性的存在或缺失。它在数据分析和查询中具有广泛的应用，提供快速的集合操作和聚合能力。
 
-Bitmap in Databend is an efficient data structure used to represent the presence or absence of elements or attributes in a collection. It has wide applications in data analysis and querying, providing fast set operations and aggregation capabilities.
+:::tip 为什么使用位图？
 
-:::tip Why Bitmap?
+- 唯一计数：位图用于高效计算集合中唯一元素的数量。通过对位图执行位操作，可以快速确定元素的存在并实现唯一计数功能。
 
-- Distinct Count: Bitmaps are used for efficient calculation of the number of unique elements in a set. By performing bitwise operations on bitmaps, it is possible to quickly determine the existence of elements and achieve distinct count functionality.
+- 过滤和选择：位图对于快速数据过滤和选择非常有效。通过对位图执行位操作，可以高效地识别满足特定条件的元素，实现高效的数据过滤和选择。
 
-- Filtering and Selection: Bitmaps are effective for fast data filtering and selection. By performing bitwise operations on bitmaps, it becomes efficient to identify elements that satisfy specific conditions, enabling efficient data filtering and selection.
+- 集合操作：位图可以用于各种集合操作，如并集、交集、差集和对称差集。这些集合操作可以通过位操作实现，在数据处理和分析中提供高效的集合操作。
 
-- Set Operations: Bitmaps can be used for various set operations such as union, intersection, difference, and symmetric difference. These set operations can be achieved through bitwise operations, providing efficient set operations in data processing and analysis.
+- 压缩存储：位图在存储方面具有高压缩性能。与传统的存储方法相比，位图可以有效利用存储空间，节省存储成本并提高查询性能。
 
-- Compressed Storage: Bitmaps offer high compression performance in terms of storage. Compared to traditional storage methods, bitmaps can effectively utilize storage space, saving storage costs and improving query performance.
 :::
 
-Databend enables the creation of bitmaps using two formats with the TO_BITMAP function:
+Databend 通过 TO_BITMAP 函数支持使用两种格式创建位图：
 
-- String format: You can create a bitmap using a string of comma-separated values. For example, TO_BITMAP('1,2,3') creates a bitmap with bits set for values 1, 2, and 3.
+- 字符串格式：可以使用逗号分隔的值字符串创建位图。例如，TO_BITMAP('1,2,3')将创建一个在值 1、2 和 3 处设置位的位图。
 
-- uint64 format: You can also create a bitmap using a uint64 value. For example, TO_BITMAP(123) creates a bitmap with bits set according to the binary representation of the uint64 value 123.
+- uint64 格式：也可以使用 uint64 值创建位图。例如，TO_BITMAP(123)将根据 uint64 值 123 的二进制表示设置位图的位。
 
-In Databend, a bitmap can store a maximum of 2^64 bits. The bitmap data type in Databend is a binary type that differs from other supported types in terms of its representation and display in SELECT statements. Unlike other types, bitmaps cannot be directly shown in the result set of a SELECT statement. Instead, they require the use of [Bitmap Functions](../../15-sql-functions/05-bitmap-functions/index.md) for manipulation and interpretation:
+在 Databend 中，位图最多可以存储 2^64 个位。Databend 中的位图数据类型是一种二进制类型，与其他支持的类型在表示和 SELECT 语句中的显示方面有所不同。与其他类型不同，位图不能直接显示在 SELECT 语句的结果集中。相反，它们需要使用 [位图函数](../../15-sql-functions/05-bitmap-functions/index.md) 进行操作和解释：
 
 ```sql
 SELECT TO_BITMAP('1,2,3')
@@ -44,9 +42,9 @@ SELECT TO_STRING(TO_BITMAP('1,2,3'))
 +-------------------------------+
 ```
 
-**Example**:
+**示例**：
 
-This example illustrates how bitmaps in Databend enable efficient storage and querying of data with a large number of possible values, such as user visit history.
+此示例演示了在 Databend 中使用位图可以高效存储和查询具有大量可能值的数据，例如用户访问历史。
 
 ```sql
 -- Create table user_visits with user_id and page_visits columns, using build_bitmap for representing page_visits.
