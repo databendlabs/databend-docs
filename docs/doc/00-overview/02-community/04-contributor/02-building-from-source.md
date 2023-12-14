@@ -44,7 +44,7 @@ export PATH=$PATH:~/.cargo/bin
   - To build Databend with debug information for debugging purposes, run `make build`. The resulting files will be located in the "target/debug/" directory.
 
 ```shell
-make build 
+make build
 ```
   - To build Databend for production, optimized for your local CPU, run `make build-release`. The resulting files will be located in the "target/release/" directory.
 
@@ -56,7 +56,7 @@ make build-release
 
 ```shell
 # 1. Start databend-meta first:
-nohup target/debug/databend-meta --single --log-level=ERROR & 
+nohup target/debug/databend-meta --single --log-level=ERROR &
 
 # 2. Start databend-query and connect it to databend-meta:
 nohup target/debug/databend-query -c scripts/ci/deploy/config/databend-query-node-1.toml &
@@ -72,7 +72,26 @@ killall -9 databend-query
 
 ## Common Errors
 
-1. protoc failed: Unknown flag: --experimental_allow_proto3_optional\n
+1. Building in osx:
+  - better to use official clang instead of apple clang:
+    ```bash
+    brew install clang
+    ```
+    And set compiler environment, for example:
+
+    ```bash
+    export CMAKE_CC_COMPILER=/opt/homebrew/opt/llvm/bin/clang
+    export CMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++
+    ```
+
+  - use custom jemalloc env configuration:
+    ```bash
+    export JEMALLOC_SYS_WITH_LG_PAGE=14
+    export JEMALLOC_SYS_WITH_MALLOC_CONF=oversize_threshold:0,dirty_decay_ms:5000,muzzy_decay_ms:5000"
+    ```
+
+
+2. protoc failed: Unknown flag: --experimental_allow_proto3_optional\n
 
 ```bash
   --- stderr
@@ -94,12 +113,12 @@ PB_REL="https://github.com/protocolbuffers/protobuf/releases"
 curl -LO $PB_REL/download/v3.15.8/protoc-3.15.8-linux-x86_64.zip
 unzip protoc-3.15.8-linux-x86_64.zip
 $sudo cp bin/protoc /usr/bin/
-$protoc --version 
+$protoc --version
 libprotoc 3.15.6
 ```
 
-2. Couldn't connect to databend-meta in a forked Databend project.
+3. Couldn't connect to databend-meta in a forked Databend project.
 
-This issue is likely caused by a version check implemented in Databend-meta that is not being met by the forked project. 
+This issue is likely caused by a version check implemented in Databend-meta that is not being met by the forked project.
 
 One possible solution is to fetch the latest tags from the official Databend repository using the command `git fetch https://github.com/datafuselabs/databend.git --tags`. This should ensure that the project is using the latest version of Databend-meta and will pass the version check.
