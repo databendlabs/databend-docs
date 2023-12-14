@@ -19,15 +19,6 @@ const IGNORE_TEXT = /<!-- Release notes generated using configuration in .github
 const REG = /https:\/\/github\.com\/datafuselabs\/databend\/pull\/(\d+)/g;
 const REPLACE_TEXT = '[#$1](https://github.com/datafuselabs/databend/pull/$1)';
 
-function addNightlyToUrl(url) {
-  const regex = /(databend-v[\d.]+)-/;
-  if (url.match(regex) && !url.includes('nightly', url.match(regex).index)) {
-      return url.replace(regex, '$1-nightly-');
-  } else {
-      return url;
-  }
-}
-
 module.exports = function fetchDatabendReleasesPlugin() {
   return {
     name: 'fetch-databend-releases',
@@ -77,7 +68,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
                   ...asset,
                   formatSize: bytes.format(asset?.size, { thousandsSeparator: ',', decimalPlaces: 1 }),
                   osType: asset?.osTypeDesc.match(/\(([^)]+)\)/)[1].split(',')[0],
-                  browser_download_url: addNightlyToUrl(downloadUrl)
+                  browser_download_url: downloadUrl
                 }
               });
           return {
@@ -93,14 +84,14 @@ module.exports = function fetchDatabendReleasesPlugin() {
         });
         // name match list
         function namesToMatch(release) {
-          const { assets, name } = release;
+          const { assets, tag_name } = release;
           const namesDisplayList = [
-            `databend-${name}-aarch64-apple-darwin.tar.gz`,
-            `databend-${name}-x86_64-apple-darwin.tar.gz`,
-            `databend-${name}-aarch64-unknown-linux-musl.tar.gz`,
-            `databend-${name}-x86_64-unknown-linux-gnu.tar.gz`,
-            `databend-${name}-aarch64-unknown-linux-gnu.tar.gz`,
-            `databend-${name}-x86_64-unknown-linux-musl.tar.gz`
+            `databend-${tag_name}-aarch64-apple-darwin.tar.gz`,
+            `databend-${tag_name}-x86_64-apple-darwin.tar.gz`,
+            `databend-${tag_name}-aarch64-unknown-linux-musl.tar.gz`,
+            `databend-${tag_name}-x86_64-unknown-linux-gnu.tar.gz`,
+            `databend-${tag_name}-aarch64-unknown-linux-gnu.tar.gz`,
+            `databend-${tag_name}-x86_64-unknown-linux-musl.tar.gz`
           ];
           const filteredAssets = assets?.filter(item => {
             return namesDisplayList?.includes(item?.name);
