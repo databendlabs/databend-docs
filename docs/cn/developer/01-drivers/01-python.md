@@ -209,7 +209,7 @@ pip install databend-py
 ```python
 from databend_py import Client
 
-client = Client.from_url(f"https://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}")
+client = Client.from_url(f"https://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}?secure=true")
 client.execute('DROP TABLE IF EXISTS data')
 client.execute('CREATE TABLE if not exists data (x Int32,y VARCHAR)')
 client.execute('DESC  data')
