@@ -16,16 +16,20 @@ Databend uses a 1-based numbering convention for arrays. An array of n elements 
 ```sql
 CREATE TABLE array_int64_table(arr ARRAY(INT64));
 ```
+
 ```sql
 DESC array_int64_table;
 ```
+
 Result:
+
 ```
 ┌───────────────────────────────────────────────────┐
 │  Field │     Type     │  Null  │ Default │  Extra │
 ├────────┼──────────────┼────────┼─────────┼────────┤
 │ arr    │ ARRAY(INT64) │ YES    │ NULL    │        │
 └───────────────────────────────────────────────────┘
+```
 
 ```sql
 -- Inserting array values into the table
@@ -40,22 +44,7 @@ SELECT arr FROM array_int64_table;
 ```
 
 Result:
-```
-+--------------+
-| arr          |
-+--------------+
-| [1, 2, 3, 4] |
-| [5, 6, 7, 8] |
-+--------------+
-```
 
-```sql
--- Selecting the first element of the 'arr' array from the table
-SELECT arr[1]
-FROM array_int64_table;
-```
-
-Result:
 ```
 ┌─────────────────┐
 │      arr[1]     │
@@ -63,6 +52,7 @@ Result:
 │               1 │
 │               5 │
 └─────────────────┘
+```
 
 ```sql
 -- Selecting the zeroth element of the 'arr' array from the table
@@ -71,6 +61,7 @@ FROM array_int64_table;
 ```
 
 Result:
+
 ```
 ┌─────────────────┐
 │      arr[0]     │
