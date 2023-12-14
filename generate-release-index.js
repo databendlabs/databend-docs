@@ -36,7 +36,7 @@ sidebar_position: 2
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-This page presents a detailed record of Databend's Nightly Builds, offering insight into the daily progress of <a href="https://github.com/datafuselabs/databend">Databend</a> with the latest updates and improvements.
+This page provides information about recent features, enhancements, and bug fixes for <a href="https://github.com/datafuselabs/databend">Databend</a>.
 
 
 
