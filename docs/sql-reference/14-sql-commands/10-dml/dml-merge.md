@@ -3,7 +3,7 @@ title: MERGE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.2.122"/>
+<FunctionDescription description="Introduced or updated: v1.2.241"/>
 
 Performs INSERT, UPDATE, or DELETE operations on rows within a target table, all in accordance with conditions and matching criteria specified within the statement, using data from a specified source.
 
@@ -29,7 +29,7 @@ MERGE is currently in an experimental state. Before using the MERGE command, you
 
 ```sql
 MERGE INTO <target_table> 
-    USING (SELECT ... ) ON <join_expr> { matchedClause | notMatchedClause } [ ... ]
+    USING (SELECT ... ) [AS] <alias> ON <join_expr> { matchedClause | notMatchedClause } [ ... ]
 
 matchedClause ::=
   WHEN MATCHED [ AND <condition> ] THEN 
@@ -40,9 +40,20 @@ notMatchedClause ::=
   { INSERT ( <col_name> [ , <col_name2> ... ] ) VALUES ( <expr> [ , ... ] ) | INSERT * }
 ```
 
-- **UPDATE ***: Updates all columns of the matched row in the target table with values from the corresponding row in the source. This requires the column names between the source and target are consistent (though their order can be different) because during the update process, matching is done based on column names.
+| Parameter | Description                                                                                                                                                                                                                                                                                                   |
+|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| UPDATE *  | Updates all columns of the matched row in the target table with values from the corresponding row in the source. This requires the column names between the source and target are consistent (though their order can be different) because during the update process, matching is done based on column names. |
+| INSERT *  | Inserts a new row into the target table with values from the source row.                                                                                                                                    |
 
-- **INSERT ***: Inserts a new row into the target table with values from the source row. This requires the source row has the same columns in the same order as those in the target table.
+## Output
+
+MERGE provides a summary of the data merge results with these columns:
+
+| Column                   | Description                                           |
+| -------------------------| ----------------------------------------------------- |
+| number of rows inserted  | Count of new rows added to the target table.          |
+| number of rows updated   | Count of existing rows modified in the target table.  |
+| number of rows deleted   | Count of rows deleted from the target table.          |
 
 ## Examples
 
@@ -81,7 +92,7 @@ SET enable_experimental_merge_into = 1;
 
 -- Merge data into 'salaries' based on employee details from 'employees'
 MERGE INTO salaries
-    USING (SELECT * FROM employees)
+    USING (SELECT * FROM employees) AS employees
     ON salaries.employee_id = employees.employee_id
     WHEN MATCHED AND employees.department = 'HR' THEN
         UPDATE SET
@@ -93,15 +104,23 @@ MERGE INTO salaries
         INSERT (employee_id, salary)
             VALUES (employees.employee_id, 55000.00);
 
+┌──────────────────────────────────────────────────┐
+│ number of rows inserted │ number of rows updated │
+├─────────────────────────┼────────────────────────┤
+│                      2  │                      2 │
+└──────────────────────────────────────────────────┘
+
 -- Retrieve all records from the 'salaries' table after merging
 SELECT * FROM salaries;
 
-employee_id | salary
---------------------
-1           | 51000.00
-2           | 60500.00
-3           | 55000.00
-4           | 55000.00
+┌────────────────────────────────────────────┐
+│   employee_id   │          salary          │
+├─────────────────┼──────────────────────────┤
+│               3 │ 55000.00                 │
+│               4 │ 55000.00                 │
+│               1 │ 51000.00                 │
+│               2 │ 60500.00                 │
+└────────────────────────────────────────────┘
 ```
 
 ### Example 2: Merge with UPDATE \* & INSERT \*
@@ -151,13 +170,21 @@ MERGE INTO target_table AS T
     WHEN NOT MATCHED THEN
     INSERT *;
 
+┌──────────────────────────────────────────────────┐
+│ number of rows inserted │ number of rows updated │
+├─────────────────────────┼────────────────────────┤
+│                      1  │                      2 │
+└──────────────────────────────────────────────────┘
+
 -- Retrieve all records from the 'target_table' after merging
 SELECT * FROM target_table order by ID;
 
-id|name |age|city    |
---+-----+---+--------+
- 1|David| 27|Calgary |
- 2|Emma | 29|Ottawa  |
- 3|Carol| 28|Montreal|
- 4|Frank| 32|Edmonton|
+┌─────────────────────────────────────────────────────────────────────────┐
+│        id       │       name       │       age       │       city       │
+├─────────────────┼──────────────────┼─────────────────┼──────────────────┤
+│               1 │ David            │              27 │ Calgary          │
+│               2 │ Emma             │              29 │ Ottawa           │
+│               3 │ Carol            │              28 │ Montreal         │
+│               4 │ Frank            │              32 │ Edmonton         │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
