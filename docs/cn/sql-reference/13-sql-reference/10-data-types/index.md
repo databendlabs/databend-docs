@@ -31,7 +31,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | 数据类型                               | 别名 | 示例                    | 描述                                                             |
 | -------------------------------------- | ---- | ----------------------- | ---------------------------------------------------------------- |
 | [ARRAY](./40-data-type-array-types.md) | N/A  | [1, 2, 3, 4]            | 由相同数据类型的值组成的集合，通过索引访问。                     |
-| [TUPLE](./41-data-type-tuple-types.md) | N/A  | ('2023-02-14','情人节') | 由不同数据类型的值按顺序组成的集合，通过索引访问。               |
+| [TUPLE](./41-data-type-tuple-types.md) | N/A  | ('2023-02-14','Valentine Day') | 由不同数据类型的值按顺序组成的集合，通过索引访问。               |
 | [MAP](./42-data-type-map.md)           | N/A  | {"a":1, "b":2, "c":3}   | 一组键值对，每个键都是唯一的并映射到一个值。                     |     |
 | [VARIANT](./43-data-type-variant.md)   | JSON | [1,{"a":1,"b":{"c":2}}] | 由不同数据类型的元素组成的集合，包括 `ARRAY` 和 `OBJECT`。       |
 | [BITMAP](44-data-type-bitmap.md)       | N/A  | 0101010101              | 用于表示一组值的二进制数据类型，其中每个位表示值的存在或不存在。 |
