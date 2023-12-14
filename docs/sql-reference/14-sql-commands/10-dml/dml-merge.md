@@ -29,7 +29,7 @@ MERGE is currently in an experimental state. Before using the MERGE command, you
 
 ```sql
 MERGE INTO <target_table> 
-    USING (SELECT ... ) AS <alias> ON <join_expr> { matchedClause | notMatchedClause } [ ... ]
+    USING (SELECT ... ) [AS] <alias> ON <join_expr> { matchedClause | notMatchedClause } [ ... ]
 
 matchedClause ::=
   WHEN MATCHED [ AND <condition> ] THEN 
@@ -43,7 +43,7 @@ notMatchedClause ::=
 | Parameter | Description                                                                                                                                                                                                                                                                                                   |
 |-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | UPDATE *  | Updates all columns of the matched row in the target table with values from the corresponding row in the source. This requires the column names between the source and target are consistent (though their order can be different) because during the update process, matching is done based on column names. |
-| INSERT *  | Inserts a new row into the target table with values from the source row. This requires the source row has the same columns in the same order as those in the target table.                                                                                                                                    |
+| INSERT *  | Inserts a new row into the target table with values from the source row.                                                                                                                                    |
 
 ## Output
 
