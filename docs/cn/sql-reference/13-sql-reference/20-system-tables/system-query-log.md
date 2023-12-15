@@ -2,10 +2,9 @@
 title: system.query_log
 ---
 
-A read-only in-memory table stores all the query logs.
+一个只读的内存表，存储所有的查询日志。
 
-
-## Columns
+## 列
 
 ```sql
 CREATE TABLE `query_log` (
@@ -51,7 +50,7 @@ CREATE TABLE `query_log` (
 )
 ```
 
-## Examples
+## 示例
 
 ```
 *************************** 4. row ***************************
