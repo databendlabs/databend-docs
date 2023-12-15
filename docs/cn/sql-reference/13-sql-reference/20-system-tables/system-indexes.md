@@ -6,9 +6,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced: v1.1.50"/>
 
-Contains information about the created aggregating indexes.
+包含已创建的聚合索引的相关信息。
 
-See also: [SHOW INDEXES](../../14-sql-commands/00-ddl/103-aggregating-index/show-indexes.md)
+另请参阅：[SHOW INDEXES](../../14-sql-commands/00-ddl/103-aggregating-index/show-indexes.md)
 
 ```sql
 CREATE TABLE t1(a int,b int);
