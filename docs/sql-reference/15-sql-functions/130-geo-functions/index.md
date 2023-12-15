@@ -6,7 +6,7 @@ This section provides reference information for the geography functions in Datab
 
 ## Coordinate Conversion
 
-- [GEO_TO_H3](_category_.json)
+- [GEO_TO_H3](geo-to-h3.md)
 - [GEOHASH_DECODE](geohash-decode.md)
 - [GEOHASH_ENCODE](geohash-encode.md)
 - [STRING_TO_H3](string-to-h3.md)
