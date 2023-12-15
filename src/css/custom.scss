@@ -31,6 +31,21 @@
 
 }
 
+.global-container-width{
+  width: 1280PX;
+  margin: 0 auto;
+  @media screen and (min-width: 1001px) and (max-width: 1279px){
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  @include media{
+    width: 100%;
+    padding-left: mpx(20);
+    padding-right: mpx(20);
+  }
+}
+
 html{
   -webkit-text-size-adjust: 100%;
   tab-size: 4;
@@ -206,3 +221,45 @@ div[class*='searchQueryColumn'] {
 .margin-vert--xl {
   min-height: 62vh;
 }
+
+@keyframes floatAnimation {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.4px); }
+}
+
+// page 404
+.Page404carBody {
+  animation: floatAnimation 0.5s ease-in-out infinite;
+}
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Page404rotating {
+  animation: rotateAnimation 3s linear infinite;
+  transform-origin: 38.6% 88.5%;
+}
+.Page404rotatingRight {
+  animation: rotateAnimation 2s linear infinite;
+  transform-origin: 76.5% 88.5%;
+}
+
+@keyframes exhaustAnimation {
+  0% {
+    transform: translateX(10px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) scale(0.4);
+    opacity: 0;
+  }
+}
+.Page404exhaustR {
+  animation: exhaustAnimation 2s ease-out infinite;
+}
+// page 404 end

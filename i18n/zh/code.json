@@ -473,5 +473,29 @@
   "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics.": {
     "message": "Databend - 替代 Snowflake 的最佳方案。高性价比且简单易用，适用于大规模数据分析。",
     "description": "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics."
+  },
+  "PAGE NOT FOUND": {
+    "message": "页面未找到",
+    "description": "PAGE NOT FOUND"
+  },
+  "Please check your link or head Home to regroup.": {
+    "message": "页面地址可能有所变更或者不存在，请检查您的链接或返回到操作指南。",
+    "description": "Either you're out of bounds or that page doesn't exist. Please check your link or head Home to regroup."
+  },
+  "BACK TO HOME": {
+    "message": "首页",
+    "description": "BACK TO HOME"
+  },
+  "Redirecting to a new link": {
+    "message": "正重定向到新链接",
+    "description": "Redirecting to a new link"
+  },
+  "Guides": {
+    "message": "操作指南",
+    "description": "Guides"
+  },
+  "Blog": {
+    "message": "博客",
+    "description": "Blog"
   }
 }

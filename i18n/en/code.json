@@ -457,5 +457,29 @@
   "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics.": {
     "message": "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics.",
     "description": "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics."
+  },
+  "PAGE NOT FOUND": {
+    "message": "PAGE NOT FOUND",
+    "description": "PAGE NOT FOUND"
+  },
+  "Please check your link or head Home to regroup.": {
+    "message": "Either you're out of bounds or that page doesn't exist. Please check your link or head Guides to regroup.",
+    "description": "Either you're out of bounds or that page doesn't exist. Please check your link or head Home to regroup."
+  },
+  "BACK TO HOME": {
+    "message": "BACK TO HOME",
+    "description": "BACK TO HOME"
+  },
+  "Redirecting to a new link": {
+    "message": "Redirecting to a new link",
+    "description": "Redirecting to a new link"
+  },
+  "Guides": {
+    "message": "Guides",
+    "description": "Guides"
+  },
+  "Blog": {
+    "message": "Blog",
+    "description": "Blog"
   }
 }

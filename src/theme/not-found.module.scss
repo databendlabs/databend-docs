@@ -8,3 +8,34 @@
   font-weight: bold;
   margin: 1rem 0;
 }
+
+.rowContainer {
+  min-height: 800PX;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30PX;
+  svg {
+    width: 600PX;
+  }
+  .notFoundTitle {
+    font-size: 32px;
+    font-weight: 700;
+  }
+  .text {
+    flex: 1;
+    max-width: 519PX;
+  }
+  @include media {
+    padding-top: mpx(60);
+    padding-bottom: mpx(30);
+    svg {
+      width: 90%;
+    }
+    flex-direction: column;
+    row-gap: 40px;
+    .text {
+      text-align: center;
+    }
+  }
+}
