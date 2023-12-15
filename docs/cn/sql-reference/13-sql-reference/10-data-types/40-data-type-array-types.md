@@ -1,31 +1,35 @@
 ---
 title: Array(T)
-description: Array of defined data type.
+description: 定义数据类型的数组。
 ---
 
-## Array(T) Data Types
+## Array(T) 数据类型
 
-ARRAY(T) consists of defined variable-length inner T data type values, which is very similar to a semi-structured ARRAY, except that the inner data type needs to be defined rather than arbitrary. T can be any data type.
+ARRAY(T) 由定义的可变长度的内部 T 数据类型值组成，与半结构化数组非常相似，只是内部数据类型需要定义，而不是任意的。T 可以是任何数据类型。
 
 :::note
-Databend uses a 1-based numbering convention for arrays. An array of n elements starts with array[1] and ends with array[n].
+Databend 使用基于 1 的编号约定来表示数组。一个包含 n 个元素的数组从 array [1] 开始，以 array [n] 结束。
 :::
 
-### Example
+### 示例
 
 ```sql
 CREATE TABLE array_int64_table(arr ARRAY(INT64));
 ```
+
 ```sql
 DESC array_int64_table;
 ```
-Result:
+
+结果：
+
 ```
 ┌───────────────────────────────────────────────────┐
 │  Field │     Type     │  Null  │ Default │  Extra │
 ├────────┼──────────────┼────────┼─────────┼────────┤
 │ arr    │ ARRAY(INT64) │ YES    │ NULL    │        │
 └───────────────────────────────────────────────────┘
+```
 
 ```sql
 -- Inserting array values into the table
@@ -39,23 +43,8 @@ VALUES
 SELECT arr FROM array_int64_table;
 ```
 
-Result:
-```
-+--------------+
-| arr          |
-+--------------+
-| [1, 2, 3, 4] |
-| [5, 6, 7, 8] |
-+--------------+
-```
+结果：
 
-```sql
--- Selecting the first element of the 'arr' array from the table
-SELECT arr[1]
-FROM array_int64_table;
-```
-
-Result:
 ```
 ┌─────────────────┐
 │      arr[1]     │
@@ -63,6 +52,7 @@ Result:
 │               1 │
 │               5 │
 └─────────────────┘
+```
 
 ```sql
 -- Selecting the zeroth element of the 'arr' array from the table
@@ -70,7 +60,8 @@ SELECT arr[0]
 FROM array_int64_table;
 ```
 
-Result:
+结果：
+
 ```
 ┌─────────────────┐
 │      arr[0]     │
