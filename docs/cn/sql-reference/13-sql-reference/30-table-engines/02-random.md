@@ -1,9 +1,13 @@
+---
+title: Random 引擎
+---
+
 ## 语法
 
 ```sql
-CREATE TABLE 表名 (
-  列名1 列类型1,
-  列名2 列类型2,
+CREATE TABLE table_name (
+  column_name1 column_type1,
+  column_name2 column_type2,
   ...
 ) ENGINE = Random;
 ```
