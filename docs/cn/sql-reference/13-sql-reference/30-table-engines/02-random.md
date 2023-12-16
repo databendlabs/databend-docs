@@ -1,22 +1,18 @@
----
-title: Random Engine
----
-
-## Syntax
+## 语法
 
 ```sql
-CREATE TABLE table_name (
-  column_name1 column_type1,
-  column_name2 column_type2,
+CREATE TABLE 表名 (
+  列名1 列类型1,
+  列名2 列类型2,
   ...
 ) ENGINE = Random;
 ```
 
-## Use cases
+## 使用场景
 
-Random engine is used to generate random data for testing purposes. If limit is not specified in query, it will use `max_block_size` as limit value.
+Random 引擎用于生成用于测试目的的随机数据。如果查询中未指定限制，则会使用 `max_block_size` 作为限制值。
 
-Example:
+示例：
 
 ```sql
 > create table r (a int, b timestamp, c String, d Variant) Engine = Random;
