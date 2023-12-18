@@ -16,8 +16,10 @@ Creates a new aggregating index in Databend.
 ## Syntax
 
 ```sql
-CREATE AGGREGATING INDEX <index_name> AS SELECT ...
+CREATE [SYNC] AGGREGATING INDEX <index_name> AS SELECT ...
 ```
+
+- The `SYNC` parameter, when used during the creation of an aggregating index, enables automatic refresh, ensuring the index stays synchronized with the latest data updates.
 
 - When creating aggregating indexes, limit their usage to standard aggregate functions (e.g., AVG, SUM, MIN, MAX, COUNT), while keeping in mind that GROUPING SETS, window functions, LIMIT, and ORDER BY are not accepted.
 
