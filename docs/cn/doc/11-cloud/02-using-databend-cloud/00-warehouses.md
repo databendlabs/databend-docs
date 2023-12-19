@@ -53,8 +53,6 @@ Databend Cloud 中的计算集群可以具有以下类型的状态：
 
 ## 连接到计算集群 {#connecting}
 
-Databend Cloud 支持 ClickHouse HTTP 协议。您可以将计算集群连接到 BI 工具（例如 Metabase、Deepnote 和 Superset），以便它们可以访问您在 Databend Cloud 中的数据。
-
 要获取必要的连接信息，在“计算集群”页面选择并点击一个计算集群进入详情页面，然后点击“连接”弹出。
 
 ![Alt text](@site/static/img/documents_cn/warehouses/warehouse-detail.png)

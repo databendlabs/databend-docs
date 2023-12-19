@@ -53,8 +53,6 @@ Clicking a warehouse in the list opens the warehouse's details page where you ca
 
 ## Connecting to a Warehouse {#connecting}
 
-Databend Cloud supports the ClickHouse HTTP protocol. You can connect a warehouse to the BI tools (such as Metabase, Deepnote, and Superset) so that they can access your data in Databend Cloud.
-
 To obtain the necessary connection information, select and click a warehouse on the **Warehouses** page to enter the details page, then click **Connect** to show a pop-up.
 
 ![Alt text](@site/static/img/documents/warehouses/connect-warehouse.png)
