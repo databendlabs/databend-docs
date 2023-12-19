@@ -6,23 +6,29 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='AGGREGATING INDEX'/>
 
-### Why Aggregating Index?
+The primary purpose of the aggregating index is to enhance query performance, especially in scenarios involving aggregation queries such as MIN, MAX, and SUM. It achieves this by precomputing and storing query results separately in blocks, eliminating the need to scan the entire table and thereby speeding up data retrieval. Please note the following when working with aggregating indexes:
 
-The primary purpose of the aggregating index is to enhance query performance, especially in scenarios involving aggregation queries such as MIN, MAX, and SUM. It achieves this by precomputing and storing query results separately in blocks, eliminating the need to scan the entire table and thereby speeding up data retrieval.
-
-The feature also incorporates a refresh mechanism that enables you to update and save the latest query results as needed, ensuring that the query responses consistently reflect the most current data. This manual control allows you to maintain data accuracy and reliability by refreshing the results when deemed necessary.
-
-Please note the following when creating aggregating indexes:
-
-- When creating aggregating indexes, limit their usage to standard aggregate functions (e.g., AVG, SUM, MIN, MAX, COUNT), while keeping in mind that GROUPING SETS, window functions, LIMIT, and ORDER BY are not accepted.
+- When creating aggregating indexes, limit their usage to standard [Aggregate Functions](../../../15-sql-functions/10-aggregate-functions/index.md) (e.g., AVG, SUM, MIN, MAX, COUNT and GROUP BY), while keeping in mind that [GROUPING SETS](../../20-query-syntax/07-query-group-by-grouping-sets.md), [Window Functions](../../../15-sql-functions/122-window-functions/index.md), [LIMIT](../../20-query-syntax/01-query-select.md#limit-clause), and [ORDER BY](../../20-query-syntax/01-query-select.md#order-by-clause) are not accepted, or you will get an error: `Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`.
 
 - The query filter scope defined when creating aggregating indexes should either match or encompass the scope of your actual queries.
 
 - To confirm if an aggregating index works for a query, use the [EXPLAIN](../../90-explain-cmds/explain.md) command to analyze the query.
 
-Databend recommends refreshing an aggregating index before executing a query that relies on it to retrieve the most up-to-date data (while Databend Cloud automatically refreshes aggregating indexes for you). If you no longer need an aggregating index, consider deleting it. Please note that deleting an aggregating index does NOT remove the associated storage blocks. To delete the blocks as well, use the [VACUUM TABLE](../20-table/91-vacuum-table.md) command. To disable the aggregating indexing feature, set 'enable_aggregating_index_scan' to 0.
+- If you no longer need an aggregating index, consider deleting it. Please note that deleting an aggregating index does NOT remove the associated storage blocks. To delete the blocks as well, use the [VACUUM TABLE](../20-table/91-vacuum-table.md) command. To disable the aggregating indexing feature, set `enable_aggregating_index_scan` to 0.
 
-### Implementing Aggregating Index
+### Refreshing Aggregating Index
+
+An aggregating index requires regular refreshes since the table may undergo data insertions and updates after the creation of the aggregating index. You have the following options to refresh an aggregating index:
+
+- **Automatic Refresh**: If an aggregating index is **created with the SYNC keyword**, the aggregating index will refresh automatically when the table receive data updates that may affect the query results. For more information, see [CREATE AGGREGATING INDEX](create-aggregating-index.md).
+
+- **Manual Refresh**: If an aggregating index is **created without the SYNC keyword**, the aggregating index does not refresh automatically. Instead, you can manually refresh it using the [REFRESH AGGREGATING INDEX](refresh-aggregating-index.md) command. In this case, Databend recommends refreshing the aggregating index before executing the relevant query.
+
+:::note automatic or manual?
+The Automatic Refresh mechanism in Databend has the potential to affect the duration of significant data loading. This is because Databend withholds the data loading result until the automatically refreshing aggregating indexes have been updated to reflect the latest results. Databend Cloud users are recommended to use the Manual Refresh mechanism. This is because Databend Cloud automatically updates aggregating indexes in the background, even for those created without the SYNC keyword, in response to changes in table data.
+:::
+
+### Managing Aggregating Index
 
 Databend provides the following commands to manage aggregating indexes:
 

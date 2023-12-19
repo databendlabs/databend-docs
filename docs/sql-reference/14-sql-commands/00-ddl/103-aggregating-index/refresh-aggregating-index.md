@@ -11,11 +11,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='AGGREGATING INDEX'/>
 
-Refreshes an aggregating index to update its stored results. Databend recommends refreshing an aggregating index before executing a query that relies on it to retrieve the most up-to-date data.
-
-:::note
-When using Databend Cloud, manual execution of this refresh command is unnecessary, as the system automatically handles index updates for you.
-:::
+Manually refreshes an aggregating index. For more information about the refresh mechanisms, see [Refreshing Aggregating Index](index.md#refreshing-aggregating-index).
 
 ## Syntax
 
@@ -27,8 +23,19 @@ The "LIMIT" parameter allows you to control the maximum number of blocks that ca
 
 ## Examples
 
-This example refreshes an aggregating index named *my_agg_index*:
+This example creates and refreshes an aggregating index named *my_agg_index*:
 
 ```sql
+-- Prepare data
+CREATE TABLE agg(a int, b int, c int);
+INSERT INTO agg VALUES (1,1,4), (1,2,1), (1,2,4);
+
+-- Create an aggregating index
+CREATE AGGREGATING INDEX my_agg_index AS SELECT MIN(a), MAX(c) FROM agg;
+
+-- Insert new data
+INSERT INTO agg VALUES (2,2,5);
+
+-- Refresh the aggregating index
 REFRESH AGGREGATING INDEX my_agg_index;
 ```
