@@ -25,9 +25,9 @@ For example, if a row is added and later updated with new values, the stream rec
 
 ![Alt text](@site/static/public/img/sql/stream-consume.png)
 
-### Stream Metadata
+### Table Metadata for Stream
 
-**A stream does not store any data for a table**. After creating a stream for a table, Databend adds the following hidden columns to the table as change tracking metadata. These columns are designed to dynamically capture and reflect alterations induced by DML operations.
+**A stream does not store any data for a table**. After creating a stream for a table, Databend introduces specific hidden metadata columns to the table for change tracking purposes. These columns include:
 
 | Column                | Description                                                                       |
 |-----------------------|-----------------------------------------------------------------------------------|
@@ -38,15 +38,67 @@ For example, if a row is added and later updated with new values, the stream rec
 To display the values of these columns, use the SELECT statement:
 
 ```sql title='Example:'
+CREATE TABLE t(a int);
+INSERT INTO t VALUES (1);
+CREATE STREAM s ON TABLE t;
+INSERT INTO t VALUES (2);
 SELECT *, _origin_version, _origin_block_id, _origin_block_row_num 
-FROM test_stream;
-
+FROM t;
 ┌───────────────────────────────────────────────────────────────────────────────────────┐
 │        a        │  _origin_version │     _origin_block_id     │ _origin_block_row_num │
 ├─────────────────┼──────────────────┼──────────────────────────┼───────────────────────┤
 │               1 │             NULL │ NULL                     │                  NULL │
-│               3 │             3740 │ NULL                     │                  NULL │
+│               2 │             NULL │ NULL                     │                  NULL │
 └───────────────────────────────────────────────────────────────────────────────────────┘
+
+UPDATE t SET a = 3 WHERE a = 2;
+SELECT *, _origin_version, _origin_block_id, _origin_block_row_num 
+FROM t;
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │  _origin_version │            _origin_block_id            │ _origin_block_row_num │
+├─────────────────┼──────────────────┼────────────────────────────────────────┼───────────────────────┤
+│               1 │             NULL │ NULL                                   │                  NULL │
+│               3 │            10930 │ 44506450595794391199934376694987431316 │                     0 │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Stream Columns
+
+You can use the SELECT statement to directly query a stream and retrieve the tracked changes. When querying a stream, consider incorporating these hidden columns for additional details about the changes:
+
+| Column           | Description                                                                                                                                                                       |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| change$action    | Type of change: INSERT or DELETE.                                                                                                                                                 |
+| change$is_update | Indicates whether the `change$action` is part of an UPDATE. In a stream, an UPDATE is represented by a combination of DELETE and INSERT operations, with this field set to  `true`. |
+| change$row_id    | Unique identifier for each row to track changes.                                                                                                                                  |
+
+```sql title='Example:'
+CREATE TABLE t(a int);
+INSERT INTO t VALUES (1);
+CREATE STREAM s ON TABLE t;
+INSERT INTO t VALUES (2);
+
+SELECT a, change$action, change$is_update, change$row_id 
+FROM s;
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │ change$action │ change$is_update │              change$row_id             │
+├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
+│               2 │ INSERT        │ false            │ a577745c6a404f3384fa95791eb43f22000000 │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
+
+-- If you add a new row and then update it, 
+-- the stream considers the changes as an INSERT with your updated value.
+UPDATE t SET a = 3 WHERE a = 2;
+SELECT a, change$action, change$is_update, change$row_id 
+FROM s;
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │ change$action │ change$is_update │              change$row_id             │
+├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
+│               3 │ INSERT        │ false            │ a577745c6a404f3384fa95791eb43f22000000 │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Managing Streams
