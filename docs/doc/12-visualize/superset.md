@@ -17,7 +17,7 @@ This tutorial guides you through the process of integrating Databend Cloud with 
 
 1. Starts with the official Superset Docker image as the foundational base. Edit the Dockerfile, permissions are elevated to install essential packages.
 
-```shell
+```shell title='Dockerfile'
 FROM apache/superset
 # Switching to root to install the required packages
 USER root
