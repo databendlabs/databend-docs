@@ -15,6 +15,8 @@ This tutorial guides you through the process of integrating Databend Cloud with 
 <StepsWrap>
 <StepContent number="1" title="Building Superset Image">
 
+These steps involve creating a customized Superset Docker image with Databend integration:
+
 1. Starts with the official Superset Docker image as the foundational base. Edit the Dockerfile, permissions are elevated to install essential packages.
 
 ```shell title='Dockerfile'
