@@ -8,7 +8,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 The primary purpose of the aggregating index is to enhance query performance, especially in scenarios involving aggregation queries such as MIN, MAX, and SUM. It achieves this by precomputing and storing query results separately in blocks, eliminating the need to scan the entire table and thereby speeding up data retrieval. Please note the following when working with aggregating indexes:
 
-- When creating aggregating indexes, limit their usage to standard [Aggregate Functions](../../../15-sql-functions/10-aggregate-functions/index.md) (e.g., AVG, SUM, MIN, MAX, COUNT and GROUP BY), while keeping in mind that [GROUPING SETS](link-to-gouping-sets), [window functions](link-to-window-functions), LIMIT, and ORDER BY are not accepted, or you will get an error `Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`.
+- When creating aggregating indexes, limit their usage to standard [Aggregate Functions](../../../15-sql-functions/10-aggregate-functions/index.md) (e.g., AVG, SUM, MIN, MAX, COUNT and GROUP BY), while keeping in mind that [GROUPING SETS](../../20-query-syntax/07-query-group-by-grouping-sets.md), [Window Functions](../../../15-sql-functions/122-window-functions/index.md), [LIMIT](../../20-query-syntax/01-query-select.md#limit-clause), and [ORDER BY](../../20-query-syntax/01-query-select.md#order-by-clause) are not accepted, or you will get an error: `Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`.
 
 - The query filter scope defined when creating aggregating indexes should either match or encompass the scope of your actual queries.
 
