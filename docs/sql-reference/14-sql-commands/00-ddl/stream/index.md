@@ -55,62 +55,137 @@ To manage streams in Databend, use the following commands:
 
 <IndexOverviewList />
 
-### Usage Examples
+### Example: Continuous Data Pipeline
 
-In this example, we assume the management of a book collection through the `books_total` table.
+The following example demonstrates how to use streams to capture and track user activities in real-time.
+
+#### 1. Creating Tables
+
+The example uses three tables: 
+* `user_activities` table records user activities.
+* `user_profiles` table stores user profiles.
+* `user_activity_profiles` table is a combined view of the two tables.
+
+The `activities_stream` table is created as a stream to capture real-time changes to the `user_activities` table. The stream is then consumed by a query to update the` user_activity_profiles` table with the latest data.
 
 ```sql
--- Create a table to store all books information
-CREATE TABLE books_total (
-    book_id INT,
-    title VARCHAR(255),
-    author VARCHAR(255),
-    publication_year INT
+-- Create a table to record user activities
+CREATE TABLE user_activities (
+    user_id INT,
+    activity VARCHAR,
+    timestamp TIMESTAMP
 );
 
--- Insert records for the year 2022
-INSERT INTO books_total VALUES
-    (1, 'The Song of Achilles', 'Madeline Miller', 2022),
-    (2, 'The Night Circus', 'Erin Morgenstern', 2022),
-    (3, 'Where the Red Fern Grows', 'Wilson Rawls', 2022);
-```
-
-As we transition into 2023, we introduce the `books_stream_2023` stream to capture changes at the year's onset.
-
-```sql
-CREATE STREAM books_stream_2023 ON TABLE books_total;
-```
-
-New books for 2023 are seamlessly added to `books_total`, and the stream efficiently records these additions.
-
-```sql
-INSERT INTO books_total VALUES
-    (4, 'The Silent Patient', 'Alex Michaelides', 2023),
-    (5, 'Where the Crawdads Sing', 'Delia Owens', 2023),
-    (6, 'Educated', 'Tara Westover', 2023);
-
--- View the changes in the stream for the year 2023
-SELECT * FROM books_stream_2023;
-
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│     book_id     │          title          │      author      │ publication_year │
-├─────────────────┼─────────────────────────┼──────────────────┼──────────────────┤
-│               4 │ The Silent Patient      │ Alex Michaelides │             2023 │
-│               5 │ Where the Crawdads Sing │ Delia Owens      │             2023 │
-│               6 │ Educated                │ Tara Westover    │             2023 │
-└─────────────────────────────────────────────────────────────────────────────────┘
-```
-
-Subsequently, you can create another table `books_2023`to store information specifically for the year 2023 and populate it with the stream data.
-
-```sql
-CREATE TABLE books_2023 (
-    book_id INT,
-    title VARCHAR(255),
-    author VARCHAR(255),
-    publication_year INT
+-- Create a table to store user profiles
+CREATE TABLE user_profiles (
+    user_id INT,
+    username VARCHAR,
+    location VARCHAR
 );
 
-INSERT INTO books_2023
-SELECT * FROM books_stream_2023;
+-- Insert data into the user_profiles table
+INSERT INTO user_profiles VALUES (101, 'Alice', 'New York');
+INSERT INTO user_profiles VALUES (102, 'Bob', 'San Francisco');
+INSERT INTO user_profiles VALUES (103, 'Charlie', 'Los Angeles');
+INSERT INTO user_profiles VALUES (104, 'Dana', 'Chicago');
+
+-- Create a table for the combined view of user activities and profiles
+CREATE TABLE user_activity_profiles (
+    user_id INT,
+    username VARCHAR,
+    location VARCHAR,
+    activity VARCHAR,
+    activity_timestamp TIMESTAMP
+);
 ```
+
+#### 2. Creating a Stream
+
+Create a stream on the `user_activities` table to capture real-time changes:
+```sql
+CREATE STREAM activities_stream ON TABLE user_activities;
+```
+
+#### 3. Inserting Data into the Source Table
+
+Insert data into the `user_activities` table to make some changes:
+```sql
+INSERT INTO user_activities VALUES (102, 'logout', '2023-12-19 09:00:00');
+INSERT INTO user_activities VALUES (103, 'view_profile', '2023-12-19 09:15:00');
+INSERT INTO user_activities VALUES (104, 'edit_profile', '2023-12-19 10:00:00');
+INSERT INTO user_activities VALUES (101, 'purchase', '2023-12-19 10:30:00');
+INSERT INTO user_activities VALUES (102, 'login', '2023-12-19 11:00:00');
+```
+
+#### 4. Consuming the Stream to Update the Target Table
+
+Consume the stream to update the `user_activity_profiles` table:
+```sql
+-- Inserting data into the user_activity_profiles table
+INSERT INTO user_activity_profiles
+SELECT
+    a.user_id, p.username, p.location, a.activity, a.timestamp
+FROM
+    -- Source table for changed data
+    activities_stream AS a
+JOIN
+    -- Joining with user profile data
+    user_profiles AS p
+ON
+    a.user_id = p.user_id
+
+-- a.change$action is a column indicating the type of change (Databend only supports INSERT for now)
+WHERE a.change$action = 'INSERT';
+```
+
+Then, check the updated `user_activity_profiles` table:
+```sql
+SELECT
+  *
+FROM
+  user_activity_profiles
+
+┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+│     user_id     │     username     │     location     │     activity     │  activity_timestamp │
+├─────────────────┼──────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│             103 │ Charlie          │ Los Angeles      │ view_profile     │ 2023-12-19 09:15:00 │
+│             104 │ Dana             │ Chicago          │ edit_profile     │ 2023-12-19 10:00:00 │
+│             101 │ Alice            │ New York         │ purchase         │ 2023-12-19 10:30:00 │
+│             102 │ Bob              │ San Francisco    │ login            │ 2023-12-19 11:00:00 │
+│             102 │ Bob              │ San Francisco    │ logout           │ 2023-12-19 09:00:00 │
+└────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 5. Task Update for Real-Time Data Processing
+
+To keep the `user_activity_profiles` table current, it's important to periodically synchronize it with data from the `activities_stream`. This synchronization should be aligned with the update intervals of the `user_activities` table, ensuring that the user_activity_profiles accurately reflects the latest user activities and profiles for real-time data analysis.
+
+The Databend `TASK` command(currently in private preview), can be utilized to define a task that updates the `user_activity_profiles` table every minute or seconds.
+
+```sql
+-- Define a task in Databend
+CREATE TASK user_activity_task 
+WAREHOUSE = 'default'
+SCHEDULE = 1 MINUTE
+-- Trigger task when new data arrives in activities_stream
+WHEN system$stream_has_data('activities_stream') AS 
+    -- Insert new records into user_activity_profiles
+    INSERT INTO user_activity_profiles
+    SELECT
+        -- Join activities_stream with user_profiles based on user_id
+        a.user_id, p.username, p.location, a.activity, a.timestamp
+    FROM
+        activities_stream AS a
+        JOIN user_profiles AS p
+            ON a.user_id = p.user_id
+    -- Include only rows where the action is 'INSERT'
+    WHERE a.change$action = 'INSERT';
+```
+
+:::note
+The `TASK` command is currently in private preview, so the synatx and usage may change in the future.
+:::
+
+
+
+
