@@ -24,13 +24,13 @@ function HomepageHeader() {
           <div className={clsx('action-group', styles.actionGroup)}>
             <Link
               className={clsx("button", styles.Button, styles.Primary)}
-              to="/doc/">
+              to="/guides/">
               <Book size={20} />
               {$t('What is Databend?')}
             </Link>
             <Link
               className={clsx("button", styles.Button)}
-              to="/doc/overview/editions/dc/">
+              to="/guides/overview/editions/dc/">
               <LightDatabendCloudSingleSvg width={40}></LightDatabendCloudSingleSvg>
               Databend Cloud
             </Link>
@@ -44,7 +44,7 @@ function HomepageHeader() {
             </div>
             <Link
               className={clsx("button", styles.Button, styles.White)}
-              to={isChina ? '/doc/cloud/new-account' : '/doc/cloud/new-account'}>
+              to={'/guides/cloud/new-account'}>
               🚀 {$t('Start your trial')}
             </Link>
           </div>

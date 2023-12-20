@@ -31,7 +31,7 @@ The Databend JDBC driver is provided as a JAR file and can be integrated directl
 ```
 
 :::tip DID YOU KNOW?
-You can also connect to Databend from DBeaver through the Databend JDBC driver. For more information, see [Connecting to Databend with JDBC](/doc/sql-clients/jdbc).
+You can also connect to Databend from DBeaver through the Databend JDBC driver. For more information, see [Connecting to Databend with JDBC](/guides/sql-clients/jdbc).
 :::
 
 ## Configuring Connection String
@@ -183,7 +183,7 @@ Downloading CSV File from Databend:
 
 ### Example: Integrating with Databend Cloud
 
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
+Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 
 #### Step 1. Add Dependencies with Maven
 
@@ -261,7 +261,7 @@ public class sample {
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
+Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 :::
 
 #### Step 3. Run sample with Maven

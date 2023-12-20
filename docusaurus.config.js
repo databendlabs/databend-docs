@@ -79,15 +79,15 @@ const config = {
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
                 docs: {
-                    path: `./docs/${isCN ? '/cn/doc' : 'doc'}`,
-                    routeBasePath: 'doc',
+                    path: `./docs/${isCN ? '/cn/guides' : 'guides'}`,
+                    routeBasePath: 'guides',
                     sidebarPath: require.resolve('./docs/sidebars.js'),
                     editUrl: ({ locale, docPath }) => {
                         // // @ts-ignore
                         // if (locale !== config.i18n.defaultLocale) {
                         //     return `https://databend.crowdin.com/databend/${locale}`;
                         // }
-                        return `https://github.com/datafuselabs/databend-docs/tree/main/docs/${isCN ? '/cn/doc' : 'doc'}/${docPath}`;
+                        return `https://github.com/datafuselabs/databend-docs/tree/main/docs/${isCN ? '/cn/guides' : 'guides'}/${docPath}`;
                     },
                 },
                 // blog: {
@@ -232,7 +232,7 @@ const config = {
                 },
                 items: [
                     {
-                        to: '/doc',
+                        to: '/guides',
                         label: 'Guides',
                         position: 'right',
                     },
@@ -276,7 +276,7 @@ const config = {
                             },
                             {
                                 label: 'Deployment',
-                                to: '/doc/deploy'
+                                to: '/guides/deploy'
                             },
                             {
                                 label: 'Blog',
