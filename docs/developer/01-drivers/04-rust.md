@@ -11,7 +11,7 @@ For installation instructions, examples, and the source code, see [GitHub - data
 
 ## Tutorial-1: Integrating with Databend using Rust
 
-Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/doc/deploy/deploying-local).
+Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/deploy/deploying-local).
 
 ### Step 1. Prepare a SQL User Account
 
@@ -118,7 +118,7 @@ mybook author 2022
 ## Tutorial-2: Integrating with Databend Cloud using Rust
 
 Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how
-to do that, see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
+to do that, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 
 ### Step 1. Create a Rust Crate
 
@@ -197,7 +197,7 @@ async fn main() {
 :::tip
 Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to
 obtain the connection information,
-see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
+see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 :::
 
 ### Step 4. Run sample with Cargo
