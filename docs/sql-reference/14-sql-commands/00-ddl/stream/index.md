@@ -22,8 +22,21 @@ For example, if a row is added and later updated with new values, the stream rec
 
 **A stream can be consumed by DML (Data Manipulation Language) operations**. After consumption, the stream contains no data but can continue to capture new changes, if any.
 
-
 ![Alt text](@site/static/public/img/sql/stream-consume.png)
+
+### Transactional Support for Stream Consumption
+
+In Databend, stream consumption is transactional within single-statement transactions. This means:
+
+**Successful Transaction**: If a transaction is committed, the stream is consumed. For instance:
+```sql
+INSERT INTO table SELECT * FROM stream;
+```
+If this `INSERT` transaction commits, the stream is consumed.
+
+**Failed Transaction**: If the transaction fails, the stream remains unchanged and available for future consumption.
+
+**Concurrent Access**: *Only one transaction can successfully consume a stream at a time*. If multiple transactions attempt to consume the same stream, only the first committed transaction succeeds, others fail.
 
 ### Table Metadata for Stream
 
