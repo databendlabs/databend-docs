@@ -1,5 +1,5 @@
 ---
-title: Querying Staged Files
+title: Querying Data in Staged Files
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
@@ -105,7 +105,7 @@ To query data files in a bucket or container on your storage service, provide th
 
 ### uri
 
-Specifies the URI of remote files accessible via HTTPS.
+Specify the URI of remote files accessible via HTTPS.
 
 ## Limitations
 
@@ -114,9 +114,9 @@ When querying a staged file, the following limitations are applicable in terms o
 - Selecting all fields with the symbol * is only supported for Parquet files.
 - When selecting from a CSV or TSV file, all fields are parsed as strings, and the SELECT statement only allows the use of column positions. Additionally, there is a restriction on the number of fields in the file, which must not exceed max.N+1000. For example, if the statement is `SELECT $1, $2 FROM @my_stage (FILES=>('sample.csv'))`, the sample.csv file can have a maximum of 1,002 fields.
 
-## Examples
+## Tutorials
 
-### Example 1: Querying Data in a Parquet File
+### Tutorial 1: Querying Data from Parquet Files
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -168,7 +168,7 @@ SELECT * FROM 'https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/boo
 </TabItem>
 </Tabs>
 
-### Example 2: Filtering Files
+### Tutorial 2: Querying Data with PATTERN
 
 Let's assume you have the following Parquet files with the same schema, as well as some files of other formats, stored in a bucket named *databend-toronto* on Amazon S3 in the region *us-east-2*. 
 
@@ -181,7 +181,7 @@ databend-toronto/
   └── books-2019.parquet
 ```
 
-To query data from all Parquet files in the folder, you can use the PATTERN option:
+To query data from all Parquet files in the folder, you can use the `PATTERN` option:
 
 ```sql
 SELECT
