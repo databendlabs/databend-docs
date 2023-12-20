@@ -21,7 +21,7 @@ In this tutorial, we will guide you through the process of connecting to Databen
     ```
 
 </StepContent>
-<StepContent number="2" title="Open BendSQL">
+<StepContent number="2" title="Launch BendSQL">
 
 To launch BendSQL, enter `bendsql` directly into your terminal or command prompt.
 
@@ -35,7 +35,7 @@ The command `bendsql` launches and connects BendSQL to the local Databend at 127
 </StepContent>
 <StepContent number="3" title="Execute Queries">
 
-Once connected, you can execute SQL queries in the BendSQL shell. For instance, let's type `SELECT NOW();` to return the current time:
+Once connected, you can execute SQL queries in the BendSQL shell. For instance, type `SELECT NOW();` to return the current time:
 
 ![Alt text](../../../public/img/connect/bendsql-2.gif)
 
@@ -48,23 +48,3 @@ To quit BendSQL, type `quit`.
 
 </StepContent>
 </StepsWrap>
-
-<!--
-
-Step 3: Execute Queries
-
-Once connected, you can execute SQL queries in the BendSQL shell. For instance, let's run a simple query to show databases:
-
-sql
-Copy code
-SHOW DATABASES;
-Explore more SQL commands and interact with your Databend cluster using BendSQL.
-
-Step 4: Disconnect
-
-When you're done, disconnect from the Databend cluster using:
-
-sql
-Copy code
-DISCONNECT;
--->
