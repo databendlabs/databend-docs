@@ -23,38 +23,34 @@ In this tutorial, we will guide you through the process of connecting to Databen
 </StepContent>
 <StepContent number="2" title="Open BendSQL">
 
-To initiate BendSQL, type 'bendsql' directly into your terminal or command prompt.
+To launch BendSQL, enter `bendsql` directly into your terminal or command prompt.
 
+:::note
+The command `bendsql` launches and connects BendSQL to the local Databend at 127.0.0.1 using the `root` user without requiring a password. If you wish to connect to a local Databend with a different user, such as 'eric' with the password 'abc123', use the command `bendsql --user eric --password abc123`. To view all available arguments and their default values, type `bendsql --help`.
+:::
+
+![Alt text](../../../public/img/connect/bendsql-1.gif)
+
+
+</StepContent>
+<StepContent number="3" title="Execute Queries">
+
+Once connected, you can execute SQL queries in the BendSQL shell. For instance, let's run a simple query to return the current time:
+
+![Alt text](../../../public/img/connect/bendsql-2.gif)
+
+</StepContent>
+<StepContent number="4" title="Quit BendSQL">
+
+To quit BendSQL, type `quit`.
+
+![Alt text](../../../public/img/connect/bendsql-3.gif)
 
 </StepContent>
 </StepsWrap>
 
 <!--
-Steps:
-Step 1: Open BendSQL
 
-Launch BendSQL on your terminal or command prompt.
-
-bash
-Copy code
-bendsql
-This will open the BendSQL interactive shell.
-
-Step 2: Connect to Databend
-
-Connect to your Databend cluster using the following command:
-
-sql
-```sql
-CONNECT databend://<DATABEND_HOST>:<DATABEND_PORT>?username=<USERNAME>&password=<PASSWORD>
-Replace <DATABEND_HOST>, <DATABEND_PORT>, <USERNAME>, and <PASSWORD> with the appropriate values for your Databend cluster.
-```
-
-For example:
-
-sql
-Copy code
-CONNECT databend://localhost:9000?username=admin&password=your_password
 Step 3: Execute Queries
 
 Once connected, you can execute SQL queries in the BendSQL shell. For instance, let's run a simple query to show databases:
