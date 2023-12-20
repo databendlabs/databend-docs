@@ -24,7 +24,8 @@ export default function NotFound() {
     "/doc/load-data": '/guides/load-data',
     '/doc/visualize': '/guides/visualize',
     '/doc/monitor': '/guides/monitor',
-    '/doc/overview': '/guides/overview'
+    '/doc/overview': '/guides/overview',
+    "/cloud/getting-started/new-account": '/guides/cloud/new-account'
   };
   useMount(() => {
     for (const [oldPath, newPath] of Object.entries(redirectsMap)) {
