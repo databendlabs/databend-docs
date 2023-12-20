@@ -35,7 +35,7 @@ The command `bendsql` launches and connects BendSQL to the local Databend at 127
 </StepContent>
 <StepContent number="3" title="Execute Queries">
 
-Once connected, you can execute SQL queries in the BendSQL shell. For instance, let's run a simple query to return the current time:
+Once connected, you can execute SQL queries in the BendSQL shell. For instance, let's type `SELECT NOW();` to return the current time:
 
 ![Alt text](../../../public/img/connect/bendsql-2.gif)
 
