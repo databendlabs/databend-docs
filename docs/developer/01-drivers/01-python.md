@@ -22,7 +22,7 @@ In the following tutorial, you'll learn how to utilize the packages above to dev
 
 ## Tutorial-1: Integrating with Databend using Python
 
-Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/doc/deploy/deploying-local).
+Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/deploy/deploying-local).
 
 ### Step 1. Prepare a SQL User Account
 
@@ -194,7 +194,7 @@ Readings in Database Systems Michael Stonebraker 2004
 
 ## Tutorial-2: Integrating with Databend Cloud using Python (databend-py)
 
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
+Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 
 ### Step 1. Install Dependencies with pip
 
@@ -218,7 +218,7 @@ print(res)
 
 ## Tutorial-3: Integrating with Databend Cloud using Python (databend-sqlalchemy)
 
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
+Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 
 ### Step 1. Install Dependencies with pip
 
@@ -240,5 +240,5 @@ print(cursor.fetchall())
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/doc/cloud/using-databend-cloud/warehouses#connecting).
+Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 :::
