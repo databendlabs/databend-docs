@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 COPY INTO allows you to load data from files located in one of the following locations:
 
-- User / Internal / External stages: See [Understanding Stages](/doc/load-data/stage/whystage) to learn about stages in Databend.
+- User / Internal / External stages: See [Understanding Stages](/guides/load-data/stage/whystage) to learn about stages in Databend.
 - Buckets or containers created in a storage service.
 - Remote servers from where you can access the files by their URL (starting with "https://...").
 - [IPFS](https://ipfs.tech).

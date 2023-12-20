@@ -17,7 +17,14 @@ export default function NotFound() {
     '/doc/sql-reference': '/sql/sql-reference',
     '/doc/sql-commands': '/sql/sql-commands',
     '/doc/sql-functions': '/sql/sql-functions',
-    "/doc/develop": '/developer/drivers'
+    "/doc/develop": '/developer/drivers',
+    "/doc/deploy": '/guides/deploy',
+    "/doc/cloud": '/guides/cloud',
+    '/doc/sql-clients': '/guides/sql-clients',
+    "/doc/load-data": '/guides/load-data',
+    '/doc/visualize': '/guides/visualize',
+    '/doc/monitor': '/guides/monitor',
+    '/doc/overview': '/guides/overview'
   };
   useMount(() => {
     for (const [oldPath, newPath] of Object.entries(redirectsMap)) {
@@ -47,7 +54,7 @@ export default function NotFound() {
             }
           </div>
           <Space size={16}>
-            <Button type='primary' href='/doc'>{$t('Guides')}</Button>
+            <Button type='primary' href='/guides'>{$t('Guides')}</Button>
             <Button href={homeLink + "/blog"} target='_blank'>{$t('Blog')}</Button>
           </Space>
        </Space>

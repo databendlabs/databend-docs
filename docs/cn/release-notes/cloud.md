@@ -129,8 +129,8 @@ slug: '/'
   - 支持包括 PIVOT、UNPIVOT、GROUP BY CUBE 和 ROLLUP 在内的查询语法。
   - 新增了 cosine_distance、ai_embedding_vector 等 [AI 函数](/sql/sql-functions/ai-functions/)，将 Databend 转变为一个 AI 知识存储库，允许您解锁更深入的见解，从数据中提取更多价值。
 - 新的集成：
-  - [DBeaver](/doc/sql-clients/jdbc)：现在您可以使用桌面应用程序轻松连接到 Databend Cloud，获得更无缝的体验。
-  - [Redash](/doc/visualize/redash): 轻松创建美丽的可视化图表，使分析和展示数据更加容易。
+  - [DBeaver](/guides/sql-clients/jdbc)：现在您可以使用桌面应用程序轻松连接到 Databend Cloud，获得更无缝的体验。
+  - [Redash](/guides/visualize/redash): 轻松创建美丽的可视化图表，使分析和展示数据更加容易。
 
 ### 改进
 

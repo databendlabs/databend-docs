@@ -23,7 +23,7 @@ npm install --save databend-driver
 
 ## 教程 -1：使用 Node.js 与 Databend 集成
 
-在开始之前，请确保您已成功安装本地 Databend。有关详细说明，请参见[本地和 Docker 部署](/doc/deploy/deploying-local)。
+在开始之前，请确保您已成功安装本地 Databend。有关详细说明，请参见[本地和 Docker 部署](/guides/deploy/deploying-local)。
 
 ### 步骤 1. 准备 SQL 用户账户
 
@@ -107,7 +107,7 @@ Table created
 
 ## 教程 -2：使用 Node.js 与 Databend Cloud 集成
 
-在开始之前，请确保您已成功创建了一个计算集群并获取了连接信息。有关如何操作，请参见 [连接到计算集群](/doc/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已成功创建了一个计算集群并获取了连接信息。有关如何操作，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 1. 创建一个 Node.js 包
 
@@ -183,7 +183,7 @@ create_conn().then(conn => {
 ```
 
 :::tip
-将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息的详细信息，请参见 [连接到计算集群](/doc/cloud/using-databend-cloud/warehouses#connecting)。
+将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息的详细信息，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 步骤 4. 使用 NPM 运行示例
