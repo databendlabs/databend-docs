@@ -9,7 +9,7 @@ The connection parameters refer to a set of essential connection details require
 
 ### Syntax and Examples
 
-The connection parameters are specified using a CONNECTION clause and are separated by comma. When [Querying Staged Files](/doc/load-data/transform/querying-stage), the CONNECTION clause is enclosed in an additional set of parentheses.
+The connection parameters are specified using a CONNECTION clause and are separated by comma. When [Querying Staged Files](/guides/load-data/transform/querying-stage), the CONNECTION clause is enclosed in an additional set of parentheses.
 
 ```sql title='Examples:'
 -- This example illustrates a 'CREATE STAGE' command where 'CONNECTION' is followed by '=', establishing a Minio stage with specific connection parameters.

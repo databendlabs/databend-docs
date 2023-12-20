@@ -252,7 +252,7 @@ FROM numbers(3) SELECT number;
 +--------+
 ```
 
-The FROM clause can also specify a location, enabling direct querying of data from various sources and eliminating the need to first load it into a table. For more information, see [Querying Staged Files](/doc/load-data/transform/querying-stage).
+The FROM clause can also specify a location, enabling direct querying of data from various sources and eliminating the need to first load it into a table. For more information, see [Querying Staged Files](/guides/load-data/transform/querying-stage).
 
 ## AT Clause
 

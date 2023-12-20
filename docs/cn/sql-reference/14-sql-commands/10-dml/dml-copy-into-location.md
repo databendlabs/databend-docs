@@ -10,7 +10,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 COPY INTO allows you to unload data from a table or query into one or more files in one of the following locations:
 
-* User / Internal / External stages: See [Understanding Stages](/doc/load-data/stage/whystage) to learn about stages in Databend.
+* User / Internal / External stages: See [Understanding Stages](/guides/load-data/stage/whystage) to learn about stages in Databend.
 * Buckets or containers created in a storage service.
 
 See also: [`COPY INTO <table>`](dml-copy-into-table.md)
