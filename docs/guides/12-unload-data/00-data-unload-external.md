@@ -1,5 +1,5 @@
 ---
-title: Unloading Data
+title: Unloading Data into External Stage
 ---
 
 Unloading data refers to the process of extracting or transferring data stored in a database to another storage location. This can involve exporting data from the database to a file or another database, or copying data from the database to a backup or archiving system. 
@@ -8,7 +8,7 @@ Databend recommends using the `COPY INTO <location>` command to export your data
 
 For more information about the command, see [`COPY INTO <location>`](/sql/sql-reference/file-format-options). To view the list of supported file formats that can be used to save the exported data, see [Input & Output File Formats](/sql/sql-reference/file-format-options).
 
-## Tutorial - Unload to an External Stage
+## Unloading to an External Stage
 
 In this tutorial, you will first create an external stage and then use the COPY INTO command to export the result of a query as a parquet file to the external stage.
 
@@ -17,7 +17,12 @@ In this tutorial, you will first create an external stage and then use the COPY 
 Create an external stage named `unload` with the [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) command:
 
 ```sql
-CREATE STAGE unload url='s3://unload/files/' connection=(aws_key_id='1a2b3c' aws_secret_key='4x5y6z');
+CREATE STAGE unload 
+    URL = 's3://unload/files/' 
+    CONNECTION = (
+        AWS_KEY_ID = '1a2b3c',
+        AWS_SECRET_KEY = '4x5y6z'
+    );
 ```
 
 ### Step 2. Export Data
@@ -25,7 +30,14 @@ CREATE STAGE unload url='s3://unload/files/' connection=(aws_key_id='1a2b3c' aws
 Export the query result as a parquet file to the external stage `unload`:
 
 ```sql
-COPY INTO @unload FROM (SELECT * FROM numbers(10000000)) FILE_FORMAT = (TYPE = PARQUET);
+COPY INTO @unload 
+FROM (
+    SELECT * 
+    FROM numbers(10000000)
+) 
+FILE_FORMAT = (
+    TYPE = PARQUET
+);
 ```
 
 ### Step 3. Verify Export File
@@ -44,7 +56,9 @@ LIST @unload;
 You can also query the exported data to confirm its validity:
 
 ```sql
-SELECT sum(number) FROM @unload (PATTERN => '.*parquet');
+SELECT SUM(number)
+FROM @unload (PATTERN => '.*parquet');
+
 +----------------+
 | sum(number)    |
 +----------------+
