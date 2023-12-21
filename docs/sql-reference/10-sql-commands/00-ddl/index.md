@@ -2,7 +2,7 @@
 title: DDL (Data Definition Language) Commands
 ---
 
-These topics provide reference information for the DDL (Data Definition Language) components.
+These topics provide reference information for the DDL (Data Definition Language) commands in Databend.
 
 ## Database and Table Management
 

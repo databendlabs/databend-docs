@@ -12,7 +12,7 @@ The primary purpose of the aggregating index is to enhance query performance, es
 
 - The query filter scope defined when creating aggregating indexes should either match or encompass the scope of your actual queries.
 
-- To confirm if an aggregating index works for a query, use the [EXPLAIN](../../50-explain-cmds/explain.md) command to analyze the query.
+- To confirm if an aggregating index works for a query, use the [EXPLAIN](../../40-explain-cmds/explain.md) command to analyze the query.
 
 - If you no longer need an aggregating index, consider deleting it. Please note that deleting an aggregating index does NOT remove the associated storage blocks. To delete the blocks as well, use the [VACUUM TABLE](../01-table/91-vacuum-table.md) command. To disable the aggregating indexing feature, set `enable_aggregating_index_scan` to 0.
 

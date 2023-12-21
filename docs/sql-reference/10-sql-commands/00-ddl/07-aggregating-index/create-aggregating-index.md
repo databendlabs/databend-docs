@@ -25,7 +25,7 @@ CREATE [SYNC] AGGREGATING INDEX <index_name> AS SELECT ...
 
 - The query filter scope defined when creating aggregating indexes should either match or encompass the scope of your actual queries.
 
-- To confirm if an aggregating index works for a query, use the [EXPLAIN](../../50-explain-cmds/explain.md) command to analyze the query.
+- To confirm if an aggregating index works for a query, use the [EXPLAIN](../../40-explain-cmds/explain.md) command to analyze the query.
 
 ## Examples
 
