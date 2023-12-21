@@ -59,7 +59,7 @@ Read 1 rows, 448.00 B in 0.015 sec., 67.92 rows/sec., 29.71 KiB/sec.
 
 ### Tuning Performance with Custom Block Size
 
-The block size in Databend is determined by the ROW_PER_BLOCK and BLOCK_SIZE_THRESHOLD parameters of the [Fuse Engine](../../../13-sql-reference/30-table-engines/00-fuse.md). Databend creates a new block when either of the thresholds is reached. You can further enhance the performance of single-point and range queries by customizing the block size for a table that includes a cluster key.
+The block size in Databend is determined by the ROW_PER_BLOCK and BLOCK_SIZE_THRESHOLD parameters of the [Fuse Engine](../../../00-sql-reference/30-table-engines/00-fuse.md). Databend creates a new block when either of the thresholds is reached. You can further enhance the performance of single-point and range queries by customizing the block size for a table that includes a cluster key.
 
 Customizing the block size to increase the number of storage blocks leads to a reduction in the number of rows read during query processing. This is because, as the number of blocks increases for the same dataset, the number of rows in each Parquet file decreases.
 

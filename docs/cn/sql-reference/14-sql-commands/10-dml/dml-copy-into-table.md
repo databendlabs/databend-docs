@@ -74,7 +74,7 @@ externalLocation ::=
         <connection_parameters>
   )
 ```
-For the connection parameters available for accessing Amazon S3-like storage services, see [Connection Parameters](/13-sql-reference/51-connect-parameters.md).
+For the connection parameters available for accessing Amazon S3-like storage services, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
 <TabItem value="Azure Blob Storage" label="Azure Blob Storage">
@@ -87,7 +87,7 @@ externalLocation ::=
   )
 ```
 
-For the connection parameters available for accessing Azure Blob Storage, see [Connection Parameters](/13-sql-reference/51-connect-parameters.md).
+For the connection parameters available for accessing Azure Blob Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
 <TabItem value="Google Cloud Storage" label="Google Cloud Storage">
@@ -100,7 +100,7 @@ externalLocation ::=
   )
 ```
 
-For the connection parameters available for accessing Google Cloud Storage, see [Connection Parameters](/13-sql-reference/51-connect-parameters.md).
+For the connection parameters available for accessing Google Cloud Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
 <TabItem value="Alibaba Cloud OSS" label="Alibaba Cloud OSS">
@@ -113,7 +113,7 @@ externalLocation ::=
   )
 ```
 
-For the connection parameters available for accessing Alibaba Cloud OSS, see [Connection Parameters](/13-sql-reference/51-connect-parameters.md).
+For the connection parameters available for accessing Alibaba Cloud OSS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
 <TabItem value="Tencent Cloud Object Storage" label="Tencent Cloud Object Storage">
@@ -126,7 +126,7 @@ externalLocation ::=
   )
 ```
 
-For the connection parameters available for accessing Tencent Cloud Object Storage, see [Connection Parameters](/13-sql-reference/51-connect-parameters.md).
+For the connection parameters available for accessing Tencent Cloud Object Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
 <TabItem value="Hadoop Distributed File System (HDFS)" label="HDFS">
@@ -139,7 +139,7 @@ externalLocation ::=
   )
 ```
 
-For the connection parameters available for accessing HDFS, see [Connection Parameters](/13-sql-reference/51-connect-parameters.md).
+For the connection parameters available for accessing HDFS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
 <TabItem value="WebHDFS" label="WebHDFS">
@@ -152,7 +152,7 @@ externalLocation ::=
   )
 ```
 
-For the connection parameters available for accessing WebHDFS, see [Connection Parameters](/13-sql-reference/51-connect-parameters.md).
+For the connection parameters available for accessing WebHDFS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
 <TabItem value="Remote Files" label="Remote Files">
@@ -190,7 +190,7 @@ A [PCRE2](https://www.pcre.org/current/doc/html/)-based regular expression patte
 
 ### FILE_FORMAT
 
-See [Input & Output File Formats](../../13-sql-reference/50-file-format-options.md) for details.
+See [Input & Output File Formats](../../00-sql-reference/50-file-format-options.md) for details.
 
 ### copyOptions
 
