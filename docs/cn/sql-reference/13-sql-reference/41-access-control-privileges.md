@@ -1,141 +1,138 @@
 ---
-title: Access Control Privileges
-sidebar_label: Access Control Privileges
-description:
-  Databend Access Control Privileges
+title: 访问控制权限
+sidebar_label: 访问控制权限
+description: Databend 访问控制权限
 ---
 
-Databend leverages a role-based access control model to secure your data. In Databend, you can control which operations a user can perform on a specific database object (for example, database, table, view, stage, or UDF) by granting privileges to a role and then assigning the role to the user, or granting privileges to the user directly. The privileges granted to a user literally determine which operations the user can perform. To learn about the available commands for managing users and roles, as well as granting or revoking privileges, please refer to the  [Link](/sql/sql-commands/ddl/user/) 
+Databend 使用基于角色的访问控制模型来保护您的数据。在 Databend 中，您可以通过向角色授予权限，然后将角色分配给用户，或直接向用户授予权限来控制用户可以对特定数据库对象（例如，数据库、表、视图、Stage 或 UDF）执行哪些操作。授予用户的权限实际上决定了用户可以执行哪些操作。要了解有关管理用户和角色以及授予或撤销权限的可用命令，请参阅此 [链接](/sql/sql-commands/ddl/user/)。
 
-Databend offers a range of privileges that allow you to exercise fine-grained control over your database objects. Databend privileges can be categorized into the following types:
+Databend 提供了一系列权限，使您可以对数据库对象进行精细控制。Databend 权限可以分为以下类型：
 
-- Global privileges: This set of privileges includes privileges that apply to the entire database management system, rather than specific objects within the system. Global privileges grant actions that affect the overall functionality and administration of the database, such as creating or deleting databases, managing users and roles, and modifying system-level settings. For which privileges are included, see [Global Privileges](#global-privileges).
+- 全局权限：这组权限包括适用于整个数据库管理系统的权限，而不是系统内的特定对象。全局权限授予影响数据库整体功能和管理的操作，例如创建或删除数据库、管理用户和角色以及修改系统级设置。有关包含哪些权限，请参阅 [全局权限](#全局权限)。
 
-- Object-specific privileges: Object-specific privileges come with different sets and each one applies to a specific database object. This includes:
-  - [Table Privileges](#table-privileges)
-  - [View Privileges](#view-privileges)
-  - [Database Privileges](#database-privileges)
-  - [Session Policy Privileges](#session-policy-privileges)
-  - [Stage Privileges](#stage-privileges)
-  - [UDF Privileges](#udf-privileges)
-  - [Catalog Privileges](#catalog-privileges)
-  - [Share Privileges](#share-privileges)
+- 对象特定权限：对象特定权限具有不同的集合，每个集合适用于特定的数据库对象。这包括：
+  - [表权限](#表权限)
+  - [视图权限](#视图权限)
+  - [数据库权限](#数据库权限)
+  - [会话策略权限](#会话策略权限)
+  - [Stage 权限](#Stage-权限)
+  - [UDF 权限](#UDF-权限)
+  - [Catalog 权限](#Catalog-权限)
+  - [Share 权限](#Share-权限)
 
-## All Privileges
+## 所有权限
 
-| Privilege    | Object Type                   | Description                                                                                                                                        |
-|:-------------|:------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
-| ALL          | All                           | Grants all the privileges for the specified object type.                                                                                           |
-| ALTER        | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                                                             |
-| CREATE       | Global, Database, Table       | Creates a database, table or UDF.                                                                                                                  |
-| DELETE       | Table                         | Deletes or truncates rows in a table.                                                                                                              |
-| DROP         | Global, Database, Table, View | Drops a database, table, view or UDF. Undrops a table.                                                                                             |
-| INSERT       | Table                         | Inserts rows into a table.                                                                                                                         |
-| SELECT       | Database, Table               | Selects rows from a table. Shows or uses a database.                                                                                               |
-| UPDATE       | Table                         | Updates rows in a table.                                                                                                                           |
-| GRANT        | Global                        | Grants / revokes privileges to / from a user or role.                                                                                              |
-| SUPER        | Global, Table                 | Kills a query. Sets global configs. Optimizes a table. Analyzes a table. Operates a stage(Lists stages. Creates, Drops a stage), catalog or share. |
-| USAGE        | Global                        | Synonym for “no privileges”.                                                                                                                       |
-| CREATE ROLE  | Global                        | Creates a role.                                                                                                                                    |
-| DROP ROLE    | Global                        | Drops a role.                                                                                                                                      |
-| CREATE USER  | Global                        | Creates a SQL user.                                                                                                                                |
-| DROP USER    | Global                        | Drops a SQL user.                                                                                                                                  |
-| WRITE        | Stage                         | Write into a stage.                                                                                                                                |
-| READ         | Stage                         | Read a stage.                                                                                                                                      |
-| USAGE        | UDF                           | Use udf.                                                                                                                                           |
+| 权限        | 对象类型               | 描述                                                                    |
+| :---------- | :--------------------- | :---------------------------------------------------------------------- |
+| ALL         | 所有                   | 授予指定对象类型的所有权限。                                            |
+| ALTER       | 全局、数据库、表、视图 | 更改数据库、表、用户或 UDF。                                            |
+| CREATE      | 全局、数据库、表       | 创建数据库、表或 UDF。                                                  |
+| DELETE      | 表                     | 在表中删除或截断行。                                                    |
+| DROP        | 全局、数据库、表、视图 | 删除数据库、表、视图或 UDF。撤销删除表。                                |
+| INSERT      | 表                     | 向表中插入行。                                                          |
+| SELECT      | 数据库、表             | 从表中选择行。显示或使用数据库。                                        |
+| UPDATE      | 表                     | 在表中更新行。                                                          |
+| GRANT       | 全局                   | 向用户或角色授予/撤销权限。                                             |
+| SUPER       | 全局、表               | 终止查询。设置全局配置。优化表。分析表。操作 Stage、Catalog 或 Stage 。 |
+| USAGE       | 全局                   | “无权限”的同义词。                                                      |
+| CREATE ROLE | 全局                   | 创建角色。                                                              |
+| DROP ROLE   | 全局                   | 删除角色。                                                              |
+| CREATE USER | 全局                   | 创建 SQL 用户。                                                         |
+| DROP USER   | 全局                   | 删除 SQL 用户。                                                         |
+| WRITE       | Stage                  | 写入 Stage。                                                            |
+| READ        | Stage                  | 读取 Stage                                                              |
+| USAGE       | UDF                    | 使用 UDF。                                                              |
 
-## Global Privileges
+## 全局权限
 
-| Privilege  | Description                                                                                                       |
-|:-----------|:------------------------------------------------------------------------------------------------------------------|
-| ALL        | Grants all the privileges for the specified object type.                                                          |
-| ALTER      | Adds or drops a table column. Alters a cluster key. Re-clusters a table.                                          |
-| CREATEROLE | Creates a role.                                                                                                   |
-| DROPUSER   | Drops a user.                                                                                                     |
-| CREATEUSER | Creates a user.                                                                                                   |
-| DROPROLE   | Drops a role.                                                                                                     |
-| SUPER      | Kills a query. Sets or unsets a setting. Operates a stage, catalog or share. Calls a function. COPY INTO a stage. |
-| USAGE      | Connects to a databend query only.                                                                                |
-| CREATE     | Creates a UDF.                                                                                                    |
-| DROP       | Drops a UDF.                                                                                                      |
-| ALTER      | Alters a UDF. Alters a SQL user.                                                                                  |
+| 权限       | 描述                                                                             |
+| :--------- | :------------------------------------------------------------------------------- |
+| ALL        | 授予指定对象类型的所有权限。                                                     |
+| ALTER      | 添加或删除表列。更改聚类键。对表进行重聚类。                                     |
+| CREATEROLE | 创建角色。                                                                       |
+| DROPUSER   | 删除用户。                                                                       |
+| CREATEUSER | 创建用户。                                                                       |
+| DROPROLE   | 删除角色。                                                                       |
+| SUPER      | 终止查询。设置或取消设置。操作 Stage、Catalog 或 Share。调用函数。复制到 Stage。 |
+| USAGE      | 仅连接到 Databend 查询。                                                         |
+| CREATE     | 创建 UDF。                                                                       |
+| DROP       | 删除 UDF。                                                                       |
+| ALTER      | 更改 UDF。更改 SQL 用户。                                                        |
 
+## 表权限
 
-## Table Privileges
+| 权限   | 描述                                                            |
+| :----- | :-------------------------------------------------------------- |
+| ALL    | 授予指定对象类型的所有权限。                                    |
+| ALTER  | 添加或删除表列。更改集群键。重新集群表。                        |
+| CREATE | 创建表。                                                        |
+| DELETE | 在表中删除行。截断表。                                          |
+| DROP   | 删除或取消删除表。恢复已删除表的最近版本。                      |
+| INSERT | 在表中插入行。复制到（COPY INTO）某个表。                       |
+| SELECT | 从表中选择行。显示表的创建（SHOW CREATE）。描述（DESCRIBE）表。 |
+| UPDATE | 更新表中的行。                                                  |
+| SUPER  | 优化或分析表。                                                  |
 
-| Privilege | Description                                                               |
-|:----------|:--------------------------------------------------------------------------|
-| ALL       | Grants all the privileges for the specified object type.                  |
-| ALTER     | Adds or drops a table column. Alters a cluster key. Re-clusters a table.  |
-| CREATE    | Creates a table.                                                          |
-| DELETE    | Deletes rows in a table. Truncates a table.                               |
-| DROP      | Drops or undrops a table. Restores the recent version of a dropped table. |
-| INSERT    | Inserts rows into a table. COPY INTO a table.                             |
-| SELECT    | Selects rows from a table. SHOW CREATE a table. DESCRIBE a table.         |
-| UPDATE    | Updates rows in a table.                                                  |
-| SUPER     | Optimizes or analyzes a table.                                            |
+## 视图权限
 
-## View Privileges
+| 权限  | 描述                                                  |
+| :---- | :---------------------------------------------------- |
+| ALL   | 授予指定对象类型的所有权限                            |
+| ALTER | 创建或删除视图。使用另一个查询（QUERY）更改现有视图。 |
+| DROP  | 删除视图。                                            |
 
-| Privilege | Description                                                            |
-|:----------|:-----------------------------------------------------------------------|
-| ALL       | Grants all the privileges for the specified object type                |
-| ALTER     | Creates or drops a view. Alters the existing view using another QUERY. |
-| DROP      | Drops a view.                                                          |
+## 数据库权限
 
-## Database Privileges
+请注意，一旦您对数据库或数据库中的表具有以下任何权限，您可以使用 [USE DATABASE](../14-sql-commands/00-ddl/10-database/ddl-use-database.md) 命令指定数据库。
 
-Please note that you can use the [USE DATABASE](../14-sql-commands/00-ddl/10-database/ddl-use-database.md) command to specify a database once you have any of the following privileges to the database or any privilege to a table in the database.
+| 权限   | 描述                                               |
+| :----- | :------------------------------------------------- |
+| Alter  | 重命名数据库。                                     |
+| CREATE | 创建数据库。                                       |
+| DROP   | 删除或取消删除数据库。恢复已删除数据库的最近版本。 |
+| SELECT | 显示创建数据库。                                   |
 
-| Privilege | Description                                                                     |
-|:----------|:--------------------------------------------------------------------------------|
-| Alter     | Renames a database.                                                             |
-| CREATE    | Creates a database.                                                             |
-| DROP      | Drops or undrops a database. Restores the recent version of a dropped database. |
-| SELECT    | SHOW CREATE a database.                                                         |
+## 会话策略权限
 
-## Session Policy Privileges
+| 权限  | 描述                         |
+| :---- | :--------------------------- |
+| SUPER | 终止查询。设置或取消设置。   |
+| ALL   | 授予指定对象类型的所有权限。 |
 
-| Privilege | Description |
-| :--                 | :--                  |
-| SUPER       |    Kills a query. Sets or unsets a setting. |
-| ALL   |  Grants all the privileges for the specified object type. |
+## Stage 权限
 
-## Stage Privileges
+| 权限  | 描述                                                                          |
+| :---- | :---------------------------------------------------------------------------- |
+| WRITE | 写入 Stage。例如，复制数据到 Stage，预签上传或删除 Stage。                    |
+| READ  | 读取 Stage。例如，列出 Stage，查询 Stage，从 Stage 复制数据到表，预签下载。 |
+| ALL   | 为指定的对象类型授予读取和写入权限。                                          |
 
-| Privilege | Description                                                                                                       |
-|:----------|:------------------------------------------------------------------------------------------------------------------|
-| WRITE     | Write into a stage. For example, copy into a stage, presign upload or removes a stage                             |
-| READ      | Read a stage. For example, list stage, query stage, copy into table from stage, presign download                  |
-| ALL       | Grants READ, WRITE privileges for the specified object type.                                                      |
-
-> Note:
+> 注意：
 >
-> 1. Don't check external location auth.
+> 1. 不检查外部位置的身份验证。
 
+## UDF 权限
 
-## UDF Privileges
+| 权限  | 描述                                           |
+| :---- | :--------------------------------------------- |
+| USAGE | 可使用 UDF。例如，复制数据到 Stage，预签上传。 |
+| ALL   | 为指定的对象类型授予读取和写入权限。           |
 
-| Privilege | Description                                                              |
-|:----------|:-------------------------------------------------------------------------|
-| USAGE     | Can use UDF. For example, copy into a stage, presign upload |
-| ALL       | Grants READ, WRITE privileges for the specified object type.             |
+> 注意：
+>
+> 1. 如果 UDF 已经进行常量折叠，则不会检查 UDF 身份验证。
+> 2. 如果 UDF 是插入语句中的一个值，则不会检查 UDF 身份验证。
 
-> Note:
-> 
-> 1. Don't check the udf auth if it's already be constantly folded.
-> 2. Don't check the udf auth if it's a value in insert.
+## Catalog 权限
 
-## Catalog Privileges
+| 权限  | 描述                               |
+| :---- | :--------------------------------- |
+| SUPER | 显示 Catalog 的创建语句。创建或删除 Catalog。 |
+| ALL   | 为指定的对象类型授予所有权限。     |
 
-| Privilege | Description                                              |
-|:----------|:---------------------------------------------------------|
-| SUPER     | SHOW CREATE catalog. Creates or drops a catalog.         |
-| ALL       | Grants all the privileges for the specified object type. |
+## Share 权限
 
-## Share Privileges
-
-| Privilege | Description                                              |
-|:----------|:---------------------------------------------------------|
-| SUPER     | Creates, drops, or describes a share. Shows shares.      |
-| ALL       | Grants all the privileges for the specified object type. |
+| 权限  | 描述                             |
+| :---- | :------------------------------- |
+| SUPER | 创建、删除或描述 Share。显示 Share。 |
+| ALL   | 为指定的对象类型授予所有权限。   |
