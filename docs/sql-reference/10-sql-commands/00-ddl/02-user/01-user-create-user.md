@@ -6,10 +6,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.30"/>
 
-Create a new user account in Databend, specifying the user's name, authentication type, password, and [network policy](../101-network-policy/index.md). 
+Create a new user account in Databend, specifying the user's name, authentication type, password, and [network policy](../12-network-policy/index.md). 
 
 See also:
- - [CREATE NETWORK POLICY](../101-network-policy/ddl-create-policy.md)
+ - [CREATE NETWORK POLICY](../12-network-policy/ddl-create-policy.md)
  - [GRANT PRIVILEGES TO USER](./10-grant-privileges.md)
  - [GRANT ROLE TO USER](./20-grant-role.md)
 

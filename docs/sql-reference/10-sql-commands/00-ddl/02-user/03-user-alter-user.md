@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.30"/>
 
-Modifies a user account in Databend, allowing changes to the user's password and authentication type, as well as setting or unsetting a [network policy](../101-network-policy/index.md).
+Modifies a user account in Databend, allowing changes to the user's password and authentication type, as well as setting or unsetting a [network policy](../12-network-policy/index.md).
 
 ## Syntax
 
