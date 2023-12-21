@@ -95,7 +95,7 @@ When starting the Databend Docker container, you can specify the username and pa
 
 ### Step 3. Connecting to Databend
 
-To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../11-sql-clients/01-bendsql.md).
+To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../11-sql-clients/00-bendsql/index.md).
 
 1. To establish a connection with Databend using the SQL user (databend/databend), run the following command:
 
