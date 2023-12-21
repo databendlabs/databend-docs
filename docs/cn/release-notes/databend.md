@@ -19,12 +19,12 @@ import MD2 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.262" number="" title="Dec 19, 2023 (v1.2.262)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.262" number="" title="Dec 20, 2023 (v1.2.262)">
 <MD1 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.233" number="" title="Dec 12, 2023 (v1.2.233)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.233" number="" title="Dec 13, 2023 (v1.2.233)">
 <MD2 />
 
 </StepContent>

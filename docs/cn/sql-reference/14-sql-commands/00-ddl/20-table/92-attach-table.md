@@ -47,7 +47,7 @@ CONNECTION=(<connection_parameters>) [READ_ONLY]
   timestamp           |2023-07-11 05:38:27.0                              |
   ```
 
-- `CONNECTION` specifies the connection parameters required for establishing a link to the object storage where the source table's data is stored. The connection parameters vary for different storage services based on their specific requirements and authentication mechanisms. For more information, see [Connection Parameters](../../../13-sql-reference/51-connect-parameters.md).
+- `CONNECTION` specifies the connection parameters required for establishing a link to the object storage where the source table's data is stored. The connection parameters vary for different storage services based on their specific requirements and authentication mechanisms. For more information, see [Connection Parameters](../../../00-sql-reference/51-connect-parameters.md).
 
 - `READ_ONLY` is an optional parameter that, when included, restricts data modification operations (e.g., INSERT, UPDATE, DELETE) on the attached table (<target_table_name>), allowing only SELECT queries.
 
