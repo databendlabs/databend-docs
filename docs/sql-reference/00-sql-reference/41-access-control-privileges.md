@@ -85,7 +85,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 
 ## Database Privileges
 
-Please note that you can use the [USE DATABASE](../10-sql-commands/00-ddl/10-database/ddl-use-database.md) command to specify a database once you have any of the following privileges to the database or any privilege to a table in the database.
+Please note that you can use the [USE DATABASE](../10-sql-commands/00-ddl/00-database/ddl-use-database.md) command to specify a database once you have any of the following privileges to the database or any privilege to a table in the database.
 
 | Privilege | Description                                                                     |
 |:----------|:--------------------------------------------------------------------------------|

@@ -10,7 +10,7 @@ For example, imagine a situation where you wish to define a distinct range of IP
 
 ### Implementing Networking Policy
 
-To implement networking policies in Databend, you need to create a network policy wherein you specify the IP addresses you want to allow or restrict. Afterward, you associate this network policy with a specific user using the [ALTER USER](../30-user/03-user-alter-user.md) command. It's important to note that a single networking policy can be associated with multiple users, as long as they align with the same policy criteria. To manage networking policies in Databend, use the following commands:
+To implement networking policies in Databend, you need to create a network policy wherein you specify the IP addresses you want to allow or restrict. Afterward, you associate this network policy with a specific user using the [ALTER USER](../02-user/03-user-alter-user.md) command. It's important to note that a single networking policy can be associated with multiple users, as long as they align with the same policy criteria. To manage networking policies in Databend, use the following commands:
 
 - [ALTER NETWORK POLICY](ddl-alter-policy.md)
 - [CREATE NETWORK POLICY](ddl-create-policy.md)

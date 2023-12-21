@@ -45,14 +45,14 @@ ALTER SHARE myshare ADD TENANTS = B;
 
 These steps create a share endpoint and a database using the share created in [Step 1](#step-1-creating-a-share). Perform these steps within the tenant where you intend to access the shared data.
 
-1. Create a [SHARE ENDPOINT](../90-share-endpoint/index.md).
+1. Create a [SHARE ENDPOINT](../08-share-endpoint/index.md).
 
 ```sql
 -- Create a share endpoint named "to_share"
 CREATE SHARE ENDPOINT to_share URL = 'http://<shared-tenant-endpoint>:<port>' TENANT = <shared-tenant-name>;
 ```
 
-2. Create a database from the share using the [CREATE DATABASE](../10-database/ddl-create-database.md) command.
+2. Create a database from the share using the [CREATE DATABASE](../00-database/ddl-create-database.md) command.
 
 ```sql
 -- Create a database named "db2" using the share "myshare"

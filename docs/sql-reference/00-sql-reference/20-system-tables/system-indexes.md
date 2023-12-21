@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Contains information about the created aggregating indexes.
 
-See also: [SHOW INDEXES](../../10-sql-commands/00-ddl/103-aggregating-index/show-indexes.md)
+See also: [SHOW INDEXES](../../10-sql-commands/00-ddl/07-aggregating-index/show-indexes.md)
 
 ```sql
 CREATE TABLE t1(a int,b int);

@@ -19,7 +19,7 @@ CREATE TABLE table_name (
 ) [ENGINE = FUSE] [CLUSTER BY(<expr> [, <expr>, ...] )] [Options];
 ```
 
-For more information about the CREATE TABLE command, see [CREATE TABLE](../../10-sql-commands/00-ddl/20-table/10-ddl-create-table.md).
+For more information about the CREATE TABLE command, see [CREATE TABLE](../../10-sql-commands/00-ddl/01-table/10-ddl-create-table.md).
 
 ### ENGINE
 
@@ -31,7 +31,7 @@ The `CLUSTER BY` parameter specifies the sorting method for data that consists o
 
 ### Options
 
-The FUSE Engine offers the following options (case-insensitive) that enable you to customize the engine's functionality even further. To modify the options of an existing table, use the [ALTER TABLE OPTION](../../10-sql-commands/00-ddl/20-table/90-alter-table-option.md) command.
+The FUSE Engine offers the following options (case-insensitive) that enable you to customize the engine's functionality even further. To modify the options of an existing table, use the [ALTER TABLE OPTION](../../10-sql-commands/00-ddl/01-table/90-alter-table-option.md) command.
 
 | Option               	| Syntax                                              	| Description                                                                                                                                                                                                                                                                                           	|
 |----------------------	|-----------------------------------------------------	|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
@@ -42,4 +42,4 @@ The FUSE Engine offers the following options (case-insensitive) that enable you 
 | block_size_threshold 	| `block_size_threshold = '<block_size_threshold>'`   	| Specifies the maximum block size in bytes. Defaults to 104,857,600 bytes.                                                                                                                                                                                                                                                     	|
 | block_per_segment    	| `block_per_segment = '<block_per_segment>'`         	| Specifies the maximum number of blocks in a segment. Defaults to 1,000.                                                                                                                                                                                                                               	|
 | row_per_block        	| `row_per_block = '<row_per_block>'`                 	| Specifies the maximum number of rows in a file. Defaults to 1,000,000.                                                                                                                                                                                                                                   	|
-| change_tracking       | `change_tracking = True / False`                      | Setting this option to `True` in the FUSE Engine allows for tracking changes for a table.<br/>Creating a stream for a table will automatically set `change_tracking` to `True` and introduce additional hidden columns to the table as change tracking metadata. For more information, see [How Stream Works](../../10-sql-commands/00-ddl/stream/index.md#how-stream-works).|
+| change_tracking       | `change_tracking = True / False`                      | Setting this option to `True` in the FUSE Engine allows for tracking changes for a table.<br/>Creating a stream for a table will automatically set `change_tracking` to `True` and introduce additional hidden columns to the table as change tracking metadata. For more information, see [How Stream Works](../../10-sql-commands/00-ddl/04-stream/index.md#how-stream-works).|

@@ -32,7 +32,7 @@ Databend also offers convenient methods for creating tables by copying column st
 
 ### 4. Setting Cluster Key for Big Tables
 
-[Cluster Key](../70-clusterkey/index.md) is designed to enhance query performance by physically organizing data in proximity. Databend recommends configuring cluster keys, especially for large tables encountering sluggish query performance. For the syntax to set a cluster key during table creation, see [SET CLUSTER KEY](../70-clusterkey/dml-set-cluster-key.md).
+[Cluster Key](../06-clusterkey/index.md) is designed to enhance query performance by physically organizing data in proximity. Databend recommends configuring cluster keys, especially for large tables encountering sluggish query performance. For the syntax to set a cluster key during table creation, see [SET CLUSTER KEY](../06-clusterkey/dml-set-cluster-key.md).
 
 ## Routine Table Maintenance
 
