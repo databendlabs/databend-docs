@@ -6,7 +6,8 @@ import {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import docusaurusConfig from '@generated/docusaurus.config';
-
+// https://github.com/facebook/docusaurus/issues/6953
+// https://github.com/facebook/docusaurus/issues/6096
 export default function HomeBreadcrumbItem() {
   const [menuName, setMenuName] = useState('');
   const pathname = ExecutionEnvironment.canUseDOM ? window?.location?.pathname : '';
