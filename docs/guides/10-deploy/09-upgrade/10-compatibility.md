@@ -115,11 +115,14 @@ The following is an illustration of current query-meta compatibility:
 | [1.2.212, +∞)     | [0.9.41, +∞)             |
 
 
-- `1.2.53` Incompatible snapshot:
+- `1.2.53` Incompatible, rolling upgrade is allowed without snapshot transmitting.
   Snapshot format changed thus during rolling upgrading,
-  it requires all node data to be up-to-date, ensure there is no need to replicate with snapshot. 
+  it requires all node data to be up-to-date, ensure there is no need to replicate with snapshot.
 
-- `1.2.212` is compatible with old versions. Rolling upgrade is supported.
+- `1.2.163` Feature: gRPC API: `kv_read_v1()` is added. For stream reading.
+
+- `1.2.212` Feature: raft API: `install_snapshot_v1()`. Compatible with old versions.
+  Rolling upgrade is supported.
   In this version, databend-meta raft-server introduced a new API `install_snapshot_v1()`.
   The raft-client will try to use either this new API or the original `install_snapshot()`.
 
