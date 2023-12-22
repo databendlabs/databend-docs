@@ -14,6 +14,7 @@ const GITHUB_DOWNLOAD = 'https://github.com/datafuselabs/databend/releases/downl
 const GITHUB_REPO = 'https://api.github.com/repos/datafuselabs/databend';
 const DATABEND_RELEASES = 'https://repo.databend.rs/databend/releases.json';
 const DATABEND_DOWNLOAD = 'https://repo.databend.rs/databend';
+const BENDSQL_RELEASES = 'https://api.github.com/repos/datafuselabs/bendsql/releases';
 
 const IGNORE_TEXT = /<!-- Release notes generated using configuration in .github\/release.yml at [\w.-]+ -->/;
 const REG = /https:\/\/github\.com\/datafuselabs\/databend\/pull\/(\d+)/g;
@@ -30,6 +31,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
         try {
           const { data } = await axios.get(DATABEND_RELEASES);
           const { data: repo } = await axios.get(GITHUB_REPO);
+          const { data: bendsqlReleases } = await axios.get(BENDSQL_RELEASES);
           releasesList = data?.filter((item)=> !item?.name?.includes('-nightly'));
           repoResource = repo;
         } catch (error) {
@@ -82,6 +84,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
               .replace(/\@[\w\-]+/g, '**$&**')
           }
         });
+        console.log(bendsqlReleases, 'bendsqlReleases')
         // name match list
         function namesToMatch(release) {
           const { assets, tag_name } = release;
