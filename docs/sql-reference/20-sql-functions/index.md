@@ -1,6 +1,5 @@
 ---
 title: SQL Function Reference
-slug: '/'
 ---
 
 These topics provide reference information for the system-defined functions.
