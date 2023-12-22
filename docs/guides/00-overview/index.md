@@ -25,9 +25,13 @@ Immerse yourself in the world of Databend Cloud with our comprehensive guide, de
 ---
 Learn the ins and outs of establishing connections to Databend, whether you're integrating with various data sources or setting up cross-functional collaborations within your organization.
 
-[Load & Unload Data](../40-load-data/index.md)
+[Data Loading](../40-load-data/index.md)
 ---
 Master the art of efficiently loading data into Databend and seamlessly unloading it, ensuring a smooth and streamlined data flow throughout your analytics pipeline.
+
+[Data Unloading](../50-unload-data/index.md)
+---
+Databend allows for the efficient export of data from database tables into flat files, supporting formats such as Parquet, JSON, and CSV for bulk unloading.
 
 [Visualize](../60-visualize/index.md)
 ---
@@ -36,3 +40,7 @@ Navigate the realm of data visualization by exploring our guide on seamlessly in
 [Monitor](../70-monitor/index.md)
 ---
 Gain a deep understanding of how to effectively monitor your Databend environment, ensuring optimal performance, identifying bottlenecks, and maintaining a robust and reliable data infrastructure.
+
+[Performance Optimization](../80-performance-optimization/index.md)
+---
+Learn how to optimize the performance of Databend, make your queries run faster, and improve the overall efficiency of your data infrastructure.
