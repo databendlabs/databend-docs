@@ -9,7 +9,7 @@ In order to create an account on Databend Cloud, your organization must first ha
 
 ## Apply for Beta Access
 
-To apply for beta access to Databend Cloud , please visit https://www.databend.com/apply and submit the application form. Once your application has been approved, you will receive an email containing a registration link. Please check your inbox and use the link in the email to complete the account registration process.
+To apply for beta access to Databend Cloud, please visit https://www.databend.com/apply and submit the application form. Once your application has been approved, you will receive an email containing a registration link. Please check your inbox and use the link in the email to complete the account registration process.
 
 You can also subscribe Databend Cloud from the [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-6dvshjlbds7b6). For instructions on how to do so, please watch the video tutorial below:
 

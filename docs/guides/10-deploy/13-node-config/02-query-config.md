@@ -36,7 +36,7 @@ The following is a list of the parameters available within the [query] section:
 
 ## [[query.users]] Section
 
-The following is a list of the parameters available within the [[query.users]] section. For more information about configuring admin users, see [Configuring Admin Users](../06-admin-users.md).
+The following is a list of the parameters available within the [[query.users]] section. For more information about configuring admin users, see [Configuring Admin Users](../04-admin-users.md).
 
 | Parameter      | Description                              |
 |----------------|------------------------------------------|

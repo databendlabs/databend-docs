@@ -141,7 +141,7 @@ The following steps will guide you through the process of locally deploying Data
 
 ### Step 2. Starting Databend
 
-1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](06-admin-users.md). For this example, uncomment the following lines to choose this account:
+1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](04-admin-users.md). For this example, uncomment the following lines to choose this account:
 
 ```sql title="databend-query.toml"
 [[query.users]]
