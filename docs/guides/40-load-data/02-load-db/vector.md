@@ -59,7 +59,7 @@ password = "abc123" #Databend password
 
 #### 1.1 Install Databend
 
-Follow the [Docker and Local Deployments](../../10-deploy/05-deploying-local.md) guide to deploy a local Databend.
+Follow the [Docker and Local Deployments](../../10-deploy/03-deploying-local.md) guide to deploy a local Databend.
 
 #### 1.2 Create a Database and a Table
 
