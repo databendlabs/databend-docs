@@ -16,7 +16,7 @@ In this tutorial, we will guide you through the process of connecting to Databen
 </StepContent>
 <StepContent number="1" title="Create Connection">
 
-Before creating a connection to Databend Cloud, you need to log in to Databend Cloud to obtain connection information. For more information, see [Connecting to a Warehouse](../../20-cloud/02-using-databend-cloud/00-warehouses.md#connecting).
+Before creating a connection to Databend Cloud, you need to log in to Databend Cloud to obtain connection information. For more information, see [Connecting to a Warehouse](../../20-cloud/10-using-databend-cloud/00-warehouses.md#connecting).
 
 1. In DBeaver, search for and select `databendcloud` on **Database** > **New Database Connection** first, and then click **Next**.
 

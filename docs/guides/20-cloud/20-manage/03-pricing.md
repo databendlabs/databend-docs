@@ -20,7 +20,7 @@ Databend Cloud charges on a per-second basis. For example, if you have a Small w
 | Large (64)           | $ 8                       | $ 0.002222                    |
 | XLarge (128)           | $ 16                       | $ 0.004444                    |
 
-A suspended warehouse does not consume any credits. Databend Cloud automatically suspends a warehouse in case of no activities for five minutes to save your credits. Alternatively, you can always manually suspend a warehouse when your work is complete. For more information about how to work with warehouses, see [Working with Warehouses](../02-using-databend-cloud/00-warehouses.md)
+A suspended warehouse does not consume any credits. Databend Cloud automatically suspends a warehouse in case of no activities for five minutes to save your credits. Alternatively, you can always manually suspend a warehouse when your work is complete. For more information about how to work with warehouses, see [Working with Warehouses](../10-using-databend-cloud/00-warehouses.md)
 
 ## Storage Pricing
 
