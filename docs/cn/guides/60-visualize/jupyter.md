@@ -2,40 +2,40 @@
 title: Jupyter Notebook
 ---
 
-[Jupyter Notebook](https://jupyter.org) is a web-based interactive application that enables you to create notebook documents that feature live code, interactive plots, widgets, equations, images, etc., and share these documents easily. It is also quite versatile as it can support many programming languages via kernels such as Julia, Python, Ruby, Scala, Haskell, and R.
+[Jupyter Notebook](https://jupyter.org) 是一个基于网络的交互式应用程序，允许您创建包含实时代码、交互式图表、小部件、方程式、图像等的笔记本文档，并且可以轻松地分享这些文档。它也非常灵活，因为它可以通过内核支持许多编程语言，如 Julia、Python、Ruby、Scala、Haskell 和 R。
 
-With the SQLAlchemy library in Python or [ipython-sql](https://github.com/catherinedevlin/ipython-sql), you can establish a connection to Databend and Databend Cloud within a Jupyter Notebook, allowing you to execute queries and visualize your data from Databend directly in the notebook. 
+通过 Python 中的 SQLAlchemy 库或 [ipython-sql](https://github.com/catherinedevlin/ipython-sql)，您可以在 Jupyter Notebook 中建立与 Databend 和 Databend Cloud 的连接，允许您直接在笔记本中执行查询和可视化您的 Databend 数据。
 
-Alternatively, you can run SQL queries in Python using the [Databend Python Binding](https://pypi.org/project/databend/) library, allowing you to harness DataBend's capabilities directly within your local Python environment or online services like Jupyter Notebook and Google Colab without the need to deploy a separate DataBend instance.
+或者，您可以使用 [Databend Python 绑定](https://pypi.org/project/databend/) 库在 Python 中运行 SQL 查询，允许您直接在本地 Python 环境或在线服务（如 Jupyter Notebook 和 Google Colab）中利用 DataBend 的功能，无需部署单独的 DataBend 实例。
 
-## Tutorial-1: Integrating Databend with Jupyter Notebook using SQLAlchemy
+## 教程-1：使用 SQLAlchemy 将 Databend 集成到 Jupyter Notebook 中 {#tutorial-1-integrating-databend-with-jupyter-notebook-using-sqlalchemy}
 
-In this tutorial, you will first deploy a local Databend instance and Jupyter Notebook, and then run a sample notebook to connect to your local Databend through the SQLAlchemy library, as well as write and visualize data within the notebook.
+在本教程中，您将首先部署本地 Databend 实例和 Jupyter Notebook，然后运行一个示例笔记本，通过 SQLAlchemy 库连接到您的本地 Databend，并在笔记本中编写和可视化数据。
 
-Before you start, make sure you have completed the following tasks:
+在开始之前，请确保您已完成以下任务：
 
-- You have [Python](https://www.python.org/) installed on your system.
-- Download the sample notebook [databend.ipynb](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/integration/databend.ipynb) to a local folder.
+- 您的系统上已安装 [Python](https://www.python.org/)。
+- 将示例笔记本 [databend.ipynb](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/integration/databend.ipynb) 下载到本地文件夹。
 
-### Step 1. Deploy Databend
+### 步骤 1. 部署 Databend
 
-1. Follow the [Deployment Guide](/guides/deploy) to deploy a local Databend.
-2. Create a SQL user in Databend. You will use this account to connect to Databend in Jupyter Notebook.
+1. 按照 [部署指南](/guides/deploy) 部署本地 Databend。
+2. 在 Databend 中创建一个 SQL 用户。您将使用此帐户在 Jupyter Notebook 中连接到 Databend。
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL ON *.* TO user1;
 ```
 
-### Step 2. Deploy Jupyter Notebook
+### 步骤 2. 部署 Jupyter Notebook
 
-1. Install Jupyter Notebook with pip:
+1. 使用 pip 安装 Jupyter Notebook：
 
 ```shell
 pip install notebook
 ```
 
-2. Install dependencies with pip:
+2. 使用 pip 安装依赖项：
 
 ```shell
 pip install sqlalchemy
@@ -43,52 +43,52 @@ pip install pandas
 pip install pymysql
 ```
 
-### Step 3. Run Sample Notebook
+### 步骤 3. 运行示例笔记本
 
-1. Run the command below to start Jupyter Notebook:
+1. 运行以下命令以启动 Jupyter Notebook：
 
 ```shell
 jupyter notebook
 ```
 
-  This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
+  这将启动 Jupyter，您的默认浏览器应该会启动（或在新标签页中打开）以下 URL：http://localhost:8888/tree
 
 ![Alt text](@site/docs/public/img/integration/notebook-tree.png)
 
-2. On the **Files** tab, navigate to the sample notebook you downloaded and open it.
+2. 在 **Files** 标签页中，导航到您下载的示例笔记本并打开它。
 
-3. In the sample notebook, run the cells sequentially. By doing so, you create a table containing 5 rows in your local Databend, and visualize the data with a bar chart.
+3. 在示例笔记本中，依次运行单元格。通过这样做，您在本地 Databend 中创建了一个包含 5 行的表，并使用条形图可视化数据。
 
 ![Alt text](@site/docs/public/img/integration/integration-gui-jupyter.png)
 
-## Tutorial-2: Integrating Databend with Jupyter Notebook using ipython-sql
+## 教程-2：使用 ipython-sql 将 Databend 集成到 Jupyter Notebook 中 {#tutorial-2-integrating-databend-with-jupyter-notebook-using-ipython-sql}
 
-In this tutorial, you will first deploy a local Databend instance and Jupyter Notebook, and then run a sample notebook to connect to your local Databend through [ipython-sql](https://github.com/catherinedevlin/ipython-sql), as well as write and visualize data within the notebook.
+在本教程中，您将首先部署本地 Databend 实例和 Jupyter Notebook，然后运行一个示例笔记本，通过 [ipython-sql](https://github.com/catherinedevlin/ipython-sql) 连接到您的本地 Databend，并在笔记本中编写和可视化数据。
 
-Before you start, ensure that you have [Python](https://www.python.org/) installed on your system.
+在开始之前，请确保您的系统上已安装 [Python](https://www.python.org/)。
 
-### Step 1. Deploy Databend
+### 步骤 1. 部署 Databend
 
-1. Follow the [Deployment Guide]/guides/deploy) to deploy a local Databend.
-2. Create a SQL user in Databend. You will use this account to connect to Databend in Jupyter Notebook.
+1. 按照 [部署指南](/guides/deploy) 部署本地 Databend。
+2. 在 Databend 中创建一个 SQL 用户。您将使用此帐户在 Jupyter Notebook 中连接到 Databend。
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL ON *.* TO user1;
 ```
 
-### Step 2. Deploy Jupyter Notebook
+### 步骤 2. 部署 Jupyter Notebook
 
-1. Install Jupyter Notebook with pip:
+1. 使用 pip 安装 Jupyter Notebook：
 
 ```shell
 pip install notebook
 ```
 
-2. Install dependencies with pip:
+2. 使用 pip 安装依赖项：
 
 :::note
-To proceed with this tutorial, you'll need a version of SQLAlchemy that is below 2.0. Please be aware that in SQLAlchemy 2.0 and later versions, the result.DataFrame() method has been deprecated and is no longer available. Instead, you can use the pandas library to directly create a DataFrame from query results and perform plotting.
+要继续本教程，您需要一个低于 2.0 版本的 SQLAlchemy。请注意，在 SQLAlchemy 2.0 及更高版本中，result.DataFrame() 方法已被弃用，不再可用。相反，您可以使用 pandas 库直接从查询结果创建 DataFrame 并进行绘图。
 :::
 
 ```shell
@@ -96,21 +96,21 @@ pip install ipython-sql databend-sqlalchemy
 pip install sqlalchemy
 ```
 
-### Step 3. Create and Connect a Notebook to Databend
+### 步骤 3. 创建并连接到 Databend 的笔记本
 
-1. Run the command below to start Jupyter Notebook:
+1. 运行以下命令以启动 Jupyter Notebook：
 
 ```shell
 jupyter notebook
 ```
 
-  This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
+  这将启动 Jupyter，您的默认浏览器应该会启动（或在新标签页中打开）以下 URL：http://localhost:8888/tree
 
 ![Alt text](@site/docs/public/img/integration/notebook-tree.png)
 
-2. Select **New** > **Python 3** to create a notebook.
+2. 选择 **New** > **Python 3** 创建一个笔记本。
 
-3. Run the following code sequentially in separate cells. By doing so, you create a table containing 5 rows in your local Databend, and visualize the data with a bar chart.
+3. 在单独的单元格中依次运行以下代码。通过这样做，您在本地 Databend 中创建了一个包含 5 行的表，并使用条形图可视化数据。
 
 ```python title='In [1]:'
 %load_ext sql
@@ -138,130 +138,130 @@ df = result.DataFrame()
 df.plot.bar(x='date', y='count')
 ```
 
-You can now see a bar chart on the notebook:
+现在您可以在笔记本上看到一个条形图：
 
 ![Alt text](@site/docs/public/img/integration/jupyter-ipython-sql.png)
 
-## Tutorial-3: Integrating Databend with Jupyter Notebook with Python Binding Library
+## 教程-3：使用 Python 绑定库将 Databend 集成到 Jupyter Notebook 中 {#tutorial-3-integrating-databend-with-jupyter-notebook-with-python-binding-library}
 
-In this tutorial, you will first deploy a local Databend instance and Jupyter Notebook, and then run queries in a notebook through the [Databend Python Binding](https://pypi.org/project/databend/) library, as well as write and visualize data within the notebook.
+在本教程中，您将首先部署本地 Databend 实例和 Jupyter Notebook，然后通过 [Databend Python 绑定](https://pypi.org/project/databend/) 库在笔记本中运行查询，并在笔记本中编写和可视化数据。
 
-Before you start, ensure that you have [Python](https://www.python.org/) installed on your system.
+在开始之前，请确保您的系统上已安装 [Python](https://www.python.org/)。
 
-### Step 1. Deploy Jupyter Notebook
+### 步骤 1. 部署 Jupyter Notebook
 
-1. Install Jupyter Notebook with pip:
+1. 使用 pip 安装 Jupyter Notebook：
 
 ```shell
 pip install notebook
 ```
 
-2. Install dependencies with pip:
+2. 使用 pip 安装依赖项：
 
 ```shell
 pip install databend
 pip install matplotlib
 ```
-### Step 2. Create a Notebook
+### 步骤 2. 创建一个笔记本
 
-1. Run the command below to start Jupyter Notebook:
+1. 运行以下命令以启动 Jupyter Notebook：
 
 ```shell
 jupyter notebook
 ```
 
-  This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
+  这将启动 Jupyter，您的默认浏览器应该会启动（或在新标签页中打开）以下 URL：http://localhost:8888/tree
 
 ![Alt text](@site/docs/public/img/integration/notebook-tree.png)
 
-2. Select **New** > **Python 3** to create a notebook.
+2. 选择 **New** > **Python 3** 创建一个笔记本。
 
-3. Run the following code sequentially in separate cells:
+3. 在单独的单元格中依次运行以下代码：
 
 ```python title='In [1]:'
-# Import the necessary libraries
+# 导入必要的库
 from databend import SessionContext
 
-# Create a DataBend session
+# 创建一个 DataBend 会话
 ctx = SessionContext()
 ```
 
 ```python title='In [2]:'
-# Create a table in DataBend
+# 在 DataBend 中创建一个表
 ctx.sql("CREATE TABLE IF NOT EXISTS user (created_at Date, count Int32)")
 ```
 
 ```python title='In [3]:'
-# Insert multiple rows of data into the table
+# 向表中插入多行数据
 ctx.sql("INSERT INTO user VALUES ('2022-04-01', 5), ('2022-04-01', 3), ('2022-04-03', 4), ('2022-04-03', 1), ('2022-04-04', 10)")
 ```
 
 ```python title='In [4]:'
-# Execute a query
+# 执行查询
 result = ctx.sql("SELECT created_at as date, count(*) as count FROM user GROUP BY created_at")
 
-# Display the query result
+# 显示查询结果
 result.show()
 ```
 
 ```python title='In [5]:'
-# Import libraries for data visualization
+# 导入数据可视化库
 import matplotlib.pyplot as plt
 
-# Convert the query result to a Pandas DataFrame
+# 将查询结果转换为 Pandas DataFrame
 df = result.to_pandas()
 ```
 
 ```python title='In [6]:'
-# Create a bar chart to visualize the data
+# 创建条形图以可视化数据
 df.plot.bar(x='date', y='count')
 plt.show()
 ```
 
-You can now see a bar chart on the notebook:
+现在你可以在笔记本上看到一个条形图：
 
 ![Alt text](@site/docs/public/img/integration/localhost_8888_notebooks_Untitled.ipynb.png)
 
-## Tutorial-4: Integrating Databend Cloud with Jupyter Notebook using ipython-sql
+## 教程-4：使用 ipython-sql 将 Databend Cloud 与 Jupyter Notebook 集成
 
-In this tutorial, you will first obtain connection information from Databend Cloud and deploy Jupyter Notebook, then create and connect a notebook to Databend Cloud through [ipython-sql](https://github.com/catherinedevlin/ipython-sql), as well as write and visualize data within the notebook.
+在本教程中，你将首先从 Databend Cloud 获取连接信息并部署 Jupyter Notebook，然后创建并通过 [ipython-sql](https://github.com/catherinedevlin/ipython-sql) 将笔记本连接到 Databend Cloud，以及在笔记本中编写和可视化数据。
 
-Before you start, ensure that you have [Python](https://www.python.org/) installed on your system.
+在开始之前，请确保你的系统上已安装了 [Python](https://www.python.org/)。
 
-### Step 1. Obtain Connection Information
+### 步骤 1. 获取连接信息
 
-Obtain the connection information from Databend Cloud. For how to do that, refer to [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+从 Databend Cloud 获取连接信息。有关如何操作，请参阅[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
-### Step 2. Deploy Jupyter Notebook
+### 步骤 2. 部署 Jupyter Notebook
 
-1. Install Jupyter Notebook with pip:
+1. 使用 pip 安装 Jupyter Notebook：
 
 ```shell
 pip install notebook
 ```
 
-2. Install dependencies with pip:
+2. 使用 pip 安装依赖项：
 
 ```shell
 pip install ipython-sql databend-sqlalchemy
 pip install sqlalchemy
 ```
 
-### Step 3. Create and Connect a Notebook to Databend Cloud
+### 步骤 3. 创建并连接 Databend Cloud 的笔记本
 
-1. Run the command below to start Jupyter Notebook:
+1. 运行以下命令以启动 Jupyter Notebook：
 
 ```shell
 jupyter notebook
 ```
 
-  This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
+  这将启动 Jupyter，你的默认浏览器应该会启动（或在新标签页中打开）以下 URL：http://localhost:8888/tree
 
 ![Alt text](@site/static/img/documents/pricing-billing/notebook-tree.png)
 
-2. Select **New** > **Python 3** to create a notebook.
+2. 选择 **New** > **Python 3** 来创建一个笔记本。
 
-3. Run the following code sequentially in separate cells. By doing so, you create a table containing 5 rows in Databend Cloud, and visualize the data with a bar chart.
+3. 按顺序在不同的单元格中运行以下代码。通过这样做，你在 Databend Cloud 中创建了一个包含 5 行的表，并使用条形图可视化数据。
 
 ```python
 from sqlalchemy import create_engine, text
@@ -292,6 +292,6 @@ df = pd.DataFrame(rows, columns=result.keys())
 df.plot.bar(x='date', y='count')
 plt.show()
 ```
-You can now see a bar chart on the notebook:
+现在你可以在笔记本上看到一个条形图：
 
 ![Alt text](@site/static/img/documents/BI/jupyter-bar.png)
