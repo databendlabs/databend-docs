@@ -3,9 +3,9 @@ title: Databend 版本
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend 提供不同的版本以满足各种用户需求。深入比较下面的内容，了解 Databend 社区版、Databend 企业版和 Databend 云服务版之间的主要功能和差异：
+Databend 提供不同的版本以满足各种用户需求。深入比较下面的内容，了解 Databend 社区版、Databend 企业版和 Databend Cloud 之间的主要功能和差异：
 
-| 功能               | Databend 社区版             | Databend 企业版              | Databend 云服务版            |
+| 功能               | Databend 社区版             | Databend 企业版              | Databend Cloud             |
 |---------------------|----------------------------|-----------------------------|-----------------------------|
 | 部署                | 手动（必须）                | 手动（必须）                 | 自动（无需手动设置）         |
 | 升级与扩展          | 手动（必须）                | 手动（必须）                 | 自动                         |
