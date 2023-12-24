@@ -1,12 +1,12 @@
 ---
-title: Databend Enterprise Edition
+title: Databend 企业版
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend Enterprise Edition enhances the [Databend Community Edition](../00-dce/index.md) by incorporating additional enterprise features, requiring a purchased license for utilization.
+Databend 企业版在 [Databend 社区版](../00-dce/index.md) 的基础上增加了额外的企业特性，使用这些特性需要购买许可证。
 
-Learn more about Databend Enterprise Edition with the following topics:
+通过以下主题了解更多关于 Databend 企业版的信息：
 
 <IndexOverviewList />
 
-[Contact us](https://www.databend.com/contact-us/) now to get a trial license and be among the pioneers to experience the extraordinary features as they are unveiled.
+立即[联系我们](https://www.databend.com/contact-us/)获取试用许可证，并成为体验这些非凡特性的先驱者。
