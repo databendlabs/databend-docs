@@ -1,36 +1,36 @@
 ---
-title: Databend Cloud Architecture
-sidebar_label: Architecture
+title: Databend Cloud 架构
+sidebar_label: 架构
 ---
 
 ![Alt text](@site/static/img/documents/overview/2.png)
 
-### Meta-service Layer
+### 元服务层
 
-The metadata service is a multi-tenant service that stores the metadata of each tenant in Databend Cloud in a highly available Raft cluster. This metadata includes:
+元数据服务是一个多租户服务，它在一个高可用的 Raft 集群中存储每个租户在 Databend Cloud 中的元数据。这些元数据包括：
 
-- Table schema: including the field structure and storage location information of each table, providing optimization information for query planning and providing transaction atomicity guarantee for the storage layer write;
-- Cluster management: When the cluster of each tenant starts, multiple instances within the cluster will be registered as metadata and provide health checks for the instances to ensure the overall health of the cluster;
-- Security management: saves user, role, and permission-granting information to ensure the security and reliability of data access authentication and authorization processes.
+- 表结构：包括每个表的字段结构和存储位置信息，为查询计划提供优化信息，并为存储层写入提供事务原子性保证；
+- 集群管理：每个租户的集群启动时，集群内的多个实例将作为元数据注册并为实例提供健康检查，以确保集群的整体健康；
+- 安全管理：保存用户、角色和权限授予信息，以确保数据访问认证和授权过程的安全性和可靠性。
 
-### Compute Layer
+### 计算层
 
-The architecture of complete separation of computation and storage gives Databend Cloud a unique computational elasticity.
+计算与存储的完全分离架构赋予了 Databend Cloud 独特的计算弹性。
 
-Each tenant in Databend Cloud can have multiple compute clusters (Warehouse), each with exclusive computing resources, and can automatically release them when inactive for more than 1 minute to reduce usage costs.
+Databend Cloud 中的每个租户可以拥有多个计算集群（Warehouse），每个集群都有专属的计算资源，并且在不活跃超过 1 分钟时可以自动释放，以降低使用成本。
 
-In the compute cluster, queries are executed through the high-performance Databend engine. Each query will go through multiple different submodules:
+在计算集群中，查询通过高性能的 Databend 引擎执行。每个查询将经过多个不同的子模块：
 
-- Planner: After parsing the SQL statement, it will combine different operators (such as Projection, Filter, Limit, etc.) into a query plan based on different query types.
-- Optimizer: The Databend engine provides a rule-based and cost-based optimizer framework, which implements a series of optimization mechanisms such as predicate pushdown, join reorder, and scan pruning, greatly accelerating queries.
-- Processors: Databend implements a push-pull combination of pipeline execution engines. It composes the physical execution of queries into a series of pipelines in the Processor and can dynamically adapt the pipeline configuration based on the runtime information of the query task, combining the vectorized expression calculation framework to maximize the computing power of the CPU.
+- 计划器：在解析 SQL 语句后，它将根据不同的查询类型将不同的操作符（如 Projection、Filter、Limit 等）组合成一个查询计划。
+- 优化器：Databend 引擎提供了一个基于规则和成本的优化器框架，实现了谓词下推、连接重排序和扫描剪枝等一系列优化机制，极大地加速了查询。
+- 处理器：Databend 实现了一个推拉结合的管道执行引擎。它将查询的物理执行组合成处理器中的一系列管道，并且可以根据查询任务的运行时信息动态适配管道配置，结合矢量化表达式计算框架，以最大化 CPU 的计算能力。
 
-In addition, Databend Cloud can dynamically increase or decrease nodes in the cluster with the change of query workload, making computing faster and more cost-effective.
+此外，Databend Cloud 可以根据查询工作负载的变化动态增减集群中的节点，使计算更快、更具成本效益。
 
-### Storage Layer
+### 存储层
 
-The storage layer of Databend Cloud is based on FuseEngine, which is designed and optimized for inexpensive object storage. FuseEngine efficiently organizes data based on the properties of object storage, allowing for high-throughput data ingestion and retrieval.
+Databend Cloud 的存储层基于为廉价对象存储设计和优化的 FuseEngine。FuseEngine 根据对象存储的属性高效组织数据，允许高吞吐量的数据摄取和检索。
 
-FuseEngine compresses data in a columnar format and stores it in object storage, which significantly reduces the data volume and storage costs.
+FuseEngine 以列式格式压缩数据并将其存储在对象存储中，这显著减少了数据量和存储成本。
 
-In addition to storing data files, FuseEngine also generates index information, including MinMax index, Bloomfilter index, and others. These indexes reduce IO and CPU consumption during query execution, greatly improving query performance.
+除了存储数据文件，FuseEngine 还生成索引信息，包括 MinMax 索引、Bloomfilter 索引等。这些索引在执行查询时减少了 IO 和 CPU 消耗，极大地提高了查询性能。

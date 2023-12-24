@@ -1,27 +1,27 @@
 ---
-title: "Quick Tour"
+title: "快速入门"
 ---
 
-This topic provides an overview of the user interface sections of Databend Cloud.
+本主题提供了 Databend Cloud 用户界面各部分的概览。
 
 :::tip
-Databend Cloud is fully compatible with various mainstream browsers, including Chrome, Microsoft Edge, Firefox, Opera, and Safari, providing users with great convenience and flexibility in usage. 
+Databend Cloud 完全兼容包括 Chrome、Microsoft Edge、Firefox、Opera 和 Safari 在内的各种主流浏览器，为用户提供了极大的便利性和灵活性。
 
-- Databend Cloud recommends upgrading your browser to the latest version.
+- Databend Cloud 推荐您将浏览器升级到最新版本。
 
-- If you encounter any issues related to your browser while using Databend Cloud, please create a ticket to contact Databend Cloud for effective assistance.
+- 如果在使用 Databend Cloud 时遇到任何浏览器相关问题，请创建工单以联系 Databend Cloud 以获得有效帮助。
 
-- Databend Cloud does not support Internet Explorer.
+- Databend Cloud 不支持 Internet Explorer。
 :::
 
-The user interface of Databend Cloud features a left-hand sidebar that opens various functional areas when their menus are clicked. To maximize operational space, you can collapse the sidebar by clicking the right border to bring it back to the left.
+Databend Cloud 的用户界面特点是左侧边栏，点击菜单时会打开各个功能区域。为了最大化操作空间，您可以通过点击右边框将边栏折叠，使其回到左侧。
 
 ![Alt text](@site/static/img/documents/getting-started/tour.png)
 
-- **Home**: You can view basic account information for your organization, usage statistics for your plan, and recent query statistics.
-- **Worksheets**: You can create your own worksheet or use an existing one to edit and execute SQL statements.
-- **Data**: You can directly manage databases and data tables through the UI, such as defining table structure and bulk importing data.
-- **Warehouses**: You can manage the entire organization's warehouses, such as creating, starting, and suspending a warehouse, etc.
-- **Monitor**: You can query and understand all SQL query records, operation logs, and various statistical indicators of your organization members.
-- **Manage**: You can update organization profile, maintain a member list, check your usage, and make payments towards your bill.
-- **Integrations**: You can obtain help information for integrating with other tools and services.
+- **首页**：您可以查看组织的基本账户信息、您的计划使用统计和最近的查询统计。
+- **工作表**：您可以创建自己的工作表或使用现有的工作表来编辑和执行 SQL 语句。
+- **数据**：您可以通过 UI 直接管理数据库和数据表，例如定义表结构和批量导入数据。
+- **仓库**：您可以管理整个组织的仓库，例如创建、启动和暂停仓库等。
+- **监控**：您可以查询并了解组织成员的所有 SQL 查询记录、操作日志和各种统计指标。
+- **管理**：您可以更新组织资料、维护成员列表、检查您的使用情况，并对账单进行支付。
+- **集成**：您可以获取与其他工具和服务集成的帮助信息。

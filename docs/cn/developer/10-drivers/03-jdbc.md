@@ -1,26 +1,27 @@
+````
 ---
 title: Java
 ---
 
-You can connect to and interact with Databend from various client tools and applications through a native interface designed for Java programming language, the [Databend JDBC driver](https://github.com/databendcloud/databend-jdbc).
+您可以通过为Java编程语言设计的原生接口，使用各种客户端工具和应用程序连接并与Databend交互，即[Databend JDBC驱动程序](https://github.com/databendcloud/databend-jdbc)。
 
-## Installing Databend JDBC Driver
+## 安装Databend JDBC驱动程序 {#installing-databend-jdbc-driver}
 
-This topic outlines the steps to downloads and install the Databend JDBC driver for use in Java-based projects. The driver requires Java LTS (Long-Term Support) versions 1.8 or higher. If your client machine does not have the minimum required version of Java, install [Oracle Java](http://www.java.com/en/download/manual.jsp) or [OpenJDK](http://openjdk.java.net).
+本主题概述了下载和安装Databend JDBC驱动程序以便在基于Java的项目中使用的步骤。该驱动程序需要Java LTS（长期支持）版本1.8或更高版本。如果您的客户端机器没有所需的最低版本的Java，请安装[Oracle Java](http://www.java.com/en/download/manual.jsp)或[OpenJDK](http://openjdk.java.net)。
 
-To download the Databend JDBC driver:
+下载Databend JDBC驱动程序：
 
-1. Go to the Maven Central Repository at https://repo1.maven.org/maven2/com/databend/databend-jdbc/
-2. Click on the directory of the latest version.
-3. Download the jar file, for example, *databend-jdbc-0.1.1.jar*.
+1. 访问Maven Central Repository网站 https://repo1.maven.org/maven2/com/databend/databend-jdbc/
+2. 点击最新版本的目录。
+3. 下载jar文件，例如*databend-jdbc-0.1.1.jar*。
 
-To verify the version of Databend JDBC driver, for example, *databend-jdbc-0.1.1.jar*, run the following command in the terminal:
+要验证Databend JDBC驱动程序的版本，例如*databend-jdbc-0.1.1.jar*，在终端运行以下命令：
 
 ```bash
 java -jar databend-jdbc-0.1.1.jar --version
 ```
 
-The Databend JDBC driver is provided as a JAR file and can be integrated directly into your Java-based projects. Alternatively, you can declare a Maven dependency in your project's pom.xml file, like so:
+Databend JDBC驱动程序以JAR文件形式提供，可以直接集成到您的基于Java的项目中。或者，您可以在项目的pom.xml文件中声明一个Maven依赖项，如下所示：
 
 ```xml
 <dependency>
@@ -30,19 +31,19 @@ The Databend JDBC driver is provided as a JAR file and can be integrated directl
 </dependency>
 ```
 
-:::tip DID YOU KNOW?
-You can also connect to Databend from DBeaver through the Databend JDBC driver. For more information, see [Connecting to Databend with JDBC](/guides/sql-clients/jdbc).
+:::tip 你知道吗？
+您也可以通过Databend JDBC驱动程序从DBeaver连接到Databend。更多信息，请参见[通过JDBC连接到Databend](/guides/sql-clients/jdbc)。
 :::
 
-## Configuring Connection String
+## 配置连接字符串 {#configuring-connection-string}
 
-Once the driver is installed and integrated into your project, you can use it to connect to Databend using the following JDBC connection string format:
+驱动程序安装并集成到您的项目中后，您可以使用以下JDBC连接字符串格式连接到Databend：
 
 ```java
 jdbc:databend://<username>:<password>@<host_port>/<database>?<connection_params>
 ```
 
-The `connection_params` refers to a series of one or more parameters in the format of `param=value`. Each parameter should be separated by the ampersand character (&), and there should be no spaces anywhere in the connection string. These parameters can be set either in the connection string or in a Properties object passed to the DriverManager.getConnection() method. For example:
+`connection_params`指的是一系列一个或多个参数，格式为`param=value`。每个参数应该用和号(&)分隔，连接字符串中不应该有空格。这些参数可以在连接字符串中设置，也可以在传递给DriverManager.getConnection()方法的Properties对象中设置。例如：
 
 ```java 
 Properties props = new Properties();
@@ -50,11 +51,11 @@ props.put("parameter1", parameter1Value);
 props.put("parameter2", parameter2Value);
 Connection con = DriverManager.getConnection("jdbc:databend://user:pass@host/database", props);
 ```
-For the available connection parameters and their descriptions, see https://github.com/databendcloud/databend-jdbc/blob/main/docs/Connection.md#connection-parameters
+有关可用连接参数及其描述，请参见 https://github.com/databendcloud/databend-jdbc/blob/main/docs/Connection.md#connection-parameters
 
-## Examples
+## 示例 {#examples}
 
-### Example: Creating a Database and Table
+### 示例：创建数据库和表 {#example-creating-a-database-and-table}
 
 ```java
 package com.example;
@@ -87,11 +88,11 @@ public class demo {
         System.exit(0);
 ```
 
-### Example: Batch Inserting
+### 示例：批量插入 {#example-batch-inserting}
 
-In your Java application code, you can insert multiple rows in a single batch by binding parameters in an INSERT statement and calling addBatch() and executeBatch().
+在您的Java应用程序代码中，您可以通过在INSERT语句中绑定参数并调用addBatch()和executeBatch()来一次性插入多行。
 
-As an example, the following code inserts two rows into a table that contains an INT column and a VARCHAR column. The example binds values to the parameters in the INSERT statement and calls addBatch() and executeBatch() to perform a batch insert.
+例如，以下代码将两行插入到包含INT列和VARCHAR列的表中。示例将值绑定到INSERT语句中的参数，并调用addBatch()和executeBatch()来执行批量插入。
 
 ```java
 Connection connection = DriverManager.getConnection(url, prop);
@@ -105,30 +106,30 @@ pstmt.setInt(1, 102);
 pstmt.setString(2, "test2");
 pstmt.addBatch();
 
-int[] count = pstmt.executeBatch(); // After execution, count[0]=1, count[1]=1
+int[] count = pstmt.executeBatch(); // 执行后，count[0]=1, count[1]=1
 ...
 pstmt.close();
 ```
 
-### Example: Uploading Files to an Internal Stage
+### 示例：上传文件到内部阶段 {#example-uploading-files-to-an-internal-stage}
 
 ```java
  /**
-     * Upload inputStream to the databend internal stage, the data would be uploaded as one file with no split.
-     * Caller should close the input stream after the upload is done.
+     * 将inputStream上传到databend内部阶段，数据将作为一个文件上传，不会分割。
+     * 调用者应在上传完成后关闭输入流。
      *
-     * @param stageName the stage which receive uploaded file
-     * @param destPrefix the prefix of the file name in the stage
-     * @param inputStream the input stream of the file
-     * @param destFileName the destination file name in the stage
-     * @param fileSize the file size in the stage
-     * @param compressData whether to compress the data
-     * @throws SQLException failed to upload input stream
+     * @param stageName 接收上传文件的阶段
+     * @param destPrefix 阶段中文件名的前缀
+     * @param inputStream 文件的输入流
+     * @param destFileName 阶段中的目标文件名
+     * @param fileSize 阶段中的文件大小
+     * @param compressData 是否压缩数据
+     * @throws SQLException 上传输入流失败
      */
     public void uploadStream(String stageName, String destPrefix, InputStream inputStream, String destFileName, long fileSize, boolean compressData) throws SQLException;
 ```
 
-Uploading CSV File to Databend:
+上传CSV文件到Databend：
 
 ```java
         File f = new File("test.csv");
@@ -146,22 +147,24 @@ Uploading CSV File to Databend:
         }
 ```
 
-### Example: Downloading Files from an Internal Stage
+### 示例：从内部阶段下载文件 {#example-downloading-files-from-an-internal-stage}
+
+````
 
 ```java
  /**
-     * Download a file from the databend internal stage, the data would be downloaded as one file with no split.
+     * 从 databend 内部阶段下载文件，数据将作为一个文件下载，不会分割。
      *
-     * @param stageName the stage which contains the file
-     * @param sourceFileName the file name in the stage
-     * @param decompress whether to decompress the data
-     * @return the input stream of the file
+     * @param stageName 包含文件的阶段名称
+     * @param sourceFileName 阶段中的文件名
+     * @param decompress 是否解压数据
+     * @return 文件的输入流
      * @throws SQLException
      */
     public InputStream downloadStream(String stageName, String sourceFileName, boolean decompress) throws SQLException;
 ```
 
-Downloading CSV File from Databend:
+从 Databend 下载 CSV 文件：
 ```Java
         File f = new File("test.csv");
         try (InputStream fileInputStream = Files.newInputStream(f.toPath())) {
@@ -181,11 +184,11 @@ Downloading CSV File from Databend:
         }
 ```
 
-### Example: Integrating with Databend Cloud
+### 示例：与 Databend Cloud 集成 {#examples}
 
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+开始之前，请确保您已成功创建了计算集群并获得了连接信息。有关如何操作，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
-#### Step 1. Add Dependencies with Maven
+#### 步骤 1. 使用 Maven 添加依赖
 
 ```xml
 <dependency>
@@ -195,9 +198,9 @@ Before you start, make sure you have successfully created a warehouse and obtain
 </dependency>
 ```
 
-#### Step 2. Connect with databend-jdbc
+#### 步骤 2. 使用 databend-jdbc 连接
 
-Create a file named `sample.java` with the following code:
+创建一个名为 `sample.java` 的文件，包含以下代码：
 
 ```java
 package databend_cloud;
@@ -219,7 +222,7 @@ public class sample {
         properties.setProperty("SSL", "true");
         Connection connection = DriverManager.getConnection(url, properties);
         
-        // Execute
+        // 执行
         connection.createStatement().execute("CREATE TABLE IF NOT EXISTS sample_test(id TINYINT, obj VARIANT, d TIMESTAMP, s String, arr ARRAY(INT64)) Engine = Fuse");
 
         // SELECT
@@ -232,7 +235,7 @@ public class sample {
             System.out.println(r.getInt(1));
         }
         
-        // INSERT INTO Using executeBatch()
+        // 使用 executeBatch() 插入数据
         connection.setAutoCommit(false);
         PreparedStatement ps = connection.prepareStatement("insert into sample_test values");
         ps.setInt(1, 1);
@@ -244,7 +247,7 @@ public class sample {
         int[] ans = ps.executeBatch();
         Statement statement = c.createStatement();
 
-        System.out.println("execute select on object");
+        System.out.println("在对象上执行选择");
         statement.execute("SELECT * from objects_test1");
         ResultSet r = statement.getResultSet();
 
@@ -261,10 +264,10 @@ public class sample {
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
-#### Step 3. Run sample with Maven
+#### 步骤 3. 使用 Maven 运行 sample
 
 ```shell
 $ mvn compile

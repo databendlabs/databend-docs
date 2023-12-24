@@ -1,39 +1,39 @@
 ---
-title: Databend Community Edition
+title: Databend 社区版
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend is an open-source, elastic, and workload-aware cloud data warehouse built in Rust, offering a cost-effective alternative to Snowflake. It's designed for complex analysis of the world's largest datasets.
+Databend 是一个开源的、弹性的、适应工作负载的云数据仓库，使用 Rust 构建，提供了一个经济高效的 Snowflake 替代方案。它专为世界上最大数据集的复杂分析而设计。
 
 <Tabs groupId="whydatabend">
-<TabItem value="Performance" label="Performance">
+<TabItem value="Performance" label="性能">
 
-- Blazing-fast data analytics on object storage.
-- Leverages data-level parallelism and instruction-level parallelism technologies for [optimal performance](https://benchmark.clickhouse.com/).
-- No indexes to build, no manual tuning, and no need to figure out partitions or shard data.
-
-</TabItem>
-
-<TabItem value="Data Manipulation" label="Data Manipulation">
-
-- Supports atomic operations such as `SELECT`, `INSERT`, `DELETE`, `UPDATE`, `REPLACE`, `COPY`, and `MERGE`.
-- Provides advanced features such as Time Travel and Multi Catalog (Apache Hive / Apache Iceberg).
-- Supports [ingestion of semi-structured data](/guides/load-data/load) in various formats like CSV, JSON, and Parquet.
-- Supports semi-structured data types such as [ARRAY, MAP, and JSON](/sql/sql-reference/data-types/).
-- Supports Git-like MVCC storage for easy querying, cloning, and restoration of historical data.
+- 在对象存储上提供极速的数据分析。
+- 利用数据级并行和指令级并行技术以获得[最佳性能](https://benchmark.clickhouse.com/)。
+- 无需构建索引，无需手动调优，也不需要确定分区或分片数据。
 
 </TabItem>
 
-<TabItem value="Object Storage" label="Object Storage">
+<TabItem value="Data Manipulation" label="数据操作">
 
-- Supports various object storage platforms. Click [here](../../../10-deploy/00-understanding-deployment-modes.md#supported-object-storage) to see a full list of supported platforms.
-- Allows instant elasticity, enabling users to scale up or down based on their application needs.
+- 支持原子操作，如 `SELECT`, `INSERT`, `DELETE`, `UPDATE`, `REPLACE`, `COPY`, 和 `MERGE`。
+- 提供高级功能，如时间旅行和多目录（Apache Hive / Apache Iceberg）。
+- 支持以各种格式（如 CSV、JSON 和 Parquet）[摄取半结构化数据](/guides/load-data/load)。
+- 支持半结构化数据类型，如 [ARRAY, MAP, 和 JSON](/sql/sql-reference/data-types/)。
+- 支持类似 Git 的 MVCC 存储，便于查询、克隆和恢复历史数据。
+
+</TabItem>
+
+<TabItem value="Object Storage" label="对象存储">
+
+- 支持各种对象存储平台。点击[此处](../../../10-deploy/00-understanding-deployment-modes.md#supported-object-storage)查看完整的支持平台列表。
+- 允许即时弹性，使用户可以根据他们的应用需求进行扩展或缩减。
 
 </TabItem>
 </Tabs>
 
-Learn more about Databend Community Edition with the following topics:
+通过以下主题了解更多关于 Databend 社区版的信息：
 
 <IndexOverviewList />

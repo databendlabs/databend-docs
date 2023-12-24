@@ -1,18 +1,18 @@
 ---
-title: Databend Editions
+title: Databend 版本
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend offers different editions to cater to a variety of user needs. Dive into the comparison below to understand the key features and differences among the editions: Databend Community Edition, Databend Enterprise Edition, and Databend Cloud.
+Databend 提供不同的版本以满足各种用户需求。深入比较下面的内容，了解 Databend 社区版、Databend 企业版和 Databend Cloud 之间的主要功能和差异：
 
-| Feature             | Databend Community Edition | Databend Enterprise Edition | Databend Cloud              |
+| 功能               | Databend 社区版             | Databend 企业版              | Databend Cloud             |
 |---------------------|----------------------------|-----------------------------|-----------------------------|
-| Deployment          | Manual (Required)          | Manual (Required)           | Automatic (No Manual Setup) |
-| Upgrade & Scaling   | Manual (Required)          | Manual (Required)           | Automatic                   |
-| Core features       | Included                   | Included                    | Included                    |
-| [Enterprise Features](01-dee/10-enterprise-features.md) | Not Included               | Included                    | Included                    |
-| Cost                | Free and open source       | Licensing Fees              | Pay-as-you-go               |
+| 部署                | 手动（必须）                | 手动（必须）                 | 自动（无需手动设置）         |
+| 升级与扩展          | 手动（必须）                | 手动（必须）                 | 自动                         |
+| 核心功能            | 包含                        | 包含                         | 包含                         |
+| [企业功能](01-dee/10-enterprise-features.md) | 不包含                     | 包含                         | 包含                         |
+| 成本                | 免费且开源                  | 许可费                       | 按需付费                     |
 
-Explore the details to find the edition that best suits your requirements:
+探索详细信息，找到最适合您需求的版本：
 
 <IndexOverviewList />

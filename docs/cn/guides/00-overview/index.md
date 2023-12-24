@@ -1,46 +1,46 @@
 ---
-title: Overview
+title: 概览
 slug: /
 ---
 
-# Databend Guides
+# Databend 指南
 
 :::tip
-The Databend Guides are applicable across all [Databend Editions](00-editions/index.md). Any features or aspects exclusive to a particular edition will be explicitly mentioned and clarified in the documentation.
+Databend 指南适用于所有 [Databend 版本](00-editions/index.md)。任何特定于某个版本的功能或方面都会在文档中明确提及和澄清。
 :::
 
-[Overview](index.md)
+[概览](index.md)
 ---
-Explore the diverse editions of Databend, delve into its thriving ecosystem, and engage with a vibrant community passionate about data management and analytics.
+探索 Databend 的多样化版本，深入了解其蓬勃发展的生态系统，并与热衷于数据管理和分析的活跃社区互动。
 
-[Deploy & Upgrade Databend](../10-deploy/index.md)
+[部署 & 升级 Databend](../10-deploy/index.md)
 ---
-Effortlessly set up and stay current with Databend by following our comprehensive guide on deployment and seamless upgrades, ensuring you harness the latest features and improvements.
+遵循我们全面的部署和无缝升级指南，轻松设置并保持 Databend 的最新状态，确保您利用最新的功能和改进。
 
-[Databend Cloud Essentials](../20-cloud/index.md)
+[Databend Cloud 基础](../20-cloud/index.md)
 ---
-Immerse yourself in the world of Databend Cloud with our comprehensive guide, designed to walk you through essential operations and optimizations tailored for the cloud environment, ensuring you harness the full potential of Databend in the cloud.
+通过我们的全面指南，让您沉浸在 Databend Cloud 的世界中，指导您完成云环境下的基本操作和优化，确保您在云中充分发挥 Databend 的潜力。
 
-[Connect to Databend](../30-sql-clients/index.md)
+[连接到 Databend](../30-sql-clients/index.md)
 ---
-Learn the ins and outs of establishing connections to Databend, whether you're integrating with various data sources or setting up cross-functional collaborations within your organization.
+学习如何建立与 Databend 的连接，无论您是与各种数据源集成还是在组织内部建立跨职能合作。
 
-[Data Loading](../40-load-data/index.md)
+[数据加载](../40-load-data/index.md)
 ---
-Master the art of efficiently loading data into Databend and seamlessly unloading it, ensuring a smooth and streamlined data flow throughout your analytics pipeline.
+掌握高效地将数据加载到 Databend 并无缝卸载的技艺，确保您的分析管道中数据流动顺畅且高效。
 
-[Data Unloading](../50-unload-data/index.md)
+[数据卸载](../50-unload-data/index.md)
 ---
-Databend allows for the efficient export of data from database tables into flat files, supporting formats such as Parquet, JSON, and CSV for bulk unloading.
+Databend 支持将数据库表中的数据高效导出到平面文件，支持 Parquet、JSON 和 CSV 等格式进行批量卸载。
 
-[Visualize](../60-visualize/index.md)
+[可视化](../60-visualize/index.md)
 ---
-Navigate the realm of data visualization by exploring our guide on seamlessly integrating Databend with third-party visualization and AI toolsets.
+通过探索我们的指南，了解如何无缝集成 Databend 与第三方可视化和 AI 工具集，从而驾驭数据可视化的领域。
 
-[Monitor](../70-monitor/index.md)
+[监控](../70-monitor/index.md)
 ---
-Gain a deep understanding of how to effectively monitor your Databend environment, ensuring optimal performance, identifying bottlenecks, and maintaining a robust and reliable data infrastructure.
+深入了解如何有效监控您的 Databend 环境，确保最佳性能，识别瓶颈，并维护一个健壮可靠的数据基础设施。
 
-[Performance Optimization](../80-performance-optimization/index.md)
+[性能优化](../80-performance-optimization/index.md)
 ---
-Learn how to optimize the performance of Databend, make your queries run faster, and improve the overall efficiency of your data infrastructure.
+学习如何优化 Databend 的性能，使您的查询运行更快，并提高数据基础设施的整体效率。
