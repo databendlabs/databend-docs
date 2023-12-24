@@ -2,7 +2,7 @@
 title: system.tracing
 ---
 
-Contains information about server log.
+包含有关服务器日志的信息。
 
 ```sql
 SELECT * FROM system.tracing LIMIT 1\G
