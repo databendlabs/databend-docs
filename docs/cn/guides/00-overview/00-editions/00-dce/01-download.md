@@ -1,25 +1,25 @@
 ---
-title: Downloading Databend
-sidebar_label: Downloading Databend
+title: 下载 Databend
+sidebar_label: 下载 Databend
 ---
 
-Databend offers you these options for downloading the installation packages:
+Databend 为您提供以下几种下载安装包的选项：
 
-- [Manual download](#manual-download): You can download the installation package for your platform directly from the Databend website.
-- [APT Package Manager](#apt-package-manager): You can use the APT package manager to download and install Databend on Ubuntu or Debian.
-- [Docker](#docker): You can use Docker to download and run Databend in a containerized environment.
+- [手动下载](#manual-download)：您可以直接从 Databend 网站下载适合您平台的安装包。
+- [APT 包管理器](#apt-package-manager)：您可以使用 APT 包管理器在 Ubuntu 或 Debian 上下载并安装 Databend。
+- [Docker](#docker)：您可以使用 Docker 在容器化环境中下载并运行 Databend。
 
-## Manual Download
+## 手动下载
 
-The primary distribution packages for Databend are `.tar.gz` archives containing single executable files that you can download from the [Download](/download) page and extract them anywhere on your system.
+Databend 的主要分发包是 `.tar.gz` 归档文件，包含单个可执行文件，您可以从 [下载](/download) 页面下载并在系统的任何位置解压它们。
 
 :::note
-**Linux Generic (Arm, 64-bit)** is suitable for Linux distributions that use musl as the standard C library; **Linux Generic (x86, 64-bit)** is suitable for Linux distributions that use GNU C with a minimum version 2.29 of GLIBC.
+**Linux 通用 (Arm, 64位)** 适用于使用 musl 作为标准 C 库的 Linux 发行版；**Linux 通用 (x86, 64位)** 适用于使用 GNU C 且至少有 2.29 版本 GLIBC 的 Linux 发行版。
 :::
 
-## APT Package Manager
+## APT 包管理器
 
-Databend offers package repositories for Debian and Ubuntu systems, allowing you to install Databend using the apt install command or any other APT frontend.
+Databend 为 Debian 和 Ubuntu 系统提供了包仓库，允许您使用 apt install 命令或任何其他 APT 前端来安装 Databend。
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -40,9 +40,9 @@ sudo apt install databend
 <TabItem value="deb-new" label="Ubuntu/Debian(DEB822-STYLE FORMAT)">
 
 :::note
-Available platforms:
-  * Ubuntu Jammy (22.04) and later
-  * Debian Bookworm(12) and later
+可用平台：
+  * Ubuntu Jammy (22.04) 及以后版本
+  * Debian Bookworm(12) 及以后版本
 :::
 
 ```shell
@@ -56,7 +56,7 @@ sudo apt install databend
 </Tabs>
 
 :::tip
-To start Databend after the installation, run the following commands:
+安装完成后，运行以下命令以启动 Databend：
 
 ```shell
 sudo systemctl start databend-meta
@@ -66,11 +66,11 @@ sudo systemctl start databend-query
 
 ## Docker
 
-Databend provides these types of installation images on the Docker Hub:
+Databend 在 Docker Hub 上提供了以下类型的安装镜像：
 
-- [Databend All-in-One Docker Image](https://hub.docker.com/r/datafuselabs/databend): Built for local tests, CI, and so on.
-- Separated images: Built for production environments, Kubernetes, and [Helm Charts](https://github.com/datafuselabs/helm-charts).
+- [Databend 全功能 Docker 镜像](https://hub.docker.com/r/datafuselabs/databend)：适用于本地测试、CI 等。
+- 分离镜像：适用于生产环境、Kubernetes 和 [Helm 图表](https://github.com/datafuselabs/helm-charts)。
   - [databend-meta](https://hub.docker.com/r/datafuselabs/databend-meta)
   - [databend-query](https://hub.docker.com/r/datafuselabs/databend-query)
 
-Click the links above for their detailed instructions.
+点击上面的链接查看详细说明。
