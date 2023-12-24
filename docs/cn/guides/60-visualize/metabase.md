@@ -17,6 +17,7 @@ $ ls
 metabase.jar
 $ mkdir plugins
 ```
+
 2. [下载](https://github.com/databendcloud/metabase-databend-driver/releases/latest) Metabase Databend 驱动程序，然后将其保存在 **plugins** 文件夹中。
 
 3. 要启动 Metabase，请运行以下命令：
@@ -36,7 +37,7 @@ java -jar metabase.jar
 在本教程中，您可以选择与 Databend 或 Databend Cloud 集成：
 
 - 如果您选择与本地 Databend 实例集成，请按照 [部署指南](/guides/deploy) 进行部署（如果您还没有的话）。
-- 如果您更愿意与 Databend Cloud 集成，请确保您可以登录到您的账户并获取仓库的连接信息。更多详情，请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+- 如果您更愿意与 Databend Cloud 集成，请确保您可以登录到您的账户并获取计算集群的连接信息。更多详情，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 第 2 步. 部署 Metabase
 
@@ -64,20 +65,20 @@ docker run  -d -p 3000:3000 --name metabase metabase/metabase
 
 1. 打开您的网络浏览器，访问 http://localhost:3000/。
 
-2. 完成初始注册过程。在第 3 步中选择 **我稍后会添加我的数据**。
+2. 完成初始注册过程。在第 3 步中选择 **I'll add my data later**。
 
 ![Alt text](@site/docs/public/img/integration/add-later.png)
 
-3. 点击右上角的 **齿轮** 图标，导航到 **管理设置** > **数据库** > **添加数据库** 来创建连接：
+3. 点击右上角的 **齿轮** 图标，导航到 **Admin settings** > **Databases** > **Add a database** 来创建连接：
 
-| 参数                           | Databend               | Databend Cloud                     |
-|--------------------------------|------------------------|------------------------------------|
-| 数据库类型                     | `Databend`             | `Databend`                         |
-| 主机                           | `host.docker.internal` | 从连接信息中获取                   |
-| 端口                           | `8000`                 | `443`                              |
-| 用户名                         | 例如，`root`           | `cloudapp`                         |
-| 密码                           | 输入您的密码           | 从连接信息中获取                   |
-| 使用安全连接 (SSL)             | 关闭                   | 打开                               |
+| 参数                          | Databend               | Databend Cloud   |
+| ----------------------------- | ---------------------- | ---------------- |
+| Database type                 | `Databend`             | `Databend`       |
+| Host                          | `host.docker.internal` | 从连接信息中获取 |
+| Port                          | `8000`                 | `443`            |
+| Username                      | 例如，`root`           | `cloudapp`       |
+| Password                      | 输入您的密码           | 从连接信息中获取 |
+| Use a secure connection (SSL) | 关闭                   | 打开             |
 
 4. 点击 **保存更改**，然后点击 **退出管理**。
 

@@ -72,19 +72,19 @@ docker exec -it superset superset init
 
 1. 导航到 [http://localhost:8080/login/]( http://localhost:8080/login/) 并使用 `admin/admin` 作为用户名和密码登录。
 
-2. 选择 **设置** > **数据** > **连接数据库** 打开连接向导。
+2. 选择 **Settings** > **Data** > **Connect Database** 打开连接向导。
 
 ![Alt text](/img/integration/superset-connect-db.png)
 
-3. 从支持的数据库列表中选择 `其他`。
+3. 从支持的数据库列表中选择 `Other`。
 
 ![Alt text](/img/integration/superset-select-other.png)
 
-4. 在 **基础** 标签页中，设置一个显示名称，例如 `Databend`，然后输入连接到 Databend Cloud 的 URI。URI 遵循格式：`databend://<host>`，其中 `<host>` 对应于您仓库连接信息中的主机字段。有关如何获取连接详细信息，请参考 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting-to-a-warehouse)。
+4. 在 **BASIC** 标签页中，设置一个显示名称，例如 `Databend`，然后输入连接到 Databend Cloud 的 URI。URI 遵循格式：`databend://<host>`，其中 `<host>` 对应于您仓库连接信息中的主机字段。有关如何获取连接详细信息，请参考 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting-to-a-warehouse)。
 
 ![Alt text](/img/integration/superset-uri.png)
 
-5. 点击 **测试连接**，应该会弹出一个消息框说，“连接看起来不错！”。
+5. 点击 **TEST CONNECTION**，应该会弹出一个消息框说，"Connection looks good!"。
 
 </StepContent>
 </StepsWrap>

@@ -45,8 +45,8 @@ GRANT ALL ON *.* TO tableau;
 |-------------|--------------------------------------------------------------|-------------------------------------------------------|
 | URL         | 格式：jdbc:databend://{user}:{password}@{host}:{port}/{database} | jdbc:databend://tableau:tableau@127.0.0.1:8000/default |
 | Dialect     | 选择 SQL 方言 "MySQL"。                                       | MySQL                                                  |
-| 用户名      | 用于连接到 Databend 的 SQL 用户                               | tableau                                                |
-| 密码        | 用于连接到 Databend 的 SQL 用户                               | tableau                                                |
+| Username    | 用于连接到 Databend 的 SQL 用户                               | tableau                                                |
+| Password    | 用于连接到 Databend 的 SQL 用户密码                               | tableau                                                |
 
 3. 当 Tableau 工作簿打开时，选择您想要查询的数据库、模式和表。对于本教程，**数据库** 和 **模式** 都选择 *default*。
 
@@ -114,7 +114,7 @@ GRANT ALL ON *.* TO tableau;
 
 ### 步骤 1. 获取连接信息
 
-从Databend Cloud获取连接信息。关于如何做到这一点，请参考 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+从Databend Cloud获取连接信息。关于如何做到这一点，请参考 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 安装 databend-jdbc
 

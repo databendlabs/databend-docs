@@ -65,21 +65,21 @@ docker-compose up
 
 1. 通过在您的网络浏览器中访问 http://localhost:5000 完成 Redash 的初始过程来注册。
 
-2. 在 **设置** > **新建数据源** 列表中选择 `Databend`。
+2. 在 **Settings** > **New Data Source** 列表中选择 `Databend`。
 
 ![Alt text](@site/docs/public/img/integration/redash-select.png)
 
 3. 配置您的 Databend 数据源。
 
-    - 用户名：`root`。如果您以 `root` 登录本地实例的 Databend，则无需密码。
-    - 主机：`host.docker.internal`
-    - 端口：`8000`
-    - 数据库：`default`
-    - 安全：如果您在 Databend 服务器上启用了 HTTPS，请启用此选项。
+    - Username: `root`。如果您以 `root` 登录本地实例的 Databend，则无需密码。
+    - Host: `host.docker.internal`
+    - Port: `8000`
+    - Database: `default`
+    - Secure: 如果您在 Databend 服务器上启用了 HTTPS，请启用此选项。
 
 ![Alt text](@site/docs/public/img/integration/redash-cfg-local.png)
 
-4. 点击 **创建**，然后 **测试连接** 来检查连接是否成功。
+4. 点击 **Create**，然后 **Test Connection** 来检查连接是否成功。
 
 您已经准备好了！您现在可以编写查询并添加可视化。有关更多信息，请参考 Redash 入门指南：https://redash.io/help/user-guide/getting-started#2-Write-A-Query
 
@@ -89,7 +89,7 @@ docker-compose up
 
 ### 步骤 1. 获取连接信息
 
-从 Databend Cloud 获取连接信息。有关如何操作，请参考[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+从 Databend Cloud 获取连接信息。有关如何操作，请参考[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 部署 Redash
 
@@ -142,21 +142,21 @@ docker-compose up
 
 1. 通过在您的网络浏览器中访问 http://localhost:5000 完成 Redash 的初始过程来注册。
 
-2. 在 **设置** > **新建数据源** 列表中选择 `Databend`。
+2. 在 **Settings** > **New Data Source** 列表中选择 `Databend`。
 
 ![Alt text](@site/static/img/documents/BI/redash-select.png)
 
 3. 配置您的 Databend 数据源。
 
-    - 用户名：`cloudapp`。
-    - 密码：复制并粘贴您在 Databend Cloud 中生成的密码。
-    - 主机：复制并粘贴您在 Databend Cloud 中生成的主机地址。
-    - 端口：`443`
-    - 数据库：`default`
-    - 安全：启用此选项。
+    - Username: `cloudapp`。
+    - Password: 复制并粘贴您在 Databend Cloud 中生成的密码。
+    - Host: 复制并粘贴您在 Databend Cloud 中生成的主机地址。
+    - Port: `443`
+    - Database: `default`
+    - Secure: 启用此选项。
 
 ![Alt text](@site/static/img/documents/BI/redash-cfg-cloud.png)
 
-4. 点击 **创建**，然后 **测试连接** 来检查连接是否成功。
+4. 点击 **Create**，然后 **Test Connection** 来检查连接是否成功。
 
 您已经准备好了！您现在可以编写查询并添加可视化。有关更多信息，请参考 Redash 入门指南：https://redash.io/help/user-guide/getting-started#2-Write-A-Query

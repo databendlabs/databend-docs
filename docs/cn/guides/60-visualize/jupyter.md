@@ -230,7 +230,7 @@ plt.show()
 
 ### 步骤 1. 获取连接信息
 
-从 Databend Cloud 获取连接信息。有关如何操作，请参阅[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+从 Databend Cloud 获取连接信息。有关如何操作，请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 部署 Jupyter Notebook
 
