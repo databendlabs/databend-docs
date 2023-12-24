@@ -1,29 +1,26 @@
 ---
-title: HTTP Handler
+title: HTTP 处理器
 sidebar_label: REST API
 ---
 
-The Databend HTTP handler is a REST API that used to send query statement for execution on the server and to receive results back to the client.
+Databend 的 HTTP 处理器是一个 REST API，用于向服务器发送查询语句执行并将结果返回给客户端。
 
-The HTTP handler is hosted by databend-query, it can be specified by using `--http_handler_host` and `--http_handler_port`(This defaults to 8000).
+HTTP 处理器由 databend-query 托管，可以通过使用 `--http_handler_host` 和 `--http_handler_port`（默认为 8000）来指定。
 
 
-## HTTP Methods
+## HTTP 方法
 
-### Overview
+### 概览
 
-This handler return results in `pages` with long-polling.
+此处理器以 `pages` 形式返回结果，并使用长轮询。
 
-1. Start with A `POST` to `/v1/query` with JSON of type `QueryRequest` which contains the SQL to execute, returns a JSON
-   of type `QueryResponse`.
-2. Use fields of `QueryResponse` for further processing:
-    1. A `GET` to the `next_uri` returns the next `page` of query results. It returns `QueryResponse` too, processing it
-       the same way until `next_uri` is null.
-    2. (optional) A `GET` to the `kill_uri` to kill the query. Return empty body.
-    3. (optional) A `GET` to the `stats_uri` to get stats only at once (without long-polling), return `QueryResponse`
-       with empty `data` field.
+1. 使用 `POST` 方法向 `/v1/query` 发送包含 SQL 语句的 `QueryRequest` 类型的 JSON，返回 `QueryResponse` 类型的 JSON。
+2. 使用 `QueryResponse` 的字段进行进一步处理：
+    1. 对 `next_uri` 发起 `GET` 请求，返回查询结果的下一个 `page`。它也返回 `QueryResponse`，直到 `next_uri` 为 null 时停止处理。
+    2. （可选）对 `kill_uri` 发起 `GET` 请求以终止查询。返回空的响应体。
+    3. （可选）对 `stats_uri` 发起 `GET` 请求，一次性获取统计信息（无需长轮询），返回数据字段为空的 `QueryResponse`。
 
-### Quick Example
+### 快速示例
 
 ```shell
 curl -u root: \
@@ -33,14 +30,14 @@ curl -u root: \
   --data-raw '{"sql": "SELECT avg(number) FROM numbers(100000000)"}'
 ```
 
-the SQL will be run with default session and pagination settings, mainly:
+SQL 将使用默认会话和分页设置运行，主要包括：
 
-1. use a new one-off session with the `default` database.
-2. each request wait for at most 1 second for results before return.
+1. 使用 `default` 数据库的新一次性会话。
+2. 每个请求最多等待 1 秒钟以返回结果。
 
-for more advanced configs, see the Reference below:
+有关更高级的配置，请参见下面的参考资料：
 
-you are expected to get JSON like this (formatted):
+你应该得到类似这样的 JSON（已格式化）：
 
 ```json
 {
@@ -90,109 +87,111 @@ you are expected to get JSON like this (formatted):
 ```
 
 
-## Query Request
+## 查询请求
 
 QueryRequest
 
-| field         | type         | Required | Default | description                                      |
-|---------------|--------------|----------|---------|--------------------------------------------------|
-| sql           | string       | Yes      |         | the sql to execute                               |
-| session_id    | string       | No       |         | used only when reuse server-side session         |
-| session       | SessionState | No       |         |                                                  |
-| pagination    | Pagination   | No       |         | a uniq query_id for this POST request            |
+| 字段          | 类型         | 必填     | 默认值  | 描述                                        |
+|---------------|--------------|----------|---------|---------------------------------------------|
+| sql           | string       | 是       |         | 要执行的 SQL 语句                           |
+| session_id    | string       | 否       |         | 仅在重用服务器端会话时使用                  |
+| session       | SessionState | 否       |         |                                             |
+| pagination    | Pagination   | 否       |         | 此 POST 请求的唯一查询 ID                   |
 
 SessionState
 
-| field                    | type                | Required | Default   | description                                                   |
-|--------------------------|---------------------|----------|-----------|---------------------------------------------------------------|
-| database                 | string              | No       | "default" | set current_database                                          |
-| keep_server_session_secs | int                 | No       | 0         | secs the Session will be retain after the last query finished |
-| settings                 | map(string, string) | No       | 0         |                                                               |
+| 字段                      | 类型                | 必填     | 默认值    | 描述                                                      |
+|--------------------------|---------------------|----------|-----------|-----------------------------------------------------------|
+| database                 | string              | 否       | "default" | 设置当前数据库                                            |
+| keep_server_session_secs | int                 | 否       | 0         | 上次查询完成后会话保留的秒数                              |
+| settings                 | map(string, string) | 否       | 0         |                                                           |
 
 OldSession
 
-| field | type   | Required | Default | description                              |
-|-------|--------|----------|---------|------------------------------------------|
-| id    | string | Yes      |         | session_id from QueryResponse.session_id |
+| 字段 | 类型   | 必填     | 默认值  | 描述                              |
+|-------|--------|----------|---------|-----------------------------------|
+| id    | string | 是       |         | 来自 QueryResponse.session_id 的会话 ID |
 
-Pagination: critical conditions for each HTTP request to return (before all remaining result is ready to return)
+Pagination: 在所有剩余结果准备好返回之前，每个 HTTP 请求返回的关键条件
 
-| field          | type | Required | Default | description       |
-|----------------|------|----------|---------|-------------------|
-| wait_time_secs | u32  | No       | 1       | long polling time |
+| 字段          | 类型 | 必填     | 默认值  | 描述            |
+|----------------|------|----------|---------|-----------------|
+| wait_time_secs | u32  | 否       | 1       | 长轮询时间      |
 
-## Query Response
+## 查询响应
 
 QueryResponse:
 
-| field      | type          | description                              |
-|------------|---------------|------------------------------------------|
-| state      | string        | choices: "Running","Failed", "Succeeded" |
-| error      | QueryError    | error of the sql parsing or execution    |
-| id         | string        | a uniq query_id for this POST request    |
-| data       | array         | each item is a row of results            |
-| schema     | array         | An ordered sequence of Field             |
-| affect     | Affect        | the affect of some queries               |
-| session_id | String        |                                          |
-| session    | SessionState  |                                          |
 
-Field:
 
-| field    | type   |
+| 字段        | 类型          | 描述                                        |
+|------------|---------------|--------------------------------------------|
+| state      | string        | 可选值: "Running","Failed", "Succeeded"     |
+| error      | QueryError    | SQL 解析或执行的错误                        |
+| id         | string        | 此 POST 请求的唯一 query_id                 |
+| data       | array         | 每个项是结果的一行                          |
+| schema     | array         | 有序的 Field 序列                           |
+| affect     | Affect        | 某些查询的影响                              |
+| session_id | String        |                                              |
+| session    | SessionState  |                                              |
+
+字段:
+
+| 字段      | 类型   |
 |----------|--------|
 | name     | string |
 | type     | string |
 
-Stats:
+统计信息:
 
-| field           | type          | description                                                                                                      |
-|-----------------|---------------|------------------------------------------------------------------------------------------------------------------|
-| running_time_ms | float         | million secs elapsed since query begin to execute internally, stop timing when query Finished (state != Running) |
-| scan_progress   | QueryProgress | query scan progress                                                                                              |
+| 字段              | 类型          | 描述                                                                                                     |
+|-----------------|---------------|---------------------------------------------------------------------------------------------------------|
+| running_time_ms | float         | 从查询开始执行到内部结束的毫秒数，当查询完成时停止计时（state != Running）                               |
+| scan_progress   | QueryProgress | 查询扫描进度                                                                                             |
 
-Progress:
+进度:
 
-| field              | type |
+| 字段              | 类型 |
 |--------------------|------|
 | read_rows          | int  |
 | read_bytes         | int  |
 
-Error:
+错误:
 
-| field     | type   | description                     |
-|-----------|--------|---------------------------------|
-| stats     | int    | error code used inside databend |
-| message   | string | error message                   |
-| backtrace | string |                                 |
+| 字段       | 类型   | 描述                          |
+|-----------|--------|-------------------------------|
+| stats     | int    | databend 内部使用的错误代码    |
+| message   | string | 错误信息                      |
+| backtrace | string |                               |
 
-Affect:
+影响:
 
-| field | type   | description         |
-|-------|--------|---------------------|
-| type  | string | ChangeSetting/UseDB |
-| ...   |        | according to type   |
+| 字段 | 类型   | 描述                  |
+|-------|--------|-----------------------|
+| type  | string | ChangeSetting/UseDB   |
+| ...   |        | 根据类型而定          |
 
-### Response Status Code
+### 响应状态码
 
-The usage of status code for different kinds of errors:
+不同类型错误使用的状态码:
 
-| code | error                                                                       |
-|------|-----------------------------------------------------------------------------|
-| 200  | if sql is invalid or failed, the detail is in the `error` field of the JSON |
-| 404  | "query_id" or "page" not found                                              |
-| 400  | invalid request format                                                      |
+| 状态码 | 错误                                                                        |
+|------|----------------------------------------------------------------------------|
+| 200  | 如果 SQL 无效或失败，详情在 JSON 的 `error` 字段中                          |
+| 404  | "query_id" 或 "page" 未找到                                                 |
+| 400  | 请求格式无效                                                                |
 
-Check the response body for error reason as a string when status code is not 200.
+当状态码不是 200 时，检查响应体中的错误原因字符串。
 
-### data format
+### 数据格式
 
-all field value in `.data` is represented in string,
-client need to interpreter the values with the help of information in the `schema` field.
+`.data` 中的所有字段值都以字符串表示，
+客户端需要借助 `schema` 字段中的信息来解释这些值。
 
-### client-side session
+### 客户端会话
 
-Dur to the stateless nature of HTTP, it is hard to maintain session in server side.
-client need to config the session in the `session` field when starting a new Request.
+由于 HTTP 的无状态特性，服务器端难以维护会话。
+客户端需要在发起新请求时配置 `session` 字段。
 
 ```json
 {
@@ -206,25 +205,25 @@ client need to config the session in the `session` field when starting a new Req
 }
 ```
 
-all the values of settings should be string.
+所有设置的值应该是字符串。
 
-If the SQL is `set` or `use`, the `session` will be change, can carry back to client in side response, 
-client need to record it and put it in the following Request.
+如果 SQL 是 `set` 或 `use`，`session` 将会改变，并在响应中返回给客户端，
+客户端需要记录它并在后续请求中使用。
 
-### QueryAffect (Experimental)
+### QueryAffect（实验性）
 
-For each SQL, client get an optional table-formed `result`.
-Client also get info about `progress` about rows/bytes read/write.
-Due to the limit of them, client may not get all interesting information about the Query.
-So we add `QueryAffect` to carry some extra information about the Query.
+对于每个 SQL，客户端可以得到一个可选的表格形式的 `result`。
+客户端还可以获得关于读/写的行/字节的 `progress` 信息。
+由于它们的限制，客户端可能无法获得关于查询的所有感兴趣的信息。
+因此，我们添加了 `QueryAffect` 来携带一些关于查询的额外信息。
 
-Note that `QueryAffect` is for advanced user and is not stable. 
-It is not recommended to QueryAffect to maintain session.
+请注意 `QueryAffect` 面向高级用户且不稳定。
+不建议使用 `QueryAffect` 来维护会话。
 
-### Example for Session and QueryAffect: 
+### Session 和 QueryAffect 的示例：
 
 
-set statement:
+set 语句:
 
 ```json
 {
@@ -238,7 +237,7 @@ set statement:
 }
 ```
 
-response:
+响应:
 
 ```json
 {
@@ -257,7 +256,7 @@ response:
 }
 ```
 
-use statement:
+use 语句:
 
 ```json
 {"sql": "use db2",
@@ -270,7 +269,7 @@ use statement:
 }
 ```
 
-response:
+响应:
 
 ```json
 {
@@ -287,10 +286,10 @@ response:
 }
 ```
 
-## client implementations
+## 客户端实现
 
-The official client [bendsql](https://github.com/datafuselabs/bendsql) is mainly base on HTTP handler.
+官方客户端 [bendsql](https://github.com/datafuselabs/bendsql) 主要基于 HTTP 处理程序。
 
-The most simple example of http handler client implementation is in [sqllogictest](https://github.com/datafuselabs/databend/blob/main/tests/sqllogictests/src/client/http_client.rs) for databend.
-
-
+```markdown
+Databend 的 http 处理器客户端实现中最简单的例子可以在 [sqllogictest](https://github.com/datafuselabs/databend/blob/main/tests/sqllogictests/src/client/http_client.rs) 中找到。
+```

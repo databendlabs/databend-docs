@@ -5,32 +5,32 @@ title: Rust
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-Databend offers a driver ([crates.io - databend-driver](https://crates.io/crates/databend-driver)) written in Rust, which facilitates the development of applications using the Rust programming language and establishes connectivity with Databend. Please note that the driver currently does not support handling arrays.
+Databend 提供了一个用 Rust 编写的驱动（[crates.io - databend-driver](https://crates.io/crates/databend-driver)），它便于使用 Rust 编程语言开发应用程序，并与 Databend 建立连接。请注意，驱动目前不支持处理数组。
 
-For installation instructions, examples, and the source code, see [GitHub - databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver).
+有关安装说明、示例和源代码，请参见 [GitHub - databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver)。
 
-## Tutorial-1: Integrating with Databend using Rust
+## 教程-1：使用 Rust 与 Databend 集成
 
-Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/deploy/deploying-local).
+在开始之前，请确保您已成功安装了本地 Databend。有关详细说明，请参见 [本地和 Docker 部署](/guides/deploy/deploying-local)。
 
-### Step 1. Prepare a SQL User Account
+### 步骤 1. 准备一个 SQL 用户账户
 
-To connect your program to Databend and execute SQL operations, you must provide a SQL user account with appropriate privileges in your code. Create one in Databend if needed, and ensure that the SQL user has only the necessary privileges for security.
+为了将您的程序连接到 Databend 并执行 SQL 操作，您必须在代码中提供具有适当权限的 SQL 用户账户。如果需要，请在 Databend 中创建一个，并确保 SQL 用户仅具有出于安全考虑所需的权限。
 
-This tutorial uses a SQL user named 'user1' with password 'abc123' as an example. As the program will write data into Databend, the user needs ALL privileges. For how to manage SQL users and their privileges, see [User & Role](/sql/sql-commands/ddl/user/).
+本教程使用名为 'user1'，密码为 'abc123' 的 SQL 用户作为示例。由于程序将向 Databend 写入数据，因此用户需要 ALL 权限。有关如何管理 SQL 用户及其权限的信息，请参见 [用户与角色](/sql/sql-commands/ddl/user/)。
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL on *.* TO user1;
 ```
 
-### Step 2. Write a Rust Program
+### 步骤 2. 编写一个 Rust 程序
 
-In this step, you'll create a simple Rust program that communicates with Databend. The program will involve tasks such as creating a table, inserting data, and executing data queries.
+在这一步中，您将创建一个简单的 Rust 程序，该程序将与 Databend 通信。程序将涉及创建表、插入数据和执行数据查询等任务。
 
 <StepsWrap>
 
-<StepContent number="1" title="Create a new project">
+<StepContent number="1" title="创建一个新项目">
 
 ```shell
 cargo new databend-demo --bin
@@ -42,7 +42,7 @@ name = "databend-demo"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+# 有关更多键及其定义，请参见 https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 databend-driver = "0.7"
@@ -53,11 +53,11 @@ tokio-stream = "0.1.12"
 
 </StepContent>
 
-<StepContent number="2" title="Copy and paste the following code to the file main.rs">
+<StepContent number="2" title="将以下代码复制并粘贴到文件 main.rs 中">
 
 
 :::note
-The value of `hostname` in the code below must align with your HTTP handler settings for Databend query service.
+代码下方的 `hostname` 值必须与您的 Databend 查询服务的 HTTP 处理程序设置保持一致。
 :::
 
 ```rust title='main.rs'
@@ -100,13 +100,13 @@ async fn main() {
 
 </StepContent>
 
-<StepContent number="3" title="Run the program. ">
+<StepContent number="3" title="运行程序。">
 
 ```shell
 cargo run
 ```
 
-```text title='Outputs'
+```text title='输出'
 mybook author 2022
 ```
 
@@ -115,20 +115,19 @@ mybook author 2022
 </StepsWrap>
 
 
-## Tutorial-2: Integrating with Databend Cloud using Rust
+## 教程-2：使用 Rust 与 Databend Cloud 集成
 
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how
-to do that, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+在开始之前，请确保您已成功创建一个数据仓库并获得了连接信息。有关如何操作，请参见 [连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
-### Step 1. Create a Rust Crate
+### 步骤 1. 创建一个 Rust Crate
 
 ```shell
 $ cargo new databend-sample --bin
 ```
 
-### Step 2. Add Dependencies
+### 步骤 2. 添加依赖项
 
-Edit the file named `Cargo.toml` with the following code:
+使用以下代码编辑名为 `Cargo.toml` 的文件：
 
 ```toml
 [package]
@@ -136,7 +135,7 @@ name = "databend-sample"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+# 有关更多键及其定义，请参见 https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 chrono = "0.4"
@@ -145,9 +144,9 @@ tokio = { version = "1", features = ["full"] }
 tokio-stream = "0.1"
 ```
 
-### Step 3. Connect with databend-driver
+### 步骤 3. 使用 databend-driver 连接
 
-Edit the file named `main.rs` with the following code:
+使用以下代码编辑名为 `main.rs` 的文件：
 
 ```rust
 use databend_driver::Client;
@@ -175,8 +174,11 @@ async fn main() {
     let sql_insert = "INSERT INTO data VALUES ('1234', '2345', '3.1415', 'test', 'test2', '2021-01-01', '2021-01-01 00:00:00');";
     conn.exec(sql_insert).await.unwrap();
 
+
+
+```markdown
     let mut rows = conn.query_iter("SELECT * FROM data;").await.unwrap();
-    while let Some(row) = rows.next().await {
+    当 let Some(row) = rows.next().await {
         let (col1, col2, col3, col4, col5, col6, col7): (
             i64,
             u64,
@@ -195,13 +197,14 @@ async fn main() {
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to
-obtain the connection information,
-see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。关于如何
+获取连接信息，
+请参阅[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
-### Step 4. Run sample with Cargo
+### 第 4 步. 使用 Cargo 运行示例
 
 ```shell
 $ cargo run
+```
 ```
