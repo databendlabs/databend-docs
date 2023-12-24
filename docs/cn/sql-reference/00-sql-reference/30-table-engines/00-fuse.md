@@ -1,15 +1,16 @@
 ---
-title: FUSE Engine
+title: FUSE 引擎
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.223"/>
 
-Databend utilizes the FUSE Engine as its default engine, offering a data management system with a user-friendly interface reminiscent of Git. Users have the ability to effortlessly query data at any given moment and effortlessly restore data to any desired point in time.
+Databend 使用 FUSE 引擎（Filesystem in Userspace Engine）作为默认引擎，提供了一个类似 Git 的用户友好界面的数据管理系统。用户可以轻松地在任何时刻查询数据，并轻松地将数据恢复到任何所需的时间点。
 
-**Related topic**: [Find Peter Parker in Databend](https://www.databend.com/blog/time-travel)
+**相关主题**：[在 Databend 中找到 Peter Parker](https://www.databend.com/blog/time-travel)
 
-## Syntax
+## 语法
 
 ```sql
 CREATE TABLE table_name (
@@ -19,27 +20,27 @@ CREATE TABLE table_name (
 ) [ENGINE = FUSE] [CLUSTER BY(<expr> [, <expr>, ...] )] [Options];
 ```
 
-For more information about the CREATE TABLE command, see [CREATE TABLE](../../10-sql-commands/00-ddl/01-table/10-ddl-create-table.md).
+有关 CREATE TABLE 命令的更多信息，请参见 [CREATE TABLE](../../14-sql-commands/00-ddl/20-table/10-ddl-create-table.md)。
 
 ### ENGINE
 
-If an engine is not explicitly specified, Databend will automatically default to using the FUSE Engine to create tables, which is equivalent to `Engine = FUSE`.
+如果没有显式指定引擎，Databend 将自动默认使用 FUSE 引擎来创建表，相当于 `Engine = FUSE` 。
 
 ### CLUSTER BY
 
-The `CLUSTER BY` parameter specifies the sorting method for data that consists of multiple expressions, which is useful during compaction or recluster. A suitable `CLUSTER BY` parameter can significantly accelerate queries.
+`CLUSTER BY` 参数指定由多个表达式组成的数据的排序方法，在压缩或重聚类时非常有用。合适的 `CLUSTER BY` 参数可以显著加快查询速度。
 
-### Options
+### 选项
 
-The FUSE Engine offers the following options (case-insensitive) that enable you to customize the engine's functionality even further. To modify the options of an existing table, use the [ALTER TABLE OPTION](../../10-sql-commands/00-ddl/01-table/90-alter-table-option.md) command.
+FUSE 引擎提供以下选项（不区分大小写），可以进一步自定义引擎的功能。要修改现有表的选项，请使用 [ALTER TABLE OPTION](../../14-sql-commands/00-ddl/20-table/90-alter-table-option.md) 命令。
 
-| Option               	| Syntax                                              	| Description                                                                                                                                                                                                                                                                                           	|
-|----------------------	|-----------------------------------------------------	|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| bloom_index_columns  	| `bloom_index_columns = '<column> [, <column> ...]'` 	| Specifies the columns to be used for the bloom index. The data type of these columns can be Map, Number, String, Date, or Timestamp. If no specific columns are specified, the bloom index is created by default on all supported columns. `bloom_index_columns=''` disables the bloom indexing.                                                            	|
-| compression          	| `compression = '<compression>'`                     	| Specifies the compression method for the engine. Compression options include lz4, zstd, snappy, or none. The compression method defaults to zstd in object storage and lz4 in file system (fs) storage.                                                                                               	|
-| storage_format       	| `storage_format = '<storage_format>'`               	| Specifies how data is stored. By default, the storage_format is set to **Parquet**, which offers high compression and is ideal for cloud-native object storage. Additionally, the experimental **Native** format is supported, optimizing memory copy overhead for storage devices like file systems. 	|
-| snapshot_loc         	| `snapshot_loc = '<snapshot_loc>'`                   	| Specifies a location parameter in string format, allowing easy sharing of a table without data copy.                                                                                                                                                                                                  	|
-| block_size_threshold 	| `block_size_threshold = '<block_size_threshold>'`   	| Specifies the maximum block size in bytes. Defaults to 104,857,600 bytes.                                                                                                                                                                                                                                                     	|
-| block_per_segment    	| `block_per_segment = '<block_per_segment>'`         	| Specifies the maximum number of blocks in a segment. Defaults to 1,000.                                                                                                                                                                                                                               	|
-| row_per_block        	| `row_per_block = '<row_per_block>'`                 	| Specifies the maximum number of rows in a file. Defaults to 1,000,000.                                                                                                                                                                                                                                   	|
-| change_tracking       | `change_tracking = True / False`                      | Setting this option to `True` in the FUSE Engine allows for tracking changes for a table.<br/>Creating a stream for a table will automatically set `change_tracking` to `True` and introduce additional hidden columns to the table as change tracking metadata. For more information, see [How Stream Works](../../10-sql-commands/00-ddl/04-stream/index.md#how-stream-works).|
+| 选项                 | 语法                                                | 描述                                                                                                                                                                                                                                                                  |
+| -------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bloom_index_columns  | `bloom_index_columns = '<column> [, <column> ...]'` | 指定用于布隆索引的列。这些列的数据类型可以是 Map、Number、String、Date 或 Timestamp。如果没有指定特定的列，则默认在所有支持的列上创建布隆索引。`bloom_index_columns=''` 禁用布隆索引。                                                                                |
+| compression          | `compression = '<compression>'`                     | 指定引擎的压缩方法。压缩选项包括 lz4、zstd、snappy 或 none。在对象存储中，默认的压缩方法是 zstd，在文件系统 (fs) 存储中，默认的压缩方法是 lz4。                                                                                                                       |
+| storage_format       | `storage_format = '<storage_format>'`               | 指定数据的存储格式。默认情况下，storage_format 设置为 **Parquet**，它具有高压缩率，非常适合云原生对象存储。此外，还支持实验性的 **Native** 格式，优化了存储设备（如文件系统）的内存复制开销。                                                                         |
+| snapshot_loc         | `snapshot_loc = '<snapshot_loc>'`                   | 以字符串格式指定位置参数，方便共享表而无需复制数据。                                                                                                                                                                                                                  |
+| block_size_threshold | `block_size_threshold = '<block_size_threshold>'`   | 指定最大块大小（以字节为单位）。默认为 104,857,600 字节。                                                                                                                                                                                                             |
+| block_per_segment    | `block_per_segment = '<block_per_segment>'`         | 指定段中的最大块数。默认为 1,000。                                                                                                                                                                                                                                    |
+| row_per_block        | `row_per_block = '<row_per_block>'`                 | 指定文件中的最大行数。默认为 1,000,000。                                                                                                                                                                                                                              |
+| change_tracking      | `change_tracking = True / False`                    | 在 FUSE 引擎中将此选项设置为 `True`，可以跟踪表的更改。<br/> 为表创建流将自动将 `change_tracking` 设置为 `True`，并向表中引入额外的隐藏列作为更改跟踪元数据。有关更多信息，请参阅 [流式处理工作原理](../../10-sql-commands/00-ddl/04-stream/index.md#how-stream-works)。 |

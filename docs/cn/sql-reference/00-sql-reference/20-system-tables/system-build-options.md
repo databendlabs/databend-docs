@@ -2,10 +2,10 @@
 title: system.build_options
 ---
 
-This system table describes the build options of the current Databend release.
+这个系统表描述了当前 Databend 版本的构建选项。
 
-- `cargo_features`: The package features have been enabled, which are listed in the `[features]` section of `Cargo.toml` .
-- `target_features`: The platform features that have been enabled for the current compilation target. Ref: [Conditional Compilation - `target_feature`](https://doc.rust-lang.org/reference/conditional-compilation.html#target_feature) .
+- `cargo_features`: 已启用的包特性，列在 `Cargo.toml` 的 `[features]` 部分中。
+- `target_features`: 当前编译目标已启用的平台特性。参考：[条件编译 - `target_feature`](https://doc.rust-lang.org/reference/conditional-compilation.html#target_feature)。
 
 ```sql
 SELECT * FROM system.build_options;
