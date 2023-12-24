@@ -1,33 +1,36 @@
 ---
-title: Tuple
-description:  Tuple is a collection of ordered, immutable types.
+title: 元组
+description: 元组是一个有序、不可变类型的集合。
 ---
 
-## Tuple Data Types
+## 元组数据类型
 
-| Name  | Aliases | Values                                    | Description                                                                                               |
-|-------|---------|-------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| TUPLE |         | ('2023-02-14 08:00:00','Valentine's Day') | Collection of ordered,immutable,which requires the type of each element to be declared before being used. |
+| 名称  | 别名 | 值                               | 描述                                                     |
+| ----- | ---- | -------------------------------- | -------------------------------------------------------- |
+| TUPLE |      | ('2023-02-14 08:00:00','情人节') | 有序的、不可变的集合，需要在使用之前声明每个元素的类型。 |
 
-A tuple is a collection of ordered, immutable, and heterogeneous elements, represented within parentheses () in most programming languages. In other words, a tuple is a finite ordered list of elements of different data types, and once created, its elements cannot be changed or modified.
+元组是一个有序、不可变和异构元素的集合，在大多数编程语言中用括号 () 表示。换句话说，元组是一个由不同数据类型的有限有序元素列表组成的数据结构，一旦创建，其元素不能被改变或修改。
 
-Tuples are commonly used to store related data, such as the coordinates of a point in a 2D space (x, y), or a name and its corresponding address, or a date and its corresponding event, and so on.
+元组通常用于存储相关数据，例如二维空间中的点的坐标 (x, y)，或者一个名称及其对应的地址，或者一个日期及其对应的事件等等。
 
-> but it's not suggested to use it unless you really need it.
+> 但是除非真正需要，否则不建议使用元组。
 
-## Example
+## 示例
 
-Create a table:
+创建一个表：
+
 ```sql
 CREATE TABLE t_table(event tuple(datetime, varchar));
 ```
 
-Insert a value with different type into the table:
+向表中插入不同类型的值：
+
 ```sql
 insert into t_table values(('2023-02-14 8:00:00','Valentine\'s Day'));
 ```
 
-Query the result:
+查询结果：
+
 ```sql
 SELECT * FROM t_table;
 +---------------------------------------------------+
@@ -37,11 +40,11 @@ SELECT * FROM t_table;
 +---------------------------------------------------+
 ```
 
-## Get by index
+## 通过索引获取
 
-The elements of a Databend tuple can be accessed by their indices, **which start from 1**. 
+可以通过索引来访问 Databend 元组的元素，**索引从 1 开始**。
 
-### Example
+### 示例
 
 ```sql
 select event.1 from t_table;

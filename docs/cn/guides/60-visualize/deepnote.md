@@ -2,42 +2,42 @@
 title: Deepnote
 ---
 
-[Deepnote](https://deepnote.com) allows you to easily work on your data science projects, together in real-time and in one place with your friends and colleagues; helping you turn your ideas and analyses into products faster. Deepnote is built for the browser so you can use it across any platform (Windows, Mac, Linux or Chromebook). No downloads required, with updates shipped to you daily. All changes are instantly saved.
+[Deepnote](https://deepnote.com) 允许您与朋友和同事一起轻松地在实时和同一地点处理数据科学项目；帮助您更快地将想法和分析转化为产品。Deepnote 为浏览器构建，因此您可以在任何平台（Windows、Mac、Linux 或 Chromebook）上使用它。无需下载，每天向您推送更新。所有更改都会即时保存。
 
-Both Databend and Databend Cloud support integration with Deepnote, requiring a secure connection. When integrating with Databend, please note that the default port is `8124`.
+Databend 和 Databend Cloud 都支持与 Deepnote 集成，需要安全连接。集成 Databend 时，请注意默认端口是 `8124`。
 
-## Tutorial: Integrating with Deepnote
+## 教程：与 Deepnote 集成
 
-This tutorial guides you through the process of integrating Databend Cloud with Deepnote.
+本教程指导您完成将 Databend Cloud 与 Deepnote 集成的过程。
 
-### Step 1. Set up Environment
+### 步骤 1. 设置环境
 
-Make sure you can log in to your Databend Cloud account and obtain the connection information for a warehouse. For more details, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+确保您能够登录到您的 Databend Cloud 账户并获取计算集群的连接信息。更多详情，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
-### Step 2. Connect to Databend Cloud
+### 步骤 2. 连接到 Databend Cloud
 
-1. Sign in to Deepnote, or create an account if you don't have one.
+1. 登录到 Deepnote，如果您还没有账户，则创建一个。
 
-2. Click **+** to the right of **INTEGRATIONS** in the left sidebar, then select **ClickHouse**.
+2. 点击左侧边栏中 **INTEGRATIONS** 右侧的 **+**，然后选择 **ClickHouse**。
 
 ![Alt text](@site/docs/public/img/integration/11.png)
 
-3. Complete the fields with your connection information.
+3. 使用您的连接信息完成字段填写。
 
-| Parameter        | Description                        |
-|------------------|------------------------------------|
-| Integration name | For example, `Databend`            |
-| Host name        | Obtain from connection information |
-| Port             | `443`                              |
-| Username         | `cloudapp`                         |
-| Password         | Obtain from connection information |
+| 参数              | 描述                             |
+|------------------|----------------------------------|
+| Integration name | 例如，`Databend`                 |
+| Host name        | 从连接信息中获取                 |
+| Port             | `443`                            |
+| Username         | `cloudapp`                       |
+| Password         | 从连接信息中获取                 |
 
-4. Create a notebook.
+4. 创建一个笔记本。
 
-5. In the notebook, navigate to the **SQL** section, and then choose the connection you previously created.
+5. 在笔记本中，导航到 **SQL** 部分，然后选择您之前创建的连接。
 
 ![Alt text](@site/docs/public/img/integration/13.png)
 
-You're all set! Refer to the Deepnote documentation for how to work with the tool.
+您已经准备好了！有关如何使用该工具，请参考 Deepnote 文档。
 
 ![Alt text](@site/docs/public/img/integration/15.png)

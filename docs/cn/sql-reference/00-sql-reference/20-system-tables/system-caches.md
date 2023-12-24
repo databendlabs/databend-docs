@@ -2,9 +2,10 @@
 title: system.caches
 ---
 
-An overview of various caches being managed in Databend. 
+Databend 中管理的各种缓存的概述。
 
-The table below shows the cache name, the number of items in the cache, and the size of the cache:
+下表显示了缓存名称、缓存中的项目数量和缓存的大小：
+
 ```sql
 SELECT * FROM system.caches;
 +--------------------------------+-----------+------+
