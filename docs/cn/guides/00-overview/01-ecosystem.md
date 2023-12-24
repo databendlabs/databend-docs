@@ -1,16 +1,16 @@
 ---
-title: Ecosystem
+title: 生态系统
 ---
 
-# Databend Ecosystem
+# Databend 生态系统
 
-To seamlessly integrate with your workflow, Databend continually expands its ecosystem, actively integrating with key data tools and technologies in the industry. The image below provides an overview of the tools, platforms, and programming languages supported by Databend:
+为了无缝集成到您的工作流程中，Databend 持续扩展其生态系统，积极与行业中的关键数据工具和技术集成。下面的图片提供了 Databend 支持的工具、平台和编程语言的概览：
 
 ![Alt text](@site/static/img/documents/overview/ecosystem.png)
 
-Refer to the links below for integration instructions and tutorials:
+请参考以下链接获取集成指南和教程：
 
-- **Develop**
+- **开发**
     - [Golang](/developer/drivers/golang)
     - [Python](/developer/drivers/python)
     - [Node.js](/developer/drivers/nodejs)
@@ -26,18 +26,18 @@ Refer to the links below for integration instructions and tutorials:
     - [DataX](../40-load-data/02-load-db/datax.md)
     - [Debezium](../40-load-data/02-load-db/debezium.md)
 
-- **BI & Visualization**
+- **BI & 可视化**
     - [Metabase](../60-visualize/metabase.md)
     - [Grafana](../60-visualize/grafana.md)
     - [Redash](../60-visualize/redash.md)
     - [Tableau](../60-visualize/tableau.md)
 
-- **Notebooks**
+- **笔记本**
     - [Deepnote](../60-visualize/deepnote.md)
     - [Jupyter Notebook](../60-visualize/jupyter.md)
 
-- **Log Collector**
+- **日志收集器**
     - [Vector](../40-load-data/02-load-db/vector.md)
 
-- **AI**
+- **人工智能**
     - [MindsDB](../60-visualize/mindsdb.md)
