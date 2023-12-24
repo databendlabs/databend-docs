@@ -108,7 +108,7 @@ create_conn().then(conn => {
 
 ## 教程-2：使用Node.js与Databend Cloud集成 {/*tutorial-2-integrating-with-databend-cloud-using-nodejs*/}
 
-在开始之前，请确保您已经成功创建了一个数据仓库并获得了连接信息。有关如何做到这一点，请参阅[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已经成功创建了一个计算集群并获得了连接信息。有关如何做到这一点，请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤1. 创建一个Node.js包
 
@@ -184,7 +184,7 @@ create_conn().then(conn => {
 ```
 
 :::tip
-将代码中的{USER}、{PASSWORD}、{WAREHOUSE_HOST}和{DATABASE}替换为您的连接信息。有关如何获取连接信息，请参阅[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+将代码中的{USER}、{PASSWORD}、{WAREHOUSE_HOST}和{DATABASE}替换为您的连接信息。有关如何获取连接信息，请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 步骤4. 使用NPM运行示例

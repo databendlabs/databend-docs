@@ -186,7 +186,7 @@ pstmt.close();
 
 ### 示例：与 Databend Cloud 集成 {#examples}
 
-开始之前，请确保您已成功创建了数据仓库并获得了连接信息。有关如何操作，请参见[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+开始之前，请确保您已成功创建了计算集群并获得了连接信息。有关如何操作，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 #### 步骤 1. 使用 Maven 添加依赖
 
@@ -264,7 +264,7 @@ public class sample {
 ```
 
 :::tip
-将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息，请参见[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 #### 步骤 3. 使用 Maven 运行 sample

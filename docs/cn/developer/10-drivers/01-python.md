@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Python
 ---
@@ -172,9 +171,7 @@ with connection1.begin() as trans:
     connection1.execute(text("USE bookstore"))
     connection1.execute(text("CREATE TABLE IF NOT EXISTS booklist(title VARCHAR, author VARCHAR, date VARCHAR)"))
     connection1.execute(text("INSERT INTO booklist VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')"))
-```
 
-```markdown
 result = connection2.execute(text("SELECT * FROM booklist"))
 results = result.fetchall()
 
@@ -197,7 +194,7 @@ Readings in Database Systems Michael Stonebraker 2004
 
 ## 教程-2：使用 Python (databend-py) 与 Databend Cloud 集成
 
-开始之前，请确保您已成功创建数据仓库并获取了连接信息。关于如何操作，请参见[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+开始之前，请确保您已成功创建计算集群并获取了连接信息。关于如何操作，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 1. 使用 pip 安装依赖
 
@@ -221,7 +218,7 @@ print(res)
 
 ## 教程-3：使用 Python (databend-sqlalchemy) 与 Databend Cloud 集成
 
-开始之前，请确保您已成功创建数据仓库并获取了连接信息。关于如何操作，请参见[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+开始之前，请确保您已成功创建计算集群并获取了连接信息。关于如何操作，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 1. 使用 pip 安装依赖
 
@@ -243,6 +240,5 @@ print(cursor.fetchall())
 ```
 
 :::tip
-请将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。关于如何获取连接信息，请参见[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+请将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。关于如何获取连接信息，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
-```

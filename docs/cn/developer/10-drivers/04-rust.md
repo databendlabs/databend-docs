@@ -117,7 +117,7 @@ mybook author 2022
 
 ## 教程-2：使用 Rust 与 Databend Cloud 集成
 
-在开始之前，请确保您已成功创建一个数据仓库并获得了连接信息。有关如何操作，请参见 [连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已成功创建一个计算集群并获得了连接信息。有关如何操作，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 1. 创建一个 Rust Crate
 
@@ -174,9 +174,6 @@ async fn main() {
     let sql_insert = "INSERT INTO data VALUES ('1234', '2345', '3.1415', 'test', 'test2', '2021-01-01', '2021-01-01 00:00:00');";
     conn.exec(sql_insert).await.unwrap();
 
-
-
-```markdown
     let mut rows = conn.query_iter("SELECT * FROM data;").await.unwrap();
     当 let Some(row) = rows.next().await {
         let (col1, col2, col3, col4, col5, col6, col7): (
@@ -199,12 +196,11 @@ async fn main() {
 :::tip
 将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。关于如何
 获取连接信息，
-请参阅[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 第 4 步. 使用 Cargo 运行示例
 
 ```shell
 $ cargo run
-```
 ```

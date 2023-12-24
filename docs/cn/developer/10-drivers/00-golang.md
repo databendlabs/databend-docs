@@ -175,7 +175,7 @@ go run main.go
 
 ## 教程-2：使用 Golang 与 Databend Cloud 集成
 
-在开始之前，请确保您已成功创建一个数据仓库并获取了连接信息。有关如何操作，请参见 [连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已成功创建一个计算集群并获取了连接信息。有关如何操作，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 1. 创建一个 Go 模块
 
@@ -257,7 +257,7 @@ func main() {
 :::tip
 将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何
 获取连接信息，
-请参阅[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 第4步. 运行 main.go

@@ -290,6 +290,4 @@ use 语句:
 
 官方客户端 [bendsql](https://github.com/datafuselabs/bendsql) 主要基于 HTTP 处理程序。
 
-```markdown
 Databend 的 http 处理器客户端实现中最简单的例子可以在 [sqllogictest](https://github.com/datafuselabs/databend/blob/main/tests/sqllogictests/src/client/http_client.rs) 中找到。
-```
