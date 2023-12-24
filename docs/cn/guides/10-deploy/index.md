@@ -11,9 +11,9 @@ If you're using [Databend Cloud](../00-overview/00-editions/02-dc/index.md), ple
 ## Table of Contents
 
 - [Understanding Deployment Modes](00-understanding-deployment-modes.md)
-- [Deploying Databend](02-deploying-databend.md)
-- [Expanding to a Databend Cluster](03-expanding-to-a-databend-cluster.md)
-- [Deploying Locally](05-deploying-local.md)
-- [Cluster Configuration and Management](06-cluster/index.md)
-- [Upgrading Databend](09-upgrade/index.md)
-- [Node Configuration](10-node-config/index.md)
+- [Deploying Databend](01-deploying-databend.md)
+- [Expanding to a Databend Cluster](02-expanding-to-a-databend-cluster.md)
+- [Deploying Locally](03-deploying-local.md)
+- [Cluster Configuration and Management](11-cluster/index.md)
+- [Upgrading Databend](12-upgrade/index.md)
+- [Node Configuration](13-node-config/index.md)
