@@ -18,26 +18,26 @@ Refer to the links below for integration instructions and tutorials:
     - [Rust](/developer/drivers/rust)
 
 - **ETL**
-    - [Airbyte](../12-load-data/02-load-db/airbyte.md)
-    - [Kafka](../12-load-data/02-load-db/kafka.md)
-    - [dbt](../12-load-data/02-load-db/dbt.md)
-    - [Addax](../12-load-data/02-load-db/addax.md)
-    - [Flink CDC](../12-load-data/02-load-db/flink-cdc.md)
-    - [DataX](../12-load-data/02-load-db/datax.md)
-    - [Debezium](../12-load-data/02-load-db/debezium.md)
+    - [Airbyte](../40-load-data/02-load-db/airbyte.md)
+    - [Kafka](../40-load-data/02-load-db/kafka.md)
+    - [dbt](../40-load-data/02-load-db/dbt.md)
+    - [Addax](../40-load-data/02-load-db/addax.md)
+    - [Flink CDC](../40-load-data/02-load-db/flink-cdc.md)
+    - [DataX](../40-load-data/02-load-db/datax.md)
+    - [Debezium](../40-load-data/02-load-db/debezium.md)
 
 - **BI & Visualization**
-    - [Metabase](../12-visualize/metabase.md)
-    - [Grafana](../12-visualize/grafana.md)
-    - [Redash](../12-visualize/redash.md)
-    - [Tableau](../12-visualize/tableau.md)
+    - [Metabase](../60-visualize/metabase.md)
+    - [Grafana](../60-visualize/grafana.md)
+    - [Redash](../60-visualize/redash.md)
+    - [Tableau](../60-visualize/tableau.md)
 
 - **Notebooks**
-    - [Deepnote](../12-visualize/deepnote.md)
-    - [Jupyter Notebook](../12-visualize/jupyter.md)
+    - [Deepnote](../60-visualize/deepnote.md)
+    - [Jupyter Notebook](../60-visualize/jupyter.md)
 
 - **Log Collector**
-    - [Vector](../12-load-data/02-load-db/vector.md)
+    - [Vector](../40-load-data/02-load-db/vector.md)
 
 - **AI**
-    - [MindsDB](../12-visualize/mindsdb.md)
+    - [MindsDB](../60-visualize/mindsdb.md)
