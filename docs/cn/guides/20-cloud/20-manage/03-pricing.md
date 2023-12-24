@@ -20,7 +20,7 @@ Databend Cloud 支持按秒计费。例如，一个 Small 的计算集群运行�
 | Large (64)        | ¥ 24.00    | ¥ 0.00667   |
 | XLarge (128)        | ¥ 48.00    | ¥ 0.01333   |
 
-暂停的计算集群不会产生任何费用。另外如果五分钟内没有活动，Databend Cloud 会自动暂停计算集群以节省费用。另外，您也可以随时选择手动暂停计算集群。欲了解更多相关信息，请参阅 [使用计算集群](../02-using-databend-cloud/00-warehouses.md#introduction) 。
+暂停的计算集群不会产生任何费用。另外如果五分钟内没有活动，Databend Cloud 会自动暂停计算集群以节省费用。另外，您也可以随时选择手动暂停计算集群。欲了解更多相关信息，请参阅 [使用计算集群](../10-using-databend-cloud/00-warehouses.md#introduction) 。
 
 ## 存储定价
 

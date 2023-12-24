@@ -11,7 +11,7 @@ title: 使用计算集群
 - 使用 COPY INTO TABLE 命令将数据导入到表中
 - 使用 COPY INTO LOCATION 命令从表中卸载数据
 
-运行计算集群会消耗积分。有关详细信息，请参考[定价和计费](../05-manage/03-pricing.md)。
+运行计算集群会消耗积分。有关详细信息，请参考[定价和计费](../20-manage/03-pricing.md)。
 
 ## 计算集群的大小
 

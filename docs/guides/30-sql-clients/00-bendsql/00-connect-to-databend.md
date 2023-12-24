@@ -29,7 +29,7 @@ To launch BendSQL, enter `bendsql` directly into your terminal or command prompt
 The command `bendsql` launches and connects BendSQL to the local Databend at 127.0.0.1 using the `root` user without requiring a password. If you wish to connect to a local Databend with a different user, such as 'eric' with the password 'abc123', use the command `bendsql --user eric --password abc123`. To view all available arguments and their default values, type `bendsql --help`.
 :::
 
-![Alt text](../../../public/img/connect/bendsql-1.gif)
+![Alt text](/img/connect/bendsql-1.gif)
 
 
 </StepContent>
@@ -37,14 +37,14 @@ The command `bendsql` launches and connects BendSQL to the local Databend at 127
 
 Once connected, you can execute SQL queries in the BendSQL shell. For instance, type `SELECT NOW();` to return the current time:
 
-![Alt text](../../../public/img/connect/bendsql-2.gif)
+![Alt text](/img/connect/bendsql-2.gif)
 
 </StepContent>
 <StepContent number="3" title="Quit BendSQL">
 
 To quit BendSQL, type `quit`.
 
-![Alt text](../../../public/img/connect/bendsql-3.gif)
+![Alt text](/img/connect/bendsql-3.gif)
 
 </StepContent>
 </StepsWrap>

@@ -7,7 +7,7 @@ Databend Cloud 服务目前支持以下开通方式：
 - 在 [Databend Cloud 中国官网](https://www.databend.cn/)直接申请开通
 - 在[阿里云市场](https://www.aliyun.com/search?k=%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%20Databend%20Cloud&scene=market)开通
 
-两种开通方式的付费方法有所不同。在官网开通服务的用户需要在官网绑定信用卡进行付费；在阿里云市场的用户直接通过阿里云市场付费。此外，两种开通方式的账单处理也有所差异，详情请参考[计费和账单](./05-manage/03-pricing.md)。
+两种开通方式的付费方法有所不同。在官网开通服务的用户需要在官网绑定信用卡进行付费；在阿里云市场的用户直接通过阿里云市场付费。此外，两种开通方式的账单处理也有所差异，详情请参考[计费和账单](./20-manage/03-pricing.md)。
 
 ## 在官网上开通 Databend Cloud 服务
 

@@ -12,7 +12,7 @@ title: 组织信息
 
 ## 创建组织
 
-在注册过程中，您需要提供组织名称，此时将会在 Databend Cloud 中创建一个组织并以您的账号作为管理员账号。同时，您还需要选择定价计划、云提供商和区域。了解更多相关信息，请参考[开通 Databend Cloud](../01-new-account.md)。
+在注册过程中，您需要提供组织名称，此时将会在 Databend Cloud 中创建一个组织并以您的账号作为管理员账号。同时，您还需要选择定价计划、云提供商和区域。了解更多相关信息，请参考[开通 Databend Cloud](../00-new-account.md)。
 
 ![](@site/static/img/documents/getting-started/01.png)
 
