@@ -1,5 +1,5 @@
 ---
-title: 可视化
+title: Visualize
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 

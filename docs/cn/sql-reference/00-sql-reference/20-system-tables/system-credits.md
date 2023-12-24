@@ -2,7 +2,7 @@
 title: system.credits
 ---
 
-包含有关上游依赖名称、版本和许可协议的信息。
+Contains information about credits.
 
 ```sql
 SELECT * FROM system.credits LIMIT 20;

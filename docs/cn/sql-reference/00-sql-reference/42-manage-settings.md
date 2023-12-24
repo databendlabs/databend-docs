@@ -1,18 +1,19 @@
 ---
-title: 管理设置
-sidebar_label: 管理设置
-description: 管理 Databend 设置
+title: Managing Settings
+sidebar_label: Managing Settings
+description:
+  Managing Databend settings
 ---
 
-Databend 提供了各种系统设置，使您能够控制 Databend 的工作方式。例如，您可以设置 Databend 工作的时区和您喜欢的 SQL 方言。
+Databend provides a variety of system settings that enable you to control how Databend works. For example, you can set a timezone in which Databend works and the SQL dialect you prefer. 
 
-在 Databend 中，系统设置分为两个层次：**会话**和**全局**。会话级设置仅适用于当前会话，而全局级设置影响租户的所有集群。可以将会话级设置转换为全局级设置，反之亦然。然而，值得注意的是，当会话级和全局级设置不一致时，会话级设置优先并覆盖全局设置。
+In Databend, the system settings are divided into two levels: **Session** and **Global**. Session-level settings only apply to the current session, while global-level settings affect all the clusters of a tenant. It is possible to convert a session-level setting to a global-level setting, and vice versa. However, it's important to note that when session-level and global-level settings are not consistent, the session-level setting takes precedence and overrides the global setting.
 
-所有的设置都有开箱即用的默认值。要查看可用的系统设置及其默认值，请参见 [SHOW SETTINGS](../10-sql-commands/50-administration-cmds/show-settings.md)。要更新设置，请使用 [SET](../10-sql-commands/50-administration-cmds/set-global.md) 或 [UNSET](../10-sql-commands/50-administration-cmds/unset.md) 命令。
+All the settings come with default values out of the box. To show the available system settings and their default values, see [SHOW SETTINGS](../10-sql-commands/50-administration-cmds/show-settings.md). To update a setting, use the [SET](../10-sql-commands/50-administration-cmds/set-global.md) or [UNSET](../10-sql-commands/50-administration-cmds/unset.md) command.
 
-在部署 Databend 之后，建议您浏览所有系统设置，并在使用 Databend 之前调整优先级和值，以便 Databend 可以更好地为您服务。
+After deploying Databend, it is a good idea to go through all the system settings, and tune up the levels and values before working with Databend, so that Databend can work better for you.
 
-请注意，一些 Databend 的行为不能通过系统设置来改变；在使用 Databend 时，您必须考虑到这些行为。例如，
+Please note that some Databend behaviors cannot be changed through the system settings; you must take them into consideration while working with Databend. For example, 
 
-- Databend 将字符串编码为 SETF-8 字符集。
-- Databend 中，数组元素编号从 1 开始。
+- Databend encodes strings to the UTF-8 charset.
+- Databend uses a 1-based numbering convention for arrays.

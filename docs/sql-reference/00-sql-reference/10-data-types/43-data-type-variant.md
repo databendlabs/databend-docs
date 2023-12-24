@@ -2,20 +2,18 @@
 title: Variant
 ---
 
-VARIANT（变体）可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，并且内部值可以是任意层级的嵌套结构，非常灵活地存储各种数据。VARIANT 也可以称为 JSON，更多信息请参考 [JSON 网站](https://www.json.org/json-en.html)。
+A VARIANT can store a value of any other type, including NULL, BOOLEAN, NUMBER, STRING, ARRAY, and OBJECT, and the internal value can be any level of nested structure, which is very flexible to store various data. VARIANT can also be called JSON, for more information, please refer to [JSON website](https://www.json.org/json-en.html)
 
-以下是在 Databend 中插入和查询 Variant 数据的示例：
+Here's an example of inserting and querying Variant data in Databend:
 
-创建表：
-
+Create a table:
 ```sql
 -- Create a table for storing customer orders
 CREATE TABLE customer_orders(id INT64, order_data VARIANT);
 ```
 
-向表中插入不同类型的值：
-
-```sql
+Insert a value with different type into the table:
+```
 INSERT INTO customer_orders 
 VALUES
     (1, parse_json('{"customer_id": 123, "order_id": 1001, "items": [{"name": "Shoes", "price": 59.99}, {"name": "T-shirt", "price": 19.99}]}')),
@@ -23,14 +21,12 @@ VALUES
     (3, parse_json('{"customer_id": 123, "order_id": 1003, "items": [{"name": "Shoes", "price": 59.99}, {"name": "Socks", "price": 4.99}]}'));
 ```
 
-查询结果：
-
+Query the result:
 ```sql
 SELECT * FROM custom_orders;
 ```
 
-结果：
-
+Result:
 ```
 ┌──────┬────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ id   │ order_data                                                                                                │
@@ -41,23 +37,22 @@ SELECT * FROM custom_orders;
 └──────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## 按索引获取
+## Get by index
 
-Variant 包含 ARRAY 是一个从零开始的数组，类似于许多其他编程语言，每个元素也是 Variant 类型。可以通过索引访问元素。
+Variant contains ARRAY is a zero based array like many other programming languages, each element is also a Variant type.
+Element can be accessed by its index.
 
-### 示例
+### Example
 
-在此示例中，我们演示如何访问包含 ARRAY 的 VARIANT 列中的元素。
+In this example, we demonstrate how to access elements within a VARIANT column that contains an ARRAY.
 
-创建表：
-
+Create the table:
 ```sql
 -- Create a table to store user hobbies
 CREATE TABLE user_hobbies(user_id INT64, hobbies VARIANT NULL);
 ```
 
-向表中插入示例数据：
-
+Insert sample data into the table:
 ```sql
 INSERT INTO user_hobbies 
 VALUES
@@ -65,14 +60,11 @@ VALUES
     (2, parse_json('["Photography", "Travel", "Swimming"]'));
 ```
 
-检索每个用户的第一个爱好：
-
+Retrieve the first hobby for each user:
 ```sql
 SELECT user_id, hobbies[0] as first_hobby FROM user_hobbies;
 ```
-
-结果：
-
+Result:
 ```
 ┌─────────┬─────────────┐
 │ user_id │ first_hobby │
@@ -82,14 +74,12 @@ SELECT user_id, hobbies[0] as first_hobby FROM user_hobbies;
 └─────────┴─────────────┘
 ```
 
-检索每个用户的第三个爱好：
-
+Retrieve the third hobby for each user:
 ```sql
 SELECT user_id, hobbies[2] as third_hobby FROM user_hobbies;
 ```
 
-结果：
-
+Result:
 ```
 ┌─────────┬─────────────┐
 │ user_id │ third_hobby │
@@ -99,14 +89,11 @@ SELECT user_id, hobbies[2] as third_hobby FROM user_hobbies;
 └─────────┴─────────────┘
 ```
 
-按照爱好进行分组检索：
-
+Retrieve hobbies with a group by:
 ```sql
 SELECT hobbies[2], count() as third_hobby FROM user_hobbies GROUP BY hobbies[2];
 ```
-
-结果：
-
+Result:
 ```
 ┌────────────┬─────────────┐
 │ hobbies[2] │ third_hobby │
@@ -116,21 +103,19 @@ SELECT hobbies[2], count() as third_hobby FROM user_hobbies GROUP BY hobbies[2];
 └────────────┴─────────────┘
 ```
 
-## 按字段名获取
+## Get by field name
 
-Variant 包含 OBJECT 是键值对，每个键是一个 VARCHAR，每个值是一个 Variant。它类似于其他编程语言中的“字典”、“哈希”或“映射”。
-可以通过字段名访问值。
+Variant contains OBJECT is key-value pairs, each key is a VARCHAR, and each value is a Variant. It act like a "dictionary”, “hash”, or “map” in other programming languages.
+Value can be accessed by the field name.
 
-### 示例 1
+### Example 1
 
-创建一个带有 VARIANT 类型的表来存储用户偏好：
-
+Create a table to store user preferences with VARIANT type:
 ```sql
 CREATE TABLE user_preferences(user_id INT64, preferences VARIANT NULL);
 ```
 
-向表中插入示例数据：
-
+Insert sample data into the table:
 ```sql
 INSERT INTO user_preferences 
 VALUES
@@ -138,14 +123,11 @@ VALUES
     (2, parse_json('{"color":"blue", "fontSize":14, "theme":"light"}'));
 ```
 
-检索每个用户的首选颜色：
-
+Retrieve the preferred color for each user:
 ```sql
 SELECT user_id, preferences:color as color FROM user_preferences;
 ```
-
-结果：
-
+Result:
 ```
 ┌─────────┬───────┐
 │ user_id │ color │
@@ -155,18 +137,16 @@ SELECT user_id, preferences:color as color FROM user_preferences;
 └─────────┴───────┘
 ```
 
-## 数据类型转换
+## Data Type Conversion
 
-默认情况下，从 VARIANT 列中检索到的元素是返回的。要将返回的元素转换为特定类型，请添加 `::` 运算符和目标数据类型（例如 expression::type）。
+By default, elements retrieved from a VARIANT column are returned. To convert a returned element to a specific type, add the `::` operator and the target data type (e.g. expression::type).
 
-创建一个带有 VARIANT 列的表来存储用户偏好：
-
+Create a table to store user preferences with a VARIANT column:
 ```sql
 CREATE TABLE user_pref(user_id INT64, pref VARIANT NULL);
 ```
 
-向表中插入示例数据：
-
+Insert sample data into the table:
 ```sql
 INSERT INTO user_pref 
 VALUES
@@ -174,14 +154,11 @@ VALUES
     (2, parse_json('{"age": 30, "isPremium": "false", "lastActive": "2023-03-15"}'));
 ```
 
-将年龄转换为 INT64：
-
+Convert the age to an INT64:
 ```sql
 SELECT user_id, pref:age::INT64 as age FROM user_pref;
 ```
-
-结果：
-
+Result:
 ```
 ┌─────────┬─────┐
 │ user_id │ age │
@@ -191,6 +168,6 @@ SELECT user_id, pref:age::INT64 as age FROM user_pref;
 └─────────┴─────┘
 ```
 
-## 函数
+## Functions
 
-请参阅 [Variant 函数](sql/sql-functions/semi-structured-functions)。
+See [Variant Functions](/sql/sql-functions/semi-structured-functions).

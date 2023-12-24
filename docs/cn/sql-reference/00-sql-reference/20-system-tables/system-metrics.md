@@ -2,7 +2,7 @@
 title: system.metrics
 ---
 
-包含有关度量事件的信息。
+Contains information about metric events.
 
 ```sql
 SELECT * FROM system.metrics;

@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.187"/>
 
-存储当前会话的系统设置。
+Stores the system settings of the current session.
 
 ```sql
 SELECT * FROM system.settings;

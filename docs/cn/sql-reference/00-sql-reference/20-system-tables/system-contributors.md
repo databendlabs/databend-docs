@@ -2,7 +2,7 @@
 title: system.contributors
 ---
 
-包含有关贡献者的信息。
+Contains information about contributors.
 
 ```sql
 SELECT * FROM system.contributors LIMIT 20;

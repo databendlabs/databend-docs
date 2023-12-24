@@ -2,13 +2,13 @@
 title: system.numbers
 ---
 
-这个表包含一个名为 number 的 UInt64 列，其中包含从零开始的几乎所有自然数。
+This table contains a single UInt64 column named number that contains almost all the natural numbers starting from zero.
 
-您可以使用此表进行测试，或者作为暴力搜索的工具。
+You can use this table for tests, or if you need to do a brute force search.
 
-从此表中读取的操作也是并行化的。
+Reads from this table are parallelized too.
 
-用于测试。
+Used for tests.
 
 ```sql
 SELECT avg(number) FROM numbers(100000000);

@@ -2,7 +2,7 @@
 title: system.functions
 ---
 
-包含有关标量函数、聚合函数和用户定义函数的信息。
+Contains information about scalar, aggregate and user defined functions.
 
 ```sql
 SELECT * FROM system.functions limit 10;

@@ -1,14 +1,13 @@
 ---
 title: system.streams
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.223"/>
 
-提供有关系统中流的信息。该表中的每一行对应一个流，列包含了流的模式、注释（如果有）、关联的表名、表 ID、表版本、快照位置、无效原因（如果适用）和所有者等详细信息。
+Provides information about streams in the system. Each row in this table corresponds to a stream, and the columns contain details such as the stream's mode, comment (if any), associated table name, table ID, table version, snapshot location, invalid reason (if applicable), and owner. 
 
-```sql title="示例："
+```sql title="Example:"
 SELECT * FROM system.streams;
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐

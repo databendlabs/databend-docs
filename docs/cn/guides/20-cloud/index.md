@@ -1,5 +1,5 @@
 ---
-title: Databend Cloud 基础知识
+title: Databend Cloud Essentials
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 

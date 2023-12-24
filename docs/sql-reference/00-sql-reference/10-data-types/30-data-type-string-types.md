@@ -1,21 +1,22 @@
 ---
-title: 字符串
-description: 基本的字符串数据类型. 
+title: String
+description: Basic String data type.
 ---
 
-## 字符串数据类型
+## String Data Types
 
-在 Databend 中, 字符串可以存储在 `VARCHAR` 字段中, 存储大小是可变的. 
+In Databend, strings can be stored in the `VARCHAR` field, the storage size is variable.
 
-| 名称    | 别名   | 存储大小 |
-| ------- | ------ | -------- |
-| VARCHAR | STRING | 可变     |
+| Name    | Aliases | Storage Size |
+|---------|---------|--------------|
+| VARCHAR | STRING  | variable     |
 
-## 函数
+## Functions
 
-请参阅 [字符串函数](/sql/sql-functions/string-functions). 
+See [String Functions](/sql/sql-functions/string-functions).
 
-## 示例
+
+## Example
 
 ```sql
 CREATE TABLE string_table(text VARCHAR);
@@ -24,9 +25,7 @@ CREATE TABLE string_table(text VARCHAR);
 ```
 DESC string_table;
 ```
-
-结果：
-
+Result:
 ```
 ┌──────────────────────────────────────────────┐
 │  Field │   Type  │  Null  │ Default │  Extra │
@@ -42,9 +41,7 @@ INSERT INTO string_table VALUES('databend');
 ```
 SELECT * FROM string_table;
 ```
-
-结果：
-
+Result:
 ```
 ┌──────────────────┐
 │       text       │
