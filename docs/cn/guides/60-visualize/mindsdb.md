@@ -2,17 +2,17 @@
 title: MindsDB
 ---
 
-数据库中的数据是一项宝贵的资产。[MindsDB](https://mindsdb.com/) 使您能够使用您的数据并进行预测。它通过将机器学习引入数据库，加速了机器学习开发过程。使用 MindsDB，您可以在不需要其他平台的情况下构建、训练、优化和部署您的机器学习模型。
+Data that lives in your database is a valuable asset. [MindsDB](https://mindsdb.com/) enables you to use your data and make forecasts. It speeds up the ML development process by bringing machine learning into the database. With MindsDB, you can build, train, optimize, and deploy your ML models without the need for other platforms.
 
-Databend 和 Databend Cloud 都可以集成 MindsDB 作为数据源，这为 Databend 带来了机器学习能力。以下教程将向您展示如何与 MindsDB 集成并使用[首尔空气污染](https://www.kaggle.com/datasets/bappekim/air-pollution-in-seoul)数据集进行数据预测。
+Both Databend and Databend Cloud can integrate with MindsDB as a data source, which brings Machine Learning capabilities into Databend. The following tutorials show you how to integrate with MindsDB and make data forecasts, using the [Air Pollution in Seoul](https://www.kaggle.com/datasets/bappekim/air-pollution-in-seoul) dataset as an example.
 
-## 教程-1：将 Databend 与 MindsDB 集成
+## Tutorial-1: Integrating Databend with MindsDB
 
-在开始之前，请安装本地 MindsDB 或注册 MindsDB Cloud 账户。本教程使用 MindsDB Cloud。有关如何安装本地 MindsDB 的更多信息，请参考 https://docs.mindsdb.com/quickstart#1-create-a-mindsdb-cloud-account-or-install-mindsdb-locally
+Before you start, install a local MindsDB or sign up an account for MindsDB Cloud. This tutorial uses MindsDB Cloud. For more information about how to install a local MindsDB, refer to https://docs.mindsdb.com/quickstart#1-create-a-mindsdb-cloud-account-or-install-mindsdb-locally
 
-### 步骤 1. 将数据集加载到 Databend
+### Step 1. Load Dataset into Databend
 
-运行以下 SQL 语句，在数据库`default`中创建一个表，并使用 COPY INTO 命令加载[首尔空气污染](https://www.kaggle.com/datasets/bappekim/air-pollution-in-seoul)数据集：
+Run the following SQL statements to create a table in the database `default` and load the [Air Pollution in Seoul](https://www.kaggle.com/datasets/bappekim/air-pollution-in-seoul) dataset using the COPY INTO command:
 
 ```sql
 CREATE TABLE pollution_measurement(
@@ -31,9 +31,9 @@ CREATE TABLE pollution_measurement(
 COPY INTO pollution_measurement FROM 'https://datasets.databend.org/AirPolutionSeoul/Measurement_summary.csv' file_format=(type='CSV' skip_header=1);
 ```
 
-### 步骤 2. 将 MindsDB 连接到 Databend
+### Step 2. Connect MindsDB to Databend
 
-1. 复制并粘贴以下 SQL 语句到 MindsDB Cloud 编辑器，并点击**运行**：
+1. Copy and paste the following SQL statements to the MindsDB Cloud Editor, and click **Run**:
 
 ```sql
 CREATE DATABASE databend_datasource
@@ -47,12 +47,11 @@ parameters={
     "database": "default"
 };
 ```
-
 :::tip
-上面的 SQL 语句将 Databend 中的数据库`default`连接到您的 MindsDB Cloud 账户。关于参数的解释，请参考 https://docs.mindsdb.com/data-integrations/all-data-integrations#databend
+The SQL statements above connect the database `default` in Databend to your MindsDB Cloud account. For explanations about the parameters, refer to https://docs.mindsdb.com/data-integrations/all-data-integrations#databend
 :::
 
-2. 在 MindsDB Cloud 编辑器中，运行以下 SQL 语句以验证集成：
+2. In the MindsDB Cloud Editor, run the following SQL statements to verify the integration:
 
 ```sql
 SELECT * FROM databend_datasource.pollution_measurement LIMIT 10;
@@ -60,9 +59,9 @@ SELECT * FROM databend_datasource.pollution_measurement LIMIT 10;
 
 ![Alt text](@site/docs/public/img/integration/mindsdb-verify.png)
 
-### 步骤 3. 创建预测器
+### Step 3. Create a Predictor
 
-在 MindsDB Cloud 编辑器中，运行以下 SQL 语句创建预测器：
+In the MindsDB Cloud Editor, run the following SQL statements to create a predictor:
 
 ```sql
 CREATE PREDICTOR airq_predictor
@@ -70,7 +69,7 @@ FROM databend_datasource (SELECT * FROM pollution_measurement LIMIT 50)
 PREDICT so2;
 ```
 
-现在预测器将开始训练。您可以使用以下查询检查状态：
+Now the predictor will begin training. You can check the status with the following query:
 
 ```sql
 SELECT *
@@ -79,12 +78,12 @@ WHERE name='airq_predictor';
 ```
 
 :::note
-模型的状态必须是`complete`，然后您才能开始进行预测。
+The status of the model must be `complete` before you can start making predictions.
 :::
 
-### 步骤 4. 进行预测
+### Step 4. Make Predictions
 
-在 MindsDB Cloud 编辑器中，运行以下 SQL 语句来预测 SO2 的浓度：
+In the MindsDB Cloud Editor, run the following SQL statements to predict the concentration of SO2:
 
 ```sql
 SELECT
@@ -97,17 +96,17 @@ WHERE (NO2 = 0.005)
     AND (PM10 = 5)
 ```
 
-输出：
+Output:
 
 ![Alt text](@site/docs/public/img/integration/mindsdb-predict.png)
 
-## 教程-2：将 Databend Cloud 与 MindsDB 集成
+## Tutorial-2: Integrating Databend Cloud with MindsDB
 
-在开始之前，请安装本地 MindsDB 或注册 MindsDB Cloud 账户。本教程使用 MindsDB Cloud。有关如何安装本地 MindsDB 的更多信息，请参考 https://docs.mindsdb.com/quickstart#1-create-a-mindsdb-cloud-account-or-install-mindsdb-locally
+Before you start, install a local MindsDB or sign up an account for MindsDB Cloud. This tutorial uses MindsDB Cloud. For more information about how to install a local MindsDB, refer to https://docs.mindsdb.com/quickstart#1-create-a-mindsdb-cloud-account-or-install-mindsdb-locally
 
-### 步骤 1. 将数据集加载到 Databend Cloud
+### Step 1. Load Dataset into Databend Cloud
 
-在 Databend Cloud 中打开一个工作表，并运行以下 SQL 语句在数据库`default`中创建一个表，并使用 COPY INTO 命令加载[首尔空气污染](https://www.kaggle.com/datasets/bappekim/air-pollution-in-seoul)数据集：
+Open a worksheet in Databend Cloud, and run the following SQL statements to create a table in the database `default` and load the [Air Pollution in Seoul](https://www.kaggle.com/datasets/bappekim/air-pollution-in-seoul) dataset using the COPY INTO command:
 
 ```sql
 CREATE TABLE pollution_measurement(
@@ -123,13 +122,13 @@ CREATE TABLE pollution_measurement(
   PM10 double,
   PM25 double
 );
-
+ 
 COPY INTO pollution_measurement FROM 'https://repo.databend.rs/AirPolutionSeoul/Measurement_summary.csv' file_format=(type='CSV' skip_header=1);
 ```
 
-### 步骤 2. 将 MindsDB 连接到 Databend Cloud
+### Step 2. Connect MindsDB to Databend Cloud
 
-1. 复制并粘贴以下 SQL 语句到 MindsDB Cloud 编辑器，并点击**运行**：
+1. Copy and paste the following SQL statements to the MindsDB Cloud Editor, and click **Run**:
 
 ```sql
 CREATE DATABASE databend_datasource
@@ -143,22 +142,20 @@ parameters={
     "database": "default"
 };
 ```
-
 :::tip
-上面的 SQL 语句将 Databend Cloud 中的数据库`default`连接到您的 MindsDB Cloud 账户。参数值可以从您的计算集群连接信息中获得。更多信息，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。关于参数的解释，请参考 https://docs.mindsdb.com/data-integrations/all-data-integrations#databend
+The SQL statements above connect the database `default` in Databend Cloud to your MindsDB Cloud account. The parameter values can be obtained from the connection information of your warehouse. For more information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting). For explanations about the parameters, refer to https://docs.mindsdb.com/data-integrations/all-data-integrations#databend
 :::
 
-2. 在 MindsDB Cloud 编辑器中，运行以下 SQL 语句以验证集成：
+2. In the MindsDB Cloud Editor, run the following SQL statements to verify the integration:
 
 ```sql
 SELECT * FROM databend_datasource.pollution_measurement LIMIT 10;
 ```
-
 ![Alt text](@site/static/img/documents/BI/mindsdb-verify.png)
 
-### 步骤 3. 创建预测器
+### Step 3. Create a Predictor
 
-在 MindsDB Cloud 编辑器中，运行以下 SQL 语句创建预测器：
+In the MindsDB Cloud Editor, run the following SQL statements to create a predictor:
 
 ```sql
 CREATE PREDICTOR airq_predictor
@@ -166,21 +163,21 @@ FROM databend_datasource (SELECT * FROM pollution_measurement LIMIT 50)
 PREDICT so2;
 ```
 
-现在预测器将开始训练。您可以使用以下查询检查状态：
+Now the predictor will begin training. You can check the status with the following query:
 
 ```sql
-SELECT *
+SELECT * 
 FROM mindsdb.models
 WHERE name='airq_predictor';
 ```
 
 :::note
-模型的状态必须是`complete`，然后您才能开始进行预测。
+The status of the model must be `complete` before you can start making predictions.
 :::
 
-### 步骤 4. 进行预测
+### Step 4. Make Predictions
 
-在 MindsDB Cloud 编辑器中，运行以下 SQL 语句来预测 SO2 的浓度：
+In the MindsDB Cloud Editor, run the following SQL statements to predict the concentration of SO2:
 
 ```sql
 SELECT
@@ -193,6 +190,6 @@ WHERE (NO2 = 0.005)
     AND (PM10 = 5)
 ```
 
-输出：
+Output:
 
 ![Alt text](@site/static/img/documents/BI/mindsdb-predict.png)

@@ -2,7 +2,7 @@
 title: system.columns
 ---
 
-包含有关表的列的信息。
+Contains information about columns of tables.
 
 ```sql
 DESC system.columns;

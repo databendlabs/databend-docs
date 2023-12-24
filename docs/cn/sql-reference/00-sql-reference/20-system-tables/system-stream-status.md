@@ -1,27 +1,26 @@
 ---
 title: system.stream_status
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.225"/>
 
-提供有关指定流的状态信息，返回一个单列结果（`has_data`），其值可以是 `true` 或 `false`：
+Provides information about the status of a specified stream, yielding a single-column result (`has_data`) that can take on values of `true` or `false`: 
 
-- `true`：表示该流 **可能包含** 变更数据捕获记录。
-- `false`：表示该流当前不包含任何变更数据捕获记录。
+- `true`: Indicates that the stream **might contain** change data capture records.
+- `false`: Indicates that the stream currently does not contain any change data capture records.
 
 :::note
-结果（`has_data`）中的 `true` 并 **不能** 确保变更数据捕获记录的确切存在。其他操作，例如执行表压缩操作，即使实际上没有变更数据捕获记录，也可能导致结果为 `true`。
+The presence of a `true` in the result (`has_data`) does **not** ensure the definite existence of change data capture records. Other operations, such as performing a table compact operation, could also lead to a `true` value even when there are no actual change data capture records.
 :::
 
-## 语法
+## Syntax
 
 ```sql
 SELECT * FROM STREAM_STATUS('<stream_name>');
 ```
 
-## 示例
+## Examples
 
 ```sql
 -- Create a table 't' with a column 'c'

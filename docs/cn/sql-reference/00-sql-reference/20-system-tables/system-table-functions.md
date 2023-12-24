@@ -1,12 +1,12 @@
 ---
-title: system.functions
+title: system.table_functions
 ---
 
-获取所有表函数的名称。
+Get all table functions' names.
 
 ```sql
 SELECT * FROM system.table_functions;
-```
+``` 
 
 ```text
 +----------------------------+

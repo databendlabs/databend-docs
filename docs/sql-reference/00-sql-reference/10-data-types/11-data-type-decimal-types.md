@@ -1,27 +1,24 @@
 ---
-title: 十进制类型
-description: 十进制类型是用于存储和操作高精度数值的数据类型. 
+title: Decimal
+description:  Decimal types are high-precision numeric values to be stored and manipulated.
 ---
 
-## 十进制数据类型
+The Decimal type is useful for applications that require exact decimal representations, such as financial calculations or scientific computations.
 
-十进制类型适用于需要精确表示的应用程序, 如金融计算或科学计算. 
+We can use `DECIMAL(P, S)` to indicate decimal types. 
 
-我们可以使用 `DECIMAL(P, S)` 来表示十进制类型. 
+- `P` is the precision, which is the total number of digits in the number, it's range is [1, 76].
+- `S` is the scale, which is the number of digits to the right of the decimal point, it's range is [0, P].
 
-- `P` 是精度, 即数字中的总位数, 取值范围为 [1, 76]. 
-- `S` 是小数点右侧的位数, 取值范围为 [0, P]. 
+If `P` is less than 38, the physical datatype of decimal is `Decimal128`, otherwise it's `Decimal256`.
 
-如果 `P` 小于 38, 则十进制的物理数据类型为 `Decimal128` , 否则为 `Decimal256` . 
+For a DECIMAL(P, S) data type:
+* The minimum value is `-10^P + 1` divided by `10^S`.
+* The maximum value is `10^P - 1` divided by `10^S`.
+ 
+If you have a `DECIMAL(10, 2)` , you can store values with up to `10 digits`, with `2 digits` to the right of the decimal point. The minimum value is `-9999999.99`, and the maximum value is `9999999.99`.
 
-对于 DECIMAL(P, S) 数据类型: 
-
-- 最小值为 `-10^P + 1` 除以 `10^S` . 
-- 最大值为 `10^P - 1` 除以 `10^S` . 
-
-如果你有一个 `DECIMAL(10, 2)` , 你可以存储最多 `10` 位数, 其中小数点右侧有 `2` 位数. 最小值为 `-9999999.99` , 最大值为 `9999999.99` . 
-
-## 示例
+## Examples
 
 ```sql
 -- Create a table with decimal data type.
@@ -39,8 +36,7 @@ VALUES
 SELECT * FROM decimal;
 ```
 
-结果: 
-
+Result:
 ```
 ┌────────────────────────────┐
 │ value                      │
@@ -50,34 +46,34 @@ SELECT * FROM decimal;
 └────────────────────────────┘
 ```
 
-## 精度推断
+## Precision Inference
 
-DECIMAL 有一套复杂的规则用于推断精度. 不同的表达式将应用不同的规则来推断精度. 
+DECIMAL has a set of complex rules for precision inference. Different rules will be applied for different expressions to infer the precision.
 
-### 算术运算
+### Arithmetic Operations
 
-- 加法/减法: `DECIMAL(a, b) + DECIMAL(x, y) -> DECIMAL(max(a - b, x - y) + max(b, y) + 1, max(b, y))` , 这意味着整数部分和小数部分都使用两个操作数中较大的值. 
+- Addition/Subtraction: `DECIMAL(a, b) + DECIMAL(x, y) -> DECIMAL(max(a - b, x - y) + max(b, y) + 1, max(b, y))`, which means both integer and decimal parts use the larger value of the two operands.
 
-- 乘法: `DECIMAL(a, b) * DECIMAL(x, y) -> DECIMAL(a + x, b + y)` . 
+- Multiplication: `DECIMAL(a, b) * DECIMAL(x, y) -> DECIMAL(a + x, b + y)`.
 
-- 除法: `DECIMAL(a, b) / DECIMAL(x, y) -> DECIMAL(a + y, b)` . 
+- Division: `DECIMAL(a, b) / DECIMAL(x, y) -> DECIMAL(a + y, b)`.
 
-### 比较运算
+### Comparison Operations
 
-- 十进制可以与其他数值类型进行比较. 
-- 十进制可以与其他十进制类型进行比较. 
+- Decimal can be compared with other numeric types.
+- Decimal can be compared with other decimal types.
 
-### 聚合运算
+### Aggregate Operations
 
-- SUM: `SUM(DECIMAL(a, b)) -> DECIMAL(MAX, b)` 
-- AVG: `AVG(DECIMAL(a, b)) -> DECIMAL(MAX, max(b, 4))` 
+- SUM: `SUM(DECIMAL(a, b)) -> DECIMAL(MAX, b)`
+- AVG: `AVG(DECIMAL(a, b)) -> DECIMAL(MAX, max(b, 4))`
 
-其中 `MAX` 对于 decimal128 是 38, 对于 decimal256 是 76. 
+where `MAX` is 38 for decimal128 and 76 for decimal256.
 
-## 调整结果精度
+## Adjusting Result Precision
 
-不同的用户对 DECIMAL 有不同的精度要求. 上述规则是 databend 的默认行为. 如果用户有不同的精度要求, 可以通过以下方式调整精度: 
+Different users have different precision requirements for DECIMAL. The above rules are the default behavior of databend. If users have different precision requirements, they can adjust the precision in the following ways:
 
-如果期望的结果精度高于默认精度, 则调整输入精度以调整结果精度. 例如, 如果用户期望计算 AVG(col) 得到 DECIMAL(x, y) 作为结果, 其中 col 的类型为 DECIMAL(a, b), 则可以将表达式重写为 `cast(AVG(col) as Decimal(x, y)` 或 `AVG(col)::Decimal(x, y)` . 
+If the expected result precision is higher than the default precision, adjust the input precision to adjust the result precision. For example, if the user expects to compute AVG(col) to get DECIMAL(x, y) as the result, where col is of type DECIMAL(a, b), the expression can be rewritten as `cast(AVG(col) as Decimal(x, y)` or `AVG(col)::Decimal(x, y)`.
 
-请注意, 在十进制类型的转换或计算中, 如果整数部分溢出, 将抛出错误, 如果小数部分的精度溢出, 将直接丢弃而不是四舍五入. 
+Note that in the conversion or calculation of decimal types, if the integer part overflows, an error will be thrown, and if the precision of the decimal part overflows, it will be directly discarded instead of being rounded.

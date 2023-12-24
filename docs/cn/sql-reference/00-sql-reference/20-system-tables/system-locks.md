@@ -6,9 +6,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.262"/>
 
-包含系统中锁的相关信息。
+Contains information about the locks in the system.
 
-另请参阅：[SHOW LOCKS](../../10-sql-commands/00-ddl/14-transaction/show-locks.md)
+See also: [SHOW LOCKS](../../10-sql-commands/00-ddl/14-transaction/show-locks.md)
 
 ```sql
 SELECT * FROM system.locks;

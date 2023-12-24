@@ -1,17 +1,17 @@
 ---
 title: Array(T)
-description: 定义数据类型的数组。
+description: Array of defined data type.
 ---
 
-## Array(T) 数据类型
+## Array(T) Data Types
 
-ARRAY(T) 由定义的可变长度的内部 T 数据类型值组成，与半结构化数组非常相似，只是内部数据类型需要定义，而不是任意的。T 可以是任何数据类型。
+ARRAY(T) consists of defined variable-length inner T data type values, which is very similar to a semi-structured ARRAY, except that the inner data type needs to be defined rather than arbitrary. T can be any data type.
 
 :::note
-Databend 使用基于 1 的编号约定来表示数组。一个包含 n 个元素的数组从 array [1] 开始，以 array [n] 结束。
+Databend uses a 1-based numbering convention for arrays. An array of n elements starts with array[1] and ends with array[n].
 :::
 
-### 示例
+### Example
 
 ```sql
 CREATE TABLE array_int64_table(arr ARRAY(INT64));
@@ -21,7 +21,7 @@ CREATE TABLE array_int64_table(arr ARRAY(INT64));
 DESC array_int64_table;
 ```
 
-结果：
+Result:
 
 ```
 ┌───────────────────────────────────────────────────┐
@@ -43,7 +43,7 @@ VALUES
 SELECT arr FROM array_int64_table;
 ```
 
-结果：
+Result:
 
 ```
 ┌─────────────────┐
@@ -60,7 +60,7 @@ SELECT arr[0]
 FROM array_int64_table;
 ```
 
-结果：
+Result:
 
 ```
 ┌─────────────────┐
