@@ -1,0 +1,40 @@
+name: GPT Translate per Commit
+
+on:
+  push:
+    branches:
+    - main
+    paths-ignore:
+    - '.github**/*'
+    - 'docs/cn/**/*'
+    - 'api/**/*'
+    - 'i18n/**/*'
+    - 'src/**/*'
+    - 'static/**/*'
+    - 'types/**/*'
+    - 'README.md'
+
+jobs:
+  gpt_translate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository with two latest commits
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+
+    - name: get changed files name
+      id: changed_files
+      run: |
+        echo "files=$(git diff --name-only HEAD^ HEAD | grep '\.md$' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
+    - name: Run GPT Translate
+      uses: 3ru/gpt-translate@v1.1.5
+      with:
+        apikey: ${{ secrets.OPENAI_API_KEY }}
+        model: "gpt-4-1106-preview"
+        inputFiles: ${{ steps.changed_files.outputs.files }}
+        outputFiles: 'docs/cn/**/*.md'
+        languages: 'Simplified-Chinese'
+        prompt: "You are a translation engine that has knowledge of databases and is familiar with SQL, HTML and Markdown syntax. \ Databend is a cloud-native data warehouse and an alternative to Snowflake. \ I am translating the Databend documentation for helping users.\ Translate the Markdown content I'll paste later into {targetLanguage}.\ You must strictly follow the rules below.\ - Never change the Markdown markup structure. Don't add or remove links. Do not change any URL.\ - Never change the contents of code blocks even if they appear to have a bug.\ - Always preserve the original line breaks. Do not add or remove blank lines.\ - Never touch the permalink such as `{/*examples*/}` at the end of each heading.\ - Never touch HTML-like tags such as `<Notes>`.\ - Correctly format the document for best rendering."
