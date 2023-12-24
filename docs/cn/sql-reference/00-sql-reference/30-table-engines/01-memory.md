@@ -1,8 +1,8 @@
 ---
-title: Memory Engine
+title: Memory 引擎
 ---
 
-## Syntax
+## 语法
 
 ```sql
 CREATE TABLE table_name (
@@ -12,13 +12,12 @@ CREATE TABLE table_name (
 ) ENGINE = Memory;
 ```
 
-## Use cases
+## 使用场景
 
-This engine is only for development and testing purposes. It is not recommended to use it in production.
+该引擎仅用于开发和测试目的。不建议在生产环境中使用。
 
-While the Memory Engine provides several advantages, there are also some limitations:
+虽然 Memory 引擎提供了一些优势，但也有一些限制：
 
-- Limited storage capacity: The amount of data that can be stored is limited by the amount of memory available on the server. This makes the Memory Engine less suitable for large datasets.
+- 有限的存储容量：可以存储的数据量受服务器可用内存的限制。这使得 Memory 引擎不适用于大型数据集。
 
-- Data loss on server failure: Since all the data is stored in memory, if the server hosting the Databend instance fails, all the data stored in memory will be lost.
-
+- 服务器故障时数据丢失：由于所有数据都存储在内存中，如果托管 Databend 实例的服务器发生故障，所有存储在内存中的数据都将丢失。

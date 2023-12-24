@@ -2,13 +2,13 @@
 title: Map
 ---
 
-The MAP data structure is utilized for holding a set of `Key:Value` pairs, and stores data using a nested data structure of Array(Tuple(key, value)). It is appropriate in situations where the data type is constant, but the `Key`'s value cannot be entirely ascertained.
+MAP 数据结构用于存储一组 `键:值` 对，并使用嵌套的 Array(Tuple(key, value))数据结构来存储数据。它适用于数据类型是固定的，但 `键` 的值无法完全确定的情况。
 
-## Understanding Key:Value
+## 理解键: 值
 
-The `Key` is of a specified basic data type, including Boolean, Number, Decimal, String, Date, or Timestamp. A `Key`'s value cannot be Null, and duplicates are not allowed. The `Value` can be any data type, including nested arrays, tuples, and so on.
+`键` 是指定的基本数据类型，包括布尔值、数字、小数、字符串、日期或时间戳。`键` 的值不能为 Null，并且不允许重复。`值` 可以是任何数据类型，包括嵌套的数组、元组等。
 
-Map data can be generated through `Key:Value` pairs enclosed in curly braces or by using the Map function to convert two arrays into a Map. The Map function takes two arrays as input, where the elements in the first array serve as the keys and the elements in the second array serve as the values. See an example below:
+可以通过用大括号括起来的 `键:值` 对或使用 Map 函数将两个数组转换为 Map 来生成 Map 数据。Map 函数接受两个数组作为输入，第一个数组的元素作为键，第二个数组的元素作为值。以下是一个示例：
 
 ```sql
 -- Input arrays: [1, 2] and ['v1', 'v2']
@@ -22,23 +22,26 @@ SELECT {'k1': 1, 'k2': 2}, map([1, 2], ['v1', 'v2']);
 +-----------------+---------------------------+
 ```
 
-## Map and Bloom Filter Index
+## Map 和 Bloom Filter 索引
 
-In Databend Map, a bloom filter index is created for the value with certain data types: `Numeric`, `String`, `Timestamp`, and `Date`.
+在 Databend Map 中，对某些数据类型的值（如`Numeric`、`String`、`Timestamp`和`Date`）创建了 Bloom Filter 索引。
 
-This makes it easier and faster to search for values in the MAP data structure.
+这使得在 MAP 数据结构中搜索值变得更加简单和快速。
 
-The implementation of the bloom filter index in Databend Map is in [PR#10457](https://github.com/datafuselabs/databend/pull/10457).
+Databend Map 中 Bloom Filter 索引的实现在 [PR#10457](https://github.com/datafuselabs/databend/pull/10457) 中。
 
-The bloom filter is particularly effective in reducing query time when the queried value does not exist. 
+当查询的值不存在时，Bloom Filter 特别有效地减少了查询时间。
 
-For example:
+例如：
+
 ```sql
 SELECT *
 FROM nginx_log
 WHERE log['ip'] = '205.91.162.148';
 ```
-Result:
+
+结果：
+
 ```
 ┌────┬─────────────────────────────────────────┐
 │ id │ log                                     │
@@ -52,7 +55,9 @@ SELECT *
 FROM nginx_log
 WHERE log['ip'] = '205.91.162.141';
 ```
-Result:
+
+结果：
+
 ```
 ┌────┬─────┐
 │ id │ log │
@@ -60,9 +65,9 @@ Result:
 └────┴─────┘
 ```
 
-## Examples
+## 示例
 
-**Create a table with a Map column for storing web traffic data**
+**创建一个包含 Map 列的表，用于存储网站流量数据**
 
 ```sql
 CREATE TABLE web_traffic_data(
@@ -75,7 +80,8 @@ CREATE TABLE web_traffic_data(
 DESC web_traffic_data;
 ```
 
-Result:
+结果：
+
 ```
 ┌─────────────┬─────────────────────┬──────┬─────────┬───────┐
 │ Field       │ Type                │ Null │ Default │ Extra │
@@ -85,7 +91,7 @@ Result:
 └─────────────┴─────────────────────┴──────┴─────────┴───────┘
 ```
 
-**Insert Map data containing IP addresses and URLs visited**
+**插入包含 IP 地址和访问的 URL 的 Map 数据**
 
 ```sql
 INSERT INTO web_traffic_data 
@@ -95,12 +101,14 @@ VALUES
     (3, {'ip': '192.168.1.1', 'url': 'example.com/contact'});
 ```
 
-**Query**
+**查询**
 
 ```sql
 SELECT * FROM web_traffic_data;
 ```
-Result:
+
+结果：
+
 ```
 ┌────┬─────────────────────────────────────────────────┐
 │ id │ traffic_info                                    │
@@ -111,7 +119,7 @@ Result:
 └────┴─────────────────────────────────────────────────┘
 ```
 
-**Query the number of visits per IP address**
+**查询每个 IP 地址的访问次数**
 
 ```sql
 SELECT traffic_info['ip'] AS ip_address, COUNT(*) AS visits
@@ -119,7 +127,8 @@ FROM web_traffic_data
 GROUP BY traffic_info['ip'];
 ```
 
-Result:
+结果：
+
 ```
 ┌─────────────┬────────┐
 │ ip_address  │ visits │
@@ -129,7 +138,8 @@ Result:
 └─────────────┴────────┘
 ```
 
-**Query the most visited URLs**
+**查询访问最多的 URL**
+
 ```sql
 SELECT traffic_info['url'] AS url, COUNT(*) AS visits
 FROM web_traffic_data
@@ -138,7 +148,8 @@ ORDER BY visits DESC
 LIMIT 3;
 ```
 
-Result:
+结果：
+
 ```
 ┌─────────────────────┬────────┐
 │ url                 │ visits │
