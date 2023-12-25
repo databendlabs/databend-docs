@@ -21,3 +21,8 @@ DROP VIRTUAL COLUMN [IF EXISTS] FOR <table>
 
 ## Examples
 
+This example deletes virtual columns created for a table named 'test':
+
+```sql
+DROP VIRTUAL COLUMN FOR test;
+```

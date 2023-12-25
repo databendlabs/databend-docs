@@ -25,7 +25,7 @@ Databend provides the following commands to manage virtual columns:
 This example demonstrates the practical use of virtual columns and their impact on query execution:
 
 ```sql
--- Create a table named 'test' with columns 'id' and 'val' of type 'variant'.
+-- Create a table named 'test' with columns 'id' and 'val' of type Variant.
 CREATE TABLE test(id int, val variant);
 
 -- Insert a sample record into the 'test' table with Variant data.
@@ -44,7 +44,7 @@ CREATE VIRTUAL COLUMN (
   val ['pricings'] [0] ['type'] -- Extract the 'type' field from the first pricing in the 'pricings' array.
 ) FOR test;
 
--- Explain the query execution plan for selecting specific fields from the virtual columns.
+-- Explain the query execution plan for selecting specific fields from the table.
 EXPLAIN
 SELECT
   val ['name'],
@@ -65,7 +65,7 @@ TableScan
 ├── push downs: [filters: [], limit: NONE, virtual_columns: [val['name'], val['pricings'][0]['type'], val['tags'][0]]]
 └── estimated rows: 1.00
 
--- Explain the query execution plan for selecting only the 'name' field from the virtual columns.
+-- Explain the query execution plan for selecting only the 'name' field from the table.
 EXPLAIN
 SELECT
   val ['name']
