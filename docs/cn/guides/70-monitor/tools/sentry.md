@@ -2,50 +2,51 @@
 title: Sentry
 ---
 
-[Sentry](https://sentry.io/welcome/) is a developer-first error tracking and performance monitoring platform that helps developers see what actually matters, solve quicker, and learn continuously about their applications.
+[Sentry](https://sentry.io/welcome/) 是一个面向开发者的错误跟踪和性能监控平台，帮助开发者看到真正重要的信息，更快地解决问题，并持续学习他们的应用程序。
 
-Databend provides integration with both Cloud and self-hosted Sentry solutions. The following tutorial walks you through the integration process.
+Databend 支持与云端和自托管的 Sentry 解决方案集成。以下教程将指导您完成集成过程。
 
-## Tutorial: Monitor Databend with Sentry
+## 教程：使用 Sentry 监控 Databend
 
-### Step 1. Deploy Sentry
+### 步骤 1. 部署 Sentry
 
-To deploy an on-premises Sentry, follow the instructions: https://develop.sentry.dev/self-hosted/
+要部署一个本地的 Sentry，请按照说明操作：https://develop.sentry.dev/self-hosted/
 
-This tutorial uses the Sentry service on the cloud. To sign up an account for Cloud Sentry, go to https://sentry.io
+本教程使用的是云端的 Sentry 服务。要为 Cloud Sentry 注册一个账户，请访问 https://sentry.io
 
-### Step 2. Create a Sentry Project
+### 步骤 2. 创建 Sentry 项目
 
-Once you're logged into Sentry, create a Sentry project for the `Rust` platform to start. For how to create a project on Sentry, see https://docs.sentry.io/product/sentry-basics/integrate-frontend/create-new-project/
+登录 Sentry 后，为 `Rust` 平台创建一个 Sentry 项目以开始。关于如何在 Sentry 上创建项目，请参见 https://docs.sentry.io/product/sentry-basics/integrate-frontend/create-new-project/
 
 ![Alt text](@site/docs/public/img/tracing/sentry-rust.png)
 
-### Step 3. Set Environment Variables
+### 步骤 3. 设置环境变量
 
-1. Get the DSN (Data Source Name) of your project. For what DSN is and where to find it, see https://docs.sentry.io/product/sentry-basics/dsn-explainer/
+1. 获取您项目的 DSN（数据源名称）。关于 DSN 是什么以及在哪里找到它，请参见 https://docs.sentry.io/product/sentry-basics/dsn-explainer/
 
-2. Set environment variables.
+2. 设置环境变量。
 
-  - To enable the error-tracking feature, run the following commands:
+  - 要启用错误跟踪功能，请运行以下命令：
 
-```bash
-export DATABEND_SENTRY_DSN="<your-DSN>"
-```
+  ```bash
+  export DATABEND_SENTRY_DSN="<your-DSN>"
+  ```
 
-  - To enable the performance monitoring feature, run the following commands:
+  - 要启用性能监控功能，请运行以下命令：
 
-```bash
-export DATABEND_SENTRY_DSN="<your-DSN>"
-export SENTRY_TRACES_SAMPLE_RATE=1.0 LOG_LEVEL=DEBUG
-```
+  ```bash
+  export DATABEND_SENTRY_DSN="<your-DSN>"
+  export SENTRY_TRACES_SAMPLE_RATE=1.0 LOG_LEVEL=DEBUG
+  ```
+
 :::tip
-Set `SENTRY_TRACES_SAMPLE_RATE` to a small value in production.
+在生产环境中，将 `SENTRY_TRACES_SAMPLE_RATE` 设置为较小的值。
 :::
 
-### Step 4. Deploy Databend
+### 步骤 4. 部署 Databend
 
-Follow the [Deployment Guide](/guides/deploy) to deploy Databend.
+按照[部署指南](/guides/deploy)部署 Databend。
 
-You're all set now. Check the pages on Sentry for alerts and performance information.
+现在一切都设置好了。在 Sentry 的页面上检查警报和性能信息。
 
 ![Alt text](@site/docs/public/img/tracing/sentry-done.png)

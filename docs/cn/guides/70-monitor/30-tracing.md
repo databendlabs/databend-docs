@@ -1,41 +1,41 @@
 ---
-title: Tracing Databend
+title: 跟踪 Databend
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.199"/>
 
-Databend utilizes Rust's tracing ecosystem, specifically [tokio-tracing](https://github.com/tokio-rs/tracing), for logging and profiling purposes.
+Databend 利用 Rust 的跟踪生态系统，特别是 [tokio-tracing](https://github.com/tokio-rs/tracing)，来进行日志记录和性能分析。
 
+## 启用跟踪
 
-## Enable Tracing
+可以通过环境变量 `LOG_LEVEL` 或配置文件 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 来启用 Databend 的跟踪功能。
 
-Tracing in Databend can be enabled with the environment variable `LOG_LEVEL` or the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml).
+### 通过环境变量启用
 
-### Enabling with Environment Variable
-
-1. Open a terminal or command prompt on your system, then navigate to the directory where the `databend-query` binary is located.
+1. 在您的系统上打开终端或命令提示符，然后导航到 `databend-query` 二进制文件所在的目录。
 
 ```bash
-# Replace "/path/to/databend" with the actual path on your system
+# 将 "/path/to/databend" 替换为您系统上的实际路径
 cd /path/to/databend
 ```
 
-2. Once you are in the correct directory, run the following command to set the log level for the execution of the databend-query command. Adjust the log level as needed for your specific requirements. In the provided example, DEBUG is used as an illustrative log level:
+2. 当您处于正确的目录时，运行以下命令来设置 databend-query 命令执行的日志级别。根据您的具体需求调整日志级别。在提供的示例中，使用 DEBUG 作为示例日志级别：
 
 ```bash
 LOG_LEVEL=DEBUG ./databend-query
 ```
 
-3. Before tracing a query's execution, set `max_threads` to 1 in Databend. This ensures a simplified environment, making it easier to trace and analyze the query, aiding in effective troubleshooting and profiling.
+3. 在跟踪查询执行之前，将 Databend 中的 `max_threads` 设置为 1。这确保了一个简化的环境，使得跟踪和分析查询变得更容易，有助于有效的故障排除和性能分析。
 
 ```sql
 SET max_threads=1;
 ```
 
-### Enabling with Configuration File
+### 通过配置文件启用
 
-1. Add the following parameters to the [log] section in the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For a detailed description of each parameter, see [[log.tracing] Section](../10-deploy/13-node-config/02-query-config.md#logtracing-section).
+1. 在配置文件 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 的 [log] 部分添加以下参数。有关每个参数的详细描述，请参见 [[log.tracing] 部分](../10-deploy/13-node-config/02-query-config.md#logtracing-section)。
 
 ```toml title='databend-query.toml'
 ...
@@ -46,16 +46,16 @@ otlp_endpoint = "http://127.0.0.1:4317"
 ...
 ```
 
-2. Before tracing a query's execution, set `max_threads` to 1 in Databend. This ensures a simplified environment, making it easier to trace and analyze the query, aiding in effective troubleshooting and profiling.
+2. 在跟踪查询执行之前，将 Databend 中的 `max_threads` 设置为 1。这确保了一个简化的环境，使得跟踪和分析查询变得更容易，有助于有效的故障排除和性能分析。
 
 ```sql
 SET max_threads=1;
 ```
 
-## Tracing log
+## 跟踪日志
 
 :::note
-Databend uses [tokio-tracing](https://github.com/tokio-rs/tracing) to trace logs, where the default timezone is UTC and cannot be changed through the Databend timezone setting, therefore the time in the traced log will always be in UTC, and not reflect your local time.
+Databend 使用 [tokio-tracing](https://github.com/tokio-rs/tracing) 来跟踪日志，其中默认时区为 UTC，无法通过 Databend 时区设置进行更改，因此跟踪日志中的时间始终为 UTC 时间，并不反映您的本地时间。
 :::
 
 ```sql
@@ -188,50 +188,50 @@ Jun 10 16:40:36.168 DEBUG ThreadId(309) databend_query::pipelines::transforms::t
 Jun 10 16:40:36.168 DEBUG ThreadId(309) databend_query::pipelines::transforms::transform_projection: Projection cost: 241.864µs
 ```
 
-## Explore and Diagnose with tokio-console
+## 探索和诊断 tokio-console {#explore-and-diagnose-with-tokio-console}
 
-[tokio-console](https://github.com/tokio-rs/console) is a diagnostics and debugging tool for asynchronous Rust programs. Make sure you have the tool installed before you use it.
+[tokio-console](https://github.com/tokio-rs/console) 是一个用于异步 Rust 程序的诊断和调试工具。在使用之前，请确保您已经安装了该工具。
 
-### Steps
+### 步骤
 
-1. Compile with specific `RUSTFLAGS` and features. We can use `--bin` to specify binary.
+1. 使用特定的 `RUSTFLAGS` 和功能编译。我们可以使用 `--bin` 来指定二进制文件。
 
    ```shell
    RUSTFLAGS="--cfg tokio_unstable" cargo build --features tokio-console
    ```
 
-2. Run `databend-meta` or/and `databend-query`, remembering to set the log level of the program you need to diagnose to `TRACE`.
+2. 运行 `databend-meta` 或/和 `databend-query`，记得将您需要诊断的程序的日志级别设置为 `TRACE`。
 
    ```shell
-   LOG_LEVEL=TRACE databend-query # for query
+   LOG_LEVEL=TRACE databend-query # 对于查询
    ```
 
-   or
+   或者
 
    ```shell
-   databend-meta --single --log-level=TRACE # for meta
+   databend-meta --single --log-level=TRACE # 对于元数据
    ```
 
-3. Run `tokio-console`.
+3. 运行 `tokio-console`。
 
    ```shell
-   tokio-console # default connection: http://127.0.0.1:6669
+   tokio-console # 默认连接：http://127.0.0.1:6669
    ```
 
-### Tips
+### 提示
 
-Note that tokio-console only supports diagnostics for a single program at a time, so please ensure that **only one** program has a log level of `TRACE`. Otherwise, only the first program to occupy the port will be monitored.
+请注意，tokio-console 一次只支持对单个程序进行诊断，因此请确保**只有一个**程序的日志级别为 `TRACE`。否则，只有第一个占用端口的程序会被监控。
 
-If you need to diagnose multiple programs at the same time, consider using `TOKIO_CONSOLE_BIND` to assign different binds, for example:
+如果您需要同时诊断多个程序，请考虑使用 `TOKIO_CONSOLE_BIND` 分配不同的绑定，例如：
 
 ```shell
 TOKIO_CONSOLE_BIND=127.0.0.1:16667 LOG_LEVEL=TRACE target/debug/databend-query
-tokio-console http://127.0.0.1:16667 # for query console, http://127.0.0.1:16667
+tokio-console http://127.0.0.1:16667 # 对于查询控制台，http://127.0.0.1:16667
 databend-meta --single --log-level=TRACE
-tokio-console # for meta console, http://127.0.0.1:6669
+tokio-console # 对于元数据控制台，http://127.0.0.1:6669
 ```
 
-### Examples
+### 示例
 
 **databend-query**
 
@@ -241,6 +241,6 @@ tokio-console # for meta console, http://127.0.0.1:6669
 
 <img src="/img/tracing/meta-console.png"/>
 
-**task in console**
+**控制台中的任务**
 
 <img src="/img/tracing/task-in-console.png"/>

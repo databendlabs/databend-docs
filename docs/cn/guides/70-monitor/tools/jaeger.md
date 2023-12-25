@@ -5,15 +5,15 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.199"/>
 
-[Jaeger](https://github.com/jaegertracing/jaeger) is an open-source, end-to-end distributed tracing tool that originated from [Uber](https://www.uber.com/). It helps monitor and troubleshoot microservices-based applications. 
+[Jaeger](https://github.com/jaegertracing/jaeger) 是一个开源的端到端分布式追踪工具，起源于 [Uber](https://www.uber.com/)。它帮助监控和排查基于微服务的应用程序。
 
-Databend has the ability to export tracing data to Jaeger by integrating with the [OpenTelemetry](https://opentelemetry.io/) SDK. The following tutorial shows you how to deploy and use Jaeger to trace Databend.
+Databend 能够通过集成 [OpenTelemetry](https://opentelemetry.io/) SDK，将追踪数据导出到 Jaeger。以下教程将展示如何部署和使用 Jaeger 来追踪 Databend。
 
-## Tutorial: Trace Databend with Jaeger
+## 教程：使用 Jaeger 追踪 Databend
 
-### Step 1. Deploy Jaeger
+### 步骤 1. 部署 Jaeger
 
-This tutorial uses the All In One image to deploy Jaeger in Docker. If you already have a running Jaeger instance, you can skip this step.
+本教程使用 All In One 镜像在 Docker 中部署 Jaeger。如果你已经有一个运行中的 Jaeger 实例，可以跳过这一步。
 
 ```bash
 docker run --rm -d --name jaeger \
@@ -31,11 +31,11 @@ docker run --rm -d --name jaeger \
   jaegertracing/all-in-one:latest
 ```
 
-### Step 2. Deploy Databend
+### 步骤 2. 部署 Databend
 
-1. Follow the [Deployment Guide](/guides/deploy) to deploy Databend.
+1. 按照 [部署指南](/guides/deploy) 来部署 Databend。
 
-2. Enable tracing in the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For more information, see [Enabling with Configuration File](../30-tracing.md#enabling-with-configuration-file).
+2. 在配置文件 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中启用追踪。更多信息，请参见 [通过配置文件启用](../30-tracing.md#enabling-with-configuration-file)。
 
 ```toml title='databend-query.toml'
 ...
@@ -46,7 +46,7 @@ otlp_endpoint = "http://127.0.0.1:4317"
 ...
 ```
 
-3. Start Databend, and run the following SQL statements:
+3. 启动 Databend，并运行以下 SQL 语句：
 
 ```sql
 CREATE TABLE t1(a INT);
@@ -54,12 +54,12 @@ INSERT INTO t1 VALUES(1);
 INSERT INTO t1 SELECT * FROM t1;
 ```
 
-### Step 3. Check Tracing Information on Jaegar
+### 步骤 3. 在 Jaegar 上检查追踪信息
 
-1. Go to <http://127.0.0.1:16686/> and select the **Search** tab.
+1. 访问 <http://127.0.0.1:16686/> 并选择 **Search** 标签页。
 
-2. Select a service in the **Service** drop-down list. For example, select the databend-query service.
+2. 在 **Service** 下拉列表中选择一个服务。例如，选择 databend-query 服务。
 
-3. Click **Find Traces** to show the traces.
+3. 点击 **Find Traces** 来显示追踪信息。
 
 ![](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/jaeger-tracing-show.png)

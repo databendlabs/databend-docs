@@ -1,18 +1,18 @@
 ---
-title: Obtaining Server Logs
+title: 获取服务器日志
 ---
 
-If you get an error from the client, such as:
+如果您从客户端收到错误，例如：
 
 ```sql
 ERROR 2013 (HY000): Lost connection to MySQL server during query
 No connection. Trying to reconnect...
 ```
 
-You can get the server logs from the `system.tracing` table(level=50 only shows the ERROR logs):
+您可以从 `system.tracing` 表中获取服务器日志（level=50 仅显示 ERROR 日志）：
 
 :::note
-Databend uses [tokio-tracing](https://github.com/tokio-rs/tracing) to trace logs, where the default timezone is UTC and cannot be changed through the Databend timezone setting, therefore the time in the traced log will always be in UTC, and not reflect your local time.
+Databend 使用 [tokio-tracing](https://github.com/tokio-rs/tracing) 来追踪日志，其中默认时区为 UTC，无法通过 Databend 时区设置进行更改，因此追踪到的日志中的时间始终为 UTC 时间，并不反映您的本地时间。
 :::
 
 ```sql
