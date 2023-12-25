@@ -1,144 +1,144 @@
 ---
-title: Databend Metrics
-sidebar_label: Databend Metrics
+title: Databend 指标
+sidebar_label: Databend 指标
 description: 
-  Meta and Query Service Metrics
+  元数据和查询服务指标
 ---
 
-Metrics are crucial to monitor the performance and health of the system. Databend collects and stores two types of metrics, Meta Metrics and Query Metrics, in the format of [Prometheus](http://prometheus.io/docs/instrumenting/exposition_formats/). Meta Metrics are used for real-time monitoring and debugging of the Metasrv component, while Query Metrics are used for monitoring the performance of the Databend-query component.
+指标对于监控系统的性能和健康状况至关重要。Databend 收集并存储两种类型的指标，元数据指标和查询指标，格式为 [Prometheus](http://prometheus.io/docs/instrumenting/exposition_formats/)。元数据指标用于实时监控和调试 Metasrv 组件，而查询指标用于监控 Databend-query 组件的性能。
 
-You can access the metrics through a web browser using the following URLs:
+您可以通过以下 URL 使用网络浏览器访问指标：
 
-- Meta Metrics: `http://<admin_api_address>/v1/metrics`. Defaults to `0.0.0.0:28101/v1/metrics`.
-- Query Metrics: `http://<metric_api_address>/metrics`. Defaults to `0.0.0.0:7070/metrics`.
+- 元数据指标：`http://<admin_api_address>/v1/metrics`。默认为 `0.0.0.0:28101/v1/metrics`。
+- 查询指标：`http://<metric_api_address>/metrics`。默认为 `0.0.0.0:7070/metrics`。
 
 :::tip
-Alternatively, you can visualize the metrics using third-party tools. For information about supported tools and integration tutorials, refer to **Monitor** > **Using 3rd-party Tools**. When employing the Prometheus & Grafana solution, you can create dashboards using our provided dashboard templates, available [here](https://github.com/datafuselabs/helm-charts/tree/main/dashboards). For more details, check out the [Prometheus & Grafana](tools/prometheus-and-grafana.md) guide.
+另外，您可以使用第三方工具来可视化指标。有关支持的工具和集成教程，请参阅 **监控** > **使用第三方工具**。当采用 Prometheus & Grafana 解决方案时，您可以使用我们提供的仪表板模板创建仪表板，可在[此处](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)获取。更多详情，请查看 [Prometheus & Grafana](tools/prometheus-and-grafana.md) 指南。
 :::
 
-## Meta Metrics
+## 元数据指标
 
-Here's a list of Meta metrics captured by Databend.
+以下是 Databend 捕获的元数据指标列表。
 
-### Server
+### 服务器
 
-These metrics describe the status of the `metasrv`. All these metrics are prefixed with `metasrv_server_`.
+这些指标描述了 `metasrv` 的状态。所有这些指标都以 `metasrv_server_` 为前缀。
 
-| Name              | Description                                       | Type    |
-|-------------------|---------------------------------------------------|---------|
-| current_leader_id | Current leader id of cluster, 0 means no leader.  | Gauge   |
-| is_leader         | Whether or not this node is current leader.       | Gauge   |
-| node_is_health    | Whether or not this node is health.               | Gauge   |
-| leader_changes    | Number of leader changes seen.                    | Counter |
-| applying_snapshot | Whether or not statemachine is applying snapshot. | Gauge   |
-| proposals_applied | Total number of consensus proposals applied.      | Gauge   |
-| last_log_index    | Index of the last log entry..                     | Gauge   |
-| current_term      | Current term.                                     | Gauge   |
-| proposals_pending | Total number of pending proposals.                | Gauge   |
-| proposals_failed  | Total number of failed proposals.                 | Counter |
-| watchers          | Total number of active watchers.                  | Gauge   |
+| 名称                  | 描述                                              | 类型     |
+|----------------------|---------------------------------------------------|---------|
+| current_leader_id    | 集群的当前领导者 id，0 表示没有领导者。           | Gauge   |
+| is_leader            | 此节点是否为当前领导者。                          | Gauge   |
+| node_is_health       | 此节点是否健康。                                  | Gauge   |
+| leader_changes       | 见到的领导者变更次数。                            | Counter |
+| applying_snapshot    | 状态机是否正在应用快照。                          | Gauge   |
+| proposals_applied    | 应用的共识提案总数。                              | Gauge   |
+| last_log_index       | 最后日志条目的索引。                              | Gauge   |
+| current_term         | 当前任期。                                        | Gauge   |
+| proposals_pending    | 挂起的提案总数。                                  | Gauge   |
+| proposals_failed     | 失败的提案总数。                                  | Counter |
+| watchers             | 活跃观察者的总数。                                | Gauge   |
 
-`current_leader_id` indicate current leader id of cluster, 0 means no leader. If a cluster has no leader, it is unavailable.
+`current_leader_id` 表示集群的当前领导者 id，0 表示没有领导者。如果一个集群没有领导者，它就不可用。
 
-`is_leader` indicate if this `metasrv` currently is the leader of cluster, and `leader_changes` show the total number of leader changes since start.If change leader too frequently, it will impact the performance of `metasrv`, also it signal that the cluster is unstable.
+`is_leader` 表示这个 `metasrv` 当前是否是集群的领导者，而 `leader_changes` 显示自启动以来领导者变更的总次数。如果领导者变更太频繁，它将影响 `metasrv` 的性能，也表明集群不稳定。
 
-If and only if the node state is `Follower` or `Leader` , `node_is_health` is 1, otherwise is 0.
+只有当节点状态为 `Follower` 或 `Leader` 时，`node_is_health` 才为 1，否则为 0。
 
-`proposals_applied` records the total number of applied write requests.
+`proposals_applied` 记录了应用的写请求总数。
 
-`last_log_index` records the last log index has been appended to this Raft node's log, `current_term` records the current term of the Raft node.
+`last_log_index` 记录了已追加到此 Raft 节点日志的最后日志索引，`current_term` 记录了 Raft 节点的当前任期。
 
-`proposals_pending` indicates how many proposals are queued to commit currently.Rising pending proposals suggests there is a high client load or the member cannot commit proposals.
+`proposals_pending` 表示当前有多少提案排队等待提交。挂起的提案增加表明客户端负载高或成员无法提交提案。
 
-`proposals_failed` show the total number of failed write requests, it is normally related to two issues: temporary failures related to a leader election or longer downtime caused by a loss of quorum in the cluster.
+`proposals_failed` 显示了失败的写请求总数，它通常与两个问题有关：与领导者选举相关的临时失败或由于集群失去法定人数导致的较长停机时间。
 
-`watchers` show the total number of active watchers currently.
+`watchers` 显示了当前的活跃观察者总数。
 
-### Raft Network
+### Raft 网络
 
-These metrics describe the network status of raft nodes in the `metasrv`. All these metrics are prefixed with `metasrv_raft_network_`.
+这些指标描述了 `metasrv` 中 raft 节点的网络状态。所有这些指标都以 `metasrv_raft_network_` 为前缀。
 
-| Name                    | Description                                       | Labels                            | Type      |
-|-------------------------|---------------------------------------------------|-----------------------------------|-----------|
-| active_peers            | Current number of active connections to peers.    | id(node id),address(peer address) | Gauge     |
-| fail_connect_to_peer    | Total number of fail connections to peers.        | id(node id),address(peer address) | Counter   |
-| sent_bytes              | Total number of sent bytes to peers.              | to(node id)                       | Counter   |
-| recv_bytes              | Total number of received bytes from peers.        | from(remote address)              | Counter   |
-| sent_failures           | Total number of send failures to peers.           | to(node id)                       | Counter   |
-| snapshot_send_success   | Total number of successful snapshot sends.        | to(node id)                       | Counter   |
-| snapshot_send_failures  | Total number of snapshot send failures.           | to(node id)                       | Counter   |
-| snapshot_send_inflights | Total number of inflight snapshot sends.          | to(node id)                       | Gauge     |
-| snapshot_sent_seconds   | Total latency distributions of snapshot sends.    | to(node id)                       | Histogram |
-| snapshot_recv_success   | Total number of successful receive snapshot.      | from(remote address)              | Counter   |
-| snapshot_recv_failures  | Total number of snapshot receive failures.        | from(remote address)              | Counter   |
-| snapshot_recv_inflights | Total number of inflight snapshot receives.       | from(remote address)              | Gauge     |
-| snapshot_recv_seconds   | Total latency distributions of snapshot receives. | from(remote address)              | Histogram |
+| 名称                        | 描述                                                  | 标签                              | 类型       |
+|-----------------------------|-------------------------------------------------------|-----------------------------------|-----------|
+| active_peers                | 当前与对等方的活跃连接数。                            | id(节点 id),address(对等地址)     | Gauge     |
+| fail_connect_to_peer        | 与对等方连接失败的总次数。                            | id(节点 id),address(对等地址)     | Counter   |
+| sent_bytes                  | 发送给对等方的字节总数。                              | to(节点 id)                       | Counter   |
+| recv_bytes                  | 从对等方接收的字节总数。                              | from(远程地址)                    | Counter   |
+| sent_failures               | 发送给对等方失败的总次数。                            | to(节点 id)                       | Counter   |
+| snapshot_send_success       | 成功发送快照的总次数。                                | to(节点 id)                       | Counter   |
+| snapshot_send_failures      | 快照发送失败的总次数。                                | to(节点 id)                       | Counter   |
+| snapshot_send_inflights     | 飞行中快照发送的总次数。                              | to(节点 id)                       | Gauge     |
+| snapshot_sent_seconds       | 快照发送的总延迟分布。                                | to(节点 id)                       | Histogram |
+| snapshot_recv_success       | 成功接收快照的总次数。                                | from(远程地址)                    | Counter   |
+| snapshot_recv_failures      | 快照接收失败的总次数。                                | from(远程地址)                    | Counter   |
+| snapshot_recv_inflights     | 飞行中快照接收的总次数。                              | from(远程地址)                    | Gauge     |
+| snapshot_recv_seconds       | 快照接收的总延迟分布。                                | from(远程地址)                    | Histogram |
 
-`active_peers` indicates how many active connection between cluster members, `fail_connect_to_peer` indicates the number of fail connections to peers. Each has the labels: id(node id) and address (peer address).
+`active_peers` 表示集群成员之间的活跃连接数，`fail_connect_to_peer` 表示连接到对等节点失败的次数。每个都有标签：id（节点id）和 address（对等节点地址）。
 
-`sent_bytes` and `recv_bytes` record the sent and receive bytes to and from peers, and `sent_failures` records the number of fail sent to peers.
+`sent_bytes` 和 `recv_bytes` 记录发送给对等节点和从对等节点接收的字节数，`sent_failures` 记录发送给对等节点失败的次数。
 
-`snapshot_send_success` and `snapshot_send_failures` indicates the success and fail number of sent snapshot.`snapshot_send_inflights` indicate the inflight snapshot sends, each time send a snapshot, this field will increment by one, after sending snapshot is done, this field will decrement by one.
+`snapshot_send_success` 和 `snapshot_send_failures` 表示发送快照成功和失败的次数。`snapshot_send_inflights` 表示正在发送的快照数，每次发送快照时，此字段将增加一，发送快照完成后，此字段将减少一。
 
-`snapshot_sent_seconds` indicate the total latency distributions of snapshot sends.
+`snapshot_sent_seconds` 表示发送快照的总延迟分布。
 
-`snapshot_recv_success` and `snapshot_recv_failures` indicates the success and fail number of receive snapshot.`snapshot_recv_inflights` indicate the inflight receiving snapshot, each time receive a snapshot, this field will increment by one, after receiving snapshot is done, this field will decrement by one.
+`snapshot_recv_success` 和 `snapshot_recv_failures` 表示接收快照成功和失败的次数。`snapshot_recv_inflights` 表示正在接收的快照数，每次接收快照时，此字段将增加一，接收快照完成后，此字段将减少一。
 
-`snapshot_recv_seconds` indicate the total latency distributions of snapshot receives.
+`snapshot_recv_seconds` 表示接收快照的总延迟分布。
 
-### Raft Storage
+### Raft 存储
 
-These metrics describe the storage status of raft nodes in the `metasrv`. All these metrics are prefixed with `metasrv_raft_storage_`.
+这些指标描述了 `metasrv` 中 raft 节点的存储状态。所有这些指标都以 `metasrv_raft_storage_` 为前缀。
 
-| Name                    | Description                                | Labels              | Type    |
-|-------------------------|--------------------------------------------|---------------------|---------|
-| raft_store_write_failed | Total number of raft store write failures. | func(function name) | Counter |
-| raft_store_read_failed  | Total number of raft store read failures.  | func(function name) | Counter |
+| 名称                       | 描述                                     | 标签                  | 类型     |
+|----------------------------|------------------------------------------|-----------------------|----------|
+| raft_store_write_failed    | raft 存储写入失败的总次数。              | func(函数名称)        | 计数器   |
+| raft_store_read_failed     | raft 存储读取失败的总次数。              | func(函数名称)        | 计数器   |
 
-`raft_store_write_failed` and `raft_store_read_failed` indicate the total number of raft store write and read failures.
+`raft_store_write_failed` 和 `raft_store_read_failed` 表示 raft 存储写入和读取失败的总次数。
 
-### Meta Network
+### Meta 网络
 
-These metrics describe the network status of meta service in the `metasrv`. All these metrics are prefixed with `metasrv_meta_network_`.
+这些指标描述了 `metasrv` 中元服务的网络状态。所有这些指标都以 `metasrv_meta_network_` 为前缀。
 
-| Name              | Description                                            | Type      |
-|-------------------|--------------------------------------------------------|-----------|
-| sent_bytes        | Total number of sent bytes to meta grpc client.        | Counter   |
-| recv_bytes        | Total number of recv bytes from meta grpc client.      | Counter   |
-| inflights         | Total number of inflight meta grpc requests.           | Gauge     |
-| req_success       | Total number of success request from meta grpc client. | Counter   |
-| req_failed        | Total number of fail request from meta grpc client.    | Counter   |
-| rpc_delay_seconds | Latency distribution of meta-service API in second.    | Histogram |
+| 名称                | 描述                                             | 类型      |
+|---------------------|--------------------------------------------------|-----------|
+| sent_bytes          | 发送给 meta grpc 客户端的总字节数。              | 计数器    |
+| recv_bytes          | 从 meta grpc 客户端接收的总字节数。              | 计数器    |
+| inflights           | 正在进行的 meta grpc 请求的总数。                 | 仪表      |
+| req_success         | 来自 meta grpc 客户端的成功请求总数。             | 计数器    |
+| req_failed          | 来自 meta grpc 客户端的失败请求总数。             | 计数器    |
+| rpc_delay_seconds   | 以秒为单位的 meta-service API 延迟分布。          | 直方图    |
 
-## Query Metrics
+## 查询指标
 
-Here's a list of Query metrics captured by Databend.
+以下是 Databend 捕获的查询指标列表。
 
-| Name                               |  Type   | Description                                                                 | Labels                                                                          |
-|--------------------------------------|---------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| cluster_discovered_node_gauge        | gauge   | The number of nodes discovered in the current cluster.                      | tenant_id, cluster_id, flight_address and local_id(a inner cluster unique id)   |
-| interpreter_usedtime                 | summary | Sql interpreter used time.                                                  |                                                                                 |
-| meta_grpc_client_request_duration_ms | summary | The time used for requesting the remote meta service.                       | endpoint, request                                                               |
-| meta_grpc_client_request_inflight    | gauge   | The currently on going request to remote meta service.                      |                                                                                 |
-| meta_grpc_client_request_success     | counter | The total amount for successful request to remote meta service.             |                                                                                 |
-| mysql_process_request_duration       | summary | MySQL interactive process request used.                                     |                                                                                 |
-| opendal_bytes_total                  | counter | The total data size opendal handled in byte.                                | operation, service                                                              |
-| opendal_errors_total                 | counter | The total error count of opendal operations.                                | operation, service                                                              |
-| opendal_failures_total               | counter | The total failure count of opendal operations.                              | operation, service                                                              |
-| opendal_requests_duration_seconds    | summary | The time used by opendal to request remote storage backend.                 | operation, service                                                              |
-| opendal_requests_total               | counter | The total count of opendal operations.                                      | operation, service                                                              |
-| query_duration_ms                    | summary | The time used by each single query.                                         | tenant, cluster, handler, kind                                                  |
-| query_result_bytes                   | counter | The total returned data size of query result in byte.                       | tenant, cluster, handler, kind                                                  |
-| query_result_rows                    | counter | The total returned data rows of query result.                               | tenant, cluster, handler, kind                                                  |
-| query_scan_bytes                     | counter | The total scanned data size by query in byte.                               | tenant, cluster, handler, kind                                                  |
-| query_scan_io_bytes                  | counter | The total scanned transferred data size by query in byte.                   | tenant, cluster, handler, kind                                                  |
-| query_scan_partitions                | counter | The total scanned partitions by query.                                      | tenant, cluster, handler, kind                                                  |
-| query_scan_rows                      | counter | The total scanned data rows by query.                                       | tenant, cluster, handler, kind                                                  |
-| query_start                          | counter | The total count of query started.                                           | tenant, cluster, handler, kind                                                  |
-| query_success                        | counter | The total count of query succeeded.                                         | tenant, cluster, handler, kind                                                  |
-| query_total_partitions               | counter | The total partitions for query.                                             | tenant, cluster, handler, kind                                                  |
-| query_write_bytes                    | counter | The total data size written by query in byte.                               | tenant, cluster, handler, kind                                                  |
-| query_write_io_bytes                 | counter | The total data size written and transferred by query in byte.               | tenant, cluster, handler, kind                                                  |
-| query_write_rows                     | counter | The total data rows written by query.                                       | tenant, cluster, handler, kind                                                  |
-| session_close_numbers                | counter | The number of sessions have been disconnected since the server was started. | tenant, cluster_name                                                            |
-| session_connect_numbers              | counter | The number of sessions have been connected since the server was started.    | tenant, cluster_name                                                            |
+| 名称                                     | 类型     | 描述                                                                           | 标签                                                                            |
+|------------------------------------------|---------|-------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| cluster_discovered_node_gauge            | gauge   | 当前集群中发现的节点数量。                                                    | tenant_id, cluster_id, flight_address 和 local_id(集群内部唯一标识)             |
+| interpreter_usedtime                     | summary | SQL解释器使用时间。                                                           |                                                                                 |
+| meta_grpc_client_request_duration_ms     | summary | 请求远程元数据服务所用的时间。                                                | endpoint, request                                                               |
+| meta_grpc_client_request_inflight        | gauge   | 当前正在进行的远程元数据服务请求。                                            |                                                                                 |
+| meta_grpc_client_request_success         | counter | 成功请求远程元数据服务的总次数。                                              |                                                                                 |
+| mysql_process_request_duration           | summary | MySQL交互式处理请求所用时间。                                                 |                                                                                 |
+| opendal_bytes_total                      | counter | opendal处理的总数据大小（以字节为单位）。                                     | operation, service                                                              |
+| opendal_errors_total                     | counter | opendal操作的总错误计数。                                                     | operation, service                                                              |
+| opendal_failures_total                   | counter | opendal操作的总失败计数。                                                     | operation, service                                                              |
+| opendal_requests_duration_seconds        | summary | opendal请求远程存储后端所用的时间。                                           | operation, service                                                              |
+| opendal_requests_total                   | counter | opendal操作的总计数。                                                         | operation, service                                                              |
+| query_duration_ms                        | summary | 每个单独查询所用的时间。                                                      | tenant, cluster, handler, kind                                                  |
+| query_result_bytes                       | counter | 查询结果返回的总数据大小（以字节为单位）。                                    | tenant, cluster, handler, kind                                                  |
+| query_result_rows                        | counter | 查询结果返回的总数据行数。                                                    | tenant, cluster, handler, kind                                                  |
+| query_scan_bytes                         | counter | 查询扫描的总数据大小（以字节为单位）。                                        | tenant, cluster, handler, kind                                                  |
+| query_scan_io_bytes                      | counter | 查询扫描传输的总数据大小（以字节为单位）。                                    | tenant, cluster, handler, kind                                                  |
+| query_scan_partitions                    | counter | 查询扫描的总分区数。                                                          | tenant, cluster, handler, kind                                                  |
+| query_scan_rows                          | counter | 查询扫描的总数据行数。                                                        | tenant, cluster, handler, kind                                                  |
+| query_start                              | counter | 查询开始的总次数。                                                            | tenant, cluster, handler, kind                                                  |
+| query_success                            | counter | 查询成功的总次数。                                                            | tenant, cluster, handler, kind                                                  |
+| query_total_partitions                   | counter | 查询的总分区数。                                                              | tenant, cluster, handler, kind                                                  |
+| query_write_bytes                        | counter | 查询写入的总数据大小（以字节为单位）。                                        | tenant, cluster, handler, kind                                                  |
+| query_write_io_bytes                     | counter | 查询写入和传输的总数据大小（以字节为单位）。                                  | tenant, cluster, handler, kind                                                  |
+| query_write_rows                         | counter | 查询写入的总数据行数。                                                        | tenant, cluster, handler, kind                                                  |
+| session_close_numbers                    | counter | 自服务器启动以来已断开连接的会话数。                                          | tenant, cluster_name                                                            |
+| session_connect_numbers                  | counter | 自服务器启动以来已建立连接的会话数。                                          | tenant, cluster_name                                                            |
