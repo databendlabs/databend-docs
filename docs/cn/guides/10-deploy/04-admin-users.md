@@ -1,30 +1,30 @@
 ---
-title: Configuring Admin Users
+title: 配置管理员用户
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.75"/>
+<FunctionDescription description="引入版本：v1.1.75"/>
 
-Databend doesn't provide any built-in admin users out-of-the-box. Before the initial startup of Databend, it is necessary to configure one in the **databend-query.toml** configuration file, which is equivalent to the root user in other databases. To do so, follow these steps:
+Databend默认情况下不提供内置的管理员用户。在Databend首次启动之前，需要在**databend-query.toml**配置文件中配置一个，这相当于其他数据库中的root用户。按照以下步骤操作：
 
-1. Open the **databend-query.toml** configuration file, then locate the [query.users] section.
+1. 打开**databend-query.toml**配置文件，然后找到[query.users]部分。
 
-2. Uncomment (remove the # symbol) the user accounts you want to use or add your own ones in the same format. For each user, specify the following information:
-    - **name**: The username for the account.
-    - **auth_type**: The authentication type for the account. It can be either "no_password", "double_sha1_password", or "sha256_password".
-    - **auth_string**: The password or authentication string associated with the user account.
+2. 取消注释（移除#符号）你想使用的用户账户，或者按照相同的格式添加你自己的用户。对于每个用户，指定以下信息：
+    - **name**：账户的用户名。
+    - **auth_type**：账户的认证类型。可以是"no_password"、"double_sha1_password"或"sha256_password"。
+    - **auth_string**：与用户账户关联的密码或认证字符串。
 
-To generate the **auth_string**, use cryptographic hash functions. Here's how you can generate the auth_string for each authentication type mentioned:
+要生成**auth_string**，使用密码学哈希函数。以下是为提到的每种认证类型生成auth_string的方法：
 
-- **no_password**: For the no_password authentication type, no password is required. In this case, the auth_string field is not needed at all.
+- **no_password**：对于no_password认证类型，不需要密码。在这种情况下，根本不需要auth_string字段。
 
-- **double_sha1_password**: To generate the auth_string for the double_sha1_password authentication type, choose a password first (e.g., "databend"). Then, run the following command and use the resulting output as the auth_string:
+- **double_sha1_password**：要为double_sha1_password认证类型生成auth_string，请首先选择一个密码（例如，"databend"）。然后，运行以下命令并使用结果输出作为auth_string：
 
   ```shell
   echo -n "databend" | sha1sum | cut -d' ' -f1 | xxd -r -p | sha1sum
   ```
 
-- **sha256_password**: To generate the auth_string for the sha256_password authentication type, choose a password first (e.g., "databend"). Then, run the following command and use the resulting output as the auth_string:
+- **sha256_password**：要为sha256_password认证类型生成auth_string，请首先选择一个密码（例如，"databend"）。然后，运行以下命令并使用结果输出作为auth_string：
 
   ```shell
   echo -n "databend" | sha256sum
