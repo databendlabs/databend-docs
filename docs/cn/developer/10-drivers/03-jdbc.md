@@ -1,27 +1,26 @@
-````
 ---
 title: Java
 ---
 
-您可以通过为Java编程语言设计的原生接口，使用各种客户端工具和应用程序连接并与Databend交互，即[Databend JDBC驱动程序](https://github.com/databendcloud/databend-jdbc)。
+您可以通过为 Java 编程语言设计的原生接口，使用各种客户端工具和应用程序连接并与 Databend 交互，即[Databend JDBC 驱动程序](https://github.com/databendcloud/databend-jdbc)。
 
-## 安装Databend JDBC驱动程序 {#installing-databend-jdbc-driver}
+## 安装 Databend JDBC 驱动程序 {#installing-databend-jdbc-driver}
 
-本主题概述了下载和安装Databend JDBC驱动程序以便在基于Java的项目中使用的步骤。该驱动程序需要Java LTS（长期支持）版本1.8或更高版本。如果您的客户端机器没有所需的最低版本的Java，请安装[Oracle Java](http://www.java.com/en/download/manual.jsp)或[OpenJDK](http://openjdk.java.net)。
+本主题概述了下载和安装 Databend JDBC 驱动程序以便在基于 Java 的项目中使用的步骤。该驱动程序需要 Java LTS（长期支持）版本 1.8 或更高版本。如果您的客户端机器没有所需的最低版本的 Java，请安装[Oracle Java](http://www.java.com/en/download/manual.jsp)或[OpenJDK](http://openjdk.java.net)。
 
-下载Databend JDBC驱动程序：
+下载 Databend JDBC 驱动程序：
 
-1. 访问Maven Central Repository网站 https://repo1.maven.org/maven2/com/databend/databend-jdbc/
+1. 访问 Maven Central Repository 网站 https://repo1.maven.org/maven2/com/databend/databend-jdbc/
 2. 点击最新版本的目录。
-3. 下载jar文件，例如*databend-jdbc-0.1.1.jar*。
+3. 下载 jar 文件，例如*databend-jdbc-0.1.1.jar*。
 
-要验证Databend JDBC驱动程序的版本，例如*databend-jdbc-0.1.1.jar*，在终端运行以下命令：
+要验证 Databend JDBC 驱动程序的版本，例如*databend-jdbc-0.1.1.jar*，在终端运行以下命令：
 
 ```bash
 java -jar databend-jdbc-0.1.1.jar --version
 ```
 
-Databend JDBC驱动程序以JAR文件形式提供，可以直接集成到您的基于Java的项目中。或者，您可以在项目的pom.xml文件中声明一个Maven依赖项，如下所示：
+Databend JDBC 驱动程序以 JAR 文件形式提供，可以直接集成到您的基于 Java 的项目中。或者，您可以在项目的 pom.xml 文件中声明一个 Maven 依赖项，如下所示：
 
 ```xml
 <dependency>
@@ -32,25 +31,26 @@ Databend JDBC驱动程序以JAR文件形式提供，可以直接集成到您的�
 ```
 
 :::tip 你知道吗？
-您也可以通过Databend JDBC驱动程序从DBeaver连接到Databend。更多信息，请参见[通过JDBC连接到Databend](/guides/sql-clients/jdbc)。
+您也可以通过 Databend JDBC 驱动程序从 DBeaver 连接到 Databend。更多信息，请参见[通过 JDBC 连接到 Databend](/guides/sql-clients/jdbc)。
 :::
 
 ## 配置连接字符串 {#configuring-connection-string}
 
-驱动程序安装并集成到您的项目中后，您可以使用以下JDBC连接字符串格式连接到Databend：
+驱动程序安装并集成到您的项目中后，您可以使用以下 JDBC 连接字符串格式连接到 Databend：
 
 ```java
 jdbc:databend://<username>:<password>@<host_port>/<database>?<connection_params>
 ```
 
-`connection_params`指的是一系列一个或多个参数，格式为`param=value`。每个参数应该用和号(&)分隔，连接字符串中不应该有空格。这些参数可以在连接字符串中设置，也可以在传递给DriverManager.getConnection()方法的Properties对象中设置。例如：
+`connection_params`指的是一系列一个或多个参数，格式为`param=value`。每个参数应该用和号(&)分隔，连接字符串中不应该有空格。这些参数可以在连接字符串中设置，也可以在传递给 DriverManager.getConnection()方法的 Properties 对象中设置。例如：
 
-```java 
+```java
 Properties props = new Properties();
 props.put("parameter1", parameter1Value);
 props.put("parameter2", parameter2Value);
 Connection con = DriverManager.getConnection("jdbc:databend://user:pass@host/database", props);
 ```
+
 有关可用连接参数及其描述，请参见 https://github.com/databendcloud/databend-jdbc/blob/main/docs/Connection.md#connection-parameters
 
 ## 示例 {#examples}
@@ -90,9 +90,9 @@ public class demo {
 
 ### 示例：批量插入 {#example-batch-inserting}
 
-在您的Java应用程序代码中，您可以通过在INSERT语句中绑定参数并调用addBatch()和executeBatch()来一次性插入多行。
+在您的 Java 应用程序代码中，您可以通过在 INSERT 语句中绑定参数并调用 addBatch()和 executeBatch()来一次性插入多行。
 
-例如，以下代码将两行插入到包含INT列和VARCHAR列的表中。示例将值绑定到INSERT语句中的参数，并调用addBatch()和executeBatch()来执行批量插入。
+例如，以下代码将两行插入到包含 INT 列和 VARCHAR 列的表中。示例将值绑定到 INSERT 语句中的参数，并调用 addBatch()和 executeBatch()来执行批量插入。
 
 ```java
 Connection connection = DriverManager.getConnection(url, prop);
@@ -129,7 +129,7 @@ pstmt.close();
     public void uploadStream(String stageName, String destPrefix, InputStream inputStream, String destFileName, long fileSize, boolean compressData) throws SQLException;
 ```
 
-上传CSV文件到Databend：
+上传 CSV 文件到 Databend：
 
 ```java
         File f = new File("test.csv");
@@ -149,8 +149,6 @@ pstmt.close();
 
 ### 示例：从内部阶段下载文件 {#example-downloading-files-from-an-internal-stage}
 
-````
-
 ```java
  /**
      * 从 databend 内部阶段下载文件，数据将作为一个文件下载，不会分割。
@@ -165,6 +163,7 @@ pstmt.close();
 ```
 
 从 Databend 下载 CSV 文件：
+
 ```Java
         File f = new File("test.csv");
         try (InputStream fileInputStream = Files.newInputStream(f.toPath())) {
@@ -221,7 +220,7 @@ public class sample {
         properties.setProperty("password", "{PASSWORD}");
         properties.setProperty("SSL", "true");
         Connection connection = DriverManager.getConnection(url, properties);
-        
+
         // 执行
         connection.createStatement().execute("CREATE TABLE IF NOT EXISTS sample_test(id TINYINT, obj VARIANT, d TIMESTAMP, s String, arr ARRAY(INT64)) Engine = Fuse");
 
@@ -234,7 +233,7 @@ public class sample {
             r.next();
             System.out.println(r.getInt(1));
         }
-        
+
         // 使用 executeBatch() 插入数据
         connection.setAutoCommit(false);
         PreparedStatement ps = connection.prepareStatement("insert into sample_test values");
