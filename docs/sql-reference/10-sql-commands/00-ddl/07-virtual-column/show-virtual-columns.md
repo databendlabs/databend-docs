@@ -12,7 +12,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 Shows the created virtual columns in the system. Equivalent to `SELECT * FROM system.virtual_columns`.
 
-See also: [system.indexes](../../../00-sql-reference/20-system-tables/system-indexes.md)
+See also: [system.virtual_columns](../../../00-sql-reference/20-system-tables/system-virtual-columns.md)
 
 ## Syntax
 
