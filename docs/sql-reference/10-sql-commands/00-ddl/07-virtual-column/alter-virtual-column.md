@@ -11,7 +11,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VIRTUAL COLUMN'/>
 
-Modifies virtual columns for a table.
+Modifies virtual columns for a table. Please note that after modifying virtual columns for a table, refresh them using the [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) command.
 
 ## Syntax
 
@@ -63,4 +63,6 @@ SHOW VIRTUAL COLUMNS;
 ├──────────┼────────┼─────────────────┤
 │ default  │ test   │ val['name']     │
 └─────────────────────────────────────┘
+
+REFRESH VIRTUAL COLUMN FOR test;
 ```

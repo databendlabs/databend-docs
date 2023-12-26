@@ -13,6 +13,8 @@ import EEFeature from '@site/src/components/EEFeature';
 
 Creates virtual columns for a table. Please note that virtual columns exclusively support the [FUSE Engine](../../../00-sql-reference/30-table-engines/00-fuse.md), are designed for exclusive compatibility with the [Variant](../../../00-sql-reference/10-data-types/43-data-type-variant.md) data type, and utilize [JSON PATH](../../20-query-syntax/20-query-json-path.md) query syntax for column definition.
 
+Please note that after creating virtual columns for a table that already contains Variant data, it is necessary to refresh the virtual columns using the [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) command.
+
 ## Syntax
 
 ```sql
@@ -42,4 +44,6 @@ CREATE VIRTUAL COLUMN (
   val ['tags'] [0],             -- Extract the first element in the 'tags' array.
   val ['pricings'] [0] ['type'] -- Extract the 'type' field from the first pricing in the 'pricings' array.
 ) FOR test;
+
+REFRESH VIRTUAL COLUMN FOR test;
 ```

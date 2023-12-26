@@ -11,7 +11,11 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VIRTUAL COLUMN'/>
 
-Refreshes virtual columns for a table. When the `enable_refresh_virtual_column_after_write` setting is configured to 1 (default), Databend automatically updates virtual columns for a table following data updates to the table.
+Refreshes virtual columns for a table. Virtual columns needs refreshing in the following scenarios:
+
+- After creating virtual columns for a table that already contains Variant data, it is necessary to refresh the virtual columns.
+- When modifying virtual columns for a table, refresh them after the modifications.
+- If the `enable_refresh_virtual_column_after_write` setting is set to 1 (default), virtual columns for a table are automatically refreshed after data updates. However, if this setting is not enabled, manual refreshing of virtual columns becomes necessary.
 
 ## Syntax
 
