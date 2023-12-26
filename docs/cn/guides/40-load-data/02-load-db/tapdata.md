@@ -2,30 +2,30 @@
 title: Tapdata
 ---
 
-[Tapdata](https://tapdata.net) is a platform-oriented product designed for data services, aimed at helping enterprises break down multiple data silos, achieve rapid data delivery, and enhance data transfer efficiency through real-time data synchronization. We also support the creation of tasks through a low-code approach, making it easy to create tasks with a simple drag-and-drop of nodes, effectively reducing development complexity and shortening project deployment cycles.
+[Tapdata](https://tapdata.net) 是一个面向平台的产品，专为数据服务设计，旨在帮助企业打破多个数据孤岛，通过实时数据同步实现快速数据交付，并提高数据传输效率。我们还支持通过低代码方式创建任务，只需简单地拖放节点即可轻松创建任务，有效降低开发复杂性，缩短项目部署周期。
 
-[Databend](https://docs.tapdata.io/cloud/introduction/supported-databases#beta-%E6%95%B0%E6%8D%AE%E6%BA%90) is one of the data sources supported by Tapdata. You can use Tapdata to synchronize data from other platforms to Databend, using Databend as the **destination** for data migration/synchronization.
+[Databend](https://docs.tapdata.io/cloud/introduction/supported-databases#beta-%E6%95%B0%E6%8D%AE%E6%BA%90) 是 Tapdata 支持的数据源之一。您可以使用 Tapdata 将其他平台的数据同步到 Databend，使用 Databend 作为数据迁移/同步的**目的地**。
 
 ![Alt text](@site/static/img/documents_cn/getting-started/tapdata-databend.png)
 
-## Integrating with Tapdata Cloud
+## 与 Tapdata Cloud 集成
 
-To establish a connection with Databend Cloud and set it as the synchronization destination in [Tapdata Cloud](https://tapdata.net/tapdata-cloud.html), you need to complete the following steps:
+要与 Databend Cloud 建立连接，并将其设置为 [Tapdata Cloud](https://tapdata.net/tapdata-cloud.html) 中的同步目的地，您需要完成以下步骤：
 
-### Step 1: Deploy Tapdata Agent
+### 步骤 1：部署 Tapdata Agent
 
-Tapdata Agent is a key program in data synchronization, data heterogeneity, and data development scenarios. Given the high real-time requirements for data flow in these scenarios, deploying Tapdata Agent in your local environment ensures optimal performance based on low-latency local networks to guarantee real-time data flow.
+Tapdata Agent 是数据同步、数据异构和数据开发场景中的关键程序。鉴于这些场景对数据流的高实时性要求，将 Tapdata Agent 部署在您的本地环境中，可以确保基于低延迟的本地网络获得最佳性能，以保证实时数据流。
 
-For Tapdata Agent download and installation instructions, please refer to [Step 1: Install Agent](https://docs.tapdata.io/cloud/quick-start/install-agent/).
+有关 Tapdata Agent 的下载和安装说明，请参阅 [步骤 1：安装 Agent](https://docs.tapdata.io/cloud/quick-start/install-agent/)。
 
-### Step 2: Create Connections
+### 步骤 2：创建连接
 
-You need to establish a connection for each of the data source and data destination for data synchronization. For example, if you want to synchronize data from MySQL to Databend Cloud, you need to create two connections on Tapdata Cloud—one connecting to MySQL and the other to Databend Cloud. Follow the steps outlined in [Step 2: Connect Data Sources](https://docs.tapdata.io/cloud/quick-start/connect-database) for creating connections.
+您需要为数据同步的每个数据源和数据目的地建立连接。例如，如果您想将数据从 MySQL 同步到 Databend Cloud，您需要在 Tapdata Cloud 上创建两个连接——一个连接到 MySQL，另一个连接到 Databend Cloud。按照 [步骤 2：连接数据源](https://docs.tapdata.io/cloud/quick-start/connect-database) 中概述的步骤创建连接。
 
-Here is an example of connecting to Databend Cloud:
+以下是连接到 Databend Cloud 的示例：
 
 ![Alt text](@site/static/img/documents_cn/getting-started/tapdata-connect.png)
 
-### Step 3: Create Data Replication Tasks
+### 步骤 3：创建数据复制任务
 
-Once connections to the data source and Databend Cloud are established, you can begin data synchronization by creating data replication tasks. Refer to [Create a Data Replication Task](https://docs.tapdata.io/cloud/user-guide/copy-data/create-task) for the operational steps.
+一旦建立了与数据源和 Databend Cloud 的连接，您就可以通过创建数据复制任务开始数据同步。请参考 [创建数据复制任务](https://docs.tapdata.io/cloud/user-guide/copy-data/create-task) 了解操作步骤。
