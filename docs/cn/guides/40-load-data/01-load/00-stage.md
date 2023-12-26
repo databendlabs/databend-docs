@@ -1,25 +1,25 @@
 ---
-title: Loading from Stage
+title: 从 Stage 加载数据
 ---
 
-Databend enables you to easily import data from files uploaded to either the user stage or an internal/external stage. To do so, you can first upload the files to a stage using [BendSQL](../../30-sql-clients/00-bendsql/index.md), and then employ the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command to load the data from the staged file. Please note that the files must be in a format supported by Databend, otherwise the data cannot be imported. For more information on the file formats supported by Databend, see [Input & Output File Formats](/sql/sql-reference/file-format-options).
+Databend 使您能够轻松地从用户 Stage 或内部/外部 Stage 上传的文件中导入数据。为此，您可以首先使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 将文件上传到一个 Stage ，然后使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令从 Stage 文件中加载数据。请注意，文件必须是 Databend 支持的格式，否则无法导入数据。有关 Databend 支持的文件格式的更多信息，请参见 [输入和输出文件格式](/sql/sql-reference/file-format-options)。
 
 ![image](/img/load/load-data-from-stage.jpeg)
 
-The following tutorials offer a detailed, step-by-step guide to help you effectively navigate the process of loading data from files in a stage.
+以下教程提供了详细的逐步指导，帮助您有效地完成从 Stage 中的文件加载数据的过程。
 
-## Before You Begin
+## 开始之前
 
-Before you start, make sure you have completed the following tasks:
+在开始之前，请确保您已完成以下任务：
 
-- Download and save the sample file [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) to a local folder. The file contains two records:
+- 下载样本文件 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 并保存到本地文件夹。该文件包含两条记录：
 
 ```text
 Transaction Processing,Jim Gray,1992
 Readings in Database Systems,Michael Stonebraker,2004
 ```
 
-- Create a table with the following SQL statements in Databend:
+- 在 Databend 中使用以下 SQL 语句创建一个表：
 
 ```sql
 USE default;
@@ -31,13 +31,13 @@ CREATE TABLE books
 );
 ```
 
-## Tutorial 1: Loading from User Stage
+## 教程 1：从用户 Stage 加载
 
-Follow this tutorial to upload the sample file to the user stage and load data from the staged file into Databend.
+按照本教程将样本文件上传到用户 Stage ，并从 Stage 文件中将数据加载到 Databend。
 
-### Step 1: Upload Sample File
+### 步骤 1：上传样本文件
 
-1. Upload the sample file using [BendSQL](../../30-sql-clients/00-bendsql/index.md):
+1. 使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 上传样本文件：
 
 ```sql
 root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @~
@@ -50,7 +50,7 @@ root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @~
 └───────────────────────────────────────────────┘
 ```
 
-2. Verify the staged file:
+2. 验证 Stage 文件：
 
 ```sql
 LIST @~;
@@ -60,15 +60,15 @@ name         |size|md5                               |last_modified             
 books.parquet| 998|"88432bf90aadb79073682988b39d461c"|2023-06-27 16:03:51.000 +0000|       |
 ```
 
-### Step 2. Copy Data into Table
+### 步骤 2. 将数据复制到表中
 
-1. Load data into the target table with the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command:
+1. 使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令将数据加载到目标表中：
 
 ```sql
 COPY INTO books FROM @~ files=('books.parquet') FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-2. Verify the loaded data:
+2. 验证加载的数据：
 
 ```sql
 SELECT * FROM books;
@@ -80,18 +80,18 @@ Transaction Processing      |Jim Gray           |1992|
 Readings in Database Systems|Michael Stonebraker|2004|
 ```
 
-## Tutorial 2: Loading from Internal Stage
+## 教程 2：从内部 Stage 加载
 
-Follow this tutorial to upload the sample file to an internal stage and load data from the staged file into Databend.
+按照本教程将样本文件上传到内部 Stage ，并从 Stage 文件中将数据加载到 Databend。
 
-### Step 1. Create an Internal Stage
+### 步骤 1. 创建内部 Stage 
 
-1. Create an internal stage with the [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) command:
+1. 使用 [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令创建一个内部 Stage ：
 
 ```sql
 CREATE STAGE my_internal_stage;
 ```
-2. Verify the created stage:
+2. 验证创建的 Stage ：
 
 ```sql
 SHOW STAGES;
@@ -101,9 +101,9 @@ name             |stage_type|number_of_files|creator   |comment|
 my_internal_stage|Internal  |              0|'root'@'%'|       |
 ```
 
-### Step 2: Upload Sample File
+### 步骤 2：上传样本文件
 
-1. Upload the sample file using [BendSQL](../../30-sql-clients/00-bendsql/index.md):
+1. 使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 上传样本文件：
 
 ```sql
 root@localhost:8000/default> CREATE STAGE my_internal_stage;
@@ -118,7 +118,7 @@ root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @my_in
 └───────────────────────────────────────────────┘
 ```
 
-2. Verify the staged file:
+2. 验证 Stage 文件：
 
 ```sql
 LIST @my_internal_stage;
@@ -128,9 +128,9 @@ name                               |size  |md5                               |la
 books.parquet                      |   998|"88432bf90aadb79073682988b39d461c"|2023-06-28 02:32:15.000 +0000|       |
 ```
 
-### Step 3. Copy Data into Table
+### 步骤 3. 将数据复制到表中
 
-1. Load data into the target table with the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command:
+1. 使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令将数据加载到目标表中：
 
 ```sql
 COPY INTO books 
@@ -140,7 +140,7 @@ FILE_FORMAT = (
     TYPE = 'PARQUET'
 );
 ```
-2. Verify the loaded data:
+2. 验证加载的数据：
 
 ```sql
 SELECT * FROM books;
@@ -152,13 +152,13 @@ Transaction Processing      |Jim Gray           |1992|
 Readings in Database Systems|Michael Stonebraker|2004|
 ```
 
-## Tutorial 3: Loading from External Stage
+## 教程 3：从外部 Stage 加载
 
-Follow this tutorial to upload the sample file to an external stage and load data from the staged file into Databend.
+按照本教程将样本文件上传到外部 Stage ，并从 Stage 文件中将数据加载到 Databend。
 
-### Step 1. Create an External Stage
+### 步骤 1. 创建外部 Stage 
 
-1. Create an external stage with the [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) command:
+1. 使用 [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令创建一个外部 Stage ：
 
 ```sql
 CREATE STAGE my_external_stage
@@ -170,7 +170,7 @@ CREATE STAGE my_external_stage
     );
 ```
 
-2. Verify the created stage:
+2. 验证创建的 Stage ：
 
 ```sql
 SHOW STAGES;
@@ -180,9 +180,9 @@ name             |stage_type|number_of_files|creator           |comment|
 my_external_stage|External  |               |'root'@'%'|       |
 ```
 
-### Step 2: Upload Sample File
+### 第2步：上传样本文件
 
-1. Upload the sample file using [BendSQL](../../30-sql-clients/00-bendsql/index.md):
+1. 使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 上传样本文件：
 
 ```sql
 root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @my_external_stage
@@ -195,7 +195,7 @@ root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @my_ex
 └───────────────────────────────────────────────┘
 ```
 
-2. Verify the staged file:
+2. 验证已暂存的文件：
 
 ```sql
 LIST @my_external_stage;
@@ -205,9 +205,9 @@ name         |size|md5                               |last_modified             
 books.parquet| 998|"88432bf90aadb79073682988b39d461c"|2023-06-28 04:13:15.178 +0000|       |
 ```
 
-### Step 3. Copy Data into Table
+### 第3步：将数据复制到表中
 
-1. Load data into the target table with the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command:
+1. 使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令将数据加载到目标表中：
 
 ```sql
 COPY INTO books
@@ -217,7 +217,7 @@ FILE_FORMAT = (
     TYPE = 'PARQUET'
 );
 ```
-2. Verify the loaded data:
+2. 验证加载的数据：
 
 ```sql
 SELECT * FROM books;

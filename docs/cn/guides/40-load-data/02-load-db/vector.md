@@ -6,17 +6,17 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced: v1.1.55"/>
 
-[Vector](https://vector.dev/) is a high-performance observability data pipeline that puts organizations in control of their observability data. Collect, transform, and route all your logs, metrics, and traces to any vendors you want today and any other vendors you may want tomorrow. Vector enables dramatic cost reduction, novel data enrichment, and data security where you need it, not where is most convenient for your vendors. Open source and up to 10x faster than every alternative.
+[Vector](https://vector.dev/) 是一个高性能的可观测性数据管道，使组织能够控制他们的可观测性数据。收集、转换并将你的日志、指标和追踪信息路由到任何你今天想要的供应商，以及你未来可能想要的其他供应商。Vector支持显著降低成本、新颖的数据丰富化以及在你需要的地方进行数据安全保护，而不是在你的供应商最方便的地方。Vector是开源的，并且比所有其他替代品快达10倍。
 
-Vector natively supports delivering data to [Databend as a sink](https://vector.dev/docs/reference/configuration/sinks/databend/), this means that Vector can send data to Databend for storage or further processing. Databend acts as the destination for the data collected and processed by Vector. By configuring Vector to use Databend as a sink, you can seamlessly transfer data from Vector to Databend, enabling efficient data analysis, storage, and retrieval. 
+Vector原生支持将数据作为[数据接收器传送到Databend](https://vector.dev/docs/reference/configuration/sinks/databend/)，这意味着Vector可以将数据发送到Databend进行存储或进一步处理。Databend作为Vector收集和处理的数据的目的地。通过配置Vector使用Databend作为接收器，你可以无缝地将数据从Vector传输到Databend，实现高效的数据分析、存储和检索。
 
-## Integrating with Vector
+## 与Vector集成
 
-To integrate Databend with Vector, start by creating an SQL account in Databend and assigning appropriate permissions. This account will be used for communication and data transfer between Vector and Databend. Then, in the Vector configuration, set up Databend as a Sink.
+要将Databend与Vector集成，首先在Databend中创建一个SQL账户并分配适当的权限。这个账户将用于Vector和Databend之间的通信和数据传输。然后，在Vector配置中设置Databend作为接收器。
 
-### Step 1: Creating an SQL User in Databend
+### 步骤1：在Databend中创建SQL用户
 
-For instructions on how to create a SQL user in Databend and grant appropriate privileges, see [Create User](/sql/sql-commands/ddl/user/user-create-user). Here's an example of creating a user named *user1* with the password *abc123*:
+有关如何在Databend中创建SQL用户并授予适当权限的说明，请参见[创建用户](/sql/sql-commands/ddl/user/user-create-user)。以下是创建一个名为*user1*，密码为*abc123*的用户的示例：
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
@@ -26,42 +26,42 @@ CREATE DATABASE nginx;
 GRANT INSERT ON nginx.* TO user1;
 ```
 
-### Step 2: Configure Databend as a Sink in Vector
+### 步骤2：在Vector中配置Databend作为接收器
 
-In this step, configure Databend as a sink in Vector by specifying the necessary settings such as the input source, compression, database, endpoint, table, and authentication credentials (username and password) for Databend integration. The following is a simple example of configuring Databend as a sink. For a comprehensive list of configuration parameters, refer to the Vector documentation at https://vector.dev/docs/reference/configuration/sinks/databend/
+在此步骤中，通过指定必要的设置，如输入源、压缩、数据库、端点、表和Databend集成的身份验证凭据（用户名和密码），在Vector中配置Databend作为接收器。以下是配置Databend作为接收器的简单示例。有关配置参数的完整列表，请参考Vector文档：https://vector.dev/docs/reference/configuration/sinks/databend/
 
 ```toml title='vector.toml'
 ...
 
 [sinks.databend_sink]
 type = "databend"
-inputs = [ "my-source-or-transform-id" ] # input source
+inputs = [ "my-source-or-transform-id" ] # 输入源
 compression = "none"
-database = "nginx" #Your database
+database = "nginx" #你的数据库
 endpoint = "http://localhost:8000"
-table = "mytable" #Your table
+table = "mytable" #你的表
 
 ...
 
 [sinks.databend_sink.auth]
 strategy = "basic"
 // highlight-next-line
-user = "user1" #Databend username
+user = "user1" #Databend用户名
 // highlight-next-line
-password = "abc123" #Databend password
+password = "abc123" #Databend密码
 
 ...
 ```
 
-## Nginx Access Log Example
+## Nginx访问日志示例
 
-### Step 1. Deploy Databend
+### 步骤1. 部署Databend
 
-#### 1.1 Install Databend
+#### 1.1 安装Databend
 
-Follow the [Docker and Local Deployments](../../10-deploy/03-deploying-local.md) guide to deploy a local Databend.
+按照[Docker和本地部署](../../10-deploy/03-deploying-local.md)指南在本地部署Databend。
 
-#### 1.2 Create a Database and a Table
+#### 1.2 创建数据库和表
 
 ```sql
 CREATE DATABASE nginx;
@@ -89,27 +89,27 @@ CREATE TABLE nginx.access_logs (
 );
 ```
 
-#### 1.3 Create a User for Vector Auth
+#### 1.3 为Vector Auth创建用户
 
-Create a user:
+创建用户：
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 ```
 
-Grant privileges for the user:
+授予权限给用户：
 
 ```sql
 GRANT INSERT ON nginx.* TO user1;
 ```
 
-### Step 2. Deploy Nginx
+### 步骤2. 部署Nginx
 
-#### 2.1 Install Nginx
+#### 2.1 安装Nginx
 
-If you haven't install Nginx, please refer to [How to Install Nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/).
+如果你还没有安装Nginx，请参考[如何安装Nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)。
 
-#### 2.2 Configure Nginx
+#### 2.2 配置Nginx
 
 ```shell title='nginx.conf'
 user www-data;
@@ -122,7 +122,7 @@ events {
 
 http {
         ##
-        # Logging Settings
+        # 日志设置
         ##
 	    log_format upstream '$remote_addr "$time_local" $host "$request_method $request_uri $server_protocol" $status $bytes_sent "$http_referrer" "$http_user_agent" $remote_port $upstream_addr $scheme $gzip_ratio $request_length $request_time $ssl_protocol "$upstream_response_time"';
 
@@ -133,24 +133,24 @@ http {
         include /etc/nginx/sites-enabled/*;
 }
 ```
-This is how the log message looks:
+这是日志消息的样子：
 ```text
 ::1 "09/Apr/2022:11:13:39 +0800" localhost "GET /?xx HTTP/1.1" 304 189 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36" 50758 - http - 1202 0.000 - "-"
 ```
 
-Use the new `nginx.conf` replace your Nginx configuration and restart the Nginx server.
+使用新的`nginx.conf`替换你的Nginx配置并重启Nginx服务器。
 
-### Step 3. Deploy Vector
+### 步骤3. 部署Vector
 
-#### 3.1 Install Vector
+#### 3.1 安装Vector
 
-You can [install Vector](https://vector.dev/docs/setup/installation/) with the installation script:
+你可以使用安装脚本[安装Vector](https://vector.dev/docs/setup/installation/)：
 
 ```shell
 curl --proto '=https' --tlsv1.2 -sSf https://sh.vector.dev | bash
 ```
 
-#### 3.2 Configure Vector
+#### 3.2 配置Vector
 
 ```toml title='vector.toml'
 [sources.nginx_access_log]
@@ -168,8 +168,7 @@ drop_on_error = true
 // highlight-next-line
 #nginx log_format upstream '$remote_addr "$time_local" $host "$request_method $request_uri $server_protocol" $status $bytes_sent "$http_referrer" "$http_user_agent" $remote_port $upstream_addr $scheme $gzip_ratio $request_length $request_time $ssl_protocol "$upstream_response_time"';
 
-source = """
-    parsed_log, err = parse_regex(.message, r'^(?P<remote_addr>\\S+) \
+parsed_log, err = parse_regex(.message, r'^(?P<remote_addr>\\S+) \
 \"(?P<time_local>\\S+ \\S+)\" \
 (?P<host>\\S+) \
 \"(?P<request_method>\\S+) (?P<request_uri>.+) (?P<server_protocol>HTTP/\\S+)\" \
@@ -186,57 +185,55 @@ source = """
 (?P<ssl_protocol>\\S+) \
 \"(?P<upstream_response_time>.+)\"$')
     if err != null {
-      log("Unable to parse access log: " + string!(.message), level: "warn")
+      log("无法解析访问日志: " + string!(.message), level: "warn")
       abort
     }
     . = merge(., parsed_log)
     .timestamp = parse_timestamp!(.time_local, format: "%d/%b/%Y:%H:%M:%S %z")
     .timestamp = format_timestamp!(.timestamp, format: "%F %X")
 
-    # Convert from string into integer.
+    # 将字符串转换为整数。
     .remote_port, err = to_int(.remote_port)
     if err != null {
-      log("Unable to parse access log: " + string!(.remote_port), level: "warn")
+      log("无法解析访问日志: " + string!(.remote_port), level: "warn")
       abort
     }
 
-    # Convert from string into integer.
+    # 将字符串转换为整数。
     .status, err  = to_int(.status)
     if err != null {
-      log("Unable to parse access log: " + string!(.status), level: "warn")
+      log("无法解析访问日志: " + string!(.status), level: "warn")
       abort
     }
 
-    # Convert from string into integer.
+    # 将字符串转换为整数。
     .bytes_sent, err = to_int(.bytes_sent)
     if err != null {
-      log("Unable to parse access log: " + string!(.bytes_sent), level: "warn")
+      log("无法解析访问日志: " + string!(.bytes_sent), level: "warn")
       abort
     }
 
-    # Convert from string into integer.
+    # 将字符串转换为整数。
     .request_length, err = to_int(.request_length)
     if err != null {
-      log("Unable to parse access log: " + string!(.request_length), level: "warn")
+      log("无法解析访问日志: " + string!(.request_length), level: "warn")
       abort
     }
 
-    # Convert from string into float.
+    # 将字符串转换为浮点数。
     .request_time, err = to_float(.request_time)
     if err != null {
-      log("Unable to parse access log: " + string!(.request_time), level: "warn")
+      log("无法解析访问日志: " + string!(.request_time), level: "warn")
       abort
     }
-  """
-
 
 [sinks.nginx_access_log_to_databend]
   type = "databend"
   inputs = ["nginx_access_log_parser"]
   // highlight-next-line
-  database = "nginx" #Your database
+  database = "nginx" #您的数据库
   // highlight-next-line
-  table = "access_logs" #Your table
+  table = "access_logs" #您的表格
   // highlight-next-line
   endpoint = "http://localhost:8000/"
   compression = "gzip"
@@ -245,12 +242,12 @@ source = """
 [sinks.nginx_access_log_to_databend.auth]
   strategy = "basic"
   // highlight-next-line
-  user = "user1" #Databend username
+  user = "user1" #Databend 用户名
   // highlight-next-line
-  password = "abc123" #Databend password
+  password = "abc123" #Databend 密码
 
 [[tests]]
-name = "extract fields from access log"
+name = "从访问日志中提取字段"
 
 [[tests.inputs]]
 insert_at = "nginx_access_log_parser"
@@ -285,51 +282,51 @@ source = """
       """
 
 [[tests]]
-name = "no event from wrong access log"
+name = "错误访问日志不产生事件"
 no_outputs_from = ["nginx_access_log_parser"]
 
 [[tests.inputs]]
 insert_at = "nginx_access_log_parser"
 type = "raw"
-value = 'I am not access log'
+value = '我不是访问日志'
 ```
 
-#### 3.3 Validate Configuration
+#### 3.3 验证配置
 
-Check the `nginx_access_log_parser` transform works or not:
+检查 `nginx_access_log_parser` 转换是否工作正常：
 
 ```shell
 vector test ./vector.toml
 ```
 
-If it works, the output is:
+如果工作正常，输出是：
 
 ```shell
-Running tests
-test extract fields from access log ... passed
-2022-04-09T04:03:09.704557Z  WARN transform{component_kind="transform" component_id=nginx_access_log_parser component_type=remap component_name=nginx_access_log_parser}: vrl_stdlib::log: "Unable to parse access log: I am not access log" internal_log_rate_secs=1 vrl_position=479
-test no event from wrong access log ... passed
+运行测试
+test extract fields from access log ... 通过
+2022-04-09T04:03:09.704557Z  WARN transform{component_kind="transform" component_id=nginx_access_log_parser component_type=remap component_name=nginx_access_log_parser}: vrl_stdlib::log: "无法解析访问日志: I am not access log" internal_log_rate_secs=1 vrl_position=479
+test no event from wrong access log ... 通过
 ```
 
-#### 3.4 Run Vector
+#### 3.4 运行 Vector
 
 ```shell
 vector -c ./vector.toml
 ```
 
-### Step 4. Analyze Nginx Log in Databend
+### 第4步 分析 Nginx 日志在 Databend 中
 
-#### 4.1 Generate logs
+#### 4.1 生成日志
 
-Reload the home page at `http://localhost/xx/yy?mm=nn` many times, or using the [wrk](https://github.com/wg/wrk) HTTP benchmarking tool to generate a large amount Nginx logs quickly:
+多次重新加载位于 `http://localhost/xx/yy?mm=nn` 的主页，或者使用 [wrk](https://github.com/wg/wrk) HTTP 压力测试工具快速生成大量 Nginx 日志：
 
 ```shell
 wrk -t12 -c400 -d30s http://localhost
 ```
 
-#### 4.2 Analyze Nginx Access Logs in Databend
+#### 4.2 在 Databend 中分析 Nginx 访问日志
 
-- __Top 10 Request Status__
+- __请求状态前 10 名__
 
 ```sql
 SELECT count() AS count, status FROM nginx.access_logs GROUP BY status LIMIT 10;
@@ -341,7 +338,7 @@ SELECT count() AS count, status FROM nginx.access_logs GROUP BY status LIMIT 10;
 +-----------+--------+
 ```
 
-- __Top 10 Request Methods__
+- __请求方法前 10 名__
 
 ```sql
 SELECT count() AS count, request_method FROM nginx.access_logs GROUP BY request_method LIMIT 10;
@@ -353,7 +350,7 @@ SELECT count() AS count, request_method FROM nginx.access_logs GROUP BY request_
 +-----------+----------------+
 ```
 
-- __Top 10 Request IPs__
+- __请求 IP 前 10 名__
 
 ```sql
 SELECT count(*) AS count, remote_addr AS client FROM nginx.access_logs GROUP BY client ORDER BY count DESC LIMIT 10;
@@ -366,7 +363,7 @@ SELECT count(*) AS count, remote_addr AS client FROM nginx.access_logs GROUP BY 
 +----------+-----------+
 ```
 
-- __Top 10 Request Pages__
+- __请求页面前 10 名__
 
 ```sql
 SELECT count(*) AS count, request_uri AS uri FROM nginx.access_logs GROUP BY uri ORDER BY count DESC LIMIT 10;
@@ -382,7 +379,7 @@ SELECT count(*) AS count, request_uri AS uri FROM nginx.access_logs GROUP BY uri
 ```
 
 
-- __Top 10 HTTP 404 Pages__
+- __HTTP 404 页面前 10 名__
 
 ```sql
 SELECT count_if(status=404) AS count, request_uri AS uri FROM nginx.access_logs GROUP BY uri ORDER BY count DESC LIMIT 10;
@@ -397,7 +394,7 @@ SELECT count_if(status=404) AS count, request_uri AS uri FROM nginx.access_logs 
 +----------+--------------------+
 ```
 
-- __Top 10 Requests__
+- __请求前 10 名__
 
 ```sql
 SELECT count(*) AS count, request_uri AS request FROM nginx.access_logs GROUP BY request ORDER BY count DESC LIMIT 10;

@@ -2,20 +2,20 @@
 title: Kafka
 ---
 
-[Apache Kafka](https://kafka.apache.org/) is an open-source distributed event streaming platform that allows you to publish and subscribe to streams of records. It is designed to handle high-throughput, fault-tolerant, and real-time data feeds. Kafka enables seamless communication between various applications, making it an ideal choice for building data pipelines and streaming data processing applications.
+[Apache Kafka](https://kafka.apache.org/) 是一个开源的分布式事件流平台，允许您发布和订阅记录流。它旨在处理高吞吐量、容错和实时数据流。Kafka 使各种应用程序之间的无缝通信成为可能，是构建数据管道和流数据处理应用程序的理想选择。
 
-Databend provides an efficient data ingestion tool ([bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka)), specifically designed to load data from Kafka into Databend. With this tool, you can seamlessly transfer data from Kafka topics and insert it into your target Databend table, streamlining your data ingestion workflow. 
+Databend 提供了一个高效的数据摄取工具（[bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka)），专门设计用于将 Kafka 中的数据加载到 Databend 中。使用这个工具，您可以无缝地将 Kafka 主题中的数据传输并插入到目标 Databend 表中，简化您的数据摄取工作流程。
 
-## Installing bend-ingest-kafka
+## 安装 bend-ingest-kafka
 
-To install the tool, make sure you have Go programming language installed on your computer, and then use the "go get" command as shown:
+要安装该工具，请确保您的计算机上安装了 Go 编程语言，然后使用 "go get" 命令如下所示：
 
 ```bash
 go get https://github.com/databendcloud/bend-ingest-kafka
 ```
-## Usage Example
+## 使用示例
 
-This section assumes your data in Kafka appears as follows and explains how to load data into Databend using the tool bend-ingest-kafka.
+本节假设您在 Kafka 中的数据如下所示，并解释了如何使用工具 bend-ingest-kafka 将数据加载到 Databend 中。
 
 ```json
 {
@@ -31,9 +31,9 @@ This section assumes your data in Kafka appears as follows and explains how to l
 }
 ```
 
-### Step 1. Create a Table in Databend
+### 步骤 1. 在 Databend 中创建表
 
-Before ingesting data, you need to create a table in Databend that matches the structure of your Kafka data.
+在摄取数据之前，您需要在 Databend 中创建一个与 Kafka 数据结构相匹配的表。
 
 ```sql
 CREATE TABLE employee_data (
@@ -49,9 +49,9 @@ CREATE TABLE employee_data (
 );
 ```
 
-### Step 2. Run bend-ingest-kafka
+### 步骤 2. 运行 bend-ingest-kafka
 
-Once the table is created, execute the bend-ingest-kafka command with the required parameters to initiate the data loading process. The command will start the data ingester, which continuously monitors your Kafka topic, consumes the data, and inserts it into the specified table in Databend.
+创建表后，执行带有所需参数的 bend-ingest-kafka 命令以启动数据加载过程。该命令将启动数据摄取器，它会持续监控您的 Kafka 主题，消费数据，并将其插入到 Databend 中指定的表中。
 
 ```bash
 bend-ingest-kafka \
@@ -65,13 +65,13 @@ bend-ingest-kafka \
   --batch-max-interval=300s
 ```
 
-| Parameter                 	| Description                                                                                         	|
+| 参数                        	| 描述                                                                                              	|
 |---------------------------	|-----------------------------------------------------------------------------------------------------	|
-| --kafka-bootstrap-servers 	| Comma-separated list of Kafka bootstrap servers to connect to.                                      	|
-| --kafka-topic             	| The Kafka topic from which the data will be ingested.                                               	|
-| --kafka-consumer-group    	| The consumer group for Kafka consumer to join.                                                      	|
-| --databend-dsn            	| The Data Source Name (DSN) to connect to Databend. Format: `http(s)://username:password@host:port`. 	|
-| --databend-table          	| The target Databend table where the data will be inserted.                                          	|
-| --data-format             	| The format of the data being ingested.                                                              	|
-| --batch-size              	| The number of records per batch during ingestion.                                                   	|
-| --batch-max-interval      	| The maximum interval (in seconds) to wait before flushing a batch.                                  	|
+| --kafka-bootstrap-servers 	| 用于连接的 Kafka 引导服务器的逗号分隔列表。                                                        	|
+| --kafka-topic             	| 将从中摄取数据的 Kafka 主题。                                                                      	|
+| --kafka-consumer-group    	| Kafka 消费者加入的消费者组。                                                                       	|
+| --databend-dsn            	| 用于连接到 Databend 的数据源名称（DSN）。格式：`http(s)://username:password@host:port`。          	|
+| --databend-table          	| 将插入数据的目标 Databend 表。                                                                     	|
+| --data-format             	| 正在摄取的数据的格式。                                                                              	|
+| --batch-size              	| 摄取过程中每批次的记录数。                                                                         	|
+| --batch-max-interval      	| 在刷新批次之前等待的最大间隔时间（以秒为单位）。                                                   	|

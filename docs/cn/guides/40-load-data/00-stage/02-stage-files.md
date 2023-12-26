@@ -1,35 +1,35 @@
 ---
-title: Staging Files
+title: Stage 文件
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Databend recommends two file upload methods for stages: [PRESIGN](/sql/sql-commands/ddl/stage/presign) and PUT/GET commands. These methods enable direct data transfer between the client and your storage, eliminating intermediaries and resulting in cost savings by reducing traffic between Databend and your storage.
+Databend 推荐使用两种文件上传方法进行 Stage 文件处理：[PRESIGN](/sql/sql-commands/ddl/stage/presign) 和 PUT/GET 命令。这些方法能够直接在客户端与您的存储之间传输数据，省去了中间环节，通过减少 Databend 与您的存储之间的流量，从而节省成本。
 
 ![Alt text](@site/docs/public/img/load/staging-file.png)
 
-The PRESIGN method generates a time-limited URL with a signature, which clients can use to securely initiate file uploads. This URL grants temporary access to the designated stage, allowing clients to directly transfer data without relying on Databend servers for the entire process, enhancing both security and efficiency.
+PRESIGN 方法会生成一个带有签名的限时 URL，客户端可以使用该 URL 安全地启动文件上传。这个 URL 提供对指定 Stage 的临时访问权限，允许客户端直接传输数据，而不需要依赖 Databend 服务器完成整个过程，这样既增强了安全性也提高了效率。如果您使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 来管理 Stage 中的文件，您可以使用 PUT 命令上传文件以及使用 GET 命令下载文件。
 
-If you're using [BendSQL](../../30-sql-clients/00-bendsql/index.md) to manage files in a stage, you can use the PUT command for uploading files and the GET command for downloading files.
+- GET 命令目前只能下载 Stage 中的所有文件，不能下载单个文件。
+- 这些命令仅限于 BendSQL 使用，当 Databend 将文件系统作为存储后端时，GET 命令将无法使用。
 
-- The GET command currently can only download all files in a stage, not individual ones.
-- These commands are exclusive to BendSQL and the GET command will not function when Databend uses the file system as the storage backend.
+## 示例
 
-## Examples
+### 使用预签名 URL 上传
 
-### Uploading with Presigned URL
-
-The following examples demonstrate how to upload a sample file ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)) to the user stage, an internal stage, and an external stage with presigned URLs.
+以下示例演示如何使用预签名 URL 上传样本文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)）到用户 Stage、内部 Stage 和外部 Stage。
 
 <Tabs groupId="presign">
 
-<TabItem value="user" label="Upload to User Stage">
+<TabItem value="user" label="上传到用户 Stage">
 
 ```sql
 PRESIGN UPLOAD @~/books.parquet;
 ```
 
-Result:
+结果：
+
 ```
 ┌────────┬────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Name   │ Value                                                                                                              │
@@ -39,17 +39,19 @@ Result:
 │ url    │ https://s3.us-east-2.amazonaws.com/databend-toronto/stage/user/root/books.parquet?X-Amz-Algorithm...               │
 └────────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
+
 ```shell
 curl -X PUT -T books.parquet "https://s3.us-east-2.amazonaws.com/databend-toronto/stage/user/root/books.parquet?X-Amz-Algorithm=... ...
 ```
 
-Check the staged file:
+检查 Stage 中的文件
 
 ```sql
 LIST @~;
 ```
 
-Result:
+结果：
+
 ```
 ┌───────────────┬──────┬──────────────────────────────────────┬─────────────────────────────────┬─────────┐
 │ name          │ size │ md5                                  │ last_modified                   │ creator │
@@ -57,18 +59,21 @@ Result:
 │ books.parquet │  998 │ 88432bf90aadb79073682988b39d461c     │ 2023-06-27 16:03:51.000 +0000   │         │
 └───────────────┴──────┴──────────────────────────────────────┴─────────────────────────────────┴─────────┘
 ```
+
 </TabItem>
 
-<TabItem value="internal" label="Upload to Internal Stage">
+<TabItem value="internal" label="上传到内部 Stage">
 
 ```sql
 CREATE STAGE my_internal_stage;
 ```
+
 ```sql
 PRESIGN UPLOAD @my_internal_stage/books.parquet;
 ```
 
-Result:
+结果：
+
 ```
 ┌─────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Name    │ Value                                                                                                                                                                                                                                                                                                                                                                                                                               │
@@ -83,13 +88,14 @@ Result:
 curl -X PUT -T books.parquet "https://s3.us-east-2.amazonaws.com/databend-toronto/stage/internal/my_internal_stage/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASTQNLUZWP2UY2HSN%2F20230628%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230628T022951Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=9cfcdf3b3554280211f88629d60358c6d6e6a5e49cd83146f1daea7dfe37f5c1"
 ```
 
-Check the staged file:
+检查 Stage 中的文件
 
 ```sql
 LIST @my_internal_stage;
 ```
 
-Result:
+结果：
+
 ```
 ┌──────────────────────────────────┬───────┬──────────────────────────────────────┬─────────────────────────────────┬─────────┐
 │ name                             │ size  │ md5                                  │ last_modified                  │ creator │
@@ -97,12 +103,13 @@ Result:
 │ books.parquet                    │   998 │ "88432bf90aadb79073682988b39d461c"     │ 2023-06-28 02:32:15.000 +0000  │         │
 └──────────────────────────────────┴───────┴──────────────────────────────────────┴─────────────────────────────────┴─────────┘
 ```
+
 </TabItem>
-<TabItem value="external" label="Upload to External Stage">
+<TabItem value="external" label="上传到外部 Stage">
 
 ```sql
-CREATE STAGE my_external_stage 
-URL = 's3://databend' 
+CREATE STAGE my_external_stage
+URL = 's3://databend'
 CONNECTION = (
     ENDPOINT_URL = 'http://127.0.0.1:9000',
     aws_key_id = 'ROOTUSER',
@@ -113,8 +120,10 @@ CONNECTION = (
 ```sql
 PRESIGN UPLOAD @my_external_stage/books.parquet;
 ```
-Result:
-```
+
+结果：
+
+````
 ┌─────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Name    │ Value                                                                                                                                                                                                                                                                                                                             │
 ├─────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
@@ -124,15 +133,16 @@ Result:
 └─────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```shell
 curl -X PUT -T books.parquet "http://127.0.0.1:9000/databend/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ROOTUSER%2F20230628%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230628T040959Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=<signature...>"
-```
+````
 
-Check the staged file:
+检查 Stage 中的文件
 
 ```sql
 LIST @my_external_stage;
 ```
 
-Result:
+结果：
+
 ```
 ┌───────────────┬──────┬──────────────────────────────────────┬─────────────────────────────────┬─────────┐
 │ name          │ size │ md5                                  │ last_modified                  │ creator │
@@ -140,22 +150,24 @@ Result:
 │ books.parquet │  998 │ "88432bf90aadb79073682988b39d461c"    │ 2023-06-28 04:13:15.178 +0000  │         │
 └───────────────┴──────┴──────────────────────────────────────┴─────────────────────────────────┴─────────┘
 ```
+
 </TabItem>
 </Tabs>
 
-### Uploading with PUT Command
+### 使用 PUT 命令上传
 
-The following examples demonstrate how to use BendSQL to upload a sample file ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)) to the user stage, an internal stage, and an external stage with the PUT command.
+以下示例演示如何使用 BendSQL 通过 PUT 命令上传样本文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)）到用户 Stage、内部 Stage 和外部 Stage。
 
 <Tabs groupId="PUT">
 
-<TabItem value="user" label="Upload to User Stage">
+<TabItem value="user" label="上传到用户 Stage">
 
 ```sql
 PUT fs:///Users/eric/Documents/books.parquet @~
 ```
 
-Result:
+结果：
+
 ```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
@@ -164,13 +176,14 @@ Result:
 └───────────────────────────────────────────────┘
 ```
 
-Check the staged file:
+检查 Stage 中的文件
 
 ```sql
 LIST @~;
 ```
 
-Result:
+结果：
+
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
@@ -181,7 +194,7 @@ Result:
 
 </TabItem>
 
-<TabItem value="internal" label="Upload to Internal Stage">
+<TabItem value="internal" label="上传到内部 Stage">
 
 ```sql
 CREATE STAGE my_internal_stage;
@@ -190,7 +203,9 @@ CREATE STAGE my_internal_stage;
 ```sql
 PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage;
 ```
-Result:
+
+结果：
+
 ```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
@@ -199,13 +214,14 @@ Result:
 └───────────────────────────────────────────────┘
 ```
 
-Check the staged file:
+检查 Stage 中的文件
 
 ```sql
 LIST @my_internal_stage;
 ```
 
-Result:
+结果：
+
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
@@ -215,10 +231,10 @@ Result:
 ```
 
 </TabItem>
-<TabItem value="external" label="Upload to External Stage">
+<TabItem value="external" label="上传到外部 Stage">
 
 ```
-CREATE STAGE my_external_stage 
+CREATE STAGE my_external_stage
     URL = 's3://databend'
     CONNECTION = (
         ENDPOINT_URL = 'http://127.0.0.1:9000',
@@ -231,7 +247,8 @@ CREATE STAGE my_external_stage
 PUT fs:///Users/eric/Documents/books.parquet @my_external_stage
 ```
 
-Result:
+结果：
+
 ```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
@@ -240,13 +257,14 @@ Result:
 └───────────────────────────────────────────────┘
 ```
 
-Check the staged file:
+检查 Stage 中的文件
 
 ```sql
 LIST @my_external_stage;
 ```
 
-Result:
+结果：
+
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
 │         name         │ ··· │     last_modified    │      creator     │
@@ -258,19 +276,20 @@ Result:
 </TabItem>
 </Tabs>
 
-### Downloading with GET Command
+### 使用 GET 命令下载
 
-The following examples demonstrate how to use BendSQL to download a sample file ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)) from the user stage, an internal stage, and an external stage with the GET command.
+以下示例演示如何使用 BendSQL 通过 GET 命令从用户 Stage、内部 Stage 和外部 Stage 下载样本文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)）。
 
 <Tabs groupId="GET">
 
-<TabItem value="user" label="Download from User Stage">
+<TabItem value="user" label="从用户 Stage 下载">
 
 ```sql
 LIST @~;
 ```
 
-Result:
+结果：
+
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
@@ -283,7 +302,8 @@ Result:
 GET @~/ fs:///Users/eric/Downloads/fromStage/;
 ```
 
-Result:
+结果：
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                      file                     │  status │
@@ -291,15 +311,17 @@ Result:
 │ /Users/eric/Downloads/fromStage/books.parquet │ SUCCESS │
 └─────────────────────────────────────────────────────────┘
 ```
+
 </TabItem>
 
-<TabItem value="internal" label="Download from Internal Stage">
+<TabItem value="internal" label="从内部 Stage 下载">
 
 ```sql
 LIST @my_internal_stage;
 ```
 
-Result:
+结果：
+
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
@@ -312,7 +334,8 @@ Result:
 GET @my_internal_stage/ fs:///Users/eric/Downloads/fromStage/;
 ```
 
-Result:
+结果：
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                      file                     │  status │
@@ -320,14 +343,16 @@ Result:
 │ /Users/eric/Downloads/fromStage/books.parquet │ SUCCESS │
 └─────────────────────────────────────────────────────────┘
 ```
+
 </TabItem>
-<TabItem value="external" label="Download from External Stage">
+<TabItem value="external" label="从外部 Stage 下载">
 
 ```sql
 LIST @my_external_stage;
 ```
 
-Result:
+结果：
+
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
 │         name         │ ··· │     last_modified    │      creator     │
@@ -340,7 +365,8 @@ Result:
 GET @my_external_stage/ fs:///Users/eric/Downloads/fromStage/;
 ```
 
-Result:
+结果：
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                      file                     │  status │
@@ -348,5 +374,6 @@ Result:
 │ /Users/eric/Downloads/fromStage/books.parquet │ SUCCESS │
 └─────────────────────────────────────────────────────────┘
 ```
+
 </TabItem>
 </Tabs>

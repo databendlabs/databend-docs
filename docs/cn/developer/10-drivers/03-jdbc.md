@@ -111,18 +111,18 @@ int[] count = pstmt.executeBatch(); // 执行后，count[0]=1, count[1]=1
 pstmt.close();
 ```
 
-### 示例：上传文件到内部阶段 {#example-uploading-files-to-an-internal-stage}
+### 示例：上传文件到内部 Stage  {#example-uploading-files-to-an-internal-stage}
 
 ```java
  /**
-     * 将inputStream上传到databend内部阶段，数据将作为一个文件上传，不会分割。
+     * 将inputStream上传到databend内部 Stage ，数据将作为一个文件上传，不会分割。
      * 调用者应在上传完成后关闭输入流。
      *
-     * @param stageName 接收上传文件的阶段
-     * @param destPrefix 阶段中文件名的前缀
+     * @param stageName 接收上传文件的 Stage 
+     * @param destPrefix  Stage 中文件名的前缀
      * @param inputStream 文件的输入流
-     * @param destFileName 阶段中的目标文件名
-     * @param fileSize 阶段中的文件大小
+     * @param destFileName  Stage 中的目标文件名
+     * @param fileSize  Stage 中的文件大小
      * @param compressData 是否压缩数据
      * @throws SQLException 上传输入流失败
      */
@@ -147,14 +147,14 @@ pstmt.close();
         }
 ```
 
-### 示例：从内部阶段下载文件 {#example-downloading-files-from-an-internal-stage}
+### 示例：从内部 Stage 下载文件 {#example-downloading-files-from-an-internal-stage}
 
 ```java
  /**
-     * 从 databend 内部阶段下载文件，数据将作为一个文件下载，不会分割。
+     * 从 databend 内部 Stage 下载文件，数据将作为一个文件下载，不会分割。
      *
-     * @param stageName 包含文件的阶段名称
-     * @param sourceFileName 阶段中的文件名
+     * @param stageName 包含文件的 Stage 名称
+     * @param sourceFileName  Stage 中的文件名
      * @param decompress 是否解压数据
      * @return 文件的输入流
      * @throws SQLException

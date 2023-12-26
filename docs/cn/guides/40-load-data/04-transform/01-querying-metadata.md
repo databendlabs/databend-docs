@@ -1,21 +1,21 @@
 ---
-title: Query Metadata for Staged Files
+title: 查询 Stage 文件的元数据
 ---
 
-## Why and What is Metadata?
+## 为什么以及什么是元数据？ {#why-and-what-is-metadata}
 
-Databend allows you to retrieve metadata from your data files using the [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema) function. This means you can extract column definitions from data files stored in internal or external stages. Retrieving metadata through the `INFER_SCHEMA` function provides a better understanding of the data structure, ensures data consistency, and enables automated data integration and analysis. The metadata for each column includes the following information:
+Databend允许您使用 [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema) 函数从数据文件中检索元数据。这意味着您可以从存储在内部或外部 Stage 的数据文件中提取列定义。通过 `INFER_SCHEMA` 函数检索元数据可以更好地理解数据结构，确保数据一致性，并实现自动化数据集成和分析。每个列的元数据包括以下信息：
 
-- **column_name**: Indicates the name of the column.
-- **type**: Indicates the data type of the column.
-- **nullable**: Indicates whether the column allows null values.
-- **order_id**: Represents the column's position in the table.
+- **column_name**：表示列的名称。
+- **type**：表示列的数据类型。
+- **nullable**：表示列是否允许空值。
+- **order_id**：表示列在表中的位置。
 
 :::note
-This feature is currently only available for the Parquet file format.
+此功能目前仅适用于 Parquet 文件格式。
 :::
 
-The syntax for `INFER_SCHEMA` is as follows. For more detailed information about this function, see [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema).
+`INFER_SCHEMA` 的语法如下。有关此函数的更多详细信息，请参见 [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema)。
 
 ```sql
 INFER_SCHEMA(
@@ -24,23 +24,23 @@ INFER_SCHEMA(
 )
 ```
 
-## Tutorial: Querying Column Definitions
+## 教程：查询列定义 {#tutorial-querying-column-definitions}
 
-In this tutorial, we will guide you through the process of uploading the sample file to an internal stage, querying the column definitions, and finally creating a table based on the staged file. Before you start, download and save the sample file [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) to a local folder.
+在本教程中，我们将指导您上传示例文件到内部 Stage ，查询列定义，最后基于 Stage 文件创建表的过程。在开始之前，请下载并保存示例文件 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 到本地文件夹。
 
-1. Create an internal stage named *my_internal_stage*:
+1. 创建一个名为 *my_internal_stage* 的内部 Stage ：
 
 ```sql
 CREATE STAGE my_internal_stage;
 ```
 
-2. Stage the sample file using [BendSQL](../../30-sql-clients/00-bendsql/index.md):
+2. 使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md)  Stage 示例文件：
 
 ```sql
 PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
 ```
 
-Result:
+结果：
 ```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
@@ -50,13 +50,13 @@ Result:
 └───────────────────────────────────────────────┘
 ```
 
-3. Query the column definitions from the staged sample file:
+3. 从 Stage 的示例文件中查询列定义：
 
 ```sql
 SELECT * FROM INFER_SCHEMA(location => '@my_internal_stage/books.parquet');
 ```
 
-Result:
+结果：
 ```
 ┌─────────────┬─────────┬─────────┬─────────┐
 │ column_name │ type    │ nullable│ order_id│
@@ -67,19 +67,19 @@ Result:
 └─────────────┴─────────┴─────────┴─────────┘
 ```
 
-4. Create a table named *mybooks* based on the staged sample file:
+4. 基于 Stage 的示例文件创建一个名为 *mybooks* 的表：
 
 ```sql
 CREATE TABLE mybooks AS SELECT * FROM @my_internal_stage/books.parquet;
 ```
 
-Check the created table:
+检查已创建的表：
 
 ```sql
 DESC mybooks;
 ```
 
-Result:
+结果：
 ```
 ┌─────────┬─────────┬──────┬─────────┬───────┐
 │ Field   │ Type    │ Null │ Default │ Extra │
@@ -94,7 +94,7 @@ Result:
 SELECT * FROM mybooks;
 ```
 
-Result:
+结果：
 ```
 ┌───────────────────────────┬───────────────────┬──────┐
 │ title                     │ author            │ date │

@@ -6,17 +6,17 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced: v1.1.70"/>
 
-[Apache Flink](https://github.com/apache/flink) CDC (Change Data Capture) refers to the capability of Apache Flink to capture and process real-time data changes from various sources using SQL-based queries. CDC allows you to monitor and capture data modifications (inserts, updates, and deletes) happening in a database or streaming system and react to those changes in real time. You can utilize the [Flink SQL connector for Databend](https://github.com/databendcloud/flink-connector-databend) to load data from other databases in real-time into Databend. The Flink SQL connector for Databend offers a connector that integrates Flink's stream processing capabilities with Databend. By configuring this connector, you can capture data changes from various databases as streams and load them into Databend for processing and analysis in real-time.
+[Apache Flink](https://github.com/apache/flink) CDC（变更数据捕获）指的是Apache Flink使用基于SQL的查询捕获和处理来自各种源的实时数据变化的能力。CDC允许您监控和捕获数据库或流处理系统中发生的数据修改（插入、更新和删除），并实时响应这些变化。您可以使用[Databend的Flink SQL连接器](https://github.com/databendcloud/flink-connector-databend)实时从其他数据库加载数据到Databend。Databend的Flink SQL连接器提供了一个连接器，将Flink的流处理能力与Databend集成。通过配置这个连接器，您可以将各种数据库的数据变化作为流捕获，并实时加载到Databend中进行处理和分析。
 
-## Downloading & Installing Connector
+## 下载与安装连接器
 
-To download and install the Flink SQL connector for Databend, follow these steps:
+要下载并安装Databend的Flink SQL连接器，请按照以下步骤操作：
 
-1. Download and set up Flink: Before installing the Flink SQL connector for Databend, ensure that you have downloaded and set up Flink on your system. You can download Flink from the official website: https://flink.apache.org/downloads/
+1. 下载并设置Flink：在安装Databend的Flink SQL连接器之前，请确保您已经在系统上下载并设置了Flink。您可以从官方网站下载Flink：https://flink.apache.org/downloads/
 
-2. Download the connector: Visit the releases page of the Flink SQL connector for Databend on GitHub: https://github.com/databendcloud/flink-connector-databend/releases. Download the latest version of the connector (e.g., flink-connector-databend-0.0.2.jar).
+2. 下载连接器：访问GitHub上Databend的Flink SQL连接器的发布页面：https://github.com/databendcloud/flink-connector-databend/releases。下载连接器的最新版本（例如，flink-connector-databend-0.0.2.jar）。
 
-    Please note that you can also compile the Flink SQL connector for Databend from source:
+    请注意，您也可以从源代码编译Databend的Flink SQL连接器：
 
     ```shell
     git clone https://github.com/databendcloud/flink-connector-databend
@@ -24,15 +24,15 @@ To download and install the Flink SQL connector for Databend, follow these steps
     mvn clean install -DskipTests
     ```
 
-3. Move the JAR file: Once you have downloaded the connector, move the JAR file to the lib folder in your Flink installation directory. For example, if you have Flink version 1.16.0 installed, move the JAR file to the flink-1.16.0/lib/ directory.
+3. 移动JAR文件：下载连接器后，将JAR文件移动到Flink安装目录中的lib文件夹。例如，如果您安装了Flink版本1.16.0，请将JAR文件移动到flink-1.16.0/lib/目录。
 
-## Tutorial: Real-time Data Loading from MySQL
+## 教程：实时从MySQL加载数据
 
-In this tutorial, you will set up a real-time data loading from MySQL to Databend with the Flink SQL connector for Databend. Before you start, make sure you have successfully set up Databend and MySQL in your environment.
+在本教程中，您将使用Databend的Flink SQL连接器从MySQL到Databend设置实时数据加载。在开始之前，请确保您已经在环境中成功设置了Databend和MySQL。
 
-1. Create a table in MySQL and populate it with sample data. Then, create a corresponding target table in Databend.
+1. 在MySQL中创建一个表并用示例数据填充它。然后，在Databend中创建一个对应的目标表。
 
-```sql title='In MySQL:'
+```sql title='在MySQL中:'
 CREATE DATABASE mydb;
 USE mydb;
 
@@ -51,30 +51,33 @@ INSERT INTO products VALUES (default,"scooter","Small 2-wheel scooter"),
 (default,"spare tire","24 inch spare tire");
 ```
 
-```sql title='In Databend:'
+```sql title='在Databend中:'
 CREATE TABLE products (id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(512) );
 ```
 
-2. Download [Flink](https://flink.apache.org/downloads/) and the following SQL connectors to your system:
-    - Flink SQL connector for Databend: https://github.com/databendcloud/flink-connector-databend/releases
-    - Flink SQL connector for MySQL: https://repo1.maven.org/maven2/com/ververica/flink-sql-connector-mysql-cdc/2.3.0/flink-sql-connector-mysql-cdc-2.3.0.jar
-3. Move the both connector JAR files to the *lib* folder in your Flink installation directory.
-4. Start Flink:
+2. 下载[Flink](https://flink.apache.org/downloads/)和以下SQL连接器到您的系统：
+    - Databend的Flink SQL连接器：https://github.com/databendcloud/flink-connector-databend/releases
+    - MySQL的Flink SQL连接器：https://repo1.maven.org/maven2/com/ververica/flink-sql-connector-mysql-cdc/2.3.0/flink-sql-connector-mysql-cdc-2.3.0.jar
+3. 将两个连接器JAR文件移动到Flink安装目录中的*lib*文件夹。
+4. 启动Flink：
 
 ```shell
 cd flink-16.0
 ./bin/start-cluster.sh
 ```
 
-You can now open the Apache Flink Dashboard if you go to http://localhost:8081 in your browser:
+现在，如果您在浏览器中访问http://localhost:8081，可以打开Apache Flink仪表板：
 
 ![Alt text](@site/docs/public/img/load/cdc-dashboard.png)
 
-5. Start the Flink SQL Client:
+5. 启动Flink SQL客户端：
 
 ```shell
 ./bin/sql-client.sh
 
+```
+
+```markdown
                                    ▒▓██▓██▒
                                ▓████▒▒█▓▒▓███▓▒
                             ▓███▓░░        ▒▒▒▓██▒  ▒
@@ -106,7 +109,7 @@ You can now open the Apache Flink Dashboard if you go to http://localhost:8081 i
                ▓█▒   ▒█▓▒░                         ▒▒ █▒█▓▒▒░░▒██
                 ░██▒    ▒▓▓▒                     ▓██▓▒█▒ ░▓▓▓▓▒█▓
                   ░▓██▒                          ▓░  ▒█▓█  ░░▒▒▒
-                      ▒▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░▓▓  ▓░▒█░
+                      ▒▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░▓▓  ▓░▒█░
           
     ______ _ _       _       _____  ____  _         _____ _ _            _  BETA   
    |  ____| (_)     | |     / ____|/ __ \| |       / ____| (_)          | |  
@@ -115,14 +118,14 @@ You can now open the Apache Flink Dashboard if you go to http://localhost:8081 i
    | |    | | | | | |   <   ____) | |__| | |____  | |____| | |  __/ | | | |_ 
    |_|    |_|_|_| |_|_|\_\ |_____/ \___\_\______|  \_____|_|_|\___|_| |_|\__|
           
-        Welcome! Enter 'HELP;' to list all available commands. 'QUIT;' to exit.
+        欢迎！输入 'HELP;' 列出所有可用命令。输入 'QUIT;' 退出。
 ```
 
-6. Set the checkpointing interval to 3 seconds, and create corresponding tables with MySQL and Databend connectors in the Flink SQL Client. For the available connection parameters, see https://github.com/databendcloud/flink-connector-databend#connector-options: 
+6. 将检查点间隔设置为3秒，并在Flink SQL客户端中使用MySQL和Databend连接器创建相应的表。有关可用连接参数，请参见 https://github.com/databendcloud/flink-connector-databend#connector-options:
 
 ```sql       
 Flink SQL> SET execution.checkpointing.interval = 3s;
-[INFO] Session property has been set.
+[INFO] 会话属性已设置。
 
 Flink SQL> CREATE TABLE mysql_products (id INT,name STRING,description STRING,PRIMARY KEY (id) NOT ENFORCED) 
 WITH ('connector' = 'mysql-cdc',
@@ -134,7 +137,7 @@ WITH ('connector' = 'mysql-cdc',
 'table-name' = 'products',
 'server-time-zone' = 'UTC'
 );
-[INFO] Execute statement succeed.
+[INFO] 执行语句成功。
 
 Flink SQL> CREATE TABLE databend_products (id INT,name String,description String, PRIMARY KEY (`id`) NOT ENFORCED) 
 WITH ('connector' = 'databend',
@@ -147,19 +150,19 @@ WITH ('connector' = 'databend',
 'sink.flush-interval' = '1000',
 'sink.ignore-delete' = 'false',
 'sink.max-retries' = '3');
-[INFO] Execute statement succeed.
+[INFO] 执行语句成功。
 ```
 
-7. In the Flink SQL Client, synchronize the data from the *mysql_products* table to the *databend_products* table:
+7. 在Flink SQL客户端中，将*mysql_products*表中的数据同步到*databend_products*表中：
 
 ```sql
 Flink SQL> INSERT INTO databend_products SELECT * FROM mysql_products;
-[INFO] Submitting SQL update statement to the cluster...
-[INFO] SQL update statement has been successfully submitted to the cluster:
-Job ID: b14645f34937c7cf3672ffba35733734
+[INFO] 正在向集群提交SQL更新语句...
+[INFO] SQL更新语句已成功提交到集群：
+作业ID: b14645f34937c7cf3672ffba35733734
 ```
-You can now see a running job in the Apache Flink Dashboard:
+现在您可以在Apache Flink Dashboard中看到一个正在运行的作业：
 
 ![Alt text](@site/docs/public/img/load/cdc-job.png)
 
-You're all set!  If you query the *products* table in Databend, you will see that the data from MySQL has been successfully synchronized. Feel free to perform insertions, updates, or deletions in MySQL, and you will observe the corresponding changes reflected in Databend as well.
+一切就绪！如果您在Databend中查询*products*表，您会看到来自MySQL的数据已成功同步。随意在MySQL中执行插入、更新或删除操作，您将观察到在Databend中反映出相应的变化。

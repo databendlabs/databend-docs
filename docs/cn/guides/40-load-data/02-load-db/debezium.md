@@ -2,71 +2,71 @@
 title: Debezium
 ---
 
-[Debezium](https://debezium.io/) is a set of distributed services to capture changes in your databases so that your applications can see those changes and respond to them. Debezium records all row-level changes within each database table in a change event stream, and applications simply read these streams to see the change events in the same order in which they occurred.
+[Debezium](https://debezium.io/) 是一套分布式服务，用于捕获数据库中的变更，以便您的应用程序可以看到这些变更并对其做出响应。Debezium 会记录每个数据库表中的所有行级别变更到一个变更事件流中，应用程序只需读取这些流，就可以按照它们发生的顺序看到变更事件。
 
-[debezium-server-databend](https://github.com/databendcloud/debezium-server-databend) is a lightweight CDC tool developed by Databend, based on Debezium Engine. Its purpose is to capture real-time changes in relational databases and deliver them as event streams to ultimately write the data into the target database Databend. This tool provides a simple way to monitor and capture database changes, transforming them into consumable events without the need for large data infrastructures like Flink, Kafka, or Spark.
+[debezium-server-databend](https://github.com/databendcloud/debezium-server-databend) 是由 Databend 开发的基于 Debezium Engine 的轻量级 CDC 工具。其目的是捕获关系型数据库中的实时变更，并将它们作为事件流传递，最终将数据写入目标数据库 Databend。该工具提供了一种简单的方式来监控和捕获数据库变更，将它们转换为可消费的事件，无需像 Flink、Kafka 或 Spark 这样的大型数据基础设施。
 
-## Installing debezium-server-databend
+## 安装 debezium-server-databend
 
-debezium-server-databend can be installed independently without the need for installing Debezium beforehand. Once you have decided to install debezium-server-databend, you have two options available. The first one is to install it from source by downloading the source code and building it yourself. Alternatively, you can opt for a more straightforward installation process using Docker.
+debezium-server-databend 可以独立安装，无需事先安装 Debezium。一旦您决定安装 debezium-server-databend，您有两个选项可用。第一个是从源代码安装，下载源代码并自己构建。或者，您可以选择使用 Docker 进行更简单的安装过程。
 
-### Installing from Source
+### 从源代码安装
 
-Before you start, make sure JDK 11 and Maven are installed on your system.
+在开始之前，请确保您的系统上安装了 JDK 11 和 Maven。
 
-1. Clone the project:
+1. 克隆项目：
 
 ```bash
 git clone https://github.com/databendcloud/debezium-server-databend.git
 ```
 
-2. Change into the project's root directory:
+2. 切换到项目的根目录：
 
 ```bash
 cd debezium-server-databend
 ```
 
-3. Build and package debezium server:
+3. 构建并打包 debezium 服务器：
 
 ```go
 mvn -Passembly -Dmaven.test.skip package
 ```
 
-4. Once the build is completed, unzip the server distribution package:
+4. 构建完成后，解压服务器分发包：
 
 ```bash
 unzip debezium-server-databend-dist/target/debezium-server-databend-dist*.zip -d databendDist
 ```
 
-5. Enter the extracted folder:
+5. 进入解压后的文件夹：
 
 ```bash
 cd databendDist
 ```
 
-6. Create a file named *application.properties* in the *conf* folder with the content in the sample [here](https://github.com/databendcloud/debezium-server-databend/blob/main/debezium-server-databend-dist/src/main/resources/distro/conf/application.properties.example), and modify the configurations according to your specific requirements. For description of the available parameters, see this [page](https://github.com/databendcloud/debezium-server-databend/blob/main/docs/docs.md).
+6. 在 *conf* 文件夹中创建一个名为 *application.properties* 的文件，内容请参考[此处](https://github.com/databendcloud/debezium-server-databend/blob/main/debezium-server-databend-dist/src/main/resources/distro/conf/application.properties.example)的示例，并根据您的具体需求修改配置。有关可用参数的描述，请参见此[页面](https://github.com/databendcloud/debezium-server-databend/blob/main/docs/docs.md)。
 
 ```bash
 nano conf/application.properties
 ```
 
-7. Use the provided script to start the tool:
+7. 使用提供的脚本启动工具：
 
 ```bash
 bash run.sh
 ```
 
-### Installing with Docker
+### 使用 Docker 安装
 
-Before you start, make sure Docker and Docker Compose are installed on your system.
+在开始之前，请确保您的系统上安装了 Docker 和 Docker Compose。
 
-1. Create a file named *application.properties* in the *conf* folder with the content in the sample [here](https://github.com/databendcloud/debezium-server-databend/blob/main/debezium-server-databend-dist/src/main/resources/distro/conf/application.properties.example), and modify the configurations according to your specific requirements. For description of the available Databend parameters, see this [page](https://github.com/databendcloud/debezium-server-databend/blob/main/docs/docs.md).
+1. 在 *conf* 文件夹中创建一个名为 *application.properties* 的文件，内容请参考[此处](https://github.com/databendcloud/debezium-server-databend/blob/main/debezium-server-databend-dist/src/main/resources/distro/conf/application.properties.example)的示例，并根据您的具体需求修改配置。有关可用 Databend 参数的描述，请参见此[页面](https://github.com/databendcloud/debezium-server-databend/blob/main/docs/docs.md)。
 
 ```bash
 nano conf/application.properties
 ```
 
-2. Create a file named *docker-compose.yml* with the following content: 
+2. 创建一个名为 *docker-compose.yml* 的文件，内容如下：
 
 ```dockerfile
 version: '2.1'
@@ -81,21 +81,21 @@ services:
       - $PWD/data:/app/data
 ```
 
-3. Open a terminal or command-line interface and navigate to the directory containing the *docker-compose.yml* file.
+3. 打开终端或命令行界面，导航到包含 *docker-compose.yml* 文件的目录。
 
-4. Use the following command to start the tool:
+4. 使用以下命令启动工具：
 
 ```bash
 docker-compose up -d
 ```
 
-## Usage Example
+## 使用示例
 
-This section demonstrates the general steps to load data from MySQL into Databend and assumes that you already have a local MySQL instance running.
+本节演示了将数据从 MySQL 加载到 Databend 的一般步骤，并假设您已经在本地运行了 MySQL 实例。
 
-### Step 1. Prepare Data in MySQL
+### 步骤 1. 在 MySQL 中准备数据
 
-Create a database and a table in MySQL, and insert sample data into the table.
+在 MySQL 中创建一个数据库和一个表，并向表中插入示例数据。
 
 ```sql
 CREATE DATABASE mydb;
@@ -116,19 +116,19 @@ INSERT INTO products VALUES (default,"scooter","Small 2-wheel scooter"),
 (default,"spare tire","24 inch spare tire");
 ```
 
-### Step 2. Create database in Databend
+### 步骤 2. 在 Databend 中创建数据库
 
-Create the corresponding database in Databend. Please note that you don't need to create a table that corresponds to the one in MySQL.
+在 Databend 中创建相应的数据库。请注意，您不需要创建与 MySQL 中的表相对应的表。
 
 ```sql
 CREATE DATABASE debezium;
 ```
 
-### Step 3. Create application.properties
+### 步骤 3. 创建 application.properties
 
-Create the file *application.properties*, then start debezium-server-databend. For how to install and start the tool, see [Installing debezium-server-databend](#installing-debezium-server-databend).
+创建 *application.properties* 文件，然后启动 debezium-server-databend。有关如何安装和启动工具，请参见[安装 debezium-server-databend](#安装-debezium-server-databend)。
 
-When started for the first time, the tool performs a full synchronization of data from MySQL to Databend using the specified Batch Size. As a result, the data from MySQL is now visible in Databend after successful replication.
+首次启动时，该工具会使用指定的批量大小从 MySQL 到 Databend 进行全量数据同步。因此，在成功复制后，MySQL 中的数据现在在 Databend 中可见。
 
 ```text title='application.properties'
 debezium.sink.type=databend
@@ -142,17 +142,20 @@ debezium.sink.databend.database.primaryKey=id
 debezium.sink.databend.database.tableName=products
 debezium.sink.databend.database.param.ssl=true
 
-# enable event schemas
+# 启用事件模式
 debezium.format.value.schemas.enable=true
 debezium.format.key.schemas.enable=true
 debezium.format.value=json
 debezium.format.key=json
 
-# mysql source
+# mysql 源
 debezium.source.connector.class=io.debezium.connector.mysql.MySqlConnector
 debezium.source.offset.storage.file.filename=data/offsets.dat
 debezium.source.offset.flush.interval.ms=60000
 
+```
+
+```markdown
 debezium.source.database.hostname=127.0.0.1
 debezium.source.database.port=3306
 debezium.source.database.user=root
@@ -162,19 +165,19 @@ debezium.source.database.server.name=from_mysql
 debezium.source.include.schema.changes=false
 debezium.source.table.include.list=mydb.products
 # debezium.source.database.ssl.mode=required
-# Run without Kafka, use local file to store checkpoints
+# 不使用 Kafka，使用本地文件存储检查点
 debezium.source.database.history=io.debezium.relational.history.FileDatabaseHistory
 debezium.source.database.history.file.filename=data/status.dat
-# do event flattening. unwrap message!
+# 对事件进行展平处理。解包消息！
 debezium.transforms=unwrap
 debezium.transforms.unwrap.type=io.debezium.transforms.ExtractNewRecordState
 debezium.transforms.unwrap.delete.handling.mode=rewrite
 debezium.transforms.unwrap.drop.tombstones=true
 
-# ############ SET LOG LEVELS ############
+# ############ 设置日志级别 ############
 quarkus.log.level=INFO
-# Ignore messages below warning level from Jetty, because it's a bit verbose
+# 忽略来自 Jetty 的低于警告级别的消息，因为它有点啰嗦
 quarkus.log.category."org.eclipse.jetty".level=WARN
 ```
 
-You're all set! If you query the products table in Databend, you will see that the data from MySQL has been successfully synchronized. Feel free to perform insertions, updates, or deletions in MySQL, and you will observe the corresponding changes reflected in Databend as well.
+配置完成！如果您在 Databend 中查询 products 表，您会看到来自 MySQL 的数据已经成功同步。随意在 MySQL 中进行插入、更新或删除操作，您将观察到在 Databend 中反映出相应的变化。
