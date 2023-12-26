@@ -1,17 +1,17 @@
 ---
-title: Meta Configurations
+title: 元配置
 ---
 
-This page describes the Meta node configurations available in the [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) configuration file.
+本页面描述了在 [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 配置文件中可用的 Meta 节点配置。
 
 ```toml title='databend-meta.toml'
-# Usage:
+# 使用方法：
 # databend-meta -c databend-meta.toml
 
 admin_api_address       = "0.0.0.0:28101"
 grpc_api_address        = "0.0.0.0:9191"
-# databend-query fetch this address to update its databend-meta endpoints list,
-# in case databend-meta cluster changes.
+# databend-query 通过这个地址更新其 databend-meta 端点列表，
+# 以防 databend-meta 集群发生变化。
 grpc_api_advertise_host = "127.0.0.1"
 
 [raft_config]
@@ -19,74 +19,76 @@ id            = 1
 raft_dir      = "/var/lib/databend/raft"
 raft_api_port = 28103
 
-# Assign raft_{listen|advertise}_host in test config.
-# This allows you to catch a bug in unit tests when something goes wrong in raft meta nodes communication.
+# 在测试配置中指定 raft_{listen|advertise}_host。
+# 当 raft 元节点通信出现问题时，这可以帮助你在单元测试中捕捉到错误。
 raft_listen_host = "127.0.0.1"
 raft_advertise_host = "localhost"
 
-# Start up mode: single node cluster
+# 启动模式：单节点集群
 single        = true
 ```
 
-- Some parameters listed in the table below may not be present in [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml). If you require these parameters, you can manually add them to the file.
+- 下表中列出的一些参数可能不在 [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 中出现。如果你需要这些参数，可以手动将它们添加到文件中。
 
-- You can find [sample configuration files](https://github.com/datafuselabs/databend/tree/main/scripts/ci/deploy/config) on GitHub that set up Databend for various deployment environments. These files were created for internal testing ONLY. Please do NOT modify them for your own purposes. But if you have a similar deployment, it is a good idea to reference them when editing your own configuration files.
+- 你可以在 GitHub 上找到[示例配置文件](https://github.com/datafuselabs/databend/tree/main/scripts/ci/deploy/config)，这些文件设置了 Databend 适用于各种部署环境。这些文件仅用于内部测试。请勿为了你自己的目的而修改它们。但如果你有类似的部署，参考它们编辑你自己的配置文件是个好主意。
 
-## General Parameters
+## 通用参数
 
-The following is a list of general parameters available in the [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) configuration file. These parameters should not be included under any specific section.
+以下是 [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 配置文件中可用的通用参数列表。这些参数不应包含在任何特定部分下。
 
-| Parameter                         | Description                                                                                                             |
-|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| admin_api_address                 | IP address and port for the admin API of Databend.                                                                      |
-| admin_tls_server_cert             | Path to the admin TLS server certificate file.                                                                          |
-| admin_tls_server_key              | Path to the admin TLS server key file.                                                                                  |
-| grpc_api_address                  | IP address and port for the gRPC API of Databend.                                                                       |
-| grpc_api_advertise_host           | IP address used for advertising the gRPC API (used for updating Databend-meta endpoints).                               |
-| grpc_tls_server_cert              | Path to the gRPC TLS server certificate file.                                                                           |
-| grpc_tls_server_key               | Path to the gRPC TLS server key file.                                                                                   | 
+| 参数                              | 描述                                                                                           |
+|-----------------------------------|------------------------------------------------------------------------------------------------|
+| admin_api_address                 | Databend 管理 API 的 IP 地址和端口。                                                           |
+| admin_tls_server_cert             | 管理 TLS 服务器证书文件的路径。                                                                |
+| admin_tls_server_key              | 管理 TLS 服务器密钥文件的路径。                                                                |
+| grpc_api_address                  | Databend gRPC API 的 IP 地址和端口。                                                           |
+| grpc_api_advertise_host           | 用于广告 gRPC API 的 IP 地址（用于更新 Databend-meta 端点）。                                 |
+| grpc_tls_server_cert              | gRPC TLS 服务器证书文件的路径。                                                                 |
+| grpc_tls_server_key               | gRPC TLS 服务器密钥文件的路径。                                                                 | 
 
-## [log] Section
+## [log] 部分
 
-This section can include two subsections: [log.file] and [log.stderr].
+这个部分可以包括两个子部分：[log.file] 和 [log.stderr]。
 
-### [log.file] Section
+### [log.file] 部分
 
-The following is a list of the parameters available within the [log.file] section:
+以下是 [log.file] 部分中可用的参数列表：
 
-| Parameter | Description                                                                |
-|-----------|----------------------------------------------------------------------------|
-| on        | Enable file-based logging (true or false). Default: true                   |
-| level     | Log level for file-based logging (e.g., "DEBUG", "INFO"). Default: "DEBUG" |
-| dir       | Directory where log files will be stored. Default: "./.databend/logs"      |
-| format    | Log format for file-based logging (e.g., "json", "text"). Default: "json"  |
+| 参数      | 描述                                                                          |
+|-----------|-------------------------------------------------------------------------------|
+| on        | 启用基于文件的日志记录（true 或 false）。默认值：true                         |
+| level     | 基于文件的日志记录级别（例如，"DEBUG", "INFO"）。默认值："DEBUG"              |
+| dir       | 存储日志文件的目录。默认值："./.databend/logs"                                |
+| format    | 基于文件的日志格式（例如，"json", "text"）。默认值："json"                    |
 
-### [log.stderr] Section
+### [log.stderr] 部分
 
-The following is a list of the parameters available within the [log.stderr] section:
+以下是 [log.stderr] 部分中可用的参数列表：
 
-| Parameter | Description                                                            |
-|-----------|------------------------------------------------------------------------|
-| on        | Enable stderr logging (true or false). Default: true                   |
-| level     | Log level for stderr logging (e.g., "DEBUG", "INFO"). Default: "DEBUG" |
-| format    | Log format for stderr logging (e.g., "text", "json"). Default: "text"  |
+| 参数      | 描述                                                                        |
+|-----------|-----------------------------------------------------------------------------|
+| on        | 启用 stderr 日志记录（true 或 false）。默认值：true                         |
+| level     | stderr 日志记录级别（例如，"DEBUG", "INFO"）。默认值："DEBUG"               |
+| format    | stderr 日志格式（例如，"text", "json"）。默认值："text"                     |
 
-## [raft_config] Section
+## [raft_config] 部分
 
-The following is a list of the parameters available within the [raft_config] section:
+以下是 [raft_config] 部分中可用的参数列表：
 
-| Parameter                | Description                                                                                                             |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| id                       | Unique identifier for the Raft configuration.                                                                           |
-| raft_dir                 | Directory where Raft data is stored.                                                                                    |
-| raft_api_port            | Port for the Raft API of Databend.                                                                                      |
-| raft_listen_host         | IP address for Raft to listen on.                                                                                       |
-| raft_advertise_host      | IP address used for advertising the Raft API.                                                                           |
-| single                   | Boolean indicating whether Databend should run in single-node cluster mode (true or false).                             |
-| join                     | List of addresses (<raft_advertise_host>:<raft_api_port>) of nodes in an existing cluster that a new node is joined to. |
-| heartbeat_interval       | Heartbeat interval in milliseconds. Default: 1000                                                                       |
-| install_snapshot_timeout | Install snapshot timeout in milliseconds. Default: 4000                                                                 |
-| max_applied_log_to_keep  | Maximum number of applied Raft logs to keep. Default: 1000                                                              |
-| snapshot_chunk_size      | The size in bytes of chunk for transmitting snapshot. The default is 4MB                                                |
-| snapshot_logs_since_last | Number of Raft logs since the last snapshot. Default: 1024                                                              |
-| wait_leader_timeout      | Wait leader timeout in milliseconds. Default: 70000                                                                     |
+
+
+| 参数                      | 描述                                                                                                                   |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| id                       | Raft配置的唯一标识符。                                                                                                 |
+| raft_dir                 | 存储Raft数据的目录。                                                                                                  |
+| raft_api_port            | Databend的Raft API端口。                                                                                              |
+| raft_listen_host         | Raft监听的IP地址。                                                                                                     |
+| raft_advertise_host      | 用于宣传Raft API的IP地址。                                                                                             |
+| single                   | 布尔值，指示Databend是否以单节点集群模式运行（true或false）。                                                         |
+| join                     | 新节点加入到现有集群时，集群中节点的地址列表（<raft_advertise_host>:<raft_api_port>）。                               |
+| heartbeat_interval       | 心跳间隔，以毫秒为单位。默认值：1000                                                                                  |
+| install_snapshot_timeout | 安装快照超时，以毫秒为单位。默认值：4000                                                                              |
+| max_applied_log_to_keep  | 保留的已应用Raft日志的最大数量。默认值：1000                                                                          |
+| snapshot_chunk_size      | 传输快照时的块大小，以字节为单位。默认值为4MB                                                                         |
+| snapshot_logs_since_last | 自上次快照以来的Raft日志数量。默认值：1024                                                                            |
+| wait_leader_timeout      | 等待领导者超时，以毫秒为单位。默认值：70000                                                                           |

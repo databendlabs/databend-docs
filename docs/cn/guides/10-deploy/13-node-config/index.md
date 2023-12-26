@@ -1,31 +1,31 @@
 ---
-title: Node Configurations
+title: 节点配置
 ---
 
-This page provides an overview of the available methods for configuring the Databend Meta and Query nodes.
+本页面提供了关于配置 Databend Meta 节点和 Query 节点的可用方法的概述。
 
-Databend allows you to configure your Meta and Query nodes through the following methods, giving you the flexibility to tune Databend to your needs:
+Databend 允许您通过以下方法配置您的 Meta 节点和 Query 节点，为您提供调整 Databend 以满足您需求的灵活性：
 
-:::note priority order
-When configuring Databend nodes through various methods, Databend follows the following priority order: Command-Line Parameters take precedence, followed by Environment Variables, and finally Configuration Files.
+:::note 优先级顺序
+当通过各种方法配置 Databend 节点时，Databend 遵循以下优先级顺序：命令行参数优先，其次是环境变量，最后是配置文件。
 :::
 
-- **Configuration Files**: Databend comes with the configuration files [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) and [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) out of the box. These files contain the most common settings you may need, and Databend recommends using them to configure your nodes.  For more information about the settings available in the configuration files, refer to the topics below:
-    - [Meta Configurations](01-metasrv-config.md)
-    - [Query Configurations](02-query-config.md)
+- **配置文件**：Databend 随附了配置文件 [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 和 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml)。这些文件包含了您可能需要的最常见设置，Databend 建议使用它们来配置您的节点。有关配置文件中可用设置的更多信息，请参阅以下主题：
+    - [Meta 配置](01-metasrv-config.md)
+    - [Query 配置](02-query-config.md)
 
-- **Environment Variables**: Databend empowers you to harness the flexibility of environment variables, allowing you to both point to custom configuration files and make precise adjustments to individual configurations. Additionally, you can leverage familiar environment variables from your storage service. For the available environment variables, see [Environment Variables](03-environment-variables.md).
+- **环境变量**：Databend 使您能够利用环境变量的灵活性，允许您指向自定义配置文件并对单个配置进行精确调整。此外，您还可以利用来自存储服务的熟悉环境变量。有关可用环境变量的信息，请参见 [环境变量](03-environment-variables.md)。
 
-- **Command-Line Parameters**: Databend provides the flexibility to configure your nodes during the startup process, allowing you to make quick and precise adjustments without requiring extensive changes or disruptions. You can use the `databend-meta` and `databend-query` binaries, along with a range of command-line arguments, to achieve this. To view the available command-line parameters and their descriptions, execute the following commands:
+- **命令行参数**：Databend 提供了在启动过程中配置节点的灵活性，允许您进行快速精确的调整，而无需进行广泛的更改或中断。您可以使用 `databend-meta` 和 `databend-query` 二进制文件以及一系列命令行参数来实现这一点。要查看可用的命令行参数及其描述，请执行以下命令：
 
     ```bash
-    # Show databend-meta command-line parameters
+    # 显示 databend-meta 命令行参数
     ./bin/databend-meta --help
 
-    # Show databend-query command-line parameters
+    # 显示 databend-query 命令行参数
     ./bin/databend-query --help
     ```
 
-:::note About Command-Line Parameter Descriptions
-We understand that some users may have experienced confusion due to certain parameter descriptions. In the past, the descriptions included placeholders like `<OSS_ACCESS_KEY_ID>` that led to misunderstandings. Please be aware that they were NOT intended as environment variable names but rather as placeholders for the parameter values. To enhance clarity and avoid confusion, we have updated the parameter descriptions to use `<VALUE>` as the placeholders in a recent release.
+:::note 关于命令行参数描述
+我们了解一些用户可能因某些参数描述而感到困惑。过去，描述中包含了像 `<OSS_ACCESS_KEY_ID>` 这样的占位符，导致了误解。请注意，它们并非作为环境变量名称的意图，而是作为参数值的占位符。为了提高清晰度并避免混淆，我们在最近的发布中更新了参数描述，使用 `<VALUE>` 作为占位符。
 :::

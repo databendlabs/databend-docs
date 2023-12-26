@@ -1,51 +1,51 @@
 ---
-title: Upgrade Databend
-sidebar_label: Upgrade Databend
+title: 升级 Databend
+sidebar_label: 升级 Databend
 description:
-  Upgrade databend-query or databend-meta without downtime
+  无停机升级 databend-query 或 databend-meta
 ---
 
-This topic provides an overview of the typical steps involved in upgrading Databend.
+本主题提供了升级 Databend 的典型步骤概览。
 
 :::note
-New Databend versions with breaking changes might lead to incompatibilities with an earlier version. In this case, Databend will provide detailed instructions in the release log or blog for upgrading from an incompatible version.
+新版本的 Databend 如果包含破坏性变更，可能会与早期版本不兼容。在这种情况下，Databend 将在发布日志或博客中提供从不兼容版本升级的详细说明。
 :::
 
-## General Principles
+## 基本原则
 
-The upgrade of Databend follows these principles:
+Databend 的升级遵循以下原则：
 
-- A Databend upgrade literally refers to upgrading databend-query and/or databend-meta to a newer version.
-- When you upgrade Databend, you upgrade databend-query and databend-meta separately. You can also choose to upgrade one of them only, as long as the new version is compatible with the other one. [Check Compatibility](#check-compatibility) before you upgrade.
-- The versions of all query nodes in the same cluster must be identical, and all meta nodes in your deployment, whether within the same cluster or not, must run the same version.
-- Generally, rollback is not supported. It is not possible to revert to a previous version after an upgrade. This is because a new version usually brings underlying data format changes that might cause incompatibility with the previous version.
+- Databend 升级实际上是指将 databend-query 和/或 databend-meta 升级到更新的版本。
+- 当您升级 Databend 时，您需要分别升级 databend-query 和 databend-meta。如果新版本与另一个版本兼容，您也可以选择只升级其中一个。在升级之前[检查兼容性](#check-compatibility)。
+- 同一集群中所有查询节点的版本必须相同，无论是否在同一集群中，所有元节点都必须运行相同的版本。
+- 通常情况下，不支持回滚。升级后无法恢复到之前的版本。这是因为新版本通常会带来底层数据格式的变化，可能会导致与前一个版本不兼容。
 
-## Step 1. Check Compatibility
+## 第 1 步. 检查兼容性
 
-Databend highly recommends that you check compatibility between databend-meta and databend-query before upgrading just one of them. See [Query-Meta Compatibility](10-compatibility.md) for how to do that.
+Databend 强烈建议您在只升级 databend-meta 或 databend-query 之前检查它们之间的兼容性。参见[查询-元兼容性](10-compatibility.md)了解如何进行检查。
 
-## Step 2. Upgrade databend-query
+## 第 2 步. 升级 databend-query
 
-Kill the old databend-query and start the new version in each node:
+在每个节点中终止旧的 databend-query 并启动新版本：
 
 ```shell
-# Shutdown old binary
+# 关闭旧的二进制文件
 killall databend-query
 
-# Bring up new binary
+# 启动新的二进制文件
 databend-query -c ...
 ```
-After the new version starts, check the databend-query log to make sure no errors occurred during the upgrade.
+新版本启动后，检查 databend-query 日志以确保升级过程中没有发生错误。
 
-## Step 3. Upgrade databend-meta
+## 第 3 步. 升级 databend-meta
 
-Kill the old databend-meta and start the new version in each node:
+在每个节点中终止旧的 databend-meta 并启动新版本：
 
 ```shell
-# Shutdown old binary
+# 关闭旧的二进制文件
 killall databend-meta
 
-# Bring up new binary
+# 启动新的二进制文件
 databend-meta -c ...
 ```
-After the new version starts, check the databend-query and databend-meta logs to make sure no errors occurred during the upgrade.
+新版本启动后，检查 databend-query 和 databend-meta 日志以确保升级过程中没有发生错误。

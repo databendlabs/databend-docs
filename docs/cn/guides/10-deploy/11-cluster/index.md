@@ -1,17 +1,17 @@
 ---
-title: Cluster Configuration and Management Guide
+title: 集群配置和管理
 ---
 
-## Overview
+## 概览
 
-This section provides comprehensive details on managing and configuring Databend clusters. It includes instructions on deploying Databend on platforms like Kubernetes, managing the Meta Service, and utilizing the Meta Service CLI API for advanced operations.
+本节提供了关于管理和配置 Databend 集群的全面细节。包括在 Kubernetes 等平台部署 Databend、管理元服务以及使用元服务 CLI API 进行高级操作的说明。
 
-## Table of Contents
+## 目录
 
-- [Deploying Databend on Kubernetes](11-deploying-databend-on-kubernetes.md)
-- [Meta Service Deployment](10-metasrv-deploy.md)
-- [Adding and Removing Nodes in Meta Service](20-metasrv-add-remove-node.md)
-- [Backup and Restore in Meta Service](30-metasrv-backup-restore.md)
-- [Meta Service Status](60-metasrv-status.md)
-- [Meta Service CLI API](70-metasrv-cli-api.md)
-- [Meta Service gRPC Guide](16-metasrv-grpc.md)
+- [在 Kubernetes 上部署集群](11-deploying-databend-on-kubernetes.md)
+- [部署 Databend 集群](10-metasrv-deploy.md)
+- [管理 Databend 元服务集群](20-metasrv-add-remove-node.md)
+- [备份和恢复 Databend 元服务集群](30-metasrv-backup-restore.md)
+- [元服务 HTTP API](60-metasrv-status.md)
+- [元服务命令行 API](70-metasrv-cli-api.md)
+- [元服务 gRPC 指南](16-metasrv-grpc.md)

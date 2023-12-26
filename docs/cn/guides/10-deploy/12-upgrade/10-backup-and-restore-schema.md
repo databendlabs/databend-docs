@@ -1,24 +1,24 @@
 ---
-title: Back Up and Restore Databend Schema Data
-sidebar_label: Backup and Restore Schema Data
+title: 备份和恢复 Databend 架构数据
+sidebar_label: 备份和恢复架构数据
 description:
-  How to back up and restore schema data
+  如何备份和恢复架构数据
 ---
 
-This guideline will introduce how to back up and restore the schema data which in meta service with mydumper tool.
+本指南将介绍如何使用 mydumper 工具备份和恢复存储在元服务中的架构数据。
 
-## Before You Begin
+## 开始之前
 
-* **Databend :** Make sure Databend is running and accessible, see [How to deploy Databend](/guides/deploy).
-* **mydumper**: [How to Install mydumper](https://github.com/mydumper/mydumper).
+* **Databend :** 确保 Databend 正在运行且可访问，请参阅[如何部署 Databend](/guides/deploy)。
+* **mydumper**: [如何安装 mydumper](https://github.com/mydumper/mydumper)。
 
 :::caution
 
-mydumper only export the Databend schema(including database and table) which stored in Databend meta service, PLEASE DON'T USE IT TO EXPORT DATA!
+mydumper 仅导出存储在 Databend 元服务中的 Databend 架构（包括数据库和表），请不要使用它导出数据！
 
 :::
 
-If you don't have a Databend user for dumping, please create one:
+如果您没有用于转储的 Databend 用户，请创建一个：
 
 ```shell
 mysql -h127.0.0.1 -uroot -P3307
@@ -29,7 +29,7 @@ CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL on *.* TO user1;
 ```
 
-## Export Schema from Databend
+## 从 Databend 导出架构
 
 ```shell
 mydumper --host 127.0.0.1 --user user1 --password abc123 --port 3307 \
@@ -40,18 +40,18 @@ mydumper --host 127.0.0.1 --user user1 --password abc123 --port 3307 \
 ```
 
 :::tip
-`--host`: Do not dump or import table data.
+`--host`: 不要转储或导入表数据。
 
-`--no-locks`: Do not execute the temporary shared read lock.
+`--no-locks`: 不执行临时共享读锁。
 
-`--no-data`: Do not dump or import table data.
+`--no-data`: 不要转储或导入表数据。
 
-`--database`: Database to dump.
+`--database`: 要转储的数据库。
 
-`--outputdir`: Directory to output files to.
+`--outputdir`: 输出文件的目录。
 :::
 
-The `/tmp/test_db` directory seems look:
+`/tmp/test_db` 目录看起来像这样：
 ```shell
 tree /tmp/test_db/ 
 ├── metadata
@@ -59,14 +59,14 @@ tree /tmp/test_db/
 └── test_db.t1-schema.sql
 ```
 
-##  Restore Schema into Databend
+## 将架构恢复到 Databend
 
-To restore schema into a new Databend, use `myloader` to import the `/tmp/test_db` directory.
+要将架构恢复到新的 Databend，请使用 `myloader` 导入 `/tmp/test_db` 目录。
 
 ```shell
 myloader --host 127.0.0.1 --user user1 --password abc123 --port 3307 \
 --directory /tmp/test_db/
 ```
 :::tip
-`--directory`: Directory of the dump to import.
+`--directory`: 要导入的转储目录。
 :::

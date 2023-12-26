@@ -1,46 +1,46 @@
 ---
-title: Compatibility
-sidebar_label: Compatibility
+title: 兼容性
+sidebar_label: 兼容性
 description:
-  Investigate and manage the compatibility
+  调查和管理兼容性
 ---
 
-This guideline will introduce how to investigate and manage the compatibility:
-- between databend-query and databend-meta.
-- between different versions of databend-meta.
+本指南将介绍如何调查和管理兼容性：
+- databend-query 和 databend-meta 之间的兼容性。
+- 不同版本的 databend-meta 之间的兼容性。
 
-## Compatibility between databend-query and databend-meta
+## databend-query 和 databend-meta 之间的兼容性
 
-### Identifying the versions
+### 确定版本
 
-- To find out the build version of databend-query and its compatible databend-meta version:
+- 要找出 databend-query 的构建版本及其兼容的 databend-meta 版本：
 
   ```shell
   databend-query --cmd ver
 
-  # output:
+  # 输出：
   version: 0.7.61-nightly
   min-compatible-metasrv-version: 0.7.59
   ```
 
-  Which means this build of databend-query(`0.7.61-nightly`) can talk to a databend-meta of at least version `0.7.59`, inclusive.
+  这意味着这个版本的 databend-query（`0.7.61-nightly`）可以至少与版本为 `0.7.59` 的 databend-meta 通信，包括此版本。
 
-- To find out the build version of databend-meta and its compatible databend-query version:
+- 要找出 databend-meta 的构建版本及其兼容的 databend-query 版本：
 
   ```shell
   databend-meta --cmd ver
 
-  # output:
+  # 输出：
   version: 0.7.61-nightly
   min-compatible-client-version: 0.7.57
   ```
 
-  Which means this build of databend-meta(`0.7.61-nightly`) can talk to a databend-query of at least version `0.7.57`, inclusive.
+  这意味着这个版本的 databend-meta（`0.7.61-nightly`）可以至少与版本为 `0.7.57` 的 databend-query 通信，包括此版本。
 
-### Maintaining compatibility
+### 维护兼容性
 
-A databend cluster has to be deployed with compatible versions of databend-query and databend-meta.
-A databend-query and databend-meta are compatible iff the following statements hold:
+必须使用兼容版本的 databend-query 和 databend-meta 部署 databend 集群。
+一个 databend-query 和 databend-meta 是兼容的，当且仅当以下声明成立：
 
 ```
 databend-query.version >= databend-meta.min-compatible-client-version
@@ -49,35 +49,35 @@ databend-bend.version  >= databend-query.min-compatible-metasrv-version
 
 :::caution
 
-If incompatible versions are deployed, an error `InvalidArgument` will occur when databend-query tries to connect to databend-meta,
-which can be found in databend-query log.
-Then databend-query will stop working.
+如果部署了不兼容的版本，当 databend-query 尝试连接到 databend-meta 时，会发生错误 `InvalidArgument`，
+这可以在 databend-query 日志中找到。
+然后 databend-query 将停止工作。
 
 :::
 
-#### Compatibility verification protocol
+#### 兼容性验证协议
 
-Compatibility will be checked when a connection is established between meta-client(databend-query) and databend-meta, in a `handshake` RPC.
+在 meta-client（databend-query）和 databend-meta 之间建立连接时，将检查兼容性，在 `handshake` RPC 中。
 
-The client `C`(databend-query) and the server `S`(databend-meta) maintains two semantic-versions:
+客户端 `C`（databend-query）和服务器 `S`（databend-meta）维护两个语义版本：
 
-- `C` maintains its own semver(`C.ver`) and the minimal compatible `S` semver(`C.min_srv_ver`).
-- `S` maintains its own semver(`S.ver`) and the minimal compatible `S` semver(`S.min_cli_ver`).
+- `C` 维护自己的 semver（`C.ver`）和最小兼容的 `S` semver（`C.min_srv_ver`）。
+- `S` 维护自己的 semver（`S.ver`）和最小兼容的 `S` semver（`S.min_cli_ver`）。
 
-When handshaking:
+握手时：
 
-- `C` sends its ver `C.ver` to `S`,
-- When `S` receives handshake request, `S` asserts that `C.ver >= S.min_cli_ver`.
-- Then `S` replies handshake-reply with its `S.ver`.
-- When `C` receives the reply, `C` asserts that `S.ver >= C.min_srv_ver`.
+- `C` 将其版本 `C.ver` 发送给 `S`，
+- 当 `S` 收到握手请求时，`S` 断言 `C.ver >= S.min_cli_ver`。
+- 然后 `S` 用其 `S.ver` 回复握手回复。
+- 当 `C` 收到回复时，`C` 断言 `S.ver >= C.min_srv_ver`。
 
-Handshake succeeds if both of these two assertions hold.
+如果这两个断言都成立，则握手成功。
 
-E.g.:
-- `S: (ver=3, min_cli_ver=1)` is compatible with `C: (ver=3, min_srv_ver=2)`.
-- `S: (ver=4, min_cli_ver=4)` is **NOT** compatible with `C: (ver=3, min_srv_ver=2)`.
-  Because although `S.ver(4) >= C.min_srv_ver(3)` holds,
-  but `C.ver(3) >= S.min_cli_ver(4)` does not hold.
+例如：
+- `S: (ver=3, min_cli_ver=1)` 与 `C: (ver=3, min_srv_ver=2)` 兼容。
+- `S: (ver=4, min_cli_ver=4)` 与 `C: (ver=3, min_srv_ver=2)` **不**兼容。
+  因为尽管 `S.ver(4) >= C.min_srv_ver(3)` 成立，
+  但 `C.ver(3) >= S.min_cli_ver(4)` 不成立。
 
 ```text
 C.ver:    1             3      4
@@ -91,9 +91,9 @@ S ---------------+------+------+------------>
 S.ver:           2      3      4
 ```
 
-#### Compatibility status
+#### 兼容性状态
 
-The following is an illustration of current query-meta compatibility:
+以下是当前 query-meta 兼容性的说明：
 
 | `Meta\Query`     | [0.7.59, 0.8.80) | [0.8.80, 0.9.41) | [0.9.41, 1.1.34) | [1.1.34, +∞) |
 |:-----------------|:-----------------|:-----------------|:-----------------|:-------------|
@@ -107,35 +107,35 @@ The following is an illustration of current query-meta compatibility:
 <img src="/img/deploy/compatibility.excalidraw.png"/>
 
 
-## Compatibility between databend-meta
+## databend-meta 之间的兼容性
 
-| Meta version      | Backward compatible with |
+| Meta 版本         | 与之向后兼容的版本 |
 |:------------------|:-------------------------|
 | [0.9.41, 1.2.212) | [0.9.41, 1.2.212)        |
 | [1.2.212, +∞)     | [0.9.41, +∞)             |
 
 
-- `1.2.53` Incompatible, rolling upgrade is allowed without snapshot transmitting.
-  Snapshot format changed thus during rolling upgrading,
-  it requires all node data to be up-to-date, ensure there is no need to replicate with snapshot.
+- `1.2.53` 不兼容，允许滚动升级而无需传输快照。
+  快照格式已更改，因此在滚动升级期间，
+  需要所有节点数据都是最新的，确保不需要通过快照复制。
 
-- `1.2.163` Feature: gRPC API: `kv_read_v1()` is added. For stream reading.
+- `1.2.163` 功能：gRPC API：添加了 `kv_read_v1()`。用于流式读取。
 
-- `1.2.212` Feature: raft API: `install_snapshot_v1()`. Compatible with old versions.
-  Rolling upgrade is supported.
-  In this version, databend-meta raft-server introduced a new API `install_snapshot_v1()`.
-  The raft-client will try to use either this new API or the original `install_snapshot()`.
+- `1.2.212` 特性：raft API：`install_snapshot_v1()`。与旧版本兼容。
+  支持滚动升级。
+  在此版本中，databend-meta raft-server 引入了一个新的 API `install_snapshot_v1()`。
+  raft-client 将尝试使用这个新 API 或原始的 `install_snapshot()`。
 
 
-## Compatibility of databend-meta on-disk data
+## databend-meta 磁盘数据的兼容性
 
-The on-disk data of Databend-meta evolves over time while maintaining backward compatibility.
+随着时间的推移，Databend-meta 的磁盘数据在保持向后兼容性的同时不断演进。
 
-### Identifying the versions
+### 确定版本
 
-Upon startup, Databend-meta will display the on-disk data version:
+启动时，Databend-meta 将显示磁盘数据版本：
 
-For example, running `databend-meta --single` produces:
+例如，运行 `databend-meta --single` 会产生：
 
 ```
 Databend Metasrv
@@ -148,18 +148,18 @@ On Disk Data:
     Version: version=V0, upgrading=None
 ```
 
-- `Working DataVersion` denotes the version Databend-meta operates on.
-- `On Disk Data -- DataVersion` denotes the version of the on-disk data.
+- `工作数据版本` 表示 Databend-meta 操作的版本。
+- `磁盘数据 -- 数据版本` 表示磁盘数据的版本。
 
-The Working DataVersion must be greater than or equal to the on-disk DataVersion; otherwise, it will panic.
+工作数据版本必须大于或等于磁盘数据版本；否则，它将产生 panic。
 
-The on-disk DataVersion must be compatible with the current Databend-meta version.
-If not, the system will prompt the user to downgrade Databend-meta and quit with a panic.
+磁盘数据版本必须与当前的 Databend-meta 版本兼容。
+如果不兼容，系统将提示用户降级 Databend-meta 并以 panic 退出。
 
-### Automatic upgrade
+### 自动升级
 
-When `databend-meta` starting up, the on-disk is upgraded if it is compatible with the working DataVersion.
-The upgrade progress will be printed to `stderr` and to log file at INFO level, e.g.:
+当 `databend-meta` 启动时，如果磁盘数据与工作数据版本兼容，将进行升级。
+升级进度将打印到 `stderr` 并以 INFO 级别记录到日志文件，例如：
 
 ```text
 Upgrade on-disk data
@@ -172,15 +172,15 @@ Finished upgrading: version: V001, upgrading: None
 Write header: version: V001, upgrading: None
 ```
 
-If `databend-meta` crashes before upgrading finishes,
-it will clear partially upgraded data and resume the upgrade when it starts up again.
+如果 `databend-meta` 在升级完成前崩溃，
+它将清除部分升级的数据，并在下次启动时恢复升级。
 
-### Backup data compatibility
+### 备份数据兼容性
 
-- The exported backup data **can only be imported** with the same version of `databend-metactl`.
+- 导出的备份数据**只能**使用相同版本的 `databend-metactl` 导入。
 
-- The first line of the backup is the version, e.g.:
+- 备份的第一行是版本，例如：
   `["header",{"DataHeader":{"key":"header","value":{"version":"V100","upgrading":null}}}]`
 
-- **NO automatic upgrade** will be done when importing.
-  Automatic upgrade will only be done when `databend-meta` is brought up.
+- 导入时**不会进行自动升级**。
+  自动升级只会在 `databend-meta` 启动时进行。
