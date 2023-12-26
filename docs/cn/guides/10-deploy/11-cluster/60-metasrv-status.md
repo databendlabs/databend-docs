@@ -1,25 +1,25 @@
 ---
-title: Meta Service HTTP APIs
-sidebar_label: Meta Service HTTP APIs
+title: 元服务 HTTP API
+sidebar_label: 元服务 HTTP API
 description: 
-  Meta Service HTTP APIs
+  元服务 HTTP API
 ---
 
-In order to capture and keep track of various meta stats that are useful for your analysis, Databend provides a number of HTTP APIs.
+为了捕获和跟踪对您的分析有用的各种元数据统计信息，Databend 提供了许多 HTTP API。
 
 :::note
-Unless otherwise specified, these HTTP APIs use the port `28101` by default. To change the default port, edit the value of `admin_api_address` in the configuration file `databend-meta.toml`.
+除非另有说明，这些 HTTP API 默认使用端口 `28101`。要更改默认端口，请在配置文件 `databend-meta.toml` 中编辑 `admin_api_address` 的值。
 :::
 
-## Cluster Node API
+## 集群节点 API
 
-Returns all the meta nodes in the cluster.
+返回集群中的所有元节点。
 
-### Request Endpoint
+### 请求端点
 
 `http://<address>:<port>/v1/cluster/nodes`
 
-### Response Example
+### 响应示例
 
 ```
 [
@@ -36,15 +36,15 @@ Returns all the meta nodes in the cluster.
 ];
 ```
 
-## Cluster Status API
+## 集群状态 API
 
-Returns the status information of each meta node in the cluster.
+返回集群中每个元节点的状态信息。
 
-### Request Endpoint
+### 请求端点
 
 `http://<address>:<port>/v1/cluster/status`
 
-### Response Example
+### 响应示例
 
 ```json
 {
@@ -78,15 +78,15 @@ Returns the status information of each meta node in the cluster.
 }
 ```
 
-## Meta Metrics API
+## 元指标 API
 
-Shows a bunch of metrics that Databend captures and tracks about the meta service performance. For more information about the meta service metrics, see [Databend Meta Metrics](../../70-monitor/10-metasrv-metrics.md).
+显示 Databend 捕获和跟踪的关于元服务性能的一系列指标。有关元服务指标的更多信息，请参见 [Databend 元指标](../../70-monitor/10-metasrv-metrics.md)。
 
-### Request Endpoint
+### 请求端点
 
 `http://<address>:<port>/v1/metrics`
 
-### Response Example
+### 响应示例
 
 ```
 # TYPE metasrv_meta_network_recv_bytes counter
@@ -140,18 +140,18 @@ metasrv_meta_network_rpc_delay_seconds_sum 1.3146486719999995
 metasrv_meta_network_rpc_delay_seconds_count 3283
 ```
 
-## Snapshot Trigger API
+## 快照触发 API
 
-For debugging use only. Forces raft to create and sync a snapshot to all nodes.
+仅用于调试。强制 raft 创建并同步快照到所有节点。
 
-### Request Endpoint
+### 请求端点
 
 `http://<address>:<port>/v1/ctrl/trigger_snapshot`
 
-### Response Example
+### 响应示例
 
-None.
+无。
 
-## CPU and Memory Profiling APIs
+## CPU 和内存分析 API
 
-Enables you to visualize performance data of your CPU and memory with [FlameGraph](https://github.com/brendangregg/FlameGraph). For more information, see [How to Profile Databend](../../00-overview/02-community/04-contributor/07-how-to-profiling.md).
+使您能够使用 [FlameGraph](https://github.com/brendangregg/FlameGraph) 可视化 CPU 和内存的性能数据。有关更多信息，请参见 [如何对 Databend 进行性能分析](../../00-overview/02-community/04-contributor/07-how-to-profiling.md)。

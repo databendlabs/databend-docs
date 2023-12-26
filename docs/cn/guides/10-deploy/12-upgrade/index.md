@@ -1,13 +1,13 @@
 ---
-title: Upgrading Databend Guide
+title: 升级 Databend
 ---
 
-## Overview
+## 概览
 
-This section provides details on upgrading Databend to newer versions. It encompasses compatibility considerations, procedures for upgrading, and guidance on backup and restoration of schemas during the upgrade process.
+本节提供了将 Databend 升级到新版本的详细信息。它包括兼容性考虑、升级程序以及在升级过程中备份和恢复模式的指导。
 
-## Table of Contents
+## 目录
 
-- [Compatibility Considerations](10-compatibility.md)
-- [Backup and Restore Schema during Upgrade](10-backup-and-restore-schema.md)
-- [Upgrade Procedures](50-upgrade.md)
+- [兼容性](10-compatibility.md)
+- [备份和恢复 Databend 架构数据](10-backup-and-restore-schema.md)
+- [升级 Databend](50-upgrade.md)

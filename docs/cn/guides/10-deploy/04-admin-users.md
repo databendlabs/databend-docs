@@ -3,7 +3,7 @@ title: 配置管理员用户
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入版本：v1.1.75"/>
+<FunctionDescription description="Introduced: v1.1.75"/>
 
 Databend默认情况下不提供内置的管理员用户。在Databend首次启动之前，需要在**databend-query.toml**配置文件中配置一个，这相当于其他数据库中的root用户。按照以下步骤操作：
 

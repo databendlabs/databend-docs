@@ -1,57 +1,55 @@
 ---
-title: Deploying a Cluster on Kubernetes
-sidebar_label: Deploying a Cluster on Kubernetes
+title: 在 Kubernetes 上部署集群
+sidebar_label: 在 Kubernetes 上部署集群
 description:
-  How to Databend a Databend query cluster on Kubernetes.
+  如何在 Kubernetes 上部署 Databend 查询集群。
 ---
 
-This topic explains how to install and configure the Databend cluster on Kubernetes.
+本主题解释了如何在 Kubernetes 上安装和配置 Databend 集群。
 
-
-## Before You Begin
+## 开始之前
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-* Ensure `helm` command installed, see [guide](https://helm.sh/docs/intro/install/)
+* 确保安装了 `helm` 命令，参见 [指南](https://helm.sh/docs/intro/install/)
 
-* Make sure you have a Kubernetes cluster up and running.
-  For example:
-  * [EKS](https://aws.amazon.com/eks/) on `AWS`
-  * [GKE](https://cloud.google.com/kubernetes-engine/) on `GCP`
-  * [AKS](https://azure.microsoft.com/products/kubernetes-service/) on `Azure`
-  * [ACK](https://www.alibabacloud.com/product/kubernetes) on `Alibaba Cloud`
-  * [TKE](https://cloud.tencent.com/product/tke) on `Tencent Cloud`
+* 确保您有一个正在运行的 Kubernetes 集群。
+  例如：
+  * [EKS](https://aws.amazon.com/eks/) 在 `AWS`
+  * [GKE](https://cloud.google.com/kubernetes-engine/) 在 `GCP`
+  * [AKS](https://azure.microsoft.com/products/kubernetes-service/) 在 `Azure`
+  * [ACK](https://www.alibabacloud.com/product/kubernetes) 在 `阿里云`
+  * [TKE](https://cloud.tencent.com/product/tke) 在 `腾讯云`
 
-  Also, there are simple Kubernetes Engines for local testing:
+  还有一些简单的 Kubernetes 引擎用于本地测试：
   * [k3d](https://k3d.io)
   * [minikube](https://minikube.sigs.k8s.io/docs/start/)
 
-* Create a Cloud Object Storage with corresponding credentials, i.e., `access_key_id` and `secret_access_key`.
-  * AWS S3 or other S3 compatible storage service
-  * Azure Storage Blob
-  * Other storage services supported by [opendal](https://github.com/datafuselabs/opendal#services)
+* 创建一个云对象存储并提供相应的凭证，即 `access_key_id` 和 `secret_access_key`。
+  * AWS S3 或其他兼容 S3 的存储服务
+  * Azure 存储 Blob
+  * 由 [opendal](https://github.com/datafuselabs/opendal#services) 支持的其他存储服务
 
-  :::info For advanced user
+  :::info 高级用户
 
-    Authentication methods without access keys are also supported:
-    * [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) on aws
-    * [RRSA](https://www.alibabacloud.com/help/container-service-for-kubernetes/latest/use-rrsa-to-enforce-access-control) on aliyun
-    * [InstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) on aws (coming soon)
-
+    也支持不使用访问密钥的认证方法：
+    * [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) 在 aws
+    * [RRSA](https://www.alibabacloud.com/help/container-service-for-kubernetes/latest/use-rrsa-to-enforce-access-control) 在阿里云
+    * [InstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) 在 aws（即将推出）
   :::
 
-* Ensure there is a default storage class for the Kubernetes cluster.
+* 确保 Kubernetes 集群有一个默认的存储类。
 
   ````mdx-code-block
 
-  :::tip For cloud platforms
+  :::tip 云平台
 
   <Tabs>
   <TabItem value="aws" label="EKS(AWS)">
 
-    [Amazon Elastic Block Store (EBS) CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md) is recommended.
-    And remember to set the annotation for default class when adding storage classes, for example:
+    推荐使用 [Amazon Elastic Block Store (EBS) CSI 驱动](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md)。
+    添加存储类时记得设置默认类的注解，例如：
 
     ```yaml
     storageClasses:
@@ -74,9 +72,9 @@ import TabItem from '@theme/TabItem';
 
   </TabItem>
 
-  <TabItem value="aliyun" label="ACK(Alibaba Cloud)">
+  <TabItem value="aliyun" label="ACK(阿里云)">
 
-    Ensure component `csi-provisioner` is installed, and then set the default storage class:
+    确保安装了组件 `csi-provisioner`，然后设置默认存储类：
 
     ```shell
     ❯ kubectl get sc
@@ -87,80 +85,77 @@ import TabItem from '@theme/TabItem';
     alicloud-disk-ssd                diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
     alicloud-disk-topology           diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
     alicloud-disk-topology-alltype   diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
-    # select the wanted storage class as default，for example: alicloud-disk-topology-alltype
+    # 选择所需的存储类作为默认值，例如：alicloud-disk-topology-alltype
     ❯ kubectl annotate sc alicloud-disk-topology-alltype storageclass.kubernetes.io/is-default-class=true --overwrite
     ```
 
   </TabItem>
 
   </Tabs>
-
   :::
 
   ````
 
-* **Recommended** Ensure Prometheus Operator running in Kubernetes cluster, if you want to monitor the status for Databend Meta and Databend Query.
+* **推荐** 如果您想监控 Databend Meta 和 Databend Query 的状态，请确保 Prometheus Operator 在 Kubernetes 集群中运行。
 
-  :::tip Steps for a simple Kube Prometheus Stack
+  :::tip 简单的 Kube Prometheus Stack 步骤
 
-    1. Add chart repository for kube-prometheus-stack
+    1. 添加 kube-prometheus-stack 图表仓库
 
       ```shell
       helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
       helm repo update prometheus-community
       ```
 
-    2. Prepare a values file for simple kube-prometheus-stack installation
+    2. 准备一个简单的 kube-prometheus-stack 安装值文件
 
-      ```yaml title="values.yaml"
-      grafana:
-        grafana.ini:
-          auth.anonymous:
-            enabled: true
-            org_role: Admin
-      prometheus:
-        prometheusSpec:
-          ruleNamespaceSelector: {}
-          ruleSelectorNilUsesHelmValues: false
-          serviceMonitorNamespaceSelector: {}
-          serviceMonitorSelectorNilUsesHelmValues: false
-          podMonitorNamespaceSelector: {}
-          podMonitorSelectorNilUsesHelmValues: false
-      ```
+    ```yaml title="values.yaml"
+    grafana:
+      grafana.ini:
+        auth.anonymous:
+          enabled: true
+          org_role: Admin
+    prometheus:
+      prometheusSpec:
+        ruleNamespaceSelector: {}
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorNamespaceSelector: {}
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorNamespaceSelector: {}
+        podMonitorSelectorNilUsesHelmValues: false
+    ```
 
-    3. Install [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) with helm
+    3. 使用 helm 安装 [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 
-      ```shell
-      helm upgrade --install monitoring \
-          prometheus-community/kube-prometheus-stack \
-          --namespace monitoring \
-          --create-namespace \
-          --values values.yaml
-      ```
+    ```shell
+    helm upgrade --install monitoring \
+        prometheus-community/kube-prometheus-stack \
+        --namespace monitoring \
+        --create-namespace \
+        --values values.yaml
+    ```
 
-    4. Verify prometheus & grafana running
+    4. 验证 prometheus & grafana 是否运行
 
-      ```shell
-      ❯ kubectl -n monitoring get pods
-      NAME                                                     READY   STATUS    RESTARTS      AGE
-      monitoring-prometheus-node-exporter-7km6w                1/1     Running   0             19m
-      monitoring-kube-prometheus-operator-876c99fb8-qjnpd      1/1     Running   0             19m
-      monitoring-kube-state-metrics-7c9f7fc49b-4884t           1/1     Running   0             19m
-      alertmanager-monitoring-kube-prometheus-alertmanager-0   2/2     Running   1 (18m ago)   18m
-      monitoring-grafana-654b4bb58c-sf9wp                      3/3     Running   0             19m
-      prometheus-monitoring-kube-prometheus-prometheus-0       2/2     Running   0             18m
-      ```
-
-  :::
+    ```shell
+    ❯ kubectl -n monitoring get pods
+    NAME                                                     READY   STATUS    RESTARTS      AGE
+    monitoring-prometheus-node-exporter-7km6w                1/1     Running   0             19m
+    monitoring-kube-prometheus-operator-876c99fb8-qjnpd      1/1     Running   0             19m
+    monitoring-kube-state-metrics-7c9f7fc49b-4884t           1/1     Running   0             19m
+    alertmanager-monitoring-kube-prometheus-alertmanager-0   2/2     Running   1 (18m ago)   18m
+    monitoring-grafana-654b4bb58c-sf9wp                      3/3     Running   0             19m
+    prometheus-monitoring-kube-prometheus-prometheus-0       2/2     Running   0             18m
+    ```
 
 
-## Deploy a Sample Databend Cluster
+## 部署一个示例 Databend 集群
 
-### Step 1. Deploy a Databend Meta Cluster
+### 步骤 1. 部署一个 Databend 元数据集群
 
-1. Create a values file with persistent and monitoring enabled:
+1. 创建一个启用持久化和监控的 values 文件：
 
-Detailed and default values are available at [documentation](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-meta/values.yaml)
+详细和默认的 values 可以在[文档](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-meta/values.yaml)中找到
 
 ```yaml title="values.yaml"
 bootstrap: true
@@ -172,14 +167,14 @@ serviceMonitor:
 ```
 
 :::caution
-It is **highly recommended** to deploy an at least 3-nodes cluster
-with persistent storage on each node for high availability.
+强烈推荐至少部署一个有 3 个节点的集群，
+每个节点上都有持久化存储，以实现高可用性。
 
-When `replicaCount > 1`, a `bootstrap: true` is necessary on first run,
-and could be removed when all nodes in cluster are up and running.
+当 `replicaCount > 1` 时，首次运行需要 `bootstrap: true`，
+当集群中所有节点都启动并运行后，可以移除它。
 :::
 
-2. Deploy the meta cluster in namespace `databend-meta`
+2. 在命名空间 `databend-meta` 中部署元数据集群
 
 ```shell
 helm repo add databend https://charts.databend.rs
@@ -190,7 +185,7 @@ helm upgrade --install databend-meta databend/databend-meta \
     --values values.yaml
 ```
 
-3. Wait and verify meta service running
+3. 等待并验证元数据服务是否运行
 
 ```shell
 ❯ kubectl -n databend-meta get pods
@@ -207,27 +202,27 @@ data-databend-meta-2   Bound    pvc-08bd4ceb-15c2-47f3-a637-c1cc10441874   20Gi 
 ```
 
 
-### Step 2. Deploy a Databend Query Cluster
+### 步骤 2. 部署一个 Databend 查询集群
 
-1. Create a values file with builtin user `databend:databend` and cluster name `example_cluster` with 3 nodes.
+1. 创建一个内置用户 `databend:databend` 和集群名称 `example_cluster` 的 values 文件，包含 3 个节点。
 
-Detailed and default values are available at [documentation](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-query/values.yaml)
+详细和默认的 values 可以在[文档](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-query/values.yaml)中找到
 
 ```yaml
 replicaCount: 3
 config:
   query:
     clusterId: example_cluster
-    # add builtin user
+    # 添加内置用户
     users:
       - name: databend
-        # available type: sha256_password, double_sha1_password, no_password, jwt
+        # 可用类型: sha256_password, double_sha1_password, no_password, jwt
         authType: double_sha1_password
         # echo -n "databend" | sha1sum | cut -d' ' -f1 | xxd -r -p | sha1sum
         authString: 3081f32caef285c232d066033c89a78d88a6d8a5
   meta:
-    # Set endpoints to use remote meta service
-    # depends on previous deployed meta service、namespace and nodes
+    # 设置端点以使用远程元数据服务
+    # 取决于之前部署的元数据服务、命名空间和节点
     endpoints:
       - "databend-meta-0.databend-meta.databend-meta.svc:9191"
       - "databend-meta-1.databend-meta.databend-meta.svc:9191"
@@ -241,10 +236,10 @@ config:
       access_key_id: "<key>"
       secret_access_key: "<secret>"
       root: ""
-# [recommended] enable monitoring service
+# [推荐] 启用监控服务
 serviceMonitor:
   enabled: true
-# [recommended] enable access from outside cluster
+# [推荐] 启用集群外部访问
 service:
   type: LoadBalancer
 ```
@@ -252,19 +247,19 @@ service:
 ````mdx-code-block
 
 :::caution for LoadBalancer
-When setting the service type to `LoadBalancer`,
-almost all cloud platform would assign a public ip address for the query service,
-this may lead to security problem.
+当将服务类型设置为 `LoadBalancer` 时，
+几乎所有云平台都会为查询服务分配一个公共 IP 地址，
+这可能会导致安全问题。
 
-Then annotations would be necessary to tell the cloud platform create an internal loadbalancer.
+然后需要注释来告诉云平台创建一个内部负载均衡器。
 
-For different cloud providers:
+对于不同的云提供商：
 
 
 <Tabs>
 <TabItem value="aws" label="AWS">
 
-  Recommended to have [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) installed.
+  推荐安装 [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller)。
 
   ```yaml
   service:
@@ -305,7 +300,7 @@ config:
   storage:
     type: s3
     s3:
-      # default endpoint
+      # 默认端点 URL
       endpoint_url: "s3.amazonaws.com"
       bucket: "<bucket>"
       region: "<region>"
@@ -318,26 +313,26 @@ config:
 
 <TabItem value="aliyun" label="OSS(Alibaba Cloud)">
 
-```yaml title="oss with s3 client"
+```yaml title="使用 s3 客户端的 oss"
 config:
   storage:
     type: s3
     s3:
-      # regional endpoint url
+      # 区域端点 URL
       endpoint_url: "oss-ap-southeast-1.aliyuncs.com"
       bucket: "<bucket>"
       access_key_id: "<key>"
       secret_access_key: "<secret>"
-      # required
+      # 需要
       enable_virtual_host_style: true
 ```
 
-```yaml title="oss native"
+```yaml title="原生 oss"
 config:
   storage:
     type: oss
     oss:
-      # regional endpoint url
+      # 区域端点 URL
       endpoint_url: "oss-ap-southeast-1.aliyuncs.com"
       bucket: "<bucket>"
       access_key_id: "<key>"
@@ -348,12 +343,12 @@ config:
 
 <TabItem value="qcloud" label="COS(Tencent Cloud)">
 
-```yaml title="cos with s3 client"
+```yaml title="使用 s3 客户端的 cos"
 config:
   storage:
     type: s3
     s3:
-      # regional endpoint url
+      # 区域端点 URL
       endpoint_url: "cos.ap-singapore.myqcloud.com"
       bucket: "test-databend-1234567890"
       access_key_id: "<key>"
@@ -368,7 +363,7 @@ config:
 
 ````
 
-2. Deploy the query cluster for `tenant1` in namespace `databend-query`
+2. 为 `tenant1` 部署查询集群，命名空间为 `databend-query`
 
 ```shell
 helm repo add databend https://charts.databend.rs
@@ -379,7 +374,7 @@ helm upgrade --install tenant1 databend/databend-query \
     --values values.yaml
 ```
 
-3. Wait and verify query service running
+3. 等待并验证查询服务运行
 
 ```shell
 ❯ kubectl -n databend-query get pods
@@ -393,72 +388,72 @@ NAME                     TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)    
 tenant1-databend-query   LoadBalancer   10.43.84.243   172.20.0.2    8080:32063/TCP,9000:31196/TCP,9090:30472/TCP,8000:30050/TCP,7070:31253/TCP,3307:31367/TCP   17m
 ```
 
-4. Access the query cluster
+4. 访问查询集群
 
-  We use the builtin user `databend` here:
+  我们在这里使用内置用户 `databend`：
 
-  * in-cluster access
+  * 集群内访问
 
     ```shell
     mysql -htenant1-databend-query.databend-query.svc -udatabend -P3307 -pdatabend
     ```
 
-  * outside-cluster access with loadbalancer
+* 使用负载均衡器进行集群外访问
 
     ```shell
-    # the address here is the `EXTERNAL-IP` for service tenant1-databend-query above
+    # 这里的地址是上面的服务 tenant1-databend-query 的 `EXTERNAL-IP`
     mysql -h172.20.0.2 -udatabend -P3307 -pdatabend
     ```
 
-  * local access with kubectl
+* 使用 kubectl 进行本地访问
 
     ```shell
     nohup kubectl port-forward -n databend-query svc/tenant1-databend-query 3307:3307 &
     mysql -h127.0.0.1 -udatabend -P3307 -pdatabend
     ```
 
-5. Deploy a second cluster for tenant2
+5. 为 tenant2 部署第二个集群
 
-modify the `values.yaml` for tenant2
-
-```shell
-# optional
-helm repo update databend
-
-helm upgrade --install tenant2 databend/databend-query \
-    --namespace databend-query --create-namespace \
-    --values values.yaml
-```
-
-``` shell title="Verify the query service for tenant2 running"
-❯ kubectl -n databend-query get pods
-NAME                                      READY   STATUS    RESTARTS   AGE
-tenant1-databend-query-66647594c-lkkm9    1/1     Running   0          55m
-tenant1-databend-query-66647594c-lpl2s    1/1     Running   0          55m
-tenant1-databend-query-66647594c-4hlpw    1/1     Running   0          55m
-tenant2-databend-query-59dcc4949f-9qg9b   1/1     Running   0          53s
-tenant2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
-tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
-```
-
-
-## Maintain Databend Query Cluster
-
-### Scale
-
-to scale up or down the query cluster, there are two ways
-
-* directly use `kubectl`
+  修改 tenant2 的 `values.yaml`
 
   ```shell
-   # scale query cluster number to 0
+  # 可选
+  helm repo update databend
+
+  helm upgrade --install tenant2 databend/databend-query \
+      --namespace databend-query --create-namespace \
+      --values values.yaml
+  ```
+
+  ``` shell title="验证 tenant2 的查询服务是否在运行"
+  ❯ kubectl -n databend-query get pods
+  NAME                                      READY   STATUS    RESTARTS   AGE
+  tenant1-databend-query-66647594c-lkkm9    1/1     Running   0          55m
+  tenant1-databend-query-66647594c-lpl2s    1/1     Running   0          55m
+  tenant1-databend-query-66647594c-4hlpw    1/1     Running   0          55m
+  tenant2-databend-query-59dcc4949f-9qg9b   1/1     Running   0          53s
+  tenant2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
+  tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
+  ```
+
+
+## 维护 Databend Query 集群
+
+### 扩容
+
+扩容或缩容查询集群有两种方式
+
+* 直接使用 `kubectl`
+
+  ```shell
+   # 将查询集群数量缩减到 0
    kubectl -n databend-query scale deployment tenant1-databend-query --replicas=0
 
-   # scale query cluster number to 5
+   # 将查询集群数量扩展到 5
    kubectl -n databend-query scale deployment tenant1-databend-query --replicas=5
   ```
 
-* update `replicaCount` in `values.yaml` to any value, then helm upgrade again
+* 在 `values.yaml` 中更新 `replicaCount` 到任意值，然后再次执行 helm 升级
 
   ```diff title="diff values.yaml"
   - replicaCount: 3
@@ -471,9 +466,9 @@ to scale up or down the query cluster, there are two ways
       --values values.yaml
   ```
 
-### Upgrade
+### 升级
 
-to upgrade the query cluster, we need to modify the `values.yaml` for query cluster above.
+升级查询集群，我们需要修改上面查询集群的 `values.yaml`。
 
 ```diff title="diff values.yaml"
 replicaCount: 3
@@ -484,10 +479,10 @@ config:
     clusterId: example_cluster
 ```
 
-then just run again helm upgrade
+然后再次执行 helm 升级
 
 ```shell
-# optional
+# 可选
 helm repo update databend
 
 helm upgrade --install tenant1 databend/databend-query \
@@ -495,7 +490,7 @@ helm upgrade --install tenant1 databend/databend-query \
     --values values.yaml
 ```
 
-### Check the Cluster Information
+### 检查集群信息
 
 ```sql
 MySQL [(none)]> select * from system.clusters;
@@ -509,12 +504,14 @@ MySQL [(none)]> select * from system.clusters;
 3 rows in set (0.009 sec)
 ```
 
-### Verify Distributed Query Working
+### 验证分布式查询是否工作正常
+
+
 
 ```sql
 MySQL [(none)]> EXPLAIN SELECT max(number), sum(number) FROM numbers_mt(10000000000) GROUP BY number % 3, number % 4, number % 5 LIMIT 10;
 +-------------------------------------------------------------------------------------------------------------------------------------------+
-| explain                                                                                                                                   |
+| 解释                                                                                                                                     |
 +-------------------------------------------------------------------------------------------------------------------------------------------+
 | Limit                                                                                                                                     |
 | ├── limit: 10                                                                                                                       |
@@ -541,12 +538,12 @@ MySQL [(none)]> EXPLAIN SELECT max(number), sum(number) FROM numbers_mt(10000000
 |                             ├── partitions scanned: 152588                                                                          |
 |                             └── push downs: [filters: [], limit: NONE]                                                              |
 +-------------------------------------------------------------------------------------------------------------------------------------------+
-24 rows in set (0.008 sec)
+24行在集合中 (0.008秒)
 ```
 
-The distributed query works, and the cluster will efficiently transfer data through `flight_api_address`.
+分布式查询已经可以工作了，集群将通过 `flight_api_address` 高效传输数据。
 
-### Upload Data to the Cluster
+### 将数据上传到集群 {#upload-data-to-the-cluster}
 
 ```sql
 CREATE TABLE t1(i INT, j INT);
@@ -568,27 +565,27 @@ SELECT count(*) FROM t1;
 ```
 
 
-## Monitoring the Meta and Query cluster
+## 监控元数据和查询集群 {#monitoring-the-meta-and-query-cluster}
 
 :::info
-Note the `serviceMonitor` should be enabled when deploying meta and query cluster.
+注意在部署元数据和查询集群时应该启用 `serviceMonitor`。
 :::
 
-* Download the grafana dashboard files from: [datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards).
+* 从以下地址下载grafana仪表板文件：[datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)。
 
-* Open grafana web for your cluster.
+* 为你的集群打开grafana网页。
 
-* Select `+ Import` on the left sidebar, and upload the downloaded two json files.
+* 在左侧边栏选择 `+ 导入`，并上传下载的两个json文件。
 
-* Then you should see the two dashboard:
+* 然后你应该能看到两个仪表板：
 
-  * Databend Meta Runtime
-  * Databend Query Runtime
+  * Databend Meta 运行时
+  * Databend Query 运行时
 
-## Next Steps
+## 下一步 {#next-steps}
 
-After deploying Databend, you might need to learn about the following topics:
+在部署Databend之后，你可能需要了解以下主题：
 
-- [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs. 
-- [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
-- [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
+- [管理设置](/sql/sql-reference/manage-settings)：根据你的需求优化Databend。
+- [加载与卸载数据](/guides/load-data)：管理Databend中的数据导入/导出。
+- [可视化](/guides/visualize)：将Databend与可视化工具集成，以获得洞察力。

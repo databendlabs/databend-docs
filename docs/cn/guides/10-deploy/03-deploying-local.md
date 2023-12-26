@@ -55,17 +55,17 @@ Digest: sha256:ab5296018bfca75d45f451e050f6c79c6e8b9927bbc444274a74123ea7921021
 Status: Downloaded newer image for quay.io/minio/minio:latest
 Formatting 1st pool, 1 set(s), 1 drives per set.
 WARNING: Host local has more than 0 drives of set. A host failure will result in data becoming unavailable.
-MinIO 对象存储服务器
-版权所有: 2015-2023 MinIO, Inc.
-许可证: GNU AGPLv3 <https://www.gnu.org/licenses/agpl-3.0.html>
-版本: RELEASE.2023-04-13T03-08-07Z (go1.20.3 linux/arm64)
+MinIO Object Storage Server
+Copyright: 2015-2023 MinIO, Inc.
+License: GNU AGPLv3 <https://www.gnu.org/licenses/agpl-3.0.html>
+Version: RELEASE.2023-04-13T03-08-07Z (go1.20.3 linux/arm64)
 
-状态:         1 在线, 0 离线。 
+Status:         1 Online, 0 Offline. 
 API: http://172.17.0.2:9000  http://127.0.0.1:9000 
-控制台: http://172.17.0.2:9090 http://127.0.0.1:9090 
+Console: http://172.17.0.2:9090 http://127.0.0.1:9090 
 
-文档: https://min.io/docs/minio/linux/index.html
-警告: 标准奇偶校验设置为 0。这可能导致数据丢失。
+Documentation: https://min.io/docs/minio/linux/index.html
+Warning: The standard parity is set to 0. This can lead to data loss.
 ```
 
 2. 打开您的网络浏览器，访问 http://127.0.0.1:9090/（登录凭据：ROOTUSER/CHANGEME123）。创建一个名为 **databend** 的存储桶。
@@ -101,28 +101,28 @@ docker run \
 
 ```shell
 eric@bogon ~ % bendsql -udatabend -pdatabend
-欢迎使用 BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z)。
-尝试以用户 databend 连接到 localhost:8000。
-已连接到 DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
+Welcome to BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z).
+Trying connect to localhost:8000 as user databend.
+Connected to DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
 ```
 
 2. 要验证部署，您可以使用 BendSQL 创建一个表并插入一些数据：
 
 ```shell
 databend@localhost> CREATE DATABASE eric;
-处理时间 (0.083 秒)
+Processed in (0.083 sec)
 
 databend@localhost> CREATE TABLE mytable(a int);
-处理时间 (0.051 秒)
+Processed in (0.051 sec)
 
 databend@localhost> INSERT INTO mytable VALUES(1);
-影响行数 1 (0.242 秒)
+1 rows affected in (0.242 sec)
 
 databend@localhost> INSERT INTO mytable VALUES(2);
-影响行数 1 (0.060 秒)
+1 rows affected in (0.060 sec)
 
 databend@localhost> INSERT INTO mytable VALUES(3);
-影响行数 1 (0.053 秒)
+1 rows affected in (0.053 sec)
 ```
 
 由于表数据存储在存储桶中，您将注意到存储桶大小从 0 开始增加。
@@ -164,9 +164,9 @@ auth_type = "no_password"
 
 ```shell
 ==> query.log <==
-: 没有 getcpu 支持：percpu_arena:percpu
-: 选项 background_thread 当前仅支持 pthread
-Databend Query 启动失败，原因：代码：1104，文本 = 无法创建 appender：Os { code: 13, kind: PermissionDenied, message: "Permission denied" }。
+: No getcpu support: percpu_arena:percpu
+: option background_thread currently supports pthread only
+Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
 运行以下命令并再次尝试启动 Databend：
 
@@ -197,9 +197,9 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 
 ```shell
 eric@bogon ~ % bendsql      
-欢迎使用 BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z)。
-尝试以用户 root 连接到 localhost:8000。
-已连接到 DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
+Welcome to BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z).
+Trying connect to localhost:8000 as user root.
+Connected to DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
 ```
 
 2. 查询 Databend 版本以验证连接：
@@ -216,7 +216,7 @@ SELECT
 ├────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z) │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-1 行在 0.024 秒内。处理了 1 行，1B (41.85 行/秒，41B/秒)
+1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 41B/s)
 ```
 
 ## 下一步

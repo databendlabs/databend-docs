@@ -1,21 +1,21 @@
 ---
-title: Send & Receive gRPC Metadata
-sidebar_label: Send & Receive gRPC Metadata
+title: 发送 & 接收 gRPC 元数据
+sidebar_label: 发送 & 接收 gRPC 元数据
 description: 
-  Send & Receive gRPC Metadata
+  发送 & 接收 gRPC 元数据
 ---
 
-Databend allows you to send and receive gRPC (gRPC Remote Procedure Calls) metadata (key-value pairs) to and from a running meta service cluster with the command-line interface (CLI) commands.
+Databend 允许您通过命令行界面（CLI）命令向运行中的元服务集群发送和接收 gRPC（gRPC 远程过程调用）元数据（键值对）。
 
-## Update and Create a Key-Value Pair
+## 更新和创建键值对
 
-This command updates an existing key-value pair if the specified key already exists, and creates a new key-value pair if the specified key doesn't exist:
+此命令会更新现有的键值对（如果指定的键已存在），如果指定的键不存在，则创建新的键值对：
 
 ```shell
 ./databend-meta --grpc-api-address "<grpc-api-address>" --cmd kvapi::upsert --key <key> --value <value>
 ```
 
-### Examples
+### 示例
 
 ```shell
 ./databend-meta --grpc-api-address "127.0.0.1:9191" --cmd kvapi::upsert --key 1:key1 --value value1
@@ -25,44 +25,44 @@ This command updates an existing key-value pair if the specified key already exi
 ./databend-meta --grpc-api-address "127.0.0.1:9191" --cmd kvapi::upsert --key 2:key2 --value value2
 ```
 
-## Get Value by a Key
+## 通过键获取值
 
-This command gets the value for a specified key:
+此命令获取指定键的值：
 
 ```shell
 ./databend-meta --grpc-api-address "<grpc-api-address>" --cmd kvapi::get --key <key>
 ```
 
-### Examples
+### 示例
 
 ```shell
 ./databend-meta --grpc-api-address "127.0.0.1:9191" --cmd kvapi::get --key 1:key1
 ./databend-meta --grpc-api-address "127.0.0.1:9191" --cmd kvapi::get --key 2:key2
 ```
 
-## Get Values by Multiple Keys
+## 通过多个键获取值
 
-This command gets values for multiple specified keys:
+此命令获取多个指定键的值：
 
 ```shell
 ./databend-meta --grpc-api-address "<grpc-api-address>" --cmd kvapi::mget --key <key1> <key2> ...
 ```
 
-### Examples
+### 示例
 
 ```shell
 ./databend-meta --grpc-api-address "127.0.0.1:9191" --cmd kvapi::mget --key 1:key1 2:key2
 ```
 
-## List Key-Value Pairs by a Prefix
+## 通过前缀列出键值对
 
-This command lists the existing key-value pairs by a specified prefix for the key:
+此命令通过指定的键前缀列出现有的键值对：
 
 ```shell
 ./databend-meta --grpc-api-address "<grpc-api-address>" --cmd kvapi::list --prefix <prefix>
 ```
 
-### Examples
+### 示例
 
 ```shell
 ./databend-meta --grpc-api-address "127.0.0.1:9191" --cmd kvapi::list --prefix 1:

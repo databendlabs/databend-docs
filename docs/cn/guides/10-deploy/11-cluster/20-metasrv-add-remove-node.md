@@ -1,24 +1,24 @@
 ---
-title: Manage a Databend Meta Service Cluster
-sidebar_label: Manage a Meta Service Cluster
+title: 管理 Databend 元服务集群
+sidebar_label: 管理元服务集群
 description:
-  How to add/remove nodes from the Databend Meta Service cluster
+  如何从 Databend 元服务集群中添加/移除节点
 ---
 
 :::tip
 
-Expected deployment time: **5 minutes ⏱**
+预计部署时间：**5 分钟 ⏱**
 
 :::
 
-At any time a `databend-meta` node can be added or removed without service downtime.
+在任何时候都可以添加或移除 `databend-meta` 节点，而不会导致服务中断。
 
-## 1. Add Node
+## 1. 添加节点
 
-### 1.1 Create databend-meta-n.toml for the new node
+### 1.1 为新节点创建 databend-meta-n.toml
 
-The new node has to have a unique `id` and unique listening addresses.
-E.g., to add a new node with id `7`, the config toml would look like:
+新节点必须有一个唯一的 `id` 和唯一的监听地址。
+例如，要添加一个 id 为 `7` 的新节点，配置 toml 文件看起来像这样：
 
 ```shell title="databend-meta-7.toml"
 log_dir            = "metadata/_logs7"
@@ -34,59 +34,53 @@ raft_advertise_host = "localhost"
 join                = ["localhost:28103"]
 ```
 
-The arg `join` specifies a list of raft addresses(`<raft_advertise_host>:<raft_api_port>`) of nodes in the existing cluster it wants to
-be joined to.
+参数 `join` 指定了一个 raft 地址列表（`<raft_advertise_host>:<raft_api_port>`），这些地址是它想要加入的现有集群中的节点。
 
-Databend-meta will skip `join` argument if it's already joined to a cluster.
-It check whether the **committed** membership contains its id to decide if to
-join. The explanation of this policy:(but you do not really have to read it:)
+如果 Databend-meta 已经加入了一个集群，它将跳过 `join` 参数。
+它会检查 **已提交** 的成员身份是否包含其 id 来决定是否加入。这个策略的解释如下（但你实际上不必阅读它）：
 
-> - It can not rely on if there are logs.
->   It's possible the leader has setup a replication to this new
->   node but not yet added it as a **voter**. In such a case, this node will
->   never be added into the cluster automatically.
+> - 它不能依赖于是否有日志。
+>   领导者可能已经向这个新节点设置了复制，但尚未将其添加为 **投票者**。在这种情况下，这个节点将永远不会自动被添加到集群中。
 >
-> - It must detect if there is a committed **membership** config
->   that includes this node. Thus only when a node has already joined to a
->   cluster(leader committed the membership and has replicated it to this node),
->   it skips the join process.
+> - 它必须检测是否有一个包含此节点的已提交 **成员身份** 配置
+>   因此，只有当一个节点已经加入到一个集群（领导者提交了成员身份并已将其复制到此节点）时，它才会跳过加入过程。
 >
-> #### Why skip checking membership in raft logs:
+> #### 为什么跳过检查 raft 日志中的成员身份：
 >
-> A leader may have replicated **non-committed** membership to this node and the crashed.
-> Then the next leader does not know about this new node.
+> 领导者可能已经复制了 **未提交** 的成员身份到这个节点然后崩溃了。
+> 然后下一个领导者不知道这个新节点。
 >
-> Only when the membership is committed, this node can be sure it is in a cluster.
+> 只有当成员身份被提交后，这个节点才能确信它在一个集群中。
 
 
-### 1.2 Start the new node
+### 1.2 启动新节点
 
 ```shell
 ./databend-meta -c ./databend-meta-7.toml > meta7.log 2>&1 &
 ```
 
-## 2. Remove Node
+## 2. 移除节点
 
-Remove a node with:
+使用以下命令移除一个节点：
 `databend-meta --leave-id <node_id_to_remove> --leave-via <node_addr_1> <node_addr_2>...`
 
-This command can be used anywhere there is a `databend-meta` installed.
-It will send a `leave` request to the first `<node_addr_i>` it could connect to.
-As part of the command, the node will be blocked from interacting with the cluster until the Leave request has been completed or an error has occurred.
+这个命令可以在安装了 `databend-meta` 的任何地方使用。
+它会向它能够连接到的第一个 `<node_addr_i>` 发送一个 `leave` 请求。
+作为命令的一部分，该节点将被阻止与集群交互，直到 Leave 请求完成或发生错误。
 
-`databend-meta --leave-via` will quit at once when the `leave` RPC is done.
+`databend-meta --leave-via` 在 `leave` RPC 完成后会立即退出。
 
-- `--leave-via` specifies a list of the node `advertise` addresses to send the `leave` request to.
-  See: `--raft-advertise-host`
+- `--leave-via` 指定了一个节点 `advertise` 地址列表，用于发送 `leave` 请求。
+  参见：`--raft-advertise-host`
 
-- `--leave-id` specifies the node id to leave. It can be any id in a cluster.
+- `--leave-id` 指定要离开的节点 id。它可以是集群中的任何 id。
 
-## 3. Examine cluster members
+## 3. 检查集群成员
 
-At every step of adding or removing a node, the cluster state should be checked to ensure everything goes well.
+在添加或移除节点的每一步，都应该检查集群状态以确保一切顺利。
 
-The `admin-api-address` defined in the config provides a administration HTTP service to examine cluster state:
-E.g., `curl -s localhost:28101/v1/cluster/nodes` will display the members in a cluster:
+配置中定义的 `admin-api-address` 提供了一个管理 HTTP 服务来检查集群状态：
+例如，`curl -s localhost:28101/v1/cluster/nodes` 将显示集群中的成员：
 
 ```json
 [
