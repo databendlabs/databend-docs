@@ -5,9 +5,7 @@ slug: /
 
 # Databend Guides
 
-:::tip
 The Databend Guides are applicable across all [Databend Editions](00-editions/index.md). Any features or aspects exclusive to a particular edition will be explicitly mentioned and clarified in the documentation.
-:::
 
 [Overview](index.md)
 ---
@@ -17,9 +15,9 @@ Explore the diverse editions of Databend, delve into its thriving ecosystem, and
 ---
 Effortlessly set up and stay current with Databend by following our comprehensive guide on deployment and seamless upgrades, ensuring you harness the latest features and improvements.
 
-[Databend Cloud Essentials](../20-cloud/index.md)
+[Datebend Cloud Quickstarts](../20-cloud/index.md)
 ---
-Immerse yourself in the world of Databend Cloud with our comprehensive guide, designed to walk you through essential operations and optimizations tailored for the cloud environment, ensuring you harness the full potential of Databend in the cloud.
+Immerse yourself in Databend Cloud with our quickstart guide, designed to walk you through essential operations and optimizations tailored for the cloud environment.
 
 [Connect to Databend](../30-sql-clients/index.md)
 ---
