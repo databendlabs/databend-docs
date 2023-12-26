@@ -1,5 +1,6 @@
 ---
-title: Loading Parquet File
+title: Loading Parquet File into Databend
+sidebar_label: Loading Parquet File
 ---
 
 ## What is Parquet?
@@ -16,24 +17,23 @@ The common syntax for loading Parquet file is as follows:
 COPY INTO [<database>.]<table_name>
      FROM { internalStage | externalStage | externalLocation }
 [ PATTERN = '<regex_pattern>' ]
- FILE_FORMAT = (TYPE = PARQUET);
+FILE_FORMAT = (TYPE = PARQUET)
 ```
 
 More details about the syntax can be found in [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table).
 
-## Tutorial: Loading from Parquet File
-
-This tutorial lets you effectively navigate the process of loading data from parquet files stored in an internal stage.
+## Tutorial: Loading Data from Parquet Files
 
 ### Step 1. Create an Internal Stage
 
+Create an internal stage to store the Parquet files.
 ```sql
 CREATE STAGE my_parquet_stage;
 ```
 
 ### Step 2. Create Parquet files
 
-Create a parquet file with the following SQL statements in Databend:
+Generate a Parquet file using these SQL statements:
 ```sql
 COPY INTO @my_parquet_stage 
 FROM (
@@ -41,10 +41,11 @@ FROM (
         'Title_' || CAST(number AS VARCHAR) AS title,
         'Author_' || CAST(number AS VARCHAR) AS author
     FROM numbers(100000)
-);
+)
+    FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-Check the Parquet file:
+Verify the creation of the Parquet file:
 ```sql
 LIST @my_parquet_stage;
 ```
@@ -77,7 +78,7 @@ CREATE TABLE books
 ```sql
 COPY INTO books
     FROM @my_parquet_stage
-    PATTERN = '.*[.]parquet' -- Parquet file name pattern
+    PATTERN = '.*[.]parquet'
     FILE_FORMAT = (TYPE = PARQUET); 
 ```
 
@@ -89,5 +90,3 @@ Result:
 │ data_3890e0b1-0233-422c-b506-3a4501602f28_0000_00000000.parquet │      100000 │           0 │ NULL             │             NULL │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
-
-
