@@ -1,5 +1,6 @@
 ---
 title: Loading Data via Pipelines
+sidebar_label: Pipeline
 ---
 
 A pipeline in Databend Cloud allows for automatic discovery of file updates from Amazon S3 and automatically loads them into a table. Here are some scenarios where using a pipeline is recommended:
