@@ -30,7 +30,7 @@ import TabItem from '@theme/TabItem';
 * Create a Cloud Object Storage with corresponding credentials, i.e., `access_key_id` and `secret_access_key`.
   * AWS S3 or other S3 compatible storage service
   * Azure Storage Blob
-  * Other storage services supported by [opendal](https://github.com/datafuselabs/opendal#services)
+  * Other storage services supported by [Apache OpenDAL](https://github.com/datafuselabs/opendal#services)
 
   :::info For advanced user
 
@@ -589,6 +589,6 @@ Note the `serviceMonitor` should be enabled when deploying meta and query cluste
 
 After deploying Databend, you might need to learn about the following topics:
 
-- [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs. 
+- [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs.
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
 - [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
