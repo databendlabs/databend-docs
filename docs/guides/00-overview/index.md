@@ -39,6 +39,6 @@ Navigate the realm of data visualization by exploring our guide on seamlessly in
 ---
 Gain a deep understanding of how to effectively monitor your Databend environment, ensuring optimal performance, identifying bottlenecks, and maintaining a robust and reliable data infrastructure.
 
-[Performance Optimization](../80-performance-optimization/index.md)
+[Performance Optimization](../55-performance/index.md)
 ---
 Learn how to optimize the performance of Databend, make your queries run faster, and improve the overall efficiency of your data infrastructure.
