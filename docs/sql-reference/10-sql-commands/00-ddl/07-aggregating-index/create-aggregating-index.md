@@ -16,10 +16,10 @@ Creates a new aggregating index in Databend.
 ## Syntax
 
 ```sql
-CREATE [SYNC] AGGREGATING INDEX <index_name> AS SELECT ...
+CREATE [ASYNC] AGGREGATING INDEX <index_name> AS SELECT ...
 ```
 
-- The `SYNC` parameter, when used during the creation of an aggregating index, enables automatic refresh, ensuring the index stays synchronized with the latest data updates.
+- The `ASYNC` parameter, when used during the creation of an aggregating index, need refresh manually. If `ASYNC` ignored, the aggregating indexes will refresh automatically, stay synchronized with the latest data updates.
 
 - When creating aggregating indexes, limit their usage to standard [Aggregate Functions](../../../20-sql-functions/07-aggregate-functions/index.md) (e.g., AVG, SUM, MIN, MAX, COUNT and GROUP BY), while keeping in mind that [GROUPING SETS](../../20-query-syntax/07-query-group-by-grouping-sets.md), [Window Functions](../../../20-sql-functions/08-window-functions/index.md), [LIMIT](../../20-query-syntax/01-query-select.md#limit-clause), and [ORDER BY](../../20-query-syntax/01-query-select.md#order-by-clause) are not accepted, or you will get an error: `Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`.
 

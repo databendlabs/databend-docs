@@ -16,18 +16,22 @@ See also: [system.indexes](../../../00-sql-reference/20-system-tables/system-ind
 SHOW INDEXES [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
+:::tip
+The sql that user used to create aggregating index may be rewritten by Databend. See example below for detail.
+:::
+
 ## Example
 
 ```sql
 CREATE TABLE t1(a int,b int);
 
-CREATE AGGREGATING INDEX idx1 AS SELECT SUM(a), b FROM default.t1 WHERE b > 3 GROUP BY b；
+CREATE AGGREGATING INDEX idx1 AS SELECT avg(a), abs(sum(b): Int32), abs(b) AS bs FROM t1 GROUP BY bs;
 
 SHOW INDEXES;
 
-+----------+-------------+------------------------------------------------------------+----------------------------+
-| name     | type        | definition                                                 | created_on                 |
-+----------+-------------+------------------------------------------------------------+----------------------------+
-| test_idx | AGGREGATING | SELECT b, SUM(a) FROM default.t1 WHERE (b > 3) GROUP BY b  | 2023-05-17 11:53:54.474377 |
-+----------+-------------+------------------------------------------------------------+----------------------------+
++----------+-------------+----------------------------------------------------------------------------+----------------------------------------------------------------------------+----------------------------+
+| name     | type        |                          original                                          |                                 definition                                 | created_on                 |
++----------+-------------+----------------------------------------------------------------------------+----------------------------------------------------------------------------+----------------------------+
+| test_idx | AGGREGATING | SELECT avg(a), abs(sum(b): Int32), abs(b) AS bsFROM default.t1 GROUP BY bs | SELECT abs(b) AS bs, sum(b), sum(a), count(a) FRONM default.t1 GROUP BY bs | 2023-05-17 11:53:54.474377 |
++----------+-------------+----------------------------------------------------------------------------+----------------------------------------------------------------------------+----------------------------+
 ```
