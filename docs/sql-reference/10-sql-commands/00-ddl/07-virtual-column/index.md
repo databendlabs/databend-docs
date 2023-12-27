@@ -28,6 +28,13 @@ This example demonstrates the practical use of virtual columns and their impact 
 -- Create a table named 'test' with columns 'id' and 'val' of type Variant.
 CREATE TABLE test(id int, val variant);
 
+-- Create virtual columns for specific elements in the 'val' column.
+CREATE VIRTUAL COLUMN (
+  val ['name'],                 -- Extract the 'name' field.
+  val ['tags'] [0],             -- Extract the first element in the 'tags' array.
+  val ['pricings'] [0] ['type'] -- Extract the 'type' field from the first pricing in the 'pricings' array.
+) FOR test;
+
 -- Insert a sample record into the 'test' table with Variant data.
 INSERT INTO
   test
@@ -36,15 +43,6 @@ VALUES
     1,
     '{"id":1,"name":"databend","tags":["powerful","fast"],"pricings":[{"type":"Standard","price":"Pay as you go"},{"type":"Enterprise","price":"Custom"}]}'
   );
-
--- Create virtual columns for specific elements in the 'val' column.
-CREATE VIRTUAL COLUMN (
-  val ['name'],                 -- Extract the 'name' field.
-  val ['tags'] [0],             -- Extract the first element in the 'tags' array.
-  val ['pricings'] [0] ['type'] -- Extract the 'type' field from the first pricing in the 'pricings' array.
-) FOR test;
-
-REFRESH VIRTUAL COLUMN FOR test;
 
 -- Explain the query execution plan for selecting specific fields from the table.
 EXPLAIN
