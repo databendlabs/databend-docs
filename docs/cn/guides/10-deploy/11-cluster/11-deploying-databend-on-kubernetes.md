@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
 * 创建一个云对象存储并提供相应的凭证，即 `access_key_id` 和 `secret_access_key`。
   * AWS S3 或其他兼容 S3 的存储服务
   * Azure 存储 Blob
-  * 由 [opendal](https://github.com/datafuselabs/opendal#services) 支持的其他存储服务
+  * 由 [Apache OpenDAL](https://github.com/datafuselabs/opendal#services) 支持的其他存储服务
 
   :::info 高级用户
 
