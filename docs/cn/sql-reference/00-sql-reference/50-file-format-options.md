@@ -1,31 +1,31 @@
 ---
-title: Input & Output File Formats
+title: 输入与输出文件格式
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.216"/>
+<FunctionDescription description="引入或更新版本：v1.2.216"/>
 
-Databend accepts a variety of file formats both as a source and as a target for data loading or unloading. This page explains the supported file formats and their available options.
+Databend 支持多种文件格式作为数据加载或卸载的源和目标。本页面解释了支持的文件格式及其可用选项。
 
-## Syntax
+## 语法
 
-To specify a file format in a statement, use the following syntax:
+要在语句中指定文件格式，请使用以下语法：
 
 ```sql
--- Specify a standard file format
+-- 指定标准文件格式
 ... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | XML } [ formatTypeOptions ] )
 
--- Specify a custom file format
+-- 指定自定义文件格式
 ... FILE_FORMAT = ( FORMAT_NAME = '<your-custom-format>' )
 ```
 
-- Databend currently supports XML as a source ONLY. Unloading data into an XML file is not supported yet.
-- If you don't specify the FILE_FORMAT when performing a COPY INTO or SELECT operation from a stage, Databend will use the file format that you initially defined for the stage when you created it. In cases where you didn't explicitly specify a file format during the stage creation, Databend defaults to using the PARQUET format. If you specify a different FILE_FORMAT from the one you defined when creating the stage, Databend will prioritize the FILE_FORMAT specified during the operation.
-- For managing custom file formats in Databend, see [File Format](../10-sql-commands/00-ddl/13-file-format/index.md).
+- Databend 目前仅支持将 XML 作为源使用。尚不支持将数据卸载到 XML 文件中。
+- 如果在执行 COPY INTO 或从阶段 SELECT 操作时未指定 FILE_FORMAT，Databend 将使用您在创建阶段时为该阶段定义的文件格式。在您未在创建阶段时明确指定文件格式的情况下，Databend 默认使用 PARQUET 格式。如果您指定了与创建阶段时定义的不同的 FILE_FORMAT，Databend 将优先考虑在操作期间指定的 FILE_FORMAT。
+- 有关在 Databend 中管理自定义文件格式的信息，请参见 [文件格式](../10-sql-commands/00-ddl/13-file-format/index.md)。
 
 ### formatTypeOptions
 
-`formatTypeOptions` includes one or more options to describe other format details about the file. The options vary depending on the file format. See the sections below to find out the available options for each supported file format.
+`formatTypeOptions` 包括一个或多个选项，用于描述有关文件的其他格式细节。这些选项根据文件格式的不同而有所不同。请参阅下面的各个支持的文件格式部分，了解每种格式的可用选项。
 
 ```sql
 formatTypeOptions ::=
@@ -39,188 +39,195 @@ formatTypeOptions ::=
   COMPRESSION = AUTO | GZIP | BZ2 | BROTLI | ZSTD | DEFLATE | RAW_DEFLATE | XZ | NONE
 ```
 
-## CSV Options
+## CSV 选项
 
-Databend accepts CVS files that are compliant with [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) and is subject to the following conditions:
+Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS 文件，并受以下条件限制：
 
-- A string must be quoted if it contains the character of a [QUOTE](#quote), [ESCAPE](#escape), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
-- No character will be escaped in a quoted string except [QUOTE](#quote).
-- No space should be left between a [FIELD_DELIMITER](#field_delimiter) and a [QUOTE](#quote).
-- A string will be quoted in CSV if it comes from a serialized Array or Struct field.
-- If you develop a program and generate the CSV files from it, Databend recommends using the CSV library from the programing language.
-- Databend does not recognize the files unloaded from MySQL as the CSV format unless the following conditions are satisfied:
-  - `ESCAPED BY` is empty.
-  - `ENCLOSED BY` is not empty.
+- 如果字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，则必须加引号。
+- 引号字符串中除 [QUOTE](#quote) 外不会转义任何字符。
+- [FIELD_DELIMITER](#field_delimiter) 和 [QUOTE](#quote) 之间不应留有空格。
+- 如果字符串来自序列化的 Array 或 Struct 字段，则在 CSV 中将被引号。
+- 如果您开发程序并从中生成 CSV 文件，Databend 建议使用程序语言中的 CSV 库。
+- 除非满足以下条件，否则 Databend 不会将从 MySQL 卸载的文件识别为 CSV 格式：
+  - `ESCAPED BY` 为空。
+  - `ENCLOSED BY` 不为空。
     :::note
-    Files will be recognized as the TSV format if the conditions above are not satisfied. For more information about the clauses `ESCAPED BY` and `ENCLOSED BY`, refer to https://dev.mysql.com/doc/refman/8.0/en/load-data.html.
+    如果不满足上述条件，文件将被识别为 TSV 格式。有关 `ESCAPED BY` 和 `ENCLOSED BY` 子句的更多信息，请参考 https://dev.mysql.com/doc/refman/8.0/en/load-data.html。
     :::
 
 ### RECORD_DELIMITER
 
-Separates records in an input file.
+在输入文件中分隔记录。
 
-**Available Values**:
+**可用值**：
 
 - `\r\n`
-- A non-alphanumeric character, such as `#` and `|`.
-- A character with the escape char: `\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\xHH`
+- 非字母数字字符，如 `#` 和 `|`。
+- 带转义字符的字符：`\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\xHH`
 
-**Default**: `\n`
+**默认值**：`\n`
 
 ### FIELD_DELIMITER
 
-Separates fields in a record.
+在记录中分隔字段。
 
-**Available Values**:
+**可用值**：
 
-- A non-alphanumeric character, such as `#` and `|`.
-- A character with the escape char: `\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\xHH`
+- 非字母数字字符，如 `#` 和 `|`。
+- 带转义字符的字符：`\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\xHH`
 
-**Default**: `,` (comma)
+**默认值**：`,`（逗号）
 
 ### QUOTE
 
-Quotes strings in a CSV file. For data loading, the quote is not necessary unless a string contains the character of a [QUOTE](#quote), [ESCAPE](#escape), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
+在 CSV 文件中引用字符串。对于数据加载，除非字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，否则不需要引号。
 
 :::note
-**Used for data loading ONLY**: This option is not available when you unload data from Databend.
+**仅用于数据加载**：卸载数据时不可用此选项。
 :::
 
-**Available Values**: `\'` or `\"`.
+**可用值**：`\'` 或 `\"`。
 
-**Default**: `\"`
+**默认值**：`\"`
 
 ### ESCAPE
 
-Escapes a quote in a quoted string.
+在引号字符串中转义引号。
 
-**Available Values**: `\'` or `\"` or `\\`.
+**可用值**：`\'` 或 `\"` 或 `\\`。
 
-**Default**: `\"`
+**默认值**：`\"`
 
 ### SKIP_HEADER
 
-Specifies how many lines to be skipped from the beginning of the file.
+指定从文件开头跳过多少行。
 
 :::note
-**Used for data loading ONLY**: This option is not available when you unload data from Databend.
+**仅用于数据加载**：卸载数据时不可用此选项。
 :::
 
-**Default**: `0`
+**默认值**：`0`
 
 ### NAN_DISPLAY
 
-Specifies how "NaN" (Not-a-Number) values are displayed in query results.
+指定在查询结果中如何显示 "NaN"（非数字）值。
 
-**Available Values**: Must be literal `'nan'` or `'null'` (case-insensitive)
+**可用值**：必须是字面值 `'nan'` 或 `'null'`（不区分大小写）
 
-**Default**: `'NaN'`
+**默认值**：`'NaN'`
 
 ### NULL_DISPLAY
 
-Specifies how NULL values are displayed in query results. 
+指定在查询结果中如何显示 NULL 值。
 
-**Default**: `'\N'`
+**默认值**：`'\N'`
 
 ### ERROR_ON_COLUMN_COUNT_MISMATCH
 
-ERROR_ON_COLUMN_COUNT_MISMATCH is a boolean option that, when set to true, specifies that an error should be raised if the number of columns in the data file doesn't match the number of columns in the destination table. Setting it to true helps ensure data integrity and consistency during the loading process.
+ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，指定如果数据文件中的列数与目标表中的列数不匹配，则应引发错误。将其设置为 true 有助于确保加载过程中的数据完整性和一致性。
 
-**Default**: `true`
+**默认值**：`true`
 
 ### COMPRESSION
 
-Specifies the compression algorithm.
+指定压缩算法。
 
-**Available Values**:
+**可用值**：
 
-| Value            | Description                                                     |
-|------------------|-----------------------------------------------------------------|
-| `NONE` (Default) | Indicates that the files are not compressed.                    |
-| `AUTO`           | Auto detect compression via file extensions                     |
-| `GZIP`           |                                                                 |
-| `BZ2`            |                                                                 |
-| `BROTLI`         | Must be specified if loading/unloading Brotli-compressed files. |
-| `ZSTD`           | Zstandard v0.8 (and higher) is supported.                       |
-| `DEFLATE`        | Deflate-compressed files (with zlib header, RFC1950).           |
-| `RAW_DEFLATE`    | Deflate-compressed files (without any header, RFC1951).         |
-| `XZ`             |                                                                 |
+| 值                 | 描述                                                               |
+|------------------|------------------------------------------------------------------|
+| `NONE` (默认值)    | 表示文件未压缩。                                                    |
+| `AUTO`           | 通过文件扩展名自动检测压缩                                          |
+| `GZIP`           |                                                                  |
+| `BZ2`            |                                                                  |
+| `BROTLI`         | 加载/卸载 Brotli 压缩文件时必须指定。                                 |
+| `ZSTD`           | 支持 Zstandard v0.8（及更高版本）。                                   |
+| `DEFLATE`        | Deflate 压缩文件（带有 zlib 头部，RFC1950）。                          |
+| `RAW_DEFLATE`    | Deflate 压缩文件（无任何头部，RFC1951）。                              |
+| `XZ`             |                                                                  |
 
-## TSV Options
+## TSV 选项
 
-Databend is subject to the following conditions when dealing with a TSV file:
+处理 TSV 文件时，Databend 受以下条件限制：
 
-- These characters in a TSV file will be escaped: `\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\\`, `\'`, [RECORD_DELIMITER](#record_delimiter-1), [FIELD_DELIMITER](#field_delimiter-1).
-- Neither quoting nor enclosing is currently supported.
-- A string will be quoted in CSV if it comes from a serialized Array or Struct field.
-- Null is serialized as `\N`.
+- TSV 文件中的这些字符将被转义：`\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\\`, `\'`, [RECORD_DELIMITER](#record_delimiter-1), [FIELD_DELIMITER](#field_delimiter-1)。
+- 目前不支持引号和封闭。
+- 如果字符串来自序列化的 Array 或 Struct 字段，则在 CSV 中将被引号。
+- Null 被序列化为 `\N`。
 
 ### RECORD_DELIMITER
 
-Separates records in an input file.
+在输入文件中分隔记录。
 
-**Available Values**:
+**可用值**：
 
 - `\r\n`
-- An arbitrary character, such as `#` and `|`.
-- A character with the escape char: `\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\xHH`
+- 任意字符，如 `#` 和 `|`。
+- 带转义字符的字符：`\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\xHH`
 
-**Default**: `\n`
+**默认值**：`\n`
 
 ### FIELD_DELIMITER
 
-Separates fields in a record.
+在记录中分隔字段。
 
-**Available Values**:
+**可用值**：
 
-- A non-alphanumeric character, such as `#` and `|`.
-- A character with the escape char: `\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\xHH`
+- 非字母数字字符，如 `#` 和 `|`。
+- 带转义字符的字符：`\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\xHH`
 
-**Default**: `\t` (TAB)
+**默认值**：`\t`（TAB）
 
 ### COMPRESSION
 
-Same as [the COMPRESSION option for CSV](#compression).
+与 [CSV 的 COMPRESSION 选项](#compression) 相同。
 
-## NDJSON Options
+## NDJSON 选项
 
 ### NULL_FIELD_AS
 
-Specifies how to handle null values during data loading. Refer to the options in the table below for possible configurations.
+指定在数据加载期间如何处理 null 值。请参考下表中的选项了解可能的配置。
 
-| Available Values        | Description                                                                                             |
-|-------------------------|---------------------------------------------------------------------------------------------------------|
-| `NULL`                    | Interprets null values as NULL for nullable fields. An error will be generated for non-nullable fields. |
-| `FIELD_DEFAULT` (Default) | Uses the default value of the field for null values.                                                    |
-| `TYPE_DEFAULT`            | Uses the default value of the field's data type for null values.                                        |
+| 可用值                  | 描述                                                                                       |
+|-------------------------|------------------------------------------------------------------------------------------|
+| `NULL`                    | 将 null 值解释为可空字段的 NULL。对于不可空字段，将生成错误。                                   |
+| `FIELD_DEFAULT` (默认值) | 对于 null 值使用字段的默认值。                                                              |
+| `TYPE_DEFAULT`            | 对于 null 值使用字段数据类型的默认值。                                                        |
 
 ### MISSING_FIELD_AS
 
-Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
+确定在数据加载期间遇到缺失字段时的行为。请参考下表中的选项了解可能的配置。
 
-| Available Values | Description                                                                                   |
-|------------------|-----------------------------------------------------------------------------------------------|
-| `ERROR` (Default)  | Generates an error if a missing field is encountered.                                         |
-| `NULL`             | Interprets missing fields as NULL values. An error will be generated for non-nullable fields. |
-| `FIELD_DEFAULT`    | Uses the default value of the field for missing fields.                                       |
-| `TYPE_DEFAULT`     | Uses the default value of the field's data type for missing fields.                           |
-
-### COMPRESSION
-
-Same as [the COMPRESSION option for CSV](#compression).
-
-## PARQUET Options
-
-No available options.
-
-## XML Options
+| 可用值              | 描述                                                                                   |
+|------------------|--------------------------------------------------------------------------------------|
+| `ERROR` (默认值)    | 如果遇到缺失字段，则生成错误。                                                           |
+| `NULL`             | 将缺失字段解释为 NULL 值。对于不可空字段，将生成错误。                                       |
+| `FIELD_DEFAULT`    | 对于缺失字段使用字段的默认值。                                                            |
+| `TYPE_DEFAULT`     | 对于缺失字段使用字段数据类型的默认值。                                                      |
 
 ### COMPRESSION
 
-Same as [the COMPRESSION option for CSV](#compression).
+与 [CSV 的 COMPRESSION 选项](#compression) 相同。
+
+## PARQUET 选项
+
+### MISSING_FIELD_AS
+
+确定在数据加载期间遇到缺失字段时的行为。请参考下表中的选项了解可能的配置。
+
+| 可用值              | 描述                                                                                   |
+|------------------|--------------------------------------------------------------------------------------|
+| `ERROR` (默认值)   | 如果遇到缺失字段，则生成错误。                                                           |
+| `FIELD_DEFAULT`  | 对于缺失字段使用字段的默认值。                                                            |
+
+## XML 选项
+
+### COMPRESSION
+
+与 [CSV 的 COMPRESSION 选项](#compression) 相同。
 
 ### ROW_TAG
 
-Used to select XML elements to be decoded as a record.
+用于选择要作为记录解码的 XML 元素。
 
-**Default**: `'row'`
+**默认值**：`'row'`
