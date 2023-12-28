@@ -22,20 +22,40 @@ Users can now have more control over storage security via `[storage.security]`:
 
 ```toml
 [storage.security]
+allowed_service = ["s3"]
 blocked_service = ["fs"]
+allowed_domain = ["s3.amazonaws.com"]
 blocked_domain = ["databend.localhost"]
+allowed_cidr = ["192.168.1.0/24"]
 blocked_cidr = ["10.10.0.0/16"]
 ```
 
+Users can allow or block services, domains, cidr based on their own need.
+
 `storage.security` has three fields:
 
+- `allowed_service`: A list of allowed services.
 - `blocked_service`: A list of blocked services.
+- `allowed_domain`: A list of allowed domains, matched by the suffix. For example, `.databend.cloud` will match all `abc.databend.cloud`.
 - `blocked_domain`: A list of blocked domains, matched by the suffix. For example, `.databend.cloud` will match all `abc.databend.cloud`.
+- `allowed_cidr`: A list of allowed cidr.
 - `blocked_cidr`: A list of blocked cidr.
 
-NOTE: The domain will be resolved to ip address, and then matched with cidr.
+NOTE:
 
-Users can blocked services, domains, cidr based on their own need.
+- The domain will be resolved to ip address, and then matched with cidr.
+- `allowed_*` will take over `blocked_*` if conflicts.
+- Uses `*` as wildcard to match all available values.
+
+For example:
+
+```toml
+[storage.security]
+allowed_service = ["s3"]
+blocked_service = ["*"]
+```
+
+This will allow all `s3` services, and block all other services.
 
 ## Reference-level explanation
 
