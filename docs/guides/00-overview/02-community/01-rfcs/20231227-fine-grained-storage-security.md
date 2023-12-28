@@ -33,6 +33,8 @@ blocked_cidr = ["10.10.0.0/16"]
 - `blocked_domain`: A list of blocked domains, matched by the suffix. For example, `.databend.cloud` will match all `abc.databend.cloud`.
 - `blocked_cidr`: A list of blocked cidr.
 
+NOTE: The domain will be resolved to ip address, and then matched with cidr.
+
 Users can blocked services, domains, cidr based on their own need.
 
 ## Reference-level explanation
