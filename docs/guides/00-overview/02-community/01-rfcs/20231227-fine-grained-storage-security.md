@@ -70,6 +70,8 @@ ALTER USER sample_user WITH SET NETWORK POLICY='sample_policy';
 
 Only users comply with the policy can access the network.
 
+Network policy governs which users from specific networks can access Databend, but it does not restrict network storage access. So we can't reuse the network policy to address the storage security.
+
 ## Unresolved questions
 
 None
