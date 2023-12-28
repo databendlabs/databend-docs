@@ -3,7 +3,7 @@ title: Fine Grained Storage Security
 description: Add fine grained storage security to replace allow_insecure
 ---
 
-- RFC PR: [datafuselabs/databend#0000](https://github.com/datafuselabs/databend/pull/0000)
+- RFC PR: [datafuselabs/databend-docs#291](https://github.com/datafuselabs/databend-docs/pull/291)
 - Tracking Issue: [datafuselabs/databend#0000](https://github.com/datafuselabs/databend/issues/0000)
 
 ## Summary
