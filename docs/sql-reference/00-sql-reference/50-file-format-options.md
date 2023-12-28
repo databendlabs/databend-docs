@@ -211,7 +211,14 @@ Same as [the COMPRESSION option for CSV](#compression).
 
 ## PARQUET Options
 
-No available options.
+### MISSING_FIELD_AS
+
+Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
+
+| Available Values | Description                                                                                   |
+|------------------|-----------------------------------------------------------------------------------------------|
+| `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
+| `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
 
 ## XML Options
 
