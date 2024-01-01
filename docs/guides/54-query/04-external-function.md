@@ -113,5 +113,9 @@ python3 external_function.py
 5. Register the function *gcd* with the [CREATE FUNCTION](/sql/sql-commands/ddl/external-function/) in Databend:
 
 ```sql
-CREATE FUNCTION gcd (INT, INT) RETURNS INT LANGUAGE python HANDLER = 'gcd' ADDRESS = 'http://0.0.0.0:8815'；
+CREATE FUNCTION gcd (INT, INT)
+    RETURNS INT
+    LANGUAGE python
+HANDLER = 'gcd'
+ADDRESS = 'http://0.0.0.0:8815';
 ```

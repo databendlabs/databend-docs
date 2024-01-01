@@ -1,5 +1,5 @@
 ---
-title: CTEs
+title: Common Table Expressions (CTEs)
 ---
 Databend supports common table expressions (CTEs) with a WITH clause, allowing you to define one or multiple named temporary result sets used by the following query. The term "temporary" implies that the result sets are not permanently stored in the database schema. They act as temporary views only accessible to the following query.
 
@@ -134,12 +134,16 @@ WHERE  sales.amount < avg_sales;
 
 Output:
 
-```sql
-3|Markham|6720|9345.71428571429
-4|Mississauga|4990|9345.71428571429
-5|Downtown|5670|9345.71428571429
-6|Markham|4350|9345.71428571429
-7|North York|2490|9345.71428571429
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│     storeid     │      region      │      amount     │     avg_sales     │
+├─────────────────┼──────────────────┼─────────────────┼───────────────────┤
+│               5 │ Downtown         │            5670 │ 9345.714285714286 │
+│               4 │ Mississauga      │            4990 │ 9345.714285714286 │
+│               7 │ North York       │            2490 │ 9345.714285714286 │
+│               3 │ Markham          │            6720 │ 9345.714285714286 │
+│               6 │ Markham          │            4350 │ 9345.714285714286 │
+└──────────────────────────────────────────────────────────────────────────┘
 ```
 
 The following code returns the average and total volume of each region:
@@ -166,9 +170,14 @@ WHERE  avg_by_region.region = sum_by_region.region;
 
 Output:
 
-```sql
-Downtown|17035.0|34070
-Markham|5535.0|11070
-Mississauga|4990.0|4990
-North York|7645.0|15290
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      region      │ avg_by_region_value │ sum_by_region_value │
+│ Nullable(String) │  Nullable(Float64)  │   Nullable(Int64)   │
+├──────────────────┼─────────────────────┼─────────────────────┤
+│ North York       │                7645 │               15290 │
+│ Downtown         │               17035 │               34070 │
+│ Markham          │                5535 │               11070 │
+│ Mississauga      │                4990 │                4990 │
+└──────────────────────────────────────────────────────────────┘
 ```
