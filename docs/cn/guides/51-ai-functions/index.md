@@ -1,6 +1,6 @@
 ---
-title: 'Databend 基于 AI 的函数'
-sidebar_label: 'AI 基础函数'
+title: "Databend 基于 AI 的函数"
+sidebar_label: "AI 基础函数"
 ---
 
 ## 什么是 Databend AI 函数？ {#what-are-databend-ai-functions}
@@ -13,13 +13,14 @@ Databend AI 函数是内置的函数，使用机器学习执行各种自然语�
 
 Databend 依赖 [Azure OpenAI 服务](https://azure.microsoft.com/en-us/products/ai-services/openai-service) 来进行嵌入和文本补全，这意味着您的数据将被发送到 Azure OpenAI 服务。使用这些功能时请谨慎。
 
-这些功能在 [Databend 云](https://databend.com) 上默认可用，我们使用我们的 Azure OpenAI 密钥。**如果您使用它们，您承认您的数据将被发送到 Azure OpenAI 服务**，并且您同意 [Azure OpenAI 数据隐私](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy)。
+这些功能在 [Databend Cloud](https://databend.cn) 上默认可用，我们使用我们的 Azure OpenAI 密钥。**如果您使用它们，您承认您的数据将被发送到 Azure OpenAI 服务**，并且您同意 [Azure OpenAI 数据隐私](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy)。
 
 ## 什么是嵌入？ {#what-are-embeddings}
 
 嵌入是文本数据的向量表示，它捕捉原始文本的语义含义和上下文。它们可以用于比较和分析各种自然语言处理任务中的文本，例如文档相似性、聚类和推荐系统。
 
 为了说明嵌入是如何工作的，让我们考虑一个简单的例子。假设我们有以下句子：
+
 1. `"The cat sat on the mat."`
 2. `"The dog sat on the rug."`
 3. `"The quick brown fox jumped over the lazy dog."`
@@ -51,6 +52,7 @@ Databend 提供了内置的 AI 函数，用于各种自然语言处理任务。�
 ## 生成嵌入 {#generating-embeddings}
 
 让我们创建一个表来存储一些样本文本文档及其对应的嵌入：
+
 ```sql
 CREATE TABLE articles (
     id INT,
@@ -61,6 +63,7 @@ CREATE TABLE articles (
 ```
 
 现在，让我们将一些样本文档插入到表中：
+
 ```sql
 INSERT INTO articles (id, title, content, embedding)
 VALUES
@@ -72,6 +75,7 @@ VALUES
 ## 计算余弦距离 {#calculating-cosine-distance}
 
 现在，让我们使用 [cosine_distance](/sql/sql-functions/ai-functions/ai-cosine-distance) 函数找到与给定查询最相似的文档：
+
 ```sql
 SELECT
     id,
@@ -86,6 +90,7 @@ ORDER BY
 ```
 
 结果：
+
 ```sql
 +------+--------------------------+---------------------------------------------------------------------------------------------------------+------------+
 | id   | title                    | content                                                                                                 | similarity |
@@ -109,24 +114,26 @@ SELECT ai_text_completion('Python is a versatile programming language widely use
 ```
 
 结果：
+
 ```sql
 
 completion: and machine learning. It is known for its simplicity, readability, and ease of use. Python has a vast collection of libraries and frameworks that make it easy to perform complex tasks such as data analysis, visualization, and machine learning. Some of the popular libraries used in data science include NumPy, Pandas, Matplotlib, and Scikit-learn. Python is also used in web development, game development, and automation. Its popularity and versatility make it a valuable skill for programmers and data scientists.
 ```
 
-您可以在我们的 [Databend 云](https://databend.com) 上体验这些功能，您可以注册免费试用，并立即开始使用这些 AI 功能。
+您可以在我们的 [Databend Cloud](https://databend.cn) 上体验这些功能，您可以注册免费试用，并立即开始使用这些 AI 功能。
 
 Databend 的 AI 函数旨在易于使用，即使是不熟悉机器学习或自然语言处理的用户也是如此。有了 Databend，您可以快速轻松地为您的 SQL 查询添加强大的 AI 功能，并将您的数据分析提升到一个新的水平。
 
 ## 使用 Databend 构建 AI 问答系统 {#build-an-ai-q-a-system-with-databend}
 
-我们利用 [Databend 云](https://databend.com) 和 AI 函数为我们的文档构建了一个 AI 问答系统。您可以在 https://ask.databend.rs 上试用。
+我们利用 [Databend Cloud](https://databend.cn) 和 AI 函数为我们的文档构建了一个 AI 问答系统。您可以在 https://ask.databend.rs 上试用。
 
 以下是 https://ask.databend.rs 构建的分步指南：
 
 ### 第 1 步：创建表 {#step-1-create-table}
 
 首先，创建一个表，具有以下结构，以存储文档信息和嵌入：
+
 ```sql
 CREATE TABLE doc (
                      path VARCHAR,
@@ -138,6 +145,7 @@ CREATE TABLE doc (
 ### 第 2 步：插入原始数据 {#step-2-insert-raw-data}
 
 将样本数据插入表中，包括每个文档的路径和内容：
+
 ```sql
 INSERT INTO doc (path, content) VALUES
     ('ai-function', 'ai_embedding_vector, ai_text_completion, cosine_distance'),
@@ -147,6 +155,7 @@ INSERT INTO doc (path, content) VALUES
 ### 第 3 步：生成嵌入 {#step-3-generate-embeddings}
 
 使用 [ai_embedding_vector](/sql/sql-functions/ai-functions/ai-embedding-vector) 函数更新表以生成内容的嵌入：
+
 ```sql
 UPDATE doc SET embedding = ai_embedding_vector(content)
 WHERE LENGTH(embedding) = 0;
@@ -191,6 +200,7 @@ SELECT ai_text_completion((SELECT p FROM prompt)) AS answer;
 ```
 
 结果：
+
 ```sql
 +------------------------------------------------------------------------------------------------------------------+
 | answer                                                                                                           |
