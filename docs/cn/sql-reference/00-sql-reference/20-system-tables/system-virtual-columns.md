@@ -4,7 +4,7 @@ title: system.virtual_columns
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.262"/>
+<FunctionDescription description="Introduced or updated: v1.2.262"/>
 
 包含系统中创建的虚拟列的信息。
 

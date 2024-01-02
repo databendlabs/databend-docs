@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.271"/>
+<FunctionDescription description="Introduced or updated: v1.2.271"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -14,13 +14,13 @@ import EEFeature from '@site/src/components/EEFeature';
 
 另见：[system.virtual_columns](../../../00-sql-reference/20-system-tables/system-virtual-columns.md)
 
-## 语法 {/*syntax*/}
+## 语法 {#syntax}
 
 ```sql
 SHOW VIRTUAL COLUMNS [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
-## 示例 {/*example*/}
+## 示例 {#example}
 
 ```sql
 SHOW VIRTUAL COLUMNS;
