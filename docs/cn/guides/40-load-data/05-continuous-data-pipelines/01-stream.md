@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 通过流跟踪和转换数据
 sidebar_label: 流
@@ -224,7 +223,6 @@ FROM
 为了保持 `user_activity_profiles` 表的最新状态，重要的是要定期将其与 `activities_stream` 中的数据同步。这种同步应与 `user_activities` 表的更新间隔保持一致，确保 user_activity_profiles 准确反映了最新的用户活动和档案，以便实时数据分析。
 
 Databend 的 `TASK` 命令（目前处于私有预览阶段），可以用来定义一个任务，每分钟或每秒更新 `user_activity_profiles` 表。
-```
 
 ```sql
 -- 在 Databend 中定义一个任务

@@ -2,11 +2,11 @@
 title: 持续数据管道
 ---
 
-## 什么是数据管道？ {/*what-is-data-pipelines*/}
+## 什么是数据管道？ {#what-is-data-pipelines}
 
 数据管道是一组自动化流程，用于将数据从各种来源移动和转换到 Databend。它们支持数据的无缝流动，对于持续的、实时的数据处理和分析至关重要。
 
-## Databend 持续数据管道的关键特性 {/*key-features-of-databends-continuous-data-pipelines*/}
+## Databend 持续数据管道的关键特性 {#key-features-of-databends-continuous-data-pipelines}
 
 Databend 提供以下特性以支持持续数据管道：
 
