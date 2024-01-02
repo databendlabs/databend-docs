@@ -1,4 +1,4 @@
-.wholePage {
+.part {
   padding-top: 60px;
   width: 1280px;
   margin: 0 auto;
@@ -38,6 +38,9 @@
         color: var(--color-text-1);
         margin-top: 4px;
         margin-bottom: 24px;
+        a{
+          font-weight: 600;
+        }
       }
     }
     .submitRecord {
@@ -92,6 +95,9 @@
         }
         &.nowItemLinuxUbuntu {
           background-color:  #ED6547;
+        }
+        &.nowItemWindows {
+          background-color: #0078D4!important;
         }
       }
     }
@@ -183,6 +189,10 @@
         }
       }
     }
+
+    &.historyAreaDatabend {
+      padding-bottom: 20px;
+    }
   }
   
 
@@ -198,6 +208,9 @@
       font-size: 12px;
       margin-bottom: 14px;
     }
+  }
+  &.part2 {
+    padding-top: 40px;
   }
 }
 .preTag {

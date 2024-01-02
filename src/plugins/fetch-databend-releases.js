@@ -10,14 +10,19 @@ const LINUX_UBUNTU_X86 = 'Ubuntu (x86, 64-bit)';
 const LINUX_UBUNTU_ARM = 'Ubuntu (ARM, 64-bit)';
 const MAC_X86 = 'Mac Intel Chip (x86, 64-bit)';
 const MAC_ARM = 'Mac Apple Chip (ARM, 64-bit)';
+const WINDOWS_X86 = 'Windows (x86, 64-bit)';
+const REPO_DATABEND = 'https://repo.databend.rs';
 const GITHUB_DOWNLOAD = 'https://github.com/datafuselabs/databend/releases/download';
 const GITHUB_REPO = 'https://api.github.com/repos/datafuselabs/databend';
 const DATABEND_RELEASES = 'https://repo.databend.rs/databend/releases.json';
 const DATABEND_DOWNLOAD = 'https://repo.databend.rs/databend';
+const BENDSQL_RELEASES = 'https://repo.databend.rs/bendsql/releases.json';
 
 const IGNORE_TEXT = /<!-- Release notes generated using configuration in .github\/release.yml at [\w.-]+ -->/;
 const REG = /https:\/\/github\.com\/datafuselabs\/databend\/pull\/(\d+)/g;
+const REG_BENDSQL = /https:\/\/github\.com\/datafuselabs\/bendsql\/pull\/(\d+)/g;
 const REPLACE_TEXT = '[#$1](https://github.com/datafuselabs/databend/pull/$1)';
+const REPLACE_TEXT_BENS_SQL = '[#$1](https://github.com/datafuselabs/bendsql/pull/$1)';
 
 module.exports = function fetchDatabendReleasesPlugin() {
   return {
@@ -27,14 +32,17 @@ module.exports = function fetchDatabendReleasesPlugin() {
       if (isProduction) {
         let releasesList = [];
         let repoResource = {};
+        let bendsqlRecource = [];
         try {
           const { data } = await axios.get(DATABEND_RELEASES);
           const { data: repo } = await axios.get(GITHUB_REPO);
+          const { data: bendsqlReleases } = await axios.get(BENDSQL_RELEASES);
           releasesList = data?.filter((item)=> !item?.name?.includes('-nightly'));
           repoResource = repo;
+          bendsqlRecource = dealBendsqlRecource(bendsqlReleases[0]);
         } catch (error) {
           releasesList = [];
-          repoResource = { stargazers_count: 6500 };
+          repoResource = { stargazers_count: 10000 };
         }
         // Preprocessing data, Just part of it
         const releases = releasesList?.filter(release => release.assets?.length).slice(0, 30);
@@ -98,8 +106,46 @@ module.exports = function fetchDatabendReleasesPlugin() {
           });
           return filteredAssets;
         }
+        function dealBendsqlRecource(bendsqlRecource) {
+          const assets = bendsqlRecource.assets;
+          const filterAsstets = assets
+            ?.filter(asset => asset.name?.includes('.tar.gz') ||  asset.name?.includes('msvc.zip'))
+            ?.map(asset => {
+              const isApple = asset.name.includes('apple');
+              const isAarch64 = asset.name.includes('aarch64');
+              const isUbuntu = asset.name.includes('linux-gnu');
+              const isWindows = asset.name.includes('pc-windows');
+              let osTypeDesc = isApple
+                ? (isAarch64 ? MAC_ARM : MAC_X86)
+                : (isAarch64 ? (isUbuntu ? LINUX_UBUNTU_ARM : LINUX_GENERIC_ARM) : (isUbuntu ?  LINUX_UBUNTU_X86 :  LINUX_GENERIC_X86));
+              osTypeDesc  = isWindows ? WINDOWS_X86 : osTypeDesc;
+              return {
+                ...asset,
+                isApple,
+                isAarch64,
+                isUbuntu,
+                osTypeDesc,
+                isWindows,
+                formatSize: bytes.format(asset?.size, { thousandsSeparator: ',', decimalPlaces: 1 }),
+                browser_download_url: asset?.browser_download_url
+                  ?.replace('https://github.com/datafuselabs', REPO_DATABEND)
+                  ?.replace('/releases/download', '')
+              }
+            })
+            .sort((system, systemOther) => system.isWindows - systemOther.isWindows)
+            .sort((systemLinux, systemMac) => systemMac.isUbuntu - systemLinux.isUbuntu)
+            .sort((systemLinux, systemMac) => systemMac.isApple - systemLinux.isApple);
+          return {
+            ...bendsqlRecource,
+            filterBody: bendsqlRecource.body
+              .replace(IGNORE_TEXT, '')
+              .replace(REG_BENDSQL, REPLACE_TEXT_BENS_SQL)
+              .replace(/\@[\w\-]+/g, '**$&**'),
+            assets: filterAsstets
+          }
+        }
         // Set global data
-        setGlobalData({ releasesList: processedData, repoResource, stargazersCount: repoResource.stargazers_count });
+        setGlobalData({ releasesList: processedData, repoResource, stargazersCount: repoResource.stargazers_count, bendsqlRecource });
       } else {
         setGlobalData(mockData);
       }

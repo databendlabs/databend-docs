@@ -5,7 +5,7 @@ function numberFormat(num: number): string | number {
   return num < 1000 ? num : (num / 1000).toFixed(1) + 'K';
 }
 const useGetReleases = () => {
-  const { releasesList, repoResource, stargazersCount } = usePluginData('fetch-databend-releases') as IGlobalData;
+  const { releasesList, repoResource, stargazersCount, bendsqlRecource } = usePluginData('fetch-databend-releases') as IGlobalData;
   const tagName = releasesList[0]?.tag_name??'v1.0.22-nightly';
   const formatStargazersCount = numberFormat(stargazersCount);
   return {
@@ -14,7 +14,8 @@ const useGetReleases = () => {
     name: releasesList[0]?.name,
     repoResource,
     stargazersCount,
-    formatStargazersCount
+    formatStargazersCount,
+    bendsqlRecource
   };
 };
 export default useGetReleases;
