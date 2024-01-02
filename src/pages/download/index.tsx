@@ -11,26 +11,34 @@ import Card from '@site/src/components/BaseComponents/Card';
 import Tag from '@site/src/components/BaseComponents/Tag';
 import { Apple, Linux } from '@site/src/components/Icons';
 import Ubuntu from '@site/src/components/Icons/Ubuntu';
+import Microsoft from '@site/src/components/Icons/Microsoft';
 import { IAssets } from '@site/src/types/download';
 
 const Releases: FC = (): ReactElement => {
   const { 
     releasesList, 
-    tagName,
-    name: releaseName
+    name: releaseName,
+    bendsqlRecource
   } = useGetReleases();
-  const { filterBody, assets: latestAssets, published_at, prerelease} = releasesList[0];
-  function Icons({isApple, size = 24, isUbuntu}: {isApple: boolean|undefined, size?: number, isUbuntu: boolean|undefined}): ReactElement {
+  const { filterBody, assets: latestAssets, published_at } = releasesList[0];
+  const { name: bendsqlTagName } = bendsqlRecource;
+  function Icons({isApple, size = 24, isUbuntu, isWindows}: {isApple: boolean|undefined, size?: number, isUbuntu: boolean|undefined, isWindows?: boolean | undefined}): ReactElement {
     return (
       <>
         {
-          isApple
-          ? <Apple size={size}/>
+          isWindows
+          ? <Microsoft size={size}/>
           : <>
             {
-              isUbuntu
-              ? <Ubuntu size={size}></Ubuntu>
-              : <Linux size={size}/>
+              isApple
+              ? <Apple size={size}/>
+              : <>
+              {
+                isUbuntu
+                ? <Ubuntu size={size}></Ubuntu>
+                : <Linux size={size}/>
+              }
+              </>
             }
             </>
         }
@@ -53,7 +61,7 @@ const Releases: FC = (): ReactElement => {
     <Layout
       title={`Databend - Activate your Object Storage for real-time analytics`}
       description={`A modern Elasticity and Performance Cloud Data Warehouse, activate your Object Storage(S3, Azure Blob, or MinIO) for real-time analytics`}>
-      <div className={styles.wholePage}>
+      <div className={styles.part}>
         <div className={styles.download}>Download Databend</div>
         <div className={styles.latest}>Latest Version: {releaseName}</div>
         <Card className={styles.latestBlock}>
@@ -62,7 +70,10 @@ const Releases: FC = (): ReactElement => {
               <span className={styles.version}>{releaseName}</span>
               <Tag>Latest</Tag>
             </div>
-            <div className={styles.updateTime}>{timeFormatAgo(published_at)}</div>
+            <div className={styles.updateTime}>
+            It was released {timeFormatAgo(published_at)}.
+              For earlier versions, please refer to <a target='_blank' href='https://github.com/datafuselabs/databend/releases'>GitHub</a>.
+            </div>
             <div className={styles.nowAssets}>
               {
                 latestAssets?.map((asset, index)=> {
@@ -86,52 +97,57 @@ const Releases: FC = (): ReactElement => {
               }
             </div>
           </div>
-          <div className={styles.submitRecord}>
+          <div className={clsx(styles.submitRecord)}>
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{filterBody}</ReactMarkdown>
           </div>
         </Card>
-        <div className={styles.historyArea}>
-          <div className={styles.historyTitle}>
-            <div>History Versions</div>
-            <div>This page only displays the latest stable versions. For earlier versions, please refer to <a target='_blank' href='https://github.com/datafuselabs/databend/releases'>GitHub</a>.</div>
-          </div>
-          <div className={styles.listWrap}>
-            {
-              releasesList.slice(1)?.map((release, index)=> {
-                return (
-                  <Card 
-                    key={index}
-                    className={styles.listItem} padding={[12, 24]}>
-                    <div>
-                      <div className={styles.leftDesc}>
-                        <div className={styles.tagName}>{release?.tag_name}</div>
+      </div>
+      <div className={clsx(styles.part, styles.part2)}>
+        <div className={styles.download}>Download BendSQL</div>
+        <div className={styles.latest}>Latest Version: {bendsqlTagName}</div>
+        <Card className={styles.latestBlock}>
+          <div className={styles.latestVersion}>
+            <div className={styles.topTag}>
+              <span className={styles.version}>
+                {bendsqlTagName}
+              </span>
+              <Tag>Latest</Tag>
+            </div>
+            <div className={styles.updateTime}>
+            It was released {timeFormatAgo(bendsqlRecource?.published_at)}.
+              For earlier versions, please refer to <a target='_blank' href='https://github.com/datafuselabs/bendsql/releases'>GitHub</a>.
+            </div>
+            <div className={styles.nowAssets}>
+              {
+                bendsqlRecource?.assets?.map((asset: any, index: number)=> {
+                  const { isApple, browser_download_url, osTypeDesc, formatSize, isUbuntu, isWindows } = asset;
+                  return (
+                    <Card 
+                      onClick={()=> buriedPointForDownload(asset)}
+                      href={browser_download_url}
+                      isDownload 
+                      key={index} 
+                      className={clsx(styles.nowItem, 
+                        !isApple && styles.nowItemLinux, 
+                        isUbuntu && styles.nowItemLinuxUbuntu,
+                        isWindows && styles.nowItemWindows
+                      )} 
+                      padding={[8, 16]}>
+                      <Icons isApple={isApple} isUbuntu={isUbuntu} isWindows={isWindows}></Icons>
+                      <div className={styles.right}>
+                        <div>{osTypeDesc}</div>
+                        <div>Size: {formatSize}</div>
                       </div>
-                      <div>{timeFormatAgo(release?.published_at)}</div>
-                    </div>
-                    <div className={styles.downArea}>
-                      {
-                        release.assets?.map((asset, ind)=> {
-                          const { isApple, browser_download_url, osType, isUbuntu} =  asset;
-                          return (
-                            <Card  
-                              onClick={()=> buriedPointForDownload(asset)}
-                              key={ind}
-                              href={browser_download_url}
-                              className={clsx(styles.button, !isApple && styles.buttonLinux, isUbuntu && styles.buttonLinuxUbuntu)} 
-                              padding={[5, 12]}>
-                              <Icons size={12} isApple={isApple} isUbuntu={isUbuntu}></Icons>
-                              <span>{osType}</span>
-                            </Card>
-                          )
-                        })
-                      }
-                    </div>
-                  </Card>
-                )
-              }) 
-            }
+                    </Card>
+                  )
+                })
+              }
+            </div>
           </div>
-        </div>
+          <div className={styles.submitRecord}>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{bendsqlRecource?.filterBody}</ReactMarkdown>
+          </div>
+        </Card>
       </div>
     </Layout >
   );
