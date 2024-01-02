@@ -74,15 +74,15 @@ docker exec -it superset superset init
 
 2. Select **Settings** > **Data** > **Connect Database** to open the connection wizard.
 
-![Alt text](../../public/img/integration/superset-connect-db.png)
+![Alt text](/img/integration/superset-connect-db.png)
 
 3. Select `Other` from the list of supported databases.
 
-![Alt text](../../public/img/integration/superset-select-other.png)
+![Alt text](/img/integration/superset-select-other.png)
 
 4. On the **BASIC** tab, set a display name, for example, `Databend`, and then enter the URI to connect to Databend Cloud. The URI follows the format: `databend://<host>`, where` <host>` corresponds to the host field in your warehouse's connection information. For information on how to obtain the connection details, refer to [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting-to-a-warehouse).
 
-![Alt text](../../public/img/integration/superset-uri.png)
+![Alt text](/img/integration/superset-uri.png)
 
 5. Click **TEST CONNECTION**, which should result in a popup message saying, "Connection looks good!".
 
