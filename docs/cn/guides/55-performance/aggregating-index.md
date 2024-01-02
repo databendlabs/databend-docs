@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 聚合索引
 ---
@@ -37,17 +36,17 @@ Databend 提供了多种命令来管理聚合索引。详情请参见 [聚合索
 此示例演示了聚合索引的使用，并说明了它们对查询执行计划的影响。
 
 ```sql
--- 准备数据
+-- Prepare data
 CREATE TABLE agg(a int, b int, c int);
 INSERT INTO agg VALUES (1,1,4), (1,2,1), (1,2,4), (2,2,5);
 
--- 创建聚合索引
+-- Create an aggregating index
 CREATE AGGREGATING INDEX my_agg_index AS SELECT MIN(a), MAX(c) FROM agg;
 
--- 刷新聚合索引
+-- Refresh the aggregating index
 REFRESH AGGREGATING INDEX my_agg_index;
 
--- 验证聚合索引是否有效
+-- Verify if the aggregating index works
 EXPLAIN SELECT MIN(a), MAX(c) FROM agg;
 
 explain                                                                                                               |
@@ -75,35 +74,31 @@ AggregateFinal                                                                  
         ├── rewritten query: [selection: [index_col_0 (#0), index_col_1 (#1)]]                                        |
         └── estimated rows: 4.00                                                                                      |
 
--- 删除聚合索引
+-- Delete the aggregating index
 DROP AGGREGATING INDEX my_agg_index;
 
 EXPLAIN SELECT MIN(a), MAX(c) FROM agg;
 
-```
-```
-
-```markdown
-解释                                                                                                               |
+explain                                                                                                               |
 ----------------------------------------------------------------------------------------------------------------------+
 AggregateFinal                                                                                                        |
-├── 输出列: [MIN(a) (#3), MAX(c) (#4)]                                                                                |
-├── 分组依据: []                                                                                                      |
-├── 聚合函数: [min(a), max(c)]                                                                                       |
-├── 预估行数: 1.00                                                                                                   |
+├── output columns: [MIN(a) (#3), MAX(c) (#4)]                                                                        |
+├── group by: []                                                                                                      |
+├── aggregate functions: [min(a), max(c)]                                                                             |
+├── estimated rows: 1.00                                                                                              |
 └── AggregatePartial                                                                                                  |
-    ├── 输出列: [MIN(a) (#3), MAX(c) (#4)]                                                                            |
-    ├── 分组依据: []                                                                                                  |
-    ├── 聚合函数: [min(a), max(c)]                                                                                   |
-    ├── 预估行数: 1.00                                                                                               |
+    ├── output columns: [MIN(a) (#3), MAX(c) (#4)]                                                                    |
+    ├── group by: []                                                                                                  |
+    ├── aggregate functions: [min(a), max(c)]                                                                         |
+    ├── estimated rows: 1.00                                                                                          |
     └── TableScan                                                                                                     |
-        ├── 表: default.default.agg                                                                                   |
-        ├── 输出列: [a (#0), c (#2)]                                                                                  |
-        ├── 读取行数: 4                                                                                               |
-        ├── 读取字节数: 61                                                                                            |
-        ├── 分区总数: 1                                                                                               |
-        ├── 扫描分区数: 1                                                                                             |
-        ├── 剪枝统计: [段: <范围剪枝: 1 到 1>, 块: <范围剪枝: 1 到 1, 布隆过滤剪枝: 0 到 0>]                          |
-        ├── 下推: [过滤器: [], 限制: NONE]                                                                            |
-        └── 预估行数: 4.00                                                                                            |
+        ├── table: default.default.agg                                                                                |
+        ├── output columns: [a (#0), c (#2)]                                                                          |
+        ├── read rows: 4                                                                                              |
+        ├── read bytes: 61                                                                                            |
+        ├── partitions total: 1                                                                                       |
+        ├── partitions scanned: 1                                                                                     |
+        ├── pruning stats: [segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1, bloom pruning: 0 to 0>]|
+        ├── push downs: [filters: [], limit: NONE]                                                                    |
+        └── estimated rows: 4.00                                                                                      |
 ```

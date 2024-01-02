@@ -17,6 +17,7 @@ GROUP BY CUBE ( groupCube [ , groupCube [ , ... ] ] )
 ```
 
 其中：
+
 ```sql
 groupCube ::= { <column_alias> | <position> | <expr> }
 ```
@@ -26,7 +27,6 @@ groupCube ::= { <column_alias> | <position> | <expr> }
 - `<position>`：SELECT 列表中表达式的位置
 
 - `<expr>`：当前作用域中表上的任何表达式
-
 
 ## 示例
 
@@ -57,6 +57,7 @@ GROUP BY CUBE (region, product);
 ```
 
 结果将是：
+
 ```sql
 +--------+---------+-------------+
 | region | product | total_sales |

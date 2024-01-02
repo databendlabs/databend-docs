@@ -15,6 +15,7 @@ GROUP BY ROLLUP ( groupRollup [ , groupRollup [ , ... ] ] )
 ```
 
 其中：
+
 ```sql
 groupRollup ::= { <column_alias> | <position> | <expr> }
 ```
@@ -25,10 +26,10 @@ groupRollup ::= { <column_alias> | <position> | <expr> }
 
 - `<expr>`：当前作用域中表中的任何表达式
 
-
 ## 示例
 
 让我们创建一个名为 sales_data 的示例表并插入一些数据：
+
 ```sql
 CREATE TABLE sales_data (
   region VARCHAR(255),
@@ -46,6 +47,7 @@ INSERT INTO sales_data (region, product, sales_amount) VALUES
 ```
 
 现在，让我们使用 GROUP BY ROLLUP 子句来获取每个地区和产品的总销售额，以及每个地区的子汇总：
+
 ```sql
 SELECT region, product, SUM(sales_amount) AS total_sales
 FROM sales_data
@@ -53,6 +55,7 @@ GROUP BY ROLLUP (region, product);
 ```
 
 结果将是：
+
 ```sql
 +--------+---------+-------------+
 | region | product | total_sales |

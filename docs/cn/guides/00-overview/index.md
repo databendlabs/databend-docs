@@ -41,6 +41,6 @@ Databend 支持将数据库表中的数据高效导出到平面文件，支持 P
 ---
 深入了解如何有效监控您的 Databend 环境，确保最佳性能，识别瓶颈，并维护一个健壮可靠的数据基础设施。
 
-[性能优化](../80-performance-optimization/index.md)
+[性能优化](../55-performance/index.md)
 ---
 学习如何优化 Databend 的性能，使您的查询运行更快，并提高数据基础设施的整体效率。

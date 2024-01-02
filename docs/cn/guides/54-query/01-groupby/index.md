@@ -1,9 +1,10 @@
 ---
 title: GROUP BY
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.32"/>
+<FunctionDescription description="Introduced or updated: v1.2.32"/>
 
 GROUP BY 子句使您能够基于相同的 group-by-item 表达式对行进行分组，然后对每个结果分组应用聚合函数。group-by-item 表达式可以包括列名或别名、SELECT 列表中位置的数值引用、一般表达式，或 SELECT 列表中所有非聚合项。
 
@@ -27,9 +28,9 @@ GROUP BY [ ALL | groupItem [ , groupItem [ , ... ] ] ]
 
 - **ALL**：当使用关键字 "ALL" 时，Databend 会根据 SELECT 列表中所有非聚合项对数据进行分组。
 - **groupItem**：分组项可以是以下之一：
-    - 在 SELECT 列表中定义的列名或别名。
-    - SELECT 列表中列位置的数值引用。
-    - 涉及当前查询上下文中使用的表的列的任何表达式。
+  - 在 SELECT 列表中定义的列名或别名。
+  - SELECT 列表中列位置的数值引用。
+  - 涉及当前查询上下文中使用的表的列的任何表达式。
 
 ## 示例
 
@@ -59,6 +60,7 @@ VALUES (1, 'John', 'Doe', 1, 101, '2021-01-15'),
 ### 按单一列分组
 
 此查询按 `department_id` 对员工进行分组，并计算每个部门的员工数量：
+
 ```sql
 SELECT department_id, COUNT(*) AS num_employees
 FROM employees
@@ -66,6 +68,7 @@ GROUP BY department_id;
 ```
 
 输出：
+
 ```sql
 +---------------+---------------+
 | department_id | num_employees |
@@ -78,6 +81,7 @@ GROUP BY department_id;
 ### 按多列分组
 
 此查询按 `department_id` 和 `job_id` 对员工进行分组，然后计算每个组中的员工数量：
+
 ```sql
 SELECT department_id, job_id, COUNT(*) AS num_employees
 FROM employees
@@ -85,6 +89,7 @@ GROUP BY department_id, job_id;
 ```
 
 输出：
+
 ```sql
 +---------------+--------+---------------+
 | department_id | job_id | num_employees |
@@ -107,6 +112,7 @@ GROUP BY ALL;
 ```
 
 输出：
+
 ```sql
 +---------------+--------+---------------+
 | department_id | job_id | num_employees |
@@ -121,6 +127,7 @@ GROUP BY ALL;
 ### 按位置分组
 
 此查询等同于上面的“按单一列分组”示例。位置 1 指的是 SELECT 列表中的第一个项，即 `department_id`：
+
 ```sql
 SELECT department_id, COUNT(*) AS num_employees
 FROM employees
@@ -128,6 +135,7 @@ GROUP BY 1;
 ```
 
 输出：
+
 ```sql
 +---------------+---------------+
 | department_id | num_employees |
@@ -140,6 +148,7 @@ GROUP BY 1;
 ### 按表达式分组
 
 此查询按员工被雇用的年份分组，并计算每年雇用的员工数量：
+
 ```sql
 SELECT EXTRACT(YEAR FROM hire_date) AS hire_year, COUNT(*) AS num_hires
 FROM employees
@@ -147,6 +156,7 @@ GROUP BY EXTRACT(YEAR FROM hire_date);
 ```
 
 输出：
+
 ```sql
 +-----------+-----------+
 | hire_year | num_hires |
