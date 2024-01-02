@@ -71,7 +71,7 @@ const Releases: FC = (): ReactElement => {
               <Tag>Latest</Tag>
             </div>
             <div className={styles.updateTime}>
-            It was released {timeFormatAgo(published_at)}.
+            Released {timeFormatAgo(published_at)}.
               For earlier versions, please refer to <a target='_blank' href='https://github.com/datafuselabs/databend/releases'>GitHub</a>.
             </div>
             <div className={styles.nowAssets}>
@@ -114,7 +114,7 @@ const Releases: FC = (): ReactElement => {
               <Tag>Latest</Tag>
             </div>
             <div className={styles.updateTime}>
-            It was released {timeFormatAgo(bendsqlRecource?.published_at)}.
+            Released {timeFormatAgo(bendsqlRecource?.published_at)}.
               For earlier versions, please refer to <a target='_blank' href='https://github.com/datafuselabs/bendsql/releases'>GitHub</a>.
             </div>
             <div className={styles.nowAssets}>
