@@ -3,7 +3,7 @@ title: JSON_PATH_MATCH
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.241"/>
+<FunctionDescription description="Introduced or updated: v1.2.241"/>
 
 检查指定的 JSON 路径表达式是否匹配 JSON 数据中的某些条件。请注意，`@@` 运算符与此函数同义。更多信息，请参见 [JSON 运算符](../../10-sql-commands/30-query-operators/index.md)。
 
