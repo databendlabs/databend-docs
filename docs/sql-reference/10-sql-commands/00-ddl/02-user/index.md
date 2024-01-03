@@ -17,6 +17,8 @@ This page provides reference information for the user and role related commands 
 - [REVOKE privileges](11-revoke-privileges.md)
 - [GRANT ROLE](20-grant-role.md)
 - [REVOKE ROLE](21-revoke-role.md)
+- [GRANT OWNERSHIP](23-grant-ownership.md)
+- [REVOKE OWNERSHIP](24-revoke-ownership.md)
 
 ## Information Retrieval:
 
