@@ -3,7 +3,7 @@ title: SHOW ROLES
 sidebar_position: 6
 ---
 
-Lists all the roles in the system.
+Lists all the roles assigned to the current user.
 
 ## Syntax
 
