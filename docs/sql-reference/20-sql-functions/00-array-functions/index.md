@@ -17,7 +17,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | **ARRAY_SLICE(array, start[, end])** | Extracts a slice from the array by index (1-based)                                           | **ARRAY_SLICE([1, 21, 32, 4], 2, 3)** | [21,32]                  |
 | **ARRAY_SORT(array)**                | Sorts elements in the array in ascending order                                               | **ARRAY_SORT([1, 4, 3, 2])**          | [1,2,3,4]                |
 | **ARRAY_AGGREGATE(array, name)**     | Aggregates elements in the array with an aggregate function (sum, count, avg, min, max, any, ...) | **ARRAY_AGGREGATE([1, 2, 3, 4], 'SUM')**  | 10                       |
-| **ARRAY_REDUCE(array, name)**        | Alias for **ARRAY_AGGREGATE**                                                  | **ARRAY_REDUCE([1, 2, 3, 4], 'SUM')**  | 10                       |
 | **ARRAY_UNIQUE(array)**              | Counts unique elements in the array (except NULL)                                            | **ARRAY_UNIQUE([1, 2, 3, 3, 4])**     | 4                        |
 | **ARRAY_DISTINCT(array)**            | Removes all duplicates and NULLs from the array without preserving the original order        | **ARRAY_DISTINCT([1, 2, 2, 4])**      | [1,2,4]                  |
 | **ARRAY_PREPEND(item, array)**       | Prepends an element to the array                                                             | **ARRAY_PREPEND(1, [3, 4])**          | [1,3,4]                  |
@@ -28,6 +27,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | **ARRAY_TRANSFORM(array, lambda)**   | Returns an array that is the result of applying the lambda function to each element of the input array     | **ARRAY_TRANSFORM([1, 2, 3], x -> x + 1)**      | [2,3,4]                   |
 | **ARRAY_APPLY(array, lambda)**       | Alias for **ARRAY_TRANSFORM**                   | **ARRAY_APPLY([1, 2, 3], x -> x + 1)**      | [2,3,4]                   |
 | **ARRAY_FILTER(array, lambda)**      | Constructs an array from those elements of the input array for which the lambda function returns true     | **ARRAY_FILTER([1, 2, 3], x -> x > 1)**      | [2,3]                   |
+| **ARRAY_REDUCE(array, lambda)**        | Applies iteratively the lambda function to the elements of the array, so as to reduce the array to a single value  | **ARRAY_REDUCE([1, 2, 3, 4], (x,y) -> x + y)**  | 10                       |
 | **ARRAY_FLATTEN(array)**             | Flattens nested arrays, converting them into a single-level array                            | **ARRAY_FLATTEN([[1,2], [3,4,5]])** | [1,2,3,4,5]  |
 | **ARRAY_TO_STRING(array, separator)**| Concatenates elements of an array into a single string, using a specified separator          | **ARRAY_TO_STRING(['Apple', 'Banana', 'Cherry'], ', ')** | Apple, Banana, Cherry |
 
