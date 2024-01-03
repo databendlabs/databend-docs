@@ -4,7 +4,7 @@ sidebar_position: 14
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.275"/>
+<FunctionDescription description="Introduced or updated: v1.2.275"/>
 
 撤销指定角色对特定数据库对象（如表、阶段或用户定义的函数）的所有权。
 
