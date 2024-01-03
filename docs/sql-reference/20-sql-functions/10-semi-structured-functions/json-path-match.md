@@ -45,8 +45,8 @@ SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), '$.b[0] > 1');
 │ false                                                            │
 └──────────────────────────────────────────────────────────────────┘
 
--- Check if all elements in the array at JSON path $.b
--- from the second element to the last are greater than or equal to 2
+-- Check if any element in the array at JSON path $.b
+-- from the second one to the last are greater than or equal to 2
 SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), '$.b[1 to last] >= 2');
 
 ┌───────────────────────────────────────────────────────────────────────────┐
