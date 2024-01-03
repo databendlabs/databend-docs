@@ -33,7 +33,8 @@ In this step, you'll create a simple Golang program that communicates with Datab
 <StepContent number="1" title="Copy and paste the following code to the file main.go"> 
 
 :::note
-The value of `hostname` in the code below must align with your HTTP handler settings for Databend query service.
+- The code below connects to a local Databend with a SQL user named 'user1' and password 'abc123' as an example. Feel free to use your own values while maintaining the same format.
+- The value of `hostname` in the code below must align with your HTTP handler settings for Databend query service.
 :::
 
 ```go title='main.go'

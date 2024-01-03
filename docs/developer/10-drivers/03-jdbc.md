@@ -63,6 +63,8 @@ import java.sql.*;
 import java.util.Properties;
 
 public class demo {
+    // Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
+    // Feel free to use your own values while maintaining the same format.
     static final String DB_URL = "jdbc:databend://127.0.0.1:8000";
 
     public static void main(String[] args) throws Exception {

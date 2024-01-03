@@ -82,6 +82,8 @@ pip install databend-py
 ```python title='main.py'
 from databend_py import Client
 
+# Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
+# Feel free to use your own values while maintaining the same format.
 # Setting secure=False means the client will connect to Databend using HTTP instead of HTTPS.
 client = Client('user1:abc123@127.0.0.1', port=8000, secure=False)
 client.execute("CREATE DATABASE IF NOT EXISTS bookstore")
@@ -121,6 +123,8 @@ pip install databend-sqlalchemy
 ```python title='main.py'
 from databend_sqlalchemy import connector
 
+# Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
+# Feel free to use your own values while maintaining the same format.
 conn = connector.connect(f"http://user1:abc123@127.0.0.1:8000").cursor()
 conn.execute("CREATE DATABASE IF NOT EXISTS bookstore")
 conn.execute("USE bookstore")
@@ -160,6 +164,8 @@ pip install databend-sqlalchemy
 ```python title='main.py'
 from sqlalchemy import create_engine, text
 
+# Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
+# Feel free to use your own values while maintaining the same format.
 # Setting secure=False means the client will connect to Databend using HTTP instead of HTTPS.
 engine = create_engine("databend://user1:abc123@127.0.0.1:8000/default?secure=False")
 

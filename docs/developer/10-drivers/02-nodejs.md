@@ -45,6 +45,8 @@ GRANT ALL on *.* TO user1;
 ```js title='databend.js'
 const { Client } = require('databend-driver');
 
+// Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
+// Feel free to use your own values while maintaining the same format.
 const dsn = process.env.DATABEND_DSN
     ? process.env.DATABEND_DSN
     : "databend://user1:abc123@localhost:8000/default?sslmode=disable";
