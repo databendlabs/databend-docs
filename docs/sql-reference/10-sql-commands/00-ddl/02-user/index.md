@@ -9,6 +9,7 @@ This page provides reference information for the user and role related commands 
 - [CREATE USER](01-user-create-user.md)
 - [DROP USER](02-user-drop-user.md)
 - [CREATE ROLE](04-user-create-role.md)
+- [SET ROLE](04-user-set-role.md)
 - [DROP ROLE](05-user-drop-role.md)
 
 ## Permissions Management:
