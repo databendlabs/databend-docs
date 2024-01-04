@@ -1,3 +1,4 @@
+````
 ---
 title: Golang
 ---
@@ -5,35 +6,36 @@ title: Golang
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-Databend 提供了一个用 Golang 编写的驱动程序（databend-go），它便于使用 Golang 编程语言开发应用程序并与 Databend 建立连接。
+Databend 提供了一个用 Golang 编写的驱动程序（databend-go），它便于使用 Golang 编程语言开发应用程序，并与 Databend 建立连接。
 
 有关安装说明、示例和源代码，请参见 GitHub 上的 [databend-go](https://github.com/datafuselabs/databend-go) 仓库。
 
-## 教程-1：使用 Golang 与 Databend 集成
+## 教程-1：使用 Golang 与 Databend 集成 {/*tutorial-1-integrating-with-databend-using-golang*/}
 
-在开始之前，请确保您已成功安装了本地的 Databend。有关详细说明，请参见 [本地和 Docker 部署](/guides/deploy/deploying-local)。
+在开始之前，请确保您已成功安装了本地的 Databend。有关详细说明，请参见[本地和 Docker 部署](/guides/deploy/deploying-local)。
 
-### 步骤 1. 准备一个 SQL 用户账户
+### 步骤 1. 准备一个 SQL 用户账户 {/*step-1-prepare-a-sql-user-account*/}
 
-要将您的程序连接到 Databend 并执行 SQL 操作，您必须在代码中提供具有适当权限的 SQL 用户账户。如果需要，请在 Databend 中创建一个，并确保 SQL 用户仅具有出于安全考虑所需的权限。
+为了连接您的程序到 Databend 并执行 SQL 操作，您必须在代码中提供一个具有适当权限的 SQL 用户账户。如果需要，请在 Databend 中创建一个，并确保 SQL 用户仅具有出于安全考虑所需的权限。
 
-本教程使用名为 'user1'，密码为 'abc123' 的 SQL 用户作为示例。由于程序将向 Databend 写入数据，因此用户需要 ALL 权限。有关如何管理 SQL 用户及其权限，请参见 [用户与角色](/sql/sql-commands/ddl/user/)。
+本教程使用一个名为 'user1'，密码为 'abc123' 的 SQL 用户作为示例。由于程序将向 Databend 写入数据，因此用户需要 ALL 权限。有关如何管理 SQL 用户及其权限的信息，请参见[用户与角色](/sql/sql-commands/ddl/user/)。
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL on *.* TO user1;
 ```
 
-### 步骤 2. 编写一个 Golang 程序
+### 步骤 2. 编写一个 Golang 程序 {/*step-2-write-a-golang-program*/}
 
-在此步骤中，您将创建一个简单的 Golang 程序，该程序与 Databend 通信。程序将涉及创建表、插入数据和执行数据查询等任务。
+在这一步中，您将创建一个简单的 Golang 程序，该程序将与 Databend 通信。程序将涉及创建表、插入数据和执行数据查询等任务。
 
 <StepsWrap> 
 
 <StepContent number="1" title="将以下代码复制并粘贴到文件 main.go 中"> 
 
 :::note
-代码下方的 `hostname` 值必须与您的 Databend 查询服务的 HTTP 处理程序设置保持一致。
+- 下面的代码连接到一个本地的 Databend，使用名为 'user1' 和密码 'abc123' 的 SQL 用户作为示例。在保持相同格式的同时，随意使用您自己的值。
+- 代码中的 `hostname` 值必须与您的 Databend 查询服务的 HTTP 处理程序设置保持一致。
 :::
 
 ```go title='main.go'
@@ -77,36 +79,36 @@ func main() {
 	}
 	log.Println("Connected")
 
-	// 如果不存在则创建数据库
+	// Create db if do not exist
 	dbSql := "CREATE DATABASE IF NOT EXISTS book_db"
 	_, err = db.Exec(dbSql)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("成功创建数据库 book_db")
+	log.Println("Create database book_db success")
 
-	// 使用 book_db 数据库
+	// Use book_db database
 	_, err = db.Exec("USE book_db")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// 创建表。
+	// Create table.
 	sql := "create table if not exists books(title VARCHAR, author VARCHAR, date VARCHAR)"
 	_, err = db.Exec(sql)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("创建表：books")
+	log.Println("Create table: books")
 
-	// 插入 1 行数据。
+	// Insert 1 row.
 	_, err = db.Exec("INSERT INTO books VALUES(?, ?, ?)", "mybook", "author", "2022")
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("插入 1 行数据")
+	log.Println("Insert 1 row")
 
-	// 查询。
+	// Select.
 	res, err := db.Query("SELECT * FROM books")
 	if err != nil {
 		log.Fatal(err)
@@ -119,7 +121,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-		log.Printf("查询：%v", book)
+		log.Printf("Select:%v", book)
 	}
 	db.Exec("drop table books")
 	db.Exec("drop database book_db")
@@ -129,7 +131,7 @@ func main() {
 
 </StepContent>
 
-<StepContent number="2" title="安装依赖项。"> 
+<StepContent number="2" title="安装依赖。"> 
 
 ```shell
 go mod init databend-golang
@@ -173,11 +175,11 @@ go run main.go
 
 </StepsWrap>
 
-## 教程-2：使用 Golang 与 Databend Cloud 集成
+## 教程-2：使用 Golang 与 Databend Cloud 集成 {/*tutorial-2-integrating-with-databend-cloud-using-golang*/}
 
-在开始之前，请确保您已成功创建一个计算集群并获取了连接信息。有关如何操作，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已成功创建了数据仓库并获取了连接信息。有关如何操作，请参见[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
-### 步骤 1. 创建一个 Go 模块
+### 步骤 1. 创建一个 Go 模块 {/*step-1-create-a-go-module*/}
 
 ```shell
 $ mkdir sample
@@ -185,15 +187,15 @@ $ cd sample
 $ go mod init cloud.databend.com/sample
 ```
 
-### 步骤 2. 安装依赖项
+### 步骤 2. 安装依赖 {/*step-2-install-dependencies*/}
 
 ```go
 $ go get github.com/databendcloud/databend-go
 ```
 
-### 步骤 3. 使用 databend-go 连接
+### 步骤 3. 使用 databend-go 连接 {/*step-3-connect-with-databend-go*/}
 
-创建一个名为 `main.go` 的文件，并使用以下代码：
+创建一个名为 `main.go` 的文件，并编写以下代码：
 
 ```go
 package main
@@ -205,9 +207,6 @@ import (
 	_ "github.com/databendcloud/databend-go"
 )
 
-```
-
-```go
 func main() {
 	dsn := "https://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}"
 	conn, err := sql.Open("databend", dsn)
@@ -255,13 +254,12 @@ func main() {
 ```
 
 :::tip
-将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何
-获取连接信息，
-请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息，请参见[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
-### 第4步. 运行 main.go
+### 步骤 4. 运行 main.go {/*step-4-run-main-go*/}
 
 ```shell
 $ go run main.go
 ```
+````
