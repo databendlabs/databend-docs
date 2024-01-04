@@ -66,6 +66,8 @@ use tokio_stream::StreamExt;
 
 #[tokio::main]
 async fn main() {
+    // Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
+    // Feel free to use your own values while maintaining the same format.
     let dsn = "databend://user1:abc123@localhost:8000/default?sslmode=disable";
     let client = Client::new(dsn.to_string());
     let conn = client.get_conn().await.unwrap();
