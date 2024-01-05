@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.30"/>
+<FunctionDescription description="Introduced or updated: v1.2.30"/>
 
 修改用户账户，包括：
 
@@ -87,30 +87,29 @@ ALTER USER user1 WITH UNSET NETWORK POLICY;
 1. 创建一个名为 "user1" 的用户，并将默认角色设置为 "writer"：
 
 ```sql title='以用户 "root" 连接：'
-
 root@localhost:8000/default> CREATE USER user1 IDENTIFIED BY 'abc123';
 
 CREATE USER user1 IDENTIFIED BY 'abc123'
 
-0 行在 0.074 秒内写入。处理了 0 行，0 B（0 行/秒，0 B/秒）
+0 row written in 0.074 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 
 root@localhost:8000/default> GRANT ROLE developer TO user1;
 
 GRANT ROLE developer TO user1
 
-0 行在 0.018 秒内读取。处理了 0 行，0 B（0 行/秒，0 B/秒）
+0 row read in 0.018 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 
 root@localhost:8000/default> GRANT ROLE writer TO user1;
 
 GRANT ROLE writer TO user1
 
-0 行在 0.013 秒内读取。处理了 0 行，0 B（0 行/秒，0 B/秒）
+0 row read in 0.013 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 
 root@localhost:8000/default> ALTER USER user1 WITH DEFAULT_ROLE = 'writer';
 
 ALTER user user1 WITH DEFAULT_ROLE = 'writer'
 
-0 行在 0.019 秒内写入。处理了 0 行，0 B（0 行/秒，0 B/秒）
+0 row written in 0.019 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 ```
 
 2. 使用 [SHOW ROLES](04-user-show-roles.md) 命令验证用户 "user1" 的默认角色：
@@ -127,5 +126,5 @@ SHOW roles
 │ public    │               0 │ false      │ false      │
 │ writer    │               0 │ true       │ true       │
 └───────────────────────────────────────────────────────┘
-3 行在 0.014 秒内读取。处理了 0 行，0 B（0 行/秒，0 B/秒）
+3 rows read in 0.014 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
 ```
