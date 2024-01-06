@@ -1,5 +1,6 @@
 ---
 title: Understanding Stages
+slug: whystage
 ---
 
 In Databend, a stage is a storage location where data files are stored before they are loaded into a table or exported to an external system. One of the benefits of using stages in Databend is that it simplifies data file management and access. By using stages, you can easily load data from staged files or unload data into a stage using provided tools and commands, without having to worry about their specific storage location. Moreover, Databend provides APIs and SQL commands that make it easy to manage files in a stage. 
