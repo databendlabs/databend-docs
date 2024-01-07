@@ -2,16 +2,28 @@
 title: Continuous Data Pipelines
 ---
 
-## What is Data Pipelines?
+## Introduction to Data Pipelines
 
-Data pipelines are a set of automated processes for moving and transforming data from various sources to Databend. They enable the seamless flow of data and are essential for continuous, real-time data processing and analytics.
+Data pipelines automate the process of moving and changing data from different sources into Databend. They make sure data flows smoothly and are vital for processing and analyzing data quickly and continuously.
+
+In Continuous Data Pipelines, a special feature called **Change Data Capture (CDC)** plays a key role. With Databend, CDC becomes easy and efficient, requiring only a few simple commands through Streams and Tasks.
+
+## Understanding Change Data Capture (CDC)
+
+CDC is a process where a stream object captures insertions, updates, and deletions—applied to database tables. It includes metadata about each change, enabling actions based on the modified data. CDC in Databend tracks changes at the row level in a source table, creating a "change table" that reflects modifications between two transactional points in time.
+
+## Advantages of Using Change Data Capture (CDC)
+
+1. **Fast Real-Time Data Loading**: Streamlines the loading of real-time data from transactional databases, almost in seconds.
+2. **Doesn't Affect Original Data**: Safe to use as it doesn’t damage the data or the systems where the data comes from.
+3. **Overcoming Limitations of Batch ETL**: Surpasses traditional batch ETL methods, which are slower and less effective for continuous data updates.
 
 ## Key Features of Databend's Continuous Data Pipelines
 
-Databend provides the following features to enable continuous data pipelines:
+Databend enhances continuous data pipelines with the following features:
 
-- **Continuous Data Loading**: Automate the process of ingesting data from various sources, ensuring efficient and timely data availability. Learn more [Loading Data via Pipelines](./00-pipeline.md).
+- **Continuous Data Loading**: Makes it easy to bring in data from different places quickly and reliably. [Find out how to Load Data in Pipelines](./00-pipeline.md).
 
-- **Continuous Data Tracking and Transformation**: Track and transform data in real-time, maintaining data integrity and supporting dynamic analysis. Learn more [Tracking and Transforming Data via Streams](./01-stream.md).
+- **Continuous Data Tracking and Transformation**: Enables real-time tracking and transformation of data. [Discover more about Tracking and Transforming Data via Streams](./01-stream.md).
 
-- **Recurring Tasks**: Schedule and manage recurring data processing tasks, currently in private preview, to maintain data pipeline efficiency and reliability.
+- **Recurring Tasks**: Supports the scheduling and management of recurring data processing tasks to ensure efficiency and reliability of the data pipeline. This feature is currently in private preview.
