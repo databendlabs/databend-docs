@@ -2,11 +2,11 @@
 title: 访问控制
 ---
 
-Databend 结合了[基于角色的访问控制 (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control) 和[自主访问控制 (DAC)](https://en.wikipedia.org/wiki/Discretionary_access_control) 模型来实现其访问控制功能。本指南描述了相关概念，并提供了如何在 Databend 中管理访问控制的指令。
+Databend 同时整合了[基于角色的访问控制 (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control) 和[自主访问控制 (DAC)](https://en.wikipedia.org/wiki/Discretionary_access_control) 模型，用于其访问控制功能。本指南描述了相关概念，并提供了如何在 Databend 中管理访问控制的指令。
 
 ## 基本概念
 
-当用户在 Databend 中访问数据对象时，他们必须被授予适当的权限或角色，或者他们需要拥有该数据对象的所有权。数据对象可以指各种元素，如数据库、表、视图、Stage 或 UDF。
+当用户在 Databend 中访问数据对象时，他们必须被授予适当的权限或角色，或者他们需要拥有该数据对象的所有权。数据对象可以指各种元素，如数据库、表、视图、阶段或 UDF。
 
 ![Alt text](/img/guides/access-control-1.png)
 
@@ -14,7 +14,7 @@ Databend 结合了[基于角色的访问控制 (RBAC)](https://en.wikipedia.org/
 
 **角色** 简化了访问控制。角色是预定义的权限集，分配给用户，简化了权限管理。管理员可以根据职责对用户进行分类，高效地授予权限，无需逐个配置。
 
-**所有权** 在 Databend 中是一种专门的权限，用于控制数据访问。当用户拥有数据对象时，他们拥有最高的控制级别，决定访问权限。这种直接的所有权模型使用户能够管理他们的数据，控制谁可以在 Databend 环境中访问或修改它。
+**所有权** 在 Databend 中是一种专门的权限，用于控制数据访问。当用户拥有数据对象时，他们拥有最高级别的控制权，决定访问权限。这种直接的所有权模型使用户能够管理他们的数据，控制谁可以在 Databend 环境中访问或修改它。
 
 ## 管理权限
 
@@ -22,7 +22,7 @@ Databend 结合了[基于角色的访问控制 (RBAC)](https://en.wikipedia.org/
 
 ![Alt text](/img/guides/access-control-2.png)
 
-Databend 为不同类型的数据对象提供了不同级别的权限，允许根据用户的具体需求授予适当的权限。有关更多信息，请参阅[访问控制权限](/sql/sql-reference/access-control-privileges)。Databend 建议谨慎行事，出于安全考虑授予最小必要的权限。请根据用户的实际需求仔细评估和配置用户权限。
+Databend 为不同类型的数据对象提供了不同级别的权限，允许根据用户的具体需求授予适当的权限。有关更多信息，请参见[访问控制权限](/sql/sql-reference/access-control-privileges)。Databend 建议谨慎行事，出于安全考虑授予最小必要的权限。请根据用户的实际需求仔细评估和配置用户权限。
 
 要管理用户或角色的权限，请使用以下命令：
 
@@ -32,7 +32,7 @@ Databend 为不同类型的数据对象提供了不同级别的权限，允许�
 
 ## 管理角色
 
-在 Databend 中，角色在简化权限管理方面起着关键作用。当多个用户需要相同的权限集时，逐个授予权限可能会很麻烦。角色通过允许将一组权限分配给一个角色来提供解决方案，然后可以轻松地分配给多个用户。
+在 Databend 中，角色在简化权限管理方面起着关键作用。当多个用户需要相同的一组权限时，逐个授予权限可能会很麻烦。角色提供了一个解决方案，允许将一组权限分配给一个角色，然后可以轻松地分配给多个用户。
 
 ![Alt text](/img/guides/access-control-3.png)
 
@@ -44,11 +44,11 @@ Databend 为不同类型的数据对象提供了不同级别的权限，允许�
 - [GRANT ROLE](/sql/sql-commands/ddl/user/grant-role)
 - [REVOKE ROLE](/sql/sql-commands/ddl/user/revoke-role)
 
-### 继承角色 & 建立层级
+### 继承角色和建立层级
 
-Databend 角色通过角色授予引入了一种强大的机制，使一个角色能够继承另一个角色的权限和责任。这有助于创建一个灵活的层级结构，类似于组织结构，其中存在两个[内置角色](#built-in-roles)：最高的是 `account-admin`，最低的是 `public`。
+Databend 角色通过角色授予引入了一个强大的机制，使一个角色能够继承另一个角色的权限和责任。这有助于创建一个灵活的层级结构，类似于组织结构，其中存在两个[内置角色](#built-in-roles)：最高的是 `account-admin`，最低的是 `public`。
 
-考虑一个场景，创建了三个角色：_manager_、_engineer_ 和 _intern_。在这个例子中，_intern_ 角色被授予给 _engineer_ 角色。因此，_engineer_ 不仅拥有他们自己的一套权限，还继承了与 _intern_ 角色相关的权限。进一步扩展这个层级，如果 _engineer_ 角色被授予给 _manager_，那么 _manager_ 现在获得了 _engineer_ 和 _intern_ 角色的固有权限。
+考虑这样一个场景，创建了三个角色：*manager*、*engineer* 和 *intern*。在这个例子中，*intern* 角色被授予给了 *engineer* 角色。因此，*engineer* 不仅拥有他们自己的一套权限，还继承了与 *intern* 角色相关的权限。进一步扩展这个层级，如果 *engineer* 角色被授予给 *manager*，那么 *manager* 现在获得了 *engineer* 和 *intern* 角色的固有权限。
 
 ![Alt text](/img/guides/access-control-4.png)
 
@@ -59,7 +59,7 @@ Databend 引入了两个内置角色：
 - `account-admin`：拥有所有权限，作为所有其他角色的父角色，并允许在租户内无缝切换到任何角色。
 - `public`：不继承任何权限，将所有角色视为其父角色，并允许任何角色切换到公共角色。
 
-要在 Databend Cloud 中将 `account-admin` 角色分配给用户，请在邀请用户时选择该角色。您也可以在他们加入后分配角色。如果您使用的是 Databend 社区版或企业版，在部署期间首先配置一个 `account-admin` 用户，然后根据需要将角色分配给其他用户。有关配置管理员用户的更多信息，请参阅[配置管理员用户](/guides/deploy/admin-users)。
+要在 Databend Cloud 中将 `account-admin` 角色分配给用户，请在邀请用户时选择该角色。您也可以在他们加入后分配角色。如果您使用的是 Databend 社区版或企业版，请在部署期间首先配置一个 `account-admin` 用户，然后根据需要将角色分配给其他用户。有关配置管理员用户的更多信息，请参见[配置管理员用户](/guides/deploy/admin-users)。
 
 ### 设置默认角色
 
@@ -70,7 +70,7 @@ Databend 引入了两个内置角色：
 
 ## 管理所有权
 
-所有权是一种专门的权限，表示用户或角色对 Databend 中特定数据对象（目前包括数据库、表、UDF 和 Stage）持有的独家权利和责任。创建数据对象的用户假定了该对象的所有权，并且他们可以随后将这个所有权授予其他角色。
+所有权是一种专门的权限，表示用户或角色对 Databend 中特定数据对象（当前包括数据库、表、UDF 和阶段）的独家权利和责任。创建数据对象的用户假定了该对象的所有权，并且他们可以随后将这个所有权授予其他角色。
 
 - 不能为 `default` 数据库中的表授予所有权，因为它由内置角色 `account_admin` 所拥有。
 - 出于安全原因，不支持将所有权授予内置角色 `public`。
