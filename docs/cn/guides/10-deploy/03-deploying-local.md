@@ -1,3 +1,4 @@
+```markdown
 ---
 title: Docker 和本地部署
 sidebar_label: Docker 和本地部署
@@ -5,127 +6,261 @@ description:
   在本地或使用 Docker 部署 Databend
 ---
 
-为了快速访问 Databend 功能并获得实践经验，您可以选择以下部署选项：
+要快速访问 Databend 功能并获得实践经验，您可以选择以下部署选项：
 
 - [在 Docker 上部署 Databend](#deploying-databend-on-docker)：您可以在 Docker 上部署 Databend 和 [MinIO](https://min.io/)，以实现容器化设置。
 
-- [部署本地 Databend](#deploying-a-local-databend)：如果没有对象存储可用，您可以选择本地部署，并使用文件系统作为存储。
+- [部署本地 Databend](#deploying-a-local-databend)：如果没有对象存储，您可以选择本地部署，并使用文件系统作为存储。
 
 :::note 仅限非生产环境使用
-- 对象存储是 Databend 生产使用的要求。文件系统应仅用于评估、测试和非生产场景。
+- 对象存储是 Databend 生产环境使用的要求。文件系统应仅用于评估、测试和非生产场景。
 
-- 不建议在 MinIO 之上部署 Databend 用于生产环境或性能测试目的。
+- 不建议在 MinIO 上部署 Databend 用于生产环境或性能测试目的。
 :::
 
 ## 在 Docker 上部署 Databend
 
-在开始之前，请确保您的系统上安装了 Docker。
+开始之前，请确保您的系统上安装了 Docker。
 
 ### 步骤 1. 部署 MinIO
 
-1. 使用以下命令作为容器拉取并运行 MinIO 镜像：
+1. 使用以下命令拉取并运行 MinIO 镜像作为容器：
 
 ```shell
 mkdir -p ${HOME}/minio/data
 
-docker run \
-   -p 9000:9000 \
-   -p 9090:9090 \
+docker run -d \
+   --name minio \
    --user $(id -u):$(id -g) \
-   --name minio1 \
+   --net=host \
    -e "MINIO_ROOT_USER=ROOTUSER" \
    -e "MINIO_ROOT_PASSWORD=CHANGEME123" \
    -v ${HOME}/minio/data:/data \
-   quay.io/minio/minio server /data --console-address ":9090"
+   minio/minio server /data --console-address ":9091"
 ```
+
+:::note
+我们在这里将控制台地址更改为 `:9091`，以避免与 Databend 端口冲突。
+:::
+
 请注意，上面的命令还设置了根用户凭据（ROOTUSER/CHANGEME123），您将需要在后续步骤中提供这些凭据进行身份验证。如果您在此时更改了根用户凭据，请确保在整个过程中保持一致性。
 
 您可以通过在终端中检查以下消息来确认 MinIO 容器已成功启动：
 
 ```shell
-Unable to find image 'quay.io/minio/minio:latest' locally
-latest: Pulling from minio/minio
-68c8102008d3: Pull complete 
-be9f9df177bb: Pull complete 
-3af46996e2ef: Pull complete 
-c8b0b68d12b4: Pull complete 
-4273a1648411: Pull complete 
-2fd0bc041cb4: Pull complete 
-Digest: sha256:ab5296018bfca75d45f451e050f6c79c6e8b9927bbc444274a74123ea7921021
-Status: Downloaded newer image for quay.io/minio/minio:latest
-Formatting 1st pool, 1 set(s), 1 drives per set.
-WARNING: Host local has more than 0 drives of set. A host failure will result in data becoming unavailable.
-MinIO Object Storage Server
-Copyright: 2015-2023 MinIO, Inc.
-License: GNU AGPLv3 <https://www.gnu.org/licenses/agpl-3.0.html>
-Version: RELEASE.2023-04-13T03-08-07Z (go1.20.3 linux/arm64)
-
-Status:         1 Online, 0 Offline. 
-API: http://172.17.0.2:9000  http://127.0.0.1:9000 
-Console: http://172.17.0.2:9090 http://127.0.0.1:9090 
-
-Documentation: https://min.io/docs/minio/linux/index.html
-Warning: The standard parity is set to 0. This can lead to data loss.
+无法在本地找到 'minio/minio:latest' 镜像
+latest: 正在从 minio/minio 拉取
+b7b0bb81ef0e: 已下载完成
+1bfc550d53c3: 已下载完成
+330c4d50db5b: 已下载完成
+b5064e11ea2d: 已下载完成
+907398bd94fb: 已下载完成
+81363d180da7: 已下载完成
+41deb2933f7e: 已下载完成
+摘要: sha256:654e9aeba815c95c85fb2ea72d1a978bce14522e64386c4e541b6b29f4fec069
+状态: 已下载较新的镜像 minio/minio:latest
+70fea801c805e7ae288475ab3ccc2c7dcdc5fadd6211279c60fdcdb930943f3f
 ```
 
-2. 打开您的网络浏览器，访问 http://127.0.0.1:9090/（登录凭据：ROOTUSER/CHANGEME123）。创建一个名为 **databend** 的存储桶。
+```shell
+❯ docker logs minio
+正在格式化第一个池，1 个集合，每个集合 1 个驱动器。
+警告：本地主机有超过 0 个集合的驱动器。主机故障将导致数据不可用。
+MinIO 对象存储服务器
+版权所有: 2015-2024 MinIO, Inc.
+许可证: GNU AGPLv3 <https://www.gnu.org/licenses/agpl-3.0.html>
+版本: RELEASE.2024-01-05T22-17-24Z (go1.21.5 linux/arm64)
+
+状态:         1 在线，0 离线。
+S3-API: http://192.168.106.3:9000  http://172.17.0.1:9000  http://192.168.5.1:9000  http://127.0.0.1:9000
+控制台: http://192.168.106.3:9091 http://172.17.0.1:9091 http://192.168.5.1:9091 http://127.0.0.1:9091
+
+文档: https://min.io/docs/minio/linux/index.html
+警告: 标准奇偶校验设置为 0。这可能导致数据丢失。
+```
+
+2. 打开您的网络浏览器，访问 http://127.0.0.1:9091/（登录凭据：ROOTUSER/CHANGEME123）。创建一个名为 **databend** 的存储桶。
 
 ### 步骤 2. 部署 Databend
 
-使用以下命令作为容器拉取并运行 Databend 镜像：
+使用以下命令拉取并运行 Databend 镜像作为容器：
 
 ```shell
-docker run \
-    -p 8000:8000 \
-    -p 3307:3307 \
+docker run -d \
+    --name databend \
+    --net=host \
     -v meta_storage_dir:/var/lib/databend/meta \
-    -v query_storage_dir:/var/lib/databend/query \
     -v log_dir:/var/log/databend \
     -e QUERY_DEFAULT_USER=databend \
     -e QUERY_DEFAULT_PASSWORD=databend \
     -e QUERY_STORAGE_TYPE=s3 \
-    -e AWS_S3_ENDPOINT=http://172.17.0.2:9000 \
+    -e AWS_S3_ENDPOINT=http://127.0.0.1:9000 \
     -e AWS_S3_BUCKET=databend \
     -e AWS_ACCESS_KEY_ID=ROOTUSER \
     -e AWS_SECRET_ACCESS_KEY=CHANGEME123 \
     datafuselabs/databend
 ```
 
-启动 Databend Docker 容器时，您可以使用环境变量 QUERY_DEFAULT_USER 和 QUERY_DEFAULT_PASSWORD 指定用户名和密码。如果没有提供这些变量，将创建一个没有密码的默认 root 用户。上面的命令创建了一个 SQL 用户（databend/databend），您将需要使用它来连接到 Databend 的下一步。如果您在此时更改了 SQL 用户，请确保在整个过程中保持一致性。
+启动 Databend Docker 容器时，您可以使用环境变量 QUERY_DEFAULT_USER 和 QUERY_DEFAULT_PASSWORD 指定用户名和密码。如果未提供这些变量，则会创建一个没有密码的默认 root 用户。上面的命令创建了一个 SQL 用户（databend/databend），您将需要使用它来连接到 Databend 的下一步。如果您在此时更改了 SQL 用户，请确保在整个过程中保持一致性。
+
+您可以通过在终端中检查以下消息来确认 Databend 容器已成功启动：
+
+```shell
+❯ docker logs databend
+==> QUERY_CONFIG_FILE 未设置，使用默认值：/etc/databend/query.toml
+==> /tmp/std-meta.log <==
+Databend Metasrv
+
+版本：v1.2.287-nightly-8930689add-simd(1.75.0-nightly-2024-01-07T22:13:53.249351145Z)
+工作数据版本：V002(2023-07-22: 在文件中存储快照)
+
+Raft 功能集：
+    服务器提供：{ append:v0, install_snapshot:v0, install_snapshot:v1, vote:v0 }
+    客户端要求：{ append:v0, install_snapshot:v0, vote:v0 }
+
+磁盘上的数据：
+    目录：/var/lib/databend/meta
+    数据版本：V0(2023-04-21: 与 openraft v07 和 v08 兼容，使用 openraft::compat)
+    正在升级：无
+
+日志：
+    文件：enabled=true, level=INFO, dir=/var/log/databend, format=json
+    Stderr：enabled=false(启用方法：LOG_STDERR_ON=true 或 RUST_LOG=info), level=WARN, format=text
+    OTLP：enabled=false, level=INFO, endpoint=http://127.0.0.1:4317, labels=
+    Tracing：enabled=false, capture_log_level=INFO, otlp_endpoint=http://127.0.0.1:4317
+Id: 0
+Raft 集群名称：foo_cluster
+Raft 目录：/var/lib/databend/meta
+Raft 状态：单一
+
+HTTP API
+   监听地址 127.0.0.1:28002
+gRPC API
+   监听地址 127.0.0.1:9191
+   广告地址：-
+Raft API
+   监听地址 127.0.0.1:28004
+   广告地址：colima:28004
+
+升级磁盘上的数据
+    从：V0(2023-04-21: 与 openraft v07 和 v08 兼容，使用 openraft::compat)
+    到：V001(2023-05-15: 去除 compat，仅使用 openraft v08 数据类型)
+开始升级：版本：V0，正在升级：V001
+写入头部：版本：V0，正在升级：V001
+未找到树 raft_state
+未找到树 raft_log
+升级了 0 条记录
+完成升级：版本：V001，正在升级：无
+写入头部：版本：V001，正在升级：无
+升级磁盘上的数据
+    从：V001(2023-05-15: 去除 compat，仅使用 openraft v08 数据类型)
+    到：V002(2023-07-22: 在文件中存储快照)
+开始升级：版本：V001，正在升级：V002
+写入头部：版本：V001，正在升级：V002
+未找到树 raft_state
+未找到树 raft_log
+找到状态机树：[]
+找到最小状态机 ID：18446744073709551615
+没有状态机树，跳过升级
+完成升级：版本：V002，正在升级：无
+写入头部：版本：V002，正在升级：无
+等待 180 秒以寻找活跃的领导者...
+领导者 ID：0
+    指标：id=0, 领导者, 任期=1, 最后日志=Some(3), 最后应用=Some(1-0-3), 成员关系={log_id:Some(1-0-3), 投票者:[{0:{EmptyNode}}], 学习者:[]}
+
+注册此节点：{id=0 raft=colima:28004 grpc=}
+
+    注册节点：成功
+
+Databend Metasrv 已启动
+
+==> /tmp/std-query.log <==
+Databend Query
+
+版本：v1.2.287-nightly-8930689add(rust-1.75.0-nightly-2024-01-07T22:05:46.363097970Z)
+
+日志记录：
+    文件：enabled=true, level=INFO, dir=/var/log/databend, format=json
+    stderr：enabled=false(启用方法：LOG_STDERR_ON=true 或 RUST_LOG=info), level=WARN, format=text
+    otlp：enabled=false, level=INFO, endpoint=http://127.0.0.1:4317, labels=
+    查询：enabled=false, dir=, otlp_endpoint=, labels=
+    跟踪：enabled=false, capture_log_level=INFO, otlp_endpoint=http://127.0.0.1:4317
+元数据：已连接到端点 [
+    "0.0.0.0:9191",
+]
+内存：
+    限制：无限制
+    分配器：jemalloc
+    配置：percpu_arena:percpu,oversize_threshold:0,background_thread:true,dirty_decay_ms:5000,muzzy_decay_ms:5000
+集群：独立
+存储：s3 | bucket=databend,root=,endpoint=http://127.0.0.1:9000
+缓存：无
+内置用户：databend
+
+管理员
+    监听地址 0.0.0.0:8080
+MySQL
+    监听地址 0.0.0.0:3307
+    连接方式：mysql -u${USER} -p${PASSWORD} -h0.0.0.0 -P3307
+Clickhouse(http)
+    监听地址 0.0.0.0:8124
+    使用方法：echo 'create table test(foo string)' | curl -u${USER} -p${PASSWORD}: '0.0.0.0:8124' --data-binary  @-
+echo '{"foo": "bar"}' | curl -u${USER} -p${PASSWORD}: '0.0.0.0:8124/?query=INSERT%20INTO%20test%20FORMAT%20JSONEachRow' --data-binary @-
+Databend HTTP
+    监听地址 0.0.0.0:8000
+    使用方法：curl -u${USER} -p${PASSWORD}: --request POST '0.0.0.0:8000/v1/query/' --header 'Content-Type: application/json' --data-raw '{"sql": "SELECT avg(number) FROM numbers(100000000)"}'
+```
+
 
 ### 步骤 3. 连接到 Databend
 
-在此步骤中，您将使用 BendSQL CLI 工具与 Databend 建立连接。有关如何安装和操作 BendSQL 的说明，请参阅 [BendSQL](../30-sql-clients/00-bendsql/index.md)。
+在这一步中，您将使用 BendSQL CLI 工具建立与 Databend 的连接。有关如何安装和操作 BendSQL 的说明，请参见 [BendSQL](../30-sql-clients/00-bendsql/index.md)。
 
-1. 使用 SQL 用户（databend/databend）运行以下命令以与 Databend 建立连接：
+1. 使用 SQL 用户（databend/databend）建立与 Databend 的连接，运行以下命令：
 
 ```shell
-eric@bogon ~ % bendsql -udatabend -pdatabend
-Welcome to BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z).
-Trying connect to localhost:8000 as user databend.
-Connected to DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
+❯ bendsql -udatabend -pdatabend
+欢迎使用 BendSQL 0.12.1-homebrew。
+正在连接到 localhost:8000，用户为 databend。
+已连接到 DatabendQuery v1.2.287-nightly-8930689add(rust-1.75.0-nightly-2024-01-07T22:05:46.363097970Z)
+
+databend@localhost:8000/default>
 ```
 
 2. 要验证部署，您可以使用 BendSQL 创建一个表并插入一些数据：
 
 ```shell
-databend@localhost> CREATE DATABASE eric;
-Processed in (0.083 sec)
+databend@localhost:8000/default> CREATE DATABASE test;
+0 行写入，耗时 0.042 秒。处理了 0 行，0 B（0 行/秒，0 B/秒）
 
-databend@localhost> CREATE TABLE mytable(a int);
-Processed in (0.051 sec)
+databend@localhost:8000/default> use test;
+0 行读取，耗时 0.028 秒。处理了 0 行，0 B（0 行/秒，0 B/秒）
 
-databend@localhost> INSERT INTO mytable VALUES(1);
-1 rows affected in (0.242 sec)
+databend@localhost:8000/test> CREATE TABLE mytable(a int);
+0 行写入，耗时 0.053 秒。处理了 0 行，0 B（0 行/秒，0 B/秒）
 
-databend@localhost> INSERT INTO mytable VALUES(2);
-1 rows affected in (0.060 sec)
+databend@localhost:8000/test> INSERT INTO mytable VALUES(1);
+1 行写入，耗时 0.108 秒。处理了 1 行，5 B（9.27 行/秒，46 B/秒）
 
-databend@localhost> INSERT INTO mytable VALUES(3);
-1 rows affected in (0.053 sec)
+databend@localhost:8000/test> INSERT INTO mytable VALUES(2);
+1 行写入，耗时 0.102 秒。处理了 1 行，5 B（9.81 行/秒，49 B/秒）
+
+databend@localhost:8000/test> INSERT INTO mytable VALUES(3);
+1 行写入，耗时 0.120 秒。处理了 1 行，5 B（8.33 行/秒，41 B/秒）
+
+databend@localhost:8000/test> select * from mytable;
+┌─────────────────┐
+│        a        │
+│ Nullable(Int32) │
+├─────────────────┤
+│               1 │
+│               2 │
+│               3 │
+└─────────────────┘
+3 行读取，耗时 0.066 秒。处理了 3 行，15 B（45.2 行/秒，225 B/秒）
 ```
 
-由于表数据存储在存储桶中，您将注意到存储桶大小从 0 开始增加。
+由于表数据存储在存储桶中，您会注意到存储桶大小从 0 开始增加。
 
 ![Alt text](@site/docs/public/img/deploy/minio-deployment-verify.png)
 
@@ -141,7 +276,7 @@ databend@localhost> INSERT INTO mytable VALUES(3);
 
 ### 步骤 2. 启动 Databend
 
-1. 配置管理员用户。您将使用此帐户连接到 Databend。有关更多信息，请参阅 [配置管理员用户](04-admin-users.md)。对于本示例，取消注释以下行以选择此帐户：
+1. 配置管理员用户。您将使用此帐户连接到 Databend。有关更多信息，请参见 [配置管理员用户](04-admin-users.md)。在此示例中，取消注释以下行以选择此帐户：
 
 ```sql title="databend-query.toml"
 [[query.users]]
@@ -152,23 +287,25 @@ auth_type = "no_password"
 2. 打开终端并导航到存储提取的文件和文件夹的文件夹。
 
 3. 在 **scripts** 文件夹中运行脚本 **start.sh**：
+```
 
-    MacOS 可能会提示错误 "*databend-meta 无法打开，因为 Apple 无法检查其是否包含恶意软件。*"。要继续，请在您的 Mac 上打开 **系统设置**，在左侧菜单中选择 **隐私与安全**，然后在右侧的 **安全性** 部分为 databend-meta 点击 **仍要打开**。对于 databend-query 的错误也执行相同操作。
+```markdown
+MacOS 可能会提示错误 "*databend-meta 无法打开，因为 Apple 无法检查是否包含恶意软件。*"。要继续，请在您的 Mac 上打开 **系统设置**，在左侧菜单中选择 **隐私与安全**，然后在右侧的 **安全性** 部分为 databend-meta 点击 **仍要打开**。对于 databend-query 的错误也执行相同操作。
 
 ```shell
 ./scripts/start.sh
 ```
 
 :::tip
-如果在尝试启动 Databend 时遇到以下错误消息：
+如果在尝试启动 Databend 时遇到以下后续错误消息：
 
 ```shell
 ==> query.log <==
-: No getcpu support: percpu_arena:percpu
-: option background_thread currently supports pthread only
-Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
+: 不支持 getcpu：percpu_arena:percpu
+: 选项 background_thread 当前仅支持 pthread
+Databend Query 启动失败，原因：代码：1104，文本 = 创建 appender 失败：Os { code: 13, kind: PermissionDenied, message: "Permission denied" }。
 ```
-运行以下命令并再次尝试启动 Databend：
+运行以下命令，然后再次尝试启动 Databend：
 
 ```shell
 sudo mkdir /var/log/databend
@@ -196,10 +333,10 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 1. 要与本地 Databend 建立连接，请执行以下命令：
 
 ```shell
-eric@bogon ~ % bendsql      
-Welcome to BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z).
-Trying connect to localhost:8000 as user root.
-Connected to DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
+eric@bogon ~ % bendsql
+欢迎使用 BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z)。
+尝试以用户 root 连接到 localhost:8000。
+已连接到 DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
 ```
 
 2. 查询 Databend 版本以验证连接：
@@ -219,10 +356,11 @@ SELECT
 1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 41B/s)
 ```
 
-## 下一步
+## 接下来的步骤
 
 在部署 Databend 之后，您可能需要了解以下主题：
 
 - [管理设置](/sql/sql-reference/manage-settings)：根据您的需求优化 Databend。
-- [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
+- [加载与卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获得洞察力。
+```
