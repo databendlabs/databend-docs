@@ -78,7 +78,7 @@ SHOW USERS;
 
 ### Example 4: Creating User with Default Role
 
-This example connects to Databend as the root user and creates a user named 'user1' with the default role set to 'manager':
+This example creates a user named 'user1' with the default role set to 'manager':
 
 ```sql title="as root user:"
 SHOW ROLES;
