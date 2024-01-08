@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.30"/>
 
-Create a new user account in Databend, specifying the user's name, authentication type, password, and [network policy](../12-network-policy/index.md). 
+Creates a SQL user, providing details such as the user's name, authentication type, and password. Optionally, you may specify a [network policy](../12-network-policy/index.md) and set a [default role](/guides/security/access-control#setting-default-role) for the user.
 
 See also:
  - [CREATE NETWORK POLICY](../12-network-policy/ddl-create-policy.md)
@@ -16,7 +16,9 @@ See also:
 ## Syntax
 
 ```sql
-CREATE USER <name> IDENTIFIED [WITH auth_type ] BY '<password>' [WITH SET NETWORK POLICY='<network_policy>']
+CREATE USER <name> IDENTIFIED [WITH <auth_type> ] BY '<password>' 
+[WITH SET NETWORK POLICY='<network_policy>'] -- Set network policy
+[WITH DEFAULT_ROLE='<role_name>'] -- Set default role
 ```
 
 *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
@@ -35,7 +37,7 @@ For more information about MySQL authentication plugins, see [A Tale of Two Pass
 
 ## Examples
 
-### Creating User with Default auth_type
+### Example 1: Creating User with Default auth_type
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
@@ -48,7 +50,7 @@ SHOW USERS;
 +-----------+----------+----------------------+---------------+
 ```
 
-### Creating User with sha256_password auth_type
+### Example 2: Creating User with sha256_password auth_type
 
 ```sql
 CREATE USER user1 IDENTIFIED WITH sha256_password BY 'abc123';
@@ -61,7 +63,7 @@ SHOW USERS;
 +-----------+----------+----------------------+---------------+
 ```
 
-### Creating User with Network Policy
+### Example 3: Creating User with Network Policy
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123' WITH SET NETWORK POLICY='test_policy';
@@ -72,4 +74,22 @@ SHOW USERS;
 +-----------+----------+----------------------+---------------+
 | user1     | %        | double_sha1_password | NO            |
 +-----------+----------+----------------------+---------------+
+```
+
+### Example 4: Creating User with Default Role
+
+This example connects to Databend as the root user and creates a user named 'user1' with the default role set to 'manager':
+
+```sql title="as root user:"
+SHOW ROLES;
+
+┌───────────────────────────────────────────────────────────┐
+│      name     │ inherited_roles │ is_current │ is_default │
+├───────────────┼─────────────────┼────────────┼────────────┤
+│ account_admin │               0 │ true       │ true       │
+│ manager       │               0 │ false      │ false      │
+│ public        │               0 │ false      │ false      │
+└───────────────────────────────────────────────────────────┘
+
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'manager';
 ```
