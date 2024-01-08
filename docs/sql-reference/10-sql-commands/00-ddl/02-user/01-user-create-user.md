@@ -80,7 +80,7 @@ SHOW USERS;
 
 This example creates a user named 'user1' with the default role set to 'manager':
 
-```sql title="as root user:"
+```sql
 SHOW ROLES;
 
 ┌───────────────────────────────────────────────────────────┐
