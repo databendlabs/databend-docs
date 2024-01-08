@@ -8,7 +8,7 @@ Databend 结合了[基于角色的访问控制 (RBAC)](https://en.wikipedia.org/
 
 当用户在 Databend 中访问数据对象时，他们必须被授予适当的权限或角色，或者他们需要拥有该数据对象的所有权。数据对象可以指各种元素，如数据库、表、视图、Stage 或 UDF。
 
-![Alt text](../../public/img/guides/access-control-1.png)
+![Alt text](/img/guides/access-control-1.png)
 
 **权限** 在与 Databend 中的数据对象交互时扮演着至关重要的角色。这些权限，如读、写和执行，提供了对用户行为的精确控制，确保与用户需求保持一致并维护数据安全。
 
@@ -20,7 +20,7 @@ Databend 结合了[基于角色的访问控制 (RBAC)](https://en.wikipedia.org/
 
 用户需要特定的权限才能在 Databend 中执行特定的操作。例如，要查询表，用户需要 SELECT 权限，要读取 Stage 中的数据集，需要 READ 权限。
 
-![Alt text](../../public/img/guides/access-control-2.png)
+![Alt text](/img/guides/access-control-2.png)
 
 Databend 为不同类型的数据对象提供了不同级别的权限，允许根据用户的具体需求授予适当的权限。有关更多信息，请参阅[访问控制权限](/sql/sql-reference/access-control-privileges)。Databend 建议谨慎行事，出于安全考虑授予最小必要的权限。请根据用户的实际需求仔细评估和配置用户权限。
 
@@ -34,7 +34,7 @@ Databend 为不同类型的数据对象提供了不同级别的权限，允许�
 
 在 Databend 中，角色在简化权限管理方面起着关键作用。当多个用户需要相同的权限集时，逐个授予权限可能会很麻烦。角色通过允许将一组权限分配给一个角色来提供解决方案，然后可以轻松地分配给多个用户。
 
-![Alt text](../../public/img/guides/access-control-3.png)
+![Alt text](/img/guides/access-control-3.png)
 
 在使用 Databend 时，根据需要创建用户角色。要管理用户角色，请使用以下命令：
 
@@ -50,7 +50,7 @@ Databend 角色通过角色授予引入了一种强大的机制，使一个角�
 
 考虑一个场景，创建了三个角色：_manager_、_engineer_ 和 _intern_。在这个例子中，_intern_ 角色被授予给 _engineer_ 角色。因此，_engineer_ 不仅拥有他们自己的一套权限，还继承了与 _intern_ 角色相关的权限。进一步扩展这个层级，如果 _engineer_ 角色被授予给 _manager_，那么 _manager_ 现在获得了 _engineer_ 和 _intern_ 角色的固有权限。
 
-![Alt text](../../public/img/guides/access-control-4.png)
+![Alt text](/img/guides/access-control-4.png)
 
 ### 内置角色
 

@@ -8,7 +8,7 @@ Databend incorporates both [Role-Based Access Control (RBAC)](https://en.wikiped
 
 When a user accesses a data object in Databend, they must be granted appropriate privileges or roles, or they need to have ownership of the data object. A data object can refer to various elements, such as a database, table, view, stage, or UDF.
 
-![Alt text](../../public/img/guides/access-control-1.png)
+![Alt text](/img/guides/access-control-1.png)
 
 **Privileges** play a crucial role when interacting with data objects in Databend. These permissions, such as read, write, and execute, provide precise control over user actions, ensuring alignment with user requirements and maintaining data security.
 
@@ -20,7 +20,7 @@ When a user accesses a data object in Databend, they must be granted appropriate
 
 Users need specific privileges to perform particular actions in Databend. For example, to query a table, a user requires SELECT privileges, and to read a dataset in a Stage, READ privileges are necessary. 
 
-![Alt text](../../public/img/guides/access-control-2.png)
+![Alt text](/img/guides/access-control-2.png)
 
 Databend offers varying levels of privileges for different types of data objects, allowing users to be granted appropriate permissions based on their specific needs. For more information, see [Access Control Privileges](/sql/sql-reference/access-control-privileges). Databend recommends exercising caution and granting the minimum necessary privileges for security considerations. Please carefully assess and configure user permissions based on their actual requirements. 
 
@@ -34,7 +34,7 @@ To manage privileges for a user or a role, use the following commands:
 
 Roles in Databend play a pivotal role in simplifying the management of permissions. When multiple users require the same set of privileges, granting privileges individually can be cumbersome. Roles provide a solution by allowing the assignment of a set of privileges to a role, which can then be easily assigned to multiple users.
 
-![Alt text](../../public/img/guides/access-control-3.png)
+![Alt text](/img/guides/access-control-3.png)
 
 When working with Databend, create user roles as needed. To manage user roles, use the following commands:
 
@@ -50,7 +50,7 @@ Databend roles introduce a potent mechanism through role granting, enabling one 
 
 Consider the scenario where three roles are created: *manager*, *engineer*, and *intern*. In this example, the role of *intern* is granted to the engineer *role*. Consequently, the *engineer* not only possesses their own set of privileges but also inherits those associated with the *intern* role. Extending this hierarchy further, if the *engineer* role is granted to the *manager*, the *manager* now acquires both the inherent privileges of the *engineer* and the *intern* roles.
 
-![Alt text](../../public/img/guides/access-control-4.png)
+![Alt text](/img/guides/access-control-4.png)
 
 ### Built-in Roles
 
