@@ -21,7 +21,7 @@ Databend 支持多种文件格式作为数据加载或卸载的源和目标。�
 ```
 
 - Databend 目前仅支持将 XML 作为源使用。尚不支持将数据卸载到 XML 文件中。
-- 如果在执行 COPY INTO 或从阶段 SELECT 操作时未指定 FILE_FORMAT，Databend 将使用您在创建阶段时为该阶段定义的文件格式。在您未在创建阶段时明确指定文件格式的情况下，Databend 默认使用 PARQUET 格式。如果您指定了与创建阶段时定义的不同的 FILE_FORMAT，Databend 将优先考虑在操作期间指定的 FILE_FORMAT。
+- 如果在执行 COPY INTO 或从Stage SELECT 操作时未指定 FILE_FORMAT，Databend 将使用您在创建Stage时为该Stage定义的文件格式。在您未在创建Stage时明确指定文件格式的情况下，Databend 默认使用 PARQUET 格式。如果您指定了与创建Stage时定义的不同的 FILE_FORMAT，Databend 将优先考虑在操作期间指定的 FILE_FORMAT。
 - 有关在 Databend 中管理自定义文件格式的信息，请参见 [文件格式](../10-sql-commands/00-ddl/13-file-format/index.md)。
 
 ### formatTypeOptions
