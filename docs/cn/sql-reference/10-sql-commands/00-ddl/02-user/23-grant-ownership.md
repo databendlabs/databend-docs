@@ -7,7 +7,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.275"/>
 
-授予特定数据库对象（如表、Stage 或用户定义的函数）的所有权给指定的角色。有关管理所有权的更多信息，请参阅[管理所有权](/guides/security/access-control#managing-ownership)。
+授予特定数据库对象（如表、Stage 或用户定义的函数）的所有权给指定的角色。
+
+- 不能为`default`数据库中的表授予所有权，因为它由内置角色`account_admin`拥有。
+- 出于安全原因，不支持将所有权授予内置角色`public`。
+
+有关管理所有权的更多信息，请参阅[管理所有权](/guides/security/access-control#managing-ownership)。
 
 另见：[撤销所有权](24-revoke-ownership.md)
 
