@@ -45,6 +45,8 @@ GRANT ALL on *.* TO user1;
 ```js title='databend.js'
 const { Client } = require("databend-driver");
 
+// 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。
+// 在保持相同格式的条件下，您可以随意使用自己的值。
 const dsn = process.env.DATABEND_DSN
   ? process.env.DATABEND_DSN
   : "databend://user1:abc123@localhost:8000/default?sslmode=disable";
