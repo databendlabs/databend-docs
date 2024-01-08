@@ -22,7 +22,7 @@ Readings in Database Systems,Michael Stonebraker,2004
 ### Step 1. Create Database and Table
 
 ```shell
-eric@macdeMBP Documents % bendsql
+❯ bendsql
 root@localhost:8000/default> CREATE DATABASE book_db;
 
 root@localhost:8000/default> USE book_db;
@@ -46,8 +46,13 @@ CREATE TABLE books (
 Send loading data request with the following command:
 
 ```shell
-eric@macdeMBP Documents % bendsql --query='INSERT INTO book_db.books VALUES;' --format=csv --data=@books.csv
+❯ bendsql --query='INSERT INTO book_db.books VALUES;' --format=csv --data=@books.csv
 ```
+
+:::note
+Be sure that you are able to connect to the backend object storage for Databend from local BendSQL directly.
+If not, then you need to specify the `--set presigned_url_disabled=1` option to disable the presigned url feature.
+:::
 
 ### Step 3. Verify Loaded Data
 
@@ -98,7 +103,7 @@ CREATE TABLE bookcomments (
 Send loading data request with the following command:
 
 ```shell
-eric@macdeMBP Documents % bendsql --query='INSERT INTO book_db.bookcomments(title,author,date) VALUES;' --format=csv --data=@books.csv
+❯ bendsql --query='INSERT INTO book_db.bookcomments(title,author,date) VALUES;' --format=csv --data=@books.csv
 ```
 
 Notice that the `query` part above specifies the columns (title, author, and date) to match the loaded data.
