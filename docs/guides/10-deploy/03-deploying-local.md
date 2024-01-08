@@ -47,21 +47,6 @@ Please be aware that the command above also sets the root user credentials (ROOT
 You can confirm that the MinIO container has started successfully by checking for the following message in the terminal:
 
 ```shell
-Unable to find image 'minio/minio:latest' locally
-latest: Pulling from minio/minio
-b7b0bb81ef0e: Pull complete
-1bfc550d53c3: Pull complete
-330c4d50db5b: Pull complete
-b5064e11ea2d: Pull complete
-907398bd94fb: Pull complete
-81363d180da7: Pull complete
-41deb2933f7e: Pull complete
-Digest: sha256:654e9aeba815c95c85fb2ea72d1a978bce14522e64386c4e541b6b29f4fec069
-Status: Downloaded newer image for minio/minio:latest
-70fea801c805e7ae288475ab3ccc2c7dcdc5fadd6211279c60fdcdb930943f3f
-```
-
-```shell
 ❯ docker logs minio
 Formatting 1st pool, 1 set(s), 1 drives per set.
 WARNING: Host local has more than 0 drives of set. A host failure will result in data becoming unavailable.

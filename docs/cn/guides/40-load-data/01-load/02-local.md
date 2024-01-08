@@ -22,7 +22,7 @@ Readings in Database Systems,Michael Stonebraker,2004
 ### 步骤 1. 创建数据库和表
 
 ```shell
-eric@macdeMBP Documents % bendsql
+❯ bendsql
 root@localhost:8000/default> CREATE DATABASE book_db;
 
 root@localhost:8000/default> USE book_db;
@@ -46,8 +46,12 @@ CREATE TABLE books (
 使用以下命令发送加载数据请求：
 
 ```shell
-eric@macdeMBP Documents % bendsql --query='INSERT INTO book_db.books VALUES;' --format=csv --data=@books.csv
+❯ bendsql --query='INSERT INTO book_db.books VALUES;' --format=csv --data=@books.csv
 ```
+
+:::note
+确保您能够直接从本地 BendSQL 连接到 Databend 后端对象存储。如果不能，请使用 `--set presigned_url_disabled=1` 选项禁用预签名URL功能。
+:::
 
 ### 步骤 3. 验证加载的数据
 
@@ -98,7 +102,7 @@ CREATE TABLE bookcomments (
 使用以下命令发送加载数据请求：
 
 ```shell
-eric@macdeMBP Documents % bendsql --query='INSERT INTO book_db.bookcomments(title,author,date) VALUES;' --format=csv --data=@books.csv
+❯ bendsql --query='INSERT INTO book_db.bookcomments(title,author,date) VALUES;' --format=csv --data=@books.csv
 ```
 
 请注意，上面的`query`部分指定了列（title, author, 和 date）以匹配加载的数据。
