@@ -6,10 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.275"/>
 
-Grants ownership of a specific database objects, such as tables, stages, or user-defined functions, to a specified role. 
-
-- Ownership cannot be granted for tables in the `default` database, as it is owned by the built-in role `account_admin`.
-- Granting ownership to the built-in role `public` is not supported for security reasons.
+Grants ownership of a specific database objects, such as tables, stages, or user-defined functions, to a specified role. For more information about managing ownership, see [Managing Ownership](/guides/security/access-control#managing-ownership).
 
 See also: [REVOKE OWNERSHIP](24-revoke-ownership.md)
 
