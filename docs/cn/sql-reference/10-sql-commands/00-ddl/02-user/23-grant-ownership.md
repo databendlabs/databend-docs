@@ -17,7 +17,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 -- 授予某个数据库中特定表的所有权给一个角色
 GRANT OWNERSHIP ON <database_name>.<table_name> TO ROLE '<role_name>'
 
--- 授予一个Stage的所有权给一个角色
+-- 授予一个 Stage 的所有权给一个角色
 GRANT OWNERSHIP ON STAGE <stage_name> TO ROLE '<role_name>'
 
 -- 授予一个用户定义函数（UDF）的所有权给一个角色
