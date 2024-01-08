@@ -7,7 +7,7 @@ slug: whystage
 
 Databend 提供了三种不同类型的 Stage：用户 Stage（User stage）、内部 Stage（Internal stage）和外部 Stage（External stage）。
 
-### 用户 Stage {/_user-stage_/}
+### 用户 Stage {#user-stage}
 
 在 Databend 中，每个用户都有一个默认的 Stage，称为用户 Stage。当您将数据文件存储在用户 Stage 时，它们实际上是保存在对象存储上您的存储桶中。例如，如果您在 Amazon S3 上的存储桶是 "databend-toronto"，如下所配置：
 
@@ -39,7 +39,7 @@ LIST @~;
 REMOVE @~;
 ```
 
-### 内部 Stage {/_internal-stage_/}
+### 内部 Stage {#internal-stage}
 
 在 Databend 中，内部 Stage 将数据文件存储在 databend-query.toml 中指定的存储后端。例如，如果您在 Amazon S3 上的存储桶是 "databend-toronto"，如下所配置：
 
@@ -57,7 +57,7 @@ bucket = "databend-toronto"
 
 与自动为每个用户创建且无法修改的用户 Stage 不同，内部 Stage 可以由用户创建，并提供更多对数据加载和访问的控制。拥有适当权限的其他用户可以访问内部 Stage 中的 Stage 数据文件，并将它们加载到表中。
 
-### 外部 Stage {/_external-stage_/}
+### 外部 Stage {#external-stage}
 
 Databend 中的外部 Stage 将数据文件存储在 databend-query.toml 中指定的存储后端之外。当您使用 [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令创建外部 Stage 时，您需要指定存储数据文件的 Stage 位置。数据可以存储在云存储服务上，如 AWS S3 和 Google Cloud Storage。
 
