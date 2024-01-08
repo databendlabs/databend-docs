@@ -64,6 +64,8 @@ import java.sql.*;
 import java.util.Properties;
 
 public class demo {
+    // 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。
+    // 在保持相同格式的条件下，您可以随意使用自己的值。
     static final String DB_URL = "jdbc:databend://127.0.0.1:8000";
 
     public static void main(String[] args) throws Exception {

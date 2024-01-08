@@ -82,6 +82,8 @@ pip install databend-py
 ```python title='main.py'
 from databend_py import Client
 
+# 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。
+# 在保持相同格式的条件下，您可以随意使用自己的值。
 # 设置 secure=False 表示客户端将通过HTTP而不是HTTPS连接到Databend。
 client = Client('user1:abc123@127.0.0.1', port=8000, secure=False)
 client.execute("CREATE DATABASE IF NOT EXISTS bookstore")
@@ -121,6 +123,8 @@ pip install databend-sqlalchemy
 ```python title='main.py'
 from databend_sqlalchemy import connector
 
+# 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。
+# 在保持相同格式的条件下，您可以随意使用自己的值。
 conn = connector.connect(f"http://user1:abc123@127.0.0.1:8000").cursor()
 conn.execute("CREATE DATABASE IF NOT EXISTS bookstore")
 conn.execute("USE bookstore")
@@ -160,6 +164,8 @@ pip install databend-sqlalchemy
 ```python title='main.py'
 from sqlalchemy import create_engine, text
 
+# 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。
+# 在保持相同格式的条件下，您可以随意使用自己的值。
 # 设置 secure=False 表示客户端将通过HTTP而不是HTTPS连接到Databend。
 engine = create_engine("databend://user1:abc123@127.0.0.1:8000/default?secure=False")
 
