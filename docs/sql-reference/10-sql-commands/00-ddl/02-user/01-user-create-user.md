@@ -11,8 +11,7 @@ Creates a SQL user, providing details such as the user's name, authentication ty
 See also:
 
  - [CREATE NETWORK POLICY](../12-network-policy/ddl-create-policy.md)
- - [GRANT PRIVILEGES TO USER](./10-grant-privileges.md)
- - [GRANT ROLE TO USER](./20-grant-role.md)
+ - [GRANT](10-grant.md)
 
 ## Syntax
 

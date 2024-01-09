@@ -26,8 +26,8 @@ Databend offers varying levels of privileges for different types of data objects
 
 To manage privileges for a user or a role, use the following commands:
 
-- [GRANT privileges](/sql/sql-commands/ddl/user/grant-privileges)
-- [REVOKE privileges](/sql/sql-commands/ddl/user/revoke-privileges)
+- [GRANT](/sql/sql-commands/ddl/user/grant)
+- [REVOKE](/sql/sql-commands/ddl/user/revoke)
 - [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
 
 ## Managing Roles
@@ -41,8 +41,8 @@ When working with Databend, create user roles as needed. To manage user roles, u
 - [CREATE ROLE](/sql/sql-commands/ddl/user/user-create-role)
 - [SET ROLE](/sql/sql-commands/ddl/user/user-set-role)
 - [SHOW ROLES](/sql/sql-commands/ddl/user/user-show-roles)
-- [GRANT ROLE](/sql/sql-commands/ddl/user/grant-role)
-- [REVOKE ROLE](/sql/sql-commands/ddl/user/revoke-role)
+- [GRANT](/sql/sql-commands/ddl/user/grant)
+- [REVOKE](/sql/sql-commands/ddl/user/revoke)
 
 ### Inheriting Roles & Establishing Hierarchy
 
@@ -79,5 +79,5 @@ Ownership is a specialized privilege that signifies the exclusive rights and res
 
 To manage ownership, use the following commands:
 
-- [GRANT OWNERSHIP](/sql/sql-commands/ddl/user/grant-ownership)
-- [REVOKE OWNERSHIP](/sql/sql-commands/ddl/user/revoke-ownership)
+- [GRANT](/sql/sql-commands/ddl/user/grant)
+- [REVOKE](/sql/sql-commands/ddl/user/revoke)
