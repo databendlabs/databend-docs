@@ -67,6 +67,7 @@ When a user is granted multiple roles, you can use the [CREATE USER](/sql/sql-co
 
 - Users have the flexibility to switch to other roles within a session using the [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) command.
 - A user can examine their current role and view all the roles granted to them by using the [SHOW ROLES](/sql/sql-commands/ddl/user/user-show-roles) command.
+- If you don't explicitly set a default role for a user, Databend will default to using the built-in role `public` as the default role.
 
 ## Managing Ownership
 
