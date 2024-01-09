@@ -6,9 +6,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.30"/>
 
-Create a new user account in Databend, specifying the user's name, authentication type, password, and [network policy](../12-network-policy/index.md). 
+Creates a SQL user, providing details such as the user's name, authentication type, and password. Optionally, you may specify a [network policy](../12-network-policy/index.md) and set a [default role](/guides/security/access-control#setting-default-role) for the user.
 
 See also:
+
  - [CREATE NETWORK POLICY](../12-network-policy/ddl-create-policy.md)
  - [GRANT PRIVILEGES TO USER](./10-grant-privileges.md)
  - [GRANT ROLE TO USER](./20-grant-role.md)
@@ -16,26 +17,18 @@ See also:
 ## Syntax
 
 ```sql
-CREATE USER <name> IDENTIFIED [WITH auth_type ] BY '<password>' [WITH SET NETWORK POLICY='<network_policy>']
+CREATE USER <name> IDENTIFIED [WITH <auth_type> ] BY '<password>' 
+[WITH SET NETWORK POLICY='<network_policy>'] -- Set network policy
+[WITH DEFAULT_ROLE='<role_name>'] -- Set default role
 ```
 
-*auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
+- *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
+- When you set a default role for a user using CREATE USER or [ALTER USER](03-user-alter-user.md), Databend does not verify the role's existence or automatically grant the role to the user. You must explicitly grant the role to the user for the role to take effect.
 
-:::tip
-
-In order to make MySQL client/drivers existing tools easy to connect to Databend, we support two authentication plugins which is same as MySQL server did:
-* double_sha1_password
-   * mysql_native_password is one of MySQL authentication plugin(long time ago), this plugin uses double_sha1_password to store the password(SHA1(SHA1(password)).
-    
-* sha256_password
-  * caching_sha2_password is a new default authentication plugin starting with MySQL-8.0.4, it uses sha256 to transform the password.
-
-For more information about MySQL authentication plugins, see [A Tale of Two Password Authentication Plugins](https://dev.mysql.com/blog-archive/a-tale-of-two-password-authentication-plugins/).
-:::
 
 ## Examples
 
-### Creating User with Default auth_type
+### Example 1: Creating User with Default auth_type
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
@@ -48,7 +41,7 @@ SHOW USERS;
 +-----------+----------+----------------------+---------------+
 ```
 
-### Creating User with sha256_password auth_type
+### Example 2: Creating User with sha256_password auth_type
 
 ```sql
 CREATE USER user1 IDENTIFIED WITH sha256_password BY 'abc123';
@@ -61,7 +54,7 @@ SHOW USERS;
 +-----------+----------+----------------------+---------------+
 ```
 
-### Creating User with Network Policy
+### Example 3: Creating User with Network Policy
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123' WITH SET NETWORK POLICY='test_policy';
@@ -72,4 +65,47 @@ SHOW USERS;
 +-----------+----------+----------------------+---------------+
 | user1     | %        | double_sha1_password | NO            |
 +-----------+----------+----------------------+---------------+
+```
+
+### Example 4: Creating User with Default Role
+
+1. Create a user named 'user1' with the default role set to 'manager':
+
+```sql title='Connect as user "root":'
+SHOW ROLES;
+
+┌───────────────────────────────────────────────────────────┐
+│      name     │ inherited_roles │ is_current │ is_default │
+│     String    │      UInt64     │   Boolean  │   Boolean  │
+├───────────────┼─────────────────┼────────────┼────────────┤
+│ account_admin │               0 │ true       │ true       │
+│ developer     │               0 │ false      │ false      │
+│ public        │               0 │ false      │ false      │
+└───────────────────────────────────────────────────────────┘
+
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'manager';
+
+GRANT ROLE developer TO user1;
+```
+
+2. Verify the default role of user "user1" using the [SHOW ROLES](04-user-show-roles.md) command:
+
+```sql title='Connect as user "user1":'
+eric@Erics-iMac ~ % bendsql --user user1 --password abc123
+Welcome to BendSQL 0.9.3-db6b232(2023-10-26T12:36:55.578667000Z).
+Connecting to localhost:8000 as user user1.
+Connected to DatabendQuery v1.2.271-nightly-0598a77b9c(rust-1.75.0-nightly-2023-12-26T11:29:04.266265000Z)
+
+user1@localhost:8000/default> SHOW ROLES;
+
+SHOW ROLES
+
+┌───────────────────────────────────────────────────────┐
+│    name   │ inherited_roles │ is_current │ is_default │
+│   String  │      UInt64     │   Boolean  │   Boolean  │
+├───────────┼─────────────────┼────────────┼────────────┤
+│ developer │               0 │ true       │ true       │
+│ public    │               0 │ false      │ false      │
+└───────────────────────────────────────────────────────┘
+2 rows read in 0.015 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
 ```
