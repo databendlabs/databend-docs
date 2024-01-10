@@ -11,7 +11,7 @@ Displays a list of all existing password policies in Databend.
 ## Syntax
 
 ```sql
-SHOW PASSWORD POLICIES
+SHOW PASSWORD POLICIES [LIKE '<pattern>']
 ```
 
 ## Examples
