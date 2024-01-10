@@ -46,4 +46,14 @@ For detailed descriptions of the password policy attributes, see [Password Polic
 
 ## Examples
 
+This example creates a password policy named 'SecureLogin' with a minimum password length requirement set to 10 characters, later updated to allow passwords between 10 and 16 characters:
 
+```sql
+CREATE PASSWORD POLICY SecureLogin
+    PASSWORD_MIN_LENGTH = 10;
+
+
+ALTER PASSWORD POLICY SecureLogin SET
+    PASSWORD_MIN_LENGTH = 10
+    PASSWORD_MAX_LENGTH = 16;
+```

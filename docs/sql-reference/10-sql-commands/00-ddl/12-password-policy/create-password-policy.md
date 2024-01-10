@@ -46,3 +46,9 @@ This table summarizes essential parameters for a password policy, covering aspec
 
 ## Examples
 
+This example creates a password policy named 'SecureLogin' with a minimum password length requirement set to 10 characters:
+
+```sql
+CREATE PASSWORD POLICY SecureLogin
+    PASSWORD_MIN_LENGTH = 10;
+```

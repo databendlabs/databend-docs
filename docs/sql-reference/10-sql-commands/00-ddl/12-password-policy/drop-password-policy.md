@@ -14,3 +14,10 @@ DROP PASSWORD POLICY [IF EXISTS] <policy_name>
 ```
 
 ## Examples
+
+```sql
+CREATE PASSWORD POLICY SecureLogin
+    PASSWORD_MIN_LENGTH = 10;
+
+DROP PASSWORD POLICY SecureLogin;
+```
