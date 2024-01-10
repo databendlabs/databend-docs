@@ -12,7 +12,7 @@ Modifies an existing network policy in Databend.
 ## Syntax
 
 ```sql
-ALTER NETWORK POLICY [IF EXISTS] policy_name
+ALTER NETWORK POLICY [IF EXISTS] <policy_name>
     SET [ALLOWED_IP_LIST=('allowed_ip1', 'allowed_ip2', ...)]
     [BLOCKED_IP_LIST=('blocked_ip1', 'blocked_ip2', ...)]
     [COMMENT='comment']
