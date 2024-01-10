@@ -23,6 +23,8 @@ const REG = /https:\/\/github\.com\/datafuselabs\/databend\/pull\/(\d+)/g;
 const REG_BENDSQL = /https:\/\/github\.com\/datafuselabs\/bendsql\/pull\/(\d+)/g;
 const REPLACE_TEXT = '[#$1](https://github.com/datafuselabs/databend/pull/$1)';
 const REPLACE_TEXT_BENS_SQL = '[#$1](https://github.com/datafuselabs/bendsql/pull/$1)';
+const PARTTERN = /https:\/\/github\.com\/datafuselabs\/databend\/compare\/.*(\n|$)/;
+const PARTTERN_BENDSQL = /https:\/\/github\.com\/datafuselabs\/bendsql\/compare\/.*(\n|$)/;
 
 module.exports = function fetchDatabendReleasesPlugin() {
   return {
@@ -79,6 +81,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
                   browser_download_url: downloadUrl
                 }
               });
+          const tagURL = `https://github.com/datafuselabs/databend/releases/tag/${release?.tag_name}`;
           return {
             ...release,
             tag_name: release?.tag_name,
@@ -88,6 +91,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
               .replace(IGNORE_TEXT, '')
               .replace(REG, REPLACE_TEXT)
               .replace(/\@[\w\-]+/g, '**$&**')
+              .replace(PARTTERN, tagURL + '$1')
           }
         });
         // name match list
@@ -135,12 +139,14 @@ module.exports = function fetchDatabendReleasesPlugin() {
             .sort((system, systemOther) => system.isWindows - systemOther.isWindows)
             .sort((systemLinux, systemMac) => systemMac.isUbuntu - systemLinux.isUbuntu)
             .sort((systemLinux, systemMac) => systemMac.isApple - systemLinux.isApple);
+            const tagURL = `https://github.com/datafuselabs/bendsql/releases/tag/${bendsqlRecource?.name}`;
           return {
             ...bendsqlRecource,
             filterBody: bendsqlRecource.body
               .replace(IGNORE_TEXT, '')
               .replace(REG_BENDSQL, REPLACE_TEXT_BENS_SQL)
-              .replace(/\@[\w\-]+/g, '**$&**'),
+              .replace(/\@[\w\-]+/g, '**$&**')
+              .replace(PARTTERN_BENDSQL, tagURL + '$1'),
             assets: filterAsstets
           }
         }
