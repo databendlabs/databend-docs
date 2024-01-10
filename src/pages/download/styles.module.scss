@@ -48,6 +48,14 @@
       padding-left: 16px;
       overflow-y: auto;
       color: var(--color-text-0);
+      &::-webkit-scrollbar-thumb {
+        background-color: darkgrey; 
+        border-radius: 6px; 
+        border: 3px solid var(--color-fill-1); 
+      }  
+      &::-webkit-scrollbar {
+        width: 6px;
+      }    
       h2, h3{
         font-size: 14px;
         margin-bottom: 12px;
