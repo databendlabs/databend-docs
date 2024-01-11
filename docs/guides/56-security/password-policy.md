@@ -38,4 +38,40 @@ Databend offers a range of commands for managing password policies. For more det
 
 ## Usage Examples
 
+This example establishes two password policies: 'DBA' for admin users and 'ReadOnlyUser' for general users who only have SELECT privileges.
 
+```sql
+-- Create the 'DBA' password policy with customized length and retry settings. Other settings will use default values.
+CREATE PASSWORD POLICY DBA
+    PASSWORD_MIN_LENGTH = 10
+    PASSWORD_MAX_LENGTH = 16
+    PASSWORD_MAX_RETRIES = 3;
+
+-- Create the 'ReadOnlyUser' password policy with default values for all settings.
+CREATE PASSWORD POLICY ReadOnlyUser;
+
+SHOW PASSWORD POLICIES;
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│     name     │ comment │                                                                                                 options                                                                                                 │
+├──────────────┼─────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ DBA          │         │ MIN_LENGTH=10, MAX_LENGTH=16, MIN_UPPER_CASE_CHARS=1, MIN_LOWER_CASE_CHARS=1, MIN_NUMERIC_CHARS=1, MIN_SPECIAL_CHARS=0, MIN_AGE_DAYS=0, MAX_AGE_DAYS=90, MAX_RETRIES=3, LOCKOUT_TIME_MINS=15, HISTORY=0 │
+│ ReadOnlyUser │         │ MIN_LENGTH=8, MAX_LENGTH=256, MIN_UPPER_CASE_CHARS=1, MIN_LOWER_CASE_CHARS=1, MIN_NUMERIC_CHARS=1, MIN_SPECIAL_CHARS=0, MIN_AGE_DAYS=0, MAX_AGE_DAYS=90, MAX_RETRIES=5, LOCKOUT_TIME_MINS=15, HISTORY=0 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+Imagine you already have a DBA user named 'eric' and apply the DBA password policy to that user using the [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) command:
+
+```sql
+-- Apply 'DBA' password policy to the user 'eric'
+ALTER USER eric WITH SET PASSWORD POLICY = 'DBA';
+```
+
+Now, let's create a new user named 'frank' and apply the 'ReadOnlyUser' password policy using the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command:
+
+```sql
+-- Note: The password 'Abc12345' set for the user 'frank' must adhere to the constraints
+-- defined by the associated 'ReadOnlyUser' password policy in the following SQL statement.
+CREATE USER frank IDENTIFIED BY 'Abc12345'
+    WITH SET PASSWORD POLICY = 'ReadOnlyUser';
+```
