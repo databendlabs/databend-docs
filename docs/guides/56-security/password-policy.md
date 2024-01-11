@@ -70,8 +70,8 @@ ALTER USER eric WITH SET PASSWORD POLICY = 'DBA';
 Now, let's create a new user named 'frank' and apply the 'ReadOnlyUser' password policy using the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command:
 
 ```sql
--- Note: The password 'Abc12345' set for the user 'frank' must adhere to the constraints
--- defined by the associated 'ReadOnlyUser' password policy in the following SQL statement.
+-- Note: The password set for the user 'frank' must adhere to the constraints
+-- defined by the associated 'ReadOnlyUser' password policy.
 CREATE USER frank IDENTIFIED BY 'Abc12345'
     WITH SET PASSWORD POLICY = 'ReadOnlyUser';
 ```
