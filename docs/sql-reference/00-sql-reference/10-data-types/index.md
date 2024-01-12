@@ -207,11 +207,11 @@ This table provides an outline of the mapping of data types between Databend, My
 | YEAR          | INT       | NUMBER       |
 | VARCHAR       | VARCHAR   | VARCHAR2     |
 | VARCHAR       | CHAR      | CHAR         |
-| VARBINARY     | VARBINARY | RAW,BLOB     |
+| VARBINARY     | VARBINARY | RAW, BLOB    |
 | VARCHAR       | VARCHAR   | VARCHAR2     |
-| VARCHAR       | VARCHAR   | RAW,CBLOB    |
-| VARBINARY     | VARBINARY | RAW,BLOB     |
-| VARCHAR       | VARCHAR   | RAW,CBLOB    |
+| VARCHAR       | VARCHAR   | RAW, CBLOB   |
+| VARBINARY     | VARBINARY | RAW, BLOB    |
+| VARCHAR       | VARCHAR   | RAW, CBLOB   |
 | VARCHAR       | VARCHAR   | VARCHAR2     |
 | VARCHAR       | VARCHAR   | VARCHAR2     |
 | ARRAY         | N/A       | N/A          |
