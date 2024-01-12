@@ -1,21 +1,21 @@
 ---
-title: DROP NETWORK POLICY
+title: 删除网络策略
 sidebar_position: 5
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.26"/>
+<FunctionDescription description="引入或更新版本：v1.2.26"/>
 
-Deletes an existing network policy from Databend. When you drop a network policy, it is removed from Databend, and its associated rules for allowed and blocked IP address lists are no longer in effect. Please note that, before dropping a network policy, ensure that this policy is not associated with any users.
+从Databend中删除现有的网络策略。当你删除一个网络策略时，它将从Databend中移除，并且其关联的允许和阻止的IP地址列表规则将不再生效。请注意，在删除网络策略之前，确保没有任何用户与此策略关联。
 
-## Syntax
+## 语法
 
 ```sql
-DROP NETWORK POLICY [IF EXISTS] policy_name
+DROP NETWORK POLICY [IF EXISTS] <policy_name>
 ```
 
-## Examples
+## 示例
 
 ```sql
 DROP NETWORK POLICY test_policy
