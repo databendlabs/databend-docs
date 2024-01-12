@@ -4,12 +4,13 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.30"/>
+<FunctionDescription description="Introduced or updated: v1.2.283"/>
 
 Modifies a user account, including:
 
 - Changing the user's password and authentication type.
-- Setting or unsetting a [network policy](../12-network-policy/index.md).
+- Setting or unsetting a password policy.
+- Setting or unsetting a network policy.
 - Setting or modifying the default role. If it is not explicitly set, Databend will default to using the built-in role `public` as the default role.
 
 ## Syntax
@@ -18,8 +19,14 @@ Modifies a user account, including:
 -- Modify password / authentication type
 ALTER USER <name> IDENTIFIED [WITH auth_type ] BY '<password>'
 
+-- Set password policy
+ALTER USER <name> WITH SET PASSWORD POLICY = '<policy_name>'
+
+-- Unset password policy
+ALTER USER <name> WITH UNSET PASSWORD POLICY
+
 -- Set network policy
-ALTER USER <name> WITH SET NETWORK POLICY='<network_policy>'
+ALTER USER <name> WITH SET NETWORK POLICY = '<policy_name>'
 
 -- Unset network policy
 ALTER USER <name> WITH UNSET NETWORK POLICY

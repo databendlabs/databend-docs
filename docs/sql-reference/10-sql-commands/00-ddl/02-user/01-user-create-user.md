@@ -4,12 +4,13 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.30"/>
+<FunctionDescription description="Introduced or updated: v1.2.283"/>
 
-Creates a SQL user, providing details such as the user's name, authentication type, and password. Optionally, you may specify a [network policy](../12-network-policy/index.md) and set a [default role](/guides/security/access-control#setting-default-role) for the user.
+Creates a SQL user, providing details such as the user's name, authentication type, and password. Optionally, you may set a password policy, network policy, and default role for the user.
 
 See also:
 
+ - [CREATE PASSWORD POLICY](../12-password-policy/create-password-policy.md)
  - [CREATE NETWORK POLICY](../12-network-policy/ddl-create-policy.md)
  - [GRANT](10-grant.md)
 
@@ -17,13 +18,13 @@ See also:
 
 ```sql
 CREATE USER <name> IDENTIFIED [WITH <auth_type> ] BY '<password>' 
-[WITH SET NETWORK POLICY='<network_policy>'] -- Set network policy
-[WITH DEFAULT_ROLE='<role_name>'] -- Set default role
+[WITH SET PASSWORD POLICY = '<policy_name>'] -- Set password policy
+[WITH SET NETWORK POLICY = '<policy_name>'] -- Set network policy
+[WITH DEFAULT_ROLE = '<role_name>'] -- Set default role
 ```
 
 - *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
 - When you set a default role for a user using CREATE USER or [ALTER USER](03-user-alter-user.md), Databend does not verify the role's existence or automatically grant the role to the user. You must explicitly grant the role to the user for the role to take effect.
-
 
 ## Examples
 

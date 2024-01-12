@@ -12,7 +12,7 @@ Deletes an existing network policy from Databend. When you drop a network policy
 ## Syntax
 
 ```sql
-DROP NETWORK POLICY [IF EXISTS] policy_name
+DROP NETWORK POLICY [IF EXISTS] <policy_name>
 ```
 
 ## Examples
