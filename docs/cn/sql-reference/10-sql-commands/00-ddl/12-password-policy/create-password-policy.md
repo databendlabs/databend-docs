@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.283"/>
+<FunctionDescription description="Introduced or updated: v1.2.283"/>
 
 在Databend中创建一个新的密码策略。
 

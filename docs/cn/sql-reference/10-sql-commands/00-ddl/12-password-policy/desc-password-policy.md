@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.283"/>
+<FunctionDescription description="Introduced or updated: v1.2.283"/>
 
 显示 Databend 中特定密码策略的详细信息。有关密码策略属性的详细描述，请参见[密码策略属性](create-password-policy.md#password-policy-attributes)。
 

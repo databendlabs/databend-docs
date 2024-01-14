@@ -5,7 +5,7 @@ sidebar_position: 3
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.26"/>
+<FunctionDescription description="Introduced or updated: v1.2.26"/>
 
 修改Databend中现有的网络策略。
 
