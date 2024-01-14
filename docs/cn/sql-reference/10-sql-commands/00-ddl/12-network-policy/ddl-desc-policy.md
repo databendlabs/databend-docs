@@ -7,15 +7,15 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.26"/>
 
-Displays detailed information about a specific network policy in Databend. It provides information about the allowed and blocked IP address lists associated with the policy and the comment, if any, that describes the purpose or function of the policy.
+显示 Databend 中特定网络策略的详细信息。它提供了与策略关联的允许和阻止的 IP 地址列表信息，以及描述策略目的或功能的注释（如果有的话）。
 
-## Syntax
+## 语法
 
 ```sql
-DESC NETWORK POLICY policy_name
+DESC NETWORK POLICY <policy_name>
 ```
 
-## Examples
+## 示例
 
 ```sql
 DESC NETWORK POLICY test_policy;
