@@ -19,7 +19,23 @@ npm install --save databend-driver
 - Node.js 必须已经安装在您想要安装驱动程序的环境上。
 - 确保您可以运行`node`和`npm`命令。
 - 根据您的环境，您可能需要 sudo 权限来安装驱动程序。
-:::
+  :::
+
+## Databend Node.js 驱动行为总结
+
+作为 Rust 驱动的绑定，Node.js 驱动提供了与 Rust 驱动类似的功能，具有同名函数具有相同的逻辑和能力。
+
+下面的表格总结了 Node.js 驱动的主要行为和功能及其用途：
+
+| 函数名称         | 描述                                                                                                                  |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `info`           | 返回客户端的连接信息。                                                                                                |
+| `version`        | 返回执行 `SELECT VERSION()` 语句的结果。                                                                              |
+| `exec`           | 执行一个 SQL 语句并返回受影响的行数。                                                                                 |
+| `query_iter`     | 执行一个 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                                 |
+| `query_iter_ext` | 执行一个 SQL 查询并返回一个包含结果统计信息的迭代器。                                                                 |
+| `query_row`      | 执行一个 SQL 查询并返回单行结果。                                                                                     |
+| `stream_load`    | 上传数据到内置 Stage（`upload_to_stage`）并执行插入/替换操作，使用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
 
 ## 教程-1：使用 Node.js 与 Databend 集成
 
