@@ -6,7 +6,7 @@ title: 常见问题解答
 
 下图展示了 Databend 对象在两个层次上的层次结构。为每种类型的对象设计了细粒度的权限和所有权，提供了灵活性。更多信息，请参见[访问控制](../56-security/access-control.md)。
 
-![Alt text](../../public/img/guides/faq1.png)
+![Alt text](/img/guides/faq1.png)
 
 ### Q2: 如何在 Databend 中创建表？
 
