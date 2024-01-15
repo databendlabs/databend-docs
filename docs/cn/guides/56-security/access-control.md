@@ -26,8 +26,8 @@ Databend 为不同类型的数据对象提供了不同级别的权限，允许�
 
 要管理用户或角色的权限，请使用以下命令：
 
-- [GRANT 权限](/sql/sql-commands/ddl/user/grant-privileges)
-- [REVOKE 权限](/sql/sql-commands/ddl/user/revoke-privileges)
+- [GRANT 权限](/sql/sql-commands/ddl/user/grant)
+- [REVOKE 权限](/sql/sql-commands/ddl/user/revoke)
 - [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
 
 ## 管理角色
@@ -41,8 +41,8 @@ Databend 为不同类型的数据对象提供了不同级别的权限，允许�
 - [CREATE ROLE](/sql/sql-commands/ddl/user/user-create-role)
 - [SET ROLE](/sql/sql-commands/ddl/user/user-set-role)
 - [SHOW ROLES](/sql/sql-commands/ddl/user/user-show-roles)
-- [GRANT ROLE](/sql/sql-commands/ddl/user/grant-role)
-- [REVOKE ROLE](/sql/sql-commands/ddl/user/revoke-role)
+- [GRANT ROLE](/sql/sql-commands/ddl/user/grant)
+- [REVOKE ROLE](/sql/sql-commands/ddl/user/revoke)
 
 ### 继承角色 & 建立层级
 
@@ -78,5 +78,5 @@ Databend 引入了两个内置角色：
 
 要管理所有权，请使用以下命令：
 
-- [GRANT OWNERSHIP](/sql/sql-commands/ddl/user/grant-ownership)
-- [REVOKE OWNERSHIP](/sql/sql-commands/ddl/user/revoke-ownership)
+- [GRANT OWNERSHIP](/sql/sql-commands/ddl/user/grant)
+- [REVOKE OWNERSHIP](/sql/sql-commands/ddl/user/revoke)
