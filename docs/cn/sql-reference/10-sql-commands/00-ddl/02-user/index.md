@@ -14,8 +14,8 @@ title: 用户与角色
 
 ## 权限管理：
 
-- [授权 GRANT privileges](10-grant-privileges.md)
-- [撤销权限 REVOKE privileges](11-revoke-privileges.md)
+- [授权 GRANT privileges](10-grant.md)
+- [撤销权限 REVOKE privileges](11-revoke.md)
 - [授予角色 GRANT ROLE](20-grant-role.md)
 - [撤销角色 REVOKE ROLE](21-revoke-role.md)
 - [授予所有权 GRANT OWNERSHIP](23-grant-ownership.md)
