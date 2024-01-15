@@ -5,7 +5,6 @@ title: Python
 Databend offers the following Python packages enabling you to develop Python applications that interact with Databend:
 
 - [databend-py](https://github.com/databendcloud/databend-py): Provides a direct interface to the Databend database. It allows you to perform standard Databend operations such as user login, database and table creation, data insertion/loading, and querying.
-
 - [databend-sqlalchemy](https://github.com/databendcloud/databend-sqlalchemy): Provides a SQL toolkit and [Object-Relational Mapping](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) to interface with the Databend database. [SQLAlchemy](https://www.sqlalchemy.org/) is a popular SQL toolkit and ORM for Python, and databend-SQLAlchemy is a dialect for SQLAlchemy that allows you to use SQLAlchemy to interact with Databend.
 
 Both packages require Python version 3.5 or higher. To check your Python version, run `python --version` in your command prompt. To install the latest `databend-py` or `databend-sqlalchemy` package:
@@ -17,6 +16,25 @@ pip install databend-py
 # install databend-sqlalchemy
 pip install databend-sqlalchemy
 ```
+
+## Databend Python Drivers Behavior Summary
+
+### databend-py
+
+The databend-py Driver offer similar functionalities as a binding of the Rust Driver, with identically named functions having the same logic and capabilities.
+
+The table below summarizes the main behaviors and functions of the databend-py Driver and their purposes:
+
+| Function Name | Description                                                                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `info`        | Returns the client's connection information.                                                                                                     |
+| `version`     | Returns the result of executing the `SELECT VERSION()` statement.                                                                                |
+| `exec`        | Executes an SQL statement and returns the number of rows affected.                                                                               |
+| `query_iter`  | Executes an SQL query and returns an iterator for processing results row by row.                                                                 |
+| `query_row`   | Executes an SQL query and returns a single row result.                                                                                           |
+| `stream_load` | Uploads data to a built-in Stage (`upload_to_stage`) and executes insert/replace with [stage attachment](/developer/apis/http#stage-attachment). |
+
+---
 
 In the following tutorial, you'll learn how to utilize the packages above to develop your Python applications. The tutorial will walk you through creating a SQL user in Databend and then writing Python code to create a table, insert data, and perform data queries.
 
@@ -106,6 +124,7 @@ client.disconnect()
 ```text
 Readings in Database Systems Michael Stonebraker 2004
 ```
+
 </TabItem>
 
 <TabItem value="databend-sqlalchemy with Object" label="databend-sqlalchemy (Connector)">
@@ -147,6 +166,7 @@ conn.close()
 ```text
 Readings in Database Systems Michael Stonebraker 2004
 ```
+
 </TabItem>
 
 <TabItem value="databend-sqlalchemy with Engine" label="databend-sqlalchemy (Engine)">
@@ -195,6 +215,7 @@ engine.dispose()
 ```text
 Readings in Database Systems Michael Stonebraker 2004
 ```
+
 </TabItem>
 </Tabs>
 

@@ -9,6 +9,24 @@ Databend offers a driver ([crates.io - databend-driver](https://crates.io/crates
 
 For installation instructions, examples, and the source code, see [GitHub - databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver).
 
+## Databend Rust Driver Behavior Summary
+
+The table below summarizes the main behaviors and functions of the Rust Driver and their purposes:
+
+| Function Name       | Description                                                                                                                                      |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `info`              | Returns the client's connection information.                                                                                                     |
+| `version`           | Returns the result of executing the `SELECT VERSION()` statement.                                                                                |
+| `exec`              | Executes an SQL statement and returns the number of rows affected.                                                                               |
+| `query_iter`        | Executes an SQL query and returns an iterator for processing results row by row.                                                                 |
+| `query_iter_ext`    | Executes an SQL query and returns an iterator that includes statistical information about the results.                                           |
+| `query_row`         | Executes an SQL query and returns a single row result.                                                                                           |
+| `get_presigned_url` | Generates a `PRESIGN` statement based on operation and Stage parameters, returning the HTTP method, headers, and URL.                            |
+| `upload_to_stage`   | Uploads data to a Stage. Uses `PRESIGN UPLOAD` by default for URL, or the `v1/upload_to_stage` API if PRESIGN is disabled.                       |
+| `load_data`         | Uploads data to a built-in Stage (`upload_to_stage`) and executes insert/replace with [stage attachment](/developer/apis/http#stage-attachment). |
+| `load_file`         | Reuses the `load_data` logic to upload a file and insert data.                                                                                   |
+| `stream_load`       | Reads data as a Vec, converts it to CSV, then calls the `load_data` method.                                                                      |
+
 ## Tutorial-1: Integrating with Databend using Rust
 
 Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/deploy/deploying-local).
@@ -50,11 +68,9 @@ tokio = { version = "1", features = ["full"] }
 tokio-stream = "0.1.12"
 ```
 
-
 </StepContent>
 
 <StepContent number="2" title="Copy and paste the following code to the file main.rs">
-
 
 :::note
 The value of `hostname` in the code below must align with your HTTP handler settings for Databend query service.
@@ -99,7 +115,6 @@ async fn main() {
 }
 ```
 
-
 </StepContent>
 
 <StepContent number="3" title="Run the program. ">
@@ -115,7 +130,6 @@ mybook author 2022
 </StepContent>
 
 </StepsWrap>
-
 
 ## Tutorial-2: Integrating with Databend Cloud using Rust
 

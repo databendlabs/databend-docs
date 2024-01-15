@@ -287,6 +287,109 @@ response:
 }
 ```
 
+## Stage Attachment
+
+Databend allows you to insert or update data from a staged file into a table by utilizing the `INSERT INTO` or `REPLACE INTO` statement with its HTTP Handler.
+
+### Example: Inserting Data from Staged File
+
+```sql
+create table t_insert_stage(a int null, b int default 2, c float, d varchar default 'd');
+```
+
+Upload `values.csv` to a stage:
+
+```plain title='values.csv'
+1,1.0
+2,2.0
+3,3.0
+4,4.0
+```
+
+```shell title='Request /v1/upload_to_stage' API
+curl -H "stage_name:my_int_stage" -F "upload=@./values.csv" -XPUT http://root:@localhost:8000/v1/upload_to_stage
+```
+
+Insert with the uploaded file:
+
+```shell
+curl -d '{"sql": "insert into t_insert_stage (a, c) values", "stage_attachment": {"location": "@my_int_stage/values.csv", "file_format_options": {}, "copy_options": {}}}' -H 'Content-type: application/json' http://root:@localhost:8000/v1/query
+```
+
+:::tip
+You can specify the file format and various copy-related settings with the FILE_FORMAT and COPY_OPTIONS available in the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command. When `purge` is set to `true`, the original file will only be deleted if the data update is successful.
+:::
+
+Verify the inserted data:
+
+```sql
+select * from t_insert_stage;
++------+------+------+------+
+| a    | b    | c    | d    |
++------+------+------+------+
+|    1 |    2 |  1.0 | d    |
+|    2 |    2 |  2.0 | d    |
+|    3 |    2 |  3.0 | d    |
+|    4 |    2 |  4.0 | d    |
++------+------+------+------+
+```
+
+### Example: Replacing Data with Staged File
+
+First, create a table called "sample":
+
+```sql
+CREATE TABLE sample
+(
+    Id      INT,
+    City    VARCHAR,
+    Score   INT,
+    Country VARCHAR DEFAULT 'China'
+);
+```
+
+Then, create an internal stage and upload a sample CSV file called [sample_3_replace.csv](https://github.com/ZhiHanZ/databend/blob/0f333a13fc38548595ea58242a37c5f4a73e9c88/tests/data/sample_3_replace.csv) to the stage:
+
+```sql
+CREATE STAGE s1 FILE_FORMAT = (TYPE = CSV);
+```
+
+```shell
+curl -u root: -H "stage_name:s1" -F "upload=@sample_3_replace.csv" -XPUT "http://localhost:8000/v1/upload_to_stage"
+{"id":"b8305187-c816-4bb5-8350-c441b85baaf9","stage_name":"s1","state":"SUCCESS","files":["sample_3_replace.csv"]}   
+```
+
+```sql
+LIST @s1;
+name                |size|md5|last_modified                |creator|
+--------------------+----+---+-----------------------------+-------+
+sample_3_replace.csv|  83|   |2023-06-12 03:01:56.522 +0000|       |
+```
+
+Use REPLACE INTO to insert data from the staged CSV file through the HTTP handler:
+
+:::tip
+You can specify the file format and various copy-related settings with the FILE_FORMAT and COPY_OPTIONS available in the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command. When `purge` is set to `true`, the original file will only be deleted if the data update is successful. 
+:::
+
+```shell
+curl -s -u root: -XPOST "http://localhost:8000/v1/query" --header 'Content-Type: application/json' -d '{"sql": "REPLACE INTO sample (Id, City, Score) ON(Id) VALUES", "stage_attachment": {"location": "@s1/sample_3_replace.csv", "copy_options": {"purge": "true"}}}'
+{"id":"92182fc6-11b9-461b-8fbd-f82ecaa637ef","session_id":"f5caf18a-5dc8-422d-80b7-719a6da76039","session":{},"schema":[],"data":[],"state":"Succeeded","error":null,"stats":{"scan_progress":{"rows":5,"bytes":83},"write_progress":{"rows":5,"bytes":277},"result_progress":{"rows":0,"bytes":0},"total_scan":{"rows":0,"bytes":0},"running_time_ms":143.632441},"affect":null,"stats_uri":"/v1/query/92182fc6-11b9-461b-8fbd-f82ecaa637ef","final_uri":"/v1/query/92182fc6-11b9-461b-8fbd-f82ecaa637ef/final","next_uri":"/v1/query/92182fc6-11b9-461b-8fbd-f82ecaa637ef/final","kill_uri":"/v1/query/92182fc6-11b9-461b-8fbd-f82ecaa637ef/kill"}
+```
+
+Verify the inserted data:
+
+```sql
+SELECT * FROM sample;
+id|city       |score|country|
+--+-----------+-----+-------+
+ 1|'Chengdu'  |   80|China  |
+ 3|'Chongqing'|   90|China  |
+ 6|'HangZhou' |   92|China  |
+ 9|'Changsha' |   91|China  |
+10|'Hong Kong'|   88|China  |
+```
+
 ## client implementations
 
 The official client [bendsql](https://github.com/datafuselabs/bendsql) is mainly base on HTTP handler.
