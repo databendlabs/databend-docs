@@ -20,25 +20,6 @@ pip install databend-sqlalchemy
 
 在以下教程中，您将学习如何使用上述包来开发 Python 应用程序。教程将指导您在 Databend 中创建 SQL 用户，然后编写 Python 代码来创建表、插入数据和执行数据查询。
 
-## Databend Python 驱动行为总结
-
-### databend-py
-
-作为 Rust 驱动的绑定，databend-py 驱动提供了与 Rust 驱动类似的功能，具有同名函数具有相同的逻辑和能力。
-
-下面的表格总结了 databend-py 驱动的主要行为和功能及其用途：
-
-| 函数名称         | 描述                                                                                                                           |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `info`           | 返回客户端的连接信息。                                                                                                         |
-| `version`        | 返回执行 `SELECT VERSION()` 语句的结果。                                                                                       |
-| `exec`           | 执行一个 SQL 语句并返回受影响的行数。                                                                                          |
-| `query_iter`     | 执行一个 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                                          |
-| `query_row`      | 执行一个 SQL 查询并返回单行结果。                                                                                              |
-| `stream_load`    | 上传数据到内置 Stage（`upload_to_stage`）并执行插入/替换操作，使用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
-
----
-
 ## 教程-1：使用 Python 与 Databend 集成
 
 在开始之前，请确保您已成功安装了本地 Databend。有关详细说明，请参见[本地和 Docker 部署](/guides/deploy/deploying-local)。

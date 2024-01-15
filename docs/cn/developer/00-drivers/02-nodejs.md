@@ -35,7 +35,7 @@ npm install --save databend-driver
 | `query_iter`     | 执行一个 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                                 |
 | `query_iter_ext` | 执行一个 SQL 查询并返回一个包含结果统计信息的迭代器。                                                                 |
 | `query_row`      | 执行一个 SQL 查询并返回单行结果。                                                                                     |
-| `stream_load`    | 上传数据到内置 Stage（`upload_to_stage`）并执行插入/替换操作，使用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
+| `stream_load`    | 上传数据到内置 Stage 并执行插入/替换操作，使用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
 
 ## 教程-1：使用 Node.js 与 Databend 集成
 
