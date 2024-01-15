@@ -17,25 +17,6 @@ pip install databend-py
 pip install databend-sqlalchemy
 ```
 
-## Databend Python Drivers Behavior Summary
-
-### databend-py
-
-The databend-py Driver offer similar functionalities as a binding of the Rust Driver, with identically named functions having the same logic and capabilities.
-
-The table below summarizes the main behaviors and functions of the databend-py Driver and their purposes:
-
-| Function Name | Description                                                                                                                                      |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `info`        | Returns the client's connection information.                                                                                                     |
-| `version`     | Returns the result of executing the `SELECT VERSION()` statement.                                                                                |
-| `exec`        | Executes an SQL statement and returns the number of rows affected.                                                                               |
-| `query_iter`  | Executes an SQL query and returns an iterator for processing results row by row.                                                                 |
-| `query_row`   | Executes an SQL query and returns a single row result.                                                                                           |
-| `stream_load` | Uploads data to a built-in Stage (`upload_to_stage`) and executes insert/replace with [stage attachment](/developer/apis/http#stage-attachment). |
-
----
-
 In the following tutorial, you'll learn how to utilize the packages above to develop your Python applications. The tutorial will walk you through creating a SQL user in Databend and then writing Python code to create a table, insert data, and perform data queries.
 
 ## Tutorial-1: Integrating with Databend using Python
