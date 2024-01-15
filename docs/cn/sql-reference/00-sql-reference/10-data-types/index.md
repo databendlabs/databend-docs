@@ -187,36 +187,3 @@ INSERT INTO test (id, name) VALUES (1, 'John');
 ```sql
 INSERT INTO test (id, age) VALUES (3, 45);
 ```
-
-## Databend、MySQL 和 Oracle 之间的数据类型映射
-
-此表提供了 Databend、MySQL 和 Oracle 之间数据类型映射的概述。
-
-| Databend      | MySQL     | Oracle       |
-| ------------- | --------- | ------------ |
-| TINYINT       | TINYINT   | NUMBER(3,0)  |
-| SMALLINT      | SMALLINT  | NUMBER(5,0)  |
-| INT           | INT       | NUMBER(10,0) |
-| BIGINT        | BIGINT    | NUMBER(19,0) |
-| FLOAT         | FLOAT     | FLOAT        |
-| DOUBLE        | DOUBLE    | FLOAT(24)    |
-| DECIMAL       | DECIMAL   | FLOAT(24)    |
-| DATE          | DATE      | DATE         |
-| TIMESTAMP     | TIMESTAMP | NUMBER       |
-| DATETIME      | DATETIME  | DATE         |
-| YEAR          | INT       | NUMBER       |
-| VARCHAR       | VARCHAR   | VARCHAR2     |
-| VARCHAR       | CHAR      | CHAR         |
-| VARBINARY     | VARBINARY | RAW, BLOB    |
-| VARCHAR       | VARCHAR   | VARCHAR2     |
-| VARCHAR       | VARCHAR   | RAW, CBLOB   |
-| VARBINARY     | VARBINARY | RAW, BLOB    |
-| VARCHAR       | VARCHAR   | RAW, CBLOB   |
-| VARCHAR       | VARCHAR   | VARCHAR2     |
-| VARCHAR       | VARCHAR   | VARCHAR2     |
-| ARRAY         | 不适用    | 不适用       |
-| BOOLEAN       | 不适用    | 不适用       |
-| TUPLE         | 不适用    | 不适用       |
-| MAP           | 不适用    | 不适用       |
-| JSON, VARIANT | JSON      | JSON         |
-| BITMAP        | 不适用    | 不适用       |
