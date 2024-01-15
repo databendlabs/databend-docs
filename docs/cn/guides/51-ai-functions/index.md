@@ -1,7 +1,6 @@
-```markdown
 ---
-title: 'Databend AI 功能'
-sidebar_label: 'AI 功能'
+title: 'Databend AI 函数'
+sidebar_label: 'AI 函数'
 ---
 
 本指南邀请您探索 Databend 内置函数与机器学习相结合的领域。通过 SQL 查询轻松转换您的数据分析，揭示从理解文档到完成文本等一系列自然语言任务。
@@ -194,5 +193,4 @@ SELECT ai_text_completion((SELECT p FROM prompt)) AS answer;
 +------------------------------------------------------------------------------------------------------------------+
 | Answer: The ai functions mentioned in the Databend documentation are ai_embedding_vector and ai_text_completion. |
 +------------------------------------------------------------------------------------------------------------------+
-```
 ```
