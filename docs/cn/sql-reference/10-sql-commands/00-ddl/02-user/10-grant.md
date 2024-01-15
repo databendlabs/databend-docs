@@ -1,21 +1,34 @@
 ---
-title: 'GRANT <privileges>'
+title: GRANT
 sidebar_position: 9
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Grants one or more access privileges to a user or role. The privileges that can be granted are grouped into the following categories:
-* Privileges for schema objects (databases, tables, views, stages, UDFs)
+<FunctionDescription description="Introduced or updated: v1.2.275"/>
+
+Grants privileges, roles, and ownership of a specific database object. This involves:
+
+- Granting privileges to a user or a role.
+- Granting a role to a user or a role.
+- Granting ownership to a role.
+
+See also:
+
+- [REVOKE](11-revoke.md)
+- [SHOW GRANTS](22-show-grants.md)
 
 ## Syntax
+
+### Granting Privileges
 
 ```sql
 GRANT { 
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
       }
-TO [ROLE <role_name>] [<user>]
+TO [ROLE <role_name>] [<user_name>]
 ```
 
-**Where:**
+Where:
 
 ```sql
 schemaObjectPrivileges ::=
@@ -47,9 +60,32 @@ privileges_level ::=
   | UDF <udf_name>
 ```
 
+### Granting Role
+
+```sql
+-- Grant a role to a user
+GRANT ROLE <role_name> TO <user_name>
+
+-- Grant a role to a role
+GRANT ROLE <role_name> TO ROLE <role_name>
+```
+
+### Granting Ownership
+
+```sql
+-- Grant ownership of a specific table within a database to a role
+GRANT OWNERSHIP ON <database_name>.<table_name> TO ROLE '<role_name>'
+
+-- Grant ownership of a stage to a role
+GRANT OWNERSHIP ON STAGE <stage_name> TO ROLE '<role_name>'
+
+-- Grant ownership of a user-defined function (UDF) to a role
+GRANT OWNERSHIP ON UDF <udf_name> TO ROLE '<role_name>'
+```
+
 ## Examples
 
-### Grant Privileges to a User
+### Example 1: Granting Privileges to a User
 
 Create a user:
 ```sql
@@ -119,8 +155,7 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------------------------------+
 ```
 
-
-### Grant Privileges to a Role
+### Example 2: Granting Privileges to a Role
 
 Grant the `SELECT` privilege on all existing tables in the `mydb` database to the role `role1`:
 
@@ -142,4 +177,60 @@ SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
 | GRANT SELECT ON 'mydb'.* TO 'role1' |
 +-------------------------------------+
+```
+
+### Example 3: Granting a Role to a User
+
+User `user1` grants are:
+```sql
+SHOW GRANTS FOR user1;
++-----------------------------------------+
+| Grants                                  |
++-----------------------------------------+
+| GRANT ALL ON 'default'.* TO 'user1'@'%' |
+| GRANT ALL ON *.* TO 'user1'@'%'         |
++-----------------------------------------+
+```
+
+Role `role1` grants are:
+```sql
+SHOW GRANTS FOR ROLE role1;
++-------------------------------------+
+| Grants                              |
++-------------------------------------+
+| GRANT SELECT ON 'mydb'.* TO 'role1' |
++-------------------------------------+
+```
+
+Grant role `role1` to user `user1`:
+```sql
+ GRANT ROLE role1 TO user1;
+```
+
+Now, user `user1` grants are:
+```sql
+SHOW GRANTS FOR user1;
++-----------------------------------------+
+| Grants                                  |
++-----------------------------------------+
+| GRANT ALL ON 'default'.* TO 'user1'@'%' |
+| GRANT ALL ON *.* TO 'user1'@'%'         |
+| GRANT SELECT ON 'mydb'.* TO 'role1'     |
++-----------------------------------------+
+```
+
+### Example 4: Granting Ownership to a Role
+
+```sql
+-- Grant ownership of all tables in the 'finance_data' database to the role 'data_owner'
+GRANT OWNERSHIP ON finance_data.* TO ROLE 'data_owner';
+
+-- Grant ownership of the table 'transactions' in the 'finance_data' schema to the role 'data_owner'
+GRANT OWNERSHIP ON finance_data.transactions TO ROLE 'data_owner';
+
+-- Grant ownership of the stage 'ingestion_stage' to the role 'data_owner'
+GRANT OWNERSHIP ON STAGE ingestion_stage TO ROLE 'data_owner';
+
+-- Grant ownership of the user-defined function 'calculate_profit' to the role 'data_owner'
+GRANT OWNERSHIP ON UDF calculate_profit TO ROLE 'data_owner';
 ```
