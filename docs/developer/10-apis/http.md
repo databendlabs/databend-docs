@@ -291,7 +291,7 @@ response:
 
 Databend allows you to insert or update data from a staged file into a table by utilizing the `INSERT INTO` or `REPLACE INTO` statement with its HTTP Handler.
 
-### Example for Insert with Staged Files
+### Example: Inserting Data from Staged File
 
 ```sql
 create table t_insert_stage(a int null, b int default 2, c float, d varchar default 'd');
@@ -334,7 +334,7 @@ select * from t_insert_stage;
 +------+------+------+------+
 ```
 
-### Example for Replace with Staged Files
+### Example: Replacing Data with Staged File
 
 First, create a table called "sample":
 

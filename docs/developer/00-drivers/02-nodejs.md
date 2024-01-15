@@ -23,7 +23,7 @@ Before installing the driver, make sure to fulfill the following prerequisites:
 
 ## Databend Node.js Driver Behavior Summary
 
-The Node.JS Driver offer similar functionalities as a binding of the Rust Driver, with identically named functions having the same logic and capabilities.
+The Node.js driver offers similar functionalities as a binding of the Rust Driver, with identically named functions having the same logic and capabilities.
 
 The table below summarizes the main behaviors and functions of the Node.js Driver and their purposes:
 
