@@ -131,7 +131,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH is a boolean option that, when set to true, speci
 
 ### EMPTY_FIELD_AS
 
-Specifies the value that should be used when encountering empty fields, including both `,,` and `,"",` in the CSV data being loaded into the table.
+Specifies the value that should be used when encountering empty fields, including both `,,` and `,"",`, in the CSV data being loaded into the table.
 
 **Available Values**:
 
