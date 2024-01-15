@@ -9,7 +9,7 @@ sidebar_label: 'AI 函数'
 
 Databend 依赖 [Azure OpenAI 服务](https://azure.microsoft.com/en-us/products/ai-services/openai-service) 来获取嵌入和文本完成，这意味着您的数据将被发送到 Azure OpenAI 服务。使用这些功能时请谨慎。
 
-这些功能在 [Databend 云](https://databend.com) 上默认可用，我们使用我们的 Azure OpenAI 密钥。**如果您使用它们，即表示您知晓您的数据将被发送到 Azure OpenAI 服务**，并且您同意 [Azure OpenAI 数据隐私](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy)。
+这些功能在 [Databend Cloud](https://databend.cn) 上默认可用，我们使用我们的 Azure OpenAI 密钥。**如果您使用它们，即表示您知晓您的数据将被发送到 Azure OpenAI 服务**，并且您同意 [Azure OpenAI 数据隐私](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy)。
 
 ## 什么是嵌入？
 
@@ -110,13 +110,13 @@ SELECT ai_text_completion('Python is a versatile programming language widely use
 completion: and machine learning. It is known for its simplicity, readability, and ease of use. Python has a vast collection of libraries and frameworks that make it easy to perform complex tasks such as data analysis, visualization, and machine learning. Some of the popular libraries used in data science include NumPy, Pandas, Matplotlib, and Scikit-learn. Python is also used in web development, game development, and automation. Its popularity and versatility make it a valuable skill for programmers and data scientists.
 ```
 
-您可以在我们的 [Databend 云](https://databend.com) 上体验这些功能，您可以注册免费试用并立即开始使用这些 AI 功能。
+您可以在我们的 [Databend Cloud](https://databend.cn) 上体验这些功能，您可以注册免费试用并立即开始使用这些 AI 功能。
 
 Databend 的 AI 功能旨在易于使用，即使是对机器学习或自然语言处理不熟悉的用户也是如此。有了 Databend，您可以快速轻松地将强大的 AI 功能添加到您的 SQL 查询中，并将您的数据分析提升到一个新的水平。
 
 ## 使用 Databend 构建 AI 问答系统
 
-我们利用 [Databend 云](https://databend.com) 和 AI 功能为我们的文档构建了一个 AI 问答系统。您可以在 https://ask.databend.rs 上试用。
+我们利用 [Databend Cloud](https://databend.cn) 和 AI 功能为我们的文档构建了一个 AI 问答系统。您可以在 https://ask.databend.rs 上试用。
 
 以下是 https://ask.databend.rs 是如何构建的逐步指南：
 
