@@ -4,104 +4,110 @@ sidebar_position: 15
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.131"/>
+<FunctionDescription description="引入或更新版本：v1.2.290"/>
 
-Lists the tables in the current or a specified database.
+列出当前数据库或指定数据库中的表。
 
-## Syntax
+## 语法
 
 ```sql
 SHOW [FULL] TABLES 
-[{FROM | IN} <database_name>] 
-[HISTORY] 
-[LIKE '<pattern>' | WHERE <expr>]
+    [{FROM | IN} <database_name>] 
+    [HISTORY] 
+    [LIKE '<pattern>' | WHERE <expr>]
 ```
 
-| Parameter | Description                                                                                                                 |
-|-----------|-----------------------------------------------------------------------------------------------------------------------------|
-| FULL      | Lists the tables with their property information. See [Examples](#examples) for more details.                               |
-| FROM / IN | Specifies a database. If omitted, the command returns the results from the current database.                                |
-| HISTORY   | If present, the results will include the dropped tables that are still within their retention period (24 hours by default). |
-| LIKE      | Filters the results by the table names using case-sensitive pattern matching.                                                              |
-| WHERE     | Filters the results using an expression in the WHERE clause.                                                                |
+| 参数       | 描述                                                                                                                    |
+|------------|-------------------------------------------------------------------------------------------------------------------------|
+| FULL       | 列出结果时附加额外信息。更多详情请参见[示例](#examples)。                                                              |
+| FROM / IN  | 指定数据库。如果省略，则命令将返回当前数据库中的结果。                                                                 |
+| HISTORY    | 如果存在，结果将包括仍在保留期内（默认为24小时）的已删除表。                                                           |
+| LIKE       | 使用区分大小写的模式匹配来过滤结果。                                                                                   |
+| WHERE      | 使用WHERE子句中的表达式来过滤结果。                                                                                    |
 
-## Examples
+## 示例
 
-The following example lists the names of all tables in the current database (default):
+以下示例列出当前数据库（默认）中所有表的名称：
 
 ```sql
 SHOW TABLES;
 
----
-Tables_in_default|
------------------+
-books            |
-mytable          |
-ontime           |
-products         |
+┌───────────────────┐
+│ Tables_in_default │
+├───────────────────┤
+│ books             │
+│ mytable           │
+│ ontime            │
+│ products          │
+└───────────────────┘
 ```
 
-The following example lists all the tables with their properties information:
+以下示例列出所有表及其附加信息：
 
 ```sql
 SHOW FULL TABLES;
 
----
-tables  |table_type|database|catalog|engine|cluster_by|create_time                  |num_rows|data_size|data_compressed_size|index_size|
---------+----------+--------+-------+------+----------+-----------------------------+--------+---------+--------------------+----------+
-books   |BASE TABLE|default |default|FUSE  |          |2023-09-25 06:40:47.237 +0000|       2|      160|                 579|       713|
-mytable |BASE TABLE|default |default|FUSE  |((a + 1)) |2023-08-28 07:53:05.455 +0000|       5|       40|                 958|      1665|
-ontime  |BASE TABLE|default |default|FUSE  |          |2023-09-19 07:04:06.414 +0000|     199|   147981|               26802|     22961|
-products|BASE TABLE|default |default|FUSE  |          |2023-09-06 07:09:00.619 +0000|       3|       99|                 387|       340|
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  tables  │ table_type │ database │ catalog │       owner      │ engine │ cluster_by │         create_time        │     num_rows     │     data_size    │ data_compressed_size │    index_size    │
+├──────────┼────────────┼──────────┼─────────┼──────────────────┼────────┼────────────┼────────────────────────────┼──────────────────┼──────────────────┼──────────────────────┼──────────────────┤
+│ books    │ BASE TABLE │ default  │ default │ account_admin    │ FUSE   │            │ 2024-01-16 03:53:15.354132 │                0 │                0 │                    0 │                0 │
+│ mytable  │ BASE TABLE │ default  │ default │ account_admin    │ FUSE   │            │ 2024-01-16 03:53:27.968505 │                0 │                0 │                    0 │                0 │
+│ ontime   │ BASE TABLE │ default  │ default │ account_admin    │ FUSE   │            │ 2024-01-16 03:53:42.052399 │                0 │                0 │                    0 │                0 │
+│ products │ BASE TABLE │ default  │ default │ account_admin    │ FUSE   │            │ 2024-01-16 03:54:00.883985 │                0 │                0 │                    0 │                0 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-The following example demonstrates that the results will include dropped tables when the optional parameter HISTORY is present:
+以下示例演示了当存在可选参数HISTORY时，结果将包括已删除的表：
 
 ```sql
 DROP TABLE products;
 
 SHOW TABLES;
 
----
-Tables_in_default|
------------------+
-books            |
-mytable          |
-ontime           |
+┌───────────────────┐
+│ Tables_in_default │
+├───────────────────┤
+│ books             │
+│ mytable           │
+│ ontime            │
+└───────────────────┘
 
 SHOW TABLES HISTORY;
 
----
-Tables_in_default       |drop_time                    |
-------------------------+-----------------------------+
-books                   |NULL                         |
-mytable                 |NULL                         |
-ontime                  |NULL                         |
-products                |2023-09-27 01:14:21.421 +0000|
+┌────────────────────────────────────────────────┐
+│ Tables_in_default │          drop_time         │
+├───────────────────┼────────────────────────────┤
+│ books             │ NULL                       │
+│ mytable           │ NULL                       │
+│ ontime            │ NULL                       │
+│ products          │ 2024-01-16 03:55:47.900362 │
+└────────────────────────────────────────────────┘
 ```
 
-The following example lists the tables containing the string "time" at the end of their name:
+以下示例列出名称末尾包含字符串"time"的表：
 
 ```sql
 SHOW TABLES LIKE '%time';
 
----
-Tables_in_default|
------------------+
-ontime           |
+┌───────────────────┐
+│ Tables_in_default │
+├───────────────────┤
+│ ontime            │
+└───────────────────┘
 
--- CASE-SENSITIVE pattern matching. 
--- No results will be returned if you code the previous statement like this: 
+-- 区分大小写的模式匹配。
+-- 如果您像下面这样编写前一个语句，将不会返回任何结果：
 SHOW TABLES LIKE '%TIME';
 ```
 
-The following example lists tables where the data size is greater than 1,000 bytes:
+以下示例列出数据大小大于1000字节的表：
 
 ```sql
 SHOW TABLES WHERE data_size > 1000 ;
 
----
-Tables_in_default|
------------------+
-ontime           |
+┌───────────────────┐
+│ Tables_in_default │
+├───────────────────┤
+│ ontime            │
+└───────────────────┘
 ```
