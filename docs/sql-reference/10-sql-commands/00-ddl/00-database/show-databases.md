@@ -2,91 +2,51 @@
 title: SHOW DATABASES
 sidebar_position: 5
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.290"/>
 
 Shows the list of databases that exist on the instance.
 
 ## Syntax
 
 ```sql
-SHOW DATABASES [LIKE '<pattern>' | WHERE <expr>]
+SHOW [FULL] DATABASES 
+    [LIKE '<pattern>' | WHERE <expr>]
 ```
+
+| Parameter | Description                                                                                                                 |
+|-----------|-----------------------------------------------------------------------------------------------------------------------------|
+| FULL      | Lists the results with additional information. See [Examples](#examples) for more details.                                  |
+| LIKE      | Filters the results by their names using case-sensitive pattern matching.                                                   |
+| WHERE     | Filters the results using an expression in the WHERE clause.                                                                |
 
 ## Examples
+
 ```sql
 SHOW DATABASES;
-+----------+
-| Database |
-+----------+
-| default  |
-| for_test |
-| local    |
-| ss       |
-| ss1      |
-| ss2      |
-| ss3      |
-| system   |
-| test     |
-+----------+
-```
 
-Showing the databases with database `"ss"`:
-```sql
-SHOW DATABASES WHERE Database = 'ss';
-+----------+
-| Database |
-+----------+
-| ss       |
-+----------+
-```
+┌──────────────────────┐
+│ databases_in_default │
+├──────────────────────┤
+│ canada               │
+│ china                │
+│ default              │
+│ information_schema   │
+│ system               │
+│ test                 │
+└──────────────────────┘
 
-Showing the databases begin with `"ss"`:
-```sql
-SHOW DATABASES Like 'ss%';
-+----------+
-| Database |
-+----------+
-| ss       |
-| ss1      |
-| ss2      |
-| ss3      |
-+----------+
-```
+SHOW FULL DATABASES;
 
-Showing the databases begin with `"ss"` with where:
-```sql
-SHOW DATABASES WHERE Database Like 'ss%';
-+----------+
-| Database |
-+----------+
-| ss       |
-| ss1      |
-| ss2      |
-| ss3      |
-+----------+
-```
-
-Showing the databases like substring expr:
-```sql
-SHOW DATABASES Like SUBSTRING('ss%' FROM 1 FOR 3);
-+----------+
-| Database |
-+----------+
-| ss       |
-| ss1      |
-| ss2      |
-| ss3      |
-+----------+
-```
-
-Showing the databases like substring expr with where:
-```sql
-SHOW DATABASES WHERE Database Like SUBSTRING('ss%' FROM 1 FOR 3);
-+----------+
-| Database |
-+----------+
-| ss       |
-| ss1      |
-| ss2      |
-| ss3      |
-+----------+
+┌───────────────────────────────────────────────────┐
+│ catalog │       owner      │ databases_in_default │
+├─────────┼──────────────────┼──────────────────────┤
+│ default │ account_admin    │ canada               │
+│ default │ account_admin    │ china                │
+│ default │ NULL             │ default              │
+│ default │ NULL             │ information_schema   │
+│ default │ NULL             │ system               │
+│ default │ account_admin    │ test                 │
+└───────────────────────────────────────────────────┘
 ```
