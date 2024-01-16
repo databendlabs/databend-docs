@@ -3,26 +3,26 @@ title: CURRENT_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.225"/>
+<FunctionDescription description="引入或更新版本：v1.2.225"/>
 
-Returns the current timestamp.
+返回当前时间戳。
 
-## Syntax
+## 语法
 
 ```sql
 CURRENT_TIMESTAMP
 ```
 
-## Return Type
+## 返回类型
 
-TIMESTAMP.
+TIMESTAMP。
 
-## Examples
+## 示例
 
-This example returns the current timestamp using the `SELECT CURRENT_TIMESTAMP` statement:
+此示例使用 `SELECT CURRENT_TIMESTAMP` 语句返回当前时间戳：
 
 ```sql
-SELECT CURRENT_TIMESTAMP;
+SELECT CURRENT_TIMESTAMP();
 
 ┌────────────────────────────┐
 │      current_timestamp     │
@@ -31,16 +31,16 @@ SELECT CURRENT_TIMESTAMP;
 └────────────────────────────┘
 ```
 
-This example uses the function to generate the default value for a TIMESTAMP column:
+此示例使用该函数为 TIMESTAMP 列生成默认值：
 
 ```sql
--- The timestamp column defaults to the current timestamp
+-- timestamp 列默认为当前时间戳
 CREATE TABLE employees (
     id INT8,
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Current timestamps will be inserted if no specific timestamp is provided
+-- 如果没有提供特定的时间戳，则会插入当前时间戳
 INSERT INTO employees (id) VALUES (1);
 INSERT INTO employees (id) VALUES (2);
 INSERT INTO employees (id, created) 

@@ -1,10 +1,10 @@
+```markdown
 ---
-title: Table Functions
+title: 表函数
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This section provides reference information for the table-related functions in Databend.
+本节提供了有关 Databend 中与表相关函数的参考信息。
 
 <IndexOverviewList />
-
-- [FLATTEN](../10-semi-structured-functions/flatten.md)
+```
