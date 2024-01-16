@@ -3,8 +3,6 @@ title: GENERATE_SERIES
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.1.0"/>
-
 Generates a dataset starting from a specified point, ending at another specified point, and optionally with an incrementing value. The GENERATE_SERIES function works with the following data types: 
 
 - Integer

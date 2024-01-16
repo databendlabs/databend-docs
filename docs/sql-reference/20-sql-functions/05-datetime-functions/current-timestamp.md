@@ -22,7 +22,7 @@ TIMESTAMP.
 This example returns the current timestamp using the `SELECT CURRENT_TIMESTAMP` statement:
 
 ```sql
-SELECT CURRENT_TIMESTAMP;
+SELECT CURRENT_TIMESTAMP();
 
 ┌────────────────────────────┐
 │      current_timestamp     │
