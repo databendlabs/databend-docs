@@ -16,7 +16,7 @@ To quickly access Databend features and gain practical expertise, you have the f
 - Object storage is a requirement for production use of Databend. The file system should only be used for evaluation, testing, and non-production scenarios.
 
 - It is not recommended to deploy Databend on top of MinIO for production environments or performance testing purposes.
-  :::
+:::
 
 ## Deploying Databend on Docker
 
@@ -264,7 +264,7 @@ The following steps will guide you through the process of locally deploying Data
 
 1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](04-admin-users.md). For this example, uncomment the following lines to choose this account:
 
-```sql
+```sql  title="databend-query.toml
 [[query.users]]
 name = "root"
 auth_type = "no_password"
