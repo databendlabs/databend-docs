@@ -86,7 +86,7 @@ docker run -d \
     datafuselabs/databend
 ```
 
-> There \${IP} is 192.168.106.3 or 192.168.5.1, The application needs to access s3. So if you don't know \${IP}, you can refer to the output of `docker logs minio` 
+> There ${IP} is 192.168.106.3 or 192.168.5.1, The application needs to access s3. So if you don't know ${IP}, you can refer to the output of `docker logs minio` 
 
 When starting the Databend Docker container, you can specify the username and password using the environment variables QUERY_DEFAULT_USER and QUERY_DEFAULT_PASSWORD. If these variables are not provided, a default root user will be created without a password. The command above creates a SQL user (databend/databend) which you will need to use to connect to Databend in the next step. If you make changes to the SQL user at this point, ensure that you maintain consistency throughout the entire process.
 
