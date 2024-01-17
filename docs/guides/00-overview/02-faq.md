@@ -13,6 +13,7 @@ The diagram illustrates the hierarchical structure of Databend objects across tw
 Use the [CREATE TABLE](/sql/sql-commands/ddl/table/ddl-create-table) command to create a table in Databend:
 
 ```sql title='Example:'
+CREATE TABLE example (
 -- Except for DECIMAL, no need to specify field length.
   c1 INT,
   c2 VARCHAR,
