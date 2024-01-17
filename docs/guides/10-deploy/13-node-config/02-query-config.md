@@ -70,7 +70,6 @@ The following is a list of the parameters available within the [log.stderr] sect
 | level               | Log level: DEBUG, INFO, or ERROR. Defaults to DEBUG.                                                |
 | format              | Log format: json or text. Defaults to text.                                                         |
 
-
 ### [log.query] Section
 
 The following is a list of the parameters available within the [log.query] section:
