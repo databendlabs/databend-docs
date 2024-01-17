@@ -264,7 +264,7 @@ The following steps will guide you through the process of locally deploying Data
 
 1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](04-admin-users.md). For this example, uncomment the following lines to choose this account:
 
-```sql  title="databend-query.toml
+```sql  title="databend-query.toml"
 [[query.users]]
 name = "root"
 auth_type = "no_password"
@@ -273,13 +273,11 @@ auth_type = "no_password"
 2. Open a terminal and navigate to the folder where the extracted files and folders are stored.
 
 3. Run the script **start.sh** in the folder **scripts**:
-   
     MacOS might prompt an error saying "*databend-meta can't be opened because Apple cannot check it for malicious software.*". To proceed, open **System Settings** on your Mac, select **Privacy & Security** on the left menu, and click **Open Anyway** for databend-meta in the **Security** section on the right side. Do the same for the error on databend-query.
 
 ```shell
 ./scripts/start.sh
 ```
-
 :::tip
 In case you encounter the subsequent error messages while attempting to start Databend:
 
@@ -298,7 +296,6 @@ sudo mkdir /var/lib/databend
 sudo chown -R $USER /var/log/databend
 sudo chown -R $USER /var/lib/databend
 ```
-
 :::
 
 3. Run the following command to verify Databend has started successfully:
