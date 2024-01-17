@@ -34,6 +34,18 @@ The Databend JDBC driver is provided as a JAR file and can be integrated directl
 You can also connect to Databend from DBeaver through the Databend JDBC driver. For more information, see [Connecting to Databend with JDBC](/guides/sql-clients/jdbc).
 :::
 
+## Databend JDBC Driver Behavior Summary
+
+Databend's JDBC Driver generally follows the JDBC specifications. Below is a list of some common basic behaviors, their associated key functions, and the principles behind them.
+
+| Basic Behavior        | Key Functions                                                                                 | Principle                                                                                                                                                                                                                      |
+|-----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Establishing a Connection | `DriverManager.getConnection`, `Properties.setProperty`                                     | `getConnection` establishes a connection with Databend using the provided connection string.<br /><br />The `Properties` object is used to construct connection parameters, such as `user` and `password`, which can also be specified within the connection string. |
+| Executing Queries     | `Statement.createStatement()`, `Statement.execute()`                                          | `Statement.execute()` performs queries using the `v1/query` interface.                                                                                                                                                         |
+| Batch Inserting       | `Connection.prepareStatement()`, `PrepareStatement.setInt()`, `PrepareStatement.setString()`, `PrepareStatement.addBatch()`, `PrepareStatement.executeBatch()`, etc. | Databend supports batch insertions and replacements (`INSERT INTO` and `REPLACE INTO`) using `PrepareStatement` objects.<br /><br />The `PrepareStatement.setXXX()` methods are used for binding values to the parameters of the statement.<br /><br />`PrepareStatement.addBatch()` adds as much data as possible to the batch for the created statement object.<br /><br />`PrepareStatement.executeBatch()` uploads data to the built-in Stage and executes insert/replace operations, utilizing [Stage Attachment](/developer/apis/http#stage-attachment). |
+| Uploading Files to an Internal Stage | `Connection.uploadStream`                                                                 | Data will be uploaded to a Stage. By default, the `PRESIGN UPLOAD` is used to obtain a URL, or if PRESIGN is disabled, the `v1/upload_to_stage` API is used.                                                                        |
+| Downloading Files from an Internal Stage | `Connection.downloadStream`                                                               | Data will be downloaded from a Stage using the `PRESIGN DOWNLOAD` to obtain a URL.                                                                                                                                                  |
+
 ## Configuring Connection String
 
 Once the driver is installed and integrated into your project, you can use it to connect to Databend using the following JDBC connection string format:

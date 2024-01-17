@@ -35,7 +35,7 @@ The table below summarizes the main behaviors and functions of the Node.js Drive
 | `query_iter`     | Executes an SQL query and returns an iterator for processing results row by row.                                                                 |
 | `query_iter_ext` | Executes an SQL query and returns an iterator that includes statistical information about the results.                                           |
 | `query_row`      | Executes an SQL query and returns a single row result.                                                                                           |
-| `stream_load`    | Uploads data to a built-in Stage (`upload_to_stage`) and executes insert/replace with [stage attachment](/developer/apis/http#stage-attachment). |
+| `stream_load`    | Uploads data to a built-in Stage and executes insert/replace with [stage attachment](/developer/apis/http#stage-attachment). |
 
 ## Tutorial-1: Integrating with Databend using Node.js
 

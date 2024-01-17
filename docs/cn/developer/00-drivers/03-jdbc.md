@@ -34,6 +34,18 @@ Databend JDBC 驱动程序以 JAR 文件形式提供，可以直接集成到您�
 您也可以通过 Databend JDBC 驱动程序从 DBeaver 连接到 Databend。更多信息，请参见[通过 JDBC 连接到 Databend](/guides/sql-clients/jdbc)。
 :::
 
+## Databend JDBC 驱动行为总结
+
+Databend 的 JDBC Driver 使用基本遵循 JDBC 规范。下面列出了一些常见的基本行为，及其涉及的关键函数和原理。
+
+| 基本行为              | 涉及的关键函数                                               | 原理                                                         |
+| --------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 创建连接              | `DriverManager.getConnection`, `Properties.setProperty`      | getConnection 可以透过传递的连接字符串与 Databend 建立连接。<br /><br />Properties 对象用于构造连接参数，如 `user`、`password` 等，这些连接参数也可以在连接字符串中进行指定。 |
+| 执行查询              | `Statement.createStatement()`, `Statement.execute()`         | `Statement.execute()` 利用 `v1/query` 接口执行查询。         |
+| 批量插入              | `Connection.prepareStatement()`, `PrepareStatement.setInt()`, `PrepareStatement.setString()`, `PrepareStatement.addBatch()`, `PrepareStatement.executeBatch()` , etc. | Databend 利用 PrepareStatement 对象支持批量插入和替换能力（`INSERT INTO` 和 `REPLACE INTO`）。<br /><br />`PrepareStatement.setXXX()` 系列语句用于将值绑定到相关语句的参数。<br /><br />`PrepareStatement.addBatch()` 对已创建的语句对象添加尽可能多的数据到批处理中。<br /><br />`PrepareStatement.executeBatch()`上传数据到内置 Stage 并执行插入/替换操作，使用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
+| 上传文件到内部 Stage  | `Connection.uploadStream`                                    | 上传数据到 Stage。默认使用 `PRESIGN UPLOAD` 获得 URL，或者如果 PRESIGN 被禁用，则使用 `v1/upload_to_stage` API。 |
+| 从内部 Stage 下载文件 | `Connection.downloadStream`                                  | 从 Stage 下载数据。使用 `PRESIGN DOWNLOAD` 获得 URL。        |
+
 ## 配置连接字符串 {#configuring-connection-string}
 
 驱动程序安装并集成到您的项目中后，您可以使用以下 JDBC 连接字符串格式连接到 Databend：

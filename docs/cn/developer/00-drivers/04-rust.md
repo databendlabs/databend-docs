@@ -9,6 +9,24 @@ Databend 提供了一个用 Rust 编写的驱动（[crates.io - databend-driver]
 
 有关安装说明、示例和源代码，请参见 [GitHub - databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver)。
 
+## Databend Rust 驱动行为总结
+
+下表总结了 Rust 驱动的主要行为和功能及其用途：
+
+| 函数名称            | 描述                                                                                                                  |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `info`              | 返回客户端的连接信息。                                                                                                |
+| `version`           | 返回执行 `SELECT VERSION()` 语句的结果。                                                                              |
+| `exec`              | 执行一个 SQL 语句并返回受影响的行数。                                                                                 |
+| `query_iter`        | 执行一个 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                                 |
+| `query_iter_ext`    | 执行一个 SQL 查询并返回一个包含结果统计信息的迭代器。                                                                 |
+| `query_row`         | 执行一个 SQL 查询并返回单行结果。                                                                                     |
+| `get_presigned_url` | 基于操作和 Stage 参数生成 `PRESIGN` 语句，返回 HTTP 方法、头信息和 URL。                                              |
+| `upload_to_stage`   | 上传数据到 Stage。默认使用 `PRESIGN UPLOAD` 获得 URL，或者如果 PRESIGN 被禁用，则使用 `v1/upload_to_stage` API。      |
+| `load_data`         | 上传数据到内置 Stage（`upload_to_stage`）并执行插入/替换操作，使用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
+| `load_file`         | 重用 `load_data` 逻辑来上传文件并插入数据。                                                                           |
+| `stream_load`       | 读取数据作为 Vec，将其转换为 CSV，然后调用 `load_data` 方法。                                                         |
+
 ## 教程-1：使用 Rust 与 Databend 集成
 
 在开始之前，请确保您已成功安装了本地 Databend。有关详细说明，请参见 [本地和 Docker 部署](/guides/deploy/deploying-local)。
@@ -50,11 +68,9 @@ tokio = { version = "1", features = ["full"] }
 tokio-stream = "0.1.12"
 ```
 
-
 </StepContent>
 
 <StepContent number="2" title="将以下代码复制并粘贴到文件 main.rs 中">
-
 
 :::note
 代码下方的 `hostname` 值必须与您的 Databend 查询服务的 HTTP 处理程序设置保持一致。
@@ -99,7 +115,6 @@ async fn main() {
 }
 ```
 
-
 </StepContent>
 
 <StepContent number="3" title="运行程序。">
@@ -115,7 +130,6 @@ mybook author 2022
 </StepContent>
 
 </StepsWrap>
-
 
 ## 教程-2：使用 Rust 与 Databend Cloud 集成
 
