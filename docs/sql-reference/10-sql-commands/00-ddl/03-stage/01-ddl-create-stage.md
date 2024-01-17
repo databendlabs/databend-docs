@@ -2,6 +2,9 @@
 title: CREATE STAGE
 sidebar_position: 1
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.294"/>
 
 Creates an internal or external stage.
 
@@ -128,6 +131,19 @@ externalLocation ::=
 ```
 
 For the connection parameters available for accessing WebHDFS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
+</TabItem>
+
+<TabItem value="Hugging Face" label="Hugging Face">
+
+```sql
+externalLocation ::=
+  "hf://<repo_id>[<path>]"
+  CONNECTION = (
+        <connection_parameters>
+  )
+```
+
+For the connection parameters available for accessing Hugging Face, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 </Tabs>
 
