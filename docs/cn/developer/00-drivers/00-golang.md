@@ -41,15 +41,14 @@ GRANT ALL on *.* TO user1;
 
 在此步骤中，您将创建一个简单的 Golang 程序，该程序与 Databend 通信。程序将涉及创建表、插入数据和执行数据查询等任务。
 
-<StepsWrap>
+<StepsWrap> 
 
-<StepContent number="1" title="将以下代码复制并粘贴到文件 main.go 中">
+<StepContent number="1" title="将以下代码复制并粘贴到文件 main.go 中"> 
 
 :::note
-
 - 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。在保持相同格式的条件下，您可以随意使用自己的值。
 - 代码下方的 `hostname` 值必须与您的 Databend 查询服务的 HTTP 处理程序设置保持一致。
-  :::
+:::
 
 ```go title='main.go'
 package main
@@ -141,9 +140,10 @@ func main() {
 }
 ```
 
+
 </StepContent>
 
-<StepContent number="2" title="安装依赖项。">
+<StepContent number="2" title="安装依赖项。"> 
 
 ```shell
 go mod init databend-golang
@@ -181,6 +181,7 @@ go run main.go
 2023/02/24 23:57:31 Insert 1 row
 2023/02/24 23:57:31 Select:{mybook author 2022}
 ```
+
 
 </StepContent>
 
@@ -273,7 +274,7 @@ func main() {
 请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
-### 第 4 步. 运行 main.go
+### 第4步. 运行 main.go
 
 ```shell
 $ go run main.go
