@@ -29,7 +29,7 @@ function Footer() {
           })}
           </div>
         <div className={styles.footerCopyright}>
-          <p>Copyright © {year} The Databend Community. Built with Docusaurus. Apache, Apache OpenDAL, OpenDAL are either registered trademarks or trademarks of the Apache Software Foundation.</p>
+          <p>Copyright © {year} The Databend Community. Built with Docusaurus. Apache, Apache OpenDAL and OpenDAL are either registered trademarks or trademarks of the Apache Software Foundation.</p>
         </div>
       <CookiesConsent></CookiesConsent>
     </footer>
