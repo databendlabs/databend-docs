@@ -12,7 +12,7 @@ The cluster key serves as a connection between the metadata in Databend's Meta S
 
 ## How Cluster Key Works
 
-To make this work, the cluster key you set must align with how you filter the data in queries. For instance, let's consider a table that includes temperatures for all cities in Canada, with three columns: City, Temperature, and Province.
+Let's consider a table that includes temperatures for all cities in Canada, with three columns: City, Temperature, and Province.
 
 ```sql
 CREATE TABLE T (
@@ -26,7 +26,7 @@ If your primary queries involve retrieving cities based on their temperature, se
 
 ![Alt text](@site/docs/public/img/sql/clustered.png)
 
-Rows are sorted based on the Age column in each block (file). However, there can be overlapping age ranges between blocks. If a query falls precisely within the overlapping range of blocks, it requires reading multiple blocks. The number of blocks involved in this situation is referred to as the "Depth." Therefore, the smaller the depth, the better. This implies that having fewer relevant blocks to read during queries enhances query performance.
+Rows are sorted based on the Temperature column in each block (file). However, there can be overlapping age ranges between blocks. If a query falls precisely within the overlapping range of blocks, it requires reading multiple blocks. The number of blocks involved in this situation is referred to as the "Depth." Therefore, the smaller the depth, the better. This implies that having fewer relevant blocks to read during queries enhances query performance.
 
 To see how well a table is clustered, use the function [CLUSTERING_INFORMATION](/sql/sql-functions/system-functions/clustering_information). For example,
 
@@ -53,6 +53,62 @@ Read 1 rows, 448.00 B in 0.015 sec., 67.92 rows/sec., 29.71 KiB/sec.
 | average_overlaps        	| The average ratio of overlapping blocks within a given range.                                                          	|
 | average_depth           	| The average depth of overlapping partitions for the cluster key.                                                       	|
 | block_depth_histogram   	| The number of partitions at each depth level. A higher concentration of partitions at lower depths indicates more effective table clustering.                                                                          	|
+
+### Selecting Cluster Key
+
+A cluster key can be one or more columns in the table or expressions based on those columns. In general, the cluster key you define should align with the primary filters applied in your data queries. For example, if the majority of your queries involve filtering data by `order_id`, it's advisable to set the `order_id` column as the cluster key for the table.
+
+```sql
+CREATE TABLE sales (
+    order_id INT,
+    order_date TIMESTAMP,
+    product_id INT,
+    is_secondhand BOOLEAN,
+    quantity INT,
+    region VARCHAR,
+    product_category VARCHAR,
+    -- Other columns...
+    CLUSTER BY (order_id)
+);
+```
+
+On the other hand, if filtering commonly occurs based on `region` and `product_category`, then clustering the table using both columns would be beneficial:
+
+```sql
+CREATE TABLE sales (
+    order_id INT,
+    order_date TIMESTAMP,
+    product_id INT,
+    is_secondhand BOOLEAN,
+    quantity INT,
+    region VARCHAR,
+    product_category VARCHAR,
+    -- Other columns...
+    CLUSTER BY (region, product_category)
+);
+```
+
+When choosing a column as the cluster key, ensure that the number of distinct values strikes a balance between being sufficient for effective query performance and being manageable for optimal storage within the system. 
+
+For example, clustering the table based on the `is_secondhand` column that only contains Boolean values may not provide as much benefit in terms of grouping similar data together. This is because the distinct values are limited, and clustering may not lead to significant physical grouping of similar data, impacting the potential advantages of clustering for query optimization.
+
+A column with a larger number of distinct values, such as the  `order_id` column, is not typically a good candidate to use as a cluster key directly due to its tendency to impede storage efficiency and diminish the effectiveness of data grouping. However, a viable alternative is to consider using expressions to "reduce" the distinct values. For example, if the `order_id` typically contains a date (eg., 20240116) starting at a fixed position, extracting the time component from it can be employed as a more suitable clustering key.
+
+```sql
+CREATE TABLE sales (
+    order_id INT,
+    order_date TIMESTAMP,
+    product_id INT,
+    is_secondhand BOOLEAN,
+    quantity INT,
+    region VARCHAR,
+    product_category VARCHAR,
+    -- Other columns...
+    CLUSTER BY (SUBSTRING(order_id,7,8))
+);
+```
+
+By clustering the table using the extracted date from the `order_id` column, transactions occurring on the same day are now grouped into the same or adjacent blocks. This frequently results in improved compression and a reduction in the volume of data that must be read from storage during query execution, contributing to enhanced overall performance.
 
 ### Tuning Performance with Custom Block Size
 
