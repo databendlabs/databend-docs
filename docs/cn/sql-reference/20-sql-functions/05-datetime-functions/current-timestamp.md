@@ -3,7 +3,7 @@ title: CURRENT_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.225"/>
+<FunctionDescription description="Introduced or updated: v1.2.225"/>
 
 返回当前时间戳。
 
