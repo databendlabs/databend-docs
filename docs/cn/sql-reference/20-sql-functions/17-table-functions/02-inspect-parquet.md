@@ -3,7 +3,7 @@ title: INSPECT_PARQUET
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.180"/>
+<FunctionDescription description="Introduced or updated: v1.2.180"/>
 
 从一个阶段性的 Parquet 文件中检索一张包含综合元数据的表，包括以下列：
 

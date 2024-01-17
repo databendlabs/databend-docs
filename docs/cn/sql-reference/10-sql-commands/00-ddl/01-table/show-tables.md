@@ -4,7 +4,7 @@ sidebar_position: 15
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.290"/>
+<FunctionDescription description="Introduced or updated: v1.2.290"/>
 
 列出当前数据库或指定数据库中的表。
 

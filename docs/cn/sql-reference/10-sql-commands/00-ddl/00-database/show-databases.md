@@ -4,7 +4,7 @@ sidebar_position: 5
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.290"/>
+<FunctionDescription description="Introduced or updated: v1.2.290"/>
 
 显示实例上存在的数据库列表。
 

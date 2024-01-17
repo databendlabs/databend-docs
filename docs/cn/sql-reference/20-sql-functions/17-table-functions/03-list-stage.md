@@ -3,7 +3,7 @@ title: LIST_STAGE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.32"/>
+<FunctionDescription description="Introduced or updated: v1.2.32"/>
 
 列出阶段中的文件。这允许您根据文件扩展名过滤阶段中的文件，并获取每个文件的详细信息。该函数类似于DDL命令 [LIST STAGE FILES](../../10-sql-commands/00-ddl/03-stage/04-ddl-list-stage.md)，但提供了使用SELECT语句检索特定文件信息的灵活性，例如文件名、大小、MD5哈希、最后修改时间戳和创建者，而不是所有文件信息。
 
