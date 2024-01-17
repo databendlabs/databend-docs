@@ -272,7 +272,7 @@ const config = {
                         items: [
                             {
                                 label: 'Performance',
-                                to: `https://www.databend.com/blog/clickbench-databend-top`
+                                to: `https://docs.databend.com/guides/benchmark/tpch`
                             },
                             {
                                 label: 'Deployment',
