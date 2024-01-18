@@ -7,7 +7,7 @@ sidebar_label: "TPC-H SF100 基准测试"
 
 ### TPC-H
 
-TPC-H 基准测试是评估决策支持系统的标准，专注于复杂查询和数据维护。在这项分析中，我们使用 TPC-H SF100（SF1 = 600万行）数据集比较了 Databend Cloud 和 Snowflake，该数据集包含 100GB 数据和大约 6 亿行，跨越 22 个查询。
+TPC-H 基准测试是评估决策支持系统的标准，重点关注复杂查询和数据维护。在此分析中，我们使用 TPC-H SF100（SF1 = 600万行）数据集比较 Databend Cloud 和 Snowflake，该数据集包含 100GB 数据和大约 6 亿行，跨越 22 个查询。
 
 :::info 免责声明
 TPC 基准测试™ 和 TPC-H™ 是交易处理性能委员会（[TPC](http://www.tpc.org)）的商标。我们的基准测试虽然受到 TPC-H 的启发，但与官方 TPC-H 结果不直接可比。
@@ -15,28 +15,27 @@ TPC 基准测试™ 和 TPC-H™ 是交易处理性能委员会（[TPC](http://w
 
 ### Snowflake 和 Databend Cloud
 
-- **[Snowflake](https://www.snowflake.com)**：Snowflake 因其先进的功能而闻名，例如分离存储和计算、按需可扩展计算、数据共享和克隆能力。
+- **[Snowflake](https://www.snowflake.com)**：Snowflake 以其先进的功能而闻名，例如分离存储和计算、按需可扩展的计算、数据共享和克隆能力。
 
-- **[Databend Cloud](https://www.databend.com)**：Databend Cloud 提供与 Snowflake [类似的功能](https://github.com/datafuselabs/databend/issues/13059)，是一个云原生数据仓库，也将存储与计算分离，并根据需要提供可扩展的计算能力。
- 它是从开源 [Databend 项目](https://github.com/datafuselabs/databend)发展而来，定位为 Snowflake 的现代化、高性价比替代品，特别适合大规模分析。
+- **[Databend Cloud](https://www.databend.com)**：Databend Cloud 提供与 Snowflake [类似的功能](https://github.com/datafuselabs/databend/issues/13059)，是一个云原生数据仓库，也将存储与计算分离，并根据需要提供可扩展的计算。
+ 它是从开源的 [Databend 项目](https://github.com/datafuselabs/databend)发展而来，定位为 Snowflake 的现代化、高性价比替代品，特别适合大规模分析。
 
 ## 性能和成本比较
 
-
-* **在数据加载方面，Databend 的成本比 Snowflake 低约 67%。**
-* **在查询执行方面，Databend 比 Snowflake 约高出 60% 的成本效率。**
+- **数据加载成本**：与 Snowflake 相比，Databend 在数据加载方面实现了 **67% 的成本降低**。
+- **查询执行成本**：Databend 的查询执行成本大约比 Snowflake **低 60%**。
 
 :::info 注意
 
-基准测试中没有进行调优。结果基于 Snowflake 和 Databend Cloud 的默认设置。
-记住，不要只是相信我们的话 —— 我们鼓励您自己运行并验证这些结果。
+在此基准测试中，没有应用特殊调优。Snowflake 和 Databend Cloud 均使用其默认设置。
+记住，**不要只是相信我们的话 —— 我们鼓励您自己运行并验证这些结果。** 
 :::
 
 ### 数据加载基准测试
 
 ![image](https://github.com/datafuselabs/wizard/assets/172204/0e51510d-5aa6-4891-8510-c2741e7ddae0)
 
-| 表名             | Snowflake(695s, 成本 $0.77) | Databend Cloud(446s, 成本 $0.25) | 行数        |
+| 表格            | Snowflake(695秒, 成本 $0.77) | Databend Cloud(446秒, 成本 $0.25) | 行数        |
 |------------------|-----------------------------|----------------------------------|-------------|
 | customer         | 18.137                      | 13.436                           | 15,000,000  |
 | lineitem         | 477.740                     | 305.812                          | 600,037,902 |
@@ -46,7 +45,7 @@ TPC 基准测试™ 和 TPC-H™ 是交易处理性能委员会（[TPC](http://w
 | partsupp         | 67.410                      | 45.346                           | 80,000,000  |
 | region           | 0.743                       | 0.725                            | 5           |
 | supplier         | 3.000                       | 3.687                            | 10,000,000  |
-| **总时间**       | **695s**                    | **446s**                         |             |
+| **总时间**       | **695秒**                   | **446秒**                        |             |
 | **总成本**       | **$0.77**                   | **$0.25**                        |             |
 | **存储大小**     | **20.8GB**                  | **24.5GB**                       |             |
 
@@ -54,7 +53,7 @@ TPC 基准测试™ 和 TPC-H™ 是交易处理性能委员会（[TPC](http://w
 
 ![image](https://github.com/datafuselabs/wizard/assets/172204/d796acf0-0a66-4b1d-8754-cd2cd1de04c7)
 
-| 查询            | Snowflake(总计 207s, 成本 $0.23) | Databend Cloud(总计 166s, 成本 $0.09) |
+| 查询            | Snowflake(总计 207秒, 成本 $0.23) | Databend Cloud(总计 166秒, 成本 $0.09) |
 |----------------|-----------------------------------|----------------------------------------|
 | TPC-H 1        | 11.703                            | 8.036                                  |
 | TPC-H 2        | 4.524                             | 3.786                                  |
@@ -78,7 +77,7 @@ TPC 基准测试™ 和 TPC-H™ 是交易处理性能委员会（[TPC](http://w
 | TPC-H 20       | 8.538                             | 8.836                                  |
 | TPC-H 21       | 16.439                            | 12.270                                 |
 | TPC-H 22       | 3.744                             | 1.926                                  |
-| **总时间**     | **207s**                          | **166s**                               |
+| **总时间**     | **207秒**                         | **166秒**                               |
 | **总成本**     | **$0.23**                         | **$0.09**                              |
 
 ### 查询基准测试：热启动
@@ -87,7 +86,7 @@ TPC 基准测试™ 和 TPC-H™ 是交易处理性能委员会（[TPC](http://w
 
 
 
-| 查询           | Snowflake (总计 138s, 花费 $0.15) | Databend Cloud (总计 124s, 花费 $0.07) |
+| 查询            | Snowflake (总计 138s, 费用 $0.15) | Databend Cloud (总计 124s, 费用 $0.07) |
 |----------------|------------------------------------|-----------------------------------------|
 | TPC-H 1        | 8.934                              | 7.568                                   |
 | TPC-H 2        | 3.018                              | 3.125                                   |
@@ -112,7 +111,7 @@ TPC 基准测试™ 和 TPC-H™ 是交易处理性能委员会（[TPC](http://w
 | TPC-H 21       | 10.287                             | 9.806                                   |
 | TPC-H 22       | 1.573                              | 1.122                                   |
 | **总时间**     | **138s**                           | **124s**                                |
-| **总花费**     | **$0.15**                          | **$0.07**                               |
+| **总费用**     | **$0.15**                          | **$0.07**                               |
 
 ## 复现基准测试
 
@@ -120,7 +119,7 @@ TPC 基准测试™ 和 TPC-H™ 是交易处理性能委员会（[TPC](http://w
 
 ### 基准测试环境
 
-Snowflake 和 Databend Cloud 都在类似条件下进行了测试：
+Snowflake 和 Databend Cloud 在类似条件下进行了测试：
 
 | 参数            | Snowflake                                                           | Databend Cloud                            |
 |----------------|---------------------------------------------------------------------|-------------------------------------------|
@@ -138,7 +137,7 @@ Snowflake 和 Databend Cloud 都在类似条件下进行了测试：
 1. **冷运行**：在执行查询之前，数据仓库被挂起并恢复。
 2. **热运行**：数据仓库没有被挂起，使用本地磁盘缓存。
 
-### 先决条件
+### 前提条件
 
 - 拥有一个 [Snowflake 账户](https://singup.snowflake.com)
 - 创建一个 [Databend Cloud 账户](https://www.databend.com/apply/).
