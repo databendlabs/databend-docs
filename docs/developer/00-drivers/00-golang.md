@@ -9,6 +9,19 @@ Databend offers a driver (databend-go) written in Golang, which facilitates the 
 
 For installation instructions, examples, and the source code, see the GitHub [databend-go](https://github.com/datafuselabs/databend-go) repo.
 
+## Databend Go Driver Behavior Summary
+
+The Databend Go Driver is compatible with the ["database/sql"](https://pkg.go.dev/database/sql) interface specification. Below are some common basic behaviors, along with the key functions involved and the principles behind them.
+
+| Basic Behavior        | Key Functions Involved                             | Principle                                                   |
+| --------------------- | -------------------------------------------------- | ----------------------------------------------------------- |
+| Creating a connection | `DB.Open`                                          | Establish a connection to Databend using the DSN string and the `DB.Open` method.<br /><br />The DSN string format is `https://user:password@host/database?<query_option>=<value>`. |
+| Executing statements  | `DB.Exec`                                          | The `DB.Exec` method executes SQL statements using the `v1/query` interface for creating, deleting tables and inserting data. |
+| Bulk insertion        | `DB.Begin`, `Tx.Prepare`, `Stmt.Exec`, `Tx.Commit` | Bulk insert/replace data (`INSERT INTO` and `REPLACE INTO`) are processed through transactions.<br /><br />Use `Stmt.Exec` to add as much data as possible to a prepared statement object; data will be appended to a file.<br /><br />Executing `Tx.Commit()` will finally upload the data to the built-in Stage and perform the insert/replace operation, using [Stage Attachment](/developer/apis/http#stage-attachment). |
+| Querying single row   | `DB.QueryRow`, `Row.Scan`                          | Use the `DB.QueryRow` method to query a single row of data and return a `*sql.Row`, then call `Row.Scan` to map the column data to variables. |
+| Iterating over rows   | `DB.Query`, `Rows.Next`, `Rows.Scan`               | Use the `DB.Query` method to query multiple rows of data and return a `*sql.Rows` structure, iterate over rows using the `Rows.Next` method, and map the data to variables using `Rows.Scan`. |
+| Uploading to internal Stage | `APIClient.UploadToStage`                    | Upload data to Stage. By default, use `PRESIGN UPLOAD` to get a URL, or if PRESIGN is disabled, use the `v1/upload_to_stage` API. |
+
 ## Tutorial-1: Integrating with Databend using Golang
 
 Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/deploy/deploying-local).
