@@ -1,31 +1,45 @@
 ---
 title: DATE_FORMAT
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.39"/>
+<FunctionDescription description="引入版本：v1.1.39"/>
 
-Converts a date value to a specific string format. To customize the format of date and time in Databend, you can utilize specifiers. These specifiers allow you to define the desired format for date and time values. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
+将日期值转换为特定的字符串格式。为了在Databend中自定义日期和时间的格式，您可以使用指定符。这些指定符允许您为日期和时间值定义所需的格式。有关支持的指定符的完整列表，请参见[格式化日期和时间](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time)。
 
-## Syntax
+该函数还接受一个参数，相当于 [TO_STRING( expr )](../02-conversion-functions/index.md)。请注意，当给定一个参数时，该函数不会检查日期值是否有效，而是将给定的任何内容转换为字符串。
+
+## 语法
 
 ```sql
-DATE_FORMAT(<date>, <format>)
+-- 将日期值转换为特定的字符串格式
+DATE_FORMAT('<date>', '<format>')
+
+-- 将日期值转换为字符串。等同于 TO_STRING( expr )
+DATE_FORMAT('<date>')
 ```
 
-## Return Type
+## 返回类型
 
-String.
+字符串。
 
-## Examples
+## 示例
 
 ```sql
-SELECT DATE_FORMAT('2022-12-25', 'Month/Day/Year: %m/%d/%Y')
+SELECT DATE_FORMAT('2022-12-25', '%m/%d/%Y'), DATE_FORMAT('2022-12-25');
 
-+-------------------------------------------------------+
-| date_format('2022-12-25', 'month/day/year: %m/%d/%y') |
-+-------------------------------------------------------+
-| Month/Day/Year: 12/25/2022                            |
-+-------------------------------------------------------+
+┌───────────────────────────────────────────────────────────────────┐
+│ date_format('2022-12-25', '%m/%d/%y') │ date_format('2022-12-25') │
+├───────────────────────────────────────┼───────────────────────────┤
+│ 12/25/2022                            │ 2022-12-25                │
+└───────────────────────────────────────────────────────────────────┘
+
+-- 当只有一个参数时，函数将输入转换为字符串，而不验证是否为日期。
+SELECT DATE_FORMAT('20223-12-25'), TO_STRING('20223-12-25');
+
+┌───────────────────────────────────────────────────────┐
+│ date_format('20223-12-25') │ to_string('20223-12-25') │
+├────────────────────────────┼──────────────────────────┤
+│ 20223-12-25                │ 20223-12-25              │
+└───────────────────────────────────────────────────────┘
 ```
