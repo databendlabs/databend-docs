@@ -4,7 +4,8 @@ title: Unloading Parquet File
 
 ## Unloading Parquet File
 
-```
+Syntax:
+```sql
 COPY INTO {internalStage | externalStage | externalLocation}
 FROM { [<database_name>.]<table_name> | ( <query> ) }
 FILE_FORMAT = (TYPE = PARQUET)
@@ -65,7 +66,7 @@ Result:
 SELECT COUNT($1)
 FROM @parquet_unload_stage
 (
-    FILE_FORMAT => 'PARQUET', 
+    FILE_FORMAT => 'parquet_unload_format', 
     PATTERN => '.*[.]parquet'
 );
 ```

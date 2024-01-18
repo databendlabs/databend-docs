@@ -4,7 +4,8 @@ title: Unloading CSV File
 
 ## Unloading CSV File
 
-```
+Syntax:
+```sql
 COPY INTO { internalStage | externalStage | externalLocation }
 FROM { [<database_name>.]<table_name> | ( <query> ) }
 FILE_FORMAT = (
@@ -44,7 +45,7 @@ CREATE FILE FORMAT csv_unload_format
     FIELD_DELIMITER = ',',
     COMPRESSION = gzip,     -- Unload with gzip compression
     OUTPUT_HEADER = true,   -- Unload with header
-    SKIP_HEADER = 1;        -- Skip header when loading
+    SKIP_HEADER = 1;        -- Only for loading, skip first line when querying if the CSV file has header
 ```
 
 ### Step 3. Unload into CSV File
@@ -70,7 +71,7 @@ Result:
 
 ### Step 4. Verify the Unloaded CSV Files
 
-```
+```sql
 SELECT COUNT($1)
 FROM @csv_unload_stage
 (
