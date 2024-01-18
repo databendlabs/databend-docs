@@ -58,7 +58,7 @@ The following is a list of the parameters available within the [log.file] sectio
 | dir                 | Path to store log files.                                                                            |
 | level               | Log level: DEBUG, INFO, or ERROR. Defaults to INFO.                                                 |
 | format              | Log format: json or text. Defaults to json.                                                         |
-| file_limit          | Specifies the log retention period (unit: hour), file_limit default 48 hours                        |
+| file_limit          | Determines the maximum number of log files to be retained. Defaults to 48.                        |
 
 ### [log.stderr] Section
 
@@ -108,9 +108,7 @@ The following is a list of the parameters available within the [storage] section
 | Parameter      | Description                                                                                             |
 |----------------|---------------------------------------------------------------------------------------------------------|
 | type           | The type of storage used. It can be one of the following: fs, s3, azblob, gcs, oss, cos, hdfs, webhdfs. |
-| allow_insecure | Default is false, If you use minio or copy from http:// prefix url set it is true                       |
-
-> use copy into load data from stage or http:// prefix url report an error with: copy from insecure storage is not allowed , Please set `allow_insecure=true`
+| allow_insecure | Defaults to false. Set it to true when deploying Databend on MinIO or loading data via a URL prefixed by `http://`, otherwise, you may encounter the following error: "copy from insecure storage is not allowed. Please set `allow_insecure=true`".|
 
 ### [storage.fs] Section
 
