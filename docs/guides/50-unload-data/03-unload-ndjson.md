@@ -14,7 +14,7 @@ FILE_FORMAT = (
     OUTPUT_HEADER = true
 )
 [MAX_FILE_SIZE = <num>]
-DETAILED_OUTPUT = true;
+[DETAILED_OUTPUT = true | false]
 ```
 
 - More NDJSON options refer to [NDJSON File Format Options](/sql/sql-reference/file-format-options#ndjson-options)
