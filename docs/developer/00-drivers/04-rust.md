@@ -171,7 +171,7 @@ use tokio_stream::StreamExt;
 
 #[tokio::main]
 async fn main() {
-    let dsn = "databend://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}";
+    let dsn = "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}";
     let client = Client::new(dsn.to_string());
     let conn = client.get_conn().await.unwrap();
 
