@@ -22,7 +22,7 @@ Databend 的 Go Driver 兼容 ["database/sql"](https://pkg.go.dev/database/sql) 
 | 遍历多行数据         | `DB.Query`, `Rows.Next`, `Rows.Scan`               | 通过 `DB.Query` 方法查询多行数据并返回一个 `*sql.Rows` 结构体，使用 `Rows.Next` 方法迭代遍历行，并使用 `Rows.Scan` 映射数据到变量中。                                                                                                                                                                           |
 | 上传文件到内部 Stage | `APIClient.UploadToStage`                          | 上传数据到 Stage。默认使用 `PRESIGN UPLOAD` 获得 URL，或者如果 PRESIGN 被禁用，则使用 `v1/upload_to_stage` API。                                                                                                                                                                                                |
 
-## 教程-1：使用 Golang 与 Databend 集成
+## 教程 -1：使用 Golang 与 Databend 集成
 
 在开始之前，请确保您已成功安装了本地的 Databend。有关详细说明，请参见 [本地和 Docker 部署](/guides/deploy/deploying-local)。
 
@@ -185,7 +185,7 @@ go run main.go
 
 </StepsWrap>
 
-## 教程-2：使用 Golang 与 Databend Cloud 集成
+## 教程 -2：使用 Golang 与 Databend Cloud 集成
 
 在开始之前，请确保您已成功创建一个计算集群并获取了连接信息。有关如何操作，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
@@ -221,7 +221,7 @@ import (
 
 ```go
 func main() {
-	dsn := "https://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}"
+	dsn := "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}";
 	conn, err := sql.Open("databend", dsn)
 	if err != nil {
 		fmt.Println(err)
@@ -267,12 +267,12 @@ func main() {
 ```
 
 :::tip
-将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何
+将代码中的 {USER}、{PASSWORD}、{HOST}, {WAREHOUSE_NAME} 和 {DATABASE} 替换为您的连接信息。有关如何
 获取连接信息，
 请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
-### 第 4 步. 运行 main.go
+### 第 4 步。运行 main.go
 
 ```shell
 $ go run main.go
