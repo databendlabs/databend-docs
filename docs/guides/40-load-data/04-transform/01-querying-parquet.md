@@ -1,6 +1,6 @@
 ---
 title: Querying Parquet Files in Stage
-sidebar_label: Querying Parquet Files
+sidebar_label: Querying Parquet File
 ---
 
 ## Query Parquet Files in Stage

@@ -1,6 +1,6 @@
 ---
 title: Querying TSV Files in Stage
-sidebar_label: Querying TSV Files
+sidebar_label: Querying TSV File
 ---
 
 ## Query TSV Files in Stage
