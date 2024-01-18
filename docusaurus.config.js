@@ -309,7 +309,7 @@ const config = {
                 additionalLanguages: ['toml', 'rust'],
             },
             algolia: algolia,
-            image: 'img/rect-icon.png',
+            image: 'img/logo-no-text.png',
             metadata: [
                 { name: 'twitter:card', content: 'summary_large_image' },
                 { name: 'twitter:site', content: '@databend.com' }
