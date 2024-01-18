@@ -58,6 +58,7 @@ The following is a list of the parameters available within the [log.file] sectio
 | dir                 | Path to store log files.                                                                            |
 | level               | Log level: DEBUG, INFO, or ERROR. Defaults to INFO.                                                 |
 | format              | Log format: json or text. Defaults to json.                                                         |
+| file_limit          | Specifies the log retention period (unit: hour), file_limit default 48 hours                        |
 
 ### [log.stderr] Section
 
@@ -104,10 +105,12 @@ The following is a list of the parameters available within the [meta] section:
 
 The following is a list of the parameters available within the [storage] section:
 
-| Parameter | Description                                                                                     |
-|-----------|-------------------------------------------------------------------------------------------------|
-| type      | The type of storage used. It can be one of the following: fs, s3, azblob, gcs, oss, cos, hdfs, webhdfs. |
+| Parameter      | Description                                                                                             |
+|----------------|---------------------------------------------------------------------------------------------------------|
+| type           | The type of storage used. It can be one of the following: fs, s3, azblob, gcs, oss, cos, hdfs, webhdfs. |
+| allow_insecure | Default is false, If you use minio or copy from http:// prefix url set it is true                       |
 
+> use copy into load data from stage or http:// prefix url report an error with: copy from insecure storage is not allowed , Please set `allow_insecure=true`
 
 ### [storage.fs] Section
 
