@@ -1,6 +1,6 @@
 ---
 title: Efficient Data Transformation with Databend
-slug: /load-data/querying-stage
+slug: querying-stage
 ---
 
 Databend introduces a transformative approach to data processing with its ELT (Extract, Load, Transform) model. The important aspect of this model is to query data in staged files.
