@@ -5,7 +5,7 @@ title: Node.js
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-Databend 允许您使用 Databend Driver Node.js 绑定开发与 Databend 交互的 Node.js 程序。这个驱动程序提供了一个接口，用于连接到 Databend 并执行操作，例如执行 SQL 查询和检索结果。通过 Databend 驱动程序，您可以利用 Databend 的强大分布式计算能力，构建可扩展的数据处理应用程序。访问 https://www.npmjs.com/package/databend-driver 了解更多关于驱动程序的信息。
+Databend 允许您使用 Databend Driver Node.js 绑定开发与 Databend 交互的 Node.js 程序。该驱动程序提供了连接到 Databend 并执行操作的接口，例如执行 SQL 查询和检索结果。通过 Databend 驱动程序，您可以利用 Databend 强大的分布式计算能力，构建可扩展的数据处理应用程序。访问 https://www.npmjs.com/package/databend-driver 了解更多关于驱动程序的信息。
 
 安装 Node.js 的 Databend 驱动程序：
 
@@ -16,53 +16,53 @@ npm install --save databend-driver
 :::note
 在安装驱动程序之前，请确保满足以下先决条件：
 
-- Node.js 必须已经安装在您想要安装驱动程序的环境上。
-- 确保您可以运行`node`和`npm`命令。
+- Node.js 必须已经安装在您想要安装驱动程序的环境中。
+- 确保您可以运行 `node` 和 `npm` 命令。
 - 根据您的环境，您可能需要 sudo 权限来安装驱动程序。
-  :::
+:::
 
-## Databend Node.js 驱动行为总结
+## Databend Node.js 驱动程序行为总结
 
-作为 Rust 驱动的绑定，Node.js 驱动提供了与 Rust 驱动类似的功能，具有同名函数具有相同的逻辑和能力。
+Node.js 驱动程序提供了与 Rust 驱动程序绑定类似的功能，具有相同名称的函数具有相同的逻辑和能力。
 
-下面的表格总结了 Node.js 驱动的主要行为和功能及其用途：
+下表总结了 Node.js 驱动程序的主要行为和功能及其用途：
 
-| 函数名称         | 描述                                                                                                                  |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `info`           | 返回客户端的连接信息。                                                                                                |
-| `version`        | 返回执行 `SELECT VERSION()` 语句的结果。                                                                              |
-| `exec`           | 执行一个 SQL 语句并返回受影响的行数。                                                                                 |
-| `query_iter`     | 执行一个 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                                 |
-| `query_iter_ext` | 执行一个 SQL 查询并返回一个包含结果统计信息的迭代器。                                                                 |
-| `query_row`      | 执行一个 SQL 查询并返回单行结果。                                                                                     |
-| `stream_load`    | 上传数据到内置 Stage 并执行插入/替换操作，使用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
+| 函数名称         | 描述                                                                                                                         |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `info`          | 返回客户端的连接信息。                                                                                                       |
+| `version`       | 返回执行 `SELECT VERSION()` 语句的结果。                                                                                    |
+| `exec`          | 执行 SQL 语句并返回受影响的行数。                                                                                          |
+| `query_iter`    | 执行 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                                           |
+| `query_iter_ext`| 执行 SQL 查询并返回一个包含结果统计信息的迭代器。                                                                           |
+| `query_row`     | 执行 SQL 查询并返回单行结果。                                                                                               |
+| `stream_load`   | 将数据上传到内置 Stage 并执行插入/替换操作，使用[阶段附件](/developer/apis/http#stage-attachment)。                        |
 
-## 教程 -1：使用 Node.js 与 Databend 集成
+## 教程-1：使用 Node.js 与 Databend 集成
 
-在开始之前，请确保您已经成功安装了本地 Databend。有关详细说明，请参阅[本地和 Docker 部署](/guides/deploy/deploying-local)。
+在开始之前，请确保您已成功安装了本地 Databend。有关详细说明，请参阅[本地和 Docker 部署](/guides/deploy/deploying-local)。
 
-### 步骤 1. 准备一个 SQL 用户账户
+### 步骤 1. 准备 SQL 用户账户
 
 要将您的程序连接到 Databend 并执行 SQL 操作，您必须在代码中提供具有适当权限的 SQL 用户账户。如果需要，请在 Databend 中创建一个，并确保 SQL 用户仅具有出于安全考虑所需的权限。
 
-本教程使用名为'user1'，密码为'abc123'的 SQL 用户作为示例。由于程序将向 Databend 写入数据，用户需要所有权限。有关如何管理 SQL 用户及其权限的信息，请参阅[用户与角色](/sql/sql-commands/ddl/user/)。
+本教程使用名为 'user1'，密码为 'abc123' 的 SQL 用户作为示例。由于程序将向 Databend 写入数据，因此用户需要 ALL 权限。有关如何管理 SQL 用户及其权限的信息，请参阅[用户与角色](/sql/sql-commands/ddl/user/)。
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL on *.* TO user1;
 ```
 
-### 步骤 2. 编写一个 Node.js 程序
+### 步骤 2. 编写 Node.js 程序
 
 <StepsWrap>
 
-<StepContent number="1" title="将以下代码复制并粘贴到名为databend.js的文件中：">
+<StepContent number="1" title="将以下代码复制并粘贴到名为 databend.js 的文件中：">
 
 ```js title='databend.js'
 const { Client } = require("databend-driver");
 
-// 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。
-// 在保持相同格式的条件下，您可以随意使用自己的值。
+// 连接到本地 Databend 的示例，使用名为 'user1' 的 SQL 用户和密码 'abc123'。
+// 请随意使用您自己的值，同时保持相同的格式。
 const dsn = process.env.DATABEND_DSN
   ? process.env.DATABEND_DSN
   : "databend://user1:abc123@localhost:8000/default?sslmode=disable";
@@ -80,7 +80,7 @@ async function select_books() {
 
   var sql = "USE book_db";
   await this.conn.exec(sql);
-  console.log("正在使用数据库");
+  console.log("使用数据库");
 
   var sql =
     "CREATE TABLE IF NOT EXISTS books(title VARCHAR, author VARCHAR, date VARCHAR)";
@@ -115,7 +115,7 @@ create_conn().then((conn) => {
 ```text
 已连接到 Databend 服务器！
 数据库已创建
-正在使用数据库
+使用数据库
 表已创建
 已插入 1 条记录
 [ [ 'Readings in Database Systems', 'Michael Stonebraker', '2004' ] ]
@@ -125,11 +125,11 @@ create_conn().then((conn) => {
 
 </StepsWrap>
 
-## 教程 -2：使用 Node.js 与 Databend Cloud 集成
+## 教程-2：使用 Node.js 与 Databend Cloud 集成
 
-在开始之前，请确保您已经成功创建了一个计算集群并获得了连接信息。有关如何做到这一点，请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已成功创建仓库并获取了连接信息。有关如何操作，请参阅[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
-### 步骤 1. 创建一个 Node.js 包
+### 步骤 1. 创建 Node.js 包
 
 ```shell
 $ mkdir databend-sample
@@ -145,7 +145,7 @@ $ npm init -y
 $ npm install --save databend-driver
 ```
 
-在`package.json`中添加一个新的 NPM 脚本：
+在 `package.json` 中添加一个新的 NPM 脚本：
 
 ```diff
  "scripts": {
@@ -156,7 +156,7 @@ $ npm install --save databend-driver
 
 ### 步骤 3. 使用 databend-driver 连接
 
-创建一个名为`index.js`的文件，并写入以下代码：
+创建一个名为 `index.js` 的文件，并使用以下代码：
 
 ```javascript
 const { Client } = require("databend-driver");
@@ -204,7 +204,7 @@ create_conn().then((conn) => {
 ```
 
 :::tip
-将代码中的{USER}、{PASSWORD}、{HOST}, {WAREHOUSE_NAME} 和 {DATABASE}替换为您的连接信息。有关如何获取连接信息，请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+将代码中的 {USER}、{PASSWORD}、{HOST}、{WAREHOUSE_NAME} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息，请参阅[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 步骤 4. 使用 NPM 运行示例
