@@ -4,6 +4,7 @@ title: Unloading TSV File
 
 ## Unloading TSV File
 
+Syntax:
 ```sql
 COPY INTO { internalStage | externalStage | externalLocation }
 FROM { [<database_name>.]<table_name> | ( <query> ) }
