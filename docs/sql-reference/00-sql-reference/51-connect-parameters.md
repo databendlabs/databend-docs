@@ -146,7 +146,7 @@ The following table lists connection parameters for accessing Hugging Face:
 
 | Parameter | Required?             | Description                                                                                                     |
 |-----------|-----------------------|-----------------------------------------------------------------------------------------------------------------|
-| repo_id   | Yes                   | The identifier for the Hugging Face repository. For example, "opendal/huggingface-testdata".                    |
+| repo_id   | Yes                   | The identifier for the Hugging Face repository. For example, "opendal/huggingface-testdata". Please note that the repo_id must have an organization name; datasets (such as https://huggingface.co/datasets/ropes) stored in a non-organizational format on the Hugging Face, are not supported at this time. |
 | repo_type | No (default: dataset) | The type of the Hugging Face repository. Can be `dataset` or `model`.                                           |
 | revision  | No (default: main)    | The revision for the Hugging Face URI. Could be a branch, tag, or commit of the repository.                     |
 | token     | No                    | The API token from Hugging Face, which may be required for accessing private repositories or certain resources. |
