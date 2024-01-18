@@ -22,14 +22,13 @@ The TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing P
 
 ## Performance and Cost Comparison
 
-
-* **Databend saves approximately 67% in costs compared to Snowflake for Data Loading.**
-* **For Query Execution, Databend is around 60% more cost-efficient than Snowflake.**
+- **Data Loading Costs**: Databend achieves a **67% cost reduction** in data loading compared to Snowflake.
+- **Query Execution Costs**: Databend approximately **60% less expensive** for query execution than Snowflake.
 
 :::info Note
 
-There is no tuning involved in the benchmark. The results are based on the default settings of both Snowflake and Databend Cloud.
-And remember, don't just take our word for it — you're encouraged to run and verify these results yourself.
+For this benchmark, no special tuning was applied. Both Snowflake and Databend Cloud were used with their default settings.
+And remember, **don't just take our word for it — you're encouraged to run and verify these results yourself.** 
 :::
 
 ### Data Loading Benchmark 
