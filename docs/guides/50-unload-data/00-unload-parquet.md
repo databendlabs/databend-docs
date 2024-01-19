@@ -10,7 +10,7 @@ COPY INTO {internalStage | externalStage | externalLocation}
 FROM { [<database_name>.]<table_name> | ( <query> ) }
 FILE_FORMAT = (TYPE = PARQUET)
 [MAX_FILE_SIZE = <num>]
-DETAILED_OUTPUT = true
+[DETAILED_OUTPUT = true | false]
 ```
 
 - More Parquet options refer to [Parquet File Format Options](/sql/sql-reference/file-format-options#parquet-options)

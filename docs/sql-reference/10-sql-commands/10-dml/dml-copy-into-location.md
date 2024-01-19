@@ -6,7 +6,7 @@ description:
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.134"/>
+<FunctionDescription description="Introduced or updated: v1.2.296"/>
 
 COPY INTO allows you to unload data from a table or query into one or more files in one of the following locations:
 
@@ -26,6 +26,7 @@ FROM { [<database_name>.]<table_name> | ( <query> ) }
        ) ]
 [ copyOptions ]
 [ VALIDATION_MODE = RETURN_ROWS ]
+[ DETAILED_OUTPUT = true | false ]
 ```
 
 ### internalStage
@@ -155,6 +156,28 @@ copyOptions ::=
 | SINGLE        | When TRUE, the command unloads data into one single file. Default: FALSE.                                                 |
 | MAX_FILE_SIZE | The maximum size (in bytes) of each file to be created.<br />Effective when `SINGLE` is FALSE. Default: 67108864 bytes (64 MB). |
 
+### DETAILED_OUTPUT
+
+Determines whether a detailed result of the data unloading should be returned, with the default value set to `false`. For more information, see [Output](#output).
+
+## Output
+
+COPY INTO provides a summary of the data unloading results with these columns:
+
+| Column        | Description                                                                                   |
+|---------------|-----------------------------------------------------------------------------------------------|
+| rows_unloaded | The number of rows successfully unloaded to the destination.                                  |
+| input_bytes   | The total size, in bytes, of the data read from the source table during the unload operation. |
+| output_bytes  | The total size, in bytes, of the data written to the destination.                             |
+
+When `DETAILED_OUTPUT` is set to `true`, COPY INTO provides results with the following columns. This assists in locating the unloaded files, especially when using `MAX_FILE_SIZE` to separate the unloaded data into multiple files.
+
+| Column    | Description                                        |
+|-----------|----------------------------------------------------|
+| file_name | The name of the unloaded file.                     |
+| file_size | The size of the unloaded file in bytes.            |
+| row_count | The number of rows contained in the unloaded file. |
+
 ## Examples
 
 In this section, the provided examples make use of the following table and data:
@@ -194,12 +217,19 @@ COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (TYPE = PARQUET);
 
+┌────────────────────────────────────────────┐
+│ rows_unloaded │ input_bytes │ output_bytes │
+├───────────────┼─────────────┼──────────────┤
+│            10 │         211 │          572 │
+└────────────────────────────────────────────┘
 
 LIST @my_internal_stage;
 
-name                                                           |size|md5|last_modified                |creator|
----------------------------------------------------------------+----+---+-----------------------------+-------+
-data_cb30822a-4166-4df6-9030-21a47c565bea_0000_00000000.parquet| 566|   |2023-10-10 02:26:48.219 +0000|       |
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                               name                              │  size  │        md5       │         last_modified         │      creator     │
+├─────────────────────────────────────────────────────────────────┼────────┼──────────────────┼───────────────────────────────┼──────────────────┤
+│ data_abe520a3-ee88-488c-9221-b07c562c9a30_0000_00000000.parquet │    572 │ NULL             │ 2024-01-18 16:20:48.979 +0000 │ NULL             │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Example 2: Unloading to Compressed File
@@ -207,22 +237,27 @@ data_cb30822a-4166-4df6-9030-21a47c565bea_0000_00000000.parquet| 566|   |2023-10
 This example unloads data into a compressed file:
 
 ```sql
+-- Create an internal stage
+CREATE STAGE my_internal_stage;
+
 -- Unload data from the table to the stage using the CSV file format with gzip compression
 COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (TYPE = CSV COMPRESSION = gzip);
 
-COPY INTO @my_internal_stage
-    FROM canadian_city_population
-    FILE_FORMAT = (TYPE = CSV COMPRESSION = gzip);
-
+┌────────────────────────────────────────────┐
+│ rows_unloaded │ input_bytes │ output_bytes │
+├───────────────┼─────────────┼──────────────┤
+│            10 │         182 │          168 │
+└────────────────────────────────────────────┘
 
 LIST @my_internal_stage;
 
-name                                                           |size|md5|last_modified                |creator|
----------------------------------------------------------------+----+---+-----------------------------+-------+
-data_95825fe7-de33-4f9c-9a66-3e9525996252_0000_00000000.csv.gz | 168|   |2023-10-10 02:38:37.349 +0000|       |
-data_cb30822a-4166-4df6-9030-21a47c565bea_0000_00000000.parquet| 566|   |2023-10-10 02:26:48.219 +0000|       |
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                              name                              │  size  │        md5       │         last_modified         │      creator     │
+├────────────────────────────────────────────────────────────────┼────────┼──────────────────┼───────────────────────────────┼──────────────────┤
+│ data_7970afa5-32e3-4e7d-b793-e42a2a82a8e6_0000_00000000.csv.gz │    168 │ NULL             │ 2024-01-18 16:27:01.663 +0000 │ NULL             │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- COPY INTO also works with custom file formats. See below:
 -- Create a custom file format named my_cs_gzip with CSV format and gzip compression
@@ -233,13 +268,20 @@ COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (FORMAT_NAME = 'my_csv_gzip');
 
+┌────────────────────────────────────────────┐
+│ rows_unloaded │ input_bytes │ output_bytes │
+├───────────────┼─────────────┼──────────────┤
+│            10 │         182 │          168 │
+└────────────────────────────────────────────┘
+
 LIST @my_internal_stage;
 
-name                                                           |size|md5|last_modified                |creator|
----------------------------------------------------------------+----+---+-----------------------------+-------+
-data_95825fe7-de33-4f9c-9a66-3e9525996252_0000_00000000.csv.gz | 168|   |2023-10-10 02:38:37.349 +0000|       |
-data_dfb0935f-8ccc-4c4e-970b-5189f1436e89_0000_00000000.csv.gz | 168|   |2023-10-10 02:59:53.580 +0000|       |
-data_cb30822a-4166-4df6-9030-21a47c565bea_0000_00000000.parquet| 566|   |2023-10-10 02:26:48.219 +0000|       |
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                              name                              │  size  │        md5       │         last_modified         │      creator     │
+├────────────────────────────────────────────────────────────────┼────────┼──────────────────┼───────────────────────────────┼──────────────────┤
+│ data_d006ba1c-0609-46d7-a67b-75c7078d86ff_0000_00000000.csv.gz │    168 │ NULL             │ 2024-01-18 16:29:29.721 +0000 │ NULL             │
+│ data_7970afa5-32e3-4e7d-b793-e42a2a82a8e6_0000_00000000.csv.gz │    168 │ NULL             │ 2024-01-18 16:27:01.663 +0000 │ NULL             │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Example 3: Unloading to Bucket
@@ -257,6 +299,12 @@ COPY INTO 's3://databend'
     )
     FROM canadian_city_population
     FILE_FORMAT = (TYPE = PARQUET);
+
+┌────────────────────────────────────────────┐
+│ rows_unloaded │ input_bytes │ output_bytes │
+├───────────────┼─────────────┼──────────────┤
+│            10 │         211 │          572 │
+└────────────────────────────────────────────┘
 ```
 
 ![Alt text](@site/docs/public/img/sql/copy-into-bucket.png)

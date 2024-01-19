@@ -16,7 +16,7 @@ FILE_FORMAT = (
     OUTPUT_HEADER = true -- Unload with header
 )
 [MAX_FILE_SIZE = <num>]
-DETAILED_OUTPUT = true
+[DETAILED_OUTPUT = true | false]
 ```
 
 - More CSV options refer to [CSV File Format Options](/sql/sql-reference/file-format-options#csv-options)
