@@ -37,7 +37,7 @@ npm install --save databend-driver
 | `query_row`      | 执行一个 SQL 查询并返回单行结果。                                                                                     |
 | `stream_load`    | 上传数据到内置 Stage 并执行插入/替换操作，使用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
 
-## 教程-1：使用 Node.js 与 Databend 集成
+## 教程 -1：使用 Node.js 与 Databend 集成
 
 在开始之前，请确保您已经成功安装了本地 Databend。有关详细说明，请参阅[本地和 Docker 部署](/guides/deploy/deploying-local)。
 
@@ -70,7 +70,7 @@ const dsn = process.env.DATABEND_DSN
 async function create_conn() {
   this.client = new Client(dsn);
   this.conn = await this.client.getConn();
-  console.log("已连接到Databend服务器！");
+  console.log("已连接到 Databend 服务器！");
 }
 
 async function select_books() {
@@ -90,7 +90,7 @@ async function select_books() {
   var sql =
     "INSERT INTO books VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')";
   await this.conn.exec(sql);
-  console.log("已插入1条记录");
+  console.log("已插入 1 条记录");
 
   var sql = "SELECT * FROM books";
   const rows = await this.conn.queryIter(sql);
@@ -113,11 +113,11 @@ create_conn().then((conn) => {
 <StepContent number="2" title="运行 node databend.js">
 
 ```text
-已连接到Databend服务器！
+已连接到 Databend 服务器！
 数据库已创建
 正在使用数据库
 表已创建
-已插入1条记录
+已插入 1 条记录
 [ [ 'Readings in Database Systems', 'Michael Stonebraker', '2004' ] ]
 ```
 
@@ -125,7 +125,7 @@ create_conn().then((conn) => {
 
 </StepsWrap>
 
-## 教程-2：使用 Node.js 与 Databend Cloud 集成
+## 教程 -2：使用 Node.js 与 Databend Cloud 集成
 
 在开始之前，请确保您已经成功创建了一个计算集群并获得了连接信息。有关如何做到这一点，请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
@@ -163,12 +163,12 @@ const { Client } = require("databend-driver");
 
 const dsn = process.env.DATABEND_DSN
   ? process.env.DATABEND_DSN
-  : "databend://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}";
+  : "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}"; 
 
 async function create_conn() {
   this.client = new Client(dsn);
   this.conn = await this.client.getConn();
-  console.log("已连接到Databend服务器！");
+  console.log("已连接到 Databend 服务器！");
 }
 
 async function select_data() {
@@ -204,7 +204,7 @@ create_conn().then((conn) => {
 ```
 
 :::tip
-将代码中的{USER}、{PASSWORD}、{WAREHOUSE_HOST}和{DATABASE}替换为您的连接信息。有关如何获取连接信息，请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+将代码中的{USER}、{PASSWORD}、{HOST}, {WAREHOUSE_NAME} 和 {DATABASE}替换为您的连接信息。有关如何获取连接信息，请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 步骤 4. 使用 NPM 运行示例

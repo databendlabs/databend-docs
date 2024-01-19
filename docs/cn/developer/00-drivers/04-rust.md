@@ -27,7 +27,7 @@ Databend 提供了一个用 Rust 编写的驱动（[crates.io - databend-driver]
 | `load_file`         | 重用 `load_data` 逻辑来上传文件并插入数据。                                                                           |
 | `stream_load`       | 读取数据作为 Vec，将其转换为 CSV，然后调用 `load_data` 方法。                                                         |
 
-## 教程-1：使用 Rust 与 Databend 集成
+## 教程 -1：使用 Rust 与 Databend 集成
 
 在开始之前，请确保您已成功安装了本地 Databend。有关详细说明，请参见 [本地和 Docker 部署](/guides/deploy/deploying-local)。
 
@@ -131,7 +131,7 @@ mybook author 2022
 
 </StepsWrap>
 
-## 教程-2：使用 Rust 与 Databend Cloud 集成
+## 教程 -2：使用 Rust 与 Databend Cloud 集成
 
 在开始之前，请确保您已成功创建一个计算集群并获得了连接信息。有关如何操作，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
@@ -170,7 +170,7 @@ use tokio_stream::StreamExt;
 
 #[tokio::main]
 async fn main() {
-    let dsn = "databend://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}";
+    let dsn = "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}";
     let client = Client::new(dsn.to_string());
     let conn = client.get_conn().await.unwrap();
 
@@ -210,12 +210,12 @@ async fn main() {
 ```
 
 :::tip
-将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。关于如何
+将代码中的 {USER}、{PASSWORD}、{HOST}、{WAREHOUSE_NAME} 和 {DATABASE} 替换为您的连接信息。关于如何
 获取连接信息，
 请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
-### 第 4 步. 使用 Cargo 运行示例
+### 第 4 步。使用 Cargo 运行示例
 
 ```shell
 $ cargo run

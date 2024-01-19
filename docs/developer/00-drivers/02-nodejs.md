@@ -164,7 +164,7 @@ const { Client } = require("databend-driver");
 
 const dsn = process.env.DATABEND_DSN
   ? process.env.DATABEND_DSN
-  : "databend://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}";
+  : "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}"; 
 
 async function create_conn() {
   this.client = new Client(dsn);
@@ -205,7 +205,7 @@ create_conn().then((conn) => {
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to
+Replace {USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} and {DATABASE} in the code with your connection information. For how to
 obtain the connection information,
 see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 :::

@@ -20,7 +20,7 @@ pip install databend-sqlalchemy
 
 在以下教程中，您将学习如何使用上述包来开发 Python 应用程序。教程将指导您在 Databend 中创建 SQL 用户，然后编写 Python 代码来创建表、插入数据和执行数据查询。
 
-## 教程-1：使用 Python 与 Databend 集成
+## 教程 -1：使用 Python 与 Databend 集成
 
 在开始之前，请确保您已成功安装了本地 Databend。有关详细说明，请参见[本地和 Docker 部署](/guides/deploy/deploying-local)。
 
@@ -84,7 +84,7 @@ from databend_py import Client
 
 # 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。
 # 在保持相同格式的条件下，您可以随意使用自己的值。
-# 设置 secure=False 表示客户端将通过HTTP而不是HTTPS连接到Databend。
+# 设置 secure=False 表示客户端将通过 HTTP 而不是 HTTPS 连接到 Databend。
 client = Client('user1:abc123@127.0.0.1', port=8000, secure=False)
 client.execute("CREATE DATABASE IF NOT EXISTS bookstore")
 client.execute("USE bookstore")
@@ -168,7 +168,7 @@ from sqlalchemy import create_engine, text
 
 # 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。
 # 在保持相同格式的条件下，您可以随意使用自己的值。
-# 设置 secure=False 表示客户端将通过HTTP而不是HTTPS连接到Databend。
+# 设置 secure=False 表示客户端将通过 HTTP 而不是 HTTPS 连接到 Databend。
 engine = create_engine("databend://user1:abc123@127.0.0.1:8000/default?secure=False")
 
 connection1 = engine.connect()
@@ -201,7 +201,7 @@ Readings in Database Systems Michael Stonebraker 2004
 </TabItem>
 </Tabs>
 
-## 教程-2：使用 Python (databend-py) 与 Databend Cloud 集成
+## 教程 -2：使用 Python (databend-py) 与 Databend Cloud 集成
 
 开始之前，请确保您已成功创建计算集群并获取了连接信息。关于如何操作，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
@@ -216,7 +216,7 @@ pip install databend-py
 ```python
 from databend_py import Client
 
-client = Client.from_url(f"https://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}?secure=true")
+client = Client.from_url(f"databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME})
 client.execute('DROP TABLE IF EXISTS data')
 client.execute('CREATE TABLE if not exists data (x Int32,y VARCHAR)')
 client.execute('DESC  data')
@@ -225,7 +225,7 @@ _, res = client.execute('select * from data')
 print(res)
 ```
 
-## 教程-3：使用 Python (databend-sqlalchemy) 与 Databend Cloud 集成
+## 教程 -3：使用 Python (databend-sqlalchemy) 与 Databend Cloud 集成
 
 开始之前，请确保您已成功创建计算集群并获取了连接信息。关于如何操作，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
@@ -240,7 +240,7 @@ pip install databend-sqlalchemy
 ```python
 from databend_sqlalchemy import connector
 
-cursor = connector.connect(f"{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}?secure=true").cursor()
+cursor = connector.connect(f"databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}).cursor()
 cursor.execute('DROP TABLE IF EXISTS data')
 cursor.execute('CREATE TABLE IF NOT EXISTS  data( Col1 TINYINT, Col2 VARCHAR )')
 cursor.execute("INSERT INTO data (Col1,Col2) VALUES ", [1, 'yy', 2, 'xx'])
@@ -249,5 +249,5 @@ print(cursor.fetchall())
 ```
 
 :::tip
-请将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。关于如何获取连接信息，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+请将代码中的 {USER}、{PASSWORD}、{HOST}、{WAREHOUSE_NAME} 和 {DATABASE} 替换为您的连接信息。关于如何获取连接信息，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::

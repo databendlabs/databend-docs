@@ -3,7 +3,7 @@ title: Connection Parameters
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.148"/>
+<FunctionDescription description="Introduced or updated: v1.2.294"/>
 
 The connection parameters refer to a set of essential connection details required for establishing a secure link to supported external storage services, like Amazon S3. These parameters are enclosed within parentheses and consists of key-value pairs separated by commas. It is commonly utilized in operations such as creating a stage, copying data into Databend, and querying staged files from external sources. The provided key-value pairs offer the necessary authentication and configuration information for the connection.
 
@@ -138,3 +138,15 @@ The following table lists connection parameters for accessing WebHDFS:
 |--------------	|-----------	|---------------------------------------------------	|
 | endpoint_url 	| Yes       	| Endpoint URL for WebHDFS.                         	|
 | delegation   	| No        	| Delegation token for accessing WebHDFS.           	|
+
+
+### Hugging Face
+
+The following table lists connection parameters for accessing Hugging Face:
+
+| Parameter | Required?             | Description                                                                                                     |
+|-----------|-----------------------|-----------------------------------------------------------------------------------------------------------------|
+| repo_id   | Yes                   | The identifier for the Hugging Face repository. For example, "opendal/huggingface-testdata". Please note that the repo_id must have an organization name; datasets (such as https://huggingface.co/datasets/ropes) stored in a non-organizational format on the Hugging Face, are not supported at this time. |
+| repo_type | No (default: dataset) | The type of the Hugging Face repository. Can be `dataset` or `model`.                                           |
+| revision  | No (default: main)    | The revision for the Hugging Face URI. Could be a branch, tag, or commit of the repository.                     |
+| token     | No                    | The API token from Hugging Face, which may be required for accessing private repositories or certain resources. |

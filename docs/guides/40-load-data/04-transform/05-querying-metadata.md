@@ -1,5 +1,6 @@
 ---
 title: Query Metadata for Staged Files
+sidebar_label: Querying Metadata
 ---
 
 ## Why and What is Metadata?

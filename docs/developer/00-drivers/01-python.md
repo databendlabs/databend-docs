@@ -215,7 +215,7 @@ pip install databend-py
 ```python
 from databend_py import Client
 
-client = Client.from_url(f"https://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}?secure=true")
+client = Client.from_url(f"databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME})
 client.execute('DROP TABLE IF EXISTS data')
 client.execute('CREATE TABLE if not exists data (x Int32,y VARCHAR)')
 client.execute('DESC  data')
@@ -239,7 +239,7 @@ pip install databend-sqlalchemy
 ```python
 from databend_sqlalchemy import connector
 
-cursor = connector.connect(f"{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}?secure=true").cursor()
+cursor = connector.connect(f"databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}).cursor()
 cursor.execute('DROP TABLE IF EXISTS data')
 cursor.execute('CREATE TABLE IF NOT EXISTS  data( Col1 TINYINT, Col2 VARCHAR )')
 cursor.execute("INSERT INTO data (Col1,Col2) VALUES ", [1, 'yy', 2, 'xx'])
@@ -248,5 +248,5 @@ print(cursor.fetchall())
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+Replace {USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 :::

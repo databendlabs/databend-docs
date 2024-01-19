@@ -221,7 +221,7 @@ import (
 )
 
 func main() {
-	dsn := "https://{USER}:{PASSWORD}@{WAREHOUSE_HOST}:443/{DATABASE}"
+	dsn := "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}";
 	conn, err := sql.Open("databend", dsn)
 	if err != nil {
 		fmt.Println(err)
@@ -267,7 +267,7 @@ func main() {
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to
+Replace {USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} and {DATABASE} in the code with your connection information. For how to
 obtain the connection information,
 see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 :::

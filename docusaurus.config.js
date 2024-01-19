@@ -35,7 +35,7 @@ const config = {
     title: 'Databend',
     staticDirectories: ['static', './docs/public'],
     tagline: 'Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics.',
-    url: isCN ? 'https://docs.databend.cn' : 'https://databend.rs/',
+    url: docsHomeLink,
     baseUrl: '/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'throw',
@@ -113,8 +113,11 @@ const config = {
                     priority: 0.5,
                 },
                 gtag: {
-                    trackingID: 'G-WBQPTTG4ZG',
-                    anonymizeIP: true,
+                  // com: G-KYDJ7HV75X
+                  // cn: G-M88HSQF3DK
+                  // rs: G-WBQPTTG4ZG
+                  trackingID: isCN ? 'G-M88HSQF3DK' : 'G-KYDJ7HV75X',
+                  anonymizeIP: true,
                 },
             }),
         ]
@@ -306,10 +309,10 @@ const config = {
                 additionalLanguages: ['toml', 'rust'],
             },
             algolia: algolia,
-            image: 'img/rect-icon.png',
+            image: 'img/logo/logo-no-text.png',
             metadata: [
                 { name: 'twitter:card', content: 'summary_large_image' },
-                { name: 'twitter:site', content: '@databend.rs' }
+                { name: 'twitter:site', content: '@databend.com' }
             ],
         }),
 };
