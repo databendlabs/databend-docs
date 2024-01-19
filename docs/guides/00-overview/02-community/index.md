@@ -10,7 +10,7 @@ Discover valuable resources to stay informed, participate in discussions, and co
 
 * **[Development Roadmaps](02-roadmap.md)**: Chart the exciting future of Databend with our detailed roadmaps. Uncover upcoming highlights and planned milestones.
 
-* **[Performance Benchmarks](03-benchmarks.md)**: Curious about Databend's speed and efficiency? Delve into our performance benchmarks to gain insights into the engine's capabilities.
+* **[Performance Benchmarks](https://www.databend.com/blog/clickbench-databend-top/)**: Curious about Databend's speed and efficiency? Delve into our performance benchmarks to gain insights into the engine's capabilities.
 
 * **[Contributor's Guide](/guides/overview/community/contributor)**: Ready to contribute? Learn how to become a key part of Databend's success. Your involvement makes a significant impact.
 
