@@ -1,14 +1,14 @@
 ---
-title: CREATE FUNCTION
+title: 创建函数
 sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.116"/>
+<FunctionDescription description="引入或更新版本：v1.2.116"/>
 
-Creates a user-defined function.
+创建用户定义的函数。
 
-## Syntax
+## 语法
 
 ```sql
 CREATE FUNCTION [IF NOT EXISTS] <function_name> 
@@ -16,6 +16,6 @@ CREATE FUNCTION [IF NOT EXISTS] <function_name>
     [DESC='<description>']
 ```
 
-## Examples
+## 示例
 
-See [Usage Examples](index.md#usage-examples).
+参见 [使用示例](/guides/query/udf#usage-examples)。
