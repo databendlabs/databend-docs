@@ -275,7 +275,7 @@ const config = {
                         items: [
                             {
                                 label: 'Performance',
-                                to: `https://docs.databend.com/guides/benchmark/tpch`
+                                to: `/guides/benchmark/tpch`
                             },
                             {
                                 label: 'Deployment',
