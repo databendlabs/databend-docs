@@ -11,7 +11,7 @@ import {useThemeConfig} from '@docusaurus/theme-common';
 import CookiesConsent from '../../components/CookiesConsent';
 import styles from './index.module.scss';
 import * as icons from "../../components/Icons"
-
+import RedirectComponent from '@site/src/components/RedirectComponent';
 
 
 function Footer() {
@@ -31,7 +31,8 @@ function Footer() {
         <div className={styles.footerCopyright}>
           <p>Copyright © {year} The Databend Community. Built with Docusaurus. Apache, Apache OpenDAL and OpenDAL are either registered trademarks or trademarks of the Apache Software Foundation.</p>
         </div>
-      <CookiesConsent></CookiesConsent>
+      <RedirectComponent to="https://docs.databend.com" />
+      <CookiesConsent />
     </footer>
   );
 }
