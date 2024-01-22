@@ -21,3 +21,5 @@ Databend offers different editions to cater to a variety of user needs. Dive int
 Explore the details to find the edition that best suits your requirements:
 
 <IndexOverviewList />
+
+To learn more about the differences between the editions, please click [here](https://www.databend.com/databend-editions-details).
