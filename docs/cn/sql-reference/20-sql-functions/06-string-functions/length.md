@@ -3,25 +3,25 @@ id: string-length
 title: LENGTH
 ---
 
-Returns the length of an input string or binary value. For strings, the length is the number of characters, and UTF-8 characters are counted as a single character. For binary, the length is the number of bytes.
+返回输入字符串或二进制值的长度。对于字符串，长度是字符的数量，UTF-8字符计为一个字符。对于二进制，长度是字节数。
 
-## Syntax
+## 语法
 
 ```sql
 LENGTH(<input>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
+| 参数 | 描述 |
 |-----------|-------------|
-| `<input>`   | The string or binary. |
+| `<input>`   | 字符串或二进制。 |
 
-## Return Type
+## 返回类型
 
 `BIGINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT LENGTH('Word');

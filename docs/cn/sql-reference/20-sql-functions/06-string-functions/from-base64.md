@@ -2,26 +2,26 @@
 title: FROM_BASE64
 ---
 
-Takes a string encoded with the base-64 encoded rules nd returns the decoded result as a binary.
-The result is NULL if the argument is NULL or not a valid base-64 string.
+将使用 base-64 编码规则编码的字符串解码，并返回解码后的二进制结果。
+如果参数为 NULL 或不是有效的 base-64 字符串，则结果为 NULL。
 
-## Syntax
+## 语法 {/*syntax*/}
 
 ```sql
 FROM_BASE64(<expr>)
 ```
 
-## Arguments
+## 参数 {/*arguments*/}
 
-| Arguments | Description       |
-|-----------|-------------------|
-| `<expr>`  | The string value. |
+| 参数      | 描述           |
+|-----------|----------------|
+| `<expr>`  | 字符串值。     |
 
-## Return Type
+## 返回类型 {/*return-type*/}
 
 `BINARY`
 
-## Examples
+## 示例 {/*examples*/}
 
 ```sql
 SELECT TO_BASE64('abc'), FROM_BASE64(TO_BASE64('abc')) as b, b::String;

@@ -3,31 +3,31 @@ id: string-char
 title: CHAR
 ---
 
-Return the character for each integer passed.
+返回每个传入整数对应的字符。
 
-## Syntax
+## 语法
 
 ```sql
 CHAR(N, ...)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| N         | Numeric Column |
+| 参数 | 描述             |
+|------|------------------|
+| N    | 数值型列（Numeric Column） |
 
-## Return Type
+## 返回类型
 
 `BINARY`
 
-## Examples
+## 示例
 
 ```sql
 SELECT CHAR(77,121,83,81,76) as a, a::String;
 ┌────────────────────────┐
 │      a     │ a::string │
-│   Binary   │   String  │
+│   二进制   │   字符串  │
 ├────────────┼───────────┤
 │ 4D7953514C │ MySQL     │
 └────────────────────────┘
