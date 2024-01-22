@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 const RedirectComponent = ({to}: {to: string}) => {
@@ -10,4 +10,4 @@ const RedirectComponent = ({to}: {to: string}) => {
   return <></>;
 };
 
-export default RedirectComponent;
+export default memo(RedirectComponent);
