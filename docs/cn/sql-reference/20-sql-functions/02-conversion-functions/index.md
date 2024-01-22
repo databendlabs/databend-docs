@@ -1,38 +1,18 @@
 ---
-title: 'Conversion Functions'
+title: '转换函数'
 ---
 
-import FunctionDescription from '@site/src/components/FunctionDescription';
+import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-<FunctionDescription description="Introduced or updated: v1.2.187"/>
+本节提供了 Databend 中转换函数的参考信息。
 
-This page lists functions that allow you to convert an expression from one data type to another.
+<IndexOverviewList />
 
-| Function                      | Description                                                            | Example                                             | Result                     |
-|-------------------------------|------------------------------------------------------------------------|-----------------------------------------------------|----------------------------|
-| CAST( expr AS data_type )     | Converts a value from one data type to another                         | CAST(1 AS VARCHAR)                                  | 1                          |
-| expr::data_type               | Alias for CAST                                                         | 1::VARCHAR                                          | 1                          |
-| TRY_CAST( expr AS data_type ) | Converts a value from one data type to another. Returns NULL on error. | TRY_CAST(1 AS VARCHAR)                              | 1                          |
-| TO_BITMAP( expr )             | Converts a value to BITMAP data type                                   | TO_BITMAP('1101')                                   | 1101                       |
-| BUILD_BITMAP( expr )          | Converts an array of positive integers to a BITMAP value               | BUILD_BITMAP([1,4,5])::String | 1,4,5 |
-| TO_BOOLEAN( expr )            | Converts a value to BOOLEAN data type                                  | TO_BOOLEAN('true')                                  | 1                          |
-| TO_FLOAT32( expr )            | Converts a value to FLOAT32 data type                                  | TO_FLOAT32('1.2')                                   | 1.2                        |
-| TO_FLOAT64( expr )            | Converts a value to FLOAT64 data type                                  | TO_FLOAT64('1.2')                                   | 1.2                        |
-| TO_INT8( expr )               | Converts a value to INT8 data type                                     | TO_INT8('123')                                      | 123                        |
-| TO_INT16( expr )              | Converts a value to INT16 data type                                    | TO_INT16('123')                                     | 123                        |
-| TO_INT32( expr )              | Converts a value to INT32 data type                                    | TO_INT32('123')                                     | 123                        |
-| TO_INT64( expr )              | Converts a value to INT64 data type                                    | TO_INT64('123')                                     | 123                        |
-| TO_STRING( expr )             | Converts a value to STRING data type                                   | TO_STRING(10)                                       | 10                         |
-| TO_STRING( expr, expr )       | Alias for [DATE_FORMAT](../05-datetime-functions/date-format.md)       | TO_STRING('2022-12-25', 'Month/Day/Year: %m/%d/%Y') | Month/Day/Year: 12/25/2022 |
-| TO_UINT8( expr )              | Converts a value to UINT8 data type                                    | TO_UINT8('123')                                     | 123                        |
-| TO_UINT16( expr )             | Converts a value to UINT16 data type                                   | TO_UINT16('123')                                    | 123                        |
-| TO_UINT32( expr )             | Converts a value to UINT32 data type                                   | TO_UINT32('123')                                    | 123                        |
-| TO_UINT64( expr )             | Converts a value to UINT64 data type                                   | TO_UINT64('123')                                    | 123                        |
-| TO_VARIANT( expr )            | Converts a value to VARIANT data type                                  | TO_VARIANT(TO_BITMAP('100,200,300')) | [100,200,300] |
+在将一个值从一种类型转换为另一种类型时，请注意以下事项：
 
-- When converting from floating-point, decimal numbers, or strings to integers or decimal numbers with fractional parts, Databend rounds the values to the nearest integer. This is determined by the setting `numeric_cast_option` (defaults to 'rounding') which controls the behavior of numeric casting operations. When `numeric_cast_option` is explicitly set to 'truncating', Databend will truncate the decimal part, discarding any fractional values.
+- 当从浮点数、小数或字符串转换为整数或带有小数部分的小数时，Databend 会将值四舍五入到最接近的整数。这由设置 `numeric_cast_option`（默认为 'rounding'）控制，它控制数值转换操作的行为。当 `numeric_cast_option` 明确设置为 'truncating' 时，Databend 将截断小数部分，丢弃任何小数值。
 
-    ```sql title='Example:'
+    ```sql title='示例：'
     SELECT CAST('0.6' AS DECIMAL(10, 0)), CAST(0.6 AS DECIMAL(10, 0)), CAST(1.5 AS INT);
 
     ┌──────────────────────────────────────────────────────────────────────────────────┐
@@ -52,16 +32,16 @@ This page lists functions that allow you to convert an expression from one data 
     └──────────────────────────────────────────────────────────────────────────────────┘
     ```
 
-    The table below presents a summary of numeric casting operations, highlighting the casting possibilities between different source and target numeric data types. Please note that, it specifies the requirement for String to Integer casting, where the source string must contain an integer value.
+    下表总结了数值转换操作，突出显示了不同源类型和目标数值数据类型之间的转换可能性。请注意，它指定了从字符串到整数转换的要求，其中源字符串必须包含一个整数值。
 
-    | Source Type    | Target Type |
+    | 源类型         | 目标类型     |
     |----------------|-------------|
-    | String         | Decimal     |
-    | Float          | Decimal     |
-    | Decimal        | Decimal     |
-    | Float          | Int         |
-    | Decimal        | Int         |
-    | String (Int)   | Int         |
+    | 字符串         | 小数         |
+    | 浮点数         | 小数         |
+    | 小数           | 小数         |
+    | 浮点数         | 整数         |
+    | 小数           | 整数         |
+    | 字符串（整数） | 整数         |
 
 
-- Databend also offers a variety of functions for converting expressions into different date and time formats. For more information, see [Date & Time Functions](../05-datetime-functions/index.md).
+- Databend 还提供了多种函数，用于将表达式转换为不同的日期和时间格式。有关更多信息，请参见[日期和时间函数](../05-datetime-functions/index.md)。
