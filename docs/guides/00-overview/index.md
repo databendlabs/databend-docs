@@ -5,40 +5,22 @@ slug: /
 
 # Databend Guides
 
-The Databend Guides are applicable across all [Databend Editions](00-editions/index.md). Any features or aspects exclusive to a particular edition will be explicitly mentioned and clarified in the documentation.
+Welcome to the Databend Guides, covering all aspects of [Databend Editions](00-editions/index.md).
+Features unique to a specific edition are clearly noted within the documentation.
 
-[Overview](index.md)
----
-Explore the diverse editions of Databend, delve into its thriving ecosystem, and engage with a vibrant community passionate about data management and analytics.
+- **`Databend`** refers to the [open-source version](https://github.com/datafuselabs/databend).
+- **`Databend Cloud`** is a fully [managed cloud service](https://databend.com).
+- **`Databend(Cloud)`** collectively denotes both `Databend` and `Databend Cloud`.
 
-[Deploy & Upgrade Databend](../10-deploy/index.md)
----
-Effortlessly set up and stay current with Databend by following our comprehensive guide on deployment and seamless upgrades, ensuring you harness the latest features and improvements.
+## Getting Started
 
-[Datebend Cloud Quickstarts](../20-cloud/index.md)
----
-Immerse yourself in Databend Cloud with our quickstart guide, designed to walk you through essential operations and optimizations tailored for the cloud environment.
-
-[Connect to Databend](../30-sql-clients/index.md)
----
-Learn the ins and outs of establishing connections to Databend, whether you're integrating with various data sources or setting up cross-functional collaborations within your organization.
-
-[Data Loading](../40-load-data/index.md)
----
-Master the art of efficiently loading data into Databend and seamlessly unloading it, ensuring a smooth and streamlined data flow throughout your analytics pipeline.
-
-[Data Unloading](../50-unload-data/index.md)
----
-Databend allows for the efficient export of data from database tables into flat files, supporting formats such as Parquet, JSON, and CSV for bulk unloading.
-
-[Visualize](../60-visualize/index.md)
----
-Navigate the realm of data visualization by exploring our guide on seamlessly integrating Databend with third-party visualization and AI toolsets.
-
-[Monitor](../70-monitor/index.md)
----
-Gain a deep understanding of how to effectively monitor your Databend environment, ensuring optimal performance, identifying bottlenecks, and maintaining a robust and reliable data infrastructure.
-
-[Performance Optimization](../55-performance/index.md)
----
-Learn how to optimize the performance of Databend, make your queries run faster, and improve the overall efficiency of your data infrastructure.
+- **[Deployment & Upgrade](../10-deploy/index.md)**: Steps to deploy Databend in various environments.
+- **[Databend Cloud Quickstarts](../20-cloud/index.md)**: Quickstart guide for Databend Cloud.
+- **[Connection Guide](../30-sql-clients/index.md)**: How to connect to Databend(Cloud) using different drivers. 
+- **[Bulk Loading](../40-load-data/index.md)**: Instructions for bulk data import into Databend(Cloud) in various formats.
+- **[Bulk Unloading](../50-unload-data/index.md)**: Methods for exporting data from Databend(Cloud).
+- **[Security](../56-security/index.md)**: Overview of Databend(Cloud)'s security measures.
+- **[Visualization](../60-visualize/index.md)**: Integrating Databend(Cloud) with visualization tools. 
+- **[Monitoring](../70-monitor/index.md)**: Monitoring Databend(Cloud) with tools like Prometheus.
+- **[Performance Optimization](../55-performance/index.md)**: Tips for enhancing Databend(Cloud)'s performance. 
+- **[Benchmarks](../80-benchmark/index.md)**: Databend Cloud performance with Snowflake on TPC-H SF100 benchmarks. 

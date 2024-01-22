@@ -7,6 +7,8 @@ on:
     paths-ignore:
     - '.github**/*'
     - 'docs/cn/**/*'
+    - 'docs/release-notes/**/*'
+    - 'docs/release-stable/**/*'
     - 'api/**/*'
     - 'i18n/**/*'
     - 'src/**/*'
@@ -27,7 +29,7 @@ jobs:
     - name: get changed files name
       id: changed_files
       run: |
-        echo "files=$(git diff --name-only HEAD^ HEAD | grep '\.md$' | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+        echo "files=$(git diff --diff-filter=d --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
     - name: Run GPT Translate
       uses: 3ru/gpt-translate@v1.1.5

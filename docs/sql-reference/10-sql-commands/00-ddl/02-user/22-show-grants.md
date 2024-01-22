@@ -5,6 +5,11 @@ sidebar_position: 10
 
 Lists all the privileges that have been explicitly granted to a user or a role.
 
+See also:
+
+- [GRANT](10-grant.md)
+- [REVOKE](11-revoke.md)
+
 ## Syntax
 
 ```sql

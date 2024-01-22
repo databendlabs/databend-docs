@@ -1,17 +1,17 @@
 ---
-title: SHOW USERS
+title: 显示用户
 sidebar_position: 3
 ---
 
-Lists all the users in the system.
+列出系统中的所有用户。
 
-## Syntax
+## 语法 {#syntax}
 
 ```sql
-SHOW USERS;
+SHOW USERS
 ```
 
-## Examples
+## 示例 {#examples}
 
 ```sql
 SHOW USERS;

@@ -2,10 +2,10 @@
 title: Loading Data with Tools
 ---
 
-Databend offers a comprehensive selection of connectors and plugins that seamlessly integrate with popular data import tools. These connectors facilitate smooth data transfer and synchronization between Databend and various external platforms. The table below highlights the supported tools along with their corresponding Databend connectors and plugins:
+Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization. See the below table for supported tools and their Databend connectors.
 
 :::info
-These connectors and plugins also work with Databend Cloud. When connecting to Databend Cloud, you will need the connection information obtained from one of your warehouses. For guidance on obtaining your warehouse information and establishing the connection, please refer to the following link: [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses/#connecting)
+These connectors also support Databend Cloud. For setup instructions, visit: [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses/#connecting) 
 :::
 
 | Tool      	| Plugin / Connector                                                                                                                                                 	|
@@ -18,5 +18,3 @@ These connectors and plugins also work with Databend Cloud. When connecting to D
 | Flink CDC 	| [Flink SQL connector for Databend](https://github.com/databendcloud/flink-connector-databend)                                                                      	|
 | Kafka     	| [bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka)                                                                                            	|
 | Vector    	| [Databend sink](https://vector.dev/docs/reference/configuration/sinks/databend/)                                                                                   	|
-
-Click on the tool names in the left navigation lane to explore detailed information about Databend's support for each tool, along with tutorials or examples.

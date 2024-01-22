@@ -12,7 +12,7 @@ Displays detailed information about a specific network policy in Databend. It pr
 ## Syntax
 
 ```sql
-DESC NETWORK POLICY policy_name
+DESC NETWORK POLICY <policy_name>
 ```
 
 ## Examples

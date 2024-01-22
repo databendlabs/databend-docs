@@ -2,7 +2,7 @@
 .modalWrap {
   .topInput {
     height: 56px;
-    border-bottom:  1px solid var(--color-border);
+    border-bottom: 1px solid hsl(var(--border));
     input {
       background-color: var(--color-bg-1);
       font-size: 14px;
@@ -20,6 +20,9 @@
     padding: 12px;
     padding-top: 20px;
     color: var(--color-text-1);
+    background: var(--color-bg-1);
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
     .title {
       padding-bottom: 4px;
     }

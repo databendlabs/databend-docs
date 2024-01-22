@@ -14,7 +14,7 @@ For a detailed feature comparison between Databend Cloud and Snowflake, visit th
 
 ## Databend Cloud Pricing
 
-To understand the competitive pricing of Databend Cloud, check out the [pricing page](https://www.databend.com/pricing/).
+To understand the competitive pricing of Databend Cloud, check out the [pricing page](https://www.databend.com/plan/).
 
 ## Table of Contents
 

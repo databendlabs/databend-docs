@@ -8,7 +8,7 @@ Lists all the users in the system.
 ## Syntax
 
 ```sql
-SHOW USERS;
+SHOW USERS
 ```
 
 ## Examples

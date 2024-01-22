@@ -1,13 +1,9 @@
 ---
-title: 'Databend AI-Based Functions'
-sidebar_label: 'AI-Based Functions'
+title: 'Databend AI Capabilities'
+sidebar_label: 'AI Capabilities'
 ---
 
-## What are Databend AI functions?
-
-Databend AI functions are built-in functions that use machine learning to perform various natural language processing tasks, such as document embeddings, text completions, and more.
-
-These functions can be used in SQL queries to add powerful AI capabilities to your data analysis.
+This guide invites you to explore the realm where Databend's built-in functions merge with machine learning. Transform your data analysis effortlessly through SQL queries, uncovering a range of natural language tasks— from understanding documents to completing text and more.
 
 ## Data, Privacy, and Security
 
