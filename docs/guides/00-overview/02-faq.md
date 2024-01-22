@@ -36,20 +36,20 @@ This table provides an outline of the mapping of data types between Databend, My
 | BIGINT        | BIGINT    | NUMBER(19,0) |
 | FLOAT         | FLOAT     | FLOAT        |
 | DOUBLE        | DOUBLE    | FLOAT(24)    |
-| DECIMAL       | DECIMAL   | FLOAT(24)    |
+| DECIMAL       | DECIMAL   | NUMBER       |
 | DATE          | DATE      | DATE         |
 | TIMESTAMP     | TIMESTAMP | NUMBER       |
 | DATETIME      | DATETIME  | DATE         |
 | YEAR          | INT       | NUMBER       |
 | VARCHAR       | VARCHAR   | VARCHAR2     |
 | VARCHAR       | CHAR      | CHAR         |
-| VARBINARY     | VARBINARY | RAW, BLOB    |
-| VARCHAR       | VARCHAR   | VARCHAR2     |
-| VARCHAR       | VARCHAR   | RAW, CBLOB   |
-| VARBINARY     | VARBINARY | RAW, BLOB    |
-| VARCHAR       | VARCHAR   | RAW, CBLOB   |
-| VARCHAR       | VARCHAR   | VARCHAR2     |
-| VARCHAR       | VARCHAR   | VARCHAR2     |
+| BINARY        | VARBINARY | RAW, BLOB    |
+| VARCHAR       | TEXT      | VARCHAR2     |
+| VARCHAR       | LONGTEXT  | RAW, CBLOB   |
+| VARCHAR       | MEDIUMTEXT| RAW, CBLOB   |
+| VARCHAR       | ENUM      | VARCHAR2     |
+| VARCHAR       | SET       | VARCHAR2     |
+| VARCHAR       | bit       | CHAR         |
 | ARRAY         | N/A       | N/A          |
 | BOOLEAN       | N/A       | N/A          |
 | TUPLE         | N/A       | N/A          |
