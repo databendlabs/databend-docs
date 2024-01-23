@@ -1,19 +1,33 @@
 ---
-title: DROP DATABASE
+title: 删除数据库
 ---
 
-Drop a database.
+删除一个数据库。
 
-## Syntax
+另见：[恢复删除的数据库](undrop-database.md)
+
+## 语法 {/*syntax*/}
 
 ```sql
 DROP { DATABASE | SCHEMA } [IF EXISTS] <database_name>
 ```
 
-`DROP SCHEMA` is a synonym for `DROP DATABASE`.
+`DROP SCHEMA` 是 `DROP DATABASE` 的同义词。
 
-## Examples
+## 示例 {/*examples*/}
+
+此示例创建然后删除名为 "orders_2024" 的数据库：
 
 ```sql
-DROP DATABASE test;
+root@localhost:8000/default> CREATE DATABASE orders_2024;
+
+CREATE DATABASE orders_2024
+
+0 行在 0.014 秒内写入。处理了 0 行，0 B（0 行/秒，0 B/秒）
+
+root@localhost:8000/default> DROP DATABASE orders_2024;
+
+DROP DATABASE orders_2024
+
+0 行在 0.012 秒内写入。处理了 0 行，0 B（0 行/秒，0 B/秒）
 ```
