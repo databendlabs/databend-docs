@@ -1,3 +1,4 @@
+```markdown
 ---
 title: 兼容性
 sidebar_label: 兼容性
@@ -39,7 +40,7 @@ description:
 
 ### 维护兼容性
 
-必须使用兼容版本的 databend-query 和 databend-meta 部署 databend 集群。
+一个 databend 集群必须部署兼容版本的 databend-query 和 databend-meta。
 一个 databend-query 和 databend-meta 是兼容的，当且仅当以下声明成立：
 
 ```
@@ -57,7 +58,7 @@ databend-bend.version  >= databend-query.min-compatible-metasrv-version
 
 #### 兼容性验证协议
 
-在 meta-client（databend-query）和 databend-meta 之间建立连接时，将检查兼容性，在 `handshake` RPC 中。
+在 meta-client（databend-query）和 databend-meta 之间建立连接时，将检查兼容性，在一个 `handshake` RPC 中。
 
 客户端 `C`（databend-query）和服务器 `S`（databend-meta）维护两个语义版本：
 
@@ -75,7 +76,7 @@ databend-bend.version  >= databend-query.min-compatible-metasrv-version
 
 例如：
 - `S: (ver=3, min_cli_ver=1)` 与 `C: (ver=3, min_srv_ver=2)` 兼容。
-- `S: (ver=4, min_cli_ver=4)` 与 `C: (ver=3, min_srv_ver=2)` **不**兼容。
+- `S: (ver=4, min_cli_ver=4)` 与 `C: (ver=3, min_srv_ver=2)` **不** 兼容。
   因为尽管 `S.ver(4) >= C.min_srv_ver(3)` 成立，
   但 `C.ver(3) >= S.min_cli_ver(4)` 不成立。
 
@@ -107,22 +108,42 @@ S.ver:           2      3      4
 
 <img src="/img/deploy/compatibility.excalidraw.png"/>
 
+## databend-query 之间的兼容性
+
+| Query 版本         | 向后兼容的版本              |
+|:-------------------|:--------------------------|
+| [-∞, 1.2.307)      | [-∞, 1.2.311)             |
+| [1.2.307, 1.2.311) | [-∞, 1.2.311)             |
+| [1.2.311, +∞)      | [1.2.307, +∞)             |
+
+自 1.2.307 起，支持使用 pb 和 json 反序列化 Role 信息，但只支持将 Role 信息序列化为 json。
+
+自 1.2.311 起，只支持将 Role 信息序列化为 pb。
+
+防止在滚动升级期间对角色进行操作，因为未成功升级的查询节点无法读取数据。建议先升级到 1.2.307，然后升级到 1.2.311。
+
+例如，当前版本是 1.2.306 升级到 1.2.312：
+
+```
+1.2.307 -> 1.2.311 -> 1.2.312
+
+```
 
 ## databend-meta 之间的兼容性
 
-| Meta 版本         | 与之向后兼容的版本 |
+| Meta 版本          | 向后兼容的版本            |
 |:------------------|:-------------------------|
 | [0.9.41, 1.2.212) | [0.9.41, 1.2.212)        |
 | [1.2.212, +∞)     | [0.9.41, +∞)             |
 
 
-- `1.2.53` 不兼容，允许滚动升级而无需传输快照。
+- `1.2.53` 不兼容，允许滚动升级但不传输快照。
   快照格式已更改，因此在滚动升级期间，
-  需要所有节点数据都是最新的，确保不需要通过快照复制。
+  需要所有节点数据都是最新的，确保不需要使用快照进行复制。
 
-- `1.2.163` 功能：gRPC API：添加了 `kv_read_v1()`。用于流式读取。
+- `1.2.163` 功能：gRPC API：`kv_read_v1()` 已添加。用于流式读取。
 
-- `1.2.212` 特性：raft API：`install_snapshot_v1()`。与旧版本兼容。
+- `1.2.212` 功能：raft API：`install_snapshot_v1()`。与旧版本兼容。
   支持滚动升级。
   在此版本中，databend-meta raft-server 引入了一个新的 API `install_snapshot_v1()`。
   raft-client 将尝试使用这个新 API 或原始的 `install_snapshot()`。
@@ -130,50 +151,50 @@ S.ver:           2      3      4
 
 ## databend-meta 磁盘数据的兼容性
 
-随着时间的推移，Databend-meta 的磁盘数据在保持向后兼容性的同时不断演进。
+Databend-meta 的磁盘数据随着时间的推移而发展，同时保持向后兼容性。
 
 ### 确定版本
 
 启动时，Databend-meta 将显示磁盘数据版本：
 
-例如，运行 `databend-meta --single` 会产生：
+例如，运行 `databend-meta --single` 产生：
 
 ```
 Databend Metasrv
 
-Version: v1.1.33-nightly-...
-Working DataVersion: V0
+版本：v1.1.33-nightly-...
+工作数据版本：V0
 
-On Disk Data:
-    Dir: ./.databend/meta
-    Version: version=V0, upgrading=None
+磁盘上的数据：
+    目录：./.databend/meta
+    版本：version=V0, upgrading=None
 ```
 
 - `工作数据版本` 表示 Databend-meta 操作的版本。
-- `磁盘数据 -- 数据版本` 表示磁盘数据的版本。
+- `磁盘上的数据 -- 数据版本` 表示磁盘数据的版本。
 
-工作数据版本必须大于或等于磁盘数据版本；否则，它将产生 panic。
+工作数据版本必须大于或等于磁盘数据版本；否则，它将引发恐慌。
 
-磁盘数据版本必须与当前的 Databend-meta 版本兼容。
-如果不兼容，系统将提示用户降级 Databend-meta 并以 panic 退出。
+磁盘数据版本必须与当前 Databend-meta 版本兼容。
+如果不兼容，系统将提示用户降级 Databend-meta 并退出。
 
 ### 自动升级
 
-当 `databend-meta` 启动时，如果磁盘数据与工作数据版本兼容，将进行升级。
+当 `databend-meta` 启动时，如果磁盘上的数据与工作数据版本兼容，则会进行升级。
 升级进度将打印到 `stderr` 并以 INFO 级别记录到日志文件，例如：
 
 ```text
-Upgrade on-disk data
-    From: V0(2023-04-21: compatible with openraft v07 and v08, using openraft::compat)
-    To:   V001(2023-05-15: Get rid of compat, use only openraft v08 data types)
-Begin upgrading: version: V0, upgrading: V001
-Write header: version: V0, upgrading: V001
-Upgraded 167 records
-Finished upgrading: version: V001, upgrading: None
-Write header: version: V001, upgrading: None
+升级磁盘上的数据
+    从：V0(2023-04-21: 兼容 openraft v07 和 v08，使用 openraft::compat)
+    到：V001(2023-05-15: 去除 compat，只使用 openraft v08 数据类型)
+开始升级：version: V0, upgrading: V001
+写入头部：version: V0, upgrading: V001
+升级了 167 条记录
+完成升级：version: V001, upgrading: None
+写入头部：version: V001, upgrading: None
 ```
 
-如果 `databend-meta` 在升级完成前崩溃，
+如果 `databend-meta` 在升级完成之前崩溃，
 它将清除部分升级的数据，并在下次启动时恢复升级。
 
 ### 备份数据兼容性
@@ -185,3 +206,4 @@ Write header: version: V001, upgrading: None
 
 - 导入时**不会进行自动升级**。
   自动升级只会在 `databend-meta` 启动时进行。
+```
