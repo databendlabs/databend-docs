@@ -3,7 +3,7 @@ title: UNDROP TABLE
 sidebar_position: 20
 ---
 
-Restores the recent version of a dropped table.
+Restores the recent version of a dropped table. This leverages the Databend Time Travel feature; a dropped object can be restored only within a retention period (defaults to 24 hours).
 
 **See also:**
 - [CREATE TABLE](./10-ddl-create-table.md)
@@ -13,46 +13,28 @@ Restores the recent version of a dropped table.
 ## Syntax
 
 ```sql
-UNDROP TABLE [db.]name
+UNDROP TABLE [<database_name>.]<table_name>
 ```
 
-
-:::tip
-* If a table with the same name already exists, `UNDROP` will get the error: `ERROR 1105 (HY000): Code: 2308, Text = Undrop Table 'test' already exists.`
-* `UNDROP` relies on the Databend time travel feature, the table can be restored only within a retention period, default is 24 hours.
-
-:::
+If a table with the same name already exists, an error is returned.
 
 ## Examples
 
 ```sql
 CREATE TABLE test(a INT, b VARCHAR);
 
--- insert data
-INSERT INTO test VALUES(1, 'a');
-
--- check
-SELECT * FROM test;
-+------+------+
-| a    | b    |
-+------+------+
-|    1 | a    |
-+------+------+
-
 -- drop table
 DROP TABLE test;
 
-SELECT * FROM test;
-ERROR 1105 (HY000): Code: 1025, Text = Unknown table 'test'.
+-- show dropped tables from current database
+SHOW TABLES HISTORY;
 
--- un-drop table
+┌────────────────────────────────────────────────────┐
+│ Tables_in_orders_2024 │          drop_time         │
+├───────────────────────┼────────────────────────────┤
+│ test                  │ 2024-01-23 04:56:34.766820 │
+└────────────────────────────────────────────────────┘
+
+-- restore table
 UNDROP TABLE test;
-
--- check
-SELECT * FROM test;
-+------+------+
-| a    | b    |
-+------+------+
-|    1 | a    |
-+------+------+
 ```
