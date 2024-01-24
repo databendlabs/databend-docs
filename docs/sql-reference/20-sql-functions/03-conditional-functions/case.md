@@ -17,6 +17,8 @@ END AS <column_name>
 
 ## Examples
 
+This example categorizes employee salaries using a CASE statement, presenting details with a dynamically assigned column named "SalaryCategory":
+
 ```sql
 -- Create a sample table
 CREATE TABLE Employee (
