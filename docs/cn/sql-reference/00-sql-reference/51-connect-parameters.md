@@ -58,7 +58,6 @@ The following table lists connection parameters for accessing an Amazon S3-like 
 | endpoint_url              	| Yes       	| Endpoint URL for Amazon S3-like storage service.             	|
 | access_key_id             	| Yes       	| Access key ID for identifying the requester.                 	|
 | secret_access_key         	| Yes       	| Secret access key for authentication.                        	|
-| allow_anonymous           	| No        	| Whether anonymous access is allowed. Defaults to *false*.    	|
 | enable_virtual_host_style 	| No        	| Whether to use virtual host-style URLs. Defaults to *false*. 	|
 | master_key                	| No        	| Optional master key for advanced data encryption.            	|
 | region                    	| No        	| AWS region where the bucket is located.                      	|
@@ -66,8 +65,6 @@ The following table lists connection parameters for accessing an Amazon S3-like 
 
 :::note
 - If the **endpoint_url** parameter is not specified in the command, Databend will create the stage on Amazon S3 by default. Therefore, when you create an external stage on an S3-compatible object storage or other object storage solutions, be sure to include the **endpoint_url** parameter.
-
-- If you're using S3 storage and your bucket has public read access, you can access and query an external stage associated with the bucket anonymously without providing credentials. To enable this feature, add the **allow_anonymous** parameter to the [storage.s3] section in the *databend-query.toml* configuration file and set it to **true**.
 
 - The **region** parameter is not required because Databend can automatically detect the region information. You typically don't need to manually specify a value for this parameter. In case automatic detection fails, Databend will default to using 'us-east-1' as the region. When deploying Databend with MinIO and not configuring the region information, it will automatically default to using 'us-east-1', and this will work correctly. However, if you receive error messages such as "region is missing" or "The bucket you are trying to access requires a specific endpoint. Please direct all future requests to this particular endpoint", you need to determine your region name and explicitly assign it to the **region** parameter.
 :::

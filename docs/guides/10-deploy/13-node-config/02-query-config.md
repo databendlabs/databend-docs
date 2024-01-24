@@ -129,7 +129,6 @@ The following is a list of the parameters available within the [storage.s3] sect
 | access_key_id             | The access key ID for authenticating with the storage service.                            |
 | secret_access_key         | The secret access key for authenticating with the storage service.                        |
 | enable_virtual_host_style | A boolean flag indicating whether to enable virtual host-style addressing.                |
-| allow_anonymous           | A boolean flag indicating whether anonymous access is allowed (true or false).            |
 | external_id               | External ID for authentication.                                                           |
 | master_key                | Master key for authentication.                                                            |
 | region                    | The region for the S3-like storage service.                                               |

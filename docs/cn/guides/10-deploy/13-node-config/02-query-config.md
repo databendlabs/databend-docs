@@ -127,17 +127,16 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 | 参数                      | 描述                                                                                   |
 |---------------------------|----------------------------------------------------------------------------------------|
-| bucket                    | 您的Amazon S3兼容存储桶的名称。                                                         |
-| endpoint_url              | S3兼容存储服务的URL端点。默认为 "https://s3.amazonaws.com"。                             |
-| access_key_id             | 用于与存储服务认证的访问密钥ID。                                                       |
+| bucket                    | 您的 Amazon S3 兼容存储桶的名称。                                                         |
+| endpoint_url              | S3 兼容存储服务的 URL 端点。默认为 "https://s3.amazonaws.com"。                             |
+| access_key_id             | 用于与存储服务认证的访问密钥 ID。                                                       |
 | secret_access_key         | 用于与存储服务认证的密钥访问密钥。                                                     |
 | enable_virtual_host_style | 一个布尔标志，指示是否启用虚拟主机风格寻址。                                           |
-| allow_anonymous           | 一个布尔标志，指示是否允许匿名访问（true或false）。                                    |
-| external_id               | 用于认证的外部ID。                                                                     |
+| external_id               | 用于认证的外部 ID。                                                                     |
 | master_key                | 用于认证的主密钥。                                                                     |
-| region                    | S3兼容存储服务的区域。                                                                 |
-| role_arn                  | 用于认证的ARN（Amazon资源名称）。                                                       |
-| root                      | HDFS的根目录。                                                                         |
+| region                    | S3 兼容存储服务的区域。                                                                 |
+| role_arn                  | 用于认证的 ARN（Amazon 资源名称）。                                                       |
+| root                      | HDFS 的根目录。                                                                         |
 | security_token            | 用于认证的安全令牌。                                                                   |
 
 ### [storage.azblob] 部分
@@ -146,11 +145,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 | 参数           | 描述                                                                                             |
 |----------------|--------------------------------------------------------------------------------------------------|
-| endpoint_url   | Azure Blob存储的URL端点（例如，`https://<your-storage-account-name>.blob.core.windows.net`）。     |
-| container      | 您的Azure存储容器的名称。                                                                        |
-| account_name   | 您的Azure存储账户的名称。                                                                        |
-| account_key    | 用于与Azure Blob存储认证的账户密钥。                                                             |
-| root           | Azure Blob存储的根目录。                                                                         |
+| endpoint_url   | Azure Blob 存储的 URL 端点（例如，`https://<your-storage-account-name>.blob.core.windows.net`）。     |
+| container      | 您的 Azure 存储容器的名称。                                                                        |
+| account_name   | 您的 Azure 存储账户的名称。                                                                        |
+| account_key    | 用于与 Azure Blob 存储认证的账户密钥。                                                             |
+| root           | Azure Blob 存储的根目录。                                                                         |
 
 ### [storage.gcs] 部分
 
@@ -158,10 +157,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 | 参数           | 描述                                                               |
 |----------------|--------------------------------------------------------------------|
-| bucket         | 您的Google Cloud存储桶的名称。                                      |
-| endpoint_url   | Google Cloud存储的URL端点。                                        |
-| credential     | 用于与Google Cloud存储认证的凭据。                                 |
-| root           | Google Cloud存储的根目录。                                         |
+| bucket         | 您的 Google Cloud 存储桶的名称。                                      |
+| endpoint_url   | Google Cloud 存储的 URL 端点。                                        |
+| credential     | 用于与 Google Cloud 存储认证的凭据。                                 |
+| root           | Google Cloud 存储的根目录。                                         |
 
 ### [storage.oss] 部分
 
@@ -169,12 +168,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 | 参数                    | 描述                                                             |
 |-------------------------|------------------------------------------------------------------|
-| bucket                  | 您的阿里巴巴云OSS存储桶的名称。                                    |
-| endpoint_url            | 阿里巴巴云OSS的URL端点。                                         |
-| access_key_id           | 用于与阿里巴巴云OSS认证的访问密钥ID。                             |
-| access_key_secret       | 用于与阿里巴巴云OSS认证的访问密钥密钥。                           |
-| presign_endpoint_url    | 用于与阿里巴巴云OSS进行预签名操作的URL端点。                       |
-| root                    | 阿里巴巴云OSS的根目录。                                           |
+| bucket                  | 您的阿里巴巴云 OSS 存储桶的名称。                                    |
+| endpoint_url            | 阿里巴巴云 OSS 的 URL 端点。                                         |
+| access_key_id           | 用于与阿里巴巴云 OSS 认证的访问密钥 ID。                             |
+| access_key_secret       | 用于与阿里巴巴云 OSS 认证的访问密钥密钥。                           |
+| presign_endpoint_url    | 用于与阿里巴巴云 OSS 进行预签名操作的 URL 端点。                       |
+| root                    | 阿里巴巴云 OSS 的根目录。                                           |
 
 ### [storage.cos] 部分
 
@@ -185,8 +184,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | 参数          | 描述                                                         |
 |--------------|-------------------------------------------------------------|
 | bucket       | 你的腾讯云对象存储（COS）桶的名称。                           |
-| endpoint_url | 腾讯云对象存储（COS）的URL端点（可选）。                      |
-| secret_id    | 用于与腾讯云对象存储（COS）认证的密钥ID。                     |
+| endpoint_url | 腾讯云对象存储（COS）的 URL 端点（可选）。                      |
+| secret_id    | 用于与腾讯云对象存储（COS）认证的密钥 ID。                     |
 | secret_key   | 用于与腾讯云对象存储（COS）认证的密钥。                       |
 | root         | 腾讯云对象存储的根目录。                                      |
 
@@ -196,8 +195,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 | 参数            | 描述                                                     |
 |----------------|---------------------------------------------------------|
-| name_node      | Hadoop分布式文件系统（HDFS）的名称节点地址。              |
-| root           | HDFS的根目录。                                           |
+| name_node      | Hadoop 分布式文件系统（HDFS）的名称节点地址。              |
+| root           | HDFS 的根目录。                                           |
 
 
 ### [storage.webhdfs] 部分
@@ -206,8 +205,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 | 参数          | 描述                                                         |
 |--------------|-------------------------------------------------------------|
-| endpoint_url | WebHDFS（Hadoop分布式文件系统）的URL端点。                   |
-| root         | HDFS的根目录。                                               |
+| endpoint_url | WebHDFS（Hadoop 分布式文件系统）的 URL 端点。                   |
+| root         | HDFS 的根目录。                                               |
 | delegation   | 用于认证和授权的委托令牌。                                   |
 
 ## [cache] 部分
@@ -225,4 +224,4 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | 参数                    | 描述                                                         |
 |------------------------|-------------------------------------------------------------|
 | path                   | 使用磁盘缓存时存储缓存的路径。                               |
-| max_bytes              | 使用磁盘缓存时缓存数据的最大字节数。默认为21474836480字节（20GB）。|
+| max_bytes              | 使用磁盘缓存时缓存数据的最大字节数。默认为 21474836480 字节（20GB）。|
