@@ -16,7 +16,6 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 )]
 ```
 
-
 :::info Tips
 Parquet has schema information, so we can query the columns `<column> [, <column> ...]` directly.
 :::

@@ -2,7 +2,7 @@
 title: IFNULL
 ---
 
-Returns `<expr1>` if it is not NULL. Otherwise return `<expr2>`. They must have the same data type.
+If `<expr1>` is NULL, returns `<expr2>`, otherwise returns `<expr1>`.
 
 ## Syntax
 
@@ -10,14 +10,26 @@ Returns `<expr1>` if it is not NULL. Otherwise return `<expr2>`. They must have 
 IFNULL(<expr1>, <expr2>)
 ```
 
+## Aliases
+
+- [NVL](nvl.md)
+
 ## Examples
 
 ```sql
-SELECT IFNULL(0, NULL);
+SELECT IFNULL(NULL, 'b'), IFNULL('a', 'b');
 
-┌─────────────────┐
-│ ifnull(0, null) │
-├─────────────────┤
-│               0 │
-└─────────────────┘
+┌──────────────────────────────────────┐
+│ ifnull(null, 'b') │ ifnull('a', 'b') │
+├───────────────────┼──────────────────┤
+│ b                 │ a                │
+└──────────────────────────────────────┘
+
+SELECT IFNULL(NULL, 2), IFNULL(1, 2);
+
+┌────────────────────────────────┐
+│ ifnull(null, 2) │ ifnull(1, 2) │
+├─────────────────┼──────────────┤
+│               2 │            1 │
+└────────────────────────────────┘
 ```

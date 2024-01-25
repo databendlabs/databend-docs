@@ -79,7 +79,7 @@ CREATE TABLE BOOKS (
     title VARCHAR,
     genre VARCHAR DEFAULT 'General'
 ) 
-'s3://databendI-toronto' 
+'s3://databend-toronto' 
 CONNECTION = (CONNECTION_NAME = 'toronto');
 
 ```
