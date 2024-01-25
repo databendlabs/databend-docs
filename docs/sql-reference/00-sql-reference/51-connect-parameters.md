@@ -3,7 +3,7 @@ title: Connection Parameters
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.148"/>
+<FunctionDescription description="Introduced or updated: v1.2.294"/>
 
 The connection parameters refer to a set of essential connection details required for establishing a secure link to supported external storage services, like Amazon S3. These parameters are enclosed within parentheses and consists of key-value pairs separated by commas. It is commonly utilized in operations such as creating a stage, copying data into Databend, and querying staged files from external sources. The provided key-value pairs offer the necessary authentication and configuration information for the connection.
 
@@ -58,7 +58,6 @@ The following table lists connection parameters for accessing an Amazon S3-like 
 | endpoint_url              	| Yes       	| Endpoint URL for Amazon S3-like storage service.             	|
 | access_key_id             	| Yes       	| Access key ID for identifying the requester.                 	|
 | secret_access_key         	| Yes       	| Secret access key for authentication.                        	|
-| allow_anonymous           	| No        	| Whether anonymous access is allowed. Defaults to *false*.    	|
 | enable_virtual_host_style 	| No        	| Whether to use virtual host-style URLs. Defaults to *false*. 	|
 | master_key                	| No        	| Optional master key for advanced data encryption.            	|
 | region                    	| No        	| AWS region where the bucket is located.                      	|
@@ -66,8 +65,6 @@ The following table lists connection parameters for accessing an Amazon S3-like 
 
 :::note
 - If the **endpoint_url** parameter is not specified in the command, Databend will create the stage on Amazon S3 by default. Therefore, when you create an external stage on an S3-compatible object storage or other object storage solutions, be sure to include the **endpoint_url** parameter.
-
-- If you're using S3 storage and your bucket has public read access, you can access and query an external stage associated with the bucket anonymously without providing credentials. To enable this feature, add the **allow_anonymous** parameter to the [storage.s3] section in the *databend-query.toml* configuration file and set it to **true**.
 
 - The **region** parameter is not required because Databend can automatically detect the region information. You typically don't need to manually specify a value for this parameter. In case automatic detection fails, Databend will default to using 'us-east-1' as the region. When deploying Databend with MinIO and not configuring the region information, it will automatically default to using 'us-east-1', and this will work correctly. However, if you receive error messages such as "region is missing" or "The bucket you are trying to access requires a specific endpoint. Please direct all future requests to this particular endpoint", you need to determine your region name and explicitly assign it to the **region** parameter.
 :::
@@ -138,3 +135,15 @@ The following table lists connection parameters for accessing WebHDFS:
 |--------------	|-----------	|---------------------------------------------------	|
 | endpoint_url 	| Yes       	| Endpoint URL for WebHDFS.                         	|
 | delegation   	| No        	| Delegation token for accessing WebHDFS.           	|
+
+
+### Hugging Face
+
+The following table lists connection parameters for accessing Hugging Face:
+
+| Parameter | Required?             | Description                                                                                                     |
+|-----------|-----------------------|-----------------------------------------------------------------------------------------------------------------|
+| repo_id   | Yes                   | The identifier for the Hugging Face repository. For example, "opendal/huggingface-testdata". Please note that the repo_id must have an organization name; datasets (such as https://huggingface.co/datasets/ropes) stored in a non-organizational format on the Hugging Face, are not supported at this time. |
+| repo_type | No (default: dataset) | The type of the Hugging Face repository. Can be `dataset` or `model`.                                           |
+| revision  | No (default: main)    | The revision for the Hugging Face URI. Could be a branch, tag, or commit of the repository.                     |
+| token     | No                    | The API token from Hugging Face, which may be required for accessing private repositories or certain resources. |

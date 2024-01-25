@@ -5,21 +5,22 @@ description:
   在本地或使用 Docker 部署 Databend
 ---
 
-为了快速访问 Databend 功能并获得实践经验，您可以选择以下部署选项：
+要快速访问 Databend 功能并获得实践经验，您可以选择以下部署选项：
 
 - [在 Docker 上部署 Databend](#deploying-databend-on-docker)：您可以在 Docker 上部署 Databend 和 [MinIO](https://min.io/)，以实现容器化设置。
 
-- [部署本地 Databend](#deploying-a-local-databend)：如果没有对象存储可用，您可以选择本地部署，并使用文件系统作为存储。
+- [部署本地 Databend](#deploying-a-local-databend)：如果没有对象存储，您可以选择本地部署，并使用文件系统作为存储。
 
 :::note 仅限非生产环境使用
-- 对象存储是 Databend 生产使用的要求。文件系统应仅用于评估、测试和非生产场景。
+
+- 对象存储是 Databend 生产使用的要求。文件系统只应用于评估、测试和非生产场景。
 
 - 不建议在 MinIO 之上部署 Databend 用于生产环境或性能测试目的。
 :::
 
 ## 在 Docker 上部署 Databend
 
-在开始之前，请确保您的系统上安装了 Docker。
+开始之前，请确保您的系统上已安装 Docker。
 
 ### 步骤 1. 部署 MinIO
 
@@ -39,11 +40,10 @@ docker run -d \
 ```
 
 :::note
-这里使用了 `--net=host` 参数，以便在本地主机上暴露 MinIO 端口。如果您不想使用此参数，可以使用 `-p 9000:9000` 和 `-p 9091:9091` 参数来暴露 MinIO 端口。
-同时我们将默认的 console 端口改为了 9091，以免与 Databend 的 9090 端口冲突。
+我们在这里将控制台地址更改为 `:9091`，以避免与 Databend 的端口冲突。
 :::
 
-请注意，上面的命令还设置了根用户凭据（ROOTUSER/CHANGEME123），您将需要在后续步骤中提供这些凭据进行身份验证。如果您在此时更改了根用户凭据，请确保在整个过程中保持一致性。
+请注意，上面的命令还设置了根用户凭据（ROOTUSER/CHANGEME123），您将需要在后续步骤中提供这些凭据以进行身份验证。如果您在此时更改了根用户凭据，请确保在整个过程中保持一致性。
 
 您可以通过在终端中检查以下消息来确认 MinIO 容器已成功启动：
 
@@ -64,7 +64,7 @@ Documentation: https://min.io/docs/minio/linux/index.html
 Warning: The standard parity is set to 0. This can lead to data loss.
 ```
 
-2. 打开您的网络浏览器，访问 http://127.0.0.1:9090/（登录凭据：ROOTUSER/CHANGEME123）。创建一个名为 **databend** 的存储桶。
+2. 打开您的网络浏览器，访问 http://127.0.0.1:9091/（登录凭据：ROOTUSER/CHANGEME123）。创建一个名为 **databend** 的存储桶。
 
 ### 步骤 2. 部署 Databend
 
@@ -79,16 +79,18 @@ docker run -d \
     -e QUERY_DEFAULT_USER=databend \
     -e QUERY_DEFAULT_PASSWORD=databend \
     -e QUERY_STORAGE_TYPE=s3 \
-    -e AWS_S3_ENDPOINT=http://127.0.0.1:9000 \
+    -e AWS_S3_ENDPOINT=http://${IP}:9000 \
     -e AWS_S3_BUCKET=databend \
     -e AWS_ACCESS_KEY_ID=ROOTUSER \
     -e AWS_SECRET_ACCESS_KEY=CHANGEME123 \
     datafuselabs/databend
 ```
 
-启动 Databend Docker 容器时，您可以使用环境变量 QUERY_DEFAULT_USER 和 QUERY_DEFAULT_PASSWORD 指定用户名和密码。如果没有提供这些变量，将创建一个没有密码的默认 root 用户。上面的命令创建了一个 SQL 用户（databend/databend），您将需要使用它来连接到 Databend 的下一步。如果您在此时更改了 SQL 用户，请确保在整个过程中保持一致性。
+> 其中 ${IP} 是 192.168.106.3 或 192.168.5.1，应用程序需要访问 s3。所以如果您不知道 ${IP}，可以参考 `docker logs minio` 的输出。
 
-我们可以检查日志来确认 Databend 容器已成功启动：
+启动 Databend Docker 容器时，您可以使用环境变量 QUERY_DEFAULT_USER 和 QUERY_DEFAULT_PASSWORD 指定用户名和密码。如果没有提供这些变量，则会创建一个没有密码的默认 root 用户。上面的命令创建了一个 SQL 用户（databend/databend），您将需要使用它来在下一步中连接到 Databend。如果您在此时更改了 SQL 用户，请确保在整个过程中保持一致性。
+
+您可以通过在终端中检查以下消息来确认 Databend 容器已成功启动：
 
 ```shell
 ❯ docker logs databend
@@ -196,12 +198,11 @@ Databend HTTP
     usage:  curl -u${USER} -p${PASSWORD}: --request POST '0.0.0.0:8000/v1/query/' --header 'Content-Type: application/json' --data-raw '{"sql": "SELECT avg(number) FROM numbers(100000000)"}'
 ```
 
-
 ### 步骤 3. 连接到 Databend
 
-在此步骤中，您将使用 BendSQL CLI 工具与 Databend 建立连接。有关如何安装和操作 BendSQL 的说明，请参阅 [BendSQL](../30-sql-clients/00-bendsql/index.md)。
+在这一步中，您将使用 BendSQL CLI 工具建立与 Databend 的连接。有关如何安装和操作 BendSQL 的说明，请参见 [BendSQL](../30-sql-clients/00-bendsql/index.md)。
 
-1. 使用 SQL 用户（databend/databend）运行以下命令以与 Databend 建立连接：
+1. 使用 SQL 用户（databend/databend）建立与 Databend 的连接，请运行以下命令：
 
 ```shell
 ❯ bendsql -udatabend -pdatabend
@@ -212,7 +213,7 @@ Connected to DatabendQuery v1.2.287-nightly-8930689add(rust-1.75.0-nightly-2024-
 databend@localhost:8000/default>
 ```
 
-2. 要验证部署，您可以使用 BendSQL 创建一个表并插入一些数据：
+2. 要验证部署，请使用 BendSQL 创建一个表并插入一些数据：
 
 ```shell
 databend@localhost:8000/default> CREATE DATABASE test;
@@ -245,7 +246,7 @@ databend@localhost:8000/test> select * from mytable;
 3 rows read in 0.066 sec. Processed 3 rows, 15 B (45.2 rows/s, 225 B/s)
 ```
 
-由于表数据存储在存储桶中，您将注意到存储桶大小从 0 开始增加。
+由于表数据存储在存储桶中，您会注意到存储桶大小从 0 开始增加。
 
 ![Alt text](@site/docs/public/img/deploy/minio-deployment-verify.png)
 
@@ -261,9 +262,9 @@ databend@localhost:8000/test> select * from mytable;
 
 ### 步骤 2. 启动 Databend
 
-1. 配置管理员用户。您将使用此帐户连接到 Databend。有关更多信息，请参阅 [配置管理员用户](04-admin-users.md)。对于本示例，取消注释以下行以选择此帐户：
+1. 配置管理员用户。您将使用此帐户连接到 Databend。有关更多信息，请参见 [配置管理员用户](04-admin-users.md)。在此示例中，取消注释以下行以选择此帐户：
 
-```sql title="databend-query.toml"
+```sql  title="databend-query.toml"
 [[query.users]]
 name = "root"
 auth_type = "no_password"
@@ -272,23 +273,24 @@ auth_type = "no_password"
 2. 打开终端并导航到存储提取的文件和文件夹的文件夹。
 
 3. 在 **scripts** 文件夹中运行脚本 **start.sh**：
-
-    MacOS 可能会提示错误 "*databend-meta 无法打开，因为 Apple 无法检查其是否包含恶意软件。*"。要继续，请在您的 Mac 上打开 **系统设置**，在左侧菜单中选择 **隐私与安全**，然后在右侧的 **安全性** 部分为 databend-meta 点击 **仍要打开**。对于 databend-query 的错误也执行相同操作。
+    MacOS 可能会提示错误，说“*databend-meta 无法打开，因为 Apple 无法检查其是否含有恶意软件。*”要继续，请在 Mac 上打开 **系统设置**，在左侧菜单中选择 **隐私与安全**，然后在右侧的 **安全** 部分为 databend-meta 点击 **仍要打开**。对 databend-query 的错误也做同样的操作。
 
 ```shell
 ./scripts/start.sh
 ```
-
 :::tip
-如果在尝试启动 Databend 时遇到以下错误消息：
+如果在尝试启动 Databend 时遇到以下错误消息，请执行以下操作：
+
+
 
 ```shell
 ==> query.log <==
-: No getcpu support: percpu_arena:percpu
-: option background_thread currently supports pthread only
-Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
+: 没有 getcpu 支持：percpu_arena:percpu
+: 选项 background_thread 当前仅支持 pthread
+Databend Query 启动失败，原因：代码：1104，文本 = 无法创建 appender：Os { code: 13, kind: PermissionDenied, message: "Permission denied" }。
 ```
-运行以下命令并再次尝试启动 Databend：
+
+运行以下命令，然后再次尝试启动 Databend：
 
 ```shell
 sudo mkdir /var/log/databend
@@ -317,9 +319,9 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 
 ```shell
 eric@bogon ~ % bendsql
-Welcome to BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z).
-Trying connect to localhost:8000 as user root.
-Connected to DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
+欢迎使用 BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z)。
+尝试以用户 root 连接到 localhost:8000。
+已连接到 DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
 ```
 
 2. 查询 Databend 版本以验证连接：
@@ -339,10 +341,11 @@ SELECT
 1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 41B/s)
 ```
 
-## 下一步
+## 接下来的步骤
 
 在部署 Databend 之后，您可能需要了解以下主题：
 
 - [管理设置](/sql/sql-reference/manage-settings)：根据您的需求优化 Databend。
 - [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获得洞察力。
+```

@@ -107,6 +107,26 @@ The following is an illustration of current query-meta compatibility:
 
 <img src="/img/deploy/compatibility.excalidraw.png"/>
 
+## Compatibility between databend-query
+
+| Query version      | Backward compatible with  |
+|:-------------------|:--------------------------|
+| [-∞, 1.2.307)      | [-∞, 1.2.311)             |
+| [1.2.307, 1.2.311) | [-∞, 1.2.311)             |
+| [1.2.311, +∞)      | [1.2.307, +∞)             |
+
+Since 1.2.307, support deseriazlie Role info with pb and json but only support serialize Role info to json.
+
+Since 1.2.311, only support seriazlie Role info to pb.
+
+Prevents the query node that is not successfully upgraded from reading data due to operations on the role during rolling upgrade. You are advised to upgrade to 1.2.307 and then 1.2.311.
+
+For example, Current Version is 1.2.306 upgrade to 1.2.312:
+
+```
+1.2.307 -> 1.2.311 -> 1.2.312
+
+```
 
 ## Compatibility between databend-meta
 

@@ -3,19 +3,19 @@ id: string-length
 title: LENGTH
 ---
 
-Return the length of a string in bytes.
+Returns the length of an input string or binary value. For strings, the length is the number of characters, and UTF-8 characters are counted as a single character. For binary, the length is the number of bytes.
 
 ## Syntax
 
 ```sql
-LENGTH(<str>)
+LENGTH(<input>)
 ```
 
 ## Arguments
 
 | Arguments | Description |
 |-----------|-------------|
-| `<str>`   | The string. |
+| `<input>`   | The string or binary. |
 
 ## Return Type
 

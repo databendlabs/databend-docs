@@ -7,7 +7,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-Retrieves data from a table.
+Retrieves data from a table. 
+
+
 
 ## Syntax
 
@@ -30,10 +32,9 @@ SELECT
     [OFFSET <row_count>]
     [IGNORE_RESULT]
 ```
+- The SELECT statement also allows you to query staged files directly. For syntax and examples, see [Efficient Data Transformation with Databend](/guides/load-data/transform/querying-stage).
 
-:::tip
-numbers(N) – A table for test with the single `number` column (UInt64) that contains integers from 0 to N-1.
-:::
+- In the examples on this page, the table `numbers(N)` is used for testing, with a single UInt64 column (named `number`) that contains integers from 0 to N-1.
 
 ## SELECT Clause
 

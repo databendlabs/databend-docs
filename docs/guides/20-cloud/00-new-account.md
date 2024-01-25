@@ -22,21 +22,19 @@ When you're invited to Databend Cloud, you receive an invitation email. Click th
 ### Create a Databend Cloud Account
 
 <StepsWrap>
-<StepContent number="1" title="Follow on-screen instructions to set up your account.">
+<StepContent number="1" title="Set up your account.">
 
 :::tip
 **Organization name**: If the organization name textbox is empty, enter your organization name. By doing so, you're signing up for your organization with your account as an Admin account. If you're invited by a user who already belongs to an organization in Databand Cloud, the textbox will show that organization's name and you cannot edit it.
 :::
 
-![image](@site/static/img/documents/getting-started/01.jpeg)
+![image](@site/static/img/documents/getting-started/01.jpg)
 </StepContent>
-<StepContent number="2" title="Select a pricing plan, a cloud provider, and a region to set up your Databend Cloud.">
+<StepContent number="2" title="Select a cloud provider and a region.">
 
-Please note that this step is visible only to users who sign up for their organization. After you complete the setup, click **Start your Databend Cloud** to enter Databend Cloud.
+Please note that this step is visible only to users who sign up for their organization. After you complete the setup, click **Create** to enter Databend Cloud.
 
 :::tip
-**Pricing plan**: Databend Cloud now has an trial plan that offers 200 free credits(valid until July 31, 2023). You can top up when the credits run out. To top up your credits or check the remaining ones, go to **Manage** > **Billing**.
-
 **Cloud provider**: Databend Cloud currently runs on AWS, and will support Microsoft Azure and Google Cloud Platform in a future release. Databend Cloud works almost the same from the front end on any of the clouds. If you already have been using one of the clouds, select that one. 
 
 **Region**: The region decides where your Databend Cloud will be hosted. Select the region based on your locality and business needs. For example, if you have a requirement to have your Databend Cloud hosted in Asia, select a region of Asia.  Please note that the available regions vary depending on the cloud provider you select. 
@@ -45,9 +43,6 @@ Please note that this step is visible only to users who sign up for their organi
 ![image](@site/static/img/documents/getting-started/02.jpg)
 </StepContent>
 </StepsWrap>
-
-
-
 
 ### Sign in to your Databend Cloud Account
 

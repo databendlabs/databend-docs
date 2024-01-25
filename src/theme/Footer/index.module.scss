@@ -3,11 +3,11 @@
   z-index: 3;
   padding: 20px;
   background-color: transparent;
-  max-width: 1280px;
+  max-width: 1320px;
   margin: 0 auto;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // justify-content: space-between;
   color: var(--color-text-0);
   flex-wrap: wrap;
   align-items: center;
@@ -21,6 +21,7 @@
     display: flex;
     gap: 24px;
     align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     .icon{
       display: flex;
@@ -49,5 +50,15 @@
         display: none;
       }
     }
+  }
+}
+
+.footerCopyright {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  p{
+    text-align: center;
   }
 }

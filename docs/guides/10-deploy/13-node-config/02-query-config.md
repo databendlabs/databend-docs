@@ -58,6 +58,7 @@ The following is a list of the parameters available within the [log.file] sectio
 | dir                 | Path to store log files.                                                                            |
 | level               | Log level: DEBUG, INFO, or ERROR. Defaults to INFO.                                                 |
 | format              | Log format: json or text. Defaults to json.                                                         |
+| file_limit          | Determines the maximum number of log files to be retained. Defaults to 48.                        |
 
 ### [log.stderr] Section
 
@@ -104,10 +105,10 @@ The following is a list of the parameters available within the [meta] section:
 
 The following is a list of the parameters available within the [storage] section:
 
-| Parameter | Description                                                                                     |
-|-----------|-------------------------------------------------------------------------------------------------|
-| type      | The type of storage used. It can be one of the following: fs, s3, azblob, gcs, oss, cos, hdfs, webhdfs. |
-
+| Parameter      | Description                                                                                             |
+|----------------|---------------------------------------------------------------------------------------------------------|
+| type           | The type of storage used. It can be one of the following: fs, s3, azblob, gcs, oss, cos, hdfs, webhdfs. |
+| allow_insecure | Defaults to false. Set it to true when deploying Databend on MinIO or loading data via a URL prefixed by `http://`, otherwise, you may encounter the following error: "copy from insecure storage is not allowed. Please set `allow_insecure=true`".|
 
 ### [storage.fs] Section
 
@@ -128,7 +129,6 @@ The following is a list of the parameters available within the [storage.s3] sect
 | access_key_id             | The access key ID for authenticating with the storage service.                            |
 | secret_access_key         | The secret access key for authenticating with the storage service.                        |
 | enable_virtual_host_style | A boolean flag indicating whether to enable virtual host-style addressing.                |
-| allow_anonymous           | A boolean flag indicating whether anonymous access is allowed (true or false).            |
 | external_id               | External ID for authentication.                                                           |
 | master_key                | Master key for authentication.                                                            |
 | region                    | The region for the S3-like storage service.                                               |

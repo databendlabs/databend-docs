@@ -12,6 +12,7 @@ To quickly access Databend features and gain practical expertise, you have the f
 - [Deploying a Local Databend](#deploying-a-local-databend): You can opt for a local deployment and use the file system as storage if object storage is unavailable.
 
 :::note non-production use only
+
 - Object storage is a requirement for production use of Databend. The file system should only be used for evaluation, testing, and non-production scenarios.
 
 - It is not recommended to deploy Databend on top of MinIO for production environments or performance testing purposes.
@@ -78,12 +79,14 @@ docker run -d \
     -e QUERY_DEFAULT_USER=databend \
     -e QUERY_DEFAULT_PASSWORD=databend \
     -e QUERY_STORAGE_TYPE=s3 \
-    -e AWS_S3_ENDPOINT=http://127.0.0.1:9000 \
+    -e AWS_S3_ENDPOINT=http://${IP}:9000 \
     -e AWS_S3_BUCKET=databend \
     -e AWS_ACCESS_KEY_ID=ROOTUSER \
     -e AWS_SECRET_ACCESS_KEY=CHANGEME123 \
     datafuselabs/databend
 ```
+
+> There ${IP} is 192.168.106.3 or 192.168.5.1, The application needs to access s3. So if you don't know ${IP}, you can refer to the output of `docker logs minio` 
 
 When starting the Databend Docker container, you can specify the username and password using the environment variables QUERY_DEFAULT_USER and QUERY_DEFAULT_PASSWORD. If these variables are not provided, a default root user will be created without a password. The command above creates a SQL user (databend/databend) which you will need to use to connect to Databend in the next step. If you make changes to the SQL user at this point, ensure that you maintain consistency throughout the entire process.
 
@@ -195,7 +198,6 @@ Databend HTTP
     usage:  curl -u${USER} -p${PASSWORD}: --request POST '0.0.0.0:8000/v1/query/' --header 'Content-Type: application/json' --data-raw '{"sql": "SELECT avg(number) FROM numbers(100000000)"}'
 ```
 
-
 ### Step 3. Connecting to Databend
 
 To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../30-sql-clients/00-bendsql/index.md).
@@ -262,7 +264,7 @@ The following steps will guide you through the process of locally deploying Data
 
 1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](04-admin-users.md). For this example, uncomment the following lines to choose this account:
 
-```sql title="databend-query.toml"
+```sql  title="databend-query.toml"
 [[query.users]]
 name = "root"
 auth_type = "no_password"
@@ -271,13 +273,11 @@ auth_type = "no_password"
 2. Open a terminal and navigate to the folder where the extracted files and folders are stored.
 
 3. Run the script **start.sh** in the folder **scripts**:
-
     MacOS might prompt an error saying "*databend-meta can't be opened because Apple cannot check it for malicious software.*". To proceed, open **System Settings** on your Mac, select **Privacy & Security** on the left menu, and click **Open Anyway** for databend-meta in the **Security** section on the right side. Do the same for the error on databend-query.
 
 ```shell
 ./scripts/start.sh
 ```
-
 :::tip
 In case you encounter the subsequent error messages while attempting to start Databend:
 
@@ -287,6 +287,7 @@ In case you encounter the subsequent error messages while attempting to start Da
 : option background_thread currently supports pthread only
 Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
+
 Run the following commands and try starting Databend again:
 
 ```shell
