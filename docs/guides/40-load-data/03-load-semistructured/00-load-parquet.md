@@ -73,8 +73,9 @@ CREATE TABLE books
 );
 ```
 
-### Step 4. Copy Data into Table
+### Step 4. Copying Directly from Parquet
 
+To directly copy data into your table from Parquet files, use the following SQL command:
 ```sql
 COPY INTO books
     FROM @my_parquet_stage
@@ -89,4 +90,17 @@ Result:
 ├─────────────────────────────────────────────────────────────────┼─────────────┼─────────────┼──────────────────┼──────────────────┤
 │ data_3890e0b1-0233-422c-b506-3a4501602f28_0000_00000000.parquet │      100000 │           0 │ NULL             │             NULL │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Step 4 (Option). Using SELECT to Copy Data
+
+For more control, like transforming data while copying, use the SELECT statement. Learn more at [`SELECT from Parquet`](../04-transform/01-querying-parquet.md)
+```sql
+COPY INTO books (title, author)
+FROM (
+    SELECT title, author 
+    FROM @my_parquet_stage
+)
+PATTERN = '.*[.]parquet'
+FILE_FORMAT = (TYPE = PARQUET);
 ```

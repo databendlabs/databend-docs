@@ -77,8 +77,9 @@ CREATE TABLE books
     author VARCHAR
 );
 ```
-### Step 4. Copy Data into Table
+### Step 4. Copying Directly from CSV
 
+To directly copy data into your table from CSV files, use the following SQL command:
 ```sql
 COPY INTO books
 FROM @my_csv_stage
@@ -100,3 +101,23 @@ Result:
 │ data_4bb7f864-f5f2-41e8-a442-68c2a709be5a_0000_00000000.csv.gz │      100000 │           0 │ NULL             │             NULL │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
+
+### Step 4 (Option). Using SELECT to Copy Data
+
+For more control, like transforming data while copying, use the SELECT statement. Learn more at [`SELECT from CSV`](../04-transform/02-querying-csv.md).
+```sql
+COPY INTO books (title, author)
+FROM (
+    SELECT $1, $2 
+    FROM @my_csv_stage
+)
+PATTERN = '.*[.]csv.gz'
+FILE_FORMAT = (
+    TYPE = 'CSV',
+    FIELD_DELIMITER = ',',
+    RECORD_DELIMITER = '\n',
+    SKIP_HEADER = 0, -- Skip the first line if it is a header, here we don't have a header
+    COMPRESSION = 'AUTO'
+);
+```
+
