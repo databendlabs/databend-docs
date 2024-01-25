@@ -144,7 +144,7 @@ Specifies the value that should be used when encountering empty fields, includin
 
 Specifies whether to include a header row in the CSV file when exporting data with the `COPY INTO <location>` command. Defaults to `false`.
 
-### BINARY_FORMA
+### BINARY_FORMAT
 
 Controls the binary encoding format during both data export and import operations, with available values `HEX` (default) and `BASE64`.
 
