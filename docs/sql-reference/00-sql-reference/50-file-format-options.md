@@ -203,9 +203,8 @@ Specifies how to handle null values during data loading. Refer to the options in
 
 | Available Values        | Description                                                                                             |
 |-------------------------|---------------------------------------------------------------------------------------------------------|
-| `NULL`                    | Interprets null values as NULL for nullable fields. An error will be generated for non-nullable fields. |
-| `FIELD_DEFAULT` (Default) | Uses the default value of the field for null values.                                                    |
-| `TYPE_DEFAULT`            | Uses the default value of the field's data type for null values.                                        |
+| `NULL` (Default)        | Interprets null values as NULL for nullable fields. An error will be generated for non-nullable fields. |
+| `FIELD_DEFAULT`         | Uses the default value of the field for null values.                                                    |
 
 ### MISSING_FIELD_AS
 
