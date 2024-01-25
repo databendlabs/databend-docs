@@ -55,7 +55,10 @@
       }  
       &::-webkit-scrollbar {
         width: 6px;
-      }    
+      }   
+      p {
+        margin-bottom: 0.5rem;
+      } 
       h2, h3{
         font-size: 14px;
         margin-bottom: 12px;
