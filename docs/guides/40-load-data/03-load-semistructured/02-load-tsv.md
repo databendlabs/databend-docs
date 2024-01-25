@@ -76,8 +76,9 @@ CREATE TABLE books
     author VARCHAR
 );
 ```
-### Step 4. Copy Data into Table
+### Step 4. Copying Directly from TSV
 
+To directly copy data into your table from TSV files, use the following SQL command:
 ```sql
 COPY INTO books
 FROM @my_tsv_stage
@@ -96,4 +97,21 @@ Result:
 ├─────────────────────────────────────────────────────────────┼─────────────┼─────────────┼──────────────────┼──────────────────┤
 │ data_7413d5d0-f992-4d92-b28e-0e501d66bdc1_0000_00000000.tsv │      100000 │           0 │ NULL             │             NULL │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Step 4 (Option). Using SELECT to Copy Data
+
+For more control, like transforming data while copying, use the SELECT statement. Learn more at [`SELECT from TSV`](../04-transform/03-querying-tsv.md).
+```sql
+COPY INTO books (title, author)
+FROM (
+    SELECT $1, $2 
+    FROM @my_tsv_stage
+)
+PATTERN = '.*[.]tsv'
+FILE_FORMAT = (
+    TYPE = 'TSV',
+    SKIP_HEADER = 0, -- Skip the first line if it is a header, here we don't have a header
+    COMPRESSION = 'AUTO'
+);
 ```

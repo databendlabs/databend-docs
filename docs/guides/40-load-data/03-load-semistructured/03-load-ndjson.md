@@ -75,7 +75,9 @@ CREATE TABLE books
     author VARCHAR
 );
 ```
-### Step 4. Copy Data into Table
+### Step 4. Copying Directly from NDJSON
+
+To directly copy data into your table from NDJSON files, use the following SQL command:
 
 ```sql
 COPY INTO books
@@ -94,3 +96,18 @@ Result:
 │ data_b3d94fad-3052-42e4-b090-26409e88c7b9_0000_00000000.ndjson │      100000 │           0 │ NULL             │             NULL │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
+### Step 4 (Option). Using SELECT to Copy Data
+
+For more control, like transforming data while copying, use the SELECT statement. Learn more at [`SELECT from NDJSON`](../04-transform/04-querying-ndjson.md).
+```sql
+COPY INTO books(title, author)
+FROM (
+    SELECT $1:title, $1:author 
+    FROM @my_ndjson_stage
+)
+PATTERN = '.*[.]ndjson'
+FILE_FORMAT = (
+    TYPE = NDJSON
+);
+```
+

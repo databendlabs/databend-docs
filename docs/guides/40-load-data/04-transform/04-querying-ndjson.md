@@ -7,7 +7,7 @@ sidebar_label: Querying NDJSON File
 
 Syntax:
 ```sql
-SELECT [<alias>.]$<col_position> [, $<col_position> ...] 
+SELECT [<alias>.]$1:<column> [, $1:<column> ...] 
 FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
 [( 
   [<connection_parameters>],
@@ -18,7 +18,7 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 
 
 :::info Tips
-NDJSON doesn't have schema information, so we can only query the columns `$<col_position> [, $<col_position> ...]` by position.
+NDJSON is a variant for the whole row, the column is `$1:<column> [, $1:<column> ...]`.
 :::
 
 ## Tutorial
@@ -48,7 +48,7 @@ CREATE FILE FORMAT ndjson_query_format
 ### Step 3. Query NDJSON Files
 
 ```sql
-SELECT $1, $2, $3
+SELECT $1:title, $1:author
 FROM @ndjson_query_stage
 (
     FILE_FORMAT => 'ndjson_query_format',
@@ -56,10 +56,10 @@ FROM @ndjson_query_stage
 );
 ```
 
-If the NDJSON files is compressed with gzip, we can use the following query:
+If the NDJSON files are compressed with gzip, we can use the following query:
 
 ```sql
-SELECT $1, $2, $3
+SELECT $1:title, $1:author
 FROM @ndjson_query_stage
 (
     FILE_FORMAT => 'ndjson_query_format',
