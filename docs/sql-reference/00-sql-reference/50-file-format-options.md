@@ -128,7 +128,6 @@ ERROR_ON_COLUMN_COUNT_MISMATCH is a boolean option that, when set to true, speci
 
 **Default**: `true`
 
-
 ### EMPTY_FIELD_AS
 
 Specifies the value that should be used when encountering empty fields, including both `,,` and `,"",`, in the CSV data being loaded into the table.
@@ -140,6 +139,14 @@ Specifies the value that should be used when encountering empty fields, includin
 | `null` (Default) | Interprets empty fields as NULL values. Applicable to nullable columns only.      |
 | `string`         | Interprets empty fields as empty strings (''). Applicable to String columns only. |
 | `field_default`  | Uses the column's default value for empty fields.                                 |
+
+### OUTPUT_HEADER
+
+Specifies whether to include a header row in the CSV file when exporting data with the `COPY INTO <location>` command. Defaults to `false`.
+
+### BINARY_FORMA
+
+Controls the binary encoding format during both data export and import operations, with available values `HEX` (default) and `BASE64`.
 
 ### COMPRESSION
 
