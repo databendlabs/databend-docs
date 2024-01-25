@@ -35,40 +35,42 @@ This section provides several brief tutorials that offer practical guidance on h
 
 ### Before You Begin
 
-Download the sample file [employees.parquet](https://datasets.databend.org/employees.parquet) and then upload it to your user stage using [BendSQL](../../30-sql-clients/00-bendsql/index.md). For example,
+Before you begin, you need to create a stage and generate a sample file; here is a Parquet file as an example:
 
 ```sql
-root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @~
-
-PUT fs:///Users/eric/Documents/books.parquet @~
-
-┌───────────────────────────────────────────────┐
-│                 file                │  status │
-│                String               │  String │
-├─────────────────────────────────────┼─────────┤
-│ /Users/eric/Documents/books.parquet │ SUCCESS │
-└───────────────────────────────────────────────┘
+CREATE STAGE my_parquet_stage;
+COPY INTO @my_parquet_stage 
+FROM (
+    SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS id, -- Generates a sequential id
+           'Name_' || CAST(number AS VARCHAR) AS name,       -- Generates a unique name for each row
+           20 + MOD(number, 23) AS age,                      -- Generates an age between 20 and 42
+           DATE_ADD('day', MOD(number, 60), '2022-01-01') AS onboarded -- Generates onboarded dates starting from 2022-01-01
+    FROM numbers(10) -- Generating 10 rows
+) 
+FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-If you query the file, you will find that it contains these records:
-
-```sql
--- Query remote sample file directly
-SELECT * FROM 'https://datasets.databend.org/employees.parquet';
-
--- Query staged sample file
-SELECT * FROM @~/employees.parquet;
+Query staged sample file:
+```
+SELECT * FROM @my_parquet_stage;
 ```
 
 Result:
 ```
-┌────┬───────────────┬─────┬─────────────────────┐
-│ id │ name          │ age │ onboarded           │
-├────┼───────────────┼─────┼─────────────────────┤
-│  2 │ Jane Doe      │  35 │ 2022-02-15 13:30:00 │
-│  1 │ John Smith    │  28 │ 2022-01-01 09:00:00 │
-│  3 │ Mike Johnson  │  42 │ 2022-03-10 11:15:00 │
-└────┴───────────────┴─────┴─────────────────────┘
+┌───────────────────────────────────────┐
+│   id   │  name  │   age  │  onboarded │
+├────────┼────────┼────────┼────────────┤
+│      1 │ Name_0 │     20 │ 2022-01-01 │
+│      2 │ Name_5 │     25 │ 2022-01-06 │
+│      3 │ Name_1 │     21 │ 2022-01-02 │
+│      4 │ Name_6 │     26 │ 2022-01-07 │
+│      5 │ Name_7 │     27 │ 2022-01-08 │
+│      6 │ Name_2 │     22 │ 2022-01-03 │
+│      7 │ Name_8 │     28 │ 2022-01-09 │
+│      8 │ Name_3 │     23 │ 2022-01-04 │
+│      9 │ Name_4 │     24 │ 2022-01-05 │
+│     10 │ Name_9 │     29 │ 2022-01-10 │
+└───────────────────────────────────────┘
 ```
 
 ### Tutorial 1 - Loading a Subset of Data Columns
@@ -85,29 +87,16 @@ CREATE TABLE employees_no_age (
 );
 ```
 
-2. Load data from the remote or staged sample file, except for the 'age' column.
+2. Load data from the staged sample file, except for the 'age' column.
 
-```sql
--- Load from remote file
-COPY INTO employees_no_age
-FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.onboarded 
-    FROM 'https://datasets.databend.org/employees.parquet' t
-)
-FILE_FORMAT = (TYPE = PARQUET)
-PATTERN = '.*parquet';
-
+```
 -- Load from staged file
 COPY INTO employees_no_age
 FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.onboarded 
-    FROM @~ t
+    SELECT t.id, 
+           t.name, 
+           t.onboarded 
+    FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
 PATTERN = '.*parquet';
@@ -122,13 +111,20 @@ SELECT * FROM employees_no_age;
 
 Result:
 ```
-┌────┬───────────────┬─────────────────────┐
-│ id │ name          │ onboarded           │
-├────┼───────────────┼─────────────────────┤
-│  2 │ Jane Doe      │ 2022-02-15 13:30:00 │
-│  1 │ John Smith    │ 2022-01-01 09:00:00 │
-│  3 │ Mike Johnson  │ 2022-03-10 11:15:00 │
-└────┴───────────────┴─────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│        id       │       name       │      onboarded      │
+├─────────────────┼──────────────────┼─────────────────────┤
+│               1 │ Name_0           │ 2022-01-01 00:00:00 │
+│               2 │ Name_5           │ 2022-01-06 00:00:00 │
+│               3 │ Name_1           │ 2022-01-02 00:00:00 │
+│               4 │ Name_6           │ 2022-01-07 00:00:00 │
+│               5 │ Name_7           │ 2022-01-08 00:00:00 │
+│               6 │ Name_2           │ 2022-01-03 00:00:00 │
+│               7 │ Name_8           │ 2022-01-09 00:00:00 │
+│               8 │ Name_3           │ 2022-01-04 00:00:00 │
+│               9 │ Name_4           │ 2022-01-05 00:00:00 │
+│              10 │ Name_9           │ 2022-01-10 00:00:00 │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ### Tutorial 2 - Reordering Columns During Load
@@ -146,22 +142,9 @@ CREATE TABLE employees_new_order (
 );
 ```
 
-2. Load data from the remote or staged sample file in the new order.
+2. Load data from the staged sample file in the new order.
 
 ```sql
--- Load from remote file
-COPY INTO employees_new_order
-FROM (
-    SELECT 
-        t.id, 
-        t.age, 
-        t.name, 
-        t.onboarded 
-    FROM 'https://datasets.databend.org/employees.parquet' t
-)
-FILE_FORMAT = (TYPE = PARQUET)
-PATTERN = '.*parquet';
-
 -- Load from staged file
 COPY INTO employees_new_order
 FROM (
@@ -170,7 +153,7 @@ FROM (
         t.age, 
         t.name, 
         t.onboarded 
-    FROM @~ t
+    FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
 PATTERN = '.*parquet';
@@ -183,13 +166,20 @@ SELECT * FROM employees_new_order;
 ```
 Result:
 ```
-┌────┬─────┬───────────────┬─────────────────────┐
-│ id │ age │ name          │ onboarded           │
-├────┼─────┼───────────────┼─────────────────────┤
-│  3 │  42 │ Mike Johnson  │ 2022-03-10 11:15:00 │
-│  2 │  35 │ Jane Doe      │ 2022-02-15 13:30:00 │
-│  1 │  28 │ John Smith    │ 2022-01-01 09:00:00 │
-└────┴─────┴───────────────┴─────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────┐
+│        id       │       age       │       name       │      onboarded      │
+├─────────────────┼─────────────────┼──────────────────┼─────────────────────┤
+│               1 │              20 │ Name_0           │ 2022-01-01 00:00:00 │
+│               2 │              25 │ Name_5           │ 2022-01-06 00:00:00 │
+│               3 │              21 │ Name_1           │ 2022-01-02 00:00:00 │
+│               4 │              26 │ Name_6           │ 2022-01-07 00:00:00 │
+│               5 │              27 │ Name_7           │ 2022-01-08 00:00:00 │
+│               6 │              22 │ Name_2           │ 2022-01-03 00:00:00 │
+│               7 │              28 │ Name_8           │ 2022-01-09 00:00:00 │
+│               8 │              23 │ Name_3           │ 2022-01-04 00:00:00 │
+│               9 │              24 │ Name_4           │ 2022-01-05 00:00:00 │
+│              10 │              29 │ Name_9           │ 2022-01-10 00:00:00 │
+└────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Tutorial 3 - Converting Datatypes During Load
@@ -207,22 +197,9 @@ CREATE TABLE employees_date (
 );
 ```
 
-2. Load data from the remote or staged sample file and convert the 'onboarded' column to a Date type.
+2. Load data from the staged sample file and convert the 'onboarded' column to a Date type.
 
 ```sql
--- Load from remote file
-COPY INTO employees_date
-FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age, 
-        to_date(t.onboarded) 
-    FROM 'https://datasets.databend.org/employees.parquet' t
-)
-FILE_FORMAT = (TYPE = PARQUET)
-PATTERN = '.*parquet';
-
 -- Load from staged file
 COPY INTO employees_date
 FROM (
@@ -231,7 +208,7 @@ FROM (
         t.name, 
         t.age, 
         to_date(t.onboarded) 
-    FROM @~ t
+    FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
 PATTERN = '.*parquet';
@@ -244,13 +221,21 @@ SELECT * FROM employees_date;
 ```
 Result:
 ```
-┌────┬───────────────┬─────┬────────────┐
-│ id │ name          │ age │ onboarded  │
-├────┼───────────────┼─────┼────────────┤
-│  3 │ Mike Johnson  │  42 │ 2022-03-10 │
-│  1 │ John Smith    │  28 │ 2022-01-01 │
-│  2 │ Jane Doe      │  35 │ 2022-02-15 │
-└────┴───────────────┴─────┴────────────┘
+┌───────────────────────────────────────────────────────────────────────┐
+│        id       │       name       │       age       │    onboarded   │
+│ Nullable(Int32) │ Nullable(String) │ Nullable(Int32) │ Nullable(Date) │
+├─────────────────┼──────────────────┼─────────────────┼────────────────┤
+│               1 │ Name_0           │              20 │ 2022-01-01     │
+│               2 │ Name_5           │              25 │ 2022-01-06     │
+│               3 │ Name_1           │              21 │ 2022-01-02     │
+│               4 │ Name_6           │              26 │ 2022-01-07     │
+│               5 │ Name_7           │              27 │ 2022-01-08     │
+│               6 │ Name_2           │              22 │ 2022-01-03     │
+│               7 │ Name_8           │              28 │ 2022-01-09     │
+│               8 │ Name_3           │              23 │ 2022-01-04     │
+│               9 │ Name_4           │              24 │ 2022-01-05     │
+│              10 │ Name_9           │              29 │ 2022-01-10     │
+└───────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Tutorial 4 - Performing Arithmetic Operations During Load
@@ -268,22 +253,9 @@ CREATE TABLE employees_new_age (
 );
 ```
 
-2. Load data from the remote or staged sample file and perform an arithmetic operation on the 'age' column to increment its values by 1 before inserting it into the target table.
+2. Load data from the staged sample file and perform an arithmetic operation on the 'age' column to increment its values by 1 before inserting it into the target table.
 
 ```sql
--- Load from remote file
-COPY INTO employees_new_age
-FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age + 1, 
-        t.onboarded 
-    FROM 'https://datasets.databend.org/employees.parquet' t
-)
-FILE_FORMAT = (TYPE = PARQUET)
-PATTERN = '.*parquet';
-
 -- Load from staged file
 COPY INTO employees_new_age
 FROM (
@@ -292,7 +264,7 @@ FROM (
         t.name, 
         t.age + 1, 
         t.onboarded 
-    FROM @~ t
+    FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
 PATTERN = '.*parquet';
@@ -305,13 +277,21 @@ SELECT * FROM employees_new_age
 ```    
 Result:
 ```
-┌────┬───────────────┬─────┬─────────────────────┐
-│ id │ name          │ age │ onboarded           │
-├────┼───────────────┼─────┼─────────────────────┤
-│  3 │ Mike Johnson  │  43 │ 2022-03-10 11:15:00 │
-│  2 │ Jane Doe      │  36 │ 2022-02-15 13:30:00 │
-│  1 │ John Smith    │  29 │ 2022-01-01 09:00:00 │
-└────┴───────────────┴─────┴─────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────┐
+│        id       │       name       │       age       │      onboarded      │
+│ Nullable(Int32) │ Nullable(String) │ Nullable(Int32) │ Nullable(Timestamp) │
+├─────────────────┼──────────────────┼─────────────────┼─────────────────────┤
+│               1 │ Name_0           │              21 │ 2022-01-01 00:00:00 │
+│               2 │ Name_5           │              26 │ 2022-01-06 00:00:00 │
+│               3 │ Name_1           │              22 │ 2022-01-02 00:00:00 │
+│               4 │ Name_6           │              27 │ 2022-01-07 00:00:00 │
+│               5 │ Name_7           │              28 │ 2022-01-08 00:00:00 │
+│               6 │ Name_2           │              23 │ 2022-01-03 00:00:00 │
+│               7 │ Name_8           │              29 │ 2022-01-09 00:00:00 │
+│               8 │ Name_3           │              24 │ 2022-01-04 00:00:00 │
+│               9 │ Name_4           │              25 │ 2022-01-05 00:00:00 │
+│              10 │ Name_9           │              30 │ 2022-01-10 00:00:00 │
+└────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Tutorial 5 - Loading to a Table with Additional Columns
@@ -333,19 +313,6 @@ CREATE TABLE employees_plus (
 2. Load data from the staged sample file:
 
 ```sql
--- Load from remote file
-COPY INTO employees_plus (id, name, age, onboarded)
-FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age, 
-        t.onboarded 
-    FROM 'https://datasets.databend.org/employees.parquet' t
-)
-FILE_FORMAT = (TYPE = PARQUET)
-PATTERN = '.*parquet';
-
 -- Load from staged file
 COPY INTO employees_plus (id, name, age, onboarded)
 FROM (
@@ -354,7 +321,7 @@ FROM (
         t.name, 
         t.age, 
         t.onboarded 
-    FROM @~ t
+    FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
 PATTERN = '.*parquet';
@@ -368,11 +335,19 @@ SELECT * FROM employees_plus;
 
 Result:
 ```
-┌────┬───────────────┬─────┬─────────────────────┬─────────────────────┐
-│ id │ name          │ age │ onboarded           │ lastday             │
-├────┼───────────────┼─────┼─────────────────────┼─────────────────────┤
-│  3 │ Mike Johnson  │  42 │ 2022-03-10 11:15:00 │ 1970-01-01 00:00:00 │
-│  1 │ John Smith    │  28 │ 2022-01-01 09:00:00 │ 1970-01-01 00:00:00 │
-│  2 │ Jane Doe      │  35 │ 2022-02-15 13:30:00 │ 1970-01-01 00:00:00 │
-└────┴───────────────┴─────┴─────────────────────┴─────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        id       │       name       │       age       │      onboarded      │       lastday       │
+│ Nullable(Int32) │ Nullable(String) │ Nullable(Int32) │ Nullable(Timestamp) │ Nullable(Timestamp) │
+├─────────────────┼──────────────────┼─────────────────┼─────────────────────┼─────────────────────┤
+│               1 │ Name_0           │              20 │ 2022-01-01 00:00:00 │ NULL                │
+│               2 │ Name_5           │              25 │ 2022-01-06 00:00:00 │ NULL                │
+│               3 │ Name_1           │              21 │ 2022-01-02 00:00:00 │ NULL                │
+│               4 │ Name_6           │              26 │ 2022-01-07 00:00:00 │ NULL                │
+│               5 │ Name_7           │              27 │ 2022-01-08 00:00:00 │ NULL                │
+│               6 │ Name_2           │              22 │ 2022-01-03 00:00:00 │ NULL                │
+│               7 │ Name_8           │              28 │ 2022-01-09 00:00:00 │ NULL                │
+│               8 │ Name_3           │              23 │ 2022-01-04 00:00:00 │ NULL                │
+│               9 │ Name_4           │              24 │ 2022-01-05 00:00:00 │ NULL                │
+│              10 │ Name_9           │              29 │ 2022-01-10 00:00:00 │ NULL                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
