@@ -65,17 +65,13 @@ Databend Cloud 服务目前支持以下开通方式：
 
 ![Alt text](@site/static/img/documents_cn/getting-started/01.png)
 
-2. 设置成功后，点击“登入”。
+2. 设置成功后，点击“登入”，然后输入您的邮箱和密码登录。
 
 ![Alt text](@site/static/img/documents_cn/getting-started/01-2.png)
 
-3. 选择定价计划、云提供商和区域以及组织名称。请注意，此步骤仅对注册其组织的用户可见。完成设置后，点击“下一步”。
+3. 选择云提供商和地区。请注意，此步骤仅对注册其组织的用户可见。完成设置后，点击“创建”。
 
 ![Alt text](@site/static/img/documents_cn/getting-started/02.png)
-
-4. 了解付费计划和价格，然后点击“创建”。
-
-![Alt text](@site/static/img/documents_cn/getting-started/03.png)
 
 ### 登录 Databend Cloud 账号
 
