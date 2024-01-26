@@ -23,7 +23,6 @@ SHOW USER FUNCTIONS;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │      name      │    is_aggregate   │ description │                         arguments                         │ language │
-│     String     │ Nullable(Boolean) │    String   │                          Variant                          │  String  │
 ├────────────────┼───────────────────┼─────────────┼───────────────────────────────────────────────────────────┼──────────┤
 │ binary_reverse │ NULL              │             │ {"arg_types":["Binary NULL"],"return_type":"Binary NULL"} │ python   │
 │ echo           │ NULL              │             │ {"arg_types":["String NULL"],"return_type":"String NULL"} │ python   │

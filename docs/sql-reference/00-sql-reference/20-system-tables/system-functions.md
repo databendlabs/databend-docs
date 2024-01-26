@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.315"/>
 
-Contains information about the supported builtin scalar/aggregate functions.
+Contains information about the supported built-in scalar and aggregate.
 
 See also: [SHOW FUNCTIONS](../../10-sql-commands/50-administration-cmds/show-functions.md).
 
@@ -17,7 +17,6 @@ SELECT * FROM system.functions LIMIT 10;
 
 ┌──────────────────────────────────────────────────────────────┐
 │     name     │ is_aggregate │ description │ syntax │ example │
-│    String    │    Boolean   │    String   │ String │  String │
 ├──────────────┼──────────────┼─────────────┼────────┼─────────┤
 │ abs          │ false        │             │        │         │
 │ acos         │ false        │             │        │         │
