@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.190"/>
 
-Shows the list of supported functions currently, including builtin scalar/aggregate functions and user-defined functions.
+Shows the list of supported functions currently, including built-in scalar and aggregate and user-defined functions.
 
 ## Syntax
 
