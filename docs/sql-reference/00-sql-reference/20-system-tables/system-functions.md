@@ -13,7 +13,7 @@ See also: [SHOW FUNCTIONS](../../10-sql-commands/50-administration-cmds/show-fun
 ## Example
 
 ```sql
-SELECT * FROM system.functions limit 10;
+SELECT * FROM system.functions LIMIT 10;
 
 ┌──────────────────────────────────────────────────────────────┐
 │     name     │ is_aggregate │ description │ syntax │ example │

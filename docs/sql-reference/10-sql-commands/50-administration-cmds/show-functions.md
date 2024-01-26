@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.315"/>
 
-Shows the list of supported builtin scalar/aggregate functions currently.
+Lists the currently supported built-in scalar and aggregate functions.
 
 See also: [system.functions](../../00-sql-reference/20-system-tables/system-functions.md)
 

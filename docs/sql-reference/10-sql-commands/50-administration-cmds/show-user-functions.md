@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.315"/>
 
-Shows information about user-defined functions and external functions in the system. Equivalent to `SELECT name, is_aggregate, description, arguments, language FROM system.user_functions ...`.
+Lists the existing user-defined functions and external functions in the system. Equivalent to `SELECT name, is_aggregate, description, arguments, language FROM system.user_functions ...`.
 
 See also: [system.user_functions](../../00-sql-reference/20-system-tables/system-user-functions.md)
 
