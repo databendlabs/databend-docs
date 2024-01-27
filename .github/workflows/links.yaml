@@ -22,9 +22,9 @@ jobs:
 
       - name: Link Checker
         id: lychee
-        uses: lycheeverse/lychee-action@v1.8.0
+        uses: lycheeverse/lychee-action@v1.9.2
         with:
-          args: "*/*.md --cache --max-cache-age 1d . --config lychee.toml"
+          args: "**/*.md --cache --max-cache-age 1d . --config lychee.toml"
 
       - name: Save lychee cache
         uses: actions/cache/save@v3
