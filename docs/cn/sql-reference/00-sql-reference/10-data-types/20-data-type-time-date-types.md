@@ -161,7 +161,7 @@ FROM test_tz;
 
 ### 格式化日期和时间
 
-在 Databend 中，某些日期和时间函数，如 [TO_DATE](../../20-sql-functions/05-datetime-functions/to-date.md) 和 [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md)，要求您指定日期和时间值的所需格式。为了处理日期和时间格式化，Databend 使用了 chrono 库中提供的标准模块 chrono::format::strftime。这个模块使得对日期和时间的格式化控制变得非常精确。以下内容摘自 https://docs.rs/chrono/latest/chrono/format/strftime/index.html：
+在 Databend 中，某些日期和时间函数，如 [TO_DATE](../../20-sql-functions/05-datetime-functions/to-date.md) 和 [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md)，要求您指定日期和时间值的所需格式。为了处理日期和时间格式化，Databend 使用了 chrono 库中提供的标准模块 chrono::format::strftime。这个模块使得对日期和时间的格式化控制变得非常精确。以下内容摘自 https://docs.rs/chrono/latest/chrono/format/strftime/index.html ：
 
 | 规范  | 示例                             | 描述                                                                                                                                                                                 |
 |-------|----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

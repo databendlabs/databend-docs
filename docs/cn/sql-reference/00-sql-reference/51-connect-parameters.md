@@ -144,7 +144,7 @@ SELECT * FROM 's3://testbucket/admin/data/parquet/tuple.parquet'
 
 | 参数      | 是否必须?               | 描述                                                                                                                   |
 |---------|---------------------|----------------------------------------------------------------------------------------------------------------------|
-| repo_id | 是                   | Hugging Face 仓库的标识符。例如："opendal/huggingface-testdata"。请注意，repo_id 必须有一个组织名称；目前不支持存储在 Hugging Face 上的非组织格式的数据集（例如 https://huggingface.co/datasets/ropes）。 |
+| repo_id | 是                   | Hugging Face 仓库的标识符。例如："opendal/huggingface-testdata"。请注意，repo_id 必须有一个组织名称；目前不支持存储在 Hugging Face 上的非组织格式的数据集（例如 https://huggingface.co/datasets/ropes ）。 |
 | repo_type| 否 (默认: dataset)  | Hugging Face 仓库的类型。可以是 `dataset` 或 `model`。                                                                |
 | revision | 否 (默认: main)      | Hugging Face URI 的修订版本。可以是仓库的分支、标签或提交。                                                            |
 | token    | 否                   | 从 Hugging Face 获取的 API 令牌，可能需要用于访问私有仓库或某些资源。                                                  |

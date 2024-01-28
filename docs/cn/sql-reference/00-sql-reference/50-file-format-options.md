@@ -52,7 +52,7 @@ Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS
   - `ESCAPED BY` 为空。
   - `ENCLOSED BY` 不为空。
     :::note
-    如果不满足上述条件，文件将被识别为 TSV 格式。有关 `ESCAPED BY` 和 `ENCLOSED BY` 子句的更多信息，请参阅 https://dev.mysql.com/doc/refman/8.0/en/load-data.html。
+    如果不满足上述条件，文件将被识别为 TSV 格式。有关 `ESCAPED BY` 和 `ENCLOSED BY` 子句的更多信息，请参阅 https://dev.mysql.com/doc/refman/8.0/en/load-data.html 。
     :::
 
 ### RECORD_DELIMITER
