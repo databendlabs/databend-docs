@@ -1,60 +1,68 @@
 ---
-title: SHOW FUNCTIONS
+title: 显示函数
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.190"/>
+<FunctionDescription description="引入或更新于：v1.2.315"/>
 
-Shows the list of supported functions currently, including built-in scalar and aggregate and user-defined functions.
+列出当前支持的内置标量和聚合函数。
 
-## Syntax
+另见：[system.functions](../../00-sql-reference/20-system-tables/system-functions.md)
+
+## 语法
 
 ```sql
 SHOW FUNCTIONS [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
-## Example
+## 示例
 
 ```sql
 SHOW FUNCTIONS;
-+-------------------------+------------+--------------+-------------------+---------------------------+
-| name                    | is_builtin | is_aggregate | definition        | description               |
-+-------------------------+------------+--------------+-------------------+---------------------------+
-| !=                      |          1 |            0 |                   |                           |
-| %                       |          1 |            0 |                   |                           |
-| *                       |          1 |            0 |                   |                           |
-| +                       |          1 |            0 |                   |                           |
-| -                       |          1 |            0 |                   |                           |
-| /                       |          1 |            0 |                   |                           |
-| <                       |          1 |            0 |                   |                           |
-| <=                      |          1 |            0 |                   |                           |
-| <>                      |          1 |            0 |                   |                           |
-| =                       |          1 |            0 |                   |                           |
-+-------------------------+------------+--------------+-------------------+---------------------------+
+
++-------------------------+--------------+---------------------------+
+| name                    | is_aggregate | description               |
++-------------------------+--------------+---------------------------+
+| !=                      |            0 |                           |
+| %                       |            0 |                           |
+| *                       |            0 |                           |
+| +                       |            0 |                           |
+| -                       |            0 |                           |
+| /                       |            0 |                           |
+| <                       |            0 |                           |
+| <=                      |            0 |                           |
+| <>                      |            0 |                           |
+| =                       |            0 |                           |
++-------------------------+--------------+---------------------------+
 ```
 
-Showing the functions begin with `"today"`:
+显示以`"today"`开头的函数：
+
 ```sql
 SHOW FUNCTIONS LIKE 'today%';
-+--------------+------------+--------------+------------+-------------+
-| name         | is_builtin | is_aggregate | definition | description |
-+--------------+------------+--------------+------------+-------------+
-| today        |          1 |            0 |            |             |
-| todayofmonth |          1 |            0 |            |             |
-| todayofweek  |          1 |            0 |            |             |
-| todayofyear  |          1 |            0 |            |             |
-+--------------+------------+--------------+------------+-------------+
+
++--------------+--------------+-------------+
+| name         | is_aggregate | description |
++--------------+--------------+-------------+
+| today        |            0 |             |
+| todayofmonth |            0 |             |
+| todayofweek  |            0 |             |
+| todayofyear  |            0 |             |
++--------------+--------------+-------------+
 ```
 
-Showing the functions begin with `"today"` with `WHERE`:
+使用`WHERE`显示以`"today"`开头的函数：
+
 ```sql
 SHOW FUNCTIONS WHERE name LIKE 'today%';
-+--------------+------------+--------------+------------+-------------+
-| name         | is_builtin | is_aggregate | definition | description |
-+--------------+------------+--------------+------------+-------------+
-| today        |          1 |            0 |            |             |
-| todayofmonth |          1 |            0 |            |             |
-| todayofweek  |          1 |            0 |            |             |
-| todayofyear  |          1 |            0 |            |             |
-+--------------+------------+--------------+------------+-------------+
+
++--------------+--------------+-------------+
+| name         | is_aggregate | description |
++--------------+--------------+-------------+
+| today        |            0 |             |
+| todayofmonth |            0 |             |
+| todayofweek  |            0 |             |
+| todayofyear  |            0 |             |
++--------------+--------------+-------------+
 ```

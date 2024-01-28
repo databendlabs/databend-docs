@@ -2,31 +2,31 @@
 title: SET_VAR
 ---
 
-SET_VAR is used to specify optimizer hints within a single SQL statement, allowing for finer control over the execution plan of that specific statement. This includes:
+SET_VAR 用于在单个 SQL 语句中指定优化器提示，允许对该特定语句的执行计划进行更细致的控制。这包括：
 
-- Configure settings temporarily, affecting only the duration of the SQL statement execution. It's important to note that the settings specified with SET_VAR will solely impact the result of the current statement being executed and will not have any lasting effects on the overall database configuration. For a list of available settings that can be configured using SET_VAR, see [SHOW SETTINGS](show-settings.md). To understand how it works, see these examples:
+- 临时配置设置，仅影响 SQL 语句执行的持续时间。需要注意的是，使用 SET_VAR 指定的设置仅影响当前正在执行的语句的结果，并不会对整体数据库配置产生任何持久效果。要查看可以使用 SET_VAR 配置的可用设置列表，请参见 [SHOW SETTINGS](show-settings.md)。要了解其工作原理，请参见以下示例：
 
-    - [Example 1. Temporarily Set Timezone](#example-1-temporarily-set-timezone)
-    - [Example 2: Control Parallel Processing for COPY INTO](#example-2-control-parallel-processing-for-copy-into)
+    - [示例 1. 临时设置时区](#example-1-temporarily-set-timezone)
+    - [示例 2：控制 COPY INTO 的并行处理](#example-2-control-parallel-processing-for-copy-into)
 
-- Control the deduplication behavior on [INSERT](../10-dml/dml-insert.md), [UPDATE](../10-dml/dml-update.md), or [REPLACE](../10-dml/dml-replace.md) operations with the label *deduplicate_label*. For those operations with a deduplicate_label in the SQL statements, Databend executes only the first statement, and subsequent statements with the same deduplicate_label value are ignored, regardless of their intended data modifications. Please note that once you set a deduplicate_label, it will remain in effect for a period of 24 hours. To understand how the deduplicate_label assists in deduplication, see [Example 3: Set Deduplicate Label](#example-3-set-deduplicate-label).
+- 使用标签 *deduplicate_label* 控制 [INSERT](../10-dml/dml-insert.md)、[UPDATE](../10-dml/dml-update.md) 或 [REPLACE](../10-dml/dml-replace.md) 操作的去重行为。对于 SQL 语句中带有 deduplicate_label 的那些操作，Databend 只执行第一个语句，随后带有相同 deduplicate_label 值的语句将被忽略，不论它们的数据修改意图如何。请注意，一旦设置了 deduplicate_label，它将持续有效 24 小时。要了解 deduplicate_label 如何协助去重，请参见 [示例 3：设置去重标签](#example-3-set-deduplicate-label)。
 
-See also: [SET](set-global.md)
+另见：[SET](set-global.md)
 
-## Syntax
+## 语法
 
 ```sql
 /*+ SET_VAR(key=value) SET_VAR(key=value) ... */
 ```
 
-- The hint must immediately follow an [SELECT](../20-query-syntax/01-query-select.md), [INSERT](../10-dml/dml-insert.md), [UPDATE](../10-dml/dml-update.md), [REPLACE](../10-dml/dml-replace.md), [DELETE](../10-dml/dml-delete-from.md), or [COPY](../10-dml/dml-copy-into-table.md) (INTO) keyword that begins the SQL statement.
-- A SET_VAR can include only one Key=Value pair, which means you can configure only one setting with one SET_VAR. However, you can use multiple SET_VAR hints to configure multiple settings.
-    - If multiple SET_VAR hints containing a same key, the first Key=Value pair will be applied.
-    - If a key fails to parse or bind, all hints will be ignored.
+- 提示必须紧跟在开始 SQL 语句的 [SELECT](../20-query-syntax/01-query-select.md)、[INSERT](../10-dml/dml-insert.md)、[UPDATE](../10-dml/dml-update.md)、[REPLACE](../10-dml/dml-replace.md)、[DELETE](../10-dml/dml-delete-from.md) 或 [COPY](../10-dml/dml-copy-into-table.md) (INTO) 关键字之后。
+- 一个 SET_VAR 只能包含一个 Key=Value 对，这意味着你只能用一个 SET_VAR 配置一个设置。然而，你可以使用多个 SET_VAR 提示来配置多个设置。
+    - 如果多个 SET_VAR 提示包含相同的键，将应用第一个 Key=Value 对。
+    - 如果键解析或绑定失败，所有提示将被忽略。
 
-## Examples
+## 示例
 
-### Example 1: Temporarily Set Timezone
+### 示例 1：临时设置时区
 
 ```sql
 root@localhost> SELECT TIMEZONE();
@@ -72,17 +72,17 @@ SELECT
 
 1 row in 0.010 sec. Processed 1 rows, 1B (104.34 rows/s, 104B/s)
 ```
-### Example 2: Control Parallel Processing for COPY INTO
+### 示例 2：控制 COPY INTO 的并行处理
 
-In Databend, the *max_threads* setting specifies the maximum number of threads that can be utilized to execute a request. By default, this value is typically set to match the number of CPU cores available on the machine.
+在 Databend 中，*max_threads* 设置指定了可以用于执行请求的最大线程数。默认情况下，此值通常设置为与机器上可用的 CPU 核心数量相匹配。
 
-When loading data into Databend with COPY INTO, you can control the parallel processing capabilities by injecting hints into the COPY INTO command and setting the *max_threads* parameter. For example:
+使用 COPY INTO 向 Databend 加载数据时，你可以通过在 COPY INTO 命令中注入提示并设置 *max_threads* 参数来控制并行处理能力。例如：
 
 ```sql
 COPY /*+ set_var(max_threads=6) */ INTO mytable FROM @mystage/ pattern='.*[.]parq' FILE_FORMAT=(TYPE=parquet);
 ```
 
-### Example 3: Set Deduplicate Label
+### 示例 3：设置去重标签
 
 ```sql
 CREATE TABLE t1(a Int, b bool);

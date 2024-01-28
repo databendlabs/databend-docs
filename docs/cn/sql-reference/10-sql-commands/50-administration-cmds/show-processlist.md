@@ -3,19 +3,19 @@ title: SHOW PROCESSLIST
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.190"/>
+<FunctionDescription description="引入或更新于：v1.2.190"/>
 
-The Databend process list indicates the operations currently being performed by the set of threads executed within the server.
+Databend 进程列表显示了服务器内执行的一组线程当前正在执行的操作。
 
-See also: [KILL](kill.md)
+另见：[KILL](kill.md)
 
-## Syntax
+## 语法
 
 ```sql
 SHOW PROCESSLIST [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
-## Examples
+## 示例
 
 ```sql
 SHOW PROCESSLIST;

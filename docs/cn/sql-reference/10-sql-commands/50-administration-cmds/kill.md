@@ -2,17 +2,17 @@
 title: KILL
 ---
 
-Forcibly terminates the currently running queries.
+强制终止当前正在运行的查询。
 
-See also: [SHOW PROCESSLIST](show-processlist.md)
+另见：[SHOW PROCESSLIST](show-processlist.md)
 
-## Syntax
+## 语法
 
 ```sql
 KILL QUERY|CONNECTION <session_id>
 ```
 
-## Examples
+## 示例
 
 ```sql
 SHOW PROCESSLIST;
