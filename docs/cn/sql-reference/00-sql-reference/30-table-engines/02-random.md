@@ -1,5 +1,5 @@
 ---
-title: Random 引擎
+title: 随机引擎
 ---
 
 ## 语法
@@ -14,7 +14,7 @@ CREATE TABLE table_name (
 
 ## 使用场景
 
-Random 引擎用于生成用于测试目的的随机数据。如果查询中未指定限制，则会使用 `max_block_size` 作为限制值。
+随机引擎用于生成随机数据以进行测试目的。如果查询中未指定限制，则将使用 `max_block_size` 作为限制值。
 
 示例：
 
