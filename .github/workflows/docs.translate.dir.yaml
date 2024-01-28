@@ -30,7 +30,7 @@ jobs:
       id: all_files
       run: |
         TRANSLATION_DIR="${{ github.event.inputs.path }}"
-        echo "files=$(find docs/developer/ -type f -name '*.md' | sed -e 's/^/.\//' | tr '
+        echo "files=$(find $TRANSLATION_DIR -type f -name '*.md' | sed -e 's/^/.\//' | tr '
         \n' ' ')" >> $GITHUB_OUTPUT
 
     - name: Run GPT Translate
