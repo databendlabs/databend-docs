@@ -32,10 +32,10 @@ jobs:
         echo "files=$(git diff --diff-filter=d --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
     - name: Run GPT Translate
-      uses: 3ru/gpt-translate@v1.1.5
+      uses: 3ru/gpt-translate@master
       with:
         apikey: ${{ secrets.OPENAI_API_KEY }}
-        model: "gpt-4-1106-preview"
+        model: "gpt-4-turbo-preview"
         inputFiles: '${{ steps.changed_files.outputs.files }}'
         outputFiles: 'docs/cn/**/*.md'
         languages: 'Simplified-Chinese'
