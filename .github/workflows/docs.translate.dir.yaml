@@ -25,6 +25,7 @@ jobs:
         echo "Deleting all files in $CN_DIR"
         rm -rf $CN_DIR
         echo "All files in $CN_DIR have been deleted."
+        git add .
 
     - name: Get all files in specified directory
       id: all_files
