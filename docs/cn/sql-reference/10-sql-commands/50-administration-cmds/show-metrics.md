@@ -1,19 +1,21 @@
 ---
-title: SHOW METRICS
+title: 显示指标
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.190"/>
+<FunctionDescription description="引入或更新版本：v1.2.190"/>
 
-Shows the list of [system metrics](../../00-sql-reference/20-system-tables/system-metrics.md).
+显示[系统指标](../../00-sql-reference/20-system-tables/system-metrics.md)列表。
 
-## Syntax
+## 语法
 
 ```sql
 SHOW METRICS [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
-## Examples
+## 示例
+
+
 
 ```sql
 SHOW METRICS;

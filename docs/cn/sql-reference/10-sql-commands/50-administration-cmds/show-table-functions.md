@@ -1,19 +1,19 @@
 ---
-title: SHOW TABLE_FUNCTIONS
+title: 显示 TABLE_FUNCTIONS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.190"/>
+<FunctionDescription description="引入或更新版本：v1.2.190"/>
 
-Shows the list of supported table functions currently.
+显示当前支持的表函数列表。
 
-## Syntax
+## 语法
 
 ```sql
 SHOW TABLE_FUNCTIONS [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
-## Example
+## 示例
 
 ```sql
 SHOW TABLE_FUNCTIONS;
@@ -34,7 +34,7 @@ SHOW TABLE_FUNCTIONS;
 +------------------------+
 ```
 
-Showing the table functions begin with `"number"`:
+显示以 `"number"` 开头的表函数：
 ```sql
 SHOW TABLE_FUNCTIONS LIKE 'number%';
 +---------------+
@@ -46,7 +46,7 @@ SHOW TABLE_FUNCTIONS LIKE 'number%';
 +---------------+
 ```
 
-Showing the table functions begin with `"number"` with `WHERE`:
+使用 `WHERE` 显示以 `"number"` 开头的表函数：
 ```sql
 SHOW TABLE_FUNCTIONS WHERE name LIKE 'number%';
 +---------------+
