@@ -7,27 +7,25 @@ Returns the string str with all characters changed to lowercase.
 ## Syntax
 
 ```sql
-LOWER(<str>);
+LOWER(<str>)
 ```
 
-## Arguments
+## Aliases
 
-| Arguments | Description                |
-|-----------|----------------------------|
-| `<str>`   | The string to be lowercase |
-
+- [LCASE](lcase.md)
 
 ## Return Type
 
-`VARCHAR`
+VARCHAR
 
 ## Examples
 
 ```sql
-SELECT LOWER('Hello, World!')
-+------------------------+
-| lower('Hello, World!') |
-+------------------------+
-| hello, world!          |
-+------------------------+
+SELECT LOWER('Hello, World!'), LCASE('Hello, World!');
+
+┌─────────────────────────────────────────────────┐
+│ lower('hello, world!') │ lcase('hello, world!') │
+├────────────────────────┼────────────────────────┤
+│ hello, world!          │ hello, world!          │
+└─────────────────────────────────────────────────┘
 ```

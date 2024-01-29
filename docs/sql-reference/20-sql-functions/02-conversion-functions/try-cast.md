@@ -4,6 +4,8 @@ title: TRY_CAST
 
 Converts a value from one data type to another. Returns NULL on error.
 
+See also: [CAST](cast.md)
+
 ## Syntax
 
 ```sql

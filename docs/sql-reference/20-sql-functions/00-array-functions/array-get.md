@@ -1,5 +1,5 @@
 ---
-title: GET
+title: ARRAY_GET
 ---
 
 Returns an element from an array by index (1-based).
@@ -7,12 +7,12 @@ Returns an element from an array by index (1-based).
 ## Syntax
 
 ```sql
-GET( <array>, <index> )
+ARRAY_GET( <array>, <index> )
 ```
 
 ## Aliases
 
-- [ARRAY_GET](array-get.md)
+- [GET](get.md)
 
 ## Examples
 

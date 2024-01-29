@@ -1,5 +1,5 @@
 ---
-title: BITMAP_COUNT
+title: BITMAP_CARDINALITY
 ---
 
 Counts the number of bits set to 1 in the bitmap.
@@ -7,12 +7,12 @@ Counts the number of bits set to 1 in the bitmap.
 ## Syntax
 
 ```sql
-BITMAP_COUNT( <bitmap> )
+BITMAP_CARDINALITY( <bitmap> )
 ```
 
 ## Aliases
 
-- [BITMAP_CARDINALITY](bitmap-cardinality.md)
+- [BITMAP_COUNT](bitmap-count.md)
 
 ## Examples
 

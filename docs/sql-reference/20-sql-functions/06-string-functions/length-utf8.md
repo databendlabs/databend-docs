@@ -1,5 +1,5 @@
 ---
-title: CHAR_LENGTH
+title: LENGTH_UTF8
 ---
 
 Returns the length of a given input string or binary value. In the case of strings, the length represents the count of characters, with each UTF-8 character considered as a single character. For binary data, the length corresponds to the number of bytes.
@@ -7,18 +7,18 @@ Returns the length of a given input string or binary value. In the case of strin
 ## Syntax
 
 ```sql
-CHAR_LENGTH(<expr>)
+LENGTH_UTF8(<expr>)
 ```
-
-## Aliases
-
-- [CHARACTER_LENGTH](character-length.md)
-- [LENGTH](length.md)
-- [LENGTH_UTF8](length-utf8.md)
 
 ## Return Type
 
 BIGINT
+
+## Aliases
+
+- [CHAR_LENGTH](char-length.md)
+- [CHARACTER_LENGTH](character-length.md)
+- [LENGTH](length.md)
 
 ## Examples
 

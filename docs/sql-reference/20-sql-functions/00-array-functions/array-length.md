@@ -1,26 +1,26 @@
 ---
-title: GET
+title: ARRAY_LENGTH
 ---
 
-Returns an element from an array by index (1-based).
+Returns the length of an array.
 
 ## Syntax
 
 ```sql
-GET( <array>, <index> )
+ARRAY_LENGTH( <array> )
 ```
 
 ## Aliases
 
-- [ARRAY_GET](array-get.md)
+- [LENGTH](length.md)
 
 ## Examples
 
 ```sql
-SELECT GET([1, 2], 2), ARRAY_GET([1, 2], 2);
+SELECT LENGTH([1, 2]), ARRAY_LENGTH([1, 2]);
 
 ┌───────────────────────────────────────┐
-│ get([1, 2], 2) │ array_get([1, 2], 2) │
+│ length([1, 2]) │ array_length([1, 2]) │
 ├────────────────┼──────────────────────┤
 │              2 │                    2 │
 └───────────────────────────────────────┘

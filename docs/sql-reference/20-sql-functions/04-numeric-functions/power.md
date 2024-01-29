@@ -1,5 +1,5 @@
 ---
-title: POW
+title: POWER
 ---
 
 Returns the value of `x` to the power of `y`. 
@@ -7,12 +7,12 @@ Returns the value of `x` to the power of `y`.
 ## Syntax
 
 ```sql
-POW( <x, y> )
+POWER( <x, y> )
 ```
 
 ## Aliases
 
-- [POWER](power.md)
+- [POW](pow.md)
 
 ## Examples
 
