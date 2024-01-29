@@ -6,22 +6,29 @@ on:
       path:
         description: 'The path to the directory containing the files to translate (e.g., docs/sql-reference/)'
         required: true
-        default: 'docs/sql-reference/'
+        default: 'sql-reference'
+
+permissions:
+  id-token: write
+  pull-requests: write
+  checks: write
+  statuses: write
+  contents: write
 
 jobs:
   gpt_translate:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
     
     - name: Delete all files in specified cn directory
       run: |
-        TRANSLATION_DIR="${{ github.event.inputs.path }}"
-        CN_DIR="docs/cn/${TRANSLATION_DIR}"
+        TRANSLATION_DIR="docs/${{ github.event.inputs.path }}"
+        CN_DIR="docs/cn/${{ github.event.inputs.path }}"
         echo "Deleting all files in $CN_DIR"
         rm -rf $CN_DIR
         echo "All files in $CN_DIR have been deleted."
