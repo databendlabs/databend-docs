@@ -4,7 +4,7 @@ title: 显示函数
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.315"/>
+<FunctionDescription description="引入或更新版本：v1.2.315"/>
 
 列出当前支持的内置标量和聚合函数。
 

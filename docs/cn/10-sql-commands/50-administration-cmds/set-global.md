@@ -4,7 +4,7 @@ title: SET
 
 更改系统设置的值和/或级别。要显示所有当前设置，请使用 [SHOW SETTINGS](show-settings.md)。
 
-另请参阅：
+另请参见：
 - [SET_VAR](set-var.md)
 - [UNSET](unset.md)
 
