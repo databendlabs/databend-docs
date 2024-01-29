@@ -10,23 +10,24 @@ Returns the length of a given input string or binary value. In the case of strin
 LENGTH(<expr>)
 ```
 
-## Return Type
-
-BIGINT
-
 ## Aliases
 
 - [CHAR_LENGTH](char-length.md)
 - [CHARACTER_LENGTH](character-length.md)
+- [LENGTH_UTF8](length-utf8.md)
+
+## Return Type
+
+BIGINT
 
 ## Examples
 
 ```sql
-SELECT LENGTH('Word'), CHAR_LENGTH('Word'), CHARACTER_LENGTH('Word');
+SELECT LENGTH('Hello'), LENGTH_UTF8('Hello'), CHAR_LENGTH('Hello'), CHARACTER_LENGTH('Hello');
 
-┌─────────────────────────────────────────────────────────────────┐
-│ length('word') │ char_length('word') │ character_length('word') │
-├────────────────┼─────────────────────┼──────────────────────────┤
-│              4 │                   4 │                        4 │
-└─────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│ length('hello') │ length_utf8('hello') │ char_length('hello') │ character_length('hello') │
+├─────────────────┼──────────────────────┼──────────────────────┼───────────────────────────┤
+│               5 │                    5 │                    5 │                         5 │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
 ```

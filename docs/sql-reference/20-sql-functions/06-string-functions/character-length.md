@@ -18,15 +18,16 @@ BIGINT
 
 - [CHAR_LENGTH](char-length.md)
 - [LENGTH](length.md)
+- [LENGTH_UTF8](length-utf8.md)
 
 ## Examples
 
 ```sql
-SELECT LENGTH('Word'), CHAR_LENGTH('Word'), CHARACTER_LENGTH('Word');
+SELECT LENGTH('Hello'), LENGTH_UTF8('Hello'), CHAR_LENGTH('Hello'), CHARACTER_LENGTH('Hello');
 
-┌─────────────────────────────────────────────────────────────────┐
-│ length('word') │ char_length('word') │ character_length('word') │
-├────────────────┼─────────────────────┼──────────────────────────┤
-│              4 │                   4 │                        4 │
-└─────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│ length('hello') │ length_utf8('hello') │ char_length('hello') │ character_length('hello') │
+├─────────────────┼──────────────────────┼──────────────────────┼───────────────────────────┤
+│               5 │                    5 │                    5 │                         5 │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
 ```
