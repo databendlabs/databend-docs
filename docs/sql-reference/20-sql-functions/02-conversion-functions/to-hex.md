@@ -1,20 +1,20 @@
 ---
-title: HEX
+title: TO_HEX
 ---
 
-For a string argument str, HEX() returns a hexadecimal string representation of str where each byte of each character in str is converted to two hexadecimal digits. The inverse of this operation is performed by the UNHEX() function.
+For a string argument str, TO_HEX() returns a hexadecimal string representation of str where each byte of each character in str is converted to two hexadecimal digits. The inverse of this operation is performed by the UNHEX() function.
 
-For a numeric argument N, HEX() returns a hexadecimal string representation of the value of N treated as a longlong (BIGINT) number. 
+For a numeric argument N, TO_HEX() returns a hexadecimal string representation of the value of N treated as a longlong (BIGINT) number. 
 
 ## Syntax
 
 ```sql
-HEX(<expr>)
+TO_HEX(<expr>)
 ```
 
 ## Aliases
 
-- [TO_HEX](../02-conversion-functions/to-hex.md)
+- [HEX](../06-string-functions/hex.md)
 
 ## Examples
 
