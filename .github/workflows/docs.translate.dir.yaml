@@ -38,8 +38,7 @@ jobs:
       id: all_files
       run: |
         TRANSLATION_DIR="${{ github.event.inputs.path }}"
-        echo "files=$(find $TRANSLATION_DIR -type f -name '*.md' | sed -e 's/^/.\//' | tr '
-        \n' ' ')" >> $GITHUB_OUTPUT
+        echo "files=$(find $TRANSLATION_DIR -type f -name '*.md' | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
     - name: Run GPT Translate
       uses: 3ru/gpt-translate@master
