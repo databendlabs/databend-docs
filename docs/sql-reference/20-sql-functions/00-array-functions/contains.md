@@ -1,5 +1,5 @@
 ---
-title: ARRAY_CONTAINS
+title: CONTAINS
 ---
 
 Checks if the array contains a specific element.
@@ -7,12 +7,12 @@ Checks if the array contains a specific element.
 ## Syntax
 
 ```sql
-ARRAY_CONTAINS( <array>, <element> )
+CONTAINS( <array>, <element> )
 ```
 
 ## Aliases
 
-- [CONTAINS](contains.md)
+- [ARRAY_CONTAINS](array-contains.md)
 
 ## Examples
 

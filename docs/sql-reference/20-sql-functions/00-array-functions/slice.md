@@ -1,5 +1,5 @@
 ---
-title: ARRAY_SLICE
+title: SLICE
 ---
 
 Extracts a slice from the array by index (1-based).
@@ -7,12 +7,12 @@ Extracts a slice from the array by index (1-based).
 ## Syntax
 
 ```sql
-ARRAY_SLICE( <array>, <start>[, <end>] )
+SLICE( <array>, <start>[, <end>] )
 ```
 
 ## Aliases
 
-- [SLICE](slice.md)
+- [ARRAY_SLICE](array-slice.md)
 
 ## Examples
 

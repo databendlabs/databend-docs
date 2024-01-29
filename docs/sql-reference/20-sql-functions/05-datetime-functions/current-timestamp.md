@@ -5,30 +5,34 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.225"/>
 
-Returns the current timestamp.
+Returns the current date and time.
 
 ## Syntax
 
 ```sql
-CURRENT_TIMESTAMP
+CURRENT_TIMESTAMP()
 ```
 
 ## Return Type
 
-TIMESTAMP.
+TIMESTAMP
+
+## Aliases
+
+- [NOW](now.md)
 
 ## Examples
 
-This example returns the current timestamp using the `SELECT CURRENT_TIMESTAMP` statement:
+This example returns the current date and time:
 
 ```sql
-SELECT CURRENT_TIMESTAMP();
+SELECT CURRENT_TIMESTAMP(), NOW();
 
-┌────────────────────────────┐
-│      current_timestamp     │
-├────────────────────────────┤
-│ 2023-11-27 15:59:52.438152 │
-└────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│     current_timestamp()    │            now()           │
+├────────────────────────────┼────────────────────────────┤
+│ 2024-01-29 04:38:12.584359 │ 2024-01-29 04:38:12.584417 │
+└─────────────────────────────────────────────────────────┘
 ```
 
 This example uses the function to generate the default value for a TIMESTAMP column:
