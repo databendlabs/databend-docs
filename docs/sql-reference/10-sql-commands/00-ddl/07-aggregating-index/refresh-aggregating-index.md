@@ -11,8 +11,6 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='AGGREGATING INDEX'/>
 
-Manually refreshes an aggregating index. For more information about the refresh mechanisms, see [Refreshing Aggregating Index](index.md#refreshing-aggregating-index).
-
 ## Syntax
 
 ```sql
@@ -20,6 +18,11 @@ REFRESH AGGREGATING INDEX <index_name> [LIMIT <limit>]
 ```
 
 The "LIMIT" parameter allows you to control the maximum number of blocks that can be updated with each refresh action. It is strongly recommended to use this parameter with a defined limit to optimize memory usage. Please also note that setting a limit may result in partial data updates. For example, if you have 100 blocks but set a limit of 10, a single refresh might not update the most recent data, potentially leaving some blocks unrefreshed. You may need to execute multiple refresh actions to ensure a complete update.
+
+## When to Use REFRESH AGGREGATING INDEX
+
+- **When Automatic Updates Fail:** In cases where the default automatic updates (`SYNC` mode) do not work properly, use `REFRESH AGGREGATING INDEX` to include any missed data in the index.
+- **For ASYNC Indexes:** If aggregating index is created with the `ASYNC` option, it won't update automatically. You need to manually refresh it using `REFRESH AGGREGATING INDEX`.
 
 ## Examples
 
