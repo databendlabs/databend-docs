@@ -1,5 +1,5 @@
 ---
-title: TO_STRING
+title: TO_VARCHAR
 ---
 
 Converts a value to String data type, or converts a Date value to a specific string format. To customize the format of date and time in Databend, you can utilize specifiers. These specifiers allow you to define the desired format for date and time values. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
@@ -7,16 +7,16 @@ Converts a value to String data type, or converts a Date value to a specific str
 ## Syntax
 
 ```sql
-TO_STRING( '<expr>' )
+TO_VARCHAR( '<expr>' )
 
-TO_STRING( '<date>', '<format>' )
+TO_VARCHAR( '<date>', '<format>' )
 ```
 
 ## Aliases
 
 - [DATE_FORMAT](../05-datetime-functions/date-format.md)
-- [TO_TEXT](../02-conversion-functions/to-text.md)
-- [TO_VARCHAR](to-varchar.md)
+- [TO_STRING](to-string.md)
+- [TO_TEXT](to-text.md)
 
 ## Return Type
 

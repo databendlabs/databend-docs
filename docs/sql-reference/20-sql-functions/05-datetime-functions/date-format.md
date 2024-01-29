@@ -3,21 +3,23 @@ title: DATE_FORMAT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.39"/>
+<FunctionDescription description="Introduced or updated: v1.1.39"/>
 
-Converts a date value to a specific string format. To customize the format of date and time in Databend, you can utilize specifiers. These specifiers allow you to define the desired format for date and time values. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
-
-The function also accepts one argument, which is equivalent to [TO_STRING( expr )](../02-conversion-functions/index.md). Please note that when given one argument, the function does not check if the date value is valid and converts whatever is given to a string.
+Converts a value to String data type, or converts a Date value to a specific string format. To customize the format of date and time in Databend, you can utilize specifiers. These specifiers allow you to define the desired format for date and time values. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
 
 ## Syntax
 
 ```sql
--- Convert a date value to a specific string format
-DATE_FORMAT('<date>', '<format>')
+DATE_FORMAT( '<expr>' )
 
--- Convert a date value to string. Equivalent to TO_STRING( expr )
-DATE_FORMAT('<date>')
+DATE_FORMAT( '<date>', '<format>' )
 ```
+
+## Aliases
+
+- [TO_STRING](../02-conversion-functions/to-string.md)
+- [TO_TEXT](../02-conversion-functions/to-text.md)
+- [TO_VARCHAR](../02-conversion-functions/to-varchar.md)
 
 ## Return Type
 
@@ -26,20 +28,37 @@ String.
 ## Examples
 
 ```sql
-SELECT DATE_FORMAT('2022-12-25', '%m/%d/%Y'), DATE_FORMAT('2022-12-25');
+SELECT DATE_FORMAT('123.45'), TO_STRING('123.45'), TO_TEXT('123.45'), TO_VARCHAR(('123.45'));
 
-┌───────────────────────────────────────────────────────────────────┐
-│ date_format('2022-12-25', '%m/%d/%y') │ date_format('2022-12-25') │
-├───────────────────────────────────────┼───────────────────────────┤
-│ 12/25/2022                            │ 2022-12-25                │
-└───────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│ date_format('123.45') │ to_string('123.45') │ to_text('123.45') │ to_varchar('123.45') │
+├───────────────────────┼─────────────────────┼───────────────────┼──────────────────────┤
+│ 123.45                │ 123.45              │ 123.45            │ 123.45               │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+
+SELECT DATE_FORMAT('2023-12-25'), TO_STRING('2023-12-25'), TO_TEXT('2023-12-25'), TO_VARCHAR(('2023-12-25'));
+
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ date_format('2023-12-25') │ to_string('2023-12-25') │ to_text('2023-12-25') │ to_varchar('2023-12-25') │
+├───────────────────────────┼─────────────────────────┼───────────────────────┼──────────────────────────┤
+│ 2023-12-25                │ 2023-12-25              │ 2023-12-25            │ 2023-12-25               │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
 
 -- With one argument, the function converts input to a string without validating as a date.
-SELECT DATE_FORMAT('20223-12-25'), TO_STRING('20223-12-25');
+SELECT DATE_FORMAT('20223-12-25'), TO_STRING('20223-12-25'), TO_TEXT('20223-12-25'), TO_VARCHAR(('20223-12-25'));
 
-┌───────────────────────────────────────────────────────┐
-│ date_format('20223-12-25') │ to_string('20223-12-25') │
-├────────────────────────────┼──────────────────────────┤
-│ 20223-12-25                │ 20223-12-25              │
-└───────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ date_format('20223-12-25') │ to_string('20223-12-25') │ to_text('20223-12-25') │ to_varchar('20223-12-25') │
+├────────────────────────────┼──────────────────────────┼────────────────────────┼───────────────────────────┤
+│ 20223-12-25                │ 20223-12-25              │ 20223-12-25            │ 20223-12-25               │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+SELECT DATE_FORMAT('2022-12-25', '%m/%d/%Y'), TO_STRING('2022-12-25', '%m/%d/%Y'), TO_TEXT('2022-12-25', '%m/%d/%Y'), TO_VARCHAR('2022-12-25', '%m/%d/%Y');
+
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ date_format('2022-12-25', '%m/%d/%y') │ to_string('2022-12-25', '%m/%d/%y') │ to_text('2022-12-25', '%m/%d/%y') │ to_varchar('2022-12-25', '%m/%d/%y') │
+├───────────────────────────────────────┼─────────────────────────────────────┼───────────────────────────────────┼──────────────────────────────────────┤
+│ 12/25/2022                            │ 12/25/2022                          │ 12/25/2022                        │ 12/25/2022                           │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
