@@ -34,6 +34,11 @@ TO_TIMESTAMP(<expr, expr>)
 
 Returns a timestamp in the format "YYYY-MM-DD hh:mm:ss.ffffff". If the given string matches this format but does not have the time part, it is automatically extended to this pattern. The padding value is 0.
 
+## Aliases
+
+- [TO_DATETIME](to-datetime.md)
+- [STR_TO_TIMESTAMP](str-to-timestamp.md)
+
 ## Examples
 
 ### Given a String Argument
@@ -92,13 +97,13 @@ SELECT TO_TIMESTAMP(9999999999999999999);
 
 ```sql
 SET GLOBAL timezone ='Japan';
-SELECT TO_TIMESTAMP('2022年2月4日、8時58分59秒、タイムゾーン：+0900', '%Y年%m月%d日、%H時%M分%S秒、タイムゾーン：%z');
+SELECT TO_TIMESTAMP('2022 年 2 月 4 日、8 時 58 分 59 秒、タイムゾーン：+0900', '%Y年%m月%d日、%H時%M分%S秒、タイムゾーン：%z');
 
 ---
 2022-02-04 08:58:59.000000
 
 SET GLOBAL timezone ='America/Toronto';
-SELECT TO_TIMESTAMP('2022年2月4日、8時58分59秒、タイムゾーン：+0900', '%Y年%m月%d日、%H時%M分%S秒、タイムゾーン：%z');
+SELECT TO_TIMESTAMP('2022 年 2 月 4 日、8 時 58 分 59 秒、タイムゾーン：+0900', '%Y年%m月%d日、%H時%M分%S秒、タイムゾーン：%z');
 
 ---
 2022-02-03 18:58:59.000000

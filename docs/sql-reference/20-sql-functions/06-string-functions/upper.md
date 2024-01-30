@@ -2,32 +2,30 @@
 title: UPPER
 ---
 
-Returns the string str with all characters changed to uppercase.
+Returns a string with all characters changed to uppercase.
 
 ## Syntax
 
 ```sql
-UPPER(<str>);
+UPPER(<str>)
 ```
 
-## Arguments
+## Aliases
 
-| Arguments | Description                |
-|-----------|----------------------------|
-| `<str>`   | The string to be uppercase |
-
+- [UCASE](ucase.md)
 
 ## Return Type
 
-`VARCHAR`
+VARCHAR
 
 ## Examples
 
 ```sql
-SELECT UPPER('Hello, World!')
-+------------------------+
-| upper('Hello, World!') |
-+------------------------+
-| HELLO, WORLD!          |
-+------------------------+
+SELECT UPPER('Hello, Databend!'), UCASE('Hello, Databend!');
+
+┌───────────────────────────────────────────────────────┐
+│ upper('hello, databend!') │ ucase('hello, databend!') │
+├───────────────────────────┼───────────────────────────┤
+│ HELLO, DATABEND!          │ HELLO, DATABEND!          │
+└───────────────────────────────────────────────────────┘
 ```

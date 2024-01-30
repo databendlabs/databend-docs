@@ -2,11 +2,11 @@
 title: MID
 ---
 
-Synonym for `SUBSTRING(<str>, <pos>, <len>)`.
+Alias for [SUBSTR](substr.md).
 
 ## Syntax
 
 ```sql
-MID(<str>, <pos>);
-MID(<str>, <pos>, <len>);
+MID(<str>, <pos>)
+MID(<str>, <pos>, <len>)
 ```

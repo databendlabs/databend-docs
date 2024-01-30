@@ -10,11 +10,9 @@ For a string argument str, UNHEX(str) interprets each pair of characters in the 
 UNHEX(<expr>)
 ```
 
-## Arguments
+## Aliases
 
-| Arguments | Description |
-|-----------|-------------|
-| `<expr>`  | The string. |
+- [FROM_HEX](from-hex.md)
 
 ## Examples
 

@@ -2,7 +2,7 @@
 title: LOWER
 ---
 
-Returns the string str with all characters changed to lowercase.
+Returns a string with all characters changed to lowercase.
 
 ## Syntax
 
@@ -21,11 +21,11 @@ VARCHAR
 ## Examples
 
 ```sql
-SELECT LOWER('Hello, World!'), LCASE('Hello, World!');
+SELECT LOWER('Hello, Databend!'), LCASE('Hello, Databend!');
 
-┌─────────────────────────────────────────────────┐
-│ lower('hello, world!') │ lcase('hello, world!') │
-├────────────────────────┼────────────────────────┤
-│ hello, world!          │ hello, world!          │
-└─────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│ lower('hello, databend!') │ lcase('hello, databend!') │
+├───────────────────────────┼───────────────────────────┤
+│ hello, databend!          │ hello, databend!          │
+└───────────────────────────────────────────────────────┘
 ```

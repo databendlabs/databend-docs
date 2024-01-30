@@ -16,7 +16,7 @@ INET_NOTA( <int32> )
 
 ## Return Type
 
-String, a dotted-quad IP address.
+String.
 
 ## Examples
 
