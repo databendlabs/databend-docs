@@ -2,22 +2,4 @@
 title: UUID
 ---
 
-Generates a UUID. 
-
-## Syntax
-
-```sql
-UUID()
-```
-
-## Examples
-
-```sql
-SELECT UUID();
-
-┌──────────────────────────────────────┐
-│                uuid()                │
-├──────────────────────────────────────┤
-│ 4961a021-c5e1-4191-aecc-1d77a23af583 │
-└──────────────────────────────────────┘
-```
+Alias for [GEN_RANDOM_UUID](gen-random-uuid.md).
