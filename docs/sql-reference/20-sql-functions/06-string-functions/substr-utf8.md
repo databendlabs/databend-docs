@@ -1,5 +1,5 @@
 ---
-title: SUBSTRING
+title: SUBSTR_UTF8
 ---
 
 Extracts a string containing a specific number of characters from a particular position of a given string.
@@ -12,10 +12,8 @@ It is also possible to use a negative value for `pos`. In this case, the beginni
 ## Syntax
 
 ```sql
-SUBSTRING(<str>, <pos>)
-SUBSTRING(<str> FROM <pos>)
-SUBSTRING(<str>, <pos>, <len>)
-SUBSTRING(<str> FROM <pos> FOR <len>)
+SUBSTR_UTF8(<str>, <pos>)
+SUBSTR_UTF8(<str>, <pos>, <len>)
 ```
 
 ## Arguments
@@ -29,7 +27,7 @@ SUBSTRING(<str> FROM <pos> FOR <len>)
 ## Aliases
 
 - [SUBSTRING_UTF8](substring-utf8.md)
-- [SUBSTR_UTF8](substr-utf8.md)
+- [SUBSTRING](substring.md)
 - [SUBSTR](substr.md)
 - [MID](mid.md)
 
