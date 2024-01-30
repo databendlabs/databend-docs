@@ -16,7 +16,7 @@ INET_ATON( '<ip>' )
 
 ## Return Type
 
-Integer
+Integer.
 
 ## Examples
 
