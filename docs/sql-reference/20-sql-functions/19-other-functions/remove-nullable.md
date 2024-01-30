@@ -1,5 +1,5 @@
 ---
-title: ASSUME_NOT_NULL
+title: REMOVE_NULLABLE
 ---
 
 Results in an equivalent non-`Nullable` value for a Nullable type. In case the original value is `NULL` the result is undetermined. 
@@ -7,12 +7,12 @@ Results in an equivalent non-`Nullable` value for a Nullable type. In case the o
 ## Syntax
 
 ```sql
-ASSUME_NOT_NULL(<x>)
+REMOVE_NULLABLE(<x>)
 ```
 
 ## Aliases
 
-- [REMOVE_NULLABLE](remove-nullable.md)
+- [ASSUME_NOT_NULL](assume-not-null.md)
 
 ## Return Type
 
