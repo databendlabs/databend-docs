@@ -1,5 +1,5 @@
 ---
-title: OBJECT_KEYS
+title: JSON_OBJECT_KEYS
 ---
 
 Returns an Array containing the list of keys in the input Variant OBJECT.
@@ -8,7 +8,7 @@ Returns an Array containing the list of keys in the input Variant OBJECT.
 ## Syntax
 
 ```sql
-OBJECT_KEYS(<variant>)
+JSON_OBJECT_KEYS(<variant>)
 ```
 
 ## Arguments
@@ -19,7 +19,7 @@ OBJECT_KEYS(<variant>)
 
 ## Aliases
 
-- [JSON_OBJECT_KEYS](json-object-keys.md)
+- [OBJECT_KEYS](object-keys.md)
 
 ## Return Type
 
