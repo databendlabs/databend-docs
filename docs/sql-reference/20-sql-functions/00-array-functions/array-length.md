@@ -10,18 +10,14 @@ Returns the length of an array.
 ARRAY_LENGTH( <array> )
 ```
 
-## Aliases
-
-- [LENGTH](length.md)
-
 ## Examples
 
 ```sql
-SELECT LENGTH([1, 2]), ARRAY_LENGTH([1, 2]);
+SELECT ARRAY_LENGTH([1, 2]);
 
-┌───────────────────────────────────────┐
-│ length([1, 2]) │ array_length([1, 2]) │
-├────────────────┼──────────────────────┤
-│              2 │                    2 │
-└───────────────────────────────────────┘
+┌──────────────────────┐
+│ array_length([1, 2]) │
+├──────────────────────┤
+│                    2 │
+└──────────────────────┘
 ```
