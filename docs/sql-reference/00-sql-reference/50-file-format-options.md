@@ -62,7 +62,7 @@ Separates records in an input file.
 **Available Values**:
 
 - `\r\n`
-- A non-alphanumeric character, such as `#` and `|`.
+- A one-byte, non-alphanumeric character, such as `#` and `|`.
 - A character with the escape char: `\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\xHH`
 
 **Default**: `\n`
@@ -73,7 +73,7 @@ Separates fields in a record.
 
 **Available Values**:
 
-- A non-alphanumeric character, such as `#` and `|`.
+- A one-byte, non-alphanumeric character, such as `#` and `|`.
 - A character with the escape char: `\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\xHH`
 
 **Default**: `,` (comma)
@@ -86,17 +86,17 @@ Quotes strings in a CSV file. For data loading, the quote is not necessary unles
 **Used for data loading ONLY**: This option is not available when you unload data from Databend.
 :::
 
-**Available Values**: `\'` or `\"`.
+**Available Values**: `'`, `"`, or `(backtick)
 
-**Default**: `\"`
+**Default**: `"`
 
 ### ESCAPE
 
 Escapes a quote in a quoted string.
 
-**Available Values**: `\'` or `\"` or `\\`.
+**Available Values**: `'\\\\'` or `''`
 
-**Default**: `\"`
+**Default**: `'\\\\'`
 
 ### SKIP_HEADER
 
