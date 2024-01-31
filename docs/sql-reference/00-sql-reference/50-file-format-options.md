@@ -96,7 +96,7 @@ Escapes a quote in a quoted string.
 
 **Available Values**: `'\\\\'` or `''`
 
-**Default**: `'\\\\'`
+**Default**: `''`
 
 ### SKIP_HEADER
 
