@@ -94,7 +94,7 @@ Quotes strings in a CSV file. For data loading, the quote is not necessary unles
 
 Escapes a quote in a quoted string.
 
-**Available Values**: `'\\\\'` or `''`
+**Available Values**: `'\\'` or `''`
 
 **Default**: `''`
 
