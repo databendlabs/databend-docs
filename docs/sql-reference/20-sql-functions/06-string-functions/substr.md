@@ -13,9 +13,8 @@ It is also possible to use a negative value for `pos`. In this case, the beginni
 
 ```sql
 SUBSTR(<str>, <pos>)
-SUBSTR(<str> FROM <pos>)
+
 SUBSTR(<str>, <pos>, <len>)
-SUBSTR(<str> FROM <pos> FOR <len>)
 ```
 
 ## Arguments
@@ -28,8 +27,6 @@ SUBSTR(<str> FROM <pos> FOR <len>)
 
 ## Aliases
 
-- [SUBSTRING_UTF8](substring-utf8.md)
-- [SUBSTR_UTF8](substr-utf8.md)
 - [SUBSTRING](substring.md)
 - [MID](mid.md)
 
@@ -43,26 +40,22 @@ VARCHAR
 SELECT
   SUBSTRING('Quadratically', 5),
   SUBSTR('Quadratically', 5),
-  SUBSTRING_UTF8('Quadratically', 5),
-  SUBSTR_UTF8('Quadratically', 5),
   MID('Quadratically', 5);
 
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ substring('quadratically' from 5) │ substring('quadratically' from 5) │ substring_utf8('quadratically', 5) │ substr_utf8('quadratically', 5) │ mid('quadratically', 5) │
-├───────────────────────────────────┼───────────────────────────────────┼────────────────────────────────────┼─────────────────────────────────┼─────────────────────────┤
-│ ratically                         │ ratically                         │ ratically                          │ ratically                       │ ratically               │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ substring('quadratically' from 5) │ substring('quadratically' from 5) │ mid('quadratically', 5) │
+├───────────────────────────────────┼───────────────────────────────────┼─────────────────────────┤
+│ ratically                         │ ratically                         │ ratically               │
+└─────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 SELECT
   SUBSTRING('Quadratically', 5, 6),
   SUBSTR('Quadratically', 5, 6),
-  SUBSTRING_UTF8('Quadratically', 5, 6),
-  SUBSTR_UTF8('Quadratically', 5, 6),
   MID('Quadratically', 5, 6);
 
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ substring('quadratically' from 5 for 6) │ substring('quadratically' from 5 for 6) │ substring_utf8('quadratically', 5, 6) │ substr_utf8('quadratically', 5, 6) │ mid('quadratically', 5, 6) │
-├─────────────────────────────────────────┼─────────────────────────────────────────┼───────────────────────────────────────┼────────────────────────────────────┼────────────────────────────┤
-│ ratica                                  │ ratica                                  │ ratica                                │ ratica                             │ ratica                     │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ substring('quadratically' from 5 for 6) │ substring('quadratically' from 5 for 6) │ mid('quadratically', 5, 6) │
+├─────────────────────────────────────────┼─────────────────────────────────────────┼────────────────────────────┤
+│ ratica                                  │ ratica                                  │ ratica                     │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
