@@ -126,7 +126,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 有关如何管理云对象存储的存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/>
-- <https://docs.qingcloud.com/product/api/common/overview.html>
+- <https://docsv3.qingcloud.com/development_docs/api/overview/>
 
 <CommonDownloadDesc />
 
@@ -437,7 +437,7 @@ bucket = "databend"
 endpoint_url = "https://s3.pek3b.qingstor.com"
 
 # 如何获取access_key_id和secret_access_key：
-# https://docs.qingcloud.com/product/api/common/overview.html
+# https://docsv3.qingcloud.com/development_docs/api/overview/
 access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```

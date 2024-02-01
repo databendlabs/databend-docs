@@ -92,7 +92,16 @@ include_verbatim = false
 glob_ignore_case = false
 
 # Exclude URLs and mail addresses from checking (supports regex).
-exclude = ['^https://www\.linkedin\.com', '^https://web\.archive\.org/web/', 'https://github.com/datafuselabs/databend/issues/0000', 'https://github.com/datafuselabs/databend/pull/0000']
+exclude = [
+  '^https://www\.linkedin\.com',
+  '^https://web\.archive\.org/web/',
+  'https://github.com/datafuselabs/databend/issues/0000',
+  'https://github.com/datafuselabs/databend/pull/0000',
+  'https://eng.uber.com/h3/',
+  'https://platform.openai.com/docs/models/embeddings',
+  'https://platform.openai.com/account/api-keys',
+  'https://singup.snowflake.com/',
+]
 
 # URLs to check (supports regex). Has preference over all excludes.
 include = ['gist\.github\.com.*']
