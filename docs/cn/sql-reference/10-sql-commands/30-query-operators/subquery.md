@@ -1,5 +1,5 @@
 ---
-title: 子查询操作符
+title: 子查询运算符
 ---
 
 子查询是嵌套在另一个查询中的查询。Databend支持以下子查询类型：
@@ -154,7 +154,7 @@ WHERE  t1.a NOT IN (SELECT *
 
 您可以使用ANY（或SOME）来检查比较是否对子查询返回的任何值都为真。
 
-- 关键字ANY（或SOME）必须跟随[比较操作符](comparison.md)之一。
+- 关键字ANY（或SOME）必须跟随[比较运算符](comparison.md)之一。
 - 如果子查询没有返回任何值，比较计算为假。
 - SOME的工作方式与ANY相同。
 
@@ -201,7 +201,7 @@ WHERE  t1.a < ANY (SELECT *
 
 您可以使用ALL来检查比较是否对子查询返回的所有值都为真。
 
-- 关键字ALL必须跟随[比较操作符](comparison.md)之一。
+- 关键字ALL必须跟随[比较运算符](comparison.md)之一。
 - 如果子查询没有返回任何值，比较计算为真。
 
 ### 语法

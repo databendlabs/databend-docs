@@ -1,11 +1,11 @@
 ---
-title: JSON 操作符
+title: JSON 运算符
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.241"/>
 
-| 操作符 | 描述 | 示例 | 结果 |
+| 运算符 | 描述 | 示例 | 结果 |
 |--------|------|------|------|
 | -> | 使用索引或键检索 JSON 数组或对象，返回一个 JSON 对象。 | - **使用键**：<br/>`PARSE_JSON('{"Databend": "Cloud Native Warehouse"}')->'Databend'`<br/>- **使用索引**：<br/>`PARSE_JSON('["Databend", "Cloud Native Warehouse"]')->1` | Cloud Native Warehouse |
 | ->> | 使用索引或键检索 JSON 数组或对象，返回一个字符串。 | - **使用键**：<br/>`PARSE_JSON('{"Databend": "Cloud Native Warehouse"}')->>'Databend'`<br/>- **使用索引**：<br/>`PARSE_JSON('["Databend", "Cloud Native Warehouse"]')->>1` | Cloud Native Warehouse |
