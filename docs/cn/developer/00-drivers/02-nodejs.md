@@ -19,7 +19,7 @@ npm install --save databend-driver
 - Node.js 必须已经安装在您想要安装驱动程序的环境上。
 - 确保您可以运行`node`和`npm`命令。
 - 根据您的环境，您可能需要 sudo 权限来安装驱动程序。
-  :::
+:::
 
 ## Databend Node.js 驱动行为总结
 

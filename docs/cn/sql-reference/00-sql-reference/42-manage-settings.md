@@ -1,8 +1,7 @@
 ---
 title: 管理设置
 sidebar_label: 管理设置
-description:
-  管理 Databend 设置
+description: 管理 Databend 设置
 ---
 
 Databend 提供了多种系统设置，使您能够控制 Databend 的工作方式。例如，您可以设置 Databend 工作的时区和您偏好的 SQL 方言。
