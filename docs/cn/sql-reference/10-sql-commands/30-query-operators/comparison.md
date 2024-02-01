@@ -1,15 +1,15 @@
 ---
-title: Comparison Operators
+title: 比较运算符
 ---
 
-| Operator                   | Description                                 | Example                    | Result |
-|----------------------------|---------------------------------------------|----------------------------|--------|
-| **=**                     | a is equal to b                             | **2 = 2**                  | TRUE   |
-| **!=**                    | a is not equal to b                         | **2 != 3**                 | TRUE   |
-| **<\>**                   | a is not equal to b                         | **2 <\> 2**                | FALSE  |
-| **>**                     | a is greater than b                         | **2 > 3**                  | FALSE  |
-| **>=**                    | a is greater than or equal to b             | **4 >= NULL**              | NULL   |
-| **<**                     | a is less than b                            | **2 < 3**                  | TRUE   |
-| **<=**                    | a is less than or equal to b                | **2 <= 3**                 | TRUE   |
-| **IS NULL**               | TRUE if expression is NULL, FALSE otherwise | **(4 >= NULL) IS NULL**    | TRUE   |
-| **IS NOT NULL**           | FALSE if expression is NULL, TRUE otherwise | **(4 >= NULL) IS NOT NULL**| FALSE  |
+| 运算符                     | 描述                                       | 示例                        | 结果   |
+|----------------------------|--------------------------------------------|-----------------------------|--------|
+| **=**                     | a 等于 b                                   | **2 = 2**                   | TRUE   |
+| **!=**                    | a 不等于 b                                 | **2 != 3**                  | TRUE   |
+| **<\>**                   | a 不等于 b                                 | **2 <\> 2**                 | FALSE  |
+| **>**                     | a 大于 b                                   | **2 > 3**                   | FALSE  |
+| **>=**                    | a 大于或等于 b                             | **4 >= NULL**               | NULL   |
+| **<**                     | a 小于 b                                   | **2 < 3**                   | TRUE   |
+| **<=**                    | a 小于或等于 b                             | **2 <= 3**                  | TRUE   |
+| **IS NULL**               | 如果表达式为 NULL 则为 TRUE，否则为 FALSE   | **(4 >= NULL) IS NULL**     | TRUE   |
+| **IS NOT NULL**           | 如果表达式为 NULL 则为 FALSE，否则为 TRUE  | **(4 >= NULL) IS NOT NULL** | FALSE  |

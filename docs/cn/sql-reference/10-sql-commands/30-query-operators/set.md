@@ -1,10 +1,10 @@
 ---
-title: Set Operators
+title: 集合运算符
 description:
-  Set operators combine the results of two queries into a single result.
+  集合运算符将两个查询的结果合并为一个结果。
 ---
 
-Set operators combine the results of two queries into a single result. Databend supports the following set operators:
+集合运算符将两个查询的结果合并为一个结果。Databend支持以下集合运算符：
 
 - [INTERSECT](#intersect)
 - [EXCEPT](#except)
@@ -12,9 +12,9 @@ Set operators combine the results of two queries into a single result. Databend 
 
 ## INTERSECT
 
-Returns all distinct rows selected by both queries.
+返回两个查询都选择的所有不同行。
 
-### Syntax
+### 语法
 
 ```sql
 SELECT column1 , column2 ....
@@ -28,7 +28,7 @@ FROM table_names
 WHERE condition
 ```
 
-### Example
+### 示例
 
 ```sql
 create table t1(a int, b int);
@@ -40,7 +40,7 @@ insert into t2 values(2,2), (3, 5), (7 ,8), (2, 3), (3, 4);
 select * from t1 intersect select * from t2;
 ```
 
-Output:
+输出：
 
 ```sql
 2|3
@@ -49,9 +49,9 @@ Output:
 
 ## EXCEPT
 
-Returns All distinct rows selected by the first query but not the second.
+返回第一个查询选择但第二个查询未选择的所有不同行。
 
-### Syntax
+### 语法
 
 ```sql
 SELECT column1 , column2 ....
@@ -65,7 +65,7 @@ FROM table_names
 WHERE condition
 ```
 
-### Example
+### 示例
 
 ```sql
 create table t1(a int, b int);
@@ -77,7 +77,7 @@ insert into t2 values(2,2), (3, 5), (7 ,8), (2, 3), (3, 4);
 select * from t1 except select * from t2;
 ```
 
-Output:
+输出：
 
 ```sql
 1|2
@@ -85,11 +85,11 @@ Output:
 
 ## UNION [ALL]
 
-Combines rows from two or more result sets. Each result set must return the same number of columns, and the corresponding columns must have the same or compatible data types. 
+合并两个或多个结果集中的行。每个结果集必须返回相同数量的列，且相应的列必须具有相同或兼容的数据类型。
 
-The command removes duplicate rows by default when combining result sets. To include duplicate rows, use **UNION ALL**.
+默认情况下，合并结果集时会删除重复的行。要包含重复行，请使用 **UNION ALL**。
 
-### Syntax
+### 语法
 
 ```sql
 SELECT column1 , column2 ...
@@ -111,7 +111,7 @@ WHERE condition]...
 [ORDER BY ...]
 ```
 
-### Example
+### 示例
 
 ```sql
 CREATE TABLE support_team 
@@ -140,7 +140,7 @@ VALUES      ('Davis',
             ('Eva', 
              4000); 
 
--- The following code returns the employees in both teams who are paid less than 2,000 dollars:
+-- 以下代码返回两个团队中薪水低于2,000美元的员工：
 
 SELECT NAME AS SelectedEmployee, 
        salary 
@@ -154,7 +154,7 @@ WHERE  salary < 2000
 ORDER  BY selectedemployee DESC; 
 ```
 
-Output:
+输出：
 
 ```sql
 Davis|1000

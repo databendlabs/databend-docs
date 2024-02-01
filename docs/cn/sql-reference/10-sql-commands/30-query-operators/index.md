@@ -1,8 +1,9 @@
 ---
-title: Query Operators
+title: 查询运算符
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This page provides reference information for the query operators in Databend.
+本页面提供了 Databend 中查询运算符的参考信息。
 
 <IndexOverviewList />

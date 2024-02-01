@@ -1,28 +1,28 @@
 ---
-title: Arithmetic Operators
+title: 算术运算符
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.53"/>
+<FunctionDescription description="引入或更新于：v1.2.53"/>
 
-| Operator              | Description                                            | Example                    | Result |
+| 运算符                 | 描述                                                    | 示例                        | 结果   |
 |-----------------------|--------------------------------------------------------|----------------------------|--------|
-| **+ (unary)**         | Returns `a`                                            | **+5**                     | 5      |
-| **+**                 | Adds two numeric expressions                           | **4 + 1**                  | 5      |
-| **- (unary)**         | Negates the numeric expression                         | **-5**                     | -5     |
-| **-**                 | Subtract two numeric expressions                       | **4 - 1**                  | 3      |
-| __*__                 | Multiplies two numeric expressions                     | **4 * 1**                  | 4      |
-| **/**                 | Divides one numeric expression (`a`) by another (`b`)  | **4 / 2**                  | 2      |
-| **//**                | Computes the integer division of numeric expression    | **4 // 3**                 | 1      |
-| **%**                 | Computes the modulo of numeric expression              | **4 % 2**                  | 0      |
-| **^**                 | Computes the exponentiation of numeric expression      | **4 ^ 2**                  | 16     |
-| **&verbar;/**         | Computes the square root of numeric expression         | **&verbar;/ 25.0**         | 5      |
-| **&verbar;&verbar;/** | Computes the cube root of numeric expression           | **&verbar;&verbar;/ 27.0** | 3      |
-| **@**                 | Computes the abs of numeric expression                 | **@ -5.0**                 | 5      |
-| **&**                 | Computes the bitwise and of numeric expression         | **91 & 15**                | 11     |
-| **&verbar;**          | Computes the bitwise or of numeric expression          | **32 &verbar; 3**          | 35     |
-| **#**                 | Computes the bitwise xor of numeric expression         | **17 # 5**                 | 20     |
-| **~**                 | Computes the bitwise not of numeric expression         | **~ 1**                    | ~2     |
-| **<<**                | Computes the bitwise shift left of numeric expression  | **1 << 4**                 | 16     |
-| **>>**                | Computes the bitwise shift right of numeric expression | **8 >> 2**                 | 2      |
-| **<->**               | Computes the Euclidean distance (L2 norm) between vectors | **[1, 2] <-> [2, 3]**   | 1.4142135 |
+| **+ (一元)**          | 返回 `a`                                                | **+5**                     | 5      |
+| **+**                 | 将两个数值表达式相加                                    | **4 + 1**                  | 5      |
+| **- (一元)**          | 对数值表达式取反                                        | **-5**                     | -5     |
+| **-**                 | 从一个数值表达式中减去另一个数值表达式                  | **4 - 1**                  | 3      |
+| __*__                 | 将两个数值表达式相乘                                    | **4 * 1**                  | 4      |
+| **/**                 | 将一个数值表达式（`a`）除以另一个（`b`）                | **4 / 2**                  | 2      |
+| **//**                | 计算数值表达式的整数除法                                | **4 // 3**                 | 1      |
+| **%**                 | 计算数值表达式的模数                                    | **4 % 2**                  | 0      |
+| **^**                 | 计算数值表达式的指数                                    | **4 ^ 2**                  | 16     |
+| **&verbar;/**         | 计算数值表达式的平方根                                  | **&verbar;/ 25.0**         | 5      |
+| **&verbar;&verbar;/** | 计算数值表达式的立方根                                  | **&verbar;&verbar;/ 27.0** | 3      |
+| **@**                 | 计算数值表达式的绝对值                                  | **@ -5.0**                 | 5      |
+| **&**                 | 计算数值表达式的按位与                                  | **91 & 15**                | 11     |
+| **&verbar;**          | 计算数值表达式的按位或                                  | **32 &verbar; 3**          | 35     |
+| **#**                 | 计算数值表达式的按位异或                                | **17 # 5**                 | 20     |
+| **~**                 | 计算数值表达式的按位非                                  | **~ 1**                    | ~2     |
+| **<<**                | 计算数值表达式的按位左移                                | **1 << 4**                 | 16     |
+| **>>**                | 计算数值表达式的按位右移                                | **8 >> 2**                 | 2      |
+| **<->**               | 计算向量之间的欧几里得距离（L2范数）                    | **[1, 2] <-> [2, 3]**      | 1.4142135 |
