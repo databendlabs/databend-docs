@@ -37,7 +37,7 @@ Databend recommends updating to the latest version of the Databend JDBC driver t
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.0.8</version>
+    <version>0.1.6</version>
 </dependency>
 ```
 
