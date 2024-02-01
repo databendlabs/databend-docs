@@ -6,7 +6,7 @@ title: FAQ
 
 The diagram illustrates the hierarchical structure of Databend objects across two levels. Fine-grained privileges and ownership are designed for each type of object, providing flexibility. For more information, see [Access Control](../56-security/access-control.md).
 
-![Alt text](../../public/img/guides/faq1.png)
+![Alt text](@site/docs/public/img/guides/faq1.png)
 
 ### Q2: How do I create a table in Databend?
 
