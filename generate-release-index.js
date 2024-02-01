@@ -3,7 +3,7 @@ const path = require('path');
 
 
 const docsDir = path.join(__dirname, './docs/release-stable');
-const releaseNote = path.join(__dirname, './docs/release-notes');
+const releaseNote = path.join(__dirname, './docs/en/release-notes');
 const releaseNoteCN = path.join(__dirname, './docs/cn/release-notes');
 const outputPath = path.join(releaseNote, 'databend.md');
 const outputPathCN = path.join(releaseNoteCN, 'databend.md');
