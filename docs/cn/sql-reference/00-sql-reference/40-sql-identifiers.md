@@ -7,7 +7,7 @@ SQL 标识符是用于 Databend 中不同元素的名称，如表、视图和数
 
 ## 未加引号与双引号标识符
 
-未加引号的标识符以字母（A-Z, a-z）或下划线（“_”）开头，可以包含字母、下划线、数字（0-9）或美元符号（“$”）。
+未加引号的标识符以字母（A-Z, a-z）或下划线（“\_”）开头，可以包含字母、下划线、数字（0-9）或美元符号（“$”）。
 
 ```text title='示例：'
 mydatabend
@@ -122,7 +122,7 @@ Databend  |
 
 SELECT "Databend";
 
->> SQL Error [1105] [HY000]: SemanticError. Code: 1065, Text = error: 
+>> SQL Error [1105] [HY000]: SemanticError. Code: 1065, Text = error:
   --> SQL:1:73
   |
 1 | /* ApplicationName=DBeaver 23.2.0 - SQLEditor <Script-12.sql> */ SELECT "Databend"

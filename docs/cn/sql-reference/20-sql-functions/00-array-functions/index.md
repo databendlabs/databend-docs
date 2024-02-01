@@ -36,7 +36,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 - `order` 指定排序顺序，可以是升序（ASC）或降序（DESC）。默认为 ASC。
 - `nullposition` 确定在排序结果中 NULL 值的位置，是在排序输出的开始（NULLS FIRST）还是结束（NULLS LAST）。默认为 NULLS FIRST。
-  :::
+:::
 
 :::note
 **ARRAY_AGGREGATE(array, name)** 支持以下聚合函数，`avg`, `count`, `max`, `min`, `sum`, `any`, `stddev_samp`, `stddev_pop`, `stddev`, `std`, `median`, `approx_count_distinct`, `kurtosis`, `skewness`。

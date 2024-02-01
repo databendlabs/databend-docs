@@ -147,7 +147,7 @@ import TabItem from '@theme/TabItem';
     monitoring-grafana-654b4bb58c-sf9wp                      3/3     Running   0             19m
     prometheus-monitoring-kube-prometheus-prometheus-0       2/2     Running   0             18m
     ```
-
+  :::
 
 ## 部署一个示例 Databend 集群
 

@@ -20,7 +20,7 @@ Databend 支持多种文件格式作为数据加载或卸载的源和目标。�
 ```
 
 - Databend 目前仅支持将 XML 作为源。尚不支持将数据卸载到 XML 文件中。
-- 如果在执行 COPY INTO 或从阶段 SELECT 操作时未指定 FILE_FORMAT，Databend 将使用您在创建阶段时为该阶段定义的文件格式。在创建阶段期间未明确指定文件格式的情况下，Databend 默认使用 PARQUET 格式。如果您指定的 FILE_FORMAT 与创建阶段时定义的不同，Databend 将优先考虑操作期间指定的 FILE_FORMAT。
+- 如果在执行 COPY INTO 或从Stage SELECT 操作时未指定 FILE_FORMAT，Databend 将使用您在创建Stage时为该Stage定义的文件格式。在创建Stage期间未明确指定文件格式的情况下，Databend 默认使用 PARQUET 格式。如果您指定的 FILE_FORMAT 与创建Stage时定义的不同，Databend 将优先考虑操作期间指定的 FILE_FORMAT。
 - 有关在 Databend 中管理自定义文件格式的信息，请参见 [文件格式](../10-sql-commands/00-ddl/13-file-format/index.md)。
 
 ### formatTypeOptions
@@ -51,6 +51,7 @@ Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS
 - 除非满足以下条件，否则 Databend 不会将从 MySQL 卸载的文件识别为 CSV 格式：
   - `ESCAPED BY` 为空。
   - `ENCLOSED BY` 不为空。
+
     :::note
     如果不满足上述条件，文件将被识别为 TSV 格式。有关 `ESCAPED BY` 和 `ENCLOSED BY` 子句的更多信息，请参阅 https://dev.mysql.com/doc/refman/8.0/en/load-data.html 。
     :::

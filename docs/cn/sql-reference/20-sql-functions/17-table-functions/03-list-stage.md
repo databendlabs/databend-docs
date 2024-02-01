@@ -1,11 +1,12 @@
 ---
-title: LIST_STAGE 
+title: LIST_STAGE
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.32"/>
 
-列出阶段中的文件。这允许您根据文件扩展名过滤阶段中的文件，并获取每个文件的详细信息。该函数类似于DDL命令 [LIST STAGE FILES](../../10-sql-commands/00-ddl/03-stage/04-ddl-list-stage.md)，但提供了使用SELECT语句检索特定文件信息的灵活性，例如文件名、大小、MD5哈希、最后修改时间戳和创建者，而不是所有文件信息。
+列出 Stage 中的文件。这允许您根据文件扩展名过滤 Stage 中的文件，并获取每个文件的详细信息。该函数类似于 DDL 命令 [LIST STAGE FILES](../../10-sql-commands/00-ddl/03-stage/04-ddl-list-stage.md)，但提供了使用 SELECT 语句检索特定文件信息的灵活性，例如文件名、大小、MD5 哈希、最后修改时间戳和创建者，而不是所有文件信息。
 
 ## 语法
 
@@ -39,7 +40,6 @@ userStage ::= @~[/<path>]
 ### PATTERN
 
 参见 [COPY INTO table](/10-sql-commands/10-dml/dml-copy-into-table.md)。
-
 
 ## 示例
 
