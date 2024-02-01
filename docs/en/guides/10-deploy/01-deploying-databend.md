@@ -127,7 +127,7 @@ Before deploying Databend, make sure you have successfully set up your object st
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
 - <https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/>
-- <https://docs.qingcloud.com/product/api/common/overview.html>
+- <https://docsv3.qingcloud.com/development_docs/api/overview/>
 
 <CommonDownloadDesc />
 
@@ -437,7 +437,7 @@ bucket = "databend"
 endpoint_url = "https://s3.pek3b.qingstor.com"
 
 # How to get access_key_id and secret_access_key:
-# https://docs.qingcloud.com/product/api/common/overview.html
+# https://docsv3.qingcloud.com/development_docs/api/overview/
 access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
