@@ -2,17 +2,17 @@
 title: EXPLAIN FRAGMENTS
 ---
 
-Shows the distributed execution plan of an SQL statement. 
+显示 SQL 语句的分布式执行计划。
 
-This command transforms the execution plan of an SQL statement into plan fragments where you can see the process of retrieving the data you need from Databend.
+此命令将 SQL 语句的执行计划转换为计划片段，您可以在其中看到从 Databend 检索所需数据的过程。
 
-## Syntax
+## 语法
 
 ```sql
 EXPLAIN FRAGMENTS <statement>
 ```
 
-## Examples
+## 示例
 
 ```sql
 EXPLAIN FRAGMENTS select COUNT() from numbers(10) GROUP BY number % 3;
@@ -20,17 +20,17 @@ EXPLAIN FRAGMENTS select COUNT() from numbers(10) GROUP BY number % 3;
 +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | explain                                                                                                                                                                     |
 +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Fragment 0:                                                                                                                                                                 |
-|   DataExchange: Shuffle                                                                                                                                                     |
-|   AggregatorPartial: groupBy=[[(number % 3)]], aggr=[[COUNT()]]                                                                                                             |
-|     Expression: (number % 3):UInt8 (Before GroupBy)                                                                                                                         |
-|       ReadDataSource: scan schema: [number:UInt64], statistics: [read_rows: 10, read_bytes: 80, partitions_scanned: 1, partitions_total: 1], push_downs: [projections: [0]] |
+| 片段 0:                                                                                                                                                                      |
+|   数据交换: Shuffle                                                                                                                                                         |
+|   部分聚合器: groupBy=[[(number % 3)]], aggr=[[COUNT()]]                                                                                                                     |
+|     表达式: (number % 3):UInt8 (分组前)                                                                                                                                      |
+|       读取数据源: 扫描模式: [number:UInt64], 统计: [读取行数: 10, 读取字节: 80, 扫描分区: 1, 总分区: 1], 下推: [投影: [0]]                                                     |
 |                                                                                                                                                                             |
-| Fragment 2:                                                                                                                                                                 |
-|   DataExchange: Merge                                                                                                                                                       |
-|   Projection: COUNT():UInt64                                                                                                                                                |
-|     AggregatorFinal: groupBy=[[(number % 3)]], aggr=[[COUNT()]]                                                                                                             |
-|       Remote[receive fragment: 0]                                                                                                                                           |
+| 片段 2:                                                                                                                                                                      |
+|   数据交换: Merge                                                                                                                                                           |
+|   投影: COUNT():UInt64                                                                                                                                                      |
+|     最终聚合器: groupBy=[[(number % 3)]], aggr=[[COUNT()]]                                                                                                                   |
+|       远程[接收片段: 0]                                                                                                                                                      |
 +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-11 rows in set (0.02 sec)
+11 行在集合中 (0.02 秒)
 ```

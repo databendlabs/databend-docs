@@ -2,34 +2,34 @@
 title: EXPLAIN MEMO
 ---
 
-Returns the internal structure `Memo` of the query.
+返回查询的内部结构`Memo`。
 
-## Syntax
+## 语法
 
 ```sql
 EXPLAIN MEMO <query_statement>
 ```
 
-## Examples
+## 示例
 
 ```sql
 EXPLAIN MEMO SELECT * FROM numbers(10) t, numbers(100) t1;
 
  ----
  Group #0                            
- ├── best cost: [#1] 10              
- ├── LogicalGet []                   
- └── PhysicalScan []                 
+ ├── 最佳成本: [#1] 10              
+ ├── 逻辑获取 []                   
+ └── 物理扫描 []                 
                                      
  Group #1                            
- ├── best cost: [#1] 100             
- ├── LogicalGet []                   
- └── PhysicalScan []                 
+ ├── 最佳成本: [#1] 100             
+ ├── 逻辑获取 []                   
+ └── 物理扫描 []                 
                                      
  Group #2                            
- ├── best cost: [#3] 310             
- ├── LogicalJoin [#0, #1]       
- ├── LogicalJoin [#1, #0]       
- ├── PhysicalHashJoin [#0, #1]       
- └── PhysicalHashJoin [#1, #0]
+ ├── 最佳成本: [#3] 310             
+ ├── 逻辑连接 [#0, #1]       
+ ├── 逻辑连接 [#1, #0]       
+ ├── 物理哈希连接 [#0, #1]       
+ └── 物理哈希连接 [#1, #0]
 ```
