@@ -1,3 +1,59 @@
-{
-  "label": "Query Operators"
-}
+```markdown
+# 查询操作符 {#query-operators}
+
+Databend 支持多种查询操作符，使得处理和分析数据变得更加灵活和强大。以下是一些常用的查询操作符的介绍和示例。
+
+## 选择操作符（SELECT） {#select}
+
+`SELECT` 操作符用于从一个或多个表中检索数据。你可以使用 `SELECT` 来指定你想从表中检索哪些列。
+
+### 示例 {#example}
+
+```sql
+SELECT column1, column2 FROM table_name;
+```
+
+这个例子从 `table_name` 表中检索 `column1` 和 `column2` 列。
+
+## 过滤操作符（WHERE） {#where}
+
+`WHERE` 操作符用于过滤记录，只返回满足特定条件的记录。
+
+### 示例 {#example}
+
+```sql
+SELECT column1, column2 FROM table_name WHERE condition;
+```
+
+这个例子从 `table_name` 表中检索 `column1` 和 `column2` 列，并且只返回满足 `condition` 条件的记录。
+
+## 聚合操作符（GROUP BY） {#group-by}
+
+`GROUP BY` 操作符用于将结果集中的多个记录组合成一个组，通常用于结合聚合函数（如 `SUM`，`AVG`）使用。
+
+### 示例 {#example}
+
+```sql
+SELECT column1, SUM(column2) FROM table_name GROUP BY column1;
+```
+
+这个例子展示了如何根据 `column1` 的值对 `table_name` 表中的记录进行分组，并计算每个组的 `column2` 列的总和。
+
+## 排序操作符（ORDER BY） {#order-by}
+
+`ORDER BY` 操作符用于对结果集中的记录进行排序。
+
+### 示例 {#example}
+
+```sql
+SELECT column1, column2 FROM table_name ORDER BY column1 ASC, column2 DESC;
+```
+
+这个例子展示了如何按照 `column1` 升序和 `column2` 降序对 `table_name` 表中的记录进行排序。
+
+<Notes>
+
+请注意，查询操作符的使用可能会受到具体数据库系统和版本的限制。
+
+</Notes>
+```

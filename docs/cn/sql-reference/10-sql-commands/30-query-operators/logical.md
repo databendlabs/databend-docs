@@ -1,9 +1,9 @@
 ---
-title: Logical Operators
+title: 逻辑运算符
 ---
 
-| Operator | Description                            | Example       | Result |
-|----------|----------------------------------------|---------------|--------|
-| **AND**  | Matches both expressions (`a` and `b`) | **1 AND 1**   | TRUE   |
-| **NOT**  | Does not match the expression          | **NOT 1**     | FALSE  |
-| **OR**   | Matches either expression              | **1 OR 0**    | TRUE   |
+| 运算符 | 描述                                 | 示例         | 结果  |
+|--------|--------------------------------------|--------------|-------|
+| **AND**  | 同时匹配两个表达式（`a` 和 `b`）      | **1 AND 1**  | TRUE  |
+| **NOT**  | 不匹配表达式                         | **NOT 1**    | FALSE |
+| **OR**   | 匹配任一表达式                        | **1 OR 0**   | TRUE  |
