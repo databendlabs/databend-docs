@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       path:
-        description: 'The path to the directory containing the files to translate (e.g., docs/sql-reference/)'
+        description: 'The path to the directory containing the files to translate (e.g., docs/en/sql-reference/)'
         required: true
-        default: 'sql-reference'
+        default: 'docs/en/sql-reference/'
 
 permissions:
   id-token: write
@@ -27,8 +27,8 @@ jobs:
     
     - name: Delete all files in specified cn directory
       run: |
-        TRANSLATION_DIR="docs/${{ github.event.inputs.path }}"
-        CN_DIR="docs/cn/${{ github.event.inputs.path }}"
+        TRANSLATION_DIR="${{ github.event.inputs.path }}"
+        CN_DIR=$(echo $TRANSLATION_DIR | sed 's/en/cn/')
         echo "Deleting all files in $CN_DIR"
         rm -rf $CN_DIR
         echo "All files in $CN_DIR have been deleted."
@@ -37,7 +37,7 @@ jobs:
     - name: Get all files in specified directory
       id: all_input_files
       run: |
-        TRANSLATION_DIR="docs/${{ github.event.inputs.path }}"
+        TRANSLATION_DIR="${{ github.event.inputs.path }}"
         echo "files=$(find $TRANSLATION_DIR -type f \( -name '*.md' -o -name '*.json' \) | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
     - name: Run GPT Translate
