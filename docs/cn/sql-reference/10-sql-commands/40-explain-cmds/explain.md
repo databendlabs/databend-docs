@@ -2,9 +2,9 @@
 title: EXPLAIN
 ---
 
-Shows the execution plan of a SQL statement. An execution plan is shown as a tree consisting of different operators where you can see how Databend will execute the SQL statement. An operator usually includes one or more fields describing the actions Databend will perform or the objects related to the query.
+显示 SQL 语句的执行计划。执行计划以树形结构展示，包含不同的操作符，你可以看到 Databend 将如何执行 SQL 语句。一个操作符通常包括一个或多个字段，描述 Databend 将执行的动作或与查询相关的对象。
 
-For example, the following execution plan returned by the EXPLAIN command includes an operator named *TableScan* with several fields. For a list of common operators and fields, see [Common Operators and Fields](#common-operators-and-fields).
+例如，以下由 EXPLAIN 命令返回的执行计划包括一个名为 *TableScan* 的操作符和几个字段。有关常见操作符和字段的列表，请参见[常见操作符和字段](#common-operators-and-fields)。
 
 ```sql
 EXPLAIN SELECT * FROM allemployees;
@@ -19,44 +19,44 @@ TableScan
 └── push downs: [filters: [], limit: NONE]
 ```
 
-## Syntax
+## 语法
 
 ```sql
 EXPLAIN <statement>
 ```
 
-## Common Operators and Fields
+## 常见操作符和字段
 
-Explanation plans may include a variety of operators, depending on the SQL statement you want Databend to EXPLAIN. The following is a list of common operators and their fields:
+解释计划可能包括多种操作符，这取决于你希望 Databend 解释的 SQL 语句。以下是常见操作符及其字段的列表：
 
-* **TableScan**: Reads data from the table.
-    - table: The full name of the table. For example, `catalog1.database1.table1`.
-    - read rows: The number of rows to read.
-    - read bytes: The number of bytes of data to read.
-    - partition total: The total number of partitions of the table.
-    - partition scanned: The number of partitions to read.
-    - push downs: The filters and limits to be pushed down to the storage layer for processing.
-* **Filter**: Filters the read data.
-    - filters: The predicate expression used to filter the data. Data that returns false for the expression evaluation will be filtered out.
-* **EvalScalar**: Evaluates scalar expressions. For example, `a+1` in `SELECT a+1 AS b FROM t`.
-    - expressions: The scalar expressions to evaluate.
-* **AggregatePartial** & **AggregateFinal**: Aggregates by keys and returns the result of the aggregation functions.
-    - group by: The keys used for aggregation.
-    - aggregate functions: The functions used for aggregation.
-* **Sort**: Sorts data by keys.
-    - sort keys: The expressions used for sorting.
-* **Limit**: Limits the number of rows returned.
-    - limit: The number of rows to return.
-    - offset: The number of rows to skip before returning any rows.
-* **HashJoin**: Uses the Hash Join algorithm to perform Join operations for two tables. The Hash Join algorithm will select one of the two tables as the build side to build the Hash table. It will then use the other table as the probe side to read the matching data from the Hash table to form the result.
-    - join type: The JOIN type (INNER, LEFT OUTER, RIGHT OUTER, FULL OUTER, CROSS, SINGLE, or MARK).
-    - build keys: The expressions used by the build side to build the Hash table.
-    - probe keys: The expressions used by the probe side to read data from the Hash table.
-    - filters: The non-equivalence JOIN conditions, such as `t.a > t1.a`.
-* **Exchange**: Exchanges data between Databend query nodes for distributed parallel computing.
-    - exchange type: Data repartition type (Hash, Broadcast, or Merge).
+* **TableScan**：从表中读取数据。
+    - table: 表的完整名称。例如，`catalog1.database1.table1`。
+    - read rows: 要读取的行数。
+    - read bytes: 要读取的数据字节数。
+    - partition total: 表的分区总数。
+    - partition scanned: 要读取的分区数。
+    - push downs: 要推送到存储层进行处理的过滤器和限制。
+* **Filter**：过滤读取的数据。
+    - filters: 用于过滤数据的谓词表达式。对于表达式评估返回 false 的数据将被过滤掉。
+* **EvalScalar**：评估标量表达式。例如，在 `SELECT a+1 AS b FROM t` 中的 `a+1`。
+    - expressions: 要评估的标量表达式。
+* **AggregatePartial** & **AggregateFinal**：按键聚合并返回聚合函数的结果。
+    - group by: 用于聚合的键。
+    - aggregate functions: 用于聚合的函数。
+* **Sort**：按键对数据进行排序。
+    - sort keys: 用于排序的表达式。
+* **Limit**：限制返回的行数。
+    - limit: 要返回的行数。
+    - offset: 在返回任何行之前要跳过的行数。
+* **HashJoin**：使用 Hash Join 算法对两个表执行 Join 操作。Hash Join 算法将选择两个表中的一个作为构建侧来构建 Hash 表。然后，它将使用另一个表作为探测侧，从 Hash 表中读取匹配的数据以形成结果。
+    - join type: JOIN 类型（INNER, LEFT OUTER, RIGHT OUTER, FULL OUTER, CROSS, SINGLE, 或 MARK）。
+    - build keys: 构建侧用于构建 Hash 表的表达式。
+    - probe keys: 探测侧用于从 Hash 表中读取数据的表达式。
+    - filters: 非等值 JOIN 条件，如 `t.a > t1.a`。
+* **Exchange**：在 Databend 查询节点之间交换数据，用于分布式并行计算。
+    - exchange type: 数据重新分配类型（Hash, Broadcast, 或 Merge）。
 
-## Examples
+## 示例
 
 ```sql
 EXPLAIN select t.number from numbers(1) as t, numbers(1) as t1 where t.number = t1.number;

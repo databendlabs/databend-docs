@@ -2,15 +2,15 @@
 title: EXPLAIN AST
 ---
 
-Returns the abstract syntax tree (AST) of an SQL statement. The command breaks an SQL statement into syntactic parts and represents them in a hierarchical structure.
+返回一个 SQL 语句的抽象语法树（AST）。该命令将一个 SQL 语句分解为语法部分，并以层次结构表示它们。
 
-## Syntax
+## 语法
 
 ```sql
 EXPLAIN AST <statement>
 ```
 
-## Examples
+## 示例
 
 ```sql
 EXPLAIN AST create user 'test'@'localhost' identified with sha256_password by 'new_password';

@@ -2,17 +2,17 @@
 title: EXPLAIN FRAGMENTS
 ---
 
-Shows the distributed execution plan of an SQL statement. 
+显示 SQL 语句的分布式执行计划。
 
-This command transforms the execution plan of an SQL statement into plan fragments where you can see the process of retrieving the data you need from Databend.
+此命令将 SQL 语句的执行计划转换为计划片段，您可以在其中看到从 Databend 检索所需数据的过程。
 
-## Syntax
+## 语法
 
 ```sql
 EXPLAIN FRAGMENTS <statement>
 ```
 
-## Examples
+## 示例
 
 ```sql
 EXPLAIN FRAGMENTS select COUNT() from numbers(10) GROUP BY number % 3;

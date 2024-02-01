@@ -2,15 +2,15 @@
 title: EXPLAIN MEMO
 ---
 
-Returns the internal structure `Memo` of the query.
+返回查询的内部结构`Memo`。
 
-## Syntax
+## 语法
 
 ```sql
 EXPLAIN MEMO <query_statement>
 ```
 
-## Examples
+## 示例
 
 ```sql
 EXPLAIN MEMO SELECT * FROM numbers(10) t, numbers(100) t1;

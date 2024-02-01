@@ -2,17 +2,19 @@
 title: EXPLAIN ANALYZE
 ---
 
-`EXPLAIN ANALYZE` used to display a query execution plan along with actual run-time performance statistics. 
+`EXPLAIN ANALYZE` 用于显示查询执行计划以及实际运行时性能统计信息。
 
-This is useful for analyzing query performance and identifying bottlenecks in a query.
+这对于分析查询性能和识别查询中的瓶颈非常有用。
 
-## Syntax
+## 语法
 
 ```sql
 EXPLAIN ANALYZE <statement>
 ```
 
-## Examples
+## 示例
+
+
 
 TPC-H Q21:
 ```sql

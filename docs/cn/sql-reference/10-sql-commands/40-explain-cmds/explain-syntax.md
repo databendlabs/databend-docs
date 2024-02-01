@@ -2,15 +2,15 @@
 title: EXPLAIN SYNTAX
 ---
 
-Outputs formatted SQL code. This command works as an SQL formatter that makes your code easy to read.
+输出格式化的 SQL 代码。这个命令作为一个 SQL 格式化工具，使您的代码易于阅读。
 
-## Syntax
+## 语法
 
 ```sql
 EXPLAIN SYNTAX <statement>
 ```
 
-## Examples
+## 示例
 
 ```sql
 EXPLAIN SYNTAX select a, sum(b) as sum from t1 where a in (1, 2) and b > 0 and b < 100 group by a order by a;
