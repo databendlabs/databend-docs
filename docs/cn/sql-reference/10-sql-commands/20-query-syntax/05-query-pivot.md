@@ -2,15 +2,15 @@
 title: PIVOT
 ---
 
-The `PIVOT` operation in Databend allows you to transform a table by rotating it and aggregating results based on specified columns. 
+`PIVOT`操作允许您通过旋转表格并基于指定列聚合结果来转换表格。
 
-It is a useful operation for summarizing and analyzing large amounts of data in a more readable format. In this document, we will explain the syntax and provide an example of how to use the `PIVOT` operation.
+这是一个对于总结和分析大量数据以更可读格式显示非常有用的操作。在本文档中，我们将解释语法并提供如何使用`PIVOT`操作的示例。
 
-**See also:**
+**另见：**
 [UNPIVOT](./05-query-unpivot.md)
 
 
-## Syntax
+## 语法
 
 ```sql
 SELECT ...
@@ -21,29 +21,29 @@ FROM ...
 [ ... ]
 ```
 
-Where:
-* `<aggregate_function>`: The aggregate function for combining the grouped values from `pivot_column`.
-* `<pivot_column>`: The column that will be aggregated using the specified `<aggregate_function>`.
-* `<value_column>`: The column whose unique values will become new columns in the pivoted result set.
-* `<pivot_value_N>`: A unique value from the `<value_column>` that will become a new column in the pivoted result set.
+其中：
+* `<aggregate_function>`：用于组合来自`pivot_column`的分组值的聚合函数。
+* `<pivot_column>`：将使用指定的`<aggregate_function>`进行聚合的列。
+* `<value_column>`：其唯一值将在旋转结果集中成为新列的列。
+* `<pivot_value_N>`：来自`<value_column>`的唯一值，将在旋转结果集中成为新列。
 
 
-## Examples
+## 示例
 
-Let's say we have a table called monthly_sales that contains sales data for different employees across different months. We can use the `PIVOT` operation to summarize the data and calculate the total sales for each employee in each month.
+假设我们有一个名为monthly_sales的表，其中包含不同员工在不同月份的销售数据。我们可以使用`PIVOT`操作来总结数据并计算每个员工在每个月的总销售额。
 
-### Creating and Inserting Data
+### 创建和插入数据
 
 
 ```sql
--- Create the monthly_sales table
+-- 创建monthly_sales表
 CREATE TABLE monthly_sales(
   empid INT, 
   amount INT, 
   month VARCHAR
 );
 
--- Insert sales data
+-- 插入销售数据
 INSERT INTO monthly_sales VALUES
   (1, 10000, 'JAN'),
   (1, 400, 'JAN'),
@@ -63,9 +63,9 @@ INSERT INTO monthly_sales VALUES
   (2, 4500, 'APR');
 ```
 
-### Using PIVOT
+### 使用PIVOT
 
-Now, we can use the `PIVOT` operation to calculate the total sales for each employee in each month. We will use the `SUM` aggregate function to calculate the total sales, and the MONTH column will be pivoted to create new columns for each month.
+现在，我们可以使用`PIVOT`操作来计算每个员工在每个月的总销售额。我们将使用`SUM`聚合函数来计算总销售额，MONTH列将被旋转以为每个月创建新列。
 
 ```sql
 SELECT * 
@@ -74,7 +74,7 @@ PIVOT(SUM(amount) FOR MONTH IN ('JAN', 'FEB', 'MAR', 'APR'))
 ORDER BY EMPID;
 ```
 
-Output:
+输出：
 ```sql
 +-------+-------+-------+-------+-------+
 | empid | jan   | feb   | mar   | apr   |
