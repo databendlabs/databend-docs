@@ -17,7 +17,7 @@ b. Download and extract the latest Databend release for your platform from [GitH
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
 ```shell
-curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
@@ -29,7 +29,7 @@ tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
 <TabItem value="linux-arm64" label="Linux(Arm)">
 
 ```shell
-curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
@@ -40,7 +40,7 @@ tar xzvf databend-${version}-aarch64-unknown-linux-musl.tar.gz
 <TabItem value="mac-x86_64" label="MacOS(x86)">
 
 ```shell
-curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-${version}-x86_64-apple-darwin.tar.gz
+curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-x86_64-apple-darwin.tar.gz
 ```
 
 ```shell
@@ -52,7 +52,7 @@ tar xzvf databend-${version}-x86_64-apple-darwin.tar.gz
 <TabItem value="mac-arm64" label="MacOS(Arm)">
 
 ```shell
-curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-${version}-aarch64-apple-darwin.tar.gz
+curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-aarch64-apple-darwin.tar.gz
 ```
 
 ```shell

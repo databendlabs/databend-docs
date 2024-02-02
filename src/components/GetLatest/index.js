@@ -14,7 +14,8 @@ function GetLatest() {
         setTagName();
         const dom = document.querySelectorAll('.clean-btn')
         for(let button of dom) {
-          if (button?.getAttribute('aria-label') === 'Copy code to clipboard') {
+          const ariaLabel = button?.getAttribute('aria-label');
+          if (ariaLabel === 'Copy code to clipboard' || ariaLabel === '复制代码到剪贴板') {
             button.addEventListener("click", ()=>{
               setTimeout(()=>{
                 let text = button?.previousSibling?.innerText;
@@ -30,7 +31,7 @@ function GetLatest() {
     }
   });
   function setTagName() {
-    const name = tagName || 'v1.0.22-nightly';
+    const name = tagName || 'v1.2.307';
     const dom = document.querySelectorAll('.variable');
     for (let div of dom){
       if (div.innerHTML === '${version}') {
