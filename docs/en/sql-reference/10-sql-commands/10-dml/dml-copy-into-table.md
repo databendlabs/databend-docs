@@ -574,7 +574,7 @@ root@localhost:8000/default>  COPY INTO t2 FROM @~/invalid_json_string.parquet F
 error: APIError: ResponseError with 1006: EOF while parsing a value, pos 3 while evaluating function `parse_json('[1,')`
 ```
 
-To load the JSON data without checking the validity, set the option `DISABLE_VARIANT_CHECK` to `true` in the COPY INTO statement:
+To load without checking the JSON validity, set the option `DISABLE_VARIANT_CHECK` to `true` in the COPY INTO statement:
 
 ```sql
 COPY INTO t2 FROM @~/invalid_json_string.parquet 
@@ -589,7 +589,7 @@ ON_ERROR = CONTINUE;
 └───────────────────────────────────────────────────────────────────────────────────────────────┘
 
 SELECT * FROM t2;
-
+-- Invalid JSON is stored as null in the Variant column.
 ┌──────────────────────────────────────┐
 │         a        │         b         │
 ├──────────────────┼───────────────────┤
