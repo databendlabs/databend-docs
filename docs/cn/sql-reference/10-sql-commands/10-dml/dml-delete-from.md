@@ -15,9 +15,10 @@ Databend 通过原子操作确保数据完整性。插入、更新、替换和�
 ## 语法
 
 ```sql
-DELETE FROM <table_name> [AS <table_alias>] 
+DELETE FROM <table_name> [AS <table_alias>]
 [WHERE <condition>]
 ```
+
 - `AS <table_alias>`：允许您为表设置一个别名，使得在查询中引用表变得更加容易。这有助于简化和缩短 SQL 代码，特别是在处理涉及多个表的复杂查询时。请参见[使用 EXISTS / NOT EXISTS 子句进行删除的示例](#deleting-with-subquery-using-exists--not-exists-clause)中的示例。
 
 - DELETE 还不支持 USING 子句。如果您需要使用子查询来确定要删除的行，请直接在 WHERE 子句中包含它。请参见[基于子查询的删除](#subquery-based-deletions)中的示例。
@@ -93,6 +94,7 @@ WHERE DEPARTMENT IN (
     FROM DEPARTMENTS
 );
 ```
+
 这将删除部门与 departments 表中任何部门匹配的员工。它将删除 ID 为 2 和 3 的员工。
 
 #### 使用 EXISTS / NOT EXISTS 子句进行子查询删除
@@ -113,6 +115,7 @@ WHERE EXISTS (
     WHERE e.DEPARTMENT = d.DEPARTMENT
 );
 ```
+
 这将删除属于 departments 表中存在的部门的员工。在这种情况下，它将删除 ID 为 2 和 3 的员工。
 
 #### 使用 ALL 子句进行子查询删除
@@ -124,6 +127,7 @@ WHERE DEPARTMENT = ALL (
     FROM DEPARTMENTS
 );
 ```
+
 这将删除部门与 department 表中所有部门都匹配的员工。在这种情况下，不会删除任何员工。
 
 #### 使用 ANY 子句进行子查询删除
@@ -135,6 +139,7 @@ WHERE DEPARTMENT = ANY (
     FROM DEPARTMENTS
 );
 ```
+
 这将删除部门与 departments 表中任何部门匹配的员工。在这种情况下，它将删除 ID 为 2 和 3 的员工。
 
 #### 结合多个条件进行子查询删除

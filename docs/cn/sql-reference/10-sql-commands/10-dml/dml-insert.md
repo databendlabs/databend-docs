@@ -43,7 +43,7 @@ SELECT * FROM test;
 
 ## 插入查询结果
 
-在插入SELECT语句的结果时，列的映射遵循SELECT子句中的位置。因此，SELECT语句中的列数必须等于或大于INSERT表中的列数。如果SELECT语句和INSERT表中的列的数据类型不同，则会根据需要进行类型转换。
+在插入 SELECT 语句的结果时，列的映射遵循 SELECT 子句中的位置。因此，SELECT 语句中的列数必须等于或大于 INSERT 表中的列数。如果 SELECT 语句和 INSERT 表中的列的数据类型不同，则会根据需要进行类型转换。
 
 ### 语法
 
@@ -100,7 +100,7 @@ SELECT * FROM aggregate_table ORDER BY b;
 
 ## 插入默认值
 
-Databend允许您使用INSERT INTO语句将数据添加到表中，根据需要为列指定值或默认值。
+Databend 允许您使用 INSERT INTO 语句将数据添加到表中，根据需要为列指定值或默认值。
 
 ### 语法
 
@@ -131,9 +131,9 @@ SELECT * FROM t_insert_default;
 +------+------+------+------+
 ```
 
-## 通过阶段文件插入
+## 通过 Stage 文件插入
 
-Databend允许您通过INSERT INTO语句从阶段文件中将数据插入表中。这是通过Databend的[查询阶段文件](/guides/load-data/transform/querying-stage)能力并随后将查询结果并入表中来实现的。
+Databend 允许您通过 INSERT INTO 语句从 Stage 文件中将数据插入表中。这是通过 Databend 的[查询 Stage 文件](/guides/load-data/transform/querying-stage)能力并随后将查询结果并入表中来实现的。
 
 ### 语法
 
@@ -155,20 +155,20 @@ CREATE TABLE sample
 );
 ```
 
-2. 使用样本数据设置一个内部阶段
+2. 使用样本数据设置一个内部 Stage
 
-我们将建立一个名为`mystage`的内部阶段，然后用样本数据填充它。
+我们将建立一个名为`mystage`的内部 Stage，然后用样本数据填充它。
 
 ```sql
 CREATE STAGE mystage;
-       
+
 COPY INTO @mystage
-FROM 
+FROM
 (
-    SELECT * 
-    FROM 
+    SELECT *
+    FROM
     (
-        VALUES 
+        VALUES
         (1, 'Chengdu', 80),
         (3, 'Chongqing', 90),
         (6, 'Hangzhou', 92),
@@ -178,15 +178,15 @@ FROM
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-3. 使用`INSERT INTO`从阶段的Parquet文件插入数据
+3. 使用`INSERT INTO`从 Stage 的 Parquet 文件插入数据
 
 :::tip
-您可以使用[COPY INTO](dml-copy-into-table.md)命令中可用的FILE_FORMAT和COPY_OPTIONS指定文件格式和各种复制相关的设置。当`purge`设置为`true`时，只有在数据更新成功的情况下，原始文件才会被删除。
+您可以使用[COPY INTO](dml-copy-into-table.md)命令中可用的 FILE_FORMAT 和 COPY_OPTIONS 指定文件格式和各种复制相关的设置。当`purge`设置为`true`时，只有在数据更新成功的情况下，原始文件才会被删除。
 :::
 
 ```sql
-INSERT INTO sample 
-    (id, city, score) 
+INSERT INTO sample
+    (id, city, score)
 ON
     (Id)
 SELECT
@@ -203,14 +203,15 @@ SELECT * FROM sample;
 ```
 
 结果应该是：
+
 ```sql
 ┌─────────────────────────────────────────────────────────────────────────┐
 │        id       │       city       │      score      │      country     │
 │ Nullable(Int32) │ Nullable(String) │ Nullable(Int32) │ Nullable(String) │
 ├─────────────────┼──────────────────┼─────────────────┼──────────────────┤
-│               1 │ 成都             │              80 │ 中国             │
-│               3 │ 重庆             │              90 │ 中国             │
-│               6 │ 杭州             │              92 │ 中国             │
-│               9 │ 香港             │              88 │ 中国             │
+│               1 │ Chengdu          │              80 │ China            │
+│               3 │ Chongqing        │              90 │ China            │
+│               6 │ Hangzhou         │              92 │ China            │
+│               9 │ Hong Kong        │              88 │ China            │
 └─────────────────────────────────────────────────────────────────────────┘
 ```

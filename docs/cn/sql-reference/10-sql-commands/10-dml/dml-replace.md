@@ -12,7 +12,7 @@ REPLACE INTO 可以将多个新行插入到表中，或者如果这些行已经�
 
 - 查询结果
 
-- 阶段文件：Databend 允许您使用 REPLACE INTO 语句从阶段文件中替换表中的数据。这是通过 Databend 的 [查询阶段文件](/guides/load-data/transform/querying-stage) 能力并随后将查询结果并入表中来实现的。
+- Stage 文件：Databend 允许您使用 REPLACE INTO 语句从 Stage 文件中替换表中的数据。这是通过 Databend 的 [查询 Stage 文件](/guides/load-data/transform/querying-stage) 能力并随后将查询结果并入表中来实现的。
 
 :::tip 原子操作
 Databend 通过原子操作确保数据完整性。插入、更新、替换和删除要么完全成功，要么完全失败。
@@ -36,12 +36,12 @@ CREATE TABLE employees (
 );
 
 -- 此 REPLACE INTO 插入一个新行
-REPLACE INTO employees (employee_id, employee_name, employee_salary, employee_email) 
+REPLACE INTO employees (employee_id, employee_name, employee_salary, employee_email)
 ON (employee_email)
 VALUES (123, 'John Doe', 50000, 'john.doe@example.com');
 
 -- 此 REPLACE INTO 更新已插入的行
-REPLACE INTO employees (employee_id, employee_name, employee_salary, employee_email) 
+REPLACE INTO employees (employee_id, employee_name, employee_salary, employee_email)
 ON (employee_email)
 VALUES (123, 'John Doe', 60000, 'john.doe@example.com');
 ```
@@ -96,9 +96,9 @@ SELECT  * FROM Employees;
 +------+----------+--------+
 ```
 
-### 示例 3：使用阶段文件替换
+### 示例 3：使用 Stage 文件替换
 
-此示例演示如何使用阶段文件中的数据替换表中的现有数据。
+此示例演示如何使用 Stage 文件中的数据替换表中的现有数据。
 
 1. 创建一个名为 `sample` 的表
 
@@ -117,19 +117,20 @@ VALUES
     (1, 'Chengdu', 66);
 ```
 
-2. 使用样本数据设置内部阶段
+2. 使用样本数据设置内部 Stage
 
-首先，我们创建一个名为 `mystage` 的阶段。然后，我们将样本数据加载到这个阶段中。
+首先，我们创建一个名为 `mystage` 的 Stage。然后，我们将样本数据加载到这个 Stage 中。
+
 ```sql
 CREATE STAGE mystage;
-       
+
 COPY INTO @mystage
-FROM 
+FROM
 (
-    SELECT * 
-    FROM 
+    SELECT *
+    FROM
     (
-        VALUES 
+        VALUES
         (1, 'Chengdu', 80),
         (3, 'Chongqing', 90),
         (6, 'Hangzhou', 92),
@@ -139,15 +140,15 @@ FROM
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-3. 使用 `REPLACE INTO` 和阶段的 Parquet 文件替换现有数据
+3. 使用 `REPLACE INTO` 和 Stage 的 Parquet 文件替换现有数据
 
 :::tip
 您可以使用 [COPY INTO](dml-copy-into-table.md) 命令中可用的 FILE_FORMAT 和 COPY_OPTIONS 指定文件格式和各种复制相关设置。当 `purge` 设置为 `true` 时，只有在数据更新成功时，原始文件才会被删除。
 :::
 
 ```sql
-REPLACE INTO sample 
-    (id, city, score) 
+REPLACE INTO sample
+    (id, city, score)
 ON
     (Id)
 SELECT
@@ -160,11 +161,13 @@ FROM
 4. 验证数据替换
 
 现在，我们可以查询 sample 表以查看更改：
+
 ```sql
 SELECT * FROM sample;
 ```
 
 结果应该是：
+
 ```sql
 ┌─────────────────────────────────────────────────────────────────────────┐
 │        id       │       city       │      score      │      country     │
