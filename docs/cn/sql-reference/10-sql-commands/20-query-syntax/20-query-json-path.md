@@ -1,39 +1,39 @@
 ---
-title: JSON PATH
+title: JSON 路径
 ---
 
-Databend supports [Semi-structured data type](../../00-sql-reference/10-data-types/43-data-type-variant.md) and allow retrieving the inner elements by JSON path operators:
+Databend 支持[半结构化数据类型](../../00-sql-reference/10-data-types/43-data-type-variant.md)并允许通过 JSON 路径操作符检索内部元素：
 
-## Syntax
+## 语法
 
-### Colon Notation
+### 冒号表示法
 
-Colon notation `:` is used to retrieving element of object by name: `<column>:<level1_name>:<level2_name>`.
+冒号表示法 `:` 用于通过名称检索对象的元素：`<column>:<level1_name>:<level2_name>`。
 
-### Dot Notation
+### 点表示法
 
-Dot notation `.` is used to retrieving element of object by name: `<column>:<level1_name>.<level2_name>`.
+点表示法 `.` 用于通过名称检索对象的元素：`<column>:<level1_name>.<level2_name>`。
 
 :::note
-Please note that dot notation cannot be used as first-level name notation to avoid confusion with dot notation between table and column.
+请注意，点表示法不能用作第一级名称表示法，以避免与表和列之间的点表示法混淆。
 :::
 
-### Bracket Notation
+### 括号表示法
 
-Bracket notation `[]` is used to retrieving element of array by index: `<column>[<level1_index>][<level2_index>]` or element of object by single quoted name: `<column>['<level1_name>']['<level2_name>']`.
+括号表示法 `[]` 用于通过索引检索数组的元素：`<column>[<level1_index>][<level2_index>]` 或通过单引号名称检索对象的元素：`<column>['<level1_name>']['<level2_name>']`。
 
 :::tip
-These notations can be mixed in use.
+这些表示法可以混合使用。
 :::
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE test(var Variant, arr Variant);
 INSERT INTO test VALUES (parse_json('{"a":{"b":1,"c":[1,2]}}'), parse_json('[["a","b"],{"k":"a"}]')),
                         (parse_json('{"a":{"b":2,"c":[3,4]}}'), parse_json('[["c","d"],{"k":"b"}]'));
 
--- Colon Notation
+-- 冒号表示法
 SELECT var:a:b FROM test;
 +---------+
 | var:a:b |
@@ -42,7 +42,7 @@ SELECT var:a:b FROM test;
 | 2       |
 +---------+
 
--- Dot Notation
+-- 点表示法
 SELECT var:a.c FROM test;
 +---------+
 | var:a.c |
@@ -51,7 +51,7 @@ SELECT var:a.c FROM test;
 | [3,4]   |
 +---------+
 
--- Bracket Notation
+-- 括号表示法
 SELECT var['a']['c'], arr[0][1] FROM test;
 +---------------+-----------+
 | var['a']['c'] | arr[0][1] |
@@ -60,7 +60,7 @@ SELECT var['a']['c'], arr[0][1] FROM test;
 | [3,4]         | "d"       |
 +---------------+-----------+
 
--- Mixed Notations
+-- 混合表示法
 SELECT var['a']:b, var:a['c'][0], arr[1].k FROM test;
 +------------+---------------+----------+
 | var['a']:b | var:a['c'][0] | arr[1].k |

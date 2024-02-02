@@ -2,15 +2,14 @@
 title: UNPIVOT
 ---
 
-The `UNPIVOT` operation rotates a table by transforming columns into rows. 
+`UNPIVOT` 操作通过将列转换为行来旋转表。
 
-It is a relational operator that accepts two columns (from a table or subquery), along with a list of columns, and generates a row for each column specified in the list. In a query, it is specified in the FROM clause after the table name or subquery.
+它是一个关系操作符，接受两列（来自表或子查询），以及列的列表，并为列表中指定的每列生成一行。在查询中，它在 FROM 子句中指定，位于表名或子查询之后。
 
-**See also:**
+**另请参阅：**
 [PIVOT](./05-query-pivot.md)
 
-
-## Syntax
+## 语法
 
 ```sql
 SELECT ...
@@ -21,37 +20,35 @@ FROM ...
 [ ... ]
 ```
 
-Where:
-* `<value_column>`: The column that will store the values extracted from the columns listed in `<column_list>`.
-* `<name_column>`: The column that will store the names of the columns from which the values were extracted.
-* `<column_list>`: The list of columns to be unpivoted, separated by commas.
+其中：
 
+- `<value_column>`：将存储从 `<column_list>` 中列出的列中提取的值的列。
+- `<name_column>`：将存储从中提取值的列的名称的列。
+- `<column_list>`：要取消透视的列的列表，用逗号分隔。
 
-## Examples
+## 示例
 
-Let's unpivot the individual month columns to return a single sales value by month for each employee:
+让我们取消透视个别月份列，以返回每位员工每月的单一销售值：
 
-### Creating and Inserting Data
-
+### 创建和插入数据
 
 ```sql
--- Create the unpivoted_monthly_sales table
+-- 创建 unpivoted_monthly_sales 表
 CREATE TABLE unpivoted_monthly_sales(
-  empid INT, 
+  empid INT,
   jan INT,
   feb INT,
   mar INT,
   apr INT
 );
 
--- Insert sales data
+-- 插入销售数据
 INSERT INTO unpivoted_monthly_sales VALUES
   (1, 10400,  8000, 11000, 18000),
   (2, 39500, 90700, 12000,  5300);
 ```
 
-### Using UNPIVOT
-
+### 使用 UNPIVOT
 
 ```sql
 SELECT *
@@ -60,7 +57,8 @@ FROM unpivoted_monthly_sales
     FOR month IN (jan, feb, mar, apr));
 ```
 
-Output:
+输出：
+
 ```sql
 +-------+-------+--------+
 | empid | month | amount |
