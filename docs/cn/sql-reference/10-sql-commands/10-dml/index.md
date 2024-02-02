@@ -1,8 +1,9 @@
 ---
-title: DML (Data Manipulation Language) Commands
+title: DML（数据操作语言）命令
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This page provides reference information for the DML (Data Manipulation Language) commands in Databend.
+本页面为 Databend 中的 DML（数据操作语言）命令提供参考信息。
 
 <IndexOverviewList />

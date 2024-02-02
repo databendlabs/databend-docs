@@ -2,13 +2,13 @@
 title: UPDATE
 ---
 
-Modifies rows in a table with new values.
+使用新值修改表中的行。
 
-:::tip atomic operations
-Databend ensures data integrity with atomic operations. Inserts, updates, replaces, and deletes either succeed completely or fail entirely.
+:::tip 原子操作
+Databend 通过原子操作确保数据完整性。插入、更新、替换和删除操作要么完全成功，要么完全失败。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 UPDATE <table_name>
@@ -16,23 +16,23 @@ SET <col_name> = <value> [ , <col_name> = <value> , ... ]
     [ WHERE <condition> ]
 ```
 
-## Examples
+## 示例
 
 ```sql
--- create a table
+-- 创建一个表
 CREATE TABLE bookstore (
   book_id INT,
   book_name VARCHAR
 );
 
--- insert values
+-- 插入值
 INSERT INTO bookstore VALUES (101, 'After the death of Don Juan');
 INSERT INTO bookstore VALUES (102, 'Grown ups');
 INSERT INTO bookstore VALUES (103, 'The long answer');
 INSERT INTO bookstore VALUES (104, 'Wartime friends');
 INSERT INTO bookstore VALUES (105, 'Deconstructed');
 
--- show the table before update
+-- 更新前显示表
 SELECT * FROM bookstore;
 
 101|After the death of Don Juan
@@ -41,10 +41,10 @@ SELECT * FROM bookstore;
 104|Wartime friends
 105|Deconstructed
 
--- Update a book (Id: 103)
+-- 更新一本书（Id: 103）
 UPDATE bookstore SET book_name = 'The long answer (2nd)' WHERE book_id = 103;
 
--- show the table again after update
+-- 更新后再次显示表
 SELECT * FROM bookstore;
 
 101|After the death of Don Juan

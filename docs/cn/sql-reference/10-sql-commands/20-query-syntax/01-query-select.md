@@ -32,7 +32,7 @@ SELECT
     [IGNORE_RESULT]
 ```
 
-- SELECT 语句还允许您直接查询阶段文件。有关语法和示例，请参见 [使用 Databend 进行高效数据转换](/guides/load-data/transform/querying-stage)。
+- SELECT 语句还允许您直接查询 Stage 文件。有关语法和示例，请参见 [使用 Databend 进行高效数据转换](/guides/load-data/transform/querying-stage)。
 
 - 在本页的示例中，使用了表 `numbers(N)` 进行测试，它有一个单独的 UInt64 列（名为 `number`），包含从 0 到 N-1 的整数。
 
@@ -256,7 +256,8 @@ FROM numbers(3) SELECT number;
 +--------+
 ```
 
-FROM 子句还可以指定位置，使得可以直接从各种来源查询数据，无需首先将其加载到表中。更多信息，请参见[查询阶段文件](/guides/load-data/transform/querying-stage)。
+FROM 子句还可以指定位置，使得可以直接从各种来源查询数据，无需首先将其加载到表中。更多信息，请参见[查询 Stage 文件](/guides/load-data/transform/querying-stage)。
+Stage
 
 ## AT 子句
 
