@@ -4,7 +4,7 @@ sidebar_label: "COPY INTO <table>"
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.148"/>
+<FunctionDescription description="Introduced or updated: v1.2.314"/>
 
 COPY INTO allows you to load data from files located in one of the following locations:
 
