@@ -2,21 +2,21 @@
 title: INSERT
 ---
 
-Writes data into a table.
+将数据写入表中。
 
-:::tip atomic operations
-Databend ensures data integrity with atomic operations. Inserts, updates, replaces, and deletes either succeed completely or fail entirely.
+:::tip 原子操作
+Databend 通过原子操作确保数据完整性。插入、更新、替换和删除操作要么完全成功，要么完全失败。
 :::
 
-## Insert Direct Values
+## 直接插入值
 
-### Syntax
+### 语法
 
 ```sql
 INSERT INTO|OVERWRITE [db.]table [(c1, c2, c3)] VALUES (v11, v12, v13), (v21, v22, v23), ...
 ```
 
-### Examples
+### 示例
 
 ```sql
 CREATE TABLE test(a INT UNSIGNED, b Varchar);
@@ -41,17 +41,17 @@ SELECT * FROM test;
 +------+-------+
 ```
 
-## Insert Query Results
+## 插入查询结果
 
-When inserting the results of a SELECT statement, the mapping of columns follows their positions in the SELECT clause. Therefore, the number of columns in the SELECT statement must be equal to or greater than the number of columns in the INSERT table. In cases where the data types of the columns in the SELECT statement and the INSERT table differ, type casting will be performed as needed.
+在插入SELECT语句的结果时，列的映射遵循SELECT子句中的位置。因此，SELECT语句中的列数必须等于或大于INSERT表中的列数。如果SELECT语句和INSERT表中的列的数据类型不同，则会根据需要进行类型转换。
 
-### Syntax
+### 语法
 
 ```sql
 INSERT INTO [db.]table [(c1, c2, c3)] SELECT ...
 ```
 
-### Examples
+### 示例
 
 ```sql
 CREATE TABLE select_table(a VARCHAR, b VARCHAR, c VARCHAR);
@@ -75,17 +75,17 @@ SELECT * from test;
 +------+------+------+
 ```
 
-Aggregate Example:
+聚合示例：
 
 ```sql
--- create table
+-- 创建表
 CREATE TABLE base_table(a INT);
 CREATE TABLE aggregate_table(b INT);
 
--- insert some data to base_table
+-- 向base_table插入一些数据
 INSERT INTO base_table VALUES(1),(2),(3),(4),(5),(6);
 
--- insert into aggregate_table from the aggregation
+-- 从聚合中插入数据到aggregate_table
 INSERT INTO aggregate_table SELECT SUM(a) FROM base_table GROUP BY a%3;
 
 SELECT * FROM aggregate_table ORDER BY b;
@@ -98,17 +98,17 @@ SELECT * FROM aggregate_table ORDER BY b;
 +------+
 ```
 
-## Insert Default Values
+## 插入默认值
 
-Databend allows you to use the INSERT INTO statement to add data into a table, specifying values or defaults for columns as needed.
+Databend允许您使用INSERT INTO语句将数据添加到表中，根据需要为列指定值或默认值。
 
-### Syntax
+### 语法
 
 ```sql
 INSERT INTO [db.]table [(c1, c2, c3)] VALUES (v1|DEFAULT, v2|DEFAULT, v3|DEFAULT) ...
 ```
 
-### Examples
+### 示例
 
 ```sql
 CREATE TABLE t_insert_default(a int null, b int default 2, c float, d varchar default 'd');
@@ -131,19 +131,19 @@ SELECT * FROM t_insert_default;
 +------+------+------+------+
 ```
 
-## Insert with Staged Files
+## 通过阶段文件插入
 
-Databend enables you to insert data into a table from staged files with the INSERT INTO statement. This is achieved through Databend's capacity to [Query Staged Files](/guides/load-data/transform/querying-stage) and subsequently incorporate the query result into the table.
+Databend允许您通过INSERT INTO语句从阶段文件中将数据插入表中。这是通过Databend的[查询阶段文件](/guides/load-data/transform/querying-stage)能力并随后将查询结果并入表中来实现的。
 
-### Syntax
+### 语法
 
 ```sql
 INSERT INTO [db.]table [(c1, c2, c3)] SELECT ...
 ```
 
-### Examples
+### 示例
 
-1. Create a table called `sample`:
+1. 创建一个名为`sample`的表：
 
 ```sql
 CREATE TABLE sample
@@ -155,9 +155,9 @@ CREATE TABLE sample
 );
 ```
 
-2. Set up an internal stage with sample data
+2. 使用样本数据设置一个内部阶段
 
-We'll establish an internal stage named `mystage` and then populate it with sample data.
+我们将建立一个名为`mystage`的内部阶段，然后用样本数据填充它。
 
 ```sql
 CREATE STAGE mystage;
@@ -178,10 +178,10 @@ FROM
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-3. Insert data from the staged Parquet file with `INSERT INTO`
+3. 使用`INSERT INTO`从阶段的Parquet文件插入数据
 
 :::tip
-You can specify the file format and various copy-related settings with the FILE_FORMAT and COPY_OPTIONS available in the [COPY INTO](dml-copy-into-table.md) command. When `purge` is set to `true`, the original file will only be deleted if the data update is successful. 
+您可以使用[COPY INTO](dml-copy-into-table.md)命令中可用的FILE_FORMAT和COPY_OPTIONS指定文件格式和各种复制相关的设置。当`purge`设置为`true`时，只有在数据更新成功的情况下，原始文件才会被删除。
 :::
 
 ```sql
@@ -196,21 +196,21 @@ FROM
     (FILE_FORMAT => 'parquet');
 ```
 
-4. Verify the data insert
+4. 验证数据插入
 
 ```sql
 SELECT * FROM sample;
 ```
 
-The results should be:
+结果应该是：
 ```sql
 ┌─────────────────────────────────────────────────────────────────────────┐
 │        id       │       city       │      score      │      country     │
 │ Nullable(Int32) │ Nullable(String) │ Nullable(Int32) │ Nullable(String) │
 ├─────────────────┼──────────────────┼─────────────────┼──────────────────┤
-│               1 │ Chengdu          │              80 │ China            │
-│               3 │ Chongqing        │              90 │ China            │
-│               6 │ Hangzhou         │              92 │ China            │
-│               9 │ Hong Kong        │              88 │ China            │
+│               1 │ 成都             │              80 │ 中国             │
+│               3 │ 重庆             │              90 │ 中国             │
+│               6 │ 杭州             │              92 │ 中国             │
+│               9 │ 香港             │              88 │ 中国             │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
