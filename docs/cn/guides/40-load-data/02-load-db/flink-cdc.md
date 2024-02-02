@@ -14,7 +14,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 1. 下载并设置Flink：在安装Databend的Flink SQL连接器之前，请确保您已经在系统上下载并设置了Flink。您可以从官方网站下载Flink：https://flink.apache.org/downloads/
 
-2. 下载连接器：访问GitHub上Databend的Flink SQL连接器的发布页面：https://github.com/databendcloud/flink-connector-databend/releases。下载连接器的最新版本（例如，flink-connector-databend-0.0.2.jar）。
+2. 下载连接器：访问GitHub上Databend的Flink SQL连接器的发布页面：https://github.com/databendcloud/flink-connector-databend/releases 。下载连接器的最新版本（例如，flink-connector-databend-0.0.2.jar）。
 
     请注意，您也可以从源代码编译Databend的Flink SQL连接器：
 
@@ -56,7 +56,7 @@ CREATE TABLE products (id INT NOT NULL, name VARCHAR(255) NOT NULL, description 
 ```
 
 2. 下载[Flink](https://flink.apache.org/downloads/)和以下SQL连接器到您的系统：
-    - Databend的Flink SQL连接器：https://github.com/databendcloud/flink-connector-databend/releases
+    - Databend的Flink SQL连接器： https://github.com/databendcloud/flink-connector-databend/releases
     - MySQL的Flink SQL连接器：https://repo1.maven.org/maven2/com/ververica/flink-sql-connector-mysql-cdc/2.3.0/flink-sql-connector-mysql-cdc-2.3.0.jar
 3. 将两个连接器JAR文件移动到Flink安装目录中的*lib*文件夹。
 4. 启动Flink：

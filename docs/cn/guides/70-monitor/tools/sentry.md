@@ -22,7 +22,7 @@ Databend 支持与云端和自托管的 Sentry 解决方案集成。以下教程
 
 ### 步骤 3. 设置环境变量
 
-1. 获取您项目的 DSN（数据源名称）。关于 DSN 是什么以及在哪里找到它，请参见 https://docs.sentry.io/product/sentry-basics/dsn-explainer/
+1. 获取您项目的 DSN（数据源名称）。关于 DSN 是什么以及在哪里找到它，请参见 https://docs.sentry.io/product/sentry-basics/concepts/dsn-explainer/
 
 2. 设置环境变量。
 

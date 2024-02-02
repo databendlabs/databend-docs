@@ -101,6 +101,7 @@ exclude = [
   'https://platform.openai.com/docs/models/embeddings',
   'https://platform.openai.com/account/api-keys',
   'https://singup.snowflake.com/',
+  'https://www.uber.com/'
 ]
 
 # URLs to check (supports regex). Has preference over all excludes.
