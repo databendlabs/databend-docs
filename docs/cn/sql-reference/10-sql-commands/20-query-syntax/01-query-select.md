@@ -1,6 +1,7 @@
 ---
 title: SELECT
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.234"/>
@@ -9,21 +10,19 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 从表中检索数据。
 
-
-
 ## 语法
 
 ```sql
 [WITH]
 SELECT
     [ALL | DISTINCT]
-    <select_expr> | <col_name> [[AS] <alias>] | $<col_position> [, ...] |  
+    <select_expr> | <col_name> [[AS] <alias>] | $<col_position> [, ...] |
     COLUMNS <expr>
     [EXCLUDE (<col_name1> [, <col_name2>, <col_name3>, ...] ) ]
     [FROM table_references]
     [AT ...]
     [WHERE <expr>]
-    [GROUP BY {{<col_name> | <expr> | <col_alias> | <col_position>}, 
+    [GROUP BY {{<col_name> | <expr> | <col_alias> | <col_position>},
          ... | <extended_grouping_expr>}]
     [HAVING <expr>]
     [ORDER BY {<col_name> | <expr> | <col_alias> | <col_position>} [ASC | DESC],
@@ -32,6 +31,7 @@ SELECT
     [OFFSET <row_count>]
     [IGNORE_RESULT]
 ```
+
 - SELECT 语句还允许您直接查询阶段文件。有关语法和示例，请参见 [使用 Databend 进行高效数据转换](/guides/load-data/transform/querying-stage)。
 
 - 在本页的示例中，使用了表 `numbers(N)` 进行测试，它有一个单独的 UInt64 列（名为 `number`），包含从 0 到 N-1 的整数。
@@ -55,7 +55,7 @@ SELECT number FROM numbers(3);
 
 - Databend 建议在创建列别名时尽可能避免使用特殊字符。然而，如果在某些情况下需要特殊字符，应将别名用反引号括起来，如：SELECT price AS \`$CA\` FROM ...
 
-- Databend 会自动将别名转换为小写。例如，如果您将列的别名设置为 *Total*，在结果中它将显示为 *total*。如果大小写对您很重要，请将别名用反引号括起来：\`Total\`。
+- Databend 会自动将别名转换为小写。例如，如果您将列的别名设置为 _Total_，在结果中它将显示为 _total_。如果大小写对您很重要，请将别名用反引号括起来：\`Total\`。
 
 ```sql
 SELECT number AS Total FROM numbers(3);
@@ -308,8 +308,8 @@ SELECT number%2 as c1, number%3 as c2, MAX(number) FROM numbers(10000) GROUP BY 
 
 ```sql
 SELECT
-    number % 2 as c1, 
-    number % 3 as c2, 
+    number % 2 as c1,
+    number % 3 as c2,
     MAX(number) as max
 FROM
     numbers(10000)
@@ -405,11 +405,11 @@ SELECT number FROM t_null order by number ASC;
 +--------+
 | number |
 +--------+
-|      1 |
-|      2 |
-|      3 |
-|   NULL |
-|   NULL |
+| 1 |
+| 2 |
+| 3 |
+| NULL |
+| NULL |
 +--------+
 
 -- 要使 NULL 值在前面的示例中首先出现，请使用 NULLS FIRST 选项：
@@ -418,11 +418,11 @@ SELECT number FROM t_null order by number ASC nulls first;
 +--------+
 | number |
 +--------+
-|   NULL |
-|   NULL |
-|      1 |
-|      2 |
-|      3 |
+| NULL |
+| NULL |
+| 1 |
+| 2 |
+| 3 |
 +--------+
 
 -- 使用 NULLS LAST 选项使 NULL 值在降序中最后出现：
@@ -431,11 +431,11 @@ SELECT number FROM t_null order by number DESC nulls last;
 +--------+
 | number |
 +--------+
-|      3 |
-|      2 |
-|      1 |
-|   NULL |
-|   NULL |
+| 3 |
+| 2 |
+| 1 |
+| NULL |
+| NULL |
 +--------+
 ```
 

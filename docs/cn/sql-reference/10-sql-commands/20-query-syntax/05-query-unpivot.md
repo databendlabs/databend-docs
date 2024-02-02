@@ -9,7 +9,6 @@ title: UNPIVOT
 **另请参阅：**
 [PIVOT](./05-query-pivot.md)
 
-
 ## 语法
 
 ```sql
@@ -22,10 +21,10 @@ FROM ...
 ```
 
 其中：
-* `<value_column>`：将存储从 `<column_list>` 中列出的列中提取的值的列。
-* `<name_column>`：将存储从中提取值的列的名称的列。
-* `<column_list>`：要取消透视的列的列表，用逗号分隔。
 
+- `<value_column>`：将存储从 `<column_list>` 中列出的列中提取的值的列。
+- `<name_column>`：将存储从中提取值的列的名称的列。
+- `<column_list>`：要取消透视的列的列表，用逗号分隔。
 
 ## 示例
 
@@ -33,11 +32,10 @@ FROM ...
 
 ### 创建和插入数据
 
-
 ```sql
 -- 创建 unpivoted_monthly_sales 表
 CREATE TABLE unpivoted_monthly_sales(
-  empid INT, 
+  empid INT,
   jan INT,
   feb INT,
   mar INT,
@@ -52,7 +50,6 @@ INSERT INTO unpivoted_monthly_sales VALUES
 
 ### 使用 UNPIVOT
 
-
 ```sql
 SELECT *
 FROM unpivoted_monthly_sales
@@ -61,6 +58,7 @@ FROM unpivoted_monthly_sales
 ```
 
 输出：
+
 ```sql
 +-------+-------+--------+
 | empid | month | amount |

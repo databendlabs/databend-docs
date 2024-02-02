@@ -10,20 +10,20 @@ Databend 在数据更新发生时自动创建快照，因此可以将快照视�
 
 ## 语法
 
-```sql    
+```sql
 SELECT ...
 FROM ...
 AT ( { SNAPSHOT => <snapshot_id> | TIMESTAMP => <timestamp> } );
 ```
 
-## 获取快照 ID 和时间戳
+## 获取快照 ID 和时间戳 {#obtaining-snapshot-id-and-timestamp}
 
 要返回表的所有快照的快照 ID 和时间戳，请执行以下语句：
 
 ```sql
-SELECT snapshot_id, 
-       timestamp 
-FROM   fuse_snapshot('<database_name>', '<table_name>'); 
+SELECT snapshot_id,
+       timestamp
+FROM   fuse_snapshot('<database_name>', '<table_name>');
 ```
 
 有关 FUSE_SNAPSHOT 函数的更多信息，请参见[FUSE_SNAPSHOT](../../20-sql-functions/16-system-functions/fuse_snapshot.md)。
@@ -58,7 +58,7 @@ insert into demo values('batch1.1'),('batch1.2');
 insert into demo values('batch2.1');
 
 -- 返回时间戳
-select timestamp from fuse_snapshot('default', 'demo'); 
+select timestamp from fuse_snapshot('default', 'demo');
 +----------------------------+
 | timestamp                  |
 +----------------------------+
@@ -67,7 +67,7 @@ select timestamp from fuse_snapshot('default', 'demo');
 +----------------------------+
 
 -- 回到最后一行插入的时间
-select * from demo at (TIMESTAMP => '2022-06-22 08:58:54.509008'::TIMESTAMP); 
+select * from demo at (TIMESTAMP => '2022-06-22 08:58:54.509008'::TIMESTAMP);
 +----------+
 | c        |
 +----------+
@@ -77,7 +77,7 @@ select * from demo at (TIMESTAMP => '2022-06-22 08:58:54.509008'::TIMESTAMP);
 +----------+
 
 -- 回到前两行插入的时间
-select * from demo at (TIMESTAMP => '2022-06-22 08:58:36.254458'::TIMESTAMP); 
+select * from demo at (TIMESTAMP => '2022-06-22 08:58:36.254458'::TIMESTAMP);
 +----------+
 | c        |
 +----------+
