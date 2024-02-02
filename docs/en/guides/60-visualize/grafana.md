@@ -10,7 +10,7 @@ This tutorial guides you through the process of integrating Databend / Databend 
 
 ### Step 1. Set up Environment
 
-Before you start, please refer to the official installation guide to install Grafana: https://grafana.com/docs/grafana/latest/setup-grafana/installation.
+Before you start, please refer to the official installation guide to install Grafana: https://grafana.com/docs/grafana/latest/setup-grafana/installation .
 
 For this tutorial, you can integrate either with Databend or Databend Cloud:
 

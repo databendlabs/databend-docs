@@ -22,7 +22,7 @@ Once you're logged into Sentry, create a Sentry project for the `Rust` platform 
 
 ### Step 3. Set Environment Variables
 
-1. Get the DSN (Data Source Name) of your project. For what DSN is and where to find it, see https://docs.sentry.io/product/sentry-basics/dsn-explainer/
+1. Get the DSN (Data Source Name) of your project. For what DSN is and where to find it, see https://docs.sentry.io/product/sentry-basics/concepts/dsn-explainer/
 
 2. Set environment variables.
 
