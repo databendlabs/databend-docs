@@ -202,7 +202,7 @@ b. 从[GitHub Release](https://github.com/datafuselabs/databend/releases)下载�
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
 ```shell
-curl -LJO https://github.com/datafuselabs/databend/releases/download/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+curl -LJO https://repo.databend.rs/databend/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
 ```
 
 ```shell
@@ -274,7 +274,7 @@ type = "s3"
 bucket = "databend"
 endpoint_url = "https://s3.amazonaws.com"
 
-# 如何获取access_key_id和secret_access_key：
+# 如何获取 access_key_id 和 secret_access_key：
 # https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html
 // highlight-next-line
 access_key_id = "<your-key-id>"
@@ -297,12 +297,12 @@ type = "gcs"
 // highlight-next-line
 bucket = "databend"
 
-# GCS也支持更改端点URL
-# 但端点应该与GCS的JSON API兼容
+# GCS 也支持更改端点 URL
+# 但端点应该与 GCS 的 JSON API 兼容
 # 默认：
 # endpoint_url = "https://storage.googleapis.com"
 
-# GCS的工作目录
+# GCS 的工作目录
 # 默认：
 # root = "/"
 
@@ -340,7 +340,7 @@ account_key = "<your-account-key>"
 type = "cos"
 
 [storage.cos]
-# 您可以从存储桶详情页面获取URL。
+# 您可以从存储桶详情页面获取 URL。
 # 以下是一个区域为北京（ap-beijing）的示例：
 // highlight-next-line
 endpoint_url = "https://cos.ap-beijing.myqcloud.com"
@@ -350,7 +350,7 @@ endpoint_url = "https://cos.ap-beijing.myqcloud.com"
 // highlight-next-line
 bucket = "databend"
 
-# 如何获取secret_id和secret_key：
+# 如何获取 secret_id 和 secret_key：
 # https://cloud.tencent.com/document/product/436/68282
 // highlight-next-line
 secret_id = "<your-secret-id>"
@@ -369,8 +369,8 @@ root = "<your-root-path>"
 type = "cos"
 
 [storage.cos]
-# 您可以从存储桶详情页面获取URL。
-# 以下是一个区域为ap-beijing的示例：
+# 您可以从存储桶详情页面获取 URL。
+# 以下是一个区域为 ap-beijing 的示例：
 // highlight-next-line
 endpoint_url = "https://cos.ap-beijing.myqcloud.com"
 
@@ -393,17 +393,17 @@ type = "oss"
 // 高亮下一行
 bucket = "databend"
 
-# 您可以从存储桶详情页面获取URL。
+# 您可以从存储桶详情页面获取 URL。
 // 高亮下一行
 # https://help.aliyun.com/document_detail/31837.htm
 // 高亮下一行
 # https://<bucket-name>.<region-id>[-internal].aliyuncs.com
 // 高亮下一行
-# 此示例使用的OSS区域ID为：oss-cn-beijing-internal。
+# 此示例使用的 OSS 区域 ID 为：oss-cn-beijing-internal。
 endpoint_url = "https://oss-cn-beijing-internal.aliyuncs.com"
 # enable_virtual_host_style = true
 
-# 如何获取access_key_id和secret_access_key：
+# 如何获取 access_key_id 和 secret_access_key：
 # https://help.aliyun.com/document_detail/53045.htm
 // 高亮下一行
 access_key_id = "<your-key-id>"
@@ -432,11 +432,11 @@ type = "s3"
 [storage.s3]
 bucket = "databend"
 
-# 您可以从存储桶详情页面获取URL。
+# 您可以从存储桶详情页面获取 URL。
 # https://docsv3.qingcloud.com/storage/object-storage/intro/object-storage/#zone
 endpoint_url = "https://s3.pek3b.qingstor.com"
 
-# 如何获取access_key_id和secret_access_key：
+# 如何获取 access_key_id 和 secret_access_key：
 # https://docsv3.qingcloud.com/development_docs/api/overview/
 access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
@@ -460,12 +460,12 @@ type = "s3"
 // 高亮下一行
 bucket = "<your-bucket>"
 
-# 您可以从以下位置获取URL：
+# 您可以从以下位置获取 URL：
 # https://wasabi-support.zendesk.com/hc/en-us/articles/360015106031-What-are-the-service-URLs-for-Wasabi-s-different-regions-
 // 高亮下一行
 endpoint_url = "https://s3.us-east-2.wasabisys.com"
 
-# 如何获取access_key_id和secret_access_key：
+# 如何获取 access_key_id 和 secret_access_key：
 // 高亮下一行
 access_key_id = "<your-key-id>"
 // 高亮下一行
@@ -514,7 +514,7 @@ type = "webhdfs"
 [storage.webhdfs]
 endpoint_url = "https://hadoop.example.com:9870"
 root = "/analyses/databend/storage"
-# 如果您的webhdfs需要认证，请取消注释并设置您的值
+# 如果您的 webhdfs 需要认证，请取消注释并设置您的值
 # delegation = "<delegation-token>"
 ```
 

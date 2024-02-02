@@ -6,12 +6,12 @@ function numberFormat(num: number): string | number {
 }
 const useGetReleases = () => {
   const { releasesList, repoResource, stargazersCount, bendsqlRecource } = usePluginData('fetch-databend-releases') as IGlobalData;
-  const tagName = releasesList[0]?.tag_name??'v1.0.22-nightly';
+  const name = releasesList[0]?.name || 'v1.2.307';
   const formatStargazersCount = numberFormat(stargazersCount);
   return {
     releasesList,
-    tagName,
-    name: releasesList[0]?.name,
+    tagName: name,
+    name,
     repoResource,
     stargazersCount,
     formatStargazersCount,
