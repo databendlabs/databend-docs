@@ -4,7 +4,7 @@ sidebar_label: "COPY INTO <table>"
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.148"/>
+<FunctionDescription description="Introduced or updated: v1.2.314"/>
 
 COPY INTO allows you to load data from files located in one of the following locations:
 
@@ -209,7 +209,7 @@ copyOptions ::=
 | SIZE_LIMIT            | Specifies the maximum rows of data to be loaded for a given COPY statement. Defaults to `0` meaning no limits.                                                                                                                                                                                                                                                                                                   | Optional |
 | PURGE                 | If `True`, the command will purge the files in the stage after they are loaded successfully into the table. Default: `False`.                                                                                                                                                                                                                                                                                    | Optional |
 | FORCE                 | COPY INTO ensures idempotence by automatically tracking and preventing the reloading of files for a default period of 7 days. This can be customized using the `load_file_metadata_expire_hours` setting to control the expiration time for file metadata.<br/>This parameter defaults to `False` meaning COPY INTO will skip duplicate files when copying data. If `True`, duplicate files will not be skipped. | Optional |
-| DISABLE_VARIANT_CHECK | If `True`, this will allow the variant field to insert invalid JSON strings. Default: `False`.                                                                                                                                                                                                                                                                                                                   | Optional |
+| DISABLE_VARIANT_CHECK | If `true`, invalid JSON data is replaced with null values during COPY INTO. If `false` (default), COPY INTO fails on invalid JSON data.                                                                                                                                                                                                                                                                                                                   | Optional |
 | ON_ERROR              | Decides how to handle a file that contains errors: 'continue' to skip and proceed, 'abort' to terminate on error, 'abort_N' to terminate when errors ≥ N. Default is 'abort'. Note: 'abort_N' not available for Parquet files.                                                                                                                                                                                   | Optional |
 | MAX_FILES             | Sets the maximum number of files to load that have not been loaded already. The value can be set up to 15000; any value greater than 15000 will be treated as 15000.                                                                                                                                                                                                                                                   | Optional |
 | RETURN_FAILED_ONLY    | When set to 'True', only files that failed to load will be returned in the output. Default: `False`.                                                                                                                                                                                                                                                                                          | Optional |
@@ -540,4 +540,60 @@ CREATE TABLE t
 ```sql
 COPY INTO t FROM @t_stage FILES=('data.csv') 
 FILE_FORMAT=(FORMAT_NAME='my_csv_format');
+```
+
+### Example 7: Loading Invalid JSON
+
+When loading data into a Variant column, Databend automatically checks the data's validity and throws an error in case of any invalid data. For example, if you have a Parquet file named `invalid_json_string.parquet` in the user stage that contains invalid JSON data, like this:
+
+```sql
+SELECT *
+FROM @~/invalid_json_string.parquet;
+
+┌────────────────────────────────────┐
+│        a        │         b        │
+├─────────────────┼──────────────────┤
+│               5 │ {"k":"v"}        │
+│               6 │ [1,              │
+└────────────────────────────────────┘
+
+DESC t2;
+
+┌──────────────────────────────────────────────┐
+│  Field │   Type  │  Null  │ Default │  Extra │
+├────────┼─────────┼────────┼─────────┼────────┤
+│ a      │ VARCHAR │ YES    │ NULL    │        │
+│ b      │ VARIANT │ YES    │ NULL    │        │
+└──────────────────────────────────────────────┘
+```
+
+An error would occur when attempting to load the data into a table:
+
+```sql
+root@localhost:8000/default>  COPY INTO t2 FROM @~/invalid_json_string.parquet FILE_FORMAT = (TYPE = PARQUET) ON_ERROR = CONTINUE;
+error: APIError: ResponseError with 1006: EOF while parsing a value, pos 3 while evaluating function `parse_json('[1,')`
+```
+
+To load without checking the JSON validity, set the option `DISABLE_VARIANT_CHECK` to `true` in the COPY INTO statement:
+
+```sql
+COPY INTO t2 FROM @~/invalid_json_string.parquet 
+FILE_FORMAT = (TYPE = PARQUET) 
+DISABLE_VARIANT_CHECK = true 
+ON_ERROR = CONTINUE;
+
+┌───────────────────────────────────────────────────────────────────────────────────────────────┐
+│             File            │ Rows_loaded │ Errors_seen │    First_error   │ First_error_line │
+├─────────────────────────────┼─────────────┼─────────────┼──────────────────┼──────────────────┤
+│ invalid_json_string.parquet │           2 │           0 │ NULL             │             NULL │
+└───────────────────────────────────────────────────────────────────────────────────────────────┘
+
+SELECT * FROM t2;
+-- Invalid JSON is stored as null in the Variant column.
+┌──────────────────────────────────────┐
+│         a        │         b         │
+├──────────────────┼───────────────────┤
+│ 5                │ {"k":"v"}         │
+│ 6                │ null              │
+└──────────────────────────────────────┘
 ```
