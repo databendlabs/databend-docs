@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.71"/>
+<FunctionDescription description="Introduced or updated: v1.2.327"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -17,38 +17,38 @@ Modifies a table by adding, converting, renaming, changing, or removing a column
 ```sql
 -- Add a column to the end of the table
 ALTER TABLE [IF EXISTS] [database.]<table_name> 
-ADD COLUMN <column_name> <data_type> [NOT NULL | NULL] [DEFAULT <constant_value>];
+ADD [COLUMN] <column_name> <data_type> [NOT NULL | NULL] [DEFAULT <constant_value>]
 
 -- Add a column to a specified position
 ALTER TABLE [IF EXISTS] [database.]<table_name> 
-ADD COLUMN <column_name> <data_type> [NOT NULL | NULL] [DEFAULT <constant_value>] [FIRST | AFTER <column_name>]
+ADD [COLUMN] <column_name> <data_type> [NOT NULL | NULL] [DEFAULT <constant_value>] [FIRST | AFTER <column_name>]
 
 -- Add a virtual computed column
 ALTER TABLE [IF EXISTS] [database.]<table_name> 
-ADD COLUMN <column_name> <data_type> AS (<expr>) VIRTUAL;
+ADD [COLUMN] <column_name> <data_type> AS (<expr>) VIRTUAL
 
 -- Convert a stored computed column to a regular column
 ALTER TABLE [IF EXISTS] [database.]<table_name> 
-MODIFY COLUMN <column_name> DROP STORED;
+MODIFY [COLUMN] <column_name> DROP STORED
 
 -- Rename a column
 ALTER TABLE [IF EXISTS] [database.]<table_name>
-RENAME COLUMN <column_name> TO <new_column_name>;
+RENAME [COLUMN] <column_name> TO <new_column_name>
 
 -- Change the data type of one or multiple columns
 ALTER TABLE [IF EXISTS] [database.]<table_name> 
-MODIFY COLUMN <column_name> <new_data_type> [DEFAULT <constant_value>][, COLUMN <column_name> <new_data_type> [DEFAULT <constant_value>], ...]
+MODIFY [COLUMN] <column_name> <new_data_type> [DEFAULT <constant_value>][, COLUMN <column_name> <new_data_type> [DEFAULT <constant_value>], ...]
 
 -- Set / Unset masking policy for a column
 ALTER TABLE [IF EXISTS] [database.]<table_name>
-MODIFY COLUMN <column_name> SET MASKING POLICY <policy_name>
+MODIFY [COLUMN] <column_name> SET MASKING POLICY <policy_name>
 
 ALTER TABLE [IF EXISTS] [database.]<table_name>
-MODIFY COLUMN <column_name> UNSET MASKING POLICY
+MODIFY [COLUMN] <column_name> UNSET MASKING POLICY
 
 -- Remove a column
 ALTER TABLE [IF EXISTS] [database.]<table_name> 
-DROP COLUMN <column_name>;
+DROP [COLUMN] <column_name>
 ```
 
 :::note
