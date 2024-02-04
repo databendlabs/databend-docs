@@ -17,7 +17,7 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 ## 部署独立的 Databend
 
-Databend 既支持自托管也支持云对象存储解决方案。本主题将解释如何将 Databend 部署到您的对象存储中。有关支持的对象存储解决方案列表，请参见[了解部署模式](./00-understanding-deployment-modes.md)。
+Databend 既支持自托管也支持云对象存储解决方案。本主题将解释如何利用对象存储部署 Databend 。有关支持的对象存储解决方案列表，请参见[了解部署模式](./00-understanding-deployment-modes.md)。
 
 :::note
 不建议在 MinIO 上部署 Databend 用于生产环境或性能测试。
@@ -552,30 +552,12 @@ export CLASSPATH=/all/hadoop/jar/files
 以下是一个示例：
 
 ```bash
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
-export HADOOP_HOME=/usr/local/hadoop
-export CLASSPATH=$(hadoop classpath --glob)
-```
-
-然后运行：
-
-```bash
-./databend-query -c databend-query.toml
-```
-:::
-
-:::note
-请注意，以上命令中的环境变量路径需要根据您的实际安装位置进行相应的调整。
-:::
-
-
-```bash
 export JAVA_HOME=/usr/lib/jvm/java-21-jdk
 export LD_LIBRARY_PATH={$JAVA_HOME}/lib/server/
 export HADOOP_HOME={$HOME}/hadoop-3.3.6
 export CLASSPATH=$(find $HADOOP_HOME -iname "*.jar" | xargs echo | tr ' ' ':')
 ```
+:::
 
 ```shell
 ./databend-query -c ../configs/databend-query.toml > query.log 2>&1 &
