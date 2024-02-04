@@ -38,16 +38,27 @@ Databend offers a range of commands for managing password policies. For more det
 
 ## Usage Examples
 
-This example establishes two password policies: 'DBA' for admin users and 'ReadOnlyUser' for general users who only have SELECT privileges.
+This example establishes the following password policies and implements them for users:
+
+- `DBA` for admins users: Customizes each password policy attribute strictly.
+- `ReadOnlyUser` for general users: Uses the default attribute values.
 
 ```sql
--- Create the 'DBA' password policy with customized length and retry settings. Other settings will use default values.
+-- Create the 'DBA' password policy with customized attribute values
 CREATE PASSWORD POLICY DBA
-    PASSWORD_MIN_LENGTH = 10
-    PASSWORD_MAX_LENGTH = 16
-    PASSWORD_MAX_RETRIES = 3;
+    PASSWORD_MIN_LENGTH = 12
+    PASSWORD_MAX_LENGTH = 18
+    PASSWORD_MIN_UPPER_CASE_CHARS = 2
+    PASSWORD_MIN_LOWER_CASE_CHARS = 2
+    PASSWORD_MIN_NUMERIC_CHARS = 2
+    PASSWORD_MIN_SPECIAL_CHARS = 1
+    PASSWORD_MIN_AGE_DAYS = 1
+    PASSWORD_MAX_AGE_DAYS = 30
+    PASSWORD_MAX_RETRIES = 3
+    PASSWORD_LOCKOUT_TIME_MINS = 30
+    PASSWORD_HISTORY = 5;
 
--- Create the 'ReadOnlyUser' password policy with default values for all settings.
+-- Create the 'ReadOnlyUser' password policy with default values for all attributes
 CREATE PASSWORD POLICY ReadOnlyUser;
 
 SHOW PASSWORD POLICIES;
@@ -55,7 +66,7 @@ SHOW PASSWORD POLICIES;
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │     name     │ comment │                                                                                                 options                                                                                                 │
 ├──────────────┼─────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ DBA          │         │ MIN_LENGTH=10, MAX_LENGTH=16, MIN_UPPER_CASE_CHARS=1, MIN_LOWER_CASE_CHARS=1, MIN_NUMERIC_CHARS=1, MIN_SPECIAL_CHARS=0, MIN_AGE_DAYS=0, MAX_AGE_DAYS=90, MAX_RETRIES=3, LOCKOUT_TIME_MINS=15, HISTORY=0 │
+│ DBA          │         │ MIN_LENGTH=12, MAX_LENGTH=18, MIN_UPPER_CASE_CHARS=2, MIN_LOWER_CASE_CHARS=2, MIN_NUMERIC_CHARS=2, MIN_SPECIAL_CHARS=1, MIN_AGE_DAYS=1, MAX_AGE_DAYS=30, MAX_RETRIES=3, LOCKOUT_TIME_MINS=30, HISTORY=5 │
 │ ReadOnlyUser │         │ MIN_LENGTH=8, MAX_LENGTH=256, MIN_UPPER_CASE_CHARS=1, MIN_LOWER_CASE_CHARS=1, MIN_NUMERIC_CHARS=1, MIN_SPECIAL_CHARS=0, MIN_AGE_DAYS=0, MAX_AGE_DAYS=90, MAX_RETRIES=5, LOCKOUT_TIME_MINS=15, HISTORY=0 │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
