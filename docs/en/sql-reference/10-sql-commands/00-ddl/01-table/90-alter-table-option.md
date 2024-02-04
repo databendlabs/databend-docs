@@ -11,7 +11,7 @@ Modifies the options of a table created with the default [Fuse engine](../../../
 ## Syntax
 
 ```sql
-ALTER TABLE [database.]table_name SET OPTIONS (options)
+ALTER TABLE [database.]<table_name> SET OPTIONS (options)
 ```
 
 ## Examples
