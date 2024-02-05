@@ -1,5 +1,5 @@
 ---
-title: "快速入门"
+title: "快速浏览"
 ---
 
 本主题提供了 Databend Cloud 用户界面各部分的概览。
