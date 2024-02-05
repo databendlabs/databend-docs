@@ -11,7 +11,7 @@ Databend 包含一个密码策略，以加强系统安全性并使用户账户�
 当您为具有密码策略的用户设置或更改密码时，Databend 会进行彻底检查，以确保所选密码遵循密码策略定义的规则。将验证以下方面：
 
 :::note
-通常，用户不能更改自己的密码，除非他们被分配了内置角色 `account-admin`。一个 `account-admin` 用户可以为所有用户设置或更改密码。要更改用户的密码，请使用 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 命令。
+通常，用户不能更改自己的密码，除非他们被分配了内置角色 `account-admin`。`account-admin` 用户可以为所有用户设置或更改密码。要更改用户的密码，请使用 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 命令。
 :::
 
 - **复杂性要求**：
