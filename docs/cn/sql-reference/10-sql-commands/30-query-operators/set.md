@@ -1,10 +1,10 @@
 ---
-title: 集合运算符
+title: 集合操作符
 description:
-  集合运算符将两个查询的结果合并为一个结果。
+  集合操作符将两个查询的结果合并为一个结果。
 ---
 
-集合运算符将两个查询的结果合并为一个结果。Databend支持以下集合运算符：
+集合操作符将两个查询的结果合并为一个结果。Databend支持以下集合操作符：
 
 - [INTERSECT](#intersect)
 - [EXCEPT](#except)

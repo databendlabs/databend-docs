@@ -56,7 +56,7 @@ SELECT * FROM bookstore;
 
 ### 示例 2：基于子查询的删除
 
-使用子查询确定要删除的行时，可以利用[子查询运算符](../30-query-operators/subquery.md)和[比较运算符](../30-query-operators/comparison.md)来实现所需的删除。
+使用子查询确定要删除的行时，可以利用[子查询操作符](../30-query-operators/subquery.md)和[比较操作符](../30-query-operators/comparison.md)来实现所需的删除。
 
 本节中的示例基于以下两个表：
 

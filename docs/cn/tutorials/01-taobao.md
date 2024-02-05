@@ -2,6 +2,7 @@
 title: 淘宝用户购物行为分析
 slug: /
 ---
+
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
@@ -9,13 +10,13 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 该数据集为 CSV 格式，包含了 2017 年 11 月 25 日至 2017 年 12 月 3 日之间，有行为的约一百万随机用户的所有行为（包括点击、购买、加购、喜欢）。数据集的每一行表示一条用户行为，由以下 5 列组成，并以逗号分隔：
 
-| 列名称     | 说明                                                                                                                  |
-|------------|-----------------------------------------------------------------------------------------------------------------------|
+| 列名称      | 说明                                                                                                                   |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------- |
 | 用户 ID     | 整数类型，序列化后的用户 ID                                                                                            |
 | 商品 ID     | 整数类型，序列化后的商品 ID                                                                                            |
 | 商品类目 ID | 整数类型，序列化后的商品所属类目 ID                                                                                    |
-| 行为类型   | 字符串，枚举类型，包括：'pv'：商品详情页 pv，等价于点击； 'buy'：商品购买； 'cart'：将商品加入购物车； 'fav'：收藏商品 |
-| 时间戳     | 行为发生的时间戳                                                                                                      |
+| 行为类型    | 字符串，枚举类型，包括：'pv'：商品详情页 pv，等价于点击； 'buy'：商品购买； 'cart'：将商品加入购物车； 'fav'：收藏商品 |
+| 时间戳      | 行为发生的时间戳                                                                                                       |
 
 ## 准备工作
 
@@ -27,11 +28,13 @@ import StepContent from '@site/src/components/Steps/step-content';
 ```bash
 unzip UserBehavior.csv.zip
 ```
+
 2. 将解压后的数据集文件 (UserBehavior.csv) 压缩为 gzip 格式：
 
 ```bash
 gzip UserBehavior.csv
 ```
+
 </StepContent>
 
 <StepContent number="2" title="创建外部 Stage">
@@ -41,15 +44,15 @@ gzip UserBehavior.csv
 2. 在工作区中，执行以下 SQL 语句在阿里云上创建一个名为"mycsv"的外部 Stage:
 
 ```sql
-CREATE STAGE mycsv URL = 's3://<YOUR_BUCKET_NAME>' 
+CREATE STAGE mycsv URL = 's3://<YOUR_BUCKET_NAME>'
 CONNECTION = (
   ACCESS_KEY_ID = '<YOUR_ACCESS_KEY_ID>',
   SECRET_ACCESS_KEY = '<YOUR_SECRET_ACCESS_KEY>',
   ENDPOINT_URL = '<YOUR_ENDPOINT_URL>',
   ENABLE_VIRTUAL_HOST_STYLE = TRUE
-) 
+)
 FILE_FORMAT = (
-  TYPE = CSV 
+  TYPE = CSV
   COMPRESSION = AUTO
 );
 ```
@@ -101,9 +104,9 @@ PUT fs:///Users/eric/Documents/UserBehavior.csv.gz @mycsv
 在工作区中，执行以下 SQL 语句为数据集创建表格：
 
 ```sql
-CREATE TABLE `user_behavior` ( 
+CREATE TABLE `user_behavior` (
   `user_id` INT NOT NULL,
-  `item_id` INT NOT NULL, 
+  `item_id` INT NOT NULL,
   `category_id` INT NOT NULL,
   `behavior_type` VARCHAR,
   `ts` TIMESTAMP,
@@ -116,14 +119,14 @@ CREATE TABLE `user_behavior` (
 
 1. 执行以下 SQL 语句导入数据到表格中，并同时完成清洗：
 
-    - 去除无效的时间区外的数据
-    - 数据去重
-    - 生成额外列数据
+   - 去除无效的时间区外的数据
+   - 数据去重
+   - 生成额外列数据
 
 ```sql
-INSERT INTO user_behavior 
-SELECT $1,$2,$3,$4,to_timestamp($5::bigint) AS ts, to_date(ts) day 
-FROM @mycsv/UserBehavior.csv.gz WHERE day BETWEEN '2017-11-25' AND '2017-12-03' 
+INSERT INTO user_behavior
+SELECT $1,$2,$3,$4,to_timestamp($5::bigint) AS ts, to_date(ts) day
+FROM @mycsv/UserBehavior.csv.gz WHERE day BETWEEN '2017-11-25' AND '2017-12-03'
 GROUP BY $1,$2,$3,$4,ts;
 ```
 
@@ -146,8 +149,8 @@ SELECT * FROM user_behavior LIMIT 10;
 <StepContent number="1" title="总访问量和用户数">
 
 ```sql
-SELECT SUM(CASE WHEN behavior_type = 'pv' THEN 1 ELSE 0 END) as pv, 
-COUNT(DISTINCT user_id) as uv 
+SELECT SUM(CASE WHEN behavior_type = 'pv' THEN 1 ELSE 0 END) as pv,
+COUNT(DISTINCT user_id) as uv
 FROM user_behavior;
 ```
 
@@ -168,7 +171,7 @@ ORDER BY day;
 
 ![Alt text](@site/static/public/img/usecase/taobao-2.png)
 
-也可以通过 [使用 Dashboard](/guides/cloud/using-databend-cloud/dashboard) 功能，生成折线图：
+也可以通过 [使用仪表盘](/guides/cloud/using-databend-cloud/dashboard) 功能，生成折线图：
 
 ![Alt text](@site/static/public/img/usecase/taobao-3.png)
 
@@ -265,7 +268,7 @@ order by hour;
 
 ![Alt text](@site/static/public/img/usecase/taobao-7.png)
 
-也可以通过 [使用 Dashboard](/guides/cloud/using-databend-cloud/dashboard) 功能，生成折线图：
+也可以通过 [使用仪表盘](/guides/cloud/using-databend-cloud/dashboard) 功能，生成折线图：
 
 ![Alt text](@site/static/public/img/usecase/taobao-8.png)
 
@@ -287,7 +290,7 @@ order by weekday;
 
 ![Alt text](@site/static/public/img/usecase/taobao-9.png)
 
-也可以通过 [使用 Dashboard](/guides/cloud/using-databend-cloud/dashboard) 功能，生成柱状图：
+也可以通过 [使用仪表盘](/guides/cloud/using-databend-cloud/dashboard) 功能，生成柱状图：
 
 ![Alt text](@site/static/public/img/usecase/taobao-10.png)
 
@@ -339,11 +342,11 @@ limit 10;
 
 对有购买行为的用户按照排名进行分组，共划分为 5 组：
 
-- 前 1/5 的用户打 5 分 
-- 前 1/5 - 2/5 的用户打 4 分 
-- 前 2/5 - 3/5 的用户打 3 分 
-- 前 3/5 - 4/5 的用户打 2 分 
-- 其余用户打 1 分 
+- 前 1/5 的用户打 5 分
+- 前 1/5 - 2/5 的用户打 4 分
+- 前 2/5 - 3/5 的用户打 3 分
+- 前 3/5 - 4/5 的用户打 2 分
+- 其余用户打 1 分
 
 按照这个规则分别对用户时间间隔排名打分和购买频率排名打分，最后把两个分数合并在一起作为该名用户的最终评分。
 
@@ -451,7 +454,7 @@ select day,bitmap_count(users) from day_users order by day;
 这里计算相对于 11 月 23 日，12 月 2 号还在使用淘宝用户：
 
 ```sql
-select bitmap_count(bitmap_and(a.users, b.users)) 
+select bitmap_count(bitmap_and(a.users, b.users))
 from (select users from day_users where day='2017-11-25') a ,
 (select users from day_users where day='2017-12-02') b;
 ```
