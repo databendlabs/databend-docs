@@ -49,6 +49,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 :::
 
 :::note
-Lambda 函数由参数和 lambda 表达式组成，用 `->` 运算符分隔。
+Lambda 函数由参数和 lambda 表达式组成，用 `->` 操作符分隔。
 Lambda 表达式仅支持标量函数。不支持聚合函数、窗口函数、表函数和子查询。
 :::
