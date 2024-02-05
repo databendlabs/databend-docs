@@ -20,6 +20,7 @@ The user interface of Databend Cloud features a left-hand sidebar that opens var
 
 - **Home**: You can view basic account information for your organization, usage statistics for your plan, and recent query statistics.
 - **Worksheets**: You can create your own worksheet or use an existing one to edit and execute SQL statements.
+- **Dashboards**: You can create and dashboard charts with your query results.
 - **Data**: You can directly manage databases and data tables through the UI, such as defining table structure and bulk importing data.
 - **Warehouses**: You can manage the entire organization's warehouses, such as creating, starting, and suspending a warehouse, etc.
 - **Monitor**: You can query and understand all SQL query records, operation logs, and various statistical indicators of your organization members.
