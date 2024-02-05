@@ -17,7 +17,7 @@ The [Apache Iceberg](https://iceberg.apache.org) is a table format widely used i
 
 The split and well-defined structure of `Iceberg` also makes concurrent accessing and version managementing on data sources safer, saver and convenient.
 
-![stack of Apache Iceberg](https://iceberg.apache.org/img/iceberg-metadata.png)
+![stack of Apache Iceberg](https://iceberg.apache.org/assets/images/iceberg-metadata.png)
 
 Supporting Iceberg will empower databend as a open data lake, giving it more OLAP abilities.
 
