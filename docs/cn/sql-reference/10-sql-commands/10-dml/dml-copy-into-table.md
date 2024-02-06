@@ -2,13 +2,14 @@
 title: "COPY INTO <table>"
 sidebar_label: "COPY INTO <table>"
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新：v1.2.314"/>
 
 COPY INTO 允许您从以下位置之一的文件中加载数据：
 
-- 用户/内部/外部阶段：请参阅[了解阶段](/guides/load-data/stage/whystage)以了解 Databend 中的阶段。
+- 用户/内部/外部 Stage：请参阅[了解 Stage](/guides/load-data/stage/whystage)以了解 Databend 中的 Stage。
 - 在存储服务中创建的桶或容器。
 - 可以通过其 URL（以 "https://..." 开头）访问文件的远程服务器。
 - [IPFS](https://ipfs.tech)。
@@ -31,10 +32,10 @@ COPY INTO [<database>.]<table_name>
 
 ### FROM ...
 
-FROM 子句指定源位置（用户阶段、内部阶段、外部阶段或外部位置），将使用 COPY INTO 命令将数据加载到指定表中。
+FROM 子句指定源位置（用户 Stage、内部 Stage、外部 Stage 或外部位置），将使用 COPY INTO 命令将数据加载到指定表中。
 
 :::note
-当您从阶段文件加载数据且阶段路径包含特殊字符（如空格或括号）时，可以将整个路径用单引号括起来，如下 SQL 语句所示：
+当您从 Stage 文件加载数据且 Stage 路径包含特殊字符（如空格或括号）时，可以将整个路径用单引号括起来，如下 SQL 语句所示：
 
 COPY INTO mytable FROM 's3://mybucket/dataset(databend)/' ...
 COPY INTO mytable FROM 's3://mybucket/dataset databend/' ...
@@ -74,6 +75,7 @@ externalLocation ::=
         <connection_parameters>
   )
 ```
+
 有关访问 Amazon S3-like 存储服务的连接参数，请参阅[连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
@@ -113,7 +115,7 @@ externalLocation ::=
   )
 ```
 
-有关访问阿里巴巴云 OSS 的连接参数，请参阅[连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问阿里云 OSS 的连接参数，请参阅[连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
 <TabItem value="Tencent Cloud Object Storage" label="Tencent Cloud Object Storage">
@@ -204,15 +206,15 @@ copyOptions ::=
   [ MAX_FILES = <num> ]
 ```
 
-| 参数                  | 描述                                                                                                                                                                                                                                                                                                                                                                                                      | 必需     |
-|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| SIZE_LIMIT            | 指定给定 COPY 语句要加载的数据的最大行数。默认为 `0`，表示无限制。                                                                                                                                                                                                                                                                                                   | 可选 |
-| PURGE                 | 如果为 `True`，则命令在数据成功加载到表中后将清除阶段中的文件。默认值：`False`。                                                                                                                                                                                                                                                                                    | 可选 |
-| FORCE                 | COPY INTO 通过自动跟踪并防止文件重复加载来确保幂等性，默认期限为7天。可以使用 `load_file_metadata_expire_hours` 设置来自定义文件元数据的过期时间。<br/>此参数默认为 `False`，意味着 COPY INTO 在复制数据时会跳过重复文件。如果为 `True`，则不会跳过重复文件。 | 可选 |
-| DISABLE_VARIANT_CHECK | 如果为 `true`，在 COPY INTO 期间，无效的 JSON 数据将被替换为 null 值。如果为 `false`（默认），COPY INTO 在遇到无效 JSON 数据时将失败。                                                                                                                                                                                                                                                   | 可选 |
-| ON_ERROR              | 决定如何处理包含错误的文件：'continue' 表示跳过并继续，'abort' 表示遇到错误时终止，'abort_N' 表示错误 ≥ N 时终止。默认为 'abort'。注意：'abort_N' 对 Parquet 文件不可用。                                                                                                                                                                                   | 可选 |
-| MAX_FILES             | 设置尚未加载的文件的最大数量。该值可以设置至 15000；任何大于 15000 的值将被视为 15000。                                                                                                                                                                                                                                                   | 可选 |
-| RETURN_FAILED_ONLY    | 当设置为 'True' 时，只有加载失败的文件才会在输出中返回。默认值：`False`。                                                                                                                                                                                                                                                                                          | 可选 |
+| 参数                  | 描述                                                                                                                                                                                                                                                            | 必需 |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| SIZE_LIMIT            | 指定给定 COPY 语句要加载的数据的最大行数。默认为 `0`，表示无限制。                                                                                                                                                                                              | 可选 |
+| PURGE                 | 如果为 `True`，则命令在数据成功加载到表中后将清除 Stage 中的文件。默认值：`False`。                                                                                                                                                                             | 可选 |
+| FORCE                 | COPY INTO 通过自动跟踪并防止文件重复加载来确保幂等性，默认期限为 7 天。可以使用 `load_file_metadata_expire_hours` 设置来自定义文件元数据的过期时间。<br/>此参数默认为 `False`，意味着 COPY INTO 在复制数据时会跳过重复文件。如果为 `True`，则不会跳过重复文件。 | 可选 |
+| DISABLE_VARIANT_CHECK | 如果为 `true`，在 COPY INTO 期间，无效的 JSON 数据将被替换为 null 值。如果为 `false`（默认），COPY INTO 在遇到无效 JSON 数据时将失败。                                                                                                                          | 可选 |
+| ON_ERROR              | 决定如何处理包含错误的文件：'continue' 表示跳过并继续，'abort' 表示遇到错误时终止，'abort_N' 表示错误 ≥ N 时终止。默认为 'abort'。注意：'abort_N' 对 Parquet 文件不可用。                                                                                       | 可选 |
+| MAX_FILES             | 设置尚未加载的文件的最大数量。该值可以设置至 15000；任何大于 15000 的值将被视为 15000。                                                                                                                                                                         | 可选 |
+| RETURN_FAILED_ONLY    | 当设置为 'True' 时，只有加载失败的文件才会在输出中返回。默认值：`False`。                                                                                                                                                                                       | 可选 |
 
 :::tip
 当导入大量数据，如日志时，建议将 `PURGE` 和 `FORCE` 都设置为 True。这确保了无需与 Meta 服务器交互（更新已复制文件集）即可高效导入数据。然而，重要的是要意识到这可能会导致数据重复导入。
@@ -222,13 +224,13 @@ copyOptions ::=
 
 COPY INTO 提供了数据加载结果的摘要，包含以下列：
 
-| 列名               | 类型    | 可空     | 描述                                           |
-|------------------|---------|----------|-------------------------------------------------|
-| FILE             | VARCHAR | NO       | 源文件的相对路径。                               |
-| ROWS_LOADED      | INT     | NO       | 从源文件加载的行数。                             |
-| ERRORS_SEEN      | INT     | NO       | 源文件中的错误行数                               |
-| FIRST_ERROR      | VARCHAR | YES      | 源文件中发现的第一个错误。                       |
-| FIRST_ERROR_LINE | INT     | YES      | 第一个错误的行号。                               |
+| 列名             | 类型    | 可空 | 描述                       |
+| ---------------- | ------- | ---- | -------------------------- |
+| FILE             | VARCHAR | NO   | 源文件的相对路径。         |
+| ROWS_LOADED      | INT     | NO   | 从源文件加载的行数。       |
+| ERRORS_SEEN      | INT     | NO   | 源文件中的错误行数         |
+| FIRST_ERROR      | VARCHAR | YES  | 源文件中发现的第一个错误。 |
+| FIRST_ERROR_LINE | INT     | YES  | 第一个错误的行号。         |
 
 如果将 RETURN_FAILED_ONLY 设置为 True，则输出只包含加载失败的文件。
 
@@ -255,6 +257,7 @@ COPY INTO mytable
     PATTERN = '.*[.]parquet'
     FILE_FORMAT = (TYPE = PARQUET);
 ```
+
   </TabItem>
   <TabItem value="internal" label="内部 Stage">
 
@@ -264,6 +267,7 @@ COPY INTO mytable
     PATTERN = '.*[.]parquet'
     FILE_FORMAT = (TYPE = PARQUET);
 ```
+
   </TabItem>
   <TabItem value="external" label="外部 Stage">
 
@@ -273,6 +277,7 @@ COPY INTO mytable
     PATTERN = '.*[.]parquet'
     FILE_FORMAT = (TYPE = PARQUET);
 ```
+
   </TabItem>
 </Tabs>
 
@@ -338,6 +343,7 @@ COPY INTO mytable
     )
     FILE_FORMAT = (type = CSV);
 ```
+
 </TabItem>
 
 <TabItem value="Remote Files" label="远程文件">
@@ -350,6 +356,7 @@ COPY INTO mytable
     FILE_FORMAT = (type = CSV)
     ON_ERROR = continue;
 ```
+
 </TabItem>
 
 <TabItem value="IPFS" label="IPFS">
@@ -369,14 +376,13 @@ COPY INTO mytable
         SKIP_HEADER = 1
     );
 ```
+
 </TabItem>
 </Tabs>
 
 ### 示例 3：加载压缩数据
 
 此示例加载 Amazon S3 上的 GZIP 压缩 CSV 文件到 Databend：
-
-
 
 ```sql
 COPY INTO mytable
@@ -395,7 +401,7 @@ COPY INTO mytable
     );
 ```
 
-### 示例 4：使用模式过滤文件 {/*examples*/}
+### 示例 4：使用模式过滤文件
 
 此示例演示了如何使用 PATTERN 参数通过模式匹配从 Amazon S3 加载 CSV 文件。它过滤出名称中含有 'sales' 并且扩展名为 '.csv' 的文件：
 
@@ -410,6 +416,7 @@ COPY INTO mytable
         SKIP_HEADER = 1
     );
 ```
+
 其中 `.*` 被解释为任意字符的零次或多次出现。方括号用于转义点字符 `.`，该字符位于文件扩展名之前。
 
 要从所有 CSV 文件中加载：
@@ -429,21 +436,21 @@ COPY INTO mytable
 
 在指定包含多个文件夹的文件路径的模式时，请考虑您的匹配标准：
 
-- 如果您想匹配跟随前缀之后的特定子路径，请在模式中包含前缀（例如，'multi_page/'），然后指定您想在该子路径中匹配的模式（例如，'_page_1'）。
+- 如果您想匹配跟随前缀之后的特定子路径，请在模式中包含前缀（例如，'multi_page/'），然后指定您想在该子路径中匹配的模式（例如，'\_page_1'）。
 
 ```sql
 -- 文件路径：parquet/multi_page/multi_page_1.parquet
 COPY INTO ... FROM @data/parquet/ PATTERN = 'multi_page/.*_page_1.*') ...
 ```
 
-- 如果您想匹配文件路径中包含所需模式的任何部分，请在模式前后使用 '.*'（例如，'.*multi_page_1.*'），以匹配路径中的任何 'multi_page_1' 出现。
+- 如果您想匹配文件路径中包含所需模式的任何部分，请在模式前后使用 '.*'（例如，'.*multi_page_1.\*'），以匹配路径中的任何 'multi_page_1' 出现。
 
 ```sql
 -- 文件路径：parquet/multi_page/multi_page_1.parquet
 COPY INTO ... FROM @data/parquet/ PATTERN ='.*multi_page_1.*') ...
 ```
 
-### 示例 5：加载到具有额外列的表中 {/*examples*/}
+### 示例 5：加载到具有额外列的表中
 
 本节演示了如何将数据加载到具有额外列的表中，使用示例文件 [books.csv](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.csv)：
 
@@ -506,7 +513,7 @@ COPY INTO books_with_extra_columns
 表中的额外列可以通过 [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) 或 [ALTER TABLE COLUMN](../00-ddl/01-table/90-alter-table-column.md) 指定默认值。如果没有为额外列显式设置默认值，则将应用与其数据类型关联的默认值。例如，如果没有指定其他值，则整数类型列的默认值将为 0。
 :::
 
-### 示例 6：使用自定义格式加载 JSON {/*examples*/}
+### 示例 6：使用自定义格式加载 JSON
 
 此示例从包含以下内容的 CSV 文件 "data.csv" 中加载数据：
 
@@ -534,21 +541,19 @@ CREATE TABLE t
      id       INT,
      seq      VARCHAR,
      p_detail VARCHAR
-  ); 
+  );
 ```
 
 #### 步骤 3：使用自定义文件格式加载。
 
 ```sql
-COPY INTO t FROM @t_stage FILES=('data.csv') 
+COPY INTO t FROM @t_stage FILES=('data.csv')
 FILE_FORMAT=(FORMAT_NAME='my_csv_format');
 ```
 
-### 示例 7：加载无效的 JSON {/*examples*/}
+### 示例 7：加载无效的 JSON
 
-
-
-当将数据加载到 Variant 列时，Databend 会自动检查数据的有效性，并在出现任何无效数据时抛出错误。例如，如果您在用户阶段有一个名为 `invalid_json_string.parquet` 的 Parquet 文件，其中包含无效的 JSON 数据，如下所示：
+当将数据加载到 Variant 列时，Databend 会自动检查数据的有效性，并在出现任何无效数据时抛出错误。例如，如果您在用户 Stage 有一个名为 `invalid_json_string.parquet` 的 Parquet 文件，其中包含无效的 JSON 数据，如下所示：
 
 ```sql
 SELECT *
@@ -581,9 +586,9 @@ root@localhost:8000/default>  COPY INTO t2 FROM @~/invalid_json_string.parquet F
 要在不检查 JSON 有效性的情况下加载，请在 COPY INTO 语句中将选项 `DISABLE_VARIANT_CHECK` 设置为 `true`：
 
 ```sql
-COPY INTO t2 FROM @~/invalid_json_string.parquet 
-FILE_FORMAT = (TYPE = PARQUET) 
-DISABLE_VARIANT_CHECK = true 
+COPY INTO t2 FROM @~/invalid_json_string.parquet
+FILE_FORMAT = (TYPE = PARQUET)
+DISABLE_VARIANT_CHECK = true
 ON_ERROR = CONTINUE;
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────┐
