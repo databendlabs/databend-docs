@@ -45,6 +45,18 @@ This guide provides detailed instructions on how to import data into Databend.
 </details>
 
 
+<details>
+<summary> HTTP(S), S3, and More </summary>
+
+- [Understanding Stages](./00-stage/index.md)
+- [Loading from Stage](./01-load/00-stage.md)
+- [Loading from Bucket](./01-load/01-s3.md)
+- [Loading from Local File](./01-load/02-local.md)
+- [Loading from Remote File](./01-load/03-http.md)
+
+</details>
+
+
 ## Loading Data From Other Databases
 
 <details>
