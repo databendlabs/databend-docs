@@ -383,7 +383,7 @@ bucket = "databend"
 ````
 
 ```toml
-<TabItem value="Alibaba OSS" label="阿里巴巴 OSS">
+<TabItem value="Alibaba OSS" label="阿里云 OSS">
 
 ```toml
 [storage]
