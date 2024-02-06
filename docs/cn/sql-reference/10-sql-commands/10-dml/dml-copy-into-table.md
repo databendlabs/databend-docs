@@ -443,7 +443,7 @@ COPY INTO mytable
 COPY INTO ... FROM @data/parquet/ PATTERN = 'multi_page/.*_page_1.*') ...
 ```
 
-- 如果您想匹配文件路径中包含所需模式的任何部分，请在模式前后使用 '.*'（例如，'.*multi_page_1.\*'），以匹配路径中的任何 'multi_page_1' 出现。
+- 如果您想匹配文件路径中包含所需模式的任何部分，请在模式前后使用 '.*'（例如，'.*multi_page_1.\*'），以匹配路径中任何位置的 'multi_page_1'。
 
 ```sql
 -- 文件路径：parquet/multi_page/multi_page_1.parquet
