@@ -68,9 +68,9 @@ This guide provides detailed instructions on how to import data into Databend.
 </details>
 
 <details>
-<summary> PostgresSQL Data to Databend </summary>
+<summary> PostgreSQL Data to Databend </summary>
 
-- [How to Sync Full and Incremental PostgresSQL Changes into Databend](./02-load-db/flink-cdc.md)
+- [How to Sync Full and Incremental PostgreSQL Changes into Databend](./02-load-db/flink-cdc.md)
 
 </details>
 
