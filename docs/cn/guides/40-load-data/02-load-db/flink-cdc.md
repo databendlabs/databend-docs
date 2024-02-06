@@ -66,7 +66,7 @@ cd flink-16.0
 ./bin/start-cluster.sh
 ```
 
-现在，如果您在浏览器中访问 http://localhost:8081，可以打开 Apache Flink 仪表板：
+现在，如果您在浏览器中访问 http://localhost:8081，可以打开 Apache Flink 仪表盘：
 
 ![Alt text](@site/docs/public/img/load/cdc-dashboard.png)
 

@@ -2,7 +2,7 @@
 title: Grafana
 ---
 
-[Grafana](https://grafana.com/) 是一个监控仪表板系统，它是由 Grafana Labs 开发的开源监控工具。它可以通过允许我们提供要监控的数据，并生成各种可视化图表，大大简化监控的复杂性。此外，它还具有报警功能，当系统出现问题时会发送通知。Databend 和 Databend Cloud 可以通过 [Altinity Plugin for ClickHouse](https://grafana.com/grafana/plugins/vertamedia-clickhouse-datasource/) 与 Grafana 集成。
+[Grafana](https://grafana.com/) 是一个监控仪表盘系统，它是由 Grafana Labs 开发的开源监控工具。它可以通过允许我们提供要监控的数据，并生成各种可视化图表，大大简化监控的复杂性。此外，它还具有报警功能，当系统出现问题时会发送通知。Databend 和 Databend Cloud 可以通过 [Altinity Plugin for ClickHouse](https://grafana.com/grafana/plugins/vertamedia-clickhouse-datasource/) 与 Grafana 集成。
 
 ## 教程：与 Grafana 集成
 

@@ -13,7 +13,7 @@ Databend 代码根据两种许可类型分发：
 
 Databend 的核心功能可免费使用。大多数核心功能都在宽松的 Apache 许可证下授权。然而，位于 src/query/ee 和 src/meta/ee 目录中的特定功能受到更为限制性的 Elastic 许可证的管辖。
 
-要访问 Databend 企业功能，需要从 Databend 购买付费许可证，这些功能也受 Elastic 许可证的约束。如需额外的自定义许可选项，请随时[联系我们](https://www.databend.com/contact-us)。
+要访问 Databend 企业功能，需要从 Databend 购买付费许可证，这些功能也受 Elastic 许可证的约束。如需额外的自定义许可选项，请随时[联系我们](https://www.databend.cn/contact-us)。
 
 :::note
 您可以通过查看 [Databend 仓库](https://github.com/datafuselabs/databend) 中代码文件的头部来找到功能的许可证。
@@ -24,11 +24,11 @@ Databend 的核心功能可免费使用。大多数核心功能都在宽松的 A
 ## 获取许可证
 
 所有 Databend 代码都包含在同一个二进制文件中。访问 Apache 和 Elastic（免费）功能不需要许可证密钥。要访问 Elastic（付费）功能，用户有两个选项：
-* **企业许可证**使您能够使用 Databend 企业功能更长时间（一年或更长）。要升级到企业许可证，请[联系销售](https://www.databend.com/contact-us)。
-* **试用许可证**使您能够免费试用 Databend 15 天，请[联系我们](https://www.databend.com/contact-us)获取您的试用许可证。
+* **企业许可证**使您能够使用 Databend 企业功能更长时间（一年或更长）。要升级到企业许可证，请[联系销售](https://www.databend.cn/contact-us)。
+* **试用许可证**使您能够免费试用 Databend 15 天，请[联系我们](https://www.databend.cn/contact-us)获取您的试用许可证。
 
 :::note
-Databend 实验室鼓励涉及 Databend 的非商业性学术研究。对于此类项目，请[联系我们](https://www.databend.com/contact-us)以获取可能的长期许可证）
+Databend 实验室鼓励涉及 Databend 的非商业性学术研究。对于此类项目，请[联系我们](https://www.databend.cn/contact-us)以获取可能的长期许可证）
 :::
 
 ## 设置许可证
@@ -54,7 +54,7 @@ call admin$license_info();
 
 ## 许可证常见问题解答
 
-如果您有任何其他未在下面列出的问题，请随时[联系我们](https://www.databend.com/contact-us)。
+如果您有任何其他未在下面列出的问题，请随时[联系我们](https://www.databend.cn/contact-us)。
 <DetailsWrap>
 
 <details open>
@@ -85,7 +85,7 @@ call admin$license_info();
   <summary>您能提供一些关于“将软件作为托管或管理服务提供给第三方”或不提供的例子吗？</summary>
    <p></p>
 
-**我在我的分析 SaaS 产品中使用 databend 进行数据仪表板**
+**我在我的分析 SaaS 产品中使用 databend 进行数据仪表盘**
 
 这在 ELv2 下是允许的。<br/><br/>
 
