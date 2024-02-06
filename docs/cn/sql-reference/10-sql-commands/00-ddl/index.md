@@ -1,35 +1,35 @@
 ---
-title: DDL (Data Definition Language) Commands
+title: DDL（数据定义语言）命令
 ---
 
-These topics provide reference information for the DDL (Data Definition Language) commands in Databend.
+这些主题为 Databend 中的 DDL（数据定义语言）命令提供参考信息。
 
-## Database and Table Management
+## 数据库和表管理
 
-- [Database](00-database/index.md) 
-- [Table](01-table/index.md)
-- [View](05-view/index.md)
+- [数据库](00-database/index.md) 
+- [表](01-table/index.md)
+- [视图](05-view/index.md)
 
-## Database Performance and Indexing
+## 数据库性能和索引
 
-- [Cluster Key](06-clusterkey/index.md)
-- [Aggregating Index](07-aggregating-index/index.md)
+- [聚类键](06-clusterkey/index.md)
+- [聚合索引](07-aggregating-index/index.md)
 
-## User, Role, and Security Management
+## 用户、角色和安全管理
 
-- [User](02-user/index.md)
-- [Network Policy](12-network-policy/index.md)
-- [Mask Policy](12-mask-policy/index.md)
+- [用户](02-user/index.md)
+- [网络策略](12-network-policy/index.md)
+- [掩码策略](12-mask-policy/index.md)
 
-## Data Staging, Processing, and Catalog Management
+## 数据分段、处理和目录管理
 
 - [Stage](03-stage/index.md)
-- [Stream](04-stream/index.md)
-- [Catalog](09-catalog/index.md)
-- [Connection](13-connection/index.md)
-- [File Format](13-file-format/index.md)
+- [流 Stream](04-stream/index.md)
+- [目录 Catalog](09-catalog/index.md)
+- [连接 Connection](13-connection/index.md)
+- [文件格式](13-file-format/index.md)
 
-## Function and External Integration
+## 函数和外部集成
 
-- [UDF (User Defined Function)](10-udf/index.md)
-- [External Function](11-external-function/index.md)
+- [UDF（用户定义的函数）](10-udf/index.md)
+- [外部函数](11-external-function/index.md)

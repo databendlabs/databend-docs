@@ -21,7 +21,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ![Alt text](/img/connect/bendsql-4.gif)
 
-2. 选择您想要连接的数据库，例如 "default"；然后选择一个数据仓库。如果忘记了密码，请重设密码。
+2. 选择您想要连接的数据库，例如 "default"；然后选择一个计算集群。如果忘记了密码，请重设密码。
 
 3. 在 **示例** 部分，复制 **BendSQL** 标签页中的内容。
 

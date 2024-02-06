@@ -124,7 +124,7 @@ Snowflake 和 Databend Cloud 都在类似条件下进行了测试：
 
 | 参数            | Snowflake                                                           | Databend Cloud                            |
 |----------------|---------------------------------------------------------------------|-------------------------------------------|
-| 仓库大小       | 小型                                                                | 小型                                      |
+| 计算集群大小       | 小型                                                                | 小型                                      |
 | vCPU           | 16                                                                  | 16                                        |
 | 价格            | [$4/小时](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/小时](https://www.databend.com/plan/) |
 | AWS 区域       | us-east-2                                                           | us-east-2                                 |
