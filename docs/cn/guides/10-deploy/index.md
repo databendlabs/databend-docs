@@ -7,7 +7,7 @@ title: 部署与升级 Databend
 这些指南为部署和升级 Databend 提供了详细的说明，适用于 [Databend 社区版](../00-overview/00-editions/00-dce/index.md) 和 [Databend 企业版](../00-overview/00-editions/01-dee/index.md)。
 
 :::tip 尝试 Databend Cloud
-告别部署和升级的烦恼 - Databend Cloud 为您管理这些复杂性，释放您的注意力，专注于真正重要的事情。准备好体验便捷了吗？[在这里注册](https://www.databend.com/apply/?r=doc-card)。
+告别部署和升级的烦恼 - Databend Cloud 为您管理这些复杂性，释放您的注意力，专注于真正重要的事情。准备好体验便捷了吗？[在这里注册](https://www.databend.cn/apply/?r=doc-card)。
 :::
 
 ## 目录
