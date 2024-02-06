@@ -97,9 +97,9 @@ title: Prometheus & Grafana
 
    ![Grafana data source](@site/docs/public/img/tracing/grafana-datasource.png)
 
-4. 创建仪表板。
+4. 创建仪表盘。
 
-   Databend 推荐导入 [datafuselabs/helm-charts - dashboards](https://github.com/datafuselabs/helm-charts/tree/main/dashboards) 中的文件来创建您的仪表板。为此，请先下载文件，然后访问 `http://0.0.0.0:3000/dashboard/import` 逐个导入下载的文件，并为每个仪表板选择 `Prometheus` 数据源。
+   Databend 推荐导入 [datafuselabs/helm-charts - dashboards](https://github.com/datafuselabs/helm-charts/tree/main/dashboards) 中的文件来创建您的仪表盘。为此，请先下载文件，然后访问 `http://0.0.0.0:3000/dashboard/import` 逐个导入下载的文件，并为每个仪表盘选择 `Prometheus` 数据源。
 
    ![Grafana import query json](@site/docs/public/img/tracing/grafana-query-json.png)
 

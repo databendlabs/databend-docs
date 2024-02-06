@@ -85,7 +85,7 @@ call admin$license_info();
   <summary>您能提供一些关于“将软件作为托管或管理服务提供给第三方”或不提供的例子吗？</summary>
    <p></p>
 
-**我在我的分析 SaaS 产品中使用 databend 进行数据仪表板**
+**我在我的分析 SaaS 产品中使用 databend 进行数据仪表盘**
 
 这在 ELv2 下是允许的。<br/><br/>
 

@@ -571,13 +571,13 @@ SELECT count(*) FROM t1;
 注意在部署元数据和查询集群时应该启用 `serviceMonitor`。
 :::
 
-* 从以下地址下载grafana仪表板文件：[datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)。
+* 从以下地址下载grafana仪表盘文件：[datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)。
 
 * 为你的集群打开grafana网页。
 
 * 在左侧边栏选择 `+ 导入`，并上传下载的两个json文件。
 
-* 然后你应该能看到两个仪表板：
+* 然后你应该能看到两个仪表盘：
 
   * Databend Meta 运行时
   * Databend Query 运行时

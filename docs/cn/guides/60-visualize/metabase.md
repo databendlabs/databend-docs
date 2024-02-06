@@ -4,7 +4,7 @@ title: Metabase
 
 [Metabase](https://www.metabase.com/) 是一个开源的商业智能平台。您可以使用 Metabase 提出关于您数据的问题，或者将 Metabase 嵌入您的应用程序中，让您的客户自己探索他们的数据。
 
-Databend 提供了一个名为 [Metabase Databend 驱动](https://github.com/databendcloud/metabase-databend-driver/releases/latest) 的 JDBC 驱动程序，使您能够连接到 Metabase 并在 Databend / Databend Cloud 中仪表板化您的数据。有关 Metabase Databend 驱动程序的更多信息，请参考 https://github.com/databendcloud/metabase-databend-driver
+Databend 提供了一个名为 [Metabase Databend 驱动](https://github.com/databendcloud/metabase-databend-driver/releases/latest) 的 JDBC 驱动程序，使您能够连接到 Metabase 并在 Databend / Databend Cloud 中仪表盘化您的数据。有关 Metabase Databend 驱动程序的更多信息，请参考 https://github.com/databendcloud/metabase-databend-driver
 
 ## 下载和安装 Metabase Databend 驱动程序
 
@@ -82,6 +82,6 @@ docker run  -d -p 3000:3000 --name metabase metabase/metabase
 
 4. 点击 **保存更改**，然后点击 **退出管理**。
 
-您已经准备好了！现在您可以开始创建查询和构建仪表板了。更多信息，请参考 Metabase 文档：https://www.metabase.com/docs/latest/index.html
+您已经准备好了！现在您可以开始创建查询和构建仪表盘了。更多信息，请参考 Metabase 文档：https://www.metabase.com/docs/latest/index.html
 
 ![Alt text](@site/docs/public/img/integration/allset.png)
