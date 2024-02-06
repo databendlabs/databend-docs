@@ -1,27 +1,8 @@
 ---
 title: JSON_TO_STRING
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Converts a JSON value to its string representation..
+<FunctionDescription description="Introduced or updated: v1.2.306"/>
 
-## Syntax
-
-```sql
-JSON_TO_STRING( <Variant> )
-```
-
-## Return Type
-
-String.
-
-## Examples
-
-```sql
-SELECT JSON_TO_STRING(parse_json('["Cooking", "Reading", "Cycling"]'));
-
-┌─────────────────────────────────────────────────────────────────┐
-│ json_to_string(parse_json('["cooking", "reading", "cycling"]')) │
-├─────────────────────────────────────────────────────────────────┤
-│ ["Cooking","Reading","Cycling"]                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
+Alias for [TO_STRING](../02-conversion-functions/to-string.md).
