@@ -14,7 +14,7 @@ See also:
 SET [GLOBAL] <setting_name> = <new_value>;
 ```
 
-`GLOBAL`: If you include this option preceding a session-level setting, the setting will become a global-level setting. For more information about the setting levels, see [Managing Settings](/sql/sql-reference/manage-settings).
+`GLOBAL`: If you include this option preceding a session-level setting, the setting will become a global-level setting. For more information about the setting levels, see [Setting Levels](show-settings.md#setting-levels).
 
 ## Examples
 

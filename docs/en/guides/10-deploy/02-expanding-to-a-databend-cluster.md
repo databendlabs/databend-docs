@@ -63,6 +63,5 @@ SELECT * FROM system.clusters
 
 After deploying Databend, you might need to learn about the following topics:
 
-- [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs.
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
 - [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
