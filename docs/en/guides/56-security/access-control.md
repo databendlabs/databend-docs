@@ -77,7 +77,7 @@ Ownership is a specialized privilege that signifies the exclusive rights and res
 - If no role has ownership of an object for some reason, such as when the role that originally had ownership is dropped, an `account_admin` can grant ownership of the object to another role.
 - Ownership cannot be granted for tables in the `default` database, as it is owned by the built-in role `account_admin`.
 
-Granting ownership to the built-in role `public` is not supported for security reasons. The tricky part is that if a user is in the `public` role when creating a object, then all users will have ownership of the object because each Databend user has the `public` role by default. Databend recommends creating and assigning customized roles to users instead of using the `public` role for clarified ownership management. The following example assigns the `account-admin` role to a new user and an existing user:
+Granting ownership to the built-in role `public` is not recommended for security reasons. If a user is in the `public` role when creating a object, then all users will have ownership of the object because each Databend user has the `public` role by default. Databend recommends creating and assigning customized roles to users instead of using the `public` role for clarified ownership management. The following example assigns the `account-admin` role to a new user and an existing user:
 
 ```sql
 -- Grant the default role account_admin to an existing user as root
