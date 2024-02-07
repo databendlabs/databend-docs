@@ -46,9 +46,9 @@ Databend 为不同类型的数据对象提供了不同级别的权限，允许�
 
 ### 继承角色与建立层级
 
-Databend 角色通过角色授权引入了一种强大的机制，使一个角色能够继承另一个角色的权限和责任。这有助于创建一个灵活的层级结构，类似于组织结构，其中存在两个[内置角色](#built-in-roles)：最高的是 `account-admin`，最低的是 `public`。
+Databend 角色通过角色授权引入了一种强大的机制，使一个角色能够继承另一个角色的权限和责任。这有助于创建一个灵活的层级结构，类似于组织结构，其中存在两个[内置角色](#built-in-roles)：最高为 `account-admin`，最低为 `public`。
 
-考虑这样一个场景，创建了三个角色：_manager_、_engineer_ 和 _intern_。在这个例子中，_intern_ 角色被授予给 _engineer_ 角色。因此，_engineer_ 不仅拥有他们自己的一套权限，还继承了与 _intern_ 角色相关的权限。进一步扩展这个层级，如果 _engineer_ 角色被授予给 _manager_，那么 _manager_ 现在获得了 _engineer_ 和 _intern_ 角色的固有权限。
+考虑这样一个场景，创建了三个角色：*manager*、*engineer* 和 *intern*。在这个例子中，*intern* 角色被授予给 *engineer* 角色。因此，*engineer* 不仅拥有他们自己的一套权限，还继承了与 *intern* 角色相关的权限。进一步扩展这个层级，如果 *engineer* 角色被授予给 *manager*，那么 *manager* 现在获得了 *engineer* 和 *intern* 角色的固有权限。
 
 ![Alt text](/img/guides/access-control-4.png)
 
@@ -71,27 +71,22 @@ Databend 引入了两个内置角色：
 
 ## 管理所有权
 
-所有权是一种特殊的权限，表示角色在 Databend 内对特定数据对象（当前包括数据库、表、UDF 和 Stage）持有的独家权利和责任。对象的所有权被分配给创建它的用户的当前角色。共享相同角色的用户也拥有该对象的所有权，并且可以随后将此所有权授予其他角色。
+所有权是一种特殊的权限，表示角色在 Databend 内对特定数据对象（当前包括数据库、表、UDF 和 Stage）持有的独家权利和责任。对象的所有权自动授予创建它的用户的当前角色。共享相同角色的用户也拥有该对象的所有权，并且可以随后将此所有权授予其他角色。要将所有权授予角色，请使用 [GRANT](/sql/sql-commands/ddl/user/grant) 命令。
 
-- 不能为 `default` 数据库中的表授予所有权，因为它由内置角色 `account_admin` 拥有。
-- 出于安全原因，不支持将所有权授予内置角色 `public`。
-- 可以将所有权授予角色，但目前还不支持将所有权授予用户。
-- 对于支持所有权权限的对象，创建或删除对象将向创建它的用户的当前角色授予或撤销所有权。棘手的部分是，如果用户在创建对象时处于 `public` 角色，那么所有用户都将拥有所有权，因为每个 Databend 用户默认都有 `public` 角色。
+- 所有权只能授予角色；不允许将所有权授予用户。一旦从一个角色转移给另一个角色，所有权就转移到新角色。
+- 如果拥有对象所有权的角色被删除，account_admin 可以将对象的所有权授予另一个角色。
+- 不允许为 `default` 数据库中的表授予所有权，因为它由内置角色 `account_admin` 拥有。
+
+出于安全考虑，不建议将所有权授予内置角色 `public`。如果用户在创建对象时处于 `public` 角色，则所有用户都将拥有该对象的所有权，因为每个 Databend 用户默认都有 `public` 角色。Databend 建议创建并分配自定义角色给用户，而不是使用 `public` 角色，以便更清晰地管理所有权。以下示例将 `account-admin` 角色分配给新用户和现有用户：
 
 ```sql
--- 将默认角色 account_admin 授予现有用户 root
-
+-- 将默认角色 account_admin 授予现有用户作为 root
 root> ALTER USER u1 WITH DEFAULT_ROLE = 'account_admin';
 root> grant role u1 to writer;
 
--- 创建一个新用户，将默认角色 account_admin 作为 root
-
+-- 作为 root 创建一个具有默认角色 account_admin 的新用户
 root> create user u2 identified by '123' with DEFAULT_ROLE='account_admin';
-root> grant role account_admin to u2;
-
+root> grant role account_admin to u2;    
 ```
 
-要管理所有权，请使用以下命令：
-
-- [GRANT](/sql/sql-commands/ddl/user/grant)
-- [REVOKE](/sql/sql-commands/ddl/user/revoke)
+删除对象将从所有者角色中撤销所有权。然而，恢复（如果可用的话，UNDROP）被删除的对象将不会恢复所有权。在这种情况下，您将需要一个 `account_admin` 再次将所有权授予角色。
