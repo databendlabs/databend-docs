@@ -6,7 +6,7 @@ You can connect to and interact with Databend from various client tools and appl
 
 ## Installing Databend JDBC Driver
 
-This topic outlines the steps to downloads and install the Databend JDBC driver for use in Java-based projects. The driver requires Java LTS (Long-Term Support) versions 1.8 or higher. If your client machine does not have the minimum required version of Java, install [Oracle Java](http://www.java.com/en/download/manual.jsp) or [OpenJDK](http://openjdk.java.net).
+This topic outlines the steps to download and install the Databend JDBC driver for use in Java-based projects. The driver requires Java LTS (Long-Term Support) versions 1.8 or higher. If your client machine does not have the minimum required version of Java, install [Oracle Java](http://www.java.com/en/download/manual.jsp) or [OpenJDK](http://openjdk.java.net).
 
 To download the Databend JDBC driver:
 
