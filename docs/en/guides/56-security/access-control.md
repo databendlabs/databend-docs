@@ -76,6 +76,22 @@ Ownership is a specialized privilege that signifies the exclusive rights and res
 - Ownership cannot be granted for tables in the `default` database, as it is owned by the built-in role `account_admin`.
 - Granting ownership to the built-in role `public` is not supported for security reasons.
 - Ownership can be granted to a role, but granting ownership to a user is not supported yet.
+- If a object is also support Ownership privilege, when create / drop the object will grant / revoke ownership to / from session current role. So if user's current role is public role, and user has create privilege, it will cause some confuses(all user's default role are public role, means all user can operator public role owns object.). We suggest use bind a role. Then grant privilege to the role. Or only use configured user as admin account. If must use created user as admin account, now should do some modify:
+
+```sql
+-- For exists created user u1 as admin account,
+-- use configured user root login, then execute sql:
+
+root> ALTER USER u1 WITH DEFAULT_ROLE = 'account_admin';
+root> grant role u1 to writer;
+    
+-- For new created user u2 as admin account,
+-- use configured user root login, then execute sql:
+
+root> create user u2 identified by '123' with DEFAULT_ROLE='account_admin';
+root> grant role account_admin to u2;    
+
+```
 
 To manage ownership, use the following commands:
 
