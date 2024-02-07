@@ -89,4 +89,4 @@ root> create user u2 identified by '123' with DEFAULT_ROLE='account_admin';
 root> grant role account_admin to u2;    
 ```
 
-The ownership of an object can be revoked by an `account_admin` using the [REVOKE](/sql/sql-commands/ddl/user/revoke) command. Dropping an object will also revoke ownership. However, restoring (UNDROP, if available) a dropped object will NOT restore ownership. In this case, you will need an `account_admin` to grant ownership to a role again.
+Dropping an object will revoke ownership from the owner role. However, restoring (UNDROP, if available) a dropped object will NOT restore ownership. In this case, you will need an `account_admin` to grant ownership to a role again.
