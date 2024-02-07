@@ -12,15 +12,15 @@ description:
 在本主题中，我们将向现有的独立 Databend 添加一个新的查询节点。
 
 ### 部署独立的 Databend
-按照[使用自托管对象存储部署](./01-deploying-databend.md)的指南来部署一个本地独立的 Databend 和 MinIO。
+按照[使用自托管对象存储进行部署](./01-deploying-databend.md)来部署本地独立的 Databend 和 MinIO。
 
 ### 部署新的查询节点
 1. 在文件夹 `/usr/local/databend/etc` 中复制文件 `databend-query-node.toml`，将其粘贴到同一文件夹中，并命名为 `databend-query-node2.toml`。
 
-2. 打开文件 `databend-query-node2.toml`，修改以下参数的值：
+2. 打开文件 `databend-query-node2.toml`，将参数值修改如下：
 
 ```toml
-# 用于管理 RESET API。
+# 用于管理员重置 API。
 admin_api_address = "127.0.0.1:8082"
 
 # 集群 flight RPC。
@@ -63,6 +63,5 @@ SELECT * FROM system.clusters
 
 在部署 Databend 之后，您可能需要了解以下主题：
 
-- [管理设置](/sql/sql-reference/manage-settings)：根据您的需求优化 Databend。
-- [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
-- [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获得洞察力。
+- [加载和卸载数据](/guides/load-data)：在 Databend 中管理数据的导入/导出。
+- [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获得洞察。
