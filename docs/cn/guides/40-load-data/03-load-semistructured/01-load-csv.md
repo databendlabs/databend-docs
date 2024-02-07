@@ -8,6 +8,7 @@ sidebar_label: 加载 CSV 文件
 CSV（逗号分隔值）是一种简单的文件格式，用于存储表格数据，如电子表格或数据库。CSV 文件是包含以表格格式存储的数据的纯文本文件，其中每行数据在新行上表示，列之间由分隔符分隔。
 
 以下示例显示了包含两条记录的 CSV 文件：
+
 ```text
 Title_0,Author_0
 Title_1,Author_1
@@ -29,13 +30,15 @@ FROM { userStage | internalStage | externalStage | externalLocation }
     COMPRESSION = AUTO
 ) ]
 ```
+
 有关语法的更多详细信息，请参见 [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table)。
 
 ## 教程：从 CSV 文件加载数据
 
-### 步骤 1. 创建内部阶段
+### 步骤 1. 创建内部 Stage
 
-创建一个内部阶段来存储 CSV 文件。
+创建一个内部 Stage 来存储 CSV 文件。
+
 ```sql
 CREATE STAGE my_csv_stage;
 ```
@@ -43,10 +46,11 @@ CREATE STAGE my_csv_stage;
 ### 步骤 2. 创建 CSV 文件
 
 使用以下 SQL 语句生成 CSV 文件：
+
 ```sql
-COPY INTO @my_csv_stage 
+COPY INTO @my_csv_stage
 FROM (
-    SELECT 
+    SELECT
         'Title_' || CAST(number AS VARCHAR) AS title,
         'Author_' || CAST(number AS VARCHAR) AS author
     FROM numbers(100000)
@@ -54,12 +58,15 @@ FROM (
     FILE_FORMAT = (TYPE = CSV, COMPRESSION = gzip)
 ;
 ```
+
 验证 CSV 文件的创建：
+
 ```sql
 LIST @my_csv_stage;
 ```
 
 结果：
+
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                              name                              │  size  │                 md5                │         last_modified         │      creator     │
@@ -77,9 +84,11 @@ CREATE TABLE books
     author VARCHAR
 );
 ```
+
 ### 步骤 4. 直接从 CSV 复制
 
 要直接从 CSV 文件将数据复制到表中，请使用以下 SQL 命令：
+
 ```sql
 COPY INTO books
 FROM @my_csv_stage
@@ -94,6 +103,7 @@ FILE_FORMAT = (
 ```
 
 结果：
+
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                              File                              │ Rows_loaded │ Errors_seen │    First_error   │ First_error_line │
@@ -105,10 +115,11 @@ FILE_FORMAT = (
 ### 步骤 4（可选）。使用 SELECT 复制数据
 
 为了更多的控制，比如在复制时转换数据，请使用 SELECT 语句。了解更多请访问 [`SELECT from CSV`](../04-transform/01-querying-csv.md)。
+
 ```sql
 COPY INTO books (title, author)
 FROM (
-    SELECT $1, $2 
+    SELECT $1, $2
     FROM @my_csv_stage
 )
 PATTERN = '.*[.]csv.gz'

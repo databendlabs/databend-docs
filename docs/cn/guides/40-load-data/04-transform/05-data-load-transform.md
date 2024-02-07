@@ -35,27 +35,29 @@ COPY INTO [<database>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 
 ### 开始之前
 
-在开始之前，您需要创建一个阶段并生成一个示例文件；这里有一个 Parquet 文件作为示例：
+在开始之前，您需要创建一个 Stage 并生成一个示例文件；这里有一个 Parquet 文件作为示例：
 
 ```sql
 CREATE STAGE my_parquet_stage;
-COPY INTO @my_parquet_stage 
+COPY INTO @my_parquet_stage
 FROM (
     SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS id, -- 生成一个顺序 id
            'Name_' || CAST(number AS VARCHAR) AS name,       -- 为每行生成一个唯一名称
            20 + MOD(number, 23) AS age,                      -- 生成 20 到 42 之间的年龄
            DATE_ADD('day', MOD(number, 60), '2022-01-01') AS onboarded -- 从 2022-01-01 开始生成 onboarded 日期
     FROM numbers(10) -- 生成 10 行
-) 
+)
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
 查询暂存的示例文件：
+
 ```
 SELECT * FROM @my_parquet_stage;
 ```
 
 结果：
+
 ```
 ┌───────────────────────────────────────┐
 │   id   │  name  │   age  │  onboarded │
@@ -93,15 +95,14 @@ CREATE TABLE employees_no_age (
 -- 从暂存文件加载
 COPY INTO employees_no_age
 FROM (
-    SELECT t.id, 
-           t.name, 
-           t.onboarded 
+    SELECT t.id,
+           t.name,
+           t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
 PATTERN = '.*parquet';
 ```
-
 
 3. 检查加载的数据：
 
@@ -110,6 +111,7 @@ SELECT * FROM employees_no_age;
 ```
 
 结果：
+
 ```
 ┌──────────────────────────────────────────────────────────┐
 │        id       │       name       │      onboarded      │
@@ -129,8 +131,6 @@ SELECT * FROM employees_no_age;
 
 ### 教程 2 - 在加载时重新排序列
 
-
-
 在本教程中，您将创建一个表，该表具有与示例文件相同的列，但顺序不同，然后用从示例文件中提取的相应数据填充它。
 
 1. 创建一个表，其中 'name' 和 'age' 列的顺序被交换。
@@ -144,17 +144,17 @@ CREATE TABLE employees_new_order (
 );
 ```
 
-2. 以新的顺序从阶段性示例文件中加载数据。
+2. 以新的顺序从 Stage 性示例文件中加载数据。
 
 ```sql
--- 从阶段性文件加载
+-- 从Stage性文件加载
 COPY INTO employees_new_order
 FROM (
-    SELECT 
-        t.id, 
-        t.age, 
-        t.name, 
-        t.onboarded 
+    SELECT
+        t.id,
+        t.age,
+        t.name,
+        t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -166,7 +166,9 @@ PATTERN = '.*parquet';
 ```sql
 SELECT * FROM employees_new_order;
 ```
+
 结果：
+
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
 │        id       │       age       │       name       │      onboarded      │
@@ -199,17 +201,17 @@ CREATE TABLE employees_date (
 );
 ```
 
-2. 从阶段性示例文件中加载数据，并将 'onboarded' 列转换为 Date 类型。
+2. 从 Stage 性示例文件中加载数据，并将 'onboarded' 列转换为 Date 类型。
 
 ```sql
--- 从阶段性文件加载
+-- 从Stage性文件加载
 COPY INTO employees_date
 FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age, 
-        to_date(t.onboarded) 
+    SELECT
+        t.id,
+        t.name,
+        t.age,
+        to_date(t.onboarded)
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -221,7 +223,9 @@ PATTERN = '.*parquet';
 ```sql
 SELECT * FROM employees_date;
 ```
+
 结果：
+
 ```
 ┌───────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │    onboarded   │
@@ -261,11 +265,11 @@ CREATE TABLE employees_new_age (
 -- 从暂存文件加载
 COPY INTO employees_new_age
 FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age + 1, 
-        t.onboarded 
+    SELECT
+        t.id,
+        t.name,
+        t.age + 1,
+        t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -276,8 +280,10 @@ PATTERN = '.*parquet';
 
 ```sql
 SELECT * FROM employees_new_age
-```    
+```
+
 结果：
+
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │      onboarded      │
@@ -318,11 +324,11 @@ CREATE TABLE employees_plus (
 -- 从暂存文件加载
 COPY INTO employees_plus (id, name, age, onboarded)
 FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age, 
-        t.onboarded 
+    SELECT
+        t.id,
+        t.name,
+        t.age,
+        t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)

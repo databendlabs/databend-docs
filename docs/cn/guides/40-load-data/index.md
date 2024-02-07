@@ -13,7 +13,7 @@ Databend 的强大 ETL 能力允许从各种来源和格式高效加载数据。
 - [如何将 Parquet 文件加载到表中](./03-load-semistructured/00-load-parquet.md)
 - [如何将表导出到 Parquet 文件](../50-unload-data/00-unload-parquet.md)
 - [如何直接在 Parquet 文件上查询](./04-transform/00-querying-parquet.md)
- 
+
 </details>
 
 <details>
@@ -24,7 +24,6 @@ Databend 的强大 ETL 能力允许从各种来源和格式高效加载数据。
 - [如何直接在 CSV 文件上查询](./04-transform/01-querying-csv.md)
 
 </details>
-
 
 <details>
 <summary> TSV 文件 </summary>
@@ -44,18 +43,16 @@ Databend 的强大 ETL 能力允许从各种来源和格式高效加载数据。
 
 </details>
 
-
 <details>
 <summary> HTTP(S)、S3 和更多 </summary>
 
-- [了解阶段](./00-stage/index.md)
-- [从阶段加载](./01-load/00-stage.md)
+- [了解 Stage](./00-stage/index.md)
+- [从 Stage 加载](./01-load/00-stage.md)
 - [从桶加载](./01-load/01-s3.md)
 - [从本地文件加载](./01-load/02-local.md)
 - [从远程文件加载](./01-load/03-http.md)
 
 </details>
-
 
 ## 从其他数据库加载数据
 
@@ -68,9 +65,9 @@ Databend 的强大 ETL 能力允许从各种来源和格式高效加载数据。
 </details>
 
 <details>
-<summary> 将 PostgresSQL 数据导入到 Databend </summary>
+<summary> 将 PostgreSQL 数据导入到 Databend </summary>
 
-- [如何将 PostgresSQL 的完整和增量更改同步到 Databend 中](./02-load-db/flink-cdc.md)
+- [如何将 PostgreSQL 的完整和增量更改同步到 Databend 中](./02-load-db/flink-cdc.md)
 
 </details>
 

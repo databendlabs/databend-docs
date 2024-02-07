@@ -1,21 +1,21 @@
 ---
-title: 在 Stage 中查询 TSV 文件
+title: 查询 Stage 中的 TSV 文件
 sidebar_label: 查询 TSV 文件
 ---
 
-## 在 Stage 中查询 TSV 文件
+## 查询 Stage 中的 TSV 文件
 
 语法：
+
 ```sql
-SELECT [<alias>.]$<col_position> [, $<col_position> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
+SELECT [<alias>.]$<col_position> [, $<col_position> ...]
+FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
+[(
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
   [ FILE_FORMAT => 'TSV| <custom_format_name>']
 )]
 ```
-
 
 :::info 提示
 TSV 没有模式信息，因此我们只能通过位置查询列 `$<col_position> [, $<col_position> ...]`。
@@ -26,11 +26,12 @@ TSV 没有模式信息，因此我们只能通过位置查询列 `$<col_position
 ### 步骤 1. 创建一个外部 Stage
 
 使用您自己的 S3 桶和凭证创建一个外部 stage，您的 TSV 文件存储在其中。
+
 ```sql
-CREATE STAGE tsv_query_stage 
-URL = 's3://load/tsv/' 
+CREATE STAGE tsv_query_stage
+URL = 's3://load/tsv/'
 CONNECTION = (
-    ACCESS_KEY_ID = '<your-access-key-id>' 
+    ACCESS_KEY_ID = '<your-access-key-id>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>'
 );
 ```
@@ -38,7 +39,7 @@ CONNECTION = (
 ### 步骤 2. 创建自定义 TSV 文件格式
 
 ```sql
-CREATE FILE FORMAT tsv_query_format 
+CREATE FILE FORMAT tsv_query_format
     TYPE = TSV,
     RECORD_DELIMITER = '\n',
     FIELD_DELIMITER = ',',

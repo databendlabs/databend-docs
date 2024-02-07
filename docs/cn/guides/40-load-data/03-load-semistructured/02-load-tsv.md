@@ -13,7 +13,6 @@ Title_0	Author_0
 Title_1	Author_1
 ```
 
-
 ## 加载 TSV 文件
 
 加载 TSV 文件的常见语法如下：
@@ -28,13 +27,15 @@ FROM { userStage | internalStage | externalStage | externalLocation }
     COMPRESSION = AUTO
 ) ]
 ```
+
 有关语法的更多详情，请参见 [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table)。
 
 ## 教程：从 TSV 文件加载数据
 
-### 步骤 1. 创建内部阶段
+### 步骤 1. 创建内部 Stage
 
-创建一个内部阶段来存储 TSV 文件。
+创建一个内部 Stage 来存储 TSV 文件。
+
 ```sql
 CREATE STAGE my_tsv_stage;
 ```
@@ -42,10 +43,11 @@ CREATE STAGE my_tsv_stage;
 ### 步骤 2. 创建 TSV 文件
 
 使用以下 SQL 语句生成一个 TSV 文件：
+
 ```sql
-COPY INTO @my_tsv_stage 
+COPY INTO @my_tsv_stage
 FROM (
-    SELECT 
+    SELECT
         'Title_' || CAST(number AS VARCHAR) AS title,
         'Author_' || CAST(number AS VARCHAR) AS author
     FROM numbers(100000)
@@ -53,12 +55,15 @@ FROM (
     FILE_FORMAT = (TYPE = TSV)
 ;
 ```
+
 验证 TSV 文件的创建：
+
 ```sql
 LIST @my_tsv_stage;
 ```
 
 结果：
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                             name                            │   size  │                 md5                │         last_modified         │      creator     │
@@ -76,9 +81,11 @@ CREATE TABLE books
     author VARCHAR
 );
 ```
+
 ### 步骤 4. 直接从 TSV 复制
 
 要直接从 TSV 文件将数据复制到表中，请使用以下 SQL 命令：
+
 ```sql
 COPY INTO books
 FROM @my_tsv_stage
@@ -91,6 +98,7 @@ FILE_FORMAT = (
 ```
 
 结果：
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                             File                            │ Rows_loaded │ Errors_seen │    First_error   │ First_error_line │
@@ -102,10 +110,11 @@ FILE_FORMAT = (
 ### 步骤 4（可选）。使用 SELECT 复制数据
 
 为了更多的控制，比如在复制时转换数据，请使用 SELECT 语句。了解更多请参见 [`从 TSV 中 SELECT`](../04-transform/02-querying-tsv.md)。
+
 ```sql
 COPY INTO books (title, author)
 FROM (
-    SELECT $1, $2 
+    SELECT $1, $2
     FROM @my_tsv_stage
 )
 PATTERN = '.*[.]tsv'
