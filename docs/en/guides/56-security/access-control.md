@@ -73,7 +73,7 @@ When a user is granted multiple roles, you can use the [CREATE USER](/sql/sql-co
 
 Ownership is a specialized privilege that signifies the exclusive rights and responsibilities a role holds over a specific data object (currently including a database, table, UDF, and stage) within Databend. The ownership of an object is automatically granted to the current role of the user who creates it. Users who share the same role also have ownership of the object and can subsequently grant this ownership to other roles. To grant ownership to a role, use the [GRANT](/sql/sql-commands/ddl/user/grant) command.
 
-- Ownership can only be granted to a role, and granting ownership to a user is not supported yet. Once granted from one role to another, the ownership is transferred to the new role.
+- Ownership can only be granted to a role; granting ownership to a user is not allowed. Once granted from one role to another, the ownership is transferred to the new role.
 - If a role that has ownership of an object is deleted, an account_admin can grant ownership of the object to another role.
 - Ownership cannot be granted for tables in the `default` database, as it is owned by the built-in role `account_admin`.
 
