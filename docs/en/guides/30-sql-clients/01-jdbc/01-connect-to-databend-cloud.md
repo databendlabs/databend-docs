@@ -1,5 +1,5 @@
 ---
-title: 'Connecting to Databend Cloud through JDBC'
+title: 'Connecting to Databend Cloud through SQL Clients'
 sidebar_label: 'Connecting to Databend Cloud'
 ---
 import StepsWrap from '@site/src/components/StepsWrap';

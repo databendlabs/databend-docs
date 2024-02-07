@@ -2,20 +2,17 @@
 title: Databend Cloud Overview
 ---
 
-Explore [Databend Cloud](https://www.databend.com), a **cost-effective** alternative to [Snowflake](https://www.snowflake.com), promising up to **50% savings**. This fully managed cloud data warehouse service enhances data analysis with standard SQL and integrates effortlessly with existing BI tools and ETL pipelines.
+## What is Databend Cloud?
 
-Built on the cutting-edge [Databend](https://github.com/datafuselabs/databend), an open-source cloud data warehouse project, Databend Cloud is at the forefront of data management innovation and efficiency.
+Databend Cloud is a cloud-based, fully managed data warehouse service. It's designed for easy integration with the tools you already use and supports SQL syntax similar to Snowflake, enabling a smooth transition for Snowflake users.
 
-Databend Cloud provides a user experience and syntax consistent with Snowflake, ensuring a smooth and familiar transition for users.
+## Why Choose Databend Cloud?
 
-## Comparison with Snowflake
-
-For a detailed feature comparison between Databend Cloud and Snowflake, visit the [comparison page](https://www.databend.com/comparison).
-
-## Databend Cloud Pricing
-
-To understand the competitive pricing of Databend Cloud, check out the [pricing page](https://www.databend.com/plan/).
-
+- **Cost Savings**: More affordable than Snowflake with [significant savings](/guides/benchmark/tpch).
+- **Easy Transition from Snowflake**: Similar user experience and SQL syntax for an effortless switch. More [here](https://www.databend.com/comparison).
+- **Seamless Integration**: Compatible with existing BI tools and ETL pipelines.
+- **Transparent Pricing**: Find out how much you can save with Databend Cloud [here](https://www.databend.com/plan/).
+ 
 ## Table of Contents
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';

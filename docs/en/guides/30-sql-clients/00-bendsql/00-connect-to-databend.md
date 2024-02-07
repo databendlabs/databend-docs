@@ -1,6 +1,6 @@
 ---
-title: 'Tutorial-1: Connecting to Databend using BendSQL'
-sidebar_label: 'Tutorial-1: Connecting to Databend'
+title: 'Connecting to Databend using BendSQL'
+sidebar_label: 'Connecting to Databend'
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';

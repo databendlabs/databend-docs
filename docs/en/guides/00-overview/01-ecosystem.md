@@ -27,17 +27,17 @@ Refer to the links below for integration instructions and tutorials:
     - [Debezium](../40-load-data/02-load-db/debezium.md)
 
 - **BI & Visualization**
-    - [Metabase](../60-visualize/metabase.md)
-    - [Grafana](../60-visualize/grafana.md)
-    - [Redash](../60-visualize/redash.md)
-    - [Tableau](../60-visualize/tableau.md)
+    - [Metabase](../31-visualize/metabase.md)
+    - [Grafana](../31-visualize/grafana.md)
+    - [Redash](../31-visualize/redash.md)
+    - [Tableau](../31-visualize/tableau.md)
 
 - **Notebooks**
-    - [Deepnote](../60-visualize/deepnote.md)
-    - [Jupyter Notebook](../60-visualize/jupyter.md)
+    - [Deepnote](../31-visualize/deepnote.md)
+    - [Jupyter Notebook](../31-visualize/jupyter.md)
 
 - **Log Collector**
     - [Vector](../40-load-data/02-load-db/vector.md)
 
 - **AI**
-    - [MindsDB](../60-visualize/mindsdb.md)
+    - [MindsDB](../31-visualize/mindsdb.md)
