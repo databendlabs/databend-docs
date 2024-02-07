@@ -3,6 +3,7 @@ title: 部署独立的 Databend
 sidebar_label: 部署独立的 Databend
 description: 部署独立的 Databend
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新：v1.2.168"/>
@@ -16,7 +17,7 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 ## 部署独立的 Databend
 
-Databend 既支持自托管也支持云对象存储解决方案。本主题解释了如何将 Databend 与您的对象存储一起部署。有关支持的对象存储解决方案列表，请参见[了解部署模式](./00-understanding-deployment-modes.md)。
+Databend 既支持自托管也支持云对象存储解决方案。本主题将解释如何利用对象存储部署 Databend 。有关支持的对象存储解决方案列表，请参见[了解部署模式](./00-understanding-deployment-modes.md)。
 
 :::note
 不推荐在生产环境或性能测试中在 MinIO 之上部署 Databend。
@@ -30,16 +31,15 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 <Tabs groupId="operating-systems">
 
-
 <TabItem value="Amazon S3" label="Amazon S3">
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
 - 创建一个名为 `databend` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的 Access Key ID 和 Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>
 - <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>
@@ -70,9 +70,9 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `databend` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的- 获取您账户的 Access Key ID 和 Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container>
 - <https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys>
@@ -87,9 +87,9 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `databend` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的- 获取您账户的 Access Key ID 和 Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://cloud.tencent.com/document/product/436/13309>
 - <https://cloud.tencent.com/document/product/436/68282>
@@ -104,9 +104,9 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `databend` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的- 获取您账户的 Access Key ID 和 Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2>
 - <https://help.aliyun.com/document_detail/53045.htm>
@@ -115,16 +115,15 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 </TabItem>
 
-
 <TabItem value="QingCloud QingStor" label="QingCloud QingStor">
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
 - 创建一个名为 `databend` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的- 获取您账户的 Access Key ID 和 Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/>
 - <https://docsv3.qingcloud.com/development_docs/api/overview/>
@@ -139,9 +138,9 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `databend` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的- 获取您账户的 Access Key ID 和 Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://docs.wasabi.com/docs/creating-a-bucket>
 - <https://docs.wasabi.com/docs/access-keys-1>
@@ -184,20 +183,18 @@ f. 在 MinIO 控制台中，创建一个名为 `databend` 的存储桶。
 
 在部署 Databend 之前，请确保您已成功设置了您的 Hadoop 环境，并完成了以下任务：
 
+- 您的系统已经安装了支持 JVM 的 Java SDK。
+- 获取连接到 HDFS 的名称节点 URL。
+- 您已经将 Hadoop 发行版下载到您的系统，并且可以访问发行版中的 JAR 包。
 
-
-- 您的系统已经安装了支持JVM的Java SDK。
-- 获取连接到HDFS的名称节点URL。
-- 您已经将Hadoop发行版下载到您的系统，并且可以访问发行版中的JAR包。
-
-### 下载Databend
+### 下载 Databend
 
 a. 在目录`/usr/local`中创建一个名为`databend`的文件夹。
 
-b. 从[GitHub Release](https://github.com/datafuselabs/databend/releases)下载适用于您平台的最新Databend发行版并解压：
+b. 从[GitHub Release](https://github.com/datafuselabs/databend/releases)下载适用于您平台的最新 Databend 发行版并解压：
 
 :::note
-要使用HDFS作为存储后端，请下载文件名格式为`databend-hdfs-${version}-${target-platform}.tar.gz`的发行版。
+要使用 HDFS 作为存储后端，请下载文件名格式为`databend-hdfs-${version}-${target-platform}.tar.gz`的发行版。
 :::
 
 <Tabs>
@@ -222,13 +219,13 @@ c. 将解压出的`bin`、`configs`和`scripts`文件夹移动到`/usr/local/dat
 
 <TabItem value="WebHDFS" label="WebHDFS">
 
-在部署Databend之前，请确保您已成功设置Hadoop环境，并完成以下任务：
+在部署 Databend 之前，请确保您已成功设置 Hadoop 环境，并完成以下任务：
 
-- 在Hadoop上启用WebHDFS支持。
-- 获取连接到WebHDFS的端点URL。
+- 在 Hadoop 上启用 WebHDFS 支持。
+- 获取连接到 WebHDFS 的端点 URL。
 - 获取用于认证的委托令牌（如果需要）。
 
-有关如何在Apache Hadoop上启用和管理WebHDFS的信息，请参考WebHDFS的手册。以下是一些您可能会觉得有用的链接：
+有关如何在 Apache Hadoop 上启用和管理 WebHDFS 的信息，请参考 WebHDFS 的手册。以下是一些您可能会觉得有用的链接：
 
 - <https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html>
 
@@ -259,7 +256,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 
 a. 打开文件夹`/usr/local/databend/configs`中的文件`databend-query.toml`，将文件中的`127.0.0.1`全部替换为`0.0.0.0`。
 
-b. 在文件`databend-query.toml`中，设置[storage]块中的参数*type*，并配置访问凭证和端点URL以连接到您的对象存储。
+b. 在文件`databend-query.toml`中，设置[storage]块中的参数*type*，并配置访问凭证和端点 URL 以连接到您的对象存储。
 
 要配置您的存储设置，请通过在每行前添加'#'来注释掉[storage.fs]部分，然后通过移除'#'符号来取消注释适用于您的对象存储提供商的相应部分，并填写必要的值。如果您希望的存储提供商未列出，您可以将下面的相应模板复制并粘贴到文件中，并相应地配置它。
 
@@ -335,7 +332,6 @@ account_key = "<your-account-key>"
 
 </TabItem>
 
-
 <TabItem value="Tencent COS" label="Tencent COS">
 
 ```toml
@@ -362,7 +358,8 @@ secret_id = "<your-secret-id>"
 secret_key = "<your-secret-key>"
 root = "<your-root-path>"
 ```
-Tencent COS还支持从环境变量加载配置值。这意味着，您可以不在配置文件中直接指定配置值，而是通过设置相应的环境变量（TENCENTCLOUD_SECRETID、TENCENTCLOUD_SECRETKEY和USER_CODE_ROOT）来配置COS存储。
+
+Tencent COS 还支持从环境变量加载配置值。这意味着，您可以不在配置文件中直接指定配置值，而是通过设置相应的环境变量（TENCENTCLOUD_SECRETID、TENCENTCLOUD_SECRETKEY 和 USER_CODE_ROOT）来配置 COS 存储。
 
 ```toml
 [storage]
@@ -382,8 +379,6 @@ bucket = "databend"
 ```
 
 </TabItem>
-
-
 
 <TabItem value="Alibaba OSS" label="Alibaba OSS">
 
@@ -413,16 +408,16 @@ access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
 
-Databend企业版支持在OSS中使用服务器端加密。此功能允许您通过激活OSS中存储数据的服务器端加密来增强数据安全性和隐私性。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的Databend企业版许可证才能使用此功能。要获取许可证，请参见[许可Databend](../00-overview/00-editions/01-dee/20-license.md)。
+Databend 企业版支持在 OSS 中使用服务器端加密。此功能允许您通过激活 OSS 中存储数据的服务器端加密来增强数据安全性和隐私性。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参见[许可 Databend](../00-overview/00-editions/01-dee/20-license.md)。
 
-要在Databend中启用服务器端加密，请在[storage.oss]部分添加以下参数：
+要在 Databend 中启用服务器端加密，请在[storage.oss]部分添加以下参数：
 
-| 参数                          | 描述                                                                                                           | 可用值                      |
-|-------------------------------|---------------------------------------------------------------------------------------------------------------|-----------------------------|
-| server_side_encryption        | 指定OSS数据的服务器端加密方法。"AES256"使用OSS管理的AES256密钥进行加密，而"KMS"则使用server_side_encryption_key_id中定义的密钥。 | "AES256" 或 "KMS"           |
-| server_side_encryption_key_id | 当server_side_encryption设置为"KMS"时，此参数用于指定OSS的服务器端加密密钥ID。仅在使用KMS加密模式时适用。       | 字符串，KMS加密密钥的唯一标识符。 |
+| 参数                          | 描述                                                                                                                                     | 可用值                             |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| server_side_encryption        | 指定 OSS 数据的服务器端加密方法。"AES256"使用 OSS 管理的 AES256 密钥进行加密，而"KMS"则使用 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                  |
+| server_side_encryption_key_id | 当 server_side_encryption 设置为"KMS"时，此参数用于指定 OSS 的服务器端加密密钥 ID。仅在使用 KMS 加密模式时适用。                         | 字符串，KMS 加密密钥的唯一标识符。 |
+
 </TabItem>
-
 
 <TabItem value="QingCloud QingStor" label="QingCloud QingStor">
 
@@ -445,7 +440,7 @@ secret_access_key = "<your-access-key>"
 ```
 
 :::tip
-在此示例中，QingStor区域为`pek3b`。
+在此示例中，QingStor 区域为`pek3b`。
 :::
 
 </TabItem>
@@ -475,11 +470,10 @@ secret_access_key = "<your-access-key>"
 ```
 
 :::tip
-在此示例中，Wasabi区域为`us-east-2`。
+在此示例中，Wasabi 区域为`us-east-2`。
 :::
 
 </TabItem>
-
 
 <TabItem value="MinIO" label="MinIO">
 
@@ -494,6 +488,7 @@ endpoint_url = "http://127.0.0.1:9900"
 access_key_id = "minioadmin"
 secret_access_key = "minioadmin"
 ```
+
 </TabItem>
 
 <TabItem value="HDFS" label="HDFS">
@@ -523,10 +518,10 @@ root = "/analyses/databend/storage"
 </TabItem>
 </Tabs>
 
-c. 通过[query.users]部分配置管理员用户。有关更多信息，请参见[配置管理员用户](04-admin-users.md)。要使用默认的root用户和"no_password"认证类型继续，请确保在文件`databend-query.toml`中删除以下行前的'#'字符：
+c. 通过[query.users]部分配置管理员用户。有关更多信息，请参见[配置管理员用户](04-admin-users.md)。要使用默认的 root 用户和"no_password"认证类型继续，请确保在文件`databend-query.toml`中删除以下行前的'#'字符：
 
 :::caution
-在本教程中使用"no_password"认证类型为root用户仅为示例，不推荐用于生产环境，因为可能存在潜在的安全风险。
+在本教程中使用"no_password"认证类型为 root 用户仅为示例，不推荐用于生产环境，因为可能存在潜在的安全风险。
 :::
 
 ```toml title='databend-query.toml'
@@ -542,7 +537,7 @@ d. 打开终端窗口并导航到文件夹`/usr/local/databend/bin`。
 e. 运行以下命令以启动查询节点：
 
 :::note
-当使用HDFS作为存储后端时，确保设置以下环境变量：
+当使用 HDFS 作为存储后端时，确保设置以下环境变量：
 
 ```bash
 export JAVA_HOME=/path/to/java
@@ -553,14 +548,13 @@ export CLASSPATH=/all/hadoop/jar/files
 
 以下是一个示例：
 
-
-
 ```bash
 export JAVA_HOME=/usr/lib/jvm/java-21-jdk
 export LD_LIBRARY_PATH={$JAVA_HOME}/lib/server/
 export HADOOP_HOME={$HOME}/hadoop-3.3.6
 export CLASSPATH=$(find $HADOOP_HOME -iname "*.jar" | xargs echo | tr ' ' ':')
 ```
+
 :::
 
 ```shell
@@ -613,8 +607,9 @@ SELECT * FROM t1;
 ==> query.log <==
 : No getcpu support: percpu_arena:percpu
 : option background_thread currently supports pthread only
-Databend Query 启动失败，原因：Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
+Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
+
 运行以下命令，然后再次尝试启动 Databend：
 
 ```shell
@@ -623,6 +618,7 @@ sudo mkdir /var/lib/databend
 sudo chown -R $USER /var/log/databend
 sudo chown -R $USER /var/lib/databend
 ```
+
   </div>
 </details>
 </DetailsWrap>
@@ -633,5 +629,5 @@ sudo chown -R $USER /var/lib/databend
 在部署 Databend 之后，您可能需要了解以下主题：
 
 - [管理设置](/sql/sql-reference/manage-settings)：根据您的需求优化 Databend。
-- [加载与卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
+- [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获得洞察力。
