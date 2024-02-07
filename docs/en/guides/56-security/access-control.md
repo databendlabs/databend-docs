@@ -76,17 +76,15 @@ Ownership is a specialized privilege that signifies the exclusive rights and res
 - Ownership cannot be granted for tables in the `default` database, as it is owned by the built-in role `account_admin`.
 - Granting ownership to the built-in role `public` is not supported for security reasons.
 - Ownership can be granted to a role, but granting ownership to a user is not supported yet.
-- If a object is also support Ownership privilege, when create / drop the object will grant / revoke ownership to / from session current role. So if user's current role is public role, and user has create privilege, it will cause some confuses(all user's default role are public role, means all user can operator public role owns object.). We suggest use bind a role. Then grant privilege to the role. Or only use configured user as admin account. If must use created user as admin account, now should do some modify:
+- For an object that supports the ownership privilege, creating or dropping the object will grant or revoke ownership to/from the current role of the user who created it. The tricky part is that if the user is in the `public` role when creating the object, then all users will have ownership as well because each Databend user has the `public` role by default.
 
 ```sql
--- For exists created user u1 as admin account,
--- use configured user root login, then execute sql:
+-- Grant the default role account_admin to an existing user as root
 
 root> ALTER USER u1 WITH DEFAULT_ROLE = 'account_admin';
 root> grant role u1 to writer;
-    
--- For new created user u2 as admin account,
--- use configured user root login, then execute sql:
+
+-- Create a new user with the default role account_admin as root
 
 root> create user u2 identified by '123' with DEFAULT_ROLE='account_admin';
 root> grant role account_admin to u2;    
