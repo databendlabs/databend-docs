@@ -159,6 +159,5 @@ endpoints = ["192.168.1.100:9191","192.168.1.101:9191","192.168.1.102:9191"]
 
 After deploying Databend, you might need to learn about the following topics:
 
-- [Manage Settings](/sql/sql-reference/manage-settings): Optimize Databend for your needs. 
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
 - [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
