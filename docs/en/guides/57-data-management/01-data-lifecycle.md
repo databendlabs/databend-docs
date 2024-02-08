@@ -5,6 +5,28 @@ sidebar_label: Data Lifecycle
 
 Databend supports familiar Data Definition Language (DDL) and Data Manipulation Language (DML) commands, making it easy for you to manage your database. Whether you're organizing, storing, querying, modifying, or deleting data, Databend follows the same industry standards you're accustomed to.
 
+## Databend Objects
+
+Databend supports the following objects to create and modify them:
+
+- Database
+- Table
+- External Table
+- Stream
+- View
+- Index
+- Stage
+- File Format
+- Connection
+- User Defined Function (UDF)
+- External Function
+- User
+- Role
+- Grants
+- Warehouse
+- Pipe
+- Task
+
 ## Organizing Data
 
 Arrange your data in databases and tables.
