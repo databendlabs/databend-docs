@@ -228,7 +228,7 @@ const config = {
                 title: 'Databend',
                 logo: {
                     alt: 'Databend Logo',
-                    href: '/',
+                    href: '/guides',
                     target: '_self',
                     srcDark: 'img/logo-dark.svg',
                     src: 'img/logo.svg',
