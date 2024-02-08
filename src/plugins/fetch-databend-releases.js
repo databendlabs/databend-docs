@@ -40,6 +40,9 @@ module.exports = function fetchDatabendReleasesPlugin() {
           const { data: repo } = await axios.get(GITHUB_REPO);
           const { data: bendsqlReleases } = await axios.get(BENDSQL_RELEASES);
           releasesList = data?.filter((item)=> !item?.name?.includes('-nightly'));
+          if (releasesList.length <=0) {
+            releasesList = [data[0]];
+          }
           repoResource = repo;
           bendsqlRecource = dealBendsqlRecource(bendsqlReleases[0]);
         } catch (error) {
