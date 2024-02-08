@@ -127,18 +127,6 @@ const config = {
         './src/plugins/global-sass-var-inject',
         './src/plugins/fetch-databend-releases',
         [
-          '@docusaurus/plugin-client-redirects',
-          {
-            // mark
-            redirects: [
-              {
-                to: '/guides',
-                from: ['/']
-              },
-            ]
-          },
-        ],
-        [
             '@docusaurus/plugin-content-docs',
             /** @type {import('@docusaurus/plugin-content-docs').Options} */
             {
