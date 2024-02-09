@@ -1,36 +1,36 @@
 ---
-title: DROP TABLE
+title: 删除表
 sidebar_position: 19
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.155"/>
+<FunctionDescription description="引入或更新于：v1.2.155"/>
 
-Deletes a table.
+删除一个表。
 
-**See also:**
+**另见：**
 
-- [CREATE TABLE](./10-ddl-create-table.md)
-- [UNDROP TABLE](./21-ddl-undrop-table.md)
-- [TRUNCATE TABLE](40-ddl-truncate-table.md)
+- [创建表](./10-ddl-create-table.md)
+- [撤销删除表](./21-ddl-undrop-table.md)
+- [清空表](40-ddl-truncate-table.md)
 
-## Syntax
+## 语法
 
 ```sql
-DROP TABLE [IF EXISTS] [<database_name>.]<table_name> [ALL]
+DROP TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> [ ALL ]
 ```
 
-The optional "ALL" parameter determines whether the underlying data of the table is deleted. 
+可选的 "ALL" 参数决定是否删除表的底层数据。
 
-- If "ALL" is omitted, only the table schema is deleted from the metadata service, leaving the data intact. In this case, you can potentially recover the table using the [UNDROP TABLE](./21-ddl-undrop-table.md) command.
+- 如果省略 "ALL"，则只从元数据服务中删除表架构，数据保持不变。在这种情况下，您可以使用 [撤销删除表](./21-ddl-undrop-table.md) 命令恢复表。
 
-- Including "ALL" will result in the deletion of both the schema and the underlying data. While the [UNDROP TABLE](./21-ddl-undrop-table.md) command can recover the schema, it cannot restore the table's data.
+- 包含 "ALL" 将导致删除架构和底层数据。虽然 [撤销删除表](./21-ddl-undrop-table.md) 命令可以恢复架构，但它无法恢复表的数据。
 
-## Examples
+## 示例
 
-### Example 1: Deleting a Table
+### 示例 1：删除一个表
 
-This example highlights the use of the DROP TABLE command to delete the "test" table. After dropping the table, any attempt to SELECT from it results in an "Unknown table" error. It also demonstrates how to recover the dropped "test" table using the UNDROP TABLE command, allowing you to SELECT data from it again.
+此示例突出显示了使用 DROP TABLE 命令删除 "test" 表的用法。删除表后，任何尝试从中选择数据的操作都会导致 "未知表" 错误。它还演示了如何使用 UNDROP TABLE 命令恢复被删除的 "test" 表，使您能够再次从中选择数据。
 
 ```sql
 CREATE TABLE test(a INT, b VARCHAR);
@@ -41,16 +41,16 @@ a|b      |
 -+-------+
 1|example|
 
--- Delete the table
+-- 删除表
 DROP TABLE test;
 SELECT * FROM test;
->> SQL Error [1105] [HY000]: UnknownTable. Code: 1025, Text = error: 
+>> SQL 错误 [1105] [HY000]: 未知表。代码：1025，文本 = 错误： 
   --> SQL:1:80
   |
-1 | /* ApplicationName=DBeaver 23.2.0 - SQLEditor <Script-12.sql> */ SELECT * FROM test
-  |                                                                                ^^^^ Unknown table `default`.`test` in catalog 'default'
+1 | /* 应用名称=DBeaver 23.2.0 - SQLEditor <Script-12.sql> */ SELECT * FROM test
+  |                                                                                ^^^^ 未知表 `default`.`test` 在目录 'default'
 
--- Recover the table
+-- 恢复表
 UNDROP TABLE test;
 SELECT * FROM test;
 
@@ -59,9 +59,9 @@ a|b      |
 1|example|
 ```
 
-### Example 2: Deleting a Table with "ALL"
+### 示例 2：带 "ALL" 删除一个表
 
-This example emphasizes the use of the DROP TABLE command with the "ALL" parameter to delete the "test" table, including both its schema and underlying data. After using DROP TABLE with "ALL," the table is entirely removed. It also demonstrates how to recover the previously dropped "test" table using the UNDROP TABLE command. However, since the table's data was deleted, the subsequent SELECT statement shows an empty result.
+此示例强调了使用带 "ALL" 参数的 DROP TABLE 命令删除 "test" 表的用法，包括其架构和底层数据。使用带 "ALL" 的 DROP TABLE 后，表被完全移除。它还演示了如何使用 UNDROP TABLE 命令恢复之前删除的 "test" 表。然而，由于表的数据被删除，随后的 SELECT 语句显示一个空结果。
 
 ```sql
 CREATE TABLE test(a INT, b VARCHAR);
@@ -72,10 +72,10 @@ a|b      |
 -+-------+
 1|example|
 
--- Delete the table with the ALL parameter
+-- 带 ALL 参数删除表
 DROP TABLE test ALL;
 
--- Recover the table
+-- 恢复表
 UNDROP TABLE test;
 SELECT * FROM test;
 

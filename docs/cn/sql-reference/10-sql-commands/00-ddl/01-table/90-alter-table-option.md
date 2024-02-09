@@ -11,7 +11,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
-ALTER TABLE [database.]<table_name> SET OPTIONS (options)
+ALTER TABLE [ <database_name>. ]<table_name> SET OPTIONS (options)
 ```
 
 ## 示例

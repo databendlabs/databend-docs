@@ -1,41 +1,44 @@
 ---
-title: REFRESH AGGREGATING INDEX
+title: 刷新聚合索引
 sidebar_position: 2
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.151"/>
+<FunctionDescription description="引入或更新于：v1.2.151"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='AGGREGATING INDEX'/>
+<EEFeature featureName='聚合索引'/>
 
-Manually refreshes an aggregating index. For more information about the refresh mechanisms, see [Refreshing Aggregating Index](index.md#refreshing-aggregating-index).
-
-## Syntax
+## 语法
 
 ```sql
-REFRESH AGGREGATING INDEX <index_name> [LIMIT <limit>]
+REFRESH AGGREGATING INDEX <index_name> [ LIMIT <limit> ]
 ```
 
-The "LIMIT" parameter allows you to control the maximum number of blocks that can be updated with each refresh action. It is strongly recommended to use this parameter with a defined limit to optimize memory usage. Please also note that setting a limit may result in partial data updates. For example, if you have 100 blocks but set a limit of 10, a single refresh might not update the most recent data, potentially leaving some blocks unrefreshed. You may need to execute multiple refresh actions to ensure a complete update.
+"LIMIT" 参数允许您控制每次刷新操作可以更新的最大块数。强烈建议使用此参数并设置一个定义的限制来优化内存使用。请注意，设置限制可能会导致部分数据更新。例如，如果您有100个块但设置了10的限制，单次刷新可能不会更新最新的数据，可能会留下一些未刷新的块。您可能需要执行多次刷新操作以确保完全更新。
 
-## Examples
+## 何时使用 REFRESH AGGREGATING INDEX
 
-This example creates and refreshes an aggregating index named *my_agg_index*:
+- **当自动更新失败时：** 在默认的自动更新（`SYNC` 模式）无法正常工作的情况下，使用 `REFRESH AGGREGATING INDEX` 来包含索引中遗漏的数据。
+- **对于 ASYNC 索引：** 如果聚合索引是用 `ASYNC` 选项创建的，它不会自动更新。您需要使用 `REFRESH AGGREGATING INDEX` 手动刷新它。
+
+## 示例
+
+此示例创建并刷新名为 *my_agg_index* 的聚合索引：
 
 ```sql
--- Prepare data
+-- 准备数据
 CREATE TABLE agg(a int, b int, c int);
 INSERT INTO agg VALUES (1,1,4), (1,2,1), (1,2,4);
 
--- Create an aggregating index
+-- 创建聚合索引
 CREATE AGGREGATING INDEX my_agg_index AS SELECT MIN(a), MAX(c) FROM agg;
 
--- Insert new data
+-- 插入新数据
 INSERT INTO agg VALUES (2,2,5);
 
--- Refresh the aggregating index
+-- 刷新聚合索引
 REFRESH AGGREGATING INDEX my_agg_index;
 ```

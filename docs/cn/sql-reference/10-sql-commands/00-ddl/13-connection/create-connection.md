@@ -1,30 +1,30 @@
 ---
-title: CREATE CONNECTION
+title: 创建连接
 sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.208"/>
+<FunctionDescription description="引入或更新版本：v1.2.339"/>
 
-Creates a connection to external storage.
+创建到外部存储的连接。
 
-## Syntax
+## 语法
 
 ```sql
-CREATE CONNECTION [IF NOT EXISTS] <connection_name> 
+CREATE [ OR REPLACE ] CONNECTION [ IF NOT EXISTS ] <connection_name> 
     STORAGE_TYPE = '<type>' 
-    [<storage_params>]
+    [ <storage_params> ]
 
 ```
 
-| Parameter        | Description                                                                                                                                        |
-|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| STORAGE_TYPE     | Type of storage service. Possible values include: `s3`, `azblob`, `gcs`, `oss`, `cos`, `hdfs`, and `webhdfs`.                                      |
-| storage_params   | Vary based on storage type and authentication method. See [Connection Parameters](../../../00-sql-reference/51-connect-parameters.md) for details. |
+| 参数             | 描述                                                                                                                                        |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| STORAGE_TYPE     | 存储服务的类型。可能的值包括：`s3`、`azblob`、`gcs`、`oss`、`cos`、`hdfs` 和 `webhdfs`。                                                     |
+| storage_params   | 基于存储类型和认证方法的不同而变化。详情见[连接参数](../../../00-sql-reference/51-connect-parameters.md)。                                  |
 
-## Examples
+## 示例
 
-This example creates a connection to Amazon S3 named 'toronto' and establishes an external stage named 'my_s3_stage' linked to the 's3://databend-toronto' URL, using the 'toronto' connection. For more practical examples about connection, see [Usage Examples](index.md#usage-examples).  
+此示例创建一个名为 'toronto' 的连接到 Amazon S3，并建立一个名为 'my_s3_stage' 的外部阶段，链接到 's3://databend-toronto' URL，使用 'toronto' 连接。有关连接的更多实用示例，请参见[使用示例](index.md#usage-examples)。
 
 ```sql
 CREATE CONNECTION toronto 

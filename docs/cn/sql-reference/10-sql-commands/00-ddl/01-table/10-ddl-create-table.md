@@ -1,34 +1,34 @@
 ---
-title: CREATE TABLE
+title: 创建表
 sidebar_position: 1
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.1.56"/>
+<FunctionDescription description="引入或更新于：v1.2.339"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='COMPUTED COLUMN'/>
+<EEFeature featureName='计算列'/>
 
-Creating tables is one of the most complicated operations for many databases because you might need to:
+创建表是许多数据库中最复杂的操作之一，因为你可能需要：
 
-* Manually specify the engine
-* Manually specify the indexes
-* And even specify the data partitions or data shard
+* 手动指定引擎
+* 手动指定索引
+* 甚至指定数据分区或数据分片
 
-Databend aims to be easy to use by design and does NOT require any of those operations when you create a table. Moreover, the CREATE TABLE statement provides these options to make it much easier for you to create tables in various scenarios:
+Databend 的设计初衷是易于使用，创建表时不需要进行任何这些操作。此外，CREATE TABLE 语句提供了这些选项，使您在各种场景中创建表变得更加容易：
 
-- [CREATE TABLE](#create-table): Creates a table from scratch.
-- [CREATE TABLE ... LIKE](#create-table--like): Creates a table with the same column definitions as an existing one.
-- [CREATE TABLE ... AS](#create-table--as): Creates a table and inserts data with the results of a SELECT query.
-- [CREATE TRANSIENT TABLE](#create-transient-table): Creates a table without storing its historical data for Time Travel..
-- [CREATE TABLE ... EXTERNAL_LOCATION](#create-table--external_location): Creates a table and specifies an S3 bucket for the data storage instead of the FUSE engine.
+- [CREATE TABLE](#create-table)：从头开始创建一个表。
+- [CREATE TABLE ... LIKE](#create-table--like)：创建一个与现有表具有相同列定义的表。
+- [CREATE TABLE ... AS](#create-table--as)：创建一个表并插入 SELECT 查询结果的数据。
+- [CREATE TRANSIENT TABLE](#create-transient-table)：创建一个不存储其历史数据以供时间旅行的表。
+- [CREATE TABLE ... EXTERNAL_LOCATION](#create-table--external_location)：创建一个表并指定一个 S3 桶用于数据存储，而不是使用 FUSE 引擎。
 
 ## CREATE TABLE
 
 ```sql
-CREATE [TRANSIENT] TABLE [IF NOT EXISTS] [db.]table_name
+CREATE [ OR REPLACE ] [ TRANSIENT ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]table_name
 (
     <column_name> <data_type> [ NOT NULL | NULL] [ { DEFAULT <expr> }] [AS (<expr>) STORED | VIRTUAL],
     <column_name> <data_type> [ NOT NULL | NULL] [ { DEFAULT <expr> }] [AS (<expr>) STORED | VIRTUAL],
@@ -36,28 +36,28 @@ CREATE [TRANSIENT] TABLE [IF NOT EXISTS] [db.]table_name
 )
 ```
 :::note
-- For available data types in Databend, see [Data Types](../../../00-sql-reference/10-data-types/index.md).
+- 关于 Databend 中可用的数据类型，请参见[数据类型](../../../00-sql-reference/10-data-types/index.md)。
 
-- Databend suggests avoiding special characters as much as possible when naming columns. However, if special characters are necessary in some cases, the alias should be enclosed in backticks, like this: CREATE TABLE price(\`$CA\` int);
+- Databend 建议在命名列时尽可能避免使用特殊字符。然而，如果在某些情况下需要使用特殊字符，应该使用反引号将别名括起来，像这样：CREATE TABLE price(\`$CA\` int);
 
-- Databend will automatically convert column names into lowercase. For example, if you name a column as *Total*, it will appear as *total* in the result.
+- Databend 会自动将列名转换为小写。例如，如果您将某列命名为 *Total*，在结果中它将显示为 *total*。
 :::
 
 
 ## CREATE TABLE ... LIKE
 
-Creates a table with the same column definitions as an existing table. Column names, data types, and their non-NUll constraints of the existing will be copied to the new table.
+创建一个与现有表具有相同列定义的表。现有表的列名、数据类型及其非 NULL 约束将被复制到新表中。
 
-Syntax:
+语法：
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
 LIKE [db.]origin_table_name
 ```
 
-This command does not include any data or attributes (such as `CLUSTER BY`, `TRANSIENT`, and `COMPRESSION`) from the original table, and instead creates a new table using the default system settings.
+此命令不包括任何数据或属性（如 `CLUSTER BY`、`TRANSIENT` 和 `COMPRESSION`）从原始表中，而是使用默认的系统设置创建一个新表。
 
-:::note WORKAROUND
-- `TRANSIENT` and `COMPRESSION` can be explicitly specified when you create a new table with this command. For example,
+:::note 解决方法
+- 在使用此命令创建新表时，可以显式指定 `TRANSIENT` 和 `COMPRESSION`。例如，
 
 ```sql
 create transient table t_new like t_old;
@@ -68,18 +68,18 @@ create table t_new compression='lz4' like t_old;
 
 ## CREATE TABLE ... AS
 
-Creates a table and fills it with data computed by a SELECT command.
+创建一个表并用 SELECT 命令计算的数据填充它。
 
-Syntax:
+语法：
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
 AS SELECT query
 ```
 
-This command does not include any attributes (such as CLUSTER BY, TRANSIENT, and COMPRESSION) from the original table, and instead creates a new table using the default system settings.
+此命令不包括任何属性（如 CLUSTER BY、TRANSIENT 和 COMPRESSION）从原始表中，而是使用默认的系统设置创建一个新表。
 
-:::note WORKAROUND
-- `TRANSIENT` and `COMPRESSION` can be explicitly specified when you create a new table with this command. For example,
+:::note 解决方法
+- 在使用此命令创建新表时，可以显式指定 `TRANSIENT` 和 `COMPRESSION`。例如，
 
 ```sql
 create transient table t_new as select * from t_old;
@@ -90,24 +90,24 @@ create table t_new compression='lz4' as select * from t_old;
 
 ## CREATE TRANSIENT TABLE
 
-Creates a transient table. 
+创建一个临时表。
 
-Transient tables are used to hold transitory data that does not require a data protection or recovery mechanism. Dataebend does not hold historical data for a transient table so you will not be able to query from a previous version of the transient table with the Time Travel feature, for example, the [AT](./../../20-query-syntax/03-query-at.md) clause in the SELECT statement will not work for transient tables. Please note that you can still [drop](./20-ddl-drop-table.md) and [undrop](./21-ddl-undrop-table.md) a transient table.
+临时表用于保存不需要数据保护或恢复机制的短暂数据。Databend 不会为临时表保留历史数据，因此您将无法使用时间旅行功能查询临时表的先前版本，例如，SELECT 语句中的 [AT](./../../20-query-syntax/03-query-at.md) 子句对临时表不起作用。请注意，您仍然可以[删除](./20-ddl-drop-table.md)和[撤销删除](./21-ddl-undrop-table.md)临时表。
 
-Transient tables help save your storage expenses because they do not need extra space for historical data compared to non-transient tables. See [example](#create-transient-table-1) for detailed explanations.
+临时表有助于节省您的存储费用，因为与非临时表相比，它们不需要额外的空间来存储历史数据。详细说明请参见[示例](#create-transient-table-1)。
 
-Syntax:
+语法：
 ```sql
 CREATE TRANSIENT TABLE ...
 ```
 
 ## CREATE TABLE ... EXTERNAL_LOCATION
 
-Creates a table and specifies an S3 bucket for the data storage instead of the FUSE engine.
+创建一个表并指定一个 S3 桶用于数据存储，而不是使用 FUSE 引擎。
 
-Databend stores the table data in the location configured in the file `databend-query.toml` by default. This option enables you to store the data (in parquet format) in a table in another bucket instead of the default one.
+Databend 默认在 `databend-query.toml` 文件中配置的位置存储表数据。此选项使您能够将数据（以 parquet 格式）存储在另一个桶中的表中，而不是默认的桶。
 
-Syntax:
+语法：
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
 
@@ -125,50 +125,50 @@ CONNECTION = (
   );
 ```
 
-| Parameter                   | Description                                                                                                                                                                                                              | Required   |
-|-----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `s3://<bucket>/[<path>]`    | Files are in the specified external location (S3-like bucket)                                                                                                                                                            | YES        |
-| ENDPOINT_URL              	 | The bucket endpoint URL starting with "https://". To use a URL starting with "http://", set `allow_insecure` to `true` in the [storage] block of the file `databend-query-node.toml`.                                  	 | Optional 	 |
-| ACCESS_KEY_ID             	 | Your access key ID for connecting the AWS S3 compatible object storage. If not provided, Databend will access the bucket anonymously.    	                                                                               | Optional 	 |
-| SECRET_ACCESS_KEY         	 | Your secret access key for connecting the AWS S3 compatible object storage. 	                                                                                                                                            | Optional 	 |
-| REGION                    	 | AWS region name. For example, us-east-1.                                    	                                                                                                                                            | Optional 	 |
-| ENABLE_VIRTUAL_HOST_STYLE 	 | If you use virtual hosting to address the bucket, set it to "true".                               	                                                                                                                      | Optional 	 |
+| 参数                         | 描述                                                                                                                                                                                                                      | 是否必须   |
+|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `s3://<bucket>/[<path>]`     | 文件位于指定的外部位置（类似S3的存储桶）                                                                                                                                                                                  | 是         |
+| ENDPOINT_URL                 | 存储桶端点URL，以 "https://" 开头。要使用以 "http://" 开头的URL，请在文件 `databend-query-node.toml` 的 [storage] 区块中设置 `allow_insecure` 为 `true`。                                                                  | 可选       |
+| ACCESS_KEY_ID                | 用于连接AWS S3兼容对象存储的访问密钥ID。如果未提供，Databend将匿名访问存储桶。                                                                                                                                             | 可选       |
+| SECRET_ACCESS_KEY            | 用于连接AWS S3兼容对象存储的密钥访问密钥。                                                                                                                                                                                 | 可选       |
+| REGION                       | AWS区域名称。例如，us-east-1。                                                                                                                                                                                            | 可选       |
+| ENABLE_VIRTUAL_HOST_STYLE    | 如果您使用虚拟主机来寻址存储桶，请将其设置为 "true"。                                                                                                                                                                      | 可选       |
 
-## Column Nullable
+## 列可为空
 
-By default, **all columns are nullable(NULL)** in Databend. If you need a column that does not allow NULL values, use the NOT NULL constraint. For more information, see [NULL Values and NOT NULL Constraint](../../../00-sql-reference/10-data-types/index.md).
+默认情况下，**Databend中的所有列都可以为NULL（可为空）**。如果您需要一个不允许NULL值的列，请使用NOT NULL约束。更多信息，请参见 [NULL值和NOT NULL约束](../../../00-sql-reference/10-data-types/index.md)。
 
-## Default Values
+## 默认值
 
 ```sql
 DEFAULT <expr>
 ```
-Specify a default value inserted in the column if a value is not specified via an `INSERT` or `CREATE TABLE AS SELECT` statement.
+如果通过 `INSERT` 或 `CREATE TABLE AS SELECT` 语句未指定值，则在列中插入默认值。
 
-For example:
+例如：
 
 ```sql
 CREATE TABLE t_default_value(a TINYINT UNSIGNED, b VARCHAR DEFAULT 'b');
 ```
 
-Desc the `t_default_value` table:
+描述 `t_default_value` 表：
 
 ```sql
 DESC t_default_value;
 
-Field|Type            |Null|Default|Extra|
------+----------------+----+-------+-----+
-a    |TINYINT UNSIGNED|YES |NULL   |     |
-b    |VARCHAR         |YES |'b'    |     |
+字段|类型              |空  |默认值 |额外信息|
+----+------------------+----+-------+-------+
+a   |TINYINT UNSIGNED |YES |NULL   |       |
+b   |VARCHAR          |YES |'b'    |       |
 ```
 
-Insert a value:
+插入一个值：
 
 ```sql
 INSERT INTO T_default_value(a) VALUES(1);
 ```
 
-Check the table values:
+检查表的值：
 
 ```sql
 SELECT * FROM t_default_value;
@@ -179,13 +179,13 @@ SELECT * FROM t_default_value;
 +------+------+
 ```
 
-## Computed Columns
+## 计算列
 
-Computed columns are columns that are generated from other columns in a table using a scalar expression. When data in any of the columns used in the computation is updated, the computed column will automatically recalculate its value to reflect the update. 
+计算列是从表中其他列使用标量表达式生成的列。当用于计算的任何列中的数据更新时，计算列将自动重新计算其值以反映更新。
 
-Databend supports two types of computed columns: stored and virtual. Stored computed columns are physically stored in the database and occupy storage space, while virtual computed columns are not physically stored and their values are calculated on the fly when accessed.
+Databend支持两种类型的计算列：存储和虚拟。存储计算列在数据库中物理存储并占用存储空间，而虚拟计算列不进行物理存储，其值在访问时即时计算。
 
-Databend supports two syntax options for creating computed columns: one using `AS (<expr>)` and the other using `GENERATED ALWAYS AS (<expr>)`. Both syntaxes allow specifying whether the computed column is stored or virtual.
+Databend支持两种创建计算列的语法选项：一种使用 `AS (<expr>)`，另一种使用 `GENERATED ALWAYS AS (<expr>)`。两种语法都允许指定计算列是存储还是虚拟。
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
@@ -203,7 +203,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 )
 ```
 
-The following is an example of creating a stored computed column: Whenever the values of the "price" or "quantity" columns are updated, the "total_price" column will automatically recalculate and update its stored value.
+以下是创建存储计算列的示例：每当“price”或“quantity”列的值更新时，“total_price”列将自动重新计算并更新其存储值。
 
 ```sql
 CREATE TABLE IF NOT EXISTS products (
@@ -214,7 +214,7 @@ CREATE TABLE IF NOT EXISTS products (
 );
 ```
 
-The following is an example of creating a virtual computed column: The "full_name" column is dynamically calculated based on the current values of the "first_name" and "last_name" columns. It does not occupy additional storage space. Whenever the "first_name" or "last_name" values are accessed, the "full_name" column will be computed and returned.
+以下是创建虚拟计算列的示例：“full_name”列基于“first_name”和“last_name”列的当前值动态计算。它不占用额外的存储空间。每当访问“first_name”或“last_name”值时，将计算并返回“full_name”列。
 
 ```sql
 CREATE TABLE IF NOT EXISTS employees (
@@ -225,25 +225,25 @@ CREATE TABLE IF NOT EXISTS employees (
 );
 ```
 
-:::tip STORED or VIRTUAL?
-When choosing between stored computed columns and virtual computed columns, consider the following factors:
+:::tip 存储还是虚拟？
+在选择存储计算列和虚拟计算列之间时，考虑以下因素：
 
-- Storage Space: Stored computed columns occupy additional storage space in the table because their computed values are physically stored. If you have limited database space or want to minimize storage usage, virtual computed columns can be a better choice.
+- 存储空间：存储计算列在表中占用额外的存储空间，因为它们的计算值是物理存储的。如果您的数据库空间有限或想要最小化存储使用，虚拟计算列可能是更好的选择。
 
-- Real-time Updates: Stored computed columns update their computed values immediately when the dependent columns are updated. This ensures that you always have the latest computed values when querying. Virtual computed columns, on the other hand, compute their values dynamically during queries, which may slightly increase the processing time.
+- 实时更新：存储计算列在依赖列更新时立即更新其计算值。这确保了在查询时您总是拥有最新的计算值。另一方面，虚拟计算列在查询期间动态计算它们的值，这可能会略微增加处理时间。
 
-- Data Integrity and Consistency: Stored computed columns maintain immediate data consistency since their computed values are updated upon write operations. Virtual computed columns, however, calculate their values on-the-fly during queries, which means there might be a momentary inconsistency between write operations and subsequent queries.
+- 数据完整性和一致性：存储计算列由于在写操作时更新其计算值，因此维护了即时的数据一致性。然而，虚拟计算列在查询期间即时计算它们的值，这意味着在写操作和随后的查询之间可能存在短暂的不一致。
 :::
 
-## MySQL Compatibility
+## MySQL 兼容性
 
-Databend’s syntax is difference from MySQL mainly in the data type and some specific index hints.
+Databend 的语法主要在数据类型和一些特定的索引提示上与 MySQL 不同。
 
-## Examples
+## 示例
 
-### Create Table
+### 创建表
 
-Create a table with a default value for a column (in this case, the `genre` column has 'General' as the default value):
+创建一个列有默认值的表（在这个例子中，`genre`列的默认值为'General'）：
 
 ```sql
 CREATE TABLE books (
@@ -253,7 +253,7 @@ CREATE TABLE books (
 );
 ```
 
-Describe the table to confirm the structure and the default value for the `genre` column:
+描述表以确认结构和`genre`列的默认值：
 
 ```sql
 DESC books;
@@ -266,13 +266,13 @@ DESC books;
 +-------+-----------------+------+---------+-------+
 ```
 
-Insert a row without specifying the `genre`:
+插入一行而不指定`genre`：
 
 ```sql
 INSERT INTO books(id, title) VALUES(1, 'Invisible Stars');
 ```
 
-Query the table and notice that the default value 'General' has been set for the `genre` column:
+查询表并注意`genre`列已设置默认值'General'：
 
 ```sql
 SELECT * FROM books;
@@ -283,15 +283,15 @@ SELECT * FROM books;
 +----+----------------+---------+
 ```
 
-### Create Table ... Like
+### 创建表 ... 像
 
-Create a new table (`books_copy`) with the same structure as an existing table (`books`):
+创建一个新表（`books_copy`）与现有表（`books`）具有相同的结构：
 
 ```sql
 CREATE TABLE books_copy LIKE books;
 ```
 
-Check the structure of the new table:
+检查新表的结构：
 
 ```sql
 DESC books_copy;
@@ -304,7 +304,7 @@ DESC books_copy;
 +-------+-----------------+------+---------+-------+
 ```
 
-Insert a row into the new table and notice that the default value for the `genre` column has been copied:
+向新表插入一行并注意`genre`列的默认值已被复制：
 
 ```sql
 INSERT INTO books_copy(id, title) VALUES(1, 'Invisible Stars');
@@ -317,15 +317,15 @@ SELECT * FROM books_copy;
 +----+----------------+---------+
 ```
 
-### Create Table ... As
+### 创建表 ... 作为
 
-Create a new table (`books_backup`) that includes data from an existing table (`books`):
+创建一个新表（`books_backup`），包含现有表（`books`）的数据：
 
 ```sql
 CREATE TABLE books_backup AS SELECT * FROM books;
 ```
 
-Describe the new table and notice that the default value for the `genre` column has NOT been copied:
+描述新表并注意`genre`列的默认值未被复制：
 
 ```sql
 DESC books_backup;
@@ -338,7 +338,7 @@ DESC books_backup;
 +-------+-----------------+------+---------+-------+
 ```
 
-Query the new table and notice that the data from the original table has been copied:
+查询新表并注意原始表的数据已被复制：
 
 ```sql
 SELECT * FROM books_backup;
@@ -349,22 +349,22 @@ SELECT * FROM books_backup;
 +----+----------------+---------+
 ```
 
-### Create Transient Table
+### 创建临时表
 
-Create a transient table (temporary table) that automatically deletes data after a specified period of time:
+创建一个临时表（临时表），在指定的时间后自动删除数据：
 
 ```sql
--- Create a transient table
+-- 创建一个临时表
 CREATE TRANSIENT TABLE visits (
   visitor_id BIGINT
 );
 
--- Insert values
+-- 插入值
 INSERT INTO visits VALUES(1);
 INSERT INTO visits VALUES(2);
 INSERT INTO visits VALUES(3);
 
--- Check the inserted data
+-- 检查插入的数据
 SELECT * FROM visits;
 +-----------+
 | visitor_id |
@@ -375,12 +375,12 @@ SELECT * FROM visits;
 +-----------+
 ```
 
-### Create Table ... External_Location
+### 创建表 ... 外部位置
 
-Create a table with data stored on an external location, such as Amazon S3:
+创建一个数据存储在外部位置的表，例如 Amazon S3：
 
 ```sql
--- Create a table named `mytable` and specify the location `s3://testbucket/admin/data/` for the data storage
+-- 创建一个名为`mytable`的表并指定数据存储位置`s3://testbucket/admin/data/`
 CREATE TABLE mytable (
   a INT
 ) 
@@ -392,12 +392,12 @@ CONNECTION=(
 );
 ```
 
-### Create Table ... Column As STORED | VIRTUAL
+### 创建表 ... 列作为 STORED | VIRTUAL
 
-The following example demonstrates a table with a stored computed column that automatically recalculates based on updates to the "price" or "quantity" columns:
+以下示例演示了一个表，其中包含一个存储计算列，该列根据对“price”或“quantity”列的更新自动重新计算：
 
 ```sql
--- Create the table with a stored computed column
+-- 创建带有存储计算列的表
 CREATE TABLE IF NOT EXISTS products (
   id INT,
   price FLOAT64,
@@ -405,13 +405,16 @@ CREATE TABLE IF NOT EXISTS products (
   total_price FLOAT64 AS (price * quantity) STORED
 );
 
--- Insert data into the table
+
+
+```sql
+-- 向表中插入数据
 INSERT INTO products (id, price, quantity)
 VALUES (1, 10.5, 3),
        (2, 15.2, 5),
        (3, 8.7, 2);
 
--- Query the table to see the computed column
+-- 查询表以查看计算列
 SELECT id, price, quantity, total_price
 FROM products;
 
@@ -425,23 +428,23 @@ FROM products;
 +------+-------+----------+-------------+
 ```
 
-In this example, we create a table called student_profiles with a Variant type column named profile to store JSON data. We also add a virtual computed column named *age* that extracts the age property from the profile column and casts it to an integer.
+在此示例中，我们创建了一个名为 student_profiles 的表，其中包含一个名为 profile 的 Variant 类型列，用于存储 JSON 数据。我们还添加了一个名为 *age* 的虚拟计算列，该列从 profile 列中提取 age 属性并将其转换为整数。
 
 ```sql
--- Create the table with a virtual computed column
+-- 创建带有虚拟计算列的表
 CREATE TABLE student_profiles (
     id STRING,
     profile VARIANT,
     age INT NULL AS (profile['age']::INT) VIRTUAL
 );
 
--- Insert data into the table
+-- 向表中插入数据
 INSERT INTO student_profiles (id, profile) VALUES
     ('d78236', '{"id": "d78236", "name": "Arthur Read", "age": "16", "school": "PVPHS", "credits": 120, "sports": "none"}'),
     ('f98112', '{"name": "Buster Bunny", "age": "15", "id": "f98112", "school": "TEO", "credits": 67, "clubs": "MUN"}'),
     ('t63512', '{"name": "Ernie Narayan", "school" : "Brooklyn Tech", "id": "t63512", "sports": "Track and Field", "clubs": "Chess"}');
 
--- Query the table to see the computed column
+-- 查询表以查看计算列
 SELECT * FROM student_profiles;
 
 +--------+------------------------------------------------------------------------------------------------------------+------+

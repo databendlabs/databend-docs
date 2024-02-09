@@ -11,27 +11,27 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='掩码策略'/>
 
-在Databend中创建一个新的掩码策略。
+在 Databend 中创建一个新的掩码策略。
 
 ## 语法
 
 ```sql
-CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS 
+CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS
     ( <arg_name_to_mask> <arg_type_to_mask> [ , <arg_1> <arg_type_1> ... ] )
     RETURNS <arg_type_to_mask> -> <expression_on_arg_name>
     [ COMMENT = '<comment>' ]
 ```
 
-| 参数                     	| 描述                                                                                                                             	|
-|-------------------------	|----------------------------------------------------------------------------------------------------------------------------------	|
-| policy_name             	| 要创建的掩码策略的名称。                                                                                                          	|
-| arg_name_to_mask        	| 需要被掩码的原始数据参数的名称。                                                                                                 	|
-| arg_type_to_mask        	| 需要被掩码的原始数据参数的数据类型。                                                                                             	|
-| expression_on_arg_name  	| 决定如何处理原始数据以生成掩码数据的表达式。                                                                                     	|
-| comment                  | 关于掩码策略的可选注释，提供信息或备注。                                                                                         	|
+| 参数                   | 描述                                         |
+| ---------------------- | -------------------------------------------- |
+| policy_name            | 要创建的掩码策略的名称。                     |
+| arg_name_to_mask       | 需要被掩码的原始数据参数的名称。             |
+| arg_type_to_mask       | 需要被掩码的原始数据参数的数据类型。         |
+| expression_on_arg_name | 决定如何处理原始数据以生成掩码数据的表达式。 |
+| comment                | 关于掩码策略的可选注释，提供信息或备注。     |
 
 :::note
-确保 *arg_type_to_mask* 与将应用掩码策略的列的数据类型匹配。
+确保 _arg_type_to_mask_ 与将应用掩码策略的列的数据类型匹配。
 :::
 
 ## 示例

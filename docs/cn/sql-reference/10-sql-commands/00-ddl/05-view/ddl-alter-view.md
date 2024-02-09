@@ -3,15 +3,15 @@ title: ALTER VIEW
 sidebar_position: 2
 ---
 
-Alter the existing view by using another `QUERY`.
+使用另一个`QUERY`修改现有视图。
 
-## Syntax
+## 语法
 
 ```sql
-ALTER VIEW [db.]view_name [(<column>, ...)] AS SELECT query
+ALTER VIEW [ <database_name>. ]view_name [ (<column>, ...) ] AS SELECT query
 ```
 
-## Examples
+## 示例
 
 ```sql
 CREATE VIEW tmp_view AS SELECT number % 3 AS a, avg(number) FROM numbers(1000) GROUP BY a ORDER BY a;
