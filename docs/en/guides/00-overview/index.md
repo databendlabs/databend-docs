@@ -14,13 +14,12 @@ Features unique to a specific edition are clearly noted within the documentation
 
 ## Getting Started
 
-- **[Deployment & Upgrade](../10-deploy/index.md)**: Steps to deploy Databend in various environments.
-- **[Databend Cloud Quickstarts](../20-cloud/index.md)**: Quickstart guide for Databend Cloud.
-- **[Connection Guide](../30-sql-clients/index.md)**: How to connect to Databend(Cloud) using different drivers. 
-- **[Bulk Loading](../40-load-data/index.md)**: Instructions for bulk data import into Databend(Cloud) in various formats.
-- **[Bulk Unloading](../50-unload-data/index.md)**: Methods for exporting data from Databend(Cloud).
+- **[Self-Managed](../10-deploy/index.md)**: Steps to deploy Databend in various environments.
+- **[Databend Cloud](../20-cloud/index.md)**: Quickstart guide for Databend Cloud.
+- **[Connect](../30-sql-clients/index.md)**: How to connect to Databend(Cloud) using different drivers. 
+- **[Data Loading](../40-load-data/index.md)**: Instructions for bulk data import into Databend(Cloud) in various formats.
+- **[Data Unloading](../50-unload-data/index.md)**: Methods for exporting data from Databend(Cloud).
 - **[Security](../56-security/index.md)**: Overview of Databend(Cloud)'s security measures.
 - **[Visualization](../31-visualize/index.md)**: Integrating Databend(Cloud) with visualization tools. 
 - **[Monitoring](../70-monitor/index.md)**: Monitoring Databend(Cloud) with tools like Prometheus.
-- **[Performance Optimization](../55-performance/index.md)**: Tips for enhancing Databend(Cloud)'s performance. 
 - **[Benchmarks](../80-benchmark/index.md)**: Databend Cloud performance with Snowflake on TPC-H SF100 benchmarks. 
