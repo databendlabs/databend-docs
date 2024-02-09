@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.294"/>
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
 
 Creates an internal or external stage.
 
@@ -12,7 +12,7 @@ Creates an internal or external stage.
 
 ```sql
 -- Internal stage
-CREATE STAGE [ IF NOT EXISTS ] <internal_stage_name>
+CREATE [ OR REPLACE ] STAGE [ IF NOT EXISTS ] <internal_stage_name>
   [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
          | TYPE = { CSV | TSV | NDJSON | PARQUET | XML } [ formatTypeOptions ]

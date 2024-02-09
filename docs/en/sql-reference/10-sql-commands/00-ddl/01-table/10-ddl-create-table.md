@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.1.56"/>
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -28,7 +28,7 @@ Databend aims to be easy to use by design and does NOT require any of those oper
 ## CREATE TABLE
 
 ```sql
-CREATE [TRANSIENT] TABLE [IF NOT EXISTS] [db.]table_name
+CREATE [ OR REPLACE ] [ TRANSIENT ] TABLE [ IF NOT EXISTS ] [db.]table_name
 (
     <column_name> <data_type> [ NOT NULL | NULL] [ { DEFAULT <expr> }] [AS (<expr>) STORED | VIRTUAL],
     <column_name> <data_type> [ NOT NULL | NULL] [ { DEFAULT <expr> }] [AS (<expr>) STORED | VIRTUAL],

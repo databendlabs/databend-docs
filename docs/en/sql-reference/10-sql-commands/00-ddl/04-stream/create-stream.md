@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.234"/>
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -15,10 +15,10 @@ Creates a stream.
 ## Syntax
 
 ```sql
-CREATE STREAM [IF NOT EXISTS] [<database_name>.]<stream_name> 
+CREATE [ OR REPLACE ] STREAM [ IF NOT EXISTS ] [<database_name>.]<stream_name> 
   ON TABLE [<database_name>.]<table_name> 
-    [AT (STREAM => <stream_name>)] 
-    [COMMENT = '<comment>']
+    [ AT (STREAM => <stream_name>) ] 
+    [ COMMENT = '<comment>' ]
 ```
 
 - The CREATE STREAM command allows for different database names between the stream and the associated table. In Databend, a stream is treated as an object belonging to a specific database, similar to a table or a view. If a database is not explicitly specified, the current database is assumed as the default context for the stream.

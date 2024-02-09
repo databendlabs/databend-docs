@@ -4,16 +4,16 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.208"/>
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
 
 Creates a connection to external storage.
 
 ## Syntax
 
 ```sql
-CREATE CONNECTION [IF NOT EXISTS] <connection_name> 
+CREATE [ OR REPLACE ] CONNECTION [ IF NOT EXISTS ] <connection_name> 
     STORAGE_TYPE = '<type>' 
-    [<storage_params>]
+    [ <storage_params> ]
 
 ```
 
