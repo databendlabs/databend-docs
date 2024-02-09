@@ -8,7 +8,7 @@ Creates a share.
 ## Syntax
 
 ```sql
-CREATE SHARE [IF NOT EXISTS] <share_name> [ COMMENT = '<string_literal>' ];
+CREATE SHARE [ IF NOT EXISTS ] <share_name> [ COMMENT = '<string_literal>' ];
 ```
 
 ## Examples

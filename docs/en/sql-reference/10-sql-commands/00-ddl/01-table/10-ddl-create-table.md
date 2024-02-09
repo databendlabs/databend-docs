@@ -28,7 +28,7 @@ Databend aims to be easy to use by design and does NOT require any of those oper
 ## CREATE TABLE
 
 ```sql
-CREATE [ OR REPLACE ] [ TRANSIENT ] TABLE [ IF NOT EXISTS ] [db.]table_name
+CREATE [ OR REPLACE ] [ TRANSIENT ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]table_name
 (
     <column_name> <data_type> [ NOT NULL | NULL] [ { DEFAULT <expr> }] [AS (<expr>) STORED | VIRTUAL],
     <column_name> <data_type> [ NOT NULL | NULL] [ { DEFAULT <expr> }] [AS (<expr>) STORED | VIRTUAL],

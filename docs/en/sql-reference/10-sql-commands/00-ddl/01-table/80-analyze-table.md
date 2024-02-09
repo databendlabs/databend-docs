@@ -17,7 +17,7 @@ Databend creates a unique ID for each database and table for storing the table s
 
 ## Syntax
 ```sql
-ANALYZE TABLE [database.]table_name
+ANALYZE TABLE [ <database_name>. ]table_name
 ```
 
 - `ANALYZE TABLE <table_name>`

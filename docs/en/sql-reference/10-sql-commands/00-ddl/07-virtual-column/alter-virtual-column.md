@@ -16,7 +16,7 @@ Modifies virtual columns for a table. Please note that after modifying virtual c
 ## Syntax
 
 ```sql
-ALTER VIRTUAL COLUMN [IF EXISTS] (<virtual_column_1>, <virtual_column_2>, ...) FOR <table>
+ALTER VIRTUAL COLUMN [ IF EXISTS ] ( <virtual_column_1>, <virtual_column_2>, ... ) FOR <table>
 ```
 
 ## Examples

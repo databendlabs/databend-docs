@@ -12,7 +12,7 @@ Shows information about the columns in a given table. Equivalent to [SHOW FIELDS
 ## Syntax
 
 ```sql
-DESC|DESCRIBE [<database_name>.]<table_name>
+DESC|DESCRIBE [ <database_name>. ]<table_name>
 ```
 
 ## Examples

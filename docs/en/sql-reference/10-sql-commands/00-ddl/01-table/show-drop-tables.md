@@ -11,7 +11,7 @@ Lists the dropped tables in the current or a specified database.
 ## Syntax
 
 ```sql
-SHOW DROP TABLES [FROM <database_name>] [LIKE '<pattern>' | WHERE <expr>]
+SHOW DROP TABLES [ FROM <database_name> ] [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
 ## Examples

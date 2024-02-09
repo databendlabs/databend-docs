@@ -12,10 +12,10 @@ Shows information about the columns in a given table.
 ## Syntax
 
 ```sql
-SHOW  [FULL] COLUMNS
+SHOW  [ FULL ] COLUMNS
     {FROM | IN} tbl_name
-    [{FROM | IN} db_name]
-    [LIKE '<pattern>' | WHERE <expr>]
+    [ {FROM | IN} db_name ]
+    [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
 When the optional keyword FULL is included, Databend will add the collation, privileges, and comment information for each column in the table to the result.

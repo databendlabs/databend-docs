@@ -18,7 +18,7 @@ Please note that after creating virtual columns for a table that already contain
 ## Syntax
 
 ```sql
-CREATE [ OR REPLACE ] VIRTUAL COLUMN [IF NOT EXISTS] (<virtual_column_1>, <virtual_column_2>, ...) FOR <table>
+CREATE [ OR REPLACE ] VIRTUAL COLUMN [ IF NOT EXISTS ] ( <virtual_column_1>, <virtual_column_2>, ... ) FOR <table>
 ```
 
 ## Examples

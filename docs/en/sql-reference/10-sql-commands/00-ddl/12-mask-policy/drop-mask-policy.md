@@ -16,7 +16,7 @@ Deletes an existing masking policy from Databend. When you drop a masking policy
 ## Syntax
 
 ```sql
-DROP MASKING POLICY [IF EXISTS] <policy_name>
+DROP MASKING POLICY [ IF EXISTS ] <policy_name>
 ```
 
 ## Examples

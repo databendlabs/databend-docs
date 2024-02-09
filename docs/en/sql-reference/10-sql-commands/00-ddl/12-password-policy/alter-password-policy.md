@@ -12,34 +12,34 @@ Modifies an existing password policy in Databend.
 
 ```sql
 -- Modify existing password policy attributes
-ALTER PASSWORD POLICY [IF EXISTS] <name> SET
-    [PASSWORD_MIN_LENGTH = <number>]
-    [PASSWORD_MAX_LENGTH = <number>]
-    [PASSWORD_MIN_UPPER_CASE_CHARS = <number>]
-    [PASSWORD_MIN_LOWER_CASE_CHARS = <number>]
-    [PASSWORD_MIN_NUMERIC_CHARS = <number>]
-    [PASSWORD_MIN_SPECIAL_CHARS = <number>]
-    [PASSWORD_MIN_AGE_DAYS = <number>]
-    [PASSWORD_MAX_AGE_DAYS = <number>]
-    [PASSWORD_MAX_RETRIES = <number>]
-    [PASSWORD_LOCKOUT_TIME_MINS = <number>]
-    [PASSWORD_HISTORY = <number>]
-    [COMMENT = '<comment>']
+ALTER PASSWORD POLICY [ IF EXISTS ] <name> SET
+    [ PASSWORD_MIN_LENGTH = <number> ]
+    [ PASSWORD_MAX_LENGTH = <number> ]
+    [ PASSWORD_MIN_UPPER_CASE_CHARS = <number> ]
+    [ PASSWORD_MIN_LOWER_CASE_CHARS = <number> ]
+    [ PASSWORD_MIN_NUMERIC_CHARS = <number> ]
+    [ PASSWORD_MIN_SPECIAL_CHARS = <number> ]
+    [ PASSWORD_MIN_AGE_DAYS = <number> ]
+    [ PASSWORD_MAX_AGE_DAYS = <number> ]
+    [ PASSWORD_MAX_RETRIES = <number> ]
+    [ PASSWORD_LOCKOUT_TIME_MINS = <number> ]
+    [ PASSWORD_HISTORY = <number> ]
+    [ COMMENT = '<comment>' ]
 
 -- Remove specific password policy attributes
-ALTER PASSWORD POLICY [IF EXISTS] <name> UNSET
-    [PASSWORD_MIN_LENGTH]
-    [PASSWORD_MAX_LENGTH]
-    [PASSWORD_MIN_UPPER_CASE_CHARS]
-    [PASSWORD_MIN_LOWER_CASE_CHARS]
-    [PASSWORD_MIN_NUMERIC_CHARS]
-    [PASSWORD_MIN_SPECIAL_CHARS]
-    [PASSWORD_MIN_AGE_DAYS]
-    [PASSWORD_MAX_AGE_DAYS]
-    [PASSWORD_MAX_RETRIES]
-    [PASSWORD_LOCKOUT_TIME_MINS]
-    [PASSWORD_HISTORY]
-    [COMMENT]
+ALTER PASSWORD POLICY [ IF EXISTS ] <name> UNSET
+    [ PASSWORD_MIN_LENGTH ]
+    [ PASSWORD_MAX_LENGTH ]
+    [ PASSWORD_MIN_UPPER_CASE_CHARS ]
+    [ PASSWORD_MIN_LOWER_CASE_CHARS ]
+    [ PASSWORD_MIN_NUMERIC_CHARS ]
+    [ PASSWORD_MIN_SPECIAL_CHARS ]
+    [ PASSWORD_MIN_AGE_DAYS ]
+    [ PASSWORD_MAX_AGE_DAYS ]
+    [ PASSWORD_MAX_RETRIES ]
+    [ PASSWORD_LOCKOUT_TIME_MINS ]
+    [ PASSWORD_HISTORY ]
+    [ COMMENT ]
 ```
 
 For detailed descriptions of the password policy attributes, see [Password Policy Attributes](create-password-policy.md#password-policy-attributes).

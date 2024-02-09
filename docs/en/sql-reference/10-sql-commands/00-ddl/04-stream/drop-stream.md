@@ -15,7 +15,7 @@ Deletes an existing stream.
 ## Syntax
 
 ```sql
-DROP STREAM [IF EXISTS] [<database_name>.]<stream_name>
+DROP STREAM [ IF EXISTS ] [ <database_name>. ]<stream_name>
 ```
 
 ## Examples

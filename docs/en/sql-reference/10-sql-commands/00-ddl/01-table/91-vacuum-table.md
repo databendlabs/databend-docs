@@ -21,7 +21,7 @@ See also: [VACUUM DROP TABLE](91-vacuum-drop-table.md)
 ### Syntax and Examples
 
 ```sql
-VACUUM TABLE <table_name> [RETAIN n HOURS] [DRY RUN]
+VACUUM TABLE <table_name> [ RETAIN n HOURS ] [DRY RUN]
 ```
 
 - **RETAIN n HOURS**: This option determines the retention period for historical data files. When this option is specified, Databend will compare the values of *n* and the setting `retention_period`, and it will use the larger value as the retention period. For example, if the specified value of *n* is greater than the default `retention_period`, then Databend will retain data files for *n* hours, so historical data files that are older than *n* hours will be removed. 

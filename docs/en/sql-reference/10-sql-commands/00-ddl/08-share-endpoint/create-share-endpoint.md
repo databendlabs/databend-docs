@@ -8,7 +8,7 @@ Creates a share endpoint.
 ## Syntax
 
 ```sql
-CREATE SHARE ENDPOINT [IF NOT EXISTS] <share_endpoint_name>
+CREATE SHARE ENDPOINT [ IF NOT EXISTS ] <share_endpoint_name>
     URL = '<share_endpoint_url>'
     TENANT = <shared_tenant_name>
     [COMMENT = <comment_string>]

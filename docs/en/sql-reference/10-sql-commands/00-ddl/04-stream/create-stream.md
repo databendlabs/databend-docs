@@ -10,13 +10,13 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='STREAM'/>
 
-Creates a stream.
+Create a stream.
 
 ## Syntax
 
 ```sql
-CREATE [ OR REPLACE ] STREAM [ IF NOT EXISTS ] [<database_name>.]<stream_name> 
-  ON TABLE [<database_name>.]<table_name> 
+CREATE [ OR REPLACE ] STREAM [ IF NOT EXISTS ] [ <database_name>. ]<stream_name> 
+  ON TABLE [ <database_name>. ]<table_name> 
     [ AT (STREAM => <stream_name>) ] 
     [ COMMENT = '<comment>' ]
 ```
