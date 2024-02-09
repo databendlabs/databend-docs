@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.283"/>
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
 
 Creates a SQL user, providing details such as the user's name, authentication type, and password. Optionally, you may set a password policy, network policy, and default role for the user.
 
@@ -17,10 +17,10 @@ See also:
 ## Syntax
 
 ```sql
-CREATE USER <name> IDENTIFIED [WITH <auth_type> ] BY '<password>' 
-[WITH SET PASSWORD POLICY = '<policy_name>'] -- Set password policy
-[WITH SET NETWORK POLICY = '<policy_name>'] -- Set network policy
-[WITH DEFAULT_ROLE = '<role_name>'] -- Set default role
+CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>' 
+[ WITH SET PASSWORD POLICY = '<policy_name>' ] -- Set password policy
+[ WITH SET NETWORK POLICY = '<policy_name>' ] -- Set network policy
+[ WITH DEFAULT_ROLE = '<role_name>' ] -- Set default role
 ```
 
 - *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.

@@ -11,7 +11,7 @@ See also:
 ## Syntax
 
 ```sql
-ALTER TABLE [IF EXISTS] <name> DROP CLUSTER KEY
+ALTER TABLE [ IF EXISTS ] <name> DROP CLUSTER KEY
 ```
 
 ## Examples

@@ -16,7 +16,7 @@ Creates a new masking policy in Databend.
 ## Syntax
 
 ```sql
-CREATE MASKING POLICY [IF NOT EXISTS] <policy_name> AS 
+CREATE MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS 
     ( <arg_name_to_mask> <arg_type_to_mask> [ , <arg_1> <arg_type_1> ... ] )
     RETURNS <arg_type_to_mask> -> <expression_on_arg_name>
     [ COMMENT = '<comment>' ]

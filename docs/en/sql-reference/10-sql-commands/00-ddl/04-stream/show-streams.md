@@ -15,8 +15,8 @@ Displays a list of all available streams.
 ## Syntax
 
 ```sql
-SHOW [FULL] STREAMS [FROM <database_name>] 
-    [LIKE '<pattern>' | WHERE <expr>]
+SHOW [ FULL ] STREAMS [ FROM <database_name> ] 
+    [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
 ## Examples

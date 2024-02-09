@@ -4,26 +4,26 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.283"/>
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
 
 Creates a new password policy in Databend.
 
 ## Syntax
 
 ```sql
-CREATE PASSWORD POLICY [IF NOT EXISTS] <policy_name>
-    [PASSWORD_MIN_LENGTH = <number>]
-    [PASSWORD_MAX_LENGTH = <number>]
-    [PASSWORD_MIN_UPPER_CASE_CHARS = <number>]
-    [PASSWORD_MIN_LOWER_CASE_CHARS = <number>]
-    [PASSWORD_MIN_NUMERIC_CHARS = <number>]
-    [PASSWORD_MIN_SPECIAL_CHARS = <number>]
-    [PASSWORD_MIN_AGE_DAYS = <number>]
-    [PASSWORD_MAX_AGE_DAYS = <number>]
-    [PASSWORD_MAX_RETRIES = <number>]
-    [PASSWORD_LOCKOUT_TIME_MINS = <number>]
-    [PASSWORD_HISTORY = <number>]
-    [COMMENT = '<comment>']
+CREATE [ OR REPLACE ] PASSWORD POLICY [ IF NOT EXISTS ] <policy_name>
+    [ PASSWORD_MIN_LENGTH = <number> ]
+    [ PASSWORD_MAX_LENGTH = <number> ]
+    [ PASSWORD_MIN_UPPER_CASE_CHARS = <number> ]
+    [ PASSWORD_MIN_LOWER_CASE_CHARS = <number> ]
+    [ PASSWORD_MIN_NUMERIC_CHARS = <number> ]
+    [ PASSWORD_MIN_SPECIAL_CHARS = <number> ]
+    [ PASSWORD_MIN_AGE_DAYS = <number> ]
+    [ PASSWORD_MAX_AGE_DAYS = <number> ]
+    [ PASSWORD_MAX_RETRIES = <number> ]
+    [ PASSWORD_LOCKOUT_TIME_MINS = <number> ]
+    [ PASSWORD_HISTORY = <number> ]
+    [ COMMENT = '<comment>' ]
 ```
 
 ### Password Policy Attributes

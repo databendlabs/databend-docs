@@ -12,10 +12,10 @@ Creates a new network policy in Databend.
 ## Syntax
 
 ```sql
-CREATE NETWORK POLICY [IF NOT EXISTS] <policy_name>
-    ALLOWED_IP_LIST=('allowed_ip1', 'allowed_ip2', ...)
-    [BLOCKED_IP_LIST=('blocked_ip1', 'blocked_ip2', ...)]
-    [COMMENT='comment']
+CREATE NETWORK POLICY [ IF NOT EXISTS ] <policy_name>
+    ALLOWED_IP_LIST = ( 'allowed_ip1', 'allowed_ip2', ... )
+    [ BLOCKED_IP_LIST = ( 'blocked_ip1', 'blocked_ip2', ...) ]
+    [ COMMENT = 'comment' ]
 ```
 
 | Parameter       	| Description                                                                                                                                                                                      	|

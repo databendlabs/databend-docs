@@ -11,9 +11,9 @@ Alters a user-defined function.
 ## Syntax
 
 ```sql
-ALTER FUNCTION [IF NOT EXISTS] <function_name> 
+ALTER FUNCTION [ IF NOT EXISTS ] <function_name> 
     AS (<input_param_names>) -> <lambda_expression> 
-    [DESC='<description>']
+    [ DESC='<description>' ]
 ```
 
 ## Examples

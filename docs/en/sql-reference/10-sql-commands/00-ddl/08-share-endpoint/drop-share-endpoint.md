@@ -8,7 +8,7 @@ Deletes a share endpoint.
 ## Syntax
 
 ```sql
-DROP SHARE ENDPOINT [IF NOT EXISTS] <share_endpoint_name>
+DROP SHARE ENDPOINT [ IF NOT EXISTS ] <share_endpoint_name>
 ```
 
 ## Examples

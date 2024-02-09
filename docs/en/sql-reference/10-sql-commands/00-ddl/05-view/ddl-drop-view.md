@@ -8,7 +8,7 @@ Drop the view.
 ## Syntax
 
 ```sql
-DROP VIEW [IF EXISTS] [db.]view_name
+DROP VIEW [ IF EXISTS ] [ <database_name>. ]view_name
 ```
 
 ## Examples

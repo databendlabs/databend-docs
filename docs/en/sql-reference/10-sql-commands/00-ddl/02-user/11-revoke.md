@@ -24,7 +24,7 @@ See also:
 REVOKE { 
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
        }
-FROM [ROLE <role_name>] [<user>]
+FROM [ ROLE <role_name> ] [ <user> ]
 ```
 
 Where:

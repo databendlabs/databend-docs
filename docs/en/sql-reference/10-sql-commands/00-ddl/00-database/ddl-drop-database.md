@@ -9,7 +9,7 @@ See also: [UNDROP DATABASE](undrop-database.md)
 ## Syntax
 
 ```sql
-DROP { DATABASE | SCHEMA } [IF EXISTS] <database_name>
+DROP { DATABASE | SCHEMA } [ IF EXISTS ] <database_name>
 ```
 
 `DROP SCHEMA` is a synonym for `DROP DATABASE`.

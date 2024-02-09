@@ -11,10 +11,10 @@ Lists the tables in the current or a specified database.
 ## Syntax
 
 ```sql
-SHOW [FULL] TABLES 
-    [{FROM | IN} <database_name>] 
-    [HISTORY] 
-    [LIKE '<pattern>' | WHERE <expr>]
+SHOW [ FULL ] TABLES 
+    [ {FROM | IN} <database_name> ] 
+    [ HISTORY ] 
+    [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
 | Parameter | Description                                                                                                                 |

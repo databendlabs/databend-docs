@@ -10,7 +10,7 @@ See also: [DROP TABLE](20-ddl-drop-table.md)
 ## Syntax
 
 ```sql
-TRUNCATE TABLE [db.]table_name
+TRUNCATE TABLE [ <database_name>. ]table_name
 ```
 
 ## Examples

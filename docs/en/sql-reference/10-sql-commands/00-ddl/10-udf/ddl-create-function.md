@@ -11,9 +11,9 @@ Creates a user-defined function.
 ## Syntax
 
 ```sql
-CREATE FUNCTION [IF NOT EXISTS] <function_name> 
-    AS (<input_param_names>) -> <lambda_expression> 
-    [DESC='<description>']
+CREATE FUNCTION [ IF NOT EXISTS ] <function_name> 
+    AS ( <input_param_names> ) -> <lambda_expression> 
+    [ DESC='<description>' ]
 ```
 
 ## Examples

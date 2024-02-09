@@ -11,8 +11,8 @@ Creates an external function.
 ## Syntax
 
 ```sql
-CREATE FUNCTION [IF NOT EXISTS] <function_name> 
-    AS (<input_param_types>) RETURNS <return_type> LANGUAGE <language_name> 
+CREATE FUNCTION [ IF NOT EXISTS ] <function_name> 
+    AS ( <input_param_types> ) RETURNS <return_type> LANGUAGE <language_name> 
     HANDLER = '<handler_name>' ADDRESS = '<udf_server_address>' 
     [DESC='<description>']
 ```

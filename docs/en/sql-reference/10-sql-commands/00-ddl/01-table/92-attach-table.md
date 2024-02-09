@@ -20,7 +20,7 @@ Attach Table provides a seamless connection between source tables and attached t
 
 ```sql
 ATTACH TABLE <target_table_name> '<source_table_data_URI>' 
-CONNECTION=(<connection_parameters>) [READ_ONLY]
+CONNECTION = ( <connection_parameters> ) [ READ_ONLY ]
 ```
 
 - `<source_table_data_URI>` represents the path to the source table's data. For S3-like object storage, the format is `s3://<bucket-name>/<database_ID>/<table_ID>`, for example, *s3://databend-toronto/1/23351/*, which represents the exact path to the table folder within the bucket.

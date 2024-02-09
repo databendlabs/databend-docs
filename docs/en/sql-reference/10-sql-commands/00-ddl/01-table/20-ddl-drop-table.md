@@ -17,7 +17,7 @@ Deletes a table.
 ## Syntax
 
 ```sql
-DROP TABLE [IF EXISTS] [<database_name>.]<table_name> [ALL]
+DROP TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> [ ALL ]
 ```
 
 The optional "ALL" parameter determines whether the underlying data of the table is deleted. 

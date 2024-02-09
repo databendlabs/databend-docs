@@ -3,6 +3,10 @@ title: CREATE DATABASE
 sidebar_position: 1
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
+
 Create a database.
 
 Please note that creating a database from a share is part of the Share feature in Databend Cloud. For more information, see [Share](../08-share/index.md).
@@ -10,7 +14,7 @@ Please note that creating a database from a share is part of the Share feature i
 ## Syntax
 
 ```sql
-CREATE DATABASE [IF NOT EXISTS] <database_name> [FROM SHARE <share_name>]
+CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 ```
 
 ## Examples

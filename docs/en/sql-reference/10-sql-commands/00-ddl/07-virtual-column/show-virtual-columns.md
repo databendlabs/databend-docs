@@ -17,7 +17,7 @@ See also: [system.virtual_columns](../../../00-sql-reference/20-system-tables/sy
 ## Syntax
 
 ```sql
-SHOW VIRTUAL COLUMNS [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
+SHOW VIRTUAL COLUMNS [ LIKE '<pattern>' | WHERE <expr> ] | [ LIMIT <limit> ]
 ```
 
 ## Example

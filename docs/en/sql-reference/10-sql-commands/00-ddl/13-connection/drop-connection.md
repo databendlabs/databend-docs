@@ -11,7 +11,7 @@ Deletes an existing connection.
 ## Syntax
 
 ```sql
-DROP CONNECTION [IF EXISTS] <connection_name>
+DROP CONNECTION [ IF EXISTS ] <connection_name>
 ```
 
 ## Examples
