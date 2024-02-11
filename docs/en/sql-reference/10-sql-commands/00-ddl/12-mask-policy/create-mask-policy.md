@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.45"/>
+<FunctionDescription description="Introduced or updated: v1.2.341"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -16,7 +16,7 @@ Creates a new masking policy in Databend.
 ## Syntax
 
 ```sql
-CREATE MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS 
+CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS 
     ( <arg_name_to_mask> <arg_type_to_mask> [ , <arg_1> <arg_type_1> ... ] )
     RETURNS <arg_type_to_mask> -> <expression_on_arg_name>
     [ COMMENT = '<comment>' ]
