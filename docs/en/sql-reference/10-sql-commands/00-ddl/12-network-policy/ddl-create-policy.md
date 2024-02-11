@@ -5,14 +5,14 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.26"/>
+<FunctionDescription description="Introduced or updated: v1.2.341"/>
 
 Creates a new network policy in Databend.
 
 ## Syntax
 
 ```sql
-CREATE NETWORK POLICY [ IF NOT EXISTS ] <policy_name>
+CREATE [ OR REPLACE ] NETWORK POLICY [ IF NOT EXISTS ] <policy_name>
     ALLOWED_IP_LIST = ( 'allowed_ip1', 'allowed_ip2', ... )
     [ BLOCKED_IP_LIST = ( 'blocked_ip1', 'blocked_ip2', ...) ]
     [ COMMENT = 'comment' ]
