@@ -1,8 +1,7 @@
 ---
 title: 扩展独立的 Databend
 sidebar_label: 扩展独立的 Databend
-description:
-  如何扩展独立的 Databend
+description: 如何扩展独立的 Databend
 ---
 
 ## 扩展独立的 Databend
@@ -12,9 +11,11 @@ description:
 在本主题中，我们将向现有的独立 Databend 添加一个新的查询节点。
 
 ### 部署独立的 Databend
+
 按照[使用自托管对象存储进行部署](./01-deploying-databend.md)来部署本地独立的 Databend 和 MinIO。
 
 ### 部署新的查询节点
+
 1. 在文件夹 `/usr/local/databend/etc` 中复制文件 `databend-query-node.toml`，将其粘贴到同一文件夹中，并命名为 `databend-query-node2.toml`。
 
 2. 打开文件 `databend-query-node2.toml`，将参数值修改如下：
@@ -48,6 +49,7 @@ curl -I  http://127.0.0.1:8082/v1/health
 ```
 
 6. 检查集群信息：
+
 ```sql
 mysql -h127.0.0.1 -uroot -P3308
 SELECT * FROM system.clusters

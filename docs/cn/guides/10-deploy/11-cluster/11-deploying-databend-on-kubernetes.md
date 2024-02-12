@@ -1,47 +1,49 @@
 ---
 title: 在 Kubernetes 上部署集群
 sidebar_label: 在 Kubernetes 上部署集群
-description:
-  如何在 Kubernetes 上部署 Databend 查询集群。
+description: 如何在 Kubernetes 上部署 Databend 查询集群。
 ---
 
 本主题解释了如何在 Kubernetes 上安装和配置 Databend 集群。
-
 
 ## 开始之前
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-* 确保安装了 `helm` 命令，参见 [指南](https://helm.sh/docs/intro/install/)
+- 确保安装了 `helm` 命令，参见 [指南](https://helm.sh/docs/intro/install/)
 
-* 确保您有一个正在运行的 Kubernetes 集群。
+- 确保您有一个正在运行的 Kubernetes 集群。
   例如：
-  * [EKS](https://aws.amazon.com/eks/) 在 `AWS` 上
-  * [GKE](https://cloud.google.com/kubernetes-engine/) 在 `GCP` 上
-  * [AKS](https://azure.microsoft.com/products/kubernetes-service/) 在 `Azure` 上
-  * [ACK](https://www.alibabacloud.com/product/kubernetes) 在 `阿里云` 上
-  * [TKE](https://cloud.tencent.com/product/tke) 在 `腾讯云` 上
+
+  - [EKS](https://aws.amazon.com/eks/) 在 `AWS` 上
+  - [GKE](https://cloud.google.com/kubernetes-engine/) 在 `GCP` 上
+  - [AKS](https://azure.microsoft.com/products/kubernetes-service/) 在 `Azure` 上
+  - [ACK](https://www.alibabacloud.com/product/kubernetes) 在 `阿里云` 上
+  - [TKE](https://cloud.tencent.com/product/tke) 在 `腾讯云` 上
 
   同时，对于本地测试还有简单的 Kubernetes 引擎：
-  * [k3d](https://k3d.io)
-  * [minikube](https://minikube.sigs.k8s.io/docs/start/)
 
-* 创建一个云对象存储并获取相应的凭证，即 `access_key_id` 和 `secret_access_key`。
-  * AWS S3 或其他兼容 S3 的存储服务
-  * Azure 存储 Blob
-  * 由 [Apache OpenDAL](https://github.com/datafuselabs/opendal#services) 支持的其他存储服务
+  - [k3d](https://k3d.io)
+  - [minikube](https://minikube.sigs.k8s.io/docs/start/)
+
+- 创建一个云对象存储并获取相应的凭证，即 `access_key_id` 和 `secret_access_key`。
+
+  - AWS S3 或其他兼容 S3 的存储服务
+  - Azure 存储 Blob
+  - 由 [Apache OpenDAL](https://github.com/datafuselabs/opendal#services) 支持的其他存储服务
 
   :::info 对于高级用户
 
-    也支持不使用访问密钥的认证方法：
-    * [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) 在 aws 上
-    * [RRSA](https://www.alibabacloud.com/help/container-service-for-kubernetes/latest/use-rrsa-to-enforce-access-control) 在阿里云上
-    * [InstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) 在 aws 上（即将推出）
+  也支持不使用访问密钥的认证方法：
+
+  - [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) 在 aws 上
+  - [RRSA](https://www.alibabacloud.com/help/container-service-for-kubernetes/latest/use-rrsa-to-enforce-access-control) 在阿里云上
+  - [InstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) 在 aws 上（即将推出）
 
   :::
 
-* 确保 Kubernetes 集群有一个默认的存储类。
+- 确保 Kubernetes 集群有一个默认的存储类。
 
   ````mdx-code-block
 
@@ -99,20 +101,19 @@ import TabItem from '@theme/TabItem';
 
   ````
 
-* **推荐** 如果您想监控 Databend Meta 和 Databend Query 的状态，请确保 Kubernetes 集群中运行 Prometheus Operator。
+- **推荐** 如果您想监控 Databend Meta 和 Databend Query 的状态，请确保 Kubernetes 集群中运行 Prometheus Operator。
 
   :::tip 一个简单的 Kube Prometheus Stack 步骤
 
-    1. 为 kube-prometheus-stack 添加图表仓库
+  1. 为 kube-prometheus-stack 添加图表仓库
+
 
       ```shell
       helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
       helm repo update prometheus-community
       ```
 
-    2. 为简单的 kube-prometheus-stack 安装准备一个 values 文件
-
-
+  2. 为简单的 kube-prometheus-stack 安装准备一个 values 文件
 
 ```yaml title="values.yaml"
 grafana:
@@ -154,7 +155,6 @@ prometheus-monitoring-kube-prometheus-prometheus-0       2/2     Running   0    
 ```
 
 :::
-
 
 ## 部署示例 Databend 集群
 
@@ -205,7 +205,6 @@ data-databend-meta-0   Bound    pvc-578ec207-bf7e-4bac-a9a1-3f0e4b140b8d   20Gi 
 data-databend-meta-1   Bound    pvc-693a0350-6b87-491d-8575-90bf62179b59   20Gi       RWO            local-path     5m2s
 data-databend-meta-2   Bound    pvc-08bd4ceb-15c2-47f3-a637-c1cc10441874   20Gi       RWO            local-path     4m27s
 ```
-
 
 ### 步骤 2. 部署 Databend Query 集群
 
@@ -395,27 +394,27 @@ tenant1-databend-query   LoadBalancer   10.43.84.243   172.20.0.2    8080:32063/
 
 4. 访问查询集群
 
-  我们在这里使用内置用户 `databend`：
+我们在这里使用内置用户 `databend`：
 
-  * 集群内访问
+- 集群内访问
 
 ```shell
 mysql -htenant1-databend-query.databend-query.svc -udatabend -P3307 -pdatabend
 ```
 
-* 集群外通过负载均衡器访问
+- 集群外通过负载均衡器访问
 
-    ```shell
-    # 这里的地址是上面的服务 tenant1-databend-query 的 `EXTERNAL-IP`
-    mysql -h172.20.0.2 -udatabend -P3307 -pdatabend
-    ```
+  ```shell
+  # 这里的地址是上面的服务 tenant1-databend-query 的 `EXTERNAL-IP`
+  mysql -h172.20.0.2 -udatabend -P3307 -pdatabend
+  ```
 
-* 使用 kubectl 在本地访问
+- 使用 kubectl 在本地访问
 
-    ```shell
-    nohup kubectl port-forward -n databend-query svc/tenant1-databend-query 3307:3307 &
-    mysql -h127.0.0.1 -udatabend -P3307 -pdatabend
-    ```
+  ```shell
+  nohup kubectl port-forward -n databend-query svc/tenant1-databend-query 3307:3307 &
+  mysql -h127.0.0.1 -udatabend -P3307 -pdatabend
+  ```
 
 5. 为 tenant2 部署第二个集群
 
@@ -430,7 +429,7 @@ helm upgrade --install tenant2 databend/databend-query \
     --values values.yaml
 ```
 
-``` shell title="验证 tenant2 的查询服务正在运行"
+```shell title="验证 tenant2 的查询服务正在运行"
 ❯ kubectl -n databend-query get pods
 NAME                                      READY   STATUS    RESTARTS   AGE
 tenant1-databend-query-66647594c-lkkm9    1/1     Running   0          55m
@@ -441,14 +440,13 @@ tenant2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
 tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
 ```
 
-
 ## 维护 Databend 查询集群
 
 ### 扩缩容
 
 扩缩容查询集群有两种方式
 
-* 直接使用 `kubectl`
+- 直接使用 `kubectl`
 
   ```shell
    # 将查询集群数量缩减到 0
@@ -458,7 +456,7 @@ tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
    kubectl -n databend-query scale deployment tenant1-databend-query --replicas=5
   ```
 
-* 在 `values.yaml` 中更新 `replicaCount` 至任意值，然后再次使用 helm 升级
+- 在 `values.yaml` 中更新 `replicaCount` 至任意值，然后再次使用 helm 升级
 
   ```diff title="diff values.yaml"
   - replicaCount: 3
@@ -559,6 +557,7 @@ INSERT INTO t1 SELECT number, number + 300 from numbers(10000000);
 ```sql
 SELECT count(*) FROM t1;
 ```
+
 ```
 +----------+
 | count()  |
@@ -567,27 +566,26 @@ SELECT count(*) FROM t1;
 +----------+
 ```
 
-
 ## 监控元数据和查询集群
 
 :::info
 注意部署元数据和查询集群时应启用 `serviceMonitor`。
 :::
 
-* 从以下地址下载grafana仪表板文件：[datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)。
+- 从以下地址下载 grafana 仪表盘文件：[datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)。
 
-* 为您的集群打开grafana网页。
+- 为您的集群打开 grafana 网页。
 
-* 在左侧边栏选择 `+ 导入`，并上传下载的两个json文件。
+- 在左侧边栏选择 `+ 导入`，并上传下载的两个 json 文件。
 
-* 然后您应该看到两个仪表板：
+- 然后您应该看到两个仪表盘：
 
-  * Databend Meta 运行时
-  * Databend 查询运行时
+  - Databend Meta 运行时
+  - Databend 查询运行时
 
 ## 下一步
 
-部署Databend后，您可能需要了解以下主题：
+部署 Databend 后，您可能需要了解以下主题：
 
-- [加载与卸载数据](/guides/load-data)：在Databend中管理数据的导入/导出。
-- [可视化](/guides/visualize)：将Databend与可视化工具集成以获得洞察。
+- [加载与卸载数据](/guides/load-data)：在 Databend 中管理数据的导入/导出。
+- [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获得洞察。
