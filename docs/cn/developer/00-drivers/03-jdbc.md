@@ -12,9 +12,9 @@ title: Java
 
 1. 访问 Maven 中央仓库 https://repo1.maven.org/maven2/com/databend/databend-jdbc/
 2. 点击最新版本的目录。
-3. 下载 jar 文件，例如，*databend-jdbc-0.1.1.jar*。
+3. 下载 jar 文件，例如，_databend-jdbc-0.1.1.jar_。
 
-要验证 Databend JDBC 驱动程序的版本，例如，*databend-jdbc-0.1.1.jar*，在终端运行以下命令：
+要验证 Databend JDBC 驱动程序的版本，例如，_databend-jdbc-0.1.1.jar_，在终端运行以下命令：
 
 ```bash
 java -jar databend-jdbc-0.1.1.jar --version
@@ -38,13 +38,13 @@ Databend JDBC 驱动程序以 JAR 文件形式提供，可以直接集成到您�
 
 Databend 的 JDBC 驱动程序通常遵循 JDBC 规范。下面是一些常见的基本行为、它们的关键功能以及背后的原理列表。
 
-| 基本行为        | 关键功能                                                                                 | 原理                                                                                                                                                                                                                      |
-|-----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 建立连接 | `DriverManager.getConnection`, `Properties.setProperty`                                     | `getConnection` 使用提供的连接字符串与 Databend 建立连接。<br /><br />`Properties` 对象用于构建连接参数，如 `user` 和 `password`，这些也可以在连接字符串中指定。 |
-| 执行查询     | `Statement.createStatement()`, `Statement.execute()`                                          | `Statement.execute()` 使用 `v1/query` 接口执行查询。                                                                                                                                                         |
-| 批量插入       | `Connection.prepareStatement()`, `PrepareStatement.setInt()`, `PrepareStatement.setString()`, `PrepareStatement.addBatch()`, `PrepareStatement.executeBatch()` 等 | Databend 支持使用 `PrepareStatement` 对象进行批量插入和替换（`INSERT INTO` 和 `REPLACE INTO`）。<br /><br />`PrepareStatement.setXXX()` 方法用于将值绑定到语句的参数。<br /><br />`PrepareStatement.addBatch()` 将尽可能多的数据添加到为创建的语句对象的批处理中。<br /><br />`PrepareStatement.executeBatch()` 将数据上传到内置 Stage 并执行插入/替换操作，利用 [Stage 附件](/developer/apis/http#stage-attachment)。 |
-| 将文件上传到内部 Stage | `Connection.uploadStream`                                                                 | 数据将被上传到 Stage。默认情况下，使用 `PRESIGN UPLOAD` 获取 URL，或者如果禁用了 PRESIGN，则使用 `v1/upload_to_stage` API。                                                                        |
-| 从内部 Stage 下载文件 | `Connection.downloadStream`                                                               | 使用 `PRESIGN DOWNLOAD` 从 Stage 下载数据以获取 URL。                                                                                                                                                  |
+| 基本行为               | 关键功能                                                                                                                                                          | 原理                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 建立连接               | `DriverManager.getConnection`, `Properties.setProperty`                                                                                                           | `getConnection` 使用提供的连接字符串与 Databend 建立连接。<br /><br />`Properties` 对象用于构建连接参数，如 `user` 和 `password`，这些也可以在连接字符串中指定。                                                                                                                                                                                                                                                       |
+| 执行查询               | `Statement.createStatement()`, `Statement.execute()`                                                                                                              | `Statement.execute()` 使用 `v1/query` 接口执行查询。                                                                                                                                                                                                                                                                                                                                                                   |
+| 批量插入               | `Connection.prepareStatement()`, `PrepareStatement.setInt()`, `PrepareStatement.setString()`, `PrepareStatement.addBatch()`, `PrepareStatement.executeBatch()` 等 | Databend 支持使用 `PrepareStatement` 对象进行批量插入和替换（`INSERT INTO` 和 `REPLACE INTO`）。<br /><br />`PrepareStatement.setXXX()` 方法用于将值绑定到语句的参数。<br /><br />`PrepareStatement.addBatch()` 将尽可能多的数据添加到为创建的语句对象的批处理中。<br /><br />`PrepareStatement.executeBatch()` 将数据上传到内置 Stage 并执行插入/替换操作，利用 [Stage 附件](/developer/apis/http#stage-attachment)。 |
+| 将文件上传到内部 Stage | `Connection.uploadStream`                                                                                                                                         | 数据将被上传到 Stage。默认情况下，使用 `PRESIGN UPLOAD` 获取 URL，或者如果禁用了 PRESIGN，则使用 `v1/upload_to_stage` API。                                                                                                                                                                                                                                                                                            |
+| 从内部 Stage 下载文件  | `Connection.downloadStream`                                                                                                                                       | 使用 `PRESIGN DOWNLOAD` 从 Stage 下载数据以获取 URL。                                                                                                                                                                                                                                                                                                                                                                  |
 
 ## 配置连接字符串
 
@@ -62,6 +62,7 @@ props.put("parameter1", parameter1Value);
 props.put("parameter2", parameter2Value);
 Connection con = DriverManager.getConnection("jdbc:databend://user:pass@host/database", props);
 ```
+
 有关可用连接参数及其描述，请参见 https://github.com/databendcloud/databend-jdbc/blob/main/docs/Connection.md#connection-parameters
 
 ## 示例
@@ -124,18 +125,18 @@ int[] count = pstmt.executeBatch(); // 执行后，count[0]=1, count[1]=1
 pstmt.close();
 ```
 
-### 示例：上传文件到内部阶段
+### 示例：上传文件到内部 Stage
 
 ```java
  /**
-     * 将 inputStream 上传到 databend 内部阶段，数据将作为一个文件上传，不会分割。
+     * 将 inputStream 上传到 databend 内部Stage，数据将作为一个文件上传，不会分割。
      * 调用者应在上传完成后关闭输入流。
      *
-     * @param stageName 接收上传文件的阶段
-     * @param destPrefix 阶段中文件名的前缀
+     * @param stageName 接收上传文件的Stage
+     * @param destPrefix Stage中文件名的前缀
      * @param inputStream 文件的输入流
-     * @param destFileName 阶段中的目标文件名
-     * @param fileSize 阶段中的文件大小
+     * @param destFileName Stage中的目标文件名
+     * @param fileSize Stage中的文件大小
      * @param compressData 是否压缩数据
      * @throws SQLException 上传输入流失败
      */
@@ -160,14 +161,14 @@ pstmt.close();
         }
 ```
 
-### 示例：从内部阶段下载文件
+### 示例：从内部 Stage 下载文件
 
 ```java
  /**
-     * 从 databend 内部阶段下载文件，数据将作为一个文件下载，不会分割。
+     * 从 databend 内部Stage下载文件，数据将作为一个文件下载，不会分割。
      *
-     * @param stageName 包含文件的阶段
-     * @param sourceFileName 阶段中的文件名
+     * @param stageName 包含文件的Stage
+     * @param sourceFileName Stage中的文件名
      * @param decompress 是否解压数据
      * @return 文件的输入流
      * @throws SQLException
@@ -176,6 +177,7 @@ pstmt.close();
 ```
 
 从 Databend 下载 CSV 文件：
+
 ```Java
         File f = new File("test.csv");
         try (InputStream fileInputStream = Files.newInputStream(f.toPath())) {
@@ -232,7 +234,7 @@ public class sample {
         properties.setProperty("password", "{PASSWORD}");
         properties.setProperty("SSL", "true");
         Connection connection = DriverManager.getConnection(url, properties);
-        
+
         // 执行
         connection.createStatement().execute("CREATE TABLE IF NOT EXISTS sample_test(id TINYINT, obj VARIANT, d TIMESTAMP, s String, arr ARRAY(INT64)) Engine = Fuse");
 
@@ -245,7 +247,7 @@ public class sample {
             r.next();
             System.out.println(r.getInt(1));
         }
-        
+
         // 使用 executeBatch() 插入
         connection.setAutoCommit(false);
         PreparedStatement ps = connection.prepareStatement("insert into sample_test values");
@@ -275,7 +277,7 @@ public class sample {
 ```
 
 :::tip
-将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息，请参见[连接到数据仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+将代码中的 {USER}、{PASSWORD}、{WAREHOUSE_HOST} 和 {DATABASE} 替换为您的连接信息。有关如何获取连接信息，请参见[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 #### 步骤 3. 使用 Maven 运行示例
