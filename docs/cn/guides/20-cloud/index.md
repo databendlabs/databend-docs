@@ -2,20 +2,17 @@
 title: Databend Cloud 概览
 ---
 
-探索 [Databend Cloud](https://www.databend.cn)，一个与 [Snowflake](https://www.snowflake.com) 相比**性价比高**的替代品，承诺可节省高达 **50%** 的成本。这个完全托管的云数据仓库服务通过标准 SQL 增强了数据分析，并且可以轻松地与现有的 BI 工具和 ETL 管道集成。
+## 什么是 Databend Cloud?
 
-基于尖端的 [Databend](https://github.com/datafuselabs/databend) 开源云数据仓库项目构建，Databend Cloud 位于数据管理创新和效率的前沿。
+Databend Cloud 是一个基于云的、完全托管的数据仓库服务。它设计用于与您已经使用的工具轻松集成，并支持类似于 Snowflake 的 SQL 语法，使得 Snowflake 用户能够平滑过渡。
 
-Databend Cloud 提供了与 Snowflake 一致的用户体验和语法，确保用户能够平滑且熟悉地过渡。
+## 为什么选择 Databend Cloud?
 
-## 与 Snowflake 的比较
-
-要了解 Databend Cloud 与 Snowflake 之间的详细功能比较，请访问[比较页面](https://www.databend.cn/comparison)。
-
-## Databend Cloud 定价
-
-要了解 Databend Cloud 的竞争性定价，请查看[定价页面](https://www.databend.cn/plan/)。
-
+- **成本节省**：与 Snowflake 相比更加经济，具有[显著的节省](/guides/benchmark/tpch)。
+- **从 Snowflake 轻松过渡**：类似的用户体验和 SQL 语法，无缝切换。更多信息[在此](https://www.databend.com/comparison)。
+- **无缝集成**：与现有的 BI 工具和 ETL 管道兼容。
+- **透明定价**：了解您可以通过 Databend Cloud 节省多少[在此](https://www.databend.com/plan/)。
+ 
 ## 目录
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';

@@ -14,7 +14,7 @@ title: SET
 SET [GLOBAL] <setting_name> = <new_value>;
 ```
 
-`GLOBAL`：如果在会话级设置之前包含此选项，该设置将变为全局级设置。有关设置级别的更多信息，请参见 [管理设置](/sql/sql-reference/manage-settings)。
+`GLOBAL`：如果在会话级设置之前包含此选项，该设置将变为全局级设置。有关设置级别的更多信息，请参见 [设置级别](show-settings.md#setting-levels)。
 
 ## 示例
 

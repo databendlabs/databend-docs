@@ -17,5 +17,4 @@ CREATE [ OR REPLACE] FUNCTION [ IF NOT EXISTS ] <function_name>
 ```
 
 ## 示例
-
 参见[使用示例](/guides/query/udf#usage-examples)。

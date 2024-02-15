@@ -1,45 +1,45 @@
 ---
-title: CREATE MASKING POLICY
+title: 创建掩码策略
 sidebar_position: 1
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.45"/>
+<FunctionDescription description="引入或更新版本：v1.2.341"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='MASKING POLICY'/>
+<EEFeature featureName='掩码策略'/>
 
-Creates a new masking policy in Databend.
+在Databend中创建一个新的掩码策略。
 
-## Syntax
+## 语法
 
 ```sql
-CREATE MASKING POLICY [IF NOT EXISTS] <policy_name> AS 
+CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS 
     ( <arg_name_to_mask> <arg_type_to_mask> [ , <arg_1> <arg_type_1> ... ] )
     RETURNS <arg_type_to_mask> -> <expression_on_arg_name>
     [ COMMENT = '<comment>' ]
 ```
 
-| Parameter              	| Description                                                                                                                           	|
-|------------------------	|---------------------------------------------------------------------------------------------------------------------------------------	|
-| policy_name              	| The name of the masking policy to be created.                                                                                          	|
-| arg_name_to_mask       	| The name of the original data parameter that needs to be masked.                                                                      	|
-| arg_type_to_mask       	| The data type of the original data parameter to be masked.                                                                            	|
-| expression_on_arg_name 	| An expression that determines how the original data should be treated to generate the masked data.                                    	|
-| comment                   | An optional comment providing information or notes about the masking policy.                                                          	|
+| 参数                     	| 描述                                                                                                                             	|
+|-------------------------	|----------------------------------------------------------------------------------------------------------------------------------	|
+| policy_name             	| 要创建的掩码策略的名称。                                                                                                          	|
+| arg_name_to_mask        	| 需要被掩码的原始数据参数的名称。                                                                                                 	|
+| arg_type_to_mask        	| 需要被掩码的原始数据参数的数据类型。                                                                                             	|
+| expression_on_arg_name  	| 决定如何处理原始数据以生成掩码数据的表达式。                                                                                     	|
+| comment                  | 关于掩码策略的可选注释，提供信息或备注。                                                                                         	|
 
 :::note
-Ensure that *arg_type_to_mask* matches the data type of the column where the masking policy will be applied.
+确保 *arg_type_to_mask* 与将应用掩码策略的列的数据类型匹配。
 :::
 
-## Examples
+## 示例
 
-This example illustrates the process of setting up a masking policy to selectively reveal or mask sensitive data based on user roles.
+此示例说明了如何根据用户角色选择性地揭示或掩盖敏感数据的设置过程。
 
 ```sql
--- Create a table and insert sample data
+-- 创建表并插入样本数据
 CREATE TABLE user_info (
     id INT,
     email STRING
@@ -48,15 +48,15 @@ CREATE TABLE user_info (
 INSERT INTO user_info (id, email) VALUES (1, 'sue@example.com');
 INSERT INTO user_info (id, email) VALUES (2, 'eric@example.com');
 
--- Create a role
+-- 创建角色
 CREATE ROLE 'MANAGERS';
 GRANT ALL ON *.* TO ROLE 'MANAGERS';
 
--- Create a user and grant the role to the user
+-- 创建用户并将角色授予用户
 CREATE USER manager_user IDENTIFIED BY 'databend';
 GRANT ROLE 'MANAGERS' TO 'manager_user';
 
--- Create a masking policy
+-- 创建掩码策略
 CREATE MASKING POLICY email_mask
 AS
   (val string)
@@ -69,10 +69,10 @@ AS
   END
   COMMENT = 'hide_email';
 
--- Associate the masking policy with the 'email' column
+-- 将掩码策略与'email'列关联
 ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
 
--- Query with the Root user
+-- 以Root用户查询
 SELECT * FROM user_info;
 
 id|email    |
