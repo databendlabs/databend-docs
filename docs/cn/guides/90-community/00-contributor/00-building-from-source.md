@@ -106,7 +106,7 @@ make: *** [Makefile:51: build-release] Error 1
 
 错误信息表明在使用 protoc（一种协议缓冲区编译器）时由于使用了未知标志（--experimental_allow_proto3_optional）导致构建 Databend 出现问题。这个标志只在 protoc 版本 3.12 或更高版本中可用，当前使用的版本不支持它。
 
-推荐的解决方案是升级到支持该标志的 protoc 版本。您可以通过从官方发布页面（https://github.com/protocolbuffers/protobuf/releases）下载最新版本的 protoc 并在您的系统上安装它来实现这一点。
+推荐的解决方案是升级到支持该标志的 protoc 版本。您可以通过从官方发布页面（ https://github.com/protocolbuffers/protobuf/releases ）下载最新版本的 protoc 并在您的系统上安装它来实现这一点。
 
 ```bash
 PB_REL="https://github.com/protocolbuffers/protobuf/releases"
