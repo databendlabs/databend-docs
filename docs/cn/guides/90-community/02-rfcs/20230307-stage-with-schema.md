@@ -1,10 +1,10 @@
 ---
-title: 支持带有模式的阶段
+title: 支持带有模式的Stage
 ---
 
 ## 摘要
 
-阶段支持 `schema` 选项。
+Stage 支持 `schema` 选项。
 
 ## 动机
 
@@ -56,7 +56,9 @@ SELECT <exprs> FROM @<stage>/'<uri>'(SCHEMA= (<schema> | "<table_name>"), ..)
 只能推断出大致的模式。
 
 1. 对于 CSV/TSV，所有列都是 `STRING` 类型。
-  - 当有很多列时，用户只能使用列名 `$1`、`$2`，这不够友好。
+
+- 当有很多列时，用户只能使用列名 `$1`、`$2`，这不够友好。
+
 2. 对于 ndjson，所有列都是 `VARINT` 类型。
 3. 即使对于 parquet，像 variant/datetime 这样的高级类型列以字符串格式也不能直接映射。
 
@@ -71,11 +73,11 @@ SELECT <exprs> FROM @<stage>/'<uri>'(SCHEMA= (<schema> | "<table_name>"), ..)
 
 ### 替代方案
 
-#### WITH_SCHEMA 
+#### WITH_SCHEMA
 
 ```sql
 
-SELECT <exprs> FROM @<stage>|'<uri>' WITH_SCHEMA <data_schema> 
+SELECT <exprs> FROM @<stage>|'<uri>' WITH_SCHEMA <data_schema>
 ```
 
 缺点：当与其他表或嵌套查询一起使用时，阅读和解析困难，例如：

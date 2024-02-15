@@ -4,11 +4,11 @@ title: 在加载时转换
 
 ## 摘要
 
-支持在从阶段复制到表时进行转换。
+支持在从 Stage 复制到表时进行转换。
 
 ## 动机
 
-目前，我们支持阶段表功能，因此我们可以在从阶段到表**插入**时进行转换。
+目前，我们支持 Stage 表功能，因此我们可以在从 Stage 到表**插入**时进行转换。
 
 ```sql
 insert into table1 from (select c1， c2 from @stage1/path/to/dir);
@@ -34,21 +34,21 @@ COPY into table1 from (select c1， c2 from @stage1/path/to/dir where c3 > 1);
 
 ### 自动转换
 
-子查询的输出表达式应该转换为表的模式，如果它满足auto_cast_rule。
+子查询的输出表达式应该转换为表的模式，如果它满足 auto_cast_rule。
 
 一些转换可以被优化掉。例如：
 
-对于`COPY into table1 from (select c1::string from @stage1/path/to/dir);`其中c1是int，
-我们可以直接将c1解析为字符串。
-如果c1的目标列也是int，'::string'可以被删除。
+对于`COPY into table1 from (select c1::string from @stage1/path/to/dir);`其中 c1 是 int，
+我们可以直接将 c1 解析为字符串。
+如果 c1 的目标列也是 int，'::string'可以被删除。
 
 ### 优化
 
 投影和过滤：
 
-1. 对于像parquet这样的文件格式，列剪裁和过滤下推可以很好地工作。
-2. 对于其他格式如CSV/TSV/NDJSON，有机会快速解析未使用的列，例如对于TSV，
-在解析完投影中的最后一个字段后，我们可以直接跳到下一个`\n`。
+1. 对于像 parquet 这样的文件格式，列剪裁和过滤下推可以很好地工作。
+2. 对于其他格式如 CSV/TSV/NDJSON，有机会快速解析未使用的列，例如对于 TSV，
+   在解析完投影中的最后一个字段后，我们可以直接跳到下一个`\n`。
 
 ## 参考级解释
 
@@ -62,15 +62,15 @@ COPY into <table> from (select <expr> from @<stage>/<path>(<options>) <alias> wh
 
 ### 自动转换
 
-如果源模式可以自动转换为目标模式，则不应要求在SQL中明确进行转换。
-现在，一些'转换'是由解析器实现的，只要用户提供了目标类型，就像在[RFC: 带模式的阶段](./20230308-transform-during-load.md)中一样
+如果源模式可以自动转换为目标模式，则不应要求在 SQL 中明确进行转换。
+现在，一些'转换'是由解析器实现的，只要用户提供了目标类型，就像在[RFC: 带模式的 Stage](./20230308-transform-during-load.md)中一样
 例如，时间戳类型解码器可能接受数字和字符串。
 
-我们应该以后改进这一点。在此之前，用户可以使用本RFC中的方法完成相同的功能。
+我们应该以后改进这一点。在此之前，用户可以使用本 RFC 中的方法完成相同的功能。
 
 ### FileFormatOptions
 
-例如，一些数据库对CSV文件格式有一个`TRIM`选项。但用户可能需要它的不同变体
+例如，一些数据库对 CSV 文件格式有一个`TRIM`选项。但用户可能需要它的不同变体
 
 1. 剪裁开头或尾部空格？还是两者都有？
 2. 引号内还是引号外？
