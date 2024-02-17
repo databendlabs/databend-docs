@@ -16,7 +16,7 @@ Deletes virtual columns created for a table.
 ## Syntax
 
 ```sql
-DROP VIRTUAL COLUMN [IF EXISTS] FOR <table>
+DROP VIRTUAL COLUMN [ IF EXISTS ] FOR <table>
 ```
 
 ## Examples

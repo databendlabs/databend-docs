@@ -4,16 +4,16 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.116"/>
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
 
 Creates a user-defined function.
 
 ## Syntax
 
 ```sql
-CREATE FUNCTION [IF NOT EXISTS] <function_name> 
-    AS (<input_param_names>) -> <lambda_expression> 
-    [DESC='<description>']
+CREATE [ OR REPLACE ] FUNCTION [ IF NOT EXISTS ] <function_name> 
+    AS ( <input_param_names> ) -> <lambda_expression> 
+    [ DESC='<description>' ]
 ```
 
 ## Examples

@@ -1,15 +1,17 @@
 ---
 title: 显示设置
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.190"/>
+<FunctionDescription description="引入或更新于：v1.2.314"/>
 
-显示当前会话的所有系统设置。
+Databend 提供了多种系统设置，使您能够控制 Databend 的工作方式。此命令显示可用系统设置的当前值和默认值，以及[设置级别](#setting-levels)。要更新设置，请使用 [SET](set-global.md) 或 [UNSET](unset.md) 命令。
 
-:::tip
-Databend将系统设置存储在系统表[system.settings](../../00-sql-reference/20-system-tables/system-settings.md)中。
-:::
+- 有些 Databend 行为不能通过系统设置更改；在使用 Databend 时，您必须考虑到这些行为。例如，
+  - Databend 将字符串编码为 UTF-8 字符集。
+  - Databend 对数组使用基于 1 的编号约定。
+- Databend 在系统表 [system.settings](../../00-sql-reference/20-system-tables/system-settings.md) 中存储系统设置。
 
 ## 语法
 
@@ -17,80 +19,28 @@ Databend将系统设置存储在系统表[system.settings](../../00-sql-referenc
 SHOW SETTINGS [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
+## 设置级别 {#setting-levels}
+
+每个 Databend 设置都有一个级别，可以是 Global、Default 或 Session。下表说明了每个级别的区别：
+
+| 级别    | 描述                                                                                                                                      |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Global  | 此级别的设置被写入元服务，并影响同一租户中的所有集群。此级别的更改具有全局影响，适用于多个集群共享的整个数据库环境。                      |
+| Default | 此级别的设置通过 `databend-query.toml` 配置文件配置。此级别的更改仅影响单个查询实例，并特定于配置文件。此级别为各个查询实例提供默认设置。 |
+| Session | 此级别的设置限于单个请求或会话。它们具有最窄的范围，仅适用于进行中的特定会话或请求，提供了一种在每个会话基础上自定义设置的方式。          |
+
 ## 示例
 
 ```sql
-SHOW SETTINGS;
+SHOW SETTINGS LIMIT 5;
 
-
-
-```
-名称                                        |值           |默认值       |级别    |描述                                                                                                                                                                              |类型    |
---------------------------------------------+------------+------------+-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+
-collation                                   |binary      |binary      |SESSION|设置字符排序规则。可用值包括 "binary" 和 "utf8"。                                                                                                                                   |String|
-ddl_column_type_nullable                    |1           |1           |SESSION|创建或修改表时，如果列默认为可空                                                                                                                                                     |UInt64|
-efficiently_memory_group_by                 |0           |0           |SESSION|高效使用内存，但这可能会导致性能下降。                                                                                                                                               |UInt64|
-enable_aggregating_index_scan               |1           |1           |SESSION|在查询时启用聚合索引数据扫描。                                                                                                                                                       |UInt64|
-enable_bushy_join                           |0           |0           |SESSION|启用优化器生成灌木状连接计划。                                                                                                                                                       |UInt64|
-enable_cbo                                  |1           |1           |SESSION|启用基于成本的优化。                                                                                                                                                                 |UInt64|
-enable_distributed_compact                  |0           |0           |SESSION|启用表压缩的分布式执行。                                                                                                                                                             |UInt64|
-enable_distributed_copy_into                |0           |0           |SESSION|启用copy into的分布式执行。                                                                                                                                                          |UInt64|
-enable_distributed_merge_into               |0           |0           |SESSION|启用分布式merge into。                                                                                                                                                               |UInt64|
-enable_distributed_recluster                |0           |0           |SESSION|启用表重聚类的分布式执行。                                                                                                                                                           |UInt64|
-enable_distributed_replace_into             |0           |0           |SESSION|启用replace into的分布式执行。                                                                                                                                                        |UInt64|
-enable_dphyp                                |1           |1           |SESSION|启用dphyp连接顺序算法。                                                                                                                                                             |UInt64|
-enable_experimental_merge_into              |0           |0           |SESSION|启用实验性merge into。                                                                                                                                                              |UInt64|
-enable_hive_parquet_predict_pushdown        |1           |1           |SESSION|通过将此变量设置为1来启用hive parquet预测下推，默认值为1                                                                                                                               |UInt64|
-enable_parquet_page_index                   |1           |1           |SESSION|启用parquet页面索引                                                                                                                                                                  |UInt64|
-enable_parquet_prewhere                     |0           |0           |SESSION|启用parquet prewhere                                                                                                                                                                |UInt64|
-enable_parquet_rowgroup_pruning             |1           |1           |SESSION|启用parquet rowgroup剪枝                                                                                                                                                            |UInt64|
-enable_query_profiling                      |0           |0           |SESSION|启用查询性能分析记录                                                                                                                                                                 |UInt64|
-enable_query_result_cache                   |0           |0           |SESSION|启用查询结果缓存以提高相同查询的性能。                                                                                                                                                 |UInt64|
-enable_recluster_after_write                |1           |1           |SESSION|启用写入（copy/replace-into）后的重聚类。                                                                                                                                             |UInt64|
-enable_refresh_aggregating_index_after_write|0           |0           |SESSION|在写入新数据后刷新聚合索引                                                                                                                                                           |UInt64|
-enable_replace_into_bloom_pruning           |1           |1           |SESSION|为replace-into语句启用布隆剪枝。                                                                                                                                                     |UInt64|
-enable_replace_into_partitioning            |1           |1           |SESSION|为replace-into语句启用分区（如果表有集群键）。                                                                                                                                         |UInt64|
-enable_runtime_filter                       |0           |0           |SESSION|为JOIN启用运行时过滤器优化。                                                                                                                                                         |UInt64|
-enable_table_lock                           |1           |1           |SESSION|如有必要，启用表锁（默认启用）。                                                                                                                                                     |UInt64|
-flight_client_timeout                       |60          |60          |SESSION|设置flight客户端请求可以处理的最大时间（秒）。                                                                                                                                       |UInt64|
-group_by_shuffle_mode                       |before_merge|before_merge|SESSION|Group by洗牌模式，'before_partial'更平衡，但需要交换更多数据。                                                                                                                      |String|
-group_by_two_level_threshold                |20000       |20000       |SESSION|设置GROUP BY操作中触发两级聚合的键的数量。                                                                                                                                           |UInt64|
-hide_options_in_show_create_table           |1           |1           |SESSION|在SHOW TABLE CREATE的结果末尾隐藏与表相关的信息，如SNAPSHOT_LOCATION和STORAGE_FORMAT。                                                                                               |UInt64|
-hive_parquet_chunk_size                     |16384       |16384       |SESSION|每次从parquet读取到databend处理器的最大行数                                                                                                                                           |UInt64|
-input_read_buffer_size                      |4194304     |4194304     |SESSION|设置分配给用于从存储读取数据的缓冲区的内存大小（字节）。                                                                                                                               |UInt64|
-join_spilling_threshold                     |0           |0           |SESSION|哈希连接可以使用的最大内存量，0为无限制。                                                                                                                                             |UInt64|
-lazy_read_threshold                         |1000        |1000        |SESSION|设置查询中启用懒读优化的最大LIMIT。设置为0禁用优化。                                                                                                                                  |UInt64|
-load_file_metadata_expire_hours             |168         |168         |SESSION|设置使用COPY INTO从中加载数据的文件的元数据过期的小时数。                                                                                                                             |UInt64|
-max_block_size                              |65536       |65536       |SESSION|设置可以读取的单个数据块的最大字节大小。                                                                                                                                             |UInt64|
-max_execute_time_in_seconds                 |0           |0           |SESSION|设置最大查询执行时间（秒）。设置为0表示无限制。                                                                                                                                       |UInt64|
-max_inlist_to_or                            |3           |3           |SESSION|设置可以在IN表达式中包含的最大值数量，以转换为OR操作符。                                                                                                                               |UInt64|
-max_memory_usage                            |6871947673  |6871947673  |SESSION|设置处理单个查询的最大内存使用量（字节）。                                                                                                                                           |UInt64|
-max_result_rows                             |0           |0           |SESSION|设置查询结果中可以返回的最大行数，当未指定特定行数时。设置为0表示无限制。                                                                                                               |UInt64|
-max_storage_io_requests                     |48          |48          |SESSION|设置最大并发I/O请求数。                                                                                                                                                             |UInt64|
-max_threads                                 |8           |8           |SESSION|设置执行请求的最大线程数。                                                                                                                                                          |UInt64|
-numeric_cast_option                         |rounding    |rounding    |SESSION|将数字转换模式设置为"rounding"或"truncating"。                                                                                                                                       |String|
-parquet_fast_read_bytes                     |0           |0           |SESSION|小于此大小的Parquet文件将被整体读取，而不是按列读取。                                                                                                                                  |UInt64|
-parquet_uncompressed_buffer_size            |2097152     |2097152     |SESSION|设置用于读取Parquet文件的缓冲区的字节大小。                                                                                                                                           |UInt64|
-prefer_broadcast_join                       |1           |1           |SESSION|启用广播连接。                                                                                                                                                                      |UInt64|
-query_result_cache_allow_inconsistent       |0           |0           |SESSION|确定Databend是否返回与底层数据不一致的缓存查询结果。                                                                                                                                   |UInt64|
-query_result_cache_max_bytes                |1048576     |1048576     |SESSION|设置单个查询结果的最大缓存字节大小。                                                                                                                                                 |UInt64|
-query_result_cache_ttl_secs                 |300         |300         |SESSION|设置缓存查询结果的生存时间（TTL，秒）。一旦缓存结果的TTL过期，结果被认为是陈旧的，不会用于新查询。                                                                                 |UInt64|
-quoted_ident_case_sensitive                 |1           |1           |SESSION|确定Databend是否将引用的标识符视为区分大小写。                                                                                                                                       |UInt64|
-recluster_block_size                        |2405181685  |2405181685  |SESSION|设置重聚类的块的最大字节大小                                                                                                                                                         |UInt64|
-recluster_timeout_secs                      |43200       |43200       |SESSION|设置重聚类最终超时的秒数。                                                                                                                                                           |UInt64|
-replace_into_bloom_pruning_max_column_number|4           |4           |SESSION|replace-into语句的布隆剪枝使用的最大列数。                                                                                                                                           |UInt64|
-replace_into_shuffle_strategy               |0           |0           |SESSION|0代表块级洗牌，1代表段级洗牌                                                                                                                                                         |UInt64|
-retention_period                            |12          |12          |SESSION|设置保留期（小时）。                                                                                                                                                                |UInt64|
-sandbox_tenant                              |            |            |SESSION|将自定义'sandbox_tenant'注入此会话。仅用于测试目的，仅当'internal_enable_sandbox_tenant'打开时才生效。                                                                              |String|
-spilling_bytes_threshold_per_proc           |0           |0           |SESSION|设置聚合器在查询执行期间将数据溢出到存储之前可以使用的最大内存量（字节）。                                                                                                            |UInt64|
-spilling_memory_ratio                       |0           |0           |SESSION|设置聚合器在查询执行期间将数据溢出到存储之前可以使用的最大内存比例（字节）。                                                                                                          |UInt64|
-sql_dialect                                 |PostgreSQL  |PostgreSQL  |SESSION|设置SQL方言。可用值包括"PostgreSQL"、"MySQL"和"Hive"。                                                                                                                                |String|
-storage_fetch_part_num                      |2           |2           |SESSION|设置在查询执行期间从存储并行获取的分区数。                                                                                                                                           |UInt64|
-storage_io_max_page_bytes_for_read          |524288      |524288      |SESSION|设置单次I/O操作中可以从存储读取的数据页的最大字节大小。                                                                                                                               |UInt64|
-storage_io_min_bytes_for_seek               |48          |48          |SESSION|设置在单次I/O操作中寻找新位置的数据文件时必须从存储读取的最小字节大小。                                                                                                               |UInt64|
-storage_read_buffer_size                    |1048576     |1048576     |SESSION|设置用于将数据读入内存的缓冲区的字节大小。                                                                                                                                           |UInt64|
-table_lock_expire_secs                      |5           |5           |SESSION|设置表锁到期的秒数。                                                                                                                                                                |UInt64|
-timezone                                    |Japan       |UTC         |GLOBAL |设置时区。                                                                                                                                                                          |String|
-unquoted_ident_case_sensitive               |0           |0           |SESSION|确定Databend是否将未引用的标识符视为区分大小写。                                                                                                                                     |UInt64|
-use_parquet2                                |1           |1           |SESSION|在infer_schema()时使用parquet2而不是parquet_rs。                                                                                                                                     |UInt64|
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                     name                    │  value │ default │   range  │  level  │                                                                     description                                                                    │  type  │
+├─────────────────────────────────────────────┼────────┼─────────┼──────────┼─────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼────────┤
+│ acquire_lock_timeout                        │ 15     │ 15      │ None     │ DEFAULT │ Sets the maximum timeout in seconds for acquire a lock.                                                                                            │ UInt64 │
+│ aggregate_spilling_bytes_threshold_per_proc │ 0      │ 0       │ None     │ DEFAULT │ Sets the maximum amount of memory in bytes that an aggregator can use before spilling data to storage during query execution.                      │ UInt64 │
+│ aggregate_spilling_memory_ratio             │ 0      │ 0       │ [0, 100] │ DEFAULT │ Sets the maximum memory ratio in bytes that an aggregator can use before spilling data to storage during query execution.                          │ UInt64 │
+│ auto_compaction_imperfect_blocks_threshold  │ 50     │ 50      │ None     │ DEFAULT │ Threshold for triggering auto compaction. This occurs when the number of imperfect blocks in a snapshot exceeds this value after write operations. │ UInt64 │
+│ collation                                   │ utf8   │ utf8    │ ["utf8"] │ DEFAULT │ Sets the character collation. Available values include "utf8".                                                                                     │ String │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```

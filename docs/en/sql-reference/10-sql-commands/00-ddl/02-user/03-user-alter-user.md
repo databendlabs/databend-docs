@@ -17,7 +17,7 @@ Modifies a user account, including:
 
 ```sql
 -- Modify password / authentication type
-ALTER USER <name> IDENTIFIED [WITH auth_type ] BY '<password>'
+ALTER USER <name> IDENTIFIED [ WITH auth_type ] BY '<password>'
 
 -- Set password policy
 ALTER USER <name> WITH SET PASSWORD POLICY = '<policy_name>'

@@ -11,7 +11,7 @@ Drops an external function.
 ## Syntax
 
 ```sql
-DROP FUNCTION [IF EXISTS] <function_name>
+DROP FUNCTION [ IF EXISTS ] <function_name>
 ```
 
 ## Examples

@@ -8,7 +8,7 @@ Alter the existing view by using another `QUERY`.
 ## Syntax
 
 ```sql
-ALTER VIEW [db.]view_name [(<column>, ...)] AS SELECT query
+ALTER VIEW [ <database_name>. ]view_name [ (<column>, ...) ] AS SELECT query
 ```
 
 ## Examples

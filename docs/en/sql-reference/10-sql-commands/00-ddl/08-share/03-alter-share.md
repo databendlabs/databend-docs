@@ -8,7 +8,7 @@ Adds / removes one or more organizations by their tenant IDs to / from a share.
 ## Syntax
 
 ```sql
-ALTER SHARE [IF EXISTS] <share_name> {ADD | REMOVE} TENANTS = <tenant_id> [, <tenant_id>, ...]
+ALTER SHARE [ IF EXISTS ] <share_name> { ADD | REMOVE } TENANTS = <tenant_id> [ , <tenant_id>, ... ]
 ```
 
 ## Examples

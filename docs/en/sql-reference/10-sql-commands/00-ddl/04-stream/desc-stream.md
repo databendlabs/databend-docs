@@ -15,7 +15,7 @@ Describes the details of a specific stream.
 ## Syntax
 
 ```sql
-DESC|DESCRIBE STREAM [<database_name>.]<stream_name>
+DESC|DESCRIBE STREAM [ <database_name>. ]<stream_name>
 ```
 
 ## Examples

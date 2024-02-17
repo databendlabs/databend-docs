@@ -4,22 +4,21 @@ sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.275"/>
+<FunctionDescription description="引入或更新于：v1.2.275"/>
 
-Revokes privileges, roles, and ownership of a specific database object. This involves:
+撤销特定数据库对象的权限、角色和所有权。这包括：
 
-- Revoking privileges from a user or a role.
-- Revoking a role from a user or a role.
-- Revoking ownership from a role.
+- 从用户或角色撤销权限。
+- 从用户或角色撤销角色。
 
-See also:
+另请参见：
 
 - [GRANT](10-grant.md)
 - [SHOW GRANTS](22-show-grants.md)
 
-## Syntax
+## 语法
 
-### Revoking Privileges
+### 撤销权限
 
 ```sql
 REVOKE { 
@@ -28,26 +27,26 @@ REVOKE {
 FROM [ROLE <role_name>] [<user>]
 ```
 
-Where:
+其中：
 
 ```sql
 schemaObjectPrivileges ::=
--- For TABLE
+-- 对于 TABLE
   { SELECT | INSERT }
   
--- For SCHEMA
+-- 对于 SCHEMA
   { CREATE | DROP | ALTER }
   
--- For USER
+-- 对于 USER
   { CREATE USER }
   
--- For ROLE
+-- 对于 ROLE
   { CREATE ROLE}
 
--- For STAGE
+-- 对于 STAGE
   { READ, WRITE }
 
--- For UDF
+-- 对于 UDF
   { USAGE }
 ```
 
@@ -60,40 +59,27 @@ privileges_level ::=
   | UDF <udf_name>
 ```
 
-### Revoking Role
+### 撤销角色
 
 ```sql
--- Revoke a role from a user
+-- 从用户撤销角色
 REVOKE ROLE <role_name> FROM <user_name>
 
--- Revoke a role from a role
+-- 从角色撤销角色
 REVOKE ROLE <role_name> FROM ROLE <role_name>
 ```
 
-### Revoking Ownership
+## 示例
 
-```sql
--- Revoke ownership of a specific table within a database from a role
-REVOKE OWNERSHIP ON <database_name>.<table_name> FROM ROLE '<role_name>'
-
--- Revoke ownership of a stage from a role
-REVOKE OWNERSHIP ON STAGE <stage_name> FROM ROLE '<role_name>'
-
--- Revoke ownership of a user-defined function (UDF) from a role
-REVOKE OWNERSHIP ON UDF <udf_name> FROM ROLE '<role_name>'
-```
-
-## Examples
-
-### Example 1: Revoking Privileges from a User
+### 示例 1：从用户撤销权限
 
 
-Create a user:
+创建用户：
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 ```
 
-Grant the `SELECT,INSERT` privilege on all existing tables in the `default` database to the user `user1`:
+授予用户 `user1` `default` 数据库中所有现有表的 `SELECT,INSERT` 权限：
  
 ```sql
 GRANT SELECT,INSERT ON default.* TO user1;
@@ -107,7 +93,7 @@ SHOW GRANTS FOR user1;
 +---------------------------------------------------+
 ```
 
-Revoke `INSERT` privilege from user `user1`:
+从用户 `user1` 撤销 `INSERT` 权限：
 ```sql
 REVOKE INSERT ON default.* FROM user1;
 ```
@@ -121,21 +107,21 @@ SHOW GRANTS FOR user1;
 +--------------------------------------------+
 ```
 
-### Example 2: Revoking Privileges from a Role
+### 示例 2：从角色撤销权限
 
-Grant the `SELECT,INSERT` privilege on all existing tables in the `mydb` database to the role `role1`:
+授予角色 `role1` `mydb` 数据库中所有现有表的 `SELECT,INSERT` 权限：
 
-Create role:
+创建角色：
 ```sql
 CREATE ROLE role1;
 ```
 
-Grant privileges to the role:
+授予角色权限：
 ```sql
 GRANT SELECT,INSERT ON mydb.* TO ROLE role1;
 ```
 
-Show the grants for the role:
+显示角色的授权情况：
 ```sql
 SHOW GRANTS FOR ROLE role1;
 +--------------------------------------------+
@@ -145,7 +131,7 @@ SHOW GRANTS FOR ROLE role1;
 +--------------------------------------------+
 ```
 
-Revoke `INSERT` privilege from role `role1`:
+从角色 `role1` 撤销 `INSERT` 权限：
 ```sql
 REVOKE INSERT ON mydb.* FROM ROLE role1;
 ```
@@ -159,7 +145,7 @@ SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
 ```
 
-### Example 3: Revoking a Role from a User
+### 示例 3：从用户撤销角色
 
 ```sql
 REVOKE ROLE role1 FROM USER user1;
@@ -173,20 +159,4 @@ SHOW GRANTS FOR user1;
 | GRANT ALL ON 'default'.* TO 'user1'@'%' |
 | GRANT ALL ON *.* TO 'user1'@'%'         |
 +-----------------------------------------+
-```
-
-### Example 4: Revoking Ownership from a Role
-
-```sql
--- Revoke ownership of all tables in the 'finance_data' database from the role 'data_owner'
-REVOKE OWNERSHIP ON finance_data.* FROM ROLE 'data_owner';
-
--- Revoke ownership of the table 'transactions' in the 'finance_data' schema from the role 'data_owner'
-REVOKE OWNERSHIP ON finance_data.transactions FROM ROLE 'data_owner';
-
--- Revoke ownership of the stage 'ingestion_stage' from the role 'data_owner'
-REVOKE OWNERSHIP ON STAGE ingestion_stage FROM ROLE 'data_owner';
-
--- Revoke ownership of the user-defined function 'calculate_profit' from the role 'data_owner'
-REVOKE OWNERSHIP ON UDF calculate_profit FROM ROLE 'data_owner';
 ```

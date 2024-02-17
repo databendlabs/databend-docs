@@ -25,7 +25,7 @@ See also:
 GRANT { 
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
       }
-TO [ROLE <role_name>] [<user_name>]
+TO [ ROLE <role_name> ] [ <user_name> ]
 ```
 
 Where:

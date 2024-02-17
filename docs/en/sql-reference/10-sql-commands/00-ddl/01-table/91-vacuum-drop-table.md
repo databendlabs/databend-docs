@@ -18,10 +18,10 @@ See also: [VACUUM TABLE](91-vacuum-table.md)
 
 ```sql
 VACUUM DROP TABLE 
-    [FROM <database_name>] 
-    [RETAIN <n> HOURS] 
-    [DRY RUN] 
-    [LIMIT <file_count>]
+    [ FROM <database_name> ] 
+    [ RETAIN <n> HOURS ] 
+    [ DRY RUN ] 
+    [ LIMIT <file_count> ]
 ```
 
 - `FROM <database_name>`: This parameter restricts the search for dropped tables to a specific database. If not specified, the command will scan all databases, including those that have been dropped.

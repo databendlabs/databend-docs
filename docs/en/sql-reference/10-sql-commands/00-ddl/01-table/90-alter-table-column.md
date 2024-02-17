@@ -16,39 +16,39 @@ Modifies a table by adding, converting, renaming, changing, or removing a column
 
 ```sql
 -- Add a column to the end of the table
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-ADD [COLUMN] <column_name> <data_type> [NOT NULL | NULL] [DEFAULT <constant_value>]
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ADD [ COLUMN ] <column_name> <data_type> [ NOT NULL | NULL ] [ DEFAULT <constant_value> ]
 
 -- Add a column to a specified position
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-ADD [COLUMN] <column_name> <data_type> [NOT NULL | NULL] [DEFAULT <constant_value>] [FIRST | AFTER <column_name>]
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ADD [ COLUMN ] <column_name> <data_type> [ NOT NULL | NULL ] [ DEFAULT <constant_value> ] [ FIRST | AFTER <column_name> ]
 
 -- Add a virtual computed column
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-ADD [COLUMN] <column_name> <data_type> AS (<expr>) VIRTUAL
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ADD [ COLUMN ] <column_name> <data_type> AS (<expr>) VIRTUAL
 
 -- Convert a stored computed column to a regular column
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-MODIFY [COLUMN] <column_name> DROP STORED
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+MODIFY [ COLUMN ] <column_name> DROP STORED
 
 -- Rename a column
-ALTER TABLE [IF EXISTS] [database.]<table_name>
-RENAME [COLUMN] <column_name> TO <new_column_name>
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
 -- Change the data type of one or multiple columns
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-MODIFY [COLUMN] <column_name> <new_data_type> [DEFAULT <constant_value>][, COLUMN <column_name> <new_data_type> [DEFAULT <constant_value>], ...]
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ][, COLUMN <column_name> <new_data_type> [ DEFAULT <constant_value> ], ... ]
 
 -- Set / Unset masking policy for a column
-ALTER TABLE [IF EXISTS] [database.]<table_name>
-MODIFY [COLUMN] <column_name> SET MASKING POLICY <policy_name>
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+MODIFY [ COLUMN ] <column_name> SET MASKING POLICY <policy_name>
 
-ALTER TABLE [IF EXISTS] [database.]<table_name>
-MODIFY [COLUMN] <column_name> UNSET MASKING POLICY
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+MODIFY [ COLUMN ] <column_name> UNSET MASKING POLICY
 
 -- Remove a column
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-DROP [COLUMN] <column_name>
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+DROP [ COLUMN ] <column_name>
 ```
 
 :::note

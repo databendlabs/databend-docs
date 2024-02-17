@@ -11,8 +11,8 @@ Shows the list of databases that exist on the instance.
 ## Syntax
 
 ```sql
-SHOW [FULL] DATABASES 
-    [LIKE '<pattern>' | WHERE <expr>]
+SHOW [ FULL ] DATABASES 
+    [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
 | Parameter | Description                                                                                                                 |

@@ -11,7 +11,7 @@ See also:
 ## Syntax
 
 ```sql
-ALTER TABLE [IF EXISTS] <name> CLUSTER BY ( <expr1> [ , <expr2> ... ] )
+ALTER TABLE [ IF EXISTS ] <name> CLUSTER BY ( <expr1> [ , <expr2> ... ] )
 ```
 
 ## Examples

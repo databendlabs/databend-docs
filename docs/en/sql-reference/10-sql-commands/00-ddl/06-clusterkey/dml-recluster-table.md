@@ -12,7 +12,7 @@ Re-clusters a table. For why and when to re-cluster a table, see [Re-clustering 
 ### Syntax
 
 ```sql
-ALTER TABLE [IF EXISTS] <table_name> RECLUSTER [FINAL] [WHERE condition] [LIMIT <segment_count>]
+ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [ LIMIT <segment_count> ]
 ```
 
 The command has a limitation on the number of segments it can process, with the default value being "max_thread * 4". You can modify this limit by using the **LIMIT** option. Alternatively, you have two options to cluster your data in the table further:

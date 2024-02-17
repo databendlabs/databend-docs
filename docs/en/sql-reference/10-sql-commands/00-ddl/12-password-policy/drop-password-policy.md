@@ -10,7 +10,7 @@ Deletes an existing password policy from Databend. Please note that, before drop
 ## Syntax
 
 ```sql
-DROP PASSWORD POLICY [IF EXISTS] <policy_name>
+DROP PASSWORD POLICY [ IF EXISTS ] <policy_name>
 ```
 
 ## Examples
