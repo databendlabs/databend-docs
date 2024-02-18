@@ -1,3 +1,6 @@
+nav.menu.thin-scrollbar {
+  padding-right: 0.25rem;
+}
 .menu {
   font-weight: var(--ifm-font-weight-regular);
   font-size:14px;
@@ -18,7 +21,7 @@
   content: '';
   position: absolute;
   right: 0.8rem;
-  top: 40%;
+  top: 33%;
   width: 6px;
   height: 6px;
   background-color: transparent;
