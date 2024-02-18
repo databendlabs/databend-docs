@@ -24,7 +24,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 REVOKE { 
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
        }
-FROM [ROLE <role_name>] [<user>]
+FROM [ ROLE <role_name> ] [ <user> ]
 ```
 
 其中：
@@ -79,7 +79,7 @@ REVOKE ROLE <role_name> FROM ROLE <role_name>
 CREATE USER user1 IDENTIFIED BY 'abc123';
 ```
 
-授予用户 `user1` `default` 数据库中所有现有表的 `SELECT,INSERT` 权限：
+授予用户 `user1` 对 `default` 数据库中所有现有表的 `SELECT,INSERT` 权限：
  
 ```sql
 GRANT SELECT,INSERT ON default.* TO user1;
@@ -109,7 +109,7 @@ SHOW GRANTS FOR user1;
 
 ### 示例 2：从角色撤销权限
 
-授予角色 `role1` `mydb` 数据库中所有现有表的 `SELECT,INSERT` 权限：
+授予角色 `role1` 对 `mydb` 数据库中所有现有表的 `SELECT,INSERT` 权限：
 
 创建角色：
 ```sql

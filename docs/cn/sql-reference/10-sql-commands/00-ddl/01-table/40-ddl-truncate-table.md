@@ -3,24 +3,24 @@ title: TRUNCATE TABLE
 sidebar_position: 16
 ---
 
-Removes all data from a table while preserving the table's schema. It deletes all rows in the table, making it an empty table with the same columns and constraints. Please note that, it does not release the disk space allocated to the table.
+删除表中的所有数据，同时保留表的架构。它删除表中的所有行，使之成为一个空表，但列和约束保持不变。请注意，它不会释放分配给表的磁盘空间。
 
-See also: [DROP TABLE](20-ddl-drop-table.md)
+另见：[DROP TABLE](20-ddl-drop-table.md)
 
-## Syntax
+## 语法
 
 ```sql
-TRUNCATE TABLE [db.]table_name
+TRUNCATE TABLE [ <database_name>. ]table_name
 ```
 
-## Examples
+## 示例
 
 ```sql
 root@localhost> CREATE TABLE test_truncate(a BIGINT UNSIGNED, b VARCHAR);
-Processed in (0.027 sec)
+处理时间 (0.027 秒)
 
 root@localhost> INSERT INTO test_truncate(a,b) VALUES(1234, 'databend');
-1 rows affected in (0.060 sec)
+1 行受影响 (0.060 秒)
 
 root@localhost> SELECT * FROM test_truncate;
 
@@ -35,13 +35,13 @@ FROM
 ├────────┼──────────┤
 │   1234 │ databend │
 └───────────────────┘
-1 row in 0.019 sec. Processed 1 rows, 1B (53.26 rows/s, 17.06 KiB/s)
+1 行在 0.019 秒内. 处理了 1 行, 1B (53.26 行/秒, 17.06 KiB/秒)
 
 root@localhost> TRUNCATE TABLE test_truncate;
 
 TRUNCATE TABLE test_truncate
 
-0 row in 0.047 sec. Processed 0 rows, 0B (0 rows/s, 0B/s)
+0 行在 0.047 秒内. 处理了 0 行, 0B (0 行/秒, 0B/秒)
 
 root@localhost> SELECT * FROM test_truncate;
 
@@ -50,5 +50,5 @@ SELECT
 FROM
   test_truncate
 
-0 row in 0.017 sec. Processed 0 rows, 0B (0 rows/s, 0B/s)
+0 行在 0.017 秒内. 处理了 0 行, 0B (0 行/秒, 0B/秒)
 ```

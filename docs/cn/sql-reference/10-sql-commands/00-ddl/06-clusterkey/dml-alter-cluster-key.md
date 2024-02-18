@@ -1,26 +1,26 @@
 ---
-title: ALTER CLUSTER KEY
+title: 修改集群键
 sidebar_position: 3
 ---
 
-Changes the cluster key for a table.
+更改表的集群键。
 
-See also:
-[DROP CLUSTER KEY](./dml-drop-cluster-key.md)
+另请参阅：
+[删除集群键](./dml-drop-cluster-key.md)
 
-## Syntax
+## 语法
 
 ```sql
-ALTER TABLE [IF EXISTS] <name> CLUSTER BY ( <expr1> [ , <expr2> ... ] )
+ALTER TABLE [ IF EXISTS ] <name> CLUSTER BY ( <expr1> [ , <expr2> ... ] )
 ```
 
-## Examples
+## 示例
 
 ```sql
--- Create table
+-- 创建表
 CREATE TABLE IF NOT EXISTS playground(a int, b int);
 
--- Add cluster key by columns
+-- 通过列添加集群键
 ALTER TABLE playground CLUSTER BY(b,a);
 
 INSERT INTO playground VALUES(0,3),(1,1);
@@ -30,9 +30,9 @@ INSERT INTO playground VALUES(4,4);
 SELECT * FROM playground ORDER BY b,a;
 SELECT * FROM clustering_information('db1','playground');
 
--- Delete cluster key
+-- 删除集群键
 ALTER TABLE playground DROP CLUSTER KEY;
 
--- Add cluster key by expressions
+-- 通过表达式添加集群键
 ALTER TABLE playground CLUSTER BY(rand()+a); 
 ```

@@ -1,36 +1,36 @@
 ---
-title: ANALYZE TABLE
+title: 分析表
 sidebar_position: 7
 ---
 
-The objective of analyzing a table in Databend is to calculate table statistics, such as a distinct number of columns.
+在 Databend 中分析表的目的是计算表统计信息，例如列的不同数目。
 
-## What is Table statistic file?
+## 什么是表统计文件？
 
-A table statistic file is a JSON file that saves table statistic data, such as distinct values of table column.
+表统计文件是一个保存表统计数据的 JSON 文件，例如表列的不同值。
 
-Databend creates a unique ID for each database and table for storing the table statistic file and saves them to your object storage in the path `<bucket_name>/[root]/<db_id>/<table_id>/`. Each table statistic file is named with a UUID (32-character lowercase hexadecimal string).
+Databend 为每个数据库和表创建一个唯一的 ID，用于存储表统计文件，并将它们保存到您的对象存储中的路径 `<bucket_name>/[root]/<db_id>/<table_id>/`。每个表统计文件以 UUID（32字符小写十六进制字符串）命名。
 
-| File            | Format | Filename                     | Storage Folder                                 |
-|-----------------|--------|------------------------------|------------------------------------------------|
-| Table statistic | JSON   | `<32bitUUID>_<version>.json` | `<bucket_name>/[root]/<db_id>/<table_id>/_ts/` |
+| 文件            | 格式 | 文件名                     | 存储文件夹                                 |
+|-----------------|------|----------------------------|--------------------------------------------|
+| 表统计          | JSON | `<32bitUUID>_<version>.json` | `<bucket_name>/[root]/<db_id>/<table_id>/_ts/` |
 
-## Syntax
+## 语法
 ```sql
-ANALYZE TABLE [database.]table_name
+ANALYZE TABLE [ <database_name>. ]table_name
 ```
 
 - `ANALYZE TABLE <table_name>`
 
-    Estimates the number of distinct values of each column in a table, and recalculate the column statistics in snapshot.
+    估计表中每列的不同值数目，并在快照中重新计算列统计信息。
 
-    - It does not display the estimated results after execution. To show the estimated results, use the function [FUSE_STATISTIC](../../../20-sql-functions/16-system-functions/fuse_statistic.md).
-    - The command does not identify distinct values by comparing them but by counting the number of storage segments and blocks. This might lead to a significant difference between the estimated results and the actual value, for example, multiple blocks holding the same value. In this case, Databend recommends compacting the storage segments and blocks to merge them as much as possible before you run the estimation.
-    - The column statistics at the snapshot level may be amplified after execute update/delete/replace statements. You can correct the column statistics by performing analyze statement.
+    - 执行后不显示估计结果。要显示估计结果，请使用函数 [FUSE_STATISTIC](../../../20-sql-functions/16-system-functions/fuse_statistic.md)。
+    - 该命令不是通过比较它们来识别不同值，而是通过计算存储段和块的数量。这可能导致估计结果和实际值之间有显著差异，例如，多个块持有相同的值。在这种情况下，Databend 建议在运行估计之前尽可能地压缩存储段和块以合并它们。
+    - 在执行更新/删除/替换语句后，快照级别的列统计信息可能会被放大。您可以通过执行分析语句来纠正列统计信息。
 
-## Examples
+## 示例
 
-This example estimates the number of distinct values for each column in a table and shows the results with the function FUSE_STATISTIC:
+此示例估计表中每列的不同值数目，并使用函数 FUSE_STATISTIC 显示结果：
 
 ```sql
 create table t(a uint64);
@@ -46,7 +46,7 @@ select * from t order by a;
 6
 7
 
--- FUSE_STATISTIC will not return any results until you run an estimation with OPTIMIZE TABLE.
+-- 在您使用 OPTIMIZE TABLE 运行估计之前，FUSE_STATISTIC 不会返回任何结果。
 select * from fuse_statistic('db_09_0020', 't');
 
 analyze table `t`;
@@ -71,8 +71,8 @@ select * from t order by a;
 7
 7
 
--- FUSE_STATISTIC returns results of your last estimation. To get the most recent estimated values, run the estimation again.
--- OPTIMIZE TABLE does not identify distinct values by comparing them but by counting the number of storage segments and blocks.
+-- FUSE_STATISTIC 返回您上次估计的结果。要获取最新的估计值，请再次运行估计。
+-- OPTIMIZE TABLE 不是通过比较它们来识别不同值，而是通过计算存储段和块的数量。
 select * from fuse_statistic('db_09_0020', 't');
 
 ----
@@ -85,7 +85,7 @@ select * from fuse_statistic('db_09_0020', 't');
 ----
 (0,6);
 
--- Best practice: Compact the table before running the estimation.
+-- 最佳实践：在运行估计之前压缩表。
 optimize table t compact;
 
 analyze table `t`;

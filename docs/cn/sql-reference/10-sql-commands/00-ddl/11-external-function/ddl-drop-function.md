@@ -1,24 +1,24 @@
 ---
-title: DROP FUNCTION
+title: 删除函数
 sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.116"/>
+<FunctionDescription description="引入或更新版本：v1.2.116"/>
 
-Drops an external function.
+删除一个外部函数。
 
-## Syntax
+## 语法
 
 ```sql
-DROP FUNCTION [IF EXISTS] <function_name>
+DROP FUNCTION [ IF EXISTS ] <function_name>
 ```
 
-## Examples
+## 示例
 
 ```sql
 DROP FUNCTION a_plus_3;
 
 SELECT a_plus_3(2);
-ERROR 1105 (HY000): Code: 2602, Text = Unknown Function a_plus_3 (while in analyze select projection).
+ERROR 1105 (HY000): Code: 2602, Text = 未知函数 a_plus_3 (分析选择投影时)。
 ```

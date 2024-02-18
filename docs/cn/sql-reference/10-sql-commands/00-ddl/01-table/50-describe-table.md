@@ -1,21 +1,21 @@
 ---
-title: DESCRIBE TABLE
+title: 描述表
 sidebar_position: 2
 ---
 
-Shows information about the columns in a given table. Equivalent to [SHOW FIELDS](show-fields.md).
+显示给定表中列的信息。等同于 [SHOW FIELDS](show-fields.md)。
 
 :::tip
-[SHOW COLUMNS](show-full-columns.md) provides similar but more information about the columns of a table. 
+[SHOW COLUMNS](show-full-columns.md) 提供了关于表列的类似但更多的信息。
 :::
 
-## Syntax
+## 语法
 
 ```sql
-DESC|DESCRIBE [<database_name>.]<table_name>
+DESC|DESCRIBE [ <database_name>. ]<table_name>
 ```
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE books

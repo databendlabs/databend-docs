@@ -4,14 +4,14 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.283"/>
+<FunctionDescription description="引入或更新版本：v1.2.283"/>
 
 显示Databend中所有现有密码策略的列表。
 
 ## 语法
 
 ```sql
-SHOW PASSWORD POLICIES [LIKE '<pattern>']
+SHOW PASSWORD POLICIES [ LIKE '<pattern>' ]
 ```
 
 ## 示例

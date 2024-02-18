@@ -1,41 +1,41 @@
 ---
-title: CREATE AGGREGATING INDEX
+title: 创建聚合索引
 sidebar_position: 1
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.151"/>
+<FunctionDescription description="引入或更新于：v1.2.339"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='AGGREGATING INDEX'/>
+<EEFeature featureName='聚合索引'/>
 
-Creates a new aggregating index in Databend.
+在Databend中创建一个新的聚合索引。
 
-## Syntax
+## 语法
 
 ```sql
-CREATE [SYNC] AGGREGATING INDEX <index_name> AS SELECT ...
+CREATE [ OR REPLACE ] [ ASYNC ] AGGREGATING INDEX <index_name> AS SELECT ...
 ```
 
-- The `SYNC` parameter, when used during the creation of an aggregating index, enables automatic refresh, ensuring the index stays synchronized with the latest data updates.
+- `ASYNC` 选项：添加 ASYNC 是可选的。它允许索引异步创建。这意味着索引不会立即构建。要稍后构建它，请使用 [REFRESH AGGREGATING INDEX](refresh-aggregating-index.md) 命令。
 
-- When creating aggregating indexes, limit their usage to standard [Aggregate Functions](../../../20-sql-functions/07-aggregate-functions/index.md) (e.g., AVG, SUM, MIN, MAX, COUNT and GROUP BY), while keeping in mind that [GROUPING SETS](/guides/query/groupby/group-by-grouping-sets), [Window Functions](../../../20-sql-functions/08-window-functions/index.md), [LIMIT](../../20-query-syntax/01-query-select.md#limit-clause), and [ORDER BY](../../20-query-syntax/01-query-select.md#order-by-clause) are not accepted, or you will get an error: `Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`.
+- 在创建聚合索引时，限制它们的使用在标准的[聚合函数](../../../20-sql-functions/07-aggregate-functions/index.md)（例如，AVG、SUM、MIN、MAX、COUNT 和 GROUP BY），同时请注意 [GROUPING SETS](/guides/query/groupby/group-by-grouping-sets)、[窗口函数](../../../20-sql-functions/08-window-functions/index.md)、[LIMIT](../../20-query-syntax/01-query-select.md#limit-clause) 和 [ORDER BY](../../20-query-syntax/01-query-select.md#order-by-clause) 不被接受，否则你将收到错误：`当前创建聚合索引仅支持简单查询，如：SELECT ... FROM ... WHERE ... GROUP BY ...`。
 
-- The query filter scope defined when creating aggregating indexes should either match or encompass the scope of your actual queries.
+- 创建聚合索引时定义的查询过滤范围应该与你的实际查询范围匹配或包含实际查询范围。
 
-- To confirm if an aggregating index works for a query, use the [EXPLAIN](../../40-explain-cmds/explain.md) command to analyze the query.
+- 要确认聚合索引是否适用于某个查询，请使用 [EXPLAIN](../../40-explain-cmds/explain.md) 命令分析该查询。
 
-## Examples
+## 示例
 
-This example creates an aggregating index named *my_agg_index* for the query "SELECT MIN(a), MAX(c) FROM agg":
+此示例为查询“SELECT MIN(a), MAX(c) FROM agg”创建一个名为 *my_agg_index* 的聚合索引：
 
 ```sql
--- Prepare data
+-- 准备数据
 CREATE TABLE agg(a int, b int, c int);
 INSERT INTO agg VALUES (1,1,4), (1,2,1), (1,2,4), (2,2,5);
 
--- Create an aggregating index
+-- 创建聚合索引
 CREATE AGGREGATING INDEX my_agg_index AS SELECT MIN(a), MAX(c) FROM agg;
 ```

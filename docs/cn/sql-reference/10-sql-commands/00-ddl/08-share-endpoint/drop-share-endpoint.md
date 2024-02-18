@@ -1,19 +1,19 @@
 ---
-title: DROP SHARE ENDPOINT
+title: 删除共享端点
 sidebar_position: 3
 ---
 
-Deletes a share endpoint.
+删除一个共享端点。
 
-## Syntax
+## 语法
 
 ```sql
-DROP SHARE ENDPOINT [IF NOT EXISTS] <share_endpoint_name>
+DROP SHARE ENDPOINT [ IF NOT EXISTS ] <share_endpoint_name>
 ```
 
-## Examples
+## 示例
 
-The following example drops a share endpoint named "to_share":
+以下示例删除名为 "to_share" 的共享端点：
 
 ```sql
 DROP SHARE ENDPOINT to_share;

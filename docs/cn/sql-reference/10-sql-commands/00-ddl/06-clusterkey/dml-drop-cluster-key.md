@@ -1,22 +1,22 @@
 ---
-title: DROP CLUSTER KEY
+title: 删除集群键
 sidebar_position: 4
 ---
 
-Deletes the cluster key for a table.
+删除表的集群键。
 
-See also:
-[ALTER CLUSTER KEY](./dml-alter-cluster-key.md) 
+另请参阅：
+[修改集群键](./dml-alter-cluster-key.md)
 
-## Syntax
+## 语法
 
 ```sql
-ALTER TABLE [IF EXISTS] <name> DROP CLUSTER KEY
+ALTER TABLE [ IF EXISTS ] <name> DROP CLUSTER KEY
 ```
 
-## Examples
+## 示例
 
-This command drops the cluster key for table *test*:
+此命令删除表 *test* 的集群键：
 
 ```sql
 ALTER TABLE test DROP CLUSTER KEY
