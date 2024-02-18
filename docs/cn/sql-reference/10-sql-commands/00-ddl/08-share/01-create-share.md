@@ -1,19 +1,19 @@
 ---
-title: CREATE SHARE
+title: 创建共享
 sidebar_position: 1
 ---
 
-Creates a share.
+创建一个共享。
 
-## Syntax
+## 语法
 
 ```sql
-CREATE SHARE [IF NOT EXISTS] <share_name> [ COMMENT = '<string_literal>' ];
+CREATE SHARE [ IF NOT EXISTS ] <share_name> [ COMMENT = '<string_literal>' ];
 ```
 
-## Examples
+## 示例
 
-The following example creates a share named `myshare`:
+以下示例创建一个名为 `myshare` 的共享：
 
 ```sql
 CREATE SHARE myshare;

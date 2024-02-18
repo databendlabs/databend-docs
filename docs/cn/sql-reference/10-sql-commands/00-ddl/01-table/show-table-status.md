@@ -4,27 +4,27 @@ sidebar_position: 14
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.131"/>
+<FunctionDescription description="引入或更新版本：v1.2.131"/>
 
-Shows the status of the tables in a database. The status information includes various physical sizes and timestamps about a table, see [Examples](#examples) for details.
+显示数据库中表的状态。状态信息包括表的各种物理大小和时间戳，详见[示例](#examples)。
 
-## Syntax
+## 语法
 
 ```sql
 SHOW TABLE STATUS
-    [{FROM | IN} <database_name>]
-    [LIKE 'pattern' | WHERE expr]
+    [ {FROM | IN} <database_name> ]
+    [ LIKE 'pattern' | WHERE expr ]
 ```
 
-| Parameter | Description                                                                                                                 |
-|-----------|-----------------------------------------------------------------------------------------------------------------------------|
-| FROM / IN | Specifies a database. If omitted, the command returns the results from the current database.                                |
-| LIKE      | Filters the results by the table names using case-sensitive pattern matching.                                                              |
-| WHERE     | Filters the results using an expression in the WHERE clause.                                                                |
+| 参数       | 描述                                                                                   |
+|------------|----------------------------------------------------------------------------------------|
+| FROM / IN  | 指定数据库。如果省略，则命令从当前数据库返回结果。                                     |
+| LIKE       | 使用区分大小写的模式匹配来过滤结果中的表名。                                           |
+| WHERE      | 使用 WHERE 子句中的表达式来过滤结果。                                                  |
 
-## Examples
+## 示例
 
-The following example displays the status of tables in the current database, providing details such as name, engine, rows, and other relevant information:
+以下示例显示当前数据库中表的状态，提供名称、引擎、行数和其他相关信息等详细信息：
 
 ```sql
 SHOW TABLE STATUS;
@@ -36,7 +36,7 @@ mytable|FUSE  |      0|          |   5|              |         40|              
 ontime |FUSE  |      0|          | 199|              |     147981|               |       22961|         |              |2023-09-19 07:04:06.414 +0000|           |          |         |        |       |          |
 ```
 
-The following example displays the status of tables in the current database where the names start with 'my':
+以下示例显示当前数据库中名称以 'my' 开头的表的状态：
 
 ```sql
 SHOW TABLE STATUS LIKE 'my%';
@@ -46,10 +46,10 @@ name   |engine|version|row_format|rows|avg_row_length|data_length|max_data_lengt
 mytable|FUSE  |      0|          |   5|              |         40|               |        1665|         |              |2023-08-28 07:53:05.455 +0000|           |          |         |        |       |((a + 1)) |
 ```
 
-The following example displays the status of tables in the current database where the number of rows is greater than 100:
+以下示例显示当前数据库中行数大于100的表的状态：
 
 :::note
-When using the SHOW TABLE STATUS query, be aware that some column names, such as "rows," may be interpreted as SQL keywords, potentially leading to errors. To avoid this issue, always enclose column names with backticks, as shown in this example. This ensures that column names are treated as identifiers rather than keywords in the SQL query.
+使用 SHOW TABLE STATUS 查询时，请注意，某些列名（如“rows”）可能会被解释为 SQL 关键字，可能导致错误。为避免此问题，始终如本示例所示，用反引号将列名括起来。这确保了 SQL 查询中列名被视为标识符而非关键字。
 :::
 
 ```sql

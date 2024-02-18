@@ -1,19 +1,19 @@
 ---
-title: DROP SHARE
+title: 删除共享
 sidebar_position: 5
 ---
 
-Deletes a share. When you delete a share, the organizations added to the share will no longer have access to the database created from the share.
+删除一个共享。当你删除一个共享时，被添加到该共享的组织将不再能够访问从该共享创建的数据库。
 
-## Syntax
+## 语法
 
 ```sql
-DROP SHARE [IF EXISTS] <share_name>;
+DROP SHARE [ IF EXISTS ] <share_name>;
 ```
 
-## Examples
+## 示例
 
-The following example deletes a share named `myshare`:
+以下示例删除名为 `myshare` 的共享：
 
 ```sql
 DROP SHARE myshare;

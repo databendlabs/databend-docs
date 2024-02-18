@@ -1,33 +1,37 @@
 ---
-title: CREATE VIEW
+title: 创建视图
 sidebar_position: 1
 ---
 
-Creates a new view based on a query, the Logical View does not store any physical data, when we access a logical view, it will convert the sql into the subquery format to finish it.
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-For example, if you create a Logical View like:
+<FunctionDescription description="引入或更新于：v1.2.339"/>
+
+基于查询创建一个新视图；逻辑视图不存储任何物理数据，当我们访问逻辑视图时，它会将sql转换为子查询格式来完成。
+
+例如，如果你创建了一个逻辑视图，如下：
 
 ```sql
 CREATE VIEW view_t1 AS SELECT a, b FROM t1;
 ```
-And do a query like:
+并进行如下查询：
 ```sql
 SELECT a FROM view_t1;
 ```
-the result equals the below query
+结果等同于下面的查询
 ```sql
 SELECT a FROM (SELECT a, b FROM t1);
 ```
 
-So, if you delete the table which the view depends on, it occurs an error that the original table does not exist. And you may need to drop the old view and recreate the new view you need.
+因此，如果你删除了视图所依赖的表，就会出现原始表不存在的错误。你可能需要删除旧视图并重新创建你需要的新视图。
 
-## Syntax
+## 语法
 
 ```sql
-CREATE VIEW [IF NOT EXISTS] [db.]view_name [(<column>, ...)] AS SELECT query
+CREATE [ OR REPLACE ] VIEW [ IF NOT EXISTS ] [ db. ]view_name [ (<column>, ...) ] AS SELECT query
 ```
 
-## Examples
+## 示例
 
 ```sql
 CREATE VIEW tmp_view(c1, c2) AS SELECT number % 3 AS a, avg(number) FROM numbers(1000) GROUP BY a ORDER BY a;

@@ -16,53 +16,53 @@ import EEFeature from '@site/src/components/EEFeature';
 
 ```sql
 -- 在表的末尾添加一列
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-ADD [COLUMN] <column_name> <data_type> [NOT NULL | NULL] [DEFAULT <constant_value>]
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ADD [ COLUMN ] <column_name> <data_type> [ NOT NULL | NULL ] [ DEFAULT <constant_value> ]
 
 -- 在指定位置添加一列
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-ADD [COLUMN] <column_name> <data_type> [NOT NULL | NULL] [DEFAULT <constant_value>] [FIRST | AFTER <column_name>]
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ADD [ COLUMN ] <column_name> <data_type> [ NOT NULL | NULL ] [ DEFAULT <constant_value> ] [ FIRST | AFTER <column_name> ]
 
 -- 添加一个虚拟计算列
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-ADD [COLUMN] <column_name> <data_type> AS (<expr>) VIRTUAL
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ADD [ COLUMN ] <column_name> <data_type> AS (<expr>) VIRTUAL
 
 -- 将存储的计算列转换为常规列
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-MODIFY [COLUMN] <column_name> DROP STORED
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+MODIFY [ COLUMN ] <column_name> DROP STORED
 
 -- 重命名一列
-ALTER TABLE [IF EXISTS] [database.]<table_name>
-RENAME [COLUMN] <column_name> TO <new_column_name>
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
 -- 更改一个或多个列的数据类型
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-MODIFY [COLUMN] <column_name> <new_data_type> [DEFAULT <constant_value>][, COLUMN <column_name> <new_data_type> [DEFAULT <constant_value>], ...]
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ][, COLUMN <column_name> <new_data_type> [ DEFAULT <constant_value> ], ... ]
 
 -- 为列设置/取消设置掩码策略
-ALTER TABLE [IF EXISTS] [database.]<table_name>
-MODIFY [COLUMN] <column_name> SET MASKING POLICY <policy_name>
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+MODIFY [ COLUMN ] <column_name> SET MASKING POLICY <policy_name>
 
-ALTER TABLE [IF EXISTS] [database.]<table_name>
-MODIFY [COLUMN] <column_name> UNSET MASKING POLICY
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+MODIFY [ COLUMN ] <column_name> UNSET MASKING POLICY
 
 -- 移除一列
-ALTER TABLE [IF EXISTS] [database.]<table_name> 
-DROP [COLUMN] <column_name>
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+DROP [ COLUMN ] <column_name>
 ```
 
 :::note
-- 当添加或修改列时，只能接受常量值作为默认值。如果使用非常量表达式，将会发生错误。
-- 通过ALTER TABLE添加存储的计算列目前还不支持。
+- 只有常量值可以被接受作为添加或修改列时的默认值。如果使用了非常量表达式，将会发生错误。
+- 目前还不支持使用 ALTER TABLE 添加存储的计算列。
 - 更改表列的数据类型时，存在转换错误的风险。例如，如果尝试将文本（String）列转换为数字（Float），可能会导致问题。
-- 为列设置掩码策略时，请确保策略中定义的数据类型（参考[CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md)语法中的参数*arg_type_to_mask*）与列匹配。
+- 为列设置掩码策略时，请确保策略中定义的数据类型（参考 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的参数 *arg_type_to_mask*）与列匹配。
 :::
 
 ## 示例
 
 ### 示例 1：添加、重命名和移除列
 
-此示例展示了创建一个名为"default.users"的表，包含'username'、'email'和'age'列。它展示了添加带有各种约束的'id'和'middle_name'列。该示例还演示了"age"列的重命名和随后的移除。
+此示例展示了创建一个名为 "default.users" 的表，其中包含 'username', 'email', 和 'age' 列。它展示了添加带有各种约束的 'id' 和 'middle_name' 列。该示例还演示了 "age" 列的重命名和随后的移除。
 
 ```sql
 -- 创建表
@@ -99,7 +99,7 @@ email         |VARCHAR|YES |NULL                 |     |
 age           |INT    |YES |NULL                 |     |
 business_email|VARCHAR|NO  |'example@example.com'|     |
 
--- 在'username'列之后添加一列
+-- 在列 'username' 之后添加一列
 ALTER TABLE default.users
 ADD COLUMN middle_name VARCHAR(50) NULL AFTER username;
 
@@ -124,7 +124,7 @@ DESC default.users;
 
 ### 示例 2：添加计算列
 
-此示例演示了创建一个用于存储员工信息的表，向表中插入数据，并添加一个计算列来根据员工的出生年份计算每个员工的年龄。
+此示例演示了创建一个用于存储员工信息的表，向表中插入数据，并添加一个计算列来根据每个员工的出生年份计算他们的年龄。
 
 ```sql
 -- 创建表
@@ -141,7 +141,7 @@ VALUES
   (2, 'Jane Smith', 1985),
   (3, 'Robert Johnson', 1982);
 
--- 添加一个名为 Age 的计算列
+-- 添加名为 Age 的计算列
 ALTER TABLE Employees
 ADD COLUMN Age INT64 AS (2023 - BirthYear) VIRTUAL;
 
@@ -156,7 +156,7 @@ ID | Name          | BirthYear | Age
 
 ### 示例 3：转换计算列
 
-此示例创建一个名为 "products" 的表，其中包含 ID、价格、数量和一个计算列 "total_price"。ALTER TABLE 语句移除了 "total_price" 列的计算功能，将其转换为一个常规列。
+此示例创建一个名为 "products" 的表，包含 ID、价格、数量和一个计算列 "total_price"。ALTER TABLE 语句移除了 "total_price" 列的计算功能，将其转换为常规列。
 
 ```sql
 CREATE TABLE IF NOT EXISTS products (
@@ -172,7 +172,7 @@ MODIFY COLUMN total_price DROP STORED;
 
 ### 示例 4：更改列的数据类型
 
-此示例创建一个名为 "students_info" 的表，其中包含 "id"、"name" 和 "age" 列，插入一些示例数据，然后修改 "age" 列的数据类型，从 INT 更改为 VARCHAR(10)。
+此示例创建一个名为 "students_info" 的表，包含 "id"、"name" 和 "age" 列，插入一些示例数据，然后修改 "age" 列的数据类型，从 INT 更改为 VARCHAR(10)。
 
 ```sql
 CREATE TABLE students_info (
