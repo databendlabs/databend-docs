@@ -7,19 +7,182 @@ A stream in Databend is a dynamic and real-time representation of changes to a t
 
 ### How Stream Works
 
-This section provides a quick example illustrating what a stream looks like and how it works. Let's say we have a table named 't' and we create a stream to capture the table changes. Once created, the stream starts to capture data changes to the table:
+A stream can operate in two modes: **Standard** and **Append-Only**. Specify a mode using the `APPEND_ONLY` parameter when you [CREATE STREAM](/sql/sql-commands/ddl/stream/create-stream).
 
-![Alt text](@site/static/public/img/sql/stream-insert.png)
+- **Standard**: Captures all types of data changes, including insertions, updates, and deletions.
+- **Append-Only**: In this mode, the stream exclusively contains data insertion records, reflecting the latest changes to the table. Although data updates and deletions are not directly recorded, they are still taken into account.
 
-**A Databend stream currently operates in an Append-only mode**. In this mode, the stream exclusively contains data insertion records, reflecting the latest changes to the table. Although data updates and deletions are not directly recorded, they are still taken into account. 
+The following example illustrates what a stream looks like and how it works. Let's consider a table named 't', and we create two streams with different modes to capture changes in the table.
 
-For example, if a row is added and later updated with new values, the stream records the insertion along with the updated values. Similarly, if a row is added and subsequently deleted, the stream reflects these changes accordingly:
+```sql
+-- Create a table and insert a value
+CREATE TABLE t_standard(a INT);
+CREATE TABLE t_append_only(a INT);
 
-![Alt text](@site/static/public/img/sql/stream-update.png)
+-- Create two streams with different modes: Standard and Append_Only
+CREATE STREAM s_standard ON TABLE t_standard APPEND_ONLY=false;
+CREATE STREAM s_append_only ON TABLE t_append_only APPEND_ONLY=true;
+```
 
-**A stream can be consumed by DML (Data Manipulation Language) operations**. After consumption, the stream contains no data but can continue to capture new changes, if any.
+You can view the created streams and their modes using the [SHOW FULL STREAMS](/sql/sql-commands/ddl/stream/show-streams) command:
 
-![Alt text](@site/static/public/img/sql/stream-consume.png)
+```sql
+SHOW FULL STREAMS;
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│         created_on         │      name     │ database │ catalog │        table_on       │       owner      │ comment │     mode    │ invalid_reason │
+├────────────────────────────┼───────────────┼──────────┼─────────┼───────────────────────┼──────────────────┼─────────┼─────────────┼────────────────┤
+│ 2024-02-18 16:39:58.996763 │ s_append_only │ default  │ default │ default.t_append_only │ NULL             │         │ append_only │                │
+│ 2024-02-18 16:39:58.966942 │ s_standard    │ default  │ default │ default.t_standard    │ NULL             │         │ standard    │                │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+Now, let's insert two new values into the table and observe what the streams capture:
+
+```sql
+-- Insert two new values
+INSERT INTO t_standard VALUES(2), (3);
+INSERT INTO t_append_only VALUES(2), (3);
+
+SELECT * FROM s_standard;
+
+┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │   change$action  │              change$row_id             │ change$is_update │
+├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
+│               2 │ INSERT           │ 8cd000827f8140d9921f897016e5a88e000000 │ false            │
+│               3 │ INSERT           │ 8cd000827f8140d9921f897016e5a88e000001 │ false            │
+└────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+SELECT * FROM s_append_only;
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │ change$action │ change$is_update │              change$row_id             │
+├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
+│               2 │ INSERT        │ false            │ 63dc9b84fe0a43528808c3304969b317000000 │
+│               3 │ INSERT        │ false            │ 63dc9b84fe0a43528808c3304969b317000001 │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+The results above indicate that both streams have successfully captured the new insertions. See [Stream Columns](#stream-columns) for details on the stream columns in the results. Now, let's update and then delete a newly inserted value and examine whether there are differences in the streams' captures.
+
+```sql
+UPDATE t_standard SET a = 4 WHERE a = 2;
+UPDATE t_append_only SET a = 4 WHERE a = 2;
+
+SELECT * FROM s_standard;
+
+┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │   change$action  │              change$row_id             │ change$is_update │
+│ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
+├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
+│               3 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ false            │
+└────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+SELECT * FROM s_append_only;
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │ change$action │ change$is_update │              change$row_id             │
+├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
+│               4 │ INSERT        │ false            │ 63dc9b84fe0a43528808c3304969b317000000 │
+│               3 │ INSERT        │ false            │ 63dc9b84fe0a43528808c3304969b317000001 │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
+
+DELETE FROM t_standard WHERE a = 4;
+DELETE FROM t_append_only WHERE a = 4;
+
+SELECT * FROM s_standard;
+
+┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │   change$action  │              change$row_id             │ change$is_update │
+│ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
+├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
+│               3 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ false            │
+└────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+SELECT * FROM s_append_only;
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │ change$action │ change$is_update │              change$row_id             │
+├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
+│               3 │ INSERT        │ false            │ bfed6c91f3e4402fa477b6853a2d2b58000001 │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+Until now, we haven't observed any significant differences between the two modes because we haven't consumed the streams. **A stream can be consumed by tasks or DML (Data Manipulation Language) operations**. After consumption, the stream contains no data but can continue to capture new changes, if any. To further analyze the distinctions, let's proceed with consuming the streams and examining the output.
+
+```sql
+CREATE TABLE t_consume_standard(b INT);
+CREATE TABLE t_consume_append_only(b INT);
+
+INSERT INTO t_consume_standard SELECT a FROM s_standard;
+INSERT INTO t_consume_append_only SELECT a FROM s_append_only;
+
+SELECT * FROM t_consume_standard;
+
+┌─────────────────┐
+│        b        │
+├─────────────────┤
+│               3 │
+└─────────────────┘
+
+SELECT * FROM t_consume_append_only;
+
+┌─────────────────┐
+│        b        │
+├─────────────────┤
+│               3 │
+└─────────────────┘
+```
+
+If you query the streams now, you'll find them empty because they have been consumed.
+
+```sql
+-- empty results
+SELECT * FROM s_standard;
+
+-- empty results
+SELECT * FROM s_append_only;
+```
+
+Now, let's update the value from `3` to `4` in each table, and subsequently, check their streams again:
+
+```sql
+UPDATE t_standard SET a = 4 WHERE a = 3;
+UPDATE t_append_only SET a = 4 WHERE a = 3;
+
+
+SELECT * FROM s_standard;
+
+┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │   change$action  │              change$row_id             │ change$is_update │
+│ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
+├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
+│               3 │ DELETE           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ true             │
+│               4 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ true             │
+└────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+-- empty results
+SELECT * FROM s_append_only;
+```
+
+The results above indicate that the Standard stream translates the UPDATE operation into a combination of DELETE (`3`) and INSERT (`4`), while the Append_Only stream does not capture anything. If we delete the value `4` now, we can obtain the following results:
+
+```sql
+DELETE FROM t_standard WHERE a = 4;
+DELETE FROM t_append_only WHERE a = 4;
+
+SELECT * FROM s_standard;
+
+┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │   change$action  │              change$row_id             │ change$is_update │
+│ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
+├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
+│               3 │ DELETE           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ false            │
+└────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+-- empty results
+SELECT * FROM s_append_only;
+```
 
 ### Transactional Support for Stream Consumption
 
@@ -124,12 +287,6 @@ FROM s;
 │               3 │ INSERT        │ false            │ a577745c6a404f3384fa95791eb43f22000000 │
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
-
-### Managing Streams
-
-To manage streams in Databend, use the following commands:
-
-<IndexOverviewList />
 
 ### Example: Tracking and Transforming Data in Real-Time
 
