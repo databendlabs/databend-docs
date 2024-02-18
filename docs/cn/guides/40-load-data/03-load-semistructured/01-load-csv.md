@@ -3,20 +3,20 @@ title: 将 CSV 文件加载到 Databend
 sidebar_label: 加载 CSV 文件
 ---
 
-## 什么是 CSV？ {#what-is-csv}
+## 什么是 CSV？
 
-CSV（逗号分隔值）是一种简单的文件格式，用于存储表格数据，如电子表格或数据库。CSV 文件是包含以表格格式存储的数据的纯文本文件，每一行代表一个新的数据行，列与列之间用分隔符分开。
+CSV（逗号分隔值）是一种简单的文件格式，用于存储表格数据，如电子表格或数据库。CSV 文件是包含以表格格式存储的数据的纯文本文件，其中每行数据在新行上表示，列之间由分隔符分隔。
 
-下面的例子展示了一个包含两条记录的 CSV 文件：
+以下示例显示了包含两条记录的 CSV 文件：
 
 ```text
 Title_0,Author_0
 Title_1,Author_1
 ```
 
-## 加载 CSV 文件 {#loading-csv-file}
+## 加载 CSV 文件
 
-加载 CSV 文件的通用语法如下：
+加载 CSV 文件的常用语法如下：
 
 ```sql
 COPY INTO [<database>.]<table_name>
@@ -33,9 +33,9 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 
 有关语法的更多详细信息，请参见 [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table)。
 
-## 教程：从 CSV 文件加载数据 {#tutorial-loading-data-from-csv-files}
+## 教程：从 CSV 文件加载数据
 
-### 第 1 步. 创建内部 Stage {#step-1-create-an-internal-stage}
+### 步骤 1. 创建内部 Stage
 
 创建一个内部 Stage 来存储 CSV 文件。
 
@@ -43,9 +43,9 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 CREATE STAGE my_csv_stage;
 ```
 
-### 第 2 步. 创建 CSV 文件 {#step-2-create-csv-files}
+### 步骤 2. 创建 CSV 文件
 
-使用以下 SQL 语句生成一个 CSV 文件：
+使用以下 SQL 语句生成 CSV 文件：
 
 ```sql
 COPY INTO @my_csv_stage
@@ -75,7 +75,7 @@ LIST @my_csv_stage;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 第 3 步: 创建目标表 {#step-3-create-target-table}
+### 步骤 3：创建目标表
 
 ```sql
 CREATE TABLE books
@@ -85,7 +85,9 @@ CREATE TABLE books
 );
 ```
 
-### 第 4 步. 将数据复制到表中 {#step-4-copy-data-into-table}
+### 步骤 4. 直接从 CSV 复制
+
+要直接从 CSV 文件将数据复制到表中，请使用以下 SQL 命令：
 
 ```sql
 COPY INTO books
@@ -95,7 +97,7 @@ FILE_FORMAT = (
     TYPE = CSV,
     FIELD_DELIMITER = ',',
     RECORD_DELIMITER = '\n',
-    SKIP_HEADER = 0, -- 如果第一行是标题则跳过，这里我们没有标题
+    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过，这里我们没有标题
     COMPRESSION = AUTO
 );
 ```
@@ -108,4 +110,24 @@ FILE_FORMAT = (
 ├────────────────────────────────────────────────────────────────┼─────────────┼─────────────┼──────────────────┼──────────────────┤
 │ data_4bb7f864-f5f2-41e8-a442-68c2a709be5a_0000_00000000.csv.gz │      100000 │           0 │ NULL             │             NULL │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 步骤 4（可选）。使用 SELECT 复制数据
+
+为了更多的控制，比如在复制时转换数据，请使用 SELECT 语句。了解更多请访问 [`SELECT from CSV`](../04-transform/01-querying-csv.md)。
+
+```sql
+COPY INTO books (title, author)
+FROM (
+    SELECT $1, $2
+    FROM @my_csv_stage
+)
+PATTERN = '.*[.]csv.gz'
+FILE_FORMAT = (
+    TYPE = 'CSV',
+    FIELD_DELIMITER = ',',
+    RECORD_DELIMITER = '\n',
+    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过，这里我们没有标题
+    COMPRESSION = 'AUTO'
+);
 ```

@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.151"/>
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -16,7 +16,7 @@ Create a new aggregating index in Databend.
 ## Syntax
 
 ```sql
-CREATE [ASYNC] AGGREGATING INDEX <index_name> AS SELECT ...
+CREATE [ OR REPLACE ] [ ASYNC ] AGGREGATING INDEX <index_name> AS SELECT ...
 ```
 
 - `ASYNC` Option: Adding ASYNC is optional. It allows the index to be created asynchronously. This means the index isn't built right away. To build it later, use the [REFRESH AGGREGATING INDEX](refresh-aggregating-index.md) command.

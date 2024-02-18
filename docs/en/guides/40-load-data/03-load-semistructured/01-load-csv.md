@@ -104,7 +104,7 @@ Result:
 
 ### Step 4 (Option). Using SELECT to Copy Data
 
-For more control, like transforming data while copying, use the SELECT statement. Learn more at [`SELECT from CSV`](../04-transform/02-querying-csv.md).
+For more control, like transforming data while copying, use the SELECT statement. Learn more at [`SELECT from CSV`](../04-transform/01-querying-csv.md).
 ```sql
 COPY INTO books (title, author)
 FROM (

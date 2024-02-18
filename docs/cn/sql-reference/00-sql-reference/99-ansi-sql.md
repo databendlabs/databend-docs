@@ -10,7 +10,7 @@ Databend 旨在符合 SQL 标准，特别支持 ISO/IEC 9075:2011，也就是 SQ
 | E011-01  |                     INTEGER 和 SMALLINT 数据类型                      |     <span class="text-blue">是</span>     |                                                                       |
 | E011-02  |               REAL, DOUBLE PRECISION 和 FLOAT 数据类型                |     <span class="text-blue">是</span>     |                                                                       |
 | E011-03  |                      DECIMAL 和 NUMERIC 数据类型                      |     <span class="text-blue">是</span>     |                                                                       |
-| E011-04  |                              算术运算符                               |     <span class="text-blue">是</span>     |                                                                       |
+| E011-04  |                              算术操作符                               |     <span class="text-blue">是</span>     |                                                                       |
 | E011-05  |                               数值比较                                |     <span class="text-blue">是</span>     |                                                                       |
 | E011-06  |                      数值数据类型之间的隐式转换                       |     <span class="text-blue">是</span>     |                                                                       |
 | **E021** |                          **字符字符串类型**                           | <span class="text-orange">部分支持</span> |                                                                       |
@@ -54,11 +54,11 @@ Databend 旨在符合 SQL 标准，特别支持 ISO/IEC 9075:2011，也就是 SQ
 | E061-13  |                              相关子查询                               |     <span class="text-blue">是</span>     |                                                                       |
 | E061-14  |                               搜索条件                                |     <span class="text-blue">是</span>     |                                                                       |
 | **E071** |                          **基本查询表达式**                           | <span class="text-orange">部分支持</span> |                                                                       |
-| E071-01  |                        UNION DISTINCT 表运算符                        |     <span class="text-blue">是</span>     |                                                                       |
-| E071-02  |                          UNION ALL 表运算符                           |     <span class="text-blue">是</span>     |                                                                       |
-| E071-03  |                       EXCEPT DISTINCT 表运算符                        |     <span class="text-blue">是</span>     |                                                                       |
-| E071-05  |           通过表运算符组合的列不需要具有完全相同的数据类型            | <span class="text-orange">部分支持</span> |        只允许将可以隐式强制转换的数据类型的列与表运算符组合。         |
-| E071-06  |                          子查询中的表运算符                           |     <span class="text-blue">是</span>     |                                                                       |
+| E071-01  |                        UNION DISTINCT 表操作符                        |     <span class="text-blue">是</span>     |                                                                       |
+| E071-02  |                          UNION ALL 表操作符                           |     <span class="text-blue">是</span>     |                                                                       |
+| E071-03  |                       EXCEPT DISTINCT 表操作符                        |     <span class="text-blue">是</span>     |                                                                       |
+| E071-05  |           通过表操作符组合的列不需要具有完全相同的数据类型            | <span class="text-orange">部分支持</span> |        只允许将可以隐式强制转换的数据类型的列与表操作符组合。         |
+| E071-06  |                          子查询中的表操作符                           |     <span class="text-blue">是</span>     |                                                                       |
 | **E081** |                             **基本权限**                              | <span class="text-orange">部分支持</span> |                                                                       |
 | E081-01  |                         表级别的 SELECT 权限                          |     <span class="text-blue">是</span>     |                                                                       |
 | E081-02  |                              DELETE 权限                              |     <span class="text-blue">是</span>     |                                                                       |

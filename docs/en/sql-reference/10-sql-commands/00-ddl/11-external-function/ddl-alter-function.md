@@ -11,8 +11,8 @@ Alters an external function.
 ## Syntax
 
 ```sql
-ALTER FUNCTION [IF NOT EXISTS] <function_name> 
-    AS (<input_param_types>) RETURNS <return_type> LANGUAGE <language_name> 
+ALTER FUNCTION [ IF NOT EXISTS ] <function_name> 
+    AS ( <input_param_types> ) RETURNS <return_type> LANGUAGE <language_name> 
     HANDLER = '<handler_name>' ADDRESS = '<udf_server_address>' 
     [DESC='<description>']
 ```

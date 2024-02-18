@@ -12,7 +12,7 @@ description: 元数据和查询服务指标
 - 查询指标：`http://<metric_api_address>/metrics`。默认为 `0.0.0.0:7070/metrics`。
 
 :::tip
-另外，您可以使用第三方工具来可视化指标。有关支持的工具和集成教程，请参阅 **监控** > **使用第三方工具**。当采用 Prometheus & Grafana 解决方案时，您可以使用我们提供的仪表板模板创建仪表板，可在[此处](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)获取。更多详情，请查看 [Prometheus & Grafana](tools/prometheus-and-grafana.md) 指南。
+另外，您可以使用第三方工具来可视化指标。有关支持的工具和集成教程，请参阅 **监控** > **使用第三方工具**。当采用 Prometheus & Grafana 解决方案时，您可以使用我们提供的仪表盘模板创建仪表盘，可在[此处](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)获取。更多详情，请查看 [Prometheus & Grafana](tools/prometheus-and-grafana.md) 指南。
 :::
 
 ## 元数据指标

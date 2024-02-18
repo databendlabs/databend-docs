@@ -17,7 +17,7 @@ TPC 基准测试™ 和 TPC-H™ 是交易处理性能委员会（[TPC](http://w
 
 - **[Snowflake](https://www.snowflake.com)**：Snowflake 因其先进的功能而闻名，例如分离存储和计算、按需可扩展计算、数据共享和克隆能力。
 
-- **[Databend Cloud](https://www.databend.com)**：Databend Cloud 提供与 Snowflake [类似的功能](https://github.com/datafuselabs/databend/issues/13059)，是一个云原生数据仓库，也将存储与计算分离，并根据需要提供可扩展的计算能力。
+- **[Databend Cloud](https://www.databend.cn)**：Databend Cloud 提供与 Snowflake [类似的功能](https://github.com/datafuselabs/databend/issues/13059)，是一个云原生数据仓库，也将存储与计算分离，并根据需要提供可扩展的计算能力。
  它是从开源 [Databend 项目](https://github.com/datafuselabs/databend)发展而来，定位为 Snowflake 的现代化、高性价比替代品，特别适合大规模分析。
 
 ## 性能和成本比较
@@ -124,9 +124,9 @@ Snowflake 和 Databend Cloud 都在类似条件下进行了测试：
 
 | 参数            | Snowflake                                                           | Databend Cloud                            |
 |----------------|---------------------------------------------------------------------|-------------------------------------------|
-| 仓库大小       | 小型                                                                | 小型                                      |
+| 计算集群大小       | 小型                                                                | 小型                                      |
 | vCPU           | 16                                                                  | 16                                        |
-| 价格            | [$4/小时](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/小时](https://www.databend.com/plan/) |
+| 价格            | [$4/小时](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/小时](https://www.databend.cn/plan/) |
 | AWS 区域       | us-east-2                                                           | us-east-2                                 |
 | 存储            | AWS S3                                                              | AWS S3                                    |
 
@@ -141,7 +141,7 @@ Snowflake 和 Databend Cloud 都在类似条件下进行了测试：
 ### 先决条件
 
 - 拥有一个 [Snowflake 账户](https://singup.snowflake.com)
-- 创建一个 [Databend Cloud 账户](https://www.databend.com/apply/).
+- 创建一个 [Databend Cloud 账户](https://www.databend.cn/apply/).
 
 ### 数据加载
 

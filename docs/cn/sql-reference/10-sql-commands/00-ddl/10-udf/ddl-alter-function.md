@@ -4,24 +4,24 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.116"/>
+<FunctionDescription description="引入或更新于：v1.2.116"/>
 
-Alters a user-defined function.
+修改一个用户定义的函数。
 
-## Syntax
+## 语法
 
 ```sql
-ALTER FUNCTION [IF NOT EXISTS] <function_name> 
+ALTER FUNCTION [ IF NOT EXISTS ] <function_name> 
     AS (<input_param_names>) -> <lambda_expression> 
-    [DESC='<description>']
+    [ DESC='<description>' ]
 ```
 
-## Examples
+## 示例
 
 ```sql
--- Create a UDF
+-- 创建一个 UDF
 CREATE FUNCTION a_plus_3 AS (a) -> a+3+3;
 
--- Modify the lambda expression of the UDF
+-- 修改 UDF 的 lambda 表达式
 ALTER FUNCTION a_plus_3 AS (a) -> a+3;
 ```

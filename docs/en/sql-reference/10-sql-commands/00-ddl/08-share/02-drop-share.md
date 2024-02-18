@@ -8,7 +8,7 @@ Deletes a share. When you delete a share, the organizations added to the share w
 ## Syntax
 
 ```sql
-DROP SHARE [IF EXISTS] <share_name>;
+DROP SHARE [ IF EXISTS ] <share_name>;
 ```
 
 ## Examples

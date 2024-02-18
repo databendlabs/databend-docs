@@ -1,31 +1,37 @@
 ---
-title: SQL Commands Reference
+title: SQL 命令参考
 ---
 
-These topics provide reference information for various SQL commands.
+这些主题为各种 SQL 命令提供参考信息。
 
-## SQL Commands
+## SQL 命令
 
-### DDL Commands
-- Overview and documentation of Data Definition Language (DDL) commands.
-  [Read More](./00-ddl/index.md)
+### DDL 命令
 
-### DML Commands
-- Information on Data Manipulation Language (DML) commands for handling data.
-  [Read More](./10-dml/index.md)
+- 数据定义语言（DDL）命令的概述和文档。
+  [阅读更多](./00-ddl/index.md)
 
-### Query Syntax
-- Detailed guide on SQL query syntax, including various clauses and usage.
-  [Read More](./20-query-syntax/index.md)
+### DML 命令
 
-### Query Operators
-- Descriptions of SQL query operators, including logical, comparison, and others.
-  [Read More](./30-query-operators/index.md)
+- 用于处理数据的数据管理语言（DML）命令的信息。
+  [阅读更多](./10-dml/index.md)
 
-### Administration Commands
-- Commands for database administration, settings, and performance monitoring.
-  [Read More](50-administration-cmds/index.md)
+### 查询语法
 
-### Explain Commands
-- Documentation on 'EXPLAIN' commands used for query analysis and optimization.
-  [Read More](40-explain-cmds/index.md)
+- 包括各种子句和用法的 SQL 查询语法详细指南。
+  [阅读更多](./20-query-syntax/index.md)
+
+### 查询操作符
+
+- SQL 查询操作符的描述，包括逻辑、比较和其他操作符。
+  [阅读更多](./30-query-operators/index.md)
+
+### 管理命令
+
+- 用于数据库管理、设置和性能监控的命令。
+  [阅读更多](50-administration-cmds/index.md)
+
+### EXPLAIN 命令
+
+- 用于查询分析和优化的 `EXPLAIN` 命令的文档。
+  [阅读更多](40-explain-cmds/index.md)

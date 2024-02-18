@@ -3,24 +3,24 @@ title: SHOW COLUMNS
 sidebar_position: 13
 ---
 
-Shows information about the columns in a given table.
+显示给定表中列的信息。
 
 :::tip
-[DESCRIBE TABLE](50-describe-table.md) provides similar but less information about the columns of a table. 
+[DESCRIBE TABLE](50-describe-table.md) 提供了关于表列的类似但较少的信息。
 :::
 
-## Syntax
+## 语法
 
 ```sql
-SHOW  [FULL] COLUMNS
+SHOW  [ FULL ] COLUMNS
     {FROM | IN} tbl_name
-    [{FROM | IN} db_name]
-    [LIKE '<pattern>' | WHERE <expr>]
+    [ {FROM | IN} db_name ]
+    [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
-When the optional keyword FULL is included, Databend will add the collation, privileges, and comment information for each column in the table to the result.
+当包含可选关键字 FULL 时，Databend 将为表中每列添加排序规则、权限和注释信息到结果中。
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE books

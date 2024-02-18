@@ -228,7 +228,7 @@ const config = {
                 title: 'Databend',
                 logo: {
                     alt: 'Databend Logo',
-                    href: '/',
+                    href: '/guides',
                     target: '_self',
                     srcDark: 'img/logo-dark.svg',
                     src: 'img/logo.svg',
@@ -274,12 +274,24 @@ const config = {
                         title: 'RESOURCES',
                         items: [
                             {
+                                label: 'Product',
+                                to: `/guides/overview/editions/`
+                            },
+                            {
+                                label: 'AI',
+                                to: `/guides/ai-functions/`
+                            },
+                            {
                                 label: 'Performance',
                                 to: `/guides/benchmark/tpch`
                             },
                             {
-                                label: 'Deployment',
-                                to: '/guides/deploy'
+                                label: 'Changelog',
+                                to: '/release-notes'
+                            },
+                            {
+                                label: 'Developer',
+                                to: '/developer'
                             },
                             {
                                 label: 'Blog',

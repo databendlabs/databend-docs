@@ -10,7 +10,6 @@ Revokes privileges, roles, and ownership of a specific database object. This inv
 
 - Revoking privileges from a user or a role.
 - Revoking a role from a user or a role.
-- Revoking ownership from a role.
 
 See also:
 
@@ -25,7 +24,7 @@ See also:
 REVOKE { 
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
        }
-FROM [ROLE <role_name>] [<user>]
+FROM [ ROLE <role_name> ] [ <user> ]
 ```
 
 Where:
@@ -68,19 +67,6 @@ REVOKE ROLE <role_name> FROM <user_name>
 
 -- Revoke a role from a role
 REVOKE ROLE <role_name> FROM ROLE <role_name>
-```
-
-### Revoking Ownership
-
-```sql
--- Revoke ownership of a specific table within a database from a role
-REVOKE OWNERSHIP ON <database_name>.<table_name> FROM ROLE '<role_name>'
-
--- Revoke ownership of a stage from a role
-REVOKE OWNERSHIP ON STAGE <stage_name> FROM ROLE '<role_name>'
-
--- Revoke ownership of a user-defined function (UDF) from a role
-REVOKE OWNERSHIP ON UDF <udf_name> FROM ROLE '<role_name>'
 ```
 
 ## Examples
@@ -173,20 +159,4 @@ SHOW GRANTS FOR user1;
 | GRANT ALL ON 'default'.* TO 'user1'@'%' |
 | GRANT ALL ON *.* TO 'user1'@'%'         |
 +-----------------------------------------+
-```
-
-### Example 4: Revoking Ownership from a Role
-
-```sql
--- Revoke ownership of all tables in the 'finance_data' database from the role 'data_owner'
-REVOKE OWNERSHIP ON finance_data.* FROM ROLE 'data_owner';
-
--- Revoke ownership of the table 'transactions' in the 'finance_data' schema from the role 'data_owner'
-REVOKE OWNERSHIP ON finance_data.transactions FROM ROLE 'data_owner';
-
--- Revoke ownership of the stage 'ingestion_stage' from the role 'data_owner'
-REVOKE OWNERSHIP ON STAGE ingestion_stage FROM ROLE 'data_owner';
-
--- Revoke ownership of the user-defined function 'calculate_profit' from the role 'data_owner'
-REVOKE OWNERSHIP ON UDF calculate_profit FROM ROLE 'data_owner';
 ```

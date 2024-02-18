@@ -1,39 +1,39 @@
 ---
-title: RECLUSTER TABLE
+title: 重新聚类表
 sidebar_position: 2
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.2.25"/>
+<FunctionDescription description="引入版本：v1.2.25"/>
 
-Re-clusters a table. For why and when to re-cluster a table, see [Re-clustering Table](index.md#re-clustering-table).
+重新聚类一个表。关于为什么以及何时重新聚类一个表，请参见[重新聚类表](index.md#re-clustering-table)。
 
-### Syntax
+### 语法
 
 ```sql
-ALTER TABLE [IF EXISTS] <table_name> RECLUSTER [FINAL] [WHERE condition] [LIMIT <segment_count>]
+ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [ LIMIT <segment_count> ]
 ```
 
-The command has a limitation on the number of segments it can process, with the default value being "max_thread * 4". You can modify this limit by using the **LIMIT** option. Alternatively, you have two options to cluster your data in the table further:
+该命令在可以处理的段数上有限制，默认值为 "max_thread * 4"。您可以通过使用 **LIMIT** 选项来修改此限制。或者，您有两个选项可以进一步聚类表中的数据：
 
-- Run the command multiple times against the table.
-- Use the **FINAL** option to continuously optimize the table until it is fully clustered.
+- 对表多次运行命令。
+- 使用 **FINAL** 选项，持续优化表，直到完全聚类。
 
 :::note
 
-Re-clustering a table consumes time (even longer if you include the **FINAL** option) and credits (when you are in Databend Cloud). During the optimizing process, do NOT perform DML actions to the table.
+重新聚类一个表会消耗时间（如果包括 **FINAL** 选项，则时间更长）和积分（当您在 Databend Cloud 中时）。在优化过程中，不要对表执行 DML 操作。
 :::
 
-The command does not cluster the table from the ground up. Instead, it selects and reorganizes the most chaotic existing storage blocks from the latest **LIMIT** segments using a clustering algorithm.
+该命令不会从头开始聚类表。相反，它会使用聚类算法选择并重新组织最新 **LIMIT** 段中最混乱的现有存储块。
 
-### Examples
+### 示例
 
 ```sql
--- create table
+-- 创建表
 create table t(a int, b int) cluster by(a+1);
 
--- insert some data to t
+-- 向 t 插入一些数据
 insert into t values(1,1),(3,3);
 insert into t values(2,2),(5,5);
 insert into t values(4,4);
@@ -48,7 +48,7 @@ unclustered_block_count: 0
           average_depth: 2.0
   block_depth_histogram: {"00002":3}
 
--- alter table recluster
+-- 修改表重新聚类
 ALTER TABLE t RECLUSTER FINAL WHERE a != 4;
 
 select * from clustering_information('default','t')\G

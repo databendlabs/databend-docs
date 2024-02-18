@@ -13,7 +13,7 @@ Restores the recent version of a dropped table. This leverages the Databend Time
 ## Syntax
 
 ```sql
-UNDROP TABLE [<database_name>.]<table_name>
+UNDROP TABLE [ <database_name>. ]<table_name>
 ```
 
 If a table with the same name already exists, an error is returned.

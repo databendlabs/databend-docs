@@ -3,12 +3,16 @@ title: CREATE SHARE ENDPOINT
 sidebar_position: 1
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
+
 Creates a share endpoint.
 
 ## Syntax
 
 ```sql
-CREATE SHARE ENDPOINT [IF NOT EXISTS] <share_endpoint_name>
+CREATE [ OR REPLACE ] SHARE ENDPOINT [ IF NOT EXISTS ] <share_endpoint_name>
     URL = '<share_endpoint_url>'
     TENANT = <shared_tenant_name>
     [COMMENT = <comment_string>]

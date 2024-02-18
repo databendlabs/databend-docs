@@ -4,60 +4,60 @@ sidebar_position: 18
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.208"/>
+<FunctionDescription description="引入或更新于：v1.2.208"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VACUUM DROP TABLE'/>
 
-The VACUUM DROP TABLE command helps save storage space by permanently removing data files of dropped tables, freeing up storage space, and enabling you to manage the process efficiently. It offers optional parameters to target specific databases, set retention times, preview, and limit the number of data files to be vacuumed. To list the dropped tables of a database, use [SHOW DROP TABLES](show-drop-tables.md).
+VACUUM DROP TABLE 命令通过永久移除已删除表的数据文件来帮助节省存储空间，释放存储空间，并使您能够高效地管理此过程。它提供了可选参数来针对特定数据库，设置保留时间，预览和限制要清理的数据文件数量。要列出数据库的已删除表，请使用 [SHOW DROP TABLES](show-drop-tables.md)。
 
-See also: [VACUUM TABLE](91-vacuum-table.md)
+另见：[VACUUM TABLE](91-vacuum-table.md)
 
-### Syntax and Examples
+### 语法和示例
 
 ```sql
 VACUUM DROP TABLE 
-    [FROM <database_name>] 
-    [RETAIN <n> HOURS] 
-    [DRY RUN] 
-    [LIMIT <file_count>]
+    [ FROM <database_name> ] 
+    [ RETAIN <n> HOURS ] 
+    [ DRY RUN ] 
+    [ LIMIT <file_count> ]
 ```
 
-- `FROM <database_name>`: This parameter restricts the search for dropped tables to a specific database. If not specified, the command will scan all databases, including those that have been dropped.
+- `FROM <database_name>`：此参数将寻找已删除表的搜索限制在特定数据库中。如果未指定，命令将扫描所有数据库，包括那些已被删除的。
 
-    ```sql title="Example:"
-    -- Remove dropped tables from the "default" database
+    ```sql title="示例："
+    -- 从 "default" 数据库中移除已删除的表
     VACUUM DROP TABLE FROM default;
 
-    -- Remove dropped tables from all databases
+    -- 从所有数据库中移除已删除的表
     VACUUM DROP TABLE;
     ```
 
-- `RETAIN <n> HOURS`: This parameter determines the retention status of data files for dropped tables, removing only those that were created more than *n* hours ago. In the absence of this parameter, the command defaults to the `retention_period` setting (usually set to 12 hours), leading to the removal of data files older than 12 hours during the vacuuming process.
+- `RETAIN <n> HOURS`：此参数确定已删除表的数据文件的保留状态，只移除那些创建时间超过 *n* 小时的文件。在没有此参数的情况下，命令默认使用 `retention_period` 设置（通常设置为12小时），在清理过程中移除超过12小时的数据文件。
 
-    ```sql title="Example:"
-    -- Remove data files older than 24 hours for dropped tables
+    ```sql title="示例："
+    -- 移除已删除表中超过24小时的数据文件
     VACUUM DROP TABLE RETAIN 24 HOURS;
     ```
 
-- `DRY RUN`: When this parameter is specified, data files will not be removed, instead, a list of up to 100 candidate files will be returned that would have been removed if the parameter was not used. This is useful when you want to preview the potential impact of the VACUUM DROP TABLE command before actually removing any data files. For example:
+- `DRY RUN`：指定此参数时，数据文件不会被移除，而是返回最多100个候选文件的列表，这些文件如果没有使用此参数，将会被移除。这在您想要预览 VACUUM DROP TABLE 命令的潜在影响，而实际上不移除任何数据文件之前很有用。例如：
 
-    ```sql title="Example:"
-    -- Preview data files to be removed for dropped tables
+    ```sql title="示例："
+    -- 预览将要为已删除的表移除的数据文件
     VACUUM DROP TABLE DRY RUN;
 
-    -- Preview data files to be removed for dropped tables in the "default" database
+    -- 预览将要为 "default" 数据库中已删除的表移除的数据文件
     VACUUM DROP TABLE FROM default DRY RUN;
 
-    -- Preview data files to be removed for dropped tables older than 24 hours
+    -- 预览将要为超过24小时的已删除表移除的数据文件
     VACUUM DROP TABLE RETAIN 24 HOURS DRY RUN;
     ```
 
-- `LIMIT <file_count>`: This parameter limits the number of data files to be removed.
+- `LIMIT <file_count>`：此参数限制要移除的数据文件数量。
 
-    ```sql title="Example:"
-    -- Limit the removal to 5 data files and preview them
+    ```sql title="示例："
+    -- 限制移除5个数据文件并预览它们
     VACUUM DROP TABLE DRY RUN LIMIT 5;
 
     Table    |File                                       |

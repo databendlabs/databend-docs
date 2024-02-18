@@ -4,37 +4,37 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.116"/>
+<FunctionDescription description="引入或更新于：v1.2.116"/>
 
-Alters an external function.
+修改一个外部函数。
 
-## Syntax
+## 语法
 
 ```sql
-ALTER FUNCTION [IF NOT EXISTS] <function_name> 
-    AS (<input_param_types>) RETURNS <return_type> LANGUAGE <language_name> 
+ALTER FUNCTION [ IF NOT EXISTS ] <function_name> 
+    AS ( <input_param_types> ) RETURNS <return_type> LANGUAGE <language_name> 
     HANDLER = '<handler_name>' ADDRESS = '<udf_server_address>' 
     [DESC='<description>']
 ```
 
-| Parameter             | Description                                                                                       |
-|-----------------------|---------------------------------------------------------------------------------------------------|
-| `<function_name>`     | The name of the function.                                                                        |
-| `<lambda_expression>` | The lambda expression or code snippet defining the function's behavior.                          |
-| `DESC='<description>'`  | Description of the UDF.|
-| `<<input_param_names>`| A list of input parameter names. Separated by comma.|
-| `<<input_param_types>`| A list of input parameter types. Separated by comma.|
-| `<return_type>`       | The return type of the function.                                                                  |
-| `LANGUAGE`            | Specifies the language used to write the function. Available values: `python`.                    |
-| `HANDLER = '<handler_name>'` | Specifies the name of the function's handler.                                               |
-| `ADDRESS = '<udf_server_address>'` | Specifies the address of the UDF server.                                             |
+| 参数                  | 描述                                                                                           |
+|-----------------------|------------------------------------------------------------------------------------------------|
+| `<function_name>`     | 函数的名称。                                                                                  |
+| `<lambda_expression>` | 定义函数行为的 lambda 表达式或代码片段。                                                      |
+| `DESC='<description>'`  | UDF的描述。|
+| `<<input_param_names>`| 输入参数名称列表。用逗号分隔。|
+| `<<input_param_types>`| 输入参数类型列表。用逗号分隔。|
+| `<return_type>`       | 函数的返回类型。                                                                              |
+| `LANGUAGE`            | 指定编写函数所用的语言。可用值：`python`。                                                      |
+| `HANDLER = '<handler_name>'` | 指定函数处理程序的名称。                                                                 |
+| `ADDRESS = '<udf_server_address>'` | 指定UDF服务器的地址。                                                               |
 
-## Examples
+## 示例
 
 ```sql
--- Create an external function
+-- 创建一个外部函数
 CREATE FUNCTION gcd (INT, INT) RETURNS INT LANGUAGE python HANDLER = 'gcd' ADDRESS = 'http://0.0.0.0:8815';
 
--- Modify the handler of the external function
+-- 修改外部函数的处理程序
 ALTER FUNCTION gcd (INT, INT) RETURNS INT LANGUAGE python HANDLER = 'gcd_new' ADDRESS = 'http://0.0.0.0:8815';
 ```

@@ -1,8 +1,11 @@
 ---
-title: 从 Databend 卸载数据
+title: Unload Data from Databend
+slug: /unload-data
 ---
 
-Databend 提供了几种简单的方法来卸载数据；本指南将向您展示如何从 Databend 卸载数据。
+Databend makes it easy to export data to an external location in various file formats like `CSV`, `TSV`, `NDJSON`, and `Parquet`, using the `COPY INTO` command. 
+
+This guide will show you how to bulk unloading data from Databend:
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 

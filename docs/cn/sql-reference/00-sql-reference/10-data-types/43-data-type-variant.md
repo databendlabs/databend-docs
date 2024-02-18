@@ -139,7 +139,7 @@ SELECT user_id, preferences:color as color FROM user_preferences;
 
 ## 数据类型转换
 
-默认情况下，从 VARIANT 列检索的元素将被返回。要将返回的元素转换为特定类型，请添加 `::` 运算符和目标数据类型（例如 expression::type）。
+默认情况下，从 VARIANT 列检索的元素将被返回。要将返回的元素转换为特定类型，请添加 `::` 操作符和目标数据类型（例如 expression::type）。
 
 创建一个表来存储带有 VARIANT 列的用户偏好：
 ```sql

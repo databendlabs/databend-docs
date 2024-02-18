@@ -3,7 +3,11 @@ title: CREATE VIEW
 sidebar_position: 1
 ---
 
-Creates a new view based on a query, the Logical View does not store any physical data, when we access a logical view, it will convert the sql into the subquery format to finish it.
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
+
+Creates a new view based on a query; the Logical View does not store any physical data, when we access a logical view, it will convert the sql into the subquery format to finish it.
 
 For example, if you create a Logical View like:
 
@@ -24,7 +28,7 @@ So, if you delete the table which the view depends on, it occurs an error that t
 ## Syntax
 
 ```sql
-CREATE VIEW [IF NOT EXISTS] [db.]view_name [(<column>, ...)] AS SELECT query
+CREATE [ OR REPLACE ] VIEW [ IF NOT EXISTS ] [ db. ]view_name [ (<column>, ...) ] AS SELECT query
 ```
 
 ## Examples

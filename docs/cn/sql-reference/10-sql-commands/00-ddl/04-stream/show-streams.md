@@ -1,25 +1,25 @@
 ---
-title: SHOW STREAMS
+title: 显示流
 sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.223"/>
+<FunctionDescription description="引入或更新版本：v1.2.223"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='STREAM'/>
 
-Displays a list of all available streams.
+显示所有可用流的列表。
 
-## Syntax
+## 语法
 
 ```sql
-SHOW [FULL] STREAMS [FROM <database_name>] 
-    [LIKE '<pattern>' | WHERE <expr>]
+SHOW [ FULL ] STREAMS [ FROM <database_name> ] 
+    [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
-## Examples
+## 示例
 
 ```sql
 SHOW STREAMS;

@@ -1,6 +1,6 @@
 ---
-title: 'Tutorial-1: Connecting to Databend through JDBC'
-sidebar_label: 'Tutorial-1: Connecting to Databend'
+title: 'Connecting to Databend through SQL Clients'
+sidebar_label: 'Connecting to Databend'
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';

@@ -12,8 +12,8 @@ Shows the status of the tables in a database. The status information includes va
 
 ```sql
 SHOW TABLE STATUS
-    [{FROM | IN} <database_name>]
-    [LIKE 'pattern' | WHERE expr]
+    [ {FROM | IN} <database_name> ]
+    [ LIKE 'pattern' | WHERE expr ]
 ```
 
 | Parameter | Description                                                                                                                 |

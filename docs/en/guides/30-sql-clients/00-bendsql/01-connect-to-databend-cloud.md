@@ -1,6 +1,6 @@
 ---
-title: 'Tutorial-2: Connecting to Databend Cloud using BendSQL'
-sidebar_label: 'Tutorial-2: Connecting to Databend Cloud'
+title: 'Connecting to Databend Cloud using BendSQL'
+sidebar_label: 'Connecting to Databend Cloud'
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';

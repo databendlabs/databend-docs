@@ -1,20 +1,20 @@
 ---
-title: SHOW CREATE TABLE
+title: 显示创建表
 sidebar_position: 10
 ---
 
-Shows the CREATE TABLE statement that creates the named table.
+显示创建指定表的 CREATE TABLE 语句。
 
-## Syntax
+## 语法
 
 ```sql
-SHOW CREATE TABLE [database.]table_name
+SHOW CREATE TABLE [ <database_name>. ]table_name
 ```
 
-## Examples
+## 示例
 
 :::tip
-numbers(N) – A table for test with the single `number` column (UInt64) that contains integers from 0 to N-1.
+numbers(N) - 一个用于测试的表，包含单个 `number` 列（UInt64），其中包含从 0 到 N-1 的整数。
 :::
 
 ```sql

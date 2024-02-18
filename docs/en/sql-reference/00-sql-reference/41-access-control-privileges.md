@@ -60,20 +60,20 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | DROP       | Drops a UDF.                                                                                                      |
 | ALTER      | Alters a UDF. Alters a SQL user.                                                                                  |
 
-
 ## Table Privileges
 
-| Privilege | Description                                                               |
-|:----------|:--------------------------------------------------------------------------|
-| ALL       | Grants all the privileges for the specified object type.                  |
-| ALTER     | Adds or drops a table column. Alters a cluster key. Re-clusters a table.  |
-| CREATE    | Creates a table.                                                          |
-| DELETE    | Deletes rows in a table. Truncates a table.                               |
-| DROP      | Drops or undrops a table. Restores the recent version of a dropped table. |
-| INSERT    | Inserts rows into a table. COPY INTO a table.                             |
-| SELECT    | Selects rows from a table. SHOW CREATE a table. DESCRIBE a table.         |
-| UPDATE    | Updates rows in a table.                                                  |
-| SUPER     | Optimizes or analyzes a table.                                            |
+| Privilege | Description                                                                                                      |
+|:----------|:-----------------------------------------------------------------------------------------------------------------|
+| ALL       | Grants all the privileges for the specified object type.                                                         |
+| ALTER     | Adds or drops a table column. Alters a cluster key. Re-clusters a table.                                         |
+| CREATE    | Creates a table.                                                                                                 |
+| DELETE    | Deletes rows in a table. Truncates a table.                                                                      |
+| DROP      | Drops or undrops a table. Restores the recent version of a dropped table.                                        |
+| INSERT    | Inserts rows into a table. COPY INTO a table.                                                                    |
+| SELECT    | Selects rows from a table. SHOW CREATE a table. DESCRIBE a table.                                                |
+| UPDATE    | Updates rows in a table.                                                                                         |
+| SUPER     | Optimizes or analyzes a table.                                                                                   |
+| OWNERSHIP | Grants full control over a database.  Only a single role can hold this privilege on a specific object at a time. |
 
 ## View Privileges
 
@@ -87,12 +87,13 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 
 Please note that you can use the [USE DATABASE](../10-sql-commands/00-ddl/00-database/ddl-use-database.md) command to specify a database once you have any of the following privileges to the database or any privilege to a table in the database.
 
-| Privilege | Description                                                                     |
-|:----------|:--------------------------------------------------------------------------------|
-| Alter     | Renames a database.                                                             |
-| CREATE    | Creates a database.                                                             |
-| DROP      | Drops or undrops a database. Restores the recent version of a dropped database. |
-| SELECT    | SHOW CREATE a database.                                                         |
+| Privilege | Description                                                                                                      |
+|:----------|:-----------------------------------------------------------------------------------------------------------------|
+| Alter     | Renames a database.                                                                                              |
+| CREATE    | Creates a database.                                                                                              |
+| DROP      | Drops or undrops a database. Restores the recent version of a dropped database.                                  |
+| SELECT    | SHOW CREATE a database.                                                                                          |
+| OWNERSHIP | Grants full control over a database.  Only a single role can hold this privilege on a specific object at a time. |
 
 ## Session Policy Privileges
 
@@ -103,23 +104,24 @@ Please note that you can use the [USE DATABASE](../10-sql-commands/00-ddl/00-dat
 
 ## Stage Privileges
 
-| Privilege | Description                                                                                                       |
-|:----------|:------------------------------------------------------------------------------------------------------------------|
-| WRITE     | Write into a stage. For example, copy into a stage, presign upload or removes a stage                             |
-| READ      | Read a stage. For example, list stage, query stage, copy into table from stage, presign download                  |
-| ALL       | Grants READ, WRITE privileges for the specified object type.                                                      |
+| Privilege | Description                                                                                                   |
+|:----------|:--------------------------------------------------------------------------------------------------------------|
+| WRITE     | Write into a stage. For example, copy into a stage, presign upload or removes a stage                         |
+| READ      | Read a stage. For example, list stage, query stage, copy into table from stage, presign download              |
+| ALL       | Grants READ, WRITE privileges for the specified object type.                                                  |
+| OWNERSHIP | Grants full control over a stage.  Only a single role can hold this privilege on a specific object at a time. |
 
 > Note:
 >
 > 1. Don't check external location auth.
 
-
 ## UDF Privileges
 
-| Privilege | Description                                                              |
-|:----------|:-------------------------------------------------------------------------|
-| USAGE     | Can use UDF. For example, copy into a stage, presign upload |
-| ALL       | Grants READ, WRITE privileges for the specified object type.             |
+| Privilege | Description                                                                                                 |
+|:----------|:------------------------------------------------------------------------------------------------------------|
+| USAGE     | Can use UDF. For example, copy into a stage, presign upload                                                 |
+| ALL       | Grants READ, WRITE privileges for the specified object type.                                                |
+| OWNERSHIP | Grants full control over a UDF.  Only a single role can hold this privilege on a specific object at a time. |
 
 > Note:
 > 

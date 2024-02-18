@@ -71,13 +71,22 @@ When a user is granted multiple roles, you can use the [CREATE USER](/sql/sql-co
 
 ## Managing Ownership
 
-Ownership is a specialized privilege that signifies the exclusive rights and responsibilities a role holds over a specific data object (currently including a database, table, UDF, and stage) within Databend. The ownership of an object is assigned to the current role of the user who creates it. Users who share the same role also have ownership of the object and can subsequently grant this ownership to other roles.
+Ownership is a specialized privilege that signifies the exclusive rights and responsibilities a role holds over a specific data object (currently including a database, table, UDF, and stage) within Databend. The ownership of an object is automatically granted to the current role of the user who creates it. Users who share the same role also have ownership of the object and can subsequently grant this ownership to other roles. To grant ownership to a role, use the [GRANT](/sql/sql-commands/ddl/user/grant) command.
 
+- Ownership can only be granted to a role; granting ownership to a user is not allowed. Once granted from one role to another, the ownership is transferred to the new role.
+- If a role that has ownership of an object is deleted, an account_admin can grant ownership of the object to another role.
 - Ownership cannot be granted for tables in the `default` database, as it is owned by the built-in role `account_admin`.
-- Granting ownership to the built-in role `public` is not supported for security reasons.
-- Ownership can be granted to a role, but granting ownership to a user is not supported yet.
 
-To manage ownership, use the following commands:
+Granting ownership to the built-in role `public` is not recommended for security reasons. If a user is in the `public` role when creating a object, then all users will have ownership of the object because each Databend user has the `public` role by default. Databend recommends creating and assigning customized roles to users instead of using the `public` role for clarified ownership management. The following example assigns the `account-admin` role to a new user and an existing user:
 
-- [GRANT](/sql/sql-commands/ddl/user/grant)
-- [REVOKE](/sql/sql-commands/ddl/user/revoke)
+```sql
+-- Grant the default role account_admin to an existing user as root
+root> ALTER USER u1 WITH DEFAULT_ROLE = 'account_admin';
+root> grant role u1 to writer;
+
+-- Create a new user with the default role account_admin as root
+root> create user u2 identified by '123' with DEFAULT_ROLE='account_admin';
+root> grant role account_admin to u2;    
+```
+
+Dropping an object will revoke ownership from the owner role. However, restoring (UNDROP, if available) a dropped object will NOT restore ownership. In this case, you will need an `account_admin` to grant ownership to a role again.

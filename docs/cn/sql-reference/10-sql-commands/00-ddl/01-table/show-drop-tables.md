@@ -1,28 +1,28 @@
 ---
-title: SHOW DROP TABLES
+title: 显示删除的表
 sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.203"/>
+<FunctionDescription description="引入或更新于：v1.2.203"/>
 
-Lists the dropped tables in the current or a specified database.
+列出当前数据库或指定数据库中已删除的表。
 
-## Syntax
+## 语法
 
 ```sql
-SHOW DROP TABLES [FROM <database_name>] [LIKE '<pattern>' | WHERE <expr>]
+SHOW DROP TABLES [ FROM <database_name> ] [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
-## Examples
+## 示例
 
 ```sql
 USE database1;
 
--- List dropped tables in the current database
+-- 列出当前数据库中已删除的表
 SHOW DROP TABLES;
 
--- List dropped tables in the "default" database
+-- 列出 "default" 数据库中已删除的表
 SHOW DROP TABLES FROM default;
 
 Name                |Value                        |
