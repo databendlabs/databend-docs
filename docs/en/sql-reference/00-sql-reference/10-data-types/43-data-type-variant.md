@@ -37,7 +37,7 @@ Result:
 └──────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Get by index
+## Accessing Elements by Index
 
 The VARIANT type contains an array, which is a zero-based array like many other programming languages. Each element within the array is also of the VARIANT type. Elements can be accessed by their index.
 
@@ -102,9 +102,9 @@ Result:
 └────────────┴─────────────┘
 ```
 
-## Get by field name
+## Accessing Elements by Field Name
 
-The VARIANT type contains key-value pairs represented as objects, where each key is a VARCHAR and each value is a VARIANT. It functions similarly to a "dictionary," "hash," or "map" in other programming languages. Values can be accessed by the field name using either square brackets or colon notation.
+The VARIANT type contains key-value pairs represented as objects, where each key is a VARCHAR and each value is a VARIANT. It functions similarly to a "dictionary," "hash," or "map" in other programming languages. Values can be accessed by the field name using either **square brackets** or **colons**, as well as **dots** for the 2nd level and deeper only.
 
 ### Example
 
@@ -124,13 +124,13 @@ INSERT INTO
 VALUES
   (
     1,
-    parse_json('{"color":"red", "fontSize":16, "theme":"dark"}'),
+    parse_json('{"settings":{"color":"red", "fontSize":16, "theme":"dark"}}'),
     ('Amy', 12)
   ),
   (
     2,
     parse_json(
-      '{"color":"blue", "fontSize":14, "theme":"light"}'
+      '{"settings":{"color":"blue", "fontSize":14, "theme":"light"}}'
     ),
     ('Bob', 11)
   );
@@ -139,22 +139,24 @@ VALUES
 Retrieve the preferred color for each user:
 ```sql
 SELECT
-  preferences['color'],
-  preferences:color,
-  profile['name'],
-  profile:name
+  preferences['settings']['color'],
+  preferences['settings']:color,
+  preferences['settings'].color,
+  preferences:settings['color'],
+  preferences:settings:color,
+  preferences:settings.color
 FROM
   user_preferences;
 ```
 
 Result:
 ```
-┌────────────────────────────────────────────────────────────────────────────────┐
-│ preferences['color'] │ preferences:color │  profile['name'] │   profile:name   │
-├──────────────────────┼───────────────────┼──────────────────┼──────────────────┤
-│ "red"                │ "red"             │ Amy              │ Amy              │
-│ "blue"               │ "blue"            │ Bob              │ Bob              │
-└────────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ preferences['settings']['color'] │ preferences['settings']:color │ preferences['settings']:color │ preferences:settings['color'] │ preferences:settings:color │ preferences:settings:color │
+├──────────────────────────────────┼───────────────────────────────┼───────────────────────────────┼───────────────────────────────┼────────────────────────────┼────────────────────────────┤
+│ "red"                            │ "red"                         │ "red"                         │ "red"                         │ "red"                      │ "red"                      │
+│ "blue"                           │ "blue"                        │ "blue"                        │ "blue"                        │ "blue"                     │ "blue"                     │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Data Type Conversion
