@@ -1,8 +1,8 @@
 ---
-title: Variant
+title: 变体
 ---
 
-VARIANT 可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，内部值可以是任何级别的嵌套结构，这使得它非常灵活地存储各种数据。VARIANT 也可以称为 JSON，更多信息请参考 [JSON 网站](https://www.json.org/json-en.html)
+VARIANT 可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，内部值可以是任何级别的嵌套结构，这对于存储各种数据非常灵活。VARIANT 也可以称为 JSON，更多信息，请参考 [JSON 网站](https://www.json.org/json-en.html)
 
 以下是在 Databend 中插入和查询 Variant 数据的示例：
 
@@ -39,12 +39,11 @@ SELECT * FROM custom_orders;
 
 ## 按索引获取
 
-Variant 包含的 ARRAY 是一个从零开始的数组，与许多其他编程语言一样，每个元素也是 Variant 类型。
-可以通过其索引访问元素。
+VARIANT 类型包含一个数组，这是一个从零开始的数组，就像许多其他编程语言一样。数组内的每个元素也是 VARIANT 类型。可以通过它们的索引访问元素。
 
 ### 示例
 
-在此示例中，我们演示如何访问包含 ARRAY 的 VARIANT 列中的元素。
+在此示例中，我们演示如何访问包含 ARRAY 的 VARIANT 列内的元素。
 
 创建表：
 ```sql
@@ -105,41 +104,62 @@ SELECT hobbies[2], count() as third_hobby FROM user_hobbies GROUP BY hobbies[2];
 
 ## 按字段名获取
 
-Variant 包含的 OBJECT 是键值对，每个键是一个 VARCHAR，每个值是一个 Variant。它像其他编程语言中的“字典”、“哈希”或“映射”。
-可以通过字段名访问值。
+VARIANT 类型包含以对象形式表示的键值对，其中每个键是一个 VARCHAR，每个值是一个 VARIANT。它的功能类似于其他编程语言中的“字典”、“哈希”或“映射”。可以使用方括号或冒号表示法通过字段名访问值。
 
-### 示例 1
+### 示例
 
 创建一个表来存储带有 VARIANT 类型的用户偏好：
 ```sql
-CREATE TABLE user_preferences(user_id INT64, preferences VARIANT NULL);
+CREATE TABLE user_preferences(
+  user_id INT64,
+  preferences VARIANT NULL,
+  profile Tuple(name STRING, age INT)
+);
 ```
 
 向表中插入示例数据：
 ```sql
-INSERT INTO user_preferences 
+INSERT INTO
+  user_preferences
 VALUES
-    (1, parse_json('{"color":"red", "fontSize":16, "theme":"dark"}')),
-    (2, parse_json('{"color":"blue", "fontSize":14, "theme":"light"}'));
+  (
+    1,
+    parse_json('{"color":"red", "fontSize":16, "theme":"dark"}'),
+    ('Amy', 12)
+  ),
+  (
+    2,
+    parse_json(
+      '{"color":"blue", "fontSize":14, "theme":"light"}'
+    ),
+    ('Bob', 11)
+  );
 ```
 
 检索每个用户的首选颜色：
 ```sql
-SELECT user_id, preferences:color as color FROM user_preferences;
+SELECT
+  preferences['color'],
+  preferences:color,
+  profile['name'],
+  profile:name
+FROM
+  user_preferences;
 ```
+
 结果：
 ```
-┌─────────┬───────┐
-│ user_id │ color │
-├─────────┼───────┤
-│       1 │ red   │
-│       2 │ blue  │
-└─────────┴───────┘
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ preferences['color'] │ preferences:color │  profile['name'] │   profile:name   │
+├──────────────────────┼───────────────────┼──────────────────┼──────────────────┤
+│ "red"                │ "red"             │ Amy              │ Amy              │
+│ "blue"               │ "blue"            │ Bob              │ Bob              │
+└────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## 数据类型转换
 
-默认情况下，从 VARIANT 列检索的元素将被返回。要将返回的元素转换为特定类型，请添加 `::` 操作符和目标数据类型（例如 expression::type）。
+默认情况下，从 VARIANT 列检索的元素被返回。要将返回的元素转换为特定类型，请添加 `::` 运算符和目标数据类型（例如 expression::type）。
 
 创建一个表来存储带有 VARIANT 列的用户偏好：
 ```sql
@@ -170,4 +190,4 @@ SELECT user_id, pref:age::INT64 as age FROM user_pref;
 
 ## 函数
 
-参见 [Variant 函数](/sql/sql-functions/semi-structured-functions).
+参见 [变体函数](/sql/sql-functions/semi-structured-functions).
