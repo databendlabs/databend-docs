@@ -1,9 +1,9 @@
 ---
-title: Databend中的数据生命周期
+title: Databend 中的数据生命周期
 sidebar_label: 数据生命周期
 ---
 
-Databend 支持熟悉的数据定义语言（DDL）和数据操作语言（DML）命令，使您能够轻松管理数据库。无论是组织、存储、查询、修改还是删除数据，Databend 都遵循您所习惯的同一行业标准。
+Databend 支持数据定义语言（DDL）和数据操作语言（DML），使您能够轻松管理数据库。无论是组织、存储、查询、修改还是删除数据，Databend 都遵循您所习惯的行业标准。
 
 ## Databend 对象
 
