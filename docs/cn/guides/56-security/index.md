@@ -1,5 +1,5 @@
 ---
-title: 安全性
+title: 安全
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
