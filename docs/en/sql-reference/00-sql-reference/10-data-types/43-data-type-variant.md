@@ -105,36 +105,57 @@ Result:
 
 ## Get by field name
 
-Variant contains OBJECT is key-value pairs, each key is a VARCHAR, and each value is a Variant. It act like a "dictionary”, “hash”, or “map” in other programming languages.
-Value can be accessed by the field name.
+Variant contains OBJECT is key-value pairs, each key is a VARCHAR, and each value is a Variant. It acts like a "dictionary”, “hash”, or “map” in other programming languages. Values can be accessed by the field name using either square brackets or colon notation.
 
-### Example 1
+### Example
 
 Create a table to store user preferences with VARIANT type:
 ```sql
-CREATE TABLE user_preferences(user_id INT64, preferences VARIANT NULL);
+CREATE TABLE user_preferences(
+  user_id INT64,
+  preferences VARIANT NULL,
+  profile Tuple(name STRING, age INT)
+);
 ```
 
 Insert sample data into the table:
 ```sql
-INSERT INTO user_preferences 
+INSERT INTO
+  user_preferences
 VALUES
-    (1, parse_json('{"color":"red", "fontSize":16, "theme":"dark"}')),
-    (2, parse_json('{"color":"blue", "fontSize":14, "theme":"light"}'));
+  (
+    1,
+    parse_json('{"color":"red", "fontSize":16, "theme":"dark"}'),
+    ('Amy', 12)
+  ),
+  (
+    2,
+    parse_json(
+      '{"color":"blue", "fontSize":14, "theme":"light"}'
+    ),
+    ('Bob', 11)
+  );
 ```
 
 Retrieve the preferred color for each user:
 ```sql
-SELECT user_id, preferences:color as color FROM user_preferences;
+SELECT
+  preferences['color'],
+  preferences:color,
+  profile['name'],
+  profile:name
+FROM
+  user_preferences;
 ```
+
 Result:
 ```
-┌─────────┬───────┐
-│ user_id │ color │
-├─────────┼───────┤
-│       1 │ red   │
-│       2 │ blue  │
-└─────────┴───────┘
+┌────────────────────────────────────────────────────────────────────────────────┐
+│ preferences['color'] │ preferences:color │  profile['name'] │   profile:name   │
+├──────────────────────┼───────────────────┼──────────────────┼──────────────────┤
+│ "red"                │ "red"             │ Amy              │ Amy              │
+│ "blue"               │ "blue"            │ Bob              │ Bob              │
+└────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Data Type Conversion
