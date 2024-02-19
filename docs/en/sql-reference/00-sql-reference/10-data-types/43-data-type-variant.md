@@ -37,13 +37,13 @@ Result:
 └──────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Accessing Elements by Index
+## Accessing Elements in JSON
 
-The VARIANT type contains an array, which is a zero-based array like many other programming languages. Each element within the array is also of the VARIANT type. Elements can be accessed by their index.
+### Accessing by Index
 
-### Example
+The VARIANT type contains an array, which is a zero-based array like many other programming languages. Each element within the array is also of the VARIANT type. Elements can be accessed by their index using **square brackets**.
 
-In this example, we demonstrate how to access elements within a VARIANT column that contains an ARRAY.
+#### Example
 
 Create the table:
 ```sql
@@ -102,11 +102,11 @@ Result:
 └────────────┴─────────────┘
 ```
 
-## Accessing Elements by Field Name
+### Accessing by Field Name
 
-The VARIANT type contains key-value pairs represented as objects, where each key is a VARCHAR and each value is a VARIANT. It functions similarly to a "dictionary," "hash," or "map" in other programming languages. Values can be accessed by the field name using either **square brackets** or **colons**, as well as **dots** for the 2nd level and deeper only.
+The VARIANT type contains key-value pairs represented as objects, where each key is a VARCHAR and each value is a VARIANT. It functions similarly to a "dictionary," "hash," or "map" in other programming languages. Values can be accessed by the field name using either **square brackets** or **colons**, as well as **dots** for the 2nd level and deeper only (Dots cannot be used as a first-level name notation to avoid confusion with dot notation between table and column).
 
-### Example
+#### Example
 
 Create a table to store user preferences with VARIANT type:
 ```sql
@@ -159,6 +159,31 @@ Result:
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+Please note that, if a field name contains spaces or special characters, enclose it in double quotes:
+
+```sql
+INSERT INTO
+  user_preferences
+VALUES
+  (
+    3,
+    parse_json('{"new settings":{"color":"red", "fontSize":16, "theme":"dark"}}'),
+    ('Cole', 13)
+  );
+
+-- the field name "new settings" is double-quoted
+SELECT preferences:"new settings":color 
+FROM user_preferences;
+
+┌──────────────────────────────────┐
+│ preferences:"new settings":color │
+├──────────────────────────────────┤
+│ NULL                             │
+│ NULL                             │
+│ "red"                            │
+└──────────────────────────────────┘
+```
+
 ## Data Type Conversion
 
 By default, elements retrieved from a VARIANT column are returned. To convert a returned element to a specific type, add the `::` operator and the target data type (e.g. expression::type).
@@ -190,6 +215,6 @@ Result:
 └─────────┴─────┘
 ```
 
-## Functions
+## JSON Functions
 
 See [Variant Functions](/sql/sql-functions/semi-structured-functions).
