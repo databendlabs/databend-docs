@@ -39,8 +39,7 @@ Result:
 
 ## Get by index
 
-Variant contains ARRAY is a zero based array like many other programming languages, each element is also a Variant type.
-Element can be accessed by its index.
+The VARIANT type contains an array, which is a zero-based array like many other programming languages. Each element within the array is also of the VARIANT type. Elements can be accessed by their index.
 
 ### Example
 
@@ -105,7 +104,7 @@ Result:
 
 ## Get by field name
 
-Variant contains OBJECT is key-value pairs, each key is a VARCHAR, and each value is a Variant. It acts like a "dictionary”, “hash”, or “map” in other programming languages. Values can be accessed by the field name using either square brackets or colon notation.
+The VARIANT type contains key-value pairs represented as objects, where each key is a VARCHAR and each value is a VARIANT. It functions similarly to a "dictionary," "hash," or "map" in other programming languages. Values can be accessed by the field name using either square brackets or colon notation.
 
 ### Example
 
