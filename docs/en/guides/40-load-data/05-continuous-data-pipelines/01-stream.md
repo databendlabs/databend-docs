@@ -2,6 +2,8 @@
 title: Tracking and Transforming Data via Streams
 sidebar_label: Stream
 ---
+import StepsWrap from '@site/src/components/StepsWrap';
+import StepContent from '@site/src/components/Steps/step-content';
 
 A stream in Databend is a dynamic and real-time representation of changes to a table. Streams are created to capture and track modifications to the associated table, allowing continuous consumption and analysis of data changes as they occur.
 
@@ -10,9 +12,14 @@ A stream in Databend is a dynamic and real-time representation of changes to a t
 A stream can operate in two modes: **Standard** and **Append-Only**. Specify a mode using the `APPEND_ONLY` parameter when you [CREATE STREAM](/sql/sql-commands/ddl/stream/create-stream).
 
 - **Standard**: Captures all types of data changes, including insertions, updates, and deletions.
-- **Append-Only**: In this mode, the stream exclusively contains data insertion records, reflecting the latest changes to the table. Although data updates and deletions are not directly recorded, they are still taken into account.
+- **Append-Only**: In this mode, the stream exclusively contains data insertion records; data updates or deletions are not captured.
 
-The following example illustrates what a stream looks like and how it works. Let's consider a table named 't', and we create two streams with different modes to capture changes in the table.
+The following example illustrates what a stream looks like and how it works in both modes.
+
+<StepsWrap>
+<StepContent number="1" title="Create streams to capture changes">
+
+Let's create two tables first, and then create a stream for each table with different modes to capture changes to the tables.
 
 ```sql
 -- Create a table and insert a value
@@ -24,7 +31,7 @@ CREATE STREAM s_standard ON TABLE t_standard APPEND_ONLY=false;
 CREATE STREAM s_append_only ON TABLE t_append_only APPEND_ONLY=true;
 ```
 
-You can view the created streams and their modes using the [SHOW FULL STREAMS](/sql/sql-commands/ddl/stream/show-streams) command:
+You can view the created streams and their mode using the [SHOW FULL STREAMS](/sql/sql-commands/ddl/stream/show-streams) command:
 
 ```sql
 SHOW FULL STREAMS;
@@ -37,7 +44,7 @@ SHOW FULL STREAMS;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Now, let's insert two new values into the table and observe what the streams capture:
+Now, let's insert two values into each table and observe what the streams capture:
 
 ```sql
 -- Insert two new values
@@ -108,7 +115,12 @@ SELECT * FROM s_append_only;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Until now, we haven't observed any significant differences between the two modes because we haven't consumed the streams. **A stream can be consumed by tasks or DML (Data Manipulation Language) operations**. After consumption, the stream contains no data but can continue to capture new changes, if any. To further analyze the distinctions, let's proceed with consuming the streams and examining the output.
+Up to this point, we haven't noticed any significant differences between the two modes as we haven't processed the streams yet. All changes have been consolidated and manifested as INSERT actions. **A stream can be consumed by tasks or DML (Data Manipulation Language) operations**. After consumption, the stream contains no data but can continue to capture new changes, if any. To further analyze the distinctions, let's proceed with consuming the streams and examining the output.
+
+</StepContent>
+<StepContent number="2" title="Consume streams">
+
+Let's create two new tables and insert into them what the streams have captured.
 
 ```sql
 CREATE TABLE t_consume_standard(b INT);
@@ -143,6 +155,9 @@ SELECT * FROM s_standard;
 -- empty results
 SELECT * FROM s_append_only;
 ```
+
+</StepContent>
+<StepContent number="3" title="Capture new changes">
 
 Now, let's update the value from `3` to `4` in each table, and subsequently, check their streams again:
 
@@ -183,6 +198,11 @@ SELECT * FROM s_standard;
 -- empty results
 SELECT * FROM s_append_only;
 ```
+
+We can see that both stream modes have the capability to capture insertions, along with any subsequent updates and deletions made to the inserted values before the streams are consumed. However, after consumption, if there are updates or deletions to the previously inserted data, only the standard stream is able to capture these changes, recording them as DELETE and INSERT actions.
+
+</StepContent>
+</StepsWrap>
 
 ### Transactional Support for Stream Consumption
 
@@ -266,8 +286,7 @@ INSERT INTO t VALUES (1);
 CREATE STREAM s ON TABLE t;
 INSERT INTO t VALUES (2);
 
-SELECT a, change$action, change$is_update, change$row_id 
-FROM s;
+SELECT * FROM s;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
 │        a        │ change$action │ change$is_update │              change$row_id             │
@@ -276,10 +295,9 @@ FROM s;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- If you add a new row and then update it, 
--- the stream considers the changes as an INSERT with your updated value.
+-- the stream consolidates the changes as an INSERT with your updated value.
 UPDATE t SET a = 3 WHERE a = 2;
-SELECT a, change$action, change$is_update, change$row_id 
-FROM s;
+SELECT * FROM s;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
 │        a        │ change$action │ change$is_update │              change$row_id             │
