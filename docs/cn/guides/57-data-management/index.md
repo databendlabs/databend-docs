@@ -1,8 +1,8 @@
 ---
-title: 安全
+title: 数据管理
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend 允许您使用以下方法来保护您的数据：
 
+在 Databend Cloud 中管理、恢复和保护您的数据的信息：
 <IndexOverviewList />
