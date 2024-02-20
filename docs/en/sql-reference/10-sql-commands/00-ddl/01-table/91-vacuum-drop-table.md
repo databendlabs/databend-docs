@@ -4,7 +4,7 @@ sidebar_position: 18
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.208"/>
+<FunctionDescription description="Introduced or updated: v1.2.335"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -14,12 +14,11 @@ The VACUUM DROP TABLE command helps save storage space by permanently removing d
 
 See also: [VACUUM TABLE](91-vacuum-table.md)
 
-### Syntax and Examples
+### Syntax
 
 ```sql
 VACUUM DROP TABLE 
     [ FROM <database_name> ] 
-    [ RETAIN <n> HOURS ] 
     [ DRY RUN ] 
     [ LIMIT <file_count> ]
 ```
@@ -34,13 +33,6 @@ VACUUM DROP TABLE
     VACUUM DROP TABLE;
     ```
 
-- `RETAIN <n> HOURS`: This parameter determines the retention status of data files for dropped tables, removing only those that were created more than *n* hours ago. In the absence of this parameter, the command defaults to the `retention_period` setting (usually set to 12 hours), leading to the removal of data files older than 12 hours during the vacuuming process.
-
-    ```sql title="Example:"
-    -- Remove data files older than 24 hours for dropped tables
-    VACUUM DROP TABLE RETAIN 24 HOURS;
-    ```
-
 - `DRY RUN`: When this parameter is specified, data files will not be removed, instead, a list of up to 100 candidate files will be returned that would have been removed if the parameter was not used. This is useful when you want to preview the potential impact of the VACUUM DROP TABLE command before actually removing any data files. For example:
 
     ```sql title="Example:"
@@ -49,9 +41,6 @@ VACUUM DROP TABLE
 
     -- Preview data files to be removed for dropped tables in the "default" database
     VACUUM DROP TABLE FROM default DRY RUN;
-
-    -- Preview data files to be removed for dropped tables older than 24 hours
-    VACUUM DROP TABLE RETAIN 24 HOURS DRY RUN;
     ```
 
 - `LIMIT <file_count>`: This parameter limits the number of data files to be removed.
@@ -68,3 +57,23 @@ VACUUM DROP TABLE
     employees|f67e87ab51fd4c869717230b1c9a0de4_v4.parquet|
     employees|42978ea8ad9b468db5813d2d674d106b_v4.mpk    |
     ```
+
+### Adjusting Data Retention Time
+
+The `VACUUM DROP TABLE` command removes data files older than the `DATA_RETENTION_TIME_IN_DAYS` setting. This retention period can be adjusted as needed, for example, to 2 days:
+
+```sql
+SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
+```
+
+The default `DATA_RETENTION_TIME_IN_DAYS` varies by environment:
+
+- Databend Edition: 90 days
+- Databend Cloud Standard Edition: 7 days
+- Databend Cloud Enterprise Edition: 90 days
+
+To check the current setting, use:
+
+```sql
+SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
+```
