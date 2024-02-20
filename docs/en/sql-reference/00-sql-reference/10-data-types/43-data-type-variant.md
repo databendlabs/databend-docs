@@ -2,39 +2,48 @@
 title: Variant
 ---
 
-A VARIANT can store a value of any other type, including NULL, BOOLEAN, NUMBER, STRING, ARRAY, and OBJECT, and the internal value can be any level of nested structure, which is very flexible to store various data. VARIANT can also be called JSON, for more information, please refer to [JSON website](https://www.json.org/json-en.html)
+A VARIANT can store a value of any other type, including NULL, BOOLEAN, NUMBER, STRING, ARRAY, and OBJECT, and the internal value can be any level of nested structure, which is very flexible to store various data. VARIANT can also be called JSON, for more information, please refer to [JSON website](https://www.json.org/json-en.html).
 
 Here's an example of inserting and querying Variant data in Databend:
 
 Create a table:
 ```sql
--- Create a table for storing customer orders
 CREATE TABLE customer_orders(id INT64, order_data VARIANT);
 ```
 
 Insert a value with different type into the table:
-```
-INSERT INTO customer_orders 
+```sql
+INSERT INTO
+  customer_orders
 VALUES
-    (1, parse_json('{"customer_id": 123, "order_id": 1001, "items": [{"name": "Shoes", "price": 59.99}, {"name": "T-shirt", "price": 19.99}]}')),
-    (2, parse_json('{"customer_id": 456, "order_id": 1002, "items": [{"name": "Backpack", "price": 79.99}, {"name": "Socks", "price": 4.99}]}')),
-    (3, parse_json('{"customer_id": 123, "order_id": 1003, "items": [{"name": "Shoes", "price": 59.99}, {"name": "Socks", "price": 4.99}]}'));
+  (
+    1,
+    '{"customer_id": 123, "order_id": 1001, "items": [{"name": "Shoes", "price": 59.99}, {"name": "T-shirt", "price": 19.99}]}'
+  ),
+  (
+    2,
+    '{"customer_id": 456, "order_id": 1002, "items": [{"name": "Backpack", "price": 79.99}, {"name": "Socks", "price": 4.99}]}'
+  ),
+  (
+    3,
+    '{"customer_id": 123, "order_id": 1003, "items": [{"name": "Shoes", "price": 59.99}, {"name": "Socks", "price": 4.99}]}'
+  );
 ```
 
 Query the result:
 ```sql
-SELECT * FROM custom_orders;
+SELECT * FROM customer_orders;
 ```
 
 Result:
-```
-┌──────┬────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ id   │ order_data                                                                                                │
-├──────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ 1    │ {"customer_id":123,"items":[{"name":"Shoes","price":59.99},{"name":"T-shirt","price":19.99}],"order_id":1001} │
-│ 2    │ {"customer_id":456,"items":[{"name":"Backpack","price":79.99},{"name":"Socks","price":4.99}],"order_id":1002} │
-│ 3    │ {"customer_id":123,"items":[{"name":"Shoes","price":59.99},{"name":"Socks","price":4.99}],"order_id":1003}    │
-└──────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```sql
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        id       │                                                   order_data                                                  │
+├─────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│               1 │ {"customer_id":123,"items":[{"name":"Shoes","price":59.99},{"name":"T-shirt","price":19.99}],"order_id":1001} │
+│               2 │ {"customer_id":456,"items":[{"name":"Backpack","price":79.99},{"name":"Socks","price":4.99}],"order_id":1002} │
+│               3 │ {"customer_id":123,"items":[{"name":"Shoes","price":59.99},{"name":"Socks","price":4.99}],"order_id":1003}    │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Accessing Elements in JSON
@@ -45,7 +54,7 @@ The VARIANT type contains an array, which is a zero-based array like many other 
 
 #### Example
 
-Create the table:
+Create a table:
 ```sql
 -- Create a table to store user hobbies
 CREATE TABLE user_hobbies(user_id INT64, hobbies VARIANT NULL);
@@ -53,11 +62,6 @@ CREATE TABLE user_hobbies(user_id INT64, hobbies VARIANT NULL);
 
 Insert sample data into the table:
 ```sql
-INSERT INTO user_hobbies 
-VALUES
-    (1, parse_json('["Cooking", "Reading", "Cycling"]')),
-    (2, parse_json('["Photography", "Travel", "Swimming"]'));
-
 INSERT INTO user_hobbies 
 VALUES
     (1, '["Cooking", "Reading", "Cycling"]'),
@@ -73,7 +77,7 @@ FROM
   user_hobbies;
 ```
 Result:
-```
+```sql
 ┌─────────────────────────────────────┐
 │     user_id     │    first_hobby    │
 ├─────────────────┼───────────────────┤
@@ -94,7 +98,7 @@ GROUP BY
 ```
 
 Result:
-```
+```sql
 ┌─────────────────────────────────┐
 │     hobbies[2]    │ third_hobby │
 ├───────────────────┼─────────────┤
@@ -114,7 +118,7 @@ GROUP BY
   hobbies [2];
 ```
 Result:
-```
+```sql
 ┌────────────┬─────────────┐
 │ hobbies[2] │ third_hobby │
 ├────────────┼─────────────┤
@@ -169,7 +173,7 @@ FROM
 ```
 
 Result:
-```
+```sql
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ preferences['settings']['color'] │ preferences['settings']:color │ preferences['settings']:color │ preferences:settings['color'] │ preferences:settings:color │ preferences:settings:color │
 ├──────────────────────────────────┼───────────────────────────────┼───────────────────────────────┼───────────────────────────────┼────────────────────────────┼────────────────────────────┤
@@ -238,7 +242,7 @@ Convert the age to an INT64:
 SELECT user_id, pref:age::INT64 as age FROM user_pref;
 ```
 Result:
-```
+```sql
 ┌─────────┬─────┐
 │ user_id │ age │
 ├─────────┼─────┤
