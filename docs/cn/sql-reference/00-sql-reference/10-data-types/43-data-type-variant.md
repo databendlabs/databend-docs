@@ -1,5 +1,5 @@
 ---
-title: 变体
+title: Variant
 ---
 
 VARIANT 可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，内部值可以是任何级别的嵌套结构，这对于存储各种数据非常灵活。VARIANT 也可以称为 JSON，更多信息，请参考 [JSON 网站](https://www.json.org/json-en.html)
@@ -190,4 +190,4 @@ SELECT user_id, pref:age::INT64 as age FROM user_pref;
 
 ## 函数
 
-参见 [变体函数](/sql/sql-functions/semi-structured-functions).
+参见 [Variant 函数](/sql/sql-functions/semi-structured-functions).
