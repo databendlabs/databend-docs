@@ -57,40 +57,61 @@ INSERT INTO user_hobbies
 VALUES
     (1, parse_json('["Cooking", "Reading", "Cycling"]')),
     (2, parse_json('["Photography", "Travel", "Swimming"]'));
+
+INSERT INTO user_hobbies 
+VALUES
+    (1, '["Cooking", "Reading", "Cycling"]'),
+    (2, '["Photography", "Travel", "Swimming"]');
 ```
 
 Retrieve the first hobby for each user:
 ```sql
-SELECT user_id, hobbies[0] as first_hobby FROM user_hobbies;
+SELECT
+  user_id,
+  hobbies [0] AS first_hobby
+FROM
+  user_hobbies;
 ```
 Result:
 ```
-┌─────────┬─────────────┐
-│ user_id │ first_hobby │
-├─────────┼─────────────┤
-│       1 │ Cooking     │
-│       2 │ Photography │
-└─────────┴─────────────┘
+┌─────────────────────────────────────┐
+│     user_id     │    first_hobby    │
+├─────────────────┼───────────────────┤
+│               1 │ "Cooking"         │
+│               2 │ "Photography"     │
+└─────────────────────────────────────┘
 ```
 
 Retrieve the third hobby for each user:
 ```sql
-SELECT user_id, hobbies[2] as third_hobby FROM user_hobbies;
+SELECT
+  hobbies [2],
+  count() AS third_hobby
+FROM
+  user_hobbies
+GROUP BY
+  hobbies [2];
 ```
 
 Result:
 ```
-┌─────────┬─────────────┐
-│ user_id │ third_hobby │
-├─────────┼─────────────┤
-│       1 │ Cycling     │
-│       2 │ Swimming    │
-└─────────┴─────────────┘
+┌─────────────────────────────────┐
+│     hobbies[2]    │ third_hobby │
+├───────────────────┼─────────────┤
+│ "Swimming"        │           1 │
+│ "Cycling"         │           1 │
+└─────────────────────────────────┘
 ```
 
 Retrieve hobbies with a group by:
 ```sql
-SELECT hobbies[2], count() as third_hobby FROM user_hobbies GROUP BY hobbies[2];
+SELECT
+  hobbies [2],
+  count() AS third_hobby
+FROM
+  user_hobbies
+GROUP BY
+  hobbies [2];
 ```
 Result:
 ```
@@ -124,14 +145,12 @@ INSERT INTO
 VALUES
   (
     1,
-    parse_json('{"settings":{"color":"red", "fontSize":16, "theme":"dark"}}'),
+    '{"settings":{"color":"red", "fontSize":16, "theme":"dark"}}',
     ('Amy', 12)
   ),
   (
     2,
-    parse_json(
-      '{"settings":{"color":"blue", "fontSize":14, "theme":"light"}}'
-    ),
+    '{"settings":{"color":"blue", "fontSize":14, "theme":"light"}}',
     ('Bob', 11)
   );
 ```
@@ -167,7 +186,7 @@ INSERT INTO
 VALUES
   (
     3,
-    parse_json('{"new settings":{"color":"red", "fontSize":16, "theme":"dark"}}'),
+    '{"new settings":{"color":"red", "fontSize":16, "theme":"dark"}}',
     ('Cole', 13)
   );
 
