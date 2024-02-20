@@ -159,7 +159,7 @@ Result:
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Please note that, if a field name contains spaces or special characters, enclose it in double quotes:
+Please note that field names are **case-sensitive**. If a field name contains spaces or special characters, enclose it in double quotes.
 
 ```sql
 INSERT INTO
@@ -181,6 +181,19 @@ FROM user_preferences;
 │ NULL                             │
 │ NULL                             │
 │ "red"                            │
+└──────────────────────────────────┘
+
+-- No results are returned when 'c' in 'color' is capitalized
+SELECT preferences:"new settings":Color 
+FROM user_preferences;
+
+┌──────────────────────────────────┐
+│ preferences:"new settings":color │
+│         Nullable(Variant)        │
+├──────────────────────────────────┤
+│ NULL                             │
+│ NULL                             │
+│ NULL                             │
 └──────────────────────────────────┘
 ```
 
