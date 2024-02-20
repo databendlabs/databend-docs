@@ -171,7 +171,7 @@ VALUES
     ('Cole', 13)
   );
 
--- the field name "new settings" is double-quoted
+-- Double-quote the field name "new settings"
 SELECT preferences:"new settings":color 
 FROM user_preferences;
 
