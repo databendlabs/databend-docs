@@ -19,7 +19,7 @@ See also: [SET](set-global.md)
 /*+ SET_VAR(key=value) SET_VAR(key=value) ... */
 ```
 
-- The hint must immediately follow an [SELECT](../20-query-syntax/01-query-select.md), [INSERT](../10-dml/dml-insert.md), [UPDATE](../10-dml/dml-update.md), [REPLACE](../10-dml/dml-replace.md), [DELETE](../10-dml/dml-delete-from.md), or [COPY](../10-dml/dml-copy-into-table.md) (INTO) keyword that begins the SQL statement.
+- The hint must immediately follow an [SELECT](../20-query-syntax/01-query-select.md), [INSERT](../10-dml/dml-insert.md), [UPDATE](../10-dml/dml-update.md), [REPLACE](../10-dml/dml-replace.md), [MERGE](../10-dml/dml-merge.md),[DELETE](../10-dml/dml-delete-from.md), or [COPY](../10-dml/dml-copy-into-table.md) (INTO) keyword that begins the SQL statement.
 - A SET_VAR can include only one Key=Value pair, which means you can configure only one setting with one SET_VAR. However, you can use multiple SET_VAR hints to configure multiple settings.
     - If multiple SET_VAR hints containing a same key, the first Key=Value pair will be applied.
     - If a key fails to parse or bind, all hints will be ignored.
@@ -101,6 +101,13 @@ a|b|
 1|0|
 
 REPLACE /*+ SET_VAR(deduplicate_label='databend') */ INTO t1 on(a,b) VALUES(40, false);
+SELECT * FROM t1;
+
+a|b|
+-+-+
+1|0|
+
+MERGE /*+ SET_VAR(deduplicate_label='databend') */ INTO t1 using t2 on t1.a = t2.a when matched then update *;
 SELECT * FROM t1;
 
 a|b|
