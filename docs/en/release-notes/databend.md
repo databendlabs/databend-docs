@@ -2,7 +2,7 @@
 sidebar_label: Databend Releases
 title: Databend Releases
 sidebar_position: 1
-slug: '/'
+slug: /
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
