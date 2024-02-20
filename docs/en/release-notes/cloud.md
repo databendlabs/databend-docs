@@ -1,7 +1,6 @@
 ---
 title: Databend Cloud Releases
-sidebar_position: 1
-slug: '/'
+sidebar_position: 2
 ---
 
 Latest product updates from [Databend Cloud](https://app.databend.com/).
