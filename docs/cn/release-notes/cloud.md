@@ -1,8 +1,7 @@
 ---
 sidebar_label: Databend Cloud
 title: 发布记录
-sidebar_position: 1
-slug: '/'
+sidebar_position: 2
 ---
 
 本页面提供有关 [Databend Cloud](https://app.databend.cn/) 新功能、周边工具以及问题修复的更新信息。
