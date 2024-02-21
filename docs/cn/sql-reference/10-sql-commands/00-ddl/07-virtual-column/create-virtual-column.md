@@ -5,13 +5,13 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.339"/>
+<FunctionDescription description="引入或更新于：v1.2.339"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='虚拟列'/>
 
-为表创建虚拟列。请注意，虚拟列专门支持 [FUSE 引擎](../../../00-sql-reference/30-table-engines/00-fuse.md)，专为与 [Variant](../../../00-sql-reference/10-data-types/43-data-type-variant.md) 数据类型兼容而设计，并使用 [JSON PATH](../../20-query-syntax/20-query-json-path.md) 查询语法定义列。
+为表创建虚拟列。请注意，虚拟列专门支持 [FUSE 引擎](../../../00-sql-reference/30-table-engines/00-fuse.md)，并且专为与 [Variant](../../../00-sql-reference/10-data-types/43-data-type-variant.md) 数据类型的兼容性而设计。有关列定义，请参阅 [访问 JSON 中的元素](../../../00-sql-reference/10-data-types/43-data-type-variant.md#accessing-elements-in-json)。
 
 请注意，在为已包含 Variant 数据的表创建虚拟列后，需要使用 [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) 命令刷新虚拟列。
 
@@ -29,7 +29,7 @@ CREATE [ OR REPLACE ] VIRTUAL COLUMN [ IF NOT EXISTS ] ( <virtual_column_1>, <vi
 -- 创建一个名为 'test' 的表，包含类型为 Variant 的 'id' 和 'val' 列。
 CREATE TABLE test(id int, val variant);
 
--- 向 'test' 表插入一个包含 Variant 数据的示例记录。
+-- 向 'test' 表插入一条包含 Variant 数据的示例记录。
 INSERT INTO
   test
 VALUES
