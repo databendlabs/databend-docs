@@ -39,7 +39,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
 - 获取您账户的Access Key ID 和Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>
 - <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>
@@ -72,7 +72,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
 - 获取您账户的Access Key ID 和Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container>
 - <https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys>
@@ -89,7 +89,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
 - 获取您账户的Access Key ID 和Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://cloud.tencent.com/document/product/436/13309>
 - <https://cloud.tencent.com/document/product/436/68282>
@@ -106,7 +106,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
 - 获取您账户的Access Key ID 和Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2>
 - <https://help.aliyun.com/document_detail/53045.htm>
@@ -124,7 +124,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
 - 获取您账户的Access Key ID 和Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/>
 - <https://docsv3.qingcloud.com/development_docs/api/overview/>
@@ -141,7 +141,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
 - 获取您账户的Access Key ID 和Secret Access Key。
 
-有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
 - <https://docs.wasabi.com/docs/creating-a-bucket>
 - <https://docs.wasabi.com/docs/access-keys-1>
