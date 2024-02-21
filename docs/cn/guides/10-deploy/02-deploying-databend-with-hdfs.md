@@ -13,7 +13,7 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 ## 部署独立的 Databend
 
-Databend 也支持与 Hadoop 分布式文件系统（HDFS）一起工作。本主题解释了如何将 Databend 与 HDFS 一起部署。有关其他支持的对象存储解决方案的列表，请参见[了解部署模式](./00-understanding-deployment-modes.md)。
+Databend 同样也支持将 HDFS 存储系统作为存储后端。本主题将解释如何利用 HDFS 部署 Databend 。如需了解 Databend 支持的其他对象存储解决方案列表，请参见[了解部署模式](./00-understanding-deployment-modes.md)。
 
 ### 设置您的 HDFS
 
@@ -210,9 +210,9 @@ b. 按照[使用 BendSQL 连接到 Databend](../30-sql-clients/00-bendsql/00-con
 
 ```shell
 ==> query.log <==
-: 不支持 getcpu：percpu_arena:percpu
-: 选项 background_thread 当前仅支持 pthread
-Databend Query 启动失败，原因：Code: 1104, Text = 创建 appender 失败：Os { code: 13, kind: PermissionDenied, message: "权限被拒绝" }。
+: No getcpu support: percpu_arena:percpu
+: option background_thread currently supports pthread only
+Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
 
 运行以下命令，然后再次尝试启动 Databend：

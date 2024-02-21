@@ -270,7 +270,7 @@ CREATE STAGE iam_external_stage url = 's3://databend-toronto' CONNECTION =(aws_k
 1. 点击 **R2** > **概览** 上的 **管理 R2 API 令牌**。
 2. 点击 **创建 API 令牌** 来创建一个 API 令牌。
 3. 在配置 API 令牌时，选择必要的权限并根据需要设置 **TTL**。
-4. 点击 **创建 API 令牌** 来获取访问密钥 ID 和密钥访问密钥。复制并将它们保存到安全的地方。
+4. 点击 **创建 API 令牌** 来获取访问 Access Key ID 和 Secret Access Key。复制并将它们保存到安全的地方。
 
 #### 步骤 3：创建外部阶段
 

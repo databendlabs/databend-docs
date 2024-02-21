@@ -37,7 +37,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -70,7 +70,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -87,7 +87,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -104,7 +104,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -122,7 +122,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -139,7 +139,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -356,7 +356,7 @@ access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
 
-Databend 企业版支持在 OSS 中启用服务器端加密。此功能使您能够通过为存储在 OSS 中的数据激活服务器端加密来增强数据安全性和隐私性。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取一个，请参见 [许可 Databend](../00-overview/00-editions/01-dee/20-license.md)。
+Databend 企业版支持在 OSS 中启用服务器端加密。此功能使您能够通过为存储在 OSS 中的数据激活服务器端加密来增强数据安全性和隐私性。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取一个，请参见 [Databend 许可证](../00-overview/00-editions/01-dee/20-license.md)。
 
 要在 Databend 中启用服务器端加密，请在 [storage.oss] 部分添加以下参数：
 
@@ -501,7 +501,7 @@ b. 按照[使用BendSQL连接到Databend](../30-sql-clients/00-bendsql/00-connec
 ==> query.log <==
 : No getcpu support: percpu_arena:percpu
 : option background_thread currently supports pthread only
-Databend Query启动失败，原因：Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }。
+Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
 运行以下命令然后再次尝试启动Databend：
 
