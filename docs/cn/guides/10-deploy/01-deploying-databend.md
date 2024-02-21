@@ -180,61 +180,6 @@ f. 在 MinIO 控制台中，创建一个名为 `my_bucket` 的存储桶。
 
 </TabItem>
 
-<TabItem value="HDFS" label="HDFS">
-
-在部署 Databend 之前，请确保您已成功设置了 Hadoop 环境，并完成了以下任务：
-
-
-
-```toml
-[storage]
-# oss
-type = "oss"
-
-[storage.oss]
-# 如何创建存储桶:
-# https://help.aliyun.com/document_detail/31827.html
-// highlight-next-line
-bucket = "my_bucket"
-
-# OSS同样支持更改端点URL
-# 但端点应该与OSS的API兼容
-# 默认:
-# endpoint_url = "https://oss-cn-hangzhou.aliyuncs.com"
-
-# 工作目录
-# 默认:
-# root = "/"
-
-// highlight-next-line
-access_key_id = "<your-access-key-id>"
-// highlight-next-line
-access_key_secret = "<your-access-key-secret>"
-```
-
-</TabItem>
-
-</Tabs>
-
-c. 将解压出的`bin`、`configs`和`scripts`文件夹移动到`/usr/local/databend`文件夹中。
-
-</TabItem>
-
-<TabItem value="WebHDFS" label="WebHDFS">
-
-在部署Databend之前，请确保您已成功设置Hadoop环境，并完成以下任务：
-
-- 在Hadoop上启用WebHDFS支持。
-- 获取连接到WebHDFS的端点URL。
-- 获取用于认证的委托令牌（如果需要）。
-
-有关如何在Apache Hadoop上启用和管理WebHDFS的信息，请参考WebHDFS的手册。以下是一些您可能会觉得有用的链接：
-
-- <https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html>
-
-<CommonDownloadDesc />
-
-</TabItem>
 </Tabs>
 
 ### 部署元节点
@@ -262,6 +207,130 @@ a. 定位到文件夹`/usr/local/databend/configs`中的文件`databend-query.to
 b. 在文件`databend-query.toml`中，设置[storage]块中的参数*type*，并配置访问凭证和端点URL以连接到您的对象存储。
 
 要配置您的存储设置，请通过在每行前添加'#'来注释掉[storage.fs]部分，然后通过移除'#'符号来取消注释适合您的对象存储提供者的相应部分，并填写必要的值。如果您希望的存储提供者未列出，您可以将下面的相应模板复制并粘贴到文件中，并相应地配置它。
+
+<Tabs groupId="operating-systems">
+
+<TabItem value="Amazon S3" label="Amazon S3">
+
+```toml
+[storage]
+# s3
+type = "s3"
+
+[storage.s3]
+# https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html
+bucket = "my_bucket"
+endpoint_url = "https://s3.amazonaws.com"
+
+# How to get access_key_id and secret_access_key:
+# https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html
+// highlight-next-line
+access_key_id = "<your-key-id>"
+// highlight-next-line
+secret_access_key = "<your-access-key>"
+```
+
+</TabItem>
+
+<TabItem value="Google GCS" label="Google GCS">
+
+```toml
+[storage]
+# gcs
+type = "gcs"
+
+[storage.gcs]
+# How to create a bucket:
+# https://cloud.google.com/storage/docs/creating-buckets
+// highlight-next-line
+bucket = "my_bucket"
+
+# GCS also supports changing the endpoint URL
+# but the endpoint should be compatible with GCS's JSON API
+# default:
+# endpoint_url = "https://storage.googleapis.com"
+
+# working directory of GCS
+# default:
+# root = "/"
+
+// highlight-next-line
+credential = "<your-credential>"
+```
+
+</TabItem>
+
+<TabItem value="Azure Blob" label="Azure Blob">
+
+```toml
+[storage]
+# azblob
+type = "azblob"
+
+[storage.azblob]
+endpoint_url = "https://<your-storage-account-name>.blob.core.windows.net"
+
+# https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container
+container = "my_bucket"
+account_name = "<your-storage-account-name>"
+
+# https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys
+account_key = "<your-account-key>"
+```
+
+</TabItem>
+
+
+<TabItem value="Tencent COS" label="Tencent COS">
+
+```toml
+[storage]
+# s3
+type = "cos"
+
+[storage.cos]
+# You can get the URL from the bucket detail page.
+# The following is an example where the region is Beijing (ap-beijing):
+// highlight-next-line
+endpoint_url = "https://cos.ap-beijing.myqcloud.com"
+
+# How to create a bucket:
+# https://cloud.tencent.com/document/product/436/13309
+// highlight-next-line
+bucket = "my_bucket"
+
+# How to get secret_id and secret_key:
+# https://cloud.tencent.com/document/product/436/68282
+// highlight-next-line
+secret_id = "<your-secret-id>"
+// highlight-next-line
+secret_key = "<your-secret-key>"
+root = "<your-root-path>"
+```
+Tencent COS also supports loading configuration values from environment variables. This means that instead of specifying the configuration values directly in the configuration file, you can configure COS storage by setting the corresponding environment variables.
+
+To do this, you can still use the same [storage.cos] section in the configuration file, but omit the settings secret_id, secret_key, and root. Instead, set the corresponding environment variables (TENCENTCLOUD_SECRETID, TENCENTCLOUD_SECRETKEY, and USER_CODE_ROOT) with the desired values.
+
+```toml
+[storage]
+# s3
+type = "cos"
+
+[storage.cos]
+# You can get the URL from the bucket detail page.
+# The following is an example where the region is ap-beijing:
+// highlight-next-line
+endpoint_url = "https://cos.ap-beijing.myqcloud.com"
+
+# How to create a bucket:
+# https://cloud.tencent.com/document/product/436/13309
+// highlight-next-line
+bucket = "my_bucket"
+```
+
+</TabItem>
+
+<TabItem value="Alibaba OSS" label="Alibaba OSS">
 
 ```toml
 [storage]
@@ -372,31 +441,6 @@ secret_access_key = "minioadmin"
 ```
 </TabItem>
 
-<TabItem value="HDFS" label="HDFS">
-
-```toml
-[storage]
-type = "hdfs"
-[storage.hdfs]
-name_node = "hdfs://hadoop.example.com:8020"
-root = "/analyses/databend/storage"
-```
-
-</TabItem>
-
-<TabItem value="WebHDFS" label="WebHDFS">
-
-```toml
-[storage]
-type = "webhdfs"
-[storage.webhdfs]
-endpoint_url = "https://hadoop.example.com:9870"
-root = "/analyses/databend/storage"
-# 如果您的webhdfs需要认证，请取消注释并设置您的值
-# delegation = "<delegation-token>"
-```
-
-</TabItem>
 </Tabs>
 
 c. 通过[query.users]部分配置管理员用户。有关更多信息，请参见[配置管理员用户](04-admin-users.md)。要使用默认的root用户和"no_password"认证类型继续操作，请确保在文件`databend-query.toml`中删除以下行前的'#'字符：
