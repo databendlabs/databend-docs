@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.262"/>
 
-Databend's Delta Lake engine allows you to seamlessly query and analyze data in Delta Lake tables stored on S3. When you create a table with the Delta Lake engine in Databend, you specify a location where the data files of a Delta Lake table are stored. This setup allows you to gain direct access to the table and perform queries seamlessly from within Databend.
+Databend's Delta Lake engine allows you to seamlessly query and analyze data in Delta Lake tables stored in your object storage. When you create a table with the Delta Lake engine in Databend, you specify a location where the data files of a Delta Lake table are stored. This setup allows you to gain direct access to the table and perform queries seamlessly from within Databend.
 
 - Databend's Delta Lake engine currently supported read-only operations. This means that querying data from your Delta Lake tables is supported, while writing to the tables is not.
 - The schema for a table created with the Delta Lake engine is set at the time of its creation. Any modifications to the schema of the original Delta Lake table require the recreation of the corresponding table in Databend to ensure synchronization.

@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.262"/>
 
-Databend's Apache Iceberg engine allows you to seamlessly query and analyze data in Apache Iceberg tables stored on S3. When you create a table with the Apache Iceberg engine in Databend, you specify a location where the data files of an Apache Iceberg table are stored. This setup allows you to gain direct access to the table and perform queries seamlessly from within Databend.
+Databend's Apache Iceberg engine allows you to seamlessly query and analyze data in Apache Iceberg tables stored in your object storage. When you create a table with the Apache Iceberg engine in Databend, you specify a location where the data files of an Apache Iceberg table are stored. This setup allows you to gain direct access to the table and perform queries seamlessly from within Databend.
 
 - Databend's Apache Iceberg engine currently supported read-only operations. This means that querying data from your Apache Iceberg tables is supported, while writing to the tables is not.
 - The schema for a table created with the Apache Iceberg engine is set at the time of its creation. Any modifications to the schema of the original Apache Iceberg table require the recreation of the corresponding table in Databend to ensure synchronization.
