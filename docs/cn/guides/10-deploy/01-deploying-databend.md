@@ -1,9 +1,8 @@
 ---
-title: 部署独立的 Databend（对象存储）
-sidebar_label: 部署独立的 Databend（对象存储）
+title: 部署独立的 Databend
+sidebar_label: 部署独立的 Databend
 description: 部署独立的 Databend
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新：v1.2.168"/>
@@ -17,7 +16,7 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 ## 部署独立的 Databend
 
-Databend 既支持自托管也支持云对象存储解决方案。本主题将解释如何利用对象存储部署 Databend 。有关支持的全部存储解决方案列表，请参见[了解部署模式](./00-understanding-deployment-modes.md)。
+Databend 既支持自托管也支持云对象存储解决方案。本主题解释了如何使用您的对象存储部署 Databend。有关支持的对象存储解决方案列表，请参见[了解部署模式](./00-understanding-deployment-modes.md)。
 
 :::note
 不推荐在生产环境或性能测试中在 MinIO 之上部署 Databend。
@@ -31,13 +30,14 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 <Tabs groupId="operating-systems">
 
+
 <TabItem value="Amazon S3" label="Amazon S3">
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
-- 创建一个名为`databend`的存储桶或容器。
+- 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的 Access Key ID 和 Secret Access Key。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -52,7 +52,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
-- 创建一个名为`databend`的存储桶。
+- 创建一个名为 `my_bucket` 的存储桶。
 - 获取您账户的 Google Cloud Storage OAuth2 凭证。
 
 有关如何在 Google Cloud Storage 中管理存储桶和 OAuth2 凭证的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
@@ -68,9 +68,9 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
-- 创建一个名为`databend`的存储桶或容器。
+- 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的 Access Key ID 和 Secret Access Key。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -85,9 +85,9 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
-- 创建一个名为`databend`的存储桶或容器。
+- 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的 Access Key ID 和 Secret Access Key。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -102,9 +102,9 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
-- 创建一个名为`databend`的存储桶或容器。
+- 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的 Access Key ID 和 Secret Access Key。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -115,13 +115,14 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 </TabItem>
 
+
 <TabItem value="QingCloud QingStor" label="QingCloud QingStor">
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
-- 创建一个名为`databend`的存储桶或容器。
+- 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的 Access Key ID 和 Secret Access Key。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -136,9 +137,9 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
-- 创建一个名为`databend`的存储桶或容器。
+- 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的 Access Key ID 和 Secret Access Key。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和 Access Keys 的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -151,11 +152,11 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 <TabItem value="MinIO" label="MinIO">
 
-a. 按照[MinIO 快速入门指南](https://docs.min.io/docs/minio-quickstart-guide.html)下载并安装 MinIO 包到您的本地机器。
+a. 按照 [MinIO 快速入门指南](https://docs.min.io/docs/minio-quickstart-guide.html) 下载并安装 MinIO 包到您的本地机器。
 
 b. 打开一个终端窗口并导航到存储 MinIO 的文件夹。
 
-c. 运行命令`vim server.sh`创建一个包含以下内容的文件：
+c. 运行命令 `vim server.sh` 创建一个包含以下内容的文件：
 
 ```shell
 ~/minio$ cat server.sh
@@ -171,9 +172,65 @@ chmod +x server.sh
 ./server.sh
 ```
 
-e. 在您的浏览器中，访问 <http://127.0.0.1:9900> 并输入凭据（`minioadmin` / `minioadmin`）登录 MinIO 控制台。
+e. 在您的浏览器中，访问 <http://127.0.0.1:9900> 并输入凭证（`minioadmin` / `minioadmin`）登录 MinIO 控制台。
 
-f. 在 MinIO 控制台中，创建一个名为`databend`的存储桶。
+f. 在 MinIO 控制台中，创建一个名为 `my_bucket` 的存储桶。
+
+<CommonDownloadDesc />
+
+</TabItem>
+
+<TabItem value="HDFS" label="HDFS">
+
+在部署 Databend 之前，请确保您已成功设置了您的 Hadoop 环境，并完成了以下任务：
+
+
+
+- 您的系统已经安装了支持JVM的Java SDK。
+- 获取连接到HDFS的名称节点URL。
+- 您已经将Hadoop发行版下载到您的系统，并且可以访问发行版中的JAR包。
+
+### 下载Databend
+
+a. 在目录`/usr/local`中创建一个名为`databend`的文件夹。
+
+b. 从[GitHub Release](https://github.com/datafuselabs/databend/releases)下载适用于您平台的最新Databend发行版并解压：
+
+:::note
+要使用HDFS作为存储后端，请下载文件名格式为`databend-hdfs-${version}-${target-platform}.tar.gz`的发行版。
+:::
+
+<Tabs>
+
+<TabItem value="linux-x86_64" label="Linux(x86)">
+
+```shell
+curl -LJO https://repo.databend.rs/databend/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+```
+
+```shell
+tar xzvf databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+```
+
+</TabItem>
+
+</Tabs>
+
+c. 将解压出的`bin`、`configs`和`scripts`文件夹移动到`/usr/local/databend`文件夹中。
+
+</TabItem>
+
+<TabItem value="WebHDFS" label="WebHDFS">
+
+在部署Databend之前，请确保您已成功设置Hadoop环境，并完成以下任务：
+
+- 在Hadoop上启用WebHDFS支持。
+- 获取连接到WebHDFS的端点URL。
+- 获取用于认证的委托令牌（如果需要）。
+
+有关如何在Apache Hadoop上启用和管理WebHDFS的信息，请参考WebHDFS的手册。以下是一些您可能会觉得有用的链接：
+
+- <https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html>
 
 <CommonDownloadDesc />
 
@@ -182,7 +239,7 @@ f. 在 MinIO 控制台中，创建一个名为`databend`的存储桶。
 
 ### 部署元节点
 
-a. 打开文件夹`/usr/local/databend/configs`中的文件`databend-meta.toml`，将文件中的`127.0.0.1`全部替换为`0.0.0.0`。
+a. 打开文件夹`/usr/local/databend/configs`中的文件`databend-meta.toml`，并将整个文件中的`127.0.0.1`替换为`0.0.0.0`。
 
 b. 打开一个终端窗口并导航到文件夹`/usr/local/databend/bin`。
 
@@ -200,11 +257,11 @@ curl -I  http://127.0.0.1:28101/v1/health
 
 ### 部署查询节点
 
-a. 打开文件夹`/usr/local/databend/configs`中的文件`databend-query.toml`，将文件中的`127.0.0.1`全部替换为`0.0.0.0`。
+a. 定位文件夹`/usr/local/databend/configs`中的文件`databend-query.toml`。
 
-b. 在文件`databend-query.toml`中，设置 `[storage]` 块中的参数 *type* ，并配置访问凭证和端点 URL 以连接到您的对象存储。
+b. 在文件`databend-query.toml`中，设置[storage]块中的参数*type*，并配置访问凭证和端点URL以连接到您的对象存储。
 
-要配置您的存储设置，请通过在每行前添加 `'#'` 来注释掉 `[storage.fs]` 部分，然后通过移除 `'#'` 符号来取消注释适合您的对象存储提供商的相应部分，并填写必要的值。您也可以将下面的相应模板复制并粘贴到文件中，并相应地配置它。
+要配置您的存储设置，请通过在每行前添加'#'来注释掉[storage.fs]部分，然后通过移除'#'符号来取消注释适用于您的对象存储提供商的相应部分，并填写必要的值。如果您希望的存储提供商未列出，您可以将下面的相应模板复制并粘贴到文件中，并相应地配置它。
 
 <Tabs groupId="operating-systems">
 
@@ -217,7 +274,7 @@ type = "s3"
 
 [storage.s3]
 # https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html
-bucket = "databend"
+bucket = "my_bucket"
 endpoint_url = "https://s3.amazonaws.com"
 
 # 如何获取access_key_id和secret_access_key:
@@ -241,7 +298,7 @@ type = "gcs"
 # 如何创建一个存储桶:
 # https://cloud.google.com/storage/docs/creating-buckets
 // highlight-next-line
-bucket = "databend"
+bucket = "my_bucket"
 
 # GCS也支持更改端点URL
 # 但端点应与GCS的JSON API兼容
@@ -269,7 +326,7 @@ type = "azblob"
 endpoint_url = "https://<your-storage-account-name>.blob.core.windows.net"
 
 # https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container
-container = "<your-azure-storage-container-name>"
+container = "my_bucket"
 account_name = "<your-storage-account-name>"
 
 # https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys
@@ -277,6 +334,7 @@ account_key = "<your-account-key>"
 ```
 
 </TabItem>
+
 
 <TabItem value="Tencent COS" label="Tencent COS">
 
@@ -287,14 +345,14 @@ type = "cos"
 
 [storage.cos]
 # 您可以从存储桶详情页面获取URL。
-# 以下是一个区域为北京(ap-beijing)的示例:
+# 下面是一个区域为北京(ap-beijing)的示例:
 // highlight-next-line
 endpoint_url = "https://cos.ap-beijing.myqcloud.com"
 
 # 如何创建一个存储桶:
 # https://cloud.tencent.com/document/product/436/13309
 // highlight-next-line
-bucket = "databend"
+bucket = "my_bucket"
 
 # 如何获取secret_id和secret_key:
 # https://cloud.tencent.com/document/product/436/68282
@@ -304,8 +362,7 @@ secret_id = "<your-secret-id>"
 secret_key = "<your-secret-key>"
 root = "<your-root-path>"
 ```
-
-Tencent COS 还支持从环境变量加载配置值。这意味着，您可以不在配置文件中直接指定配置值，而是通过设置相应的环境变量（TENCENTCLOUD_SECRETID、TENCENTCLOUD_SECRETKEY 和 USER_CODE_ROOT）来配置 COS 存储。
+Tencent COS还支持从环境变量加载配置值。这意味着，您可以不直接在配置文件中指定配置值，而是通过设置相应的环境变量（TENCENTCLOUD_SECRETID、TENCENTCLOUD_SECRETKEY和USER_CODE_ROOT）来配置COS存储。
 
 ```toml
 [storage]
@@ -314,14 +371,14 @@ type = "cos"
 
 [storage.cos]
 # 您可以从存储桶详情页面获取URL。
-# 以下是一个区域为北京(ap-beijing)的示例:
+# 下面是一个区域为ap-beijing的示例:
 // highlight-next-line
 endpoint_url = "https://cos.ap-beijing.myqcloud.com"
 
 # 如何创建一个存储桶:
 # https://cloud.tencent.com/document/product/436/13309
 // highlight-next-line
-bucket = "databend"
+bucket = "my_bucket"
 ```
 
 </TabItem>
@@ -330,19 +387,47 @@ bucket = "databend"
 
 ```toml
 [storage]
+# oss
+type = "oss"
+
+[storage.oss]
+# 您可以从存储桶详情页面获取URL。
+# 下面是一个示例:
+// highlight-next-line
+endpoint_url = "https://oss-cn-hangzhou.aliyuncs.com"
+
+# 如何创建一个存储桶:
+# https://help.aliyun.com/document_detail/31885.html
+// highlight-next-line
+bucket = "my_bucket"
+
+# 如何获取AccessKeyId和AccessKeySecret:
+# https://help.aliyun.com/document_detail/53045.html
+// highlight-next-line
+access_key_id = "<your-access-key-id>"
+// highlight-next-line
+access_key_secret = "<your-access-key-secret>"
+```
+
+</TabItem>
+
+</Tabs>
+
+```toml
+[storage]
 type = "oss"
 
 [storage.oss]
 // highlight-next-line
-bucket = "databend"
+bucket = "my_bucket"
 
-# 你可以从存储桶详情页面获取URL。
+# 您可以从存储桶详情页面获取URL。
 // highlight-next-line
 # https://help.aliyun.com/document_detail/31837.htm
 // highlight-next-line
 # https://<bucket-name>.<region-id>[-internal].aliyuncs.com
 // highlight-next-line
-# 此示例使用的OSS区域ID为：oss-cn-beijing-internal。
+# 本例中使用的OSS区域ID为：oss-cn-beijing-internal。
 endpoint_url = "https://oss-cn-beijing-internal.aliyuncs.com"
 # enable_virtual_host_style = true
 
@@ -354,16 +439,16 @@ access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
 
-Databend 企业版支持在 OSS 中使用服务器端加密。此功能允许您通过激活 OSS 中存储数据的服务器端加密来增强数据安全性和隐私性。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参见[Databend 许可证](../00-overview/00-editions/01-dee/20-license.md)。
+Databend企业版支持在OSS中进行服务器端加密。此功能通过激活OSS中存储数据的服务器端加密，来增强数据安全性和隐私性。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的Databend企业版许可证才能使用此功能。要获取许可证，请参见[许可Databend](../00-overview/00-editions/01-dee/20-license.md)。
 
-要在 Databend 中启用服务器端加密，请在[storage.oss]部分添加以下参数：
+要在Databend中启用服务器端加密，请在[storage.oss]部分添加以下参数：
 
-| 参数                          | 描述                                                                                                                                     | 可用值                             |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| server_side_encryption        | 指定 OSS 数据的服务器端加密方法。"AES256"使用 OSS 管理的 AES256 密钥进行加密，而"KMS"则使用 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                  |
-| server_side_encryption_key_id | 当 server_side_encryption 设置为"KMS"时，此参数用于指定 OSS 的服务器端加密密钥 ID。仅在使用 KMS 加密模式时适用。                         | 字符串，KMS 加密密钥的唯一标识符。 |
-
+| 参数                           | 描述                                                                                                                                       | 可用值                                 |
+|------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| server_side_encryption       | 指定OSS数据的服务器端加密方法。"AES256"使用OSS管理的AES256密钥进行加密，而"KMS"则使用server_side_encryption_key_id中定义的密钥。             | "AES256" 或 "KMS"                    |
+| server_side_encryption_key_id | 当server_side_encryption设置为"KMS"时，此参数用于指定OSS的服务器端加密密钥ID。仅在使用KMS加密模式时适用。                                         | 字符串，KMS加密密钥的唯一标识符。       |
 </TabItem>
+
 
 <TabItem value="QingCloud QingStor" label="QingCloud QingStor">
 
@@ -373,9 +458,9 @@ Databend 企业版支持在 OSS 中使用服务器端加密。此功能允许您
 type = "s3"
 
 [storage.s3]
-bucket = "databend"
+bucket = "my_bucket"
 
-# 你可以从存储桶详情页面获取URL。
+# 您可以从存储桶详情页面获取URL。
 # https://docsv3.qingcloud.com/storage/object-storage/intro/object-storage/#zone
 endpoint_url = "https://s3.pek3b.qingstor.com"
 
@@ -386,7 +471,7 @@ secret_access_key = "<your-access-key>"
 ```
 
 :::tip
-在此示例中，QingStor 区域为`pek3b`。
+在此示例中，QingStor区域为`pek3b`。
 :::
 
 </TabItem>
@@ -401,9 +486,9 @@ type = "s3"
 [storage.s3]
 # 如何创建存储桶：
 // highlight-next-line
-bucket = "<your-bucket>"
+bucket = "my_bucket"
 
-# 你可以从以下链接获取URL：
+# 您可以从以下位置获取URL：
 # https://wasabi-support.zendesk.com/hc/en-us/articles/360015106031-What-are-the-service-URLs-for-Wasabi-s-different-regions-
 // highlight-next-line
 endpoint_url = "https://s3.us-east-2.wasabisys.com"
@@ -416,10 +501,11 @@ secret_access_key = "<your-access-key>"
 ```
 
 :::tip
-在此示例中，Wasabi 区域为`us-east-2`。
+在此示例中，Wasabi区域为`us-east-2`。
 :::
 
 </TabItem>
+
 
 <TabItem value="MinIO" label="MinIO">
 
@@ -429,20 +515,44 @@ secret_access_key = "<your-access-key>"
 type = "s3"
 
 [storage.s3]
-bucket = "databend"
+bucket = "my_bucket"
 endpoint_url = "http://127.0.0.1:9900"
 access_key_id = "minioadmin"
 secret_access_key = "minioadmin"
 ```
+</TabItem>
+
+<TabItem value="HDFS" label="HDFS">
+
+```toml
+[storage]
+type = "hdfs"
+[storage.hdfs]
+name_node = "hdfs://hadoop.example.com:8020"
+root = "/analyses/databend/storage"
+```
 
 </TabItem>
 
+<TabItem value="WebHDFS" label="WebHDFS">
+
+```toml
+[storage]
+type = "webhdfs"
+[storage.webhdfs]
+endpoint_url = "https://hadoop.example.com:9870"
+root = "/analyses/databend/storage"
+# 如果您的webhdfs需要认证，请取消注释并设置您的值
+# delegation = "<delegation-token>"
+```
+
+</TabItem>
 </Tabs>
 
-c. 通过[query.users]部分配置管理员用户。有关更多信息，请参见[配置管理员用户](04-admin-users.md)。要使用默认的 root 用户和"no_password"认证类型继续，请确保在文件`databend-query.toml`中删除以下行前的'#'字符：
+c. 使用[query.users]部分配置管理员用户。有关更多信息，请参见[配置管理员用户](04-admin-users.md)。要使用默认的root用户和认证类型"no_password"继续，请确保在文件`databend-query.toml`中删除以下行前的'#'字符：
 
 :::caution
-在本教程中使用"no_password"认证类型为 root 用户仅为示例，不推荐用于生产环境，因为可能存在潜在的安全风险。
+在本教程中使用"no_password"认证的root用户仅为示例，不推荐用于生产环境，因为可能存在潜在的安全风险。
 :::
 
 ```toml title='databend-query.toml'
@@ -457,6 +567,28 @@ d. 打开终端窗口并导航到文件夹`/usr/local/databend/bin`。
 
 e. 运行以下命令以启动查询节点：
 
+:::note
+当使用HDFS作为存储后端时，确保设置以下环境变量：
+
+```bash
+export JAVA_HOME=/path/to/java
+export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
+export HADOOP_HOME=/path/to/hadoop
+export CLASSPATH=/all/hadoop/jar/files
+```
+
+以下是一个示例：
+
+
+
+```bash
+export JAVA_HOME=/usr/lib/jvm/java-21-jdk
+export LD_LIBRARY_PATH={$JAVA_HOME}/lib/server/
+export HADOOP_HOME={$HOME}/hadoop-3.3.6
+export CLASSPATH=$(find $HADOOP_HOME -iname "*.jar" | xargs echo | tr ' ' ':')
+```
+:::
+
 ```shell
 ./databend-query -c ../configs/databend-query.toml > query.log 2>&1 &
 ```
@@ -469,21 +601,11 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 验证部署
 
-在本节中，我们将对 Databend 运行一些查询以验证部署。
+在本节中，我们将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行一个简单的查询，以验证部署。
 
-a. 在您的本地机器上下载并安装 MySQL 客户端。
+a. 按照 [安装 BendSQL](../30-sql-clients/00-bendsql/index.md#installing-bendsql) 的指引在您的机器上安装 BendSQL。
 
-b. 从您的 SQL 客户端创建到 127.0.0.1 的连接。在连接中，将端口设置为 `3307`，并将用户名设置为 `root`。
-
-c. 运行以下命令并检查查询是否成功：
-
-```sql
-CREATE TABLE t1(a int);
-
-INSERT INTO t1 VALUES(1), (2);
-
-SELECT * FROM t1;
-```
+b. 按照 [使用 BendSQL 连接到 Databend](../30-sql-clients/00-bendsql/00-connect-to-databend.md) 的指引启动 BendSQL 并检索当前时间以进行验证。
 
 ### 启动和停止 Databend
 
@@ -509,8 +631,7 @@ SELECT * FROM t1;
 : option background_thread currently supports pthread only
 Databend Query 启动失败，原因：Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
-
-运行以下命令，然后再次尝试启动 Databend：
+运行以下命令然后再次尝试启动 Databend：
 
 ```shell
 sudo mkdir /var/log/databend
@@ -518,7 +639,6 @@ sudo mkdir /var/lib/databend
 sudo chown -R $USER /var/log/databend
 sudo chown -R $USER /var/lib/databend
 ```
-
   </div>
 </details>
 </DetailsWrap>
@@ -526,7 +646,7 @@ sudo chown -R $USER /var/lib/databend
 
 ## 下一步
 
-部署 Databend 后，您可能需要了解以下主题：
+在部署 Databend 之后，您可能需要了解以下主题：
 
-- [加载和卸载数据](/guides/load-data)：在 Databend 中管理数据导入/导出。
+- [加载与卸载数据](/guides/load-data)：在 Databend 中管理数据的导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获得洞察。
