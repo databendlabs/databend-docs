@@ -216,6 +216,27 @@ access_key_secret = "<your-access-key-secret>"
 
 </Tabs>
 
+c. 将解压出的`bin`、`configs`和`scripts`文件夹移动到`/usr/local/databend`文件夹中。
+
+</TabItem>
+
+<TabItem value="WebHDFS" label="WebHDFS">
+
+在部署Databend之前，请确保您已成功设置Hadoop环境，并完成以下任务：
+
+- 在Hadoop上启用WebHDFS支持。
+- 获取连接到WebHDFS的端点URL。
+- 获取用于认证的委托令牌（如果需要）。
+
+有关如何在Apache Hadoop上启用和管理WebHDFS的信息，请参考WebHDFS的手册。以下是一些您可能会觉得有用的链接：
+
+- <https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html>
+
+<CommonDownloadDesc />
+
+</TabItem>
+</Tabs>
+
 ### 部署元节点
 
 a. 打开文件夹`/usr/local/databend/configs`中的文件`databend-meta.toml`，将文件中的`127.0.0.1`全部替换为`0.0.0.0`。
