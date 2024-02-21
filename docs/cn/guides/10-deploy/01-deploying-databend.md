@@ -37,7 +37,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -70,7 +70,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -87,7 +87,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -104,7 +104,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -122,7 +122,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -139,7 +139,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接到您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的Access Key ID 和Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
