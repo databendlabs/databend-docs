@@ -35,7 +35,7 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
 
-- Create a bucket or container named `databend`.
+- Create a bucket or container named `my_bucket`.
 - Get the endpoint URL for connecting to the bucket or container you created.
 - Get the Access Key ID and Secret Access Key for your account.
 
@@ -52,7 +52,7 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
 
-- Create a bucket named `databend`.
+- Create a bucket named `my_bucket`.
 - Get the Google Cloud Storage OAuth2 credential of your account.
 
 For information about how to manage buckets and OAuth2 credentials in Google Cloud Storage, refer to the user manual from the solution provider. Here are some useful links you may need:
@@ -68,7 +68,7 @@ For information about how to manage buckets and OAuth2 credentials in Google Clo
 
 Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
 
-- Create a bucket or container named `databend`.
+- Create a bucket or container named `my_bucket`.
 - Get the endpoint URL for connecting to the bucket or container you created.
 - Get the Access Key ID and Secret Access Key for your account.
 
@@ -85,7 +85,7 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
 
-- Create a bucket or container named `databend`.
+- Create a bucket or container named `my_bucket`.
 - Get the endpoint URL for connecting to the bucket or container you created.
 - Get the Access Key ID and Secret Access Key for your account.
 
@@ -102,7 +102,7 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
 
-- Create a bucket or container named `databend`.
+- Create a bucket or container named `my_bucket`.
 - Get the endpoint URL for connecting to the bucket or container you created.
 - Get the Access Key ID and Secret Access Key for your account.
 
@@ -120,7 +120,7 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
 
-- Create a bucket or container named `databend`.
+- Create a bucket or container named `my_bucket`.
 - Get the endpoint URL for connecting to the bucket or container you created.
 - Get the Access Key ID and Secret Access Key for your account.
 
@@ -137,7 +137,7 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
 
-- Create a bucket or container named `databend`.
+- Create a bucket or container named `my_bucket`.
 - Get the endpoint URL for connecting to the bucket or container you created.
 - Get the Access Key ID and Secret Access Key for your account.
 
@@ -174,7 +174,7 @@ chmod +x server.sh
 
 e. In your browser, go to <http://127.0.0.1:9900> and enter the credentials (`minioadmin` / `minioadmin`) to log into the MinIO Console.
 
-f. In the MinIO Console, create a bucket named `databend`.
+f. In the MinIO Console, create a bucket named `my_bucket`.
 
 <CommonDownloadDesc />
 
@@ -255,7 +255,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 
 ### Deploying a Query Node
 
-a. Open the file `databend-query.toml` in the folder `/usr/local/databend/configs`, and replace `127.0.0.1` with `0.0.0.0` within the whole file.
+a. Locate the file `databend-query.toml` in the folder `/usr/local/databend/configs`.
 
 b. In the file `databend-query.toml`, set the parameter *type* in the [storage] block and configure the access credentials and endpoint URL for connecting to your object storage. 
 
@@ -272,7 +272,7 @@ type = "s3"
 
 [storage.s3]
 # https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html
-bucket = "databend"
+bucket = "my_bucket"
 endpoint_url = "https://s3.amazonaws.com"
 
 # How to get access_key_id and secret_access_key:
@@ -296,7 +296,7 @@ type = "gcs"
 # How to create a bucket:
 # https://cloud.google.com/storage/docs/creating-buckets
 // highlight-next-line
-bucket = "databend"
+bucket = "my_bucket"
 
 # GCS also supports changing the endpoint URL
 # but the endpoint should be compatible with GCS's JSON API
@@ -324,7 +324,7 @@ type = "azblob"
 endpoint_url = "https://<your-storage-account-name>.blob.core.windows.net"
 
 # https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container
-container = "<your-azure-storage-container-name>"
+container = "my_bucket"
 account_name = "<your-storage-account-name>"
 
 # https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys
@@ -350,7 +350,7 @@ endpoint_url = "https://cos.ap-beijing.myqcloud.com"
 # How to create a bucket:
 # https://cloud.tencent.com/document/product/436/13309
 // highlight-next-line
-bucket = "databend"
+bucket = "my_bucket"
 
 # How to get secret_id and secret_key:
 # https://cloud.tencent.com/document/product/436/68282
@@ -378,7 +378,7 @@ endpoint_url = "https://cos.ap-beijing.myqcloud.com"
 # How to create a bucket:
 # https://cloud.tencent.com/document/product/436/13309
 // highlight-next-line
-bucket = "databend"
+bucket = "my_bucket"
 ```
 
 </TabItem>
@@ -391,7 +391,7 @@ type = "oss"
 
 [storage.oss]
 // highlight-next-line
-bucket = "databend"
+bucket = "my_bucket"
 
 # You can get the URL from the bucket detail page.
 // highlight-next-line
@@ -430,7 +430,7 @@ To enable server-side encryption in Databend, add the following parameters to th
 type = "s3"
 
 [storage.s3]
-bucket = "databend"
+bucket = "my_bucket"
 
 # You can get the URL from the bucket detail page.
 # https://docsv3.qingcloud.com/storage/object-storage/intro/object-storage/#zone
@@ -458,7 +458,7 @@ type = "s3"
 [storage.s3]
 # How to create a bucket:
 // highlight-next-line
-bucket = "<your-bucket>"
+bucket = "my_bucket"
 
 # You can get the URL from:
 # https://wasabi-support.zendesk.com/hc/en-us/articles/360015106031-What-are-the-service-URLs-for-Wasabi-s-different-regions-
@@ -487,7 +487,7 @@ In this example Wasabi region is `us-east-2`.
 type = "s3"
 
 [storage.s3]
-bucket = "databend"
+bucket = "my_bucket"
 endpoint_url = "http://127.0.0.1:9900"
 access_key_id = "minioadmin"
 secret_access_key = "minioadmin"
@@ -571,21 +571,11 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### Verifying Deployment
 
-In this section, we will run some queries against Databend to verify the deployment.
+In this section, we will run a simple query against Databend using [BendSQL](https://github.com/datafuselabs/BendSQL) to verify the deployment.
 
-a. Download and install a MySQL client on your local machine.
+a. Follow [Installing BendSQL](../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
 
-b. Create a connection to 127.0.0.1 from your SQL client. In the connection, set the port to `3307`, and set the username to `root`.
-
-c. Run the following commands and check if the query is successful:
-
-```sql
-CREATE TABLE t1(a int);
-
-INSERT INTO t1 VALUES(1), (2);
-
-SELECT * FROM t1;
-```
+b. Follow [Connecting to Databend using BendSQL](../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
 
 ### Starting and Stopping Databend
 
