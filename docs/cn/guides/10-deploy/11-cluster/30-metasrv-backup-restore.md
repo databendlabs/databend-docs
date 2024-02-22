@@ -63,7 +63,7 @@ cat "<output_fn>" | databend-metactl --import --raft-dir "<your_meta_dir>"
 
 **注意**：`<your_meta_dir>` 中的数据将被清除。
 
-## 将数据导入为一个新的 databend-meta 集群
+## 将数据导入为新的 databend-meta 集群
 
 通过指定 `--initial-cluster` 参数，`databend-metactl` 可以将数据导入为一个新集群。
 `--initial-cluster` 的格式为：`node_id=raft_advertise_host:raft_api_port`，每个节点配置由空格分隔，`raft_advertise_host`、`raft_api_port` 的含义与 raft 配置中相同。
