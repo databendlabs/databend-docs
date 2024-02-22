@@ -1,5 +1,5 @@
 ---
-title: Fuse 引擎
+title: FUSE 引擎
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
@@ -42,4 +42,4 @@ FUSE 引擎提供以下选项（不区分大小写），使您能够进一步自
 | block_size_threshold   | `block_size_threshold = '<block_size_threshold>'`      | 指定最大块大小（以字节为单位）。默认为 104,857,600 字节。                                                                                                                                                                                                               |
 | block_per_segment      | `block_per_segment = '<block_per_segment>'`            | 指定段中的最大块数。默认为 1,000。                                                                                                                                                                                                                                       |
 | row_per_block          | `row_per_block = '<row_per_block>'`                    | 指定文件中的最大行数。默认为 1,000,000。                                                                                                                                                                                                                                 |
-| change_tracking        | `change_tracking = True / False`                       | 在 FUSE 引擎中将此选项设置为 `True` 允许跟踪表的更改。<br/>为表创建流将自动将 `change_tracking` 设置为 `True` 并为表引入额外的隐藏列作为更改跟踪元数据。更多信息，请参见 [如何工作流](../../10-sql-commands/00-ddl/04-stream/index.md#how-stream-works)。|
+| change_tracking        | `change_tracking = True / False`                       | 在 FUSE 引擎中将此选项设置为 `True` 允许跟踪表的更改。<br/>为表创建流将自动将 `change_tracking` 设置为 `True` 并为表引入额外的隐藏列作为更改跟踪元数据。更多信息，请参见 [流是如何工作的](../../10-sql-commands/00-ddl/04-stream/index.md#how-stream-works)。|
