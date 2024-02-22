@@ -1,5 +1,5 @@
 ---
-title: FUSE Engine
+title: Fuse Engine
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
