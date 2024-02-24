@@ -9,7 +9,7 @@ Databend 的 Delta Lake 引擎允许您无缝查询和分析存储在对象存�
 
 - Databend 的 Delta Lake 引擎目前仅支持只读操作。这意味着支持从您的 Delta Lake 表中查询数据，而不支持向表中写入数据。
 - 使用 Delta Lake 引擎创建的表的模式在创建时设置。对原始 Delta Lake 表的模式进行任何修改都需要在 Databend 中重新创建相应的表，以确保同步。
-- Databend 中的 Delta Lake 引擎是基于官方的 [delta-rs](https://github.com/delta-io/delta-rs) 库构建的。重要的是要注意，delta-protocol 中定义的某些功能，包括删除向量、变更数据源、生成的列和身份列，目前不由该引擎支持。
+- Databend 中的 Delta Lake 引擎是基于官方的 [delta-rs](https://github.com/delta-io/delta-rs) 库构建的。重要的是要注意，目前该引擎尚未支持 delta-protocol 中定义的某些功能，包括删除向量、变更数据源、生成的列和身份列。
 
 ## 语法
 
