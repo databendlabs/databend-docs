@@ -17,6 +17,8 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 [ copyOptions ]
 ```
 
+- *Copy INTO also accommodates other syntax options. For further details, see [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)*.
+
 This functionality simplifies your ETL pipeline by incorporating basic transformations, eliminating the need for temporary tables. By transforming data during loading, you can streamline your ETL process effectively. Here are practical ways to enhance data loading with this feature:
 
 - **Loading a subset of data columns**: Allows you to selectively import specific columns from a dataset, focusing on the data that is relevant to your analysis or application.
