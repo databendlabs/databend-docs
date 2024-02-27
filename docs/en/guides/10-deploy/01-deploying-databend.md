@@ -52,13 +52,16 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
 
-- Create a bucket named `my_bucket`.
-- Get the Google Cloud Storage OAuth2 credential of your account.
+1. Follow the topic [Create a new bucket](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket) from the Google documentation to create a bucket named `my_bucket`.
+2. Follow the topic [Create a service account key](https://cloud.google.com/iam/docs/keys-create-delete#creating) from the Google documentation to create and download a service account key file.
+3. Utilize Base64 encoding to convert the contents of the service account key file into a Base64-encoded string. For example, 
 
-For information about how to manage buckets and OAuth2 credentials in Google Cloud Storage, refer to the user manual from the solution provider. Here are some useful links you may need:
+```bash
+base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
+```
 
-- <https://cloud.google.com/storage/docs/creating-buckets>
-- <https://cloud.google.com/storage/docs/authentication#apiauth>
+The command above will generate a file named `base64-encoded-key.txt` containing the credentials that you will subsequently use to configure the connection in the `databend-query.toml` configuration file.
+
 
 <CommonDownloadDesc />
 
@@ -233,6 +236,8 @@ secret_access_key = "<your-access-key>"
 </TabItem>
 
 <TabItem value="Google GCS" label="Google GCS">
+
+For the `credential` parameter, paste the Base64-encoded string obtained in Step [Setting up Your Object Storage](#setting-up-your-object-storage) (enclosed in double quotation marks).
 
 ```toml
 [storage]
