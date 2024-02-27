@@ -5,7 +5,7 @@ title: Transforming Data on Load
 Databend offers a powerful feature that enables data transformation during the loading process using the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command, with this syntax:
 
 ```sql
-COPY INTO [<database>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
+COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
      FROM ( SELECT [<file_col> ... ]
             FROM { userStage | internalStage | externalStage } )
 [ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
@@ -16,6 +16,8 @@ COPY INTO [<database>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
        ) ]
 [ copyOptions ]
 ```
+
+- *Copy INTO also accommodates other syntax options. For further details, see [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)*.
 
 This functionality simplifies your ETL pipeline by incorporating basic transformations, eliminating the need for temporary tables. By transforming data during loading, you can streamline your ETL process effectively. Here are practical ways to enhance data loading with this feature:
 
@@ -89,7 +91,7 @@ CREATE TABLE employees_no_age (
 
 2. Load data from the staged sample file, except for the 'age' column.
 
-```
+```sql
 -- Load from staged file
 COPY INTO employees_no_age
 FROM (
