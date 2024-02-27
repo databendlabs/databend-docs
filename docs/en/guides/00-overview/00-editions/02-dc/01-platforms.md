@@ -2,13 +2,9 @@
 title: Platforms & Regions
 ---
 
-Databend Cloud is a cloud-native solution that currently supports the following cloud platforms and regions:
+Databend Cloud is a cloud-native solution that currently supports AWS in the following regions:
 
-| Platform                     | Region ID      |
-|------------------------------|----------------|
-| AWS US East (Ohio)           | us-east-2      |
-| AWS US West (Oregon)         | us-west-2      |
-| AWS Asia Pacific (Singapore) | ap-southeast-1 |
+![alt text](../../../../../public/img/cloud/dc-platform-en.png)
 
 :::note
 Databend Cloud plans to expand its support for additional cloud platforms and regions. If your project requires support for a specific cloud platform or region, please click the **Contact Sales** button on the top right corner of the Databend Cloud homepage to get in touch with the Databend Cloud team.
