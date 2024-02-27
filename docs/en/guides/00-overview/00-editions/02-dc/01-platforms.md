@@ -2,7 +2,7 @@
 title: Platforms & Regions
 ---
 
-Databend Cloud is a cloud-native solution that currently supports AWS in the following regions:
+Databend Cloud is a cloud-native solution that currently supports [Amazon S3](https://aws.amazon.com/s3/) in the following regions:
 
 ![alt text](../../../../../public/img/cloud/dc-platform-en.png)
 

@@ -2,7 +2,7 @@
 title: 云平台和地域
 ---
 
-Databend Cloud 是一款完全基于云基础架构的解决方案，目前已支持阿里云、腾讯云和 AWS的对象存储服务。各平台已开通的地理地域如下图所示：
+Databend Cloud 是一款完全基于云基础架构的解决方案，目前已支持[阿里云](https://cn.aliyun.com/)、[腾讯云](https://cloud.tencent.com/)和 [Amazon S3](https://aws.amazon.com/cn/s3/) 的对象存储服务。各平台已开通的地理地域如下图所示：
 
 ![alt text](../../../../../public/img/cloud/dc-platform.png)
 
