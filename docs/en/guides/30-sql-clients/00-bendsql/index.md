@@ -47,12 +47,12 @@ sudo apt install bendsql
 To install BendSQL using Cargo, utilize the `cargo-binstall` tool or build from source using the provided command.
 
 :::note
-Before installing with Cargo, make sure you have the full Rust toolchain and the `cargo` command installed on your computer. It is recommended to follow the installation guide at [https://rustup.rs/](https://rustup.rs/).
+Before installing with Cargo, make sure you have the full Rust toolchain and the `cargo` command installed on your computer. If you don't, follow the installation guide at [https://rustup.rs/](https://rustup.rs/).
 :::
 
 **Using cargo-binstall**
 
-Please refer to [Cargo B(inary)Install - Installation](https://github.com/cargo-bins/cargo-binstall#installation) to install the `cargo-binstall` tool, enabling the `cargo binstall <crate-name>` subcommand.
+Please refer to [Cargo B(inary)Install - Installation](https://github.com/cargo-bins/cargo-binstall#installation) to install `cargo-binstall` and enable the `cargo binstall <crate-name>` subcommand.
 
 ```bash
 cargo binstall bendsql
