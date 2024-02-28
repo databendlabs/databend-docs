@@ -6,13 +6,13 @@ sidebar_position: 2
 显示给定表中列的信息。等同于 [SHOW FIELDS](show-fields.md)。
 
 :::tip
-[SHOW COLUMNS](show-full-columns.md) 提供了关于表列的类似但更多的信息。
+[SHOW COLUMNS](show-full-columns.md) 提供了类似但更多关于表列的信息。
 :::
 
 ## 语法
 
 ```sql
-DESC|DESCRIBE [ <database_name>. ]<table_name>
+DESC|DESCRIBE [TABLE] [ <database_name>. ]<table_name>
 ```
 
 ## 示例
