@@ -386,6 +386,7 @@ bucket = "my_bucket"
 
 # You can get the URL from the bucket detail page.
 # https://docsv3.qingcloud.com/storage/object-storage/intro/object-storage/#zone
+# Here, the APIs compatible with AWS S3 are used, so you need to add the "s3" subdomain before the domain name, e.g. `https://s3.<zone-id>.qingstor.com`.
 endpoint_url = "https://s3.pek3b.qingstor.com"
 
 # How to get access_key_id and secret_access_key:
@@ -495,6 +496,10 @@ Each time you start and stop Databend, simply run the scripts in the folder `/us
 # Stop Databend
 ./scripts/stop.sh
 ```
+
+:::note
+This script uses the killall command. If you have not installed this command, please install the [`psmisc`](https://gitlab.com/psmisc/psmisc) package suitable for your system environment. For example, on CentOS: `yum install psmisc`.
+:::
 
 <DetailsWrap>
 <details>

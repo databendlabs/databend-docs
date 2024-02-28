@@ -382,6 +382,7 @@ bucket = "my_bucket"
 
 # 你可以从存储桶详情页面获取URL。
 # https://docsv3.qingcloud.com/storage/object-storage/intro/object-storage/#zone
+# 这里使用与 AWS S3 兼容的 API ，所以需要在域名前添加 `s3` 子域，即 `https://s3.<zone-id>.qingstor.com`。
 endpoint_url = "https://s3.pek3b.qingstor.com"
 
 # 如何获取access_key_id和secret_access_key：
@@ -491,6 +492,10 @@ b. 按照[使用 BendSQL 连接到 Databend](../30-sql-clients/00-bendsql/00-con
 # 停止Databend
 ./scripts/stop.sh
 ```
+
+:::note
+该脚本使用了 `killall` 命令，若您尚未安装该命令，请安装适用于您系统环境的 [`psmisc`](https://gitlab.com/psmisc/psmisc) 包。以 CentOS 系统为例：`yum install psmisc` 。
+:::
 
 <DetailsWrap>
 <details>
