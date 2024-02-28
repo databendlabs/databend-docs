@@ -8,19 +8,7 @@ BendSQL is particularly useful for those who prefer a command line interface and
 
 ## Installing BendSQL
 
-BendSQL can be installed on various platforms using different package managers. The following sections outline the installation steps for BendSQL using Cargo (Rust Package Manager), Homebrew (for macOS), and Apt (for Ubuntu/Debian). Alternatively, you can download the installation package from the [BendSQL release page](https://github.com/datafuselabs/BendSQL/releases) on GitHub and install BendSQL manually.
-
-### Cargo (Rust Package Manager)
-
-To install BendSQL using Cargo, utilize the `cargo-binstall` tool or build from source using the provided commands.
-
-```bash
-# Using cargo-binstall
-cargo binstall bendsql
-
-# Alternatively, build from source
-cargo install bendsql
-```
+BendSQL can be installed on various platforms using different package managers. The following sections outline the installation steps for BendSQL using Homebrew (for macOS), Apt (for Ubuntu/Debian), and Cargo (Rust Package Manager). Alternatively, you can download the installation package from the [BendSQL release page](https://github.com/datafuselabs/BendSQL/releases) on GitHub and install BendSQL manually.
 
 ### Homebrew (for macOS)
 
@@ -52,6 +40,30 @@ Finally, update the package list and install BendSQL:
 ```bash
 sudo apt update
 sudo apt install bendsql
+```
+
+### Cargo（Rust Package Manager）
+
+To install BendSQL using Cargo, utilize the `cargo-binstall` tool or build from source using the provided command.
+
+:::note
+Before installing with Cargo, make sure you have the full Rust toolchain and the `cargo` command installed on your computer. It is recommended to follow the installation guide at [https://rustup.rs/](https://rustup.rs/).
+:::
+
+**Using cargo-binstall**
+
+Please refer to [Cargo B(inary)Install - Installation](https://github.com/cargo-bins/cargo-binstall#installation) to install the `cargo-binstall` tool, enabling the `cargo binstall <crate-name>` subcommand.
+
+```bash
+cargo binstall bendsql
+```
+
+**Building from Source**
+
+When building from source, some dependencies may involve compiling C/C++ code. Ensure that you have the GCC/G++ or Clang toolchain installed on your computer.
+
+```bash
+cargo install bendsql
 ```
 
 ## Connecting to Databend

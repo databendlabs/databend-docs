@@ -8,19 +8,7 @@ BendSQL 特别适用于那些更喜欢命令行界面并需要定期与 Databend
 
 ## 安装 BendSQL
 
-BendSQL 可以使用不同的包管理器在各种平台上安装。以下部分概述了使用 Cargo（Rust 包管理器）、Homebrew（适用于 macOS）和 Apt（适用于 Ubuntu/Debian）安装 BendSQL 的步骤。或者，您可以从 GitHub 的 [BendSQL 发布页面](https://github.com/datafuselabs/BendSQL/releases)下载安装包，并手动安装 BendSQL。
-
-### Cargo（Rust 包管理器）
-
-要使用 Cargo 安装 BendSQL，请利用 `cargo-binstall` 工具或使用提供的命令从源码构建。
-
-```bash
-# 使用 cargo-binstall
-cargo binstall bendsql
-
-# 或者，从源码构建
-cargo install bendsql
-```
+BendSQL 可以使用不同的包管理器在各种平台上安装。以下部分概述了使用 Homebrew（适用于 macOS）和 Apt（适用于 Ubuntu/Debian）、 Cargo（Rust 包管理器）安装 BendSQL 的步骤。或者，您可以从 GitHub 的 [BendSQL 发布页面](https://github.com/datafuselabs/BendSQL/releases)下载安装包，并手动安装 BendSQL。
 
 ### Homebrew（适用于 macOS）
 
@@ -52,6 +40,30 @@ sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.
 ```bash
 sudo apt update
 sudo apt install bendsql
+```
+
+### Cargo（Rust 包管理器）
+
+要使用 Cargo 安装 BendSQL，请利用 `cargo-binstall` 工具或使用提供的命令从源码构建。
+
+:::note
+使用 Cargo 安装之前，请确保您的计算机上安装有完整的 Rust 工具链和 `cargo` 命令，推荐参照 [https://rustup.rs/](https://rustup.rs/) 进行安装。
+:::
+
+**使用 cargo-binstall**
+
+请参阅 [Cargo B(inary)Install - Installation](https://github.com/cargo-bins/cargo-binstall#installation) 安装 `cargo-binstall` 工具，以启用 `cargo binstall <crate-name>` 子命令。
+
+```bash
+cargo binstall bendsql
+```
+
+**从源码构建**
+
+从源码构建时，部分依赖可能涉及 C/C++ 代码的编译，请确保您的计算机上安装有 GCC/G++ 或 Clang 工具链。 
+
+```bash
+cargo install bendsql
 ```
 
 ## 连接到 Databend
