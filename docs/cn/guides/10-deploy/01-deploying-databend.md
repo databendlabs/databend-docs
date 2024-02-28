@@ -3,6 +3,7 @@ title: 部署独立的 Databend（对象存储）
 sidebar_label: 部署独立的 Databend（对象存储）
 description: 部署独立的 Databend
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新：v1.2.168"/>
@@ -16,7 +17,7 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 ## 部署独立的 Databend
 
-Databend 既支持自托管也支持云对象存储解决方案。本主题解释了如何将 Databend 与您的对象存储一起部署。有关支持的对象存储解决方案列表，请参见[了解部署模式](./00-understanding-deployment-modes.md)。
+Databend 支持自托管和云对象存储解决方案。本主题解释了如何将 Databend 与您的对象存储一起部署。有关支持的对象存储解决方案列表，请参见[了解部署模式](./00-understanding-deployment-modes.md)。
 
 :::note
 不推荐在生产环境或性能测试中在 MinIO 之上部署 Databend。
@@ -30,14 +31,13 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 <Tabs groupId="operating-systems">
 
-
 <TabItem value="Amazon S3" label="Amazon S3">
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -62,7 +62,6 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 上述命令将生成一个名为 `base64-encoded-key.txt` 的文件，其中包含您随后将用于在 `databend-query.toml` 配置文件中配置连接的凭据。
 
-
 <CommonDownloadDesc />
 
 </TabItem>
@@ -73,7 +72,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -90,7 +89,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -107,7 +106,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -118,14 +117,13 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 </TabItem>
 
-
 <TabItem value="QingCloud QingStor" label="QingCloud QingStor">
 
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -142,7 +140,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 - 创建一个名为 `my_bucket` 的存储桶或容器。
 - 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问密钥 ID 和密钥访问密钥。
+- 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -207,7 +205,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 
 a. 定位到文件夹 `/usr/local/databend/configs` 中的文件 `databend-query.toml`。
 
-b. 在文件 `databend-query.toml` 中，设置 [storage] 区块中的 *type* 参数，并配置访问凭证和端点 URL 以连接到您的对象存储。
+b. 在文件 `databend-query.toml` 中，设置 [storage] 区块中的 _type_ 参数，并配置访问凭证和端点 URL 以连接到您的对象存储。
 
 要配置您的存储设置，请通过在每行前添加 '#' 符号来注释掉 [storage.fs] 部分，然后取消注释适合您的对象存储提供商的相应部分，移除 '#' 符号，并填写必要的值。如果您希望的存储提供商未列出，您可以将下面相应的模板复制并粘贴到文件中，并相应地配置它。
 
@@ -285,7 +283,6 @@ account_key = "<your-account-key>"
 
 </TabItem>
 
-
 <TabItem value="Tencent COS" label="Tencent COS">
 
 ```toml
@@ -312,7 +309,8 @@ secret_id = "<your-secret-id>"
 secret_key = "<your-secret-key>"
 root = "<your-root-path>"
 ```
-腾讯COS还支持从环境变量加载配置值。这意味着，您可以不在配置文件中直接指定配置值，而是通过设置相应的环境变量（TENCENTCLOUD_SECRETID、TENCENTCLOUD_SECRETKEY 和 USER_CODE_ROOT）来配置 COS 存储。
+
+腾讯 COS 还支持从环境变量加载配置值。这意味着，您可以不在配置文件中直接指定配置值，而是通过设置相应的环境变量（TENCENTCLOUD_SECRETID、TENCENTCLOUD_SECRETKEY 和 USER_CODE_ROOT）来配置 COS 存储。
 
 ```toml
 [storage]
@@ -365,14 +363,12 @@ Databend 企业版支持在 OSS 中启用服务器端加密。这项功能可以
 
 要在 Databend 中启用服务器端加密，请在 [storage.oss] 部分添加以下参数：
 
+| 参数                          | 描述                                                                                                                                     | 可用值                             |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| server_side_encryption        | 指定 OSS 数据的服务器端加密方法。“AES256”使用 OSS 管理的 AES256 密钥进行加密，而“KMS”则使用 server_side_encryption_key_id 中定义的密钥。 | “AES256”或“KMS”                    |
+| server_side_encryption_key_id | 当 server_side_encryption 设置为“KMS”时，此参数用于指定 OSS 的服务器端加密密钥 ID。仅在使用 KMS 加密模式时适用。                         | 字符串，KMS 加密密钥的唯一标识符。 |
 
-
-| 参数                           | 描述                                                                                                                                                                                     | 可用值                                                  |
-|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| server_side_encryption       | 指定OSS数据的服务器端加密方法。“AES256”使用OSS管理的AES256密钥进行加密，而“KMS”则使用server_side_encryption_key_id中定义的密钥。                                                            | “AES256”或“KMS”                                        |
-| server_side_encryption_key_id | 当server_side_encryption设置为“KMS”时，此参数用于指定OSS的服务器端加密密钥ID。仅在使用KMS加密模式时适用。                                                                                          | 字符串，KMS加密密钥的唯一标识符。                          |
 </TabItem>
-
 
 <TabItem value="QingCloud QingStor" label="QingCloud QingStor">
 
@@ -395,7 +391,7 @@ secret_access_key = "<your-access-key>"
 ```
 
 :::tip
-在此示例中，QingStor区域为`pek3b`。
+在此示例中，QingStor 区域为`pek3b`。
 :::
 
 </TabItem>
@@ -425,11 +421,10 @@ secret_access_key = "<your-access-key>"
 ```
 
 :::tip
-在此示例中，Wasabi区域为`us-east-2`。
+在此示例中，Wasabi 区域为`us-east-2`。
 :::
 
 </TabItem>
-
 
 <TabItem value="MinIO" label="MinIO">
 
@@ -444,14 +439,15 @@ endpoint_url = "http://127.0.0.1:9900"
 access_key_id = "minioadmin"
 secret_access_key = "minioadmin"
 ```
+
 </TabItem>
 
 </Tabs>
 
-c. 使用[query.users]部分配置管理员用户。更多信息，请参见[配置管理员用户](04-admin-users.md)。要继续使用默认的root用户和认证类型"no_password"，请确保在文件`databend-query.toml`中移除以下行前的'#'字符：
+c. 使用[query.users]部分配置管理员用户。更多信息，请参见[配置管理员用户](04-admin-users.md)。要继续使用默认的 root 用户和认证类型"no_password"，请确保在文件`databend-query.toml`中移除以下行前的'#'字符：
 
 :::caution
-在本教程中使用"no_password"认证root用户仅为示例，因潜在的安全风险，不推荐用于生产环境。
+在本教程中使用"no_password"认证 root 用户仅为示例，因潜在的安全风险，不推荐用于生产环境。
 :::
 
 ```toml title='databend-query.toml'
@@ -478,15 +474,15 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 验证部署
 
-在本节中，我们将使用[BendSQL](https://github.com/datafuselabs/BendSQL)对Databend运行一个简单的查询以验证部署。
+在本节中，我们将使用[BendSQL](https://github.com/datafuselabs/BendSQL)对 Databend 运行一个简单的查询以验证部署。
 
-a. 按照[安装BendSQL](../30-sql-clients/00-bendsql/index.md#installing-bendsql)安装BendSQL到您的机器上。
+a. 按照[安装 BendSQL](../30-sql-clients/00-bendsql/index.md#installing-bendsql)安装 BendSQL 到您的机器上。
 
-b. 按照[使用BendSQL连接到Databend](../30-sql-clients/00-bendsql/00-connect-to-databend.md)启动BendSQL并检索当前时间以进行验证。
+b. 按照[使用 BendSQL 连接到 Databend](../30-sql-clients/00-bendsql/00-connect-to-databend.md)启动 BendSQL 并检索当前时间以进行验证。
 
-### 启动和停止Databend
+### 启动和停止 Databend
 
-每次启动和停止Databend时，只需运行文件夹`/usr/local/databend/scripts`中的脚本：
+每次启动和停止 Databend 时，只需运行文件夹`/usr/local/databend/scripts`中的脚本：
 
 ```shell
 # 启动Databend
@@ -506,9 +502,10 @@ b. 按照[使用BendSQL连接到Databend](../30-sql-clients/00-bendsql/00-connec
 ==> query.log <==
 : No getcpu support: percpu_arena:percpu
 : option background_thread currently supports pthread only
-Databend Query启动失败，原因：代码：1104，文本 = 无法创建appender：Os { code: 13, kind: PermissionDenied, message: "Permission denied" }。
+Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
-运行以下命令并再次尝试启动Databend：
+
+运行以下命令并再次尝试启动 Databend：
 
 ```shell
 sudo mkdir /var/log/databend
@@ -516,6 +513,7 @@ sudo mkdir /var/lib/databend
 sudo chown -R $USER /var/log/databend
 sudo chown -R $USER /var/lib/databend
 ```
+
   </div>
 </details>
 </DetailsWrap>
@@ -523,7 +521,7 @@ sudo chown -R $USER /var/lib/databend
 
 ## 下一步
 
-部署Databend后，您可能需要了解以下主题：
+部署 Databend 后，您可能需要了解以下主题：
 
-- [加载和卸载数据](/guides/load-data)：在Databend中管理数据导入/导出。
-- [可视化](/guides/visualize)：将Databend与可视化工具集成以获得洞察力。
+- [加载和卸载数据](/guides/load-data)：在 Databend 中管理数据导入/导出。
+- [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获得洞察力。
