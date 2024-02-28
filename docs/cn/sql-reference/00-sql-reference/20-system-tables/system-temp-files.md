@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.348"/>
 
-包含Databend创建的临时文件的信息，例如溢出文件。要删除临时文件，请使用 [VACUUM TEMPORARY FILES](../../10-sql-commands/50-administration-cmds/vacuum-temp-files.md) 命令。
+包含 Databend 创建的临时文件的信息，例如溢出文件。要删除临时文件，请使用 [VACUUM TEMPORARY FILES](../../10-sql-commands/50-administration-cmds/vacuum-temp-files.md) 命令。
 
 ```sql
 SELECT
