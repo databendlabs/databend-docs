@@ -83,3 +83,8 @@
 .navbar__title {
   display: none;
 }
+div[class^="searchBox"] {
+  button {
+    margin-left: 0;
+  }
+}
