@@ -2,7 +2,7 @@
 title: EXPLAIN
 ---
 
-显示 SQL 语句的执行计划。执行计划以树形结构展示，包含不同的操作符，你可以看到 Databend 将如何执行 SQL 语句。一个操作符通常包括一个或多个字段，描述 Databend 将执行的动作或与查询相关的对象。
+显示 SQL 语句的执行计划。执行计划以树的形式展示，包含不同的操作符，你可以看到 Databend 将如何执行 SQL 语句。一个操作符通常包括一个或多个字段，描述 Databend 将执行的动作或与查询相关的对象。
 
 例如，以下由 EXPLAIN 命令返回的执行计划包括一个名为 *TableScan* 的操作符和几个字段。有关常见操作符和字段的列表，请参见[常见操作符和字段](#common-operators-and-fields)。
 
@@ -19,6 +19,8 @@ TableScan
 └── push downs: [filters: [], limit: NONE]
 ```
 
+如果您正在使用 Databend Cloud，您可以利用查询概要文件功能来可视化您的 SQL 语句的执行计划。更多信息，请参见[查询概要文件](/guides/cloud/using-databend-cloud/monitor#uquery-profile)。
+
 ## 语法
 
 ```sql
@@ -27,10 +29,10 @@ EXPLAIN <statement>
 
 ## 常见操作符和字段
 
-解释计划可能包括多种操作符，这取决于你希望 Databend 解释的 SQL 语句。以下是常见操作符及其字段的列表：
+解释计划可能包括多种操作符，这取决于您希望 Databend 解释的 SQL 语句。以下是常见操作符及其字段的列表：
 
 * **TableScan**：从表中读取数据。
-    - table: 表的完整名称。例如，`catalog1.database1.table1`。
+    - table: 表的全名。例如，`catalog1.database1.table1`。
     - read rows: 要读取的行数。
     - read bytes: 要读取的数据字节数。
     - partition total: 表的分区总数。
@@ -48,13 +50,13 @@ EXPLAIN <statement>
 * **Limit**：限制返回的行数。
     - limit: 要返回的行数。
     - offset: 在返回任何行之前要跳过的行数。
-* **HashJoin**：使用 Hash Join 算法对两个表执行 Join 操作。Hash Join 算法将选择两个表中的一个作为构建侧来构建 Hash 表。然后，它将使用另一个表作为探测侧，从 Hash 表中读取匹配的数据以形成结果。
+* **HashJoin**：使用 Hash Join 算法执行两个表的 Join 操作。Hash Join 算法将选择两个表中的一个作为构建侧来构建 Hash 表。然后，它将使用另一个表作为探测侧，从 Hash 表中读取匹配的数据以形成结果。
     - join type: JOIN 类型（INNER, LEFT OUTER, RIGHT OUTER, FULL OUTER, CROSS, SINGLE, 或 MARK）。
     - build keys: 构建侧用于构建 Hash 表的表达式。
     - probe keys: 探测侧用于从 Hash 表中读取数据的表达式。
-    - filters: 非等值 JOIN 条件，如 `t.a > t1.a`。
+    - filters: 非等值 JOIN 条件，例如 `t.a > t1.a`。
 * **Exchange**：在 Databend 查询节点之间交换数据，用于分布式并行计算。
-    - exchange type: 数据重新分配类型（Hash, Broadcast, 或 Merge）。
+    - exchange type: 数据重新分区类型（Hash, Broadcast, 或 Merge）。
 
 ## 示例
 
