@@ -70,6 +70,7 @@ const config = {
         docsHomeLink,
         homeLink,
         cloudLink,
+        algolia,
         blogTags: ['weekly', 'databend'],
         askBendUrl: isProduction ? ASKBEND_URL : ''
     },
