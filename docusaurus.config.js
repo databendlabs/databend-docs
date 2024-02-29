@@ -25,9 +25,9 @@ const algolia = isCN
         contextualSearch: true
     }
     : {
-        appId: 'XA8ZCKIEYU',
-        apiKey: '81e5ee11f82ed1c5de63ef7ea0551abf',
-        indexName: 'databend',
+        appId: 'RL7MS9PKE8',
+        apiKey: 'cb5d6af612410c0fced698ff39ccd47a',
+        indexName: 'databend-rs-docs',
         contextualSearch: true
     }
 /** @type {import('@docusaurus/types').Config} */
