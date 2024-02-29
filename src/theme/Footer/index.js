@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
@@ -19,7 +19,6 @@ const GLOBAL_SEARCH_ID = 'GLOBAL-ID-SEARCH-229';
 function Footer() {
   const year = new Date().getFullYear()
   const {footer} = useThemeConfig();
-  const containerRef = useRef();
   const {siteConfig: {customFields: {algolia}}} = useDocusaurusContext();
   useEffect(() => {
     const id = document.getElementById(GLOBAL_SEARCH_ID);
