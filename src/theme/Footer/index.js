@@ -15,27 +15,33 @@ import * as icons from "../../components/Icons"
 import RedirectComponent from '@site/src/components/RedirectComponent';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-
+const GLOBAL_SEARCH_ID = 'GLOBAL-ID-SEARCH-229';
 function Footer() {
   const year = new Date().getFullYear()
   const {footer} = useThemeConfig();
   const {siteConfig: {customFields: {algolia}}} = useDocusaurusContext();
   useEffect(() => {
-    const script = document.createElement('script');
-    const searchElements = document.querySelector('[class^="searchBox_"]');
-    script.src = "https://cdn.jsdelivr.net/npm/@docsearch/js@3";
-    script.async = true;
-    script.onload = () => {
+    const id = document.getElementById(GLOBAL_SEARCH_ID);
+    if (!id) {
+      const script = document.createElement('script');
+      script.id = GLOBAL_SEARCH_ID;
+      script.src = "https://cdn.jsdelivr.net/npm/@docsearch/js@3";
+      script.async = true;
+      script.onload = () => {
+        setSearch();
+      };
+      document.body.appendChild(script);
+    } else {
+      setSearch();
+    }
+
+    function setSearch() {
+      const container = document.querySelector('[class^="searchBox_"]');
       docsearch({
         ...algolia,
-        container: searchElements
+        container
       });
-    };
-    document.body.appendChild(script);
-    // 组件卸载时移除脚本
-    return () => {
-      document.body.removeChild(script);
-    };
+    }
   }, []);
   return (
      <footer className={clsx('footer', styles.footer)}>
