@@ -55,7 +55,7 @@ If you click on the `TableScan [4]` node, you will notice that two additional in
 
 | Pane       | Description                                                                                                                         |
 |------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| Statistics | Includes information such as scan progress, bytes scanned, percentage scanned from cache, partitions scanned, and total partitions. |
+| Statistics | Includes information such as scan progress, bytes scanned, percentage scanned from cache, partitions scanned, etc. |
 | Attributes | Displays details specific to the node. The shown fields vary based on the functionality of the node.                                |
 
 ## Audit
