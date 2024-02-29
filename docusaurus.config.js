@@ -25,10 +25,10 @@ const algolia = isCN
         contextualSearch: true
     }
     : {
-        appId: 'XA8ZCKIEYU',
-        apiKey: '81e5ee11f82ed1c5de63ef7ea0551abf',
-        indexName: 'databend',
-        contextualSearch: true
+      appId: 'XA8ZCKIEYU',
+      apiKey: '81e5ee11f82ed1c5de63ef7ea0551abf',
+      indexName: 'databend',
+      contextualSearch: true
     }
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -70,6 +70,7 @@ const config = {
         docsHomeLink,
         homeLink,
         cloudLink,
+        algolia,
         blogTags: ['weekly', 'databend'],
         askBendUrl: isProduction ? ASKBEND_URL : ''
     },
@@ -320,7 +321,7 @@ const config = {
                 darkTheme: darkCodeTheme,
                 additionalLanguages: ['toml', 'rust'],
             },
-            algolia: algolia,
+            // algolia: algolia,
             image: 'img/logo/logo-no-text.png',
             metadata: [
                 { name: 'twitter:card', content: 'summary_large_image' },
