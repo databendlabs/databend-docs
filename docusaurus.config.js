@@ -29,6 +29,7 @@ const algolia = isCN
         apiKey: 'cb5d6af612410c0fced698ff39ccd47a',
         indexName: 'databend-rs-docs',
         contextualSearch: true
+        
     }
 /** @type {import('@docusaurus/types').Config} */
 const config = {
