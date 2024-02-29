@@ -84,7 +84,11 @@
   display: none;
 }
 div[class^="searchBox"] {
+  width: 167.4px;
   button {
     margin-left: 0;
+  }
+  @include media {
+    width: auto;
   }
 }
