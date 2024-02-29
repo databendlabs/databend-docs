@@ -19,6 +19,8 @@ TableScan
 └── push downs: [filters: [], limit: NONE]
 ```
 
+If you are using Databend Cloud, you can utilize the Query Profile feature to visualize the execution plan of your SQL statements. For more information, see [Query Profile](/guides/cloud/using-databend-cloud/monitor#uquery-profile).
+
 ## Syntax
 
 ```sql
