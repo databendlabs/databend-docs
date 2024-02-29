@@ -320,7 +320,7 @@ const config = {
                 darkTheme: darkCodeTheme,
                 additionalLanguages: ['toml', 'rust'],
             },
-            algolia: algolia,
+            // algolia: algolia,
             image: 'img/logo/logo-no-text.png',
             metadata: [
                 { name: 'twitter:card', content: 'summary_large_image' },
