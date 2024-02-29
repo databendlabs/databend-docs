@@ -28,8 +28,7 @@ Before creating a table with the Delta Lake engine, you need to create a connect
 --Set up connection
 CREATE CONNECTION my_s3_conn 
 STORAGE_TYPE = 's3' 
-ACCESS_KEY_ID ='minioadmin' SECRET_ACCESS_KEY ='minioadmin' 
-ENDPOINT_URL='http://127.0.0.1:9900';
+ACCESS_KEY_ID ='your-ak' SECRET_ACCESS_KEY ='your-sk';
 
 -- Create table with Delta Lake engine
 CREATE TABLE test_delta 

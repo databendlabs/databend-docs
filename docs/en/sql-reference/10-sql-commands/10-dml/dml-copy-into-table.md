@@ -18,8 +18,10 @@ See also: [`COPY INTO <location>`](dml-copy-into-location.md)
 ## Syntax
 
 ```sql
-COPY INTO [<database>.]<table_name>
-     FROM { userStage | internalStage | externalStage | externalLocation }
+COPY INTO [<database_name>.]<table_name>
+     FROM { userStage | internalStage | externalStage | externalLocation | 
+            ( SELECT [<file_col> ... ] 
+              FROM { userStage | internalStage | externalStage } ) }
 [ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
 [ PATTERN = '<regex_pattern>' ]
 [ FILE_FORMAT = (
@@ -31,7 +33,7 @@ COPY INTO [<database>.]<table_name>
 
 ### FROM ...
 
-The FROM clause specifies the source location (user stage, internal stage, external stage, or external location) from which data will be loaded into the specified table using the COPY INTO command.
+The FROM clause specifies the source location (user stage, internal stage, external stage, or external location) from which data will be loaded into the specified table using the COPY INTO command. You can also nest a SELECT ... FROM subquery to transform the data you want to load. For more information, see [Transforming Data on Load](/guides/load-data/transform/data-load-transform).
 
 :::note
 When you load data from a staged file and the stage path contains special characters such as spaces or parentheses, you can enclose the entire path in single quotes, as demonstrated in the following SQL statements:

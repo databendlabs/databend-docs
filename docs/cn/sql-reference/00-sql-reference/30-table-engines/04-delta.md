@@ -3,13 +3,13 @@ title: Delta Lake 引擎
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.262"/>
+<FunctionDescription description="引入或更新于：v1.2.262"/>
 
-Databend 的 Delta Lake 引擎允许您无缝查询和分析存储在对象存储中的 Delta Lake 表中的数据。当您在 Databend 中使用 Delta Lake 引擎创建表时，您需要指定 Delta Lake 表的数据文件存储的位置。这种设置允许您直接访问表并从 Databend 内部无缝进行查询。
+Databend 的 Delta Lake 引擎允许您无缝查询和分析存储在对象存储中的 Delta Lake 表中的数据。当您在 Databend 中使用 Delta Lake 引擎创建表时，您需要指定一个存储 Delta Lake 表数据文件的位置。这种设置允许您直接访问表并从 Databend 内部无缝执行查询。
 
 - Databend 的 Delta Lake 引擎目前仅支持只读操作。这意味着支持从您的 Delta Lake 表中查询数据，而不支持向表中写入数据。
 - 使用 Delta Lake 引擎创建的表的模式在创建时设置。对原始 Delta Lake 表的模式进行任何修改都需要在 Databend 中重新创建相应的表，以确保同步。
-- Databend 中的 Delta Lake 引擎是基于官方 [delta-rs](https://github.com/delta-io/delta-rs) 库构建的。重要的是要注意，delta-protocol 中定义的某些功能，包括删除向量、变更数据源、生成的列和身份列，目前尚不支持此引擎。
+- Databend 中的 Delta Lake 引擎是基于官方的 [delta-rs](https://github.com/delta-io/delta-rs) 库构建的。重要的是要注意，目前该引擎尚未支持 delta-protocol 中定义的某些功能，包括删除向量、变更数据源、生成的列和身份列。
 
 ## 语法
 
@@ -28,8 +28,7 @@ CONNECTION_NAME = '<connection_name>'
 --设置连接
 CREATE CONNECTION my_s3_conn 
 STORAGE_TYPE = 's3' 
-ACCESS_KEY_ID ='minioadmin' SECRET_ACCESS_KEY ='minioadmin' 
-ENDPOINT_URL='http://127.0.0.1:9900';
+ACCESS_KEY_ID ='your-ak' SECRET_ACCESS_KEY ='your-sk';
 
 -- 使用 Delta Lake 引擎创建表
 CREATE TABLE test_delta 
