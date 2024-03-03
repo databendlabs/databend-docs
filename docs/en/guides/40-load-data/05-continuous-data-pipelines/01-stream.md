@@ -419,7 +419,7 @@ CREATE TASK user_activity_task
 WAREHOUSE = 'default'
 SCHEDULE = 1 MINUTE
 -- Trigger task when new data arrives in activities_stream
-WHEN system$stream_has_data('activities_stream') AS 
+WHEN stream_status('activities_stream') AS 
     -- Insert new records into user_activity_profiles
     INSERT INTO user_activity_profiles
     SELECT
