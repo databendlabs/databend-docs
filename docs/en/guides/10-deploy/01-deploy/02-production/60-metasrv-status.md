@@ -80,7 +80,7 @@ Returns the status information of each meta node in the cluster.
 
 ## Meta Metrics API
 
-Shows a bunch of metrics that Databend captures and tracks about the meta service performance. For more information about the meta service metrics, see [Databend Meta Metrics](../../70-monitor/10-metasrv-metrics.md).
+Shows a bunch of metrics that Databend captures and tracks about the meta service performance. For more information about the meta service metrics, see [Databend Meta Metrics](../../03-monitor/10-metasrv-metrics.md).
 
 ### Request Endpoint
 
@@ -154,4 +154,4 @@ None.
 
 ## CPU and Memory Profiling APIs
 
-Enables you to visualize performance data of your CPU and memory with [FlameGraph](https://github.com/brendangregg/FlameGraph). For more information, see [How to Profile Databend](../../90-community/00-contributor/04-how-to-profiling.md).
+Enables you to visualize performance data of your CPU and memory with [FlameGraph](https://github.com/brendangregg/FlameGraph). For more information, see [How to Profile Databend](../../../90-community/00-contributor/04-how-to-profiling.md).

@@ -27,8 +27,8 @@ In standalone mode, a standard configuration consists of a single Meta node and 
 
 In a Standalone Databend Deployment, it is possible to host both the Meta and Query nodes on a single server. The following topics in the documentation assist you in setting up and deploying a standalone Databend:
 
-- [Deploying a Standalone Databend](01-deploying-databend.md)
-- [Local and Docker Deployments](03-deploying-local.md)
+- [Deploying a Standalone Databend](01-non-production/01-deploying-databend.md)
+- [Local and Docker Deployments](01-non-production/00-deploying-local.md)
 
 ### Cluster Deployment
 

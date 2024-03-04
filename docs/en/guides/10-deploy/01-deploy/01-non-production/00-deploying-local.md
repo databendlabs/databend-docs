@@ -1,8 +1,6 @@
 ---
-title: Docker and Local Deployments
-sidebar_label: Docker and Local Deployments
-description:
-  Deploying Databend locally or with Docker
+title: Docker & Local Deployments
+sidebar_label: Docker & Local Deployments
 ---
 
 To quickly access Databend features and gain practical expertise, you have the following deployment options:
@@ -200,7 +198,7 @@ Databend HTTP
 
 ### Step 3. Connecting to Databend
 
-To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../30-sql-clients/00-bendsql/index.md).
+To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../../../30-sql-clients/00-bendsql/index.md).
 
 1. To establish a connection with Databend using the SQL user (databend/databend), run the following command:
 
@@ -262,7 +260,7 @@ The following steps will guide you through the process of locally deploying Data
 
 ### Step 2. Starting Databend
 
-1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](04-admin-users.md). For this example, uncomment the following lines to choose this account:
+1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). For this example, uncomment the following lines to choose this account:
 
 ```sql  title="databend-query.toml"
 [[query.users]]
@@ -311,7 +309,7 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 
 ### Step 3. Connecting to Databend
 
-To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../30-sql-clients/00-bendsql/index.md).
+To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../../../30-sql-clients/00-bendsql/index.md).
 
 1. To establish a connection with a local Databend, execute the following command:
 
