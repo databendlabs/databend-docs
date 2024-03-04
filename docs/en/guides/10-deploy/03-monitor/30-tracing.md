@@ -35,7 +35,7 @@ SET max_threads=1;
 
 ### Enabling with Configuration File
 
-1. Add the following parameters to the [log] section in the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For a detailed description of each parameter, see [[log.tracing] Section](../10-deploy/13-node-config/02-query-config.md#logtracing-section).
+1. Add the following parameters to the [log] section in the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For a detailed description of each parameter, see [[log.tracing] Section](../04-references/02-node-config/02-query-config.md#logtracing-section).
 
 ```toml title='databend-query.toml'
 ...

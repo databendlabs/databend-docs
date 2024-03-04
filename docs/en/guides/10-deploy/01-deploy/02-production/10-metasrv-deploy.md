@@ -1,8 +1,6 @@
 ---
 title: Deploying a Databend Cluster
 sidebar_label: Deploying a Databend Cluster
-description: 
-  Deploying a Databend Cluster
 ---
 
 import Tabs from '@theme/Tabs';
@@ -147,7 +145,7 @@ endpoints = ["192.168.1.100:9191","192.168.1.101:9191","192.168.1.102:9191"]
 ...
 ```
 
-2. For each query node, you also need to configure the object storage in the file **databend-query.toml**. For detailed instructions, see [Deploying a Query Node](../01-deploying-databend.md#deploying-a-query-node).
+2. For each query node, you also need to configure the object storage in the file **databend-query.toml**. For detailed instructions, see [Deploying a Query Node](../01-non-production/01-deploying-databend.md#deploying-a-query-node).
 
 3. Run the following script on each query node to start them:
 

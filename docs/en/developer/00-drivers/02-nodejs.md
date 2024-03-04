@@ -39,7 +39,7 @@ The table below summarizes the main behaviors and functions of the Node.js Drive
 
 ## Tutorial-1: Integrating with Databend using Node.js
 
-Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/deploy/deploying-local).
+Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/deploy/deploy/non-production/deploying-local).
 
 ### Step 1. Prepare a SQL User Account
 

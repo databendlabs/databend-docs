@@ -1,7 +1,5 @@
 ---
-title: Deploying a Standalone Databend (Object Storage)
-sidebar_label: Deploying a Standalone Databend (Object Storage)
-description: Deploying a Standalone Databend
+title: Deploying with Object Storage
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
@@ -14,13 +12,7 @@ import EEFeature from '@site/src/components/EEFeature';
 import GetLatest from '@site/src/components/GetLatest';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-## Deploying a Standalone Databend
-
-Databend works with both self-hosted and cloud object storage solutions. This topic explains how to deploy Databend with your object storage. For a list of supported object storage solutions, see [Understanding Deployment Modes](./00-understanding-deployment-modes.md).
-
-:::note
-It is not recommended to deploy Databend on top of MinIO for production environments or performance testing.
-:::
+This topic explains how to deploy Databend with your object storage. For a list of supported object storage solutions, see [Understanding Deployment Modes](../00-understanding-deployment-modes.md).
 
 ### Setting up Your Object Storage
 
@@ -101,7 +93,7 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 </TabItem>
 
-<TabItem value="Alibaba OSS" label="Alibaba OSS">
+<TabItem value="Alibaba OSS" label="Alibaba Cloud OSS">
 
 Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
 
@@ -113,24 +105,6 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 - <https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2>
 - <https://help.aliyun.com/document_detail/53045.htm>
-
-<CommonDownloadDesc />
-
-</TabItem>
-
-
-<TabItem value="QingCloud QingStor" label="QingCloud QingStor">
-
-Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
-
-- Create a bucket or container named `my_bucket`.
-- Get the endpoint URL for connecting to the bucket or container you created.
-- Get the Access Key ID and Secret Access Key for your account.
-
-For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
-
-- <https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/>
-- <https://docsv3.qingcloud.com/development_docs/api/overview/>
 
 <CommonDownloadDesc />
 
@@ -153,51 +127,19 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 </TabItem>
 
-<TabItem value="MinIO" label="MinIO">
-
-a. Follow the [MinIO Quickstart Guide](https://docs.min.io/docs/minio-quickstart-guide.html) to download and install the MinIO package to your local machine.
-
-b. Open a terminal window and navigate to the folder where MinIO is stored.
-
-c. Run the command `vim server.sh` to create a file with the following content:
-
-```shell
-~/minio$ cat server.sh
-export MINIO_ROOT_USER=minioadmin
-export MINIO_ROOT_PASSWORD=minioadmin
-./minio server --address :9900 ./data
-```
-
-d. Run the following commands to start the MinIO server:
-
-```shell
-chmod +x server.sh
-./server.sh
-```
-
-e. In your browser, go to <http://127.0.0.1:9900> and enter the credentials (`minioadmin` / `minioadmin`) to log into the MinIO Console.
-
-f. In the MinIO Console, create a bucket named `my_bucket`.
-
-<CommonDownloadDesc />
-
-</TabItem>
-
 </Tabs>
 
 ### Deploying a Meta Node
 
-a. Open the file `databend-meta.toml` in the folder `/usr/local/databend/configs`, and replace `127.0.0.1` with `0.0.0.0` within the whole file.
+a. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
 
-b. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
-
-c. Run the following command to start the Meta node:
+b. Run the following command to start the Meta node:
 
 ```shell
 ./databend-meta -c ../configs/databend-meta.toml > meta.log 2>&1 &
 ```
 
-d. Run the following command to check if the Meta node was started successfully:
+c. Run the following command to check if the Meta node was started successfully:
 
 ```shell
 curl -I  http://127.0.0.1:28101/v1/health
@@ -209,7 +151,7 @@ a. Locate the file `databend-query.toml` in the folder `/usr/local/databend/conf
 
 b. In the file `databend-query.toml`, set the parameter *type* in the [storage] block and configure the access credentials and endpoint URL for connecting to your object storage. 
 
-To configure your storage settings, please comment out the [storage.fs] section by adding '#' at the beginning of each line, and then uncomment the appropriate section for your object storage provider by removing the '#' symbol, and fill in the necessary values. If your desired storage provider is not listed, you can copy and paste the corresponding template below to the file and configure it accordingly.
+To configure your storage settings, comment out the [storage.fs] section by adding `#` at the beginning of each line. Then, uncomment the relevant section for your object storage provider by removing the `#` symbol and fill in your values.
 
 <Tabs groupId="operating-systems">
 
@@ -245,21 +187,10 @@ For the `credential` parameter, paste the Base64-encoded string obtained in Step
 type = "gcs"
 
 [storage.gcs]
-# How to create a bucket:
-# https://cloud.google.com/storage/docs/creating-buckets
-// highlight-next-line
 bucket = "my_bucket"
 
-# GCS also supports changing the endpoint URL
-# but the endpoint should be compatible with GCS's JSON API
-# default:
-# endpoint_url = "https://storage.googleapis.com"
+# endpoint_url defaults to "https://storage.googleapis.com"
 
-# working directory of GCS
-# default:
-# root = "/"
-
-// highlight-next-line
 credential = "<your-credential>"
 ```
 
@@ -288,21 +219,22 @@ account_key = "<your-account-key>"
 
 <TabItem value="Tencent COS" label="Tencent COS">
 
+When specifying the `endpoint_url` parameter, ensure to exclude the `<BucketName-APPID>` portion from your bucket's endpoint. For instance, if your bucket endpoint is `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`, use `https://cos.ap-beijing.myqcloud.com`. For Tencent COS endpoints in various regions, refer to https://www.tencentcloud.com/document/product/436/6224.
+
 ```toml
 [storage]
 # s3
 type = "cos"
 
 [storage.cos]
-# You can get the URL from the bucket detail page.
-# The following is an example where the region is Beijing (ap-beijing):
-// highlight-next-line
-endpoint_url = "https://cos.ap-beijing.myqcloud.com"
-
 # How to create a bucket:
 # https://cloud.tencent.com/document/product/436/13309
 // highlight-next-line
 bucket = "my_bucket"
+
+# The following is an example where the region is Beijing (ap-beijing).
+// highlight-next-line
+endpoint_url = "https://cos.ap-beijing.myqcloud.com"
 
 # How to get secret_id and secret_key:
 # https://cloud.tencent.com/document/product/436/68282
@@ -310,32 +242,10 @@ bucket = "my_bucket"
 secret_id = "<your-secret-id>"
 // highlight-next-line
 secret_key = "<your-secret-key>"
-root = "<your-root-path>"
 ```
-Tencent COS also supports loading configuration values from environment variables. This means that instead of specifying the configuration values directly in the configuration file, you can configure COS storage by setting the corresponding environment variables.
-
-To do this, you can still use the same [storage.cos] section in the configuration file, but omit the settings secret_id, secret_key, and root. Instead, set the corresponding environment variables (TENCENTCLOUD_SECRETID, TENCENTCLOUD_SECRETKEY, and USER_CODE_ROOT) with the desired values.
-
-```toml
-[storage]
-# s3
-type = "cos"
-
-[storage.cos]
-# You can get the URL from the bucket detail page.
-# The following is an example where the region is ap-beijing:
-// highlight-next-line
-endpoint_url = "https://cos.ap-beijing.myqcloud.com"
-
-# How to create a bucket:
-# https://cloud.tencent.com/document/product/436/13309
-// highlight-next-line
-bucket = "my_bucket"
-```
-
 </TabItem>
 
-<TabItem value="Alibaba OSS" label="Alibaba OSS">
+<TabItem value="Alibaba OSS" label="Alibaba Cloud OSS">
 
 ```toml
 [storage]
@@ -363,7 +273,7 @@ access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
 
-Databend Enterprise Edition supports server-side encryption in OSS. This feature enables you to enhance data security and privacy by activating server-side encryption for data stored in OSS. You can choose the encryption method that best suits your needs. Please note that you must have a valid Databend Enterprise Edition license to utilize this feature. To obtain one, see [Licensing Databend](../00-overview/00-editions/01-dee/20-license.md).
+Databend Enterprise Edition supports server-side encryption in OSS. This feature enables you to enhance data security and privacy by activating server-side encryption for data stored in OSS. You can choose the encryption method that best suits your needs. Please note that you must have a valid Databend Enterprise Edition license to utilize this feature. To obtain one, see [Licensing Databend](../../../00-overview/00-editions/01-dee/20-license.md).
 
 To enable server-side encryption in Databend, add the following parameters to the [storage.oss] section:
 
@@ -371,34 +281,6 @@ To enable server-side encryption in Databend, add the following parameters to th
 |-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
 | server_side_encryption        | Specifies the server-side encryption method for OSS data. "AES256" uses an OSS-managed AES256 key for encryption, while "KMS" utilizes the key defined in server_side_encryption_key_id. | "AES256" or "KMS"                                       |
 | server_side_encryption_key_id | When server_side_encryption is set to "KMS," this parameter is used to specify the server-side encryption key ID for OSS. It is only applicable when using the KMS encryption mode.       | String, a unique identifier for the KMS encryption key. |
-</TabItem>
-
-
-<TabItem value="QingCloud QingStor" label="QingCloud QingStor">
-
-```toml
-[storage]
-# s3
-type = "s3"
-
-[storage.s3]
-bucket = "my_bucket"
-
-# You can get the URL from the bucket detail page.
-# https://docsv3.qingcloud.com/storage/object-storage/intro/object-storage/#zone
-# Here, the APIs compatible with AWS S3 are used, so you need to add the "s3" subdomain before the domain name, e.g. `https://s3.<zone-id>.qingstor.com`.
-endpoint_url = "https://s3.pek3b.qingstor.com"
-
-# How to get access_key_id and secret_access_key:
-# https://docsv3.qingcloud.com/development_docs/api/overview/
-access_key_id = "<your-key-id>"
-secret_access_key = "<your-access-key>"
-```
-
-:::tip
-In this example QingStor region is `pek3b`.
-:::
-
 </TabItem>
 
 <TabItem value="Wasabi" label="Wasabi">
@@ -409,7 +291,6 @@ In this example QingStor region is `pek3b`.
 type = "s3"
 
 [storage.s3]
-# How to create a bucket:
 // highlight-next-line
 bucket = "my_bucket"
 
@@ -431,25 +312,9 @@ In this example Wasabi region is `us-east-2`.
 
 </TabItem>
 
-
-<TabItem value="MinIO" label="MinIO">
-
-```toml
-[storage]
-# s3
-type = "s3"
-
-[storage.s3]
-bucket = "my_bucket"
-endpoint_url = "http://127.0.0.1:9900"
-access_key_id = "minioadmin"
-secret_access_key = "minioadmin"
-```
-</TabItem>
-
 </Tabs>
 
-c. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](04-admin-users.md). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
+c. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
 
 :::caution
 Using "no_password" authentication for the root user in this tutorial is just an example and not recommended for production due to potential security risks.
@@ -481,9 +346,9 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 In this section, we will run a simple query against Databend using [BendSQL](https://github.com/datafuselabs/BendSQL) to verify the deployment.
 
-a. Follow [Installing BendSQL](../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
+a. Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
 
-b. Follow [Connecting to Databend using BendSQL](../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
+b. Follow [Connecting to Databend using BendSQL](../../../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
 
 ### Starting and Stopping Databend
 
