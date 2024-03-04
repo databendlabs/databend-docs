@@ -1,6 +1,6 @@
 ---
-sidebar_label: Databend Releases
-title: Databend Releases
+sidebar_label: Databend 发布
+title: Databend 发布
 sidebar_position: 1
 slug: /
 ---
@@ -8,7 +8,7 @@ slug: /
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-This page provides information about recent features, enhancements, and bug fixes for <a href="https://github.com/datafuselabs/databend">Databend</a>.
+此页面提供有关 <a href="https://github.com/datafuselabs/databend">Databend</a> 的最新功能、增强和错误修复的信息。
 
 
 
@@ -26,44 +26,44 @@ import MD8 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.344" number="" title="Feb 21, 2024 (v1.2.344)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.344" number="" title="2024年2月21日 (v1.2.344)">
 <MD1 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.307" number="" title="Jan 24, 2024 (v1.2.307)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.307" number="" title="2024年1月24日 (v1.2.307)">
 <MD2 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.292" number="" title="Jan 10, 2024 (v1.2.292)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.292" number="" title="2024年1月10日 (v1.2.292)">
 <MD3 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.290" number="" title="Jan 9, 2024 (v1.2.290)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.290" number="" title="2024年1月9日 (v1.2.290)">
 <MD4 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.279" number="" title="Jan 1, 2024 (v1.2.279)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.279" number="" title="2024年1月1日 (v1.2.279)">
 <MD5 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.275" number="" title="Dec 29, 2023 (v1.2.275)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.275" number="" title="2023年12月29日 (v1.2.275)">
 <MD6 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.262" number="" title="Dec 19, 2023 (v1.2.262)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.262" number="" title="2023年12月19日 (v1.2.262)">
 <MD7 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.233" number="" title="Dec 12, 2023 (v1.2.233)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.233" number="" title="2023年12月12日 (v1.2.233)">
 <MD8 />
 
 </StepContent>
 
-</StepsWrap> 
+</StepsWrap>
