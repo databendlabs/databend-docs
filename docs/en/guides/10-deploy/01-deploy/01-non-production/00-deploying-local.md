@@ -1,26 +1,29 @@
 ---
 title: Docker & Local Deployments
-sidebar_label: Docker & Local Deployments
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+import GetLatest from '@site/src/components/GetLatest';
+import DetailsWrap from '@site/src/components/DetailsWrap';
+import StepsWrap from '@site/src/components/StepsWrap';
+import StepContent from '@site/src/components/Steps/step-content';
 
 To quickly access Databend features and gain practical expertise, you have the following deployment options:
 
-- [Deploying Databend on Docker](#deploying-databend-on-docker): You can deploy Databend along with [MinIO](https://min.io/) on Docker for a containerized setup.
-
-- [Deploying a Local Databend](#deploying-a-local-databend): You can opt for a local deployment and use the file system as storage if object storage is unavailable.
+- [Deploying with Docker](#deploying-databend-on-docker): You can deploy Databend along with [MinIO](https://min.io/) on Docker for a containerized setup.
+- [Deploying on Local Machine](#deploying-a-local-databend): You can opt for a local deployment and use the file system as storage if object storage is unavailable.
 
 :::note non-production use only
 
 - Object storage is a requirement for production use of Databend. The file system should only be used for evaluation, testing, and non-production scenarios.
-
 - It is not recommended to deploy Databend on top of MinIO for production environments or performance testing purposes.
 :::
 
-## Deploying Databend on Docker
+## Deploying with Docker
 
 Before you start, ensure that you have Docker installed on your system.
 
-### Step 1. Deploying MinIO
+<StepsWrap>
+<StepContent number="1" title="Deploy MinIO">
 
 1. Pull and run the MinIO image as a container with the following command:
 
@@ -64,7 +67,9 @@ Warning: The standard parity is set to 0. This can lead to data loss.
 
 2. Open your web browser and visit http://127.0.0.1:9091/ (login credentials: ROOTUSER/CHANGEME123). Create a bucket named **databend**.
 
-### Step 2. Deploying Databend
+</StepContent>
+
+<StepContent number="2" title="Deploy Databend">
 
 Pull and run the Databend image as a container with the following command:
 
@@ -196,7 +201,9 @@ Databend HTTP
     usage:  curl -u${USER} -p${PASSWORD}: --request POST '0.0.0.0:8000/v1/query/' --header 'Content-Type: application/json' --data-raw '{"sql": "SELECT avg(number) FROM numbers(100000000)"}'
 ```
 
-### Step 3. Connecting to Databend
+</StepContent>
+
+<StepContent number="3" title="Connect to Databend">
 
 To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../../../30-sql-clients/00-bendsql/index.md).
 
@@ -248,17 +255,24 @@ As the table data is stored in the bucket, you will notice an increase in the bu
 
 ![Alt text](@site/docs/public/img/deploy/minio-deployment-verify.png)
 
-## Deploying a Local Databend
+</StepContent>
+</StepsWrap>
 
-The following steps will guide you through the process of locally deploying Databend.
+## Deploying on Local Machine
 
-### Step 1. Downloading Databend
+Follow the instructions below to deploy Databend on your local machine.
+
+<StepsWrap>
+
+<StepContent number="1" title="Download Databend">
 
 1. Download the installation package suitable for your platform from the [Download](/download) page.
 
 2. Extract the installation package to a local directory.
 
-### Step 2. Starting Databend
+</StepContent>
+
+<StepContent number="2" title="Start Databend">
 
 1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). For this example, uncomment the following lines to choose this account:
 
@@ -307,17 +321,21 @@ eric             12781   0.0  0.5 408790416  38896 s003  S     2:15pm   0:00.05 
 eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 bin/databend-meta --config-file=configs/databend-meta.toml
 ```
 
-### Step 3. Connecting to Databend
+</StepContent>
+
+<StepContent number="3" title="Connect to Databend">
 
 To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../../../30-sql-clients/00-bendsql/index.md).
 
 1. To establish a connection with a local Databend, execute the following command:
 
 ```shell
-eric@bogon ~ % bendsql
-Welcome to BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z).
-Trying connect to localhost:8000 as user root.
-Connected to DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
+eric@Erics-iMac ~ % bendsql
+Welcome to BendSQL 0.13.2-4419bda(2024-02-02T04:21:46.064145000Z).
+Connecting to localhost:8000 as user root.
+Connected to DatabendQuery v1.2.252-nightly-193ed56304(rust-1.75.0-nightly-2023-12-12T22:07:25.371440000Z)
+
+root@localhost:8000/default> 
 ```
 
 2. Query the Databend version to verify the connection:
@@ -336,6 +354,9 @@ SELECT
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 41B/s)
 ```
+
+</StepContent>
+</StepsWrap>
 
 ## Next Steps
 
