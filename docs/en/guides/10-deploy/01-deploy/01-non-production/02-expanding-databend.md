@@ -1,17 +1,16 @@
 ---
 title: Expanding Databend
 ---
+import StepsWrap from '@site/src/components/StepsWrap';
+import StepContent from '@site/src/components/Steps/step-content';
 
-## Expanding a Standalone Databend
+If you already have a Databend instance, you can expand it by adding one or more Query nodes to obtain more powerful computing capability. This topic explains how to add a new Query node.
 
-If you already have a standalone Databend, you can expand it by adding one or more query nodes to obtain more powerful computing capability.
+Follow the instructions below to add a new Query node to an existing Databend instance:
 
-In this topic, we will add a new Query node to an existing standalone Databend.
+<StepsWrap>
+<StepContent number="1" title="Configure New Query Node">
 
-### Deploying a Standalone Databend
-Follow [Deploying with Object Storage](./01-deploying-databend.md) to deploy a standalone Databend.
-
-### Deploying a New Query Node
 1. Make a copy of the file `databend-query-node.toml` in the folder `/usr/local/databend/etc`, paste it to the same folder with a name `databend-query-node2.toml`.
 
 2. Open the file `databend-query-node2.toml`, modify the values for the parameters as below:
@@ -30,21 +29,28 @@ flight_api_address = "127.0.0.1:9092"
 
 :::
 
-3. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
+</StepContent>
+<StepContent number="2" title="Start New Query Node">
 
-4. Run the following command to start the Query node:
+1. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
+
+2. Run the following command to start the Query node:
 
 ```shell
 ./databend-query -c ./databend-query-node2.toml 2>&1 > query.node2.log&
 ```
 
-5. Run the following command to check if the new node was started successfully:
+</StepContent>
+<StepContent number="3" title="Check New Query Node">
+
+1. Run the following command to check if the new node was started successfully:
 
 ```shell
 curl -I  http://127.0.0.1:8082/v1/health
 ```
 
-6. Check the cluster information:
+2. Check the cluster information:
+
 ```sql
 mysql -h127.0.0.1 -uroot -P3308
 SELECT * FROM system.clusters
@@ -55,10 +61,5 @@ SELECT * FROM system.clusters
 | Y1lJiseTjCLwpVRYItQ2f3 | 127.0.0.1 | 9091 |
 +------------------------+-----------+------+
 ```
-
-## Next Steps
-
-After deploying Databend, you might need to learn about the following topics:
-
-- [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
-- [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
+</StepContent>
+</StepsWrap>

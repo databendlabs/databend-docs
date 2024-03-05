@@ -2,6 +2,10 @@
 title: Deploying with Object Storage
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
+import GetLatest from '@site/src/components/GetLatest';
+import DetailsWrap from '@site/src/components/DetailsWrap';
+import StepsWrap from '@site/src/components/StepsWrap';
+import StepContent from '@site/src/components/Steps/step-content';
 
 <FunctionDescription description="Introduced or updated: v1.2.168"/>
 
@@ -9,40 +13,33 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='Storage Encryption'/>
 
-import GetLatest from '@site/src/components/GetLatest';
-import DetailsWrap from '@site/src/components/DetailsWrap';
-
 This topic explains how to deploy Databend with your object storage. For a list of supported object storage solutions, see [Understanding Deployment Modes](../00-understanding-deployment-modes.md).
 
-### Setting up Your Object Storage
+### Before You start
+
+Before deploying Databend, ensure that you have successfully set up your object storage and downloaded the latest version of Databend.
+
+<StepsWrap>
+<StepContent number="1" title="Set up object storage">
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-common.md';
 
 <Tabs groupId="operating-systems">
-
-
 <TabItem value="Amazon S3" label="Amazon S3">
 
-Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
-
-- Create a bucket or container named `my_bucket`.
-- Get the endpoint URL for connecting to the bucket or container you created.
-- Get the Access Key ID and Secret Access Key for your account.
+1. Create a bucket or container named `my_bucket`.
+2. Get the endpoint URL for connecting to the bucket or container you created.
+3. Get the Access Key ID and Secret Access Key for your account.
 
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
 - <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>
 - <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>
 
-<CommonDownloadDesc />
-
 </TabItem>
 
 <TabItem value="Google GCS" label="Google GCS">
-
-Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
 
 1. Follow the topic [Create a new bucket](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket) from the Google documentation to create a bucket named `my_bucket`.
 2. Follow the topic [Create a service account key](https://cloud.google.com/iam/docs/keys-create-delete#creating) from the Google documentation to create and download a service account key file.
@@ -54,102 +51,137 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 The command above will generate a file named `base64-encoded-key.txt` containing the credentials that you will subsequently use to configure the connection in the `databend-query.toml` configuration file.
 
-
-<CommonDownloadDesc />
-
 </TabItem>
 
 <TabItem value="Azure Blob" label="Azure Blob">
 
-Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
-
-- Create a bucket or container named `my_bucket`.
-- Get the endpoint URL for connecting to the bucket or container you created.
-- Get the Access Key ID and Secret Access Key for your account.
+1. Create a bucket or container named `my_bucket`.
+2. Get the endpoint URL for connecting to the bucket or container you created.
+3. Get the Access Key ID and Secret Access Key for your account.
 
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
 - <https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container>
 - <https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys>
 
-<CommonDownloadDesc />
-
 </TabItem>
 
 <TabItem value="Tencent COS" label="Tencent COS">
 
-Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
-
-- Create a bucket or container named `my_bucket`.
-- Get the endpoint URL for connecting to the bucket or container you created.
-- Get the Access Key ID and Secret Access Key for your account.
+1. Create a bucket or container named `my_bucket`.
+2. Get the endpoint URL for connecting to the bucket or container you created.
+3. Get the Access Key ID and Secret Access Key for your account.
 
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
 - <https://cloud.tencent.com/document/product/436/13309>
 - <https://cloud.tencent.com/document/product/436/68282>
 
-<CommonDownloadDesc />
 
 </TabItem>
 
 <TabItem value="Alibaba OSS" label="Alibaba Cloud OSS">
 
-Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
-
-- Create a bucket or container named `my_bucket`.
-- Get the endpoint URL for connecting to the bucket or container you created.
-- Get the Access Key ID and Secret Access Key for your account.
+1. Create a bucket or container named `my_bucket`.
+2. Get the endpoint URL for connecting to the bucket or container you created.
+3. Get the Access Key ID and Secret Access Key for your account.
 
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
 - <https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2>
 - <https://help.aliyun.com/document_detail/53045.htm>
 
-<CommonDownloadDesc />
 
 </TabItem>
 
 <TabItem value="Wasabi" label="Wasabi">
 
-Before deploying Databend, make sure you have successfully set up your object storage environment in the cloud, and the following tasks have been completed:
-
-- Create a bucket or container named `my_bucket`.
-- Get the endpoint URL for connecting to the bucket or container you created.
-- Get the Access Key ID and Secret Access Key for your account.
+1. Create a bucket or container named `my_bucket`.
+2. Get the endpoint URL for connecting to the bucket or container you created.
+3. Get the Access Key ID and Secret Access Key for your account.
 
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
 - <https://docs.wasabi.com/docs/creating-a-bucket>
 - <https://docs.wasabi.com/docs/access-keys-1>
 
-<CommonDownloadDesc />
-
 </TabItem>
-
 </Tabs>
 
-### Deploying a Meta Node
+</StepContent>
 
-a. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
+<StepContent number="2" title="Download Databend">
 
-b. Run the following command to start the Meta node:
+1. Create a folder named `databend` in the directory `/usr/local`.
+2. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
+
+<Tabs>
+<TabItem value="linux-x86_64" label="Linux(x86)">
+
+```shell
+curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
+```
+
+```shell
+tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
+```
+
+</TabItem>
+<TabItem value="linux-arm64" label="Linux(Arm)">
+
+```shell
+curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
+```
+
+```shell
+tar xzvf databend-${version}-aarch64-unknown-linux-musl.tar.gz
+```
+
+</TabItem>
+</Tabs>
+
+3. Move the extracted folders `bin`, `configs`, and `scripts` to the folder `/usr/local/databend`.
+
+</StepContent>
+
+</StepsWrap>
+
+### Step 1: Deploying Meta Node
+
+Follow the instructions below to deploy a Meta node:
+
+<StepsWrap>
+<StepContent number="1" title="Start Meta Node">
+
+1. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
+2. Run the following command to start the Meta node:
 
 ```shell
 ./databend-meta -c ../configs/databend-meta.toml > meta.log 2>&1 &
 ```
 
-c. Run the following command to check if the Meta node was started successfully:
+</StepContent>
+<StepContent number="2" title="Check Meta Node">
+
+Run the following command to check if the Meta node was started successfully:
 
 ```shell
 curl -I  http://127.0.0.1:28101/v1/health
 ```
 
-### Deploying a Query Node
+</StepContent>
+</StepsWrap>
 
-a. Locate the file `databend-query.toml` in the folder `/usr/local/databend/configs`.
+### Step 2: Deploying Query Node
 
-b. In the file `databend-query.toml`, set the parameter *type* in the [storage] block and configure the access credentials and endpoint URL for connecting to your object storage. 
+Follow the instructions below to deploy a Query node:
+
+<StepsWrap>
+
+<StepContent number="1" title="Configure Query Node">
+
+1. Locate the file `databend-query.toml` in the folder `/usr/local/databend/configs`.
+2. In the file `databend-query.toml`, set the parameter *type* in the [storage] block and configure the access credentials and endpoint URL for connecting to your object storage. 
 
 To configure your storage settings, comment out the [storage.fs] section by adding `#` at the beginning of each line. Then, uncomment the relevant section for your object storage provider by removing the `#` symbol and fill in your values.
 
@@ -157,7 +189,7 @@ To configure your storage settings, comment out the [storage.fs] section by addi
 
 <TabItem value="Amazon S3" label="Amazon S3">
 
-```toml
+```toml title='databend-query.toml'
 [storage]
 # s3
 type = "s3"
@@ -181,7 +213,7 @@ secret_access_key = "<your-access-key>"
 
 For the `credential` parameter, paste the Base64-encoded string obtained in Step [Setting up Your Object Storage](#setting-up-your-object-storage) (enclosed in double quotation marks).
 
-```toml
+```toml title='databend-query.toml'
 [storage]
 # gcs
 type = "gcs"
@@ -198,7 +230,7 @@ credential = "<your-credential>"
 
 <TabItem value="Azure Blob" label="Azure Blob">
 
-```toml
+```toml title='databend-query.toml'
 [storage]
 # azblob
 type = "azblob"
@@ -221,7 +253,7 @@ account_key = "<your-account-key>"
 
 When specifying the `endpoint_url` parameter, ensure to exclude the `<BucketName-APPID>` portion from your bucket's endpoint. For instance, if your bucket endpoint is `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`, use `https://cos.ap-beijing.myqcloud.com`. For Tencent COS endpoints in various regions, refer to https://www.tencentcloud.com/document/product/436/6224.
 
-```toml
+```toml title='databend-query.toml'
 [storage]
 # s3
 type = "cos"
@@ -247,7 +279,7 @@ secret_key = "<your-secret-key>"
 
 <TabItem value="Alibaba OSS" label="Alibaba Cloud OSS">
 
-```toml
+```toml title='databend-query.toml'
 [storage]
 type = "oss"
 
@@ -285,7 +317,7 @@ To enable server-side encryption in Databend, add the following parameters to th
 
 <TabItem value="Wasabi" label="Wasabi">
 
-```toml
+```toml title='databend-query.toml'
 [storage]
 # s3
 type = "s3"
@@ -306,15 +338,11 @@ access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
 
-:::tip
-In this example Wasabi region is `us-east-2`.
-:::
-
 </TabItem>
 
 </Tabs>
 
-c. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
+3. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
 
 :::caution
 Using "no_password" authentication for the root user in this tutorial is just an example and not recommended for production due to potential security risks.
@@ -328,43 +356,63 @@ auth_type = "no_password"
 ...
 ```
 
-d. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
+</StepContent>
 
-e. Run the following command to start the Query node:
+<StepContent number="2" title="Start Query Node">
+
+1. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
+2. Run the following command to start the Query node:
 
 ```shell
 ./databend-query -c ../configs/databend-query.toml > query.log 2>&1 &
 ```
 
-f. Run the following command to check if the Query node was started successfully:
+</StepContent>
+
+<StepContent number="3" title="Check Query Node">
+
+Run the following command to check if the Query node was started successfully:
 
 ```shell
 curl -I  http://127.0.0.1:8080/v1/health
 ```
 
-### Verifying Deployment
+</StepContent>
 
-In this section, we will run a simple query against Databend using [BendSQL](https://github.com/datafuselabs/BendSQL) to verify the deployment.
+</StepsWrap>
 
-a. Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
+### Step 3: Verifying Deployment
 
-b. Follow [Connecting to Databend using BendSQL](../../../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
+In this step, you will run a simple query against Databend using [BendSQL](https://github.com/datafuselabs/BendSQL) to verify the deployment.
 
-### Starting and Stopping Databend
+<StepsWrap>
 
-Each time you start and stop Databend, simply run the scripts in the folder `/usr/local/databend/scripts`:
+<StepContent number="1" title="Install BendSQL">
+
+Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
+
+</StepContent>
+
+<StepContent number="2" title="Connect to Databend">
+
+Follow [Connecting to Databend using BendSQL](../../../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
+
+</StepContent>
+</StepsWrap>
+
+### Starting / Stopping Databend
+
+Each time you initiate or halt Databend, there's no need to manage the Meta and Query nodes individually. Execute the scripts in the `/usr/local/databend/scripts` directory to handle both nodes with a single run:
 
 ```shell
 # Start Databend
 ./scripts/start.sh
 
 # Stop Databend
+# This script employs the KILLALL command. If not installed, please install the psmisc package for your system. 
+# For example, on CentOS: yum install psmisc
 ./scripts/stop.sh
 ```
-
-:::note
-This script uses the killall command. If you have not installed this command, please install the [`psmisc`](https://gitlab.com/psmisc/psmisc) package suitable for your system environment. For example, on CentOS: `yum install psmisc`.
-:::
 
 <DetailsWrap>
 <details>
@@ -391,10 +439,9 @@ sudo chown -R $USER /var/lib/databend
 </DetailsWrap>
 <GetLatest/>
 
-## Next Steps
+### Next Steps
 
 After deploying Databend, you might need to learn about the following topics:
 
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
 - [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
-
