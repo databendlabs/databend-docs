@@ -59,7 +59,7 @@ Databend introduces two built-in roles:
 - `account-admin`: Possesses all privileges, serves as the parent role for all other roles, and enables seamless switching to any role within the tenant.
 - `public`: Inherits no permissions, considers all roles as its parent roles, and allows any role to switch to the public role. 
 
-To assign the `account-admin` role to a user in Databend Cloud, select the role when inviting the user. You can also assign the role to a user after they join. If you're using Databend Community Edition or Enterprise Edition, configure an `account-admin` user during deployment first, and then assign the role to other users if needed. For more information about configuring admin users, see [Configuring Admin Users](/guides/deploy/admin-users).
+To assign the `account-admin` role to a user in Databend Cloud, select the role when inviting the user. You can also assign the role to a user after they join. If you're using Databend Community Edition or Enterprise Edition, configure an `account-admin` user during deployment first, and then assign the role to other users if needed. For more information about configuring admin users, see [Configuring Admin Users](../10-deploy/04-references/01-admin-users.md).
 
 ### Setting Default Role
 
