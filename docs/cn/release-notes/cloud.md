@@ -100,7 +100,7 @@ sidebar_position: 2
 ### 新功能
 
 - 将 databend-query 升级到 v1.1.7-nightly：
-  - REPLACE INTO 现在可以处理具有集群键的表。
+  - REPLACE INTO 现在可以处理具有聚类键的表。
   - 引入了 array_aggregate 函数和其他数组聚合函数，如 std、median。
   - 引入了窗口函数 percent_rank。
 - 升级 BendSQL 以提供改进的 SQL 关键字高亮和自动完成。
