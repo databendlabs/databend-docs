@@ -5,9 +5,9 @@ sidebar_label: 流
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在Databend中，流是对表变化的动态实时表示。创建流是为了捕获和跟踪与表相关的修改，允许持续消费和分析数据变化。
+在Databend中，流是对表变化的动态和实时表示。创建流是为了捕获和跟踪与表相关的修改，允许持续消费和分析数据变化。
 
-### 流是如何工作的
+### 流是如何工作的 {/*how-stream-works*/}
 
 流可以以两种模式运行：**标准**和**仅追加**。使用`APPEND_ONLY`参数在[创建流](/sql/sql-commands/ddl/stream/create-stream)时指定模式。
 
@@ -26,7 +26,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 CREATE TABLE t_standard(a INT);
 CREATE TABLE t_append_only(a INT);
 
--- 以不同模式创建两个流：标准和仅追加
+-- 创建两个不同模式的流：标准和仅追加
 CREATE STREAM s_standard ON TABLE t_standard APPEND_ONLY=false;
 CREATE STREAM s_append_only ON TABLE t_append_only APPEND_ONLY=true;
 ```
@@ -102,28 +102,16 @@ SELECT * FROM s_standard;
 
 
 ```markdown
-┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │   change$action  │              change$row_id             │ change$is_update │
-│ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
-├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
-│               3 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ false            │
-└────────────────────────────────────────────────────────────────────────────────────────────────┘
+<StepsWrap>
 
-SELECT * FROM s_append_only;
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │ change$action │ change$is_update │              change$row_id             │
-├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
-│               3 │ INSERT        │ false            │ bfed6c91f3e4402fa477b6853a2d2b58000001 │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
-```
+<StepContent number="1" title="观察两种模式的差异">
 
 到目前为止，我们还没有注意到两种模式之间的显著差异，因为我们还没有处理流。所有更改都已合并并表现为INSERT操作。**流可以被任务或DML（数据操纵语言）操作消费**。消费后，流中不包含任何数据，但可以继续捕获新的更改（如果有的话）。为了进一步分析区别，让我们继续消费流并检查输出。
 
 </StepContent>
 <StepContent number="2" title="消费流">
 
-让我们创建两个新表，并将流捕获的内容插入其中。
+让我们创建两个新表，并插入流捕获的内容。
 
 ```sql
 CREATE TABLE t_consume_standard(b INT);
@@ -202,7 +190,7 @@ SELECT * FROM s_standard;
 SELECT * FROM s_append_only;
 ```
 
-我们可以看到，两种流模式都有能力捕获插入的数据，以及在流被消费之前对插入的值所做的任何后续更新和删除。然而，消费后，如果对之前插入的数据进行更新或删除，只有标准流能够捕获这些更改，将它们记录为DELETE和INSERT操作。
+我们可以看到，两种流模式都有能力捕获插入，以及在流被消费之前对插入的值进行的任何后续更新和删除。然而，消费后，如果对之前插入的数据进行更新或删除，只有标准流能够捕获这些更改，将它们记录为DELETE和INSERT操作。
 
 </StepContent>
 </StepsWrap>
@@ -223,16 +211,16 @@ INSERT INTO table SELECT * FROM stream;
 
 ### 流的表元数据
 
-**流不存储表的任何数据**。为表创建流后，Databend为了变更跟踪目的，向表中引入了特定的隐藏元数据列。这些列包括：
+**流不存储表的任何数据**。为表创建流后，Databend引入了特定的隐藏元数据列，用于变更跟踪目的。这些列包括：
 
 ```
 
-| 列名                    | 描述                                                                                     |
-|-----------------------|----------------------------------------------------------------------------------------|
-| _origin_version       | 标识此行最初创建时的表版本。                                                               |
-| _origin_block_id      | 标识此行之前所属的块ID。                                                                  |
-| _origin_block_row_num | 标识此行之前所属的块内的行号。                                                             |
-| _row_version          | 标识行版本，从0开始，每次更新递增1。                                                       |
+| 列名                     | 描述                                                                                     |
+|--------------------------|----------------------------------------------------------------------------------------|
+| _origin_version          | 标识此行最初创建时的表版本。                                                               |
+| _origin_block_id         | 标识此行之前所属的块ID。                                                                   |
+| _origin_block_row_num    | 标识此行之前所属的块内的行号。                                                              |
+| _row_version             | 标识行版本，从0开始，每次更新递增1。                                                       |
 
 要显示这些列的值，请使用SELECT语句：
 
@@ -277,13 +265,13 @@ FROM
 
 ### 流列
 
-您可以使用SELECT语句直接查询流并检索跟踪的更改。查询流时，考虑加入这些隐藏列，以获取有关更改的额外详情：
+您可以使用SELECT语句直接查询流并检索跟踪的更改。查询流时，考虑包含这些隐藏列以获取有关更改的额外详细信息：
 
-| 列名               | 描述                                                                                                                                                   |
-|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| change$action    | 更改类型：INSERT 或 DELETE。                                                                                                                           |
-| change$is_update | 表示`change$action`是否为UPDATE的一部分。在流中，UPDATE由DELETE和INSERT操作的组合表示，此字段设置为`true`。                                            |
-| change$row_id    | 每行的唯一标识符，用于跟踪更改。                                                                                                                        |
+| 列名               | 描述                                                                                                                                                           |
+|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| change$action      | 更改类型：INSERT 或 DELETE。                                                                                                                                    |
+| change$is_update   | 指示`change$action`是否为UPDATE的一部分。在流中，UPDATE由DELETE和INSERT操作的组合表示，此字段设置为`true`。                                                     |
+| change$row_id      | 用于跟踪更改的每行的唯一标识符。                                                                                                                                  |
 
 ```sql title='示例：'
 CREATE TABLE t(a int);
@@ -299,19 +287,11 @@ SELECT * FROM s;
 │               2 │ INSERT        │ false            │ a577745c6a404f3384fa95791eb43f22000000 │
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 如果您添加一个新行然后更新它，
--- 流将更改整合为一个带有您更新后的值的INSERT。
+-- 如果您添加新行然后更新它，
+-- 流将更改整合为一个带有更新值的INSERT。
 UPDATE t SET a = 3 WHERE a = 2;
 SELECT * FROM s;
 
-```
-
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │ change$action │ change$is_update │              change$row_id             │
-├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
-│               3 │ INSERT        │ false            │ a577745c6a404f3384fa95791eb43f22000000 │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 示例：实时跟踪和转换数据
@@ -320,12 +300,12 @@ SELECT * FROM s;
 
 #### 1. 创建表格
 
-示例使用三个表：
+该示例使用三个表：
 * `user_activities` 表记录用户活动。
 * `user_profiles` 表存储用户档案。
 * `user_activity_profiles` 表是这两个表的组合视图。
 
-`activities_stream` 表作为流创建，以实时捕获对 `user_activities` 表的更改。然后，通过查询消费该流，以将最新数据更新到 `user_activity_profiles` 表。
+`activities_stream` 表作为流创建，以实时捕获对 `user_activities` 表的更改。然后通过查询消费该流，以最新数据更新 `user_activity_profiles` 表。
 
 ```sql
 -- 创建一个表来记录用户活动
@@ -348,7 +328,7 @@ INSERT INTO user_profiles VALUES (102, 'Bob', 'San Francisco');
 INSERT INTO user_profiles VALUES (103, 'Charlie', 'Los Angeles');
 INSERT INTO user_profiles VALUES (104, 'Dana', 'Chicago');
 
--- 创建一个组合用户活动和档案的视图表
+-- 创建一个表，用于组合用户活动和档案的视图
 CREATE TABLE user_activity_profiles (
     user_id INT,
     username VARCHAR,
@@ -393,7 +373,7 @@ JOIN
 ON
     a.user_id = p.user_id
 
--- a.change$action 是一个指示更改类型的列（Databend 目前仅支持 INSERT）
+-- a.change$action 是一个列，指示更改的类型（Databend 目前仅支持 INSERT）
 WHERE a.change$action = 'INSERT';
 ```
 
@@ -417,17 +397,17 @@ FROM
 
 #### 5. 实时数据处理的任务更新
 
-为了保持 `user_activity_profiles` 表的当前性，重要的是要定期将其与 `activities_stream` 中的数据同步。这种同步应与 `user_activities` 表的更新间隔对齐，确保 user_activity_profiles 准确反映最新的用户活动和档案，以进行实时数据分析。
+为了保持 `user_activity_profiles` 表的当前性，定期将其与 `activities_stream` 中的数据同步非常重要。这种同步应与 `user_activities` 表的更新间隔保持一致，确保 user_activity_profiles 准确反映最新的用户活动和档案，以便实时数据分析。
 
-Databend 的 `TASK` 命令（目前处于私有预览阶段），可以用来定义一个任务，每分钟或每秒更新 `user_activity_profiles` 表。
+Databend 的 `TASK` 命令（目前处于私有预览阶段），可以用来定义每分钟或每秒更新 `user_activity_profiles` 表的任务。
 
 ```sql
--- 在 Databend 中定义一个任务
+-- 在 Databend 中定义任务
 CREATE TASK user_activity_task 
 WAREHOUSE = 'default'
 SCHEDULE = 1 MINUTE
--- 当 activities_stream 中有新数据时触发任务
-WHEN system$stream_has_data('activities_stream') AS 
+-- 当 activities_stream 中有新数据到达时触发任务
+WHEN stream_status('activities_stream') AS 
     -- 将新记录插入到 user_activity_profiles 中
     INSERT INTO user_activity_profiles
     SELECT
@@ -442,5 +422,5 @@ WHEN system$stream_has_data('activities_stream') AS
 ```
 
 :::tip 任务处于私有预览阶段
-`TASK` 命令目前处于私有预览阶段，因此语法和用法将来可能会有所变化。
+`TASK` 命令目前处于私有预览阶段，因此语法和用法未来可能会有变化。
 :::
