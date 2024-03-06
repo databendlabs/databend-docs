@@ -153,6 +153,14 @@ endpoints = ["192.168.1.100:9191","192.168.1.101:9191","192.168.1.102:9191"]
 ./databend-query -c ../configs/databend-query.toml > query.log 2>&1 &
 ```
 
+## Step 3: Verify Deployment
+
+Retrieve information about the existing query nodes in the cluster from the [system.clusters](/sql/sql-reference/system-tables/system-clusters) table:
+
+```sql
+SELECT * FROM system.clusters;
+```
+
 ## Next Steps
 
 After deploying Databend, you might need to learn about the following topics:

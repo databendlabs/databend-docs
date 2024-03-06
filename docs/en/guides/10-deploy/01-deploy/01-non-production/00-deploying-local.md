@@ -37,11 +37,11 @@ docker run -d \
    -e "MINIO_ROOT_USER=ROOTUSER" \
    -e "MINIO_ROOT_PASSWORD=CHANGEME123" \
    -v ${HOME}/minio/data:/data \
-   minio/minio server /data --console-address ":9091"
+   minio/minio server /data --console-address ":9001"
 ```
 
 :::note
-We change the console address to `:9091` here to avoid port conflicts with Databend.
+We change the console address to `:9001` here to avoid port conflicts.
 :::
 
 Please be aware that the command above also sets the root user credentials (ROOTUSER/CHANGEME123) which you will need to provide for authentication in the next steps. If you make changes to the root user credentials at this point, ensure that you maintain consistency throughout the entire process.
@@ -59,13 +59,13 @@ Version: RELEASE.2024-01-05T22-17-24Z (go1.21.5 linux/arm64)
 
 Status:         1 Online, 0 Offline.
 S3-API: http://192.168.106.3:9000  http://172.17.0.1:9000  http://192.168.5.1:9000  http://127.0.0.1:9000
-Console: http://192.168.106.3:9091 http://172.17.0.1:9091 http://192.168.5.1:9091 http://127.0.0.1:9091
+Console: http://192.168.106.3:9001 http://172.17.0.1:9001 http://192.168.5.1:9001 http://127.0.0.1:9001
 
 Documentation: https://min.io/docs/minio/linux/index.html
 Warning: The standard parity is set to 0. This can lead to data loss.
 ```
 
-2. Open your web browser and visit http://127.0.0.1:9091/ (login credentials: ROOTUSER/CHANGEME123). Create a bucket named **databend**.
+2. Open your web browser and visit http://127.0.0.1:9001/ (login credentials: ROOTUSER/CHANGEME123). Create a bucket named **databend**.
 
 </StepContent>
 
