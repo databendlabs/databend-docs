@@ -24,7 +24,7 @@ Databend 的 Go Driver 兼容 ["database/sql"](https://pkg.go.dev/database/sql) 
 
 ## 教程 -1：使用 Golang 与 Databend 集成
 
-在开始之前，请确保您已成功安装了本地的 Databend。有关详细说明，请参见 [本地和 Docker 部署](/guides/deploy/deploying-local)。
+在开始之前，请确保您已成功安装了本地的 Databend。有关详细说明，请参见 [本地和 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
 
 ### 步骤 1. 准备一个 SQL 用户账户
 

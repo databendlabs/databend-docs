@@ -26,42 +26,42 @@ import MD8 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.344" number="" title="Feb 21, 2024 (v1.2.344)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.344" number="" title="Feb 22, 2024 (v1.2.344)">
 <MD1 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.307" number="" title="Jan 24, 2024 (v1.2.307)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.307" number="" title="Jan 25, 2024 (v1.2.307)">
 <MD2 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.292" number="" title="Jan 10, 2024 (v1.2.292)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.292" number="" title="Jan 11, 2024 (v1.2.292)">
 <MD3 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.290" number="" title="Jan 9, 2024 (v1.2.290)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.290" number="" title="Jan 10, 2024 (v1.2.290)">
 <MD4 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.279" number="" title="Jan 1, 2024 (v1.2.279)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.279" number="" title="Jan 2, 2024 (v1.2.279)">
 <MD5 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.275" number="" title="Dec 29, 2023 (v1.2.275)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.275" number="" title="Dec 30, 2023 (v1.2.275)">
 <MD6 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.262" number="" title="Dec 19, 2023 (v1.2.262)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.262" number="" title="Dec 20, 2023 (v1.2.262)">
 <MD7 />
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.233" number="" title="Dec 12, 2023 (v1.2.233)">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.233" number="" title="Dec 13, 2023 (v1.2.233)">
 <MD8 />
 
 </StepContent>

@@ -22,7 +22,7 @@ pip install databend-sqlalchemy
 
 ## 教程 -1：使用 Python 与 Databend 集成
 
-在开始之前，请确保您已成功安装了本地 Databend。有关详细说明，请参见[本地和 Docker 部署](/guides/deploy/deploying-local)。
+在开始之前，请确保您已成功安装了本地 Databend。有关详细说明，请参见[本地和 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
 
 ### 步骤 1. 准备 SQL 用户账户
 

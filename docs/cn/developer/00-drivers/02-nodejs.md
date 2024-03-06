@@ -39,7 +39,7 @@ npm install --save databend-driver
 
 ## 教程 -1：使用 Node.js 与 Databend 集成
 
-在开始之前，请确保您已经成功安装了本地 Databend。有关详细说明，请参阅[本地和 Docker 部署](/guides/deploy/deploying-local)。
+在开始之前，请确保您已经成功安装了本地 Databend。有关详细说明，请参阅[本地和 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
 
 ### 步骤 1. 准备一个 SQL 用户账户
 

@@ -3,10 +3,7 @@ title: 概览
 slug: /
 ---
 
-# Databend 指南
-
-欢迎来到 Databend 指南，这里涵盖了 [Databend 版本](00-editions/index.md) 的所有方面。
-特定版本独有的功能在文档中都有明确的说明。
+# 术语表
 
 - **`Databend`** 指的是 [开源版本](https://github.com/datafuselabs/databend) 。
 - **`Databend Cloud`** 是一个[完全托管的云服务](https://databend.com) 。
@@ -21,6 +18,4 @@ slug: /
 - **[数据卸载](../50-unload-data/index.md)**：从 Databend(Cloud) 导出数据的方法。
 - **[安全](../56-security/index.md)**：Databend(Cloud) 安全措施概览。
 - **[可视化](../31-visualize/index.md)**：将 Databend(Cloud) 与可视化工具集成。
-- **[监控](../70-monitor/index.md)**：使用 Prometheus 等工具监控 Databend(Cloud)。
-- **[性能优化](../55-performance/index.md)**：增强 Databend(Cloud) 性能的提示。
 - **[基准测试](../80-benchmark/index.md)**：Databend Cloud 在 TPC-H SF100 基准测试上与 Snowflake 的性能对比。

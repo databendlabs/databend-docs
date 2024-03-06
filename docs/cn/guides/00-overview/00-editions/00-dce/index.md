@@ -12,7 +12,7 @@ Databend 是一个开源的、弹性的、适应工作负载的云数据仓库�
 
 - 在对象存储上提供极速的数据分析。
 - 利用数据级并行和指令级并行技术以获得[最佳性能](https://benchmark.clickhouse.com/)。
-- 无需构建索引，无需手动调优，也不需要确定分区或分片数据。
+- 无需构建索引，无需手动调优，也无需确定分区或分片数据。
 
 </TabItem>
 
@@ -28,12 +28,12 @@ Databend 是一个开源的、弹性的、适应工作负载的云数据仓库�
 
 <TabItem value="Object Storage" label="对象存储">
 
-- 支持各种对象存储平台。点击[此处](../../../10-deploy/00-understanding-deployment-modes.md#supported-object-storage)查看完整的支持平台列表。
+- 支持各种对象存储平台。点击[此处](../../../10-deploy/01-deploy/00-understanding-deployment-modes.md#supported-object-storage)查看支持的平台完整列表。
 - 允许即时弹性，使用户可以根据他们的应用需求进行扩展或缩减。
 
 </TabItem>
 </Tabs>
 
-通过以下主题了解更多关于 Databend 社区版的信息：
+了解更多关于 Databend 社区版的以下主题：
 
 <IndexOverviewList />
