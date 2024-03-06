@@ -1,13 +1,17 @@
 ---
 title: Docker 和本地部署
-sidebar_label: Docker 和本地部署
 ---
+
+import FunctionDescription from '@site/src/components/FunctionDescription';
+import GetLatest from '@site/src/components/GetLatest';
+import DetailsWrap from '@site/src/components/DetailsWrap';
+import StepsWrap from '@site/src/components/StepsWrap';
+import StepContent from '@site/src/components/Steps/step-content';
 
 为了快速访问 Databend 功能并获得实践经验，您有以下部署选项：
 
 - [在 Docker 上部署 Databend](#deploying-databend-on-docker)：您可以在 Docker 上部署 Databend 和 [MinIO](https://min.io/)，以实现容器化设置。
-
-- [部署本地 Databend](#deploying-a-local-databend)：如果没有对象存储，您可以选择本地部署，并使用文件系统作为存储。
+- [部署本地 Databend](#deploying-a-local-databend)：如果对象存储不可用，您可以选择本地部署，并使用文件系统作为存储后端。
 
 :::note 仅限非生产用途
 
@@ -16,11 +20,12 @@ sidebar_label: Docker 和本地部署
 - 不建议在 MinIO 之上部署 Databend 用于生产环境或性能测试目的。
 :::
 
-## 在 Docker 上部署 Databend
+## 在 Docker 上部署 Databend {#deploying-databend-on-docker}
 
 开始之前，请确保您的系统上安装了 Docker。
 
-### 步骤 1. 部署 MinIO
+<StepsWrap>
+<StepContent number="1" title="部署 MinIO">
 
 1. 使用以下命令作为容器拉取并运行 MinIO 镜像：
 
@@ -34,11 +39,11 @@ docker run -d \
    -e "MINIO_ROOT_USER=ROOTUSER" \
    -e "MINIO_ROOT_PASSWORD=CHANGEME123" \
    -v ${HOME}/minio/data:/data \
-   minio/minio server /data --console-address ":9091"
+   minio/minio server /data --console-address ":9001"
 ```
 
 :::note
-我们在这里将控制台地址更改为 `:9091`，以避免与 Databend 的端口冲突。
+我们在这里将控制台地址更改为 `:9001`，以避免端口冲突。
 :::
 
 请注意，上述命令还设置了根用户凭据（ROOTUSER/CHANGEME123），您将需要在后续步骤中提供这些凭据以进行身份验证。如果您在此时更改了根用户凭据，请确保在整个过程中保持一致性。
@@ -56,15 +61,17 @@ Version: RELEASE.2024-01-05T22-17-24Z (go1.21.5 linux/arm64)
 
 Status:         1 Online, 0 Offline.
 S3-API: http://192.168.106.3:9000  http://172.17.0.1:9000  http://192.168.5.1:9000  http://127.0.0.1:9000
-Console: http://192.168.106.3:9091 http://172.17.0.1:9091 http://192.168.5.1:9091 http://127.0.0.1:9091
+Console: http://192.168.106.3:9001 http://172.17.0.1:9001 http://192.168.5.1:9001 http://127.0.0.1:9001
 
 Documentation: https://min.io/docs/minio/linux/index.html
 Warning: The standard parity is set to 0. This can lead to data loss.
 ```
 
-2. 打开您的网络浏览器并访问 http://127.0.0.1:9091/（登录凭据：ROOTUSER/CHANGEME123）。创建一个名为 **databend** 的存储桶。
+2. 打开您的网络浏览器并访问 http://127.0.0.1:9001/（登录凭据：ROOTUSER/CHANGEME123）。创建一个名为 **databend** 的存储桶。
 
-### 步骤 2. 部署 Databend
+</StepContent>
+
+<StepContent number="2" title="部署 Databend">
 
 使用以下命令作为容器拉取并运行 Databend 镜像：
 
@@ -196,7 +203,8 @@ Databend HTTP
     usage:  curl -u${USER} -p${PASSWORD}: --request POST '0.0.0.0:8000/v1/query/' --header 'Content-Type: application/json' --data-raw '{"sql": "SELECT avg(number) FROM numbers(100000000)"}'
 ```
 
-### 第 3 步. 连接到 Databend
+</StepContent>
+<StepContent number="3" title="连接到 Databend">
 
 在此步骤中，您将使用 BendSQL CLI 工具建立与 Databend 的连接。有关如何安装和操作 BendSQL 的说明，请参见 [BendSQL](../../../30-sql-clients/00-bendsql/index.md)。
 
@@ -248,17 +256,22 @@ databend@localhost:8000/test> select * from mytable;
 
 ![Alt text](@site/docs/public/img/deploy/minio-deployment-verify.png)
 
-## 部署本地 Databend
+</StepContent>
+</StepsWrap>
+
+## 部署本地 Databend {#deploying-a-local-databend}
 
 以下步骤将指导您完成本地部署 Databend 的过程。
 
-### 第 1 步. 下载 Databend
+<StepsWrap>
+<StepContent number="1" title="下载 Databend">
 
-1. 从 [下载](/download) 页面下载适合您平台的安装包。
+1. 从 [下载 Databend](/download) 页面下载适合您平台的安装包。
 
 2. 将安装包解压到本地目录。
 
-### 第 2 步. 启动 Databend
+</StepContent>
+<StepContent number="2" title="启动 Databend">
 
 1. 配置管理员用户。您将使用此账户连接到 Databend。有关更多信息，请参见 [配置管理员用户](../../04-references/01-admin-users.md)。作为示例，取消注释以下行以选择此账户：
 
@@ -308,7 +321,8 @@ eric             12781   0.0  0.5 408790416  38896 s003  S     2:15pm   0:00.05 
 eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 bin/databend-meta --config-file=configs/databend-meta.toml
 ```
 
-### 步骤 3. 连接到 Databend
+</StepContent>
+<StepContent number="3" title="连接到 Databend">
 
 在此步骤中，您将使用 BendSQL CLI 工具建立与 Databend 的连接。有关如何安装和操作 BendSQL 的说明，请参见 [BendSQL](../../../30-sql-clients/00-bendsql/index.md)。
 
@@ -337,6 +351,10 @@ SELECT
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 41B/s)
 ```
+
+
+</StepContent>
+</StepsWrap>
 
 ## 下一步
 
