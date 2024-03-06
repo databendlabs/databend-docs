@@ -10,7 +10,7 @@ In this tutorial, we will guide you through the process of connecting to Databen
 <StepsWrap>
 <StepContent number="0" title="Before You Start">
 
-- Ensure that you have a local Databend instance ready for testing. See [Docker and Local Deployments](../../10-deploy/03-deploying-local.md) for detailed instructions.
+- Ensure that you have a local Databend instance ready for testing. See [Docker and Local Deployments](../../10-deploy/01-deploy/01-non-production/00-deploying-local.md) for detailed instructions.
 - In this tutorial, you will use the `root` account to connect to Databend. During deployment, uncomment the following lines in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file to select this account:
 
     ```sql title="databend-query.toml"

@@ -1,7 +1,5 @@
 ---
-title: Deploying a Standalone Databend (HDFS)
-sidebar_label: Deploying a Standalone Databend (HDFS)
-description: Deploying a Standalone Databend
+title: Deploying with HDFS
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
@@ -11,9 +9,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import GetLatest from '@site/src/components/GetLatest';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-## Deploying a Standalone Databend
 
-Databend also works with Hadoop Distributed File System (HDFS). This topic explains how to deploy Databend with HDFS. For a list of other supported object storage solutions, see [Understanding Deployment Modes](./00-understanding-deployment-modes.md).
+Databend also works with Hadoop Distributed File System (HDFS). This topic explains how to deploy Databend with HDFS. For a list of other supported object storage solutions, see [Understanding Deployment Modes](../00-understanding-deployment-modes.md).
 
 ### Setting up Your HDFS
 
@@ -154,7 +151,7 @@ root = "/analyses/databend/storage"
 </TabItem>
 </Tabs>
 
-c. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](04-admin-users.md). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
+c. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
 
 :::caution
 Using "no_password" authentication for the root user in this tutorial is just an example and not recommended for production due to potential security risks.
@@ -186,9 +183,9 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 In this section, we will run a simple query against Databend using [BendSQL](https://github.com/datafuselabs/BendSQL) to verify the deployment.
 
-a. Follow [Installing BendSQL](../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
+a. Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
 
-b. Follow [Connecting to Databend using BendSQL](../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
+b. Follow [Connecting to Databend using BendSQL](../../../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
 
 ### Starting and Stopping Databend
 
