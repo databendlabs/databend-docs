@@ -4,7 +4,7 @@ sidebar_position: 17
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.39"/>
+<FunctionDescription description="引入或更新版本：v1.2.39"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -21,17 +21,13 @@ VACUUM TABLE 命令通过永久删除表中的历史数据文件来帮助优化�
 ### 语法和示例
 
 ```sql
-VACUUM TABLE <table_name> [ RETAIN <n> HOURS ] [ DRY RUN ]
+VACUUM TABLE <table_name> [ DRY RUN ]
 ```
 
-- **RETAIN n HOURS**：此选项确定历史数据文件的保留期限。当指定此选项时，Databend 将比较 *n* 的值和设置 `retention_period` 的值，并将使用较大的值作为保留期限。例如，如果指定的 *n* 值大于默认的 `retention_period`，那么 Databend 将保留 *n* 小时的数据文件，因此超过 *n* 小时的历史数据文件将被删除。
-
-    当未指定此选项时，将应用默认的 `retention_period` 设置为 12 小时。这意味着任何超过 12 小时的历史数据文件将被删除。
-
-- **DRY RUN**：当指定此选项时，候选的孤立文件不会被删除，而是返回最多 1000 个候选文件的列表，这些文件如果不使用此选项将会被删除。这在您想要在实际删除任何数据文件之前预览 VACUUM TABLE 命令对表的潜在影响时非常有用。例如：
+- **DRY RUN**：指定此选项时，候选孤立文件不会被移除，而是返回最多 1000 个候选文件的列表，这些是如果不使用该选项将会被移除的文件。当你想在实际移除任何数据文件之前预览 VACUUM TABLE 命令对表的潜在影响时，这非常有用。例如：
 
     ```sql
-    VACUUM TABLE t RETAIN 0 HOURS DRY RUN;
+    VACUUM TABLE t DRY RUN;
 
     +-----------------------------------------------------+
     | Files                                               |
@@ -41,16 +37,36 @@ VACUUM TABLE <table_name> [ RETAIN <n> HOURS ] [ DRY RUN ]
     +-----------------------------------------------------+
     ```
 
-### VACUUM TABLE 与 OPTIMIZE TABLE 的比较
+### 调整数据保留时间
 
-Databend 提供了两个命令用于从表中删除历史数据文件：VACUUM TABLE 和 [OPTIMIZE TABLE](60-optimize-table.md)（带有 PURGE 选项）。尽管这两个命令都能永久删除数据文件，但它们在处理孤立文件时的方式不同：OPTIMIZE TABLE 能够删除孤立的快照，以及相应的段和块。然而，存在没有任何关联快照的孤立段和块的可能性。在这种情况下，只有 VACUUM TABLE 能帮助清理它们。
+`VACUUM TABLE` 命令会移除早于 `DATA_RETENTION_TIME_IN_DAYS` 设置的数据文件。这个保留期可以根据需要进行调整，例如，调整为 2 天：
 
-VACUUM TABLE 和 OPTIMIZE TABLE 都允许您指定一个期限来确定要删除哪些历史数据文件。然而，OPTIMIZE TABLE 要求您事先从查询中获取快照 ID 或时间戳，而 VACUUM TABLE 允许您直接指定保留数据文件的小时数。VACUUM TABLE 通过 DRY RUN 选项在删除之前提供了对历史数据文件的增强控制，该选项允许您在应用命令之前预览要删除的数据文件。这提供了一个安全的删除体验，并帮助您避免意外的数据丢失。
+```sql
+SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
+```
+
+默认的 `DATA_RETENTION_TIME_IN_DAYS` 根据环境而异：
+
+- Databend 版本：90 天
+- Databend 云标准版：7 天
+- Databend 云企业版：90 天
+
+要检查当前设置，请使用：
+
+```sql
+SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
+```
+
+### VACUUM TABLE 与 OPTIMIZE TABLE
+
+Databend 提供了两个命令用于从表中移除历史数据文件：VACUUM TABLE 和 [OPTIMIZE TABLE](60-optimize-table.md)（带有 PURGE 选项）。尽管这两个命令都能永久删除数据文件，但它们在处理孤立文件方面有所不同：OPTIMIZE TABLE 能够移除孤立的快照，以及相应的段和块。然而，存在没有任何关联快照的孤立段和块的可能性。在这种情况下，只有 VACUUM TABLE 能帮助清理它们。
+
+VACUUM TABLE 和 OPTIMIZE TABLE 都允许你指定一个期限来确定要移除哪些历史数据文件。然而，OPTIMIZE TABLE 要求你事先从查询中获取快照 ID 或时间戳，而 VACUUM TABLE 允许你直接指定保留数据文件的小时数。VACUUM TABLE 在移除数据文件之前提供了增强的控制，通过 DRY RUN 选项，允许你在应用命令之前预览要移除的数据文件。这提供了一个安全的移除体验，并帮助你避免意外的数据丢失。
 
 
-|                                                  	| VACUUM TABLE 	| OPTIMIZE TABLE 	|
-|--------------------------------------------------	|--------------	|----------------	|
-| 关联的快照（包括段和块） 	                        | 是          	| 是            	|
-| 孤立的快照（包括段和块）                          	| 是          	| 是            	|
-| 仅孤立的段和块                                    	| 是          	| 否             	|
-| DRY RUN                                          	| 是          	| 否             	|
+| 	                                                  | VACUUM TABLE 	 | OPTIMIZE TABLE 	 |
+|----------------------------------------------------|----------------|------------------|
+| 关联的快照（包括段和块） 	                          | 是          	 | 是            	 |
+| 孤立的快照（包括段和块）     	                      | 是          	 | 是            	 |
+| 仅孤立的段和块                                   	  | 是          	 | 否             	 |
+| DRY RUN                                         	  | 是          	 | 否             	 |
