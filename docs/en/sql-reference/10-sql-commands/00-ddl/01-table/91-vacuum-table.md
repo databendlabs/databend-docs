@@ -4,7 +4,7 @@ sidebar_position: 17
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.39"/>
+<FunctionDescription description="Introduced or updated: v1.2.364"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -36,6 +36,33 @@ VACUUM TABLE <table_name> [ DRY RUN ]
     | 1/8/_b/b68cbe5fe015474d85a92d5f7d1b5d99_v2.parquet  |
     +-----------------------------------------------------+
     ```
+
+### Output
+
+The VACUUM TABLE command returns a table summarizing vital statistics of the vacuumed files, containing the following columns:
+
+| Column         | Description                               |
+|----------------|-------------------------------------------|
+| snapshot_files | Number of snapshot files                  |
+| snapshot_bytes | Total size of snapshot files in bytes     |
+| segments_files | Number of segment files                   |
+| segments_size  | Total size of segment files in bytes      |
+| block_files    | Number of block files                     |
+| block_size     | Total size of block files in bytes        |
+| index_files    | Number of index files                     |
+| index_size     | Total size of index files in bytes        |
+| total_files    | Total number of all types of files        |
+| total_size     | Total size of all types of files in bytes |
+
+```sql title='Example:'
+VACUUM TABLE books;
+
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ snapshot_files │ snapshot_bytes │ segments_files │ segments_size │ block_files │ block_size │ index_files │ index_size │ total_files │ total_size │
+├────────────────┼────────────────┼────────────────┼───────────────┼─────────────┼────────────┼─────────────┼────────────┼─────────────┼────────────┤
+│              1 │            548 │              1 │           661 │           1 │        494 │           1 │        713 │           4 │       2416 │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ### Adjusting Data Retention Time
 
