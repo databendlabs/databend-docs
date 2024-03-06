@@ -5,6 +5,10 @@ description: 部署独立的 Databend
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
+import GetLatest from '@site/src/components/GetLatest';
+import DetailsWrap from '@site/src/components/DetailsWrap';
+import StepsWrap from '@site/src/components/StepsWrap';
+import StepContent from '@site/src/components/Steps/step-content';
 
 <FunctionDescription description="引入或更新：v1.2.168"/>
 
@@ -12,12 +16,11 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='存储加密'/>
 
-import GetLatest from '@site/src/components/GetLatest';
-import DetailsWrap from '@site/src/components/DetailsWrap';
-
 本主题解释了如何将 Databend 与您的对象存储一起部署。有关支持的对象存储解决方案列表，请参见[了解部署模式](../00-understanding-deployment-modes.md)。
 
-### 设置您的对象存储
+### 准备工作
+
+在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -27,11 +30,9 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 
 <TabItem value="Amazon S3" label="Amazon S3">
 
-在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
-
-- 创建一个名为 `my_bucket` 的存储桶或容器。
-- 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问 Access Key ID 和 Secret Access Key。
+1. 创建一个名为 `my_bucket` 的存储桶或容器。
+2. 获取用于连接您创建的存储桶或容器的端点 URL。
+3. 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -43,8 +44,6 @@ import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-c
 </TabItem>
 
 <TabItem value="Google GCS" label="Google GCS">
-
-在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
 1. 按照 Google 文档中的[创建新存储桶](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket)主题创建一个名为 `my_bucket` 的存储桶。
 2. 按照 Google 文档中的[创建服务账户密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating)主题创建并下载服务账户密钥文件。
@@ -62,11 +61,9 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 <TabItem value="Azure Blob" label="Azure Blob">
 
-在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
-
-- 创建一个名为 `my_bucket` 的存储桶或容器。
-- 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问 Access Key ID 和 Secret Access Key。
+1. 创建一个名为 `my_bucket` 的存储桶或容器。
+2. 获取用于连接您创建的存储桶或容器的端点 URL。
+3. 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -79,11 +76,9 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 <TabItem value="Tencent COS" label="Tencent COS">
 
-在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
-
-- 创建一个名为 `my_bucket` 的存储桶或容器。
-- 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问 Access Key ID 和 Secret Access Key。
+1. 创建一个名为 `my_bucket` 的存储桶或容器。
+2. 获取用于连接您创建的存储桶或容器的端点 URL。
+3. 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -96,11 +91,9 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 <TabItem value="Alibaba Cloud OSS" label="Alibaba Cloud OSS">
 
-在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
-
-- 创建一个名为 `my_bucket` 的存储桶或容器。
-- 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问 Access Key ID 和 Secret Access Key。
+1. 创建一个名为 `my_bucket` 的存储桶或容器。
+2. 获取用于连接您创建的存储桶或容器的端点 URL。
+3. 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -113,11 +106,9 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 <TabItem value="QingCloud QingStor" label="QingCloud QingStor">
 
-在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
-
-- 创建一个名为 `my_bucket` 的存储桶或容器。
-- 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问 Access Key ID 和 Secret Access Key。
+1. 创建一个名为 `my_bucket` 的存储桶或容器。
+2. 获取用于连接您创建的存储桶或容器的端点 URL。
+3. 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
@@ -130,11 +121,9 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 <TabItem value="Wasabi" label="Wasabi">
 
-在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
-
-- 创建一个名为 `my_bucket` 的存储桶或容器。
-- 获取用于连接您创建的存储桶或容器的端点 URL。
-- 获取您账户的访问 Access Key ID 和 Secret Access Key。
+1. 创建一个名为 `my_bucket` 的存储桶或容器。
+2. 获取用于连接您创建的存储桶或容器的端点 URL。
+3. 获取您账户的访问 Access Key ID 和 Secret Access Key。
 
 有关如何为您的云对象存储管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
 
