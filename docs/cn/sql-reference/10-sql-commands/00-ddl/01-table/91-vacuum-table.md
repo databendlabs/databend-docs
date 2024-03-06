@@ -4,7 +4,7 @@ sidebar_position: 17
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.39"/>
+<FunctionDescription description="引入或更新于：v1.2.364"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -24,7 +24,7 @@ VACUUM TABLE 命令通过永久删除表中的历史数据文件来帮助优化�
 VACUUM TABLE <table_name> [ DRY RUN ]
 ```
 
-- **DRY RUN**：指定此选项时，候选孤立文件不会被移除，而是返回最多 1000 个候选文件的列表，这些是如果不使用该选项将会被移除的文件。当你想在实际移除任何数据文件之前预览 VACUUM TABLE 命令对表的潜在影响时，这非常有用。例如：
+- **DRY RUN**：指定此选项时，候选孤立文件不会被移除，而是返回最多 1000 个候选文件的列表，这些文件如果不使用此选项将会被移除。当你想在实际移除任何数据文件之前预览 VACUUM TABLE 命令对表的潜在影响时，这非常有用。例如：
 
     ```sql
     VACUUM TABLE t DRY RUN;
@@ -36,6 +36,33 @@ VACUUM TABLE <table_name> [ DRY RUN ]
     | 1/8/_b/b68cbe5fe015474d85a92d5f7d1b5d99_v2.parquet  |
     +-----------------------------------------------------+
     ```
+
+### 输出
+
+VACUUM TABLE 命令返回一个表格，总结了被清理文件的重要统计信息，包含以下列：
+
+| Column         | Description                               |
+|----------------|-------------------------------------------|
+| snapshot_files | 快照文件数量                              |
+| snapshot_bytes | 快照文件总大小（字节）                    |
+| segments_files | 段文件数量                                |
+| segments_size  | 段文件总大小（字节）                      |
+| block_files    | 块文件数量                                |
+| block_size     | 块文件总大小（字节）                      |
+| index_files    | 索引文件数量                              |
+| index_size     | 索引文件总大小（字节）                    |
+| total_files    | 所有类型文件的总数量                      |
+| total_size     | 所有类型文件的总大小（字节）              |
+
+```sql title='示例：'
+VACUUM TABLE books;
+
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ snapshot_files │ snapshot_bytes │ segments_files │ segments_size │ block_files │ block_size │ index_files │ index_size │ total_files │ total_size │
+├────────────────┼────────────────┼────────────────┼───────────────┼─────────────┼────────────┼─────────────┼────────────┼─────────────┼────────────┤
+│              1 │            548 │              1 │           661 │           1 │        494 │           1 │        713 │           4 │       2416 │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ### 调整数据保留时间
 
@@ -59,14 +86,14 @@ SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
 
 ### VACUUM TABLE 与 OPTIMIZE TABLE
 
-Databend 提供了两个命令用于从表中移除历史数据文件：VACUUM TABLE 和 [OPTIMIZE TABLE](60-optimize-table.md)（带有 PURGE 选项）。尽管这两个命令都能永久删除数据文件，但它们在处理孤立文件方面有所不同：OPTIMIZE TABLE 能够移除孤立的快照，以及相应的段和块。然而，存在没有任何关联快照的孤立段和块的可能性。在这种情况下，只有 VACUUM TABLE 能帮助清理它们。
+Databend 提供了两个命令用于从表中移除历史数据文件：VACUUM TABLE 和 [OPTIMIZE TABLE](60-optimize-table.md)（带 PURGE 选项）。尽管这两个命令都能永久删除数据文件，但它们在处理孤立文件方面有所不同：OPTIMIZE TABLE 能够移除孤立的快照，以及相应的段和块。然而，可能存在没有任何关联快照的孤立段和块。在这种情况下，只有 VACUUM TABLE 能帮助清理它们。
 
-VACUUM TABLE 和 OPTIMIZE TABLE 都允许你指定一个期限来确定要移除哪些历史数据文件。然而，OPTIMIZE TABLE 要求你事先从查询中获取快照 ID 或时间戳，而 VACUUM TABLE 允许你直接指定保留数据文件的小时数。VACUUM TABLE 在移除数据文件之前提供了增强的控制，通过 DRY RUN 选项，允许你在应用命令之前预览要移除的数据文件。这提供了一个安全的移除体验，并帮助你避免意外的数据丢失。
+VACUUM TABLE 和 OPTIMIZE TABLE 都允许你指定一个期限来确定要移除哪些历史数据文件。然而，OPTIMIZE TABLE 需要你事先从查询中获取快照 ID 或时间戳，而 VACUUM TABLE 允许你直接指定保留数据文件的小时数。VACUUM TABLE 在移除之前通过 DRY RUN 选项提供了对历史数据文件的增强控制，这允许你在应用命令之前预览要移除的数据文件。这提供了安全的移除体验，并帮助你避免意外的数据丢失。 
 
 
 | 	                                                  | VACUUM TABLE 	 | OPTIMIZE TABLE 	 |
 |----------------------------------------------------|----------------|------------------|
 | 关联的快照（包括段和块） 	                          | 是          	 | 是            	 |
 | 孤立的快照（包括段和块）     	                      | 是          	 | 是            	 |
-| 仅孤立的段和块                                   	  | 是          	 | 否             	 |
+| 仅孤立的段和块                                     | 是          	 | 否             	 |
 | DRY RUN                                         	  | 是          	 | 否             	 |
