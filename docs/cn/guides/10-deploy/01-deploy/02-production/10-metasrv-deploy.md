@@ -155,7 +155,7 @@ endpoints = ["192.168.1.100:9191","192.168.1.101:9191","192.168.1.102:9191"]
 
 ## 步骤 3：验证部署
 
-从 [system.cluster](/sql/sql-reference/system-tables/system-cluster) 表中检索有关集群中现有查询节点的信息:
+从 [system.clusters](/sql/sql-reference/system-tables/system-clusters) 表中检索有关集群中现有查询节点的信息:
 
 ```sql
 SELECT * FROM system.clusters;
