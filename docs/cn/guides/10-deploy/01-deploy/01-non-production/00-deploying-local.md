@@ -268,12 +268,12 @@ databend@localhost:8000/test> select * from mytable;
 
 1. 从 [下载 Databend](/download) 页面下载适合您平台的安装包。
 
-2. 将安装包解压到本地目录。
+2. 将安装包解压到本地目录，并进入解压后的目录。
 
 </StepContent>
 <StepContent number="2" title="启动 Databend">
 
-1. 配置管理员用户。您将使用此账户连接到 Databend。有关更多信息，请参见 [配置管理员用户](../../04-references/01-admin-users.md)。作为示例，取消注释以下行以选择此账户：
+1. 配置管理员用户。您将使用此账户连接到 Databend。有关更多信息，请参见 [配置管理员用户](../../04-references/01-admin-users.md)。作为示例，取消在 **configs** 文件夹的 `databend-query.toml` 中以下行的注释，以启用 `root` 账户：
 
 ```sql title="databend-query.toml"
 [[query.users]]
@@ -283,12 +283,13 @@ auth_type = "no_password"
 
 2. 打开终端并导航到存储已解压文件和文件夹的文件夹。
 
-3. 在 **scripts** 文件夹中运行脚本 **start.sh**：
+3. 运行位于 **scripts** 文件夹中的脚本 **start.sh**：
+   
    MacOS 可能会提示错误“_databend-meta 无法打开，因为 Apple 无法检查其是否包含恶意软件。_”。要继续，请在您的 Mac 上打开 **系统设置**，在左侧菜单中选择 **隐私与安全**，然后在右侧的 **安全性** 部分为 databend-meta 点击 **仍要打开**。对于 databend-query 上的错误也执行相同操作。
 
-```shell
-./scripts/start.sh
-```
+    ```shell
+    ./scripts/start.sh
+    ```
 
 :::tip
 如果在尝试启动 Databend 时遇到以下错误消息：
@@ -310,7 +311,7 @@ sudo chown -R $USER /var/lib/databend
 ```
 :::
 
-3. 运行以下命令以验证 Databend 是否已成功启动：
+4. 运行以下命令以验证 Databend 是否已成功启动：
 
 ```shell
 ps aux | grep databend
