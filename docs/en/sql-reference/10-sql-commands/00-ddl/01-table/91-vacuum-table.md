@@ -44,6 +44,7 @@ The VACUUM TABLE command (without `DRY RUN`) returns a table summarizing vital s
 | total_size     | Total size of all types of files in bytes |
 
 ```sql title='Example:'
+// highlight-next-line
 VACUUM TABLE c;
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -56,6 +57,7 @@ VACUUM TABLE c;
 When the `DRY RUN` parameter is specified with the VACUUM TABLE command, it returns a list of up to 1,000 candidate files and their sizes in bytes. If `DRY RUN SUMMARY` is specified, the command provides the total number of files to be removed and their combined size.
 
 ```sql title='Example:'
+// highlight-next-line
 VACUUM TABLE c DRY RUN;
 
 ┌──────────────────────────────────────────────────────────────┐
@@ -68,7 +70,7 @@ VACUUM TABLE c DRY RUN;
 │ 1/67/_ss/d8055967298f478d97cddaa66cf67e11_v4.mpk │       563 │
 │ 1/67/_ss/00c4288dac014760808006f821f1ecbe_v4.mpk │       609 │
 └──────────────────────────────────────────────────────────────┘
-
+// highlight-next-line
 VACUUM TABLE c DRY RUN SUMMARY;
 
 ┌──────────────────────────┐
@@ -86,13 +88,15 @@ The VACUUM TABLE command removes data files older than the `DATA_RETENTION_TIME_
 SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 ```
 
-The default value for `DATA_RETENTION_TIME_IN_DAYS` varies across Databend editions:
+`DATA_RETENTION_TIME_IN_DAYS` defaults to 1 day (24 hours), and the maximum value varies across Databend editions:
 
-- Databend Community & Enterprise Editions: 1 day (24 hours)
-- Databend Cloud Standard Edition: 1 day (24 hours)
-- Databend Cloud Business Edition: 90 days
+| Edition                                  | Default Retention | Max. Retention   |
+|------------------------------------------|-------------------|------------------|
+| Databend Community & Enterprise Editions | 1 day (24 hours)  | 90 days          |
+| Databend Cloud (Standard)                | 1 day (24 hours)  | 1 day (24 hours) |
+| Databend Cloud (Business)                | 1 day (24 hours)  | 90 days          |
 
-To check the current setting:
+To check the current value of `DATA_RETENTION_TIME_IN_DAYS`:
 
 ```sql
 SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
