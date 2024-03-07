@@ -1,29 +1,28 @@
-```
 ---
 title: DIV
 ---
 
-返回通过将第一个数字除以第二个数字得到的商，向下取整到最接近的较小整数。等同于除法运算符 `//`。
+Returns the quotient by dividing the first number by the second one, rounding down to the closest smaller integer. Equivalent to the division operator `//`.
 
-另见：
+See also: 
 
 - [DIV0](div0.md)
 - [DIVNULL](divnull.md)
 
-## 语法
+## Syntax
 
 ```sql
 <number1> DIV <number2>
 ```
 
-## 别名
+## Aliases
 
 - [INTDIV](intdiv.md)
 
-## 示例
+## Examples
 
 ```sql
--- 等同于除法运算符 "//"
+-- Equivalent to the division operator "//"
 SELECT 6.1 DIV 2, 6.1//2;
 
 ┌──────────────────────────┐
@@ -40,7 +39,7 @@ SELECT 6.1 DIV 2, INTDIV(6.1, 2), 6.1 DIV NULL;
 │           3 │              3 │ NULL           │
 └───────────────────────────────────────────────┘
 
--- 除以 0 时出错
+-- Error when divided by 0
 root@localhost:8000/default> SELECT 6.1 DIV 0;
 error: APIError: ResponseError with 1006: divided by zero while evaluating function `div(6.1, 0)`
 ```

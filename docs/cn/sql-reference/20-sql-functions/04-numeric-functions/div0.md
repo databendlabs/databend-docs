@@ -1,25 +1,24 @@
-```
 ---
 title: DIV0
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.345"/>
+<FunctionDescription description="Introduced or updated: v1.2.345"/>
 
-如果第二个数字不为0，则返回通过第一个数字除以第二个数字的商。如果第二个数字为0，则返回0。
+Returns the quotient by dividing the first number by the second one. Returns 0 if the second number is 0.
 
-另见：
+See also:
 
 - [DIV](div.md)
 - [DIVNULL](divnull.md)
 
-## 语法
+## Syntax
 
 ```sql
 DIV0(<number1>, <number2>)
 ```
 
-## 示例
+## Examples
 
 ```sql
 SELECT
