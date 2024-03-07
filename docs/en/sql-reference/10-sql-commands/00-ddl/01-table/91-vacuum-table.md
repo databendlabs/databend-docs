@@ -4,7 +4,7 @@ sidebar_position: 17
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.364"/>
+<FunctionDescription description="Introduced or updated: v1.2.367"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -21,25 +21,14 @@ See also: [VACUUM DROP TABLE](91-vacuum-drop-table.md)
 ### Syntax and Examples
 
 ```sql
-VACUUM TABLE <table_name> [ DRY RUN ]
+VACUUM TABLE <table_name> [ DRY RUN [SUMMARY] ]
 ```
 
-- **DRY RUN**: When this option is specified, candidate orphan files will not be removed, instead, a list of up to 1,000 candidate files will be returned that would have been removed if the option was not used. This is useful when you want to preview the potential impact of the VACUUM TABLE command on the table before actually removing any data files. For example:
-
-    ```sql
-    VACUUM TABLE t DRY RUN;
-
-    +-----------------------------------------------------+
-    | Files                                               |
-    +-----------------------------------------------------+
-    | 1/8/_sg/932addea38c64393b82cb4b8fb7a2177_v3.bincode |
-    | 1/8/_b/b68cbe5fe015474d85a92d5f7d1b5d99_v2.parquet  |
-    +-----------------------------------------------------+
-    ```
+- **DRY RUN [SUMMARY]**: When this parameter is specified, candidate orphan files will not be removed. Instead, a list of up to 1,000 candidate files and their sizes (in bytes) will be returned, showing what would have been removed if the option was not used. When the optional parameter `SUMMARY` is included, the command returns the total number of files to be removed and their combined size in bytes.
 
 ### Output
 
-The VACUUM TABLE command returns a table summarizing vital statistics of the vacuumed files, containing the following columns:
+The VACUUM TABLE command (without `DRY RUN`) returns a table summarizing vital statistics of the vacuumed files, containing the following columns:
 
 | Column         | Description                               |
 |----------------|-------------------------------------------|
@@ -55,30 +44,59 @@ The VACUUM TABLE command returns a table summarizing vital statistics of the vac
 | total_size     | Total size of all types of files in bytes |
 
 ```sql title='Example:'
-VACUUM TABLE books;
+// highlight-next-line
+VACUUM TABLE c;
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ snapshot_files │ snapshot_bytes │ segments_files │ segments_size │ block_files │ block_size │ index_files │ index_size │ total_files │ total_size │
 ├────────────────┼────────────────┼────────────────┼───────────────┼─────────────┼────────────┼─────────────┼────────────┼─────────────┼────────────┤
-│              1 │            548 │              1 │           661 │           1 │        494 │           1 │        713 │           4 │       2416 │
+│              3 │           1954 │              9 │          4802 │           9 │       1890 │           9 │       3060 │          30 │      11706 │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+When the `DRY RUN` parameter is specified with the VACUUM TABLE command, it returns a list of up to 1,000 candidate files and their sizes in bytes. If `DRY RUN SUMMARY` is specified, the command provides the total number of files to be removed and their combined size.
+
+```sql title='Example:'
+// highlight-next-line
+VACUUM TABLE c DRY RUN;
+
+┌──────────────────────────────────────────────────────────────┐
+│                       file                       │ file_size │
+├──────────────────────────────────────────────────┼───────────┤
+│ 1/67/_ss/61aaf678b9af41568b539099b4b09908_v4.mpk │       543 │
+│ 1/67/_ss/dd149d21151c459d8c87076f9412c12c_v4.mpk │       516 │
+│ 1/67/_ss/7ba0b2e2f63c4d42897a48830027dcf3_v4.mpk │       462 │
+│ 1/67/_ss/db55dac72b29452db976cf0af0f8d962_v4.mpk │       588 │
+│ 1/67/_ss/d8055967298f478d97cddaa66cf67e11_v4.mpk │       563 │
+│ 1/67/_ss/00c4288dac014760808006f821f1ecbe_v4.mpk │       609 │
+└──────────────────────────────────────────────────────────────┘
+// highlight-next-line
+VACUUM TABLE c DRY RUN SUMMARY;
+
+┌──────────────────────────┐
+│ total_files │ total_size │
+├─────────────┼────────────┤
+│           6 │       3281 │
+└──────────────────────────┘
 ```
 
 ### Adjusting Data Retention Time
 
-The `VACUUM TABLE` command removes data files older than the `DATA_RETENTION_TIME_IN_DAYS` setting. This retention period can be adjusted as needed, for example, to 2 days:
+The VACUUM TABLE command removes data files older than the `DATA_RETENTION_TIME_IN_DAYS` setting. This retention period can be adjusted as needed, for example, to 2 days:
 
 ```sql
 SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 ```
 
-The default `DATA_RETENTION_TIME_IN_DAYS` varies by environment:
+`DATA_RETENTION_TIME_IN_DAYS` defaults to 1 day (24 hours), and the maximum value varies across Databend editions:
 
-- Databend Edition: 90 days
-- Databend Cloud Standard Edition: 7 days
-- Databend Cloud Enterprise Edition: 90 days
+| Edition                                  | Default Retention | Max. Retention   |
+|------------------------------------------|-------------------|------------------|
+| Databend Community & Enterprise Editions | 1 day (24 hours)  | 90 days          |
+| Databend Cloud (Standard)                | 1 day (24 hours)  | 1 day (24 hours) |
+| Databend Cloud (Business)                | 1 day (24 hours)  | 90 days          |
 
-To check the current setting, use:
+To check the current value of `DATA_RETENTION_TIME_IN_DAYS`:
 
 ```sql
 SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
