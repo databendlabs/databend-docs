@@ -88,8 +88,8 @@ SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 
 The default value for `DATA_RETENTION_TIME_IN_DAYS` varies across Databend editions:
 
-- Databend Community & Enterprise Editions: 1 day
-- Databend Cloud Standard Edition: 7 days
+- Databend Community & Enterprise Editions: 1 day (24 hours)
+- Databend Cloud Standard Edition: 1 day (24 hours)
 - Databend Cloud Business Edition: 90 days
 
 To check the current setting:
