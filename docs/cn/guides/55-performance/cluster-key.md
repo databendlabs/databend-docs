@@ -5,7 +5,7 @@ title: 聚类键
 在 Databend 中，您可以通过定义聚类键来增强表的查询性能，这涉及向 Databend 提供明确的指令，说明如何在存储中组织和分组行，而不是仅依赖于数据摄取的顺序。您可以通过定义一个通常由一个或多个列或表达式组成的聚类键来对表进行聚类。因此，Databend 根据这个聚类键来排列数据，将相似的行分组到相邻的块中。这些块对应于 Databend 用于数据存储的 Parquet 文件。有关更详细的信息，请参见 [Databend 数据存储：快照、段和块](/sql/sql-commands/ddl/table/optimize-table#databend-data-storage-snapshot-segment-and-block)。
 
 :::tip
-在大多数情况下，设置聚类键是不必要的。聚类或重新聚类一个表需要时间，并消耗您的积分，特别是在 Databend 云环境中。Databend 建议主要为那些查询性能缓慢的大型表定义聚类键。
+在大多数情况下，设置聚类键是不必要的。聚类或重新聚类一个表需要时间，并消耗您的积分，特别是在 Databend Cloud环境中。Databend 建议主要为那些查询性能缓慢的大型表定义聚类键。
 :::
 
 聚类键作为 Databend 元数据服务层和存储块（Parquet 文件）之间的连接。一旦为表定义了聚类键，表的元数据就会建立一个键值列表，指示列或表达式值与各自存储块之间的连接。当执行查询时，Databend 可以使用元数据快速定位正确的块，并与未设置聚类键时相比，读取更少的行。
@@ -148,7 +148,7 @@ ALTER TABLE sbtest10w SET OPTIONS(ROW_PER_BLOCK=100000,BLOCK_SIZE_THRESHOLD=5242
 
 ![Alt text](@site/docs/public/img/sql/well-clustered.png)
 
-这是最理想的情况。在大多数情况下，要达到这种情况可能需要进行不止一次的重新聚类操作。重新聚类一个表需要时间（如果包括 **FINAL** 选项则更长）和积分（当您在 Databend 云中时）。Databend 建议使用函数 [CLUSTERING_INFORMATION](/sql/sql-functions/system-functions/clustering_information) 来确定何时重新聚类表：
+这是最理想的情况。在大多数情况下，要达到这种情况可能需要进行不止一次的重新聚类操作。重新聚类一个表需要时间（如果包括 **FINAL** 选项则更长）和积分（当您在 Databend Cloud中时）。Databend 建议使用函数 [CLUSTERING_INFORMATION](/sql/sql-functions/system-functions/clustering_information) 来确定何时重新聚类表：
 
 ```sql
 SELECT If(average_depth > total_block_count * 0.001
