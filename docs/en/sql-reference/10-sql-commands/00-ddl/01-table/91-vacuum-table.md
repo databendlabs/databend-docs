@@ -4,7 +4,7 @@ sidebar_position: 17
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.367"/>
+<FunctionDescription description="Introduced or updated: v1.2.368"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -24,7 +24,7 @@ See also: [VACUUM DROP TABLE](91-vacuum-drop-table.md)
 VACUUM TABLE <table_name> [ DRY RUN [SUMMARY] ]
 ```
 
-- **DRY RUN [SUMMARY]**: When this parameter is specified, candidate orphan files will not be removed. Instead, a list of up to 1,000 candidate files and their sizes (in bytes) will be returned, showing what would have been removed if the option was not used. When the optional parameter `SUMMARY` is included, the command returns the total number of files to be removed and their combined size in bytes.
+- `DRY RUN [SUMMARY]`: When this parameter is specified, candidate orphan files will not be removed. Instead, a list of up to 1,000 candidate files and their sizes (in bytes) will be returned, showing what would have been removed if the option was not used. When the optional parameter `SUMMARY` is included, the command returns the total number of files to be removed and their combined size in bytes.
 
 ### Output
 
@@ -33,7 +33,7 @@ The VACUUM TABLE command (without `DRY RUN`) returns a table summarizing vital s
 | Column         | Description                               |
 |----------------|-------------------------------------------|
 | snapshot_files | Number of snapshot files                  |
-| snapshot_bytes | Total size of snapshot files in bytes     |
+| snapshot_size  | Total size of snapshot files in bytes     |
 | segments_files | Number of segment files                   |
 | segments_size  | Total size of segment files in bytes      |
 | block_files    | Number of block files                     |
@@ -47,11 +47,11 @@ The VACUUM TABLE command (without `DRY RUN`) returns a table summarizing vital s
 // highlight-next-line
 VACUUM TABLE c;
 
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ snapshot_files │ snapshot_bytes │ segments_files │ segments_size │ block_files │ block_size │ index_files │ index_size │ total_files │ total_size │
-├────────────────┼────────────────┼────────────────┼───────────────┼─────────────┼────────────┼─────────────┼────────────┼─────────────┼────────────┤
-│              3 │           1954 │              9 │          4802 │           9 │       1890 │           9 │       3060 │          30 │      11706 │
-└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ snapshot_files │ snapshot_size │ segments_files │ segments_size │ block_files │ block_size │ index_files │ index_size │ total_files │ total_size │
+├────────────────┼───────────────┼────────────────┼───────────────┼─────────────┼────────────┼─────────────┼────────────┼─────────────┼────────────┤
+│              3 │          1954 │              9 │          4802 │           9 │       1890 │           9 │       3060 │          30 │      11706 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 When the `DRY RUN` parameter is specified with the VACUUM TABLE command, it returns a list of up to 1,000 candidate files and their sizes in bytes. If `DRY RUN SUMMARY` is specified, the command provides the total number of files to be removed and their combined size.
