@@ -1,17 +1,24 @@
 ---
-title: Semi-Structured Functions
+title: 半结构化函数
 ---
 
-This section provides reference information for the semi-structured data functions in Databend.
+本节提供了Databend中半结构化数据函数的参考信息。
 
-## JSON Parsing and Conversion:
+## JSON 解析、转换与类型检查:
 - [CHECK_JSON](check-json.md)
 - [JSON_PRETTY](json-pretty.md)
 - [JSON_TYPEOF](json-typeof.md)
 - [PARSE_JSON](parse-json.md)
 - [FLATTEN](flatten.md)
+- [IS_ARRAY](is-array.md)
+- [IS_BOOLEAN](is-boolean.md)
+- [IS_FLOAT](is-float.md)
+- [IS_INTEGER](is-integer.md)
+- [IS_NULL_VALUE](is-null-value.md)
+- [IS_OBJECT](is-object.md)
+- [IS_STRING](is-string.md)
 
-## JSON Query and Extraction:
+## JSON 查询与提取:
 - [JSON_ARRAY_ELEMENTS](json-array-elements.md)
 - [JSON_EACH](json-each.md)
 - [JSON_EXTRACT_PATH_TEXT](json-extract-path-text.md)
@@ -21,15 +28,15 @@ This section provides reference information for the semi-structured data functio
 - [JSON_PATH_QUERY_ARRAY](json-path-query-array.md)
 - [JSON_PATH_QUERY_FIRST](json-path-query-first.md)
 
-## JSON Data Manipulation:
+## JSON 数据操作:
 - [JSON_ARRAY](json-array.md)
 - [JSON_STRIP_NULLS](json-strip-nulls.md)
 
-## Object Operations:
+## 对象操作:
 - [GET](get.md)
 - [GET_IGNORE_CASE](get-ignore-case.md)
 - [GET_PATH](get-path.md)
 - [OBJECT_KEYS](object-keys.md)
 
-## Type Conversion:
+## 类型转换:
 - [AS_TYPE](as-type.md)

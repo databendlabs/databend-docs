@@ -1,12 +1,12 @@
 ---
-title: As_<Type>
+title: AS_<type>
 ---
 
-Strict casting `VARIANT` values to other data types.
-If the input data type is not `VARIANT`, the output is `NULL`.
-If the type of value in the `VARIANT` does not match the output value, the output is `NULL`.
+严格将 `VARIANT` 值转换为其他数据类型。
+如果输入数据类型不是 `VARIANT`，输出为 `NULL`。
+如果 `VARIANT` 中的值类型与输出值不匹配，输出为 `NULL`。
 
-## Syntax
+## 语法
 
 ```sql
 AS_BOOLEAN( <variant> )
@@ -17,22 +17,22 @@ AS_ARRAY( <variant> )
 AS_OBJECT( <variant> )
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description       |
-|-------------|-------------------|
-| `<variant>` | The VARIANT value |
+| 参数        | 描述           |
+|-------------|----------------|
+| `<variant>` | VARIANT 值 |
 
-## Return Type
+## 返回类型
 
 - AS_BOOLEAN: BOOLEAN
 - AS_INTEGER: BIGINT
 - AS_FLOAT:   DOUBLE
 - AS_STRING:  VARCHAR
-- AS_ARRAY:   Variant contains Array
-- AS_OBJECT:  Variant contains Object
+- AS_ARRAY:   包含数组的 Variant
+- AS_OBJECT:  包含对象的 Variant
 
-## Examples
+## 示例
 
 ```sql
 SELECT as_boolean(parse_json('true'));
