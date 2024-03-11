@@ -1,5 +1,5 @@
 ---
-title: As_<Type>
+title: AS_<type>
 ---
 
 Strict casting `VARIANT` values to other data types.
