@@ -4,12 +4,19 @@ title: Semi-Structured Functions
 
 This section provides reference information for the semi-structured data functions in Databend.
 
-## JSON Parsing and Conversion:
+## JSON Parsing, Conversion & Type Checking:
 - [CHECK_JSON](check-json.md)
 - [JSON_PRETTY](json-pretty.md)
 - [JSON_TYPEOF](json-typeof.md)
 - [PARSE_JSON](parse-json.md)
 - [FLATTEN](flatten.md)
+- [IS_ARRAY](is-array.md)
+- [IS_BOOLEAN](is-boolean.md)
+- [IS_FLOAT](is-float.md)
+- [IS_INTEGER](is-integer.md)
+- [IS_NULL_VALUE](is-null-value.md)
+- [IS_OBJECT](is-object.md)
+- [IS_STRING](is-string.md)
 
 ## JSON Query and Extraction:
 - [JSON_ARRAY_ELEMENTS](json-array-elements.md)
