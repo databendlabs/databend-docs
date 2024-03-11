@@ -17,7 +17,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 - 对象存储是使用 Databend 的生产环境的要求。文件系统只应用于评估、测试和非生产场景。
 
-- 不建议在 MinIO 之上部署 Databend 用于生产环境或性能测试目的。
+- 本章节涉及的 MinIO 部署只适合开发演示使用，单机环境资源有限，不建议用于生产环境或性能测试目的。
 :::
 
 ## 在 Docker 上部署 Databend {#deploying-databend-on-docker}
@@ -266,7 +266,7 @@ databend@localhost:8000/test> select * from mytable;
 <StepsWrap>
 <StepContent number="1" title="下载 Databend">
 
-1. 从 [下载 Databend](/download) 页面下载适合您平台的安装包。
+1. 从 [下载](/download) 页面下载适合您平台的 Databend 安装包。
 
 2. 将安装包解压到本地目录，并进入解压后的目录。
 
@@ -325,34 +325,53 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 </StepContent>
 <StepContent number="3" title="连接到 Databend">
 
-在此步骤中，您将使用 BendSQL CLI 工具建立与 Databend 的连接。有关如何安装和操作 BendSQL 的说明，请参见 [BendSQL](../../../30-sql-clients/00-bendsql/index.md)。
+在此步骤中，您将使用 BendSQL CLI 工具建立与 Databend 的连接。你也可以参考 [BendSQL](../../../30-sql-clients/00-bendsql/index.md) 获得关于 BendSQL 的更多相关信息。
 
-1. 要与本地 Databend 建立连接，请执行以下命令：
+1. 从 [下载](/download) 页面下载适合您平台的 BendSQL 安装包。
+
+2. 将安装包解压到本地目录，并进入解压后的目录。
+
+3. 要与本地 Databend 建立连接，请执行以下命令：
 
 ```shell
-eric@bogon ~ % bendsql
-Welcome to BendSQL 0.3.11-17b0d8b(2023-06-08T15:23:29.206137000Z).
-Trying connect to localhost:8000 as user root.
-Connected to DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z)
+❯ ./bendsql 
+Welcome to BendSQL 0.13.3-25b1195(2024-03-01T11:33:39.167314799Z).
+Connecting to localhost:8000 as user root.
+Connected to Databend Query v1.2.371-a95ac62303(rust-1.77.0-nightly-2024-03-11T01:07:23.093484068Z)
+
+root@localhost:8000/default>
 ```
 
-2. 查询 Databend 版本以验证连接：
+4. 查询 Databend 版本以验证连接：
 
 ```sql
-root@localhost> SELECT VERSION();
+root@localhost:8000/default> SELECT VERSION();
 
 SELECT
   VERSION()
 
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                                          version()                                                         │
-│                                                           String                                                           │
-├────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z) │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 41B/s)
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                        version()                                       │
+│                                         String                                         │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│ Databend Query v1.2.371-a95ac62303(rust-1.77.0-nightly-2024-03-11T01:07:23.093484068Z) │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+1 row read in 0.013 sec. Processed 1 row, 1 B (74.7 row/s, 74 B/s)
 ```
 
+</StepContent>
+
+<StepContent number="4" title="停止 Databend">
+
+1. 打开终端并导航到在第 2 步中解压的 Databend 相关文件夹。
+
+2. 运行位于 **scripts** 文件夹中的脚本 **stop.sh**：
+
+    ```shell
+    # 该脚本使用了 `killall` 命令，若您尚未安装该命令，请安装适用于您系统环境的 [`psmisc`](https://gitlab.com/psmisc/psmisc) 包。
+    # 以 CentOS 系统为例：`yum install psmisc` 。
+    ./scripts/stop.sh
+    ```
 
 </StepContent>
 </StepsWrap>

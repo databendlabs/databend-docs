@@ -15,7 +15,7 @@ To quickly access Databend features and gain practical expertise, you have the f
 :::note non-production use only
 
 - Object storage is a requirement for production use of Databend. The file system should only be used for evaluation, testing, and non-production scenarios.
-- It is not recommended to deploy Databend on top of MinIO for production environments or performance testing purposes.
+- The MinIO deployment covered in this chapter is only suitable for development and demonstration. The resources in a single-machine environment are limited, it is not recommended for production environments or performance testing.
 :::
 
 ## Deploying with Docker
