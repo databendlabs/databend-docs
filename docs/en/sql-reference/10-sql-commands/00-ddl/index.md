@@ -21,11 +21,10 @@ These topics provide reference information for the DDL (Data Definition Language
 - [Network Policy](12-network-policy/index.md)
 - [Mask Policy](12-mask-policy/index.md)
 
-## Data Staging, Processing, and Catalog Management
+## Data Staging and Processing
 
 - [Stage](03-stage/index.md)
 - [Stream](04-stream/index.md)
-- [Catalog](09-catalog/index.md)
 - [Connection](13-connection/index.md)
 - [File Format](13-file-format/index.md)
 

@@ -1,5 +1,5 @@
 ---
-title: Catalog
+title: Iceberg Catalog
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

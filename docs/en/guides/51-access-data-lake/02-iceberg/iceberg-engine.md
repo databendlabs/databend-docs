@@ -1,5 +1,5 @@
 ---
-title: Table Engine
+title: Iceberg Table Engine
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
