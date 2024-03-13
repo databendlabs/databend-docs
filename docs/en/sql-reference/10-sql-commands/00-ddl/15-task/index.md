@@ -7,4 +7,3 @@ This page provides reference information for the task-related commands in Databe
 
 <IndexOverviewList />
 
-The drop 
