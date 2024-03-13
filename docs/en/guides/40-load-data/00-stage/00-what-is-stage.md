@@ -84,7 +84,7 @@ Databend provides a variety of commands to assist you in managing stages and the
 
 Please note that some of the commands above do not apply to the user stage. See the table below for details:
 
-| Stage          | CREATE STAGE | DROP STAGE | DESC STAGE | LIST FILES | REMOVE FILES | SHOW STAGES |
+| Stage Type     | CREATE STAGE | DROP STAGE | DESC STAGE | LIST FILES | REMOVE FILES | SHOW STAGES |
 |----------------|--------------|------------|------------|------------|--------------|-------------|
 | User Stage     | No           | No         | Yes        | Yes        | Yes          | No          |
 | Internal Stage | Yes          | Yes        | Yes        | Yes        | Yes          | Yes         |
