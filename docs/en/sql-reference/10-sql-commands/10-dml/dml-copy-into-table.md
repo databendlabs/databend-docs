@@ -236,11 +236,8 @@ If RETURN_FAILED_ONLY is set to True, the output will only contain the files tha
 
 ## Distributed COPY INTO
 
-COPY INTO supports distributed execution in cluster environments. You can enable distributed COPY INTO by setting ENABLE_DISTRIBUTED_COPY_INTO to 1. This helps enhance data loading performance and scalability in cluster environments.
+The COPY INTO feature in Databend activates distributed execution automatically in cluster environments, enhancing data loading efficiency and scalability.
 
-```sql
-SET enable_distributed_copy_into = 1;
-```
 
 ## Examples
 
