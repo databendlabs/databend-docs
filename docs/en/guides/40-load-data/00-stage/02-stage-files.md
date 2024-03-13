@@ -1,5 +1,5 @@
 ---
-title: Staging Files
+title: Uploading to Stage
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -14,8 +14,6 @@ If you're using [BendSQL](../../30-sql-clients/00-bendsql/index.md) to manage fi
 
 - The GET command currently can only download all files in a stage, not individual ones.
 - These commands are exclusive to BendSQL and the GET command will not function when Databend uses the file system as the storage backend.
-
-## Examples
 
 ### Uploading with Presigned URL
 
