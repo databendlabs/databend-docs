@@ -2,7 +2,7 @@
 title: DDL（数据定义语言）命令
 ---
 
-这些主题为 Databend 中的 DDL（数据定义语言）命令提供参考信息。
+这些主题为 Databend 中的 DDL（数据定义语言）命令提供了参考信息。
 
 ## 数据库和表管理
 
@@ -12,7 +12,7 @@ title: DDL（数据定义语言）命令
 
 ## 数据库性能和索引
 
-- [聚类键](06-clusterkey/index.md)
+- [集群键](06-clusterkey/index.md)
 - [聚合索引](07-aggregating-index/index.md)
 
 ## 用户、角色和安全管理
@@ -21,12 +21,11 @@ title: DDL（数据定义语言）命令
 - [网络策略](12-network-policy/index.md)
 - [掩码策略](12-mask-policy/index.md)
 
-## 数据分段、处理和目录管理
+## 数据暂存和处理
 
-- [Stage](03-stage/index.md)
-- [流 Stream](04-stream/index.md)
-- [目录 Catalog](09-catalog/index.md)
-- [连接 Connection](13-connection/index.md)
+- [阶段](03-stage/index.md)
+- [流](04-stream/index.md)
+- [连接](13-connection/index.md)
 - [文件格式](13-file-format/index.md)
 
 ## 函数和外部集成
