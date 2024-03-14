@@ -6,7 +6,7 @@ Databend 同时整合了[基于角色的访问控制 (RBAC)](https://en.wikipedi
 
 ## 基本概念
 
-当用户访问 Databend 中的数据对象时，他们必须被授予适当的权限或角色，或者他们需要拥有数据对象的所有权。数据对象可以指各种元素，如数据库、表、视图、阶段或 UDF。
+当用户访问 Databend 中的数据对象时，他们必须被授予适当的权限或角色，或者他们需要拥有数据对象的所有权。数据对象可以指各种元素，如数据库、表、视图、 Stage 或 UDF。
 
 ![Alt text](/img/guides/access-control-1.png)
 
@@ -18,7 +18,7 @@ Databend 同时整合了[基于角色的访问控制 (RBAC)](https://en.wikipedi
 
 ## 管理权限
 
-用户需要特定的权限才能在 Databend 中执行特定操作。例如，要查询表，用户需要 SELECT 权限，要读取阶段中的数据集，需要 READ 权限。
+用户需要特定的权限才能在 Databend 中执行特定操作。例如，要查询表，用户需要 SELECT 权限，要读取 Stage 中的数据集，需要 READ 权限。
 
 ![Alt text](/img/guides/access-control-2.png)
 
@@ -48,7 +48,7 @@ Databend 为不同类型的数据对象提供了不同级别的权限，允许�
 
 Databend 角色通过角色授权引入了一种强大的机制，使一个角色能够继承另一个角色的权限和责任。这有助于创建一个灵活的层级结构，类似于组织结构，其中存在两个[内置角色](#built-in-roles)：最高的是 `account-admin`，最低的是 `public`。
 
-考虑一个场景，创建了三个角色：*manager*、*engineer* 和 *intern*。在这个例子中，*intern* 角色被授予给 *engineer* 角色。因此，*engineer* 不仅拥有他们自己的一套权限，还继承了与 *intern* 角色相关的权限。进一步扩展这个层级，如果 *engineer* 角色被授予给 *manager*，那么 *manager* 现在获得了 *engineer* 和 *intern* 角色的固有权限。
+考虑一个场景，创建了三个角色：_manager_、_engineer_ 和 _intern_。在这个例子中，_intern_ 角色被授予给 _engineer_ 角色。因此，_engineer_ 不仅拥有他们自己的一套权限，还继承了与 _intern_ 角色相关的权限。进一步扩展这个层级，如果 _engineer_ 角色被授予给 _manager_，那么 _manager_ 现在获得了 _engineer_ 和 _intern_ 角色的固有权限。
 
 ![Alt text](/img/guides/access-control-4.png)
 
@@ -71,7 +71,7 @@ Databend 引入了两个内置角色：
 
 ## 管理所有权
 
-所有权是一种专门的权限，表示角色在 Databend 内对特定数据对象（当前包括数据库、表、UDF 和阶段）持有的独家权利和责任。对象的所有权自动授予创建它的用户的当前角色。共享相同角色的用户也拥有对象的所有权，并且可以随后将此所有权授予其他角色。要将所有权授予角色，请使用 [GRANT](/sql/sql-commands/ddl/user/grant) 命令。
+所有权是一种专门的权限，表示角色在 Databend 内对特定数据对象（当前包括数据库、表、UDF 和 Stage）持有的独家权利和责任。对象的所有权自动授予创建它的用户的当前角色。共享相同角色的用户也拥有对象的所有权，并且可以随后将此所有权授予其他角色。要将所有权授予角色，请使用 [GRANT](/sql/sql-commands/ddl/user/grant) 命令。
 
 - 所有权只能授予角色；不允许将所有权授予用户。一旦从一个角色转移给另一个角色，所有权就转移到新角色。
 - 如果拥有对象所有权的角色被删除，account_admin 可以将对象的所有权授予另一个角色。
@@ -86,7 +86,7 @@ root> grant role u1 to writer;
 
 -- 作为 root 创建一个默认角色为 account_admin 的新用户
 root> create user u2 identified by '123' with DEFAULT_ROLE='account_admin';
-root> grant role account_admin to u2;    
+root> grant role account_admin to u2;
 ```
 
 删除对象将从所有者角色中撤销所有权。然而，恢复（如果可用的话，UNDROP）被删除的对象将不会恢复所有权。在这种情况下，您将需要一个 `account_admin` 再次将所有权授予角色。

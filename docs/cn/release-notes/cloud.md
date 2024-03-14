@@ -5,7 +5,7 @@ sidebar_position: 2
 
 来自 [Databend Cloud](https://app.databend.com/) 的最新产品更新。
 
-## 2023年10月30日
+## 2023 年 10 月 30 日
 
 ### 新功能
 
@@ -17,7 +17,7 @@ sidebar_position: 2
   - 添加了日期和时间函数 TO_WEEK_OF_YEAR 和 DATE_PART。
 - 添加了对用户定义函数（UDFs）的支持。
 
-## 2023年9月13日
+## 2023 年 9 月 13 日
 
 ### 新功能
 
@@ -33,7 +33,7 @@ sidebar_position: 2
 - Databend Cloud 现已上线 [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-6dvshjlbds7b6)。
 - 引入了 [databend-kafka-connect](https://github.com/databendcloud/databend-kafka-connect) 以实现从 Kafka 的无缝数据摄取。
 
-## 2023年7月25日
+## 2023 年 7 月 25 日
 
 ### 新功能
 
@@ -44,7 +44,7 @@ sidebar_position: 2
   - 通过额外的执行信息增强了 system.query_profile，便于查询分析。
 - 引入了 [debezium-server-databend](https://github.com/databendcloud/debezium-server-databend)，使得从 MySQL/Postgres 等 RDBMS 到 Databend 的 CDC 流摄取成为可能。
 
-## 2023年6月30日
+## 2023 年 6 月 30 日
 
 ### 新功能
 
@@ -59,7 +59,7 @@ sidebar_position: 2
 
 - 修复了存储使用统计的稳定性问题。
 
-## 2023年6月6日
+## 2023 年 6 月 6 日
 
 ### 新功能
 
@@ -72,20 +72,20 @@ sidebar_position: 2
   - 添加了对 IEJoin 的支持。
 - 使用 Azure OpenAI 服务增强了工作表中的 SQL 提示。
 
-## 2023年5月23日
+## 2023 年 5 月 23 日
 
 ### 新功能
 
 - 将 databend-query 升级到 v1.1.40-nightly：
   - 引入了 VACUUM TABLE 命令，通过释放存储空间和永久删除表中的历史数据文件来优化系统性能。
   - 添加了对通过其他列的标量表达式生成的计算列的支持。
-  - 添加了替换阶段附件的支持。
+  - 添加了替换 Stage 附件的支持。
   - 引入了新的 bitmap 函数：`bitmap_contains`、`bitmap_has_all`、`bitmap_has_any`、`bitmap_or`、`bitmap_and`、`bitmap_xor` 等。
 - 添加了与 Tableau 集成的能力。
 - 添加了在创建管道时使用正则表达式模式过滤文件的支持。
 - 添加了修改仓库大小和自动暂停时间的支持。
 
-## 2023年5月15日
+## 2023 年 5 月 15 日
 
 ### 新功能
 
@@ -95,7 +95,7 @@ sidebar_position: 2
   - 通过新的 Hash 表设计提高了 Hash Join 的性能。
 - 现在工作表可以作为标签页查看和管理。
 
-## 2023年4月25日
+## 2023 年 4 月 25 日
 
 ### 新功能
 
@@ -109,7 +109,7 @@ sidebar_position: 2
 
 - 修复了数据加载页面上默认数据库不可用的问题。
 
-## 2023年4月12日
+## 2023 年 4 月 12 日
 
 ### 新功能
 
@@ -120,7 +120,7 @@ sidebar_position: 2
 - 新集成：
   - 通过 Apache DolphinScheduler 实现自动数据加载。
 
-## 2023年4月4日
+## 2023 年 4 月 4 日
 
 ### 新功能
 
@@ -136,7 +136,7 @@ sidebar_position: 2
 
 - 提高了仓库自动暂停的稳定性：仓库现在可以按预期暂停。
 
-## 2023年3月21日
+## 2023 年 3 月 21 日
 
 ### 新功能
 
@@ -151,7 +151,7 @@ sidebar_position: 2
 - 增强了收集仓库使用情况和表存储大小的实时数据的能力。
 - 优化了过期计划的 UI 提示。
 
-## 2023年3月14日
+## 2023 年 3 月 14 日
 
 ### 新功能
 
@@ -166,11 +166,9 @@ sidebar_position: 2
 - 默认情况下将组织的成员限制扩大到 5。
 - 改进了计费页面以提高可用性。
 
-## 2023年3月7日
+## 2023 年 3 月 7 日
 
 ### 新功能
-
-
 
 - 引入了新工具：
   - [Flink databend 连接器](https://github.com/databendcloud/flink-connector-databend)：允许将 Databend 连接到 Flink 应用程序。

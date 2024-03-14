@@ -17,7 +17,7 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 [ copyOptions ]
 ```
 
-- *COPY INTO 也支持其他语法选项。更多详情，请查看 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)*。
+- _COPY INTO 也支持其他语法选项。更多详情，请查看 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)_。
 
 这个功能简化了您的 ETL 流程，通过集成基本转换，消除了临时表的需要。通过在加载过程中转换数据，您可以有效地简化您的 ETL 流程。以下是使用此功能增强数据加载的实用方法：
 
@@ -37,27 +37,29 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 
 ### 开始之前
 
-在开始之前，您需要创建一个阶段并生成一个示例文件；这里有一个 Parquet 文件作为示例：
+在开始之前，您需要创建一个 Stage 并生成一个示例文件；这里有一个 Parquet 文件作为示例：
 
 ```sql
 CREATE STAGE my_parquet_stage;
-COPY INTO @my_parquet_stage 
+COPY INTO @my_parquet_stage
 FROM (
     SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS id, -- 生成一个顺序 id
            'Name_' || CAST(number AS VARCHAR) AS name,       -- 为每行生成一个唯一名称
            20 + MOD(number, 23) AS age,                      -- 生成 20 到 42 之间的年龄
            DATE_ADD('day', MOD(number, 60), '2022-01-01') AS onboarded -- 从 2022-01-01 开始生成入职日期
     FROM numbers(10) -- 生成 10 行
-) 
+)
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
 查询暂存的示例文件：
+
 ```
 SELECT * FROM @my_parquet_stage;
 ```
 
 结果：
+
 ```
 ┌───────────────────────────────────────┐
 │   id   │  name  │   age  │  onboarded │
@@ -95,15 +97,14 @@ CREATE TABLE employees_no_age (
 -- 从暂存文件加载
 COPY INTO employees_no_age
 FROM (
-    SELECT t.id, 
-           t.name, 
-           t.onboarded 
+    SELECT t.id,
+           t.name,
+           t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
 PATTERN = '.*parquet';
 ```
-
 
 3. 检查加载的数据：
 
@@ -114,6 +115,7 @@ SELECT * FROM employees_no_age;
 ```
 结果：
 ```
+
 ```
 ┌──────────────────────────────────────────────────────────┐
 │        id       │       name       │      onboarded      │
@@ -146,17 +148,17 @@ CREATE TABLE employees_new_order (
 );
 ```
 
-2. 从阶段样本文件中加载数据到新顺序中。
+2. 从 Stage 样本文件中加载数据到新顺序中。
 
 ```sql
 -- Load from staged file
 COPY INTO employees_new_order
 FROM (
-    SELECT 
-        t.id, 
-        t.age, 
-        t.name, 
-        t.onboarded 
+    SELECT
+        t.id,
+        t.age,
+        t.name,
+        t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -168,7 +170,9 @@ PATTERN = '.*parquet';
 ```sql
 SELECT * FROM employees_new_order;
 ```
+
 结果：
+
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
 │        id       │       age       │       name       │      onboarded      │
@@ -201,17 +205,17 @@ CREATE TABLE employees_date (
 );
 ```
 
-2. 从阶段样本文件中加载数据，并将 'onboarded' 列转换为 Date 类型。
+2. 从 Stage 样本文件中加载数据，并将 'onboarded' 列转换为 Date 类型。
 
 ```sql
 -- Load from staged file
 COPY INTO employees_date
 FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age, 
-        to_date(t.onboarded) 
+    SELECT
+        t.id,
+        t.name,
+        t.age,
+        to_date(t.onboarded)
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -220,11 +224,12 @@ PATTERN = '.*parquet';
 
 3. 检查加载的数据：
 
-
 ```sql
 SELECT * FROM employees_date;
 ```
+
 结果:
+
 ```
 ┌───────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │    onboarded   │
@@ -264,11 +269,11 @@ CREATE TABLE employees_new_age (
 -- 从暂存文件加载
 COPY INTO employees_new_age
 FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age + 1, 
-        t.onboarded 
+    SELECT
+        t.id,
+        t.name,
+        t.age + 1,
+        t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -279,8 +284,10 @@ PATTERN = '.*parquet';
 
 ```sql
 SELECT * FROM employees_new_age
-```    
+```
+
 结果:
+
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │      onboarded      │
@@ -321,11 +328,11 @@ CREATE TABLE employees_plus (
 -- 从暂存文件加载
 COPY INTO employees_plus (id, name, age, onboarded)
 FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age, 
-        t.onboarded 
+    SELECT
+        t.id,
+        t.name,
+        t.age,
+        t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -339,6 +346,7 @@ SELECT * FROM employees_plus;
 ```
 
 结果：
+
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │      onboarded      │       lastday       │
