@@ -75,17 +75,11 @@ LIST @~;
 
 Databend provides a variety of commands to assist you in managing stages and the files staged within them:
 
-- [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage): Creates a stage. 
-- [DROP STAGE](/sql/sql-commands/ddl/stage/ddl-drop-stage): Removes a stage.
-- [DESC STAGE](/sql/sql-commands/ddl/stage/ddl-desc-stage): Shows the properties of a stage.
-- [SHOW STAGES](/sql/sql-commands/ddl/stage/ddl-show-stages): Returns a list of the created stages.
-- [LIST FILES](/sql/sql-commands/ddl/stage/ddl-list-stage): Returns a list of the staged files in a stage. Alternatively, the table function [LIST_STAGE](/sql/sql-functions/table-functions/list-stage) offers similar functionality with added flexibility to obtain specific file information.
-- [REMOVE FILES](/sql/sql-commands/ddl/stage/ddl-remove-stage): Removes staged files from a stage.
-
-Please note that some of the commands above do not apply to the user stage. See the table below for details:
-
-| Stage Type     | CREATE STAGE | DROP STAGE | DESC STAGE | LIST FILES | REMOVE FILES | SHOW STAGES |
-|----------------|--------------|------------|------------|------------|--------------|-------------|
-| User Stage     | No           | No         | Yes        | Yes        | Yes          | No          |
-| Internal Stage | Yes          | Yes        | Yes        | Yes        | Yes          | Yes         |
-| External Stage | Yes          | Yes        | Yes        | Yes        | Yes          | Yes         |
+| Command                                                      | Description                                                                                                                                                                                                                          | Applies to User Stage | Applies to Internal Stage | Applies to External Stage |
+|--------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|---------------------------|---------------------------|
+| [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) | Creates an internal or external stage.                                                                                                                                                                                               | No                    | Yes                       | Yes                       |
+| [DROP STAGE](/sql/sql-commands/ddl/stage/ddl-drop-stage)     | Removes an internal or external stage.                                                                                                                                                                                               | No                    | Yes                       | Yes                       |
+| [DESC STAGE](/sql/sql-commands/ddl/stage/ddl-desc-stage)     | Shows the properties of an internal or external stage.                                                                                                                                                                               | No                    | Yes                       | Yes                       |
+| [LIST](/sql/sql-commands/ddl/stage/ddl-list-stage)           | Returns a list of the staged files in a stage. Alternatively, the table function [LIST_STAGE](/sql/sql-functions/table-functions/list-stage) offers similar functionality with added flexibility to obtain specific file information | Yes                   | Yes                       | Yes                       |
+| [REMOVE](/sql/sql-commands/ddl/stage/ddl-remove-stage)       | Removes staged files from a stage.                                                                                                                                                                                                   | Yes                   | Yes                       | Yes                       |
+| [SHOW STAGES](/sql/sql-commands/ddl/stage/ddl-show-stages)   | Returns a list of the created internal and external stages.                                                                                                                                                                          | No                    | Yes                       | Yes                       |
