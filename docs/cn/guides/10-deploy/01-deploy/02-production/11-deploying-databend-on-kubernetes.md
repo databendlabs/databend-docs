@@ -45,8 +45,6 @@ import TabItem from '@theme/TabItem';
 
 - 确保 Kubernetes 集群有一个默认的存储类。
 
-  ````mdx-code-block
-
   :::tip 对于云平台
 
   <Tabs>
@@ -92,14 +90,10 @@ import TabItem from '@theme/TabItem';
     # 选择一个想要的存储类作为默认值，例如：alicloud-disk-topology-alltype
     ❯ kubectl annotate sc alicloud-disk-topology-alltype storageclass.kubernetes.io/is-default-class=true --overwrite
     ```
-
   </TabItem>
 
   </Tabs>
-
   :::
-
-  ````
 
 - **推荐** 如果您想监控 Databend Meta 和 Databend Query 的状态，请确保 Kubernetes 集群中运行 Prometheus Operator。
 
@@ -107,54 +101,52 @@ import TabItem from '@theme/TabItem';
 
   1. 为 kube-prometheus-stack 添加图表仓库
 
-
-      ```shell
-      helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-      helm repo update prometheus-community
-      ```
+  ```shell
+  helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+  helm repo update prometheus-community
+  ```
 
   2. 为简单的 kube-prometheus-stack 安装准备一个 values 文件
 
-```yaml title="values.yaml"
-grafana:
-  grafana.ini:
-    auth.anonymous:
-      enabled: true
-      org_role: Admin
-prometheus:
-  prometheusSpec:
-    ruleNamespaceSelector: {}
-    ruleSelectorNilUsesHelmValues: false
-    serviceMonitorNamespaceSelector: {}
-    serviceMonitorSelectorNilUsesHelmValues: false
-    podMonitorNamespaceSelector: {}
-    podMonitorSelectorNilUsesHelmValues: false
-```
+  ```yaml title="values.yaml"
+  grafana:
+    grafana.ini:
+      auth.anonymous:
+        enabled: true
+        org_role: Admin
+  prometheus:
+    prometheusSpec:
+      ruleNamespaceSelector: {}
+      ruleSelectorNilUsesHelmValues: false
+      serviceMonitorNamespaceSelector: {}
+      serviceMonitorSelectorNilUsesHelmValues: false
+      podMonitorNamespaceSelector: {}
+      podMonitorSelectorNilUsesHelmValues: false
+  ```
 
-3. 使用 helm 安装 [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+  3. 使用 helm 安装 [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 
-```shell
-helm upgrade --install monitoring \
-    prometheus-community/kube-prometheus-stack \
-    --namespace monitoring \
-    --create-namespace \
-    --values values.yaml
-```
+  ```shell
+  helm upgrade --install monitoring \
+      prometheus-community/kube-prometheus-stack \
+      --namespace monitoring \
+      --create-namespace \
+      --values values.yaml
+  ```
 
-4. 验证 prometheus & grafana 运行情况
+  4. 验证 prometheus & grafana 运行情况
 
-```shell
-❯ kubectl -n monitoring get pods
-NAME                                                     READY   STATUS    RESTARTS      AGE
-monitoring-prometheus-node-exporter-7km6w                1/1     Running   0             19m
-monitoring-kube-prometheus-operator-876c99fb8-qjnpd      1/1     Running   0             19m
-monitoring-kube-state-metrics-7c9f7fc49b-4884t           1/1     Running   0             19m
-alertmanager-monitoring-kube-prometheus-alertmanager-0   2/2     Running   1 (18m ago)   18m
-monitoring-grafana-654b4bb58c-sf9wp                      3/3     Running   0             19m
-prometheus-monitoring-kube-prometheus-prometheus-0       2/2     Running   0             18m
-```
-
-:::
+  ```shell
+  ❯ kubectl -n monitoring get pods
+  NAME                                                     READY   STATUS    RESTARTS      AGE
+  monitoring-prometheus-node-exporter-7km6w                1/1     Running   0             19m
+  monitoring-kube-prometheus-operator-876c99fb8-qjnpd      1/1     Running   0             19m
+  monitoring-kube-state-metrics-7c9f7fc49b-4884t           1/1     Running   0             19m
+  alertmanager-monitoring-kube-prometheus-alertmanager-0   2/2     Running   1 (18m ago)   18m
+  monitoring-grafana-654b4bb58c-sf9wp                      3/3     Running   0             19m
+  prometheus-monitoring-kube-prometheus-prometheus-0       2/2     Running   0             18m
+  ```
+  :::
 
 ## 部署示例 Databend 集群
 
@@ -420,25 +412,25 @@ mysql -htenant1-databend-query.databend-query.svc -udatabend -P3307 -pdatabend
 
 修改 tenant2 的 `values.yaml`
 
-```shell
-# 可选
-helm repo update databend
+  ```shell
+  # 可选
+  helm repo update databend
 
-helm upgrade --install tenant2 databend/databend-query \
-    --namespace databend-query --create-namespace \
-    --values values.yaml
-```
+  helm upgrade --install tenant2 databend/databend-query \
+      --namespace databend-query --create-namespace \
+      --values values.yaml
+  ```
 
-```shell title="验证 tenant2 的查询服务正在运行"
-❯ kubectl -n databend-query get pods
-NAME                                      READY   STATUS    RESTARTS   AGE
-tenant1-databend-query-66647594c-lkkm9    1/1     Running   0          55m
-tenant1-databend-query-66647594c-lpl2s    1/1     Running   0          55m
-tenant1-databend-query-66647594c-4hlpw    1/1     Running   0          55m
-tenant2-databend-query-59dcc4949f-9qg9b   1/1     Running   0          53s
-tenant2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
-tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
-```
+  ```shell title="验证 tenant2 的查询服务正在运行"
+  ❯ kubectl -n databend-query get pods
+  NAME                                      READY   STATUS    RESTARTS   AGE
+  tenant1-databend-query-66647594c-lkkm9    1/1     Running   0          55m
+  tenant1-databend-query-66647594c-lpl2s    1/1     Running   0          55m
+  tenant1-databend-query-66647594c-4hlpw    1/1     Running   0          55m
+  tenant2-databend-query-59dcc4949f-9qg9b   1/1     Running   0          53s
+  tenant2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
+  tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
+  ```
 
 ## 维护 Databend 查询集群
 

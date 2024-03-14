@@ -24,13 +24,13 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <TabItem value="Tencent COS" label="Tencent COS">
 
-<iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1651684130&bvid=BV1Aj421f74e&cid=1467602365&p=1" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
+<iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1651684130&bvid=BV1Aj421f74e&cid=1467602365&p=1&autoplay=0" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
 
 </TabItem>
 
 <TabItem value="QingCloud QingStor" label="QingCloud QingStor">
 
-<iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1301447473&bvid=BV1Uu4m137Zp&cid=1459768780&p=1" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
+<iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1301447473&bvid=BV1Uu4m137Zp&cid=1459768780&p=1&autoplay=0" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
 
 </TabItem>
 </Tabs>
