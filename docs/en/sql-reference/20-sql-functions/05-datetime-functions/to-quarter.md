@@ -14,6 +14,10 @@ Retrieves the quarter (1, 2, 3, or 4) from a given date or timestamp.
 TO_QUARTER( <date_or_time_expr> )
 ```
 
+## Aliases
+
+- [QUARTER](quarter.md)
+
 ## Return Type
 
 Integer.
@@ -21,21 +25,11 @@ Integer.
 ## Examples
 
 ```sql
-SELECT NOW();
+SELECT NOW(), TO_QUARTER(NOW()), QUARTER(NOW());
 
-now()                |
----------------------+
-2023-10-13 08:40:36.0|
-
-SELECT TO_QUARTER(NOW());
-
-to_quarter(now())|
------------------+
-                4|
-
-SELECT TO_QUARTER('2022-05-13');
-
-to_quarter('2022-05-13')|
-------------------------+
-                       2|
+┌─────────────────────────────────────────────────────────────────┐
+│            now()           │ to_quarter(now()) │ quarter(now()) │
+├────────────────────────────┼───────────────────┼────────────────┤
+│ 2024-03-14 23:32:52.743133 │                 1 │              1 │
+└─────────────────────────────────────────────────────────────────┘
 ```

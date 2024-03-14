@@ -6,6 +6,7 @@ This section provides reference information for the datetime-related functions i
 
 ## Conversion Functions
 
+- [DATE](date.md)
 - [TO_MONTH](to-month)
 - [TO_DATE](to-date)
 - [TO_DATETIME](to-datetime)

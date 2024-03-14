@@ -30,6 +30,7 @@ TO_DATE('<string>', '<format>')
 
 ## Aliases
 
+- [DATE](date.md)
 - [STR_TO_DATE](str-to-date.md)
 
 ## Return Type
