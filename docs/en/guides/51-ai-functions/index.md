@@ -116,9 +116,9 @@ Databend's AI functions are designed to be easy to use, even for users who are n
 
 ## Build an AI Q&A System with Databend
 
-We have utilized [Databend Cloud](https://databend.com) and AI functions to build an AI Q&A system for our documentation. You can try it out at https://ask.databend.rs.
+We have utilized [Databend Cloud](https://databend.com) and AI functions to build an AI Q&A system for our documentation.
 
-Here's a step-by-step guide to how https://ask.databend.rs was built:
+Here's a step-by-step guide to how it was built:
 
 ### Step 1: Create Table
 
