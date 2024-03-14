@@ -22,6 +22,12 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ## 在 Docker 上部署 Databend {#deploying-databend-on-docker}
 
+### 视频演示
+
+<iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1651684130&bvid=BV1Aj421f74e&cid=1467602365&p=1" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
+
+### 操作步骤
+
 开始之前，请确保您的系统上安装了 Docker。
 
 <StepsWrap>
