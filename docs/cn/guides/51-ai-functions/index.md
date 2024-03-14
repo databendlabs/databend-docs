@@ -1,28 +1,28 @@
 ---
-title: 'Databend AI 函数'
-sidebar_label: 'AI 函数'
+title: 'Databend AI 能力'
+sidebar_label: 'AI 能力'
 ---
 
-本指南邀请您探索 Databend 内置函数与机器学习相结合的领域。通过 SQL 查询轻松转换您的数据分析，揭示从理解文档到完成文本等一系列自然语言任务。
+本指南邀请您探索 Databend 内置函数与机器学习融合的领域。通过 SQL 查询轻松转换您的数据分析，揭示从理解文档到完成文本等一系列自然语言任务。
 
 ## 数据、隐私与安全
 
-Databend 依赖 [Azure OpenAI 服务](https://azure.microsoft.com/en-us/products/ai-services/openai-service) 来获取嵌入和文本完成，这意味着您的数据将被发送到 Azure OpenAI 服务。使用这些功能时请谨慎。
+Databend 依赖 [Azure OpenAI 服务](https://azure.microsoft.com/en-us/products/ai-services/openai-service) 来进行嵌入和文本完成，这意味着您的数据将被发送到 Azure OpenAI 服务。使用这些功能时请谨慎行事。
 
-这些功能在 [Databend Cloud](https://databend.cn) 上默认可用，我们使用我们的 Azure OpenAI 密钥。**如果您使用它们，即表示您知晓您的数据将被发送到 Azure OpenAI 服务**，并且您同意 [Azure OpenAI 数据隐私](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy)。
+这些功能在 [Databend 云](https://databend.com) 上默认可用，我们使用我们的 Azure OpenAI 密钥。**如果您使用它们，您承认您的数据将被发送到 Azure OpenAI 服务**，并且您同意 [Azure OpenAI 数据隐私](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy)。
 
 ## 什么是嵌入？
 
-嵌入是文本数据的向量表示，它捕捉原始文本的语义含义和上下文。它们可以用于比较和分析各种自然语言处理任务中的文本，例如文档相似性、聚类和推荐系统。
+嵌入是文本数据的向量表示，它捕获原始文本的语义意义和上下文。它们可以用于比较和分析各种自然语言处理任务中的文本，如文档相似性、聚类和推荐系统。
 
 为了说明嵌入是如何工作的，让我们考虑一个简单的例子。假设我们有以下句子：
 1. `"The cat sat on the mat."`
 2. `"The dog sat on the rug."`
 3. `"The quick brown fox jumped over the lazy dog."`
 
-在为这些句子创建嵌入时，模型会将文本转换成高维向量，以便在向量空间中相似的句子更接近。
+在为这些句子创建嵌入时，模型会将文本转换为高维向量，以这样的方式，相似的句子在向量空间中彼此更接近。
 
-例如，句子 1 和 2 的嵌入会更接近，因为它们具有相似的结构和含义（都涉及动物坐在某物上）。另一方面，句子 3 的嵌入会远离句子 1 和 2 的嵌入，因为它具有不同的结构和含义。
+例如，句子 1 和 2 的嵌入会更接近，因为它们具有相似的结构和意义（都涉及一个动物坐在某物上）。另一方面，句子 3 的嵌入会远离句子 1 和 2 的嵌入，因为它具有不同的结构和意义。
 
 嵌入可能看起来像这样（为了说明目的简化）：
 
@@ -30,7 +30,7 @@ Databend 依赖 [Azure OpenAI 服务](https://azure.microsoft.com/en-us/products
 2. `[0.25, 0.29, 0.11, 0.71, 0.38]`
 3. `[-0.1, 0.5, 0.6, -0.3, 0.8]`
 
-在这个简化的例子中，你可以看到句子 1 和 2 的嵌入在向量空间中更接近，而句子 3 的嵌入则更远。这说明了嵌入如何捕捉语义关系并用于比较和分析文本数据。
+在这个简化的例子中，你可以看到句子 1 和 2 的嵌入在向量空间中更接近，而句子 3 的嵌入则更远。这说明了嵌入如何捕获语义关系并用于比较和分析文本数据。
 
 ## 什么是向量数据库？
 
@@ -38,7 +38,7 @@ Databend 依赖 [Azure OpenAI 服务](https://azure.microsoft.com/en-us/products
 
 ## Databend AI 函数
 
-Databend 提供了内置的 AI 函数，用于各种自然语言处理任务。本文档涵盖的主要功能有：
+Databend 提供了用于各种自然语言处理任务的内置 AI 函数。本文档涵盖的主要功能有：
 
 - [ai_embedding_vector](/sql/sql-functions/ai-functions/ai-embedding-vector)：为文本文档生成嵌入。
 - [ai_text_completion](/sql/sql-functions/ai-functions/ai-text-completion)：根据给定提示生成文本完成。
@@ -46,7 +46,7 @@ Databend 提供了内置的 AI 函数，用于各种自然语言处理任务。�
 
 ## 生成嵌入
 
-让我们创建一个表来存储一些样本文本文档及其对应的嵌入：
+让我们创建一个表来存储一些示例文本文档及其对应的嵌入：
 ```sql
 CREATE TABLE articles (
     id INT,
@@ -56,7 +56,7 @@ CREATE TABLE articles (
 );
 ```
 
-现在，让我们将一些样本文档插入到表中：
+现在，让我们将一些示例文档插入到表中：
 ```sql
 INSERT INTO articles (id, title, content, embedding)
 VALUES
@@ -94,11 +94,11 @@ ORDER BY
 
 ## 生成文本完成
 
-Databend 还支持文本完成功能，[ai_text_completion](/sql/sql-functions/ai-functions/ai-text-completion)。
+Databend 还支持文本完成函数 [ai_text_completion](/sql/sql-functions/ai-functions/ai-text-completion)。
 
-例如，从上面的输出中，我们选择余弦距离最小的文档："Python is a versatile programming language widely used in data science..."。
+例如，从上述输出中，我们选择余弦距离最小的文档："Python is a versatile programming language widely used in data science..."。
 
-我们可以使用这作为上下文，并将原始问题提供给 [ai_text_completion](/sql/sql-functions/ai-functions/ai-text-completion) 函数来生成一个完成：
+我们可以使用这作为上下文，并向 [ai_text_completion](/sql/sql-functions/ai-functions/ai-text-completion) 函数提供原始问题以生成完成：
 
 ```sql
 SELECT ai_text_completion('Python is a versatile programming language widely used in data science...') AS completion;
@@ -110,19 +110,19 @@ SELECT ai_text_completion('Python is a versatile programming language widely use
 completion: and machine learning. It is known for its simplicity, readability, and ease of use. Python has a vast collection of libraries and frameworks that make it easy to perform complex tasks such as data analysis, visualization, and machine learning. Some of the popular libraries used in data science include NumPy, Pandas, Matplotlib, and Scikit-learn. Python is also used in web development, game development, and automation. Its popularity and versatility make it a valuable skill for programmers and data scientists.
 ```
 
-您可以在我们的 [Databend Cloud](https://databend.cn) 上体验这些功能，您可以注册免费试用并立即开始使用这些 AI 功能。
+您可以在我们的 [Databend 云](https://databend.com) 上体验这些功能，您可以注册免费试用并立即开始使用这些 AI 功能。
 
-Databend 的 AI 功能旨在易于使用，即使是对机器学习或自然语言处理不熟悉的用户也是如此。有了 Databend，您可以快速轻松地将强大的 AI 功能添加到您的 SQL 查询中，并将您的数据分析提升到一个新的水平。
+Databend 的 AI 功能旨在易于使用，即使对于不熟悉机器学习或自然语言处理的用户也是如此。有了 Databend，您可以快速轻松地将强大的 AI 能力添加到您的 SQL 查询中，并将您的数据分析提升到一个新的水平。
 
 ## 使用 Databend 构建 AI 问答系统
 
-我们利用 [Databend Cloud](https://databend.cn) 和 AI 功能为我们的文档构建了一个 AI 问答系统。
+我们利用 [Databend Cloud](https://databend.com) 和 AI 功能为我们的文档构建了一个 AI 问答系统。
 
-以下是关于如何构建该项目的逐步指南：
+以下是构建过程的逐步指南：
 
-### 第 1 步：创建表
+### 步骤 1：创建表
 
-首先，创建一个表，具有以下结构来存储文档信息和嵌入：
+首先，创建一个表，具有以下结构，用于存储文档信息和嵌入向量：
 ```sql
 CREATE TABLE doc (
                      path VARCHAR,
@@ -131,7 +131,7 @@ CREATE TABLE doc (
 );
 ```
 
-### 第 2 步：插入原始数据
+### 步骤 2：插入原始数据
 
 将样本数据插入表中，包括每个文档的路径和内容：
 ```sql
@@ -140,15 +140,15 @@ INSERT INTO doc (path, content) VALUES
     ('string-function', 'ASCII, BIN, CHAR_LENGTH');
 ```
 
-### 第 3 步：生成嵌入
+### 步骤 3：生成嵌入向量
 
-使用 [ai_embedding_vector](/sql/sql-functions/ai-functions/ai-embedding-vector) 函数更新表以生成内容的嵌入：
+使用 [ai_embedding_vector](/sql/sql-functions/ai-functions/ai-embedding-vector) 函数更新表以为内容生成嵌入向量：
 ```sql
 UPDATE doc SET embedding = ai_embedding_vector(content)
 WHERE LENGTH(embedding) = 0;
 ```
 
-### 第 4 步：提出问题并检索相关答案
+### 步骤 4：提出问题并检索相关答案
 
 ```sql
 -- 将问题定义为 CTE（公共表表达式）
@@ -172,7 +172,7 @@ combined_content AS (
     SELECT string_agg(content, ' ') AS aggregated_content
     FROM top_3_docs
 ),
--- 连接自定义提示、合并内容和原始问题
+-- 连接自定义提示、合并的内容和原始问题
 prompt AS (
     SELECT CONCAT(
                'Utilizing the sections provided from the Databend documentation, answer the questions to the best of your ability. ',
