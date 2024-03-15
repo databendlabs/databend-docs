@@ -24,7 +24,7 @@ CREATE [ OR REPLACE ] CONNECTION [ IF NOT EXISTS ] <connection_name>
 
 ## 示例
 
-此示例创建一个名为'toronto'的连接到Amazon S3，并建立一个名为'my_s3_stage'的外部阶段，链接到's3://databend-toronto' URL，使用'toronto'连接。有关连接的更多实用示例，请参见[使用示例](index.md#usage-examples)。
+此示例创建一个名为 'toronto' 的连接到 Amazon S3，并建立一个名为 'my_s3_stage' 的外部 Stage，链接到 's3://databend-toronto' URL，使用 'toronto' 连接。有关连接的更多实用示例，请参见[使用示例](index.md#usage-examples)。
 
 ```sql
 CREATE CONNECTION toronto 
