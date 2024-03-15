@@ -13,7 +13,7 @@ DROP SHARE [ IF EXISTS ] <share_name>;
 
 ## 示例
 
-以下示例删除名为 `myshare` 的共享：
+以下示例删除一个名为 `myshare` 的共享：
 
 ```sql
 DROP SHARE myshare;

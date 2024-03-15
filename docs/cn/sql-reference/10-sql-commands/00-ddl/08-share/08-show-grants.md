@@ -3,21 +3,21 @@ title: SHOW GRANTS
 sidebar_position: 8
 ---
 
-Lists the privileges granted on a specified shared object or lists the tenants that are added to a specified share.
+列出授予指定共享对象的权限，或列出添加到指定共享的租户。
 
-## Syntax
+## 语法
 
 ```sql
--- List the privileges granted on a specified shared object
+-- 列出授予指定共享对象的权限
 SHOW GRANTS ON { DATABASE <db_name> | TABLE <db_name>.<table_name> }
 
--- List the tenants that are added to a specified share
+-- 列出添加到指定共享的租户
 SHOW GRANTS OF SHARE <share_name>
 ```
 
-## Examples
+## 示例
 
-The following example shows the privileges granted the database `default`:
+以下示例显示了授予数据库`default`的权限：
 
 ```sql
 SHOW GRANTS ON DATABASE default;
@@ -28,7 +28,7 @@ SHOW GRANTS ON DATABASE default;
 | 2022-09-06 18:15:18.204575814 UTC | Usage     | myshare    |
 ```
 
-The following example shows the tenants that are added to the share `myshare`:
+以下示例显示了添加到共享`myshare`的租户：
 
 ```sql
 SHOW GRANTS OF SHARE myshare;

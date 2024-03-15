@@ -1,26 +1,26 @@
 ---
-title: SHOW SHARES
+title: 显示共享
 sidebar_position: 4
 ---
 
-Shows the shares you created and the ones shared with you.
+显示您创建的共享以及与您共享的共享。
 
-## Syntax
+## 语法
 
 ```sql
 SHOW SHARES;
 ```
 
-## Examples
+## 示例
 
-The following example shows that the share `myshare` shares the database `db1` to the tenants `x` and `y`:
+以下示例显示共享 `myshare` 将数据库 `db1` 共享给租户 `x` 和 `y`：
 
 ```sql
 SHOW SHARES;
 
---The Kind column in the result indicates the data sharing direction:
---OUTBOUND: The share was created by your organization and shared with other organizations.
---INBOUND: The share was created by another organization and shared with your organization.
+--结果中的 Kind 列指示数据共享的方向：
+--OUTBOUND: 共享由您的组织创建并与其他组织共享。
+--INBOUND: 共享由另一个组织创建并与您的组织共享。
 
 ---
 | Created_on                        | Kind     | Name    | Database_name | From      | To  | Comment |

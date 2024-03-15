@@ -1,72 +1,72 @@
 ---
-title: SHARE
+title: 分享
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-A "Share" in Databend refers to a feature that enables the sharing of various types of database objects, such as tables, views, and user-defined functions (UDFs), across different tenants. 
+在 Databend 中，“分享”是指一种功能，它允许跨不同租户共享各种类型的数据库对象，如表、视图和用户定义的函数（UDFs）。
 
 :::note
-Sharing data via a share does not involve physically copying or transferring the data to the recipient tenants. Instead, the shared data remains in a read-only state for the recipient tenants. Users belonging to these tenants can only execute queries on the shared data; they are not allowed to perform updates, inserts, or deletions on the shared data.
+通过分享共享数据不涉及物理复制或将数据传输给接收租户。相反，共享的数据对于接收租户保持只读状态。属于这些租户的用户只能对共享的数据执行查询操作；他们不允许对共享的数据进行更新、插入或删除操作。
 :::
 
-## Getting Started with Share
+## 开始使用分享
 
-The section describes how to share data via a share and access the shared data across tenants:
+本节描述如何通过分享共享数据以及如何跨租户访问共享的数据：
 
-### Step 1. Creating a Share
+### 步骤 1. 创建一个分享
 
-These steps create a share for sharing data with another tenant and grant privileges for the shared data. Perform these steps within the tenant where the data is to be shared.
+这些步骤创建一个分享，用于与另一个租户共享数据，并为共享的数据授予权限。在要共享数据的租户内执行这些步骤。
 
-1. Create an empty share using the [CREATE SHARE](01-create-share.md) command.
+1. 使用 [CREATE SHARE](01-create-share.md) 命令创建一个空的分享。
 
 ```sql
--- Create a share named "myshare"
+-- 创建一个名为 "myshare" 的分享
 CREATE SHARE myshare;
 ```
 
-2. Grant appropriate privileges to the share you created using the [GRANT `<privilege>` to SHARE](06-grant-privilege.md) command. Before granting privileges on the objects you want to share, you must grant privileges for the database that contains the objects.
+2. 使用 [GRANT `<privilege>` to SHARE](06-grant-privilege.md) 命令为您创建的分享授予权限。在授予想要分享的对象权限之前，您必须为包含这些对象的数据库授予权限。
 
 ```sql
--- Grant the USAGE privilege on the database "db1"
+-- 授予数据库 "db1" 的 USAGE 权限
 GRANT USAGE ON DATABASE db1 TO SHARE myshare;
 
--- Grant the SELECT privilege on the table "table1" in the database "db1"
+-- 授予数据库 "db1" 中表 "table1" 的 SELECT 权限
 GRANT SELECT ON TABLE db1.table1 TO SHARE myshare;
 ```
 
-3. Add the tenants you want to share with to the share using the [ALTER SHARE](03-alter-share.md) command. When sharing data with another organization, you specify the organization by its tenant ID.
+3. 使用 [ALTER SHARE](03-alter-share.md) 命令将您想要分享的租户添加到分享中。当与另一个组织共享数据时，您通过其租户 ID 指定该组织。
 
 ```sql
--- Add tenant B to the share "myshare"
+-- 将租户 B 添加到分享 "myshare"
 ALTER SHARE myshare ADD TENANTS = B;
 ```
 
-### Step 2. Accessing Shared Data
+### 步骤 2. 访问共享数据
 
-These steps create a share endpoint and a database using the share created in [Step 1](#step-1-creating-a-share). Perform these steps within the tenant where you intend to access the shared data.
+这些步骤创建一个分享端点和一个使用 [步骤 1](#step-1-creating-a-share) 中创建的分享的数据库。在您打算访问共享数据的租户内执行这些步骤。
 
-1. Create a [SHARE ENDPOINT](../08-share-endpoint/index.md).
+1. 创建一个 [SHARE ENDPOINT](../08-share-endpoint/index.md)。
 
 ```sql
--- Create a share endpoint named "to_share"
+-- 创建一个名为 "to_share" 的分享端点
 CREATE SHARE ENDPOINT to_share URL = 'http://<shared-tenant-endpoint>:<port>' TENANT = <shared-tenant-name>;
 ```
 
-2. Create a database from the share using the [CREATE DATABASE](../00-database/ddl-create-database.md) command.
+2. 使用 [CREATE DATABASE](../00-database/ddl-create-database.md) 命令从分享中创建数据库。
 
 ```sql
--- Create a database named "db2" using the share "myshare"
+-- 使用分享 "myshare" 创建一个名为 "db2" 的数据库
 CREATE DATABASE db2 FROM SHARE myshare;
 ```
 
-3. To access the shared data, run a SELECT statement like this:
+3. 要访问共享的数据，请执行像这样的 SELECT 语句：
 
 ```sql
 SELECT * FROM db2.table1 ...
 ```
 
-## Managing Shares
+## 管理分享
 
-To manage shares on a tenant, use the following commands:
+要在租户上管理分享，请使用以下命令：
 
 <IndexOverviewList />
