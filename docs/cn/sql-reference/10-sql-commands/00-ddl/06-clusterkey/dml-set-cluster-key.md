@@ -1,28 +1,28 @@
 ---
-title: SET CLUSTER KEY
+title: 设置集群键
 sidebar_position: 1
 ---
 
-Set a cluster key when creating a table.
+在创建表时设置集群键。
 
-Cluster key is intended to improve query performance by physically clustering data together. For example, when you set a column as your cluster key for a table, the table data will be physically sorted by the column you set. This will maximize the query performance if your most queries are filtered by the column.
+集群键旨在通过物理上将数据聚集在一起来提高查询性能。例如，当你为表设置一个列作为集群键时，表数据将按照你设置的列进行物理排序。如果你的大多数查询都通过该列进行过滤，这将最大化查询性能。
 
-> **Note:** For String column, the cluster statistics uses only the first 8 bytes. You can use a substring to provide sufficient cardinality.
+> **注意：** 对于字符串列，集群统计仅使用前8个字节。你可以使用子字符串来提供足够的基数。
 
-See also:
+另请参见：
 
 * [ALTER CLUSTER KEY](./dml-alter-cluster-key.md) 
 * [DROP CLUSTER KEY](./dml-drop-cluster-key.md)
 
-## Syntax
+## 语法
 
 ```sql
 CREATE TABLE <name> ... CLUSTER BY ( <expr1> [ , <expr2> ... ] )
 ```
 
-## Examples
+## 示例
 
-This command creates a table clustered by columns:
+此命令创建按列聚集的表：
 
 ```sql
 CREATE TABLE t1(a int, b int) CLUSTER BY(b,a);

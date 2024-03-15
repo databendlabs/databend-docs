@@ -1,12 +1,12 @@
 ---
-title: 删除聚类键
+title: 删除集群键
 sidebar_position: 4
 ---
 
-删除表的聚类键。
+删除表的集群键。
 
 另请参阅：
-[修改聚类键](./dml-alter-cluster-key.md)
+[修改集群键](./dml-alter-cluster-key.md)
 
 ## 语法
 
@@ -16,7 +16,7 @@ ALTER TABLE [ IF EXISTS ] <name> DROP CLUSTER KEY
 
 ## 示例
 
-此命令删除表 *test* 的聚类键：
+此命令删除表 *test* 的集群键：
 
 ```sql
 ALTER TABLE test DROP CLUSTER KEY
