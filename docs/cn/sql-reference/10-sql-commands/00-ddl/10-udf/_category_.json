@@ -1,41 +1,4 @@
-```markdown
-# 用户定义函数 {#user-defined-function}
-
-用户可以在 Databend 中创建自己的函数，这些函数被称为用户定义函数（UDF）。UDF 允许你封装复杂的操作逻辑，使其可以像内置函数一样轻松地在 SQL 查询中使用。
-
-## 创建用户定义函数 {#creating-user-defined-functions}
-
-要创建用户定义函数，你可以使用 `CREATE FUNCTION` 语句。下面是一个创建用户定义函数的例子：
-
-```sql
-CREATE FUNCTION add_one(x INT) RETURNS INT AS (x + 1);
-```
-
-这个例子中，我们创建了一个名为 `add_one` 的函数，它接受一个整数参数 `x`，并返回 `x + 1`。
-
-## 使用用户定义函数 {#using-user-defined-functions}
-
-一旦创建了用户定义函数，你就可以在 SQL 查询中像使用内置函数一样使用它们。例如：
-
-```sql
-SELECT add_one(1);
-```
-
-这将返回 `2`。
-
-## 删除用户定义函数 {#dropping-user-defined-functions}
-
-如果你不再需要某个用户定义函数，可以使用 `DROP FUNCTION` 语句将其删除。例如：
-
-```sql
-DROP FUNCTION add_one;
-```
-
-这将删除 `add_one` 函数。
-
-<Notes>
-
-请注意，用户定义函数目前是一个实验性功能，可能在未来的版本中发生变化。
-
-</Notes>
-```
+{
+  "label": "用户定义函数",
+  "position": 12
+}
