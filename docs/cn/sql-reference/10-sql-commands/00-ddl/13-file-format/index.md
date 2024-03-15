@@ -1,8 +1,8 @@
 ---
-title: File Format
+title: 文件格式
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This page provides reference information for the file format-related commands in Databend.
+此页面为 Databend 中与文件格式相关的命令提供参考信息。
 
 <IndexOverviewList />
