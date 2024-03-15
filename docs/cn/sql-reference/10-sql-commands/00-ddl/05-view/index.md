@@ -1,8 +1,8 @@
 ---
-title: View
+title: 视图
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This page provides reference information for the view-related commands in Databend.
+此页面提供了Databend中与视图相关命令的参考信息。
 
 <IndexOverviewList />
