@@ -1,4 +1,57 @@
-{
-  "label": "Transaction",
-  "position": 18
-}
+```markdown
+# 事务 {#transaction}
+
+Databend 支持完全隔离的事务。这意呸着，当你在一个事务中修改数据时，这些更改在事务提交之前对其他事务是不可见的。
+
+## 开始一个事务 {#start-a-transaction}
+
+你可以使用 `BEGIN` 语句来开始一个新的事务：
+
+```sql
+BEGIN;
+```
+
+## 提交一个事务 {#commit-a-transaction}
+
+一旦你完成了事务中的所有操作，你可以使用 `COMMIT` 语句来提交事务，使得所有更改对其他用户可见：
+
+```sql
+COMMIT;
+```
+
+## 回滚一个事务 {#rollback-a-transaction}
+
+如果你想撤销事务中的所有操作，你可以使用 `ROLLBACK` 语句来回滚事务：
+
+```sql
+ROLLBACK;
+```
+
+<Note>
+
+确保在事务中执行的所有操作都是可以回滚的，以避免任何潜在的数据不一致问题。
+
+</Note>
+
+## 示例 {#examples}
+
+下面是一个事务的示例，展示了如何在事务中插入数据，然后提交事务：
+
+```sql
+BEGIN;
+
+INSERT INTO table_name VALUES (1, 'a'), (2, 'b'), (3, 'c');
+
+COMMIT;
+```
+
+这个例子展示了如何回滚一个事务：
+
+```sql
+BEGIN;
+
+INSERT INTO table_name VALUES (1, 'a'), (2, 'b'), (3, 'c');
+
+ROLLBACK;
+```
+```
