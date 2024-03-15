@@ -1,17 +1,17 @@
 ---
-title: DROP FILE FORMAT
+title: 删除文件格式
 sidebar_position: 3
 ---
 
-Removes a file format.
+移除一个文件格式。
 
-## Syntax
+## 语法
 
 ```sql
 DROP FILE FORMAT [ IF EXISTS ] <format_name>;
 ```
 
-## Examples
+## 示例
 
 ```sql
 DROP FILE FORMAT IF EXISTS my_custom_csv;
