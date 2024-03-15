@@ -1,19 +1,19 @@
 ---
-title: SHOW SHARE ENDPOINT
+title: 显示共享端点
 sidebar_position: 2
 ---
 
-Shows all the created share endpoints.
+显示所有创建的共享端点。
 
-## Syntax
+## 语法
 
 ```sql
 SHOW SHARE ENDPOINT
 ```
 
-## Examples
+## 示例
 
-The following example shows all the created share endpoints on the tenant:
+以下示例显示租户上创建的所有共享端点：
 
 ```sql
 SHOW SHARE ENDPOINT;

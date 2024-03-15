@@ -1,19 +1,19 @@
 ---
-title: SHARE ENDPOINT
+title: 分享端点
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-A share endpoint, as a concept in data sharing, serves the purpose of indicating the endpoint and tenant name of the data-sharing entity. It is created within the tenant who needs to access and consume the shared data, enabling the data consumer to locate and access data shared with them.
+分享端点作为数据共享中的一个概念，其作用是指明数据共享实体的端点和租户名称。它是在需要访问和消费共享数据的租户内创建的，使得数据消费者能够定位并访问与他们共享的数据。
 
-For example, if Tenant A is sharing data with Tenant B, Tenant B needs to create a share endpoint, which will provide the necessary information, including the endpoint URL and the tenant name, enabling Tenant B to locate and access the shared data.
+例如，如果租户A正在与租户B共享数据，租户B需要创建一个分享端点，该端点将提供必要的信息，包括端点URL和租户名称，使租户B能够定位并访问共享的数据。
 
-```sql title='Create Share Endpoint on Tenant B:'
+```sql title='在租户B上创建分享端点:'
 CREATE SHARE ENDPOINT IF NOT EXISTS from_TenantA
     URL = '<share_endpoint_url>'
     TENANT = A
-    COMMENT = 'Share endpoint to access data from Tenant A';
+    COMMENT = '分享端点以访问来自租户A的数据';
 ```
 
-For a full data share workflow in Databend, see [Getting Started with Share](../08-share/index.md#getting-started-with-share). To manage share endpoints on a tenant, use the following commands:
+要了解Databend中完整的数据共享工作流程，请参见[开始使用共享](../08-share/index.md#getting-started-with-share)。要在租户上管理分享端点，请使用以下命令：
 
 <IndexOverviewList />
