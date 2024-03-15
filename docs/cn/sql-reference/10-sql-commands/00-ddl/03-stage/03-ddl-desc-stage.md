@@ -3,15 +3,15 @@ title: DESC STAGE
 sidebar_position: 2
 ---
 
-Describes the properties of a stage.
+描述一个阶段的属性。
 
-## Syntax
+## 语法
 
 ```sql
 DESC STAGE <name>
 ```
 
-## Examples
+## 示例
 
 ```sql
 CREATE STAGE my_int_stage;
