@@ -24,7 +24,7 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 ```
 
 - *auth_type* 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
-- 当您使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在或自动将角色授予用户。您必须明确地将角色授予用户，角色才会生效。
+- 使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在或自动将角色授予用户。您必须明确地将角色授予用户，角色才会生效。
 
 ## 示例
 
@@ -69,7 +69,7 @@ SHOW USERS;
 
 ### 示例 4：创建带有默认角色的用户
 
-1. 创建一个名为 'user1' 的用户，并将默认角色设置为 'manager'：
+1. 创建一个名为 'user1' 的用户，将默认角色设置为 'manager'：
 
 ```sql title='以用户 "root" 连接：'
 SHOW ROLES;

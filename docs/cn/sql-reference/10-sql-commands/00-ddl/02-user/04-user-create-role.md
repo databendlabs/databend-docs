@@ -1,20 +1,20 @@
 ---
-title: CREATE ROLE
+title: 创建角色
 sidebar_position: 5
 ---
 
-Create a new role.
+创建一个新角色。
 
-After creating roles, you can grant object privileges to the role, enable access control security for objects in the system.
+创建角色后，您可以将对象权限授予角色，为系统中的对象启用访问控制安全性。
 
-See also: [GRANT](10-grant.md)
+另见：[GRANT](10-grant.md)
 
-## Syntax
+## 语法
 
 ```sql
 CREATE ROLE <role_name> [ COMMENT = '<string_literal>' ]
 ```
-## Examples
+## 示例
 
 ```sql
 CREATE ROLE role1;
