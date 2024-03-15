@@ -5,21 +5,21 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.45"/>
+<FunctionDescription description="引入或更新版本：v1.2.45"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MASKING POLICY'/>
 
-Displays detailed information about a specific masking policy in Databend.
+显示 Databend 中特定掩码策略的详细信息。
 
-## Syntax
+## 语法
 
 ```sql
 DESC MASKING POLICY <policy_name>
 ```
 
-## Examples
+## 示例
 
 ```sql
 CREATE MASKING POLICY email_mask
