@@ -3,41 +3,45 @@ title: SHOW LOCKS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.262"/>
+<FunctionDescription description="引入或更新版本：v1.2.262"/>
 
-Provides a list of active transactions currently holding locks on tables, either for the current user across all their sessions or for all users within the Databend system. A lock is a synchronization mechanism that restricts access to shared resources, such as tables, ensuring orderly and controlled interactions among processes or threads within the Databend system to maintain data consistency and prevent conflicts. 
+提供当前持有表锁的活跃事务列表，可以是当前用户在所有会话中的，也可以是Databend系统中所有用户的。锁是一种同步机制，它限制对共享资源（如表）的访问，确保Databend系统中的进程或线程之间的有序和受控交互，以维护数据一致性并防止冲突。
 
-The operations, such as [UPDATE](../../10-dml/dml-update.md), [DELETE](../../10-dml/dml-delete-from.md), [OPTIMIZE TABLE](../01-table/60-optimize-table.md), [RECLUSTER TABLE](../06-clusterkey/dml-recluster-table.md), and [ALTER TABLE COLUMN](../01-table/90-alter-table-column.md), can result in table locks in the system. The table lock feature is enabled by default. In case of resource conflicts, you can examine specific details using the command. To disable this feature, execute `set enable_table_lock=0;`.
+如[UPDATE](../../10-dml/dml-update.md)、[DELETE](../../10-dml/dml-delete-from.md)、[OPTIMIZE TABLE](../01-table/60-optimize-table.md)、[RECLUSTER TABLE](../06-clusterkey/dml-recluster-table.md)和[ALTER TABLE COLUMN](../01-table/90-alter-table-column.md)等操作，可以在系统中导致表锁。表锁功能默认启用。在资源冲突的情况下，您可以使用该命令检查具体细节。要禁用此功能，执行`set enable_table_lock=0;`。
 
-## Syntax
+## 语法
 
 ```sql
 SHOW LOCKS [IN ACCOUNT] [WHERE <expr>]
 ```
 
-| Parameter  | Description                                                                                                                                         |
-|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| IN ACCOUNT | Displays lock information for all users within the Databend system. If omitted, the command returns locks for the current user across all sessions. |
-| WHERE      | Filters locks based on the status; valid values include `HOLDING` and `WAITING`.                                                                    |
+| 参数        | 描述                                                                                                                       |
+|-------------|----------------------------------------------------------------------------------------------------------------------------|
+| IN ACCOUNT  | 显示Databend系统中所有用户的锁信息。如果省略，该命令返回当前用户在所有会话中的锁信息。                                       |
+| WHERE       | 根据状态过滤锁；有效值包括`HOLDING`和`WAITING`。                                                                            |
 
-## Output
+## 输出
 
-The command returns the lock information in a table with these columns:
+该命令返回一个表格，其中包含锁信息，表格列如下：
 
-| Column      | Description                                                                                                                                                                                                             |
-|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| table_id    | Internal ID for the table associated with the lock.                                                                                                                                                                     |
-| revision    | Revision number indicating the version of the transaction that initiated the lock. Commencing at 0, this number increases with each subsequent transaction, establishing a comprehensive order across all transactions. |
-| type        | The type of lock, such as `TABLE`.                                                                                                                                                                                      |
-| status      | The status of the lock, such as `HOLDING` or `WAITING`.                                                                                                                                                                 |
-| user        | The user associated with the lock.                                                                                                                                                                                      |
-| node        | The identifier of query node where the lock is held.                                                                                                                                                                    |
-| query_id    | The query session ID related to the lock. Use it to [KILL](../../50-administration-cmds/kill.md) a query in case of dead locks or excessively prolonged lock holdings.                                                  |
-| created_on  | Timestamp when the transaction that initiated the lock was created.                                                                                                                                                     |
-| acquired_on | Timestamp when the lock was acquired.                                                                                                                                                                                   |
-| extra_info  | Additional information related to the lock, if any.                                                                                                                                                                     |
 
-## Examples
+
+| 列名         | 描述                                                                                                                                                                                                                   |
+|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| table_id    | 与锁相关联的表的内部ID。                                                                                                                                                                                                 |
+| revision    | 表示启动锁的事务版本的修订号。从0开始，此数字随着每个后续事务的增加而增加，建立跨所有事务的全面顺序。                                                                                                                      |
+| type        | 锁的类型，例如 `TABLE`。                                                                                                                                                                                                |
+| status      | 锁的状态，例如 `HOLDING` 或 `WAITING`。                                                                                                                                                                                  |
+| user        | 与锁相关联的用户。                                                                                                                                                                                                      |
+| node        | 持有锁的查询节点的标识符。                                                                                                                                                                                               |
+| query_id    | 与锁相关的查询会话ID。使用它来 [KILL](../../50-administration-cmds/kill.md) 一个查询，以防止死锁或过长的锁持有时间。                                                                                                      |
+| created_on  | 启动锁的事务创建的时间戳。                                                                                                                                                                                               |
+| acquired_on | 获取锁的时间戳。                                                                                                                                                                                                         |
+| extra_info  | 与锁相关的额外信息（如果有的话）。                                                                                                                                                                                       |
+
+## 示例
+
+
 
 ```sql
 SHOW LOCKS IN ACCOUNT;
