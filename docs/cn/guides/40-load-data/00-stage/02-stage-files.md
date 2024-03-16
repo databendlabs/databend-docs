@@ -278,7 +278,7 @@ LIST @my_external_stage;
 
 ### 使用 GET 命令下载
 
-以下示例演示如何使用 BendSQL 的 GET 命令从用户阶段、内部阶段和外部阶段下载样本文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)）。
+以下示例演示如何使用 BendSQL 的 GET 命令从用户Stage、内部Stage和外部Stage下载样本文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)）。
 
 <Tabs groupId="GET">
 
