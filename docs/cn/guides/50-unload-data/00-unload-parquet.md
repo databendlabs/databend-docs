@@ -1,10 +1,10 @@
 ---
-title: Unloading Parquet File
+title: 卸载 Parquet 文件
 ---
 
-## Unloading Parquet File
+## 卸载 Parquet 文件
 
-Syntax:
+语法：
 ```sql
 COPY INTO {internalStage | externalStage | externalLocation}
 FROM { [<database_name>.]<table_name> | ( <query> ) }
@@ -13,13 +13,13 @@ FILE_FORMAT = (TYPE = PARQUET)
 [DETAILED_OUTPUT = true | false]
 ```
 
-- More Parquet options refer to [Parquet File Format Options](/sql/sql-reference/file-format-options#parquet-options)
-- Unloading into multiple files use the [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- More details about the syntax can be found in [COPY INTO <location\>](/sql/sql-commands/dml/dml-copy-into-location)
+- 更多 Parquet 选项请参考 [Parquet 文件格式选项](/sql/sql-reference/file-format-options#parquet-options)
+- 卸载到多个文件请使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 更多关于语法的细节可以在 [COPY INTO <location\>](/sql/sql-commands/dml/dml-copy-into-location) 中找到
 
-## Tutorial
+## 教程
 
-### Step 1. Create an External Stage
+### 步骤 1. 创建一个外部阶段
 
 ```sql
 CREATE STAGE parquet_unload_stage 
@@ -30,7 +30,7 @@ CONNECTION = (
 );
 ```
 
-### Step 2. Create Custom Parquet File Format
+### 步骤 2. 创建自定义 Parquet 文件格式
 
 ```sql
 CREATE FILE FORMAT parquet_unload_format 
@@ -38,7 +38,7 @@ CREATE FILE FORMAT parquet_unload_format
     ;
 ```
 
-### Step 3. Unload into Parquet File
+### 步骤 3. 卸载到 Parquet 文件
 
 ```sql
 COPY INTO @parquet_unload_stage 
@@ -50,7 +50,7 @@ FILE_FORMAT = (FORMAT_NAME = 'parquet_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
-Result:
+结果：
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────┐
 │                             file_name                             │ file_size │ row_count │
@@ -60,7 +60,7 @@ Result:
 └───────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Step 4. Verify the Unloaded Parquet Files
+### 步骤 4. 验证卸载的 Parquet 文件
 
 ```sql
 SELECT COUNT($1)
@@ -71,7 +71,7 @@ FROM @parquet_unload_stage
 );
 ```
 
-Result:
+结果：
 ```text
 ┌───────────┐
 │ count($1) │

@@ -1,10 +1,10 @@
 ---
-title: Unloading NDJSON File
+title: 卸载 NDJSON 文件
 ---
 
-## Unloading TSV File
+## 卸载 TSV 文件
 
-Syntax:
+语法：
 ```sql
 COPY INTO { internalStage | externalStage | externalLocation }
 FROM { [<database_name>.]<table_name> | ( <query> ) }
@@ -17,13 +17,13 @@ FILE_FORMAT = (
 [DETAILED_OUTPUT = true | false]
 ```
 
-- More NDJSON options refer to [NDJSON File Format Options](/sql/sql-reference/file-format-options#ndjson-options)
-- Unloading into multiple files use the [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- More details about the syntax can be found in [COPY INTO <location\>](/sql/sql-commands/dml/dml-copy-into-location)
+- 更多 NDJSON 选项请参考 [NDJSON 文件格式选项](/sql/sql-reference/file-format-options#ndjson-options)
+- 卸载到多个文件请使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 更多关于语法的细节可以在 [COPY INTO <location\>](/sql/sql-commands/dml/dml-copy-into-location) 中找到
 
-## Tutorial
+## 教程
 
-### Step 1. Create an External Stage
+### 步骤 1. 创建一个外部阶段
 
 ```sql
 CREATE STAGE ndjson_unload_stage 
@@ -34,15 +34,15 @@ CONNECTION = (
 );
 ```
 
-### Step 2. Create Custom NDJSON File Format
+### 步骤 2. 创建自定义 NDJSON 文件格式
 
 ```
 CREATE FILE FORMAT ndjson_unload_format 
     TYPE = NDJSON,
-    COMPRESSION = gzip;     -- Unload with gzip compression
+    COMPRESSION = gzip;     -- 使用 gzip 压缩卸载
 ```
 
-### Step 3. Unload into NDJSON File
+### 步骤 3. 卸载到 NDJSON 文件
 
 ```sql
 COPY INTO @ndjson_unload_stage 
@@ -54,7 +54,7 @@ FILE_FORMAT = (FORMAT_NAME = 'ndjson_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
-Result:
+结果：
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
 │                              file_name                              │ file_size │ row_count │
@@ -63,7 +63,7 @@ Result:
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Step 4. Verify the Unloaded NDJSON Files
+### 步骤 4. 验证卸载的 NDJSON 文件
 
 ```sql
 SELECT COUNT($1)
@@ -74,7 +74,7 @@ FROM @ndjson_unload_stage
 );
 ```
 
-Result:
+结果：
 ```text
 ┌───────────┐
 │ count($1) │
