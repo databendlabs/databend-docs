@@ -24,24 +24,24 @@ VACUUM TABLE 命令通过永久删除表中的历史数据文件来帮助优化�
 VACUUM TABLE <table_name> [ DRY RUN [SUMMARY] ]
 ```
 
-- `DRY RUN [SUMMARY]`：当指定此参数时，候选孤立文件将不会被移除。相反，将返回最多 1,000 个候选文件及其大小（以字节为单位）的列表，显示如果没有使用该选项将会被移除的内容。当包含可选参数 `SUMMARY` 时，命令返回将要移除的文件总数及其字节总大小。
+- `DRY RUN [SUMMARY]`：当指定此参数时，候选的孤立文件将不会被移除。相反，将返回最多 1000 个候选文件及其大小（以字节为单位）的列表，显示如果没有使用该选项将会被移除的内容。当包含可选参数 `SUMMARY` 时，命令返回将要移除的文件总数及其字节总大小。
 
 ### 输出
 
-VACUUM TABLE 命令（不带 `DRY RUN`）返回一个表，总结了被清理文件的重要统计信息，包含以下列：
+VACUUM TABLE 命令（不带 `DRY RUN`）返回一个表格，总结了被清理文件的重要统计信息，包含以下列：
 
-| 列名             | 描述                                 |
-|----------------|-------------------------------------|
-| snapshot_files | 快照文件数量                        |
-| snapshot_size  | 快照文件总大小，以字节为单位         |
-| segments_files | 段文件数量                          |
-| segments_size  | 段文件总大小，以字节为单位           |
-| block_files    | 块文件数量                          |
-| block_size     | 块文件总大小，以字节为单位           |
-| index_files    | 索引文件数量                        |
-| index_size     | 索引文件总大小，以字节为单位         |
-| total_files    | 所有类型文件的总数量                |
-| total_size     | 所有类型文件的总大小，以字节为单位   |
+| 列名             | 描述                                   |
+|----------------|---------------------------------------|
+| snapshot_files | 快照文件数量                          |
+| snapshot_size  | 快照文件总大小（以字节为单位）         |
+| segments_files | 段文件数量                            |
+| segments_size  | 段文件总大小（以字节为单位）           |
+| block_files    | 块文件数量                            |
+| block_size     | 块文件总大小（以字节为单位）           |
+| index_files    | 索引文件数量                          |
+| index_size     | 索引文件总大小（以字节为单位）         |
+| total_files    | 所有类型文件的总数量                  |
+| total_size     | 所有类型文件的总大小（以字节为单位）   |
 
 ```sql title='示例：'
 // highlight-next-line
@@ -54,7 +54,7 @@ VACUUM TABLE c;
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-当指定 `DRY RUN` 参数与 VACUUM TABLE 命令时，它返回最多 1,000 个候选文件及其字节大小的列表。如果指定了 `DRY RUN SUMMARY`，命令提供要移除的文件总数及其组合大小。
+当指定 VACUUM TABLE 命令的 `DRY RUN` 参数时，它返回最多 1000 个候选文件及其大小（以字节为单位）的列表。如果指定了 `DRY RUN SUMMARY`，命令提供将要移除的文件总数及其组合大小。
 
 ```sql title='示例：'
 // highlight-next-line
@@ -88,15 +88,15 @@ VACUUM TABLE 命令移除早于 `DATA_RETENTION_TIME_IN_DAYS` 设置的数据文
 SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 ```
 
-`DATA_RETENTION_TIME_IN_DAYS` 默认为 1 天（24 小时），最大值根据 Databend 版本而异：
+`DATA_RETENTION_TIME_IN_DAYS` 的默认值为 1 天（24 小时），最大值根据 Databend 版本而异：
 
-| 版本                                      | 默认保留期      | 最大保留期       |
-|------------------------------------------|---------------|----------------|
-| Databend 社区版 & 企业版                 | 1 天（24 小时） | 90 天          |
-| Databend Cloud（标准版）                    | 1 天（24 小时） | 1 天（24 小时） |
-| Databend Cloud（商业版）                    | 1 天（24 小时） | 90 天          |
+| 版本                                      | 默认保留期       | 最大保留期       |
+|------------------------------------------|-----------------|------------------|
+| Databend 社区版 & 企业版                  | 1 天（24 小时）   | 90 天            |
+| Databend 云（标准版）                      | 1 天（24 小时）   | 1 天（24 小时）   |
+| Databend 云（商业版）                      | 1 天（24 小时）   | 90 天            |
 
-检查 `DATA_RETENTION_TIME_IN_DAYS` 的当前值：
+要检查 `DATA_RETENTION_TIME_IN_DAYS` 的当前值：
 
 ```sql
 SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';

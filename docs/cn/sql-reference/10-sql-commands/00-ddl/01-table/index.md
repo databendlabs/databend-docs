@@ -1,72 +1,72 @@
 ---
-title: Table
+title: 表
 ---
 
-This page compiles crucial insights into table operations, serving as a comprehensive guide for you navigating the intricacies of working with tables in Databend. It strings together essential table-related commands to provide a cohesive understanding of key considerations in table management.
+本页面汇编了操作表的关键见解，为您在 Databend 中处理表的复杂性导航提供了全面的指南。它将基本的表相关命令串联起来，以提供对表管理关键考虑因素的连贯理解。
 
-## Table Creation Essentials
+## 表创建要点
 
-It is a good idea to to familiarize yourself with the following topics before proceeding to create a table.
+在继续创建表之前，熟悉以下主题是一个好主意。
 
-### 1. Understanding Table Types
+### 1. 理解表类型
 
-Databend supports two types of tables based on their Time Travel support:
+Databend 根据它们对时间旅行支持的不同，支持两种类型的表：
 
-- **General Tables (Default)**: These tables inherently support Time Travel, allowing you to trace and retrieve historical data. This feature is valuable for data analysis and auditing.
+- **通用表（默认）**：这些表本质上支持时间旅行，允许您追踪和检索历史数据。这个功能对于数据分析和审计非常有价值。
 
-- **Transient Tables**: In contrast, transient tables do not support Time Travel. They are designed for scenarios where historical data tracking is not necessary. To create a transient table, you must explicitly specify the keyword TRANSIENT in the [CREATE TABLE](10-ddl-create-table.md) command. For more information, see [CREATE TRANSIENT TABLE](10-ddl-create-table.md#create-transient-table).
+- **临时表**：与此相反，临时表不支持时间旅行。它们设计用于不需要历史数据跟踪的场景。要创建临时表，您必须在 [CREATE TABLE](10-ddl-create-table.md) 命令中明确指定 TRANSIENT 关键字。更多信息，请参见 [CREATE TRANSIENT TABLE](10-ddl-create-table.md#create-transient-table)。
 
-### 2. Selecting Table Storage
+### 2. 选择表存储
 
-Databend defaults to storing table data in the location configured in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file. Additionally, it provides the flexibility to store table data in a different bucket, deviating from the default setting. For more information, see [CREATE TABLE ... EXTERNAL_LOCATION](10-ddl-create-table.md#create-table--external_location).
+Databend 默认将表数据存储在 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中配置的位置。此外，它提供了将表数据存储在不同存储桶中的灵活性，偏离默认设置。更多信息，请参见 [CREATE TABLE ... EXTERNAL_LOCATION](10-ddl-create-table.md#create-table--external_location)。
 
-### 3. Defining Table Structure
+### 3. 定义表结构
 
-The primary method to define columns in a table is through the [CREATE TABLE](10-ddl-create-table.md#create-table) command, where you list your columns one by one. Please note that Computed Columns are supported as an Enterprise Edition feature in Databend. For more information, see [Computed Columns](10-ddl-create-table.md#computed-columns).
+在表中定义列的主要方法是通过 [CREATE TABLE](10-ddl-create-table.md#create-table) 命令，您可以逐一列出您的列。请注意，计算列作为 Databend 企业版功能得到支持。更多信息，请参见 [计算列](10-ddl-create-table.md#computed-columns)。
 
-Databend also offers convenient methods for creating tables by copying column structures and even data from existing tables:
+Databend 还提供了通过复制现有表的列结构甚至数据来创建表的便捷方法：
 
-- [CREATE TABLE ... LIKE](10-ddl-create-table.md#create-table--like): Creates a table with the same column definitions as an existing one.
-- [CREATE TABLE ... AS](10-ddl-create-table.md#create-table--as): Creates a table and inserts data based on the results of a SELECT query.
-- [ATTACH TABLE](92-attach-table.md): Creates a table by associating it with an existing table.
+- [CREATE TABLE ... LIKE](10-ddl-create-table.md#create-table--like)：创建一个具有与现有表相同的列定义的表。
+- [CREATE TABLE ... AS](10-ddl-create-table.md#create-table--as)：根据 SELECT 查询的结果创建一个表并插入数据。
+- [ATTACH TABLE](92-attach-table.md)：通过将表与现有表关联来创建表。
 
-### 4. Setting Cluster Key for Big Tables
+### 4. 为大表设置集群键
 
-[Cluster Key](../06-clusterkey/index.md) is designed to enhance query performance by physically organizing data in proximity. Databend recommends configuring cluster keys, especially for large tables encountering sluggish query performance. For the syntax to set a cluster key during table creation, see [SET CLUSTER KEY](../06-clusterkey/dml-set-cluster-key.md).
+[集群键](../06-clusterkey/index.md) 旨在通过物理组织数据的邻近性来提高查询性能。Databend 建议配置集群键，特别是对于查询性能缓慢的大型表。有关在表创建期间设置集群键的语法，请参见 [SET CLUSTER KEY](../06-clusterkey/dml-set-cluster-key.md)。
 
-## Routine Table Maintenance
+## 常规表维护
 
-Once your table is created, you gain the foundation for organizing and managing your data effectively. With this structure in place, you can seamlessly execute various commands to enhance, modify, or extract information from your table. Whether it's adjusting column properties, fine-tuning configurations, or querying data, Databend provides a versatile set of tools to meet your evolving needs.
+一旦创建了表，您就为有效组织和管理数据奠定了基础。有了这个结构，您可以无缝地执行各种命令来增强、修改或从表中提取信息。无论是调整列属性、微调配置还是查询数据，Databend 都提供了一套多功能的工具来满足您不断变化的需求。
 
-- [DESCRIBE TABLE](50-describe-table.md), [SHOW FIELDS](show-fields.md): Shows information about the columns in a given table.
-- [SHOW FULL COLUMNS](show-full-columns.md): Retrieves comprehensive details about the columns in a given table.
-- [SHOW CREATE TABLE](show-create-table.md): Shows the CREATE TABLE statement that creates the named table.
-- [SHOW DROP TABLES](show-drop-tables.md): Lists the dropped tables in the current or a specified database.
-- [SHOW TABLE STATUS](show-table-status.md): Shows the status of the tables in a database.
-- [SHOW TABLES](show-tables.md): Lists the tables in the current or a specified database.
-- [ALTER TABLE COLUMN](90-alter-table-column.md): Modifies the structure of a table by making changes to its columns. 
-- [ALTER TABLE OPTION](90-alter-table-option.md): Modifies the Fuse engine [Options](../../../00-sql-reference/30-table-engines/00-fuse.md#options) of a table.
-- [RENAME TABLE](30-ddl-rename-table.md): Changes the name of a table.
+- [DESCRIBE TABLE](50-describe-table.md)，[SHOW FIELDS](show-fields.md)：显示给定表中的列信息。
+- [SHOW FULL COLUMNS](show-full-columns.md)：检索给定表中列的全面细节。
+- [SHOW CREATE TABLE](show-create-table.md)：显示创建命名表的 CREATE TABLE 语句。
+- [SHOW DROP TABLES](show-drop-tables.md)：列出当前或指定数据库中已删除的表。
+- [SHOW TABLE STATUS](show-table-status.md)：显示数据库中表的状态。
+- [SHOW TABLES](show-tables.md)：列出当前或指定数据库中的表。
+- [ALTER TABLE COLUMN](90-alter-table-column.md)：通过对其列进行更改来修改表的结构。
+- [ALTER TABLE OPTION](90-alter-table-option.md)：修改表的 Fuse 引擎 [选项](../../../00-sql-reference/30-table-engines/00-fuse.md#options)。
+- [RENAME TABLE](30-ddl-rename-table.md)：更改表的名称。
 
-## Table Deletion & Recovery Strategies
+## 表删除与恢复策略
 
-Databend provides a variety of commands for deleting a table or vacuuming the table data. The table below compares these commands, which may initially seem complex, outlining any associated recovery options for each operation.
+Databend 提供了多种命令用于删除表或清理表数据。下表比较了这些命令，这些命令最初可能看起来复杂，概述了每个操作的任何相关恢复选项。
 
-| Command           | Enterprise Edition? | Description                                                        | Recovery        |
+| 命令           | 企业版？ | 描述                                                        | 恢复        |
 |-------------------|---------------------|--------------------------------------------------------------------|-----------------|
-| [TRUNCATE TABLE](40-ddl-truncate-table.md)   | No                  | Removes all data from a table while preserving the table's schema. | [FLASHBACK TABLE](70-flashback-table.md) |
-| [DROP TABLE](20-ddl-drop-table.md)        | No                  | Deletes a table.                                                   | [UNDROP TABLE](21-ddl-undrop-table.md)    |
-| [VACUUM TABLE](91-vacuum-table.md)      | Yes                 | Permanently removes historical data files of a table.              | Not applicable. |
-| [VACUUM DROP TABLE](91-vacuum-drop-table.md) | Yes                 | Permanently removes data files of dropped tables.                  | Not applicable. |
+| [TRUNCATE TABLE](40-ddl-truncate-table.md)   | 否                  | 从表中删除所有数据，同时保留表的架构。 | [FLASHBACK TABLE](70-flashback-table.md) |
+| [DROP TABLE](20-ddl-drop-table.md)        | 否                  | 删除表。                                                   | [UNDROP TABLE](21-ddl-undrop-table.md)    |
+| [VACUUM TABLE](91-vacuum-table.md)      | 是                 | 永久删除表的历史数据文件。              | 不适用。 |
+| [VACUUM DROP TABLE](91-vacuum-drop-table.md) | 是                 | 永久删除已删除表的数据文件。                  | 不适用。 |
 
 
-## Advanced Table Optimization Techniques
+## 高级表优化技术
 
-Tables in Databend might need optimizations over time to ensure efficient performance and storage utilization. In this case, the following commands can help you out:
+随着时间的推移，Databend 中的表可能需要优化，以确保高效的性能和存储利用率。在这种情况下，以下命令可以帮助您：
 
 :::note
-Table Optimization is an advanced-level operation. Databend recommends carefully reading the links below and understanding the optimization process before proceeding to avoid potential data loss.
+表优化是一项高级操作。Databend 建议在进行优化之前仔细阅读下面的链接并理解优化过程，以避免潜在的数据丢失。
 :::
 
-- [ANALYZE TABLE](80-analyze-table.md): Calculates table statistics.
-- [OPTIMIZE TABLE](60-optimize-table.md): Involves compacting or purging historical data to save storage space and enhance query performance.
+- [ANALYZE TABLE](80-analyze-table.md)：计算表统计信息。
+- [OPTIMIZE TABLE](60-optimize-table.md)：涉及压缩或清除历史数据以节省存储空间并提高查询性能。
