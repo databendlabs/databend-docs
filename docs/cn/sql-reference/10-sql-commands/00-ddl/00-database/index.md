@@ -1,8 +1,8 @@
 ---
-title: Database
+title: 数据库
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This page provides reference information for the database-related commands in Databend.
+此页面提供了与 Databend 中数据库相关命令的参考信息。
 
 <IndexOverviewList />

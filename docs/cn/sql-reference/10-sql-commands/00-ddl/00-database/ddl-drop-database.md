@@ -23,11 +23,11 @@ root@localhost:8000/default> CREATE DATABASE orders_2024;
 
 CREATE DATABASE orders_2024
 
-0 行在 0.014 秒内写入。处理了 0 行，0 B (0 行/秒，0 B/秒)
+0 行在 0.014 秒内写入。处理了 0 行，0 B（0 行/秒，0 B/秒）
 
 root@localhost:8000/default> DROP DATABASE orders_2024;
 
 DROP DATABASE orders_2024
 
-0 行在 0.012 秒内写入。处理了 0 行，0 B (0 行/秒，0 B/秒)
+0 行在 0.012 秒内写入。处理了 0 行，0 B（0 行/秒，0 B/秒）
 ```
