@@ -1,85 +1,80 @@
 ---
-title: Connection
+title: 连接（CONNECTION）
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-### What is Connection?
+### 什么是连接？
 
-A connection in Databend refers to a designated configuration that encapsulates the details required to interact with an external storage service. It serves as a centralized and reusable set of parameters, such as access credentials, endpoint URLs, and storage types, facilitating the integration of Databend with various storage services.
+在 Databend 中，连接（`CONNECTION`）指的是封装了与外部存储服务交互所需细节的指定配置。它作为一组集中和可重用的参数，如访问凭证、端点 URL 和存储类型，促进了 Databend 与各种存储服务的集成。
 
-Connection can be utilized for creating external stages, external tables, and attaching tables, offering a streamlined and modular approach to managing and accessing data stored in external storage services through Databend. See [Usage Examples](#usage-examples) for examples.
+连接可用于创建外部 Stage、外部表和附加表，为 Databend 管理和访问存储在外部存储服务中的数据提供了一种流线型和模块化的方法。请参见 [使用示例](#usage-examples) 了解详情。
 
-### Managing Connections
+### 管理连接
 
-To manage connections in Databend, use the following commands:
+要在 Databend 中管理连接，请使用以下命令：
 
 <IndexOverviewList />
 
-### Usage Examples
+### 使用示例
 
-The examples in this section initially create a connection with the credentials necessary for connecting to Amazon S3. Subsequently, they utilize this established connection to create an external stage and attach an existing table. 
+本节中的示例先创建了一个连接，其中包含连接到 Amazon S3 所需的凭证。随后，它们利用这个连接来创建一个外部 Stage 并将数据附到一个现存的表中。
 
-This statement initiates a connection to Amazon S3, specifying essential connection parameters:
+此语句启动到 Amazon S3 的连接，指定必要的连接参数：
 
 ```sql
-CREATE CONNECTION toronto 
-    STORAGE_TYPE = 's3' 
-    SECRET_ACCESS_KEY = '<your-secret-access-key>' 
+CREATE CONNECTION toronto
+    STORAGE_TYPE = 's3'
+    SECRET_ACCESS_KEY = '<your-secret-access-key>'
     ACCESS_KEY_ID = '<your-access-key-id>';
-
 ```
 
-#### Example 1: Creating External Stage with Connection
+#### 示例 1：使用连接创建外部 Stage
 
-The following example creates an external stage using the previously defined connection named 'toronto':
+以下示例使用之前定义的名为'toronto'的连接创建一个外部 Stage：
 
 ```sql
-CREATE STAGE my_s3_stage 
-    URL = 's3://databend-toronto' 
+CREATE STAGE my_s3_stage
+    URL = 's3://databend-toronto'
     CONNECTION = (CONNECTION_NAME = 'toronto');
 
 
--- Equivalent to the following statement without using a connection:
-
-CREATE STAGE my_s3_stage 
-    URL = 's3://databend-toronto' 
+-- 等同于以下未使用连接的语句：
+CREATE STAGE my_s3_stage
+    URL = 's3://databend-toronto'
     CONNECTION = (
-        SECRET_ACCESS_KEY = '<your-secret-access-key>' 
+        SECRET_ACCESS_KEY = '<your-secret-access-key>'
         ACCESS_KEY_ID = '<your-access-key-id>'
     );
-
 ```
 
-#### Example 2: Attaching Table with Connection
+#### 示例 2：在附加表中使用连接
 
-The [ATTACH TABLE](../01-table/92-attach-table.md) page offers [Examples](../01-table/92-attach-table.md#examples) demonstrating how to connect a new table in Databend Cloud with an existing table in Databend, where data is stored within an Amazon S3 bucket named "databend-toronto". In each example, Step 3 can be streamlined using the previously defined connection named 'toronto':
+[ATTACH TABLE](../01-table/92-attach-table.md)页面提供了[示例](../01-table/92-attach-table.md#examples)，演示了如何在 Databend Cloud 中将一个新表与 Databend 中的现有表进行连接，其中数据存储在名为 "databend-toronto" 的 Amazon S3 桶中。在这个示例中，步骤 3 可以使用之前定义的名为 'toronto' 的连接来简化：
 
 ```sql title='Databend Cloud:'
-ATTACH TABLE employees_backup 
-    's3://databend-toronto/1/216/' 
+ATTACH TABLE employees_backup
+    's3://databend-toronto/1/216/'
     CONNECTION = (CONNECTION_NAME = 'toronto');
-
 ```
 
 ```sql title='Databend Cloud:'
-ATTACH TABLE population_readonly 
-    's3://databend-toronto/1/556/' 
-    CONNECTION = (CONNECTION_NAME = 'toronto') 
+ATTACH TABLE population_readonly
+    's3://databend-toronto/1/556/'
+    CONNECTION = (CONNECTION_NAME = 'toronto')
     READ_ONLY;
-
 ```
 
-#### Example 3: Creating External Table with Connection
+#### 示例 3：使用连接创建外部表
 
-This example demonstrates the creation of an external table named 'BOOKS' using the previously defined connection named 'toronto':
+此示例演示了使用之前定义的名为 'toronto' 的连接创建名为 'BOOKS' 的外部表：
 
 ```sql
 CREATE TABLE BOOKS (
     id BIGINT UNSIGNED,
     title VARCHAR,
     genre VARCHAR DEFAULT 'General'
-) 
-'s3://databendI-toronto' 
+)
+'s3://databend-toronto'
 CONNECTION = (CONNECTION_NAME = 'toronto');
-
 ```

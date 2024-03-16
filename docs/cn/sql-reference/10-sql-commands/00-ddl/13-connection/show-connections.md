@@ -1,20 +1,20 @@
 ---
-title: SHOW CONNECTIONS
+title: 显示连接
 sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.208"/>
+<FunctionDescription description="引入或更新于：v1.2.208"/>
 
-Displays a list of all available connections.
+显示所有可用连接的列表。
 
-## Syntax
+## 语法
 
 ```sql
 SHOW CONNECTIONS
 ```
 
-## Examples
+## 示例
 
 ```sql
 SHOW CONNECTIONS;

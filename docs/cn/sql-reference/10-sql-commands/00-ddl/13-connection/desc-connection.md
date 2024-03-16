@@ -4,17 +4,17 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.208"/>
+<FunctionDescription description="引入或更新版本：v1.2.208"/>
 
-Describes the details of a specific connection, providing information about its type and configuration.
+描述一个特定连接的详细信息，提供有关其类型和配置的信息。
 
-## Syntax
+## 语法
 
 ```sql
 DESC CONNECTION <connection_name>
 ```
 
-## Examples
+## 示例
 
 ```sql
 DESC CONNECTION toronto;

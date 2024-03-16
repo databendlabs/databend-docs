@@ -55,7 +55,7 @@ CONNECTION = ( <connection_parameters> ) [ READ_ONLY ]
   在只读模式下，如果源表中有架构更改，已附加的表必须被删除然后重新附加。
   :::
 
-## 示例
+## 示例 {#examples}
 
 ### 示例 1：在 Databend Cloud 中附加表
 
@@ -84,10 +84,8 @@ INSERT INTO employees (id, name, salary) VALUES
 
 ```sql title='Databend:'
 SELECT * FROM FUSE_SNAPSHOT('default', 'employees');
+```
 
-
-
-```markdown
 #### 步骤 3. 在 Databend Cloud 中链接表格
 
 登录到 Databend Cloud 并在工作表中运行以下命令以链接名为 "employees_backup" 的表格：
@@ -182,8 +180,7 @@ INSERT INTO population (city, population) VALUES
 SELECT * FROM FUSE_SNAPSHOT('default', 'population');
 ```
 
-```markdown
-#### 步骤 3. 在 Databend Cloud 中链接表格 {/*examples*/}
+#### 步骤 3. 在 Databend Cloud 中链接表格
 
 登录到 Databend Cloud 并在工作表中运行以下命令以链接名为 "population_readonly" 的表格为只读模式：
 
@@ -235,4 +232,3 @@ SELECT * FROM population_readonly;
 如果你尝试在 Databend Cloud 中更新附加的表 "population_readonly"，你会遇到以下错误，因为表是以只读模式附加的：
 
 ![Alt text](@site/docs/public/img/sql/attach-table-3.png)
-```

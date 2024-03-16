@@ -12,7 +12,7 @@ title: RESULT_SCAN
 RESULT_SCAN( { '<query_id>' | LAST_QUERY_ID() } )
 ```
 
-## 示例 {/*examples*/}
+## 示例  
 
 创建一个简单的表：
 
