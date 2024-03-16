@@ -1,6 +1,7 @@
 ---
 title: Iceberg 表引擎
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.262"/>
@@ -14,28 +15,28 @@ Databend 的 [Apache Iceberg](https://iceberg.apache.org/) 引擎允许您无缝
 
 此表将 Apache Iceberg 与 Databend 之间的数据类型进行了映射。请注意，Databend 目前不支持表中未列出的 Iceberg 数据类型。
 
-| Apache Iceberg                  | Databend                |
-| ------------------------------- | ----------------------- |
-| BOOLEAN                         | [BOOLEAN](/sql/sql-reference/data-types/data-type-logical-types)                 |
-| INT                             | [INT32](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)                   |
-| LONG                            | [INT64](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)                   |
-| DATE                            | [DATE](/sql/sql-reference/data-types/data-type-time-date-types)                    |
-| TIMESTAMP/TIMESTAMPZ            | [TIMESTAMP](/sql/sql-reference/data-types/data-type-time-date-types)               |
-| FLOAT                           | [FLOAT](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-types)                  |
-| DOUBLE                          | [DOUBLE](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-type)                  |
-| STRING/BINARY                   | [STRING](/sql/sql-reference/data-types/data-type-string-types)                  |
-| DECIMAL                         | [DECIMAL](/sql/sql-reference/data-types/data-type-decimal-types)                 |
-| ARRAY&lt;TYPE&gt;               | [ARRAY](/sql/sql-reference/data-types/data-type-array-types), 支持嵌套 |
-| MAP&lt;KEYTYPE, VALUETYPE&gt;       | [MAP](/sql/sql-reference/data-types/data-type-map)                     |
-| STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/data-type-tuple-types)           |
-| LIST                            | [ARRAY](/sql/sql-reference/data-types/data-type-array-types)                   |
+| Apache Iceberg                              | Databend                                                                                 |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| BOOLEAN                                     | [BOOLEAN](/sql/sql-reference/data-types/data-type-logical-types)                         |
+| INT                                         | [INT32](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)        |
+| LONG                                        | [INT64](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)        |
+| DATE                                        | [DATE](/sql/sql-reference/data-types/data-type-time-date-types)                          |
+| TIMESTAMP/TIMESTAMPZ                        | [TIMESTAMP](/sql/sql-reference/data-types/data-type-time-date-types)                     |
+| FLOAT                                       | [FLOAT](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-types) |
+| DOUBLE                                      | [DOUBLE](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-type) |
+| STRING/BINARY                               | [STRING](/sql/sql-reference/data-types/data-type-string-types)                           |
+| DECIMAL                                     | [DECIMAL](/sql/sql-reference/data-types/data-type-decimal-types)                         |
+| ARRAY&lt;TYPE&gt;                           | [ARRAY](/sql/sql-reference/data-types/data-type-array-types), 支持嵌套                   |
+| MAP&lt;KEYTYPE, VALUETYPE&gt;               | [MAP](/sql/sql-reference/data-types/data-type-map)                                       |
+| STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/data-type-tuple-types)                             |
+| LIST                                        | [ARRAY](/sql/sql-reference/data-types/data-type-array-types)                             |
 
 ## 语法
 
 ```sql
-CREATE TABLE <table_name> 
-ENGINE = Iceberg 
-LOCATION = 's3://<path_to_table>' 
+CREATE TABLE <table_name>
+ENGINE = Iceberg
+LOCATION = 's3://<path_to_table>'
 CONNECTION_NAME = '<connection_name>'
 ```
 
@@ -45,13 +46,13 @@ CONNECTION_NAME = '<connection_name>'
 
 ```sql
 --设置连接
-CREATE CONNECTION my_s3_conn 
-STORAGE_TYPE = 's3' 
+CREATE CONNECTION my_s3_conn
+STORAGE_TYPE = 's3'
 ACCESS_KEY_ID ='your-ak' SECRET_ACCESS_KEY ='your-sk';
 
 -- 使用 Apache Iceberg 引擎创建表
 CREATE TABLE test_iceberg
-ENGINE = Iceberg 
-LOCATION = 's3://testbucket/iceberg_ctl/iceberg_db/iceberg_tbl/' 
+ENGINE = Iceberg
+LOCATION = 's3://testbucket/iceberg_ctl/iceberg_db/iceberg_tbl/'
 CONNECTION_NAME = 'my_s3_conn';
 ```

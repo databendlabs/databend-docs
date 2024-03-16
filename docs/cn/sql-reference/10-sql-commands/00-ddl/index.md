@@ -12,7 +12,7 @@ title: DDL（数据定义语言）命令
 
 ## 数据库性能和索引
 
-- [集群键](06-clusterkey/index.md)
+- [聚类键](06-clusterkey/index.md)
 - [聚合索引](07-aggregating-index/index.md)
 
 ## 用户、角色和安全管理
@@ -23,12 +23,12 @@ title: DDL（数据定义语言）命令
 
 ## 数据暂存和处理
 
-- [阶段](03-stage/index.md)
-- [流](04-stream/index.md)
-- [连接](13-connection/index.md)
+- [Stage](03-stage/index.md)
+- [流 Stream](04-stream/index.md)
+- [连接 Connection](13-connection/index.md)
 - [文件格式](13-file-format/index.md)
 
 ## 函数和外部集成
 
-- [UDF（用户定义的函数）](10-udf/index.md)
+- [UDF（用户定义函数）](10-udf/index.md)
 - [外部函数](11-external-function/index.md)

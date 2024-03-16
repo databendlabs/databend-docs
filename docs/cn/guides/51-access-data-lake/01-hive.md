@@ -105,8 +105,7 @@ CONNECTION =(
 );
 ```
 
-```markdown
-# 显示创建目录 `hive_ctl`
+### SHOW CREATE CATALOG hive_ctl
 
 使用 `SHOW CREATE CATALOG` 语句可以查看创建 Hive 目录的 SQL。
 
@@ -127,4 +126,3 @@ SHOW CREATE CATALOG hive_ctl;
 ```
 
 这显示了创建 `hive_ctl` 目录时使用的具体参数。
-```
