@@ -116,7 +116,7 @@ EXPLAIN SELECT number % 3 AS key, SUM(number) AS value FROM numbers(1000) WHERE 
 
 在 ScatterOptimizer 中，我们遍历查询的所有计划并重写感兴趣的计划（重写为 StagePlan { kind:StageKind, input:Self }），其中 input 是重写后的计划，kind 是一个枚举（Normal：数据再次被洗牌，Expansive：数据从一个节点扩散到多个节点，Convergent：数据从多个节点聚合到一个节点）
 
-### PlanScheduler 和 RemoteProcessor {/*examples*/}
+### PlanScheduler 和 RemoteProcessor  
 
 在集群模式下，我们提取 ScatterOptimizer 优化后的计划中的所有 StagePlans，并根据 kind 将它们发送到集群中的相应节点。
 
