@@ -39,7 +39,7 @@ formatTypeOptions ::=
   COMPRESSION = AUTO | GZIP | BZ2 | BROTLI | ZSTD | DEFLATE | RAW_DEFLATE | XZ | NONE
 ```
 
-## CSV 选项
+## CSV 选项 {#csv-options}
 
 Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS 文件，并受以下条件限制：
 
@@ -169,7 +169,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 | `RAW_DEFLATE`    | Deflate压缩文件（无任何头部，RFC1951）。                            |
 | `XZ`             |                                                                    |
 
-## TSV 选项
+## TSV 选项 {#tsv-options}
 
 处理TSV文件时，Databend遵循以下条件：
 
@@ -205,7 +205,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 
 与[CSV的COMPRESSION选项](#compression)相同。
 
-## NDJSON 选项
+## NDJSON 选项 {#ndjson-options}
 
 ### NULL_FIELD_AS
 
@@ -231,7 +231,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 
 与[CSV的COMPRESSION选项](#compression)相同。
 
-## PARQUET 选项
+## PARQUET 选项 {#parquet-options}
 
 ### MISSING_FIELD_AS
 
@@ -246,7 +246,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 
 ### COMPRESSION
 
-与[CSV的COMPRESSION选项](#compression)相同。
+与 [CSV 的 COMPRESSION 选项](#compression) 相同。
 
 ### ROW_TAG
 

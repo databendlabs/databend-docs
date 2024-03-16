@@ -5,6 +5,7 @@ title: 卸载 CSV 文件
 ## 卸载 CSV 文件
 
 语法：
+
 ```sql
 COPY INTO { internalStage | externalStage | externalLocation }
 FROM { [<database_name>.]<table_name> | ( <query> ) }
@@ -25,13 +26,13 @@ FILE_FORMAT = (
 
 ## 教程
 
-### 步骤 1. 创建一个外部阶段
+### 步骤 1. 创建一个外部 Stage
 
 ```sql
-CREATE STAGE csv_unload_stage 
-URL = 's3://unload/csv/' 
+CREATE STAGE csv_unload_stage
+URL = 's3://unload/csv/'
 CONNECTION = (
-    ACCESS_KEY_ID = '<your-access-key-id>' 
+    ACCESS_KEY_ID = '<your-access-key-id>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>'
 );
 ```
@@ -39,7 +40,7 @@ CONNECTION = (
 ### 步骤 2. 创建自定义 CSV 文件格式
 
 ```sql
-CREATE FILE FORMAT csv_unload_format 
+CREATE FILE FORMAT csv_unload_format
     TYPE = CSV,
     RECORD_DELIMITER = '\n',
     FIELD_DELIMITER = ',',
@@ -51,16 +52,17 @@ CREATE FILE FORMAT csv_unload_format
 ### 步骤 3. 卸载到 CSV 文件
 
 ```sql
-COPY INTO @csv_unload_stage 
+COPY INTO @csv_unload_stage
 FROM (
-    SELECT * 
+    SELECT *
     FROM generate_series(1, 100)
-) 
+)
 FILE_FORMAT = (FORMAT_NAME = 'csv_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
 结果：
+
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
 │                             file_name                            │ file_size │ row_count │
@@ -81,6 +83,7 @@ FROM @csv_unload_stage
 ```
 
 结果：
+
 ```text
 ┌───────────┐
 │ count($1) │

@@ -5,6 +5,7 @@ title: 卸载 NDJSON 文件
 ## 卸载 TSV 文件
 
 语法：
+
 ```sql
 COPY INTO { internalStage | externalStage | externalLocation }
 FROM { [<database_name>.]<table_name> | ( <query> ) }
@@ -23,13 +24,13 @@ FILE_FORMAT = (
 
 ## 教程
 
-### 步骤 1. 创建一个外部阶段
+### 步骤 1. 创建一个外部 Stage
 
 ```sql
-CREATE STAGE ndjson_unload_stage 
-URL = 's3://unload/ndjson/' 
+CREATE STAGE ndjson_unload_stage
+URL = 's3://unload/ndjson/'
 CONNECTION = (
-    ACCESS_KEY_ID = '<your-access-key-id>' 
+    ACCESS_KEY_ID = '<your-access-key-id>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>'
 );
 ```
@@ -37,7 +38,7 @@ CONNECTION = (
 ### 步骤 2. 创建自定义 NDJSON 文件格式
 
 ```
-CREATE FILE FORMAT ndjson_unload_format 
+CREATE FILE FORMAT ndjson_unload_format
     TYPE = NDJSON,
     COMPRESSION = gzip;     -- 使用 gzip 压缩卸载
 ```
@@ -45,16 +46,17 @@ CREATE FILE FORMAT ndjson_unload_format
 ### 步骤 3. 卸载到 NDJSON 文件
 
 ```sql
-COPY INTO @ndjson_unload_stage 
+COPY INTO @ndjson_unload_stage
 FROM (
-    SELECT * 
+    SELECT *
     FROM generate_series(1, 100)
-) 
+)
 FILE_FORMAT = (FORMAT_NAME = 'ndjson_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
 结果：
+
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
 │                              file_name                              │ file_size │ row_count │
@@ -75,6 +77,7 @@ FROM @ndjson_unload_stage
 ```
 
 结果：
+
 ```text
 ┌───────────┐
 │ count($1) │

@@ -5,6 +5,7 @@ title: 卸载 Parquet 文件
 ## 卸载 Parquet 文件
 
 语法：
+
 ```sql
 COPY INTO {internalStage | externalStage | externalLocation}
 FROM { [<database_name>.]<table_name> | ( <query> ) }
@@ -19,13 +20,13 @@ FILE_FORMAT = (TYPE = PARQUET)
 
 ## 教程
 
-### 步骤 1. 创建一个外部阶段
+### 步骤 1. 创建一个外部 Stage
 
 ```sql
-CREATE STAGE parquet_unload_stage 
-URL = 's3://unload/parquet/' 
+CREATE STAGE parquet_unload_stage
+URL = 's3://unload/parquet/'
 CONNECTION = (
-    ACCESS_KEY_ID = '<your-access-key-id>' 
+    ACCESS_KEY_ID = '<your-access-key-id>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>'
 );
 ```
@@ -33,7 +34,7 @@ CONNECTION = (
 ### 步骤 2. 创建自定义 Parquet 文件格式
 
 ```sql
-CREATE FILE FORMAT parquet_unload_format 
+CREATE FILE FORMAT parquet_unload_format
     TYPE = PARQUET
     ;
 ```
@@ -41,16 +42,17 @@ CREATE FILE FORMAT parquet_unload_format
 ### 步骤 3. 卸载到 Parquet 文件
 
 ```sql
-COPY INTO @parquet_unload_stage 
+COPY INTO @parquet_unload_stage
 FROM (
-    SELECT * 
+    SELECT *
     FROM generate_series(1, 100)
-) 
+)
 FILE_FORMAT = (FORMAT_NAME = 'parquet_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
 结果：
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────┐
 │                             file_name                             │ file_size │ row_count │
@@ -66,12 +68,13 @@ DETAILED_OUTPUT = true;
 SELECT COUNT($1)
 FROM @parquet_unload_stage
 (
-    FILE_FORMAT => 'parquet_unload_format', 
+    FILE_FORMAT => 'parquet_unload_format',
     PATTERN => '.*[.]parquet'
 );
 ```
 
 结果：
+
 ```text
 ┌───────────┐
 │ count($1) │
