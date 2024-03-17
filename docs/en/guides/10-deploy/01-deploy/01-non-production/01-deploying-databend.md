@@ -106,6 +106,20 @@ For information about how to manage buckets and Access Keys for your cloud objec
 - <https://docs.wasabi.com/docs/access-keys-1>
 
 </TabItem>
+
+<TabItem value="MinIO" label="MinIO">
+
+1. Create a bucket or container named `my_bucket`.
+2. Get the endpoint URL for connecting to the bucket or container you created.
+3. Get the Access Key ID and Secret Access Key for your account.
+
+For information about how to manage buckets and Access Keys for your MinIO, refer to the user manual from the solution provider. Here are some useful links you may need:
+
+- <https://min.io/docs/minio/container/index.html>
+- <https://min.io/docs/minio/container/administration/console/managing-objects.html>
+- <https://min.io/docs/minio/container/administration/console/security-and-access.html>
+
+</TabItem>
 </Tabs>
 
 </StepContent>
@@ -338,6 +352,21 @@ access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
 
+</TabItem>
+
+<TabItem value="MinIO" label="MinIO">
+
+```toml title='databend-query.toml'
+[storage]
+# s3
+type = "s3"
+
+[storage.s3]
+bucket = "my_bucket"
+endpoint_url = "<your-endpoint-url>"
+access_key_id = "<your-key-id>"
+secret_access_key = "<your-access-key>"
+```
 </TabItem>
 
 </Tabs>
