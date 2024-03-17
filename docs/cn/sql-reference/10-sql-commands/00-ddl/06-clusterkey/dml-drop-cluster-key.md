@@ -16,7 +16,7 @@ ALTER TABLE [ IF EXISTS ] <name> DROP CLUSTER KEY
 
 ## 示例
 
-此命令删除表 *test* 的聚类键：
+此命令删除表 _test_ 的聚类键：
 
 ```sql
 ALTER TABLE test DROP CLUSTER KEY

@@ -34,5 +34,5 @@ SELECT * FROM clustering_information('db1','playground');
 ALTER TABLE playground DROP CLUSTER KEY;
 
 -- 通过表达式添加聚类键
-ALTER TABLE playground CLUSTER BY(rand()+a); 
+ALTER TABLE playground CLUSTER BY(rand()+a);
 ```

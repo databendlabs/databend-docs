@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入版本：v1.2.25"/>
 
-重新聚类一个表。关于为什么以及何时重新聚类一个表，请参见[重新聚类表](index.md#re-clustering-table)。
+重新聚类表。
 
 ### 语法
 
@@ -22,10 +22,10 @@ ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [
 
 :::note
 
-重新聚类一个表会消耗时间（如果包括 **FINAL** 选项，则时间更长）和积分（当您在 Databend Cloud 中时）。在优化过程中，不要对表执行 DML 操作。
+重新聚类表会消耗时间（如果包括 **FINAL** 选项，则时间更长）和 Credits 点数（当您在 Databend Cloud 中时）。在优化过程中，不要对表执行 DML 操作。
 :::
 
-该命令不会从头开始聚类表。相反，它会使用聚类算法选择并重新组织最新 **LIMIT** 段中最混乱的现有存储块。
+该命令不会从头开始聚类表。相反，它使用聚类算法选择并重新组织最新 **LIMIT** 段中最混乱的现有存储块。
 
 ### 示例
 
