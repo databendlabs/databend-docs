@@ -1,16 +1,19 @@
 ---
-title: Date & Time Functions
+title: 日期 & 时间函数
 ---
 
-This section provides reference information for the datetime-related functions in Databend.
+本节提供了Databend中与日期时间相关函数的参考信息。
 
-## Conversion Functions
+## 转换函数
 
+- [DATE](date.md)
 - [TO_MONTH](to-month)
+- [MONTH](month.md)
 - [TO_DATE](to-date)
 - [TO_DATETIME](to-datetime)
 - [TODAY](today.md)
 - [TO_DAY_OF_MONTH](to-day-of-month)
+- [DAY](day.md)
 - [TO_DAY_OF_WEEK](to-day-of-week)
 - [TO_DAY_OF_YEAR](to-day-of-year)
 - [TO_HOUR](to-hour)
@@ -18,6 +21,7 @@ This section provides reference information for the datetime-related functions i
 - [TO_MONDAY](to-monday)
 - [TOMORROW](tomorrow.md)
 - [TO_QUARTER](to-quarter)
+- [QUARTER](quarter.md)
 - [TO_SECOND](to-second)
 - [TO_START_OF_DAY](to-start-of-day)
 - [TO_START_OF_FIFTEEN_MINUTES](to-start-of-fifteen-minutes)
@@ -34,20 +38,23 @@ This section provides reference information for the datetime-related functions i
 - [TOTIMESTAMP](to-timestamp)
 - [TO_UNIX_TIMESTAMP](to-unix-timestamp)
 - [TO_WEEK_OF_YEAR](to-week-of-year)
+- [WEEK](week.md)
+- [WEEKOFYEAR](weekofyear.md)
 - [TO_YEAR](to-year)
+- [YEAR](year.md)
 - [TO_YYYYMM](to-yyyymm)
 - [TO_YYYYMMDD](to-yyyymmdd)
 - [TO_YYYYMMDDHH](to-yyyymmddhh)
 - [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss)
 
-## Date Arithmetic Functions
+## 日期算术函数
 
 - [ADD INTERVAL](addinterval.md)
 - [DATE_ADD](date-add)
 - [DATE_SUB](date-sub)
 - [SUBTRACT INTERVAL](subtractinterval.md)
 
-## Date Information Functions
+## 日期信息函数
 
 - [DATE_PART](date-part.md)
 - [DATE_DIFF](date-diff)
@@ -56,7 +63,7 @@ This section provides reference information for the datetime-related functions i
 - [NOW](now.md)
 - [CURRENT_TIMESTAMP](current-timestamp.md)
 
-## Others
+## 其他
 
 - [EXTRACT](extract.md)
 - [TIME_SLOT](time-slot)

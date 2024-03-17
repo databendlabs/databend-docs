@@ -3,89 +3,105 @@ title: TO_DATE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.39"/>
+<FunctionDescription description="引入或更新版本：v1.1.39"/>
 
-TO_DATE converts an expression to a date format. 
+将表达式转换为日期，包括：
 
-The function can accept one or two arguments. If given one argument, the function extracts a date from the string. If the argument is an integer, the function interprets the integer as the number of days before (for a negative number) or after (for a positive number) the Unix epoch (midnight on January 1, 1970). 
+- **将时间戳格式字符串转换为日期**：从给定字符串中提取日期。
 
-If given two arguments, the function converts the first string to a date based on the format specified in the second string. To customize the format of date and time in Databend, you can utilize specifiers. These specifiers allow you to define the desired format for date and time values. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
+- **将整数转换为日期**：将整数解释为Unix纪元（1970年1月1日午夜）之前（对于负数）或之后（对于正数）的天数。请注意，Date值的范围从`1000-01-01`到`9999-12-31`。如果运行"SELECT TO_DATE(9999999999999999999)"，Databend会返回错误。
 
-See also: [TO_TIMESTAMP](to-timestamp)
+- **使用指定格式将字符串转换为日期**：该函数接受两个参数，根据第二个字符串中指定的格式将第一个字符串转换为日期。为了在Databend中自定义日期和时间格式，可以使用指定符。有关支持的指定符的全面列表，请参见[格式化日期和时间](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time)。
 
-## Syntax
+另见：[TO_TIMESTAMP](to-timestamp)
+
+## 语法
 
 ```sql
--- Convert a string or integer to a date
-TO_DATE(<expr>)
+-- 转换时间戳格式字符串
+TO_DATE('<timestamp_expr>')
 
--- Convert a string to a date using the given pattern
-TO_DATE(<expr, expr>)
+-- 转换整数
+TO_DATE(<integer>)
+
+-- 使用给定格式转换字符串
+TO_DATE('<string>', '<format>')
 ```
 
-## Return Type
+## 别名
 
-Returns a date in the format "YYYY-MM-DD".
+- [DATE](date.md)
+- [STR_TO_DATE](str-to-date.md)
 
-## Examples
+## 返回类型
 
-### Given a String Argument
+该函数返回格式为"YYYY-MM-DD"的日期：
 
 ```sql
-SELECT TO_DATE('2022-01-02T01:12:00+07:00');
+SELECT TYPEOF(TO_DATE('2022-01-02')), TYPEOF(STR_TO_DATE('2022-01-02'));
 
----
-2022-01-02
-
-SELECT TO_DATE('2022-01-02 03:25:02.868894');
-
----
-2022-01-02
-
-SELECT TO_DATE('2022-01-02 02:00:11');
-
----
-2022-01-02
-
-SELECT TO_DATE('2022-01-02T02:00:22');
-
----
-2022-01-02
-
-SELECT TO_DATE('2022-01-02');
-
----
-2022-01-02
+┌───────────────────────────────────────────────────────────────────┐
+│ typeof(to_date('2022-01-02')) │ typeof(str_to_date('2022-01-02')) │
+├───────────────────────────────┼───────────────────────────────────┤
+│ DATE                          │ DATE                              │
+└───────────────────────────────────────────────────────────────────┘
 ```
 
-### Given an Integer Argument
+要将返回的日期转换回字符串，请使用[DATE_FORMAT](date-format.md)函数：
 
 ```sql
-SELECT TO_DATE(1);
+SELECT DATE_FORMAT(TO_DATE('2022-01-02')) AS dt, TYPEOF(dt);
 
----
-1970-01-02
-
-SELECT TO_DATE(-1);
-
----
-1969-12-31
+┌─────────────────────────┐
+│     dt     │ typeof(dt) │
+├────────────┼────────────┤
+│ 2022-01-02 │ VARCHAR    │
+└─────────────────────────┘
 ```
 
-:::tip
+## 示例
 
-Please note that a Date value ranges from 1000-01-01 to 9999-12-31. Databend would return an error if you run the following statement:
+### 示例 1：转换时间戳格式字符串
 
 ```sql
-SELECT TO_DATE(9999999999999999999);
+SELECT TO_DATE('2022-01-02T01:12:00+07:00'), STR_TO_DATE('2022-01-02T01:12:00+07:00');
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ to_date('2022-01-02t01:12:00+07:00') │ str_to_date('2022-01-02t01:12:00+07:00') │
+├──────────────────────────────────────┼──────────────────────────────────────────┤
+│ 2022-01-01                           │ 2022-01-01                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+SELECT TO_DATE('2022-01-02'), STR_TO_DATE('2022-01-02');
+
+┌───────────────────────────────────────────────────┐
+│ to_date('2022-01-02') │ str_to_date('2022-01-02') │
+├───────────────────────┼───────────────────────────┤
+│ 2022-01-02            │ 2022-01-02                │
+└───────────────────────────────────────────────────┘
 ```
-:::
 
-### Given Two Arguments
+### 示例 2：转换整数
 
 ```sql
-SELECT TO_DATE('Month/Day/Year: 12/25/2022','Month/Day/Year: %m/%d/%Y');
+SELECT TO_DATE(1), STR_TO_DATE(1), TO_DATE(-1), STR_TO_DATE(-1);
 
----
-2022-12-25
+┌───────────────────────────────────────────────────────────────────┐
+│ to_date(1) │ str_to_date(1) │ to_date((- 1)) │ str_to_date((- 1)) │
+│    Date    │      Date      │      Date      │        Date        │
+├────────────┼────────────────┼────────────────┼────────────────────┤
+│ 1970-01-02 │ 1970-01-02     │ 1969-12-31     │ 1969-12-31         │
+└───────────────────────────────────────────────────────────────────┘
+```
+
+### 示例 3：使用给定格式转换字符串
+
+```sql
+SELECT TO_DATE('12/25/2022','%m/%d/%Y'), STR_TO_DATE('12/25/2022','%m/%d/%Y');
+
+┌───────────────────────────────────────────────────────────────────────────┐
+│ to_date('12/25/2022', '%m/%d/%y') │ str_to_date('12/25/2022', '%m/%d/%y') │
+├───────────────────────────────────┼───────────────────────────────────────┤
+│ 2022-12-25                        │ 2022-12-25                            │
+└───────────────────────────────────────────────────────────────────────────┘
 ```

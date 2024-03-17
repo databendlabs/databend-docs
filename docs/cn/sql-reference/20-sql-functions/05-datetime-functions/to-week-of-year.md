@@ -3,38 +3,41 @@ title: TO_WEEK_OF_YEAR
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.151"/>
+<FunctionDescription description="引入或更新版本：v1.2.151"/>
 
-Calculates the week number within a year for a given date.
+计算给定日期在一年中的周数。
 
-ISO week numbering works as follows: January 4th is always considered part of the first week. If January 1st is a Thursday, then the week that spans from Monday, December 29th, to Sunday, January 4th, is designated as ISO week 1. If January 1st falls on a Friday, then the week that goes from Monday, January 4th, to Sunday, January 10th, is marked as ISO week 1.
+ISO周数计算方式如下：1月4日总是被认为是第一周的一部分。如果1月1日是周四，则从12月29日的周一到1月4日的周日的那一周被指定为ISO第1周。如果1月1日是周五，则从1月4日的周一到1月10日的周日的那一周被标记为ISO第1周。
 
-## Syntax
+## 语法
 
 ```sql
 TO_WEEK_OF_YEAR(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
+| 参数      | 描述          |
 |-----------|----------------|
-| `<expr>`  | date/timestamp |
+| `<expr>`  | 日期/时间戳 |
 
-## Return Type
+## 别名
 
-Returns an integer that represents the week number within a year, with numbering ranging from 1 to 53.
+- [WEEK](week.md)
+- [WEEKOFYEAR](weekofyear.md)
 
-## Examples
+## 返回类型
+
+返回一个整数，代表一年中的周数，编号范围从1到53。
+
+## 示例
 
 ```sql
-SELECT
-  to_week_of_year('2023-11-12 09:38:18.165575')
+SELECT NOW(), TO_WEEK_OF_YEAR(NOW()), WEEK(NOW()), WEEKOFYEAR(NOW());
 
-┌───────────────────────────────────────────────┐
-│ to_week_of_year('2023-11-12 09:38:18.165575') │
-│                     UInt8                     │
-├───────────────────────────────────────────────┤
-│                                            45 │
-└───────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────┐
+│            now()           │ to_week_of_year(now()) │ week(now()) │ weekofyear(now()) │
+├────────────────────────────┼────────────────────────┼─────────────┼───────────────────┤
+│ 2024-03-14 23:30:04.011624 │                     11 │          11 │                11 │
+└───────────────────────────────────────────────────────────────────────────────────────┘
 ```

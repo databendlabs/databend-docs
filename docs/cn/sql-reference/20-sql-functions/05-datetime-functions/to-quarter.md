@@ -4,38 +4,32 @@ title: TO_QUARTER
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.153"/>
+<FunctionDescription description="引入或更新版本：v1.2.153"/>
 
-Retrieves the quarter (1, 2, 3, or 4) from a given date or timestamp.
+从给定的日期或时间戳中检索季度（1、2、3 或 4）。
 
-## Syntax
+## 语法
 
 ```sql
 TO_QUARTER( <date_or_time_expr> )
 ```
 
-## Return Type
+## 别名
 
-Integer.
+- [QUARTER](quarter.md)
 
-## Examples
+## 返回类型
+
+整数。
+
+## 示例
 
 ```sql
-SELECT NOW();
+SELECT NOW(), TO_QUARTER(NOW()), QUARTER(NOW());
 
-now()                |
----------------------+
-2023-10-13 08:40:36.0|
-
-SELECT TO_QUARTER(NOW());
-
-to_quarter(now())|
------------------+
-                4|
-
-SELECT TO_QUARTER('2022-05-13');
-
-to_quarter('2022-05-13')|
-------------------------+
-                       2|
+┌─────────────────────────────────────────────────────────────────┐
+│            now()           │ to_quarter(now()) │ quarter(now()) │
+├────────────────────────────┼───────────────────┼────────────────┤
+│ 2024-03-14 23:32:52.743133 │                 1 │              1 │
+└─────────────────────────────────────────────────────────────────┘
 ```
