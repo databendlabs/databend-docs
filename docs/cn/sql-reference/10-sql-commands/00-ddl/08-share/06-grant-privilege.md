@@ -1,9 +1,9 @@
 ---
-title: 授予 SHARE <privilege> 权限
+title: 授予共享权限
 sidebar_position: 6
 ---
 
-将数据库对象的权限授予一个共享。
+将数据库对象的权限授予某个共享。
 
 ## 语法
 

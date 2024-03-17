@@ -3,7 +3,7 @@ title: 创建共享
 sidebar_position: 1
 ---
 
-创建一个共享。
+创建共享。
 
 ## 语法
 

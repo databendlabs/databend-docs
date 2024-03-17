@@ -11,7 +11,7 @@ sidebar_position: 7
 REVOKE { USAGE | SELECT | REFERENCE_USAGE } ON <object_name> FROM SHARE <share_name>;
 ```
 
-有关您可以从共享中撤销的权限的信息，请参见[授予`<privilege>`给共享](06-grant-privilege.md)。
+有关您可以从共享中撤销的权限的信息，请参见 [授予共享权限](06-grant-privilege.md)。
 
 ## 示例
 
