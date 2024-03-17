@@ -1,5 +1,5 @@
 ---
-title: SHOW GRANTS
+title: 显示权限
 sidebar_position: 10
 ---
 

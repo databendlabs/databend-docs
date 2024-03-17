@@ -2,28 +2,29 @@
 title: 创建用户
 sidebar_position: 1
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.339"/>
 
-创建一个SQL用户，提供用户的名称、认证类型和密码等详细信息。可选地，您可以为用户设置密码策略、网络策略和默认角色。
+创建一个 SQL 用户，提供用户的名称、认证类型和密码等详细信息。可选地，您可以为用户设置密码策略、网络策略和默认角色。
 
 另见：
 
- - [创建密码策略](../12-password-policy/create-password-policy.md)
- - [创建网络策略](../12-network-policy/ddl-create-policy.md)
- - [授权](10-grant.md)
+- [创建密码策略](../12-password-policy/create-password-policy.md)
+- [创建网络策略](../12-network-policy/ddl-create-policy.md)
+- [授权](10-grant.md)
 
 ## 语法
 
 ```sql
-CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>' 
+CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>'
 [ WITH SET PASSWORD POLICY = '<policy_name>' ] -- 设置密码策略
 [ WITH SET NETWORK POLICY = '<policy_name>' ] -- 设置网络策略
 [ WITH DEFAULT_ROLE = '<role_name>' ] -- 设置默认角色
 ```
 
-- *auth_type* 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
+- _auth_type_ 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
 - 使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在或自动将角色授予用户。您必须明确地将角色授予用户，角色才会生效。
 
 ## 示例

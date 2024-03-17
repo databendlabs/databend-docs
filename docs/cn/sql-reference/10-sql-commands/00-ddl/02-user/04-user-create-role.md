@@ -14,6 +14,7 @@ sidebar_position: 5
 ```sql
 CREATE ROLE <role_name> [ COMMENT = '<string_literal>' ]
 ```
+
 ## 示例
 
 ```sql

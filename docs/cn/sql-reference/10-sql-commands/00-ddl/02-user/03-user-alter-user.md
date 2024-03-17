@@ -2,6 +2,7 @@
 title: 修改用户
 sidebar_position: 2
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.283"/>
@@ -11,7 +12,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 - 更改用户的密码和认证类型。
 - 设置或取消设置密码策略。
 - 设置或取消设置网络策略。
-- 设置或修改默认角色。如果没有明确设置，默认情况下，Databend会使用内置角色`public`作为默认角色。
+- 设置或修改默认角色。如果没有明确设置，默认情况下，Databend 会使用内置角色`public`作为默认角色。
 
 ## 语法
 
@@ -35,9 +36,8 @@ ALTER USER <name> WITH UNSET NETWORK POLICY
 ALTER USER <name> WITH DEFAULT_ROLE = '<role_name>'
 ```
 
-- *auth_type* 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
-- 当你使用 [CREATE USER](01-user-create-user.md) 或 ALTER USER 为用户设置默认角色时，Databend不会验证角色的存在或自动将角色授予用户。你必须明确地将角色授予用户，角色才会生效。
-
+- _auth_type_ 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
+- 当你使用 [CREATE USER](01-user-create-user.md) 或 ALTER USER 为用户设置默认角色时，Databend 不会验证角色的存在或自动将角色授予用户。你必须明确地将角色授予用户，角色才会生效。
 
 ## 示例
 
