@@ -1,21 +1,21 @@
 ---
-title: REVOKE <privilege> from SHARE
+title: 从共享中撤销<privilege>
 sidebar_position: 7
 ---
 
-Revokes privileges on a database object from a share. 
+从共享中撤销对数据库对象的权限。
 
-## Syntax
+## 语法
 
 ```sql
 REVOKE { USAGE | SELECT | REFERENCE_USAGE } ON <object_name> FROM SHARE <share_name>;
 ```
 
-For information about the privileges you can revoke from a share, see [GRANT `<privilege>` to SHARE](06-grant-privilege.md).
+有关您可以从共享中撤销的权限的信息，请参见 [授予共享权限](06-grant-privilege.md)。
 
-## Examples
+## 示例
 
-The following example revokes the SELECT privilege on the table `table1` from the share `myshare`:
+以下示例从共享`myshare`中撤销对表`table1`的SELECT权限：
 
 ```sql
 REVOKE SELECT ON db1.table1 FROM SHARE myshare;

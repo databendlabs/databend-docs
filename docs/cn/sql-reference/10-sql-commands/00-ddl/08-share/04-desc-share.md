@@ -3,17 +3,17 @@ title: DESC SHARE
 sidebar_position: 2
 ---
 
-Lists the shared objects in a share.
+列出共享中的共享对象。
 
-## Syntax
+## 语法
 
 ```sql
 { DESC | DESCRIBE } SHARE <share_name>;
 ```
 
-## Examples
+## 示例
 
-The following example lists the shared objects in the share `myshare`:
+以下示例列出了共享 `myshare` 中的共享对象：
 
 ```sql
 DESC SHARE myshare;

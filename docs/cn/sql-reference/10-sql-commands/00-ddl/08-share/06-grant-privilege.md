@@ -1,25 +1,25 @@
 ---
-title: GRANT <privilege> to SHARE
+title: 授予共享权限
 sidebar_position: 6
 ---
 
-Grants privileges on a database object to a share.
+将数据库对象的权限授予某个共享。
 
-## Syntax
+## 语法
 
 ```sql
 GRANT { USAGE | SELECT | REFERENCE_USAGE } ON <object_name> TO SHARE <share_name>;
 ```
 
-WHERE:
+其中：
 
-- **USAGE**: Grant the USAGE privilege on the database to which the objects you want to share belong.
-- **SELECT**: Grant the SELECT privilege to the objects you want to share.
-- **REFERENCE_USAGE**: If you want to share a secure view that references objects from multiple databases, grant the REFERENCE_USAGE privilege to each of the databases.
+- **USAGE**：授予你想要共享的对象所属数据库的 USAGE 权限。
+- **SELECT**：授予你想要共享的对象的 SELECT 权限。
+- **REFERENCE_USAGE**：如果你想共享一个引用了多个数据库对象的安全视图，请为每个数据库授予 REFERENCE_USAGE 权限。
 
-## Examples
+## 示例
 
-The following examples grant the USAGE privilege on the database `db1` and the SELECT privilege on the table `table1` to the share `myshare`:
+以下示例将数据库 `db1` 的 USAGE 权限和表 `table1` 的 SELECT 权限授予共享 `myshare`：
 
 ```sql
 GRANT USAGE ON DATABASE db1 TO SHARE myshare;
