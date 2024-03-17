@@ -1,27 +1,27 @@
 ---
-title: DROP AGGREGATING INDEX
+title: 删除聚合索引
 sidebar_position: 4
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.151"/>
+<FunctionDescription description="引入或更新版本：v1.2.151"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='AGGREGATING INDEX'/>
+<EEFeature featureName='聚合索引'/>
 
-Deletes an existing aggregating index. Please note that deleting an aggregating index does NOT remove the associated storage blocks. To delete the blocks as well, use the [VACUUM TABLE](../01-table/91-vacuum-table.md) command. To disable the aggregating indexing feature, set `enable_aggregating_index_scan` to 0.
+删除一个已存在的聚合索引。请注意，删除聚合索引并不会移除关联的存储块。要删除这些块，请使用 [VACUUM TABLE](../01-table/91-vacuum-table.md) 命令。要禁用聚合索引扫描功能，请将 `enable_aggregating_index_scan` 设置为 0。
 
-## Syntax
+## 语法
 
 ```sql
 DROP AGGREGATING INDEX <index_name>
 ```
 
-## Examples
+## 示例
 
-This example deleted an aggregating index named *my_agg_index*:
+此示例删除了一个名为 _my_agg_index_ 的聚合索引：
 
 ```sql
 DROP AGGREGATING INDEX my_agg_index;
