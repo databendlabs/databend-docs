@@ -77,7 +77,7 @@ GRANT ROLE <role_name> TO ROLE <role_name>
 -- 将特定数据库中的特定表的所有权授予角色
 GRANT OWNERSHIP ON <database_name>.<table_name> TO ROLE '<role_name>'
 
--- 将阶段的所有权授予角色
+-- 将 Stage 的所有权授予角色
 GRANT OWNERSHIP ON STAGE <stage_name> TO ROLE '<role_name>'
 
 -- 将用户定义的函数（UDF）的所有权授予角色
@@ -125,7 +125,7 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------+
 ```
 
-将 `ALL` 权限授予名为 `s1` 的阶段给用户 `user1`：
+将 `ALL` 权限授予名为 `s1` 的Stage给用户 `user1`：
 
 ```sql
 GRANT ALL ON STAGE s1 TO 'user1';
@@ -239,7 +239,7 @@ GRANT OWNERSHIP ON finance_data.* TO ROLE 'data_owner';
 -- 将 'finance_data' 模式中的表 'transactions' 的所有权授予角色 'data_owner'
 GRANT OWNERSHIP ON finance_data.transactions TO ROLE 'data_owner';
 
--- 将阶段 'ingestion_stage' 的所有权授予角色 'data_owner'
+-- 将 Stage 'ingestion_stage' 的所有权授予角色 'data_owner'
 GRANT OWNERSHIP ON STAGE ingestion_stage TO ROLE 'data_owner';
 
 -- 将用户定义的函数 'calculate_profit' 的所有权授予角色 'data_owner'
