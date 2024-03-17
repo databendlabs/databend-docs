@@ -2,6 +2,7 @@
 title: ATTACH TABLE
 sidebar_position: 6
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.180"/>
@@ -19,15 +20,15 @@ Attach Table 在源表和附加表之间提供无缝连接，数据同步机制�
 ## 语法
 
 ```sql
-ATTACH TABLE <target_table_name> '<source_table_data_URI>' 
+ATTACH TABLE <target_table_name> '<source_table_data_URI>'
 CONNECTION = ( <connection_parameters> ) [ READ_ONLY ]
 ```
 
-- `<source_table_data_URI>` 代表源表数据的路径。对于类 S3 的对象存储，格式为 `s3://<bucket-name>/<database_ID>/<table_ID>`，例如，*s3://databend-toronto/1/23351/*，代表桶内表文件夹的确切路径。
+- `<source_table_data_URI>` 代表源表数据的路径。对于类 S3 的对象存储，格式为 `s3://<bucket-name>/<database_ID>/<table_ID>`，例如，_s3://databend-toronto/1/23351/_，代表桶内表文件夹的确切路径。
 
   ![Alt text](@site/docs/public/img/sql/attach.png)
 
-  要获取表的数据库 ID 和表 ID，请使用 [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md) 函数。在下面的示例中，*snapshot_location* 的值中的部分 **1/23351/** 表示数据库 ID 为 **1**，表 ID 为 **23351**。
+  要获取表的数据库 ID 和表 ID，请使用 [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md) 函数。在下面的示例中，_snapshot_location_ 的值中的部分 **1/23351/** 表示数据库 ID 为 **1**，表 ID 为 **23351**。
 
   ```sql
   SELECT * FROM FUSE_SNAPSHOT('default', 'employees');
@@ -88,7 +89,7 @@ SELECT * FROM FUSE_SNAPSHOT('default', 'employees');
 
 #### 步骤 3. 在 Databend Cloud 中链接表格
 
-登录Databend Cloud并在工作表中运行以下命令以链接名为“employees_backup”的表：
+登录 Databend Cloud 并在工作表中运行以下命令以链接名为“employees_backup”的表：
 
 ```sql title='Databend Cloud:'
 ATTACH TABLE employees_backup 's3://databend-toronto/1/216/' CONNECTION = (
@@ -97,7 +98,7 @@ ATTACH TABLE employees_backup 's3://databend-toronto/1/216/' CONNECTION = (
 );
 ```
 
-要验证链接成功，请在Databend Cloud中运行以下查询：
+要验证链接成功，请在 Databend Cloud 中运行以下查询：
 
 ```sql title='Databend Cloud:'
 SELECT * FROM employees_backup;
@@ -112,7 +113,7 @@ SELECT * FROM employees_backup;
 └───────────────────────────────────────────────────────────────┘
 ```
 
-一切就绪！如果您在Databend中更新源表，您可以在Databend Cloud的目标表中观察到相同的更改。例如，如果您将源表“employees”中的名字“Mike Johnson”更新为“Eric Johnson”：
+一切就绪！如果您在 Databend 中更新源表，您可以在 Databend Cloud 的目标表中观察到相同的更改。例如，如果您将源表“employees”中的名字“Mike Johnson”更新为“Eric Johnson”：
 
 ```sql title='Databend:'
 UPDATE employees
@@ -120,7 +121,7 @@ SET name = 'Eric Johnson'
 WHERE name = 'Mike Johnson';
 ```
 
-您可以看到更新已同步到Databend Cloud中的附加表：
+您可以看到更新已同步到 Databend Cloud 中的附加表：
 
 ```sql title='Databend Cloud:'
 SELECT * FROM employees_backup;
@@ -135,7 +136,7 @@ SELECT * FROM employees_backup;
 └───────────────────────────────────────────────────────────────┘
 ```
 
-您也可以更新Databend Cloud中的目标表，但更改不会同步到Databend中的源表。例如，如果您在目标表“employees_backup”中将“John Doe”的薪水更新为5500：
+您也可以更新 Databend Cloud 中的目标表，但更改不会同步到 Databend 中的源表。例如，如果您在目标表“employees_backup”中将“John Doe”的薪水更新为 5500：
 
 ```sql title='Databend Cloud:'
 UPDATE employees_backup
@@ -152,11 +153,11 @@ SELECT salary FROM employees WHERE name = 'John Doe';
 5000.00
 ```
 
-### 示例2：以READ_ONLY模式附加表
+### 示例 2：以 READ_ONLY 模式附加表
 
-此示例说明如何在Databend Cloud中以READ_ONLY模式链接新表，该表与存储在名为“databend-toronto”的Amazon S3桶中的现有表相关联。
+此示例说明如何在 Databend Cloud 中以 READ_ONLY 模式链接新表，该表与存储在名为“databend-toronto”的 Amazon S3 桶中的现有表相关联。
 
-#### 第1步：在Databend中创建表
+#### 第 1 步：在 Databend 中创建表
 
 创建名为“population”的表并插入一些示例数据：
 
@@ -172,9 +173,9 @@ INSERT INTO population (city, population) VALUES
   ('Vancouver', 631486);
 ```
 
-#### 第2步：获取数据库ID和表ID
+#### 第 2 步：获取数据库 ID 和表 ID
 
-使用[FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)函数获取数据库ID和表ID。下面的结果表明数据库ID为**1**，表ID为**556**：
+使用[FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)函数获取数据库 ID 和表 ID。下面的结果表明数据库 ID 为**1**，表 ID 为**556**：
 
 ```sql title='Databend:'
 SELECT * FROM FUSE_SNAPSHOT('default', 'population');

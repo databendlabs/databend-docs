@@ -36,11 +36,11 @@ Databend 将实际的表数据保存在 parquet 文件中，并将每个 parquet
 
 Databend 为每个数据库和表创建一个唯一 ID，用于存储快照、段和块文件，并将它们保存到您的对象存储中的路径 `<bucket_name>/<tenant_id>/<db_id>/<table_id>/`。每个快照、段和块文件都以 UUID（32 个字符的小写十六进制字符串）命名。
 
-| 文件     | 格式  | 文件名                        | 存储文件夹                                      |
-|----------|---------|---------------------------------|-----------------------------------------------------|
+| 文件 | 格式    | 文件名                          | 存储文件夹                                          |
+| ---- | ------- | ------------------------------- | --------------------------------------------------- |
 | 快照 | JSON    | `<32bitUUID>_<version>.json`    | `<bucket_name>/<tenant_id>/<db_id>/<table_id>/_ss/` |
-| 段  | JSON    | `<32bitUUID>_<version>.json`    | `<bucket_name>/<tenant_id>/<db_id>/<table_id>/_sg/` |
-| 块    | parquet | `<32bitUUID>_<version>.parquet` | `<bucket_name>/<tenant_id>/<db_id>/<table_id>/_b/`  |
+| 段   | JSON    | `<32bitUUID>_<version>.json`    | `<bucket_name>/<tenant_id>/<db_id>/<table_id>/_sg/` |
+| 块   | parquet | `<32bitUUID>_<version>.parquet` | `<bucket_name>/<tenant_id>/<db_id>/<table_id>/_b/`  |
 
 ## 表优化
 
@@ -54,9 +54,10 @@ Databend 为每个数据库和表创建一个唯一 ID，用于存储快照、�
   SET enable_distributed_compact = 1;
   ```
 
-### 段压缩
+### 段压缩 {#segment-compaction}
 
 当表有太多小段（每个段少于 `100 块`）时，压缩段。
+
 ```sql
 SELECT
   block_count,
@@ -74,7 +75,7 @@ FROM
 **语法**
 
 ```sql
-OPTIMIZE TABLE [database.]table_name COMPACT SEGMENT [LIMIT <segment_count>]    
+OPTIMIZE TABLE [database.]table_name COMPACT SEGMENT [LIMIT <segment_count>]
 ```
 
 通过将小段合并为更大的段来压缩表数据。
@@ -101,10 +102,10 @@ FROM
 +-------------+---------------+-------------------------------------+
 |         751 |            32 | 现在需要对表进行段压缩 |
 +-------------+---------------+-------------------------------------+
-    
+
 -- 压缩段
 OPTIMIZE TABLE hits COMPACT SEGMENT;
-    
+
 -- 再次检查
 SELECT
   block_count,
@@ -125,7 +126,7 @@ FROM
 +-------------+---------------+---------------------------------------------+
 ```
 
-### 块压缩
+### 块压缩 {#block-compaction}
 
 当表有大量小块或表有高比例的插入、删除或更新行时，压缩块。
 
@@ -152,9 +153,11 @@ FROM
 :::
 
 **语法**
+
 ```sql
-OPTIMIZE TABLE [database.]table_name COMPACT [LIMIT <segment_count>]    
+OPTIMIZE TABLE [database.]table_name COMPACT [LIMIT <segment_count>]
 ```
+
 通过合并小块和段到更大的块和段来压缩表数据。
 
 - 此命令创建一个新的快照（连同压缩后的段和块）来保存最新的表数据，而不影响现有的存储文件，因此在您清除历史数据之前，存储空间不会被释放。
@@ -166,11 +169,12 @@ OPTIMIZE TABLE [database.]table_name COMPACT [LIMIT <segment_count>]
 - Databend 将在压缩过程后自动重新聚类一个聚类表。
 
 **示例**
+
 ```sql
 OPTIMIZE TABLE my_database.my_table COMPACT LIMIT 50;
 ```
 
-### 清除
+### 清除 {#purging}
 
 清除会永久移除历史数据，包括未使用的快照、段和块，但保留保留期内的快照（包括此快照引用的段和块）。这可以节省存储空间，但可能会影响时间旅行功能。当以下情况时，考虑进行清除：
 
@@ -179,13 +183,13 @@ OPTIMIZE TABLE my_database.my_table COMPACT LIMIT 50;
 - 您已压缩您的表并希望移除较旧的未使用数据。
 
 :::note
-默认保留期内的历史数据（12小时）不会被移除。根据您的需要调整保留期，您可以使用 *retention_period* 设置。在下面的示例部分中，您可以看到保留期最初设置为 0，使您能够向表中插入数据并立即移除历史数据。
+默认保留期内的历史数据（12 小时）不会被移除。根据您的需要调整保留期，您可以使用 _retention_period_ 设置。在下面的示例部分中，您可以看到保留期最初设置为 0，使您能够向表中插入数据并立即移除历史数据。
 :::
 
 **语法**
 
 ```sql
-OPTIMIZE TABLE <table_name> PURGE [BEFORE (SNAPSHOT => '<SNAPSHOT_ID>') 
+OPTIMIZE TABLE <table_name> PURGE [BEFORE (SNAPSHOT => '<SNAPSHOT_ID>')
 | (TIMESTAMP => '<TIMESTAMP>'::TIMESTAMP)] [LIMIT <snapshot_count>]
 ```
 
@@ -197,7 +201,6 @@ OPTIMIZE TABLE <table_name> PURGE [BEFORE (SNAPSHOT => '<SNAPSHOT_ID>')
 - `[LIMIT <snapshot_count>]`
 
   设置要清除的最大快照数。Databend 将选择并清除最旧的快照。
-
 
 **示例**
 

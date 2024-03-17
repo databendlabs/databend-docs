@@ -283,7 +283,7 @@ SELECT * FROM books;
 +----+----------------+---------+
 ```
 
-### 创建表 ... 像
+### 使用 `LIKE` 创建表
 
 创建一个新表（`books_copy`），其结构与现有表（`books`）相同：
 
@@ -317,7 +317,7 @@ SELECT * FROM books_copy;
 +----+----------------+---------+
 ```
 
-### 创建表 ... 作为
+### 使用 `AS` 创建表
 
 创建一个新表（`books_backup`），其中包含现有表（`books`）的数据：
 
@@ -375,7 +375,7 @@ SELECT * FROM visits;
 +-----------+
 ```
 
-### 创建表 ... 外部位置
+### 创建外部表
 
 创建一个数据存储在外部位置的表，例如 Amazon S3：
 
@@ -392,7 +392,7 @@ CONNECTION=(
 );
 ```
 
-### 创建表 ... 列作为存储 | 虚拟
+### 创建包含计算列的表
 
 以下示例演示了一个带有存储计算列的表，该列根据对“price”或“quantity”列的更新自动重新计算：
 
@@ -405,9 +405,6 @@ CREATE TABLE IF NOT EXISTS products (
   total_price FLOAT64 AS (price * quantity) STORED
 );
 
-
-
-```sql
 -- 向表中插入数据
 INSERT INTO products (id, price, quantity)
 VALUES (1, 10.5, 3),

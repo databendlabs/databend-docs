@@ -17,10 +17,10 @@ TRUNCATE TABLE [ <database_name>. ]table_name
 
 ```sql
 root@localhost> CREATE TABLE test_truncate(a BIGINT UNSIGNED, b VARCHAR);
-处理时间 (0.027 秒)
+Processed in (0.027 sec)
 
 root@localhost> INSERT INTO test_truncate(a,b) VALUES(1234, 'databend');
-1 行受影响 (0.060 秒)
+1 rows affected in (0.060 sec)
 
 root@localhost> SELECT * FROM test_truncate;
 
@@ -35,13 +35,13 @@ FROM
 ├────────┼──────────┤
 │   1234 │ databend │
 └───────────────────┘
-1 行在 0.019 秒内。处理了 1 行，1B (53.26 行/秒, 17.06 KiB/秒)
+1 row in 0.019 sec. Processed 1 rows, 1B (53.26 rows/s, 17.06 KiB/s)
 
 root@localhost> TRUNCATE TABLE test_truncate;
 
 TRUNCATE TABLE test_truncate
 
-0 行在 0.047 秒内。处理了 0 行，0B (0 行/秒, 0B/秒)
+0 row in 0.047 sec. Processed 0 rows, 0B (0 rows/s, 0B/s)
 
 root@localhost> SELECT * FROM test_truncate;
 
@@ -50,5 +50,5 @@ SELECT
 FROM
   test_truncate
 
-0 行在 0.017 秒内。处理了 0 行，0B (0 行/秒, 0B/秒)
+0 row in 0.017 sec. Processed 0 rows, 0B (0 rows/s, 0B/s)
 ```

@@ -175,4 +175,3 @@ previous_snapshot_id: NULL
 - `timestamp` 是快照创建的时间戳。
 
 </Notes>
-```
