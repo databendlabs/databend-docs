@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.327"/>
+<FunctionDescription description="Introduced or updated: v1.2.379"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -37,7 +37,7 @@ RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
 -- Change the data type of one or multiple columns
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
-MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ][, COLUMN <column_name> <new_data_type> [ DEFAULT <constant_value> ], ... ]
+MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ][, [COLUMN] <column_name> <new_data_type> [ DEFAULT <constant_value> ], ... ]
 
 -- Set / Unset masking policy for a column
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
