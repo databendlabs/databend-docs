@@ -14,7 +14,7 @@ SHOW CREATE TABLE [ <database_name>. ]table_name
 ## 示例
 
 :::tip
-numbers(N) - 一个用于测试的表，包含单个 `number` 列（UInt64），其中包含从 0 到 N-1 的整数。
+numbers(N) - 一个用于测试的表，它有一个名为 `number` 的列（UInt64），包含从 0 到 N-1 的整数。
 :::
 
 ```sql

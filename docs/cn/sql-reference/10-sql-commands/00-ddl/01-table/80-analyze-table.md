@@ -46,7 +46,7 @@ select * from t order by a;
 6
 7
 
--- 在您使用 OPTIMIZE TABLE 运行估计之前，FUSE_STATISTIC 不会返回任何结果。
+-- 在您运行估计与 OPTIMIZE TABLE 之前，FUSE_STATISTIC 不会返回任何结果。
 select * from fuse_statistic('db_09_0020', 't');
 
 analyze table `t`;

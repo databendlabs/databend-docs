@@ -17,7 +17,7 @@ import EEFeature from '@site/src/components/EEFeature';
 * 手动指定索引
 * 甚至指定数据分区或数据分片
 
-Databend 的设计初衷是易于使用，创建表时不需要进行任何这些操作。此外，CREATE TABLE 语句提供了这些选项，使您在各种场景中创建表变得更加容易：
+Databend 旨在设计上易于使用，并且在创建表时不需要任何这些操作。此外，CREATE TABLE 语句提供了这些选项，使您能够在各种场景中更轻松地创建表：
 
 - [CREATE TABLE](#create-table)：从头开始创建一个表。
 - [CREATE TABLE ... LIKE](#create-table--like)：创建一个与现有表具有相同列定义的表。
@@ -36,11 +36,11 @@ CREATE [ OR REPLACE ] [ TRANSIENT ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]
 )
 ```
 :::note
-- 关于 Databend 中可用的数据类型，请参见[数据类型](../../../00-sql-reference/10-data-types/index.md)。
+- 有关 Databend 中可用的数据类型，请参见[数据类型](../../../00-sql-reference/10-data-types/index.md)。
 
-- Databend 建议在命名列时尽可能避免使用特殊字符。然而，如果在某些情况下需要使用特殊字符，应该使用反引号将别名括起来，像这样：CREATE TABLE price(\`$CA\` int);
+- Databend 建议尽可能避免在命名列时使用特殊字符。然而，如果在某些情况下需要特殊字符，别名应该用反引号括起来，像这样：CREATE TABLE price(\`$CA\` int);
 
-- Databend 会自动将列名转换为小写。例如，如果您将某列命名为 *Total*，在结果中它将显示为 *total*。
+- Databend 会自动将列名转换为小写。例如，如果您将某个列命名为 *Total*，在结果中它将显示为 *total*。
 :::
 
 
@@ -54,7 +54,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 LIKE [db.]origin_table_name
 ```
 
-此命令不包括任何数据或属性（如 `CLUSTER BY`、`TRANSIENT` 和 `COMPRESSION`）从原始表中，而是使用默认的系统设置创建一个新表。
+此命令不包括任何数据或属性（如 `CLUSTER BY`、`TRANSIENT` 和 `COMPRESSION`）从原始表中，而是使用默认系统设置创建一个新表。
 
 :::note 解决方法
 - 在使用此命令创建新表时，可以显式指定 `TRANSIENT` 和 `COMPRESSION`。例如，
@@ -76,7 +76,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 AS SELECT query
 ```
 
-此命令不包括任何属性（如 CLUSTER BY、TRANSIENT 和 COMPRESSION）从原始表中，而是使用默认的系统设置创建一个新表。
+此命令不包括任何属性（如 CLUSTER BY、TRANSIENT 和 COMPRESSION）从原始表中，而是使用默认系统设置创建一个新表。
 
 :::note 解决方法
 - 在使用此命令创建新表时，可以显式指定 `TRANSIENT` 和 `COMPRESSION`。例如，
@@ -92,7 +92,7 @@ create table t_new compression='lz4' as select * from t_old;
 
 创建一个临时表。
 
-临时表用于保存不需要数据保护或恢复机制的短暂数据。Databend 不会为临时表保留历史数据，因此您将无法使用时间旅行功能查询临时表的先前版本，例如，SELECT 语句中的 [AT](./../../20-query-syntax/03-query-at.md) 子句对临时表不起作用。请注意，您仍然可以[删除](./20-ddl-drop-table.md)和[撤销删除](./21-ddl-undrop-table.md)临时表。
+临时表用于保存不需要数据保护或恢复机制的短暂数据。Databend 不会为临时表保留历史数据，因此您将无法使用时间旅行功能查询临时表的先前版本，例如，SELECT 语句中的 [AT](./../../20-query-syntax/03-query-at.md) 子句对临时表不起作用。请注意，您仍然可以[删除](./20-ddl-drop-table.md)和[取消删除](./21-ddl-undrop-table.md)临时表。
 
 临时表有助于节省您的存储费用，因为与非临时表相比，它们不需要额外的空间来存储历史数据。详细说明请参见[示例](#create-transient-table-1)。
 
@@ -125,25 +125,25 @@ CONNECTION = (
   );
 ```
 
-| 参数                         | 描述                                                                                                                                                                                                                      | 是否必须   |
-|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `s3://<bucket>/[<path>]`     | 文件位于指定的外部位置（类似S3的存储桶）                                                                                                                                                                                  | 是         |
-| ENDPOINT_URL                 | 存储桶端点URL，以 "https://" 开头。要使用以 "http://" 开头的URL，请在文件 `databend-query-node.toml` 的 [storage] 区块中设置 `allow_insecure` 为 `true`。                                                                  | 可选       |
-| ACCESS_KEY_ID                | 用于连接AWS S3兼容对象存储的访问密钥ID。如果未提供，Databend将匿名访问存储桶。                                                                                                                                             | 可选       |
-| SECRET_ACCESS_KEY            | 用于连接AWS S3兼容对象存储的密钥访问密钥。                                                                                                                                                                                 | 可选       |
-| REGION                       | AWS区域名称。例如，us-east-1。                                                                                                                                                                                            | 可选       |
-| ENABLE_VIRTUAL_HOST_STYLE    | 如果您使用虚拟主机来寻址存储桶，请将其设置为 "true"。                                                                                                                                                                      | 可选       |
+| 参数                         | 描述                                                                                                                                                                                                                   | 是否必须   |
+|------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `s3://<bucket>/[<path>]`     | 文件位于指定的外部位置（类似S3的存储桶）                                                                                                                                                                                | 是         |
+| ENDPOINT_URL                 | 存储桶端点URL，以 "https://" 开头。要使用以 "http://" 开头的URL，请在文件 `databend-query-node.toml` 的 [storage] 区块中设置 `allow_insecure` 为 `true`。                                                                | 可选       |
+| ACCESS_KEY_ID                | 用于连接AWS S3兼容对象存储的访问密钥ID。如果未提供，Databend将匿名访问存储桶。                                                                                                                                            | 可选       |
+| SECRET_ACCESS_KEY            | 用于连接AWS S3兼容对象存储的密钥访问密钥。                                                                                                                                                                               | 可选       |
+| REGION                       | AWS区域名称。例如，us-east-1。                                                                                                                                                                                          | 可选       |
+| ENABLE_VIRTUAL_HOST_STYLE    | 如果您使用虚拟主机来寻址存储桶，请将其设置为 "true"。                                                                                                                                                                    | 可选       |
 
 ## 列可为空
 
-默认情况下，**Databend中的所有列都可以为NULL（可为空）**。如果您需要一个不允许NULL值的列，请使用NOT NULL约束。更多信息，请参见 [NULL值和NOT NULL约束](../../../00-sql-reference/10-data-types/index.md)。
+默认情况下，**Databend中的所有列都可为空(NULL)**。如果您需要一个不允许NULL值的列，请使用NOT NULL约束。更多信息，请参见 [NULL值和NOT NULL约束](../../../00-sql-reference/10-data-types/index.md)。
 
 ## 默认值
 
 ```sql
 DEFAULT <expr>
 ```
-如果通过 `INSERT` 或 `CREATE TABLE AS SELECT` 语句未指定值，则在列中插入默认值。
+如果通过 `INSERT` 或 `CREATE TABLE AS SELECT` 语句未指定值，则在列中插入一个默认值。
 
 例如：
 
@@ -158,14 +158,14 @@ DESC t_default_value;
 
 字段|类型              |空  |默认值 |额外信息|
 ----+------------------+----+-------+-------+
-a   |TINYINT UNSIGNED |YES |NULL   |       |
-b   |VARCHAR          |YES |'b'    |       |
+a   |TINYINT UNSIGNED  |是  |NULL   |       |
+b   |VARCHAR           |是  |'b'    |       |
 ```
 
 插入一个值：
 
 ```sql
-INSERT INTO T_default_value(a) VALUES(1);
+INSERT INTO t_default_value(a) VALUES(1);
 ```
 
 检查表的值：
@@ -183,7 +183,7 @@ SELECT * FROM t_default_value;
 
 计算列是从表中其他列使用标量表达式生成的列。当用于计算的任何列中的数据更新时，计算列将自动重新计算其值以反映更新。
 
-Databend支持两种类型的计算列：存储和虚拟。存储计算列在数据库中物理存储并占用存储空间，而虚拟计算列不进行物理存储，其值在访问时即时计算。
+Databend支持两种类型的计算列：存储和虚拟。存储计算列在数据库中物理存储并占用存储空间，而虚拟计算列不会物理存储，其值在访问时即时计算。
 
 Databend支持两种创建计算列的语法选项：一种使用 `AS (<expr>)`，另一种使用 `GENERATED ALWAYS AS (<expr>)`。两种语法都允许指定计算列是存储还是虚拟。
 
@@ -226,13 +226,13 @@ CREATE TABLE IF NOT EXISTS employees (
 ```
 
 :::tip 存储还是虚拟？
-在选择存储计算列和虚拟计算列之间时，考虑以下因素：
+在选择存储计算列和虚拟计算列时，考虑以下因素：
 
 - 存储空间：存储计算列在表中占用额外的存储空间，因为它们的计算值是物理存储的。如果您的数据库空间有限或想要最小化存储使用，虚拟计算列可能是更好的选择。
 
-- 实时更新：存储计算列在依赖列更新时立即更新其计算值。这确保了在查询时您总是拥有最新的计算值。另一方面，虚拟计算列在查询期间动态计算它们的值，这可能会略微增加处理时间。
+- 实时更新：存储计算列在依赖列更新时立即更新其计算值。这确保您在查询时始终拥有最新的计算值。另一方面，虚拟计算列在查询期间动态计算其值，这可能会略微增加处理时间。
 
-- 数据完整性和一致性：存储计算列由于在写操作时更新其计算值，因此维护了即时的数据一致性。然而，虚拟计算列在查询期间即时计算它们的值，这意味着在写操作和随后的查询之间可能存在短暂的不一致。
+- 数据完整性和一致性：存储计算列由于在写操作时更新其计算值，因此维护即时数据一致性。然而，虚拟计算列在查询期间即时计算其值，这意味着在写操作和随后的查询之间可能存在短暂的不一致。
 :::
 
 ## MySQL 兼容性
@@ -243,7 +243,7 @@ Databend 的语法主要在数据类型和一些特定的索引提示上与 MySQ
 
 ### 创建表
 
-创建一个列有默认值的表（在这个例子中，`genre`列的默认值为'General'）：
+创建一个带有默认列值的表（在本例中，`genre`列的默认值为'General'）：
 
 ```sql
 CREATE TABLE books (
@@ -283,9 +283,9 @@ SELECT * FROM books;
 +----+----------------+---------+
 ```
 
-### 创建表 ... 像
+### 使用 `LIKE` 创建表
 
-创建一个新表（`books_copy`）与现有表（`books`）具有相同的结构：
+创建一个新表（`books_copy`），其结构与现有表（`books`）相同：
 
 ```sql
 CREATE TABLE books_copy LIKE books;
@@ -317,9 +317,9 @@ SELECT * FROM books_copy;
 +----+----------------+---------+
 ```
 
-### 创建表 ... 作为
+### 使用 `AS` 创建表
 
-创建一个新表（`books_backup`），包含现有表（`books`）的数据：
+创建一个新表（`books_backup`），其中包含现有表（`books`）的数据：
 
 ```sql
 CREATE TABLE books_backup AS SELECT * FROM books;
@@ -351,7 +351,7 @@ SELECT * FROM books_backup;
 
 ### 创建临时表
 
-创建一个临时表（临时表），在指定的时间后自动删除数据：
+创建一个临时表（临时表），在指定的时间段后自动删除数据：
 
 ```sql
 -- 创建一个临时表
@@ -375,12 +375,12 @@ SELECT * FROM visits;
 +-----------+
 ```
 
-### 创建表 ... 外部位置
+### 创建外部表
 
 创建一个数据存储在外部位置的表，例如 Amazon S3：
 
 ```sql
--- 创建一个名为`mytable`的表并指定数据存储位置`s3://testbucket/admin/data/`
+-- 创建一个名为`mytable`的表，并指定数据存储位置`s3://testbucket/admin/data/`
 CREATE TABLE mytable (
   a INT
 ) 
@@ -392,9 +392,9 @@ CONNECTION=(
 );
 ```
 
-### 创建表 ... 列作为 STORED | VIRTUAL
+### 创建包含计算列的表
 
-以下示例演示了一个表，其中包含一个存储计算列，该列根据对“price”或“quantity”列的更新自动重新计算：
+以下示例演示了一个带有存储计算列的表，该列根据对“price”或“quantity”列的更新自动重新计算：
 
 ```sql
 -- 创建带有存储计算列的表
@@ -405,9 +405,6 @@ CREATE TABLE IF NOT EXISTS products (
   total_price FLOAT64 AS (price * quantity) STORED
 );
 
-
-
-```sql
 -- 向表中插入数据
 INSERT INTO products (id, price, quantity)
 VALUES (1, 10.5, 3),

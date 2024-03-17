@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.327"/>
+<FunctionDescription description="引入或更新于：v1.2.327"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -62,7 +62,7 @@ DROP [ COLUMN ] <column_name>
 
 ### 示例 1：添加、重命名和移除列
 
-此示例展示了创建一个名为 "default.users" 的表，其中包含 'username', 'email', 和 'age' 列。它展示了添加带有各种约束的 'id' 和 'middle_name' 列。该示例还演示了 "age" 列的重命名和随后的移除。
+此示例展示了创建一个名为 "default.users" 的表，包含 'username', 'email', 和 'age' 列。它展示了如何添加带有各种约束的 'id' 和 'middle_name' 列。该示例还演示了 "age" 列的重命名和随后的移除。
 
 ```sql
 -- 创建表
@@ -124,7 +124,7 @@ DESC default.users;
 
 ### 示例 2：添加计算列
 
-此示例演示了创建一个用于存储员工信息的表，向表中插入数据，并添加一个计算列来根据每个员工的出生年份计算他们的年龄。
+此示例演示了创建一个用于存储员工信息的表，向表中插入数据，并添加一个计算列来根据员工的出生年份计算每个员工的年龄。
 
 ```sql
 -- 创建表
@@ -141,7 +141,7 @@ VALUES
   (2, 'Jane Smith', 1985),
   (3, 'Robert Johnson', 1982);
 
--- 添加名为 Age 的计算列
+-- 添加一个名为 Age 的计算列
 ALTER TABLE Employees
 ADD COLUMN Age INT64 AS (2023 - BirthYear) VIRTUAL;
 
@@ -156,7 +156,7 @@ ID | Name          | BirthYear | Age
 
 ### 示例 3：转换计算列
 
-此示例创建一个名为 "products" 的表，包含 ID、价格、数量和一个计算列 "total_price"。ALTER TABLE 语句移除了 "total_price" 列的计算功能，将其转换为常规列。
+此示例创建一个名为 "products" 的表，其中包含 ID、价格、数量和一个计算列 "total_price"。ALTER TABLE 语句从 "total_price" 列中移除计算功能，将其转换为常规列。
 
 ```sql
 CREATE TABLE IF NOT EXISTS products (
@@ -172,7 +172,7 @@ MODIFY COLUMN total_price DROP STORED;
 
 ### 示例 4：更改列的数据类型
 
-此示例创建一个名为 "students_info" 的表，包含 "id"、"name" 和 "age" 列，插入一些示例数据，然后修改 "age" 列的数据类型，从 INT 更改为 VARCHAR(10)。
+此示例创建一个名为 "students_info" 的表，其中包含 "id"、"name" 和 "age" 列，插入一些示例数据，然后将 "age" 列的数据类型从 INT 修改为 VARCHAR(10)。
 
 ```sql
 CREATE TABLE students_info (

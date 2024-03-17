@@ -1,17 +1,17 @@
 ---
-title: RENAME TABLE
+title: 重命名表
 sidebar_position: 3
 ---
 
-Changes the name of a table.
+更改表的名称。
 
-## Syntax
+## 语法
 
 ```sql
 ALTER TABLE [ IF EXISTS ] <name> RENAME TO <new_table_name>
 ```
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE test(a INT);
