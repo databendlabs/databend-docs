@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.327"/>
+<FunctionDescription description="引入或更新于：v1.2.379"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -37,7 +37,7 @@ RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
 -- 更改一个或多个列的数据类型
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
-MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ][, COLUMN <column_name> <new_data_type> [ DEFAULT <constant_value> ], ... ]
+MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ][, [COLUMN] <column_name> <new_data_type> [ DEFAULT <constant_value> ], ... ]
 
 -- 为列设置/取消设置掩码策略
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
@@ -52,7 +52,7 @@ DROP [ COLUMN ] <column_name>
 ```
 
 :::note
-- 只有常量值可以被接受作为添加或修改列时的默认值。如果使用了非常量表达式，将会发生错误。
+- 添加或修改列时，只能接受常量值作为默认值。如果使用非常量表达式，将会发生错误。
 - 目前还不支持使用 ALTER TABLE 添加存储的计算列。
 - 更改表列的数据类型时，存在转换错误的风险。例如，如果尝试将文本（String）列转换为数字（Float），可能会导致问题。
 - 为列设置掩码策略时，请确保策略中定义的数据类型（参考 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的参数 *arg_type_to_mask*）与列匹配。
@@ -62,7 +62,7 @@ DROP [ COLUMN ] <column_name>
 
 ### 示例 1：添加、重命名和移除列
 
-此示例展示了创建一个名为 "default.users" 的表，包含 'username', 'email', 和 'age' 列。它展示了如何添加带有各种约束的 'id' 和 'middle_name' 列。该示例还演示了 "age" 列的重命名和随后的移除。
+此示例展示了创建一个名为 "default.users" 的表，其中包含 'username'、'email' 和 'age' 列。它展示了如何添加带有各种约束的 'id' 和 'middle_name' 列。该示例还演示了 "age" 列的重命名和随后的移除。
 
 ```sql
 -- 创建表
@@ -99,7 +99,7 @@ email         |VARCHAR|YES |NULL                 |     |
 age           |INT    |YES |NULL                 |     |
 business_email|VARCHAR|NO  |'example@example.com'|     |
 
--- 在列 'username' 之后添加一列
+-- 在 'username' 列之后添加一列
 ALTER TABLE default.users
 ADD COLUMN middle_name VARCHAR(50) NULL AFTER username;
 
@@ -124,7 +124,7 @@ DESC default.users;
 
 ### 示例 2：添加计算列
 
-此示例演示了创建一个用于存储员工信息的表，向表中插入数据，并添加一个计算列来根据员工的出生年份计算每个员工的年龄。
+此示例演示了创建一个用于存储员工信息的表，向表中插入数据，以及添加一个计算列来根据每位员工的出生年份计算其年龄。
 
 ```sql
 -- 创建表
@@ -141,7 +141,7 @@ VALUES
   (2, 'Jane Smith', 1985),
   (3, 'Robert Johnson', 1982);
 
--- 添加一个名为 Age 的计算列
+-- 添加名为 Age 的计算列
 ALTER TABLE Employees
 ADD COLUMN Age INT64 AS (2023 - BirthYear) VIRTUAL;
 
@@ -156,7 +156,7 @@ ID | Name          | BirthYear | Age
 
 ### 示例 3：转换计算列
 
-此示例创建一个名为 "products" 的表，其中包含 ID、价格、数量和一个计算列 "total_price"。ALTER TABLE 语句从 "total_price" 列中移除计算功能，将其转换为常规列。
+此示例创建一个名为 "products" 的表，其中包含 ID、价格、数量和一个计算列 "total_price"。ALTER TABLE 语句移除了 "total_price" 列的计算功能，将其转换为常规列。
 
 ```sql
 CREATE TABLE IF NOT EXISTS products (
