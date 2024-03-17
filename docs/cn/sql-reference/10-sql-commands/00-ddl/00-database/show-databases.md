@@ -21,7 +21,7 @@ SHOW [ FULL ] DATABASES
 | LIKE      | 使用大小写敏感的模式匹配来过滤结果的名称。                                                                               |
 | WHERE     | 使用 WHERE 子句中的表达式来过滤结果。                                                                                    |
 
-## 示例
+## 示例 {#examples}
 
 ```sql
 SHOW DATABASES;
