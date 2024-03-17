@@ -1,23 +1,28 @@
 ---
-title: SHOW GRANTS
+title: 显示权限
 sidebar_position: 10
 ---
 
-Lists all the privileges that have been explicitly granted to a user or a role.
+列出已明确授予用户或角色的所有权限。
 
-## Syntax
+另请参见：
+
+- [GRANT](10-grant.md)
+- [REVOKE](11-revoke.md)
+
+## 语法
 
 ```sql
--- Lists privileges granted to a user
+-- 列出授予用户的权限
 SHOW GRANTS FOR <user_name>;
 
--- Lists privileges granted to a role
+-- 列出授予角色的权限
 SHOW GRANTS FOR ROLE <role_name>;
 ```
 
-## Examples
+## 示例
 
-The following code returns all the privileges granted to the user `user1`: 
+以下代码返回授予用户 `user1` 的所有权限：
 
 ```sql
 SHOW GRANTS FOR user1;
@@ -31,7 +36,7 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------+
 ```
 
-The following code returns all the privileges granted to the role `role1`: 
+以下代码返回授予角色 `role1` 的所有权限：
 
 ```sql
 SHOW GRANTS FOR ROLE role1;

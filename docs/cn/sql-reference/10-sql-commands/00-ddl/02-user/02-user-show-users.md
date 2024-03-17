@@ -5,13 +5,13 @@ sidebar_position: 3
 
 列出系统中的所有用户。
 
-## 语法 {#syntax}
+## 语法
 
 ```sql
 SHOW USERS
 ```
 
-## 示例 {#examples}
+## 示例
 
 ```sql
 SHOW USERS;

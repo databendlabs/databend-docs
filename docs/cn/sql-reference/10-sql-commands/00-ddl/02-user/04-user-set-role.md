@@ -3,7 +3,7 @@ title: 设置角色
 sidebar_position: 5
 ---
 
-切换会话的活动角色，当前活动角色可以使用 [SHOW ROLES](04-user-show-roles.md) 命令查看，其中 `is_current` 字段表示活动角色。
+切换会话的活动角色，可以使用 [SHOW ROLES](04-user-show-roles.md) 命令查看当前活动角色，其中 `is_current` 字段表示活动角色。
 
 ## 语法
 
