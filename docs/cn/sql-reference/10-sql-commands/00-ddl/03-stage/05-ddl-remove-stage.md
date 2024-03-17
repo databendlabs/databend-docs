@@ -1,21 +1,22 @@
 ---
-title: REMOVE STAGE FILES
+title: 从 Stage 中删除文件
 sidebar_position: 5
 ---
 
-Removes files from a stage.
+从一个 Stage 中删除文件。
 
-See also:
+另请参阅：
 
-- [LIST STAGE FILES](04-ddl-list-stage.md): Lists files in a stage.
-- [PRESIGN](presign.md): Databend recommends using the Presigned URL method to upload files to the stage.
+- [列出 Stage 中的文件](04-ddl-list-stage.md)。
+- [PRESIGN](presign.md)：Databend 推荐使用预签名 URL 方法上传文件到 Stage。
 
-## Syntax
+## 语法
 
 ```sql
 REMOVE { userStage | internalStage | externalStage } [ PATTERN = '<regex_pattern>' ]
 ```
-Where:
+
+其中：
 
 ### internalStage
 
@@ -31,11 +32,11 @@ externalStage ::= @<external_stage_name>[/<file>]
 
 ### PATTERN = 'regex_pattern'
 
-A regular expression pattern string, enclosed in single quotes, filters files to remove by their filename.
+一个正则表达式模式字符串，用单引号括起来，通过文件名过滤要删除的文件。
 
-## Examples
+## 示例
 
-This command removes all the files with a name matching the pattern *'ontime.*'* from the stage named *playground*:
+此命令从名为 _playground_ 的 Stage 中删除所有文件名匹配模式 _'ontime._'\* 的文件：
 
 ```sql
 REMOVE @playground PATTERN = 'ontime.*'

@@ -1,33 +1,33 @@
 ---
-title: LIST STAGE FILES
+title: 列出 Stage 中的文件
 sidebar_position: 4
 ---
 
-Lists files in a stage.
+列出 Stage 中的文件。
 
-See also:
+另请参见：
 
-- [LIST_STAGE](../../../20-sql-functions/17-table-functions/03-list-stage.md): This function lists files in a stage and allows you to filter files in a stage based on their extensions and obtain comprehensive details about each file.
-- [PRESIGN](presign.md): Databend recommends using the Presigned URL method to upload files to the stage.
-- [REMOVE STAGE FILES](05-ddl-remove-stage.md): Removes files from a stage.
+- [LIST_STAGE](../../../20-sql-functions/17-table-functions/03-list-stage.md)：此函数列出 Stage 中的文件，并允许您根据文件扩展名过滤 Stage 中的文件，并获取每个文件的详细信息。
+- [PRESIGN](presign.md)：Databend 推荐使用预签名 URL 方法将文件上传到 Stage。
+- [从 Stage 中删除文件](05-ddl-remove-stage.md)。
 
-## Syntax
+## 语法
 
 ```sql
 LIST { userStage | internalStage | externalStage } [ PATTERN = '<regex_pattern>' ]
 ```
 
-## Examples
+## 示例
 
-The stage below contains a file named **books.parquet** and a folder named **2023**.
+下面的 Stage 包含一个名为 **books.parquet** 的文件和一个名为 **2023** 的文件夹。
 
 ![Alt text](/img/sql/list-stage.png)
 
-And the folder **2023** contains the following files:
+文件夹 **2023** 包含以下文件：
 
 ![Alt text](/img/sql/list-stage-2.png)
 
-The LIST command lists all the files in a stage by default:
+LIST 命令默认列出 Stage 中的所有文件：
 
 ```sql
 LIST @my_internal_stage;
@@ -41,10 +41,10 @@ LIST @my_internal_stage;
 +-----------------+------+------------------------------------+-------------------------------+---------+
 ```
 
-To list the files in the folder **2023**, run the following command:
+要列出文件夹 **2023** 中的文件，请运行以下命令：
 
 :::note
-It is necessary to add a slash "/" at the end of the path in the command, otherwise, the command may not work as expected and may result in an error.
+在命令中的路径末尾添加斜杠 "/" 是必要的，否则命令可能无法按预期工作，并可能导致错误。
 :::
 
 ```sql
@@ -58,7 +58,7 @@ LIST @my_internal_stage/2023/;
 +-----------------+------+------------------------------------+-------------------------------+---------+
 ```
 
-To list all the files with the extension *.log in the stage, run the following command:
+要列出 Stage 中所有扩展名为 \*.log 的文件，请运行以下命令：
 
 ```sql
 LIST @my_internal_stage PATTERN = '.log';

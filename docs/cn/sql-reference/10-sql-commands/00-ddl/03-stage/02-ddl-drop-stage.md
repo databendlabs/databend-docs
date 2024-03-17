@@ -1,17 +1,17 @@
 ---
-title: DROP STAGE
+title: 删除 Stage
 sidebar_position: 7
 ---
 
-Removes a stage.
+删除一个 Stage。
 
-## Syntax
+## 语法
 
 ```sql
 DROP STAGE [ IF EXISTS ] <stage_name>;
 ```
 
-## Examples
+## 示例
 
 ```sql
 DROP STAGE IF EXISTS test_stage;
