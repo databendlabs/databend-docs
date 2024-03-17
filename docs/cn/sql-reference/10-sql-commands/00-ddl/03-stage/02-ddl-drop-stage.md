@@ -1,9 +1,9 @@
 ---
-title: 删除阶段
+title: 删除 Stage
 sidebar_position: 7
 ---
 
-移除一个阶段。
+删除一个 Stage。
 
 ## 语法
 

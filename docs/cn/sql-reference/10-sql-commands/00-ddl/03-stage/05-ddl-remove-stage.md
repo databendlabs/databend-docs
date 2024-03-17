@@ -1,20 +1,21 @@
 ---
-title: 删除阶段文件
+title: 从 Stage 中删除文件
 sidebar_position: 5
 ---
 
-从一个阶段中删除文件。
+从一个 Stage 中删除文件。
 
 另请参阅：
 
-- [列出阶段文件](04-ddl-list-stage.md)：列出阶段中的文件。
-- [PRESIGN](presign.md)：Databend推荐使用预签名URL方法上传文件到阶段。
+- [列出 Stage 中的文件](04-ddl-list-stage.md)。
+- [PRESIGN](presign.md)：Databend 推荐使用预签名 URL 方法上传文件到 Stage。
 
 ## 语法
 
 ```sql
 REMOVE { userStage | internalStage | externalStage } [ PATTERN = '<regex_pattern>' ]
 ```
+
 其中：
 
 ### internalStage
@@ -35,7 +36,7 @@ externalStage ::= @<external_stage_name>[/<file>]
 
 ## 示例
 
-此命令从名为 *playground* 的阶段中删除所有文件名匹配模式 *'ontime.*'* 的文件：
+此命令从名为 _playground_ 的 Stage 中删除所有文件名匹配模式 _'ontime._'\* 的文件：
 
 ```sql
 REMOVE @playground PATTERN = 'ontime.*'

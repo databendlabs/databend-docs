@@ -1,15 +1,15 @@
 ---
-title: 列出阶段文件
+title: 列出 Stage 中的文件
 sidebar_position: 4
 ---
 
-列出阶段中的文件。
+列出 Stage 中的文件。
 
 另请参见：
 
-- [LIST_STAGE](../../../20-sql-functions/17-table-functions/03-list-stage.md)：此函数列出阶段中的文件，并允许您根据文件扩展名过滤阶段中的文件，并获取每个文件的详细信息。
-- [PRESIGN](presign.md)：Databend推荐使用预签名URL方法将文件上传到阶段。
-- [删除阶段文件](05-ddl-remove-stage.md)：从阶段中删除文件。
+- [LIST_STAGE](../../../20-sql-functions/17-table-functions/03-list-stage.md)：此函数列出 Stage 中的文件，并允许您根据文件扩展名过滤 Stage 中的文件，并获取每个文件的详细信息。
+- [PRESIGN](presign.md)：Databend 推荐使用预签名 URL 方法将文件上传到 Stage。
+- [从 Stage 中删除文件](05-ddl-remove-stage.md)。
 
 ## 语法
 
@@ -19,7 +19,7 @@ LIST { userStage | internalStage | externalStage } [ PATTERN = '<regex_pattern>'
 
 ## 示例
 
-下面的阶段包含一个名为 **books.parquet** 的文件和一个名为 **2023** 的文件夹。
+下面的 Stage 包含一个名为 **books.parquet** 的文件和一个名为 **2023** 的文件夹。
 
 ![Alt text](/img/sql/list-stage.png)
 
@@ -27,7 +27,7 @@ LIST { userStage | internalStage | externalStage } [ PATTERN = '<regex_pattern>'
 
 ![Alt text](/img/sql/list-stage-2.png)
 
-LIST 命令默认列出阶段中的所有文件：
+LIST 命令默认列出 Stage 中的所有文件：
 
 ```sql
 LIST @my_internal_stage;
@@ -58,7 +58,7 @@ LIST @my_internal_stage/2023/;
 +-----------------+------+------------------------------------+-------------------------------+---------+
 ```
 
-要列出阶段中所有扩展名为 *.log 的文件，请运行以下命令：
+要列出 Stage 中所有扩展名为 \*.log 的文件，请运行以下命令：
 
 ```sql
 LIST @my_internal_stage PATTERN = '.log';

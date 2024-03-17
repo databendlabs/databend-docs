@@ -1,9 +1,9 @@
 ---
-title: 显示阶段
+title: 显示 Stage
 sidebar_position: 6
 ---
 
-返回已创建阶段的列表。输出列表不包括用户阶段。
+返回已创建 Stage 的列表。输出列表不包括用户 Stage。
 
 ## 语法
 

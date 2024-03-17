@@ -165,12 +165,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 | 参数                  | 描述                                                          |
 |-----------------------|---------------------------------------------------------------|
-| bucket                | 您的阿里巴巴云 OSS 桶的名称。                                   |
-| endpoint_url          | 阿里巴巴云 OSS 的 URL 端点。                                   |
-| access_key_id         | 用于与阿里巴巴云 OSS 进行身份验证的访问密钥 ID。                |
-| access_key_secret     | 用于与阿里巴巴云 OSS 进行身份验证的访问密钥密钥。                |
-| presign_endpoint_url  | 用于与阿里巴巴云 OSS 进行预签名操作的 URL 端点。                 |
-| root                  | 阿里巴巴云 OSS 的根目录。                                       |
+| bucket                | 您的阿里云 OSS 桶的名称。                                   |
+| endpoint_url          | 阿里云 OSS 的 URL 端点。                                   |
+| access_key_id         | 用于与阿里云 OSS 进行身份验证的访问密钥 ID。                |
+| access_key_secret     | 用于与阿里云 OSS 进行身份验证的访问密钥密钥。                |
+| presign_endpoint_url  | 用于与阿里云 OSS 进行预签名操作的 URL 端点。                 |
+| root                  | 阿里云 OSS 的根目录。                                       |
 
 ### [storage.cos] 部分
 
