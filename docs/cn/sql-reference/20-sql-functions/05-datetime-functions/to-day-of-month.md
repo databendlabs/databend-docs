@@ -2,34 +2,36 @@
 title: TO_DAY_OF_MONTH
 ---
 
-Convert a date or date with time (timestamp/datetime) to a UInt8 number containing the number of the day of the month (1-31).
+将日期或带时间的日期（timestamp/datetime）转换为一个包含月份中天数（1-31）的 UInt8 数字。
 
-## Syntax
+## 语法
 
 ```sql
 TO_DAY_OF_MONTH(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<expr>`  | date/timestamp |
+| 参数     | 描述          |
+|----------|---------------|
+| `<expr>` | 日期/时间戳 |
 
-## Return Type
+## 别名
+
+- [DAY](day.md)
+
+## 返回类型
 
 `TINYINT`
 
-## Examples
+## 示例
 
 ```sql
-SELECT
-    to_day_of_month('2023-11-12 09:38:18.165575')
+SELECT NOW(), TO_DAY_OF_MONTH(NOW()), DAY(NOW());
 
-┌───────────────────────────────────────────────┐
-│ to_day_of_month('2023-11-12 09:38:18.165575') │
-│                     UInt8                     │
-├───────────────────────────────────────────────┤
-│                                            12 │
-└───────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│            now()           │ to_day_of_month(now()) │ day(now()) │
+├────────────────────────────┼────────────────────────┼────────────┤
+│ 2024-03-14 23:35:41.947962 │                     14 │         14 │
+└──────────────────────────────────────────────────────────────────┘
 ```
