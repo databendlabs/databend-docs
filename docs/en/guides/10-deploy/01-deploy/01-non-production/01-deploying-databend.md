@@ -120,6 +120,20 @@ For information about how to manage buckets and Access Keys for your MinIO, refe
 - <https://min.io/docs/minio/container/administration/console/security-and-access.html>
 
 </TabItem>
+<TabItem value="CubeFS" label="CubeFS">
+
+1. Start the ObjectNode object gateway.
+2. Create a bucket or container named `my_bucket`.
+3. Get the endpoint URL for connecting to the bucket or container you created.
+4. Get the Access Key ID and Secret Access Key for your account.
+
+For information about how to manage buckets and Access Keys for your CubeFS, refer to the user manual from the solution provider. Here are some useful links you may need:
+
+- <https://cubefs.io/docs/master/quick-start/node.html>
+- <https://cubefs.io/docs/master/user-guide/objectnode.html>
+- <https://cubefs.io/docs/master/maintenance/admin-api/master/user.html>
+
+</TabItem>
 </Tabs>
 
 </StepContent>
@@ -355,6 +369,21 @@ secret_access_key = "<your-access-key>"
 </TabItem>
 
 <TabItem value="MinIO" label="MinIO">
+
+```toml title='databend-query.toml'
+[storage]
+# s3
+type = "s3"
+
+[storage.s3]
+bucket = "my_bucket"
+endpoint_url = "<your-endpoint-url>"
+access_key_id = "<your-key-id>"
+secret_access_key = "<your-access-key>"
+```
+</TabItem>
+
+<TabItem value="CubeFS" label="CubeFS">
 
 ```toml title='databend-query.toml'
 [storage]
