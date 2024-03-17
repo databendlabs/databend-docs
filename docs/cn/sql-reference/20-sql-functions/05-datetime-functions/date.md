@@ -1,5 +1,5 @@
 ---
-title: 日期
+title: DATE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
