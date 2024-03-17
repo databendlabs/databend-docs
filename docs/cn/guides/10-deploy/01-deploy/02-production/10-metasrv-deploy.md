@@ -102,7 +102,7 @@ format = "text"
 dir = "/var/log/databend"
 
 [raft_config]
-id            = 1
+id            = 2
 raft_dir      = "/var/lib/databend/raft"
 raft_api_port = 28103
 
@@ -134,7 +134,7 @@ format = "text"
 dir = "/var/log/databend"
 
 [raft_config]
-id            = 1
+id            = 3
 raft_dir      = "/var/lib/databend/raft"
 raft_api_port = 28103
 
