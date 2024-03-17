@@ -21,6 +21,11 @@ TO_WEEK_OF_YEAR(<expr>)
 |-----------|----------------|
 | `<expr>`  | date/timestamp |
 
+## Aliases
+
+- [WEEK](week.md)
+- [WEEKOFYEAR](weekofyear.md)
+
 ## Return Type
 
 Returns an integer that represents the week number within a year, with numbering ranging from 1 to 53.
@@ -28,13 +33,11 @@ Returns an integer that represents the week number within a year, with numbering
 ## Examples
 
 ```sql
-SELECT
-  to_week_of_year('2023-11-12 09:38:18.165575')
+SELECT NOW(), TO_WEEK_OF_YEAR(NOW()), WEEK(NOW()), WEEKOFYEAR(NOW());
 
-┌───────────────────────────────────────────────┐
-│ to_week_of_year('2023-11-12 09:38:18.165575') │
-│                     UInt8                     │
-├───────────────────────────────────────────────┤
-│                                            45 │
-└───────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────┐
+│            now()           │ to_week_of_year(now()) │ week(now()) │ weekofyear(now()) │
+├────────────────────────────┼────────────────────────┼─────────────┼───────────────────┤
+│ 2024-03-14 23:30:04.011624 │                     11 │          11 │                11 │
+└───────────────────────────────────────────────────────────────────────────────────────┘
 ```
