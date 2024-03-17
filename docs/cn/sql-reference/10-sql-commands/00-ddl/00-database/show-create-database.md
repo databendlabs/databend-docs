@@ -1,17 +1,17 @@
 ---
-title: SHOW CREATE DATABASE
+title: 显示创建数据库
 sidebar_position: 2
 ---
 
-Shows the CREATE DATABASE statement that creates the named database.
+显示创建指定数据库的 CREATE DATABASE 语句。
 
-## Syntax
+## 语法
 
 ```sql
 SHOW CREATE DATABASE database_name
 ```
 
-## Examples
+## 示例
 
 ```sql
 SHOW CREATE DATABASE default;
