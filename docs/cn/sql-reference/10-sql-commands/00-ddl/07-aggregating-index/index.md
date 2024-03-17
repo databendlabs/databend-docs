@@ -7,6 +7,6 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='聚合索引'/>
 
-本页面提供了有关 Databend 中聚合索引相关命令的参考信息。要了解更多关于聚合索引的信息，请参阅[聚合索引](/guides/performance/aggregating-index)。
+本页面提供了有关 Databend 中聚合索引（`AGGREGATING INDEX`）相关命令的参考信息。要了解更多关于聚合索引的信息，请参阅[聚合索引](/guides/performance/aggregating-index)。
 
 <IndexOverviewList />
