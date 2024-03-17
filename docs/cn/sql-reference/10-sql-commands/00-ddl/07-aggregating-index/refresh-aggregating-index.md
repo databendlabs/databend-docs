@@ -17,7 +17,7 @@ import EEFeature from '@site/src/components/EEFeature';
 REFRESH AGGREGATING INDEX <index_name> [ LIMIT <limit> ]
 ```
 
-"LIMIT" 参数允许您控制每次刷新操作可以更新的最大块数。强烈建议使用此参数并设置一个明确的限制以优化内存使用。请注意，设置限制可能会导致部分数据更新。例如，如果您有100个块但设置了10的限制，单次刷新可能不会更新最新的数据，可能会留下一些未刷新的块。您可能需要执行多次刷新操作以确保完全更新。
+"LIMIT" 参数允许您控制每次刷新操作可以更新的最大块数。强烈建议使用此参数并设置一个明确的限制以优化内存使用。请注意，设置限制可能会导致部分数据更新。例如，如果您有 100 个块但设置了 10 的限制，单次刷新可能不会更新最新的数据，可能会留下一些未刷新的块。您可能需要执行多次刷新操作以确保完全更新。
 
 ## 何时使用 REFRESH AGGREGATING INDEX
 
@@ -26,7 +26,7 @@ REFRESH AGGREGATING INDEX <index_name> [ LIMIT <limit> ]
 
 ## 示例
 
-此示例创建并刷新一个名为 *my_agg_index* 的聚合索引：
+此示例创建并刷新一个名为 _my_agg_index_ 的聚合索引：
 
 ```sql
 -- 准备数据

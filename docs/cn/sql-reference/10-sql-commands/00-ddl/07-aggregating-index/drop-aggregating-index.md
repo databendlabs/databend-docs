@@ -21,7 +21,7 @@ DROP AGGREGATING INDEX <index_name>
 
 ## 示例
 
-此示例删除了一个名为 *my_agg_index* 的聚合索引：
+此示例删除了一个名为 _my_agg_index_ 的聚合索引：
 
 ```sql
 DROP AGGREGATING INDEX my_agg_index;

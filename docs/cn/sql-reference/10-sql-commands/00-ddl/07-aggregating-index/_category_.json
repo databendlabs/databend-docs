@@ -1,35 +1,4 @@
-```markdown
-# Aggregating Index {/*examples*/}
-
-Aggregating indexes in Databend can significantly improve the performance of aggregation queries. These indexes pre-aggregate data at the storage level, which reduces the amount of data that needs to be scanned during query execution. This feature is particularly useful for analytical queries that involve large datasets.
-
-## How It Works
-
-When data is inserted into a table with an aggregating index, Databend automatically aggregates the data according to the specified index columns and stores the aggregated result. During query execution, Databend uses these pre-aggregated results to quickly compute the final aggregation, which significantly reduces query execution time.
-
-## Creating an Aggregating Index
-
-To create an aggregating index, you can use the `CREATE INDEX` statement. Here is an example:
-
-```sql
-CREATE INDEX index_name ON table_name(column1, column2, ...)
-WITH (type = 'aggregating');
-```
-
-This statement creates an aggregating index named `index_name` on `table_name` for the specified columns.
-
-## Benefits
-
-- **Performance Improvement**: Aggregating indexes can drastically reduce the time it takes to execute aggregation queries.
-- **Reduced Data Scanning**: By storing pre-aggregated data, the amount of data that needs to be scanned during query execution is minimized.
-- **Efficient Storage**: Aggregating indexes can also lead to more efficient storage usage, as they store aggregated rather than raw data.
-
-## Considerations
-
-- **Storage Overhead**: While aggregating indexes can improve query performance, they also introduce additional storage overhead due to the storage of aggregated data.
-- **Maintenance**: Aggregating indexes need to be maintained as new data is inserted into the table, which can add overhead to data ingestion processes.
-
-<Notes>
-Aggregating indexes are a powerful tool for improving the performance of aggregation queries in Databend. However, it's important to consider the trade-offs between query performance improvement and the additional storage and maintenance overhead.
-</Notes>
-```
+{
+    "label": "聚合索引",
+    "position": 11
+}

@@ -11,7 +11,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='聚合索引'/>
 
-在Databend中创建一个新的聚合索引。
+在 Databend 中创建一个新的聚合索引。
 
 ## 语法
 
@@ -29,7 +29,7 @@ CREATE [ OR REPLACE ] [ ASYNC ] AGGREGATING INDEX <index_name> AS SELECT ...
 
 ## 示例
 
-此示例为查询“SELECT MIN(a), MAX(c) FROM agg”创建一个名为 *my_agg_index* 的聚合索引：
+此示例为查询 “SELECT MIN(a), MAX(c) FROM agg” 创建一个名为 _my_agg_index_ 的聚合索引：
 
 ```sql
 -- 准备数据
