@@ -29,7 +29,7 @@ CREATE STAGE my_internal_stage;
 
 An external stage enables you to specify an object storage location outside of where Databend resides. For instance, if you have datasets in a Google Cloud Storage container, you can create an external stage using that container. When creating an external stage, you must provide connection information for Databend to connect to the external location. 
 
-Below is an example of creating an external stage. Let's say you have datasets in a bucket named `databend` in your object storage:
+Below is an example of creating an external stage. Let's say you have datasets in an Amazon S3 bucket named `databend-doc`:
 
 ![alt text](@site/docs/public/img/guides/external-stage.png)
 
@@ -38,9 +38,8 @@ You can create an external stage with the [CREATE STAGE](/sql/sql-commands/ddl/s
 ```sql
 -- Create an external stage named my_external_stage
 CREATE STAGE my_external_stage 
-    URL = 's3://databend'
+    URL = 's3://databend-doc'
     CONNECTION = (
-        ENDPOINT_URL = '<YOUR_STORAGE_ENDPOINT>',
         AWS_KEY_ID = '<YOUR-KEY-ID>',
         AWS_SECRET_KEY = '<YOUR-SECRET-KEY>'
     );
@@ -51,12 +50,12 @@ Once the external stage is created, you can access the datasets from Databend. F
 ```sql
 LIST @my_external_stage;
 
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│         name        │    size   │                 md5                │         last_modified         │      creator     │
-├─────────────────────┼───────────┼────────────────────────────────────┼───────────────────────────────┼──────────────────┤
-│ UserBehavior.csv.gz │ 949805035 │ "604e9e2c1915732d66d36853e43c1a0d" │ 2023-10-29 03:28:49.853 +0000 │ NULL             │
-│ books.parquet       │       998 │ "88432bf90aadb79073682988b39d461c" │ 2023-04-24 20:00:22.171 +0000 │ NULL             │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│      name     │  size  │                 md5                │         last_modified         │      creator     │
+├───────────────┼────────┼────────────────────────────────────┼───────────────────────────────┼──────────────────┤
+│ Inventory.csv │  57585 │ "0cd02fb636a22ba9f4ae4d24555a7d68" │ 2024-03-17 21:22:38.000 +0000 │ NULL             │
+│ Products.csv  │  42987 │ "570e5cbf6a4b6e7e9a258094192f4784" │ 2024-03-17 21:22:38.000 +0000 │ NULL             │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 Please note that the external storage must be one of the object storage solutions supported by Databend. The [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) command page provides examples on how to specify connection information for commonly used object storage solutions.
