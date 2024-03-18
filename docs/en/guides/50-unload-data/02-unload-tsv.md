@@ -41,8 +41,6 @@ CONNECTION = (
 ```sql
 CREATE FILE FORMAT tsv_unload_format 
     TYPE = TSV,
-    RECORD_DELIMITER = '\n',
-    FIELD_DELIMITER = ',',
     COMPRESSION = gzip;     -- Unload with gzip compression
 ```
 
