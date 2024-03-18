@@ -2,10 +2,14 @@
 title: Load Data into Databend
 ---
 
+import DetailsWrap from '@site/src/components/DetailsWrap';
+
 Databend's powerful ETL capabilities allow for efficient data loading from a variety of sources and formats.
 This guide provides detailed instructions on how to import data into Databend.
 
 ## Data Import and Export
+
+<DetailsWrap>
 
 <details>
 <summary> Parquet Files </summary>
@@ -56,8 +60,11 @@ This guide provides detailed instructions on how to import data into Databend.
 
 </details>
 
+</DetailsWrap>
 
 ## Loading Data From Other Databases
+
+<DetailsWrap>
 
 <details>
 <summary> MySQL Data to Databend </summary>
@@ -80,3 +87,5 @@ This guide provides detailed instructions on how to import data into Databend.
 - [How to Sync Full and Incremental Oracle Changes into Databend](./02-load-db/flink-cdc.md)
 
 </details>
+
+</DetailsWrap>
