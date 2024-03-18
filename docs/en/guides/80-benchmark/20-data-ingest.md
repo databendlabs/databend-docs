@@ -3,6 +3,8 @@ title: "Databend vs. Snowflake: Data Ingestion Benchmark"
 sidebar_label: "Data Ingestion Benchmark"
 ---
 
+import DetailsWrap from '@site/src/components/DetailsWrap';
+
 ## Overview
 
 We conducted four specific benchmarks to evaluate Databend Cloud versus Snowflake:
@@ -104,6 +106,8 @@ Both Snowflake and Databend Cloud was tested under similar conditions:
 
 The data ingestion benchmark can be reproduced using the following steps:
 
+<DetailsWrap>
+
 <details>
   <summary>TPC-H Data Loading</summary>
 
@@ -133,6 +137,8 @@ The data ingestion benchmark can be reproduced using the following steps:
    - Utilize a similar method to Snowflake for loading data from AWS S3. [SQL Script](https://gist.github.com/BohuTANG/ab45d251c533dcf0b1ccd3ea1263b8a0?permalink_comment_id=4991767#gistcomment-4991767).
 
 </details>
+
+</DetailsWrap>
 
 ### Freshness Benchmark
 
