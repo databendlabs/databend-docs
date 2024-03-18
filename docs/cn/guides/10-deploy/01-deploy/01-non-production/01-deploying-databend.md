@@ -139,6 +139,37 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 - <https://docs.wasabi.com/docs/access-keys-1>
 
 </TabItem>
+
+
+<TabItem value="MinIO" label="MinIO">
+
+1. 创建一个名为 `my_bucket` 的存储桶或容器。
+2. 获取用于连接您创建的存储桶或容器的端点 URL。
+3. 获取您账户的访问 Access Key ID 和 Secret Access Key。
+
+有关如何为您的 MinIO 管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+
+- <https://min.io/docs/minio/container/index.html>
+- <https://min.io/docs/minio/container/administration/console/managing-objects.html>
+- <https://min.io/docs/minio/container/administration/console/security-and-access.html>
+
+</TabItem>
+
+<TabItem value="CubeFS" label="CubeFS">
+
+1. 启动对象网关 ObjectNode。
+2. 创建一个名为 `my_bucket` 的存储桶或容器。
+3. 获取用于连接您创建的存储桶或容器的端点 URL。
+4. 获取您账户的访问 Access Key ID 和 Secret Access Key。
+
+有关如何为您的 CubeFS 管理存储桶和访问密钥的信息，请参考解决方案提供商的用户手册。以下是您可能需要的一些有用链接：
+
+- <https://cubefs.io/docs/master/quick-start/node.html>
+- <https://cubefs.io/docs/master/user-guide/objectnode.html>
+- <https://cubefs.io/docs/master/maintenance/admin-api/master/user.html>
+
+</TabItem>
+
 </Tabs>
 </StepContent>
 
@@ -403,7 +434,35 @@ secret_access_key = "<your-access-key>"
 ```
 
 </TabItem>
+<TabItem value="MinIO" label="MinIO">
 
+```toml title='databend-query.toml'
+[storage]
+# s3
+type = "s3"
+
+[storage.s3]
+bucket = "my_bucket"
+endpoint_url = "<your-endpoint-url>"
+access_key_id = "<your-key-id>"
+secret_access_key = "<your-access-key>"
+```
+</TabItem>
+
+<TabItem value="CubeFS" label="CubeFS">
+
+```toml title='databend-query.toml'
+[storage]
+# s3
+type = "s3"
+
+[storage.s3]
+bucket = "my_bucket"
+endpoint_url = "<your-endpoint-url>"
+access_key_id = "<your-key-id>"
+secret_access_key = "<your-access-key>"
+```
+</TabItem>
 </Tabs>
 
 3. 使用[query.users]部分配置管理员用户。更多信息，请参见[配置管理员用户](../../04-references/01-admin-users.md)。要继续使用默认的 root 用户和认证类型"no_password"，请确保在文件`databend-query.toml`中移除以下行前的'#'字符：
