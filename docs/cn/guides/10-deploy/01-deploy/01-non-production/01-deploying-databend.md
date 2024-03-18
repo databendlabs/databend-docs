@@ -237,7 +237,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 </StepContent>
 </StepsWrap>
 
-### 步骤 2：部署查询节点
+### 步骤 2：部署查询节点 {#deploying-a-query-node}
 
 按照下面的说明部署查询节点:
 
