@@ -2,10 +2,14 @@
 title: 将数据加载到 Databend 中
 ---
 
+import DetailsWrap from '@site/src/components/DetailsWrap';
+
 Databend 的强大 ETL 能力允许从各种来源和格式高效加载数据。
 本指南提供了如何将数据导入 Databend 的详细说明。
 
 ## 数据导入和导出
+
+<DetailsWrap>
 
 <details>
 <summary> Parquet 文件 </summary>
@@ -53,9 +57,11 @@ Databend 的强大 ETL 能力允许从各种来源和格式高效加载数据。
 - [从远程文件加载](./01-load/03-http.md)
 
 </details>
+</DetailsWrap>
 
 ## 从其他数据库加载数据
 
+<DetailsWrap>
 <details>
 <summary> 将 MySQL 数据导入到 Databend </summary>
 
@@ -77,3 +83,5 @@ Databend 的强大 ETL 能力允许从各种来源和格式高效加载数据。
 - [如何将 Oracle 的完整和增量更改同步到 Databend 中](./02-load-db/flink-cdc.md)
 
 </details>
+
+</DetailsWrap>
