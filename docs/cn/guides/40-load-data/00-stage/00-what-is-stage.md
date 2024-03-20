@@ -10,11 +10,11 @@ title: 什么是 Stage？
 
 根据实际存储位置和可访问性，stage 可以分为以下类型：内部 Stage、外部 Stage 和用户 Stage。下表总结了 Databend 中不同 stage 类型的特点，包括它们的存储位置、可访问性和推荐使用场景：
 
-| Stage 类型     | 存储位置                             | 可访问性                                       | 何时选择                                          |
-|----------------|--------------------------------------|-------------------------------------------------|---------------------------------------------------|
-| 内部 Stage     | Databend 所在的对象存储               | 组织内的所有用户可访问                           | 适用于组织内共享的数据                            |
-| 外部 Stage     | 外部对象存储                          | 组织内的所有用户可访问                           | 适合与外部数据源集成                              |
-| 用户 Stage     | Databend 所在的对象存储               | 仅对相应用户可访问                               | 完美适用于个人数据文件或临时数据                  |
+| Stage 类型 | 存储位置                | 可访问性               | 何时选择                         |
+| ---------- | ----------------------- | ---------------------- | -------------------------------- |
+| 内部 Stage | Databend 所在的对象存储 | 组织内的所有用户可访问 | 适用于组织内共享的数据           |
+| 外部 Stage | 外部对象存储            | 组织内的所有用户可访问 | 适合与外部数据源集成             |
+| 用户 Stage | Databend 所在的对象存储 | 仅对相应用户可访问     | 完美适用于个人数据文件或临时数据 |
 
 ### 内部 Stage
 
@@ -37,7 +37,7 @@ CREATE STAGE my_internal_stage;
 
 ```sql
 -- 创建名为 my_external_stage 的外部 stage
-CREATE STAGE my_external_stage 
+CREATE STAGE my_external_stage
     URL = 's3://databend-doc'
     CONNECTION = (
         AWS_KEY_ID = '<YOUR-KEY-ID>',
@@ -70,15 +70,15 @@ LIST @my_external_stage;
 LIST @~;
 ```
 
-## 管理 Stages
+## 管理 Stage
 
-Databend 提供了多种命令来帮助您管理 stages 及其中的文件：
+Databend 提供了多种命令来帮助您管理 stage 及其中的文件：
 
-| 命令                                                         | 描述                                                                                                                                                                                                                               | 适用于用户阶段 | 适用于内部阶段 | 适用于外部阶段 |
-|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|--------------|--------------|
-| [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) | 创建内部或外部阶段。                                                                                                                                                                                                                | 否           | 是           | 是           |
-| [DROP STAGE](/sql/sql-commands/ddl/stage/ddl-drop-stage)     | 移除内部或外部阶段。                                                                                                                                                                                                                | 否           | 是           | 是           |
-| [DESC STAGE](/sql/sql-commands/ddl/stage/ddl-desc-stage)     | 显示内部或外部阶段的属性。                                                                                                                                                                                                          | 否           | 是           | 是           |
-| [LIST](/sql/sql-commands/ddl/stage/ddl-list-stage)           | 返回阶段中已暂存文件的列表。或者，表函数 [LIST_STAGE](/sql/sql-functions/table-functions/list-stage) 提供了类似的功能，增加了获取特定文件信息的灵活性                                                                                  | 是           | 是           | 是           |
-| [REMOVE](/sql/sql-commands/ddl/stage/ddl-remove-stage)       | 从阶段中移除已暂存的文件。                                                                                                                                                                                                          | 是           | 是           | 是           |
-| [SHOW STAGES](/sql/sql-commands/ddl/stage/ddl-show-stages)   | 返回已创建的内部和外部阶段的列表。                                                                                                                                                                                                  | 否           | 是           | 是           |
+| 命令                                                         | 描述                                                                                                                                                     | 适用于用户 Stage | 适用于内部 Stage | 适用于外部 Stage |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------- | ---------------- |
+| [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) | 创建内部或外部 Stage。                                                                                                                                   | 否               | 是               | 是               |
+| [DROP STAGE](/sql/sql-commands/ddl/stage/ddl-drop-stage)     | 移除内部或外部 Stage。                                                                                                                                   | 否               | 是               | 是               |
+| [DESC STAGE](/sql/sql-commands/ddl/stage/ddl-desc-stage)     | 显示内部或外部 Stage 的属性。                                                                                                                            | 否               | 是               | 是               |
+| [LIST](/sql/sql-commands/ddl/stage/ddl-list-stage)           | 返回 Stage 中已暂存文件的列表。或者，表函数 [LIST_STAGE](/sql/sql-functions/table-functions/list-stage) 提供了类似的功能，增加了获取特定文件信息的灵活性 | 是               | 是               | 是               |
+| [REMOVE](/sql/sql-commands/ddl/stage/ddl-remove-stage)       | 从 Stage 中移除已暂存的文件。                                                                                                                            | 是               | 是               | 是               |
+| [SHOW STAGES](/sql/sql-commands/ddl/stage/ddl-show-stages)   | 返回已创建的内部和外部 Stage 的列表。                                                                                                                    | 否               | 是               | 是               |
