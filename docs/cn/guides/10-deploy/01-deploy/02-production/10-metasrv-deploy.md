@@ -113,7 +113,7 @@ raft_advertise_host = "192.168.1.101"
 
 # Start up mode: single node cluster
 # single        = true
-join            =["192.168.1.100:28103","192.168.1.102:28103"]
+join            = ["192.168.1.100:28103","192.168.1.102:28103"]
 ```
 
   </TabItem>
@@ -145,7 +145,7 @@ raft_advertise_host = "192.168.1.102"
 
 # Start up mode: single node cluster
 # single        = true
-join            =["192.168.1.100:28103","192.168.1.101:28103"]
+join            = ["192.168.1.100:28103","192.168.1.101:28103"]
 ```
 
   </TabItem>

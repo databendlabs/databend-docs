@@ -297,7 +297,7 @@ SELECT * FROM s;
 
 ```
 
-### 示例：实时跟踪和转换数据
+### 示例：实时跟踪和转换数据 {#example-tracking-and-transforming-data-in-real-time}
 
 以下示例演示了如何使用流来实时捕获和跟踪用户活动。
 
