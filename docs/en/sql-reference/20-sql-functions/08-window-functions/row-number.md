@@ -2,29 +2,28 @@
 title: ROW_NUMBER
 ---
 
-Returns a unique row number for each row within a window partition.
-
-The row number starts at 1 and continues up sequentially.
+Assigns a temporary sequential number to each row within a partition of a result set, starting at 1 for the first row in each partition. 
 
 ## Syntax
 
 ```sql
-ROW_NUMBER() OVER (
-  [ PARTITION BY <expr1> [, <expr2> ... ] ]
-  ORDER BY <expr3> [ , <expr4> ... ] [ { ASC | DESC } ]
-  )
+ROW_NUMBER() 
+  OVER ( [ PARTITION BY <expr1> [, <expr2> ... ] ]
+  ORDER BY <expr3> [ , <expr4> ... ] [ { ASC | DESC } ] )
 ```
+
+| Parameter    | Required? | Description                                                                                                |
+|--------------|-----------|------------------------------------------------------------------------------------------------------------|
+| ORDER BY     | Yes       | Specifies the order of rows within each partition.                                                         |
+| ASC / DESC   | No        | Specifies the sorting order within each partition. ASC (ascending) is the default.                         |
+| QUALIFY      | No        | Filters rows based on conditions.                                                                          |
 
 ## Examples
 
-
-Suppose we have a table called employees with columns employee_id, first_name, last_name, department, and salary.
-
-We want to number employees within each department based on their salaries in descending order.
-
-**Create the table**
+This example demonstrates the use of ROW_NUMBER() to assign sequential numbers to employees within their departments, ordered by descending salary.
 
 ```sql
+-- Prepare the data
 CREATE TABLE employees (
   employee_id INT,
   first_name VARCHAR,
@@ -32,11 +31,7 @@ CREATE TABLE employees (
   department VARCHAR,
   salary INT
 );
-```
 
-**Insert data**
-
-```sql
 INSERT INTO employees (employee_id, first_name, last_name, department, salary) VALUES
   (1, 'John', 'Doe', 'IT', 90000),
   (2, 'Jane', 'Smith', 'HR', 85000),
@@ -44,10 +39,7 @@ INSERT INTO employees (employee_id, first_name, last_name, department, salary) V
   (4, 'Sara', 'Williams', 'Sales', 77000),
   (5, 'Tom', 'Brown', 'HR', 75000);
 
-```
-
-**Numbering employees within departments**
-```sql
+-- Select employee details along with the row number partitioned by department and ordered by salary in descending order.
 SELECT
     employee_id,
     first_name,
@@ -57,14 +49,14 @@ SELECT
     ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) AS row_num
 FROM
     employees;
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   employee_id   │    first_name    │     last_name    │    department    │      salary     │ row_num │
+├─────────────────┼──────────────────┼──────────────────┼──────────────────┼─────────────────┼─────────┤
+│               2 │ Jane             │ Smith            │ HR               │           85000 │       1 │
+│               5 │ Tom              │ Brown            │ HR               │           75000 │       2 │
+│               1 │ John             │ Doe              │ IT               │           90000 │       1 │
+│               3 │ Mike             │ Johnson          │ IT               │           82000 │       2 │
+│               4 │ Sara             │ Williams         │ Sales            │           77000 │       1 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
-
-Result:
-
-| employee_id | first_name | last_name | department | salary | row_num |
-|-------------|------------|-----------|------------|--------|---------|
-| 1           | John       | Doe       | IT         | 90000  | 1       |
-| 3           | Mike       | Johnson   | IT         | 82000  | 2       |
-| 2           | Jane       | Smith     | HR         | 85000  | 1       |
-| 5           | Tom        | Brown     | HR         | 75000  | 2       |
-| 4           | Sara       | Williams  | Sales      | 77000  | 1       |
