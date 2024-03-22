@@ -267,6 +267,12 @@ databend@localhost:8000/test> select * from mytable;
 
 ## 部署本地 Databend {#deploying-a-local-databend}
 
+### 视频演示
+
+<iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1052011715&bvid=BV1gH4y1p7ep&cid=1478072824&p=1&autoplay=0" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
+
+### 操作步骤
+
 以下步骤将指导您完成本地部署 Databend 的过程。
 
 <StepsWrap>
