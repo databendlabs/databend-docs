@@ -23,31 +23,29 @@ In this tutorial, we will guide you through the process of connecting to Databen
 
 2. Select the database you want to connect to, for example, "default"; then choose a warehouse. If you forget the password, reset it.
 
-3. In the **Examples** part, copy the content from the **BendSQL** tab.
+3. You can find the DSN details for the current warehouse and the connection string used to connect to Databend Cloud via BendSQL in the **Examples** section. For this step, simply copy the content provided in the **BendSQL** tab.
 
-![Alt text](/img/connect/bendsql-5.gif)
+![Alt text](/img/connect/bendsql-5.png)
 
 </StepContent>
 <StepContent number="2" title="Launch BendSQL">
 
 To launch BendSQL, paste the content you copied into your terminal or command prompt. If the password you copied displays as "******", replace them with your actual password.
 
-![Alt text](/img/connect/bendsql-6.gif)
+![Alt text](/img/connect/bendsql-6.png)
 
 </StepContent>
 
 <StepContent number="3" title="Execute Queries">
 
-Once connected, you can execute SQL queries in the BendSQL shell. For instance, type `SELECT NOW();` to return the current time:
+Once connected, you can execute SQL queries in the BendSQL shell. For instance, type `SELECT NOW();` to return the current time.
 
-![Alt text](/img/connect/bendsql-7.gif)
+![Alt text](/img/connect/bendsql-7.png)
 
 </StepContent>
 <StepContent number="4" title="Quit BendSQL">
 
 To quit BendSQL, type `quit`.
-
-![Alt text](/img/connect/bendsql-8.gif)
 
 </StepContent>
 </StepsWrap>
