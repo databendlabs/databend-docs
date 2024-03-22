@@ -8,6 +8,10 @@ import TabItem from '@theme/TabItem';
 
 Databend 建议在生产环境中部署至少三个元节点和一个查询节点的集群。要更好地理解 Databend 集群部署，请参阅[理解 Databend 部署](../00-understanding-deployment-modes.md)，这将帮助您熟悉这一概念。本主题旨在提供部署 Databend 集群的实用指南。
 
+## 视频演示
+
+<iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1652038486&bvid=BV1tj421R7UX&cid=1478077950&p=1&autoplay=0" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
+
 ## 开始之前
 
 在开始之前，请确保您已完成以下准备工作：
