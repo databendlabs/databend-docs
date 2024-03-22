@@ -102,30 +102,27 @@ SELECT
 FROM
   system.settings
 
-
-
-```markdown
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                     名称                    │  值  │ 默认值 │   范围  │  级别  │                                                                     描述                                                                    │  类型  │
-│                    字符串                   │ 字符串 │ 字符串 │ 字符串 │ 字符串 │                                                                       字符串                                                                       │ 字符串 │
+│                     name                    │  value  │ default │   range  │  level  │                                                                     description                                                                    │  type  │
+│                    String                   │  String │  String │  String  │  String │                                                                       String                                                                       │ String │
 ├─────────────────────────────────────────────┼─────────┼─────────┼──────────┼─────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼────────┤
-│ acquire_lock_timeout                        │ 15      │ 15      │ 无       │ 默认    │ 设置获取锁的最大超时时间（秒）。                                                                                                               │ UInt64 │
-│ aggregate_spilling_bytes_threshold_per_proc │ 0       │ 0       │ 无       │ 默认    │ 设置聚合器在查询执行期间将数据溢写到存储之前，可以使用的最大内存量（字节）。                                                                      │ UInt64 │
-│ aggregate_spilling_memory_ratio             │ 0       │ 0       │ [0, 100] │ 默认    │ 设置聚合器在查询执行期间将数据溢写到存储之前，可以使用的最大内存比例（字节）。                                                                    │ UInt64 │
-│ auto_compaction_imperfect_blocks_threshold  │ 50      │ 50      │ 无       │ 默认    │ 触发自动压缩的阈值。当快照中不完美的块数量在写操作后超过此值时发生。                                                                         │ UInt64 │
-│ collation                                   │ utf8    │ utf8    │ ["utf8"] │ 默认    │ 设置字符排序规则。可用值包括 "utf8"。                                                                                                           │ 字符串 │
-│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                              │ ·      │
-│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                              │ ·      │
-│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                              │ ·      │
-│ storage_read_buffer_size                    │ 1048576 │ 1048576 │ 无       │ 默认    │ 设置用于将数据读入内存的缓冲区的字节大小。                                                                                                      │ UInt64 │
-│ table_lock_expire_secs                      │ 10      │ 10      │ 无       │ 默认    │ 设置表锁过期的秒数。                                                                                                                           │ UInt64 │
-│ timezone                                    │ UTC     │ UTC     │ 无       │ 默认    │ 设置时区。                                                                                                                                     │ 字符串 │
-│ unquoted_ident_case_sensitive               │ 0       │ 0       │ 无       │ 默认    │ 确定 Databend 是否将未加引号的标识符视为区分大小写。                                                                                             │ UInt64 │
-│ use_parquet2                                │ 0       │ 0       │ [0, 1]   │ 默认    │ 此设置已弃用                                                                                                                                   │ UInt64 │
-│ 96 行                                       │         │         │          │         │                                                                                                                                                │        │
-│ （显示 10 行）                                │         │         │          │         │                                                                                                                                                │        │
+│ acquire_lock_timeout                        │ 15      │ 15      │ None     │ DEFAULT │ Sets the maximum timeout in seconds for acquire a lock.                                                                                            │ UInt64 │
+│ aggregate_spilling_bytes_threshold_per_proc │ 0       │ 0       │ None     │ DEFAULT │ Sets the maximum amount of memory in bytes that an aggregator can use before spilling data to storage during query execution.                      │ UInt64 │
+│ aggregate_spilling_memory_ratio             │ 0       │ 0       │ [0, 100] │ DEFAULT │ Sets the maximum memory ratio in bytes that an aggregator can use before spilling data to storage during query execution.                          │ UInt64 │
+│ auto_compaction_imperfect_blocks_threshold  │ 50      │ 50      │ None     │ DEFAULT │ Threshold for triggering auto compaction. This occurs when the number of imperfect blocks in a snapshot exceeds this value after write operations. │ UInt64 │
+│ collation                                   │ utf8    │ utf8    │ ["utf8"] │ DEFAULT │ Sets the character collation. Available values include "utf8".                                                                                     │ String │
+│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                                  │ ·      │
+│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                                  │ ·      │
+│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                                  │ ·      │
+│ storage_read_buffer_size                    │ 1048576 │ 1048576 │ None     │ DEFAULT │ Sets the byte size of the buffer used for reading data into memory.                                                                                │ UInt64 │
+│ table_lock_expire_secs                      │ 10      │ 10      │ None     │ DEFAULT │ Sets the seconds that the table lock will expire in.                                                                                               │ UInt64 │
+│ timezone                                    │ UTC     │ UTC     │ None     │ DEFAULT │ Sets the timezone.                                                                                                                                 │ String │
+│ unquoted_ident_case_sensitive               │ 0       │ 0       │ None     │ DEFAULT │ Determines whether Databend treats unquoted identifiers as case-sensitive.                                                                         │ UInt64 │
+│ use_parquet2                                │ 0       │ 0       │ [0, 1]   │ DEFAULT │ This setting is deprecated                                                                                                                         │ UInt64 │
+│ 96 rows                                     │         │         │          │         │                                                                                                                                                    │        │
+│ (10 shown)                                  │         │         │          │         │                                                                                                                                                    │        │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-96 行读取于 0.022 秒。处理了 96 行，16.52 KiB（4.45 千行/秒，766.10 KiB/秒）
+96 rows read in 0.022 sec. Processed 96 rows, 16.52 KiB (4.45 thousand rows/s, 766.10 KiB/s)
 ```
 
 ### 调整列和表宽度 {#adjusting-column-and-table-widths}
