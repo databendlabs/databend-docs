@@ -17,7 +17,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 </StepContent>
 <StepContent number="1" title="创建连接">
 
-在创建连接到 Databend Cloud 之前，您需要登录到 Databend Cloud 以获取连接信息。更多信息，请参见[连接到仓库](../../20-cloud/10-using-databend-cloud/00-warehouses.md#connecting)。
+在创建连接到 Databend Cloud 之前，您需要登录到 Databend Cloud 以获取连接信息。更多信息，请参见[连接到计算集群](../../20-cloud/10-using-databend-cloud/00-warehouses.md#connecting)。
 
 1. 在 DBeaver 中，首先在 **Database** > **New Database Connection** 中搜索并选择 `databendcloud`，然后点击 **Next**。
 
