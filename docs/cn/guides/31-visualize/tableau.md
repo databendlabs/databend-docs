@@ -114,7 +114,7 @@ GRANT ALL ON *.* TO tableau;
 
 ### 步骤 1. 获取连接信息
 
-从Databend Cloud获取连接信息。如何做到这一点，请参考 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+从Databend Cloud获取连接信息。如何做到这一点，请参考 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 安装 databend-jdbc
 
