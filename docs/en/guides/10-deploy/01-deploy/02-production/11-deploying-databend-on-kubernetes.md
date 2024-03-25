@@ -452,10 +452,10 @@ to scale up or down the query cluster, there are two ways
 
   ```shell
    # scale query cluster number to 0
-   kubectl -n databend-query scale deployment tenant1-databend-query --replicas=0
+   kubectl -n databend-query scale statefulset tenant1-databend-query --replicas=0
 
    # scale query cluster number to 5
-   kubectl -n databend-query scale deployment tenant1-databend-query --replicas=5
+   kubectl -n databend-query scale statefulset tenant1-databend-query --replicas=5
   ```
 
 * update `replicaCount` in `values.yaml` to any value, then helm upgrade again
