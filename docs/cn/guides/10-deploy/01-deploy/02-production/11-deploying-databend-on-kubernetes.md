@@ -20,7 +20,7 @@ description: 如何在 Kubernetes 上部署 Databend 查询集群。
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-- 规划您的部署。本示例涉及 1 个 3 节点 Databend Meta 集群的部署，以及 2 个单节点 Databend Query 集群的部署，请根据您的实际部署计划和使用场景为集群管理和分配资源，以确保服务正常运行。
+- 规划您的部署。本示例涉及 1 个 3 节点 Databend Meta 集群的部署，以及 2 个 3 节点 Databend Query 集群的部署，请根据您的实际部署计划和使用场景为集群管理和分配资源，以确保服务正常运行。
 
   :::info 如果用于生产部署
   请参考 [部署环境](/guides/deploy/deploy/understanding-deployment-modes#deployment-environments) 为您的集群预留合适的资源。
@@ -577,12 +577,19 @@ SELECT count(*) FROM t1;
 
 - 为您的集群打开 grafana 网页。
 
-- 在左侧边栏选择 `+ 导入`，并上传下载的两个 json 文件。
+- 在右上角选择 `+` 展开菜单，点击 `Import dashboard` 导入仪表盘，并上传下载的两个 json 文件。
+
+  ![Alt text](@site/docs/public/img/deploy/import-dashboard.png)
 
 - 然后您应该看到两个仪表盘：
 
-  - Databend Meta 运行时
-  - Databend 查询运行时
+  - Databend Meta Runtime
+
+    ![Alt text](@site/docs/public/img/deploy/databend-meta-runtime.png)
+
+  - Databend Query Runtime
+
+    ![Alt text](@site/docs/public/img/deploy/databend-query-runtime.png)
 
 ## 下一步
 
