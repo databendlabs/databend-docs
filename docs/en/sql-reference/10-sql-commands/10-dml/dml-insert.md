@@ -11,7 +11,7 @@ Databend ensures data integrity with atomic operations. Inserts, updates, replac
 ## Syntax
 
 ```sql
-INSERT [ OVERWRITE ] INTO <table>
+INSERT { OVERWRITE | INTO } <table>
     -- Optionally specify the columns to insert into
     ( <column> [ , ... ] )
     -- Insertion options:
