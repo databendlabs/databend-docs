@@ -2,146 +2,181 @@
 title: INSERT
 ---
 
-Writes data into a table.
+Inserts one or more rows into a table.
 
 :::tip atomic operations
 Databend ensures data integrity with atomic operations. Inserts, updates, replaces, and deletes either succeed completely or fail entirely.
 :::
 
-## Insert Direct Values
-
-### Syntax
+## Syntax
 
 ```sql
-INSERT INTO|OVERWRITE [db.]table [(c1, c2, c3)] VALUES (v11, v12, v13), (v21, v22, v23), ...
+INSERT [ OVERWRITE ] INTO <table>
+    -- Optionally specify the columns to insert into
+    ( <column> [ , ... ] )
+    -- Insertion options:
+    {
+        -- Directly insert values or default values
+        VALUES ( <value> | DEFAULT ) [ , ... ] |
+        -- Insert the result of a query
+        SELECT ...
+    }
 ```
 
-### Examples
+| Parameter | Description                                                                      |
+|-----------|----------------------------------------------------------------------------------|
+| OVERWRITE | Indicates whether existing data should be truncated before insertion.            |
+| VALUES    | Allows direct insertion of specific values or the default values of the columns. |
+
+## Examples
+
+### Example-1: Insert Values with OVERWRITE
+
+In this example, the INSERT OVERWRITE statement is utilized to truncate the employee table and insert new data, replacing all existing records with the values provided for an employee with ID 100.
 
 ```sql
-CREATE TABLE test(a INT UNSIGNED, b Varchar);
+CREATE TABLE employee (
+    employee_id INT,
+    employee_name VARCHAR(50)
+);
 
-INSERT INTO test(a,b) VALUES(888, 'stars');
-INSERT INTO test VALUES(1024, 'stars');
+-- Inserting initial data into the employee table
+INSERT INTO employee(employee_id, employee_name) VALUES
+    (101, 'John Doe'),
+    (102, 'Jane Smith');
 
-SELECT * FROM test;
-+------+-------+
-| a    | b     |
-+------+-------+
-|  888 | stars |
-| 1024 | stars |
-+------+-------+
+-- Inserting new data with OVERWRITE
+INSERT OVERWRITE employee VALUES (100, 'John Johnson');
 
-INSERT OVERWRITE test VALUES(2048, 'stars');
-SELECT * FROM test;
-+------+-------+
-| a    | b     |
-+------+-------+
-| 2048 | stars |
-+------+-------+
+-- Displaying the contents of the employee table
+SELECT * FROM employee;
+
+┌────────────────────────────────────┐
+│   employee_id   │   employee_name  │
+├─────────────────┼──────────────────┤
+│             100 │ John Johnson     │
+└────────────────────────────────────┘
 ```
 
-## Insert Query Results
+### Example-2: Insert Query Results
 
 When inserting the results of a SELECT statement, the mapping of columns follows their positions in the SELECT clause. Therefore, the number of columns in the SELECT statement must be equal to or greater than the number of columns in the INSERT table. In cases where the data types of the columns in the SELECT statement and the INSERT table differ, type casting will be performed as needed.
 
-### Syntax
-
 ```sql
-INSERT INTO [db.]table [(c1, c2, c3)] SELECT ...
+-- Creating a table named 'employee_info' with three columns: 'employee_id', 'employee_name', and 'department'
+CREATE TABLE employee_info (
+    employee_id INT,
+    employee_name VARCHAR(50),
+    department VARCHAR(50)
+);
+
+-- Inserting a record into the 'employee_info' table
+INSERT INTO employee_info VALUES ('101', 'John Doe', 'Marketing');
+
+-- Creating a table named 'employee_data' with three columns: 'ID', 'Name', and 'Dept'
+CREATE TABLE employee_data (
+    ID INT,
+    Name VARCHAR(50),
+    Dept VARCHAR(50)
+);
+
+-- Inserting data from 'employee_info' into 'employee_data'
+INSERT INTO employee_data SELECT * FROM employee_info;
+
+-- Displaying the contents of the 'employee_data' table
+SELECT * FROM employee_data;
+
+┌───────────────────────────────────────────────────────┐
+│        id       │       name       │       dept       │
+├─────────────────┼──────────────────┼──────────────────┤
+│             101 │ John Doe         │ Marketing        │
+└───────────────────────────────────────────────────────┘
 ```
 
-### Examples
+This example demonstrates creating a summary table named "sales_summary" to store aggregated sales data such as total quantity sold and revenue for each product by aggregating information from the sales table:
 
 ```sql
-CREATE TABLE select_table(a VARCHAR, b VARCHAR, c VARCHAR);
-INSERT INTO select_table VALUES('1','11','abc');
+-- Creating a table for sales data
+CREATE TABLE sales (
+    product_id INT,
+    quantity_sold INT,
+    revenue DECIMAL(10, 2)
+);
 
-SELECT * FROM select_table;
-+------+------+------+
-| a    | b    | c    |
-+------+------+------+
-| 1    | 11   | abc  |
-+------+------+------+
+-- Inserting some sample sales data
+INSERT INTO sales (product_id, quantity_sold, revenue) VALUES
+    (1, 100, 500.00),
+    (2, 150, 750.00),
+    (1, 200, 1000.00),
+    (3, 50, 250.00);
 
-CREATE TABLE test(c1 TINTINT UNSIGNED, c2 BIGINT UNSIGNED, c3 VARCHAR);
-INSERT INTO test SELECT * FROM select_table;
+-- Creating a summary table to store aggregated sales data
+CREATE TABLE sales_summary (
+    product_id INT,
+    total_quantity_sold INT,
+    total_revenue DECIMAL(10, 2)
+);
 
-SELECT * from test;
-+------+------+------+
-| c1   | c2   | c3   |
-+------+------+------+
-|    1 |   11 | abc  |
-+------+------+------+
+-- Inserting aggregated sales data into the summary table
+INSERT INTO sales_summary (product_id, total_quantity_sold, total_revenue)
+SELECT 
+    product_id,
+    SUM(quantity_sold) AS total_quantity_sold,
+    SUM(revenue) AS total_revenue
+FROM 
+    sales
+GROUP BY 
+    product_id;
+
+-- Displaying the contents of the sales_summary table
+SELECT * FROM sales_summary;
+
+┌──────────────────────────────────────────────────────────────────┐
+│    product_id   │ total_quantity_sold │       total_revenue      │
+├─────────────────┼─────────────────────┼──────────────────────────┤
+│               1 │                 300 │ 1500.00                  │
+│               3 │                  50 │ 250.00                   │
+│               2 │                 150 │ 750.00                   │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
-Aggregate Example:
+### Example-3: Insert Default Values
+
+This example illustrates creating a table called "staff_records", with default values set for columns such as department and status. Data is then inserted, showcasing default value usage.
 
 ```sql
--- create table
-CREATE TABLE base_table(a INT);
-CREATE TABLE aggregate_table(b INT);
+-- Creating a table 'staff_records' with columns 'employee_id', 'department', 'salary', and 'status' with default values
+CREATE TABLE staff_records (
+    employee_id INT NULL,
+    department VARCHAR(50) DEFAULT 'HR',
+    salary FLOAT,
+    status VARCHAR(10) DEFAULT 'Active'
+);
 
--- insert some data to base_table
-INSERT INTO base_table VALUES(1),(2),(3),(4),(5),(6);
-
--- insert into aggregate_table from the aggregation
-INSERT INTO aggregate_table SELECT SUM(a) FROM base_table GROUP BY a%3;
-
-SELECT * FROM aggregate_table ORDER BY b;
-+------+
-| b    |
-+------+
-|    5 |
-|    7 |
-|    9 |
-+------+
-```
-
-## Insert Default Values
-
-Databend allows you to use the INSERT INTO statement to add data into a table, specifying values or defaults for columns as needed.
-
-### Syntax
-
-```sql
-INSERT INTO [db.]table [(c1, c2, c3)] VALUES (v1|DEFAULT, v2|DEFAULT, v3|DEFAULT) ...
-```
-
-### Examples
-
-```sql
-CREATE TABLE t_insert_default(a int null, b int default 2, c float, d varchar default 'd');
-
-INSERT INTO t_insert_default
+-- Inserting data into 'staff_records' with default values
+INSERT INTO staff_records
 VALUES
-    (default, default, default, default),
-    (1, default, 1.0, default),
-    (3, 3, 3.0, default),
-    (4, 4, 4.0, 'a');
+    (DEFAULT, DEFAULT, DEFAULT, DEFAULT),
+    (101, DEFAULT, 50000.00, DEFAULT),
+    (102, 'Finance', 60000.00, 'Inactive'),
+    (103, 'Marketing', 70000.00, 'Active');
 
-SELECT * FROM t_insert_default;
-+------+------+------+------+
-| a    | b    | c    | d    |
-+------+------+------+------+
-| NULL |    2 |  0.0 | d    |
-|    1 |    2 |  1.0 | d    |
-|    3 |    3 |  3.0 | d    |
-|    4 |    4 |  4.0 | a    |
-+------+------+------+------+
+-- Displaying the contents of the 'staff_records' table
+SELECT * FROM staff_records;
+
+┌───────────────────────────────────────────────────────────────────────────┐
+│   employee_id   │    department    │       salary      │      status      │
+├─────────────────┼──────────────────┼───────────────────┼──────────────────┤
+│            NULL │ HR               │              NULL │ Active           │
+│             101 │ HR               │             50000 │ Active           │
+│             102 │ Finance          │             60000 │ Inactive         │
+│             103 │ Marketing        │             70000 │ Active           │
+└───────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Insert with Staged Files
+### Example-4: Insert with Staged Files
 
-Databend enables you to insert data into a table from staged files with the INSERT INTO statement. This is achieved through Databend's capacity to [Query Staged Files](/guides/load-data/transform/querying-stage) and subsequently incorporate the query result into the table.
-
-### Syntax
-
-```sql
-INSERT INTO [db.]table [(c1, c2, c3)] SELECT ...
-```
-
-### Examples
+Databend enables you to insert data into a table from staged files with the INSERT INTO statement. This is achieved through Databend's capacity to [Query Staged Files](/guides/load-data/transform/querying-stage) and subsequently incorporate the query result into the table. 
 
 1. Create a table called `sample`:
 
