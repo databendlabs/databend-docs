@@ -241,7 +241,6 @@ The results should be:
 ```sql
 ┌─────────────────────────────────────────────────────────────────────────┐
 │        id       │       city       │      score      │      country     │
-│ Nullable(Int32) │ Nullable(String) │ Nullable(Int32) │ Nullable(String) │
 ├─────────────────┼──────────────────┼─────────────────┼──────────────────┤
 │               1 │ Chengdu          │              80 │ China            │
 │               3 │ Chongqing        │              90 │ China            │
