@@ -66,6 +66,109 @@ When building from source, some dependencies may involve compiling C/C++ code. E
 cargo install bendsql
 ```
 
+## Customizing BendSQL
+
+BendSQL provides a range of settings that allow you to define how query results are presented. For specific setting and customization methods, please refer to the documentation at: https://github.com/datafuselabs/bendsql/blob/main/README.md
+
+You have the following methods to configure a setting for BendSQL:
+
+- Add and configure a setting in the configuration file `~/.config/bendsql/config.toml`. To do so, open the file and add your setting under the `[settings]` section. The following example sets the `max_display_rows` to 10 and `max_width` to 100:
+
+```toml title='Example:'
+...
+[settings]
+max_display_rows = 10
+max_width = 100
+...
+```
+
+- Configure a setting at runtime by launching BendSQL and then specifying the setting in the format `.<setting> <value>`. Please note that settings configured in this way only take effect in the current session.
+
+```shell title='Example:'
+root@localhost:8000/default> .max_display_rows 10
+root@localhost:8000/default> .max_width 100
+```
+
+### Managing Row Visibility
+
+The `max_display_rows` setting sets the maximum number of rows to display in the output format when presenting query results. By default, it limits the display to 40 rows. The following example demonstrates setting the maximum number of rows to display as 10, showcasing only a subset of 10 rows out of a total of 96:
+
+```sql title='Example:'
+root@localhost:8000/default> .max_display_rows 10
+root@localhost:8000/default> select * from system.settings;
+
+SELECT
+  *
+FROM
+  system.settings
+
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                     name                    │  value  │ default │   range  │  level  │                                                                     description                                                                    │  type  │
+│                    String                   │  String │  String │  String  │  String │                                                                       String                                                                       │ String │
+├─────────────────────────────────────────────┼─────────┼─────────┼──────────┼─────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼────────┤
+│ acquire_lock_timeout                        │ 15      │ 15      │ None     │ DEFAULT │ Sets the maximum timeout in seconds for acquire a lock.                                                                                            │ UInt64 │
+│ aggregate_spilling_bytes_threshold_per_proc │ 0       │ 0       │ None     │ DEFAULT │ Sets the maximum amount of memory in bytes that an aggregator can use before spilling data to storage during query execution.                      │ UInt64 │
+│ aggregate_spilling_memory_ratio             │ 0       │ 0       │ [0, 100] │ DEFAULT │ Sets the maximum memory ratio in bytes that an aggregator can use before spilling data to storage during query execution.                          │ UInt64 │
+│ auto_compaction_imperfect_blocks_threshold  │ 50      │ 50      │ None     │ DEFAULT │ Threshold for triggering auto compaction. This occurs when the number of imperfect blocks in a snapshot exceeds this value after write operations. │ UInt64 │
+│ collation                                   │ utf8    │ utf8    │ ["utf8"] │ DEFAULT │ Sets the character collation. Available values include "utf8".                                                                                     │ String │
+│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                                  │ ·      │
+│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                                  │ ·      │
+│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                                  │ ·      │
+│ storage_read_buffer_size                    │ 1048576 │ 1048576 │ None     │ DEFAULT │ Sets the byte size of the buffer used for reading data into memory.                                                                                │ UInt64 │
+│ table_lock_expire_secs                      │ 10      │ 10      │ None     │ DEFAULT │ Sets the seconds that the table lock will expire in.                                                                                               │ UInt64 │
+│ timezone                                    │ UTC     │ UTC     │ None     │ DEFAULT │ Sets the timezone.                                                                                                                                 │ String │
+│ unquoted_ident_case_sensitive               │ 0       │ 0       │ None     │ DEFAULT │ Determines whether Databend treats unquoted identifiers as case-sensitive.                                                                         │ UInt64 │
+│ use_parquet2                                │ 0       │ 0       │ [0, 1]   │ DEFAULT │ This setting is deprecated                                                                                                                         │ UInt64 │
+│ 96 rows                                     │         │         │          │         │                                                                                                                                                    │        │
+│ (10 shown)                                  │         │         │          │         │                                                                                                                                                    │        │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+96 rows read in 0.022 sec. Processed 96 rows, 16.52 KiB (4.45 thousand rows/s, 766.10 KiB/s)
+```
+
+### Adjusting Column and Table Widths
+
+The parameters `max_col_width` and `max_width` specify the maximum permitted width in characters for individual columns and the entire display output, respectively.
+
+| Setting       | Description                                                                                                                   | Default Value |
+|---------------|-------------------------------------------------------------------------------------------------------------------------------|---------------|
+| max_width     | Sets the maximum width in characters of the entire display output. A value of 0 defaults to the width of the terminal window. | 1048576       |
+| max_col_width | Sets the maximum width in characters of each column's display rendering. A value smaller than 3 disables the limit.           | 1048576       |
+
+The following example sets column display width to 10 characters and the entire display width to 100 characters:
+
+```sql title='Example:'
+root@localhost:8000/default> .max_col_width 10
+root@localhost:8000/default> .max_width 100
+root@localhost:8000/default> select * from system.settings;
+
+SELECT
+  *
+FROM
+  system.settings
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│    name    │  value  │ default │   range  │  level  │            description            │  type  │
+│   String   │  String │  String │  String  │  String │               String              │ String │
+├────────────┼─────────┼─────────┼──────────┼─────────┼───────────────────────────────────┼────────┤
+│ acquire... │ 15      │ 15      │ None     │ DEFAULT │ Sets the maximum timeout in se... │ UInt64 │
+│ aggrega... │ 0       │ 0       │ None     │ DEFAULT │ Sets the maximum amount of mem... │ UInt64 │
+│ aggrega... │ 0       │ 0       │ [0, 100] │ DEFAULT │ Sets the maximum memory ratio ... │ UInt64 │
+│ auto_co... │ 50      │ 50      │ None     │ DEFAULT │ Threshold for triggering auto ... │ UInt64 │
+│ collation  │ utf8    │ utf8    │ ["utf8"] │ DEFAULT │ Sets the character collation. ... │ String │
+│ ·          │ ·       │ ·       │ ·        │ ·       │ ·                                 │ ·      │
+│ ·          │ ·       │ ·       │ ·        │ ·       │ ·                                 │ ·      │
+│ ·          │ ·       │ ·       │ ·        │ ·       │ ·                                 │ ·      │
+│ storage... │ 1048576 │ 1048576 │ None     │ DEFAULT │ Sets the byte size of the buff... │ UInt64 │
+│ table_l... │ 10      │ 10      │ None     │ DEFAULT │ Sets the seconds that the tabl... │ UInt64 │
+│ timezone   │ UTC     │ UTC     │ None     │ DEFAULT │ Sets the timezone.                │ String │
+│ unquote... │ 0       │ 0       │ None     │ DEFAULT │ Determines whether Databend tr... │ UInt64 │
+│ use_par... │ 0       │ 0       │ [0, 1]   │ DEFAULT │ This setting is deprecated        │ UInt64 │
+│ 96 rows    │         │         │          │         │                                   │        │
+│ (10 shown) │         │         │          │         │                                   │        │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+96 rows read in 0.040 sec. Processed 96 rows, 16.52 KiB (2.38 thousand rows/s, 410.18 KiB/s)
+```
+
 ## Connecting to Databend
 
 - [Tutorial-1: Connecting to Databend using BendSQL](00-connect-to-databend.md)

@@ -28,6 +28,12 @@ import EEFeature from '@site/src/components/EEFeature';
 
 </TabItem>
 
+<TabItem value="Alibaba Cloud OSS" label="Alibaba Cloud OSS">
+
+<iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1652070464&bvid=BV1Bj421R7JD&cid=1478074413&p=1&autoplay=0" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
+
+</TabItem>
+
 <TabItem value="QingCloud QingStor" label="QingCloud QingStor">
 
 <iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1301447473&bvid=BV1Uu4m137Zp&cid=1459768780&p=1&autoplay=0" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
