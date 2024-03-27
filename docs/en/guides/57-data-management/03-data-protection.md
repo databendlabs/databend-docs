@@ -9,7 +9,7 @@ Databend Cloud's Continuous Data Protection (CDP) offers easy-to-use features to
 - [Network Policies](../56-security/network-policy.md)
   - Set who can access Databend Cloud based on their internet address. Helps keep your data safe.
  
-- [Access Control](../56-security/access-control.md)
+- [Access Control](../56-security/access-control/index.md)
   - Decide who can see or use different parts of Databend Cloud. Keeps things organized and secure.
 
 - [Time Travel & Fail-safe](./02-data-recovery.md)
