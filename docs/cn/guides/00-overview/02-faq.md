@@ -4,7 +4,7 @@ title: 常见问题解答
 
 ### Q1: Databend 的主要对象、层次结构和相关权限是什么？
 
-下图展示了 Databend 对象在两个层次上的层次结构。为每种类型的对象设计了细粒度的权限和所有权，提供了灵活性。更多信息，请参见[访问控制](../56-security/access-control.md)。
+下图展示了 Databend 对象在两个层次上的层次结构。为每种类型的对象设计了细粒度的权限和所有权，提供了灵活性。更多信息，请参见[访问控制](../56-security/access-control/index.md)。
 
 ![Alt text](/img/guides/faq1.png)
 
