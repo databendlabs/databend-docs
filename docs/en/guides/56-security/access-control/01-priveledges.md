@@ -1,11 +1,92 @@
 ---
-title: Access Control Privileges
-sidebar_label: Access Control Privileges
-description:
-  Databend Access Control Privileges
+title: Privileges
 ---
 
-Databend leverages a role-based access control model to secure your data. In Databend, you can control which operations a user can perform on a specific database object (for example, database, table, view, stage, or UDF) by granting privileges to a role and then assigning the role to the user, or granting privileges to the user directly. The privileges granted to a user literally determine which operations the user can perform. To learn about the available commands for managing users and roles, as well as granting or revoking privileges, please refer to the  [Link](/sql/sql-commands/ddl/user/) 
+A privilege is a permission to perform an action. Users must have specific privileges to execute particular actions within Databend. For example, when querying a table, a user needs `SELECT` privileges to the table. Similarly, to read a dataset within a stage, the user must possess `READ` privileges.
+
+In Databend, users can obtain a privilege in two ways. One approach is to directly grant the privilege to the user. The other method involves granting the privilege to a role first, and then assigning that role to the user.
+
+![Alt text](/img/guides/access-control-2.png)
+
+## Managing Privileges
+
+To manage privileges for a user or a role, use the following commands:
+
+- [GRANT](/sql/sql-commands/ddl/user/grant)
+- [REVOKE](/sql/sql-commands/ddl/user/revoke)
+- [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
+
+### Granting Privileges to User / Role
+
+To grant a privilege, you have two options: you can either directly grant the privilege to a user, or you can grant the privilege to a role first, and then grant that role to the user. In the following example, privileges are directly granted to the user 'david'. 'david' is created as a new user with the password 'abc123', and then all privileges on objects in the 'default' schema are granted directly to 'david'. Finally, the granted privileges for 'david' are shown.
+
+```sql title='Example-1:'
+-- Create a new user named 'david' with the password 'abc123'
+CREATE USER david IDENTIFIED BY 'abc123';
+
+-- Grant all privileges on all objects in the 'default' schema to the user 'david'
+GRANT ALL ON default.* TO david;
+
+-- Show the granted privileges for the user 'david'
+SHOW GRANTS FOR david;
+
+┌───────────────────────────────────────────────────┐
+│                       Grants                      │
+├───────────────────────────────────────────────────┤
+│ GRANT ALL ON 'default'.'default'.* TO 'david'@'%' │
+└───────────────────────────────────────────────────┘
+```
+
+In the following example, privileges are granted to a role first, and then the role is granted to the user 'eric'. Initially, a new role named 'writer' is created and granted all privileges on objects in the 'default' schema. Subsequently, 'eric' is created as a new user with the password 'abc123', and the 'writer' role is granted to 'eric'. Finally, the granted privileges for 'eric' are shown.
+
+```sql title='Example-2:'
+-- Create a new role named 'writer'
+CREATE ROLE writer;
+
+-- Grant all privileges on all objects in the 'default' schema to the role 'writer'
+GRANT ALL ON default.* TO ROLE writer;
+
+-- Create a new user named 'eric' with the password 'abc123'
+CREATE USER eric IDENTIFIED BY 'abc123';
+
+-- Grant the role 'writer' to the user 'eric'
+GRANT ROLE writer TO eric;
+
+-- Show the granted privileges for the user 'eric'
+SHOW GRANTS FOR eric;
+
+┌──────────────────────────────────────────────────┐
+│                      Grants                      │
+├──────────────────────────────────────────────────┤
+│ GRANT ALL ON 'default'.'default'.* TO 'eric'@'%' │
+└──────────────────────────────────────────────────┘
+```
+
+### Revoking Privileges from User / Role
+
+In the context of access control, privileges can be revoked either from individual users or from roles. In the following example, we revoke all privileges on all objects in the 'default' schema from user 'david', and then we display the granted privileges for user 'david':
+
+```sql title='Example-1(Continued):'
+-- Revoke all privileges on all objects in the 'default' schema from user 'david'
+REVOKE ALL ON default.* FROM david;
+
+-- Show the granted privileges for the user 'david'
+SHOW GRANTS FOR david;
+```
+
+In the following example, privileges are revoked for role 'writer' on all objects in the 'default' schema. Following this, the granted privileges for user 'eric' are displayed. 
+
+```sql title='Example-2(Continued):'
+-- Revoke all privileges on all objects in the 'default' schema from role 'writer'
+REVOKE ALL ON default.* FROM ROLE writer;
+
+-- Show the granted privileges for the user 'eric'
+-- No privileges are displayed as they have been revoked from the role
+SHOW GRANTS FOR eric;
+```
+
+
+## Access Control Privileges
 
 Databend offers a range of privileges that allow you to exercise fine-grained control over your database objects. Databend privileges can be categorized into the following types:
 
@@ -21,7 +102,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
   - [Catalog Privileges](#catalog-privileges)
   - [Share Privileges](#share-privileges)
 
-## All Privileges
+### All Privileges
 
 | Privilege    | Object Type                   | Description                                                                                                                                        |
 |:-------------|:------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -44,7 +125,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | READ         | Stage                         | Read a stage.                                                                                                                                      |
 | USAGE        | UDF                           | Use udf.                                                                                                                                           |
 
-## Global Privileges
+### Global Privileges
 
 | Privilege  | Description                                                                                                       |
 |:-----------|:------------------------------------------------------------------------------------------------------------------|
@@ -60,7 +141,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | DROP       | Drops a UDF.                                                                                                      |
 | ALTER      | Alters a UDF. Alters a SQL user.                                                                                  |
 
-## Table Privileges
+### Table Privileges
 
 | Privilege | Description                                                                                                      |
 |:----------|:-----------------------------------------------------------------------------------------------------------------|
@@ -75,7 +156,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | SUPER     | Optimizes or analyzes a table.                                                                                   |
 | OWNERSHIP | Grants full control over a database.  Only a single role can hold this privilege on a specific object at a time. |
 
-## View Privileges
+### View Privileges
 
 | Privilege | Description                                                            |
 |:----------|:-----------------------------------------------------------------------|
@@ -83,9 +164,9 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | ALTER     | Creates or drops a view. Alters the existing view using another QUERY. |
 | DROP      | Drops a view.                                                          |
 
-## Database Privileges
+### Database Privileges
 
-Please note that you can use the [USE DATABASE](../10-sql-commands/00-ddl/00-database/ddl-use-database.md) command to specify a database once you have any of the following privileges to the database or any privilege to a table in the database.
+Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/ddl-use-database) command to specify a database once you have any of the following privileges to the database or any privilege to a table in the database.
 
 | Privilege | Description                                                                                                      |
 |:----------|:-----------------------------------------------------------------------------------------------------------------|
@@ -95,14 +176,14 @@ Please note that you can use the [USE DATABASE](../10-sql-commands/00-ddl/00-dat
 | SELECT    | SHOW CREATE a database.                                                                                          |
 | OWNERSHIP | Grants full control over a database.  Only a single role can hold this privilege on a specific object at a time. |
 
-## Session Policy Privileges
+### Session Policy Privileges
 
 | Privilege | Description |
 | :--                 | :--                  |
 | SUPER       |    Kills a query. Sets or unsets a setting. |
 | ALL   |  Grants all the privileges for the specified object type. |
 
-## Stage Privileges
+### Stage Privileges
 
 | Privilege | Description                                                                                                   |
 |:----------|:--------------------------------------------------------------------------------------------------------------|
@@ -115,7 +196,7 @@ Please note that you can use the [USE DATABASE](../10-sql-commands/00-ddl/00-dat
 >
 > 1. Don't check external location auth.
 
-## UDF Privileges
+### UDF Privileges
 
 | Privilege | Description                                                                                                 |
 |:----------|:------------------------------------------------------------------------------------------------------------|
@@ -128,14 +209,14 @@ Please note that you can use the [USE DATABASE](../10-sql-commands/00-ddl/00-dat
 > 1. Don't check the udf auth if it's already be constantly folded.
 > 2. Don't check the udf auth if it's a value in insert.
 
-## Catalog Privileges
+### Catalog Privileges
 
 | Privilege | Description                                              |
 |:----------|:---------------------------------------------------------|
 | SUPER     | SHOW CREATE catalog. Creates or drops a catalog.         |
 | ALL       | Grants all the privileges for the specified object type. |
 
-## Share Privileges
+### Share Privileges
 
 | Privilege | Description                                              |
 |:----------|:---------------------------------------------------------|
