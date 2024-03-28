@@ -17,7 +17,7 @@ To download the Databend JDBC driver:
 To verify the version of Databend JDBC driver, for example, *databend-jdbc-0.1.1.jar*, run the following command in the terminal:
 
 ```bash
-java -jar databend-jdbc-0.1.1.jar --version
+java -jar databend-jdbc-0.2.1.jar --version
 ```
 
 The Databend JDBC driver is provided as a JAR file and can be integrated directly into your Java-based projects. Alternatively, you can declare a Maven dependency in your project's pom.xml file, like so:
@@ -26,7 +26,7 @@ The Databend JDBC driver is provided as a JAR file and can be integrated directl
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.1</version>
 </dependency>
 ```
 
@@ -100,6 +100,35 @@ public class demo {
         conn.close();
         System.exit(0);
 ```
+
+### Example: Copy into or merge into table
+
+```java
+    public void copyInto(String tableName, List<String> files) throws Exception {
+        String filesStr = "'" + String.join("','", files) + "'";
+        String copyIntoSql = String.format("copy into %s from @~ files=(%s) file_format=(type=NDJSON) purge=true;", tableName, filesStr);
+        Connection connection = createConnection();
+        try (Statement statement = connection.createStatement()) {
+            Instant copyIntoStart = Instant.now();
+            statement.execute(copyIntoSql);
+            ResultSet r = statement.getResultSet();
+            while (r.next()) {
+            }
+            Instant copyIntoEnd = Instant.now();
+            System.out.println("Copied files into: " + files.size() + " , time elapsed: " + (copyIntoEnd.toEpochMilli() - copyIntoStart.toEpochMilli()) + "ms");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+    }
+// For merge into just replace the copyIntoSql.
+```
+:::tip
+1. Because the SQL commands such as SELECT, COPY INTO, and MERGE INTO return a ResultSet object, it is necessary to call rs.next() before accessing the data. Failure to do so may result in the query being canceled. If you don't intend to retrieve the results, you can iterate over the ResultSet using a while loop (while (r.next()){}) to avoid this issue.
+2. For other SQL commands such as CREATE TABLE or DROP TABLE, which are non-query type SQL, you can call statement.execute() directly.
+:::
+
 
 ### Example: Batch Inserting
 
@@ -205,7 +234,7 @@ Before you start, make sure you have successfully created a warehouse and obtain
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.0.4</version>
+    <version>0.2.1</version>
 </dependency>
 ```
 
