@@ -125,7 +125,8 @@ public class demo {
 // For merge into just replace the copyIntoSql.
 ```
 :::tip
-Because the SQL commands such as SELECT, COPY INTO, and MERGE INTO return a ResultSet object, it is necessary to call rs.next() before accessing the data. Failure to do so may result in the query being canceled. If you don't intend to retrieve the results, you can iterate over the ResultSet using a while loop (while (r.next()){}) to avoid this issue.
+1. Because the SQL commands such as SELECT, COPY INTO, and MERGE INTO return a ResultSet object, it is necessary to call rs.next() before accessing the data. Failure to do so may result in the query being canceled. If you don't intend to retrieve the results, you can iterate over the ResultSet using a while loop (while (r.next()){}) to avoid this issue.
+2. For other SQL commands such as CREATE TABLE or DROP TABLE, which are non-query type SQL, you can call statement.execute() directly.
 :::
 
 
