@@ -4,6 +4,12 @@ title: 角色
 
 角色在 Databend 中发挥着至关重要的作用，简化了权限管理。当多个用户需要相同的一组权限时，单独授予权限可能会很麻烦。角色为这种场景提供了一个有效解决方案：允许将一组权限分配给某个角色，然后再将这个角色轻松地分配给多个用户。
 
+:::note
+目前，默认情况下，Databend 并未对用户定义函数（UDF）和 Stage 执行基于角色的访问控制（RBAC）检查。然而，如果您需要对这些对象启用 RBAC，您可以选择通过手动设置 `SET GLOBAL enable_experimental_rbac_check=1` 来在全局启用它。
+
+如果没有手动将 `enable_experimental_rbac_check` 设置为 `1`，UDF 和 Stage 将在没有 RBAC 限制的情况下运行。换句话说，用户将能够无限制地执行 UDF 并访问 Stage 内的数据，无需经过 RBAC 权限检查。
+:::
+
 ![Alt text](/img/guides/access-control-3.png)
 
 ## 继承角色 & 建立层级

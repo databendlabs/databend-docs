@@ -8,7 +8,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 在 Databend 中，流是对表变化的动态和实时表示。创建流是为了捕获和跟踪与表相关的修改，允许持续消费和分析数据变化。
 
-### 流是如何工作的
+### 流是如何工作的 {#how-stream-works}
 
 流可以以两种模式运行：**标准**和**仅追加**。使用`APPEND_ONLY`参数在[创建流](/sql/sql-commands/ddl/stream/create-stream)时指定模式。
 

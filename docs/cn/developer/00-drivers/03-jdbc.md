@@ -17,7 +17,7 @@ title: Java
 要验证 Databend JDBC 驱动程序的版本，例如，_databend-jdbc-0.1.1.jar_，在终端运行以下命令：
 
 ```bash
-java -jar databend-jdbc-0.1.1.jar --version
+java -jar databend-jdbc-0.2.1.jar --version
 ```
 
 Databend JDBC 驱动程序以 JAR 文件形式提供，可以直接集成到您的基于 Java 的项目中。或者，您可以在项目的 pom.xml 文件中声明 Maven 依赖项，如下所示：
@@ -26,7 +26,7 @@ Databend JDBC 驱动程序以 JAR 文件形式提供，可以直接集成到您�
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.1</version>
 </dependency>
 ```
 
@@ -101,6 +101,36 @@ public class demo {
         conn.close();
         System.exit(0);
 ```
+
+### 示例：使用 `COPY INTO` 或 `MERGE INTO`
+
+```java
+    public void copyInto(String tableName, List<String> files) throws Exception {
+        String filesStr = "'" + String.join("','", files) + "'";
+        String copyIntoSql = String.format("copy into %s from @~ files=(%s) file_format=(type=NDJSON) purge=true;", tableName, filesStr);
+        Connection connection = createConnection();
+     
+   try (Statement statement = connection.createStatement()) {
+            Instant copyIntoStart = Instant.now();
+            statement.execute(copyIntoSql);
+            ResultSet r = statement.getResultSet();
+            while (r.next()) {
+            }
+            Instant copyIntoEnd = Instant.now();
+            System.out.println("Copied files into: " + files.size() + " , time elapsed: " + (copyIntoEnd.toEpochMilli() - copyIntoStart.toEpochMilli()) + "ms");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+    }
+// For merge into just replace the copyIntoSql.
+```
+
+:::tip
+1. 因为像 `SELECT`、`COPY INTO` 和 `MERGE INTO` 这样的 SQL 命令会返回一个 `ResultSet` 对象，所以在访问数据之前需要调用 `rs.next()`。如果不这样做，可能导致查询被取消。如果您不打算检索结果，可以使用 `while` 循环（`while (r.next()){}`）迭代 `ResultSet` 来避免此问题。
+2. 对于其他非查询类型的 SQL 命令，如 `CREATE TABLE` 或 `DROP TABLE`，您可以直接调用`statement.execute()`。
+:::
 
 ### 示例：批量插入
 
@@ -207,7 +237,7 @@ pstmt.close();
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.0.4</version>
+    <version>0.2.1</version>
 </dependency>
 ```
 
