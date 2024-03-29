@@ -369,7 +369,7 @@ config:
 
 <TabItem value="qcloud" label="COS(Tencent Cloud)">
 
-```yaml title="cos with s3 client"
+```yaml title="cos native"
 config:
   storage:
     type: cos
