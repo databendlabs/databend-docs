@@ -369,11 +369,11 @@ config:
 
 <TabItem value="qcloud" label="COS(Tencent Cloud)">
 
-```yaml title="cos with s3 client"
+```yaml title="cos native"
 config:
   storage:
-    type: s3
-    s3:
+    type: cos
+    cos:
       # regional endpoint url
       endpoint_url: "https://cos.ap-singapore.myqcloud.com"
       bucket: "test-databend-1234567890"
