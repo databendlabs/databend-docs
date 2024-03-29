@@ -37,10 +37,16 @@ function Footer() {
 
     function setSearch() {
       const container = document.querySelector('[class^="searchBox_"]');
-      docsearch({
-        ...algolia,
-        container
-      });
+      try {
+        if (docsearch) {
+          docsearch({
+            ...algolia,
+            container
+          });
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }, []);
   return (
