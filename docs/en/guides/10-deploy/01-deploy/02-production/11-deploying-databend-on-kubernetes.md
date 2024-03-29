@@ -254,9 +254,9 @@ config:
       - "databend-meta-1.databend-meta.databend-meta.svc:9191"
       - "databend-meta-2.databend-meta.databend-meta.svc:9191"
   storage:
-    # s3, oss, cos
-    type: cos
-    cos:
+    # s3, oss
+    type: s3
+    s3:
       bucket: "<bucket>"
       region: "<region>"
       access_key_id: "<key>"
@@ -324,8 +324,8 @@ For different cloud providers:
 ```yaml
 config:
   storage:
-    type: cos
-    cos:
+    type: s3
+    s3:
       # default endpoint
       endpoint_url: "https://s3.amazonaws.com"
       bucket: "<bucket>"
@@ -372,8 +372,8 @@ config:
 ```yaml title="cos with s3 client"
 config:
   storage:
-    type: s3
-    s3:
+    type: cos
+    cos:
       # regional endpoint url
       endpoint_url: "https://cos.ap-singapore.myqcloud.com"
       bucket: "test-databend-1234567890"
