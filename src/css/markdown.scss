@@ -161,6 +161,7 @@
         font-weight: 500;
         &.keyword{
           color: var(--shiki-token-keyword)!important;
+          font-style: normal!important;
         }
         &.string, &.important {
           color: var(--shiki-token-string)!important;

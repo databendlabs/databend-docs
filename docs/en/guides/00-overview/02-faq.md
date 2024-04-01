@@ -4,7 +4,7 @@ title: FAQ
 
 ### Q1: What are Databend's primary objects, hierarchy, and associated privileges?
 
-The diagram illustrates the hierarchical structure of Databend objects across two levels. Fine-grained privileges and ownership are designed for each type of object, providing flexibility. For more information, see [Access Control](../56-security/access-control.md).
+The diagram illustrates the hierarchical structure of Databend objects across two levels. Fine-grained privileges and ownership are designed for each type of object, providing flexibility. For more information, see [Access Control](../56-security/access-control/index.md).
 
 ![Alt text](@site/docs/public/img/guides/faq1.png)
 

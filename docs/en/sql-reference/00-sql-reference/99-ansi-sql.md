@@ -1,6 +1,32 @@
 ---
-title: SQL Conformance
+title: SQL Dialects & Conformance
 ---
+
+This page provides details on the SQL dialects supported by Databend, along with its conformity to the SQL standard, particularly focusing on SQL:2011 features and their support status within Databend.
+
+## Supported SQL Dialects
+
+A SQL dialect refers to a particular variation or flavor of the Structured Query Language. Databend supports the `PostgreSQL` dialect by default and offers the flexibility to switch to other supported dialects. Please refer to the table below for details on the supported dialects and their respective brief descriptions:
+
+| Dialect       | Introduction                                                                                    | Learn More                   |
+|---------------|-------------------------------------------------------------------------------------------------|------------------------------|
+| `PostgreSQL`  | Default supported dialect commonly used in enterprises                                          | https://www.postgresql.org/  |
+| `MySQL`       | Open-source database management system                                                          | https://www.mysql.com/       |
+| `Hive`        | Data warehouse for big data processing                                                          | https://hive.apache.org/     |
+| `Prql`        | PRQL is a modern language for transforming data — a simple, powerful, pipelined SQL replacement | https://github.com/PRQL/prql |
+| `Experimental`| Experimental dialect for testing and research                                                   | N/A                          |
+
+To switch between the supported SQL dialects or display the current one, use the `sql_dialect` setting:
+
+```sql title='Examples:'
+-- Set SQL dialect to PRQL
+SET sql_dialect = 'Prql';
+
+-- Display current dialect
+SHOW SETTINGS LIKE 'sql_dialect';
+```
+
+## SQL Conformance Summary
 
 Databend aims to conform to the SQL standard, with particular support for ISO/IEC 9075:2011, also known as SQL:2011. While not an exhaustive statement of conformance, Databend incorporates many features required by the SQL standard, often with slight differences in syntax or function. This page outlines the level of conformity of Databend to the SQL:2011 standard.
 

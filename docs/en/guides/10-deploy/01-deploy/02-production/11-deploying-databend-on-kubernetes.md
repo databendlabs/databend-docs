@@ -7,11 +7,27 @@ description:
 
 This topic explains how to install and configure the Databend cluster on Kubernetes.
 
+## Deployment Architecture
+
+![Deployment Architecture](@site/docs/public/img/deploy/k8s-deployment-arch.jpg)
+
+**Scenario Description**
+
+- This example demonstrates how to create a Databend cluster within a Kubernetes cluster that supports multi-tenancy. As illustrated, `tenant1` and `tenant2` each have their own independent Databend Query clusters, while sharing a single Databend Meta cluster.
+- You will need administrative access to the Kubernetes cluster. You can choose any Kubernetes node to work on, but we recommend performing operations on the management node. For this example, you'll need to install both helm and the BendSQL tool on a worker node to execute commands.
 
 ## Before You Begin
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+
+* Plan Your Deployment. 
+
+  In this example, you will deploy a Databend Meta cluster consisting of 3 nodes, as well as two separate Databend Query clusters, each also consisting of 3 nodes. You should manage and allocate resources according to your actual deployment plans and usage scenarios to ensure that services run smoothly.
+
+  :::info For Production Deployments
+  Please refer to [Deployment Environments](/guides/deploy/deploy/understanding-deployment-modes#deployment-environments) to reserve appropriate resources for your clusters.
+  :::
 
 * Ensure `helm` command installed, see [guide](https://helm.sh/docs/intro/install/)
 
@@ -26,6 +42,10 @@ import TabItem from '@theme/TabItem';
   Also, there are simple Kubernetes Engines for local testing:
   * [k3d](https://k3d.io)
   * [minikube](https://minikube.sigs.k8s.io/docs/start/)
+
+  :::info For Kubernetes Clusters on Remote Servers
+  It is recommended to set up an external load balancer or choose appropriate port forwarding rules to ensure that services are accessible.
+  :::
 
 * Create a Cloud Object Storage with corresponding credentials, i.e., `access_key_id` and `secret_access_key`.
   * AWS S3 or other S3 compatible storage service
@@ -88,6 +108,7 @@ import TabItem from '@theme/TabItem';
     alicloud-disk-topology           diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
     alicloud-disk-topology-alltype   diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
     # select the wanted storage class as default，for example: alicloud-disk-topology-alltype
+    // highlight-next-line
     ❯ kubectl annotate sc alicloud-disk-topology-alltype storageclass.kubernetes.io/is-default-class=true --overwrite
     ```
 
@@ -306,7 +327,7 @@ config:
     type: s3
     s3:
       # default endpoint
-      endpoint_url: "s3.amazonaws.com"
+      endpoint_url: "https://s3.amazonaws.com"
       bucket: "<bucket>"
       region: "<region>"
       access_key_id: "<key>"
@@ -324,7 +345,7 @@ config:
     type: s3
     s3:
       # regional endpoint url
-      endpoint_url: "oss-ap-southeast-1.aliyuncs.com"
+      endpoint_url: "https://oss-ap-southeast-1.aliyuncs.com"
       bucket: "<bucket>"
       access_key_id: "<key>"
       secret_access_key: "<secret>"
@@ -338,7 +359,7 @@ config:
     type: oss
     oss:
       # regional endpoint url
-      endpoint_url: "oss-ap-southeast-1.aliyuncs.com"
+      endpoint_url: "https://oss-ap-southeast-1.aliyuncs.com"
       bucket: "<bucket>"
       access_key_id: "<key>"
       access_key_secret: "<secret>"
@@ -348,13 +369,13 @@ config:
 
 <TabItem value="qcloud" label="COS(Tencent Cloud)">
 
-```yaml title="cos with s3 client"
+```yaml title="cos native"
 config:
   storage:
-    type: s3
-    s3:
+    type: cos
+    cos:
       # regional endpoint url
-      endpoint_url: "cos.ap-singapore.myqcloud.com"
+      endpoint_url: "https://cos.ap-singapore.myqcloud.com"
       bucket: "test-databend-1234567890"
       access_key_id: "<key>"
       secret_access_key: "<secret>"
@@ -400,21 +421,21 @@ tenant1-databend-query   LoadBalancer   10.43.84.243   172.20.0.2    8080:32063/
   * in-cluster access
 
     ```shell
-    mysql -htenant1-databend-query.databend-query.svc -udatabend -P3307 -pdatabend
+    bendsql -htenant1-databend-query.databend-query.svc -P8000 -udatabend -pdatabend
     ```
 
   * outside-cluster access with loadbalancer
 
     ```shell
     # the address here is the `EXTERNAL-IP` for service tenant1-databend-query above
-    mysql -h172.20.0.2 -udatabend -P3307 -pdatabend
+    bendsql -h172.20.0.2 -P8000 -udatabend -pdatabend
     ```
 
   * local access with kubectl
 
     ```shell
     nohup kubectl port-forward -n databend-query svc/tenant1-databend-query 3307:3307 &
-    mysql -h127.0.0.1 -udatabend -P3307 -pdatabend
+    bendsql -h127.0.0.1 -P8000 -udatabend -pdatabend
     ```
 
 5. Deploy a second cluster for tenant2
@@ -498,7 +519,7 @@ helm upgrade --install tenant1 databend/databend-query \
 ### Check the Cluster Information
 
 ```sql
-MySQL [(none)]> select * from system.clusters;
+❯ select * from system.clusters;
 +------------------------+------------+------+------------------------------------------------------------------------------+
 | name                   | host       | port | version                                                                      |
 +------------------------+------------+------+------------------------------------------------------------------------------+
@@ -512,7 +533,7 @@ MySQL [(none)]> select * from system.clusters;
 ### Verify Distributed Query Working
 
 ```sql
-MySQL [(none)]> EXPLAIN SELECT max(number), sum(number) FROM numbers_mt(10000000000) GROUP BY number % 3, number % 4, number % 5 LIMIT 10;
+❯ EXPLAIN SELECT max(number), sum(number) FROM numbers_mt(10000000000) GROUP BY number % 3, number % 4, number % 5 LIMIT 10;
 +-------------------------------------------------------------------------------------------------------------------------------------------+
 | explain                                                                                                                                   |
 +-------------------------------------------------------------------------------------------------------------------------------------------+
@@ -578,12 +599,19 @@ Note the `serviceMonitor` should be enabled when deploying meta and query cluste
 
 * Open grafana web for your cluster.
 
-* Select `+ Import` on the left sidebar, and upload the downloaded two json files.
+* Select `+` on the upper right corner to expand the menu, click on "Import dashboard" to import the dashboard, and upload the two downloaded JSON files.
+
+  ![Alt text](@site/docs/public/img/deploy/import-dashboard.png)
 
 * Then you should see the two dashboard:
 
   * Databend Meta Runtime
+
+    ![Alt text](@site/docs/public/img/deploy/databend-meta-runtime.png)
+
   * Databend Query Runtime
+
+    ![Alt text](@site/docs/public/img/deploy/databend-query-runtime.png)
 
 ## Next Steps
 
