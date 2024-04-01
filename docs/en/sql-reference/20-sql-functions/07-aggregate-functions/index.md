@@ -41,3 +41,4 @@ These functions help you extract and summarize data from databases to gain valua
 | [SUM_IF](aggregate-sum-if.md)                                       | Adds up the values meeting a condition of a specific column                  | 
 | [SUM](aggregate-sum.md)                                             | Adds up the values of a specific column                                      | 
 | [WINDOW_FUNNEL](aggregate-windowfunnel.md)                          | Analyzes user behavior in a time-ordered sequence of events                  | 
+| [HISTOGRAM](aggregate-histogram.md)                                 | Analyzes value distribution of a specific column                 |
