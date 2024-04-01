@@ -8,6 +8,8 @@ title: INSERT
 Databend 通过原子操作确保数据完整性。插入、更新、替换和删除操作要么完全成功，要么完全失败。
 :::
 
+另见：[INSERT (多表)](dml-insert-multi.md)
+
 ## 语法
 
 ```sql
@@ -23,10 +25,10 @@ INSERT { OVERWRITE | INTO } <table>
     }
 ```
 
-| 参数       | 描述                                                                           |
-|------------|--------------------------------------------------------------------------------|
-| OVERWRITE  | 表示是否在插入前截断现有数据。                                                 |
-| VALUES     | 允许直接插入特定值或列的默认值。                                               |
+| 参数      | 描述                             |
+| --------- | -------------------------------- |
+| OVERWRITE | 表示是否在插入前截断现有数据。   |
+| VALUES    | 允许直接插入特定值或列的默认值。 |
 
 ## 示例
 
@@ -93,7 +95,7 @@ SELECT * FROM employee_data;
 └───────────────────────────────────────────────────────┘
 ```
 
-此示例演示创建一个名为 "sales_summary" 的汇总表，以存储每个产品的聚合销售数据，如总销量和收入，通过汇总销售表中的信息：
+此示例演示了创建一个名为 "sales_summary" 的汇总表，用于存储每个产品的总销售数量和收入等聚合销售数据，通过从销售表中聚合信息实现：
 
 ```sql
 -- 创建一个销售数据表
@@ -110,7 +112,7 @@ INSERT INTO sales (product_id, quantity_sold, revenue) VALUES
     (1, 200, 1000.00),
     (3, 50, 250.00);
 
--- 创建一个汇总表以存储聚合的销售数据
+-- 创建一个汇总表来存储聚合的销售数据
 CREATE TABLE sales_summary (
     product_id INT,
     total_quantity_sold INT,
@@ -119,13 +121,13 @@ CREATE TABLE sales_summary (
 
 -- 将聚合的销售数据插入汇总表
 INSERT INTO sales_summary (product_id, total_quantity_sold, total_revenue)
-SELECT 
+SELECT
     product_id,
     SUM(quantity_sold) AS total_quantity_sold,
     SUM(revenue) AS total_revenue
-FROM 
+FROM
     sales
-GROUP BY 
+GROUP BY
     product_id;
 
 -- 显示 sales_summary 表的内容
@@ -142,10 +144,10 @@ SELECT * FROM sales_summary;
 
 ### 示例-3：插入默认值
 
-此示例演示创建一个名为 "staff_records" 的表，为诸如部门和状态等列设置默认值。然后插入数据，展示默认值的使用。
+此示例演示了创建一个名为 "staff_records" 的表，为诸如部门和状态等列设置默认值。然后插入数据，展示了默认值的使用。
 
 ```sql
--- 创建一个名为 'staff_records' 的表，包含带有默认值的列 'employee_id', 'department', 'salary', 和 'status'
+-- 创建一个名为 'staff_records' 的表，包含列 'employee_id', 'department', 'salary', 和 'status'，并为其设置默认值
 CREATE TABLE staff_records (
     employee_id INT NULL,
     department VARCHAR(50) DEFAULT 'HR',
@@ -166,20 +168,9 @@ SELECT * FROM staff_records;
 
 ```
 
-```
-┌───────────────────────────────────────────────────────────────────────────┐
-│   employee_id   │    department    │       salary      │      status      │
-├─────────────────┼──────────────────┼───────────────────┼──────────────────┤
-│            NULL │ HR               │              NULL │ Active           │
-│             101 │ HR               │             50000 │ Active           │
-│             102 │ Finance          │             60000 │ Inactive         │
-│             103 │ Marketing        │             70000 │ Active           │
-└───────────────────────────────────────────────────────────────────────────┘
-```
+### 示例-4：将 Stage 中的文件数据插入到表中
 
-### 示例-4：使用阶段文件插入
-
-Databend 允许您使用 INSERT INTO 语句从阶段文件中插入数据到表中。这是通过 Databend 的[查询阶段文件](/guides/load-data/transform/querying-stage)能力并随后将查询结果合并到表中来实现的。
+Databend 允许您使用 INSERT INTO 语句将 Stage 中的文件数据插入到表中。这利用了 Databend 的 [查询 Stage 中的文件](/guides/load-data/transform/querying-stage) 的能力，然后将查询结果并入表中。
 
 1. 创建一个名为 `sample` 的表：
 
@@ -193,20 +184,20 @@ CREATE TABLE sample
 );
 ```
 
-2. 设置一个带有示例数据的内部阶段
+2. 使用样本数据设置一个内部 Stage
 
-我们将建立一个名为 `mystage` 的内部阶段，然后用示例数据填充它。
+我们将建立一个名为 `mystage` 的内部 Stage，然后用样本数据填充它。
 
 ```sql
 CREATE STAGE mystage;
-       
+
 COPY INTO @mystage
-FROM 
+FROM
 (
-    SELECT * 
-    FROM 
+    SELECT *
+    FROM
     (
-        VALUES 
+        VALUES
         (1, 'Chengdu', 80),
         (3, 'Chongqing', 90),
         (6, 'Hangzhou', 92),
@@ -216,15 +207,15 @@ FROM
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-3. 使用 `INSERT INTO` 从阶段的 Parquet 文件插入数据
+3. 使用 `INSERT INTO` 从 Stage 的 Parquet 文件插入数据
 
 :::tip
-您可以使用 [COPY INTO](dml-copy-into-table.md) 命令中可用的 FILE_FORMAT 和 COPY_OPTIONS 指定文件格式和各种复制相关的设置。当 `purge` 设置为 `true` 时，只有在数据更新成功后，原始文件才会被删除。
+您可以使用 [COPY INTO](dml-copy-into-table.md) 命令中可用的 FILE_FORMAT 和 COPY_OPTIONS 指定文件格式和各种复制相关的设置。当 `purge` 设置为 `true` 时，只有在数据更新成功时，原始文件才会被删除。
 :::
 
 ```sql
-INSERT INTO sample 
-    (id, city, score) 
+INSERT INTO sample
+    (id, city, score)
 ON
     (Id)
 SELECT
@@ -241,6 +232,7 @@ SELECT * FROM sample;
 ```
 
 结果应该是：
+
 ```sql
 ┌─────────────────────────────────────────────────────────────────────────┐
 │        id       │       city       │      score      │      country     │
