@@ -217,10 +217,8 @@ SELECT * FROM sales_data_source;
 
 
 SELECT * FROM high_quantity_sales;
-
 ```
 
-```
 ### 示例-3：使用显式别名插入
 
 此示例演示了如何使用 VALUES 子句中的别名，根据雇佣日期在 '2023-02-01' 之后的条件，将 `employees` 表中的行有条件地插入到 `employee_history` 表中。
