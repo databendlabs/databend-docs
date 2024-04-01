@@ -50,12 +50,11 @@ SELECT ...
 | Parameter                              | Description                                                                                                                                                                        |
 |----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | OVERWRITE                              | Indicates whether existing data should be truncated before insertion.                                                                                                              |
-| ( <target_col_name> [ , ... ] )        | Specifies the column names in the target table where data will be inserted. If omitted, data will be inserted into all columns in the target table.                                |
-| VALUES ( <source_col_name> [ , ... ] ) | Specifies the source column names from which data will be inserted into the target table. If omitted, all columns returned by the subquery will be inserted into the target table. |
-| SELECT ...                             | A subquery that provides the data to be inserted into the target table(s).                                                                                                         |
-| WHEN                                   | Conditional statement to determine when to insert data into specific target tables.                                                                                                |
+| ( <target_col_name> [ , ... ] )        | Specifies the column names in the target table where data will be inserted.<br/>- If omitted, data will be inserted into all columns in the target table.                                |
+| VALUES ( <source_col_name> [ , ... ] ) | Specifies the source column names from which data will be inserted into the target table.<br/>- If omitted, all columns returned by the subquery will be inserted into the target table.<br/>- The data types of the columns listed in `<source_col_name>` must match or be compatible with those specified in `<target_col_name>`. |
+| SELECT ...                             | A subquery that provides the data to be inserted into the target table(s).<br/>- You have the option to explicitly assign aliases to columns within the subquery. This allows you to reference the columns by their aliases within WHEN clauses and VALUES clauses.                                                                                                        |
+| WHEN                                   | Conditional statement to determine when to insert data into specific target tables.<br/>- A conditional multi-table insert requires at least one WHEN clause.<br/>- A WHEN clause can include multiple INTO clauses, and these INTO clauses can target the same table.<br/>- To unconditionally execute a WHEN clause, you can use `WHEN 1 THEN ...`.                                                                                                 |
 | ELSE                                   | Specifies the action to take if none of the conditions specified in the WHEN clauses are met.                                                                                      |
-
 
 ## Examples
 
@@ -233,4 +232,52 @@ SELECT * FROM high_price_sales;
 ├─────────────────┼─────────────────┼────────────────┼─────────────────┼──────────────────────────┤
 │               2 │             102 │ 2023-02-20     │               3 │ 75.00                    │
 └─────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Example-3: Insert with Explicit Alias
+
+This example demonstrates using alias in VALUES clause to conditionally insert rows from the employees table into the `employee_history` table based on the hire date being after '2023-02-01'.
+
+1. Create two tables, `employees` and `employee_history`, and insert sample employee data into the `employees` table.
+
+```sql
+-- Create tables
+CREATE TABLE employees (
+    employee_id INT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    hire_date DATE
+);
+
+CREATE TABLE employee_history (
+    employee_id INT,
+    full_name VARCHAR(100),
+    hire_date DATE
+);
+
+INSERT INTO employees (employee_id, first_name, last_name, hire_date)
+VALUES
+    (1, 'John', 'Doe', '2023-01-01'),
+    (2, 'Jane', 'Smith', '2023-02-01'),
+    (3, 'Michael', 'Johnson', '2023-03-01');
+```
+
+2. Utilize conditional insertion with an alias to transfer records from the employees table to the `employee_history` table, filtering for hire dates after '2023-02-01'.
+
+```sql
+INSERT ALL
+    WHEN hire_date >= '2023-02-01' THEN INTO employee_history
+        VALUES (employee_id, full_name, hire_date) -- Insert with the alias 'full_name'
+SELECT employee_id, CONCAT(first_name, ' ', last_name) AS full_name, hire_date -- Alias the concatenated full name as 'full_name'
+FROM employees;
+
+SELECT * FROM employee_history;
+
+┌─────────────────────────────────────────────────────┐
+│   employee_id   │     full_name    │    hire_date   │
+│ Nullable(Int32) │ Nullable(String) │ Nullable(Date) │
+├─────────────────┼──────────────────┼────────────────┤
+│               2 │ Jane Smith       │ 2023-02-01     │
+│               3 │ Michael Johnson  │ 2023-03-01     │
+└─────────────────────────────────────────────────────┘
 ```
