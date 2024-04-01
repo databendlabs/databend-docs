@@ -6,6 +6,22 @@ description: 如何在 Kubernetes 上部署 Databend 查询集群。
 
 本主题解释了如何在 Kubernetes 上安装和配置 Databend 集群。
 
+## 视频演示
+
+<Tabs groupId="k8s-provider">
+
+<TabItem value="阿里云 ACK" label="阿里云 ACK">
+
+<iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1752620778&bvid=BV1bx421D7QH&cid=1489422542&p=1&autoplay=0" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
+</TabItem>
+
+<TabItem value="K3D" label="K3D">
+
+<iframe width="853" height="505" className="iframe-video" src="//player.bilibili.com/player.html?aid=1252718646&bvid=BV1XJ4m157Ra&cid=1489423883&p=1&autoplay=0" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen> </iframe>
+
+</TabItem>
+</Tabs>
+
 ## 部署架构
 
 ![Alt text](@site/docs/public/img/deploy/k8s-deployment-arch.jpg)
@@ -350,11 +366,11 @@ import TabItem from '@theme/TabItem';
 
   <TabItem value="qcloud" label="COS(Tencent Cloud)">
 
-  ```yaml title="使用 s3 客户端的 cos"
+  ```yaml title="原生 cos"
   config:
     storage:
-      type: s3
-      s3:
+      type: cos
+      cos:
         # 区域端点 URL
         endpoint_url: "https://cos.ap-singapore.myqcloud.com"
         bucket: "test-databend-1234567890"
