@@ -8,6 +8,8 @@ Inserts one or more rows into a table.
 Databend ensures data integrity with atomic operations. Inserts, updates, replaces, and deletes either succeed completely or fail entirely.
 :::
 
+See also: [INSERT (multi-table)](dml-insert-multi.md)
+
 ## Syntax
 
 ```sql
