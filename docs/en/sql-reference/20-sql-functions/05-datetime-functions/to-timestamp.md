@@ -16,7 +16,7 @@ See also: [TO_DATE](to-date)
 TO_TIMESTAMP(<expr>)
 ```
 
-If given a string, the function extracts a date from the string; If given is an integer, the function interprets the integer as the number of seconds, milliseconds, or microseconds before (for a negative number) or after (for a positive number) the Unix epoch (midnight on January 1, 1970):
+If given an ISO 8601 date format string, the function extracts a date from the string; If given is an integer, the function interprets the integer as the number of seconds, milliseconds, or microseconds before (for a negative number) or after (for a positive number) the Unix epoch (midnight on January 1, 1970):
 
 | Range                                       | Unit                 |
 |---------------------------------------------|----------------------|
