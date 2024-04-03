@@ -31,6 +31,8 @@ This section provides reference information for the semi-structured data functio
 ## JSON Data Manipulation:
 - [JSON_ARRAY](json-array.md)
 - [JSON_STRIP_NULLS](json-strip-nulls.md)
+- [JSON_OBJECT](json-object.md)
+- [JSON_OBJECT_KEEP_NULL](json-object-keep-null.md)
 
 ## Object Operations:
 - [GET](get.md)
