@@ -1,8 +1,11 @@
 ---
 title: AT
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-The SELECT statement can include an AT clause that allows you to query previous versions of your data by a specific snapshot ID or timestamp.
+<FunctionDescription description="Introduced or updated: v1.2.395"/>
+
+The AT clause allows you to query previous versions of your data based on a specific snapshot ID, timestamp, or at the time when a stream was created.
 
 Databend automatically creates snapshots when data updates occur, so a snapshot can be considered as a view of your data at a time point in the past. You can access a snapshot by the snapshot ID or the timestamp at which the snapshot was created. For how to obtain the snapshot ID and timestamp, see [Obtaining Snapshot ID and Timestamp](#obtaining-snapshot-id-and-timestamp).
 
@@ -13,12 +16,16 @@ This is part of the Databend's Time Travel feature that allows you to query, bac
 ```sql    
 SELECT ...
 FROM ...
-AT ( { SNAPSHOT => <snapshot_id> | TIMESTAMP => <timestamp> } );
+AT (
+       SNAPSHOT => '<snapshot_id>' |
+       TIMESTAMP => <timestamp> | 
+       (STREAM => <stream_name>) 
+   )   
 ```
 
 ## Obtaining Snapshot ID and Timestamp
 
-To return the snapshot IDs and timestamps of all the snapshots of a table, execute the following statement:
+To return the snapshot IDs and timestamps of all the snapshots of a table, use the [FUSE_SNAPSHOT](../../20-sql-functions/16-system-functions/fuse_snapshot.md) function:
 
 ```sql
 SELECT snapshot_id, 
@@ -26,62 +33,52 @@ SELECT snapshot_id,
 FROM   fuse_snapshot('<database_name>', '<table_name>'); 
 ```
 
-For more information about the FUSE_SNAPSHOT function,see [FUSE_SNAPSHOT](../../20-sql-functions/16-system-functions/fuse_snapshot.md).
-
 ## Examples
 
-### Query with a snapshot ID
+This example demonstrates the AT clause, allowing retrieval of previous data versions based on a snapshot ID, timestamp, and stream:
+
+1. Create a table named `t` with a single column `a`, and insert two rows with values 1 and 2 into the table.
 
 ```sql
--- Return snapshot IDs
-select snapshot_id,timestamp from fuse_snapshot('default', 'ontime2');
-+----------------------------------+----------------------------+
-| snapshot_id                      | timestamp                  |
-+----------------------------------+----------------------------+
-| 16729481923640f9864c1c8ddd0861e3 | 2022-06-28 09:09:40.190662 |
-+----------------------------------+----------------------------+
+CREATE TABLE t(a INT);
 
--- Query with the snapshot ID
-select * from ontime2 at (snapshot=>'16729481923640f9864c1c8ddd0861e3');
+INSERT INTO t VALUES(1);
+INSERT INTO t VALUES(2);
 ```
 
-### Query with a timestamp
+2. Create a stream named `s` on the table `t`, and add an additional row with value 3 into the table.
 
 ```sql
--- Create a table
-create table demo(c varchar);
+CREATE STREAM s ON TABLE t;
 
--- Insert two rows
-insert into demo values('batch1.1'),('batch1.2');
+INSERT INTO t VALUES(3);
+```
 
--- Insert another row
-insert into demo values('batch2.1');
+3. Run time travel queries to retrieve previous data versions. 
 
--- Return timestamps
-select timestamp from fuse_snapshot('default', 'demo'); 
-+----------------------------+
-| timestamp                  |
-+----------------------------+
-| 2022-06-22 08:58:54.509008 |
-| 2022-06-22 08:58:36.254458 |
-+----------------------------+
+```sql
+-- Return snapshot IDs and corresponding timestamps for table 't'
+SELECT snapshot_id, timestamp FROM FUSE_SNAPSHOT('default', 't');
+┌───────────────────────────────────────────────────────────────┐
+│            snapshot_id           │          timestamp         │
+├──────────────────────────────────┼────────────────────────────┤
+│ 296349da841d4fa8820bbf8e228d75f3 │ 2024-04-02 15:25:21.456574 │
+│ aaa4857c5935401790db2c9f0f2818be │ 2024-04-02 15:19:02.484304 │
+│ e66ad2bc3f21416e87903dc9cd0388a3 │ 2024-04-02 15:18:40.766361 │
+└───────────────────────────────────────────────────────────────┘
 
--- Travel to the time when the last row was inserted
-select * from demo at (TIMESTAMP => '2022-06-22 08:58:54.509008'::TIMESTAMP); 
-+----------+
-| c        |
-+----------+
-| batch1.1 |
-| batch1.2 |
-| batch2.1 |
-+----------+
+-- These queries retrieve the same data but using different methods:
+-- by snapshot_id:
+SELECT * FROM t AT (SNAPSHOT => 'aaa4857c5935401790db2c9f0f2818be');
+-- by timestamp:
+SELECT * FROM t AT (TIMESTAMP => '2024-04-02 15:19:02.484304'::TIMESTAMP);
+-- by stream:
+SELECT * FROM t AT (STREAM => s);
 
--- Travel to the time when the first two rows were inserted
-select * from demo at (TIMESTAMP => '2022-06-22 08:58:36.254458'::TIMESTAMP); 
-+----------+
-| c        |
-+----------+
-| batch1.1 |
-| batch1.2 |
-+----------+
+┌─────────────────┐
+│        a        │
+├─────────────────┤
+│               1 │
+│               2 │
+└─────────────────┘
 ```

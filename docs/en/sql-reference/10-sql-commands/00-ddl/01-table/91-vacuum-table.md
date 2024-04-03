@@ -82,13 +82,13 @@ VACUUM TABLE c DRY RUN SUMMARY;
 
 ### Adjusting Data Retention Time
 
-The VACUUM TABLE command removes data files older than the `DATA_RETENTION_TIME_IN_DAYS` setting. This retention period can be adjusted as needed, for example, to 2 days:
+The VACUUM TABLE command removes data files older than the `data_retention_time_in_days` setting. This retention period can be adjusted as needed, for example, to 2 days:
 
 ```sql
-SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
+SET GLOBAL data_retention_time_in_days = 2;
 ```
 
-`DATA_RETENTION_TIME_IN_DAYS` defaults to 1 day (24 hours), and the maximum value varies across Databend editions:
+`data_retention_time_in_days` defaults to 1 day (24 hours), and the maximum value varies across Databend editions:
 
 | Edition                                  | Default Retention | Max. Retention   |
 |------------------------------------------|-------------------|------------------|
@@ -96,10 +96,10 @@ SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 | Databend Cloud (Standard)                | 1 day (24 hours)  | 1 day (24 hours) |
 | Databend Cloud (Business)                | 1 day (24 hours)  | 90 days          |
 
-To check the current value of `DATA_RETENTION_TIME_IN_DAYS`:
+To check the current value of `data_retention_time_in_days`:
 
 ```sql
-SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
+SHOW SETTINGS LIKE 'data_retention_time_in_days';
 ```
 
 ### VACUUM TABLE vs. OPTIMIZE TABLE
