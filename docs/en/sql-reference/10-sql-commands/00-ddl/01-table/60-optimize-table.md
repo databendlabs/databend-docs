@@ -2,6 +2,9 @@
 title: OPTIMIZE TABLE
 sidebar_position: 8
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.395"/>
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
@@ -175,75 +178,80 @@ OPTIMIZE TABLE my_database.my_table COMPACT LIMIT 50;
 Purging permanently removes historical data, including unused snapshots, segments, and blocks, except for the snapshots within the retention period (including the segments and blocks referenced by this snapshot), which will be retained. This can save storage space but may affect the Time Travel feature. Consider purging when:
 
 - The storage cost is a major concern, and you don't require historical data for Time Travel or other purposes.
-
 - You've compacted your table and want to remove older, unused data.
 
 :::note
-Historical data within the default retention period of 12 hours will not be removed. To adjust the retention period according to your needs, you can use the *retention_period* setting. In the Example section below, you can see how the retention period is initially set to 0, enabling you to insert data into the table and immediately remove historical data.
+Historical data within the default retention period of 24 hours will not be removed. To adjust the retention period, use the *data_retention_time_in_days* setting.
 :::
 
 **Syntax**
 
 ```sql
-OPTIMIZE TABLE <table_name> PURGE [BEFORE (SNAPSHOT => '<SNAPSHOT_ID>') 
-| (TIMESTAMP => '<TIMESTAMP>'::TIMESTAMP)] [LIMIT <snapshot_count>]
+OPTIMIZE TABLE <table_name> PURGE 
+  [ BEFORE 
+          (SNAPSHOT => '<SNAPSHOT_ID>') | 
+          (TIMESTAMP => '<TIMESTAMP>'::TIMESTAMP) |
+          (STREAM => <stream_name>)
+  ]
+  [ LIMIT <snapshot_count> ]
 ```
 
-- `[BEFORE (SNAPSHOT => '<SNAPSHOT_ID>') 
-| (TIMESTAMP => '<TIMESTAMP>'::TIMESTAMP)]`
+| Parameter | Description                                                                                                                                                                          |
+|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| BEFORE    | Specifies the condition for purging historical data. It is used with the `SNAPSHOT`, `TIMESTAMP`, or `STREAM` option to define the point in time before which data should be purged. <br/>When a `BEFORE` option is specified, the command purges historical data by first selecting a base snapshot as indicated by the specified option. Subsequently, it removes snapshots generated before this base snapshot. In the case of specifying a stream with `BEFORE STREAM`, the command identifies the nearest snapshot preceding the creation of the stream as the base snapshot. It then proceeds to remove snapshots generated before this nearest snapshot.|
+| LIMIT     | Sets the maximum number of snapshots to be purged. When specified, Databend will select and purge the oldest snapshots, up to the specified count.                                   |
 
-  Purges the historical data that was generated before the specified snapshot or timestamp was created.
+**Examples**
 
-- `[LIMIT <snapshot_count>]`
+This example demonstrates purging historical data using the `BEFORE STREAM` option.
 
-  Sets the maximum number of snapshots to be purged. Databend will select and purge the oldest snapshots.
-
-
-**Example**
+1. Create a table named `t` with a single column `a`, and insert two rows with values 1 and 2 into the table.
 
 ```sql
-SET retention_period = 0;
-
--- Create a table and insert data using three INSERT statements
-CREATE TABLE t(x int);
+CREATE TABLE t(a INT);
 
 INSERT INTO t VALUES(1);
 INSERT INTO t VALUES(2);
+```
+
+2. Create a stream named `s` on the table `t`, and add an additional row with value 3 into the table.
+
+```sql
+CREATE STREAM s ON TABLE t;
+
 INSERT INTO t VALUES(3);
+```
 
-SELECT * FROM t;
+3. Return snapshot IDs and corresponding timestamps for the table `t`.
 
-x|
--+
-1|
-2|
-3|
+```sql
+SELECT snapshot_id, timestamp FROM FUSE_SNAPSHOT('default', 't');
 
--- Show the created snapshots with their timestamps
-SELECT snapshot_id, segment_count, block_count, timestamp
-FROM fuse_snapshot('default', 't');
+┌───────────────────────────────────────────────────────────────┐
+│            snapshot_id           │          timestamp         │
+├──────────────────────────────────┼────────────────────────────┤
+│ 00dd8ca67c1f461987f31a6b3a1c3c84 │ 2024-04-02 18:09:39.157702 │
+│ e448bb2bf488489dae7294b0a8af38d1 │ 2024-04-02 18:09:34.986507 │
+│ 2ac038dd83e741afbae543b170105d63 │ 2024-04-02 18:09:34.966336 │
+└───────────────────────────────────────────────────────────────┘
 
-snapshot_id                     |segment_count|block_count|timestamp            |
---------------------------------+-------------+-----------+---------------------+
-edc9477b62c24f299c05a4d189030772|            3|          3|2022-12-26 19:33:49.0|
-256f1fe2e3974ee595474b2a8cad7a39|            2|          2|2022-12-26 19:33:42.0|
-1e060f7d145747578963b5a7e3b14742|            1|          1|2022-12-26 19:32:57.0|
+-- Setting data retention time to 0 for demonstration purposes only. Not recommended in production.
+SET data_retention_time_in_days = 0;
+```
 
--- Purge the historical data generated before the new snapshot was created.
-OPTIMIZE TABLE t PURGE BEFORE (SNAPSHOT => '9828b23f74664ff3806f44bbc1925ea5');
+4. Purge historical snapshots using the `BEFORE STREAM` option.
 
-SELECT snapshot_id, segment_count, block_count, timestamp
-FROM fuse_snapshot('default', 't');
+```sql
+OPTIMIZE TABLE t PURGE BEFORE (STREAM => s);
 
-snapshot_id                     |segment_count|block_count|timestamp            |
---------------------------------+-------------+-----------+---------------------+
-9828b23f74664ff3806f44bbc1925ea5|            1|          1|2022-12-26 19:39:27.0|
+-- The command selects snapshot ID e448bb2bf488489dae7294b0a8af38d1 as the base, which was generated immediately before the creation of stream 's'.
+-- As a result, snapshot ID 2ac038dd83e741afbae543b170105d63, generated before the base, is removed.
+SELECT snapshot_id, timestamp FROM FUSE_SNAPSHOT('default', 't');
 
-SELECT * FROM t;
-
-x|
--+
-1|
-2|
-3|
+┌───────────────────────────────────────────────────────────────┐
+│            snapshot_id           │          timestamp         │
+├──────────────────────────────────┼────────────────────────────┤
+│ 00dd8ca67c1f461987f31a6b3a1c3c84 │ 2024-04-02 18:09:39.157702 │
+│ e448bb2bf488489dae7294b0a8af38d1 │ 2024-04-02 18:09:34.986507 │
+└───────────────────────────────────────────────────────────────┘
 ```

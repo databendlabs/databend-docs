@@ -16,11 +16,11 @@ This is part of the Databend's Time Travel feature that allows you to query, bac
 ```sql    
 SELECT ...
 FROM ...
-AT ( { 
+AT (
        SNAPSHOT => '<snapshot_id>' |
        TIMESTAMP => <timestamp> | 
        (STREAM => <stream_name>) 
-   } )   
+   )   
 ```
 
 ## Obtaining Snapshot ID and Timestamp
