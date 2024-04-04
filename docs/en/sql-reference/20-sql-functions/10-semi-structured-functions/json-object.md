@@ -1,4 +1,4 @@
----
+/---
 title: JSON_OBJECT
 title_includes: TRY_JSON_OBJECT
 ---
@@ -9,9 +9,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 Creates a JSON object with keys and values.
 
 - The arguments are zero or more key-value pairs(where keys are strings, and values are of any type).
-- If the key or the value is NULL, the key-value pair is ommitted from the resulting object.
-- The key cannot be duplicated and the order in which it was created cannot be maintained.
-- `TRY_JSON_OBJECT` returns a NULL value if an error occurs during building the object.
+- If a key or value is NULL, the key-value pair is ommitted from the resulting object.
+- The keys must be distinct from each other, and their order in the resulting JSON might be different from the order you specify.
+- `TRY_JSON_OBJECT` returns a NULL value if an error occurs when building the object.
 
 See also: [JSON_OBJECT_KEEP_NULL](json-object-keep-null.md)
 
@@ -31,36 +31,37 @@ JSON object.
 
 ```sql
 SELECT JSON_OBJECT();
-
-json_object() |
-------------------------+
-{}                      |
-------------------------+
++---------------+
+| json_object() |
++---------------+
+| {}            |
++---------------+
 
 SELECT JSON_OBJECT('a', 3.14, 'b', 'xx', 'c', NULL);
-
-json_object('a', 3.14, 'b', 'xx', 'c', null) |
----------------------------------------------+
-{"a":3.14,"b":"xx"}                          |
++----------------------------------------------+
+| json_object('a', 3.14, 'b', 'xx', 'c', null) |
++----------------------------------------------+
+| [-1,12,289,2188,false]                       |
++----------------------------------------------+
 
 SELECT JSON_OBJECT('fruits', ['apple', 'banana', 'orange'], 'vegetables', ['carrot', 'celery']);
-
-json_object('fruits', ['apple', 'banana', 'orange'], 'vegetables', ['carrot', 'celery']) |
------------------------------------------------------------------------------------------+
-{"fruits":["apple","banana","orange"],"vegetables":["carrot","celery"]}                  |
++------------------------------------------------------------------------------------------+
+| json_object('fruits', ['apple', 'banana', 'orange'], 'vegetables', ['carrot', 'celery']) |
++------------------------------------------------------------------------------------------+
+| {"fruits":["apple","banana","orange"],"vegetables":["carrot","celery"]}                  |
++------------------------------------------------------------------------------------------+
 
 SELECT JSON_OBJECT('key');
-
+  |
 1 | SELECT JSON_OBJECT('key')
   |        ^^^^^^^^^^^^^^^^^^ The number of keys and values must be equal while evaluating function `json_object('key')`
 
 
 SELECT TRY_JSON_OBJECT('key');
-
-try_json_object('key') |
------------------------+
-NULL                   |
------------------------+
-
++------------------------+
+| try_json_object('key') |
++------------------------+
+| NULL                   |
++------------------------+
 ```
 
