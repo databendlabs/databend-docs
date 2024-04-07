@@ -12,7 +12,8 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 [( 
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
-  [ FILE_FORMAT => 'TSV| <custom_format_name>']
+  [ FILE_FORMAT => 'TSV| <custom_format_name>'],
+  [ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
 )]
 ```
 
