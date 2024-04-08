@@ -46,20 +46,67 @@ Here we use [computed column](https://docs.databend.com/sql/sql-commands/ddl/tab
  
 ```sql
 -- Inserting log entries into the k8s_log table
-INSERT INTO k8s_log (event_id, event_data, event_timestamp) VALUES
-(1, PARSE_JSON('{"message": "Pod scheduled", "object_type": "Pod", "name": "frontend-1", "namespace": "production", "node": "node-01", "status": "Scheduled"}'), '2024-04-08T08:00:00Z');
+INSERT INTO k8s_log (event_id, event_data, event_timestamp)
+VALUES
+    (1,
+    PARSE_JSON('{
+        "message": "Pod scheduled",
+        "object_type": "Pod",
+        "name": "frontend-1",
+        "namespace": "production",
+        "node": "node-01",
+        "status": "Scheduled"
+    }'),
+    '2024-04-08T08:00:00Z');
 
-INSERT INTO k8s_log (event_id, event_data, event_timestamp) VALUES
-(2, PARSE_JSON('{"message": "Deployment scaled", "object_type": "Deployment", "name": "backend", "namespace": "development", "replicas": 3}'), '2024-04-08T09:15:00Z');
+INSERT INTO k8s_log (event_id, event_data, event_timestamp)
+VALUES
+    (2,
+    PARSE_JSON('{
+        "message": "Deployment scaled",
+        "object_type": "Deployment",
+        "name": "backend",
+        "namespace": "development",
+        "replicas": 3
+    }'),
+    '2024-04-08T09:15:00Z');
 
-INSERT INTO k8s_log (event_id, event_data, event_timestamp) VALUES
-(3, PARSE_JSON('{"message": "Node condition changed", "object_type": "Node", "name": "node-02", "condition": "Ready", "status": "True"}'), '2024-04-08T10:30:00Z');
+INSERT INTO k8s_log (event_id, event_data, event_timestamp)
+VALUES
+    (3,
+    PARSE_JSON('{
+        "message": "Node condition changed",
+        "object_type": "Node",
+        "name": "node-02",
+        "condition": "Ready",
+        "status": "True"
+    }'),
+    '2024-04-08T10:30:00Z');
 
-INSERT INTO k8s_log (event_id, event_data, event_timestamp) VALUES
-(4, PARSE_JSON('{"message": "ConfigMap updated", "object_type": "ConfigMap", "name": "app-config", "namespace": "default", "change": "data update"}'), '2024-04-08T11:45:00Z');
+INSERT INTO k8s_log (event_id, event_data, event_timestamp)
+VALUES
+    (4,
+    PARSE_JSON('{
+        "message": "ConfigMap updated",
+        "object_type": "ConfigMap",
+        "name": "app-config",
+        "namespace": "default",
+        "change": "data update"
+    }'),
+    '2024-04-08T11:45:00Z');
 
-INSERT INTO k8s_log (event_id, event_data, event_timestamp) VALUES
-(5, PARSE_JSON('{"message": "PersistentVolume claim created", "object_type": "PVC", "name": "storage-claim", "namespace": "storage", "status": "Bound", "volume": "pv-logs"}'), '2024-04-08T12:00:00Z');
+INSERT INTO k8s_log (event_id, event_data, event_timestamp)
+VALUES
+    (5,
+    PARSE_JSON('{
+        "message": "PersistentVolume claim created",
+        "object_type": "PVC",
+        "name": "storage-claim",
+        "namespace": "storage",
+        "status": "Bound",
+        "volume": "pv-logs"
+    }'),
+    '2024-04-08T12:00:00Z');
 ```
 
 3. Querying with Full-Text Search
