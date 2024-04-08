@@ -14,11 +14,11 @@ A virtual column is a construct formed by extracting nested fields within [Varia
 
 ![Alt text](@site/docs/public/img/sql/virtual-column.png)
 
-### Managing Virtual Columns
+## Managing Virtual Columns
 
 Databend provides a variety of commands to manage virtual columns. For details, see [VIRTUAL COLUMN](/sql/sql-commands/ddl/virtual-column/).
 
-### Usage Examples
+## Usage Examples
 
 This example demonstrates the practical use of virtual columns and their impact on query execution:
 
