@@ -11,7 +11,10 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='INVERTED INDEX'/>
 
-Refreshes an asynchronous inverted index in Databend. Asynchronous inverted indexes require manual refresh after creation or data updates.
+Refreshes an inverted index in Databend. An inverted index requires refresh in the following scenarios:
+
+- When data is inserted into the table before creating the inverted index, manual refreshing of the inverted index is necessary post-creation to effectively index the inserted data.
+- When the inverted index encounters issues or becomes corrupted, it needs to be refreshed. If the inverted index breaks due to certain blocks' inverted index files being corrupted, a query such as `where match(body, 'wiki')` will return an error. In such instances, you need to refresh the inverted index to fix the issue.
 
 ## Syntax
 
@@ -26,7 +29,6 @@ REFRESH INVERTED INDEX <index> ON [<database>.]<table> [LIMIT <limit>]
 ## Examples
 
 ```sql
--- Create and refresh an asynchronous inverted index for the 'comment_title' and 'comment_body' columns in the table 'user_comments'
-CREATE ASYNC INVERTED INDEX customer_feedback_idx ON customer_feedback(comment_title, comment_body);
+-- Refresh an inverted index named "customer_feedback_idx" for the table "customer_feedback"
 REFRESH INVERTED INDEX customer_feedback_idx ON customer_feedback;
 ```
