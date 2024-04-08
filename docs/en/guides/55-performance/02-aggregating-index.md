@@ -15,7 +15,7 @@ The primary purpose of the aggregating index is to enhance query performance, es
 
 - If you no longer need an aggregating index, consider deleting it. Please note that deleting an aggregating index does NOT remove the associated storage blocks. To delete the blocks as well, use the [VACUUM TABLE](/sql/sql-commands/ddl/table/vacuum-table) command. To disable the aggregating indexing feature, set `enable_aggregating_index_scan` to 0.
 
-### Refreshing Aggregating Index
+## Refreshing Aggregating Index
 
 An aggregating index requires regular refreshes since the table may undergo data insertions and updates after the creation of the aggregating index. You have the following options to refresh an aggregating index:
 
@@ -27,11 +27,11 @@ An aggregating index requires regular refreshes since the table may undergo data
 The Automatic Refresh mechanism in Databend has the potential to affect the duration of significant data loading. This is because Databend withholds the data loading result until the automatically refreshing aggregating indexes have been updated to reflect the latest results. Databend Cloud users are recommended to use the Manual Refresh mechanism. This is because Databend Cloud automatically updates aggregating indexes in the background, even for those created without the SYNC keyword, in response to changes in table data.
 :::
 
-### Managing Aggregating Index
+## Managing Aggregating Index
 
 Databend provides a variety of commands to manage aggregating indexes. For details, see [Aggregating Index](/sql/sql-commands/ddl/aggregating-index/).
 
-### Usage Examples
+## Usage Examples
 
 This example demonstrates the utilization of aggregating indexes and illustrates their impact on the query execution plan.
 
