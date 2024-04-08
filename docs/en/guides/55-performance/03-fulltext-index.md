@@ -45,8 +45,8 @@ Here we use [computed column](https://docs.databend.com/sql/sql-commands/ddl/tab
 2. Inserting Data into the Table
  
 ```sql
--- Inserting log entries into the k8s_log table
-INSERT INTO k8s_log (event_id, event_data, event_timestamp)
+-- Inserting log entries into the k8s_logs table
+INSERT INTO k8s_logs (event_id, event_data, event_timestamp)
 VALUES
     (1,
     PARSE_JSON('{
@@ -59,7 +59,7 @@ VALUES
     }'),
     '2024-04-08T08:00:00Z');
 
-INSERT INTO k8s_log (event_id, event_data, event_timestamp)
+INSERT INTO k8s_logs (event_id, event_data, event_timestamp)
 VALUES
     (2,
     PARSE_JSON('{
@@ -71,7 +71,7 @@ VALUES
     }'),
     '2024-04-08T09:15:00Z');
 
-INSERT INTO k8s_log (event_id, event_data, event_timestamp)
+INSERT INTO k8s_logs (event_id, event_data, event_timestamp)
 VALUES
     (3,
     PARSE_JSON('{
@@ -83,7 +83,7 @@ VALUES
     }'),
     '2024-04-08T10:30:00Z');
 
-INSERT INTO k8s_log (event_id, event_data, event_timestamp)
+INSERT INTO k8s_logs (event_id, event_data, event_timestamp)
 VALUES
     (4,
     PARSE_JSON('{
@@ -95,7 +95,7 @@ VALUES
     }'),
     '2024-04-08T11:45:00Z');
 
-INSERT INTO k8s_log (event_id, event_data, event_timestamp)
+INSERT INTO k8s_logs (event_id, event_data, event_timestamp)
 VALUES
     (5,
     PARSE_JSON('{
@@ -113,5 +113,31 @@ VALUES
 
 ```sql
 -- Query to search for events with 'PersistentVolume' in the event_message
-SELECT * FROM k8s_log WHERE MATCH(event_message, 'PersistentVolume');
+SELECT * FROM k8s_logs WHERE MATCH(event_message, 'PersistentVolume');
 ```
+
+To check if the full-text index is being used, you can use the `EXPLAIN` like this:
+```
+EXPLAIN SELECT * FROM k8s_logs WHERE MATCH(event_message, 'PersistentVolume');
+```
+
+Result:
+```
+Filter
+├── output columns: [k8s_logs.event_id (#0), k8s_logs.event_data (#1), k8s_logs.event_timestamp (#2), k8s_logs.event_message (#3)]
+├── filters: [k8s_logs._search_matched (#4)]
+├── estimated rows: 5.00
+└── TableScan
+    ├── table: default.fulltext.k8s_logs
+    ├── output columns: [event_id (#0), event_data (#1), event_timestamp (#2), event_message (#3), _search_matched (#4)]
+    ├── read rows: 1
+    ├── read bytes: 305
+    ├── partitions total: 5
+    ├── partitions scanned: 1
+    ├── pruning stats: [segments: <range pruning: 5 to 5>, blocks: <range pruning: 5 to 5, inverted pruning: 5 to 1>]
+    ├── push downs: [filters: [k8s_logs._search_matched (#4)], limit: NONE]
+    └── estimated rows: 5.00
+```
+
+`pruning stats: [segments: <range pruning: 5 to 5>, blocks: <range pruning: 5 to 5, inverted pruning: 5 to 1>]`
+indicates that the full-text index is being utilized, and it has pruned 5 data blocks down to 1.
