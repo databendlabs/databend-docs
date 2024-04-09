@@ -32,20 +32,32 @@ Full-text indexing and LIKE pattern matching are both methods used for searching
 
 The LIKE operator allows for pattern matching within text fields. It searches for a specified pattern within a string and returns rows where the pattern is found. For a query like the example below, Databend would perform a full table scan to check each row for the presence of the specified pattern `%Starbucks%`. This approach can be resource-intensive and result in slower query execution, especially with large tables.
 
-```sql
+```sql title='Example:'
 SELECT * FROM table WHERE content LIKE '%Starbucks%';
 ```
 
 In contrast, full-text indexing involves creating inverted indexes, which map terms to the documents or records containing those terms. These indexes enable efficient searching of text data based on specific keywords or phrases. Utilizing the inverted index, Databend can directly access the documents containing the specified term `Starbucks`, eliminating the need for scanning the entire table and significantly reducing query execution time, particularly in scenarios with large volumes of text content.
 
-```sql
+```sql title='Example:'
 CREATE INVERTED INDEX table_content_idx ON table(content);
 SELECT * FROM table WHERE match(content, 'Starbucks');
 ```
 
-## Search with Inverted Indexes
+## Searching with Inverted Indexes
 
-Inverted indexes facilitate efficient document retrieval and relevance assessment in searches, utilizing the following functions:
+Before searching with inverted indexes, you must create them:
+- You can create more than one inverted index for a table, but each column must be unique across the inverted indexes. In other words, a column can only be indexed by one inverted index. 
+- If your data is inserted into the table before the inverted index is created, you must refresh the inverted index before searching so that the data can be properly indexed.
+
+```sql title='Example:'
+-- Create an inverted index for the 'comment_title' and 'comment_body' columns in the table 'user_comments'
+CREATE INVERTED INDEX customer_feedback_idx ON customer_feedback(comment_title, comment_body);
+
+-- If data existed in the table before creating the index, refresh the index to ensure indexing of existing data.
+REFRESH INVERTED INDEX customer_feedback_idx ON customer_feedback;
+```
+
+To conduct searches leveraging inverted indexes, you can utilize the following functions:
 
 | Function                       | Description                                                                                                                                                                            |
 |--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -68,6 +80,10 @@ The result might look something like this:
 | 2.354890 | Starbucks opens new store in downtown   |
 | 2.354890 | Starbucks announces seasonal drink menu |
 | 1.124567 | Enjoying a latte at Starbucks           |
+
+## Managing Inverted Indexes
+
+Databend provides a variety of commands to manage inverted indexes. For details, see [Inverted Index](/sql/sql-commands/ddl/inverted-index/).
 
 ## Usage Examples
 
