@@ -9,7 +9,7 @@ A stream in Databend is a dynamic and real-time representation of changes to a t
 
 ### How Stream Works
 
-A stream can operate in two modes: **Standard** and **Append-Only**. Specify a mode using the `APPEND_ONLY` parameter when you [CREATE STREAM](/sql/sql-commands/ddl/stream/create-stream).
+A stream can operate in two modes: **Standard** and **Append-Only**. Specify a mode using the `APPEND_ONLY` parameter (defaults to `false`) when you [CREATE STREAM](/sql/sql-commands/ddl/stream/create-stream).
 
 - **Standard**: Captures all types of data changes, including insertions, updates, and deletions.
 - **Append-Only**: In this mode, the stream exclusively contains data insertion records; data updates or deletions are not captured.

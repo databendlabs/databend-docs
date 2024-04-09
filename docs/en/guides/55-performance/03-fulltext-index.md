@@ -3,21 +3,87 @@ title: Full-Text Index
 ---
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='Inverted INDEX'/>
-
+<EEFeature featureName='INVERTED INDEX'/>
 
 ## What is Full-Text Indexing?
 
-Full-text indexing is a powerful technique that enables efficient searching within large text datasets. It provides significant performance improvements and enhanced functionality compared to traditional SQL pattern matching using `LIKE '%keyword%'`.
+Full-text indexing, also known as inverted index, is a data structure used to efficiently map between terms and the documents or records that contain those terms. In a typical inverted index, each term from a document's text is associated with the document ID where it appears. This allows for fast full-text searches and retrieval of relevant documents based on search terms.
 
-## How Does Full-Text Indexing Work?
+Databend utilizes [Tantivy](https://github.com/quickwit-oss/tantivy), a full-text search engine library, to implement inverted indexes. Suppose we have a collection of documents representing product reviews. Each document consists of a unique ID and some text content describing the review. Here are a few sample documents:
 
-Databend utilizes [Tantivy](https://github.com/quickwit-oss/tantivy), a full-text search engine library, to implement inverted indexes. When you create a full-text index on a column, Databend builds an inverted index that maps keywords to their locations within the text. This enables lightning-fast keyword searches.
+| Document ID | Content                                                             |
+|-------------|---------------------------------------------------------------------|
+| 101         | "This product is amazing! It exceeded all my expectations."         |
+| 102         | "I'm disappointed with this product. It didn't work as advertised." |
+| 103         | "Highly recommended! Best purchase I've made in a long time."       |
 
-## Full-Text vs. LIKE Pattern Matching
+An inverted index for these documents would look like the table below. The inverted index allows us to quickly find which documents contain a particular term. For example, if we search for the term `recommended`, we can easily retrieve Document ID 103 from the inverted index.
 
-- **Full-Text Indexing**: Utilizes an inverted index to quickly locate keywords, resulting in fast search performance.
-- **LIKE Pattern Matching**: Scans the entire data for matches, which becomes inefficient as the dataset grows larger.
+| Term           | Document IDs |
+|----------------|--------------|
+| "product"      | 101, 102     |
+| "amazing"      | 101          |
+| "disappointed" | 102          |
+| "recommended"  | 103          |
+
+## Full-Text Indexing vs. LIKE Pattern Matching
+
+Full-text indexing and LIKE pattern matching are both methods used for searching text data in a database. However, full-text indexing offers significantly faster query performance compared to LIKE pattern matching, especially in large databases with extensive text content.
+
+The LIKE operator allows for pattern matching within text fields. It searches for a specified pattern within a string and returns rows where the pattern is found. For a query like the example below, Databend would perform a full table scan to check each row for the presence of the specified pattern `%Starbucks%`. This approach can be resource-intensive and result in slower query execution, especially with large tables.
+
+```sql title='Example:'
+SELECT * FROM table WHERE content LIKE '%Starbucks%';
+```
+
+In contrast, full-text indexing involves creating inverted indexes, which map terms to the documents or records containing those terms. These indexes enable efficient searching of text data based on specific keywords or phrases. Utilizing the inverted index, Databend can directly access the documents containing the specified term `Starbucks`, eliminating the need for scanning the entire table and significantly reducing query execution time, particularly in scenarios with large volumes of text content.
+
+```sql title='Example:'
+CREATE INVERTED INDEX table_content_idx ON table(content);
+SELECT * FROM table WHERE match(content, 'Starbucks');
+```
+
+## Searching with Inverted Indexes
+
+Before searching with inverted indexes, you must create them:
+- You can create more than one inverted index for a table, but each column must be unique across the inverted indexes. In other words, a column can only be indexed by one inverted index. 
+- If your data is inserted into the table before the inverted index is created, you must refresh the inverted index before searching so that the data can be properly indexed.
+
+```sql title='Example:'
+-- Create an inverted index for the 'comment_title' and 'comment_body' columns in the table 'user_comments'
+CREATE INVERTED INDEX customer_feedback_idx ON customer_feedback(comment_title, comment_body);
+
+-- If data existed in the table before creating the index, refresh the index to ensure indexing of existing data.
+REFRESH INVERTED INDEX customer_feedback_idx ON customer_feedback;
+```
+
+To conduct searches leveraging inverted indexes, you can utilize the following functions:
+
+| Function                       | Description                                                                                                                                                                            |
+|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `match( <column>, '<keyword>' )` | Searches for a specific keyword within the indexed documents. It returns the documents containing the keyword.                                                                         |
+| `score()`                        | Assigns a relevance score to each document based on its match to the search query. This score reflects how well the document matches the query terms and helps prioritize the results. |
+
+This example retrieves content from the 'content' column in table 't' where the value contains the keyword `Starbucks`, ordered by relevance score:
+
+```sql title='Example:'
+SELECT score(), content 
+FROM table 
+WHERE match(content, 'Starbucks') 
+ORDER BY score();
+```
+
+The result might look something like this:
+
+| Score    | Content                                 |
+|----------|-----------------------------------------|
+| 2.354890 | Starbucks opens new store in downtown   |
+| 2.354890 | Starbucks announces seasonal drink menu |
+| 1.124567 | Enjoying a latte at Starbucks           |
+
+## Managing Inverted Indexes
+
+Databend provides a variety of commands to manage inverted indexes. For details, see [Inverted Index](/sql/sql-commands/ddl/inverted-index/).
 
 ## Usage Examples
 
