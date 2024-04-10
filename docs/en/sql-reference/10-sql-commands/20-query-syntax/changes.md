@@ -17,12 +17,12 @@ FROM ...
    CHANGES ( INFORMATION => { DEFAULT | APPEND_ONLY } )
    AT ( { TIMESTAMP => <timestamp> | 
           OFFSET => <time_interval> | 
-          SNAPSHOT => <snapshot_id> | 
-          STREAM => '<stream_name>' } )
+          SNAPSHOT => '<snapshot_id>' | 
+          STREAM => <stream_name> } )
 
     [ END ( { TIMESTAMP => <timestamp> | 
              OFFSET => <time_interval> | 
-             SNAPSHOT => <snapshot_id> } ) ]
+             SNAPSHOT => '<snapshot_id>' } ) ]
 ```
 
 | Parameter   | Description                                                                                                                                                                                                                                              |
