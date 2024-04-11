@@ -8,7 +8,7 @@ title: 生产部署
 
 ## 目录
 
-- [在 Kubernetes 上部署 Databend](11-deploying-databend-on-kubernetes.md)
+- [在 Kubernetes 上部署 Databend](02-deploying-databend-on-kubernetes.md)
 - [Meta 服务部署](10-metasrv-deploy.md)
 - [在 Meta 服务中添加和移除节点](20-metasrv-add-remove-node.md)
 - [Meta 服务中的备份与恢复](30-metasrv-backup-restore.md)

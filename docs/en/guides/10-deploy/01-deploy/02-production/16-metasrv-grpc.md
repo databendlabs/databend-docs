@@ -1,7 +1,7 @@
 ---
 title: Send & Receive gRPC Metadata
 sidebar_label: Send & Receive gRPC Metadata
-description: 
+description:
   Send & Receive gRPC Metadata
 ---
 

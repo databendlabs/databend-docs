@@ -43,7 +43,7 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 1. Follow the topic [Create a new bucket](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket) from the Google documentation to create a bucket named `my_bucket`.
 2. Follow the topic [Create a service account key](https://cloud.google.com/iam/docs/keys-create-delete#creating) from the Google documentation to create and download a service account key file.
-3. Utilize Base64 encoding to convert the contents of the service account key file into a Base64-encoded string. For example, 
+3. Utilize Base64 encoding to convert the contents of the service account key file into a Base64-encoded string. For example,
 
 ```bash
 base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
@@ -209,7 +209,7 @@ Follow the instructions below to deploy a Query node:
 <StepContent number="1" title="Configure Query Node">
 
 1. Locate the file `databend-query.toml` in the folder `/usr/local/databend/configs`.
-2. In the file `databend-query.toml`, set the parameter *type* in the [storage] block and configure the access credentials and endpoint URL for connecting to your object storage. 
+2. In the file `databend-query.toml`, set the parameter *type* in the [storage] block and configure the access credentials and endpoint URL for connecting to your object storage.
 
 To configure your storage settings, comment out the [storage.fs] section by adding `#` at the beginning of each line. Then, uncomment the relevant section for your object storage provider by removing the `#` symbol and fill in your values.
 
@@ -467,7 +467,7 @@ Each time you initiate or halt Databend, there's no need to manage the Meta and 
 ./scripts/start.sh
 
 # Stop Databend
-# This script employs the KILLALL command. If not installed, please install the psmisc package for your system. 
+# This script employs the KILLALL command. If not installed, please install the psmisc package for your system.
 # For example, on CentOS: yum install psmisc
 ./scripts/stop.sh
 ```

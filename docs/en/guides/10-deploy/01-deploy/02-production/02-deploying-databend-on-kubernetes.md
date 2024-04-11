@@ -52,6 +52,10 @@ import TabItem from '@theme/TabItem';
   * Azure Storage Blob
   * Other storage services supported by [Apache OpenDAL](https://github.com/datafuselabs/opendal#services)
 
+  :::tip Recommended Storage Settings
+    [Preparing Storage](/guides/deploy/production/preparing-storage) provides detailed instructions on recommended storage settings.
+  :::
+
   :::info For advanced user
 
     Authentication methods without access keys are also supported:
