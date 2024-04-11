@@ -3,9 +3,9 @@ title: AT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.395"/>
+<FunctionDescription description="Introduced or updated: v1.2.410"/>
 
-The AT clause allows you to query previous versions of your data based on a specific snapshot ID, timestamp, or at the time when a stream was created.
+The AT clause enables you to retrieve previous versions of your data by specifying a snapshot ID, timestamp, stream name, or a time interval.
 
 Databend automatically creates snapshots when data updates occur, so a snapshot can be considered as a view of your data at a time point in the past. You can access a snapshot by the snapshot ID or the timestamp at which the snapshot was created. For how to obtain the snapshot ID and timestamp, see [Obtaining Snapshot ID and Timestamp](#obtaining-snapshot-id-and-timestamp).
 
@@ -19,9 +19,17 @@ FROM ...
 AT (
        SNAPSHOT => '<snapshot_id>' |
        TIMESTAMP => <timestamp> | 
-       (STREAM => <stream_name>) 
+       STREAM => <stream_name> |
+       OFFSET => <time_interval> 
    )   
 ```
+
+| Parameter | Description                                                                                                                                                                                                                                                                                                      |
+|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SNAPSHOT  | Specifies a specific snapshot ID to query previous data from.                                                                                                                                                                                                                                                    |
+| TIMESTAMP | Specifies a particular timestamp to retrieve data from.                                                                                                                                                                                                                                                          |
+| STREAM    | Indicates querying the data at the time the specified stream was created.                                                                                                                                                                                                                                        |
+| OFFSET    | Specifies the number of seconds to go back from the current time. It should be in the form of a negative integer, where the absolute value represents the time difference in seconds. For example, `-3600` represents traveling back in time by 1 hour (3,600 seconds). |
 
 ## Obtaining Snapshot ID and Timestamp
 
@@ -30,7 +38,7 @@ To return the snapshot IDs and timestamps of all the snapshots of a table, use t
 ```sql
 SELECT snapshot_id, 
        timestamp 
-FROM   fuse_snapshot('<database_name>', '<table_name>'); 
+FROM   FUSE_SNAPSHOT('<database_name>', '<table_name>'); 
 ```
 
 ## Examples
@@ -81,4 +89,7 @@ SELECT * FROM t AT (STREAM => s);
 │               1 │
 │               2 │
 └─────────────────┘
+
+-- Retrieve all columns from table 't' with data from 60 seconds ago
+SELECT * FROM t AT (OFFSET => -60);
 ```
