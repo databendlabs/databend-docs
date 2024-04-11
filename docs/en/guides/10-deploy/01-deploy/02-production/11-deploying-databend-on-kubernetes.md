@@ -21,7 +21,7 @@ This topic explains how to install and configure the Databend cluster on Kuberne
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-* Plan Your Deployment. 
+* Plan Your Deployment.
 
   In this example, you will deploy a Databend Meta cluster consisting of 3 nodes, as well as two separate Databend Query clusters, each also consisting of 3 nodes. You should manage and allocate resources according to your actual deployment plans and usage scenarios to ensure that services run smoothly.
 
