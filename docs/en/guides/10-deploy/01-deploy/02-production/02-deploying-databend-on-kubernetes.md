@@ -53,7 +53,7 @@ import TabItem from '@theme/TabItem';
   * Other storage services supported by [Apache OpenDAL](https://github.com/datafuselabs/opendal#services)
 
   :::tip Recommended Storage Settings
-    [Preparing Storage](/guides/deploy/production/preparing-storage) provides detailed instructions on recommended storage settings.
+    [Preparing Storage](/guides/deploy/deploy/production/preparing-storage) provides detailed instructions on recommended storage settings.
   :::
 
   :::info For advanced user
