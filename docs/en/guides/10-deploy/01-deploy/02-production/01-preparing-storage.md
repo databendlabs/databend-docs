@@ -41,12 +41,12 @@ Go to the AWS Management Console, select the S3 service, enter the bucket name, 
 
 Lifecyle rule is needed when Bucket Versioning is enabled. You can configure lifecycle policies to automatically delete old versions of objects or transition objects to different storage classes.
 
-- Go to the AWS Management Console, select the S3 service, enter the bucket name, and click on the **Management** tab. Under the **Lifecycle** section, click **Add lifecycle rule** to create a new rule.
+1. Go to the AWS Management Console, select the S3 service, enter the bucket name, and click on the **Management** tab. Under the **Lifecycle** section, click **Add lifecycle rule** to create a new rule.
 
-- Input a rule name, select the object prefix, and configure the rule actions: **Permanently delete noncurrent versions of objects**.
+2. Input a rule name, select the object prefix, and configure the rule actions: **Permanently delete noncurrent versions of objects**.
 
-- Input the Days after object become noncurrent: recommend 7 days.
+3. Input the Days after object become noncurrent: 7 days recommended.
 
-- Input the Number of versions to retain: recommend 0.
+4. Input the Number of versions to retain: 0 recommended.
 
-- Click **Create rule** to save the lifecycle policy.
+5. Click **Create rule** to save the lifecycle policy.
