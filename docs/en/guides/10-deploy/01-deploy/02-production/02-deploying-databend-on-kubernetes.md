@@ -21,7 +21,7 @@ This topic explains how to install and configure the Databend cluster on Kuberne
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-* Plan Your Deployment. 
+* Plan Your Deployment.
 
   In this example, you will deploy a Databend Meta cluster consisting of 3 nodes, as well as two separate Databend Query clusters, each also consisting of 3 nodes. You should manage and allocate resources according to your actual deployment plans and usage scenarios to ensure that services run smoothly.
 
@@ -51,6 +51,10 @@ import TabItem from '@theme/TabItem';
   * AWS S3 or other S3 compatible storage service
   * Azure Storage Blob
   * Other storage services supported by [Apache OpenDAL](https://github.com/datafuselabs/opendal#services)
+
+  :::tip Recommended Storage Settings
+    [Preparing Storage](/guides/deploy/deploy/production/preparing-storage) provides detailed instructions on recommended storage settings.
+  :::
 
   :::info For advanced user
 

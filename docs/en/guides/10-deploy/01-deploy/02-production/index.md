@@ -8,7 +8,8 @@ This section provides comprehensive details on managing and configuring Databend
 
 ## Table of Contents
 
-- [Deploying Databend on Kubernetes](11-deploying-databend-on-kubernetes.md)
+- [Preparing Storage](01-preparing-storage.md)
+- [Deploying Databend on Kubernetes](02-deploying-databend-on-kubernetes.md)
 - [Meta Service Deployment](10-metasrv-deploy.md)
 - [Adding and Removing Nodes in Meta Service](20-metasrv-add-remove-node.md)
 - [Backup and Restore in Meta Service](30-metasrv-backup-restore.md)
