@@ -4,24 +4,28 @@ sidebar_position: 15
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.290"/>
+<FunctionDescription description="Introduced or updated: v1.2.415"/>
 
 Lists the tables in the current or a specified database.
+
+:::note
+Starting from version 1.2.415, the SHOW TABLES command no longer includes views in its results. To display views, use [SHOW VIEWS](../05-view/show-views.md) instead.
+:::
 
 ## Syntax
 
 ```sql
 SHOW [ FULL ] TABLES 
-    [ {FROM | IN} <database_name> ] 
-    [ HISTORY ] 
-    [ LIKE '<pattern>' | WHERE <expr> ]
+     [ {FROM | IN} <database_name> ] 
+     [ HISTORY ] 
+     [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
 | Parameter | Description                                                                                                                 |
 |-----------|-----------------------------------------------------------------------------------------------------------------------------|
 | FULL      | Lists the results with additional information. See [Examples](#examples) for more details.                                  |
 | FROM / IN | Specifies a database. If omitted, the command returns the results from the current database.                                |
-| HISTORY   | If present, the results will include the dropped tables that are still within their retention period (24 hours by default). |
+| HISTORY   | Displays the timestamps of table deletions within the retention period (24 hours by default). If a table has not been deleted yet, the value for `drop_time` is NULL. |
 | LIKE      | Filters the results by their names using case-sensitive pattern matching.                                                   |
 | WHERE     | Filters the results using an expression in the WHERE clause.                                                                |
 
