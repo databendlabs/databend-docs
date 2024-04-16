@@ -200,7 +200,7 @@ endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
   </TabItem>
 </Tabs>
 
-2. For each query node, you also need to configure the object storage and admin users in the file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For detailed instructions, see [Deploying a Query Node](../01-non-production/01-deploying-databend.md#deploying-a-query-node).
+2. For each query node, you also need to configure the object storage and admin users in the file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For detailed instructions, see [here](../01-non-production/01-deploying-databend.md#deploying-a-query-node).
 
 3. Run the following script on each query node to start them:
 
