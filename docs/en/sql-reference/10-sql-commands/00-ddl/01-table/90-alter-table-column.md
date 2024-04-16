@@ -38,7 +38,8 @@ RENAME [ COLUMN ] <column_name> TO <new_column_name>
 -- Change data type of one or multiple columns
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
 MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ]
-       [ ... ]
+       [ , [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ] ]
+       ...
 
 -- Set / Unset masking policy for a column
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
