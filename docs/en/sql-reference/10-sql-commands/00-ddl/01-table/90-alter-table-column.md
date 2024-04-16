@@ -35,9 +35,10 @@ MODIFY [ COLUMN ] <column_name> DROP STORED
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
--- Change the data type of one or multiple columns
+-- Change data type of one or multiple columns
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
-MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ][, [COLUMN] <column_name> <new_data_type> [ DEFAULT <constant_value> ], ... ]
+MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ]
+       [ ... ]
 
 -- Set / Unset masking policy for a column
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
@@ -194,7 +195,7 @@ MODIFY COLUMN total_price DROP STORED;
 
 ### Example 4: Changing Data Type of a Column
 
-This example creates a table named "students_info" with columns for "id," "name," and "age," inserts some sample data, and then modifies the data type of the "age" column from INT to VARCHAR(10).
+This example demonstrates how to modify the data type of a column and add a comment to it.
 
 ```sql
 CREATE TABLE students_info (
@@ -203,25 +204,30 @@ CREATE TABLE students_info (
   age INT
 );
 
-INSERT INTO students_info VALUES
-  (1, 'John Doe', 25),
-  (2, 'Jane Smith', 28),
-  (3, 'Michael Johnson', 22);
-
+-- Change the data type of the 'age' column to VARCHAR with a default value of 0
 ALTER TABLE students_info MODIFY COLUMN age VARCHAR(10) DEFAULT '0';
-INSERT INTO students_info (id, name) VALUES  (4, 'Eric McMond');
 
-SELECT * FROM students_info;
+SHOW CREATE TABLE students_info;
 
-id|name           |age|
---+---------------+---+
- 4|Eric McMond    |0  |
- 1|John Doe       |25 |
- 2|Jane Smith     |28 |
- 3|Michael Johnson|22 |
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│     Table     │                                                    Create Table                                                   │
+├───────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ students_info │ CREATE TABLE students_info (\n  id INT NULL,\n  name VARCHAR NULL,\n  age VARCHAR NULL DEFAULT '0'\n) ENGINE=FUSE │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+-- Add a comment to the 'age' column
+ALTER TABLE students_info MODIFY COLUMN age VARCHAR(10) COMMENT 'abc';
+
+SHOW CREATE TABLE students_info;
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│     Table     │                                                           Create Table                                                          │
+├───────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ students_info │ CREATE TABLE students_info (\n  id INT NULL,\n  name VARCHAR NULL,\n  age VARCHAR NULL DEFAULT '0' COMMENT 'abc'\n) ENGINE=FUSE │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Example 5: Setting Masking Policy a Column
+### Example 5: Setting Masking Policy for a Column
 
 This example illustrates the process of setting up a masking policy to selectively reveal or mask sensitive data based on user roles.
 
