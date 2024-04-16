@@ -1,6 +1,6 @@
 ---
-title: Deploying a Databend Cluster
-sidebar_label: Deploying a Databend Cluster
+title: Deploying Databend Cluster
+sidebar_label: Deploying Databend Cluster
 ---
 
 import Tabs from '@theme/Tabs';
@@ -12,27 +12,47 @@ Databend recommends deploying a cluster with a minimum of three meta nodes and o
 
 Before you start, make sure you have completed the following preparations:
 
-- Plan your deployment. This document is based on the following cluster deployment plan, which involves setting up a meta cluster comprising three meta nodes and a query cluster consisting of two query nodes:
+- Plan your deployment. This topic is based on the following cluster deployment plan, which involves setting up a meta cluster comprising three meta nodes and a query cluster consisting of two query nodes:
 
-| Node #  	| IP Address    	| Leader Meta Node? 	| Tenant ID 	| Query Cluster ID 	|
-|---------	|---------------	|-------------------	|-----------	|------------------	|
-| Meta-1  	| 192.168.1.100 	| Yes               	| -         	| -                	|
-| Meta-2  	| 192.168.1.101 	| No                	| -         	| -                	|
-| Meta-3  	| 192.168.1.102 	| No                	| -         	| -                	|
-| Query-1 	| 192.168.1.10  	| -                 	| default   	| default          	|
-| Query-2 	| 192.168.1.20  	| -                 	| default   	| default          	|
+| Node #  | IP Address        | Leader Meta Node? | Tenant ID | Cluster ID |
+|---------|-------------------|-------------------|-----------|------------|
+| Meta-1  | 172.16.125.128/24 | Yes               | -         | -          |
+| Meta-2  | 172.16.125.129/24 | No                | -         | -          |
+| Meta-3  | 172.16.125.130/24 | No                | -         | -          |
+| Query-1 | 172.16.125.131/24 | -                 | default   | default    |
+| Query-2 | 172.16.125.132/24 | -                 | default   | default    |
 
-- [Download](/download) and extract the Databend package onto each of your prepared servers according to your deployment plan.
+- Download and extract the latest Databend package to each node. 
 
-## Step 1: Deploy Meta Cluster
+```shell title='Example:'
+root@meta-1:/usr# mkdir databend && cd databend
+root@meta-1:/usr/databend# curl -O https://repo.databend.rs/databend/v1.2.410/databend-v1.2.410-aarch64-unknown-linux-gnu.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  333M  100  333M    0     0  18.5M      0  0:00:18  0:00:18 --:--:-- 16.4M
+root@meta-1:/usr/databend# tar -xzvf databend-v1.2.410-aarch64-unknown-linux-gnu.tar.gz
+```
 
-1. Configure the file **databend-meta.toml** in each meta node. Please note the following when configuring each node:
+## Step 1: Deploy Meta Nodes
 
-    - Ensure that the **id** parameter in each node is set to a unique value.
+1. Configure the file [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) in each meta node:
 
+    - Ensure that the **id** parameter in [raft_config] is set to a unique value.
     - Set the **single** parameter to *true* for the leader meta node.
+    - For follower meta nodes, comment out the **single** parameter using the # symbol, then add a parameter named **join** and provide an array of the IP addresses of the other meta nodes as its value.
 
-    - For follower meta nodes, comment out the **single** parameter using the # symbol, then add a **join** setting and provide an array of the IP addresses of the other meta nodes as its value.
+| Parameter               | Meta-1         | Meta-2                                          | Meta-3                                          |
+|-------------------------|----------------|-------------------------------------------------|-------------------------------------------------|
+| grpc_api_advertise_host | 172.16.125.128 | 172.16.125.129                                  | 172.16.125.130                                  |
+| id                      | 1              | 2                                               | 3                                               |
+| raft_listen_host        | 172.16.125.128 | 172.16.125.129                                  | 172.16.125.130                                  |
+| raft_advertise_host     | 172.16.125.128 | 172.16.125.129                                  | 172.16.125.130                                  |
+| single                  | true           | /                                               | /                                               |
+| join                    | /              | ["172.16.125.128:28103","172.16.125.130:28103"] | ["172.16.125.128:28103","172.16.125.129:28103"] |
+
+```shell
+cd configs && nano databend-meta.toml
+```
 
 <Tabs>
   <TabItem value="Meta-1" label="Meta-1" default>
@@ -43,7 +63,7 @@ admin_api_address       = "0.0.0.0:28101"
 grpc_api_address        = "0.0.0.0:9191"
 # databend-query fetch this address to update its databend-meta endpoints list,
 # in case databend-meta cluster changes.
-grpc_api_advertise_host = "192.168.1.100"
+grpc_api_advertise_host = "172.16.125.128"
 
 [raft_config]
 id            = 1
@@ -52,8 +72,8 @@ raft_api_port = 28103
 
 # Assign raft_{listen|advertise}_host in test config.
 # This allows you to catch a bug in unit tests when something goes wrong in raft meta nodes communication.
-raft_listen_host = "192.168.1.100"
-raft_advertise_host = "192.168.1.100"
+raft_listen_host = "172.16.125.128"
+raft_advertise_host = "172.16.125.128"
 
 # Start up mode: single node cluster
 single        = true
@@ -67,7 +87,7 @@ admin_api_address       = "0.0.0.0:28101"
 grpc_api_address        = "0.0.0.0:9191"
 # databend-query fetch this address to update its databend-meta endpoints list,
 # in case databend-meta cluster changes.
-grpc_api_advertise_host = "192.168.1.101"
+grpc_api_advertise_host = "172.16.125.129"
 
 [raft_config]
 id            = 2
@@ -76,12 +96,12 @@ raft_api_port = 28103
 
 # Assign raft_{listen|advertise}_host in test config.
 # This allows you to catch a bug in unit tests when something goes wrong in raft meta nodes communication.
-raft_listen_host = "192.168.1.101"
-raft_advertise_host = "192.168.1.101"
+raft_listen_host = "172.16.125.129"
+raft_advertise_host = "172.16.125.129"
 
 # Start up mode: single node cluster
 # single        = true
-join            =["192.168.1.100:28103","192.168.1.102:28103"]
+join            = ["172.16.125.128:28103", "172.16.125.130:28103"]
 ```
   </TabItem>
   <TabItem value="Meta-3" label="Meta-3">
@@ -92,7 +112,7 @@ admin_api_address       = "0.0.0.0:28101"
 grpc_api_address        = "0.0.0.0:9191"
 # databend-query fetch this address to update its databend-meta endpoints list,
 # in case databend-meta cluster changes.
-grpc_api_advertise_host = "192.168.1.102"
+grpc_api_advertise_host = "172.16.125.130"
 
 [raft_config]
 id            = 3
@@ -101,35 +121,50 @@ raft_api_port = 28103
 
 # Assign raft_{listen|advertise}_host in test config.
 # This allows you to catch a bug in unit tests when something goes wrong in raft meta nodes communication.
-raft_listen_host = "192.168.1.102"
-raft_advertise_host = "192.168.1.102"
+raft_listen_host = "172.16.125.130"
+raft_advertise_host = "172.16.125.130"
 
 # Start up mode: single node cluster
 # single        = true
-join            =["192.168.1.100:28103","192.168.1.101:28103"]
+join            = ["172.16.125.128:28103", "172.16.125.129:28103"]
 ```
   </TabItem>
 </Tabs>
 
-2. To start the meta nodes, run the following script on each node: Start the leader node (Meta-1) first, followed by the follower nodes in sequence.
+2. To start the meta nodes, run the following script on each node: Start with the leader node (Meta-1) and then proceed with the follower nodes sequentially.
 
 ```shell
-./databend-meta -c ./databend-meta.toml > meta.log 2>&1 &
+cd .. && cd bin
+./databend-meta -c ../configs/databend-meta.toml > meta.log 2>&1 &
 ```
 
-3. Once all the meta nodes have started, you can use the following curl command to check the nodes in the cluster:
+3. Once all the meta nodes have started, you can check them using the following curl command:
 
 ```shell
-curl 192.168.1.100:28102/v1/cluster/nodes
+curl 172.16.125.128:28101/v1/cluster/nodes
+[{"name":"1","endpoint":{"addr":"172.16.125.128","port":28103},"grpc_api_advertise_address":"172.16.125.128:9191"},{"name":"2","endpoint":{"addr":"172.16.125.129","port":28103},"grpc_api_advertise_address":"172.16.125.129:9191"},{"name":"3","endpoint":{"addr":"172.16.125.130","port":28103},"grpc_api_advertise_address":"172.16.125.130:9191"}]
 ```
 
-## Step 2: Deploy Query Cluster
+## Step 2: Deploy Query Nodes
 
-1. Configure the file **databend-query.toml** in each query node. The following list only includes the parameters you need to set in each query node to reflect the deployment plan outlined in this document.
+1. Configure the file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) in each query node. The following list only includes the parameters you need to set in each query node to reflect the deployment plan outlined in this document.
 
     - Set the tenant ID and cluster ID according to the deployment plan.
-
     - Set the **endpoints** parameter to an array of the IP addresses of the meta nodes.
+
+| Parameter  | Query-1 / Query-2                                                   |
+|------------|---------------------------------------------------------------------|
+| tenant_id  | default                                                             |
+| cluster_id | default                                                             |
+| endpoints  | ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"] |
+
+```shell
+cd configs/
+nano databend-query.toml
+```
+
+<Tabs>
+  <TabItem value="Query-1" label="Query-1" default>
 
 ```toml title="databend-query.toml"
 ...
@@ -141,24 +176,63 @@ cluster_id = "default"
 
 [meta]
 # It is a list of `grpc_api_advertise_host:<grpc-api-port>` of databend-meta config
-endpoints = ["192.168.1.100:9191","192.168.1.101:9191","192.168.1.102:9191"]
+endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
 ...
 ```
 
-2. For each query node, you also need to configure the object storage in the file **databend-query.toml**. For detailed instructions, see [Deploying a Query Node](../01-non-production/01-deploying-databend.md#deploying-a-query-node).
+  </TabItem>
+    <TabItem value="Query-2" label="Query-2">
+
+```toml title="databend-query.toml"
+...
+
+tenant_id = "default"
+cluster_id = "default"
+
+...
+
+[meta]
+# It is a list of `grpc_api_advertise_host:<grpc-api-port>` of databend-meta config
+endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
+...
+```
+
+  </TabItem>
+</Tabs>
+
+2. For each query node, you also need to configure the object storage and admin users in the file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For detailed instructions, see [here](../01-non-production/01-deploying-databend.md#deploying-a-query-node).
 
 3. Run the following script on each query node to start them:
 
 ```shell
+cd .. && cd bin
 ./databend-query -c ../configs/databend-query.toml > query.log 2>&1 &
 ```
 
 ## Step 3: Verify Deployment
 
-Retrieve information about the existing query nodes in the cluster from the [system.clusters](/sql/sql-reference/system-tables/system-clusters) table:
+Connect to one of the query nodes using [BendSQL](docs/en/guides/30-sql-clients/00-bendsql/index.md), and retrieve information about the existing query nodes:
 
-```sql
-SELECT * FROM system.clusters;
+```shell
+bendsql -h 172.16.125.131
+Welcome to BendSQL 0.16.0-homebrew.
+Connecting to 172.16.125.131:8000 as user root.
+Connected to Databend Query v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z)
+
+root@172.16.125.131:8000/default> SELECT * FROM system.clusters;
+
+SELECT
+  *
+FROM
+  system.clusters
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│          name          │ cluster │      host      │  port  │                                 version                                 │
+├────────────────────────┼─────────┼────────────────┼────────┼─────────────────────────────────────────────────────────────────────────┤
+│ 7rwadq5otY2AlBDdT25QL4 │ default │ 172.16.125.132 │   9091 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
+│ cH331pYsoFmvMSZXKRrn2  │ default │ 172.16.125.131 │   9091 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+2 rows read in 0.031 sec. Processed 2 rows, 327 B (64.1 rows/s, 10.23 KiB/s)
 ```
 
 ## Next Steps
