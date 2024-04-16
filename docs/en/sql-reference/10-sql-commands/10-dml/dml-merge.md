@@ -21,9 +21,6 @@ A MERGE statement can include multiple MATCHED and / or NOT MATCHED clauses, giv
 
 If a MERGE statement includes multiple MATCHED clauses, a condition needs to be specified for each clause EXCEPT the last one. These conditions determine the criteria under which the associated operations are executed. Databend evaluates the conditions in the specified order. Once a condition is met, it triggers the specified operation, skips any remaining MATCHED clauses, then moves on to the next row in the source. If the MERGE statement also includes multiple NOT MATCHED clauses, Databend handles them in a similar way.
 
-:::note
-MERGE is currently in an experimental state. Before using the MERGE command, you need to run "SET enable_experimental_merge_into = 1;" to enable the feature.
-:::
 
 ## Syntax
 
@@ -88,7 +85,6 @@ INSERT INTO salaries VALUES
     (2, 60000.00);
 
 -- Enable MERGE INTO
-SET enable_experimental_merge_into = 1;
 
 -- Merge data into 'salaries' based on employee details from 'employees'
 MERGE INTO salaries
@@ -159,7 +155,6 @@ VALUES
     (4, 'Frank', 32, 'Edmonton');
 
 -- Enable MERGE INTO
-SET enable_experimental_merge_into = 1;
 
 -- Merge data from source_table into target_table
 MERGE INTO target_table AS T
