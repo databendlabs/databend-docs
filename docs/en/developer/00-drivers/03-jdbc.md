@@ -34,6 +34,32 @@ The Databend JDBC driver is provided as a JAR file and can be integrated directl
 You can also connect to Databend from DBeaver through the Databend JDBC driver. For more information, see [Connecting to Databend with JDBC](/guides/sql-clients/jdbc).
 :::
 
+## Data Type Mappings
+
+This table illustrates the correspondence between Databend data types and their corresponding Java equivalents:
+
+| Databend  | Java       |
+|-----------|------------|
+| TINYINT   | Byte       |
+| SMALLINT  | Short      |
+| INT       | Integer    |
+| BIGINT    | Long       |
+| UInt8     | Short      |
+| UInt16    | Integer    |
+| UInt32    | Long       |
+| UInt64    | BigInteger |
+| Float32   | Float      |
+| Float64   | Double     |
+| String    | String     |
+| Date      | String     |
+| TIMESTAMP | String     |
+| Bitmap    | byte[]     |
+| Array     | String     |
+| Decimal   | BigDecimal |
+| Tuple     | String     |
+| Map       | String     |
+| VARIANT   | String     |
+
 ## Databend JDBC Driver Behavior Summary
 
 Databend's JDBC Driver generally follows the JDBC specifications. Below is a list of some common basic behaviors, their associated key functions, and the principles behind them.
