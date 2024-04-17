@@ -106,9 +106,7 @@ CREATE TRANSIENT TABLE ...
 
 ## CREATE TABLE ... EXTERNAL_LOCATION
 
-Creates a table and specifies an S3 bucket for the data storage instead of the FUSE engine.
-
-Databend stores the table data in the location configured in the file `databend-query.toml` by default. This option enables you to store the data (in parquet format) in a table in another bucket instead of the default one.
+Creates a table and stores it in an S3 bucket other than the default storage.
 
 Syntax:
 ```sql
