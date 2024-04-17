@@ -9,6 +9,31 @@ Databend offers a driver (databend-go) written in Golang, which facilitates the 
 
 For installation instructions, examples, and the source code, see the GitHub [databend-go](https://github.com/datafuselabs/databend-go) repo.
 
+## Data Type Mappings
+
+This table illustrates the correspondence between Databend data types and their corresponding Go equivalents:
+
+| Databend           | Go              |
+|--------------------|-----------------|
+| TINYINT            | int8            |
+| SMALLINT           | int16           |
+| INT                | int32           |
+| BIGINT             | int64           |
+| TINYINT UNSIGNED   | uint8           |
+| SMALLINT UNSIGNED  | uint16          |
+| INT UNSIGNED       | uint32          |
+| BIGINT UNSIGNED    | uint64          |
+| Float32            | float32         |
+| Float64            | float64         |
+| Bitmap             | string          |
+| Decimal            | decimal.Decimal |
+| String             | string          |
+| Date               | time.Time       |
+| DateTime           | time.Time       |
+| Array(T)           | string          |
+| Tuple(T1, T2, ...) | string          |
+| Variant            | string          |
+
 ## Databend Go Driver Behavior Summary
 
 The Databend Go Driver is compatible with the ["database/sql"](https://pkg.go.dev/database/sql) interface specification. Below are some common basic behaviors, along with the key functions involved and the principles behind them.
