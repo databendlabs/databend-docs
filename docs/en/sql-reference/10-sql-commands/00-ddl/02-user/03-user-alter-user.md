@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.283"/>
+<FunctionDescription description="Introduced or updated: v1.2.424"/>
 
 Modifies a user account, including:
 
@@ -33,10 +33,14 @@ ALTER USER <name> WITH UNSET NETWORK POLICY
 
 -- Set default role
 ALTER USER <name> WITH DEFAULT_ROLE = '<role_name>'
+
+-- Enable or disable user
+ALTER USER <name> WITH DISABLED = true | false
 ```
 
 - *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
 - When you set a default role for a user using [CREATE USER](01-user-create-user.md) or ALTER USER, Databend does not verify the role's existence or automatically grant the role to the user. You must explicitly grant the role to the user for the role to take effect.
+- `DISABLED` allows you to enable or disable a user. Disabled users cannot log in to Databend until they are enabled. Click [here](01-user-create-user.md#example-5-creating-user-in-disabled-state) to see an example.
 
 
 ## Examples

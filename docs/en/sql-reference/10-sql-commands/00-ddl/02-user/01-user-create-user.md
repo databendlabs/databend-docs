@@ -4,9 +4,9 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.339"/>
+<FunctionDescription description="Introduced or updated: v1.2.424"/>
 
-Creates a SQL user, providing details such as the user's name, authentication type, and password. Optionally, you may set a password policy, network policy, and default role for the user.
+Creates a SQL user.
 
 See also:
 
@@ -21,10 +21,12 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 [ WITH SET PASSWORD POLICY = '<policy_name>' ] -- Set password policy
 [ WITH SET NETWORK POLICY = '<policy_name>' ] -- Set network policy
 [ WITH DEFAULT_ROLE = '<role_name>' ] -- Set default role
+[ WITH DISABLED = true | false ] -- User created in a disabled state
 ```
 
 - *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
 - When you set a default role for a user using CREATE USER or [ALTER USER](03-user-alter-user.md), Databend does not verify the role's existence or automatically grant the role to the user. You must explicitly grant the role to the user for the role to take effect.
+- When `DISABLED` is set to `true`, the new user is created in a disabled state. Users in this state cannot log in to Databend until they are enabled. To enable or disable a created user, use the [ALTER USER](03-user-alter-user.md) command.
 
 ## Examples
 
@@ -108,4 +110,47 @@ SHOW ROLES
 │ public    │               0 │ false      │ false      │
 └───────────────────────────────────────────────────────┘
 2 rows read in 0.015 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
+```
+
+### Example 5: Creating User in Disabled State
+
+This example creates a user named 'u1' in a disabled state, preventing login access. After enabling the user using the [ALTER USER](03-user-alter-user.md) command, login access is restored.
+
+1. Create a user named 'u1' in the disabled state:
+
+```sql
+CREATE USER u1 IDENTIFIED BY '123' WITH DISABLED = TRUE;
+
+SHOW USERS;
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│  name  │ hostname │       auth_type      │ is_configured │  default_role │ disabled │
+├────────┼──────────┼──────────────────────┼───────────────┼───────────────┼──────────┤
+│ root   │ %        │ no_password          │ YES           │ account_admin │ false    │
+│ u1     │ %        │ double_sha1_password │ NO            │               │ true     │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+2. Attempt to connect to Databend using BendSQL as user 'u1', resulting in an authentication error:
+
+```shell
+➜  ~ bendsql --user u1 --password 123
+Welcome to BendSQL 0.16.0-homebrew.
+Connecting to localhost:8000 as user u1.
+Error: APIError: RequestError: Start Query failed with status 401 Unauthorized: {"error":{"code":"401","message":"AuthenticateFailure: user u1 is disabled. Not allowed to login"}}
+```
+
+3. Enable the user 'u1' with the [ALTER USER](03-user-alter-user.md) command:
+
+```sql
+ALTER USER u1 WITH DISABLED = FALSE;
+```
+
+4. Re-attempt connection to Databend as user 'u1', confirming successful login access:
+
+```shell
+➜  ~ bendsql --user u1 --password 123
+Welcome to BendSQL 0.16.0-homebrew.
+Connecting to localhost:8000 as user u1.
+Connected to Databend Query v1.2.424-nightly-d3a89f708d(rust-1.77.0-nightly-2024-04-17T22:11:59.304509266Z)
 ```
