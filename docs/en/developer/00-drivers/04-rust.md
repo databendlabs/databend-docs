@@ -48,7 +48,9 @@ In this step, you'll create a simple Rust program that communicates with Databen
 
 <StepsWrap>
 
-<StepContent number="1" title="Create a new project">
+<StepContent number="1">
+
+### Create a new project
 
 ```shell
 cargo new databend-demo --bin
@@ -70,7 +72,9 @@ tokio-stream = "0.1.12"
 
 </StepContent>
 
-<StepContent number="2" title="Copy and paste the following code to the file main.rs">
+<StepContent number="2">
+
+### Copy and paste the following code to the file main.rs
 
 :::note
 The value of `hostname` in the code below must align with your HTTP handler settings for Databend query service.
@@ -117,7 +121,9 @@ async fn main() {
 
 </StepContent>
 
-<StepContent number="3" title="Run the program. ">
+<StepContent number="3">
+
+### Run the program.
 
 ```shell
 cargo run

@@ -31,7 +31,9 @@ import StepContent from '@site/src/components/Steps/step-content';
 开始之前，请确保您的系统上安装了 Docker。
 
 <StepsWrap>
-<StepContent number="1" title="部署 MinIO">
+<StepContent number="1">
+
+### 部署 MinIO
 
 1. 使用以下命令作为容器拉取并运行 MinIO 镜像：
 
@@ -77,7 +79,9 @@ Warning: The standard parity is set to 0. This can lead to data loss.
 
 </StepContent>
 
-<StepContent number="2" title="部署 Databend">
+<StepContent number="2">
+
+### 部署 Databend
 
 使用以下命令作为容器拉取并运行 Databend 镜像：
 
@@ -210,7 +214,9 @@ Databend HTTP
 ```
 
 </StepContent>
-<StepContent number="3" title="连接到 Databend">
+<StepContent number="3">
+
+### 连接到 Databend
 
 在此步骤中，您将使用 BendSQL CLI 工具建立与 Databend 的连接。有关如何安装和操作 BendSQL 的说明，请参见 [BendSQL](../../../30-sql-clients/00-bendsql/index.md)。
 
@@ -276,14 +282,18 @@ databend@localhost:8000/test> select * from mytable;
 以下步骤将指导您完成本地部署 Databend 的过程。
 
 <StepsWrap>
-<StepContent number="1" title="下载 Databend">
+<StepContent number="1">
+
+### 下载 Databend
 
 1. 从 [下载](/download) 页面下载适合您平台的 Databend 安装包。
 
 2. 将安装包解压到本地目录，并进入解压后的目录。
 
 </StepContent>
-<StepContent number="2" title="启动 Databend">
+<StepContent number="2">
+
+### 启动 Databend
 
 1. 配置管理员用户。您将使用此账户连接到 Databend。有关更多信息，请参见 [配置管理员用户](../../04-references/01-admin-users.md)。作为示例，取消在 **configs** 文件夹的 `databend-query.toml` 中以下行的注释，以启用 `root` 账户：
 
@@ -335,7 +345,9 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 ```
 
 </StepContent>
-<StepContent number="3" title="连接到 Databend">
+<StepContent number="3">
+
+### 连接到 Databend
 
 在此步骤中，您将使用 BendSQL CLI 工具建立与 Databend 的连接。你也可以参考 [BendSQL](../../../30-sql-clients/00-bendsql/index.md) 获得关于 BendSQL 的更多相关信息。
 
@@ -373,7 +385,9 @@ SELECT
 
 </StepContent>
 
-<StepContent number="4" title="停止 Databend">
+<StepContent number="4">
+
+### 停止 Databend
 
 1. 打开终端并导航到在第 2 步中解压的 Databend 相关文件夹。
 

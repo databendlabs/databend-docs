@@ -22,7 +22,10 @@ When you're invited to Databend Cloud, you receive an invitation email. Click th
 ### Create a Databend Cloud Account
 
 <StepsWrap>
-<StepContent number="1" title="Set up your account.">
+<StepContent number="1">
+
+
+### Set up your account.
 
 :::tip
 **Organization name**: If the organization name textbox is empty, enter your organization name. By doing so, you're signing up for your organization with your account as an Admin account. If you're invited by a user who already belongs to an organization in Databand Cloud, the textbox will show that organization's name and you cannot edit it.
@@ -30,7 +33,10 @@ When you're invited to Databend Cloud, you receive an invitation email. Click th
 
 ![image](@site/static/img/documents/getting-started/01.jpg)
 </StepContent>
-<StepContent number="2" title="Select a cloud provider and a region.">
+<StepContent number="2">
+
+
+### Select a cloud provider and a region.
 
 Please note that this step is visible only to users who sign up for their organization. After you complete the setup, click **Create** to enter Databend Cloud.
 

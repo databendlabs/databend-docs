@@ -13,7 +13,9 @@ Databend integrates with Superset through two Python libraries: [databend-py](ht
 This tutorial guides you through the process of integrating Databend Cloud with Superset.
 
 <StepsWrap>
-<StepContent number="1" title="Building Superset Image">
+<StepContent number="1">
+
+### Building Superset Image
 
 These steps involve creating a customized Superset Docker image with Databend integration:
 
@@ -42,7 +44,9 @@ docker run -d -p 8080:8088 -e "SUPERSET_SECRET_KEY=<your_secret_key>" --name sup
 ```
 
 </StepContent>
-<StepContent number="2" title="Setting Up Superset">
+<StepContent number="2">
+
+### Setting Up Superset
 
 1. Create an administrator user.
 
@@ -68,7 +72,10 @@ docker exec -it superset superset init
 ```
 
 </StepContent>
-<StepContent number="3" title="Connecting to Databend Cloud">
+<StepContent number="3">
+
+
+### Connecting to Databend Cloud
 
 1. Navigate to [http://localhost:8080/login/]( http://localhost:8080/login/) and use the credentials `admin/admin` for the username and password to log in.
 

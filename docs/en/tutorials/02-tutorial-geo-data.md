@@ -47,7 +47,9 @@ OpenCelliD Project is licensed under a Creative Commons Attribution-ShareAlike 4
 
 
 <StepsWrap>
-<StepContent number="1" title="Load the sample data">
+<StepContent number="1">
+
+### Load the sample data
 
 Databend Cloud provides an easy-button for uploading this dataset from S3. Log in to your Databend Cloud organization, or create a free trial at Databend.cloud.
 
@@ -60,7 +62,10 @@ Databend Cloud provides an easy-button for uploading this dataset from S3. Log i
 4. After waiting for successful data loading, click **'Preview the table data'** to verify if the data has been imported successfully.
 
 </StepContent>
-<StepContent number="2" title="Examine the schema of the cell_towers table">
+<StepContent number="2">
+
+
+### Examine the schema of the cell_towers table
 
 <Tabs>
 <TabItem value="Databend Cloud" label="Databend Cloud" default>

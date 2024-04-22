@@ -8,7 +8,9 @@ import StepContent from '@site/src/components/Steps/step-content';
 在本教程中，我们将指导您使用 BendSQL 作为用户 `root` 连接到 Databend 的过程。
 
 <StepsWrap>
-<StepContent number="0" title="开始之前">
+<StepContent number="1">
+
+### 开始之前
 
 - 确保您的机器上安装了 BendSQL。请参阅[安装 BendSQL](index.md#installing-bendsql) 了解如何使用各种包管理器安装 BendSQL 的说明。
 - 确保您的 Databend 实例已成功启动。
@@ -21,7 +23,10 @@ import StepContent from '@site/src/components/Steps/step-content';
     ```
 
 </StepContent>
-<StepContent number="1" title="启动 BendSQL">
+<StepContent number="2">
+
+
+### 启动 BendSQL
 
 要启动 BendSQL，请直接在您的终端或命令提示符中输入 `bendsql`。
 
@@ -33,14 +38,18 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 
 </StepContent>
-<StepContent number="2" title="执行查询">
+<StepContent number="3">
+
+### 执行查询
 
 连接后，您可以在 BendSQL shell 中执行 SQL 查询。例如，输入 `SELECT NOW();` 来返回当前时间：
 
 ![Alt text](/img/connect/bendsql-2.gif)
 
 </StepContent>
-<StepContent number="3" title="退出 BendSQL">
+<StepContent number="4">
+
+### 退出 BendSQL
 
 要退出 BendSQL，请输入 `quit`。
 

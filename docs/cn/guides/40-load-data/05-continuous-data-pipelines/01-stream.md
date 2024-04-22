@@ -18,7 +18,9 @@ import StepContent from '@site/src/components/Steps/step-content';
 以下示例说明了流的外观以及它在两种模式下的工作方式。
 
 <StepsWrap>
-<StepContent number="1" title="创建流以捕获变化">
+<StepContent number="1">
+
+### 创建流以捕获变化
 
 首先创建两个表，然后为每个表创建一个不同模式的流，以捕获表的变化。
 
@@ -119,7 +121,9 @@ SELECT * FROM s_append_only;
 到目前为止，我们还没有注意到两种模式之间的显著差异，因为我们还没有处理流。所有更改都已合并并表现为 INSERT 操作。**流可以被任务或 DML（数据操纵语言）操作消费**。消费后，流中不包含任何数据，但可以继续捕获新的更改（如果有的话）。为了进一步分析区别，让我们继续消费流并检查输出。
 
 </StepContent>
-<StepContent number="2" title="消费流">
+<StepContent number="2">
+
+### 消费流
 
 让我们创建两个新表，并插入流捕获的内容。
 
@@ -158,7 +162,9 @@ SELECT * FROM s_append_only;
 ```
 
 </StepContent>
-<StepContent number="3" title="捕获新的更改">
+<StepContent number="3">
+
+### 捕获新的更改
 
 现在，让我们在每个表中将值从`3`更新为`4`，然后再次检查它们的流：
 
@@ -298,7 +304,7 @@ SELECT * FROM s;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- 如果您添加新行然后更新它，
--- 流将更改整合为一个带有更新值的INSERT。
+-- 流将更改整合为一个带有更新值的 INSERT。
 UPDATE t SET a = 3 WHERE a = 2;
 SELECT * FROM s;
 
