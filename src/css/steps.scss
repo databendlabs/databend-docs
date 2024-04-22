@@ -94,6 +94,15 @@
     #whats-changed {
       display: none;
     }
+    .step-content {
+      h3:first-child {
+        color: var(--h3-title-color);
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.75rem;
+        letter-spacing: -.025em;
+      }
+    }
   }
 }
 .tabs-container {

@@ -21,7 +21,9 @@ import StepContent from '@site/src/components/Steps/step-content';
 ## 准备工作
 
 <StepsWrap>
-<StepContent number="1" title="下载数据集">
+<StepContent number="1">
+
+### 下载数据集
 
 1. 下载[淘宝用户购物行为数据集](https://tianchi.aliyun.com/dataset/649?lang=zh-cn)到本地，然后使用以下命令解压：
 
@@ -37,7 +39,9 @@ gzip UserBehavior.csv
 
 </StepContent>
 
-<StepContent number="2" title="创建外部 Stage">
+<StepContent number="2">
+
+### 创建外部 Stage
 
 1. 登入 Databend Cloud，并新建一个工作区。
 
@@ -65,7 +69,9 @@ LIST @mycsv;
 
 </StepContent>
 
-<StepContent number="3" title="上传数据集到外部 Stage">
+<StepContent number="3">
+
+### 上传数据集到外部 Stage
 
 使用 [BendSQL](https://github.com/datafuselabs/BendSQL)将压缩后的数据集文件 (UserBehavior.csv.gz) 上传到外部 Stage。获取计算集群的连接信息，请参考[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
@@ -99,7 +105,9 @@ PUT fs:///Users/eric/Documents/UserBehavior.csv.gz @mycsv
 ## 数据导入和清洗
 
 <StepsWrap>
-<StepContent number="1" title="创建表格">
+<StepContent number="1">
+
+### 创建表格
 
 在工作区中，执行以下 SQL 语句为数据集创建表格：
 
@@ -115,7 +123,9 @@ CREATE TABLE `user_behavior` (
 
 </StepContent>
 
-<StepContent number="2" title="清洗、导入数据">
+<StepContent number="2">
+
+### 清洗、导入数据
 
 1. 执行以下 SQL 语句导入数据到表格中，并同时完成清洗：
 
@@ -146,7 +156,9 @@ SELECT * FROM user_behavior LIMIT 10;
 ### 用户流量及购物情况分析
 
 <StepsWrap>
-<StepContent number="1" title="总访问量和用户数">
+<StepContent number="1">
+
+### 总访问量和用户数
 
 ```sql
 SELECT SUM(CASE WHEN behavior_type = 'pv' THEN 1 ELSE 0 END) as pv,
@@ -158,7 +170,9 @@ FROM user_behavior;
 
 </StepContent>
 
-<StepContent number="2" title="日均访问量和用户量">
+<StepContent number="2">
+
+### 日均访问量和用户量
 
 ```sql
 SELECT day,
@@ -177,7 +191,9 @@ ORDER BY day;
 
 </StepContent>
 
-<StepContent number="3" title="统计每个用户的购物情况，生成新表：user_behavior_count">
+<StepContent number="3">
+
+### 统计每个用户的购物情况，生成新表：user_behavior_count
 
 ```sql
 create table user_behavior_count as select user_id,
@@ -191,7 +207,9 @@ group by user_id;
 
 </StepContent>
 
-<StepContent number="4" title="复购率：两次或两次以上购买的用户占购买用户的比例">
+<StepContent number="4">
+
+### 复购率：两次或两次以上购买的用户占购买用户的比例
 
 ```sql
 select sum(case when buy > 1 then 1 else 0 end) / sum(case when buy > 0 then 1 else 0 end)
@@ -206,7 +224,9 @@ from user_behavior_count;
 ### 用户行为转换率
 
 <StepsWrap>
-<StepContent number="1" title="点击/(加购物车 + 收藏)/购买，各环节转化率">
+<StepContent number="1">
+
+### 点击/(加购物车 + 收藏)/购买，各环节转化率
 
 ```sql
 select a.pv,
@@ -230,7 +250,9 @@ from user_behavior_count
 
 </StepContent>
 
-<StepContent number="2" title="计算一个小时完成浏览->添加到购物->并支付的用户">
+<StepContent number="2">
+
+### 计算一个小时完成浏览->添加到购物->并支付的用户
 
 ```sql
 SELECT
@@ -253,7 +275,9 @@ FROM
 ### 用户行为习惯
 
 <StepsWrap>
-<StepContent number="1" title="每天用户购物行为">
+<StepContent number="1">
+
+### 每天用户购物行为
 
 ```sql
 select to_hour(ts) as hour,
@@ -274,7 +298,9 @@ order by hour;
 
 </StepContent>
 
-<StepContent number="2" title="每周用户购物行为">
+<StepContent number="2">
+
+### 每周用户购物行为
 
 ```sql
 select to_day_of_week(day) as weekday,day,
@@ -306,7 +332,9 @@ RFM 模型是衡量客户价值和客户创利能力的重要工具和手段，�
 - M-Money（消费金额）
 
 <StepsWrap>
-<StepContent number="1" title="R-Recency（最近购买时间）：R值越高，用户越活跃">
+<StepContent number="1">
+
+### R-Recency（最近购买时间）：R 值越高，用户越活跃
 
 ```sql
 select user_id,
@@ -322,7 +350,9 @@ limit 10;
 
 </StepContent>
 
-<StepContent number="2" title="F-Frequency（消费频率）：F值越高，用户越忠诚">
+<StepContent number="2">
+
+### F-Frequency（消费频率）：F 值越高，用户越忠诚
 
 ```sql
 select user_id,
@@ -338,7 +368,9 @@ limit 10;
 
 </StepContent>
 
-<StepContent number="3" title="用户分组">
+<StepContent number="3">
+
+### 用户分组
 
 对有购买行为的用户按照排名进行分组，共划分为 5 组：
 
@@ -389,7 +421,9 @@ limit 20;
 ### 商品维度分析
 
 <StepsWrap>
-<StepContent number="1" title="销量最高的商品">
+<StepContent number="1">
+
+### 销量最高的商品
 
 ```sql
 select item_id ,
@@ -407,7 +441,9 @@ limit 10;
 
 </StepContent>
 
-<StepContent number="2" title="销量最高的商品类别">
+<StepContent number="2">
+
+### 销量最高的商品类别
 
 ```sql
 select category_id ,
@@ -439,7 +475,9 @@ insert into day_users select day, build_bitmap(list(user_id::UInt64)) from user_
 ```
 
 <StepsWrap>
-<StepContent number="1" title="统计每天UV">
+<StepContent number="1">
+
+### 统计每天 UV
 
 ```sql
 select day,bitmap_count(users) from day_users order by day;
@@ -449,7 +487,9 @@ select day,bitmap_count(users) from day_users order by day;
 
 </StepContent>
 
-<StepContent number="2" title="相对留存">
+<StepContent number="2">
+
+### 相对留存
 
 这里计算相对于 11 月 23 日，12 月 2 号还在使用淘宝用户：
 
@@ -463,7 +503,9 @@ from (select users from day_users where day='2017-11-25') a ,
 
 </StepContent>
 
-<StepContent number="3" title="相对新增">
+<StepContent number="3">
+
+### 相对新增
 
 ```sql
 select bitmap_count(bitmap_not(b.users, a.users)) from (select users from day_users where day='2017-11-25') a ,

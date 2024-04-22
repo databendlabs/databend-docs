@@ -62,7 +62,9 @@ In this tutorial, we'll load, analyze, and create a dashboard for a dataset name
 The dataset "Covid-19 Data from New York Times" is a built-in sample dataset that you can load with just a few clicks. The target table is created automatically, so you don't need to create it in advance.
 
 <StepsWrap>
-<StepContent number="1" title="Loading Dataset">
+<StepContent number="1">
+
+### Loading Dataset
 
 1. In Databend Cloud, click the **Load Data** button on the **Overview** page.
 2. On the page that opens, choose the **A new table** radio button, and then select **Covid-19 Data from New York Times.CSV** from the **Load sample data** dropdown menu:
@@ -77,7 +79,10 @@ The dataset "Covid-19 Data from New York Times" is a built-in sample dataset tha
 
 </StepContent>
 
-<StepContent number="2" title="Handling NULLs">
+<StepContent number="2">
+
+
+### Handling NULLs
 
 Before the analytics work, it is recommended to check for NULL and duplicate values in the table, as they may impact the results.
 
@@ -100,7 +105,10 @@ WHERE date IS NULL OR country IS NULL OR state IS NULL OR flip IS NULL OR cases 
 
 </StepContent>
 
-<StepContent number="2" title="Handling Duplicates">
+<StepContent number="2">
+
+
+### Handling Duplicates
 
 1. In the same worksheet, check for duplicate values in the table with the following SQL statement:
 
@@ -121,7 +129,9 @@ This SQL statement returns `0`, indicating there are no duplicate rows in the ta
 In this step, we'll run four queries to extract insights from the data and visualize the results through a scorecard, pie chart, bar chart, and line chart. **Please create a separate worksheet for each query**.
 
 <StepsWrap>
-<StepContent number="1" title="US Total Deaths in 2022">
+<StepContent number="1">
+
+### US Total Deaths in 2022
 
 1. Run the following SQL statement in a worksheet:
 
@@ -138,7 +148,10 @@ WHERE date = '2022-12-31';
 
 </StepContent>
 
-<StepContent number="2" title="Total Deaths by State in 2022">
+<StepContent number="2">
+
+
+### Total Deaths by State in 2022
 
 1. Run the following SQL statement in a worksheet:
 
@@ -156,7 +169,9 @@ GROUP BY state;
 
 </StepContent>
 
-<StepContent number="3" title="Cases & Deaths in Virgin Islands">
+<StepContent number="3">
+
+### Cases & Deaths in Virgin Islands
 
 1. Run the following SQL statement in a worksheet:
 
@@ -172,7 +187,10 @@ WHERE date = '2022-12-31' AND state = 'Virgin Islands';
 
 </StepContent>
 
-<StepContent number="4" title="Cumulative Cases & Deaths per Month in St. John">
+<StepContent number="4">
+
+
+### Cumulative Cases & Deaths per Month in St. John
 
 1. Run the following SQL statement in a worksheet:
 

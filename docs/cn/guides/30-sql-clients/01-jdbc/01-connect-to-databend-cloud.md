@@ -9,13 +9,17 @@ import StepContent from '@site/src/components/Steps/step-content';
 在本教程中，我们将指导您通过 Databend JDBC 驱动程序连接到 Databend Cloud。
 
 <StepsWrap>
-<StepContent number="0" title="开始之前">
+<StepContent number="1">
+
+### 开始之前
 
 - 确保您已将 Databend JDBC 驱动程序添加到您的 DBeaver 中。详细说明请参见[将 Databend JDBC 驱动程序添加到 DBeaver](index.md#adding-databend-jdbc-driver-to-dbeaver)。
 - 确保您已经拥有一个 Databend Cloud 账户并且可以成功登录。
 
 </StepContent>
-<StepContent number="1" title="创建连接">
+<StepContent number="2">
+
+### 创建连接
 
 在创建连接到 Databend Cloud 之前，您需要登录到 Databend Cloud 以获取连接信息。更多信息，请参见[连接到计算集群](../../20-cloud/10-using-databend-cloud/00-warehouses.md#connecting)。
 

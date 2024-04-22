@@ -68,7 +68,9 @@ In this step, you'll create a simple Golang program that communicates with Datab
 
 <StepsWrap> 
 
-<StepContent number="1" title="Copy and paste the following code to the file main.go"> 
+<StepContent number="1">
+
+### Copy and paste the following code to the file main.go
 
 :::note
 - The code below connects to a local Databend with a SQL user named 'user1' and password 'abc123' as an example. Feel free to use your own values while maintaining the same format.
@@ -168,7 +170,9 @@ func main() {
 
 </StepContent>
 
-<StepContent number="2" title="Install dependencies. "> 
+<StepContent number="2">
+
+### Install dependencies.
 
 ```shell
 go mod init databend-golang
@@ -193,7 +197,10 @@ require (
 
 </StepContent>
 
-<StepContent number="3" title="Run the program. ">
+<StepContent number="3">
+
+
+### Run the program. 
 
 ```shell
 go run main.go

@@ -47,20 +47,28 @@ You can choose any of the following methods to import data. Before starting, ple
 
 ### Load with Data Loading Wizard 
 <StepsWrap>
-<StepContent number="1" title="On the Home page, click Load Data">
+<StepContent number="1">
+
+### On the Home page, click Load Data
 
 ![Alt text](@site/static/img/documents/getting-started/t1-2.png)
 </StepContent>
-<StepContent number="2" title="Click An existing table">
+<StepContent number="2">
+
+### Click An existing table
 
 ![Alt text](@site/static/img/documents/getting-started/t1-3.png)
 </StepContent>
-<StepContent number="3" title="Select the local sample file, then click Next:">
+<StepContent number="3">
+
+### Select the local sample file, then click Next:
 
 ![Alt text](@site/static/img/documents/getting-started/t1-4.png)
 </StepContent>
 
-<StepContent number="4" title="Confirm">
+<StepContent number="4">
+
+### Confirm
 
   Select `book_db` as the target database and `books` as the target table, then click **Confirm**.
 </StepContent>

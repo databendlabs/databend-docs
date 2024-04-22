@@ -25,7 +25,9 @@ In this guide, you will deploy Databend along with [MinIO](https://min.io/) usin
 ![Alt text](@site/docs/public/img/deploy/docker-deploy.png)
 
 <StepsWrap>
-<StepContent number="0" title="Set up Environment">
+<StepContent number="1">
+
+### Set up Environment
 
 Before you start, launch an instance on Amazon EC2 and install the Docker engine.
 
@@ -42,7 +44,9 @@ Before you start, launch an instance on Amazon EC2 and install the Docker engine
 4. Follow the [Docker User Manual](https://docs.docker.com/engine/install/ubuntu/) to install the Docker engine on your instance.
 
 </StepContent>
-<StepContent number="1" title="Deploy MinIO">
+<StepContent number="2">
+
+### Deploy MinIO
 
 1. Pull and run the MinIO image as a container with the following command:
 
@@ -97,7 +101,9 @@ STARTUP WARNINGS:
 
 </StepContent>
 
-<StepContent number="2" title="Deploy Databend">
+<StepContent number="3">
+
+### Deploy Databend
 
 1. Pull and run the Databend image as a container with the following command:
 
@@ -226,7 +232,9 @@ Databend HTTP
 
 </StepContent>
 
-<StepContent number="3" title="Connect to Databend">
+<StepContent number="4">
+
+### Connect to Databend
 
 In this step, you'll connect to Databend using [BendSQL](../../../30-sql-clients/00-bendsql/index.md) from your local machine.
 
@@ -268,7 +276,9 @@ Follow the instructions below to deploy Databend on your local machine.
 
 <StepsWrap>
 
-<StepContent number="1" title="Download Databend">
+<StepContent number="1">
+
+### Download Databend
 
 1. Download the installation package suitable for your platform from the [Download](/download) page.
 
@@ -276,7 +286,10 @@ Follow the instructions below to deploy Databend on your local machine.
 
 </StepContent>
 
-<StepContent number="2" title="Start Databend">
+<StepContent number="2">
+
+
+### Start Databend
 
 1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). For this example, uncomment the following lines to choose this account:
 
@@ -327,7 +340,9 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 
 </StepContent>
 
-<StepContent number="3" title="Connect to Databend">
+<StepContent number="3">
+
+### Connect to Databend
 
 To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../../../30-sql-clients/00-bendsql/index.md).
 

@@ -56,7 +56,9 @@ GRANT ALL on *.* TO user1;
 
 <StepsWrap>
 
-<StepContent number="1" title="将以下代码复制并粘贴到名为databend.js的文件中：">
+<StepContent number="1">
+
+### 将以下代码复制并粘贴到名为 databend.js 的文件中：
 
 ```js title='databend.js'
 const { Client } = require("databend-driver");
@@ -110,7 +112,9 @@ create_conn().then((conn) => {
 
 </StepContent>
 
-<StepContent number="2" title="运行 node databend.js">
+<StepContent number="2">
+
+### 运行 node databend.js
 
 ```text
 已连接到 Databend 服务器！
