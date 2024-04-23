@@ -20,7 +20,9 @@ This topic explains how to deploy Databend with your object storage. For a list 
 Before deploying Databend, ensure that you have successfully set up your object storage and downloaded the latest version of Databend.
 
 <StepsWrap>
-<StepContent number="1" title="Set up object storage">
+<StepContent number="1">
+
+### Set up object storage
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -138,7 +140,9 @@ For information about how to manage buckets and Access Keys for your CubeFS, ref
 
 </StepContent>
 
-<StepContent number="2" title="Download Databend">
+<StepContent number="2">
+
+### Download Databend
 
 1. Create a folder named `databend` in the directory `/usr/local`.
 2. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
@@ -179,7 +183,9 @@ tar xzvf databend-${version}-aarch64-unknown-linux-musl.tar.gz
 Follow the instructions below to deploy a Meta node:
 
 <StepsWrap>
-<StepContent number="1" title="Start Meta Node">
+<StepContent number="1">
+
+### Start Meta Node
 
 1. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
 2. Run the following command to start the Meta node:
@@ -189,7 +195,9 @@ Follow the instructions below to deploy a Meta node:
 ```
 
 </StepContent>
-<StepContent number="2" title="Check Meta Node">
+<StepContent number="2">
+
+### Check Meta Node
 
 Run the following command to check if the Meta node was started successfully:
 
@@ -206,7 +214,10 @@ Follow the instructions below to deploy a Query node:
 
 <StepsWrap>
 
-<StepContent number="1" title="Configure Query Node">
+<StepContent number="1">
+
+
+### Configure Query Node
 
 1. Locate the file `databend-query.toml` in the folder `/usr/local/databend/configs`.
 2. In the file `databend-query.toml`, set the parameter *type* in the [storage] block and configure the access credentials and endpoint URL for connecting to your object storage.
@@ -416,7 +427,10 @@ auth_type = "no_password"
 
 </StepContent>
 
-<StepContent number="2" title="Start Query Node">
+<StepContent number="2">
+
+
+### Start Query Node
 
 1. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
 2. Run the following command to start the Query node:
@@ -427,7 +441,10 @@ auth_type = "no_password"
 
 </StepContent>
 
-<StepContent number="3" title="Check Query Node">
+<StepContent number="3">
+
+
+### Check Query Node
 
 Run the following command to check if the Query node was started successfully:
 
@@ -445,13 +462,17 @@ In this step, you will run a simple query against Databend using [BendSQL](https
 
 <StepsWrap>
 
-<StepContent number="1" title="Install BendSQL">
+<StepContent number="1">
+
+### Install BendSQL
 
 Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
 
 </StepContent>
 
-<StepContent number="2" title="Connect to Databend">
+<StepContent number="2">
+
+### Connect to Databend
 
 Follow [Connecting to Databend using BendSQL](../../../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
 

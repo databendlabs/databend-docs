@@ -48,7 +48,9 @@ GRANT ALL on *.* TO user1;
 
 <StepsWrap>
 
-<StepContent number="1" title="创建一个新项目">
+<StepContent number="1">
+
+### 创建一个新项目
 
 ```shell
 cargo new databend-demo --bin
@@ -70,7 +72,9 @@ tokio-stream = "0.1.12"
 
 </StepContent>
 
-<StepContent number="2" title="将以下代码复制并粘贴到文件 main.rs 中">
+<StepContent number="2">
+
+### 将以下代码复制并粘贴到文件 main.rs 中
 
 :::note
 代码下方的 `hostname` 值必须与您的 Databend 查询服务的 HTTP 处理程序设置保持一致。
@@ -117,7 +121,9 @@ async fn main() {
 
 </StepContent>
 
-<StepContent number="3" title="运行程序。">
+<StepContent number="3">
+
+### 运行程序。
 
 ```shell
 cargo run

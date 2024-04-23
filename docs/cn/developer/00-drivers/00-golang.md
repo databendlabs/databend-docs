@@ -43,7 +43,9 @@ GRANT ALL on *.* TO user1;
 
 <StepsWrap>
 
-<StepContent number="1" title="将以下代码复制并粘贴到文件 main.go 中">
+<StepContent number="1">
+
+### 将以下代码复制并粘贴到文件 main.go 中
 
 :::note
 - 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。在保持相同格式的条件下，您可以随意使用自己的值。
@@ -142,7 +144,9 @@ func main() {
 
 </StepContent>
 
-<StepContent number="2" title="安装依赖项。">
+<StepContent number="2">
+
+### 安装依赖项。
 
 ```shell
 go mod init databend-golang
@@ -167,7 +171,9 @@ require (
 
 </StepContent>
 
-<StepContent number="3" title="运行程序。">
+<StepContent number="3">
+
+### 运行程序。
 
 ```shell
 go run main.go

@@ -46,7 +46,9 @@ import EEFeature from '@site/src/components/EEFeature';
 在部署 Databend 之前，请确保您已在云中成功设置了对象存储环境，并完成了以下任务：
 
 <StepsWrap>
-<StepContent number="1" title="配置对象存储">
+<StepContent number="1">
+
+### 配置对象存储
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -179,7 +181,9 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 </Tabs>
 </StepContent>
 
-<StepContent number="2" title="下载 Databend">
+<StepContent number="2">
+
+### 下载 Databend
 
 1. 在目录 `/usr/local` 中创建一个名为 `databend` 的文件夹。
 
@@ -219,10 +223,12 @@ tar xzvf databend-${version}-aarch64-unknown-linux-musl.tar.gz
 
 ### 步骤 1：部署元节点
 
-按照下面的说明部署元节点:
+按照下面的说明部署元节点：
 
 <StepsWrap>
-<StepContent number="1" title="启动元节点">
+<StepContent number="1">
+
+### 启动元节点
 
 1. 打开一个终端窗口并导航到文件夹 `/usr/local/databend/bin`。
 2. 运行以下命令以启动元节点：
@@ -232,7 +238,9 @@ tar xzvf databend-${version}-aarch64-unknown-linux-musl.tar.gz
 ```
 
 </StepContent>
-<StepContent number="2" title="检查元节点">
+<StepContent number="2">
+
+### 检查元节点
 
 运行以下命令以检查元节点是否成功启动：
 
@@ -245,11 +253,13 @@ curl -I  http://127.0.0.1:28101/v1/health
 
 ### 步骤 2：部署查询节点 {#deploying-a-query-node}
 
-按照下面的说明部署查询节点:
+按照下面的说明部署查询节点：
 
 <StepsWrap>
 
-<StepContent number="1" title="配置查询节点">
+<StepContent number="1">
+
+### 配置查询节点
 
 1. 定位到文件夹 `/usr/local/databend/configs` 中的文件 `databend-query.toml`。
 2. 在文件 `databend-query.toml` 中，设置 [storage] 区块中的 _type_ 参数，并配置访问凭证和端点 URL 以连接到您的对象存储。
@@ -329,7 +339,7 @@ account_key = "<your-account-key>"
 type = "cos"
 
 [storage.cos]
-# 如何创建存储桶:
+# 如何创建存储桶：
 # https://cloud.tencent.com/document/product/436/13309
 // highlight-next-line
 bucket = "my_bucket"
@@ -398,12 +408,12 @@ type = "s3"
 [storage.s3]
 bucket = "my_bucket"
 
-# 你可以从存储桶详情页面获取URL。
+# 你可以从存储桶详情页面获取 URL。
 # https://docsv3.qingcloud.com/storage/object-storage/intro/object-storage/#zone
-# 这里使用与 AWS S3 兼容的 API ，所以需要在域名前添加 `s3` 子域，即 `https://s3.<zone-id>.qingstor.com`。
+# 这里使用与 AWS S3 兼容的 API，所以需要在域名前添加 `s3` 子域，即 `https://s3.<zone-id>.qingstor.com`。
 endpoint_url = "https://s3.pek3b.qingstor.com"
 
-# 如何获取access_key_id和secret_access_key：
+# 如何获取 access_key_id 和 secret_access_key：
 # https://docsv3.qingcloud.com/development_docs/api/overview/
 access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
@@ -427,12 +437,12 @@ type = "s3"
 // highlight-next-line
 bucket = "my_bucket"
 
-# 你可以从以下位置获取URL：
+# 你可以从以下位置获取 URL：
 # https://wasabi-support.zendesk.com/hc/en-us/articles/360015106031-What-are-the-service-URLs-for-Wasabi-s-different-regions-
 // highlight-next-line
 endpoint_url = "https://s3.us-east-2.wasabisys.com"
 
-# 如何获取access_key_id和secret_access_key：
+# 如何获取 access_key_id 和 secret_access_key：
 // highlight-next-line
 access_key_id = "<your-key-id>"
 // highlight-next-line
@@ -487,7 +497,9 @@ auth_type = "no_password"
 
 </StepContent>
 
-<StepContent number="2" title="启动查询节点">
+<StepContent number="2">
+
+### 启动查询节点
 
 1. 打开终端窗口并导航到文件夹`/usr/local/databend/bin`。
 2. 运行以下命令以启动查询节点：
@@ -498,7 +510,9 @@ auth_type = "no_password"
 
 </StepContent>
 
-<StepContent number="3" title="检查查询节点">
+<StepContent number="3">
+
+### 检查查询节点
 
 运行以下命令以检查查询节点是否成功启动：
 
@@ -516,13 +530,17 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 <StepsWrap>
 
-<StepContent number="1" title="安装 BendSQL">
+<StepContent number="1">
+
+### 安装 BendSQL
 
 按照[安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql)安装 BendSQL 到您的机器上。
 
 </StepContent>
 
-<StepContent number="2" title="连接到 Databend">
+<StepContent number="2">
+
+### 连接到 Databend
 
 按照[使用 BendSQL 连接到 Databend](../../../30-sql-clients/00-bendsql/00-connect-to-databend.md)启动 BendSQL 并检索当前时间以进行验证。
 

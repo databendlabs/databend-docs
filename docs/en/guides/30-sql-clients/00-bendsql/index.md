@@ -169,11 +169,119 @@ FROM
 96 rows read in 0.040 sec. Processed 96 rows, 16.52 KiB (2.38 thousand rows/s, 410.18 KiB/s)
 ```
 
-## Connecting to Databend
+## Utility Commands
 
-- [Tutorial-1: Connecting to Databend using BendSQL](00-connect-to-databend.md)
-- [Tutorial-2: Connecting to Databend Cloud using BendSQL](01-connect-to-databend-cloud.md)
+BendSQL provides users with a variety of commands to streamline their workflow and customize their experience. Here's an overview of the commands available in BendSQL:
 
-**Related video:**
+| Command                   | Description                       |
+|---------------------------|-----------------------------------|
+| `!exit`                   | Exits BendSQL.                    |
+| `!quit`                   | Exits BendSQL.                    |
+| `!configs`                | Displays current BendSQL settings.|
+| `!set <setting> <value>`  | Modifies a BendSQL setting.       |
+| `!source <sql_file>`      | Executes a SQL file.              |
 
-<iframe width="853" height="505" className="iframe-video" src="https://www.youtube.com/embed/3cFmGvtU-ws" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+For examples of each command, please refer to the reference information below：
+
+#### `!exit`
+
+Disconnects from Databend and exits BendSQL.
+
+```shell title='Example:'
+➜  ~ bendsql
+Welcome to BendSQL 0.17.0-homebrew.
+Connecting to localhost:8000 as user root.
+Connected to Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
+
+// highlight-next-line
+root@localhost:8000/default> !exit
+Bye~
+```
+
+#### `!quit`
+
+Disconnects from Databend and exits BendSQL.
+
+```shell title='Example:'
+➜  ~ bendsql
+Welcome to BendSQL 0.17.0-homebrew.
+Connecting to localhost:8000 as user root.
+Connected to Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
+
+// highlight-next-line
+root@localhost:8000/default> !quit
+Bye~
+➜  ~
+```
+
+#### `!configs`
+
+Displays the current BendSQL settings.
+
+```shell title='Example:'
+// highlight-next-line
+root@localhost:8000/default> !configs
+Settings {
+    display_pretty_sql: true,
+    prompt: "{user}@{warehouse}/{database}> ",
+    progress_color: "cyan",
+    show_progress: true,
+    show_stats: true,
+    max_display_rows: 40,
+    max_col_width: 1048576,
+    max_width: 1048576,
+    output_format: Table,
+    quote_style: Necessary,
+    expand: Off,
+    time: None,
+    multi_line: true,
+    replace_newline: true,
+}
+```
+
+#### `!set <setting> <value>`
+
+Modifies a BendSQL setting. 
+
+```shell title='Example:'
+root@localhost:8000/default> !set display_pretty_sql false
+```
+
+#### `!source <sql_file>`
+
+Executes a SQL file.
+
+```shell title='Example:'
+➜  ~ more ./desktop/test.sql
+CREATE TABLE test_table (
+    id INT,
+    name VARCHAR(50)
+);
+
+INSERT INTO test_table (id, name) VALUES (1, 'Alice');
+INSERT INTO test_table (id, name) VALUES (2, 'Bob');
+INSERT INTO test_table (id, name) VALUES (3, 'Charlie');
+➜  ~ bendsql
+Welcome to BendSQL 0.17.0-homebrew.
+Connecting to localhost:8000 as user root.
+Connected to Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
+
+// highlight-next-line
+root@localhost:8000/default> !source ./desktop/test.sql
+root@localhost:8000/default> SELECT * FROM test_table;
+
+SELECT
+  *
+FROM
+  test_table
+
+┌────────────────────────────────────┐
+│        id       │       name       │
+│ Nullable(Int32) │ Nullable(String) │
+├─────────────────┼──────────────────┤
+│               1 │ Alice            │
+│               2 │ Bob              │
+│               3 │ Charlie          │
+└────────────────────────────────────┘
+3 rows read in 0.064 sec. Processed 3 rows, 81 B (46.79 rows/s, 1.23 KiB/s)
+```

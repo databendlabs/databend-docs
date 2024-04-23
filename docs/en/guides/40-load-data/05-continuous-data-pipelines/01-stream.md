@@ -17,7 +17,9 @@ A stream can operate in two modes: **Standard** and **Append-Only**. Specify a m
 The following example illustrates what a stream looks like and how it works in both modes.
 
 <StepsWrap>
-<StepContent number="1" title="Create streams to capture changes">
+<StepContent number="1">
+
+### Create streams to capture changes
 
 Let's create two tables first, and then create a stream for each table with different modes to capture changes to the tables.
 
@@ -118,7 +120,9 @@ SELECT * FROM s_append_only;
 Up to this point, we haven't noticed any significant differences between the two modes as we haven't processed the streams yet. All changes have been consolidated and manifested as INSERT actions. **A stream can be consumed by tasks or DML (Data Manipulation Language) operations**. After consumption, the stream contains no data but can continue to capture new changes, if any. To further analyze the distinctions, let's proceed with consuming the streams and examining the output.
 
 </StepContent>
-<StepContent number="2" title="Consume streams">
+<StepContent number="2">
+
+### Consume streams
 
 Let's create two new tables and insert into them what the streams have captured.
 
@@ -157,7 +161,9 @@ SELECT * FROM s_append_only;
 ```
 
 </StepContent>
-<StepContent number="3" title="Capture new changes">
+<StepContent number="3">
+
+### Capture new changes
 
 Now, let's update the value from `3` to `4` in each table, and subsequently, check their streams again:
 

@@ -56,7 +56,9 @@ GRANT ALL on *.* TO user1;
 
 <StepsWrap>
 
-<StepContent number="1" title="Copy and paste the following code to a file named databend.js:">
+<StepContent number="1">
+
+### Copy and paste the following code to a file named databend.js:
 
 ```js title='databend.js'
 const { Client } = require("databend-driver");
@@ -110,7 +112,10 @@ create_conn().then((conn) => {
 
 </StepContent>
 
-<StepContent number="2" title="Run node databend.js">
+<StepContent number="2">
+
+
+### Run node databend.js
 
 ```text
 Connected to Databend Server!

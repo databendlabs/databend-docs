@@ -23,7 +23,13 @@ mdFiles?.forEach((file, index) => {
   const V = version.slice(0, -3);
   const varName = `MD${index + 1}`;
   imports += `import ${varName} from '@site/docs/release-stable/${file}';\n`;
-  content += `\n\n<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/${V}" number="" title="${formatTime(time)} (${V})">\n<${varName} />\n\n</StepContent>`;
+  content += `\n\n<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/${V}" number="${index===0?'-1':''}">
+
+### ${formatTime(time)} (${V})
+
+<${varName} />
+
+</StepContent>`;
   // posts.push({title: V, link: `https://github.com/datafuselabs/databend/releases/tag/${V}`, description: 'Databend release notes', pubDate: time})
 });
 
