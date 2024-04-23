@@ -1,4 +1,4 @@
-/---
+---
 title: JSON_OBJECT
 title_includes: TRY_JSON_OBJECT
 ---
