@@ -1,6 +1,9 @@
 ---
 title: MAP_VALUES
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.429"/>
 
 Returns the values in a map.
 
@@ -17,7 +20,6 @@ SELECT MAP_VALUES({'a':1,'b':2,'c':3});
 
 ┌─────────────────────────────────┐
 │ map_values({'a':1,'b':2,'c':3}) │
-│           Array(UInt8)          │
 ├─────────────────────────────────┤
 │ [1,2,3]                         │
 └─────────────────────────────────┘

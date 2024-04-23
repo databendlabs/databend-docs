@@ -1,6 +1,9 @@
 ---
 title: MAP_KEYS
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.429"/>
 
 Returns the keys in a map.
 
@@ -17,7 +20,6 @@ SELECT MAP_KEYS({'a':1,'b':2,'c':3});
 
 ┌───────────────────────────────┐
 │ map_keys({'a':1,'b':2,'c':3}) │
-│         Array(String)         │
 ├───────────────────────────────┤
 │ ['a','b','c']                 │
 └───────────────────────────────┘
