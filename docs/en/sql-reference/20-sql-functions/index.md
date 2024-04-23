@@ -15,6 +15,8 @@ These topics provide reference information for the system-defined functions.
 - [Numeric Functions](./04-numeric-functions/index.md) Perform calculations and numeric operations.
 - [String Functions](./06-string-functions/index.md) Manipulate strings and perform regular expression operations.
 - [Semi-structured and Structured Data Functions](./10-semi-structured-functions/index.md) Work with JSON and other structured data formats.
+- [Array Functions](./00-array-functions/index.md) Handle and manipulate array data.
+- [Map Functions](./20-map-functions/index.md) Handle and manipulate map data.
 
 ## Aggregate Functions
 
