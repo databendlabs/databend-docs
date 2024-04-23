@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.427"/>
 
-Converts a geometry object into a GeoJSON representation.
+Converts a geometry object into a [GeoJSON](https://geojson.org/) representation.
 
 ## Syntax
 

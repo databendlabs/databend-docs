@@ -12,6 +12,7 @@ This section provides reference information for the geography functions in Datab
 - [STRING_TO_H3](string-to-h3.md)
 - [H3_TO_GEO](h3-to-geo.md)
 - [H3_TO_STRING](h3-to-string.md)
+- [ST_ASGEOJSON](st-asgeojson.md)
 
 ## Hexagon Properties
 
