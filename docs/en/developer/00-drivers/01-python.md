@@ -17,6 +17,36 @@ pip install databend-py
 pip install databend-sqlalchemy
 ```
 
+## Data Type Mappings
+
+This table illustrates the correspondence between Databend general data types and their corresponding Python equivalents:
+
+| Databend  | Python            |
+|-----------|-------------------|
+| BOOLEAN   | bool              |
+| TINYINT   | int               |
+| SMALLINT  | int               |
+| INT       | int               |
+| BIGINT    | int               |
+| FLOAT     | float             |
+| DOUBLE    | float             |
+| DECIMAL   | decimal.Decimal   |
+| DATE      | datetime.date     |
+| TIMESTAMP | datetime.datetime |
+| VARCHAR   | str               |
+| BINARY    | bytes             |
+
+This table illustrates the correspondence between Databend semi-structured data types and their corresponding Python equivalents:
+
+| Databend | Python |
+|----------|--------|
+| ARRAY    | list   |
+| TUPLE    | tuple  |
+| MAP      | dict   |
+| VARIANT  | str    |
+| BITMAP   | str    |
+| GEOMETRY | str    |
+
 In the following tutorial, you'll learn how to utilize the packages above to develop your Python applications. The tutorial will walk you through creating a SQL user in Databend and then writing Python code to create a table, insert data, and perform data queries.
 
 ## Tutorial-1: Integrating with Databend using Python

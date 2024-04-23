@@ -9,6 +9,36 @@ Databend offers a driver ([crates.io - databend-driver](https://crates.io/crates
 
 For installation instructions, examples, and the source code, see [GitHub - databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver).
 
+## Data Type Mappings
+
+This table illustrates the correspondence between Databend general data types and their corresponding Rust equivalents:
+
+| Databend  | Rust                  |
+|-----------|-----------------------|
+| BOOLEAN   | bool                  |
+| TINYINT   | i8,u8                 |
+| SMALLINT  | i16,u16               |
+| INT       | i32,u32               |
+| BIGINT    | i64,u64               |
+| FLOAT     | f32                   |
+| DOUBLE    | f64                   |
+| DECIMAL   | String                |
+| DATE      | chrono::NaiveDate     |
+| TIMESTAMP | chrono::NaiveDateTime |
+| VARCHAR   | String                |
+| BINARY    | `Vec<u8>`             |
+
+This table illustrates the correspondence between Databend semi-structured data types and their corresponding Rust equivalents:
+
+| Databend    | Rust           |
+|-------------|----------------|
+| ARRAY[T]    | `Vec<T> `      |
+| TUPLE[T, U] | (T, U)         |
+| MAP[K, V]   | `HashMap<K, V>`|
+| VARIANT     | String         |
+| BITMAP      | String         |
+| GEOMETRY    | String         |
+
 ## Databend Rust Driver Behavior Summary
 
 The table below summarizes the main behaviors and functions of the Rust Driver and their purposes:
