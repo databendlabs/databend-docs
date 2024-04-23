@@ -18,7 +18,7 @@ Creates a new inverted index in Databend.
 ```sql
 CREATE [ OR REPLACE ] INVERTED INDEX [IF NOT EXISTS] <index>
     ON [<database>.]<table>( <column>[, <column> ...] )
-    [ TOKENIZER = '<tokenizer>' ]
+    [ <IndexOptions> ]
 ```
 
 | Parameter              | Description                                                                                                                                               |
@@ -28,7 +28,34 @@ CREATE [ OR REPLACE ] INVERTED INDEX [IF NOT EXISTS] <index>
 | `<index>`              | The name of the inverted index to be created.                                                                                                             |
 | `[<database>.]<table>` | The name of the database and table containing the columns for which the index will be created.                                                            |
 | `<column>`             | The name of the column(s) to be included in the index. Multiple indexes can be created for the same table, but each column must be unique across indexes. |
-| `<tokenizer>`          | Optional parameter specifying how texts are split for indexing. Supports `english` (default) and `chinese` tokenizers.                                    |
+| `<IndexOptions>`       | Optional index options specifying how inverted index is build.                                                                                            |
+
+### IndexOptions
+
+`IndexOptions` specifying the TOKENIZER
+
+```sql
+IndexOptions ::=
+  TOKENIZER = 'english' | 'chinese'
+  FILTERS = 'english_stop' | 'english_stemmer' | 'chinese_stop'
+  INDEX_RECORED = 'basic' | 'freq' | 'position'
+```
+
+TOKENIZER specifying how texts are split for indexing. Supports `english` (default) and `chinese` tokenizers.
+
+FILTERS specifies filtering rules for terms, including the following:
+
+1. `english_stop` remove English stop words, like "a", "an", "and", etc.
+2. `english_stemmer` maps different forms of the same word to a common word. For example, "walking" and "walked" will be mapped to "walk".
+3. `chinese_stop` remove Chinese stop words, currently only support remove Chinese punctuations.
+
+In addition to these filters, a lowercase filter is added by default to convert words to lowercase.
+
+INDEX_RECORED is used to define the storage format of index data and supports `basic`, `freq` and `position` (default).
+
+1. `basic`: only stores `DocId`, takes up minimal space, but can't search for phrase terms, like `"brown fox"`.
+2. `freq`: store `DocId` and term frequency, takes up medium space, and also can't search for phrase terms, but can give better scoring.
+3. `position`: store `DocId`, term frequency, and positions, take up most space, have better scoring, and can search for phrase terms.
 
 ## Examples
 

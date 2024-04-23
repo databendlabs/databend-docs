@@ -32,6 +32,7 @@ These topics provide reference information for the system-defined functions.
 - [Hash Functions](./12-hash-functions/index.md) Generate hash values for data security and comparison.
 - [IP Address Functions](./14-ip-address-functions/index.md) Manipulate and analyze IP address data.
 - [UUID Functions](./13-uuid-functions/index.md) Generate and manipulate UUIDs.
+- [Search Functions](./21-search-functions/index.md) Search functions is used for performing inverted index search.
 
 ## System and Table Functions
 
