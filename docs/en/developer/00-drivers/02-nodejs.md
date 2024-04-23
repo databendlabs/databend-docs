@@ -21,6 +21,36 @@ Before installing the driver, make sure to fulfill the following prerequisites:
 - Depending on your environment, you may require sudo privileges to install the driver.
 :::
 
+## Data Type Mappings
+
+This table illustrates the correspondence between Databend general data types and their corresponding Node.js equivalents:
+
+| Databend  | Node.js |
+|-----------|---------|
+| BOOLEAN   | Boolean |
+| TINYINT   | Number  |
+| SMALLINT  | Number  |
+| INT       | Number  |
+| BIGINT    | Number  |
+| FLOAT     | Number  |
+| DOUBLE    | Number  |
+| DECIMAL   | String  |
+| DATE      | Date    |
+| TIMESTAMP | Date    |
+| VARCHAR   | String  |
+| BINARY    | Buffer  |
+
+This table illustrates the correspondence between Databend semi-structured data types and their corresponding Node.js equivalents:
+
+| Databend | Node.js |
+|----------|---------|
+| ARRAY    | Array   |
+| TUPLE    | Array   |
+| MAP      | Object  |
+| VARIANT  | String  |
+| BITMAP   | String  |
+| GEOMETRY | String  |
+
 ## Databend Node.js Driver Behavior Summary
 
 The Node.js driver offers similar functionalities as a binding of the Rust Driver, with identically named functions having the same logic and capabilities.
