@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.425"/>
 
-SCORE is an inverted index search function used to returns the relevance of the query string. The higher score, the more relevant the data. Note that SCORE function can only used with [QUERY](query.md) or [MATCH](match.md) function.
+SCORE is an inverted index search function used to returns the relevance of the query string. The higher the score, the more relevant the data. Please note that SCORE function can be only used with [QUERY](query.md) or [MATCH](match.md) function.
 
 ## Syntax
 

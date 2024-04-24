@@ -38,24 +38,28 @@ CREATE [ OR REPLACE ] INVERTED INDEX [IF NOT EXISTS] <index>
 IndexOptions ::=
   TOKENIZER = 'english' | 'chinese'
   FILTERS = 'english_stop' | 'english_stemmer' | 'chinese_stop'
-  INDEX_RECORED = 'basic' | 'freq' | 'position'
+  INDEX_RECORD = 'basic' | 'freq' | 'position'
 ```
 
-TOKENIZER specifying how texts are split for indexing. Supports `english` (default) and `chinese` tokenizers.
+`TOKENIZER` specifying how texts are split for indexing. Supports `english` (default) and `chinese` tokenizers.
 
-FILTERS specifies filtering rules for terms, including the following:
+`FILTERS` specifies filtering rules for terms, including the following:
 
-1. `english_stop` remove English stop words, like "a", "an", "and", etc.
-2. `english_stemmer` maps different forms of the same word to a common word. For example, "walking" and "walked" will be mapped to "walk".
-3. `chinese_stop` remove Chinese stop words, currently only support remove Chinese punctuations.
+| Parameter.        | Description                                                                                                             |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `english_stop`    | removes English stop words like "a", "an", "and" etc.                                                                   |
+| `english_stemmer` | maps different forms of the same word to one common word. For example, "walking" and "walked" will be mapped to "walk". |
+| `chinese_stop`    | removes Chinese stop words, currently only supports removal of Chinese punctuation marks.                               |
 
-In addition to these filters, a lowercase filter is added by default to convert words to lowercase.
+Multiple filters can be specified, separated by commas, e.g. FILTERS = 'english_stop,english_stemmer,chinese_stop'. In addition to these filters, a lower case filter is added by default to convert words to lower case letters.
 
-INDEX_RECORED is used to define the storage format of index data and supports `basic`, `freq` and `position` (default).
+`INDEX_RECORD` is used to define the storage format of index data and supports `basic`, `freq` and `position` (default).
 
-1. `basic`: only stores `DocId`, takes up minimal space, but can't search for phrase terms, like `"brown fox"`.
-2. `freq`: store `DocId` and term frequency, takes up medium space, and also can't search for phrase terms, but can give better scoring.
-3. `position`: store `DocId`, term frequency, and positions, take up most space, have better scoring, and can search for phrase terms.
+| Parameter  | Description                                                                                                             |
+|------------|-------------------------------------------------------------------------------------------------------------------------|
+| `basic`    | stores only the `DocId`, takes up minimal space, but can't search for phrases like "brown fox".                         |
+| `freq`     | stores `DocId` and term frequency, takes up medium space and can't search for phrase terms, but can give better scores. |
+| `position` | stores `DocId`, term frequency and positions, takes up most space, has better scoring and can search for phrase terms.  |
 
 ## Examples
 
@@ -65,7 +69,9 @@ CREATE INVERTED INDEX user_comments_idx ON user_comments(comment_text);
 
 -- Create an inverted index with a Chinese tokenizer
 -- If no tokenizer is specified, the default is English
-CREATE INVERTED INDEX product_reviews_idx ON product_reviews(review_text) TOKENIZER = 'chinese';
+-- Filters are `english_stop`, `english_stemmer` and `chinese_stop`
+-- Index_record in `basic`.
+CREATE INVERTED INDEX product_reviews_idx ON product_reviews(review_text) TOKENIZER = 'chinese' FILTERS = 'english_stop,english_stemmer,chinese_stop' INDEX_RECORD='basic';
 
 -- Create an inverted index for the 'comment_title' and 'comment_body' columns in the table 'user_comments'
 -- The output of SHOW CREATE TABLE includes information about the created inverted index

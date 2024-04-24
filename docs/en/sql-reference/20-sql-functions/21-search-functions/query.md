@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.425"/>
 
-QUERY is an inverted index search function used to match the rows that meets the query conditions, note that QUERY function can only used in where clause for filter.
+QUERY is an inverted index search function used to match the rows that meets the query string conditions. Please note that QUERY function can be only used in a where clause for filter.
 
 ## Syntax
 
@@ -15,11 +15,13 @@ QUERY( <query_string> )
 
 `query_string` uses a syntax for parsing query statements. Assuming that the inverted index has two fields `title` and `body`, and the `title` field has value `The quick fox jumps over the lazy brown dog`, it can support the following query syntax:
 
-1. simple terms, for instance, `title:quick dog` match rows that have term `quick` or `dog`.
-2. bool operators, `AND`, `OR`. `AND` takes precedence over `OR`, so that `a AND b OR c` is interpreted as `(a AND b) OR c`. for instance, `title:fox AND dog OR cat` match rows that have term `fox` and `dog` or rows have term `cat`.
-3. must and negative operators, `+` means must have the term and `-` means must not have the term. for instance, `title:+fox -cat` match rows have term `fox` and not have term `fox`.
-4. quoted terms as phrase searches, for instance, `title:"brown dog"` match rows have `brown` immediately followed by `dog`.
-5. multiple field with boost terms, for instance, `title:fox^5 content:dog^2`. Boost is used to increase the weight of the corresponding field when calculating the score.
+| Syntax.                     | Description                                                                                                               | Examples                   |
+|-----------------------------|---------------------------------------------------------------------------------------------------------------------------|----------------------------|
+| Simple terms                | Matches rows that have any one of terms.                                                                                  | `title:quick dog`          |
+| Bool operators              | `AND`, `OR`. `AND` takes precedence over `OR`, so that `a AND b OR c` is interpreted as `(a AND b) OR c`.                 | `title:fox AND dog OR cat` |
+| Must and negative operators | `+` means must have the term and `-` means must not have the term.                                                        | `title:+fox -cat`          |
+| Phrase terms                | Quoted terms means searching for a phrase.                                                                                | title:"brown dog"          |
+| Multiple fields with boost  | Fields can have different search terms, and the boost value increases the weight of the field when calculating the score. | title:fox^5 body:dog^2     |
 
 ## Examples
 

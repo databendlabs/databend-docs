@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.425"/>
 
-MATCH is an inverted index search function used to match the rows that meets the query conditions, note that MATCH function can only used in where clause for filter.
+MATCH is an inverted index search function used to match the rows that meets the query string conditions. Please note that MATCH function can be only used in a where clause for filter.
 
 ## Syntax
 
@@ -13,7 +13,7 @@ MATCH is an inverted index search function used to match the rows that meets the
 MATCH( <query_fields>, <query_string> )
 ```
 
-`query_fields` have tow forms. First one is specifying a single query field and the second one is specifying multiple fields containing optional boost values.
+`query_fields` have two forms. One specifies a single query field and the other one specifies multiple fields with optional boost values.
 
 `query_string` is a set of query terms without syntax; to support richer query syntax, use the [QUERY](query.md) function.
 
