@@ -1,5 +1,5 @@
 ---
-title: SHOW TABLE_FUNCTIONS
+title: SHOW TABLE FUNCTIONS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
