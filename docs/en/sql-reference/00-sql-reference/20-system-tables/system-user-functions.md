@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Contains information about user-defined functions and external functions in the system.
 
-See also: [SHOW USER FUNCTIONS](../../10-sql-commands/50-administration-cmds/show-user-functions.md).
+See also: [SHOW USER FUNCTIONS](/sql/sql-commands/administration-cmds/show-user-functions).
 
 ```sql
 SELECT * FROM system.user_functions;
