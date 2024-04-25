@@ -88,7 +88,7 @@ SELECT TOP 3 name, score FROM Students ORDER BY Score DESC;
 └────────────────────────────────────┘
 ```
 
-Using both `Top` and `Limit` in the same query results in an error:
+Using both `TOP` and `LIMIT` in the same query results in an error:
 
 ```sql
 SELECT TOP 3 name, score FROM Students ORDER BY Score DESC LIMIT 3;
