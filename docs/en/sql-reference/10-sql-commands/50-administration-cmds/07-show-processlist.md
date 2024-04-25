@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 The Databend process list indicates the operations currently being performed by the set of threads executed within the server.
 
-See also: [KILL](kill.md)
+See also: [KILL](01-kill.md)
 
 ## Syntax
 

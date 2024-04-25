@@ -2,9 +2,9 @@
 title: UNSET
 ---
 
-Set one or more system settings back to their default values. The settings will also be reset to the initial SESSION level if they were set to GLOBAL level. See [Examples](#examples) for how to reset a GLOBAL setting with UNSET. For more information about the setting levels, see [Setting Levels](show-settings.md#setting-levels). To show all the current settings, use [SHOW SETTINGS](show-settings.md).
+Set one or more system settings back to their default values. The settings will also be reset to the initial SESSION level if they were set to GLOBAL level. See [Examples](#examples) for how to reset a GLOBAL setting with UNSET. For more information about the setting levels, see [Setting Levels](03-show-settings.md#setting-levels). To show all the current settings, use [SHOW SETTINGS](03-show-settings.md).
 
-See also: [SET](set-global.md)
+See also: [SET](02-set-global.md)
 
 ## Syntax
 
