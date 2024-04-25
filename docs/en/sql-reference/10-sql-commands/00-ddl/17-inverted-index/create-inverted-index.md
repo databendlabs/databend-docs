@@ -28,7 +28,7 @@ CREATE [ OR REPLACE ] INVERTED INDEX [IF NOT EXISTS] <index>
 | `<index>`              | The name of the inverted index to be created.                                                                                                             |
 | `[<database>.]<table>` | The name of the database and table containing the columns for which the index will be created.                                                            |
 | `<column>`             | The name of the column(s) to be included in the index. Multiple indexes can be created for the same table, but each column must be unique across indexes. |
-| `<IndexOptions>`       | Optional index options specifying how inverted index is build.                                                                                            |
+| `<IndexOptions>`       | Optional index options specifying how the inverted index is built.                                                                                            |
 
 ### IndexOptions
 
