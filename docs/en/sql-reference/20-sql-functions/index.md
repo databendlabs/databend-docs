@@ -16,12 +16,16 @@ These topics provide reference information for the system-defined functions.
 - [String Functions](./06-string-functions/index.md) Manipulate strings and perform regular expression operations.
 - [Semi-structured and Structured Data Functions](./10-semi-structured-functions/index.md) Work with JSON and other structured data formats.
 - [Array Functions](./00-array-functions/index.md) Handle and manipulate array data.
-- [Map Functions](./20-map-functions/index.md) Handle and manipulate map data.
+- [Map Functions](10-map-functions/index.md) Handle and manipulate map data.
 
 ## Aggregate Functions
 
 - [Aggregate Functions](./07-aggregate-functions/index.md) Calculate summaries like sum, average, count, etc.
 - [Window Functions](./08-window-functions/index.md) Provide aggregate calculations over a specified range of rows.
+
+## Full-Text Search Functions
+
+- [Full-Text Search Functions](10-search-functions/index.md) Leverage inverted indexes for efficient data retrieval.
 
 ## AI Functions
 
@@ -32,7 +36,6 @@ These topics provide reference information for the system-defined functions.
 - [Hash Functions](./12-hash-functions/index.md) Generate hash values for data security and comparison.
 - [IP Address Functions](./14-ip-address-functions/index.md) Manipulate and analyze IP address data.
 - [UUID Functions](./13-uuid-functions/index.md) Generate and manipulate UUIDs.
-- [Search Functions](./21-search-functions/index.md) Perform inverted index searches.
 
 ## System and Table Functions
 
@@ -41,4 +44,4 @@ These topics provide reference information for the system-defined functions.
 
 ## Other Functions
 
-- [Other Miscellaneous Functions](./19-other-functions/index.md) A collection of various other functions.
+- [Other Miscellaneous Functions](20-other-functions/index.md) A collection of various other functions.
