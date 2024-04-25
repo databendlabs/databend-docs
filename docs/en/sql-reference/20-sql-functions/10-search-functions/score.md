@@ -7,6 +7,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 SCORE is an inverted index search function used to returns the relevance of the query string. The higher the score, the more relevant the data. Please note that SCORE function can be only used with [QUERY](query.md) or [MATCH](match.md) function.
 
+This is similar to Elasticsearch's [SCORE](https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-functions-search.html#sql-functions-search-score).
+
 ## Syntax
 
 ```sql

@@ -207,3 +207,7 @@ Filter
 
 `pruning stats: [segments: <range pruning: 5 to 5>, blocks: <range pruning: 5 to 5, inverted pruning: 5 to 1>]`
 indicates that the full-text index is being utilized, and it has pruned 5 data blocks down to 1.
+
+## More Full-Text Search Examples
+
+You can find more full-text query examples in the [Full-Text Search Functions](/sql/sql-functions/search-functions/).

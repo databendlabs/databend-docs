@@ -7,6 +7,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 QUERY is an inverted index search function used to match the rows that meets the query string conditions. Please note that QUERY function can be only used in a where clause for filter.
 
+This is similar to Elasticsearch's [QUERY](https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-functions-search.html#sql-functions-search-query).
+
 ## Syntax
 
 ```sql
