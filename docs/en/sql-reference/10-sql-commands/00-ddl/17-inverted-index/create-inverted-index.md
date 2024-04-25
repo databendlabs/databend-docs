@@ -41,7 +41,7 @@ IndexOptions ::=
   INDEX_RECORD = 'basic' | 'freq' | 'position'
 ```
 
-`TOKENIZER` specifying how texts are split for indexing. Supports `english` (default) and `chinese` tokenizers.
+`TOKENIZER` specifies how texts are split for indexing. This supports `english` (default) and `chinese` tokenizers.
 
 `FILTERS` specifies filtering rules for terms, including the following:
 
