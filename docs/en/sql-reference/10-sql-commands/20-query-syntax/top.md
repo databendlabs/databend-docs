@@ -48,7 +48,6 @@ INSERT INTO Students (ID, Name, Score) VALUES
 (9, 'Alexander', 75),
 (10, 'Ava', 96);
 
--- Return the top 3 students based on their scores in descending order
 SELECT TOP 3 * FROM Students ORDER BY Score DESC;
 
 ┌──────────────────────────────────────────────────────┐
