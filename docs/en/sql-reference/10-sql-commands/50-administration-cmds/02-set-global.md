@@ -2,11 +2,11 @@
 title: SET
 ---
 
-Changes the value and/or level of a system setting. To show all the current settings, use [SHOW SETTINGS](show-settings.md).
+Changes the value and/or level of a system setting. To show all the current settings, use [SHOW SETTINGS](03-show-settings.md).
 
 See also:
-- [SET_VAR](set-var.md)
-- [UNSET](unset.md)
+- [SET_VAR](03-set-var.md)
+- [UNSET](02-unset.md)
 
 ## Syntax
 
@@ -14,7 +14,7 @@ See also:
 SET [GLOBAL] <setting_name> = <new_value>;
 ```
 
-`GLOBAL`: If you include this option preceding a session-level setting, the setting will become a global-level setting. For more information about the setting levels, see [Setting Levels](show-settings.md#setting-levels).
+`GLOBAL`: If you include this option preceding a session-level setting, the setting will become a global-level setting. For more information about the setting levels, see [Setting Levels](03-show-settings.md#setting-levels).
 
 ## Examples
 
