@@ -32,7 +32,7 @@ CREATE [ OR REPLACE ] INVERTED INDEX [IF NOT EXISTS] <index>
 
 ### IndexOptions
 
-`IndexOptions` specifying the TOKENIZER
+Specifies how the inverted index is built.
 
 ```sql
 IndexOptions ::=
