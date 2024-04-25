@@ -45,7 +45,7 @@ IndexOptions ::=
 
 `FILTERS` specifies filtering rules for terms, including the following:
 
-| Parameter.        | Description                                                                                                             |
+| Parameter         | Description                                                                                                             |
 |-------------------|-------------------------------------------------------------------------------------------------------------------------|
 | `english_stop`    | removes English stop words like "a", "an", "and" etc.                                                                   |
 | `english_stemmer` | maps different forms of the same word to one common word. For example, "walking" and "walked" will be mapped to "walk". |
