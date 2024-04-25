@@ -3,7 +3,7 @@ title: SELECT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.234"/>
+<FunctionDescription description="Introduced or updated: v1.2.435"/>
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
@@ -17,6 +17,7 @@ Retrieves data from a table.
 [WITH]
 SELECT
     [ALL | DISTINCT]
+    [ TOP <n> ]
     <select_expr> | <col_name> [[AS] <alias>] | $<col_position> [, ...] |  
     COLUMNS <expr>
     [EXCLUDE (<col_name1> [, <col_name2>, <col_name3>, ...] ) ]
