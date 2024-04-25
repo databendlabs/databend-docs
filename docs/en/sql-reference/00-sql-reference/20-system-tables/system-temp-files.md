@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.348"/>
 
-Contains information about temporary files created by Databend, such as spill files. To remove the temporary files, use the [VACUUM TEMPORARY FILES](/sql/sql-commands/administration-cmds/vacuum-temp-filesd) command.
+Contains information about temporary files created by Databend, such as spill files. To remove the temporary files, use the [VACUUM TEMPORARY FILES](/sql/sql-commands/administration-cmds/vacuum-temp-files) command.
 
 ```sql
 SELECT
