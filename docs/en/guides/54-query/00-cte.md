@@ -1,6 +1,10 @@
 ---
 title: Common Table Expressions (CTEs)
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.429"/>
+
 Databend supports common table expressions (CTEs) with a WITH clause, allowing you to define one or multiple named temporary result sets used by the following query. The term "temporary" implies that the result sets are not permanently stored in the database schema. They act as temporary views only accessible to the following query.
 
 When a query with a WITH clause is executed, the CTEs within the WITH clause are evaluated and executed first. This produces one or multiple temporary result sets. Then the query is executed using the temporary result sets that were produced by the WITH clause. 
@@ -87,7 +91,7 @@ WITH
         <cte_name1> [ ( <cte_column_list> ) ] AS [MATERIALIZED] ( SELECT ...  )
     [ , <cte_name2> [ ( <cte_column_list> ) ] AS [MATERIALIZED] ( SELECT ...  ) ]
     [ , <cte_nameN> [ ( <cte_column_list> ) ] AS [MATERIALIZED] ( SELECT ...  ) ]
-SELECT ...
+SELECT ... | UPDATE ... | DELETE FROM ...
 ```
 
 | Parameter               	| Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           	|
@@ -95,8 +99,7 @@ SELECT ...
 | WITH                    	| Initiates the WITH clause.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            	|
 | cte_name1 ... cte_nameN 	| The CTE names. When you have multiple CTEs, separate them with commas.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                	|
 | cte_column_list         	| The names of the columns in the CTE. A CTE can refer to any CTEs in the same WITH clause that are defined before.                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	|
-| MATERIALIZED            	| "Materialized" is an optional keyword used when defining CTEs to indicate whether the CTE should be materialized. 	|
-| SELECT ...              	| CTEs are mainly used with the SELECT statement.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       	|
+| MATERIALIZED            	| `Materialized` is an optional keyword used to indicate whether the CTE should be materialized. 	|
 
 ## Usage Examples
 
@@ -173,11 +176,55 @@ Output:
 ```text
 ┌──────────────────────────────────────────────────────────────┐
 │      region      │ avg_by_region_value │ sum_by_region_value │
-│ Nullable(String) │  Nullable(Float64)  │   Nullable(Int64)   │
 ├──────────────────┼─────────────────────┼─────────────────────┤
 │ North York       │                7645 │               15290 │
 │ Downtown         │               17035 │               34070 │
 │ Markham          │                5535 │               11070 │
 │ Mississauga      │                4990 │                4990 │
 └──────────────────────────────────────────────────────────────┘
+```
+
+The following code updates the sales amount to 0 for stores where the sales amount is below the average sales of their respective regions:
+
+```sql
+WITH region_avg_sales_cte AS (
+    SELECT region, AVG(amount) AS avg_sales
+    FROM sales
+    GROUP BY region
+)
+UPDATE sales
+SET amount = 0
+WHERE amount < (
+    SELECT avg_sales
+    FROM region_avg_sales_cte AS cte
+    WHERE cte.region = sales.region
+);
+```
+
+Let's assume we have another table called store_details that contains additional information about each store, such as the store's opening date and owner. 
+
+```sql
+CREATE TABLE store_details (
+    storeid INTEGER,
+    store_name TEXT,
+    opening_date DATE,
+    owner TEXT
+);
+
+INSERT INTO store_details VALUES (1, 'North York Store', '2022-01-01', 'John Doe');
+INSERT INTO store_details VALUES (12, 'Downtown Store', '2022-02-15', 'Jane Smith');
+INSERT INTO store_details VALUES (3, 'Markham Store', '2021-12-10', 'Michael Johnson');
+INSERT INTO store_details VALUES (9, 'Mississauga Store', '2022-03-20', 'Emma Brown');
+INSERT INTO store_details VALUES (5, 'Scarborough Store', '2022-04-05', 'David Lee');
+```
+
+We want to delete all rows from the store_details table that correspond to stores with no sales records in the sales table:
+
+```sql
+WITH stores_with_sales AS (
+    SELECT DISTINCT storeid
+    FROM sales
+)
+DELETE FROM store_details
+WHERE storeid NOT IN (SELECT storeid FROM stores_with_sales);
 ```
