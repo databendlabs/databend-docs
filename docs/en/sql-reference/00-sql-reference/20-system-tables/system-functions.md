@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Contains information about the supported built-in scalar and aggregate.
 
-See also: [SHOW FUNCTIONS](../../10-sql-commands/50-administration-cmds/show-functions.md).
+See also: [SHOW FUNCTIONS](/sql/sql-commands/administration-cmds/show-functions).
 
 ## Example
 
