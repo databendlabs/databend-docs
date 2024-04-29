@@ -5,13 +5,23 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.427"/>
 
-Converts a geometry object into a [GeoJSON](https://geojson.org/) representation.
+Converts a GEOMETRY object into a [GeoJSON](https://geojson.org/) representation.
 
 ## Syntax
 
 ```sql
 ST_ASGEOJSON(<geometry>)
 ```
+
+## Arguments
+
+| Arguments    | Description                                          |
+|--------------|------------------------------------------------------|
+| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+
+## Return Type
+
+Variant.
 
 ## Examples
 
