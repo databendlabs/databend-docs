@@ -201,7 +201,7 @@ WHERE amount < (
 );
 ```
 
-Let's assume we have another table called store_details that contains additional information about each store, such as the store's opening date and owner. 
+Let's assume we have another table called "store_details" that contains additional information about each store, such as the store's opening date and owner. 
 
 ```sql
 CREATE TABLE store_details (
@@ -218,7 +218,7 @@ INSERT INTO store_details VALUES (9, 'Mississauga Store', '2022-03-20', 'Emma Br
 INSERT INTO store_details VALUES (5, 'Scarborough Store', '2022-04-05', 'David Lee');
 ```
 
-We want to delete all rows from the store_details table that correspond to stores with no sales records in the sales table:
+We want to delete all rows from the "store_details" table that correspond to stores with no sales records in the "sales" table:
 
 ```sql
 WITH stores_with_sales AS (
