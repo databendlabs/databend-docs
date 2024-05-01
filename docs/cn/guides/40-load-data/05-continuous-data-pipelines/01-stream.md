@@ -85,6 +85,7 @@ SELECT * FROM s_standard;
 │        a        │   change$action  │              change$row_id             │ change$is_update │
 │ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
 ├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
+|               4 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000000 │ false            |
 │               3 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ false            │
 └────────────────────────────────────────────────────────────────────────────────────────────────┘
 
