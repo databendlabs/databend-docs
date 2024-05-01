@@ -212,7 +212,7 @@ async fn main() {
     let conn = client.get_conn().await.unwrap();
 
     let sql_table_dorp = "DROP TABLE IF EXISTS data;";
-    conn.exec(sql_table_dorp).await.unwrap();
+    conn.exec(sql_table_drop).await.unwrap();
 
     let sql_table_create = "CREATE TABLE IF NOT EXISTS data (
 		i64 Int64,

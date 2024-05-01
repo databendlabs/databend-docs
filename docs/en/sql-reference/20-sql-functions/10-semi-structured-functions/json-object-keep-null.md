@@ -9,7 +9,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 Creates a JSON object with keys and values.
 
 - The arguments are zero or more key-value pairs(where keys are strings, and values are of any type).
-- If a key is NULL, the key-value pair is ommitted from the resulting object. However, if a value is NULL, the key-value pair will be kept.
+- If a key is NULL, the key-value pair is omitted from the resulting object. However, if a value is NULL, the key-value pair will be kept.
 - The keys must be distinct from each other, and their order in the resulting JSON might be different from the order you specify.
 - `TRY_JSON_OBJECT_KEEP_NULL` returns a NULL value if an error occurs when building the object.
 
