@@ -108,6 +108,7 @@ CREATE TRANSIENT TABLE ...
 
 Creates a table and stores it in an S3 bucket other than the default storage.
 
+
 Syntax:
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
@@ -134,6 +135,24 @@ CONNECTION = (
 | SECRET_ACCESS_KEY         	 | Your secret access key for connecting the AWS S3 compatible object storage. 	                                                                                                                                            | Optional 	 |
 | REGION                    	 | AWS region name. For example, us-east-1.                                    	                                                                                                                                            | Optional 	 |
 | ENABLE_VIRTUAL_HOST_STYLE 	 | If you use virtual hosting to address the bucket, set it to "true".                               	                                                                                                                      | Optional 	 |
+
+
+:::info S3 Bucket Policy Requirements
+
+The external location S3 bucket must have the following permissions granted through an S3 bucket policy:
+
+**Read-only Access:**
+- `s3:GetObject`: Allows reading objects from the bucket.
+- `s3:ListBucket`: Allows listing objects in the bucket.
+- `s3:ListBucketVersions`: Allows listing object versions in the bucket.
+- `s3:GetObjectVersion`: Allows retrieving a specific version of an object.
+
+**Writable Access:**
+- `s3:PutObject`: Allows writing objects to the bucket.
+- `s3:DeleteObject`: Allows deleting objects from the bucket.
+- `s3:AbortMultipartUpload`: Allows aborting multipart uploads.
+- `s3:DeleteObjectVersion`: Allows deleting a specific version of an object.
+:::
 
 ## Column Nullable
 
