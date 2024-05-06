@@ -14,6 +14,6 @@ Databend 同时整合了[基于角色的访问控制 (RBAC)](https://en.wikipedi
 
 本指南描述了访问控制的相关概念，并提供了如何在 Databend 中管理访问控制的指导。
 
-- [权限](01-priveledges.md)
+- [权限](01-privileges.md)
 - [角色](02-roles.md)
 - [所有权](03-ownership.md)

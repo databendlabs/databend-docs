@@ -14,6 +14,6 @@ Databend incorporates both [Role-Based Access Control (RBAC)](https://en.wikiped
 
 This guide describes the related concepts and provides instructions on how to manage access control in Databend:
 
-- [Privileges](01-priveledges.md)
+- [Privileges](01-privileges.md)
 - [Roles](02-roles.md)
 - [Ownership](03-ownership.md)
