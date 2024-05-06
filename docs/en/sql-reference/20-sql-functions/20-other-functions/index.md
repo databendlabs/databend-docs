@@ -17,4 +17,3 @@ title: Other Functions
 - [ASSUME_NOT_NULL](assume-not-null.md)
 - [EXISTS](exists.md)
 - [GROUPING](grouping.md)
-- [IGNORE](ignore.md)
