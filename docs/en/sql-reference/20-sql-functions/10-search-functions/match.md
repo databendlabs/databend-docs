@@ -56,7 +56,7 @@ SELECT *, score() FROM test WHERE MATCH('title, body', 'knowledge technology');
 │ The Impact of Technology on Society │ Technology has revolutionized our society in countless ways.                   │ 2.6830134 │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- Retrieve documents where either the 'title' or 'body' column matches 'knowledge technology', with weighted importance on both columns.
+-- Retrieve documents where either the 'title' or 'body' column matches 'knowledge technology', with weighted importance on both columns
 SELECT *, score() FROM test WHERE MATCH('title^5, body^1.2', 'knowledge technology');
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
