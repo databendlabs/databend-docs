@@ -59,6 +59,7 @@ IndexOptions ::=
 | `position`   | Yes      | Stores DocId, term frequency, and positions, occupies the most space, offers better scoring, and supports phrase terms. |
 | `basic`      | No       | Stores only the DocId, occupies minimal space, but doesn't support phrase searches like "brown fox".                    |
 | `freq`       | No       | Stores DocId and term frequency, occupies medium space, doesn't support phrase terms, but may provide better scores.    |
+
 ## Examples
 
 ```sql
