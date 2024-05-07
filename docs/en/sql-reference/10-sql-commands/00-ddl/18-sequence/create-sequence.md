@@ -23,7 +23,7 @@ CREATE [ OR REPLACE ] SEQUENCE [IF NOT EXISTS] <sequence>
 
 ## Examples
 
-This example showcases how sequences and the NEXTVAL function are employed to automatically generate and assign unique identifiers to rows in a table.
+This example showcases how sequences and the [NEXTVAL](/sql/sql-functions/sequence-functions/nextval) function are employed to automatically generate and assign unique identifiers to rows in a table.
 
 ```sql
 -- Create a new sequence named staff_id_seq
