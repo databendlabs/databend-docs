@@ -160,8 +160,8 @@ The following is a list of the parameters available within the [storage.gcs] sec
 | root         | The root directory for Google Cloud Storage.                                          |
 
 To get the `credential`, you could follow the topic [Create a service account key](https://cloud.google.com/iam/docs/keys-create-delete#creating)
-from the Google documentation to create and download a service account key file. After get the service account key file downloaded, you could
-convert it into base64 encoding via the following command:
+from the Google documentation to create and download a service account key file. After downloading the service account key file, you could
+convert it into a base64 string via the following command:
 
 ```
 base64 -i -o ~/Desktop/base64-encoded-key.txt
