@@ -32,34 +32,33 @@ CREATE [ OR REPLACE ] INVERTED INDEX [IF NOT EXISTS] <index>
 
 ### IndexOptions
 
-Specifies how the inverted index is built.
-
 ```sql
 IndexOptions ::=
   TOKENIZER = 'english' | 'chinese'
   FILTERS = 'english_stop' | 'english_stemmer' | 'chinese_stop'
-  INDEX_RECORD = 'basic' | 'freq' | 'position'
+  INDEX_RECORD = 'position' | 'basic' | 'freq' 
 ```
 
-`TOKENIZER` specifies how texts are split for indexing. This supports `english` (default) and `chinese` tokenizers.
+- `TOKENIZER` specifies how text is segmented for indexing. It supports `english` (default) and `chinese` tokenizers.
 
-`FILTERS` specifies filtering rules for terms, including the following:
+- `FILTERS` defines rules for term filtering:
 
-| Parameter         | Description                                                                                                             |
+  - Multiple filters can be specified, separated by commas, e.g., `FILTERS = 'english_stop,english_stemmer'`. 
+  - A lower case filter is added by default to convert words to lowercase letters.
+
+| FILTERS           | Description                                                                                                             |
 |-------------------|-------------------------------------------------------------------------------------------------------------------------|
-| `english_stop`    | removes English stop words like "a", "an", "and" etc.                                                                   |
-| `english_stemmer` | maps different forms of the same word to one common word. For example, "walking" and "walked" will be mapped to "walk". |
-| `chinese_stop`    | removes Chinese stop words, currently only supports removal of Chinese punctuation marks.                               |
+| `english_stop`    | Removes English stop words like "a", "an", "and" etc.                                                                   |
+| `english_stemmer` | Maps different forms of the same word to one common word. For example, "walking" and "walked" will be mapped to "walk". |
+| `chinese_stop`    | Removes Chinese stop words, currently only supports removal of Chinese punctuation marks.                               |
 
-Multiple filters can be specified, separated by commas, e.g. FILTERS = 'english_stop,english_stemmer,chinese_stop'. In addition to these filters, a lower case filter is added by default to convert words to lower case letters.
+- `INDEX_RECORD` determines what is to be stored for the index data:
 
-`INDEX_RECORD` is used to define the storage format of index data and supports `basic`, `freq` and `position` (default).
-
-| Parameter  | Description                                                                                                             |
-|------------|-------------------------------------------------------------------------------------------------------------------------|
-| `basic`    | stores only the `DocId`, takes up minimal space, but can't search for phrases like "brown fox".                         |
-| `freq`     | stores `DocId` and term frequency, takes up medium space and can't search for phrase terms, but can give better scores. |
-| `position` | stores `DocId`, term frequency and positions, takes up most space, has better scoring and can search for phrase terms.  |
+| INDEX_RECORD | Default? | Description                                                                                                             |
+|--------------|----------|-------------------------------------------------------------------------------------------------------------------------|
+| `position`   | Yes      | Stores DocId, term frequency, and positions, occupies the most space, offers better scoring, and supports phrase terms. |
+| `basic`      | No       | Stores only the DocId, occupies minimal space, but doesn't support phrase searches like "brown fox".                    |
+| `freq`       | No       | Stores DocId and term frequency, occupies medium space, doesn't support phrase terms, but may provide better scores.    |
 
 ## Examples
 
