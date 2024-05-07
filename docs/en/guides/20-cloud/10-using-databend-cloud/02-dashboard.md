@@ -36,7 +36,7 @@ Please note that these aggregation functions assist in summarizing and revealing
 | Average              | Computes the average value of numerical data within the query results. |
 | Mode                 | Identifies the most frequently occurring value within the query results. |
 
-4. Return to the Databend Cloud homepage and select **Dashboards** in the left navigation menu, then click **New Dashboard**. 
+4. Return to the Databend Cloud homepage and select **Dashboards** in the left navigation menu, then click **New Dashboard**.
 
 5. In the new dashboard, click on **Add Chart**. Drag and drop the chart from the left pane onto the dashboard. If you have multiple charts available in the left pane, feel free to drag as many as you need.
 
@@ -157,9 +157,9 @@ WHERE date = '2022-12-31';
 
 ```sql
 -- Calculate the total number of deaths by state on December 31, 2022
-SELECT state, SUM(deaths) 
-FROM covid_19_us_2022_3812 
-WHERE date = '2022-12-31' 
+SELECT state, SUM(deaths)
+FROM covid_19_us_2022_3812
+WHERE date = '2022-12-31'
 GROUP BY state;
 ```
 
@@ -177,7 +177,7 @@ GROUP BY state;
 
 ```sql
 -- Retrieve all data for the state of Virgin Islands on December 31, 2022
-SELECT * FROM covid_19_us_2022_3812 
+SELECT * FROM covid_19_us_2022_3812
 WHERE date = '2022-12-31' AND state = 'Virgin Islands';
 ```
 
@@ -197,7 +197,7 @@ WHERE date = '2022-12-31' AND state = 'Virgin Islands';
 ```sql
 -- Retrieve data for St. John at the end of each month
 SELECT * FROM covid_19_us_2022_3812
-WHERE 
+WHERE
     (date = '2022-01-31'
     OR date = '2022-02-28'
     OR date = '2022-03-31'
