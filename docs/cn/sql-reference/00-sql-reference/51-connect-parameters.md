@@ -96,7 +96,6 @@ SELECT * FROM 's3://testbucket/admin/data/parquet/tuple.parquet'
 
 | 参数         | 是否必须? | 描述                                   |
 | ------------ | --------- | -------------------------------------- |
-| endpoint_url | 是        | 用于 Google Cloud Storage 的端点 URL。 |
 | credential   | 是        | 用于认证的 Google Cloud Storage 凭证。 |
 
 ### 阿里云 OSS

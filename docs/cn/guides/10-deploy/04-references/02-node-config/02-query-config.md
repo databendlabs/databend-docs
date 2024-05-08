@@ -155,7 +155,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | 参数           | 描述                                                        |
 |----------------|-------------------------------------------------------------|
 | bucket         | 您的 Google Cloud Storage 桶的名称。                          |
-| endpoint_url   | Google Cloud Storage 的 URL 端点。                           |
 | credential     | 用于与 Google Cloud Storage 进行身份验证的凭据。              |
 | root           | Google Cloud Storage 的根目录。                              |
 
