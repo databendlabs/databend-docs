@@ -155,7 +155,6 @@ The following is a list of the parameters available within the [storage.gcs] sec
 | Parameter    | Description                                                                           |
 |--------------|---------------------------------------------------------------------------------------|
 | bucket       | The name of your Google Cloud Storage bucket.                                         |
-| endpoint_url | The URL endpoint for Google Cloud Storage.                                            |
 | credential   | The base64 encoded service account key file for Google Cloud Storage authentication.  |
 | root         | The root directory for Google Cloud Storage.                                          |
 

@@ -5,51 +5,15 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.294"/>
 
-The connection parameters refer to a set of essential connection details required for establishing a secure link to supported external storage services, like Amazon S3. These parameters are enclosed within parentheses and consists of key-value pairs separated by commas. It is commonly utilized in operations such as creating a stage, copying data into Databend, and querying staged files from external sources. The provided key-value pairs offer the necessary authentication and configuration information for the connection.
+Connection parameters are key-value pairs used to establish secure links to external storage services like Amazon S3. These parameters are crucial for tasks such as creating stages, copying data into Databend, and querying external files.
 
-### Syntax and Examples
+For specific connection details per storage service, see the tables below.
 
-The connection parameters are specified using a CONNECTION clause and are separated by comma. When [Querying Staged Files](/guides/load-data/transform/querying-stage), the CONNECTION clause is enclosed in an additional set of parentheses.
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-```sql title='Examples:'
--- This example illustrates a 'CREATE STAGE' command where 'CONNECTION' is followed by '=', establishing a Minio stage with specific connection parameters.
-CREATE STAGE my_minio_stage
-  's3://databend'
-  CONNECTION = (
-    ENDPOINT_URL = 'http://localhost:9000',
-    ACCESS_KEY_ID = 'ROOTUSER',
-    SECRET_ACCESS_KEY = 'CHANGEME123'
-  );
-
--- This example showcases a 'COPY INTO' command, employing '=' after 'CONNECTION' to copy data, while also specifying file format details.
-COPY INTO mytable
-    FROM 's3://mybucket/data.csv'
-    CONNECTION = (
-        ACCESS_KEY_ID = '<your-access-key-ID>',
-        SECRET_ACCESS_KEY = '<your-secret-access-key>'
-    )
-    FILE_FORMAT = (
-        TYPE = CSV,
-        FIELD_DELIMITER = ',',
-        RECORD_DELIMITER = '\n',
-        SKIP_HEADER = 1
-    )
-    SIZE_LIMIT = 10;
-
--- This example uses a 'SELECT' statement to query staged files. 
--- 'CONNECTION' is followed by '=>' to access Minio data, and the connection clause is enclosed in an additional set of parentheses.
-SELECT * FROM 's3://testbucket/admin/data/parquet/tuple.parquet' 
-    (CONNECTION => (
-        ACCESS_KEY_ID = 'minioadmin', 
-        SECRET_ACCESS_KEY = 'minioadmin', 
-        ENDPOINT_URL = 'http://127.0.0.1:9900/'
-        )
-    );
-```
-
-The connection parameters vary for different storage services based on their specific requirements and authentication mechanisms. For more information, please refer to the tables below.
-
-### Amazon S3-like Storage Services
+<Tabs groupId="operating-systems">
+<TabItem value="Amazon S3" label="Amazon S3">
 
 The following table lists connection parameters for accessing an Amazon S3-like storage service:
 
@@ -69,6 +33,24 @@ The following table lists connection parameters for accessing an Amazon S3-like 
 - The **region** parameter is not required because Databend can automatically detect the region information. You typically don't need to manually specify a value for this parameter. In case automatic detection fails, Databend will default to using 'us-east-1' as the region. When deploying Databend with MinIO and not configuring the region information, it will automatically default to using 'us-east-1', and this will work correctly. However, if you receive error messages such as "region is missing" or "The bucket you are trying to access requires a specific endpoint. Please direct all future requests to this particular endpoint", you need to determine your region name and explicitly assign it to the **region** parameter.
 :::
 
+```sql title='Examples'
+CREATE STAGE my_s3_stage
+  's3://my-bucket'
+  CONNECTION = (
+    ACCESS_KEY_ID = '<your-ak>',
+    SECRET_ACCESS_KEY = '<your-sk>'
+  );
+  
+CREATE STAGE my_minio_stage
+  's3://databend'
+  CONNECTION = (
+    ENDPOINT_URL = 'http://localhost:9000',
+    ACCESS_KEY_ID = 'ROOTUSER',
+    SECRET_ACCESS_KEY = 'CHANGEME123'
+  );
+```
+
+
 To access your Amazon S3 buckets, you can also specify an AWS IAM role and external ID for authentication. By specifying an AWS IAM role and external ID, you can provide more granular control over which S3 buckets a user can access. This means that if the IAM role has been granted permissions to access only specific S3 buckets, then the user will only be able to access those buckets. An external ID can further enhance security by providing an additional layer of verification. For more information, see https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html
 
 The following table lists connection parameters for accessing Amazon S3 storage service using AWS IAM role authentication:
@@ -79,26 +61,66 @@ The following table lists connection parameters for accessing Amazon S3 storage 
 | role_arn     	| Yes       	| ARN of the AWS IAM role for authorization to S3.      	|
 | external_id  	| No        	| External ID for enhanced security in role assumption. 	|
 
-### Azure Blob Storage
+```sql title='Examples'
+CREATE STAGE my_s3_stage
+  's3://my-bucket'
+  CONNECTION = (
+    ROLE_ARN = 'arn:aws:iam::123456789012:role/my-role',
+    EXTERNAL_ID = 'my-external-id'
+  );
+```
+
+</TabItem>
+
+<TabItem value="Azure Blob" label="Azure Blob">
 
 The following table lists connection parameters for accessing Azure Blob Storage:
 
-| Parameter    	| Required? 	| Description                                         	|
-|--------------	|-----------	|-----------------------------------------------------	|
-| endpoint_url 	| Yes       	| Endpoint URL for Azure Blob Storage.                	|
-| account_key  	| Yes       	| Azure Blob Storage account key for authentication.  	|
-| account_name 	| Yes       	| Azure Blob Storage account name for identification. 	|
+| Parameter    	 | Required? 	 | Description                                         	 |
+|----------------|-------------|-------------------------------------------------------|
+| endpoint_url 	 | Yes       	 | Endpoint URL for Azure Blob Storage.                	 |
+| account_key  	 | Yes       	 | Azure Blob Storage account key for authentication.  	 |
+| account_name 	 | Yes       	 | Azure Blob Storage account name for identification. 	 |
 
-### Google Cloud Storage
+```sql title='Examples'
+CREATE STAGE my_azure_stage
+  'azblob://my-container'
+  CONNECTION = (
+    ACCOUNT_NAME = 'myaccount',
+    ACCOUNT_KEY = 'myaccountkey',
+    ENDPOINT_URL = 'https://<your-storage-account-name>.blob.core.windows.net'
+  );
+```
+
+</TabItem>
+
+<TabItem value="Google GCS" label="Google GCS">
 
 The following table lists connection parameters for accessing Google Cloud Storage:
 
-| Parameter    	| Required? 	| Description                                         	|
-|--------------	|-----------	|-----------------------------------------------------	|
-| endpoint_url 	| Yes       	| Endpoint URL for Google Cloud Storage.              	|
-| credential   	| Yes       	| Google Cloud Storage credential for authentication. 	|
+| Parameter    	 | Required? 	 | Description                                         	 |
+|----------------|-------------|-------------------------------------------------------|
+| credential   	 | Yes       	 | Google Cloud Storage credential for authentication. 	 |
 
-### Alibaba Cloud OSS
+To get the `credential`, you could follow the topic [Create a service account key](https://cloud.google.com/iam/docs/keys-create-delete#creating)
+from the Google documentation to create and download a service account key file. After downloading the service account key file, you could
+convert it into a base64 string via the following command:
+
+```
+base64 -i -o ~/Desktop/base64-encoded-key.txt
+```
+
+```sql title='Examples'
+CREATE STAGE my_gcs_stage
+  'gcs://my-bucket'
+  CONNECTION = (
+    CREDENTIAL = '<your-base64-encoded-credential>'
+  );
+```
+
+</TabItem>
+
+<TabItem value="Alibaba OSS" label="Alibaba Cloud OSS">
 
 The following table lists connection parameters for accessing Alibaba Cloud OSS:
 
@@ -109,7 +131,19 @@ The following table lists connection parameters for accessing Alibaba Cloud OSS:
 | endpoint_url         	| Yes       	| Endpoint URL for Alibaba Cloud OSS.                     	|
 | presign_endpoint_url 	| No        	| Endpoint URL for presigning Alibaba Cloud OSS URLs.     	|
 
-### Tencent Cloud Object Storage
+```sql title='Examples'
+CREATE STAGE my_oss_stage
+  'oss://my-bucket'
+  CONNECTION = (
+    ACCESS_KEY_ID = '<your-ak>',
+    ACCESS_KEY_SECRET = '<your-sk>',
+    ENDPOINT_URL = 'https://<bucket-name>.<region-id>[-internal].aliyuncs.com'
+  );
+```
+
+</TabItem>
+
+<TabItem value="Tencent COS" label="Tencent COS">
 
 The following table lists connection parameters for accessing Tencent Cloud Object Storage (COS):
 
@@ -119,7 +153,19 @@ The following table lists connection parameters for accessing Tencent Cloud Obje
 | secret_id    	| Yes       	| Tencent Cloud Object Storage secret ID for authentication.  	|
 | secret_key   	| Yes       	| Tencent Cloud Object Storage secret key for authentication. 	|
 
-### HDFS
+```sql title='Examples'
+CREATE STAGE my_cos_stage
+  'cos://my-bucket'
+  CONNECTION = (
+    SECRET_ID = '<your-secret-id>',
+    SECRET_KEY = '<your-secret-key>',
+    ENDPOINT_URL = '<your-endpoint-url>'
+  );
+```
+
+</TabItem>
+
+<TabItem value="HDFS" label="HDFS">
 
 The following table lists connection parameters for accessing Hadoop Distributed File System (HDFS):
 
@@ -127,7 +173,17 @@ The following table lists connection parameters for accessing Hadoop Distributed
 |-----------	|-----------	|------------------------------------------------------	|
 | name_node 	| Yes       	| HDFS NameNode address for connecting to the cluster. 	|
 
-### WebHDFS
+```sql title='Examples'
+CREATE STAGE my_hdfs_stage
+  'hdfs://my-bucket'
+  CONNECTION = (
+    NAME_NODE = 'hdfs://<namenode-host>:<port>'
+  );
+```
+
+</TabItem>
+
+<TabItem value="WebHDFS" label="WebHDFS">
 
 The following table lists connection parameters for accessing WebHDFS:
 
@@ -136,14 +192,35 @@ The following table lists connection parameters for accessing WebHDFS:
 | endpoint_url 	| Yes       	| Endpoint URL for WebHDFS.                         	|
 | delegation   	| No        	| Delegation token for accessing WebHDFS.           	|
 
+```sql title='Examples'
+CREATE STAGE my_webhdfs_stage
+  'webhdfs://my-bucket'
+  CONNECTION = (
+    ENDPOINT_URL = 'http://<namenode-host>:<port>'
+  );
+```
 
-### Hugging Face
+</TabItem>
+
+<TabItem value="Hugging Face" label="HuggingFace">
 
 The following table lists connection parameters for accessing Hugging Face:
 
 | Parameter | Required?             | Description                                                                                                     |
 |-----------|-----------------------|-----------------------------------------------------------------------------------------------------------------|
-| repo_id   | Yes                   | The identifier for the Hugging Face repository. For example, "opendal/huggingface-testdata". Please note that the repo_id must have an organization name; datasets (such as https://huggingface.co/datasets/ropes) stored in a non-organizational format on the Hugging Face, are not supported at this time. |
 | repo_type | No (default: dataset) | The type of the Hugging Face repository. Can be `dataset` or `model`.                                           |
 | revision  | No (default: main)    | The revision for the Hugging Face URI. Could be a branch, tag, or commit of the repository.                     |
 | token     | No                    | The API token from Hugging Face, which may be required for accessing private repositories or certain resources. |
+
+```sql title='Examples'
+CREATE STAGE my_huggingface_stage
+  'hf://opendal/huggingface-testdata/'
+  CONNECTION = (
+    REPO_TYPE = 'dataset'
+    REVISION = 'main'
+  );
+```
+
+</TabItem>
+
+</Tabs>
