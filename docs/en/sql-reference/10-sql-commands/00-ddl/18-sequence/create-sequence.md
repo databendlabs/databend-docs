@@ -9,7 +9,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Creates a new sequence in Databend.
 
-Sequence is an object employed to generate unique numerical identifiers automatically, frequently utilized for assigning distinct identifiers to rows in tables, such as user ID columns. Typically, sequences start with a specified value and increment by a specified amount. Currently, in Databend, the sequence functionality exclusively supports starting with `1` and incrementing by `1`.
+Sequence is an object employed to generate unique numerical identifiers automatically, frequently utilized for assigning distinct identifiers to rows in tables, such as user ID columns. Typically, sequences start with a specified value and increment by a specified amount. 
+
+:::note
+A sequence in Databend currently starts with 1 and increments by 1. While sequences guarantee unique values, they **do not** ensure contiguity (i.e., without gaps).
+:::
 
 ## Syntax
 
