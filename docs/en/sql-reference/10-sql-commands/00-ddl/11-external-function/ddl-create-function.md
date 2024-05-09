@@ -31,4 +31,4 @@ CREATE [ OR REPLACE ] FUNCTION [ IF NOT EXISTS ] <function_name>
 
 ## Examples
 
-See [Usage Examples](index.md#usage-examples).
+See [Usage Examples](/guides/query/external-function#usage-examples) for more information.
