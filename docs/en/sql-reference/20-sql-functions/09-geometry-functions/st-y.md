@@ -15,9 +15,9 @@ ST_Y(<geometry>)
 
 ## Arguments
 
-| Arguments    | Description                                          |
-|--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| Arguments    | Description                                                                   |
+|--------------|-------------------------------------------------------------------------------|
+| `<geometry>` | The argument must be an expression of type GEOMETRY and must contain a Point. |
 
 ## Return Type
 
@@ -31,10 +31,10 @@ SELECT
     ST_MAKEGEOMPOINT(
       37.5, 45.5
     )
-  ) AS pipeline_x;
+  ) AS pipeline_y;
 
 ┌────────────┐
-│ pipeline_x │
+│ pipeline_y │
 ├────────────┤
 │       45.5 │
 └────────────┘

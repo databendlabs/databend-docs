@@ -15,9 +15,9 @@ ST_X(<geometry>)
 
 ## Arguments
 
-| Arguments    | Description                                          |
-|--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| Arguments    | Description                                                                   |
+|--------------|-------------------------------------------------------------------------------|
+| `<geometry>` | The argument must be an expression of type GEOMETRY and must contain a Point. |
 
 ## Return Type
 
