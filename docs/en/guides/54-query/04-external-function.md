@@ -22,6 +22,17 @@ This table lists the supported languages and the required libraries for creating
 
 Databend provides a variety of commands to manage external functions. For details, see [External Function](/sql/sql-commands/ddl/external-function/).
 
+## Databend Settings for External Functions Server
+
+Databend provides the following settings to configure the external function server communication:
+
+| Setting Name | Default Value | Description                                    | Range |
+|--------------|---------------|------------------------------------------------|-------|
+| `external_server_connect_timeout_secs` | 10 | Connection timeout to external server | 0 to u64::MAX |
+| `external_server_request_timeout_secs` | 180 | Request timeout to external server    | 0 to u64::MAX |
+| `external_server_request_batch_rows` | 65536 | Request batch rows to external server | 1 to u64::MAX |
+
+
 ## Usage Examples
 
 This section demonstrates how to create an external function in each of the [Supported Programming Languages](#supported-programming-languages).
