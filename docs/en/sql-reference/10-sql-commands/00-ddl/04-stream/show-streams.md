@@ -29,8 +29,9 @@ SHOW [ FULL ] STREAMS
 
 ## Examples
 
+This example shows streams belonging to the current database:
+
 ```sql
--- Show streams belonging to the current database
 SHOW STREAMS;
 
 ┌──────────────────────────────────────────────────────────┐
@@ -40,8 +41,11 @@ SHOW STREAMS;
 │ s_append_only      │ default.t_append_only │ append_only │
 │ s_standard         │ default.t_standard    │ standard    │
 └──────────────────────────────────────────────────────────┘
+```
 
--- Show detailed information about streams in the current database
+This example shows detailed information about streams in the current database:
+
+```sql
 SHOW FULL STREAMS;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
