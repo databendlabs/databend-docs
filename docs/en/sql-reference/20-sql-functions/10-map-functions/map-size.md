@@ -1,16 +1,16 @@
 ---
-title: MAP_KEYS
+title: MAP_SIZE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.429"/>
+<FunctionDescription description="Introduced or updated: v1.2.459"/>
 
-Returns the keys in a map.
+Returns the size of a MAP.
 
 ## Syntax
 
 ```sql
-MAP_KEYS( <map> )
+MAP_SIZE( <map> )
 ```
 
 ## Arguments
@@ -21,16 +21,16 @@ MAP_KEYS( <map> )
 
 ## Return Type
 
-Array.
+UInt64.
 
 ## Examples
 
 ```sql
-SELECT MAP_KEYS({'a':1,'b':2,'c':3});
+SELECT MAP_SIZE({'a':1,'b':2,'c':3});
 
 ┌───────────────────────────────┐
-│ map_keys({'a':1,'b':2,'c':3}) │
+│ map_size({'a':1,'b':2,'c':3}) │
 ├───────────────────────────────┤
-│ ['a','b','c']                 │
+│ 3                             │
 └───────────────────────────────┘
 ```
