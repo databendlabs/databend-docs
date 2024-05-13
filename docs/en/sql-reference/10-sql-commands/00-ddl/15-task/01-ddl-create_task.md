@@ -104,12 +104,6 @@ CREATE TASK IF NOT EXISTS hourly_data_cleanup
 AS
 DELETE FROM archived_data
 WHERE archived_date < DATEADD(HOUR, -24, CURRENT_TIMESTAMP());
-CREATE TASK mytask
- WAREHOUSE = 'mywh'
- SCHEDULE = 30 SECOND
-AS
- INSERT INTO mytable(ts)
- VALUES(CURRENT_TIMESTAMP);
 
  ```
 In this example, a task named hourly_data_cleanup is created. It uses the maintenance warehouse and is scheduled to run every hour. The task deletes data from the archived_data table that is older than 24 hours. The task only runs if the change_stream stream contains change data. 
