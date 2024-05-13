@@ -13,6 +13,16 @@ Returns the values in a map.
 MAP_VALUES( <map> )
 ```
 
+## Arguments
+
+| Arguments | Description    |
+|-----------|----------------|
+| `<map>`   | The input map. |
+
+## Return Type
+
+Array.
+
 ## Examples
 
 ```sql
