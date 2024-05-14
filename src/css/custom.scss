@@ -4,19 +4,19 @@
  * work well for content-centric websites.
  */
 //  @import './mixins'; // mixins
- @import './theme.scss'; // theme
- @import './font.scss'; // font
- @import './steps.scss'; // steps
- @import './details-card.scss'; // details-card
- @import './alert.scss'; // 信息组件
- @import './menu.scss'; // 菜单样式
- @import './breadcrums.scss'; // 面包样式
- @import './navbar.scss'; // top bar
- @import './markdown.scss'; // markdown
- @import './pagination.scss'; // 底部导航
- @import './zoom-img.scss'; // 图片放大
- @import './icons-color.scss'; // 自定义 icon 颜色类
- @import './toc.scss'; // TOC
+@import './font.scss'; // font
+@import './theme.scss'; // theme
+@import './steps.scss'; // steps
+@import './details-card.scss'; // details-card
+@import './alert.scss'; // 信息组件
+@import './menu.scss'; // 菜单样式
+@import './breadcrums.scss'; // 面包样式
+@import './navbar.scss'; // top bar
+@import './markdown.scss'; // markdown
+@import './pagination.scss'; // 底部导航
+@import './zoom-img.scss'; // 图片放大
+@import './icons-color.scss'; // 自定义 icon 颜色类
+@import './toc.scss'; // TOC
 
 .container {
   padding-right: 2rem;
