@@ -3,7 +3,7 @@ title: system.settings
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.187"/>
+<FunctionDescription description="引入或更新版本：v1.2.466"/>
 
 存储当前会话的系统设置。
 
@@ -47,7 +47,7 @@ hive_parquet_chunk_size                     |16384       |16384       |SESSION|�
 input_read_buffer_size                      |4194304     |4194304     |SESSION|设置分配给缓冲读取器用于从存储读取数据的缓冲区的内存大小（字节）。                                                                                                                     |UInt64|
 join_spilling_threshold                     |0           |0           |SESSION|哈希连接可以使用的最大内存量，0 为无限制。                                                                                                                                           |UInt64|
 lazy_read_threshold                         |1000        |1000        |SESSION|设置查询中启用懒读优化的最大 LIMIT。设置为 0 禁用优化。                                                                                                                              |UInt64|
-load_file_metadata_expire_hours             |168         |168         |SESSION|设置使用 COPY INTO 从中加载数据的文件的元数据过期的小时数。                                                                                                                          |UInt64|
+load_file_metadata_expire_hours             |12          |12          |SESSION|设置使用 COPY INTO 从中加载数据的文件的元数据过期的小时数。                                                                                                                          |UInt64|
 max_block_size                              |65536       |65536       |SESSION|设置可以读取的单个数据块的最大字节大小。                                                                                                                                            |UInt64|
 max_execute_time_in_seconds                 |0           |0           |SESSION|设置最大查询执行时间（秒）。设置为 0 表示无限制。                                                                                                                                    |UInt64|
 max_inlist_to_or                            |3           |3           |SESSION|设置可以包含在 IN 表达式中并转换为 OR 操作符的最大值数量。                                                                                                                            |UInt64|

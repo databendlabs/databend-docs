@@ -3,7 +3,7 @@ title: system.settings
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.187"/>
+<FunctionDescription description="Introduced or updated: v1.2.466"/>
 
 Stores the system settings of the current session.
 
@@ -45,7 +45,7 @@ hive_parquet_chunk_size                     |16384       |16384       |SESSION|t
 input_read_buffer_size                      |4194304     |4194304     |SESSION|Sets the memory size in bytes allocated to the buffer used by the buffered reader to read data from storage.                                                                       |UInt64|
 join_spilling_threshold                     |0           |0           |SESSION|Maximum amount of memory can use for hash join, 0 is unlimited.                                                                                                                    |UInt64|
 lazy_read_threshold                         |1000        |1000        |SESSION|Sets the maximum LIMIT in a query to enable lazy read optimization. Setting it to 0 disables the optimization.                                                                     |UInt64|
-load_file_metadata_expire_hours             |168         |168         |SESSION|Sets the hours that the metadata of files you load data from with COPY INTO will expire in.                                                                                        |UInt64|
+load_file_metadata_expire_hours             |12          |12          |SESSION|Sets the hours that the metadata of files you load data from with COPY INTO will expire in.                                                                                        |UInt64|
 max_block_size                              |65536       |65536       |SESSION|Sets the maximum byte size of a single data block that can be read.                                                                                                                |UInt64|
 max_execute_time_in_seconds                 |0           |0           |SESSION|Sets the maximum query execution time in seconds. Setting it to 0 means no limit.                                                                                                  |UInt64|
 max_inlist_to_or                            |3           |3           |SESSION|Sets the maximum number of values that can be included in an IN expression to be converted to an OR operator.                                                                      |UInt64|
