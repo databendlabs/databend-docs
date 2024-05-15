@@ -3,9 +3,9 @@ title: CREATE TABLE(external-location)
 sidebar_position: 2
 ---
 
-The `CREATE TABLE ... CONNECTION = (...)` statement creates a table and specifies an S3 bucket for data storage instead of using the default local storage.
+The `CREATE TABLE ... CONNECTION = (...)` statement creates a table and specifies an S3-compatible storage bucket for data storage instead of using the default local storage.
 
-Then the fuse table engine table will be stored in the specified S3 bucket.
+Then the fuse table engine table will be stored in the specified S3-compatible bucket.
 
 ## Benefits
 
@@ -47,7 +47,7 @@ Connection parameters:
 
 For more information on `CONNECTION_NAME`, see [CREATE CONNECTION](../13-connection/create-connection.md)
 
-## S3 Bucket Policy Requirements
+## S3-compatible Bucket Policy Requirements
 
 The external location S3 bucket must have the following permissions granted through an S3 bucket policy:
 
