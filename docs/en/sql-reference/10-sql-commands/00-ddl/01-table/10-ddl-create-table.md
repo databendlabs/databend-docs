@@ -106,53 +106,7 @@ CREATE TRANSIENT TABLE ...
 
 ## CREATE TABLE ... EXTERNAL_LOCATION
 
-Creates a table and stores it in an S3 bucket other than the default storage.
-
-
-Syntax:
-```sql
-CREATE TABLE [IF NOT EXISTS] [db.]table_name
-
-    <column_name> <data_type> [ NOT NULL | NULL] [ { DEFAULT <expr> }],
-    <column_name> <data_type> [ NOT NULL | NULL] [ { DEFAULT <expr> }],
-    ...
-
-'s3://<bucket>/[<path>]' 
-CONNECTION = (
-        ENDPOINT_URL = 'https://<endpoint-URL>'
-        ACCESS_KEY_ID = '<your-access-key-ID>'
-        SECRET_ACCESS_KEY = '<your-secret-access-key>'
-        REGION = '<region-name>'
-        ENABLE_VIRTUAL_HOST_STYLE = 'true'|'false'
-  );
-```
-
-| Parameter                   | Description                                                                                                                                                                                                              | Required   |
-|-----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `s3://<bucket>/[<path>]`    | Files are in the specified external location (S3-like bucket)                                                                                                                                                            | YES        |
-| ENDPOINT_URL              	 | The bucket endpoint URL starting with "https://". To use a URL starting with "http://", set `allow_insecure` to `true` in the [storage] block of the file `databend-query-node.toml`.                                  	 | Optional 	 |
-| ACCESS_KEY_ID             	 | Your access key ID for connecting the AWS S3 compatible object storage. If not provided, Databend will access the bucket anonymously.    	                                                                               | Optional 	 |
-| SECRET_ACCESS_KEY         	 | Your secret access key for connecting the AWS S3 compatible object storage. 	                                                                                                                                            | Optional 	 |
-| REGION                    	 | AWS region name. For example, us-east-1.                                    	                                                                                                                                            | Optional 	 |
-| ENABLE_VIRTUAL_HOST_STYLE 	 | If you use virtual hosting to address the bucket, set it to "true".                               	                                                                                                                      | Optional 	 |
-
-
-:::info S3 Bucket Policy Requirements
-
-The external location S3 bucket must have the following permissions granted through an S3 bucket policy:
-
-**Read-only Access:**
-- `s3:GetObject`: Allows reading objects from the bucket.
-- `s3:ListBucket`: Allows listing objects in the bucket.
-- `s3:ListBucketVersions`: Allows listing object versions in the bucket.
-- `s3:GetObjectVersion`: Allows retrieving a specific version of an object.
-
-**Writable Access:**
-- `s3:PutObject`: Allows writing objects to the bucket.
-- `s3:DeleteObject`: Allows deleting objects from the bucket.
-- `s3:AbortMultipartUpload`: Allows aborting multipart uploads.
-- `s3:DeleteObjectVersion`: Allows deleting a specific version of an object.
-:::
+See [CREATE TABLE(EXTERNAL_LOCATION)](./10-ddl-create-table-external-location.md).
 
 ## Column Nullable
 
@@ -393,23 +347,6 @@ SELECT * FROM visits;
 |         2 |
 |         3 |
 +-----------+
-```
-
-### Create Table ... External_Location
-
-Create a table with data stored on an external location, such as Amazon S3:
-
-```sql
--- Create a table named `mytable` and specify the location `s3://testbucket/admin/data/` for the data storage
-CREATE TABLE mytable (
-  a INT
-) 
-'s3://testbucket/admin/data/' 
-CONNECTION=(
-  ACCESS_KEY_ID='<your_aws_key_id>' 
-  SECRET_ACCESS_KEY='<your_aws_secret_key>' 
-  ENDPOINT_URL='https://s3.amazonaws.com'
-);
 ```
 
 ### Create Table ... Column As STORED | VIRTUAL
