@@ -1,48 +1,97 @@
 ---
 title: UNSET
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Set one or more system settings back to their default values. The settings will also be reset to the initial SESSION level if they were set to GLOBAL level. See [Examples](#examples) for how to reset a GLOBAL setting with UNSET. For more information about the setting levels, see [Setting Levels](03-show-settings.md#setting-levels). To show all the current settings, use [SHOW SETTINGS](03-show-settings.md).
+<FunctionDescription description="Introduced or updated: v1.2.467"/>
+
+Reverts one or more system settings to their default levels and values. For more information about the setting levels, see [Setting Levels](03-show-settings.md#setting-levels). To show all the current settings, use [SHOW SETTINGS](03-show-settings.md).
 
 See also: [SET](02-set-global.md)
 
 ## Syntax
 
 ```sql
-UNSET <setting_name> | ( <setting_name> [, <setting_name> ...])
+-- Unset one setting
+UNSET [ SESSION ] <setting_name> 
+
+-- Unset multiple settings
+UNSET [ SESSION ] ( <setting_name>, <setting_name> ... )
 ```
+
+| Parameter | Description                                                                                                                                               |
+|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SESSION   | Removes the session-level (current session) setting of a global-level setting, reverting the setting back to the global level and its global-level value. |
 
 ## Examples
 
-This example assigns new values to some system settings, changes their levels to GLOBAL, then resets them to their defaults:
+This example uses UNSET to remove the global-level setting for timezone, reverting it back to its default value and level:
 
 ```sql
----Show default values
-SELECT name, value, default, level from system.settings where name in ('sql_dialect', 'timezone');
+SHOW SETTINGS LIKE 'timezone';
 
-| name                          | value      | default    | level   |
-|-------------------------------|------------|------------|---------|
-| sql_dialect                   | PostgreSQL | PostgreSQL | SESSION |
-| timezone                      | UTC        | UTC        | SESSION |
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │  value │ default │                                range                                │  level  │     description    │  type  │
+├──────────┼────────┼─────────┼─────────────────────────────────────────────────────────────────────┼─────────┼────────────────────┼────────┤
+│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ Sets the timezone. │ String │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
----Set new values
-SET GLOBAL sql_dialect='MySQL';
-SET GLOBAL timezone='Asia/Shanghai';
+-- Sets timezone to 'Asia/Shanghai' at global level
+SET GLOBAL timezone = 'Asia/Shanghai';
+SHOW SETTINGS LIKE 'timezone';
 
-SELECT name, value, default, level from system.settings where name in ('sql_dialect', 'timezone');
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │     value     │ default │                                range                                │  level │     description    │  type  │
+├──────────┼───────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼────────┼────────────────────┼────────┤
+│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ Sets the timezone. │ String │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-| name                          | value         | default    | level  |
-|-------------------------------|---------------|------------|--------|
-| sql_dialect                   | MySQL         | PostgreSQL | GLOBAL |
-| timezone                      | Asia/Shanghai | UTC        | GLOBAL |
+-- Removes the global-level setting for timezone
+UNSET timezone;
+SHOW SETTINGS LIKE 'timezone';
 
----Reset to default values
-UNSET (timezone, sql_dialect);
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │  value │ default │                                range                                │  level  │     description    │  type  │
+├──────────┼────────┼─────────┼─────────────────────────────────────────────────────────────────────┼─────────┼────────────────────┼────────┤
+│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ Sets the timezone. │ String │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
-SELECT name, value, default, level from system.settings where name in ('sql_dialect', 'timezone');
+This example uses UNSET SESSION to remove the session-level setting for timezone, reverting it back to the global-level setting:
 
-| name                          | value      | default    | level   |
-|-------------------------------|------------|------------|---------|
-| sql_dialect                   | PostgreSQL | PostgreSQL | SESSION |
-| timezone                      | UTC        | UTC        | SESSION |
+```sql
+SHOW SETTINGS LIKE 'timezone';
+
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │  value │ default │                                range                                │  level  │     description    │  type  │
+├──────────┼────────┼─────────┼─────────────────────────────────────────────────────────────────────┼─────────┼────────────────────┼────────┤
+│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ Sets the timezone. │ String │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+-- Sets timezone to 'Asia/Shanghai' at global level
+SET GLOBAL timezone = 'Asia/Shanghai';
+SHOW SETTINGS LIKE 'timezone';
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │     value     │ default │                                range                                │  level │     description    │  type  │
+├──────────┼───────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼────────┼────────────────────┼────────┤
+│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ Sets the timezone. │ String │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+-- Set timezone to 'America/Santiago' in current session
+SET timezone = 'America/Santiago';
+SHOW SETTINGS LIKE 'timezone';
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │       value      │ default │                                range                                │  level  │     description    │  type  │
+├──────────┼──────────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼─────────┼────────────────────┼────────┤
+│ timezone │ America/Santiago │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ SESSION │ Sets the timezone. │ String │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+UNSET SESSION timezone;
+SHOW SETTINGS LIKE 'timezone';
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │     value     │ default │                                range                                │  level │     description    │  type  │
+├──────────┼───────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼────────┼────────────────────┼────────┤
+│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ Sets the timezone. │ String │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```

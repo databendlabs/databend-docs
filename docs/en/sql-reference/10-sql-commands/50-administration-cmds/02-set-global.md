@@ -2,7 +2,7 @@
 title: SET
 ---
 
-Changes the value and/or level of a system setting. To show all the current settings, use [SHOW SETTINGS](03-show-settings.md).
+Changes the value of a system setting for the current session. To show all the current settings, use [SHOW SETTINGS](03-show-settings.md).
 
 See also:
 - [SET_VAR](03-set-var.md)
@@ -11,10 +11,12 @@ See also:
 ## Syntax
 
 ```sql
-SET [GLOBAL] <setting_name> = <new_value>;
+SET [ GLOBAL ] <setting_name> = <new_value>
 ```
 
-`GLOBAL`: If you include this option preceding a session-level setting, the setting will become a global-level setting. For more information about the setting levels, see [Setting Levels](03-show-settings.md#setting-levels).
+| Parameter | Description                                                                                                                                                                                          |
+|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GLOBAL    | Applies the setting change at the global level, rather than just the current session. For more information about the setting levels, see  [Setting Levels](03-show-settings.md#setting-levels). |
 
 ## Examples
 
