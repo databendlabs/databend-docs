@@ -19,7 +19,7 @@ The following example illustrates what a stream looks like and how it works in b
 <StepsWrap>
 <StepContent number="1">
 
-### Create streams to capture changes
+#### Create streams to capture changes
 
 Let's create two tables first, and then create a stream for each table with different modes to capture changes to the tables.
 
@@ -118,12 +118,12 @@ SELECT * FROM s_append_only;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Up to this point, we haven't noticed any significant differences between the two modes as we haven't processed the streams yet. All changes have been consolidated and manifested as INSERT actions. **A stream can be consumed by tasks or DML (Data Manipulation Language) operations**. After consumption, the stream contains no data but can continue to capture new changes, if any. To further analyze the distinctions, let's proceed with consuming the streams and examining the output.
+Up to this point, we haven't noticed any significant differences between the two modes as we haven't processed the streams yet. All changes have been consolidated and manifested as INSERT actions. **A stream can be consumed by a task, a DML (Data Manipulation Language) operation, or a query using the [WITH CONSUME](/sql/sql-commands/query-syntax/with-consume) clause**. After consumption, the stream contains no data but can continue to capture new changes, if any. To further analyze the distinctions, let's proceed with consuming the streams and examining the output.
 
 </StepContent>
 <StepContent number="2">
 
-### Consume streams
+#### Consume streams
 
 Let's create two new tables and insert into them what the streams have captured.
 
@@ -164,7 +164,7 @@ SELECT * FROM s_append_only;
 </StepContent>
 <StepContent number="3">
 
-### Capture new changes
+#### Capture new changes
 
 Now, let's update the value from `3` to `4` in each table, and subsequently, check their streams again:
 
