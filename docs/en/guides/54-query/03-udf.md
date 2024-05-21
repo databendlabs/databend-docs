@@ -40,7 +40,7 @@ SELECT get_v1(data), get_v2(data) FROM json_table;
 
 ## Embedded UDFs
 
-Databend supports creating embedded UDFs with the following programming languages:
+Embedded UDFs allow you to embed code written in the following programming languages within SQL:
 
 - [JavaScript](#javascript)
 - [WebAssembly](#webassembly)
