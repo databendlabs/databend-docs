@@ -137,10 +137,11 @@ For example, Current Version is 1.2.306 upgrade to 1.2.312:
 
 ## Compatibility between databend-meta
 
-| Meta version      | Backward compatible with |
-|:------------------|:-------------------------|
-| [0.9.41, 1.2.212) | [0.9.41, 1.2.212)        |
-| [1.2.212, +∞)     | [0.9.41, +∞)             |
+| Meta version        | Backward compatible with |
+|:--------------------|:-------------------------|
+| [0.9.41,   1.2.212) | [0.9.41,  1.2.212)       |
+| [1.2.212,  1.2.479) | [0.9.41,  1.2.479)      |
+| [1.2.479, +∞)       | [1.2.212, +∞)            |
 
 
 - `1.2.53` Incompatible, rolling upgrade is allowed without snapshot transmitting.
@@ -153,6 +154,9 @@ For example, Current Version is 1.2.306 upgrade to 1.2.312:
   Rolling upgrade is supported.
   In this version, databend-meta raft-server introduced a new API `install_snapshot_v1()`.
   The raft-client will try to use either this new API or the original `install_snapshot()`.
+
+- `1.2.479` Remove: `install_snapshot()`(v0) from client and server.
+  The `install_snapshot_v1()` is the only API to install snapshot, and becomes **REQUIRED** for the client.
 
 
 ## Compatibility of databend-meta on-disk data
