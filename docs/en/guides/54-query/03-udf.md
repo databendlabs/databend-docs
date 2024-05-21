@@ -51,7 +51,30 @@ If your program content is large, you can compress it and then pass it to the st
 
 ### JavaScript
 
-A JavaScript UDF allows you to invoke JavaScript code from a SQL query via Databend's built-in handle, enabling seamless integration of JavaScript logic within your SQL queries. For the Databend data types and their corresponding Java equivalents, see [Data Type Mappings](/developer/drivers/jdbc#data-type-mappings).
+A JavaScript UDF allows you to invoke JavaScript code from a SQL query via Databend's built-in handler, enabling seamless integration of JavaScript logic within your SQL queries. 
+
+#### Data Type Mappings
+
+The following table shows the type mapping between Databend and JavaScript:
+
+| Databend Type     | JS Type    |
+|-------------------|------------|
+| NULL              | null       |
+| BOOLEAN           | Boolean    |
+| TINYINT           | Number     |
+| TINYINT UNSIGNED  | Number     |
+| SMALLINT          | Number     |
+| SMALLINT UNSIGNED | Number     |
+| INT               | Number     |
+| INT UNSIGNED      | Number     |
+| BIGINT            | Number     |
+| BIGINT UNSIGNED   | Number     |
+| FLOAT             | Number     |
+| DOUBLE            | Number     |
+| STRING            | String     |
+| DATE / TIMESTAMP  | Date       |
+| DECIMAL           | BigDecimal |
+| BINARY            | Uint8Array |
 
 #### Usage Examples
 
