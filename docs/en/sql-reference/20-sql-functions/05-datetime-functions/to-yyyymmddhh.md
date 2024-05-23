@@ -23,7 +23,7 @@ Returns an unsigned 64-bit integer (UInt64) in the format "YYYYMMDDHH".
 ## Examples
 
 ```sql
-SELECT  to_yyyymmddhh('2023-11-12 09:38:18.165575'),to_yyyymmddhh(to_date('2023-11-12 09:38:18.165575'));
+SELECT to_yyyymmddhh('2023-11-12 09:38:18.165575'), to_yyyymmddhh(to_date('2023-11-12 09:38:18.165575'));
 ┌─────────────────────────────────────────────┐─────────────────────────────────────────────────────┐
 │ to_yyyymmddhh('2023-11-12 09:38:18.165575') │to_yyyymmddhh(to_date('2023-11-12 09:38:18.165575')  │
 │                    UInt32                   │                    UInt32                           │

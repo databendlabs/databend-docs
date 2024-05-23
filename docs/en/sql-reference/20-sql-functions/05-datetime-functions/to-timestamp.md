@@ -127,8 +127,9 @@ SELECT TO_TIMESTAMP(1), TO_TIMESTAMP(-1);
 
 Please note that a Timestamp value ranges from 1000-01-01 00:00:00.000000 to 9999-12-31 23:59:59.999999. Databend would return an error if you run the following statement:
 
-```sql
-SELECT TO_TIMESTAMP(9999999999999999999);
+```bash
+root@localhost:8000/default> SELECT TO_TIMESTAMP(9999999999999999999);
+error: APIError: ResponseError with 1006: number overflowed while evaluating function `to_int64(9999999999999999999)`
 ```
 :::
 
