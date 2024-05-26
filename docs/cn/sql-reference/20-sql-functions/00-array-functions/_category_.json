@@ -1,3 +1,79 @@
-{
-    "label": "数组函数"
-  }
+# Array 函数
+
+在 Databend 中，数组函数提供了处理数组数据的能力，使得数据分析和处理更加高效和灵活。以下是一些常用的数组函数及其用法。
+
+## ARRAY_CONCAT
+
+`ARRAY_CONCAT` 函数用于连接两个或多个数组。
+
+```sql
+SELECT ARRAY_CONCAT(ARRAY[1, 2], ARRAY[3, 4]);
+```
+
+## ARRAY_LENGTH
+
+`ARRAY_LENGTH` 函数返回数组的长度。
+
+```sql
+SELECT ARRAY_LENGTH(ARRAY[1, 2, 3, 4]);
+```
+
+## ARRAY_MAX
+
+`ARRAY_MAX` 函数返回数组中的最大值。
+
+```sql
+SELECT ARRAY_MAX(ARRAY[1, 2, 3, 4]);
+```
+
+## ARRAY_MIN
+
+`ARRAY_MIN` 函数返回数组中的最小值。
+
+```sql
+SELECT ARRAY_MIN(ARRAY[1, 2, 3, 4]);
+```
+
+## ARRAY_SUM
+
+`ARRAY_SUM` 函数返回数组中所有元素的总和。
+
+```sql
+SELECT ARRAY_SUM(ARRAY[1, 2, 3, 4]);
+```
+
+## ARRAY_TO_STRING
+
+`ARRAY_TO_STRING` 函数将数组转换为字符串，可以指定分隔符和空值替换字符。
+
+```sql
+SELECT ARRAY_TO_STRING(ARRAY['a', 'b', 'c'], ',', 'none');
+```
+
+## ARRAY_INTERSECT
+
+`ARRAY_INTERSECT` 函数返回两个数组的交集。
+
+```sql
+SELECT ARRAY_INTERSECT(ARRAY[1, 2, 3], ARRAY[2, 3, 4]);
+```
+
+## ARRAY_EXCEPT
+
+`ARRAY_EXCEPT` 函数返回两个数组的差集。
+
+```sql
+SELECT ARRAY_EXCEPT(ARRAY[1, 2, 3], ARRAY[2, 3, 4]);
+```
+
+## ARRAY_UNION
+
+`ARRAY_UNION` 函数返回两个数组的并集。
+
+```sql
+SELECT ARRAY_UNION(ARRAY[1, 2, 3], ARRAY[2, 3, 4]);
+```
+
+这些函数为处理数组数据提供了强大的工具，使得在 Databend 中进行复杂的数据操作变得更加简单。
+
+{/*examples*/}
