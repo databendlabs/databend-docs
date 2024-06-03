@@ -1,6 +1,5 @@
 ---
-title: SHOW GRANTS
-sidebar_position: 10
+title: SHOW_GRANTS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
@@ -8,22 +7,15 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Lists privileges explicitly granted to a user, to a role, or on a specific object.
 
-See also:
-
-- [GRANT](10-grant.md)
-- [REVOKE](11-revoke.md)
-
 ## Syntax
 
 ```sql
--- List privileges granted to a user
-SHOW GRANTS FOR <user_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
-
--- List privileges granted to a role
-SHOW GRANTS FOR ROLE <role_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
-
--- List privileges granted on an object
-SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF } <object_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
+SHOW_GRANTS('role', '<role_name>')
+SHOW_GRANTS('user', '<user_name>')
+SHOW_GRANTS('stage', '<stage_name>')
+SHOW_GRANTS('udf', '<udf_name>')
+SHOW_GRANTS('table', '<table_name>', '<catalog_name>', '<db_name>')
+SHOW_GRANTS('database', '<db_name>', '<catalog_name>')
 ```
 
 ## Examples
@@ -47,7 +39,7 @@ CREATE STAGE my_stage;
 GRANT READ ON STAGE my_stage TO ROLE analyst;
 
 -- List privileges granted to the user
-SHOW GRANTS FOR user1;
+SELECT * FROM SHOW_GRANTS('user', 'user1');
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ privileges │ object_name │     object_id    │ grant_to │  name  │                    grants                   │
@@ -56,7 +48,7 @@ SHOW GRANTS FOR user1;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- List privileges granted to the role
-SHOW GRANTS FOR ROLE analyst;
+SELECT * FROM SHOW_GRANTS('role', 'analyst');
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ privileges │ object_name │     object_id    │ grant_to │   name  │                     grants                     │
@@ -65,7 +57,7 @@ SHOW GRANTS FOR ROLE analyst;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- List privileges granted on the stage
-SHOW GRANTS ON STAGE my_stage;
+SELECT * FROM SHOW_GRANTS('stage', 'my_stage');
 
 ┌─────────────────────────────────────────────────────────────────────────────────────┐
 │ privileges │ object_name │     object_id    │ grant_to │   name  │      grants      │
