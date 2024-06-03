@@ -61,15 +61,15 @@ ALTER USER eric WITH DEFAULT_ROLE = 'account_admin';
 - A user can examine their current role and view all the roles granted to them by using the [SHOW ROLES](/sql/sql-commands/ddl/user/user-show-roles) command.
 - If you don't explicitly set a default role for a user, Databend will default to using the built-in role `public` as the default role.
 
-## Working with Roles
+## Active Role & Secondary Roles
 
-When working with Databend, create user roles as needed. To manage user roles, use the following commands:
+A user can be granted multiple roles in Databend. These roles are categorized into an active role and secondary roles:
 
-- [CREATE ROLE](/sql/sql-commands/ddl/user/user-create-role)
-- [SET ROLE](/sql/sql-commands/ddl/user/user-set-role)
-- [SHOW ROLES](/sql/sql-commands/ddl/user/user-show-roles)
-- [GRANT](/sql/sql-commands/ddl/user/grant)
-- [REVOKE](/sql/sql-commands/ddl/user/revoke)
+- The active role is the user's currently active primary role for the session, which can be set using the [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) command. 
+
+- Secondary roles are additional roles that provide extra permissions and are active by default. Users can activate or deactivate secondary roles with the [SET SECONDARY ROLES](/sql/sql-commands/ddl/user/user-set-2nd-roles) command to temporarily adjust their permission scope.
+
+## Usage Examples
 
 This example showcases role-based permission management. Initially, a 'writer' role is created and granted privileges. Subsequently, these privileges are assigned to the user 'eric', who inherits them. Lastly, the permissions are revoked from the role, demonstrating their impact on the user's privileges.
 
