@@ -5,7 +5,7 @@ sidebar_position: 6
 
 Activates all secondary roles for the current session. This means that all secondary roles granted to the user will be active, extending the user's privileges. For more information about the active role and secondary roles, see [Active Role & Secondary Roles](/guides/security/access-control/roles#active-role--secondary-roles).
 
-Seel also: [SET ROLE](04-user-set-role.md)
+See also: [SET ROLE](04-user-set-role.md)
 
 ## Syntax
 
