@@ -40,7 +40,7 @@ JSON 的模式可以任意更改。然而，在实际使用中，JSON 数据通�
 我们应该只为频繁查询的 JSON 键路径生成虚拟列。
 
 为了知道哪些键路径被频繁查询，
-我们使用 [FPGrowth 算法](https://www.cs.sfu.ca/~jpei/publications/sigmod00.pdf) 来计算 JSON 数据键路径的访问频率。
+我们使用 [FPGrowth 算法](https://link.springer.com/content/pdf/10.1023/B:DAMI.0000005258.31418.83.pdf) 来计算 JSON 数据键路径的访问频率。
 “FP”代表频繁模式，通常用于计算项目频率和识别频繁项。
 每次用户查询 JSON 数据的一个键路径时，都会被 FPGrowth 算法记录下来，最终生成一棵树状的统计信息。
 我们可以使用这个统计信息来确定哪些键路径需要生成虚拟列。

@@ -7,6 +7,7 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import Head from '@docusaurus/Head';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import {useThemeConfig} from '@docusaurus/theme-common';
 import CookiesConsent from '../../components/CookiesConsent';
@@ -52,6 +53,7 @@ function Footer() {
   return (
      <footer className={clsx('footer', styles.footer)}>
         <Head>
+          <script async src={useBaseUrl('/Koala/index.js')}></script>
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"/>
         </Head>
         <div className={clsx('footer-items', styles.footerItems)}>

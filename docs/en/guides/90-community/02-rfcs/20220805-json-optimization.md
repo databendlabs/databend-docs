@@ -40,7 +40,7 @@ Extracting and storing virtual columns requires extra parsing processes and stor
 We should only generate virtual columns for frequently queried JSON key paths.
 
 In order to know which key paths are frequently queried,
-we use the [FPGrowth algorithm](https://www.cs.sfu.ca/~jpei/publications/sigmod00.pdf) to count the access frequency of the JSON data key paths.
+we use the [FPGrowth algorithm](https://link.springer.com/content/pdf/10.1023/B:DAMI.0000005258.31418.83.pdf) to count the access frequency of the JSON data key paths.
 "FP" stands for frequent pattern, usually used to calculate item frequencies and identify frequent items.
 Every time the user queries one key path of the JSON data, it will be recorded by the FPGrowth algorithm, and finally a tree-like statistical information is generated.
 We can use this statistical information to determine which key paths need to generate virtual columns.

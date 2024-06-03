@@ -176,6 +176,11 @@ Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/d
 | SELECT    | SHOW CREATE a database.                                                                                          |
 | OWNERSHIP | Grants full control over a database.  Only a single role can hold this privilege on a specific object at a time. |
 
+> Note:
+>
+> 1. If a role own a database, this role can access all tables under this database.
+ 
+
 ### Session Policy Privileges
 
 | Privilege | Description |
