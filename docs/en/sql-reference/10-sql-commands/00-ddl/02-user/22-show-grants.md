@@ -41,36 +41,34 @@ CREATE ROLE analyst;
 -- Grant the analyst role to the user
 GRANT ROLE analyst TO 'user1';
 
--- Create a stage
-CREATE STAGE my_stage;
+-- Create a database
+CREATE DATABASE my_db;
 
--- Grant privileges on the stage to the role
-GRANT READ ON STAGE my_stage TO ROLE analyst;
+-- Grant privileges on the database to the role
+GRANT OWNERSHIP ON my_db.* TO ROLE analyst;
 
 -- List privileges granted to the user
 SHOW GRANTS FOR user1;
 
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ privileges │ object_name │     object_id    │ grant_to │  name  │                    grants                   │
-├────────────┼─────────────┼──────────────────┼──────────┼────────┼─────────────────────────────────────────────┤
-│ Read       │ my_stage    │             NULL │ USER     │ user1  │ GRANT Read ON STAGE my_stage TO 'user1'@'%' │
-└───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ privileges │ object_name │     object_id    │ grant_to │  name  │                         grants                        │
+├────────────┼─────────────┼──────────────────┼──────────┼────────┼───────────────────────────────────────────────────────┤
+│ OWNERSHIP  │ my_db       │               16 │ USER     │ user1  │ GRANT OWNERSHIP ON 'default'.'my_db'.* TO 'user1'@'%' │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- List privileges granted to the role
 SHOW GRANTS FOR ROLE analyst;
 
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ privileges │ object_name │     object_id    │ grant_to │   name  │                     grants                     │
-├────────────┼─────────────┼──────────────────┼──────────┼─────────┼────────────────────────────────────────────────┤
-│ Read       │ my_stage    │             NULL │ ROLE     │ analyst │ GRANT Read ON STAGE my_stage TO ROLE `analyst` │
-└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-
--- List privileges granted on the stage
-SHOW GRANTS ON STAGE my_stage;
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ privileges │ object_name │     object_id    │ grant_to │   name  │                          grants                          │
+├────────────┼─────────────┼──────────────────┼──────────┼─────────┼──────────────────────────────────────────────────────────┤
+│ OWNERSHIP  │ my_db       │               16 │ ROLE     │ analyst │ GRANT OWNERSHIP ON 'default'.'my_db'.* TO ROLE `analyst` │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+-- List privileges granted on the database
+SHOW GRANTS ON DATABASE my_db;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────┐
-│ privileges │ object_name │     object_id    │ grant_to │   name  │      grants      │
-├────────────┼─────────────┼──────────────────┼──────────┼─────────┼──────────────────┤
-│ Read       │ my_stage    │             NULL │ ROLE     │ analyst │                  │
+│ privileges │ object_name │     object_id    │ grant_to │   name  │      grants      ├────────────┼─────────────┼──────────────────┼──────────┼─────────┼──────────────────┤
+│ OWNERSHIP  │ my_db       │               16 │ ROLE     │ analyst │                  │
 └─────────────────────────────────────────────────────────────────────────────────────┘
 ```
