@@ -10,6 +10,7 @@ Lists privileges explicitly granted to a user, to a role, or on a specific objec
 
 See also:
 
+- [SHOW_GRANTS](/sql/sql-functions/table-functions/show-grants)
 - [GRANT](10-grant.md)
 - [REVOKE](11-revoke.md)
 

@@ -7,6 +7,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Lists privileges explicitly granted to a user, to a role, or on a specific object.
 
+See also: [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
+
 ## Syntax
 
 ```sql
