@@ -18,7 +18,7 @@ The following is a list of the parameters available within the [query] section:
 | Parameter                    | Description                                       |
 |------------------------------|---------------------------------------------------|
 | max_active_sessions          | Maximum number of active sessions.               |
-| wait_timeout_mills           | Timeout in milliseconds for waiting.             |
+| shutdown_wait_timeout_ms     | Timeout in milliseconds for waiting.             |
 | flight_api_address           | IP address and port for listening to Databend-Query cluster shuffle data. |
 | admin_api_address            | Address for the Admin REST API.                  |
 | metric_api_address           | Address for the Metrics REST API.                |
