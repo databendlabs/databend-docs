@@ -140,3 +140,48 @@ ROLLBACK;
 -- Verify that the table is empty
 SELECT * FROM employees;
 ```
+
+This example sets up a stream and a task to consume the stream, inserting data into two target tables using a transactional block (BEGIN; COMMIT).
+
+```sql
+CREATE DATABASE my_db;
+USE my_db;
+
+CREATE TABLE source_table (
+    id INT,
+    source_flag VARCHAR(50),value VARCHAR(50)
+);
+
+CREATE TABLE target_table_1 (
+    id INT,value VARCHAR(50)
+);
+
+CREATE TABLE target_table_2 (
+    id INT,value VARCHAR(50)
+);
+
+CREATE STREAM source_stream ON TABLE source_table;
+
+INSERT INTO source_table VALUES 
+(1, 'source1', 'value1'),
+(2, 'source2', 'value2'),
+(3, 'source3', 'value3'),
+(4, 'source4', 'value4');
+
+CREATE TASK insert_task
+WAREHOUSE = 'system' 
+SCHEDULE = 1 SECOND AS 
+BEGIN
+    BEGIN;
+    INSERT INTO my_db.target_table_1 
+    SELECT id, value 
+    FROM my_db.source_stream; 
+
+    INSERT INTO my_db.target_table_2 
+    SELECT id, value 
+    FROM my_db.source_stream; 
+    COMMIT;
+END;
+
+EXECUTE TASK insert_task;
+```
