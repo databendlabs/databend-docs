@@ -42,7 +42,6 @@
     "antd": "^5.11.2",
     "axios": "^0.27.2",
     "bytes": "^3.1.2",
-    "caniuse-lite": "^1.0.30001517",
     "clsx": "^1.1.1",
     "copy-to-clipboard": "^3.3.3",
     "copyforjs": "^1.0.6",

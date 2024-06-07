@@ -17,6 +17,7 @@ const GITHUB_REPO = 'https://api.github.com/repos/datafuselabs/databend';
 const DATABEND_RELEASES = 'https://repo.databend.rs/databend/releases.json';
 const DATABEND_DOWNLOAD = 'https://repo.databend.rs/databend';
 const BENDSQL_RELEASES = 'https://repo.databend.rs/bendsql/releases.json';
+const DATABEND_LATEST_RELEASE = 'https://api.github.com/repos/datafuselabs/databend/releases/latest';
 
 const IGNORE_TEXT = /<!-- Release notes generated using configuration in .github\/release.yml at [\w.-]+ -->/;
 const REG = /https:\/\/github\.com\/datafuselabs\/databend\/pull\/(\d+)/g;
@@ -41,7 +42,12 @@ module.exports = function fetchDatabendReleasesPlugin() {
           const { data: bendsqlReleases } = await axios.get(BENDSQL_RELEASES);
           releasesList = data?.filter((item)=> !item?.name?.includes('-nightly'));
           if (releasesList.length <=0) {
+           try {
+            const { data: latestData } = await axios.get(DATABEND_LATEST_RELEASE);
+            releasesList = [latestData];
+           } catch (error) {
             releasesList = [data[0]];
+           }
           }
           repoResource = repo;
           bendsqlRecource = dealBendsqlRecource(bendsqlReleases[0]);
