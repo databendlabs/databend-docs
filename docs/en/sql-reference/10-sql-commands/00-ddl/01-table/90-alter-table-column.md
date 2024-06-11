@@ -35,7 +35,8 @@ MODIFY [ COLUMN ] <column_name> DROP STORED
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
--- Change data type of one or multiple columns
+-- Change data type and/or comment
+-- If you only want to modify or add a comment for a column, you must still specify the current data type for that column in the command
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
 MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ]
        [ , [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ] ]
