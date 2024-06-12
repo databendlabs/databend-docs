@@ -1,5 +1,5 @@
 ---
-title: Efficient Data Transformation with Databend
+title: Querying & Transforming
 slug: querying-stage
 ---
 
