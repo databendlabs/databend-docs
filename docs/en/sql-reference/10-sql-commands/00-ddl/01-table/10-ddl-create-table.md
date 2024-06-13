@@ -99,6 +99,10 @@ Transient tables are used to hold transitory data that does not require a data p
 
 Transient tables help save your storage expenses because they do not need extra space for historical data compared to non-transient tables. See [example](#create-transient-table-1) for detailed explanations.
 
+:::caution
+Concurrent modifications (including write operations) on transient tables may cause data corruption, making the data unreadable. This defect is being addressed. Until fixed, please avoid concurrent modifications on transient tables.
+:::
+
 Syntax:
 ```sql
 CREATE TRANSIENT TABLE ...
