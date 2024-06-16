@@ -75,7 +75,7 @@ killall -9 databend-query
 1. Building in osx:
   - better to use official clang instead of apple clang:
     ```bash
-    brew install clang
+    brew install llvm
     ```
     And set compiler environment, for example:
 
