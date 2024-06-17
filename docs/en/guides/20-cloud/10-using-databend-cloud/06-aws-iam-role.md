@@ -8,7 +8,7 @@ With AWS IAM Role, you can access your own AWS S3 buckets in Databend Cloud. Thi
 
 # How to Use IAM Role
 
-1. Get the IAM role ARN for your Databend Cloud organization:
+1. Get the IAM role ARN for your Databend Cloud organization(ask for support):
 
    For example: `arn:aws:iam::123456789012:role/xxxxxxx/tnabcdefg/xxxxxxx-tnabcdefg`
 
