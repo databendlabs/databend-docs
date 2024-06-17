@@ -3,7 +3,7 @@ title: Common Table Expressions (CTEs)
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.429"/>
+<FunctionDescription description="Introduced or updated: v1.2.530"/>
 
 Databend supports common table expressions (CTEs) with a WITH clause, allowing you to define one or multiple named temporary result sets used by the following query. The term "temporary" implies that the result sets are not permanently stored in the database schema. They act as temporary views only accessible to the following query.
 
@@ -101,7 +101,43 @@ SELECT ... | UPDATE ... | DELETE FROM ...
 | cte_column_list         	| The names of the columns in the CTE. A CTE can refer to any CTEs in the same WITH clause that are defined before.                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	|
 | MATERIALIZED            	| `Materialized` is an optional keyword used to indicate whether the CTE should be materialized. 	|
 
+## Recursive CTEs
+
+A recursive CTE is a temporary result set that references itself to perform recursive operations, allowing the processing of hierarchical or recursive data structures.
+
+### Syntax
+
+```sql
+WITH RECURSIVE <cte_name> AS (
+    <initial_query>
+    UNION ALL
+    <recursive_query> )
+SELECT ... 
+```
+
+| Parameter         | Description                                                                                                                                                                                                                                                                                 |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `cte_name`        | The CTE name.   |
+| `initial_query`   | The initial query that is executed once at the start of the recursion. It typically returns a set of rows.                                                                                                                                                                                  |
+| `recursive_query` | The query that references the CTE itself and is executed repeatedly until a condition is met. It must include a reference to the CTE's name. The query must NOT include aggregate functions (e.g., MAX, MIN, SUM, AVG, COUNT), GROUP BY clause, ORDER BY clause, LIMIT clause, or DISTINCT. |
+
+### How it Works
+
+The following describes the detailed execution order of a recursive CTE:
+
+1. **Initial Query Execution**: This query forms the base result set, denoted as R0. This result set provides the starting point for the recursion.
+
+2. **Recursive Query Execution**: This query uses the result set from the previous iteration (starting with R0) as input and produces a new result set (Ri+1).
+
+3. **Iteration and Combination**: The recursive execution continues iteratively. Each new result set (Ri) from the recursive query becomes the input for the next iteration. This process repeats until the recursive query returns an empty result set, indicating that the termination condition has been met.
+
+4. **Final Result Set Formation**: Using the `UNION ALL` operator, the result sets from each iteration (R0 through Rn) are combined into a single result set. The `UNION ALL` operator ensures that all rows from each result set are included in the final combined result.
+
+5. **Final Selection**: The final `SELECT ...` statement retrieves the combined result set from the CTE. This statement can apply additional filtering, sorting, or other operations on the combined result set to produce the final output.
+
 ## Usage Examples
+
+### Non-Recursive CTEs
 
 Imagine you manage several bookstores located in different regions of the GTA area, and use a table to hold their store IDs, regions, and the trading volume for the last month.
 
@@ -227,4 +263,60 @@ WITH stores_with_sales AS (
 )
 DELETE FROM store_details
 WHERE storeid NOT IN (SELECT storeid FROM stores_with_sales);
+```
+
+### Recursive CTEs 
+
+First, we create a table to store employee data, including their ID, name, and manager ID.
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INT,
+    EmployeeName VARCHAR(100),
+    ManagerID INT
+);
+```
+
+Next, we insert sample data into the table to represent a simple organizational structure.
+
+```sql
+INSERT INTO Employees (EmployeeID, EmployeeName, ManagerID) VALUES
+(1, 'Alice', NULL),     -- Alice is the CEO
+(2, 'Bob', 1),          -- Bob reports to Alice
+(3, 'Charlie', 1),      -- Charlie reports to Alice
+(4, 'David', 2),        -- David reports to Bob
+(5, 'Eve', 2),          -- Eve reports to Bob
+(6, 'Frank', 3);        -- Frank reports to Charlie
+```
+
+Now, we use a recursive CTE to find the hierarchy of employees under a specific manager, say Alice (EmployeeID = 1).
+
+```sql
+WITH RECURSIVE EmployeeHierarchy AS (
+    -- Initial query: start with the specified manager (Alice)
+    SELECT EmployeeID, EmployeeName, ManagerID
+    FROM Employees
+    WHERE ManagerID IS NULL  -- Alice, since she has no manager
+    UNION ALL
+    -- Recursive query: find employees reporting to the current level
+    SELECT e.EmployeeID, e.EmployeeName, e.ManagerID
+    FROM Employees e
+    INNER JOIN EmployeeHierarchy eh ON e.ManagerID = eh.EmployeeID
+)
+SELECT * FROM EmployeeHierarchy;
+```
+
+The output will list all employees in the hierarchy under Alice:
+
+```sql
+┌──────────────────────────────────────────────────────┐
+│    employeeid   │   employeename   │    managerid    │
+├─────────────────┼──────────────────┼─────────────────┤
+│               1 │ Alice            │            NULL │
+│               2 │ Bob              │               1 │
+│               3 │ Charlie          │               1 │
+│               4 │ David            │               2 │
+│               5 │ Eve              │               2 │
+│               6 │ Frank            │               3 │
+└──────────────────────────────────────────────────────┘
 ```
