@@ -13,13 +13,13 @@ To specify a file format in a statement, use the following syntax:
 
 ```sql
 -- Specify a standard file format
-... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | XML } [ formatTypeOptions ] )
+... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | ORC } [ formatTypeOptions ] )
 
 -- Specify a custom file format
 ... FILE_FORMAT = ( FORMAT_NAME = '<your-custom-format>' )
 ```
 
-- Databend currently supports XML as a source ONLY. Unloading data into an XML file is not supported yet.
+- Databend currently supports ORC as a source ONLY. Unloading data into an ORC file is not supported yet.
 - If you don't specify the FILE_FORMAT when performing a COPY INTO or SELECT operation from a stage, Databend will use the file format that you initially defined for the stage when you created it. In cases where you didn't explicitly specify a file format during the stage creation, Databend defaults to using the PARQUET format. If you specify a different FILE_FORMAT from the one you defined when creating the stage, Databend will prioritize the FILE_FORMAT specified during the operation.
 - For managing custom file formats in Databend, see [File Format](../10-sql-commands/00-ddl/13-file-format/index.md).
 
