@@ -119,7 +119,7 @@ SELECT ...
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `cte_name`        | The CTE name.   |
 | `initial_query`   | The initial query that is executed once at the start of the recursion. It typically returns a set of rows.                                                                                                                                                                                  |
-| `recursive_query` | The query that references the CTE itself and is executed repeatedly until a condition is met. It must include a reference to the CTE's name. The query must NOT include aggregate functions (e.g., MAX, MIN, SUM, AVG, COUNT), GROUP BY clause, ORDER BY clause, LIMIT clause, or DISTINCT. |
+| `recursive_query` | The query that references the CTE itself and is executed repeatedly until an empty result set is returned. It must include a reference to the CTE's name. The query must NOT include aggregate functions (e.g., MAX, MIN, SUM, AVG, COUNT), window functions, GROUP BY clause, ORDER BY clause, LIMIT clause, or DISTINCT. |
 
 ### How it Works
 
