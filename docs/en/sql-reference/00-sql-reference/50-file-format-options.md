@@ -3,7 +3,7 @@ title: Input & Output File Formats
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.216"/>
+<FunctionDescription description="Introduced or updated: v1.2.530"/>
 
 Databend accepts a variety of file formats both as a source and as a target for data loading or unloading. This page explains the supported file formats and their available options.
 
