@@ -2,29 +2,31 @@
 title: RESULT_SCAN
 ---
 
-返回同一会话中先前命令的结果集，就像结果是一个表一样。
+Returns the result set of a previous command in same session as if the result was a table.
 
-## 语法 {#syntax}
+
+## Syntax
 
 ```sql
 RESULT_SCAN( { '<query_id>' | LAST_QUERY_ID() } )
 ```
 
-## 示例  
+## Examples
 
-创建一个简单的表：
+Create a simple table:
 
 ```sql
 CREATE TABLE t1(a int);
 ```
 
-插入一些值：
+Insert some values;
 
 ```sql
 INSERT INTO t1(a) VALUES (1), (2), (3);
 ```
 
 ### `result_scan`
+
 
 ```shell
 SELECT * FROM t1 ORDER BY a;
@@ -39,6 +41,7 @@ SELECT * FROM t1 ORDER BY a;
 +-------+
 ```
 
+
 ```shell
 SELECT * FROM RESULT_SCAN(LAST_QUERY_ID()) ORDER BY a;
 +-------+
@@ -51,3 +54,4 @@ SELECT * FROM RESULT_SCAN(LAST_QUERY_ID()) ORDER BY a;
 |   3   |
 +-------+
 ```
+

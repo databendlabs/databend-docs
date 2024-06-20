@@ -1,10 +1,10 @@
 ---
-title: 日期 & 时间函数
+title: Date & Time Functions
 ---
 
-本节提供了Databend中与日期时间相关函数的参考信息。
+This section provides reference information for the datetime-related functions in Databend.
 
-## 转换函数
+## Conversion Functions
 
 - [DATE](date.md)
 - [TO_MONTH](to-month)
@@ -47,14 +47,14 @@ title: 日期 & 时间函数
 - [TO_YYYYMMDDHH](to-yyyymmddhh)
 - [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss)
 
-## 日期算术函数
+## Date Arithmetic Functions
 
 - [ADD INTERVAL](addinterval.md)
 - [DATE_ADD](date-add)
 - [DATE_SUB](date-sub)
 - [SUBTRACT INTERVAL](subtractinterval.md)
 
-## 日期信息函数
+## Date Information Functions
 
 - [DATE_PART](date-part.md)
 - [DATE_DIFF](date-diff)
@@ -63,7 +63,7 @@ title: 日期 & 时间函数
 - [NOW](now.md)
 - [CURRENT_TIMESTAMP](current-timestamp.md)
 
-## 其他
+## Others
 
 - [EXTRACT](extract.md)
 - [TIME_SLOT](time-slot)

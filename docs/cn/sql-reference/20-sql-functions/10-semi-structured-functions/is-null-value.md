@@ -3,28 +3,28 @@ title: IS_NULL_VALUE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.368"/>
+<FunctionDescription description="Introduced or updated: v1.2.368"/>
 
-检查输入值是否为JSON `null`。请注意，此函数检查的是JSON `null`，而不是SQL NULL。要检查一个值是否为SQL NULL，请使用[IS_NULL](../03-conditional-functions/is-null.md)。
+Checks whether the input value is a JSON `null`. Please note that this function examines JSON `null`, not SQL NULL. To check if a value is SQL NULL, use [IS_NULL](../03-conditional-functions/is-null.md).
 
-```json title='JSON null 示例：'
+```json title='JSON null Example:'
 {
   "name": "John",
   "age": null
 }   
 ```
 
-## 语法
+## Syntax
 
 ```sql
 IS_NULL_VALUE( <expr> )
 ```
 
-## 返回类型
+## Return Type
 
-如果输入值是JSON `null`，则返回`true`，否则返回`false`。
+Returns `true` if the input value is a JSON `null`, and `false` otherwise.
 
-## 示例
+## Examples
 
 ```sql
 SELECT

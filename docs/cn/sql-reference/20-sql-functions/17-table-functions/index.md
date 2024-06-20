@@ -1,8 +1,8 @@
 ---
-title: 表函数
+title: Table Functions
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-本节提供了有关 Databend 中与表相关函数的参考信息。
+This section provides reference information for the table functions in Databend.
 
 <IndexOverviewList />

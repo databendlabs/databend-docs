@@ -7,26 +7,26 @@ try_inet_aton function is used to take the dotted-quad representation of an IPv4
 ## Syntax
 
 ```sql
-TRY_INET_ATON( <expr> )
+TRY_INET_ATON( <str> )
 ```
 
-## Arguments
+## Aliases
 
-| Arguments   | Description |
-| ----------- | ----------- |
-| `<expr>` | String.     |
+- [TRY_IPV4_STRING_TO_NUM](try-ipv4-string-to-num.md)
 
 ## Return Type
 
-An integer.
+Integer.
 
 ## Examples
 
 ```sql
-SELECT TRY_INET_ATON('10.0.5.9');
-+---------------------------+
-| TRY_INET_ATON('10.0.5.9') |
-+---------------------------+
-|                 167773449 |
-+---------------------------+
+SELECT TRY_INET_ATON('10.0.5.9'), TRY_IPV4_STRING_TO_NUM('10.0.5.9');
+
+┌────────────────────────────────────────────────────────────────┐
+│ try_inet_aton('10.0.5.9') │ try_ipv4_string_to_num('10.0.5.9') │
+│           UInt32          │               UInt32               │
+├───────────────────────────┼────────────────────────────────────┤
+│                 167773449 │                          167773449 │
+└────────────────────────────────────────────────────────────────┘
 ```

@@ -47,7 +47,7 @@ CREATE TABLE documents (
                            id INT,
                            title VARCHAR,
                            content VARCHAR,
-                           embedding ARRAY(FLOAT32)
+                           embedding ARRAY(FLOAT32 NOT NULL)
 );
 ```
 
@@ -62,11 +62,11 @@ VALUES
 
 3. Generate the embeddings:
 ```sql
-UPDATE documents SET embedding = ai_embedding_vector(content) WHERE length(embedding) = 0;
+UPDATE documents SET embedding = ai_embedding_vector(content) WHERE embedding IS NULL;
 ```
 After running the query, the embedding column in the table will contain the generated embeddings.
 
-The embeddings are stored as an array of `FLOAT32` values in the embedding column, which has the `ARRAY(FLOAT32)` column type.
+The embeddings are stored as an array of `FLOAT32` values in the embedding column, which has the `ARRAY(FLOAT32 NOT NULL)` column type.
 
 You can now use these embeddings for various natural language processing tasks, such as finding similar documents or clustering documents based on their content.
 

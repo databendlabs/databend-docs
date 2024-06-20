@@ -3,39 +3,39 @@ title: TO_DATE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.1.39"/>
+<FunctionDescription description="Introduced or updated: v1.1.39"/>
 
-将表达式转换为日期，包括：
+Converts an expression to a date, including:
 
-- **将时间戳格式字符串转换为日期**：从给定字符串中提取日期。
+- **Converting a timestamp-format string to a date**: Extracts a date from the given string.
 
-- **将整数转换为日期**：将整数解释为Unix纪元（1970年1月1日午夜）之前（对于负数）或之后（对于正数）的天数。请注意，Date值的范围从`1000-01-01`到`9999-12-31`。如果运行"SELECT TO_DATE(9999999999999999999)"，Databend会返回错误。
+- **Converting an integer to a date**: Interprets the integer as the number of days before (for negative numbers) or after (for positive numbers) the Unix epoch (midnight on January 1, 1970). Please note that a Date value ranges from `1000-01-01` to `9999-12-31`. Databend would return an error if you run "SELECT TO_DATE(9999999999999999999)".
 
-- **使用指定格式将字符串转换为日期**：该函数接受两个参数，根据第二个字符串中指定的格式将第一个字符串转换为日期。为了在Databend中自定义日期和时间格式，可以使用指定符。有关支持的指定符的全面列表，请参见[格式化日期和时间](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time)。
+- **Converting a string to a date using the specified format**: The function takes two arguments, converting the first string to a date based on the format specified in the second string. To customize the date and time format in Databend, specifiers can be used. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
 
-另见：[TO_TIMESTAMP](to-timestamp)
+See also: [TO_TIMESTAMP](to-timestamp)
 
-## 语法
+## Syntax
 
 ```sql
--- 转换时间戳格式字符串
+-- Convert a timestamp-format string
 TO_DATE('<timestamp_expr>')
 
--- 转换整数
+-- Convert an integer
 TO_DATE(<integer>)
 
--- 使用给定格式转换字符串
+-- Convert a string using the given format
 TO_DATE('<string>', '<format>')
 ```
 
-## 别名
+## Aliases
 
 - [DATE](date.md)
 - [STR_TO_DATE](str-to-date.md)
 
-## 返回类型
+## Return Type
 
-该函数返回格式为"YYYY-MM-DD"的日期：
+The function returns a date in the format "YYYY-MM-DD":
 
 ```sql
 SELECT TYPEOF(TO_DATE('2022-01-02')), TYPEOF(STR_TO_DATE('2022-01-02'));
@@ -47,7 +47,7 @@ SELECT TYPEOF(TO_DATE('2022-01-02')), TYPEOF(STR_TO_DATE('2022-01-02'));
 └───────────────────────────────────────────────────────────────────┘
 ```
 
-要将返回的日期转换回字符串，请使用[DATE_FORMAT](date-format.md)函数：
+To convert the returned date back to a string, use the [DATE_FORMAT](date-format.md) function:
 
 ```sql
 SELECT DATE_FORMAT(TO_DATE('2022-01-02')) AS dt, TYPEOF(dt);
@@ -59,9 +59,9 @@ SELECT DATE_FORMAT(TO_DATE('2022-01-02')) AS dt, TYPEOF(dt);
 └─────────────────────────┘
 ```
 
-## 示例
+## Examples
 
-### 示例 1：转换时间戳格式字符串
+### Example 1: Converting a Timestamp-Format String
 
 ```sql
 SELECT TO_DATE('2022-01-02T01:12:00+07:00'), STR_TO_DATE('2022-01-02T01:12:00+07:00');
@@ -81,7 +81,7 @@ SELECT TO_DATE('2022-01-02'), STR_TO_DATE('2022-01-02');
 └───────────────────────────────────────────────────┘
 ```
 
-### 示例 2：转换整数
+### Example 2: Converting an Integer
 
 ```sql
 SELECT TO_DATE(1), STR_TO_DATE(1), TO_DATE(-1), STR_TO_DATE(-1);
@@ -94,7 +94,7 @@ SELECT TO_DATE(1), STR_TO_DATE(1), TO_DATE(-1), STR_TO_DATE(-1);
 └───────────────────────────────────────────────────────────────────┘
 ```
 
-### 示例 3：使用给定格式转换字符串
+### Example 3: Converting a String using the Given Format
 
 ```sql
 SELECT TO_DATE('12/25/2022','%m/%d/%Y'), STR_TO_DATE('12/25/2022','%m/%d/%Y');

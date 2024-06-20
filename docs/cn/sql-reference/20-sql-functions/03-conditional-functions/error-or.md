@@ -1,24 +1,23 @@
 ---
 title: ERROR_OR
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.379"/>
+<FunctionDescription description="Introduced or updated: v1.2.379"/>
 
-返回其输入中第一个非错误表达式。如果所有表达式都产生错误，则返回 NULL。
+Returns the first non-error expression among its inputs. If all expressions result in errors, it returns NULL.
 
-## 语法
+## Syntax
 
 ```sql
 ERROR_OR(expr1, expr2, ...)
 ```
 
-## 示例
+## Examples
 
 ```sql
--- 如果没有发生错误，则返回有效日期
--- 如果转换结果出错，则返回当前日期
+-- Returns the valid date if no errors occur
+-- Returns the current date if the conversion results in an error
 SELECT NOW(), ERROR_OR('2024-12-25'::DATE, NOW()::DATE);
 
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -27,7 +26,7 @@ SELECT NOW(), ERROR_OR('2024-12-25'::DATE, NOW()::DATE);
 │ 2024-03-18 01:22:39.460320 │ 2024-12-25                                │
 └────────────────────────────────────────────────────────────────────────┘
 
--- 因转换结果出错，返回 NULL
+-- Returns NULL because the conversion results in an error
 SELECT ERROR_OR('2024-1234'::DATE);
 
 ┌─────────────────────────────┐

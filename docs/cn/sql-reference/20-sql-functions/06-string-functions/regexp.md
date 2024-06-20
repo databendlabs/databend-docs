@@ -2,7 +2,7 @@
 title: REGEXP
 ---
 
-Returns 1 if the string expr matches the regular expression specified by the pattern pat, 0 otherwise.
+Returns `true` if the string `<expr>` matches the regular expression specified by the `<pattern>`, `false` otherwise.
 
 ## Syntax
 
@@ -10,13 +10,18 @@ Returns 1 if the string expr matches the regular expression specified by the pat
 <expr> REGEXP <pattern>
 ```
 
+## Aliases
+
+- [RLIKE](rlike.md)
+
 ## Examples
 
 ```sql
-SELECT 'databend' REGEXP 'd*';
-+--------------------------+
-| ('databend' regexp 'd*') |
-+--------------------------+
-|                        1 |
-+--------------------------+
+SELECT 'databend' REGEXP 'd*', 'databend' RLIKE 'd*';
+
+┌────────────────────────────────────────────────────┐
+│ ('databend' regexp 'd*') │ ('databend' rlike 'd*') │
+├──────────────────────────┼─────────────────────────┤
+│ true                     │ true                    │
+└────────────────────────────────────────────────────┘
 ```

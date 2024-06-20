@@ -1,21 +1,19 @@
 ---
-title: 其他函数
+title: Other Functions
 ---
 
-## 类型转换函数
+## Type Conversion Functions
 
 - [TO_NULLABLE](to-nullable.md)
 - [TYPEOF](typeof.md)
 
-## 实用函数
+## Utility Functions
 
 - [HUMANIZE-NUMBER](humanize-number.md)
 - [HUMANIZE-SIZE](humanize-size.md)
 
-## 其他
+## Others
 
 - [ASSUME_NOT_NULL](assume-not-null.md)
-- [COALESCE](coalesce.md)
 - [EXISTS](exists.md)
 - [GROUPING](grouping.md)
-- [IGNORE](ignore.md)

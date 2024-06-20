@@ -2,10 +2,4 @@
 title: UCASE
 ---
 
-Synonym for `UPPER(<str>)`.
-
-## Syntax
-
-```sql
-UCASE(<str>);
-```
+Alias for [UPPER](upper.md).
