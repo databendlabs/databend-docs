@@ -14,7 +14,7 @@ jobs:
       - name: Run GPT Translate
         if: |
           contains(github.event.comment.body, '/gt')
-        uses: 3ru/gpt-translate@master
+        uses: 3ru/gpt-translate@v1.1.11
         with:
           apikey: ${{ secrets.OPENAI_API_KEY }}
           model: "deepseek-chat"

@@ -41,7 +41,7 @@ jobs:
         echo "files=$(find $TRANSLATION_DIR -type f \( -name '*.md' \) | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
     - name: Run GPT Translate
-      uses: 3ru/gpt-translate@master
+      uses: 3ru/gpt-translate@v1.1.11
       with:
         apikey: ${{ secrets.OPENAI_API_KEY }}
         model: "deepseek-chat"

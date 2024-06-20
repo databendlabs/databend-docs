@@ -32,7 +32,7 @@ jobs:
         echo "files=$(git diff --diff-filter=d --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
     - name: Run GPT Translate
-      uses: 3ru/gpt-translate@master
+      uses: 3ru/gpt-translate@v1.1.11
       with:
         apikey: ${{ secrets.OPENAI_API_KEY }}
         model: "deepseek-chat"
