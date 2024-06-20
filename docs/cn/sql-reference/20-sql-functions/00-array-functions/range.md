@@ -2,7 +2,7 @@
 title: RANGE
 ---
 
-返回一个由[start, end)区间收集的数组。
+返回一个由 `[start, end)` 区间收集的数组。
 
 ## 语法
 

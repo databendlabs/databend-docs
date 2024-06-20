@@ -7,7 +7,7 @@ title: ARRAY_PREPEND
 ## 语法
 
 ```sql
-ARRAY_PREPEND( <元素>, <数组> )
+ARRAY_PREPEND( <element>, <array> )
 ```
 
 ## 示例
