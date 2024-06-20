@@ -54,6 +54,8 @@ AS
   - Comparison operators such as equal, not equal, greater than, less than, and others.
 
 - Multiple tasks that consume change data from a single table stream retrieve different deltas. When a task consumes the change data in a stream using a DML statement, the stream advances the offset. The change data is no longer available for the next task to consume. Currently, we recommend that only a single task consumes the change data from a stream. Multiple streams can be created for the same table and consumed by different tasks.
+- Tasks will not retry on each execution; each execution is serial. Each script SQL is executed one by one, with no parallel execution. This ensures that the sequence and dependencies of task execution are maintained.
+- Interval-based tasks follow a fixed interval spot in a tight way. This means that if the current task execution time exceeds the interval unit, the next task will execute immediately. Otherwise, the next task will wait until the next interval unit is triggered. For example, if a task is defined with a 1-second interval and one task execution takes 1.5 seconds, the next task will execute immediately. If one task execution takes 0.5 seconds, the next task will wait until the next 1-second interval tick starts.
 
 ## Usage Examples
 
