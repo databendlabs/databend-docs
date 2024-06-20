@@ -15,7 +15,7 @@ import EEFeature from '@site/src/components/EEFeature';
 ## 语法
 
 ```sql
-DROP INVERTED INDEX [IF EXISTS] <索引名> ON [<数据库名>:]<表名>
+DROP INVERTED INDEX [IF EXISTS] <index> ON [<database>.]<table>
 ```
 
 ## 示例

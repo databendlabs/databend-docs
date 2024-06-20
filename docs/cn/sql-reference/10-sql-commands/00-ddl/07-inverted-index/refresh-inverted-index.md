@@ -19,12 +19,12 @@ import EEFeature from '@site/src/components/EEFeature';
 ## 语法
 
 ```sql
-REFRESH INVERTED INDEX <索引名> ON [<数据库名>.]<表名> [LIMIT <限制数>]
+REFRESH INVERTED INDEX <index> ON [<database>.]<table> [LIMIT <limit>]
 ```
 
 | 参数       | 描述                                                                 |
 | ---------- | -------------------------------------------------------------------- |
-| `<限制数>` | 指定在索引刷新期间要处理的最大行数。如果未指定，将处理表中的所有行。 |
+| `<limit>` | 指定在索引刷新期间要处理的最大行数。如果未指定，将处理表中的所有行。 |
 
 ## 示例
 
