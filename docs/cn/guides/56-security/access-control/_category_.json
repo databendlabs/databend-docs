@@ -1,3 +1,62 @@
-{
-  "label": "访问控制"
-}
+# 访问控制
+
+在 Databend 中，访问控制是确保数据安全的关键组成部分。通过精细的权限管理，可以控制用户对数据库、表、视图等对象的访问权限。
+
+## 用户和角色
+
+Databend 支持用户和角色的概念。用户是数据库的直接访问者，而角色则是一组权限的集合，可以分配给多个用户。
+
+### 创建用户
+
+要创建新用户，可以使用以下 SQL 命令：
+
+```sql
+CREATE USER 'new_user' IDENTIFIED BY 'password';
+```
+
+### 创建角色
+
+创建角色的命令如下：
+
+```sql
+CREATE ROLE 'new_role';
+```
+
+## 权限管理
+
+权限管理允许管理员定义哪些用户或角色可以执行特定的数据库操作。
+
+### 授予权限
+
+授予用户或角色权限的命令示例：
+
+```sql
+GRANT SELECT, INSERT ON database.* TO 'user' IDENTIFIED BY 'password';
+GRANT 'role' TO 'user';
+```
+
+### 撤销权限
+
+撤销权限的命令如下：
+
+```sql
+REVOKE SELECT, INSERT ON database.* FROM 'user';
+REVOKE 'role' FROM 'user';
+```
+
+## 高级访问控制
+
+Databend 还提供了更高级的访问控制功能，如基于标签的访问控制（LBAC），允许更细粒度的权限管理。
+
+### 标签控制
+
+标签控制允许管理员为数据定义安全标签，并根据这些标签限制访问。
+
+```sql
+CREATE LABEL 'security_level';
+GRANT 'security_level' TO 'user';
+```
+
+通过这些访问控制机制，Databend 确保了数据的安全性和完整性，同时提供了灵活的权限管理方案。
+
+{/*examples*/}
