@@ -23,6 +23,8 @@ This handler return results in `pages` with long-polling.
     3. (optional) A `GET` to the `stats_uri` to get stats only at once (without long-polling), return `QueryResponse`
        with empty `data` field.
 
+Please note that you should keep using the latest `next_uri` to get the next page of results before the query is finished, otherwise you may miss some results or leak session resources until session timeout. The `next_uri` will be null when you have received all the results of the query.
+
 ### Quick Example
 
 ```shell
