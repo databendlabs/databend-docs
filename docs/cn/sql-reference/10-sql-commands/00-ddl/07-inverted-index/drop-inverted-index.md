@@ -10,7 +10,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='倒排索引'/>
 
-在Databend中移除一个倒排索引。
+在 Databend 中移除一个倒排索引。
 
 ## 语法
 
