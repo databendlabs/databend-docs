@@ -1,3 +1,51 @@
-{
-  "label": "GROUP BY"
-}
+# GROUP BY 子句
+
+`GROUP BY` 语句通常与 `SELECT` 语句一起使用，用于将结果集中的行分组，以便可以对每个组应用聚合函数，如 `COUNT`, `MAX`, `MIN`, `SUM`, `AVG` 等。
+
+## 基本用法
+
+以下是一个基本的 `GROUP BY` 示例，它根据 `department` 字段对员工进行分组，并计算每个部门的员工数量：
+
+```sql
+SELECT department, COUNT(*) as employee_count
+FROM employees
+GROUP BY department;
+```
+
+## 使用多个字段进行分组
+
+你也可以使用多个字段进行分组。例如，如果你想根据 `department` 和 `job_title` 对员工进行分组，可以这样做：
+
+```sql
+SELECT department, job_title, COUNT(*) as employee_count
+FROM employees
+GROUP BY department, job_title;
+```
+
+## 使用 HAVING 子句
+
+`HAVING` 子句类似于 `WHERE` 子句，但它应用于分组后的结果。例如，如果你想找出员工数量超过 5 的部门，可以这样写：
+
+```sql
+SELECT department, COUNT(*) as employee_count
+FROM employees
+GROUP BY department
+HAVING COUNT(*) > 5;
+```
+
+## 结合 ORDER BY 使用
+
+你还可以结合 `ORDER BY` 子句来对分组结果进行排序。例如，按照员工数量降序排列：
+
+```sql
+SELECT department, COUNT(*) as employee_count
+FROM employees
+GROUP BY department
+ORDER BY employee_count DESC;
+```
+
+## 注意事项
+
+在使用 `GROUP BY` 时，确保所有未包含在聚合函数中的列都包含在 `GROUP BY` 子句中。否则，查询可能会返回不一致或错误的结果。
+
+{/*examples*/}

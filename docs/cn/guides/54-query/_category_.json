@@ -1,3 +1,73 @@
-{
-  "label": "查询结构"
-}
+# 查询结构
+
+在 SQL 中，查询结构是构建和执行查询的基础。了解查询结构对于编写高效和准确的 SQL 语句至关重要。以下是 SQL 查询的基本结构：
+
+## 选择语句
+
+选择语句（SELECT）用于从数据库中检索数据。它是最常用的 SQL 语句之一。
+
+```sql
+SELECT column1, column2
+FROM table_name
+WHERE condition;
+```
+
+- `SELECT` 指定要检索的列。
+- `FROM` 指定数据来自哪个表。
+- `WHERE` 指定检索数据的条件。
+
+## 插入语句
+
+插入语句（INSERT INTO）用于向表中添加新记录。
+
+```sql
+INSERT INTO table_name (column1, column2)
+VALUES (value1, value2);
+```
+
+- `INSERT INTO` 指定要插入数据的表和列。
+- `VALUES` 指定要插入的具体数值。
+
+## 更新语句
+
+更新语句（UPDATE）用于修改表中的现有数据。
+
+```sql
+UPDATE table_name
+SET column1 = value1, column2 = value2
+WHERE condition;
+```
+
+- `UPDATE` 指定要更新的表。
+- `SET` 指定要更新的列及其新值。
+- `WHERE` 指定更新的条件。
+
+## 删除语句
+
+删除语句（DELETE FROM）用于从表中删除记录。
+
+```sql
+DELETE FROM table_name
+WHERE condition;
+```
+
+- `DELETE FROM` 指定要删除数据的表。
+- `WHERE` 指定删除的条件。
+
+## 连接语句
+
+连接语句用于合并来自多个表的数据。
+
+```sql
+SELECT column_name(s)
+FROM table1
+JOIN table2
+ON table1.column = table2.column;
+```
+
+- `JOIN` 用于连接两个或多个表。
+- `ON` 指定连接条件。
+
+了解这些基本的查询结构可以帮助你更有效地使用 SQL 进行数据操作。
+
+{/*examples*/}

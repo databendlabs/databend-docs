@@ -2,13 +2,13 @@
 title: GROUP BY GROUPING SETS
 ---
 
-`GROUP BY GROUPING SETS` 是 [GROUP BY](index.md) 子句的一个强大扩展，它允许在单个语句中计算多个 group-by 子句。分组集是一组维度列。
+`GROUP BY GROUPING SETS` 是对 [GROUP BY](index.md) 子句的强大扩展，允许在一个语句中计算多个分组操作。分组集是一组维度列。
 
-`GROUP BY GROUPING SETS` 相当于同一结果集中两个或多个 GROUP BY 操作的 UNION：
+`GROUP BY GROUPING SETS` 等同于在同一结果集中对两个或多个 GROUP BY 操作进行 UNION：
 
-- `GROUP BY GROUPING SETS((a))` 相当于单个分组集操作 `GROUP BY a`。
+- `GROUP BY GROUPING SETS((a))` 等同于单个分组集操作 `GROUP BY a`。
 
-- `GROUP BY GROUPING SETS((a),(b))` 相当于 `GROUP BY a UNION ALL GROUP BY b`。
+- `GROUP BY GROUPING SETS((a),(b))` 等同于 `GROUP BY a UNION ALL GROUP BY b`。
 
 ## 语法
 
@@ -21,21 +21,20 @@ GROUP BY GROUPING SETS ( groupSet [ , groupSet [ , ... ] ] )
 ```
 
 其中：
-
 ```sql
 groupSet ::= { <column_alias> | <position> | <expr> }
 ```
 
-- `<column_alias>`：查询块 SELECT 列表中出现的列别名
+- `<column_alias>`: 查询块 SELECT 列表中出现的列别名
 
-- `<position>`：SELECT 列表中表达式的位置
+- `<position>`: SELECT 列表中表达式的位置
 
-- `<expr>`：当前作用域中表中的任何表达式
+- `<expr>`: 当前作用域内表上的任何表达式
+
 
 ## 示例
 
 示例数据设置：
-
 ```sql
 -- 创建一个示例销售表
 CREATE TABLE sales (
@@ -46,7 +45,7 @@ CREATE TABLE sales (
     quantity INT
 );
 
--- 将示例数据插入销售表
+-- 向销售表中插入示例数据
 INSERT INTO sales (id, sale_date, product_id, store_id, quantity)
 VALUES (1, '2021-01-01', 101, 1, 5),
        (2, '2021-01-01', 102, 1, 10),
@@ -66,7 +65,7 @@ FROM sales
 GROUP BY GROUPING SETS((pid), (sid));
 ```
 
-此查询等价于：
+此查询等同于：
 
 ```sql
 SELECT product_id AS pid,
@@ -83,7 +82,6 @@ GROUP BY sid;
 ```
 
 输出：
-
 ```sql
 +------+------+----------------+
 | pid  | sid  | total_quantity |
@@ -106,7 +104,7 @@ FROM sales
 GROUP BY GROUPING SETS((1), (2));
 ```
 
-此查询等价于：
+此查询等同于：
 
 ```sql
 SELECT product_id,
@@ -123,7 +121,6 @@ GROUP BY store_id;
 ```
 
 输出：
-
 ```sql
 +------------+----------+----------------+
 | product_id | store_id | total_quantity |
