@@ -2,30 +2,31 @@
 title: 创建用户
 sidebar_position: 1
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.339"/>
+<FunctionDescription description="引入或更新版本：v1.2.424"/>
 
-创建一个 SQL 用户，提供用户的名称、认证类型和密码等详细信息。可选地，您可以为用户设置密码策略、网络策略和默认角色。
+创建一个SQL用户。
 
-另见：
+相关内容：
 
-- [创建密码策略](../12-password-policy/create-password-policy.md)
-- [创建网络策略](../12-network-policy/ddl-create-policy.md)
-- [授权](10-grant.md)
+ - [创建密码策略](../12-password-policy/create-password-policy.md)
+ - [创建网络策略](../12-network-policy/ddl-create-policy.md)
+ - [授权](10-grant.md)
 
 ## 语法
 
 ```sql
-CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>'
+CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>' 
 [ WITH SET PASSWORD POLICY = '<policy_name>' ] -- 设置密码策略
 [ WITH SET NETWORK POLICY = '<policy_name>' ] -- 设置网络策略
 [ WITH DEFAULT_ROLE = '<role_name>' ] -- 设置默认角色
+[ WITH DISABLED = true | false ] -- 用户创建时是否禁用
 ```
 
-- _auth_type_ 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
-- 使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在或自动将角色授予用户。您必须明确地将角色授予用户，角色才会生效。
+- *auth_type* 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
+- 当您使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在或自动将角色授予用户。您必须明确地将角色授予用户，该角色才会生效。
+- 当 `DISABLED` 设置为 `true` 时，新用户创建时处于禁用状态。处于此状态的用户无法登录 Databend，直到他们被启用。要启用或禁用已创建的用户，请使用 [ALTER USER](03-user-alter-user.md) 命令。
 
 ## 示例
 
@@ -70,7 +71,7 @@ SHOW USERS;
 
 ### 示例 4：创建带有默认角色的用户
 
-1. 创建一个名为 'user1' 的用户，将默认角色设置为 'manager'：
+1. 创建一个名为 'user1' 的用户，其默认角色设置为 'manager'：
 
 ```sql title='以用户 "root" 连接：'
 SHOW ROLES;
@@ -109,4 +110,47 @@ SHOW ROLES
 │ public    │               0 │ false      │ false      │
 └───────────────────────────────────────────────────────┘
 2 rows read in 0.015 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
+```
+
+### 示例 5：创建处于禁用状态的用户
+
+本示例创建一个名为 'u1' 的用户，处于禁用状态，阻止登录访问。使用 [ALTER USER](03-user-alter-user.md) 命令启用用户后，登录访问恢复。
+
+1. 创建一个名为 'u1' 的用户，处于禁用状态：
+
+```sql
+CREATE USER u1 IDENTIFIED BY '123' WITH DISABLED = TRUE;
+
+SHOW USERS;
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│  name  │ hostname │       auth_type      │ is_configured │  default_role │ disabled │
+├────────┼──────────┼──────────────────────┼───────────────┼───────────────┼──────────┤
+│ root   │ %        │ no_password          │ YES           │ account_admin │ false    │
+│ u1     │ %        │ double_sha1_password │ NO            │               │ true     │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+2. 尝试以用户 'u1' 使用 BendSQL 连接 Databend，将导致认证错误：
+
+```shell
+➜  ~ bendsql --user u1 --password 123
+Welcome to BendSQL 0.16.0-homebrew.
+Connecting to localhost:8000 as user u1.
+Error: APIError: RequestError: Start Query failed with status 401 Unauthorized: {"error":{"code":"401","message":"AuthenticateFailure: user u1 is disabled. Not allowed to login"}}
+```
+
+3. 使用 [ALTER USER](03-user-alter-user.md) 命令启用用户 'u1'：
+
+```sql
+ALTER USER u1 WITH DISABLED = FALSE;
+```
+
+4. 重新尝试以用户 'u1' 连接 Databend，确认登录访问成功：
+
+```shell
+➜  ~ bendsql --user u1 --password 123
+Welcome to BendSQL 0.16.0-homebrew.
+Connecting to localhost:8000 as user u1.
+Connected to Databend Query v1.2.424-nightly-d3a89f708d(rust-1.77.0-nightly-2024-04-17T22:11:59.304509266Z)
 ```

@@ -16,9 +16,11 @@ SHOW USERS
 ```sql
 SHOW USERS;
 
----
-| name                      | hostname | auth_type            | is_configured |
-|---------------------------|----------|----------------------|---------------|
-| sqluser_johnappleseed     | %        | double_sha1_password | NO            |
-| johnappleseed@example.com | %        | jwt                  | NO            |
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│  name  │ hostname │       auth_type      │ is_configured │  default_role │ disabled │
+├────────┼──────────┼──────────────────────┼───────────────┼───────────────┼──────────┤
+│ root   │ %        │ no_password          │ YES           │ account_admin │ false    │
+│ u1     │ %        │ double_sha1_password │ NO            │               │ true     │
+│ u2     │ %        │ double_sha1_password │ NO            │               │ false    │
+└─────────────────────────────────────────────────────────────────────────────────────┘
 ```
