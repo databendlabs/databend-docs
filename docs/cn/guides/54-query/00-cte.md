@@ -1,6 +1,7 @@
 ---
 title: 通用表表达式 (CTEs)
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于: v1.2.530"/>
@@ -12,34 +13,34 @@ Databend 支持使用 WITH 子句的通用表表达式 (CTEs)，允许你定义�
 这是一个简单的演示，帮助你理解查询中 CTEs 的工作原理：WITH 子句定义了一个 CTE，并生成一个结果集，其中包含所有来自魁北克省的客户。主查询从魁北克省的客户中筛选出居住在蒙特利尔地区的客户。
 
 ```sql
-WITH customers_in_quebec 
-     AS (SELECT customername, 
-                city 
-         FROM   customers 
-         WHERE  province = 'Québec') 
-SELECT customername 
+WITH customers_in_quebec
+     AS (SELECT customername,
+                city
+         FROM   customers
+         WHERE  province = 'Québec')
+SELECT customername
 FROM   customers_in_quebec
-WHERE  city = 'Montréal' 
-ORDER  BY customername; 
+WHERE  city = 'Montréal'
+ORDER  BY customername;
 ```
 
 CTEs 简化了使用子查询的复杂查询，并使你的代码更易于阅读和维护。如果不使用 CTE，前面的示例将如下所示：
 
 ```sql
-SELECT customername 
-FROM   (SELECT customername, 
-               city 
-        FROM   customers 
-        WHERE  province = 'Québec') 
-WHERE  city = 'Montréal' 
-ORDER  BY customername; 
+SELECT customername
+FROM   (SELECT customername,
+               city
+        FROM   customers
+        WHERE  province = 'Québec')
+WHERE  city = 'Montréal'
+ORDER  BY customername;
 ```
 
 ## 内联或物化？
 
 在使用查询中的 CTE 时，你可以通过使用 MATERIALIZED 关键字来控制 CTE 是内联还是物化。内联意味着 CTE 的定义直接嵌入到主查询中，而物化 CTE 意味着计算其结果一次并将其存储在内存中，减少重复的 CTE 执行。
 
-假设我们有一个名为 *orders* 的表，存储客户订单信息，包括订单号、客户 ID 和订单日期。
+假设我们有一个名为 _orders_ 的表，存储客户订单信息，包括订单号、客户 ID 和订单日期。
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -47,7 +48,7 @@ import TabItem from '@theme/TabItem';
 <Tabs>
   <TabItem value="Inline" label="Inline" default>
 
-在这个查询中，CTE *customer_orders* 将在查询执行期间内联。Databend 将直接将 *customer_orders* 的定义嵌入到主查询中。
+在这个查询中，CTE _customer_orders_ 将在查询执行期间内联。Databend 将直接将 _customer_orders_ 的定义嵌入到主查询中。
 
 ```sql
 WITH customer_orders AS (
@@ -61,10 +62,11 @@ JOIN customer_orders co2 ON co1.customer_id = co2.customer_id
 WHERE co1.order_count > 2
   AND co2.order_count > 5;
 ```
+
   </TabItem>
   <TabItem value="Materialized" label="Materialized">
 
-在这种情况下，我们使用 MATERIALIZED 关键字，这意味着 CTE *customer_orders* 不会被内联。相反，CTE 的结果将在 CTE 定义执行时计算并存储在内存中。当在主查询中执行 CTE 的两个实例时，Databend 将直接从内存中检索结果，避免重复计算，并可能提高性能。
+在这种情况下，我们使用 MATERIALIZED 关键字，这意味着 CTE _customer_orders_ 不会被内联。相反，CTE 的结果将在 CTE 定义执行时计算并存储在内存中。当在主查询中执行 CTE 的两个实例时，Databend 将直接从内存中检索结果，避免重复计算，并可能提高性能。
 
 ```sql
 WITH customer_orders AS MATERIALIZED (
@@ -78,15 +80,15 @@ JOIN customer_orders co2 ON co1.customer_id = co2.customer_id
 WHERE co1.order_count > 2
   AND co2.order_count > 5;
 ```
+
 这可以显著提高性能，在 CTE 的结果被多次使用的情况下。然而，由于 CTE 不再内联，查询优化器可能难以将 CTE 的条件推入主查询或优化连接顺序，可能导致整体查询性能下降。
 
   </TabItem>
 </Tabs>
 
-
 ## 语法
 
-```sql    
+```sql
 WITH
         <cte_name1> [ ( <cte_column_list> ) ] AS [MATERIALIZED] ( SELECT ...  )
     [ , <cte_name2> [ ( <cte_column_list> ) ] AS [MATERIALIZED] ( SELECT ...  ) ]
@@ -94,12 +96,12 @@ WITH
 SELECT ... | UPDATE ... | DELETE FROM ...
 ```
 
-| 参数                | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| WITH               | 启动 WITH 子句。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| cte_name1 ... cte_nameN | CTE 的名称。当你有多个 CTE 时，用逗号将它们分开。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| cte_column_list    | CTE 中列的名称。CTE 可以引用在同一 WITH 子句中定义在其之前的任何 CTE。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| MATERIALIZED        | `Materialized` 是一个可选关键字，用于指示 CTE 是否应该被物化。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 参数                    | 描述                                                                   |
+| ----------------------- | ---------------------------------------------------------------------- |
+| WITH                    | 启动 WITH 子句。                                                       |
+| cte_name1 ... cte_nameN | CTE 的名称。当你有多个 CTE 时，用逗号将它们分开。                      |
+| cte_column_list         | CTE 中列的名称。CTE 可以引用在同一 WITH 子句中定义在其之前的任何 CTE。 |
+| MATERIALIZED            | `Materialized` 是一个可选关键字，用于指示 CTE 是否应该被物化。         |
 
 ## 递归 CTEs
 
@@ -112,13 +114,13 @@ WITH RECURSIVE <cte_name> AS (
     <initial_query>
     UNION ALL
     <recursive_query> )
-SELECT ... 
+SELECT ...
 ```
 
-| 参数               | 描述                                                                                                           |
-|-------------------|----------------------------------------------------------------------------------------------------------------|
-| `cte_name`        | CTE 的名称。                                                                                                  |
-| `initial_query`   | 初始查询，在递归开始时执行一次，通常返回一组行。                                                                 |
+| 参数              | 描述                                                                                                                                                                                                    |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cte_name`        | CTE 的名称。                                                                                                                                                                                            |
+| `initial_query`   | 初始查询，在递归开始时执行一次，通常返回一组行。                                                                                                                                                        |
 | `recursive_query` | 引用 CTE 本身的查询，重复执行直到返回空结果集。此查询必须包含对 CTE 名称的引用。查询中不得包含聚合函数（如 MAX, MIN, SUM, AVG, COUNT）、窗口函数、GROUP BY 子句、ORDER BY 子句、LIMIT 子句或 DISTINCT。 |
 
 ### 工作原理
@@ -142,12 +144,12 @@ SELECT ...
 假设您管理着位于 GTA 地区不同区域的多家书店，并使用一张表来记录它们的店铺 ID、区域以及上个月的交易量。
 
 ```sql
-CREATE TABLE sales 
-  ( 
-     storeid INTEGER, 
-     region  TEXT, 
-     amount  INTEGER 
-  ); 
+CREATE TABLE sales
+  (
+     storeid INTEGER,
+     region  TEXT,
+     amount  INTEGER
+  );
 
 INSERT INTO sales VALUES (1, 'North York', 12800);
 INSERT INTO sales VALUES (2, 'Downtown', 28400);
@@ -162,12 +164,12 @@ INSERT INTO sales VALUES (7, 'North York', 2490);
 
 ```sql
 -- 定义包含一个 CTE 的 WITH 子句
-WITH avg_all 
-     AS (SELECT Avg(amount) AVG_SALES 
-         FROM   sales) 
-SELECT * 
-FROM   sales, 
-       avg_all 
+WITH avg_all
+     AS (SELECT Avg(amount) AVG_SALES
+         FROM   sales)
+SELECT *
+FROM   sales,
+       avg_all
 WHERE  sales.amount < avg_sales;
 ```
 
@@ -189,22 +191,22 @@ WHERE  sales.amount < avg_sales;
 
 ```sql
 -- 定义包含两个 CTE 的 WITH 子句
-WITH avg_by_region 
-     AS (SELECT region, 
-                Avg (amount) avg_by_region_value 
-         FROM   sales 
-         GROUP  BY region), 
-     sum_by_region 
-     AS (SELECT region, 
-                Sum(amount) sum_by_region_value 
-         FROM   sales 
-         GROUP  BY region) 
-SELECT avg_by_region.region, 
-       avg_by_region_value, 
-       sum_by_region_value 
-FROM   avg_by_region, 
-       sum_by_region 
-WHERE  avg_by_region.region = sum_by_region.region; 
+WITH avg_by_region
+     AS (SELECT region,
+                Avg (amount) avg_by_region_value
+         FROM   sales
+         GROUP  BY region),
+     sum_by_region
+     AS (SELECT region,
+                Sum(amount) sum_by_region_value
+         FROM   sales
+         GROUP  BY region)
+SELECT avg_by_region.region,
+       avg_by_region_value,
+       sum_by_region_value
+FROM   avg_by_region,
+       sum_by_region
+WHERE  avg_by_region.region = sum_by_region.region;
 ```
 
 输出：

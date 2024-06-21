@@ -6,14 +6,14 @@ title: 连接操作
 
 *连接*操作将两个或多个表的列合并成一个结果集。Databend 支持以下*连接*类型：
 
-* [内连接](#内连接)
-* [自然连接](#自然连接)
-* [交叉连接](#交叉连接)
-* [左连接](#左连接)
-* [右连接](#右连接)
-* [全外连接](#全外连接)
-* [左/右半连接](#左--右半连接)
-* [左/右反连接](#左--右反连接)
+- [内连接](#内连接)
+- [自然连接](#自然连接)
+- [交叉连接](#交叉连接)
+- [左连接](#左连接)
+- [右连接](#右连接)
+- [全外连接](#全外连接)
+- [左/右半连接](#左右半连接)
+- [左/右反连接](#左右反连接)
 
 ## 示例表
 
@@ -21,29 +21,29 @@ title: 连接操作
 
 表 "vip_info"：此表存储 VIP 客户信息。
 
-| 客户ID    | 地区     |
-|-----------|-----------|
-| 101       | 多伦多    |
-| 102       | 魁北克    |
-| 103       | 温哥华    |
+| Client_ID 	   | Region    	 |
+|---------------|-------------|
+| 101         	 | Toronto   	 |
+| 102         	 | Quebec    	 |
+| 103         	 | Vancouver 	 |
 
 表 "purchase_records"：此表列出了所有客户的购买记录。
 
-| 客户ID    | 商品       | 数量      |
-|-----------|-----------|-----------|
-| 100       | 牛角面包    | 2,000     |
-| 102       | 甜甜圈     | 3,000     |
-| 103       | 咖啡       | 6,000     |
-| 106       | 苏打水     | 4,000     |
+| Client_ID 	   | Item      	 | QTY 	     |
+|---------------|-------------|-----------|
+| 100         	 | Croissant 	 | 2,000   	 |
+| 102         	 | Donut     	 | 3,000   	 |
+| 103         	 | Coffee    	 | 6,000   	 |
+| 106         	 | Soda      	 | 4,000   	 |
 
 表 "gift"：此表列出了 VIP 客户的礼品选项。
 
-| 礼品       |
-|-----------|
-| 牛角面包    |
-| 甜甜圈     |
-| 咖啡       |
-| 苏打水     |
+| Gift      	 |
+|-------------|
+| Croissant 	 |
+| Donut     	 |
+| Coffee    	 |
+| Soda      	 |
 
 ## 内连接
 
@@ -51,7 +51,7 @@ title: 连接操作
 
 ### 语法
 
-```sql    
+```sql
 SELECT select_list
 FROM table_a
 	[INNER] JOIN table_b
@@ -66,7 +66,7 @@ INNER 关键字是可选的。
 
 当您使用等号运算符在两个表的公共列上进行连接时，可以使用 USING 关键字简化语法。
 
-```sql    
+```sql
 SELECT select_list
 FROM table_a
 	JOIN table_b
@@ -79,13 +79,13 @@ FROM table_a
 
 以下示例返回 VIP 客户的购买记录：
 
-```sql    
+```sql
 SELECT purchase_records.client_id,
        purchase_records.item,
        purchase_records.qty
 FROM   vip_info
        INNER JOIN purchase_records
-               ON vip_info.client_id = purchase_records.client_id; 
+               ON vip_info.client_id = purchase_records.client_id;
 ```
 
 有关示例中表格的定义，请参见 [示例表](#示例表)。
@@ -93,8 +93,8 @@ FROM   vip_info
 输出：
 
 ```sql
-|102|甜甜圈|3000
-|103|咖啡|6000
+|102|Donut|3000
+|103|Coffee|6000
 ```
 
 ## 自然连接
@@ -103,7 +103,7 @@ FROM   vip_info
 
 ### 语法
 
-```sql    
+```sql
 SELECT select_list
 FROM table_a
 	NATURAL JOIN table_b
@@ -114,12 +114,12 @@ FROM table_a
 
 以下示例返回 VIP 客户的购买记录：
 
-```sql    
+```sql
 SELECT purchase_records.client_id,
        purchase_records.item,
        purchase_records.qty
 FROM   vip_info
-       NATURAL JOIN purchase_records; 
+       NATURAL JOIN purchase_records;
 ```
 
 有关示例中表格的定义，请参见 [示例表](#示例表)。
@@ -127,8 +127,8 @@ FROM   vip_info
 输出：
 
 ```sql
-|102|甜甜圈|3,000
-|103|咖啡|6,000
+|102|Donut|3,000
+|103|Coffee|6,000
 ```
 
 ## 交叉连接
@@ -137,7 +137,7 @@ FROM   vip_info
 
 ### 语法
 
-```sql    
+```sql
 SELECT select_list
 FROM table_a
 	CROSS JOIN table_b
@@ -147,10 +147,10 @@ FROM table_a
 
 以下示例返回一个结果集，为每个 VIP 客户分配每种礼品选项：
 
-```sql    
+```sql
 SELECT *
 FROM   vip_info
-       CROSS JOIN gift; 
+       CROSS JOIN gift;
 ```
 
 有关示例中表格的定义，请参见 [示例表](#示例表)。
@@ -158,18 +158,18 @@ FROM   vip_info
 输出：
 
 ```sql
-101|多伦多|牛角面包
-101|多伦多|甜甜圈
-101|多伦多|咖啡
-101|多伦多|苏打水
-102|魁北克|牛角面包
-102|魁北克|甜甜圈
-102|魁北克|咖啡
-102|魁北克|苏打水
-103|温哥华|牛角面包
-103|温哥华|甜甜圈
-103|温哥华|咖啡
-103|温哥华|苏打水
+101|Toronto|Croissant
+101|Toronto|Donut
+101|Toronto|Coffee
+101|Toronto|Soda
+102|Quebec|Croissant
+102|Quebec|Donut
+102|Quebec|Coffee
+102|Quebec|Soda
+103|Vancouver|Croissant
+103|Vancouver|Donut
+103|Vancouver|Coffee
+103|Vancouver|Soda
 ```
 
 ## 左连接
@@ -178,12 +178,13 @@ FROM   vip_info
 
 ### 语法
 
-```sql    
+```sql
 SELECT select_list
 FROM table_a
 	LEFT [OUTER] JOIN table_b
 		ON join_condition
 ```
+
 :::tip
 OUTER 关键字是可选的。
 :::
@@ -192,13 +193,13 @@ OUTER 关键字是可选的。
 
 以下示例返回所有 VIP 客户的购买记录，如果 VIP 客户没有购买记录，则购买记录将为 NULL：
 
-```sql    
+```sql
 SELECT vip_info.client_id,
        purchase_records.item,
        purchase_records.qty
 FROM   vip_info
        LEFT JOIN purchase_records
-              ON vip_info.client_id = purchase_records.client_id; 
+              ON vip_info.client_id = purchase_records.client_id;
 ```
 
 有关示例中表格的定义，请参见 [示例表](#示例表)。
@@ -207,8 +208,8 @@ FROM   vip_info
 
 ```sql
 |101|NULL|NULL
-|102|甜甜圈|3000
-|103|咖啡|6000
+|102|Donut|3000
+|103|Coffee|6000
 ```
 
 ## 右连接
@@ -217,7 +218,7 @@ FROM   vip_info
 
 ### 语法
 
-```sql    
+```sql
 SELECT select_list
 FROM table_a
 	RIGHT [OUTER] JOIN table_b
@@ -234,12 +235,12 @@ OUTER 关键字是可选的。
 
 以下示例返回所有购买记录的 vip_info，如果购买记录没有对应的 vip_info，则 vip_info 将为 NULL。
 
-```sql    
+```sql
 SELECT vip_info.client_id,
        vip_info.region
 FROM   vip_info
        RIGHT JOIN purchase_records
-               ON vip_info.client_id = purchase_records.client_id; 
+               ON vip_info.client_id = purchase_records.client_id;
 ```
 
 有关示例中表格的定义，请参见 [示例表](#示例表)。
@@ -248,8 +249,8 @@ FROM   vip_info
 
 ```sql
 NULL|NULL
-102|魁北克
-103|温哥华
+102|Quebec
+103|Vancouver
 NULL|NULL
 ```
 
@@ -287,11 +288,11 @@ FROM   vip_info
 输出：
 
 ```sql
-多伦多|NULL
-魁北克|甜甜圈
-温哥华|咖啡
-NULL|牛角面包
-NULL|苏打水
+Toronto|NULL
+Quebec|Donut
+Vancouver|Coffee
+NULL|Croissant
+NULL|Soda
 ```
 
 ## 左/右半连接
@@ -318,7 +319,7 @@ FROM   table_a
 
 ### 示例
 
-以下示例返回有购买记录的 VIP 客户（客户ID & 地区）：
+以下示例返回有购买记录的 VIP 客户（客户 ID & 地区）：
 
 ```sql
 SELECT *
@@ -332,11 +333,11 @@ FROM   vip_info
 输出：
 
 ```sql
-102|魁北克
-103|温哥华
+102|Quebec
+103|Vancouver
 ```
 
-以下示例返回 VIP 客户的购买记录（客户ID，商品，数量）：
+以下示例返回 VIP 客户的购买记录（客户 ID，商品，数量）：
 
 ```sql
 SELECT *
@@ -350,8 +351,8 @@ FROM   vip_info
 输出：
 
 ```sql
-|102|甜甜圈|3000
-|103|咖啡|6000
+|102|Donut|3000
+|103|Coffee|6000
 ```
 
 ## 左/右反连接
@@ -378,7 +379,7 @@ FROM   table_a
 
 ### 示例
 
-以下示例返回没有购买记录的 VIP 客户（客户ID & 地区）：
+以下示例返回没有购买记录的 VIP 客户（客户 ID & 地区）：
 
 ```sql
 SELECT *
@@ -392,10 +393,10 @@ FROM   vip_info
 输出：
 
 ```sql
-101|多伦多
+101|Toronto
 ```
 
-以下示例返回非 VIP 客户的购买记录（客户ID，商品，数量）：
+以下示例返回非 VIP 客户的购买记录（客户 ID，商品，数量）：
 
 ```sql
 SELECT *
@@ -409,6 +410,6 @@ FROM   vip_info
 输出：
 
 ```sql
-|100|牛角面包|2000
-|106|苏打水|4000
+|100|Croissant|2000
+|106|Soda|4000
 ```

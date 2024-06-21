@@ -21,6 +21,7 @@ GROUP BY GROUPING SETS ( groupSet [ , groupSet [ , ... ] ] )
 ```
 
 其中：
+
 ```sql
 groupSet ::= { <column_alias> | <position> | <expr> }
 ```
@@ -31,10 +32,10 @@ groupSet ::= { <column_alias> | <position> | <expr> }
 
 - `<expr>`: 当前作用域内表上的任何表达式
 
-
 ## 示例
 
 示例数据设置：
+
 ```sql
 -- 创建一个示例销售表
 CREATE TABLE sales (
@@ -82,6 +83,7 @@ GROUP BY sid;
 ```
 
 输出：
+
 ```sql
 +------+------+----------------+
 | pid  | sid  | total_quantity |
@@ -121,6 +123,7 @@ GROUP BY store_id;
 ```
 
 输出：
+
 ```sql
 +------------+----------+----------------+
 | product_id | store_id | total_quantity |
