@@ -1,50 +1,75 @@
 ---
-title: 显示权限
+title: 显示授权
 sidebar_position: 10
 ---
 
-列出已明确授予用户或角色的所有权限。
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-另请参见：
+<FunctionDescription description="引入或更新于: v1.2.487"/>
 
+列出明确授予给用户、角色或特定对象的权限。
+
+相关内容:
+
+- [SHOW_GRANTS](/sql/sql-functions/table-functions/show-grants)
 - [GRANT](10-grant.md)
 - [REVOKE](11-revoke.md)
 
 ## 语法
 
 ```sql
--- 列出授予用户的权限
-SHOW GRANTS FOR <user_name>;
+-- 列出授予给用户的权限
+SHOW GRANTS FOR <user_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
--- 列出授予角色的权限
-SHOW GRANTS FOR ROLE <role_name>;
+-- 列出授予给角色的权限
+SHOW GRANTS FOR ROLE <role_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
+
+-- 列出授予给对象的权限
+SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF } <object_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 ```
 
 ## 示例
 
-以下代码返回授予用户 `user1` 的所有权限：
+本示例展示了如何列出授予给用户、角色以及特定对象的权限。
 
 ```sql
+-- 创建新用户
+CREATE USER 'user1' IDENTIFIED BY 'password';
+
+-- 创建新角色
+CREATE ROLE analyst;
+
+-- 将分析员角色授予用户
+GRANT ROLE analyst TO 'user1';
+
+-- 创建数据库
+CREATE DATABASE my_db;
+
+-- 将数据库权限授予角色
+GRANT OWNERSHIP ON my_db.* TO ROLE analyst;
+
+-- 列出授予给用户的权限
 SHOW GRANTS FOR user1;
 
----
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-| GRANT ALL ON *.* TO 'user1'@'%'         |
-+-----------------------------------------+
-```
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ privileges │ object_name │     object_id    │ grant_to │  name  │                         grants                        │
+├────────────┼─────────────┼──────────────────┼──────────┼────────┼───────────────────────────────────────────────────────┤
+│ OWNERSHIP  │ my_db       │               16 │ USER     │ user1  │ GRANT OWNERSHIP ON 'default'.'my_db'.* TO 'user1'@'%' │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-以下代码返回授予角色 `role1` 的所有权限：
+-- 列出授予给角色的权限
+SHOW GRANTS FOR ROLE analyst;
 
-```sql
-SHOW GRANTS FOR ROLE role1;
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ privileges │ object_name │     object_id    │ grant_to │   name  │                          grants                          │
+├────────────┼─────────────┼──────────────────┼──────────┼─────────┼──────────────────────────────────────────────────────────┤
+│ OWNERSHIP  │ my_db       │               16 │ ROLE     │ analyst │ GRANT OWNERSHIP ON 'default'.'my_db'.* TO ROLE `analyst` │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+-- 列出授予给数据库的权限
+SHOW GRANTS ON DATABASE my_db;
 
----
-+-------------------------------------+
-| Grants                              |
-+-------------------------------------+
-| GRANT SELECT ON 'mydb'.* TO 'role1' |
-+-------------------------------------+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│ privileges │ object_name │     object_id    │ grant_to │   name  │      grants      ├────────────┼─────────────┼──────────────────┼──────────┼─────────┼──────────────────┤
+│ OWNERSHIP  │ my_db       │               16 │ ROLE     │ analyst │                  │
+└─────────────────────────────────────────────────────────────────────────────────────┘
 ```
