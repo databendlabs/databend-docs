@@ -1,5 +1,5 @@
 ---
-title: SET ROLE
+title: 设置角色
 sidebar_position: 5
 ---
 

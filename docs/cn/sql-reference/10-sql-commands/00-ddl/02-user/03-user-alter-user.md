@@ -2,6 +2,7 @@
 title: 修改用户
 sidebar_position: 2
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.424"/>
@@ -38,7 +39,7 @@ ALTER USER <name> WITH DEFAULT_ROLE = '<role_name>'
 ALTER USER <name> WITH DISABLED = true | false
 ```
 
-- *auth_type* 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
+- _auth_type_ 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
 - 当您为使用 [CREATE USER](01-user-create-user.md) 或 ALTER USER 创建的用户设置默认角色时，Databend 不会验证角色的存在或自动将角色授予用户。您必须明确将角色授予用户，该角色才会生效。
 - `DISABLED` 允许您启用或禁用用户。禁用的用户无法登录 Databend，直到他们被启用。点击[这里](01-user-create-user.md#example-5-creating-user-in-disabled-state)查看示例。
 

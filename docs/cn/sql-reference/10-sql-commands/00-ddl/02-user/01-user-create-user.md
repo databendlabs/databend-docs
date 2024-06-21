@@ -2,29 +2,30 @@
 title: 创建用户
 sidebar_position: 1
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.424"/>
 
-创建一个SQL用户。
+创建一个 SQL 用户。
 
 相关内容：
 
- - [创建密码策略](../12-password-policy/create-password-policy.md)
- - [创建网络策略](../12-network-policy/ddl-create-policy.md)
- - [授权](10-grant.md)
+- [创建密码策略](../12-password-policy/create-password-policy.md)
+- [创建网络策略](../12-network-policy/ddl-create-policy.md)
+- [授权](10-grant.md)
 
 ## 语法
 
 ```sql
-CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>' 
+CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>'
 [ WITH SET PASSWORD POLICY = '<policy_name>' ] -- 设置密码策略
 [ WITH SET NETWORK POLICY = '<policy_name>' ] -- 设置网络策略
 [ WITH DEFAULT_ROLE = '<role_name>' ] -- 设置默认角色
 [ WITH DISABLED = true | false ] -- 用户创建时是否禁用
 ```
 
-- *auth_type* 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
+- _auth_type_ 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
 - 当您使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在或自动将角色授予用户。您必须明确地将角色授予用户，该角色才会生效。
 - 当 `DISABLED` 设置为 `true` 时，新用户创建时处于禁用状态。处于此状态的用户无法登录 Databend，直到他们被启用。要启用或禁用已创建的用户，请使用 [ALTER USER](03-user-alter-user.md) 命令。
 

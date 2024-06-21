@@ -1,7 +1,8 @@
 ---
-title: SHOW GRANTS
+title: 显示授权
 sidebar_position: 10
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于: v1.2.487"/>
