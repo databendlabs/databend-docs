@@ -10,7 +10,7 @@ title: Grafana
 
 ### 步骤 1. 设置环境
 
-开始之前，请参考官方安装指南安装 Grafana：https://grafana.com/docs/grafana/latest/setup-grafana/installation。
+开始之前，请参考官方安装指南安装 Grafana： https://grafana.com/docs/grafana/latest/setup-grafana/installation 。
 
 本教程中，您可以选择与本地 Databend 实例或 Databend Cloud 集成：
 
