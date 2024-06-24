@@ -12,7 +12,7 @@ This guide provides detailed instructions on how to import data into Databend.
 <DetailsWrap>
 
 <details>
-<summary> Parquet Files </summary>
+<summary> Parquet </summary>
 
 - [How to load Parquet file into a table](./03-load-semistructured/00-load-parquet.md)
 - [How to export a table to Parquet file](../50-unload-data/00-unload-parquet.md)
@@ -21,7 +21,7 @@ This guide provides detailed instructions on how to import data into Databend.
 </details>
 
 <details>
-<summary> CSV Files </summary>
+<summary> CSV </summary>
 
 - [How to load CSV file into a table](./03-load-semistructured/01-load-csv.md)
 - [How to export a table to CSV file](../50-unload-data/01-unload-csv.md)
@@ -31,7 +31,7 @@ This guide provides detailed instructions on how to import data into Databend.
 
 
 <details>
-<summary> TSV Files </summary>
+<summary> TSV </summary>
 
 - [How to load TSV file into a table](./03-load-semistructured/02-load-tsv.md)
 - [How to export a table to TSV file](../50-unload-data/02-unload-tsv.md)
@@ -40,11 +40,19 @@ This guide provides detailed instructions on how to import data into Databend.
 </details>
 
 <details>
-<summary> NDJSON Files </summary>
+<summary> NDJSON </summary>
 
 - [How to load NDJSON file into a table](./03-load-semistructured/03-load-ndjson.md)
 - [How to export a table to NDJSON file](../50-unload-data/03-unload-ndjson.md)
 - [How to query directly on NDJSON file](./04-transform/03-querying-ndjson.md)
+
+</details>
+
+<details>
+<summary> ORC </summary>
+
+- [How to load ORC file into a table](./03-load-semistructured/04-load-orc.md)
+- [How to query directly on ORC file](./04-transform/03-querying-orc.md)
 
 </details>
 

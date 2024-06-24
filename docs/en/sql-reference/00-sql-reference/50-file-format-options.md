@@ -244,3 +244,6 @@ Determines the behavior when encountering missing fields during data loading. Re
 | `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
 | `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
 
+## ORC Options
+
+No options available for the ORC format yet.
