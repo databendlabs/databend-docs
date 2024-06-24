@@ -3,7 +3,7 @@ title: TO_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.397"/>
+<FunctionDescription description="Introduced or updated: v1.2.538"/>
 
 Converts an expression to a date with time.
 
@@ -51,27 +51,39 @@ Returns a timestamp in the format `YYYY-MM-DD hh:mm:ss.ffffff`:
     └────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
     ```
 
-    - In the absence of timezone information in the given string, it assumes the timestamp as belonging to the timezone configured in Databend. However, when the timestamp comes along with a pattern, it is assumed to be in the UTC timezone.
+    - In the absence of timezone information in the given string, it assumes the timestamp as belonging to the timezone configured in the current session.
 
     ```sql
     -- Set timezone to 'America/Toronto' (UTC-5:00, Eastern Standard Time)
     SET timezone = 'America/Toronto';
     
-    -- The 1st TO_TIMESTAMP interprets the timestamp without a pattern, 
-    -- assuming it belongs to the timezone configured in Databend.
-    -- The 2nd TO_TIMESTAMP interprets the timestamp with a pattern, 
-    -- assuming it belongs to the UTC timezone.
-    -- As a result, the timestamps are converted differently, leading to the difference in output.
     SELECT TO_TIMESTAMP('2022-01-02T01:12:00'), TO_TIMESTAMP('2022/01/02T01:12:00', '%Y/%m/%dT%H:%M:%S');
 
     ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
     │ to_timestamp('2022-01-02t01:12:00') │ to_timestamp('2022/01/02t01:12:00', '%y/%m/%dt%h:%m:%s') │
     ├─────────────────────────────────────┼──────────────────────────────────────────────────────────┤
-    │ 2022-01-02 01:12:00                 │ 2022-01-01 20:12:00                                      │
+    │ 2022-01-02 01:12:00                 │ 2022-01-02 01:12:00                                      │
     └────────────────────────────────────────────────────────────────────────────────────────────────┘
     ```
 
 - If the given string matches this format but does not have the time part, it is automatically extended to this pattern. The padding value is 0.
+- If the conversion fails, an error will be returned. To avoid such errors, you can use the [TRY_TO_TIMESTAMP](try-to-timestamp.md) function.
+
+    ```sql
+    root@localhost:8000/default> SELECT TO_TIMESTAMP('20220102');
+    error: APIError: ResponseError with 1006: cannot parse to type `TIMESTAMP` while evaluating function `to_timestamp('20220102')`
+
+    root@localhost:8000/default> SELECT TRY_TO_TIMESTAMP('20220102');
+
+    SELECT
+    try_to_timestamp('20220102')
+
+    ┌──────────────────────────────┐
+    │ try_to_timestamp('20220102') │
+    ├──────────────────────────────┤
+    │ NULL                         │
+    └──────────────────────────────┘
+    ```
 
 ## Aliases
 
@@ -148,13 +160,12 @@ SELECT TO_TIMESTAMP('2022/01/02T01:12:00-07:00', '%Y/%m/%dT%H:%M:%S%::z');
 │ 2022-01-02 03:12:00                                                │
 └────────────────────────────────────────────────────────────────────┘
 
--- When no timezone is provided in the input string, the time is assumed to be in UTC by default
--- The provided string is converted from UTC to the current timezone ('America/Toronto')
+-- If no timezone is specified, the session's time zone applies.
 SELECT TO_TIMESTAMP('2022/01/02T01:12:00', '%Y/%m/%dT%H:%M:%S');
 
 ┌──────────────────────────────────────────────────────────┐
 │ to_timestamp('2022/01/02t01:12:00', '%y/%m/%dt%h:%m:%s') │
 ├──────────────────────────────────────────────────────────┤
-│ 2022-01-01 20:12:00                                      │
+│ 2022-01-02 01:12:00                                      │
 └──────────────────────────────────────────────────────────┘
 ```
