@@ -2,6 +2,7 @@
 title: 创建任务
 sidebar_position: 1
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.371"/>
@@ -26,26 +27,27 @@ AS
 <sql>
 ```
 
-| 参数                             | 描述                                                                                         |
-|----------------------------------|------------------------------------------------------------------------------------------------------|
-| IF NOT EXISTS                    | 可选。如果指定，仅当不存在同名任务时才创建任务。                                                         |
-| name                             | 任务的名称。这是一个必填字段。                                                                       |
-| WAREHOUSE                        | 可选。指定任务使用的虚拟仓库。                                                                         |
-| SCHEDULE                         | 可选。定义任务运行的计划。可以按分钟指定，或使用带有时区的 CRON 表达式。                                       |
-| SUSPEND_TASK_AFTER_NUM_FAILURES | 可选。任务在连续失败指定次数后将自动暂停。                                                                     |
-| AFTER                            | 列出必须在当前任务开始之前完成的任务。                                                                       |
-| WHEN boolean_expr                | 任务运行必须为真的条件。                                                                               |
-| [ERROR_INTEGRATION](../16-notification/index.md)                | 可选。任务错误通知使用的通知集成名称，特定[任务错误载荷](./10-task-error-integration-payload.md)将应用于该任务。                                        |
-| COMMENT                          | 可选。作为任务注释或描述的字符串字面量。                                                                       |
-| session_parameter                | 可选。指定任务运行期间使用的会话参数。                                                                         |
-| sql                            | 任务将执行的 SQL 语句，可以是单个语句或脚本。这是一个必填字段。                                               |
-
+| 参数                                             | 描述                                                                                                             |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| IF NOT EXISTS                                    | 可选。如果指定，仅当不存在同名任务时才创建任务。                                                                 |
+| name                                             | 任务的名称。这是一个必填字段。                                                                                   |
+| WAREHOUSE                                        | 可选。指定任务使用的虚拟仓库。                                                                                   |
+| SCHEDULE                                         | 可选。定义任务运行的计划。可以按分钟指定，或使用带有时区的 CRON 表达式。                                         |
+| SUSPEND_TASK_AFTER_NUM_FAILURES                  | 可选。任务在连续失败指定次数后将自动暂停。                                                                       |
+| AFTER                                            | 列出必须在当前任务开始之前完成的任务。                                                                           |
+| WHEN boolean_expr                                | 任务运行必须为真的条件。                                                                                         |
+| [ERROR_INTEGRATION](../16-notification/index.md) | 可选。任务错误通知使用的通知集成名称，特定[任务错误负载](./10-task-error-integration-payload.md)将应用于该任务。 |
+| COMMENT                                          | 可选。作为任务注释或描述的字符串字面量。                                                                         |
+| session_parameter                                | 可选。指定任务运行期间使用的会话参数。                                                                           |
+| sql                                              | 任务将执行的 SQL 语句，可以是单个语句或脚本。这是一个必填字段。                                                  |
 
 ### 使用说明：
+
 - 必须为独立任务或 DAG 中的根任务定义计划；否则，任务仅在手动执行 EXECUTE TASK 时运行。
 - 不能为 DAG 中的子任务指定计划。
-- 创建任务后，必须执行 ALTER TASK … RESUME 才能根据任务定义中的参数运行任务。
+- 创建任务后，必须执行 `ALTER TASK … RESUME` 才能根据任务定义中的参数运行任务。
 - 当条件仅支持一部分 <boolean_expression>。以下是在任务 WHEN 子句中支持的：
+
   - [STREAM_STATUS](../../../00-sql-reference/20-system-tables/system-stream-status.md) 在 SQL 表达式中支持评估。此函数指示指定的流是否包含变更跟踪数据。您可以使用此函数在当前运行开始前评估指定的流是否包含变更数据。如果结果为 FALSE，则任务不运行。
   - 布尔运算符，如 AND、OR、NOT 等。
   - 数值、字符串和布尔类型之间的转换。
@@ -65,6 +67,7 @@ CREATE TASK my_daily_task
  AS
  INSERT INTO summary_table SELECT * FROM source_table;
 ```
+
 在此示例中，创建了一个名为 my_daily_task 的任务。它使用 compute_wh 仓库运行一个 SQL 语句，将数据从 source_table 插入到 summary_table。该任务计划每天上午 9 点太平洋时间运行。
 
 ```sql
@@ -75,6 +78,7 @@ CREATE TASK IF NOT EXISTS mytask
 AS
 INSERT INTO compaction_test.test VALUES((1));
 ```
+
 此示例创建了一个名为 mytask 的任务，如果不存在。该任务分配给系统仓库，并计划每 2 分钟运行一次。如果连续失败三次，任务将被暂停。该任务执行向 compaction_test.test 表插入操作。
 
 ```sql
@@ -84,8 +88,8 @@ CREATE TASK IF NOT EXISTS daily_sales_summary
 FROM sales_data
 GROUP BY sales_date;
 ```
-在此示例中，创建了一个名为 daily_sales_summary 的任务，具有秒级调度。它计划每 30 秒运行一次。该任务使用 'analytics' 仓库，并通过聚合 sales_data 表的数据来计算每日销售汇总。
 
+在此示例中，创建了一个名为 daily_sales_summary 的任务，具有秒级调度。它计划每 30 秒运行一次。该任务使用 'analytics' 仓库，并通过聚合 sales_data 表的数据来计算每日销售汇总。
 
 ```sql
 CREATE TASK IF NOT EXISTS process_orders
@@ -94,6 +98,7 @@ CREATE TASK IF NOT EXISTS process_orders
 ASINSERT INTO data_warehouse.orders
 SELECT * FROM staging.orders;
 ```
+
 在此示例中，创建了一个名为 process_orders 的任务，并定义为在 task1 和 task2 成功完成后运行。这对于在有向无环图 (DAG) 中创建依赖关系非常有用。该任务使用 'etl' 仓库，并将数据从暂存区转移到数据仓库。
 
 ```sql
@@ -105,7 +110,8 @@ AS
 DELETE FROM archived_data
 WHERE archived_date < DATEADD(HOUR, -24, CURRENT_TIMESTAMP());
 
- ```
+```
+
 在此示例中，创建了一个名为 hourly_data_cleanup 的任务。它使用维护仓库，并计划每小时运行一次。该任务删除 archived_data 表中超过 24 小时的数据。仅当 change_stream 流包含变更数据时，任务才会运行。
 
 ```sql

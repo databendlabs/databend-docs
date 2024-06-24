@@ -2,6 +2,7 @@
 title: 删除任务
 sidebar_position: 3
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.371"/>
@@ -16,10 +17,10 @@ DROP TASK 语句用于删除一个现有的任务。
 DROP TASK [ IF EXISTS ] <name>
 ```
 
-| 参数         | 描述                                                                                     |
-|--------------|------------------------------------------------------------------------------------------|
-| IF EXISTS    | 可选。如果指定，只有当存在同名任务时，该任务才会被删除。                                 |
-| name         | 任务的名称。这是一个必填字段。                                                             |
+| 参数      | 描述                                                     |
+| --------- | -------------------------------------------------------- |
+| IF EXISTS | 可选。如果指定，只有当存在同名任务时，该任务才会被删除。 |
+| name      | 任务的名称。这是一个必填字段。                           |
 
 ## 使用说明：
 

@@ -1,16 +1,17 @@
 ---
-title: 任务错误通知载荷
+title: 任务错误通知负载
 sidebar_position: 10
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于: v1.2.371"/>
 
-任务错误通知的载荷主体。
+任务错误通知的负载主体。
 
-**注意：**此功能仅在Databend Cloud中默认启用。
+**注意：**此功能仅在 Databend Cloud 中默认启用。
 
-以下是一个描述任务错误的示例消息载荷。载荷可以包含一个或多个错误消息。
+以下是一个描述任务错误的示例消息负载。负载可以包含一个或多个错误消息。
 
 ```json
 {
@@ -30,6 +31,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
   "queryId": "2424b81e-f489-491b-bbab-e3556a27f867",
   "errorKind": "UnexpectedError",
   "errorCode": "500",
-  "errorMessage": "查询同步失败: 所有尝试失败: #1: 查询错误: 代码: 1006, 消息: 在评估函数divide(1, 0)时除以零"
+  "errorMessage": "query sync failed: All attempts fail: #1: query error: code: 1006, message: divided by zero while evaluating function divide(1, 0)"
 }
 ```

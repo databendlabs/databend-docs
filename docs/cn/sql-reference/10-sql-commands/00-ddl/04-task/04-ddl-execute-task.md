@@ -2,6 +2,7 @@
 title: 执行任务
 sidebar_position: 4
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本: v1.2.371"/>
@@ -16,11 +17,12 @@ EXECUTE TASK 语句用于手动执行一个已存在的任务。
 EXECUTE TASK  <name>
 ```
 
-| 参数       | 描述                                                                                     |
-|------------|------------------------------------------------------------------------------------------|
-| name       | 任务的名称。这是一个必填字段。                                                           |
+| 参数 | 描述                           |
+| ---- | ------------------------------ |
+| name | 任务的名称。这是一个必填字段。 |
 
 ## 使用说明
+
 - SQL 命令只能执行一个独立的任务或 DAG 中的根任务。如果输入的是子任务，命令将返回用户错误。
 
 ## 使用示例
