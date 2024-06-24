@@ -3,7 +3,7 @@ title: Query Configurations
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.199"/>
+<FunctionDescription description="Introduced or updated: v1.2.344"/>
 
 This page describes the Query node configurations available in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
@@ -34,7 +34,7 @@ The following is a list of the parameters available within the [query] section:
 | cluster_id                   | Default cluster ID.                              |
 | table_engine_memory_enabled  | Flag to enable the Memory table engine.          |
 
-## [[query.users]] Section
+### [query.users] Section
 
 The following is a list of the parameters available within the [[query.users]] section. For more information about configuring admin users, see [Configuring Admin Users](../01-admin-users.md).
 
@@ -43,6 +43,15 @@ The following is a list of the parameters available within the [[query.users]] s
 | name           | User name.                               |
 | auth_type      | Authentication type (e.g., no_password, double_sha1_password, sha256_password). |
 | auth_string    | Authentication string (e.g., SHA-1 or SHA-256 hash of the password). |
+
+### [query.settings] Section
+
+The following is a list of the parameters available within the [query.settings] section.
+
+| Parameter                       | Description                                                                                                                                                                                                                                                                             |
+|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| aggregate_spilling_memory_ratio | Controls the threshold for spilling data to disk during aggregation operations. When memory usage exceeds this percentage of the total available memory, data will be spilled to disk to avoid memory exhaustion. Example: if set to 60, spilling occurs when memory usage exceeds 60%. |
+| join_spilling_memory_ratio      | Controls the threshold for spilling data to disk during join operations. When memory usage exceeds this percentage of the total available memory, data will be spilled to disk to manage memory usage. Example: if set to 60, spilling occurs when memory usage exceeds 60%.            |
 
 ## [log] Section
 
