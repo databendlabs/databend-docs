@@ -1,86 +1,97 @@
 ---
-title: 将数据加载到 Databend 中
+title: 将数据加载到Databend
 ---
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-Databend 的强大 ETL 能力允许从各种来源和格式高效加载数据。
-本指南提供了如何将数据导入 Databend 的详细说明。
+Databend强大的ETL功能支持从多种来源和格式高效加载数据。本指南详细介绍了如何将数据导入Databend。
 
-## 数据导入和导出
+## 数据导入与导出
 
 <DetailsWrap>
 
 <details>
-<summary> Parquet 文件 </summary>
+<summary> Parquet </summary>
 
-- [如何将 Parquet 文件加载到表中](./03-load-semistructured/00-load-parquet.md)
-- [如何将表导出到 Parquet 文件](../50-unload-data/00-unload-parquet.md)
-- [如何直接在 Parquet 文件上查询](./04-transform/00-querying-parquet.md)
+- [如何将Parquet文件加载到表中](./03-load-semistructured/00-load-parquet.md)
+- [如何将表导出为Parquet文件](../50-unload-data/00-unload-parquet.md)
+- [如何直接在Parquet文件上进行查询](./04-transform/00-querying-parquet.md)
+ 
+</details>
+
+<details>
+<summary> CSV </summary>
+
+- [如何将CSV文件加载到表中](./03-load-semistructured/01-load-csv.md)
+- [如何将表导出为CSV文件](../50-unload-data/01-unload-csv.md)
+- [如何直接在CSV文件上进行查询](./04-transform/01-querying-csv.md)
+
+</details>
+
+
+<details>
+<summary> TSV </summary>
+
+- [如何将TSV文件加载到表中](./03-load-semistructured/02-load-tsv.md)
+- [如何将表导出为TSV文件](../50-unload-data/02-unload-tsv.md)
+- [如何直接在TSV文件上进行查询](./04-transform/02-querying-tsv.md)
 
 </details>
 
 <details>
-<summary> CSV 文件 </summary>
+<summary> NDJSON </summary>
 
-- [如何将 CSV 文件加载到表中](./03-load-semistructured/01-load-csv.md)
-- [如何将表导出到 CSV 文件](../50-unload-data/01-unload-csv.md)
-- [如何直接在 CSV 文件上查询](./04-transform/01-querying-csv.md)
-
-</details>
-
-<details>
-<summary> TSV 文件 </summary>
-
-- [如何将 TSV 文件加载到表中](./03-load-semistructured/02-load-tsv.md)
-- [如何将表导出到 TSV 文件](../50-unload-data/02-unload-tsv.md)
-- [如何直接在 TSV 文件上查询](./04-transform/02-querying-tsv.md)
+- [如何将NDJSON文件加载到表中](./03-load-semistructured/03-load-ndjson.md)
+- [如何将表导出为NDJSON文件](../50-unload-data/03-unload-ndjson.md)
+- [如何直接在NDJSON文件上进行查询](./04-transform/03-querying-ndjson.md)
 
 </details>
 
 <details>
-<summary> NDJSON 文件 </summary>
+<summary> ORC </summary>
 
-- [如何将 NDJSON 文件加载到表中](./03-load-semistructured/03-load-ndjson.md)
-- [如何将表导出到 NDJSON 文件](../50-unload-data/03-unload-ndjson.md)
-- [如何直接在 NDJSON 文件上查询](./04-transform/03-querying-ndjson.md)
+- [如何将ORC文件加载到表中](./03-load-semistructured/04-load-orc.md)
+- [如何直接在ORC文件上进行查询](./04-transform/03-querying-orc.md)
 
 </details>
+
 
 <details>
-<summary> HTTP(S)、S3 和更多 </summary>
+<summary> HTTP(S), S3, 及其他 </summary>
 
-- [了解 Stage](./00-stage/index.md)
-- [从 Stage 加载](./01-load/00-stage.md)
-- [从桶加载](./01-load/01-s3.md)
-- [从本地文件加载](./01-load/02-local.md)
-- [从远程文件加载](./01-load/03-http.md)
+- [理解Stages](./00-stage/index.md)
+- [从Stage加载数据](./01-load/00-stage.md)
+- [从Bucket加载数据](./01-load/01-s3.md)
+- [从本地文件加载数据](./01-load/02-local.md)
+- [从远程文件加载数据](./01-load/03-http.md)
 
 </details>
+
 </DetailsWrap>
 
 ## 从其他数据库加载数据
 
 <DetailsWrap>
-<details>
-<summary> 将 MySQL 数据导入到 Databend </summary>
 
-- [如何将完整的 MySQL 表加载到 Databend 中](./02-load-db/datax.md)
-- [如何将 MySQL 的完整和增量更改同步到 Databend 中](./02-load-db/debezium.md)
+<details>
+<summary> MySQL数据到Databend </summary>
+
+- [如何将MySQL表全量加载到Databend](./02-load-db/datax.md)
+- [如何同步MySQL的全量和增量变更到Databend](./02-load-db/debezium.md)
 
 </details>
 
 <details>
-<summary> 将 PostgreSQL 数据导入到 Databend </summary>
+<summary> PostgreSQL数据到Databend </summary>
 
-- [如何将 PostgreSQL 的完整和增量更改同步到 Databend 中](./02-load-db/flink-cdc.md)
+- [如何同步PostgreSQL的全量和增量变更到Databend](./02-load-db/flink-cdc.md)
 
 </details>
 
 <details>
-<summary> 将 Oracle 数据导入到 Databend </summary>
+<summary> Oracle数据到Databend </summary>
 
-- [如何将 Oracle 的完整和增量更改同步到 Databend 中](./02-load-db/flink-cdc.md)
+- [如何同步Oracle的全量和增量变更到Databend](./02-load-db/flink-cdc.md)
 
 </details>
 

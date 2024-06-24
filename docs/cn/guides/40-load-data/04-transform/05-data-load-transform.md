@@ -1,8 +1,8 @@
 ---
-title: 在加载时转换数据
+title: 加载时数据转换
 ---
 
-Databend 提供了一个强大的功能，允许在使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令加载过程中进行数据转换，语法如下：
+Databend 提供了一项强大的功能，允许在加载过程中使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令进行数据转换，其语法如下：
 
 ```sql
 COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
@@ -12,54 +12,48 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 [ PATTERN = '<regex_pattern>' ]
 [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
-         | TYPE = { CSV | TSV | NDJSON | PARQUET | XML } [ formatTypeOptions ]
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC } [ formatTypeOptions ]
        ) ]
 [ copyOptions ]
 ```
 
-- _COPY INTO 也支持其他语法选项。更多详情，请查看 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)_。
+- *COPY INTO 还支持其他语法选项。更多详情，请参阅 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)*。
 
-这个功能简化了您的 ETL 流程，通过集成基本转换，消除了临时表的需要。通过在加载过程中转换数据，您可以有效地简化您的 ETL 流程。以下是使用此功能增强数据加载的实用方法：
+此功能通过集成基本转换简化了 ETL 流程，无需临时表。通过在加载时转换数据，您可以有效地优化 ETL 过程。以下是使用此功能增强数据加载的几种实用方法：
 
-- **加载数据列的子集**：允许您从数据集中选择性地导入特定列，专注于与您的分析或应用程序相关的数据。
-
-- **在加载时重新排序列**：使您能够在加载数据时更改列的顺序，确保所需的列排列，以更好地组织数据或符合特定要求。
-
-- **在加载时转换数据类型**：提供在数据加载过程中转换某些列的数据类型的能力，允许您确保与所需数据格式或分析技术的一致性和兼容性。
-
-- **在加载时执行算术运算**：允许您在数据加载时对特定列执行数学计算和操作，便于进行高级数据转换或生成新的派生数据。
-
-- **将数据加载到包含额外列的表中**：使您能够将数据加载到已包含额外列的表中，适应现有结构，同时高效地映射和插入数据到相应的列中。
+- **加载数据集的子集列**：允许您有选择地从数据集中导入特定列，专注于与您的分析或应用相关的数据。
+- **加载时重新排序列**：使您能够在加载数据时更改列的顺序，确保所需列的排列，以便更好地组织数据或满足特定要求。
+- **加载时转换数据类型**：提供在数据加载过程中转换某些列数据类型的能力，允许您确保与所需数据格式或分析技术的兼容性和一致性。
+- **加载时执行算术运算**：允许您在数据加载时对特定列执行数学计算和操作，促进高级数据转换或生成新的派生数据。
+- **加载数据到具有额外列的表**：使您能够将数据加载到已包含额外列的表中，同时有效地映射和插入数据到相应的列，以适应现有结构。
 
 ## 教程
 
-本节提供了几个简短的教程，提供了在加载数据时如何进行转换的实用指导。每个教程将通过两种方式引导您完成数据加载过程：直接从远程文件加载和从暂存文件加载。请注意，这些教程彼此独立，您不需要按顺序完成它们。根据您的需要随意跟随。
+本节提供了几个简短的教程，为如何在加载数据时进行数据转换提供实用指导。每个教程都将引导您通过两种方式进行数据加载：直接从远程文件加载和从已暂存的文件加载。请注意，这些教程相互独立，您无需按顺序完成它们。根据您的需求自由跟随。
 
 ### 开始之前
 
-在开始之前，您需要创建一个 Stage 并生成一个示例文件；这里有一个 Parquet 文件作为示例：
+在开始之前，您需要创建一个阶段并生成一个示例文件；这里以 Parquet 文件为例：
 
 ```sql
 CREATE STAGE my_parquet_stage;
-COPY INTO @my_parquet_stage
+COPY INTO @my_parquet_stage 
 FROM (
-    SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS id, -- 生成一个顺序 id
-           'Name_' || CAST(number AS VARCHAR) AS name,       -- 为每行生成一个唯一名称
-           20 + MOD(number, 23) AS age,                      -- 生成 20 到 42 之间的年龄
+    SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS id, -- 生成顺序 id
+           'Name_' || CAST(number AS VARCHAR) AS name,       -- 为每行生成唯一名称
+           20 + MOD(number, 23) AS age,                      -- 生成年龄，范围在 20 到 42 之间
            DATE_ADD('day', MOD(number, 60), '2022-01-01') AS onboarded -- 从 2022-01-01 开始生成入职日期
-    FROM numbers(10) -- 生成 10 行
-)
+    FROM numbers(10) -- 生成 10 行数据
+) 
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
 查询暂存的示例文件：
-
 ```
 SELECT * FROM @my_parquet_stage;
 ```
 
 结果：
-
 ```
 ┌───────────────────────────────────────┐
 │   id   │  name  │   age  │  onboarded │
@@ -79,9 +73,9 @@ SELECT * FROM @my_parquet_stage;
 
 ### 教程 1 - 加载数据列的子集
 
-在本教程中，您将创建一个比示例文件中列数少的表，然后用从示例文件中提取的相应数据填充它。
+在本教程中，您将创建一个列数少于示例文件的表，然后从示例文件中提取相应数据填充该表。
 
-1. 创建一个没有 'age' 列的表。
+1. 创建一个不包含 'age' 列的表。
 
 ```sql
 CREATE TABLE employees_no_age (
@@ -91,15 +85,15 @@ CREATE TABLE employees_no_age (
 );
 ```
 
-2. 从暂存的示例文件中加载数据，除了 'age' 列。
+2. 从暂存的示例文件中加载数据，排除 'age' 列。
 
 ```sql
 -- 从暂存文件加载
 COPY INTO employees_no_age
 FROM (
-    SELECT t.id,
-           t.name,
-           t.onboarded
+    SELECT t.id, 
+           t.name, 
+           t.onboarded 
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -112,10 +106,7 @@ PATTERN = '.*parquet';
 SELECT * FROM employees_no_age;
 ```
 
-```
 结果：
-```
-
 ```
 ┌──────────────────────────────────────────────────────────┐
 │        id       │       name       │      onboarded      │
@@ -135,9 +126,9 @@ SELECT * FROM employees_no_age;
 
 ### 教程 2 - 加载时重新排序列
 
-在本教程中，您将创建一个表，该表具有与样本文件相同的列，但顺序不同，然后用从样本文件中提取的相应数据填充它。
+在本教程中，您将创建一个与示例文件具有相同列但顺序不同的表，然后从示例文件中提取相应数据填充该表。
 
-1. 创建一个表，其中 'name' 和 'age' 列的顺序互换。
+1. 创建一个 'name' 和 'age' 列交换位置的表。
 
 ```sql
 CREATE TABLE employees_new_order (
@@ -148,17 +139,17 @@ CREATE TABLE employees_new_order (
 );
 ```
 
-2. 从 Stage 样本文件中加载数据到新顺序中。
+2. 从暂存的示例文件中按新顺序加载数据。
 
 ```sql
--- Load from staged file
+-- 从暂存文件加载
 COPY INTO employees_new_order
 FROM (
-    SELECT
-        t.id,
-        t.age,
-        t.name,
-        t.onboarded
+    SELECT 
+        t.id, 
+        t.age, 
+        t.name, 
+        t.onboarded 
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -170,9 +161,7 @@ PATTERN = '.*parquet';
 ```sql
 SELECT * FROM employees_new_order;
 ```
-
 结果：
-
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
 │        id       │       age       │       name       │      onboarded      │
@@ -192,9 +181,9 @@ SELECT * FROM employees_new_order;
 
 ### 教程 3 - 加载时转换数据类型
 
-在本教程中，您将创建一个表，该表具有与样本文件相同的列，除了一个将具有不同的数据类型，然后用从样本文件中提取并转换的数据填充它。
+在本教程中，您将创建一个与示例文件具有相同列的表，但其中一列将具有不同的数据类型，然后从示例文件中提取并转换数据填充该表。
 
-1. 创建一个表，其中 'onboarded' 列的类型为 Date。
+1. 创建一个 'onboarded' 列类型为 Date 的表。
 
 ```sql
 CREATE TABLE employees_date (
@@ -205,17 +194,17 @@ CREATE TABLE employees_date (
 );
 ```
 
-2. 从 Stage 样本文件中加载数据，并将 'onboarded' 列转换为 Date 类型。
+2. 从暂存的示例文件中加载数据，并将 'onboarded' 列转换为 Date 类型。
 
 ```sql
--- Load from staged file
+-- 从暂存文件加载
 COPY INTO employees_date
 FROM (
-    SELECT
-        t.id,
-        t.name,
-        t.age,
-        to_date(t.onboarded)
+    SELECT 
+        t.id, 
+        t.name, 
+        t.age, 
+        to_date(t.onboarded) 
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -227,9 +216,7 @@ PATTERN = '.*parquet';
 ```sql
 SELECT * FROM employees_date;
 ```
-
-结果:
-
+结果：
 ```
 ┌───────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │    onboarded   │
@@ -250,9 +237,9 @@ SELECT * FROM employees_date;
 
 ### 教程 4 - 在加载过程中执行算术运算
 
-在本教程中，您将创建一个与样本文件具有相同列的表。然后，您将从样本文件中提取和转换数据，对提取的数据执行算术运算，并用结果填充表格。
+在本教程中，您将创建一个与示例文件具有相同列的表。然后，您将从示例文件中提取并转换数据，对提取的数据执行算术运算，并将结果填充到表中。
 
-1. 创建一个包含与样本文件完全相同的列的表：
+1. 创建一个与示例文件具有完全相同列的表：
 
 ```sql
 CREATE TABLE employees_new_age (
@@ -263,17 +250,17 @@ CREATE TABLE employees_new_age (
 );
 ```
 
-2. 从暂存的样本文件中加载数据，并在插入目标表之前对 'age' 列的值执行算术运算以增加其值：
+2. 从暂存的示例文件加载数据，并在将'age'列的值插入目标表之前，对其执行算术运算（加1）：
 
 ```sql
 -- 从暂存文件加载
 COPY INTO employees_new_age
 FROM (
-    SELECT
-        t.id,
-        t.name,
-        t.age + 1,
-        t.onboarded
+    SELECT 
+        t.id, 
+        t.name, 
+        t.age + 1, 
+        t.onboarded 
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -284,10 +271,8 @@ PATTERN = '.*parquet';
 
 ```sql
 SELECT * FROM employees_new_age
-```
-
-结果:
-
+```    
+结果：
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │      onboarded      │
@@ -306,11 +291,11 @@ SELECT * FROM employees_new_age
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 教程 5 - 加载到包含额外列的表中
+### 教程 5 - 加载到具有额外列的表中
 
-在本教程中，您将创建一个与样本文件相比包含额外列的新表。然后，您将从样本文件中提取数据，并最终将转换后的数据填充到新表中。
+在本教程中，您将创建一个包含比示例文件更多列的新表。然后，您将从示例文件中提取数据，并将转换后的数据填充到新表中。
 
-1. 创建一个包含比样本文件更多列的表：
+1. 创建一个包含比示例文件更多列的表：
 
 ```sql
 CREATE TABLE employees_plus (
@@ -322,17 +307,17 @@ CREATE TABLE employees_plus (
 );
 ```
 
-2. 从暂存的样本文件中加载数据：
+2. 从暂存的示例文件加载数据：
 
 ```sql
 -- 从暂存文件加载
 COPY INTO employees_plus (id, name, age, onboarded)
 FROM (
-    SELECT
-        t.id,
-        t.name,
-        t.age,
-        t.onboarded
+    SELECT 
+        t.id, 
+        t.name, 
+        t.age, 
+        t.onboarded 
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -346,7 +331,6 @@ SELECT * FROM employees_plus;
 ```
 
 结果：
-
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │      onboarded      │       lastday       │
