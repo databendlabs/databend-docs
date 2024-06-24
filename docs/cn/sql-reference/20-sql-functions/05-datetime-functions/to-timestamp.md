@@ -3,43 +3,43 @@ title: TO_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.397"/>
+<FunctionDescription description="Introduced or updated: v1.2.538"/>
 
-Converts an expression to a date with time.
+将表达式转换为带时间的日期。
 
-See also: [TO_DATE](to-date)
+另请参阅：[TO_DATE](to-date)
 
-## Syntax
+## 语法
 
 ```sql
--- Convert a string or integer to a timestamp
+-- 将字符串或整数转换为时间戳
 TO_TIMESTAMP(<expr>)
 ```
 
-If given an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date format string, the function extracts a date from the string; If given is an integer, the function interprets the integer as the number of seconds, milliseconds, or microseconds before (for a negative number) or after (for a positive number) the Unix epoch (midnight on January 1, 1970):
+如果给定的是[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)日期格式字符串，函数从字符串中提取日期；如果给定的是整数，函数将整数解释为Unix纪元（1970年1月1日午夜）之前（对于负数）或之后（对于正数）的秒数、毫秒数或微秒数：
 
-| Range                                       | Unit                 |
+| 范围                                       | 单位                 |
 |---------------------------------------------|----------------------|
-| x < 31,536,000,000                          | Seconds              |
-| 31,536,000,000 ≤ x < 31,536,000,000,000     | Milliseconds         |
-| x ≥ 31,536,000,000,000                      | Microseconds         |
+| x < 31,536,000,000                          | 秒                   |
+| 31,536,000,000 ≤ x < 31,536,000,000,000     | 毫秒                 |
+| x ≥ 31,536,000,000,000                      | 微秒                 |
 
 ```sql
--- Convert a string to a timestamp using the given pattern
+-- 使用给定模式将字符串转换为时间戳
 TO_TIMESTAMP(<expr>, <pattern>)
 ```
 
-If given two arguments, the function converts the first string to a timestamp based on the pattern specified in the second string. To specify the pattern, use specifiers. The specifiers allow you to define the desired format for date and time values. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
+如果给定两个参数，函数根据第二个字符串中指定的模式将第一个字符串转换为时间戳。要指定模式，请使用说明符。这些说明符允许您定义日期和时间值的所需格式。有关支持的说明符的完整列表，请参阅[日期和时间格式化](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time)。
 
-## Return Type
+## 返回类型
 
-Returns a timestamp in the format `YYYY-MM-DD hh:mm:ss.ffffff`: 
+返回格式为`YYYY-MM-DD hh:mm:ss.ffffff`的时间戳：
 
-- The returned timestamp always reflects your Databend timezone.
-    - When timezone information is present in the given string, it converts the timestamp to the time corresponding to the timezone configured in Databend. In other words, it adjusts the timestamp to reflect the timezone set in Databend.
+- 返回的时间戳始终反映您的Databend时区。
+    - 当给定字符串中存在时区信息时，它将时间戳转换为与Databend中配置的时区相对应的时间。换句话说，它调整时间戳以反映Databend中设置的时区。
 
     ```sql
-    -- Set timezone to 'America/Toronto' (UTC-5:00, Eastern Standard Time)
+    -- 设置时区为'America/Toronto'（UTC-5:00，东部标准时间）
     SET timezone = 'America/Toronto';
 
     SELECT TO_TIMESTAMP('2022-01-02T01:12:00-07:00'), TO_TIMESTAMP('2022/01/02T01:12:00-07:00', '%Y/%m/%dT%H:%M:%S%::z');
@@ -51,36 +51,48 @@ Returns a timestamp in the format `YYYY-MM-DD hh:mm:ss.ffffff`:
     └────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
     ```
 
-    - In the absence of timezone information in the given string, it assumes the timestamp as belonging to the timezone configured in Databend. However, when the timestamp comes along with a pattern, it is assumed to be in the UTC timezone.
+    - 当给定字符串中没有时区信息时，它将时间戳视为属于当前会话中配置的时区。
 
     ```sql
-    -- Set timezone to 'America/Toronto' (UTC-5:00, Eastern Standard Time)
+    -- 设置时区为'America/Toronto'（UTC-5:00，东部标准时间）
     SET timezone = 'America/Toronto';
     
-    -- The 1st TO_TIMESTAMP interprets the timestamp without a pattern, 
-    -- assuming it belongs to the timezone configured in Databend.
-    -- The 2nd TO_TIMESTAMP interprets the timestamp with a pattern, 
-    -- assuming it belongs to the UTC timezone.
-    -- As a result, the timestamps are converted differently, leading to the difference in output.
     SELECT TO_TIMESTAMP('2022-01-02T01:12:00'), TO_TIMESTAMP('2022/01/02T01:12:00', '%Y/%m/%dT%H:%M:%S');
 
     ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
     │ to_timestamp('2022-01-02t01:12:00') │ to_timestamp('2022/01/02t01:12:00', '%y/%m/%dt%h:%m:%s') │
     ├─────────────────────────────────────┼──────────────────────────────────────────────────────────┤
-    │ 2022-01-02 01:12:00                 │ 2022-01-01 20:12:00                                      │
+    │ 2022-01-02 01:12:00                 │ 2022-01-02 01:12:00                                      │
     └────────────────────────────────────────────────────────────────────────────────────────────────┘
     ```
 
-- If the given string matches this format but does not have the time part, it is automatically extended to this pattern. The padding value is 0.
+- 如果给定字符串匹配此格式但没有时间部分，则会自动扩展为此模式。填充值为0。
+- 如果转换失败，将返回错误。为避免此类错误，您可以使用[TRY_TO_TIMESTAMP](try-to-timestamp.md)函数。
 
-## Aliases
+    ```sql
+    root@localhost:8000/default> SELECT TO_TIMESTAMP('20220102');
+    error: APIError: ResponseError with 1006: cannot parse to type `TIMESTAMP` while evaluating function `to_timestamp('20220102')`
+
+    root@localhost:8000/default> SELECT TRY_TO_TIMESTAMP('20220102');
+
+    SELECT
+    try_to_timestamp('20220102')
+
+    ┌──────────────────────────────┐
+    │ try_to_timestamp('20220102') │
+    ├──────────────────────────────┤
+    │ NULL                         │
+    └──────────────────────────────┘
+    ```
+
+## 别名
 
 - [TO_DATETIME](to-datetime.md)
 - [STR_TO_TIMESTAMP](str-to-timestamp.md)
 
-## Examples
+## 示例
 
-### Example-1: Converting String to Timestamp
+### 示例-1：将字符串转换为时间戳
 
 ```sql
 SELECT TO_TIMESTAMP('2022-01-02 02:00:11');
@@ -99,9 +111,9 @@ SELECT TO_TIMESTAMP('2022-01-02T01');
 │ 2022-01-02 01:00:00           │
 └───────────────────────────────┘
 
--- Set timezone to 'America/Toronto' (UTC-5:00, Eastern Standard Time)
+-- 设置时区为'America/Toronto'（UTC-5:00，东部标准时间）
 SET timezone = 'America/Toronto';
--- Convert provided string to current timezone ('America/Toronto')
+-- 将提供的字符串转换为当前时区（'America/Toronto'）
 SELECT TO_TIMESTAMP('2022-01-02T01:12:00-07:00');
 
 ┌───────────────────────────────────────────┐
@@ -111,7 +123,7 @@ SELECT TO_TIMESTAMP('2022-01-02T01:12:00-07:00');
 └───────────────────────────────────────────┘
 ```
 
-### Example-2: Converting Integer to Timestamp
+### 示例-2：将整数转换为时间戳
 
 ```sql
 SELECT TO_TIMESTAMP(1), TO_TIMESTAMP(-1);
@@ -125,7 +137,7 @@ SELECT TO_TIMESTAMP(1), TO_TIMESTAMP(-1);
 
 :::tip
 
-Please note that a Timestamp value ranges from 1000-01-01 00:00:00.000000 to 9999-12-31 23:59:59.999999. Databend would return an error if you run the following statement:
+请注意，时间戳值范围从1000-01-01 00:00:00.000000到9999-12-31 23:59:59.999999。如果您运行以下语句，Databend将返回错误：
 
 ```bash
 root@localhost:8000/default> SELECT TO_TIMESTAMP(9999999999999999999);
@@ -133,13 +145,13 @@ error: APIError: ResponseError with 1006: number overflowed while evaluating fun
 ```
 :::
 
-### Example-3: Converting String with Pattern
+### 示例-3：使用模式转换字符串
 
 ```sql
--- Set timezone to 'America/Toronto' (UTC-5:00, Eastern Standard Time)
+-- 设置时区为'America/Toronto'（UTC-5:00，东部标准时间）
 SET timezone = 'America/Toronto';
 
--- Convert provided string to current timezone ('America/Toronto')
+-- 将提供的字符串转换为当前时区（'America/Toronto'）
 SELECT TO_TIMESTAMP('2022/01/02T01:12:00-07:00', '%Y/%m/%dT%H:%M:%S%::z');
 
 ┌────────────────────────────────────────────────────────────────────┐
@@ -148,13 +160,12 @@ SELECT TO_TIMESTAMP('2022/01/02T01:12:00-07:00', '%Y/%m/%dT%H:%M:%S%::z');
 │ 2022-01-02 03:12:00                                                │
 └────────────────────────────────────────────────────────────────────┘
 
--- When no timezone is provided in the input string, the time is assumed to be in UTC by default
--- The provided string is converted from UTC to the current timezone ('America/Toronto')
+-- 如果没有指定时区，则应用会话的时区。
 SELECT TO_TIMESTAMP('2022/01/02T01:12:00', '%Y/%m/%dT%H:%M:%S');
 
 ┌──────────────────────────────────────────────────────────┐
 │ to_timestamp('2022/01/02t01:12:00', '%y/%m/%dt%h:%m:%s') │
 ├──────────────────────────────────────────────────────────┤
-│ 2022-01-01 20:12:00                                      │
+│ 2022-01-02 01:12:00                                      │
 └──────────────────────────────────────────────────────────┘
 ```
