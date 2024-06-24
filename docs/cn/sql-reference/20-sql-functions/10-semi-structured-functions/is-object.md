@@ -3,26 +3,26 @@ title: IS_OBJECT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.368"/>
+<FunctionDescription description="Introduced or updated: v1.2.368"/>
 
-检查输入值是否为JSON对象。
+Checks if the input value is a JSON object.
 
-## 语法
+## Syntax
 
 ```sql
 IS_OBJECT( <expr> )
 ```
 
-## 返回类型
+## Return Type
 
-如果输入的JSON值是一个JSON对象，则返回`true`，否则返回`false`。
+Returns `true` if the input JSON value is a JSON object, and `false` otherwise.
 
-## 示例
+## Examples
 
 ```sql
 SELECT
-  IS_OBJECT(PARSE_JSON('{"a":"b"}')), -- JSON对象
-  IS_OBJECT(PARSE_JSON('["a","b","c"]')); --JSON数组
+  IS_OBJECT(PARSE_JSON('{"a":"b"}')), -- JSON Object
+  IS_OBJECT(PARSE_JSON('["a","b","c"]')); --JSON Array
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │ is_object(parse_json('{"a":"b"}')) │ is_object(parse_json('["a","b","c"]')) │

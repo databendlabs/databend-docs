@@ -1,19 +1,19 @@
 ---
-title: 授权 GRANT
+title: 授予权限（GRANT）
 sidebar_position: 9
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.275"/>
+<FunctionDescription description="Introduced or updated: v1.2.275"/>
 
 授予特定数据库对象的权限、角色和所有权。这包括：
 
-- 授予用户或角色权限。
-- 授予用户或角色角色。
-- 授予角色所有权。
+- 向用户或角色授予权限。
+- 向用户或角色授予角色。
+- 向角色授予所有权。
 
-另请参阅：
+相关内容：
 
 - [REVOKE](11-revoke.md)
 - [SHOW GRANTS](22-show-grants.md)
@@ -33,22 +33,22 @@ TO [ ROLE <role_name> ] [ <user_name> ]
 
 ```sql
 schemaObjectPrivileges ::=
--- 对于 TABLE
+-- 对于表
   { SELECT | INSERT }
 
--- 对于 SCHEMA
+-- 对于模式
   { CREATE | DROP | ALTER }
 
--- 对于 USER
+-- 对于用户
   { CREATE USER }
 
--- 对于 ROLE
+-- 对于角色
   { CREATE ROLE}
 
--- 对于 STAGE
+-- 对于阶段
   { READ, WRITE }
 
--- 对于 UDF
+-- 对于UDF
   { USAGE }
 ```
 
@@ -64,29 +64,29 @@ privileges_level ::=
 ### 授予角色
 
 ```sql
--- 将角色授予用户
+-- 向用户授予角色
 GRANT ROLE <role_name> TO <user_name>
 
--- 将角色授予角色
+-- 向角色授予角色
 GRANT ROLE <role_name> TO ROLE <role_name>
 ```
 
 ### 授予所有权
 
 ```sql
--- 将特定数据库中的特定表的所有权授予角色
+-- 将数据库中特定表的所有权授予角色
 GRANT OWNERSHIP ON <database_name>.<table_name> TO ROLE '<role_name>'
 
--- 将 Stage 的所有权授予角色
+-- 将阶段的所有权授予角色
 GRANT OWNERSHIP ON STAGE <stage_name> TO ROLE '<role_name>'
 
--- 将用户定义的函数（UDF）的所有权授予角色
+-- 将用户定义函数(UDF)的所有权授予角色
 GRANT OWNERSHIP ON UDF <udf_name> TO ROLE '<role_name>'
 ```
 
 ## 示例
 
-### 示例 1：授予权限给用户
+### 示例 1：向用户授予权限
 
 创建用户：
 
@@ -94,7 +94,7 @@ GRANT OWNERSHIP ON UDF <udf_name> TO ROLE '<role_name>'
 CREATE USER user1 IDENTIFIED BY 'abc123';
 ```
 
-将 `default` 数据库中所有现有表的 `ALL` 权限授予用户 `user1`：
+向用户`user1`授予`default`数据库中所有现有表的`ALL`权限：
 
 ```sql
 GRANT ALL ON default.* TO user1;
@@ -109,7 +109,7 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------+
 ```
 
-将 `ALL` 权限授予用户 `user1` 对所有数据库：
+向用户`user1`授予所有数据库的`ALL`权限：
 
 ```sql
 GRANT ALL ON *.* TO 'user1';
@@ -125,7 +125,7 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------+
 ```
 
-将 `ALL` 权限授予名为 `s1` 的Stage给用户 `user1`：
+向用户`user1`授予名为`s1`的阶段的`ALL`权限：
 
 ```sql
 GRANT ALL ON STAGE s1 TO 'user1';
@@ -142,7 +142,7 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------------------------------+
 ```
 
-将 `ALL` 权限授予名为 `f1` 的 UDF 给用户 `user1`：
+向用户`user1`授予名为`f1`的 UDF 的`ALL`权限：
 
 ```sql
 GRANT ALL ON UDF f1 TO 'user1';
@@ -159,9 +159,9 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------------------------------+
 ```
 
-### 示例 2：授予权限给角色
+### 示例 2：向角色授予权限
 
-将 `SELECT` 权限授予 `mydb` 数据库中所有现有表给角色 `role1`：
+向角色`role1`授予`mydb`数据库中所有现有表的`SELECT`权限：
 
 创建角色：
 
@@ -169,13 +169,13 @@ SHOW GRANTS FOR user1;
 CREATE ROLE role1;
 ```
 
-授予权限给角色：
+向角色授予权限：
 
 ```sql
 GRANT SELECT ON mydb.* TO ROLE role1;
 ```
 
-显示角色的授权情况：
+显示角色的授权：
 
 ```sql
 SHOW GRANTS FOR ROLE role1;
@@ -186,9 +186,9 @@ SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
 ```
 
-### 示例 3：将角色授予用户
+### 示例 3：向用户授予角色
 
-用户 `user1` 的授权情况是：
+用户`user1`的授权为：
 
 ```sql
 SHOW GRANTS FOR user1;
@@ -200,7 +200,7 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------+
 ```
 
-角色 `role1` 的授权情况是：
+角色`role1`的授权为：
 
 ```sql
 SHOW GRANTS FOR ROLE role1;
@@ -211,13 +211,13 @@ SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
 ```
 
-将角色 `role1` 授予用户 `user1`：
+向用户`user1`授予角色`role1`：
 
 ```sql
  GRANT ROLE role1 TO user1;
 ```
 
-现在，用户 `user1` 的授权情况是：
+现在，用户`user1`的授权为：
 
 ```sql
 SHOW GRANTS FOR user1;
@@ -230,18 +230,18 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------+
 ```
 
-### 示例 4：将所有权授予角色
+### 示例 4：向角色授予所有权
 
 ```sql
--- 将 'finance_data' 数据库中所有表的所有权授予角色 'data_owner'
+-- 将'finance_data'数据库中所有表的所有权授予角色'data_owner'
 GRANT OWNERSHIP ON finance_data.* TO ROLE 'data_owner';
 
--- 将 'finance_data' 模式中的表 'transactions' 的所有权授予角色 'data_owner'
+-- 将'finance_data'模式中'transactions'表的所有权授予角色'data_owner'
 GRANT OWNERSHIP ON finance_data.transactions TO ROLE 'data_owner';
 
--- 将 Stage 'ingestion_stage' 的所有权授予角色 'data_owner'
+-- 将'ingestion_stage'阶段的所有权授予角色'data_owner'
 GRANT OWNERSHIP ON STAGE ingestion_stage TO ROLE 'data_owner';
 
--- 将用户定义的函数 'calculate_profit' 的所有权授予角色 'data_owner'
+-- 将用户定义函数'calculate_profit'的所有权授予角色'data_owner'
 GRANT OWNERSHIP ON UDF calculate_profit TO ROLE 'data_owner';
 ```

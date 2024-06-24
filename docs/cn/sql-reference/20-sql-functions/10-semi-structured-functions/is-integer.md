@@ -3,21 +3,21 @@ title: IS_INTEGER
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.368"/>
+<FunctionDescription description="Introduced or updated: v1.2.368"/>
 
-检查输入的 JSON 值是否为整数。
+Checks if the input JSON value is an integer.
 
-## 语法
+## Syntax
 
 ```sql
 IS_INTEGER( <expr> )
 ```
 
-## 返回类型
+## Return Type
 
-如果输入的 JSON 值是整数，则返回 `true`，否则返回 `false`。
+Returns `true` if the input JSON value is an integer, and `false` otherwise.
 
-## 示例
+## Examples
 
 ```sql
 SELECT

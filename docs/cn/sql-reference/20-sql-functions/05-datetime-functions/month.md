@@ -3,6 +3,6 @@ title: MONTH
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.375"/>
+<FunctionDescription description="Introduced or updated: v1.2.375"/>
 
-[TO_MONTH](to-month.md) 的别名。
+Alias for [TO_MONTH](to-month.md).

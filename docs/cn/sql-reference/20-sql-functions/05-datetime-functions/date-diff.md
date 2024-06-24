@@ -22,9 +22,11 @@ VALUES
 SELECT task_name, end_date - start_date AS duration
 FROM tasks;
 
-task_name|duration|
----------+--------+
-Task 1   |       5|
-Task 2   |       7|
-Task 3   |       3|
+┌────────────────────────────────────┐
+│     task_name    │     duration    │
+├──────────────────┼─────────────────┤
+│ Task 1           │               5 │
+│ Task 2           │               7 │
+│ Task 3           │               3 │
+└────────────────────────────────────┘
 ```

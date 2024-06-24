@@ -1,40 +1,31 @@
 ---
-title: INET_NTOA
+title: INET_ATON
 ---
 
-Converts a 32-bit integer to an IPv4 address.
+Converts an IPv4 address to a 32-bit integer.
 
 ## Syntax
 
 ```sql
-INET_NOTA( <int32> )
+INET_ATON( '<ip>' )
 ```
 
-## Arguments
+## Aliases
 
-| Arguments   | Description |
-| ----------- | ----------- |
-| `<int32>` | An integer.
+- [IPV4_STRING_TO_NUM](ipv4-string-to-num.md)
 
 ## Return Type
 
-String, a dotted-quad IP address, eg “1.2.3.4” or "255.255.255.255"  if the IP address cannot be parsed.
+Integer.
 
 ## Examples
 
 ```sql
-SELECT inet_ntoa(16909060);
-+---------------------+
-| inet_ntoa(16909060) |
-+---------------------+
-| 1.2.3.4             |
-+---------------------+
+SELECT IPV4_STRING_TO_NUM('1.2.3.4'), INET_ATON('1.2.3.4');
 
-
-SELECT Inet_ntoa(1690906000000000000000000000);
-+-----------------------------------------+
-| inet_ntoa(1690906000000000000000000000) |
-+-----------------------------------------+
-| 255.255.255.255                         |
-+-----------------------------------------+
+┌──────────────────────────────────────────────────────┐
+│ ipv4_string_to_num('1.2.3.4') │ inet_aton('1.2.3.4') │
+├───────────────────────────────┼──────────────────────┤
+│                      16909060 │             16909060 │
+└──────────────────────────────────────────────────────┘
 ```

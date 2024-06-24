@@ -5,29 +5,29 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.241"/>
 
-检查指定的 JSON 路径表达式是否匹配 JSON 数据中的某些条件。请注意，`@@` 操作符与此函数同义。更多信息，请参见 [JSON 操作符](../../10-sql-commands/30-query-operators/index.md)。
+Checks whether a specified JSON path expression matches certain conditions within a JSON data. Please note that the `@@` operator is synonymous with this function. For more information, see [JSON Operators](../../10-sql-commands/30-query-operators/index.md).
 
-## 语法
+## Syntax
 
 ```sql
 JSON_PATH_MATCH(<json_data>, <json_path_expression>)
 ```
 
-- `json_data`：指定要检查的 JSON 数据。可以是 JSON 对象或数组。
-- `json_path_expression`：指定要在 JSON 数据中检查的条件。此表达式描述了要匹配的特定路径或标准，例如验证 JSON 结构中的特定字段值是否满足某些条件。`$` 符号代表 JSON 数据的根。它用于开始路径表达式，并表示 JSON 结构中的顶级对象。
+- `json_data`: Specifies the JSON data you want to examine. It can be a JSON object or an array.
+- `json_path_expression`: Specifies the conditions to be checked within the JSON data. This expression describes the specific path or criteria to be matched, such as verifying whether specific field values in the JSON structure meet certain conditions. The `$` symbol represents the root of the JSON data. It is used to start the path expression and indicates the top-level object in the JSON structure.
 
-## 返回类型
+## Return Type
 
-该函数返回：
+The function returns:
 
-- 如果指定的 JSON 路径表达式与 JSON 数据中的条件匹配，则返回 `true`。
-- 如果指定的 JSON 路径表达式与 JSON 数据中的条件不匹配，则返回 `false`。
-- 如果 `json_data` 或 `json_path_expression` 为 NULL 或无效，则返回 NULL。
+- `true` if the specified JSON path expression matches the conditions within the JSON data.
+- `false` if the specified JSON path expression does not match the conditions within the JSON data.
+- NULL if either `json_data` or `json_path_expression` is NULL or invalid.
 
-## 示例
+## Examples
 
 ```sql
--- 检查 JSON 路径 $.a 的值是否等于 1
+-- Check if the value at JSON path $.a is equal to 1
 SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), '$.a == 1');
 
 ┌────────────────────────────────────────────────────────────────┐
@@ -36,7 +36,7 @@ SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), '$.a == 1');
 │ true                                                           │
 └────────────────────────────────────────────────────────────────┘
 
--- 检查 JSON 路径 $.b 中数组的第一个元素是否大于 1
+-- Check if the first element in the array at JSON path $.b is greater than 1
 SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), '$.b[0] > 1');
 
 ┌──────────────────────────────────────────────────────────────────┐
@@ -45,7 +45,8 @@ SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), '$.b[0] > 1');
 │ false                                                            │
 └──────────────────────────────────────────────────────────────────┘
 
--- 检查 JSON 路径 $.b 中的数组，从第二个到最后一个元素是否都大于或等于 2
+-- Check if any element in the array at JSON path $.b
+-- from the second one to the last are greater than or equal to 2
 SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), '$.b[1 to last] >= 2');
 
 ┌───────────────────────────────────────────────────────────────────────────┐
@@ -54,7 +55,7 @@ SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), '$.b[1 to last] >= 2')
 │ true                                                                      │
 └───────────────────────────────────────────────────────────────────────────┘
 
--- 如果 json_data 或 json_path_expression 为 NULL 或无效，则返回 NULL。
+-- NULL is returned if either the json_data or json_path_expression is NULL or invalid.
 SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), NULL);
 
 ┌──────────────────────────────────────────────────────────┐

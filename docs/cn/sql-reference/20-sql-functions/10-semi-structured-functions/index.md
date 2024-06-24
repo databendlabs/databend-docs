@@ -1,10 +1,10 @@
 ---
-title: 半结构化函数
+title: Semi-Structured Functions
 ---
 
-本节提供了Databend中半结构化数据函数的参考信息。
+This section provides reference information for the semi-structured data functions in Databend.
 
-## JSON 解析、转换与类型检查:
+## JSON Parsing, Conversion & Type Checking:
 - [CHECK_JSON](check-json.md)
 - [JSON_PRETTY](json-pretty.md)
 - [JSON_TYPEOF](json-typeof.md)
@@ -18,7 +18,7 @@ title: 半结构化函数
 - [IS_OBJECT](is-object.md)
 - [IS_STRING](is-string.md)
 
-## JSON 查询与提取:
+## JSON Query and Extraction:
 - [JSON_ARRAY_ELEMENTS](json-array-elements.md)
 - [JSON_EACH](json-each.md)
 - [JSON_EXTRACT_PATH_TEXT](json-extract-path-text.md)
@@ -28,15 +28,17 @@ title: 半结构化函数
 - [JSON_PATH_QUERY_ARRAY](json-path-query-array.md)
 - [JSON_PATH_QUERY_FIRST](json-path-query-first.md)
 
-## JSON 数据操作:
+## JSON Data Manipulation:
 - [JSON_ARRAY](json-array.md)
 - [JSON_STRIP_NULLS](json-strip-nulls.md)
+- [JSON_OBJECT](json-object.md)
+- [JSON_OBJECT_KEEP_NULL](json-object-keep-null.md)
 
-## 对象操作:
+## Object Operations:
 - [GET](get.md)
 - [GET_IGNORE_CASE](get-ignore-case.md)
 - [GET_PATH](get-path.md)
 - [OBJECT_KEYS](object-keys.md)
 
-## 类型转换:
+## Type Conversion:
 - [AS_TYPE](as-type.md)

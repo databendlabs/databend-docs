@@ -14,8 +14,9 @@ jobs:
       - name: Run GPT Translate
         if: |
           contains(github.event.comment.body, '/gt')
-        uses: 3ru/gpt-translate@master
+        uses: 3ru/gpt-translate@v1.1.11
         with:
           apikey: ${{ secrets.OPENAI_API_KEY }}
-          model: "gpt-4-turbo-preview"
-          prompt: "You are a translation engine that has knowledge of databases and is familiar with SQL, HTML and Markdown syntax. \ Databend is a cloud-native data warehouse and an alternative to Snowflake. \ I am translating the Databend documentation for helping users.\ Translate the Markdown content I'll paste later into {targetLanguage}.\ You must strictly follow the rules below.\ - Never change the Markdown markup structure. Don't add or remove links. Do not change any URL.\ - Never change the contents of code blocks even if they appear to have a bug.\ - Always preserve the original line breaks. Do not add or remove blank lines.\ - Never touch the permalink such as `{/*examples*/}` at the end of each heading.\ - Never touch HTML-like tags such as `<Notes>`.\ - Correctly format the document for best rendering."
+          model: "deepseek-chat"
+          prompt: "You are a translation engine that has knowledge of databases and is familiar with SQL, HTML and Markdown syntax. \ Databend is a cloud-native data warehouse and an alternative to Snowflake. \ I am translating the Databend documentation for helping users.\ Translate the Markdown content I'll paste later into {targetLanguage}.\ You must strictly follow the rules below.\ - Never change the Markdown markup structure. Don't add or remove links. Do not change any URL.\ - Never change the contents of code blocks even if they appear to have a bug.\ - Always preserve the original line breaks. Do not add or remove blank lines.\ - Never touch the permalink such as `{/*examples*/}` at the end of each heading.\ - Never touch HTML-like tags such as `<Notes>`.\ - Correctly format the document for best rendering. \  - Please do not translate database or computing-specific terms"
+          basePath: "https://api.deepseek.com"
