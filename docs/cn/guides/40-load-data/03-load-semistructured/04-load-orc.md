@@ -1,15 +1,15 @@
 ---
-title: 将ORC文件加载到Databend
-sidebar_label: 加载ORC文件
+title: 将 ORC 文件加载到 Databend
+sidebar_label: 加载 ORC 文件
 ---
 
-## 什么是ORC？
+## 什么是 ORC？
 
 ORC（Optimized Row Columnar）是一种常用的列式存储格式，广泛应用于数据分析领域。
 
-## 加载ORC文件
+## 加载 ORC 文件
 
-加载ORC文件的常用语法如下：
+加载 ORC 文件的常用语法如下：
 
 ```sql
 COPY INTO [<database>.]<table_name>
@@ -18,32 +18,35 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = ORC)
 ```
 
-更多关于语法的详细信息，请参阅[COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table)。
+更多关于语法的详细信息，请参阅 [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table) 。
 
-## 教程：从ORC文件加载数据
+## 教程：从 ORC 文件加载数据
 
-本教程演示如何将存储在S3桶中的ORC文件数据加载到Databend表中。
+本教程演示如何将存储在 S3 桶中的 ORC 文件数据加载到 Databend 表中。
 
-### 步骤1：创建外部阶段
+### 步骤 1：创建外部阶段
 
-创建一个指向S3桶中ORC文件的外部阶段。
+创建一个指向 S3 桶中 ORC 文件的外部阶段。
+
 ```sql
-CREATE OR REPLACE CONNECTION aws_s3 
-    STORAGE_TYPE='s3' 
-    ACCESS_KEY_ID='your-ak' 
+CREATE OR REPLACE CONNECTION aws_s3
+    STORAGE_TYPE='s3'
+    ACCESS_KEY_ID='your-ak'
     SECRET_ACCESS_KEY='your-sk';
 
-CREATE OR REPLACE STAGE orc_data_stage 
-    URL='s3://wizardbend/sample-data/orc/'  
+CREATE OR REPLACE STAGE orc_data_stage
+    URL='s3://wizardbend/sample-data/orc/'
     CONNECTION=(CONNECTION_NAME='aws_s3');
 ```
 
 列出阶段中的文件：
+
 ```sql
 LIST @orc_data_stage;
 ```
 
 结果：
+
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │                 md5                │         last_modified         │      creator     │
@@ -57,24 +60,25 @@ LIST @orc_data_stage;
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤2：查询阶段文件
+### 步骤 2：查询阶段文件
 
-创建一个ORC文件格式并查询阶段以查看数据和模式。
+创建一个 ORC 文件格式并查询阶段以查看数据和模式。
 
 ```sql
 -- 创建ORC文件格式
 CREATE OR REPLACE FILE FORMAT orc_ff TYPE = 'ORC';
 
 
-SELECT * 
+SELECT *
 FROM @orc_data_stage (
-    FILE_FORMAT => 'orc_ff', 
+    FILE_FORMAT => 'orc_ff',
     PATTERN => '.*[.]orc'
-) t 
+) t
 LIMIT 10;
 ```
 
 结果：
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        _col0        │      _col1      │       _col2      │       _col3      │           _col4          │       _col5      │       _col6      │       _col7      │          _col8         │       _col9      │       _col10      │          _col11          │      _col12      │
@@ -92,33 +96,36 @@ LIMIT 10;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤4：创建目标表
+### 步骤 4：创建目标表
 
-在Databend中创建一个目标表，用于存储来自ORC文件的数据。我们选择ORC文件中的一些列来创建表。
+在 Databend 中创建一个目标表，用于存储来自 ORC 文件的数据。我们选择 ORC 文件中的一些列来创建表。
+
 ```sql
 CREATE OR REPLACE TABLE orc_test_table (
-    firstname STRING, 
-    lastname STRING, 
-    email STRING, 
-    gender STRING, 
+    firstname STRING,
+    lastname STRING,
+    email STRING,
+    gender STRING,
     country STRING
 );
 ```
 
-### 步骤5：使用SELECT复制数据
+### 步骤 5：使用 SELECT 复制数据
 
-将外部阶段中ORC文件的数据复制到目标表中。
+将外部阶段中 ORC 文件的数据复制到目标表中。
+
 ```sql
-COPY INTO orc_test_table 
+COPY INTO orc_test_table
 FROM (
-    SELECT _col2, _col3, _col4, _col5, _col8 
+    SELECT _col2, _col3, _col4, _col5, _col8
     FROM @orc_data_stage
-) 
+)
 PATTERN = '.*[.]orc'
 FILE_FORMAT = (TYPE = ORC);
 ```
 
 结果：
+
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │      File     │ Rows_loaded │ Errors_seen │    First_error   │ First_error_line │
