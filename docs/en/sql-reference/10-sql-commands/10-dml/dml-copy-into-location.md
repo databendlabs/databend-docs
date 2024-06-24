@@ -22,7 +22,7 @@ COPY INTO { internalStage | externalStage | externalLocation }
 FROM { [<database_name>.]<table_name> | ( <query> ) }
 [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
-         | TYPE = { CSV | TSV | NDJSON | PARQUET | XML } [ formatTypeOptions ]
+         | TYPE = { CSV | TSV | NDJSON | PARQUET } [ formatTypeOptions ]
        ) ]
 [ copyOptions ]
 [ VALIDATION_MODE = RETURN_ROWS ]
