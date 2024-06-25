@@ -33,6 +33,7 @@ The following is a list of the parameters available within the [query] section:
 | tenant_id                    | Default tenant ID.                               |
 | cluster_id                   | Default cluster ID.                              |
 | table_engine_memory_enabled  | Flag to enable the Memory table engine.          |
+| max_running_queries          | Maximum number of queries that can be executed simultaneously, defaulting to 8, with 0 indicating no limit.| 
 
 ### [query.users] Section
 
