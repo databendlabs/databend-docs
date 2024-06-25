@@ -51,8 +51,8 @@ The following is a list of the parameters available within the [query.settings] 
 
 | Parameter                       | Description                                                                                                                                                                                                                                                                             |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| aggregate_spilling_memory_ratio | Controls the threshold for spilling data to disk during aggregation operations. When memory usage exceeds this percentage of the total available memory, data will be spilled to disk to avoid memory exhaustion. Example: if set to 60, spilling occurs when memory usage exceeds 60%. |
-| join_spilling_memory_ratio      | Controls the threshold for spilling data to disk during join operations. When memory usage exceeds this percentage of the total available memory, data will be spilled to disk to manage memory usage. Example: if set to 60, spilling occurs when memory usage exceeds 60%.            |
+| aggregate_spilling_memory_ratio | Controls the threshold for spilling data to disk during aggregation operations. When memory usage exceeds this percentage of the total available memory, data will be spilled to the object storage to avoid memory exhaustion. Example: if set to 60, spilling occurs when memory usage exceeds 60%. |
+| join_spilling_memory_ratio      | Controls the threshold for spilling data to disk during join operations. When memory usage exceeds this percentage of the total available memory, data will be spilled to the object storage to avoid memory exhaustion. Example: if set to 60, spilling occurs when memory usage exceeds 60%.            |
 
 ## [log] Section
 
