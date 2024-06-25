@@ -62,11 +62,11 @@ BEGIN [ TRANSACTION ]
 
 Databend 会自动为每个事务生成一个事务 ID。此 ID 允许用户识别哪些语句属于同一事务，便于问题排查。
 
-如果你使用的是 Databend Cloud，可以在 **监控** > **SQL 历史** 中找到事务 ID：
+如果你使用的是 Databend Cloud，可以在 **Monitor** > **SQL History** 中找到事务 ID：
 
 ![alt text](../../../../../../static/img/documents/sql/transaction-id.png)
 
-在 **事务** 列中，还可以看到 SQL 语句执行期间的事务状态：
+在 **Transaction** 列中，还可以看到 SQL 语句执行期间的事务状态：
 
 | 事务状态   | 描述                                                               |
 | ---------- | ------------------------------------------------------------------ |
