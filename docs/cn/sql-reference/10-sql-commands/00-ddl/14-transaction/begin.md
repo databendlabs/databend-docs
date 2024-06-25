@@ -1,6 +1,7 @@
 ---
 title: BEGIN
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新：v1.2.371"/>
@@ -9,47 +10,47 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 - Databend 不支持嵌套事务，因此未匹配的事务语句将被忽略。
 
-    ```sql title="示例："
-    BEGIN; -- 开始一个事务
+  ```sql title="示例："
+  BEGIN; -- 开始一个事务
 
-    MERGE INTO ... -- 此语句属于该事务
+  MERGE INTO ... -- 此语句属于该事务
 
-    BEGIN; -- 在事务内部执行 BEGIN 被忽略，不会开始新事务，不会引发错误
+  BEGIN; -- 在事务内部执行 BEGIN 被忽略，不会开始新事务，不会引发错误
 
-    INSERT INTO ... -- 此语句也属于该事务
+  INSERT INTO ... -- 此语句也属于该事务
 
-    COMMIT; -- 结束事务
+  COMMIT; -- 结束事务
 
-    INSERT INTO ... -- 此语句属于单语句事务
+  INSERT INTO ... -- 此语句属于单语句事务
 
-    COMMIT; -- 在多语句事务外部执行 COMMIT 被忽略，不会执行提交操作，不会引发错误
+  COMMIT; -- 在多语句事务外部执行 COMMIT 被忽略，不会执行提交操作，不会引发错误
 
-    BEGIN; -- 开始另一个事务
-    ... 
-    ```
+  BEGIN; -- 开始另一个事务
+  ...
+  ```
 
 - 当在多语句事务中执行 DDL 语句时，它将提交当前的多语句事务，并将后续语句作为单语句事务执行，直到发出另一个 BEGIN。
 
-    ```sql title="示例："
-    BEGIN; -- 开始一个多语句事务
+  ```sql title="示例："
+  BEGIN; -- 开始一个多语句事务
 
-    -- 这里的 DML 语句是当前事务的一部分
-    INSERT INTO table_name (column1, column2) VALUES (value1, value2);
+  -- 这里的 DML 语句是当前事务的一部分
+  INSERT INTO table_name (column1, column2) VALUES (value1, value2);
 
-    -- 在事务内部执行 DDL 语句
-    CREATE TABLE new_table (column1 data_type, column2 data_type); 
-    -- 这将提交当前事务
+  -- 在事务内部执行 DDL 语句
+  CREATE TABLE new_table (column1 data_type, column2 data_type);
+  -- 这将提交当前事务
 
-    -- 后续语句作为单语句事务执行
-    UPDATE table_name SET column1 = value WHERE condition;
+  -- 后续语句作为单语句事务执行
+  UPDATE table_name SET column1 = value WHERE condition;
 
-    BEGIN; -- 开始一个新的多语句事务
+  BEGIN; -- 开始一个新的多语句事务
 
-    -- 新的 DML 语句是新事务的一部分
-    DELETE FROM table_name WHERE condition;
+  -- 新的 DML 语句是新事务的一部分
+  DELETE FROM table_name WHERE condition;
 
-    COMMIT; -- 结束新事务
-    ```
+  COMMIT; -- 结束新事务
+  ```
 
 ## 语法
 
@@ -67,11 +68,11 @@ Databend 会自动为每个事务生成一个事务 ID。此 ID 允许用户识�
 
 在 **事务** 列中，还可以看到 SQL 语句执行期间的事务状态：
 
-| 事务状态     | 描述                                                                 |
-|--------------|----------------------------------------------------------------------|
-| AutoCommit   | 该语句不是多语句事务的一部分。                                       |
-| Active       | 该语句是多语句事务的一部分，且事务中所有之前的语句都成功执行。         |
-| Fail         | 该语句是多语句事务的一部分，且事务中至少有一个之前的语句执行失败。     |
+| 事务状态   | 描述                                                               |
+| ---------- | ------------------------------------------------------------------ |
+| AutoCommit | 该语句不是多语句事务的一部分。                                     |
+| Active     | 该语句是多语句事务的一部分，且事务中所有之前的语句都成功执行。     |
+| Fail       | 该语句是多语句事务的一部分，且事务中至少有一个之前的语句执行失败。 |
 
 ## 示例
 
@@ -161,24 +162,24 @@ CREATE TABLE target_table_2 (
 
 CREATE STREAM source_stream ON TABLE source_table;
 
-INSERT INTO source_table VALUES 
+INSERT INTO source_table VALUES
 (1, 'source1', 'value1'),
 (2, 'source2', 'value2'),
 (3, 'source3', 'value3'),
 (4, 'source4', 'value4');
 
 CREATE TASK insert_task
-WAREHOUSE = 'system' 
-SCHEDULE = 1 SECOND AS 
+WAREHOUSE = 'system'
+SCHEDULE = 1 SECOND AS
 BEGIN
     BEGIN;
-    INSERT INTO my_db.target_table_1 
-    SELECT id, value 
-    FROM my_db.source_stream; 
+    INSERT INTO my_db.target_table_1
+    SELECT id, value
+    FROM my_db.source_stream;
 
-    INSERT INTO my_db.target_table_2 
-    SELECT id, value 
-    FROM my_db.source_stream; 
+    INSERT INTO my_db.target_table_2
+    SELECT id, value
+    FROM my_db.source_stream;
     COMMIT;
 END;
 

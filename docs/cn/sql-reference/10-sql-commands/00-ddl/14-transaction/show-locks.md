@@ -1,13 +1,14 @@
 ---
-title: 显示锁
+title: SHOW LOCKS
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于: v1.2.262"/>
 
-提供当前用户在所有会话中或Databend系统内所有用户持有的表锁的列表。锁是一种同步机制，用于限制对共享资源的访问，如表，确保Databend系统内进程或线程之间的有序和受控交互，以维护数据一致性并防止冲突。
+提供当前用户在所有会话中或 Databend 系统内所有用户持有的表锁的列表。锁是一种同步机制，用于限制对共享资源的访问，如表，确保 Databend 系统内进程或线程之间的有序和受控交互，以维护数据一致性并防止冲突。
 
-诸如[UPDATE](../../10-dml/dml-update.md)、[DELETE](../../10-dml/dml-delete-from.md)、[OPTIMIZE TABLE](../01-table/60-optimize-table.md)、[RECLUSTER TABLE](../06-clusterkey/dml-recluster-table.md)和[ALTER TABLE COLUMN](../01-table/90-alter-table-column.md)等操作可能导致系统中的表锁。表锁功能默认启用。若发生资源冲突，您可以使用此命令检查具体细节。要禁用此功能，请执行`set enable_table_lock=0;`。
+诸如 [UPDATE](../../10-dml/dml-update.md)、[DELETE](../../10-dml/dml-delete-from.md)、[OPTIMIZE TABLE](../01-table/60-optimize-table.md)、[RECLUSTER TABLE](../06-clusterkey/dml-recluster-table.md) 和 [ALTER TABLE COLUMN](../01-table/90-alter-table-column.md) 等操作可能导致系统中的表锁。表锁功能默认启用。若发生资源冲突，您可以使用此命令检查具体细节。要禁用此功能，请执行`set enable_table_lock=0;`。
 
 ## 语法
 
@@ -15,27 +16,27 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 SHOW LOCKS [IN ACCOUNT] [WHERE <expr>]
 ```
 
-| 参数       | 描述                                                                                      |
-|------------|-----------------------------------------------------------------------------------------|
-| IN ACCOUNT | 显示Databend系统内所有用户的锁信息。如果省略，命令将返回当前用户在所有会话中的锁。 |
-| WHERE      | 根据状态过滤锁；有效值包括`HOLDING`和`WAITING`。                                       |
+| 参数       | 描述                                                                                 |
+| ---------- | ------------------------------------------------------------------------------------ |
+| IN ACCOUNT | 显示 Databend 系统内所有用户的锁信息。如果省略，命令将返回当前用户在所有会话中的锁。 |
+| WHERE      | 根据状态过滤锁；有效值包括`HOLDING`和`WAITING`。                                     |
 
 ## 输出
 
 命令返回的锁信息以表格形式展示，包含以下列：
 
-| 列         | 描述                                                                                                  |
-|-------------|-----------------------------------------------------------------------------------------------------|
-| table_id    | 与锁关联的表的内部ID。                                                                                  |
-| revision    | 表示发起锁的事务版本的修订号。从0开始，此数字随每个后续事务增加，建立所有事务的全面顺序。       |
-| type        | 锁的类型，如`TABLE`。                                                                                  |
-| status      | 锁的状态，如`HOLDING`或`WAITING`。                                                                       |
-| user        | 与锁关联的用户。                                                                                        |
-| node        | 持有锁的查询节点的标识符。                                                                                |
-| query_id    | 与锁相关的查询会话ID。在死锁或锁持有时间过长的情况下，使用它来[KILL](/sql/sql-commands/administration-cmds/kill)查询。 |
-| created_on  | 发起锁的事务创建的时间戳。                                                                                  |
-| acquired_on | 锁被获取的时间戳。                                                                                        |
-| extra_info  | 与锁相关的额外信息（如果有）。                                                                              |
+| 列          | 描述                                                                                                                    |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------- |
+| table_id    | 与锁关联的表的内部 ID。                                                                                                 |
+| revision    | 表示发起锁的事务版本的修订号。从 0 开始，此数字随每个后续事务增加，建立所有事务的全面顺序。                             |
+| type        | 锁的类型，如`TABLE`。                                                                                                   |
+| status      | 锁的状态，如`HOLDING`或`WAITING`。                                                                                      |
+| user        | 与锁关联的用户。                                                                                                        |
+| node        | 持有锁的查询节点的标识符。                                                                                              |
+| query_id    | 与锁相关的查询会话 ID。在死锁或锁持有时间过长的情况下，使用它来[KILL](/sql/sql-commands/administration-cmds/kill)查询。 |
+| created_on  | 发起锁的事务创建的时间戳。                                                                                              |
+| acquired_on | 锁被获取的时间戳。                                                                                                      |
+| extra_info  | 与锁相关的额外信息（如果有）。                                                                                          |
 
 ## 示例
 
