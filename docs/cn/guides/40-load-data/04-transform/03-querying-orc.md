@@ -28,7 +28,7 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 
 ### 下载 Iris 数据集
 
-从https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc下载Iris数据集，然后将其上传至您的Amazon S3 桶。
+从 https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc 下载Iris数据集，然后将其上传至您的Amazon S3 桶。
 
 Iris 数据集包含 3 类，每类 50 个实例，每类代表一种鸢尾植物。它有 4 个属性：(1) 萼片长度，(2) 萼片宽度，(3) 花瓣长度，(4) 花瓣宽度，最后一列包含类别标签。
 
