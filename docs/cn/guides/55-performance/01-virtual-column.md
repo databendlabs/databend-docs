@@ -1,16 +1,17 @@
 ---
 title: 虚拟列
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VIRTUAL COLUMN'/>
 
-虚拟列是通过提取[Variant](/sql/sql-reference/data-types/data-type-variant)数据中的嵌套字段，并将这些数据存储在单独的存储文件中形成的一种结构。当您经常查询Variant数据中的特定嵌套字段时，考虑使用虚拟列以实现以下好处：
+虚拟列是通过提取[Variant](/sql/sql-reference/data-types/data-type-variant)数据中的嵌套字段，并将这些数据存储在单独的存储文件中形成的一种结构。当您经常查询 Variant 数据中的特定嵌套字段时，考虑使用虚拟列以实现以下好处：
 
 - **加速查询处理**：虚拟列通过消除遍历整个嵌套结构以定位所需数据的需求，简化了查询过程。直接从虚拟列检索数据与访问常规列的过程相平行，从而显著加快了查询执行速度。
 
-- **减少内存使用**：Variant数据通常包含许多内部字段，读取所有这些字段可能导致大量内存消耗。通过转向读取虚拟列，内存使用量显著减少，降低了潜在内存溢出的风险。
+- **减少内存使用**：Variant 数据通常包含许多内部字段，读取所有这些字段可能导致大量内存消耗。通过转向读取虚拟列，内存使用量显著减少，降低了潜在内存溢出的风险。
 
 ![Alt text](@site/docs/public/img/sql/virtual-column.png)
 
