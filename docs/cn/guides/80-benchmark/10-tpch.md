@@ -146,21 +146,21 @@ Snowflake 和 Databend Cloud 都在类似条件下进行了测试：
 1. **Snowflake 数据加载**：
 
    - 登录您的 [Snowflake 账户](https://app.snowflake.com/).
-   - 创建对应 TPC-H 架构的表。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/snow/setup.sql#L1-L92).
-   - 使用 `COPY INTO` 命令从 AWS S3 加载数据。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/snow/setup.sql#L95-L102).
+   - 创建对应 TPC-H 架构的表。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L1-L84).
+   - 使用 `COPY INTO` 命令从 AWS S3 加载数据。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L87-L94).
 
 2. **Databend Cloud 数据加载**：
    - 登录您的 [Databend Cloud 账户](https://app.databend.com).
-   - 创建必要的表，与 TPC-H 架构相符。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/bend/setup.sql#L1-L92).
-   - 使用类似 Snowflake 的方法从 AWS S3 加载数据。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/bend/setup.sql#L95-L133).
+   - 创建必要的表，与 TPC-H 架构相符。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L1-L84).
+   - 使用类似 Snowflake 的方法从 AWS S3 加载数据。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L87-L117).
 
 ### TPC-H 查询
 
 1. **Snowflake 查询**：
 
    - 登录您的 [Snowflake 账户](https://app.snowflake.com/).
-   - 运行 TPC-H 查询。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/snow/queries.sql#L1-L651).
+   - 运行 TPC-H 查询。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/queries.sql).
 
 2. **Databend Cloud 查询**：
    - 登录您的 [Databend Cloud 账户](https://app.databend.com).
-   - 运行 TPC-H 查询。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/bend/queries.sql#L1-L651).
+   - 运行 TPC-H 查询。[SQL 脚本](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/queries.sql).

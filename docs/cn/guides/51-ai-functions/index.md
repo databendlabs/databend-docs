@@ -52,7 +52,7 @@ CREATE TABLE articles (
     id INT,
     title VARCHAR,
     content VARCHAR,
-    embedding ARRAY(FLOAT32)
+    embedding ARRAY(FLOAT32 NOT NULL)
 );
 ```
 
