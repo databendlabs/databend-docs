@@ -3,22 +3,22 @@ title: 查询与转换
 slug: querying-stage
 ---
 
-Databend 引入了基于 ELT（提取、加载、转换）模型的数据处理变革性方法。该模型的关键在于对阶段文件中的数据进行查询。
+Databend 引入了基于 ELT（提取、加载、转换）模型的数据处理变革性方法。该模型的关键在于对已暂存文件中的数据进行查询。
 
-您可以使用 `SELECT` 语句查询阶段文件中的数据。此功能适用于以下类型的阶段：
+您可以使用 `SELECT` 语句查询已暂存文件中的数据。此功能适用于以下类型的 Stage：
 
-- 用户阶段、内部阶段或外部阶段。
+- 用户 Stage、内部 Stage 或外部 Stage。
 - 在您的对象存储中创建的存储桶或容器，例如 Amazon S3、Google Cloud Storage 和 Microsoft Azure。
 - 通过 HTTPS 可访问的远程服务器。
 
-此功能对于检查或查看阶段文件的内容特别有用，无论是在加载数据之前还是之后。
+此功能对于检查或查看已暂存文件的内容特别有用，无论是在加载数据之前还是之后。
 
 ## 语法和参数
 
 ```sql
-SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
+SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...]
+FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
+[(
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
   [ FILE_FORMAT => 'CSV | TSV | NDJSON | PARQUET | ORC | <custom_format_name>'],
@@ -27,12 +27,14 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 ```
 
 :::note
-当阶段路径包含空格或括号等特殊字符时，您可以将整个路径用单引号括起来，如下面的 SQL 语句所示：
+当 Stage 路径包含空格或括号等特殊字符时，您可以将整个路径用单引号括起来，如下面的 SQL 语句所示：
+
 ```sql
 SELECT * FROM 's3://mybucket/dataset(databend)/' ...
 
 SELECT * FROM 's3://mybucket/dataset databend/' ...
 ```
+
 :::
 
 ### FILE_FORMAT
@@ -45,13 +47,13 @@ CREATE FILE FORMAT my_custom_csv TYPE=CSV FIELD_DELIMITER='\t';
 SELECT $1 FROM @my_stage/file (FILE_FORMAT=>'my_custom_csv');
 ```
 
-请注意，当您需要从阶段文件查询或执行 COPY INTO 操作时，必须在创建阶段时显式指定文件格式。否则，将应用默认格式 Parquet。请参见以下示例：
+请注意，当您需要从已暂存文件查询或执行 COPY INTO 操作时，必须在创建 Stage 时显式指定文件格式。否则，将应用默认格式 Parquet。请参见以下示例：
 
 ```sql
 CREATE STAGE my_stage FILE_FORMAT = (TYPE = CSV);
 ```
 
-在阶段文件格式与指定阶段格式不同的情况下，您可以在 SELECT 或 COPY INTO 语句中显式指定文件格式。以下是示例：
+在已暂存文件格式与指定 Stage 格式不同的情况下，您可以在 SELECT 或 COPY INTO 语句中显式指定文件格式。以下是示例：
 
 ```sql
 SELECT $1 FROM @my_stage (FILE_FORMAT=>'NDJSON');
@@ -61,7 +63,7 @@ COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (TYPE = NDJ
 
 ### PATTERN
 
-PATTERN 选项允许您指定一个基于 PCRE2 的正则表达式模式（用单引号括起来）来匹配文件名。它用于根据提供的模式过滤和选择文件。例如，您可以使用模式 '.*parquet' 来匹配所有以 "parquet" 结尾的文件名。有关 PCRE2 语法的详细信息，请参阅 http://www.pcre.org/current/doc/html/pcre2syntax.html 上的文档。
+PATTERN 选项允许您指定一个基于 PCRE2 的正则表达式模式（用单引号括起来）来匹配文件名。它用于根据提供的模式过滤和选择文件。例如，您可以使用模式 '.\*parquet' 来匹配所有以 "parquet" 结尾的文件名。有关 PCRE2 语法的详细信息，请参阅 http://www.pcre.org/current/doc/html/pcre2syntax.html 上的文档。
 
 ### FILES
 
@@ -69,16 +71,16 @@ FILES 选项允许您显式指定一个或多个用逗号分隔的文件名。�
 
 ### table_alias
 
-在 SELECT 语句中处理阶段文件时，如果没有可用表名，您可以为文件分配别名。这允许您将文件视为表，其字段作为表中的列。这在处理 SELECT 语句中的多个表或选择特定列时非常有用。以下是一个示例：
+在 SELECT 语句中处理已暂存文件时，如果没有可用表名，您可以为文件分配别名。这允许您将文件视为表，其字段作为表中的列。这在处理 SELECT 语句中的多个表或选择特定列时非常有用。以下是一个示例：
 
 ```sql
--- 别名 't1' 代表阶段文件，而 't2' 是常规表
+-- 别名 't1' 代表已暂存文件，而 't2' 是常规表
 SELECT t1.$1, t2.$2 FROM @my_stage t1, t2;
 ```
 
 ### $<col_position>
 
-从阶段文件选择时，您可以使用列位置，这些位置从 1 开始。目前，使用列位置从阶段文件进行 SELECT 操作的功能仅限于 Parquet、NDJSON、CSV 和 TSV 格式。
+从已暂存文件选择时，您可以使用列位置，这些位置从 1 开始。目前，使用列位置从已暂存文件进行 SELECT 操作的功能仅限于 Parquet、NDJSON、CSV 和 TSV 格式。
 
 ```sql
 SELECT $2 FROM @my_stage (FILES=>('sample.csv')) ORDER BY $1;
@@ -94,7 +96,7 @@ SELECT $1 FROM @my_stage (FILE_FORMAT=>'NDJSON')
 SELECT $1:a FROM @my_stage (FILE_FORMAT=>'NDJSON')
 ```
 
-当使用 COPY INTO 从阶段文件复制数据时，Databend 会匹配 NDJSON 文件顶层字段名称与目标表中的列名称，而不是依赖于列位置。在下面的示例中，表 *my_table* 应具有与 NDJSON 文件顶层字段名称相同的列定义：
+当使用 COPY INTO 从已暂存文件复制数据时，Databend 会匹配 NDJSON 文件顶层字段名称与目标表中的列名称，而不是依赖于列位置。在下面的示例中，表 _my_table_ 应具有与 NDJSON 文件顶层字段名称相同的列定义：
 
 ```sql
 COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (type = NDJSON)
@@ -110,14 +112,14 @@ COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (type = NDJ
 
 ## 限制
 
-在查询阶段文件时，以下格式特定约束的限制适用：
+在查询已暂存文件时，以下格式特定约束的限制适用：
 
-- 使用星号 (*) 选择所有字段仅支持 Parquet 文件。
+- 使用星号 (\*) 选择所有字段仅支持 Parquet 文件。
 - 从 CSV 或 TSV 文件选择时，所有字段都作为字符串解析，SELECT 语句仅允许使用列位置。此外，文件中的字段数量有限制，不得超过 max.N+1000。例如，如果语句是 `SELECT $1, $2 FROM @my_stage (FILES=>('sample.csv'))`，则 sample.csv 文件最多可以有 1,002 个字段。
 
 ## 教程
 
-### 教程 1：从阶段查询数据
+### 教程 1：从 Stage 查询数据
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -125,24 +127,25 @@ import TabItem from '@theme/TabItem';
 本示例展示了如何查询存储在不同位置的 Parquet 文件中的数据。点击下面的选项卡查看详细信息。
 
 <Tabs groupId="query2stage">
-<TabItem value="Stages" label="阶段">
+<TabItem value="Stages" label="Stage">
 
-假设您有一个名为 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 的示例文件，并且已将其上传到用户阶段、名为 *my_internal_stage* 的内部阶段和名为 *my_external_stage* 的外部阶段。要上传文件到阶段，请使用 [PRESIGN](/sql/sql-commands/ddl/stage/presign) 方法。
+假设您有一个名为 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 的示例文件，并且已将其上传到用户 Stage、名为 _my_internal_stage_ 的内部 Stage 和名为 _my_external_stage_ 的外部 Stage。要上传文件到 Stage，请使用 [PRESIGN](/sql/sql-commands/ddl/stage/presign) 方法。
 
 ```sql
--- 查询用户阶段中的文件
+-- 查询用户Stage中的文件
 SELECT * FROM @~/books.parquet;
 
--- 查询内部阶段中的文件
+-- 查询内部Stage中的文件
 SELECT * FROM @my_internal_stage/books.parquet;
 
--- 查询外部阶段中的文件
+-- 查询外部Stage中的文件
 SELECT * FROM @my_external_stage/books.parquet;
 ```
+
 </TabItem>
 <TabItem value="Bucket" label="存储桶">
 
-假设您有一个名为 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 的示例文件，存储在 Amazon S3 区域 *us-east-2* 中的名为 *databend-toronto* 的存储桶中。您可以通过指定连接参数来查询数据：
+假设您有一个名为 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 的示例文件，存储在 Amazon S3 区域 _us-east-2_ 中的名为 _databend-toronto_ 的存储桶中。您可以通过指定连接参数来查询数据：
 
 ```sql
 SELECT
@@ -158,20 +161,22 @@ FROM
         FILES => ('books.parquet')
     );
 ```
+
 </TabItem>
-<TabItem value="Remote" label="远程">
+<TabItem value="Remote" label="远程文件">
 
 假设您有一个名为 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 的示例文件，存储在远程服务器上。您可以通过指定文件 URI 来查询数据：
 
 ```sql
 SELECT * FROM 'https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet';
 ```
+
 </TabItem>
 </Tabs>
 
 ### 教程 2：使用 PATTERN 查询数据
 
-假设您有以下具有相同模式的 Parquet 文件，以及一些其他格式的文件，存储在 Amazon S3 区域 *us-east-2* 中的名为 *databend-toronto* 的存储桶中。
+假设您有以下具有相同模式的 Parquet 文件，以及一些其他格式的文件，存储在 Amazon S3 区域 _us-east-2_ 中的名为 _databend-toronto_ 的存储桶中。
 
 ```text
 databend-toronto/
