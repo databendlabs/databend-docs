@@ -50,13 +50,13 @@ SELECT * FROM 's3://testbucket/admin/data/parquet/tuple.parquet'
 
 不同存储服务的连接参数根据其特定要求和认证机制而有所不同。有关更多信息，请参考下面的表格。
 
-### 类 Amazon S3 存储服务
+### Amazon S3 及兼容存储服务
 
-下表列出了访问类 Amazon S3 存储服务的连接参数：
+下表列出了访问 Amazon S3 及兼容存储服务的连接参数：
 
 | 参数                      | 是否必须 | 描述                                      |
 | ------------------------- | -------- | ----------------------------------------- |
-| endpoint_url              | 是       | 类 Amazon S3 存储服务的端点 URL。         |
+| endpoint_url              | 是       | Amazon S3 及兼容存储服务的端点 URL。         |
 | access_key_id             | 是       | 用于识别请求者的访问密钥 ID。             |
 | secret_access_key         | 是       | 用于认证的密钥访问密钥。                  |
 | enable_virtual_host_style | 否       | 是否使用虚拟主机样式 URL。默认为*false*。 |
@@ -80,9 +80,9 @@ SELECT * FROM 's3://testbucket/admin/data/parquet/tuple.parquet'
 | role_arn     | 是       | 用于授权访问 S3 的 AWS IAM 角色的 ARN。 |
 | external_id  | 否       | 在角色扮演中增强安全性的外部 ID。       |
 
-### Azure Blob 存储
+### Azure Blob Storage
 
-下表列出了访问 Azure Blob 存储的连接参数：
+下表列出了访问 Azure Blob Storage 的连接参数：
 
 | 参数         | 是否必须? | 描述                                     |
 | ------------ | --------- | ---------------------------------------- |

@@ -17,7 +17,7 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 [ copyOptions ]
 ```
 
-- *COPY INTO 还支持其他语法选项。更多详情，请参阅 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)*。
+- _COPY INTO 还支持其他语法选项。更多详情，请参阅 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)_。
 
 此功能通过集成基本转换简化了 ETL 流程，无需临时表。通过在加载时转换数据，您可以有效地优化 ETL 过程。以下是使用此功能增强数据加载的几种实用方法：
 
@@ -37,23 +37,25 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 
 ```sql
 CREATE STAGE my_parquet_stage;
-COPY INTO @my_parquet_stage 
+COPY INTO @my_parquet_stage
 FROM (
     SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS id, -- 生成顺序 id
            'Name_' || CAST(number AS VARCHAR) AS name,       -- 为每行生成唯一名称
            20 + MOD(number, 23) AS age,                      -- 生成年龄，范围在 20 到 42 之间
            DATE_ADD('day', MOD(number, 60), '2022-01-01') AS onboarded -- 从 2022-01-01 开始生成入职日期
     FROM numbers(10) -- 生成 10 行数据
-) 
+)
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
 查询暂存的示例文件：
+
 ```
 SELECT * FROM @my_parquet_stage;
 ```
 
 结果：
+
 ```
 ┌───────────────────────────────────────┐
 │   id   │  name  │   age  │  onboarded │
@@ -91,9 +93,9 @@ CREATE TABLE employees_no_age (
 -- 从暂存文件加载
 COPY INTO employees_no_age
 FROM (
-    SELECT t.id, 
-           t.name, 
-           t.onboarded 
+    SELECT t.id,
+           t.name,
+           t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -107,6 +109,7 @@ SELECT * FROM employees_no_age;
 ```
 
 结果：
+
 ```
 ┌──────────────────────────────────────────────────────────┐
 │        id       │       name       │      onboarded      │
@@ -145,11 +148,11 @@ CREATE TABLE employees_new_order (
 -- 从暂存文件加载
 COPY INTO employees_new_order
 FROM (
-    SELECT 
-        t.id, 
-        t.age, 
-        t.name, 
-        t.onboarded 
+    SELECT
+        t.id,
+        t.age,
+        t.name,
+        t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -161,7 +164,9 @@ PATTERN = '.*parquet';
 ```sql
 SELECT * FROM employees_new_order;
 ```
+
 结果：
+
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
 │        id       │       age       │       name       │      onboarded      │
@@ -200,11 +205,11 @@ CREATE TABLE employees_date (
 -- 从暂存文件加载
 COPY INTO employees_date
 FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age, 
-        to_date(t.onboarded) 
+    SELECT
+        t.id,
+        t.name,
+        t.age,
+        to_date(t.onboarded)
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -216,7 +221,9 @@ PATTERN = '.*parquet';
 ```sql
 SELECT * FROM employees_date;
 ```
+
 结果：
+
 ```
 ┌───────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │    onboarded   │
@@ -250,17 +257,17 @@ CREATE TABLE employees_new_age (
 );
 ```
 
-2. 从暂存的示例文件加载数据，并在将'age'列的值插入目标表之前，对其执行算术运算（加1）：
+2. 从暂存的示例文件加载数据，并在将'age'列的值插入目标表之前，对其执行算术运算（加 1）：
 
 ```sql
 -- 从暂存文件加载
 COPY INTO employees_new_age
 FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age + 1, 
-        t.onboarded 
+    SELECT
+        t.id,
+        t.name,
+        t.age + 1,
+        t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -271,8 +278,10 @@ PATTERN = '.*parquet';
 
 ```sql
 SELECT * FROM employees_new_age
-```    
+```
+
 结果：
+
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │      onboarded      │
@@ -313,11 +322,11 @@ CREATE TABLE employees_plus (
 -- 从暂存文件加载
 COPY INTO employees_plus (id, name, age, onboarded)
 FROM (
-    SELECT 
-        t.id, 
-        t.name, 
-        t.age, 
-        t.onboarded 
+    SELECT
+        t.id,
+        t.name,
+        t.age,
+        t.onboarded
     FROM @my_parquet_stage t
 )
 FILE_FORMAT = (TYPE = PARQUET)
@@ -331,6 +340,7 @@ SELECT * FROM employees_plus;
 ```
 
 结果：
+
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │      onboarded      │       lastday       │
