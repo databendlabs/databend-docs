@@ -1,151 +1,186 @@
----
-title: BendSQL
----
-
-[BendSQL](https://github.com/datafuselabs/BendSQL) 是一个专为 Databend 设计的命令行工具。它允许用户与 Databend 建立连接，并直接从 CLI 窗口执行查询。
-
-BendSQL 特别适用于那些偏好命令行界面并需要定期与 Databend 工作的用户。通过 BendSQL，用户可以轻松高效地管理他们的数据库、表和数据，并轻松执行广泛的查询和操作。
-
-## 安装 BendSQL
-
-BendSQL 可以使用不同的包管理器在各种平台上安装。以下部分概述了使用 Homebrew（适用于 macOS）、Apt（适用于 Ubuntu/Debian）和 Cargo（Rust 包管理器）安装 BendSQL 的步骤。或者，您可以从 GitHub 上的 [BendSQL 发布页面](https://github.com/datafuselabs/BendSQL/releases) 下载安装包，并手动安装 BendSQL。
-
-### Homebrew（适用于 macOS）
-
-可以使用 Homebrew 在 macOS 上轻松安装 BendSQL，只需一个简单的命令：
-
-```bash
-brew install databendcloud/homebrew-tap/bendsql
+```shell title='Example:'
+// highlight-next-line
+root@localhost:8000/default> !set max_display_rows 5
+root@localhost:8000/default> select * from system.numbers limit 10;
+┌─number─┐
+│      0 │
+│      1 │
+│      2 │
+│      3 │
+│      4 │
+└────────┘
+5 rows shown (10 total)
 ```
 
-### Apt（适用于 Ubuntu/Debian）
+#### `max_col_width`
 
-在 Ubuntu 和 Debian 系统上，可以通过 Apt 包管理器安装 BendSQL。根据发行版版本选择适当的说明。
+The `max_col_width` setting determines the maximum width in characters of each column's display rendering. In the example below, it is set to `20`, limiting the display width of each column to 20 characters.
 
-#### DEB822-STYLE 格式（Ubuntu-22.04/Debian-12 及更高版本）
-
-```bash
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.rs/deb/datafuselabs.sources
+```shell title='Example:'
+// highlight-next-line
+root@localhost:8000/default> !set max_col_width 20
+root@localhost:8000/default> select * from system.numbers limit 10;
+┌─number─┐
+│         0 │
+│         1 │
+│         2 │
+│         3 │
+│         4 │
+└─────────┘
+5 rows shown (10 total)
 ```
 
-#### 旧格式（Ubuntu-20.04/Debian-11 及更早版本）
+#### `max_width`
 
-```bash
-sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.rs/deb/datafuselabs.gpg
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.rs/deb/datafuselabs.list
+The `max_width` setting sets the maximum width in characters of the entire display output. In the example below, it is set to `40`, limiting the display width to 40 characters.
+
+```shell title='Example:'
+// highlight-next-line
+root@localhost:8000/default> !set max_width 40
+root@localhost:8000/default> select * from system.numbers limit 10;
+┌─number─┐
+│         0 │
+│         1 │
+│         2 │
+│         3 │
+│         4 │
+└─────────┘
+5 rows shown (10 total)
 ```
 
-最后，更新包列表并安装 BendSQL：
+#### `output_format`
 
-```bash
-sudo apt update
-sudo apt install bendsql
+The `output_format` setting specifies the format used to display query results. In the example below, it is set to `csv`, which displays the query results in CSV format.
+
+```shell title='Example:'
+// highlight-next-line
+root@localhost:8000/default> !set output_format csv
+root@localhost:8000/default> select * from system.numbers limit 10;
+number
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
 ```
 
-### Cargo（Rust 包管理器）
+#### `expand`
 
-使用 Cargo 安装 BendSQL，可以使用 `cargo-binstall` 工具或使用提供的命令从源代码构建。
+The `expand` setting controls whether the output of a query is displayed as individual records or in a tabular format. In the example below, it is set to `on`, which displays the query results as individual records.
 
-:::note
-在使用 Cargo 安装之前，请确保您的计算机上安装了完整的 Rust 工具链和 `cargo` 命令。如果没有，请按照 [https://rustup.rs/](https://rustup.rs/) 上的安装指南进行安装。
-:::
-
-**使用 cargo-binstall**
-
-请参考 [Cargo B(inary)Install - 安装](https://github.com/cargo-bins/cargo-binstall#installation) 来安装 `cargo-binstall` 并启用 `cargo binstall <crate-name>` 子命令。
-
-```bash
-cargo binstall bendsql
+```shell title='Example:'
+// highlight-next-line
+root@localhost:8000/default> !set expand on
+root@localhost:8000/default> select * from system.numbers limit 10;
+{
+  "number": 0
+}
+{
+  "number": 1
+}
+{
+  "number": 2
+}
+{
+  "number": 3
+}
+{
+  "number": 4
+}
+{
+  "number": 5
+}
+{
+  "number": 6
+}
+{
+  "number": 7
+}
+{
+  "number": 8
+}
+{
+  "number": 9
+}
 ```
 
-**从源代码构建**
+#### `multi_line`
 
-从源代码构建时，一些依赖项可能涉及编译 C/C++ 代码。确保您的计算机上安装了 GCC/G++ 或 Clang 工具链。
+The `multi_line` setting determines whether multi-line input for SQL queries is allowed. In the example below, it is set to `true`, allowing queries to span multiple lines for better readability.
 
-```bash
-cargo install bendsql
+```shell title='Example:'
+// highlight-next-line
+root@localhost:8000/default> !set multi_line true
+root@localhost:8000/default> select
+...> *
+...> from
+...> system.numbers
+...> limit 10;
+┌─number─┐
+│      0 │
+│      1 │
+│      2 │
+│      3 │
+│      4 │
+└────────┘
+5 rows shown (10 total)
 ```
 
-## 自定义 BendSQL
+#### `replace_newline`
 
-BendSQL 提供了一系列设置，允许您定义如何呈现查询结果。有关特定设置和自定义方法，请参考文档：https://github.com/datafuselabs/bendsql/blob/main/README.md
+The `replace_newline` setting specifies whether newline characters in the output of query results should be replaced with spaces. In the example below, it is set to `true`, which replaces newline characters with spaces to prevent unintended line breaks in the display.
 
-您有以下方法为 BendSQL 配置设置：
-
-- 在配置文件 `~/.config/bendsql/config.toml` 中添加和配置设置。为此，请打开文件并在 `[settings]` 部分下添加您的设置。以下示例将 `max_display_rows` 设置为 10 和 `max_width` 设置为 100：
-
-```toml title='示例：'
-...
-[settings]
-max_display_rows = 10
-max_width = 100
-...
+```shell title='Example:'
+// highlight-next-line
+root@localhost:8000/default> !set replace_newline true
+root@localhost:8000/default> select * from system.numbers limit 10;
+┌─number─┐
+│      0 │
+│      1 │
+│      2 │
+│      3 │
+│      4 │
+└────────┘
+5 rows shown (10 total)
 ```
 
-- 通过启动 BendSQL 然后以 `.<setting> <value>` 的格式指定设置来在运行时配置设置。请注意，以这种方式配置的设置仅在当前会话中生效。
-
-```shell title='示例：'
-root@localhost:8000/default> .max_display_rows 10
-root@localhost:8000/default> .max_width 100
+```shell title='示例:'
+// highlight-next-line
+root@localhost:8000/default> !set max_display_rows 5
+root@localhost:8000/default> SELECT * FROM system.configs;
+┌──────────────────────────────────────────────────────┐
+│   group   │       name       │  value  │ description │
+│   String  │      String      │  String │    String   │
+├───────────┼──────────────────┼─────────┼─────────────┤
+│ query     │ tenant_id        │ default │             │
+│ query     │ cluster_id       │ default │             │
+│ query     │ num_cpus         │ 0       │             │
+│ ·         │ ·                │ ·       │ ·           │
+│ ·         │ ·                │ ·       │ ·           │
+│ ·         │ ·                │ ·       │ ·           │
+│ storage   │ cos.endpoint_url │         │             │
+│ storage   │ cos.root         │         │             │
+│ 176 rows  │                  │         │             │
+│ (5 shown) │                  │         │             │
+└──────────────────────────────────────────────────────┘
+176 rows read in 0.059 sec. Processed 176 rows, 10.36 KiB (2.98 thousand rows/s, 175.46 KiB/s)
 ```
 
-### 管理行可见性
+#### `max_col_width` & `max_width`
 
-`max_display_rows` 设置用于设置在呈现查询结果时输出格式中显示的最大行数。默认情况下，它将显示限制为 40 行。以下示例演示了将显示的最大行数设置为 10，仅展示总共 96 行中的 10 行子集：
+设置项`max_col_width`和`max_width`分别指定单个列和整个显示输出的最大允许宽度（以字符为单位）。以下示例将列显示宽度设置为10个字符，并将整个显示宽度设置为100个字符：
 
-```sql title='示例：'
-root@localhost:8000/default> .max_display_rows 10
-root@localhost:8000/default> select * from system.settings;
-
-SELECT
-  *
-FROM
-  system.settings
-
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                     name                    │  value  │ default │   range  │  level  │                                                                     description                                                                    │  type  │
-│                    String                   │  String │  String │  String  │  String │                                                                       String                                                                       │ String │
-├─────────────────────────────────────────────┼─────────┼─────────┼──────────┼─────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼────────┤
-│ acquire_lock_timeout                        │ 15      │ 15      │ None     │ DEFAULT │ Sets the maximum timeout in seconds for acquire a lock.                                                                                            │ UInt64 │
-│ aggregate_spilling_bytes_threshold_per_proc │ 0       │ 0       │ None     │ DEFAULT │ Sets the maximum amount of memory in bytes that an aggregator can use before spilling data to storage during query execution.                      │ UInt64 │
-│ aggregate_spilling_memory_ratio             │ 0       │ 0       │ [0, 100] │ DEFAULT │ Sets the maximum memory ratio in bytes that an aggregator can use before spilling data to storage during query execution.                          │ UInt64 │
-│ auto_compaction_imperfect_blocks_threshold  │ 50      │ 50      │ None     │ DEFAULT │ Threshold for triggering auto compaction. This occurs when the number of imperfect blocks in a snapshot exceeds this value after write operations. │ UInt64 │
-│ collation                                   │ utf8    │ utf8    │ ["utf8"] │ DEFAULT │ Sets the character collation. Available values include "utf8".                                                                                     │ String │
-│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                                  │ ·      │
-│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                                  │ ·      │
-│ ·                                           │ ·       │ ·       │ ·        │ ·       │ ·                                                                                                                                                  │ ·      │
-│ storage_read_buffer_size                    │ 1048576 │ 1048576 │ None     │ DEFAULT │ Sets the byte size of the buffer used for reading data into memory.                                                                                │ UInt64 │
-│ table_lock_expire_secs                      │ 10      │ 10      │ None     │ DEFAULT │ Sets the seconds that the table lock will expire in.                                                                                               │ UInt64 │
-│ timezone                                    │ UTC     │ UTC     │ None     │ DEFAULT │ Sets the timezone.                                                                                                                                 │ String │
-│ unquoted_ident_case_sensitive               │ 0       │ 0       │ None     │ DEFAULT │ Determines whether Databend treats unquoted identifiers as case-sensitive.                                                                         │ UInt64 │
-│ use_parquet2                                │ 0       │ 0       │ [0, 1]   │ DEFAULT │ This setting is deprecated                                                                                                                         │ UInt64 │
-│ 96 rows                                     │         │         │          │         │                                                                                                                                                    │        │
-│ (10 shown)                                  │         │         │          │         │                                                                                                                                                    │        │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-96 rows read in 0.022 sec. Processed 96 rows, 16.52 KiB (4.45 thousand rows/s, 766.10 KiB/s)
-```
-
-### 调整列和表宽度 {#adjusting-column-and-table-widths}
-
-参数 `max_col_width` 和 `max_width` 分别指定单个列和整个显示输出的最大允许宽度（以字符为单位）。
-
-| 设置           | 描述                                                                                                     | 默认值      |
-|---------------|----------------------------------------------------------------------------------------------------------|------------|
-| max_width     | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时默认为终端窗口的宽度。                                | 1048576    |
-| max_col_width | 设置每列显示渲染的最大宽度（以字符为单位）。小于 3 的值会禁用此限制。                                      | 1048576    |
-
-以下示例将列显示宽度设置为 10 个字符，整个显示宽度设置为 100 个字符：
-
-```sql title='示例：'
+```sql title='示例:'
+// highlight-next-line
 root@localhost:8000/default> .max_col_width 10
+// highlight-next-line
 root@localhost:8000/default> .max_width 100
 root@localhost:8000/default> select * from system.settings;
-
-SELECT
-  *
-FROM
-  system.settings
-
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
 │    name    │  value  │ default │   range  │  level  │            description            │  type  │
 │   String   │  String │  String │  String  │  String │               String              │ String │
@@ -169,11 +204,276 @@ FROM
 96 rows read in 0.040 sec. Processed 96 rows, 16.52 KiB (2.38 thousand rows/s, 410.18 KiB/s)
 ```
 
-## 连接到 Databend
+#### `output_format`
 
-- [教程-1：使用 BendSQL 连接到 Databend](00-connect-to-databend.md)
-- [教程-2：使用 BendSQL 连接到 Databend Cloud](01-connect-to-databend-cloud.md)
+通过将`output_format`设置为`table`、`csv`、`tsv`或`null`，可以控制查询结果的格式。`table`格式以带有列标题的表格格式呈现结果，而`csv`和`tsv`格式分别提供逗号分隔值和制表符分隔值，`null`格式则完全抑制输出格式。
 
-**相关视频：**
+```shell title='示例:'
+// highlight-next-line
+root@localhost:8000/default> !set output_format table
+root@localhost:8000/default> show users;
+┌────────────────────────────────────────────────────────────────────────────┐
+│  name  │ hostname │  auth_type  │ is_configured │  default_role │ disabled │
+│ String │  String  │    String   │     String    │     String    │  Boolean │
+├────────┼──────────┼─────────────┼───────────────┼───────────────┼──────────┤
+│ root   │ %        │ no_password │ YES           │ account_admin │ false    │
+└────────────────────────────────────────────────────────────────────────────┘
+1 row read in 0.032 sec. Processed 1 row, 113 B (31.02 rows/s, 3.42 KiB/s)
 
-<iframe width="853" height="505" className="iframe-video" src="https://www.youtube.com/embed/3cFmGvtU-ws" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+// highlight-next-line
+root@localhost:8000/default> !set output_format csv
+root@localhost:8000/default> show users;
+root,%,no_password,YES,account_admin,false
+1 row read in 0.062 sec. Processed 1 row, 113 B (16.03 rows/s, 1.77 KiB/s)
+
+// highlight-next-line
+root@localhost:8000/default> !set output_format tsv
+root@localhost:8000/default> show users;
+root	%	no_password	YES	account_admin	false
+1 row read in 0.076 sec. Processed 1 row, 113 B (13.16 rows/s, 1.45 KiB/s)
+
+// highlight-next-line
+root@localhost:8000/default> !set output_format null
+root@localhost:8000/default> show users;
+1 row read in 0.036 sec. Processed 1 row, 113 B (28.1 rows/s, 3.10 KiB/s)
+```
+
+#### `expand`
+
+`expand`设置控制查询输出是作为单独的记录显示还是以表格格式显示。当`expand`设置为`auto`时，系统根据查询返回的行数自动确定如何显示输出。如果查询仅返回一行，则输出显示为单个记录。
+
+```shell title='示例:'
+// highlight-next-line
+root@localhost:8000/default> !set expand on
+root@localhost:8000/default> show users;
+-[ RECORD 1 ]-----------------------------------
+         name: root
+     hostname: %
+    auth_type: no_password
+is_configured: YES
+ default_role: account_admin
+     disabled: false
+
+1 row read in 0.055 sec. Processed 1 row, 113 B (18.34 rows/s, 2.02 KiB/s)
+
+// highlight-next-line
+root@localhost:8000/default> !set expand off
+root@localhost:8000/default> show users;
+┌────────────────────────────────────────────────────────────────────────────┐
+│  name  │ hostname │  auth_type  │ is_configured │  default_role │ disabled │
+│ String │  String  │    String   │     String    │     String    │  Boolean │
+├────────┼──────────┼─────────────┼───────────────┼───────────────┼──────────┤
+│ root   │ %        │ no_password │ YES           │ account_admin │ false    │
+└────────────────────────────────────────────────────────────────────────────┘
+1 row read in 0.046 sec. Processed 1 row, 113 B (21.62 rows/s, 2.39 KiB/s)
+
+// highlight-next-line
+root@localhost:8000/default> !set expand auto
+root@localhost:8000/default> show users;
+-[ RECORD 1 ]-----------------------------------
+         name: root
+     hostname: %
+    auth_type: no_password
+is_configured: YES
+ default_role: account_admin
+     disabled: false
+
+1 row read in 0.037 sec. Processed 1 row, 113 B (26.75 rows/s, 2.95 KiB/s)
+```
+
+#### `multi_line`
+
+当`multi_line`设置为`true`时，允许输入跨越多行。因此，SQL查询的每个子句都在单独的行上输入，以提高可读性和组织性。
+
+```shell title='示例:'
+// highlight-next-line
+root@localhost:8000/default> !set multi_line true;
+root@localhost:8000/default> SELECT *
+> FROM system.configs;
+┌──────────────────────────────────────────────────────┐
+│   group   │       name       │  value  │ description │
+│   String  │      String      │  String │    String   │
+├───────────┼──────────────────┼─────────┼─────────────┤
+│ query     │ tenant_id        │ default │             │
+│ query     │ cluster_id       │ default │             │
+│ query     │ num_cpus         │ 0       │             │
+│ ·         │ ·                │ ·       │ ·           │
+│ ·         │ ·                │ ·       │ ·           │
+│ ·         │ ·                │ ·       │ ·           │
+│ storage   │ cos.endpoint_url │         │             │
+│ storage   │ cos.root         │         │             │
+│ 176 rows  │                  │         │             │
+│ (5 shown) │                  │         │             │
+└──────────────────────────────────────────────────────┘
+176 rows read in 0.060 sec. Processed 176 rows, 10.36 KiB (2.91 thousand rows/s, 171.39 KiB/s)
+```
+
+#### `replace_newline`
+
+`replace_newline`设置确定输出中的换行符（\n）是否被替换为文字字符串（\\n）。在下面的示例中，`replace_newline`设置为`true`。因此，当选择字符串'Hello\nWorld'时，换行符（\n）被替换为文字字符串（\\n）。因此，输出不是显示换行符，而是将'Hello\nWorld'显示为'Hello\\nWorld'：
+
+```shell title='示例:'
+// highlight-next-line
+root@localhost:8000/default> !set replace_newline true
+root@localhost:8000/default> SELECT 'Hello\nWorld' AS message;
+┌──────────────┐
+│    message   │
+│    String    │
+├──────────────┤
+│ Hello\nWorld │
+└──────────────┘
+1 row read in 0.056 sec. Processed 1 row, 1 B (18 rows/s, 17 B/s)
+
+```
+// highlight-next-line
+root@localhost:8000/default> !set replace_newline false;
+root@localhost:8000/default> SELECT 'Hello\nWorld' AS message;
+┌─────────┐
+│ message │
+│  String │
+├─────────┤
+│ Hello   │
+│ World   │
+└─────────┘
+1 row read in 0.067 sec. Processed 1 row, 1 B (14.87 rows/s, 14 B/s)
+```
+
+### 配置BendSQL设置
+
+您可以通过以下方式配置BendSQL设置：
+
+- 使用`!set <setting> <value>`命令。更多信息，请参阅[实用命令](#实用命令)。
+
+- 在配置文件`~/.config/bendsql/config.toml`中添加并配置设置。为此，打开文件并在`[settings]`部分下添加您的设置。以下示例将`max_display_rows`设置为10，将`max_width`设置为100：
+
+```toml title='示例：'
+...
+[settings]
+max_display_rows = 10
+max_width = 100
+...
+```
+
+- 在运行时通过启动BendSQL并按格式`.<setting> <value>`指定设置来配置设置。请注意，以这种方式配置的设置仅在当前会话中生效。
+
+```shell title='示例：'
+root@localhost:8000/default> .max_display_rows 10
+root@localhost:8000/default> .max_width 100
+```
+
+## 实用命令
+
+BendSQL为用户提供了一系列命令，以简化工作流程并自定义体验。以下是BendSQL中可用命令的概览：
+
+| 命令          | 描述                   |
+|---------------|------------------------|
+| `!exit`       | 退出BendSQL。          |
+| `!quit`       | 退出BendSQL。          |
+| `!configs`    | 显示当前BendSQL设置。  |
+| `!set <setting> <value>` | 修改BendSQL设置。       |
+| `!source <sql_file>`   | 执行SQL文件。          |
+
+关于每个命令的示例，请参考以下参考信息：
+
+#### `!exit`
+
+断开与Databend的连接并退出BendSQL。
+
+```shell title='示例：'
+➜  ~ bendsql
+欢迎使用BendSQL 0.17.0-homebrew。
+连接到localhost:8000作为用户root。
+已连接到Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
+
+// highlight-next-line
+root@localhost:8000/default> !exit
+再见~
+```
+
+#### `!quit`
+
+断开与Databend的连接并退出BendSQL。
+
+```shell title='示例：'
+➜  ~ bendsql
+欢迎使用BendSQL 0.17.0-homebrew。
+连接到localhost:8000作为用户root。
+已连接到Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
+
+// highlight-next-line
+root@localhost:8000/default> !quit
+再见~
+➜  ~
+```
+
+#### `!configs`
+
+显示当前的BendSQL设置。
+
+```shell title='示例：'
+// highlight-next-line
+root@localhost:8000/default> !configs
+Settings {
+    display_pretty_sql: true,
+    prompt: "{user}@{warehouse}/{database}> ",
+    progress_color: "cyan",
+    show_progress: true,
+    show_stats: true,
+    max_display_rows: 40,
+    max_col_width: 1048576,
+    max_width: 1048576,
+    output_format: Table,
+    quote_style: Necessary,
+    expand: Off,
+    time: None,
+    multi_line: true,
+    replace_newline: true,
+}
+```
+
+#### `!set <setting> <value>`
+
+修改BendSQL设置。
+
+```shell title='示例：'
+root@localhost:8000/default> !set display_pretty_sql false
+```
+
+#### `!source <sql_file>`
+
+执行SQL文件。
+
+```shell title='示例：'
+➜  ~ more ./desktop/test.sql
+CREATE TABLE test_table (
+    id INT,
+    name VARCHAR(50)
+);
+
+INSERT INTO test_table (id, name) VALUES (1, 'Alice');
+INSERT INTO test_table (id, name) VALUES (2, 'Bob');
+INSERT INTO test_table (id, name) VALUES (3, 'Charlie');
+➜  ~ bendsql
+欢迎使用BendSQL 0.17.0-homebrew。
+连接到localhost:8000作为用户root。
+已连接到Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
+
+// highlight-next-line
+root@localhost:8000/default> !source ./desktop/test.sql
+root@localhost:8000/default> SELECT * FROM test_table;
+
+SELECT
+  *
+FROM
+  test_table
+
+┌────────────────────────────────────┐
+│        id       │       name       │
+│ Nullable(Int32) │ Nullable(String) │
+├─────────────────┼──────────────────┤
+│               1 │ Alice            │
+│               2 │ Bob              │
+│               3 │ Charlie          │
+└────────────────────────────────────┘
+3 rows read in 0.064 sec. Processed 3 rows, 81 B (46.79 rows/s, 1.23 KiB/s)
+```
