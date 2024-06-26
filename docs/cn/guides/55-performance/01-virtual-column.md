@@ -1,39 +1,40 @@
 ---
-title: Virtual Column
+title: 虚拟列
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VIRTUAL COLUMN'/>
 
-A virtual column is a construct formed by extracting nested fields within [Variant](/sql/sql-reference/data-types/data-type-variant) data and storing that data in separate storage files. Consider using virtual columns when you regularly query specific nested fields within Variant data to realize the following benefits:
+虚拟列是通过提取[Variant](/sql/sql-reference/data-types/data-type-variant)数据中的嵌套字段，并将这些数据存储在单独的存储文件中形成的一种结构。当您经常查询 Variant 数据中的特定嵌套字段时，考虑使用虚拟列以实现以下好处：
 
-- **Accelerated Query Processing**: Virtual columns streamline the querying process by eliminating the need to traverse the entire nested structure to locate the desired data. Direct data retrieval from virtual columns parallels the process of accessing regular columns, resulting in a significant acceleration of query execution.
+- **加速查询处理**：虚拟列通过消除遍历整个嵌套结构以定位所需数据的需求，简化了查询过程。直接从虚拟列检索数据与访问常规列的过程相平行，从而显著加快了查询执行速度。
 
-- **Reduced Memory Usage**: Variant data often includes numerous internal fields, and reading all of them can lead to substantial memory consumption. By transitioning to reading virtual columns, there is a notable reduction in memory usage, mitigating the risk of potential memory overflows.
+- **减少内存使用**：Variant 数据通常包含许多内部字段，读取所有这些字段可能导致大量内存消耗。通过转向读取虚拟列，内存使用量显著减少，降低了潜在内存溢出的风险。
 
 ![Alt text](@site/docs/public/img/sql/virtual-column.png)
 
-### Managing Virtual Columns
+## 管理虚拟列
 
-Databend provides a variety of commands to manage virtual columns. For details, see [VIRTUAL COLUMN](/sql/sql-commands/ddl/virtual-column/).
+Databend 提供了多种命令来管理虚拟列。详细信息，请参阅 [VIRTUAL COLUMN](/sql/sql-commands/ddl/virtual-column/)。
 
-### Usage Examples
+## 使用示例
 
-This example demonstrates the practical use of virtual columns and their impact on query execution:
+本示例展示了虚拟列的实际应用及其对查询执行的影响：
 
 ```sql
--- Create a table named 'test' with columns 'id' and 'val' of type Variant.
+-- 创建一个名为 'test' 的表，包含 'id' 和 'val' 列，类型为 Variant。
 CREATE TABLE test(id int, val variant);
 
--- Create virtual columns for specific elements in the 'val' column.
+-- 为 'val' 列中的特定元素创建虚拟列。
 CREATE VIRTUAL COLUMN (
-  val ['name'],                 -- Extract the 'name' field.
-  val ['tags'] [0],             -- Extract the first element in the 'tags' array.
-  val ['pricings'] [0] ['type'] -- Extract the 'type' field from the first pricing in the 'pricings' array.
+  val ['name'],                 -- 提取 'name' 字段。
+  val ['tags'] [0],             -- 提取 'tags' 数组中的第一个元素。
+  val ['pricings'] [0] ['type'] -- 从 'pricings' 数组中的第一个定价提取 'type' 字段。
 ) FOR test;
 
--- Insert a sample record into the 'test' table with Variant data.
+-- 向 'test' 表插入一个包含 Variant 数据的示例记录。
 INSERT INTO
   test
 VALUES
@@ -42,7 +43,7 @@ VALUES
     '{"id":1,"name":"databend","tags":["powerful","fast"],"pricings":[{"type":"Standard","price":"Pay as you go"},{"type":"Enterprise","price":"Custom"}]}'
   );
 
--- Explain the query execution plan for selecting specific fields from the table.
+-- 解释从表中选择特定字段的查询执行计划。
 EXPLAIN
 SELECT
   val ['name'],
@@ -63,7 +64,7 @@ TableScan
 ├── push downs: [filters: [], limit: NONE, virtual_columns: [val['name'], val['pricings'][0]['type'], val['tags'][0]]]
 └── estimated rows: 1.00
 
--- Explain the query execution plan for selecting only the 'name' field from the table.
+-- 解释仅从表中选择 'name' 字段的查询执行计划。
 EXPLAIN
 SELECT
   val ['name']
@@ -82,7 +83,7 @@ TableScan
 ├── push downs: [filters: [], limit: NONE, virtual_columns: [val['name']]]
 └── estimated rows: 1.00
 
--- Display all the virtual columns defined in the system.
+-- 显示系统中定义的所有虚拟列。
 SHOW VIRTUAL COLUMNS;
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -91,6 +92,6 @@ SHOW VIRTUAL COLUMNS;
 │ default  │ test   │ val['name'], val['pricings'][0]['type'], val['tags'][0] │
 └─────────────────────────────────────────────────────────────────────────────┘
 
--- Drop the virtual columns associated with the 'test' table.
+-- 删除与 'test' 表关联的虚拟列。
 DROP VIRTUAL COLUMN FOR test;
 ```
