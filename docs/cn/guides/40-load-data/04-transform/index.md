@@ -1,19 +1,19 @@
 ---
-title: Efficient Data Transformation with Databend
+title: 查询与转换
 slug: querying-stage
 ---
 
-Databend introduces a transformative approach to data processing with its ELT (Extract, Load, Transform) model. The important aspect of this model is to query data in staged files.
+Databend 引入了基于 ELT（提取、加载、转换）模型的数据处理变革性方法。该模型的关键在于对阶段文件中的数据进行查询。
 
-You can query data in staged files using the `SELECT` statement. This feature is available for the following types of stages:
+您可以使用 `SELECT` 语句查询阶段文件中的数据。此功能适用于以下类型的阶段：
 
-- User stage, internal stage, or external stage.
-- Bucket or container created within your object storage, such as Amazon S3, Google Cloud Storage, and Microsoft Azure.
-- Remote servers accessible via HTTPS.
+- 用户阶段、内部阶段或外部阶段。
+- 在您的对象存储中创建的存储桶或容器，例如 Amazon S3、Google Cloud Storage 和 Microsoft Azure。
+- 通过 HTTPS 可访问的远程服务器。
 
-This feature can be particularly useful for inspecting or viewing the contents of staged files, whether it's before or after loading data.
+此功能对于检查或查看阶段文件的内容特别有用，无论是在加载数据之前还是之后。
 
-## Syntax and Parameters
+## 语法和参数
 
 ```sql
 SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...] 
@@ -21,13 +21,13 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 [( 
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
-  [ FILE_FORMAT => 'CSV | TSV | NDJSON | PARQUET | <custom_format_name>'],
+  [ FILE_FORMAT => 'CSV | TSV | NDJSON | PARQUET | ORC | <custom_format_name>'],
   [ FILES => ( '<file_name>' [ , '<file_name>' ... ])]
 )]
 ```
 
 :::note
-When the stage path contains special characters such as spaces or parentheses, you can enclose the entire path in single quotes, as demonstrated in the following SQL statements:
+当阶段路径包含空格或括号等特殊字符时，您可以将整个路径用单引号括起来，如下面的 SQL 语句所示：
 ```sql
 SELECT * FROM 's3://mybucket/dataset(databend)/' ...
 
@@ -37,7 +37,7 @@ SELECT * FROM 's3://mybucket/dataset databend/' ...
 
 ### FILE_FORMAT
 
-The FILE_FORMAT parameter allows you to specify the format of your file, which can be one of the following options: CSV, TSV, NDJSON, PARQUET, or a custom format that you've defined using the [CREATE FILE FORMAT](/sql/sql-commands/ddl/file-format/ddl-create-file-format) command. For example, 
+FILE_FORMAT 参数允许您指定文件格式，可以是 CSV、TSV、NDJSON、PARQUET 或使用 [CREATE FILE FORMAT](/sql/sql-commands/ddl/file-format/ddl-create-file-format) 命令定义的自定义格式。例如：
 
 ```sql
 CREATE FILE FORMAT my_custom_csv TYPE=CSV FIELD_DELIMITER='\t';
@@ -45,12 +45,13 @@ CREATE FILE FORMAT my_custom_csv TYPE=CSV FIELD_DELIMITER='\t';
 SELECT $1 FROM @my_stage/file (FILE_FORMAT=>'my_custom_csv');
 ```
 
-Please note that when you need to query or perform a COPY INTO operation from a staged file, it is necessary to explicitly specify the file format during the creation of the stage. Otherwise, the default format, Parquet, will be applied. See an example below:
+请注意，当您需要从阶段文件查询或执行 COPY INTO 操作时，必须在创建阶段时显式指定文件格式。否则，将应用默认格式 Parquet。请参见以下示例：
 
 ```sql
 CREATE STAGE my_stage FILE_FORMAT = (TYPE = CSV);
 ```
-In cases where you have staged a file in a format different from the specified stage format, you can explicitly specify the file format within the SELECT or COPY INTO statement. Here are examples:
+
+在阶段文件格式与指定阶段格式不同的情况下，您可以在 SELECT 或 COPY INTO 语句中显式指定文件格式。以下是示例：
 
 ```sql
 SELECT $1 FROM @my_stage (FILE_FORMAT=>'NDJSON');
@@ -60,40 +61,40 @@ COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (TYPE = NDJ
 
 ### PATTERN
 
-The PATTERN option allows you to specify a [PCRE2](https://www.pcre.org/current/doc/html/)-based regular expression pattern enclosed in single quotes to match file names. It is used to filter and select files based on the provided pattern. For example, you can use a pattern like '.*parquet' to match all file names ending with "parquet". For detailed information on the PCRE2 syntax, you can refer to the documentation available at http://www.pcre.org/current/doc/html/pcre2syntax.html.
+PATTERN 选项允许您指定一个基于 PCRE2 的正则表达式模式（用单引号括起来）来匹配文件名。它用于根据提供的模式过滤和选择文件。例如，您可以使用模式 '.*parquet' 来匹配所有以 "parquet" 结尾的文件名。有关 PCRE2 语法的详细信息，请参阅 http://www.pcre.org/current/doc/html/pcre2syntax.html 上的文档。
 
 ### FILES
 
-The FILES option, on the other hand, enables you to explicitly specify one or more file names separated by commas. This option allows you to directly filter and query data from specific files within a folder. For example, if you want to query data from the Parquet files "books-2023.parquet", "books-2022.parquet", and "books-2021.parquet", you can provide these file names within the FILES option.
+FILES 选项允许您显式指定一个或多个用逗号分隔的文件名。此选项允许您直接从文件夹中的特定文件过滤和查询数据。例如，如果您想从 Parquet 文件 "books-2023.parquet"、"books-2022.parquet" 和 "books-2021.parquet" 查询数据，您可以在 FILES 选项中提供这些文件名。
 
 ### table_alias
 
-When working with staged files in a SELECT statement where no table name is available, you can assign an alias to the files. This allows you to treat the files as a table, with its fields serving as columns within the table. This is useful when working with multiple tables within the SELECT statement or when selecting specific columns. Here's an example:
+在 SELECT 语句中处理阶段文件时，如果没有可用表名，您可以为文件分配别名。这允许您将文件视为表，其字段作为表中的列。这在处理 SELECT 语句中的多个表或选择特定列时非常有用。以下是一个示例：
 
 ```sql
--- The alias 't1' represents the staged file, while 't2' is a regular table
+-- 别名 't1' 代表阶段文件，而 't2' 是常规表
 SELECT t1.$1, t2.$2 FROM @my_stage t1, t2;
 ```
 
 ### $<col_position>
 
-When selecting from a staged file, you can use column positions, and these positions start from 1. At present, the feature to utilize column positions for SELECT operations from staged files is limited to Parquet, NDJSON, CSV, and TSV formats. 
+从阶段文件选择时，您可以使用列位置，这些位置从 1 开始。目前，使用列位置从阶段文件进行 SELECT 操作的功能仅限于 Parquet、NDJSON、CSV 和 TSV 格式。
 
 ```sql
 SELECT $2 FROM @my_stage (FILES=>('sample.csv')) ORDER BY $1;
 ```
 
-It is important to note that when working with NDJSON, only $1 is allowed, representing the entire row and having the data type Variant. To select a specific field, use `$1:<field_name>`.
+请注意，在使用 NDJSON 时，只允许使用 $1，代表整行并具有 Variant 数据类型。要选择特定字段，请使用 `$1:<field_name>`。
 
 ```sql
--- Select the entire row using column position:
+-- 使用列位置选择整行：
 SELECT $1 FROM @my_stage (FILE_FORMAT=>'NDJSON')
 
---Select a specific field named "a" using column position:
+-- 使用列位置选择名为 "a" 的特定字段：
 SELECT $1:a FROM @my_stage (FILE_FORMAT=>'NDJSON')
 ```
 
-When using COPY INTO to copy data from a staged file, Databend matches the field names at the top level of the NDJSON file with the column names in the destination table, rather than relying on column positions. In the example below, the table *my_table* should have identical column definitions as the top-level field names in the NDJSON files:
+当使用 COPY INTO 从阶段文件复制数据时，Databend 会匹配 NDJSON 文件顶层字段名称与目标表中的列名称，而不是依赖于列位置。在下面的示例中，表 *my_table* 应具有与 NDJSON 文件顶层字段名称相同的列定义：
 
 ```sql
 COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (type = NDJSON)
@@ -101,47 +102,47 @@ COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (type = NDJ
 
 ### connection_parameters
 
-To query data files in a bucket or container on your storage service, provide the necessary connection parameters. For the available connection parameters for each storage service, refer to [Connection Parameters](/sql/sql-reference/connect-parameters).
+要查询存储服务中存储桶或容器中的数据文件，请提供必要的连接参数。有关每个存储服务可用的连接参数，请参阅 [Connection Parameters](/sql/sql-reference/connect-parameters)。
 
 ### uri
 
-Specify the URI of remote files accessible via HTTPS.
+指定通过 HTTPS 可访问的远程文件的 URI。
 
-## Limitations
+## 限制
 
-When querying a staged file, the following limitations are applicable in terms of format-specific constraints:
+在查询阶段文件时，以下格式特定约束的限制适用：
 
-- Selecting all fields with the symbol * is only supported for Parquet files.
-- When selecting from a CSV or TSV file, all fields are parsed as strings, and the SELECT statement only allows the use of column positions. Additionally, there is a restriction on the number of fields in the file, which must not exceed max.N+1000. For example, if the statement is `SELECT $1, $2 FROM @my_stage (FILES=>('sample.csv'))`, the sample.csv file can have a maximum of 1,002 fields.
+- 使用星号 (*) 选择所有字段仅支持 Parquet 文件。
+- 从 CSV 或 TSV 文件选择时，所有字段都作为字符串解析，SELECT 语句仅允许使用列位置。此外，文件中的字段数量有限制，不得超过 max.N+1000。例如，如果语句是 `SELECT $1, $2 FROM @my_stage (FILES=>('sample.csv'))`，则 sample.csv 文件最多可以有 1,002 个字段。
 
-## Tutorials
+## 教程
 
-### Tutorial 1: Querying Data from Stage
+### 教程 1：从阶段查询数据
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-This example shows how to query data in a Parquet file stored in different locations. Click the tabs below to see details.
+本示例展示了如何查询存储在不同位置的 Parquet 文件中的数据。点击下面的选项卡查看详细信息。
 
 <Tabs groupId="query2stage">
-<TabItem value="Stages" label="Stages">
+<TabItem value="Stages" label="阶段">
 
-Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) and you have uploaded it to your user stage, an internal stage named *my_internal_stage*, and an external stage named *my_external_stage*. To upload files to a stage, use the [PRESIGN](/sql/sql-commands/ddl/stage/presign) method.
+假设您有一个名为 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 的示例文件，并且已将其上传到用户阶段、名为 *my_internal_stage* 的内部阶段和名为 *my_external_stage* 的外部阶段。要上传文件到阶段，请使用 [PRESIGN](/sql/sql-commands/ddl/stage/presign) 方法。
 
 ```sql
--- Query file in user stage
+-- 查询用户阶段中的文件
 SELECT * FROM @~/books.parquet;
 
--- Query file in internal stage
+-- 查询内部阶段中的文件
 SELECT * FROM @my_internal_stage/books.parquet;
 
--- Query file in external stage
+-- 查询外部阶段中的文件
 SELECT * FROM @my_external_stage/books.parquet;
 ```
 </TabItem>
-<TabItem value="Bucket" label="Bucket">
+<TabItem value="Bucket" label="存储桶">
 
-Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) stored in a bucket named *databend-toronto* on Amazon S3 in the region *us-east-2*. You can query the data by specifying the connection parameters:
+假设您有一个名为 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 的示例文件，存储在 Amazon S3 区域 *us-east-2* 中的名为 *databend-toronto* 的存储桶中。您可以通过指定连接参数来查询数据：
 
 ```sql
 SELECT
@@ -158,9 +159,9 @@ FROM
     );
 ```
 </TabItem>
-<TabItem value="Remote" label="Remote">
+<TabItem value="Remote" label="远程">
 
-Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) stored in a remote server. You can query the data by specifying the file URI:
+假设您有一个名为 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 的示例文件，存储在远程服务器上。您可以通过指定文件 URI 来查询数据：
 
 ```sql
 SELECT * FROM 'https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet';
@@ -168,9 +169,9 @@ SELECT * FROM 'https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/boo
 </TabItem>
 </Tabs>
 
-### Tutorial 2: Querying Data with PATTERN
+### 教程 2：使用 PATTERN 查询数据
 
-Let's assume you have the following Parquet files with the same schema, as well as some files of other formats, stored in a bucket named *databend-toronto* on Amazon S3 in the region *us-east-2*. 
+假设您有以下具有相同模式的 Parquet 文件，以及一些其他格式的文件，存储在 Amazon S3 区域 *us-east-2* 中的名为 *databend-toronto* 的存储桶中。
 
 ```text
 databend-toronto/
@@ -181,7 +182,7 @@ databend-toronto/
   └── books-2019.parquet
 ```
 
-To query data from all Parquet files in the folder, you can use the `PATTERN` option:
+要从文件夹中的所有 Parquet 文件查询数据，您可以使用 `PATTERN` 选项：
 
 ```sql
 SELECT
@@ -198,7 +199,7 @@ FROM
     );
 ```
 
-To query data from the Parquet files "books-2023.parquet", "books-2022.parquet", and "books-2021.parquet" in the folder, you can use the FILES option:
+要从文件夹中的 Parquet 文件 "books-2023.parquet"、"books-2022.parquet" 和 "books-2021.parquet" 查询数据，您可以使用 FILES 选项：
 
 ```sql
 SELECT
