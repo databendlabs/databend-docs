@@ -1,6 +1,6 @@
 ---
-title: 'Connecting to Databend through SQL Clients'
-sidebar_label: 'Connecting to Databend'
+title: 'Connecting to Databend using DBeaver'
+sidebar_label: 'Connecting to Databend (DBeaver)'
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
@@ -12,7 +12,7 @@ In this tutorial, we will guide you through the process of connecting to Databen
 
 ### Before You Start
 
-- Ensure that you have a local Databend instance ready for testing. See [Docker and Local Deployments](../../10-deploy/01-deploy/01-non-production/00-deploying-local.md) for detailed instructions.
+- Ensure that you have a local Databend instance ready for testing. See [Docker and Local Deployments](/guides/deploy/deploy/non-production/deploying-local) for detailed instructions.
 - In this tutorial, you will use the `root` account to connect to Databend. During deployment, uncomment the following lines in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file to select this account:
 
     ```sql title="databend-query.toml"
@@ -20,7 +20,7 @@ In this tutorial, we will guide you through the process of connecting to Databen
     name = "root"
     auth_type = "no_password"
     ```
-- Ensure you have added the Databend JDBC driver to your DBeaver. See [Adding Databend JDBC Driver to DBeaver](index.md#adding-databend-jdbc-driver-to-dbeaver) for detailed instructions.
+- Ensure you have added the Databend JDBC driver to your DBeaver. See [Adding Databend JDBC Driver to DBeaver](/guides/sql-clients/jdbc/#adding-databend-jdbc-driver-to-dbeaver) for detailed instructions.
 
 </StepContent>
 <StepContent number="2">

@@ -42,7 +42,7 @@ sudo apt update
 sudo apt install bendsql
 ```
 
-### Cargo（Rust Package Manager）
+### Cargo (Rust Package Manager)
 
 To install BendSQL using Cargo, utilize the `cargo-binstall` tool or build from source using the provided command.
 
@@ -65,6 +65,11 @@ When building from source, some dependencies may involve compiling C/C++ code. E
 ```bash
 cargo install bendsql
 ```
+
+## Tutorials
+
+- [Connecting to Databend using BendSQL](/tutorials/)
+- [Connecting to Databend Cloud using BendSQL](/tutorials/connect/connect-to-databendcloud-bendsql)
 
 ## BendSQL Settings
 
@@ -531,3 +536,4 @@ FROM
 └────────────────────────────────────┘
 3 rows read in 0.064 sec. Processed 3 rows, 81 B (46.79 rows/s, 1.23 KiB/s)
 ```
+

@@ -474,7 +474,7 @@ Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installi
 
 ### Connect to Databend
 
-Follow [Connecting to Databend using BendSQL](../../../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
+Launch BendSQL and retrieve the current time for verification.
 
 </StepContent>
 </StepsWrap>
