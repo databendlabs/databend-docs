@@ -1,6 +1,7 @@
 ---
 title: 'Connecting to Databend using BendSQL'
-sidebar_label: 'Connecting to Databend'
+sidebar_label: 'Connecting to Databend (BendSQL)'
+slug: /
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
@@ -13,7 +14,7 @@ In this tutorial, we will guide you through the process of connecting to Databen
 
 ### Before You Start
 
-- Ensure that BendSQL is installed on your machine. See [Installing BendSQL](index.md#installing-bendsql) for instructions on how to install BendSQL using various package managers.
+- Ensure that BendSQL is installed on your machine. See [Installing BendSQL](/guides/sql-clients/bendsql/#installing-bendsql) for instructions on how to install BendSQL using various package managers.
 - Ensure that your Databend instance has started up successfully.
 - In this tutorial, you will use the `root` account to connect to Databend. During deployment, uncomment the following lines in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file to select this account:
 
