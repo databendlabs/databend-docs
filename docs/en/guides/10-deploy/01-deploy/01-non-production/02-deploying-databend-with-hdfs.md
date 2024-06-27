@@ -185,7 +185,7 @@ In this section, we will run a simple query against Databend using [BendSQL](htt
 
 a. Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
 
-b. Follow [Connecting to Databend using BendSQL](../../../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
+b. Launch BendSQL and retrieve the current time for verification.
 
 ### Starting and Stopping Databend
 
