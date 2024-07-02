@@ -3,7 +3,7 @@ title: Overview
 slug: /
 ---
 
-Welcome to the Databend Guides, covering all aspects of Databend Editions.
+Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/) Guides, covering all aspects of Databend Editions.
 
 ## Glossary
 
