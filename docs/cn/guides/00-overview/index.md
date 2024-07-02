@@ -3,7 +3,7 @@ title: 概览
 slug: /
 ---
 
-欢迎阅读 Databend（发音为 /ˈdeɪtəˌbɛnd/）指南，涵盖 Databend 版本的各个方面。
+欢迎阅读 Databend（发音为 /ˈdeɪtəˌbɛnd/）指南，本指南涵盖 Databend 使用中有必要了解的各个方面。
 
 ## 术语表
 
