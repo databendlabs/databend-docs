@@ -1,8 +1,7 @@
 ---
 title: Deploying a Cluster on Kubernetes
 sidebar_label: Deploying a Cluster on Kubernetes
-description:
-  How to Databend a Databend query cluster on Kubernetes.
+description: How to Databend a Databend query cluster on Kubernetes.
 ---
 
 This topic explains how to install and configure the Databend cluster on Kubernetes.
@@ -21,7 +20,7 @@ This topic explains how to install and configure the Databend cluster on Kuberne
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-* Plan Your Deployment.
+- Plan Your Deployment.
 
   In this example, you will deploy a Databend Meta cluster consisting of 3 nodes, as well as two separate Databend Query clusters, each also consisting of 3 nodes. You should manage and allocate resources according to your actual deployment plans and usage scenarios to ensure that services run smoothly.
 
@@ -29,43 +28,47 @@ import TabItem from '@theme/TabItem';
   Please refer to [Deployment Environments](/guides/deploy/deploy/understanding-deployment-modes#deployment-environments) to reserve appropriate resources for your clusters.
   :::
 
-* Ensure `helm` command installed, see [guide](https://helm.sh/docs/intro/install/)
+- Ensure `helm` command installed, see [guide](https://helm.sh/docs/intro/install/)
 
-* Make sure you have a Kubernetes cluster up and running.
+- Make sure you have a Kubernetes cluster up and running.
   For example:
-  * [EKS](https://aws.amazon.com/eks/) on `AWS`
-  * [GKE](https://cloud.google.com/kubernetes-engine/) on `GCP`
-  * [AKS](https://azure.microsoft.com/products/kubernetes-service/) on `Azure`
-  * [ACK](https://www.alibabacloud.com/product/kubernetes) on `Alibaba Cloud`
-  * [TKE](https://cloud.tencent.com/product/tke) on `Tencent Cloud`
+
+  - [EKS](https://aws.amazon.com/eks/) on `AWS`
+  - [GKE](https://cloud.google.com/kubernetes-engine/) on `GCP`
+  - [AKS](https://azure.microsoft.com/products/kubernetes-service/) on `Azure`
+  - [ACK](https://www.alibabacloud.com/product/kubernetes) on `Alibaba Cloud`
+  - [TKE](https://cloud.tencent.com/product/tke) on `Tencent Cloud`
 
   Also, there are simple Kubernetes Engines for local testing:
-  * [k3d](https://k3d.io)
-  * [minikube](https://minikube.sigs.k8s.io/docs/start/)
+
+  - [k3d](https://k3d.io)
+  - [minikube](https://minikube.sigs.k8s.io/docs/start/)
 
   :::info For Kubernetes Clusters on Remote Servers
   It is recommended to set up an external load balancer or choose appropriate port forwarding rules to ensure that services are accessible.
   :::
 
-* Create a Cloud Object Storage with corresponding credentials, i.e., `access_key_id` and `secret_access_key`.
-  * AWS S3 or other S3 compatible storage service
-  * Azure Storage Blob
-  * Other storage services supported by [Apache OpenDAL](https://github.com/datafuselabs/opendal#services)
+- Create a Cloud Object Storage with corresponding credentials, i.e., `access_key_id` and `secret_access_key`.
+
+  - AWS S3 or other S3 compatible storage service
+  - Azure Storage Blob
+  - Other storage services supported by [Apache OpenDAL](https://github.com/datafuselabs/opendal#services)
 
   :::tip Recommended Storage Settings
-    [Preparing Storage](/guides/deploy/deploy/production/preparing-storage) provides detailed instructions on recommended storage settings.
+  [Preparing Storage](/guides/deploy/deploy/production/preparing-storage) provides detailed instructions on recommended storage settings.
   :::
 
   :::info For advanced user
 
-    Authentication methods without access keys are also supported:
-    * [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) on aws
-    * [RRSA](https://www.alibabacloud.com/help/container-service-for-kubernetes/latest/use-rrsa-to-enforce-access-control) on aliyun
-    * [InstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) on aws (coming soon)
+  Authentication methods without access keys are also supported:
+
+  - [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) on aws
+  - [RRSA](https://www.alibabacloud.com/help/container-service-for-kubernetes/latest/use-rrsa-to-enforce-access-control) on aliyun
+  - [InstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) on aws (coming soon)
 
   :::
 
-* Ensure there is a default storage class for the Kubernetes cluster.
+- Ensure there is a default storage class for the Kubernetes cluster.
 
   ````mdx-code-block
 
@@ -124,18 +127,20 @@ import TabItem from '@theme/TabItem';
 
   ````
 
-* **Recommended** Ensure Prometheus Operator running in Kubernetes cluster, if you want to monitor the status for Databend Meta and Databend Query.
+- **Recommended** Ensure Prometheus Operator running in Kubernetes cluster, if you want to monitor the status for Databend Meta and Databend Query.
 
   :::tip Steps for a simple Kube Prometheus Stack
 
-    1. Add chart repository for kube-prometheus-stack
+  1. Add chart repository for kube-prometheus-stack
+
 
       ```shell
       helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
       helm repo update prometheus-community
       ```
 
-    2. Prepare a values file for simple kube-prometheus-stack installation
+  2. Prepare a values file for simple kube-prometheus-stack installation
+
 
       ```yaml title="values.yaml"
       grafana:
@@ -153,7 +158,8 @@ import TabItem from '@theme/TabItem';
           podMonitorSelectorNilUsesHelmValues: false
       ```
 
-    3. Install [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) with helm
+  3. Install [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) with helm
+
 
       ```shell
       helm upgrade --install monitoring \
@@ -163,7 +169,8 @@ import TabItem from '@theme/TabItem';
           --values values.yaml
       ```
 
-    4. Verify prometheus & grafana running
+  4. Verify prometheus & grafana running
+
 
       ```shell
       ❯ kubectl -n monitoring get pods
@@ -177,7 +184,6 @@ import TabItem from '@theme/TabItem';
       ```
 
   :::
-
 
 ## Deploy a Sample Databend Cluster
 
@@ -207,7 +213,7 @@ and could be removed when all nodes in cluster are up and running.
 2. Deploy the meta cluster in namespace `databend-meta`
 
 ```shell
-helm repo add databend https://charts.databend.rs
+helm repo add databend https://charts.databend.com
 helm repo update databend
 
 helm upgrade --install databend-meta databend/databend-meta \
@@ -230,7 +236,6 @@ data-databend-meta-0   Bound    pvc-578ec207-bf7e-4bac-a9a1-3f0e4b140b8d   20Gi 
 data-databend-meta-1   Bound    pvc-693a0350-6b87-491d-8575-90bf62179b59   20Gi       RWO            local-path     5m2s
 data-databend-meta-2   Bound    pvc-08bd4ceb-15c2-47f3-a637-c1cc10441874   20Gi       RWO            local-path     4m27s
 ```
-
 
 ### Step 2. Deploy a Databend Query Cluster
 
@@ -396,7 +401,7 @@ config:
 2. Deploy the query cluster for `tenant1` in namespace `databend-query`
 
 ```shell
-helm repo add databend https://charts.databend.rs
+helm repo add databend https://charts.databend.com
 helm repo update databend
 
 helm upgrade --install tenant1 databend/databend-query \
@@ -420,27 +425,27 @@ tenant1-databend-query   LoadBalancer   10.43.84.243   172.20.0.2    8080:32063/
 
 4. Access the query cluster
 
-  We use the builtin user `databend` here:
+We use the builtin user `databend` here:
 
-  * in-cluster access
+- in-cluster access
 
-    ```shell
-    bendsql -htenant1-databend-query.databend-query.svc -P8000 -udatabend -pdatabend
-    ```
+  ```shell
+  bendsql -htenant1-databend-query.databend-query.svc -P8000 -udatabend -pdatabend
+  ```
 
-  * outside-cluster access with loadbalancer
+- outside-cluster access with loadbalancer
 
-    ```shell
-    # the address here is the `EXTERNAL-IP` for service tenant1-databend-query above
-    bendsql -h172.20.0.2 -P8000 -udatabend -pdatabend
-    ```
+  ```shell
+  # the address here is the `EXTERNAL-IP` for service tenant1-databend-query above
+  bendsql -h172.20.0.2 -P8000 -udatabend -pdatabend
+  ```
 
-  * local access with kubectl
+- local access with kubectl
 
-    ```shell
-    nohup kubectl port-forward -n databend-query svc/tenant1-databend-query 3307:3307 &
-    bendsql -h127.0.0.1 -P8000 -udatabend -pdatabend
-    ```
+  ```shell
+  nohup kubectl port-forward -n databend-query svc/tenant1-databend-query 3307:3307 &
+  bendsql -h127.0.0.1 -P8000 -udatabend -pdatabend
+  ```
 
 5. Deploy a second cluster for tenant2
 
@@ -455,7 +460,7 @@ helm upgrade --install tenant2 databend/databend-query \
     --values values.yaml
 ```
 
-``` shell title="Verify the query service for tenant2 running"
+```shell title="Verify the query service for tenant2 running"
 ❯ kubectl -n databend-query get pods
 NAME                                      READY   STATUS    RESTARTS   AGE
 tenant1-databend-query-66647594c-lkkm9    1/1     Running   0          55m
@@ -466,14 +471,13 @@ tenant2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
 tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
 ```
 
-
 ## Maintain Databend Query Cluster
 
 ### Scale
 
 to scale up or down the query cluster, there are two ways
 
-* directly use `kubectl`
+- directly use `kubectl`
 
   ```shell
    # scale query cluster number to 0
@@ -483,7 +487,7 @@ to scale up or down the query cluster, there are two ways
    kubectl -n databend-query scale statefulset tenant1-databend-query --replicas=5
   ```
 
-* update `replicaCount` in `values.yaml` to any value, then helm upgrade again
+- update `replicaCount` in `values.yaml` to any value, then helm upgrade again
 
   ```diff title="diff values.yaml"
   - replicaCount: 3
@@ -584,6 +588,7 @@ INSERT INTO t1 SELECT number, number + 300 from numbers(10000000);
 ```sql
 SELECT count(*) FROM t1;
 ```
+
 ```
 +----------+
 | count()  |
@@ -592,28 +597,27 @@ SELECT count(*) FROM t1;
 +----------+
 ```
 
-
 ## Monitoring the Meta and Query cluster
 
 :::info
 Note the `serviceMonitor` should be enabled when deploying meta and query cluster.
 :::
 
-* Download the grafana dashboard files from: [datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards).
+- Download the grafana dashboard files from: [datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards).
 
-* Open grafana web for your cluster.
+- Open grafana web for your cluster.
 
-* Select `+` on the upper right corner to expand the menu, click on "Import dashboard" to import the dashboard, and upload the two downloaded JSON files.
+- Select `+` on the upper right corner to expand the menu, click on "Import dashboard" to import the dashboard, and upload the two downloaded JSON files.
 
   ![Alt text](@site/docs/public/img/deploy/import-dashboard.png)
 
-* Then you should see the two dashboard:
+- Then you should see the two dashboard:
 
-  * Databend Meta Runtime
+  - Databend Meta Runtime
 
     ![Alt text](@site/docs/public/img/deploy/databend-meta-runtime.png)
 
-  * Databend Query Runtime
+  - Databend Query Runtime
 
     ![Alt text](@site/docs/public/img/deploy/databend-query-runtime.png)
 

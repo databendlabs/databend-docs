@@ -1,6 +1,7 @@
 ---
 title: Deploying with Object Storage
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import GetLatest from '@site/src/components/GetLatest';
 import DetailsWrap from '@site/src/components/DetailsWrap';
@@ -79,7 +80,6 @@ For information about how to manage buckets and Access Keys for your cloud objec
 - <https://cloud.tencent.com/document/product/436/13309>
 - <https://cloud.tencent.com/document/product/436/68282>
 
-
 </TabItem>
 
 <TabItem value="Alibaba OSS" label="Alibaba Cloud OSS">
@@ -92,7 +92,6 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 - <https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2>
 - <https://help.aliyun.com/document_detail/53045.htm>
-
 
 </TabItem>
 
@@ -151,7 +150,7 @@ For information about how to manage buckets and Access Keys for your CubeFS, ref
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
 ```shell
-curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
@@ -162,7 +161,7 @@ tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
 <TabItem value="linux-arm64" label="Linux(Arm)">
 
 ```shell
-curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
@@ -215,7 +214,6 @@ Follow the instructions below to deploy a Query node:
 <StepsWrap>
 
 <StepContent number="1">
-
 
 ### Configure Query Node
 
@@ -287,7 +285,6 @@ account_key = "<your-account-key>"
 
 </TabItem>
 
-
 <TabItem value="Tencent COS" label="Tencent COS">
 
 When specifying the `endpoint_url` parameter, ensure to exclude the `<BucketName-APPID>` portion from your bucket's endpoint. For instance, if your bucket endpoint is `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`, use `https://cos.ap-beijing.myqcloud.com`. For Tencent COS endpoints in various regions, refer to https://www.tencentcloud.com/document/product/436/6224.
@@ -314,6 +311,7 @@ secret_id = "<your-secret-id>"
 // highlight-next-line
 secret_key = "<your-secret-key>"
 ```
+
 </TabItem>
 
 <TabItem value="Alibaba OSS" label="Alibaba Cloud OSS">
@@ -348,10 +346,11 @@ Databend Enterprise Edition supports server-side encryption in OSS. This feature
 
 To enable server-side encryption in Databend, add the following parameters to the [storage.oss] section:
 
-| Parameter                     | Description                                                                                                                                                                               | Available Values                                        |
-|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
+| Parameter                     | Description                                                                                                                                                                              | Available Values                                        |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | server_side_encryption        | Specifies the server-side encryption method for OSS data. "AES256" uses an OSS-managed AES256 key for encryption, while "KMS" utilizes the key defined in server_side_encryption_key_id. | "AES256" or "KMS"                                       |
-| server_side_encryption_key_id | When server_side_encryption is set to "KMS," this parameter is used to specify the server-side encryption key ID for OSS. It is only applicable when using the KMS encryption mode.       | String, a unique identifier for the KMS encryption key. |
+| server_side_encryption_key_id | When server_side_encryption is set to "KMS," this parameter is used to specify the server-side encryption key ID for OSS. It is only applicable when using the KMS encryption mode.      | String, a unique identifier for the KMS encryption key. |
+
 </TabItem>
 
 <TabItem value="Wasabi" label="Wasabi">
@@ -392,6 +391,7 @@ endpoint_url = "<your-endpoint-url>"
 access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
+
 </TabItem>
 
 <TabItem value="CubeFS" label="CubeFS">
@@ -407,6 +407,7 @@ endpoint_url = "<your-endpoint-url>"
 access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
+
 </TabItem>
 
 </Tabs>
@@ -429,7 +430,6 @@ auth_type = "no_password"
 
 <StepContent number="2">
 
-
 ### Start Query Node
 
 1. Open a terminal window and navigate to the folder `/usr/local/databend/bin`.
@@ -442,7 +442,6 @@ auth_type = "no_password"
 </StepContent>
 
 <StepContent number="3">
-
 
 ### Check Query Node
 
@@ -505,6 +504,7 @@ Each time you initiate or halt Databend, there's no need to manage the Meta and 
 : option background_thread currently supports pthread only
 Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
+
 Run the following commands and try starting Databend again:
 
 ```shell
@@ -513,6 +513,7 @@ sudo mkdir /var/lib/databend
 sudo chown -R $USER /var/log/databend
 sudo chown -R $USER /var/lib/databend
 ```
+
   </div>
 </details>
 </DetailsWrap>

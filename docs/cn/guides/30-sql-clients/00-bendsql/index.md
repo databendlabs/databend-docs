@@ -25,14 +25,14 @@ brew install databendcloud/homebrew-tap/bendsql
 #### DEB822-STYLE 格式（Ubuntu-22.04/Debian-12 及更高版本）
 
 ```bash
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.rs/deb/datafuselabs.sources
+sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.com/deb/datafuselabs.sources
 ```
 
 #### 旧格式（Ubuntu-20.04/Debian-11 及更早版本）
 
 ```bash
-sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.rs/deb/datafuselabs.gpg
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.rs/deb/datafuselabs.list
+sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.com/deb/datafuselabs.gpg
+sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.com/deb/datafuselabs.list
 ```
 
 最后，更新包列表并安装 BendSQL：
@@ -129,10 +129,10 @@ FROM
 
 参数 `max_col_width` 和 `max_width` 分别指定单个列和整个显示输出的最大允许宽度（以字符为单位）。
 
-| 设置           | 描述                                                                                                     | 默认值      |
-|---------------|----------------------------------------------------------------------------------------------------------|------------|
-| max_width     | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时默认为终端窗口的宽度。                                | 1048576    |
-| max_col_width | 设置每列显示渲染的最大宽度（以字符为单位）。小于 3 的值会禁用此限制。                                      | 1048576    |
+| 设置          | 描述                                                                        | 默认值  |
+| ------------- | --------------------------------------------------------------------------- | ------- |
+| max_width     | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时默认为终端窗口的宽度。 | 1048576 |
+| max_col_width | 设置每列显示渲染的最大宽度（以字符为单位）。小于 3 的值会禁用此限制。       | 1048576 |
 
 以下示例将列显示宽度设置为 10 个字符，整个显示宽度设置为 100 个字符：
 
