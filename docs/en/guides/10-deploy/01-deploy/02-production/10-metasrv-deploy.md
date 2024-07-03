@@ -214,7 +214,7 @@ cd .. && cd bin
 
 ## Step 3: Verify Deployment
 
-Connect to one of the query nodes using [BendSQL](docs/en/guides/30-sql-clients/00-bendsql/index.md), and retrieve information about the existing query nodes:
+Connect to one of the query nodes using [BendSQL](/guides/sql-clients/bendsql/), and retrieve information about the existing query nodes:
 
 ```shell
 bendsql -h 172.16.125.131
