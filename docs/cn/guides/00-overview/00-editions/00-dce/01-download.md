@@ -45,7 +45,8 @@ sudo apt install databend
 
 - Ubuntu Jammy (22.04) 及以后版本
 - Debian Bookworm(12) 及以后版本
-  :::
+
+:::
 
 ```shell
 sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.com/deb/datafuselabs.sources

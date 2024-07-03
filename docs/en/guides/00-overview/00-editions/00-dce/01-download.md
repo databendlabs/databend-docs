@@ -45,7 +45,8 @@ Available platforms:
 
 - Ubuntu Jammy (22.04) and later
 - Debian Bookworm(12) and later
-  :::
+
+:::
 
 ```shell
 sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.com/deb/datafuselabs.sources
