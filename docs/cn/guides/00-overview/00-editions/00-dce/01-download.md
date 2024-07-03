@@ -14,7 +14,7 @@ Databend 为您提供以下几种下载安装包的选项：
 Databend 的主要分发包是 `.tar.gz` 归档文件，包含单个可执行文件，您可以从 [下载](/download) 页面下载并在系统的任何位置解压它们。
 
 :::note
-**Linux 通用 (Arm, 64位)** 适用于使用 musl 作为标准 C 库的 Linux 发行版；**Linux 通用 (x86, 64位)** 适用于使用 GNU C 且至少有 2.29 版本 GLIBC 的 Linux 发行版。
+**Linux 通用 (Arm, 64 位)** 适用于使用 musl 作为标准 C 库的 Linux 发行版；**Linux 通用 (x86, 64 位)** 适用于使用 GNU C 且至少有 2.29 版本 GLIBC 的 Linux 发行版。
 :::
 
 ## APT 包管理器
@@ -28,30 +28,34 @@ import TabItem from '@theme/TabItem';
 <TabItem value="deb-old" label="Ubuntu/Debian">
 
 ```shell
-sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.rs/deb/datafuselabs.gpg
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.rs/deb/datafuselabs.list
+sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.com/deb/datafuselabs.gpg
+sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.com/deb/datafuselabs.list
 
 sudo apt update
 
 sudo apt install databend
 ```
+
 </TabItem>
 
 <TabItem value="deb-new" label="Ubuntu/Debian(DEB822-STYLE FORMAT)">
 
 :::note
 可用平台：
-  * Ubuntu Jammy (22.04) 及以后版本
-  * Debian Bookworm(12) 及以后版本
+
+- Ubuntu Jammy (22.04) 及以后版本
+- Debian Bookworm(12) 及以后版本
+
 :::
 
 ```shell
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.rs/deb/datafuselabs.sources
+sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.com/deb/datafuselabs.sources
 
 sudo apt update
 
 sudo apt install databend
 ```
+
 </TabItem>
 </Tabs>
 
@@ -62,6 +66,7 @@ sudo apt install databend
 sudo systemctl start databend-meta
 sudo systemctl start databend-query
 ```
+
 :::
 
 ## Docker

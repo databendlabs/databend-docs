@@ -25,14 +25,14 @@ On Ubuntu and Debian systems, BendSQL can be installed via the Apt package manag
 #### DEB822-STYLE format (Ubuntu-22.04/Debian-12 and later)
 
 ```bash
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.rs/deb/datafuselabs.sources
+sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.com/deb/datafuselabs.sources
 ```
 
 #### Old format (Ubuntu-20.04/Debian-11 and earlier)
 
 ```bash
-sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.rs/deb/datafuselabs.gpg
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.rs/deb/datafuselabs.list
+sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.com/deb/datafuselabs.gpg
+sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.com/deb/datafuselabs.list
 ```
 
 Finally, update the package list and install BendSQL:
@@ -76,7 +76,7 @@ cargo install bendsql
 BendSQL provides a range of settings that allow you to define how query results are presented:
 
 | Setting              | Description                                                                                                                                                 |
-|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `display_pretty_sql` | When set to `true`, SQL queries will be formatted in a visually appealing manner, making them easier to read and understand.                                |
 | `prompt`             | The prompt displayed in the command line interface, typically indicating the user, warehouse, and database being accessed.                                  |
 | `progress_color`     | Specifies the color used for progress indicators, such as when executing queries that take some time to complete.                                           |
@@ -343,7 +343,7 @@ is_configured: YES
 
 #### `multi_line`
 
-When the `multi_line` setting is set to `true`, allowing input to be entered across multiple lines. As a result, the SQL query is entered with each clause on a separate line for improved readability and organization. 
+When the `multi_line` setting is set to `true`, allowing input to be entered across multiple lines. As a result, the SQL query is entered with each clause on a separate line for improved readability and organization.
 
 ```shell title='Example:'
 // highlight-next-line
@@ -424,13 +424,13 @@ root@localhost:8000/default> .max_width 100
 
 BendSQL provides users with a variety of commands to streamline their workflow and customize their experience. Here's an overview of the commands available in BendSQL:
 
-| Command                   | Description                       |
-|---------------------------|-----------------------------------|
-| `!exit`                   | Exits BendSQL.                    |
-| `!quit`                   | Exits BendSQL.                    |
-| `!configs`                | Displays current BendSQL settings.|
-| `!set <setting> <value>`  | Modifies a BendSQL setting.       |
-| `!source <sql_file>`      | Executes a SQL file.              |
+| Command                  | Description                        |
+| ------------------------ | ---------------------------------- |
+| `!exit`                  | Exits BendSQL.                     |
+| `!quit`                  | Exits BendSQL.                     |
+| `!configs`               | Displays current BendSQL settings. |
+| `!set <setting> <value>` | Modifies a BendSQL setting.        |
+| `!source <sql_file>`     | Executes a SQL file.               |
 
 For examples of each command, please refer to the reference information below:
 
@@ -492,7 +492,7 @@ Settings {
 
 #### `!set <setting> <value>`
 
-Modifies a BendSQL setting. 
+Modifies a BendSQL setting.
 
 ```shell title='Example:'
 root@localhost:8000/default> !set display_pretty_sql false
@@ -536,4 +536,3 @@ FROM
 └────────────────────────────────────┘
 3 rows read in 0.064 sec. Processed 3 rows, 81 B (46.79 rows/s, 1.23 KiB/s)
 ```
-

@@ -29,7 +29,7 @@ Databend 建议在生产环境中部署至少三个元节点和一个查询节�
 - [下载 Databend](/download) 并根据您的部署计划将 Databend 包解压到您准备好的每台服务器上。也可以参考以下步骤：
 
   ```shell
-  curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
+  curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
 
   tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
   ```

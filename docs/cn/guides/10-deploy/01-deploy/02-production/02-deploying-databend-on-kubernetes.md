@@ -41,7 +41,7 @@ import TabItem from '@theme/TabItem';
   :::info 如果用于生产部署
   请参考 [部署环境](/guides/deploy/deploy/understanding-deployment-modes#deployment-environments) 为您的集群预留合适的资源。
   :::
- 
+
 - 确保安装了 `helm` 命令，参见 [指南](https://helm.sh/docs/intro/install/)
 - 确保您有一个正在运行的 Kubernetes 集群。
 
@@ -52,7 +52,7 @@ import TabItem from '@theme/TabItem';
   - `Azure` [AKS](https://azure.microsoft.com/products/kubernetes-service/)。
   - `阿里云` [ACK](https://www.alibabacloud.com/product/kubernetes)。
   - `腾讯云` [TKE](https://cloud.tencent.com/product/tke)。
-  
+
   同时，对于本地测试还可以使用简单的 Kubernetes 引擎：
 
   - [k3d](https://k3d.io)
@@ -72,10 +72,10 @@ import TabItem from '@theme/TabItem';
 
   也支持不使用访问密钥的认证方法：
 
-  - AWS [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)。 
+  - AWS [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)。
   - 阿里云 [RRSA](https://www.alibabacloud.com/help/container-service-for-kubernetes/latest/use-rrsa-to-enforce-access-control)。
-  - **（即将推出）**  AWS [InstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) 。
-  :::
+  - **（即将推出）** AWS [InstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) 。
+    :::
 
 - 确保 Kubernetes 集群有一个默认的存储类。
 
@@ -84,47 +84,48 @@ import TabItem from '@theme/TabItem';
   <Tabs>
   <TabItem value="aws" label="EKS(AWS)">
 
-    推荐使用 [Amazon Elastic Block Store (EBS) CSI 驱动](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md)。
-    添加存储类时记得设置默认类的注解，例如：
+  推荐使用 [Amazon Elastic Block Store (EBS) CSI 驱动](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md)。
+  添加存储类时记得设置默认类的注解，例如：
 
-    ```yaml
-    storageClasses:
-      - name: gp3
-        annotations:
-          storageclass.kubernetes.io/is-default-class: "true"
-        allowVolumeExpansion: true
-        volumeBindingMode: WaitForFirstConsumer
-        reclaimPolicy: Delete
-        parameters:
-          type: gp3
-    ```
+  ```yaml
+  storageClasses:
+    - name: gp3
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+      allowVolumeExpansion: true
+      volumeBindingMode: WaitForFirstConsumer
+      reclaimPolicy: Delete
+      parameters:
+        type: gp3
+  ```
 
-    ```shell
-    ❯ kubectl get sc
-    NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-    gp2             kubernetes.io/aws-ebs   Delete          WaitForFirstConsumer   true                   16d
-    gp3 (default)   ebs.csi.aws.com         Delete          WaitForFirstConsumer   true                   15d
-    ```
+  ```shell
+  ❯ kubectl get sc
+  NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+  gp2             kubernetes.io/aws-ebs   Delete          WaitForFirstConsumer   true                   16d
+  gp3 (default)   ebs.csi.aws.com         Delete          WaitForFirstConsumer   true                   15d
+  ```
 
   </TabItem>
 
   <TabItem value="aliyun" label="ACK(阿里云)">
 
-    确保安装了组件 `csi-provisioner`，然后设置默认存储类：
+  确保安装了组件 `csi-provisioner`，然后设置默认存储类：
 
-    ```shell
-    ❯ kubectl get sc
-    NAME                             PROVISIONER                       RECLAIMPOLICY   VOLUMEBINDINGMODE            ALLOWVOLUMEEXPANSION   AGE
-    alicloud-disk-available          diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-    alicloud-disk-efficiency         diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-    alicloud-disk-essd               diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-    alicloud-disk-ssd                diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-    alicloud-disk-topology           diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
-    alicloud-disk-topology-alltype   diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
-    # 选择一个想要的存储类作为默认值，例如：alicloud-disk-topology-alltype
-    // highlight-next-line
-    ❯ kubectl annotate sc alicloud-disk-topology-alltype storageclass.kubernetes.io/is-default-class=true --overwrite
-    ```
+  ```shell
+  ❯ kubectl get sc
+  NAME                             PROVISIONER                       RECLAIMPOLICY   VOLUMEBINDINGMODE            ALLOWVOLUMEEXPANSION   AGE
+  alicloud-disk-available          diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-efficiency         diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-essd               diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-ssd                diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-topology           diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
+  alicloud-disk-topology-alltype   diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
+  # 选择一个想要的存储类作为默认值，例如：alicloud-disk-topology-alltype
+  // highlight-next-line
+  ❯ kubectl annotate sc alicloud-disk-topology-alltype storageclass.kubernetes.io/is-default-class=true --overwrite
+  ```
+
   </TabItem>
 
   </Tabs>
@@ -181,6 +182,7 @@ import TabItem from '@theme/TabItem';
   monitoring-grafana-654b4bb58c-sf9wp                      3/3     Running   0             19m
   prometheus-monitoring-kube-prometheus-prometheus-0       2/2     Running   0             18m
   ```
+
   :::
 
 ## 部署示例 Databend 集群
@@ -189,100 +191,100 @@ import TabItem from '@theme/TabItem';
 
 1. 创建一个带有持久化和监控启用的 values 文件：
 
-  详细和默认值可在 [文档](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-meta/values.yaml) 中找到
+详细和默认值可在 [文档](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-meta/values.yaml) 中找到
 
-  ```yaml title="values.yaml"
-  bootstrap: true
-  replicaCount: 3
-  persistence:
-    size: 20Gi
-  serviceMonitor:
-    enabled: true
-  ```
+```yaml title="values.yaml"
+bootstrap: true
+replicaCount: 3
+persistence:
+  size: 20Gi
+serviceMonitor:
+  enabled: true
+```
 
-  :::caution
-  强烈推荐部署至少 3 个节点的集群，并在每个节点上使用持久存储，以实现高可用性。
+:::caution
+强烈推荐部署至少 3 个节点的集群，并在每个节点上使用持久存储，以实现高可用性。
 
-  当 `replicaCount > 1` 时，首次运行需要 `bootstrap: true`，当集群中所有节点都启动并运行后，可以移除此设置。
-  :::
+当 `replicaCount > 1` 时，首次运行需要 `bootstrap: true`，当集群中所有节点都启动并运行后，可以移除此设置。
+:::
 
 2. 在命名空间 `databend-meta` 中部署 meta 集群
 
-  ```shell
-  helm repo add databend https://charts.databend.rs
-  helm repo update databend
+```shell
+helm repo add databend https://charts.databend.com
+helm repo update databend
 
-  helm upgrade --install databend-meta databend/databend-meta \
-      --namespace databend-meta --create-namespace \
-      --values values.yaml
-  ```
+helm upgrade --install databend-meta databend/databend-meta \
+    --namespace databend-meta --create-namespace \
+    --values values.yaml
+```
 
 3. 等待并验证 meta 服务运行情况
 
-  ```shell
-  ❯ kubectl -n databend-meta get pods
-  NAME              READY   STATUS    RESTARTS        AGE
-  databend-meta-0   1/1     Running   0               5m36s
-  databend-meta-1   1/1     Running   1 (4m38s ago)   4m53s
-  databend-meta-2   1/1     Running   1 (4m2s ago)    4m18s
+```shell
+❯ kubectl -n databend-meta get pods
+NAME              READY   STATUS    RESTARTS        AGE
+databend-meta-0   1/1     Running   0               5m36s
+databend-meta-1   1/1     Running   1 (4m38s ago)   4m53s
+databend-meta-2   1/1     Running   1 (4m2s ago)    4m18s
 
-  ❯ kubectl -n databend-meta get pvc
-  NAME                   STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-  data-databend-meta-0   Bound    pvc-578ec207-bf7e-4bac-a9a1-3f0e4b140b8d   20Gi       RWO            local-path     5m45s
-  data-databend-meta-1   Bound    pvc-693a0350-6b87-491d-8575-90bf62179b59   20Gi       RWO            local-path     5m2s
-  data-databend-meta-2   Bound    pvc-08bd4ceb-15c2-47f3-a637-c1cc10441874   20Gi       RWO            local-path     4m27s
-  ```
+❯ kubectl -n databend-meta get pvc
+NAME                   STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+data-databend-meta-0   Bound    pvc-578ec207-bf7e-4bac-a9a1-3f0e4b140b8d   20Gi       RWO            local-path     5m45s
+data-databend-meta-1   Bound    pvc-693a0350-6b87-491d-8575-90bf62179b59   20Gi       RWO            local-path     5m2s
+data-databend-meta-2   Bound    pvc-08bd4ceb-15c2-47f3-a637-c1cc10441874   20Gi       RWO            local-path     4m27s
+```
 
 ### 步骤 2. 部署 Databend Query 集群
 
-  1. 创建一个 values 文件，包含内置用户 `databend:databend` 和名称为 `example_cluster` 的 3 节点集群。
+1. 创建一个 values 文件，包含内置用户 `databend:databend` 和名称为 `example_cluster` 的 3 节点集群。
 
-  详细和默认值可在 [文档](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-query/values.yaml) 中找到
+详细和默认值可在 [文档](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-query/values.yaml) 中找到
 
-  ```yaml
-  replicaCount: 3
-  config:
-    query:
-      clusterId: example_cluster
-      # 添加内置用户
-      users:
-        - name: databend
-          # 可用类型: sha256_password, double_sha1_password, no_password, jwt
-          authType: double_sha1_password
-          # echo -n "databend" | sha1sum | cut -d' ' -f1 | xxd -r -p | sha1sum
-          authString: 3081f32caef285c232d066033c89a78d88a6d8a5
-    meta:
-      # 设置端点以使用远程元数据服务
-      # 依赖之前部署的元数据服务、命名空间和节点
-      endpoints:
-        - "databend-meta-0.databend-meta.databend-meta.svc:9191"
-        - "databend-meta-1.databend-meta.databend-meta.svc:9191"
-        - "databend-meta-2.databend-meta.databend-meta.svc:9191"
-    storage:
-      # s3, oss
-      type: s3
-      s3:
-        bucket: "<bucket>"
-        region: "<region>"
-        access_key_id: "<key>"
-        secret_access_key: "<secret>"
-        root: ""
-  # [推荐] 启用监控服务
-  serviceMonitor:
-    enabled: true
-  # [推荐] 启用集群外部访问
-  service:
-    type: LoadBalancer
-  ```
+```yaml
+replicaCount: 3
+config:
+  query:
+    clusterId: example_cluster
+    # 添加内置用户
+    users:
+      - name: databend
+        # 可用类型: sha256_password, double_sha1_password, no_password, jwt
+        authType: double_sha1_password
+        # echo -n "databend" | sha1sum | cut -d' ' -f1 | xxd -r -p | sha1sum
+        authString: 3081f32caef285c232d066033c89a78d88a6d8a5
+  meta:
+    # 设置端点以使用远程元数据服务
+    # 依赖之前部署的元数据服务、命名空间和节点
+    endpoints:
+      - "databend-meta-0.databend-meta.databend-meta.svc:9191"
+      - "databend-meta-1.databend-meta.databend-meta.svc:9191"
+      - "databend-meta-2.databend-meta.databend-meta.svc:9191"
+  storage:
+    # s3, oss
+    type: s3
+    s3:
+      bucket: "<bucket>"
+      region: "<region>"
+      access_key_id: "<key>"
+      secret_access_key: "<secret>"
+      root: ""
+# [推荐] 启用监控服务
+serviceMonitor:
+  enabled: true
+# [推荐] 启用集群外部访问
+service:
+  type: LoadBalancer
+```
 
-  :::caution for LoadBalancer
-  当设置服务类型为 `LoadBalancer` 时，
-  几乎所有云平台都会为查询服务分配一个公共 IP 地址，
-  这可能导致安全问题。
+:::caution for LoadBalancer
+当设置服务类型为 `LoadBalancer` 时，
+几乎所有云平台都会为查询服务分配一个公共 IP 地址，
+这可能导致安全问题。
 
-  然后，需要通过注释来告知云平台创建一个内部负载均衡器。
+然后，需要通过注释来告知云平台创建一个内部负载均衡器。
 
-  对于不同的云提供商：
+对于不同的云提供商：
 
   <Tabs>
   <TabItem value="aws" label="AWS">
@@ -313,149 +315,149 @@ import TabItem from '@theme/TabItem';
   </Tabs>
   :::
 
-  :::tip for cloud storage
+:::tip for cloud storage
 
   <Tabs>
   <TabItem value="aws" label="S3(AWS)">
 
-  ```yaml
-  config:
-    storage:
-      type: s3
-      s3:
-        # 默认端点
-        endpoint_url: "https://s3.amazonaws.com"
-        bucket: "<bucket>"
-        region: "<region>"
-        access_key_id: "<key>"
-        secret_access_key: "<secret>"
-        root: ""
-  ```
+```yaml
+config:
+  storage:
+    type: s3
+    s3:
+      # 默认端点
+      endpoint_url: "https://s3.amazonaws.com"
+      bucket: "<bucket>"
+      region: "<region>"
+      access_key_id: "<key>"
+      secret_access_key: "<secret>"
+      root: ""
+```
 
   </TabItem>
 
   <TabItem value="aliyun" label="OSS(Alibaba Cloud)">
 
-  ```yaml title="使用 s3 客户端的 oss"
-  config:
-    storage:
-      type: s3
-      s3:
-        # 区域端点 URL
-        endpoint_url: "https://oss-ap-southeast-1.aliyuncs.com"
-        bucket: "<bucket>"
-        access_key_id: "<key>"
-        secret_access_key: "<secret>"
-        # 需要
-        enable_virtual_host_style: true
-  ```
+```yaml title="使用 s3 客户端的 oss"
+config:
+  storage:
+    type: s3
+    s3:
+      # 区域端点 URL
+      endpoint_url: "https://oss-ap-southeast-1.aliyuncs.com"
+      bucket: "<bucket>"
+      access_key_id: "<key>"
+      secret_access_key: "<secret>"
+      # 需要
+      enable_virtual_host_style: true
+```
 
-  ```yaml title="原生 oss"
-  config:
-    storage:
-      type: oss
-      oss:
-        # 区域端点 URL
-        endpoint_url: "https://oss-ap-southeast-1.aliyuncs.com"
-        bucket: "<bucket>"
-        access_key_id: "<key>"
-        access_key_secret: "<secret>"
-  ```
+```yaml title="原生 oss"
+config:
+  storage:
+    type: oss
+    oss:
+      # 区域端点 URL
+      endpoint_url: "https://oss-ap-southeast-1.aliyuncs.com"
+      bucket: "<bucket>"
+      access_key_id: "<key>"
+      access_key_secret: "<secret>"
+```
 
   </TabItem>
 
   <TabItem value="qcloud" label="COS(Tencent Cloud)">
 
-  ```yaml title="原生 cos"
-  config:
-    storage:
-      type: cos
-      cos:
-        # 区域端点 URL
-        endpoint_url: "https://cos.ap-singapore.myqcloud.com"
-        bucket: "test-databend-1234567890"
-        access_key_id: "<key>"
-        secret_access_key: "<secret>"
-  ```
+```yaml title="原生 cos"
+config:
+  storage:
+    type: cos
+    cos:
+      # 区域端点 URL
+      endpoint_url: "https://cos.ap-singapore.myqcloud.com"
+      bucket: "test-databend-1234567890"
+      access_key_id: "<key>"
+      secret_access_key: "<secret>"
+```
 
   </TabItem>
 
   </Tabs>
 
-  :::
+:::
 
 2. 为 `tenant1` 在命名空间 `databend-query` 中部署查询集群
 
-  ```shell
-  helm repo add databend https://charts.databend.rs
-  helm repo update databend
+```shell
+helm repo add databend https://charts.databend.com
+helm repo update databend
 
-  helm upgrade --install tenant1 databend/databend-query \
-      --namespace databend-query --create-namespace \
-      --values values.yaml
-  ```
+helm upgrade --install tenant1 databend/databend-query \
+    --namespace databend-query --create-namespace \
+    --values values.yaml
+```
 
-  3. 等待并验证查询服务运行
+3. 等待并验证查询服务运行
 
-  ```shell
-  ❯ kubectl -n databend-query get pods
-  NAME                                     READY   STATUS    RESTARTS   AGE
-  tenant1-databend-query-66647594c-lkkm9   1/1     Running   0          36s
-  tenant1-databend-query-66647594c-lpl2s   1/1     Running   0          36s
-  tenant1-databend-query-66647594c-4hlpw   1/1     Running   0          36s
+```shell
+❯ kubectl -n databend-query get pods
+NAME                                     READY   STATUS    RESTARTS   AGE
+tenant1-databend-query-66647594c-lkkm9   1/1     Running   0          36s
+tenant1-databend-query-66647594c-lpl2s   1/1     Running   0          36s
+tenant1-databend-query-66647594c-4hlpw   1/1     Running   0          36s
 
-  ❯ kubectl -n databend-query get svc
-  NAME                     TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                                                                                     AGE
-  tenant1-databend-query   LoadBalancer   10.43.84.243   172.20.0.2    8080:32063/TCP,9000:31196/TCP,9090:30472/TCP,8000:30050/TCP,7070:31253/TCP,3307:31367/TCP   17m
-  ```
+❯ kubectl -n databend-query get svc
+NAME                     TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                                                                                     AGE
+tenant1-databend-query   LoadBalancer   10.43.84.243   172.20.0.2    8080:32063/TCP,9000:31196/TCP,9090:30472/TCP,8000:30050/TCP,7070:31253/TCP,3307:31367/TCP   17m
+```
 
 4. 访问查询集群
 
-  我们在这里使用内置用户 `databend`：
+我们在这里使用内置用户 `databend`：
 
-  - 集群内访问
+- 集群内访问
 
-    ```shell
-    bendsql -htenant1-databend-query.databend-query.svc -P8000 -udatabend -pdatabend
-    ```
+  ```shell
+  bendsql -htenant1-databend-query.databend-query.svc -P8000 -udatabend -pdatabend
+  ```
 
-  - 集群外通过负载均衡器访问
+- 集群外通过负载均衡器访问
 
-    ```shell
-    # 这里的地址是上面的服务 tenant1-databend-query 的 `EXTERNAL-IP`
-    bendsql -h172.20.0.2 -P8000 -udatabend -pdatabend
-    ```
+  ```shell
+  # 这里的地址是上面的服务 tenant1-databend-query 的 `EXTERNAL-IP`
+  bendsql -h172.20.0.2 -P8000 -udatabend -pdatabend
+  ```
 
-  - 使用 kubectl 在本地访问
+- 使用 kubectl 在本地访问
 
-    ```shell
-    nohup kubectl port-forward -n databend-query svc/tenant1-databend-query 3307:3307 &
-    bendsql -h127.0.0.1 -P8000 -udatabend -pdatabend
-    ```
+  ```shell
+  nohup kubectl port-forward -n databend-query svc/tenant1-databend-query 3307:3307 &
+  bendsql -h127.0.0.1 -P8000 -udatabend -pdatabend
+  ```
 
 5. 为 tenant2 部署第二个集群
 
-  修改 tenant2 的 `values.yaml`
+修改 tenant2 的 `values.yaml`
 
-  ```shell
-  # 可选
-  helm repo update databend
+```shell
+# 可选
+helm repo update databend
 
-  helm upgrade --install tenant2 databend/databend-query \
-      --namespace databend-query --create-namespace \
-      --values values.yaml
-  ```
+helm upgrade --install tenant2 databend/databend-query \
+    --namespace databend-query --create-namespace \
+    --values values.yaml
+```
 
-  ```shell title="验证 tenant2 的查询服务正在运行"
-  ❯ kubectl -n databend-query get pods
-  NAME                                      READY   STATUS    RESTARTS   AGE
-  tenant1-databend-query-66647594c-lkkm9    1/1     Running   0          55m
-  tenant1-databend-query-66647594c-lpl2s    1/1     Running   0          55m
-  tenant1-databend-query-66647594c-4hlpw    1/1     Running   0          55m
-  tenant2-databend-query-59dcc4949f-9qg9b   1/1     Running   0          53s
-  tenant2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
-  tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
-  ```
+```shell title="验证 tenant2 的查询服务正在运行"
+❯ kubectl -n databend-query get pods
+NAME                                      READY   STATUS    RESTARTS   AGE
+tenant1-databend-query-66647594c-lkkm9    1/1     Running   0          55m
+tenant1-databend-query-66647594c-lpl2s    1/1     Running   0          55m
+tenant1-databend-query-66647594c-4hlpw    1/1     Running   0          55m
+tenant2-databend-query-59dcc4949f-9qg9b   1/1     Running   0          53s
+tenant2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
+tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
+```
 
 ## 维护 Databend 查询集群
 
