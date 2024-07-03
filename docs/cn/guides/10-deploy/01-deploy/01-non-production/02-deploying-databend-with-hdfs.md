@@ -65,7 +65,7 @@ b. 从 [GitHub Release](https://github.com/datafuselabs/databend/releases) 下�
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
 ```shell
-curl -LJO https://repo.databend.rs/databend/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+curl -LJO https://repo.databend.com/databend/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
 ```
 
 ```shell
@@ -117,7 +117,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 
 a. 定位文件夹 `/usr/local/databend/configs` 中的文件 `databend-query.toml`。
 
-b. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type* 并配置访问凭证和端点 URL 以连接到您的 HDFS。
+b. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 _type_ 并配置访问凭证和端点 URL 以连接到您的 HDFS。
 
 要配置您的存储设置，请通过在每行前添加 '#' 来注释掉 [storage.fs] 部分，然后通过移除 '#' 符号来取消注释适用于您的 HDFS 提供商的相应部分，并填写必要的值。您可以将下面的相应模板复制并粘贴到文件中并相应配置。
 

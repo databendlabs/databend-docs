@@ -148,7 +148,6 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 </TabItem>
 
-
 <TabItem value="MinIO" label="MinIO">
 
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
@@ -193,7 +192,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
 ```shell
-curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
@@ -205,7 +204,7 @@ tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
 <TabItem value="linux-arm64" label="Linux(Arm)">
 
 ```shell
-curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
@@ -463,6 +462,7 @@ endpoint_url = "<your-endpoint-url>"
 access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
+
 </TabItem>
 
 <TabItem value="CubeFS" label="CubeFS">
@@ -478,6 +478,7 @@ endpoint_url = "<your-endpoint-url>"
 access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
+
 </TabItem>
 </Tabs>
 

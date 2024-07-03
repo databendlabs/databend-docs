@@ -3,24 +3,24 @@ title: FLASHBACK TABLE
 sidebar_position: 9
 ---
 
-使用快照ID或时间戳将表回滚到早期版本，此操作仅涉及元数据操作，因此是一个快速过程。
+使用快照 ID 或时间戳将表回滚到早期版本，此操作仅涉及元数据操作，因此是一个快速过程。
 
-通过您在命令中指定的快照ID或时间戳，Databend将表回滚到创建快照时的先前状态。要检索表的快照ID和时间戳，请使用 [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)。
+通过您在命令中指定的快照 ID 或时间戳，Databend 将表回滚到创建快照时的先前状态。要检索表的快照 ID 和时间戳，请使用 [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)。
 
 回滚表的能力受到以下条件的限制：
 
 - 该命令仅将现有表回滚到其先前状态。要恢复已删除的表，请使用 [UNDROP TABLE](21-ddl-undrop-table.md)。
 
-- 表的回滚是Databend时间旅行功能的一部分。在使用该命令之前，请确保您想要回滚的表符合时间旅行的条件。例如，该命令不适用于临时表，因为Databend不为此类表创建或存储快照。
+- 表的回滚是 Databend 时间旅行功能的一部分。在使用该命令之前，请确保您想要回滚的表符合时间旅行的条件。例如，该命令不适用于临时表，因为 Databend 不为此类表创建或存储快照。
 
 - 回滚表到先前状态后，您不能回滚操作，但您可以再次将表回滚到更早的状态。
 
-- Databend建议仅在紧急恢复时使用此命令。要查询表的历史数据，请使用 [AT](../../20-query-syntax/03-query-at.md) 子句。
+- Databend 建议仅在紧急恢复时使用此命令。要查询表的历史数据，请使用 [AT](../../20-query-syntax/03-query-at.md) 子句。
 
 ## 语法
 
 ```sql
--- 通过快照ID恢复
+-- 通过快照 ID 恢复
 ALTER TABLE <table> FLASHBACK TO (SNAPSHOT => '<snapshot-id>');
 
 -- 通过快照时间戳恢复
@@ -30,6 +30,7 @@ ALTER TABLE <table> FLASHBACK TO (TIMESTAMP => '<timestamp>'::TIMESTAMP);
 ## 示例
 
 ### 步骤 1: 创建一个示例用户表并插入数据
+
 ```sql
 -- 创建一个示例用户表
 CREATE TABLE users (
@@ -46,7 +47,8 @@ VALUES (1, 'John', 'Doe', 'john.doe@example.com', '2023-01-01 00:00:00'),
        (2, 'Jane', 'Doe', 'jane.doe@example.com', '2023-01-02 00:00:00');
 ```
 
-数据:
+数据：
+
 ```sql
 SELECT * FROM users;
 +------+------------+-----------+----------------------+----------------------------+
@@ -57,7 +59,8 @@ SELECT * FROM users;
 +------+------------+-----------+----------------------+----------------------------+
 ```
 
-快照:
+快照：
+
 ```sql
 SELECT * FROM Fuse_snapshot('default', 'users')\G;
 *************************** 1. row ***************************
@@ -81,7 +84,8 @@ previous_snapshot_id: NULL
 DELETE FROM users WHERE id = 1;
 ```
 
-数据:
+数据：
+
 ```sql
 +------+------------+-----------+----------------------+----------------------------+
 | id   | first_name | last_name | email                | registration_date          |
@@ -90,7 +94,8 @@ DELETE FROM users WHERE id = 1;
 +------+------------+-----------+----------------------+----------------------------+
 ```
 
-快照:
+快照：
+
 ```sql
 SELECT * FROM Fuse_snapshot('default', 'users')\G;
 *************************** 1. row ***************************
@@ -119,14 +124,16 @@ previous_snapshot_id: NULL
            timestamp: 2023-04-19 04:20:25.062854
 ```
 
-### 步骤 3: 查找删除操作前的快照ID
+### 步骤 3: 查找删除操作前的快照 ID
+
 ```sql
--- 假设从前一个查询中的snapshot_id是'xxxxxx'
+-- 假设从前一个查询中的 snapshot_id 是'xxxxxx'
 -- 将表恢复到删除操作前的快照
 ALTER TABLE users FLASHBACK TO (SNAPSHOT => 'c5c538d6b8bc42f483eefbddd000af7d');
 ```
 
-数据:
+数据：
+
 ```sql
 SELECT * FROM users;
 +------+------------+-----------+----------------------+----------------------------+
@@ -137,7 +144,7 @@ SELECT * FROM users;
 +------+------------+-----------+----------------------+----------------------------+
 ```
 
-```markdown
+````markdown
 # 快照 {#snapshot}
 
 使用 `Fuse_snapshot` 函数可以获取指定表的当前快照信息。以下是一个示例查询，以及其返回的结果：
@@ -145,6 +152,7 @@ SELECT * FROM users;
 ```sql
 SELECT * FROM Fuse_snapshot('default', 'users')\G;
 ```
+````
 
 返回结果示例：
 
@@ -163,8 +171,6 @@ previous_snapshot_id: NULL
            timestamp: 2023-04-19 04:20:25.062854
 ```
 
-<Notes>
-
 - `snapshot_id` 是快照的唯一标识符。
 - `snapshot_location` 指示快照文件的存储位置。
 - `format_version` 表示快照格式的版本。
@@ -173,5 +179,3 @@ previous_snapshot_id: NULL
 - `bytes_uncompressed` 和 `bytes_compressed` 分别表示数据未压缩和压缩后的字节数。
 - `index_size` 表示索引的大小。
 - `timestamp` 是快照创建的时间戳。
-
-</Notes>

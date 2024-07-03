@@ -1,9 +1,7 @@
 ---
 title: New SQL Logic Test Framework
-description:
-  New sql logic test framework design RFC.
+description: New sql logic test framework design RFC.
 ---
-
 
 ## Background
 
@@ -12,11 +10,11 @@ Basically all robust database system needs to be tested in the following scope.
 1. Reasonable high level of unit test coverage.
 2. A large set of query logic tests.(**mainly discussed**)
 3. Distributed system related behavior tests.
-4. Performance tests (https://perf.databend.rs/)
+4. Performance tests (https://benchmark.databend.com/clickbench/release/hits.html)
 
 Currently, our test framework is based on the following design.
 
-We mainly adopted mysql binary client to test the query logic, and cover some basic test on driver compatibility part.
+We mainly adopted bendsql binary client to test the query logic, and cover some basic test on driver compatibility part.
 
 However, it has some shortages in current logic test which should be improved.
 
@@ -34,18 +32,18 @@ The file is expressed in a domain specific language called test script. and it s
 The statement spec could be categorized to following fields
 
 `statement ok`: the sql statement is correct and the output is expected success.
-  
+
 for example: the following sql would be ok with no output
-  
+
 ```text
 statement ok
 create database if not exists db1;
 ```
 
 `statement error <error regex>`: the sql statement output is expected error.
-  
+
 for example: the following sql would be error with error message `table db1.tbl1 does not exist`
- 
+
 ```text
 statement error table db1.tbl1 does not exist
 create table db1.tbl1 (id int);
@@ -65,7 +63,7 @@ create table db1.tbl1 (id int);
 `label` could allow query to match given suite label result at first which resolved the result compatibility issue
 
 for example: the following sql would be ok with output table
-  
+
 ```text
 query III
 select number, number + 1, number + 999 from numbers(10);
@@ -79,7 +77,7 @@ select number, number + 1, number + 999 from numbers(10);
      6     7  1005
      7     8  1006
      8     9  1007
-     9    10  1008  
+     9    10  1008
 ```
 
 The follow sql configured match mysql label first then default label
