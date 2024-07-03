@@ -1,34 +1,34 @@
 ---
-title: 使用 SQL 客户端连接到 Databend
-sidebar_label: 使用 SQL 客户端连接
+title: 使用SQL客户端连接Databend
+sidebar_label: SQL客户端
 ---
 
-Databend 提供了一个 [JDBC 驱动程序](https://github.com/databendcloud/databend-jdbc)，使得客户端应用程序，如 [DBeaver](https://dbeaver.com/)，能够连接到 Databend。DBeaver 预配置了许多用于 SQL、NoSQL、键值数据库、图数据库、搜索引擎等的驱动程序。然而，Databend JDBC 驱动程序目前还没有在 DBeaver 中预配置，这意味着您在应用程序中创建连接时无法找到并选择 Databend。尽管如此，您可以手动将驱动程序添加到 DBeaver 中，使您能够以与预配置数据库相同的方式建立与 Databend 的连接。
+Databend提供了一个[JDBC驱动](https://github.com/databendcloud/databend-jdbc)，使得从客户端应用程序（如[DBeaver](https://dbeaver.com/)）连接到Databend成为可能。DBeaver预配置了多种SQL、NoSQL、键值数据库、图形数据库、搜索引擎等的驱动。然而，Databend的JDBC驱动目前在DBeaver中并未预配置，这意味着在应用程序中创建连接时，您无法找到并选择Databend。不过，您可以手动将驱动添加到DBeaver中，这样就可以像使用预配置数据库一样建立与Databend的连接。
 
-## 将 Databend JDBC 驱动程序添加到 DBeaver
+## 在DBeaver中添加Databend JDBC驱动
 
-按照以下步骤将 Databend JDBC 驱动程序添加到 DBeaver：
+按照以下步骤将Databend JDBC驱动添加到DBeaver中：
 
-1. 在 DBeaver 中，选择 **数据库** > **驱动程序管理器** 以打开驱动程序管理器，然后点击 **新建** 来创建一个新的驱动程序。
+1. 在DBeaver中，选择**数据库** > **驱动管理器**以打开驱动管理器，然后点击**新建**创建一个新的驱动。
 
-2. 在 **设置** 标签页中，按照以下要求为新驱动程序输入所需信息：
+2. 在**设置**标签页中，按照以下信息填写新驱动所需的设置：
 
-| 设置          | Databend                                                   | Databend Cloud                                             |
+| 设置         | Databend                                                   | Databend Cloud                                             |
 |--------------|------------------------------------------------------------|------------------------------------------------------------|
-| 驱动程序名称  | databend                                                   | databendcloud                                              |
-| 驱动程序类型  | 通用                                                      | 通用                                                      |
+| 驱动名称     | databend                                                   | databendcloud                                              |
+| 驱动类型     | Generic                                                    | Generic                                                    |
 | 类名         | com.databend.jdbc.DatabendDriver                           | com.databend.jdbc.DatabendDriver                           |
-| URL 模板     | jdbc:databend://{user}:{password}@{host}:{port}/{database} | jdbc:databend://{user}:{password}@{host}:{port}/{database} |
+| URL模板      | jdbc:databend://{user}:{password}@{host}:{port}/{database} | jdbc:databend://{user}:{password}@{host}:{port}/{database} |
 | 默认端口     | 8000                                                       | 443                                                        |
 | 默认用户     | root                                                       | cloudapp                                                   |
 
 ![Alt text](@site/docs/public/img/integration/jdbc-new-driver.png)
 ![Alt text](@site/static/img/documents/develop/jdbc-new-driver.png)
 
-3. 在 **库** 标签页中，点击 **添加 Artifact**，然后将以下内容复制并粘贴到 **依赖声明** 文本框中：
+3. 在**库**标签页中，点击**添加构件**，然后在**依赖声明**文本框中复制并粘贴以下内容：
 
 :::tip 检查并更新到新版本
-Databend 建议更新到最新版本的 Databend JDBC 驱动程序，以访问最新功能和增强功能，并解决您可能遇到的任何问题。请在 ​https://github.com/databendcloud/databend-jdbc/releases 检查可用的更新，并安装最新版本。
+Databend建议更新到最新版本的Databend JDBC驱动，以访问最新功能和改进，并解决您可能遇到的任何问题。请在[https://github.com/databendcloud/databend-jdbc/releases](https://github.com/databendcloud/databend-jdbc/releases)检查可用更新并安装最新版本。
 :::
 
 ```java
@@ -39,13 +39,9 @@ Databend 建议更新到最新版本的 Databend JDBC 驱动程序，以访问�
 </dependency>
 ```
 
-4. 点击 **确定** 关闭窗口。
+4. 点击**确定**关闭窗口。
 
-## 连接到 Databend
+## 教程
 
-- [教程-1：通过 JDBC 连接到 Databend](00-connect-to-databend.md)
-- [教程-2：通过 JDBC 连接到 Databend Cloud](01-connect-to-databend-cloud.md)
-
-**相关视频：**
-
-<iframe width="853" height="505" className="iframe-video" src="https://www.youtube.com/embed/3cFmGvtU-ws" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+- [使用DBeaver连接到Databend](/tutorials/connect/connect-to-databend-dbeaver)
+- [使用DBeaver连接到Databend Cloud](/tutorials/connect/connect-to-databendcloud-dbeaver)

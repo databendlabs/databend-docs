@@ -140,8 +140,8 @@ For example, Current Version is 1.2.306 upgrade to 1.2.312:
 | Meta version        | Backward compatible with |
 |:--------------------|:-------------------------|
 | [0.9.41,   1.2.212) | [0.9.41,  1.2.212)       |
-| [1.2.212,  1.2.479) | [0.9.41,  1.2.479)      |
-| [1.2.479, +∞)       | [1.2.212, +∞)            |
+| [1.2.212,  1.2.479) | [0.9.41,  1.2.479)       |
+| [1.2.479, +∞)       | [1.2.288, +∞)            |
 
 
 - `1.2.53` Incompatible, rolling upgrade is allowed without snapshot transmitting.
@@ -161,6 +161,9 @@ For example, Current Version is 1.2.306 upgrade to 1.2.312:
 - `1.2.528` 2024-06-13 Remove on-disk data version `V001`. The first version using `V002` is `1.2.53`, 2023-08-08.
   Therefore, since `1.2.528`, the oldest compatible version is `1.2.53`.
   Consequently, compatibility remains unchanged from this version onward.
+
+- `1.2.552` 2024-07-02 Introduce on-disk `V003`, using `rotbl` format snapshot,
+  which is compatible with `V002`. The oldest compatible version is `1.2.288`(`1.2.212~1.2.287` are removed).
 
 
 ## Compatibility of databend-meta on-disk data

@@ -12,43 +12,43 @@ interface TProps {
   justifyContent?: 'center' | 'flex-start' | 'flex-end';
 }
 
-const JoinCommunity:  FC<TProps> = ({titleAlign, maxWidth, justifyContent}): ReactElement=> {
-    const { formatStargazersCount } = useGetReleases();
-    const community = [
-      {
-        'icon':'GitHub',
-        'star': formatStargazersCount,
-        'title': 'GitHub',
-        'link': 'https://github.com/datafuselabs/databend'
-      },
-      {
-        'icon':'Slack',
-        'title': 'Slack',
-        'link': 'https://link.databend.rs/join-slack'
-      },
-      {
-        'icon':'Twitter',
-        'title': 'Twitter',
-        'link': 'https://twitter.com/DatabendLabs'
-      },
-      {
-        'icon':'YouTube',
-        'title': 'YouTube',
-        'link': 'https://www.youtube.com/@DatabendLabs'
-      },
-    ]
+const JoinCommunity: FC<TProps> = ({ titleAlign, maxWidth, justifyContent }): ReactElement => {
+  const { formatStargazersCount } = useGetReleases();
+  const community = [
+    {
+      'icon': 'GitHub',
+      'star': formatStargazersCount,
+      'title': 'GitHub',
+      'link': 'https://github.com/datafuselabs/databend'
+    },
+    {
+      'icon': 'Slack',
+      'title': 'Slack',
+      'link': 'https://link.databend.com/join-slack'
+    },
+    {
+      'icon': 'Twitter',
+      'title': 'Twitter',
+      'link': 'https://twitter.com/DatabendLabs'
+    },
+    {
+      'icon': 'YouTube',
+      'title': 'YouTube',
+      'link': 'https://www.youtube.com/@DatabendLabs'
+    },
+  ]
   return (
     <div className={clsx('community', styles.Community)}>
-      <h6 style={{textAlign: titleAlign}}>{$t('Join our growing community')}</h6>
-      <div className={clsx('community-group', styles.CommunityGroup)} style={{maxWidth: maxWidth+'px', justifyContent}}>
-        {community.map((item,index)=>{
-          const Icon =( icons as any)[item.icon]
+      <h6 style={{ textAlign: titleAlign }}>{$t('Join our growing community')}</h6>
+      <div className={clsx('community-group', styles.CommunityGroup)} style={{ maxWidth: maxWidth + 'px', justifyContent }}>
+        {community.map((item, index) => {
+          const Icon = (icons as any)[item.icon]
           return <Link to={item.link} key={index}>
-            <div className={clsx('community-item', styles.communityItem)}><div className={clsx('icon', styles.Icon)}><Icon size={24}/></div><h6>{item.title}</h6>{item.star?<span className={clsx('tag', styles.tag)}>🌟 {item.star} Stars</span>:''}</div>
+            <div className={clsx('community-item', styles.communityItem)}><div className={clsx('icon', styles.Icon)}><Icon size={24} /></div><h6>{item.title}</h6>{item.star ? <span className={clsx('tag', styles.tag)}>🌟 {item.star} Stars</span> : ''}</div>
           </Link>
         })}
       </div>
-  </div>
+    </div>
   );
 };
 JoinCommunity.defaultProps = {

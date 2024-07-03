@@ -21,7 +21,7 @@
   },
   "link.item.label.Slack": {
     "message": "Slack",
-    "description": "The label of footer link with label=Slack linking to https://link.databend.rs/join-slack"
+    "description": "The label of footer link with label=Slack linking to https://link.databend.com/join-slack"
   },
   "link.item.label.Twitter": {
     "message": "Twitter",
