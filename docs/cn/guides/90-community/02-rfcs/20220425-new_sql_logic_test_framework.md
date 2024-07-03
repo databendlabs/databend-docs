@@ -1,7 +1,6 @@
 ---
 title: 新 SQL 逻辑测试框架
-description:
-  新 SQL 逻辑测试框架设计 RFC。
+description: 新 SQL 逻辑测试框架设计 RFC。
 ---
 
 ## 背景
@@ -11,11 +10,11 @@ description:
 1. 合理的高级别单元测试覆盖率。
 2. 一大套查询逻辑测试。（**主要讨论**）
 3. 分布式系统相关行为测试。
-4. 性能测试 (https://perf.databend.rs/)
+4. 性能测试 (https://benchmark.databend.com/clickbench/release/hits.html)
 
 目前，我们的测试框架基于以下设计。
 
-我们主要采用 mysql 二进制客户端来测试查询逻辑，并覆盖了一些基本的驱动兼容性测试。
+我们主要采用 bendsql 二进制客户端来测试查询逻辑，并覆盖了一些基本的驱动兼容性测试。
 
 然而，当前逻辑测试中存在一些不足之处，应该进行改进。
 
@@ -33,18 +32,18 @@ description:
 语句规范可以分为以下几个字段
 
 `statement ok`：sql 语句是正确的，输出预期成功。
-  
+
 例如：以下 sql 应该没有输出就可以成功
-  
+
 ```text
 statement ok
 create database if not exists db1;
 ```
 
 `statement error <error regex>`：sql 语句输出预期为错误。
-  
+
 例如：以下 sql 应该出错，错误消息为 `table db1.tbl1 does not exist`
- 
+
 ```text
 statement error table db1.tbl1 does not exist
 create table db1.tbl1 (id int);
@@ -64,7 +63,7 @@ create table db1.tbl1 (id int);
 `label` 可以允许查询首先匹配给定套件标签结果，解决了结果兼容性问题
 
 例如：以下 sql 应该带有输出表
-  
+
 ```text
 query III
 select number, number + 1, number + 999 from numbers(10);
@@ -78,7 +77,7 @@ select number, number + 1, number + 999 from numbers(10);
      6     7  1005
      7     8  1006
      8     9  1007
-     9    10  1008  
+     9    10  1008
 ```
 
 以下 sql 配置优先匹配 mysql 标签，然后是默认标签
