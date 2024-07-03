@@ -133,55 +133,51 @@ import TabItem from '@theme/TabItem';
 
   1. Add chart repository for kube-prometheus-stack
 
-
-      ```shell
-      helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-      helm repo update prometheus-community
-      ```
+     ```shell
+     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+     helm repo update prometheus-community
+     ```
 
   2. Prepare a values file for simple kube-prometheus-stack installation
 
-
-      ```yaml title="values.yaml"
-      grafana:
-        grafana.ini:
-          auth.anonymous:
-            enabled: true
-            org_role: Admin
-      prometheus:
-        prometheusSpec:
-          ruleNamespaceSelector: {}
-          ruleSelectorNilUsesHelmValues: false
-          serviceMonitorNamespaceSelector: {}
-          serviceMonitorSelectorNilUsesHelmValues: false
-          podMonitorNamespaceSelector: {}
-          podMonitorSelectorNilUsesHelmValues: false
-      ```
+     ```yaml title="values.yaml"
+     grafana:
+       grafana.ini:
+         auth.anonymous:
+           enabled: true
+           org_role: Admin
+     prometheus:
+       prometheusSpec:
+         ruleNamespaceSelector: {}
+         ruleSelectorNilUsesHelmValues: false
+         serviceMonitorNamespaceSelector: {}
+         serviceMonitorSelectorNilUsesHelmValues: false
+         podMonitorNamespaceSelector: {}
+         podMonitorSelectorNilUsesHelmValues: false
+     ```
 
   3. Install [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) with helm
 
-
-      ```shell
-      helm upgrade --install monitoring \
-          prometheus-community/kube-prometheus-stack \
-          --namespace monitoring \
-          --create-namespace \
-          --values values.yaml
-      ```
+     ```shell
+     helm upgrade --install monitoring \
+         prometheus-community/kube-prometheus-stack \
+         --namespace monitoring \
+         --create-namespace \
+         --values values.yaml
+     ```
 
   4. Verify prometheus & grafana running
 
-
-      ```shell
-      ❯ kubectl -n monitoring get pods
-      NAME                                                     READY   STATUS    RESTARTS      AGE
-      monitoring-prometheus-node-exporter-7km6w                1/1     Running   0             19m
-      monitoring-kube-prometheus-operator-876c99fb8-qjnpd      1/1     Running   0             19m
-      monitoring-kube-state-metrics-7c9f7fc49b-4884t           1/1     Running   0             19m
-      alertmanager-monitoring-kube-prometheus-alertmanager-0   2/2     Running   1 (18m ago)   18m
-      monitoring-grafana-654b4bb58c-sf9wp                      3/3     Running   0             19m
-      prometheus-monitoring-kube-prometheus-prometheus-0       2/2     Running   0             18m
-      ```
+     ```shell
+     ❯ kubectl -n monitoring get pods
+     NAME                                                     READY   STATUS    RESTARTS      AGE
+     monitoring-prometheus-node-exporter-7km6w                1/1     Running   0             19m
+     monitoring-kube-prometheus-operator-876c99fb8-qjnpd      1/1     Running   0             19m
+     monitoring-kube-state-metrics-7c9f7fc49b-4884t           1/1     Running   0             19m
+     alertmanager-monitoring-kube-prometheus-alertmanager-0   2/2     Running   1 (18m ago)   18m
+     monitoring-grafana-654b4bb58c-sf9wp                      3/3     Running   0             19m
+     prometheus-monitoring-kube-prometheus-prometheus-0       2/2     Running   0             18m
+     ```
 
   :::
 

@@ -18,7 +18,7 @@ const lightCodeTheme = require("prism-react-renderer/themes/oceanicNext");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const { site_env } = process.env;
 const isProduction = site_env === "production";
-const ASKBEND_URL = "https://ask.databend.rs";
+const ASKBEND_URL = "https://ask.databend.com";
 const algolia = isCN
   ? {
       appId: "FUCSAUXK2Q",
@@ -308,7 +308,7 @@ const config = {
             items: [
               {
                 label: "Slack",
-                href: "https://link.databend.rs/join-slack",
+                href: "https://link.databend.com/join-slack",
               },
               {
                 label: "Twitter",

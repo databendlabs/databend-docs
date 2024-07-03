@@ -5,52 +5,82 @@ title: Rust
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-Databend 提供了一个用 Rust 编写的驱动（[crates.io - databend-driver](https://crates.io/crates/databend-driver)），它便于使用 Rust 编程语言开发应用程序，并与 Databend 建立连接。请注意，驱动目前不支持处理数组。
+Databend提供了一个用Rust编写的驱动程序（[crates.io - databend-driver](https://crates.io/crates/databend-driver)），便于使用Rust编程语言开发应用程序，并建立与Databend的连接。请注意，该驱动目前不支持处理数组。
 
-有关安装说明、示例和源代码，请参见 [GitHub - databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver)。
+关于安装指南、示例和源代码，请参阅[GitHub - databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver)。
 
-## Databend Rust 驱动行为总结
+## 数据类型映射
 
-下表总结了 Rust 驱动的主要行为和功能及其用途：
+下表展示了Databend通用数据类型与其对应的Rust类型的对应关系：
 
-| 函数名称            | 描述                                                                                                                  |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `info`              | 返回客户端的连接信息。                                                                                                |
-| `version`           | 返回执行 `SELECT VERSION()` 语句的结果。                                                                              |
-| `exec`              | 执行一个 SQL 语句并返回受影响的行数。                                                                                 |
-| `query_iter`        | 执行一个 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                                 |
-| `query_iter_ext`    | 执行一个 SQL 查询并返回一个包含结果统计信息的迭代器。                                                                 |
-| `query_row`         | 执行一个 SQL 查询并返回单行结果。                                                                                     |
-| `get_presigned_url` | 基于操作和 Stage 参数生成 `PRESIGN` 语句，返回 HTTP 方法、头信息和 URL。                                              |
-| `upload_to_stage`   | 上传数据到 Stage。默认使用 `PRESIGN UPLOAD` 获得 URL，或者如果 PRESIGN 被禁用，则使用 `v1/upload_to_stage` API。      |
-| `load_data`         | 上传数据到内置 Stage（`upload_to_stage`）并执行插入/替换操作，使用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
-| `load_file`         | 重用 `load_data` 逻辑来上传文件并插入数据。                                                                           |
-| `stream_load`       | 读取数据作为 Vec，将其转换为 CSV，然后调用 `load_data` 方法。                                                         |
+| Databend  | Rust                  |
+|-----------|-----------------------|
+| BOOLEAN   | bool                  |
+| TINYINT   | i8,u8                 |
+| SMALLINT  | i16,u16               |
+| INT       | i32,u32               |
+| BIGINT    | i64,u64               |
+| FLOAT     | f32                   |
+| DOUBLE    | f64                   |
+| DECIMAL   | String                |
+| DATE      | chrono::NaiveDate     |
+| TIMESTAMP | chrono::NaiveDateTime |
+| VARCHAR   | String                |
+| BINARY    | `Vec<u8>`             |
 
-## 教程 -1：使用 Rust 与 Databend 集成
+下表展示了Databend半结构化数据类型与其对应的Rust类型的对应关系：
 
-在开始之前，请确保您已成功安装了本地 Databend。有关详细说明，请参见 [本地和 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
+| Databend    | Rust           |
+|-------------|----------------|
+| ARRAY[T]    | `Vec<T> `      |
+| TUPLE[T, U] | (T, U)         |
+| MAP[K, V]   | `HashMap<K, V>`|
+| VARIANT     | String         |
+| BITMAP      | String         |
+| GEOMETRY    | String         |
 
-### 步骤 1. 准备一个 SQL 用户账户
+## Databend Rust驱动行为概述
 
-为了将您的程序连接到 Databend 并执行 SQL 操作，您必须在代码中提供具有适当权限的 SQL 用户账户。如果需要，请在 Databend 中创建一个，并确保 SQL 用户仅具有出于安全考虑所需的权限。
+下表概述了Rust驱动的主要行为和功能及其目的：
 
-本教程使用名为 'user1'，密码为 'abc123' 的 SQL 用户作为示例。由于程序将向 Databend 写入数据，因此用户需要 ALL 权限。有关如何管理 SQL 用户及其权限的信息，请参见 [用户与角色](/sql/sql-commands/ddl/user/)。
+| 函数名称       | 描述                                                                                     |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| `info`         | 返回客户端的连接信息。                                                                   |
+| `version`      | 返回执行`SELECT VERSION()`语句的结果。                                                    |
+| `exec`         | 执行SQL语句并返回受影响的行数。                                                          |
+| `query_iter`   | 执行SQL查询并返回用于逐行处理结果的迭代器。                                              |
+| `query_iter_ext`| 执行SQL查询并返回包含有关结果的统计信息的迭代器。                                       |
+| `query_row`    | 执行SQL查询并返回单行结果。                                                              |
+| `get_presigned_url` | 根据操作和Stage参数生成`PRESIGN`语句，返回HTTP方法、头部和URL。                        |
+| `upload_to_stage` | 将数据上传到Stage。默认使用`PRESIGN UPLOAD`获取URL，如果PRESIGN被禁用，则使用`v1/upload_to_stage`API。 |
+| `load_data`    | 将数据上传到内置Stage（`upload_to_stage`）并执行插入/替换操作，附带[Stage附件](/developer/apis/http#stage-attachment)。 |
+| `load_file`    | 重用`load_data`逻辑上传文件并插入数据。                                                   |
+| `stream_load`  | 将数据读取为Vec，转换为CSV，然后调用`load_data`方法。                                      |
+
+## 教程1：使用Rust与Databend集成
+
+开始之前，请确保您已成功安装本地Databend。详细指南请参阅[本地和Docker部署](/guides/deploy/deploy/non-production/deploying-local)。
+
+### 步骤1. 准备SQL用户账户
+
+要使您的程序连接到Databend并执行SQL操作，您必须在代码中提供具有适当权限的SQL用户账户。如有需要，在Databend中创建一个，并确保SQL用户仅具有必要的安全权限。
+
+本教程使用名为'user1'、密码为'abc123'的SQL用户作为示例。由于程序将向Databend写入数据，该用户需要ALL权限。关于如何管理SQL用户及其权限，请参阅[用户与角色](/sql/sql-commands/ddl/user/)。
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL on *.* TO user1;
 ```
 
-### 步骤 2. 编写一个 Rust 程序
+### 步骤2. 编写Rust程序
 
-在这一步中，您将创建一个简单的 Rust 程序，该程序将与 Databend 通信。程序将涉及创建表、插入数据和执行数据查询等任务。
+在本步骤中，您将创建一个简单的Rust程序，该程序与Databend通信。该程序将涉及创建表、插入数据和执行数据查询等任务。
 
 <StepsWrap>
 
 <StepContent number="1">
 
-### 创建一个新项目
+### 创建新项目
 
 ```shell
 cargo new databend-demo --bin
@@ -62,7 +92,7 @@ name = "databend-demo"
 version = "0.1.0"
 edition = "2021"
 
-# 有关更多键及其定义，请参见 https://doc.rust-lang.org/cargo/reference/manifest.html
+# 更多键及其定义请参见 https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 databend-driver = "0.7"
@@ -74,10 +104,10 @@ tokio-stream = "0.1.12"
 
 <StepContent number="2">
 
-### 将以下代码复制并粘贴到文件 main.rs 中
+### 将以下代码复制粘贴到main.rs文件中
 
 :::note
-代码下方的 `hostname` 值必须与您的 Databend 查询服务的 HTTP 处理程序设置保持一致。
+代码中`hostname`的值必须与您的Databend查询服务的HTTP处理程序设置相匹配。
 :::
 
 ```rust title='main.rs'
@@ -86,8 +116,8 @@ use tokio_stream::StreamExt;
 
 #[tokio::main]
 async fn main() {
-    // 下面的代码以用户名 "user1" 的 SQL 用户和密码 "abc123" 为例连接到本地 Databend 实例。
-    // 在保持相同格式的条件下，您可以随意使用自己的值。
+    // 以名为'user1'的SQL用户和密码'abc123'连接到本地Databend作为示例。
+    // 使用您自己的值时请保持相同格式。
     let dsn = "databend://user1:abc123@localhost:8000/default?sslmode=disable";
     let client = Client::new(dsn.to_string());
     let conn = client.get_conn().await.unwrap();
@@ -123,7 +153,7 @@ async fn main() {
 
 <StepContent number="3">
 
-### 运行程序。
+### 运行程序
 
 ```shell
 cargo run
@@ -137,19 +167,19 @@ mybook author 2022
 
 </StepsWrap>
 
-## 教程 -2：使用 Rust 与 Databend Cloud 集成
+## 教程2：使用Rust与Databend Cloud集成
 
-在开始之前，请确保您已成功创建一个计算集群并获得了连接信息。有关如何操作，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+开始之前，请确保您已成功创建仓库并获取连接信息。关于如何操作，请参阅[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
-### 步骤 1. 创建一个 Rust Crate
+### 步骤1. 创建Rust Crate
 
 ```shell
 $ cargo new databend-sample --bin
 ```
 
-### 步骤 2. 添加依赖项
+### 步骤2. 添加依赖项
 
-使用以下代码编辑名为 `Cargo.toml` 的文件：
+编辑名为`Cargo.toml`的文件，添加以下代码：
 
 ```toml
 [package]
@@ -157,7 +187,7 @@ name = "databend-sample"
 version = "0.1.0"
 edition = "2021"
 
-# 有关更多键及其定义，请参见 https://doc.rust-lang.org/cargo/reference/manifest.html
+# 更多键及其定义请参见 https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 chrono = "0.4"
@@ -166,9 +196,9 @@ tokio = { version = "1", features = ["full"] }
 tokio-stream = "0.1"
 ```
 
-### 步骤 3. 使用 databend-driver 连接
+### 步骤3. 连接到databend-driver
 
-使用以下代码编辑名为 `main.rs` 的文件：
+编辑名为`main.rs`的文件，添加以下代码：
 
 ```rust
 use databend_driver::Client;
@@ -180,7 +210,7 @@ async fn main() {
     let client = Client::new(dsn.to_string());
     let conn = client.get_conn().await.unwrap();
 
-    let sql_table_drop = "DROP TABLE IF EXISTS data;";
+    let sql_table_dorp = "DROP TABLE IF EXISTS data;";
     conn.exec(sql_table_drop).await.unwrap();
 
     let sql_table_create = "CREATE TABLE IF NOT EXISTS data (
@@ -197,7 +227,7 @@ async fn main() {
     conn.exec(sql_insert).await.unwrap();
 
     let mut rows = conn.query_iter("SELECT * FROM data;").await.unwrap();
-    当 let Some(row) = rows.next().await {
+    while let Some(row) = rows.next().await {
         let (col1, col2, col3, col4, col5, col6, col7): (
             i64,
             u64,
@@ -216,12 +246,10 @@ async fn main() {
 ```
 
 :::tip
-将代码中的 {USER}、{PASSWORD}、{HOST}、{WAREHOUSE_NAME} 和 {DATABASE} 替换为您的连接信息。关于如何
-获取连接信息，
-请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在代码中替换{USER}, {PASSWORD}, {WAREHOUSE_HOST}, 和 {DATABASE}为您的连接信息。关于如何获取连接信息，请参阅[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
-### 第 4 步。使用 Cargo 运行示例
+### 第4步：使用Cargo运行示例
 
 ```shell
 $ cargo run
