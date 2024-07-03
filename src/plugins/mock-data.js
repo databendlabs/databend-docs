@@ -17653,7 +17653,7 @@ const fakeRelease = {
     ssh_url: "git@github.com:datafuselabs/databend.git",
     clone_url: "https://github.com/datafuselabs/databend.git",
     svn_url: "https://github.com/datafuselabs/databend",
-    homepage: "https://databend.rs",
+    homepage: "https://docs.databend.com",
     size: 201044,
     stargazers_count: 6332,
     watchers_count: 6332,

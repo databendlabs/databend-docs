@@ -13,7 +13,7 @@ plugins:
           /^https:\/\/asciinema\.org/,
           "https://asciinema.org",
           "https://github.com",
-          "https://link.databend.rs",
+          "https://link.databend.com",
         ],
       gotOptions:
         {
