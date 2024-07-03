@@ -184,7 +184,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 a. 按照[安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql)在您的机器上安装 BendSQL。
 
-b. 按照[使用 BendSQL 连接到 Databend](../../../30-sql-clients/00-bendsql/00-connect-to-databend.md)启动 BendSQL 并检索当前时间以进行验证。
+b. 启动 BendSQL 并检索当前时间以进行验证。
 
 ### 启动和停止 Databend
 
