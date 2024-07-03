@@ -1,10 +1,10 @@
 ---
-title: Date & Time Functions
+title: 日期与时间函数
 ---
 
-This section provides reference information for the datetime-related functions in Databend.
+本节提供Databend中与日期时间相关的函数参考信息。
 
-## Conversion Functions
+## 转换函数
 
 - [DATE](date.md)
 - [TO_MONTH](to-month)
@@ -35,7 +35,7 @@ This section provides reference information for the datetime-related functions i
 - [TO_START_OF_TENMINUTES](to-start-of-ten-minutes)
 - [TO_START_OF_WEEK](to-start-of-week)
 - [TO_START_OF_YEAR](to-start-of-year)
-- [TOTIMESTAMP](to-timestamp)
+- [TO_TIMESTAMP](to-timestamp)
 - [TO_UNIX_TIMESTAMP](to-unix-timestamp)
 - [TO_WEEK_OF_YEAR](to-week-of-year)
 - [WEEK](week.md)
@@ -47,14 +47,14 @@ This section provides reference information for the datetime-related functions i
 - [TO_YYYYMMDDHH](to-yyyymmddhh)
 - [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss)
 
-## Date Arithmetic Functions
+## 日期运算函数
 
 - [ADD INTERVAL](addinterval.md)
 - [DATE_ADD](date-add)
 - [DATE_SUB](date-sub)
 - [SUBTRACT INTERVAL](subtractinterval.md)
 
-## Date Information Functions
+## 日期信息函数
 
 - [DATE_PART](date-part.md)
 - [DATE_DIFF](date-diff)
@@ -63,7 +63,7 @@ This section provides reference information for the datetime-related functions i
 - [NOW](now.md)
 - [CURRENT_TIMESTAMP](current-timestamp.md)
 
-## Others
+## 其他
 
 - [EXTRACT](extract.md)
 - [TIME_SLOT](time-slot)

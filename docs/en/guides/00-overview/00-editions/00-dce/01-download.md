@@ -28,30 +28,34 @@ import TabItem from '@theme/TabItem';
 <TabItem value="deb-old" label="Ubuntu/Debian">
 
 ```shell
-sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.rs/deb/datafuselabs.gpg
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.rs/deb/datafuselabs.list
+sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.com/deb/datafuselabs.gpg
+sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.com/deb/datafuselabs.list
 
 sudo apt update
 
 sudo apt install databend
 ```
+
 </TabItem>
 
 <TabItem value="deb-new" label="Ubuntu/Debian(DEB822-STYLE FORMAT)">
 
 :::note
 Available platforms:
-  * Ubuntu Jammy (22.04) and later
-  * Debian Bookworm(12) and later
+
+- Ubuntu Jammy (22.04) and later
+- Debian Bookworm(12) and later
+
 :::
 
 ```shell
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.rs/deb/datafuselabs.sources
+sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.com/deb/datafuselabs.sources
 
 sudo apt update
 
 sudo apt install databend
 ```
+
 </TabItem>
 </Tabs>
 
@@ -62,6 +66,7 @@ To start Databend after the installation, run the following commands:
 sudo systemctl start databend-meta
 sudo systemctl start databend-query
 ```
+
 :::
 
 ## Docker

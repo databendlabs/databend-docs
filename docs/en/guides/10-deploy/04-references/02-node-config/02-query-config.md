@@ -34,6 +34,7 @@ The following is a list of the parameters available within the [query] section:
 | cluster_id                   | Default cluster ID.                              |
 | table_engine_memory_enabled  | Flag to enable the Memory table engine.          |
 | max_running_queries          | Maximum number of queries that can be executed simultaneously, defaulting to 8, with 0 indicating no limit.| 
+| data_retention_time_in_days_max | Sets the upper limit for the `data_retention_time_in_days` setting, with a default value of 90 days.                          |
 
 ### [query.users] Section
 
@@ -143,7 +144,7 @@ The following is a list of the parameters available within the [storage.s3] sect
 | master_key                | Master key for authentication.                                                            |
 | region                    | The region for the S3-like storage service.                                               |
 | role_arn                  | ARN (Amazon Resource Name) for authentication.                                            |
-| root                      | The root directory for HDFS.                                                              |
+| root                      | Specifies a directory within the bucket from which Databend will operate. Example: if a bucket's root directory has a folder called `myroot`, then `root = "myroot/"`.                                                                        |
 | security_token            | Security token for authentication.                                                        |
 
 ### [storage.azblob] Section
@@ -156,7 +157,7 @@ The following is a list of the parameters available within the [storage.azblob] 
 | container    | The name of your Azure storage container.                                                                  |
 | account_name | The name of your Azure storage account.                                                                    |
 | account_key  | The account key for authenticating with Azure Blob Storage.                                                |
-| root         | The root directory for Azure Blob Storage.                                                                 |
+| root         | Specifies a directory within the bucket from which Databend will operate. Example: if a bucket's root directory has a folder called `myroot`, then `root = "myroot/"`.                                                                                   |
 
 ### [storage.gcs] Section
 
@@ -166,7 +167,7 @@ The following is a list of the parameters available within the [storage.gcs] sec
 |--------------|---------------------------------------------------------------------------------------|
 | bucket       | The name of your Google Cloud Storage bucket.                                         |
 | credential   | The base64 encoded service account key file for Google Cloud Storage authentication.  |
-| root         | The root directory for Google Cloud Storage.                                          |
+| root         | Specifies a directory within the bucket from which Databend will operate. Example: if a bucket's root directory has a folder called `myroot`, then `root = "myroot/"`.                                                              |
 
 To get the `credential`, you could follow the topic [Create a service account key](https://cloud.google.com/iam/docs/keys-create-delete#creating)
 from the Google documentation to create and download a service account key file. After downloading the service account key file, you could
@@ -187,7 +188,7 @@ The following is a list of the parameters available within the [storage.oss] sec
 | access_key_id        | The access key ID for authenticating with Alibaba Cloud OSS.      |
 | access_key_secret    | The access key secret for authenticating with Alibaba Cloud OSS.  |
 | presign_endpoint_url | The URL endpoint for presigned operations with Alibaba Cloud OSS. |
-| root                 | The root directory for Alibaba Cloud OSS.                         |
+| root                 | Specifies a directory within the bucket from which Databend will operate. Example: if a bucket's root directory has a folder called `myroot`, then `root = "myroot/"`.                                           |
 
 ### [storage.cos] Section
 
@@ -199,7 +200,7 @@ The following is a list of the parameters available within the [storage.cos] sec
 | endpoint_url | The URL endpoint for Tencent COS (optional).                |
 | secret_id    | The secret ID for authenticating with Tencent COS.          |
 | secret_key   | The secret key for authenticating with Tencent COS.         |
-| root         | The root directory for Tencent Cloud Object Storage.        |
+| root         | Specifies a directory within the bucket from which Databend will operate. Example: if a bucket's root directory has a folder called `myroot`, then `root = "myroot/"`.                                    |
 
 ### [storage.hdfs] Section
 
@@ -208,7 +209,7 @@ The following is a list of the parameters available within the [storage.hdfs] se
 | Parameter      | Description                                       |
 |----------------|---------------------------------------------------|
 | name_node      | The name node address for Hadoop Distributed File System (HDFS). |
-| root         | The root directory for HDFS.                                   |
+| root           | Specifies a directory from which Databend will operate. |
 
 
 ### [storage.webhdfs] Section
@@ -218,7 +219,7 @@ The following is a list of the parameters available within the [storage.webhdfs]
 | Parameter    | Description                                                    |
 |--------------|----------------------------------------------------------------|
 | endpoint_url | The URL endpoint for WebHDFS (Hadoop Distributed File System). |
-| root         | The root directory for HDFS.                                   |
+| root         | Specifies a directory from which Databend will operate.        |
 | delegation   | Delegation token for authentication and authorization.         |
 
 ## [cache] Section

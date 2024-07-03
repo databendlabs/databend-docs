@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 包含系统中用户定义的函数和外部函数的信息。
 
-另见：[SHOW USER FUNCTIONS](../../10-sql-commands/50-administration-cmds/show-user-functions.md)。
+另见：[SHOW USER FUNCTIONS](/sql/sql-commands/administration-cmds/show-user-functions)。
 
 ```sql
 SELECT * FROM system.user_functions;

@@ -22,7 +22,7 @@ const Connectwithus = () => {
       name: "Slack Channel",
       icon: <Slack />,
       des: "Chat with the community",
-      link: "https://link.databend.rs/join-slack",
+      link: "https://link.databend.com/join-slack",
     },
   ];
 
@@ -30,20 +30,24 @@ const Connectwithus = () => {
     <div className={clsx(styles.Connectwithus)}>
       <h2>🎈Connect With Us</h2>
       <p>
-        Databend is a cutting-edge, open-source cloud-native warehouse built with Rust,
-        designed to handle massive-scale analytics.
+        Databend is a cutting-edge, open-source cloud-native warehouse built
+        with Rust, designed to handle massive-scale analytics.
       </p>
       <p>
-        Join the <a href="https://github.com/datafuselabs/databend">Databend Community</a> to try, get help, and contribute!
+        Join the{" "}
+        <a href="https://github.com/datafuselabs/databend">
+          Databend Community
+        </a>{" "}
+        to try, get help, and contribute!
       </p>
       <ul className={clsx(styles.Connecttype)}>
         {items.map((item, index) => {
           return (
             <li key={index}>
               <Link to={item.link}>
-              {item.icon}
-              <h6>{item.name}</h6>
-              <p>{item.des}</p>
+                {item.icon}
+                <h6>{item.name}</h6>
+                <p>{item.des}</p>
               </Link>
             </li>
           );

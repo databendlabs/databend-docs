@@ -15,7 +15,7 @@ export interface IAssets {
 export interface IRepoResource {
   stargazers_count: number;
   formatStargazersCount?: number;
-  [prop: string]: any
+  [prop: string]: any;
 }
 export interface IRelease {
   tag_name: string;
@@ -25,11 +25,11 @@ export interface IRelease {
   body: string;
   filterBody: string;
   originAssets: IAssets[];
-  assets: IAssets[]
+  assets: IAssets[];
 }
 export interface IGlobalData {
-  releasesList: IRelease[], 
-  repoResource: IRepoResource, 
-  stargazersCount: number,
-  [prop: string]: any
+  releasesList: IRelease[];
+  repoResource: IRepoResource;
+  stargazersCount: number;
+  [prop: string]: any;
 }

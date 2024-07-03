@@ -6,7 +6,6 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 
-
 <LanguageDocs
 cn=
 {
@@ -24,7 +23,7 @@ b. 从 [GitHub Release](https://github.com/datafuselabs/databend/releases)下载
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
 ```shell
-curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
@@ -36,7 +35,7 @@ tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
 <TabItem value="linux-arm64" label="Linux(Arm)">
 
 ```shell
-curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
@@ -67,7 +66,7 @@ b. Download and extract the latest Databend release for your platform from [GitH
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
 ```shell
-curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
@@ -79,7 +78,7 @@ tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
 <TabItem value="linux-arm64" label="Linux(Arm)">
 
 ```shell
-curl -LJO https://repo.databend.rs/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
@@ -95,4 +94,3 @@ c. Move the extracted folders `bin`, `configs`, and `scripts` to the folder `/us
 </>
 }
 />
-

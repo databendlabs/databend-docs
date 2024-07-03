@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 包含关于支持的内置标量和聚合函数的信息。
 
-另见：[SHOW FUNCTIONS](../../10-sql-commands/50-administration-cmds/show-functions.md)。
+另见：[SHOW FUNCTIONS](/sql/sql-commands/administration-cmds/show-functions)。
 
 ## 示例
 

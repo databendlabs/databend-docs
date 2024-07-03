@@ -9,7 +9,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 import GetLatest from '@site/src/components/GetLatest';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-
 Databend also works with Hadoop Distributed File System (HDFS). This topic explains how to deploy Databend with HDFS. For a list of other supported object storage solutions, see [Understanding Deployment Modes](../00-understanding-deployment-modes.md).
 
 ### Setting up Your HDFS
@@ -64,7 +63,7 @@ To use HDFS as the storage backend, download a release with a file name formatte
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
 ```shell
-curl -LJO https://repo.databend.rs/databend/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+curl -LJO https://repo.databend.com/databend/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
 ```
 
 ```shell
@@ -185,7 +184,7 @@ In this section, we will run a simple query against Databend using [BendSQL](htt
 
 a. Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
 
-b. Follow [Connecting to Databend using BendSQL](../../../30-sql-clients/00-bendsql/00-connect-to-databend.md) to launch BendSQL and retrieve the current time for verification.
+b. Launch BendSQL and retrieve the current time for verification.
 
 ### Starting and Stopping Databend
 
