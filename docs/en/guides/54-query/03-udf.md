@@ -3,6 +3,10 @@ title: User-Defined Function
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='Python UDF'/>
+
 User-Defined Functions (UDFs) offer enhanced flexibility by supporting both anonymous lambda expressions and predefined handlers (Python, JavaScript & WebAssembly) for defining UDFs. These features allow users to create custom operations tailored to their specific data processing needs. Databend UDFs are categorized into the following types:
 
 - [Lambda UDFs](#lambda-udf)
@@ -50,7 +54,7 @@ Embedded UDFs allow you to embed code written in the following programming langu
 If your program content is large, you can compress it and then pass it to a stage. See the [Usage Examples](#usage-examples-2) for WebAssembly.
 :::
 
-### Python
+### Python (requires Databend Enterprise)
 
 A Python UDF allows you to invoke Python code from a SQL query via Databend's built-in handler, enabling seamless integration of Python logic within your SQL queries.
 
