@@ -56,7 +56,7 @@ SELECT get_v1(data), get_v2(data) FROM json_table;
 
 ### Python（需要 Databend 企业版）
 
-Python UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 Python 代码，从而实现 Python 逻辑与 SQL 查询的无缝集成。
+Python UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 Python 代码，从而实现 Python 逻辑在 SQL 查询中的无缝集成。
 
 :::note
 Python UDF 必须仅使用 Python 的标准库；不允许第三方导入。
@@ -75,7 +75,7 @@ Python UDF 必须仅使用 Python 的标准库；不允许第三方导入。
 ```sql
 -- 创建情感分析函数
 CREATE OR REPLACE FUNCTION sentiment_analysis(STRING) RETURNS STRING
-LANGUAGE python HANDLER = 'sentiment_analysis'
+LANGUAGE python HANDLER = 'sentiment_analysis_handler'
 AS $$
 def remove_stop_words(text, stop_words):
     """
@@ -123,7 +123,7 @@ def get_sentiment_label(score):
     else:
         return 'Neutral'
 
-def sentiment_analysis(text):
+def sentiment_analysis_handler(text):
     """
     分析输入文本的情感。
     
@@ -179,7 +179,7 @@ FROM
 
 ### JavaScript
 
-JavaScript UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 JavaScript 代码，从而实现 JavaScript 逻辑与 SQL 查询的无缝集成。
+JavaScript UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 JavaScript 代码，从而实现 JavaScript 逻辑在 SQL 查询中的无缝集成。
 
 #### 数据类型映射
 
@@ -236,9 +236,9 @@ WebAssembly UDF 允许用户使用编译为 WebAssembly 的语言定义自定义
 
 #### 使用示例
 
-在此示例中，创建了名为 "wasm_gcd" 的函数，用于计算两个整数的最大公约数（GCD）。该函数使用 WebAssembly 定义，其实现位于 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
+在此示例中，创建了名为 "wasm_gcd" 的函数，用于计算两个整数的最大公约数（GCD）。该函数使用 WebAssembly 定义，其实现在 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
 
-在执行之前，函数实现经历了一系列步骤。首先，它被编译成二进制文件，然后压缩成 'test10_udf_wasm_gcd.wasm.zst'。最后，压缩文件被提前上传到一个阶段。
+在执行之前，函数实现经历了一系列步骤。首先，它被编译成二进制文件，然后压缩成 'test10_udf_wasm_gcd.wasm.zst'。最后，压缩文件提前上传到一个阶段。
 
 :::note
 该函数可以使用 Rust 实现，如示例所示，地址为 https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs
