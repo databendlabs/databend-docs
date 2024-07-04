@@ -1,52 +1,47 @@
 ---
-title: Preparing Storage
-sidebar_label: Preparing Storage
+title: 准备存储
+sidebar_label: 准备存储
 description:
-  Recommendations for preparing storage for Databend deployments.
+  为 Databend 部署准备存储的推荐配置。
 ---
 
-This topic explains the recommended storage configurations for deploying Databend in production environments.
-
+本主题介绍了在生产环境中部署 Databend 时推荐的存储配置。
 
 ## AWS S3
 
-When deploying Databend with AWS S3 in production environments, consider the following recommendations:
+在生产环境中使用 AWS S3 部署 Databend 时，请考虑以下推荐配置：
 
+### 安全性
 
-### Security
+阻止对您的 S3 存储桶的公共访问，以防止未经授权访问您的数据。您可以通过以下设置来限制公共访问：
 
-Block public access to your S3 bucket to prevent unauthorized access to your data. You can configure the following settings to restrict public access:
+进入 AWS 管理控制台，选择 S3 服务，输入存储桶名称，然后点击 **权限** 标签页。在 **阻止公共访问** 部分，点击 **编辑**，然后选择 **阻止所有公共访问** 选项并点击 **保存**。
 
-Go to the AWS Management Console, select the S3 service, enter the bucket name, and click on the **Permissions** tab. Under the **Block public access** section, click **Edit**, then select the **Block all public access** option and click **Save**.
+### 加密
 
+在您的 S3 存储桶上启用服务器端加密，以保护静态数据。您可以选择以下加密选项：
 
-### Encryption
+- **SSE-S3**：使用 Amazon S3 托管密钥的服务器端加密。
+- **SSE-KMS**：使用 AWS Key Management Service (KMS) 密钥的服务器端加密。
 
-Enable server-side encryption on your S3 bucket to protect your data at rest. You can choose from the following encryption options:
+进入 AWS 管理控制台，选择 S3 服务，输入存储桶名称，然后点击 **属性** 标签页。在 **默认加密** 部分，点击 **编辑**，然后选择加密选项并点击 **保存**。
 
-- **SSE-S3**: Server-side encryption with Amazon S3-managed keys.
-- **SSE-KMS**: Server-side encryption with AWS Key Management Service (KMS) keys.
+### 存储桶版本控制
 
-Go to the AWS Management Console, select the S3 service, enter the bucket name, and click on the **Properties** tab. Under the **Default encryption** section, click **Edit**, then select the encryption option and click **Save**.
+在您的 S3 存储桶上启用版本控制，以防止对象被意外删除。版本控制允许您从意外删除或覆盖中恢复对象。
 
+进入 AWS 管理控制台，选择 S3 服务，输入存储桶名称，然后点击 **属性** 标签页。在 **版本控制** 部分，点击 **编辑**，然后选择 **启用版本控制** 并点击 **保存**。
 
-### Bucket Versioning
+### 存储桶生命周期策略
 
-Enable versioning on your S3 bucket to protect against accidental deletion of objects. Versioning allows you to recover objects from accidental deletion or overwrite.
+当启用存储桶版本控制时，需要配置生命周期规则。您可以配置生命周期策略，自动删除对象的旧版本或将对象转换到不同的存储类别。
 
-Go to the AWS Management Console, select the S3 service, enter the bucket name, and click on the **Properties** tab. Under the **Versioning** section, click **Edit**, then select **Enable versioning** and click **Save**.
+1. 进入 AWS 管理控制台，选择 S3 服务，输入存储桶名称，然后点击 **管理** 标签页。在 **生命周期** 部分，点击 **添加生命周期规则** 以创建新规则。
 
+2. 输入规则名称，选择对象前缀，并配置规则操作：**永久删除对象的非当前版本**。
 
-### Bucket Lifecycle Policies
+3. 输入对象成为非当前版本后的天数：推荐 7 天。
 
-Lifecyle rule is needed when Bucket Versioning is enabled. You can configure lifecycle policies to automatically delete old versions of objects or transition objects to different storage classes.
+4. 输入要保留的版本数量：推荐 0。
 
-1. Go to the AWS Management Console, select the S3 service, enter the bucket name, and click on the **Management** tab. Under the **Lifecycle** section, click **Add lifecycle rule** to create a new rule.
-
-2. Input a rule name, select the object prefix, and configure the rule actions: **Permanently delete noncurrent versions of objects**.
-
-3. Input the Days after object become noncurrent: 7 days recommended.
-
-4. Input the Number of versions to retain: 0 recommended.
-
-5. Click **Create rule** to save the lifecycle policy.
+5. 点击 **创建规则** 以保存生命周期策略。
