@@ -1,6 +1,6 @@
 ---
 title: 淘宝用户购物行为分析
-slug: /
+slug: /taobao-tutorial
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';

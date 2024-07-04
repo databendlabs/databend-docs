@@ -3,6 +3,10 @@ title: User-Defined Function
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='Python UDF'/>
+
 User-Defined Functions (UDFs) offer enhanced flexibility by supporting both anonymous lambda expressions and predefined handlers (Python, JavaScript & WebAssembly) for defining UDFs. These features allow users to create custom operations tailored to their specific data processing needs. Databend UDFs are categorized into the following types:
 
 - [Lambda UDFs](#lambda-udf)
@@ -50,7 +54,7 @@ Embedded UDFs allow you to embed code written in the following programming langu
 If your program content is large, you can compress it and then pass it to a stage. See the [Usage Examples](#usage-examples-2) for WebAssembly.
 :::
 
-### Python
+### Python (requires Databend Enterprise)
 
 A Python UDF allows you to invoke Python code from a SQL query via Databend's built-in handler, enabling seamless integration of Python logic within your SQL queries.
 
@@ -71,7 +75,7 @@ This example defines a Python UDF for sentiment analysis, creates a table, inser
 ```sql
 -- Create the sentiment analysis function
 CREATE OR REPLACE FUNCTION sentiment_analysis(STRING) RETURNS STRING
-LANGUAGE python HANDLER = 'sentiment_analysis'
+LANGUAGE python HANDLER = 'sentiment_analysis_handler'
 AS $$
 def remove_stop_words(text, stop_words):
     """
@@ -119,7 +123,7 @@ def get_sentiment_label(score):
     else:
         return 'Neutral'
 
-def sentiment_analysis(text):
+def sentiment_analysis_handler(text):
     """
     Analyzes the sentiment of the input text.
     

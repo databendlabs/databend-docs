@@ -47,6 +47,7 @@ parameters={
     "database": "default"
 };
 ```
+
 :::tip
 The SQL statements above connect the database `default` in Databend to your MindsDB Cloud account. For explanations about the parameters, refer to https://docs.mindsdb.com/data-integrations/all-data-integrations#databend
 :::
@@ -122,8 +123,8 @@ CREATE TABLE pollution_measurement(
   PM10 double,
   PM25 double
 );
- 
-COPY INTO pollution_measurement FROM 'https://repo.databend.rs/AirPolutionSeoul/Measurement_summary.csv' file_format=(type='CSV' skip_header=1);
+
+COPY INTO pollution_measurement FROM 'https://repo.databend.com/AirPolutionSeoul/Measurement_summary.csv' file_format=(type='CSV' skip_header=1);
 ```
 
 ### Step 2. Connect MindsDB to Databend Cloud
@@ -142,6 +143,7 @@ parameters={
     "database": "default"
 };
 ```
+
 :::tip
 The SQL statements above connect the database `default` in Databend Cloud to your MindsDB Cloud account. The parameter values can be obtained from the connection information of your warehouse. For more information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting). For explanations about the parameters, refer to https://docs.mindsdb.com/data-integrations/all-data-integrations#databend
 :::
@@ -151,6 +153,7 @@ The SQL statements above connect the database `default` in Databend Cloud to you
 ```sql
 SELECT * FROM databend_datasource.pollution_measurement LIMIT 10;
 ```
+
 ![Alt text](@site/static/img/documents/BI/mindsdb-verify.png)
 
 ### Step 3. Create a Predictor
@@ -166,7 +169,7 @@ PREDICT so2;
 Now the predictor will begin training. You can check the status with the following query:
 
 ```sql
-SELECT * 
+SELECT *
 FROM mindsdb.models
 WHERE name='airq_predictor';
 ```

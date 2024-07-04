@@ -15,18 +15,18 @@ Before you start, make sure you have completed the following preparations:
 - Plan your deployment. This topic is based on the following cluster deployment plan, which involves setting up a meta cluster comprising three meta nodes and a query cluster consisting of two query nodes:
 
 | Node #  | IP Address        | Leader Meta Node? | Tenant ID | Cluster ID |
-|---------|-------------------|-------------------|-----------|------------|
+| ------- | ----------------- | ----------------- | --------- | ---------- |
 | Meta-1  | 172.16.125.128/24 | Yes               | -         | -          |
 | Meta-2  | 172.16.125.129/24 | No                | -         | -          |
 | Meta-3  | 172.16.125.130/24 | No                | -         | -          |
 | Query-1 | 172.16.125.131/24 | -                 | default   | default    |
 | Query-2 | 172.16.125.132/24 | -                 | default   | default    |
 
-- Download and extract the latest Databend package to each node. 
+- Download and extract the latest Databend package to each node.
 
 ```shell title='Example:'
 root@meta-1:/usr# mkdir databend && cd databend
-root@meta-1:/usr/databend# curl -O https://repo.databend.rs/databend/v1.2.410/databend-v1.2.410-aarch64-unknown-linux-gnu.tar.gz
+root@meta-1:/usr/databend# curl -O https://repo.databend.com/databend/v1.2.410/databend-v1.2.410-aarch64-unknown-linux-gnu.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  333M  100  333M    0     0  18.5M      0  0:00:18  0:00:18 --:--:-- 16.4M
@@ -37,12 +37,12 @@ root@meta-1:/usr/databend# tar -xzvf databend-v1.2.410-aarch64-unknown-linux-gnu
 
 1. Configure the file [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) in each meta node:
 
-    - Ensure that the **id** parameter in [raft_config] is set to a unique value.
-    - Set the **single** parameter to *true* for the leader meta node.
-    - For follower meta nodes, comment out the **single** parameter using the # symbol, then add a parameter named **join** and provide an array of the IP addresses of the other meta nodes as its value.
+   - Ensure that the **id** parameter in [raft_config] is set to a unique value.
+   - Set the **single** parameter to _true_ for the leader meta node.
+   - For follower meta nodes, comment out the **single** parameter using the # symbol, then add a parameter named **join** and provide an array of the IP addresses of the other meta nodes as its value.
 
 | Parameter               | Meta-1         | Meta-2                                          | Meta-3                                          |
-|-------------------------|----------------|-------------------------------------------------|-------------------------------------------------|
+| ----------------------- | -------------- | ----------------------------------------------- | ----------------------------------------------- |
 | grpc_api_advertise_host | 172.16.125.128 | 172.16.125.129                                  | 172.16.125.130                                  |
 | id                      | 1              | 2                                               | 3                                               |
 | raft_listen_host        | 172.16.125.128 | 172.16.125.129                                  | 172.16.125.130                                  |
@@ -78,6 +78,7 @@ raft_advertise_host = "172.16.125.128"
 # Start up mode: single node cluster
 single        = true
 ```
+
   </TabItem>
   <TabItem value="Meta-2" label="Meta-2">
 
@@ -103,6 +104,7 @@ raft_advertise_host = "172.16.125.129"
 # single        = true
 join            = ["172.16.125.128:28103", "172.16.125.130:28103"]
 ```
+
   </TabItem>
   <TabItem value="Meta-3" label="Meta-3">
 
@@ -128,6 +130,7 @@ raft_advertise_host = "172.16.125.130"
 # single        = true
 join            = ["172.16.125.128:28103", "172.16.125.129:28103"]
 ```
+
   </TabItem>
 </Tabs>
 
@@ -149,11 +152,11 @@ curl 172.16.125.128:28101/v1/cluster/nodes
 
 1. Configure the file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) in each query node. The following list only includes the parameters you need to set in each query node to reflect the deployment plan outlined in this document.
 
-    - Set the tenant ID and cluster ID according to the deployment plan.
-    - Set the **endpoints** parameter to an array of the IP addresses of the meta nodes.
+   - Set the tenant ID and cluster ID according to the deployment plan.
+   - Set the **endpoints** parameter to an array of the IP addresses of the meta nodes.
 
 | Parameter  | Query-1 / Query-2                                                   |
-|------------|---------------------------------------------------------------------|
+| ---------- | ------------------------------------------------------------------- |
 | tenant_id  | default                                                             |
 | cluster_id | default                                                             |
 | endpoints  | ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"] |
@@ -211,7 +214,7 @@ cd .. && cd bin
 
 ## Step 3: Verify Deployment
 
-Connect to one of the query nodes using [BendSQL](docs/en/guides/30-sql-clients/00-bendsql/index.md), and retrieve information about the existing query nodes:
+Connect to one of the query nodes using [BendSQL](/guides/sql-clients/bendsql/), and retrieve information about the existing query nodes:
 
 ```shell
 bendsql -h 172.16.125.131
