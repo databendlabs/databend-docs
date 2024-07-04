@@ -75,7 +75,7 @@ This example defines a Python UDF for sentiment analysis, creates a table, inser
 ```sql
 -- Create the sentiment analysis function
 CREATE OR REPLACE FUNCTION sentiment_analysis(STRING) RETURNS STRING
-LANGUAGE python HANDLER = 'sentiment_analysis'
+LANGUAGE python HANDLER = 'sentiment_analysis_handler'
 AS $$
 def remove_stop_words(text, stop_words):
     """
@@ -123,7 +123,7 @@ def get_sentiment_label(score):
     else:
         return 'Neutral'
 
-def sentiment_analysis(text):
+def sentiment_analysis_handler(text):
     """
     Analyzes the sentiment of the input text.
     
