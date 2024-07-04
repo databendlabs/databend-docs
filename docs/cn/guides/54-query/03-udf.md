@@ -241,7 +241,7 @@ WebAssembly UDF 允许用户使用编译为 WebAssembly 的语言定义自定义
 在执行之前，函数实现经历了一系列步骤。首先，它被编译成二进制文件，然后压缩成 'test10_udf_wasm_gcd.wasm.zst'。最后，压缩文件提前上传到一个阶段。
 
 :::note
-该函数可以用 Rust 实现，如示例所示：https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs
+该函数可以使用 Rust 实现，如示例所示，地址为 https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs
 :::
 
 ```sql
