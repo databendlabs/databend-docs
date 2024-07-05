@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.547"/>
 
-Returns a MAP based on an existing MAP with one or more keys removed.
+Returns an existing MAP with one or more keys removed.
 
 ## Syntax
 
@@ -21,8 +21,8 @@ MAP_DELETE( <map>, <key1> [, <key2>, ... ] )
 | `<keyN>`  | The KEY to be omitted from the returned MAP. |
 
 :::note
-- The type of the key expression must match the type of the map’s key.
-- Key values that are not found in the map are ignored.
+- The types of the key expressions and the keys in the map must be the same.
+- Key values not found in the map will be ignored.
 :::
 
 ## Return Type
