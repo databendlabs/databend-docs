@@ -1,5 +1,5 @@
 ---
-title: Databend Community Edition
+title: Databend Community
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
