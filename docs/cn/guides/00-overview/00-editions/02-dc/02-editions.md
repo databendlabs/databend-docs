@@ -4,7 +4,7 @@ title: 版本
 
 Databend Cloud 提供三种版本：**标准版**、**商业版**和**专属版**，您可以根据不同的需求选择合适的版本，以确保不同使用场景下的最佳性能。
 
-如需快速了解这些版本，请访问 [https://www.databend.com/databend-cloud](https://www.databend.com/databend-cloud)。有关定价信息，请参阅[定价与计费](/guides/cloud/manage/pricing)。各版本详细功能列表，请参阅[功能列表](#feature-lists)。
+如需快速了解这些版本，请访问 [https://www.databend.cn/databend-cloud](https://www.databend.cn/databend-cloud)。有关定价信息，请参阅[定价与计费](/guides/cloud/manage/pricing)。各版本详细功能列表，请参阅[功能列表](#feature-lists)。
 
 ## 功能列表
 
