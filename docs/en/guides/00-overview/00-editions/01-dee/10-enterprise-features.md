@@ -15,8 +15,9 @@ This page provides an updated list of available enterprise features. To access t
 | [Virtual Column](/sql/sql-commands/ddl/virtual-column)                             | Query          | Enhance efficiency in querying Variant data:<br/>- Virtual columns streamline queries, eliminating the need to traverse the entire nested structure. Direct data retrieval accelerates query execution.<br/>- Virtual columns significantly cut memory usage in Variant data, reducing the risk of memory overflows.                                                                                                                            |
 | [Aggregating Index](/sql/sql-commands/ddl/aggregating-index)                       | Query          | Elevate your query speed with aggregating indexes:<br/>- Supercharge queries through precomputed and indexed aggregations.<br/>- Customize the index to meet your unique data analysis requirements.                                                                                                                                                                                                                                            |
 | [Computed Column](/sql/sql-commands/ddl/table/ddl-create-table#computed-columns) 	 | Query          | Computed columns save you time and effort by enabling derivation of new columns from existing ones:<br/>- Automatic updates ensure accurate and consistent data.<br/>- Advanced analysis and calculations can now be performed within the database.<br/>- Two types of computed columns: stored and virtual. Virtual columns save you space as they are calculated on-the-fly when queried. 	                                                   |
-| [Stream](/sql/sql-commands/ddl/stream)                                             | Data Streaming | Efficient data change management with stream:<br/>- Append-only mode supported: Instantly capture data insertions in real-time.<br/>- Seamlessly leverage streams for direct querying and analysis, ensuring swift insights.                                                                                                                                                                                                                    |
 | [Python UDF](/guides/query/udf#python-requires-databend-enterprise) | Query | A Python UDF allows you to invoke Python code from a SQL query via Databend's built-in handler, enabling seamless integration of Python logic within your SQL queries.|
+| [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) | Query | Attach Table enables you to seamlessly connect a table in the cloud service platform to an existing table deployed in a private deployment environment without the need to physically move the data. | 
+| [Stream](/sql/sql-commands/ddl/stream)                                             | Data Streaming | Efficient data change management with stream:<br/>- Append-only mode supported: Instantly capture data insertions in real-time.<br/>- Seamlessly leverage streams for direct querying and analysis, ensuring swift insights.                                                                                                                                                                                                                    |
 | [Masking Policy](/sql/sql-commands/ddl/mask-policy/)                               | Security       | Enhance your data security with role-based masking feature:<br/>- Safeguard sensitive information through customizable data masking.<br/>- Preserve data usability while reinforcing security.                                                                                                                                                                                                                                                  |
 | Storage Encryption                                                                 | Security       | Enhance the security of your server-side data encryption, safeguarding your data from unauthorized access by the storage vendor:<br/>- Choose encryption through service-managed keys, KMS managed keys, or customer-managed keys. Options may vary by storage type.<br/>- Currently supported on Alibaba Cloud OSS.<br/>See the [deploy guide](../../../10-deploy/01-deploy/01-non-production/01-deploying-databend.md) for encryption parameters for each storage vendor. |
 
@@ -33,19 +34,19 @@ This section compares Databend Community with Databend Enterprise in the followi
 | Distributed Storage Engine                        | ✓                        | ✓                        |
 | Distributed Scheduling Engine                     | ✓                        | ✓                        |
 | Vectorized Engine                                 | ✓                        | ✓                        |
-| Distributed Transaction Support                   | ✓                        | ✓                        |
-| Data Multi-version Support                        | ✓                        | ✓                        |
-| Time Travel Support                               | ✓                        | ✓                        |
+| Distributed Transaction                           | ✓                        | ✓                        |
+| Multi-version Data                                | ✓                        | ✓                        |
+| Time Travel                                       | ✓                        | ✓                        |
 | Performance Optimizer                             | ✓                        | ✓                        |
 | Multi-tenancy and Permission Management           | ✓                        | ✓                        |
-| Standard Data Type Support                        | ✓                        | ✓                        |
-| Semi-structured Data Type (JSON) Support          | ✓                        | ✓                        |
-| Unstructured Data Type Support                    | Parquet/CSV/TSV/JSON/ORC | Parquet/CSV/TSV/JSON/ORC |
-| Advanced Compression Support                      | ✓                        | ✓                        |
-| Vector Storage Support                            | ✓                        | ✓                        |
-| Apache Hive Query Support                         | ✓                        | ✓                        |
-| Apache Iceberg Query Support                      | ✓                        | ✓                        |
-| Semi-structured Data Query Support                | ✓                        | ✓                        |
+| Standard Data Types                               | ✓                        | ✓                        |
+| Semi-structured Data Type (JSON)                  | ✓                        | ✓                        |
+| Unstructured Data Types                           | Parquet/CSV/TSV/JSON/ORC | Parquet/CSV/TSV/JSON/ORC |
+| Advanced Compression                              | ✓                        | ✓                        |
+| Vector Storage                                    | ✓                        | ✓                        |
+| Apache Hive Query                                 | ✓                        | ✓                        |
+| Apache Iceberg Query                              | ✓                        | ✓                        |
+| Semi-structured Data Query                        | ✓                        | ✓                        |
 | External User-defined Functions                   | ✓                        | ✓                        |
 | Large Query Resource Isolation Protection (Spill) | ✓                        | ✓                        |
 
