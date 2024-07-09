@@ -46,7 +46,7 @@ The following are feature lists of Databend Cloud among editions:
 | Advanced DML such as multi-table INSERT, MERGE, and multi-merge.                                                                             | Yes      | Yes      | Yes       |
 | Broad support for standard data types.                                                                                                       | Yes      | Yes      | Yes       |
 | Native support for semi-structured data (JSON, ORC, Parquet).                                                                                | Yes      | Yes      | Yes       |
-| Native support for geospatial data.?                                                                                                         | Yes      | Yes      | Yes       |
+| Native support for geospatial data.                                                                                                          | Yes      | Yes      | Yes       |
 | Native support for unstructured data.                                                                                                        | Yes      | Yes      | Yes       |
 | Collation rules for string/text data in table columns.                                                                                       | Yes      | Yes      | Yes       |
 | Multi-statement transactions.                                                                                                                | Yes      | Yes      | Yes       |
