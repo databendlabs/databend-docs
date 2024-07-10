@@ -6,6 +6,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.549"/>
 
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='ATTACH TABLE'/>
+
 将一个现有表附加到另一个表上。该命令将一个表的数据和模式从一个数据库移动到另一个数据库，但实际上并不复制数据。相反，它创建一个指向原始表数据的链接，以便访问数据。
 
 Attach Table 使您能够无缝地将云服务平台中的表连接到私有部署环境中的现有表，而无需实际移动数据。当您希望将数据从 Databend 的私有部署迁移到 [Databend Cloud](https://www.databend.com) 同时最小化数据传输开销时，这特别有用。
@@ -109,7 +113,7 @@ SELECT * FROM population_readonly;
 └────────────────────────────────────┘
 ```
 
-一切就绪！如果您在 Databend 中更新源表，您可以在 Databend Cloud 的目标表中看到相同的更改。例如，如果您在源表中将多伦多的人口更改为 2,371,571：
+一切就绪！如果您在 Databend 中更新源表，您可以在 Databend Cloud 中的目标表中看到相同的更改。例如，如果您在源表中将多伦多的人口更改为 2,371,571：
 
 ```sql title='Databend:'
 UPDATE population
