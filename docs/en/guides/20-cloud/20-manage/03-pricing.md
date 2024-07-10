@@ -2,65 +2,50 @@
 title: Pricing & Billing
 ---
 
-Your warehouses and storage consume credits in Databend Cloud. The Trial Plan (ends in 30-days) offers 200 FREE credits. When you’re running low, you can buy more credits in **Organization** > **Billing**. Each credit costs $1.
+Your costs on Databend Cloud consist of the following components: warehouses, storage, and cloud service fees. This page contains information about the pricing of each component and how the billing works.
 
-![](@site/static/img/documents/pricing-billing/about.png)
+## Databend Cloud Pricing
 
-## Warehouse Pricing
+This section provides pricing information on warehouse, storage, and cloud service.
 
-Warehouses consume credits when they are running (to be more precise, in the Running state). The number of credits consumed depends on the warehouse's size and running time. An XSmall warehouse with 8 vCPUs only consumes 1 credit per hour.
+### Warehouse Pricing
 
-Databend Cloud charges on a per-second basis. For example, if you have a Small warehouse running for three seconds, it will charge 0.00168 (0.000556 x 3) credit. Before you run a warehouse, make sure you have enough credits. To check your credit balance or buy more credits, go to **Organization** > **Billing**.
+Your warehouses incur costs when they are running (specifically, when in the Running state). The cost depends on the warehouse's size and running time. **Billing is calculated on a per-second basis**. For example, if you have a warehouse running for three seconds, you will be charged for that exact duration.
 
-| Size (vCPUs) | Credits / Hour | Credits / Second |
-|-------------------------------|-------------------------|---------------------------|
-| XSmall (8)             | $ 1                     | $ 0.000278
-| Small (16)           | $ 2                       | $ 0.000556
-| Medium (32)            | $ 4                       | $ 0.001111                    |
-| Large (64)           | $ 8                       | $ 0.002222                    |
-| XLarge (128)           | $ 16                       | $ 0.004444                    |
+The size of a warehouse refers to the number of vCPUs it contains, and prices vary based on the different sizes available and the Databend Cloud edition you use.
 
-A suspended warehouse does not consume any credits. Databend Cloud automatically suspends a warehouse in case of no activities for five minutes to save your credits. Alternatively, you can always manually suspend a warehouse when your work is complete. For more information about how to work with warehouses, see [Working with Warehouses](../10-using-databend-cloud/00-warehouses.md)
+| Size (vCPUs) | Hourly Cost (Standard) | Hourly Cost (Business) |
+|--------------|------------------------|------------------------|
+| XSmall (8)   | $1.00                  | $1.50                  |
+| Small (16)   | $2.00                  | $3.00                  |
+| Medium (32)  | $4.00                  | $6.00                  |
+| Large (64)   | $8.00                  | $12.00                 |
+| XLarge (128) | $16.00                 | $24.00                 |
 
-## Storage Pricing
+A suspended warehouse does not consume any resources. By default, Databend Cloud automatically suspends a warehouse after five minutes of inactivity to save resources and costs. You can adjust or disable this automatic suspension feature according to your preferences.
 
-Your data in Databend Cloud will be physically stored in Amazon S3. You pay for your storage in Databend Cloud based on the Amazon S3 pricing plan. Databend Cloud does not charge additional fees for storage. 
+### Storage Pricing
 
-For more information about the Amazon S3 pricing, see https://aws.amazon.com/s3/pricing/
+Your data in Databend Cloud is physically stored in Amazon S3. Storage costs in Databend Cloud are based on Amazon S3's pricing. Currently, both the Standard Edition and Business Edition are priced at $23.00 per month per terabyte (TB).
 
-:::tip
-The Trial Plan (ends in 30-days) offers a FREE storage of up to 1 GB. That is, Databend Cloud will not charge you for storage if your data is not more than 1 GB.
-:::
+| Edition           | Price per TB per Month |
+|-------------------|------------------------|
+| Standard Edition  | $23.00                 |
+| Business Edition  | $23.00                 |
 
-## Billing
+### Cloud Service Pricing
 
-Databend Cloud offers a wide range of billing management features that can help organizations effectively manage and control their consumption data. These features include automatic bill generation, consumption trend analysis, and detailed consumption reporting. With Databend Cloud, organizations can enjoy an efficient, convenient, and user-friendly billing management experience.
+The cloud service fee currently includes fees for the API requests. Each time you run a SQL query with Databend Cloud, a REST API request is sent to the `databend-query` through the [Databend HTTP handler](/developer/apis/http). In the Standard Edition, you are billed $1 for every 10,000 API requests, while in the Business Edition, the cost is $2 for every 10,000 API requests.
+
+| Edition          | Cost per 10,000 API Requests |
+|------------------|------------------------------|
+| Standard Edition | $1.00                        |
+| Business Edition | $2.00                        |
+
+## Databend Cloud Billing
 
 The billing period is set for every calendar month, starting from the 1st day to the last day of the month. For your first month, the billing period will begin on the day your organization was created.
 
-To check your billing details, go to **Manage** and then click on **Billing**. From there, you can review your billing query and payment method. You'll need to bind a credit card for payment, which you can also do in the **Manage** > **Billing** section.
+To check your billing details, go to **Manage** and then click on **Billing**. From there, you can review your bills and link a credit card for payment.
 
-:::note Coupon Usage Instructions
-
-- When charging users, Databend Cloud will first deduct the amount in the coupon.
-- If there are multiple coupons, the system will automatically deduct from the coupon with the earliest expiration date.
-- Coupons have an expiration date, so please use them before they expire.
-:::
-
-## FAQ
-
-**Q1: How do I buy credits?**
-
-A: To buy credits, log into your account in Databend Cloud, then go to **Organization** > **Billing**. For safety purposes, Databend Cloud offers multiple payment methods and does not require you to link a credit card to your account.
-
-**Q2: Do you offer a discount?**
-
-A: Sure. Submit a ticket in Databend Cloud to apply for a discount, and we will contact you for details.
-
-**Q3: How do I request a refund?**
-
-A: You can request a refund of your remaining credits (except the free credits from the Trial plan) by submitting a ticket in Databend Cloud.
-
-**Q4: What will happen to my data after I run out of credits?**
-
-A: In this case, Databend Cloud will keep your storage for up to six months at your cost. You cannot perform any computing tasks until you buy more credits. After six months, your data will be permanently removed from Databend Cloud.
+When billing users, Databend Cloud applies coupons first. If multiple coupons are available, the system prioritizes deduction from the coupon with the earliest expiration date. Please ensure coupons are used before their expiration date.
