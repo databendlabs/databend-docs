@@ -62,9 +62,9 @@ select * from fuse_statistic('default', 't');
 │ a           │              3 │
 └──────────────────────────────┘
 
+insert into t values (3);
 insert into t values (4);
 insert into t values (5);
-insert into t values (6);
 
 select * from t order by a;
 
@@ -74,9 +74,9 @@ select * from t order by a;
 │                1 │
 │                2 │
 │                3 │
+│                3 │
 │                4 │
 │                5 │
-│                6 │
 └──────────────────┘
 
 -- FUSE_STATISTIC returns results of your last estimation. To get the most recent estimated values, run the estimation again.
@@ -95,6 +95,6 @@ select * from fuse_statistic('default', 't');
 ┌──────────────────────────────┐
 │ column_name │ distinct_count │
 ├─────────────┼────────────────┤
-│ a           │              6 │
+│ a           │              5 │
 └──────────────────────────────┘
 ```
