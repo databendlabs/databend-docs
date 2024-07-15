@@ -1,16 +1,18 @@
 ---
 title: FUSE_STATISTIC
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Returns the estimated number of distinct values of each column in a table.
+<FunctionDescription description="引入或更新: v1.2.553"/>
 
+返回表中每一列的估计不同值数量。
 
-## Syntax
+## 语法
 
 ```sql
-FUSE_STATISTIC('<database_name>', '<table_name>')
+FUSE_STATISTIC('<数据库名>', '<表名>')
 ```
 
-## Examples
+## 示例
 
-You're most likely to use this function together with `ANALYZE TABLE <table_name>` to generate and check the statistical information of a table. For more explanations and examples, see [OPTIMIZE TABLE](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md).
+您最有可能与 [ANALYZE TABLE](/sql/sql-commands/ddl/table/analyze-table) 一起使用此函数来检查表的统计信息。请参阅 [ANALYZE TABLE](/sql/sql-commands/ddl/table/analyze-table) 页面上的 [示例](/sql/sql-commands/ddl/table/analyze-table#examples) 部分。
