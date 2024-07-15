@@ -5,7 +5,7 @@ title: Node.js
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-Databend 支持您开发 Node.js 程序，通过 Databend Driver Node.js 绑定与 Databend 交互。该驱动提供了一个接口，用于连接到 Databend 并执行操作，如执行 SQL 查询和检索结果。利用 Databend 驱动，您可以充分利用 Databend 强大的分布式计算能力，构建可扩展的数据处理应用。更多关于驱动的信息，请访问 https://www.npmjs.com/package/databend-driver。
+Databend 支持您开发 Node.js 程序，通过 Databend Driver Node.js 绑定与 Databend 交互。该驱动提供了一个接口，用于连接到 Databend 并执行操作，如执行 SQL 查询和检索结果。利用 Databend 驱动，您可以充分利用 Databend 强大的分布式计算能力，构建可扩展的数据处理应用。更多关于驱动的信息，请访问 https://www.npmjs.com/package/databend-driver 。
 
 要安装 Databend 驱动程序以供 Node.js 使用：
 
