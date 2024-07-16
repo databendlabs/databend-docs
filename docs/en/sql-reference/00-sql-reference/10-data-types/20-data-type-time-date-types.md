@@ -2,6 +2,9 @@
 title: Date & Time
 description: Basic Date and Time data type.
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.564"/>
 
 ## Date and Time Data Types
 
@@ -10,7 +13,7 @@ description: Basic Date and Time data type.
 |  DATE      |           | 4 bytes      |  day         | 1000-01-01            | 9999-12-31                     | YYYY-MM-DD             |
 |  TIMESTAMP |  DATETIME | 8 bytes      |  microsecond | 1000-01-01 00:00:00   | 9999-12-31 23:59:59.999999 UTC | YYYY-MM-DD hh:mm:ss[.fraction], up to microseconds (6 digits) precision
 
-## Example
+## Examples
 
 ```sql
 CREATE TABLE test_dt
@@ -159,7 +162,34 @@ Result:
 
 See [Date & Time Functions](/sql/sql-functions/datetime-functions).
 
-### Formatting Date and Time
+## Handling Daylight Saving Time Adjustments
+
+In certain regions, daylight saving time is observed. On the day daylight saving time begins, the clock is set forward by one hour. Databend manages daylight saving time adjustments with the `enable_dst_hour_fix` setting. When enabled, Databend automatically advances the time by one hour (e.g., 2:10 AM will be processed as 3:10 AM).
+
+For example, daylight saving time in Toronto began on March 10, 2024, at 2:00 AM. As a result, the time between 2:00 AM and 3:00 AM on that day does not exist. Databend relies on [Chrono](https://github.com/chronotope/chrono) to determine daylight saving time for each timezone. If a time within this range is provided, Databend will return an error:
+
+```sql
+SET timezone = 'America/Toronto';
+
+SELECT to_datetime('2024-03-10 02:01:00');
+error: APIError: ResponseError with 1006: cannot parse to type `TIMESTAMP`. BadArguments. Code: 1006, Text = unexpected argument. while evaluating function `to_timestamp('2024-03-10 02:01:00')` in expr `to_timestamp('2024-03-10 02:01:00')`
+```
+
+To fix such errors, you can enable the `enable_dst_hour_fix` setting to advance the time by one hour:
+
+```sql
+SET enable_dst_hour_fix = 1;
+
+SELECT to_datetime('2024-03-10 02:01:00');
+
+┌────────────────────────────────────┐
+│ to_datetime('2024-03-10 02:01:00') │
+├────────────────────────────────────┤
+│ 2024-03-10 03:01:00                │
+└────────────────────────────────────┘
+```
+
+## Formatting Date and Time
 
 In Databend, certain date and time functions like [TO_DATE](../../20-sql-functions/05-datetime-functions/to-date.md) and [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md) require you to specify the desired format for date and time values. To handle date and time formatting, Databend makes use of the chrono::format::strftime module, which is a standard module provided by the chrono library in Rust. This module enables precise control over the formatting of dates and times. The following content is excerpted from https://docs.rs/chrono/latest/chrono/format/strftime/index.html:
 
