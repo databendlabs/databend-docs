@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.424"/>
+<FunctionDescription description="Introduced or updated: v1.2.566"/>
 
 Creates a SQL user.
 
@@ -18,6 +18,7 @@ See also:
 
 ```sql
 CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>' 
+[ WITH MUST_CHANGE_PASSWORD = true | false ]
 [ WITH SET PASSWORD POLICY = '<policy_name>' ] -- Set password policy
 [ WITH SET NETWORK POLICY = '<policy_name>' ] -- Set network policy
 [ WITH DEFAULT_ROLE = '<role_name>' ] -- Set default role
@@ -25,6 +26,7 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 ```
 
 - *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
+- When `MUST_CHANGE_PASSWORD` is set to `true`, the new user must change password at first login.
 - When you set a default role for a user using CREATE USER or [ALTER USER](03-user-alter-user.md), Databend does not verify the role's existence or automatically grant the role to the user. You must explicitly grant the role to the user for the role to take effect.
 - When `DISABLED` is set to `true`, the new user is created in a disabled state. Users in this state cannot log in to Databend until they are enabled. To enable or disable a created user, use the [ALTER USER](03-user-alter-user.md) command.
 
