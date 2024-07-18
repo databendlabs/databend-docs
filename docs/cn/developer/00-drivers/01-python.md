@@ -21,25 +21,25 @@ pip install databend-sqlalchemy
 
 下表展示了 Databend 通用数据类型与其对应的 Python 类型的对应关系：
 
-| Databend | Python            |
-|----------|-------------------|
-| BOOLEAN  | bool              |
-| TINYINT  | int               |
-| SMALLINT | int               |
-| INT      | int               |
-| BIGINT   | int               |
-| FLOAT    | float             |
-| DOUBLE   | float             |
-| DECIMAL  | decimal.Decimal   |
-| DATE     | datetime.date     |
-| TIMESTAMP| datetime.datetime |
-| VARCHAR  | str               |
-| BINARY   | bytes             |
+| Databend  | Python            |
+| --------- | ----------------- |
+| BOOLEAN   | bool              |
+| TINYINT   | int               |
+| SMALLINT  | int               |
+| INT       | int               |
+| BIGINT    | int               |
+| FLOAT     | float             |
+| DOUBLE    | float             |
+| DECIMAL   | decimal.Decimal   |
+| DATE      | datetime.date     |
+| TIMESTAMP | datetime.datetime |
+| VARCHAR   | str               |
+| BINARY    | bytes             |
 
 下表展示了 Databend 半结构化数据类型与其对应的 Python 类型的对应关系：
 
 | Databend | Python |
-|----------|--------|
+| -------- | ------ |
 | ARRAY    | list   |
 | TUPLE    | tuple  |
 | MAP      | dict   |
@@ -49,7 +49,7 @@ pip install databend-sqlalchemy
 
 在接下来的教程中，您将学习如何利用上述包开发您的 Python 应用程序。教程将引导您创建一个 Databend 中的 SQL 用户，然后编写 Python 代码来创建表、插入数据和执行数据查询。
 
-## 教程-1：使用 Python 与 Databend 集成
+## 教程 -1：使用 Python 与 Databend 集成
 
 在开始之前，请确保您已成功安装本地 Databend。详细说明请参见 [本地和 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
 
@@ -230,7 +230,7 @@ Readings in Database Systems Michael Stonebraker 2004
 </TabItem>
 </Tabs>
 
-## 教程-2：使用 Python 与 Databend Cloud 集成（databend-py）
+## 教程 -2：使用 Python 与 Databend Cloud 集成（databend-py）
 
 在开始之前，请确保您已成功创建仓库并获取连接信息。有关如何操作，请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
@@ -254,7 +254,7 @@ _, res = client.execute('select * from data')
 print(res)
 ```
 
-## 教程-3：使用 Python 与 Databend Cloud 集成（databend-sqlalchemy）
+## 教程 -3：使用 Python 与 Databend Cloud 集成（databend-sqlalchemy）
 
 在开始之前，请确保您已成功创建仓库并获取连接信息。有关如何操作，请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
@@ -278,5 +278,5 @@ print(cursor.fetchall())
 ```
 
 :::tip
-在代码中替换 {USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} 和 {DATABASE} 为您的连接信息。有关如何获取连接信息，请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在代码中替换 `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} 和 {DATABASE}` 为您的连接信息。有关如何获取连接信息，请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::

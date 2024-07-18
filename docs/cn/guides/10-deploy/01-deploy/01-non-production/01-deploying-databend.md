@@ -3,10 +3,10 @@ title: 使用对象存储部署
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
-import GetLatest from '@site/src/components/GetLatest';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
+import Version from '@site/src/components/Version';
 
 <FunctionDescription description="引入或更新: v1.2.168"/>
 
@@ -37,8 +37,8 @@ import TabItem from '@theme/TabItem';
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
-- <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>
-- <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>
+- [https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
+- [https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html)
 
 </TabItem>
 
@@ -64,8 +64,8 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
-- <https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container>
-- <https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys>
+- [https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container)
+- [https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
 
 </TabItem>
 
@@ -77,8 +77,8 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
-- <https://cloud.tencent.com/document/product/436/13309>
-- <https://cloud.tencent.com/document/product/436/68282>
+- [https://cloud.tencent.com/document/product/436/13309](https://cloud.tencent.com/document/product/436/13309)
+- [https://cloud.tencent.com/document/product/436/68282](https://cloud.tencent.com/document/product/436/68282)
 
 </TabItem>
 
@@ -90,8 +90,8 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
-- <https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2>
-- <https://help.aliyun.com/document_detail/53045.htm>
+- [https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2](https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2)
+- [https://help.aliyun.com/document_detail/53045.htm](https://help.aliyun.com/document_detail/53045.htm)
 
 </TabItem>
 
@@ -103,8 +103,8 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
-- <https://docs.wasabi.com/docs/creating-a-bucket>
-- <https://docs.wasabi.com/docs/access-keys-1>
+- [https://docs.wasabi.com/docs/creating-a-bucket](https://docs.wasabi.com/docs/creating-a-bucket)
+- [https://docs.wasabi.com/docs/access-keys-1](https://docs.wasabi.com/docs/access-keys-1)
 
 </TabItem>
 
@@ -116,9 +116,9 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 有关如何管理 MinIO 的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
-- <https://min.io/docs/minio/container/index.html>
-- <https://min.io/docs/minio/container/administration/console/managing-objects.html>
-- <https://min.io/docs/minio/container/administration/console/security-and-access.html>
+- [https://min.io/docs/minio/container/index.html](https://min.io/docs/minio/container/index.html)
+- [https://min.io/docs/minio/container/administration/console/managing-objects.html](https://min.io/docs/minio/container/administration/console/managing-objects.html)
+- [https://min.io/docs/minio/container/administration/console/security-and-access.html](https://min.io/docs/minio/container/administration/console/security-and-access.html)
 
 </TabItem>
 <TabItem value="CubeFS" label="CubeFS">
@@ -130,9 +130,9 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 有关如何管理 CubeFS 的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
-- <https://cubefs.io/docs/master/quick-start/node.html>
-- <https://cubefs.io/docs/master/user-guide/objectnode.html>
-- <https://cubefs.io/docs/master/maintenance/admin-api/master/user.html>
+- [https://cubefs.io/docs/master/quick-start/node.html](https://cubefs.io/docs/master/quick-start/node.html)
+- [https://cubefs.io/docs/master/user-guide/objectnode.html](https://cubefs.io/docs/master/user-guide/objectnode.html)
+- [https://cubefs.io/docs/master/maintenance/admin-api/master/user.html](https://cubefs.io/docs/master/maintenance/admin-api/master/user.html)
 
 </TabItem>
 </Tabs>
@@ -149,25 +149,28 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 <Tabs>
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
+<Version>
 ```shell
-curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-x86_64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
-tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
+tar xzvf databend-[version]-x86_64-unknown-linux-musl.tar.gz
 ```
 
+</Version>
 </TabItem>
 <TabItem value="linux-arm64" label="Linux(Arm)">
-
+<Version>
 ```shell
-curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-aarch64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
-tar xzvf databend-${version}-aarch64-unknown-linux-musl.tar.gz
+tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
 ```
 
+</Version>
 </TabItem>
 </Tabs>
 
@@ -218,7 +221,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 ### 配置查询节点
 
 1. 在文件夹 `/usr/local/databend/configs` 中找到文件 `databend-query.toml`。
-2. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type*，并配置连接到您的对象存储的访问凭证和终端节点 URL。
+2. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 _type_，并配置连接到您的对象存储的访问凭证和终端节点 URL。
 
 要配置存储设置，请通过在每行前添加 `#` 注释掉 [storage.fs] 部分。然后，通过移除 `#` 符号取消注释适用于您的对象存储提供商的相关部分，并填写您的值。
 
@@ -346,10 +349,10 @@ Databend 企业版支持 OSS 的服务器端加密。此功能使您能够通过
 
 要在 Databend 中启用服务器端加密，请在 [storage.oss] 部分添加以下参数：
 
-| 参数                          | 描述                                                                                                                                                                                       | 可用值                                                  |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| server_side_encryption        | 指定 OSS 数据的 server-side 加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 则利用在 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
-| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的 server-side 加密密钥 ID。仅在使用 KMS 加密模式时适用。      | 字符串，KMS 加密密钥的唯一标识符。                       |
+| 参数                          | 描述                                                                                                                                               | 可用值                             |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| server_side_encryption        | 指定 OSS 数据的 server-side 加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 则利用在 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                  |
+| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的 server-side 加密密钥 ID。仅在使用 KMS 加密模式时适用。                            | 字符串，KMS 加密密钥的唯一标识符。 |
 
 </TabItem>
 
@@ -517,7 +520,6 @@ sudo chown -R $USER /var/lib/databend
   </div>
 </details>
 </DetailsWrap>
-<GetLatest/>
 
 ### 下一步
 

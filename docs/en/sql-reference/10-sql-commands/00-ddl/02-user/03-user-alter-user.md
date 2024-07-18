@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.566"/>
+<FunctionDescription description="Introduced or updated: v1.2.424"/>
 
 Modifies a user account, including:
 
@@ -17,13 +17,7 @@ Modifies a user account, including:
 
 ```sql
 -- Modify password / authentication type
-ALTER USER <name> IDENTIFIED [ WITH auth_type ] BY '<new_password>' [ WITH MUST_CHANGE_PASSWORD = true | false ]
-
--- Require user to modify password at next login
-ALTER USER <name> WITH MUST_CHANGE_PASSWORD = true
-
--- Modify password for currently logged-in user
-ALTER USER USER() IDENTIFIED BY '<new_password>'
+ALTER USER <name> IDENTIFIED [ WITH auth_type ] BY '<password>'
 
 -- Set password policy
 ALTER USER <name> WITH SET PASSWORD POLICY = '<policy_name>'
@@ -45,7 +39,6 @@ ALTER USER <name> WITH DISABLED = true | false
 ```
 
 - *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
-- When `MUST_CHANGE_PASSWORD` is set to `true`, the user must change their password at the next login. Please note that this takes effect only for users who have never changed their password since their account was created. If a user has ever changed their password themselves, then they do not need to change it again.
 - When you set a default role for a user using [CREATE USER](01-user-create-user.md) or ALTER USER, Databend does not verify the role's existence or automatically grant the role to the user. You must explicitly grant the role to the user for the role to take effect.
 - `DISABLED` allows you to enable or disable a user. Disabled users cannot log in to Databend until they are enabled. Click [here](01-user-create-user.md#example-5-creating-user-in-disabled-state) to see an example.
 

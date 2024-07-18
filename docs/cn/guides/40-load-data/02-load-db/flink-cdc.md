@@ -14,7 +14,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 1. 下载并设置 Flink：在安装 Databend 的 Flink SQL 连接器之前，请确保您已经在系统上下载并设置了 Flink。您可以从官方网站下载 Flink：https://flink.apache.org/downloads/
 
-2. 下载连接器：访问 GitHub 上 Databend 的 Flink SQL 连接器的发布页面：https://github.com/databendcloud/flink-connector-databend/releases 。下载连接器的最新版本（例如，flink-connector-databend-0.0.2.jar）。
+2. 下载连接器：访问 GitHub 上 Databend 的 Flink SQL 连接器的发布页面：https://github.com/databendcloud/flink-connector-databend/releases。下载连接器的最新版本（例如，flink-connector-databend-0.0.2.jar）。
 
    请注意，您也可以从源代码编译 Databend 的 Flink SQL 连接器：
 
@@ -32,7 +32,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 1. 在 MySQL 中创建一个表并用示例数据填充它。然后，在 Databend 中创建一个对应的目标表。
 
-```sql title='在MySQL中:'
+```sql title='在 MySQL 中：'
 CREATE DATABASE mydb;
 USE mydb;
 
@@ -51,12 +51,12 @@ INSERT INTO products VALUES (default,"scooter","Small 2-wheel scooter"),
 (default,"spare tire","24 inch spare tire");
 ```
 
-```sql title='在Databend中:'
+```sql title='在 Databend 中：'
 CREATE TABLE products (id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(512) );
 ```
 
 2. 下载[Flink](https://flink.apache.org/downloads/)和以下 SQL 连接器到您的系统：
-   - Databend 的 Flink SQL 连接器： https://github.com/databendcloud/flink-connector-databend/releases
+   - Databend 的 Flink SQL 连接器：https://github.com/databendcloud/flink-connector-databend/releases
    - MySQL 的 Flink SQL 连接器：https://repo1.maven.org/maven2/com/ververica/flink-sql-connector-mysql-cdc/2.3.0/flink-sql-connector-mysql-cdc-2.3.0.jar
 3. 将两个连接器 JAR 文件移动到 Flink 安装目录中的*lib*文件夹。
 4. 启动 Flink：
@@ -66,7 +66,7 @@ cd flink-16.0
 ./bin/start-cluster.sh
 ```
 
-现在，如果您在浏览器中访问 http://localhost:8081，可以打开 Apache Flink 仪表盘：
+现在，如果您在浏览器中访问 [http://localhost:8081](http://localhost:8081)，可以打开 Apache Flink 仪表盘：
 
 ![Alt text](@site/docs/public/img/load/cdc-dashboard.png)
 

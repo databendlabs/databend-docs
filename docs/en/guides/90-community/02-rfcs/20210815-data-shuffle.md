@@ -1,7 +1,6 @@
 ---
 title: Distributed Query and Shuffle
-description:
-  Distributed query and data shuffle RFC
+description: Distributed query and data shuffle RFC
 ---
 
 ## Summary
@@ -13,7 +12,7 @@ This doc is intended to explain the distributed query and its data flow design.
 
 Let's see how normal queries run on a single database node.
 
-``` text
+```text
 '        +------+       +------------+      +---------+
 '        |      |  AST  |            | Plan |         |
 ' SQL--->|Parser+------>|Plan Builder+----->|Optimizer|
@@ -42,7 +41,7 @@ A query plan (or query execution plan) is a sequence of steps used to access dat
 - Plan is used to describe the computation and data dependency, not related to syntax priority
 - We can show it with `EXPLAIN SELECT ...`
 
-``` text
+```text
 EXPLAIN SELECT number % 3 AS key, SUM(number) AS value FROM numbers(1000) WHERE number > 10 AND number < 990 GROUP BY key ORDER BY key ASC LIMIT 10;
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | explain                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -65,7 +64,6 @@ For a query, especially a complex query, you can used different plan combination
 ### Interpreter and Processor
 
 The interpreter constructs the optimized plan into an executable data stream. We pull the result of SQL by pulling the data in the stream. The calculation logic of each operator in SQL corresponds to a processor, such as FilterPlan -> FilterProcessor, ProjectionPlan -> ProjectionProcessor
-
 
 ## Distributed query
 
@@ -113,13 +111,14 @@ Let's see how normal queries run on a database cluster.
 
 In Databend, we use ScatterOptimizer to decide the distributed computing of query. In other words, distributed query is an optimization of standalone query.
 
-In ScatterOptimizer, we traverse all the plans of the query and rewrite the plan of interest(rewrite as StagePlan { kind:StageKind, input:Self }), where input is the rewritten plan, and kind is an enumeration(Normal: data is shuffled again, Expansive: data spreads from one node to multiple nodes, Convergent: data aggregation from multiple nodes to one node)
+In ScatterOptimizer, we traverse all the plans of the query and rewrite the plan of interest`(rewrite as StagePlan { kind:StageKind, input:Self })`, where input is the rewritten plan, and kind is an enumeration(Normal: data is shuffled again, Expansive: data spreads from one node to multiple nodes, Convergent: data aggregation from multiple nodes to one node)
 
 ### PlanScheduler and RemoteProcessor
 
 In cluster mode, we extract all the StagePlans in the plan optimized by ScatterOptimizer and send them to the corresponding nodes in the cluster according to the kind.
 
 For example:
+
 ```text
 EXPLAIN SELECT argMin(user, salary)  FROM (SELECT sum(number) AS salary, number%3 AS user FROM numbers_local(1000000000) GROUP BY user);
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -140,4 +139,5 @@ EXPLAIN SELECT argMin(user, salary)  FROM (SELECT sum(number) AS salary, number%
 ```
 
 ### Flight API DataStream
+
 We need to fetch the results of the plans sent to other nodes for execution in some way. FuseData uses the third-party library arrow-flight. more information:[https://github.com/apache/arrow-rs/tree/master/arrow-flight]

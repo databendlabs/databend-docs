@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   padding-top: 2rem;
-  .global-step-container:not(:first-child){
+  .global-step-container:not(:first-child) {
     .global-step-number {
       margin-top: 2rem;
     }
@@ -14,7 +14,7 @@
       display: flex;
       align-items: center;
       margin-bottom: 2rem;
-      h3{
+      h3 {
         width: 100%;
         margin-bottom: 0;
         font-size: 1.25rem;
@@ -24,7 +24,7 @@
         align-items: center;
         scroll-margin: 5rem;
         top: -3px;
-        letter-spacing: -.025em;
+        letter-spacing: -0.025em;
         font-weight: 600;
         color: var(--h3-title-color);
         &:hover {
@@ -34,7 +34,7 @@
             }
           }
         }
-        a{
+        a {
           margin-left: 0.5rem;
           display: flex;
           line-height: 28px;
@@ -42,7 +42,6 @@
             display: none;
           }
         }
-       
       }
       .global-step-outlink {
         margin-bottom: 0;
@@ -53,29 +52,29 @@
         align-items: center;
         scroll-margin: 5rem;
         top: -3px;
-        letter-spacing: -.025em;
+        letter-spacing: -0.025em;
         font-weight: 600;
         color: var(--h3-title-color);
         width: auto;
         display: inline;
         cursor: pointer;
-        &:hover { 
+        text-decoration: unset;
+        &:hover {
           color: var(--text-blue-600);
         }
-        text-decoration: unset;
       }
-      span.global-step-n{
+      span.global-step-n {
         display: flex;
         height: 2.25rem;
         width: 2.25rem;
         align-items: center;
         justify-content: center;
         border-radius: 9999px;
-        border: 4px solid hsl(var(--background));;
+        border: 4px solid hsl(var(--background));
         background-color: hsl(var(--muted));
         text-align: center;
         text-indent: -1px;
-        font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
         font-size: 1rem;
         line-height: 1.5rem;
         font-weight: 500;
@@ -88,7 +87,6 @@
           margin-left: -43px;
           margin-top: -6px;
         }
-      
       }
     }
     #whats-changed {
@@ -100,11 +98,11 @@
         font-size: 1.25rem;
         font-weight: 600;
         line-height: 1.75rem;
-        letter-spacing: -.025em;
+        letter-spacing: -0.025em;
       }
     }
   }
 }
 .tabs-container {
-  margin-bottom: 0!important;
+  margin-bottom: 0 !important;
 }

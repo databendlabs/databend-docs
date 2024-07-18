@@ -1,6 +1,7 @@
 ---
 title: Jaeger
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.199"/>
@@ -56,7 +57,7 @@ INSERT INTO t1 SELECT * FROM t1;
 
 ### 步骤 3. 在 Jaegar 上检查追踪信息
 
-1. 访问 <http://127.0.0.1:16686/> 并选择 **Search** 标签页。
+1. 访问 http://127.0.0.1:16686/ 并选择 **Search** 标签页。
 
 2. 在 **Service** 下拉列表中选择一个服务。例如，选择 databend-query 服务。
 

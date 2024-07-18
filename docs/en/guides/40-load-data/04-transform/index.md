@@ -16,9 +16,9 @@ This feature can be particularly useful for inspecting or viewing the contents o
 ## Syntax and Parameters
 
 ```sql
-SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
+SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...]
+FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
+[(
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
   [ FILE_FORMAT => 'CSV | TSV | NDJSON | PARQUET | ORC | <custom_format_name>'],
@@ -28,16 +28,18 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 
 :::note
 When the stage path contains special characters such as spaces or parentheses, you can enclose the entire path in single quotes, as demonstrated in the following SQL statements:
+
 ```sql
 SELECT * FROM 's3://mybucket/dataset(databend)/' ...
 
 SELECT * FROM 's3://mybucket/dataset databend/' ...
 ```
+
 :::
 
 ### FILE_FORMAT
 
-The FILE_FORMAT parameter allows you to specify the format of your file, which can be one of the following options: CSV, TSV, NDJSON, PARQUET, or a custom format that you've defined using the [CREATE FILE FORMAT](/sql/sql-commands/ddl/file-format/ddl-create-file-format) command. For example, 
+The FILE_FORMAT parameter allows you to specify the format of your file, which can be one of the following options: CSV, TSV, NDJSON, PARQUET, or a custom format that you've defined using the [CREATE FILE FORMAT](/sql/sql-commands/ddl/file-format/ddl-create-file-format) command. For example,
 
 ```sql
 CREATE FILE FORMAT my_custom_csv TYPE=CSV FIELD_DELIMITER='\t';
@@ -50,6 +52,7 @@ Please note that when you need to query or perform a COPY INTO operation from a 
 ```sql
 CREATE STAGE my_stage FILE_FORMAT = (TYPE = CSV);
 ```
+
 In cases where you have staged a file in a format different from the specified stage format, you can explicitly specify the file format within the SELECT or COPY INTO statement. Here are examples:
 
 ```sql
@@ -60,7 +63,7 @@ COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (TYPE = NDJ
 
 ### PATTERN
 
-The PATTERN option allows you to specify a [PCRE2](https://www.pcre.org/current/doc/html/)-based regular expression pattern enclosed in single quotes to match file names. It is used to filter and select files based on the provided pattern. For example, you can use a pattern like '.*parquet' to match all file names ending with "parquet". For detailed information on the PCRE2 syntax, you can refer to the documentation available at http://www.pcre.org/current/doc/html/pcre2syntax.html.
+The PATTERN option allows you to specify a [PCRE2](https://www.pcre.org/current/doc/html/)-based regular expression pattern enclosed in single quotes to match file names. It is used to filter and select files based on the provided pattern. For example, you can use a pattern like '.\*parquet' to match all file names ending with "parquet". For detailed information on the PCRE2 syntax, you can refer to the documentation available at http://www.pcre.org/current/doc/html/pcre2syntax.html.
 
 ### FILES
 
@@ -75,9 +78,9 @@ When working with staged files in a SELECT statement where no table name is avai
 SELECT t1.$1, t2.$2 FROM @my_stage t1, t2;
 ```
 
-### $<col_position>
+### $col_position
 
-When selecting from a staged file, you can use column positions, and these positions start from 1. At present, the feature to utilize column positions for SELECT operations from staged files is limited to Parquet, NDJSON, CSV, and TSV formats. 
+When selecting from a staged file, you can use column positions, and these positions start from 1. At present, the feature to utilize column positions for SELECT operations from staged files is limited to Parquet, NDJSON, CSV, and TSV formats.
 
 ```sql
 SELECT $2 FROM @my_stage (FILES=>('sample.csv')) ORDER BY $1;
@@ -93,7 +96,7 @@ SELECT $1 FROM @my_stage (FILE_FORMAT=>'NDJSON')
 SELECT $1:a FROM @my_stage (FILE_FORMAT=>'NDJSON')
 ```
 
-When using COPY INTO to copy data from a staged file, Databend matches the field names at the top level of the NDJSON file with the column names in the destination table, rather than relying on column positions. In the example below, the table *my_table* should have identical column definitions as the top-level field names in the NDJSON files:
+When using COPY INTO to copy data from a staged file, Databend matches the field names at the top level of the NDJSON file with the column names in the destination table, rather than relying on column positions. In the example below, the table _my_table_ should have identical column definitions as the top-level field names in the NDJSON files:
 
 ```sql
 COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (type = NDJSON)
@@ -111,7 +114,7 @@ Specify the URI of remote files accessible via HTTPS.
 
 When querying a staged file, the following limitations are applicable in terms of format-specific constraints:
 
-- Selecting all fields with the symbol * is only supported for Parquet files.
+- Selecting all fields with the symbol \* is only supported for Parquet files.
 - When selecting from a CSV or TSV file, all fields are parsed as strings, and the SELECT statement only allows the use of column positions. Additionally, there is a restriction on the number of fields in the file, which must not exceed max.N+1000. For example, if the statement is `SELECT $1, $2 FROM @my_stage (FILES=>('sample.csv'))`, the sample.csv file can have a maximum of 1,002 fields.
 
 ## Tutorials
@@ -126,7 +129,7 @@ This example shows how to query data in a Parquet file stored in different locat
 <Tabs groupId="query2stage">
 <TabItem value="Stages" label="Stages">
 
-Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) and you have uploaded it to your user stage, an internal stage named *my_internal_stage*, and an external stage named *my_external_stage*. To upload files to a stage, use the [PRESIGN](/sql/sql-commands/ddl/stage/presign) method.
+Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) and you have uploaded it to your user stage, an internal stage named _my_internal_stage_, and an external stage named _my_external_stage_. To upload files to a stage, use the [PRESIGN](/sql/sql-commands/ddl/stage/presign) method.
 
 ```sql
 -- Query file in user stage
@@ -138,10 +141,11 @@ SELECT * FROM @my_internal_stage/books.parquet;
 -- Query file in external stage
 SELECT * FROM @my_external_stage/books.parquet;
 ```
+
 </TabItem>
 <TabItem value="Bucket" label="Bucket">
 
-Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) stored in a bucket named *databend-toronto* on Amazon S3 in the region *us-east-2*. You can query the data by specifying the connection parameters:
+Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) stored in a bucket named _databend-toronto_ on Amazon S3 in the region _us-east-2_. You can query the data by specifying the connection parameters:
 
 ```sql
 SELECT
@@ -157,6 +161,7 @@ FROM
         FILES => ('books.parquet')
     );
 ```
+
 </TabItem>
 <TabItem value="Remote" label="Remote">
 
@@ -165,12 +170,13 @@ Let's assume you have a sample file named [books.parquet](https://datafuse-12537
 ```sql
 SELECT * FROM 'https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet';
 ```
+
 </TabItem>
 </Tabs>
 
 ### Tutorial 2: Querying Data with PATTERN
 
-Let's assume you have the following Parquet files with the same schema, as well as some files of other formats, stored in a bucket named *databend-toronto* on Amazon S3 in the region *us-east-2*. 
+Let's assume you have the following Parquet files with the same schema, as well as some files of other formats, stored in a bucket named _databend-toronto_ on Amazon S3 in the region _us-east-2_.
 
 ```text
 databend-toronto/

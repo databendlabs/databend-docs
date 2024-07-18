@@ -18,7 +18,7 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = ORC)
 ```
 
-更多关于语法的详细信息，请参阅 [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table) 。
+更多关于语法的详细信息，请参阅 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table) 。
 
 ## 教程：从 ORC 文件加载数据
 
@@ -65,7 +65,7 @@ LIST @orc_data_stage;
 创建一个 ORC 文件格式并查询阶段以查看数据和模式。
 
 ```sql
--- 创建ORC文件格式
+-- 创建 ORC 文件格式
 CREATE OR REPLACE FILE FORMAT orc_ff TYPE = 'ORC';
 
 

@@ -36,15 +36,15 @@ single        = true
 
 The following is a list of general parameters available in the [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) configuration file. These parameters should not be included under any specific section.
 
-| Parameter                         | Description                                                                                                             |
-|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| admin_api_address                 | IP address and port for the admin API of Databend.                                                                      |
-| admin_tls_server_cert             | Path to the admin TLS server certificate file.                                                                          |
-| admin_tls_server_key              | Path to the admin TLS server key file.                                                                                  |
-| grpc_api_address                  | IP address and port for the gRPC API of Databend.                                                                       |
-| grpc_api_advertise_host           | IP address used for advertising the gRPC API (used for updating Databend-meta endpoints).                               |
-| grpc_tls_server_cert              | Path to the gRPC TLS server certificate file.                                                                           |
-| grpc_tls_server_key               | Path to the gRPC TLS server key file.                                                                                   | 
+| Parameter               | Description                                                                               |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
+| admin_api_address       | IP address and port for the admin API of Databend.                                        |
+| admin_tls_server_cert   | Path to the admin TLS server certificate file.                                            |
+| admin_tls_server_key    | Path to the admin TLS server key file.                                                    |
+| grpc_api_address        | IP address and port for the gRPC API of Databend.                                         |
+| grpc_api_advertise_host | IP address used for advertising the gRPC API (used for updating Databend-meta endpoints). |
+| grpc_tls_server_cert    | Path to the gRPC TLS server certificate file.                                             |
+| grpc_tls_server_key     | Path to the gRPC TLS server key file.                                                     |
 
 ## [log] Section
 
@@ -55,7 +55,7 @@ This section can include two subsections: [log.file] and [log.stderr].
 The following is a list of the parameters available within the [log.file] section:
 
 | Parameter | Description                                                                |
-|-----------|----------------------------------------------------------------------------|
+| --------- | -------------------------------------------------------------------------- |
 | on        | Enable file-based logging (true or false). Default: true                   |
 | level     | Log level for file-based logging (e.g., "DEBUG", "INFO"). Default: "DEBUG" |
 | dir       | Directory where log files will be stored. Default: "./.databend/logs"      |
@@ -66,7 +66,7 @@ The following is a list of the parameters available within the [log.file] sectio
 The following is a list of the parameters available within the [log.stderr] section:
 
 | Parameter | Description                                                            |
-|-----------|------------------------------------------------------------------------|
+| --------- | ---------------------------------------------------------------------- |
 | on        | Enable stderr logging (true or false). Default: true                   |
 | level     | Log level for stderr logging (e.g., "DEBUG", "INFO"). Default: "DEBUG" |
 | format    | Log format for stderr logging (e.g., "text", "json"). Default: "text"  |
@@ -75,18 +75,18 @@ The following is a list of the parameters available within the [log.stderr] sect
 
 The following is a list of the parameters available within the [raft_config] section:
 
-| Parameter                | Description                                                                                                             |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| id                       | Unique identifier for the Raft configuration.                                                                           |
-| raft_dir                 | Directory where Raft data is stored.                                                                                    |
-| raft_api_port            | Port for the Raft API of Databend.                                                                                      |
-| raft_listen_host         | IP address for Raft to listen on.                                                                                       |
-| raft_advertise_host      | IP address used for advertising the Raft API.                                                                           |
-| single                   | Boolean indicating whether Databend should run in single-node cluster mode (true or false).                             |
-| join                     | List of addresses (<raft_advertise_host>:<raft_api_port>) of nodes in an existing cluster that a new node is joined to. |
-| heartbeat_interval       | Heartbeat interval in milliseconds. Default: 1000                                                                       |
-| install_snapshot_timeout | Install snapshot timeout in milliseconds. Default: 4000                                                                 |
-| max_applied_log_to_keep  | Maximum number of applied Raft logs to keep. Default: 1000                                                              |
-| snapshot_chunk_size      | The size in bytes of chunk for transmitting snapshot. The default is 4MB                                                |
-| snapshot_logs_since_last | Number of Raft logs since the last snapshot. Default: 1024                                                              |
-| wait_leader_timeout      | Wait leader timeout in milliseconds. Default: 70000                                                                     |
+| Parameter                | Description                                                                                                                         |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| id                       | Unique identifier for the Raft configuration.                                                                                       |
+| raft_dir                 | Directory where Raft data is stored.                                                                                                |
+| raft_api_port            | Port for the Raft API of Databend.                                                                                                  |
+| raft_listen_host         | IP address for Raft to listen on.                                                                                                   |
+| raft_advertise_host      | IP address used for advertising the Raft API.                                                                                       |
+| single                   | Boolean indicating whether Databend should run in single-node cluster mode (true or false).                                         |
+| join                     | List of addresses (&lt;raft_advertise_host&gt;:&lt;raft_api_port&gt;) of nodes in an existing cluster that a new node is joined to. |
+| heartbeat_interval       | Heartbeat interval in milliseconds. Default: 1000                                                                                   |
+| install_snapshot_timeout | Install snapshot timeout in milliseconds. Default: 4000                                                                             |
+| max_applied_log_to_keep  | Maximum number of applied Raft logs to keep. Default: 1000                                                                          |
+| snapshot_chunk_size      | The size in bytes of chunk for transmitting snapshot. The default is 4MB                                                            |
+| snapshot_logs_since_last | Number of Raft logs since the last snapshot. Default: 1024                                                                          |
+| wait_leader_timeout      | Wait leader timeout in milliseconds. Default: 70000                                                                                 |

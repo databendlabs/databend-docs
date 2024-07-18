@@ -1,0 +1,41 @@
+.notFoundWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.title {
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.rowContainer {
+  min-height: 800px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  svg {
+    width: 600px;
+  }
+  .notFoundTitle {
+    font-size: 32px;
+    font-weight: 700;
+  }
+  .text {
+    flex: 1;
+    max-width: 519px;
+  }
+  @include media {
+    padding-top: mpx(60);
+    padding-bottom: mpx(30);
+    flex-direction: column;
+    row-gap: 40px;
+    svg {
+      width: 90%;
+    }
+    .text {
+      text-align: center;
+    }
+  }
+}

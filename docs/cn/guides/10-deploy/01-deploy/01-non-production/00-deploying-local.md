@@ -18,7 +18,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 - 对象存储是使用 Databend 的生产环境的要求。文件系统只应用于评估、测试和非生产场景。
 
 - 本章节涉及的 MinIO 部署只适合开发演示使用，单机环境资源有限，不建议用于生产环境或性能测试目的。
-:::
+  :::
 
 ## 在 Docker 上部署 Databend {#deploying-databend-on-docker}
 
@@ -64,7 +64,7 @@ Formatting 1st pool, 1 set(s), 1 drives per set.
 WARNING: Host local has more than 0 drives of set. A host failure will result in data becoming unavailable.
 MinIO Object Storage Server
 Copyright: 2015-2024 MinIO, Inc.
-License: GNU AGPLv3 <https://www.gnu.org/licenses/agpl-3.0.html>
+License: GNU AGPLv3 [https://www.gnu.org/licenses/agpl-3.0.html](https://www.gnu.org/licenses/agpl-3.0.html)
 Version: RELEASE.2024-01-05T22-17-24Z (go1.21.5 linux/arm64)
 
 Status:         1 Online, 0 Offline.
@@ -101,7 +101,7 @@ docker run -d \
     datafuselabs/databend
 ```
 
-> 这里的 ${IP} 是 192.168.106.3 或 192.168.5.1，应用程序需要访问 s3。所以如果您不知道 ${IP}，可以参考 `docker logs minio` 的输出
+> 这里的 `${IP}` 是 192.168.106.3 或 192.168.5.1，应用程序需要访问 s3。所以如果您不知道`${IP}`，可以参考 `docker logs minio` 的输出
 
 启动 Databend Docker 容器时，您可以使用环境变量 QUERY_DEFAULT_USER 和 QUERY_DEFAULT_PASSWORD 指定用户名和密码。如果没有提供这些变量，将创建一个没有密码的默认 root 用户。上述命令创建了一个 SQL 用户（databend/databend），您将需要在下一步中使用它来连接到 Databend。如果您在此时更改了 SQL 用户，请确保在整个过程中保持一致性。
 
@@ -306,12 +306,12 @@ auth_type = "no_password"
 2. 打开终端并导航到存储已解压文件和文件夹的文件夹。
 
 3. 运行位于 **scripts** 文件夹中的脚本 **start.sh**：
-   
+
    MacOS 可能会提示错误“_databend-meta 无法打开，因为 Apple 无法检查其是否包含恶意软件。_”。要继续，请在您的 Mac 上打开 **系统设置**，在左侧菜单中选择 **隐私与安全**，然后在右侧的 **安全性** 部分为 databend-meta 点击 **仍要打开**。对于 databend-query 上的错误也执行相同操作。
 
-    ```shell
-    ./scripts/start.sh
-    ```
+   ```shell
+   ./scripts/start.sh
+   ```
 
 :::tip
 如果在尝试启动 Databend 时遇到以下错误消息：
@@ -331,6 +331,7 @@ sudo mkdir /var/lib/databend
 sudo chown -R $USER /var/log/databend
 sudo chown -R $USER /var/lib/databend
 ```
+
 :::
 
 4. 运行以下命令以验证 Databend 是否已成功启动：
@@ -358,7 +359,7 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 3. 要与本地 Databend 建立连接，请执行以下命令：
 
 ```shell
-❯ ./bendsql 
+❯ ./bendsql
 Welcome to BendSQL 0.13.3-25b1195(2024-03-01T11:33:39.167314799Z).
 Connecting to localhost:8000 as user root.
 Connected to Databend Query v1.2.371-a95ac62303(rust-1.77.0-nightly-2024-03-11T01:07:23.093484068Z)
@@ -393,11 +394,11 @@ SELECT
 
 2. 运行位于 **scripts** 文件夹中的脚本 **stop.sh**：
 
-    ```shell
-    # 该脚本使用了 `killall` 命令，若您尚未安装该命令，请安装适用于您系统环境的 [`psmisc`](https://gitlab.com/psmisc/psmisc) 包。
-    # 以 CentOS 系统为例：`yum install psmisc` 。
-    ./scripts/stop.sh
-    ```
+   ```shell
+   # 该脚本使用了 `killall` 命令，若您尚未安装该命令，请安装适用于您系统环境的 [`psmisc`](https://gitlab.com/psmisc/psmisc) 包。
+   # 以 CentOS 系统为例：`yum install psmisc` 。
+   ./scripts/stop.sh
+   ```
 
 </StepContent>
 </StepsWrap>

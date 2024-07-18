@@ -19,14 +19,14 @@ Before installing the driver, make sure to fulfill the following prerequisites:
 - Node.js must already be installed on the environment where you want to install the driver.
 - Ensure that you can run the `node` and `npm` commands.
 - Depending on your environment, you may require sudo privileges to install the driver.
-:::
+  :::
 
 ## Data Type Mappings
 
 This table illustrates the correspondence between Databend general data types and their corresponding Node.js equivalents:
 
 | Databend  | Node.js |
-|-----------|---------|
+| --------- | ------- |
 | BOOLEAN   | Boolean |
 | TINYINT   | Number  |
 | SMALLINT  | Number  |
@@ -43,7 +43,7 @@ This table illustrates the correspondence between Databend general data types an
 This table illustrates the correspondence between Databend semi-structured data types and their corresponding Node.js equivalents:
 
 | Databend | Node.js |
-|----------|---------|
+| -------- | ------- |
 | ARRAY    | Array   |
 | TUPLE    | Array   |
 | MAP      | Object  |
@@ -57,14 +57,14 @@ The Node.js driver offers similar functionalities as a binding of the Rust Drive
 
 The table below summarizes the main behaviors and functions of the Node.js Driver and their purposes:
 
-| Function Name    | Description                                                                                                                                      |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `info`           | Returns the client's connection information.                                                                                                     |
-| `version`        | Returns the result of executing the `SELECT VERSION()` statement.                                                                                |
-| `exec`           | Executes an SQL statement and returns the number of rows affected.                                                                               |
-| `query_iter`     | Executes an SQL query and returns an iterator for processing results row by row.                                                                 |
-| `query_iter_ext` | Executes an SQL query and returns an iterator that includes statistical information about the results.                                           |
-| `query_row`      | Executes an SQL query and returns a single row result.                                                                                           |
+| Function Name    | Description                                                                                                                  |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `info`           | Returns the client's connection information.                                                                                 |
+| `version`        | Returns the result of executing the `SELECT VERSION()` statement.                                                            |
+| `exec`           | Executes an SQL statement and returns the number of rows affected.                                                           |
+| `query_iter`     | Executes an SQL query and returns an iterator for processing results row by row.                                             |
+| `query_iter_ext` | Executes an SQL query and returns an iterator that includes statistical information about the results.                       |
+| `query_row`      | Executes an SQL query and returns a single row result.                                                                       |
 | `stream_load`    | Uploads data to a built-in Stage and executes insert/replace with [stage attachment](/developer/apis/http#stage-attachment). |
 
 ## Tutorial-1: Integrating with Databend using Node.js
@@ -95,9 +95,7 @@ const { Client } = require("databend-driver");
 
 // Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
 // Feel free to use your own values while maintaining the same format.
-const dsn = process.env.DATABEND_DSN
-  ? process.env.DATABEND_DSN
-  : "databend://user1:abc123@localhost:8000/default?sslmode=disable";
+const dsn = process.env.DATABEND_DSN ? process.env.DATABEND_DSN : "databend://user1:abc123@localhost:8000/default?sslmode=disable";
 
 async function create_conn() {
   this.client = new Client(dsn);
@@ -114,13 +112,11 @@ async function select_books() {
   await this.conn.exec(sql);
   console.log("Database used");
 
-  var sql =
-    "CREATE TABLE IF NOT EXISTS books(title VARCHAR, author VARCHAR, date VARCHAR)";
+  var sql = "CREATE TABLE IF NOT EXISTS books(title VARCHAR, author VARCHAR, date VARCHAR)";
   await this.conn.exec(sql);
   console.log("Table created");
 
-  var sql =
-    "INSERT INTO books VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')";
+  var sql = "INSERT INTO books VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')";
   await this.conn.exec(sql);
   console.log("1 record inserted");
 
@@ -135,7 +131,7 @@ async function select_books() {
   console.log(ret);
 }
 
-create_conn().then((conn) => {
+create_conn().then(conn => {
   select_books();
 });
 ```
@@ -143,7 +139,6 @@ create_conn().then((conn) => {
 </StepContent>
 
 <StepContent number="2">
-
 
 ### Run node databend.js
 
@@ -197,9 +192,7 @@ Create a file named `index.js` with the following code:
 ```javascript
 const { Client } = require("databend-driver");
 
-const dsn = process.env.DATABEND_DSN
-  ? process.env.DATABEND_DSN
-  : "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}"; 
+const dsn = process.env.DATABEND_DSN ? process.env.DATABEND_DSN : "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}";
 
 async function create_conn() {
   this.client = new Client(dsn);
@@ -219,8 +212,7 @@ async function select_data() {
 
   await this.conn.exec(sql_table_create);
 
-  let sql_insert =
-    "INSERT INTO data VALUES ('1234', '2345', '3.1415', 'test', 'test2', '2021-01-01', '2021-01-01 00:00:00');";
+  let sql_insert = "INSERT INTO data VALUES ('1234', '2345', '3.1415', 'test', 'test2', '2021-01-01', '2021-01-01 00:00:00');";
   await this.conn.exec(sql_insert);
 
   let sql_select = "SELECT * FROM data";
@@ -234,13 +226,13 @@ async function select_data() {
   console.log(ret);
 }
 
-create_conn().then((conn) => {
+create_conn().then(conn => {
   select_data();
 });
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} and {DATABASE} in the code with your connection information. For how to
+Replace `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} and {DATABASE}` in the code with your connection information. For how to
 obtain the connection information,
 see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 :::

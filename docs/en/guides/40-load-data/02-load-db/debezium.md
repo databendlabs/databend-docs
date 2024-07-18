@@ -44,7 +44,7 @@ unzip debezium-server-databend-dist/target/debezium-server-databend-dist*.zip -d
 cd databendDist
 ```
 
-6. Create a file named *application.properties* in the *conf* folder with the content in the sample [here](https://github.com/databendcloud/debezium-server-databend/blob/main/debezium-server-databend-dist/src/main/resources/distro/conf/application.properties.example), and modify the configurations according to your specific requirements. For description of the available parameters, see this [page](https://github.com/databendcloud/debezium-server-databend/blob/main/docs/docs.md).
+6. Create a file named _application.properties_ in the _conf_ folder with the content in the sample [here](https://github.com/databendcloud/debezium-server-databend/blob/main/debezium-server-databend-dist/src/main/resources/distro/conf/application.properties.example), and modify the configurations according to your specific requirements. For description of the available parameters, see this [page](https://github.com/databendcloud/debezium-server-databend/blob/main/docs/docs.md).
 
 ```bash
 nano conf/application.properties
@@ -60,13 +60,13 @@ bash run.sh
 
 Before you start, make sure Docker and Docker Compose are installed on your system.
 
-1. Create a file named *application.properties* in the *conf* folder with the content in the sample [here](https://github.com/databendcloud/debezium-server-databend/blob/main/debezium-server-databend-dist/src/main/resources/distro/conf/application.properties.example), and modify the configurations according to your specific requirements. For description of the available Databend parameters, see this [page](https://github.com/databendcloud/debezium-server-databend/blob/main/docs/docs.md).
+1. Create a file named _application.properties_ in the _conf_ folder with the content in the sample [here](https://github.com/databendcloud/debezium-server-databend/blob/main/debezium-server-databend-dist/src/main/resources/distro/conf/application.properties.example), and modify the configurations according to your specific requirements. For description of the available Databend parameters, see this [page](https://github.com/databendcloud/debezium-server-databend/blob/main/docs/docs.md).
 
 ```bash
 nano conf/application.properties
 ```
 
-2. Create a file named *docker-compose.yml* with the following content: 
+2. Create a file named _docker-compose.yml_ with the following content:
 
 ```dockerfile
 version: '2.1'
@@ -81,7 +81,7 @@ services:
       - $PWD/data:/app/data
 ```
 
-3. Open a terminal or command-line interface and navigate to the directory containing the *docker-compose.yml* file.
+3. Open a terminal or command-line interface and navigate to the directory containing the _docker-compose.yml_ file.
 
 4. Use the following command to start the tool:
 
@@ -126,7 +126,7 @@ CREATE DATABASE debezium;
 
 ### Step 3. Create application.properties
 
-Create the file *application.properties*, then start debezium-server-databend. For how to install and start the tool, see [Installing debezium-server-databend](#installing-debezium-server-databend).
+Create the file _application.properties_, then start debezium-server-databend. For how to install and start the tool, see [Installing debezium-server-databend](#installing-debezium-server-databend).
 
 When started for the first time, the tool performs a full synchronization of data from MySQL to Databend using the specified Batch Size. As a result, the data from MySQL is now visible in Databend after successful replication.
 

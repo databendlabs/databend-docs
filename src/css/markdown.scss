@@ -1,9 +1,11 @@
-.theme-doc-markdown.markdown{
+.theme-doc-markdown.markdown {
   table {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
   }
-  p+img, h2+img, h3+img {
+  p + img,
+  h2 + img,
+  h3 + img {
     margin-top: 1.5rem;
   }
   .tabs {
@@ -18,15 +20,15 @@
     }
   }
   p {
-    margin-top: 1.5rem!important;
-    margin-bottom: 0!important;
-    &:first-child{
-      margin-top: 1rem!important;
-    }
+    margin-top: 1.5rem !important;
+    margin-bottom: 0 !important;
     line-height: 1.75rem;
+    &:first-child {
+      margin-top: 1rem !important;
+    }
   }
   > h2 {
-    letter-spacing: -.025em;
+    letter-spacing: -0.025em;
     font-weight: 600;
     font-size: 1.5rem;
     line-height: 2rem;
@@ -37,7 +39,7 @@
     margin-bottom: 0;
   }
   > h3 {
-    letter-spacing: -.025em;
+    letter-spacing: -0.025em;
     font-weight: 600;
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -54,10 +56,10 @@
   pre code {
     font-size: 1rem;
   }
-  header+h2{
+  header + h2 {
     margin-top: 1.5rem;
   }
-  a{
+  a {
     text-underline-position: from-font;
     font-weight: 500;
     text-decoration-line: underline;
@@ -65,12 +67,12 @@
     text-underline-offset: 4px;
     line-height: 1.75rem;
   }
-  code{
-    font-size: .875rem;
+  code {
+    font-size: 0.875rem;
     line-height: 1.25rem;
     border: unset;
     padding: 0.2rem 0.3rem;
-    font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
     background-color: hsl(var(--muted));
   }
   h1 {
@@ -83,7 +85,7 @@
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
   }
-  img{
+  img {
     object-fit: contain;
     max-height: 520px;
     width: auto;
@@ -92,15 +94,16 @@
     border: 1px solid hsl(var(--border));
     background-color: var(--color-bg-1);
   }
-  table{
-    tr, th{
+  table {
+    tr,
+    th {
       font-size: 1rem;
     }
-   thead tr{
-    border: 1px solid hsl(var(--border));
-   }
+    thead tr {
+      border: 1px solid hsl(var(--border));
+    }
   }
-  div[class^="codeBlockContainer"]{
+  div[class^="codeBlockContainer"] {
     box-shadow: unset;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
@@ -117,7 +120,7 @@
   [class^="codeBlockContainer"]:not([class*=" language-"]) {
     border-left: 5px solid var(--color-primary);
   }
-  div[class^="language-"]{
+  div[class^="language-"] {
     border-left: 5px solid var(--color-primary);
     // --prism-background-color: var(--color-bg-5)!important;
     margin-top: 1rem;
@@ -132,13 +135,13 @@
       border: 1px solid hsl(var(--border));
       border-left: unset;
       border-top-left-radius: 3px;
-      font-size: .75rem;
+      font-size: 0.75rem;
       line-height: 1rem;
       padding: 0.5rem;
       background-color: var(--bg-code-title-bg);
-      background: var(--prism-background-color2)!important;
+      background: var(--prism-background-color2) !important;
       color: var(--prism-color2);
-      +div {
+      + div {
         code {
           border-top: unset;
           border-top-left-radius: unset;
@@ -146,63 +149,67 @@
         }
       }
     }
-    code{
+    code {
       padding: 1rem;
-      font-size: .9em!important;
+      font-size: 0.9em !important;
       border: 1px solid hsl(var(--border));
       border-left: unset;
-      border-top-left-radius: 0!important;
-      border-bottom-left-radius: 0!important;
-      .token{
-        color: var(--ifm-font-color-base)!important;
-        font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+      .token {
+        color: var(--ifm-font-color-base) !important;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
         font-size: 0.9rem;
         line-height: 1.6rem;
         font-weight: 500;
-        &.keyword{
-          color: var(--shiki-token-keyword)!important;
-          font-style: normal!important;
+        &.keyword {
+          color: var(--shiki-token-keyword) !important;
+          font-style: normal !important;
         }
-        &.string, &.important {
-          color: var(--shiki-token-string)!important;
+        &.string,
+        &.important {
+          color: var(--shiki-token-string) !important;
         }
-        &.operator,&.function{
-          color: var(--shiki-token-function)!important;
+        &.operator,
+        &.function {
+          color: var(--shiki-token-function) !important;
         }
         &.boolean {
-          color: purple!important;
+          color: purple !important;
         }
-        &.comment{
-          color: var(--shiki-token-comment)!important;
+        &.comment {
+          color: var(--shiki-token-comment) !important;
         }
         &.number {
-          color: var(--shiki-token-constant)!important;
+          color: var(--shiki-token-constant) !important;
         }
         &.plain {
-          color: var(--shiki-color-text)!important;
+          color: var(--shiki-color-text) !important;
         }
-        &.variable, &.builtin {
-          color: var(--shiki-color-text)!important;
+        &.variable,
+        &.builtin {
+          color: var(--shiki-color-text) !important;
         }
-        &.property, &.atrule {
-          color: rgb(54, 172, 170)!important;
+        &.property,
+        &.atrule {
+          color: rgb(54, 172, 170) !important;
         }
       }
     }
   }
 
-  button{
+  button {
     background-color: var(--bg-copy-button-white);
     border: none;
-    &:hover{
+    &:hover {
       background-color: var(--bg-hover-copy);
       opacity: 1;
-      color: #fff!important;
+      color: #fff !important;
     }
   }
   .theme-code-block:hover {
     button {
-      opacity: 1!important;
+      opacity: 1 !important;
       color: #000;
     }
   }
@@ -211,35 +218,32 @@
   .DOCITEM-PAGE-FUNCTION-DESCRIPTION-DOM {
     margin-bottom: 0 !important;
     border-bottom: unset !important;
-
   }
 }
-
 
 // margin
-.margin-top--lg{
+.margin-top--lg {
   --ifm-card-border-radius: 0.5rem;
-  .card.padding--lg{
-    padding: 1rem!important;
-    box-shadow: none!important;
-    h2.text--truncate{
-      font-size: 1rem!important;
+  .card.padding--lg {
+    padding: 1rem !important;
+    box-shadow: none !important;
+    h2.text--truncate {
+      font-size: 1rem !important;
     }
   }
-  .col{
+  .col {
     padding: 0 0.25rem;
-    &.col--6.margin-bottom--lg{
-      margin-bottom: 0.5rem!important;
+    &.col--6.margin-bottom--lg {
+      margin-bottom: 0.5rem !important;
     }
   }
-  .row{
-    padding: 0 0.5rem!important;
+  .row {
+    padding: 0 0.5rem !important;
   }
 }
 
-
 .DOCITEM-PAGE-EE-TIPS {
-  margin-top: 1.5rem!important;
+  margin-top: 1.5rem !important;
   border-bottom: 1px solid var(--color-border);
   padding-bottom: 12px;
   margin-bottom: calc(var(--ifm-h1-vertical-rhythm-bottom) * var(--ifm-leading));
