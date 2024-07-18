@@ -23,9 +23,7 @@ For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-
 
 ## Usage notes
 
-When this option is used with LAST_VALUE, The function returns the last value in the frame that is not NULL (or NULL if all values are NULL).
-
-If { IGNORE | RESPECT } NULLS is not specified, the default is RESPECT NULLS.
+When `IGNORE NULLS` is used with LAST_VALUE, the function returns the last value in the frame that is not NULL (or NULL if all values are NULL). If not specified, the default is RESPECT NULLS.
 
 ## Examples
 
@@ -59,7 +57,7 @@ employee_id | first_name | last_name | salary  | lowest_salary_first_name
 5           | Michael    | Brown     | 4500.00 | Michael
 ```
 
-### Use IGNORE NULLS to find non-NULL values
+### Returning NON-NULLs with IGNORE NULLS
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES

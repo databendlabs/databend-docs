@@ -23,9 +23,9 @@ For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-
 
 ## Usage notes
 
-Returns expr evaluated at the nth row (among rows with a non-null value of expr if IGNORE NULLS is set) of the window frame (counting from 1); NULL if no such row.
-
 If { IGNORE | RESPECT } NULLS is not specified, the default is RESPECT NULLS.
+
+Returns expr evaluated at the nth row (among rows with a non-null value of expr if IGNORE NULLS is set) of the window frame (counting from 1); NULL if no such row.
 
 ## Examples
 
@@ -59,7 +59,7 @@ employee_id | first_name | last_name | salary  | second_highest_salary_first_nam
 5           | Michael    | Brown     | 4500.00 | Jane
 ```
 
-### Use IGNORE NULLS to find non-NULL values
+### Returning NON-NULLs with IGNORE NULLS
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES

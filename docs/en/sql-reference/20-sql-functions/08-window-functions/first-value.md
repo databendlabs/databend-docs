@@ -23,9 +23,9 @@ For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-
 
 ## Usage notes
 
-When this option is used with FIRST_VALUE, the function returns the first value in the frame that is not NULL (or NULL if all values are NULL).
-
 If { IGNORE | RESPECT } NULLS is not specified, the default is RESPECT NULLS.
+
+When this IGNORE NULLS is used with FIRST_VALUE, the function returns the first value in the frame that is not NULL (or NULL if all values are NULL).
 
 ## Examples
 
@@ -61,7 +61,7 @@ employee_id | first_name | last_name | salary  | highest_salary_first_name
 
 ```
 
-### Use IGNORE NULLS to find non-NULL values
+### Returning NON-NULLs with IGNORE NULLS
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES
