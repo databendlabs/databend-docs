@@ -4,24 +4,24 @@ title: LAST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.50"/>
+<FunctionDescription description="引入版本: v1.1.50"/>
 
-Returns the last value from an ordered group of values.
+返回有序值组中的最后一个值。
 
-See also:
+另请参阅:
 
 - [FIRST_VALUE](first-value.md)
 - [NTH_VALUE](nth-value.md)
 
-## Syntax
+## 语法
 
 ```sql
-LAST_VALUE(expression) OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
+LAST_VALUE(表达式) OVER ([PARTITION BY 分区表达式] ORDER BY 排序表达式 [窗口框架])
 ```
 
-For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
+有关窗口框架的语法，请参阅[窗口框架语法](index.md#窗口框架语法)。
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE employees (
@@ -39,7 +39,7 @@ VALUES
   (4, 'Mary', 'Williams', 7000.00),
   (5, 'Michael', 'Brown', 4500.00);
 
--- Use LAST_VALUE to retrieve the first name of the employee with the lowest salary
+-- 使用 LAST_VALUE 检索薪水最低的员工的 first_name
 SELECT employee_id, first_name, last_name, salary,
        LAST_VALUE(first_name) OVER (ORDER BY salary DESC) AS lowest_salary_first_name
 FROM employees;

@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 <TabItem value="Amazon S3" label="Amazon S3">
 
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
-2. 获取连接到您创建的存储桶或容器的终端节点 URL。
+2. 获取连接到您创建的存储桶或容器的端点 URL。
 3. 获取您的账户的访问密钥 ID 和秘密访问密钥。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
@@ -59,7 +59,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 <TabItem value="Azure Blob" label="Azure Blob">
 
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
-2. 获取连接到您创建的存储桶或容器的终端节点 URL。
+2. 获取连接到您创建的存储桶或容器的端点 URL。
 3. 获取您的账户的访问密钥 ID 和秘密访问密钥。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
@@ -72,7 +72,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 <TabItem value="Tencent COS" label="Tencent COS">
 
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
-2. 获取连接到您创建的存储桶或容器的终端节点 URL。
+2. 获取连接到您创建的存储桶或容器的端点 URL。
 3. 获取您的账户的访问密钥 ID 和秘密访问密钥。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
@@ -85,7 +85,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 <TabItem value="Alibaba OSS" label="Alibaba Cloud OSS">
 
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
-2. 获取连接到您创建的存储桶或容器的终端节点 URL。
+2. 获取连接到您创建的存储桶或容器的端点 URL。
 3. 获取您的账户的访问密钥 ID 和秘密访问密钥。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
@@ -98,7 +98,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 <TabItem value="Wasabi" label="Wasabi">
 
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
-2. 获取连接到您创建的存储桶或容器的终端节点 URL。
+2. 获取连接到您创建的存储桶或容器的端点 URL。
 3. 获取您的账户的访问密钥 ID 和秘密访问密钥。
 
 有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
@@ -111,7 +111,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 <TabItem value="MinIO" label="MinIO">
 
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
-2. 获取连接到您创建的存储桶或容器的终端节点 URL。
+2. 获取连接到您创建的存储桶或容器的端点 URL。
 3. 获取您的账户的访问密钥 ID 和秘密访问密钥。
 
 有关如何管理 MinIO 的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
@@ -125,7 +125,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 1. 启动 ObjectNode 对象网关。
 2. 创建一个名为 `my_bucket` 的存储桶或容器。
-3. 获取连接到您创建的存储桶或容器的终端节点 URL。
+3. 获取连接到您创建的存储桶或容器的端点 URL。
 4. 获取您的账户的访问密钥 ID 和秘密访问密钥。
 
 有关如何管理 CubeFS 的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
@@ -144,7 +144,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 ### 下载 Databend
 
 1. 在目录 `/usr/local` 中创建一个名为 `databend` 的文件夹。
-2. 从 [GitHub Release](https://github.com/datafuselabs/databend/releases) 下载并提取适用于您平台的最新 Databend 版本：
+2. 从 [GitHub Release](https://github.com/datafuselabs/databend/releases) 下载并解压适用于您平台的最新 Databend 版本：
 
 <Tabs>
 <TabItem value="linux-x86_64" label="Linux(x86)">
@@ -159,8 +159,10 @@ tar xzvf databend-[version]-x86_64-unknown-linux-musl.tar.gz
 ```
 
 </Version>
+
 </TabItem>
 <TabItem value="linux-arm64" label="Linux(Arm)">
+
 <Version>
 ```shell
 curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-aarch64-unknown-linux-musl.tar.gz
@@ -174,23 +176,23 @@ tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
 </TabItem>
 </Tabs>
 
-3. 将提取的文件夹 `bin`、`configs` 和 `scripts` 移动到文件夹 `/usr/local/databend`。
+3. 将解压后的文件夹 `bin`、`configs` 和 `scripts` 移动到文件夹 `/usr/local/databend`。
 
 </StepContent>
 
 </StepsWrap>
 
-### 步骤 1：部署元节点
+### 步骤 1：部署 Meta 节点
 
-按照以下说明部署元节点：
+按照以下说明部署 Meta 节点：
 
 <StepsWrap>
 <StepContent number="1">
 
-### 启动元节点
+### 启动 Meta 节点
 
 1. 打开终端窗口并导航到文件夹 `/usr/local/databend/bin`。
-2. 运行以下命令启动元节点：
+2. 运行以下命令启动 Meta 节点：
 
 ```shell
 ./databend-meta -c ../configs/databend-meta.toml > meta.log 2>&1 &
@@ -199,9 +201,9 @@ tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
 </StepContent>
 <StepContent number="2">
 
-### 检查元节点
+### 检查 Meta 节点
 
-运行以下命令检查元节点是否成功启动：
+运行以下命令检查 Meta 节点是否成功启动：
 
 ```shell
 curl -I  http://127.0.0.1:28101/v1/health
@@ -210,20 +212,20 @@ curl -I  http://127.0.0.1:28101/v1/health
 </StepContent>
 </StepsWrap>
 
-### 步骤 2：部署查询节点
+### 步骤 2：部署 Query 节点
 
-按照以下说明部署查询节点：
+按照以下说明部署 Query 节点：
 
 <StepsWrap>
 
 <StepContent number="1">
 
-### 配置查询节点
+### 配置 Query 节点
 
 1. 在文件夹 `/usr/local/databend/configs` 中找到文件 `databend-query.toml`。
-2. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 _type_，并配置连接到您的对象存储的访问凭证和终端节点 URL。
+2. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type* 并配置连接到您的对象存储的访问凭证和端点 URL。
 
-要配置存储设置，请通过在每行前添加 `#` 注释掉 [storage.fs] 部分。然后，通过移除 `#` 符号取消注释适用于您的对象存储提供商的相关部分，并填写您的值。
+要配置存储设置，请通过在每行前添加 `#` 注释掉 [storage.fs] 部分。然后，通过移除 `#` 符号取消注释适用于您的对象存储提供商的相关部分并填写您的值。
 
 <Tabs groupId="operating-systems">
 
@@ -251,7 +253,7 @@ secret_access_key = "<your-access-key>"
 
 <TabItem value="Google GCS" label="Google GCS">
 
-对于 `credential` 参数，粘贴在步骤[设置您的对象存储](#setting-up-your-object-storage)中获取的 Base64 编码字符串（用双引号括起来）。
+对于 `credential` 参数，粘贴在步骤[设置您的对象存储](#setting-up-your-object-storage)中获得的 Base64 编码字符串（用双引号括起来）。
 
 ```toml title='databend-query.toml'
 [storage]
@@ -290,7 +292,7 @@ account_key = "<your-account-key>"
 
 <TabItem value="Tencent COS" label="Tencent COS">
 
-在指定 `endpoint_url` 参数时，确保从您的存储桶终端节点中排除 `<BucketName-APPID>` 部分。例如，如果您的存储桶终端节点是 `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`，请使用 `https://cos.ap-beijing.myqcloud.com`。有关腾讯云 COS 各区域的终端节点，请参阅 https://www.tencentcloud.com/document/product/436/6224。
+在指定 `endpoint_url` 参数时，确保从存储桶的端点中排除 `<BucketName-APPID>` 部分。例如，如果您的存储桶端点是 `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`，请使用 `https://cos.ap-beijing.myqcloud.com`。有关腾讯云 COS 各区域的端点，请参阅 https://www.tencentcloud.com/document/product/436/6224。
 
 ```toml title='databend-query.toml'
 [storage]
@@ -345,14 +347,14 @@ access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
 
-Databend 企业版支持 OSS 的服务器端加密。此功能使您能够通过激活 OSS 中存储数据的服务器端加密来增强数据安全和隐私。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参阅[许可 Databend](../../../00-overview/00-editions/01-dee/20-license.md)。
+Databend 企业版支持 OSS 中的服务器端加密功能。此功能使您能够通过激活 OSS 中存储数据的服务器端加密来增强数据安全和隐私。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。如需获取许可证，请参阅 [Databend 许可](../../../00-overview/00-editions/01-dee/20-license.md)。
 
 要在 Databend 中启用服务器端加密，请在 [storage.oss] 部分添加以下参数：
 
-| 参数                          | 描述                                                                                                                                               | 可用值                             |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| server_side_encryption        | 指定 OSS 数据的 server-side 加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 则利用在 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                  |
-| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的 server-side 加密密钥 ID。仅在使用 KMS 加密模式时适用。                            | 字符串，KMS 加密密钥的唯一标识符。 |
+| 参数                          | 描述                                                                                                                                                                              | 可用值                                        |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| server_side_encryption        | 指定 OSS 数据的服务器端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 则使用 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
+| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务器端加密密钥 ID。仅在使用 KMS 加密模式时适用。      | 字符串，KMS 加密密钥的唯一标识符。 |
 
 </TabItem>
 
@@ -460,7 +462,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 步骤 3：验证部署
 
-在这一步中，您将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行一个简单的查询，以验证部署。
+在此步骤中，您将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行简单查询以验证部署。
 
 <StepsWrap>
 
@@ -490,7 +492,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 ./scripts/start.sh
 
 # 停止 Databend
-# 该脚本使用 KILLALL 命令。如果未安装，请为您的系统安装 psmisc 包。
+# 此脚本使用 KILLALL 命令。如果未安装，请为您的系统安装 psmisc 包。
 # 例如，在 CentOS 上：yum install psmisc
 ./scripts/stop.sh
 ```
@@ -508,7 +510,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
 
-运行以下命令，然后再次尝试启动 Databend：
+运行以下命令并再次尝试启动 Databend：
 
 ```shell
 sudo mkdir /var/log/databend

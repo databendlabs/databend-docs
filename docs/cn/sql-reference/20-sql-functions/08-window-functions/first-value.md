@@ -4,24 +4,24 @@ title: FIRST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.50"/>
+<FunctionDescription description="引入版本: v1.1.50"/>
 
-Returns the first value from an ordered group of values.
+返回有序值组中的第一个值。
 
-See also:
+另请参阅:
 
 - [LAST_VALUE](last-value.md)
 - [NTH_VALUE](nth-value.md)
 
-## Syntax
+## 语法
 
 ```sql
 FIRST_VALUE(expression) OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
+关于窗口框架的语法，请参见 [窗口框架语法](index.md#窗口框架语法)。
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE employees (
@@ -39,7 +39,7 @@ VALUES
   (4, 'Mary', 'Williams', 7000.00),
   (5, 'Michael', 'Brown', 4500.00);
 
--- Use FIRST_VALUE to retrieve the first name of the employee with the highest salary
+-- 使用 FIRST_VALUE 获取薪水最高的员工的第一个名字
 SELECT employee_id, first_name, last_name, salary,
        FIRST_VALUE(first_name) OVER (ORDER BY salary DESC) AS highest_salary_first_name
 FROM employees;

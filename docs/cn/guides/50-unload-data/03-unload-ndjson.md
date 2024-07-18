@@ -19,12 +19,12 @@ FILE_FORMAT = (
 ```
 
 - 更多 NDJSON 选项请参考 [NDJSON 文件格式选项](/sql/sql-reference/file-format-options#ndjson-options)
-- 卸载到多个文件请使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- 更多关于语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到
+- 卸载到多个文件使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 更多关于语法的详细信息请参见 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
 
 ## 教程
 
-### 步骤 1. 创建一个外部 Stage
+### 步骤 1. 创建外部阶段
 
 ```sql
 CREATE STAGE ndjson_unload_stage
@@ -37,7 +37,7 @@ CONNECTION = (
 
 ### 步骤 2. 创建自定义 NDJSON 文件格式
 
-```
+```sql
 CREATE FILE FORMAT ndjson_unload_format
     TYPE = NDJSON,
     COMPRESSION = gzip;     -- 使用 gzip 压缩卸载

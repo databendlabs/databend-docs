@@ -4,24 +4,24 @@ title: NTH_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.50"/>
+<FunctionDescription description="引入版本: v1.1.50"/>
 
-Returns the Nth value from an ordered group of values.
+返回有序值组中的第N个值。
 
-See also:
+另请参阅:
 
 - [FIRST_VALUE](first-value.md)
 - [LAST_VALUE](last-value.md)
 
-## Syntax
+## 语法
 
 ```sql
 NTH_VALUE(expression, n) OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
+关于窗口框架的语法，请参见 [窗口框架语法](index.md#窗口框架语法)。
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE employees (
@@ -39,7 +39,7 @@ VALUES
   (4, 'Mary', 'Williams', 7000.00),
   (5, 'Michael', 'Brown', 4500.00);
 
--- Use NTH_VALUE to retrieve the first name of the employee with the second highest salary
+-- 使用 NTH_VALUE 获取薪水第二高的员工的姓名
 SELECT employee_id, first_name, last_name, salary,
        NTH_VALUE(first_name, 2) OVER (ORDER BY salary DESC) AS second_highest_salary_first_name
 FROM employees;
