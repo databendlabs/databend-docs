@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入版本: v1.2.568"/>
 
-返回表达式在窗口框架的第 n 行（如果设置了 `IGNORE NULLS`，则在不包含空值的行中）计算的值；如果没有这样的行，则返回 NULL。
+返回表达式 `expr` 在窗口框架的第 `n` 行（如果设置了 `IGNORE NULLS`，则是在具有非空 `expr` 值的行中）的计算结果；如果没有这样的行，则返回 NULL。
 
 另请参阅：
 
@@ -19,7 +19,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 NTH_VALUE(expression, n) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-有关窗口框架的语法，请参阅 [窗口框架语法](index.md#window-frame-语法)。
+有关窗口框架的语法，请参阅 [窗口框架语法](index.md#window-frame-syntax)。
 
 ## 示例
 
@@ -39,7 +39,7 @@ VALUES
   (4, 'Mary', 'Williams', 7000.00),
   (5, 'Michael', 'Brown', 4500.00);
 
--- 使用 NTH_VALUE 检索工资第二高的员工的姓名
+-- 使用 NTH_VALUE 检索薪水第二高的员工的姓名
 SELECT employee_id, first_name, last_name, salary,
        NTH_VALUE(first_name, 2) OVER (ORDER BY salary DESC) AS second_highest_salary_first_name
 FROM employees;

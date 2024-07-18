@@ -26,7 +26,7 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 ```
 
 - *auth_type* 可以是 `double_sha1_password` (默认), `sha256_password` 或 `no_password`。
-- 当 `MUST_CHANGE_PASSWORD` 设置为 `true` 时，新用户必须在首次登录时更改密码。用户可以使用 [ALTER USER](03-user-alter-user.md) 命令更改自己的密码。
+- 当 `MUST_CHANGE_PASSWORD` 设置为 `true` 时，新用户在首次登录时必须更改密码。用户可以使用 [ALTER USER](03-user-alter-user.md) 命令更改自己的密码。
 - 当您使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在或自动授予角色给用户。您必须显式地将角色授予用户，角色才会生效。
 - 当 `DISABLED` 设置为 `true` 时，新用户创建时处于禁用状态。处于此状态的用户无法登录 Databend，直到他们被启用。要启用或禁用已创建的用户，请使用 [ALTER USER](03-user-alter-user.md) 命令。
 
@@ -167,7 +167,7 @@ Connected to Databend Query v1.2.424-nightly-d3a89f708d(rust-1.77.0-nightly-2024
 CREATE USER eric IDENTIFIED BY 'abc123' WITH MUST_CHANGE_PASSWORD = TRUE;
 ```
 
-2. 启动 BendSQL 并以新用户身份连接到 Databend。连接后，您将看到一条消息，指示需要更改密码。
+2. 启动 BendSQL 并以新用户身份连接到 Databend。一旦连接，您将看到一条消息，指示需要更改密码。
 
 ```bash
 MacBook-Air:~ eric$ bendsql -ueric -pabc123

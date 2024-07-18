@@ -39,7 +39,7 @@ VALUES
   (4, 'Mary', 'Williams', 7000.00),
   (5, 'Michael', 'Brown', 4500.00);
 
--- 使用 FIRST_VALUE 获取薪水最高的员工的姓名
+-- 使用 FIRST_VALUE 获取工资最高的员工的名字
 SELECT employee_id, first_name, last_name, salary,
        FIRST_VALUE(first_name) OVER (ORDER BY salary DESC) AS highest_salary_first_name
 FROM employees;
