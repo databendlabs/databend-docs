@@ -17724,6 +17724,7 @@ const fakeRelease = {
     network_count: 660,
     subscribers_count: 98,
   },
+  name: "v1.2.530",
   stargazersCount: 8888,
   bendsqlRecource: {
     url: "https://api.github.com/repos/datafuselabs/bendsql/releases/132631293",

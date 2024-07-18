@@ -1,6 +1,7 @@
 ---
 title: INSERT (multi-table)
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.396"/>
@@ -40,21 +41,21 @@ INSERT [ OVERWRITE ] FIRST
     WHEN <condition> THEN
         INTO <target_table> [ ( <target_col_name> [ , ... ] ) ] [ VALUES ( <source_col_name> [ , ... ] ) ]
       [ INTO ... ]
-      
+
   [ WHEN ... ]
 
   [ ELSE INTO ... ]
 SELECT ...
 ```
 
-| Parameter                              | Description                                                                                                                                                                        |
-|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| OVERWRITE                              | Indicates whether existing data should be truncated before insertion.                                                                                                              |
-| ( <target_col_name> [ , ... ] )        | Specifies the column names in the target table where data will be inserted.<br/>- If omitted, data will be inserted into all columns in the target table.                                |
-| VALUES ( <source_col_name> [ , ... ] ) | Specifies the source column names from which data will be inserted into the target table.<br/>- If omitted, all columns returned by the subquery will be inserted into the target table.<br/>- The data types of the columns listed in `<source_col_name>` must match or be compatible with those specified in `<target_col_name>`. |
-| SELECT ...                             | A subquery that provides the data to be inserted into the target table(s).<br/>- You have the option to explicitly assign aliases to columns within the subquery. This allows you to reference the columns by their aliases within WHEN clauses and VALUES clauses.                                                                                                        |
-| WHEN                                   | Conditional statement to determine when to insert data into specific target tables.<br/>- A conditional multi-table insert requires at least one WHEN clause.<br/>- A WHEN clause can include multiple INTO clauses, and these INTO clauses can target the same table.<br/>- To unconditionally execute a WHEN clause, you can use `WHEN 1 THEN ...`.                                                                                                 |
-| ELSE                                   | Specifies the action to take if none of the conditions specified in the WHEN clauses are met.                                                                                      |
+| Parameter                                | Description                                                                                                                                                                                                                                                                                                                                           |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OVERWRITE                                | Indicates whether existing data should be truncated before insertion.                                                                                                                                                                                                                                                                                 |
+| `( <target_col_name> [ , ... ] )`        | Specifies the column names in the target table where data will be inserted.<br/>- If omitted, data will be inserted into all columns in the target table.                                                                                                                                                                                             |
+| VALUES `( <source_col_name> [ , ... ] )` | Specifies the source column names from which data will be inserted into the target table.<br/>- If omitted, all columns returned by the subquery will be inserted into the target table.<br/>- The data types of the columns listed in `<source_col_name>` must match or be compatible with those specified in `<target_col_name>`.                   |
+| SELECT ...                               | A subquery that provides the data to be inserted into the target table(s).<br/>- You have the option to explicitly assign aliases to columns within the subquery. This allows you to reference the columns by their aliases within WHEN clauses and VALUES clauses.                                                                                   |
+| WHEN                                     | Conditional statement to determine when to insert data into specific target tables.<br/>- A conditional multi-table insert requires at least one WHEN clause.<br/>- A WHEN clause can include multiple INTO clauses, and these INTO clauses can target the same table.<br/>- To unconditionally execute a WHEN clause, you can use `WHEN 1 THEN ...`. |
+| ELSE                                     | Specifies the action to take if none of the conditions specified in the WHEN clauses are met.                                                                                                                                                                                                                                                         |
 
 ## Examples
 
@@ -127,7 +128,6 @@ SELECT * FROM employee_history;
 ```
 
 ### Example-2: Conditional INSERT ALL & FIRST
-
 
 This example demonstrates conditional INSERT ALL, inserting sales data into separate tables based on specific conditions, where records satisfying multiple conditions are inserted into all corresponding tables.
 

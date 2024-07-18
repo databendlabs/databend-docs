@@ -3,10 +3,10 @@ title: Deploying with HDFS
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
+import Version from '@site/src/components/Version';
 
 <FunctionDescription description="Introduced or updated: v1.2.168"/>
 
-import GetLatest from '@site/src/components/GetLatest';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
 Databend also works with Hadoop Distributed File System (HDFS). This topic explains how to deploy Databend with HDFS. For a list of other supported object storage solutions, see [Understanding Deployment Modes](../00-understanding-deployment-modes.md).
@@ -15,7 +15,6 @@ Databend also works with Hadoop Distributed File System (HDFS). This topic expla
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-common.md';
 
 <Tabs groupId="operating-systems">
 
@@ -62,14 +61,16 @@ To use HDFS as the storage backend, download a release with a file name formatte
 
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
+<Version>
 ```shell
-curl -LJO https://repo.databend.com/databend/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+curl -LJO https://repo.databend.com/databend/[version]/databend-hdfs-[version]-x86_64-unknown-linux-gnu.tar.gz
 ```
 
 ```shell
-tar xzvf databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+tar xzvf databend-hdfs-[version]-x86_64-unknown-linux-gnu.tar.gz
 ```
 
+</Version>
 </TabItem>
 
 </Tabs>
@@ -88,9 +89,45 @@ Before deploying Databend, make sure you have successfully set up your Hadoop en
 
 For information about how to enable and manage WebHDFS on Apache Hadoop, please refer to the manual of WebHDFS. Here are some links you may find useful:
 
-- <https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html>
+- [https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html](https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html)
 
-<CommonDownloadDesc />
+### Downloading Databend
+
+a. Create a folder named `databend` in the directory `/usr/local`.
+
+b. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
+
+<Tabs>
+<TabItem value="linux-x86_64" label="Linux(x86)">
+<Version>
+```shell
+curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-x86_64-unknown-linux-musl.tar.gz
+```
+
+```shell
+tar xzvf databend-[version]-x86_64-unknown-linux-musl.tar.gz
+```
+
+</Version>
+</TabItem>
+
+<TabItem value="linux-arm64" label="Linux(Arm)">
+<Version>
+
+```shell
+curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-aarch64-unknown-linux-musl.tar.gz
+```
+
+```shell
+tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
+```
+
+</Version>
+</TabItem>
+
+</Tabs>
+
+c. Move the extracted folders `bin`, `configs`, and `scripts` to the folder `/usr/local/databend`.
 
 </TabItem>
 </Tabs>
@@ -223,7 +260,6 @@ sudo chown -R $USER /var/lib/databend
   </div>
 </details>
 </DetailsWrap>
-<GetLatest/>
 
 ## Next Steps
 

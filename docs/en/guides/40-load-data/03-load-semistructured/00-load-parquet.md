@@ -20,13 +20,14 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = PARQUET)
 ```
 
-More details about the syntax can be found in [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table).
+More details about the syntax can be found in [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
 
 ## Tutorial: Loading Data from Parquet Files
 
 ### Step 1. Create an Internal Stage
 
 Create an internal stage to store the Parquet files.
+
 ```sql
 CREATE STAGE my_parquet_stage;
 ```
@@ -34,10 +35,11 @@ CREATE STAGE my_parquet_stage;
 ### Step 2. Create Parquet files
 
 Generate a Parquet file using these SQL statements:
+
 ```sql
-COPY INTO @my_parquet_stage 
+COPY INTO @my_parquet_stage
 FROM (
-    SELECT 
+    SELECT
         'Title_' || CAST(number AS VARCHAR) AS title,
         'Author_' || CAST(number AS VARCHAR) AS author
     FROM numbers(100000)
@@ -46,11 +48,13 @@ FROM (
 ```
 
 Verify the creation of the Parquet file:
+
 ```sql
 LIST @my_parquet_stage;
 ```
 
 Result:
+
 ```text
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -60,8 +64,7 @@ Result:
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-More details about unload data to stage can be found in [COPY INTO <location\>](/sql/sql-commands/dml/dml-copy-into-location).
-
+More details about unload data to stage can be found in [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location).
 
 ### Step 3: Create Target Table
 
@@ -76,14 +79,16 @@ CREATE TABLE books
 ### Step 4. Copying Directly from Parquet
 
 To directly copy data into your table from Parquet files, use the following SQL command:
+
 ```sql
 COPY INTO books
     FROM @my_parquet_stage
     PATTERN = '.*[.]parquet'
-    FILE_FORMAT = (TYPE = PARQUET); 
+    FILE_FORMAT = (TYPE = PARQUET);
 ```
 
 Result:
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                               File                              │ Rows_loaded │ Errors_seen │    First_error   │ First_error_line │
@@ -95,10 +100,11 @@ Result:
 ### Step 4 (Option). Using SELECT to Copy Data
 
 For more control, like transforming data while copying, use the SELECT statement. Learn more at [`SELECT from Parquet`](../04-transform/00-querying-parquet.md)
+
 ```sql
 COPY INTO books (title, author)
 FROM (
-    SELECT title, author 
+    SELECT title, author
     FROM @my_parquet_stage
 )
 PATTERN = '.*[.]parquet'

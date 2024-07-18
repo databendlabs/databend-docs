@@ -22,7 +22,7 @@ pip install databend-sqlalchemy
 This table illustrates the correspondence between Databend general data types and their corresponding Python equivalents:
 
 | Databend  | Python            |
-|-----------|-------------------|
+| --------- | ----------------- |
 | BOOLEAN   | bool              |
 | TINYINT   | int               |
 | SMALLINT  | int               |
@@ -39,7 +39,7 @@ This table illustrates the correspondence between Databend general data types an
 This table illustrates the correspondence between Databend semi-structured data types and their corresponding Python equivalents:
 
 | Databend | Python |
-|----------|--------|
+| -------- | ------ |
 | ARRAY    | list   |
 | TUPLE    | tuple  |
 | MAP      | dict   |
@@ -278,5 +278,5 @@ print(cursor.fetchall())
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+Replace `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} and {DATABASE}` in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 :::

@@ -14,7 +14,7 @@ For installation instructions, examples, and the source code, see [GitHub - data
 This table illustrates the correspondence between Databend general data types and their corresponding Rust equivalents:
 
 | Databend  | Rust                  |
-|-----------|-----------------------|
+| --------- | --------------------- |
 | BOOLEAN   | bool                  |
 | TINYINT   | i8,u8                 |
 | SMALLINT  | i16,u16               |
@@ -30,14 +30,14 @@ This table illustrates the correspondence between Databend general data types an
 
 This table illustrates the correspondence between Databend semi-structured data types and their corresponding Rust equivalents:
 
-| Databend    | Rust           |
-|-------------|----------------|
-| ARRAY[T]    | `Vec<T> `      |
-| TUPLE[T, U] | (T, U)         |
-| MAP[K, V]   | `HashMap<K, V>`|
-| VARIANT     | String         |
-| BITMAP      | String         |
-| GEOMETRY    | String         |
+| Databend    | Rust            |
+| ----------- | --------------- |
+| ARRAY[T]    | `Vec<T> `       |
+| TUPLE[T, U] | (T, U)          |
+| MAP[K, V]   | `HashMap<K, V>` |
+| VARIANT     | String          |
+| BITMAP      | String          |
+| GEOMETRY    | String          |
 
 ## Databend Rust Driver Behavior Summary
 
@@ -247,7 +247,7 @@ async fn main() {
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to
+Replace `{USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE}` in the code with your connection information. For how to
 obtain the connection information,
 see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 :::

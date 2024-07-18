@@ -1,25 +1,7 @@
 {
+  // This file is not used in compilation. It is here just for a nice editor experience.
+  "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "es5",
-    "module": "commonjs",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "types": ["node", "@docusaurus/module-type-aliases", "@docusaurus/theme-classic"],
-    "paths": {
-      "@site/*": ["./*"]
-    },
-  },
-  "include": ["src", "./types/*","src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules", "build", "dist", ".docusaurus", ".cache"]
+    "baseUrl": "."
+  }
 }

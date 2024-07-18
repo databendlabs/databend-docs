@@ -36,15 +36,15 @@ single        = true
 
 以下是 [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 配置文件中可用的通用参数列表。这些参数不应包含在任何特定部分下。
 
-| 参数                               | 描述                                                                                      |
-|------------------------------------|-------------------------------------------------------------------------------------------|
-| admin_api_address                  | Databend 的管理员 API 的 IP 地址和端口。                                                    |
-| admin_tls_server_cert              | 管理员 TLS 服务器证书文件的路径。                                                          |
-| admin_tls_server_key               | 管理员 TLS 服务器密钥文件的路径。                                                          |
-| grpc_api_address                   | Databend 的 gRPC API 的 IP 地址和端口。                                                    |
-| grpc_api_advertise_host            | 用于广告 gRPC API 的 IP 地址（用于更新 Databend-meta 端点）。                              |
-| grpc_tls_server_cert               | gRPC TLS 服务器证书文件的路径。                                                            |
-| grpc_tls_server_key                | gRPC TLS 服务器密钥文件的路径。                                                            | 
+| 参数                    | 描述                                                          |
+| ----------------------- | ------------------------------------------------------------- |
+| admin_api_address       | Databend 的管理员 API 的 IP 地址和端口。                      |
+| admin_tls_server_cert   | 管理员 TLS 服务器证书文件的路径。                             |
+| admin_tls_server_key    | 管理员 TLS 服务器密钥文件的路径。                             |
+| grpc_api_address        | Databend 的 gRPC API 的 IP 地址和端口。                       |
+| grpc_api_advertise_host | 用于广告 gRPC API 的 IP 地址（用于更新 Databend-meta 端点）。 |
+| grpc_tls_server_cert    | gRPC TLS 服务器证书文件的路径。                               |
+| grpc_tls_server_key     | gRPC TLS 服务器密钥文件的路径。                               |
 
 ## [log] 部分
 
@@ -54,39 +54,39 @@ single        = true
 
 以下是 [log.file] 部分中可用的参数列表：
 
-| 参数     | 描述                                                                        |
-|----------|----------------------------------------------------------------------------|
-| on       | 启用基于文件的日志记录（true 或 false）。默认值：true                        |
-| level    | 基于文件的日志记录的日志级别（例如，"DEBUG", "INFO"）。默认值："DEBUG"        |
-| dir      | 存储日志文件的目录。默认值："./.databend/logs"                               |
-| format   | 基于文件的日志记录的日志格式（例如，"json", "text"）。默认值："json"          |
+| 参数   | 描述                                                                   |
+| ------ | ---------------------------------------------------------------------- |
+| on     | 启用基于文件的日志记录（true 或 false）。默认值：true                  |
+| level  | 基于文件的日志记录的日志级别（例如，"DEBUG", "INFO"）。默认值："DEBUG" |
+| dir    | 存储日志文件的目录。默认值："./.databend/logs"                         |
+| format | 基于文件的日志记录的日志格式（例如，"json", "text"）。默认值："json"   |
 
 ### [log.stderr] 部分
 
 以下是 [log.stderr] 部分中可用的参数列表：
 
-| 参数     | 描述                                                                      |
-|----------|--------------------------------------------------------------------------|
-| on       | 启用 stderr 日志记录（true 或 false）。默认值：true                        |
-| level    | stderr 日志记录的日志级别（例如，"DEBUG", "INFO"）。默认值："DEBUG"         |
-| format   | stderr 日志记录的日志格式（例如，"text", "json"）。默认值："text"           |
+| 参数   | 描述                                                                |
+| ------ | ------------------------------------------------------------------- |
+| on     | 启用 stderr 日志记录（true 或 false）。默认值：true                 |
+| level  | stderr 日志记录的日志级别（例如，"DEBUG", "INFO"）。默认值："DEBUG" |
+| format | stderr 日志记录的日志格式（例如，"text", "json"）。默认值："text"   |
 
 ## [raft_config] 部分
 
 以下是 [raft_config] 部分中可用的参数列表：
 
-| 参数                      | 描述                                                                                                                   |
-|--------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| id                       | Raft配置的唯一标识符。                                                                                                 |
-| raft_dir                 | 存储Raft数据的目录。                                                                                                  |
-| raft_api_port            | Databend的Raft API端口。                                                                                              |
-| raft_listen_host         | Raft监听的IP地址。                                                                                                    |
-| raft_advertise_host      | 用于宣传Raft API的IP地址。                                                                                            |
-| single                   | 布尔值，指示Databend是否以单节点集群模式运行（true或false）。                                                          |
-| join                     | 新节点加入到现有集群时，集群中节点的地址列表（<raft_advertise_host>:<raft_api_port>）。                                |
-| heartbeat_interval       | 心跳间隔，以毫秒为单位。默认值：1000                                                                                   |
-| install_snapshot_timeout | 安装快照超时，以毫秒为单位。默认值：4000                                                                               |
-| max_applied_log_to_keep  | 保留的已应用Raft日志的最大数量。默认值：1000                                                                           |
-| snapshot_chunk_size      | 传输快照的块大小，以字节为单位。默认值为4MB                                                                            |
-| snapshot_logs_since_last | 自上次快照以来的Raft日志数量。默认值：1024                                                                             |
-| wait_leader_timeout      | 等待领导者超时，以毫秒为单位。默认值：70000                                                                            |
+| 参数                     | 描述                                                                                      |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
+| id                       | Raft 配置的唯一标识符。                                                                   |
+| raft_dir                 | 存储 Raft 数据的目录。                                                                    |
+| raft_api_port            | Databend 的 Raft API 端口。                                                               |
+| raft_listen_host         | Raft 监听的 IP 地址。                                                                     |
+| raft_advertise_host      | 用于宣传 Raft API 的 IP 地址。                                                            |
+| single                   | 布尔值，指示 Databend 是否以单节点集群模式运行（true 或 false）。                         |
+| join                     | 新节点加入到现有集群时，集群中节点的地址列表`（<raft_advertise_host>:<raft_api_port>）`。 |
+| heartbeat_interval       | 心跳间隔，以毫秒为单位。默认值：1000                                                      |
+| install_snapshot_timeout | 安装快照超时，以毫秒为单位。默认值：4000                                                  |
+| max_applied_log_to_keep  | 保留的已应用 Raft 日志的最大数量。默认值：1000                                            |
+| snapshot_chunk_size      | 传输快照的块大小，以字节为单位。默认值为 4MB                                              |
+| snapshot_logs_since_last | 自上次快照以来的 Raft 日志数量。默认值：1024                                              |
+| wait_leader_timeout      | 等待领导者超时，以毫秒为单位。默认值：70000                                               |

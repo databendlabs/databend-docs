@@ -10,7 +10,7 @@ The `databend-tableau-connector-jdbc` connector offers faster performance throug
 
 ## Tutorial-1: Integrating with Databend (through Other Databases (JDBC) Interface)
 
-In this tutorial, you'll deploy and integrate a local Databend with [Tableau Desktop](https://www.tableau.com/products/desktop). Before you start, [download](https://www.tableau.com/products/desktop/download) Tableau Desktop and follow the on-screen instructions to complete the installation. 
+In this tutorial, you'll deploy and integrate a local Databend with [Tableau Desktop](https://www.tableau.com/products/desktop). Before you start, [download](https://www.tableau.com/products/desktop/download) Tableau Desktop and follow the on-screen instructions to complete the installation.
 
 ### Step 1. Deploy Databend
 
@@ -28,10 +28,10 @@ GRANT ALL ON *.* TO tableau;
 
 2. To install the databend-jdbc driver, move the jar file (for example, databend-jdbc-0.0.8.jar) to Tableau's driver folder. Tableau's driver folder varies depending on the operating system:
 
-| Operating System 	| Tableau's Driver Folder          	|
-|------------------	|----------------------------------	|
-| MacOS             | ~/Library/Tableau/Drivers        	|
-| Windows          	| C:\Program Files\Tableau\Drivers 	|
+| Operating System | Tableau's Driver Folder          |
+| ---------------- | -------------------------------- |
+| MacOS            | ~/Library/Tableau/Drivers        |
+| Windows          | C:\Program Files\Tableau\Drivers |
 
 ### Step 3. Connect to Databend
 
@@ -41,14 +41,14 @@ GRANT ALL ON *.* TO tableau;
 
 2. In the window that opens, provide the connection information and click **Sign In**.
 
-| Parameter 	| Description                                                        	| For This Tutorial                                         	|
-|-----------	|--------------------------------------------------------------------	|----------------------------------------------------------	|
-| URL       	| Format: jdbc:databend://{user}:{password}@{host}:{port}/{database} 	| jdbc:databend://tableau:tableau@127.0.0.1:8000/default 	|
-| Dialect   	| Select "MySQL" for SQL dialect.                                    	| MySQL                                                    	|
-| Username  	| SQL user for connecting to Databend                                	| tableau                                                  	|
-| Password  	| SQL user for connecting to Databend                                	| tableau                                                  	|
+| Parameter | Description                                                          | For This Tutorial                                        |
+| --------- | -------------------------------------------------------------------- | -------------------------------------------------------- |
+| URL       | Format: `jdbc:databend://{user}:{password}@{host}:{port}/{database}` | `jdbc:databend://tableau:tableau@127.0.0.1:8000/default` |
+| Dialect   | Select "MySQL" for SQL dialect.                                      | MySQL                                                    |
+| Username  | SQL user for connecting to Databend                                  | tableau                                                  |
+| Password  | SQL user for connecting to Databend                                  | tableau                                                  |
 
-3. When the Tableau workbook opens, select the database, schema, and tables that you want to query. For this tutorial, select *default* for both **Database** and **Schema**.
+3. When the Tableau workbook opens, select the database, schema, and tables that you want to query. For this tutorial, select _default_ for both **Database** and **Schema**.
 
 ![Alt text](@site/docs/public/img/integration/tableau-2.png)
 
@@ -56,7 +56,7 @@ You're all set! You can now drag tables to the work area to start your query and
 
 ## Tutorial-2: Integrating with Databend (through databend-tableau-connector-jdbc Connector)
 
-In this tutorial, you'll deploy and integrate a local Databend with [Tableau Desktop](https://www.tableau.com/products/desktop). Before you start, [download](https://www.tableau.com/products/desktop/download) Tableau Desktop and follow the on-screen instructions to complete the installation. 
+In this tutorial, you'll deploy and integrate a local Databend with [Tableau Desktop](https://www.tableau.com/products/desktop). Before you start, [download](https://www.tableau.com/products/desktop/download) Tableau Desktop and follow the on-screen instructions to complete the installation.
 
 ### Step 1. Deploy Databend
 
@@ -74,29 +74,29 @@ GRANT ALL ON *.* TO tableau;
 
 2. To install the databend-jdbc driver, move the jar file (for example, databend-jdbc-0.0.8.jar) to Tableau's driver folder. Tableau's driver folder varies depending on the operating system:
 
-| Operating System 	| Tableau's Driver Folder          	|
-|------------------	|----------------------------------	|
-| MacOS             | ~/Library/Tableau/Drivers        	|
-| Windows          	| C:\Program Files\Tableau\Drivers 	|
+| Operating System | Tableau's Driver Folder          |
+| ---------------- | -------------------------------- |
+| MacOS            | ~/Library/Tableau/Drivers        |
+| Windows          | C:\Program Files\Tableau\Drivers |
 
 ### Step 3. Install databend-tableau-connector-jdbc Connector
 
 1. Download the latest **databend_jdbc.taco** file from the connector's [Releases](https://github.com/databendcloud/databend-tableau-connector-jdbc/releases) page, and save it to the Tableau's connector folder:
 
-| Operating System 	| Tableau's Connector Folder                                           	|
-|------------------	|--------------------------------------------------------------------	|
-| MacOS            	| ~/Documents/My Tableau Repository/Connectors                       	|
-| Windows          	| C:\Users\[Windows User]\Documents\My Tableau Repository\Connectors 	|
+| Operating System | Tableau's Connector Folder                                         |
+| ---------------- | ------------------------------------------------------------------ |
+| MacOS            | ~/Documents/My Tableau Repository/Connectors                       |
+| Windows          | C:\Users\[Windows User]\Documents\My Tableau Repository\Connectors |
 
 2. Start Tableau Desktop with signature verification disabled. If you are on macOS, open Terminal and enter the following command:
 
 ```shell
 /Applications/Tableau\ Desktop\ 2023.2.app/Contents/MacOS/Tableau -DDisableVerifyConnectorPluginSignature=true
- ```
+```
 
 ### Step 4. Connect to Databend
 
-1. In Tableau Desktop, select **Databend JDBC by Databend, Inc.** on **To a Server** > **More...**. 
+1. In Tableau Desktop, select **Databend JDBC by Databend, Inc.** on **To a Server** > **More...**.
 
 ![Alt text](@site/docs/public/img/integration/tableau-connector-1.png)
 
@@ -110,7 +110,7 @@ GRANT ALL ON *.* TO tableau;
 
 ## Tutorial 3: Integrating with Databend Cloud
 
-In this tutorial, you'll integrate Databend Cloud with [Tableau Desktop](https://www.tableau.com/products/desktop). Before you start, [download](https://www.tableau.com/products/desktop/download) Tableau Desktop and follow the on-screen instructions to complete the installation. 
+In this tutorial, you'll integrate Databend Cloud with [Tableau Desktop](https://www.tableau.com/products/desktop). Before you start, [download](https://www.tableau.com/products/desktop/download) Tableau Desktop and follow the on-screen instructions to complete the installation.
 
 ### Step 1. Obtain Connection Information
 
@@ -122,11 +122,11 @@ Obtain the connection information from Databend Cloud. For how to do that, refer
 
 2. To install the databend-jdbc driver, move the jar file (for example, databend-jdbc-0.0.8.jar) to Tableau's driver folder. Tableau's driver folder varies depending on the operating system:
 
-| Operating System 	| Tableau's Driver Folder          	|
-|------------------	|----------------------------------	|
-| MacOS             | ~/Library/Tableau/Drivers        	|
-| Windows          	| C:\Program Files\Tableau\Drivers 	|
-| Linux            	| /opt/tableau/tableau_driver/jdbc 	|
+| Operating System | Tableau's Driver Folder          |
+| ---------------- | -------------------------------- |
+| MacOS            | ~/Library/Tableau/Drivers        |
+| Windows          | C:\Program Files\Tableau\Drivers |
+| Linux            | /opt/tableau/tableau_driver/jdbc |
 
 ### Step 3. Connect to Databend Cloud
 
@@ -136,14 +136,14 @@ Obtain the connection information from Databend Cloud. For how to do that, refer
 
 2. In the window, provide the connection information you obtained in [Step 1](#step-1-obtain-connection-information) and click **Sign In**.
 
-| Parameter 	| Description                                                        	| For This Tutorial                                         	|
-|-----------	|--------------------------------------------------------------------	|----------------------------------------------------------	|
-| URL       	| Format: jdbc:databend://{user}:{password}@{host}:{port}/{database} 	| `jdbc:databend://cloudapp:<your-password>@https://<your-host>:443/default` 	|
-| Dialect   	| Select "MySQL" for SQL dialect.                                    	| MySQL                                                    	|
-| Username  	| SQL user for connecting to Databend Cloud                               	| cloudapp                                                  	|
-| Password  	| SQL user for connecting to Databend Cloud                                	| Your password                                                  	|
+| Parameter | Description                                                          | For This Tutorial                                                          |
+| --------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| URL       | Format: `jdbc:databend://{user}:{password}@{host}:{port}/{database}` | `jdbc:databend://cloudapp:<your-password>@https://<your-host>:443/default` |
+| Dialect   | Select "MySQL" for SQL dialect.                                      | MySQL                                                                      |
+| Username  | SQL user for connecting to Databend Cloud                            | cloudapp                                                                   |
+| Password  | SQL user for connecting to Databend Cloud                            | Your password                                                              |
 
-3. When the Tableau workbook opens, select the database, schema, and tables that you want to query. For this tutorial, select *default* for both **Database** and **Schema**.
+3. When the Tableau workbook opens, select the database, schema, and tables that you want to query. For this tutorial, select _default_ for both **Database** and **Schema**.
 
 ![Alt text](@site/static/img/documents/BI/tableau-2.png)
 

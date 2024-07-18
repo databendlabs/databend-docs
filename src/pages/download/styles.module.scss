@@ -26,11 +26,11 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        span{
+        span {
           margin-top: 0;
         }
       }
-      .version{
+      .version {
         font-weight: 700;
         color: var(--color-text-0);
       }
@@ -38,7 +38,7 @@
         color: var(--color-text-1);
         margin-top: 4px;
         margin-bottom: 24px;
-        a{
+        a {
           font-weight: 600;
         }
       }
@@ -49,17 +49,18 @@
       overflow-y: auto;
       color: var(--color-text-0);
       &::-webkit-scrollbar-thumb {
-        background-color: darkgrey; 
-        border-radius: 6px; 
-        border: 3px solid var(--color-fill-1); 
-      }  
+        background-color: darkgrey;
+        border-radius: 6px;
+        border: 3px solid var(--color-fill-1);
+      }
       &::-webkit-scrollbar {
         width: 6px;
-      }   
+      }
       p {
         margin-bottom: 0.5rem;
-      } 
-      h2, h3{
+      }
+      h2,
+      h3 {
         font-size: 14px;
         margin-bottom: 12px;
         color: var(--color-text-0);
@@ -84,18 +85,18 @@
       flex-wrap: wrap;
       row-gap: 12px;
       .nowItem {
-        &:hover {
-          opacity: 0.9;
-        }
         min-width: 294px;
         color: var(--color-white);
         background-color: var(--blue-5);
-        @include align-c();
         gap: 14px;
+        @include align-c();
+        &:hover {
+          opacity: 0.9;
+        }
         .right {
-          div{
+          div {
             font-size: 12px;
-            &:first-child{
+            &:first-child {
               font-size: 14px;
               font-weight: 700;
             }
@@ -105,10 +106,10 @@
           background-color: var(--indigo-5);
         }
         &.nowItemLinuxUbuntu {
-          background-color:  #ED6547;
+          background-color: #ed6547;
         }
         &.nowItemWindows {
-          background-color: #0078D4!important;
+          background-color: #0078d4 !important;
         }
       }
     }
@@ -116,15 +117,15 @@
     @include media {
       flex-direction: column;
       height: auto;
-      .latestVersion{
+      .latestVersion {
         width: 100%;
         border-right: unset;
       }
       .submitRecord {
         margin-top: 20px;
       }
-      .nowAssets { 
-        .nowItem { 
+      .nowAssets {
+        .nowItem {
           width: 100%;
         }
       }
@@ -139,11 +140,11 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      div{
-        &:first-child{
+      div {
+        &:first-child {
           font-weight: 700;
         }
-        a{
+        a {
           font-weight: 700;
         }
       }
@@ -153,9 +154,6 @@
       flex-direction: column;
       row-gap: 12px;
       .button {
-        &:hover {
-          opacity: 0.9;
-        }
         display: flex;
         gap: 8px;
         background-color: var(--color-primary);
@@ -165,7 +163,10 @@
           background-color: var(--indigo-5);
         }
         &.buttonLinuxUbuntu {
-          background-color: #ED6547;
+          background-color: #ed6547;
+        }
+        &:hover {
+          opacity: 0.9;
         }
       }
       .listItem {
@@ -184,19 +185,18 @@
           gap: 12px;
         }
       }
-    } 
+    }
     @include media {
       .listWrap {
         .listItem {
           flex-direction: column;
           align-items: flex-start;
           row-gap: 12px;
-          padding: 12px 12px!important;
+          padding: 12px 12px !important;
           .downArea {
             flex-wrap: wrap;
             gap: 6px;
           }
-
         }
       }
     }
@@ -205,7 +205,6 @@
       padding-bottom: 20px;
     }
   }
-  
 
   @include media {
     width: 100%;
@@ -226,7 +225,7 @@
   }
 }
 .preTag {
-  color: var(--orange-5)!important;
-  border: 1px solid #FA8801;
-  background-color: unset!important;
+  color: var(--orange-5) !important;
+  border: 1px solid #fa8801;
+  background-color: unset !important;
 }

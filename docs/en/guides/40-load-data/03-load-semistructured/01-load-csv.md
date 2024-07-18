@@ -8,6 +8,7 @@ sidebar_label: Loading CSV File
 CSV (Comma Separated Values) is a simple file format used to store tabular data, such as a spreadsheet or database. CSV files are plain text files that contain data in a tabular format, where each row is represented on a new line, and columns are separated by a delimiter.
 
 The following example shows a CSV file with two records:
+
 ```text
 Title_0,Author_0
 Title_1,Author_1
@@ -29,13 +30,15 @@ FROM { userStage | internalStage | externalStage | externalLocation }
     COMPRESSION = AUTO
 ) ]
 ```
-More details about the syntax can be found in [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table).
+
+More details about the syntax can be found in [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
 
 ## Tutorial: Loading Data from CSV Files
 
 ### Step 1. Create an Internal Stage
 
 Create an internal stage to store the CSV files.
+
 ```sql
 CREATE STAGE my_csv_stage;
 ```
@@ -43,10 +46,11 @@ CREATE STAGE my_csv_stage;
 ### Step 2. Create CSV files
 
 Generate a CSV file using these SQL statements:
+
 ```sql
-COPY INTO @my_csv_stage 
+COPY INTO @my_csv_stage
 FROM (
-    SELECT 
+    SELECT
         'Title_' || CAST(number AS VARCHAR) AS title,
         'Author_' || CAST(number AS VARCHAR) AS author
     FROM numbers(100000)
@@ -54,12 +58,15 @@ FROM (
     FILE_FORMAT = (TYPE = CSV, COMPRESSION = gzip)
 ;
 ```
+
 Verify the creation of the CSV file:
+
 ```sql
 LIST @my_csv_stage;
 ```
 
 Result:
+
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                              name                              │  size  │                 md5                │         last_modified         │      creator     │
@@ -77,9 +84,11 @@ CREATE TABLE books
     author VARCHAR
 );
 ```
+
 ### Step 4. Copying Directly from CSV
 
 To directly copy data into your table from CSV files, use the following SQL command:
+
 ```sql
 COPY INTO books
 FROM @my_csv_stage
@@ -94,6 +103,7 @@ FILE_FORMAT = (
 ```
 
 Result:
+
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                              File                              │ Rows_loaded │ Errors_seen │    First_error   │ First_error_line │
@@ -105,10 +115,11 @@ Result:
 ### Step 4 (Option). Using SELECT to Copy Data
 
 For more control, like transforming data while copying, use the SELECT statement. Learn more at [`SELECT from CSV`](../04-transform/01-querying-csv.md).
+
 ```sql
 COPY INTO books (title, author)
 FROM (
-    SELECT $1, $2 
+    SELECT $1, $2
     FROM @my_csv_stage
 )
 PATTERN = '.*[.]csv.gz'
@@ -120,4 +131,3 @@ FILE_FORMAT = (
     COMPRESSION = 'AUTO'
 );
 ```
-

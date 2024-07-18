@@ -68,7 +68,7 @@ By following these steps, you should be able to diagnose and resolve most issues
 
 ```java
  /**
-     * 从Databend内部阶段下载文件，数据将作为单个文件下载，无需分割。
+     * 从 Databend 内部阶段下载文件，数据将作为单个文件下载，无需分割。
      *
      * @param stageName 包含文件的阶段名称
      * @param sourceFileName 阶段中的文件名
@@ -79,7 +79,8 @@ By following these steps, you should be able to diagnose and resolve most issues
     public InputStream downloadStream(String stageName, String sourceFileName, boolean decompress) throws SQLException;
 ```
 
-从Databend下载CSV文件：
+从 Databend 下载 CSV 文件：
+
 ```Java
         File f = new File("test.csv");
         try (InputStream fileInputStream = Files.newInputStream(f.toPath())) {
@@ -99,11 +100,11 @@ By following these steps, you should be able to diagnose and resolve most issues
         }
 ```
 
-### 示例：与Databend云集成
+### 示例：与 Databend 云集成
 
 开始之前，请确保您已成功创建仓库并获取连接信息。关于如何操作，请参阅[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
-#### 步骤1. 使用Maven添加依赖
+#### 步骤 1. 使用 Maven 添加依赖
 
 ```xml
 <dependency>
@@ -113,7 +114,7 @@ By following these steps, you should be able to diagnose and resolve most issues
 </dependency>
 ```
 
-#### 步骤2. 使用databend-jdbc连接
+#### 步骤 2. 使用 databend-jdbc 连接
 
 创建一个名为`sample.java`的文件，包含以下代码：
 
@@ -136,7 +137,7 @@ public class sample {
         properties.setProperty("password", "{PASSWORD}");
         properties.setProperty("SSL", "true");
         Connection connection = DriverManager.getConnection(url, properties);
-        
+
         // 执行
         connection.createStatement().execute("CREATE TABLE IF NOT EXISTS sample_test(id TINYINT, obj VARIANT, d TIMESTAMP, s String, arr ARRAY(INT64)) Engine = Fuse");
 
@@ -149,8 +150,8 @@ public class sample {
             r.next();
             System.out.println(r.getInt(1));
         }
-        
-        // INSERT INTO 使用executeBatch()
+
+        // INSERT INTO 使用 executeBatch()
         connection.setAutoCommit(false);
         PreparedStatement ps = connection.prepareStatement("insert into sample_test values");
         ps.setInt(1, 1);
@@ -179,10 +180,10 @@ public class sample {
 ```
 
 :::tip
-在代码中替换{USER}, {PASSWORD}, {WAREHOUSE_HOST}, 和 {DATABASE}为您的连接信息。关于如何获取连接信息，请参阅[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在代码中替换`{USER}, {PASSWORD}, {WAREHOUSE_HOST}, 和 {DATABASE}`为您的连接信息。关于如何获取连接信息，请参阅[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
-#### 步骤3. 使用Maven运行示例
+#### 步骤 3. 使用 Maven 运行示例
 
 ```shell
 $ mvn compile

@@ -28,11 +28,11 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 ) ]
 ```
 
-有关语法的更多详情，请参见 [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table)。
+有关语法的更多详情，请参见 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
 
 ## 教程：从 NDJSON 文件中加载数据
 
-### 第 1 步. 创建内部 Stage
+### 第 1 步。创建内部 Stage
 
 创建一个内部 Stage 来存储 NDJSON 文件。
 
@@ -40,7 +40,7 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 CREATE STAGE my_ndjson_stage;
 ```
 
-### 第 2 步. 创建 NDJSON 文件
+### 第 2 步。创建 NDJSON 文件
 
 使用以下 SQL 语句生成一个 NDJSON 文件：
 
@@ -82,7 +82,7 @@ CREATE TABLE books
 );
 ```
 
-### 第 4 步. 直接从 NDJSON 复制
+### 第 4 步。直接从 NDJSON 复制
 
 要直接从 NDJSON 文件将数据复制到表中，请使用以下 SQL 命令：
 

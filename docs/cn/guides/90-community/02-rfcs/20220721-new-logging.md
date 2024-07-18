@@ -51,7 +51,7 @@ Databend Server starting at xxxxxxx (took x.xs)
 信息
 
 version: v0.7.128-xxxxx
-logs:    
+logs:
   file:   enabled dir=./databend/logs level=DEBUG
   stderr: disabled (set LOG_STDERR_ON=true to enable)
 storage: s3://endpoint=127.0.0.1:1090,bucket=test,root=/path/to/data
@@ -89,7 +89,7 @@ clickhouse (HTTP): http://root:@localhost:9001
 :) minio server . --address ":9900"
 MinIO 对象存储服务器
 版权: 2015-0000 MinIO, Inc.
-许可: GNU AGPLv3 <https://www.gnu.org/licenses/agpl-3.0.html>
+许可: GNU AGPLv3 [https://www.gnu.org/licenses/agpl-3.0.html](https://www.gnu.org/licenses/agpl-3.0.html)
 版本: RELEASE.2022-06-30T20-58-09Z (go1.18.3 Linux/amd64)
 
 API: http://192.168.1.104:9900  http://172.16.195.1:9900  http://192.168.97.1:9900  http://127.0.0.1:9900

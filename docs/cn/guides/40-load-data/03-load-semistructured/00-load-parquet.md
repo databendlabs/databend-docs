@@ -20,7 +20,7 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = PARQUET)
 ```
 
-有关语法的更多详细信息，请参见 [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table)。
+有关语法的更多详细信息，请参见 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
 
 ## 教程：从 Parquet 文件加载数据
 
@@ -64,7 +64,7 @@ LIST @my_parquet_stage;
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-有关卸载数据到 Stage 的更多详细信息，请参见 [COPY INTO <location\>](/sql/sql-commands/dml/dml-copy-into-location)。
+有关卸载数据到 Stage 的更多详细信息，请参见 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)。
 
 ### 步骤 3：创建目标表
 

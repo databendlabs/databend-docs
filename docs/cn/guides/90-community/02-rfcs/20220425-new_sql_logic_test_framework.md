@@ -10,7 +10,7 @@ description: 新SQL逻辑测试框架设计RFC。
 1. 合理的单元测试高覆盖率。
 2. 大量查询逻辑测试（**主要讨论**）。
 3. 分布式系统相关行为测试。
-4. 性能测试（ https://benchmark.databend.com/clickbench/release/hits.html ）
+4. 性能测试（https://benchmark.databend.com/clickbench/release/hits.html）
 
 目前，我们的测试框架基于以下设计：
 
@@ -25,7 +25,7 @@ description: 新SQL逻辑测试框架设计RFC。
 
 ## 详细设计
 
-测试输入是SQL逻辑测试（ https://www.sqlite.org/sqllogictest/ ）的扩展版本。
+测试输入是SQL逻辑测试（https://www.sqlite.org/sqllogictest/）的扩展版本。
 
 该文件以称为测试脚本的领域特定语言表示，并支持不产生输出的SQL语句或故意产生错误的语句。
 

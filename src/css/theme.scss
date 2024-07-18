@@ -65,13 +65,13 @@
   --card-hover-color: rgb(59 130 246);
   
   // mark
-  ::selection {
-    color: #fff;
-    background: var(--color-primary);
-    cursor: none;
-    outline: none;
-  }
-  --ifm-font-family-base: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;;
+  // ::selection {
+  //   color: #fff;
+  //   background: var(--color-primary);
+  //   cursor: none;
+  //   outline: none;
+  // }
+  // --ifm-font-family-base: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   --color-bg-0 : rgba(247,248,250,1.00);
   --color-bg-1 : rgba(255,255,255,1.00);
   --color-bg-2 : rgba(255,255,255,1.00);

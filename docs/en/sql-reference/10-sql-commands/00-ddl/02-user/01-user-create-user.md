@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.566"/>
+<FunctionDescription description="Introduced or updated: v1.2.424"/>
 
 Creates a SQL user.
 
@@ -18,7 +18,6 @@ See also:
 
 ```sql
 CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>' 
-[ WITH MUST_CHANGE_PASSWORD = true | false ]
 [ WITH SET PASSWORD POLICY = '<policy_name>' ] -- Set password policy
 [ WITH SET NETWORK POLICY = '<policy_name>' ] -- Set network policy
 [ WITH DEFAULT_ROLE = '<role_name>' ] -- Set default role
@@ -26,7 +25,6 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 ```
 
 - *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
-- When `MUST_CHANGE_PASSWORD` is set to `true`, the new user must change password at first login. Users can change their own password using the [ALTER USER](03-user-alter-user.md) command.
 - When you set a default role for a user using CREATE USER or [ALTER USER](03-user-alter-user.md), Databend does not verify the role's existence or automatically grant the role to the user. You must explicitly grant the role to the user for the role to take effect.
 - When `DISABLED` is set to `true`, the new user is created in a disabled state. Users in this state cannot log in to Databend until they are enabled. To enable or disable a created user, use the [ALTER USER](03-user-alter-user.md) command.
 
@@ -155,7 +153,6 @@ ALTER USER u1 WITH DISABLED = FALSE;
 Welcome to BendSQL 0.16.0-homebrew.
 Connecting to localhost:8000 as user u1.
 Connected to Databend Query v1.2.424-nightly-d3a89f708d(rust-1.77.0-nightly-2024-04-17T22:11:59.304509266Z)
-```
 
 ### Example 6: Creating User with MUST_CHANGE_PASSWORD
 
@@ -193,4 +190,3 @@ Connecting to localhost:8000 as user eric.
 Connected to Databend Query v1.2.567-nightly-78d41aedc7(rust-1.78.0-nightly-2024-07-14T22:10:13.777450105Z)
 
 eric@localhost:8000/default>
-```

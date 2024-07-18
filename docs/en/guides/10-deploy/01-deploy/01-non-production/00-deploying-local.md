@@ -1,6 +1,7 @@
 ---
 title: Docker & Local Deployments
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import GetLatest from '@site/src/components/GetLatest';
 import DetailsWrap from '@site/src/components/DetailsWrap';
@@ -16,7 +17,7 @@ To quickly access Databend features and gain practical expertise, you have the f
 
 - Object storage is a requirement for production use of Databend. The file system should only be used for evaluation, testing, and non-production scenarios.
 - The MinIO deployment covered in this chapter is only suitable for development and demonstration. Due to the limited resources in a single-machine environment, it is not recommended for production environments or performance testing.
-:::
+  :::
 
 ## Deploying on Docker
 
@@ -51,9 +52,10 @@ Before you start, launch an instance on Amazon EC2 and install the Docker engine
 1. Pull and run the MinIO image as a container with the following command:
 
 :::note
+
 - We change the console address to `9001` here to avoid port conflicts.
 - The command also sets the root user credentials (`ROOTUSER`/`CHANGEME123`) which you will need to provide for authentication in the next steps. If you make changes to the root user credentials at this point, ensure that you maintain consistency throughout the entire process.
-:::
+  :::
 
 ```shell
 mkdir -p ${HOME}/minio/data
@@ -77,7 +79,7 @@ Formatting 1st pool, 1 set(s), 1 drives per set.
 WARNING: Host local has more than 0 drives of set. A host failure will result in data becoming unavailable.
 MinIO Object Storage Server
 Copyright: 2015-2024 MinIO, Inc.
-License: GNU AGPLv3 <https://www.gnu.org/licenses/agpl-3.0.html>
+License: GNU AGPLv3 [https://www.gnu.org/licenses/agpl-3.0.html](https://www.gnu.org/licenses/agpl-3.0.html)
 Version: RELEASE.2024-04-06T05-26-02Z (go1.21.9 linux/amd64)
 
 // highlight-next-line
@@ -108,10 +110,11 @@ STARTUP WARNINGS:
 1. Pull and run the Databend image as a container with the following command:
 
 :::note
+
 - Replace the `AWS_S3_ENDPOINT` value with your MinIO API address as shown in the MinIO log message returned by `docker logs minio`.
-- When starting the Databend Docker container, you can specify the username and password using the environment variables `QUERY_DEFAULT_USER` and `QUERY_DEFAULT_PASSWORD`. If these variables are not provided, a default root user will be created without a password. 
+- When starting the Databend Docker container, you can specify the username and password using the environment variables `QUERY_DEFAULT_USER` and `QUERY_DEFAULT_PASSWORD`. If these variables are not provided, a default root user will be created without a password.
 - The command below also creates a SQL user (`databend`/`databend`) which you will need to use to connect to Databend later. If you make changes to the SQL user at this point, ensure that you maintain consistency throughout the entire process.
-:::
+  :::
 
 ```shell
 docker run -d \
@@ -288,12 +291,11 @@ Follow the instructions below to deploy Databend on your local machine.
 
 <StepContent number="2">
 
-
 ### Start Databend
 
 1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). For this example, uncomment the following lines to choose this account:
 
-```sql  title="databend-query.toml"
+```sql title="databend-query.toml"
 [[query.users]]
 name = "root"
 auth_type = "no_password"
@@ -302,11 +304,12 @@ auth_type = "no_password"
 2. Open a terminal and navigate to the folder where the extracted files and folders are stored.
 
 3. Run the script **start.sh** in the folder **scripts**:
-    MacOS might prompt an error saying "*databend-meta can't be opened because Apple cannot check it for malicious software.*". To proceed, open **System Settings** on your Mac, select **Privacy & Security** on the left menu, and click **Open Anyway** for databend-meta in the **Security** section on the right side. Do the same for the error on databend-query.
+   MacOS might prompt an error saying "_databend-meta can't be opened because Apple cannot check it for malicious software._". To proceed, open **System Settings** on your Mac, select **Privacy & Security** on the left menu, and click **Open Anyway** for databend-meta in the **Security** section on the right side. Do the same for the error on databend-query.
 
 ```shell
 ./scripts/start.sh
 ```
+
 :::tip
 In case you encounter the subsequent error messages while attempting to start Databend:
 
@@ -325,6 +328,7 @@ sudo mkdir /var/lib/databend
 sudo chown -R $USER /var/log/databend
 sudo chown -R $USER /var/lib/databend
 ```
+
 :::
 
 3. Run the following command to verify Databend has started successfully:

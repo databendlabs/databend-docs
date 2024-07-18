@@ -3,26 +3,29 @@
   font-weight: 600;
 }
 .table-of-contents {
+  > li > a {
+    font-weight: 500;
+  }
   @include media {
-    border-top: 1px solid hsl(var(--border))!important;
+    border-top: 1px solid hsl(var(--border)) !important;
   }
 }
-button[class*='tocCollapsibleButton'] {
+button[class*="tocCollapsibleButton"] {
   @include media {
     font-weight: 500;
-    font-size: .875rem;
+    font-size: 0.875rem;
     line-height: 1.25rem;
-    letter-spacing: -.025em;
+    letter-spacing: -0.025em;
     position: relative;
     &::after {
-      display: none!important;
+      display: none !important;
     }
     &::before {
       position: absolute;
-      content: '';
+      content: "";
       top: 35%;
-      width: 8px!important;
-      height: 8px!important;
+      width: 8px !important;
+      height: 8px !important;
       right: 1rem;
       background-color: transparent;
       border-left: 1px solid hsl(var(--muted-foreground));
@@ -36,7 +39,7 @@ button[class*='tocCollapsibleButton'] {
 }
 button[class*="tocCollapsibleButtonExpanded"] {
   @include media {
-    &::before{
+    &::before {
       transform: rotate(135deg);
     }
   }

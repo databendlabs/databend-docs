@@ -211,10 +211,12 @@ module.exports = function fetchDatabendReleasesPlugin() {
             assets: filterAsstets,
           };
         }
+        const name = releasesList[0]?.name || "v1.2.530";
         // Set global data
         setGlobalData({
           releasesList: processedData,
           repoResource,
+          name,
           stargazersCount: repoResource.stargazers_count,
           bendsqlRecource,
         });

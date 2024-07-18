@@ -5,77 +5,78 @@ title: Golang
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-Databend提供了一个用Golang编写的驱动程序（databend-go），方便使用Golang编程语言开发应用程序，并建立与Databend的连接。
+Databend 提供了一个用 Golang 编写的驱动程序（databend-go），方便使用 Golang 编程语言开发应用程序，并建立与 Databend 的连接。
 
-关于安装说明、示例和源代码，请参阅GitHub上的[databend-go](https://github.com/datafuselabs/databend-go)仓库。
+关于安装说明、示例和源代码，请参阅 GitHub 上的[databend-go](https://github.com/datafuselabs/databend-go)仓库。
 
 ## 数据类型映射
 
-下表展示了Databend数据类型与其对应的Go数据类型之间的映射关系：
+下表展示了 Databend 数据类型与其对应的 Go 数据类型之间的映射关系：
 
-| Databend       | Go            |
-|----------------|---------------|
-| TINYINT        | int8          |
-| SMALLINT       | int16         |
-| INT            | int32         |
-| BIGINT         | int64         |
-| TINYINT UNSIGNED | uint8       |
-| SMALLINT UNSIGNED | uint16    |
-| INT UNSIGNED   | uint32       |
-| BIGINT UNSIGNED| uint64       |
-| Float32        | float32       |
-| Float64        | float64       |
-| Bitmap         | string        |
-| Decimal        | decimal.Decimal |
-| String         | string        |
-| Date           | time.Time     |
-| DateTime       | time.Time     |
-| Array(T)       | string        |
-| Tuple(T1, T2, ...) | string |
-| Variant        | string        |
+| Databend           | Go              |
+| ------------------ | --------------- |
+| TINYINT            | int8            |
+| SMALLINT           | int16           |
+| INT                | int32           |
+| BIGINT             | int64           |
+| TINYINT UNSIGNED   | uint8           |
+| SMALLINT UNSIGNED  | uint16          |
+| INT UNSIGNED       | uint32          |
+| BIGINT UNSIGNED    | uint64          |
+| Float32            | float32         |
+| Float64            | float64         |
+| Bitmap             | string          |
+| Decimal            | decimal.Decimal |
+| String             | string          |
+| Date               | time.Time       |
+| DateTime           | time.Time       |
+| Array(T)           | string          |
+| Tuple(T1, T2, ...) | string          |
+| Variant            | string          |
 
-## Databend Go驱动程序行为概述
+## Databend Go 驱动程序行为概述
 
-Databend Go驱动程序与["database/sql"](https://pkg.go.dev/database/sql)接口规范兼容。以下是一些常见基本行为，以及涉及的关键函数和背后的原理。
+Databend Go 驱动程序与["database/sql"](https://pkg.go.dev/database/sql)接口规范兼容。以下是一些常见基本行为，以及涉及的关键函数和背后的原理。
 
-| 基本行为         | 涉及的关键函数                             | 原理                                                   |
-|------------------|--------------------------------------------|--------------------------------------------------------|
-| 创建连接         | `DB.Open`                                   | 使用DSN字符串和`DB.Open`方法建立与Databend的连接。<br /><br />DSN字符串格式为`https://user:password@host/database?<query_option>=<value>`。 |
-| 执行语句         | `DB.Exec`                                   | 使用`DB.Exec`方法通过`v1/query`接口执行SQL语句，用于创建、删除表和插入数据。 |
-| 批量插入         | `DB.Begin`, `Tx.Prepare`, `Stmt.Exec`, `Tx.Commit` | 批量插入/替换数据（`INSERT INTO`和`REPLACE INTO`）通过事务处理。<br /><br />使用`Stmt.Exec`向预处理语句对象添加尽可能多的数据；数据将被附加到文件中。<br /><br />执行`Tx.Commit()`将最终将数据上传到内置Stage并执行插入/替换操作，使用[Stage附件](/developer/apis/http#stage-attachment)。 |
-| 查询单行         | `DB.QueryRow`, `Row.Scan`                    | 使用`DB.QueryRow`方法查询单行数据并返回`*sql.Row`，然后调用`Row.Scan`将列数据映射到变量。 |
-| 遍历行           | `DB.Query`, `Rows.Next`, `Rows.Scan`         | 使用`DB.Query`方法查询多行数据并返回`*sql.Rows`结构，使用`Rows.Next`方法遍历行，使用`Rows.Scan`将数据映射到变量。 |
-| 上传到内部Stage | `APIClient.UploadToStage`                   | 上传数据到Stage。默认情况下，使用`PRESIGN UPLOAD`获取URL，如果PRESIGN被禁用，则使用`v1/upload_to_stage` API。 |
+| 基本行为         | 涉及的关键函数                                     | 原理                                                                                                                                                                                                                                                                                          |
+| ---------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 创建连接         | `DB.Open`                                          | 使用 DSN 字符串和`DB.Open`方法建立与 Databend 的连接。<br /><br />DSN 字符串格式为`https://user:password@host/database?<query_option>=<value>`。                                                                                                                                              |
+| 执行语句         | `DB.Exec`                                          | 使用`DB.Exec`方法通过`v1/query`接口执行 SQL 语句，用于创建、删除表和插入数据。                                                                                                                                                                                                                |
+| 批量插入         | `DB.Begin`, `Tx.Prepare`, `Stmt.Exec`, `Tx.Commit` | 批量插入/替换数据（`INSERT INTO`和`REPLACE INTO`）通过事务处理。<br /><br />使用`Stmt.Exec`向预处理语句对象添加尽可能多的数据；数据将被附加到文件中。<br /><br />执行`Tx.Commit()`将最终将数据上传到内置 Stage 并执行插入/替换操作，使用[Stage 附件](/developer/apis/http#stage-attachment)。 |
+| 查询单行         | `DB.QueryRow`, `Row.Scan`                          | 使用`DB.QueryRow`方法查询单行数据并返回`*sql.Row`，然后调用`Row.Scan`将列数据映射到变量。                                                                                                                                                                                                     |
+| 遍历行           | `DB.Query`, `Rows.Next`, `Rows.Scan`               | 使用`DB.Query`方法查询多行数据并返回`*sql.Rows`结构，使用`Rows.Next`方法遍历行，使用`Rows.Scan`将数据映射到变量。                                                                                                                                                                             |
+| 上传到内部 Stage | `APIClient.UploadToStage`                          | 上传数据到 Stage。默认情况下，使用`PRESIGN UPLOAD`获取 URL，如果 PRESIGN 被禁用，则使用`v1/upload_to_stage` API。                                                                                                                                                                             |
 
-## 教程-1：使用Golang与Databend集成
+## 教程 -1：使用 Golang 与 Databend 集成
 
-开始之前，请确保您已成功安装本地Databend。详细说明请参阅[本地和Docker部署](/guides/deploy/deploy/non-production/deploying-local)。
+开始之前，请确保您已成功安装本地 Databend。详细说明请参阅[本地和 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
 
-### 步骤1. 准备SQL用户账户
+### 步骤 1. 准备 SQL 用户账户
 
-要将程序连接到Databend并执行SQL操作，您必须在代码中提供具有适当权限的SQL用户账户。如有需要，在Databend中创建一个，并确保SQL用户只有必要的权限以保证安全。
+要将程序连接到 Databend 并执行 SQL 操作，您必须在代码中提供具有适当权限的 SQL 用户账户。如有需要，在 Databend 中创建一个，并确保 SQL 用户只有必要的权限以保证安全。
 
-本教程使用名为'user1'、密码为'abc123'的SQL用户作为示例。由于程序将向Databend写入数据，用户需要ALL权限。关于如何管理SQL用户及其权限，请参阅[用户与角色](/sql/sql-commands/ddl/user/)。
+本教程使用名为'user1'、密码为'abc123'的 SQL 用户作为示例。由于程序将向 Databend 写入数据，用户需要 ALL 权限。关于如何管理 SQL 用户及其权限，请参阅[用户与角色](/sql/sql-commands/ddl/user/)。
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL on *.* TO user1;
 ```
 
-### 步骤2. 编写Golang程序
+### 步骤 2. 编写 Golang 程序
 
-在本步骤中，您将创建一个简单的Golang程序，该程序与Databend通信。程序将涉及创建表、插入数据和执行数据查询等任务。
+在本步骤中，您将创建一个简单的 Golang 程序，该程序与 Databend 通信。程序将涉及创建表、插入数据和执行数据查询等任务。
 
-<StepsWrap> 
+<StepsWrap>
 
 <StepContent number="1">
 
-### 将以下代码复制并粘贴到文件main.go中
+### 将以下代码复制并粘贴到文件 main.go 中
 
 :::note
-- 以下代码以连接到本地Databend、使用名为'user1'的SQL用户和密码'abc123'为例。您可以根据自己的值自由使用，同时保持相同格式。
-- 代码中`hostname`的值必须与Databend查询服务的HTTP处理程序设置一致。
-:::
+
+- 以下代码以连接到本地 Databend、使用名为'user1'的 SQL 用户和密码'abc123'为例。您可以根据自己的值自由使用，同时保持相同格式。
+- 代码中`hostname`的值必须与 Databend 查询服务的 HTTP 处理程序设置一致。
+  :::
 
 ```go title='main.go'
 package main
@@ -124,9 +125,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("创建数据库book_db成功")
+	log.Println("创建数据库 book_db 成功")
 
-	// 使用book_db数据库
+	// 使用 book_db 数据库
 	_, err = db.Exec("USE book_db")
 	if err != nil {
 		log.Fatal(err)
@@ -140,12 +141,12 @@ func main() {
 	}
 	log.Println("创建表：books")
 
-	// 插入1行。
+	// 插入 1 行。
 	_, err = db.Exec("INSERT INTO books VALUES(?, ?, ?)", "mybook", "author", "2022")
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("插入1行")
+	log.Println("插入 1 行")
 
 	// 选择。
 	res, err := db.Query("SELECT * FROM books")
@@ -166,7 +167,6 @@ func main() {
 	db.Exec("drop database book_db")
 }
 ```
-
 
 </StepContent>
 
@@ -199,8 +199,7 @@ require (
 
 <StepContent number="3">
 
-
-### 运行程序。 
+### 运行程序。
 
 ```shell
 go run main.go
@@ -208,22 +207,21 @@ go run main.go
 
 ```text title='输出'
 2023/02/24 23:57:31 Connected
-2023/02/24 23:57:31 创建数据库book_db成功
+2023/02/24 23:57:31 创建数据库 book_db 成功
 2023/02/24 23:57:31 创建表：books
-2023/02/24 23:57:31 插入1行
+2023/02/24 23:57:31 插入 1 行
 2023/02/24 23:57:31 选择：{mybook author 2022}
 ```
-
 
 </StepContent>
 
 </StepsWrap>
 
-## 教程-2：使用Golang与Databend Cloud集成
+## 教程 -2：使用 Golang 与 Databend Cloud 集成
 
 开始之前，请确保您已成功创建仓库并获取连接信息。关于如何操作，请参阅[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
-### 步骤1. 创建Go模块
+### 步骤 1. 创建 Go 模块
 
 ```shell
 $ mkdir sample
@@ -231,13 +229,13 @@ $ cd sample
 $ go mod init cloud.databend.com/sample
 ```
 
-### 步骤2. 安装依赖
+### 步骤 2. 安装依赖
 
 ```go
 $ go get github.com/databendcloud/databend-go
 ```
 
-### 步骤3. 使用databend-go连接
+### 步骤 3. 使用 databend-go 连接
 
 创建一个名为`main.go`的文件，其中包含以下代码：
 
@@ -298,10 +296,10 @@ func main() {
 ```
 
 :::tip
-在代码中替换{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME}和{DATABASE}为您的连接信息。关于如何获取连接信息，请参阅[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在代码中替换`{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME}和{DATABASE}`为您的连接信息。关于如何获取连接信息，请参阅[连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
-### 步骤4. 运行main.go
+### 步骤 4. 运行 main.go
 
 ```shell
 $ go run main.go

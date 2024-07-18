@@ -46,7 +46,7 @@ AS
 - 必须为独立任务或 DAG 中的根任务定义计划；否则，任务仅在手动执行 EXECUTE TASK 时运行。
 - 不能为 DAG 中的子任务指定计划。
 - 创建任务后，必须执行 `ALTER TASK … RESUME` 才能根据任务定义中的参数运行任务。
-- 当条件仅支持一部分 <boolean_expression>。以下是在任务 WHEN 子句中支持的：
+- 当条件仅支持一部分 `<boolean_expression>`。以下是在任务 WHEN 子句中支持的：
 
   - [STREAM_STATUS](../../../00-sql-reference/20-system-tables/system-stream-status.md) 在 SQL 表达式中支持评估。此函数指示指定的流是否包含变更跟踪数据。您可以使用此函数在当前运行开始前评估指定的流是否包含变更数据。如果结果为 FALSE，则任务不运行。
   - 布尔运算符，如 AND、OR、NOT 等。

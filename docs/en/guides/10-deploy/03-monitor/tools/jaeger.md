@@ -1,11 +1,12 @@
 ---
 title: Jaeger
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.199"/>
 
-[Jaeger](https://github.com/jaegertracing/jaeger) is an open-source, end-to-end distributed tracing tool that originated from [Uber](https://www.uber.com/). It helps monitor and troubleshoot microservices-based applications. 
+[Jaeger](https://github.com/jaegertracing/jaeger) is an open-source, end-to-end distributed tracing tool that originated from [Uber](https://www.uber.com/). It helps monitor and troubleshoot microservices-based applications.
 
 Databend has the ability to export tracing data to Jaeger by integrating with the [OpenTelemetry](https://opentelemetry.io/) SDK. The following tutorial shows you how to deploy and use Jaeger to trace Databend.
 
@@ -56,7 +57,7 @@ INSERT INTO t1 SELECT * FROM t1;
 
 ### Step 3. Check Tracing Information on Jaegar
 
-1. Go to <http://127.0.0.1:16686/> and select the **Search** tab.
+1. Go to http://127.0.0.1:16686/ and select the **Search** tab.
 
 2. Select a service in the **Service** drop-down list. For example, select the databend-query service.
 

@@ -18,14 +18,14 @@ COVAR_SAMP(<expr1>, <expr2>)
 
 ## Arguments
 
-| Arguments |        Description       |
-|-----------| ------------------------ |
+| Arguments | Description              |
+| --------- | ------------------------ |
 | `<expr1>` | Any numerical expression |
 | `<expr2>` | Any numerical expression |
 
 ## Return Type
 
-float64, when n <= 1, returns +∞.
+float64, when `n <= 1`, returns +∞.
 
 ## Example
 
