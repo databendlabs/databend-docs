@@ -1,15 +1,15 @@
 ---
-title: 将 ORC 文件加载到 Databend
+title: 加载 ORC 文件到 Databend
 sidebar_label: 加载 ORC 文件
 ---
 
 ## 什么是 ORC？
 
-ORC（Optimized Row Columnar）是一种常用的列式存储格式，广泛应用于数据分析领域。
+ORC（优化行列式）是一种常用于数据分析的列式存储格式。
 
 ## 加载 ORC 文件
 
-加载 ORC 文件的常用语法如下：
+加载 ORC 文件的常见语法如下：
 
 ```sql
 COPY INTO [<database>.]<table_name>
@@ -18,15 +18,15 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = ORC)
 ```
 
-更多关于语法的详细信息，请参阅 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table) 。
+更多关于语法的详细信息可以在 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table) 中找到。
 
 ## 教程：从 ORC 文件加载数据
 
-本教程演示如何将存储在 S3 桶中的 ORC 文件数据加载到 Databend 表中。
+本教程演示如何将存储在 S3 存储桶中的 ORC 文件数据加载到 Databend 表中。
 
-### 步骤 1：创建外部阶段
+### 步骤 1. 创建外部阶段
 
-创建一个指向 S3 桶中 ORC 文件的外部阶段。
+创建一个指向 S3 存储桶中 ORC 文件的外部阶段。
 
 ```sql
 CREATE OR REPLACE CONNECTION aws_s3
@@ -48,6 +48,7 @@ LIST @orc_data_stage;
 结果：
 
 ```text
+
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │                 md5                │         last_modified         │      creator     │
 ├───────────────┼────────┼────────────────────────────────────┼───────────────────────────────┼──────────────────┤
@@ -110,9 +111,9 @@ CREATE OR REPLACE TABLE orc_test_table (
 );
 ```
 
-### 步骤 5：使用 SELECT 复制数据
+### 步骤 5. 使用 SELECT 复制数据
 
-将外部阶段中 ORC 文件的数据复制到目标表中。
+将外部阶段中的 ORC 文件数据复制到目标表中。
 
 ```sql
 COPY INTO orc_test_table

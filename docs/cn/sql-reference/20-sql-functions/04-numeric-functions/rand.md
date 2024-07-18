@@ -2,15 +2,15 @@
 title: RAND()
 ---
 
-Returns a random floating-point value v in the range `0 <= v < 1.0`. To obtain a random integer R in the range `i <= R < j`, use the expression `FLOOR(i + RAND() * (j − i))`.
+返回一个在 `0 <= v < 1.0` 范围内的随机浮点数 `v`。要获取一个在 `i <= R < j` 范围内的随机整数 `R`，可以使用表达式 `FLOOR(i + RAND() * (j − i))`。
 
-## Syntax
+## 语法
 
 ```sql
 RAND()
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT RAND();
