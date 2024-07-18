@@ -14,19 +14,19 @@ FILE_FORMAT = (
     RECORD_DELIMITER = '<character>',
     FIELD_DELIMITER = '<character>',
     COMPRESSION = gzip,
-    OUTPUT_HEADER = true -- 带有表头的卸载
+    OUTPUT_HEADER = true -- 卸载时包含表头
 )
 [MAX_FILE_SIZE = <num>]
 [DETAILED_OUTPUT = true | false]
 ```
 
 - 更多 CSV 选项请参考 [CSV 文件格式选项](/sql/sql-reference/file-format-options#csv-options)
-- 卸载到多个文件请使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- 更多关于语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到
+- 卸载到多个文件使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 更多关于语法的详细信息请参见 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
 
 ## 教程
 
-### 步骤 1. 创建一个外部 Stage
+### 步骤 1. 创建外部阶段
 
 ```sql
 CREATE STAGE csv_unload_stage
@@ -44,9 +44,9 @@ CREATE FILE FORMAT csv_unload_format
     TYPE = CSV,
     RECORD_DELIMITER = '\n',
     FIELD_DELIMITER = ',',
-    COMPRESSION = gzip,     -- 使用 gzip 压缩进行卸载
-    OUTPUT_HEADER = true,   -- 带有表头的卸载
-    SKIP_HEADER = 1;        -- 仅用于加载，如果 CSV 文件有表头则查询时跳过第一行
+    COMPRESSION = gzip,     -- 卸载时使用 gzip 压缩
+    OUTPUT_HEADER = true,   -- 卸载时包含表头
+    SKIP_HEADER = 1;        -- 仅用于加载，查询时跳过 CSV 文件的第一行（如果有表头）
 ```
 
 ### 步骤 3. 卸载到 CSV 文件

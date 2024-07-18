@@ -21,6 +21,7 @@ Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/) Guides, covering all 
 - **[Real-Time CDC Ingestion](../40-load-data/05-continuous-data-pipelines/01-stream.md)**: Change Data Capture (CDC) for real-time data ingestion.
 - **[Automated Data Pipelines](../40-load-data/05-continuous-data-pipelines/02-task.md)**: Create tasks to automate and manage continuous data pipelines.
 - **[External Functions](../54-query/04-external-function.md)**: Use external functions to extend Databend's capabilities.
+- **[Data Management](../57-data-management/index.md)**: Manage data in Databend(Cloud).
 - **[Security](../56-security/index.md)**: Security features in Databend(Cloud).
 - **[Visualization](../31-visualize/index.md)**: Use visualization tools with Databend(Cloud).
 - **[Benchmarks](../80-benchmark/index.md)**: Compare Databend Cloud performance with Snowflake on TPC-H SF100 benchmarks.
