@@ -30,7 +30,7 @@ When a user attempts to log in with a password policy in place, Databend perform
 
 - **Maximum Age Requirement**:
     - Checks if the maximum password change interval has been exceeded.
-    - If the interval is exceeded, the user is restricted from logging in until the password is changed.
+    - If the interval is exceeded, the user can change the password after login, and cannot perform any other operations before the password is changed.
 
 ## Managing Password Policies
 
