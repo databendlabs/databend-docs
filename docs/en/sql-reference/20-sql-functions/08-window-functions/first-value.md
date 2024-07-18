@@ -4,9 +4,9 @@ title: FIRST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.50"/>
+<FunctionDescription description="Introduced: v1.2.568"/>
 
-Returns the first value from an ordered group of values.
+When `IGNORE NULLS` is used with FIRST_VALUE, the function returns the first value in the frame that is not NULL (or NULL if all values are NULL). If not specified, the default is RESPECT NULLS.
 
 See also:
 
@@ -20,12 +20,6 @@ FIRST_VALUE(expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY parti
 ```
 
 For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
-
-## Usage notes
-
-If { IGNORE | RESPECT } NULLS is not specified, the default is RESPECT NULLS.
-
-When this IGNORE NULLS is used with FIRST_VALUE, the function returns the first value in the frame that is not NULL (or NULL if all values are NULL).
 
 ## Examples
 

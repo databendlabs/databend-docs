@@ -4,9 +4,9 @@ title: NTH_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.50"/>
+<FunctionDescription description="Introduced: v1.2.568"/>
 
-Returns the Nth value from an ordered group of values.
+Returns expr evaluated at the nth row (among rows with a non-null value of expr if `IGNORE NULLS` is set) of the window frame (counting from 1); NULL if no such row.
 
 See also:
 
@@ -20,12 +20,6 @@ NTH_VALUE(expression, n) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY part
 ```
 
 For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
-
-## Usage notes
-
-If { IGNORE | RESPECT } NULLS is not specified, the default is RESPECT NULLS.
-
-Returns expr evaluated at the nth row (among rows with a non-null value of expr if IGNORE NULLS is set) of the window frame (counting from 1); NULL if no such row.
 
 ## Examples
 

@@ -4,9 +4,9 @@ title: LAST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.50"/>
+<FunctionDescription description="Introduced: v1.2.568"/>
 
-Returns the last value from an ordered group of values.
+When `IGNORE NULLS` is used with LAST_VALUE, the function returns the last value in the frame that is not NULL (or NULL if all values are NULL). If not specified, the default is RESPECT NULLS.
 
 See also:
 
@@ -20,10 +20,6 @@ LAST_VALUE(expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partit
 ```
 
 For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
-
-## Usage notes
-
-When `IGNORE NULLS` is used with LAST_VALUE, the function returns the last value in the frame that is not NULL (or NULL if all values are NULL). If not specified, the default is RESPECT NULLS.
 
 ## Examples
 
