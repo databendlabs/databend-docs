@@ -26,7 +26,7 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 ```
 
 - *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
-- When `MUST_CHANGE_PASSWORD` is set to `true`, the new user must change password at first login.
+- When `MUST_CHANGE_PASSWORD` is set to `true`, the new user must change password at first login. Users can change their own password using the [ALTER USER](03-user-alter-user.md) command.
 - When you set a default role for a user using CREATE USER or [ALTER USER](03-user-alter-user.md), Databend does not verify the role's existence or automatically grant the role to the user. You must explicitly grant the role to the user for the role to take effect.
 - When `DISABLED` is set to `true`, the new user is created in a disabled state. Users in this state cannot log in to Databend until they are enabled. To enable or disable a created user, use the [ALTER USER](03-user-alter-user.md) command.
 
@@ -155,4 +155,37 @@ ALTER USER u1 WITH DISABLED = FALSE;
 Welcome to BendSQL 0.16.0-homebrew.
 Connecting to localhost:8000 as user u1.
 Connected to Databend Query v1.2.424-nightly-d3a89f708d(rust-1.77.0-nightly-2024-04-17T22:11:59.304509266Z)
+```
+
+### Example 6: Creating User with MUST_CHANGE_PASSWORD
+
+In this example, we will create a user with the `MUST_CHANGE_PASSWORD` option. Then, we will connect to Databend with BendSQL as the new user and change the password.
+
+1. Create a new user named 'eric' with the `MUST_CHANGE_PASSWORD` option set to `TRUE`.
+
+```sql
+CREATE USER eric IDENTIFIED BY 'abc123' WITH MUST_CHANGE_PASSWORD = TRUE;
+```
+
+2. Launch BendSQL and connect to Databend as the new user. Once connected, you'll see a message indicating that a password change is required. 
+
+```bash
+MacBook-Air:~ eric$ bendsql -ueric -pabc123
+```
+
+3. Change the password with the [ALTER USER](03-user-alter-user.md) command.
+
+```bash
+eric@localhost:8000/default> ALTER USER USER() IDENTIFIED BY 'abc456';
+```
+
+4. Quit BendSQL then reconnect with the new password.
+
+```bash
+MacBook-Air:~ eric$ bendsql -ueric -pabc456
+Welcome to BendSQL 0.19.2-1e338e1(2024-07-17T09:02:28.323121000Z).
+Connecting to localhost:8000 as user eric.
+Connected to Databend Query v1.2.567-nightly-78d41aedc7(rust-1.78.0-nightly-2024-07-14T22:10:13.777450105Z)
+
+eric@localhost:8000/default>
 ```
