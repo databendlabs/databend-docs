@@ -21,7 +21,7 @@ NTH_VALUE(expression, n) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY part
 
 For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
 
-## Usage notes¶
+## Usage notes
 
 Returns expr evaluated at the nth row (among rows with a non-null value of expr if IGNORE NULLS is set) of the window frame (counting from 1); NULL if no such row.
 
@@ -59,7 +59,7 @@ employee_id | first_name | last_name | salary  | second_highest_salary_first_nam
 5           | Michael    | Brown     | 4500.00 | Jane
 ```
 
-**IGNORE NULLS**
+### Use IGNORE NULLS to find non-NULL values
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES

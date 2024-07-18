@@ -21,7 +21,7 @@ LAST_VALUE(expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partit
 
 For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
 
-## Usage notes¶
+## Usage notes
 
 When this option is used with LAST_VALUE, The function returns the last value in the frame that is not NULL (or NULL if all values are NULL).
 
@@ -59,7 +59,7 @@ employee_id | first_name | last_name | salary  | lowest_salary_first_name
 5           | Michael    | Brown     | 4500.00 | Michael
 ```
 
-**IGNORE NULLS**
+### Use IGNORE NULLS to find non-NULL values
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES

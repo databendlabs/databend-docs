@@ -21,7 +21,7 @@ FIRST_VALUE(expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY parti
 
 For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
 
-## Usage notes¶
+## Usage notes
 
 When this option is used with FIRST_VALUE, the function returns the first value in the frame that is not NULL (or NULL if all values are NULL).
 
@@ -61,7 +61,7 @@ employee_id | first_name | last_name | salary  | highest_salary_first_name
 
 ```
 
-**IGNORE NULLS**
+### Use IGNORE NULLS to find non-NULL values
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES
