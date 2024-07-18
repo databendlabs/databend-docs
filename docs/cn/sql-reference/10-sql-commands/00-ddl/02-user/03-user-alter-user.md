@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.424"/>
+<FunctionDescription description="引入或更新: v1.2.566"/>
 
 修改用户账户，包括：
 
@@ -17,7 +17,13 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ```sql
 -- 修改密码 / 认证类型
-ALTER USER <name> IDENTIFIED [ WITH auth_type ] BY '<password>'
+ALTER USER <name> IDENTIFIED [ WITH auth_type ] BY '<new_password>' [ WITH MUST_CHANGE_PASSWORD = true | false ]
+
+-- 要求用户在下次登录时修改密码
+ALTER USER <name> WITH MUST_CHANGE_PASSWORD = true
+
+-- 修改当前登录用户的密码
+ALTER USER USER() IDENTIFIED BY '<new_password>'
 
 -- 设置密码策略
 ALTER USER <name> WITH SET PASSWORD POLICY = '<policy_name>'
@@ -39,6 +45,7 @@ ALTER USER <name> WITH DISABLED = true | false
 ```
 
 - *auth_type* 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
+- 当 `MUST_CHANGE_PASSWORD` 设置为 `true` 时，用户必须在下次登录时更改密码。请注意，这只对自账户创建以来从未更改过密码的用户生效。如果用户曾经自行更改过密码，则无需再次更改。
 - 当您使用 [CREATE USER](01-user-create-user.md) 或 ALTER USER 为用户设置默认角色时，Databend 不会验证角色的存在或自动授予角色给用户。您必须明确地将角色授予用户，角色才会生效。
 - `DISABLED` 允许您启用或禁用用户。被禁用的用户无法登录 Databend，直到他们被启用。点击[这里](01-user-create-user.md#example-5-creating-user-in-disabled-state)查看示例。
 
@@ -97,7 +104,7 @@ ALTER USER user1 WITH UNSET NETWORK POLICY;
 
 ### 示例 3: 设置默认角色
 
-1. 创建名为 "user1" 的用户并设置默认角色为 "writer":
+1. 创建名为 "user1" 的用户并将其默认角色设置为 "writer":
 
 ```sql title='以 "root" 用户连接:'
 
