@@ -2,34 +2,34 @@
 title: COVAR_SAMP
 ---
 
-Aggregate function.
+聚合函数。
 
-The covar_samp() function returns the sample covariance (Σ((x - x̅)(y - y̅)) / (n - 1)) of two data columns.
+covar_samp() 函数返回两个数据列的样本协方差（Σ((x - x̅)(y - y̅)) / (n - 1)）。
 
 :::caution
-NULL values are not counted.
+NULL 值不计入。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 COVAR_SAMP(<expr1>, <expr2>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description              |
-| --------- | ------------------------ |
-| `<expr1>` | Any numerical expression |
-| `<expr2>` | Any numerical expression |
+| 参数       | 描述               |
+| ---------- | ------------------ |
+| `<expr1>`  | 任何数值表达式     |
+| `<expr2>`  | 任何数值表达式     |
 
-## Return Type
+## 返回类型
 
-float64, when `n <= 1`, returns +∞.
+float64，当 `n <= 1` 时，返回 +∞。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 
 ```sql
 CREATE TABLE store_sales (
@@ -47,14 +47,14 @@ VALUES (1, 1, 100, 1000),
        (5, 5, 500, 5000);
 ```
 
-**Query Demo: Calculate Sample Covariance between Items Sold and Profit**
+**查询示例：计算售出商品数量与利润之间的样本协方差**
 
 ```sql
 SELECT COVAR_SAMP(items_sold, profit) AS covar_samp_items_profit
 FROM store_sales;
 ```
 
-**Result**
+**结果**
 
 ```sql
 | covar_samp_items_profit |

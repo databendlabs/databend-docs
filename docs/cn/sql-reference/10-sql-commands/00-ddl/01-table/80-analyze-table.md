@@ -24,77 +24,74 @@ ANALYZE TABLE [ <database_name>. ]table_name
 
     估计表中每个列的不同值数量，并重新计算快照中的列统计信息。
 
-    - 执行后不会显示估计结果。要显示估计结果，请使用函数 [FUSE_STATISTIC](../../../20-sql-functions/16-system-functions/fuse_statistic.md)。
-    - 该命令不通过比较值来识别不同值，而是通过计算存储段和块的数量来实现。这可能导致估计结果与实际值之间存在显著差异，例如，多个块持有相同值。在这种情况下，Databend 建议在运行估计之前尽可能合并存储段和块。
-    - 执行更新/删除/替换语句后，快照级别的列统计信息可能会放大。您可以通过执行分析语句来纠正列统计信息。
+    - 执行后不会显示估计结果。要显示估计结果，请使用 [FUSE_STATISTIC](../../../20-sql-functions/16-system-functions/fuse_statistic.md) 函数。
+    - 该命令不通过比较来识别不同值，而是通过计算存储段和块的数量来实现。这可能导致估计结果与实际值之间存在显著差异，例如，多个块持有相同值。在这种情况下，Databend 建议在运行估计之前尽可能合并存储段和块。
+    - 执行更新/删除/替换语句后，快照级别的列统计信息可能会被放大。您可以通过执行分析语句来纠正列统计信息。
 
 ## 示例
 
-此示例估计表中每个列的不同值数量，并使用函数 [FUSE_STATISTIC](/sql/sql-functions/system-functions/fuse_statistic) 显示结果：
+此示例估计表中每个列的不同值数量，并使用 FUSE_STATISTIC 函数显示结果：
 
 ```sql
 create table t(a uint64);
 
-insert into t values (1);
-insert into t values (2);
-insert into t values (3);
+insert into t values (5);
+insert into t values (6);
+insert into t values (7);
 
 select * from t order by a;
 
-┌──────────────────┐
-│         a        │
-├──────────────────┤
-│                1 │
-│                2 │
-│                3 │
-└──────────────────┘
+----
+5
+6
+7
 
--- 在运行 ANALYZE TABLE 进行估计之前，FUSE_STATISTIC 不会返回任何结果。
-select * from fuse_statistic('default', 't');
+-- 在运行估计之前，FUSE_STATISTIC 不会返回任何结果。
+select * from fuse_statistic('db_09_0020', 't');
 
 analyze table `t`;
 
-select * from fuse_statistic('default', 't');
+select * from fuse_statistic('db_09_0020', 't');
 
-┌──────────────────────────────┐
-│ column_name │ distinct_count │
-├─────────────┼────────────────┤
-│ a           │              3 │
-└──────────────────────────────┘
+----
+(0,3);
 
-insert into t values (3);
-insert into t values (4);
+
 insert into t values (5);
+insert into t values (6);
+insert into t values (7);
 
 select * from t order by a;
 
-┌──────────────────┐
-│         a        │
-├──────────────────┤
-│                1 │
-│                2 │
-│                3 │
-│                3 │
-│                4 │
-│                5 │
-└──────────────────┘
+----
+5
+5
+6
+6
+7
+7
 
 -- FUSE_STATISTIC 返回上次估计的结果。要获取最新的估计值，请再次运行估计。
-select * from fuse_statistic('default', 't');
+-- OPTIMIZE TABLE 不通过比较来识别不同值，而是通过计算存储段和块的数量来实现。
+select * from fuse_statistic('db_09_0020', 't');
 
-┌──────────────────────────────┐
-│ column_name │ distinct_count │
-├─────────────┼────────────────┤
-│ a           │              3 │
-└──────────────────────────────┘
+----
+(0,3);
 
 analyze table `t`;
 
-select * from fuse_statistic('default', 't');
+select * from fuse_statistic('db_09_0020', 't');
 
-┌──────────────────────────────┐
-│ column_name │ distinct_count │
-├─────────────┼────────────────┤
-│ a           │              5 │
-└──────────────────────────────┘
+----
+(0,6);
+
+-- 最佳实践：在运行估计之前压缩表。
+optimize table t compact;
+
+analyze table `t`;
+
+select * from fuse_statistic('db_09_0020', 't');
+
+----
+(0,3);
 ```

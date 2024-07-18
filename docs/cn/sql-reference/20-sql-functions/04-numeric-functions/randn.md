@@ -2,15 +2,15 @@
 title: RAND(n)
 ---
 
-Returns a random floating-point value v in the range `0 <= v < 1.0`. To obtain a random integer R in the range `i <= R < j`, use the expression `FLOOR(i + RAND() * (j − i))`. Argument `n` is used as the seed value. For equal argument values, RAND(n) returns the same value each time , and thus produces a repeatable sequence of column values.
+返回一个范围在 `0 <= v < 1.0` 内的随机浮点值 v。要获取范围在 `i <= R < j` 内的随机整数 R，可以使用表达式 `FLOOR(i + RAND() * (j − i))`。参数 `n` 用作种子值。对于相同的参数值，RAND(n) 每次返回相同的值，因此生成可重复的列值序列。
 
-## Syntax
+## 语法
 
 ```sql
 RAND( <n>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT RAND(1);

@@ -1,12 +1,11 @@
 ---
-title: 将 TSV 文件加载到 Databend
+title: 加载 TSV 文件到 Databend
 sidebar_label: 加载 TSV 文件
 ---
 
 ## 什么是 TSV？
 
-TSV（Tab Separated Values，制表符分隔值）是一种简单的文件格式，用于存储表格数据，如电子表格或数据库。TSV 文件格式与 CSV 非常相似，记录由换行符分隔，每个字段由一个制表符分隔。
-以下示例显示了一个包含两条记录的 TSV 文件：
+TSV（Tab Separated Values，制表符分隔值）是一种用于存储表格数据的简单文件格式，例如电子表格或数据库。TSV 文件格式与 CSV 非常相似，记录由换行符分隔，每个字段由制表符分隔。以下示例展示了一个包含两条记录的 TSV 文件：
 
 ```text
 Title_0	Author_0
@@ -28,13 +27,13 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 ) ]
 ```
 
-有关语法的更多详情，请参见 [COPY INTO table>](/sql/sql-commands/dml/dml-copy-into-table)。
+有关语法的更多详细信息，请参阅 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
 
 ## 教程：从 TSV 文件加载数据
 
-### 步骤 1. 创建内部 Stage
+### 步骤 1. 创建内部阶段
 
-创建一个内部 Stage 来存储 TSV 文件。
+创建一个内部阶段以存储 TSV 文件。
 
 ```sql
 CREATE STAGE my_tsv_stage;
@@ -82,7 +81,7 @@ CREATE TABLE books
 );
 ```
 
-### 步骤 4. 直接从 TSV 复制
+### 步骤 4. 直接从 TSV 文件复制数据
 
 要直接从 TSV 文件将数据复制到表中，请使用以下 SQL 命令：
 
@@ -107,9 +106,9 @@ FILE_FORMAT = (
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 4（可选）。使用 SELECT 复制数据
+### 步骤 4（选项）. 使用 SELECT 复制数据
 
-为了更多的控制，比如在复制时转换数据，请使用 SELECT 语句。了解更多请参见 [`从 TSV 中 SELECT`](../04-transform/02-querying-tsv.md)。
+为了更精细的控制，例如在复制过程中转换数据，请使用 SELECT 语句。了解更多信息请参阅 [`SELECT from TSV`](../04-transform/02-querying-tsv.md)。
 
 ```sql
 COPY INTO books (title, author)
