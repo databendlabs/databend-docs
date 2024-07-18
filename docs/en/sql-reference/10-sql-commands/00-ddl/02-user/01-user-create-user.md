@@ -171,12 +171,17 @@ CREATE USER eric IDENTIFIED BY 'abc123' WITH MUST_CHANGE_PASSWORD = TRUE;
 
 ```bash
 MacBook-Air:~ eric$ bendsql -ueric -pabc123
+Welcome to BendSQL 0.19.2-1e338e1(2024-07-17T09:02:28.323121000Z).
+Connecting to localhost:8000 as user eric.
+
+loading auto complete keywords failed: APIError: ResponseError with 1066: Must change password before execute other operations
 ```
 
-3. Change the password with the [ALTER USER](03-user-alter-user.md) command.
+3. Change the password with the [ALTER USER](03-user-alter-user.md) command. BendSQL will automatically exit if change password success.
 
 ```bash
 eric@localhost:8000/default> ALTER USER USER() IDENTIFIED BY 'abc456';
+Bye~
 ```
 
 4. Quit BendSQL then reconnect with the new password.
