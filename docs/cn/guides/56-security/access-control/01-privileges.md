@@ -20,7 +20,7 @@ title: 权限管理
 
 要授予权限，您有两种选择：可以直接将权限授予用户，或者先将权限授予角色，然后将该角色授予用户。在以下示例中，权限直接授予用户'david'。首先创建一个名为'david'的新用户，密码为'abc123'，然后将'default'模式中所有对象的所有权限直接授予'david'。最后，显示'david'被授予的权限。
 
-```sql title='示例1：'
+```sql title='示例 1：'
 -- 创建一个名为'david'的新用户，密码为'abc123'
 CREATE USER david IDENTIFIED BY 'abc123';
 
@@ -39,7 +39,7 @@ SHOW GRANTS FOR david;
 
 在以下示例中，权限首先授予角色，然后将角色授予用户'eric'。首先创建一个名为'writer'的新角色，并将'default'模式中所有对象的所有权限授予该角色。随后，创建一个名为'eric'的新用户，密码为'abc123'，并将'writer'角色授予'eric'。最后，显示'eric'被授予的权限。
 
-```sql title='示例2：'
+```sql title='示例 2：'
 -- 创建一个名为'writer'的新角色
 CREATE ROLE writer;
 
@@ -66,7 +66,7 @@ SHOW GRANTS FOR eric;
 
 在访问控制中，可以从单个用户或角色中撤销权限。在以下示例中，我们从用户'david'撤销'default'模式中所有对象的所有权限，然后显示用户'david'被授予的权限：
 
-```sql title='示例1（续）：'
+```sql title='示例 1（续）：'
 -- 从用户'david'撤销'default'模式中所有对象的所有权限
 REVOKE ALL ON default.* FROM david;
 
@@ -76,7 +76,7 @@ SHOW GRANTS FOR david;
 
 在以下示例中，从角色'writer'撤销'default'模式中所有对象的所有权限。随后，显示用户'eric'被授予的权限。
 
-```sql title='示例2（续）：'
+```sql title='示例 2（续）：'
 -- 从角色'writer'撤销'default'模式中所有对象的所有权限
 REVOKE ALL ON default.* FROM ROLE writer;
 
@@ -102,8 +102,6 @@ Databend 提供了一系列权限，允许您对数据库对象进行精细控�
   - [Share 权限](#share-privileges)
 
 ### 所有权限
-
-{/_examples_/}
 
 | 权限        | 对象类型               | 描述                                                                                                   |
 | :---------- | :--------------------- | :----------------------------------------------------------------------------------------------------- |

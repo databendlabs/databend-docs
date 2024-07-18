@@ -1,7 +1,6 @@
 ---
 title: 分布式查询和数据洗牌
-description:
-  分布式查询和数据洗牌的RFC文档
+description: 分布式查询和数据洗牌的 RFC 文档
 ---
 
 ## 概要
@@ -13,7 +12,7 @@ description:
 
 让我们看看普通查询如何在单个数据库节点上运行。
 
-``` text
+```text
 '        +------+       +------------+      +---------+
 '        |      |  AST  |            | Plan |         |
 ' SQL--->|Parser+------>|Plan Builder+----->|Optimizer|
@@ -28,21 +27,21 @@ description:
 '                 +----------+            +-----------+
 ```
 
-### 解析器和AST
+### 解析器和 AST
 
-Databend使用第三方SQL解析器及其AST。
+Databend 使用第三方 SQL 解析器及其 AST。
 更多信息，请参见：https://github.com/ballista-compute/sqlparser-rs
 
-### PlanBuilder和计划
+### PlanBuilder 和计划
 
-查询计划（或查询执行计划）是用于访问Databend中数据的一系列步骤。它由PlanBuilder从AST构建。我们也使用树来描述它（类似于AST）。但它与AST有一些不同：
+查询计划（或查询执行计划）是用于访问 Databend 中数据的一系列步骤。它由 PlanBuilder 从 AST 构建。我们也使用树来描述它（类似于 AST）。但它与 AST 有一些不同：
 
 - 计划是可序列化和可反序列化的。
 - 计划在语法上是安全的，我们不用担心它。
 - 计划用于描述计算和数据依赖，与语法优先级无关
 - 我们可以用`EXPLAIN SELECT ...`显示它
 
-``` text
+```text
 EXPLAIN SELECT number % 3 AS key, SUM(number) AS value FROM numbers(1000) WHERE number > 10 AND number < 990 GROUP BY key ORDER BY key ASC LIMIT 10;
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | explain                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -64,16 +63,15 @@ EXPLAIN SELECT number % 3 AS key, SUM(number) AS value FROM numbers(1000) WHERE 
 
 ### 解释器和处理器
 
-解释器将优化后的计划构建成一个可执行的数据流。我们通过拉取流中的数据来拉取SQL的结果。SQL中每个操作符的计算逻辑对应一个处理器，例如FilterPlan -> FilterProcessor，ProjectionPlan -> ProjectionProcessor
-
+解释器将优化后的计划构建成一个可执行的数据流。我们通过拉取流中的数据来拉取 SQL 的结果。SQL 中每个操作符的计算逻辑对应一个处理器，例如 FilterPlan -> FilterProcessor，ProjectionPlan -> ProjectionProcessor
 
 ## 分布式查询
 
 在集群模式下，我们可能会遇到一些与独立模式不同的问题。
 
 - 在分布式模式下，要查询的表总是分布在不同的节点上
-- 对于某些场景，分布式处理总是高效的，例如带键的GROUP BY，JOIN
-- 对于某些场景，我们没有分布式处理的方法，例如LIMIT，不带键的GROUP BY
+- 对于某些场景，分布式处理总是高效的，例如带键的 GROUP BY，JOIN
+- 对于某些场景，我们没有分布式处理的方法，例如 LIMIT，不带键的 GROUP BY
 - 为了确保快速计算，我们需要协调计算位置和数据位置。
 
 让我们看看普通查询如何在数据库集群上运行。
@@ -113,14 +111,14 @@ EXPLAIN SELECT number % 3 AS key, SUM(number) AS value FROM numbers(1000) WHERE 
 
 在 Databend 中，我们使用 ScatterOptimizer 来决定查询的分布式计算。换句话说，分布式查询是独立查询的一种优化。
 
+在 ScatterOptimizer 中，我们遍历查询的所有计划并重写感兴趣的计划`（重写为 StagePlan { kind:StageKind, input:Self }）`，其中 input 是重写后的计划，kind 是一个枚举（Normal：数据再次被洗牌，Expansive：数据从一个节点扩散到多个节点，Convergent：数据从多个节点聚合到一个节点）
 
-在 ScatterOptimizer 中，我们遍历查询的所有计划并重写感兴趣的计划（重写为 StagePlan { kind:StageKind, input:Self }），其中 input 是重写后的计划，kind 是一个枚举（Normal：数据再次被洗牌，Expansive：数据从一个节点扩散到多个节点，Convergent：数据从多个节点聚合到一个节点）
-
-### PlanScheduler 和 RemoteProcessor  
+### PlanScheduler 和 RemoteProcessor
 
 在集群模式下，我们提取 ScatterOptimizer 优化后的计划中的所有 StagePlans，并根据 kind 将它们发送到集群中的相应节点。
 
 例如：
+
 ```text
 EXPLAIN SELECT argMin(user, salary)  FROM (SELECT sum(number) AS salary, number%3 AS user FROM numbers_local(1000000000) GROUP BY user);
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -141,4 +139,5 @@ EXPLAIN SELECT argMin(user, salary)  FROM (SELECT sum(number) AS salary, number%
 ```
 
 ### Flight API 数据流
+
 我们需要以某种方式获取发送到其他节点执行的计划的结果。FuseData 使用第三方库 arrow-flight。更多信息：[https://github.com/apache/arrow-rs/tree/master/arrow-flight]

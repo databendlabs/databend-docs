@@ -27,13 +27,15 @@ FROM { userStage | internalStage | externalStage | externalLocation }
     COMPRESSION = AUTO
 ) ]
 ```
-More details about the syntax can be found in [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table).
+
+More details about the syntax can be found in [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
 
 ## Tutorial: Loading Data from NDJSON Files
 
 ### Step 1. Create an Internal Stage
 
 Create an internal stage to store the NDJSON files.
+
 ```sql
 CREATE STAGE my_ndjson_stage;
 ```
@@ -41,10 +43,11 @@ CREATE STAGE my_ndjson_stage;
 ### Step 2. Create NDJSON files
 
 Generate a NDJSON file using these SQL statements:
+
 ```sql
-COPY INTO @my_ndjson_stage 
+COPY INTO @my_ndjson_stage
 FROM (
-    SELECT 
+    SELECT
         'Title_' || CAST(number AS VARCHAR) AS title,
         'Author_' || CAST(number AS VARCHAR) AS author
     FROM numbers(100000)
@@ -52,12 +55,15 @@ FROM (
     FILE_FORMAT = (TYPE = NDJSON)
 ;
 ```
+
 Verify the creation of the NDJSON file:
+
 ```sql
 LIST @my_ndjson_stage;
 ```
 
 Result:
+
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                              name                              │   size  │                 md5                │         last_modified         │      creator     │
@@ -75,6 +81,7 @@ CREATE TABLE books
     author VARCHAR
 );
 ```
+
 ### Step 4. Copying Directly from NDJSON
 
 To directly copy data into your table from NDJSON files, use the following SQL command:
@@ -89,6 +96,7 @@ FILE_FORMAT = (
 ```
 
 Result:
+
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                              File                              │ Rows_loaded │ Errors_seen │    First_error   │ First_error_line │
@@ -96,13 +104,15 @@ Result:
 │ data_b3d94fad-3052-42e4-b090-26409e88c7b9_0000_00000000.ndjson │      100000 │           0 │ NULL             │             NULL │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
+
 ### Step 4 (Option). Using SELECT to Copy Data
 
 For more control, like transforming data while copying, use the SELECT statement. Learn more at [`SELECT from NDJSON`](../04-transform/03-querying-ndjson.md).
+
 ```sql
 COPY INTO books(title, author)
 FROM (
-    SELECT $1:title, $1:author 
+    SELECT $1:title, $1:author
     FROM @my_ndjson_stage
 )
 PATTERN = '.*[.]ndjson'
@@ -110,4 +120,3 @@ FILE_FORMAT = (
     TYPE = NDJSON
 );
 ```
-

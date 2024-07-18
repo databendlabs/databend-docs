@@ -13,7 +13,6 @@ Title_0	Author_0
 Title_1	Author_1
 ```
 
-
 ## Loading TSV File
 
 The common syntax for loading TSV file is as follows:
@@ -28,13 +27,15 @@ FROM { userStage | internalStage | externalStage | externalLocation }
     COMPRESSION = AUTO
 ) ]
 ```
-More details about the syntax can be found in [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table).
+
+More details about the syntax can be found in [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
 
 ## Tutorial: Loading Data from TSV Files
 
 ### Step 1. Create an Internal Stage
 
 Create an internal stage to store the TSV files.
+
 ```sql
 CREATE STAGE my_tsv_stage;
 ```
@@ -42,10 +43,11 @@ CREATE STAGE my_tsv_stage;
 ### Step 2. Create TSV files
 
 Generate a TSV file using these SQL statements:
+
 ```sql
-COPY INTO @my_tsv_stage 
+COPY INTO @my_tsv_stage
 FROM (
-    SELECT 
+    SELECT
         'Title_' || CAST(number AS VARCHAR) AS title,
         'Author_' || CAST(number AS VARCHAR) AS author
     FROM numbers(100000)
@@ -53,12 +55,15 @@ FROM (
     FILE_FORMAT = (TYPE = TSV)
 ;
 ```
+
 Verify the creation of the TSV file:
+
 ```sql
 LIST @my_tsv_stage;
 ```
 
 Result:
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                             name                            │   size  │                 md5                │         last_modified         │      creator     │
@@ -76,9 +81,11 @@ CREATE TABLE books
     author VARCHAR
 );
 ```
+
 ### Step 4. Copying Directly from TSV
 
 To directly copy data into your table from TSV files, use the following SQL command:
+
 ```sql
 COPY INTO books
 FROM @my_tsv_stage
@@ -91,6 +98,7 @@ FILE_FORMAT = (
 ```
 
 Result:
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                             File                            │ Rows_loaded │ Errors_seen │    First_error   │ First_error_line │
@@ -102,10 +110,11 @@ Result:
 ### Step 4 (Option). Using SELECT to Copy Data
 
 For more control, like transforming data while copying, use the SELECT statement. Learn more at [`SELECT from TSV`](../04-transform/02-querying-tsv.md).
+
 ```sql
 COPY INTO books (title, author)
 FROM (
-    SELECT $1, $2 
+    SELECT $1, $2
     FROM @my_tsv_stage
 )
 PATTERN = '.*[.]tsv'

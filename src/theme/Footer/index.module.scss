@@ -1,4 +1,4 @@
-.footer{
+.footer {
   position: relative;
   z-index: 3;
   padding: 20px;
@@ -11,42 +11,42 @@
   color: var(--color-text-0);
   flex-wrap: wrap;
   align-items: center;
-  p{
+  p {
     min-width: 360px;
     width: fit-content;
     font-size: 14px;
     font-weight: 500;
   }
-  .footerItems{
+  .footerItems {
     display: flex;
     gap: 24px;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    .icon{
+    .icon {
       display: flex;
     }
-    h6{
+    h6 {
       display: flex;
       gap: 4px;
       align-items: center;
       // min-width: 72px;
       width: fit-content;
       justify-content: center;
-      &:hover{
+      &:hover {
         color: var(--color-primary);
       }
     }
   }
-  @include media{
+  @include media {
     gap: 20px;
     flex-direction: column-reverse;
-    p{
+    p {
       text-align: center;
     }
-    .footerItems{
+    .footerItems {
       justify-content: center;
-      span{
+      span {
         display: none;
       }
     }
@@ -58,7 +58,7 @@
   align-items: center;
   justify-content: center;
   margin-top: 10px;
-  p{
+  p {
     text-align: center;
   }
 }

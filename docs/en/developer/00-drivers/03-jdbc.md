@@ -12,9 +12,9 @@ To download the Databend JDBC driver:
 
 1. Go to the Maven Central Repository at https://repo1.maven.org/maven2/com/databend/databend-jdbc/
 2. Click on the directory of the latest version.
-3. Download the jar file, for example, *databend-jdbc-0.1.1.jar*.
+3. Download the jar file, for example, _databend-jdbc-0.1.1.jar_.
 
-To verify the version of Databend JDBC driver, for example, *databend-jdbc-0.1.1.jar*, run the following command in the terminal:
+To verify the version of Databend JDBC driver, for example, _databend-jdbc-0.1.1.jar_, run the following command in the terminal:
 
 ```bash
 java -jar databend-jdbc-0.2.1.jar --version
@@ -39,7 +39,7 @@ You can also connect to Databend from DBeaver through the Databend JDBC driver. 
 This table illustrates the correspondence between Databend data types and their corresponding Java equivalents:
 
 | Databend  | Java       |
-|-----------|------------|
+| --------- | ---------- |
 | TINYINT   | Byte       |
 | SMALLINT  | Short      |
 | INT       | Integer    |
@@ -64,13 +64,13 @@ This table illustrates the correspondence between Databend data types and their 
 
 Databend's JDBC Driver generally follows the JDBC specifications. Below is a list of some common basic behaviors, their associated key functions, and the principles behind them.
 
-| Basic Behavior        | Key Functions                                                                                 | Principle                                                                                                                                                                                                                      |
-|-----------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Establishing a Connection | `DriverManager.getConnection`, `Properties.setProperty`                                     | `getConnection` establishes a connection with Databend using the provided connection string.<br /><br />The `Properties` object is used to construct connection parameters, such as `user` and `password`, which can also be specified within the connection string. |
-| Executing Queries     | `Statement.createStatement()`, `Statement.execute()`                                          | `Statement.execute()` performs queries using the `v1/query` interface.                                                                                                                                                         |
-| Batch Inserting       | `Connection.prepareStatement()`, `PrepareStatement.setInt()`, `PrepareStatement.setString()`, `PrepareStatement.addBatch()`, `PrepareStatement.executeBatch()`, etc. | Databend supports batch insertions and replacements (`INSERT INTO` and `REPLACE INTO`) using `PrepareStatement` objects.<br /><br />The `PrepareStatement.setXXX()` methods are used for binding values to the parameters of the statement.<br /><br />`PrepareStatement.addBatch()` adds as much data as possible to the batch for the created statement object.<br /><br />`PrepareStatement.executeBatch()` uploads data to the built-in Stage and executes insert/replace operations, utilizing [Stage Attachment](/developer/apis/http#stage-attachment). |
-| Uploading Files to an Internal Stage | `Connection.uploadStream`                                                                 | Data will be uploaded to a Stage. By default, the `PRESIGN UPLOAD` is used to obtain a URL, or if PRESIGN is disabled, the `v1/upload_to_stage` API is used.                                                                        |
-| Downloading Files from an Internal Stage | `Connection.downloadStream`                                                               | Data will be downloaded from a Stage using the `PRESIGN DOWNLOAD` to obtain a URL.                                                                                                                                                  |
+| Basic Behavior                           | Key Functions                                                                                                                                                        | Principle                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Establishing a Connection                | `DriverManager.getConnection`, `Properties.setProperty`                                                                                                              | `getConnection` establishes a connection with Databend using the provided connection string.<br /><br />The `Properties` object is used to construct connection parameters, such as `user` and `password`, which can also be specified within the connection string.                                                                                                                                                                                                                                                                                           |
+| Executing Queries                        | `Statement.createStatement()`, `Statement.execute()`                                                                                                                 | `Statement.execute()` performs queries using the `v1/query` interface.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Batch Inserting                          | `Connection.prepareStatement()`, `PrepareStatement.setInt()`, `PrepareStatement.setString()`, `PrepareStatement.addBatch()`, `PrepareStatement.executeBatch()`, etc. | Databend supports batch insertions and replacements (`INSERT INTO` and `REPLACE INTO`) using `PrepareStatement` objects.<br /><br />The `PrepareStatement.setXXX()` methods are used for binding values to the parameters of the statement.<br /><br />`PrepareStatement.addBatch()` adds as much data as possible to the batch for the created statement object.<br /><br />`PrepareStatement.executeBatch()` uploads data to the built-in Stage and executes insert/replace operations, utilizing [Stage Attachment](/developer/apis/http#stage-attachment). |
+| Uploading Files to an Internal Stage     | `Connection.uploadStream`                                                                                                                                            | Data will be uploaded to a Stage. By default, the `PRESIGN UPLOAD` is used to obtain a URL, or if PRESIGN is disabled, the `v1/upload_to_stage` API is used.                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Downloading Files from an Internal Stage | `Connection.downloadStream`                                                                                                                                          | Data will be downloaded from a Stage using the `PRESIGN DOWNLOAD` to obtain a URL.                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
 ## Configuring Connection String
 
@@ -82,12 +82,13 @@ jdbc:databend://<username>:<password>@<host_port>/<database>?<connection_params>
 
 The `connection_params` refers to a series of one or more parameters in the format of `param=value`. Each parameter should be separated by the ampersand character (&), and there should be no spaces anywhere in the connection string. These parameters can be set either in the connection string or in a Properties object passed to the DriverManager.getConnection() method. For example:
 
-```java 
+```java
 Properties props = new Properties();
 props.put("parameter1", parameter1Value);
 props.put("parameter2", parameter2Value);
 Connection con = DriverManager.getConnection("jdbc:databend://user:pass@host/database", props);
 ```
+
 For the available connection parameters and their descriptions, see https://github.com/databendcloud/databend-jdbc/blob/main/docs/Connection.md#connection-parameters
 
 ## Examples
@@ -150,11 +151,12 @@ public class demo {
     }
 // For merge into just replace the copyIntoSql.
 ```
+
 :::tip
+
 1. Because the SQL commands such as SELECT, COPY INTO, and MERGE INTO return a ResultSet object, it is necessary to call rs.next() before accessing the data. Failure to do so may result in the query being canceled. If you don't intend to retrieve the results, you can iterate over the ResultSet using a while loop (while (r.next()){}) to avoid this issue.
 2. For other SQL commands such as CREATE TABLE or DROP TABLE, which are non-query type SQL, you can call statement.execute() directly.
-:::
-
+   :::
 
 ### Example: Batch Inserting
 
@@ -231,6 +233,7 @@ Uploading CSV File to Databend:
 ```
 
 Downloading CSV File from Databend:
+
 ```Java
         File f = new File("test.csv");
         try (InputStream fileInputStream = Files.newInputStream(f.toPath())) {
@@ -287,7 +290,7 @@ public class sample {
         properties.setProperty("password", "{PASSWORD}");
         properties.setProperty("SSL", "true");
         Connection connection = DriverManager.getConnection(url, properties);
-        
+
         // Execute
         connection.createStatement().execute("CREATE TABLE IF NOT EXISTS sample_test(id TINYINT, obj VARIANT, d TIMESTAMP, s String, arr ARRAY(INT64)) Engine = Fuse");
 
@@ -300,7 +303,7 @@ public class sample {
             r.next();
             System.out.println(r.getInt(1));
         }
-        
+
         // INSERT INTO Using executeBatch()
         connection.setAutoCommit(false);
         PreparedStatement ps = connection.prepareStatement("insert into sample_test values");
@@ -330,7 +333,7 @@ public class sample {
 ```
 
 :::tip
-Replace {USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE} in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+Replace `{USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE}` in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 :::
 
 #### Step 3. Run sample with Maven

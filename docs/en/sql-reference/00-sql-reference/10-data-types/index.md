@@ -1,6 +1,7 @@
 ---
 title: Data Types
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.100"/>
@@ -11,8 +12,8 @@ This page explains various aspects of data types, including lists of data types,
 
 The following is a list of general data types in Databend:
 
-| Data Type                                                           | Alias  | Storage Size | Min Value                | Max Value                      | 
-|---------------------------------------------------------------------|--------|--------------|--------------------------|--------------------------------|
+| Data Type                                                           | Alias  | Storage Size | Min Value                | Max Value                      |
+| ------------------------------------------------------------------- | ------ | ------------ | ------------------------ | ------------------------------ |
 | [BOOLEAN](./00-data-type-logical-types.md)                          | BOOL   | 1 byte       | N/A                      | N/A                            |
 | [TINYINT](./10-data-type-numeric-types.md#integer-data-types)       | INT8   | 1 byte       | -128                     | 127                            |
 | [SMALLINT](./10-data-type-numeric-types.md#integer-data-types)      | INT16  | 2 bytes      | -32768                   | 32767                          |
@@ -27,43 +28,44 @@ The following is a list of general data types in Databend:
 
 The following is a list of semi-structured data types in Databend:
 
-| Data Type                              | Alias | Sample                           | Description                                                                       |
-|----------------------------------------|-------|----------------------------------|-----------------------------------------------------------------------------------|
-| [ARRAY](./40-data-type-array-types.md) | N/A   | [1, 2, 3, 4]                   | A collection of values of the same data type, accessed by their index.            |
-| [TUPLE](./41-data-type-tuple-types.md) | N/A   | ('2023-02-14','Valentine Day') | An ordered collection of values of different data types, accessed by their index. |
-| [MAP](./42-data-type-map.md)           | N/A   | {"a":1, "b":2, "c":3}          | A set of key-value pairs where each key is unique and maps to a value.            |                             |
-| [VARIANT](./43-data-type-variant.md)   | JSON  | [1,{"a":1,"b":{"c":2}}]        | Collection of elements of different data types, including `ARRAY` and `OBJECT`.   |
-| [BITMAP](44-data-type-bitmap.md)   | N/A  | 0101010101        | A binary data type used to represent a set of values, where each bit represents the presence or absence of a value.   |
+| Data Type                              | Alias | Sample                         | Description                                                                                                         |
+| -------------------------------------- | ----- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- | --- |
+| [ARRAY](./40-data-type-array-types.md) | N/A   | [1, 2, 3, 4]                   | A collection of values of the same data type, accessed by their index.                                              |
+| [TUPLE](./41-data-type-tuple-types.md) | N/A   | ('2023-02-14','Valentine Day') | An ordered collection of values of different data types, accessed by their index.                                   |
+| [MAP](./42-data-type-map.md)           | N/A   | `{"a":1, "b":2, "c":3}`        | A set of key-value pairs where each key is unique and maps to a value.                                              |     |
+| [VARIANT](./43-data-type-variant.md)   | JSON  | `[1,{"a":1,"b":{"c":2}}]`      | Collection of elements of different data types, including `ARRAY` and `OBJECT`.                                     |
+| [BITMAP](44-data-type-bitmap.md)       | N/A   | 0101010101                     | A binary data type used to represent a set of values, where each bit represents the presence or absence of a value. |
 
 ## Data Type Conversions
 
 ### Explicit Castings
 
 We have two kinds of expression to cast a value to another datatype.
+
 1. `CAST` function, if error happens during cast, it throws error.
 
 We also support pg casting style: `CAST(c as INT)` is same as `c::Int`
 
 2. `TRY_CAST` function if error happens during cast, it returns NULL.
 
-
 ### Implicit Castings ("Coercion")
 
 Some basic rules about "Coercion" aka (Auto casting)
 
-1. All integer datatypes can be implicitly casted into  `BIGINT` aka (`INT64`) datatype.
+1. All integer datatypes can be implicitly casted into `BIGINT` aka (`INT64`) datatype.
 
 e.g.
+
 ```sql
 Int --> bigint
 UInt8 --> bigint
 Int32 --> bigint
 ```
 
-
-2. All numeric datatypes can be implicitly cast into  `Double` aka (`Float64`) datatype.
+2. All numeric datatypes can be implicitly cast into `Double` aka (`Float64`) datatype.
 
 e.g.
+
 ```sql
 Int --> Double
 Float --> Double
@@ -73,6 +75,7 @@ Int32 --> Double
 3. ALL non-nullable datatypes `T` can be implicitly casted into `Nullable(T)` datatype.
 
 e.g.
+
 ```sql
 Int --> Nullable<Int>
 String -->  Nullable<String>
@@ -111,7 +114,6 @@ We don't know how to compare them with numeric rules or String rules. Because th
 
 To make the syntax more precise and less ambiguous, we throw the error to user and get more precise SQL.
 
-
 > Why can't the boolean type be automatically converted to the numeric type.
 
 This will also bring ambiguity.
@@ -125,7 +127,6 @@ select true > 0.5;
 
 That means you got a null in your source column. You can use `TRY_CAST` function or make your target type be a nullable type.
 
-
 > `select concat(1, col)` not work
 
 You can improve the SQL to `select concat('1', col)`.
@@ -134,17 +135,17 @@ We may improve the expression in the future which could parse the literal `1` in
 
 ## NULL Values and NOT NULL Constraint
 
-NULL values are employed to represent data that is either nonexistent or unknown. In Databend, every column is inherently capable of containing NULL values, which implies that a column can accommodate NULLs alongside regular data. 
+NULL values are employed to represent data that is either nonexistent or unknown. In Databend, every column is inherently capable of containing NULL values, which implies that a column can accommodate NULLs alongside regular data.
 
-If you need a column that does not allow NULL values, use the NOT NULL constraint. If a column is configured to disallow NULL values in Databend, and you do not explicitly provide a value for that column when inserting data, the default value associated with the column's data type will be automatically applied. 
+If you need a column that does not allow NULL values, use the NOT NULL constraint. If a column is configured to disallow NULL values in Databend, and you do not explicitly provide a value for that column when inserting data, the default value associated with the column's data type will be automatically applied.
 
-| Data Type                | Default Value           |
-|--------------------------|-------------------------|
-| Integer Data Types       | 0                       |
-| Floating-Point Data Types| 0.0                     |
-| Character and String     | Empty string ('')       |
-| Date and Time Data Types | '1970-01-01' for DATE, '1970-01-01 00:00:00' for TIMESTAMP |
-| Boolean Data Type        | False                   |
+| Data Type                 | Default Value                                              |
+| ------------------------- | ---------------------------------------------------------- |
+| Integer Data Types        | 0                                                          |
+| Floating-Point Data Types | 0.0                                                        |
+| Character and String      | Empty string ('')                                          |
+| Date and Time Data Types  | '1970-01-01' for DATE, '1970-01-01 00:00:00' for TIMESTAMP |
+| Boolean Data Type         | False                                                      |
 
 For example, if you create a table as follows:
 

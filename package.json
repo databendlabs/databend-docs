@@ -1,12 +1,10 @@
 {
-  "name": "databend",
+  "name": "databend-docs-v-2",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "remark": "remark",
-    "remark:docs:once": "npm run remark -- --quiet --frail ./docs/doc",
-    "remark:blog:once": "npm run remark -- --quiet --frail ./blog",
+    "start": "docusaurus start",
     "generate-release-index": "node generate-release-index.js",
     "start:cn": "site=cn site_env=development docusaurus start",
     "start:en": "site=en site_env=development docusaurus start",
@@ -22,68 +20,34 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "upload-translations": "crowdin upload --config=../.github/crowdin.yml --delete-obsolete",
-    "download-translations": "crowdin download --config=../.github/crowdin.yml --all",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.2.6",
-    "@crowdin/cli": "^3.9.1",
-    "@docusaurus/core": "^2.2.0",
-    "@docusaurus/plugin-client-redirects": "2.3.1",
-    "@docusaurus/plugin-content-blog": "^2.2.0",
-    "@docusaurus/preset-classic": "^2.2.0",
-    "@mdx-js/react": "^1.6.21",
-    "@types/node": "^20.8.10",
-    "@types/react": "^18.2.35",
-    "@types/react-dom": "17.0.1",
-    "add": "^2.0.6",
-    "ahooks": "^3.3.10",
-    "antd": "^5.11.2",
-    "axios": "^0.27.2",
-    "bytes": "^3.1.2",
-    "clsx": "^1.1.1",
-    "copy-to-clipboard": "^3.3.3",
+    "@ant-design/icons": "^5.3.7",
+    "@docusaurus/core": "3.4.0",
+    "@docusaurus/preset-classic": "3.4.0",
+    "@mdx-js/react": "^3.0.0",
+    "ahooks": "^3.8.0",
+    "antd": "^5.19.2",
+    "axios": "^1.7.2",
+    "clsx": "^2.0.0",
     "copyforjs": "^1.0.6",
-    "databend-logos": "^0.0.14",
-    "dayjs": "^1.11.7",
     "docusaurus-plugin-devserver": "^1.0.6",
-    "docusaurus-plugin-sass": "^0.2.1",
-    "node": "^17.7.2",
+    "docusaurus-plugin-sass": "^0.2.5",
     "plugin-image-zoom": "^1.2.0",
-    "prism-react-renderer": "^1.2.1",
-    "rc-table": "^7.27.1",
-    "rc-texty": "^0.2.0",
-    "react": "^17.0.1",
-    "react-dom": "17.0.1",
-    "react-lazy-load-image-component": "^1.6.0",
-    "react-markdown": "^8.0.5",
-    "react-scroll-progress-bar": "^1.1.13",
-    "react-syntax-highlighter": "^15.5.0",
-    "remark-gfm": "^3.0.1",
-    "sass": "^1.45.0"
+    "prism-react-renderer": "^2.3.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-markdown": "^9.0.1",
+    "react-scroll-progress-bar": "^2.0.3",
+    "sass": "^1.77.8",
+    "sass-resources-loader": "^2.2.5"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.2.0",
-    "@tsconfig/docusaurus": "^1.0.4",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "eslint": "^8.0.1",
-    "eslint-config-standard-with-typescript": "^39.1.1",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.33.2",
-    "remark-cli": "^11.0.0",
-    "remark-lint-no-dead-urls": "^1.1.0",
-    "remark-validate-links": "^12.1.1",
-    "sass-resources-loader": "^2.2.4",
-    "typescript": "*"
-  },
-  "remarkConfig": {
-    "plugins": [
-      "remark-validate-links",
-      "remark-lint-no-dead-urls"
-    ]
+    "@docusaurus/module-type-aliases": "3.4.0",
+    "@docusaurus/tsconfig": "3.4.0",
+    "@docusaurus/types": "3.4.0",
+    "typescript": "~5.2.2"
   },
   "browserslist": {
     "production": [
@@ -92,9 +56,12 @@
       "not op_mini all"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
     ]
+  },
+  "engines": {
+    "node": ">=18.0"
   }
 }

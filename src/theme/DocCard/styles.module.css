@@ -9,7 +9,6 @@
   border-radius: calc(var(--radius) - 2px);
 }
 
-
 .cardContainer:hover {
   border-color: var(--ifm-color-primary);
   box-shadow: 0 3px 6px 0 rgb(0 0 0 / 20%);
@@ -28,16 +27,15 @@
   display: block;
   font-size: 0.8rem;
   color: hsl(var(--muted-foreground));
-  font-size: .875rem;
+  font-size: 0.875rem;
   line-height: 1.25rem;
- 
 }
 .databendCard {
-  width: 100%!important;;
-  gap: 1rem!important;;
-  display: flex!important;;
-  align-items: center!important;;
-  justify-content: flex-start!important;;
+  width: 100% !important;
+  gap: 1rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
 }
 .description {
   width: 100%;
@@ -60,4 +58,3 @@
   align-items: center;
   justify-content: center;
 }
-

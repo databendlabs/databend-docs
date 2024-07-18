@@ -1,10 +1,10 @@
 ---
-title: 'AI_TO_SQL'
+title: "AI_TO_SQL"
 ---
 
 Converts natural language instructions into SQL queries with the latest model `text-davinci-003`.
 
-Databend offers an efficient solution for constructing SQL queries by incorporating OLAP and AI. Through this function, instructions written in a natural language can be converted into SQL query statements that align with the table schema. For example, the function can be provided with a sentence like "Get all items that cost 10 dollars or less" as an input and generate the corresponding SQL query "SELECT * FROM items WHERE price <= 10" as output.
+Databend offers an efficient solution for constructing SQL queries by incorporating OLAP and AI. Through this function, instructions written in a natural language can be converted into SQL query statements that align with the table schema. For example, the function can be provided with a sentence like "Get all items that cost 10 dollars or less" as an input and generate the corresponding SQL query `SELECT * FROM items WHERE price <= 10` as output.
 
 The main code implementation can be found [here](https://github.com/datafuselabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/query/service/src/table_functions/openai/ai_to_sql.rs).
 
@@ -18,12 +18,14 @@ Starting from Databend v1.1.47, Databend supports the [Azure OpenAI service](htt
 This integration offers improved data privacy.
 
 To use Azure OpenAI, add the following configurations to the `[query]` section:
+
 ```sql
 # Azure OpenAI
 openai_api_chat_base_url = "https://<name>.openai.azure.com/openai/deployments/<name>/"
 openai_api_embedding_base_url = "https://<name>.openai.azure.com/openai/deployments/<name>/"
 openai_api_version = "2023-03-15-preview"
 ```
+
 :::
 
 :::caution
@@ -42,6 +44,7 @@ SELECT * FROM ai_to_sql('<natural-language-instruction>');
 ```
 
 :::tip Obtain and Config OpenAI API Key
+
 - To obtain your openAI API key, please visit https://platform.openai.com/account/api-keys and generate a new key.
 - Configure the **databend-query.toml** file with the openai_api_key setting.
 
@@ -50,6 +53,7 @@ SELECT * FROM ai_to_sql('<natural-language-instruction>');
 ... ...
 openai_api_key = "<your-key>"
 ```
+
 :::
 
 ## Examples

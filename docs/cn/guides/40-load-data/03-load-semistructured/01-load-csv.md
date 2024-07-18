@@ -31,7 +31,7 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 ) ]
 ```
 
-有关语法的更多详细信息，请参见 [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table)。
+有关语法的更多详细信息，请参见 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
 
 ## 教程：从 CSV 文件加载数据
 

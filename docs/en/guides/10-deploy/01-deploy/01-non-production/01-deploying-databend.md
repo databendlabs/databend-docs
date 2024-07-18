@@ -3,10 +3,10 @@ title: Deploying with Object Storage
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
-import GetLatest from '@site/src/components/GetLatest';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
+import Version from '@site/src/components/Version';
 
 <FunctionDescription description="Introduced or updated: v1.2.168"/>
 
@@ -37,8 +37,8 @@ import TabItem from '@theme/TabItem';
 
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
-- <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>
-- <https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html>
+- [https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
+- [https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html)
 
 </TabItem>
 
@@ -64,8 +64,8 @@ The command above will generate a file named `base64-encoded-key.txt` containing
 
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
-- <https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container>
-- <https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys>
+- [https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container)
+- [https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
 
 </TabItem>
 
@@ -77,8 +77,8 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
-- <https://cloud.tencent.com/document/product/436/13309>
-- <https://cloud.tencent.com/document/product/436/68282>
+- [https://cloud.tencent.com/document/product/436/13309](https://cloud.tencent.com/document/product/436/13309)
+- [https://cloud.tencent.com/document/product/436/68282](https://cloud.tencent.com/document/product/436/68282)
 
 </TabItem>
 
@@ -90,8 +90,8 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
-- <https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2>
-- <https://help.aliyun.com/document_detail/53045.htm>
+- [https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2](https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2)
+- [https://help.aliyun.com/document_detail/53045.htm](https://help.aliyun.com/document_detail/53045.htm)
 
 </TabItem>
 
@@ -103,8 +103,8 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
 
-- <https://docs.wasabi.com/docs/creating-a-bucket>
-- <https://docs.wasabi.com/docs/access-keys-1>
+- [https://docs.wasabi.com/docs/creating-a-bucket](https://docs.wasabi.com/docs/creating-a-bucket)
+- [https://docs.wasabi.com/docs/access-keys-1](https://docs.wasabi.com/docs/access-keys-1)
 
 </TabItem>
 
@@ -116,9 +116,9 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 For information about how to manage buckets and Access Keys for your MinIO, refer to the user manual from the solution provider. Here are some useful links you may need:
 
-- <https://min.io/docs/minio/container/index.html>
-- <https://min.io/docs/minio/container/administration/console/managing-objects.html>
-- <https://min.io/docs/minio/container/administration/console/security-and-access.html>
+- [https://min.io/docs/minio/container/index.html](https://min.io/docs/minio/container/index.html)
+- [https://min.io/docs/minio/container/administration/console/managing-objects.html](https://min.io/docs/minio/container/administration/console/managing-objects.html)
+- [https://min.io/docs/minio/container/administration/console/security-and-access.html](https://min.io/docs/minio/container/administration/console/security-and-access.html)
 
 </TabItem>
 <TabItem value="CubeFS" label="CubeFS">
@@ -130,9 +130,9 @@ For information about how to manage buckets and Access Keys for your MinIO, refe
 
 For information about how to manage buckets and Access Keys for your CubeFS, refer to the user manual from the solution provider. Here are some useful links you may need:
 
-- <https://cubefs.io/docs/master/quick-start/node.html>
-- <https://cubefs.io/docs/master/user-guide/objectnode.html>
-- <https://cubefs.io/docs/master/maintenance/admin-api/master/user.html>
+- [https://cubefs.io/docs/master/quick-start/node.html](https://cubefs.io/docs/master/quick-start/node.html)
+- [https://cubefs.io/docs/master/user-guide/objectnode.html](https://cubefs.io/docs/master/user-guide/objectnode.html)
+- [https://cubefs.io/docs/master/maintenance/admin-api/master/user.html](https://cubefs.io/docs/master/maintenance/admin-api/master/user.html)
 
 </TabItem>
 </Tabs>
@@ -149,25 +149,30 @@ For information about how to manage buckets and Access Keys for your CubeFS, ref
 <Tabs>
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
+<Version>
 ```shell
-curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-x86_64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-x86_64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
-tar xzvf databend-${version}-x86_64-unknown-linux-musl.tar.gz
+tar xzvf databend-[version]-x86_64-unknown-linux-musl.tar.gz
 ```
+
+</Version>
 
 </TabItem>
 <TabItem value="linux-arm64" label="Linux(Arm)">
 
+<Version>
 ```shell
-curl -LJO https://repo.databend.com/databend/${version}/databend-${version}-aarch64-unknown-linux-musl.tar.gz
+curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-aarch64-unknown-linux-musl.tar.gz
 ```
 
 ```shell
-tar xzvf databend-${version}-aarch64-unknown-linux-musl.tar.gz
+tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
 ```
 
+</Version>
 </TabItem>
 </Tabs>
 
@@ -517,7 +522,6 @@ sudo chown -R $USER /var/lib/databend
   </div>
 </details>
 </DetailsWrap>
-<GetLatest/>
 
 ### Next Steps
 

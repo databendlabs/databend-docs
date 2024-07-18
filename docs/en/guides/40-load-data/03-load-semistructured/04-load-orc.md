@@ -5,7 +5,7 @@ sidebar_label: Loading ORC File
 
 ## What is ORC?
 
-ORC (Optimized Row Columnar) is a columnar storage format commonly used in data analytics. 
+ORC (Optimized Row Columnar) is a columnar storage format commonly used in data analytics.
 
 ## Loading ORC File
 
@@ -18,7 +18,7 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = ORC)
 ```
 
-More details about the syntax can be found in [COPY INTO <table\>](/sql/sql-commands/dml/dml-copy-into-table).
+More details about the syntax can be found in [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
 
 ## Tutorial: Loading Data from ORC Files
 
@@ -27,23 +27,26 @@ This tutorial demonstrates how to load data from ORC files stored in an S3 bucke
 ### Step 1. Create an External Stage
 
 Create an external stage which points to the ORC files in the S3 bucket.
+
 ```sql
-CREATE OR REPLACE CONNECTION aws_s3 
-    STORAGE_TYPE='s3' 
-    ACCESS_KEY_ID='your-ak' 
+CREATE OR REPLACE CONNECTION aws_s3
+    STORAGE_TYPE='s3'
+    ACCESS_KEY_ID='your-ak'
     SECRET_ACCESS_KEY='your-sk';
 
-CREATE OR REPLACE STAGE orc_data_stage 
-    URL='s3://wizardbend/sample-data/orc/'  
+CREATE OR REPLACE STAGE orc_data_stage
+    URL='s3://wizardbend/sample-data/orc/'
     CONNECTION=(CONNECTION_NAME='aws_s3');
 ```
 
 List the files in the stage:
+
 ```sql
 LIST @orc_data_stage;
 ```
 
 Result:
+
 ```text
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -67,15 +70,16 @@ Create a file format for ORC and query the stage to view the data and schema.
 CREATE OR REPLACE FILE FORMAT orc_ff TYPE = 'ORC';
 
 
-SELECT * 
+SELECT *
 FROM @orc_data_stage (
-    FILE_FORMAT => 'orc_ff', 
+    FILE_FORMAT => 'orc_ff',
     PATTERN => '.*[.]orc'
-) t 
+) t
 LIMIT 10;
 ```
 
 Result:
+
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        _col0        │      _col1      │       _col2      │       _col3      │           _col4          │       _col5      │       _col6      │       _col7      │          _col8         │       _col9      │       _col10      │          _col11          │      _col12      │
@@ -96,12 +100,13 @@ Result:
 ### Step 4: Create Target Table
 
 Create a target table in Databend to store the data from the ORC files. We choose some of the columns from the ORC files to create the table.
+
 ```sql
 CREATE OR REPLACE TABLE orc_test_table (
-    firstname STRING, 
-    lastname STRING, 
-    email STRING, 
-    gender STRING, 
+    firstname STRING,
+    lastname STRING,
+    email STRING,
+    gender STRING,
     country STRING
 );
 ```
@@ -109,17 +114,19 @@ CREATE OR REPLACE TABLE orc_test_table (
 ### Step 5. Using SELECT to Copy Data
 
 Copy the data from the ORC files in the external stage into the target table.
+
 ```sql
-COPY INTO orc_test_table 
+COPY INTO orc_test_table
 FROM (
-    SELECT _col2, _col3, _col4, _col5, _col8 
+    SELECT _col2, _col3, _col4, _col5, _col8
     FROM @orc_data_stage
-) 
+)
 PATTERN = '.*[.]orc'
 FILE_FORMAT = (TYPE = ORC);
 ```
 
 Result:
+
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │      File     │ Rows_loaded │ Errors_seen │    First_error   │ First_error_line │

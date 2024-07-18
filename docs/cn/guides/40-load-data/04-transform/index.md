@@ -78,7 +78,7 @@ FILES 选项允许您显式指定一个或多个用逗号分隔的文件名。�
 SELECT t1.$1, t2.$2 FROM @my_stage t1, t2;
 ```
 
-### $<col_position>
+### `$<col_position>`
 
 从已暂存文件选择时，您可以使用列位置，这些位置从 1 开始。目前，使用列位置从已暂存文件进行 SELECT 操作的功能仅限于 Parquet、NDJSON、CSV 和 TSV 格式。
 
@@ -132,13 +132,13 @@ import TabItem from '@theme/TabItem';
 假设您有一个名为 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 的示例文件，并且已将其上传到用户 Stage、名为 _my_internal_stage_ 的内部 Stage 和名为 _my_external_stage_ 的外部 Stage。要上传文件到 Stage，请使用 [PRESIGN](/sql/sql-commands/ddl/stage/presign) 方法。
 
 ```sql
--- 查询用户Stage中的文件
+-- 查询用户 Stage 中的文件
 SELECT * FROM @~/books.parquet;
 
--- 查询内部Stage中的文件
+-- 查询内部 Stage 中的文件
 SELECT * FROM @my_internal_stage/books.parquet;
 
--- 查询外部Stage中的文件
+-- 查询外部 Stage 中的文件
 SELECT * FROM @my_external_stage/books.parquet;
 ```
 

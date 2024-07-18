@@ -3,10 +3,12 @@ title: 使用 HDFS 部署
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
+import Version from '@site/src/components/Version';
+
+<!-- import getReleaseVersion from '@site/src/utils/tools'; -->
 
 <FunctionDescription description="引入或更新: v1.2.168"/>
 
-import GetLatest from '@site/src/components/GetLatest';
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
 Databend 也支持与 Hadoop 分布式文件系统 (HDFS) 一起工作。本主题将解释如何使用 HDFS 部署 Databend。有关其他支持的对象存储解决方案列表，请参阅[理解部署模式](../00-understanding-deployment-modes.md)。
@@ -15,7 +17,6 @@ Databend 也支持与 Hadoop 分布式文件系统 (HDFS) 一起工作。本主�
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import CommonDownloadDesc from '@site/docs/public/templates/deploying-databend-common.md';
 
 <Tabs groupId="operating-systems">
 
@@ -62,13 +63,17 @@ b. 从 [GitHub Release](https://github.com/datafuselabs/databend/releases) 下�
 
 <TabItem value="linux-x86_64" label="Linux(x86)">
 
+<Version>
+
 ```shell
-curl -LJO https://repo.databend.com/databend/${version}/databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+curl -LJO https://repo.databend.com/databend/[version]/databend-hdfs-[version]-x86_64-unknown-linux-gnu.tar.gz
 ```
 
 ```shell
-tar xzvf databend-hdfs-${version}-x86_64-unknown-linux-gnu.tar.gz
+tar xzvf databend-hdfs-[version]-x86_64-unknown-linux-gnu.tar.gz
 ```
+
+</Version>
 
 </TabItem>
 
@@ -88,9 +93,44 @@ c. 将提取的文件夹 `bin`、`configs` 和 `scripts` 移动到文件夹 `/us
 
 有关如何在 Apache Hadoop 上启用和管理 WebHDFS 的信息，请参阅 WebHDFS 的手册。以下是一些可能有用的链接：
 
-- <https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html>
+- [https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html](https://hadoop.apache.org/docs/r3.3.2/hadoop-project-dist/hadoop-hdfs/WebHDFS.html)
 
-<CommonDownloadDesc />
+### Downloading Databend
+
+a. Create a folder named `databend` in the directory `/usr/local`.
+
+b. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
+
+<Tabs>
+<TabItem value="linux-x86_64" label="Linux(x86)">
+
+<Version>
+```shell
+curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-x86_64-unknown-linux-musl.tar.gz
+```
+
+```shell
+tar xzvf databend-[version]-x86_64-unknown-linux-musl.tar.gz
+```
+
+</Version>
+</TabItem>
+
+<TabItem value="linux-arm64" label="Linux(Arm)">
+
+```shell
+curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-aarch64-unknown-linux-musl.tar.gz
+```
+
+```shell
+tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
+```
+
+</TabItem>
+
+</Tabs>
+
+c. Move the extracted folders `bin`, `configs`, and `scripts` to the folder `/usr/local/databend`.
 
 </TabItem>
 </Tabs>
@@ -117,7 +157,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 
 a. 找到文件夹 `/usr/local/databend/configs` 中的文件 `databend-query.toml`。
 
-b. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type*，并配置用于连接 HDFS 的访问凭证和端点 URL。
+b. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 _type_，并配置用于连接 HDFS 的访问凭证和端点 URL。
 
 要配置存储设置，请通过在每行前添加 '#' 来注释掉 [storage.fs] 部分，然后通过移除 '#' 符号来取消注释适用于您的 HDFS 提供商的部分，并填写必要的值。您可以复制并粘贴相应的模板到文件中并进行相应配置。
 
@@ -223,7 +263,6 @@ sudo chown -R $USER /var/lib/databend
   </div>
 </details>
 </DetailsWrap>
-<GetLatest/>
 
 ## 下一步
 

@@ -1,6 +1,7 @@
 ---
 title: 数据类型
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.100"/>
@@ -11,41 +12,41 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 以下是 Databend 中的常见数据类型列表：
 
-| 数据类型                                                           | 别名   | 存储大小      | 最小值                   | 最大值                         | 
-|---------------------------------------------------------------------|--------|--------------|--------------------------|--------------------------------|
-| [BOOLEAN](./00-data-type-logical-types.md)                          | BOOL   | 1 字节       | N/A                      | N/A                            |
-| [TINYINT](./10-data-type-numeric-types.md#integer-data-types)       | INT8   | 1 字节       | -128                     | 127                            |
-| [SMALLINT](./10-data-type-numeric-types.md#integer-data-types)      | INT16  | 2 字节       | -32768                   | 32767                          |
-| [INT](./10-data-type-numeric-types.md#integer-data-types)           | INT32  | 4 字节       | -2147483648              | 2147483647                     |
-| [BIGINT](./10-data-type-numeric-types.md#integer-data-types)        | INT64  | 8 字节       | -9223372036854775808     | 9223372036854775807            |
-| [FLOAT](./10-data-type-numeric-types.md#floating-point-data-types)  | N/A    | 4 字节       | -3.40282347e+38          | 3.40282347e+38                 |
-| [DOUBLE](./10-data-type-numeric-types.md#floating-point-data-types) | N/A    | 8 字节       | -1.7976931348623157E+308 | 1.7976931348623157E+308        |
-| [DECIMAL](./11-data-type-decimal-types.md)                          | N/A    | 16/32 字节   | -10^P / 10^S             | 10^P / 10^S                    |
-| [DATE](./20-data-type-time-date-types.md)                           | N/A    | 4 字节       | 1000-01-01               | 9999-12-31                     |
-| [TIMESTAMP](./20-data-type-time-date-types.md)                      | N/A    | 8 字节       | 0001-01-01 00:00:00      | 9999-12-31 23:59:59.999999 UTC |
-| [VARCHAR](./30-data-type-string-types.md)                           | STRING | N/A          | N/A                      | N/A                            |
+| 数据类型                                                            | 别名   | 存储大小   | 最小值                   | 最大值                         |
+| ------------------------------------------------------------------- | ------ | ---------- | ------------------------ | ------------------------------ |
+| [BOOLEAN](./00-data-type-logical-types.md)                          | BOOL   | 1 字节     | N/A                      | N/A                            |
+| [TINYINT](./10-data-type-numeric-types.md#integer-data-types)       | INT8   | 1 字节     | -128                     | 127                            |
+| [SMALLINT](./10-data-type-numeric-types.md#integer-data-types)      | INT16  | 2 字节     | -32768                   | 32767                          |
+| [INT](./10-data-type-numeric-types.md#integer-data-types)           | INT32  | 4 字节     | -2147483648              | 2147483647                     |
+| [BIGINT](./10-data-type-numeric-types.md#integer-data-types)        | INT64  | 8 字节     | -9223372036854775808     | 9223372036854775807            |
+| [FLOAT](./10-data-type-numeric-types.md#floating-point-data-types)  | N/A    | 4 字节     | -3.40282347e+38          | 3.40282347e+38                 |
+| [DOUBLE](./10-data-type-numeric-types.md#floating-point-data-types) | N/A    | 8 字节     | -1.7976931348623157E+308 | 1.7976931348623157E+308        |
+| [DECIMAL](./11-data-type-decimal-types.md)                          | N/A    | 16/32 字节 | -10^P / 10^S             | 10^P / 10^S                    |
+| [DATE](./20-data-type-time-date-types.md)                           | N/A    | 4 字节     | 1000-01-01               | 9999-12-31                     |
+| [TIMESTAMP](./20-data-type-time-date-types.md)                      | N/A    | 8 字节     | 0001-01-01 00:00:00      | 9999-12-31 23:59:59.999999 UTC |
+| [VARCHAR](./30-data-type-string-types.md)                           | STRING | N/A        | N/A                      | N/A                            |
 
 以下是 Databend 中的半结构化数据类型列表：
 
-| 数据类型                              | 别名  | 示例                            | 描述                                                                         |
-|----------------------------------------|-------|----------------------------------|------------------------------------------------------------------------------|
-| [ARRAY](./40-data-type-array-types.md) | N/A   | [1, 2, 3, 4]                     | 同一数据类型的值的集合，通过索引访问。                                        |
-| [TUPLE](./41-data-type-tuple-types.md) | N/A   | ('2023-02-14','情人节')          | 不同数据类型值的有序集合，通过索引访问。                                      |
-| [MAP](./42-data-type-map.md)           | N/A   | {"a":1, "b":2, "c":3}            | 一组键值对，每个键都是唯一的，并映射到一个值。                                |
-| [VARIANT](./43-data-type-variant.md)   | JSON  | [1,{"a":1,"b":{"c":2}}]          | 包含不同数据类型的元素的集合，包括 `ARRAY` 和 `OBJECT`。                      |
-| [BITMAP](44-data-type-bitmap.md)       | N/A   | 0101010101                      | 用于表示一组值的二进制数据类型，其中每个位表示值的存在或缺失。                |
+| 数据类型                               | 别名 | 示例                      | 描述                                                           |
+| -------------------------------------- | ---- | ------------------------- | -------------------------------------------------------------- |
+| [ARRAY](./40-data-type-array-types.md) | N/A  | [1, 2, 3, 4]              | 同一数据类型的值的集合，通过索引访问。                         |
+| [TUPLE](./41-data-type-tuple-types.md) | N/A  | ('2023-02-14','情人节')   | 不同数据类型值的有序集合，通过索引访问。                       |
+| [MAP](./42-data-type-map.md)           | N/A  | `{"a":1, "b":2, "c":3}`   | 一组键值对，每个键都是唯一的，并映射到一个值。                 |
+| [VARIANT](./43-data-type-variant.md)   | JSON | [`1,{"a":1,"b":{"c":2}}]` | 包含不同数据类型的元素的集合，包括 `ARRAY` 和 `OBJECT`。       |
+| [BITMAP](44-data-type-bitmap.md)       | N/A  | 0101010101                | 用于表示一组值的二进制数据类型，其中每个位表示值的存在或缺失。 |
 
 ## 数据类型转换
 
 ### 显式转换
 
 我们有两种表达式将值转换为另一种数据类型。
+
 1. `CAST` 函数，如果转换过程中发生错误，它会抛出错误。
 
 我们还支持 pg 转换风格：`CAST(c as INT)` 与 `c::Int` 相同
 
 2. `TRY_CAST` 函数，如果转换过程中发生错误，它会返回 NULL。
-
 
 ### 隐式转换（"强制转换"）
 
@@ -59,10 +60,10 @@ UInt8 --> bigint
 Int32 --> bigint
 ```
 
-
 2. 所有数值数据类型可以隐式转换为 `Double`（即 `Float64`）数据类型。
 
 例如：
+
 ```sql
 Int --> Double
 Float --> Double
@@ -72,6 +73,7 @@ Int32 --> Double
 3. 所有非空数据类型 `T` 可以隐式转换为 `Nullable(T)` 数据类型。
 
 例如：
+
 ```sql
 Int --> Nullable<Int>
 String -->  Nullable<String>
@@ -110,7 +112,6 @@ select 39 = '  39  ';
 
 为了使语法更精确、减少歧义，我们向用户抛出错误，并获得更精确的 SQL。
 
-
 > 为什么布尔类型不能自动转换为数值类型。
 
 这也会带来歧义。
@@ -124,7 +125,6 @@ select true > 0.5;
 
 这意味着你的源列中有一个空值。你可以使用 `TRY_CAST` 函数或使你的目标类型为可空类型。
 
-
 > `select concat(1, col)` 不工作
 
 你可以改进 SQL 为 `select concat('1', col)`。
@@ -137,13 +137,13 @@ NULL 值用于表示不存在或未知的数据。在 Databend 中，每个列�
 
 如果你需要一个不允许 NULL 值的列，请使用 NOT NULL 约束。如果在 Databend 中配置了列以禁止 NULL 值，并且在插入数据时没有为该列明确提供值，则会自动应用与列的数据类型关联的默认值。
 
-| 数据类型                  | 默认值                       |
-|--------------------------|-----------------------------|
-| 整数数据类型             | 0                           |
-| 浮点数数据类型           | 0.0                         |
-| 字符和字符串             | 空字符串 ('')               |
-| 日期和时间数据类型       | 对于 DATE 是 '1970-01-01'，对于 TIMESTAMP 是 '1970-01-01 00:00:00' |
-| 布尔数据类型             | False                       |
+| 数据类型           | 默认值                                                             |
+| ------------------ | ------------------------------------------------------------------ |
+| 整数数据类型       | 0                                                                  |
+| 浮点数数据类型     | 0.0                                                                |
+| 字符和字符串       | 空字符串 ('')                                                      |
+| 日期和时间数据类型 | 对于 DATE 是 '1970-01-01'，对于 TIMESTAMP 是 '1970-01-01 00:00:00' |
+| 布尔数据类型       | False                                                              |
 
 例如，如果你创建一个表如下：
 

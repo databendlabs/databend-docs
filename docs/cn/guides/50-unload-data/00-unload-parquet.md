@@ -16,7 +16,7 @@ FILE_FORMAT = (TYPE = PARQUET)
 
 - 更多 Parquet 选项请参考 [Parquet 文件格式选项](/sql/sql-reference/file-format-options#parquet-options)
 - 卸载到多个文件请使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- 更多关于语法的细节可以在 [COPY INTO <location\>](/sql/sql-commands/dml/dml-copy-into-location) 中找到
+- 更多关于语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到
 
 ## 教程
 
