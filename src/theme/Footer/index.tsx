@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React, { useEffect } from "react";
+import React from "react";
 import clsx from "clsx";
 import Head from "@docusaurus/Head";
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -14,60 +14,16 @@ import CookiesConsent from "../../components/CookiesConsent";
 import styles from "./index.module.scss";
 import * as icons from "../../components/Icons";
 import RedirectComponent from "@site/src/components/RedirectComponent";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 // import ProgressBar from "react-scroll-progress-bar";
 
 const GLOBAL_SEARCH_ID = "GLOBAL-ID-SEARCH-229";
 function Footer() {
   const year = new Date().getFullYear();
   const { footer } = useThemeConfig();
-  const {
-    siteConfig: {
-      customFields: { algolia },
-    },
-  } = useDocusaurusContext();
-  useEffect(() => {
-    const id = document.getElementById(GLOBAL_SEARCH_ID);
-    if (!id) {
-      const script = document.createElement("script");
-      script.id = GLOBAL_SEARCH_ID;
-      script.src = "https://cdn.jsdelivr.net/npm/@docsearch/js@3";
-      script.async = true;
-      script.onload = () => {
-        setSearch();
-      };
-      document.body.appendChild(script);
-    } else {
-      setSearch();
-    }
-
-    function setSearch() {
-      if (ExecutionEnvironment.canUseDOM) {
-        const container = document.querySelector(
-          '[class^="navbarSearchContainer"]'
-        );
-        try {
-          if (window.docsearch) {
-            window.docsearch({
-              ...(algolia as any),
-              container,
-            });
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }
-  }, []);
   return (
     <footer className={clsx("footer", styles.footer)}>
       <Head>
         <script async src={useBaseUrl("/Koala/index.js")}></script>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
-        />
       </Head>
       <div className={clsx("footer-items", styles.footerItems)}>
         {(footer.links[0].items as any[])?.map((item, index) => {

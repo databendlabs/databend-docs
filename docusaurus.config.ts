@@ -22,13 +22,13 @@ const algolia = isCN
     appId: "FUCSAUXK2Q",
     apiKey: "0f200c10999f19584ec9e31b5caa9065",
     indexName: "databend",
-    contextualSearch: true,
+    contextualSearch: true
   }
   : {
     appId: "XA8ZCKIEYU",
     apiKey: "81e5ee11f82ed1c5de63ef7ea0551abf",
     indexName: "databend",
-    contextualSearch: true,
+    contextualSearch: false
   };
 
 const config: Config = {
@@ -74,7 +74,6 @@ const config: Config = {
     docsHomeLink,
     homeLink,
     cloudLink,
-    algolia,
     blogTags: ["weekly", "databend"],
     askBendUrl: isProduction ? ASKBEND_URL : "",
   },
@@ -213,7 +212,7 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     image: "img/logo/logo-no-text.png",
-    // algolia,
+    algolia,
     imageZoom: {
       selector: "article :not(a) > img",
     },
