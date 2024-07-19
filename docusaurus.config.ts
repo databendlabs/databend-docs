@@ -208,6 +208,13 @@ const config: Config = {
         },
       },
     ],
+    [
+      'vercel-analytics',
+      {
+        debug: true,
+        mode: 'auto',
+      },
+    ],
   ],
   themeConfig: {
     // Replace with your project's social card
