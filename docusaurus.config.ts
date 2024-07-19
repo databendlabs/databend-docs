@@ -209,12 +209,19 @@ const config: Config = {
       },
     ],
   ],
+  themes: ['@docusaurus/theme-mermaid'],
+  markdown: {
+    mermaid: true,
+  },
   themeConfig: {
     // Replace with your project's social card
     image: "img/logo/logo-no-text.png",
     algolia,
     imageZoom: {
       selector: "article :not(a) > img",
+    },
+    mermaid: {
+      theme: { dark: 'dark' }
     },
     announcementBar: {
       id: "announcementBar-2", // Increment on change
