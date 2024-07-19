@@ -7,9 +7,16 @@ function hasProtocolPrefix(str) {
   return str.startsWith("http://") || str.startsWith("https://");
 }
 export default function MDXA(props) {
+  if (props?.href?.includes("https://github.com/datafuselabs/databend/pull/")) {
+    return <Link {...props} />;
+  }
   if (hasProtocolPrefix(props?.href)) {
     return (
-      <Tooltip destroyTooltipOnHide overlayClassName={styles.tooltip} title="Open in the new tab">
+      <Tooltip
+        destroyTooltipOnHide
+        overlayClassName={styles.tooltip}
+        title="Open in the new tab"
+      >
         <span className={styles.linkWrap}>
           <a {...props} target="_blank" rel="noopener noreferrer" />
           <LinkSvg />
