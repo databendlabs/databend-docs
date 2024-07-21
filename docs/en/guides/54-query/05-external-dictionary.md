@@ -3,7 +3,7 @@ title: <External Dictionaries
 description: <This RFC proposes the implementation of an external dictionary feature in Databend to allow seamless access to data from external sources.>
 ---
 
-- RFC PR: [datafuselabs/databend#0000](https://github.com/datafuselabs/databend/pull/994)
+- RFC PR: [datafuselabs/databend#994](https://github.com/datafuselabs/databend/pull/994)
 - Tracking Issue: [datafuselabs/databend#15901](https://github.com/datafuselabs/databend/issues/15901)
 
 ## Summary
