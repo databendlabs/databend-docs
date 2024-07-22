@@ -1,12 +1,13 @@
 ---
 title: Uploading to Stage
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 Databend recommends two file upload methods for stages: [PRESIGN](/sql/sql-commands/ddl/stage/presign) and PUT/GET commands. These methods enable direct data transfer between the client and your storage, eliminating intermediaries and resulting in cost savings by reducing traffic between Databend and your storage.
 
-![Alt text](@site/docs/public/img/load/staging-file.png)
+![Alt text](/img/load/staging-file.png)
 
 The PRESIGN method generates a time-limited URL with a signature, which clients can use to securely initiate file uploads. This URL grants temporary access to the designated stage, allowing clients to directly transfer data without relying on Databend servers for the entire process, enhancing both security and efficiency.
 
@@ -28,6 +29,7 @@ PRESIGN UPLOAD @~/books.parquet;
 ```
 
 Result:
+
 ```
 ┌────────┬────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Name   │ Value                                                                                                              │
@@ -37,6 +39,7 @@ Result:
 │ url    │ https://s3.us-east-2.amazonaws.com/databend-toronto/stage/user/root/books.parquet?X-Amz-Algorithm...               │
 └────────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
+
 ```shell
 curl -X PUT -T books.parquet "https://s3.us-east-2.amazonaws.com/databend-toronto/stage/user/root/books.parquet?X-Amz-Algorithm=... ...
 ```
@@ -48,6 +51,7 @@ LIST @~;
 ```
 
 Result:
+
 ```
 ┌───────────────┬──────┬──────────────────────────────────────┬─────────────────────────────────┬─────────┐
 │ name          │ size │ md5                                  │ last_modified                   │ creator │
@@ -55,6 +59,7 @@ Result:
 │ books.parquet │  998 │ 88432bf90aadb79073682988b39d461c     │ 2023-06-27 16:03:51.000 +0000   │         │
 └───────────────┴──────┴──────────────────────────────────────┴─────────────────────────────────┴─────────┘
 ```
+
 </TabItem>
 
 <TabItem value="internal" label="Upload to Internal Stage">
@@ -62,11 +67,13 @@ Result:
 ```sql
 CREATE STAGE my_internal_stage;
 ```
+
 ```sql
 PRESIGN UPLOAD @my_internal_stage/books.parquet;
 ```
 
 Result:
+
 ```
 ┌─────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Name    │ Value                                                                                                                                                                                                                                                                                                                                                                                                                               │
@@ -88,6 +95,7 @@ LIST @my_internal_stage;
 ```
 
 Result:
+
 ```
 ┌──────────────────────────────────┬───────┬──────────────────────────────────────┬─────────────────────────────────┬─────────┐
 │ name                             │ size  │ md5                                  │ last_modified                  │ creator │
@@ -95,12 +103,13 @@ Result:
 │ books.parquet                    │   998 │ "88432bf90aadb79073682988b39d461c"     │ 2023-06-28 02:32:15.000 +0000  │         │
 └──────────────────────────────────┴───────┴──────────────────────────────────────┴─────────────────────────────────┴─────────┘
 ```
+
 </TabItem>
 <TabItem value="external" label="Upload to External Stage">
 
 ```sql
-CREATE STAGE my_external_stage 
-URL = 's3://databend' 
+CREATE STAGE my_external_stage
+URL = 's3://databend'
 CONNECTION = (
     ENDPOINT_URL = 'http://127.0.0.1:9000',
     aws_key_id = 'ROOTUSER',
@@ -111,8 +120,10 @@ CONNECTION = (
 ```sql
 PRESIGN UPLOAD @my_external_stage/books.parquet;
 ```
+
 Result:
-```
+
+````
 ┌─────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ Name    │ Value                                                                                                                                                                                                                                                                                                                             │
 ├─────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
@@ -122,7 +133,7 @@ Result:
 └─────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```shell
 curl -X PUT -T books.parquet "http://127.0.0.1:9000/databend/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ROOTUSER%2F20230628%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230628T040959Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=<signature...>"
-```
+````
 
 Check the staged file:
 
@@ -131,6 +142,7 @@ LIST @my_external_stage;
 ```
 
 Result:
+
 ```
 ┌───────────────┬──────┬──────────────────────────────────────┬─────────────────────────────────┬─────────┐
 │ name          │ size │ md5                                  │ last_modified                  │ creator │
@@ -138,6 +150,7 @@ Result:
 │ books.parquet │  998 │ "88432bf90aadb79073682988b39d461c"    │ 2023-06-28 04:13:15.178 +0000  │         │
 └───────────────┴──────┴──────────────────────────────────────┴─────────────────────────────────┴─────────┘
 ```
+
 </TabItem>
 </Tabs>
 
@@ -154,6 +167,7 @@ PUT fs:///Users/eric/Documents/books.parquet @~
 ```
 
 Result:
+
 ```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
@@ -169,6 +183,7 @@ LIST @~;
 ```
 
 Result:
+
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
@@ -188,7 +203,9 @@ CREATE STAGE my_internal_stage;
 ```sql
 PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage;
 ```
+
 Result:
+
 ```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
@@ -204,6 +221,7 @@ LIST @my_internal_stage;
 ```
 
 Result:
+
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
@@ -216,7 +234,7 @@ Result:
 <TabItem value="external" label="Upload to External Stage">
 
 ```
-CREATE STAGE my_external_stage 
+CREATE STAGE my_external_stage
     URL = 's3://databend'
     CONNECTION = (
         ENDPOINT_URL = 'http://127.0.0.1:9000',
@@ -230,6 +248,7 @@ PUT fs:///Users/eric/Documents/books.parquet @my_external_stage
 ```
 
 Result:
+
 ```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
@@ -245,6 +264,7 @@ LIST @my_external_stage;
 ```
 
 Result:
+
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
 │         name         │ ··· │     last_modified    │      creator     │
@@ -269,6 +289,7 @@ LIST @~;
 ```
 
 Result:
+
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
@@ -282,6 +303,7 @@ GET @~/ fs:///Users/eric/Downloads/fromStage/;
 ```
 
 Result:
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                      file                     │  status │
@@ -289,6 +311,7 @@ Result:
 │ /Users/eric/Downloads/fromStage/books.parquet │ SUCCESS │
 └─────────────────────────────────────────────────────────┘
 ```
+
 </TabItem>
 
 <TabItem value="internal" label="Download from Internal Stage">
@@ -298,6 +321,7 @@ LIST @my_internal_stage;
 ```
 
 Result:
+
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
@@ -311,6 +335,7 @@ GET @my_internal_stage/ fs:///Users/eric/Downloads/fromStage/;
 ```
 
 Result:
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                      file                     │  status │
@@ -318,6 +343,7 @@ Result:
 │ /Users/eric/Downloads/fromStage/books.parquet │ SUCCESS │
 └─────────────────────────────────────────────────────────┘
 ```
+
 </TabItem>
 <TabItem value="external" label="Download from External Stage">
 
@@ -326,6 +352,7 @@ LIST @my_external_stage;
 ```
 
 Result:
+
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
 │         name         │ ··· │     last_modified    │      creator     │
@@ -339,6 +366,7 @@ GET @my_external_stage/ fs:///Users/eric/Downloads/fromStage/;
 ```
 
 Result:
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                      file                     │  status │
@@ -346,5 +374,6 @@ Result:
 │ /Users/eric/Downloads/fromStage/books.parquet │ SUCCESS │
 └─────────────────────────────────────────────────────────┘
 ```
+
 </TabItem>
 </Tabs>

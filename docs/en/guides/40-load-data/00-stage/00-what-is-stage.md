@@ -2,7 +2,7 @@
 title: What is Stage?
 ---
 
-In Databend, a stage is a virtual location where data files reside. Files in a stage can be queried directly or loaded into a table. Alternatively, you can unload data from a table into a stage as a file. The beauty of using a stage is that you can access it for data loading and unloading as conveniently as you would with folders on your computer. Just as when you put a file in a folder, you don't necessarily need to know its exact location on your hard disk. When accessing a file in a stage, you only need to specify the stage name and the file name, such as `@mystage/mydatafile.csv`, rather than specifying its location in the bucket of your object storage. Similar to folders on your computer, you can create as many stages as you need in Databend. However, it's important to note that a stage cannot contain another stage. Each stage operates independently and does not encompass other stages. 
+In Databend, a stage is a virtual location where data files reside. Files in a stage can be queried directly or loaded into a table. Alternatively, you can unload data from a table into a stage as a file. The beauty of using a stage is that you can access it for data loading and unloading as conveniently as you would with folders on your computer. Just as when you put a file in a folder, you don't necessarily need to know its exact location on your hard disk. When accessing a file in a stage, you only need to specify the stage name and the file name, such as `@mystage/mydatafile.csv`, rather than specifying its location in the bucket of your object storage. Similar to folders on your computer, you can create as many stages as you need in Databend. However, it's important to note that a stage cannot contain another stage. Each stage operates independently and does not encompass other stages.
 
 Utilizing a stage for loading data also improves the efficiency of uploading, managing, and filtering your data files. With [BendSQL](../../30-sql-clients/00-bendsql/index.md), you can easily upload or download files to or from a stage using a single command. When loading data into Databend, you can directly specify a stage in the COPY INTO command, allowing the command to read and even filter data files from that stage. Similarly, when exporting data from Databend, you can dump your data files into a stage.
 
@@ -11,7 +11,7 @@ Utilizing a stage for loading data also improves the efficiency of uploading, ma
 Based on the actual storage location and accessibility, stages can be categorized into these types: Internal Stage, External Stage, and User Stage. The following table summarizes the characteristics of different stage types in Databend, including their storage locations, accessibility, and recommended usage scenarios:
 
 | Stage Type     | Storage Location                   | Accessibility                                   | When to Choose                                    |
-|----------------|------------------------------------|-------------------------------------------------|---------------------------------------------------|
+| -------------- | ---------------------------------- | ----------------------------------------------- | ------------------------------------------------- |
 | Internal Stage | Object storage where Databend sits | Accessible to all users within the organization | Suitable for shared data within the organization  |
 | External Stage | External object storage            | Accessible to all users within the organization | Ideal for integrating with external data sources  |
 | User Stage     | Object storage where Databend sits | Accessible only to the respective user          | Perfect for personal data files or temporary data |
@@ -27,17 +27,17 @@ CREATE STAGE my_internal_stage;
 
 ### External Stage
 
-An external stage enables you to specify an object storage location outside of where Databend resides. For instance, if you have datasets in a Google Cloud Storage container, you can create an external stage using that container. When creating an external stage, you must provide connection information for Databend to connect to the external location. 
+An external stage enables you to specify an object storage location outside of where Databend resides. For instance, if you have datasets in a Google Cloud Storage container, you can create an external stage using that container. When creating an external stage, you must provide connection information for Databend to connect to the external location.
 
 Below is an example of creating an external stage. Let's say you have datasets in an Amazon S3 bucket named `databend-doc`:
 
-![alt text](@site/docs/public/img/guides/external-stage.png)
+![alt text](/img/guides/external-stage.png)
 
 You can create an external stage with the [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) command to connect Databend to that bucket:
 
 ```sql
 -- Create an external stage named my_external_stage
-CREATE STAGE my_external_stage 
+CREATE STAGE my_external_stage
     URL = 's3://databend-doc'
     CONNECTION = (
         AWS_KEY_ID = '<YOUR-KEY-ID>',
@@ -75,7 +75,7 @@ LIST @~;
 Databend provides a variety of commands to assist you in managing stages and the files staged within them:
 
 | Command                                                      | Description                                                                                                                                                                                                                          | Applies to User Stage | Applies to Internal Stage | Applies to External Stage |
-|--------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|---------------------------|---------------------------|
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------- | ------------------------- | ------------------------- |
 | [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) | Creates an internal or external stage.                                                                                                                                                                                               | No                    | Yes                       | Yes                       |
 | [DROP STAGE](/sql/sql-commands/ddl/stage/ddl-drop-stage)     | Removes an internal or external stage.                                                                                                                                                                                               | No                    | Yes                       | Yes                       |
 | [DESC STAGE](/sql/sql-commands/ddl/stage/ddl-desc-stage)     | Shows the properties of an internal or external stage.                                                                                                                                                                               | No                    | Yes                       | Yes                       |

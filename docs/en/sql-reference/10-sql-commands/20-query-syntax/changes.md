@@ -1,13 +1,14 @@
 ---
 title: CHANGES
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.410"/>
 
 The CHANGES clause allows querying the change tracking metadata for a table within a defined time interval. Please note that the time interval must fall within the data retention period (defaulted to 24 hours). To define a time interval, use the `AT` keyword to specify a time point as the start of the interval, with the current time being applied as the default end of the interval. If you wish to specify a past time as the end of the interval, use the `END` keyword in conjunction with the `AT` keyword to set the interval.
 
-![alt text](../../../../public/img/sql/changes.png)
+![alt text](/img/sql/changes.png)
 
 ## Syntax
 
@@ -15,25 +16,25 @@ The CHANGES clause allows querying the change tracking metadata for a table with
 SELECT ...
 FROM ...
    CHANGES ( INFORMATION => { DEFAULT | APPEND_ONLY } )
-   AT ( { TIMESTAMP => <timestamp> | 
-          OFFSET => <time_interval> | 
-          SNAPSHOT => '<snapshot_id>' | 
+   AT ( { TIMESTAMP => <timestamp> |
+          OFFSET => <time_interval> |
+          SNAPSHOT => '<snapshot_id>' |
           STREAM => <stream_name> } )
 
-    [ END ( { TIMESTAMP => <timestamp> | 
-             OFFSET => <time_interval> | 
+    [ END ( { TIMESTAMP => <timestamp> |
+             OFFSET => <time_interval> |
              SNAPSHOT => '<snapshot_id>' } ) ]
 ```
 
-| Parameter   | Description                                                                                                                                                                                                                                              |
-|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| INFORMATION | Specifies the type of change tracking metadata to be retrieved. Can be set to either `DEFAULT` or `APPEND_ONLY`. `DEFAULT` returns all DML changes, including inserts, updates, and deletes. When set to `APPEND_ONLY`, only appended rows are returned. |
-| AT          | Specifies the starting point of the time interval for querying change tracking metadata.                                                                                                                                                                 |
-| END         | Optional parameter specifying the end point of the time interval for querying change tracking metadata. If not provided, the current time is used as the default end point.                                                                              |
-| TIMESTAMP   | Specifies a specific timestamp as the reference point for querying change tracking metadata.                                                                                                                                                             |
-| OFFSET      | Specifies a time interval in seconds relative to the current time as the reference point for querying change tracking metadata. It should be in the form of a negative integer, where the absolute value represents the time difference in seconds. For example, `-3600` represents traveling back in time by 1 hour (3,600 seconds).      |
-| SNAPSHOT    | Specifies a snapshot ID as the reference point for querying change tracking metadata.                                                                                                                                                                    |
-| STREAM      | Specifies a stream name as the reference point for querying change tracking metadata.                                                                                                                                                                    |
+| Parameter   | Description                                                                                                                                                                                                                                                                                                                           |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| INFORMATION | Specifies the type of change tracking metadata to be retrieved. Can be set to either `DEFAULT` or `APPEND_ONLY`. `DEFAULT` returns all DML changes, including inserts, updates, and deletes. When set to `APPEND_ONLY`, only appended rows are returned.                                                                              |
+| AT          | Specifies the starting point of the time interval for querying change tracking metadata.                                                                                                                                                                                                                                              |
+| END         | Optional parameter specifying the end point of the time interval for querying change tracking metadata. If not provided, the current time is used as the default end point.                                                                                                                                                           |
+| TIMESTAMP   | Specifies a specific timestamp as the reference point for querying change tracking metadata.                                                                                                                                                                                                                                          |
+| OFFSET      | Specifies a time interval in seconds relative to the current time as the reference point for querying change tracking metadata. It should be in the form of a negative integer, where the absolute value represents the time difference in seconds. For example, `-3600` represents traveling back in time by 1 hour (3,600 seconds). |
+| SNAPSHOT    | Specifies a snapshot ID as the reference point for querying change tracking metadata.                                                                                                                                                                                                                                                 |
+| STREAM      | Specifies a stream name as the reference point for querying change tracking metadata.                                                                                                                                                                                                                                                 |
 
 ## Enabling Change Tracking
 
@@ -76,9 +77,9 @@ INSERT INTO user_profiles VALUES (3, 'alex_wong', 'Data Analyst');
 
 ```sql
 -- Return all changes in user profiles captured in the stream
-SELECT * 
-FROM user_profiles 
-CHANGES (INFORMATION => DEFAULT) 
+SELECT *
+FROM user_profiles
+CHANGES (INFORMATION => DEFAULT)
 AT (STREAM => profile_updates);
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -90,9 +91,9 @@ AT (STREAM => profile_updates);
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- Return appended rows in user profiles captured in the stream
-SELECT * 
-FROM user_profiles 
-CHANGES (INFORMATION => APPEND_ONLY) 
+SELECT *
+FROM user_profiles
+CHANGES (INFORMATION => APPEND_ONLY)
 AT (STREAM => profile_updates);
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -106,7 +107,7 @@ AT (STREAM => profile_updates);
 
 ```sql
 -- Step 6: Take a snapshot of the user profile data.
-SELECT snapshot_id, timestamp 
+SELECT snapshot_id, timestamp
 FROM FUSE_SNAPSHOT('default', 'user_profiles');
 
 ┌───────────────────────────────────────────────────────────────┐
@@ -118,10 +119,10 @@ FROM FUSE_SNAPSHOT('default', 'user_profiles');
 │ 1225000916f44819a0d23178b2d0d1af │ 2024-04-10 02:50:14.500417 │
 └───────────────────────────────────────────────────────────────┘
 
-SELECT * 
-FROM user_profiles 
-CHANGES (INFORMATION => DEFAULT) 
-AT (SNAPSHOT => '1225000916f44819a0d23178b2d0d1af') 
+SELECT *
+FROM user_profiles
+CHANGES (INFORMATION => DEFAULT)
+AT (SNAPSHOT => '1225000916f44819a0d23178b2d0d1af')
 END (TIMESTAMP => '2024-04-10 02:51:39.399568'::TIMESTAMP);
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐

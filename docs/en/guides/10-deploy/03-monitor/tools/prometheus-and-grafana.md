@@ -68,7 +68,7 @@ The steps below describe how to install and deploy Prometheus using Docker.
 
    Check the value on the right of each instance. `1` means the instance is healthy, and `0` means that the scrape failed.
 
-   ![Prometheus up](@site/docs/public/img/tracing/prometheus-up.png)
+   ![Prometheus up](/img/tracing/prometheus-up.png)
 
 ### Step 3. Deploy Grafana
 
@@ -95,12 +95,12 @@ The steps below describe how to install and deploy Grafana using Docker.
 
    Please note that set the URL to `http://host.docker.internal:9090` for the data source.
 
-   ![Grafana data source](@site/docs/public/img/tracing/grafana-datasource.png)
+   ![Grafana data source](/img/tracing/grafana-datasource.png)
 
 4. Create dashboards.
 
    Databend recommend import the files in [datafuselabs/helm-charts - dashboards](https://github.com/datafuselabs/helm-charts/tree/main/dashboards) to create your dashboards. To do so, download the files first, then go to `http://0.0.0.0:3000/dashboard/import` to import the downloaded files one by one and select the `Prometheus` data source for each dashboard.
 
-   ![Grafana import query json](@site/docs/public/img/tracing/grafana-query-json.png)
+   ![Grafana import query json](/img/tracing/grafana-query-json.png)
 
-   ![Grafana query dashboard](@site/docs/public/img/tracing/grafana-query-dashboard.png)
+   ![Grafana query dashboard](/img/tracing/grafana-query-dashboard.png)

@@ -6,7 +6,7 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 Databend provides a variety of tools and commands that can help you load your data files into a table. Most of them are straightforward, meaning you can load your data with just a single command. Please note that your data files must be in one of the formats supported by Databend. See [Input & Output File Formats](/sql/sql-reference/file-format-options) for a list of supported file formats. The following is an overview of the data loading and unloading flows and their respective methods. Please refer to the topics in this chapter for detailed instructions.
 
-![Alt text](@site/docs/public/img/load/load-unload.jpeg)
+![Alt text](/img/load/load-unload.jpeg)
 
 This topic does not cover all of the available data loading methods, but it provides recommendations based on the location where your data files are stored. To find the recommended method and a link to the corresponding details page, toggle the block below:
 

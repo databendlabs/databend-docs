@@ -2,6 +2,7 @@
 title: "COPY INTO <table>"
 sidebar_label: "COPY INTO <table>"
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.466"/>
@@ -19,8 +20,8 @@ See also: [`COPY INTO <location>`](dml-copy-into-location.md)
 
 ```sql
 COPY INTO [<database_name>.]<table_name>
-     FROM { userStage | internalStage | externalStage | externalLocation | 
-            ( SELECT [<file_col> ... ] 
+     FROM { userStage | internalStage | externalStage | externalLocation |
+            ( SELECT [<file_col> ... ]
               FROM { userStage | internalStage | externalStage } ) }
 [ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
 [ PATTERN = '<regex_pattern>' ]
@@ -76,6 +77,7 @@ externalLocation ::=
         <connection_parameters>
   )
 ```
+
 For the connection parameters available for accessing Amazon S3-like storage services, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
@@ -207,7 +209,7 @@ copyOptions ::=
 ```
 
 | Parameter             | Description                                                                                                                                                                                                                                                                                                                                                                                                        | Required |
-|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
 | SIZE_LIMIT            | Specifies the maximum rows of data to be loaded for a given COPY statement. Defaults to `0` meaning no limits.                                                                                                                                                                                                                                                                                                     | Optional |
 | PURGE                 | If `True`, the command will purge the files in the stage after they are loaded successfully into the table. Default: `False`.                                                                                                                                                                                                                                                                                      | Optional |
 | FORCE                 | COPY INTO ensures idempotence by automatically tracking and preventing the reloading of files for a default period of 12 hours. This can be customized using the `load_file_metadata_expire_hours` setting to control the expiration time for file metadata.<br/>This parameter defaults to `False` meaning COPY INTO will skip duplicate files when copying data. If `True`, duplicate files will not be skipped. | Optional |
@@ -225,7 +227,7 @@ When importing large volumes of data, such as logs, it is recommended to set bot
 COPY INTO provides a summary of the data loading results with these columns:
 
 | Column           | Type    | Nullable | Description                                     |
-|------------------|---------|----------|-------------------------------------------------|
+| ---------------- | ------- | -------- | ----------------------------------------------- |
 | FILE             | VARCHAR | NO       | The relative path to the source file.           |
 | ROWS_LOADED      | INT     | NO       | The number of rows loaded from the source file. |
 | ERRORS_SEEN      | INT     | NO       | Number of error rows in the source file         |
@@ -237,7 +239,6 @@ If RETURN_FAILED_ONLY is set to True, the output will only contain the files tha
 ## Distributed COPY INTO
 
 The COPY INTO feature in Databend activates distributed execution automatically in cluster environments, enhancing data loading efficiency and scalability.
-
 
 ## Examples
 
@@ -254,6 +255,7 @@ COPY INTO mytable
     PATTERN = '.*[.]parquet'
     FILE_FORMAT = (TYPE = PARQUET);
 ```
+
   </TabItem>
   <TabItem value="internal" label="Internal Stage">
 
@@ -263,6 +265,7 @@ COPY INTO mytable
     PATTERN = '.*[.]parquet'
     FILE_FORMAT = (TYPE = PARQUET);
 ```
+
   </TabItem>
   <TabItem value="external" label="External Stage">
 
@@ -272,6 +275,7 @@ COPY INTO mytable
     PATTERN = '.*[.]parquet'
     FILE_FORMAT = (TYPE = PARQUET);
 ```
+
   </TabItem>
 </Tabs>
 
@@ -337,6 +341,7 @@ COPY INTO mytable
     )
     FILE_FORMAT = (type = CSV);
 ```
+
 </TabItem>
 
 <TabItem value="Remote Files" label="Remote Files">
@@ -349,6 +354,7 @@ COPY INTO mytable
     FILE_FORMAT = (type = CSV)
     ON_ERROR = continue;
 ```
+
 </TabItem>
 
 <TabItem value="IPFS" label="IPFS">
@@ -368,6 +374,7 @@ COPY INTO mytable
         SKIP_HEADER = 1
     );
 ```
+
 </TabItem>
 </Tabs>
 
@@ -407,6 +414,7 @@ COPY INTO mytable
         SKIP_HEADER = 1
     );
 ```
+
 Where `.*` is interpreted as zero or more occurrences of any character. The square brackets escape the period character `.` that precedes a file extension.
 
 To load from all the CSV files:
@@ -426,14 +434,14 @@ COPY INTO mytable
 
 When specifying the pattern for a file path including multiple folders, consider your matching criteria:
 
-- If you want to match a specific subpath following a prefix, include the prefix in the pattern (e.g., 'multi_page/') and then specify the pattern you want to match within that subpath (e.g., '_page_1').
+- If you want to match a specific subpath following a prefix, include the prefix in the pattern (e.g., 'multi_page/') and then specify the pattern you want to match within that subpath (e.g., '\_page_1').
 
 ```sql
 -- File path: parquet/multi_page/multi_page_1.parquet
 COPY INTO ... FROM @data/parquet/ PATTERN = 'multi_page/.*_page_1.*') ...
 ```
 
-- If you want to match any part of the file path that contains the desired pattern, use '.*' before and after the pattern (e.g., '.*multi_page_1.*') to match any occurrences of 'multi_page_1' within the path.
+- If you want to match any part of the file path that contains the desired pattern, use '.*' before and after the pattern (e.g., '.*multi_page_1.\*') to match any occurrences of 'multi_page_1' within the path.
 
 ```sql
 -- File path: parquet/multi_page/multi_page_1.parquet
@@ -449,7 +457,7 @@ Transaction Processing,Jim Gray,1992
 Readings in Database Systems,Michael Stonebraker,2004
 ```
 
-![Alt text](@site/docs/public/img/load/load-extra.png)
+![Alt text](/img/load/load-extra.png)
 
 By default, COPY INTO loads data into a table by matching the order of fields in the file to the corresponding columns in the table. It's essential to ensure that the data aligns correctly between the file and the table. For example,
 
@@ -500,7 +508,7 @@ COPY INTO books_with_extra_columns
 ```
 
 :::note
-Extra columns in a table can have default values specified by [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) or [ALTER TABLE COLUMN](../00-ddl/01-table/90-alter-table-column.md). If a default value is not explicitly set for an extra column, the default value associated with its data type will be applied. For instance, an integer-type column will default to 0 if no other value is specified. 
+Extra columns in a table can have default values specified by [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) or [ALTER TABLE COLUMN](../00-ddl/01-table/90-alter-table-column.md). If a default value is not explicitly set for an extra column, the default value associated with its data type will be applied. For instance, an integer-type column will default to 0 if no other value is specified.
 :::
 
 ### Example 6: Loading JSON with Custom Format
@@ -531,13 +539,13 @@ CREATE TABLE t
      id       INT,
      seq      VARCHAR,
      p_detail VARCHAR
-  ); 
+  );
 ```
 
 #### Step 3: Load with custom file format.
 
 ```sql
-COPY INTO t FROM @t_stage FILES=('data.csv') 
+COPY INTO t FROM @t_stage FILES=('data.csv')
 FILE_FORMAT=(FORMAT_NAME='my_csv_format');
 ```
 
@@ -576,9 +584,9 @@ error: APIError: ResponseError with 1006: EOF while parsing a value, pos 3 while
 To load without checking the JSON validity, set the option `DISABLE_VARIANT_CHECK` to `true` in the COPY INTO statement:
 
 ```sql
-COPY INTO t2 FROM @~/invalid_json_string.parquet 
-FILE_FORMAT = (TYPE = PARQUET) 
-DISABLE_VARIANT_CHECK = true 
+COPY INTO t2 FROM @~/invalid_json_string.parquet
+FILE_FORMAT = (TYPE = PARQUET)
+DISABLE_VARIANT_CHECK = true
 ON_ERROR = CONTINUE;
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────┐

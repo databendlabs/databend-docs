@@ -1,6 +1,7 @@
 ---
 title: MERGE
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.241"/>
@@ -9,7 +10,7 @@ Performs INSERT, UPDATE, or DELETE operations on rows within a target table, all
 
 The data source, which can be a subquery, is linked to the target data via a JOIN expression. This expression assesses whether each row in the source can find a match in the target table and then determines which type of clause (MATCHED or NOT MATCHED) it should move to in the next execution step.
 
-![Alt text](@site/docs/public/img/sql/merge-into-single-clause.jpeg)
+![Alt text](/img/sql/merge-into-single-clause.jpeg)
 
 A MERGE statement usually contains a MATCHED and / or a NOT MATCHED clause, instructing Databend on how to handle matched and unmatched scenarios. For a MATCHED clause, you have the option to choose between performing an UPDATE or DELETE operation on the target table. Conversely, in the case of a NOT MATCHED clause, the available choice is INSERT.
 
@@ -17,40 +18,39 @@ A MERGE statement usually contains a MATCHED and / or a NOT MATCHED clause, inst
 
 A MERGE statement can include multiple MATCHED and / or NOT MATCHED clauses, giving you the flexibility to specify different actions to be taken based on the conditions met during the MERGE operation.
 
-![Alt text](@site/docs/public/img/sql/merge-into-multi-clause.jpeg)
+![Alt text](/img/sql/merge-into-multi-clause.jpeg)
 
 If a MERGE statement includes multiple MATCHED clauses, a condition needs to be specified for each clause EXCEPT the last one. These conditions determine the criteria under which the associated operations are executed. Databend evaluates the conditions in the specified order. Once a condition is met, it triggers the specified operation, skips any remaining MATCHED clauses, then moves on to the next row in the source. If the MERGE statement also includes multiple NOT MATCHED clauses, Databend handles them in a similar way.
-
 
 ## Syntax
 
 ```sql
-MERGE INTO <target_table> 
+MERGE INTO <target_table>
     USING (SELECT ... ) [AS] <alias> ON <join_expr> { matchedClause | notMatchedClause } [ ... ]
 
 matchedClause ::=
-  WHEN MATCHED [ AND <condition> ] THEN 
-  { UPDATE SET <col_name> = <expr> [ , <col_name2> = <expr2> ... ] | UPDATE * | DELETE } 
+  WHEN MATCHED [ AND <condition> ] THEN
+  { UPDATE SET <col_name> = <expr> [ , <col_name2> = <expr2> ... ] | UPDATE * | DELETE }
 
 notMatchedClause ::=
-  WHEN NOT MATCHED [ AND <condition> ] THEN 
+  WHEN NOT MATCHED [ AND <condition> ] THEN
   { INSERT ( <col_name> [ , <col_name2> ... ] ) VALUES ( <expr> [ , ... ] ) | INSERT * }
 ```
 
 | Parameter | Description                                                                                                                                                                                                                                                                                                   |
-|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| UPDATE *  | Updates all columns of the matched row in the target table with values from the corresponding row in the source. This requires the column names between the source and target are consistent (though their order can be different) because during the update process, matching is done based on column names. |
-| INSERT *  | Inserts a new row into the target table with values from the source row.                                                                                                                                    |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UPDATE \* | Updates all columns of the matched row in the target table with values from the corresponding row in the source. This requires the column names between the source and target are consistent (though their order can be different) because during the update process, matching is done based on column names. |
+| INSERT \* | Inserts a new row into the target table with values from the source row.                                                                                                                                                                                                                                      |
 
 ## Output
 
 MERGE provides a summary of the data merge results with these columns:
 
-| Column                   | Description                                           |
-| -------------------------| ----------------------------------------------------- |
-| number of rows inserted  | Count of new rows added to the target table.          |
-| number of rows updated   | Count of existing rows modified in the target table.  |
-| number of rows deleted   | Count of rows deleted from the target table.          |
+| Column                  | Description                                          |
+| ----------------------- | ---------------------------------------------------- |
+| number of rows inserted | Count of new rows added to the target table.         |
+| number of rows updated  | Count of existing rows modified in the target table. |
+| number of rows deleted  | Count of rows deleted from the target table.         |
 
 ## Examples
 

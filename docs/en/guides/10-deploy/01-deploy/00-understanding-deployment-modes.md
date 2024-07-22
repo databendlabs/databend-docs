@@ -1,8 +1,7 @@
 ---
 title: Understanding Databend Deployments
 sidebar_label: Understanding Deployments
-description:
-  Describes Databend deployment modes
+description: Describes Databend deployment modes
 ---
 
 ## Databend Node Types
@@ -17,7 +16,7 @@ Please note that, when we mention "nodes," it refers to individual servers that 
 
 ## Deployment Modes
 
-Databend deployment provides two modes: standalone and cluster, each with different application scenarios and node configurations. 
+Databend deployment provides two modes: standalone and cluster, each with different application scenarios and node configurations.
 
 ### Standalone Deployment
 
@@ -46,11 +45,11 @@ The primary goal of a Query cluster is to ensure that the query processing speed
 
 #### Tenant Management
 
-A tenant refers to an entity or organization that utilizes the services or resources provided by a system. In Databend, a tenant is associated with a unique tenant ID, which serves as an identifier to differentiate and manage their data, users, and resources within Databend. 
+A tenant refers to an entity or organization that utilizes the services or resources provided by a system. In Databend, a tenant is associated with a unique tenant ID, which serves as an identifier to differentiate and manage their data, users, and resources within Databend.
 
 In the case of a query cluster, when a SQL request is received by a query node, the computational workload is efficiently distributed among query nodes that share the same tenant ID and cluster ID. Please note that query nodes with the same tenant ID but different cluster IDs provide a mechanism for workload isolation while still sharing the same data and user lists.
 
-![Alt text](@site/docs/public/img/deploy/tenantid.PNG)
+![Alt text](/img/deploy/tenantid.PNG)
 
 ## Deployment Environments
 
@@ -60,12 +59,12 @@ This topic provides information on the recommended hardware specifications for D
 
 Databend nodes can be deployed either on-premises servers or in the cloud. Databend is compatible with various public cloud platforms, such as Amazon EC2, Azure VMs, Tencent Cloud, and Alibaba Cloud. The table below outlines the recommended hardware specifications for servers running Databend nodes:
 
-| Hardware Specification  	| Standalone Mode  	| Cluster Mode (Meta Node) 	| Cluster Mode (Query Node) 	|
-|-------------------------	|------------------	|--------------------------	|---------------------------	|
-| CPU                     	| 16-cores or above	| 4-cores or above         	| 16-cores or above          	|
-| Memory                  	| 32 GB or above   	| 16 GB or above           	| 32 GB or above            	|
-| Data Disk (SSD)           | 200-600 GB       	| 100-200 GB               	| 100-200 GB                	|
-| Network Interface Card  	| 10 Gbps or above 	| 10 Gbps or above         	| 10 Gbps or above          	|
+| Hardware Specification | Standalone Mode   | Cluster Mode (Meta Node) | Cluster Mode (Query Node) |
+| ---------------------- | ----------------- | ------------------------ | ------------------------- |
+| CPU                    | 16-cores or above | 4-cores or above         | 16-cores or above         |
+| Memory                 | 32 GB or above    | 16 GB or above           | 32 GB or above            |
+| Data Disk (SSD)        | 200-600 GB        | 100-200 GB               | 100-200 GB                |
+| Network Interface Card | 10 Gbps or above  | 10 Gbps or above         | 10 Gbps or above          |
 
 ### Supported Object Storage
 

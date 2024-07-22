@@ -58,7 +58,7 @@ The SQL statements above connect the database `default` in Databend to your Mind
 SELECT * FROM databend_datasource.pollution_measurement LIMIT 10;
 ```
 
-![Alt text](@site/docs/public/img/integration/mindsdb-verify.png)
+![Alt text](/img/integration/mindsdb-verify.png)
 
 ### Step 3. Create a Predictor
 
@@ -99,7 +99,7 @@ WHERE (NO2 = 0.005)
 
 Output:
 
-![Alt text](@site/docs/public/img/integration/mindsdb-predict.png)
+![Alt text](/img/integration/mindsdb-predict.png)
 
 ## Tutorial-2: Integrating Databend Cloud with MindsDB
 
