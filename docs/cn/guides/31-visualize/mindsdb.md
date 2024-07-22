@@ -2,7 +2,7 @@
 title: MindsDB
 ---
 
-存储在数据库中的数据是一项宝贵的资产。[MindsDB](https://mindsdb.com/) 使您能够利用这些数据进行预测。它通过将机器学习引入数据库，加速了机器学习开发过程。借助 MindsDB，您无需其他平台即可构建、训练、优化和部署机器学习模型。
+存储在数据库中的数据是一项宝贵的资产。[MindsDB](https://mindsdb.com/) 使您能够利用数据并进行预测。它通过将机器学习引入数据库，加速了机器学习开发过程。借助 MindsDB，您无需其他平台即可构建、训练、优化和部署机器学习模型。
 
 Databend 和 Databend Cloud 都可以作为数据源与 MindsDB 集成，从而为 Databend 带来机器学习能力。以下教程展示了如何与 MindsDB 集成并进行数据预测，以 [首尔空气污染](https://www.kaggle.com/datasets/bappekim/air-pollution-in-seoul) 数据集为例。
 
@@ -58,7 +58,7 @@ parameters={
 SELECT * FROM databend_datasource.pollution_measurement LIMIT 10;
 ```
 
-![Alt text](@site/docs/public/img/integration/mindsdb-verify.png)
+![Alt text](/img/integration/mindsdb-verify.png)
 
 ### 步骤 3. 创建预测器
 
@@ -99,7 +99,7 @@ WHERE (NO2 = 0.005)
 
 输出：
 
-![Alt text](@site/docs/public/img/integration/mindsdb-predict.png)
+![Alt text](/img/integration/mindsdb-predict.png)
 
 ## 教程-2：将 Databend Cloud 与 MindsDB 集成
 

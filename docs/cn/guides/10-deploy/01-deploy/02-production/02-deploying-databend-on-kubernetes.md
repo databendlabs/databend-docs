@@ -8,7 +8,7 @@ description: 如何在 Kubernetes 上部署 Databend 查询集群。
 
 ## 部署架构
 
-![部署架构](@site/docs/public/img/deploy/k8s-deployment-arch.jpg)
+![部署架构](/img/deploy/k8s-deployment-arch.jpg)
 
 **场景描述**
 
@@ -22,7 +22,7 @@ import TabItem from '@theme/TabItem';
 
 - 规划您的部署。
 
-  在本示例中，您将部署一个由 3 个节点组成的 Databend Meta 集群，以及两个独立的 Databend Query 集群，每个集群也由 3 个节点组成。您应根据实际部署计划和使用场景管理和分配资源，以确保服务顺利运行。
+  在本示例中，您将部署一个包含 3 个节点的 Databend Meta 集群，以及两个独立的 Databend Query 集群，每个集群也包含 3 个节点。您应根据实际部署计划和使用场景管理和分配资源，以确保服务顺利运行。
 
   :::info 生产环境部署
   请参考 [部署环境](/guides/deploy/deploy/understanding-deployment-modes#deployment-environments) 为您的集群预留适当的资源。
@@ -55,7 +55,7 @@ import TabItem from '@theme/TabItem';
   - 其他受 [Apache OpenDAL](https://github.com/datafuselabs/opendal#services) 支持的存储服务
 
   :::tip 推荐的存储设置
-  [准备存储](/guides/deploy/deploy/production/preparing-storage) 提供了关于推荐存储设置的详细说明。
+  [准备存储](/guides/deploy/deploy/production/preparing-storage) 提供了详细的推荐存储设置说明。
   :::
 
   :::info 高级用户
@@ -233,7 +233,7 @@ data-databend-meta-2   Bound    pvc-08bd4ceb-15c2-47f3-a637-c1cc10441874   20Gi 
 
 ### 步骤 2. 部署 Databend Query 集群
 
-1. 创建一个带有内置用户 `databend:databend` 和集群名称 `example_cluster` 的 values 文件，包含 3 个节点。
+1. 创建一个包含内置用户 `databend:databend` 和集群名称 `example_cluster` 的 values 文件，包含 3 个节点。
 
 详细和默认值可在[文档](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-query/values.yaml)中查看
 
@@ -535,6 +535,18 @@ helm upgrade --install tenant1 databend/databend-query \
 ### 验证分布式查询工作
 
 ```sql
+❯ select * from system.clusters;
++------------------------+------------+------+------------------------------------------------------------------------------+
+| name                   | host       | port | version                                                                      |
++------------------------+------------+------+------------------------------------------------------------------------------+
+| TJoPIFqvwU6l6IuZzwVmj  | 10.42.0.29 | 9090 | v0.8.122-nightly-5d3a308(rust-1.67.0-nightly-2022-11-20T16:27:23.284298522Z) |
+| e7leCg352OPa7bIBTi3ZK  | 10.42.0.30 | 9090 | v0.8.122-nightly-5d3a308(rust-1.67.0-nightly-2022-11-20T16:27:23.284298522Z) |
+| uGD38DVaWDAnJV5jupK4p4 | 10.42.0.28 | 9090 | v0.8.122-nightly-5d3a308(rust-1.67.0-nightly-2022-11-20T16:27:23.284298522Z) |
++------------------------+------------+------+------------------------------------------------------------------------------+
+3 rows in set (0.009 sec)
+```
+
+```sql
 ❯ EXPLAIN SELECT max(number), sum(number) FROM numbers_mt(10000000000) GROUP BY number % 3, number % 4, number % 5 LIMIT 10;
 +-------------------------------------------------------------------------------------------------------------------------------------------+
 | explain                                                                                                                                   |
@@ -594,7 +606,7 @@ SELECT count(*) FROM t1;
 ## 监控 Meta 和 Query 集群
 
 :::info
-部署 Meta 和 Query 集群时，请注意应启用 `serviceMonitor`。
+部署 Meta 和 Query 集群时应注意启用 `serviceMonitor`。
 :::
 
 - 从以下地址下载 grafana 仪表板文件：[datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)。
@@ -603,21 +615,21 @@ SELECT count(*) FROM t1;
 
 - 在右上角选择 `+` 展开菜单，点击“导入仪表板”以导入仪表板，并上传两个下载的 JSON 文件。
 
-  ![Alt text](@site/docs/public/img/deploy/import-dashboard.png)
+  ![Alt text](/img/deploy/import-dashboard.png)
 
-- 然后你应该能看到两个仪表板：
+- 然后你应该会看到两个仪表板：
 
   - Databend Meta 运行时
 
-    ![Alt text](@site/docs/public/img/deploy/databend-meta-runtime.png)
+    ![Alt text](/img/deploy/databend-meta-runtime.png)
 
   - Databend Query 运行时
 
-    ![Alt text](@site/docs/public/img/deploy/databend-query-runtime.png)
+    ![Alt text](/img/deploy/databend-query-runtime.png)
 
 ## 下一步
 
 部署 Databend 后，你可能需要了解以下主题：
 
-- [加载 & 卸载数据](/guides/load-data)：在 Databend 中管理数据的导入/导出。
+- [加载 & 卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取洞察。
