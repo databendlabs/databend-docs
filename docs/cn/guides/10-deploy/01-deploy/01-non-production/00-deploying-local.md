@@ -1,3 +1,10 @@
+---
+title: Docker & Local Deployments
+---
+
+import StepsWrap from '@site/src/components/StepsWrap';
+import StepContent from '@site/src/components/Steps/step-content';
+
 ## 在 Docker 上部署
 
 在本指南中，您将使用 [Docker](https://www.docker.com/) 在 [Amazon EC2](https://aws.amazon.com/ec2/) Ubuntu 虚拟机上部署 Databend 和 [MinIO](https://min.io/) 进行容器化设置。
