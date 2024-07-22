@@ -1,6 +1,6 @@
 ---
-title: <External Dictionaries
-description: <This RFC proposes the implementation of an external dictionary feature in Databend to allow seamless access to data from external sources.>
+title: External Dictionaries
+description: This RFC proposes the implementation of an external dictionary feature in Databend to allow seamless access to data from external sources.
 ---
 
 - RFC PR: [datafuselabs/databend-docs#996](https://github.com/datafuselabs/databend-docs/pull/996)
@@ -166,11 +166,11 @@ pub struct TransformDictionary {
 
 Implement the transform method of the AsyncTransform Trait and call an external database to obtain dictionary data. The main process is shown in the following figure:
 
-![Flowchart of getting external data](/docs/public/img/rfc/20240721-external-dictionary/external-dictionary-1.png)
+![Flowchart of getting external data](/img/rfc/20240721-external-dictionary/external-dictionary-1.png)
 
 The execution process of the `dict_get` is summarized as follows:
 
-![Flowchart of the dict_get](/docs/public/img/rfc/20240721-external-dictionary/external-dictionary-2.png)
+![Flowchart of the dict_get](/img/rfc/20240721-external-dictionary/external-dictionary-2.png)
 
 ## Unresolved questions
 
