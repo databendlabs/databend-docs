@@ -170,11 +170,11 @@ pub struct TransformDictionary {
 
 Implement the `transform` method of the `AsyncTransform` trait and call an external database to obtain dictionary data. The main process is illustrated in the following diagram:
 
-<img src="/img/rfc/20240721-external-dictionary/external-dictionary-1.png" alt="Flowchart of getting external data" style={{zoom:"80%"}} />
+<img src="/docs/public/img/rfc/20240721-external-dictionary/external-dictionary-1.png" alt="Flowchart of getting external data" style={{zoom:"80%"}} />
 
 The execution process of the `dict_get` function is summarized in the following diagram:
 
-<img src="/img/rfc/20240721-external-dictionary/external-dictionary-2.png" alt="Flowchart of the dict_get" style={{zoom:"80%"}} />
+<img src="/docs/public/img/rfc/20240721-external-dictionary/external-dictionary-2.png" alt="Flowchart of the dict_get" style={{zoom:"80%"}} />
 
 ## Unresolved questions
 
