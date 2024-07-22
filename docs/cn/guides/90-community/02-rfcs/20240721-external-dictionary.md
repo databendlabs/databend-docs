@@ -170,11 +170,11 @@ pub struct TransformDictionary {
 
 实现`AsyncTransform`特性的`transform`方法，并调用外部数据库获取字典数据。主要过程如下图所示：
 
-<img src="/docs/public/img/rfc/20240721-external-dictionary/external-dictionary-1.png" alt="获取外部数据的流程图" style={{zoom:"80%"}} />
+<img src="/img/rfc/20240721-external-dictionary/external-dictionary-1.png" alt="获取外部数据的流程图" style={{zoom:"80%"}} />
 
 `dict_get`函数的执行过程总结如下图：
 
-<img src="/docs/public/img/rfc/20240721-external-dictionary/external-dictionary-2.png" alt="dict_get的流程图" style={{zoom:"80%"}} />
+<img src="/img/rfc/20240721-external-dictionary/external-dictionary-2.png" alt="dict_get的流程图" style={{zoom:"80%"}} />
 
 ## 未解决问题
 
