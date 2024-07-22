@@ -1,7 +1,6 @@
 ---
 title: 外部字典
 description: 本RFC提议在Databend中实现外部字典功能，以允许无缝访问来自外部数据源的数据。
-
 ---
 
 - RFC PR: [datafuselabs/databend-docs#996](https://github.com/datafuselabs/databend-docs/pull/996)
@@ -13,9 +12,9 @@ description: 本RFC提议在Databend中实现外部字典功能，以允许无�
 
 ## 动机
 
-在Databend中访问来自外部数据库（如MySQL）的数据通常需要导出MySQL数据集，然后将其导入Databend数据库。当处理大量信息时，这一过程变得繁琐，并且由于频繁更新可能导致不一致。
+在Databend中访问来自外部数据库（如MySQL）的数据通常需要先导出MySQL数据集，然后将其导入Databend数据库。当处理大量信息时，这一过程变得繁琐，并且由于频繁更新可能导致数据不一致。
 
-引入外部字典功能通过简化Databend与多种数据库系统之间的无缝集成，解决了这些挑战。通过字典创建，直接访问外部数据集实现了实时修改，同时简化了整体数据管理。
+引入外部字典功能解决了这些挑战，通过字典创建，Databend可以直接访问外部数据集，实现实时修改，同时简化整体数据管理。
 
 ## 指南级解释
 
@@ -63,13 +62,13 @@ DROP DICTIONARY user_info;
 
 ## 参考级解释
 
-DICTIONARY的相关元数据存储在Databend的meta模块中，并在执行SQL查询时用于检索必要信息。
+DICTIONARY的相关元数据存储在Databend的meta模块中，用于在执行SQL查询时检索必要信息。
 
 ### 使用protobuf编码数据
 
-Protocol Buffers（Protobuf）是一种高级数据序列化框架，为高性能计算环境提供了一系列优势。其功能包括以紧凑的二进制格式高效存储数据、快速序列化和反序列化过程、跨语言支持以及为数据结构提供定义良好的模式。因此，Databend使用Protobuf来编码数据并将二进制结果转换为数据库。
+Protocol Buffers（Protobuf）是一种高级数据序列化框架，特别适用于高性能计算环境。它提供了一系列优势，包括以紧凑的二进制格式高效存储数据、快速序列化和反序列化过程、跨语言支持以及为数据结构提供定义良好的模式。因此，Databend使用Protobuf来编码数据并将二进制结果转换到数据库中。
 
-一个体现该技术精髓的示例Protobuf结构如下：
+一个示例的Protobuf结构如下所示：
 
 ```protobuf
 syntax = "proto3";
@@ -82,10 +81,10 @@ message DictionaryMeta {
   string source = 2;
   //字典配置选项
   map<string, string> options = 3;
-  //表的架构，如列数据类型和其他元信息。
+  //表的架构，如列数据类型和其他元信息
   DataSchema schema = 4;
   //主键列的ID
-  u32 primary_column_id = 5; 
+  u32 primary_column_id = 5;
 }
 ```
 
@@ -106,20 +105,19 @@ pub struct DictionaryAsyncFunction {
     engine: DictionarySourceEngine,
     // 字典地址，例如：mysql://root:123@0.0.0.0:3306/default
     url: String,
-    // 从源表获取值的SQL。
-    // 例如：select name from user_info where id=1;
+    // 从源表获取值的SQL，例如：select name from user_info where id=1;
     query_sql: String,
     return_type: DataType,
-    //指定连接数据源的最大尝试时间。
+    //指定连接数据源的最大尝试时间
     connection_timeout: std::time::Duration,
-    //指定查询操作的最大执行时间。
+    //指定查询操作的最大执行时间
     query_timeout: std::time::Duration,
-    //用于存储查询可能需要的附加参数，例如SQL查询中的占位符值。
+    //用于存储查询可能需要的额外参数，如SQL查询中的占位符值
     params: Vec<ParameterValue>,
 }
 ```
 
-将`async_function`模块中的`AsyncFunction`重命名为`AsyncFunctionDesc`，以避免与AsyncFunction的逻辑和物理计划命名冲突。同时，包含`DictionaryAsyncFunction`。定义如下：
+将`async_function`模块中的`AsyncFunction`重命名为`AsyncFunctionDesc`，以避免与AsyncFunction的逻辑和物理计划命名冲突，并包含`DictionaryAsyncFunction`。定义如下：
 
 ```rust
 pub enum AsyncFunctionDesc {
@@ -168,13 +166,13 @@ pub struct TransformDictionary {
 }
 ```
 
-实现`AsyncTransform`特性的`transform`方法，并调用外部数据库获取字典数据。主要过程如下图所示：
+实现`AsyncTransform` trait的`transform`方法，并调用外部数据库获取字典数据。主要过程如下图所示：
 
-<img src="/img/rfc/20240721-external-dictionary/external-dictionary-1.png" alt="获取外部数据的流程图" style={{zoom:"80%"}} />
+<img src="/img/rfc/20240721-external-dictionary/external-dictionary-1.png" alt="获取外部数据的流程图" />
 
 `dict_get`函数的执行过程总结如下图：
 
-<img src="/img/rfc/20240721-external-dictionary/external-dictionary-2.png" alt="dict_get的流程图" style={{zoom:"80%"}} />
+<img src="/img/rfc/20240721-external-dictionary/external-dictionary-2.png" alt="dict_get的流程图" />
 
 ## 未解决问题
 
@@ -196,7 +194,7 @@ SOURCE(FILE(path './user_files/os.csv' format 'CommaSeparated')) -- 源配置
 
 2. 添加更多操作数据字典的函数，如`dict_get_or_default`、`dict_get_or_null`、`dict_has`等。
 
-   例如，`dict_get_or_default(dict_name, dict_field, dict_id, default_value)`包含一个额外的默认值参数，如果未找到目标数据则返回该值。
+   例如，`dict_get_or_default(dict_name, dict_field, dict_id, default_value)`包含一个额外的默认值参数，如果未找到目标数据则返回该默认值。
 
 3. 支持使用TOML格式配置内置字典。
 

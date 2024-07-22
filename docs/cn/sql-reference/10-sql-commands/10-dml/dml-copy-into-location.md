@@ -1,27 +1,27 @@
 ---
-title: "COPY INTO <location>"
-sidebar_label: "COPY INTO <location>"
-description: "使用 COPY INTO <location> 卸载数据"
+title: "COPY INTO <位置>"
+sidebar_label: "COPY INTO <位置>"
+description: "使用 COPY INTO <位置> 卸载数据"
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于: v1.2.296"/>
+<FunctionDescription description="引入或更新: v1.2.296"/>
 
-COPY INTO 允许您将数据从表或查询卸载到一个或多个文件中，这些文件位于以下任一位置：
+COPY INTO 允许您将数据从表或查询卸载到一个或多个文件中，这些文件可以位于以下位置之一：
 
-- 用户/内部/外部 Stage：请参阅 [什么是 Stage？](/guides/load-data/stage/what-is-stage) 了解 Databend 中的 Stage。
-- 存储服务中创建的桶或容器。
+- 用户/内部/外部阶段：了解 Databend 中的阶段，请参阅[什么是阶段？](/guides/load-data/stage/what-is-stage)。
+- 存储服务中创建的存储桶或容器。
 
-另请参见：[`COPY INTO <table>`](dml-copy-into-table.md)
+另请参阅：[`COPY INTO <表>`](dml-copy-into-table.md)
 
 ## 语法
 
 ```sql
 COPY INTO { internalStage | externalStage | externalLocation }
-FROM { [<database_name>.]<table_name> | ( <query> ) }
+FROM { [<数据库名>.]<表名> | ( <查询> ) }
 [ FILE_FORMAT = (
-         FORMAT_NAME = '<your-custom-format>'
+         FORMAT_NAME = '<您的自定义格式>'
          | TYPE = { CSV | TSV | NDJSON | PARQUET } [ formatTypeOptions ]
        ) ]
 [ copyOptions ]
@@ -32,13 +32,13 @@ FROM { [<database_name>.]<table_name> | ( <query> ) }
 ### internalStage
 
 ```sql
-internalStage ::= @<internal_stage_name>[/<path>]
+internalStage ::= @<内部阶段名>[/<路径>]
 ```
 
 ### externalStage
 
 ```sql
-externalStage ::= @<external_stage_name>[/<path>]
+externalStage ::= @<外部阶段名>[/<路径>]
 ```
 
 ### externalLocation
@@ -48,140 +48,140 @@ import TabItem from '@theme/TabItem';
 
 <Tabs groupId="externallocation">
 
-<TabItem value="Amazon S3 及兼容存储服务" label="Amazon S3 及兼容存储服务">
+<TabItem value="Amazon S3 类存储服务" label="Amazon S3 类存储服务">
 
 ```sql
 externalLocation ::=
-  's3://<bucket>[<path>]'
+  's3://<存储桶>[<路径>]'
   CONNECTION = (
-        <connection_parameters>
+        <连接参数>
   )
 ```
 
-有关访问 Amazon S3 及兼容存储服务的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问 Amazon S3 类存储服务的可用连接参数，请参阅[连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
-<TabItem value="Azure Blob Storage" label="Azure Blob Storage">
+<TabItem value="Azure Blob 存储" label="Azure Blob 存储">
 
 ```sql
 externalLocation ::=
-  'azblob://<container>[<path>]'
+  'azblob://<容器>[<路径>]'
   CONNECTION = (
-        <connection_parameters>
+        <连接参数>
   )
 ```
 
-有关访问 Azure Blob Storage 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问 Azure Blob 存储的可用连接参数，请参阅[连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
 <TabItem value="Google Cloud Storage" label="Google Cloud Storage">
 
 ```sql
 externalLocation ::=
-  'gcs://<bucket>[<path>]'
+  'gcs://<存储桶>[<路径>]'
   CONNECTION = (
-        <connection_parameters>
+        <连接参数>
   )
 ```
 
-有关访问 Google Cloud Storage 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问 Google Cloud Storage 的可用连接参数，请参阅[连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
-<TabItem value="阿里云 OSS" label="阿里云 OSS">
+<TabItem value="Alibaba Cloud OSS" label="Alibaba Cloud OSS">
 
 ```sql
 externalLocation ::=
-  'oss://<bucket>[<path>]'
+  'oss://<存储桶>[<路径>]'
   CONNECTION = (
-        <connection_parameters>
+        <连接参数>
   )
 ```
 
-有关访问阿里云 OSS 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问 Alibaba Cloud OSS 的可用连接参数，请参阅[连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
 <TabItem value="腾讯云对象存储" label="腾讯云对象存储">
 
 ```sql
 externalLocation ::=
-  'cos://<bucket>[<path>]'
+  'cos://<存储桶>[<路径>]'
   CONNECTION = (
-        <connection_parameters>
+        <连接参数>
   )
 ```
 
 有关访问腾讯云对象存储的可用连接参数，请参阅[连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
-<TabItem value="HDFS" label="HDFS">
+<TabItem value="Hadoop 分布式文件系统 (HDFS)" label="HDFS">
 
 ```sql
 externalLocation ::=
-  'hdfs://<endpoint_url>[<path>]'
+  'hdfs://<端点URL>[<路径>]'
   CONNECTION = (
-        <connection_parameters>
+        <连接参数>
   )
 ```
 
-有关访问 HDFS 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问 HDFS 的可用连接参数，请参阅[连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
 <TabItem value="WebHDFS" label="WebHDFS">
 
 ```sql
 externalLocation ::=
-  'webhdfs://<endpoint_url>[<path>]'
+  'webhdfs://<端点URL>[<路径>]'
   CONNECTION = (
-        <connection_parameters>
+        <连接参数>
   )
 ```
 
-有关访问 WebHDFS 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问 WebHDFS 的可用连接参数，请参阅[连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 </Tabs>
 
 ### FILE_FORMAT
 
-详情请参见 [输入与输出文件格式](../../00-sql-reference/50-file-format-options.md)。
+有关详细信息，请参阅[输入与输出文件格式](../../00-sql-reference/50-file-format-options.md)。
 
 ### copyOptions
 
 ```sql
 copyOptions ::=
   [ SINGLE = TRUE | FALSE ]
-  [ MAX_FILE_SIZE = <num> ]
+  [ MAX_FILE_SIZE = <数字> ]
 ```
 
-| 参数          | 描述                                                                                                         |
-| ------------- | ------------------------------------------------------------------------------------------------------------ |
-| SINGLE        | 当为 TRUE 时，命令将数据卸载到一个单独的文件中。默认值：FALSE。                                              |
-| MAX_FILE_SIZE | 要创建的每个文件的最大大小（以字节为单位）。<br />当`SINGLE`为 FALSE 时有效。默认值：67108864 字节（64MB）。 |
+| 参数          | 描述                                                                                                                     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| SINGLE        | 当为 TRUE 时，命令将数据卸载到一个单一文件中。默认值：FALSE。                                                           |
+| MAX_FILE_SIZE | 每个要创建的文件的最大大小（以字节为单位）。<br />在 `SINGLE` 为 FALSE 时有效。默认值：67108864 字节（64 MB）。 |
 
 ### DETAILED_OUTPUT
 
-确定是否应返回数据卸载的详细结果，默认值为`false`。更多信息，请参见 [输出](#输出)。
+确定是否应返回数据卸载的详细结果，默认值为 `false`。更多信息，请参阅[输出](#输出)。
 
 ## 输出
 
 COPY INTO 提供数据卸载结果的摘要，包含以下列：
 
-| 列            | 描述                                                 |
-| ------------- | ---------------------------------------------------- |
-| rows_unloaded | 成功卸载到目的地的行数。                             |
-| input_bytes   | 卸载操作期间从源表读取的数据的总大小，以字节为单位。 |
-| output_bytes  | 写入目的地的数据的总大小，以字节为单位。             |
+| 列            | 描述                                                                                   |
+| ------------- | -------------------------------------------------------------------------------------- |
+| rows_unloaded | 成功卸载到目标的行数。                                                                 |
+| input_bytes   | 从源表读取的数据总大小（以字节为单位）。                                               |
+| output_bytes  | 写入目标的数据总大小（以字节为单位）。                                                 |
 
-当`DETAILED_OUTPUT`设置为`true`时，COPY INTO 提供包含以下列的结果。这有助于定位卸载的文件，尤其是在使用`MAX_FILE_SIZE`将卸载的数据分成多个文件时。
+当 `DETAILED_OUTPUT` 设置为 `true` 时，COPY INTO 提供以下列的结果。这有助于定位卸载的文件，特别是在使用 `MAX_FILE_SIZE` 将卸载的数据分成多个文件时。
 
 | 列        | 描述                           |
 | --------- | ------------------------------ |
 | file_name | 卸载文件的名称。               |
-| file_size | 卸载文件的大小，以字节为单位。 |
+| file_size | 卸载文件的大小（以字节为单位）。 |
 | row_count | 卸载文件中包含的行数。         |
 
 ## 示例
 
-本节中提供的示例使用了以下表和数据：
+在本节中，提供的示例使用了以下表和数据：
 
 ```sql
 -- 创建示例表
@@ -205,15 +205,15 @@ VALUES
 ('Halifax', 403390);
 ```
 
-### 示例 1：卸载到内部 Stage
+### 示例 1：卸载到内部阶段
 
-本示例将数据卸载到内部 Stage：
+此示例将数据卸载到内部阶段：
 
 ```sql
--- 创建内部Stage
+-- 创建内部阶段
 CREATE STAGE my_internal_stage;
 
--- 使用PARQUET文件格式将数据从表卸载到Stage
+-- 使用 PARQUET 文件格式将表数据卸载到阶段
 COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (TYPE = PARQUET);
@@ -235,13 +235,13 @@ LIST @my_internal_stage;
 
 ### 示例 2：卸载到压缩文件
 
-本示例将数据卸载到压缩文件：
+此示例将数据卸载到压缩文件：
 
 ```sql
--- 创建内部Stage
+-- 创建内部阶段
 CREATE STAGE my_internal_stage;
 
--- 使用CSV文件格式和gzip压缩将数据从表卸载到Stage
+-- 使用 CSV 文件格式和 gzip 压缩将表数据卸载到阶段
 COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (TYPE = CSV COMPRESSION = gzip);
@@ -260,11 +260,11 @@ LIST @my_internal_stage;
 │ data_7970afa5-32e3-4e7d-b793-e42a2a82a8e6_0000_00000000.csv.gz │    168 │ NULL             │ 2024-01-18 16:27:01.663 +0000 │ NULL             │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- COPY INTO 也支持自定义文件格式。请看下面：
--- 创建一个名为my_cs_gzip的自定义文件格式，使用CSV格式和gzip压缩
+-- COPY INTO 也适用于自定义文件格式。请参见下方：
+-- 创建名为 my_csv_gzip 的自定义文件格式，使用 CSV 格式和 gzip 压缩
 CREATE FILE FORMAT my_csv_gzip TYPE = CSV COMPRESSION = gzip;
 
--- 使用自定义文件格式my_cs_gzip将数据从表卸载到Stage
+-- 使用自定义文件格式 my_csv_gzip 将表数据卸载到阶段
 COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (FORMAT_NAME = 'my_csv_gzip');
@@ -285,12 +285,12 @@ LIST @my_internal_stage;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 示例 3：卸载到桶
+### 示例 3：卸载到存储桶
 
-本示例将数据卸载到一个名为'databend'的 MinIO 桶中：
+此示例将数据卸载到 MinIO 上的存储桶：
 
 ```sql
--- 使用PARQUET文件格式将数据从表卸载到一个名为'databend'的MinIO桶中
+-- 使用 PARQUET 文件格式将表数据卸载到 MinIO 上的名为 'databend' 的存储桶
 COPY INTO 's3://databend'
     CONNECTION = (
     ENDPOINT_URL = 'http://localhost:9000/',
@@ -301,17 +301,11 @@ COPY INTO 's3://databend'
     FROM canadian_city_population
     FILE_FORMAT = (TYPE = PARQUET);
 
-{/*examples*/}
-
-```
-
-```
 ┌────────────────────────────────────────────┐
 │ rows_unloaded │ input_bytes │ output_bytes │
 ├───────────────┼─────────────┼──────────────┤
-│ 10            │ 211         │ 572          │
+│            10 │         211 │          572 │
 └────────────────────────────────────────────┘
 ```
 
-![Alt text](@site/docs/public/img/sql/copy-into-bucket.png)
-
+![Alt text](/img/sql/copy-into-bucket.png)
