@@ -3,7 +3,7 @@ title: TO_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.538"/>
+<FunctionDescription description="Introduced or updated: v1.2.575"/>
 
 Converts an expression to a date with time.
 
@@ -135,9 +135,22 @@ SELECT TO_TIMESTAMP(1), TO_TIMESTAMP(-1);
 └───────────────────────────────────────────┘
 ```
 
-:::tip
+You can also convert an Integer string into a timestamp:
 
-Please note that a Timestamp value ranges from 1000-01-01 00:00:00.000000 to 9999-12-31 23:59:59.999999. Databend would return an error if you run the following statement:
+```sql
+SELECT TO_TIMESTAMP(TO_INT64('994518299'));
+
+┌─────────────────────────────────────┐
+│ to_timestamp(to_int64('994518299')) │
+├─────────────────────────────────────┤
+│ 2001-07-07 15:04:59                 │
+└─────────────────────────────────────┘
+```
+
+:::note
+- You can use `SELECT TO_TIMESTAMP('994518299', '%s')` for the conversion as well, but it is not recommended. For such conversions, Databend recommends using the method in the example above for better performance.
+
+- A Timestamp value ranges from 1000-01-01 00:00:00.000000 to 9999-12-31 23:59:59.999999. Databend would return an error if you run the following statement:
 
 ```bash
 root@localhost:8000/default> SELECT TO_TIMESTAMP(9999999999999999999);

@@ -4,7 +4,7 @@ description: Basic Date and Time data type.
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.564"/>
+<FunctionDescription description="Introduced or updated: v1.2.575"/>
 
 ## Date and Time Data Types
 
@@ -258,7 +258,7 @@ In Databend, certain date and time functions like [TO_DATE](../../20-sql-functio
 |       |                                  | DATE & TIME SPECIFIERS:                                                                                                                                                             |
 | %c    | Sun Jul 8 00:34:60 2001          | Locale’s date and time (e.g., Thu Mar 3 23:05:25 2005).                                                                                                                             |
 | %+    | 2001-07-08T00:34:60.026490+09:30 | ISO 8601 / RFC 3339 date & time format.                                                                                                                                             |
-| %s    | 994518299                        | UNIX timestamp, the number of seconds since 1970-01-01 00:00 UTC.                                                                                                                   |
+| %s    | 994518299                        | UNIX timestamp, the number of seconds since 1970-01-01 00:00 UTC. Databend recommends converting the Integer string into an Integer first, other than using this specifier. See [Converting Integer to Timestamp](/sql/sql-functions/datetime-functions/to-timestamp#example-2-converting-integer-to-timestamp) for an example.                                                                                                                   |
 |       |                                  | SPECIAL SPECIFIERS:                                                                                                                                                                 |
 | %t    |                                  | Literal tab (\t).                                                                                                                                                                   |
 | %n    |                                  | Literal newline (\n).                                                                                                                                                               |
