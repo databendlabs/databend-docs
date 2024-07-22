@@ -3,8 +3,6 @@ title: Docker & Local Deployments
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
-import GetLatest from '@site/src/components/GetLatest';
-import DetailsWrap from '@site/src/components/DetailsWrap';
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
