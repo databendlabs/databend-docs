@@ -1,6 +1,7 @@
 ---
 title: Virtual Column
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -12,7 +13,7 @@ A virtual column is a construct formed by extracting nested fields within [Varia
 
 - **Reduced Memory Usage**: Variant data often includes numerous internal fields, and reading all of them can lead to substantial memory consumption. By transitioning to reading virtual columns, there is a notable reduction in memory usage, mitigating the risk of potential memory overflows.
 
-![Alt text](@site/docs/public/img/sql/virtual-column.png)
+![Alt text](/img/sql/virtual-column.png)
 
 ## Managing Virtual Columns
 

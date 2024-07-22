@@ -8,7 +8,7 @@ This topic explains how to install and configure the Databend cluster on Kuberne
 
 ## Deployment Architecture
 
-![Deployment Architecture](@site/docs/public/img/deploy/k8s-deployment-arch.jpg)
+![Deployment Architecture](/img/deploy/k8s-deployment-arch.jpg)
 
 **Scenario Description**
 
@@ -605,17 +605,17 @@ Note the `serviceMonitor` should be enabled when deploying meta and query cluste
 
 - Select `+` on the upper right corner to expand the menu, click on "Import dashboard" to import the dashboard, and upload the two downloaded JSON files.
 
-  ![Alt text](@site/docs/public/img/deploy/import-dashboard.png)
+  ![Alt text](/img/deploy/import-dashboard.png)
 
 - Then you should see the two dashboard:
 
   - Databend Meta Runtime
 
-    ![Alt text](@site/docs/public/img/deploy/databend-meta-runtime.png)
+    ![Alt text](/img/deploy/databend-meta-runtime.png)
 
   - Databend Query Runtime
 
-    ![Alt text](@site/docs/public/img/deploy/databend-query-runtime.png)
+    ![Alt text](/img/deploy/databend-query-runtime.png)
 
 ## Next Steps
 

@@ -20,12 +20,12 @@ Make sure you can log in to your Databend Cloud account and obtain the connectio
 
 2. Click **+** to the right of **INTEGRATIONS** in the left sidebar, then select **ClickHouse**.
 
-![Alt text](@site/docs/public/img/integration/11.png)
+![Alt text](/img/integration/11.png)
 
 3. Complete the fields with your connection information.
 
 | Parameter        | Description                        |
-|------------------|------------------------------------|
+| ---------------- | ---------------------------------- |
 | Integration name | For example, `Databend`            |
 | Host name        | Obtain from connection information |
 | Port             | `443`                              |
@@ -36,8 +36,8 @@ Make sure you can log in to your Databend Cloud account and obtain the connectio
 
 5. In the notebook, navigate to the **SQL** section, and then choose the connection you previously created.
 
-![Alt text](@site/docs/public/img/integration/13.png)
+![Alt text](/img/integration/13.png)
 
 You're all set! Refer to the Deepnote documentation for how to work with the tool.
 
-![Alt text](@site/docs/public/img/integration/15.png)
+![Alt text](/img/integration/15.png)

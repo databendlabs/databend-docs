@@ -9,83 +9,83 @@ A task encapsulates specific SQL statements that are designed to be executed eit
 
 This topic breaks down the procedure of creating a task in Databend Cloud. In Databend Cloud, you create a task using the [CREATE TASK](/sql/sql-commands/ddl/task/ddl-create_task) command. When creating a task, follow the illustration below to design the workflow:
 
-![alt text](../../../../public/img/load/task.png)
+![alt text](/img/load/task.png)
 
 1. Set a name for the task.
 2. Specify a warehouse to run the task. To create a warehouse, see [Work with Warehouses](/guides/cloud/using-databend-cloud/warehouses).
 3. Determine how to trigger the task to run.
 
-    - You can schedule the task to run by specifying the interval in minutes or seconds, or by using a CRON expression with an optional time zone for more precise scheduling.
+   - You can schedule the task to run by specifying the interval in minutes or seconds, or by using a CRON expression with an optional time zone for more precise scheduling.
 
-  ```sql title='Examples:'
-  -- This task runs every 2 minutes
-  CREATE TASK mytask
-  WAREHOUSE = 'default'
-  // highlight-next-line
-  SCHEDULE = 2 MINUTE
-  AS ...
+```sql title='Examples:'
+-- This task runs every 2 minutes
+CREATE TASK mytask
+WAREHOUSE = 'default'
+// highlight-next-line
+SCHEDULE = 2 MINUTE
+AS ...
 
-  -- This task runs daily at midnight (local time) in the Asia/Tokyo timezone
-  CREATE TASK mytask
-  WAREHOUSE = 'default'
-  // highlight-next-line
-  SCHEDULE = USING CRON '0 0 0 * * *' 'Asia/Tokyo'
-  AS ...
-  ```
+-- This task runs daily at midnight (local time) in the Asia/Tokyo timezone
+CREATE TASK mytask
+WAREHOUSE = 'default'
+// highlight-next-line
+SCHEDULE = USING CRON '0 0 0 * * *' 'Asia/Tokyo'
+AS ...
+```
 
     - Alternatively, you can establish dependencies between tasks, setting the task as a child task in a [Directed Acyclic Graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph).
 
-  ```sql title='Examples:'
-  --  This task is dependent on the completion of the 'task_root' task in the DAG
-  CREATE TASK mytask
-  WAREHOUSE = 'default'
-  // highlight-next-line
-  AFTER task_root
-  AS ...
-  ```
+```sql title='Examples:'
+--  This task is dependent on the completion of the 'task_root' task in the DAG
+CREATE TASK mytask
+WAREHOUSE = 'default'
+// highlight-next-line
+AFTER task_root
+AS ...
+```
 
 4. Specify the condition under which the task will execute, allowing you to optionally control task execution based on a boolean expression.
 
-  ```sql title='Examples:'
-  -- This task runs every 2 minutes and executes the SQL after AS only if 'mystream' contains data changes
-  CREATE TASK mytask
-  WAREHOUSE = 'default'
-  SCHEDULE = 2 MINUTE
-  // highlight-next-line
-  WHEN STREAM_STATUS('mystream') = TRUE
-  AS ...
-  ```
+```sql title='Examples:'
+-- This task runs every 2 minutes and executes the SQL after AS only if 'mystream' contains data changes
+CREATE TASK mytask
+WAREHOUSE = 'default'
+SCHEDULE = 2 MINUTE
+// highlight-next-line
+WHEN STREAM_STATUS('mystream') = TRUE
+AS ...
+```
 
 5. Specify what to do if the task results in an error, including options such as setting the number of consecutive failures to suspend the task and specifying the notification integration for error notifications. For more information about setting an error notification, see [Configuring Notification Integrations](#configuring-notification-integrations).
 
-  ```sql title='Examples:'
-  --  This task will suspend after 3 consecutive failures
-  CREATE TASK mytask
-  WAREHOUSE = 'default'
-  // highlight-next-line
-  SUSPEND_TASK_AFTER_NUM_FAILURES = 3
-  AS ...
+```sql title='Examples:'
+--  This task will suspend after 3 consecutive failures
+CREATE TASK mytask
+WAREHOUSE = 'default'
+// highlight-next-line
+SUSPEND_TASK_AFTER_NUM_FAILURES = 3
+AS ...
 
-  -- This task will utilize the 'my_webhook' integration for error notifications.
-  CREATE TASK mytask
-  WAREHOUSE = 'default'
-  // highlight-next-line
-  ERROR_INTEGRATION = 'my_webhook'
-  AS ...
-  ```
+-- This task will utilize the 'my_webhook' integration for error notifications.
+CREATE TASK mytask
+WAREHOUSE = 'default'
+// highlight-next-line
+ERROR_INTEGRATION = 'my_webhook'
+AS ...
+```
 
 6. Specify the SQL statement the task will execute.
 
-  ```sql title='Examples:'
-  -- This task updates the 'age' column in the 'employees' table, incrementing it by 1 every year.
-  CREATE TASK mytask
-  WAREHOUSE = 'default'
-  SCHEDULE = USING CRON '0 0 1 1 * *' 'UTC'
-  // highlight-next-line
-  AS
-  UPDATE employees
-  SET age = age + 1;
-  ```
+```sql title='Examples:'
+-- This task updates the 'age' column in the 'employees' table, incrementing it by 1 every year.
+CREATE TASK mytask
+WAREHOUSE = 'default'
+SCHEDULE = USING CRON '0 0 1 1 * *' 'UTC'
+// highlight-next-line
+AS
+UPDATE employees
+SET age = age + 1;
+```
 
 ## Configuring Notification Integrations
 
@@ -127,7 +127,7 @@ Before configuring error notifications for a task, you must create a notificatio
 
 1. Open the [Webhook.site](http://webhook.site) in your web browser, and obtain the URL of your Webhook.
 
-![alt text](../../../../public/img/load/webhook-1.png)
+![alt text](/img/load/webhook-1.png)
 
 2. In Databend Cloud, create a notification integration, and then create a task with the notification integration:
 
@@ -156,7 +156,7 @@ ALTER TASK my_task RESUME;
 
 3. Wait for a moment, and you'll notice that your webhook starts to receive the payload from the created task.
 
-![alt text](../../../../public/img/load/webhook-2.png)
+![alt text](/img/load/webhook-2.png)
 
 ## Usage Examples
 

@@ -22,7 +22,7 @@ Follow these steps to add the Databend JDBC driver to DBeaver:
 | Default Port | 8000                                                         | 443                                                          |
 | Default User | root                                                         | cloudapp                                                     |
 
-![Alt text](@site/docs/public/img/integration/jdbc-new-driver.png)
+![Alt text](/img/integration/jdbc-new-driver.png)
 ![Alt text](@site/static/img/documents/develop/jdbc-new-driver.png)
 
 3. On the **Libraries** tab, click **Add Artifact**, then copy and paste the following to the **Dependency Declaration** textbox:

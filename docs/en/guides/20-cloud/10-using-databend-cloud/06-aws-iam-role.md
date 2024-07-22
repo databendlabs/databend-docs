@@ -44,7 +44,7 @@ With AWS IAM Role, you can access your own AWS S3 buckets in Databend Cloud. Thi
 
    Click `Create role`, and select `Custom trust policy` in `Trusted entity type`:
 
-   ![Create Role](../../../../public/img/cloud/iam/create-role.png)
+   ![Create Role](/img/cloud/iam/create-role.png)
 
    Input the the trust policy document:
 
