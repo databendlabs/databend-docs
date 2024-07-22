@@ -289,7 +289,7 @@ SELECT
 
 </StepContent>
 
-<StepContent number="
+<StepContent number="">
 
 1. 配置管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。在此示例中，取消以下行的注释以选择此账户：
 
