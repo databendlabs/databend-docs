@@ -23,7 +23,7 @@ To quickly access Databend features and gain practical expertise, you have the f
 
 In this guide, you will deploy Databend along with [MinIO](https://min.io/) using [Docker](https://www.docker.com/) for a containerized setup on an [Amazon EC2](https://aws.amazon.com/ec2/) Ubuntu virtual machine.
 
-![Alt text](@site/docs/public/img/deploy/docker-deploy.png)
+![Alt text](/img/deploy/docker-deploy.png)
 
 <StepsWrap>
 <StepContent number="1">
@@ -34,11 +34,11 @@ Before you start, launch an instance on Amazon EC2 and install the Docker engine
 
 1. Log into the [Amazon EC2 console](https://console.aws.amazon.com/ec2/), and launch an Ubuntu instance with a memory capacity of at least 8 GiB. Once the instance is up, you can find the public IP address and the private IP address assigned to the instance on the instance details page.
 
-![Alt text](@site/docs/public/img/deploy/docker-instance.png)
+![Alt text](/img/deploy/docker-instance.png)
 
 2. Create a security group, and add an inbound rule to allow access to your instance through port `9001`, then add the security group to the instance.
 
-![Alt text](@site/docs/public/img/deploy/docker-create-sg.png)
+![Alt text](/img/deploy/docker-create-sg.png)
 
 3. Connect to your instance. There are many ways to connect to your instance from a local machine. For more information, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html.
 
@@ -95,11 +95,11 @@ STARTUP WARNINGS:
 
 3. Open your web browser on your local machine and visit the MinIO console using the WebUI address shown in the logs above (replace the IP address with your instance's public IP address). For example, if your instance's public IP address is `3.142.131.212`, then your MinIO console address would be `http://3.142.131.212:9001`.
 
-![Alt text](@site/docs/public/img/deploy/docker-minio.png)
+![Alt text](/img/deploy/docker-minio.png)
 
 4. Log into the MinIO console with the credentials `ROOTUSER`/`CHANGEME123`, and create a bucket named `databend`.
 
-![Alt text](@site/docs/public/img/deploy/docker-bucket.png)
+![Alt text](/img/deploy/docker-bucket.png)
 
 </StepContent>
 

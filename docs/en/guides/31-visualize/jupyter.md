@@ -4,7 +4,7 @@ title: Jupyter Notebook
 
 [Jupyter Notebook](https://jupyter.org) is a web-based interactive application that enables you to create notebook documents that feature live code, interactive plots, widgets, equations, images, etc., and share these documents easily. It is also quite versatile as it can support many programming languages via kernels such as Julia, Python, Ruby, Scala, Haskell, and R.
 
-With the SQLAlchemy library in Python or [ipython-sql](https://github.com/catherinedevlin/ipython-sql), you can establish a connection to Databend and Databend Cloud within a Jupyter Notebook, allowing you to execute queries and visualize your data from Databend directly in the notebook. 
+With the SQLAlchemy library in Python or [ipython-sql](https://github.com/catherinedevlin/ipython-sql), you can establish a connection to Databend and Databend Cloud within a Jupyter Notebook, allowing you to execute queries and visualize your data from Databend directly in the notebook.
 
 Alternatively, you can run SQL queries in Python using the [Databend Python Binding](https://pypi.org/project/databend/) library, allowing you to harness DataBend's capabilities directly within your local Python environment or online services like Jupyter Notebook and Google Colab without the need to deploy a separate DataBend instance.
 
@@ -51,15 +51,15 @@ pip install pymysql
 jupyter notebook
 ```
 
-  This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
+This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
 
-![Alt text](@site/docs/public/img/integration/notebook-tree.png)
+![Alt text](/img/integration/notebook-tree.png)
 
 2. On the **Files** tab, navigate to the sample notebook you downloaded and open it.
 
 3. In the sample notebook, run the cells sequentially. By doing so, you create a table containing 5 rows in your local Databend, and visualize the data with a bar chart.
 
-![Alt text](@site/docs/public/img/integration/integration-gui-jupyter.png)
+![Alt text](/img/integration/integration-gui-jupyter.png)
 
 ## Tutorial-2: Integrating Databend with Jupyter Notebook using ipython-sql
 
@@ -104,9 +104,9 @@ pip install sqlalchemy
 jupyter notebook
 ```
 
-  This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
+This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
 
-![Alt text](@site/docs/public/img/integration/notebook-tree.png)
+![Alt text](/img/integration/notebook-tree.png)
 
 2. Select **New** > **Python 3** to create a notebook.
 
@@ -140,7 +140,7 @@ df.plot.bar(x='date', y='count')
 
 You can now see a bar chart on the notebook:
 
-![Alt text](@site/docs/public/img/integration/jupyter-ipython-sql.png)
+![Alt text](/img/integration/jupyter-ipython-sql.png)
 
 ## Tutorial-3: Integrating Databend with Jupyter Notebook with Python Binding Library
 
@@ -162,6 +162,7 @@ pip install notebook
 pip install databend
 pip install matplotlib
 ```
+
 ### Step 2. Create a Notebook
 
 1. Run the command below to start Jupyter Notebook:
@@ -170,9 +171,9 @@ pip install matplotlib
 jupyter notebook
 ```
 
-  This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
+This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
 
-![Alt text](@site/docs/public/img/integration/notebook-tree.png)
+![Alt text](/img/integration/notebook-tree.png)
 
 2. Select **New** > **Python 3** to create a notebook.
 
@@ -220,7 +221,7 @@ plt.show()
 
 You can now see a bar chart on the notebook:
 
-![Alt text](@site/docs/public/img/integration/localhost_8888_notebooks_Untitled.ipynb.png)
+![Alt text](/img/integration/localhost_8888_notebooks_Untitled.ipynb.png)
 
 ## Tutorial-4: Integrating Databend Cloud with Jupyter Notebook using ipython-sql
 
@@ -255,7 +256,7 @@ pip install sqlalchemy
 jupyter notebook
 ```
 
-  This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
+This will start up Jupyter and your default browser should start (or open a new tab) to the following URL: http://localhost:8888/tree
 
 ![Alt text](@site/static/img/documents/pricing-billing/notebook-tree.png)
 
@@ -272,8 +273,8 @@ import pandas as pd
 ```
 
 ```python
-engine = create_engine(f"databend://cloudapp:<your-password>@<your-host>:443/default?secure=true") 
-connection = engine.connect() 
+engine = create_engine(f"databend://cloudapp:<your-password>@<your-host>:443/default?secure=true")
+connection = engine.connect()
 ```
 
 ```python
@@ -292,6 +293,7 @@ df = pd.DataFrame(rows, columns=result.keys())
 df.plot.bar(x='date', y='count')
 plt.show()
 ```
+
 You can now see a bar chart on the notebook:
 
 ![Alt text](@site/static/img/documents/BI/jupyter-bar.png)

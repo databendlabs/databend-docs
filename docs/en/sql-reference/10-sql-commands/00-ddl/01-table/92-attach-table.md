@@ -2,6 +2,7 @@
 title: ATTACH TABLE
 sidebar_position: 6
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.549"/>
@@ -19,15 +20,15 @@ The attached table operates in READ_ONLY mode. In this mode, changes in the sour
 ## Syntax
 
 ```sql
-ATTACH TABLE <target_table_name> '<source_table_data_URI>' 
+ATTACH TABLE <target_table_name> '<source_table_data_URI>'
 CONNECTION = ( <connection_parameters> )
 ```
 
-- `<source_table_data_URI>` represents the path to the source table's data. For S3-like object storage, the format is `s3://<bucket-name>/<database_ID>/<table_ID>`, for example, *s3://databend-toronto/1/23351/*, which represents the exact path to the table folder within the bucket.
+- `<source_table_data_URI>` represents the path to the source table's data. For S3-like object storage, the format is `s3://<bucket-name>/<database_ID>/<table_ID>`, for example, _s3://databend-toronto/1/23351/_, which represents the exact path to the table folder within the bucket.
 
-  ![Alt text](@site/docs/public/img/sql/attach.png)
+  ![Alt text](/img/sql/attach.png)
 
-  To obtain the database ID and table ID of a table, use the [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md) function. In the example below, the part **1/23351/** in the value of *snapshot_location* indicates that the database ID is **1**, and the table ID is **23351**.
+  To obtain the database ID and table ID of a table, use the [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md) function. In the example below, the part **1/23351/** in the value of _snapshot_location_ indicates that the database ID is **1**, and the table ID is **23351**.
 
   ```sql
   SELECT * FROM FUSE_SNAPSHOT('default', 'employees');
@@ -85,7 +86,7 @@ SELECT * FROM FUSE_SNAPSHOT('default', 'population');
 
 When you access the bucket page on Amazon S3, you'll observe that the data is organized within the path `databend-toronto` > `1` > `556`, like this:
 
-![Alt text](@site/docs/public/img/sql/attach-table-2.png)
+![Alt text](/img/sql/attach-table-2.png)
 
 #### Step 3. Linking Table in Databend Cloud
 

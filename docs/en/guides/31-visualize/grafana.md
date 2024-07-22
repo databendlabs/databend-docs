@@ -44,8 +44,8 @@ rm /tmp/grafana-databend-datasource.zip
 
 5. Navigate to the **Plugins** page in the Grafana UI, for example, `http://localhost:3000/plugins`, and ensure the plugin is installed.
 
-![Plugins](@site/docs/public/img/integration/grafana-plugins.png)
-![Plugin detail](@site/docs/public/img/integration/grafana-plugin-detail.png)
+![Plugins](/img/integration/grafana-plugins.png)
+![Plugin detail](/img/integration/grafana-plugin-detail.png)
 
 ### Step 3. Create Data Source
 

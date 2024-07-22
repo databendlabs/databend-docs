@@ -4,7 +4,7 @@ title: Redash
 
 [Redash](https://redash.io/) is designed to enable anyone, regardless of the level of technical sophistication, to harness the power of data big and small. SQL users leverage Redash to explore, query, visualize, and share data from any data sources. Their work in turn enables anybody in their organization to use the data. Every day, millions of users at thousands of organizations around the world use Redash to develop insights and make data-driven decisions.
 
-Both Databend and Databend Cloud can integrate with Redash as a data source. The following tutorials guide you through deploying and integrating Redash. 
+Both Databend and Databend Cloud can integrate with Redash as a data source. The following tutorials guide you through deploying and integrating Redash.
 
 ## Tutorial-1: Integrating Databend with Redash
 
@@ -25,6 +25,7 @@ git clone https://github.com/getredash/redash.git
 cd redash
 touch .env && echo REDASH_COOKIE_SECRET=111 > .env
 ```
+
 2. Install dependencies and build the frontend project:
 
 :::note
@@ -39,12 +40,13 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 nvm install 14.16.1
 nvm use 14.16.1
 ```
+
 :::
 
 ```shell
 cd viz-lib & yarn install
 cd ..
-yarn install 
+yarn install
 yarn build
 ```
 
@@ -67,17 +69,17 @@ docker-compose up
 
 2. Select `Databend` from the list on **Settings** > **New Data Source**.
 
-![Alt text](@site/docs/public/img/integration/redash-select.png)
+![Alt text](/img/integration/redash-select.png)
 
 3. Configure your Databend data source.
 
-    - Username: `root`. No password is required if you log into a local instance of Databend with `root`.
-    - Host: `host.docker.internal`
-    - Port: `8000`
-    - Database: `default`
-    - Secure: Enable this option if you enabled HTTPS on your Databend server.
+   - Username: `root`. No password is required if you log into a local instance of Databend with `root`.
+   - Host: `host.docker.internal`
+   - Port: `8000`
+   - Database: `default`
+   - Secure: Enable this option if you enabled HTTPS on your Databend server.
 
-![Alt text](@site/docs/public/img/integration/redash-cfg-local.png)
+![Alt text](/img/integration/redash-cfg-local.png)
 
 4. Click **Create**, then **Test Connection** to see check if the connection is successful.
 
@@ -102,6 +104,7 @@ git clone https://github.com/getredash/redash.git
 cd redash
 touch .env && echo REDASH_COOKIE_SECRET=111 > .env
 ```
+
 2. Install dependencies and build the frontend project:
 
 :::note
@@ -116,12 +119,13 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 nvm install 14.16.1
 nvm use 14.16.1
 ```
+
 :::
 
 ```shell
 cd viz-lib & yarn install
 cd ..
-yarn install 
+yarn install
 yarn build
 ```
 
@@ -148,12 +152,12 @@ docker-compose up
 
 3. Configure your Databend data source.
 
-    - Username: `cloudapp`.
-    - Password: Copy and paste your password generated in Databend Cloud.
-    - Host: Copy and paste your host address generated in Databend Cloud.
-    - Port: `443`
-    - Database: `default`
-    - Secure: Enable this option.
+   - Username: `cloudapp`.
+   - Password: Copy and paste your password generated in Databend Cloud.
+   - Host: Copy and paste your host address generated in Databend Cloud.
+   - Port: `443`
+   - Database: `default`
+   - Secure: Enable this option.
 
 ![Alt text](@site/static/img/documents/BI/redash-cfg-cloud.png)
 

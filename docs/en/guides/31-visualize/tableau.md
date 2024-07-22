@@ -37,7 +37,7 @@ GRANT ALL ON *.* TO tableau;
 
 1. Launch Tableau Desktop and select **Other Database (JDBC)** in the sidebar. This opens a window as follows:
 
-![Alt text](@site/docs/public/img/integration/tableau-1.png)
+![Alt text](/img/integration/tableau-1.png)
 
 2. In the window that opens, provide the connection information and click **Sign In**.
 
@@ -50,7 +50,7 @@ GRANT ALL ON *.* TO tableau;
 
 3. When the Tableau workbook opens, select the database, schema, and tables that you want to query. For this tutorial, select _default_ for both **Database** and **Schema**.
 
-![Alt text](@site/docs/public/img/integration/tableau-2.png)
+![Alt text](/img/integration/tableau-2.png)
 
 You're all set! You can now drag tables to the work area to start your query and further analysis.
 
@@ -98,15 +98,15 @@ GRANT ALL ON *.* TO tableau;
 
 1. In Tableau Desktop, select **Databend JDBC by Databend, Inc.** on **To a Server** > **More...**.
 
-![Alt text](@site/docs/public/img/integration/tableau-connector-1.png)
+![Alt text](/img/integration/tableau-connector-1.png)
 
 2. In the window that opens, provide the connection information and click **Sign In**.
 
-![Alt text](@site/docs/public/img/integration/tableau-connector-2.png)
+![Alt text](/img/integration/tableau-connector-2.png)
 
 3. Select a database, then you can drag tables to the work area to start your query and further analysis.
 
-![Alt text](@site/docs/public/img/integration/tableau-connector-3.png)
+![Alt text](/img/integration/tableau-connector-3.png)
 
 ## Tutorial 3: Integrating with Databend Cloud
 

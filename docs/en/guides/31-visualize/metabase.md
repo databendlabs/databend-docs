@@ -2,13 +2,13 @@
 title: Metabase
 ---
 
-[Metabase](https://www.metabase.com/) is an open-source business intelligence platform. You can use Metabase to ask questions about your data, or embed Metabase in your app to let your customers explore their data on their own. 
+[Metabase](https://www.metabase.com/) is an open-source business intelligence platform. You can use Metabase to ask questions about your data, or embed Metabase in your app to let your customers explore their data on their own.
 
 Databend provides a JDBC driver named [Metabase Databend Driver](https://github.com/databendcloud/metabase-databend-driver/releases/latest), enabling you to connect to Metabase and dashboard your data in Databend / Databend Cloud. For more information about the Metabase Databend Driver, refer to https://github.com/databendcloud/metabase-databend-driver
 
 ## Downloading & Installing Metabase Databend Driver
 
-To download and install the Metabase Databend Driver: 
+To download and install the Metabase Databend Driver:
 
 1. Create a folder named **plugins** in the directory where the file **metabase.jar** is stored.
 
@@ -17,6 +17,7 @@ $ ls
 metabase.jar
 $ mkdir plugins
 ```
+
 2. [Download](https://github.com/databendcloud/metabase-databend-driver/releases/latest) the Metabase Databend Driver, then save it in the **plugins** folder.
 
 3. To start Metabase, run the following command:
@@ -27,7 +28,7 @@ java -jar metabase.jar
 
 ## Tutorial: Integrating with Metabase
 
-This tutorial guides you through the process of integrating Databend / Databend Cloud with Metabase using the Metabase Databend Driver. 
+This tutorial guides you through the process of integrating Databend / Databend Cloud with Metabase using the Metabase Databend Driver.
 
 ### Step 1. Set up Environment
 
@@ -56,7 +57,7 @@ docker run  -d -p 3000:3000 --name metabase metabase/metabase
 
 3. [Download](https://github.com/databendcloud/metabase-databend-driver/releases/latest) the Metabase Databend Driver, then import it to the **plugins** folder of the Metabase container in Docker.
 
-![Alt text](@site/docs/public/img/integration/add2plugins.gif)
+![Alt text](/img/integration/add2plugins.gif)
 
 4. Restart the Metabase container.
 
@@ -66,12 +67,12 @@ docker run  -d -p 3000:3000 --name metabase metabase/metabase
 
 2. Complete the initial sign-up process. Select **I'll add my data later** in step 3.
 
-![Alt text](@site/docs/public/img/integration/add-later.png)
+![Alt text](/img/integration/add-later.png)
 
 3. Click on the **gear** icon in the top right, and navigate to **Admin settings** > **Databases** > **Add a database** to create a connection:
 
 | Parameter                     | Databend               | Databend Cloud                     |
-|-------------------------------|------------------------|------------------------------------|
+| ----------------------------- | ---------------------- | ---------------------------------- |
 | Database type                 | `Databend`             | `Databend`                         |
 | Host                          | `host.docker.internal` | Obtain from connection information |
 | Port                          | `8000`                 | `443`                              |
@@ -83,4 +84,4 @@ docker run  -d -p 3000:3000 --name metabase metabase/metabase
 
 You're all set! You can now start creating a query and building a dashboard. For more information, please refer to the Metabase documentation: https://www.metabase.com/docs/latest/index.html
 
-![Alt text](@site/docs/public/img/integration/allset.png)
+![Alt text](/img/integration/allset.png)

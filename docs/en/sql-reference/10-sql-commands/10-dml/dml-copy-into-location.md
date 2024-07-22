@@ -1,17 +1,17 @@
 ---
-title: 'COPY INTO <location>'
-sidebar_label: 'COPY INTO <location>'
-description:
-  'Unload Data using COPY INTO <location>'
+title: "COPY INTO <location>"
+sidebar_label: "COPY INTO <location>"
+description: "Unload Data using COPY INTO <location>"
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.296"/>
 
 COPY INTO allows you to unload data from a table or query into one or more files in one of the following locations:
 
-* User / Internal / External stages: See [What is Stage?](/guides/load-data/stage/what-is-stage) to learn about stages in Databend.
-* Buckets or containers created in a storage service.
+- User / Internal / External stages: See [What is Stage?](/guides/load-data/stage/what-is-stage) to learn about stages in Databend.
+- Buckets or containers created in a storage service.
 
 See also: [`COPY INTO <table>`](dml-copy-into-table.md)
 
@@ -57,6 +57,7 @@ externalLocation ::=
         <connection_parameters>
   )
 ```
+
 For the connection parameters available for accessing Amazon S3-like storage services, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
@@ -151,9 +152,9 @@ copyOptions ::=
   [ MAX_FILE_SIZE = <num> ]
 ```
 
-| Parameter       | Description                                                                                                               |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------|
-| SINGLE        | When TRUE, the command unloads data into one single file. Default: FALSE.                                                 |
+| Parameter     | Description                                                                                                                     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| SINGLE        | When TRUE, the command unloads data into one single file. Default: FALSE.                                                       |
 | MAX_FILE_SIZE | The maximum size (in bytes) of each file to be created.<br />Effective when `SINGLE` is FALSE. Default: 67108864 bytes (64 MB). |
 
 ### DETAILED_OUTPUT
@@ -165,7 +166,7 @@ Determines whether a detailed result of the data unloading should be returned, w
 COPY INTO provides a summary of the data unloading results with these columns:
 
 | Column        | Description                                                                                   |
-|---------------|-----------------------------------------------------------------------------------------------|
+| ------------- | --------------------------------------------------------------------------------------------- |
 | rows_unloaded | The number of rows successfully unloaded to the destination.                                  |
 | input_bytes   | The total size, in bytes, of the data read from the source table during the unload operation. |
 | output_bytes  | The total size, in bytes, of the data written to the destination.                             |
@@ -173,7 +174,7 @@ COPY INTO provides a summary of the data unloading results with these columns:
 When `DETAILED_OUTPUT` is set to `true`, COPY INTO provides results with the following columns. This assists in locating the unloaded files, especially when using `MAX_FILE_SIZE` to separate the unloaded data into multiple files.
 
 | Column    | Description                                        |
-|-----------|----------------------------------------------------|
+| --------- | -------------------------------------------------- |
 | file_name | The name of the unloaded file.                     |
 | file_size | The size of the unloaded file in bytes.            |
 | row_count | The number of rows contained in the unloaded file. |
@@ -262,7 +263,7 @@ LIST @my_internal_stage;
 -- COPY INTO also works with custom file formats. See below:
 -- Create a custom file format named my_cs_gzip with CSV format and gzip compression
 CREATE FILE FORMAT my_csv_gzip TYPE = CSV COMPRESSION = gzip;
-       
+
 -- Unload data from the table to the stage using the custom file format my_cs_gzip
 COPY INTO @my_internal_stage
     FROM canadian_city_population
@@ -307,4 +308,4 @@ COPY INTO 's3://databend'
 └────────────────────────────────────────────┘
 ```
 
-![Alt text](@site/docs/public/img/sql/copy-into-bucket.png)
+![Alt text](/img/sql/copy-into-bucket.png)
