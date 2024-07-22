@@ -178,7 +178,6 @@ The execution process of the `dict_get` function is summarized in the following 
 
 ## Unresolved questions
 
-- In addition to supporting Protobuf file definitions, should XML file configuration also be supported?
 - Can algorithms be employed to improve the speed of data dictionary queries?
 
 ## Future possibilities
@@ -199,6 +198,7 @@ SOURCE(FILE(path './user_files/os.csv' format 'CommaSeparated')) -- Source confi
 
    For instance, `dict_get_or_default(dict_name, dict_field, dict_id, default_value)` includes an additional parameter for the default value to be returned if the target data is not found.
 
+3. Support configuring the built-in dictionary using the TOML format.
 
 ## Reference
 
