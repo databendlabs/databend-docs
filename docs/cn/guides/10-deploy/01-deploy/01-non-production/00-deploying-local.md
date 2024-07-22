@@ -10,8 +10,8 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 为了快速体验 Databend 的功能并获得实践经验，您可以选择以下部署方式：
 
-- [使用 Docker 部署](#deploying-databend-on-docker)：您可以在 Docker 上部署 Databend 以及 [MinIO](https://min.io/) 以实现容器化环境。
-- [本地机器部署](#deploying-a-local-databend)：如果对象存储不可用，您可以选择本地部署并使用文件系统作为存储。
+- [使用 Docker 部署](#deploying-databend-on-docker)：您可以在 Docker 上部署 Databend 以及 [MinIO](https://min.io/)，实现容器化部署。
+- [本地机器部署](#deploying-a-local-databend)：如果无法使用对象存储，您可以选择本地部署并使用文件系统作为存储。
 
 :::note 仅限非生产使用
 
@@ -19,11 +19,11 @@ import StepContent from '@site/src/components/Steps/step-content';
 - 本章节中涉及的 MinIO 部署仅适用于开发和演示。由于单机环境的资源有限，不建议用于生产环境或性能测试。
   :::
 
-## 在 Docker 上部署
+## 使用 Docker 部署
 
-在本指南中，您将在 [Amazon EC2](https://aws.amazon.com/ec2/) 的 Ubuntu 虚拟机上使用 [Docker](https://www.docker.com/) 部署 Databend 和 [MinIO](https://min.io/) 以实现容器化环境。
+在本指南中，您将在 [Amazon EC2](https://aws.amazon.com/ec2/) 的 Ubuntu 虚拟机上使用 [Docker](https://www.docker.com/) 部署 Databend 和 [MinIO](https://min.io/)，实现容器化部署。
 
-![Alt text](@site/docs/public/img/deploy/docker-deploy.png)
+![Alt text](/img/deploy/docker-deploy.png)
 
 <StepsWrap>
 <StepContent number="1">
@@ -32,15 +32,15 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 在开始之前，请在 Amazon EC2 上启动一个实例并安装 Docker 引擎。
 
-1. 登录 [Amazon EC2 控制台](https://console.aws.amazon.com/ec2/)，并启动一个至少具有 8 GiB 内存容量的 Ubuntu 实例。实例启动后，您可以在实例详细信息页面上找到分配给该实例的公有 IP 地址和私有 IP 地址。
+1. 登录 [Amazon EC2 控制台](https://console.aws.amazon.com/ec2/)，并启动一个至少具有 8 GiB 内存容量的 Ubuntu 实例。实例启动后，您可以在实例详细信息页面找到分配给实例的公有 IP 地址和私有 IP 地址。
 
-![Alt text](@site/docs/public/img/deploy/docker-instance.png)
+![Alt text](/img/deploy/docker-instance.png)
 
-2. 创建一个安全组，并添加一个入站规则以允许通过端口 `9001` 访问您的实例，然后将该安全组添加到实例中。
+2. 创建一个安全组，并添加一个入站规则以允许通过端口 `9001` 访问您的实例，然后将安全组添加到实例中。
 
-![Alt text](@site/docs/public/img/deploy/docker-create-sg.png)
+![Alt text](/img/deploy/docker-create-sg.png)
 
-3. 连接到您的实例。有多种方法可以从本地机器连接到您的实例。更多信息，请参阅 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html。
+3. 连接到您的实例。从本地机器连接到实例有多种方式。更多信息，请参阅 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html。
 
 4. 按照 [Docker 用户手册](https://docs.docker.com/engine/install/ubuntu/) 在您的实例上安装 Docker 引擎。
 
@@ -95,11 +95,11 @@ STARTUP WARNINGS:
 
 3. 在本地机器上打开您的网络浏览器，并使用上述日志中显示的 WebUI 地址访问 MinIO 控制台（将 IP 地址替换为您的实例的公有 IP 地址）。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，那么您的 MinIO 控制台地址将是 `http://3.142.131.212:9001`。
 
-![Alt text](@site/docs/public/img/deploy/docker-minio.png)
+![Alt text](/img/deploy/docker-minio.png)
 
 4. 使用凭证 `ROOTUSER`/`CHANGEME123` 登录 MinIO 控制台，并创建一个名为 `databend` 的存储桶。
 
-![Alt text](@site/docs/public/img/deploy/docker-bucket.png)
+![Alt text](/img/deploy/docker-bucket.png)
 
 </StepContent>
 
@@ -253,7 +253,7 @@ Connecting to 3.142.131.212:8000 as user databend.
 Connected to Databend Query v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:20:44.288903419Z)
 ```
 
-您已全部设置完毕！现在，您可以执行一个简单的查询来验证部署：
+您已准备就绪！现在，您可以执行一个简单的查询来验证部署：
 
 ```sql
 databend@3.142.131.212:8000/default> select now();
@@ -273,7 +273,7 @@ SELECT
 </StepContent>
 </StepsWrap>
 
-## 在本地机器上部署
+## 本地机器部署
 
 按照以下说明在本地机器上部署 Databend。
 
@@ -283,11 +283,15 @@ SELECT
 
 ### 下载 Databend
 
-1
+1. 从 [下载](/download) 页面下载适合您平台的安装包。
 
-### 启动 Databend
+2. 将安装包解压到本地目录。
 
-1. 配置管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。在此示例中，取消注释以下行以选择此账户：
+</StepContent>
+
+<StepContent number="
+
+1. 配置管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。在此示例中，取消以下行的注释以选择此账户：
 
 ```sql title="databend-query.toml"
 [[query.users]]
@@ -295,17 +299,17 @@ name = "root"
 auth_type = "no_password"
 ```
 
-2. 打开终端并导航到存储已解压文件和文件夹的目录。
+2. 打开终端并导航到存储解压文件和文件夹的目录。
 
-3. 在 **scripts** 文件夹中运行脚本 **start.sh**：
-   MacOS 可能会提示错误，指出“_databend-meta 无法打开，因为 Apple 无法检查其是否存在恶意软件_”。要继续操作，请在 Mac 上打开 **系统设置**，在左侧菜单中选择 **隐私与安全**，然后在右侧的 **安全** 部分中为 databend-meta 点击 **仍然打开**。对 databend-query 的错误执行相同操作。
+3. 在**scripts**文件夹中运行脚本**start.sh**：
+   MacOS 可能会提示错误，指出“_databend-meta 无法打开，因为 Apple 无法检查其是否存在恶意软件_”。要继续，请在 Mac 上打开**系统设置**，在左侧菜单中选择**隐私与安全**，然后在右侧的**安全**部分为 databend-meta 点击**打开**。对 databend-query 的错误执行相同操作。
 
 ```shell
 ./scripts/start.sh
 ```
 
 :::tip
-如果在尝试启动 Databend 时遇到以下错误消息：
+如果您在尝试启动 Databend 时遇到以下错误消息：
 
 ```shell
 ==> query.log <==
