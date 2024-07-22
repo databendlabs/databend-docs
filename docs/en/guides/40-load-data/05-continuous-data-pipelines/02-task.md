@@ -87,6 +87,12 @@ UPDATE employees
 SET age = age + 1;
 ```
 
+## Viewing Created Tasks
+
+To view all tasks created by your organization, log in to Databend Cloud and go to **Data** > **Task**. You can see detailed information for each task, including their status and schedules.
+
+To view the task run history, go to **Monitor** > **Task History**. You can see each run of tasks with their result, completion time, and other details.
+
 ## Configuring Notification Integrations
 
 Databend Cloud allows you to configure error notifications for a task, automating the process of sending notifications when an error occurs during the task execution. It currently supports Webhook integrations, facilitating seamless communication of error events to external systems or services in real-time.
