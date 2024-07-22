@@ -40,7 +40,7 @@ Before you start, launch an instance on Amazon EC2 and install the Docker engine
 
 ![Alt text](/img/deploy/docker-create-sg.png)
 
-3. Connect to your instance. There are many ways to connect to your instance from a local machine. For more information, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html.
+3. Connect to your instance. There are many ways to connect to your instance from a local machine. For more information, see [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html).
 
 4. Follow the [Docker User Manual](https://docs.docker.com/engine/install/ubuntu/) to install the Docker engine on your instance.
 
