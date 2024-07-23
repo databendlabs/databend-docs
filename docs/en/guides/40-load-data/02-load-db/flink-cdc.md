@@ -14,7 +14,7 @@ To download and install the Flink SQL connector for Databend, follow these steps
 
 1. Download and set up Flink: Before installing the Flink SQL connector for Databend, ensure that you have downloaded and set up Flink on your system. You can download Flink from the official website: https://flink.apache.org/downloads/
 
-2. Download the connector: Visit the releases page of the Flink SQL connector for Databend on GitHub: https://github.com/databendcloud/flink-connector-databend/releases. Download the latest version of the connector (e.g., flink-connector-databend-0.0.2.jar).
+2. Download the connector: Visit the releases page of the Flink SQL connector for Databend on GitHub: [https://github.com/databendcloud/flink-connector-databend/releases](https://github.com/databendcloud/flink-connector-databend/releases). Download the latest version of the connector (e.g., flink-connector-databend-0.0.2.jar).
 
    Please note that you can also compile the Flink SQL connector for Databend from source:
 
@@ -56,8 +56,8 @@ CREATE TABLE products (id INT NOT NULL, name VARCHAR(255) NOT NULL, description 
 ```
 
 2. Download [Flink](https://flink.apache.org/downloads/) and the following SQL connectors to your system:
-   - Flink SQL connector for Databend: https://github.com/databendcloud/flink-connector-databend/releases
-   - Flink SQL connector for MySQL: https://repo1.maven.org/maven2/com/ververica/flink-sql-connector-mysql-cdc/2.3.0/flink-sql-connector-mysql-cdc-2.3.0.jar
+   - Flink SQL connector for Databend: [https://github.com/databendcloud/flink-connector-databend/releases](https://github.com/databendcloud/flink-connector-databend/releases)
+   - Flink SQL connector for MySQL: [https://repo1.maven.org/maven2/com/ververica/flink-sql-connector-mysql-cdc/2.3.0/flink-sql-connector-mysql-cdc-2.3.0.jar](https://repo1.maven.org/maven2/com/ververica/flink-sql-connector-mysql-cdc/2.3.0/flink-sql-connector-mysql-cdc-2.3.0.jar)
 3. Move the both connector JAR files to the _lib_ folder in your Flink installation directory.
 4. Start Flink:
 
@@ -118,7 +118,7 @@ You can now open the Apache Flink Dashboard if you go to http://localhost:8081 i
         Welcome! Enter 'HELP;' to list all available commands. 'QUIT;' to exit.
 ```
 
-6. Set the checkpointing interval to 3 seconds, and create corresponding tables with MySQL and Databend connectors in the Flink SQL Client. For the available connection parameters, see https://github.com/databendcloud/flink-connector-databend#connector-options:
+6. Set the checkpointing interval to 3 seconds, and create corresponding tables with MySQL and Databend connectors in the Flink SQL Client. For the available connection parameters, see [https://github.com/databendcloud/flink-connector-databend#connector-options](https://github.com/databendcloud/flink-connector-databend#connector-options):
 
 ```sql
 Flink SQL> SET execution.checkpointing.interval = 3s;
