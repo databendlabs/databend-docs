@@ -10,7 +10,7 @@ Basically all robust database system needs to be tested in the following scope.
 1. Reasonable high level of unit test coverage.
 2. A large set of query logic tests.(**mainly discussed**)
 3. Distributed system related behavior tests.
-4. Performance tests (https://benchmark.databend.com/clickbench/release/hits.html)
+4. Performance tests [https://benchmark.databend.com/clickbench/release/hits.html](https://benchmark.databend.com/clickbench/release/hits.html)
 
 Currently, our test framework is based on the following design.
 
@@ -25,7 +25,7 @@ However, it has some shortages in current logic test which should be improved.
 
 ## Detailed design
 
-The test input is an extended version of sql logic test(https://www.sqlite.org/sqllogictest/)
+The test input is an extended version of sql logic test[https://www.sqlite.org/sqllogictest/](https://www.sqlite.org/sqllogictest/)
 
 The file is expressed in a domain specific language called test script. and it supports sql statements generate no output or statements intentionally has error
 
