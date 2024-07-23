@@ -12,7 +12,7 @@ function loadExclusions() {
     exclusions = fs
       .readFileSync(EXCLUSIONS_FILE, "utf-8")
       .split("\n")
-      .map((line) => path.join(__dirname, line.trim())) // 使用完整路径匹配
+      .map((line) => path.join(__dirname, line.trim()))
       .filter((line) => line !== "");
   } catch (err) {
     console.error(`Error reading exclusions file: ${err}`);
@@ -20,7 +20,6 @@ function loadExclusions() {
 }
 
 function isExcluded(cnFilePath) {
-  // 确保路径以统一的方式比较
   return exclusions.some((exclusion) => cnFilePath.startsWith(exclusion));
 }
 
