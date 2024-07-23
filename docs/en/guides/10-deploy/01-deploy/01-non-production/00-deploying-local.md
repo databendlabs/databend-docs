@@ -2,7 +2,6 @@
 title: Docker & Local Deployments
 ---
 
-import FunctionDescription from '@site/src/components/FunctionDescription';
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
