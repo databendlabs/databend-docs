@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "en-cn": "node sync_directories.js",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "generate-release-index": "node generate-release-index.js",
