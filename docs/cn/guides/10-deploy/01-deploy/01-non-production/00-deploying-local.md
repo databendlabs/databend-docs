@@ -8,7 +8,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 为了快速体验 Databend 的功能并获得实践经验，您可以选择以下部署方式：
 
-- [使用 Docker 部署](#deploying-databend-on-docker)：您可以在 Docker 上部署 Databend 以及 [MinIO](https://min.io/)，实现容器化部署。
+- [使用 Docker 部署](#deploying-databend-on-docker)：您可以在 Docker 上部署 Databend 以及 [MinIO](https://min.io/) 以实现容器化环境。
 - [本地机器部署](#deploying-a-local-databend)：如果无法使用对象存储，您可以选择本地部署并使用文件系统作为存储。
 
 :::note 仅限非生产使用
@@ -19,7 +19,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ## 使用 Docker 部署
 
-在本指南中，您将在 [Amazon EC2](https://aws.amazon.com/ec2/) 的 Ubuntu 虚拟机上使用 [Docker](https://www.docker.com/) 部署 Databend 和 [MinIO](https://min.io/)，实现容器化部署。
+在本指南中，您将在 [Amazon EC2](https://aws.amazon.com/ec2/) 的 Ubuntu 虚拟机上使用 [Docker](https://www.docker.com/) 部署 Databend 和 [MinIO](https://min.io/) 以实现容器化环境。
 
 ![Alt text](/img/deploy/docker-deploy.png)
 
@@ -241,7 +241,7 @@ Databend HTTP
 
 1. 在本地机器上安装 BendSQL。安装说明请参阅 [安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql)。
 
-2. 在本地机器上启动一个终端，然后运行命令 `bendsql -h <instance_public_ip> -u databend -p databend` 以建立与 Databend 的连接。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，命令将是 `bendsql -h 3.142.131.212 -u databend -p databend`。
+2. 在本地机器上启动终端，然后运行命令 `bendsql -h <instance_public_ip> -u databend -p databend` 以建立与 Databend 的连接。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，命令将是 `bendsql -h 3.142.131.212 -u databend -p databend`。
 
 ```shell
 bendsql -h 3.142.131.212 -u databend -p databend
@@ -251,7 +251,7 @@ Connecting to 3.142.131.212:8000 as user databend.
 Connected to Databend Query v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:20:44.288903419Z)
 ```
 
-您已准备就绪！现在，您可以执行一个简单的查询来验证部署：
+您已全部设置完毕！现在，您可以执行一个简单的查询来验证部署：
 
 ```sql
 databend@3.142.131.212:8000/default> select now();
@@ -298,7 +298,7 @@ auth_type = "no_password"
 2. 打开终端并导航到存储解压文件和文件夹的目录。
 
 3. 在**scripts**文件夹中运行脚本**start.sh**：
-   MacOS 可能会提示错误，指出“_databend-meta 无法打开，因为 Apple 无法检查其是否存在恶意软件_”。要继续，请在 Mac 上打开**系统设置**，在左侧菜单中选择**隐私与安全**，然后在右侧的**安全**部分为 databend-meta 点击**打开**。对 databend-query 的错误执行相同操作。
+   MacOS 可能会提示错误，指出“_databend-meta 无法打开，因为 Apple 无法检查其是否存在恶意软件_”。要继续操作，请在 Mac 上打开**系统设置**，在左侧菜单中选择**隐私与安全**，然后在右侧的**安全**部分为 databend-meta 点击**仍然打开**。对 databend-query 的错误执行相同操作。
 
 ```shell
 ./scripts/start.sh
@@ -369,7 +369,7 @@ SELECT
 ├────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z) │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 41B/s)
+1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 42B/s)
 ```
 
 </StepContent>
