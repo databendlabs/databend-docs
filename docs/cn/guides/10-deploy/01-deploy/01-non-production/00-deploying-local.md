@@ -1,58 +1,58 @@
 ---
-title: Docker & Local Deployments
+title: Docker 与本地部署
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-To quickly access Databend features and gain practical expertise, you have the following deployment options:
+为了快速体验 Databend 的功能并获得实践经验，您可以选择以下部署方式：
 
-- [Deploying with Docker](#deploying-databend-on-docker): You can deploy Databend along with [MinIO](https://min.io/) on Docker for a containerized setup.
-- [Deploying on Local Machine](#deploying-a-local-databend): You can opt for a local deployment and use the file system as storage if object storage is unavailable.
+- [使用 Docker 部署](#deploying-databend-on-docker)：您可以在 Docker 上部署 Databend 以及 [MinIO](https://min.io/)，实现容器化部署。
+- [本地机器部署](#deploying-a-local-databend)：如果无法使用对象存储，您可以选择本地部署并使用文件系统作为存储。
 
-:::note non-production use only
+:::note 仅限非生产使用
 
-- Object storage is a requirement for production use of Databend. The file system should only be used for evaluation, testing, and non-production scenarios.
-- The MinIO deployment covered in this chapter is only suitable for development and demonstration. Due to the limited resources in a single-machine environment, it is not recommended for production environments or performance testing.
+- 对象存储是 Databend 生产使用的必要条件。文件系统仅应用于评估、测试和非生产场景。
+- 本章节中涉及的 MinIO 部署仅适用于开发和演示。由于单机环境的资源有限，不建议用于生产环境或性能测试。
   :::
 
-## Deploying on Docker
+## 使用 Docker 部署
 
-In this guide, you will deploy Databend along with [MinIO](https://min.io/) using [Docker](https://www.docker.com/) for a containerized setup on an [Amazon EC2](https://aws.amazon.com/ec2/) Ubuntu virtual machine.
+在本指南中，您将在 [Amazon EC2](https://aws.amazon.com/ec2/) 的 Ubuntu 虚拟机上使用 [Docker](https://www.docker.com/) 部署 Databend 和 [MinIO](https://min.io/)，实现容器化部署。
 
 ![Alt text](/img/deploy/docker-deploy.png)
 
 <StepsWrap>
 <StepContent number="1">
 
-### Set up Environment
+### 设置环境
 
-Before you start, launch an instance on Amazon EC2 and install the Docker engine.
+在开始之前，请在 Amazon EC2 上启动一个实例并安装 Docker 引擎。
 
-1. Log into the [Amazon EC2 console](https://console.aws.amazon.com/ec2/), and launch an Ubuntu instance with a memory capacity of at least 8 GiB. Once the instance is up, you can find the public IP address and the private IP address assigned to the instance on the instance details page.
+1. 登录 [Amazon EC2 控制台](https://console.aws.amazon.com/ec2/)，并启动一个至少具有 8 GiB 内存容量的 Ubuntu 实例。实例启动后，您可以在实例详细信息页面上找到分配给该实例的公有 IP 地址和私有 IP 地址。
 
 ![Alt text](/img/deploy/docker-instance.png)
 
-2. Create a security group, and add an inbound rule to allow access to your instance through port `9001`, then add the security group to the instance.
+2. 创建一个安全组，并添加一个入站规则以允许通过端口 `9001` 访问您的实例，然后将该安全组添加到实例中。
 
 ![Alt text](/img/deploy/docker-create-sg.png)
 
-3. Connect to your instance. There are many ways to connect to your instance from a local machine. For more information, see [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html).
+3. 连接到您的实例。从本地机器连接到实例有多种方式。更多信息，请参阅 [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html)。
 
-4. Follow the [Docker User Manual](https://docs.docker.com/engine/install/ubuntu/) to install the Docker engine on your instance.
+4. 按照 [Docker 用户手册](https://docs.docker.com/engine/install/ubuntu/) 在您的实例上安装 Docker 引擎。
 
 </StepContent>
 <StepContent number="2">
 
-### Deploy MinIO
+### 部署 MinIO
 
-1. Pull and run the MinIO image as a container with the following command:
+1. 使用以下命令拉取并运行 MinIO 镜像作为容器：
 
 :::note
 
-- We change the console address to `9001` here to avoid port conflicts.
-- The command also sets the root user credentials (`ROOTUSER`/`CHANGEME123`) which you will need to provide for authentication in the next steps. If you make changes to the root user credentials at this point, ensure that you maintain consistency throughout the entire process.
+- 这里我们将控制台地址更改为 `9001` 以避免端口冲突。
+- 该命令还设置了根用户凭证 (`ROOTUSER`/`CHANGEME123`)，您需要在后续步骤中提供这些凭证进行身份验证。如果在此时更改了根用户凭证，请确保在整个过程中保持一致。
   :::
 
 ```shell
@@ -68,7 +68,7 @@ docker run -d \
    minio/minio server /data --console-address ":9001"
 ```
 
-2. Run the command `docker logs minio` to find the MinIO API and console (WebUI) addresses in the log message:
+2. 运行命令 `docker logs minio` 以在日志消息中找到 MinIO API 和控制台（WebUI）地址：
 
 ```shell
 docker logs minio
@@ -91,11 +91,11 @@ STARTUP WARNINGS:
 - The standard parity is set to 0. This can lead to data loss.
 ```
 
-3. Open your web browser on your local machine and visit the MinIO console using the WebUI address shown in the logs above (replace the IP address with your instance's public IP address). For example, if your instance's public IP address is `3.142.131.212`, then your MinIO console address would be `http://3.142.131.212:9001`.
+3. 在本地机器上打开您的网络浏览器，并使用上述日志中显示的 WebUI 地址访问 MinIO 控制台（将 IP 地址替换为您的实例的公有 IP 地址）。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，那么您的 MinIO 控制台地址将是 `http://3.142.131.212:9001`。
 
 ![Alt text](/img/deploy/docker-minio.png)
 
-4. Log into the MinIO console with the credentials `ROOTUSER`/`CHANGEME123`, and create a bucket named `databend`.
+4. 使用凭证 `ROOTUSER`/`CHANGEME123` 登录 MinIO 控制台，并创建一个名为 `databend` 的存储桶。
 
 ![Alt text](/img/deploy/docker-bucket.png)
 
@@ -103,15 +103,15 @@ STARTUP WARNINGS:
 
 <StepContent number="3">
 
-### Deploy Databend
+### 部署 Databend
 
-1. Pull and run the Databend image as a container with the following command:
+1. 使用以下命令拉取并运行 Databend 镜像作为容器：
 
 :::note
 
-- Replace the `AWS_S3_ENDPOINT` value with your MinIO API address as shown in the MinIO log message returned by `docker logs minio`.
-- When starting the Databend Docker container, you can specify the username and password using the environment variables `QUERY_DEFAULT_USER` and `QUERY_DEFAULT_PASSWORD`. If these variables are not provided, a default root user will be created without a password.
-- The command below also creates a SQL user (`databend`/`databend`) which you will need to use to connect to Databend later. If you make changes to the SQL user at this point, ensure that you maintain consistency throughout the entire process.
+- 将 `AWS_S3_ENDPOINT` 值替换为 `docker logs minio` 返回的 MinIO 日志消息中显示的 MinIO API 地址。
+- 启动 Databend Docker 容器时，可以使用环境变量 `QUERY_DEFAULT_USER` 和 `QUERY_DEFAULT_PASSWORD` 指定用户名和密码。如果未提供这些变量，将创建一个默认的 root 用户且无密码。
+- 下面的命令还创建了一个 SQL 用户 (`databend`/`databend`)，您稍后需要使用该用户连接到 Databend。如果在此时更改了 SQL 用户，请确保在整个过程中保持一致。
   :::
 
 ```shell
@@ -130,7 +130,7 @@ docker run -d \
     datafuselabs/databend
 ```
 
-2. Run the command `docker logs databend` to check the Databend log message and ensure the Databend container has started successfully:
+2. 运行命令 `docker logs databend` 以检查 Databend 日志消息，确保 Databend 容器已成功启动：
 
 ```shell
 docker logs databend
@@ -235,13 +235,13 @@ Databend HTTP
 
 <StepContent number="4">
 
-### Connect to Databend
+### 连接到 Databend
 
-In this step, you'll connect to Databend using [BendSQL](../../../30-sql-clients/00-bendsql/index.md) from your local machine.
+在这一步中，您将从本地机器使用 [BendSQL](../../../30-sql-clients/00-bendsql/index.md) 连接到 Databend。
 
-1. Install BendSQL to your local machine. For instructions, see [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql).
+1. 在本地机器上安装 BendSQL。安装说明请参阅 [安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql)。
 
-2. Launch a terminal on your local machine, then run the command `bendsql -h <instance_public_ip> -u databend -p databend` to establish a connection with Databend. For example, if your instance's public IP address is `3.142.131.212`, the command would be `bendsql -h 3.142.131.212 -u databend -p databend`.
+2. 在本地机器上启动一个终端，然后运行命令 `bendsql -h <instance_public_ip> -u databend -p databend` 以建立与 Databend 的连接。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，命令将是 `bendsql -h 3.142.131.212 -u databend -p databend`。
 
 ```shell
 bendsql -h 3.142.131.212 -u databend -p databend
@@ -251,7 +251,7 @@ Connecting to 3.142.131.212:8000 as user databend.
 Connected to Databend Query v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:20:44.288903419Z)
 ```
 
-You're all set! Now, you can execute a simple query to verify the deployment:
+您已准备就绪！现在，您可以执行一个简单的查询来验证部署：
 
 ```sql
 databend@3.142.131.212:8000/default> select now();
@@ -271,27 +271,23 @@ SELECT
 </StepContent>
 </StepsWrap>
 
-## Deploying on Local Machine
+## 本地机器部署
 
-Follow the instructions below to deploy Databend on your local machine.
+按照以下说明在您的本地机器上部署 Databend。
 
 <StepsWrap>
 
 <StepContent number="1">
 
-### Download Databend
+### 下载 Databend
 
-1. Download the installation package suitable for your platform from the [Download](/download) page.
+1. 从 [下载](/download) 页面下载适合您平台的安装包。
 
-2. Extract the installation package to a local directory.
+2. 将安装包解压到本地目录。
 
 </StepContent>
 
-<StepContent number="2">
-
-### Start Databend
-
-1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). For this example, uncomment the following lines to choose this account:
+1. 配置管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。在此示例中，取消以下行的注释以选择此账户：
 
 ```sql title="databend-query.toml"
 [[query.users]]
@@ -299,17 +295,17 @@ name = "root"
 auth_type = "no_password"
 ```
 
-2. Open a terminal and navigate to the folder where the extracted files and folders are stored.
+2. 打开终端并导航到存储解压文件和文件夹的目录。
 
-3. Run the script **start.sh** in the folder **scripts**:
-   MacOS might prompt an error saying "_databend-meta can't be opened because Apple cannot check it for malicious software._". To proceed, open **System Settings** on your Mac, select **Privacy & Security** on the left menu, and click **Open Anyway** for databend-meta in the **Security** section on the right side. Do the same for the error on databend-query.
+3. 在**scripts**文件夹中运行脚本**start.sh**：
+   MacOS 可能会提示错误，指出“_databend-meta 无法打开，因为 Apple 无法检查其是否存在恶意软件_”。要继续，请在 Mac 上打开**系统设置**，在左侧菜单中选择**隐私与安全**，然后在右侧的**安全**部分为 databend-meta 点击**打开**。对 databend-query 的错误执行相同操作。
 
 ```shell
 ./scripts/start.sh
 ```
 
 :::tip
-In case you encounter the subsequent error messages while attempting to start Databend:
+如果您在尝试启动 Databend 时遇到以下错误消息：
 
 ```shell
 ==> query.log <==
@@ -318,7 +314,7 @@ In case you encounter the subsequent error messages while attempting to start Da
 Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
 
-Run the following commands and try starting Databend again:
+请运行以下命令，然后再次尝试启动 Databend：
 
 ```shell
 sudo mkdir /var/log/databend
@@ -329,7 +325,7 @@ sudo chown -R $USER /var/lib/databend
 
 :::
 
-3. Run the following command to verify Databend has started successfully:
+3. 运行以下命令以验证 Databend 是否成功启动：
 
 ```shell
 ps aux | grep databend
@@ -344,11 +340,11 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 
 <StepContent number="3">
 
-### Connect to Databend
+### 连接到 Databend
 
-To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../../../30-sql-clients/00-bendsql/index.md).
+在这一步中，您将使用 BendSQL CLI 工具与 Databend 建立连接。有关如何安装和操作 BendSQL 的说明，请参阅 [BendSQL](../../../30-sql-clients/00-bendsql/index.md)。
 
-1. To establish a connection with a local Databend, execute the following command:
+1. 要与本地 Databend 建立连接，请执行以下命令：
 
 ```shell
 eric@Erics-iMac ~ % bendsql
@@ -359,7 +355,7 @@ Connected to DatabendQuery v1.2.252-nightly-193ed56304(rust-1.75.0-nightly-2023-
 root@localhost:8000/default>
 ```
 
-2. Query the Databend version to verify the connection:
+2. 查询 Databend 版本以验证连接：
 
 ```sql
 root@localhost> SELECT VERSION();
@@ -373,15 +369,15 @@ SELECT
 ├────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z) │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 42B/s)
+1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 41B/s)
 ```
 
 </StepContent>
 </StepsWrap>
 
-## Next Steps
+## 下一步
 
-After deploying Databend, you might need to learn about the following topics:
+部署 Databend 后，您可能需要了解以下主题：
 
-- [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
-- [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
+- [加载与卸载数据](/guides/load-data)：在 Databend 中管理数据的导入/导出。
+- [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取洞察。
