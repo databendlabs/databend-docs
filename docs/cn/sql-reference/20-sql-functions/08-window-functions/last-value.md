@@ -4,11 +4,11 @@ title: LAST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入版本: v1.2.568"/>
+<FunctionDescription description="引入或更新: v1.2.568"/>
 
-当使用 `IGNORE NULLS` 时，LAST_VALUE 函数返回窗口框架中最后一个非 NULL 值（如果所有值均为 NULL，则返回 NULL）。如果未指定，默认值为 RESPECT NULLS。
+返回窗口框架中的最后一个值。
 
-另请参阅：
+另请参阅:
 
 - [FIRST_VALUE](first-value.md)
 - [NTH_VALUE](nth-value.md)
@@ -16,10 +16,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
-LAST_VALUE(expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
+LAST_VALUE (expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-有关窗口框架的语法，请参阅 [窗口框架语法](index.md#window-frame-syntax)。
+- `[ { IGNORE | RESPECT } NULLS ]`: 此选项控制窗口函数中如何处理 NULL 值。默认情况下，使用 `RESPECT NULLS`，即 NULL 值包含在计算中并影响结果。当设置为 `IGNORE NULLS` 时，NULL 值被排除在外，函数仅对非 NULL 值进行操作。
+
+- 有关窗口框架的语法，请参阅 [窗口框架语法](index.md#window-frame-syntax)。
 
 ## 示例
 
@@ -53,7 +55,7 @@ employee_id | first_name | last_name | salary  | lowest_salary_first_name
 5           | Michael    | Brown     | 4500.00 | Michael
 ```
 
-### 使用 IGNORE NULLS 返回非 NULL 值
+此示例使用 `IGNORE NULLS` 选项从窗口框架中排除 NULL 值：
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES
@@ -86,5 +88,4 @@ FROM
 │     3 │       1 │              639 │              614 │
 │     4 │       1 │             2027 │              639 │
 └───────────────────────────────────────────────────────┘
-
 ```
