@@ -66,7 +66,7 @@ cd flink-16.0
 ./bin/start-cluster.sh
 ```
 
-You can now open the Apache Flink Dashboard if you go to http://localhost:8081 in your browser:
+You can now open the Apache Flink Dashboard if you go to [http://localhost:8081](http://localhost:8081) in your browser:
 
 ![Alt text](/img/load/cdc-dashboard.png)
 
