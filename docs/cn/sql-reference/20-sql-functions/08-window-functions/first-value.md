@@ -4,11 +4,11 @@ title: FIRST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入版本: v1.2.568"/>
+<FunctionDescription description="引入或更新: v1.2.568"/>
 
-当使用 `IGNORE NULLS` 时，FIRST_VALUE 函数返回窗口框架中第一个非 NULL 的值（如果所有值均为 NULL，则返回 NULL）。如果未指定，默认行为是 `RESPECT NULLS`。
+返回窗口框架中的第一个值。
 
-另请参阅：
+另请参阅:
 
 - [LAST_VALUE](last-value.md)
 - [NTH_VALUE](nth-value.md)
@@ -16,10 +16,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
-FIRST_VALUE(expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
+FIRST_VALUE (expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-有关窗口框架的语法，请参阅 [窗口框架语法](index.md#window-frame-syntax)。
+- `[ { IGNORE | RESPECT } NULLS ]`: 此选项控制窗口函数中如何处理 NULL 值。默认情况下，使用 `RESPECT NULLS`，即 NULL 值包含在计算中并影响结果。当设置为 `IGNORE NULLS` 时，NULL 值被排除在考虑之外，函数仅对非 NULL 值进行操作。
+
+- 有关窗口框架的语法，请参阅 [窗口框架语法](index.md#window-frame-syntax)。
 
 ## 示例
 
@@ -39,7 +41,7 @@ VALUES
   (4, 'Mary', 'Williams', 7000.00),
   (5, 'Michael', 'Brown', 4500.00);
 
--- 使用 FIRST_VALUE 获取工资最高的员工的名字
+-- 使用 FIRST_VALUE 检索薪水最高的员工的姓名
 SELECT employee_id, first_name, last_name, salary,
        FIRST_VALUE(first_name) OVER (ORDER BY salary DESC) AS highest_salary_first_name
 FROM employees;
@@ -55,7 +57,7 @@ employee_id | first_name | last_name | salary  | highest_salary_first_name
 
 ```
 
-### 使用 IGNORE NULLS 返回非 NULL 值
+此示例使用 `IGNORE NULLS` 选项从窗口框架中排除 NULL 值：
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES
@@ -88,5 +90,4 @@ FROM
 │     3 │       1 │              639 │              639 │
 │     4 │       1 │             2027 │              639 │
 └───────────────────────────────────────────────────────┘
-
 ```

@@ -4,9 +4,9 @@ title: FIRST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.2.568"/>
+<FunctionDescription description="Introduced or updated: v1.2.568"/>
 
-When `IGNORE NULLS` is used with FIRST_VALUE, the function returns the first value in the frame that is not NULL (or NULL if all values are NULL). If not specified, the default is RESPECT NULLS.
+Returns the first value in the window frame.
 
 See also:
 
@@ -16,10 +16,12 @@ See also:
 ## Syntax
 
 ```sql
-FIRST_VALUE(expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
+FIRST_VALUE (expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
+- `[ { IGNORE | RESPECT } NULLS ]`: This option controls how NULL values are handled within the window function. By default, `RESPECT NULLS` is used, meaning NULL values are included in the calculation and affect the result. When set to `IGNORE NULLS`, NULL values are excluded from consideration, and the function operates only on non-NULL values.
+
+- For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
 
 ## Examples
 
@@ -55,7 +57,7 @@ employee_id | first_name | last_name | salary  | highest_salary_first_name
 
 ```
 
-### Returning NON-NULLs with IGNORE NULLS
+This example excludes the NULL values from the window frame with the `IGNORE NULLS` option:
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES
@@ -88,5 +90,4 @@ FROM
 │     3 │       1 │              639 │              639 │
 │     4 │       1 │             2027 │              639 │
 └───────────────────────────────────────────────────────┘
-
 ```

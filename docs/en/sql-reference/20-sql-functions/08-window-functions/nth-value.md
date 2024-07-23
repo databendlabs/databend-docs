@@ -4,9 +4,9 @@ title: NTH_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.2.568"/>
+<FunctionDescription description="Introduced or updated: v1.2.568"/>
 
-Returns expr evaluated at the nth row (among rows with a non-null value of expr if `IGNORE NULLS` is set) of the window frame (counting from 1); NULL if no such row.
+Returns the value at the `N`-th position within the window frame, where `N` is a specified integer that determines the exact position of the value.
 
 See also:
 
@@ -16,10 +16,12 @@ See also:
 ## Syntax
 
 ```sql
-NTH_VALUE(expression, n) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
+NTH_VALUE (expression, n) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
+- `[ { IGNORE | RESPECT } NULLS ]`: This option controls how NULL values are handled within the window function. By default, `RESPECT NULLS` is used, meaning NULL values are included in the calculation and affect the result. When set to `IGNORE NULLS`, NULL values are excluded from consideration, and the function operates only on non-NULL values.
+
+- For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
 
 ## Examples
 
@@ -53,7 +55,7 @@ employee_id | first_name | last_name | salary  | second_highest_salary_first_nam
 5           | Michael    | Brown     | 4500.00 | Jane
 ```
 
-### Returning NON-NULLs with IGNORE NULLS
+This example excludes the NULL values from the window frame with the `IGNORE NULLS` option:
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES
@@ -86,5 +88,4 @@ FROM
 │     3 │       1 │              639 │             NULL │
 │     4 │       1 │             2027 │              639 │
 └───────────────────────────────────────────────────────┘
-
 ```
