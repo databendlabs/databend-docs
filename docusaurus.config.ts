@@ -225,7 +225,7 @@ const config: Config = {
           {
             tagName: 'meta',
             name: 'theme-color',
-            content: '#d675c3',
+            content: '#dbeafe',
           },
           {
             tagName: 'meta',
