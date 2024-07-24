@@ -1,0 +1,58 @@
+name: GPT Translate Sync
+
+on: workflow_dispatch
+
+permissions:
+  id-token: write
+  pull-requests: write
+  checks: write
+  statuses: write
+  contents: write
+
+jobs:
+  gpt_translate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Delete unsync files
+        id: delete_unsync
+        run: |
+            chmod +x ./scripts/delete_unsync.sh
+            source ./scripts/delete_unsync.sh
+        
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: ${{ github.actor }}
+          author_email: ${{ github.actor }}@users.noreply.github.com
+          message: 'chore: delete unsync files'
+          push: false
+
+      - name: Check missing files
+        id: check_missing
+        run: |
+            chmod +x ./scripts/check_missing.sh
+            source ./scripts/check_missing.sh
+            echo "missing_md_files=$(echo $missing_md_files | tr '\n' ' ')" >> $GITHUB_OUTPUT
+            echo "missing_json_files=$(echo $missing_json_files | tr '\n' ' ')" >> $GITHUB_OUTPUT
+  
+      - name: Log Missing Files
+        run: |
+            echo "Markdown Files Missing: ${{ steps.check_missing.outputs.missing_md_files }}"
+            echo "JSON Files Missing: ${{ steps.check_missing.outputs.missing_json_files }}"
+
+      - name: Run GPT Translate
+        uses: 3ru/gpt-translate@v1.1.11
+        with:
+          apikey: ${{ secrets.OPENAI_API_KEY }}
+          model: "deepseek-chat"
+          inputFiles: "${{ steps.check_missing.outputs.missing_md_files }} ${{ steps.check_missing.outputs.missing_json_files }}"
+          outputFiles: "docs/cn/**/*"
+          languages: "Simplified-Chinese"
+          prompt: "You are a translation engine that has knowledge of databases and is familiar with SQL, HTML, Markdown and JSON syntax. \ Databend is a cloud-native data warehouse and an alternative to Snowflake. \ I am translating the Databend documentation for helping users.\ Translate the Markdown or JSON content I'll paste later into {targetLanguage}.\ You must strictly follow the rules below.\ - Never change the Markdown markup structure. Don't add or remove links. Do not change any URL.\ - Never change the contents of code blocks even if they appear to have a bug.\ - Always preserve the original line breaks. Do not add or remove blank lines.\ - Never touch the permalink such as `{/*examples*/}` at the end of each heading.\ - Never touch HTML-like tags such as `<Notes>`.\ - Correctly format the document for best rendering. \  - Please do not translate database or computing-specific terms.\ -Keep the structure consistent with the source document and do not delete anything."
+          basePath: "https://api.deepseek.com"
