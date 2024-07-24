@@ -4,7 +4,7 @@ title: KILL
 
 强制终止当前正在运行的查询。
 
-另见：[SHOW PROCESSLIST](show-processlist.md)
+另请参阅：[SHOW PROCESSLIST](07-show-processlist.md)
 
 ## 语法
 
