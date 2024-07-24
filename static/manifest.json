@@ -1,0 +1,21 @@
+{
+  "short_name": "Docusaurus",
+  "name": "Docusaurus Documentation",
+  "icons": [
+    {
+      "src": "/img/logo/logo-no-text.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/logo/logo-no-text.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#f7f0eb",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#d675c3"
+}

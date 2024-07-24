@@ -201,7 +201,46 @@ const config: Config = {
           },
         },
       },
-    ]
+    ],
+    [
+      '@docusaurus/plugin-pwa',
+      {
+        debug: true,
+        offlineModeActivationStrategies: [
+          'appInstalled',
+          'standalone',
+          'queryString',
+        ],
+        pwaHead: [
+          {
+            tagName: 'link',
+            rel: 'icon',
+            href: '/img/logo/logo-no-text.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'manifest',
+            href: '/manifest.json',
+          },
+          {
+            tagName: 'meta',
+            name: 'theme-color',
+            content: '#d675c3',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-capable',
+            content: 'yes',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-status-bar-style',
+            content: 'black-translucent',
+          },
+        ],
+      },
+    ],
+
   ],
   themes: ['@docusaurus/theme-mermaid'],
   markdown: {
