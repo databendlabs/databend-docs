@@ -2,29 +2,20 @@
 title: Members
 ---
 
-## User Roles
+To view all the members in your organization, go to **Manage** > **Members**. This page provides a list of all members, including their email addresses, roles, join times, and last active times. If you're an `account_admin`, you can also change a member's role or remove a member from your organization.
 
-In Databend Cloud, user management is facilitated through roles. An organization within Databend Cloud is equipped with default roles, each serving distinct purposes:
+- The roles listed show the roles assigned to users when they were invited. While these roles can be changed on the page, they cannot be revoked using SQL. However, you can grant additional roles or privileges to users based on their email addresses. These user accounts, identified by their email addresses, can also function as SQL users in Databend Cloud. Example:
 
-- account_admin: Positioned at the apex of the role hierarchy, this role embodies the highest level of authority within an organization. It is intended for users who undertake the responsibilities of database administrators.
+    ```sql
+    GRANT ROLE writer to 'eric@databend.com';
+    GRANT SELECT ON *.* TO 'eric@databend.com';
+    ```
 
-- public: This role encompasses all users within the organization, providing a baseline level of access and permissions.
-
-Furthermore, Databend Cloud offers the capability to craft custom roles using SQL commands for a more nuanced and tailored user management approach. This empowers you with the flexibility to establish roles that align with specific requirements. For instance, roles can be devised to correspond to users' positions, thus establishing a hierarchical role structure for your organization:
-
-![Alt text](@site/static/img/documents/org-and-users/role.png)
-
-When inviting a new user, it's necessary to assign a role to them. You can also manage roles for all users in your organization through the **Manage** > **Members** page or by using SQL commands.
-
-:::note
-- The default roles within an organization are not editable or removable.
-
-- Only users assigned to the *account_admin* role can create roles and manage user roles for their organization.
-:::
+- The page does not display users created using SQL. To view the SQL users that have been created, use the [SHOW USERS](/sql/sql-commands/ddl/user/user-show-users) command.
 
 ## Inviting New Members
 
-In Databend Cloud, you can invite new members using their email addresses to join your organization. To do this, navigate to the **Manage** > **Members** page and click on **Invite New Member**. In the dialog box that appears, enter the user's email address and select a role from the list. This list includes both default roles and any custom roles created for your organization.
+To invite a new member to your organization, navigate to the **Manage** > **Members** page and click on **Invite New Member**. In the dialog box that appears, enter the user's email address and select a role from the list. This list includes built-in roles and any created roles created for your organization. For more information about the roles, see [Roles](/guides/security/access-control/roles).
 
 An invitation email will be sent to the invited user. Inside the email, there will be a link that the user can click on to initiate the signup process.
 
