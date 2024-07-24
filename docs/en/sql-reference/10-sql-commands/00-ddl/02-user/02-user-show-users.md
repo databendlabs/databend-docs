@@ -14,16 +14,14 @@ SHOW USERS
 ## Examples
 
 ```sql
+CREATE USER eric IDENTIFIED BY 'abc123';
+
 SHOW USERS;
 
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                name                               │  hostname │       auth_type      │ is_configured │  default_role │     roles     │ disabled │
-│                               String                              │   String  │        String        │     String    │     String    │     String    │  Boolean │
-├───────────────────────────────────────────────────────────────────┼───────────┼──────────────────────┼───────────────┼───────────────┼───────────────┼──────────┤
-│ eric@my_organization.com                                          │ %         │ jwt                  │ NO            │               │ account_admin │ false    │
-│ bill                                                              │ %         │ double_sha1_password │ NO            │               │               │ false    │
-│ me.ssword@gmail.com                                               │ %         │ jwt                  │ NO            │               │ account_admin │ false    │
-│ test-a                                                            │ localhost │ double_sha1_password │ NO            │               │               │ false    │
-│ test-b                                                            │ localhost │ sha256_password      │ NO            │               │               │ false    │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  name  │ hostname │       auth_type      │ is_configured │  default_role │     roles     │ disabled │
+├────────┼──────────┼──────────────────────┼───────────────┼───────────────┼───────────────┼──────────┤
+│ eric   │ %        │ double_sha1_password │ NO            │               │               │ false    │
+│ root   │ %        │ no_password          │ YES           │ account_admin │ account_admin │ false    │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
