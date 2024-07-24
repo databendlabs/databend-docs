@@ -344,18 +344,3 @@ const config: Config = {
 };
 
 export default config;
-
-
-// "/doc/sql-reference": "/sql/sql-reference",
-// "/doc/sql-commands": "/sql/sql-commands",
-// "/doc/sql-functions": "/sql/sql-functions",
-// "/doc/develop": "/developer/drivers",
-// "/doc/deploy": "/guides/deploy",
-// "/doc/cloud": "/guides/cloud",
-// "/cloud/develop": "/developer/drivers",
-// "/doc/sql-clients": "/guides/sql-clients",
-// "/doc/load-data": "/guides/load-data",
-// "/doc/visualize": "/guides/visualize",
-// "/doc/monitor": "/guides/monitor",
-// "/doc/overview": "/guides/overview",
-// "/cloud/getting-started/new-account": "/guides/cloud/new-account",
