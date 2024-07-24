@@ -202,6 +202,26 @@ const config: Config = {
         },
       },
     ],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          { to: '/doc/sql-reference', from: '/sql/sql-reference' },
+          { to: '/doc/sql-functions', from: '/sql/sql-functions' },
+          { to: '/doc/sql-commands', from: '/sql/sql-commands' },
+          { to: '/doc/develop', from: '/developer/drivers' },
+          { to: '/doc/deploy', from: '/guides/deploy' },
+          { to: '/doc/cloud', from: '/guides/cloud' },
+          { to: '/cloud/develop', from: '/developer/drivers' },
+          { to: '/doc/sql-clients', from: '/guides/sql-clients' },
+          { to: '/doc/load-data', from: '/guides/load-data' },
+          { to: '/doc/visualize', from: '/guides/visualize' },
+          { to: '/doc/monitor', from: '/guides/monitor' },
+          { to: '/doc/overview', from: '/guides/overview' },
+          { to: '/cloud/getting-started/new-account', from: '/guides/cloud/new-account' },
+        ]
+      }
+    ]
   ],
   themes: ['@docusaurus/theme-mermaid'],
   markdown: {
@@ -324,3 +344,18 @@ const config: Config = {
 };
 
 export default config;
+
+
+// "/doc/sql-reference": "/sql/sql-reference",
+// "/doc/sql-commands": "/sql/sql-commands",
+// "/doc/sql-functions": "/sql/sql-functions",
+// "/doc/develop": "/developer/drivers",
+// "/doc/deploy": "/guides/deploy",
+// "/doc/cloud": "/guides/cloud",
+// "/cloud/develop": "/developer/drivers",
+// "/doc/sql-clients": "/guides/sql-clients",
+// "/doc/load-data": "/guides/load-data",
+// "/doc/visualize": "/guides/visualize",
+// "/doc/monitor": "/guides/monitor",
+// "/doc/overview": "/guides/overview",
+// "/cloud/getting-started/new-account": "/guides/cloud/new-account",
