@@ -27,3 +27,8 @@ find "$cn_dir" -type f \( -name "*.md" -o -name "*.json" \) -print0 | while IFS=
     echo "Remove $cn_file"
   fi
 done
+
+# 删除空目录
+find "$cn_dir" -type d -empty -print0 | while IFS= read -r -d '' dir; do
+  remove_empty_dir "${dir}"
+done

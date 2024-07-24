@@ -28,11 +28,6 @@ find "$en_dir" -type f \( -name "*.md" -o -name "*.json" \) -print0 | while IFS=
   fi
 done
 
-# 删除空目录
-find "$cn_dir" -type d -empty -print0 | while IFS= read -r -d '' dir; do
-  remove_empty_dir "${dir}"
-done
-
 # 读取临时文件到变量
 missing_md_files=$(cat "$temp_md")
 missing_json_files=$(cat "$temp_json")
