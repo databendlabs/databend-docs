@@ -35,19 +35,24 @@ jobs:
         git add .
 
     - name: Get all files in specified directory
-      id: all_input_files
+      id: check_missing
       run: |
         TRANSLATION_DIR="${{ github.event.inputs.path }}"
-        echo "files=$(find $TRANSLATION_DIR -type f \( -name '*.md' \) | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+        echo "missing_md_files=$(find $TRANSLATION_DIR -type f \( -name '*.md' \) | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+        echo "missing_json_files=$(find $TRANSLATION_DIR -type f \( -name '*.json' \) | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
+    - name: Log Missing Files
+      run: |
+        echo "Markdown Files Missing: ${{ steps.check_missing.outputs.missing_md_files }}"
+        echo "JSON Files Missing: ${{ steps.check_missing.outputs.missing_json_files }}"
 
     - name: Run GPT Translate
       uses: 3ru/gpt-translate@v1.1.11
       with:
         apikey: ${{ secrets.OPENAI_API_KEY }}
         model: "deepseek-chat"
-        inputFiles: '${{ steps.all_input_files.outputs.files }}'
-        outputFiles: 'docs/cn/**/*.md'
-        languages: 'Simplified-Chinese'
-        prompt: "You are a translation engine that has knowledge of databases and is familiar with SQL, HTML and Markdown syntax. \ Databend is a cloud-native data warehouse and an alternative to Snowflake. \ I am translating the Databend documentation for helping users.\ Translate the Markdown content I'll paste later into {targetLanguage}.\ You must strictly follow the rules below.\ - Never change the Markdown markup structure. Don't add or remove links. Do not change any URL.\ - Never change the contents of code blocks even if they appear to have a bug.\ - Always preserve the original line breaks. Do not add or remove blank lines.\ - Never touch the permalink such as `{/*examples*/}` at the end of each heading.\ - Never touch HTML-like tags such as `<Notes>`.\ - Correctly format the document for best rendering. \  - Please do not translate database or computing-specific terms.\ -Keep the structure consistent with the source document and do not delete anything."
+        inputFiles: "${{ steps.check_missing.outputs.missing_md_files }}${{ steps.check_missing.outputs.missing_json_files }}"
+        outputFiles: "docs/cn/**/*.{md,json}"
+        languages: "Simplified-Chinese"
+        prompt: "You are a translation engine that has knowledge of databases and is familiar with SQL, HTML, Markdown and JSON syntax. \ Databend is a cloud-native data warehouse and an alternative to Snowflake. \ I am translating the Databend documentation for helping users.\ Translate the Markdown or JSON content I'll paste later into {targetLanguage}.\ You must strictly follow the rules below.\ - Never change the Markdown markup structure. Don't add or remove links. Do not change any URL.\ - Never change the contents of code blocks even if they appear to have a bug.\ - Always preserve the original line breaks. Do not add or remove blank lines.\ - Never touch the permalink such as `{/*examples*/}` at the end of each heading.\ - Never touch HTML-like tags such as `<Notes>`.\ - Correctly format the document for best rendering. \  - Please do not translate database or computing-specific terms.\ -Keep the structure consistent with the source document and do not delete anything."
         basePath: "https://api.deepseek.com"
-        token: ${{ secrets.GITHUB_TOKEN }}
