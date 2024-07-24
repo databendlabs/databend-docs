@@ -55,7 +55,6 @@ function Footer() {
           trademarks of the Apache Software Foundation.
         </p>
       </div>
-      <RedirectComponent to="https://docs.databend.com" />
       <CookiesConsent />
       {/* <div className={styles.ProgressBar}>
         <ProgressBar
