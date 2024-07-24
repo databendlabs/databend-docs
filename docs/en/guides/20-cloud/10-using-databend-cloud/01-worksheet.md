@@ -1,26 +1,23 @@
 ---
 title: Work with Worksheets
 ---
+import DbSVG from '@site/static/img/icon/database.svg'
+import RoleSVG from '@site/static/img/icon/role.svg'
+import WarehouseSVG from '@site/static/img/icon/warehouse.svg'
 
 The worksheet is an important tool in Databend Cloud used for organizing and managing SQL statements. You can edit and run SQL statements in a worksheet, as well as save them in the worksheet for future reference and use. This can greatly improve work efficiency and avoid repetitive coding.
 
-To open a new worksheet, click on **Worksheets** in the sidebar and select **New Worksheet**.
-
-![Alt text](@site/static/img/documents/worksheet/worksheet.png)
-
-The worksheet interface is divided into the following parts:
-
-- Sidebar (left side): Shows existing databases and tables, making it easy to copy table and column names to the editor. It also allows data preview and facilitates pipeline creation.
-- Editor (upper right): The area where you edit SQL statements.
-- Output area (lower right): Displays query results.
+To create a new worksheet, click on **Worksheets** in the sidebar and select **New Worksheet**.
 
 ## Editing and Running SQL Statements
 
 To edit and run an SQL statement:
 
-1. Click on the database button above the SQL input area and select the database you want to query.
-2. Edit the SQL statement in the editor.
-3. Choose a warehouse: click the button to the right of **Run Script** and select a warehouse from the list.
+1. Click on the database icon <DbSVG/> above the SQL editor and select the database you want to query.
+2. Click on the user icon <RoleSVG/> above the SQL editor and choose a role to use. The dropdown list will display all the roles you have been granted, along with any child roles under your roles in the hierarchy. For more information about the role hierarchy, see [Inheriting Roles & Establishing Hierarchy](/guides/security/access-control/roles#inheriting-roles--establishing-hierarchy).
+
+3. Edit the SQL statement in the SQL editor.
+4. Click on the warehouse icon <WarehouseSVG/> under the SQL editor and select a warehouse from the list.
 4. Click **Run Script**.
 
 The query result shows in the output area. You can click **Export** to save the whole result to a CSV file, or select one or multiple cells in the output area and press Command + C (on Mac) or Ctrl + C (on Windows) to copy them to your clipboard.
