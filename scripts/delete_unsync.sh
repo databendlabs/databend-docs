@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# 定义英文目录和中文目录
+# Define English directory and Chinese directory.
 en_dir="docs/en"
 cn_dir="docs/cn"
 
-# 读取排除列表到数组
+# Read the exclusion list into an array.
 mapfile -t exclusions < sync_exclusions.txt
 
-# 函数：检查路径是否被排除
+# Check if the path is excluded.
 is_excluded() {
     local path="$1"
     for exclude in "${exclusions[@]}"; do
@@ -19,7 +19,7 @@ is_excluded() {
     return 1  # 路径不被排除
 }
 
-# 函数：检查并删除目录，如果目录为空
+# Check and delete the directory if it is empty.
 remove_empty_dir() {
     local dir="$1"
     # 只处理 cn_dir 下的子目录
@@ -29,21 +29,21 @@ remove_empty_dir() {
     fi
 }
 
-# 查找 cn 目录中存在，但 en 目录中不存在的文件，并删除
+# Search for files that exist in the cn directory but do not exist in the en directory, and delete them.
 find "$cn_dir" -type f \( -name "*.md" -o -name "*.json" \) -print0 | while IFS= read -r -d '' cn_file; do
-    # 获取 cn_file 相对于 cn_dir 的路径
+    # Get the path of cn_file relative to cn_dir.
     cn_relative_path="${cn_file#$cn_dir/}"
-    # 构造对应的 en_file 路径
+    # Construct the corresponding en_file path.
     en_file="$en_dir/$cn_relative_path"
 
-    # 判断 en_file 是否存在，且 cn_file 不在排除列表中
+    # Check if en_file exists and cn_file is not in the exclusion list.
     if [ ! -e "$en_file" ] && ! is_excluded "$cn_file"; then
         rm -rf "$cn_file"
         echo "Removed file: $cn_file"
     fi
 done
 
-# 删除空目录
+# Delete empty directories.
 find "$cn_dir" -type d -empty -print0 | while IFS= read -r -d '' dir; do
     remove_empty_dir "${dir}"
 done

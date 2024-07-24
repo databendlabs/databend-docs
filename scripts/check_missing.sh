@@ -1,21 +1,21 @@
 #!/bin/bash
 
-# 定义英文目录和中文目录
+# Define English directory and Chinese directory.
 en_dir="docs/en"
 cn_dir="docs/cn"
 
-# 创建临时文件
+# Create temporary files.
 temp_md=$(mktemp)
 temp_json=$(mktemp)
 
-# 查找 en 目录中存在，但 cn 目录中不存在的文件，并进行处理
+# Search for files that exist in the "en" directory but do not exist in the "cn" directory, and process them.
 find "$en_dir" -type f \( -name "*.md" -o -name "*.json" \) -print0 | while IFS= read -r -d '' en_file; do
-  # 获取 en_file 相对于 en_dir 的路径
+  # Get the path of en_file relative to en_dir.
   en_relative_path="${en_file#$en_dir/}"
-  # 构造对应的 cn_file 路径
+  # Construct the corresponding cn_file path.
   cn_file="$cn_dir/$en_relative_path"
 
-  # 判断 cn_file 是否存在
+  # Check if the cn_file exists.
   if [ ! -e "$cn_file" ]; then
     case "$en_relative_path" in
       *.md)
@@ -28,10 +28,16 @@ find "$en_dir" -type f \( -name "*.md" -o -name "*.json" \) -print0 | while IFS=
   fi
 done
 
-# 读取临时文件到变量
+# Read temporary files into variables.
 missing_md_files=$(cat "$temp_md")
 missing_json_files=$(cat "$temp_json")
 
-# 清理临时文件
+# Output results.
+echo "Missing Markdown files:"
+echo "$missing_md_files"
+echo "Missing JSON files:"
+echo "$missing_json_files"
+
+# Clean up temporary files.
 rm "$temp_md" "$temp_json"
 
