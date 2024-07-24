@@ -38,13 +38,15 @@ export default function Content() {
     }
   });
   return (
-    <div className={clsx("g-align-c global-container-width", styles.rowContainer)}>
+    <div
+      className={clsx("g-align-c global-container-width", styles.rowContainer)}
+    >
       <NotFoundSvg></NotFoundSvg>
       <Space className={styles.text} direction="vertical" size={20}>
         <div className={styles.notFoundTitle}>{$t("PAGE NOT FOUND")}</div>
         <div className="fontSize20">
           {$t("Please check your link or head Home to regroup.")}
-          {Object.keys(redirectsMap).find(key => pathname.includes(key)) && (
+          {Object.keys(redirectsMap).find((key) => pathname.includes(key)) && (
             <span>
               {" "}
               {$t("Redirecting to a new link")} <Spin></Spin>
