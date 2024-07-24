@@ -4,15 +4,15 @@ title: 清理临时文件
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.348"/>
+<FunctionDescription description="引入或更新: v1.2.348"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='清理临时文件'/>
+<EEFeature featureName='VACUUM TEMPORARY FILES'/>
 
-删除 Databend 创建的临时文件，例如溢出文件。
+删除由 Databend 创建的临时文件，例如溢出文件。
 
-另见：[system.temp_files](../../00-sql-reference/20-system-tables/system-temp-files.md)
+另请参阅: [system.temp_files](../../00-sql-reference/20-system-tables/system-temp-files.md)
 
 ## 语法
 
@@ -20,13 +20,13 @@ import EEFeature from '@site/src/components/EEFeature';
 VACUUM TEMPORARY FILES [ RETAIN <n> SECONDS | DAYS ] [ LIMIT <limit> ]
 ```
 
-- **RETAIN n SECONDS | DAYS**：此选项决定临时文件的保留期限。当指定此选项时，Databend 将比较 *n* 的值和设置项 `retention_period` 的值，并将使用较大的值作为保留期限。例如，如果指定的 *n* 值大于默认的 `retention_period`，那么 Databend 将保留 *n* 天的临时文件，因此超过 *n* 天的临时文件将被删除。
+- **RETAIN n SECONDS | DAYS**: 此选项确定临时文件的保留期限。当指定此选项时，Databend 将比较 *n* 的值和设置 `retention_period`，并使用较大的值作为保留期限。例如，如果指定的 *n* 值大于默认的 `retention_period`，则 Databend 将保留临时文件 *n* 天，因此早于 *n* 天的临时文件将被删除。
 
-- **LIMIT**：要删除的临时文件的最大数量。
+- **LIMIT**: 要删除的最大临时文件数量。
 
 ## 输出
 
-VACUUM TEMPORARY FILES 返回已删除临时文件的列表。
+VACUUM TEMPORARY FILES 返回已删除的临时文件列表。
 
 ## 示例
 
