@@ -3,44 +3,58 @@
   "name": "Databend Documentation",
   "icons": [
     {
-      "src": "/img/logo/logo-no-text.png",
+      "src": "/img/logo/72*72.png",
       "sizes": "72x72",
       "type": "image/png"
     },
     {
-      "src": "/img/logo/logo-no-text.png",
+      "src": "/img/logo/96*96.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "/img/logo/logo-no-text.pngg",
+      "src": "/img/logo/128*128.png",
       "sizes": "128x128",
       "type": "image/png"
     },
     {
-      "src": "/img/logo/logo-no-text.png",
+      "src": "/img/logo/144*144.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "/img/logo/logo-no-text.png",
+      "src": "/img/logo/152*152.png",
       "sizes": "152x152",
       "type": "image/png"
     },
     {
-      "src": "/img/logo/logo-no-text.png",
+      "src": "/img/logo/192*192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/img/logo/logo-no-text.png",
+      "src": "/img/logo/384*384.png",
       "sizes": "384x384",
       "type": "image/png"
     },
     {
-      "src": "/img/logo/logo-no-text.png",
+      "src": "/img/logo/512*512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/img/logo/s1.png",
+      "sizes": "640x480",
+      "type": "imae/png",
+      "platform": "wide"
+    },
+    {
+      "src": "/img/logo/s2.png",
+      "sizes": "640x480",
+      "type": "image/png",
+      "platform": "narrow"
     }
   ],
   "start_url": "/",
