@@ -201,26 +201,6 @@ const config: Config = {
           },
         },
       },
-    ],
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        redirects: [
-          { to: '/doc/sql-reference', from: '/sql/sql-reference' },
-          { to: '/doc/sql-functions', from: '/sql/sql-functions' },
-          { to: '/doc/sql-commands', from: '/sql/sql-commands' },
-          { to: '/doc/develop', from: '/developer/drivers' },
-          { to: '/doc/deploy', from: '/guides/deploy' },
-          { to: '/doc/cloud', from: '/guides/cloud' },
-          { to: '/cloud/develop', from: '/developer/drivers' },
-          { to: '/doc/sql-clients', from: '/guides/sql-clients' },
-          { to: '/doc/load-data', from: '/guides/load-data' },
-          { to: '/doc/visualize', from: '/guides/visualize' },
-          { to: '/doc/monitor', from: '/guides/monitor' },
-          { to: '/doc/overview', from: '/guides/overview' },
-          { to: '/cloud/getting-started/new-account', from: '/guides/cloud/new-account' },
-        ]
-      }
     ]
   ],
   themes: ['@docusaurus/theme-mermaid'],
