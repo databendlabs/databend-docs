@@ -2,15 +2,15 @@
 title: ASIN
 ---
 
-Returns the arc sine of `x`, that is, the value whose sine is `x`. Returns NULL if `x` is not in the range -1 to 1.
+返回 `x` 的反正弦值，即其正弦值为 `x` 的值。如果 `x` 不在 -1 到 1 的范围内，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 ASIN( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT ASIN(0.2);

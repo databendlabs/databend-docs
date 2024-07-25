@@ -2,15 +2,15 @@
 title: TAN
 ---
 
-Returns the tangent of `x`, where `x` is given in radians.
+返回 `x` 的正切值，其中 `x` 以弧度为单位。
 
-## Syntax
+## 语法
 
 ```sql
 TAN( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TAN(90);

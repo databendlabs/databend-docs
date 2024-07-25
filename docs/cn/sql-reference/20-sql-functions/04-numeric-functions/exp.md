@@ -2,15 +2,15 @@
 title: EXP
 ---
 
-Returns the value of e (the base of natural logarithms) raised to the power of `x`.
+返回 e（自然对数的底）的 `x` 次幂的值。
 
-## Syntax
+## 语法
 
 ```sql
 EXP( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT EXP(2);

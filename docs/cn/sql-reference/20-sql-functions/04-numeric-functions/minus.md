@@ -2,21 +2,21 @@
 title: MINUS
 ---
 
-Negates a numeric value.
+对数值进行取反操作。
 
-## Syntax
+## 语法
 
 ```sql
 MINUS( <x> )
 ```
 
-## Aliases
+## 别名
 
 - [NEG](neg.md)
 - [NEGATE](negate.md)
 - [SUBTRACT](subtract.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT MINUS(PI()), NEG(PI()), NEGATE(PI()), SUBTRACT(PI());

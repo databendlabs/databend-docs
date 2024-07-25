@@ -2,22 +2,22 @@
 title: ROUND
 ---
 
-Rounds the argument x to d decimal places. The rounding algorithm depends on the data type of x. d defaults to 0 if not specified. d can be negative to cause d digits left of the decimal point of the value x to become zero. The maximum absolute value for d is 30; any digits in excess of 30 (or -30) are truncated.
+将参数 x 四舍五入到 d 个小数位。四舍五入的算法取决于 x 的数据类型。如果未指定 d，则默认为 0。d 可以为负数，使得 x 值小数点左侧的 d 位数变为零。d 的最大绝对值为 30；超过 30（或 -30）的任何位数将被截断。
 
-When using this function's result in calculations, be aware of potential precision issues due to its return data type being DOUBLE, which may affect final accuracy:
+在使用此函数的返回结果进行计算时，请注意由于其返回数据类型为 DOUBLE 可能导致的精度问题，这可能会影响最终的准确性：
 
 ```sql
-SELECT ROUND(4/7, 4) - ROUND(3/7, 4); -- Result: 0.14280000000000004
-SELECT ROUND(4/7, 4)::DECIMAL(8,4) - ROUND(3/7, 4)::DECIMAL(8,4); -- Result: 0.1428
+SELECT ROUND(4/7, 4) - ROUND(3/7, 4); -- 结果: 0.14280000000000004
+SELECT ROUND(4/7, 4)::DECIMAL(8,4) - ROUND(3/7, 4)::DECIMAL(8,4); -- 结果: 0.1428
 ```
 
-## Syntax
+## 语法
 
 ```sql
 ROUND( <x, d> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT ROUND(0.123, 2);

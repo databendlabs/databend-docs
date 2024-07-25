@@ -2,15 +2,15 @@
 title: ACOS
 ---
 
-Returns the arc cosine of `x`, that is, the value whose cosine is `x`. Returns NULL if `x` is not in the range -1 to 1.
+返回 `x` 的反余弦值，即其余弦值为 `x` 的值。如果 `x` 不在 -1 到 1 的范围内，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 ACOS( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT ACOS(1);

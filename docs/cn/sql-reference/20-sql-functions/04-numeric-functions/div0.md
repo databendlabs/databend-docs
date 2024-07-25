@@ -3,22 +3,22 @@ title: DIV0
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.345"/>
+<FunctionDescription description="引入或更新：v1.2.345"/>
 
-Returns the quotient by dividing the first number by the second one. Returns 0 if the second number is 0.
+返回第一个数除以第二个数的商。如果第二个数为0，则返回0。
 
-See also:
+另请参阅：
 
 - [DIV](div.md)
 - [DIVNULL](divnull.md)
 
-## Syntax
+## 语法
 
 ```sql
 DIV0(<number1>, <number2>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT

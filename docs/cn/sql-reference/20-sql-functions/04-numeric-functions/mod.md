@@ -2,4 +2,4 @@
 title: MOD
 ---
 
-Alias for [MODULO](modulo.md).
+[MODULO](modulo.md) 的别名。

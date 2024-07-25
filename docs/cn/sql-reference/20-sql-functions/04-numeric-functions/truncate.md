@@ -2,15 +2,15 @@
 title: TRUNCATE
 ---
 
-Returns the number `x`, truncated to `d` decimal places. If `d` is 0, the result has no decimal point or fractional part. `d` can be negative to cause `d` digits left of the decimal point of the value `x` to become zero. The maximum absolute value for `d` is 30; any digits in excess of 30 (or -30) are truncated.
+返回数字 `x`，截断至 `d` 个小数位。如果 `d` 为 0，结果将没有小数点或小数部分。`d` 可以是负数，使得 `x` 值的小数点左边 `d` 位数字变为零。`d` 的最大绝对值为 30；超过 30（或 -30）的任何位数将被截断。
 
-## Syntax
+## 语法
 
 ```sql
 TRUNCATE( <x, d> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TRUNCATE(1.223, 1);

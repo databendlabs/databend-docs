@@ -2,15 +2,15 @@
 title: LOG2
 ---
 
-Returns the base-2 logarithm of `x`. If `x` is less than or equal to 0.0E0, the function returns NULL.
+返回 `x` 的以 2 为底的对数。如果 `x` 小于或等于 0.0E0，则函数返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 LOG2( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT LOG2(65536);

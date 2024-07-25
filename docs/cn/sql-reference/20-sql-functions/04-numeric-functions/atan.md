@@ -2,15 +2,15 @@
 title: ATAN
 ---
 
-Returns the arc tangent of `x`, that is, the value whose tangent is `x`.
+返回 `x` 的反正切值，即其正切值为 `x` 的值。
 
-## Syntax
+## 语法
 
 ```sql
 ATAN( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT ATAN(-2);

@@ -2,15 +2,15 @@
 title: FACTORIAL
 ---
 
-Returns the factorial logarithm of `x`. If `x` is less than or equal to 0, the function returns 0.
+返回 `x` 的阶乘对数。如果 `x` 小于或等于 0，则函数返回 0。
 
-## Syntax
+## 语法
 
 ```sql
 FACTORIAL( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT FACTORIAL(5);

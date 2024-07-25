@@ -2,4 +2,4 @@
 title: NEG
 ---
 
-Alias for [MINUS](minus.md).
+[MINUS](minus.md) 的别名。
