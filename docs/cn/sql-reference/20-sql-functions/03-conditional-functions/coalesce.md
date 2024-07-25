@@ -2,15 +2,15 @@
 title: COALESCE
 ---
 
-Returns the first non-NULL expression within its arguments; if all arguments are NULL, it returns NULL.
+返回其参数中的第一个非 NULL 表达式；如果所有参数都是 NULL，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 COALESCE(<expr1>[, <expr2> ...])
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT COALESCE(1), COALESCE(1, NULL), COALESCE(NULL, 1, 2);

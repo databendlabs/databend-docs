@@ -2,15 +2,15 @@
 title: "IS [ NOT ] DISTINCT FROM"
 ---
 
-Compares whether two expressions are equal (or not equal) with awareness of nullability, meaning it treats NULLs as known values for comparing equality.
+比较两个表达式是否相等（或不相等），并考虑了可空性，即在比较相等性时将 NULL 视为已知值。
 
-## Syntax
+## 语法
 
 ```sql
 <expr1> IS [ NOT ] DISTINCT FROM <expr2>
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT NULL IS DISTINCT FROM NULL;

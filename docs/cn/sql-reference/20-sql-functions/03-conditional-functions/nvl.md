@@ -3,21 +3,21 @@ title: NVL
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.312"/>
+<FunctionDescription description="引入或更新: v1.2.312"/>
 
-If `<expr1>` is NULL, returns `<expr2>`, otherwise returns `<expr1>`.
+如果 `<expr1>` 为 NULL，则返回 `<expr2>`，否则返回 `<expr1>`。
 
-## Syntax
+## 语法
 
 ```sql
 NVL(<expr1>, <expr2>)
 ```
 
-## Aliases
+## 别名
 
 - [IFNULL](ifnull.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT NVL(NULL, 'b'), NVL('a', 'b');

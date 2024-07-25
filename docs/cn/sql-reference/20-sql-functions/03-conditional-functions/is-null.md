@@ -2,15 +2,15 @@
 title: IS_NULL
 ---
 
-Checks whether a value is NULL.
+检查一个值是否为 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 IS_NULL(<expr>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT IS_NULL(1);

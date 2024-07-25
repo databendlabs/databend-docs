@@ -2,15 +2,15 @@
 title: "[ NOT ] BETWEEN"
 ---
 
-Returns `true` if the given numeric or string ` <expr>` falls inside the defined lower and upper limits.
+如果给定的数值或字符串 `<expr>` 落在定义的下限和上限范围内，则返回 `true`。
 
-## Syntax
+## 语法
 
 ```sql
 <expr> [ NOT ] BETWEEN <lower_limit> AND <upper_limit>
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT 'true' WHERE 5 BETWEEN 0 AND 5;

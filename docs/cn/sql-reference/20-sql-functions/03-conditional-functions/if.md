@@ -2,15 +2,15 @@
 title: IF
 ---
 
-If `<cond1>` is TRUE, it returns `<expr1>`. Otherwise if `<cond2>` is TRUE, it returns `<expr2>`, and so on.
+如果 `<cond1>` 为 TRUE，则返回 `<expr1>`。否则，如果 `<cond2>` 为 TRUE，则返回 `<expr2>`，依此类推。
 
-## Syntax
+## 语法
 
 ```sql
 IF(<cond1>, <expr1>, [<cond2>, <expr2> ...], <expr_else>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT IF(1 > 2, 3, 4 < 5, 6, 7);

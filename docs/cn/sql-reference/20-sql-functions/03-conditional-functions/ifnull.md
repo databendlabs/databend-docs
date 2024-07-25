@@ -2,19 +2,19 @@
 title: IFNULL
 ---
 
-If `<expr1>` is NULL, returns `<expr2>`, otherwise returns `<expr1>`.
+如果 `<expr1>` 为 NULL，则返回 `<expr2>`，否则返回 `<expr1>`。
 
-## Syntax
+## 语法
 
 ```sql
 IFNULL(<expr1>, <expr2>)
 ```
 
-## Aliases
+## 别名
 
 - [NVL](nvl.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT IFNULL(NULL, 'b'), IFNULL('a', 'b');

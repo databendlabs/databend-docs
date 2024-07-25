@@ -2,15 +2,15 @@
 title: NULLIF
 ---
 
-Returns NULL if two expressions are equal. Otherwise return expr1. They must have the same data type.
+如果两个表达式相等，则返回 NULL。否则返回 expr1。它们必须具有相同的数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 NULLIF(<expr1>, <expr2>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT NULLIF(0, NULL);

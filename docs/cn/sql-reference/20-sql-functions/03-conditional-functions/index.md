@@ -1,9 +1,9 @@
 ---
-title: 'Conditional Functions'
+title: '条件函数'
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This section provides reference information for the conditional functions in Databend.
+本节提供 Databend 中条件函数的参考信息。
 
 <IndexOverviewList />

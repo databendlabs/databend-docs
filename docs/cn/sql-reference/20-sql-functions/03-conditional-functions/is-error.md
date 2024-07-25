@@ -3,26 +3,26 @@ title: IS_ERROR
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.379"/>
+<FunctionDescription description="引入或更新: v1.2.379"/>
 
-Returns a Boolean value indicating whether an expression is an error value.
+返回一个布尔值，指示表达式是否为错误值。
 
-See also: [IS_NOT_ERROR](is-not-error.md)
+另请参阅: [IS_NOT_ERROR](is-not-error.md)
 
-## Syntax
+## 语法
 
 ```sql
 IS_ERROR( <expr> )
 ```
 
-## Return Type
+## 返回类型
 
-Returns `true` if the expression is an error, otherwise `false`.
+如果表达式是错误，则返回 `true`，否则返回 `false`。
 
-## Examples
+## 示例
 
 ```sql
--- Indicates division by zero, hence an error
+-- 表示除以零，因此是错误
 SELECT IS_ERROR(1/0), IS_NOT_ERROR(1/0);
 
 ┌───────────────────────────────────────────┐
@@ -31,7 +31,7 @@ SELECT IS_ERROR(1/0), IS_NOT_ERROR(1/0);
 │ true              │ false                 │
 └───────────────────────────────────────────┘
 
--- The conversion to DATE is successful, hence not an error
+-- 转换为 DATE 成功，因此不是错误
 SELECT IS_ERROR('2024-03-17'::DATE), IS_NOT_ERROR('2024-03-17'::DATE);
 
 ┌─────────────────────────────────────────────────────────────────┐
