@@ -2,15 +2,15 @@
 title: DEGREES
 ---
 
-Returns the argument `x`, converted from radians to degrees, where `x` is given in radians.
+将参数 `x` 从弧度转换为度数，其中 `x` 以弧度给出。
 
-## Syntax
+## 语法
 
 ```sql
 DEGREES( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT DEGREES(PI());

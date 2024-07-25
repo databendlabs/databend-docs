@@ -2,15 +2,15 @@
 title: CRC32
 ---
 
-Returns the CRC32 checksum of `x`, where 'x' is expected to be a string and (if possible) is treated as one if it is not.
+返回 `x` 的 CRC32 校验和，其中 `x` 预期为字符串，如果可能的话，非字符串类型也会被当作字符串处理。
 
-## Syntax
+## 语法
 
 ```sql
 CRC32( '<x>' )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT CRC32('databend');

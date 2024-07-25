@@ -2,15 +2,15 @@
 title: RADIANS
 ---
 
-Returns the argument `x`, converted from degrees to radians.
+将参数 `x` 从度数转换为弧度。
 
-## Syntax
+## 语法
 
 ```sql
 RADIANS( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT RADIANS(90);

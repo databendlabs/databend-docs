@@ -2,4 +2,4 @@
 title: CEILING
 ---
 
-Alias for [CEIL](ceil.md).
+[CEIL](ceil.md) 的别名。

@@ -2,4 +2,4 @@
 title: INTDIV
 ---
 
-Alias for [DIV](div.md).
+[DIV](div.md) 的别名。

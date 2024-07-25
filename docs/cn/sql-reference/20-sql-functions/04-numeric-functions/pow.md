@@ -2,19 +2,19 @@
 title: POW
 ---
 
-Returns the value of `x` to the power of `y`. 
+返回 `x` 的 `y` 次幂。
 
-## Syntax
+## 语法
 
 ```sql
 POW( <x, y> )
 ```
 
-## Aliases
+## 别名
 
 - [POWER](power.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT POW(-2, 2), POWER(-2, 2);

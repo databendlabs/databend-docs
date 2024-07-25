@@ -2,15 +2,15 @@
 title: COS
 ---
 
-Returns the cosine of `x`, where `x` is given in radians.
+返回 `x` 的余弦值，其中 `x` 以弧度为单位。
 
-## Syntax
+## 语法
 
 ```sql
 COS( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT COS(PI());

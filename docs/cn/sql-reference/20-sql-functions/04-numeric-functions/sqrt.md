@@ -2,15 +2,15 @@
 title: SQRT
 ---
 
-Returns the square root of a nonnegative number `x`. Returns Nan for negative input.
+返回非负数 `x` 的平方根。对于负输入，返回 NaN。
 
-## Syntax
+## 语法
 
 ```sql
 SQRT( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT SQRT(4);

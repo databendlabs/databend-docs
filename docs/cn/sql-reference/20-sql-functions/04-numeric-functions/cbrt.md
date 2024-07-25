@@ -2,15 +2,15 @@
 title: CBRT
 ---
 
-Returns the cube root of a nonnegative number `x`.
+返回非负数 `x` 的立方根。
 
-## Syntax
+## 语法
 
 ```sql
 CBRT( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT CBRT(27);

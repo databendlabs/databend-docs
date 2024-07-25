@@ -2,4 +2,4 @@
 title: POWER
 ---
 
-Alias for [POW](pow.md).
+[POW](pow.md) 的别名。

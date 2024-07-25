@@ -2,4 +2,4 @@
 title: ADD
 ---
 
-Alias for [PLUS](plus.md).
+[PLUS](plus.md) 的别名。

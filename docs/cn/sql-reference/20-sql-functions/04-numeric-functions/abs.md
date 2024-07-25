@@ -2,15 +2,15 @@
 title: ABS
 ---
 
-Returns the absolute value of `x`.
+返回 `x` 的绝对值。
 
-## Syntax
+## 语法
 
 ```sql
 ABS( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT ABS(-5);

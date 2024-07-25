@@ -2,15 +2,15 @@
 title: ATAN2
 ---
 
-Returns the arc tangent of the two variables `x` and `y`. It is similar to calculating the arc tangent of `y` / `x`, except that the signs of both arguments are used to determine the quadrant of the result. `ATAN(y, x)` is a synonym for `ATAN2(y, x)`.
+返回两个变量 `x` 和 `y` 的反正切值。它类似于计算 `y` / `x` 的反正切值，但区别在于两个参数的符号用于确定结果的象限。`ATAN(y, x)` 是 `ATAN2(y, x)` 的同义词。
 
-## Syntax
+## 语法
 
 ```sql
 ATAN2( <y, x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT ATAN2(-2, 2);

@@ -2,19 +2,19 @@
 title: MODULO
 ---
 
-Returns the remainder of `x` divided by `y`. If `y` is 0, it returns an error.
+返回 `x` 除以 `y` 的余数。如果 `y` 为 0，则返回错误。
 
-## Syntax
+## 语法
 
 ```sql
 MODULO( <x>, <y> )
 ```
 
-## Aliases
+## 别名
 
 - [MOD](mod.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT MOD(9, 2), MODULO(9, 2);

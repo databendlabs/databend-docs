@@ -2,15 +2,15 @@
 title: FLOOR
 ---
 
-Rounds the number down.
+将数字向下取整。
 
-## Syntax
+## 语法
 
 ```sql
 FLOOR( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT FLOOR(1.23);

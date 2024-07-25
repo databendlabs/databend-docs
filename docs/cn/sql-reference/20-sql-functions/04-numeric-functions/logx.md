@@ -2,15 +2,15 @@
 title: "LOG(x)"
 ---
 
-Returns the natural logarithm of `x`. If x is less than or equal to 0.0E0, the function returns NULL.
+返回 `x` 的自然对数。如果 `x` 小于或等于 0.0E0，则函数返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 LOG( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT LOG(2);

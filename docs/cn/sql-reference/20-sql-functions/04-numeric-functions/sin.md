@@ -2,15 +2,15 @@
 title: SIN
 ---
 
-Returns the sine of `x`, where `x` is given in radians.
+返回 `x` 的正弦值，其中 `x` 以弧度为单位。
 
-## Syntax
+## 语法
 
 ```sql
 SIN( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT SIN(90);

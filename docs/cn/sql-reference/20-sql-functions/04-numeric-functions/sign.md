@@ -2,15 +2,15 @@
 title: SIGN
 ---
 
-Returns the sign of the argument as -1, 0, or 1, depending on whether `x` is negative, zero, or positive or NULL if the argument was NULL.
+根据参数 `x` 的符号返回 -1、0 或 1，如果 `x` 为负数、零或正数，或者如果参数为 NULL，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 SIGN( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT SIGN(0);

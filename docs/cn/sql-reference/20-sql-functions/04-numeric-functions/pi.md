@@ -2,15 +2,15 @@
 title: PI
 ---
 
-Returns the value of π as a floating-point value.
+返回 π 的浮点数值。
 
-## Syntax
+## 语法
 
 ```sql
 PI()
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT PI();

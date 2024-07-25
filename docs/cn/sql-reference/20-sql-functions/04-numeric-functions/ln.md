@@ -2,15 +2,15 @@
 title: LN
 ---
 
-Returns the natural logarithm of `x`; that is, the base-e logarithm of `x`. If x is less than or equal to 0.0E0, the function returns NULL.
+返回 `x` 的自然对数，即以 e 为底的 `x` 的对数。如果 `x` 小于或等于 0.0E0，则函数返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 LN( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT LN(2);

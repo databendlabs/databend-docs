@@ -1,20 +1,20 @@
 ---
-title: PLUS
+title: 加法
 ---
 
-Calculates the sum of two numeric or decimal values.
+计算两个数值或小数值的和。
 
-## Syntax
+## 语法
 
 ```sql
 PLUS(<number1>, <number2>)
 ```
 
-## Aliases
+## 别名
 
 - [ADD](add.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT ADD(1, 2.3), PLUS(1, 2.3);

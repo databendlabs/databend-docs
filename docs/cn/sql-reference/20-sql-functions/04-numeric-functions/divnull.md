@@ -3,22 +3,22 @@ title: DIVNULL
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.345"/>
+<FunctionDescription description="引入或更新: v1.2.345"/>
 
-Returns the quotient by dividing the first number by the second one. Returns NULL if the second number is 0 or NULL.
+返回第一个数字除以第二个数字的商。如果第二个数字为0或NULL，则返回NULL。
 
-See also:
+另请参阅:
 
 - [DIV](div.md)
 - [DIV0](div0.md)
 
-## Syntax
+## 语法
 
 ```sql
 DIVNULL(<number1>, <number2>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT

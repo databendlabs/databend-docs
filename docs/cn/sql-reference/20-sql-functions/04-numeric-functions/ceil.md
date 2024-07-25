@@ -2,19 +2,19 @@
 title: CEIL
 ---
 
-Rounds the number up.
+向上取整。
 
-## Syntax
+## 语法
 
 ```sql
 CEIL( <x> )
 ```
 
-## Aliases
+## 别名
 
 - [CEILING](ceiling.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT CEILING(-1.23), CEIL(-1.23);

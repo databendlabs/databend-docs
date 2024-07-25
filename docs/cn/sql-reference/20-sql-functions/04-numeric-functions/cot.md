@@ -2,15 +2,15 @@
 title: COT
 ---
 
-Returns the cotangent of `x`, where `x` is given in radians.
+返回 `x` 的余切值，其中 `x` 以弧度为单位。
 
-## Syntax
+## 语法
 
 ```sql
 COT( <x> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT COT(12);
