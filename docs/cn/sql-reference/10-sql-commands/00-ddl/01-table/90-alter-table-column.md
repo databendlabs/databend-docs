@@ -4,65 +4,68 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.379"/>
+<FunctionDescription description="引入或更新: v1.2.415"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='掩码策略'/>
+<EEFeature featureName='MASKING POLICY'/>
 
-通过添加、转换、重命名、更改或移除列来修改表。
+通过添加、转换、重命名、更改或删除列来修改表。
 
 ## 语法
 
 ```sql
--- 在表的末尾添加一列
+-- 在表末尾添加列
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
 ADD [ COLUMN ] <column_name> <data_type> [ NOT NULL | NULL ] [ DEFAULT <constant_value> ]
 
--- 在指定位置添加一列
+-- 在指定位置添加列
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
 ADD [ COLUMN ] <column_name> <data_type> [ NOT NULL | NULL ] [ DEFAULT <constant_value> ] [ FIRST | AFTER <column_name> ]
 
--- 添加一个虚拟计算列
+-- 添加虚拟计算列
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
 ADD [ COLUMN ] <column_name> <data_type> AS (<expr>) VIRTUAL
 
--- 将存储的计算列转换为常规列
+-- 将存储计算列转换为常规列
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
 MODIFY [ COLUMN ] <column_name> DROP STORED
 
--- 重命名一列
+-- 重命名列
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
--- 更改一个或多个列的数据类型
+-- 更改数据类型和/或注释
+-- 如果只想修改或添加列的注释，仍需在命令中指定该列的当前数据类型
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
-MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ][, [COLUMN] <column_name> <new_data_type> [ DEFAULT <constant_value> ], ... ]
+MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ]
+       [ , [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ] ]
+       ...
 
--- 为列设置/取消设置掩码策略
+-- 为列设置/取消掩码策略
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> SET MASKING POLICY <policy_name>
 
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> UNSET MASKING POLICY
 
--- 移除一列
+-- 删除列
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
 DROP [ COLUMN ] <column_name>
 ```
 
 :::note
-- 添加或修改列时，只能接受常量值作为默认值。如果使用非常量表达式，将会发生错误。
-- 目前还不支持使用 ALTER TABLE 添加存储的计算列。
-- 更改表列的数据类型时，存在转换错误的风险。例如，如果尝试将文本（String）列转换为数字（Float），可能会导致问题。
-- 为列设置掩码策略时，请确保策略中定义的数据类型（参考 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的参数 *arg_type_to_mask*）与列匹配。
+- 添加或修改列时，只能接受常量值作为默认值。如果使用非常量表达式，将会报错。
+- 目前不支持通过 ALTER TABLE 添加存储计算列。
+- 更改表的列数据类型时，存在转换错误的风险。例如，尝试将包含文本（字符串）的列转换为数字（浮点数）可能会导致问题。
+- 为列设置掩码策略时，请确保策略中定义的数据类型（参见 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的参数 *arg_type_to_mask*）与列匹配。
 :::
 
 ## 示例
 
-### 示例 1：添加、重命名和移除列
+### 示例 1: 添加、重命名和删除列
 
-此示例展示了创建一个名为 "default.users" 的表，其中包含 'username'、'email' 和 'age' 列。它展示了如何添加带有各种约束的 'id' 和 'middle_name' 列。该示例还演示了 "age" 列的重命名和随后的移除。
+此示例展示了创建一个名为 "default.users" 的表，包含列 'username'、'email' 和 'age'。演示了添加列 'id' 和 'middle_name' 并设置各种约束。还展示了重命名和删除 "age" 列。
 
 ```sql
 -- 创建表
@@ -72,7 +75,7 @@ CREATE TABLE default.users (
   age INT
 );
 
--- 在表的末尾添加一列
+-- 在表末尾添加列
 ALTER TABLE default.users
 ADD COLUMN business_email VARCHAR(255) NOT NULL DEFAULT 'example@example.com';
 
@@ -85,7 +88,7 @@ email         |VARCHAR|YES |NULL                 |     |
 age           |INT    |YES |NULL                 |     |
 business_email|VARCHAR|NO  |'example@example.com'|     |
 
--- 在表的开头添加一列
+-- 在表开头添加列
 ALTER TABLE default.users
 ADD COLUMN id int NOT NULL FIRST;
 
@@ -99,7 +102,7 @@ email         |VARCHAR|YES |NULL                 |     |
 age           |INT    |YES |NULL                 |     |
 business_email|VARCHAR|NO  |'example@example.com'|     |
 
--- 在 'username' 列之后添加一列
+-- 在 'username' 列之后添加列
 ALTER TABLE default.users
 ADD COLUMN middle_name VARCHAR(50) NULL AFTER username;
 
@@ -114,17 +117,39 @@ email         |VARCHAR|YES |NULL                 |     |
 age           |INT    |YES |NULL                 |     |
 business_email|VARCHAR|NO  |'example@example.com'|     |
 
--- 重命名一列
+-- 重命名列
 ALTER TABLE default.users
 RENAME COLUMN age TO new_age;
 
 DESC default.users;
 
+Field         |Type   |Null|Default              |Extra|
+--------------+-------+----+---------------------+-----+
+id            |INT    |NO  |0                    |     |
+username      |VARCHAR|NO  |''                   |     |
+middle_name   |VARCHAR|YES |NULL                 |     |
+email         |VARCHAR|YES |NULL                 |     |
+new_age       |INT    |YES |NULL                 |     |
+business_email|VARCHAR|NO  |'example@example.com'|     |
 
+-- 删除列
+ALTER TABLE default.users
+DROP COLUMN new_age;
 
-### 示例 2：添加计算列
+DESC default.users;
 
-此示例演示了创建一个用于存储员工信息的表，向表中插入数据，以及添加一个计算列来根据每位员工的出生年份计算其年龄。
+Field         |Type   |Null|Default              |Extra|
+--------------+-------+----+---------------------+-----+
+id            |INT    |NO  |0                    |     |
+username      |VARCHAR|NO  |''                   |     |
+middle_name   |VARCHAR|YES |NULL                 |     |
+email         |VARCHAR|YES |NULL                 |     |
+business_email|VARCHAR|NO  |'example@example.com'|     |
+```
+
+### 示例 2: 添加计算列
+
+此示例展示了创建一个存储员工信息的表，插入数据，并添加一个计算列以根据出生年份计算每个员工的年龄。
 
 ```sql
 -- 创建表
@@ -154,9 +179,9 @@ ID | Name          | BirthYear | Age
 3  | Robert Johnson| 1982      | 41
 ```
 
-### 示例 3：转换计算列
+### 示例 3: 转换计算列
 
-此示例创建一个名为 "products" 的表，其中包含 ID、价格、数量和一个计算列 "total_price"。ALTER TABLE 语句移除了 "total_price" 列的计算功能，将其转换为常规列。
+此示例创建了一个名为 "products" 的表，包含 ID、price、quantity 和一个计算列 "total_price"。ALTER TABLE 语句移除了 "total_price" 列的计算功能，将其转换为常规列。
 
 ```sql
 CREATE TABLE IF NOT EXISTS products (
@@ -170,9 +195,9 @@ ALTER TABLE products
 MODIFY COLUMN total_price DROP STORED;
 ```
 
-### 示例 4：更改列的数据类型
+### 示例 4: 更改列的数据类型
 
-此示例创建一个名为 "students_info" 的表，其中包含 "id"、"name" 和 "age" 列，插入一些示例数据，然后将 "age" 列的数据类型从 INT 修改为 VARCHAR(10)。
+此示例展示了如何修改列的数据类型并为其添加注释。
 
 ```sql
 CREATE TABLE students_info (
@@ -181,27 +206,32 @@ CREATE TABLE students_info (
   age INT
 );
 
-INSERT INTO students_info VALUES
-  (1, 'John Doe', 25),
-  (2, 'Jane Smith', 28),
-  (3, 'Michael Johnson', 22);
-
+-- 将 'age' 列的数据类型更改为 VARCHAR，默认值为 0
 ALTER TABLE students_info MODIFY COLUMN age VARCHAR(10) DEFAULT '0';
-INSERT INTO students_info (id, name) VALUES  (4, 'Eric McMond');
 
-SELECT * FROM students_info;
+SHOW CREATE TABLE students_info;
 
-id|name           |age|
---+---------------+---+
- 4|Eric McMond    |0  |
- 1|John Doe       |25 |
- 2|Jane Smith     |28 |
- 3|Michael Johnson|22 |
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│     Table     │                                                    Create Table                                                   │
+├───────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ students_info │ CREATE TABLE students_info (\n  id INT NULL,\n  name VARCHAR NULL,\n  age VARCHAR NULL DEFAULT '0'\n) ENGINE=FUSE │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+-- 为 'age' 列添加注释
+ALTER TABLE students_info MODIFY COLUMN age VARCHAR(10) COMMENT 'abc';
+
+SHOW CREATE TABLE students_info;
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│     Table     │                                                           Create Table                                                          │
+├───────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ students_info │ CREATE TABLE students_info (\n  id INT NULL,\n  name VARCHAR NULL,\n  age VARCHAR NULL DEFAULT '0' COMMENT 'abc'\n) ENGINE=FUSE │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 示例 5：设置列的掩码策略
+### 示例 5: 为列设置掩码策略
 
-此示例说明了根据用户角色选择性地显示或掩盖敏感数据的掩码策略设置过程。
+此示例展示了设置掩码策略以根据用户角色选择性显示或隐藏敏感数据的过程。
 
 ```sql
 -- 创建表并插入示例数据
@@ -217,7 +247,7 @@ INSERT INTO user_info (id, email) VALUES (2, 'eric@example.com');
 CREATE ROLE 'MANAGERS';
 GRANT ALL ON *.* TO ROLE 'MANAGERS';
 
--- 创建用户并将角色授予用户
+-- 创建用户并授予角色
 CREATE USER manager_user IDENTIFIED BY 'databend';
 GRANT ROLE 'MANAGERS' TO 'manager_user';
 
@@ -234,10 +264,10 @@ AS
   END
   COMMENT = 'hide_email';
 
--- 将掩码策略与 'email' 列关联
+-- 将掩码策略关联到 'email' 列
 ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
 
--- 以 Root 用户查询
+-- 使用 Root 用户查询
 SELECT * FROM user_info;
 
 id|email    |
