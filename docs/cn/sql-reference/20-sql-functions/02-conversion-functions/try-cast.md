@@ -2,17 +2,17 @@
 title: TRY_CAST
 ---
 
-Converts a value from one data type to another. Returns NULL on error.
+将一个值从一种数据类型转换为另一种数据类型。如果转换失败，则返回 NULL。
 
-See also: [CAST](cast.md)
+另请参阅：[CAST](cast.md)
 
-## Syntax
+## 语法
 
 ```sql
 TRY_CAST( <expr> AS <data_type> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TRY_CAST(1 AS VARCHAR);

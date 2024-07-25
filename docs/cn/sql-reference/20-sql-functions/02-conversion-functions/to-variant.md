@@ -2,15 +2,15 @@
 title: TO_VARIANT
 ---
 
-Converts a value to VARIANT data type.
+将一个值转换为 VARIANT 数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 TO_VARIANT( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_VARIANT(TO_BITMAP('100,200,300'));

@@ -2,15 +2,15 @@
 title: TO_INT64
 ---
 
-Converts a value to INT64 data type.
+将一个值转换为 INT64 数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 TO_INT64( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_INT64('123');

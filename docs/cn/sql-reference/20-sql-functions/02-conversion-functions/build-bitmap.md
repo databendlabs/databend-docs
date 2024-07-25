@@ -2,15 +2,15 @@
 title: BUILD_BITMAP
 ---
 
-Converts an array of positive integers to a BITMAP value.
+将一个正整数数组转换为 BITMAP 值。
 
-## Syntax
+## 语法
 
 ```sql
 BUILD_BITMAP( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT BUILD_BITMAP([1,4,5])::String;

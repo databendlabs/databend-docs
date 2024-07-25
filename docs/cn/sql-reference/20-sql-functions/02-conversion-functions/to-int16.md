@@ -2,15 +2,15 @@
 title: TO_INT16
 ---
 
-Converts a value to INT16 data type.
+将一个值转换为 INT16 数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 TO_INT16( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_INT16('123');

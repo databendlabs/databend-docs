@@ -2,11 +2,11 @@
 title: "CAST, ::"
 ---
 
-Converts a value from one data type to another. `::` is an alias for CAST.
+将一个值从一种数据类型转换为另一种数据类型。`::` 是 CAST 的别名。
 
-See also: [TRY_CAST](try-cast.md)
+另请参阅：[TRY_CAST](try-cast.md)
 
-## Syntax
+## 语法
 
 ```sql
 CAST( <expr> AS <data_type> )
@@ -14,7 +14,7 @@ CAST( <expr> AS <data_type> )
 <expr>::<data_type>
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT CAST(1 AS VARCHAR), 1::VARCHAR;

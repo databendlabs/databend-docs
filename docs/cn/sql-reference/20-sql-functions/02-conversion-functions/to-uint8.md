@@ -2,15 +2,15 @@
 title: TO_UINT8
 ---
 
-Converts a value to UINT8 data type.
+将一个值转换为 UINT8 数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 TO_UINT8( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_UINT8('123');

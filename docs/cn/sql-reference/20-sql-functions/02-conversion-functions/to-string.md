@@ -2,9 +2,9 @@
 title: TO_STRING
 ---
 
-Converts a value to String data type, or converts a Date value to a specific string format. To customize the format of date and time in Databend, you can utilize specifiers. These specifiers allow you to define the desired format for date and time values. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
+将一个值转换为字符串数据类型，或将一个日期值转换为特定的字符串格式。要在 Databend 中自定义日期和时间的格式，您可以使用格式说明符。这些说明符允许您定义所需的日期和时间值格式。有关支持的格式说明符的完整列表，请参阅[日期和时间格式化](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time)。
 
-## Syntax
+## 语法
 
 ```sql
 TO_STRING( '<expr>' )
@@ -12,18 +12,18 @@ TO_STRING( '<expr>' )
 TO_STRING( '<date>', '<format>' )
 ```
 
-## Aliases
+## 别名
 
 - [DATE_FORMAT](../05-datetime-functions/date-format.md)
 - [JSON_TO_STRING](../10-semi-structured-functions/json-to-string.md)
 - [TO_TEXT](../02-conversion-functions/to-text.md)
 - [TO_VARCHAR](to-varchar.md)
 
-## Return Type
+## 返回类型
 
-String.
+字符串。
 
-## Examples
+## 示例
 
 ```sql
 SELECT
@@ -52,7 +52,7 @@ SELECT
 │ ["Cooking","Reading"]                          │ ["Cooking","Reading"]                        │ ["Cooking","Reading"]                      │ ["Cooking","Reading"]                         │ ["Cooking","Reading"]                             │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- With one argument, the function converts input to a string without validating as a date.
+-- 使用一个参数时，函数将输入转换为字符串而不验证其是否为日期。
 SELECT
   DATE_FORMAT('20223-12-25'),
   TO_STRING('20223-12-25'),
