@@ -2,9 +2,9 @@
 title: CASE
 ---
 
-Handles IF/THEN logic. It is structured with at least one pair of `WHEN` and `THEN` statements. Every `CASE` statement must be concluded with the `END` keyword. The `ELSE` statement is optional, providing a way to capture values not explicitly specified in the `WHEN` and `THEN` statements.
+处理 IF/THEN 逻辑。它由至少一对 `WHEN` 和 `THEN` 语句构成。每个 `CASE` 语句必须以 `END` 关键字结束。`ELSE` 语句是可选的，提供了一种捕获未在 `WHEN` 和 `THEN` 语句中明确指定的值的方法。
 
-## Syntax
+## 语法
 
 ```sql
 CASE
@@ -15,12 +15,12 @@ CASE
 END AS <column_name>
 ```
 
-## Examples
+## 示例
 
-This example categorizes employee salaries using a CASE statement, presenting details with a dynamically assigned column named "SalaryCategory":
+此示例使用 CASE 语句对员工薪资进行分类，并展示了一个动态分配的列名 "SalaryCategory"：
 
 ```sql
--- Create a sample table
+-- 创建示例表
 CREATE TABLE Employee (
     EmployeeID INT,
     FirstName VARCHAR(50),
@@ -28,14 +28,14 @@ CREATE TABLE Employee (
     Salary INT
 );
 
--- Insert some sample data
+-- 插入一些示例数据
 INSERT INTO Employee VALUES (1, 'John', 'Doe', 50000);
 INSERT INTO Employee VALUES (2, 'Jane', 'Smith', 60000);
 INSERT INTO Employee VALUES (3, 'Bob', 'Johnson', 75000);
 INSERT INTO Employee VALUES (4, 'Alice', 'Williams', 90000);
 
--- Add a new column 'SalaryCategory' using CASE statement
--- Categorize employees based on their salary
+-- 使用 CASE 语句添加新列 'SalaryCategory'
+-- 根据薪资对员工进行分类
 SELECT
     EmployeeID,
     FirstName,

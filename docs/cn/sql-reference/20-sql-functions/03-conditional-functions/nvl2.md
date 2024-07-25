@@ -3,17 +3,17 @@ title: NVL2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.312"/>
+<FunctionDescription description="引入或更新：v1.2.312"/>
 
-Returns `<expr2>` if `<expr1>` is not NULL; otherwise, it returns `<expr3>`.
+如果 `<expr1>` 不为 NULL，则返回 `<expr2>`；否则返回 `<expr3>`。
 
-## Syntax
+## 语法
 
 ```sql
 NVL2(<expr1> , <expr2> , <expr3>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT NVL2('a', 'b', 'c'), NVL2(NULL, 'b', 'c');

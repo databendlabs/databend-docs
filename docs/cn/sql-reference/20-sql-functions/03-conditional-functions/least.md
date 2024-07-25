@@ -2,15 +2,15 @@
 title: LEAST
 ---
 
-Returns the minimum value from a set of values.
+从一组值中返回最小值。
 
-## Syntax
+## 语法
 
 ```sql
 LEAST(<value1>, <value2> ...)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT LEAST(5, 9, 4);

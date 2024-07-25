@@ -2,15 +2,15 @@
 title: IS_NOT_NULL
 ---
 
-Checks whether a value is not NULL.
+检查一个值是否不为 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 IS_NOT_NULL(<expr>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT IS_NOT_NULL(1);

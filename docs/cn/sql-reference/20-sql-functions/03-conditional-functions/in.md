@@ -2,15 +2,15 @@
 title: "[ NOT ] IN"
 ---
 
-Checks whether a value is (or is not) in an explicit list.
+检查一个值是否（或不在）一个显式列表中。
 
-## Syntax
+## 语法
 
 ```sql
 <value> [ NOT ] IN (<value1>, <value2> ...)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT 1 NOT IN (2, 3);

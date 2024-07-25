@@ -2,15 +2,15 @@
 title: GREATEST
 ---
 
-Returns the maximum value from a set of values.
+从一组值中返回最大值。
 
-## Syntax
+## 语法
 
 ```sql
 GREATEST(<value1>, <value2> ...)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT GREATEST(5, 9, 4);
