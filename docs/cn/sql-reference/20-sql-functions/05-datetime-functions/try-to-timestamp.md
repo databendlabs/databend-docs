@@ -3,29 +3,29 @@ title: TRY_TO_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.528"/>
+<FunctionDescription description="引入或更新：v1.2.528"/>
 
-A variant of [TO_TIMESTAMP](to-timestamp.md) in Databend that, while performing the same conversion of an input expression to a timestamp, incorporates error-handling support by returning NULL if the conversion fails instead of raising an error.
+Databend中[TO_TIMESTAMP](to-timestamp.md)的一个变体，它在将输入表达式转换为时间戳的同时，通过在转换失败时返回NULL而不是引发错误来支持错误处理。
 
-See also: [TO_TIMESTAMP](to-timestamp.md)
+另请参阅：[TO_TIMESTAMP](to-timestamp.md)
 
-## Syntax
+## 语法
 
 ```sql
--- Convert a string or integer to a timestamp
+-- 将字符串或整数转换为时间戳
 TRY_TO_TIMESTAMP(<expr>)
 
--- Convert a string to a timestamp using the given pattern
+-- 使用给定的模式将字符串转换为时间戳
 TRY_TO_TIMESTAMP(<expr>, <pattern>)
 ```
 
-If given two arguments, the function converts the first string to a timestamp based on the pattern specified in the second string. To specify the pattern, use specifiers. The specifiers allow you to define the desired format for date and time values. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
+如果给定两个参数，该函数根据第二个字符串中指定的模式将第一个字符串转换为时间戳。要指定模式，请使用说明符。说明符允许您定义日期和时间值的所需格式。有关支持的说明符的完整列表，请参阅[日期和时间格式化](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time)。
 
-## Aliases
+## 别名
 
 - [TRY_TO_DATETIME](try-to-datetime.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT TRY_TO_TIMESTAMP('2022-01-02 02:00:11'), TRY_TO_DATETIME('2022-01-02 02:00:11');

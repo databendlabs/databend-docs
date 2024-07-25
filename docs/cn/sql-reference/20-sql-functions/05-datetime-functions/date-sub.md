@@ -2,26 +2,26 @@
 title: DATE_SUB
 ---
 
-Subtract the time interval or date interval from the provided date or date with time (timestamp/datetime).
+从提供的日期或日期时间（时间戳/日期时间）中减去时间间隔或日期间隔。
 
-## Syntax
+## 语法
 
 ```sql
 DATE_SUB(<unit>, <value>,  <date_or_time_expr>)
 ```
-## Arguments
+## 参数
 
-| Arguments             | Description                                                                                                       |
+| 参数                  | 描述                                                                                                              |
 |-----------------------|-------------------------------------------------------------------------------------------------------------------|
-| `<unit>`              | Must be of the following values: `YEAR`, `QUARTER`, `MONTH`, `DAY`, `HOUR`, `MINUTE` and `SECOND`                 |
-| `<value>`             | This is the number of units of time that you want to add. For example, if you want to add 2 days, this will be 2. |
-| `<date_or_time_expr>` | A value of `DATE` or `TIMESTAMP` type                                                                             |
+| `<unit>`              | 必须是以下值之一：`YEAR`, `QUARTER`, `MONTH`, `DAY`, `HOUR`, `MINUTE` 和 `SECOND`                                 |
+| `<value>`             | 这是您想要减去的时间单位数量。例如，如果您想减去2天，这就是2。                                                   |
+| `<date_or_time_expr>` | 一个 `DATE` 或 `TIMESTAMP` 类型的值                                                                               |
 
-## Return Type
+## 返回类型
 
-The function returns a value of the same type as the `<date_or_time_expr>` argument.
+函数返回与 `<date_or_time_expr>` 参数相同类型的值。
 
-## Examples
+## 示例
 
 ```sql
 SELECT date_sub(YEAR, 1, to_date('2018-01-02'));

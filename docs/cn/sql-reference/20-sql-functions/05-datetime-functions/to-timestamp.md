@@ -3,11 +3,11 @@ title: TO_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.575"/>
+<FunctionDescription description="引入或更新: v1.2.575"/>
 
 将表达式转换为带时间的日期。
 
-另请参阅：[TO_DATE](to-date)
+另请参阅: [TO_DATE](to-date)
 
 ## 语法
 
@@ -16,7 +16,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 TO_TIMESTAMP(<expr>)
 ```
 
-如果给定的是[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)日期格式字符串，该函数从字符串中提取日期；如果给定的是整数，该函数将整数解释为自Unix纪元（1970年1月1日午夜）以来的秒数、毫秒数或微秒数（负数表示之前，正数表示之后）：
+如果给定一个 [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 日期格式字符串，该函数从字符串中提取日期；如果给定的是一个整数，该函数将整数解释为自 Unix 纪元（1970 年 1 月 1 日午夜）以来的秒数、毫秒数或微秒数（负数表示之前，正数表示之后）：
 
 | 范围                                       | 单位                 |
 |---------------------------------------------|----------------------|
@@ -29,17 +29,17 @@ TO_TIMESTAMP(<expr>)
 TO_TIMESTAMP(<expr>, <pattern>)
 ```
 
-如果给定两个参数，该函数根据第二个字符串中指定的模式将第一个字符串转换为时间戳。要指定模式，请使用格式说明符。格式说明符允许您定义所需的日期和时间格式。有关支持的格式说明符的完整列表，请参阅[日期和时间格式化](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time)。
+如果给定两个参数，该函数根据第二个字符串中指定的模式将第一个字符串转换为时间戳。要指定模式，请使用说明符。说明符允许您定义所需的日期和时间格式。有关支持的说明符的完整列表，请参阅 [日期和时间格式化](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time)。
 
 ## 返回类型
 
-返回格式为 `YYYY-MM-DD hh:mm:ss.ffffff` 的时间戳：
+返回一个格式为 `YYYY-MM-DD hh:mm:ss.ffffff` 的时间戳：
 
 - 返回的时间戳始终反映您的 Databend 时区。
-    - 当给定字符串中包含时区信息时，它会将时间戳转换为 Databend 配置的时区对应的时间。换句话说，它会调整时间戳以反映 Databend 中设置的时区。
+    - 当给定字符串中包含时区信息时，它将时间戳转换为 Databend 配置的时区对应的时间。换句话说，它会调整时间戳以反映 Databend 中设置的时区。
 
     ```sql
-    -- 设置时区为 'America/Toronto'（UTC-5:00，东部标准时间）
+    -- 设置时区为 'America/Toronto' (UTC-5:00, 东部标准时间)
     SET timezone = 'America/Toronto';
 
     SELECT TO_TIMESTAMP('2022-01-02T01:12:00-07:00'), TO_TIMESTAMP('2022/01/02T01:12:00-07:00', '%Y/%m/%dT%H:%M:%S%::z');
@@ -51,10 +51,10 @@ TO_TIMESTAMP(<expr>, <pattern>)
     └────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
     ```
 
-    - 当给定字符串中不包含时区信息时，它假设时间戳属于当前会话配置的时区。
+    - 如果给定字符串中不包含时区信息，它将假定时间戳属于当前会话配置的时区。
 
     ```sql
-    -- 设置时区为 'America/Toronto'（UTC-5:00，东部标准时间）
+    -- 设置时区为 'America/Toronto' (UTC-5:00, 东部标准时间)
     SET timezone = 'America/Toronto';
     
     SELECT TO_TIMESTAMP('2022-01-02T01:12:00'), TO_TIMESTAMP('2022/01/02T01:12:00', '%Y/%m/%dT%H:%M:%S');
@@ -92,7 +92,7 @@ TO_TIMESTAMP(<expr>, <pattern>)
 
 ## 示例
 
-### 示例-1：将字符串转换为时间戳
+### 示例-1: 将字符串转换为时间戳
 
 ```sql
 SELECT TO_TIMESTAMP('2022-01-02 02:00:11');
@@ -111,9 +111,9 @@ SELECT TO_TIMESTAMP('2022-01-02T01');
 │ 2022-01-02 01:00:00           │
 └───────────────────────────────┘
 
--- 设置时区为 'America/Toronto'（UTC-5:00，东部标准时间）
+-- 设置时区为 'America/Toronto' (UTC-5:00, 东部标准时间)
 SET timezone = 'America/Toronto';
--- 将提供的字符串转换为当前时区（'America/Toronto'）
+-- 将提供的字符串转换为当前时区 ('America/Toronto')
 SELECT TO_TIMESTAMP('2022-01-02T01:12:00-07:00');
 
 ┌───────────────────────────────────────────┐
@@ -123,7 +123,7 @@ SELECT TO_TIMESTAMP('2022-01-02T01:12:00-07:00');
 └───────────────────────────────────────────┘
 ```
 
-### 示例-2：将整数转换为时间戳
+### 示例-2: 将整数转换为时间戳
 
 ```sql
 SELECT TO_TIMESTAMP(1), TO_TIMESTAMP(-1);
@@ -158,13 +158,13 @@ error: APIError: ResponseError with 1006: number overflowed while evaluating fun
 ```
 :::
 
-### 示例-3：使用模式将字符串转换为时间戳
+### 示例-3: 使用模式将字符串转换为时间戳
 
 ```sql
--- 设置时区为 'America/Toronto'（UTC-5:00，东部标准时间）
+-- 设置时区为 'America/Toronto' (UTC-5:00, 东部标准时间)
 SET timezone = 'America/Toronto';
 
--- 将提供的字符串转换为当前时区（'America/Toronto'）
+-- 将提供的字符串转换为当前时区 ('America/Toronto')
 SELECT TO_TIMESTAMP('2022/01/02T01:12:00-07:00', '%Y/%m/%dT%H:%M:%S%::z');
 
 ┌────────────────────────────────────────────────────────────────────┐

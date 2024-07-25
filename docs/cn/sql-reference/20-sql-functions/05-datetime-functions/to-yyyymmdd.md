@@ -2,24 +2,25 @@
 title: TO_YYYYMMDD
 ---
 
-Converts a date or date with time (timestamp/datetime) to a UInt32 number containing the year and month number (YYYY * 10000 + MM * 100 + DD).
-## Syntax
+将日期或带时间的日期（时间戳/日期时间）转换为包含年份和月份编号的 UInt32 数字（YYYY * 10000 + MM * 100 + DD）。
+
+## 语法
 
 ```sql
 TO_YYYYMMDD(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description   |
-|-----------|---------------|
-| `<expr>`  | date/datetime |
+| 参数       | 描述         |
+|------------|--------------|
+| `<expr>`   | 日期/日期时间 |
 
-## Return Type
+## 返回类型
 
-`INT`, returns in `YYYYMMDD` format.
+`INT`，返回格式为 `YYYYMMDD`。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

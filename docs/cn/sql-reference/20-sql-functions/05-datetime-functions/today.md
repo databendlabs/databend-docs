@@ -2,19 +2,19 @@
 title: TODAY
 ---
 
-Returns current date.
+返回当前日期。
 
-## Syntax
+## 语法
 
 ```sql
 TODAY()
 ```
 
-## Return Type
+## 返回类型
 
-`DATE`, returns date in “YYYY-MM-DD” format.
+`DATE`，返回格式为“YYYY-MM-DD”的日期。
 
-## Examples
+## 示例
 
 ```sql
 SELECT TODAY();

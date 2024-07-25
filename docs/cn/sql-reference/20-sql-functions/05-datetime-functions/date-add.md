@@ -2,28 +2,28 @@
 title: DATE_ADD
 ---
 
-Add the time interval or date interval to the provided date or date with time (timestamp/datetime).
+将时间间隔或日期间隔添加到提供的日期或带时间的日期（时间戳/日期时间）。
 
-## Syntax
+## 语法
 
 ```sql
 DATE_ADD(<unit>, <value>,  <date_or_time_expr>)
 ```
-## Arguments
+## 参数
 
-| Arguments             | Description                                                                                                       |
+| 参数                  | 描述                                                                                                              |
 |-----------------------|-------------------------------------------------------------------------------------------------------------------|
-| `<unit>`              | Must be of the following values: `YEAR`, `QUARTER`, `MONTH`, `DAY`, `HOUR`, `MINUTE` and `SECOND`                 |
-| `<value>`             | This is the number of units of time that you want to add. For example, if you want to add 2 days, this will be 2. |
-| `<date_or_time_expr>` | A value of `DATE` or `TIMESTAMP` type                                                                             |
+| `<unit>`              | 必须是以下值之一：`YEAR`、`QUARTER`、`MONTH`、`DAY`、`HOUR`、`MINUTE` 和 `SECOND`                                 |
+| `<value>`             | 这是您要添加的时间单位数量。例如，如果您想添加2天，则此值为2。                                                   |
+| `<date_or_time_expr>` | 一个 `DATE` 或 `TIMESTAMP` 类型的值                                                                               |
 
-## Return Type
+## 返回类型
 
-The function returns a value of the same type as the `<date_or_time_expr>` argument.
+函数返回与 `<date_or_time_expr>` 参数相同类型的值。
 
-## Examples
+## 示例
 
-Query:
+查询：
 ```sql
 SELECT date_add(YEAR, 1, to_date('2018-01-02'));
 

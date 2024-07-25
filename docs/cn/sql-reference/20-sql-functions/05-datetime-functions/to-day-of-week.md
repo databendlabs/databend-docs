@@ -2,25 +2,25 @@
 title: TO_DAY_OF_WEEK
 ---
 
-Converts a date or date with time (timestamp/datetime) to a UInt8 number containing the number of the day of the week (Monday is 1, and Sunday is 7).
+将日期或带时间的日期（时间戳/日期时间）转换为包含星期几的 UInt8 数字（星期一为 1，星期日为 7）。
 
-## Syntax
+## 语法
 
 ```sql
 TO_DAY_OF_WEEK(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<expr>`  | date/timestamp |
+| 参数       | 描述         |
+|-----------|--------------|
+| `<expr>`  | 日期/时间戳  |
 
-## Return Type
+## 返回类型
 
 ``TINYINT`
 
-## Examples
+## 示例
 
 ```sql
 

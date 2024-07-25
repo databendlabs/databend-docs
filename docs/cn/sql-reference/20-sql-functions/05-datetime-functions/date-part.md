@@ -4,26 +4,26 @@ title: DATE_PART
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.153"/>
+<FunctionDescription description="引入或更新：v1.2.153"/>
 
-Retrieves the designated portion of a date, time, or timestamp.
+提取日期、时间或时间戳的指定部分。
 
-See also: [EXTRACT](extract.md)
+另请参阅：[EXTRACT](extract.md)
 
-## Syntax
+## 语法
 
 ```sql
 DATE_PART( YEAR | QUARTER | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND | DOW | DOY, <date_or_time_expr> )
 ```
 
-- DOW: Day of Week.
-- DOY: Day of Year.
+- DOW：星期几。
+- DOY：一年中的第几天。
 
-## Return Type
+## 返回类型
 
-Integer.
+整数。
 
-## Examples
+## 示例
 
 ```sql
 SELECT NOW();

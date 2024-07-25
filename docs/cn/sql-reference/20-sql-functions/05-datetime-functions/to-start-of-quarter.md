@@ -2,27 +2,27 @@
 title: TO_START_OF_QUARTER
 ---
 
-Rounds down a date or date with time (timestamp/datetime) to the first day of the quarter.
-The first day of the quarter is either 1 January, 1 April, 1 July, or 1 October.
-Returns the date.
+将日期或带时间的日期（时间戳/日期时间）向下舍入到季度的第一天。
+季度的第一天分别是1月1日、4月1日、7月1日或10月1日。
+返回日期。
 
-## Syntax
+## 语法
 
 ```sql
 TO_START_OF_QUARTER(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
+| 参数       | 描述           |
 |-----------|----------------|
-| `<expr>`   | date/timestamp |
+| `<expr>`   | 日期/时间戳    |
 
-## Return Type
+## 返回类型
 
-`DATE`, returns date in “YYYY-MM-DD” format.
+`DATE`，返回格式为“YYYY-MM-DD”的日期。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

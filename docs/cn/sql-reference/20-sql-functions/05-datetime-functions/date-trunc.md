@@ -2,25 +2,25 @@
 title: DATE_TRUNC
 ---
 
-Truncates a date, time, or timestamp value to a specified precision. For example, if you truncate `2022-07-07` to `MONTH`, the result will be `2022-07-01`; if you truncate `2022-07-07 01:01:01.123456` to `SECOND`, the result will be `2022-07-07 01:01:01.000000`.
+将日期、时间或时间戳值截断到指定的精度。例如，如果将 `2022-07-07` 截断到 `MONTH`，结果将是 `2022-07-01`；如果将 `2022-07-07 01:01:01.123456` 截断到 `SECOND`，结果将是 `2022-07-07 01:01:01.000000`。
 
-## Syntax
+## 语法
 
 ```sql
 DATE_TRUNC(<precision>, <date_or_time_expr>)
 ```
-## Arguments
+## 参数
 
-| Arguments             | Description                                                                                        |
-|-----------------------|----------------------------------------------------------------------------------------------------|
-| `<precision>`          | Must be of the following values: `YEAR`, `QUARTER`, `MONTH`, `DAY`, `HOUR`, `MINUTE` and `SECOND`  |
-| `<date_or_time_expr>` | A value of `DATE` or `TIMESTAMP` type                                                              |
+| 参数                  | 描述                                                                                             |
+|-----------------------|--------------------------------------------------------------------------------------------------|
+| `<precision>`          | 必须是以下值之一：`YEAR`、`QUARTER`、`MONTH`、`DAY`、`HOUR`、`MINUTE` 和 `SECOND`                |
+| `<date_or_time_expr>` | `DATE` 或 `TIMESTAMP` 类型的值                                                                   |
 
-## Return Type
+## 返回类型
 
-The function returns a value of the same type as the `<date_or_time_expr>` argument.
+函数返回与 `<date_or_time_expr>` 参数相同类型的值。
 
-## Examples
+## 示例
 
 ```sql
 select date_trunc(month, to_date('2022-07-07'));

@@ -2,25 +2,25 @@
 title: TO_START_OF_YEAR
 ---
 
-Returns the first day of the year for a date or a date with time (timestamp/datetime).
+返回日期或日期时间（时间戳/日期时间）所在年份的第一天。
 
-## Syntax
+## 语法
 
 ```sql
 TO_START_OF_YEAR(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<expr>`  | date/timestamp |
+| 参数       | 描述           |
+|------------|----------------|
+| `<expr>`   | 日期/时间戳    |
 
-## Return Type
+## 返回类型
 
-`DATE`, returns date in “YYYY-MM-DD” format.
+`DATE`，返回格式为“YYYY-MM-DD”的日期。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

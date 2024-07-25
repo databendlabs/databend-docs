@@ -2,9 +2,9 @@
 title: DATE DIFF
 ---
 
-Databend does not provide a `date_diff` function yet, but it supports direct arithmetic operations on dates and times. For example, you can use the expression `TO_DATE(NOW())-2` to obtain the date from two days ago.
+Databend 目前尚未提供 `date_diff` 函数，但它支持直接对日期和时间进行算术运算。例如，你可以使用表达式 `TO_DATE(NOW())-2` 来获取两天前的日期。
 
-This flexibility of directly manipulating dates and times in Databend makes it convenient and versatile for handling date and time computations. See an example below:
+Databend 直接操作日期和时间的灵活性使其在处理日期和时间计算时既方便又多功能。请参见以下示例：
 
 ```sql
 CREATE TABLE tasks (

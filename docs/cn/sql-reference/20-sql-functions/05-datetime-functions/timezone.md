@@ -2,20 +2,20 @@
 title: TIMEZONE
 ---
 
-Returns the timezone for the current connection. 
+返回当前连接的时区。
 
-Databend uses UTC (Coordinated Universal Time) as the default timezone and allows you to change the timezone to your current geographic location. For the available values you can assign to the `timezone` setting, refer to https://docs.rs/chrono-tz/latest/chrono_tz/enum.Tz.html. See the examples below for details.
+Databend 默认使用 UTC（协调世界时）作为时区，并允许您将时区更改为当前地理位置。有关可以分配给 `timezone` 设置的可用值，请参阅 https://docs.rs/chrono-tz/latest/chrono_tz/enum.Tz.html。详情请参见下面的示例。
 
-## Syntax
+## 语法
 
 ```
 SELECT TIMEZONE();
 ```
 
-## Examples
+## 示例
 
 ```sql
--- Return the current timezone
+-- 返回当前时区
 SELECT TIMEZONE();
 
 ┌────────────┐
@@ -24,7 +24,7 @@ SELECT TIMEZONE();
 │ UTC        │
 └────────────┘
 
--- Set the timezone to China Standard Time
+-- 设置时区为中国标准时间
 SET timezone='Asia/Shanghai';
 
 SELECT TIMEZONE();
