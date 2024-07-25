@@ -4,19 +4,19 @@ sidebar_position: 17
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.368"/>
+<FunctionDescription description="引入或更新: v1.2.368"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VACUUM TABLE'/>
 
-VACUUM TABLE 命令通过永久删除表中的历史数据文件来帮助优化系统性能，释放存储空间。这包括：
+VACUUM TABLE 命令通过永久移除表中的历史数据文件来释放存储空间，从而优化系统性能。这包括：
 
-- 与表相关的快照，以及它们相关的段和块。
+- 与表关联的快照及其相关的段和块。
 
-- 孤立文件。在 Databend 中，孤立文件指的是不再与表关联的快照、段和块。孤立文件可能由各种操作和错误生成，例如在数据备份和恢复期间，它们可能会占用宝贵的磁盘空间，并随着时间的推移降低系统性能。
+- 孤立文件。在 Databend 中，孤立文件指的是不再与表关联的快照、段和块。孤立文件可能由各种操作和错误产生，例如在数据备份和恢复过程中，它们会占用宝贵的磁盘空间并随着时间的推移降低系统性能。
 
-另见：[VACUUM DROP TABLE](91-vacuum-drop-table.md)
+另请参阅：[VACUUM DROP TABLE](91-vacuum-drop-table.md)
 
 ### 语法和示例
 
@@ -24,26 +24,26 @@ VACUUM TABLE 命令通过永久删除表中的历史数据文件来帮助优化�
 VACUUM TABLE <table_name> [ DRY RUN [SUMMARY] ]
 ```
 
-- `DRY RUN [SUMMARY]`：当指定此参数时，候选的孤立文件将不会被移除。相反，将返回最多 1000 个候选文件及其大小（以字节为单位）的列表，显示如果没有使用该选项将会被移除的内容。当包含可选参数 `SUMMARY` 时，命令返回将要移除的文件总数及其字节总大小。
+- `DRY RUN [SUMMARY]`：指定此参数时，候选的孤立文件不会被移除。相反，将返回最多 1,000 个候选文件及其大小（以字节为单位），显示如果不使用此选项将移除的内容。当包含可选参数 `SUMMARY` 时，命令将返回要移除的文件总数及其总大小（以字节为单位）。
 
 ### 输出
 
-VACUUM TABLE 命令（不带 `DRY RUN`）返回一个表格，总结了被清理文件的重要统计信息，包含以下列：
+VACUUM TABLE 命令（不带 `DRY RUN`）返回一个表格，总结了被清理文件的关键统计信息，包含以下列：
 
-| 列名             | 描述                                   |
-|----------------|---------------------------------------|
-| snapshot_files | 快照文件数量                          |
-| snapshot_size  | 快照文件总大小（以字节为单位）         |
-| segments_files | 段文件数量                            |
-| segments_size  | 段文件总大小（以字节为单位）           |
-| block_files    | 块文件数量                            |
-| block_size     | 块文件总大小（以字节为单位）           |
-| index_files    | 索引文件数量                          |
-| index_size     | 索引文件总大小（以字节为单位）         |
-| total_files    | 所有类型文件的总数量                  |
-| total_size     | 所有类型文件的总大小（以字节为单位）   |
+| 列             | 描述                               |
+|----------------|------------------------------------|
+| snapshot_files | 快照文件数量                       |
+| snapshot_size  | 快照文件总大小（以字节为单位）     |
+| segments_files | 段文件数量                         |
+| segments_size  | 段文件总大小（以字节为单位）       |
+| block_files    | 块文件数量                         |
+| block_size     | 块文件总大小（以字节为单位）       |
+| index_files    | 索引文件数量                       |
+| index_size     | 索引文件总大小（以字节为单位）     |
+| total_files    | 所有类型文件的总数量               |
+| total_size     | 所有类型文件的总大小（以字节为单位）|
 
-```sql title='示例：'
+```sql title='示例:'
 // highlight-next-line
 VACUUM TABLE c;
 
@@ -54,9 +54,9 @@ VACUUM TABLE c;
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-当指定 VACUUM TABLE 命令的 `DRY RUN` 参数时，它返回最多 1000 个候选文件及其大小（以字节为单位）的列表。如果指定了 `DRY RUN SUMMARY`，命令提供将要移除的文件总数及其组合大小。
+当指定 `DRY RUN` 参数时，VACUUM TABLE 命令将返回最多 1,000 个候选文件及其大小（以字节为单位）。如果指定 `DRY RUN SUMMARY`，命令将提供要移除的文件总数及其总大小。
 
-```sql title='示例：'
+```sql title='示例:'
 // highlight-next-line
 VACUUM TABLE c DRY RUN;
 
@@ -82,35 +82,35 @@ VACUUM TABLE c DRY RUN SUMMARY;
 
 ### 调整数据保留时间
 
-VACUUM TABLE 命令移除早于 `DATA_RETENTION_TIME_IN_DAYS` 设置的数据文件。这个保留期可以根据需要进行调整，例如，调整为 2 天：
+VACUUM TABLE 命令移除早于 `data_retention_time_in_days` 设置的数据文件。可以根据需要调整此保留期限，例如调整为 2 天：
 
 ```sql
-SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
+SET GLOBAL data_retention_time_in_days = 2;
 ```
 
-`DATA_RETENTION_TIME_IN_DAYS` 的默认值为 1 天（24 小时），最大值根据 Databend 版本而异：
+`data_retention_time_in_days` 默认值为 1 天（24 小时），最大值因 Databend 版本而异：
 
-| 版本                                      | 默认保留期       | 最大保留期       |
-|------------------------------------------|-----------------|------------------|
-| Databend 社区版 & 企业版                  | 1 天（24 小时）   | 90 天            |
-| Databend 云（标准版）                      | 1 天（24 小时）   | 1 天（24 小时）   |
-| Databend 云（商业版）                      | 1 天（24 小时）   | 90 天            |
+| 版本                                     | 默认保留时间   | 最大保留时间     |
+|------------------------------------------|----------------|------------------|
+| Databend 社区版和企业版                  | 1 天（24 小时）| 90 天            |
+| Databend Cloud（标准版）                 | 1 天（24 小时）| 1 天（24 小时）  |
+| Databend Cloud（商业版）                 | 1 天（24 小时）| 90 天            |
 
-要检查 `DATA_RETENTION_TIME_IN_DAYS` 的当前值：
+要检查 `data_retention_time_in_days` 的当前值：
 
 ```sql
-SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
+SHOW SETTINGS LIKE 'data_retention_time_in_days';
 ```
 
 ### VACUUM TABLE 与 OPTIMIZE TABLE
 
-Databend 提供了两个命令用于从表中移除历史数据文件：VACUUM TABLE 和 [OPTIMIZE TABLE](60-optimize-table.md)（带 PURGE 选项）。尽管这两个命令都能永久删除数据文件，但它们在处理孤立文件方面有所不同：OPTIMIZE TABLE 能够移除孤立的快照，以及相应的段和块。然而，可能存在没有任何关联快照的孤立段和块。在这种情况下，只有 VACUUM TABLE 能帮助清理它们。
+Databend 提供了两个命令来移除表中的历史数据文件：VACUUM TABLE 和 [OPTIMIZE TABLE](60-optimize-table.md)（带 PURGE 选项）。尽管这两个命令都能够永久删除数据文件，但它们在处理孤立文件的方式上有所不同：OPTIMIZE TABLE 能够移除孤立的快照及其对应的段和块。然而，存在没有关联快照的孤立段和块的情况。在这种情况下，只有 VACUUM TABLE 能够帮助清理它们。
 
-VACUUM TABLE 和 OPTIMIZE TABLE 都允许您指定一个周期来决定哪些历史数据文件将被移除。然而，OPTIMIZE TABLE 要求您事先从查询中获取快照 ID 或时间戳，而 VACUUM TABLE 允许您直接指定保留数据文件的小时数。VACUUM TABLE 在移除历史数据文件之前提供了增强的控制，通过 DRY RUN 选项，允许您在应用命令之前预览将要被移除的数据文件。这提供了一个安全的移除体验，并帮助您避免意外的数据丢失。
+VACUUM TABLE 和 OPTIMIZE TABLE 都允许你指定一个时间段来确定要移除的历史数据文件。然而，OPTIMIZE TABLE 需要你事先通过查询获取快照 ID 或时间戳，而 VACUUM TABLE 允许你直接指定保留数据文件的小时数。VACUUM TABLE 在移除前提供了对历史数据文件的增强控制，通过 DRY RUN 选项，你可以在应用命令前预览要移除的数据文件。这提供了安全的移除体验，并帮助你避免意外的数据丢失。
 
 | 	                                                  | VACUUM TABLE 	 | OPTIMIZE TABLE 	 |
 |----------------------------------------------------|----------------|------------------|
-| 关联的快照（包括段和块） 	                          | 是          	 | 是            	 |
-| 孤立的快照（包括段和块）     	                      | 是          	 | 是            	 |
-| 仅孤立的段和块                                   	  | 是          	 | 否             	 |
+| 关联的快照（包括段和块） 	                         | 是          	 | 是            	 |
+| 孤立的快照（包括段和块）     	                     | 是          	 | 是            	 |
+| 仅孤立的段和块                  	                 | 是          	 | 否             	 |
 | DRY RUN                                         	  | 是          	 | 否             	 |
