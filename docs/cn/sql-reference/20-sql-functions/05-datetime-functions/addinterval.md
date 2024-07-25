@@ -1,16 +1,16 @@
 ---
-title: ADD TIME INTERVAL
-description: Add time interval function
+title: 添加时间间隔
+description: 添加时间间隔函数
 title_includes: add_years, add_quarters, add_months, add_days, add_hours, add_minutes, add_seconds
 ---
 
-Add a time interval to a date or timestamp, return the result of date or timestamp type.
+向日期或时间戳添加时间间隔，返回日期或时间戳类型的结果。
 
-## Syntax
+## 语法
 
 ```sql
 ADD_YEARS(<exp0>, <expr1>)
-ADD_QUARTERs(<exp0>, <expr1>)
+ADD_QUARTERS(<exp0>, <expr1>)
 ADD_MONTHS(<exp0>, <expr1>)
 ADD_DAYS(<exp0>, <expr1>)
 ADD_HOURS(<exp0>, <expr1>)
@@ -18,11 +18,11 @@ ADD_MINUTES(<exp0>, <expr1>)
 ADD_SECONDS(<exp0>, <expr1>)
 ```
 
-## Return Type
+## 返回类型
 
-`DATE`, `TIMESTAMP`, depends on the input.
+`DATE`, `TIMESTAMP`，取决于输入。
 
-## Examples
+## 示例
 
 ```sql
 SELECT to_date(18875), add_years(to_date(18875), 2);

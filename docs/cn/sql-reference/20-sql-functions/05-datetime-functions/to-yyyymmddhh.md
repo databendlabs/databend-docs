@@ -2,25 +2,25 @@
 title: TO_YYYYMMDDHH
 ---
 
-Formats a given date or timestamp into a string representation in the format "YYYYMMDDHH" (Year, Month, Day, Hour).
+将给定的日期或时间戳格式化为 "YYYYMMDDHH"（年、月、日、时）格式的字符串表示。
 
-## Syntax
+## 语法
 
 ```sql
 TO_YYYYMMDDHH(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                   |
-|-----------|-------------------------------|
-| `<expr>`  | date/datetime，date as default|
+| 参数      | 描述                     |
+|-----------|--------------------------|
+| `<expr>`  | 日期/时间，默认为日期     |
 
-## Return Type
+## 返回类型
 
-Returns an unsigned 64-bit integer (UInt64) in the format "YYYYMMDDHH".
+返回一个格式为 "YYYYMMDDHH" 的无符号 64 位整数（UInt64）。
 
-## Examples
+## 示例
 
 ```sql
 SELECT to_yyyymmddhh('2023-11-12 09:38:18.165575'), to_yyyymmddhh(to_date('2023-11-12 09:38:18.165575'));

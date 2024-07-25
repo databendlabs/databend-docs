@@ -2,29 +2,29 @@
 title: TO_MONTH
 ---
 
-Convert a date or date with time (timestamp/datetime) to a UInt8 number containing the month number (1-12).
+将日期或带时间的日期（时间戳/日期时间）转换为包含月份编号（1-12）的 UInt8 数字。
 
-## Syntax
+## 语法
 
 ```sql
 TO_MONTH(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<expr>`  | date/timestamp |
+| 参数       | 描述         |
+|-----------|--------------|
+| `<expr>`  | 日期/时间戳  |
 
-## Aliases
+## 别名
 
 - [MONTH](month.md)
 
-## Return Type
+## 返回类型
 
  `TINYINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT NOW(), TO_MONTH(NOW()), MONTH(NOW());

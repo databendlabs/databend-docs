@@ -2,27 +2,26 @@
 title: TO_START_OF_WEEK
 ---
 
-Returns the first day of the week for a date or a date with time (timestamp/datetime).
-The first day of a week can be Sunday or Monday, which is specified by the argument `mode`.
+返回日期或日期时间（时间戳/日期时间）所在周的第一天。周的第一天可以是星期日或星期一，由参数 `mode` 指定。
 
-## Syntax
+## 语法
 
 ```sql
 TO_START_OF_WEEK(<expr> [, mode])
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                                                                                         |
-|-----------|-----------------------------------------------------------------------------------------------------|
-| `<expr>`  | date/timestamp                                                                                      |
-| `[mode]`  | Optional. If it is 0, the result is Sunday, otherwise, the result is Monday. The default value is 0 |
+| 参数       | 描述                                                                                         |
+|------------|----------------------------------------------------------------------------------------------|
+| `<expr>`   | 日期/时间戳                                                                                  |
+| `[mode]`   | 可选。如果为 0，结果为星期日，否则结果为星期一。默认值为 0                                   |
 
-## Return Type
+## 返回类型
 
-`DATE`, returns date in “YYYY-MM-DD” format.
+`DATE`，返回格式为“YYYY-MM-DD”的日期。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

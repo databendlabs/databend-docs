@@ -2,29 +2,29 @@
 title: TO_DAY_OF_MONTH
 ---
 
-Convert a date or date with time (timestamp/datetime) to a UInt8 number containing the number of the day of the month (1-31).
+将日期或带时间的日期（时间戳/日期时间）转换为包含月份中某天（1-31）的UInt8数字。
 
-## Syntax
+## 语法
 
 ```sql
 TO_DAY_OF_MONTH(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<expr>`  | date/timestamp |
+| 参数       | 描述         |
+|-----------|--------------|
+| `<expr>`  | 日期/时间戳  |
 
-## Aliases
+## 别名
 
 - [DAY](day.md)
 
-## Return Type
+## 返回类型
 
 `TINYINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT NOW(), TO_DAY_OF_MONTH(NOW()), DAY(NOW());

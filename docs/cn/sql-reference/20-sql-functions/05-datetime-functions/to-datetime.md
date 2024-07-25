@@ -2,4 +2,4 @@
 title: TO_DATETIME
 ---
 
-Alias for [TO_TIMESTAMP](to-timestamp).
+[TO_TIMESTAMP](to-timestamp) 的别名。

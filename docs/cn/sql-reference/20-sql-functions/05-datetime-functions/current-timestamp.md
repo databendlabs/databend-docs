@@ -2,4 +2,4 @@
 title: CURRENT_TIMESTAMP
 ---
 
-Alias for [NOW](now.md).
+[NOW](now.md) 的别名。

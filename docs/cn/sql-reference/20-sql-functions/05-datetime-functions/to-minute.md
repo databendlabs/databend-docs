@@ -2,25 +2,25 @@
 title: TO_MINUTE
 ---
 
-Converts a date with time (timestamp/datetime) to a UInt8 number containing the number of the minute of the hour (0-59).
+将带有时间的日期（时间戳/日期时间）转换为包含小时分钟数的 UInt8 数字（0-59）。
 
-## Syntax
+## 语法
 
 ```sql
 TO_MINUTE(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<expr>`  | timestamp   |
+| 参数       | 描述     |
+|-----------|----------|
+| `<expr>`  | 时间戳   |
 
-## Return Type
+## 返回类型
 
  `TINYINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT

@@ -2,26 +2,26 @@
 title: TO_HOUR
 ---
 
-Converts a date with time (timestamp/datetime) to a UInt8 number containing the number of the hour in 24-hour time (0-23).
-This function assumes that if clocks are moved ahead, it is by one hour and occurs at 2 a.m., and if clocks are moved back, it is by one hour and occurs at 3 a.m. (which is not always true – even in Moscow the clocks were twice changed at a different time).
+将带有时间的日期（时间戳/日期时间）转换为包含24小时制小时数的UInt8数字（0-23）。
+该函数假设如果时钟向前调整，则调整一小时并在凌晨2点进行；如果时钟向后调整，则调整一小时并在凌晨3点进行（这并不总是正确的——即使在莫斯科，时钟也有两次在不同时间进行调整）。
 
-## Syntax
+## 语法
 
 ```sql
 TO_HOUR(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<expr>`  | timestamp   |
+| 参数       | 描述     |
+|-----------|---------|
+| `<expr>`  | 时间戳   |
 
-## Return Type
+## 返回类型
 
 `TINYINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT

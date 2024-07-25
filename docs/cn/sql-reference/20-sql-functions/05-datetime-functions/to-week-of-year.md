@@ -3,34 +3,34 @@ title: TO_WEEK_OF_YEAR
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.151"/>
+<FunctionDescription description="引入或更新: v1.2.151"/>
 
-Calculates the week number within a year for a given date.
+计算给定日期在一年中的周数。
 
-ISO week numbering works as follows: January 4th is always considered part of the first week. If January 1st is a Thursday, then the week that spans from Monday, December 29th, to Sunday, January 4th, is designated as ISO week 1. If January 1st falls on a Friday, then the week that goes from Monday, January 4th, to Sunday, January 10th, is marked as ISO week 1.
+ISO 周数计算方式如下：1月4日始终被视为第一周的一部分。如果1月1日是星期四，则从12月29日星期一到1月4日星期日的周被指定为ISO周1。如果1月1日是星期五，则从1月4日星期一到1月10日星期日的周被标记为ISO周1。
 
-## Syntax
+## 语法
 
 ```sql
 TO_WEEK_OF_YEAR(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<expr>`  | date/timestamp |
+| 参数       | 描述         |
+|-----------|--------------|
+| `<expr>`  | 日期/时间戳  |
 
-## Aliases
+## 别名
 
 - [WEEK](week.md)
 - [WEEKOFYEAR](weekofyear.md)
 
-## Return Type
+## 返回类型
 
-Returns an integer that represents the week number within a year, with numbering ranging from 1 to 53.
+返回一个整数，表示一年中的周数，范围从1到53。
 
-## Examples
+## 示例
 
 ```sql
 SELECT NOW(), TO_WEEK_OF_YEAR(NOW()), WEEK(NOW()), WEEKOFYEAR(NOW());

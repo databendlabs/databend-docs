@@ -1,20 +1,20 @@
 ---
-title: TOMORROW
+title: 明天
 ---
 
-Returns tomorrow date, same as `today() + 1`.
+返回明天的日期，等同于 `today() + 1`。
 
-## Syntax
+## 语法
 
 ```sql
 TOMORROW()
 ```
 
-## Return Type
+## 返回类型
 
-`DATE`, returns date in “YYYY-MM-DD” format.
+`DATE`，返回日期格式为“YYYY-MM-DD”。
 
-## Examples
+## 示例
 
 ```sql
 SELECT TOMORROW(), TODAY()+1;

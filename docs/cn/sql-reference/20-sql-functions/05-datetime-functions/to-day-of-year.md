@@ -2,25 +2,25 @@
 title: TO_DAY_OF_YEAR
 ---
 
-Convert a date or date with time (timestamp/datetime) to a UInt16 number containing the number of the day of the year (1-366).
+将日期或带时间的日期（时间戳/日期时间）转换为包含一年中第几天的 UInt16 数字（1-366）。
 
-## Syntax
+## 语法
 
 ```sql
 TO_DAY_OF_YEAR(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description |
+| 参数        | 描述        |
 | ----------- | ----------- |
-| `<expr>` | date/timestamp |
+| `<expr>` | 日期/时间戳 |
 
-## Return Type
+## 返回类型
 
 `SMALLINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT

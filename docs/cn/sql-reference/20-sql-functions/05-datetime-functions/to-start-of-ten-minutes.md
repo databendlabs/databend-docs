@@ -2,25 +2,25 @@
 title: TO_START_OF_TEN_MINUTES
 ---
 
-Rounds down a date with time (timestamp/datetime) to the start of the ten-minute interval.
+将日期和时间（时间戳/日期时间）向下舍入到十分钟间隔的开始。
 
-## Syntax
+## 语法
 
 ```sql
 TO_START_OF_TEN_MINUTES(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<expr>`  | timestamp   |
+| 参数       | 描述       |
+|------------|------------|
+| `<expr>`   | 时间戳     |
 
-## Return Type
+## 返回类型
 
-`TIMESTAMP`, returns date in “YYYY-MM-DD hh:mm:ss.ffffff” format.
+`TIMESTAMP`，返回日期格式为“YYYY-MM-DD hh:mm:ss.ffffff”。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

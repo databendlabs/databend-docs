@@ -2,24 +2,25 @@
 title: TIME_SLOT
 ---
 
-Rounds the time to the half-hour.
-## Syntax
+将时间四舍五入到半小时。
+
+## 语法
 
 ```sql
 time_slot(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description |
-| ----------- | ----------- |
-| `<expr>`    | timestamp   |
+| 参数        | 描述     |
+| ----------- | -------- |
+| `<expr>`    | 时间戳   |
 
-## Return Type
+## 返回类型
 
-`TIMESTAMP`, returns in “YYYY-MM-DD hh:mm:ss.ffffff” format.
+`TIMESTAMP`，返回格式为“YYYY-MM-DD hh:mm:ss.ffffff”。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

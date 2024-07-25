@@ -2,29 +2,29 @@
 title: TO_YEAR
 ---
 
-Converts a date or date with time (timestamp/datetime) to a UInt16 number containing the year number (AD).
+将日期或带时间的日期（时间戳/日期时间）转换为包含年份数字（公元）的 UInt16 数字。
 
-## Syntax
+## 语法
 
 ```sql
 TO_YEAR(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<expr>`  | date/timestamp |
+| 参数       | 描述         |
+|-----------|--------------|
+| `<expr>`  | 日期/时间戳  |
 
-## Aliases
+## 别名
 
 - [YEAR](year.md)
 
-## Return Type
+## 返回类型
 
  `SMALLINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT NOW(), TO_YEAR(NOW()), YEAR(NOW());

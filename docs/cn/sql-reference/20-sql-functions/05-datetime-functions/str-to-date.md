@@ -2,4 +2,4 @@
 title: STR_TO_DATE
 ---
 
-Alias for [TO_DATE](to-date.md).
+[TO_DATE](to-date.md) 的别名。

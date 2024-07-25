@@ -2,25 +2,25 @@
 title: TO_START_OF_ISO_YEAR
 ---
 
-Returns the first day of the ISO year for a date or a date with time (timestamp/datetime).
+返回日期或日期时间（时间戳/日期时间）的ISO年份的第一天。
 
-## Syntax
+## 语法
 
 ```sql
 TO_START_OF_ISO_YEAR(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
+| 参数       | 描述           |
 |-----------|----------------|
-| `<expr>`  | date/timestamp |
+| `<expr>`  | 日期/时间戳    |
 
-## Return Type
+## 返回类型
 
-`DATE`, returns date in “YYYY-MM-DD” format.
+`DATE`，返回格式为“YYYY-MM-DD”的日期。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

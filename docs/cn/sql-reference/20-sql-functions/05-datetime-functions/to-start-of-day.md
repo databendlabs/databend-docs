@@ -2,24 +2,25 @@
 title: TO_START_OF_DAY
 ---
 
-Rounds down a date with time (timestamp/datetime) to the start of the day.
-## Syntax
+将带有时间的日期（时间戳/日期时间）向下舍入到当天的开始。
+
+## 语法
 
 ```sql
 TO_START_OF_DAY( <expr> )
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<expr>`  | timestamp   |
+| 参数       | 描述       |
+|------------|------------|
+| `<expr>`   | 时间戳     |
 
-## Return Type
+## 返回类型
 
-`TIMESTAMP`, returns date in “YYYY-MM-DD hh:mm:ss.ffffff” format.
+`TIMESTAMP`，返回日期格式为“YYYY-MM-DD hh:mm:ss.ffffff”。
 
-## Examples
+## 示例
 
 ```sql
 SELECT
