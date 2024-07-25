@@ -2,21 +2,21 @@
 title: TO_HEX
 ---
 
-For a string argument str, TO_HEX() returns a hexadecimal string representation of str where each byte of each character in str is converted to two hexadecimal digits. The inverse of this operation is performed by the UNHEX() function.
+对于字符串参数 `str`，`TO_HEX()` 返回 `str` 的十六进制字符串表示形式，其中 `str` 中的每个字符的每个字节都被转换为两个十六进制数字。此操作的逆操作由 `UNHEX()` 函数执行。
 
-For a numeric argument N, TO_HEX() returns a hexadecimal string representation of the value of N treated as a longlong (BIGINT) number. 
+对于数值参数 `N`，`TO_HEX()` 返回 `N` 的十六进制字符串表示形式，其中 `N` 被视为长长整型（BIGINT）数字。
 
-## Syntax
+## 语法
 
 ```sql
 TO_HEX(<expr>)
 ```
 
-## Aliases
+## 别名
 
 - [HEX](../06-string-functions/hex.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT HEX('abc'), TO_HEX('abc');

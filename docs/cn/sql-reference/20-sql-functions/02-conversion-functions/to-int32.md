@@ -2,15 +2,15 @@
 title: TO_INT32
 ---
 
-Converts a value to INT32 data type.
+将一个值转换为 INT32 数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 TO_INT32( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_INT32('123');

@@ -2,15 +2,15 @@
 title: TO_FLOAT64
 ---
 
-Converts a value to FLOAT64 data type.
+将一个值转换为 FLOAT64 数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 TO_FLOAT64( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_FLOAT64('1.2');

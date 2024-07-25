@@ -2,15 +2,15 @@
 title: TO_FLOAT32
 ---
 
-Converts a value to FLOAT32 data type.
+将一个值转换为 FLOAT32 数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 TO_FLOAT32( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_FLOAT32('1.2');

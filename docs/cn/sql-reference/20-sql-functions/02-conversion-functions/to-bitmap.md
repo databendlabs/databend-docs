@@ -2,15 +2,15 @@
 title: TO_BITMAP
 ---
 
-Converts a value to BITMAP data type.
+将一个值转换为 BITMAP 数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 TO_BITMAP( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_BITMAP('1101');
@@ -18,6 +18,6 @@ SELECT TO_BITMAP('1101');
 ┌───────────────────┐
 │ to_bitmap('1101') │
 ├───────────────────┤
-│ <bitmap binary>   │
+│ <bitmap 二进制>   │
 └───────────────────┘
 ```

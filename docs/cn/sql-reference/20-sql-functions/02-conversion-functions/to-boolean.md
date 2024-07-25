@@ -2,15 +2,15 @@
 title: TO_BOOLEAN
 ---
 
-Converts a value to BOOLEAN data type.
+将一个值转换为 BOOLEAN 数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 TO_BOOLEAN( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_BOOLEAN('true');

@@ -2,15 +2,15 @@
 title: TO_UINT64
 ---
 
-Converts a value to UINT64 data type.
+将一个值转换为 UINT64 数据类型。
 
-## Syntax
+## 语法
 
 ```sql
 TO_UINT64( <expr> )
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_UINT64('123');
