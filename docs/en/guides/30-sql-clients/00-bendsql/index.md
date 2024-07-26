@@ -66,9 +66,15 @@ When building from source, some dependencies may involve compiling C/C++ code. E
 cargo install bendsql
 ```
 
+## User Authentication
+
+If you are connecting to a self-hosted Databend instance, you can use the admin users specified in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file, or you can connect using an SQL user created with the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command. 
+
+For connections to Databend Cloud, you can use the default `cloudapp` user or an SQL user created with the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command. Please note that the user account (email address) you use to log in to the Databend Cloud console cannot be used for connections. However, you can grant roles or privileges to users based on their email addresses. These user accounts, identified by their email addresses, can also function as SQL users in Databend Cloud. For more information, see [Members](/guides/cloud/manage/members).
+
 ## Tutorials
 
-- [Connecting to Databend using BendSQL](/tutorials/)
+- [Connecting to Self-Hosted Databend using BendSQL](/tutorials/)
 - [Connecting to Databend Cloud using BendSQL](/tutorials/connect/connect-to-databendcloud-bendsql)
 
 ## BendSQL Settings

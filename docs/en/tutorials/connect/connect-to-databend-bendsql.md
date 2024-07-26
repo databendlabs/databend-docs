@@ -1,12 +1,12 @@
 ---
-title: 'Connecting to Databend using BendSQL'
-sidebar_label: 'Connecting to Databend (BendSQL)'
+title: 'Connecting to Self-Hosted Databend using BendSQL'
+sidebar_label: 'Connecting to Self-Hosted Databend (BendSQL)'
 slug: /
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-In this tutorial, we will guide you through the process of connecting to Databend using BendSQL as the user `root`.
+In this tutorial, we will guide you through the process of connecting to a self-hosted Databend instance using BendSQL as the user `root`.
 
 <StepsWrap>
 <StepContent number="1">
