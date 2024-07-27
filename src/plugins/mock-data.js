@@ -9125,6 +9125,452 @@ const fakeRelease = {
         "\n\n## What's Changed\n### Exciting New Features ✨\n* feat: Add admin api /v1/processlist by **@flaneur2020** in [#12346](https://github.com/datafuselabs/databend/pull/12346)\n### Documentation 📔\n* docs: change column type by **@soyeric128** in [#12354](https://github.com/datafuselabs/databend/pull/12354)\n\n\n**Full Changelog**: https://github.com/datafuselabs/databend/compare/v1.2.46-nightly...v1.2.48-nightly",
     },
   ],
+  reOrigionList: [
+    {
+      url: "https://api.github.com/repos/datafuselabs/databend/releases/167216095",
+      assets_url:
+        "https://api.github.com/repos/datafuselabs/databend/releases/167216095/assets",
+      upload_url:
+        "https://uploads.github.com/repos/datafuselabs/databend/releases/167216095/assets{?name,label}",
+      html_url:
+        "https://github.com/datafuselabs/databend/releases/tag/untagged-18e3318f00387d4371da",
+      id: 167216095,
+      author: {
+        login: "everpcpc",
+        id: 1808802,
+        node_id: "MDQ6VXNlcjE4MDg4MDI=",
+        avatar_url: "https://avatars.githubusercontent.com/u/1808802?v=4",
+        gravatar_id: "",
+        url: "https://api.github.com/users/everpcpc",
+        html_url: "https://github.com/everpcpc",
+        followers_url: "https://api.github.com/users/everpcpc/followers",
+        following_url:
+          "https://api.github.com/users/everpcpc/following{/other_user}",
+        gists_url: "https://api.github.com/users/everpcpc/gists{/gist_id}",
+        starred_url:
+          "https://api.github.com/users/everpcpc/starred{/owner}{/repo}",
+        subscriptions_url:
+          "https://api.github.com/users/everpcpc/subscriptions",
+        organizations_url: "https://api.github.com/users/everpcpc/orgs",
+        repos_url: "https://api.github.com/users/everpcpc/repos",
+        events_url: "https://api.github.com/users/everpcpc/events{/privacy}",
+        received_events_url:
+          "https://api.github.com/users/everpcpc/received_events",
+        type: "User",
+        site_admin: false,
+      },
+      node_id: "RE_kwDOEgzJIc4J94Pf",
+      tag_name: "v1.2.583-nightly",
+      target_commitish: "03c09a571dcd22aeca83c135c2660fa09b8a6f96",
+      name: "v1.2.583-nightly",
+      draft: true,
+      prerelease: true,
+      created_at: "2024-07-25T22:05:36Z",
+      published_at: null,
+      assets: [
+        {
+          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885904",
+          id: 181885904,
+          node_id: "RA_kwDOEgzJIc4K11vQ",
+          name: "databend-hdfs-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
+          label: "",
+          uploader: {
+            login: "github-actions[bot]",
+            id: 41898282,
+            node_id: "MDM6Qm90NDE4OTgyODI=",
+            avatar_url: "https://avatars.githubusercontent.com/in/15368?v=4",
+            gravatar_id: "",
+            url: "https://api.github.com/users/github-actions%5Bbot%5D",
+            html_url: "https://github.com/apps/github-actions",
+            followers_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+            following_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+            gists_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+            starred_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+            subscriptions_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+            organizations_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+            repos_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+            events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+            received_events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+            type: "Bot",
+            site_admin: false,
+          },
+          content_type: "application/x-gtar",
+          state: "uploaded",
+          size: 409120966,
+          download_count: 0,
+          created_at: "2024-07-25T22:48:08Z",
+          updated_at: "2024-07-25T22:48:15Z",
+          browser_download_url:
+            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-hdfs-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
+        },
+        {
+          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885869",
+          id: 181885869,
+          node_id: "RA_kwDOEgzJIc4K11ut",
+          name: "databend-hdfs-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+          label: "",
+          uploader: {
+            login: "github-actions[bot]",
+            id: 41898282,
+            node_id: "MDM6Qm90NDE4OTgyODI=",
+            avatar_url: "https://avatars.githubusercontent.com/in/15368?v=4",
+            gravatar_id: "",
+            url: "https://api.github.com/users/github-actions%5Bbot%5D",
+            html_url: "https://github.com/apps/github-actions",
+            followers_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+            following_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+            gists_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+            starred_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+            subscriptions_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+            organizations_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+            repos_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+            events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+            received_events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+            type: "Bot",
+            site_admin: false,
+          },
+          content_type: "application/x-gtar",
+          state: "uploaded",
+          size: 337774408,
+          download_count: 0,
+          created_at: "2024-07-25T22:47:56Z",
+          updated_at: "2024-07-25T22:48:03Z",
+          browser_download_url:
+            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-hdfs-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+        },
+        {
+          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885834",
+          id: 181885834,
+          node_id: "RA_kwDOEgzJIc4K11uK",
+          name: "databend-testsuite-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+          label: "",
+          uploader: {
+            login: "github-actions[bot]",
+            id: 41898282,
+            node_id: "MDM6Qm90NDE4OTgyODI=",
+            avatar_url: "https://avatars.githubusercontent.com/in/15368?v=4",
+            gravatar_id: "",
+            url: "https://api.github.com/users/github-actions%5Bbot%5D",
+            html_url: "https://github.com/apps/github-actions",
+            followers_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+            following_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+            gists_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+            starred_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+            subscriptions_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+            organizations_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+            repos_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+            events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+            received_events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+            type: "Bot",
+            site_admin: false,
+          },
+          content_type: "application/x-gtar",
+          state: "uploaded",
+          size: 76242069,
+          download_count: 0,
+          created_at: "2024-07-25T22:47:36Z",
+          updated_at: "2024-07-25T22:47:38Z",
+          browser_download_url:
+            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-testsuite-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+        },
+        {
+          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885903",
+          id: 181885903,
+          node_id: "RA_kwDOEgzJIc4K11vP",
+          name: "databend-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
+          label: "",
+          uploader: {
+            login: "github-actions[bot]",
+            id: 41898282,
+            node_id: "MDM6Qm90NDE4OTgyODI=",
+            avatar_url: "https://avatars.githubusercontent.com/in/15368?v=4",
+            gravatar_id: "",
+            url: "https://api.github.com/users/github-actions%5Bbot%5D",
+            html_url: "https://github.com/apps/github-actions",
+            followers_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+            following_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+            gists_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+            starred_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+            subscriptions_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+            organizations_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+            repos_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+            events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+            received_events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+            type: "Bot",
+            site_admin: false,
+          },
+          content_type: "application/x-gtar",
+          state: "uploaded",
+          size: 407412205,
+          download_count: 0,
+          created_at: "2024-07-25T22:48:07Z",
+          updated_at: "2024-07-25T22:48:15Z",
+          browser_download_url:
+            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
+        },
+        {
+          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885875",
+          id: 181885875,
+          node_id: "RA_kwDOEgzJIc4K11uz",
+          name: "databend-v1.2.583-nightly-aarch64-unknown-linux-musl.tar.gz",
+          label: "",
+          uploader: {
+            login: "github-actions[bot]",
+            id: 41898282,
+            node_id: "MDM6Qm90NDE4OTgyODI=",
+            avatar_url: "https://avatars.githubusercontent.com/in/15368?v=4",
+            gravatar_id: "",
+            url: "https://api.github.com/users/github-actions%5Bbot%5D",
+            html_url: "https://github.com/apps/github-actions",
+            followers_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+            following_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+            gists_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+            starred_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+            subscriptions_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+            organizations_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+            repos_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+            events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+            received_events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+            type: "Bot",
+            site_admin: false,
+          },
+          content_type: "application/x-gtar",
+          state: "uploaded",
+          size: 398698301,
+          download_count: 0,
+          created_at: "2024-07-25T22:47:58Z",
+          updated_at: "2024-07-25T22:48:09Z",
+          browser_download_url:
+            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-aarch64-unknown-linux-musl.tar.gz",
+        },
+        {
+          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885871",
+          id: 181885871,
+          node_id: "RA_kwDOEgzJIc4K11uv",
+          name: "databend-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+          label: "",
+          uploader: {
+            login: "github-actions[bot]",
+            id: 41898282,
+            node_id: "MDM6Qm90NDE4OTgyODI=",
+            avatar_url: "https://avatars.githubusercontent.com/in/15368?v=4",
+            gravatar_id: "",
+            url: "https://api.github.com/users/github-actions%5Bbot%5D",
+            html_url: "https://github.com/apps/github-actions",
+            followers_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+            following_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+            gists_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+            starred_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+            subscriptions_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+            organizations_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+            repos_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+            events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+            received_events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+            type: "Bot",
+            site_admin: false,
+          },
+          content_type: "application/x-gtar",
+          state: "uploaded",
+          size: 336694034,
+          download_count: 0,
+          created_at: "2024-07-25T22:47:57Z",
+          updated_at: "2024-07-25T22:48:03Z",
+          browser_download_url:
+            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+        },
+        {
+          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885878",
+          id: 181885878,
+          node_id: "RA_kwDOEgzJIc4K11u2",
+          name: "databend-v1.2.583-nightly-x86_64-unknown-linux-musl.tar.gz",
+          label: "",
+          uploader: {
+            login: "github-actions[bot]",
+            id: 41898282,
+            node_id: "MDM6Qm90NDE4OTgyODI=",
+            avatar_url: "https://avatars.githubusercontent.com/in/15368?v=4",
+            gravatar_id: "",
+            url: "https://api.github.com/users/github-actions%5Bbot%5D",
+            html_url: "https://github.com/apps/github-actions",
+            followers_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+            following_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+            gists_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+            starred_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+            subscriptions_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+            organizations_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+            repos_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+            events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+            received_events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+            type: "Bot",
+            site_admin: false,
+          },
+          content_type: "application/x-gtar",
+          state: "uploaded",
+          size: 399915979,
+          download_count: 0,
+          created_at: "2024-07-25T22:48:00Z",
+          updated_at: "2024-07-25T22:48:12Z",
+          browser_download_url:
+            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-x86_64-unknown-linux-musl.tar.gz",
+        },
+        {
+          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885819",
+          id: 181885819,
+          node_id: "RA_kwDOEgzJIc4K11t7",
+          name: "databend_1.2.583.nightly_amd64.deb",
+          label: "",
+          uploader: {
+            login: "github-actions[bot]",
+            id: 41898282,
+            node_id: "MDM6Qm90NDE4OTgyODI=",
+            avatar_url: "https://avatars.githubusercontent.com/in/15368?v=4",
+            gravatar_id: "",
+            url: "https://api.github.com/users/github-actions%5Bbot%5D",
+            html_url: "https://github.com/apps/github-actions",
+            followers_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+            following_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+            gists_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+            starred_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+            subscriptions_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+            organizations_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+            repos_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+            events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+            received_events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+            type: "Bot",
+            site_admin: false,
+          },
+          content_type: "application/x-debian-package",
+          state: "uploaded",
+          size: 346173032,
+          download_count: 0,
+          created_at: "2024-07-25T22:47:35Z",
+          updated_at: "2024-07-25T22:47:43Z",
+          browser_download_url:
+            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend_1.2.583.nightly_amd64.deb",
+        },
+        {
+          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885833",
+          id: 181885833,
+          node_id: "RA_kwDOEgzJIc4K11uJ",
+          name: "databend_1.2.583.nightly_arm64.deb",
+          label: "",
+          uploader: {
+            login: "github-actions[bot]",
+            id: 41898282,
+            node_id: "MDM6Qm90NDE4OTgyODI=",
+            avatar_url: "https://avatars.githubusercontent.com/in/15368?v=4",
+            gravatar_id: "",
+            url: "https://api.github.com/users/github-actions%5Bbot%5D",
+            html_url: "https://github.com/apps/github-actions",
+            followers_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+            following_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+            gists_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+            starred_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+            subscriptions_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+            organizations_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+            repos_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+            events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+            received_events_url:
+              "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+            type: "Bot",
+            site_admin: false,
+          },
+          content_type: "application/x-debian-package",
+          state: "uploaded",
+          size: 417695258,
+          download_count: 0,
+          created_at: "2024-07-25T22:47:36Z",
+          updated_at: "2024-07-25T22:47:43Z",
+          browser_download_url:
+            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend_1.2.583.nightly_arm64.deb",
+        },
+      ],
+      tarball_url: null,
+      zipball_url: null,
+      body: "<!-- Release notes generated using configuration in .github/release.yml at 03c09a571dcd22aeca83c135c2660fa09b8a6f96 -->\n\n## What's Changed\n### Exciting New Features ✨\n* feat(query): support json null for nullable response by @everpcpc in https://github.com/datafuselabs/databend/pull/16120\n### Thoughtful Bug Fix 🔧\n* fix: tenant tables with stream by @zhyass in https://github.com/datafuselabs/databend/pull/16115\n* fix(query): fix stackoverflow in collect_statistics by @zhang2014 in https://github.com/datafuselabs/databend/pull/16123\n### Code Refactor 🎉\n* refactor(query): If table_id is specified, use it directly by @TCeason in https://github.com/datafuselabs/databend/pull/16098\n* refactor: upgrade to Openraft-0.10.0-alpha.2 by @drmingdrmer in https://github.com/datafuselabs/databend/pull/16091\n### Others 📒\n* chore(query): add sigaltstack for signal handler  by @zhang2014 in https://github.com/datafuselabs/databend/pull/16122\n* chore(query): limit frames size for capture backtrace by @zhang2014 in https://github.com/datafuselabs/databend/pull/16118\n\n\n**Full Changelog**: https://github.com/datafuselabs/databend/compare/v1.2.582-nightly...v1.2.583-nightly",
+      mentions_count: 5,
+    },
+  ],
   repoResource: {
     id: 302827809,
     node_id: "MDEwOlJlcG9zaXRvcnkzMDI4Mjc4MDk=",
