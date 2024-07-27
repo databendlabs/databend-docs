@@ -63,7 +63,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
           repoResource = repo;
           bendsqlRecource = dealBendsqlRecource(bendsqlReleases[0]);
         } catch (error) {
-          releasesList = [];
+          releasesList = mockData.releasesList;
           repoResource = { stargazers_count: 10000 };
         }
         // Preprocessing data, Just part of it
