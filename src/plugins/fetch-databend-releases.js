@@ -40,7 +40,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
     async contentLoaded({ _, actions }) {
       const { setGlobalData } = actions;
       if (isProduction) {
-        let releasesList = [];
+        let releasesList = mockData.reOrigionList;
         let repoResource = {};
         let bendsqlRecource = [];
         try {
@@ -63,7 +63,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
           repoResource = repo;
           bendsqlRecource = dealBendsqlRecource(bendsqlReleases[0]);
         } catch (error) {
-          releasesList = [];
+          releasesList = mockData.reOrigionList;
           repoResource = { stargazers_count: 10000 };
         }
         // Preprocessing data, Just part of it
