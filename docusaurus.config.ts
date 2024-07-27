@@ -184,7 +184,6 @@ const config: Config = {
         },
       },
     ],
-    "plugin-image-zoom",
     [
       "docusaurus-plugin-devserver",
       {
@@ -250,9 +249,6 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/logo/logo-no-text.png",
     algolia,
-    imageZoom: {
-      selector: "article :not(a) > img",
-    },
     mermaid: {
       theme: { dark: 'dark' }
     },

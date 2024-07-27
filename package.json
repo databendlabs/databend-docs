@@ -37,7 +37,6 @@
     "copyforjs": "^1.0.6",
     "docusaurus-plugin-devserver": "^1.0.6",
     "docusaurus-plugin-sass": "^0.2.5",
-    "plugin-image-zoom": "^1.2.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
