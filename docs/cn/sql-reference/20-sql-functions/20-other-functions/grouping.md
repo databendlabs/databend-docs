@@ -2,27 +2,27 @@
 title: GROUPING 
 ---
 
-Returns a bit mask indicating which `GROUP BY` expressions are not included in the current grouping set. Bits are assigned with the rightmost argument corresponding to the least-significant bit; each bit is 0 if the corresponding expression is included in the grouping criteria of the grouping set generating the current result row, and 1 if it is not included.
+返回一个位掩码，指示哪些 `GROUP BY` 表达式未包含在当前分组集内。位分配时，最右边的参数对应于最低有效位；每个位为 0 表示相应的表达式包含在生成当前结果行的分组集的分组标准中，为 1 表示未包含。
 
-## Syntax
+## 语法
 
 ```sql
 GROUPING ( expr [, expr, ...] )
 ```
 
 :::note
-`GROUPING` can only be used with `GROUPING SETS`, `ROLLUP`, or `CUBE`, and its arguments must be in the grouping sets list.
+`GROUPING` 只能与 `GROUPING SETS`、`ROLLUP` 或 `CUBE` 一起使用，并且其参数必须位于分组集列表中。
 :::
 
-## Arguments
+## 参数
 
-Grouping sets items.
+分组集项。
 
-## Return Type
+## 返回类型
 
-UInt32.
+UInt32。
 
-## Examples
+## 示例
 
 ```sql
 select a, b, grouping(a), grouping(b), grouping(a,b), grouping(b,a) from t group by grouping sets ((a,b),(a),(b), ()) ;
