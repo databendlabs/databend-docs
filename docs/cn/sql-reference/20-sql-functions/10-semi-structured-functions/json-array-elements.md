@@ -3,26 +3,24 @@ title: JSON_ARRAY_ELEMENTS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.152"/>
+<FunctionDescription description="引入或更新：v1.2.152"/>
 
-Extracts the elements from a JSON array, returning them as individual rows in the result set. JSON_ARRAY_ELEMENTS does not recursively expand nested arrays; it treats them as single elements.
+从 JSON 数组中提取元素，并以结果集中的单独行返回这些元素。JSON_ARRAY_ELEMENTS 不会递归展开嵌套数组；它将它们视为单个元素。
 
-
-
-## Syntax
+## 语法
 
 ```sql
 JSON_ARRAY_ELEMENTS(<json_string>)
 ```
 
-## Return Type
+## 返回类型
 
-JSON_ARRAY_ELEMENTS returns a set of VARIANT values, each representing an element extracted from the input JSON array.
+JSON_ARRAY_ELEMENTS 返回一组 VARIANT 值，每个值表示从输入 JSON 数组中提取的元素。
 
-## Examples
+## 示例
 
 ```sql
--- Extract individual elements from a JSON array containing product information
+-- 从包含产品信息的 JSON 数组中提取单个元素
 SELECT
   JSON_ARRAY_ELEMENTS(
     PARSE_JSON (
@@ -42,7 +40,7 @@ SELECT
 │ {"brand":"Sony","price":150,"product":"Headphones"}                                                                                                                                                                             │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- Display data types of the extracted elements
+-- 显示提取元素的数据类型
 SELECT
   TYPEOF (
     JSON_ARRAY_ELEMENTS(

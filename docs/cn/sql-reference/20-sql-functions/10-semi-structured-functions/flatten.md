@@ -3,11 +3,11 @@ title: FLATTEN
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.213"/>
+<FunctionDescription description="引入或更新: v1.2.213"/>
 
-Transforms nested JSON data into a tabular format, where each element or field is represented as a separate row.
+将嵌套的 JSON 数据转换为表格格式，其中每个元素或字段都表示为单独的一行。
 
-## Syntax
+## 语法
 
 ```sql
 [LATERAL] FLATTEN ( INPUT => <expr> [ , PATH => <expr> ]
@@ -16,37 +16,37 @@ Transforms nested JSON data into a tabular format, where each element or field i
                                     [ , MODE => 'OBJECT' | 'ARRAY' | 'BOTH' ] )
 ```
 
-| Parameter / Keyword | Description                                                                                                                                                                                                             | Default |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| INPUT               | Specifies the JSON or array data to flatten.                                                                                                                                                                            | -       |
-| PATH                | Specifies the path to the array or object within the input data to flatten.                                                                                                                                             | -       |
-| OUTER               | If set to TRUE, rows with zero results will still be included in the output, but the values in the KEY, INDEX, and VALUE columns of those rows will be set to NULL.                                                     | FALSE   |
-| RECURSIVE           | If set to TRUE, the function will continue to flatten nested elements.                                                                                                                                                  | FALSE   |
-| MODE                | Controls whether to flatten only objects ('OBJECT'), only arrays ('ARRAY'), or both ('BOTH').                                                                                                                           | 'BOTH'  |
-| LATERAL             | LATERAL is an optional keyword used to reference columns defined to the left of the LATERAL keyword within the FROM clause. LATERAL enables cross-referencing between the preceding table expressions and the function. | -       |
+| 参数/关键字 | 描述                                                                                                                                                                                                             | 默认值 |
+|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
+| INPUT       | 指定要展平的 JSON 或数组数据。                                                                                                                                                                                   | -      |
+| PATH        | 指定要展平的输入数据中的数组或对象的路径。                                                                                                                                                                       | -      |
+| OUTER       | 如果设置为 TRUE，即使结果为零的行也会包含在输出中，但这些行的 KEY、INDEX 和 VALUE 列的值将设置为 NULL。                                                                                                          | FALSE  |
+| RECURSIVE   | 如果设置为 TRUE，函数将继续展平嵌套元素。                                                                                                                                                                        | FALSE  |
+| MODE        | 控制是仅展平对象 ('OBJECT')、仅数组 ('ARRAY')，还是两者都展平 ('BOTH')。                                                                                                                                         | 'BOTH' |
+| LATERAL     | LATERAL 是一个可选关键字，用于在 FROM 子句中引用 LATERAL 关键字左侧定义的列。LATERAL 使得在前面的表表达式和函数之间进行交叉引用成为可能。                                                                       | -      |
 
-## Output
+## 输出
 
-The following table describes the output columns of the FLATTEN function:
+下表描述了 FLATTEN 函数的输出列：
 
 :::note
-When using the LATERAL keyword with FLATTEN, these output columns may not be explicitly provided, as LATERAL introduces dynamic cross-referencing, altering the output structure.
+当与 FLATTEN 一起使用 LATERAL 关键字时，这些输出列可能不会显式提供，因为 LATERAL 引入了动态交叉引用，改变了输出结构。
 :::
 
-| Column | Description                                                                              |
-|--------|------------------------------------------------------------------------------------------|
-| SEQ    | A unique sequence number associated with the input.                                      |
-| KEY    | Key to the expanded value. If the flattened element does not contain a key, it's set to NULL.|
-| PATH   | Path to the flattened element.                                                           |
-| INDEX  | If the element is an array, this column contains its index; otherwise, it's set to NULL. |
-| VALUE  | Value of the flattened element.                                                          |
-| THIS   | This column identifies the element currently being flattened.                            |
+| 列    | 描述                                                                                     |
+|-------|------------------------------------------------------------------------------------------|
+| SEQ   | 与输入关联的唯一序列号。                                                                 |
+| KEY   | 扩展值的键。如果展平的元素不包含键，则设置为 NULL。                                       |
+| PATH  | 展平元素的路径。                                                                         |
+| INDEX | 如果元素是数组，此列包含其索引；否则，设置为 NULL。                                       |
+| VALUE | 展平元素的值。                                                                           |
+| THIS  | 此列标识当前正在展平的元素。                                                             |
 
-## Examples
+## 示例
 
-### Example 1: Demonstrating PATH, OUTER, RECURSIVE, and MODE Parameters
+### 示例 1: 演示 PATH、OUTER、RECURSIVE 和 MODE 参数
 
-This example demonstrates the behavior of the FLATTEN function with respect to the PATH, OUTER, RECURSIVE, and MODE parameters.
+此示例演示了 FLATTEN 函数关于 PATH、OUTER、RECURSIVE 和 MODE 参数的行为。
 
 ```sql
 SELECT
@@ -66,7 +66,7 @@ FROM
 │      1 │ name             │ name             │             NULL │ "John"                           │ {"address":{"city":"New York","state":"NY"},"languages":["English","Spanish","French"],"name":"John"} │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- PATH helps in selecting elements at a specific path from the original JSON data.
+-- PATH 有助于从原始 JSON 数据中选择特定路径的元素。
 SELECT
   *
 FROM
@@ -85,7 +85,7 @@ FROM
 │      1 │ NULL             │ languages[2]     │                2 │ "French"          │ ["English","Spanish","French"] │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- RECURSIVE enables recursive flattening of nested structures.
+-- RECURSIVE 启用嵌套结构的递归展平。
 SELECT
   *
 FROM
@@ -95,6 +95,7 @@ FROM
     ),
     RECURSIVE => TRUE
   );
+```
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │   seq  │        key       │       path       │       index      │               value              │                                                  this                                                 │
@@ -110,8 +111,8 @@ FROM
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 
--- MODE specifies whether only objects ('OBJECT'), only arrays ('ARRAY'), or both ('BOTH') should be flattened.
--- In this example, MODE => 'ARRAY' is used, which means that only arrays within the JSON data will be flattened.
+-- MODE 指定是否仅展平对象 ('OBJECT')、仅展平数组 ('ARRAY') 或两者都展平 ('BOTH')。
+-- 在此示例中，使用 MODE => 'ARRAY'，这意味着仅展平 JSON 数据中的数组。
 SELECT
   *
 FROM
@@ -125,9 +126,9 @@ FROM
 ---
 
 
--- OUTER determines the inclusion of zero-row expansions in the output.
--- In this first example, OUTER => TRUE is used with an empty JSON array, which results in zero-row expansions. 
--- Rows are included in the output even when there are no values to flatten.
+-- OUTER 确定是否在输出中包含零行扩展。
+-- 在第一个示例中，使用 OUTER => TRUE 和一个空的 JSON 数组，这会导致零行扩展。
+-- 即使没有值需要展平，行也会包含在输出中。
 SELECT
   *
 FROM
@@ -139,7 +140,7 @@ FROM
 │      1 │ NULL             │ NULL             │             NULL │ NULL              │ NULL              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- In this second example, OUTER is omitted, and the output shows how rows with zero results are not included when OUTER is not specified.
+-- 在第二个示例中，省略了 OUTER，输出显示了当未指定 OUTER 时，零结果的行是如何不被包含的。
 SELECT
   *
 FROM
@@ -147,26 +148,26 @@ FROM
 
 ```
 
-### Example 2: Demonstrating LATERAL FLATTEN
+### 示例 2：演示 LATERAL FLATTEN
 
-This example demonstrates the behavior of the FLATTEN function when used in conjunction with the LATERAL keyword.
+此示例演示了在使用 LATERAL 关键字时 FLATTEN 函数的行为。
 
 ```sql
--- Create a table for Tim Hortons transactions with multiple items
+-- 创建一个包含多个项目的 Tim Hortons 交易表
 CREATE TABLE tim_hortons_transactions (
     transaction_id INT,
     customer_id INT,
     items VARIANT
 );
 
--- Insert data for Tim Hortons transactions with multiple items
+-- 插入包含多个项目的 Tim Hortons 交易数据
 INSERT INTO tim_hortons_transactions (transaction_id, customer_id, items)
 VALUES
     (101, 1, parse_json('[{"item":"coffee", "price":2.50}, {"item":"donut", "price":1.20}]')),
     (102, 2, parse_json('[{"item":"bagel", "price":1.80}, {"item":"muffin", "price":2.00}]')),
     (103, 3, parse_json('[{"item":"timbit_assortment", "price":5.00}]'));
 
--- Show Tim Hortons transactions with multiple items using LATERAL FLATTEN
+-- 使用 LATERAL FLATTEN 显示包含多个项目的 Tim Hortons 交易
 SELECT
     t.transaction_id,
     t.customer_id,
@@ -186,7 +187,7 @@ FROM
 │             103 │               3 │ timbit_assortment │                 5 │
 └───────────────────────────────────────────────────────────────────────────┘
 
--- Find maximum, minimum, and average prices of the purchased items
+-- 查找已购买项目的最高、最低和平均价格
 SELECT
     MAX(f.value:price::FLOAT) AS max_price,
     MIN(f.value:price::FLOAT) AS min_price,

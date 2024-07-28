@@ -2,30 +2,29 @@
 title: JSON_OBJECT_KEYS
 ---
 
-Returns an Array containing the list of keys in the input Variant OBJECT.
+返回一个包含输入变体对象中所有键的数组。
 
-
-## Syntax
+## 语法
 
 ```sql
 JSON_OBJECT_KEYS(<variant>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description                               |
-|-------------|-------------------------------------------|
-| `<variant>` | The VARIANT value that contains an OBJECT |
+| 参数        | 描述                                  |
+|-------------|---------------------------------------|
+| `<variant>` | 包含对象的变体值                      |
 
-## Aliases
+## 别名
 
 - [OBJECT_KEYS](object-keys.md)
 
-## Return Type
+## 返回类型
 
 Array`<String>`
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE IF NOT EXISTS objects_test1(id TINYINT, var VARIANT);

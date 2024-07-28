@@ -2,29 +2,29 @@
 title: GET_PATH
 ---
 
-Extracts value from a `VARIANT` by `path_name`.
-The value is returned as a `Variant` or `NULL` if either of the arguments is `NULL`.
+从 `VARIANT` 中根据 `path_name` 提取值。
+如果任一参数为 `NULL`，则返回值为 `Variant` 或 `NULL`。
 
-`GET_PATH` is equivalent to a chain of `GET` functions, `path_name` consists of a concatenation of field names preceded by periods (.), colons (:) or index operators (`[index]`). The first field name does not require the leading identifier to be specified.
+`GET_PATH` 等效于一系列 `GET` 函数，`path_name` 由一系列以句点 (.)、冒号 (:) 或索引操作符 (`[index]`) 为前缀的字段名连接而成。第一个字段名不需要指定前导标识符。
 
-## Syntax
+## 语法
 
 ```sql
 GET_PATH( <variant>, <path_name> )
 ```
 
-## Arguments
+## 参数
 
-| Arguments     | Description                                                      |
-|---------------|------------------------------------------------------------------|
-| `<variant>`   | The VARIANT value that contains either an ARRAY or an OBJECT     |
-| `<path_name>` | The String value that consists of a concatenation of field names |
+| 参数          | 描述                                                         |
+|---------------|--------------------------------------------------------------|
+| `<variant>`   | 包含数组或对象的 `VARIANT` 值                                |
+| `<path_name>` | 由一系列字段名连接而成的字符串值                             |
 
-## Return Type
+## 返回类型
 
 VARIANT
 
-## Examples
+## 示例
 
 ```sql
 SELECT get_path(parse_json('{"k1":[0,1,2], "k2":{"k3":3,"k4":4}}'), 'k1[0]');
