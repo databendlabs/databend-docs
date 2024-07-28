@@ -2,29 +2,29 @@
 title: MAX
 ---
 
-Aggregate function.
+聚合函数。
 
-The MAX() function returns the maximum value in a set of values.
+MAX() 函数返回一组值中的最大值。
 
-## Syntax
+## 语法
 
 ```
 MAX(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
+| 参数       | 描述       |
 |-----------| ----------- |
-| `<expr>`  | Any expression |
+| `<expr>`  | 任何表达式 |
 
-## Return Type
+## 返回类型
 
-The maximum value, in the type of the value.
+最大值，类型与值的类型相同。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE temperatures (
   id INT,
@@ -40,7 +40,7 @@ VALUES (1, 'New York', 30),
        (5, 'Los Angeles', 27);
 ```
 
-**Query Demo: Find Maximum Temperature for New York City**
+**查询示例：查找纽约市的最高温度**
 
 ```sql
 SELECT city, MAX(temperature) AS max_temperature
@@ -49,7 +49,7 @@ WHERE city = 'New York'
 GROUP BY city;
 ```
 
-**Result**
+**结果**
 ```sql
 |    city    | max_temperature |
 |------------|-----------------|

@@ -2,29 +2,29 @@
 title: KURTOSIS
 ---
 
-Aggregate function.
+聚合函数。
 
-The `KURTOSIS()` function returns the excess kurtosis of all input values.
+`KURTOSIS()` 函数返回所有输入值的峰度（超额）。
 
-## Syntax
+## 语法
 
 ```sql
 KURTOSIS(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                     |
+| 参数      | 描述                     |
 |-----------| -----------                     |
-| `<expr>`  | Any numerical expression        |
+| `<expr>`  | 任何数值表达式        |
 
-## Return Type
+## 返回类型
 
-Nullable Float64.
+可为空的 Float64。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE stock_prices (
   id INT,
@@ -40,7 +40,7 @@ VALUES (1, 'AAPL', 150),
        (5, 'AAPL', 155);
 ```
 
-**Query Demo: Calculate Excess Kurtosis for Apple Stock Prices**
+**查询示例：计算苹果股票价格的峰度（超额）**
 
 ```sql
 SELECT KURTOSIS(price) AS excess_kurtosis
@@ -48,7 +48,7 @@ FROM stock_prices
 WHERE stock_symbol = 'AAPL';
 ```
 
-**Result**
+**结果**
 
 ```sql
 |     excess_kurtosis     |

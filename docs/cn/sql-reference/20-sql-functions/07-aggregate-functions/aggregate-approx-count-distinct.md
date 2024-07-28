@@ -2,25 +2,25 @@
 title: APPROX_COUNT_DISTINCT
 ---
 
-Estimates the number of distinct values in a data set with the [HyperLogLog](https://en.wikipedia.org/wiki/HyperLogLog) algorithm. 
+使用 [HyperLogLog](https://en.wikipedia.org/wiki/HyperLogLog) 算法估计数据集中不同值的数量。
 
-The HyperLogLog algorithm provides an approximation of the number of unique elements using little memory and time. Consider using this function when dealing with large data sets where an estimated result can be accepted. In exchange for some accuracy, this is a fast and efficient method of returning distinct counts.
+HyperLogLog 算法通过使用少量内存和时间提供唯一元素数量的近似值。在处理大型数据集且可以接受估计结果时，考虑使用此函数。作为对一些准确性的交换，这是一种快速且高效的返回不同计数的方法。
 
-To get an accurate result, use [COUNT_DISTINCT](aggregate-count-distinct.md). See [Examples](#examples) for more explanations.
+要获得准确的结果，请使用 [COUNT_DISTINCT](aggregate-count-distinct.md)。更多解释请参见 [示例](#examples)。
 
-## Syntax
+## 语法
 
 ```sql
 APPROX_COUNT_DISTINCT(<expr>)
 ```
 
-## Return Type
+## 返回类型
 
-Integer.
+整数。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE user_events (
   id INT,
@@ -38,13 +38,13 @@ VALUES (1, 1, 'Login'),
        (7, 1, 'Login');
 ```
 
-**Query Demo: Estimate the Number of Distinct User IDs**
+**查询示例：估计不同用户ID的数量**
 ```sql
 SELECT APPROX_COUNT_DISTINCT(user_id) AS approx_distinct_user_count
 FROM user_events;
 ```
 
-**Result**
+**结果**
 ```sql
 | approx_distinct_user_count |
 |----------------------------|

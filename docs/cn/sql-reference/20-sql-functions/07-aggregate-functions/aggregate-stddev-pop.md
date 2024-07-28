@@ -3,19 +3,19 @@ title: STDDEV_POP
 title_includes: STD, STDDEV
 ---
 
-Aggregate function.
+聚合函数。
 
-The STDDEV_POP() function returns the population standard deviation(the square root of VAR_POP()) of an expression.
+STDDEV_POP() 函数返回表达式的总体标准差（VAR_POP() 的平方根）。
 
 :::tip
-STD() or STDDEV() can also be used, which are equivalent but not standard SQL.
+也可以使用 STD() 或 STDDEV()，它们是等价的但不是标准 SQL。
 :::
 
 :::caution
-NULL values are not counted.
+NULL 值不会被计算在内。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 STDDEV_POP(<expr>)
@@ -23,19 +23,19 @@ STDDEV(<expr>)
 STD(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description              |
-|-----------|--------------------------|
-| `<expr>`  | Any numerical expression |
+| 参数       | 描述                 |
+|-----------|----------------------|
+| `<expr>`  | 任何数值表达式       |
 
-## Return Type
+## 返回类型
 
 double
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE test_scores (
   id INT,
@@ -51,13 +51,13 @@ VALUES (1, 1, 80),
        (5, 5, 100);
 ```
 
-**Query Demo: Calculate Population Standard Deviation of Test Scores**
+**查询示例：计算测试成绩的总体标准差**
 ```sql
 SELECT STDDEV_POP(score) AS test_score_stddev_pop
 FROM test_scores;
 ```
 
-**Result**
+**结果**
 ```sql
 | test_score_stddev_pop |
 |-----------------------|

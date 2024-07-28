@@ -2,33 +2,33 @@
 title: MEDIAN
 ---
 
-Aggregate function.
+聚合函数。
 
-The MEDIAN() function computes the median of a numeric data sequence.
+MEDIAN() 函数计算数值数据序列的中位数。
 
 :::caution
-NULL values are not counted.
+NULL 值不计入计算。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 MEDIAN(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description              |
-|-----------|--------------------------|                                                                                                                 
-| `<expr>`  | Any numerical expression |                                                                                                     
+| 参数      | 描述               |
+|-----------|--------------------|                                                                                                                 
+| `<expr>`  | 任何数值表达式     |                                                                                                     
 
-## Return Type
+## 返回类型
 
-the type of the value.
+返回值的类型。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE exam_scores (
   id INT,
@@ -44,13 +44,13 @@ VALUES (1, 1, 80),
        (5, 5, 85);
 ```
 
-**Query Demo: Calculate Median Exam Score**
+**查询示例：计算考试成绩的中位数**
 ```sql
 SELECT MEDIAN(score) AS median_score
 FROM exam_scores;
 ```
 
-**Result**
+**结果**
 ```sql
 |  median_score  |
 |----------------|

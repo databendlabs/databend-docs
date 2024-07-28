@@ -2,33 +2,33 @@
 title: AVG
 ---
 
-Aggregate function.
+聚合函数。
 
-The AVG() function returns the average value of an expression.
+AVG() 函数返回一个表达式的平均值。
 
-**Note:** NULL values are not counted.
+**注意：** NULL 值不计入计算。
 
-## Syntax
+## 语法
 
 ```sql
 AVG(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description              |
-|-----------|--------------------------|
-| `<expr>`  | Any numerical expression |
+| 参数      | 描述               |
+|-----------|--------------------|
+| `<expr>`  | 任何数值表达式     |
 
-## Return Type
+## 返回类型
 
 double
 
-## Examples
+## 示例
 
-**Creating a Table and Inserting Sample Data**
+**创建表并插入示例数据**
 
-Let's create a table named "sales" and insert some sample data:
+让我们创建一个名为 "sales" 的表并插入一些示例数据：
 ```sql
 CREATE TABLE sales (
   id INTEGER,
@@ -44,15 +44,15 @@ VALUES (1, 'Product A', 10.5),
        (5, 'Product E', 25.5);
 ```
 
-**Query: Using AVG() Function**
+**查询：使用 AVG() 函数**
 
-Now, let's use the AVG() function to find the average price of all products in the "sales" table:
+现在，让我们使用 AVG() 函数来查找 "sales" 表中所有产品的平均价格：
 ```sql
 SELECT AVG(price) AS avg_price
 FROM sales;
 ```
 
-The result should look like this:
+结果应如下所示：
 ```sql
 | avg_price |
 | --------- |

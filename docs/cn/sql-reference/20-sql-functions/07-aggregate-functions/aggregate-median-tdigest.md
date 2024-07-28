@@ -3,34 +3,34 @@ title: MEDIAN_TDIGEST
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.41"/>
+<FunctionDescription description="引入或更新: v1.2.41"/>
 
-Computes the median of a numeric data sequence using the [t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf) algorithm.
+使用 [t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf) 算法计算数值数据序列的中位数。
 
 :::note
-NULL values are not included in the calculation.
+NULL 值不包含在计算中。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 MEDIAN_TDIGEST(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description              |
-|-----------|--------------------------|                                                                                                                 
-| `<expr>`  | Any numerical expression |                                                                                                     
+| 参数       | 描述               |
+|-----------|--------------------|                                                                                                                 
+| `<expr>`  | 任何数值表达式     |                                                                                                     
 
-## Return Type
+## 返回类型
 
-Returns a value of the same data type as the input values.
+返回与输入值相同数据类型的值。
 
-## Examples
+## 示例
 
 ```sql
--- Create a table and insert sample data
+-- 创建表并插入示例数据
 CREATE TABLE exam_scores (
   id INT,
   student_id INT,
@@ -44,7 +44,7 @@ VALUES (1, 1, 80),
        (4, 4, 95),
        (5, 5, 85);
 
--- Calculate median exam score
+-- 计算考试成绩的中位数
 SELECT MEDIAN_TDIGEST(score) AS median_score
 FROM exam_scores;
 
