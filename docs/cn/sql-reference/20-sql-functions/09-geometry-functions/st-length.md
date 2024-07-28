@@ -3,7 +3,7 @@ title: ST_LENGTH
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.555"/>
+<FunctionDescription description="引入或更新: v1.2.555"/>
 
 返回GEOMETRY对象中LineString的几何长度。
 
@@ -17,11 +17,11 @@ ST_LENGTH(<geometry>)
 
 | 参数         | 描述                                                                 |
 |--------------|---------------------------------------------------------------------|
-| `<geometry>` | 参数必须是包含LineString的GEOMETRY类型的表达式。                   |
+| `<geometry>` | 参数必须是包含linestrings的GEOMETRY类型的表达式。                  |
 
 :::note
-- 如果`<geometry>`不是`LineString`、`MultiLineString`或包含LineString的`GeometryCollection`，则返回0。
-- 如果`<geometry>`是`GeometryCollection`，则返回集合中所有LineString长度的总和。
+- 如果`<geometry>`不是`LineString`、`MultiLineString`或包含linestrings的`GeometryCollection`，则返回0。
+- 如果`<geometry>`是`GeometryCollection`，则返回集合中所有linestrings长度的总和。
 :::
 
 ## 返回类型

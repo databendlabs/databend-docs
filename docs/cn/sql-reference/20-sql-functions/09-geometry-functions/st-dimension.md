@@ -3,33 +3,33 @@ title: ST_DIMENSION
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.442"/>
+<FunctionDescription description="引入或更新: v1.2.442"/>
 
-Return the dimension for a geometry object. The dimension of a GEOMETRY object is:
+返回几何对象的维度。几何对象的维度如下：
 
-| Geospatial Object Type       | Dimension  |
-|------------------------------|------------|
-| Point / MultiPoint           | 0          |
-| LineString / MultiLineString | 1          |
-| Polygon / MultiPolygon       | 2          |
+| 地理空间对象类型           | 维度  |
+|----------------------------|-------|
+| 点 / 多点                 | 0     |
+| 线串 / 多线串             | 1     |
+| 多边形 / 多多边形         | 2     |
 
-## Syntax
+## 语法
 
 ```sql
 ST_DIMENSION(<geometry>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                          |
-|--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| 参数         | 描述                                           |
+|--------------|------------------------------------------------|
+| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。             |
 
-## Return Type
+## 返回类型
 
-UInt8.
+UInt8。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

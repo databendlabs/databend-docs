@@ -3,36 +3,36 @@ title: ST_GEOMETRYFROMWKB
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.395"/>
+<FunctionDescription description="引入或更新: v1.2.395"/>
 
-Parses a [WKB(well-known-binary)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) or [EWKB(extended well-known-binary)](https://postgis.net/docs/ST_GeomFromEWKB.html) input and returns a value of type GEOMETRY.
+解析一个[WKB(well-known-binary)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary)或[EWKB(extended well-known-binary)](https://postgis.net/docs/ST_GeomFromEWKB.html)输入，并返回一个GEOMETRY类型的值。
 
-## Syntax
+## 语法
 
 ```sql
 ST_GEOMETRYFROMWKB(<string>, [<srid>])
 ST_GEOMETRYFROMWKB(<binary>, [<srid>])
 ```
 
-## Aliases
+## 别名
 
 - [ST_GEOMFROMWKB](st-geomfromwkb.md)
 - [ST_GEOMETRYFROMEWKB](st-geometryfromewkb.md)
 - [ST_GEOMFROMEWKB](st-geomfromewkb.md)
 
-## Arguments
+## 参数
 
-| Arguments   | Description                                                                    |
-|-------------|--------------------------------------------------------------------------------|
-| `<string>`  | The argument must be a string expression in WKB or EWKB in hexadecimal format. |
-| `<binary>`  | The argument must be a binary expression in WKB or EWKB format.                |
-| `<srid>`    | The integer value of the SRID to use.                                          |
+| 参数        | 描述                                                                 |
+|-------------|----------------------------------------------------------------------|
+| `<string>`  | 参数必须是一个十六进制格式的WKB或EWKB字符串表达式。                  |
+| `<binary>`  | 参数必须是一个WKB或EWKB格式的二进制表达式。                          |
+| `<srid>`    | 要使用的SRID的整数值。                                               |
 
-## Return Type
+## 返回类型
 
 Geometry.
 
-## Examples
+## 示例
 
 ```sql
 SELECT

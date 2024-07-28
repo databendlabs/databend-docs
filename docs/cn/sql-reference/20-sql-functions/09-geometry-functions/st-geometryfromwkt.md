@@ -3,17 +3,17 @@ title: ST_GEOMETRYFROMWKT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.347"/>
+<FunctionDescription description="引入或更新: v1.2.347"/>
 
-Parses a [WKT(well-known-text)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) or [EWKT(extended well-known-text)](https://postgis.net/docs/ST_GeomFromEWKT.html) input and returns a value of type GEOMETRY.
+解析 [WKT(well-known-text)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 或 [EWKT(extended well-known-text)](https://postgis.net/docs/ST_GeomFromEWKT.html) 输入，并返回一个 GEOMETRY 类型的值。
 
-## Syntax
+## 语法
 
 ```sql
 ST_GEOMETRYFROMWKT(<string>, [<srid>])
 ```
 
-## Aliases
+## 别名
 
 - [ST_GEOMFROMWKT](st-geomfromwkt.md)
 - [ST_GEOMETRYFROMEWKT](st-geometryfromewkt.md)
@@ -21,18 +21,18 @@ ST_GEOMETRYFROMWKT(<string>, [<srid>])
 - [ST_GEOMFROMTEXT](st-geomfromtext.md)
 - [ST_GEOMTRYFROMTEXT](st-geomtryfromtext.md)
 
-## Arguments
+## 参数
 
-| Arguments   | Description                                                     |
-|-------------|-----------------------------------------------------------------|
-| `<string>`  | The argument must be a string expression in WKT or EWKT format. |
-| `<srid>`    | The integer value of the SRID to use.                           |
+| 参数        | 描述                                                         |
+|-------------|--------------------------------------------------------------|
+| `<string>`  | 必须是 WKT 或 EWKT 格式的字符串表达式。                      |
+| `<srid>`    | 要使用的 SRID 的整数值。                                     |
 
-## Return Type
+## 返回类型
 
-Geometry.
+Geometry。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

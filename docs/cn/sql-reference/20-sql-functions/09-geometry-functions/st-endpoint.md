@@ -3,27 +3,27 @@ title: ST_ENDPOINT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.458"/>
+<FunctionDescription description="引入或更新：v1.2.458"/>
 
-Returns the last Point in a LineString.
+返回 LineString 中的最后一个点。
 
-## Syntax
+## 语法
 
 ```sql
 ST_ENDPOINT(<geometry>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                                                       |
-|--------------|-----------------------------------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY that represents a LineString. |
+| 参数         | 描述                                                                               |
+|--------------|------------------------------------------------------------------------------------|
+| `<geometry>` | 参数必须是一个表示 LineString 的几何类型的 GEOMETRY 表达式。                       |
 
-## Return Type
+## 返回类型
 
-Geometry.
+几何类型。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

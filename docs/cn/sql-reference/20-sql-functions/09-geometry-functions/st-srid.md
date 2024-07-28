@@ -3,31 +3,31 @@ title: ST_SRID
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.458"/>
+<FunctionDescription description="引入或更新: v1.2.458"/>
 
-Returns the SRID (spatial reference system identifier) of a GEOMETRY object.
+返回一个 GEOMETRY 对象的 SRID（空间参考系统标识符）。
 
-## Syntax
+## 语法
 
 ```sql
 ST_SRID(<geometry>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                          |
-|--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| 参数         | 描述                                             |
+|--------------|--------------------------------------------------|
+| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。               |
 
-## Return Type
+## 返回类型
 
-INT32.
+INT32。
 
 :::note
-If the Geometry don't have a SRID, a default value 4326 will be returned.
+如果 Geometry 没有 SRID，将返回默认值 4326。
 :::
 
-## Examples
+## 示例
 
 ```sql
 SELECT
