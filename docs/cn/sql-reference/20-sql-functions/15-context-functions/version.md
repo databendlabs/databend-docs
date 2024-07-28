@@ -2,15 +2,15 @@
 title: VERSION
 ---
 
-Returns the current version of DatabendQuery.
+返回当前 DatabendQuery 的版本信息。
 
-## Syntax
+## 语法
 
 ```sql
 VERSION()
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT VERSION();

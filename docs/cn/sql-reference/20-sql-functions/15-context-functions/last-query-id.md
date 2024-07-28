@@ -2,15 +2,15 @@
 title: LAST_QUERY_ID
 ---
 
-Returns the last query ID of query in current session, index can be (-1, 1, 1+2)..., out of range index will return empty string.
+返回当前会话中最近查询的查询ID，索引可以是(-1, 1, 1+2)...，超出范围的索引将返回空字符串。
 
-## Syntax
+## 语法
 
 ```sql
 LAST_QUERY_ID(<index>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT LAST_QUERY_ID(-1);
