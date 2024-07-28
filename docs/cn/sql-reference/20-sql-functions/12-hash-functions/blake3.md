@@ -2,15 +2,15 @@
 title: BLAKE3
 ---
 
-Calculates a BLAKE3 256-bit checksum for a string. The value is returned as a string of 64 hexadecimal digits or NULL if the argument was NULL.
+计算字符串的 BLAKE3 256 位校验和。返回值为 64 个十六进制字符的字符串，如果参数为 NULL，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 BLAKE3(<expr>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT BLAKE3('1234567890');

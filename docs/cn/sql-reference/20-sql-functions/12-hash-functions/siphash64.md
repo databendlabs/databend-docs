@@ -2,19 +2,19 @@
 title: SIPHASH64
 ---
 
-Produces a 64-bit [SipHash](https://en.wikipedia.org/wiki/SipHash) hash value.
+生成一个64位的[SipHash](https://en.wikipedia.org/wiki/SipHash)哈希值。
 
-## Syntax
+## 语法
 
 ```sql
 SIPHASH64(<expr>)
 ```
 
-## Aliases
+## 别名
 
 - [SIPHASH](siphash.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT SIPHASH('1234567890'), SIPHASH64('1234567890');
