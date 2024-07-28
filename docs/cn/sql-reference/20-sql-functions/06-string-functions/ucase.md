@@ -2,4 +2,4 @@
 title: UCASE
 ---
 
-Alias for [UPPER](upper.md).
+[UPPER](upper.md) 的别名。

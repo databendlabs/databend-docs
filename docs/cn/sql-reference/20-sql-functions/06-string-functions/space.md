@@ -2,25 +2,25 @@
 title: SPACE
 ---
 
-Returns a string consisting of N blank space characters.
+返回由 N 个空格字符组成的字符串。
 
-## Syntax
+## 语法
 
 ```sql
 SPACE(<n>);
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description          |
-|-----------|----------------------|
-| `<n>`     | The number of spaces |
+| 参数      | 描述           |
+|-----------|----------------|
+| `<n>`     | 空格的数量     |
 
-## Return Type
+## 返回类型
 
-String data type value.
+字符串数据类型值。
 
-## Examples
+## 示例
 
 ```sql
 SELECT SPACE(20)

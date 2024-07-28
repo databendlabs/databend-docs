@@ -2,34 +2,34 @@
 title: ORD
 ---
 
-If the leftmost character is not a multibyte character, ORD() returns the same value as the ASCII() function.
+如果最左边的字符不是多字节字符，ORD() 返回与 ASCII() 函数相同的值。
 
-If the leftmost character of the string str is a multibyte character, returns the code for that character,
-calculated from the numeric values of its constituent bytes using this formula:
+如果字符串 str 的最左边的字符是多字节字符，则返回该字符的代码，
+根据其组成字节的数值使用以下公式计算：
 
 ```sql
-  (1st byte code)
-+ (2nd byte code * 256)
-+ (3rd byte code * 256^2) ...
+  (第一个字节的代码)
++ (第二个字节的代码 * 256)
++ (第三个字节的代码 * 256^2) ...
 ```
 
-## Syntax
+## 语法
 
 ```sql
 ORD(<str>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<str>`   | The string. |
+| 参数       | 描述       |
+|------------|------------|
+| `<str>`    | 字符串     |
 
-## Return Type
+## 返回类型
 
 `BIGINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT ORD('2')

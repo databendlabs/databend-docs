@@ -2,23 +2,23 @@
 title: LOWER
 ---
 
-Returns a string with all characters changed to lowercase.
+返回一个将所有字符转换为小写的字符串。
 
-## Syntax
+## 语法
 
 ```sql
 LOWER(<str>)
 ```
 
-## Aliases
+## 别名
 
 - [LCASE](lcase.md)
 
-## Return Type
+## 返回类型
 
 VARCHAR
 
-## Examples
+## 示例
 
 ```sql
 SELECT LOWER('Hello, Databend!'), LCASE('Hello, Databend!');

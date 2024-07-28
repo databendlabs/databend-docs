@@ -3,36 +3,35 @@ id: string-soundex
 title: SOUNDEX
 ---
 
-Generates the Soundex code for a string.
+生成字符串的 Soundex 码。
 
-- A Soundex code consists of a letter followed by three numerical digits. Databend's implementation returns more than 4 digits, but you can [SUBSTR](substr.md) the result to get a standard Soundex code.
-- All non-alphabetic characters in the string are ignored.
-- All international alphabetic characters outside the A-Z range are ignored unless they're the first letter.
+- Soundex 码由一个字母和三个数字组成。Databend 的实现返回超过 4 位数字，但你可以使用 [SUBSTR](substr.md) 结果来获取标准的 Soundex 码。
+- 字符串中所有非字母字符均被忽略。
+- 所有超出 A-Z 范围的国际字母字符均被忽略，除非它们是首字母。
 
-
-:::tip What is Soundex?
-Soundex converts an alphanumeric string to a four-character code that is based on how the string sounds when spoken in English. For more information, see https://en.wikipedia.org/wiki/Soundex
+:::tip 什么是 Soundex？
+Soundex 将一个字母数字字符串转换为一个基于该字符串在英语中发音的四字符代码。更多信息，请参阅 https://en.wikipedia.org/wiki/Soundex
 :::
 
-See also: [SOUNDS LIKE](soundslike.md)
+另请参阅：[SOUNDS LIKE](soundslike.md)
 
-## Syntax
+## 语法
 
 ```sql
 SOUNDEX(<str>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
+| 参数 | 描述 |
 |-----------|-------------|
-| str  | The string. |
+| str  | 字符串。 |
 
-## Return Type
+## 返回类型
 
-Returns a code of type VARCHAR or a NULL value.
+返回 VARCHAR 类型的代码或 NULL 值。
 
-## Examples
+## 示例
 
 ```sql
 SELECT SOUNDEX('Databend');
@@ -40,13 +39,13 @@ SELECT SOUNDEX('Databend');
 ---
 D153
 
--- All non-alphabetic characters in the string are ignored.
+-- 字符串中所有非字母字符均被忽略。
 SELECT SOUNDEX('Databend!');;
 
 ---
 D153
 
--- All international alphabetic characters outside the A-Z range are ignored unless they're the first letter.
+-- 所有超出 A-Z 范围的国际字母字符均被忽略，除非它们是首字母。
 SELECT SOUNDEX('Databend，你好');
 
 ---
@@ -57,7 +56,7 @@ SELECT SOUNDEX('你好，Databend');
 ---
 你3153
 
--- SUBSTR the result to get a standard Soundex code.
+-- 使用 SUBSTR 结果来获取标准的 Soundex 码。
 SELECT SOUNDEX('Databend Cloud'),SUBSTR(SOUNDEX('Databend Cloud'),1,4);
 
 soundex('databend cloud')|substring(soundex('databend cloud') from 1 for 4)|

@@ -3,25 +3,25 @@ id: string-bit_length
 title: BIT_LENGTH
 ---
 
-Return the length of a string in bits.
+返回字符串的比特长度。
 
-## Syntax
+## 语法
 
 ```sql
 BIT_LENGTH(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
+| 参数       | 描述       |
 |-----------| ----------- |
-| `<expr>`  | The string. |
+| `<expr>`  | 字符串     |
 
-## Return Type
+## 返回类型
 
 `BIGINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT BIT_LENGTH('Word');

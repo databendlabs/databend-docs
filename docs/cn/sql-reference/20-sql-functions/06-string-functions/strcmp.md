@@ -2,26 +2,26 @@
 title: STRCMP
 ---
 
-Returns 0 if the strings are the same, -1 if the first argument is smaller than the second, and 1 otherwise.
+如果字符串相同则返回0，如果第一个参数小于第二个参数则返回-1，否则返回1。
 
-## Syntax
+## 语法
 
 ```sql
 STRCMP(<expr1> ,<expr2>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<expr1>` | The string. |
-| `<expr2>` | The string. |
+| 参数       | 描述       |
+|-----------|------------|
+| `<expr1>` | 字符串     |
+| `<expr2>` | 字符串     |
 
-## Return Type
+## 返回类型
 
 `BIGINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT STRCMP('text', 'text2');

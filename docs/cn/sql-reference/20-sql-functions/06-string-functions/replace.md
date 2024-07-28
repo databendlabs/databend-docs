@@ -2,27 +2,27 @@
 title: REPLACE
 ---
 
-Returns the string str with all occurrences of the string from_str replaced by the string to_str.
+返回将字符串 `str` 中所有出现的字符串 `from_str` 替换为字符串 `to_str` 后的结果。
 
-## Syntax
+## 语法
 
 ```sql
 REPLACE(<str>, <from_str>, <to_str>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description      |
-|--------------|------------------|
-| `<str>`      | The string.      |
-| `<from_str>` | The from string. |
-| `<to_str>`   | The to string.   |
+| 参数         | 描述         |
+|--------------|--------------|
+| `<str>`      | 源字符串。   |
+| `<from_str>` | 要替换的字符串。 |
+| `<to_str>`   | 替换后的字符串。 |
 
-## Return Type
+## 返回类型
 
 `VARCHAR`
 
-## Examples
+## 示例
 
 ```sql
 SELECT REPLACE('www.mysql.com', 'w', 'Ww');

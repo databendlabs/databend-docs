@@ -2,15 +2,15 @@
 title: OCT
 ---
 
-Returns a string representation of the octal value of N.
+返回 N 的八进制值的字符串表示形式。
 
-## Syntax
+## 语法
 
 ```sql
 OCT(<expr>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT OCT(12);
@@ -20,5 +20,3 @@ SELECT OCT(12);
 | 014     |
 +---------+
 ```
-
-
