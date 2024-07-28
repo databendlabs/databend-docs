@@ -2,15 +2,15 @@
 title: H3_EXACT_EDGE_LENGTH_KM
 ---
 
-Computes the length of this directed edge, in kilometers.
+计算这条有向边的长度，单位为公里。
 
-## Syntax
+## 语法
 
 ```sql
 H3_EXACT_EDGE_LENGTH_KM(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_EXACT_EDGE_LENGTH_KM(1319695429381652479);

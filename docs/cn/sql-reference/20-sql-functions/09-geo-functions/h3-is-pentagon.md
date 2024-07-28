@@ -2,15 +2,15 @@
 title: H3_IS_PENTAGON
 ---
 
-Checks if the given [H3](https://eng.uber.com/h3/) index represents a pentagonal cell. 
+检查给定的 [H3](https://eng.uber.com/h3/) 索引是否表示一个五边形单元格。
 
-## Syntax
+## 语法
 
 ```sql
 H3_IS_PENTAGON(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_IS_PENTAGON(599119489002373119);

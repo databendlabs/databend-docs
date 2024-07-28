@@ -2,15 +2,15 @@
 title: H3_EXACT_EDGE_LENGTH_RADS
 ---
 
-Computes the length of this directed edge, in radians.
+计算这条有向边的长度，单位为弧度。
 
-## Syntax
+## 语法
 
 ```sql
 H3_EXACT_EDGE_LENGTH_RADS(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_EXACT_EDGE_LENGTH_KM(1319695429381652479);

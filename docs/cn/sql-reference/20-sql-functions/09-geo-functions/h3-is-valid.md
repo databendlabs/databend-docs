@@ -2,15 +2,15 @@
 title: H3_IS_VALID
 ---
 
-Checks if the given [H3](https://eng.uber.com/h3/) index is valid.
+检查给定的 [H3](https://eng.uber.com/h3/) 索引是否有效。
 
-## Syntax
+## 语法
 
 ```sql
 H3_IS_VALID(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_IS_VALID(644325524701193974);

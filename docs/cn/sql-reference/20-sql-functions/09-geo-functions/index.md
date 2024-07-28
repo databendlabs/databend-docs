@@ -1,10 +1,10 @@
 ---
-title: Geography Functions
+title: 地理函数
 ---
 
-This section provides reference information for the geography functions in Databend.
+本节提供 Databend 中地理函数的参考信息。
 
-## Coordinate Conversion
+## 坐标转换
 
 - [GEO_TO_H3](geo-to-h3.md)
 - [GEOHASH_DECODE](geohash-decode.md)
@@ -13,7 +13,7 @@ This section provides reference information for the geography functions in Datab
 - [H3_TO_GEO](h3-to-geo.md)
 - [H3_TO_STRING](h3-to-string.md)
 
-## Hexagon Properties
+## 六边形属性
 
 - [H3_CELL_AREA_M2](h3-cell-area-m2.md)
 - [H3_CELL_AREA_RADS2](h3-cell-area-rads2.md)
@@ -28,7 +28,7 @@ This section provides reference information for the geography functions in Datab
 - [H3_TO_PARENT](h3-to-parent.md)
 - [H3_NUM_HEXAGONS](h3-num-hexagons.md)
 
-## Hexagon Relationships
+## 六边形关系
 
 - [H3_HEX_RING](h3-hex-ring.md)
 - [H3_K_RING](h3-k-ring.md)
@@ -44,7 +44,7 @@ This section provides reference information for the geography functions in Datab
 - [H3_GET_UNIDIRECTIONAL_EDGES_FROM_HEXAGON](h3-get-unidirectional-edges-from-hexagon.md)
 - [H3_UNIDIRECTIONAL_EDGE_IS_VALID](h3-unidirectional-edge-is-valid.md)
 
-## Measurement
+## 测量
 
 - [H3_DISTANCE](h3-distance.md)
 - [H3_EDGE_ANGLE](h3-edge-angle.md)
@@ -54,7 +54,7 @@ This section provides reference information for the geography functions in Datab
 - [H3_EXACT_EDGE_LENGTH_M](h3-exact-edge-length-m.md)
 - [H3_EXACT_EDGE_LENGTH_RADS](h3-exact-edge-length-rads.md)
 
-## General Utility
+## 通用工具
 
 - [POINT_IN_POLYGON](point-in-polygon.md)
 - [H3_LINE](h3-line.md)

@@ -2,15 +2,15 @@
 title: H3_EDGE_LENGTH_KM
 ---
 
-Returns the average hexagon edge length in kilometers at the given resolution. Excludes pentagons.
+返回给定分辨率下六边形边的平均长度，单位为公里。不包括五边形。
 
-## Syntax
+## 语法
 
 ```sql
 H3_EDGE_LENGTH_KM(res)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_EDGE_LENGTH_KM(1);

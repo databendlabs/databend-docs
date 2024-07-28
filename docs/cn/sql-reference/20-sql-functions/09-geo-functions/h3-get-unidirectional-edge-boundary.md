@@ -2,15 +2,15 @@
 title: H3_GET_UNIDIRECTIONAL_EDGE_BOUNDARY
 ---
 
-Returns the coordinates defining the unidirectional edge.
+返回定义单向边的坐标。
 
-## Syntax
+## 语法
 
 ```sql
 H3_GET_UNIDIRECTIONAL_EDGE_BOUNDARY(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_GET_UNIDIRECTIONAL_EDGE_BOUNDARY(1248204388774707199);

@@ -2,15 +2,15 @@
 title: H3_UNIDIRECTIONAL_EDGE_IS_VALID
 ---
 
-Determines if the provided H3Index is a valid unidirectional edge index. Returns 1 if it's a unidirectional edge and 0 otherwise.
+判断提供的 H3Index 是否为有效的单向边缘索引。如果是单向边缘，则返回 1，否则返回 0。
 
-## Syntax
+## 语法
 
 ```sql
 H3_UNIDIRECTIONAL_EDGE_IS_VALID(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_UNIDIRECTIONAL_EDGE_IS_VALID(1248204388774707199);

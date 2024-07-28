@@ -2,15 +2,15 @@
 title: H3_EDGE_ANGLE
 ---
 
-Returns the average length of the H3 hexagon edge in grades.
+返回 H3 六边形边缘的平均长度，单位为度。
 
-## Syntax
+## 语法
 
 ```sql
 H3_EDGE_ANGLE(res)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_EDGE_ANGLE(10);

@@ -2,15 +2,15 @@
 title: H3_NUM_HEXAGONS
 ---
 
-Returns the number of unique [H3](https://eng.uber.com/h3/) indexes at the given resolution. 
+返回给定分辨率下唯一 [H3](https://eng.uber.com/h3/) 索引的数量。
 
-## Syntax
+## 语法
 
 ```sql
 H3_NUM_HEXAGONS(res)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_NUM_HEXAGONS(10);

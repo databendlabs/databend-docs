@@ -2,15 +2,15 @@
 title: H3_CELL_AREA_M2
 ---
 
-Returns the exact area of specific cell in square meters.
+返回特定单元格的精确面积，单位为平方米。
 
-## Syntax
+## 语法
 
 ```sql
 H3_CELL_AREA_M2(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_CELL_AREA_M2(599119489002373119);

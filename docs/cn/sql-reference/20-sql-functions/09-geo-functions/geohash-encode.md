@@ -2,15 +2,15 @@
 title: GEOHASH_ENCODE
 ---
 
-Converts a pair of latitude and longitude coordinates into a [Geohash](https://en.wikipedia.org/wiki/Geohash)-encoded string.
+将一对经纬度坐标转换为 [Geohash](https://en.wikipedia.org/wiki/Geohash) 编码的字符串。
 
-## Syntax
+## 语法
 
 ```sql
 GEOHASH_ENCODE(lon, lat)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT GEOHASH_ENCODE(-5.60302734375, 42.593994140625);

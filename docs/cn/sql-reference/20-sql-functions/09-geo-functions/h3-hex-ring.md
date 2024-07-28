@@ -2,15 +2,15 @@
 title: H3_HEX_RING
 ---
 
-Returns the "hollow" ring of hexagons at exactly grid distance `k` from the given [H3](https://eng.uber.com/h3/) index.
+返回距离给定 [H3](https://eng.uber.com/h3/) 索引恰好为网格距离 `k` 的六边形“空心”环。
 
-## Syntax
+## 语法
 
 ```sql
 H3_HEX_RING(h3, k)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_HEX_RING(599686042433355775, 2);
