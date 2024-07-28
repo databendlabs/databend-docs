@@ -2,29 +2,29 @@
 title: SLEEP
 ---
 
-Sleeps `seconds` seconds on each data block.
+在每个数据块上休眠 `seconds` 秒。
 
 !!! warning 
-    Only used for testing where sleep is required.
+    仅用于需要休眠的测试场景。
 
 
-## Syntax
+## 语法
 
 ```sql
 SLEEP(seconds)
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description |
-| ----------- | ----------- |
-| seconds  | Must be a constant column of any nonnegative number or float.｜
+| 参数        | 描述         |
+| ----------- | ------------ |
+| seconds     | 必须是一个非负数的常量列，可以是任何非负数或浮点数。 |
 
-## Return Type
+## 返回类型
 
 UInt8
 
-## Examples
+## 示例
 
 ```sql
 SELECT sleep(2);
