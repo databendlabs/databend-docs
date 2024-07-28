@@ -2,22 +2,22 @@
 title: FUSE_BLOCK
 ---
 
-Returns the block information of the latest or specified snapshot of a table. For more information about what is block in Databend, see [What are Snapshot, Segment, and Block?](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block).
+返回表的最新或指定快照的块信息。有关Databend中块的更多信息，请参见[什么是快照、段和块？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block)。
 
-The command returns the location information of each parquet file referenced by a snapshot. This enables downstream applications to access and consume the data stored in the files.
+该命令返回快照引用的每个Parquet文件的位置信息。这使得下游应用程序能够访问和消费存储在文件中的数据。
 
-See Also:
+另请参阅：
 
 - [FUSE_SNAPSHOT](fuse_snapshot.md)
 - [FUSE_SEGMENT](fuse_segment.md)
 
-## Syntax
+## 语法
 
 ```sql
 FUSE_BLOCK('<database_name>', '<table_name>'[, '<snapshot_id>'])
 ```
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE mytable(c int);

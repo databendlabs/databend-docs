@@ -2,22 +2,22 @@
 title: FUSE_COLUMN
 ---
 
-Returns the column information of the latest or specified snapshot of a table. For more information about what is block in Databend, see [What are Snapshot, Segment, and Block?](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block).
+返回表的最新或指定快照的列信息。有关 Databend 中块的更多信息，请参阅 [什么是快照、段和块？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block)。
 
 
-See Also:
+另请参阅：
 
 - [FUSE_SNAPSHOT](fuse_snapshot.md)
 - [FUSE_SEGMENT](fuse_segment.md)
 - [FUSE_BLOCK](fuse_block.md)
 
-## Syntax
+## 语法
 
 ```sql
 FUSE_COLUMN('<database_name>', '<table_name>'[, '<snapshot_id>'])
 ```
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE mytable(c int);
