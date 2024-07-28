@@ -3,21 +3,21 @@ title: JSON_PRETTY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.77"/>
+<FunctionDescription description="引入或更新：v1.2.77"/>
 
-Formats JSON data, making it more readable and presentable. It automatically adds indentation, line breaks, and other formatting to the JSON data for better visual representation.
+格式化 JSON 数据，使其更易读和呈现。它会自动添加缩进、换行和其他格式化元素，以改善 JSON 数据的视觉表现。
 
-## Syntax
+## 语法
 
 ```sql
 JSON_PRETTY(<json_string>)
 ```
 
-## Return Type
+## 返回类型
 
-String.
+字符串。
 
-## Examples
+## 示例
 
 ```sql
 SELECT JSON_PRETTY(PARSE_JSON('{"name":"Alice","age":30}'));

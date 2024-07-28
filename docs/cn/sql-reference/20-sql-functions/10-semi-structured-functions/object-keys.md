@@ -2,4 +2,4 @@
 title: OBJECT_KEYS
 ---
 
-Alias for [JSON_OBJECT_KEYS](json-object-keys.md).
+[JSON_OBJECT_KEYS](json-object-keys.md) 的别名。

@@ -2,30 +2,28 @@
 title: GET_IGNORE_CASE
 ---
 
-Extracts value from a `VARIANT` that contains `OBJECT` by the field_name.
-The value is returned as a `Variant` or `NULL` if either of the arguments is `NULL`.
+从包含 `OBJECT` 的 `VARIANT` 中提取字段值。如果任一参数为 `NULL`，则返回值为 `Variant` 或 `NULL`。
 
-`GET_IGNORE_CASE` is similar to `GET` but applies case-insensitive matching to field names.
-First match the exact same field name, if not found, match the case-insensitive field name alphabetically.
+`GET_IGNORE_CASE` 类似于 `GET`，但对字段名应用不区分大小写的匹配。首先匹配完全相同的字段名，如果未找到，则按字母顺序匹配不区分大小写的字段名。
 
-## Syntax
+## 语法
 
 ```sql
 GET_IGNORE_CASE( <variant>, <field_name> )
 ```
 
-## Arguments
+## 参数
 
-| Arguments      | Description                                                      |
-|----------------|------------------------------------------------------------------|
-| `<variant>`    | The VARIANT value that contains either an ARRAY or an OBJECT     |
-| `<field_name>` | The String value specifies the key in a key-value pair of OBJECT |
+| 参数           | 描述                                                         |
+|----------------|--------------------------------------------------------------|
+| `<variant>`    | 包含 `ARRAY` 或 `OBJECT` 的 `VARIANT` 值                      |
+| `<field_name>` | 指定 `OBJECT` 中键值对键的字符串值                            |
 
-## Return Type
+## 返回类型
 
 VARIANT
 
-## Examples
+## 示例
 
 ```sql
 SELECT get_ignore_case(parse_json('{"aa":1, "aA":2, "Aa":3}'), 'AA');

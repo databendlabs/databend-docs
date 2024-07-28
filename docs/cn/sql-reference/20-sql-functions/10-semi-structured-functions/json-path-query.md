@@ -2,22 +2,21 @@
 title: JSON_PATH_QUERY
 ---
 
-Get all JSON items returned by JSON path for the specified JSON value.
+获取指定 JSON 值通过 JSON 路径返回的所有 JSON 项。
 
-## Syntax
+## 语法
 
 ```sql
 JSON_PATH_QUERY(<variant>, '<path_name>')
 ```
 
-
-## Return Type
+## 返回类型
 
 VARIANT
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 
 ```sql
 CREATE TABLE products (
@@ -31,7 +30,7 @@ VALUES ('Laptop', '{"brand": "Dell", "colors": ["Black", "Silver"], "price": 120
        ('Headphones', '{"brand": "Sony", "colors": ["Black", "Blue", "Red"], "price": 150, "features": {"battery": "20h", "bluetooth": "5.0"}}');
 ```
 
-**Query Demo: Extracting All Features from Product Details**
+**查询演示：从产品详情中提取所有特性**
 
 ```sql
 SELECT
@@ -41,7 +40,7 @@ FROM
     products;
 ```
 
-**Result**
+**结果**
 
 ```sql
 +------------+--------------+

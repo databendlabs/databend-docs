@@ -4,18 +4,18 @@ title_includes: TRY_JSON_OBJECT_KEEP_NULL
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.402"/>
+<FunctionDescription description="引入或更新: v1.2.402"/>
 
-Creates a JSON object with keys and values.
+创建一个包含键和值的 JSON 对象。
 
-- The arguments are zero or more key-value pairs(where keys are strings, and values are of any type).
-- If a key is NULL, the key-value pair is omitted from the resulting object. However, if a value is NULL, the key-value pair will be kept.
-- The keys must be distinct from each other, and their order in the resulting JSON might be different from the order you specify.
-- `TRY_JSON_OBJECT_KEEP_NULL` returns a NULL value if an error occurs when building the object.
+- 参数是零个或多个键值对（其中键是字符串，值可以是任何类型）。
+- 如果键为 NULL，则该键值对将从结果对象中省略。然而，如果值为 NULL，该键值对将被保留。
+- 键必须是互不相同的，并且它们在结果 JSON 中的顺序可能与你指定的顺序不同。
+- `TRY_JSON_OBJECT_KEEP_NULL` 在构建对象时发生错误时返回 NULL 值。
 
-See also: [JSON_OBJECT](json-object.md)
+另请参阅: [JSON_OBJECT](json-object.md)
 
-## Syntax
+## 语法
 
 ```sql
 JSON_OBJECT_KEEP_NULL(key1, value1[, key2, value2[, ...]])
@@ -23,11 +23,11 @@ JSON_OBJECT_KEEP_NULL(key1, value1[, key2, value2[, ...]])
 TRY_JSON_OBJECT_KEEP_NULL(key1, value1[, key2, value2[, ...]])
 ```
 
-## Return Type
+## 返回类型
 
-JSON object.
+JSON 对象。
 
-## Examples
+## 示例
 
 ```sql
 SELECT JSON_OBJECT_KEEP_NULL();
@@ -54,7 +54,7 @@ SELECT JSON_OBJECT_KEEP_NULL('fruits', ['apple', 'banana', 'orange'], 'vegetable
 SELECT JSON_OBJECT_KEEP_NULL('key');
   |
 1 | SELECT JSON_OBJECT_KEEP_NULL('key')
-  |        ^^^^^^^^^^^^^^^^^^ The number of keys and values must be equal while evaluating function `json_object_keep_null('key')`
+  |        ^^^^^^^^^^^^^^^^^^ 在评估函数 `json_object_keep_null('key')` 时，键和值的数量必须相等
 
 
 SELECT TRY_JSON_OBJECT_KEEP_NULL('key');
@@ -64,4 +64,3 @@ SELECT TRY_JSON_OBJECT_KEEP_NULL('key');
 │ NULL                             │
 └──────────────────────────────────┘
 ```
-

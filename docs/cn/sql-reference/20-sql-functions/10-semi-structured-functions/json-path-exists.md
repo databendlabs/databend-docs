@@ -3,29 +3,29 @@ title: JSON_PATH_EXISTS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.119"/>
+<FunctionDescription description="引入或更新: v1.2.119"/>
 
-Checks whether a specified path exists in JSON data.
+检查指定的路径是否存在于JSON数据中。
 
-## Syntax
+## 语法
 
 ```sql
 JSON_PATH_EXISTS(<json_data>, <json_path_expression>)
 ```
 
-- json_data: Specifies the JSON data you want to search within. It can be a JSON object or an array.
+- json_data: 指定要搜索的JSON数据。它可以是一个JSON对象或数组。
 
-- json_path_expression: Specifies the path, starting from the root of the JSON data represented by `$`, that you want to check within the JSON data. You can also include conditions within the expression, using `@` to refer to the current node or element being evaluated, to filter the results.
+- json_path_expression: 指定从JSON数据的根（用`$`表示）开始的路径，用于在JSON数据中进行检查。您还可以在表达式中包含条件，使用`@`来引用当前正在评估的节点或元素，以过滤结果。
 
-## Return Type
+## 返回类型
 
-The function returns:
+该函数返回：
 
-- `true` if the specified JSON path (and conditions if any) exists within the JSON data.
-- `false` if the specified JSON path (and conditions if any) does not exist within the JSON data.
-- NULL if either the json_data or json_path_expression is NULL or invalid.
+- `true` 如果指定的JSON路径（及条件，如果有）存在于JSON数据中。
+- `false` 如果指定的JSON路径（及条件，如果有）不存在于JSON数据中。
+- NULL 如果json_data或json_path_expression为NULL或无效。
 
-## Examples
+## 示例
 
 ```sql
 SELECT JSON_PATH_EXISTS(parse_json('{"a": 1, "b": 2}'), '$.a ? (@ == 1)');

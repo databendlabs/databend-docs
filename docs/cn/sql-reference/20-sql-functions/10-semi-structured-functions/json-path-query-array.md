@@ -2,22 +2,22 @@
 title: JSON_PATH_QUERY_ARRAY
 ---
 
-Get all JSON items returned by JSON path for the specified JSON value and wrap a result into an array.
+获取指定 JSON 值通过 JSON 路径返回的所有 JSON 项，并将结果包装成一个数组。
 
-## Syntax
+## 语法
 
 ```sql
 JSON_PATH_QUERY_ARRAY(<variant>, '<path_name>')
 ```
 
 
-## Return Type
+## 返回类型
 
 VARIANT
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 
 ```sql
 CREATE TABLE products (
@@ -31,7 +31,7 @@ VALUES ('Laptop', '{"brand": "Dell", "colors": ["Black", "Silver"], "price": 120
        ('Headphones', '{"brand": "Sony", "colors": ["Black", "Blue", "Red"], "price": 150, "features": {"battery": "20h", "bluetooth": "5.0"}}');
 ```
 
-**Query Demo: Extracting All Features from Product Details as an Array**
+**查询示例：从产品详情中提取所有特性作为数组**
 
 ```sql
 SELECT
@@ -41,7 +41,7 @@ FROM
     products;
 ```
 
-**Result**
+**结果**
 
 ```
    name    |         all_features

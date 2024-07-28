@@ -2,27 +2,27 @@
 title: CHECK_JSON
 ---
 
-Checks the validity of a JSON document.
-If the input string is a valid JSON document or a `NULL`, the output is `NULL`.
-If the input cannot be translated to a valid JSON value, the output string contains the error message.
+检查 JSON 文档的有效性。
+如果输入字符串是一个有效的 JSON 文档或为 `NULL`，则输出为 `NULL`。
+如果输入无法转换为有效的 JSON 值，则输出字符串包含错误消息。
 
-## Syntax
+## 语法
 
 ```sql
 CHECK_JSON( <expr> )
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                  |
-|-----------|------------------------------|
-| `<expr>`  | An expression of string type |
+| 参数       | 描述                     |
+|-----------|--------------------------|
+| `<expr>`  | 字符串类型的表达式       |
 
-## Return Type
+## 返回类型
 
-String
+字符串
 
-## Examples
+## 示例
 
 ```sql
 SELECT check_json('[1,2,3]');

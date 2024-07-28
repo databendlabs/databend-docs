@@ -3,11 +3,11 @@ title: IS_ARRAY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.368"/>
+<FunctionDescription description="引入或更新：v1.2.368"/>
 
-Checks if the input value is a JSON array. Please note that a JSON array is not the same as the [ARRAY](../../00-sql-reference/10-data-types/40-data-type-array-types.md) data type. A JSON array is a data structure commonly used in JSON, representing an ordered collection of values enclosed within square brackets `[ ]`. It is a flexible format for organizing and exchanging various data types, including strings, numbers, booleans, objects, and nulls. 
+检查输入值是否为 JSON 数组。请注意，JSON 数组与 [ARRAY](../../00-sql-reference/10-data-types/40-data-type-array-types.md) 数据类型不同。JSON 数组是一种常用于 JSON 中的数据结构，表示一个有序的值集合，用方括号 `[ ]` 包围。它是一种灵活的格式，用于组织和交换各种数据类型，包括字符串、数字、布尔值、对象和空值。
 
-```json title='JSON Array Example:'
+```json title='JSON 数组示例：'
 [
   "Apple",
   42,
@@ -18,17 +18,17 @@ Checks if the input value is a JSON array. Please note that a JSON array is not 
 ]
 ```
 
-## Syntax
+## 语法
 
 ```sql
 IS_ARRAY( <expr> )
 ```
 
-## Return Type
+## 返回类型
 
-Returns `true` if the input value is a JSON array, and `false` otherwise.
+如果输入值是 JSON 数组，则返回 `true`，否则返回 `false`。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

@@ -1,32 +1,32 @@
 ---
 title: PARSE_JSON
 description:
-  Interprets input JSON string, producing a VARIANT value
+  解释输入的JSON字符串，生成一个VARIANT值
 title_includes: TRY_PARSE_JSON
 ---
 
-`parse_json` and `try_parse_json` interprets an input string as a JSON document, producing a VARIANT value.
+`parse_json` 和 `try_parse_json` 将输入字符串解释为JSON文档，生成一个VARIANT值。
 
-`try_parse_json` returns a NULL value if an error occurs during parsing.
+`try_parse_json` 在解析过程中发生错误时返回NULL值。
 
-## Syntax
+## 语法
 
 ```sql
 PARSE_JSON(<expr>)
 TRY_PARSE_JSON(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                                                                    |
+| 参数       | 描述                                                                           |
 |-----------|--------------------------------------------------------------------------------|
-| `<expr>`  | An expression of string type (e.g. VARCHAR) that holds valid JSON information. |
+| `<expr>`  | 一个字符串类型的表达式（例如VARCHAR），包含有效的JSON信息。                     |
 
-## Return Type
+## 返回类型
 
 VARIANT
 
-## Examples
+## 示例
 
 ```sql
 SELECT parse_json('[-1, 12, 289, 2188, false]');
