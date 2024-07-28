@@ -2,26 +2,26 @@
 title: RIGHT
 ---
 
-Returns the rightmost len characters from the string str, or NULL if any argument is NULL.
+返回字符串 `str` 中最右边的 `len` 个字符，如果任何参数为 `NULL`，则返回 `NULL`。
 
-## Syntax
+## 语法
 
 ```sql
 RIGHT(<str>, <len>);
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                                              |
-|-----------|----------------------------------------------------------|
-| `<str>`   | The main string from where the character to be extracted |
-| `<len>`   | The count of characters                                  |
+| 参数      | 描述                                       |
+|-----------|------------------------------------------|
+| `<str>`   | 主字符串，从中提取字符                     |
+| `<len>`   | 字符的数量                                 |
 
-## Return Type
+## 返回类型
 
 `VARCHAR`
 
-## Examples
+## 示例
 
 ```sql
 SELECT RIGHT('foobarbar', 4);

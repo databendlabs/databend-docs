@@ -2,23 +2,23 @@
 title: UPPER
 ---
 
-Returns a string with all characters changed to uppercase.
+返回一个将所有字符转换为大写的字符串。
 
-## Syntax
+## 语法
 
 ```sql
 UPPER(<str>)
 ```
 
-## Aliases
+## 别名
 
 - [UCASE](ucase.md)
 
-## Return Type
+## 返回类型
 
 VARCHAR
 
-## Examples
+## 示例
 
 ```sql
 SELECT UPPER('Hello, Databend!'), UCASE('Hello, Databend!');

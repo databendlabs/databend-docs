@@ -2,4 +2,4 @@
 title: LENGTH_UTF8
 ---
 
-Alias for [LENGTH](length.md).
+[LENGTH](length.md) 的别名。

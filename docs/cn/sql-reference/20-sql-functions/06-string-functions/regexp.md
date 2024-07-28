@@ -2,19 +2,19 @@
 title: REGEXP
 ---
 
-Returns `true` if the string `<expr>` matches the regular expression specified by the `<pattern>`, `false` otherwise.
+如果字符串 `<expr>` 匹配指定的正则表达式 `<pattern>`，则返回 `true`，否则返回 `false`。
 
-## Syntax
+## 语法
 
 ```sql
 <expr> REGEXP <pattern>
 ```
 
-## Aliases
+## 别名
 
 - [RLIKE](rlike.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT 'databend' REGEXP 'd*', 'databend' RLIKE 'd*';

@@ -2,15 +2,15 @@
 title: OCTET_LENGTH
 ---
 
-OCTET_LENGTH() is a synonym for LENGTH().
+OCTET_LENGTH() 是 LENGTH() 的同义词。
 
-## Syntax
+## 语法
 
 ```sql
 OCTET_LENGTH(<str>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT OCTET_LENGTH('databend');
@@ -20,5 +20,3 @@ SELECT OCTET_LENGTH('databend');
 |                        8 |
 +--------------------------+
 ```
-
-

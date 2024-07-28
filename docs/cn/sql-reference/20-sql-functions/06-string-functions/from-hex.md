@@ -2,4 +2,4 @@
 title: FROM_HEX
 ---
 
-Alias for [UNHEX](unhex.md).
+[UNHEX](unhex.md) 的别名。

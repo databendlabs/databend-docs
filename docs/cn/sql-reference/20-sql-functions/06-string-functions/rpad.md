@@ -2,28 +2,27 @@
 title: RPAD
 ---
 
-Returns the string str, right-padded with the string padstr to a length of len characters.
-If str is longer than len, the return value is shortened to len characters.
+返回字符串 `str`，使用字符串 `padstr` 向右填充至长度为 `len` 个字符。如果 `str` 比 `len` 长，则返回值被截断至 `len` 个字符。
 
-## Syntax
+## 语法
 
 ```sql
 RPAD(<str>, <len>, <padstr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments  | Description     |
-|------------|-----------------|
-| `<str>`    | The string.     |
-| `<len>`    | The length.     |
-| `<padstr>` | The pad string. |
+| 参数       | 描述         |
+|------------|--------------|
+| `<str>`    | 字符串。     |
+| `<len>`    | 长度。       |
+| `<padstr>` | 填充字符串。 |
 
-## Return Type
+## 返回类型
 
 `VARCHAR`
 
-## Examples
+## 示例
 
 ```sql
 SELECT RPAD('hi',5,'?');

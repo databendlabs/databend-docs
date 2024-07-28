@@ -2,15 +2,15 @@
 title: QUOTE
 ---
 
-Quotes a string to produce a result that can be used as a properly escaped data value in an SQL statement. 
+将字符串引用，以生成一个可以在 SQL 语句中作为正确转义的数据值使用的结果。
 
-## Syntax
+## 语法
 
 ```sql
 QUOTE(<str>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT QUOTE('Don\'t!');
@@ -27,5 +27,3 @@ SELECT QUOTE(NULL);
 |        NULL |
 +-------------+
 ```
-
-

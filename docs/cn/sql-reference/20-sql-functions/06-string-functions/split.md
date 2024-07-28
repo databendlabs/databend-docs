@@ -3,35 +3,35 @@ title: SPLIT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.164"/>
+<FunctionDescription description="引入或更新: v1.2.164"/>
 
-Splits a string using a specified delimiter and returns the resulting parts as an array.
+使用指定的分隔符将字符串分割，并返回分割后的部分作为数组。
 
-See also: [SPLIT_PART](split-part)
+另请参阅: [SPLIT_PART](split-part)
 
-## Syntax
+## 语法
 
 ```sql
 SPLIT('<input_string>', '<delimiter>')
 ```
 
-## Return Type
+## 返回类型
 
-Array of strings. SPLIT returns NULL when either the input string or the delimiter is NULL.
+字符串数组。当输入字符串或分隔符为 NULL 时，SPLIT 返回 NULL。
 
-## Examples
+## 示例
 
 ```sql
--- Use a space as the delimiter
--- SPLIT returns an array with two parts.
+-- 使用空格作为分隔符
+-- SPLIT 返回包含两个部分的数组。
 SELECT SPLIT('Databend Cloud', ' ');
 
 split('databend cloud', ' ')|
 ----------------------------+
 ['Databend','Cloud']        |
 
--- Use an empty string as the delimiter or a delimiter that does not exist in the input string
--- SPLIT returns an array containing the entire input string as a single part.
+-- 使用空字符串作为分隔符或输入字符串中不存在的分隔符
+-- SPLIT 返回包含整个输入字符串作为单一部分的数组。
 SELECT SPLIT('Databend Cloud', '');
 
 split('databend cloud', '')|
@@ -44,8 +44,8 @@ split('databend cloud', ',')|
 ----------------------------+
 ['Databend Cloud']          |
 
--- Use '	' (tab) as the delimiter
--- SPLIT returns an array with timestamp, log level, and message.
+-- 使用 '	' (制表符) 作为分隔符
+-- SPLIT 返回包含时间戳、日志级别和消息的数组。
 
 SELECT SPLIT('2023-10-19 15:30:45	INFO	Log message goes here', '	');
 

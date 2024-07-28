@@ -2,25 +2,25 @@
 title: ASCII
 ---
 
-Returns the numeric value of the leftmost character of the string str.
+返回字符串 `str` 最左边字符的数值。
 
-## Syntax
+## 语法
 
 ```sql
 ASCII(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<expr>`  | The string. |
+| 参数       | 描述       |
+|-----------|------------|
+| `<expr>`  | 字符串     |
 
-## Return Type
+## 返回类型
 
 `TINYINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT ASCII('2');

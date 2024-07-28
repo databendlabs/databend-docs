@@ -2,25 +2,25 @@
 title: REVERSE
 ---
 
-Returns the string str with the order of the characters reversed.
+返回字符串 `str` 中字符顺序反转后的结果。
 
-## Syntax
+## 语法
 
 ```sql
 REVERSE(<str>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description       |
-|-----------|-------------------|
-| `<str>`   | The string value. |
+| 参数      | 描述         |
+|-----------|--------------|
+| `<str>`   | 字符串值。   |
 
-## Return Type
+## 返回类型
 
 `VARCHAR`
 
-## Examples
+## 示例
 
 ```sql
 SELECT REVERSE('abc');

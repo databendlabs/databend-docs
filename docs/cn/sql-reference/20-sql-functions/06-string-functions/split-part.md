@@ -3,41 +3,41 @@ title: SPLIT_PART
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.164"/>
+<FunctionDescription description="引入或更新: v1.2.164"/>
 
-Splits a string using a specified delimiter and returns the specified part.
+使用指定的分隔符分割字符串并返回指定部分。
 
-See also: [SPLIT](split.md)
+另请参阅: [SPLIT](split.md)
 
-## Syntax
+## 语法
 
 ```sql
 SPLIT_PART('<input_string>', '<delimiter>', '<position>')
 ```
 
-The *position* argument specifies which part to return. It uses a 1-based index but can also accept positive, negative, or zero values:
+*position* 参数指定要返回的部分。它使用基于1的索引，但也可以接受正数、负数或零值：
 
-- If *position* is a positive number, it returns the part at the position from the left to the right, or NULL if it doesn't exist.
-- If *position* is a negative number, it returns the part at the position from the right to the left, or NULL if it doesn't exist.
-- If *position* is 0, it is treated as 1, effectively returning the first part of the string.
+- 如果 *position* 是正数，则从左到右返回该位置的部分，如果不存在则返回 NULL。
+- 如果 *position* 是负数，则从右到左返回该位置的部分，如果不存在则返回 NULL。
+- 如果 *position* 是 0，则视为 1，实际上返回字符串的第一部分。
 
-## Return Type
+## 返回类型
 
-String. SPLIT_PART returns NULL when either the input string, the delimiter, or the position is NULL.
+字符串。当输入字符串、分隔符或位置为 NULL 时，SPLIT_PART 返回 NULL。
 
-## Examples
+## 示例
 
 ```sql
--- Use a space as the delimiter
--- SPLIT_PART returns a specific part.
+-- 使用空格作为分隔符
+-- SPLIT_PART 返回特定部分。
 SELECT SPLIT_PART('Databend Cloud', ' ', 1);
 
 split_part('databend cloud', ' ', 1)|
 ------------------------------------+
 Databend                            |
 
--- Use an empty string as the delimiter or a delimiter that does not exist in the input string
--- SPLIT_PART returns the entire input string.
+-- 使用空字符串作为分隔符或分隔符在输入字符串中不存在
+-- SPLIT_PART 返回整个输入字符串。
 SELECT SPLIT_PART('Databend Cloud', '', 1);
 
 split_part('databend cloud', '', 1)|
@@ -50,15 +50,15 @@ split_part('databend cloud', ',', 1)|
 ------------------------------------+
 Databend Cloud                      |
 
--- Use '    ' (tab) as the delimiter
--- SPLIT_PART returns individual fields.
+-- 使用 '    ' (制表符) 作为分隔符
+-- SPLIT_PART 返回各个字段。
 SELECT SPLIT_PART('2023-10-19 15:30:45   INFO   Log message goes here', '   ', 3);
 
 split_part('2023-10-19 15:30:45   info   log message goes here', '   ', 3)|
 --------------------------------------------------------------------------+
 Log message goes here                                                     |
 
--- SPLIT_PART returns an empty string as the specified part does not exist at all.
+-- SPLIT_PART 返回空字符串，因为指定的部分根本不存在。
 SELECT SPLIT_PART('2023-10-19 15:30:45   INFO   Log message goes here', '   ', 4);
 
 split_part('2023-10-19 15:30:45   info   log message goes here', '   ', 4)|

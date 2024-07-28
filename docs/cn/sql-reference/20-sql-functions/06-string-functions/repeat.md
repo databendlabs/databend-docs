@@ -2,22 +2,22 @@
 title: REPEAT
 ---
 
-Returns a string consisting of the string str repeated count times. If count is less than 1, returns an empty string. Returns NULL if str or count are NULL.
+返回一个由字符串 `str` 重复 `count` 次组成的字符串。如果 `count` 小于 1，则返回空字符串。如果 `str` 或 `count` 为 NULL，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 REPEAT(<str>, <count>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<str>`   | The string. |
-| `<count>` | The number. |
+| 参数      | 描述       |
+|-----------|------------|
+| `<str>`   | 字符串     |
+| `<count>` | 数字       |
 
-## Examples
+## 示例
 
 ```sql
 SELECT REPEAT('databend', 3);
@@ -41,5 +41,3 @@ SELECT REPEAT('databend', NULL);
 |                     NULL |
 +--------------------------+
 ```
-
-

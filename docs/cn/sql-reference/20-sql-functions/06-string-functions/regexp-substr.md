@@ -2,29 +2,29 @@
 title: REGEXP_SUBSTR
 ---
 
-Returns the substring of the string `expr` that matches the regular expression specified by the pattern `pat`, NULL if there is no match. If expr or pat is NULL, the return value is NULL.
+返回字符串 `expr` 中与正则表达式 `pat` 匹配的子字符串，如果没有匹配则返回 NULL。如果 `expr` 或 `pat` 为 NULL，则返回值为 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 REGEXP_SUBSTR(<expr>, <pat[, pos[, occurrence[, match_type]]]>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments  | Description                                                                                               |
+| 参数       | 描述                                                                                               |
 |------------|-----------------------------------------------------------------------------------------------------------|
-| expr       | The string expr that to be matched                                                                        |
-| pat        | The regular expression                                                                                    |
-| pos        | Optional. The position in expr at which to start the search. If omitted, the default is 1.                |
-| occurrence | Optional. Which occurrence of a match to search for. If omitted, the default is 1.                        |
-| match_type | Optional. A string that specifies how to perform matching. The meaning is as described for REGEXP_LIKE(). |
+| expr       | 要匹配的字符串表达式                                                                                   |
+| pat        | 正则表达式                                                                                           |
+| pos        | 可选。在 `expr` 中开始搜索的位置。如果省略，默认值为 1。                                               |
+| occurrence | 可选。要搜索的匹配项的出现次数。如果省略，默认值为 1。                                                  |
+| match_type | 可选。指定如何执行匹配的字符串。其含义与 REGEXP_LIKE() 中描述的相同。                                  |
 
-## Return Type
+## 返回类型
 
 `VARCHAR`
 
-## Examples
+## 示例
 
 ```sql
 SELECT REGEXP_SUBSTR('abc def ghi', '[a-z]+');

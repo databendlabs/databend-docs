@@ -2,30 +2,30 @@
 title: LOCATE
 ---
 
-The first syntax returns the position of the first occurrence of substring substr in string str.
-The second syntax returns the position of the first occurrence of substring substr in string str, starting at position pos.
-Returns 0 if substr is not in str. Returns NULL if any argument is NULL.
+第一种语法返回子字符串 `substr` 在字符串 `str` 中首次出现的位置。
+第二种语法返回子字符串 `substr` 在字符串 `str` 中从位置 `pos` 开始首次出现的位置。
+如果 `substr` 不在 `str` 中，则返回 0。如果任何参数为 NULL，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 LOCATE(<substr>, <str>)
 LOCATE(<substr>, <str>, <pos>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments  | Description    |
-|------------|----------------|
-| `<substr>` | The substring. |
-| `<str>`    | The string.    |
-| `<pos>`    | The position.  |
+| 参数       | 描述         |
+|------------|--------------|
+| `<substr>` | 子字符串     |
+| `<str>`    | 字符串       |
+| `<pos>`    | 起始位置     |
 
-## Return Type
+## 返回类型
 
 `BIGINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT LOCATE('bar', 'foobarbar')
