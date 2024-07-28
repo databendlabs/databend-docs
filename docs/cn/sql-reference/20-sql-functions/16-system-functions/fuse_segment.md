@@ -2,27 +2,27 @@
 title: FUSE_SEGMENT
 ---
 
-Returns the segment information of a specified table snapshot. For more information about what is segment in Databend, see [What are Snapshot, Segment, and Block?](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block).
+返回指定表快照的段信息。有关Databend中段的更多信息，请参阅[什么是快照、段和块？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block)。
 
-See Also:
+另请参阅：
 
 - [FUSE_SNAPSHOT](fuse_snapshot.md)
 - [FUSE_BLOCK](fuse_block.md)
 
-## Syntax
+## 语法
 
 ```sql
 FUSE_SEGMENT('<database_name>', '<table_name>','<snapshot_id>')
 ```
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE mytable(c int);
 INSERT INTO mytable values(1);
 INSERT INTO mytable values(2); 
 
--- Obtain a snapshot ID
+-- 获取一个快照ID
 SELECT snapshot_id FROM FUSE_SNAPSHOT('default', 'mytable') limit 1;
 
 ---

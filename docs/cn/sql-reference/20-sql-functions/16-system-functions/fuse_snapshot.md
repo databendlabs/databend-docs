@@ -2,20 +2,20 @@
 title: FUSE_SNAPSHOT
 ---
 
-Returns the snapshot information of a table. For more information about what is snapshot in Databend, see [What are Snapshot, Segment, and Block?](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block).
+返回表的快照信息。有关 Databend 中快照的更多信息，请参阅 [什么是快照、段和块？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block)。
 
-See Also:
+另请参阅：
 
 - [FUSE_SEGMENT](fuse_segment.md)
 - [FUSE_BLOCK](fuse_block.md)
 
-## Syntax
+## 语法
 
 ```sql
-FUSE_SNAPSHOT('<database_name>', '<table_name>')
+FUSE_SNAPSHOT('<数据库名称>', '<表名称>')
 ```
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE mytable(a int, b int) CLUSTER BY(a+1);
