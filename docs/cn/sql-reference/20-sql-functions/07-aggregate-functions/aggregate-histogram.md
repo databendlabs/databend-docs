@@ -3,20 +3,20 @@ title: HISTOGRAM
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.377"/>
+<FunctionDescription description="引入或更新: v1.2.377"/>
 
-Computes the distribution of the data. It uses an "equal height" bucketing strategy to generate the histogram. The result of the function returns an empty or Json string.
+计算数据的分布情况。它使用“等高”分桶策略来生成直方图。该函数的结果返回一个空字符串或Json字符串。
 
-## Syntax
+## 语法
 
 ```sql
 HISTOGRAM(<expr>)
 HISTOGRAM(<expr> [, max_num_buckets])
 ```
 
-`max_num_buckets` means the maximum number of buckets that can be used, by default it is 128.
+`max_num_buckets` 表示可以使用的最大桶数，默认值为128。
 
-For example:
+例如：
 ```sql
 select histogram(c_id) from histagg;
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -28,20 +28,20 @@ select histogram(c_id) from histagg;
 ```
 :::
 
-## Arguments
+## 参数
 
-| Arguments         | Description                                                                                |
-|-------------------|--------------------------------------------------------------------------------------------|
-| `<expr>`          | The data type of `<expr>` should be sortable.                                              |
-| `max_num_buckets` | Optional constant positive integer, the maximum number of buckets that can be used.        |
+| 参数              | 描述                                                                                     |
+|-------------------|------------------------------------------------------------------------------------------|
+| `<expr>`          | `<expr>` 的数据类型应该是可排序的。                                                      |
+| `max_num_buckets` | 可选的常量正整数，表示可以使用的最大桶数。                                               |
 
-## Return Type
+## 返回类型
 
-the Nullable String type
+Nullable String 类型
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 
 ```sql
 CREATE TABLE histagg (
@@ -60,12 +60,12 @@ INSERT INTO histagg VALUES
   (2, 10, 20, 30);
 ```
 
-**Query Demo 1**
+**查询示例1**
 ```sql
 SELECT HISTOGRAM(c_int) FROM histagg;
 ```
 
-**Result**
+**结果**
 ```sql
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                                                                                              histogram(c_int)                                                                                                             │
@@ -75,7 +75,7 @@ SELECT HISTOGRAM(c_int) FROM histagg;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Query result description：
+查询结果描述：
 
 ```json
 [
@@ -110,11 +110,11 @@ Query result description：
 ]
 ```
 
-Fields description:
+字段描述:
 
-- buckets：All buckets
-  - lower：Upper bound of the bucket
-  - upper：Lower bound of the bucket
-  - count：The number of elements contained in the bucket
-  - pre_sum：The total number of elements in the front bucket
-  - ndv：The number of distinct values in the bucket
+- buckets：所有桶
+  - lower：桶的上界
+  - upper：桶的下界
+  - count：桶中包含的元素数量
+  - pre_sum：前面桶中元素的总数量
+  - ndv：桶中不同值的数量

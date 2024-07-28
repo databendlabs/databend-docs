@@ -2,18 +2,17 @@
 title: SUM_IF
 ---
 
+## SUM_IF
 
-## SUM_IF 
-
-The suffix -If can be appended to the name of any aggregate function. In this case, the aggregate function accepts an extra argument – a condition.
+后缀 -If 可以附加到任何聚合函数的名称上。在这种情况下，聚合函数接受一个额外的参数 —— 一个条件。
 
 ```
-SUM_IF(<column>, <cond>)
+SUM_IF(<列>, <条件>)
 ```
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE order_data (
   id INT,
@@ -30,13 +29,13 @@ VALUES (1, 1, 100, 'Completed'),
        (5, 5, 75, 'Cancelled');
 ```
 
-**Query Demo: Calculate the Total Amount of Completed Orders**
+**查询演示：计算已完成订单的总金额**
 ```sql
 SELECT SUM_IF(amount, status = 'Completed') AS total_amount_completed
 FROM order_data;
 ```
 
-**Result**
+**结果**
 ```sql
 | total_amount_completed |
 |------------------------|

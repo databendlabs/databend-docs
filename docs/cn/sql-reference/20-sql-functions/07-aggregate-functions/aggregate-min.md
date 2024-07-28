@@ -2,55 +2,55 @@
 title: MIN
 ---
 
-Aggregate function.
+聚合函数。
 
-The MIN() function returns the minimum value in a set of values.
+MIN() 函数返回一组值中的最小值。
 
-## Syntax
+## 语法
 
 ```
 MIN(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<expr>`  | Any expression |
+| 参数      | 描述         |
+|-----------|--------------|
+| `<expr>`  | 任何表达式   |
 
-## Return Type
+## 返回类型
 
-The minimum value, in the type of the value.
+最小值，类型与值的类型相同。
 
-## Example
+## 示例
 
 ---
 title: MIN
 ---
 
-Aggregate function.
+聚合函数。
 
-The MIN() function returns the minimum value in a set of values.
+MIN() 函数返回一组值中的最小值。
 
-## Syntax
+## 语法
 
 ```
 MIN(expression)
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description |
-| ----------- | ----------- |
-| expression  | Any expression |
+| 参数        | 描述       |
+| ------------| -----------|
+| expression  | 任何表达式 |
 
-## Return Type
+## 返回类型
 
-The minimum value, in the type of the value.
+最小值，类型与值的类型相同。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE gas_prices (
   id INT,
@@ -66,7 +66,7 @@ VALUES (1, 1, 3.50),
        (5, 2, 3.35);
 ```
 
-**Query Demo: Find Minimum Gas Price for Station 1**
+**查询示例：查找加油站1的最低油价**
 ```sql
 SELECT station_id, MIN(price) AS min_price
 FROM gas_prices
@@ -74,7 +74,7 @@ WHERE station_id = 1
 GROUP BY station_id;
 ```
 
-**Result**
+**结果**
 ```sql
 | station_id | min_price |
 |------------|-----------|

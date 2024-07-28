@@ -3,35 +3,35 @@ title: QUANTILE_TDIGEST
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.41"/>
+<FunctionDescription description="引入或更新: v1.2.41"/>
 
-Computes an approximate quantile of a numeric data sequence using the [t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf) algorithm.
+使用 [t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf) 算法计算数值数据序列的近似分位数。
 
 :::caution
-NULL values are not included in the calculation.
+计算中不包括 NULL 值。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 QUANTILE_TDIGEST(<level1>[, <level2>, ...])(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description                                                                                                                                     |
-|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<level n>` | A level of quantile represents a constant floating-point number ranging from 0 to 1. It is recommended to use a level value in the range of [0.01, 0.99].   |
-| `<expr>`    | Any numerical expression                                                                                                                        |
+| 参数         | 描述                                                                                      |
+|--------------|-------------------------------------------------------------------------------------------|
+| `<level n>`  | 分位数级别，表示一个常量浮点数，范围从 0 到 1。建议使用 [0.01, 0.99] 范围内的级别值。 |
+| `<expr>`     | 任何数值表达式                                                                            |
 
-## Return Type
+## 返回类型
 
-Returns either a Float64 value or an array of Float64 values, depending on the number of quantile levels specified.
+根据指定的分位数级别数量，返回一个 Float64 值或一个 Float64 值数组。
 
-## Example
+## 示例
 
 ```sql
--- Create a table and insert sample data
+-- 创建表并插入示例数据
 CREATE TABLE sales_data (
   id INT,
   sales_person_id INT,

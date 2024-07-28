@@ -2,11 +2,11 @@
 title: STRING_AGG
 ---
 
-Aggregate function.
+聚合函数。
 
-The STRING_AGG() function converts all the non-NULL values of a column to String, separated by the delimiter.
+STRING_AGG() 函数将列中所有非 NULL 值转换为字符串，并使用分隔符分隔。
 
-## Syntax
+## 语法
 
 ```sql
 STRING_AGG(<expr>)
@@ -14,9 +14,9 @@ STRING_AGG(<expr> [, delimiter])
 ```
 
 :::info
-If `<expr>` is not a String expression, should use `::VARCHAR` to convert.
+如果 `<expr>` 不是字符串表达式，应使用 `::VARCHAR` 进行转换。
 
-For example:
+例如：
 ```sql
 SELECT string_agg(number::VARCHAR, '|') AS s FROM numbers(5);
 +-----------+
@@ -27,20 +27,20 @@ SELECT string_agg(number::VARCHAR, '|') AS s FROM numbers(5);
 ```
 :::
 
-## Arguments
+## 参数
 
-| Arguments   | Description                                                         |
-|-------------|---------------------------------------------------------------------|
-| `<expr>`    | Any string expression (if not a string, use `::VARCHAR` to convert) |
-| `delimiter` | Optional constant String, if not specified, use empty String        |
+| 参数        | 描述                                                         |
+|-------------|------------------------------------------------------------|
+| `<expr>`    | 任何字符串表达式（如果不是字符串，使用 `::VARCHAR` 进行转换） |
+| `delimiter` | 可选的常量字符串，如果未指定，则使用空字符串                 |
 
-## Return Type
+## 返回类型
 
-the String type
+字符串类型
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 
 ```sql
 CREATE TABLE programming_languages (
@@ -56,16 +56,15 @@ VALUES (1, 'Python'),
        (5, 'Ruby');
 ```
 
-**Query Demo: Concatenate Programming Language Names with a Delimiter**
+**查询示例：使用分隔符连接编程语言名称**
 ```sql
 SELECT STRING_AGG(language_name, ', ') AS concatenated_languages
 FROM programming_languages;
 ```
 
-**Result**
+**结果**
 ```sql
 |          concatenated_languages         |
 |------------------------------------------|
 | Python, JavaScript, Java, C#, Ruby      |
 ```
-

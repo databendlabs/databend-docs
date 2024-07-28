@@ -1,34 +1,34 @@
 ---
-title: RETENTION
+title: 留存分析
 ---
 
-Aggregate function
+聚合函数
 
-The RETENTION() function takes as arguments a set of conditions from 1 to 32 arguments of type UInt8 that indicate whether a certain condition was met for the event.
+RETENTION() 函数接受一组条件作为参数，这些条件是从 1 到 32 个类型为 UInt8 的参数，表示某个条件是否在事件中被满足。
 
-Any condition can be specified as an argument (as in WHERE).
+任何条件都可以指定为参数（类似于 WHERE 子句中的条件）。
 
-The conditions, except the first, apply in pairs: the result of the second will be true if the first and second are true, of the third if the first and third are true, etc.
+除了第一个条件外，其他条件成对应用：第二个条件的结果为真，如果第一个和第二个条件都为真；第三个条件的结果为真，如果第一个和第三个条件都为真，依此类推。
 
-## Syntax
+## 语法
 
 ```sql
 RETENTION( <cond1> , <cond2> , ..., <cond32> );
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                                 |
-|-----------|---------------------------------------------|
-| `<cond>`  | An expression that returns a Boolean result |
+| 参数       | 描述                                 |
+|-----------|-------------------------------------|
+| `<cond>`  | 返回布尔结果的表达式                 |
 
-## Return Type
+## 返回类型
 
-The array of 1 or 0.
+返回一个包含 1 或 0 的数组。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE user_events (
   id INT,
@@ -46,7 +46,7 @@ VALUES (1, 1, '2022-01-01', 'signup'),
        (6, 3, '2022-01-02', 'login');
 ```
 
-**Query Demo: Calculate User Retention Based on Signup, Login, and Purchase Events**
+**查询示例：基于注册、登录和购买事件计算用户留存**
 ```sql
 SELECT
   user_id,
@@ -55,7 +55,7 @@ FROM user_events
 GROUP BY user_id;
 ```
 
-**Result**
+**结果**
 ```sql
 | user_id | retention |
 |---------|-----------|

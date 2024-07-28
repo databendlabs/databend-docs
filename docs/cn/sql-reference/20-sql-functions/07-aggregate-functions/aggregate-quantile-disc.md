@@ -2,16 +2,16 @@
 title: QUANTILE_DISC
 ---
 
-Aggregate function.
+聚合函数。
 
-The `QUANTILE_DISC()` function computes the exact quantile number of a numeric data sequence.
-The `QUANTILE` alias to `QUANTILE_DISC`
+`QUANTILE_DISC()` 函数计算数值数据序列的确切分位数。
+`QUANTILE` 是 `QUANTILE_DISC` 的别名。
 
 :::caution
-NULL values are not counted.
+NULL 值不计入。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 QUANTILE_DISC(<levels>)(<expr>)
@@ -19,20 +19,20 @@ QUANTILE_DISC(<levels>)(<expr>)
 QUANTILE_DISC(level1, level2, ...)(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments  | Description                                                                                                                                   |
-|------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| `level(s)` | level(s) of quantile. Each level is constant floating-point number from 0 to 1. We recommend using a level value in the range of [0.01, 0.99] |
-| `<expr>`   | Any numerical expression                                                                                                                      |
+| 参数       | 描述                                                                                      |
+|------------|-------------------------------------------------------------------------------------------|
+| `level(s)` | 分位数水平。每个水平是一个从 0 到 1 的常量浮点数。我们建议使用 [0.01, 0.99] 范围内的水平值 |
+| `<expr>`   | 任何数值表达式                                                                            |
 
-## Return Type
+## 返回类型
 
-InputType or array of InputType based on level number.
+基于水平数的 InputType 或 InputType 数组。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE salary_data (
   id INT,
@@ -48,13 +48,13 @@ VALUES (1, 1, 50000),
        (5, 5, 70000);
 ```
 
-**Query Demo: Calculate 25th and 75th Percentile of Salaries**
+**查询示例：计算薪资的第 25 和第 75 百分位数**
 ```sql
 SELECT QUANTILE_DISC(0.25, 0.75)(salary) AS salary_quantiles
 FROM salary_data;
 ```
 
-**Result**
+**结果**
 ```sql
 |  salary_quantiles   |
 |---------------------|

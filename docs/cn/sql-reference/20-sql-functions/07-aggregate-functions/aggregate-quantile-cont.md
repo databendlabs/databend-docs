@@ -2,15 +2,15 @@
 title: QUANTILE_CONT
 ---
 
-Aggregate function.
+聚合函数。
 
-The QUANTILE_CONT() function computes the interpolated quantile number of a numeric data sequence.
+QUANTILE_CONT() 函数计算数值数据序列的插值分位数。
 
 :::caution
-NULL values are not counted.
+NULL 值不计入。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 QUANTILE_CONT(<levels>)(<expr>)
@@ -18,20 +18,20 @@ QUANTILE_CONT(<levels>)(<expr>)
 QUANTILE_CONT(level1, level2, ...)(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description                                                                                                                                     |
-|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<level(s)` | level(s) of quantile. Each level is constant floating-point number from 0 to 1. We recommend using a level value in the range of [0.01, 0.99]   |
-| `<expr>`    | Any numerical expression                                                                                                                        |
+| 参数        | 描述                                                                                      |
+|-------------|------------------------------------------------------------------------------------------|
+| `<level(s)` | 分位数水平。每个水平是一个从 0 到 1 的常量浮点数。建议使用 [0.01, 0.99] 范围内的水平值   |
+| `<expr>`    | 任何数值表达式                                                                            |
 
-## Return Type
+## 返回类型
 
-Float64 or float64 array based on level number.
+基于水平数的 Float64 或 float64 数组。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE sales_data (
   id INT,
@@ -47,16 +47,15 @@ VALUES (1, 1, 5000),
        (5, 5, 7000);
 ```
 
-**Query Demo: Calculate 50th Percentile (Median) of Sales Amount using Interpolation**
+**查询示例：使用插值计算销售金额的第 50 百分位数（中位数）**
 ```sql
 SELECT QUANTILE_CONT(0.5)(sales_amount) AS median_sales_amount
 FROM sales_data;
 ```
 
-**Result**
+**结果**
 ```sql
 |  median_sales_amount  |
 |-----------------------|
 |        6000.0         |
 ```
-
