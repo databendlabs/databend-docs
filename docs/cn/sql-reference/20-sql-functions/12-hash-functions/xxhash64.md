@@ -2,15 +2,15 @@
 title: XXHASH64
 ---
 
-Calculates an xxHash64 64-bit hash value for a string. The value is returned as a UInt64 or NULL if the argument was NULL.
+计算字符串的 xxHash64 64 位哈希值。该值以 UInt64 类型返回，如果参数为 NULL，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 XXHASH64(expr)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT XXHASH64('1234567890');

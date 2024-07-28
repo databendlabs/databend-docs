@@ -1,9 +1,9 @@
 ---
-title: Hash Functions
+title: 哈希函数
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This section provides reference information for the Hash functions in Databend.
+本节提供 Databend 中哈希函数的参考信息。
 
 <IndexOverviewList />

@@ -2,15 +2,15 @@
 title: SHA2
 ---
 
-Calculates the SHA-2 family of hash functions (SHA-224, SHA-256, SHA-384, and SHA-512). If the hash length is not one of the permitted values, the return value is NULL. Otherwise, the function result is a hash value containing the desired number of bits as a string of hexadecimal digits.
+计算 SHA-2 系列哈希函数（SHA-224、SHA-256、SHA-384 和 SHA-512）。如果哈希长度不是允许的值之一，则返回值为 NULL。否则，函数结果是一个包含所需位数的十六进制数字字符串的哈希值。
 
-## Syntax
+## 语法
 
 ```sql
 SHA2(<expr>, <expr>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT SHA2('1234567890', 0);

@@ -2,15 +2,15 @@
 title: CITY64WITHSEED
 ---
 
-Calculates a City64WithSeed 64-bit hash for a string.
+计算字符串的 City64WithSeed 64 位哈希值。
 
-## Syntax
+## 语法
 
 ```sql
 CITY64WITHSEED(<expr1>, <expr2>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT CITY64WITHSEED('1234567890', 12);

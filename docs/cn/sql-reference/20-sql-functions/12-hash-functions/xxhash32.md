@@ -2,15 +2,15 @@
 title: XXHASH32
 ---
 
-Calculates an xxHash32 32-bit hash value for a string. The value is returned as a UInt32 or NULL if the argument was NULL.
+计算字符串的 xxHash32 32 位哈希值。返回值为 UInt32 类型，如果参数为 NULL，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 XXHASH32(expr)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT XXHASH32('1234567890');

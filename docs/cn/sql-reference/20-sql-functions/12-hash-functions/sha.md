@@ -2,19 +2,19 @@
 title: SHA
 ---
 
-Calculates an SHA-1 160-bit checksum for the string, as described in RFC 3174 (Secure Hash Algorithm). The value is returned as a string of 40 hexadecimal digits or NULL if the argument was NULL.
+计算字符串的 SHA-1 160 位校验和，如 RFC 3174（安全哈希算法）中所述。返回值是一个 40 个十六进制字符的字符串，如果参数为 NULL，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 SHA(<expr>)
 ```
 
-## Aliases
+## 别名
 
 - [SHA1](sha1.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT SHA('1234567890'), SHA1('1234567890');
