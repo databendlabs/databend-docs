@@ -2,25 +2,25 @@
 title: TYPEOF
 ---
 
-TYPEOF function is used to return the name of a data type.
+TYPEOF 函数用于返回数据类型的名称。
 
-## Syntax
+## 语法
 
 ```sql
 TYPEOF( <expr> )
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description |
+| 参数        | 描述        |
 | ----------- | ----------- |
-| `<expr>` | Any expression. <br /> This may be a column name, the result of another function, or a math operation.
+| `<expr>` | 任何表达式。<br />这可以是列名、另一个函数的结果或数学运算。
 
-## Return Type
+## 返回类型
 
-String
+字符串
 
-## Examples
+## 示例
 
 ```sql
 SELECT typeof(1::INT);

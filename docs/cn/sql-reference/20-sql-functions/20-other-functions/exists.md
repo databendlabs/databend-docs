@@ -2,15 +2,15 @@
 title: EXISTS
 ---
 
-The exists condition is used in combination with a subquery and is considered "to be met" if the subquery returns at least one row.
+EXISTS 条件与子查询一起使用，如果子查询返回至少一行，则认为该条件“被满足”。
 
-## Syntax
+## 语法
 
 ```sql
 WHERE EXISTS ( <subquery> );
 ```
 
-## Examples
+## 示例
 ```sql
 SELECT number FROM numbers(5) AS A WHERE exists (SELECT * FROM numbers(3) WHERE number=1); 
 +--------+
