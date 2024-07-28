@@ -2,15 +2,15 @@
 title: CURRENT_USER
 ---
 
-Returns the user name and host name combination for the account that the server used to authenticate the current client. This account determines your access privileges. The return value is a string in the utf8 character set.
+返回服务器用于验证当前客户端的账户的用户名和主机名组合。该账户决定了你的访问权限。返回值是一个utf8字符集的字符串。
 
-## Syntax
+## 语法
 
 ```sql
 CURRENT_USER()
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT CURRENT_USER();
