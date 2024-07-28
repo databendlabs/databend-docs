@@ -2,15 +2,15 @@
 title: H3_EDGE_LENGTH_M
 ---
 
-Returns the average hexagon edge length in meters at the given resolution. Excludes pentagons.
+返回给定分辨率下六边形边的平均长度，单位为米。不包括五边形。
 
-## Syntax
+## 语法
 
 ```sql
 H3_EDGE_LENGTH_M(1)
 ```
 
-## Examples
+## 示例
 
 ```sql
 ┌─────────────────────┐

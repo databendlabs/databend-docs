@@ -2,15 +2,15 @@
 title: STRING_TO_H3
 ---
 
-Converts the string representation to [H3](https://eng.uber.com/h3/) (uint64) representation.
+将字符串表示形式转换为 [H3](https://eng.uber.com/h3/)（uint64）表示形式。
 
-## Syntax
+## 语法
 
 ```sql
 STRING_TO_H3(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT STRING_TO_H3('8d11aa6a38826ff');

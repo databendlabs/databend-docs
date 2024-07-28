@@ -2,15 +2,15 @@
 title: H3_TO_PARENT
 ---
 
-Returns the parent index containing the `h3` at resolution `parent_res`. Returning 0 means an error occurred.
+返回包含指定 `h3` 索引在 `parent_res` 分辨率下的父索引。返回 0 表示发生了错误。
 
-## Syntax
+## 语法
 
 ```sql
 H3_TO_PARENT(h3, parent_res)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_TO_PARENT(635318325446452991, 12);

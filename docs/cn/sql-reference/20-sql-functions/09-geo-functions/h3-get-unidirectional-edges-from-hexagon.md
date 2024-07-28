@@ -2,15 +2,15 @@
 title: H3_GET_UNIDIRECTIONAL_EDGES_FROM_HEXAGON
 ---
 
-Returns all of the unidirectional edges from the provided H3Index.
+返回从提供的 H3Index 中获取的所有单向边。
 
-## Syntax
+## 语法
 
 ```sql
 H3_GET_UNIDIRECTIONAL_EDGES_FROM_HEXAGON(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_GET_UNIDIRECTIONAL_EDGES_FROM_HEXAGON(644325524701193754);

@@ -2,15 +2,15 @@
 title: H3_TO_STRING
 ---
 
-Converts the representation of the given [H3](https://eng.uber.com/h3/) index to the string representation. 
+将给定的 [H3](https://eng.uber.com/h3/) 索引表示形式转换为字符串表示形式。
 
-## Syntax
+## 语法
 
 ```sql
 H3_TO_STRING(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_TO_STRING(635318325446452991);

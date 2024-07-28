@@ -2,15 +2,15 @@
 title: GEO_TO_H3
 ---
 
-Returns the [H3](https://eng.uber.com/h3/) index of the hexagon cell where the given location resides. Returning 0 means an error occurred.
+返回给定位置所在的六边形单元格的 [H3](https://eng.uber.com/h3/) 索引。返回 0 表示发生了错误。
 
-## Syntax
+## 语法
 
 ```sql
 GEO_TO_H3(lon, lat, res)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT GEO_TO_H3(37.79506683, 55.71290588, 15);

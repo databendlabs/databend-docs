@@ -2,15 +2,15 @@
 title: H3_TO_CHILDREN
 ---
 
-Returns the indexes contained by `h3` at resolution `child_res`.
+返回 `h3` 在分辨率 `child_res` 下包含的索引。
 
-## Syntax
+## 语法
 
 ```sql
 H3_TO_CHILDREN(h3, child_res)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_TO_CHILDREN(635318325446452991, 14);

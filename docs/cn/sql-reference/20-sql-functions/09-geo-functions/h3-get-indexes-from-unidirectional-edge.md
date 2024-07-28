@@ -2,15 +2,15 @@
 title: H3_GET_INDEXES_FROM_UNIDIRECTIONAL_EDGE
 ---
 
-Returns the origin and destination hexagon indexes from the given unidirectional edge H3Index.
+从给定的单向边 H3Index 返回起始和目标六边形索引。
 
-## Syntax
+## 语法
 
 ```sql
 H3_GET_INDEXES_FROM_UNIDIRECTIONAL_EDGE(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_GET_INDEXES_FROM_UNIDIRECTIONAL_EDGE(1248204388774707199);

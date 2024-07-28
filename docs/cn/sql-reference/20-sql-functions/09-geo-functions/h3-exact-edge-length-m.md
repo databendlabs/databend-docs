@@ -2,15 +2,15 @@
 title: H3_EXACT_EDGE_LENGTH_M
 ---
 
-Computes the length of this directed edge, in meters.
+计算这条有向边的长度，单位为米。
 
-## Syntax
+## 语法
 
 ```sql
 H3_EXACT_EDGE_LENGTH_M(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_EXACT_EDGE_LENGTH_M(1319695429381652479);

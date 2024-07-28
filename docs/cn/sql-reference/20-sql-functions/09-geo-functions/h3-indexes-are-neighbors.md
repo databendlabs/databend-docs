@@ -2,15 +2,15 @@
 title: H3_INDEXES_ARE_NEIGHBORS
 ---
 
-Returns whether or not the provided [H3](https://eng.uber.com/h3/) indexes are neighbors.
+判断提供的 [H3](https://eng.uber.com/h3/) 索引是否为邻居。
 
-## Syntax
+## 语法
 
 ```sql
 H3_INDEXES_ARE_NEIGHBORS(h3, a_h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_INDEXES_ARE_NEIGHBORS(644325524701193974, 644325524701193897);

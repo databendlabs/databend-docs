@@ -2,15 +2,15 @@
 title: H3_TO_GEO
 ---
 
-Returns the longitude and latitude corresponding to the given [H3](https://eng.uber.com/h3/) index. 
+返回与给定 [H3](https://eng.uber.com/h3/) 索引相对应的经度和纬度。
 
-## Syntax
+## 语法
 
 ```sql
 H3_TO_GEO(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_TO_GEO(644325524701193974);
