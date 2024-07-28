@@ -3,31 +3,31 @@ title: QUERY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.425"/>
+<FunctionDescription description="引入或更新：v1.2.425"/>
 
-Searches for documents satisfying a specified query expression. Please note that the QUERY function can only be used in a WHERE clause.
+搜索满足指定查询表达式的文档。请注意，QUERY 函数只能在 WHERE 子句中使用。
 
 :::info
-Databend's QUERY function is inspired by Elasticsearch's [QUERY](https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-functions-search.html#sql-functions-search-query).
+Databend 的 QUERY 函数灵感来源于 Elasticsearch 的 [QUERY](https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-functions-search.html#sql-functions-search-query)。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 QUERY( '<query_expr>' )
 ```
 
-The query expression supports the following syntaxes:
+查询表达式支持以下语法：
 
-| Syntax                                                  | Description                                                                                                                                                                                                                                             | Examples                                |
+| 语法                                                  | 描述                                                                                                                                                                                                                                             | 示例                                  |
 |---------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
-| `<column>:<keyword>`                                    | Matches documents where the specified column contains the specified keyword.                                                                                                                                                                            | `QUERY('title:power')`                  |
-| `<column>:<keyword> AND / OR <keyword>`                 | Matches documents where the specified column contains both or either of the specified keywords. In queries with both AND and OR, AND operations are prioritized over OR, meaning that 'a AND b OR c' is read as '(a AND b) OR c'.                       | `QUERY('title:power AND art')`          |
-| `<column>:+<keyword> -<keyword>`                        | Matches documents where the specified positive keyword exists in the specified column and excludes documents where the specified negative keyword exists.                                                                                               | `QUERY('title:+the -reading')`          |
-| `<column>:"<phrase>"`                                   | Matches documents where the specified column contains the exact specified phrase.                                                                                                                                                                       | `QUERY('title:"Benefits of Exercise"')` |
-| `<column>:<keyword>^<boost> <column>:<keyword>^<boost>` | Matches documents where the specified keyword exists in the specified columns with the specified boosts to increase their relevance in the search. This syntax allows setting different weights for multiple columns to influence the search relevance. | `QUERY('title:art^5 body:reading^1.2')` |
+| `<column>:<keyword>`                                    | 匹配指定列包含指定关键词的文档。                                                                                                                                                                            | `QUERY('title:power')`                  |
+| `<column>:<keyword> AND / OR <keyword>`                 | 匹配指定列包含指定关键词的文档。在同时包含 AND 和 OR 的查询中，AND 操作优先于 OR，即 'a AND b OR c' 被解读为 '(a AND b) OR c'。                       | `QUERY('title:power AND art')`          |
+| `<column>:+<keyword> -<keyword>`                        | 匹配指定列包含指定正关键词且不包含指定负关键词的文档。                                                                                               | `QUERY('title:+the -reading')`          |
+| `<column>:"<phrase>"`                                   | 匹配指定列包含指定确切短语的文档。                                                                                                                                                                       | `QUERY('title:"Benefits of Exercise"')` |
+| `<column>:<keyword>^<boost> <column>:<keyword>^<boost>` | 匹配指定关键词存在于指定列中，并根据指定的权重增加其在搜索中的相关性。此语法允许为多个列设置不同的权重以影响搜索相关性。 | `QUERY('title:art^5 body:reading^1.2')` |
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE test(title STRING, body STRING);
@@ -41,7 +41,7 @@ INSERT INTO test VALUES
 ('The Art of Communication', 'Effective communication is crucial in everyday life.'),
 ('The Impact of Technology on Society', 'Technology has revolutionized our society in countless ways.');
 
--- Retrieve documents where the 'title' column contains the keyword 'power'
+-- 检索 'title' 列包含关键词 'power' 的文档
 SELECT * FROM test WHERE QUERY('title:power');
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -50,7 +50,7 @@ SELECT * FROM test WHERE QUERY('title:power');
 │ The Power of Perseverance │ Perseverance is the key to overcoming obstacles and achieving success. │
 └────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- Retrieve documents where the 'title' column contains either the keyword 'power' or 'art'
+-- 检索 'title' 列包含关键词 'power' 或 'art' 的文档
 SELECT * FROM test WHERE QUERY('title:power OR art');
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -60,7 +60,7 @@ SELECT * FROM test WHERE QUERY('title:power OR art');
 │ The Art of Communication  │ Effective communication is crucial in everyday life.                   │
 └────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- Retrieve documents where the 'title' column contains the positive keyword 'the' but not 'reading'
+-- 检索 'title' 列包含正关键词 'the' 但不包含 'reading' 的文档
 SELECT * FROM test WHERE QUERY('title:+the -reading');
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -72,7 +72,7 @@ SELECT * FROM test WHERE QUERY('title:+the -reading');
 │ The Impact of Technology on Society │ Technology has revolutionized our society in countless ways.           │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- Retrieve documents where the 'title' column contains the exact phrase 'Benefits of Exercise'
+-- 检索 'title' 列包含确切短语 'Benefits of Exercise' 的文档
 SELECT * FROM test WHERE QUERY('title:"Benefits of Exercise"');
 
 ┌───────────────────────────────────────────────────────────────────────────────────────┐
@@ -81,7 +81,7 @@ SELECT * FROM test WHERE QUERY('title:"Benefits of Exercise"');
 │ The Benefits of Exercise │ Exercise is essential for maintaining a healthy lifestyle. │
 └───────────────────────────────────────────────────────────────────────────────────────┘
 
--- Retrieve documents where the 'title' column contains the keyword 'art' with a boost of 5 and the 'body' column contains the keyword 'reading' with a boost of 1.2
+-- 检索 'title' 列包含关键词 'art' 且权重为 5，以及 'body' 列包含关键词 'reading' 且权重为 1.2 的文档
 SELECT *, score() FROM test WHERE QUERY('title:art^5 body:reading^1.2');
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
