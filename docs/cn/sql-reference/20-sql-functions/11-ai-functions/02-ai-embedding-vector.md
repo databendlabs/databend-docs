@@ -1,20 +1,20 @@
 ---
 title: 'AI_EMBEDDING_VECTOR'
-description: 'Creating embeddings using the ai_embedding_vector function in Databend'
+description: '使用 Databend 中的 ai_embedding_vector 函数创建嵌入向量'
 ---
 
-This document provides an overview of the ai_embedding_vector function in Databend and demonstrates how to create document embeddings using this function.
+本文档概述了 Databend 中的 ai_embedding_vector 函数，并演示了如何使用此函数创建文档嵌入向量。
 
-The main code implementation can be found [here](https://github.com/datafuselabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/common/openai/src/embedding.rs).
+主要代码实现可以在[这里](https://github.com/datafuselabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/common/openai/src/embedding.rs)找到。
 
-By default, Databend leverages the [text-embedding-ada](https://platform.openai.com/docs/models/embeddings) model for generating embeddings.
+默认情况下，Databend 使用 [text-embedding-ada](https://platform.openai.com/docs/models/embeddings) 模型来生成嵌入向量。
 
 :::info
-Starting from Databend v1.1.47, Databend supports the [Azure OpenAI service](https://azure.microsoft.com/en-au/products/cognitive-services/openai-service).
+从 Databend v1.1.47 开始，Databend 支持 [Azure OpenAI 服务](https://azure.microsoft.com/en-au/products/cognitive-services/openai-service)。
 
-This integration offers improved data privacy.
+这一集成提供了更好的数据隐私保护。
 
-To use Azure OpenAI, add the following configurations to the `[query]` section:
+要使用 Azure OpenAI，请在 `[query]` 部分添加以下配置：
 ```sql
 # Azure OpenAI
 openai_api_chat_base_url = "https://<name>.openai.azure.com/openai/deployments/<name>/"
@@ -24,24 +24,24 @@ openai_api_version = "2023-03-15-preview"
 :::
 
 :::caution
-Databend relies on (Azure) OpenAI for `AI_EMBEDDING_VECTOR` and sends the embedding column data to (Azure) OpenAI.
+Databend 依赖 (Azure) OpenAI 进行 `AI_EMBEDDING_VECTOR` 处理，并将嵌入列数据发送到 (Azure) OpenAI。
 
-They will only work when the Databend configuration includes the `openai_api_key`, otherwise they will be inactive.
+它们仅在 Databend 配置包含 `openai_api_key` 时有效，否则将处于非活动状态。
 
-This function is available by default on [Databend Cloud](https://databend.com) using our Azure OpenAI key. If you use them, you acknowledge that your data will be sent to Azure OpenAI by us.
+此功能默认在 [Databend Cloud](https://databend.com) 上使用我们的 Azure OpenAI 密钥提供。如果您使用它们，即表示您确认您的数据将由我们发送至 Azure OpenAI。
 :::
 
 
-## Overview of ai_embedding_vector
+## ai_embedding_vector 概述
 
-The `ai_embedding_vector` function in Databend is a built-in function that generates vector embeddings for text data. It is useful for natural language processing tasks, such as document similarity, clustering, and recommendation systems.
+Databend 中的 `ai_embedding_vector` 函数是一个内置函数，用于生成文本数据的向量嵌入。它在自然语言处理任务中非常有用，例如文档相似性、聚类和推荐系统。
 
-The function takes a text input and returns a high-dimensional vector that represents the input text's semantic meaning and context. The embeddings are created using pre-trained models on large text corpora, capturing the relationships between words and phrases in a continuous space.
+该函数接受文本输入并返回一个高维向量，该向量表示输入文本的语义意义和上下文。嵌入向量是使用在大规模文本语料库上预训练的模型创建的，捕捉了单词和短语在连续空间中的关系。
 
-## Creating embeddings using ai_embedding_vector
+## 使用 ai_embedding_vector 创建嵌入向量
 
-To create embeddings for a text document using the `ai_embedding_vector` function, follow the example below.
-1. Create a table to store the documents:
+要使用 `ai_embedding_vector` 函数为文本文档创建嵌入向量，请按照以下示例操作。
+1. 创建一个表来存储文档：
 ```sql
 CREATE TABLE documents (
                            id INT,
@@ -51,26 +51,26 @@ CREATE TABLE documents (
 );
 ```
 
-2. Insert example documents into the table:
+2. 向表中插入示例文档：
 ```sql
 INSERT INTO documents(id, title, content)
 VALUES
-    (1, 'A Brief History of AI', 'Artificial intelligence (AI) has been a fascinating concept of science fiction for decades...'),
-    (2, 'Machine Learning vs. Deep Learning', 'Machine learning and deep learning are two subsets of artificial intelligence...'),
-    (3, 'Neural Networks Explained', 'A neural network is a series of algorithms that endeavors to recognize underlying relationships...'),
+    (1, '人工智能简史', '人工智能（AI）一直是科幻小说中一个引人入胜的概念，已有数十年的历史...'),
+    (2, '机器学习与深度学习', '机器学习和深度学习是人工智能的两个子集...'),
+    (3, '神经网络解析', '神经网络是一系列算法，旨在识别潜在的关系...'),
 ```
 
-3. Generate the embeddings:
+3. 生成嵌入向量：
 ```sql
 UPDATE documents SET embedding = ai_embedding_vector(content) WHERE embedding IS NULL;
 ```
-After running the query, the embedding column in the table will contain the generated embeddings.
+运行查询后，表中的 embedding 列将包含生成的嵌入向量。
 
-The embeddings are stored as an array of `FLOAT32` values in the embedding column, which has the `ARRAY(FLOAT32 NOT NULL)` column type.
+嵌入向量以 `FLOAT32` 值的数组形式存储在 embedding 列中，该列具有 `ARRAY(FLOAT32 NOT NULL)` 列类型。
 
-You can now use these embeddings for various natural language processing tasks, such as finding similar documents or clustering documents based on their content.
+现在，您可以使用这些嵌入向量进行各种自然语言处理任务，例如查找相似文档或根据内容对文档进行聚类。
 
-4. Inspect the embeddings:
+4. 检查嵌入向量：
 
 ```sql
 SELECT length(embedding) FROM documents;
@@ -82,4 +82,4 @@ SELECT length(embedding) FROM documents;
 |              1536 |
 +-------------------+
 ```
-The query above shows that the generated embeddings have a length of 1536(dimensions) for each document.
+上述查询显示，每个文档生成的嵌入向量长度为 1536（维度）。
