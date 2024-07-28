@@ -3,38 +3,38 @@ title: GENERATE_SERIES
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Generates a dataset starting from a specified point, ending at another specified point, and optionally with an incrementing value. The GENERATE_SERIES function works with the following data types: 
+生成从指定起点到指定终点的数据集，并可选择性地以递增值进行。GENERATE_SERIES 函数支持以下数据类型：
 
-- Integer
-- Date
-- Timestamp
+- 整数
+- 日期
+- 时间戳
 
-## Syntax
+## 语法
 
 ```sql
 GENERATE_SERIES(<start>, <stop>[, <step_interval>])
 ```
 
-## Arguments
+## 参数
 
-| Argument      	| Description                                                                                                                                                                                                	|
-|---------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| start         	| The starting value, representing the first number, date, or timestamp in the sequence.                                                                                                                            	|
-| stop          	| The ending value, representing the last number, date, or timestamp in the sequence.                                                                                                                               	|
-| step_interval 	| The step interval, determining the difference between adjacent values in the sequence. For integer sequences, the default value is 1. For date sequences, the default step interval is 1 day. For timestamp sequences, the default step interval is 1 microsecond. 	|
+| 参数          | 描述                                                                                                                                                                                                  |
+|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| start         | 起始值，表示序列中的第一个数字、日期或时间戳。                                                                                                                                                                      |
+| stop          | 结束值，表示序列中的最后一个数字、日期或时间戳。                                                                                                                                                                      |
+| step_interval | 步长间隔，确定序列中相邻值之间的差异。对于整数序列，默认值为 1。对于日期序列，默认步长间隔为 1 天。对于时间戳序列，默认步长间隔为 1 微秒。 |
 
 
 :::note
-When dealing with functions like GENERATE_SERIES and RANGE, a key distinction lies in their boundary traits. GENERATE_SERIES is bound by both the left and right sides, while RANGE is bound on the left side only. For example, utilizing RANGE(1, 11) is equivalent to GENERATE_SERIES(1, 10).
+在处理 GENERATE_SERIES 和 RANGE 等函数时，关键区别在于它们的边界特性。GENERATE_SERIES 同时受左右边界限制，而 RANGE 仅受左边界限制。例如，使用 RANGE(1, 11) 等同于 GENERATE_SERIES(1, 10)。
 :::
 
-## Return Type
+## 返回类型
 
-Returns a list containing a continuous sequence of numeric values, dates, or timestamps from *start* to *stop*.
+返回一个包含从 *start* 到 *stop* 的连续数值、日期或时间戳序列的列表。
 
-## Examples
+## 示例
 
-### Example 1: Generating Numeric, Date, and Timestamp Data
+### 示例 1：生成数值、日期和时间戳数据
 
 ```sql
 SELECT * FROM GENERATE_SERIES(1, 10, 2);
@@ -68,9 +68,9 @@ generate_series    |
 2023-03-27 00:00:00|
 ```
 
-### Example 2: Filling Query Result Gaps 
+### 示例 2：填补查询结果中的空白
 
-This example uses the GENERATE_SERIES function and left join operator to handle gaps in query results caused by missing information in specific ranges.
+此示例使用 GENERATE_SERIES 函数和左连接操作符来处理由于特定范围内的缺失信息导致的查询结果中的空白。
 
 ```sql
 CREATE TABLE t_metrics (
@@ -96,7 +96,7 @@ date      |sum(value)|count()|
 2020-01-10|       700|      1|
 ```
 
-To close the gaps between January 1st and January 10th, 2020, use the following query:
+为了填补 2020 年 1 月 1 日至 1 月 10 日之间的空白，请使用以下查询：
 
 ```sql
 SELECT t.date, COALESCE(SUM(t_metrics.value), 0), COUNT(t_metrics.value)
