@@ -3,13 +3,13 @@ title: NTILE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.50"/>
+<FunctionDescription description="引入版本: v1.1.50"/>
 
-Divides the sorted result set into a specified number of buckets or groups. It evenly distributes the sorted rows into these buckets and assigns a bucket number to each row. The NTILE function is typically used with the ORDER BY clause to sort the results. 
+将排序后的结果集划分为指定数量的桶或组。它将排序后的行均匀分布到这些桶中，并为每一行分配一个桶号。NTILE 函数通常与 ORDER BY 子句一起使用以对结果进行排序。
 
-Please note that the NTILE function evenly distributes the rows into buckets based on the sorting order of the rows and ensures that the number of rows in each bucket is as equal as possible. If the number of rows cannot be evenly distributed into the buckets, some buckets may have one extra row compared to the others.
+请注意，NTILE 函数根据行的排序顺序将行均匀分布到桶中，并确保每个桶中的行数尽可能相等。如果行数不能均匀分布到桶中，某些桶可能比其他桶多一行。
 
-## Syntax
+## 语法
 
 ```sql
 NTILE(n) OVER (
@@ -18,9 +18,9 @@ NTILE(n) OVER (
 )
 ```
 
-## Examples
+## 示例
 
-This example retrieves the students' names, scores, grades, and assigns them to buckets based on their scores within each grade using the NTILE() window function.
+此示例检索学生的姓名、分数、年级，并使用 NTILE() 窗口函数根据每个年级内的分数将他们分配到桶中。
 
 ```sql
 CREATE TABLE students (

@@ -2,21 +2,21 @@
 title: DENSE_RANK
 ---
 
-Returns the rank of a value within a group of values, without gaps in the ranks.
+返回一组值中某个值的排名，排名中没有间隔。
 
-The rank value starts at 1 and continues up sequentially.
+排名值从1开始，并按顺序递增。
 
-If two values are the same, they have the same rank.
+如果两个值相同，它们具有相同的排名。
 
-## Syntax
+## 语法
 
 ```sql
 DENSE_RANK() OVER ( [ PARTITION BY <expr1> ] ORDER BY <expr2> [ ASC | DESC ] [ <window_frame> ] )
 ```
 
-## Examples
+## 示例
 
-**Create the table**
+**创建表**
 ```sql
 CREATE TABLE employees (
   employee_id INT,
@@ -27,7 +27,7 @@ CREATE TABLE employees (
 );
 ```
 
-**Insert data**
+**插入数据**
 ```sql
 INSERT INTO employees (employee_id, first_name, last_name, department, salary) VALUES
   (1, 'John', 'Doe', 'IT', 90000),
@@ -37,7 +37,7 @@ INSERT INTO employees (employee_id, first_name, last_name, department, salary) V
   (5, 'Tom', 'Brown', 'HR', 75000);
 ```
 
-**Calculating the total salary per department using DENSE_RANK**
+**使用 DENSE_RANK 计算每个部门的工资总额**
 
 ```sql
 SELECT
@@ -50,7 +50,7 @@ GROUP BY
     department;
 ```
 
-Result:
+结果：
 
 | department | total_salary | dense_rank |
 |------------|--------------|------------|

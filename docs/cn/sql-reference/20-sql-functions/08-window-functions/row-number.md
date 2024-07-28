@@ -2,9 +2,9 @@
 title: ROW_NUMBER
 ---
 
-Assigns a temporary sequential number to each row within a partition of a result set, starting at 1 for the first row in each partition. 
+为结果集中的每个分区内的每一行分配一个临时的顺序编号，从每个分区的第一行开始，编号从1开始。
 
-## Syntax
+## 语法
 
 ```sql
 ROW_NUMBER() 
@@ -12,18 +12,18 @@ ROW_NUMBER()
   ORDER BY <expr3> [ , <expr4> ... ] [ { ASC | DESC } ] )
 ```
 
-| Parameter    | Required? | Description                                                                                                |
-|--------------|-----------|------------------------------------------------------------------------------------------------------------|
-| ORDER BY     | Yes       | Specifies the order of rows within each partition.                                                         |
-| ASC / DESC   | No        | Specifies the sorting order within each partition. ASC (ascending) is the default.                         |
-| QUALIFY      | No        | Filters rows based on conditions.                                                                          |
+| 参数         | 是否必需 | 描述                                                                                     |
+|--------------|-----------|------------------------------------------------------------------------------------------|
+| ORDER BY     | 是        | 指定每个分区内的行顺序。                                                                 |
+| ASC / DESC   | 否        | 指定每个分区内的排序顺序。ASC（升序）是默认值。                                          |
+| QUALIFY      | 否        | 根据条件过滤行。                                                                         |
 
-## Examples
+## 示例
 
-This example demonstrates the use of ROW_NUMBER() to assign sequential numbers to employees within their departments, ordered by descending salary.
+此示例演示了如何使用 `ROW_NUMBER()` 为每个部门的员工分配顺序编号，按降序排列工资。
 
 ```sql
--- Prepare the data
+-- 准备数据
 CREATE TABLE employees (
   employee_id INT,
   first_name VARCHAR,
@@ -39,7 +39,7 @@ INSERT INTO employees (employee_id, first_name, last_name, department, salary) V
   (4, 'Sara', 'Williams', 'Sales', 77000),
   (5, 'Tom', 'Brown', 'HR', 75000);
 
--- Select employee details along with the row number partitioned by department and ordered by salary in descending order.
+-- 选择员工详细信息，并按部门分区，按工资降序排列，分配行号。
 SELECT
     employee_id,
     first_name,

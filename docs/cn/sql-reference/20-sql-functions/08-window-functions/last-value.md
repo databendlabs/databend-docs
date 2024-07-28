@@ -19,7 +19,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 LAST_VALUE (expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-- `[ { IGNORE | RESPECT } NULLS ]`: 此选项控制窗口函数中如何处理 NULL 值。默认情况下，使用 `RESPECT NULLS`，即 NULL 值包含在计算中并影响结果。当设置为 `IGNORE NULLS` 时，NULL 值被排除在外，函数仅对非 NULL 值进行操作。
+- `[ { IGNORE | RESPECT } NULLS ]`: 此选项控制窗口函数中如何处理 NULL 值。默认情况下，使用 `RESPECT NULLS`，即 NULL 值包含在计算中并影响结果。当设置为 `IGNORE NULLS` 时，NULL 值被排除在考虑之外，函数仅对非 NULL 值进行操作。
 
 - 有关窗口框架的语法，请参阅 [窗口框架语法](index.md#window-frame-syntax)。
 

@@ -3,13 +3,13 @@ title: CUME_DIST
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.2.7"/>
+<FunctionDescription description="引入版本: v1.2.7"/>
 
-Returns the cumulative distribution of a given value in a set of values. It calculates the proportion of rows that have values less than or equal to the specified value, divided by the total number of rows. Please note that the resulting value falls between 0 and 1, inclusive.
+返回一组值中给定值的累积分布。它计算值小于或等于指定值的行数占总行数的比例。请注意，结果值介于0和1之间（含0和1）。
 
-See also: [PERCENT_RANK](percent_rank.md)
+另请参阅: [PERCENT_RANK](percent_rank.md)
 
-## Syntax
+## 语法
 
 ```sql
 CUME_DIST() OVER (
@@ -18,9 +18,9 @@ CUME_DIST() OVER (
 )
 ```
 
-## Examples
+## 示例
 
-This example retrieves the students' names, scores, grades, and the cumulative distribution values (cume_dist_val) within each grade using the CUME_DIST() window function.
+此示例检索学生的姓名、分数、年级以及使用CUME_DIST()窗口函数在每个年级内的累积分布值（cume_dist_val）。
 
 ```sql
 CREATE TABLE students (

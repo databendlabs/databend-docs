@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 返回窗口框架内第 `N` 个位置的值，其中 `N` 是一个指定的整数，用于确定值的确切位置。
 
-另请参阅:
+另请参阅：
 
 - [FIRST_VALUE](first-value.md)
 - [LAST_VALUE](last-value.md)
