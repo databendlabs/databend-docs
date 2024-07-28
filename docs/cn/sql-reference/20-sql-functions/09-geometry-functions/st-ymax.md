@@ -3,27 +3,27 @@ title: ST_YMAX
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.512"/>
+<FunctionDescription description="引入或更新于：v1.2.512"/>
 
-Returns the maximum latitude (Y coordinate) of all points contained in the specified GEOMETRY object.
+返回指定GEOMETRY对象中所有点包含的最大纬度（Y坐标）。
 
-## Syntax
+## 语法
 
 ```sql
 ST_YMAX(<geometry>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                          |
-|--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| 参数         | 描述                                             |
+|--------------|--------------------------------------------------|
+| `<geometry>` | 参数必须是GEOMETRY类型的表达式。                 |
 
-## Return Type
+## 返回类型
 
-Double.
+Double。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

@@ -3,27 +3,27 @@ title: ST_STARTPOINT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.458"/>
+<FunctionDescription description="引入或更新：v1.2.458"/>
 
-Returns the first Point in a LineString.
+返回 LineString 中的第一个点。
 
-## Syntax
+## 语法
 
 ```sql
 ST_STARTPOINT(<geometry>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                                                       |
-|--------------|-----------------------------------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY that represents a LineString. |
+| 参数         | 描述                                                                             |
+|--------------|----------------------------------------------------------------------------------|
+| `<geometry>` | 参数必须是一个表示 LineString 的几何类型的 GEOMETRY 表达式。                     |
 
-## Return Type
+## 返回类型
 
-Geometry.
+Geometry。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

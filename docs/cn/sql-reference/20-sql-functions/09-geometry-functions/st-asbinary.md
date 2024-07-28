@@ -2,4 +2,4 @@
 title: ST_ASBINARY
 ---
 
-Alias for [ST_ASWKB](st-aswkb.md).
+[ST_ASWKB](st-aswkb.md) 的别名。

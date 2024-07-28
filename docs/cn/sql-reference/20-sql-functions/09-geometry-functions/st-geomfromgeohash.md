@@ -3,27 +3,27 @@ title: ST_GEOMFROMGEOHASH
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.402"/>
+<FunctionDescription description="引入或更新: v1.2.402"/>
 
-Returns a GEOMETRY object for the polygon that represents the boundaries of a [geohash](https://en.wikipedia.org/wiki/Geohash).
+返回一个表示 [geohash](https://en.wikipedia.org/wiki/Geohash) 边界的多边形的 GEOMETRY 对象。
 
-## Syntax
+## 语法
 
 ```sql
 ST_GEOMFROMGEOHASH(<geohash>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description                     |
-|-------------|---------------------------------|
-| `<geohash>` | The argument must be a geohash. |
+| 参数        | 描述                     |
+|-------------|--------------------------|
+| `<geohash>` | 参数必须是一个 geohash。 |
 
-## Return Type
+## 返回类型
 
-Geometry.
+Geometry。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

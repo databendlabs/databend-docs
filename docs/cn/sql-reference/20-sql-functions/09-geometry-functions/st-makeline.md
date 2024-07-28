@@ -3,32 +3,32 @@ title: ST_MAKELINE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.391"/>
+<FunctionDescription description="引入或更新：v1.2.391"/>
 
-Constructs a GEOMETRY object that represents a line connecting the points in the input two GEOMETRY objects.
+构造一个表示连接输入的两个GEOMETRY对象中点的线的GEOMETRY对象。
 
-## Syntax
+## 语法
 
 ```sql
 ST_MAKELINE(<geometry1>, <geometry2>)
 ```
 
-## Aliases
+## 别名
 
 - [ST_MAKE_LINE](st-make-line.md)
 
-## Arguments
+## 参数
 
-| Arguments     | Description                                                                                                 |
+| 参数          | 描述                                                                                                 |
 |---------------|-------------------------------------------------------------------------------------------------------------|
-| `<geometry1>` | A GEOMETRY object containing the points to connect. This object must be a Point, MultiPoint, or LineString. |
-| `<geometry2>` | A GEOMETRY object containing the points to connect. This object must be a Point, MultiPoint, or LineString. |
+| `<geometry1>` | 包含要连接点的GEOMETRY对象。该对象必须是Point、MultiPoint或LineString。 |
+| `<geometry2>` | 包含要连接点的GEOMETRY对象。该对象必须是Point、MultiPoint或LineString。 |
 
-## Return Type
+## 返回类型
 
 Geometry.
 
-## Examples
+## 示例
 
 ```sql
 SELECT

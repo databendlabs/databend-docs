@@ -3,35 +3,35 @@ title: TO_STRING
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.330"/>
+<FunctionDescription description="引入或更新: v1.2.330"/>
 
-Converts a GEOMETRY object into a String representation. The display format of the output data is controlled by the `geometry_output_format` setting, which contains the following types:
+将 GEOMETRY 对象转换为字符串表示形式。输出数据的显示格式由 `geometry_output_format` 设置控制，该设置包含以下类型：
 
-| Parameter         | Description                                                         |
-|-------------------|---------------------------------------------------------------------|
-| GeoJSON (default) | The GEOMETRY result is rendered as a JSON object in GeoJSON format. |
-| WKT               | The GEOMETRY result is rendered as a String in WKT format.          |
-| WKB               | The GEOMETRY result is rendered as a Binary in WKB format.          |
-| EWKT              | The GEOMETRY result is rendered as a String in EWKT format.         |
-| EWKB              | The GEOMETRY result is rendered as a Binary in EWKB format.         |
+| 参数            | 描述                                                         |
+|-----------------|--------------------------------------------------------------|
+| GeoJSON (默认) | GEOMETRY 结果以 GeoJSON 格式的 JSON 对象呈现。               |
+| WKT             | GEOMETRY 结果以 WKT 格式的字符串呈现。                        |
+| WKB             | GEOMETRY 结果以 WKB 格式的二进制呈现。                        |
+| EWKT            | GEOMETRY 结果以 EWKT 格式的字符串呈现。                       |
+| EWKB            | GEOMETRY 结果以 EWKB 格式的二进制呈现。                       |
 
-## Syntax
+## 语法
 
 ```sql
 TO_STRING(<geometry>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                          |
-|--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| 参数         | 描述                                           |
+|--------------|------------------------------------------------|
+| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。             |
 
-## Return Type
+## 返回类型
 
-String.
+字符串。
 
-## Examples
+## 示例
 
 ```sql
 SET geometry_output_format='GeoJSON';

@@ -2,4 +2,4 @@
 title: ST_GEOMFROMWKB
 ---
 
-Alias for [ST_GEOMTRYFROMWKB](st-geometryfromwkb.md).
+[ST_GEOMTRYFROMWKB](st-geometryfromwkb.md) 的别名。

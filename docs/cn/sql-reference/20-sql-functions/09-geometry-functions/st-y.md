@@ -3,27 +3,27 @@ title: ST_Y
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.458"/>
+<FunctionDescription description="引入或更新: v1.2.458"/>
 
-Returns the latitude (Y coordinate) of a Point represented by a GEOMETRY object.
+返回由GEOMETRY对象表示的点的纬度（Y坐标）。
 
-## Syntax
+## 语法
 
 ```sql
 ST_Y(<geometry>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                                                   |
+| 参数         | 描述                                                                          |
 |--------------|-------------------------------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY and must contain a Point. |
+| `<geometry>` | 参数必须是GEOMETRY类型的表达式，并且必须包含一个点。                          |
 
-## Return Type
+## 返回类型
 
-Double.
+Double。
 
-## Examples
+## 示例
 
 ```sql
 SELECT
