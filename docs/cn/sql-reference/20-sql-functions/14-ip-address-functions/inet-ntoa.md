@@ -2,23 +2,23 @@
 title: INET_NTOA
 ---
 
-Converts a 32-bit integer to an IPv4 address.
+将一个32位整数转换为IPv4地址。
 
-## Syntax
+## 语法
 
 ```sql
 INET_NOTA( <int32> )
 ```
 
-## Aliases
+## 别名
 
 - [IPV4_NUM_TO_STRING](ipv4-num-to-string.md)
 
-## Return Type
+## 返回类型
 
-String.
+字符串。
 
-## Examples
+## 示例
 
 ```sql
 SELECT IPV4_NUM_TO_STRING(16909060), INET_NTOA(16909060);

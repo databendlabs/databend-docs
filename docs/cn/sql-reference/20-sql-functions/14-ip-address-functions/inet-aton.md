@@ -2,23 +2,23 @@
 title: INET_ATON
 ---
 
-Converts an IPv4 address to a 32-bit integer.
+将 IPv4 地址转换为 32 位整数。
 
-## Syntax
+## 语法
 
 ```sql
 INET_ATON( '<ip>' )
 ```
 
-## Aliases
+## 别名
 
 - [IPV4_STRING_TO_NUM](ipv4-string-to-num.md)
 
-## Return Type
+## 返回类型
 
-Integer.
+整数。
 
-## Examples
+## 示例
 
 ```sql
 SELECT IPV4_STRING_TO_NUM('1.2.3.4'), INET_ATON('1.2.3.4');
