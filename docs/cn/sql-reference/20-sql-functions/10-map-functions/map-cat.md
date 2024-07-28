@@ -3,33 +3,33 @@ title: MAP_CAT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.459"/>
+<FunctionDescription description="引入或更新：v1.2.459"/>
 
-Returns the concatenatation of two MAPs.
+返回两个MAP的串联结果。
 
-## Syntax
+## 语法
 
 ```sql
 MAP_CAT( <map1>, <map2> )
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                     |
-|-----------|---------------------------------|
-| `<map1>`  | The source MAP.                 |
-| `<map2>`  | The MAP to be appended to map1. |
+| 参数       | 描述                     |
+|-----------|-------------------------|
+| `<map1>`  | 源MAP。                 |
+| `<map2>`  | 要附加到map1的MAP。     |
 
 :::note
-- If both map1 and map2 have a value with the same key, then the output map contains the value from map2.
-- If either argument is NULL, the function returns NULL without reporting any error.
+- 如果map1和map2都包含具有相同键的值，则输出MAP包含来自map2的值。
+- 如果任一参数为NULL，则函数返回NULL而不报告任何错误。
 :::
 
-## Return Type
+## 返回类型
 
-Map.
+Map。
 
-## Examples
+## 示例
 
 ```sql
 SELECT MAP_CAT({'a':1,'b':2,'c':3}, {'c':5,'d':6});

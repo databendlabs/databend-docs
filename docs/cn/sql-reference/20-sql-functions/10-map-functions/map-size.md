@@ -3,27 +3,27 @@ title: MAP_SIZE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.459"/>
+<FunctionDescription description="引入或更新: v1.2.459"/>
 
-Returns the size of a MAP.
+返回一个 MAP 的大小。
 
-## Syntax
+## 语法
 
 ```sql
 MAP_SIZE( <map> )
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<map>`   | The input map. |
+| 参数       | 描述         |
+|-----------|--------------|
+| `<map>`   | 输入的 MAP。 |
 
-## Return Type
+## 返回类型
 
-UInt64.
+UInt64。
 
-## Examples
+## 示例
 
 ```sql
 SELECT MAP_SIZE({'a':1,'b':2,'c':3});
