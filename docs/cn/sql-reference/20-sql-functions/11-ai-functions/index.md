@@ -1,10 +1,10 @@
 ---
-title: 'AI Functions'
-description: 'Using SQL-based AI Functions for Knowledge Base Search and Text Completion'
+title: 'AI 函数'
+description: '使用基于 SQL 的 AI 函数进行知识库搜索和文本补全'
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This document demonstrates how to leverage Databend's built-in AI functions for creating document embeddings, searching for similar documents, and generating text completions based on context.
+本文档演示了如何利用 Databend 内置的 AI 函数来创建文档嵌入、搜索相似文档以及基于上下文生成文本补全。
 
 <IndexOverviewList />
