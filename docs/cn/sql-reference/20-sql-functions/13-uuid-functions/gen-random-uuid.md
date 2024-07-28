@@ -2,19 +2,19 @@
 title: GEN_RANDOM_UUID
 ---
 
-Generates a random UUID based on v4.
+生成基于 v4 的随机 UUID。
 
-## Syntax
+## 语法
 
 ```sql
 GEN_RANDOM_UUID()
 ```
 
-## Aliases
+## 别名
 
 - [UUID](uuid.md)
 
-## Examples
+## 示例
 
 ```sql
 SELECT GEN_RANDOM_UUID(), UUID();
