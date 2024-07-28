@@ -1,8 +1,8 @@
 ---
-title: Sequence Functions
+title: 序列函数
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This section provides reference information for the sequence functions in Databend.
+本节提供 Databend 中序列函数的参考信息。
 
 <IndexOverviewList />
