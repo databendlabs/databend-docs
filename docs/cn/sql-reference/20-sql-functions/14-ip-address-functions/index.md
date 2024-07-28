@@ -1,9 +1,9 @@
 ---
-title: IP Address Functions
+title: IP 地址函数
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This section provides reference information for the IP address-related functions in Databend.
+本节提供 Databend 中与 IP 地址相关函数的参考信息。
 
 <IndexOverviewList />
