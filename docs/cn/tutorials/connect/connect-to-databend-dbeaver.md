@@ -1,12 +1,12 @@
 ---
-title: "使用 DBeaver 连接到 Databend"
-sidebar_label: "连接到 Databend (DBeaver)"
+title: "使用 DBeaver 连接到自托管 Databend"
+sidebar_label: "连接到自托管 Databend (DBeaver)"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在本教程中，我们将指导您通过 Databend JDBC 驱动程序以 `root` 用户身份连接到 Databend。
+在本教程中，我们将指导您通过 Databend JDBC 驱动程序以 `root` 用户身份连接到自托管的 Databend 实例。
 
 <StepsWrap>
 <StepContent number="1">
@@ -29,7 +29,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 创建连接
 
-1. 在 DBeaver 中，首先在 **Database** > **New Database Connection** 中搜索并选择 `databend`，然后点击 **Next**。
+1. 在 DBeaver 中，首先在 **数据库** > **新建数据库连接** 中搜索并选择 `databend`，然后点击 **下一步**。
 
 ![Alt text](/img/integration/jdbc-new-driver.png)
 
@@ -37,7 +37,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ![Alt text](/img/integration/jdbc-connect.png)
 
-3. 点击 **Test Connection** 以检查连接是否成功。
+3. 点击 **测试连接** 以检查连接是否成功。
 
 </StepContent>
 </StepsWrap>
