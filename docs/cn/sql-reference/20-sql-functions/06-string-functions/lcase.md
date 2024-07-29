@@ -2,4 +2,4 @@
 title: LCASE
 ---
 
-Alias for [LOWER](lower.md).
+[LOWER](lower.md) 的别名。

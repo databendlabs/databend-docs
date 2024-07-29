@@ -7,7 +7,7 @@ title: COVAR_SAMP
 covar_samp() 函数返回两个数据列的样本协方差（Σ((x - x̅)(y - y̅)) / (n - 1)）。
 
 :::caution
-NULL 值不计入。
+NULL 值不计入计算。
 :::
 
 ## 语法

@@ -3,27 +3,27 @@ title: ST_ASGEOJSON
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.427"/>
+<FunctionDescription description="引入或更新：v1.2.427"/>
 
-Converts a GEOMETRY object into a [GeoJSON](https://geojson.org/) representation.
+将一个 GEOMETRY 对象转换为 [GeoJSON](https://geojson.org/) 表示形式。
 
-## Syntax
+## 语法
 
 ```sql
 ST_ASGEOJSON(<geometry>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                          |
-|--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| 参数         | 描述                                           |
+|--------------|------------------------------------------------|
+| `<geometry>` | 参数必须是一个 GEOMETRY 类型的表达式。         |
 
-## Return Type
+## 返回类型
 
-Variant.
+Variant。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

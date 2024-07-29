@@ -3,27 +3,27 @@ title: MAP_VALUES
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.429"/>
+<FunctionDescription description="引入或更新：v1.2.429"/>
 
-Returns the values in a map.
+返回一个映射中的值。
 
-## Syntax
+## 语法
 
 ```sql
 MAP_VALUES( <map> )
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<map>`   | The input map. |
+| 参数       | 描述         |
+|-----------|--------------|
+| `<map>`   | 输入的映射。 |
 
-## Return Type
+## 返回类型
 
-Array.
+数组。
 
-## Examples
+## 示例
 
 ```sql
 SELECT MAP_VALUES({'a':1,'b':2,'c':3});

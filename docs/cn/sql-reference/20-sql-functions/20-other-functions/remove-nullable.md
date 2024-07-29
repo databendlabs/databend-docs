@@ -2,4 +2,4 @@
 title: REMOVE_NULLABLE
 ---
 
-Alias for [ASSUME_NOT_NULL](assume-not-null.md).
+[ASSUME_NOT_NULL](assume-not-null.md) 的别名。

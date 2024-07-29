@@ -2,15 +2,15 @@
 title: H3_TO_CENTER_CHILD
 ---
 
-Returns the center child index at the specified resolution.
+返回指定分辨率下的中心子索引。
 
-## Syntax
+## 语法
 
 ```sql
 H3_TO_CENTER_CHILD(h3, res)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_TO_CENTER_CHILD(599119489002373119, 15);

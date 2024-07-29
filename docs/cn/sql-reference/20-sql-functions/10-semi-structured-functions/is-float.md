@@ -3,21 +3,21 @@ title: IS_FLOAT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.368"/>
+<FunctionDescription description="引入或更新: v1.2.368"/>
 
-Checks if the input JSON value is a float.
+检查输入的 JSON 值是否为浮点数。
 
-## Syntax
+## 语法
 
 ```sql
 IS_FLOAT( <expr> )
 ```
 
-## Return Type
+## 返回类型
 
-Returns `true` if the input JSON value is a float, and `false` otherwise.
+如果输入的 JSON 值是浮点数，则返回 `true`，否则返回 `false`。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

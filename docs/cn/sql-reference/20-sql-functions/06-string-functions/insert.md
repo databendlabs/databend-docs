@@ -2,28 +2,28 @@
 title: INSERT
 ---
 
-Returns the string str, with the substring beginning at position pos and len characters long replaced by the string newstr. Returns the original string if pos is not within the length of the string. Replaces the rest of the string from position pos if len is not within the length of the rest of the string. Returns NULL if any argument is NULL.
+返回字符串 `str`，其中从位置 `pos` 开始的子字符串（长度为 `len` 个字符）被字符串 `newstr` 替换。如果 `pos` 不在字符串的长度范围内，则返回原始字符串。如果 `len` 不在剩余字符串的长度范围内，则从位置 `pos` 开始替换剩余的字符串。如果任何参数为 `NULL`，则返回 `NULL`。
 
-## Syntax
+## 语法
 
 ```sql
 INSERT(<str>, <pos>, <len>, <newstr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments  | Description     |
-|------------|-----------------|
-| `<str>`    | The string.     |
-| `<pos>`    | The position.   |
-| `<len>`    | The length.     |
-| `<newstr>` | The new string. |
+| 参数       | 描述         |
+|------------|--------------|
+| `<str>`    | 原字符串。   |
+| `<pos>`    | 起始位置。   |
+| `<len>`    | 替换长度。   |
+| `<newstr>` | 新字符串。   |
 
-## Return Type
+## 返回类型
 
 `VARCHAR`
 
-## Examples
+## 示例
 
 ```sql
 SELECT INSERT('Quadratic', 3, 4, 'What');

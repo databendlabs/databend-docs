@@ -2,15 +2,15 @@
 title: H3_GET_RESOLUTION
 ---
 
-Returns the resolution of the given [H3](https://eng.uber.com/h3/) index. 
+返回给定 [H3](https://eng.uber.com/h3/) 索引的分辨率。
 
-## Syntax
+## 语法
 
 ```sql
 H3_GET_RESOLUTION(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_GET_RESOLUTION(644325524701193974);

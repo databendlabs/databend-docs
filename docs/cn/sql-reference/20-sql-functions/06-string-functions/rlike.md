@@ -2,4 +2,4 @@
 title: RLIKE
 ---
 
-Alias for [REGEXP](regexp.md).
+[REGEXP](regexp.md) 的别名。

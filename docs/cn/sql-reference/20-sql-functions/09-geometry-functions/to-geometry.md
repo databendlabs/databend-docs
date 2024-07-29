@@ -4,13 +4,13 @@ title_includes: TRY_TO_GEOMETRY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.431"/>
+<FunctionDescription description="引入或更新：v1.2.431"/>
 
-Parses an input and returns a value of type GEOMETRY.
+解析输入并返回一个 GEOMETRY 类型的值。
 
-`TRY_TO_GEOMETRY` returns a NULL value if an error occurs during parsing.
+`TRY_TO_GEOMETRY` 在解析过程中发生错误时返回 NULL 值。
 
-## Syntax
+## 语法
 
 ```sql
 TO_GEOMETRY(<string>, [<srid>])
@@ -21,20 +21,20 @@ TRY_TO_GEOMETRY(<binary>, [<srid>])
 TRY_TO_GEOMETRY(<variant>, [<srid>])
 ```
 
-## Arguments
+## 参数
 
-| Arguments   | Description                                                                                               |
+| 参数        | 描述                                                                                                      |
 |-------------|-----------------------------------------------------------------------------------------------------------|
-| `<string>`  | The argument must be a string expression in WKT, EWKT, WKB or EWKB in hexadecimal format, GeoJSON format. |
-| `<binary>`  | The argument must be a binary expression in WKB or EWKB format.                                           |
-| `<variant>` | The argument must be a JSON OBJECT in GeoJSON format.                                                     |
-| `<srid>`    | The integer value of the SRID to use.                                                                     |
+| `<string>`  | 参数必须是 WKT、EWKT、WKB 或 EWKB 格式的十六进制字符串，或 GeoJSON 格式。                                  |
+| `<binary>`  | 参数必须是 WKB 或 EWKB 格式的二进制表达式。                                                                |
+| `<variant>` | 参数必须是 GeoJSON 格式的 JSON OBJECT。                                                                    |
+| `<srid>`    | 要使用的 SRID 的整数值。                                                                                   |
 
-## Return Type
+## 返回类型
 
-Geometry.
+Geometry。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

@@ -2,36 +2,36 @@
 title: REGEXP_LIKE
 ---
 
-REGEXP_LIKE function is used to check that whether the string matches regular expression.
+REGEXP_LIKE 函数用于检查字符串是否与正则表达式匹配。
 
-## Syntax
+## 语法
 
 ```sql
 REGEXP_LIKE(<expr>, <pat[, match_type]>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments      | Description                                                                       |
+| 参数           | 描述                                                                       |
 |----------------|-----------------------------------------------------------------------------------|
-| `<expr>`       | The string expr that to be matched                                                |
-| `<pat>`        | The regular expression                                                            |
-| `[match_type]` | Optional. match_type argument is a string that specifying how to perform matching |
+| `<expr>`       | 要匹配的字符串表达式                                                |
+| `<pat>`        | 正则表达式                                                            |
+| `[match_type]` | 可选。指定匹配方式的字符串 |
 
-`match_type` may contain any or all the following characters:
+`match_type` 可能包含以下任意或所有字符：
 
-* `c`: Case-sensitive matching.
-* `i`: Case-insensitive matching.
-* `m`: Multiple-line mode. Recognize line terminators within the string. The default behavior is to match line terminators only at the start and end of the string expression.
-* `n`: The `.` character matches line terminators. The default is for `.` matching to stop at the end of a line.
-* `u`: Unix-only line endings. Not be supported now.
+* `c`: 区分大小写的匹配。
+* `i`: 不区分大小写的匹配。
+* `m`: 多行模式。识别字符串中的行终止符。默认行为是在字符串表达式的开头和结尾匹配行终止符。
+* `n`: `.` 字符匹配行终止符。默认情况下，`.` 匹配会在行末停止。
+* `u`: Unix 特有的行结束符。目前不支持。
 
-## Return Type
+## 返回类型
 
 `BIGINT`
-Returns `1` if the string expr matches the regular expression specified by the pattern pat, `0` otherwise. If expr or pat is NULL, the return value is NULL.
+如果字符串表达式与指定的正则表达式模式匹配，则返回 `1`，否则返回 `0`。如果 expr 或 pat 为 NULL，则返回值为 NULL。
 
-## Examples
+## 示例
 
 ```sql
 SELECT REGEXP_LIKE('a', '^[a-d]');

@@ -3,32 +3,32 @@ title: ST_POINTN
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.458"/>
+<FunctionDescription description="引入或更新：v1.2.458"/>
 
-Returns a Point at a specified index in a LineString.
+返回 LineString 中指定索引处的点。
 
-## Syntax
+## 语法
 
 ```sql
 ST_POINTN(<geometry>, <index>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                                                       |
+| 参数         | 描述                                                                              |
 |--------------|-----------------------------------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY that represents a LineString. |
-| `<index>`    | The index of the Point to return.                                                 |
+| `<geometry>` | 参数必须是表示 LineString 的几何类型（GEOMETRY）的表达式。                        |
+| `<index>`    | 要返回的点的索引。                                                                |
 
 :::note
-The index is 1-based, and a negative index is uesed as the offset from the end of LineString. If index is out of bounds, the function returns an error.
+索引是从1开始的，负索引表示从 LineString 末尾开始的偏移量。如果索引超出范围，函数将返回错误。
 :::
 
-## Return Type
+## 返回类型
 
-Geometry.
+几何类型（Geometry）。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

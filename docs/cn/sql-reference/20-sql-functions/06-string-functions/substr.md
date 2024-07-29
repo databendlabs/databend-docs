@@ -2,14 +2,14 @@
 title: SUBSTR
 ---
 
-Extracts a string containing a specific number of characters from a particular position of a given string.
+从给定字符串的特定位置提取包含特定数量字符的子字符串。
 
-- The forms without a `len` argument return a substring from string `str` starting at position `pos`.
-- The forms with a `len` argument return a substring `len` characters long from string `str`, starting at position `pos`.
+- 不带 `len` 参数的形式从字符串 `str` 的 `pos` 位置开始返回一个子字符串。
+- 带 `len` 参数的形式从字符串 `str` 的 `pos` 位置开始返回长度为 `len` 的子字符串。
 
-It is also possible to use a negative value for `pos`. In this case, the beginning of the substring is pos characters from the end of the string, rather than the beginning. A negative value may be used for `pos` in any of the forms of this function. A value of 0 for `pos` returns an empty string. The position of the first character in the string from which the substring is to be extracted is reckoned as 1.
+也可以使用负值作为 `pos`。在这种情况下，子字符串的起始位置是从字符串末尾开始计数的 `pos` 个字符，而不是从开头开始。负值可以用于此函数的任何形式中的 `pos`。`pos` 为 0 时返回一个空字符串。从字符串中提取子字符串的第一个字符的位置被视为 1。
 
-## Syntax
+## 语法
 
 ```sql
 SUBSTR(<str>, <pos>)
@@ -17,24 +17,24 @@ SUBSTR(<str>, <pos>)
 SUBSTR(<str>, <pos>, <len>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                                                                                |
-|-----------|--------------------------------------------------------------------------------------------|
-| `<str>`   | The main string from where the character to be extracted                                   |
-| `<pos>`   | The position (starting from 1) the substring to start at. If negative, counts from the end |
-| `<len>`   | The maximum length of the substring to extract                                             |
+| 参数      | 描述                                                                                     |
+|-----------|------------------------------------------------------------------------------------------|
+| `<str>`   | 主字符串，从中提取字符                                                                   |
+| `<pos>`   | 子字符串的起始位置（从 1 开始）。如果为负数，则从末尾开始计数                             |
+| `<len>`   | 要提取的子字符串的最大长度                                                               |
 
-## Aliases
+## 别名
 
 - [SUBSTRING](substring.md)
 - [MID](mid.md)
 
-## Return Type
+## 返回类型
 
 VARCHAR
 
-## Examples
+## 示例
 
 ```sql
 SELECT

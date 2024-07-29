@@ -2,9 +2,9 @@
 title: GROUP_ARRAY_MOVING_SUM
 ---
 
-The GROUP_ARRAY_MOVING_SUM function calculates the moving sum of input values. The function can take the window size as a parameter. If left unspecified, the function takes the window size equal to the number of input values.
+GROUP_ARRAY_MOVING_SUM 函数用于计算输入值的移动和。该函数可以接受窗口大小作为参数。如果未指定，函数将窗口大小设置为输入值的数量。
 
-## Syntax
+## 语法
 
 ```sql
 GROUP_ARRAY_MOVING_SUM(<expr>)
@@ -12,21 +12,21 @@ GROUP_ARRAY_MOVING_SUM(<expr>)
 GROUP_ARRAY_MOVING_SUM(<window_size>)(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments        | Description              |
-|------------------| ------------------------ |
-| `<window_size>`  | Any numerical expression |
-| `<expr>`         | Any numerical expression |
+| 参数             | 描述               |
+|------------------| ------------------ |
+| `<window_size>`  | 任何数值表达式     |
+| `<expr>`         | 任何数值表达式     |
 
-## Return Type
+## 返回类型
 
-Returns an [Array](../../00-sql-reference/10-data-types/40-data-type-array-types.md) with elements that are of the same type as the original data.
+返回一个 [Array](../../00-sql-reference/10-data-types/40-data-type-array-types.md)，其元素类型与原始数据类型相同。
 
-## Examples
+## 示例
 
 ```sql
--- Create a table and insert sample data
+-- 创建表并插入示例数据
 CREATE TABLE hits (
   user_id INT,
   request_num INT

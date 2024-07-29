@@ -2,29 +2,29 @@
 title: ANY
 ---
 
-Aggregate function.
+聚合函数。
 
-The ANY() function selects the first encountered (non-NULL) value, unless all rows have NULL values in that column. The query can be executed in any order and even in a different order each time, so the result of this function is indeterminate. To get a determinate result, you can use the ‘min’ or ‘max’ function instead of ‘any’.
+ANY() 函数选择第一个遇到的（非 NULL）值，除非该列的所有行都是 NULL 值。查询可以以任何顺序执行，甚至每次顺序都不同，因此该函数的结果是不确定的。要获得确定的结果，可以使用 'min' 或 'max' 函数代替 'any'。
 
-## Syntax
+## 语法
 
 ```sql
 ANY(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description    |
-|-----------|----------------|
-| `<expr>`  | Any expression |
+| 参数       | 描述         |
+|-----------|--------------|
+| `<expr>`  | 任何表达式   |
 
-## Return Type
+## 返回类型
 
-The first encountered (non-NULL) value, in the type of the value. If all values are NULL, the return value is NULL.
+第一个遇到的（非 NULL）值，类型与值相同。如果所有值都是 NULL，则返回值为 NULL。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data*
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE product_data (
   id INT,
@@ -40,13 +40,13 @@ VALUES (1, 'Laptop', 1000),
        (5, 'Monitor', 150);
 ```
 
-**Query Demo: Retrieve the First Encountered Non-NULL Product Name**
+**查询示例：检索第一个遇到的非 NULL 产品名称**
 ```sql
 SELECT ANY(product_name) AS any_product_name
 FROM product_data;
 ```
 
-**Result**
+**结果**
 ```sql
 | any_product_name |
 |------------------|

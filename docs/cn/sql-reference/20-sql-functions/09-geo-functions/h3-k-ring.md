@@ -2,15 +2,15 @@
 title: H3_K_RING
 ---
 
-Returns an array containing the [H3](https://eng.uber.com/h3/) indexes of the k-ring hexagons surrounding the input H3 index. Each element in this array is an H3 index.
+返回一个包含围绕输入 H3 索引的 k-环六边形 [H3](https://eng.uber.com/h3/) 索引的数组。该数组中的每个元素都是一个 H3 索引。
 
-## Syntax
+## 语法
 
 ```sql
 H3_K_RING(h3, k)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_K_RING(644325524701193974, 1);

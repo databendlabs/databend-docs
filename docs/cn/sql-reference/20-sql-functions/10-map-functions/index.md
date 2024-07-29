@@ -1,9 +1,9 @@
 ---
-title: Map Functions
+title: 映射函数
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This section provides reference information for the map functions in Databend.
+本节提供 Databend 中映射函数的参考信息。
 
 <IndexOverviewList />

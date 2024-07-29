@@ -2,4 +2,4 @@
 title: SUBSTRING
 ---
 
-Alias for [SUBSTR](substr.md).
+[SUBSTR](substr.md) 的别名。

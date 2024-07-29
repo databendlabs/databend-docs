@@ -2,15 +2,15 @@
 title: H3_IS_RES_CLASS_III
 ---
 
-Checks if the given [H3](https://eng.uber.com/h3/) index has a resolution with Class III orientation.
+检查给定的 [H3](https://eng.uber.com/h3/) 索引是否具有 Class III 方向的分辨率。
 
-## Syntax
+## 语法
 
 ```sql
 H3_IS_RES_CLASS_III(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_IS_RES_CLASS_III(635318325446452991);

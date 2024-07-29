@@ -3,31 +3,31 @@ title: ST_MAKEPOLYGON
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.413"/>
+<FunctionDescription description="引入或更新：v1.2.413"/>
 
-Constructs a GEOMETRY object that represents a Polygon without holes. The function uses the specified LineString as the outer loop.
+构造一个表示无孔多边形的GEOMETRY对象。该函数使用指定的LineString作为外部环。
 
-## Syntax
+## 语法
 
 ```sql
 ST_MAKEPOLYGON(<geometry>)
 ```
 
-## Aliases
+## 别名
 
 - [ST_POLYGON](st-polygon.md)
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                          |
-|--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| 参数         | 描述                                             |
+|--------------|--------------------------------------------------|
+| `<geometry>` | 参数必须是一个GEOMETRY类型的表达式。             |
 
-## Return Type
+## 返回类型
 
 Geometry.
 
-## Examples
+## 示例
 
 ```sql
 SELECT

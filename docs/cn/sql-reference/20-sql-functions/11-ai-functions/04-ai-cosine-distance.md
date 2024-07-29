@@ -1,25 +1,25 @@
 ---
 title: 'COSINE_DISTANCE'
-description: 'Measuring similarity using the cosine_distance function in Databend'
+description: '在Databend中使用cosine_distance函数测量相似度'
 ---
 
-This document provides an overview of the cosine_distance function in Databend and demonstrates how to measure document similarity using this function.
+本文档概述了Databend中的cosine_distance函数，并演示如何使用该函数测量文档相似度。
 
 :::info
 
-The cosine_distance function performs vector computations within Databend and does not rely on the (Azure) OpenAI API. 
+cosine_distance函数在Databend内部执行向量计算，不依赖于（Azure）OpenAI API。
 
 :::
 
-The cosine_distance function in Databend is a built-in function that calculates the cosine distance between two vectors. It is commonly used in natural language processing tasks, such as document similarity and recommendation systems.
+Databend中的cosine_distance函数是一个内置函数，用于计算两个向量之间的余弦距离。它通常用于自然语言处理任务，如文档相似度和推荐系统。
 
-Cosine distance is a measure of similarity between two vectors, based on the cosine of the angle between them. The function takes two input vectors and returns a value between 0 and 1, with 0 indicating identical vectors and 1 indicating orthogonal (completely dissimilar) vectors.
+余弦距离是基于两个向量之间夹角的余弦值来衡量相似度的一种度量。该函数接受两个输入向量，并返回一个介于0和1之间的值，其中0表示完全相同的向量，1表示正交（完全不相似）的向量。
 
-## Examples
+## 示例
 
-**Creating a Table and Inserting Sample Data**
+**创建表并插入示例数据**
 
-Let's create a table to store some sample text documents and their corresponding embeddings:
+让我们创建一个表来存储一些示例文本文档及其对应的嵌入向量：
 ```sql
 CREATE TABLE articles (
     id INT,
@@ -29,7 +29,7 @@ CREATE TABLE articles (
 );
 ```
 
-Now, let's insert some sample documents into the table:
+现在，让我们向表中插入一些示例文档：
 ```sql
 INSERT INTO articles (id, title, content, embedding)
 VALUES
@@ -38,9 +38,9 @@ VALUES
     (3, 'Getting Started with SQL', 'Structured Query Language (SQL) is a domain-specific language used for managing relational databases...', ai_embedding_vector('Structured Query Language (SQL) is a domain-specific language used for managing relational databases...'));
 ```
 
-**Querying for Similar Documents**
+**查询相似文档**
 
-Now, let's find the documents that are most similar to a given query using the cosine_distance function:
+现在，让我们使用cosine_distance函数找到与给定查询最相似的文档：
 ```sql
 SELECT
     id,
@@ -54,7 +54,7 @@ ORDER BY
     LIMIT 3;
 ```
 
-Result:
+结果：
 ```sql
 +------+--------------------------+---------------------------------------------------------------------------------------------------------+------------+
 | id   | title                    | content                                                                                                 | similarity |

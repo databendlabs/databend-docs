@@ -2,33 +2,33 @@
 title: STDDEV_SAMP
 ---
 
-Aggregate function.
+聚合函数。
 
-The STDDEV_SAMP() function returns the sample standard deviation(the square root of VAR_SAMP()) of an expression.
+STDDEV_SAMP() 函数返回表达式的样本标准差（VAR_SAMP() 的平方根）。
 
 :::caution
-NULL values are not counted.
+NULL 值不计入计算。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 STDDEV_SAMP(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description              |
-|-----------|--------------------------|
-| `<expr>`  | Any numerical expression |
+| 参数       | 描述                 |
+|-----------|----------------------|
+| `<expr>`  | 任何数值表达式       |
 
-## Return Type
+## 返回类型
 
 double
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE height_data (
   id INT,
@@ -44,13 +44,13 @@ VALUES (1, 1, 5.8),
        (5, 5, 6.3);
 ```
 
-**Query Demo: Calculate Sample Standard Deviation of Heights**
+**查询示例：计算身高的样本标准差**
 ```sql
 SELECT STDDEV_SAMP(height) AS height_stddev_samp
 FROM height_data;
 ```
 
-**Result**
+**结果**
 ```sql
 | height_stddev_samp |
 |--------------------|

@@ -2,11 +2,11 @@
 title: RANK
 ---
 
-The RANK() function assigns a unique rank to each value within an ordered group of values.
+RANK() 函数为有序值组中的每个值分配一个唯一的排名。
 
-The rank value starts at 1 and continues up sequentially. If two values are the same, they have the same rank.
+排名值从 1 开始，并按顺序继续。如果两个值相同，则它们具有相同的排名。
 
-## Syntax
+## 语法
 
 ```sql
 RANK() OVER (
@@ -16,9 +16,9 @@ RANK() OVER (
 )
 ```
 
-## Examples
+## 示例
 
-**Create the table**
+**创建表**
 ```sql
 CREATE TABLE employees (
   employee_id INT,
@@ -29,7 +29,7 @@ CREATE TABLE employees (
 );
 ```
 
-**Insert data**
+**插入数据**
 ```sql
 INSERT INTO employees (employee_id, first_name, last_name, department, salary) VALUES
   (1, 'John', 'Doe', 'IT', 90000),
@@ -39,7 +39,7 @@ INSERT INTO employees (employee_id, first_name, last_name, department, salary) V
   (5, 'Tom', 'Brown', 'HR', 75000);
 ```
 
-**Ranking employees by salary**
+**按薪资对员工进行排名**
 ```sql
 SELECT
   employee_id,
@@ -52,7 +52,7 @@ FROM
   employees;
 ```
 
-Result:
+结果：
 
 | employee_id | first_name | last_name | department | salary | rank |
 |-------------|------------|-----------|------------|--------|------|

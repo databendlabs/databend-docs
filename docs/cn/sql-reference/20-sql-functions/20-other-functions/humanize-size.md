@@ -2,26 +2,26 @@
 title: HUMANIZE_SIZE
 ---
 
-Returns the readable size with a suffix(KiB, MiB, etc).
+返回带有后缀（KiB、MiB 等）的可读大小。
 
-## Syntax
+## 语法
 
 ```sql
 HUMANIZE_SIZE(x);
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                |
-|-----------|----------------------------|
-| x         | The numerical size.        |
+| 参数      | 描述                |
+|-----------|---------------------|
+| x         | 数值大小。           |
 
 
-## Return Type
+## 返回类型
 
-String.
+字符串。
 
-## Examples
+## 示例
 
 ```sql
 SELECT HUMANIZE_SIZE(1024 * 1024)

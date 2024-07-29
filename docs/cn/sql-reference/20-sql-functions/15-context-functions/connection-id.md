@@ -2,15 +2,15 @@
 title: CONNECTION_ID
 ---
 
-Returns the connection ID for the current connection.
+返回当前连接的连接ID。
 
-## Syntax
+## 语法
 
 ```sql
 CONNECTION_ID()
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT CONNECTION_ID();

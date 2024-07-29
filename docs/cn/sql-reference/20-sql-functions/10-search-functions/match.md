@@ -3,26 +3,26 @@ title: MATCH
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.425"/>
+<FunctionDescription description="引入或更新: v1.2.425"/>
 
-Searches for documents containing specified keywords. Please note that the MATCH function can only be used in a WHERE clause.
+搜索包含指定关键词的文档。请注意，MATCH 函数只能在 WHERE 子句中使用。
 
 :::info
-Databend's MATCH function is inspired by Elasticsearch's [MATCH](https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-functions-search.html#sql-functions-search-match).
+Databend 的 MATCH 函数灵感来源于 Elasticsearch 的 [MATCH](https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-functions-search.html#sql-functions-search-match)。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 MATCH( '<columns>', '<keywords>' )
 ```
 
-| Parameter    | Description                                                                                                                                                                                                                                               |
+| 参数         | 描述                                                                                                                                                                                                                                               |
 |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<columns>`  | A comma-separated list of column names in the table to search for the specified keywords, with optional weighting using the syntax (^), which allows assigning different weights to each column, influencing the importance of each column in the search. |
-| `<keywords>` | The keywords to match against the specified columns in the table.                                                                                                                                                                                         |
+| `<columns>`  | 表中要搜索指定关键词的列名的逗号分隔列表，可以使用语法 (^) 进行可选的加权，允许为每个列分配不同的权重，影响每个列在搜索中的重要性。 |
+| `<keywords>` | 要与表中指定列匹配的关键词。                                                                                                                                                                                         |
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE test(title STRING, body STRING);
@@ -36,7 +36,7 @@ INSERT INTO test VALUES
 ('The Art of Communication', 'Effective communication is crucial in everyday life.'),
 ('The Impact of Technology on Society', 'Technology has revolutionized our society in countless ways.');
 
--- Retrieve documents where the 'title' column matches 'art power'
+-- 检索 'title' 列匹配 'art power' 的文档
 SELECT * FROM test WHERE MATCH('title', 'art power');
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -46,7 +46,7 @@ SELECT * FROM test WHERE MATCH('title', 'art power');
 │ The Art of Communication  │ Effective communication is crucial in everyday life.                   │
 └────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- Retrieve documents where either the 'title' or 'body' column matches 'knowledge technology'
+-- 检索 'title' 或 'body' 列匹配 'knowledge technology' 的文档
 SELECT *, score() FROM test WHERE MATCH('title, body', 'knowledge technology');
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -56,7 +56,7 @@ SELECT *, score() FROM test WHERE MATCH('title, body', 'knowledge technology');
 │ The Impact of Technology on Society │ Technology has revolutionized our society in countless ways.                   │ 2.6830134 │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- Retrieve documents where either the 'title' or 'body' column matches 'knowledge technology', with weighted importance on both columns
+-- 检索 'title' 或 'body' 列匹配 'knowledge technology' 的文档，并对两列进行加权重要性
 SELECT *, score() FROM test WHERE MATCH('title^5, body^1.2', 'knowledge technology');
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐

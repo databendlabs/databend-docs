@@ -3,27 +3,27 @@ title: ST_XMIN
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.512"/>
+<FunctionDescription description="引入或更新: v1.2.512"/>
 
-Returns the minimum longitude (X coordinate) of all points contained in the specified GEOMETRY object.
+返回指定GEOMETRY对象中所有点的最小经度（X坐标）。
 
-## Syntax
+## 语法
 
 ```sql
 ST_XMIN(<geometry>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments    | Description                                          |
-|--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| 参数         | 描述                                             |
+|--------------|--------------------------------------------------|
+| `<geometry>` | 参数必须是GEOMETRY类型的表达式。                 |
 
-## Return Type
+## 返回类型
 
-Double.
+Double。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

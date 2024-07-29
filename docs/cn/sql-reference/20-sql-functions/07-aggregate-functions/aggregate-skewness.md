@@ -2,29 +2,29 @@
 title: SKEWNESS
 ---
 
-Aggregate function.
+聚合函数。
 
-The `SKEWNESS()` function returns the skewness of all input values.
+`SKEWNESS()` 函数返回所有输入值的偏度。
 
-## Syntax
+## 语法
 
 ```sql
 SKEWNESS(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                     |
+| 参数      | 描述                     |
 |-----------| -----------                     |
-| `<expr>`  | Any numerical expression        |
+| `<expr>`  | 任何数值表达式        |
 
-## Return Type
+## 返回类型
 
-Nullable Float64.
+可为空的 Float64。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE temperature_data (
                                   id INT,
@@ -40,19 +40,16 @@ VALUES (1, 1, 60),
        (5, 2, 75);
 ```
 
-**Query Demo: Calculate Skewness of Temperature Data**
+**查询示例：计算温度数据的偏度**
 
 ```sql
 SELECT SKEWNESS(temperature) AS temperature_skewness
 FROM temperature_data;
 ```
 
-**Result**
+**结果**
 ```sql
 | temperature_skewness |
 |----------------------|
 |      0.68            |
 ```
-
-
-

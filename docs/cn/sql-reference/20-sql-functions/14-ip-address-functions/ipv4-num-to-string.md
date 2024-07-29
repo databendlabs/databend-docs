@@ -2,4 +2,4 @@
 title: IPV4_NUM_TO_STRING
 ---
 
-Alias for [INET_NTOA](inet-ntoa.md).
+[INET_NTOA](inet-ntoa.md) 的别名。

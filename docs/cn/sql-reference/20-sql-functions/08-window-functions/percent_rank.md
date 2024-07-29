@@ -3,13 +3,13 @@ title: PERCENT_RANK
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.50"/>
+<FunctionDescription description="引入版本: v1.1.50"/>
 
-Returns the relative rank of a given value within a set of values. The resulting value falls between 0 and 1, inclusive. Please note that the first row in any set has a PERCENT_RANK of 0.
+返回给定值在一组值中的相对排名。结果值介于0和1之间，包括0和1。请注意，任何集合中的第一行具有0的PERCENT_RANK。
 
-See also: [CUME_DIST](cume-dist.md)
+另请参阅: [CUME_DIST](cume-dist.md)
 
-## Syntax
+## 语法
 
 ```sql
 PERCENT_RANK() OVER (
@@ -18,9 +18,9 @@ PERCENT_RANK() OVER (
 )
 ```
 
-## Examples
+## 示例
 
-This example retrieves the students' names, scores, grades, and the percentile ranks (percent_rank) within each grade using the PERCENT_RANK() window function.
+此示例检索学生的姓名、分数、年级以及使用PERCENT_RANK()窗口函数在每个年级内的百分位排名。
 
 ```sql
 CREATE TABLE students (

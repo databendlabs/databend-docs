@@ -3,21 +3,21 @@ title: JSON_STRIP_NULLS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.89"/>
+<FunctionDescription description="引入或更新: v1.2.89"/>
 
-Removes all properties with null values from a JSON object. 
+从 JSON 对象中移除所有值为 null 的属性。
 
-## Syntax
+## 语法
 
 ```sql
 JSON_STRIP_NULLS(<json_string>)
 ```
 
-## Return Type
+## 返回类型
 
-Returns a value of the same type as the input JSON value.
+返回与输入 JSON 值相同类型的值。
 
-## Examples
+## 示例
 
 ```sql
 SELECT JSON_STRIP_NULLS(PARSE_JSON('{"name": "Alice", "age": 30, "city": null}'));

@@ -2,4 +2,4 @@
 title: ST_MAKE_LINE
 ---
 
-Alias for [ST_MAKELINE](st-makeline.md).
+[ST_MAKELINE](st-makeline.md) 的别名。

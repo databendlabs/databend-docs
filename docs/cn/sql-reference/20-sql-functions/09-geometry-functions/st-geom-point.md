@@ -2,4 +2,4 @@
 title: ST_GEOM_POINT
 ---
 
-Alias for [ST_MAKEGEOMPOINT](st-makegeompoint.md).
+[ST_MAKEGEOMPOINT](st-makegeompoint.md) 的别名。

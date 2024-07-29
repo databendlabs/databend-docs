@@ -2,15 +2,15 @@
 title: MD5
 ---
 
-Calculates an MD5 128-bit checksum for a string. The value is returned as a string of 32 hexadecimal digits or NULL if the argument was NULL.
+计算字符串的 MD5 128 位校验和。返回值是一个 32 位的十六进制字符串，如果参数为 NULL，则返回 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 MD5(<expr>)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT MD5('1234567890');

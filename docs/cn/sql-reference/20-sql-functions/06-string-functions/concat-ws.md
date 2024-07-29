@@ -2,28 +2,28 @@
 title: CONCAT_WS
 ---
 
-CONCAT_WS() stands for Concatenate With Separator and is a special form of CONCAT(). The first argument is the separator for the rest of the arguments. The separator is added between the strings to be concatenated. The separator can be a string, as can the rest of the arguments. If the separator is NULL, the result is NULL.
+CONCAT_WS() 代表带分隔符的连接，是 CONCAT() 的一种特殊形式。第一个参数是其余参数的分隔符。分隔符被添加在要连接的字符串之间。分隔符可以是一个字符串，其余参数也可以是字符串。如果分隔符为 NULL，则结果为 NULL。
 
-CONCAT_WS() does not skip empty strings. However, it does skip any NULL values after the separator argument.
+CONCAT_WS() 不会跳过空字符串。但是，它会跳过分隔符之后的任何 NULL 值。
 
-## Syntax
+## 语法
 
 ```sql
 CONCAT_WS(<separator>, <expr1>, ...)
 ```
 
-## Arguments
+## 参数
 
-| Arguments     | Description   |
+| 参数          | 描述        |
 |---------------| ------------- |
-| `<separator>` | string column |
-| `<expr1>`     | value column  |
+| `<separator>` | 字符串列    |
+| `<expr1>`     | 值列        |
 
-## Return Type
+## 返回类型
 
-A `VARCHAR` data type value Or `NULL` data type.
+`VARCHAR` 数据类型值或 `NULL` 数据类型。
 
-## Examples
+## 示例
 
 ```sql
 SELECT CONCAT_WS(',', 'data', 'fuse', 'labs', '2021');

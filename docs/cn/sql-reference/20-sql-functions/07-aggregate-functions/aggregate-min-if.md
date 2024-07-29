@@ -2,18 +2,17 @@
 title: MIN_IF
 ---
 
+## MIN_IF
 
-## MIN_IF 
-
-The suffix `_IF` can be appended to the name of any aggregate function. In this case, the aggregate function accepts an extra argument – a condition.
+后缀 `_IF` 可以附加到任何聚合函数的名称上。在这种情况下，聚合函数接受一个额外的参数 —— 一个条件。
 
 ```
-MIN_IF(<column>, <cond>)
+MIN_IF(<列>, <条件>)
 ```
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE project_budgets (
   id INT,
@@ -30,14 +29,14 @@ VALUES (1, 1, 'HR', 1000),
        (5, 2, 'IT', 2500);
 ```
 
-**Query Demo: Find Minimum Budget for IT Department**
+**查询示例：查找 IT 部门的最低预算**
 
 ```sql
 SELECT MIN_IF(budget, department = 'IT') AS min_it_budget
 FROM project_budgets;
 ```
 
-**Result**
+**结果**
 ```sql
 | min_it_budget |
 |---------------|

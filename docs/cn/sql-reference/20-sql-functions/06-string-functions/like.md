@@ -2,15 +2,15 @@
 title: LIKE
 ---
 
-Pattern matching using an SQL pattern. Returns 1 (TRUE) or 0 (FALSE). If either expr or pat is NULL, the result is NULL.
+使用 SQL 模式进行模式匹配。返回 1（TRUE）或 0（FALSE）。如果 expr 或 pat 为 NULL，则结果为 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 <expr> LIKE <pattern>
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT name, category FROM system.functions WHERE name like 'tou%' ORDER BY name;

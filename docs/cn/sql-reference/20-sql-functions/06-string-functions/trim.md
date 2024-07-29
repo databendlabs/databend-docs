@@ -2,37 +2,36 @@
 title: TRIM
 ---
 
-Returns the string without leading or trailing occurrences of the specified remove string. If remove string
-is omitted, spaces are removed.
+返回不包含指定移除字符串的前导或尾随出现的字符串。如果未指定移除字符串，则移除空格。
 
-## Syntax
+## 语法
 
 ```sql
 TRIM([{BOTH | LEADING | TRAILING} [remstr] FROM ] str)
 ```
 
-## Examples
+## 示例
 
-Please note that ALL the examples in this section will return the string 'databend'.
+请注意，本节中的所有示例都将返回字符串 'databend'。
 
-The following example removes the leading and trailing string 'xxx' from the string 'xxxdatabendxxx':
+以下示例从字符串 'xxxdatabendxxx' 中移除前导和尾随的字符串 'xxx'：
 
 ```sql
 SELECT TRIM(BOTH 'xxx' FROM 'xxxdatabendxxx');
 ```
 
-The following example removes the leading string 'xxx' from the string 'xxxdatabend':
+以下示例从字符串 'xxxdatabend' 中移除前导的字符串 'xxx'：
 
 ```sql
 SELECT TRIM(LEADING 'xxx' FROM 'xxxdatabend' );
 ```
-The following example removes the trailing string 'xxx' from the string 'databendxxx':
+以下示例从字符串 'databendxxx' 中移除尾随的字符串 'xxx'：
 
 ```sql
 SELECT TRIM(TRAILING 'xxx' FROM 'databendxxx' );
 ```
 
-If no remove string is specified, the function removes all leading and trailing spaces. The following examples remove the leading and/or trailing spaces:
+如果未指定移除字符串，该函数将移除所有前导和尾随空格。以下示例移除前导和/或尾随空格：
 
 ```sql
 SELECT TRIM('   databend   ');

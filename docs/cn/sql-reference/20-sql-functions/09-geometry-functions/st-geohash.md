@@ -3,28 +3,28 @@ title: ST_GEOHASH
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.436"/>
+<FunctionDescription description="引入或更新: v1.2.436"/>
 
-Return the [geohash](https://en.wikipedia.org/wiki/Geohash) for a GEOMETRY object. A geohash is a short base32 string that identifies a geodesic rectangle containing a location in the world. The optional precision argument specifies the `precision` of the returned geohash. For example, passing 5 for `precision returns a shorter geohash (5 characters long) that is less precise.
+返回一个GEOMETRY对象的[geohash](https://en.wikipedia.org/wiki/Geohash)。Geohash是一个简短的base32字符串，用于标识包含世界中某个位置的测地矩形。可选的精度参数指定返回的geohash的`精度`。例如，传递5作为`精度`将返回一个较短的geohash（5个字符长），精度较低。
 
-## Syntax
+## 语法
 
 ```sql
 ST_GEOHASH(<geometry> [, <precision>])
 ```
 
-## Arguments
+## 参数
 
-| Arguments       | Description                                                               |
-|-----------------|---------------------------------------------------------------------------|
-| `geometry`    | The argument must be an expression of type GEOMETRY.                      |
-| `[precision]` | Optional. specifies the precision of the returned geohash, default is 12. |
+| 参数            | 描述                                                                 |
+|-----------------|----------------------------------------------------------------------|
+| `geometry`    | 参数必须是GEOMETRY类型的表达式。                                     |
+| `[precision]` | 可选。指定返回的geohash的精度，默认值为12。                           |
 
-## Return Type
+## 返回类型
 
-String.
+字符串。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

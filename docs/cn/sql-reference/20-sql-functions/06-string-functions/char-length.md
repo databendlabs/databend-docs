@@ -2,4 +2,4 @@
 title: CHAR_LENGTH
 ---
 
-Alias for [LENGTH](length.md).
+[LENGTH](length.md) 的别名。

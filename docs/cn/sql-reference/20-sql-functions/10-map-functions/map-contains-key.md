@@ -3,28 +3,28 @@ title: MAP_CONTAINS_KEY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.464"/>
+<FunctionDescription description="引入或更新：v1.2.464"/>
 
-Determines whether the specified MAP contains the specified key.
+确定指定的MAP是否包含指定的键。
 
-## Syntax
+## 语法
 
 ```sql
 MAP_CONTAINS_KEY( <map>, <key> )
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description             |
-|-----------|-------------------------|
-| `<map>`   | The map to be searched. |
-| `<key>`   | The key to find.        |
+| 参数      | 描述             |
+|-----------|------------------|
+| `<map>`   | 要搜索的MAP。    |
+| `<key>`   | 要查找的键。     |
 
-## Return Type
+## 返回类型
 
-Boolean.
+布尔值。
 
-## Examples
+## 示例
 
 ```sql
 SELECT MAP_CONTAINS_KEY({'a':1,'b':2,'c':3}, 'c');

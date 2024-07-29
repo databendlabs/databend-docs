@@ -2,23 +2,23 @@
 title: ASSUME_NOT_NULL
 ---
 
-Results in an equivalent non-`Nullable` value for a Nullable type. In case the original value is `NULL` the result is undetermined. 
+将可空类型转换为等效的非`Nullable`值。如果原始值为`NULL`，则结果未定义。
 
-## Syntax
+## 语法
 
 ```sql
 ASSUME_NOT_NULL(<x>)
 ```
 
-## Aliases
+## 别名
 
 - [REMOVE_NULLABLE](remove-nullable.md)
 
-## Return Type
+## 返回类型
 
-Returns the original datatype from the non-`Nullable` type; Returns the embedded non-`Nullable` datatype for `Nullable` type.
+返回非`Nullable`类型的原始数据类型；对于`Nullable`类型，返回其嵌入的非`Nullable`数据类型。
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE default.t_null ( x int,  y int null);

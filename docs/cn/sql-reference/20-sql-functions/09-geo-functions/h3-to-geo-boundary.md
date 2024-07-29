@@ -2,15 +2,15 @@
 title: H3_TO_GEO_BOUNDARY
 ---
 
-Returns an array containing the longitude and latitude coordinates of the vertices of the hexagon corresponding to the [H3](https://eng.uber.com/h3/) index. 
+返回一个数组，包含与 [H3](https://eng.uber.com/h3/) 索引对应的六边形顶点的经纬度坐标。
 
-## Syntax
+## 语法
 
 ```sql
 H3_TO_GEO_BOUNDARY(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_TO_GEO_BOUNDARY(644325524701193974);

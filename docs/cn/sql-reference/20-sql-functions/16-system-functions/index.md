@@ -1,10 +1,10 @@
 ---
-title: System Functions
+title: 系统函数
 ---
 
-This section provides reference information for the system-related functions in Databend.
+本节提供 Databend 中与系统相关函数的参考信息。
 
-## List of Functions:
+## 函数列表：
 - [FUSE_ENCODING](fuse_encoding.md)
 - [CLUSTERING_INFORMATION](clustering_information.md)
 - [FUSE_COLUMN](fuse_column.md)

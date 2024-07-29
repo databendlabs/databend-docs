@@ -2,27 +2,27 @@
 title: INSTR
 ---
 
-Returns the position of the first occurrence of substring substr in string str.
-This is the same as the two-argument form of LOCATE(), except that the order of the arguments is reversed.
+返回字符串 `str` 中子字符串 `substr` 第一次出现的位置。
+这与 `LOCATE()` 的双参数形式相同，只是参数顺序相反。
 
-## Syntax
+## 语法
 
 ```sql
 INSTR(<str>, <substr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments  | Description    |
-|------------|----------------|
-| `<str>`    | The string.    |
-| `<substr>` | The substring. |
+| 参数       | 描述       |
+|------------|------------|
+| `<str>`    | 字符串     |
+| `<substr>` | 子字符串   |
 
-## Return Type
+## 返回类型
 
 `BIGINT`
 
-## Examples
+## 示例
 
 ```sql
 SELECT INSTR('foobarbar', 'bar');

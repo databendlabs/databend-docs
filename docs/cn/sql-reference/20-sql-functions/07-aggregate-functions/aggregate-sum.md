@@ -2,33 +2,33 @@
 title: SUM
 ---
 
-Aggregate function.
+聚合函数。
 
-The SUM() function calculates the sum of a set of values.
+SUM() 函数计算一组值的总和。
 
 :::caution
-NULL values are not counted.
+NULL 值不计入总数。
 :::
 
-## Syntax
+## 语法
 
 ```
 SUM(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description              |
-|-----------|--------------------------|
-| `<expr>`  | Any numerical expression |
+| 参数      | 描述               |
+|-----------|--------------------|
+| `<expr>`  | 任何数值表达式     |
 
-## Return Type
+## 返回类型
 
-A double if the input type is double, otherwise integer.
+如果输入类型是双精度浮点数，则返回双精度浮点数；否则返回整数。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE sales_data (
   id INT,
@@ -44,13 +44,13 @@ VALUES (1, 1, 10),
        (5, 5, 15);
 ```
 
-**Query Demo: Calculate the Total Quantity of Products Sold**
+**查询示例：计算产品销售总量**
 ```sql
 SELECT SUM(quantity) AS total_quantity_sold
 FROM sales_data;
 ```
 
-**Result**
+**结果**
 ```sql
 | total_quantity_sold |
 |---------------------|

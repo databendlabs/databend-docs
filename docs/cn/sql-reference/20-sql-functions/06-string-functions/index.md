@@ -1,10 +1,10 @@
 ---
-title: String Functions
+title: 字符串函数
 ---
 
-This section provides reference information for the string-related functions in Databend.
+本节提供 Databend 中与字符串相关的函数的参考信息。
 
-## String Manipulation:
+## 字符串操作：
 - [CONCAT](concat.md)
 - [CONCAT_WS](concat-ws.md)
 - [INSERT](insert.md)
@@ -22,7 +22,7 @@ This section provides reference information for the string-related functions in 
 - [TRANSLATE](translate.md)
 - [TRIM](trim.md)
 
-## String Information:
+## 字符串信息：
 - [ASCII](ascii.md)
 - [BIT_LENGTH](bit-length.md)
 - [CHAR_LENGTH](char-length.md)
@@ -35,13 +35,13 @@ This section provides reference information for the string-related functions in 
 - [POSITION](position.md)
 - [STRCMP](strcmp.md)
 
-## Case Conversion:
+## 大小写转换：
 - [LCASE](lcase.md)
 - [LOWER](lower.md)
 - [UCASE](ucase.md)
 - [UPPER](upper.md)
 
-## Regular Expressions:
+## 正则表达式：
 - [LIKE](like.md)
 - [NOT_LIKE](not-like.md)
 - [NOT_REGEXP](not-regexp.md)
@@ -53,7 +53,7 @@ This section provides reference information for the string-related functions in 
 - [REGEXP_SUBSTR](regexp-substr.md)
 - [RLIKE](rlike.md)
 
-## Encoding and Decoding:
+## 编码与解码：
 - [BIN](bin.md)
 - [FROM_BASE64](from-base64.md)
 - [HEX](hex.md)
@@ -61,7 +61,7 @@ This section provides reference information for the string-related functions in 
 - [TO_BASE64](to-base64.md)
 - [UNHEX](unhex.md)
 
-## Miscellaneous:
+## 其他：
 - [CHAR](char.md)
 - [MID](mid.md)
 - [QUOTE](quote.md)

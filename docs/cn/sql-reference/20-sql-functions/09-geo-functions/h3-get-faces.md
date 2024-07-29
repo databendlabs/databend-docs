@@ -2,15 +2,15 @@
 title: H3_GET_FACES
 ---
 
-Finds all icosahedron faces intersected by the given [H3](https://eng.uber.com/h3/) index. Faces are represented as integers from 0-19.
+查找给定 [H3](https://eng.uber.com/h3/) 索引所相交的所有二十面体面。面以 0-19 的整数表示。
 
-## Syntax
+## 语法
 
 ```sql
 H3_GET_FACES(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_GET_FACES(599119489002373119);

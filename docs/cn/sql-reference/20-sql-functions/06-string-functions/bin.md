@@ -2,25 +2,25 @@
 title: BIN
 ---
 
-Returns a string representation of the binary value of N.
+返回数值 N 的二进制值的字符串表示。
 
-## Syntax
+## 语法
 
 ```sql
 BIN(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<expr>`  | The number. |
+| 参数      | 描述       |
+|-----------|------------|
+| `<expr>`  | 数值       |
 
-## Return Type
+## 返回类型
 
 `VARCHAR`
 
-## Examples
+## 示例
 
 ```sql
 SELECT BIN(12);

@@ -2,15 +2,15 @@
 title: H3_GET_BASE_CELL
 ---
 
-Returns the base cell number of the given [H3](https://eng.uber.com/h3/) index. 
+返回给定 [H3](https://eng.uber.com/h3/) 索引的基本单元格编号。
 
-## Syntax
+## 语法
 
 ```sql
 H3_GET_BASE_CELL(h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_GET_BASE_CELL(644325524701193974);

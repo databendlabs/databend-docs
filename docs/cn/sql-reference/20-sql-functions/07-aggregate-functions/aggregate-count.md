@@ -2,31 +2,31 @@
 title: COUNT
 ---
 
-The COUNT() function returns the number of records returned by a SELECT query.
+COUNT() 函数返回由 SELECT 查询返回的记录数。
 
 :::caution
-NULL values are not counted.
+NULL 值不会被计数。
 :::
 
-## Syntax
+## 语法
 
 ```sql
 COUNT(<expr>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                                                                                                                                                     |
-|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<expr>`  | Any expression. <br /> This may be a column name, the result of another function, or a math operation.<br />`*` is also allowed, to indicate pure row counting. |
+| 参数      | 描述                                                                                                                      |
+|-----------|---------------------------------------------------------------------------------------------------------------------------|
+| `<expr>`  | 任何表达式。<br />这可以是列名、另一个函数的结果或数学运算。<br />`*` 也是允许的，表示纯粹的行计数。 |
 
-## Return Type
+## 返回类型
 
-An integer.
+整数。
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE students (
   id INT,
@@ -44,13 +44,13 @@ VALUES (1, 'John', 21, 85),
 
 ```
 
-**Query Demo: Count Students with Valid Grades**
+**查询示例：统计有有效成绩的学生**
 ```sql
 SELECT COUNT(grade) AS count_valid_grades
 FROM students;
 ```
 
-**Result**
+**结果**
 ```sql
 | count_valid_grades |
 |--------------------|

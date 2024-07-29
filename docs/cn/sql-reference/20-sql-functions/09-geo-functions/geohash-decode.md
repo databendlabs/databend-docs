@@ -2,15 +2,15 @@
 title: GEOHASH_DECODE
 ---
 
-Converts a [Geohash](https://en.wikipedia.org/wiki/Geohash)-encoded string into latitude/longitude coordinates.
+将一个[Geohash](https://en.wikipedia.org/wiki/Geohash)编码的字符串转换为纬度/经度坐标。
 
-## Syntax
+## 语法
 
 ```sql
-GEOHASH_DECODE('<geohashed-string\>')
+GEOHASH_DECODE('<geohashed-string>')
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT GEOHASH_DECODE('ezs42');

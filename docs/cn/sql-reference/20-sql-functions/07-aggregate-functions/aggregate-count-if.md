@@ -2,18 +2,17 @@
 title: COUNT_IF
 ---
 
+## COUNT_IF
 
-## COUNT_IF 
-
-The suffix `_IF` can be appended to the name of any aggregate function. In this case, the aggregate function accepts an extra argument – a condition.
+后缀 `_IF` 可以附加到任何聚合函数的名称上。在这种情况下，聚合函数接受一个额外的参数 —— 一个条件。
 
 ```sql
-COUNT_IF(<column>, <cond>)
+COUNT_IF(<列>, <条件>)
 ```
 
-## Example
+## 示例
 
-**Create a Table and Insert Sample Data**
+**创建表并插入示例数据**
 ```sql
 CREATE TABLE orders (
   id INT,
@@ -30,16 +29,15 @@ VALUES (1, 1, 'completed', 100),
        (5, 2, 'pending', 300);
 ```
 
-**Query Demo: Count Completed Orders**
+**查询示例：统计已完成订单**
 ```sql
 SELECT COUNT_IF(status, status = 'completed') AS completed_orders
 FROM orders;
 ```
 
-**Result**
+**结果**
 ```sql
 | completed_orders |
 |------------------|
 |        3         |
 ```
-

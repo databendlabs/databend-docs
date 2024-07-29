@@ -2,15 +2,15 @@
 title: H3_GET_UNIDIRECTIONAL_EDGE
 ---
 
-Returns the edge between the given two [H3](https://eng.uber.com/h3/) indexes.
+返回给定两个 [H3](https://eng.uber.com/h3/) 索引之间的边。
 
-## Syntax
+## 语法
 
 ```sql
 H3_GET_UNIDIRECTIONAL_EDGE(h3, a_h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_GET_UNIDIRECTIONAL_EDGE(644325524701193897, 644325524701193754);

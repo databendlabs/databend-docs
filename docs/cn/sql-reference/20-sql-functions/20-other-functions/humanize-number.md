@@ -2,26 +2,26 @@
 title: HUMANIZE_NUMBER
 ---
 
-Returns a readable number.
+返回一个可读的数字。
 
-## Syntax
+## 语法
 
 ```sql
 HUMANIZE_NUMBER(x);
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                |
-|-----------|----------------------------|
-| x         | The numerical size.        |
+| 参数      | 描述                |
+|-----------|---------------------|
+| x         | 数值大小。           |
 
 
-## Return Type
+## 返回类型
 
-String.
+字符串。
 
-## Examples
+## 示例
 
 ```sql
 SELECT HUMANIZE_NUMBER(1000 * 1000)

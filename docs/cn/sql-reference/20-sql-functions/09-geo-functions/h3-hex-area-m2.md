@@ -2,15 +2,15 @@
 title: H3_HEX_AREA_M2
 ---
 
-Returns the average hexagon area in square meters at the given resolution. Excludes pentagons. 
+返回给定分辨率下六边形的平均面积，单位为平方米。不包括五边形。
 
-## Syntax
+## 语法
 
 ```sql
 H3_HEX_AREA_M2(res)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_HEX_AREA_M2(1);

@@ -2,27 +2,27 @@
 title: TO_BASE64
 ---
 
-Converts the string argument to base-64 encoded form and returns the result as a character string.
-If the argument is not a string, it is converted to a string before conversion takes place.
-The result is NULL if the argument is NULL.
+将字符串参数转换为 base-64 编码形式，并返回结果作为字符串。
+如果参数不是字符串，则在转换之前将其转换为字符串。
+如果参数为 NULL，则结果为 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 TO_BASE64(<v>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<v>`     | The value.  |
+| 参数      | 描述      |
+|-----------|-----------|
+| `<v>`     | 值        |
 
-## Return Type
+## 返回类型
 
 `VARCHAR`
 
-## Examples
+## 示例
 
 ```sql
 SELECT TO_BASE64('abc');

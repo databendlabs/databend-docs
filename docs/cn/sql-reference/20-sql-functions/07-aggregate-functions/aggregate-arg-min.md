@@ -2,30 +2,30 @@
 title: ARG_MIN
 ---
 
-Calculates the `arg` value for a minimum `val` value. If there are several different values of `arg` for minimum values of `val`, returns the first of these values encountered.
+计算最小 `val` 值对应的 `arg` 值。如果有多个不同的 `arg` 值对应于最小 `val` 值，则返回最先遇到的这些值中的一个。
 
-## Syntax
+## 语法
 
 ```sql
 ARG_MIN(<arg>, <val>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description                                                                                       |
-|-----------|---------------------------------------------------------------------------------------------------|
-| `<arg>`   | Argument of [any data type that Databend supports](../../00-sql-reference/10-data-types/index.md) |
-| `<val>`   | Value of [any data type that Databend supports](../../00-sql-reference/10-data-types/index.md)    |
+| 参数      | 描述                                                                                               |
+|-----------|----------------------------------------------------------------------------------------------------|
+| `<arg>`   | 参数，[Databend 支持的任意数据类型](../../00-sql-reference/10-data-types/index.md)                |
+| `<val>`   | 值，[Databend 支持的任意数据类型](../../00-sql-reference/10-data-types/index.md)                   |
 
-## Return Type
+## 返回类型
 
-`arg` value that corresponds to minimum `val` value.
+对应于最小 `val` 值的 `arg` 值。
 
- matches `arg` type.
+匹配 `arg` 类型。
 
-## Example
+## 示例
 
-Let's create a table students with columns id, name, and score, and insert some data:
+让我们创建一个包含 id、name 和 score 列的学生表，并插入一些数据：
 ```sql
 CREATE TABLE students (
   id INT,
@@ -40,13 +40,13 @@ INSERT INTO students (id, name, score) VALUES
   (4, 'Dave', 80);
 ```
 
-Now, we can use ARG_MIN to find the name of the student with the lowest score:
+现在，我们可以使用 ARG_MIN 来查找得分最低的学生的姓名：
 ```sql
 SELECT ARG_MIN(name, score) AS student_name
 FROM students;
 ```
 
-Result:
+结果：
 ```sql
 | student_name |
 |--------------|

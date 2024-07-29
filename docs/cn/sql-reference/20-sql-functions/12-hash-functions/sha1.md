@@ -2,4 +2,4 @@
 title: SHA1
 ---
 
-Alias for [SHA](sha.md).
+[SHA](sha.md) 的别名。

@@ -184,7 +184,6 @@ const config: Config = {
         },
       },
     ],
-    "plugin-image-zoom",
     [
       "docusaurus-plugin-devserver",
       {
@@ -202,45 +201,6 @@ const config: Config = {
         },
       },
     ],
-    [
-      '@docusaurus/plugin-pwa',
-      {
-        debug: true,
-        offlineModeActivationStrategies: [
-          'appInstalled',
-          'standalone',
-          'queryString',
-        ],
-        pwaHead: [
-          {
-            tagName: 'link',
-            rel: 'icon',
-            href: '/img/logo/logo-no-text.png',
-          },
-          {
-            tagName: 'link',
-            rel: 'manifest',
-            href: '/manifest.json',
-          },
-          {
-            tagName: 'meta',
-            name: 'theme-color',
-            content: '#dbeafe',
-          },
-          {
-            tagName: 'meta',
-            name: 'apple-mobile-web-app-capable',
-            content: 'yes',
-          },
-          {
-            tagName: 'meta',
-            name: 'apple-mobile-web-app-status-bar-style',
-            content: 'black-translucent',
-          },
-        ],
-      },
-    ],
-
   ],
   themes: ['@docusaurus/theme-mermaid'],
   markdown: {
@@ -250,9 +210,6 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/logo/logo-no-text.png",
     algolia,
-    imageZoom: {
-      selector: "article :not(a) > img",
-    },
     mermaid: {
       theme: { dark: 'dark' }
     },

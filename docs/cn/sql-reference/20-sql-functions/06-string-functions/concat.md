@@ -2,25 +2,25 @@
 title: CONCAT
 ---
 
-Returns the string that results from concatenating the arguments. May have one or more arguments. If all arguments are nonbinary strings, the result is a nonbinary string. If the arguments include any binary strings, the result is a binary string. A numeric argument is converted to its equivalent nonbinary string form.
+返回由连接参数产生的字符串。可以有一个或多个参数。如果所有参数都是非二进制字符串，则结果为非二进制字符串。如果参数中包含任何二进制字符串，则结果为二进制字符串。数值参数会转换为其等效的非二进制字符串形式。
 
-## Syntax
+## 语法
 
 ```sql
 CONCAT(<expr1>, ...)
 ```
 
-## Arguments
+## 参数
 
-| Arguments | Description |
-|-----------|-------------|
-| `<expr1>` | string      |
+| 参数       | 描述     |
+|-----------|---------|
+| `<expr1>` | 字符串   |
 
-## Return Type
+## 返回类型
 
-A `VARCHAR` data type value Or `NULL` data type.
+`VARCHAR` 数据类型值或 `NULL` 数据类型。
 
-## Examples
+## 示例
 
 ```sql
 SELECT CONCAT('data', 'bend');

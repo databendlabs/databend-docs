@@ -3,32 +3,32 @@ title: ST_MAKEGEOMPOINT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.347"/>
+<FunctionDescription description="引入或更新: v1.2.347"/>
 
-Constructs a GEOMETRY object that represents a Point with the specified longitude and latitude.
+构造一个表示具有指定经度和纬度的点的 GEOMETRY 对象。
 
-## Syntax
+## 语法
 
 ```sql
 ST_MAKEGEOMPOINT(<longitude>, <latitude>)
 ```
 
-## Aliases
+## 别名
 
 - [ST_GEOM_POINT](st-geom-point.md)
 
-## Arguments
+## 参数
 
-| Arguments     | Description                                   |
-|---------------|-----------------------------------------------|
-| `<longitude>` | A Double value that represents the longitude. |
-| `<latitude>`  | A Double value that represents the latitude.  |
+| 参数          | 描述                                   |
+|---------------|----------------------------------------|
+| `<longitude>` | 表示经度的 Double 值。                 |
+| `<latitude>`  | 表示纬度的 Double 值。                 |
 
-## Return Type
+## 返回类型
 
-Geometry.
+Geometry。
 
-## Examples
+## 示例
 
 ```sql
 SELECT

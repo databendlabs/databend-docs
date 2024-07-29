@@ -31,7 +31,7 @@ openai_api_version = "2023-03-15-preview"
 :::caution
 Databend依赖(Azure) OpenAI进行 `AI_TO_SQL`，但仅将表结构发送到(Azure) OpenAI，而非数据。
 
-它们仅在Databend配置包含 `openai_api_key` 时有效，否则将处于非活动状态。
+它们仅在Databend配置包含 `openai_api_key` 时才会生效，否则将处于非活动状态。
 
 此功能默认在[Databend Cloud](https://databend.com)上使用我们的Azure OpenAI密钥提供。如果您使用它们，即表示您确认您的表结构将由我们发送至Azure OpenAI。
 :::
@@ -46,7 +46,7 @@ SELECT * FROM ai_to_sql('<natural-language-instruction>');
 :::tip 获取并配置OpenAI API密钥
 
 - 要获取您的openAI API密钥，请访问 https://platform.openai.com/account/api-keys 并生成一个新密钥。
-- 在 **databend-query.toml** 文件中配置openai_api_key设置。
+- 在 **databend-query.toml** 文件中配置 openai_api_key 设置。
 
 ```toml
 [query]

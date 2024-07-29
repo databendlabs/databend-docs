@@ -2,30 +2,30 @@
 title: REGEXP_REPLACE
 ---
 
-Replaces occurrences in the string `expr` that match the regular expression specified by the pattern `pat` with the replacement string `repl`, and returns the resulting string. If `expr`, `pat`, or `repl` is NULL, the return value is NULL.
+替换字符串 `expr` 中匹配正则表达式 `pat` 的子串，并用替换字符串 `repl` 替换，返回结果字符串。如果 `expr`、`pat` 或 `repl` 为 NULL，则返回值为 NULL。
 
-## Syntax
+## 语法
 
 ```sql
 REGEXP_REPLACE(<expr>, <pat>, <repl[, pos[, occurrence[, match_type]]]>)
 ```
 
-## Arguments
+## 参数
 
-| Arguments  | Description                                                                                                             |
-|------------|-------------------------------------------------------------------------------------------------------------------------|
-| expr       | The string expr that to be matched                                                                                      |
-| pat        | The regular expression                                                                                                  |
-| repl       | The replacement string                                                                                                  |
-| pos        | Optional. The position in expr at which to start the search. If omitted, the default is 1.                              |
-| occurrence | Optional. Which occurrence of a match to replace. If omitted, the default is 0 (which means "replace all occurrences"). |
-| match_type | Optional. A string that specifies how to perform matching. The meaning is as described for REGEXP_LIKE().               |
+| 参数       | 描述                                                                                                                  |
+|------------|-----------------------------------------------------------------------------------------------------------------------|
+| expr       | 要匹配的字符串表达式                                                                                                  |
+| pat        | 正则表达式                                                                                                            |
+| repl       | 替换字符串                                                                                                            |
+| pos        | 可选。在 `expr` 中开始搜索的位置。如果省略，默认值为 1。                                                              |
+| occurrence | 可选。要替换的匹配项的出现位置。如果省略，默认值为 0（表示替换所有匹配项）。                                          |
+| match_type | 可选。指定匹配方式的字符串。含义与 REGEXP_LIKE() 中描述的相同。                                                       |
 
-## Return Type
+## 返回类型
 
 `VARCHAR`
 
-## Examples
+## 示例
 
 ```sql
 SELECT REGEXP_REPLACE('a b c', 'b', 'X');

@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.555"/>
 
-计算地球表面两点之间的大圆距离（以公里为单位），使用[Haversine公式](https://en.wikipedia.org/wiki/Haversine_formula)。这两点由它们的纬度和经度（以度为单位）指定。
+计算地球表面两点之间的大圆距离（以公里为单位），使用[Haversine公式](https://en.wikipedia.org/wiki/Haversine_formula)。这两点通过它们的纬度和经度（以度为单位）指定。
 
 ## 语法
 

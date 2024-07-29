@@ -2,15 +2,15 @@
 title: H3_LINE
 ---
 
-Returns the line of indexes between the given two [H3](https://eng.uber.com/h3/) indexes.
+返回两个给定 [H3](https://eng.uber.com/h3/) 索引之间的索引线。
 
-## Syntax
+## 语法
 
 ```sql
 H3_LINE(h3, a_h3)
 ```
 
-## Examples
+## 示例
 
 ```sql
 SELECT H3_LINE(599119489002373119, 599119491149856767);

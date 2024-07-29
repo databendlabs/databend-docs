@@ -1,46 +1,46 @@
 ---
-title: TRANSLATE
+title: 字符替换
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.203"/>
+<FunctionDescription description="引入或更新于：v1.2.203"/>
 
-Transforms a given string by replacing specific characters with corresponding replacements, as defined by the provided mapping.
+根据提供的映射，将给定字符串中的特定字符替换为相应的替换字符，从而转换该字符串。
 
-## Syntax
+## 语法
 
 ```sql
 TRANSLATE('<inputString>', '<charactersToReplace>', '<replacementCharacters>')
 ```
 
-| Parameter                 | Description                                                                                     |
+| 参数                      | 描述                                                                                     |
 |---------------------------|-------------------------------------------------------------------------------------------------|
-| `<inputString>`           | The input string to be transformed.                                                             |
-| `<charactersToReplace>`   | The string containing characters to be replaced in the input string.                            |
-| `<replacementCharacters>` | The string containing replacement characters corresponding to those in `<charactersToReplace>`. |
+| `<inputString>`           | 要进行转换的输入字符串。                                                             |
+| `<charactersToReplace>`   | 包含要在输入字符串中替换的字符的字符串。                            |
+| `<replacementCharacters>` | 包含与 `<charactersToReplace>` 中字符相对应的替换字符的字符串。 |
 
-## Examples
+## 示例
 
 ```sql
--- Replace 'd' with '$' in 'databend'
+-- 将 'databend' 中的 'd' 替换为 '$'
 SELECT TRANSLATE('databend', 'd', '$');
 
 ---
 $ataben$
 
--- Replace 'd' with 'D' in 'databend'
+-- 将 'databend' 中的 'd' 替换为 'D'
 SELECT TRANSLATE('databend', 'd', 'D');
 
 ---
 DatabenD
 
--- Replace 'd' with 'D' and 'e' with 'E' in 'databend'
+-- 将 'databend' 中的 'd' 替换为 'D'，'e' 替换为 'E'
 SELECT TRANSLATE('databend', 'de', 'DE');
 
 ---
 DatabEnD
 
--- Remove 'd' from 'databend'
+-- 从 'databend' 中移除 'd'
 SELECT TRANSLATE('databend', 'd', '');
 
 ---

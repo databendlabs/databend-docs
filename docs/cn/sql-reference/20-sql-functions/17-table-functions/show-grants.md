@@ -3,13 +3,13 @@ title: SHOW_GRANTS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.487"/>
+<FunctionDescription description="引入或更新: v1.2.487"/>
 
-Lists privileges explicitly granted to a user, to a role, or on a specific object.
+列出明确授予用户、角色或特定对象的权限。
 
-See also: [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
+另请参阅: [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
 
-## Syntax
+## 语法
 
 ```sql
 SHOW_GRANTS('role', '<role_name>')
@@ -20,27 +20,27 @@ SHOW_GRANTS('table', '<table_name>', '<catalog_name>', '<db_name>')
 SHOW_GRANTS('database', '<db_name>', '<catalog_name>')
 ```
 
-## Examples
+## 示例
 
-This example illustrates how to list privileges granted to a user, a role, and on a specific object.
+此示例说明了如何列出授予用户、角色和特定对象的权限。
 
 ```sql
--- Create a new user
+-- 创建新用户
 CREATE USER 'user1' IDENTIFIED BY 'password';
 
--- Create a new role
+-- 创建新角色
 CREATE ROLE analyst;
 
--- Grant the analyst role to the user
+-- 将 analyst 角色授予用户
 GRANT ROLE analyst TO 'user1';
 
--- Create a stage
+-- 创建 stage
 CREATE STAGE my_stage;
 
--- Grant privileges on the stage to the role
+-- 将 stage 上的权限授予角色
 GRANT READ ON STAGE my_stage TO ROLE analyst;
 
--- List privileges granted to the user
+-- 列出授予用户的权限
 SELECT * FROM SHOW_GRANTS('user', 'user1');
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -49,7 +49,7 @@ SELECT * FROM SHOW_GRANTS('user', 'user1');
 │ Read       │ my_stage    │             NULL │ USER     │ user1  │ GRANT Read ON STAGE my_stage TO 'user1'@'%' │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- List privileges granted to the role
+-- 列出授予角色的权限
 SELECT * FROM SHOW_GRANTS('role', 'analyst');
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -58,7 +58,7 @@ SELECT * FROM SHOW_GRANTS('role', 'analyst');
 │ Read       │ my_stage    │             NULL │ ROLE     │ analyst │ GRANT Read ON STAGE my_stage TO ROLE `analyst` │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- List privileges granted on the stage
+-- 列出授予 stage 的权限
 SELECT * FROM SHOW_GRANTS('stage', 'my_stage');
 
 ┌─────────────────────────────────────────────────────────────────────────────────────┐
