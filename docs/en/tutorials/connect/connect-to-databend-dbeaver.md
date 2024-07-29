@@ -1,12 +1,12 @@
 ---
-title: "Connecting to Databend using DBeaver"
-sidebar_label: "Connecting to Databend (DBeaver)"
+title: "Connecting to Self-Hosted Databend using DBeaver"
+sidebar_label: "Connecting to Self-Hosted Databend (DBeaver)"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-In this tutorial, we will guide you through the process of connecting to Databend through the Databend JDBC driver as the user `root`.
+In this tutorial, we will guide you through the process of connecting to a self-hosted Databend instance through the Databend JDBC driver as the user `root`.
 
 <StepsWrap>
 <StepContent number="1">
