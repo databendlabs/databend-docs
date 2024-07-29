@@ -2,4 +2,4 @@
 title: ST_GEOMETRYFROMEWKB
 ---
 
-[ST_GEOMTRYFROMWKB](st_geometryfromwkb.md) 的别名。
+[ST_GEOMTRYFROMWKB](st-geometryfromwkb.md) 的别名。
