@@ -66,7 +66,7 @@ FROM
 │      1 │ name             │ name             │             NULL │ "John"                           │ {"address":{"city":"New York","state":"NY"},"languages":["English","Spanish","French"],"name":"John"} │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- PATH 有助于从原始 JSON 数据中选择特定路径的元素。
+-- PATH helps in selecting elements at a specific path from the original JSON data.
 SELECT
   *
 FROM
@@ -85,7 +85,7 @@ FROM
 │      1 │ NULL             │ languages[2]     │                2 │ "French"          │ ["English","Spanish","French"] │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- RECURSIVE 启用嵌套结构的递归展平。
+-- RECURSIVE enables recursive flattening of nested structures.
 SELECT
   *
 FROM
@@ -95,7 +95,6 @@ FROM
     ),
     RECURSIVE => TRUE
   );
-```
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │   seq  │        key       │       path       │       index      │               value              │                                                  this                                                 │
@@ -111,8 +110,8 @@ FROM
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 
--- MODE 指定是否仅展平对象 ('OBJECT')、仅展平数组 ('ARRAY') 或两者都展平 ('BOTH')。
--- 在此示例中，使用 MODE => 'ARRAY'，这意味着仅展平 JSON 数据中的数组。
+-- MODE specifies whether only objects ('OBJECT'), only arrays ('ARRAY'), or both ('BOTH') should be flattened.
+-- In this example, MODE => 'ARRAY' is used, which means that only arrays within the JSON data will be flattened.
 SELECT
   *
 FROM
@@ -126,9 +125,9 @@ FROM
 ---
 
 
--- OUTER 确定是否在输出中包含零行扩展。
--- 在第一个示例中，使用 OUTER => TRUE 和一个空的 JSON 数组，这会导致零行扩展。
--- 即使没有值需要展平，行也会包含在输出中。
+-- OUTER determines the inclusion of zero-row expansions in the output.
+-- In this first example, OUTER => TRUE is used with an empty JSON array, which results in zero-row expansions. 
+-- Rows are included in the output even when there are no values to flatten.
 SELECT
   *
 FROM
@@ -140,7 +139,7 @@ FROM
 │      1 │ NULL             │ NULL             │             NULL │ NULL              │ NULL              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 在第二个示例中，省略了 OUTER，输出显示了当未指定 OUTER 时，零结果的行是如何不被包含的。
+-- In this second example, OUTER is omitted, and the output shows how rows with zero results are not included when OUTER is not specified.
 SELECT
   *
 FROM
