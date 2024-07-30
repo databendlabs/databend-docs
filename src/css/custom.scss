@@ -14,7 +14,6 @@
 @import "./navbar.scss"; // top bar
 @import "./markdown.scss"; // markdown
 @import "./pagination.scss"; // 底部导航
-@import "./zoom-img.scss"; // 图片放大
 @import "./icons-color.scss"; // 自定义 icon 颜色类
 @import "./toc.scss"; // TOC
 
@@ -84,7 +83,11 @@ hr {
 #__docusaurus {
   position: relative;
   inset: 0;
-  background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 119, 198, 0.2), hsla(0, 0%, 100%, 0));
+  background-image: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(120, 119, 198, 0.2),
+    hsla(0, 0%, 100%, 0)
+  );
 }
 h1,
 h2,
@@ -221,7 +224,8 @@ div[class*="searchQueryColumn"] {
 }
 // antd start
 .ant-input:focus {
-  box-shadow: 0px 0px 0px 4px rgba(1, 117, 246, 0.25), inset 0px 0px 0px 0.5px #0175f6;
+  box-shadow: 0px 0px 0px 4px rgba(1, 117, 246, 0.25),
+    inset 0px 0px 0px 0.5px #0175f6;
 }
 .ant-modal-root .ant-modal-mask {
   background-color: var(--docsearch-container-background) !important;
