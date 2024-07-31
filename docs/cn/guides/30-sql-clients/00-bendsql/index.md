@@ -2,9 +2,9 @@
 title: BendSQL
 ---
 
-[BendSQL](https://github.com/datafuselabs/BendSQL) 是一个专为 Databend 设计的命令行工具。它允许用户与 Databend 建立连接，并直接从命令行窗口执行查询。
+[BendSQL](https://github.com/datafuselabs/BendSQL) 是一个专为 Databend 设计的命令行工具。它允许用户与 Databend 建立连接，并直接从 CLI 窗口执行查询。
 
-BendSQL 特别适用于那些偏好命令行界面并需要经常与 Databend 打交道的用户。通过 BendSQL，用户可以轻松高效地管理数据库、表和数据，并轻松执行各种查询和操作。
+BendSQL 特别适用于那些偏好命令行界面并需要经常与 Databend 打交道的用户。通过 BendSQL，用户可以轻松高效地管理其数据库、表和数据，并轻松执行广泛的查询和操作。
 
 ## 安装 BendSQL
 
@@ -20,7 +20,7 @@ brew install databendcloud/homebrew-tap/bendsql
 
 ### Apt（适用于 Ubuntu/Debian）
 
-在 Ubuntu 和 Debian 系统上，BendSQL 可以通过 Apt 包管理器安装。根据发行版版本选择适当的说明。
+在 Ubuntu 和 Debian 系统上，BendSQL 可以通过 Apt 包管理器安装。根据发行版本选择合适的说明。
 
 #### DEB822-STYLE 格式（Ubuntu-22.04/Debian-12 及更高版本）
 
@@ -66,9 +66,15 @@ cargo binstall bendsql
 cargo install bendsql
 ```
 
+## 用户认证
+
+如果您连接到自托管的 Databend 实例，可以使用 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中指定的管理员用户，或者使用通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户进行连接。
+
+对于连接到 Databend Cloud，您可以使用默认的 `cloudapp` 用户或通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户。请注意，您用于登录 [Databend Cloud 控制台](https://app.databend.com/) 的用户账户不能用于连接到 Databend Cloud。
+
 ## 教程
 
-- [使用 BendSQL 连接到 Databend](/tutorials/)
+- [使用 BendSQL 连接到自托管的 Databend](/tutorials/)
 - [使用 BendSQL 连接到 Databend Cloud](/tutorials/connect/connect-to-databendcloud-bendsql)
 
 ## BendSQL 设置
@@ -78,19 +84,19 @@ BendSQL 提供了一系列设置，允许您定义查询结果的呈现方式：
 | 设置               | 描述                                                                                          |
 | ------------------ | --------------------------------------------------------------------------------------------- |
 | `display_pretty_sql` | 当设置为 `true` 时，SQL 查询将以视觉上吸引人的方式格式化，使其更易于阅读和理解。                |
-| `prompt`             | 命令行界面中显示的提示符，通常指示用户、仓库和正在访问的数据库。                                  |
-| `progress_color`     | 指定用于进度指示器的颜色，例如在执行需要一些时间完成的查询时。                                    |
-| `show_progress`      | 当设置为 `true` 时，将显示进度指示器，以显示长时间运行的查询或操作的进度。                        |
-| `show_stats`         | 如果为 `true`，将在执行每个查询后显示查询统计信息，如执行时间、读取的行数和处理的字节数。          |
-| `max_display_rows`   | 设置查询结果输出中将显示的最大行数。                                                              |
-| `max_col_width`      | 设置每个列显示渲染的最大宽度（以字符为单位）。小于 3 的值将禁用限制。                              |
-| `max_width`          | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时默认为终端窗口的宽度。                        |
-| `output_format`      | 设置用于显示查询结果的格式（`table`、`csv`、`tsv`、`null`）。                                      |
-| `expand`             | 控制查询输出的显示方式是作为单独的记录还是以表格格式显示。可用值：`on`、`off` 和 `auto`。          |
-| `multi_line`         | 确定是否允许多行输入 SQL 查询。当设置为 `true` 时，查询可以跨越多行，以提高可读性。                |
-| `replace_newline`    | 指定查询结果输出中的换行符是否应替换为空格。这可以防止显示中出现意外的换行。                      |
+| `prompt`             | 命令行界面中显示的提示，通常指示正在访问的用户、仓库和数据库。                                  |
+| `progress_color`     | 指定用于进度指示器的颜色，例如在执行需要一些时间完成的查询时。                                  |
+| `show_progress`      | 当设置为 `true` 时，将显示进度指示器，以显示长时间运行的查询或操作的进度。                      |
+| `show_stats`         | 如果为 `true`，执行每个查询后将显示查询统计信息，如执行时间、读取的行数和处理的字节数。          |
+| `max_display_rows`   | 设置查询结果输出中将显示的最大行数。                                                            |
+| `max_col_width`      | 设置每个列显示渲染的最大宽度（以字符为单位）。小于 3 的值将禁用限制。                            |
+| `max_width`          | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时默认为终端窗口的宽度。                      |
+| `output_format`      | 设置用于显示查询结果的格式（`table`、`csv`、`tsv`、`null`）。                                   |
+| `expand`             | 控制查询输出的显示方式是作为单独的记录还是以表格格式显示。可用值：`on`、`off` 和 `auto`。       |
+| `multi_line`         | 确定是否允许多行输入 SQL 查询。当设置为 `true` 时，查询可以跨越多行，以提高可读性。             |
+| `replace_newline`    | 指定查询结果输出中的换行符是否应替换为空格。这可以防止显示中出现意外的换行。                    |
 
-有关每个设置的详细信息，请参阅下面的参考信息：
+有关每个设置的详细信息，请参阅以下参考信息：
 
 #### `display_pretty_sql`
 
@@ -132,7 +138,7 @@ SELECT
 
 #### `prompt`
 
-`prompt` 设置控制命令行界面提示符的格式。在下面的示例中，它最初设置为显示用户和仓库（`{user}@{warehouse}`）。在更新为 `{user}@{warehouse}/{database}` 后，提示符现在包括用户、仓库和数据库。
+`prompt` 设置控制命令行界面提示的格式。在下面的示例中，它最初设置为显示用户和仓库（`{user}@{warehouse}`）。更新为 `{user}@{warehouse}/{database}` 后，提示现在包括用户、仓库和数据库。
 
 ```shell title='示例:'
 // highlight-next-line
@@ -170,7 +176,7 @@ root@localhost:8000/default> !set progress_color blue
 
 #### `show_progress`
 
-当设置为 `true` 时，在执行查询期间会显示进度信息。进度信息包括已处理的行数、查询中的总行数、处理速度（行/秒）、已处理的内存量和处理速度（内存/秒）。
+当设置为 `true` 时，执行查询期间会显示进度信息。进度信息包括已处理的行数、查询中的总行数、处理速度（行/秒）、已处理的内存量和处理速度（内存/秒）。
 
 ```shell title='示例:'
 // highlight-next-line
@@ -181,7 +187,7 @@ root@localhost:8000/default> select * from numbers(1000000000000000);
 
 #### `show_stats`
 
-`show_stats` 设置控制是否在执行每个查询后显示查询统计信息。当设置为 `false` 时，如第一个查询在下面的示例中所示，查询统计信息不会显示。相反，当设置为 `true` 时，如第二个查询所示，查询统计信息如执行时间、读取的行数和处理的字节数将在执行每个查询后显示。
+`show_stats` 设置控制执行每个查询后是否显示查询统计信息。当设置为 `false` 时，如第一个查询在下面的示例中所示，查询统计信息不会显示。相反，当设置为 `true` 时，如第二个查询所示，执行每个查询后将显示查询统计信息，如执行时间、读取的行数和处理的字节数。
 
 ```shell title='示例:'
 // highlight-next-line
@@ -207,7 +213,24 @@ root@localhost:8000/default> select now();
 
 #### `max_display_rows`
 
-`max_display_rows` 设置控制查询结果输出中显示的最大行数。在下面的示例中，当设置为 `5` 时，查询结果中最多显示 5 行。其余行用 (5 shown) 表示。
+`max_display_rows` 设置控制查询结果输出中显示的最大行数。当设置为 `5` 时，如以下示例所示，查询结果中仅显示最多 5 行。剩余的行会用 (5 shown) 表示。
+
+```shell title='示例:'
+// highlight-next-line
+root@localhost:8000/default> !set max_display_rows 5
+root@localhost:8000/default> select * from numbers(10);
+┌─────┐
+│ col │
+│ Int │
+├─────┤
+│   0 │
+│   1 │
+│   2 │
+│   3 │
+│   4 │
+└─────┘
+(5 shown)
+```
 
 ```shell title='示例:'
 // highlight-next-line
@@ -300,7 +323,7 @@ root@localhost:8000/default> show users;
 
 #### `expand`
 
-`expand` 设置控制查询输出的显示方式是作为单独的记录还是表格格式。当 `expand` 设置为 `auto` 时，系统会根据查询返回的行数自动决定如何显示输出。如果查询仅返回一行，则输出显示为单个记录。
+`expand` 设置控制查询输出的显示方式是作为单独的记录还是以表格格式显示。当 `expand` 设置为 `auto` 时，系统会根据查询返回的行数自动决定如何显示输出。如果查询仅返回一行，则输出显示为单个记录。
 
 ```shell title='示例:'
 // highlight-next-line
@@ -384,6 +407,8 @@ root@localhost:8000/default> SELECT 'Hello\nWorld' AS message;
 └──────────────┘
 1 row read in 0.056 sec. Processed 1 row, 1 B (18 rows/s, 17 B/s)
 
+```
+
 ```markdown
 // highlight-next-line
 root@localhost:8000/default> !set replace_newline false;
@@ -400,7 +425,7 @@ root@localhost:8000/default> SELECT 'Hello\nWorld' AS message;
 
 ### 配置 BendSQL 设置
 
-您可以通过以下选项配置 BendSQL 设置：
+您可以通过以下方式配置 BendSQL 设置：
 
 - 使用 `!set <setting> <value>` 命令。更多信息，请参阅 [实用命令](#utility-commands)。
 
@@ -425,12 +450,12 @@ root@localhost:8000/default> .max_width 100
 
 BendSQL 为用户提供了一系列命令，以简化其工作流程并自定义其体验。以下是 BendSQL 中可用的命令概览：
 
-| 命令                     | 描述                           |
-| ------------------------ | ------------------------------ |
-| `!exit`                  | 退出 BendSQL。                 |
-| `!quit`                  | 退出 BendSQL。                 |
+| 命令                     | 描述                         |
+| ------------------------ | ---------------------------- |
+| `!exit`                  | 退出 BendSQL。                |
+| `!quit`                  | 退出 BendSQL。                |
 | `!configs`               | 显示当前 BendSQL 设置。       |
-| `!set <setting> <value>`  | 修改 BendSQL 设置。            |
+| `!set <setting> <value>`  | 修改 BendSQL 设置。           |
 | `!source <sql_file>`     | 执行 SQL 文件。               |
 
 有关每个命令的示例，请参阅下面的参考信息：
@@ -441,13 +466,13 @@ BendSQL 为用户提供了一系列命令，以简化其工作流程并自定义
 
 ```shell title='示例：'
 ➜  ~ bendsql
-Welcome to BendSQL 0.17.0-homebrew.
-Connecting to localhost:8000 as user root.
-Connected to Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
+欢迎使用 BendSQL 0.17.0-homebrew。
+正在连接到 localhost:8000 作为用户 root。
+已连接到 Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
 
 // highlight-next-line
 root@localhost:8000/default> !exit
-Bye~
+再见~
 ```
 
 #### `!quit`
@@ -456,13 +481,13 @@ Bye~
 
 ```shell title='示例：'
 ➜  ~ bendsql
-Welcome to BendSQL 0.17.0-homebrew.
-Connecting to localhost:8000 as user root.
-Connected to Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
+欢迎使用 BendSQL 0.17.0-homebrew。
+正在连接到 localhost:8000 作为用户 root。
+已连接到 Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
 
 // highlight-next-line
 root@localhost:8000/default> !quit
-Bye~
+再见~
 ➜  ~
 ```
 
@@ -514,9 +539,9 @@ INSERT INTO test_table (id, name) VALUES (1, 'Alice');
 INSERT INTO test_table (id, name) VALUES (2, 'Bob');
 INSERT INTO test_table (id, name) VALUES (3, 'Charlie');
 ➜  ~ bendsql
-Welcome to BendSQL 0.17.0-homebrew.
-Connecting to localhost:8000 as user root.
-Connected to Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
+欢迎使用 BendSQL 0.17.0-homebrew。
+正在连接到 localhost:8000 作为用户 root。
+已连接到 Databend Query v1.2.427-nightly-b1b622d406(rust-1.77.0-nightly-2024-04-20T22:12:35.318382488Z)
 
 // highlight-next-line
 root@localhost:8000/default> !source ./desktop/test.sql
