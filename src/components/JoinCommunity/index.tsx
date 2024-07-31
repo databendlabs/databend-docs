@@ -90,11 +90,21 @@ const JoinCommunity: FC<TProps> = ({
   const QRCode = [
     {
       title: "Databend 公众号",
-      icon: <img style={{ borderRadius: "6px" }} src={GongzhonghaoImg}></img>,
+      icon: (
+        <img
+          style={{ borderRadius: "6px", height: "100%", width: "100%" }}
+          src={GongzhonghaoImg}
+        ></img>
+      ),
     },
     {
       title: "客服小 D",
-      icon: <img style={{ borderRadius: "6px" }} src={LittleDImg}></img>,
+      icon: (
+        <img
+          style={{ borderRadius: "6px", height: "100%", width: "100%" }}
+          src={LittleDImg}
+        ></img>
+      ),
     },
   ];
   return (
