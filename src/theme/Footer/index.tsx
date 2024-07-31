@@ -13,10 +13,8 @@ import { useThemeConfig } from "@docusaurus/theme-common";
 import CookiesConsent from "../../components/CookiesConsent";
 import styles from "./index.module.scss";
 import * as icons from "../../components/Icons";
-import RedirectComponent from "@site/src/components/RedirectComponent";
 // import ProgressBar from "react-scroll-progress-bar";
 
-const GLOBAL_SEARCH_ID = "GLOBAL-ID-SEARCH-229";
 function Footer() {
   const year = new Date().getFullYear();
   const { footer } = useThemeConfig();
@@ -50,9 +48,9 @@ function Footer() {
       </div>
       <div className={styles.footerCopyright}>
         <p>
-          Copyright © {year} The Databend Community. Built with Docusaurus.
-          Apache, Apache OpenDAL and OpenDAL are either registered trademarks or
-          trademarks of the Apache Software Foundation.
+          Copyright © {year} The Databend Community. Apache, Apache OpenDAL and
+          OpenDAL are either registered trademarks or trademarks of the Apache
+          Software Foundation.
         </p>
       </div>
       <CookiesConsent />
