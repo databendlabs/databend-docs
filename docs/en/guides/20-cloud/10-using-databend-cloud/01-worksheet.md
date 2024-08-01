@@ -37,7 +37,7 @@ The query result shows in the output area. You can click **Export** to save the 
 
 ## Sharing Worksheets
 
-You can share a worksheet with everyone in your organization or specific individuals. To do so, click the **Share** button in the worksheet you want to share. 
+You can share your worksheets with everyone in your organization or specific individuals. To do so, click **Share** in the worksheet you want to share, or click **Share this Folder** to share a worksheet folder.
 
 ![Alt text](@site/static/img/documents/worksheet/share.png)
 
