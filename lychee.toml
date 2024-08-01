@@ -95,17 +95,14 @@ glob_ignore_case = false
 exclude = [
   '^https://www\.linkedin\.com',
   '^https://web\.archive\.org/web/',
-  'https://github.com/datafuselabs/databend/issues/0000',
-  'https://github.com/datafuselabs/databend/pull/0000',
+  '^https://github.com/',
   'https://eng.uber.com/h3/',
   'https://platform.openai.com/docs/models/embeddings',
   'https://platform.openai.com/account/api-keys',
   'https://singup.snowflake.com/',
   'https://www.uber.com/',
   'https://www.cse.iitb.ac.in/infolab/Data/Courses/CS632/Papers/Cascades-graefe.pdf',
-  'https://repo.databend.com/databend/[version]/databend-[version]-x86_64-unknown-linux-musl.tar.gz',
-  'https://repo.databend.com/databend/[version]/databend-[version]-aarch64-unknown-linux-musl.tar.gz',
-  'https://repo.databend.com/databend/[version]/databend-hdfs-[version]-x86_64-unknown-linux-gnu.tar.gz'
+  '^https://repo\.databend\.com/databend/'
 ]
 
 # URLs to check (supports regex). Has preference over all excludes.
