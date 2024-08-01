@@ -4,10 +4,15 @@ title: Work with Worksheets
 import DbSVG from '@site/static/img/icon/database.svg'
 import RoleSVG from '@site/static/img/icon/role.svg'
 import WarehouseSVG from '@site/static/img/icon/warehouse.svg'
+import EllipsisSVG from '@site/static/img/icon/ellipsis.svg'
 
-The worksheet is an important tool in Databend Cloud used for organizing and managing SQL statements. You can edit and run SQL statements in a worksheet, as well as save them in the worksheet for future reference and use. This can greatly improve work efficiency and avoid repetitive coding.
+Worksheets in Databend Cloud are used to organize, run, and save SQL statements. They can also be shared with others in your organization.
 
-To create a new worksheet, click on **Worksheets** in the sidebar and select **New Worksheet**.
+## Creating Worksheets
+
+To create a new worksheet, click on **Worksheets** in the sidebar and select **New Worksheet**. 
+
+If your SQL statements are already saved in an SQL file, you can also create a worksheet directly from the file. To do so, click the ellipsis icon <EllipsisSVG/> to the right of **New Worksheet**, then select **Create from SQL File**.
 
 ## Editing and Running SQL Statements
 
@@ -30,14 +35,13 @@ The query result shows in the output area. You can click **Export** to save the 
 - If you enter multiple statements in the SQL input area, Databend Cloud will only execute the statement where the cursor is located. You can move the cursor to execute other statements. Additionally, you can use keyboard shortcuts: Ctrl + Enter (Windows) or Command + Enter (Mac) to execute the current statement, and Ctrl + Shift + Enter (Windows) or Command + Shift + Enter (Mac) to execute all statements.
 :::
 
-## Managing Worksheets
+## Sharing Worksheets
 
-You can create multiple worksheets and use folders to categorize and organize queries for different projects. These worksheets are opened as tabs, enabling convenient switching and viewing within the same web page.
+You can share your worksheets with everyone in your organization or specific individuals. To do so, click **Share** in the worksheet you want to share, or click **Share this Folder** to share a worksheet folder.
 
-:::tip
-If your SQL statements are already saved in an SQL file, you can also create a worksheet directly from the file: click the **...** button to the right of **New Worksheet**, then select **Create from SQL File**.
-:::
+![Alt text](@site/static/img/documents/worksheet/share.png)
 
-Databend Cloud also offers convenient operations to manage individual worksheets. You can clone, move, rename, or delete a worksheet through the UI interface. To do this, select a worksheet from the list, and then click the **⋮** button at the top and choose the desired operation. Additionally, you can share a worksheet with specific individuals within your organization. To proceed, click the **Share** button located at the top. In the dialog box that appears, select the individuals you wish to share with and copy the worksheet link. You can then share the link with the intended recipients, and they will receive an email notification as well.
+In the dialog box that appears, select the sharing scope. You can copy and share the link with the intended recipients, who will also receive an email notification. Please note that if you choose the **Designated Members** scope, recipients must click the link you share for the sharing to be successful.
 
-![Alt text](@site/static/img/documents/worksheet/worksheet-operations.png)
+- To view the worksheets shared with you, click **Worksheets** in the sidebar, then click the **Share with Me** tab on the right.
+- When you share a worksheet with others, they can execute the SQL statements in it if they have the necessary permissions, but they won't be able to make any edits to the statements.
