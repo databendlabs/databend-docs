@@ -38,6 +38,9 @@ import Light from "@site/src/components/Icons/light.svg";
 import AI from "@site/src/components/Icons/AI.svg";
 import Selfed from "@site/src/components/Icons/selfd.svg";
 import Cloud from "@site/src/components/Icons/cloud-2.svg";
+import Cases from "@site/src/components/Icons/cases.svg";
+import ChangeLog from "@site/src/components/Icons/changelog.svg";
+import FAQ from "@site/src/components/Icons/faq.svg";
 import { Col, Row } from "antd";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import $t from "@site/src/utils/tools";
@@ -414,6 +417,27 @@ const DocsOverview: FC = (): ReactElement => {
                 icon={<Pricing></Pricing>}
                 text={$t("Pricing")}
                 to={`${homeLink}/pricing`}
+              />
+            </Col>
+            <Col {...colLayout}>
+              <SmallCard
+                icon={<Cases></Cases>}
+                text={$t("Use Cases")}
+                to={`${homeLink}/use-cases`}
+              />
+            </Col>
+            <Col {...colLayout}>
+              <SmallCard
+                icon={<FAQ></FAQ>}
+                text={$t("FAQ")}
+                to={`/guides/overview/faq`}
+              />
+            </Col>
+            <Col {...colLayout}>
+              <SmallCard
+                icon={<ChangeLog></ChangeLog>}
+                text={$t("Changelog")}
+                to={`/release-notes`}
               />
             </Col>
           </Row>
