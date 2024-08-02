@@ -31,7 +31,7 @@ function Footer() {
             </Link>
           );
         })}
-        <span>|</span>
+        {/* <span>|</span>
         {(footer.links[1].items as any[])?.map((item, index) => {
           const Icon = icons[item.label];
           return (
@@ -44,7 +44,7 @@ function Footer() {
               </h6>
             </Link>
           );
-        })}
+        })} */}
       </div>
       <div className={styles.footerCopyright}>
         <p>

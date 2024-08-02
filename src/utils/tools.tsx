@@ -25,7 +25,7 @@ export function getReleaseVersion() {
   );
 }
 
-export function $t(text: string, isText = false) {
+function $t(text: string, isText = true): string | any {
   if (isText) {
     return translate({
       message: text,

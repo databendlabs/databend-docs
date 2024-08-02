@@ -396,8 +396,7 @@
   "Thanks for voting!": {
     "message": "Thanks for voting!",
     "description": "Thanks for voting!"
-  }
-  ,
+  },
   "Did this page help you?": {
     "message": "Did this page help you?",
     "description": "Did this page help you?"
@@ -481,5 +480,105 @@
   "Blog": {
     "message": "Blog",
     "description": "Blog"
+  },
+  "Learn how to use Databend through guides, reference documentation.": {
+    "message": "Learn how to use Databend through guides, reference documentation.",
+    "description": "Description for learning how to use Databend"
+  },
+  "Quick Start": {
+    "message": "Quick Start",
+    "description": "Title for Quick Start section"
+  },
+  "Get started with Databend in 5 minutes": {
+    "message": "Get started with Databend in 5 minutes",
+    "description": "Description for Quick Start section"
+  },
+  "Self-Hosted Databend": {
+    "message": "Self-Hosted",
+    "description": "Title for Self-Hosted Databend section"
+  },
+  "These guides for deploying Databend": {
+    "message": "These guides for deploying Databend",
+    "description": "Description for Self-Hosted Databend section"
+  },
+  "The fastest way to get started with Databend": {
+    "message": "The fastest way to get started with Databend",
+    "description": "Description for Databend Cloud section"
+  },
+  "Connect to Databend": {
+    "message": "Connect to Databend",
+    "description": "Title for Connect to Databend section"
+  },
+  "Developer Resources": {
+    "message": "Developer Resources",
+    "description": "Link text for Developer Resources"
+  },
+  "Connect your application to Databend in just a few minutes.": {
+    "message": "Connect your application to Databend in just a few minutes.",
+    "description": "Description for Connect to Databend section"
+  },
+  "Load Data into Databend": {
+    "message": "Load Data into Databend",
+    "description": "Title for Load Data into Databend section"
+  },
+  "Know More": {
+    "message": "Know More",
+    "description": "Link text for Know More"
+  },
+  "Bulk import data into Databend(Cloud) in multiple formats.": {
+    "message": "Bulk import data into Databend(Cloud) in multiple formats.",
+    "description": "Description for Load Data into Databend section"
+  },
+  "AI & BI & Visualization & Notebooks": {
+    "message": "AI & BI & Visualization & Notebooks",
+    "description": "Title for AI & BI & Visualization & Notebooks section"
+  },
+  "All Tools": {
+    "message": "All Tools",
+    "description": "Link text for All Tools"
+  },
+  "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.": {
+    "message": "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.",
+    "description": "Description for AI & BI & Visualization & Notebooks section"
+  },
+  "Continuous Data Pipelines": {
+    "message": "Continuous Data Pipelines",
+    "description": "Title for Continuous Data Pipelines section"
+  },
+  "Data pipelines automate the process of moving and changing data from different sources into Databend.": {
+    "message": "Data pipelines automate the process of moving and changing data from different sources into Databend.",
+    "description": "Description for Continuous Data Pipelines section"
+  },
+  "Real-Time CDC Ingestion": {
+    "message": "Real-Time CDC Ingestion",
+    "description": "Text for Real-Time CDC Ingestion"
+  },
+  "Automated Data Pipelines": {
+    "message": "Automated Data Pipelines",
+    "description": "Text for Automated Data Pipelines"
+  },
+  "Additional Informations": {
+    "message": "Additional Informations",
+    "description": "Title for Additional Informations section"
+  },
+  "AI Capabilities": {
+    "message": "AI Capabilities",
+    "description": "Text for AI Capabilities"
+  },
+  "Databend Products": {
+    "message": "Databend Products",
+    "description": "Text for Databend Products"
+  },
+  "Security": {
+    "message": "Security",
+    "description": "Text for Security"
+  },
+  "Contact Support": {
+    "message": "Contact Support",
+    "description": "Text for Contact Support"
+  },
+  "Pricing": {
+    "message": "Pricing",
+    "description": "Text for Pricing"
   }
 }

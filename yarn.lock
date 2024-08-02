@@ -4041,6 +4041,11 @@ dagre-d3-es@7.0.10:
     d3 "^7.8.2"
     lodash-es "^4.17.21"
 
+databend-logos@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/databend-logos/-/databend-logos-0.0.16.tgz#7698a60e7d9b9255b821a5f06c3b9de75ec6d4d1"
+  integrity sha512-W1ZPe/NkiW9mLcTYo8lQn6PxcxN/iHe26wAB/UcC/Hw+lTmJGfHyoFWkbvYJL1lSCQ+ryF9dxvAwvJJv3dGBzA==
+
 dayjs@^1.11.11, dayjs@^1.9.1:
   version "1.11.11"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.11.tgz#dfe0e9d54c5f8b68ccf8ca5f72ac603e7e5ed59e"
