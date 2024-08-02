@@ -281,3 +281,13 @@ div[class*="searchQueryColumn"] {
   animation: exhaustAnimation 2s ease-out infinite;
 }
 // page 404 end
+.databend-logo-01,
+.databend-logo-02 {
+  display: none;
+}
+[data-theme="light"] .databend-logo-01 {
+  display: block;
+}
+[data-theme="dark"] .databend-logo-02 {
+  display: block;
+}

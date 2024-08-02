@@ -412,8 +412,7 @@
   "Thanks for voting!": {
     "message": "感谢您的反馈！",
     "description": "Thanks for voting!"
-  }
-  ,
+  },
   "Did this page help you?": {
     "message": "这篇文章对您有帮助吗？",
     "description": "Did this page help you?"
@@ -497,5 +496,105 @@
   "Blog": {
     "message": "博客",
     "description": "Blog"
+  },
+  "Learn how to use Databend through guides, reference documentation.": {
+    "message": "通过指南和参考文档学习如何使用 Databend。",
+    "description": "学习如何使用 Databend 的描述"
+  },
+  "Quick Start": {
+    "message": "快速入门",
+    "description": "快速入门部分的标题"
+  },
+  "Get started with Databend in 5 minutes": {
+    "message": "5 分钟内开始使用 Databend",
+    "description": "快速入门部分的描述"
+  },
+  "Self-Hosted Databend": {
+    "message": "私有化部署",
+    "description": "自托管 Databend 部分的标题"
+  },
+  "These guides for deploying Databend": {
+    "message": "这些指南用于部署 Databend",
+    "description": "自托管 Databend 部分的描述"
+  },
+  "The fastest way to get started with Databend": {
+    "message": "开始使用 Databend 的最快方式",
+    "description": "Databend Cloud 部分的描述"
+  },
+  "Connect to Databend": {
+    "message": "连接到 Databend",
+    "description": "连接到 Databend 部分的标题"
+  },
+  "Developer Resources": {
+    "message": "开发者资源",
+    "description": "开发者资源的链接文字"
+  },
+  "Connect your application to Databend in just a few minutes.": {
+    "message": "几分钟内将您的应用程序连接到 Databend。",
+    "description": "连接到 Databend 部分的描述"
+  },
+  "Load Data into Databend": {
+    "message": "加载数据到 Databend",
+    "description": "加载数据到 Databend 部分的标题"
+  },
+  "Know More": {
+    "message": "了解更多",
+    "description": "了解更多的链接文字"
+  },
+  "Bulk import data into Databend(Cloud) in multiple formats.": {
+    "message": "以多种格式批量导入数据到 Databend（云）。",
+    "description": "加载数据到 Databend 部分的描述"
+  },
+  "AI & BI & Visualization & Notebooks": {
+    "message": "AI & BI & 可视化 & 笔记本",
+    "description": "AI & BI & 可视化 & 笔记本 部分的标题"
+  },
+  "All Tools": {
+    "message": "所有工具",
+    "description": "所有工具的链接文字"
+  },
+  "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.": {
+    "message": "Databend 提供连接器和插件，用于与主要数据导入工具集成，确保高效的数据同步。",
+    "description": "AI & BI & 可视化 & 笔记本 部分的描述"
+  },
+  "Continuous Data Pipelines": {
+    "message": "连续数据管道",
+    "description": "连续数据管道部分的标题"
+  },
+  "Data pipelines automate the process of moving and changing data from different sources into Databend.": {
+    "message": "数据管道自动化地将来自不同来源的数据移动和更改到 Databend 中。",
+    "description": "连续数据管道部分的描述"
+  },
+  "Real-Time CDC Ingestion": {
+    "message": "实时 CDC 导入",
+    "description": "实时 CDC 导入的文本"
+  },
+  "Automated Data Pipelines": {
+    "message": "自动化数据管道",
+    "description": "自动化数据管道的文本"
+  },
+  "Additional Informations": {
+    "message": "额外信息",
+    "description": "额外信息部分的标题"
+  },
+  "AI Capabilities": {
+    "message": "AI 功能",
+    "description": "AI 功能的文本"
+  },
+  "Databend Products": {
+    "message": "Databend 的产品",
+    "description": "Databend 产品的文本"
+  },
+  "Security": {
+    "message": "安全",
+    "description": "安全的文本"
+  },
+  "Contact Support": {
+    "message": "联系客服",
+    "description": "联系支持的文本"
+  },
+  "Pricing": {
+    "message": "价格相关",
+    "description": "价格的文本"
   }
 }

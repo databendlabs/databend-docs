@@ -3,25 +3,25 @@ title: Overview
 slug: /
 ---
 
+import DocsOverview from '@site/src/components/DocsOverview'
+
 Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/) Guides, covering all aspects of Databend Editions.
 
-## Glossary
+**Glossary**
 
 - **`Databend`** refers to the [open-source version](https://github.com/datafuselabs/databend).
 - **`Databend Cloud`** is a fully [managed cloud service](https://databend.com).
 - **`Databend(Cloud)`** collectively denotes both `Databend` and `Databend Cloud`.
 
-## Getting Started
+<DocsOverview />
+**Here are some entries you might want to learn about**
 
-- **[Self-Hosted Databend](../10-deploy/index.md)**: Guides for deploying, upgrading, and monitoring a self-hosted Databend.
-- **[Databend Cloud](../20-cloud/index.md)**: Start quickly with Databend Cloud.
-- **[Connect](../30-sql-clients/index.md)**: Connecting to Databend(Cloud) using various drivers.
-- **[Data Loading](../40-load-data/index.md)**: Bulk import data into Databend(Cloud) in multiple formats.
+- **[SQL Reference](/sql)**: your swift-access guide for Databend essentials!
 - **[Data Unloading](../50-unload-data/index.md)**: Export data from Databend(Cloud).
-- **[Real-Time CDC Ingestion](../40-load-data/05-continuous-data-pipelines/01-stream.md)**: Change Data Capture (CDC) for real-time data ingestion.
-- **[Automated Data Pipelines](../40-load-data/05-continuous-data-pipelines/02-task.md)**: Create tasks to automate and manage continuous data pipelines.
 - **[External Functions](../54-query/04-external-function.md)**: Use external functions to extend Databend's capabilities.
 - **[Data Management](../57-data-management/index.md)**: Manage data in Databend(Cloud).
 - **[Security](../56-security/index.md)**: Security features in Databend(Cloud).
-- **[Visualization](../31-visualize/index.md)**: Use visualization tools with Databend(Cloud).
 - **[Benchmarks](../80-benchmark/index.md)**: Compare Databend Cloud performance with Snowflake on TPC-H SF100 benchmarks.
+- **[Accessing Data Lake](../51-access-data-lake/index.md)**: Databend presents a seamless integration with three robust Data Lake technologies—Apache Hive, Apache Iceberg, and Delta Lake.
+- **[Query Structures](../54-query/index.md)**: Databend supports diverse query structures to enhance your data querying experience
+- **[Performance Optimization](../55-performance/index.md)**: Databend supports the following features to optimize query performance across various scenarios

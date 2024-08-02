@@ -34,6 +34,7 @@
     "axios": "^1.7.2",
     "clsx": "^2.0.0",
     "copyforjs": "^1.0.6",
+    "databend-logos": "^0.0.16",
     "docusaurus-plugin-devserver": "^1.0.6",
     "docusaurus-plugin-sass": "^0.2.5",
     "prism-react-renderer": "^2.3.0",
