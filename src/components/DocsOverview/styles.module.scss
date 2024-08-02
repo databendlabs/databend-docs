@@ -1,6 +1,9 @@
 .outWrap {
   width: 1100px;
-  @media (max-width: 1365px) {
+  @media (max-width: 1430px) {
+    width: 1000px;
+  }
+  @media (max-width: 1335px) {
     width: 900px;
   }
   @media (max-width: 1235px) {
