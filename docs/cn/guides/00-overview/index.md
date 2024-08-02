@@ -7,21 +7,21 @@ import DocsOverview from '@site/src/components/DocsOverview'
 
 欢迎阅读 Databend（发音为 /ˈdeɪtəˌbɛnd/）指南，涵盖 Databend 版本的各个方面。
 
-**术语表**
+**术语解释**
 
-- **`Databend`** 指 [开源版本](https://github.com/datafuselabs/databend).
-- **`Databend Cloud`** 是一个完全 [托管的云服务](https://databend.cn).
-- **`Databend(Cloud)`** 统指 `Databend` 和 `Databend Cloud`.
+- **`Databend`** 指的是 [开源版本](https://github.com/datafuselabs/databend)。
+- **`Databend Cloud`** 是一项完全 [托管的云服务](https://databend.com)。
+- **`Databend(Cloud)`** 共同表示 `Databend` 和 `Databend Cloud`。
 
 <DocsOverview />
-**这里有一些你可能想要了解的入口**
+**以下是您可能想要了解的一些条目**
 
-- **[SQL Reference](/sql)**: your swift-access guide for Databend essentials!
-- **[Data Unloading](../50-unload-data/index.md)**: Export data from Databend(Cloud).
-- **[External Functions](../54-query/04-external-function.md)**: Use external functions to extend Databend's capabilities.
-- **[Data Management](../57-data-management/index.md)**: Manage data in Databend(Cloud).
-- **[Security](../56-security/index.md)**: Security features in Databend(Cloud).
-- **[Benchmarks](../80-benchmark/index.md)**: Compare Databend Cloud performance with Snowflake on TPC-H SF100 benchmarks.
-- **[Accessing Data Lake](../51-access-data-lake/index.md)**: Databend presents a seamless integration with three robust Data Lake technologies—Apache Hive, Apache Iceberg, and Delta Lake.
-- **[Query Structures](../54-query/index.md)**: Databend supports diverse query structures to enhance your data querying experience
-- **[Performance Optimization](../55-performance/index.md)**: Databend supports the following features to optimize query performance across various scenarios
+- **[SQL 参考](/sql)**：Databend 基础知识的快速访问指南！
+- **[数据卸载](../50-unload-data/index.md)**：从 Databend(Cloud) 导出数据。
+- **[外部函数](../54-query/04-external-function.md)**：使用外部函数扩展 Databend 的功能。
+- **[数据管理](../57-data-management/index.md)**：在 Databend(Cloud) 中管理数据。
+- **[安全性](../56-security/index.md)**：Databend(Cloud) 中的安全特性。
+- **[基准测试](../80-benchmark/index.md)**：在 TPC-H SF100 基准测试中比较 Databend Cloud 与 Snowflake 的性能。
+- **[访问数据湖](../51-access-data-lake/index.md)**：Databend 与三种强大的数据湖技术——Apache Hive、Apache Iceberg 和 Delta Lake 无缝集成。
+- **[查询结构](../54-query/index.md)**：Databend 支持多种查询结构以增强您的数据查询体验。
+- **[性能优化](../55-performance/index.md)**：Databend 支持以下功能以优化各种场景下的查询性能。
