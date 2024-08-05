@@ -274,11 +274,7 @@ Create a file named `sample.java` with the following code:
 ```java
 package databend_cloud;
 
-import java.sql.SQLException;
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.Properties;
 
 public class sample {
@@ -314,18 +310,18 @@ public class sample {
         ps.setString(5, "[1,2,3,4,5]");
         ps.addBatch();
         int[] ans = ps.executeBatch();
-        Statement statement = c.createStatement();
+        Statement s = connection.createStatement();
 
         System.out.println("execute select on object");
         statement.execute("SELECT * from objects_test1");
-        ResultSet r = statement.getResultSet();
+        ResultSet r2 = statement.getResultSet();
 
-        while (r.next()) {
-            System.out.println(r.getInt(1));
-            System.out.println(r.getString(2));
-            System.out.println(r.getTimestamp(3).toString());
-            System.out.println(r.getString(4));
-            System.out.println(r.getString(5));
+        while (r2.next()) {
+            System.out.println(r2.getInt(1));
+            System.out.println(r2.getString(2));
+            System.out.println(r2.getTimestamp(3).toString());
+            System.out.println(r2.getString(4));
+            System.out.println(r2.getString(5));
         }
         connection.close();
     }
