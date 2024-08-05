@@ -312,8 +312,8 @@ public class sample {
         int[] ans = ps.executeBatch();
         Statement s = connection.createStatement();
 
-        System.out.println("execute select on object");
-        statement.execute("SELECT * from objects_test1");
+        System.out.println("execute select on table");
+        statement.execute("SELECT * from sample_test");
         ResultSet r2 = statement.getResultSet();
 
         while (r2.next()) {
