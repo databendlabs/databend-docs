@@ -1,7 +1,8 @@
 ---
-title: 'Connecting to Databend Cloud using BendSQL'
-sidebar_label: 'Connecting to Databend Cloud (BendSQL)'
+title: "Connecting to Databend Cloud using BendSQL"
+sidebar_label: "Connecting to Databend Cloud (BendSQL)"
 ---
+
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
@@ -36,14 +37,13 @@ In this tutorial, we will guide you through the process of connecting to Databen
 
 ### Launch BendSQL
 
-To launch BendSQL, paste the content you copied into your terminal or command prompt. If the password you copied displays as "******", replace them with your actual password.
+To launch BendSQL, paste the content you copied into your terminal or command prompt. If the password you copied displays as "**\*\***", replace them with your actual password.
 
 ![Alt text](/img/connect/bendsql-6.png)
 
 </StepContent>
 
 <StepContent number="4">
-
 
 ### Execute Queries
 
