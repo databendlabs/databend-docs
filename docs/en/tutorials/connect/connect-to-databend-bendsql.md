@@ -1,16 +1,18 @@
 ---
-title: 'Connecting to Self-Hosted Databend using BendSQL'
-sidebar_label: 'Connecting to Self-Hosted Databend (BendSQL)'
+title: "Connecting to Self-Hosted Databend using BendSQL"
+sidebar_label: "Connecting to Self-Hosted Databend (BendSQL)"
 slug: /
 ---
+
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
 In this tutorial, we will guide you through the process of connecting to a self-hosted Databend instance using BendSQL as the user `root`.
 
+You might be wondering how to [install and deploy databend](/guides/deploy/)
+
 <StepsWrap>
 <StepContent number="1">
-
 
 ### Before You Start
 
@@ -18,11 +20,11 @@ In this tutorial, we will guide you through the process of connecting to a self-
 - Ensure that your Databend instance has started up successfully.
 - In this tutorial, you will use the `root` account to connect to Databend. During deployment, uncomment the following lines in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file to select this account:
 
-    ```sql title="databend-query.toml"
-    [[query.users]]
-    name = "root"
-    auth_type = "no_password"
-    ```
+  ```sql title="databend-query.toml"
+  [[query.users]]
+  name = "root"
+  auth_type = "no_password"
+  ```
 
 </StepContent>
 <StepContent number="2">
@@ -36,7 +38,6 @@ The command `bendsql` launches and connects BendSQL to the local Databend at 127
 :::
 
 ![Alt text](/img/connect/bendsql-1.gif)
-
 
 </StepContent>
 <StepContent number="3">
