@@ -596,5 +596,9 @@
   "Pricing": {
     "message": "价格相关",
     "description": "价格的文本"
+  },
+  "Use Cases": {
+    "message": "用户案例",
+    "description": "Use Cases"
   }
 }

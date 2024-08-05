@@ -580,5 +580,9 @@
   "Pricing": {
     "message": "Pricing",
     "description": "Text for Pricing"
+  },
+  "Use Cases": {
+    "message": "Use Cases",
+    "description": "Use Cases"
   }
 }

@@ -109,7 +109,7 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Cli></Cli>}
                 text={"BendSQL"}
-                to={"/tutorials/connect/connect-to-databendcloud-bendsql"}
+                to={"/guides/sql-clients/bendsql"}
               />
             </Col>
             <Col {...colLayout}>
