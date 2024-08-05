@@ -267,7 +267,7 @@ const config: Config = {
           title: "RESOURCES",
           items: [
             {
-              label: "Product",
+              label: "Products",
               to: `/guides/overview/editions/`,
             },
             {
