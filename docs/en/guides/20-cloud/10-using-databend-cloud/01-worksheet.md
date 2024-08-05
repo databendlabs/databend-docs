@@ -43,5 +43,5 @@ You can share your worksheets with everyone in your organization or specific ind
 
 In the dialog box that appears, select the sharing scope. You can copy and share the link with the intended recipients, who will also receive an email notification. Please note that if you choose the **Designated Members** scope, recipients must click the link you share for the sharing to be successful.
 
-- To view the worksheets shared with you, click **Worksheets** in the sidebar, then click the **Share with Me** tab on the right.
+- To view the worksheets shared with you, click **Worksheets** in the sidebar, then click the **Shared with Me** tab on the right.
 - When you share a worksheet with others, they can execute the SQL statements in it if they have the necessary permissions, but they won't be able to make any edits to the statements.
