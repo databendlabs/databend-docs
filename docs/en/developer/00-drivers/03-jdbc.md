@@ -101,7 +101,7 @@ package com.example;
 import java.sql.*;
 import java.util.Properties;
 
-public class demo {
+public class Main {
     // Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
     // Feel free to use your own values while maintaining the same format.
     static final String DB_URL = "jdbc:databend://127.0.0.1:8000";
@@ -126,6 +126,8 @@ public class demo {
         stmt.close();
         conn.close();
         System.exit(0);
+    }
+}
 ```
 
 ### Example: Copy into or merge into table
