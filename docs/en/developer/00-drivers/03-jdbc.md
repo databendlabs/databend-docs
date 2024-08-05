@@ -265,7 +265,7 @@ Before you start, make sure you have successfully created a warehouse and obtain
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.8</version>
 </dependency>
 ```
 
