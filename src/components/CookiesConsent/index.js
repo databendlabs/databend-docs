@@ -4,7 +4,7 @@ import Link from "@docusaurus/Link";
 import styles from "./styles.module.scss";
 import { useState } from "react";
 const COOKIE_KEY = "COOKIE_KEY";
-import Close from "../Icons/close.svg";
+import Close from "@site/static/icons/close.svg";
 
 function CookiesConsent() {
   const [isHidden, setIsHidden] = useState(true);

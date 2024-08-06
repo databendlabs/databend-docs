@@ -1,7 +1,7 @@
 // Copyright 2023 DatabendLabs.
 import React, { FC, ReactElement } from "react";
 import styles from "./styles.module.scss";
-import Close from "../Icons/close.svg";
+import Close from "@site/static/icons/close.svg";
 import { useSessionStorageState } from "ahooks";
 import CheckIcon from "./CheckIcon";
 import $t from "@site/src/utils/tools";

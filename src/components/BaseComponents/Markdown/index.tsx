@@ -8,7 +8,7 @@ import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import styles from "./styles.module.scss";
 import React from "react";
-import RightSvg from "../../Icons/arrowright.svg";
+import RightSvg from "../@site/static/icons/arrowright.svg";
 
 interface IProps {
   textContent: string;
@@ -19,6 +19,7 @@ const AskDatabendMarkdown: FC<IProps> = ({ textContent }): ReactElement => {
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
+        // @ts-ignore
         code({ inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "");
           const text = String(children).replace(/\n$/, "");

@@ -9,10 +9,10 @@ import styles from "./styles.module.scss";
 import useGetReleases from "@site/src/hooks/useGetReleases";
 import Card from "@site/src/components/BaseComponents/Card";
 import Tag from "@site/src/components/BaseComponents/Tag";
-import Linux from "@site/src/components/Icons/linux.svg";
-import Ubuntu from "@site/src/components/Icons/ubuntu.svg";
-import Apple from "@site/src/components/Icons/apple.svg";
-import Microsoft from "@site/src/components/Icons/microsoft.svg";
+import Linux from "@site/static/icons/linux.svg";
+import Ubuntu from "@site/static/icons/ubuntu.svg";
+import Apple from "@site/static/icons/apple.svg";
+import Microsoft from "@site/static/icons/microsoft.svg";
 import { IAssets } from "@site/src/types/download";
 
 const Releases: FC = (): ReactElement => {
