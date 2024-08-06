@@ -53,6 +53,7 @@ This section provides reference information for the datetime-related functions i
 - [DATE_ADD](date-add)
 - [DATE_SUB](date-sub)
 - [SUBTRACT INTERVAL](subtractinterval.md)
+- [MONTHS_BETWEEN](months-between.md)
 
 ## Date Information Functions
 
