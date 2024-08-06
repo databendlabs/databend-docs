@@ -4,7 +4,7 @@ title: Editions
 
 Databend Cloud comes in three editions: **Standard**, **Business**, and **Dedicated**, that you can choose from to serve a wide range of needs and ensure optimal performance for different use cases.
 
-For a quick overview of these editions, see [https://www.databend.com/databend-cloud](https://www.databend.com/databend-cloud). For the pricing information, see [Pricing & Billing](/guides/cloud/manage/pricing). For the detailed feature list among these editions, see [Feature Lists](#feature-lists).
+For a quick overview of these editions, see [https://www.databend.com/databend-cloud](https://www.databend.com/databend-cloud). For the pricing information, see [Pricing & Billing](/guides/overview/editions/dc/pricing). For the detailed feature list among these editions, see [Feature Lists](#feature-lists).
 
 ## Feature Lists
 
