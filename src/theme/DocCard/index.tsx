@@ -1,15 +1,21 @@
 import React from "react";
 import clsx from "clsx";
 import Link from "@docusaurus/Link";
-import { findFirstSidebarItemLink, useDocById } from "@docusaurus/theme-common/internal";
+import {
+  findFirstSidebarItemLink,
+  useDocById,
+} from "@docusaurus/theme-common/internal";
 import isInternalUrl from "@docusaurus/isInternalUrl";
 import { translate } from "@docusaurus/Translate";
 import styles from "./styles.module.css";
-import DocsSvg from "@site/src/icons/docs.svg";
-import FolderSvg from "@site/src/icons/folder.svg";
+import DocsSvg from "@site/static/icons/docs.svg";
+import FolderSvg from "@site/static/icons/folder.svg";
 function CardContainer({ href, children }) {
   return (
-    <Link href={href} className={clsx("card padding--lg", styles.cardContainer)}>
+    <Link
+      href={href}
+      className={clsx("card padding--lg", styles.cardContainer)}
+    >
       {children}
     </Link>
   );
@@ -21,7 +27,10 @@ function CardLayout({ href, icon, title, description }) {
         <div className={styles.iconWrap}>{icon}</div>
         <div className={styles.description}>
           <h4 style={{ marginBottom: 0 }}>{title}</h4>
-          <div className={clsx("text--truncate", styles.cardDescription)} title={description}>
+          <div
+            className={clsx("text--truncate", styles.cardDescription)}
+            title={description}
+          >
             {description}
           </div>
         </div>
@@ -46,7 +55,8 @@ function CardCategory({ item }) {
           {
             message: "{count} items",
             id: "theme.docs.DocCard.categoryDescription",
-            description: "The default description for a category card in the generated index about how many items this category includes",
+            description:
+              "The default description for a category card in the generated index about how many items this category includes",
           },
           { count: item.items.length }
         )
@@ -57,7 +67,14 @@ function CardCategory({ item }) {
 function CardLink({ item }) {
   const icon = isInternalUrl(item.href) ? <DocsSvg></DocsSvg> : "🔗";
   const doc = useDocById(item.docId ?? undefined);
-  return <CardLayout href={item.href} icon={icon} title={item.label} description={item.description ?? doc?.description} />;
+  return (
+    <CardLayout
+      href={item.href}
+      icon={icon}
+      title={item.label}
+      description={item.description ?? doc?.description}
+    />
+  );
 }
 export default function DocCard({ item }) {
   switch (item.type) {

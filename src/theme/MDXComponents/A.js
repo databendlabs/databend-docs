@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "@docusaurus/Link";
 import { Tooltip } from "antd";
-import LinkSvg from "@site/src/icons/link";
+import LinkSvg from "@site/static/icons/link";
 import styles from "./styles.module.scss";
 function hasProtocolPrefix(str) {
   return str.startsWith("http://") || str.startsWith("https://");

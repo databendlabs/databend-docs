@@ -12,7 +12,6 @@ import Link from "@docusaurus/Link";
 import { useThemeConfig } from "@docusaurus/theme-common";
 import CookiesConsent from "../../components/CookiesConsent";
 import styles from "./index.module.scss";
-import * as icons from "../../components/Icons";
 // import ProgressBar from "react-scroll-progress-bar";
 
 function Footer() {
