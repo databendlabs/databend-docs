@@ -9,9 +9,10 @@ import styles from "./styles.module.scss";
 import useGetReleases from "@site/src/hooks/useGetReleases";
 import Card from "@site/src/components/BaseComponents/Card";
 import Tag from "@site/src/components/BaseComponents/Tag";
-import { Apple, Linux } from "@site/src/components/Icons";
-import Ubuntu from "@site/src/components/Icons/Ubuntu";
-import Microsoft from "@site/src/components/Icons/Microsoft";
+import Linux from "@site/src/components/Icons/linux.svg";
+import Ubuntu from "@site/src/components/Icons/ubuntu.svg";
+import Apple from "@site/src/components/Icons/apple.svg";
+import Microsoft from "@site/src/components/Icons/microsoft.svg";
 import { IAssets } from "@site/src/types/download";
 
 const Releases: FC = (): ReactElement => {
@@ -20,7 +21,6 @@ const Releases: FC = (): ReactElement => {
   const { name: bendsqlTagName } = bendsqlRecource;
   function Icons({
     isApple,
-    size = 24,
     isUbuntu,
     isWindows,
   }: {
@@ -32,19 +32,13 @@ const Releases: FC = (): ReactElement => {
     return (
       <>
         {isWindows ? (
-          <Microsoft size={size} />
+          <Microsoft />
         ) : (
           <>
             {isApple ? (
-              <Apple size={size} />
+              <Apple />
             ) : (
-              <>
-                {isUbuntu ? (
-                  <Ubuntu size={size}></Ubuntu>
-                ) : (
-                  <Linux size={size} />
-                )}
-              </>
+              <>{isUbuntu ? <Ubuntu></Ubuntu> : <Linux />}</>
             )}
           </>
         )}
