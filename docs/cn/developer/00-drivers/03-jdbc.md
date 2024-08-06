@@ -10,7 +10,7 @@ title: Java
 
 要下载 Databend JDBC 驱动：
 
-1. 前往 Maven 中央仓库：https://repo1.maven.org/maven2/com/databend/databend-jdbc/
+1. 访问 Maven 中央仓库：https://repo1.maven.org/maven2/com/databend/databend-jdbc/
 2. 点击最新版本的目录。
 3. 下载 jar 文件，例如，_databend-jdbc-0.1.1.jar_。
 
@@ -64,13 +64,13 @@ Databend JDBC 驱动以 JAR 文件形式提供，可以直接集成到您的基�
 
 Databend 的 JDBC 驱动通常遵循 JDBC 规范。以下是一些常见基本行为、相关关键函数及其原理的列表。
 
-| 基本行为                                 | 关键功能                                                                                                                                                              | 原理                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 建立连接                                 | `DriverManager.getConnection`, `Properties.setProperty`                                                                                                              | `getConnection` 使用提供的连接字符串与 Databend 建立连接。<br /><br />`Properties` 对象用于构造连接参数，例如 `user` 和 `password`，这些参数也可以在连接字符串中指定。                                                                                                                                                                                                                                                                                                                                                     |
-| 执行查询                                 | `Statement.createStatement()`, `Statement.execute()`                                                                                                                 | `Statement.execute()` 通过 `v1/query` 接口执行查询。                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| 批量插入                                 | `Connection.prepareStatement()`, `PrepareStatement.setInt()`, `PrepareStatement.setString()`, `PrepareStatement.addBatch()`, `PrepareStatement.executeBatch()`, 等。 | Databend 支持使用 `PrepareStatement` 对象进行批量插入和替换（`INSERT INTO` 和 `REPLACE INTO`）。<br /><br />`PrepareStatement.setXXX()` 方法用于将值绑定到语句的参数。<br /><br />`PrepareStatement.addBatch()` 将尽可能多的数据添加到创建的语句对象的批处理中。<br /><br />`PrepareStatement.executeBatch()` 将数据上传到内置 Stage 并执行插入/替换操作，利用 [Stage 附件](/developer/apis/http#stage-attachment)。 |
-| 上传文件到内部 Stage                     | `Connection.uploadStream`                                                                                                                                            | 数据将被上传到 Stage。默认情况下，使用 `PRESIGN UPLOAD` 获取 URL，或者如果 PRESIGN 被禁用，则使用 `v1/upload_to_stage` API。                                                                                                                                                                                                                                                                                                                                                                                               |
-| 从内部 Stage 下载文件                   | `Connection.downloadStream`                                                                                                                                          | 数据将使用 `PRESIGN DOWNLOAD` 获取 URL 从 Stage 下载。                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 基本行为                                 | 关键功能                                                                                                                                                              | 原理                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 建立连接                                 | `DriverManager.getConnection`, `Properties.setProperty`                                                                                                              | `getConnection` 使用提供的连接字符串与 Databend 建立连接。<br /><br />`Properties` 对象用于构造连接参数，例如 `user` 和 `password`，这些参数也可以在连接字符串中指定。                                                                                                                                                                                                                                                                                                                           |
+| 执行查询                                 | `Statement.createStatement()`, `Statement.execute()`                                                                                                                 | `Statement.execute()` 通过 `v1/query` 接口执行查询。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 批量插入                                 | `Connection.prepareStatement()`, `PrepareStatement.setInt()`, `PrepareStatement.setString()`, `PrepareStatement.addBatch()`, `PrepareStatement.executeBatch()`, 等。 | Databend 支持使用 `PrepareStatement` 对象进行批量插入和替换（`INSERT INTO` 和 `REPLACE INTO`）。<br /><br />`PrepareStatement.setXXX()` 方法用于将值绑定到语句的参数。<br /><br />`PrepareStatement.addBatch()` 将尽可能多的数据添加到创建的语句对象的批处理中。<br /><br />`PrepareStatement.executeBatch()` 将数据上传到内置 Stage 并执行插入/替换操作，利用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
+| 上传文件到内部 Stage                     | `Connection.uploadStream`                                                                                                                                            | 数据将被上传到 Stage。默认情况下，使用 `PRESIGN UPLOAD` 获取 URL，或者如果禁用了 PRESIGN，则使用 `v1/upload_to_stage` API。                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 从内部 Stage 下载文件                   | `Connection.downloadStream`                                                                                                                                          | 数据将使用 `PRESIGN DOWNLOAD` 获取 URL 从 Stage 下载。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 
 ## 配置连接字符串
 
@@ -80,7 +80,7 @@ Databend 的 JDBC 驱动通常遵循 JDBC 规范。以下是一些常见基本�
 jdbc:databend://<username>:<password>@<host_port>/<database>?<connection_params>
 ```
 
-`connection_params` 指的是一系列一个或多个格式为 `param=value` 的参数。每个参数应由 & 字符分隔，连接字符串中不应有任何空格。这些参数可以在连接字符串中设置，也可以在传递给 DriverManager.getConnection() 方法的 Properties 对象中设置。例如：
+`connection_params` 指的是一系列一个或多个 `param=value` 格式的参数。每个参数应由 & 字符分隔，连接字符串中不应有任何空格。这些参数可以在连接字符串中设置，也可以在传递给 `DriverManager.getConnection()` 方法的 Properties 对象中设置。例如：
 
 ```java
 Properties props = new Properties();
@@ -101,9 +101,9 @@ package com.example;
 import java.sql.*;
 import java.util.Properties;
 
-public class demo {
+public class Main {
     // 以连接到本地 Databend 并使用名为 'user1' 和密码 'abc123' 的 SQL 用户为例。
-    // 请根据实际情况使用您自己的值，同时保持相同的格式。
+    // 请随意使用您自己的值，同时保持相同的格式。
     static final String DB_URL = "jdbc:databend://127.0.0.1:8000";
 
     public static void main(String[] args) throws Exception {
@@ -126,13 +126,13 @@ public class demo {
         stmt.close();
         conn.close();
         System.exit(0);
+    }
+}
 ```
 
-### 示例：复制到表或合并到表
+### 示例：复制或合并到表
 
-```java
-// 示例代码待补充
-```
+
 
 ```java
     public void copyInto(String tableName, List<String> files) throws Exception {
@@ -158,13 +158,13 @@ public class demo {
 
 :::tip
 
-1. 由于诸如 SELECT、COPY INTO 和 MERGE INTO 等 SQL 命令返回一个 ResultSet 对象，因此在访问数据之前需要调用 rs.next()。如果不这样做，可能会导致查询被取消。如果你不打算检索结果，可以使用 while 循环（while (r.next()){}）遍历 ResultSet 以避免此问题。
-2. 对于其他非查询类型的 SQL 命令，如 CREATE TABLE 或 DROP TABLE，可以直接调用 statement.execute()。
+1. 由于 SELECT、COPY INTO 和 MERGE INTO 等 SQL 命令返回一个 ResultSet 对象，因此需要在访问数据之前调用 rs.next()。否则，查询可能会被取消。如果不打算检索结果，可以使用 while 循环（while (r.next()){}）遍历 ResultSet 以避免此问题。
+2. 对于 CREATE TABLE 或 DROP TABLE 等非查询类型的 SQL 命令，可以直接调用 statement.execute()。
    :::
 
 ### 示例：批量插入
 
-在你的 Java 应用程序代码中，可以通过在 INSERT 语句中绑定参数并调用 addBatch() 和 executeBatch() 来一次性插入多行。
+在您的 Java 应用程序代码中，可以通过在 INSERT 语句中绑定参数并调用 addBatch() 和 executeBatch() 来一次性插入多行。
 
 例如，以下代码向包含 INT 列和 VARCHAR 列的表中插入两行。该示例在 INSERT 语句中绑定值并调用 addBatch() 和 executeBatch() 来执行批量插入。
 
@@ -259,7 +259,7 @@ pstmt.close();
 
 ### 示例：与 Databend Cloud 集成
 
-在开始之前，请确保你已成功创建了一个仓库并获取了连接信息。如何操作，请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已成功创建了一个仓库并获取了连接信息。具体操作方法请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 #### 步骤 1. 使用 Maven 添加依赖
 
@@ -267,7 +267,7 @@ pstmt.close();
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.8</version>
 </dependency>
 ```
 
@@ -278,11 +278,7 @@ pstmt.close();
 ```java
 package databend_cloud;
 
-import java.sql.SQLException;
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.Properties;
 
 public class sample {
@@ -318,18 +314,18 @@ public class sample {
         ps.setString(5, "[1,2,3,4,5]");
         ps.addBatch();
         int[] ans = ps.executeBatch();
-        Statement statement = c.createStatement();
+        Statement s = connection.createStatement();
 
-        System.out.println("execute select on object");
-        statement.execute("SELECT * from objects_test1");
-        ResultSet r = statement.getResultSet();
+        System.out.println("execute select on table");
+        statement.execute("SELECT * from sample_test");
+        ResultSet r2 = statement.getResultSet();
 
-        while (r.next()) {
-            System.out.println(r.getInt(1));
-            System.out.println(r.getString(2));
-            System.out.println(r.getTimestamp(3).toString());
-            System.out.println(r.getString(4));
-            System.out.println(r.getString(5));
+        while (r2.next()) {
+            System.out.println(r2.getInt(1));
+            System.out.println(r2.getString(2));
+            System.out.println(r2.getTimestamp(3).toString());
+            System.out.println(r2.getString(4));
+            System.out.println(r2.getString(5));
         }
         connection.close();
     }
@@ -337,7 +333,7 @@ public class sample {
 ```
 
 :::tip
-在代码中替换 `{USER}, {PASSWORD}, {WAREHOUSE_HOST}, 和 {DATABASE}` 为你的连接信息。如何获取连接信息，请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在代码中替换 `{USER}, {PASSWORD}, {WAREHOUSE_HOST}, 和 {DATABASE}` 为您的连接信息。如何获取连接信息，请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 #### 步骤 3. 使用 Maven 运行示例
