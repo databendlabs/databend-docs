@@ -42,6 +42,10 @@
         span {
           flex: 1;
         }
+        svg {
+          position: relative;
+          top: 3px;
+        }
       }
       div {
         font-size: 14px;
