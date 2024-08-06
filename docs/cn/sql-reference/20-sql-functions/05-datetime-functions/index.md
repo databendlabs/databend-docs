@@ -47,12 +47,13 @@ title: 日期与时间函数
 - [TO_YYYYMMDDHH](to-yyyymmddhh)
 - [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss)
 
-## 日期运算函数
+## 日期算术函数
 
 - [ADD INTERVAL](addinterval.md)
 - [DATE_ADD](date-add)
 - [DATE_SUB](date-sub)
 - [SUBTRACT INTERVAL](subtractinterval.md)
+- [MONTHS_BETWEEN](months-between.md)
 
 ## 日期信息函数
 
