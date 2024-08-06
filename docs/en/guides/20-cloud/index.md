@@ -1,21 +1,18 @@
 ---
-title: Databend Cloud Overview
+title: Databend Cloud
 ---
 
-## What is Databend Cloud?
-
-Databend Cloud is a cloud-based, fully managed data warehouse service. It's designed for easy integration with the tools you already use and supports SQL syntax similar to Snowflake, enabling a smooth transition for Snowflake users.
-
-## Why Choose Databend Cloud?
-
-- **Cost Savings**: More affordable than Snowflake with [significant savings](/guides/benchmark/tpch).
-- **Easy Transition from Snowflake**: Similar user experience and SQL syntax for an effortless switch. More [here](https://www.databend.com/comparison).
-- **Seamless Integration**: Compatible with existing BI tools and ETL pipelines.
-- **Transparent Pricing**: Find out how much you can save with Databend Cloud [here](https://www.databend.com/plan/).
- 
-## Table of Contents
-
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
+
+:::tip
+Databend Cloud is fully compatible with various mainstream browsers, including Chrome, Microsoft Edge, Firefox, Opera, and Safari, providing users with great convenience and flexibility in usage. 
+
+- Databend Cloud recommends upgrading your browser to the latest version.
+
+- If you encounter any issues related to your browser while using Databend Cloud, please create a ticket to contact Databend Cloud for effective assistance.
+
+- Databend Cloud does not support Internet Explorer.
+:::
 
 <IndexOverviewList />
 
