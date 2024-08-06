@@ -12,7 +12,7 @@ A pipeline in Databend Cloud allows for automatic discovery of file updates from
 - You have a continuous stream of user behavior logs being stored into your object storage, which can be automatically loaded into Databend Cloud using pipelines for further analysis.
 
 :::note
-There is no limit on the number of pipelines you can create for your organization. However, please remember that a pipeline requires a warehouse to run, so running a pipeline will incur costs. For more information about warehouse pricing, see [Warehouse Pricing](/guides/cloud/manage/pricing#warehouse-pricing).
+There is no limit on the number of pipelines you can create for your organization. However, please remember that a pipeline requires a warehouse to run, so running a pipeline will incur costs. For more information about warehouse pricing, see [Pricing & Billing](/guides/overview/editions/dc/pricing).
 :::
 
 ## Creating a Pipeline

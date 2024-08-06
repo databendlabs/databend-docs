@@ -11,7 +11,7 @@ The warehouse is an essential component of Databend Cloud. A warehouse represent
 - Load data into a table with the COPY INTO TABLE command
 - Unload data from a table with the COPY INTO LOCATION command
 
-Running a warehouse consumes credits. For more information, see [Pricing and Billing](../20-manage/03-pricing.md).
+Running a warehouse consumes credits. For more information, see [Pricing & Billing](/guides/overview/editions/dc/pricing).
 
 ## Warehouse Sizes
 
