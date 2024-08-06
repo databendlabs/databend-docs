@@ -1,6 +1,6 @@
 // Copyright 2023 DatabendLabs.
 import React, { FC, ReactElement, ReactNode, useEffect, useRef } from "react";
-import LinkSvg from "../../icons/link";
+import LinkSvg from "../../../static/icons/link";
 import copy from "copy-to-clipboard";
 import Tooltip from "../BaseComponents/Tooltip";
 // import { MDXProvider } from '@mdx-js/react';
