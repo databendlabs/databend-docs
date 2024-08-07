@@ -26,7 +26,7 @@ title: 定价与计费
 
 ### 存储定价
 
-您在 Databend Cloud 中的数据实际上存储在 Amazon S3 中。Databend Cloud 的存储成本基于 Amazon S3 的定价。目前，标准版和商业版的定价均为每月每 TB 160.00 元。
+您在 Databend Cloud 中的数据实际上存放在对象存储中。Databend Cloud 的存储成本基于对象存储的定价。目前，标准版和商业版的定价均为每月每 TB 160.00 元。
 
 | 版本   | 每 TB 每月价格 |
 | ------ | -------------- |
