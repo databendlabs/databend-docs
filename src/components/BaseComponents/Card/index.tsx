@@ -4,6 +4,7 @@ import { type FC, type ReactElement } from "react";
 import styles from "./styles.module.scss";
 import clsx from "clsx";
 import { type ICommonProps } from "@site/src/types";
+import Link from "@docusaurus/Link";
 interface IProps extends ICommonProps {
   href?: string;
   isDownload?: boolean;
@@ -27,9 +28,9 @@ const Card: FC<IProps> = ({
   return (
     <>
       {href ? (
-        <a onClick={onClick} download={isDownload} href={href} {...props}>
+        <Link onClick={onClick} download={isDownload} to={href} {...props}>
           {children}
-        </a>
+        </Link>
       ) : (
         <div onClick={onClick} {...props}>
           {children}

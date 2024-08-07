@@ -7,13 +7,8 @@ import DocsOverview from '@site/src/components/DocsOverview'
 
 Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/) Guides, covering all aspects of Databend Editions.
 
-**Glossary**
-
-- **`Databend`** refers to the [open-source version](https://github.com/datafuselabs/databend).
-- **`Databend Cloud`** is a fully [managed cloud service](https://databend.com).
-- **`Databend(Cloud)`** collectively denotes both `Databend` and `Databend Cloud`.
-
 <DocsOverview />
+
 **Here are some entries you might want to learn about**
 
 - **[SQL Reference](/sql)**: your swift-access guide for Databend essentials!
