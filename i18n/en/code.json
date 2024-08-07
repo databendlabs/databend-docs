@@ -584,5 +584,89 @@
   "Use Cases": {
     "message": "Use Cases",
     "description": "Use Cases"
+  },
+  "Getting Started": {
+    "message": "Getting Started",
+    "description": "Getting Started"
+  },
+  "Introduction to Databend Products": {
+    "message": "Introduction to Databend Products",
+    "description": "Title for Introduction to Databend Products section"
+  },
+  "Check out the products you can choose from.": {
+    "message": "Check out the products you can choose from.",
+    "description": "Description for Introduction to Databend Products section"
+  },
+  "Databend Cloud": {
+    "message": "Databend Cloud",
+    "description": "Title for Databend Cloud product"
+  },
+  "Fully-Managed on Cloud": {
+    "message": "Fully-Managed on Cloud",
+    "description": "Description for Databend Cloud product"
+  },
+  "Databend Enterprise": {
+    "message": "Databend Enterprise",
+    "description": "Title for Databend Enterprise product"
+  },
+  "Self-Hosted with Additional Enterprise Features": {
+    "message": "Self-Hosted with Additional Enterprise Features",
+    "description": "Description for Databend Enterprise product"
+  },
+  "Databend Cummunity": {
+    "message": "Databend Cummunity",
+    "description": "Title for Databend Cummunity product"
+  },
+  "Self-Hosted & Free": {
+    "message": "Self-Hosted & Free",
+    "description": "Description for Databend Cummunity product"
+  },
+  "Create a Databend Cloud account or deploy your own Databend instance.": {
+    "message": "Create a Databend Cloud account or deploy your own Databend instance.",
+    "description": "Description for Getting Started section"
+  },
+  "Activate Databend Cloud": {
+    "message": "Activate Databend Cloud",
+    "description": "Title for Activate Databend Cloud card"
+  },
+  "This topic": {
+    "message": "This topic",
+    "description": "Link text for this topic"
+  },
+  "outlines the steps for applying for beta access as an organization.": {
+    "message": "outlines the steps for applying for beta access as an organization.",
+    "description": "Description for Activate Databend Cloud card"
+  },
+  "Topics you might find useful:": {
+    "message": "Topics you might find useful:",
+    "description": "Subtitle for useful topics"
+  },
+  "Supported Platforms & Regions": {
+    "message": "Supported Platforms & Regions",
+    "description": "Link text for Supported Platforms & Regions"
+  },
+  "Databend Cloud Editions": {
+    "message": "Databend Cloud Editions",
+    "description": "Link text for Databend Cloud Editions"
+  },
+  "Pricing & Billing": {
+    "message": "Pricing & Billing",
+    "description": "Link text for Pricing & Billing"
+  },
+  "provide detailed instructions for deploying and upgrading Databend.": {
+    "message": "provide detailed instructions for deploying and upgrading Databend.",
+    "description": "Description for Self-Hosted Databend card"
+  },
+  "Downloading Databend": {
+    "message": "Downloading Databend",
+    "description": "Link text for Downloading Databend"
+  },
+  "Licensing Databend": {
+    "message": "Licensing Databend",
+    "description": "Link text for Licensing Databend"
+  },
+  "Upgrading Databend": {
+    "message": "Upgrading Databend",
+    "description": "Link text for Upgrading Databend"
   }
 }

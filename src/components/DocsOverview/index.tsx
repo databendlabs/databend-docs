@@ -31,20 +31,22 @@ import Pipeline from "@site/static/icons/pipeline.svg";
 import Stream from "@site/static/icons/stream.svg";
 import Task from "@site/static/icons/task.svg";
 import Contact from "@site/static/icons/contact.svg";
-import Pricing from "@site/static/icons/pricing.svg";
-import Plan from "@site/static/icons/paln.svg";
 import Security from "@site/static/icons/security.svg";
-import Light from "@site/static/icons/light.svg";
 import AI from "@site/static/icons/AI.svg";
-import Selfed from "@site/static/icons/selfd.svg";
-import Cloud from "@site/static/icons/cloud-2.svg";
 import Cases from "@site/static/icons/cases.svg";
 import ChangeLog from "@site/static/icons/changelog.svg";
 import FAQ from "@site/static/icons/faq.svg";
 import { Col, Row } from "antd";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import $t from "@site/src/utils/tools";
+import {
+  LightDatabendSingleSvg,
+  LightDatabendCloudSingleSvg,
+} from "databend-logos";
+import Link from "@docusaurus/Link";
+import clsx from "clsx";
 const colLayout = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 12 };
+const colLayout2 = { xl: 12, xxl: 12, lg: 24, md: 24, sm: 24, xs: 24 };
 const DocsOverview: FC = (): ReactElement => {
   const {
     siteConfig: {
@@ -55,38 +57,126 @@ const DocsOverview: FC = (): ReactElement => {
     <div className={styles.outWrap}>
       <ContentCardWrap
         className={styles.top}
-        isNeedLogo
-        description={$t(
-          "Learn how to use Databend through guides, reference documentation."
-        )}
+        title={$t("Introduction to Databend Products")}
+        description={$t("Check out the products you can choose from.")}
       >
         <div style={{ height: "100%", width: "100%" }}>
           <Row gutter={[12, 12]} className={styles.topCard}>
             <Col {...colLayout}>
-              <Card href="/tutorials/" padding={[16, 16]}>
+              <Card href="/guides/overview/editions/dc/" padding={[16, 16]}>
                 <h3>
-                  <Light></Light>
-                  <span>{$t("Quick Start")}</span>
+                  <span>{$t("Databend Cloud")}</span>
                 </h3>
-                <div>{$t("Get started with Databend in 5 minutes")}</div>
+                <div>{$t("Fully-Managed on Cloud")}</div>
               </Card>
             </Col>
             <Col {...colLayout}>
-              <Card href="/guides/deploy/" padding={[16, 16]}>
+              <Card href="/guides/overview/editions/dee/" padding={[16, 16]}>
                 <h3>
-                  <Selfed></Selfed>
-                  <span> {$t("Self-Hosted Databend")}</span>
+                  <span> {$t("Databend Enterprise")}</span>
                 </h3>
-                <div>{$t("These guides for deploying Databend")}</div>
+                <div>
+                  {$t("Self-Hosted with Additional Enterprise Features")}
+                </div>
               </Card>
             </Col>
             <Col {...colLayout}>
-              <Card href="/guides/cloud/new-account" padding={[16, 16]}>
+              <Card href="/guides/overview/editions/dce/" padding={[16, 16]}>
                 <h3>
-                  <Cloud></Cloud>
-                  <span>Databend Cloud</span>
+                  <span>{$t("Databend Cummunity")}</span>
                 </h3>
-                <div>{$t("The fastest way to get started with Databend")}</div>
+                <div>{$t("Self-Hosted & Free")}</div>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </ContentCardWrap>
+      <ContentCardWrap
+        className={clsx(styles.commomCard, styles.gettingStart)}
+        title={$t("Getting Started")}
+        description={$t(
+          "Create a Databend Cloud account or deploy your own Databend instance."
+        )}
+      >
+        <div style={{ width: "100%" }}>
+          <Row gutter={[20, 20]}>
+            <Col {...colLayout2}>
+              <Card padding={[20, 0]} className={styles.cardActiveOut}>
+                <Link
+                  to={"/guides/cloud/new-account"}
+                  className={styles.cardActive}
+                >
+                  <LightDatabendCloudSingleSvg></LightDatabendCloudSingleSvg>
+                  <div>
+                    <h5>{$t("Activate Databend Cloud")}</h5>
+                    <div>
+                      <Link to={"/guides/cloud/new-account"}>
+                        {$t("This topic")}
+                      </Link>{" "}
+                      {$t(
+                        `outlines the steps for applying for beta access as an organization.`
+                      )}
+                    </div>
+                  </div>
+                </Link>
+                <div className={styles.moreUseful}>
+                  <div>{$t("Topics you might find useful:")}</div>
+                  <ul>
+                    <li>
+                      <Link to={"/guides/overview/editions/dc/platforms"}>
+                        {$t("Supported Platforms & Regions")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={"/guides/overview/editions/dc/editions"}>
+                        {$t("Databend Cloud Editions")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={"/guides/overview/editions/dc/pricing"}>
+                        {$t("Pricing & Billing")}
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </Card>
+            </Col>
+            <Col {...colLayout2}>
+              <Card padding={[20, 0]} className={styles.cardActiveOut}>
+                <Link to={"/guides/deploy/"} className={styles.cardActive}>
+                  <LightDatabendSingleSvg></LightDatabendSingleSvg>
+                  <div>
+                    <h5>{$t("Self-Hosted Databend")}</h5>
+                    <div>
+                      <Link to={"/guides/cloud/new-account"}>
+                        {$t("This topic")}
+                      </Link>{" "}
+                      {$t(
+                        "provide detailed instructions for deploying and upgrading Databend."
+                      )}
+                    </div>
+                  </div>
+                </Link>
+                <div className={styles.moreUseful}>
+                  <div>{$t("Topics you might find useful:")}</div>
+                  <ul>
+                    <li>
+                      <Link to={"/guides/overview/editions/dce/download"}>
+                        {$t("Downloading Databend")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={"/guides/overview/editions/dee/license"}>
+                        {$t("Licensing Databend")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={"/guides/deploy/upgrade/upgrade"}>
+                        {$t("Upgrading Databend")}
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               </Card>
             </Col>
           </Row>
@@ -393,13 +483,6 @@ const DocsOverview: FC = (): ReactElement => {
             </Col>
             <Col {...colLayout}>
               <SmallCard
-                icon={<Plan></Plan>}
-                text={$t("Databend Products")}
-                to={"/guides/overview/editions/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
                 icon={<Security></Security>}
                 text={$t("Security")}
                 to={`${homeLink}/security`}
@@ -410,13 +493,6 @@ const DocsOverview: FC = (): ReactElement => {
                 icon={<Contact></Contact>}
                 text={$t("Contact Support")}
                 to={`${homeLink}/contact-us`}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Pricing></Pricing>}
-                text={$t("Pricing")}
-                to={`${homeLink}/pricing`}
               />
             </Col>
             <Col {...colLayout}>
