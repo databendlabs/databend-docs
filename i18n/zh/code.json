@@ -510,7 +510,7 @@
     "description": "快速入门部分的描述"
   },
   "Self-Hosted Databend": {
-    "message": "私有化部署",
+    "message": "私有化部署 Databend",
     "description": "自托管 Databend 部分的标题"
   },
   "These guides for deploying Databend": {
