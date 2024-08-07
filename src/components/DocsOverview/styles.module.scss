@@ -1,5 +1,6 @@
 .outWrap {
   width: 1100px;
+  margin-top: 20px;
   @media (max-width: 1430px) {
     width: 1000px;
   }
@@ -8,21 +9,6 @@
   }
   @media (max-width: 1235px) {
     width: 100%;
-  }
-}
-.homPpageSectionLeft {
-  @media (min-width: 768px) {
-    margin-bottom: 0;
-    margin-right: 2rem;
-    width: 350px;
-  }
-  .logo {
-    margin-bottom: 4px;
-  }
-  h3 {
-    font-weight: 600;
-    font-size: 18px;
-    margin-bottom: 24px;
   }
 }
 
@@ -38,7 +24,7 @@
         gap: 8px;
         margin-bottom: 12px;
         font-weight: 600;
-        font-size: 18px;
+        font-size: 16px;
         span {
           flex: 1;
         }
@@ -60,10 +46,28 @@
   display: flex;
   padding-bottom: 2rem;
   padding-top: 2rem;
+  .homPpageSectionLeft {
+    @media (min-width: 768px) {
+      margin-bottom: 0;
+      margin-right: 2rem;
+      width: 350px;
+    }
+    .logo {
+      margin-bottom: 4px;
+    }
+    h3 {
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+  }
   @media (max-width: 1235px) {
     flex-direction: column;
     .content {
       margin-top: 30px;
+    }
+    .homPpageSectionLeft {
+      width: auto;
     }
   }
 }
@@ -88,3 +92,37 @@
 //   border-top: 1px solid var(--color-border);
 //   border-bottom: 1px solid var(--color-border);
 // }
+.gettingStart {
+  flex-direction: column;
+  .homPpageSectionLeft {
+    width: auto;
+  }
+  .content {
+    margin-top: 30px;
+  }
+}
+.topEnhancedCard {
+  border-top: 1px solid var(--color-border);
+  padding-top: 20px;
+}
+.cardPart {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.cardActiveOut {
+  height: 100%;
+}
+.cardActive {
+  display: flex;
+  align-items: flex-start;
+  text-decoration: unset !important;
+  color: hsl(var(--foreground)) !important;
+  > div {
+    flex: 1;
+  }
+}
+
+.moreUseful {
+  padding-left: 20px;
+  padding-top: 20px;
+}
