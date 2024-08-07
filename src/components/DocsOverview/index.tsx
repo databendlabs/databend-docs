@@ -148,9 +148,7 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>
                     <h5>{$t("Self-Hosted Databend")}</h5>
                     <div>
-                      <Link to={"/guides/cloud/new-account"}>
-                        {$t("This topic")}
-                      </Link>{" "}
+                      <Link to={"/guides/deploy/"}>{$t("This topic")}</Link>{" "}
                       {$t(
                         "provide detailed instructions for deploying and upgrading Databend."
                       )}

@@ -494,7 +494,7 @@
     "description": "Description for Quick Start section"
   },
   "Self-Hosted Databend": {
-    "message": "Self-Hosted",
+    "message": "Self-Hosted Databend",
     "description": "Title for Self-Hosted Databend section"
   },
   "These guides for deploying Databend": {
