@@ -16,7 +16,6 @@
 @import "./pagination.scss"; // 底部导航
 @import "./icons-color.scss"; // 自定义 icon 颜色类
 @import "./toc.scss"; // TOC
-@import "./ant-pre.scss";
 
 .container {
   padding-right: 2rem;
@@ -291,4 +290,32 @@ div[class*="searchQueryColumn"] {
 }
 [data-theme="dark"] .databend-logo-02 {
   display: block;
+}
+
+.ant-row {
+  display: flex;
+  flex-flow: row wrap;
+}
+.ant-row::before,
+.ant-row::after {
+  display: flex;
+}
+.ant-col-md-8 {
+  display: block;
+  flex: 0 0 33.33333333%;
+  max-width: 33.33333333%;
+}
+.ant-col-xl-12 {
+  display: block;
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+// antd start
+.ant-input:focus {
+  box-shadow: 0px 0px 0px 4px rgba(1, 117, 246, 0.25),
+    inset 0px 0px 0px 0.5px #0175f6;
+}
+.ant-modal-root .ant-modal-mask {
+  background-color: var(--docsearch-container-background) !important;
 }
