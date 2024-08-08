@@ -542,7 +542,7 @@
     "description": "了解更多的链接文字"
   },
   "Bulk import data into Databend(Cloud) in multiple formats.": {
-    "message": "以多种格式批量导入数据到 Databend（云）。",
+    "message": "以多种格式批量导入数据到 Databend(Cloud)。",
     "description": "加载数据到 Databend 部分的描述"
   },
   "AI & BI & Visualization & Notebooks": {
