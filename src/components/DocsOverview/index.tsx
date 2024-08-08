@@ -47,6 +47,8 @@ import Link from "@docusaurus/Link";
 import clsx from "clsx";
 const colLayout = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 12 };
 const colLayout2 = { xl: 12, xxl: 12, lg: 24, md: 24, sm: 24, xs: 24 };
+const colLayout3 = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 24 };
+
 const DocsOverview: FC = (): ReactElement => {
   const {
     siteConfig: {
@@ -62,7 +64,7 @@ const DocsOverview: FC = (): ReactElement => {
       >
         <div style={{ height: "100%", width: "100%" }}>
           <Row gutter={[12, 12]} className={styles.topCard}>
-            <Col {...colLayout}>
+            <Col {...colLayout3}>
               <Card href="/guides/overview/editions/dc/" padding={[16, 16]}>
                 <h3>
                   <span>{$t("Databend Cloud")}</span>
@@ -70,7 +72,7 @@ const DocsOverview: FC = (): ReactElement => {
                 <div>{$t("Fully-Managed on Cloud")}</div>
               </Card>
             </Col>
-            <Col {...colLayout}>
+            <Col {...colLayout3}>
               <Card href="/guides/overview/editions/dee/" padding={[16, 16]}>
                 <h3>
                   <span> {$t("Databend Enterprise")}</span>
@@ -80,7 +82,7 @@ const DocsOverview: FC = (): ReactElement => {
                 </div>
               </Card>
             </Col>
-            <Col {...colLayout}>
+            <Col {...colLayout3}>
               <Card href="/guides/overview/editions/dce/" padding={[16, 16]}>
                 <h3>
                   <span>{$t("Databend Cummunity")}</span>
