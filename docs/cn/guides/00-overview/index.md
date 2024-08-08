@@ -4,14 +4,15 @@ slug: /
 ---
 
 import DocsOverview from '@site/src/components/DocsOverview'
+import Speaker from '@site/src/components/Speaker'
 
-欢迎来到 Databend（发音为 /ˈdeɪtəˌbɛnd/）指南，涵盖所有 Databend 产品。
+欢迎来到 Databend（发音为 /ˈdeɪtəˌbɛnd/）<Speaker /> 指南，涵盖所有 Databend 产品。
 
 <DocsOverview />
 
 **以下是您可能想要了解的一些条目**
 
-- **[SQL 参考](/sql)**：快速访问 Databend 基础知识的指南！
+- **[SQL 参考](/sql)**：Databend 基础知识的快速访问指南！
 - **[数据卸载](../50-unload-data/index.md)**：从 Databend(Cloud) 导出数据。
 - **[外部函数](../54-query/04-external-function.md)**：使用外部函数扩展 Databend 的功能。
 - **[数据管理](../57-data-management/index.md)**：在 Databend(Cloud) 中管理数据。
