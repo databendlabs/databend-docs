@@ -4,8 +4,9 @@ slug: /
 ---
 
 import DocsOverview from '@site/src/components/DocsOverview'
+import Speaker from '@site/src/components/Speaker'
 
-Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/) Guides, covering all Databend products.
+Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> Guides, covering all Databend products.
 
 <DocsOverview />
 
