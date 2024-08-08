@@ -688,5 +688,9 @@
   "Changelog": {
     "message": "发布记录",
     "description": "Changelog"
+  },
+  "FAQ": {
+    "message": "常见问题",
+    "description": "FAQ"
   }
 }

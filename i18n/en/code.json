@@ -672,5 +672,9 @@
   "Changelog": {
     "message": "Changelog",
     "description": "Changelog"
+  },
+  "FAQ": {
+    "message": "FAQ",
+    "description": "FAQ"
   }
 }
