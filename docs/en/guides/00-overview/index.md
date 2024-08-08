@@ -5,7 +5,7 @@ slug: /
 
 import DocsOverview from '@site/src/components/DocsOverview'
 
-Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/) Guides, covering all aspects of Databend Editions.
+Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/) Guides, covering all Databend products.
 
 <DocsOverview />
 

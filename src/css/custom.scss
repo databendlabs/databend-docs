@@ -16,6 +16,7 @@
 @import "./pagination.scss"; // 底部导航
 @import "./icons-color.scss"; // 自定义 icon 颜色类
 @import "./toc.scss"; // TOC
+@import "./ant-pre.css";
 
 .container {
   padding-right: 2rem;
@@ -229,14 +230,7 @@ ul[class*="searchResultItemPath"] {
 div[class*="searchQueryColumn"] {
   margin-top: 1rem;
 }
-// antd start
-.ant-input:focus {
-  box-shadow: 0px 0px 0px 4px rgba(1, 117, 246, 0.25),
-    inset 0px 0px 0px 0.5px #0175f6;
-}
-.ant-modal-root .ant-modal-mask {
-  background-color: var(--docsearch-container-background) !important;
-}
+
 // antd end
 .margin-vert--xl {
   min-height: 62vh;
