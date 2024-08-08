@@ -668,5 +668,9 @@
   "Upgrading Databend": {
     "message": "Upgrading Databend",
     "description": "Link text for Upgrading Databend"
+  },
+  "Changelog": {
+    "message": "Changelog",
+    "description": "Changelog"
   }
 }

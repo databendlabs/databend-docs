@@ -684,5 +684,9 @@
   "Upgrading Databend": {
     "message": "升级 Databend",
     "description": "升级 Databend 的链接文字"
+  },
+  "Changelog": {
+    "message": "发布记录",
+    "description": "Changelog"
   }
 }
