@@ -16,7 +16,6 @@ Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> Guides, co
 - **[Data Unloading](../50-unload-data/index.md)**: Export data from Databend(Cloud).
 - **[External Functions](../54-query/04-external-function.md)**: Use external functions to extend Databend's capabilities.
 - **[Data Management](../57-data-management/index.md)**: Manage data in Databend(Cloud).
-- **[Security](../56-security/index.md)**: Security features in Databend(Cloud).
 - **[Benchmarks](../80-benchmark/index.md)**: Compare Databend Cloud performance with Snowflake on TPC-H SF100 benchmarks.
 - **[Accessing Data Lake](../51-access-data-lake/index.md)**: Databend presents a seamless integration with three robust Data Lake technologies—Apache Hive, Apache Iceberg, and Delta Lake.
 - **[Query Structures](../54-query/index.md)**: Databend supports diverse query structures to enhance your data querying experience

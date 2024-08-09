@@ -112,15 +112,6 @@
 .cardActiveOut {
   height: 100%;
 }
-.cardActive {
-  display: flex;
-  align-items: flex-start;
-  text-decoration: unset !important;
-  color: hsl(var(--foreground)) !important;
-  > div {
-    flex: 1;
-  }
-}
 
 .moreUseful {
   padding-left: 20px;

@@ -646,15 +646,15 @@
     "description": "激活 Databend Cloud 卡片的标题"
   },
   "This topic": {
-    "message": "本文",
+    "message": "本话题",
     "description": "此主题的链接文字"
   },
   "outlines the steps for applying for beta access as an organization.": {
-    "message": "概述了申请组织的步骤。",
+    "message": "描述了申请 Databend Cloud 账号的步骤。",
     "description": "激活 Databend Cloud 卡片的描述"
   },
   "Topics you might find useful:": {
-    "message": "您可能会觉得有用的文章：",
+    "message": "您可能觉得有用的话题：",
     "description": "有用的主题小标题"
   },
   "Supported Platforms & Regions": {

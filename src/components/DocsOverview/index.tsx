@@ -106,7 +106,7 @@ const DocsOverview: FC = (): ReactElement => {
               <Card padding={[20, 0]} className={styles.cardActiveOut}>
                 <Link
                   to={"/guides/cloud/new-account"}
-                  className={styles.cardActive}
+                  className={"global-overview-card"}
                 >
                   <LightDatabendCloudSingleSvg></LightDatabendCloudSingleSvg>
                   <div>
@@ -145,7 +145,7 @@ const DocsOverview: FC = (): ReactElement => {
             </Col>
             <Col {...colLayout2}>
               <Card padding={[20, 0]} className={styles.cardActiveOut}>
-                <Link to={"/guides/deploy/"} className={styles.cardActive}>
+                <Link to={"/guides/deploy/"} className={"global-overview-card"}>
                   <LightDatabendSingleSvg></LightDatabendSingleSvg>
                   <div>
                     <h5>{$t("Self-Hosted Databend")}</h5>
@@ -485,7 +485,7 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Security></Security>}
                 text={$t("Security")}
-                to={`${homeLink}/security`}
+                to={`/guides/security/`}
               />
             </Col>
             <Col {...colLayout}>
