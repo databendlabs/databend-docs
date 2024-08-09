@@ -112,9 +112,9 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>
                     <h5>{$t("Activate Databend Cloud")}</h5>
                     <div>
-                      <Link to={"/guides/cloud/new-account"}>
+                      <span className={styles.spanLine}>
                         {$t("This topic")}
-                      </Link>{" "}
+                      </span>{" "}
                       {$t(
                         `outlines the steps for applying for beta access as an organization.`
                       )}
@@ -150,7 +150,9 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>
                     <h5>{$t("Self-Hosted Databend")}</h5>
                     <div>
-                      <Link to={"/guides/deploy/"}>{$t("This topic")}</Link>{" "}
+                      <span className={styles.spanLine}>
+                        {$t("This topic")}
+                      </span>{" "}
                       {$t(
                         "provide detailed instructions for deploying and upgrading Databend."
                       )}
