@@ -542,7 +542,7 @@
     "description": "了解更多的链接文字"
   },
   "Bulk import data into Databend(Cloud) in multiple formats.": {
-    "message": "以多种格式批量导入数据到 Databend（云）。",
+    "message": "以多种格式批量导入数据到 Databend(Cloud)。",
     "description": "加载数据到 Databend 部分的描述"
   },
   "AI & BI & Visualization & Notebooks": {
@@ -684,5 +684,13 @@
   "Upgrading Databend": {
     "message": "升级 Databend",
     "description": "升级 Databend 的链接文字"
+  },
+  "Changelog": {
+    "message": "发布记录",
+    "description": "Changelog"
+  },
+  "FAQ": {
+    "message": "常见问题",
+    "description": "FAQ"
   }
 }
