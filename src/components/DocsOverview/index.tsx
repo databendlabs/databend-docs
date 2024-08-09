@@ -485,7 +485,7 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Security></Security>}
                 text={$t("Security")}
-                to={`${homeLink}/security`}
+                to={`/guides/security/`}
               />
             </Col>
             <Col {...colLayout}>
