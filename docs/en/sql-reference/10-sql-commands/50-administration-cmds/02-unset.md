@@ -19,20 +19,20 @@ UNSET [ SESSION | GLOBAL ] <setting_name>
 UNSET [ SESSION | GLOBAL ] ( <setting_name>, <setting_name> ... )
 ```
 
-| Parameter | Description                                                                                                                                                                                                                                                                                                         |
-|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SESSION   | If setting has global-level value, removes the session-level (current session) setting of a global-level setting, reverting the setting back to the global level and its global-level value. If settings just has session-level value, reverting the setting back to the DEFAULT level and its default-level value. |
-| GLOBAL    | Removes the session-level (current session) setting of a global-level setting, reverting the setting back to the DEFAULT level and its default-level value.                                                                                                                                                         |
+| Parameter | Description                                                                                                                                                                                                                                                                                                             |
+|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SESSION   | If setting has global-level value, removes the session-level (current session) setting of a global-level setting, reverting the setting back to the global level and its global-level value.<br/>If settings just has session-level value, reverting the setting back to the DEFAULT level and its default-level value. |
+| GLOBAL    | Removes the session-level (current session) setting of a global-level setting, reverting the setting back to the DEFAULT level and its default-level value.                                                                                                                                                             |
 
 
-> **CAUTION:**
-> 
-> | Databend-Query Version | Description                                                                    |
-> |------------------------|--------------------------------------------------------------------------------|
-> | [-∞, v1.2.605)         | In default, `UNSET <setting_name>` is equal to `UNSET GLOBAL <setting_name>`.  |
-> | [v1.2.605, +∞]         | In default, `UNSET <setting_name>` is equal to `UNSET SESSION <setting_name>`. |
-> 
+:::warning[CAUTION]
 
+| Databend-Query Version | Description                                                                    |
+|------------------------|--------------------------------------------------------------------------------|
+| [-∞, v1.2.605)         | In default, `UNSET <setting_name>` is equal to `UNSET GLOBAL <setting_name>`.  |
+| [v1.2.605, +∞]         | In default, `UNSET <setting_name>` is equal to `UNSET SESSION <setting_name>`. |
+
+:::
 
 ## Examples
 
