@@ -112,7 +112,21 @@
 .cardActiveOut {
   height: 100%;
 }
-
+.cardActive {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  text-decoration: unset !important;
+  color: hsl(var(--foreground)) !important;
+  > div {
+    flex: 1;
+  }
+}
+.spanLine {
+  text-decoration-line: underline;
+  color: var(--text-blue-600);
+}
 .moreUseful {
   padding-left: 20px;
   padding-top: 20px;
