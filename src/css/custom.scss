@@ -316,3 +316,12 @@ div[class*="searchQueryColumn"] {
     max-width: 50%;
   }
 }
+.global-overview-card {
+  display: flex;
+  align-items: flex-start;
+  text-decoration: unset !important;
+  color: hsl(var(--foreground)) !important;
+  > div {
+    flex: 1;
+  }
+}
