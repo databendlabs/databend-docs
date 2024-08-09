@@ -11,7 +11,7 @@ See also:
 ## Syntax
 
 ```sql
-SET [ GLOBAL ] <setting_name> = <new_value>
+SET [ SESSION | GLOBAL ] <setting_name> = <new_value>
 ```
 
 | Parameter | Description                                                                                                                                                                                          |

@@ -3,9 +3,9 @@ title: UNSET
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.467"/>
+<FunctionDescription description="Introduced or updated: v1.2.605"/>
 
-Reverts one or more system settings to their default levels and values. For more information about the setting levels, see [Setting Levels](03-show-settings.md#setting-levels). To show all the current settings, use [SHOW SETTINGS](03-show-settings.md).
+Reverts one or more system settings to their global or default levels and values. For more information about the setting levels, see [Setting Levels](03-show-settings.md#setting-levels). To show all the current settings, use [SHOW SETTINGS](03-show-settings.md).
 
 See also: [SET](02-set-global.md)
 
@@ -13,19 +13,30 @@ See also: [SET](02-set-global.md)
 
 ```sql
 -- Unset one setting
-UNSET [ SESSION ] <setting_name> 
+UNSET [ SESSION | GLOBAL ] <setting_name> 
 
 -- Unset multiple settings
-UNSET [ SESSION ] ( <setting_name>, <setting_name> ... )
+UNSET [ SESSION | GLOBAL ] ( <setting_name>, <setting_name> ... )
 ```
 
-| Parameter | Description                                                                                                                                               |
-|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SESSION   | Removes the session-level (current session) setting of a global-level setting, reverting the setting back to the global level and its global-level value. |
+| Parameter | Description                                                                                                                                                                                                                                                                                                         |
+|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SESSION   | If setting has global-level value, removes the session-level (current session) setting of a global-level setting, reverting the setting back to the global level and its global-level value. If settings just has session-level value, reverting the setting back to the DEFAULT level and its default-level value. |
+| GLOBAL    | Removes the session-level (current session) setting of a global-level setting, reverting the setting back to the DEFAULT level and its default-level value.                                                                                                                                                         |
+
+
+> **CAUTION:**
+> 
+> | Databend-Query Version | Description                                                                    |
+> |------------------------|--------------------------------------------------------------------------------|
+> | [-∞, v1.2.605)         | In default, `UNSET <setting_name>` is equal to `UNSET GLOBAL <setting_name>`.  |
+> | [v1.2.605, +∞]         | In default, `UNSET <setting_name>` is equal to `UNSET SESSION <setting_name>`. |
+> 
+
 
 ## Examples
 
-This example uses UNSET to remove the global-level setting for timezone, reverting it back to its default value and level:
+This example uses `UNSET GLOBAL` to remove the global-level setting for timezone, reverting it back to its default value and level:
 
 ```sql
 SHOW SETTINGS LIKE 'timezone';
@@ -47,7 +58,7 @@ SHOW SETTINGS LIKE 'timezone';
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- Removes the global-level setting for timezone
-UNSET timezone;
+UNSET GLOBAL timezone;
 SHOW SETTINGS LIKE 'timezone';
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -94,4 +105,27 @@ SHOW SETTINGS LIKE 'timezone';
 ├──────────┼───────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼────────┼────────────────────┼────────┤
 │ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ Sets the timezone. │ String │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+This example uses UNSET SESSION to remove the session-level setting for timezone, reverting it back to the session-level setting:
+
+```sql
+SHOW SETTINGS LIKE 'timezone';
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │     value     │ default │                                range                                │  level │     description    │  type  │
+├──────────┼───────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼────────┼────────────────────┼────────┤
+│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ Sets the timezone. │ String │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+UNSET timezone;
+
+SHOW SETTINGS LIKE 'timezone';
+
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │  value │ default │                                range                                │  level  │     description    │  type  │
+├──────────┼────────┼─────────┼─────────────────────────────────────────────────────────────────────┼─────────┼────────────────────┼────────┤
+│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ Sets the timezone. │ String │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
 ```
