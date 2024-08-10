@@ -19,10 +19,10 @@ UNSET [ SESSION | GLOBAL ] <setting_name>
 UNSET [ SESSION | GLOBAL ] ( <setting_name>, <setting_name> ... )
 ```
 
-| Parameter | Description                                                                                                                                                                                                                                                                                                             |
-|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SESSION   | If setting has global-level value, removes the session-level (current session) setting of a global-level setting, reverting the setting back to the global level and its global-level value.<br/>If settings just has session-level value, reverting the setting back to the DEFAULT level and its default-level value. |
-| GLOBAL    | Removes the session-level (current session) setting of a global-level setting, reverting the setting back to the DEFAULT level and its default-level value.                                                                                                                                                             |
+| Parameter | Description                                                                                                                                                                                         |
+|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SESSION   | If the setting has a global-level value, it removes the session-level override and reverts to the global setting. If the setting only has a session-level value, it reverts to the default setting. |
+| GLOBAL    | Removes the global-level setting and reverts it to the default-level value.                                                                                                                         |
 
 
 :::warning[CAUTION]
