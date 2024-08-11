@@ -11,11 +11,12 @@ See also:
 ## Syntax
 
 ```sql
-SET [ GLOBAL ] <setting_name> = <new_value>
+SET [ SESSION | GLOBAL ] <setting_name> = <new_value>
 ```
 
-| Parameter | Description                                                                                                                                                                                          |
-|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Parameter | Description                                                                                                                                                                                     |
+|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SESSION   | Applies the setting change at the session level. If omitted, it applies to the session level by default.                                                                                        |
 | GLOBAL    | Applies the setting change at the global level, rather than just the current session. For more information about the setting levels, see  [Setting Levels](03-show-settings.md#setting-levels). |
 
 ## Examples
