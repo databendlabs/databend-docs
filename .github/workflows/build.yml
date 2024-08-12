@@ -28,7 +28,7 @@ jobs:
           region: cn-beijing
           role-session-name: github-actions-${{ github.run_id }}
           oidc-provider-arn: acs:ram::1953761221157405:oidc-provider/github
-          set-outputs: 'true'
+          set-outputs: "true"
       - name: Configure AWS CLI
         run: aws configure set default.s3.addressing_style virtual
       - name: Sync to OSS
@@ -39,4 +39,4 @@ jobs:
           AWS_SESSION_TOKEN: ${{ steps.aliyun.outputs.security-token }}
           AWS_REGION: cn-beijing
         run: |
-          aws s3 sync ./build/ s3://databend-docs/ --no-progress
+          aws s3 sync ./build/ s3://databend-docs/ --delete
