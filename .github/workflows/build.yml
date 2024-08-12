@@ -39,4 +39,4 @@ jobs:
           AWS_SESSION_TOKEN: ${{ steps.aliyun.outputs.security-token }}
           AWS_REGION: cn-beijing
         run: |
-          aws s3 sync ./build/ s3://databend-docs/ --delete
+          aws s3 sync ./build/ s3://databend-docs/ --no-progress
