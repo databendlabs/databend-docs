@@ -3,9 +3,9 @@ title: UNSET
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.467"/>
+<FunctionDescription description="引入或更新于：v1.2.605"/>
 
-将一个或多个系统设置恢复到其默认级别和值。有关设置级别的更多信息，请参阅[设置级别](03-show-settings.md#setting-levels)。要显示所有当前设置，请使用[SHOW SETTINGS](03-show-settings.md)。
+将一个或多个系统设置恢复到其全局或默认级别和值。有关设置级别的更多信息，请参阅[设置级别](03-show-settings.md#setting-levels)。要显示所有当前设置，请使用[SHOW SETTINGS](03-show-settings.md)。
 
 另请参阅：[SET](02-set-global.md)
 
@@ -13,19 +13,30 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ```sql
 -- 取消一个设置
-UNSET [ SESSION ] <setting_name> 
+UNSET [ SESSION | GLOBAL ] <setting_name> 
 
 -- 取消多个设置
-UNSET [ SESSION ] ( <setting_name>, <setting_name> ... )
+UNSET [ SESSION | GLOBAL ] ( <setting_name>, <setting_name> ... )
 ```
 
-| 参数      | 描述                                                                                                               |
-|-----------|--------------------------------------------------------------------------------------------------------------------|
-| SESSION   | 移除会话级别（当前会话）的全局级别设置，将设置恢复到全局级别及其全局级别值。                                       |
+| 参数    | 描述                                                                                                                                                                                         |
+|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SESSION   | 如果设置具有全局级别值，则移除会话级别覆盖并恢复到全局设置。如果设置仅具有会话级别值，则恢复到默认设置。 |
+| GLOBAL    | 移除全局级别设置并将其恢复到默认级别值。                                                                                                                         |
+
+
+:::warning[注意]
+
+| Databend-Query 版本 | 描述                                                                    |
+|------------------------|--------------------------------------------------------------------------------|
+| [-∞, v1.2.605)         | 默认情况下，`UNSET <setting_name>` 等同于 `UNSET GLOBAL <setting_name>`。  |
+| [v1.2.605, +∞]         | 默认情况下，`UNSET <setting_name>` 等同于 `UNSET SESSION <setting_name>`。 |
+
+:::
 
 ## 示例
 
-此示例使用 UNSET 移除时区的全局级别设置，将其恢复到默认值和级别：
+此示例使用 `UNSET GLOBAL` 移除时区的全局级别设置，将其恢复回默认值和级别：
 
 ```sql
 SHOW SETTINGS LIKE 'timezone';
@@ -33,7 +44,7 @@ SHOW SETTINGS LIKE 'timezone';
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │   name   │  value │ default │                                range                                │  level  │     description    │  type  │
 ├──────────┼────────┼─────────┼─────────────────────────────────────────────────────────────────────┼─────────┼────────────────────┼────────┤
-│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ 设置时区。         │ String │
+│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ 设置时区。 │ String │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- 在全局级别将时区设置为 'Asia/Shanghai'
@@ -43,21 +54,21 @@ SHOW SETTINGS LIKE 'timezone';
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │   name   │     value     │ default │                                range                                │  level │     description    │  type  │
 ├──────────┼───────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼────────┼────────────────────┼────────┤
-│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ 设置时区。         │ String │
+│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ 设置时区。 │ String │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- 移除时区的全局级别设置
-UNSET timezone;
+UNSET GLOBAL timezone;
 SHOW SETTINGS LIKE 'timezone';
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │   name   │  value │ default │                                range                                │  level  │     description    │  type  │
 ├──────────┼────────┼─────────┼─────────────────────────────────────────────────────────────────────┼─────────┼────────────────────┼────────┤
-│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ 设置时区。         │ String │
+│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ 设置时区。 │ String │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例使用 UNSET SESSION 移除时区的会话级别设置，将其恢复到全局级别设置：
+此示例使用 `UNSET SESSION` 移除时区的会话级别设置，将其恢复回全局级别设置：
 
 ```sql
 SHOW SETTINGS LIKE 'timezone';
@@ -65,7 +76,7 @@ SHOW SETTINGS LIKE 'timezone';
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │   name   │  value │ default │                                range                                │  level  │     description    │  type  │
 ├──────────┼────────┼─────────┼─────────────────────────────────────────────────────────────────────┼─────────┼────────────────────┼────────┤
-│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ 设置时区。         │ String │
+│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ 设置时区。 │ String │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- 在全局级别将时区设置为 'Asia/Shanghai'
@@ -74,7 +85,7 @@ SHOW SETTINGS LIKE 'timezone';
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │   name   │     value     │ default │                                range                                │  level │     description    │  type  │
 ├──────────┼───────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼────────┼────────────────────┼────────┤
-│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ 设置时区。         │ String │
+│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ 设置时区。 │ String │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- 在当前会话中将时区设置为 'America/Santiago'
@@ -83,7 +94,7 @@ SHOW SETTINGS LIKE 'timezone';
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │   name   │       value      │ default │                                range                                │  level  │     description    │  type  │
 ├──────────┼──────────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼─────────┼────────────────────┼────────┤
-│ timezone │ America/Santiago │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ SESSION │ 设置时区。         │ String │
+│ timezone │ America/Santiago │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ SESSION │ 设置时区。 │ String │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 UNSET SESSION timezone;
@@ -92,6 +103,29 @@ SHOW SETTINGS LIKE 'timezone';
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │   name   │     value     │ default │                                range                                │  level │     description    │  type  │
 ├──────────┼───────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼────────┼────────────────────┼────────┤
-│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ 设置时区。         │ String │
+│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ 设置时区。 │ String │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+此示例使用 `UNSET SESSION` 移除时区的会话级别设置，将其恢复回会话级别设置：
+
+```sql
+SHOW SETTINGS LIKE 'timezone';
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │     value     │ default │                                range                                │  level │     description    │  type  │
+├──────────┼───────────────┼─────────┼─────────────────────────────────────────────────────────────────────┼────────┼────────────────────┼────────┤
+│ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ 设置时区。 │ String │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+UNSET timezone;
+
+SHOW SETTINGS LIKE 'timezone';
+
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   name   │  value │ default │                                range                                │  level  │     description    │  type  │
+├──────────┼────────┼─────────┼─────────────────────────────────────────────────────────────────────┼─────────┼────────────────────┼────────┤
+│ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ 设置时区。 │ String │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
 ```
