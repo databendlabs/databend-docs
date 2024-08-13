@@ -1,11 +1,21 @@
 ---
-title: Activate Databend Cloud
+title: Getting Started
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-In order to create an account on Databend Cloud, your organization must first have beta access to the platform. This topic outlines the steps for applying for beta access as an organization, as well as signing up and logging in to your Databend Cloud account.
+This topic outlines the steps for applying for beta access as an organization, as well as signing up and logging in to your Databend Cloud account.
+
+:::tip
+Databend Cloud is fully compatible with various mainstream browsers, including Chrome, Microsoft Edge, Firefox, Opera, and Safari, providing users with great convenience and flexibility in usage. 
+
+- Databend Cloud recommends upgrading your browser to the latest version.
+
+- If you encounter any issues related to your browser while using Databend Cloud, please create a ticket to contact Databend Cloud for effective assistance.
+
+- Databend Cloud does not support Internet Explorer.
+:::
 
 ## Apply for Beta Access
 
