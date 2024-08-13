@@ -1,5 +1,6 @@
 ---
-title: "Connect to Databend Cloud with AWS PrivateLink"
+title: "Connecting to Databend Cloud with AWS PrivateLink"
+sidebar_label: "AWS PrivateLink"
 ---
 
 # Why PrivateLink

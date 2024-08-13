@@ -1,5 +1,5 @@
 ---
-title: Work with Dashboards
+title: Dashboards
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';

@@ -1,10 +1,10 @@
 ---
-title: Usage
+title: Managing Costs
 ---
 
-This topic describes how to view and control your usage within Databend Cloud.
+This topic describes how to view and limit your costs within Databend Cloud.
 
-## Viewing Your Usage
+## Viewing Your Costs
 
 If you are an admin user, you can access your organization's usage statistics by clicking **Manage** > **Usage**.
 
@@ -20,7 +20,7 @@ Clicking on **View more** will provide more detailed statistical data:
 - On the left, filters can be applied based on time range, category, and records.
 - On the right, consumption data, trends, and details will be displayed.
 
-## Controlling Your Usage
+## Limiting Your Costs
 
 For admin users, Databend Cloud offers the option to set a spending limit for their organization. This allows administrators to control the maximum amount of money spent on the platform. To do this, go to the homepage and click on **Activate Spending Limit**. On the next page, you can turn on the **Enable Spending Limit** button and specify the maximum monthly spending allowed for your organization.
 

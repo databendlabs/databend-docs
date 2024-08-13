@@ -1,8 +1,6 @@
 ---
-title: Work with Warehouses
+title: Warehouses
 ---
-
-## What is Warehouse?
 
 The warehouse is an essential component of Databend Cloud. A warehouse represents a set of computing capacities including CPU, memory, and local caches. You must run a warehouse to perform the following SQL tasks in Databend Cloud:
 

@@ -1,5 +1,5 @@
 ---
-title: Work with Worksheets
+title: Worksheets
 ---
 import DbSVG from '@site/static/img/icon/database.svg'
 import RoleSVG from '@site/static/img/icon/role.svg'
@@ -29,8 +29,6 @@ The query result shows in the output area. You can click **Export** to save the 
 
 :::tip
 - To make it easier for you to edit SQL statements, you can select a table in the database list and click the "..." button next to it. Then, follow the menu prompts to choose to copy the table name or all column names to the SQL input area on the right in one click.
-
-- AI assistance is available for editing SQL statements within the Databend Cloud editor. Simply type "/" at the beginning of a new line and input your query, like "Query the current time". The editor will display an AI-generated SQL statement. For additional guidance on the statement, highlight it, and click **Edit** to explain your desired changes or request further assistance. Alternatively, click **Chat** to engage in a conversation with AI for more comprehensive support.
 
 - If you enter multiple statements in the SQL input area, Databend Cloud will only execute the statement where the cursor is located. You can move the cursor to execute other statements. Additionally, you can use keyboard shortcuts: Ctrl + Enter (Windows) or Command + Enter (Mac) to execute the current statement, and Ctrl + Shift + Enter (Windows) or Command + Shift + Enter (Mac) to execute all statements.
 :::

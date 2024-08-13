@@ -1,5 +1,5 @@
 ---
-title: "Access your own AWS S3 bucket in Databend Cloud with IAM Role"
+title: "Creating External Stage with AWS IAM Role"
 ---
 
 # Why IAM Role
