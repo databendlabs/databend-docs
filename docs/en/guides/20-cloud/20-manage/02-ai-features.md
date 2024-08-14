@@ -1,6 +1,7 @@
 ---
 title: AI-Powered Features
 ---
+import SearchSVG from '@site/static/img/icon/search.svg'
 
 With the inclusion of AI-powered features, Databend Cloud allows you to engage in natural language conversations to receive help, assistance, and solutions. These AI-powered features are enabled by default, but you can disable them if desired by navigating to **Manage** > **Settings**.
 
@@ -10,7 +11,7 @@ AI Chat enables natural language interactions, allowing for intuitive informatio
 
 To launch an AI-Chat:
 
-1. Click the magnifying glass icon located in the sidebar to open the search box.
+1. Click the magnifying glass icon <SearchSVG/> located in the sidebar to open the search box.
 
 2. Click on **Chat** to navigate to the Chat tab.
 
