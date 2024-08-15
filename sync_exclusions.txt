@@ -1,3 +1,4 @@
 docs/cn/tutorials/01-taobao.md
-docs/cn/guides/20-cloud
+docs/cn/guides/20-cloud/20-manage/02-ai-features.md
+docs/cn/guides/20-cloud/00-new-account.md
 docs/cn/guides/00-overview/00-editions/02-dc
