@@ -10,11 +10,11 @@ title: 表
 
 ### 1. 理解表类型
 
-Databend 根据它们对时间旅行支持的不同，支持两种类型的表：
+Databend 根据它们对时间回溯支持的不同，支持两种类型的表：
 
-- **通用表（默认）**：这些表本质上支持时间旅行，允许您追踪和检索历史数据。这个功能对于数据分析和审计非常有价值。
+- **通用表（默认）**：这些表本质上支持时间回溯，允许您追踪和检索历史数据。这个功能对于数据分析和审计非常有价值。
 
-- **临时表**：与此相反，临时表不支持时间旅行。它们设计用于不需要历史数据跟踪的场景。要创建临时表，您必须在 [CREATE TABLE](10-ddl-create-table.md) 命令中明确指定 TRANSIENT 关键字。更多信息，请参见 [CREATE TRANSIENT TABLE](10-ddl-create-table.md#create-transient-table)。
+- **临时表**：与此相反，临时表不支持时间回溯。它们设计用于不需要历史数据跟踪的场景。要创建临时表，您必须在 [CREATE TABLE](10-ddl-create-table.md) 命令中明确指定 TRANSIENT 关键字。更多信息，请参见 [CREATE TRANSIENT TABLE](10-ddl-create-table.md#create-transient-table)。
 
 ### 2. 选择表存储
 
@@ -52,13 +52,12 @@ Databend 还提供了通过复制现有表的列结构甚至数据来创建表�
 
 Databend 提供了多种命令用于删除表或清理表数据。下表比较了这些命令，这些命令最初可能看起来复杂，概述了每个操作的任何相关恢复选项。
 
-| 命令           | 企业版？ | 描述                                                        | 恢复        |
-|-------------------|---------------------|--------------------------------------------------------------------|-----------------|
-| [TRUNCATE TABLE](40-ddl-truncate-table.md)   | 否                  | 从表中删除所有数据，同时保留表的架构。 | [FLASHBACK TABLE](70-flashback-table.md) |
-| [DROP TABLE](20-ddl-drop-table.md)        | 否                  | 删除表。                                                   | [UNDROP TABLE](21-ddl-undrop-table.md)    |
-| [VACUUM TABLE](91-vacuum-table.md)      | 是                 | 永久删除表的历史数据文件。              | 不适用。 |
-| [VACUUM DROP TABLE](91-vacuum-drop-table.md) | 是                 | 永久删除已删除表的数据文件。                  | 不适用。 |
-
+| 命令                                         | 企业版？ | 描述                                   | 恢复                                     |
+| -------------------------------------------- | -------- | -------------------------------------- | ---------------------------------------- |
+| [TRUNCATE TABLE](40-ddl-truncate-table.md)   | 否       | 从表中删除所有数据，同时保留表的架构。 | [FLASHBACK TABLE](70-flashback-table.md) |
+| [DROP TABLE](20-ddl-drop-table.md)           | 否       | 删除表。                               | [UNDROP TABLE](21-ddl-undrop-table.md)   |
+| [VACUUM TABLE](91-vacuum-table.md)           | 是       | 永久删除表的历史数据文件。             | 不适用。                                 |
+| [VACUUM DROP TABLE](91-vacuum-drop-table.md) | 是       | 永久删除已删除表的数据文件。           | 不适用。                                 |
 
 ## 高级表优化技术
 
