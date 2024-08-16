@@ -1,10 +1,8 @@
 ---
-title: 使用仓库
+title: 仓库
 ---
 
-## 什么是仓库？
-
-仓库是 Databend Cloud 的重要组成部分。一个仓库代表一组计算能力，包括 CPU、内存和本地缓存。您必须在 Databend Cloud 中运行一个仓库来执行以下 SQL 任务：
+仓库是 Databend Cloud 的重要组成部分。一个仓库代表一组计算能力，包括 CPU、内存和本地缓存。您必须运行一个仓库才能在 Databend Cloud 中执行以下 SQL 任务：
 
 - 使用 SELECT 语句查询数据
 - 使用 INSERT、UPDATE 或 DELETE 语句修改数据
@@ -15,7 +13,7 @@ title: 使用仓库
 
 ## 仓库大小
 
-Databend Cloud 中的仓库有不同的大小。因为 Databend Cloud 以 vCPU 为单位衡量仓库的计算能力，所以仓库的大小基本上反映了仓库包含的 vCPU 数量。您可以在 Databend Cloud 中拥有不同大小的多个仓库。以下大小在创建仓库时可供选择：
+Databend Cloud 中的仓库有不同的大小。由于 Databend Cloud 以 vCPU 为单位衡量仓库的计算能力，仓库的大小基本上反映了仓库包含的 vCPU 数量。您可以在 Databend Cloud 中拥有不同大小的多个仓库。以下大小可供您在创建仓库时选择：
 
 - XSmall：包含 8 个 vCPU。
 - Small：包含 16 个 vCPU。
@@ -28,17 +26,18 @@ Databend Cloud 中的仓库有不同的大小。因为 Databend Cloud 以 vCPU �
 :::
 
 ## 仓库状态
-Databend Cloud 中的仓库可以有以下几种状态：
+Databend Cloud 中的仓库可以具有以下几种状态：
 
 - 已暂停
 - 启动中
 - 运行中
 
-请注意，Databend Cloud 仅在您的仓库处于运行状态时收取信用额度。如果没有活动，仓库会自动进入已暂停状态以减少您的信用额度开销。
+请注意，Databend Cloud 仅在您的仓库处于运行状态时收取信用额度。如果仓库没有活动，它会自动进入已暂停状态以减少您的信用额度开销。
 
 当您选择一个已暂停的仓库来执行 SQL 任务时，仓库会自动唤醒并开始运行任务。您也可以在**仓库**页面上手动启动或暂停仓库。
 
 ![](@site/static/img/documents/warehouses/states.jpg)
+
 
 ## 管理仓库 {#managing}
 
@@ -56,6 +55,6 @@ Databend Cloud 中的仓库可以有以下几种状态：
 
 ![Alt text](@site/static/img/documents/warehouses/connect-warehouse.png)
 
-以下是一个弹出连接信息窗口的示例，Databend Cloud 提供了一个名为 *cloudapp* 的 SQL 用户和随机生成的密码。连接到仓库时需要使用用户名和密码进行身份验证。请注意，Databend 不会存储生成的密码。您必须将密码复制并粘贴到安全的地方。如果您忘记了密码，请点击**重置数据库密码**以生成一个新密码。
+以下是一个弹出连接信息窗口的示例，Databend Cloud 提供了一个名为 *cloudapp* 的 SQL 用户和随机生成的密码。连接到仓库时，您需要使用用户名和密码进行身份验证。请注意，Databend 不会存储生成的密码。您必须将密码复制并粘贴到安全的地方。如果您忘记了密码，请点击**重置数据库密码**以生成一个新密码。
 
 ![Alt text](@site/static/img/documents/warehouses/connect-warehouse-2.png)
