@@ -51,7 +51,7 @@ Databend Cloud 中的仓库可以具有以下几种状态：
 
 ## 连接到仓库 {#connecting}
 
-要获取必要的连接信息，请在**仓库**页面上选择并点击一个仓库进入详细信息页面，然后点击**连接**以显示弹出窗口。
+要获取必要的连接信息，请在**仓库**页面上选择并点击一个仓库以进入详细信息页面，然后点击**连接**以显示弹出窗口。
 
 ![Alt text](@site/static/img/documents/warehouses/connect-warehouse.png)
 
