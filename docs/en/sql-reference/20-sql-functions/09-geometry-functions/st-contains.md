@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.564"/>
 
-Returns TRUE if a GEOMETRY object is completely inside another GEOMETRY object.
+Returns TRUE if the second GEOMETRY object is completely inside the first GEOMETRY object.
 
 ## Syntax
 
