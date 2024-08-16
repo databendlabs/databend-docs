@@ -1,6 +1,7 @@
 ---
 title: 工作表
 ---
+
 import DbSVG from '@site/static/img/icon/database.svg'
 import RoleSVG from '@site/static/img/icon/role.svg'
 import WarehouseSVG from '@site/static/img/icon/warehouse.svg'
@@ -22,16 +23,17 @@ import EllipsisSVG from '@site/static/img/icon/ellipsis.svg'
 2. 点击 SQL 编辑器上方的用户图标 <RoleSVG/> 并选择一个要使用的角色。下拉列表将显示所有你被授予的角色，以及在你的角色层次结构下的任何子角色。有关角色层次结构的更多信息，请参阅[继承角色与建立层次结构](/guides/security/access-control/roles#inheriting-roles--establishing-hierarchy)。
 
 3. 在 SQL 编辑器中编辑 SQL 语句。
-4. 点击 SQL 编辑器下方的仓库图标 <WarehouseSVG/> 并从列表中选择一个仓库。
-4. 点击 **Run Script**。
+4. 点击 SQL 编辑器下方的计算集群图标 <WarehouseSVG/> 并从列表中选择一个计算集群。
+5. 点击 **Run Script**。
 
 查询结果显示在输出区域。你可以点击 **Export** 将整个结果保存为 CSV 文件，或者在输出区域选择一个或多个单元格并按 Command + C（在 Mac 上）或 Ctrl + C（在 Windows 上）将其复制到剪贴板。
 
 :::tip
+
 - 为了方便你编辑 SQL 语句，你可以在数据库列表中选择一个表并点击其旁边的“...”按钮。然后，按照菜单提示选择一键复制表名或所有列名到右侧的 SQL 输入区域。
 
 - 如果你在 SQL 输入区域输入了多个语句，Databend Cloud 只会执行光标所在位置的语句。你可以移动光标来执行其他语句。此外，你可以使用键盘快捷键：Ctrl + Enter（Windows）或 Command + Enter（Mac）来执行当前语句，以及 Ctrl + Shift + Enter（Windows）或 Command + Shift + Enter（Mac）来执行所有语句。
-:::
+  :::
 
 ## 共享工作表
 

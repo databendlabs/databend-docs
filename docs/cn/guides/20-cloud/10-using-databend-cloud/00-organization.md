@@ -6,7 +6,7 @@ title: 组织与成员
 
 ## 理解组织
 
-组织是 Databend Cloud 中的一个基本概念。Databend Cloud 中的所有用户、数据库、仓库和其他对象都与一个组织相关联。组织是一个用于管理用户及其资源的群组。
+组织是 Databend Cloud 中的一个基本概念。Databend Cloud 中的所有用户、数据库、计算集群和其他对象都与一个组织相关联。组织是一个用于管理用户及其资源的群组。
 
 在 Databend Cloud 的组织中，数据和资源在所有用户之间共享。用户可以利用云原生功能相互协作，有效管理和分析组织的数据。
 
@@ -34,10 +34,10 @@ title: 组织与成员
 
 - 列出的角色显示用户被邀请时分配的角色。虽然这些角色可以在页面上更改，但不能使用 SQL 撤销。但是，您可以根据用户的电子邮件地址授予用户额外的角色或权限。这些由电子邮件地址标识的用户账户也可以作为 Databend Cloud 中的 SQL 用户。示例：
 
-    ```sql
-    GRANT ROLE writer to 'eric@databend.com';
-    GRANT SELECT ON *.* TO 'eric@databend.com';
-    ```
+  ```sql
+  GRANT ROLE writer to 'eric@databend.com';
+  GRANT SELECT ON *.* TO 'eric@databend.com';
+  ```
 
 - 该页面不显示使用 SQL 创建的用户。要查看已创建的 SQL 用户，请使用 [SHOW USERS](/sql/sql-commands/ddl/user/user-show-users) 命令。
 
@@ -48,7 +48,8 @@ title: 组织与成员
 邀请电子邮件将发送给被邀请的用户。在电子邮件中，将有一个链接，用户可以点击该链接来启动注册过程。
 
 :::note
+
 - 邀请新成员加入组织是仅限于 `account_admin` 角色的特权。
 
 - 如果您的组织处于试用计划下，最多允许一个用户。在这种情况下，您将无法邀请更多成员。
-:::
+  :::

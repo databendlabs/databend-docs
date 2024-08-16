@@ -1,8 +1,8 @@
 ---
-title: 仓库
+title: 计算集群
 ---
 
-仓库是 Databend Cloud 的重要组成部分。一个仓库代表一组计算能力，包括 CPU、内存和本地缓存。您必须运行一个仓库才能在 Databend Cloud 中执行以下 SQL 任务：
+计算集群是 Databend Cloud 的重要组成部分。一个计算集群代表一组计算能力，包括 CPU、内存和本地缓存。您必须运行一个仓库才能在 Databend Cloud 中执行以下 SQL 任务：
 
 - 使用 SELECT 语句查询数据
 - 使用 INSERT、UPDATE 或 DELETE 语句修改数据
@@ -26,6 +26,7 @@ Databend Cloud 中的仓库有不同的大小。由于 Databend Cloud 以 vCPU �
 :::
 
 ## 仓库状态
+
 Databend Cloud 中的仓库可以具有以下几种状态：
 
 - 已暂停
@@ -34,14 +35,13 @@ Databend Cloud 中的仓库可以具有以下几种状态：
 
 请注意，Databend Cloud 仅在您的仓库处于运行状态时收取信用额度。如果仓库没有活动，它会自动进入已暂停状态以减少您的信用额度开销。
 
-当您选择一个已暂停的仓库来执行 SQL 任务时，仓库会自动唤醒并开始运行任务。您也可以在**仓库**页面上手动启动或暂停仓库。
+当您选择一个已暂停的仓库来执行 SQL 任务时，仓库会自动唤醒并开始运行任务。您也可以在**计算集群**页面上手动启动或暂停仓库。
 
 ![](@site/static/img/documents/warehouses/states.jpg)
 
-
 ## 管理仓库 {#managing}
 
-**仓库**页面列出了现有的仓库，并允许您手动启动或暂停仓库。如果您是管理员用户，您还可以在该页面上创建或删除仓库。
+**计算集群**页面列出了现有的仓库，并允许您手动启动或暂停仓库。如果您是管理员用户，您还可以在该页面上创建或删除仓库。
 
 ![](@site/static/img/documents/warehouses/warehouse-overview.png)
 
@@ -51,10 +51,10 @@ Databend Cloud 中的仓库可以具有以下几种状态：
 
 ## 连接到仓库 {#connecting}
 
-要获取必要的连接信息，请在**仓库**页面上选择并点击一个仓库以进入详细信息页面，然后点击**连接**以显示弹出窗口。
+要获取必要的连接信息，请在**计算集群**页面上选择并点击一个仓库以进入详细信息页面，然后点击**连接**以显示弹出窗口。
 
 ![Alt text](@site/static/img/documents/warehouses/connect-warehouse.png)
 
-以下是一个弹出连接信息窗口的示例，Databend Cloud 提供了一个名为 *cloudapp* 的 SQL 用户和随机生成的密码。连接到仓库时，您需要使用用户名和密码进行身份验证。请注意，Databend 不会存储生成的密码。您必须将密码复制并粘贴到安全的地方。如果您忘记了密码，请点击**重置数据库密码**以生成一个新密码。
+以下是一个弹出连接信息窗口的示例，Databend Cloud 提供了一个名为 _cloudapp_ 的 SQL 用户和随机生成的密码。连接到仓库时，您需要使用用户名和密码进行身份验证。请注意，Databend 不会存储生成的密码。您必须将密码复制并粘贴到安全的地方。如果您忘记了密码，请点击**重置数据库密码**以生成一个新密码。
 
 ![Alt text](@site/static/img/documents/warehouses/connect-warehouse-2.png)

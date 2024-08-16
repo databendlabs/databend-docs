@@ -12,7 +12,7 @@ Databend 和 Databend Cloud 都支持与 Deepnote 集成，需要一个安全连
 
 ### 步骤 1. 设置环境
 
-确保您可以登录到您的 Databend Cloud 账户并获取仓库的连接信息。更多详情，请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+确保您可以登录到您的 Databend Cloud 账户并获取计算集群的连接信息。更多详情，请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 连接到 Databend Cloud
 
@@ -24,13 +24,13 @@ Databend 和 Databend Cloud 都支持与 Deepnote 集成，需要一个安全连
 
 3. 使用您的连接信息填写字段。
 
-| 参数             | 描述                         |
-| ---------------- | ---------------------------- |
-| 集成名称         | 例如，`Databend`             |
-| 主机名           | 从连接信息中获取             |
-| 端口             | `443`                        |
-| 用户名           | `cloudapp`                   |
-| 密码             | 从连接信息中获取             |
+| 参数     | 描述             |
+| -------- | ---------------- |
+| 集成名称 | 例如，`Databend` |
+| 主机名   | 从连接信息中获取 |
+| 端口     | `443`            |
+| 用户名   | `cloudapp`       |
+| 密码     | 从连接信息中获取 |
 
 4. 创建一个笔记本。
 

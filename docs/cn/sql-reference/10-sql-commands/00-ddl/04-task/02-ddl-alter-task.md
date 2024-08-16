@@ -60,7 +60,7 @@ ALTER TASK IF EXISTS mytask SET
   SCHEDULE = USING CRON '0 12 * * * *' 'UTC';
 ```
 
-此示例修改 mytask 任务，将其仓库更改为 new_warehouse，并将其计划更新为每天 UTC 中午运行。
+此示例修改 mytask 任务，将其计算集群更改为 new_warehouse，并将其计划更新为每天 UTC 中午运行。
 
 ```sql
 ALTER TASK IF EXISTS mytask MODIFY

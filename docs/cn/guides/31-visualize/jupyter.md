@@ -8,7 +8,7 @@ title: Jupyter Notebook
 
 或者，您可以使用 [Databend Python Binding](https://pypi.org/project/databend/) 库在 Python 中运行 SQL 查询，使您能够在本地 Python 环境或在线服务（如 Jupyter Notebook 和 Google Colab）中直接利用 DataBend 的功能，而无需部署单独的 DataBend 实例。
 
-## 教程-1：使用 SQLAlchemy 将 Databend 与 Jupyter Notebook 集成
+## 教程 -1：使用 SQLAlchemy 将 Databend 与 Jupyter Notebook 集成
 
 在本教程中，您将首先部署一个本地的 Databend 实例和 Jupyter Notebook，然后运行一个示例笔记本，通过 SQLAlchemy 库连接到您的本地 Databend，并在笔记本中编写和可视化数据。
 
@@ -61,7 +61,7 @@ jupyter notebook
 
 ![Alt text](/img/integration/integration-gui-jupyter.png)
 
-## 教程-2：使用 ipython-sql 将 Databend 与 Jupyter Notebook 集成
+## 教程 -2：使用 ipython-sql 将 Databend 与 Jupyter Notebook 集成
 
 在本教程中，您将首先部署一个本地的 Databend 实例和 Jupyter Notebook，然后运行一个示例笔记本，通过 [ipython-sql](https://github.com/catherinedevlin/ipython-sql) 连接到您的本地 Databend，并在笔记本中编写和可视化数据。
 
@@ -142,7 +142,7 @@ df.plot.bar(x='date', y='count')
 
 ![Alt text](/img/integration/jupyter-ipython-sql.png)
 
-## 教程-3：使用 Python Binding 库将 Databend 与 Jupyter Notebook 集成
+## 教程 -3：使用 Python Binding 库将 Databend 与 Jupyter Notebook 集成
 
 在本教程中，您将首先部署一个本地的 Databend 实例和 Jupyter Notebook，然后通过 [Databend Python Binding](https://pypi.org/project/databend/) 库在笔记本中运行查询，并在笔记本中编写和可视化数据。
 
@@ -223,7 +223,7 @@ plt.show()
 
 ![Alt text](/img/integration/localhost_8888_notebooks_Untitled.ipynb.png)
 
-## 教程-4：使用 ipython-sql 将 Databend Cloud 与 Jupyter Notebook 集成
+## 教程 -4：使用 ipython-sql 将 Databend Cloud 与 Jupyter Notebook 集成
 
 在本教程中，您将首先从 Databend Cloud 获取连接信息并部署 Jupyter Notebook，然后创建并连接一个笔记本到 Databend Cloud 通过 [ipython-sql](https://github.com/catherinedevlin/ipython-sql)，并在笔记本中编写和可视化数据。
 
@@ -231,7 +231,7 @@ plt.show()
 
 ### 步骤 1. 获取连接信息
 
-从 Databend Cloud 获取连接信息。具体操作方法请参考 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+从 Databend Cloud 获取连接信息。具体操作方法请参考 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 部署 Jupyter Notebook
 
