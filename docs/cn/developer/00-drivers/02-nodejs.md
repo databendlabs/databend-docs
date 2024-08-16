@@ -25,20 +25,20 @@ npm install --save databend-driver
 
 下表展示了 Databend 通用数据类型与其对应的 Node.js 数据类型的对应关系：
 
-| Databend | Node.js |
-| -------- | ------- |
-| BOOLEAN  | Boolean |
-| TINYINT  | Number  |
-| SMALLINT | Number  |
-| INT      | Number  |
-| BIGINT   | Number  |
-| FLOAT    | Number  |
-| DOUBLE   | Number  |
-| DECIMAL  | String  |
-| DATE     | Date    |
-| TIMESTAMP| Date    |
-| VARCHAR  | String  |
-| BINARY   | Buffer  |
+| Databend  | Node.js |
+| --------- | ------- |
+| BOOLEAN   | Boolean |
+| TINYINT   | Number  |
+| SMALLINT  | Number  |
+| INT       | Number  |
+| BIGINT    | Number  |
+| FLOAT     | Number  |
+| DOUBLE    | Number  |
+| DECIMAL   | String  |
+| DATE      | Date    |
+| TIMESTAMP | Date    |
+| VARCHAR   | String  |
+| BINARY    | Buffer  |
 
 下表展示了 Databend 半结构化数据类型与其对应的 Node.js 数据类型的对应关系：
 
@@ -57,17 +57,17 @@ Node.js 驱动程序提供了与 Rust 驱动程序绑定相似的功能，具有
 
 下表总结了 Node.js 驱动程序的主要行为和功能及其用途：
 
-| 函数名称       | 描述                                                                                                                   |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `info`         | 返回客户端的连接信息。                                                                                                  |
-| `version`      | 返回执行 `SELECT VERSION()` 语句的结果。                                                                                |
-| `exec`         | 执行 SQL 语句并返回受影响的行数。                                                                                       |
-| `query_iter`   | 执行 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                                       |
-| `query_iter_ext`| 执行 SQL 查询并返回一个包含结果统计信息的迭代器。                                                                      |
-| `query_row`    | 执行 SQL 查询并返回单行结果。                                                                                           |
-| `stream_load`  | 将数据上传到内置 Stage 并执行带有 [stage attachment](/developer/apis/http#stage-attachment) 的 insert/replace 操作。 |
+| 函数名称         | 描述                                                                                                                 |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `info`           | 返回客户端的连接信息。                                                                                               |
+| `version`        | 返回执行 `SELECT VERSION()` 语句的结果。                                                                             |
+| `exec`           | 执行 SQL 语句并返回受影响的行数。                                                                                    |
+| `query_iter`     | 执行 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                                    |
+| `query_iter_ext` | 执行 SQL 查询并返回一个包含结果统计信息的迭代器。                                                                    |
+| `query_row`      | 执行 SQL 查询并返回单行结果。                                                                                        |
+| `stream_load`    | 将数据上传到内置 Stage 并执行带有 [stage attachment](/developer/apis/http#stage-attachment) 的 insert/replace 操作。 |
 
-## 教程-1：使用 Node.js 集成 Databend
+## 教程 -1：使用 Node.js 集成 Databend
 
 在开始之前，请确保你已成功安装本地 Databend。详细步骤请参阅 [本地和 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
 
@@ -95,7 +95,9 @@ const { Client } = require("databend-driver");
 
 // 以连接到本地 Databend 并使用名为 'user1' 和密码 'abc123' 的 SQL 用户为例。
 // 请随意使用你自己的值，同时保持相同的格式。
-const dsn = process.env.DATABEND_DSN ? process.env.DATABEND_DSN : "databend://user1:abc123@localhost:8000/default?sslmode=disable";
+const dsn = process.env.DATABEND_DSN
+  ? process.env.DATABEND_DSN
+  : "databend://user1:abc123@localhost:8000/default?sslmode=disable";
 
 async function create_conn() {
   this.client = new Client(dsn);
@@ -112,11 +114,13 @@ async function select_books() {
   await this.conn.exec(sql);
   console.log("Database used");
 
-  var sql = "CREATE TABLE IF NOT EXISTS books(title VARCHAR, author VARCHAR, date VARCHAR)";
+  var sql =
+    "CREATE TABLE IF NOT EXISTS books(title VARCHAR, author VARCHAR, date VARCHAR)";
   await this.conn.exec(sql);
   console.log("Table created");
 
-  var sql = "INSERT INTO books VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')";
+  var sql =
+    "INSERT INTO books VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')";
   await this.conn.exec(sql);
   console.log("1 record inserted");
 
@@ -131,7 +135,7 @@ async function select_books() {
   console.log(ret);
 }
 
-create_conn().then(conn => {
+create_conn().then((conn) => {
   select_books();
 });
 ```
@@ -155,9 +159,9 @@ Table created
 
 </StepsWrap>
 
-## 教程-2：使用 Node.js 集成 Databend Cloud
+## 教程 -2：使用 Node.js 集成 Databend Cloud
 
-在开始之前，请确保你已成功创建了一个仓库并获取了连接信息。具体步骤请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保你已成功创建了一个计算集群并获取了连接信息。具体步骤请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 1. 创建一个 Node.js 包
 
@@ -191,7 +195,9 @@ $ npm install --save databend-driver
 ```javascript
 const { Client } = require("databend-driver");
 
-const dsn = process.env.DATABEND_DSN ? process.env.DATABEND_DSN : "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}";
+const dsn = process.env.DATABEND_DSN
+  ? process.env.DATABEND_DSN
+  : "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}";
 
 async function create_conn() {
   this.client = new Client(dsn);
@@ -211,7 +217,8 @@ async function select_data() {
 
   await this.conn.exec(sql_table_create);
 
-  let sql_insert = "INSERT INTO data VALUES ('1234', '2345', '3.1415', 'test', 'test2', '2021-01-01', '2021-01-01 00:00:00');";
+  let sql_insert =
+    "INSERT INTO data VALUES ('1234', '2345', '3.1415', 'test', 'test2', '2021-01-01', '2021-01-01 00:00:00');";
   await this.conn.exec(sql_insert);
 
   let sql_select = "SELECT * FROM data";
@@ -225,13 +232,13 @@ async function select_data() {
   console.log(ret);
 }
 
-create_conn().then(conn => {
+create_conn().then((conn) => {
   select_data();
 });
 ```
 
 :::tip
-将代码中的 `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} 和 {DATABASE}` 替换为你的连接信息。如何获取连接信息的详细步骤，请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+将代码中的 `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} 和 {DATABASE}` 替换为你的连接信息。如何获取连接信息的详细步骤，请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 步骤 4. 使用 NPM 运行示例

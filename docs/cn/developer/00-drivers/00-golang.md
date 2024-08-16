@@ -38,16 +38,16 @@ Databend 提供了一个用 Golang 编写的驱动程序（databend-go），该�
 
 Databend Go 驱动程序兼容 ["database/sql"](https://pkg.go.dev/database/sql) 接口规范。以下是一些常见的基础行为，以及涉及的关键函数和原理。
 
-| 基本行为                | 关键函数涉及                             | 原理                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ----------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 创建连接                | `DB.Open`                                | 使用 DSN 字符串和 `DB.Open` 方法建立与 Databend 的连接。<br /><br />DSN 字符串格式为 `https://user:password@host/database?<query_option>=<value>`。                                                                                                                                                                                                                                                                      |
-| 执行语句                | `DB.Exec`                                | `DB.Exec` 方法通过 `v1/query` 接口执行 SQL 语句，用于创建、删除表和插入数据。                                                                                                                                                                                                                                                                                                                                          |
-| 批量插入                | `DB.Begin`, `Tx.Prepare`, `Stmt.Exec`, `Tx.Commit` | 批量插入/替换数据（`INSERT INTO` 和 `REPLACE INTO`）通过事务处理。<br /><br />使用 `Stmt.Exec` 向预处理语句对象添加尽可能多的数据；数据将被追加到一个文件中。<br /><br />执行 `Tx.Commit()` 最终将数据上传到内置 Stage 并执行插入/替换操作，使用 [Stage 附件](/developer/apis/http#stage-attachment)。 |
-| 查询单行                | `DB.QueryRow`, `Row.Scan`                | 使用 `DB.QueryRow` 方法查询单行数据并返回一个 `*sql.Row`，然后调用 `Row.Scan` 将列数据映射到变量。                                                                                                                                                                                                                                                                                                                      |
-| 遍历行                  | `DB.Query`, `Rows.Next`, `Rows.Scan`     | 使用 `DB.Query` 方法查询多行数据并返回一个 `*sql.Rows` 结构，使用 `Rows.Next` 方法遍历行，并使用 `Rows.Scan` 将数据映射到变量。                                                                                                                                                                                                                                                                                          |
-| 上传到内部 Stage        | `APIClient.UploadToStage`                | 上传数据到 Stage。默认情况下，使用 `PRESIGN UPLOAD` 获取 URL，或者如果 PRESIGN 被禁用，使用 `v1/upload_to_stage` API。                                                                                                                                                                                                                                                                                                    |
+| 基本行为         | 关键函数涉及                                       | 原理                                                                                                                                                                                                                                                                                                   |
+| ---------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 创建连接         | `DB.Open`                                          | 使用 DSN 字符串和 `DB.Open` 方法建立与 Databend 的连接。<br /><br />DSN 字符串格式为 `https://user:password@host/database?<query_option>=<value>`。                                                                                                                                                    |
+| 执行语句         | `DB.Exec`                                          | `DB.Exec` 方法通过 `v1/query` 接口执行 SQL 语句，用于创建、删除表和插入数据。                                                                                                                                                                                                                          |
+| 批量插入         | `DB.Begin`, `Tx.Prepare`, `Stmt.Exec`, `Tx.Commit` | 批量插入/替换数据（`INSERT INTO` 和 `REPLACE INTO`）通过事务处理。<br /><br />使用 `Stmt.Exec` 向预处理语句对象添加尽可能多的数据；数据将被追加到一个文件中。<br /><br />执行 `Tx.Commit()` 最终将数据上传到内置 Stage 并执行插入/替换操作，使用 [Stage 附件](/developer/apis/http#stage-attachment)。 |
+| 查询单行         | `DB.QueryRow`, `Row.Scan`                          | 使用 `DB.QueryRow` 方法查询单行数据并返回一个 `*sql.Row`，然后调用 `Row.Scan` 将列数据映射到变量。                                                                                                                                                                                                     |
+| 遍历行           | `DB.Query`, `Rows.Next`, `Rows.Scan`               | 使用 `DB.Query` 方法查询多行数据并返回一个 `*sql.Rows` 结构，使用 `Rows.Next` 方法遍历行，并使用 `Rows.Scan` 将数据映射到变量。                                                                                                                                                                        |
+| 上传到内部 Stage | `APIClient.UploadToStage`                          | 上传数据到 Stage。默认情况下，使用 `PRESIGN UPLOAD` 获取 URL，或者如果 PRESIGN 被禁用，使用 `v1/upload_to_stage` API。                                                                                                                                                                                 |
 
-## 教程-1：使用 Golang 与 Databend 集成
+## 教程 -1：使用 Golang 与 Databend 集成
 
 在开始之前，请确保您已成功安装本地 Databend。有关详细说明，请参阅 [本地和 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
 
@@ -78,7 +78,7 @@ GRANT ALL on *.* TO user1;
 - 代码中 `hostname` 的值必须与您为 Databend 查询服务设置的 HTTP 处理程序一致。
   :::
 
-```go title='main.go'
+````go title='main.go'
 package main
 
 import (
@@ -167,7 +167,7 @@ for res.Next() {
 db.Exec("drop table books")
 db.Exec("drop database book_db")
 }
-```
+````
 
 </StepContent>
 
@@ -209,7 +209,7 @@ go run main.go
 ```text title='输出'
 2023/02/24 23:57:31 已连接
 2023/02/24 23:57:31 创建数据库 book_db 成功
-2023/02/24 23:57:31 创建表: books
+2023/02/24 23:57:31 创建表：books
 2023/02/24 23:57:31 插入 1 行
 2023/02/24 23:57:31 选择:{mybook author 2022}
 ```
@@ -220,7 +220,7 @@ go run main.go
 
 ## 教程-2: 使用 Golang 与 Databend Cloud 集成
 
-在开始之前，请确保您已成功创建了一个仓库并获取了连接信息。具体操作方法请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已成功创建了一个计算集群并获取了连接信息。具体操作方法请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 1. 创建一个 Go 模块
 
@@ -297,7 +297,7 @@ func main() {
 ```
 
 :::tip
-在代码中替换 `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} 和 {DATABASE}` 为您的连接信息。获取连接信息的方法请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在代码中替换 `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} 和 {DATABASE}` 为您的连接信息。获取连接信息的方法请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 步骤 4. 运行 main.go

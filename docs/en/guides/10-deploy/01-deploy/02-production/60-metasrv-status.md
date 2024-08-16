@@ -1,8 +1,7 @@
 ---
 title: Meta Service HTTP APIs
 sidebar_label: Meta Service HTTP APIs
-description:
-  Meta Service HTTP APIs
+description: Meta Service HTTP APIs
 ---
 
 In order to capture and keep track of various meta stats that are useful for your analysis, Databend provides a number of HTTP APIs.
@@ -76,6 +75,12 @@ Returns the status information of each meta node in the cluster.
   "non_voters": [],
   "last_seq": 60665
 }
+```
+
+### MetaCTL command
+
+```shell
+databend-metactl status
 ```
 
 ## Meta Metrics API

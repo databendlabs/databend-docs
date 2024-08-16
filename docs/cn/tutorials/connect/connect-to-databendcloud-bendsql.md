@@ -26,9 +26,9 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ![Alt text](/img/connect/bendsql-4.gif)
 
-2. 选择您要连接的数据库，例如 "default"；然后选择一个仓库。如果您忘记了密码，请重置密码。
+2. 选择您要连接的数据库，例如 "default"；然后选择一个计算集群。如果您忘记了密码，请重置密码。
 
-3. 您可以在 **示例** 部分找到当前仓库的 DSN 详细信息和用于通过 BendSQL 连接到 Databend Cloud 的连接字符串。对于这一步，只需复制 **BendSQL** 标签中提供的内容。
+3. 您可以在 **示例** 部分找到当前计算集群的 DSN 详细信息和用于通过 BendSQL 连接到 Databend Cloud 的连接字符串。对于这一步，只需复制 **BendSQL** 标签中提供的内容。
 
 ![Alt text](/img/connect/bendsql-5.png)
 
@@ -47,7 +47,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 执行查询
 
-连接成功后，您可以在 BendSQL  shell 中执行 SQL 查询。例如，输入 `SELECT NOW();` 以返回当前时间。
+连接成功后，您可以在 BendSQL shell 中执行 SQL 查询。例如，输入 `SELECT NOW();` 以返回当前时间。
 
 ![Alt text](/img/connect/bendsql-7.png)
 

@@ -81,20 +81,20 @@ cargo install bendsql
 
 BendSQL 提供了一系列设置，允许您定义查询结果的呈现方式：
 
-| 设置               | 描述                                                                                          |
-| ------------------ | --------------------------------------------------------------------------------------------- |
-| `display_pretty_sql` | 当设置为 `true` 时，SQL 查询将以视觉上吸引人的方式格式化，使其更易于阅读和理解。                |
-| `prompt`             | 命令行界面中显示的提示，通常指示正在访问的用户、仓库和数据库。                                  |
-| `progress_color`     | 指定用于进度指示器的颜色，例如在执行需要一些时间完成的查询时。                                  |
-| `show_progress`      | 当设置为 `true` 时，将显示进度指示器，以显示长时间运行的查询或操作的进度。                      |
-| `show_stats`         | 如果为 `true`，执行每个查询后将显示查询统计信息，如执行时间、读取的行数和处理的字节数。          |
-| `max_display_rows`   | 设置查询结果输出中将显示的最大行数。                                                            |
-| `max_col_width`      | 设置每个列显示渲染的最大宽度（以字符为单位）。小于 3 的值将禁用限制。                            |
-| `max_width`          | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时默认为终端窗口的宽度。                      |
-| `output_format`      | 设置用于显示查询结果的格式（`table`、`csv`、`tsv`、`null`）。                                   |
-| `expand`             | 控制查询输出的显示方式是作为单独的记录还是以表格格式显示。可用值：`on`、`off` 和 `auto`。       |
-| `multi_line`         | 确定是否允许多行输入 SQL 查询。当设置为 `true` 时，查询可以跨越多行，以提高可读性。             |
-| `replace_newline`    | 指定查询结果输出中的换行符是否应替换为空格。这可以防止显示中出现意外的换行。                    |
+| 设置                 | 描述                                                                                      |
+| -------------------- | ----------------------------------------------------------------------------------------- |
+| `display_pretty_sql` | 当设置为 `true` 时，SQL 查询将以视觉上吸引人的方式格式化，使其更易于阅读和理解。          |
+| `prompt`             | 命令行界面中显示的提示，通常指示正在访问的用户、计算集群和数据库。                        |
+| `progress_color`     | 指定用于进度指示器的颜色，例如在执行需要一些时间完成的查询时。                            |
+| `show_progress`      | 当设置为 `true` 时，将显示进度指示器，以显示长时间运行的查询或操作的进度。                |
+| `show_stats`         | 如果为 `true`，执行每个查询后将显示查询统计信息，如执行时间、读取的行数和处理的字节数。   |
+| `max_display_rows`   | 设置查询结果输出中将显示的最大行数。                                                      |
+| `max_col_width`      | 设置每个列显示渲染的最大宽度（以字符为单位）。小于 3 的值将禁用限制。                     |
+| `max_width`          | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时默认为终端窗口的宽度。               |
+| `output_format`      | 设置用于显示查询结果的格式（`table`、`csv`、`tsv`、`null`）。                             |
+| `expand`             | 控制查询输出的显示方式是作为单独的记录还是以表格格式显示。可用值：`on`、`off` 和 `auto`。 |
+| `multi_line`         | 确定是否允许多行输入 SQL 查询。当设置为 `true` 时，查询可以跨越多行，以提高可读性。       |
+| `replace_newline`    | 指定查询结果输出中的换行符是否应替换为空格。这可以防止显示中出现意外的换行。              |
 
 有关每个设置的详细信息，请参阅以下参考信息：
 
@@ -138,7 +138,7 @@ SELECT
 
 #### `prompt`
 
-`prompt` 设置控制命令行界面提示的格式。在下面的示例中，它最初设置为显示用户和仓库（`{user}@{warehouse}`）。更新为 `{user}@{warehouse}/{database}` 后，提示现在包括用户、仓库和数据库。
+`prompt` 设置控制命令行界面提示的格式。在下面的示例中，它最初设置为显示用户和计算集群（`{user}@{warehouse}`）。更新为 `{user}@{warehouse}/{database}` 后，提示现在包括用户、计算集群和数据库。
 
 ```shell title='示例:'
 // highlight-next-line
@@ -256,9 +256,9 @@ root@localhost:8000/default> SELECT * FROM system.configs;
 
 #### `max_col_width` & `max_width`
 
-设置 `max_col_width` 和 `max_width` 分别指定单个列和整个显示输出的最大允许宽度（以字符为单位）。以下示例将列显示宽度设置为10个字符，整个显示宽度设置为100个字符：
+设置 `max_col_width` 和 `max_width` 分别指定单个列和整个显示输出的最大允许宽度（以字符为单位）。以下示例将列显示宽度设置为 10 个字符，整个显示宽度设置为 100 个字符：
 
-```sql title='示例:'
+```sql title='示例：'
 // highlight-next-line
 root@localhost:8000/default> .max_col_width 10
 // highlight-next-line
@@ -415,10 +415,10 @@ root@localhost:8000/default> !set replace_newline false;
 root@localhost:8000/default> SELECT 'Hello\nWorld' AS message;
 ┌─────────┐
 │ message │
-│  String │
+│ String │
 ├─────────┤
-│ Hello   │
-│ World   │
+│ Hello │
+│ World │
 └─────────┘
 1 row read in 0.067 sec. Processed 1 row, 1 B (14.87 rows/s, 14 B/s)
 ```
@@ -450,13 +450,13 @@ root@localhost:8000/default> .max_width 100
 
 BendSQL 为用户提供了一系列命令，以简化其工作流程并自定义其体验。以下是 BendSQL 中可用的命令概览：
 
-| 命令                     | 描述                         |
-| ------------------------ | ---------------------------- |
-| `!exit`                  | 退出 BendSQL。                |
-| `!quit`                  | 退出 BendSQL。                |
-| `!configs`               | 显示当前 BendSQL 设置。       |
-| `!set <setting> <value>`  | 修改 BendSQL 设置。           |
-| `!source <sql_file>`     | 执行 SQL 文件。               |
+| 命令                     | 描述                    |
+| ------------------------ | ----------------------- |
+| `!exit`                  | 退出 BendSQL。          |
+| `!quit`                  | 退出 BendSQL。          |
+| `!configs`               | 显示当前 BendSQL 设置。 |
+| `!set <setting> <value>` | 修改 BendSQL 设置。     |
+| `!source <sql_file>`     | 执行 SQL 文件。         |
 
 有关每个命令的示例，请参阅下面的参考信息：
 

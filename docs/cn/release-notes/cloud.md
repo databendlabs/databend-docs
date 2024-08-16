@@ -83,7 +83,7 @@ sidebar_position: 2
   - 引入了新的 bitmap 函数：`bitmap_contains`、`bitmap_has_all`、`bitmap_has_any`、`bitmap_or`、`bitmap_and`、`bitmap_xor` 等。
 - 添加了与 Tableau 集成的能力。
 - 添加了在创建管道时使用正则表达式模式过滤文件的支持。
-- 添加了修改仓库大小和自动暂停时间的支持。
+- 添加了修改计算集群大小和自动暂停时间的支持。
 
 ## 2023 年 5 月 15 日
 
@@ -185,4 +185,4 @@ sidebar_position: 2
 
 ### 错误修复
 
-- 创建新租户时不再自动启动仓库。
+- 创建新租户时不再自动启动计算集群。

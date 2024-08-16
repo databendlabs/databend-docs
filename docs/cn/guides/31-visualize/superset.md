@@ -1,6 +1,7 @@
 ---
 title: Superset
 ---
+
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
@@ -25,7 +26,7 @@ Databend 通过两个 Python 库与 Superset 集成：[databend-py](https://gith
 FROM apache/superset
 # 切换到 root 用户以安装所需的包
 USER root
-RUN pip install databend-py 
+RUN pip install databend-py
 RUN pip install databend-sqlalchemy
 # 切换回 `superset` 用户
 USER superset
@@ -76,7 +77,7 @@ docker exec -it superset superset init
 
 ### 连接到 Databend Cloud
 
-1. 导航到 [http://localhost:8080/login/]( http://localhost:8080/login/) 并使用 `admin/admin` 作为用户名和密码登录。
+1. 导航到 [http://localhost:8080/login/](http://localhost:8080/login/) 并使用 `admin/admin` 作为用户名和密码登录。
 
 2. 选择 **Settings** > **Data** > **Connect Database** 打开连接向导。
 
@@ -86,7 +87,7 @@ docker exec -it superset superset init
 
 ![Alt text](/img/integration/superset-select-other.png)
 
-4. 在 **BASIC** 标签页中，设置一个显示名称，例如 `Databend`，然后输入连接到 Databend Cloud 的 URI。URI 遵循格式：`databend://<host>`，其中 `<host>` 对应于您仓库连接信息中的主机字段。有关如何获取连接详细信息，请参考 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting-to-a-warehouse)。
+4. 在 **BASIC** 标签页中，设置一个显示名称，例如 `Databend`，然后输入连接到 Databend Cloud 的 URI。URI 遵循格式：`databend://<host>`，其中 `<host>` 对应于您计算集群连接信息中的主机字段。有关如何获取连接详细信息，请参考 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting-to-a-warehouse)。
 
 ![Alt text](/img/integration/superset-uri.png)
 
