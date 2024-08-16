@@ -238,7 +238,7 @@ create_conn().then((conn) => {
 ```
 
 :::tip
-将代码中的 `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} 和 {DATABASE}` 替换为你的连接信息。如何获取连接信息的详细步骤，请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+将代码中的 `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} 和 {DATABASE}` 替换为你的连接信息。如何获取连接信息的详细步骤，请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 步骤 4. 使用 NPM 运行示例
