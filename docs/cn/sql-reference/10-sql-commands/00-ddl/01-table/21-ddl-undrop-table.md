@@ -3,9 +3,10 @@ title: UNDROP TABLE
 sidebar_position: 20
 ---
 
-恢复已删除表的最新版本。这利用了 Databend 的时间旅行功能；只有在保留期内（默认为24小时），才能恢复已删除的对象。
+恢复已删除表的最新版本。这利用了 Databend 的时间回溯功能；只有在保留期内（默认为 24 小时），才能恢复已删除的对象。
 
 **另请参阅：**
+
 - [CREATE TABLE](./10-ddl-create-table.md)
 - [DROP TABLE](./20-ddl-drop-table.md)
 - [SHOW TABLES](show-tables.md)

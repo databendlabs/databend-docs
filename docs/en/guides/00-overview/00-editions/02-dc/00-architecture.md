@@ -15,7 +15,7 @@ The metadata service is a multi-tenant service that stores the metadata of each 
 
 ### Compute Layer
 
-The architecture of complete separation of computation and storage gives Databend Cloud a unique computational elasticity.
+The architecture of complete separation of storage and compute gives Databend Cloud a unique computational elasticity.
 
 Each tenant in Databend Cloud can have multiple compute clusters (Warehouse), each with exclusive computing resources, and can automatically release them when inactive for more than 1 minute to reduce usage costs.
 

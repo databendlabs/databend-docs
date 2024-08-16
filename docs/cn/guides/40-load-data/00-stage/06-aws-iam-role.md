@@ -1,5 +1,5 @@
 ---
-title: "在 Databend Cloud 中使用 IAM 角色访问您自己的 AWS S3 存储桶"
+title: "使用 AWS IAM 角色创建外部阶段"
 ---
 
 # 为什么使用 IAM 角色
