@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.611"/>
 
-Converts key-value pairs into a JSON object. For each row in the input, it generates a key-value pair where the key is derived from the `<key_expression>` and the value is derived from the `<value_expression>`. These key-value pairs are then combined into a single JSON object. Please note that the function skips key-value pairs where the key or value is NULL.
+Converts key-value pairs into a JSON object. For each row in the input, it generates a key-value pair where the key is derived from the `<key_expression>` and the value is derived from the `<value_expression>`. These key-value pairs are then combined into a single JSON object.
 
 See also: [JSON_ARRAY_AGG](aggregate-json-array-agg.md)
 
@@ -15,6 +15,11 @@ See also: [JSON_ARRAY_AGG](aggregate-json-array-agg.md)
 ```sql
 JSON_OBJECT_AGG(<key_expression>, <value_expression>)
 ```
+
+| Parameter        | Description                                                                                                                                            |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| key_expression   | Specifies the key in the JSON object. **Only supports string** expressions. If the `key_expression` evaluates to NULL, the key-value pair is skipped.  |
+| value_expression | Specifies the value in the JSON object. It can be any supported data type. If the `value_expression` evaluates to NULL, the key-value pair is skipped. |
 
 ## Return Type
 
