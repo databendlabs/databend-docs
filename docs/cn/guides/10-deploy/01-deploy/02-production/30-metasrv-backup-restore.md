@@ -1,8 +1,7 @@
 ---
 title: 备份和恢复 Databend 元服务集群
 sidebar_label: 备份和恢复元服务
-description:
-  如何备份和恢复元服务集群数据
+description: 如何备份和恢复元服务集群数据
 ---
 
 本指南将介绍如何备份和恢复元服务集群数据。
@@ -17,7 +16,7 @@ description:
 其中 `<ip:port>` 是 [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 中的 `grpc_api_address`，例如：
 
 ```shell
-databend-metactl --export --grpc-api-address "127.0.0.1:9191" --db <output_fn>
+databend-metactl export --grpc-api-address "127.0.0.1:9191" --db <output_fn>
 
 # tail "<output_fn>"
 # ["state_machine/0",{"Nodes":{"key":2,"value":{"name":"","endpoint":{"addr":"localhost","port":28203}}}}]
@@ -33,7 +32,7 @@ databend-metactl --export --grpc-api-address "127.0.0.1:9191" --db <output_fn>
 
 ```sh
 
-databend-metactl --export --raft-dir "<your_meta_dir>" --db <output_fn>
+databend-metactl export --raft-dir "<your_meta_dir>" --db <output_fn>
 
 # tail "<output_fn>"
 # ["state_machine/0",{"Nodes":{"key":2,"value":{"name":"","endpoint":{"addr":"localhost","port":28203}}}}]
@@ -50,7 +49,7 @@ databend-metactl --export --raft-dir "<your_meta_dir>" --db <output_fn>
 以下命令从导出的元数据中在 `<your_meta_dir>` 重建一个元服务数据库：
 
 ```sh
-databend-metactl --import --raft-dir "<your_meta_dir>" --db <output_fn>
+databend-metactl import --raft-dir "<your_meta_dir>" --db <output_fn>
 
 databend-meta --raft-dir "<your_meta_dir>" ...
 ```
@@ -58,7 +57,7 @@ databend-meta --raft-dir "<your_meta_dir>" ...
 注意：如果没有 `--db` 参数，导入的数据将来自标准输入，如：
 
 ```sh
-cat "<output_fn>" | databend-metactl --import --raft-dir "<your_meta_dir>"
+cat "<output_fn>" | databend-metactl import --raft-dir "<your_meta_dir>"
 ```
 
 **注意**：`<your_meta_dir>` 中的数据将被清除。
@@ -71,9 +70,9 @@ cat "<output_fn>" | databend-metactl --import --raft-dir "<your_meta_dir>"
 例如：
 
 ```
-databend-metactl --import --raft-dir ./.databend/new_meta1 --id=1 --db meta.db --initial-cluster 1=localhost:29103 --initial-cluster 2=localhost:29203 --initial-cluster 3=localhost:29303
-databend-metactl --import --raft-dir ./.databend/new_meta2 --id=2 --db meta.db --initial-cluster 1=localhost:29103 --initial-cluster 2=localhost:29203 --initial-cluster 3=localhost:29303
-databend-metactl --import --raft-dir ./.databend/new_meta3 --id=3 --db meta.db --initial-cluster 1=localhost:29103 --initial-cluster 2=localhost:29203 --initial-cluster 3=localhost:29303
+databend-metactl import --raft-dir ./.databend/new_meta1 --id=1 --db meta.db --initial-cluster 1=localhost:29103 --initial-cluster 2=localhost:29203 --initial-cluster 3=localhost:29303
+databend-metactl import --raft-dir ./.databend/new_meta2 --id=2 --db meta.db --initial-cluster 1=localhost:29103 --initial-cluster 2=localhost:29203 --initial-cluster 3=localhost:29303
+databend-metactl import --raft-dir ./.databend/new_meta3 --id=3 --db meta.db --initial-cluster 1=localhost:29103 --initial-cluster 2=localhost:29203 --initial-cluster 3=localhost:29303
 ```
 
 上述脚本从 `meta.db` 导入导出的数据，并初始化三个集群节点：id 1，其 raft 目录为 `./.databend/new_meta1`，id 2 和 3 也是如此，但使用不同的 raft 目录。

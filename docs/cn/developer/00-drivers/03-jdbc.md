@@ -331,7 +331,7 @@ public class sample {
 ```
 
 :::tip
-在代码中替换 `{USER}, {PASSWORD}, {WAREHOUSE_HOST}, 和 {DATABASE}` 为您的连接信息。如何获取连接信息，请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在代码中替换 `{USER}, {PASSWORD}, {WAREHOUSE_HOST}, 和 {DATABASE}` 为您的连接信息。如何获取连接信息，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 #### 步骤 3. 使用 Maven 运行示例
