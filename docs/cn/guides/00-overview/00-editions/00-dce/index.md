@@ -1,6 +1,7 @@
 ---
 title: Databend 社区版
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
@@ -19,7 +20,7 @@ Databend 是一个开源的、弹性的、且对工作负载感知的云数据�
 <TabItem value="Data Manipulation" label="数据操作">
 
 - 支持原子操作，如 `SELECT`、`INSERT`、`DELETE`、`UPDATE`、`REPLACE`、`COPY` 和 `MERGE`。
-- 提供高级功能，如时间旅行和多目录（Apache Hive / Apache Iceberg）。
+- 提供高级功能，如时间回溯和多目录（Apache Hive / Apache Iceberg）。
 - 支持以 CSV、JSON 和 Parquet 等多种格式[导入半结构化数据](/guides/load-data/load)。
 - 支持半结构化数据类型，如 [ARRAY、MAP 和 JSON](/sql/sql-reference/data-types/)。
 - 支持类似 Git 的 MVCC 存储，便于查询、克隆和恢复历史数据。

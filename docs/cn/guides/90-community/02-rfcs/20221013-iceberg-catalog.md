@@ -57,9 +57,9 @@ WHERE normal_tbl.isbn = my_iceberg.iceberg_db.iceberg_tbl.isbn
 
 在操作表时，所有数据仍然保留在用户提供的端点上。
 
-### 时间旅行
+### 时间回溯
 
-Iceberg 提供了一系列快照及其时间戳。在其上进行时间旅行是自然的。
+Iceberg 提供了一系列快照及其时间戳。在其上进行时间回溯是自然的。
 
 ```sql
 SELECT ...
@@ -83,7 +83,7 @@ SELECT snapshot_id FROM ICEBERG_SNAPSHOT(my_iceberg.iceberg_db.iceberg_tbl);
 (2 行)
 ```
 
-外部表正在读取的当前快照 id 将始终是最新的。但用户可以使用 `时间旅行` 与 `AT`。
+外部表正在读取的当前快照 id 将始终是最新的。但用户可以使用 `时间回溯` 与 `AT`。
 
 ## 参考级说明
 
@@ -101,25 +101,25 @@ SELECT snapshot_id FROM ICEBERG_SNAPSHOT(my_iceberg.iceberg_db.iceberg_tbl);
 
 ### 类型约定
 
-| Iceberg         | 注意                                                     | Databend                             |
-| --------------- | -------------------------------------------------------- | ------------------------------------ |
-| `boolean`       | 真或假                                                   | `BOOLEAN`                            |
-| `int`           | 32位有符号整数                                           | `INT32`                              |
-| `long`          | 64位有符号整数                                           | `INT64`                              |
-| `float`         | 32位IEEE 754浮点数                                       | `FLOAT`                              |
-| `double`        | 64位IEEE 754浮点数                                       | `DOUBLE`                             |
-| `decimal(P, S)` | 定点小数；精度P，小数位S                                 | 不支持                               |
-| `date`          | 不含时区或时间的日历日期                                 | `DATE`                               |
-| `time`          | 不含日期、时区的时间戳                                   | `TIMESTAMP`，将日期转换为今天        |
-| `timestamp`     | 不含时区的时间戳                                         | `TIMESTAMP`，将时区转换为GMT         |
-| `timestamptz`   | 含时区的时间戳                                           | `TIMESTAMP`                          |
-| `string`        | UTF-8字符串                                              | `VARCHAR`                            |
-| `uuid`          | 16字节固定长度字节数组，全球唯一标识符                   | `VARCHAR`                            |
-| `fixed(L)`      | 长度为L的固定长度字节数组                                | `VARCHAR`                            |
-| `binary`        | 任意长度的字节数组                                       | `VARCHAR`                            |
-| `struct`        | 一组有类型的值                                           | `OBJECT`                             |
-| `list`          | 某种元素类型的值的集合                                   | `ARRAY`                              |
-| `map`           |                                                          | `OBJECT`                             |
+| Iceberg         | 注意                                    | Databend                      |
+| --------------- | --------------------------------------- | ----------------------------- |
+| `boolean`       | 真或假                                  | `BOOLEAN`                     |
+| `int`           | 32 位有符号整数                         | `INT32`                       |
+| `long`          | 64 位有符号整数                         | `INT64`                       |
+| `float`         | 32 位 IEEE 754 浮点数                   | `FLOAT`                       |
+| `double`        | 64 位 IEEE 754 浮点数                   | `DOUBLE`                      |
+| `decimal(P, S)` | 定点小数；精度 P，小数位 S              | 不支持                        |
+| `date`          | 不含时区或时间的日历日期                | `DATE`                        |
+| `time`          | 不含日期、时区的时间戳                  | `TIMESTAMP`，将日期转换为今天 |
+| `timestamp`     | 不含时区的时间戳                        | `TIMESTAMP`，将时区转换为 GMT |
+| `timestamptz`   | 含时区的时间戳                          | `TIMESTAMP`                   |
+| `string`        | UTF-8 字符串                            | `VARCHAR`                     |
+| `uuid`          | 16 字节固定长度字节数组，全球唯一标识符 | `VARCHAR`                     |
+| `fixed(L)`      | 长度为 L 的固定长度字节数组             | `VARCHAR`                     |
+| `binary`        | 任意长度的字节数组                      | `VARCHAR`                     |
+| `struct`        | 一组有类型的值                          | `OBJECT`                      |
+| `list`          | 某种元素类型的值的集合                  | `ARRAY`                       |
+| `map`           |                                         | `OBJECT`                      |
 
 ## 缺点
 
@@ -127,9 +127,9 @@ SELECT snapshot_id FROM ICEBERG_SNAPSHOT(my_iceberg.iceberg_db.iceberg_tbl);
 
 ## 理由及替代方案
 
-### Iceberg外部表
+### Iceberg 外部表
 
-从Iceberg存储创建外部表：
+从 Iceberg 存储创建外部表：
 
 ```sql
 CREATE EXTERNAL TABLE [IF NOT EXISTS] [db.]table_name
@@ -145,7 +145,7 @@ ENGINE_OPTIONS=(
 )
 ```
 
-将引入一个新的表引擎`ICEBERG`，所有数据仍将保留在Iceberg存储中。外部表还应支持用户查询其快照数据和时间旅行。
+将引入一个新的表引擎`ICEBERG`，所有数据仍将保留在 Iceberg 存储中。外部表还应支持用户查询其快照数据和时间回溯。
 
 ```sql
 SELECT snapshot_id FROM ICEBERG_SNAPSHOT('<db_name>', '<external_table_name');
@@ -157,7 +157,7 @@ SELECT snapshot_id FROM ICEBERG_SNAPSHOT('<db_name>', '<external_table_name');
 73556087355608
 ```
 
-经讨论，上述目录方式被选中，因为它对Iceberg特性的支持更完整，且更符合Hive目录的当前设计。
+经讨论，上述目录方式被选中，因为它对 Iceberg 特性的支持更完整，且更符合 Hive 目录的当前设计。
 
 ## 先前的艺术
 
@@ -169,9 +169,9 @@ SELECT snapshot_id FROM ICEBERG_SNAPSHOT('<db_name>', '<external_table_name');
 
 ## 未来可能性
 
-### 从Iceberg快照创建表
+### 从 Iceberg 快照创建表
 
-Iceberg提供快照功能，可以从中创建表。
+Iceberg 提供快照功能，可以从中创建表。
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
@@ -190,7 +190,7 @@ ENGINE_OPTIONS = (
 
 ### 架构演化
 
-外部表中默认使用的Iceberg快照应始终是最新提交的那一个：
+外部表中默认使用的 Iceberg 快照应始终是最新提交的那一个：
 
 ```sql
 SELECT snapshot_id from ICEBERG_SNAPSHOT(iceberg_catalog.iceberg_db.iceberg_tbl);
@@ -202,14 +202,14 @@ SELECT snapshot_id from ICEBERG_SNAPSHOT(iceberg_catalog.iceberg_db.iceberg_tbl)
  0000000000001
 ```
 
-支持模式演变使得databend能够修改Iceberg的内容。
-例如，向Iceberg表中插入一个新记录：
+支持模式演变使得 databend 能够修改 Iceberg 的内容。
+例如，向 Iceberg 表中插入一个新记录：
 
 ```sql
 INSERT INTO iceberg_catalog.iceberg_db.iceberg_tbl VALUES ('datafuselabs', 'How To Be a Healthy DBA', '2022-10-14');
 ```
 
-这将在Iceberg存储中创建一个新的快照：
+这将在 Iceberg 存储中创建一个新的快照：
 
 ```sql
 SELECT snapshot_id from ICEBERG_SNAPSHOT(iceberg_catalog.iceberg_db.iceberg_tbl);

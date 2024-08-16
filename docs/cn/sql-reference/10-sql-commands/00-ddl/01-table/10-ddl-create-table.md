@@ -13,16 +13,16 @@ import EEFeature from '@site/src/components/EEFeature';
 
 对于许多数据库来说，创建表是最复杂的操作之一，因为您可能需要：
 
-* 手动指定引擎
-* 手动指定索引
-* 甚至指定数据分区或数据分片
+- 手动指定引擎
+- 手动指定索引
+- 甚至指定数据分区或数据分片
 
 Databend 旨在通过设计使其易于使用，并且在创建表时不需要任何这些操作。此外，CREATE TABLE 语句提供了这些选项，使您在各种场景下创建表变得更加容易：
 
 - [CREATE TABLE](#create-table): 从头开始创建一个表。
 - [CREATE TABLE ... LIKE](#create-table--like): 创建一个与现有表具有相同列定义的表。
 - [CREATE TABLE ... AS](#create-table--as): 创建一个表并使用 SELECT 查询的结果插入数据。
-- [CREATE TRANSIENT TABLE](#create-transient-table): 创建一个不存储其历史数据以用于时间旅行的表。
+- [CREATE TRANSIENT TABLE](#create-transient-table): 创建一个不存储其历史数据以用于时间回溯的表。
 - [CREATE TABLE ... EXTERNAL_LOCATION](#create-table--external-location): 创建一个表并指定一个 S3 存储桶用于数据存储，而不是 FUSE 引擎。
 
 ## CREATE TABLE
@@ -30,27 +30,30 @@ Databend 旨在通过设计使其易于使用，并且在创建表时不需要�
 ```sql
 CREATE [ OR REPLACE ] [ TRANSIENT ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 (
-    <column_name> <data_type> [ NOT NULL | NULL ] 
-                              [ { DEFAULT <expr> } ] 
+    <column_name> <data_type> [ NOT NULL | NULL ]
+                              [ { DEFAULT <expr> } ]
                               [ AS (<expr>) STORED | VIRTUAL ]
                               [ COMMENT '<comment>' ],
     <column_name> <data_type> ...
     ...
 )
 ```
+
 :::note
+
 - 有关 Databend 中可用的数据类型，请参阅 [数据类型](../../../00-sql-reference/10-data-types/index.md)。
 
 - Databend 建议尽可能避免在列名中使用特殊字符。然而，在某些情况下如果需要特殊字符，别名应使用反引号括起来，例如：CREATE TABLE price(\`$CA\` int);
 
-- Databend 会自动将列名转换为小写。例如，如果您将列命名为 *Total*，它将在结果中显示为 *total*。
-:::
+- Databend 会自动将列名转换为小写。例如，如果您将列命名为 _Total_，它将在结果中显示为 _total_。
+  :::
 
 ## CREATE TABLE ... LIKE
 
 创建一个与现有表具有相同列定义的表。现有表的列名、数据类型及其非空约束将被复制到新表中。
 
 语法：
+
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
 LIKE [db.]origin_table_name
@@ -59,6 +62,7 @@ LIKE [db.]origin_table_name
 此命令不包括原始表的任何数据或属性（如 `CLUSTER BY`、`TRANSIENT` 和 `COMPRESSION`），而是使用默认系统设置创建一个新表。
 
 :::note 解决方法
+
 - 在使用此命令创建新表时，可以显式指定 `TRANSIENT` 和 `COMPRESSION`。例如：
 
 ```sql
@@ -66,6 +70,7 @@ create transient table t_new like t_old;
 
 create table t_new compression='lz4' like t_old;
 ```
+
 :::
 
 ## CREATE TABLE ... AS
@@ -73,6 +78,7 @@ create table t_new compression='lz4' like t_old;
 创建一个表并使用 SELECT 命令计算的数据填充它。
 
 语法：
+
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
 AS SELECT query
@@ -81,6 +87,7 @@ AS SELECT query
 此命令不包括原始表的任何属性（如 CLUSTER BY、TRANSIENT 和 COMPRESSION），而是使用默认系统设置创建一个新表。
 
 :::note 解决方法
+
 - 在使用此命令创建新表时，可以显式指定 `TRANSIENT` 和 `COMPRESSION`。例如：
 
 ```sql
@@ -88,13 +95,14 @@ create transient table t_new as select * from t_old;
 
 create table t_new compression='lz4' as select * from t_old;
 ```
+
 :::
 
 ## CREATE TRANSIENT TABLE
 
 创建一个瞬态表。
 
-瞬态表用于保存不需要数据保护或恢复机制的临时数据。Databend 不会为瞬态表保留历史数据，因此您将无法使用时间旅行功能查询瞬态表的先前版本，例如 SELECT 语句中的 [AT](./../../20-query-syntax/03-query-at.md) 子句对瞬态表不起作用。请注意，您仍然可以 [删除](./20-ddl-drop-table.md) 和 [恢复](./21-ddl-undrop-table.md) 瞬态表。
+瞬态表用于保存不需要数据保护或恢复机制的临时数据。Databend 不会为瞬态表保留历史数据，因此您将无法使用时间回溯功能查询瞬态表的先前版本，例如 SELECT 语句中的 [AT](./../../20-query-syntax/03-query-at.md) 子句对瞬态表不起作用。请注意，您仍然可以 [删除](./20-ddl-drop-table.md) 和 [恢复](./21-ddl-undrop-table.md) 瞬态表。
 
 瞬态表有助于节省存储成本，因为与非瞬态表相比，它们不需要额外的空间来存储历史数据。有关详细解释，请参阅 [示例](#create-transient-table-1)。
 
@@ -103,6 +111,7 @@ create table t_new compression='lz4' as select * from t_old;
 :::
 
 语法：
+
 ```sql
 CREATE TRANSIENT TABLE ...
 ```
@@ -120,6 +129,7 @@ CREATE TRANSIENT TABLE ...
 ```sql
 DEFAULT <expr>
 ```
+
 指定在通过 `INSERT` 或 `CREATE TABLE AS SELECT` 语句未指定值时插入到列中的默认值。
 
 例如：
@@ -212,14 +222,16 @@ SELECT id, price, quantity, total_price
 FROM products;
 
 ---
+
 +------+-------+----------+-------------+
-| id   | price | quantity | total_price |
+| id | price | quantity | total_price |
 +------+-------+----------+-------------+
-|    1 |  10.5 |        3 |        31.5 |
-|    2 |  15.2 |        5 |        76.0 |
-|    3 |   8.7 |        2 |        17.4 |
+| 1 | 10.5 | 3 | 31.5 |
+| 2 | 15.2 | 5 | 76.0 |
+| 3 | 8.7 | 2 | 17.4 |
 +------+-------+----------+-------------+
-```
+
+````
 
 在这个示例中，我们创建了一个名为 `student_profiles` 的表，其中包含一个名为 `profile` 的 `Variant` 类型列来存储 JSON 数据。我们还添加了一个名为 `age` 的虚拟计算列，该列从 `profile` 列中提取 `age` 属性并将其转换为整数。
 
@@ -247,4 +259,4 @@ SELECT * FROM student_profiles;
 | f98112 | {"age":"15","clubs":"MUN","credits":67,"id":"f98112","name":"Buster Bunny","school":"TEO"}                 |   15 |
 | t63512 | {"clubs":"Chess","id":"t63512","name":"Ernie Narayan","school":"Brooklyn Tech","sports":"Track and Field"} | NULL |
 +--------+------------------------------------------------------------------------------------------------------------+------+
-```
+````
