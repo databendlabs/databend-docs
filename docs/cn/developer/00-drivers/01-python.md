@@ -256,7 +256,7 @@ print(res)
 
 ## 教程 -3：使用 Python 与 Databend Cloud 集成（databend-sqlalchemy）
 
-在开始之前，请确保您已成功创建仓库并获取连接信息。有关如何操作，请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已成功创建计算集群并获取连接信息。有关如何操作，请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 1. 使用 pip 安装依赖
 

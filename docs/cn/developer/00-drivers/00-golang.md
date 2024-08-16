@@ -297,7 +297,7 @@ func main() {
 ```
 
 :::tip
-在代码中替换 `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} 和 {DATABASE}` 为您的连接信息。获取连接信息的方法请参见 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在代码中替换 `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} 和 {DATABASE}` 为您的连接信息。获取连接信息的方法请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 :::
 
 ### 步骤 4. 运行 main.go

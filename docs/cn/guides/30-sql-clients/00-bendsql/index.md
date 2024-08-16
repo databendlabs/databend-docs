@@ -138,7 +138,7 @@ SELECT
 
 #### `prompt`
 
-`prompt` 设置控制命令行界面提示的格式。在下面的示例中，它最初设置为显示用户和仓库（`{user}@{warehouse}`）。更新为 `{user}@{warehouse}/{database}` 后，提示现在包括用户、仓库和数据库。
+`prompt` 设置控制命令行界面提示的格式。在下面的示例中，它最初设置为显示用户和计算集群（`{user}@{warehouse}`）。更新为 `{user}@{warehouse}/{database}` 后，提示现在包括用户、计算集群和数据库。
 
 ```shell title='示例:'
 // highlight-next-line
