@@ -87,13 +87,13 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 Snowflake 和 Databend Cloud 在类似条件下进行了测试：
 
-| 参数     | Snowflake                                                           | Databend Cloud                            |
-| -------- | ------------------------------------------------------------------- | ----------------------------------------- |
-| 仓库大小 | Small                                                               | Small                                     |
-| vCPU     | 16                                                                  | 16                                        |
-| 价格     | [$4/小时](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/小时](https://www.databend.com/plan/) |
-| AWS 区域 | us-east-2                                                           | us-east-2                                 |
-| 存储     | AWS S3                                                              | AWS S3                                    |
+| 参数         | Snowflake                                                           | Databend Cloud                            |
+| ------------ | ------------------------------------------------------------------- | ----------------------------------------- |
+| 计算集群大小 | Small                                                               | Small                                     |
+| vCPU         | 16                                                                  | 16                                        |
+| 价格         | [$4/小时](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/小时](https://www.databend.com/plan/) |
+| AWS 区域     | us-east-2                                                           | us-east-2                                 |
+| 存储         | AWS S3                                                              | AWS S3                                    |
 
 - 来自 [Amazon Redshift](https://github.com/awslabs/amazon-redshift-utils/tree/master/src/CloudDataWarehouseBenchmark/Cloud-DWB-Derived-from-TPCH) 的 TPC-H SF100 数据集。
 - 来自 [ClickBench](https://github.com/ClickHouse/ClickBench) 的 ClickBench 数据集。

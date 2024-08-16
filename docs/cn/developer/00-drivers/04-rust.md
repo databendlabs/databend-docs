@@ -43,21 +43,21 @@ Databend 提供了一个用 Rust 编写的驱动程序（[crates.io - databend-d
 
 下表总结了 Rust 驱动程序的主要行为和功能及其用途：
 
-| 函数名称           | 描述                                                                                       |
-| ------------------ | ------------------------------------------------------------------------------------------ |
-| `info`             | 返回客户端的连接信息。                                                                     |
-| `version`          | 返回执行 `SELECT VERSION()` 语句的结果。                                                   |
-| `exec`             | 执行 SQL 语句并返回受影响的行数。                                                          |
-| `query_iter`       | 执行 SQL 查询并返回一个用于逐行处理结果的迭代器。                                          |
-| `query_iter_ext`   | 执行 SQL 查询并返回一个包含结果统计信息的迭代器。                                          |
-| `query_row`        | 执行 SQL 查询并返回单行结果。                                                              |
-| `get_presigned_url`| 根据操作和 Stage 参数生成 `PRESIGN` 语句，返回 HTTP 方法、头部和 URL。                     |
-| `upload_to_stage`  | 上传数据到 Stage。默认使用 `PRESIGN UPLOAD` 的 URL，如果 PRESIGN 被禁用，则使用 `v1/upload_to_stage` API。|
-| `load_data`        | 上传数据到内置 Stage（`upload_to_stage`）并执行带有 [stage attachment](/developer/apis/http#stage-attachment) 的插入/替换操作。|
-| `load_file`        | 复用 `load_data` 逻辑上传文件并插入数据。                                                  |
-| `stream_load`      | 将数据读取为 Vec，转换为 CSV，然后调用 `load_data` 方法。                                   |
+| 函数名称            | 描述                                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `info`              | 返回客户端的连接信息。                                                                                                          |
+| `version`           | 返回执行 `SELECT VERSION()` 语句的结果。                                                                                        |
+| `exec`              | 执行 SQL 语句并返回受影响的行数。                                                                                               |
+| `query_iter`        | 执行 SQL 查询并返回一个用于逐行处理结果的迭代器。                                                                               |
+| `query_iter_ext`    | 执行 SQL 查询并返回一个包含结果统计信息的迭代器。                                                                               |
+| `query_row`         | 执行 SQL 查询并返回单行结果。                                                                                                   |
+| `get_presigned_url` | 根据操作和 Stage 参数生成 `PRESIGN` 语句，返回 HTTP 方法、头部和 URL。                                                          |
+| `upload_to_stage`   | 上传数据到 Stage。默认使用 `PRESIGN UPLOAD` 的 URL，如果 PRESIGN 被禁用，则使用 `v1/upload_to_stage` API。                      |
+| `load_data`         | 上传数据到内置 Stage（`upload_to_stage`）并执行带有 [stage attachment](/developer/apis/http#stage-attachment) 的插入/替换操作。 |
+| `load_file`         | 复用 `load_data` 逻辑上传文件并插入数据。                                                                                       |
+| `stream_load`       | 将数据读取为 Vec，转换为 CSV，然后调用 `load_data` 方法。                                                                       |
 
-## 教程-1：使用 Rust 与 Databend 集成
+## 教程 -1：使用 Rust 与 Databend 集成
 
 在开始之前，请确保您已成功安装本地 Databend。详细步骤请参阅 [本地和 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
 
@@ -167,9 +167,9 @@ mybook author 2022
 
 </StepsWrap>
 
-## 教程-2：使用 Rust 与 Databend Cloud 集成
+## 教程 -2：使用 Rust 与 Databend Cloud 集成
 
-在开始之前，请确保您已成功创建仓库并获取连接信息。具体操作请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已成功创建计算集群并获取连接信息。具体操作请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 1. 创建 Rust Crate
 

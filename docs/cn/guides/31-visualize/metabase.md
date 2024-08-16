@@ -37,7 +37,7 @@ java -jar metabase.jar
 在本教程中，您可以选择与 Databend 或 Databend Cloud 集成：
 
 - 如果您选择与本地 Databend 实例集成，请按照 [部署指南](/guides/deploy) 进行部署（如果您还没有部署的话）。
-- 如果您更喜欢与 Databend Cloud 集成，请确保您可以登录到您的账户并获取仓库的连接信息。更多详情，请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+- 如果您更喜欢与 Databend Cloud 集成，请确保您可以登录到您的账户并获取计算集群的连接信息。更多详情，请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 部署 Metabase
 
@@ -71,14 +71,14 @@ docker run  -d -p 3000:3000 --name metabase metabase/metabase
 
 3. 点击右上角的 **齿轮** 图标，导航到 **Admin settings** > **Databases** > **Add a database** 以创建连接：
 
-| 参数                          | Databend               | Databend Cloud                     |
-| ----------------------------- | ---------------------- | ---------------------------------- |
-| Database type                 | `Databend`             | `Databend`                         |
-| Host                          | `host.docker.internal` | 从连接信息中获取                   |
-| Port                          | `8000`                 | `443`                              |
-| Username                      | 例如，`root`           | `cloudapp`                         |
-| Password                      | 输入您的密码           | 从连接信息中获取                   |
-| Use a secure connection (SSL) | 关闭                   | 开启                               |
+| 参数                          | Databend               | Databend Cloud   |
+| ----------------------------- | ---------------------- | ---------------- |
+| Database type                 | `Databend`             | `Databend`       |
+| Host                          | `host.docker.internal` | 从连接信息中获取 |
+| Port                          | `8000`                 | `443`            |
+| Username                      | 例如，`root`           | `cloudapp`       |
+| Password                      | 输入您的密码           | 从连接信息中获取 |
+| Use a secure connection (SSL) | 关闭                   | 开启             |
 
 4. 点击 **Save changes**，然后点击 **Exit admin**。
 

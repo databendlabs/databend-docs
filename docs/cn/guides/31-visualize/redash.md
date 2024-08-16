@@ -6,7 +6,7 @@ title: Redash
 
 Databend 和 Databend Cloud 都可以作为数据源与 Redash 集成。以下教程将指导您如何部署和集成 Redash。
 
-## 教程-1：将 Databend 与 Redash 集成
+## 教程 -1：将 Databend 与 Redash 集成
 
 在本教程中，您将部署一个本地 Databend 并通过 Docker 安装 Redash。在开始之前，请确保已安装 Docker。
 
@@ -85,13 +85,13 @@ docker-compose up
 
 一切就绪！您现在可以编写查询并添加可视化。更多信息，请参考 Redash 入门指南：https://redash.io/help/user-guide/getting-started#2-Write-A-Query
 
-## 教程-2：将 Databend Cloud 与 Redash 集成
+## 教程 -2：将 Databend Cloud 与 Redash 集成
 
 在本教程中，您将通过 Docker 安装 Redash。在开始之前，请确保已安装 Docker。
 
 ### 步骤 1. 获取连接信息
 
-从 Databend Cloud 获取连接信息。具体方法请参考 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+从 Databend Cloud 获取连接信息。具体方法请参考 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 部署 Redash
 
