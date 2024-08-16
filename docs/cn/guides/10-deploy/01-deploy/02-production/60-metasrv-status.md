@@ -1,19 +1,18 @@
 ---
-title: 元服务 HTTP API
-sidebar_label: 元服务 HTTP API
-description: 
-  元服务 HTTP API
+title: 元数据服务 HTTP API
+sidebar_label: 元数据服务 HTTP API
+description: 元数据服务 HTTP API
 ---
 
-为了捕获和跟踪对您的分析有用的各种元数据统计信息，Databend 提供了许多 HTTP API。
+为了捕获并跟踪对分析有用的各种元数据统计信息，Databend 提供了多个 HTTP API。
 
 :::note
-除非另有说明，这些 HTTP API 默认使用端口 `28101`。要更改默认端口，请在配置文件 `databend-meta.toml` 中编辑 `admin_api_address` 的值。
+除非另有说明，这些 HTTP API 默认使用端口 `28101`。如需更改默认端口，请编辑配置文件 `databend-meta.toml` 中的 `admin_api_address` 值。
 :::
 
 ## 集群节点 API
 
-返回集群中的所有元节点。
+返回集群中的所有元数据节点。
 
 ### 请求端点
 
@@ -38,7 +37,7 @@ description:
 
 ## 集群状态 API
 
-返回集群中每个元节点的状态信息。
+返回集群中每个元数据节点的状态信息。
 
 ### 请求端点
 
@@ -78,9 +77,15 @@ description:
 }
 ```
 
-## 元指标 API
+### MetaCTL 命令
 
-显示 Databend 捕获和跟踪的关于元服务性能的一系列指标。有关元服务指标的更多信息，请参见 [Databend 元指标](../../03-monitor/10-metasrv-metrics.md)。
+```shell
+databend-metactl status
+```
+
+## 元数据指标 API
+
+显示 Databend 捕获和跟踪的关于元数据服务性能的一系列指标。更多关于元数据服务指标的信息，请参阅 [Databend 元数据指标](../../03-monitor/10-metasrv-metrics.md)。
 
 ### 请求端点
 
@@ -142,7 +147,7 @@ metasrv_meta_network_rpc_delay_seconds_count 3283
 
 ## 快照触发 API
 
-仅用于调试。强制 raft 创建并同步快照到所有节点。
+仅供调试使用。强制 raft 创建并同步快照到所有节点。
 
 ### 请求端点
 
@@ -154,4 +159,4 @@ metasrv_meta_network_rpc_delay_seconds_count 3283
 
 ## CPU 和内存分析 API
 
-使您能够使用 [FlameGraph](https://github.com/brendangregg/FlameGraph) 可视化 CPU 和内存的性能数据。有关更多信息，请参见 [如何对 Databend 进行性能分析](../../../90-community/00-contributor/04-how-to-profiling.md)。
+使您能够使用 [FlameGraph](https://github.com/brendangregg/FlameGraph) 可视化 CPU 和内存的性能数据。更多信息，请参阅 [如何分析 Databend](../../../90-community/00-contributor/04-how-to-profiling.md)。
