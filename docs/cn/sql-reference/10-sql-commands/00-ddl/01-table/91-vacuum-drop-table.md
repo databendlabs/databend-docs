@@ -2,6 +2,7 @@
 title: VACUUM DROP TABLE
 sidebar_position: 18
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.368"/>
@@ -17,23 +18,23 @@ VACUUM DROP TABLE 命令通过永久删除已删除表的数据文件来节省�
 ### 语法
 
 ```sql
-VACUUM DROP TABLE 
-    [ FROM <database_name> ] 
-    [ DRY RUN [SUMMARY] ] 
+VACUUM DROP TABLE
+    [ FROM <database_name> ]
+    [ DRY RUN [SUMMARY] ]
     [ LIMIT <file_count> ]
 ```
 
 - `FROM <database_name>`：此参数将搜索已删除表的范围限制在特定数据库内。如果未指定，命令将扫描所有数据库，包括那些已被删除的。
 
-    ```sql title="示例："
-    -- 从 "default" 数据库中移除已删除的表
-    // highlight-next-line
-    VACUUM DROP TABLE FROM default;
+  ```sql title="示例："
+  -- 从 "default" 数据库中移除已删除的表
+  // highlight-next-line
+  VACUUM DROP TABLE FROM default;
 
-    -- 从所有数据库中移除已删除的表
-    // highlight-next-line
-    VACUUM DROP TABLE;
-    ```
+  -- 从所有数据库中移除已删除的表
+  // highlight-next-line
+  VACUUM DROP TABLE;
+  ```
 
 - `DRY RUN [SUMMARY]`：指定此参数时，不会移除数据文件；相反，它会返回一个结果，显示如果未指定此参数，哪些数据文件将被移除。请参见 [输出](#output) 部分中的示例。
 
@@ -93,11 +94,11 @@ SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 
 `DATA_RETENTION_TIME_IN_DAYS` 的默认值为 1 天（24 小时），最大值根据 Databend 版本而异：
 
-| 版本                                       | 默认保留期      | 最大保留期       |
-|------------------------------------------|----------------|----------------|
-| Databend 社区版 & 企业版                   | 1 天（24 小时） | 90 天          |
-| Databend 云（标准版）                       | 1 天（24 小时） | 1 天（24 小时） |
-| Databend 云（商业版）                       | 1 天（24 小时） | 90 天          |
+| 版本                     | 默认保留期      | 最大保留期      |
+| ------------------------ | --------------- | --------------- |
+| Databend 社区版 & 企业版 | 1 天（24 小时） | 90 天           |
+| Databend Cloud（标准版） | 1 天（24 小时） | 1 天（24 小时） |
+| Databend Cloud（商业版） | 1 天（24 小时） | 90 天           |
 
 要检查 `DATA_RETENTION_TIME_IN_DAYS` 的当前值：
 
