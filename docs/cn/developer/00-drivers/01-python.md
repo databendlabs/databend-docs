@@ -49,7 +49,7 @@ pip install databend-sqlalchemy
 
 在以下教程中，您将学习如何利用上述包来开发您的 Python 应用程序。教程将引导您在 Databend 中创建一个 SQL 用户，然后编写 Python 代码来创建表、插入数据和执行数据查询。
 
-## 教程-1：使用 Python 与 Databend 集成
+## 教程 -1：使用 Python 与 Databend 集成
 
 在开始之前，请确保您已成功安装本地 Databend。有关详细说明，请参阅 [本地和 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
 
@@ -230,9 +230,9 @@ Readings in Database Systems Michael Stonebraker 2004
 </TabItem>
 </Tabs>
 
-## 教程-2：使用 Python 与 Databend Cloud 集成（databend-py）
+## 教程 -2：使用 Python 与 Databend Cloud 集成（databend-py）
 
-在开始之前，请确保您已成功创建仓库并获取连接信息。有关如何操作，请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在开始之前，请确保您已成功创建计算集群并获取连接信息。有关如何操作，请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 1. 使用 pip 安装依赖
 
@@ -254,7 +254,7 @@ _, res = client.execute('select * from data')
 print(res)
 ```
 
-## 教程-3：使用 Python 与 Databend Cloud 集成（databend-sqlalchemy）
+## 教程 -3：使用 Python 与 Databend Cloud 集成（databend-sqlalchemy）
 
 在开始之前，请确保您已成功创建仓库并获取连接信息。有关如何操作，请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 

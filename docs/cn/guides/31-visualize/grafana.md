@@ -10,12 +10,12 @@ title: Grafana
 
 ### 步骤 1. 设置环境
 
-在开始之前，请参考官方安装指南安装 Grafana：https://grafana.com/docs/grafana/latest/setup-grafana/installation 。
+在开始之前，请参考官方安装指南安装 Grafana：https://grafana.com/docs/grafana/latest/setup-grafana/installation。
 
 在本教程中，您可以选择与 Databend 或 Databend Cloud 集成：
 
 - 如果您选择与本地 Databend 实例集成，请参考 [部署指南](/guides/deploy) 进行部署（如果您还没有部署的话）。
-- 如果您更倾向于与 Databend Cloud 集成，请确保您可以登录您的账户并获取仓库的连接信息。更多详情，请参阅 [连接到仓库](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+- 如果您更倾向于与 Databend Cloud 集成，请确保您可以登录您的账户并获取计算集群的连接信息。更多详情，请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 修改 Grafana 配置
 
