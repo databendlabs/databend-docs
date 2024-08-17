@@ -8,6 +8,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Converts values into a JSON array while skipping NULLs.
 
+See also: [JSON_OBJECT_AGG](aggregate-json-object-agg.md)
+
 ## Syntax
 
 ```sql
@@ -19,6 +21,8 @@ JSON_ARRAY_AGG(<expr>)
 JSON array.
 
 ## Examples
+
+This example demonstrates how JSON_ARRAY_AGG aggregates values from each column into JSON arrays:
 
 ```sql
 CREATE TABLE d (
