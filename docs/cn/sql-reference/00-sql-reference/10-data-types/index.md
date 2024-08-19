@@ -6,35 +6,35 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.100"/>
 
-本页介绍数据类型的各个方面，包括数据类型列表、数据类型转换、类型转换方法以及 NULL 值和 NOT NULL 约束的处理。
+本页面解释了数据类型的各个方面，包括数据类型列表、数据类型转换、类型转换方法，以及处理 NULL 值和 NOT NULL 约束。
 
 ## 数据类型列表
 
 以下是 Databend 中通用数据类型的列表：
 
-| 数据类型                                                                 | 别名   | 存储大小     | 最小值                     | 最大值                           |
-| ----------------------------------------------------------------------- | ------ | ------------ | -------------------------- | -------------------------------- |
-| [BOOLEAN](./00-data-type-logical-types.md)                              | BOOL   | 1 字节       | N/A                        | N/A                              |
-| [TINYINT](./10-data-type-numeric-types.md#integer-data-types)           | INT8   | 1 字节       | -128                       | 127                              |
-| [SMALLINT](./10-data-type-numeric-types.md#integer-data-types)          | INT16  | 2 字节       | -32768                     | 32767                            |
-| [INT](./10-data-type-numeric-types.md#integer-data-types)               | INT32  | 4 字节       | -2147483648                | 2147483647                       |
-| [BIGINT](./10-data-type-numeric-types.md#integer-data-types)            | INT64  | 8 字节       | -9223372036854775808       | 9223372036854775807              |
-| [FLOAT](./10-data-type-numeric-types.md#floating-point-data-types)      | N/A    | 4 字节       | -3.40282347e+38            | 3.40282347e+38                   |
-| [DOUBLE](./10-data-type-numeric-types.md#floating-point-data-types)     | N/A    | 8 字节       | -1.7976931348623157E+308   | 1.7976931348623157E+308          |
-| [DECIMAL](./11-data-type-decimal-types.md)                              | N/A    | 16/32 字节   | -10^P / 10^S               | 10^P / 10^S                      |
-| [DATE](./20-data-type-time-date-types.md)                               | N/A    | 4 字节       | 1000-01-01                 | 9999-12-31                       |
-| [TIMESTAMP](./20-data-type-time-date-types.md)                          | N/A    | 8 字节       | 0001-01-01 00:00:00        | 9999-12-31 23:59:59.999999 UTC   |
-| [VARCHAR](./30-data-type-string-types.md)                               | STRING | N/A          | N/A                        | N/A                              |
+| 数据类型                                                                 | 别名   | 存储大小   | 最小值                     | 最大值                           |
+| ----------------------------------------------------------------------- | ------ | ---------- | -------------------------- | -------------------------------- |
+| [BOOLEAN](./00-data-type-logical-types.md)                              | BOOL   | 1 字节     | N/A                        | N/A                              |
+| [TINYINT](./10-data-type-numeric-types.md#integer-data-types)           | INT8   | 1 字节     | -128                       | 127                              |
+| [SMALLINT](./10-data-type-numeric-types.md#integer-data-types)          | INT16  | 2 字节     | -32768                     | 32767                            |
+| [INT](./10-data-type-numeric-types.md#integer-data-types)               | INT32  | 4 字节     | -2147483648                | 2147483647                       |
+| [BIGINT](./10-data-type-numeric-types.md#integer-data-types)            | INT64  | 8 字节     | -9223372036854775808       | 9223372036854775807              |
+| [FLOAT](./10-data-type-numeric-types.md#floating-point-data-types)      | N/A    | 4 字节     | -3.40282347e+38            | 3.40282347e+38                   |
+| [DOUBLE](./10-data-type-numeric-types.md#floating-point-data-types)     | N/A    | 8 字节     | -1.7976931348623157E+308   | 1.7976931348623157E+308          |
+| [DECIMAL](./11-data-type-decimal-types.md)                              | N/A    | 16/32 字节 | -10^P / 10^S               | 10^P / 10^S                      |
+| [DATE](./20-data-type-time-date-types.md)                               | N/A    | 4 字节     | 1000-01-01                 | 9999-12-31                       |
+| [TIMESTAMP](./20-data-type-time-date-types.md)                          | N/A    | 8 字节     | 0001-01-01 00:00:00        | 9999-12-31 23:59:59.999999 UTC   |
+| [VARCHAR](./30-data-type-string-types.md)                               | STRING | N/A        | N/A                        | N/A                              |
 
 以下是 Databend 中半结构化数据类型的列表：
 
-| 数据类型                                    | 别名 | 示例                           | 描述                                                                                     |
-| ------------------------------------------- | ---- | ------------------------------ | ---------------------------------------------------------------------------------------- | --- |
-| [ARRAY](./40-data-type-array-types.md)      | N/A  | [1, 2, 3, 4]                   | 相同数据类型的值的集合，通过索引访问。                                                     |
-| [TUPLE](./41-data-type-tuple-types.md)      | N/A  | ('2023-02-14','Valentine Day') | 不同数据类型的有序值集合，通过索引访问。                                                   |
-| [MAP](./42-data-type-map.md)                | N/A  | `{"a":1, "b":2, "c":3}`        | 一组键值对，每个键是唯一的，映射到一个值。                                                 |     |
-| [VARIANT](./43-data-type-variant.md)        | JSON | `[1,{"a":1,"b":{"c":2}}]`      | 不同数据类型的元素集合，包括 `ARRAY` 和 `OBJECT`。                                         |
-| [BITMAP](44-data-type-bitmap.md)            | N/A  | 0101010101                     | 用于表示一组值的二进制数据类型，每个位表示一个值的存在或不存在。                           |
+| 数据类型                                  | 别名 | 示例                           | 描述                                                                                     |
+| ----------------------------------------- | ---- | ------------------------------ | ---------------------------------------------------------------------------------------- |
+| [ARRAY](./40-data-type-array-types.md)    | N/A  | [1, 2, 3, 4]                   | 相同数据类型的值的集合，通过索引访问。                                                     |
+| [TUPLE](./41-data-type-tuple-types.md)    | N/A  | ('2023-02-14','Valentine Day') | 不同数据类型的有序值集合，通过索引访问。                                                   |
+| [MAP](./42-data-type-map.md)              | N/A  | `{"a":1, "b":2, "c":3}`        | 一组键值对，每个键是唯一的，映射到一个值。                                                 |
+| [VARIANT](./43-data-type-variant.md)      | JSON | `[1,{"a":1,"b":{"c":2}}]`      | 不同数据类型的元素集合，包括 `ARRAY` 和 `OBJECT`。                                         |
+| [BITMAP](44-data-type-bitmap.md)          | N/A  | 0101010101                     | 用于表示一组值的二进制数据类型，每个位表示一个值的存在或不存在。                           |
 
 ## 数据类型转换
 
@@ -171,7 +171,7 @@ age  |INT    |YES |NULL   |     |
 
 - "age" 列，像 "id" 一样，也可以包含 NULL 值，因为它没有 "NOT NULL" 约束，允许空条目或 NULL 值表示未知年龄。
 
-以下 INSERT 语句插入一行，其中 "age" 列的值为 NULL。这是允许的，因为 "age" 列没有 NOT NULL 约束，因此它可以包含 NULL 值以表示缺失或未知数据。
+以下 INSERT 语句插入一行，其中 "age" 列为 NULL 值。这是允许的，因为 "age" 列没有 NOT NULL 约束，因此它可以包含 NULL 值以表示缺失或未知数据。
 
 ```sql
 INSERT INTO test (id, name, age) VALUES (2, 'Alice', NULL);
