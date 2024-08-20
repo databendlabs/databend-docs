@@ -171,7 +171,7 @@ In this step, you will produce messages using the Confluent CLI and verify that 
 }
 ```
 
-2. In the Confluent CLI, start the Kafka producer with the `confluent kafka topic produce <topic_name>` command to send messages to a specified Kafka topic.
+2. In the Confluent CLI, start the Kafka producer with the `confluent kafka topic produce <topic_name>` command to send messages to your Kafka topic.
 
 ```shell
 confluent kafka topic produce databend_topic --value-format avro --schema schema.json
