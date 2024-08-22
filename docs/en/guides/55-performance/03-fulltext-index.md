@@ -62,12 +62,6 @@ REFRESH INVERTED INDEX customer_feedback_idx ON customer_feedback;
 
 Databend offers a range of full-text search functions empowering you to efficiently search through documents. For more information about their syntax and examples, see [Full-Text Search Functions](/sql/sql-functions/search-functions/).
 
-| Full-Text Search Function          | Description                                                     |
-|------------------------------------|-----------------------------------------------------------------|
-| `MATCH('<columns>', '<keywords>')` | Searches for documents containing specified keywords.           |
-| `QUERY('<query_expr>')`            | Searches for documents satisfying a specified query expression. |
-| `SCORE()`                          | Returns the relevance of the query string.                      |
-
 ## Managing Inverted Indexes
 
 Databend provides a variety of commands to manage inverted indexes. For details, see [Inverted Index](/sql/sql-commands/ddl/inverted-index/).
@@ -170,11 +164,9 @@ FROM
 WHERE
   MATCH(event_message, 'PersistentVolume');
 
-┌──────────────────────────────────────────────────┐
-│     event_id    │          event_message         │
-├─────────────────┼────────────────────────────────┤
-│               5 │ PersistentVolume claim created │
-└──────────────────────────────────────────────────┘
+-[ RECORD 1 ]-----------------------------------
+     event_id: 5
+event_message: PersistentVolume claim created
 ```
 
 To check if the full-text index will be utilized for the search, use the [EXPLAIN](/sql/sql-commands/explain-cmds/explain) command:
@@ -194,7 +186,6 @@ Filter
     ├── read size: < 1 KiB
     ├── partitions total: 5
     ├── partitions scanned: 1
-// highlight-next-line
     ├── pruning stats: [segments: <range pruning: 5 to 5>, blocks: <range pruning: 5 to 5, inverted pruning: 5 to 1>]
     ├── push downs: [filters: [k8s_logs._search_matched (#4)], limit: NONE]
     └── estimated rows: 5.00
@@ -217,9 +208,26 @@ WHERE
   SCORE() > 0.5
   AND QUERY('event_message:"PersistentVolume claim created"');
 
-┌─────────────────────────────────────────────────────────────────────────────────────┐
-│     event_id    │          event_message         │   event_timestamp   │   score()  │
-├─────────────────┼────────────────────────────────┼─────────────────────┼────────────┤
-│               5 │ PersistentVolume claim created │ 2024-04-08 12:00:00 │ 0.86304635 │
-└─────────────────────────────────────────────────────────────────────────────────────┘
+-[ RECORD 1 ]-----------------------------------
+       event_id: 5
+  event_message: PersistentVolume claim created
+event_timestamp: 2024-04-08 12:00:00
+        score(): 0.86304635
+```
+
+The following query performs a fuzzy search using the `fuzziness` option:
+
+```sql
+-- 'PersistentVolume claim create' is intentionally misspelled
+SELECT
+    event_id, event_message, event_timestamp
+FROM
+    k8s_logs
+WHERE
+    match('event_message', 'PersistentVolume claim create', 'fuzziness=1');
+
+-[ RECORD 1 ]-----------------------------------
+       event_id: 5
+  event_message: PersistentVolume claim created
+event_timestamp: 2024-04-08 12:00:00
 ```
