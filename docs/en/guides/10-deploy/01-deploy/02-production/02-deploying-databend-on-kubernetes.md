@@ -70,8 +70,6 @@ import TabItem from '@theme/TabItem';
 
 - Ensure there is a default storage class for the Kubernetes cluster.
 
-  ````mdx-code-block
-
   :::tip For cloud platforms
 
   <Tabs>
@@ -125,7 +123,7 @@ import TabItem from '@theme/TabItem';
 
   :::
 
-  ````
+
 
 - **Recommended** Ensure Prometheus Operator running in Kubernetes cluster, if you want to monitor the status for Databend Meta and Databend Query.
 
