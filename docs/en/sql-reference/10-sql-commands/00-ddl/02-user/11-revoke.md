@@ -6,10 +6,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.275"/>
 
-Revokes privileges, roles, and ownership of a specific database object. This involves:
+Revokes privileges, roles, and ownership of a specific database object. This includes:
 
-- Revoking privileges from a user or a role.
-- Revoking a role from a user or a role.
+- Revoking privileges from users or roles.
+- Removing roles from users or other roles.
 
 See also:
 
