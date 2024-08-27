@@ -6,11 +6,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.275"/>
 
-Grants privileges, roles, and ownership of a specific database object. This involves:
+Grants privileges, roles, and ownership for a specific database object. This includes:
 
-- Granting privileges to a user or a role.
-- Granting a role to a user or a role.
-- Granting ownership to a role.
+- Granting privileges to users or roles.
+- Assigning roles to users or other roles.
+- Transferring ownership to a role.
 
 See also:
 
@@ -60,6 +60,8 @@ privileges_level ::=
   | UDF <udf_name>
 ```
 
+To understand what a privilege is and how it works, see [Privileges](/guides/security/access-control/privileges).
+
 ### Granting Role
 
 ```sql
@@ -69,6 +71,8 @@ GRANT ROLE <role_name> TO <user_name>
 -- Grant a role to a role
 GRANT ROLE <role_name> TO ROLE <role_name>
 ```
+
+To understand what a role is and how it works, see [Roles](/guides/security/access-control/roles).
 
 ### Granting Ownership
 
@@ -82,6 +86,8 @@ GRANT OWNERSHIP ON STAGE <stage_name> TO ROLE '<role_name>'
 -- Grant ownership of a user-defined function (UDF) to a role
 GRANT OWNERSHIP ON UDF <udf_name> TO ROLE '<role_name>'
 ```
+
+To understand what ownership is and how it works, see [Ownership](/guides/security/access-control/ownership).
 
 ## Examples
 
