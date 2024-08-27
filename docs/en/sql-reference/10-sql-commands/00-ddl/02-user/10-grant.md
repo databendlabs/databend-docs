@@ -21,6 +21,8 @@ See also:
 
 ### Granting Privileges
 
+To understand what a privilege is and how it works, see [Privileges](/guides/security/access-control/privileges).
+
 ```sql
 GRANT { 
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
@@ -60,9 +62,9 @@ privileges_level ::=
   | UDF <udf_name>
 ```
 
-To understand what a privilege is and how it works, see [Privileges](/guides/security/access-control/privileges).
-
 ### Granting Role
+
+To understand what a role is and how it works, see [Roles](/guides/security/access-control/roles).
 
 ```sql
 -- Grant a role to a user
@@ -72,9 +74,9 @@ GRANT ROLE <role_name> TO <user_name>
 GRANT ROLE <role_name> TO ROLE <role_name>
 ```
 
-To understand what a role is and how it works, see [Roles](/guides/security/access-control/roles).
-
 ### Granting Ownership
+
+To understand what ownership is and how it works, see [Ownership](/guides/security/access-control/ownership).
 
 ```sql
 -- Grant ownership of a specific table within a database to a role
@@ -86,8 +88,6 @@ GRANT OWNERSHIP ON STAGE <stage_name> TO ROLE '<role_name>'
 -- Grant ownership of a user-defined function (UDF) to a role
 GRANT OWNERSHIP ON UDF <udf_name> TO ROLE '<role_name>'
 ```
-
-To understand what ownership is and how it works, see [Ownership](/guides/security/access-control/ownership).
 
 ## Examples
 
