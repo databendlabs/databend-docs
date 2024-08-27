@@ -1,5 +1,5 @@
 ---
-title: Loading Data from Kafka
+title: Loading from Kafka with databend-kafka-connect
 ---
 
 In this tutorial, we'll establish a connection between Kafka in Confluent Cloud and Databend Cloud using the Kafka Connect sink connector plugin, [databend-kafka-connect](https://github.com/databendcloud/databend-kafka-connect). Then, we'll demonstrate how to produce messages and load them into Databend Cloud.
@@ -10,7 +10,7 @@ Before you begin, ensure that your Kafka environment is properly set up in Confl
 
 1. Sign up for a free Confluent Cloud account. Once you've registered and created your account, [sign in](https://confluent.cloud/login) to your Confluent Cloud account.
 
-2. Follow the [Confluent Quick Start](https://docs.confluent.io/cloud/current/get-started/index.html#step-1-create-a-ak-cluster-in-ccloud) create and launch a basic Kafka cluster inside your default environment.
+2. Follow the [Confluent Quick Start](https://docs.confluent.io/cloud/current/get-started/index.html#step-1-create-a-ak-cluster-in-ccloud) to create and launch a basic Kafka cluster inside your default environment.
 
 3. Follow the [Install Confluent CLI](https://docs.confluent.io/confluent-cli/current/install.html) guide to install the Confluent CLI on your local machine. After installation, log in to your Confluent Cloud account to connect to Confluent Cloud:
 
