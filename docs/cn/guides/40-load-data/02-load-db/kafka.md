@@ -2,20 +2,35 @@
 title: Kafka
 ---
 
-[Apache Kafka](https://kafka.apache.org/) 是一个开源的分布式事件流平台，允许您发布和订阅记录流。它旨在处理高吞吐量、容错和实时数据流。Kafka 使各种应用程序之间的无缝通信成为可能，是构建数据管道和流数据处理应用程序的理想选择。
+[Apache Kafka](https://kafka.apache.org/) 是一个开源的分布式事件流处理平台，允许您发布和订阅记录流。它旨在处理高吞吐量、容错和实时数据流。Kafka 使得不同应用程序之间的无缝通信成为可能，是构建数据管道和流数据处理应用程序的理想选择。
 
-Databend 提供了一个高效的数据摄取工具（[bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka)），专门设计用于将 Kafka 中的数据加载到 Databend 中。使用这个工具，您可以无缝地将 Kafka 主题中的数据传输并插入到目标 Databend 表中，简化您的数据摄取工作流程。
+Databend 提供了以下插件和工具，用于从 Kafka 主题中摄取数据：
 
-## 安装 bend-ingest-kafka
+- [databend-kafka-connect](#databend-kafka-connect)
+- [bend-ingest-kafka](#bend-ingest-kafka)
 
-要安装该工具，请确保您的计算机上安装了 Go 编程语言，然后使用 "go get" 命令如下所示：
+## databend-kafka-connect
 
-```bash
-go get https://github.com/databendcloud/bend-ingest-kafka
-```
-## 使用示例
+[databend-kafka-connect](https://github.com/databendcloud/databend-kafka-connect) 是一个专为 Databend 设计的 Kafka Connect 接收器连接器插件。该插件能够将数据从 Kafka 主题直接无缝传输到 Databend 表中，实现实时数据摄取且配置简单。databend-kafka-connect 的主要特性包括：
 
-本节假设您在 Kafka 中的数据如下所示，并解释了如何使用工具 bend-ingest-kafka 将数据加载到 Databend 中。
+- 根据数据模式自动在 Databend 中创建表。
+- 支持**仅追加**和**更新插入**两种写入模式。
+- 随着传入数据结构的变化，自动调整 Databend 表的模式。
+
+要下载 databend-kafka-connect 并了解更多关于该插件的信息，请访问 [GitHub 仓库](https://github.com/databendcloud/databend-kafka-connect) 并参考 README 获取详细说明。
+
+## bend-ingest-kafka
+
+[bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka) 是一个高性能的数据摄取工具，专门设计用于高效地将数据从 Kafka 主题加载到 Databend 表中。它支持两种主要操作模式：JSON 转换模式和原始模式，以满足不同的数据摄取需求。bend-ingest-kafka 的主要特性包括：
+
+- 支持两种模式：**JSON 转换模式**，直接根据数据模式将 Kafka 的 JSON 数据映射到 Databend 表；**原始模式**，摄取原始 Kafka 数据同时捕获完整的 Kafka 记录元数据。
+- 提供可配置的批处理设置，包括大小和间隔，确保数据摄取的高效和可扩展性。
+
+要下载 bend-ingest-kafka 并了解更多关于该工具的信息，请访问 [GitHub 仓库](https://github.com/databendcloud/bend-ingest-kafka) 并参考 README 获取详细说明。
+
+## 示例
+
+本示例假设 Kafka 中的数据如下所示，并解释如何使用 bend-ingest-kafka 工具将数据加载到 Databend 中。
 
 ```json
 {
@@ -51,7 +66,7 @@ CREATE TABLE employee_data (
 
 ### 步骤 2. 运行 bend-ingest-kafka
 
-创建表后，执行带有所需参数的 bend-ingest-kafka 命令以启动数据加载过程。该命令将启动数据摄取器，它会持续监控您的 Kafka 主题，消费数据，并将其插入到 Databend 中指定的表中。
+表创建完成后，执行带有必要参数的 bend-ingest-kafka 命令以启动数据加载过程。该命令将启动数据摄取器，持续监控您的 Kafka 主题，消费数据并将其插入到 Databend 中指定的表。
 
 ```bash
 bend-ingest-kafka \
@@ -65,13 +80,13 @@ bend-ingest-kafka \
   --batch-max-interval=300s
 ```
 
-| 参数                        	| 描述                                                                                              	|
-|---------------------------	|-----------------------------------------------------------------------------------------------------	|
-| --kafka-bootstrap-servers 	| 用于连接的 Kafka 引导服务器的逗号分隔列表。                                                        	|
-| --kafka-topic             	| 将从中摄取数据的 Kafka 主题。                                                                      	|
-| --kafka-consumer-group    	| Kafka 消费者加入的消费者组。                                                                       	|
-| --databend-dsn            	| 用于连接到 Databend 的数据源名称（DSN）。格式：`http(s)://username:password@host:port`。          	|
-| --databend-table          	| 将插入数据的目标 Databend 表。                                                                     	|
-| --data-format             	| 正在摄取的数据的格式。                                                                              	|
-| --batch-size              	| 摄取过程中每批次的记录数。                                                                         	|
-| --batch-max-interval      	| 在刷新批次之前等待的最大间隔时间（以秒为单位）。                                                   	|
+| 参数                       | 描述                                                                                          |
+|---------------------------|-----------------------------------------------------------------------------------------------------|
+| --kafka-bootstrap-servers | 逗号分隔的 Kafka 引导服务器列表，用于连接。                                       |
+| --kafka-topic             | 要从中摄取数据的 Kafka 主题。                                                |
+| --kafka-consumer-group    | Kafka 消费者加入的消费组。                                                       |
+| --databend-dsn            | 连接到 Databend 的数据源名称 (DSN)。格式：`http(s)://username:password@host:port`。  |
+| --databend-table          | 数据将被插入的目标 Databend 表。                                           |
+| --data-format             | 正在摄取的数据格式。                                                               |
+| --batch-size              | 摄取过程中每批记录的数量。                                                    |
+| --batch-max-interval      | 刷新一批数据前的最大等待间隔（以秒为单位）。                                   |
