@@ -101,6 +101,9 @@
     th {
       font-size: 1rem;
     }
+    th {
+      white-space: nowrap;
+    }
     thead tr {
       border: 1px solid hsl(var(--border));
     }

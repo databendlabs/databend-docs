@@ -14,6 +14,7 @@ import Ubuntu from "@site/static/icons/ubuntu.svg";
 import Apple from "@site/static/icons/apple.svg";
 import Microsoft from "@site/static/icons/microsoft.svg";
 import { IAssets } from "@site/src/types/download";
+import DatabendTable from "@site/src/components/DatabendTable";
 
 const Releases: FC = (): ReactElement => {
   const { releasesList, name: releaseName, bendsqlRecource } = useGetReleases();
