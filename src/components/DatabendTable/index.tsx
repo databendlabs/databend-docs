@@ -23,7 +23,7 @@ const DatabendTable: FC<IProps> = ({
       <thead>
         <tr>
           {thead?.map((th, index) => {
-            return <th key={index}>{th}</th>;
+            return <th key={index} dangerouslySetInnerHTML={{ __html: th }} />;
           })}
         </tr>
       </thead>
@@ -32,7 +32,7 @@ const DatabendTable: FC<IProps> = ({
           return (
             <tr key={index}>
               {tr?.map((td, i) => {
-                return <td key={i}>{td}</td>;
+                return <td key={i} dangerouslySetInnerHTML={{ __html: td }} />;
               })}
             </tr>
           );
