@@ -49,10 +49,10 @@ You can perform bulk operations on warehouses, including bulk restart, bulk susp
 
 ## Connecting to a Warehouse {#connecting}
 
-To obtain the necessary connection information, select and click a warehouse on the **Warehouses** page to enter the details page, then click **Connect** to show a pop-up.
+Connecting to a warehouse provides the compute resources required to run queries and analyze data within Databend Cloud. This connection is necessary when accessing Databend Cloud from your applications or SQL clients.
 
-![Alt text](@site/static/img/documents/warehouses/connect-warehouse.png)
+To obtain the connection information for a warehouse:
 
-The following is an example of a pop-up connection information window where Databend Cloud offers a SQL user named *cloudapp* with a randomly generated password. You will need the username and password for authentication when connecting to the warehouse. Please note that Databend will not store the generated password for you. You must copy and paste the password to a secure place. If you forget the password, click **Reset** to generate a new one.
-
-![Alt text](@site/static/img/documents/warehouses/connect-warehouse-2.png)
+1. Click **Connect** on the **Overview** page.
+2. Select the database and warehouse you wish to connect to. The connection information will update based on your selection.
+3. The connection details include a SQL user named `cloudapp` with a randomly generated password. Databend Cloud does not store this password. Be sure to copy and save it securely. If you forget the password, click **Reset** to generate a new one.
