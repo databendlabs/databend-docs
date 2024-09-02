@@ -41,7 +41,7 @@ AS
 | session_parameter                                | Optional. Specifies session parameters to use for the task during task run.                                                                                                  |
 | sql                                              | The SQL statement that the task will execute, it could be a single statement or a script This is a mandatory field.                                                          |
 
-### Usage Notes:
+### Usage Notes
 
 - A schedule must be defined for a standalone task or the root task in a DAG of tasks; otherwise, the task only runs if manually executed using EXECUTE TASK.
 - A schedule cannot be specified for child tasks in a DAG.
