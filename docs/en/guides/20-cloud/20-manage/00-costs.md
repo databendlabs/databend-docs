@@ -2,23 +2,7 @@
 title: Managing Costs
 ---
 
-This topic describes how to view and limit your costs within Databend Cloud.
-
-## Viewing Your Costs
-
-If you are an admin user, you can access your organization's usage statistics by clicking **Manage** > **Usage**.
-
-The **Usage** page displays the consumption of users within your organization, including:
-
-- Today's and the past month's consumption, categorized by compute and storage usage.
-- Consumption trends.
-
-![](@site/static/img/documents/org-and-users/usage.png)
-
-Clicking on **View more** will provide more detailed statistical data:
-
-- On the left, filters can be applied based on time range, category, and records.
-- On the right, consumption data, trends, and details will be displayed.
+You can view the current month's consumption and billing history for your organization under **Manage** > **Billing**.
 
 ## Limiting Your Costs
 
@@ -41,3 +25,19 @@ For the "Send Notifications Only" option, Databend Cloud will send email notific
 | 80% - 90%      	| Every three days       	|
 | 90% - 100%     	| Every three days       	|
 | 100% or above     | Every three days       	|
+
+## Granting Access to Finance Personnel
+
+To facilitate the work of your finance team while ensuring data security, you can create a role named `billing` within Databend Cloud. This role will be specifically tailored to provide access only to billing-related information.
+
+```sql
+CREATE ROLE billing;
+```
+
+When inviting finance personnel to your organization, assign them this `billing` role. 
+
+![alt text](../../../../../static/img/documents/pricing-billing/billing-role.png)
+
+Once they log in to Databend Cloud, they will have restricted access, limited to only the billing page, with all other business-related pages hidden from view. This approach helps to safeguard sensitive data by restricting unnecessary access to other parts of your Databend Cloud environment.
+
+![alt text](../../../../../static/img/documents/pricing-billing/billing-only-view.png)
