@@ -22,9 +22,3 @@ The following example creates a database named `test`:
 ```sql
 CREATE DATABASE test;
 ```
-
-The following example creates a database named `test` from the share `myshare`:
-
-```sql
-CREATE DATABASE test FROM SHARE t;
-```
