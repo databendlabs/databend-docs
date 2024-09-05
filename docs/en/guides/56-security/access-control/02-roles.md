@@ -69,6 +69,17 @@ A user can be granted multiple roles in Databend. These roles are categorized in
 
 - Secondary roles are additional roles that provide extra permissions and are active by default. Users can activate or deactivate secondary roles with the [SET SECONDARY ROLES](/sql/sql-commands/ddl/user/user-set-2nd-roles) command to temporarily adjust their permission scope.
 
+## Billing Role
+
+In addition to the standard built-in roles, you can create a custom role named `billing` to cater specifically to the needs of finance personnel. The role `billing` provides access only to billing-related information, ensuring that finance personnel can view necessary financial data without exposure to other business-related pages.
+
+To set up and use the role `billing`, you can create it using the following command:
+
+```sql
+CREATE ROLE billing;
+```
+The role name is case-insensitive, so `billing` and `Billing` are considered the same. For detailed steps on setting and assigning the role `billing`, see [Granting Access to Finance Personnel](/guides/cloud/manage/costs#granting-access-to-finance-personnel).
+
 ## Usage Examples
 
 This example showcases role-based permission management. Initially, a 'writer' role is created and granted privileges. Subsequently, these privileges are assigned to the user 'eric', who inherits them. Lastly, the permissions are revoked from the role, demonstrating their impact on the user's privileges.
