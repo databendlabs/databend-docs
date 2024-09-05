@@ -71,7 +71,7 @@ A user can be granted multiple roles in Databend. These roles are categorized in
 
 ## Billing Role
 
-In addition to the standard built-in roles, you can create a custom role named `billing` to cater specifically to the needs of finance personnel. The role `billing` provides access only to billing-related information, ensuring that finance personnel can view necessary financial data without exposure to other business-related pages.
+In addition to the standard built-in roles, you can create a custom role named `billing` in Databend Cloud to cater specifically to the needs of finance personnel. The role `billing` provides access only to billing-related information, ensuring that finance personnel can view necessary financial data without exposure to other business-related pages.
 
 To set up and use the role `billing`, you can create it using the following command:
 
