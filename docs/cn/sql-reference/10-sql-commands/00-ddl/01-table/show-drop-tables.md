@@ -1,12 +1,12 @@
 ---
-title: 显示删除的表
+title: SHOW DROP TABLES
 sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.203"/>
+<FunctionDescription description="引入或更新: v1.2.203"/>
 
-列出当前数据库或指定数据库中已删除的表。
+列出当前或指定数据库中已删除的表。
 
 ## 语法
 

@@ -1,9 +1,9 @@
 ---
-title: 显示创建表
+title: SHOW CREATE TABLE
 sidebar_position: 10
 ---
 
-显示创建指定表的 CREATE TABLE 语句。
+显示创建指定表的CREATE TABLE语句。
 
 ## 语法
 
@@ -14,7 +14,7 @@ SHOW CREATE TABLE [ <database_name>. ]table_name
 ## 示例
 
 :::tip
-numbers(N) - 一个用于测试的表，它有一个名为 `number` 的列（UInt64），包含从 0 到 N-1 的整数。
+numbers(N) – 一个用于测试的表，包含单个 `number` 列（UInt64），包含从0到N-1的整数。
 :::
 
 ```sql

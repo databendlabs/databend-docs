@@ -4,13 +4,13 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.223"/>
+<FunctionDescription description="引入或更新: v1.2.223"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='STREAM'/>
 
-描述一个特定流的详细信息。
+描述特定流的详细信息。
 
 ## 语法
 

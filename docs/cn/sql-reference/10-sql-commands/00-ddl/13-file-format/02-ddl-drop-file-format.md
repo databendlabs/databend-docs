@@ -1,9 +1,9 @@
 ---
-title: 删除文件格式
+title: DROP FILE FORMAT
 sidebar_position: 3
 ---
 
-移除一个文件格式。
+删除文件格式。
 
 ## 语法
 

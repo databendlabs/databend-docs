@@ -1,16 +1,16 @@
 ---
-title: 删除倒排索引
+title: DROP INVERTED INDEX
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于: v1.2.405"/>
+<FunctionDescription description="引入或更新: v1.2.405"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='倒排索引'/>
+<EEFeature featureName='INVERTED INDEX'/>
 
-在 Databend 中移除一个倒排索引。
+删除 Databend 中的倒排索引。
 
 ## 语法
 
@@ -21,6 +21,6 @@ DROP INVERTED INDEX [IF EXISTS] <index> ON [<database>.]<table>
 ## 示例
 
 ```sql
--- 删除'customer_feedback'表上的'customer_feedback_idx'倒排索引
+-- 删除 'customer_feedback' 表上的倒排索引 'customer_feedback_idx'
 DROP INVERTED INDEX customer_feedback_idx ON customer_feedback;
 ```

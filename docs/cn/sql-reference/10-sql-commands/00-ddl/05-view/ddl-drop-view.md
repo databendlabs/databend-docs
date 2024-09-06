@@ -1,5 +1,5 @@
 ---
-title: 删除视图
+title: DROP VIEW
 sidebar_position: 5
 ---
 
