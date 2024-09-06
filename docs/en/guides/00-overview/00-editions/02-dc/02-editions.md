@@ -32,11 +32,11 @@ tbody={[
 ['Object-level access control.', 'Yes', 'Yes', 'Yes'],
 ['Standard Time Travel (up to 1 day) for accessing/restoring modified and deleted data.', 'Yes', 'Yes', 'Yes'],
 ['Disaster recovery of modified/deleted data (for 7 days beyond Time Travel) through Fail-safe.', 'Yes', 'Yes', 'Yes'],
-['Extended Time Travel.', 'No', '90 days', '90 days'],
+['<b>Extended Time Travel</b>.', 'No', '90 days', '90 days'],
 ['Column-level Security to apply masking policies to columns in tables or views.', 'Yes', 'Yes', 'Yes'],
 ['Audit the user access history through the Account Usage ACCESS_HISTORY view.', 'Yes', 'Yes', 'Yes'],
-['Support for private connectivity to the Databend Cloud service using AWS PrivateLink.', 'No', 'Yes', 'Yes'],
-['Dedicated metadata store and pool of compute resources (used in virtual warehouses).', 'No', 'No', 'Yes'],
+['<b>Support for private connectivity to the Databend Cloud service using AWS PrivateLink</b>.', 'No', 'Yes', 'Yes'],
+['<b>Dedicated metadata store and pool of compute resources (used in virtual warehouses)</b>.', 'No', 'No', 'Yes'],
 ]}
 />
 
@@ -127,6 +127,6 @@ thead={['Features', 'Standard', 'Business', 'Dedicated']}
 tbody={[
 ['Logging and tracking support tickets.', 'Yes', 'Yes', 'Yes'],
 ['4/7 coverage and 1-hour response window for Severity 1 issues.', 'Yes', 'Yes', 'Yes'],
-['Response to non-severity-1 issues in hours.', '8h', '4h', '1h'],
+['<b>Response to non-severity-1 issues in hours</b>.', '8h', '4h', '1h'],
 ]}
 />
