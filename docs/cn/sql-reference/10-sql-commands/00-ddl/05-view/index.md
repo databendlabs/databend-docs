@@ -3,6 +3,6 @@ title: 视图
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-此页面提供了Databend中与视图相关命令的参考信息。
+本页面提供了与视图相关的命令在 Databend 中的参考信息。
 
 <IndexOverviewList />

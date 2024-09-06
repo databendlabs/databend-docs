@@ -3,10 +3,10 @@ title: SHOW COLUMNS
 sidebar_position: 13
 ---
 
-显示给定表中列的信息。
+显示指定表中列的信息。
 
 :::tip
-[DESCRIBE TABLE](50-describe-table.md) 提供了关于表列的类似但更少的信息。
+[DESCRIBE TABLE](50-describe-table.md) 提供了类似但信息较少的关于表列的信息。
 :::
 
 ## 语法
@@ -18,7 +18,7 @@ SHOW  [ FULL ] COLUMNS
     [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
-当包含可选关键字 FULL 时，Databend 将为表中每一列的结果添加排序规则、权限和注释信息。
+当包含可选的关键字 FULL 时，Databend 会将表中每一列的排序规则、权限和注释信息添加到结果中。
 
 ## 示例
 

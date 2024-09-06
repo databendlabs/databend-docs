@@ -5,13 +5,13 @@ sidebar_position: 3
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.45"/>
+<FunctionDescription description="引入或更新: v1.2.45"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='掩码策略'/>
 
-从Databend中删除现有的掩码策略。当您删除一个掩码策略时，它将从Databend中移除，其关联的掩码规则将不再生效。请注意，在删除掩码策略之前，确保此策略未与任何列关联。
+从 Databend 中删除一个现有的掩码策略。当你删除一个掩码策略时，它将从 Databend 中移除，并且其关联的掩码规则将不再生效。请注意，在删除掩码策略之前，确保该策略未与任何列关联。
 
 ## 语法
 

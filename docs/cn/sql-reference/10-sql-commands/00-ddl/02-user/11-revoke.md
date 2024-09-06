@@ -4,7 +4,7 @@ sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.275"/>
+<FunctionDescription description="Introduced or updated: v1.2.275"/>
 
 撤销特定数据库对象的权限、角色和所有权。这包括：
 
@@ -71,7 +71,7 @@ REVOKE ROLE <role_name> FROM ROLE <role_name>
 
 ## 示例
 
-### 示例 1: 从用户撤销权限
+### 示例 1：从用户撤销权限
 
 创建用户：
 ```sql
@@ -106,7 +106,7 @@ SHOW GRANTS FOR user1;
 +--------------------------------------------+
 ```
 
-### 示例 2: 从角色撤销权限
+### 示例 2：从角色撤销权限
 
 授予角色 `role1` 在 `mydb` 数据库中所有现有表的 `SELECT,INSERT` 权限：
 
@@ -144,7 +144,7 @@ SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
 ```
 
-### 示例 3: 从用户撤销角色
+### 示例 3：从用户撤销角色
 
 ```sql
 REVOKE ROLE role1 FROM USER user1;

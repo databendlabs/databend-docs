@@ -6,13 +6,13 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.275"/>
 
-授予特定数据库对象的权限、角色和所有权。包括：
+授予特定数据库对象的权限、角色和所有权。这包括：
 
 - 向用户或角色授予权限。
 - 将角色分配给用户或其他角色。
 - 将所有权转移给角色。
 
-参见：
+另请参阅：
 
 - [REVOKE](11-revoke.md)
 - [SHOW GRANTS](22-show-grants.md)
@@ -21,7 +21,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ### 授予权限
 
-要了解什么是权限以及它是如何工作的，请参阅[权限](/guides/security/access-control/privileges)。
+要了解什么是权限以及它的工作原理，请参阅[权限](/guides/security/access-control/privileges)。
 
 ```sql
 GRANT { 
@@ -64,7 +64,7 @@ privileges_level ::=
 
 ### 授予角色
 
-要了解什么是角色以及它是如何工作的，请参阅[角色](/guides/security/access-control/roles)。
+要了解什么是角色以及它的工作原理，请参阅[角色](/guides/security/access-control/roles)。
 
 ```sql
 -- 将角色授予用户
@@ -76,7 +76,7 @@ GRANT ROLE <role_name> TO ROLE <role_name>
 
 ### 授予所有权
 
-要了解什么是所有权以及它是如何工作的，请参阅[所有权](/guides/security/access-control/ownership)。
+要了解什么是所有权以及它的工作原理，请参阅[所有权](/guides/security/access-control/ownership)。
 
 ```sql
 -- 将数据库中特定表的所有权授予角色
@@ -91,7 +91,7 @@ GRANT OWNERSHIP ON UDF <udf_name> TO ROLE '<role_name>'
 
 ## 示例
 
-### 示例 1: 向用户授予权限
+### 示例 1：向用户授予权限
 
 创建用户：
 ```sql
@@ -160,7 +160,7 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------------------------------+
 ```
 
-### 示例 2: 向角色授予权限
+### 示例 2：向角色授予权限
 
 将 `mydb` 数据库中所有现有表的 `SELECT` 权限授予角色 `role1`：
 
@@ -184,7 +184,7 @@ SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
 ```
 
-### 示例 3: 将角色授予用户
+### 示例 3：将角色授予用户
 
 用户 `user1` 的授权：
 ```sql
@@ -224,7 +224,7 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------+
 ```
 
-### 示例 4: 将所有权授予角色
+### 示例 4：将所有权授予角色
 
 ```sql
 -- 将 'finance_data' 数据库中所有表的所有权授予角色 'data_owner'

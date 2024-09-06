@@ -1,10 +1,10 @@
 ---
-title: 显示连接
+title: SHOW CONNECTIONS
 sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.208"/>
+<FunctionDescription description="引入或更新: v1.2.208"/>
 
 显示所有可用连接的列表。
 

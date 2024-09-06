@@ -1,17 +1,17 @@
 ---
-title: 修改虚拟列
+title: ALTER VIRTUAL COLUMN
 sidebar_position: 2
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.271"/>
+<FunctionDescription description="引入或更新: v1.2.271"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='虚拟列'/>
+<EEFeature featureName='VIRTUAL COLUMN'/>
 
-修改表的虚拟列。请注意，在为表修改虚拟列后，使用 [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) 命令刷新它们。
+修改表的虚拟列。请注意，修改表的虚拟列后，使用 [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) 命令刷新它们。
 
 ## 语法
 
@@ -22,10 +22,10 @@ ALTER VIRTUAL COLUMN [ IF EXISTS ] ( <virtual_column_1>, <virtual_column_2>, ...
 ## 示例
 
 ```sql
--- 创建一个名为 'test' 的表，包含类型为 Variant 的 'id' 和 'val' 列。
+-- 创建一个名为 'test' 的表，包含 'id' 和 'val' 列，类型为 Variant。
 CREATE TABLE test(id int, val variant);
 
--- 向 'test' 表插入一个包含 Variant 数据的示例记录。
+-- 向 'test' 表插入一条包含 Variant 数据的示例记录。
 INSERT INTO
   test
 VALUES
