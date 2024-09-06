@@ -1,7 +1,6 @@
 ---
 title: 新 SQL 计划框架设计
-description:
-  新 SQL 计划框架设计 RFC
+description: 新 SQL 计划框架设计 RFC
 ---
 
 - 开始日期: 2021/09/13
@@ -81,7 +80,7 @@ pub struct DataField {
 
 有趣的是，规则系统（转换和实现）与探索引擎和成本模型是解耦的，这意味着很容易构建一个没有 CBO（基于成本的优化）的启发式优化器。而一旦我们打算实现 CBO，规则系统可以被重用。
 
-实际上，这是实用的方式。在一些工业级 Cascades 实现（例如 SQL Server 和 CockroachDB）中，总是有一个启发式优化阶段，例如 SQL Server 中的 `pre-exploration` 和 CockroachDB 中的 `normalization`，这通常与探索引擎共享相同的规则系统。
+实际上，这是实用的方式。在一些工业级 Cascades 实现（例如 SQL Server 和 CockroachDB）中，总是有一个启发式优化 Stage，例如 SQL Server 中的 `pre-exploration` 和 CockroachDB 中的 `normalization`，这通常与探索引擎共享相同的规则系统。
 
 总之，本 RFC 将：
 
@@ -165,11 +164,11 @@ where t.a = 1
 
 根据 SQL 的语义，我们可以按以下方式描述绑定过程：
 
-1. 为表`t`创建一个空的`BindContext`上下文1，并用`t`的列填充它
-2. 为表`t`创建一个空的`BindContext`上下文2，用`t`的列填充它，并将表重命名为`t1`
-3. 为`t cross join t1`创建一个空的`BindContext`上下文3，并用`t`和`t1`的列填充它
+1. 为表`t`创建一个空的`BindContext`上下文 1，并用`t`的列填充它
+2. 为表`t`创建一个空的`BindContext`上下文 2，用`t`的列填充它，并将表重命名为`t1`
+3. 为`t cross join t1`创建一个空的`BindContext`上下文 3，并用`t`和`t1`的列填充它
 4. 对谓词`t.a = 1`执行名称解析
-5. 查找上下文3，并找到变量`t.a`对应的`ColumnEntry`
+5. 查找上下文 3，并找到变量`t.a`对应的`ColumnEntry`
 
 让我们看看`BindContext`是如何处理相关子查询的。
 
@@ -197,21 +196,21 @@ where exists (
 
 该过程可以总结如下：
 
-1. 为表`t`创建一个空的`BindContext`上下文1，并用`t`的列填充它
-2. 以上下文1为父上下文，为表`t`创建一个空的`BindContext`上下文2，用`t`的列填充它，并将表重命名为`t1`
+1. 为表`t`创建一个空的`BindContext`上下文 1，并用`t`的列填充它
+2. 以上下文 1 为父上下文，为表`t`创建一个空的`BindContext`上下文 2，用`t`的列填充它，并将表重命名为`t1`
 3. 对谓词`t1.a = t.a`执行名称解析
-4. 查找上下文2，并找到变量`t1.a`对应的`ColumnEntry`，但找不到`t.a`。所以我们将继续进行步骤5
-5. 查找上下文2的父上下文（上下文1），并找到变量`t.a`对应的`ColumnEntry`。由于在外部上下文中找到了变量，它将被标记为相关列引用，且子查询将被标记为相关
+4. 查找上下文 2，并找到变量`t1.a`对应的`ColumnEntry`，但找不到`t.a`。所以我们将继续进行步骤 5
+5. 查找上下文 2 的父上下文（上下文 1），并找到变量`t.a`对应的`ColumnEntry`。由于在外部上下文中找到了变量，它将被标记为相关列引用，且子查询将被标记为相关
 
 ## 优化器
 
-### Cascades优化器简介
+### Cascades 优化器简介
 
-SQL优化基于关系代数的等价性。有许多不同的定理和引理可以帮助我们识别两个关系代数树在逻辑上是否等价。有了一组等价的关系表达式，我们可以用成本模型来评估它们，找到最优的表达式。
+SQL 优化基于关系代数的等价性。有许多不同的定理和引理可以帮助我们识别两个关系代数树在逻辑上是否等价。有了一组等价的关系表达式，我们可以用成本模型来评估它们，找到最优的表达式。
 
-Cascades优化器是Goetz Graefe在他的[论文](https://www.cse.iitb.ac.in/infolab/Data/Courses/CS632/Papers/Cascades-graefe.pdf)中介绍的查询优化框架。
+Cascades 优化器是 Goetz Graefe 在他的[论文](https://www.cse.iitb.ac.in/infolab/Data/Courses/CS632/Papers/Cascades-graefe.pdf)中介绍的查询优化框架。
 
-在Cascades查询优化器中，SQL查询将被翻译成树状结构`Expression`，以关系操作符（`Operator`）作为其节点。
+在 Cascades 查询优化器中，SQL 查询将被翻译成树状结构`Expression`，以关系操作符（`Operator`）作为其节点。
 
 `Operator`有三种类型：
 
@@ -229,19 +228,20 @@ Cascades优化器是Goetz Graefe在他的[论文](https://www.cse.iitb.ac.in/inf
 SELECT * FROM t INNER JOIN t1 ON t.a = t1.a;
 ```
 
-使用`JoinCommutativity`规则，上述SQL可以被转换成等价的SQL：
+使用`JoinCommutativity`规则，上述 SQL 可以被转换成等价的 SQL：
 
 ```sql
 SELECT * FROM t1 INNER JOIN t ON t.a = t1.a;
 ```
 
-为了减少转换产生的重复`Expression`，Cascades使用自上而下的方法来枚举变体。
+为了减少转换产生的重复`Expression`，Cascades 使用自上而下的方法来枚举变体。
 
 引入了一个结构`Memo`来存储变体。每个`Memo`由`Group`组成，每个`Group`是一组等价的`Expression`。
 
 与我们之前提到的`Expression`不同，`Group`内的`Expression`将`Group`作为其子节点而不是`Expression`，以便等价的`Expression`可以共享子候选项。
 
-以`JoinCommutativity`为例，原始SQL的`Memo`可以表示为：
+以`JoinCommutativity`为例，原始 SQL 的`Memo`可以表示为：
+
 ```
 Group 1: [Get(t)]
 
@@ -251,6 +251,7 @@ Group 3: [Join(1, 2, "t.a = t1.a")]
 ```
 
 应用`JoinCommutativity`转换后，`Memo`将变为：
+
 ```
 Group 1: [Get(t)]
 
@@ -259,13 +260,14 @@ Group 2: [Get(t1)]
 Group 3: [Join(1, 2, "t.a = t1.a"), Join(2, 1, "t.a = t1.a")]
 ```
 
-现在你已经对Cascades优化器框架有了基本的了解。尽管Cascades还有许多其他重要的概念，这个简介足以让你理解RFC。
+现在你已经对 Cascades 优化器框架有了基本的了解。尽管 Cascades 还有许多其他重要的概念，这个简介足以让你理解 RFC。
 
-### Databend的新优化器
+### Databend 的新优化器
 
 在新的优化器框架中，有几个核心结构。
 
-`Plan`，逻辑操作符和物理操作符的枚举。与典型的Cascades不同，我们不将标量操作符作为`Plan`的一部分。
+`Plan`，逻辑操作符和物理操作符的枚举。与典型的 Cascades 不同，我们不将标量操作符作为`Plan`的一部分。
+
 ```rust
 enum Plan {
     // ...
@@ -273,6 +275,7 @@ enum Plan {
 ```
 
 `SExpr`，单表达式的缩写，代表`Plan`的树。
+
 ```rust
 struct SExpr {
     pub plan: Plan,
@@ -280,14 +283,16 @@ struct SExpr {
 }
 ```
 
-`Memo`，`Group`的集合，如Cascades中的`Memo`。
+`Memo`，`Group`的集合，如 Cascades 中的`Memo`。
+
 ```rust
 struct Memo {
     pub groups: Vec<Group>,
 }
 ```
 
-`Group`，`MExpr`的集合，如Cascades中的`Group`。
+`Group`，`MExpr`的集合，如 Cascades 中的`Group`。
+
 ```rust
 struct Group {
     pub expressions: Vec<MExpr>,
@@ -295,6 +300,7 @@ struct Group {
 ```
 
 `MExpr`，`Memo`内部的`Expression`表示。
+
 ```rust
 struct MExpr {
     pub plan: Plan,
@@ -303,6 +309,7 @@ struct MExpr {
 ```
 
 `Rule`，转换规则的特征。`Rule`可以被分类为探索规则（生成等价的逻辑表达式）和实现规则（生成物理表达式）。
+
 ```rust
 trait Rule {
     fn pattern(&self) -> &SExpr;
@@ -315,10 +322,10 @@ trait Rule {
 
 `CascadesOptimizer`，优化器对`SExpr`应用转换，生成`Memo`，并最终从`Memo`中提取最优的`SExpr`。
 
-让我们看看将SQL查询翻译成`Processor`的整个过程：
+让我们看看将 SQL 查询翻译成`Processor`的整个过程：
 
-1. SQL查询文本被解析成AST
-2. `Binder`将AST与`Catalog`翻译成规范的逻辑`SExpr`
+1. SQL 查询文本被解析成 AST
+2. `Binder`将 AST 与`Catalog`翻译成规范的逻辑`SExpr`
 3. `HeuristicOptimizer`优化规范的逻辑`SExpr`
 4. `CascadesOptimizer`接收`HeuristicOptimizer`的输出，构建`Memo`，应用规则，并返回最优的`SExpr`
 5. `Executor`接收`CascadesOptimizer`产生的物理`SExpr`，并构建可执行的`Processor`
@@ -334,5 +341,5 @@ trait Rule {
 
 同时，我们不会：
 
-- 严肃对待性能，相关工作应在下一阶段完成
+- 严肃对待性能，相关工作应在下一 Stage 完成
 - 实现基于成本的优化，这项工作依赖于统计系统的设计

@@ -29,12 +29,12 @@ description: 分布式查询和数据重排的RFC
 
 ### 解析器和抽象语法树（AST）
 
-Databend使用第三方SQL解析器及其抽象语法树（AST）。
+Databend 使用第三方 SQL 解析器及其抽象语法树（AST）。
 更多信息，请参见：https://github.com/ballista-compute/sqlparser-rs
 
 ### 计划构建器和查询计划
 
-查询计划（或查询执行计划）是用于在Databend中访问数据的一系列步骤。它由计划构建器从AST构建。我们也使用树来描述它（类似于AST）。但它与AST有一些差异：
+查询计划（或查询执行计划）是用于在 Databend 中访问数据的一系列步骤。它由计划构建器从 AST 构建。我们也使用树来描述它（类似于 AST）。但它与 AST 有一些差异：
 
 - 查询计划是可序列化和反序列化的。
 - 查询计划在语法上是安全的，我们不必担心它。
@@ -63,15 +63,15 @@ EXPLAIN SELECT number % 3 AS key, SUM(number) AS value FROM numbers(1000) WHERE 
 
 ### 解释器和处理器
 
-解释器将优化后的计划构建成可执行的数据流。我们通过拉取数据流中的数据来获取SQL的结果。SQL中每个操作符的计算逻辑对应一个处理器，例如FilterPlan -> FilterProcessor，ProjectionPlan -> ProjectionProcessor
+解释器将优化后的计划构建成可执行的数据流。我们通过拉取数据流中的数据来获取 SQL 的结果。SQL 中每个操作符的计算逻辑对应一个处理器，例如 FilterPlan -> FilterProcessor，ProjectionPlan -> ProjectionProcessor
 
 ## 分布式查询
 
 在集群模式下，我们可能需要处理一些与单机模式不同的问题。
 
 - 在分布式模式下，要查询的表总是分布在不同的节点上
-- 对于某些场景，分布式处理总是高效的，例如带有键的GROUP BY，JOIN
-- 对于某些场景，我们无法进行分布式处理，例如LIMIT，不带键的GROUP BY
+- 对于某些场景，分布式处理总是高效的，例如带有键的 GROUP BY，JOIN
+- 对于某些场景，我们无法进行分布式处理，例如 LIMIT，不带键的 GROUP BY
 - 为了确保快速计算，我们需要协调计算和数据的位置。
 
 让我们看看在数据库集群上正常查询是如何运行的。
@@ -107,15 +107,15 @@ EXPLAIN SELECT number % 3 AS key, SUM(number) AS value FROM numbers(1000) WHERE 
 '                                        +--------------+
 ```
 
-### 分散优化器和阶段计划
+### 分散优化器和 Stage 计划
 
-在Databend中，我们使用分散优化器来决定查询的分布式计算。换句话说，分布式查询是对单机查询的一种优化。
+在 Databend 中，我们使用分散优化器来决定查询的分布式计算。换句话说，分布式查询是对单机查询的一种优化。
 
-在分散优化器中，我们遍历查询的所有计划并重写感兴趣的计划`（重写为StagePlan { kind:StageKind, input:Self }）`，其中input是被重写的计划，kind是一个枚举（Normal：数据再次重排，Expansive：数据从一个节点扩散到多个节点，Convergent：数据从多个节点聚合到一个节点）
+在分散优化器中，我们遍历查询的所有计划并重写感兴趣的计划`（重写为StagePlan { kind:StageKind, input:Self }）`，其中 input 是被重写的计划，kind 是一个枚举（Normal：数据再次重排，Expansive：数据从一个节点扩散到多个节点，Convergent：数据从多个节点聚合到一个节点）
 
 ### 计划调度器和远程处理器
 
-在集群模式下，我们提取分散优化器优化后的计划中的所有StagePlans，并根据kind将它们发送到集群中的相应节点。
+在集群模式下，我们提取分散优化器优化后的计划中的所有 StagePlans，并根据 kind 将它们发送到集群中的相应节点。
 
 例如：
 

@@ -1,5 +1,5 @@
 ---
-title: "使用 AWS IAM 角色创建外部阶段"
+title: "使用 AWS IAM 角色创建外部Stage"
 ---
 
 # 为什么使用 IAM 角色

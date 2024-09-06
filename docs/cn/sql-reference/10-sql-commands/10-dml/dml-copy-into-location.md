@@ -10,7 +10,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 COPY INTO 允许您将数据从表或查询卸载到一个或多个文件中，这些文件可以位于以下位置之一：
 
-- 用户/内部/外部阶段：了解 Databend 中的阶段，请参阅[什么是阶段？](/guides/load-data/stage/what-is-stage)。
+- 用户/内部/外部 Stage：了解 Databend 中的 Stage，请参阅[什么是 Stage？](/guides/load-data/stage/what-is-stage)。
 - 存储服务中创建的存储桶或容器。
 
 另请参阅：[`COPY INTO <表>`](dml-copy-into-table.md)
@@ -32,13 +32,13 @@ FROM { [<数据库名>.]<表名> | ( <查询> ) }
 ### internalStage
 
 ```sql
-internalStage ::= @<内部阶段名>[/<路径>]
+internalStage ::= @<内部Stage名>[/<路径>]
 ```
 
 ### externalStage
 
 ```sql
-externalStage ::= @<外部阶段名>[/<路径>]
+externalStage ::= @<外部Stage名>[/<路径>]
 ```
 
 ### externalLocation
@@ -152,9 +152,9 @@ copyOptions ::=
   [ MAX_FILE_SIZE = <数字> ]
 ```
 
-| 参数          | 描述                                                                                                                     |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| SINGLE        | 当为 TRUE 时，命令将数据卸载到一个单一文件中。默认值：FALSE。                                                           |
+| 参数          | 描述                                                                                                            |
+| ------------- | --------------------------------------------------------------------------------------------------------------- |
+| SINGLE        | 当为 TRUE 时，命令将数据卸载到一个单一文件中。默认值：FALSE。                                                   |
 | MAX_FILE_SIZE | 每个要创建的文件的最大大小（以字节为单位）。<br />在 `SINGLE` 为 FALSE 时有效。默认值：67108864 字节（64 MB）。 |
 
 ### DETAILED_OUTPUT
@@ -165,19 +165,19 @@ copyOptions ::=
 
 COPY INTO 提供数据卸载结果的摘要，包含以下列：
 
-| 列            | 描述                                                                                   |
-| ------------- | -------------------------------------------------------------------------------------- |
-| rows_unloaded | 成功卸载到目标的行数。                                                                 |
-| input_bytes   | 从源表读取的数据总大小（以字节为单位）。                                               |
-| output_bytes  | 写入目标的数据总大小（以字节为单位）。                                                 |
+| 列            | 描述                                     |
+| ------------- | ---------------------------------------- |
+| rows_unloaded | 成功卸载到目标的行数。                   |
+| input_bytes   | 从源表读取的数据总大小（以字节为单位）。 |
+| output_bytes  | 写入目标的数据总大小（以字节为单位）。   |
 
 当 `DETAILED_OUTPUT` 设置为 `true` 时，COPY INTO 提供以下列的结果。这有助于定位卸载的文件，特别是在使用 `MAX_FILE_SIZE` 将卸载的数据分成多个文件时。
 
-| 列        | 描述                           |
-| --------- | ------------------------------ |
-| file_name | 卸载文件的名称。               |
+| 列        | 描述                             |
+| --------- | -------------------------------- |
+| file_name | 卸载文件的名称。                 |
 | file_size | 卸载文件的大小（以字节为单位）。 |
-| row_count | 卸载文件中包含的行数。         |
+| row_count | 卸载文件中包含的行数。           |
 
 ## 示例
 
@@ -205,15 +205,15 @@ VALUES
 ('Halifax', 403390);
 ```
 
-### 示例 1：卸载到内部阶段
+### 示例 1：卸载到内部 Stage
 
-此示例将数据卸载到内部阶段：
+此示例将数据卸载到内部 Stage：
 
 ```sql
--- 创建内部阶段
+-- 创建内部Stage
 CREATE STAGE my_internal_stage;
 
--- 使用 PARQUET 文件格式将表数据卸载到阶段
+-- 使用 PARQUET 文件格式将表数据卸载到Stage
 COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (TYPE = PARQUET);
@@ -238,10 +238,10 @@ LIST @my_internal_stage;
 此示例将数据卸载到压缩文件：
 
 ```sql
--- 创建内部阶段
+-- 创建内部Stage
 CREATE STAGE my_internal_stage;
 
--- 使用 CSV 文件格式和 gzip 压缩将表数据卸载到阶段
+-- 使用 CSV 文件格式和 gzip 压缩将表数据卸载到Stage
 COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (TYPE = CSV COMPRESSION = gzip);
@@ -264,7 +264,7 @@ LIST @my_internal_stage;
 -- 创建名为 my_csv_gzip 的自定义文件格式，使用 CSV 格式和 gzip 压缩
 CREATE FILE FORMAT my_csv_gzip TYPE = CSV COMPRESSION = gzip;
 
--- 使用自定义文件格式 my_csv_gzip 将表数据卸载到阶段
+-- 使用自定义文件格式 my_csv_gzip 将表数据卸载到Stage
 COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (FORMAT_NAME = 'my_csv_gzip');

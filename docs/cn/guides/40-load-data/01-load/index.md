@@ -15,9 +15,9 @@ Databend 提供了多种工具和命令，可以帮助您将数据文件加载�
 <details>
   <summary>我想加载暂存的数据文件...</summary>
   <div>
-    <div>如果您在内部/外部阶段或用户阶段有数据文件，Databend 推荐您使用 COPY INTO 命令进行加载。COPY INTO 命令是一个强大的工具，能够快速高效地加载大量数据。</div>
+    <div>如果您在内部/外部Stage或用户Stage有数据文件，Databend 推荐您使用 COPY INTO 命令进行加载。COPY INTO 命令是一个强大的工具，能够快速高效地加载大量数据。</div>
     <br/>
-    <div>要了解更多关于使用 COPY INTO 命令从阶段加载数据的信息，请查看<a href="stage">从阶段加载</a>页面。该页面包含详细教程，展示如何使用该命令从内部/外部阶段或用户阶段的示例文件加载数据。</div>
+    <div>要了解更多关于使用 COPY INTO 命令从Stage加载数据的信息，请查看<a href="stage">从Stage加载</a>页面。该页面包含详细教程，展示如何使用该命令从内部/外部Stage或用户Stage的示例文件加载数据。</div>
   </div>
 </details>
 

@@ -24,9 +24,9 @@ FILE_FORMAT = (TYPE = PARQUET)
 
 ## 教程：从 Parquet 文件加载数据
 
-### 步骤 1. 创建内部阶段
+### 步骤 1. 创建内部 Stage
 
-创建一个内部阶段来存储 Parquet 文件。
+创建一个内部 Stage 来存储 Parquet 文件。
 
 ```sql
 CREATE STAGE my_parquet_stage;
@@ -64,7 +64,7 @@ LIST @my_parquet_stage;
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-有关将数据卸载到阶段的更多详细信息，请参阅 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)。
+有关将数据卸载到 Stage 的更多详细信息，请参阅 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)。
 
 ### 步骤 3：创建目标表
 

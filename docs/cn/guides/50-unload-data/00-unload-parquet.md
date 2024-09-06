@@ -20,7 +20,7 @@ FILE_FORMAT = (TYPE = PARQUET)
 
 ## 教程
 
-### 步骤 1. 创建外部阶段
+### 步骤 1. 创建外部 Stage
 
 ```sql
 CREATE STAGE parquet_unload_stage

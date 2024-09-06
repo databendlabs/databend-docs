@@ -1,28 +1,28 @@
 ---
-title: 上传至阶段
+title: 上传至Stage
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Databend 推荐两种文件上传方法到阶段：[PRESIGN](/sql/sql-commands/ddl/stage/presign) 和 PUT/GET 命令。这些方法使得客户端与存储之间可以直接传输数据，无需中间环节，从而通过减少 Databend 与存储之间的流量来节省成本。
+Databend 推荐两种文件上传方法到 Stage：[PRESIGN](/sql/sql-commands/ddl/stage/presign) 和 PUT/GET 命令。这些方法使得客户端与存储之间可以直接传输数据，无需中间环节，从而通过减少 Databend 与存储之间的流量来节省成本。
 
 ![Alt text](/img/load/staging-file.png)
 
-PRESIGN 方法生成一个有时间限制且带有签名的 URL，客户端可以使用该 URL 安全地发起文件上传。此 URL 授予对指定阶段的临时访问权限，允许客户端直接传输数据，而无需依赖 Databend 服务器进行整个过程，从而增强了安全性和效率。
+PRESIGN 方法生成一个有时间限制且带有签名的 URL，客户端可以使用该 URL 安全地发起文件上传。此 URL 授予对指定 Stage 的临时访问权限，允许客户端直接传输数据，而无需依赖 Databend 服务器进行整个过程，从而增强了安全性和效率。
 
-如果您使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 来管理阶段中的文件，可以使用 PUT 命令上传文件，使用 GET 命令下载文件。
+如果您使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 来管理 Stage 中的文件，可以使用 PUT 命令上传文件，使用 GET 命令下载文件。
 
-- GET 命令目前只能下载阶段中的所有文件，不能下载单个文件。
+- GET 命令目前只能下载 Stage 中的所有文件，不能下载单个文件。
 - 这些命令专属于 BendSQL，并且当 Databend 使用文件系统作为存储后端时，GET 命令将无法工作。
 
 ### 使用预签名 URL 上传
 
-以下示例演示如何使用预签名 URL 将示例文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)）上传到用户阶段、内部阶段和外部阶段。
+以下示例演示如何使用预签名 URL 将示例文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)）上传到用户 Stage、内部 Stage 和外部 Stage。
 
 <Tabs groupId="presign">
 
-<TabItem value="user" label="上传至用户阶段">
+<TabItem value="user" label="上传至用户Stage">
 
 ```sql
 PRESIGN UPLOAD @~/books.parquet;
@@ -62,7 +62,7 @@ LIST @~;
 
 </TabItem>
 
-<TabItem value="internal" label="上传至内部阶段">
+<TabItem value="internal" label="上传至内部Stage">
 
 ```sql
 CREATE STAGE my_internal_stage;
@@ -105,7 +105,7 @@ LIST @my_internal_stage;
 ```
 
 </TabItem>
-<TabItem value="external" label="上传至外部阶段">
+<TabItem value="external" label="上传至外部Stage">
 
 ```sql
 CREATE STAGE my_external_stage
@@ -156,11 +156,11 @@ LIST @my_external_stage;
 
 ### 使用 PUT 命令上传
 
-以下示例展示了如何使用 BendSQL 将示例文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)）上传到用户阶段、内部阶段和外部阶段，使用 PUT 命令。
+以下示例展示了如何使用 BendSQL 将示例文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)）上传到用户 Stage、内部 Stage 和外部 Stage，使用 PUT 命令。
 
 <Tabs groupId="PUT">
 
-<TabItem value="user" label="上传到用户阶段">
+<TabItem value="user" label="上传到用户Stage">
 
 ```sql
 PUT fs:///Users/eric/Documents/books.parquet @~
@@ -194,7 +194,7 @@ LIST @~;
 
 </TabItem>
 
-<TabItem value="internal" label="上传到内部阶段">
+<TabItem value="internal" label="上传到内部Stage">
 
 ```sql
 CREATE STAGE my_internal_stage;
@@ -231,7 +231,7 @@ LIST @my_internal_stage;
 ```
 
 </TabItem>
-<TabItem value="external" label="上传到外部阶段">
+<TabItem value="external" label="上传到外部Stage">
 
 ```
 CREATE STAGE my_external_stage
@@ -278,11 +278,11 @@ LIST @my_external_stage;
 
 ### 使用 GET 命令下载
 
-以下示例展示了如何使用 BendSQL 从用户阶段、内部阶段和外部阶段下载示例文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)），使用 GET 命令。
+以下示例展示了如何使用 BendSQL 从用户 Stage、内部 Stage 和外部 Stage 下载示例文件（[books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)），使用 GET 命令。
 
 <Tabs groupId="GET">
 
-<TabItem value="user" label="从用户阶段下载">
+<TabItem value="user" label="从用户Stage下载">
 
 ```sql
 LIST @~;
@@ -314,7 +314,7 @@ GET @~/ fs:///Users/eric/Downloads/fromStage/;
 
 </TabItem>
 
-<TabItem value="internal" label="从内部阶段下载">
+<TabItem value="internal" label="从内部Stage下载">
 
 ```sql
 LIST @my_internal_stage;
@@ -345,7 +345,7 @@ GET @my_internal_stage/ fs:///Users/eric/Downloads/fromStage/;
 ```
 
 </TabItem>
-<TabItem value="external" label="从外部阶段下载">
+<TabItem value="external" label="从外部Stage下载">
 
 ```sql
 LIST @my_external_stage;
