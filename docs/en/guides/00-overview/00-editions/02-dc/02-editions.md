@@ -75,8 +75,8 @@ tbody={[
 ['Iceberg tables for referencing data in a cloud storage data lake.', 'Yes', 'Yes', 'Yes'],
 ['Schema detection for automatically detecting the schema in a set of staged semi-structured data files and retrieving the column definitions.', 'Yes', 'Yes', 'Yes'],
 ['Schema evolution for automatically evolving tables to support the structure of new data received from the data sources.', 'Yes', 'Yes', 'Yes'],
-['Support for [creating table with external location](/sql/sql-commands/ddl/table/ddl-create-table-external-location).', 'Yes', 'Yes', 'Yes'],
-['Supports for [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table).', 'Yes', 'Yes', 'Yes'],
+['Support for <a href="/sql/sql-commands/ddl/table/ddl-create-table-external-location" target="_self">creating table with external location</a>.', 'Yes', 'Yes', 'Yes'],
+['Supports for <a href="/sql/sql-commands/ddl/table/attach-table" target="_self">ATTACH TABLE</a>.', 'Yes', 'Yes', 'Yes'],
 ]}
 />
 
