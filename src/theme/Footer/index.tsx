@@ -12,16 +12,24 @@ import Link from "@docusaurus/Link";
 import { useThemeConfig } from "@docusaurus/theme-common";
 import CookiesConsent from "../../components/CookiesConsent";
 import styles from "./index.module.scss";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 // import ProgressBar from "react-scroll-progress-bar";
 
 function Footer() {
   const year = new Date().getFullYear();
   const { footer } = useThemeConfig();
+  const {
+    siteConfig: {
+      customFields: { isChina },
+    },
+  } = useDocusaurusContext() as any;
   return (
     <footer className={clsx("footer", styles.footer)}>
-      <Head>
-        <script async src={useBaseUrl("/Koala/index.js")}></script>
-      </Head>
+      {!isChina && (
+        <Head>
+          <script async src={useBaseUrl("/Koala/index.js")}></script>
+        </Head>
+      )}
       <div className={clsx("footer-items", styles.footerItems)}>
         {(footer.links[0].items as any[])?.map((item, index) => {
           return (
