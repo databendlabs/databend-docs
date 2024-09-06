@@ -5,9 +5,9 @@ title: 角色
 在 Databend 中，角色在简化权限管理方面扮演着关键角色。当多个用户需要相同的权限集时，逐个授予权限可能会很繁琐。角色提供了一个解决方案，允许将一组权限分配给一个角色，然后可以轻松地将该角色分配给多个用户。
 
 :::note
-目前，Databend 默认不对用户定义函数（UDFs）和阶段强制执行基于角色的访问控制（RBAC）检查。但是，如果您需要对这些对象进行 RBAC，可以选择通过手动设置 `SET GLOBAL enable_experimental_rbac_check=1` 来全局启用它。
+目前，Databend 默认不对用户定义函数（UDFs）和 Stage 强制执行基于角色的访问控制（RBAC）检查。但是，如果您需要对这些对象进行 RBAC，可以选择通过手动设置 `SET GLOBAL enable_experimental_rbac_check=1` 来全局启用它。
 
-如果未手动将 `enable_experimental_rbac_check` 设置为 `1`，UDFs 和阶段将不带 RBAC 限制运行。换句话说，用户将不受限制地执行 UDFs 和访问阶段中的数据，而无需经过 RBAC 权限检查。
+如果未手动将 `enable_experimental_rbac_check` 设置为 `1`，UDFs 和 Stage 将不带 RBAC 限制运行。换句话说，用户将不受限制地执行 UDFs 和访问 Stage 中的数据，而无需经过 RBAC 权限检查。
 :::
 
 ![Alt text](/img/guides/access-control-3.png)
@@ -16,7 +16,7 @@ title: 角色
 
 角色授予使得一个角色可以继承另一个角色的权限和职责。这有助于创建一个灵活的层级结构，类似于组织结构，其中存在两个[内置角色](#内置角色)：最高的是 `account-admin`，最低的是 `public`。
 
-考虑一个场景，创建了三个角色：*manager*、*engineer* 和 *intern*。在这个例子中，*intern* 角色被授予给 *engineer* 角色。因此，*engineer* 不仅拥有自己的权限集，还继承了与 *intern* 角色相关的权限。进一步扩展这个层级，如果 *engineer* 角色被授予给 *manager*，那么 *manager* 现在将获得 *engineer* 和 *intern* 角色的固有权限。
+考虑一个场景，创建了三个角色：_manager_、_engineer_ 和 _intern_。在这个例子中，_intern_ 角色被授予给 _engineer_ 角色。因此，_engineer_ 不仅拥有自己的权限集，还继承了与 _intern_ 角色相关的权限。进一步扩展这个层级，如果 _engineer_ 角色被授予给 _manager_，那么 _manager_ 现在将获得 _engineer_ 和 _intern_ 角色的固有权限。
 
 ![Alt text](/img/guides/access-control-4.png)
 
@@ -24,10 +24,10 @@ title: 角色
 
 Databend 自带以下内置角色：
 
-| 内置角色      | 描述                                                                                                                            |
-|---------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| 内置角色      | 描述                                                                       |
+| ------------- | -------------------------------------------------------------------------- |
 | account-admin | 拥有所有权限，作为所有其他角色的父角色，并允许在租户内无缝切换到任何角色。 |
-| public        | 不继承任何权限，将所有角色视为其父角色，并允许任何角色切换到公共角色。                    |
+| public        | 不继承任何权限，将所有角色视为其父角色，并允许任何角色切换到公共角色。     |
 
 要在 Databend Cloud 中将 `account-admin` 角色分配给用户，请在邀请用户时选择该角色。您也可以在用户加入后为其分配角色。如果您使用的是 Databend 社区版或企业版，请在部署期间首先配置一个 `account-admin` 用户，然后根据需要将角色分配给其他用户。有关配置管理员用户的更多信息，请参阅[配置管理员用户](../../10-deploy/04-references/01-admin-users.md)。
 
@@ -78,6 +78,7 @@ ALTER USER eric WITH DEFAULT_ROLE = 'account_admin';
 ```sql
 CREATE ROLE billing;
 ```
+
 角色名称不区分大小写，因此 `billing` 和 `Billing` 被视为相同。有关设置和分配角色 `billing` 的详细步骤，请参阅[授予财务人员访问权限](/guides/cloud/manage/costs#granting-access-to-finance-personnel)。
 
 ## 使用示例

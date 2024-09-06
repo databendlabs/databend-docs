@@ -42,48 +42,42 @@ SQL 将使用默认会话和分页设置运行，主要为：
 
 ```json
 {
-  "id":"b22c5bba-5e78-4e50-87b0-ec3855c757f5",
-  "session_id":"5643627c-a900-43ac-978f-8c76026d9944",
-  "session":{
-    
-  },
-  "schema":[
+  "id": "b22c5bba-5e78-4e50-87b0-ec3855c757f5",
+  "session_id": "5643627c-a900-43ac-978f-8c76026d9944",
+  "session": {},
+  "schema": [
     {
-      "name":"avg(number)",
-      "type":"Nullable(Float64)"
+      "name": "avg(number)",
+      "type": "Nullable(Float64)"
     }
   ],
-  "data":[
-    [
-      "49999999.5"
-    ]
-  ],
-  "state":"Succeeded",
-  "error":null,
-  "stats":{
-    "scan_progress":{
-      "rows":100000000,
-      "bytes":800000000
+  "data": [["49999999.5"]],
+  "state": "Succeeded",
+  "error": null,
+  "stats": {
+    "scan_progress": {
+      "rows": 100000000,
+      "bytes": 800000000
     },
-    "write_progress":{
-      "rows":0,
-      "bytes":0
+    "write_progress": {
+      "rows": 0,
+      "bytes": 0
     },
-    "result_progress":{
-      "rows":1,
-      "bytes":9
+    "result_progress": {
+      "rows": 1,
+      "bytes": 9
     },
-    "total_scan":{
-      "rows":100000000,
-      "bytes":800000000
+    "total_scan": {
+      "rows": 100000000,
+      "bytes": 800000000
     },
-    "running_time_ms":446.748083
+    "running_time_ms": 446.748083
   },
-  "affect":null,
-  "stats_uri":"/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5",
-  "final_uri":"/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/final",
-  "next_uri":"/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/final",
-  "kill_uri":"/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/kill"
+  "affect": null,
+  "stats_uri": "/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5",
+  "final_uri": "/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/final",
+  "next_uri": "/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/final",
+  "kill_uri": "/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/kill"
 }
 ```
 
@@ -91,93 +85,93 @@ SQL 将使用默认会话和分页设置运行，主要为：
 
 QueryRequest
 
-| 字段         | 类型         | 必填 | 默认值 | 描述                                      |
-|--------------|--------------|------|--------|-------------------------------------------|
-| sql          | 字符串       | 是   |        | 要执行的 SQL                               |
-| session_id   | 字符串       | 否   |        | 仅在重用服务器端会话时使用                |
-| session      | SessionState | 否   |        |                                           |
-| pagination   | Pagination   | 否   |        | 此 POST 请求的唯一 query_id               |
+| 字段       | 类型         | 必填 | 默认值 | 描述                        |
+| ---------- | ------------ | ---- | ------ | --------------------------- |
+| sql        | 字符串       | 是   |        | 要执行的 SQL                |
+| session_id | 字符串       | 否   |        | 仅在重用服务器端会话时使用  |
+| session    | SessionState | 否   |        |                             |
+| pagination | Pagination   | 否   |        | 此 POST 请求的唯一 query_id |
 
 SessionState
 
-| 字段                    | 类型                | 必填 | 默认值   | 描述                                                   |
-|------------------------|---------------------|------|----------|--------------------------------------------------------|
-| database               | 字符串              | 否   | "default" | 设置 current_database                                  |
-| keep_server_session_secs | 整数                | 否   | 0        | 会话在最后一个查询完成后将保留的秒数                  |
-| settings               | map(字符串, 字符串) | 否   | 0        |                                                      |
+| 字段                     | 类型                | 必填 | 默认值    | 描述                                 |
+| ------------------------ | ------------------- | ---- | --------- | ------------------------------------ |
+| database                 | 字符串              | 否   | "default" | 设置 current_database                |
+| keep_server_session_secs | 整数                | 否   | 0         | 会话在最后一个查询完成后将保留的秒数 |
+| settings                 | map(字符串, 字符串) | 否   | 0         |                                      |
 
 OldSession
 
-| 字段 | 类型   | 必填 | 默认值 | 描述                              |
-|------|--------|------|--------|-----------------------------------|
+| 字段 | 类型   | 必填 | 默认值 | 描述                                        |
+| ---- | ------ | ---- | ------ | ------------------------------------------- |
 | id   | 字符串 | 是   |        | 来自 QueryResponse.session_id 的 session_id |
 
 Pagination: 每个 HTTP 请求返回的关键条件（在所有剩余结果准备好返回之前）
 
-| 字段          | 类型 | 必填 | 默认值 | 描述       |
-|---------------|------|------|--------|------------|
+| 字段           | 类型 | 必填 | 默认值 | 描述       |
+| -------------- | ---- | ---- | ------ | ---------- |
 | wait_time_secs | u32  | 否   | 1      | 长轮询时间 |
 
 ## 查询响应
 
 QueryResponse:
 
-| 字段      | 类型          | 描述                              |
-|-----------|---------------|-----------------------------------|
-| state     | 字符串        | 选项："Running","Failed", "Succeeded" |
-| error     | QueryError    | SQL 解析或执行的错误              |
-| id        | 字符串        | 此 POST 请求的唯一 query_id       |
-| data      | 数组          | 每个项是结果的一行                |
-| schema    | 数组          | 字段的顺序序列                    |
-| affect    | Affect        | 某些查询的影响                    |
-| session_id | 字符串        |                                   |
-| session   | SessionState  |                                   |
+| 字段       | 类型         | 描述                                  |
+| ---------- | ------------ | ------------------------------------- |
+| state      | 字符串       | 选项："Running","Failed", "Succeeded" |
+| error      | QueryError   | SQL 解析或执行的错误                  |
+| id         | 字符串       | 此 POST 请求的唯一 query_id           |
+| data       | 数组         | 每个项是结果的一行                    |
+| schema     | 数组         | 字段的顺序序列                        |
+| affect     | Affect       | 某些查询的影响                        |
+| session_id | 字符串       |                                       |
+| session    | SessionState |                                       |
 
 Field:
 
-| 字段   | 类型     |
-|--------|----------|
-| name   | 字符串   |
-| type   | 字符串   |
+| 字段 | 类型   |
+| ---- | ------ |
+| name | 字符串 |
+| type | 字符串 |
 
 Stats:
 
-| 字段               | 类型          | 描述                                                                                                      |
-|--------------------|---------------|-----------------------------------------------------------------------------------------------------------|
-| running_time_ms    | 浮点数        | 自查询开始执行内部以来经过的百万秒，当查询完成（状态 != 运行中）时停止计时                               |
-| scan_progress      | QueryProgress | 查询扫描进度                                                                                              |
+| 字段            | 类型          | 描述                                                                       |
+| --------------- | ------------- | -------------------------------------------------------------------------- |
+| running_time_ms | 浮点数        | 自查询开始执行内部以来经过的百万秒，当查询完成（状态 != 运行中）时停止计时 |
+| scan_progress   | QueryProgress | 查询扫描进度                                                               |
 
 Progress:
 
-| 字段             | 类型 |
-|------------------|------|
-| read_rows        | 整数 |
-| read_bytes       | 整数 |
+| 字段       | 类型 |
+| ---------- | ---- |
+| read_rows  | 整数 |
+| read_bytes | 整数 |
 
 Error:
 
-| 字段       | 类型   | 描述                     |
-|------------|--------|--------------------------|
-| stats      | 整数   | Databend 内部使用的错误代码 |
-| message    | 字符串 | 错误消息                 |
-| backtrace  | 字符串 |                          |
+| 字段      | 类型   | 描述                        |
+| --------- | ------ | --------------------------- |
+| stats     | 整数   | Databend 内部使用的错误代码 |
+| message   | 字符串 | 错误消息                    |
+| backtrace | 字符串 |                             |
 
 Affect:
 
-| 字段 | 类型   | 描述         |
-|------|--------|--------------|
+| 字段 | 类型   | 描述                |
+| ---- | ------ | ------------------- |
 | type | 字符串 | ChangeSetting/UseDB |
-| ...  |        | 根据类型       |
+| ...  |        | 根据类型            |
 
 ### 响应状态码
 
 不同类型错误的状态码使用：
 
-| 代码 | 错误                                                                       |
-|------|-----------------------------------------------------------------------------|
-| 200  | 如果 SQL 无效或失败，详细信息在 JSON 的 `error` 字段中                         |
-| 404  | "query_id" 或 "page" 未找到                                                   |
-| 400  | 无效的请求格式                                                              |
+| 代码 | 错误                                                   |
+| ---- | ------------------------------------------------------ |
+| 200  | 如果 SQL 无效或失败，详细信息在 JSON 的 `error` 字段中 |
+| 404  | "query_id" 或 "page" 未找到                            |
+| 400  | 无效的请求格式                                         |
 
 当状态码不是 200 时，检查响应体中的错误原因作为字符串。
 
@@ -193,13 +187,13 @@ Affect:
 
 ```json
 {
-  "sql": "select 1", 
+  "sql": "select 1",
   "session": {
     "database": "db2",
     "settings": {
       "max_threads": "1"
     }
-  } 
+  }
 }
 ```
 
@@ -256,7 +250,8 @@ Affect:
 使用语句：
 
 ```json
-{"sql": "use db2",
+{
+  "sql": "use db2",
   "session": {
     "database": "db1",
     "settings": {
@@ -283,17 +278,17 @@ Affect:
 }
 ```
 
-## 阶段附件
+## Stage 附件
 
-Databend 允许您通过使用带有其 HTTP 处理程序的 `INSERT INTO` 或 `REPLACE INTO` 语句，从阶段文件向表插入或更新数据。
+Databend 允许您通过使用带有其 HTTP 处理程序的 `INSERT INTO` 或 `REPLACE INTO` 语句，从 Stage 文件向表插入或更新数据。
 
-### 示例：从阶段文件插入数据
+### 示例：从 Stage 文件插入数据
 
 ```sql
 create table t_insert_stage(a int null, b int default 2, c float, d varchar default 'd');
 ```
 
-将 `values.csv` 上传到一个阶段：
+将 `values.csv` 上传到一个 Stage：
 
 ```plain title='values.csv'
 1,1.0
@@ -313,7 +308,7 @@ curl -d '{"sql": "insert into t_insert_stage (a, c) values", "stage_attachment":
 ```
 
 :::tip
-您可以通过[COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)命令中提供的FILE_FORMAT和COPY_OPTIONS来指定文件格式及各种复制相关设置。当`purge`设置为`true`时，只有数据更新成功后，原始文件才会被删除。
+您可以通过[COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)命令中提供的 FILE_FORMAT 和 COPY_OPTIONS 来指定文件格式及各种复制相关设置。当`purge`设置为`true`时，只有数据更新成功后，原始文件才会被删除。
 :::
 
 验证插入的数据：
@@ -344,7 +339,7 @@ CREATE TABLE sample
 );
 ```
 
-然后，创建一个内部阶段并上传名为[sample_3_replace.csv](https://github.com/ZhiHanZ/databend/blob/0f333a13fc38548595ea58242a37c5f4a73e9c88/tests/data/sample_3_replace.csv)的示例CSV文件到该阶段：
+然后，创建一个内部 Stage 并上传名为[sample_3_replace.csv](https://github.com/ZhiHanZ/databend/blob/0f333a13fc38548595ea58242a37c5f4a73e9c88/tests/data/sample_3_replace.csv)的示例 CSV 文件到该 Stage：
 
 ```sql
 CREATE STAGE s1 FILE_FORMAT = (TYPE = CSV);
@@ -352,7 +347,7 @@ CREATE STAGE s1 FILE_FORMAT = (TYPE = CSV);
 
 ```shell
 curl -u root: -H "stage_name:s1" -F "upload=@sample_3_replace.csv" -XPUT "http://localhost:8000/v1/upload_to_stage"
-{"id":"b8305187-c816-4bb5-8350-c441b85baaf9","stage_name":"s1","state":"SUCCESS","files":["sample_3_replace.csv"]}   
+{"id":"b8305187-c816-4bb5-8350-c441b85baaf9","stage_name":"s1","state":"SUCCESS","files":["sample_3_replace.csv"]}
 ```
 
 ```sql
@@ -362,10 +357,10 @@ name                |size|md5|last_modified                |creator|
 sample_3_replace.csv|  83|   |2023-06-12 03:01:56.522 +0000|       |
 ```
 
-使用REPLACE INTO通过HTTP处理程序从暂存的CSV文件插入数据：
+使用 REPLACE INTO 通过 HTTP 处理程序从暂存的 CSV 文件插入数据：
 
 :::tip
-您可以通过[COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)命令中提供的FILE_FORMAT和COPY_OPTIONS来指定文件格式及各种复制相关设置。当`purge`设置为`true`时，只有数据更新成功后，原始文件才会被删除。
+您可以通过[COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)命令中提供的 FILE_FORMAT 和 COPY_OPTIONS 来指定文件格式及各种复制相关设置。当`purge`设置为`true`时，只有数据更新成功后，原始文件才会被删除。
 :::
 
 ```shell
@@ -388,6 +383,6 @@ id|city       |score|country|
 
 ## 客户端实现
 
-官方客户端[bendsql](https://github.com/datafuselabs/bendsql)主要基于HTTP处理程序。
+官方客户端[bendsql](https://github.com/datafuselabs/bendsql)主要基于 HTTP 处理程序。
 
-最简单的HTTP处理程序客户端实现示例位于[sqllogictest](https://github.com/datafuselabs/databend/blob/main/tests/sqllogictests/src/client/http_client.rs)中，用于databend。
+最简单的 HTTP 处理程序客户端实现示例位于[sqllogictest](https://github.com/datafuselabs/databend/blob/main/tests/sqllogictests/src/client/http_client.rs)中，用于 databend。

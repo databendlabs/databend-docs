@@ -26,7 +26,7 @@ FILE_FORMAT = (
 
 ## 教程
 
-### 步骤 1. 创建外部阶段
+### 步骤 1. 创建外部 Stage
 
 ```sql
 CREATE STAGE tsv_unload_stage

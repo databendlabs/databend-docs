@@ -1,6 +1,7 @@
 ---
 title: 用户定义函数
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 import EEFeature from '@site/src/components/EEFeature';
@@ -51,7 +52,7 @@ SELECT get_v1(data), get_v2(data) FROM json_table;
 - [WebAssembly](#webassembly)
 
 :::note
-如果程序内容较大，可以将其压缩，然后传递到一个阶段。请参阅 [使用示例](#usage-examples-2) 中的 WebAssembly。
+如果程序内容较大，可以将其压缩，然后传递到一个 Stage。请参阅 [使用示例](#usage-examples-2) 中的 WebAssembly。
 :::
 
 ### Python（需要 Databend 企业版）
@@ -80,11 +81,11 @@ AS $$
 def remove_stop_words(text, stop_words):
     """
     从文本中移除常见停用词。
-    
+
     参数:
     text (str): 输入文本。
     stop_words (set): 要移除的停用词集合。
-    
+
     返回:
     str: 移除停用词后的文本。
     """
@@ -93,12 +94,12 @@ def remove_stop_words(text, stop_words):
 def calculate_sentiment(text, positive_words, negative_words):
     """
     计算文本的情感分数。
-    
+
     参数:
     text (str): 输入文本。
     positive_words (set): 积极词汇集合。
     negative_words (set): 消极词汇集合。
-    
+
     返回:
     int: 情感分数。
     """
@@ -109,10 +110,10 @@ def calculate_sentiment(text, positive_words, negative_words):
 def get_sentiment_label(score):
     """
     根据情感分数确定情感标签。
-    
+
     参数:
     score (int): 情感分数。
-    
+
     返回:
     str: 情感标签（'Positive', 'Negative', 'Neutral'）。
     """
@@ -126,10 +127,10 @@ def get_sentiment_label(score):
 def sentiment_analysis_handler(text):
     """
     分析输入文本的情感。
-    
+
     参数:
     text (str): 输入文本。
-    
+
     返回:
     str: 情感分析结果，包括分数和标签。
     """
@@ -140,7 +141,7 @@ def sentiment_analysis_handler(text):
     clean_text = remove_stop_words(text, stop_words)
     sentiment_score = calculate_sentiment(clean_text, positive_words, negative_words)
     sentiment_label = get_sentiment_label(sentiment_score)
-    
+
     return f'Sentiment Score: {sentiment_score}; Sentiment Label: {sentiment_label}'
 $$;
 ```
@@ -154,7 +155,7 @@ CREATE OR REPLACE TABLE texts (
 
 -- 插入示例数据
 INSERT INTO texts (original_text)
-VALUES 
+VALUES
 ('The quick brown fox feels happy and joyful'),
 ('A hard journey, but it was painful and sad'),
 ('Uncertain outcomes leave everyone unsure and hesitant'),
@@ -186,7 +187,7 @@ JavaScript UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中�
 下表显示了 Databend 和 JavaScript 之间的类型映射：
 
 | Databend 类型     | JS 类型    |
-|-------------------|------------|
+| ----------------- | ---------- |
 | NULL              | null       |
 | BOOLEAN           | Boolean    |
 | TINYINT           | Number     |
@@ -238,7 +239,7 @@ WebAssembly UDF 允许用户使用编译为 WebAssembly 的语言定义自定义
 
 在此示例中，创建了名为 "wasm_gcd" 的函数，用于计算两个整数的最大公约数（GCD）。该函数使用 WebAssembly 定义，其实现在 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
 
-在执行之前，函数实现经历了一系列步骤。首先，它被编译成二进制文件，然后压缩成 'test10_udf_wasm_gcd.wasm.zst'。最后，压缩文件提前上传到一个阶段。
+在执行之前，函数实现经历了一系列步骤。首先，它被编译成二进制文件，然后压缩成 'test10_udf_wasm_gcd.wasm.zst'。最后，压缩文件提前上传到一个 Stage。
 
 :::note
 该函数可以使用 Rust 实现，如示例所示，地址为 https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs

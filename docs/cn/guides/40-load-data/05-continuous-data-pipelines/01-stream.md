@@ -421,7 +421,7 @@ FROM
 
 为了保持 `user_activity_profiles` 表的当前性，定期将其与 `activities_stream` 中的数据同步非常重要。这种同步应与 `user_activities` 表的更新间隔保持一致，确保 user_activity_profiles 准确反映最新的用户活动和档案，以便实时数据分析。
 
-Databend 的 `TASK` 命令（目前处于私有预览阶段），可以用来定义每分钟或每秒更新 `user_activity_profiles` 表的任务。
+Databend 的 `TASK` 命令（目前处于私有预览 Stage），可以用来定义每分钟或每秒更新 `user_activity_profiles` 表的任务。
 
 ```sql
 -- 在 Databend 中定义任务
@@ -443,6 +443,6 @@ WHEN stream_status('activities_stream') AS
     WHERE a.change$action = 'INSERT';
 ```
 
-:::tip 任务处于私有预览阶段
-`TASK` 命令目前处于私有预览阶段，因此语法和用法未来可能会有变化。
+:::tip 任务处于私有预览 Stage
+`TASK` 命令目前处于私有预览 Stage，因此语法和用法未来可能会有变化。
 :::

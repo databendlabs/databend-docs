@@ -1,9 +1,7 @@
 ---
 title: Join 框架
-description:
-  Join 框架 RFC
+description: Join 框架 RFC
 ---
-
 
 ## 背景
 
@@ -42,11 +40,12 @@ for s <- outerTable:
 
 在介绍哈希连接之前，我们在这里介绍 **等值连接** 的定义。**等值连接** 是其 join 条件为等式的连接（例如 `r.a == s.a`）。对于 join 条件不是等式的连接，我们称之为 **非等值连接**
 
-哈希连接只能用于等值连接。它可以描述为两个阶段：**构建阶段** 和 **探测阶段**。
+哈希连接只能用于等值连接。它可以描述为两个 Stage：**构建 Stage** 和 **探测 Stage**。
 
 与嵌套循环连接的内表和外表一样，哈希连接会选择一个表作为 **构建侧**，另一个表作为 **探测侧**。
 
 哈希连接的伪代码：
+
 ```
 // R⋈S
 var build = R
@@ -86,6 +85,7 @@ for s <- probe:
 在将 SQL 字符串解析为 AST 之后，我们将使用 `PlanParser` 从 AST 构建逻辑计划。
 
 以下 bnf 定义是 `FROM` 子句的简化 ANSI-SQL 规范：
+
 ```bnf
 <from clause> ::= FROM <table reference list>
 
@@ -137,6 +137,7 @@ for s <- probe:
 - 灌木树
 
 在左深树中，每个 join 节点的右子节点是一个表，例如：
+
 ```sql
 SELECT *
 FROM a, b, c, d;
@@ -152,6 +153,7 @@ a      b
 ```
 
 在右深树中，每个 join 节点的左子节点是一个表，例如：
+
 ```sql
 SELECT *
 FROM a, b, c, d;
@@ -167,6 +169,7 @@ a   join
 ```
 
 在灌木树中，每个 join 节点的所有子节点可以是 join 的结果或表，例如：
+
 ```sql
 SELECT *
 FROM a, b, c, d;
@@ -179,9 +182,10 @@ FROM a, b, c, d;
 */
 ```
 
-大多数 join 可以表示为左深树，这更容易优化。我们可以在解析阶段将一些 joins 重写为左深树。
+大多数 join 可以表示为左深树，这更容易优化。我们可以在解析 Stage 将一些 joins 重写为左深树。
 
-这是一个`sqlparser` AST的示例，注释部分是简化的AST调试字符串：
+这是一个`sqlparser` AST 的示例，注释部分是简化的 AST 调试字符串：
+
 ```sql
 SELECT *
 FROM a, b NATURAL JOIN c, d;
@@ -224,7 +228,8 @@ Query {
 */
 ```
 
-上述AST可以直接表示为一个灌木状树：
+上述 AST 可以直接表示为一个灌木状树：
+
 ```
     join
    /    \
@@ -235,7 +240,8 @@ a     join
     b      c
 ```
 
-这个灌木状树等价于下面的左深树，因此我们可以在解析阶段重写它：
+这个灌木状树等价于下面的左深树，因此我们可以在解析 Stage 重写它：
+
 ```
       join
      /    \
@@ -246,7 +252,7 @@ a     join
 a      b
 ```
 
-在将AST重写为左深树后，我们将使用目录将AST绑定到具体的表和列上。在绑定过程中，需要进行语义检查（例如，检查列名是否模糊不清）。
+在将 AST 重写为左深树后，我们将使用目录将 AST 绑定到具体的表和列上。在绑定过程中，需要进行语义检查（例如，检查列名是否模糊不清）。
 
 为了实现语义检查并简化绑定过程，我们引入`Scope`来表示每个查询块的上下文。它将记录当前上下文中可用列的信息以及它们所属的表。
 
@@ -260,6 +266,7 @@ struct Scope {
 ```
 
 这里有一个例子来解释`Scope`是如何工作的：
+
 ```sql
 CREATE TABLE t0 (a INT);
 CREATE TABLE t1 (b INT);
@@ -319,9 +326,9 @@ struct JoinPlan {
 }
 ```
 
-这里有一个问题，databend-query使用`arrow::datatypes::Schema`来表示数据模式，而`arrow::datatypes::Schema`原生不支持用`ColumnID`标识列。
+这里有一个问题，databend-query 使用`arrow::datatypes::Schema`来表示数据模式，而`arrow::datatypes::Schema`原生不支持用`ColumnID`标识列。
 
-我建议引入一个内部的`DataSchema`结构来在databend-query中表示数据模式，它可以存储更多信息，并且可以自然地转换为`arrow::datatypes::Schema`。
+我建议引入一个内部的`DataSchema`结构来在 databend-query 中表示数据模式，它可以存储更多信息，并且可以自然地转换为`arrow::datatypes::Schema`。
 
 ```rust
 struct DataSchema {
@@ -345,9 +352,9 @@ struct Column {
 
 启发式优化（**RBO**，即基于规则的优化），是一种总能降低查询成本的优化。由于启发式规则太多，我们在这里不讨论。
 
-基于成本的优化使用统计信息来计算查询的成本。通过探索框架（例如Volcano优化器，Cascades优化器），它可以选择最佳执行计划。
+基于成本的优化使用统计信息来计算查询的成本。通过探索框架（例如 Volcano 优化器，Cascades 优化器），它可以选择最佳执行计划。
 
-优化器是SQL引擎中最复杂的部分，我们最好一开始只支持有限的启发式优化。
+优化器是 SQL 引擎中最复杂的部分，我们最好一开始只支持有限的启发式优化。
 
 > 待办：列出常见的启发式规则
 
@@ -370,7 +377,7 @@ struct Column {
 
 嵌套循环连接在数据量相对较小的情况下有效。通过向量化执行模型，自然可以实现块嵌套循环连接，这是一种改进的嵌套循环连接算法。嵌套循环连接的另一个优势是它可以处理非等值连接条件。
 
-哈希连接在一个表很小而另一个表很大的情况下非常有效。由于分布式连接算法总是会产生小表（通过分区），所以它非常适合哈希连接。同时，**Marcin Zucowski**（Snowflake的联合创始人，CWI的博士）引入了向量化哈希连接算法。哈希连接的缺点是它会消耗比其他连接算法更多的内存，并且它只支持等值连接。
+哈希连接在一个表很小而另一个表很大的情况下非常有效。由于分布式连接算法总是会产生小表（通过分区），所以它非常适合哈希连接。同时，**Marcin Zucowski**（Snowflake 的联合创始人，CWI 的博士）引入了向量化哈希连接算法。哈希连接的缺点是它会消耗比其他连接算法更多的内存，并且它只支持等值连接。
 
 如果输入已排序，排序-合并连接是有效的，尽管这种情况很少发生。
 
@@ -397,7 +404,7 @@ for s <- outerTable.fetchBlock():
 
 在向量化执行中，我们可以使用位图来指示是否应该将一行返回到结果集中。然后我们可以稍后实现结果的具体化。
 
-例如，假设我们有以下SQL查询：
+例如，假设我们有以下 SQL 查询：
 
 ```SQL
 CREATE TABLE t(a INT, b INT);
@@ -432,4 +439,4 @@ for l <- leftChild:
 materialize(result)
 ```
 
-在databend-query中，我们可以添加一个`NestedLoopJoinTransform`来实现向量化块嵌套循环连接。
+在 databend-query 中，我们可以添加一个`NestedLoopJoinTransform`来实现向量化块嵌套循环连接。

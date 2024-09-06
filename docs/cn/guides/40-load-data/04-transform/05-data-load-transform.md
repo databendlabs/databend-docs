@@ -33,7 +33,7 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 
 ### 开始之前
 
-在开始之前，您需要创建一个阶段并生成一个示例文件；这里以 Parquet 文件为例：
+在开始之前，您需要创建一个 Stage 并生成一个示例文件；这里以 Parquet 文件为例：
 
 ```sql
 CREATE STAGE my_parquet_stage;

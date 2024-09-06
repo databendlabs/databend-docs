@@ -31,9 +31,9 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 
 ## 教程：从 TSV 文件加载数据
 
-### 步骤 1. 创建内部阶段
+### 步骤 1. 创建内部 Stage
 
-创建一个内部阶段以存储 TSV 文件。
+创建一个内部 Stage 以存储 TSV 文件。
 
 ```sql
 CREATE STAGE my_tsv_stage;

@@ -113,7 +113,7 @@ JSONB 是一种树结构。每个节点由三部分组成，一个 32 位的头�
 以此 JSON 为例，我们可以看到 JSONB 的编码格式如下。
 
 ```json
-{"a":1,"b":[true,2,"v"]}
+{ "a": 1, "b": [true, 2, "v"] }
 ```
 
 ```
@@ -168,7 +168,7 @@ JSONB 是一种树结构。每个节点由三部分组成，一个 32 位的头�
 
 [ION](https://amzn.github.io/ion-docs/) 也是由亚马逊开发的一种二进制 JSON 格式。
 它针对读取进行了优化，并且有符号表作为索引以加速键路径访问。
-其主要问题是 Rust 版本的开发仍处于早期阶段，缺乏一些重要的特性支持，如 `serde`。
+其主要问题是 Rust 版本的开发仍处于早期Stage，缺乏一些重要的特性支持，如 `serde`。
 
 还有一些针对纯文本 json 的优化，例如
 [simd-json](https://github.com/simd-lite/simd-json) 使用 SIMD 指令加速解析，

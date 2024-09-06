@@ -1,46 +1,44 @@
 ---
 title: 表达式和计划构建器
-description:
-  表达式和计划构建器RFC
+description: 表达式和计划构建器RFC
 ---
 
 ## 概要
 
-逻辑计划和表达式在SQL查询的整个生命周期中扮演着重要角色。
+逻辑计划和表达式在 SQL 查询的整个生命周期中扮演着重要角色。
 本文档旨在解释表达式和计划构建器的新设计。
 
 ## 表达式
 
 ### 别名表达式
 
-在SQL中，别名是非常有用的，我们可以将一个复杂的表达式别名为一个简短的别名。例如：
+在 SQL 中，别名是非常有用的，我们可以将一个复杂的表达式别名为一个简短的别名。例如：
 `SELECT a + 3 as b`。
 
-在标准SQL协议中，别名可以工作在：
+在标准 SQL 协议中，别名可以工作在：
 
-- Group By，例如：```SELECT a + 3 as b, count(1) from table group by b```
-- Having，例如：```SELECT a + 3 as b, count(1) as c from table group by b having c > 0```
-- Order By：例如：```SELECT a + 3 as b from table order by b```
-
+- Group By，例如：`SELECT a + 3 as b, count(1) from table group by b`
+- Having，例如：`SELECT a + 3 as b, count(1) as c from table group by b having c > 0`
+- Order By：例如：`SELECT a + 3 as b from table order by b`
 
 :::tip
-ClickHouse扩展了表达式别名的用法，它可以工作在：
+ClickHouse 扩展了表达式别名的用法，它可以工作在：
 
 - 递归别名表达式：例如：`SELECT a + 1 as b, b + 1 as c`
 
 - 过滤器：例如：`SELECT a + 1 as b, b + 1 as c  from table where c > 0`
 
-注意：目前我们不支持clickhouse风格的别名表达式。它可以在以后实现。
+注意：目前我们不支持 clickhouse 风格的别名表达式。它可以在以后实现。
 :::
 
-对于表达式别名，我们只在最后处理它，在投影阶段。但我们必须尽早替换表达式的别名，以防止后面出现歧义。
+对于表达式别名，我们只在最后处理它，在投影 Stage。但我们必须尽早替换表达式的别名，以防止后面出现歧义。
 
 例如：
 
 `SELECT number + 1 as c, sum(number) from numbers(10) group by c having c > 3 order by c limit 10`
 
-- 首先，我们可以从投影ASTs中扫描所有的别名表达式。`c ---> (number + 1)`
-- 然后我们在*having*、*order by*、*group by*子句中替换别名为相应的表达式。所以查询将会是：`SELECT number + 1 as c, sum(number) from numbers(10) group by (number + 1) having (number + 1) > 3 order by (number + 1) limit 10`
+- 首先，我们可以从投影 ASTs 中扫描所有的别名表达式。`c ---> (number + 1)`
+- 然后我们在*having*、_order by_、*group by*子句中替换别名为相应的表达式。所以查询将会是：`SELECT number + 1 as c, sum(number) from numbers(10) group by (number + 1) having (number + 1) > 3 order by (number + 1) limit 10`
 - 最后，当查询完成时，我们应用投影来重命名列`(number+1)`为`c`
 
 让我们看看这个查询的解释结果：
@@ -57,7 +55,7 @@ ClickHouse扩展了表达式别名的用法，它可以工作在：
                 ReadDataSource: scan partitions: [4], scan schema: [number:UInt64], statistics: [read_rows: 10, read_bytes: 80]
 ```
 
-我们可以看到，直到投影阶段我们才需要关心别名，所以应用其他表达式将非常方便。
+我们可以看到，直到投影 Stage 我们才需要关心别名，所以应用其他表达式将非常方便。
 
 ### 物化表达式
 
@@ -67,10 +65,9 @@ ClickHouse扩展了表达式别名的用法，它可以工作在：
 
 `SELECT number + 1 as c, sum(number) as d group by c having number + 1 > 3 order by  d desc`
 
-在别名替换后，我们将知道order by是`sum(number)`，但`sum(number)`已经在聚合阶段处理过，所以我们可以将order by表达式`SortExpression { ... }`重新基于`Column("sum(number)")`，这可以去除相同表达式的无用计算。
+在别名替换后，我们将知道 order by 是`sum(number)`，但`sum(number)`已经在聚合 Stage 处理过，所以我们可以将 order by 表达式`SortExpression { ... }`重新基于`Column("sum(number)")`，这可以去除相同表达式的无用计算。
 
-所以`number + 1`在having中也可以应用于重新基于表达式。
-
+所以`number + 1`在 having 中也可以应用于重新基于表达式。
 
 ### 表达式函数
 
@@ -81,14 +78,13 @@ ClickHouse扩展了表达式别名的用法，它可以工作在：
 - BinaryFunctions，一种特殊的·ScalarFunctions· 例如：`SELECT 1 + 2 `
 - ...
 
-对于ScalarFunctions，我们真的不关心整个块，我们只关心参数涉及的列。`sum(number)`只关心名为*number*的列。结果也是一列，所以我们在`IFunction`中有虚拟方法是：
-
+对于 ScalarFunctions，我们真的不关心整个块，我们只关心参数涉及的列。`sum(number)`只关心名为*number*的列。结果也是一列，所以我们在`IFunction`中有虚拟方法是：
 
 ```rust
 fn eval(&self, columns: &[DataColumn], _input_rows: usize) -> Result<DataColumn>;
 ```
 
-对于AggregateFunctions，我们应该在相应的函数实例中保持状态，以应用两级合并，我们在`IAggregateFunction`中有以下虚拟方法：
+对于 AggregateFunctions，我们应该在相应的函数实例中保持状态，以应用两级合并，我们在`IAggregateFunction`中有以下虚拟方法：
 
 ```rust
 fn accumulate(&mut self, columns: &[DataColumn], _input_rows: usize) -> Result<()>;
@@ -99,13 +95,13 @@ fn merge_result(&self) -> Result<DataValue>;
 
 过程是`accumulate`(将数据应用到函数) --> `accumulate_result`(获取当前状态) --> `merge` (合并当前状态与其他状态) ---> `merge_result (获取最终结果值)`
 
-
 注：我们不在函数中存储参数类型和参数名称，如果需要，我们可以稍后存储。
 
 ### 列
 
 *Block*是流之间传递数据的单位，用于管道处理，而*Column*是表达式之间传递数据的单位。
 所以在表达式（函数，字面量，...）的视图中，一切都是*Column*，我们有*DataColumn*来表示一列。
+
 ```rust
 #[derive(Clone, Debug)]
 pub enum DataColumn {
@@ -120,13 +116,11 @@ pub enum DataColumn {
 
 注意：我们没有*ScalarValue*，因为它可以被认为是`Constant(DataValue, 1)`，并且有*DataValue*结构。
 
-
 ### 表达式链和表达式执行器
 
-目前，我们可以从表达式中收集内部表达式来构建ExpressionChain。这可以通过深度优先搜索访问完成。ExpressionFunction：`number + (number + 1)`将是：`[ ExpressionColumn(number),  ExpressionColumn(number), ExpressionLiteral(1),  ExpressionBinary('+', 'number', '1'), ExpressionBinary('+', 'number',  '(number + 1)')]`。
+目前，我们可以从表达式中收集内部表达式来构建 ExpressionChain。这可以通过深度优先搜索访问完成。ExpressionFunction：`number + (number + 1)`将是：`[ ExpressionColumn(number),  ExpressionColumn(number), ExpressionLiteral(1),  ExpressionBinary('+', 'number', '1'), ExpressionBinary('+', 'number',  '(number + 1)')]`。
 
 我们有*ExpressionExecutor*来执行表达式链，在执行过程中，我们不需要关心参数的种类。我们只将它们视为来自上游的*ColumnExpression*，所以我们只从块中获取列*number*和列*(number + 1)*。
-
 
 ## 计划构建器
 
