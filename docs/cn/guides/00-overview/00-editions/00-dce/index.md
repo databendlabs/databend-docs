@@ -1,12 +1,11 @@
 ---
-title: Databend 社区版
+title: Databend 社区
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend 是一个开源的、弹性的、且对工作负载感知的云数据仓库，采用 Rust 构建，为 Snowflake 提供了一个成本效益高的替代方案。它旨在处理世界上最大数据集的复杂分析。
+Databend 是一个开源的、弹性的、且对工作负载敏感的云数据仓库，使用 Rust 构建，提供了一个成本效益高的 Snowflake 替代方案。它专为处理世界上最大数据集的复杂分析而设计。
 
 <Tabs groupId="whydatabend">
 <TabItem value="Performance" label="性能">
@@ -21,7 +20,7 @@ Databend 是一个开源的、弹性的、且对工作负载感知的云数据�
 
 - 支持原子操作，如 `SELECT`、`INSERT`、`DELETE`、`UPDATE`、`REPLACE`、`COPY` 和 `MERGE`。
 - 提供高级功能，如时间回溯和多目录（Apache Hive / Apache Iceberg）。
-- 支持以 CSV、JSON 和 Parquet 等多种格式[导入半结构化数据](/guides/load-data/load)。
+- 支持以各种格式（如 CSV、JSON 和 Parquet）[加载半结构化数据](/guides/load-data/load)。
 - 支持半结构化数据类型，如 [ARRAY、MAP 和 JSON](/sql/sql-reference/data-types/)。
 - 支持类似 Git 的 MVCC 存储，便于查询、克隆和恢复历史数据。
 
@@ -35,6 +34,6 @@ Databend 是一个开源的、弹性的、且对工作负载感知的云数据�
 </TabItem>
 </Tabs>
 
-了解更多关于 Databend 社区版的信息，请参阅以下主题：
+通过以下主题了解更多关于 Databend 社区版的信息：
 
 <IndexOverviewList />
