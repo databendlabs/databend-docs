@@ -13,11 +13,11 @@ Fail-Safe refers to mechanisms aimed at recovering lost or accidentally deleted 
 
 ### Implementing Fail-Safe
 
-Databend offers the `system$fuse_amend` table function to enable Fail-Safe recovery. This function lets you restore data from an S3-compatible storage bucket when bucket versioning is enabled.
+Databend offers the [SYSTEM$FUSE_AMEND](/sql/sql-functions/table-functions/fuse-amend) table function to enable Fail-Safe recovery. This function lets you restore data from an S3-compatible storage bucket when bucket versioning is enabled.
 
 ### Usage Example
 
-Below is a step-by-step example of using the system$fuse_amend function to recover a table's data from S3:
+Below is a step-by-step example of using the [SYSTEM$FUSE_AMEND](/sql/sql-functions/table-functions/fuse-amend) function to recover a table's data from S3:
 
 1. Enable versioning for the bucket `databend-doc`.
 
@@ -38,35 +38,37 @@ If you open the `fail-safe` folder in the bucket now, you can see the data is al
 
 ![alt text](../../../../static/img/guides/bucket-versioning-2.png)
 
-3. Simulate data loss by creating an external stage with the same folder in the bucket, and then removing the objects from the stage.
+3. Simulate data loss by deleting all the sub-folders and their files in the `fail-safe` folder.
+
+![alt text](../../../../static/img/guides/bucket-versioning-3.png)
+
+4. Attempting to query the table after removal will result in an error:
 
 ```sql
-CREATE STAGE test_fail_safe 
-URL = 's3://databend-doc/fail-safe/'  
-CONNECTION = (access_key_id ='<your-access-key-id>' secret_access_key ='<your-secret-accesskey>');
+SELECT * FROM t;
 
-REMOVE @test_fail_safe e;
+error: APIError: ResponseError with 3001: NotFound (persistent) at read, context: { uri: https://s3.us-east-2.amazonaws.com/databend-doc/fail-safe/1/1502/_b/3f84d636dc6c40508720d1cde20d4f3b_v2.parquet, response: Parts { status: 404, version: HTTP/1.1, headers: {"x-amz-request-id": "FYSJNZX1X16T91HN", "x-amz-id-2": "EI+NQjyRlSk8jlU64EASKodjvOkzuAlhZ1CYo0nIenzOH6DP7t6mMWh7raj4mUiOxW18NQesxmA=", "x-amz-delete-marker": "true", "x-amz-version-id": "ngecunzFP0pir0ysXlbR_eJafaTPl1oh", "content-type": "application/xml", "transfer-encoding": "chunked", "date": "Mon, 09 Sep 2024 02:01:57 GMT", "server": "AmazonS3"} }, service: s3, path: 1/1502/_b/3f84d636dc6c40508720d1cde20d4f3b_v2.parquet, range: 4-47 } => S3Error { code: "NoSuchKey", message: "The specified key does not exist.", resource: "", request_id: "FYSJNZX1X16T91HN" }
 ```
 
-5. Attempting to query the table after removal will result in an error:
+5. Recover the table data using system$fuse_amend:
 
 ```sql
-SELECT * FROM t;  -- This will throw a "NotFound" error
+CALL system$fuse_amend('default', 't');
+
+-[ RECORD 1 ]-----------------------------------
+result: Ok
 ```
 
-6. Recover the Table Data Using system$fuse_amend:
+6. Verify that the table data is back:
 
 ```sql
-CALL system$fuse_amend('test_failsafe', 't');
+SELECT * FROM t;
+
+┌─────────────────┐
+│        a        │
+├─────────────────┤
+│               1 │
+│               2 │
+│               3 │
+└─────────────────┘
 ```
-
-7. Verify the Recovery:
-
-```sql
-SELECT SUM(a) FROM t;  -- This should now return the correct result
-```
-Important Notes:
-
-Storage Compatibility: Currently, only S3-compatible storage types are supported.
-API Limitations: Since OpenDAL lacks support for the list_object_versions API and retrieving objects by version ID, the AWS Rust SDK is used for implementing this feature.
-Bucket Versioning: The bucket must have versioning enabled for Fail-Safe to function. Data created before versioning was enabled cannot be recovered using this method.
