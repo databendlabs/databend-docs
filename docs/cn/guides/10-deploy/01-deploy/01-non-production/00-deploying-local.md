@@ -1,24 +1,6 @@
----
-title: Docker 与本地部署
----
+## 在 Docker 上部署
 
-import StepsWrap from '@site/src/components/StepsWrap';
-import StepContent from '@site/src/components/Steps/step-content';
-
-为了快速体验 Databend 的功能并获得实践经验，您可以选择以下部署方式：
-
-- [使用 Docker 部署](#deploying-databend-on-docker)：您可以在 Docker 上部署 Databend 以及 [MinIO](https://min.io/) 以实现容器化环境。
-- [本地机器部署](#deploying-a-local-databend)：如果对象存储不可用，您可以选择本地部署并使用文件系统作为存储。
-
-:::note 仅限非生产使用
-
-- 对象存储是 Databend 生产使用的必要条件。文件系统仅应用于评估、测试和非生产场景。
-- 本章节中涉及的 MinIO 部署仅适用于开发和演示。由于单机环境的资源有限，不建议用于生产环境或性能测试。
-  :::
-
-## 使用 Docker 部署
-
-在本指南中，您将在 [Amazon EC2](https://aws.amazon.com/ec2/) 的 Ubuntu 虚拟机上使用 [Docker](https://www.docker.com/) 部署 Databend 以及 [MinIO](https://min.io/) 以实现容器化环境。
+在本指南中，您将使用 [Docker](https://www.docker.com/) 在 [Amazon EC2](https://aws.amazon.com/ec2/) Ubuntu 虚拟机上部署 Databend 和 [MinIO](https://min.io/)。
 
 ![Alt text](/img/deploy/docker-deploy.png)
 
@@ -33,11 +15,11 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ![Alt text](/img/deploy/docker-instance.png)
 
-2. 创建一个安全组，并添加一个入站规则以允许通过端口 `9001` 访问您的实例，然后将该安全组添加到实例中。
+2. 创建一个安全组，并添加一个入站规则以允许通过端口 `9001` 访问您的实例，然后将安全组添加到实例中。
 
 ![Alt text](/img/deploy/docker-create-sg.png)
 
-3. 连接到您的实例。从本地机器连接到实例有多种方式。更多信息请参见 [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html)。
+3. 连接到您的实例。有许多方法可以从本地机器连接到您的实例。有关更多信息，请参阅 [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html)。
 
 4. 按照 [Docker 用户手册](https://docs.docker.com/engine/install/ubuntu/) 在您的实例上安装 Docker 引擎。
 
@@ -50,8 +32,8 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 :::note
 
-- 这里我们将控制台地址更改为 `9001` 以避免端口冲突。
-- 该命令还设置了根用户凭证 (`ROOTUSER`/`CHANGEME123`)，您需要在后续步骤中提供这些凭证进行身份验证。如果在此时更改了根用户凭证，请确保在整个过程中保持一致。
+- 我们将控制台地址更改为 `9001` 以避免端口冲突。
+- 该命令还设置了根用户凭证 (`ROOTUSER`/`CHANGEME123`)，您将在后续步骤中需要提供这些凭证进行身份验证。如果在此时更改了根用户凭证，请确保在整个过程中保持一致。
   :::
 
 ```shell
@@ -67,7 +49,7 @@ docker run -d \
    minio/minio server /data --console-address ":9001"
 ```
 
-2. 运行命令 `docker logs minio` 以在日志消息中找到 MinIO API 和控制台（WebUI）地址：
+2. 运行命令 `docker logs minio` 以在日志消息中找到 MinIO API 和控制台 (WebUI) 地址：
 
 ```shell
 docker logs minio
@@ -109,8 +91,8 @@ STARTUP WARNINGS:
 :::note
 
 - 将 `AWS_S3_ENDPOINT` 值替换为 `docker logs minio` 返回的 MinIO 日志消息中显示的 MinIO API 地址。
-- 启动 Databend Docker 容器时，可以使用环境变量 `QUERY_DEFAULT_USER` 和 `QUERY_DEFAULT_PASSWORD` 指定用户名和密码。如果未提供这些变量，将创建一个默认的 root 用户且无密码。
-- 下面的命令还创建了一个 SQL 用户 (`databend`/`databend`)，您需要在后续步骤中使用该用户连接到 Databend。如果在此时更改了 SQL 用户，请确保在整个过程中保持一致。
+- 在启动 Databend Docker 容器时，您可以使用环境变量 `QUERY_DEFAULT_USER` 和 `QUERY_DEFAULT_PASSWORD` 指定用户名和密码。如果未提供这些变量，将创建一个默认的 root 用户且没有密码。
+- 下面的命令还创建了一个 SQL 用户 (`databend`/`databend`)，您稍后需要使用该用户连接到 Databend。如果在此时更改了 SQL 用户，请确保在整个过程中保持一致。
   :::
 
 ```shell
@@ -129,7 +111,7 @@ docker run -d \
     datafuselabs/databend
 ```
 
-2. 运行命令 `docker logs databend` 以检查 Databend 日志消息并确保 Databend 容器已成功启动：
+2. 运行命令 `docker logs databend` 以检查 Databend 日志消息，并确保 Databend 容器已成功启动：
 
 ```shell
 docker logs databend
@@ -236,11 +218,11 @@ Databend HTTP
 
 ### 连接到 Databend
 
-在这一步中，您将从本地机器使用 [BendSQL](../../../30-sql-clients/00-bendsql/index.md) 连接到 Databend。
+在此步骤中，您将使用 [BendSQL](../../../30-sql-clients/00-bendsql/index.md) 从本地机器连接到 Databend。
 
-1. 在本地机器上安装 BendSQL。安装说明请参见 [安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql)。
+1. 在本地机器上安装 BendSQL。有关说明，请参阅 [安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql)。
 
-2. 在本地机器上启动一个终端，然后运行命令 `bendsql -h <instance_public_ip> -u databend -p databend` 以建立与 Databend 的连接。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，命令将是 `bendsql -h 3.142.131.212 -u databend -p databend`。
+2. 在本地机器上启动终端，然后运行命令 `bendsql -h <instance_public_ip> -u databend -p databend` 以与 Databend 建立连接。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，命令将是 `bendsql -h 3.142.131.212 -u databend -p databend`。
 
 ```shell
 bendsql -h 3.142.131.212 -u databend -p databend
@@ -270,9 +252,9 @@ SELECT
 </StepContent>
 </StepsWrap>
 
-## 本地机器部署
+## 在本地机器上部署
 
-按照以下说明在您的本地机器上部署 Databend。
+按照以下说明在本地机器上部署 Databend。
 
 <StepsWrap>
 
@@ -288,9 +270,9 @@ SELECT
 
 <StepContent number="2">
 
-### 启动 Dat
+### 启动 Databend
 
-1. 配置管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。在此示例中，取消以下行的注释以选择此账户：
+1. 配置一个管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。对于此示例，取消注释以下行以选择此账户：
 
 ```sql title="databend-query.toml"
 [[query.users]]
@@ -298,10 +280,10 @@ name = "root"
 auth_type = "no_password"
 ```
 
-2. 打开终端并导航到存储解压文件和文件夹的目录。
+2. 打开终端并导航到存储提取文件和文件夹的文件夹。
 
 3. 在**scripts**文件夹中运行脚本**start.sh**：
-   MacOS 可能会提示错误，指出“_databend-meta 无法打开，因为 Apple 无法检查其是否存在恶意软件_”。要继续，请在 Mac 上打开**系统设置**，在左侧菜单中选择**隐私与安全**，然后在右侧的**安全**部分为 databend-meta 点击**仍然打开**。对 databend-query 的错误执行相同操作。
+   MacOS 可能会提示错误，指出“_databend-meta 无法打开，因为 Apple 无法检查其是否存在恶意软件_”。要继续，请在 Mac 上打开**系统设置**，在左侧菜单中选择**隐私与安全**，然后在右侧的**安全**部分中为 databend-meta 点击**仍然打开**。对 databend-query 的错误也执行相同的操作。
 
 ```shell
 ./scripts/start.sh
@@ -328,7 +310,7 @@ sudo chown -R $USER /var/lib/databend
 
 :::
 
-3. 运行以下命令以验证 Databend 是否成功启动：
+3. 运行以下命令以验证 Databend 是否已成功启动：
 
 ```shell
 ps aux | grep databend
@@ -345,7 +327,7 @@ eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 
 
 ### 连接到 Databend
 
-在这一步中，您将使用 BendSQL CLI 工具与 Databend 建立连接。有关如何安装和操作 BendSQL 的说明，请参阅 [BendSQL](../../../30-sql-clients/00-bendsql/index.md)。
+在此步骤中，您将使用 BendSQL CLI 工具与 Databend 建立连接。有关如何安装和操作 BendSQL 的说明，请参阅 [BendSQL](../../../30-sql-clients/00-bendsql/index.md)。
 
 1. 要与本地 Databend 建立连接，请执行以下命令：
 
@@ -382,5 +364,5 @@ SELECT
 
 部署 Databend 后，您可能需要了解以下主题：
 
-- [加载与卸载数据](/guides/load-data)：在 Databend 中管理数据的导入/导出。
+- [加载与卸载数据](/guides/load-data)：在 Databend 中管理数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取洞察。

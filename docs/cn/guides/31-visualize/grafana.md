@@ -2,24 +2,24 @@
 title: Grafana
 ---
 
-[Grafana](https://grafana.com/) 是一个监控仪表盘系统，是由 Grafana Labs 开发的开源监控工具。它可以通过我们提供要监控的数据，生成各种可视化图表，极大地简化了监控的复杂性。此外，它还具备报警功能，在系统出现问题时发送通知。Databend 和 Databend Cloud 可以通过 [Grafana Databend Data Source Plugin](https://github.com/datafuselabs/grafana-databend-datasource) 与 Grafana 集成。
+[Grafana](https://grafana.com/) 是一个监控仪表盘系统，是由 Grafana Labs 开发的开源监控工具。它可以通过让我们提供要监控的数据，生成各种可视化，极大地简化了监控的复杂性。此外，它还具有报警功能，在系统出现问题时发送通知。Databend 和 Databend Cloud 可以通过 [Grafana Databend Data Source Plugin](https://github.com/datafuselabs/grafana-databend-datasource) 与 Grafana 集成。
 
 ## 教程：与 Grafana 集成
 
-本教程将指导您通过 Grafana Databend Data Source Plugin 将 Databend / Databend Cloud 与 Grafana 集成。
+本教程将指导您使用 Grafana Databend Data Source Plugin 将 Databend / Databend Cloud 与 Grafana 集成。
 
 ### 步骤 1. 设置环境
 
 在开始之前，请参考官方安装指南安装 Grafana：[https://grafana.com/docs/grafana/latest/setup-grafana/installation](https://grafana.com/docs/grafana/latest/setup-grafana/installation)。
 
-在本教程中，您可以选择与 Databend 或 Databend Cloud 集成：
+对于本教程，您可以选择与 Databend 或 Databend Cloud 集成：
 
 - 如果您选择与本地 Databend 实例集成，请按照 [部署指南](/guides/deploy) 进行部署（如果您还没有部署的话）。
-- 如果您更倾向于与 Databend Cloud 集成，请确保您可以登录到您的账户并获取计算集群的连接信息。更多详情，请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+- 如果您更喜欢与 Databend Cloud 集成，请确保您可以登录到您的账户并获取计算集群的连接信息。更多详情，请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 修改 Grafana 配置
 
-在您的 `grafana.ini` 文件中添加以下行：
+将以下行添加到您的 `grafana.ini` 文件中：
 
 ```ini
 [plugins]
@@ -42,14 +42,14 @@ rm /tmp/grafana-databend-datasource.zip
 
 4. 重启 Grafana 以加载插件。
 
-5. 在 Grafana UI 中导航到 **Plugins** 页面，例如，`http://localhost:3000/plugins`，并确保插件已安装。
+5. 导航到 Grafana UI 中的 **Plugins** 页面，例如，`http://localhost:3000/plugins`，并确保插件已安装。
 
 ![Plugins](/img/integration/grafana-plugins.png)
 ![Plugin detail](/img/integration/grafana-plugin-detail.png)
 
 ### 步骤 3. 创建数据源
 
-1. 进入 `添加新连接` 页面，例如，`http://localhost:3000/connections/add-new-connection?search=databend`，搜索 `databend`，并选择它。
+1. 转到 `Add new connection` 页面，例如，`http://localhost:3000/connections/add-new-connection?search=databend`，搜索 `databend`，并选择它。
 
 2. 点击页面右上角的 **Add new data source**。
 

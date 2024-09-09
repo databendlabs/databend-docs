@@ -2,7 +2,7 @@
 title: Databend 基准测试
 ---
 
-Databend 相比其他云数据仓库的速度和成本效率如何？
+Databend 与其他云数据仓库相比，速度更快、成本效益更高吗？
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 

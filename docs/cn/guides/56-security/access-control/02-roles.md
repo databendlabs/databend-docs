@@ -2,21 +2,21 @@
 title: 角色
 ---
 
-在 Databend 中，角色在简化权限管理方面扮演着关键角色。当多个用户需要相同的权限集时，逐个授予权限可能会很繁琐。角色提供了一个解决方案，允许将一组权限分配给一个角色，然后可以轻松地将该角色分配给多个用户。
+角色在 Databend 中扮演着简化权限管理的关键角色。当多个用户需要相同的权限集时，逐个授予权限可能会变得繁琐。角色提供了一个解决方案，通过将一组权限分配给一个角色，然后可以轻松地将该角色分配给多个用户。
 
 :::note
 目前，Databend 默认不对用户定义函数（UDFs）和 Stage 强制执行基于角色的访问控制（RBAC）检查。但是，如果您需要对这些对象进行 RBAC，可以选择通过手动设置 `SET GLOBAL enable_experimental_rbac_check=1` 来全局启用它。
 
-如果未手动将 `enable_experimental_rbac_check` 设置为 `1`，UDFs 和 Stage 将不带 RBAC 限制运行。换句话说，用户将不受限制地执行 UDFs 和访问 Stage 中的数据，而无需经过 RBAC 权限检查。
+如果 `enable_experimental_rbac_check` 未手动设置为 `1`，UDFs 和 Stage 将在没有 RBAC 限制的情况下运行。换句话说，用户将可以不受限制地执行 UDFs 和访问 Stage 中的数据，而无需经过 RBAC 权限检查。
 :::
 
 ![Alt text](/img/guides/access-control-3.png)
 
-## 继承角色与建立层级
+## 继承角色与建立层次结构
 
-角色授予使得一个角色可以继承另一个角色的权限和职责。这有助于创建一个灵活的层级结构，类似于组织结构，其中存在两个[内置角色](#内置角色)：最高的是 `account-admin`，最低的是 `public`。
+角色授予使得一个角色可以继承另一个角色的权限和职责。这有助于创建一个灵活的层次结构，类似于组织结构，其中存在两个[内置角色](#内置角色)：最高的是 `account-admin`，最低的是 `public`。
 
-考虑一个场景，创建了三个角色：_manager_、_engineer_ 和 _intern_。在这个例子中，_intern_ 角色被授予给 _engineer_ 角色。因此，_engineer_ 不仅拥有自己的权限集，还继承了与 _intern_ 角色相关的权限。进一步扩展这个层级，如果 _engineer_ 角色被授予给 _manager_，那么 _manager_ 现在将获得 _engineer_ 和 _intern_ 角色的固有权限。
+考虑一个场景，创建了三个角色：*manager*、*engineer* 和 *intern*。在这个例子中，*intern* 角色被授予给 *engineer* 角色。因此，*engineer* 不仅拥有自己的权限集，还继承了与 *intern* 角色相关的权限。进一步扩展这个层次结构，如果 *engineer* 角色被授予给 *manager*，那么 *manager* 现在将获得 *engineer* 和 *intern* 角色的固有权限。
 
 ![Alt text](/img/guides/access-control-4.png)
 
@@ -24,16 +24,16 @@ title: 角色
 
 Databend 自带以下内置角色：
 
-| 内置角色      | 描述                                                                       |
-| ------------- | -------------------------------------------------------------------------- |
+| 内置角色      | 描述                                                                                                                            |
+|---------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | account-admin | 拥有所有权限，作为所有其他角色的父角色，并允许在租户内无缝切换到任何角色。 |
-| public        | 不继承任何权限，将所有角色视为其父角色，并允许任何角色切换到公共角色。     |
+| public        | 不继承任何权限，将所有角色视为其父角色，并允许任何角色切换到公共角色。                    |
 
-要在 Databend Cloud 中将 `account-admin` 角色分配给用户，请在邀请用户时选择该角色。您也可以在用户加入后为其分配角色。如果您使用的是 Databend 社区版或企业版，请在部署期间首先配置一个 `account-admin` 用户，然后根据需要将角色分配给其他用户。有关配置管理员用户的更多信息，请参阅[配置管理员用户](../../10-deploy/04-references/01-admin-users.md)。
+要在 Databend Cloud 中将 `account-admin` 角色分配给用户，请在邀请用户时选择该角色。您也可以在用户加入后为其分配该角色。如果您使用的是 Databend 社区版或企业版，请在部署时首先配置一个 `account-admin` 用户，然后在需要时将该角色分配给其他用户。有关配置管理员用户的更多信息，请参阅[配置管理员用户](../../10-deploy/04-references/01-admin-users.md)。
 
 ## 设置默认角色
 
-当一个用户被授予多个角色时，您可以使用 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 或 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 命令为用户设置默认角色。默认角色决定了在会话开始时自动分配给用户的角色：
+当用户被授予多个角色时，您可以使用 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 或 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 命令为用户设置默认角色。默认角色决定了在会话开始时自动分配给用户的角色：
 
 ```sql title='示例:'
 -- 显示系统中现有的角色
@@ -57,33 +57,32 @@ GRANT ROLE account_admin TO eric;
 ALTER USER eric WITH DEFAULT_ROLE = 'account_admin';
 ```
 
-- 用户可以在会话中灵活切换到其他角色，使用 [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) 命令。
-- 用户可以通过使用 [SHOW ROLES](/sql/sql-commands/ddl/user/user-show-roles) 命令查看他们当前的角色并查看所有授予他们的角色。
+- 用户可以在会话中使用 [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) 命令灵活地切换到其他角色。
+- 用户可以通过使用 [SHOW ROLES](/sql/sql-commands/ddl/user/user-show-roles) 命令查看其当前角色并查看所有授予他们的角色。
 - 如果您没有明确为用户设置默认角色，Databend 将默认使用内置角色 `public` 作为默认角色。
 
 ## 活动角色与次要角色
 
-在 Databend 中，一个用户可以被授予多个角色。这些角色分为活动角色和次要角色：
+用户可以在 Databend 中被授予多个角色。这些角色分为活动角色和次要角色：
 
-- 活动角色是用户当前会话中的主要角色，可以使用 [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) 命令设置。
+- 活动角色是用户当前会话中的主要角色，可以通过 [SET ROLE](/sql/sql-commands/ddl/user/user-set-role) 命令设置。
 
-- 次要角色是提供额外权限的附加角色，默认情况下是活动的。用户可以使用 [SET SECONDARY ROLES](/sql/sql-commands/ddl/user/user-set-2nd-roles) 命令激活或停用次要角色，以临时调整其权限范围。
+- 次要角色是提供额外权限的附加角色，默认情况下是活动的。用户可以使用 [SET SECONDARY ROLES](/sql/sql-commands/ddl/user/user-set-2nd-roles) 命令激活或停用次要角色，以暂时调整其权限范围。
 
 ## 计费角色
 
-除了标准的内置角色外，您可以在 Databend Cloud 中创建一个名为 `billing` 的自定义角色，专门满足财务人员的需求。角色 `billing` 仅提供对计费相关信息的访问权限，确保财务人员可以查看必要的财务数据，而不会暴露于其他业务相关页面。
+除了标准的内置角色外，您可以在 Databend Cloud 中创建一个名为 `billing` 的自定义角色，以满足财务人员的特定需求。`billing` 角色仅提供对计费相关信息的访问权限，确保财务人员可以查看必要的财务数据，而不会暴露于其他业务相关的页面。
 
-要设置和使用角色 `billing`，可以使用以下命令创建它：
+要设置和使用 `billing` 角色，可以使用以下命令创建它：
 
 ```sql
 CREATE ROLE billing;
 ```
-
-角色名称不区分大小写，因此 `billing` 和 `Billing` 被视为相同。有关设置和分配角色 `billing` 的详细步骤，请参阅[授予财务人员访问权限](/guides/cloud/manage/costs#granting-access-to-finance-personnel)。
+角色名称不区分大小写，因此 `billing` 和 `Billing` 被视为相同。有关设置和分配 `billing` 角色的详细步骤，请参阅[授予财务人员访问权限](/guides/cloud/manage/costs#granting-access-to-finance-personnel)。
 
 ## 使用示例
 
-此示例展示了基于角色的权限管理。首先，创建一个 'writer' 角色并授予权限。随后，这些权限被分配给用户 'eric'，用户继承了这些权限。最后，从角色中撤销权限，展示了这对用户权限的影响。
+此示例展示了基于角色的权限管理。首先，创建一个 'writer' 角色并授予权限。随后，这些权限被分配给用户 'eric'，用户继承了这些权限。最后，从角色中撤销权限，展示了其对用户权限的影响。
 
 ```sql title='示例:'
 -- 创建一个名为 'writer' 的新角色
@@ -111,6 +110,6 @@ SHOW GRANTS FOR eric;
 REVOKE ALL ON default.* FROM ROLE writer;
 
 -- 显示用户 'eric' 的授予权限
--- 没有权限显示，因为它们已从角色中撤销
+-- 没有显示任何权限，因为它们已从角色中撤销
 SHOW GRANTS FOR eric;
 ```

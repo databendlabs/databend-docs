@@ -9,12 +9,12 @@ import EEFeature from '@site/src/components/EEFeature';
 
 全文索引，也称为倒排索引，是一种用于高效映射术语与包含这些术语的文档或记录的数据结构。在典型的倒排索引中，文档文本中的每个术语都与出现该术语的文档ID相关联。这使得基于搜索词快速进行全文搜索和检索相关文档成为可能。
 
-Databend 利用 [Tantivy](https://github.com/quickwit-oss/tantivy)，一个全文搜索引擎库，来实现倒排索引。假设我们有一组代表产品评论的文档。每个文档由一个唯一的ID和一些描述评论的文本内容组成。以下是几个示例文档：
+Databend 使用 [Tantivy](https://github.com/quickwit-oss/tantivy)，一个全文搜索引擎库，来实现倒排索引。假设我们有一组代表产品评论的文档。每个文档由一个唯一的ID和一些描述评论的文本内容组成。以下是几个示例文档：
 
 | 文档ID | 内容                                                             |
 |-------------|---------------------------------------------------------------------|
 | 101         | "这个产品太棒了！它超出了我的所有期望。"         |
-| 102         | "我对这个产品感到失望。它没有像广告中说的那样工作。" |
+| 102         | "我对这个产品感到失望。它没有按广告宣传的那样工作。" |
 | 103         | "强烈推荐！这是我很久以来最好的购买。"       |
 
 这些文档的倒排索引将如下表所示。倒排索引使我们能够快速找到包含特定术语的文档。例如，如果我们搜索术语 `recommended`，我们可以轻松地从倒排索引中检索到文档ID 103。
@@ -28,15 +28,15 @@ Databend 利用 [Tantivy](https://github.com/quickwit-oss/tantivy)，一个全�
 
 ## 全文索引与LIKE模式匹配
 
-全文索引和LIKE模式匹配都是用于在数据库中搜索文本数据的方法。然而，与LIKE模式匹配相比，全文索引在具有大量文本内容的大型数据库中提供了显著更快的查询性能。
+全文索引和LIKE模式匹配都是用于在数据库中搜索文本数据的方法。然而，全文索引相比LIKE模式匹配提供了显著更快的查询性能，尤其是在具有大量文本内容的大型数据库中。
 
-LIKE 操作符允许在文本字段中进行模式匹配。它在一个字符串中搜索指定的模式，并返回找到该模式的行。对于如下示例的查询，Databend 将执行全表扫描以检查每一行是否存在指定的模式 `%Starbucks%`。这种方法可能会消耗大量资源，并导致查询执行速度变慢，尤其是在大型表中。
+LIKE操作符允许在文本字段中进行模式匹配。它在字符串中搜索指定的模式，并返回找到该模式的行。对于如下示例的查询，Databend将执行全表扫描以检查每一行是否存在指定的模式 `%Starbucks%`。这种方法可能会消耗大量资源，并导致查询执行速度变慢，尤其是在大型表中。
 
 ```sql title='示例:'
 SELECT * FROM table WHERE content LIKE '%Starbucks%';
 ```
 
-相比之下，全文索引涉及创建倒排索引，这些索引将术语映射到包含这些术语的文档或记录。这些索引使得基于特定关键词或短语高效搜索文本数据成为可能。利用倒排索引，Databend 可以直接访问包含指定术语 `Starbucks` 的文档，无需扫描整个表，从而显著减少查询执行时间，特别是在具有大量文本内容的场景中。
+相比之下，全文索引涉及创建倒排索引，这些索引将术语映射到包含这些术语的文档或记录。这些索引使得基于特定关键词或短语高效搜索文本数据成为可能。利用倒排索引，Databend可以直接访问包含指定术语 `Starbucks` 的文档，无需扫描整个表，从而显著减少查询执行时间，特别是在具有大量文本内容的场景中。
 
 ```sql title='示例:'
 CREATE INVERTED INDEX table_content_idx ON table(content);
@@ -48,13 +48,13 @@ SELECT * FROM table WHERE match(content, 'Starbucks');
 在使用倒排索引进行搜索之前，您必须创建它们：
 
 - 您可以使用 [CREATE INVERTED INDEX](/sql/sql-commands/ddl/inverted-index/create-inverted-index) 命令为一个表创建多个倒排索引，但每个列在倒排索引中必须是唯一的。换句话说，一个列只能由一个倒排索引索引。
-- 如果您的数据在创建倒排索引之前已插入表中，您必须使用 [REFRESH INVERTED INDEX](/sql/sql-commands/ddl/inverted-index/refresh-inverted-index) 命令刷新倒排索引，以便在搜索前正确索引数据。
+- 如果您的数据在倒排索引创建之前已插入表中，您必须使用 [REFRESH INVERTED INDEX](/sql/sql-commands/ddl/inverted-index/refresh-inverted-index) 命令刷新倒排索引，以便在搜索之前正确索引数据。
 
 ```sql title='示例:'
 -- 为表 'user_comments' 中的 'comment_title' 和 'comment_body' 列创建倒排索引
 CREATE INVERTED INDEX customer_feedback_idx ON customer_feedback(comment_title, comment_body);
 
--- 如果表中在创建索引之前已有数据，刷新索引以确保现有数据的索引
+-- 如果表中在创建索引之前已有数据，刷新索引以确保对现有数据进行索引。
 REFRESH INVERTED INDEX customer_feedback_idx ON customer_feedback;
 ```
 
@@ -68,9 +68,9 @@ Databend 提供了多种命令来管理倒排索引。有关详细信息，请�
 
 ## 使用示例
 
-在以下示例中，我们首先在一个包含 Kubernetes 日志数据的表上创建全文搜索索引，然后使用 [全文搜索函数](#全文搜索函数) 搜索日志数据。
+在以下示例中，我们首先在一个包含Kubernetes日志数据的表上创建全文搜索索引，然后使用 [全文搜索函数](#全文搜索函数) 搜索日志数据。
 
-1. 创建一个名为 "k8s_logs" 的表用于存储 Kubernetes 日志数据，其中包含一个从 "event_data" 派生的计算列 "event_message"。然后，在 "event_message" 列上创建一个名为 "event_message_fulltext" 的倒排索引。
+1. 创建一个名为 "k8s_logs" 的表用于Kubernetes日志数据，其中包含一个从 "event_data" 派生的计算列 "event_message"。然后，在 "event_message" 列上创建一个名为 "event_message_fulltext" 的倒排索引。
  
 ```sql
 -- 创建带有计算列的表
@@ -153,7 +153,7 @@ VALUES
 
 3. 使用全文搜索函数搜索日志。
 
-以下查询在 "k8s_logs" 表中搜索包含 "PersistentVolume" 的日志消息：
+以下查询在 "k8s_logs" 表中存储的事件消息中搜索包含 "PersistentVolume" 的事件：
 
 ```sql
 SELECT
@@ -169,7 +169,7 @@ WHERE
 event_message: PersistentVolume claim created
 ```
 
-要检查全文索引是否会被用于搜索，请使用 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令：
+要检查全文索引是否将用于搜索，请使用 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令：
 
 ```sql
 EXPLAIN SELECT event_id, event_message FROM k8s_logs WHERE MATCH(event_message, 'PersistentVolume');
@@ -194,7 +194,7 @@ Filter
 `pruning stats: [segments: <range pruning: 5 to 5>, blocks: <range pruning: 5 to 5, inverted pruning: 5 to 1>]`
 表示将使用全文索引，从而将5个数据块修剪为1个。
 
-以下查询搜索事件消息包含 "PersistentVolume claim created" 的事件，并确保相关性分数阈值为0.5或更高：
+以下查询搜索事件消息包含 "PersistentVolume claim created" 且相关性评分阈值为0.5或更高的事件：
 
 ```sql
 SELECT

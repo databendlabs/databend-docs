@@ -2,7 +2,7 @@
 title: 开发路线图
 ---
 
-通过以下路线图发现 Databend 的演变：
+通过以下路线图了解 Databend 的发展历程：
 
 发布路线图::
 - [路线图 v1.3](https://github.com/datafuselabs/databend/issues/11868)

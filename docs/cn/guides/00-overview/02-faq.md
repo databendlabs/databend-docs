@@ -1,20 +1,16 @@
----
-title: 常见问题解答
----
+### Q1: Databend 的主要对象、层次结构及其关联的权限是什么？
 
-### Q1: Databend的主要对象、层次结构及关联权限是什么？
-
-下图展示了Databend对象在两个层次上的层次结构。每种类型的对象都设计了细粒度的权限和所有权，提供了灵活性。更多信息请参见[访问控制](../56-security/access-control/index.md)。
+该图展示了 Databend 对象在两个层次上的层次结构。每种类型的对象都设计了细粒度的权限和所有权，提供了灵活性。更多信息，请参阅 [访问控制](../56-security/access-control/index.md)。
 
 ![Alt text](/img/guides/faq1.png)
 
-### Q2: 如何在Databend中创建表？
+### Q2: 如何在 Databend 中创建表？
 
-使用[CREATE TABLE](/sql/sql-commands/ddl/table/ddl-create-table)命令在Databend中创建表：
+使用 [CREATE TABLE](/sql/sql-commands/ddl/table/ddl-create-table) 命令在 Databend 中创建表：
 
 ```sql title='示例:'
 CREATE TABLE example (
--- 除了DECIMAL外，无需指定字段长度。
+-- 除了 DECIMAL 外，不需要指定字段长度。
   c1 INT,
   c2 VARCHAR,
   c3 DATETIME,
@@ -24,9 +20,9 @@ CREATE TABLE example (
 );
 ```
 
-### Q3: Databend、MySQL和Oracle之间的数据类型映射关系是什么？
+### Q3: Databend、MySQL 和 Oracle 之间的数据类型映射是什么？
 
-下表概述了Databend、MySQL和Oracle之间数据类型的映射关系。
+此表概述了 Databend、MySQL 和 Oracle 之间的数据类型映射。
 
 | Databend      | MySQL      | Oracle       |
 | ------------- | ---------- | ------------ |

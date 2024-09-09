@@ -5,7 +5,8 @@ sidebar_label: 加载 TSV 文件
 
 ## 什么是 TSV？
 
-TSV（Tab Separated Values，制表符分隔值）是一种用于存储表格数据的简单文件格式，例如电子表格或数据库。TSV 文件格式与 CSV 非常相似，记录由换行符分隔，每个字段由制表符分隔。以下示例展示了一个包含两条记录的 TSV 文件：
+TSV（Tab Separated Values）是一种用于存储表格数据的简单文件格式，例如电子表格或数据库。TSV 文件格式与 CSV 非常相似，记录由换行符分隔，每个字段由制表符分隔。
+以下示例显示了一个包含两条记录的 TSV 文件：
 
 ```text
 Title_0	Author_0
@@ -33,7 +34,7 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 
 ### 步骤 1. 创建内部 Stage
 
-创建一个内部 Stage 以存储 TSV 文件。
+创建一个内部 Stage 来存储 TSV 文件。
 
 ```sql
 CREATE STAGE my_tsv_stage;
@@ -71,7 +72,7 @@ LIST @my_tsv_stage;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 3：创建目标表
+### 步骤 3: 创建目标表
 
 ```sql
 CREATE TABLE books
@@ -81,7 +82,7 @@ CREATE TABLE books
 );
 ```
 
-### 步骤 4. 直接从 TSV 文件复制数据
+### 步骤 4. 直接从 TSV 复制数据
 
 要直接从 TSV 文件将数据复制到表中，请使用以下 SQL 命令：
 
@@ -91,7 +92,7 @@ FROM @my_tsv_stage
 PATTERN = '.*[.]tsv'
 FILE_FORMAT = (
     TYPE = TSV,
-    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过，这里我们没有标题
+    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过第一行，这里我们没有标题
     COMPRESSION = AUTO
 );
 ```
@@ -106,9 +107,9 @@ FILE_FORMAT = (
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 4（选项）. 使用 SELECT 复制数据
+### 步骤 4（选项）。使用 SELECT 复制数据
 
-为了更精细的控制，例如在复制过程中转换数据，请使用 SELECT 语句。了解更多信息请参阅 [`SELECT from TSV`](../04-transform/02-querying-tsv.md)。
+为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。了解更多信息请参阅 [`SELECT from TSV`](../04-transform/02-querying-tsv.md)。
 
 ```sql
 COPY INTO books (title, author)
@@ -119,7 +120,7 @@ FROM (
 PATTERN = '.*[.]tsv'
 FILE_FORMAT = (
     TYPE = 'TSV',
-    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过，这里我们没有标题
+    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过第一行，这里我们没有标题
     COMPRESSION = 'AUTO'
 );
 ```

@@ -1,17 +1,18 @@
 ---
-title: 生产部署
+title: 生产环境部署
 ---
 
-## 概览
+## 概述
 
-本节提供了关于管理和配置 Databend 集群的全面细节。它包括在 Kubernetes 等平台上部署 Databend 的指令、管理 Meta 服务以及使用 Meta 服务 CLI API 进行高级操作的方法。
+本节提供有关管理和配置 Databend 集群的详细信息。它包括在 Kubernetes 等平台上部署 Databend 的说明，管理 Meta Service，以及使用 Meta Service CLI API 进行高级操作。
 
 ## 目录
 
+- [准备存储](01-preparing-storage.md)
 - [在 Kubernetes 上部署 Databend](02-deploying-databend-on-kubernetes.md)
-- [Meta 服务部署](10-metasrv-deploy.md)
-- [在 Meta 服务中添加和移除节点](20-metasrv-add-remove-node.md)
-- [Meta 服务中的备份与恢复](30-metasrv-backup-restore.md)
-- [Meta 服务状态](60-metasrv-status.md)
-- [Meta 服务 CLI API](70-metasrv-cli-api.md)
-- [Meta 服务 gRPC 指南](16-metasrv-grpc.md)
+- [Meta Service 部署](10-metasrv-deploy.md)
+- [在 Meta Service 中添加和移除节点](20-metasrv-add-remove-node.md)
+- [Meta Service 中的备份和恢复](30-metasrv-backup-restore.md)
+- [Meta Service 状态](60-metasrv-status.md)
+- [Meta Service CLI API](70-metasrv-cli-api.md)
+- [Meta Service gRPC 指南](16-metasrv-grpc.md)
