@@ -1,8 +1,8 @@
 ---
-title: Security
+title: Security & Reliability
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend allows you to secure your data using the following methods:
+Databend provides various methods to protect your data, ensure privacy, and maintain system reliability:
 
 <IndexOverviewList />
