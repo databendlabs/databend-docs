@@ -15,4 +15,4 @@ CALL SYSTEM$FUSE_AMEND('<database_name>', '<table_name>');
 
 ## Examples
 
-See [Usage Example](/guides/security/fail-safe#usage-example).
+This function is designed for fail-safe scenarios. See the [Fail-Safe Guide](/guides/security/fail-safe) for details.
