@@ -182,7 +182,7 @@ tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
 
 </StepsWrap>
 
-### 步骤 1：部署 Meta 节点
+### 步骤 1: 部署 Meta 节点
 
 按照以下说明部署 Meta 节点：
 
@@ -212,7 +212,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 </StepContent>
 </StepsWrap>
 
-### 步骤 2：部署 Query 节点
+### 步骤 2: 部署 Query 节点
 
 按照以下说明部署 Query 节点：
 
@@ -225,7 +225,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 1. 在文件夹 `/usr/local/databend/configs` 中找到文件 `databend-query.toml`。
 2. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type*，并配置连接到您的对象存储的访问凭证和端点 URL。
 
-要配置您的存储设置，请通过在每行开头添加 `#` 来注释掉 [storage.fs] 部分。然后，通过删除 `#` 符号来取消注释适用于您的对象存储提供商的相关部分，并填写您的值。
+要配置存储设置，请通过在每行开头添加 `#` 来注释掉 [storage.fs] 部分。然后，通过删除 `#` 符号来取消注释适用于您的对象存储提供商的相关部分，并填写您的值。
 
 <Tabs groupId="operating-systems">
 
@@ -376,7 +376,7 @@ bucket = "my_bucket"
 // highlight-next-line
 endpoint_url = "https://s3.us-east-2.wasabisys.com"
 
-# 如何获取 access_key_id 和 secret_access_key:
+# 如何获取 access_key_id 和 secret_access_key：
 // highlight-next-line
 access_key_id = "<your-key-id>"
 // highlight-next-line
@@ -422,7 +422,7 @@ secret_access_key = "<your-access-key>"
 3. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参阅 [配置管理员用户](../../04-references/01-admin-users.md)。要继续使用默认的 root 用户和 "no_password" 认证类型，请确保在文件 `databend-query.toml` 中删除以下行前的 '#' 字符：
 
 :::caution
-在本教程中使用 "no_password" 认证的 root 用户只是一个示例，不建议在生产环境中使用，因为存在潜在的安全风险。
+在本教程中使用 "no_password" 认证的 root 用户只是一个示例，不建议在生产环境中使用，因为可能存在安全风险。
 :::
 
 ```toml title='databend-query.toml'
@@ -485,9 +485,9 @@ curl -I  http://127.0.0.1:8080/v1/health
 </StepContent>
 </StepsWrap>
 
-### 启动 / 停止 Databend
+### 启动/停止 Databend
 
-每次启动或停止 Databend 时，无需单独管理 Meta 和 Query 节点。执行 `/usr/local/databend/scripts` 目录中的脚本，以一次性处理两个节点：
+每次启动或停止 Databend 时，无需单独管理 Meta 和 Query 节点。在 `/usr/local/databend/scripts` 目录中执行脚本，以一次性处理两个节点：
 
 ```shell
 # 启动 Databend
@@ -503,7 +503,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 <details>
   <summary>权限被拒绝？</summary>
   <div>
-    如果您在尝试启动 Databend 时遇到以下错误消息：
+    如果在尝试启动 Databend 时遇到以下错误消息：
 
 ```shell
 ==> query.log <==
