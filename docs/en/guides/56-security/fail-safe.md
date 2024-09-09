@@ -28,7 +28,7 @@ Below is a step-by-step example of using the system$fuse_amend function to recov
 ```sql
 CREATE TABLE t(a INT) 
 's3://databend-doc/fail-safe/' 
-CONNECTION = (access_key_id ='AKIA53WT5ZIAKXOBS5SD' secret_access_key ='0cQX5y0HeKFtiMPLNA5UhKws/MTSz+7ECDIV6uJL');
+CONNECTION = (access_key_id ='<your-access-key-id>' secret_access_key ='<your-secret-accesskey>');
 
 -- Insert sample data
 INSERT INTO t VALUES (1), (2), (3);
@@ -43,7 +43,7 @@ If you open the `fail-safe` folder in the bucket now, you can see the data is al
 ```sql
 CREATE STAGE test_fail_safe 
 URL = 's3://databend-doc/fail-safe/'  
-CONNECTION = (access_key_id ='AKIA53WT5ZIAKXOBS5SD' secret_access_key ='0cQX5y0HeKFtiMPLNA5UhKws/MTSz+7ECDIV6uJL');
+CONNECTION = (access_key_id ='<your-access-key-id>' secret_access_key ='<your-secret-accesskey>');
 
 REMOVE @test_fail_safe e;
 ```
