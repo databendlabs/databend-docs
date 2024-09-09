@@ -113,7 +113,7 @@ CREATE OR REPLACE TABLE orc_test_table (
 
 ### 步骤 5. 使用 SELECT 复制数据
 
-将外部 Stage 中的 ORC 文件数据复制到目标表中。
+将外部 Stage 中 ORC 文件的数据复制到目标表中。
 
 ```sql
 COPY INTO orc_test_table

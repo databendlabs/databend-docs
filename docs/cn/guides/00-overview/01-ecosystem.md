@@ -4,11 +4,11 @@ title: 生态系统
 
 # Databend 生态系统
 
-为了无缝地与您的工作流程集成，Databend 持续扩展其生态系统，积极与行业中的关键数据工具和技术集成。下面的图片提供了 Databend 支持的工具、平台和编程语言的概览：
+为了无缝集成到您的工作流程中，Databend 不断扩展其生态系统，积极与行业中的关键数据工具和技术进行集成。下图概述了 Databend 支持的工具、平台和编程语言：
 
 ![Alt text](@site/static/img/documents/overview/ecosystem.png)
 
-请参考下面的链接，了解集成指南和教程：
+请参阅以下链接以获取集成说明和教程：
 
 - **开发**
     - [Golang](/developer/drivers/golang)

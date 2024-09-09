@@ -1,18 +1,18 @@
 ---
-title: "使用 AWS IAM 角色创建外部Stage"
+title: "使用 AWS IAM 角色创建外部 Stage"
 ---
 
 # 为什么使用 IAM 角色
 
-通过 AWS IAM 角色，您可以在 Databend Cloud 中访问您自己的 AWS S3 存储桶。这使您能够安全地访问数据并执行数据分析，而无需管理您的 AWS 凭证。
+通过 AWS IAM 角色，您可以在 Databend Cloud 中访问您自己的 AWS S3 存储桶。这使您能够安全地访问您的数据并执行数据分析，而无需管理您的 AWS 凭证。
 
 # 如何使用 IAM 角色
 
-1. 提交支持工单以获取您 Databend Cloud 组织的 IAM 角色 ARN：
+1. 提交支持工单以获取您的 Databend Cloud 组织的 IAM 角色 ARN：
 
    例如：`arn:aws:iam::123456789012:role/xxxxxxx/tnabcdefg/xxxxxxx-tnabcdefg`
 
-2. 前往 AWS 控制台：
+2. 进入 AWS 控制台：
 
    https://us-east-2.console.aws.amazon.com/iam/home?region=us-east-2#/policies
 
@@ -38,7 +38,7 @@ title: "使用 AWS IAM 角色创建外部Stage"
 
    点击 `下一步`，输入策略名称：`databend-test`，然后点击 `创建策略`
 
-3. 前往 AWS 控制台：
+3. 进入 AWS 控制台：
 
    https://us-east-2.console.aws.amazon.com/iam/home?region=us-east-2#/roles
 

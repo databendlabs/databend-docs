@@ -1,5 +1,5 @@
 ---
-title: '使用 Java 连接到 Databend'
+title: '使用 Java 连接 Databend'
 sidebar_label: 'Java'
 ---
 

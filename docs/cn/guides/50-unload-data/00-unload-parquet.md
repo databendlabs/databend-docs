@@ -4,7 +4,7 @@ title: 卸载 Parquet 文件
 
 ## 卸载 Parquet 文件
 
-语法：
+语法:
 
 ```sql
 COPY INTO {internalStage | externalStage | externalLocation}
@@ -16,7 +16,7 @@ FILE_FORMAT = (TYPE = PARQUET)
 
 - 更多 Parquet 选项请参考 [Parquet 文件格式选项](/sql/sql-reference/file-format-options#parquet-options)
 - 卸载到多个文件使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- 更多关于语法的详细信息请参见 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
+- 更多语法细节请参考 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
 
 ## 教程
 
@@ -51,7 +51,7 @@ FILE_FORMAT = (FORMAT_NAME = 'parquet_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
-结果：
+结果:
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────┐
@@ -73,7 +73,7 @@ FROM @parquet_unload_stage
 );
 ```
 
-结果：
+结果:
 
 ```text
 ┌───────────┐

@@ -1,14 +1,13 @@
 ---
 title: GROUP BY
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.32"/>
+<FunctionDescription description="引入或更新: v1.2.32"/>
 
-GROUP BY 子句允许您基于相同的分组项表达式对行进行分组，然后对每个生成的组应用聚合函数。分组项表达式可以包括列名或别名、对 SELECT 列表中列位置的数值引用、一般表达式，或 SELECT 列表中的所有非聚合项。
+GROUP BY 子句使您能够根据相同的分组项表达式对行进行分组，然后对每个结果组应用聚合函数。分组项表达式可以包括 SELECT 列表中的列名或别名、对 SELECT 列表中位置的数值引用、通用表达式或 SELECT 列表中的所有非聚合项。
 
-Databend 中的 GROUP BY 子句提供了以下扩展，以实现更全面的数据分组和多样的数据分析：
+Databend 中的 GROUP BY 子句带有以下扩展，以实现更全面的数据分组和多功能的数据分析：
 
 - [GROUP BY CUBE](group-by-cube.md)
 - [GROUP BY GROUPING SETS](group-by-grouping-sets.md)
@@ -26,11 +25,11 @@ GROUP BY [ ALL | groupItem [ , groupItem [ , ... ] ] ]
 
 其中：
 
-- **ALL**：当使用关键字 "ALL" 时，Databend 根据 SELECT 列表中的所有非聚合项对数据进行分组。
-- **groupItem**：分组项可以是以下之一：
-  - SELECT 列表中定义的列名或别名。
-  - 对 SELECT 列表中列位置的数值引用。
-  - 涉及当前查询上下文中使用的表的列的任何表达式。
+- **ALL**: 当使用关键字 "ALL" 时，Databend 根据 SELECT 列表中的所有非聚合项对数据进行分组。
+- **groupItem**: 分组项可以是以下之一：
+    - SELECT 列表中定义的列名或别名。
+    - 对 SELECT 列表中列位置的数值引用。
+    - 涉及当前查询上下文中使用的表的列的任何表达式。
 
 ## 示例
 
@@ -47,7 +46,7 @@ CREATE TABLE employees (
     hire_date DATE
 );
 
--- 向 "employees" 表插入示例数据
+-- 向 "employees" 表中插入示例数据
 INSERT INTO employees (id, first_name, last_name, department_id, job_id, hire_date)
 VALUES (1, 'John', 'Doe', 1, 101, '2021-01-15'),
        (2, 'Jane', 'Smith', 1, 101, '2021-02-20'),
@@ -59,8 +58,7 @@ VALUES (1, 'John', 'Doe', 1, 101, '2021-01-15'),
 
 ### 按一列分组
 
-此查询按员工的 `department_id` 分组，并计算每个部门中的员工数量：
-
+此查询按 `department_id` 对员工进行分组，并计算每个部门中的员工数量：
 ```sql
 SELECT department_id, COUNT(*) AS num_employees
 FROM employees
@@ -68,7 +66,6 @@ GROUP BY department_id;
 ```
 
 输出：
-
 ```sql
 +---------------+---------------+
 | department_id | num_employees |
@@ -81,7 +78,6 @@ GROUP BY department_id;
 ### 按多列分组
 
 此查询按 `department_id` 和 `job_id` 对员工进行分组，然后计算每个组中的员工数量：
-
 ```sql
 SELECT department_id, job_id, COUNT(*) AS num_employees
 FROM employees
@@ -89,7 +85,6 @@ GROUP BY department_id, job_id;
 ```
 
 输出：
-
 ```sql
 +---------------+--------+---------------+
 | department_id | job_id | num_employees |
@@ -101,9 +96,9 @@ GROUP BY department_id, job_id;
 +---------------+--------+---------------+
 ```
 
-### 使用 GROUP BY ALL
+### 按 ALL 分组
 
-此查询使用 GROUP BY ALL 子句对员工进行分组，该子句根据 SELECT 列表中的所有非聚合列进行分组。请注意，在这种情况下，结果将与按 `department_id` 和 `job_id` 分组的结果相同，因为这些是 SELECT 列表中仅有的非聚合项。
+此查询使用 GROUP BY ALL 子句对员工进行分组，该子句根据 SELECT 列表中的所有非聚合列进行分组。请注意，在这种情况下，结果将与按 `department_id` 和 `job_id` 分组相同，因为这些是 SELECT 列表中仅有的非聚合项。
 
 ```sql
 SELECT department_id, job_id, COUNT(*) AS num_employees
@@ -112,7 +107,6 @@ GROUP BY ALL;
 ```
 
 输出：
-
 ```sql
 +---------------+--------+---------------+
 | department_id | job_id | num_employees |
@@ -126,8 +120,7 @@ GROUP BY ALL;
 
 ### 按位置分组
 
-此查询等同于上述“按一列分组”的示例。位置 1 指的是 SELECT 列表中的第一项，即 `department_id`：
-
+此查询等同于上面的“按一列分组”示例。位置 1 指的是 SELECT 列表中的第一项，即 `department_id`：
 ```sql
 SELECT department_id, COUNT(*) AS num_employees
 FROM employees
@@ -135,7 +128,6 @@ GROUP BY 1;
 ```
 
 输出：
-
 ```sql
 +---------------+---------------+
 | department_id | num_employees |
@@ -147,8 +139,7 @@ GROUP BY 1;
 
 ### 按表达式分组
 
-此查询按员工被雇佣的年份分组，并计算每年雇佣的员工数量：
-
+此查询按员工被雇佣的年份进行分组，并计算每年雇佣的员工数量：
 ```sql
 SELECT EXTRACT(YEAR FROM hire_date) AS hire_year, COUNT(*) AS num_hires
 FROM employees
@@ -156,7 +147,6 @@ GROUP BY EXTRACT(YEAR FROM hire_date);
 ```
 
 输出：
-
 ```sql
 +-----------+-----------+
 | hire_year | num_hires |

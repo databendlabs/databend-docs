@@ -1,5 +1,5 @@
 ---
-title: 使用 HDFS 部署
+title: 使用HDFS部署
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
@@ -9,9 +9,9 @@ import Version from '@site/src/components/Version';
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-Databend 也支持与 Hadoop 分布式文件系统 (HDFS) 配合使用。本主题将介绍如何使用 HDFS 部署 Databend。有关其他支持的对象存储解决方案列表，请参阅[理解部署模式](../00-understanding-deployment-modes.md)。
+Databend 也支持 Hadoop 分布式文件系统 (HDFS)。本主题解释如何使用 HDFS 部署 Databend。有关其他支持的对象存储解决方案列表，请参阅 [理解部署模式](../00-understanding-deployment-modes.md)。
 
-### 设置 HDFS
+### 设置您的 HDFS
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -54,7 +54,7 @@ a. 在目录 `/usr/local` 中创建一个名为 `databend` 的文件夹。
 b. 从 [GitHub Release](https://github.com/datafuselabs/databend/releases) 下载并提取适用于您平台的最新 Databend 发行版：
 
 :::note
-要使用 HDFS 作为存储后端，请下载文件名格式为 `databend-hdfs-${version}-${target-platform}.tar.gz` 的发行版。
+要使用 HDFS 作为存储后端，请下载文件名为 `databend-hdfs-${version}-${target-platform}.tar.gz` 的发行版。
 :::
 
 <Tabs>
@@ -75,7 +75,7 @@ tar xzvf databend-hdfs-[version]-x86_64-unknown-linux-gnu.tar.gz
 
 </Tabs>
 
-c. 将提取出的文件夹 `bin`、`configs` 和 `scripts` 移动到文件夹 `/usr/local/databend` 中。
+c. 将提取的文件夹 `bin`、`configs` 和 `scripts` 移动到文件夹 `/usr/local/databend`。
 
 </TabItem>
 
@@ -127,36 +127,36 @@ tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
 
 </Tabs>
 
-c. 将提取出的文件夹 `bin`、`configs` 和 `scripts` 移动到文件夹 `/usr/local/databend` 中。
+c. 将提取的文件夹 `bin`、`configs` 和 `scripts` 移动到文件夹 `/usr/local/databend`。
 
 </TabItem>
 </Tabs>
 
-### 部署元节点
+### 部署 Meta 节点
 
-a. 打开文件夹 `/usr/local/databend/configs` 中的文件 `databend-meta.toml`，并将文件中的 `127.0.0.1` 替换为 `0.0.0.0`。
+a. 打开文件夹 `/usr/local/databend/configs` 中的文件 `databend-meta.toml`，并将整个文件中的 `127.0.0.1` 替换为 `0.0.0.0`。
 
 b. 打开终端窗口并导航到文件夹 `/usr/local/databend/bin`。
 
-c. 运行以下命令启动元节点：
+c. 运行以下命令以启动 Meta 节点：
 
 ```shell
 ./databend-meta -c ../configs/databend-meta.toml > meta.log 2>&1 &
 ```
 
-d. 运行以下命令检查元节点是否成功启动：
+d. 运行以下命令以检查 Meta 节点是否成功启动：
 
 ```shell
 curl -I  http://127.0.0.1:28101/v1/health
 ```
 
-### 部署查询节点
+### 部署 Query 节点
 
-a. 找到文件夹 `/usr/local/databend/configs` 中的文件 `databend-query.toml`。
+a. 在文件夹 `/usr/local/databend/configs` 中找到文件 `databend-query.toml`。
 
-b. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type*，并配置连接到 HDFS 的访问凭证和端点 URL。
+b. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type*，并配置连接 HDFS 的访问凭证和端点 URL。
 
-要配置存储设置，请通过在每行前添加 '#' 注释掉 [storage.fs] 部分，然后取消注释适用于您的 HDFS 提供商的部分，并填写必要的值。您可以复制并粘贴下面的相应模板到文件中并进行配置。
+要配置存储设置，请通过在每行开头添加 '#' 来注释掉 [storage.fs] 部分，然后通过删除 '#' 符号来取消注释适用于您的 HDFS 提供商的部分，并填写必要的值。您可以复制并粘贴下面的相应模板到文件中并进行相应配置。
 
 <Tabs groupId="operating-systems">
 
@@ -187,10 +187,10 @@ root = "/analyses/databend/storage"
 </TabItem>
 </Tabs>
 
-c. 使用 [query.users] 部分配置管理员用户。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。为了继续使用默认的 root 用户和 "no_password" 认证类型，请确保在文件 `databend-query.toml` 中移除以下行前的 '#' 字符：
+c. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参阅 [配置管理员用户](../../04-references/01-admin-users.md)。要继续使用默认的 root 用户和 "no_password" 身份验证类型，请确保在文件 `databend-query.toml` 中删除以下行前的 '#' 字符：
 
 :::caution
-在本教程中使用 "no_password" 认证方式的 root 用户仅作为示例，不建议在生产环境中使用，因为存在潜在的安全风险。
+在本教程中使用 "no_password" 身份验证的 root 用户只是一个示例，不建议在生产环境中使用，因为可能存在安全风险。
 :::
 
 ```toml title='databend-query.toml'
@@ -203,13 +203,13 @@ auth_type = "no_password"
 
 d. 打开终端窗口并导航到文件夹 `/usr/local/databend/bin`。
 
-e. 运行以下命令启动查询节点：
+e. 运行以下命令以启动 Query 节点：
 
 ```shell
 ./databend-query -c ../configs/databend-query.toml > query.log 2>&1 &
 ```
 
-f. 运行以下命令检查查询节点是否成功启动：
+f. 运行以下命令以检查 Query 节点是否成功启动：
 
 ```shell
 curl -I  http://127.0.0.1:8080/v1/health
@@ -217,7 +217,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 验证部署
 
-在本节中，我们将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行一个简单的查询，以验证部署。
+在本节中，我们将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行一个简单的查询以验证部署。
 
 a. 按照 [安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) 在您的机器上安装 BendSQL。
 
@@ -248,7 +248,7 @@ b. 启动 BendSQL 并检索当前时间以进行验证。
 Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
 
-请运行以下命令，然后再次尝试启动 Databend：
+请运行以下命令并再次尝试启动 Databend：
 
 ```shell
 sudo mkdir /var/log/databend
@@ -265,5 +265,5 @@ sudo chown -R $USER /var/lib/databend
 
 部署 Databend 后，您可能需要了解以下主题：
 
-- [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
+- [加载 & 卸载数据](/guides/load-data)：在 Databend 中管理数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取洞察。

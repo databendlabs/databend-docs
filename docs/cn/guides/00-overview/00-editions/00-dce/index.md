@@ -1,5 +1,5 @@
 ---
-title: Databend 社区
+title: Databend 社区版
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -10,7 +10,7 @@ Databend 是一个开源的、弹性的、且对工作负载敏感的云数据�
 <Tabs groupId="whydatabend">
 <TabItem value="Performance" label="性能">
 
-- 在对象存储上进行极快的数据分析。
+- 在对象存储上进行极速数据分析。
 - 利用数据级并行和指令级并行技术实现[最佳性能](https://benchmark.clickhouse.com/)。
 - 无需构建索引，无需手动调优，无需弄清楚分区或分片数据。
 

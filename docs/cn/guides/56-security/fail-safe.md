@@ -13,7 +13,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 ### 实现故障安全
 
-Databend 提供了 [SYSTEM$FUSE_AMEND](/sql/sql-functions/table-functions/fuse-amend) 表函数来启用故障安全恢复。此函数允许您在启用存储桶版本控制时从 S3 兼容的存储桶中恢复数据。
+Databend 提供了 [SYSTEM$FUSE_AMEND](/sql/sql-functions/table-functions/fuse-amend) 表函数来启用故障安全恢复。当存储桶版本控制启用时，此函数允许您从 S3 兼容的存储桶中恢复数据。
 
 ### 使用示例
 

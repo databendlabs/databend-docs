@@ -1,11 +1,11 @@
 ---
-title: 新的 DataValues 系统
+title: 新 DataValues 系统
 description:
-  新的 DataValues 系统设计 RFC
+  新 DataValues 系统设计 RFC
 ---
 
 :::tip
-**你知道吗？** 这份 RFC 中的内容已经过时，Databend 现在拥有一个正式的类型系统。
+**你知道吗？** 本 RFC 中的内容已过时，Databend 现在拥有一个正式的类型系统。
 
 **了解更多**
 
@@ -13,22 +13,21 @@ description:
 - [重构: 合并新表达式](https://github.com/datafuselabs/databend/pull/9411)
 :::
 
-## 摘要
+## 概述
 
 ### 当前 `DataType` 的不足
 
-
-- `DataType` 是一个枚举类型，我们必须在匹配后使用特定类型。例如，如果我们想根据 `DataType` 创建反序列化器/序列化器，我们应该始终进行匹配。这并不意味着匹配不是必要的。如果我们想要为 `DataType` 添加越来越多的函数，匹配可能会非常烦人。
+- `DataType` 是一个枚举类型，我们必须在使用匹配后使用特定类型。例如，如果我们想通过 `DataType` 创建反序列化器/序列化器，我们应该始终进行匹配。这并不意味着匹配是不必要的。如果我们想为 `DataType` 添加越来越多的功能，匹配可能会非常繁琐。
 
 - `DataType` 表示为枚举类型，我们不能将其用作泛型参数。
 
-- `DataType` 可能涉及一些嵌套的数据类型，例如 `DataType::Struct`，但我们将 `DataField` 放在 `DataType` 内部，这在逻辑上是不合理的。
+- `DataType` 可能涉及一些嵌套数据类型，例如 `DataType::Struct`，但我们把 `DataField` 放在 `DataType` 内部，这在逻辑上是不合理的。
 
-- 难以将属性放入基于枚举的 `DataType` 中，例如可空属性 #3726 #3769
+- 很难将属性放入基于枚举的 `DataType` 中，例如可空属性 #3726 #3769
 
 ### 关于列（Series/Column/Array）的概念过多
 
-- DataColumn 是一个枚举，包括 `Constant(value)` 和 `Array(Series)`
+- `DataColumn` 是一个枚举，包括 `Constant(value)` 和 `Array(Series)`
 ```rust
 pub enum DataColumn {
     // 值的数组。
@@ -38,12 +37,12 @@ pub enum DataColumn {
 }
 ```
 
-- Series 是 `SeriesTrait` 的包装
+- `Series` 是 `SeriesTrait` 的包装
 ```rust
 pub struct Series(pub Arc<dyn SeriesTrait>);
 ```
 
-- SeriesTrait 可以实现各种数组，使用许多宏。
+- `SeriesTrait` 可以实现各种数组，使用许多宏。
 
 ```rust
 pub struct SeriesWrap<T>(pub T);
@@ -79,11 +78,9 @@ match (
             ...
 ```
 
+## 新 DataValues 系统设计
 
-## 新的 DataValues 系统设计
-
-
-### 将 `DataType` 引入为一个特征
+### 引入 `DataType` 作为 trait
 
 ```rust
 #[typetag::serde(tag = "type")]
@@ -97,7 +94,7 @@ pub trait DataType: std::fmt::Debug + Sync + Send + DynClone {
  }
 ```
 
-可空是 `DataType` 的一个特殊情况，它是 `DataType` 的一个包装器。
+可空是 `DataType` 的一个特殊情况，它是 `DataType` 的包装。
 
 ```rust
 
@@ -141,14 +138,14 @@ pub enum DataValue {
 
 ### 将 `Series/Array/Column` 统一为 `Column`
 
-- `Column` 作为一个特征
+- `Column` 作为 trait
 
 ```rust
 pub type ColumnRef = Arc<dyn Column>;
 pub trait Column: Send + Sync {
     fn as_any(&self) -> &dyn Any;
-    /// 列包含的数据类型。它是一个底层的物理类型：
-    /// Date 的 UInt16，DateTime 的 UInt32，等等。
+    /// 列包含的数据类型。它是一个底层物理类型：
+    /// UInt16 用于 Date，UInt32 用于 DateTime，等等。
     fn data_type_id(&self) -> TypeID {
         self.data_type().data_type_id()
     }
@@ -166,9 +163,9 @@ pub trait Column: Send + Sync {
 
 ```
 
-- 引入 `常量列`
+- 引入 `Constant column`
 
-> `常量列` 是单个值（大小 = 1）的 `列` 的包装器
+> `Constant column` 是一个包装了单个值（大小 = 1）的 `Column`
 ```rust
 #[derive(Clone)]
 pub struct ConstColumn {
@@ -178,9 +175,9 @@ pub struct ConstColumn {
 impl Column for ConstColumn {..}
 ```
 
-- 引入 `可空列`
+- 引入 `nullable column`
 
-> `可空列` 是 `列` 的包装器，并保留一个额外的位图以指示空值。
+> `nullable column` 是一个包装了 `Column` 并保留一个额外的位图来指示空值的 `Column`。
 
 ```rust
 pub struct NullableColumn {
@@ -190,7 +187,7 @@ pub struct NullableColumn {
 impl Column for NullableColumn {..}
 ```
 
-- 从 Arrow 的列格式转换或转换为 Arrow 的列格式没有额外成本。
+- 从或转换为 Arrow 的列格式没有额外成本。
 
 ```rust
  fn as_arrow_array(&self) -> common_arrow::ArrayRef {
@@ -203,23 +200,23 @@ impl Column for NullableColumn {..}
  }
 ```
 
-- 将 `Series` 保留为一个工具结构体，这有助于快速生成列。
+- 保留 `Series` 作为一个工具结构，这可能有助于快速生成一个列。
 
 ```rust
-// 可空列从选项创建
+// 从选项生成可空列
 let column = Series::from_data(vec![Some(1i8), None, Some(3), Some(4), Some(5)]);
 
-// 非可空列
+// 生成不可空列
 let column = Series::from_data(vec![1，2，3，4);
 ```
 
-- 向下转型为特定的 `Column`
+- 向下转换为特定的 `Column`
 ```rust
 impl Series {
-    /// 获取指向此 Series 底层数据的指针。
-    /// 对于快速比较很有用。
+    /// 获取此 Series 底层数据的指针。
+    /// 可以用于快速比较。
     /// # 安全性
-    /// 假设 `column` 是 T 类型。
+    /// 假设 `column` 是 T。
     pub unsafe fn static_cast<T>(column: &ColumnRef) -> &T {
         let object = column.as_ref();
         &*(object as *const dyn Column as *const T)
@@ -228,7 +225,7 @@ impl Series {
     pub fn check_get<T: 'static + Column>(column: &ColumnRef) -> Result<&T> {
         let arr = column.as_any().downcast_ref::<T>().ok_or_else(|| {
             ErrorCode::UnknownColumn(format!(
-                "向下转型列错误，列类型: {:?}",
+                "downcast column error, column type: {:?}",
                 column.data_type()
             ))
         });
@@ -260,7 +257,7 @@ let c = wrapper.value(1);
 Ok(())
 ```
 
-## 待办事项
+## TODO
 
 - 使 `datavalues2` 更加成熟。
-- 将 `datavalues2` 合并进 Databend。
+- 将 `datavalues2` 合并到 Databend 中。

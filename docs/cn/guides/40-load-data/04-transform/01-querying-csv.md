@@ -1,16 +1,15 @@
 ---
-title: 查询 Stage 中的 CSV 文件
-sidebar_label: 查询 CSV 文件
+title: 在Stage中查询CSV文件
+sidebar_label: 查询CSV文件
 ---
 
-## 查询 Stage 中的 CSV 文件
+## 在Stage中查询CSV文件
 
-语法：
-
+语法:
 ```sql
-SELECT [<alias>.]$<col_position> [, $<col_position> ...]
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
-[(
+SELECT [<alias>.]$<col_position> [, $<col_position> ...] 
+FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
+[( 
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
   [ FILE_FORMAT => 'CSV| <custom_format_name>'],
@@ -19,38 +18,37 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 ```
 
 :::info 提示
-CSV 没有模式信息，因此我们只能通过位置查询列 `$<col_position> [, $<col_position> ...]`。
+CSV没有schema信息，所以我们只能通过位置查询列 `$<col_position> [, $<col_position> ...]`。
 :::
 
 ## 教程
 
-### 步骤 1. 创建一个外部 Stage
+### 步骤1. 创建外部Stage
 
-使用您自己的 S3 桶和凭证创建一个外部 stage，您的 CSV 文件存储在其中。
-
+使用您自己的S3 bucket和凭证创建一个外部stage，您的CSV文件存储在该bucket中。
 ```sql
-CREATE STAGE csv_query_stage
-URL = 's3://load/csv/'
+CREATE STAGE csv_query_stage 
+URL = 's3://load/csv/' 
 CONNECTION = (
-    ACCESS_KEY_ID = '<your-access-key-id>'
+    ACCESS_KEY_ID = '<your-access-key-id>' 
     SECRET_ACCESS_KEY = '<your-secret-access-key>'
 );
 ```
 
-### 步骤 2. 创建自定义 CSV 文件格式
+### 步骤2. 创建自定义CSV文件格式
 
 ```sql
-CREATE FILE FORMAT csv_query_format
+CREATE FILE FORMAT csv_query_format 
     TYPE = CSV,
     RECORD_DELIMITER = '\n',
     FIELD_DELIMITER = ',',
     COMPRESSION = AUTO,
-    SKIP_HEADER = 1;        -- 如果 CSV 文件有标题，则查询时跳过第一行
+    SKIP_HEADER = 1;        -- 如果CSV文件有header，查询时跳过第一行
 ```
 
-- 更多 CSV 文件格式选项参考 [CSV 文件格式选项](/sql/sql-reference/file-format-options#csv-options)
+- 更多CSV文件格式选项请参考 [CSV文件格式选项](/sql/sql-reference/file-format-options#csv-options)
 
-### 步骤 3. 查询 CSV 文件
+### 步骤3. 查询CSV文件
 
 ```sql
 SELECT $1, $2, $3
@@ -61,7 +59,7 @@ FROM @csv_query_stage
 );
 ```
 
-如果 CSV 文件使用 gzip 压缩，我们可以使用以下查询：
+如果CSV文件使用gzip压缩，我们可以使用以下查询:
 
 ```sql
 SELECT $1, $2, $3

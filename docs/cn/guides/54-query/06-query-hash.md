@@ -2,20 +2,20 @@
 title: 查询哈希
 ---
 
-查询哈希（Query Hash）是一个用于表示唯一 SQL 查询的标识符。它将查询的结构和内容转换为固定长度的值，因此即使查询文本有细微差异，只要逻辑结构相同，哈希值也会相同。这有助于识别相似查询和频繁执行的查询。
+查询哈希是一个用于表示唯一SQL查询的标识符。它将查询的结构和内容转换为固定长度的值，因此即使查询文本有细微差异，只要逻辑结构相同，哈希值也会相同。这有助于识别相似查询和频繁执行的查询。
 
 ## 查询哈希类型
 
-Databend 支持两种类型的查询哈希：
+Databend支持两种类型的查询哈希：
 
-- `query_hash`：`query_hash` 确保重复的查询，即使存在空白或注释的变化，也会共享相同的哈希值。例如，以下查询共享相同的哈希值：
+- `query_hash`：query_hash确保重复查询，即使空白或注释有所不同，也共享相同的哈希。例如，以下查询共享相同的哈希：
 
     ```sql
     SELECT * FROM t1 WHERE name = 'jim'
     SELECT *  FROM t1 WHERE name  = 'jim'
     ```
 
-- `query_parameterized_hash`：`query_parameterized_hash` 通过处理比较谓词（如 `=`、`!=`、`>=`、`<=`）中的字面量来规范化查询，从而能够识别结构上相似的查询，无论使用的具体值如何。例如，以下查询共享相同的哈希值：
+- `query_parameterized_hash`：query_parameterized_hash通过处理比较谓词中的字面量（例如，`=`、`!=`、`>=`、`<=`）来规范化查询，从而能够识别结构相似的查询，无论使用的具体值如何。例如，以下查询共享相同的哈希：
 
     ```sql
     SELECT * FROM t1 WHERE name = 'data'
@@ -24,7 +24,7 @@ Databend 支持两种类型的查询哈希：
 
 ## 检索哈希值
 
-Databend 将历史查询的哈希值存储在系统表 [system.query_log](/sql/sql-reference/system-tables/system-query-log) 的 `query_hash` 和 `query_parameterized_hash` 列中。要检索查询的哈希值，可以使用 SELECT 语句从系统表中提取它们。例如：
+Databend将历史查询的哈希值存储在系统表[system.query_log](/sql/sql-reference/system-tables/system-query-log)的`query_hash`和`query_parameterized_hash`列中。要检索查询的哈希值，可以使用SELECT语句从系统表中提取它们。例如：
 
 ```sql
 SELECT * FROM books;
@@ -88,7 +88,7 @@ WHERE query_text = 'SELECT * FROM books WHERE id = 1'
 └────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-以下查询共享相同的 `query_parameterized_hash` 值：
+以下查询共享相同的`query_parameterized_hash`值：
 
 ```sql
 SELECT * FROM books WHERE id = 1;

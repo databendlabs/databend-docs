@@ -4,27 +4,27 @@ title: Addax
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.70"/>
+<FunctionDescription description="引入: v1.1.70"/>
 
-[Addax](https://github.com/wgzhao/Addax)，最初源自阿里巴巴的 [DataX](https://github.com/alibaba/DataX)，是一个多功能的开源ETL（提取、转换、加载）工具。它擅长于在不同的RDBMS（关系数据库管理系统）和NoSQL数据库之间无缝传输数据，使其成为高效数据迁移的理想解决方案。
+[Addax](https://github.com/wgzhao/Addax) 最初源自阿里巴巴的 [DataX](https://github.com/alibaba/DataX)，是一个多功能的开源 ETL（提取、转换、加载）工具。它在不同 RDBMS（关系数据库管理系统）和 NoSQL 数据库之间无缝传输数据，是高效数据迁移的最佳解决方案。
 
-有关Addax的系统要求、下载和部署步骤的信息，请参考Addax的[入门指南](https://github.com/wgzhao/Addax#getting-started)。该指南提供了设置和使用Addax的详细说明和指导。
+有关 Addax 的系统要求、下载和部署步骤的信息，请参阅 Addax 的 [入门指南](https://github.com/wgzhao/Addax#getting-started)。该指南提供了详细的设置和使用说明。
 
-另见：[DataX](datax.md)
+另请参阅: [DataX](datax.md)
 
 ## DatabendReader & DatabendWriter
 
-DatabendReader和DatabendWriter是Addax的集成插件，允许与Databend无缝集成。
+DatabendReader 和 DatabendWriter 是 Addax 的集成插件，允许与 Databend 无缝集成。
 
-DatabendReader插件支持从Databend读取数据。Databend提供了与MySQL客户端协议的兼容性，因此您也可以使用[MySQLReader](https://wgzhao.github.io/Addax/develop/reader/mysqlreader/)插件从Databend检索数据。有关DatabendReader的更多信息，请参见 https://wgzhao.github.io/Addax/develop/reader/databendreader/
+DatabendReader 插件支持从 Databend 读取数据。Databend 提供了与 MySQL 客户端协议的兼容性，因此您也可以使用 [MySQLReader](https://wgzhao.github.io/Addax/develop/reader/mysqlreader/) 插件从 Databend 检索数据。有关 DatabendReader 的更多信息，请参阅 https://wgzhao.github.io/Addax/develop/reader/databendreader/
 
-## 教程：从MySQL加载数据
+## 教程: 从 MySQL 加载数据
 
-在本教程中，您将使用Addax从MySQL加载数据到Databend。在开始之前，请确保您已经在环境中成功设置了Databend、MySQL和Addax。
+在本教程中，您将使用 Addax 将数据从 MySQL 加载到 Databend。在开始之前，请确保您已成功在环境中设置 Databend、MySQL 和 Addax。
 
-1. 在MySQL中，创建一个将用于数据加载的SQL用户，然后创建一个表并用示例数据填充它。
+1. 在 MySQL 中，创建一个用于数据加载的 SQL 用户，然后创建一个表并填充示例数据。
 
-```sql title='在MySQL中:'
+```sql title='在 MySQL 中:'
 mysql> create user 'mysqlu1'@'%' identified by '123';
 mysql> grant all on *.* to 'mysqlu1'@'%';
 mysql> create database db;
@@ -32,17 +32,17 @@ mysql> create table db.tb01(id int, col1 varchar(10));
 mysql> insert into db.tb01 values(1, 'test1'), (2, 'test2'), (3, 'test3');
 ```
 
-2. 在Databend中，创建一个对应的目标表。
+2. 在 Databend 中，创建相应的目标表。
 
-```sql title='在Databend中:'
+```sql title='在 Databend 中:'
 databend> create database migrated_db;
 databend> create table migrated_db.tb01(id int null, col1 String null);
 ```
 
-3. 复制并粘贴以下代码到一个文件中，并将该文件命名为 *mysql_demo.json*：
+3. 复制并粘贴以下代码到一个文件中，并将文件命名为 *mysql_demo.json*:
 
 :::note
-有关可用参数及其描述，请参考以下链接提供的文档：https://wgzhao.github.io/Addax/develop/writer/databendwriter/#_2
+有关可用参数及其描述，请参阅以下链接提供的文档: https://wgzhao.github.io/Addax/develop/writer/databendwriter/#_2
 :::
 
 ```json title='mysql_demo.json'
@@ -100,14 +100,14 @@ databend> create table migrated_db.tb01(id int null, col1 String null);
 }
 ```
 
-4. 运行Addax：
+4. 运行 Addax:
 
 ```shell
 cd {YOUR_ADDAX_DIR_BIN}
 ./addax.sh -L debug ./mysql_demo.json 
 ```
 
-您已经准备就绪！要验证数据加载，请在Databend中执行查询：
+您已完成所有设置！要验证数据加载，请在 Databend 中执行查询:
 
 ```sql
 databend> select * from migrated_db.tb01;
