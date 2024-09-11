@@ -7,15 +7,15 @@ import EEFeature from '@site/src/components/EEFeature';
 
 ## 什么是全文索引？
 
-全文索引，也称为倒排索引，是一种用于高效映射术语与包含这些术语的文档或记录的数据结构。在典型的倒排索引中，文档文本中的每个术语都与出现该术语的文档ID相关联。这使得基于搜索词快速进行全文搜索和检索相关文档成为可能。
+全文索引，也称为倒排索引，是一种用于高效映射术语与包含这些术语的文档或记录的数据结构。在典型的倒排索引中，文档文本中的每个术语都与出现该术语的文档ID相关联。这使得能够进行快速的全文搜索并根据搜索词检索相关文档。
 
 Databend 使用 [Tantivy](https://github.com/quickwit-oss/tantivy)，一个全文搜索引擎库，来实现倒排索引。假设我们有一组代表产品评论的文档。每个文档由一个唯一的ID和一些描述评论的文本内容组成。以下是几个示例文档：
 
 | 文档ID | 内容                                                             |
 |-------------|---------------------------------------------------------------------|
-| 101         | "这个产品太棒了！它超出了我的所有期望。"         |
-| 102         | "我对这个产品感到失望。它没有按广告宣传的那样工作。" |
-| 103         | "强烈推荐！这是我很久以来最好的购买。"       |
+| 101         | "This product is amazing! It exceeded all my expectations."         |
+| 102         | "I'm disappointed with this product. It didn't work as advertised." |
+| 103         | "Highly recommended! Best purchase I've made in a long time."       |
 
 这些文档的倒排索引将如下表所示。倒排索引使我们能够快速找到包含特定术语的文档。例如，如果我们搜索术语 `recommended`，我们可以轻松地从倒排索引中检索到文档ID 103。
 
@@ -36,7 +36,7 @@ LIKE操作符允许在文本字段中进行模式匹配。它在字符串中搜�
 SELECT * FROM table WHERE content LIKE '%Starbucks%';
 ```
 
-相比之下，全文索引涉及创建倒排索引，这些索引将术语映射到包含这些术语的文档或记录。这些索引使得基于特定关键词或短语高效搜索文本数据成为可能。利用倒排索引，Databend可以直接访问包含指定术语 `Starbucks` 的文档，无需扫描整个表，从而显著减少查询执行时间，特别是在具有大量文本内容的场景中。
+相比之下，全文索引涉及创建倒排索引，这些索引将术语映射到包含这些术语的文档或记录。这些索引使得能够基于特定关键词或短语高效地搜索文本数据。利用倒排索引，Databend可以直接访问包含指定术语 `Starbucks` 的文档，无需扫描整个表，从而显著减少查询执行时间，特别是在具有大量文本内容的场景中。
 
 ```sql title='示例:'
 CREATE INVERTED INDEX table_content_idx ON table(content);
@@ -48,13 +48,13 @@ SELECT * FROM table WHERE match(content, 'Starbucks');
 在使用倒排索引进行搜索之前，您必须创建它们：
 
 - 您可以使用 [CREATE INVERTED INDEX](/sql/sql-commands/ddl/inverted-index/create-inverted-index) 命令为一个表创建多个倒排索引，但每个列在倒排索引中必须是唯一的。换句话说，一个列只能由一个倒排索引索引。
-- 如果您的数据在倒排索引创建之前已插入表中，您必须使用 [REFRESH INVERTED INDEX](/sql/sql-commands/ddl/inverted-index/refresh-inverted-index) 命令刷新倒排索引，以便在搜索之前正确索引数据。
+- 如果您的数据在倒排索引创建之前已插入表中，您必须在使用 [REFRESH INVERTED INDEX](/sql/sql-commands/ddl/inverted-index/refresh-inverted-index) 命令进行搜索之前刷新倒排索引，以便数据可以被正确索引。
 
 ```sql title='示例:'
 -- 为表 'user_comments' 中的 'comment_title' 和 'comment_body' 列创建倒排索引
 CREATE INVERTED INDEX customer_feedback_idx ON customer_feedback(comment_title, comment_body);
 
--- 如果表中在创建索引之前已有数据，刷新索引以确保对现有数据进行索引。
+-- 如果表中在创建索引之前已存在数据，刷新索引以确保现有数据的索引。
 REFRESH INVERTED INDEX customer_feedback_idx ON customer_feedback;
 ```
 
@@ -194,7 +194,7 @@ Filter
 `pruning stats: [segments: <range pruning: 5 to 5>, blocks: <range pruning: 5 to 5, inverted pruning: 5 to 1>]`
 表示将使用全文索引，从而将5个数据块修剪为1个。
 
-以下查询搜索事件消息包含 "PersistentVolume claim created" 且相关性评分阈值为0.5或更高的事件：
+以下查询搜索事件消息包含 "PersistentVolume claim created" 的事件，并确保相关性评分阈值为0.5或更高：
 
 ```sql
 SELECT
@@ -215,7 +215,7 @@ event_timestamp: 2024-04-08 12:00:00
         score(): 0.86304635
 ```
 
-以下查询使用 `fuzziness` 选项执行模糊搜索：
+以下查询使用 `fuzziness` 选项进行模糊搜索：
 
 ```sql
 -- 'PersistentVolume claim create' 故意拼写错误
