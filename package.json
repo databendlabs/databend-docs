@@ -20,6 +20,7 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
+    "doc-t-pdf": "npx docs-to-pdf docusaurus --initialDocURLs='https://docs.databend.com/sql' --contentSelector='article' --paginationSelector='a.pagination-nav__link.pagination-nav__link--next'",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "clsx": "^2.0.0",
     "copyforjs": "^1.0.6",
     "databend-logos": "^0.0.16",
+    "docs-to-pdf": "^0.6.2",
     "docusaurus-plugin-devserver": "^1.0.6",
     "docusaurus-plugin-sass": "^0.2.5",
     "prism-react-renderer": "^2.3.0",
