@@ -2,5 +2,5 @@
 .databend-bottom-footer,
 .footer,
 .databend-right-table-contents {
-  display: none;
+  display: none !important;
 }
