@@ -28,4 +28,4 @@ Tapdata Agent 是数据同步、数据异构、数据开发场景中的关键程
 
 ### 步骤 3：创建数据复制任务
 
-一旦建立了数据源和 Databend Cloud 的连接，您就可以通过创建数据复制任务开始数据同步。请参阅 [创建数据复制任务](https://docs.tapdata.io/user-guide/data-pipeline/copy-data/create-task) 了解操作步骤。
+一旦建立了数据源和 Databend Cloud 的连接，您就可以通过创建数据复制任务开始数据同步。请参阅 [创建数据复制任务](https://docs.tapdata.io/user-guide/copy-data/create-task/) 了解操作步骤。

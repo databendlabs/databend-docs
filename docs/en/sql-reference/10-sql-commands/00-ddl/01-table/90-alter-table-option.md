@@ -4,45 +4,44 @@ sidebar_position: 5
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.2.25"/>
+<FunctionDescription description="Introduced or updated: v1.2.25"/>
 
-Modifies the options of a table created with the default [Fuse engine](../../../00-sql-reference/30-table-engines/00-fuse.md). For the available options you can modify, see [Options](../../../00-sql-reference/30-table-engines/00-fuse.md#options).
+Modifies the options of a table created with the [Fuse Engine](../../../00-sql-reference/30-table-engines/00-fuse.md). For available options, see [Fuse Engine Options](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options).
 
 ## Syntax
 
 ```sql
-ALTER TABLE [ <database_name>. ]<table_name> SET OPTIONS (options)
+ALTER TABLE [ <database_name>. ]<table_name> 
+SET OPTIONS (<options>)
 ```
 
 ## Examples
 
+This example demonstrates how to modify Fuse Engine options and verify changes with [SHOW CREATE TABLE](show-create-table.md):
+
 ```sql
-create table t(a int, b int);
+CREATE TABLE fuse_table (a int);
 
-alter table t set options(bloom_index_columns='a');
+SET hide_options_in_show_create_table=0;
 
-set hide_options_in_show_create_table=0;
+-- Show the current CREATE TABLE statement, including the Fuse Engine options
+SHOW CREATE TABLE fuse_table;
 
-show create table t;
-+-------+-------------------------------------------------------------------------+
-| Table | Create Table                                                            |
-+-------+-------------------------------------------------------------------------+
-| t     | CREATE TABLE `t` (
-  `a` INT,
-  `b` INT
-) ENGINE=FUSE BLOOM_INDEX_COLUMNS='a' COMPRESSION='zstd' STORAGE_FORMAT='parquet' |
-+-------+-------------------------------------------------------------------------+
+-[ RECORD 1 ]-----------------------------------
+       Table: fuse_table
+Create Table: CREATE TABLE fuse_table (
+  a INT NULL
+) ENGINE=FUSE COMPRESSION='lz4' STORAGE_FORMAT='native'
 
--- disable all the bloom filter index.
-alter table t set options(bloom_index_columns='');
+-- Change the data retention period to 240 hours
+ALTER TABLE fuse_table SET OPTIONS (data_retention_period_in_hours = 240);
 
-show create table t;
-+-------+-------------------------------------------------------------------------+
-| Table | Create Table                                                            |
-+-------+-------------------------------------------------------------------------+
-| t     | CREATE TABLE `t` (
-  `a` INT,
-  `b` INT
-) ENGINE=FUSE BLOOM_INDEX_COLUMNS='' COMPRESSION='zstd' STORAGE_FORMAT='parquet'  |
-+-------+-------------------------------------------------------------------------+
+-- Show the updated CREATE TABLE statement, reflecting the new option
+SHOW CREATE TABLE fuse_table;
+
+-[ RECORD 1 ]-----------------------------------
+       Table: fuse_table
+Create Table: CREATE TABLE fuse_table (
+  a INT NULL
+) ENGINE=FUSE COMPRESSION='lz4' DATA_RETENTION_PERIOD_IN_HOURS='240' STORAGE_FORMAT='native'
 ```
