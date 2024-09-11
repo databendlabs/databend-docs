@@ -1,0 +1,17 @@
+.pagination-nav,
+.databend-bottom-footer,
+.footer,
+.databend-right-table-contents {
+  display: none !important;
+}
+
+div[role="region"][aria-label="Skip to main content"] {
+  display: none;
+}
+div[role="region"][aria-label="跳到主要内容"] {
+  display: none;
+}
+pre,
+table {
+  white-space: break-spaces;
+}
