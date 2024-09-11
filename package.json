@@ -36,16 +36,17 @@
     "clsx": "^2.0.0",
     "copyforjs": "^1.0.6",
     "databend-logos": "^0.0.16",
-    "docs-to-pdf": "^0.6.2",
     "docusaurus-plugin-devserver": "^1.0.6",
     "docusaurus-plugin-sass": "^0.2.5",
+    "docusaurus-prince-pdf": "^1.2.1",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-markdown": "^9.0.1",
     "react-scroll-progress-bar": "^2.0.3",
     "sass": "^1.77.8",
-    "sass-resources-loader": "^2.2.5"
+    "sass-resources-loader": "^2.2.5",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.4.0",
