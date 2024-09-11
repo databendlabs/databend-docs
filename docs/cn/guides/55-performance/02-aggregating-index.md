@@ -1,13 +1,14 @@
 ---
 title: 聚合索引
 ---
+
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='AGGREGATING INDEX'/>
 
-聚合索引的主要目的是提升查询性能，特别是在涉及聚合查询（如MIN、MAX和SUM）的场景中。它通过预先计算并单独存储查询结果来实现这一点，从而无需扫描整个表，加快数据检索速度。在使用聚合索引时，请注意以下事项：
+聚合索引的主要目的是提升查询性能，特别是在涉及聚合查询（如MIN、MAX和SUM）的场景中。它通过预先计算并存储查询结果在单独的块中，从而无需扫描整个表，加快数据检索速度。在使用聚合索引时，请注意以下事项：
 
-- 创建聚合索引时，限制其使用于标准的[聚合函数](/sql/sql-functions/aggregate-functions/)（例如，AVG、SUM、MIN、MAX、COUNT和GROUP BY），同时要注意[GROUPING SETS](../54-query/01-groupby/group-by-grouping-sets.md)、[窗口函数](/sql/sql-functions/window-functions/)、[LIMIT](/sql/sql-commands/query-syntax/query-select#limit-clause)和[ORDER BY](/sql/sql-commands/query-syntax/query-select#order-by-clause)不被接受，否则会报错：`Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`。
+- 创建聚合索引时，限制其使用于标准的[聚合函数](/sql/sql-functions/aggregate-functions/)（例如，AVG、SUM、MIN、MAX、COUNT和GROUP BY），同时注意[GROUPING SETS](../54-query/01-groupby/group-by-grouping-sets.md)、[窗口函数](/sql/sql-functions/window-functions/)、[LIMIT](/sql/sql-commands/query-syntax/query-select#limit-clause)和[ORDER BY](/sql/sql-commands/query-syntax/query-select#order-by-clause)不被接受，否则会报错：`Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`。
 
 - 创建聚合索引时定义的查询过滤范围应与实际查询的范围匹配或包含实际查询的范围。
 
@@ -19,9 +20,9 @@ import EEFeature from '@site/src/components/EEFeature';
 
 由于表在创建聚合索引后可能会进行数据插入和更新，因此聚合索引需要定期刷新。您有以下选项来刷新聚合索引：
 
-- **自动刷新**：如果聚合索引**使用SYNC关键字创建**，聚合索引将在表接收到可能影响查询结果的数据更新时自动刷新。更多信息，请参见[CREATE AGGREGATING INDEX](/sql/sql-commands/ddl/aggregating-index/create-aggregating-index)。
+- **自动刷新**：如果聚合索引**使用SYNC关键字创建**，当表接收到可能影响查询结果的数据更新时，聚合索引将自动刷新。更多信息，请参见[CREATE AGGREGATING INDEX](/sql/sql-commands/ddl/aggregating-index/create-aggregating-index)。
 
-- **手动刷新**：如果聚合索引**未使用SYNC关键字创建**，聚合索引不会自动刷新。相反，您可以使用[REFRESH AGGREGATING INDEX](/sql/sql-commands/ddl/aggregating-index/refresh-aggregating-index)命令手动刷新它。在这种情况下，Databend建议在执行相关查询之前刷新聚合索引。
+- **手动刷新**：如果聚合索引**未使用SYNC关键字创建**，聚合索引不会自动刷新。您可以使用[REFRESH AGGREGATING INDEX](/sql/sql-commands/ddl/aggregating-index/refresh-aggregating-index)命令手动刷新。在这种情况下，Databend建议在执行相关查询之前刷新聚合索引。
 
 :::note 自动还是手动？
 Databend中的自动刷新机制可能会影响大量数据加载的持续时间。这是因为Databend会延迟数据加载结果，直到自动刷新的聚合索引已更新以反映最新结果。Databend Cloud用户建议使用手动刷新机制。这是因为Databend Cloud会自动在后台更新聚合索引，即使对于未使用SYNC关键字创建的索引，也会响应表数据的变化进行更新。
@@ -99,6 +100,6 @@ AggregateFinal                                                                  
         ├── 读取字节数: 61                                                                                            |
         ├── 分区总数: 1                                                                                               |
         ├── 扫描分区数: 1                                                                                             |
-        ├── 分区裁剪统计: [segments: <范围裁剪: 1 到 1>, blocks: <范围裁剪: 1 到 1, bloom 裁剪: 0 到 0>]              |
+        ├── 剪枝统计: `[segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1, bloom pruning: 0 to 0>]` |
         ├── 下推: [filters: [], limit: NONE]                                                                          |
         └── 估计行数: 4.00                                                                                            |
