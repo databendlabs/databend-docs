@@ -402,10 +402,11 @@ https://docs.databend.com/sql/sql-commands/query-syntax/query-join
 https://docs.databend.com/sql/sql-commands/query-syntax/query-pivot
 https://docs.databend.com/sql/sql-commands/query-syntax/query-select
 https://docs.databend.com/sql/sql-commands/query-syntax/query-unpivot
-https://docs.databend.com/sql/sql-commands/query-syntax/query-with
 https://docs.databend.com/sql/sql-commands/query-syntax/top
 https://docs.databend.com/sql/sql-commands/query-syntax/values
+https://docs.databend.com/sql/sql-commands/query-syntax/with-clause
 https://docs.databend.com/sql/sql-commands/query-syntax/with-consume
+https://docs.databend.com/sql/sql-commands/query-syntax/with-stream-hints
 https://docs.databend.com/sql/sql-functions/
 https://docs.databend.com/sql/sql-functions/aggregate-functions/
 https://docs.databend.com/sql/sql-functions/aggregate-functions/aggregate-any
