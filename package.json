@@ -20,7 +20,7 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "doc-t-pdf": "npx docs-to-pdf docusaurus --initialDocURLs='https://docs.databend.com/sql' --contentSelector='article' --paginationSelector='a.pagination-nav__link.pagination-nav__link--next'",
+    "doc-t-pdf": "prince --no-warn-css --style=./src/css/print.css  --input-list=./pdf/docs.databend.com-sql.txt -o docs3.pdf",
     "typecheck": "tsc"
   },
   "dependencies": {
