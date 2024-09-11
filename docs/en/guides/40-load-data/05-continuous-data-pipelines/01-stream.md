@@ -118,7 +118,7 @@ SELECT * FROM s_append_only;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Up to this point, we haven't noticed any significant differences between the two modes as we haven't processed the streams yet. All changes have been consolidated and manifested as INSERT actions. **A stream can be consumed by a task, a DML (Data Manipulation Language) operation, or a query using the [WITH CONSUME](/sql/sql-commands/query-syntax/with-consume) clause**. After consumption, the stream contains no data but can continue to capture new changes, if any. To further analyze the distinctions, let's proceed with consuming the streams and examining the output.
+Up to this point, we haven't noticed any significant differences between the two modes as we haven't processed the streams yet. All changes have been consolidated and manifested as INSERT actions. **A stream can be consumed by a task, a DML (Data Manipulation Language) operation, or a query with [WITH CONSUME](/sql/sql-commands/query-syntax/with-consume) or [WITH Stream Hints](/sql/sql-commands/query-syntax/with-stream-hints)**. After consumption, the stream contains no data but can continue to capture new changes, if any. To further analyze the distinctions, let's proceed with consuming the streams and examining the output.
 
 </StepContent>
 <StepContent number="2">

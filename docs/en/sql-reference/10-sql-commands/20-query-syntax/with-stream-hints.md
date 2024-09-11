@@ -7,6 +7,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Specifies various stream configuration options using hints to control how the stream is processed.
 
+See also: [WITH CONSUME](with-consume.md)
+
 ## Syntax
 
 ```sql
