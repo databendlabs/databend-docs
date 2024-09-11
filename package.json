@@ -20,7 +20,10 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "doc-t-pdf": "prince --no-warn-css --style=./src/css/print.css  --input-list=./pdf/docs.databend.com-sql.txt -o docs3.pdf",
+    "parser-sitemap:en": "site=en node ./scripts/parser_sitemap.js",
+    "parser-sitemap:cn": "site=cn node ./scripts/parser_sitemap.js",
+    "doc-to-pdf:en": "npm run parser-sitemap:en && prince --no-warn-css --style=./src/css/print.css --input-list=./pdf/docs.databend.en-sql.txt -o ./pdf/databend-doc-en.pdf",
+    "doc-to-pdf:cn": "npm run parser-sitemap:cn && prince --no-warn-css --style=./src/css/print.css --input-list=./pdf/docs.databend.cn-sql.txt -o ./pdf/databend-doc-cn.pdf",
     "typecheck": "tsc"
   },
   "dependencies": {

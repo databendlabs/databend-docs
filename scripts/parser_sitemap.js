@@ -1,10 +1,11 @@
 const fs = require("fs");
 const xml2js = require("xml2js");
 const path = require("path");
+const site = process.env.site;
+const domain = site === "cn" ? "cn" : "com";
+const sitemapPath = path.join(__dirname, `sitemap-${site}.xml`);
 
-const sitemapPath = path.join(__dirname, "sitemap.xml");
-
-const outputFilePath = path.join(__dirname, "pdf", "docs.databend.com-sql.txt");
+const outputFilePath = path.join("./", "pdf", `docs.databend.${site}-sql.txt`);
 
 if (!fs.existsSync(path.dirname(outputFilePath))) {
   fs.mkdirSync(path.dirname(outputFilePath), { recursive: true });
@@ -16,9 +17,9 @@ if (fs.existsSync(outputFilePath)) {
 }
 
 const excludeUrls = [
-  "https://docs.databend.com/",
-  "https://docs.databend.com/download/",
-  "https://docs.databend.com/search",
+  `https://docs.databend.${domain}/`,
+  `https://docs.databend.${domain}/download/`,
+  `https://docs.databend.${domain}/search`,
 ];
 
 try {
