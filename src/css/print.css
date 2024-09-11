@@ -1,0 +1,6 @@
+.pagination-nav,
+.databend-bottom-footer,
+.footer,
+.databend-right-table-contents {
+  display: none;
+}

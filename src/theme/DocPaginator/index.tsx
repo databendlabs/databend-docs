@@ -61,7 +61,7 @@ export default function DocPaginator(props) {
     }
   }
   return (
-    <div>
+    <div className="databend-bottom-footer">
       <Spin
         spinning={loading}
         indicator={<LoadingOutlined style={{ fontSize: 24 }} />}
