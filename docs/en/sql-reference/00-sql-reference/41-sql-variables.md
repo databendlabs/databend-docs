@@ -19,16 +19,19 @@ The SHOW VARIABLES command has a corresponding table function, [SHOW_VARIABLES](
 
 This section explains how to effectively use variables in your queries, leveraging both `$` for value substitution and `IDENTIFIER` for accessing database objects like tables.
 
-### Accessing Variables with `$`
+### Accessing Variables with `$` and `getvariable()`
 
-The `$` symbol is used to reference the value of a variable within a SQL statement. This allows for dynamic substitution, where the variable's value is directly embedded into the query at runtime.
+You can reference the value of a variable within a SQL statement using either the `$` symbol or the `getvariable()` function. Both methods allow dynamic substitution, where the variable's value is directly embedded into the query at runtime.
 
 ```sql title='Example:'
 -- Set a variable to use as a filter value
 SET VARIABLE threshold = 100;
 
--- Use the variable in a query
+-- Use the variable in a query with $
 SELECT * FROM sales WHERE amount > $threshold;
+
+-- Alternatively, use the getvariable() function
+SELECT * FROM sales WHERE amount > getvariable('threshold');
 ```
 
 ### Accessing Objects with `IDENTIFIER`
