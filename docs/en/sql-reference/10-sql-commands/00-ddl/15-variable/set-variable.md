@@ -42,7 +42,7 @@ empid|amount|month|
     1|     2|3    |
 ```
 
-The following example sets multiple variables from a query:
+The following example sets multiple variables from a query in a single statement. The query must return exactly one row, with the same number of values as the variables being set.
 
 ```sql
 -- Sets variable a to 3 and b to 55
