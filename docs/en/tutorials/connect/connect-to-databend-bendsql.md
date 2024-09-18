@@ -9,8 +9,6 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 In this tutorial, we will guide you through the process of connecting to a self-hosted Databend instance using BendSQL as the user `root`.
 
-You might be wondering how to [install and deploy databend](/guides/deploy/)
-
 <StepsWrap>
 <StepContent number="1">
 
