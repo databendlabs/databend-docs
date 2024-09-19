@@ -254,11 +254,11 @@ const config: Config = {
           position: "right",
         },
         // { to: '/blog', label: 'Blog', position: 'left' }, // or position: 'right'
-        {
-          to: "/download",
-          label: "Downloads",
-          position: "right",
-        },
+        // {
+        //   to: "/download",
+        //   label: "Downloads",
+        //   position: "right",
+        // },
       ],
     },
     footer: {
@@ -281,6 +281,10 @@ const config: Config = {
             {
               label: "Changelog",
               to: "/release-notes",
+            },
+            {
+              label: "Downloads",
+              to: `${homeLink}/download`,
             },
             {
               label: "Developer",

@@ -448,13 +448,13 @@ const DocsOverview: FC = (): ReactElement => {
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
-            <Col {...colLayout}>
+            {/* <Col {...colLayout}>
               <SmallCard
                 icon={<Pipeline></Pipeline>}
                 text={"Pipeline"}
                 to={"/guides/load-data/continuous-data-pipelines/pipeline"}
               />
-            </Col>
+            </Col> */}
             <Col {...colLayout}>
               <SmallCard
                 icon={<Stream></Stream>}
