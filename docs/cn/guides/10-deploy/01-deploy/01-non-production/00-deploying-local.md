@@ -280,7 +280,7 @@ SELECT
 
 ### 下载 Databend
 
-1. 从 [下载](https://www.databend.com/download) 页面下载适合您平台的安装包。
+1. 从 [下载](https://www.databend.cn/download) 页面下载适合您平台的安装包。
 
 2. 将安装包解压到本地目录。
 
