@@ -6,12 +6,12 @@ sidebar_label: 下载 Databend
 Databend 为您提供了以下几种下载安装包的选项：
 
 - [手动下载](#manual-download)：您可以直接从 Databend 网站下载适用于您平台的安装包。
-- [APT 包管理器](#apt-package-manager)：您可以使用 APT 包管理器在 Ubuntu 或 Debian 上下载并安装 Databend。
+- [APT 包管理器](#apt-package-manager)：您可以使用 APT 包管理器在 Ubuntu 或 Debian 上安装 Databend。
 - [Docker](#docker)：您可以使用 Docker 在容器化环境中下载并运行 Databend。
 
 ## 手动下载
 
-Databend 的主要分发包是 `.tar.gz` 存档文件，其中包含单个可执行文件，您可以从 [下载](/download) 页面下载并在系统中的任何位置提取它们。
+Databend 的主要分发包是 `.tar.gz` 存档文件，其中包含单个可执行文件，您可以从 [下载](https://www.databend.com/download) 页面下载并在系统中的任何位置提取它们。
 
 :::note
 **Linux Generic (Arm, 64-bit)** 适用于使用 musl 作为标准 C 库的 Linux 发行版；**Linux Generic (x86, 64-bit)** 适用于使用 GNU C 且 GLIBC 最低版本为 2.29 的 Linux 发行版。
