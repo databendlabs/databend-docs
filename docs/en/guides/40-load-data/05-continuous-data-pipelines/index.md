@@ -22,8 +22,6 @@ CDC is a process where a stream object captures insertions, updates, and deletio
 
 Databend enhances continuous data pipelines with the following features:
 
-- **Continuous Data Loading**: Makes it easy to bring in data from different places quickly and reliably. [Find out how to Load Data in Pipelines](./00-pipeline.md).
-
 - **Continuous Data Tracking and Transformation**: Enables real-time tracking and transformation of data. [Discover more about Tracking and Transforming Data via Streams](./01-stream.md).
 
 - **Recurring Tasks**: Supports the scheduling and management of recurring data processing tasks to ensure efficiency and reliability of the data pipeline. This feature is currently in private preview.
