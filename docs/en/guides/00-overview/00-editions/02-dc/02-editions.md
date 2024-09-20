@@ -65,7 +65,7 @@ tbody={[
 ['Native support for unstructured data.', '✓', '✓', '✓'],
 ['Collation rules for string/text data in table columns.', '✓', '✓', '✓'],
 ['Multi-statement transactions.', '✓', '✓', '✓'],
-['User-defined functions (UDFs) with support for JavaScript, Python, and WebAssembly.', '✓', '✓', '✓'],
+['User-defined functions (UDFs) with support for JavaScript, Python, and WebAssembly.', '', '✓', '✓'],
 ['External functions for extending Databend Cloud to other development platforms.', '✓', '✓', '✓'],
 ['Amazon API Gateway private endpoints for external functions.', '✓', '✓', '✓'],
 ['External tables for referencing data in a cloud storage data lake.', '✓', '✓', '✓'],
