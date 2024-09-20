@@ -7,8 +7,7 @@ on:
     paths-ignore:
       - ".github**/*"
       - "docs/cn/**/*"
-      - "docs/en/guides/20-cloud/**/*"
-      - "docs/en/guides/00-overview/00-editions/02-dc/**/*"
+      - "docs/en/guides/00-overview/00-editions/02-dc/03-pricing.md"
       - "docs/release-notes/**/*"
       - "docs/release-stable/**/*"
       - "api/**/*"
