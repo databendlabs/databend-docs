@@ -286,7 +286,9 @@ SELECT
 
 </StepContent>
 
-<StepContent number="
+<StepContent number="2">
+
+### 启动 Databend
 
 1. 配置管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。对于此示例，取消注释以下行以选择此账户：
 
