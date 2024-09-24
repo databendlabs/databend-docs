@@ -1,5 +1,5 @@
 ---
-title: Task_History
+title: TASK_HISTORY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
