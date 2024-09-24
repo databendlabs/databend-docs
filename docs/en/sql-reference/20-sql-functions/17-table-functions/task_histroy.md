@@ -1,7 +1,6 @@
 ---
 title: TASK_HISTORY
 ---
-import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Displays task running history given variables.
 
