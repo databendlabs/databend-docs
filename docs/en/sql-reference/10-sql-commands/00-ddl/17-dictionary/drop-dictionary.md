@@ -10,7 +10,7 @@ Removes a specified dictionary.
 ## Syntax
 
 ```sql
-DROP DICTIONARY <dictionary_name>
+DROP DICTIONARY [ IF EXISTS ] <dictionary_name>
 ```
 
 ## Examples

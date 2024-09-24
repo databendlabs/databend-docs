@@ -10,10 +10,10 @@ Creates a dictionary using a specified source.
 ## Syntax
 
 ```sql
-CREATE DICTIONARY <dictionary_name>
+CREATE [ OR REPLACE ] DICTIONARY [ IF NOT EXISTS ] <dictionary_name>
 (
-    <column_name1> <data_type1>,
-    <column_name2> <data_type2>,
+    <column_name1> <data_type1> [ DEFAULT <default-value-1> ],
+    <column_name2> <data_type2> [ DEFAULT <default-value-2> ],
     ...
 )
 PRIMARY KEY <primary_key_column>
@@ -25,6 +25,7 @@ SOURCE(<source_type>(<source_parameters>))
 | `<dictionary_name>`    | The name of the dictionary.                                                                                                                |
 | `<column_name>`        | The name of a column in the dictionary.                                                                                                    |
 | `<data_type>`          | The type of data stored in the column.                                                                                                     |
+| `<default-value>`      | Specifies a default value for a column in case no value is provided when the dictionary is populated from the source. |
 | `<primary_key_column>` | The primary key column used for fast lookups. This key should correspond to a unique value for each entry in the dictionary.               |
 | `<source_type>`        | Specifies the type of data source, `MYSQL` or `REDIS`. |
 | `<source_parameters>`  | Defines the configuration parameters required for the specified source type. |
@@ -52,7 +53,7 @@ The following table lists the required and optional parameters for configuring a
 | port      | Yes       | The port number of the Redis server.                                                                                                        |
 | username  | No        | Username if the Redis server requires user authentication.                                                                                  |
 | password  | No        | The password for user authentication.                                                                                                       |
-| db_index  | No        | Specifies the Redis database index, default is 0. The index must be within the range of 0 to the maximum number of Redis databases minus 1. |
+| db_index  | No        | Specifies the Redis database index, default is 0. The index ranges from 0 to 15, as Redis supports 16 databases indexed from 0 to 15. |
 
 ## Examples
 
