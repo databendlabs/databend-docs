@@ -14,6 +14,12 @@ After the dictionary is set up, it acts as a real-time data cache. You can effic
 
 Databend currently supports MySQL and Redis as external sources for dictionaries.
 
+## Tutorials
+
+- [Accessing MySQL and Redis with Dictionaries](/tutorials/integrate/access-mysql-and-redis)
+
+    > In this tutorial, we’ll guide you through accessing MySQL and Redis data using dictionaries in Databend. You’ll learn how to create dictionaries that map to these external data sources, enabling seamless data querying and integration.    
+
 ## Usage Example
 
 The following example demonstrates how to integrate MySQL with Databend by using dictionaries, allowing you to query data stored in MySQL directly from Databend. This process involves creating a table in MySQL, setting up a corresponding table in Databend, creating a dictionary to map the data, and using the [DICT_GET](/sql/sql-functions/dictionary-functions/dict-get) function to retrieve values from the dictionary in your queries.
