@@ -14,9 +14,15 @@ Databend的字典功能提供了一种高效的方式，可以直接在Databend�
 
 Databend目前支持MySQL和Redis作为字典的外部源。
 
+## 教程
+
+- [使用字典访问MySQL和Redis](/tutorials/integrate/access-mysql-and-redis)
+
+    > 在本教程中，我们将指导您使用Databend中的字典访问MySQL和Redis数据。您将学习如何创建映射到这些外部数据源的字典，从而实现无缝的数据查询和集成。
+
 ## 使用示例
 
-以下示例演示了如何通过使用字典将MySQL与Databend集成，从而允许您直接从Databend查询存储在MySQL中的数据。此过程涉及在MySQL中创建一个表，在Databend中设置相应的表，创建一个字典来映射数据，并使用[DICT_GET](/sql/sql-functions/dictionary-functions/dict-get)函数在查询中从字典中检索值。
+以下示例演示了如何通过使用字典将MySQL与Databend集成，从而允许您直接从Databend查询存储在MySQL中的数据。此过程涉及在MySQL中创建表，在Databend中设置相应的表，创建字典以映射数据，并使用[DICT_GET](/sql/sql-functions/dictionary-functions/dict-get)函数在查询中从字典中检索值。
 
 ### 步骤1：在MySQL中创建表
 
