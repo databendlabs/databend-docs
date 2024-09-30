@@ -18,15 +18,16 @@ Running a warehouse incurs expenses. For more information, see [Warehouse Pricin
 
 ## Warehouse Sizes
 
-In Databend Cloud, warehouses are available in various sizes, each defined by the number of vCPUs it includes and the maximum number of concurrent queries it can handle. When creating a warehouse, you can choose from the following sizes:
+In Databend Cloud, warehouses are available in various sizes, each defined by the maximum number of concurrent queries it can handle. When creating a warehouse, you can choose from the following sizes:
 
-| Size   | vCPUs | Max. Running Queries |
-|--------|-------|----------------------|
-| XSmall | 8     | 1-2                  |
-| Small  | 16    | 1-4                  |
-| Medium | 32    | 1-8                  |
-| Large  | 64    | 1-16                 |
-| XLarge | 128   | 1-32                 |
+| Size                  | Max. Concurrency | Recommended Use Cases                                                                                                                            |
+|-----------------------|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| XSmall                | 2                | Best for simple tasks like testing or running light queries. Suitable for small datasets (around 50GB).                                          |
+| Small                 | 4                | Great for running regular reports and moderate workloads. Suitable for medium-sized datasets (around 200GB).                                     |
+| Medium                | 8                | Ideal for teams handling more complex queries and higher concurrency. Suitable for larger datasets (around 1TB).                                 |
+| Large                 | 16               | Perfect for organizations running many concurrent queries. Suitable for large datasets (around 5TB).                                             |
+| XLarge                | 32               | Built for enterprise-scale workloads with high concurrency. Suitable for very large datasets (over 10TB).                                        |
+| Multi-Cluster Scaling | Unlimited        | Automatically scales out and scales in to match your workload, providing the most cost-efficient way to improve concurrency based on your needs. |
 
 To choose the appropriate warehouse size, Databend recommends starting with a smaller size. Smaller warehouses may take longer to execute SQL tasks compared to medium or large ones. If you find that query execution is taking too long (for example, several minutes), consider scaling up to a medium or large warehouse for faster results.
 
@@ -46,6 +47,39 @@ A suspended warehouse does not consume any credits. You can manually suspend or 
 You can perform bulk operations on warehouses, including bulk restart, bulk suspend, bulk resume, and bulk delete. To do so, select the warehouses for bulk operations by checking the checkboxes <CheckboxSVG/> in the warehouse list, and then click the ellipse button <EllipsisSVG/> for the desired operation.
 
 ![alt text](../../../../../static/img/cloud/bulk.png)
+
+### Best Practices
+
+To effectively manage your warehouses and ensure optimal performance and cost-efficiency, consider the following best practices. These guidelines will help you size, organize, and fine-tune your warehouses for various workloads and environments:
+
+- **Choose the Right Size**  
+  - For **development & testing**, use smaller warehouses (XSmall, Small).  
+  - For **production**, opt for larger warehouses (Medium, Large, XLarge).  
+
+- **Separate Warehouses**  
+  - Use separate warehouses for **data loading** and **query execution**.  
+  - Create distinct warehouses for **development**, **testing**, and **production** environments.  
+
+- **Data Loading Tips**  
+  - Smaller warehouses (Small, Medium) are suitable for data loading.  
+  - Optimize file size and the number of files to enhance performance.  
+
+- **Optimize for Cost & Performance**  
+  - Avoid running simple queries like `SELECT 1` to minimize credit usage.  
+  - Use bulk loading (`COPY`) rather than individual `INSERT` statements.  
+  - Monitor long-running queries and optimize them to improve performance.  
+
+- **Auto-Suspend**  
+  - Enable auto-suspend to save credits when the warehouse is idle.  
+
+- **Disable Auto-Suspend for Frequent Queries**  
+  - Keep warehouses active for frequent or repetitive queries to maintain cache and avoid delays.  
+
+- **Use Auto-Scaling (Business & Dedicated Plans Only)**  
+  - Multi-cluster scaling automatically adjusts resources based on workload demand.  
+
+- **Monitor & Adjust Usage**  
+  - Regularly review warehouse usage and resize as needed to balance cost and performance.
 
 ## Connecting to a Warehouse {#connecting}
 

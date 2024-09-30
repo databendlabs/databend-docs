@@ -47,6 +47,7 @@ width={['67%', '11%', '11%', '11%']}
 thead={['Features', 'Standard', 'Business', 'Dedicated']}
 tbody={[
 ['Virtual warehouses, separate compute clusters for isolating query and data loading workloads.', '✓', '✓', '✓'],
+['Multi-cluster scaling', '', '✓', '✓'],
 ['Resource monitors for monitoring virtual warehouse credit usage.', '✓', '✓', '✓'],
 ]}
 />
