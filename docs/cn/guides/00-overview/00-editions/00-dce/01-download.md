@@ -5,21 +5,21 @@ sidebar_label: 下载 Databend
 
 Databend 为您提供了以下几种下载安装包的选项：
 
-- [手动下载](#手动下载)：您可以直接从 Databend 网站下载适用于您平台的安装包。
-- [APT 包管理器](#apt-包管理器)：您可以使用 APT 包管理器在 Ubuntu 或 Debian 上下载并安装 Databend。
+- [手动下载](#manual-download)：您可以直接从 Databend 网站下载适用于您平台的安装包。
+- [APT 包管理器](#apt-package-manager)：您可以使用 APT 包管理器在 Ubuntu 或 Debian 上安装 Databend。
 - [Docker](#docker)：您可以使用 Docker 在容器化环境中下载并运行 Databend。
 
 ## 手动下载
 
-Databend 的主要分发包是 `.tar.gz` 存档文件，包含单个可执行文件，您可以从 [下载](/download) 页面下载并在系统中的任何位置解压。
+Databend 的主要分发包是 `.tar.gz` 存档文件，其中包含单个可执行文件，您可以从 [下载](https://www.databend.cn/download) 页面下载并在系统中的任何位置提取它们。
 
 :::note
-**Linux 通用版（Arm, 64位）** 适用于使用 musl 作为标准 C 库的 Linux 发行版；**Linux 通用版（x86, 64位）** 适用于使用 GNU C 且 GLIBC 最低版本为 2.29 的 Linux 发行版。
+**Linux Generic (Arm, 64-bit)** 适用于使用 musl 作为标准 C 库的 Linux 发行版；**Linux Generic (x86, 64-bit)** 适用于使用 GNU C 且 GLIBC 最低版本为 2.29 的 Linux 发行版。
 :::
 
 ## APT 包管理器
 
-Databend 为 Debian 和 Ubuntu 系统提供了包仓库，允许您使用 apt install 命令或其他任何 APT 前端来安装 Databend。
+Databend 为 Debian 和 Ubuntu 系统提供了包仓库，允许您使用 apt install 命令或其他任何 APT 前端安装 Databend。
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -60,7 +60,7 @@ sudo apt install databend
 </Tabs>
 
 :::tip
-安装后启动 Databend，请运行以下命令：
+安装完成后启动 Databend，请运行以下命令：
 
 ```shell
 sudo systemctl start databend-meta
@@ -73,7 +73,7 @@ sudo systemctl start databend-query
 
 Databend 在 Docker Hub 上提供了以下类型的安装镜像：
 
-- [Databend 一体化 Docker 镜像](https://hub.docker.com/r/datafuselabs/databend)：适用于本地测试、CI 等场景。
+- [Databend All-in-One Docker 镜像](https://hub.docker.com/r/datafuselabs/databend)：适用于本地测试、CI 等。
 - 分离镜像：适用于生产环境、Kubernetes 和 [Helm Charts](https://github.com/datafuselabs/helm-charts)。
   - [databend-meta](https://hub.docker.com/r/datafuselabs/databend-meta)
   - [databend-query](https://hub.docker.com/r/datafuselabs/databend-query)

@@ -9,10 +9,10 @@ ERROR 2013 (HY000): Lost connection to MySQL server during query
 No connection. Trying to reconnect...
 ```
 
-您可以从`system.tracing`表中获取服务器日志（level=50仅显示ERROR日志）：
+您可以从 `system.tracing` 表中获取服务器日志（level=50 仅显示 ERROR 日志）：
 
 :::note
-Databend使用[tokio-tracing](https://github.com/tokio-rs/tracing)来追踪日志，其中默认时区为UTC，并且不能通过Databend时区设置进行更改，因此追踪到的日志中的时间将始终为UTC时间，不会反映您的本地时间。
+Databend 使用 [tokio-tracing](https://github.com/tokio-rs/tracing) 来追踪日志，其中默认时区为 UTC，无法通过 Databend 时区设置进行更改，因此追踪日志中的时间将始终为 UTC，不会反映您的本地时间。
 :::
 
 ```sql

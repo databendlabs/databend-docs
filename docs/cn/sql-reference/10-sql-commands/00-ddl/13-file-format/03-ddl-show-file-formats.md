@@ -1,9 +1,9 @@
 ---
-title: 显示文件格式
+title: SHOW FILE FORMATS
 sidebar_position: 2
 ---
 
-返回已创建文件格式的列表。
+返回已创建的文件格式列表。
 
 ## 语法
 

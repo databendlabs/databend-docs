@@ -1,342 +1,442 @@
 ---
-title: Java
+title: Join 框架
+description: Join 框架 RFC
 ---
 
-您可以通过专为 Java 编程语言设计的原生接口，使用 [Databend JDBC 驱动](https://github.com/databendcloud/databend-jdbc) 从各种客户端工具和应用程序连接并交互 Databend。
+## 背景
 
-## 安装 Databend JDBC 驱动
+Join 是 SQL 中的一个主要特性，同时也是最复杂的部分之一。
 
-本主题概述了下载和安装 Databend JDBC 驱动以在基于 Java 的项目中使用的步骤。该驱动需要 Java LTS（长期支持）版本 1.8 或更高版本。如果您的客户端机器没有最低要求的 Java 版本，请安装 [Oracle Java](http://www.java.com/en/download/manual.jsp) 或 [OpenJDK](http://openjdk.java.net)。
+因此，在本节中，我们将简要介绍 join 语义和 join 算法的类型。
 
-要下载 Databend JDBC 驱动：
+通常，根据语义，join 可以分为以下几种类型：
 
-1. 访问 Maven 中央仓库：https://repo1.maven.org/maven2/com/databend/databend-jdbc/
-2. 点击最新版本的目录。
-3. 下载 jar 文件，例如，_databend-jdbc-0.1.1.jar_。
+- `INNER JOIN`：返回所有满足 join 条件的元组
+- `LEFT OUTER JOIN`：返回所有满足 join 条件的元组以及左表中没有与右表中任何行满足 join 条件的行
+- `RIGHT OUTER JOIN`：返回所有满足 join 条件的元组以及右表中没有与左表中任何行满足 join 条件的行
+- `FULL OUTER JOIN`：返回所有满足 join 条件的元组以及表中没有与另一表中任何行满足 join 条件的行
+- `CROSS JOIN`：连接表的笛卡尔积
 
-要验证 Databend JDBC 驱动的版本，例如，_databend-jdbc-0.1.1.jar_，请在终端中运行以下命令：
+此外，`IN`、`EXISTS`、`NOT IN`、`NOT EXISTS` 表达式可以通过 **半连接** 和 **反连接**（即子查询）实现。
 
-```bash
-java -jar databend-jdbc-0.2.1.jar --version
+常见的 join 算法有三种：
+
+- 嵌套循环连接
+- 哈希连接
+- 排序合并连接
+
+嵌套循环连接是基本的 join 算法，可以用以下伪代码描述：
+
+```
+// R⋈S
+var innerTable = R
+var outerTable = S
+var result
+for s <- outerTable:
+    for r <- innerTable:
+        if condition(r, s) == true:
+            insert(result, combine(r, s))
 ```
 
-Databend JDBC 驱动以 JAR 文件形式提供，可以直接集成到您的基于 Java 的项目中。或者，您可以在项目的 pom.xml 文件中声明一个 Maven 依赖，如下所示：
+在介绍哈希连接之前，我们在这里介绍 **等值连接** 的定义。**等值连接** 是其 join 条件为等式的连接（例如 `r.a == s.a`）。对于 join 条件不是等式的连接，我们称之为 **非等值连接**
 
-```xml
-<dependency>
-    <groupId>com.databend</groupId>
-    <artifactId>databend-jdbc</artifactId>
-    <version>0.2.1</version>
-</dependency>
+哈希连接只能用于等值连接。它可以描述为两个 Stage：**构建 Stage** 和 **探测 Stage**。
+
+与嵌套循环连接的内表和外表一样，哈希连接会选择一个表作为 **构建侧**，另一个表作为 **探测侧**。
+
+哈希连接的伪代码：
+
+```
+// R⋈S
+var build = R
+var probe = S
+var hashTable
+var result
+// Build phase
+for r <- build:
+    var key = hash(r, condition)
+    insert(hashTable, key, r)
+
+// Probe phase
+for s <- probe:
+    var key = hash(s, condition)
+    if exists(hashTable, key):
+        var r = get(hashTable, key)
+        insert(result, combine(r, s))
 ```
 
-:::tip 你知道吗？
-您还可以通过 Databend JDBC 驱动从 DBeaver 连接到 Databend。更多信息，请参阅 [使用 JDBC 连接 Databend](/guides/sql-clients/jdbc)。
-:::
+排序合并连接会对 join 键未排序的连接表进行排序，然后像合并排序那样合并它们。
 
-## 数据类型映射
+通常，排序合并连接也只能用于等值连接，但它存在一个带区间连接优化，可以使排序合并连接适用于某些特定的非等值连接。我们在这里不讨论这个，因为它有点超出范围。
 
-下表展示了 Databend 数据类型与其对应的 Java 数据类型的对应关系：
+## Join 框架
 
-| Databend  | Java       |
-| --------- | ---------- |
-| TINYINT   | Byte       |
-| SMALLINT  | Short      |
-| INT       | Integer    |
-| BIGINT    | Long       |
-| UInt8     | Short      |
-| UInt16    | Integer    |
-| UInt32    | Long       |
-| UInt64    | BigInteger |
-| Float32   | Float      |
-| Float64   | Double     |
-| String    | String     |
-| Date      | String     |
-| TIMESTAMP | String     |
-| Bitmap    | byte[]     |
-| Array     | String     |
-| Decimal   | BigDecimal |
-| Tuple     | String     |
-| Map       | String     |
-| VARIANT   | String     |
+为了实现 join，我们需要完成几个部分的工作：
 
-## Databend JDBC 驱动行为总结
+- 支持将 join 语句解析为逻辑计划
+- 支持为连接表绑定列引用
+- 支持一些基本的启发式优化（例如，外连接消除、子查询消除）和选择实现的 join 重排序
+- 支持一些 join 算法（目前为本地执行，但设计为分布式执行）
 
-Databend 的 JDBC 驱动通常遵循 JDBC 规范。以下是一些常见基本行为、相关关键函数及其原理的列表。
+### 解析器 & 规划器
 
-| 基本行为              | 关键功能                                                                                                                                                             | 原理                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 建立连接              | `DriverManager.getConnection`, `Properties.setProperty`                                                                                                              | `getConnection` 使用提供的连接字符串与 Databend 建立连接。<br /><br />`Properties` 对象用于构造连接参数，例如 `user` 和 `password`，这些参数也可以在连接字符串中指定。                                                                                                                                                                                                                                                     |
-| 执行查询              | `Statement.createStatement()`, `Statement.execute()`                                                                                                                 | `Statement.execute()` 通过 `v1/query` 接口执行查询。                                                                                                                                                                                                                                                                                                                                                                       |
-| 批量插入              | `Connection.prepareStatement()`, `PrepareStatement.setInt()`, `PrepareStatement.setString()`, `PrepareStatement.addBatch()`, `PrepareStatement.executeBatch()`, 等。 | Databend 支持使用 `PrepareStatement` 对象进行批量插入和替换（`INSERT INTO` 和 `REPLACE INTO`）。<br /><br />`PrepareStatement.setXXX()` 方法用于将值绑定到语句的参数。<br /><br />`PrepareStatement.addBatch()` 将尽可能多的数据添加到创建的语句对象的批处理中。<br /><br />`PrepareStatement.executeBatch()` 将数据上传到内置 Stage 并执行插入/替换操作，利用 [Stage Attachment](/developer/apis/http#stage-attachment)。 |
-| 上传文件到内部 Stage  | `Connection.uploadStream`                                                                                                                                            | 数据将被上传到 Stage。默认情况下，使用 `PRESIGN UPLOAD` 获取 URL，或者如果禁用了 PRESIGN，则使用 `v1/upload_to_stage` API。                                                                                                                                                                                                                                                                                                |
-| 从内部 Stage 下载文件 | `Connection.downloadStream`                                                                                                                                          | 数据将使用 `PRESIGN DOWNLOAD` 获取 URL 从 Stage 下载。                                                                                                                                                                                                                                                                                                                                                                     |
+根据 ANSI-SQL 规范，joins 在 `FROM` 子句中定义。此外，其他子句中的子查询在某些情况下可以翻译为 join（相关子查询将翻译为半连接或反连接）。
 
-## 配置连接字符串
+在将 SQL 字符串解析为 AST 之后，我们将使用 `PlanParser` 从 AST 构建逻辑计划。
 
-一旦驱动程序安装并集成到您的项目中，您可以使用以下 JDBC 连接字符串格式连接到 Databend：
+以下 bnf 定义是 `FROM` 子句的简化 ANSI-SQL 规范：
 
-```java
-jdbc:databend://<username>:<password>@<host_port>/<database>?<connection_params>
+```bnf
+<from clause> ::= FROM <table reference list>
+
+<table reference list> ::= <table reference> [ { <comma> <table reference> }... ]
+
+<table reference> ::= <table primary or joined table>
+
+<table primary or joined table> ::= <table primary> | <joined table>
+
+<table primary> ::=
+		<table or query name> [ [ AS ] <correlation name> [ <left paren> <derived column list> <right paren> ] ]
+	|	<derived table> [ AS ] <correlation name> [ <left paren> <derived column list> <right paren> ]
+	|	<left paren> <joined table> <right paren>
+
+<joined table> ::=
+		<cross join>
+	|	<qualified join>
+	|	<natural join>
+
+<cross join> ::= <table reference> CROSS JOIN <table primary>
+
+<qualified join> ::= <table reference> [ <join type> ] JOIN <table reference> <join specification>
+
+<natural join> ::= <table reference> NATURAL [ <join type> ] JOIN <table primary>
+
+<join specification> ::= <join condition> | <named columns join>
+
+<join condition> ::= ON <search condition>
+
+<named columns join> ::= USING <left paren> <join column list> <right paren>
+
+<join type> ::= INNER | <outer join type> [ OUTER ]
+
+<outer join type> ::= LEFT | RIGHT | FULL
+
+<join column list> ::= <column name list>
 ```
 
-`connection_params` 指的是一系列一个或多个 `param=value` 格式的参数。每个参数应由 & 字符分隔，连接字符串中不应有任何空格。这些参数可以在连接字符串中设置，也可以在传递给 `DriverManager.getConnection()` 方法的 Properties 对象中设置。例如：
+用 `<comma>` 连接的 `<table reference>` 是交叉连接。在 `WHERE` 子句中可能找到一些作为它们 join 条件的连词，即将交叉连接重写为内连接。
 
-```java
-Properties props = new Properties();
-props.put("parameter1", parameter1Value);
-props.put("parameter2", parameter2Value);
-Connection con = DriverManager.getConnection("jdbc:databend://user:pass@host/database", props);
+许多以这种方式组织的查询并没有明确指定 join 条件，例如 TPCH 查询集。
+
+`sqlparser` 库可以将 SQL 字符串解析为 AST。Joins 被组织为树结构。
+
+有以下几种 join 树：
+
+- 左深树
+- 右深树
+- 灌木树
+
+在左深树中，每个 join 节点的右子节点是一个表，例如：
+
+```sql
+SELECT *
+FROM a, b, c, d;
+/*
+      join
+     /    \
+    join   d
+   /    \
+  join   c
+ /    \
+a      b
+*/
 ```
 
-有关可用连接参数及其描述，请参阅 https://github.com/databendcloud/databend-jdbc/blob/main/docs/Connection.md#connection-parameters
+在右深树中，每个 join 节点的左子节点是一个表，例如：
 
-## 示例
+```sql
+SELECT *
+FROM a, b, c, d;
+/*
+  join
+ /    \
+a   join
+   /    \
+  b   join
+     /    \
+    c      d
+*/
+```
 
-### 示例：创建数据库和表
+在灌木树中，每个 join 节点的所有子节点可以是 join 的结果或表，例如：
 
-```java
-package com.example;
+```sql
+SELECT *
+FROM a, b, c, d;
+/*
+    join
+   /    \
+  join  join
+  /  \  /  \
+  a  b  c  d
+*/
+```
 
-import java.sql.*;
-import java.util.Properties;
+大多数 join 可以表示为左深树，这更容易优化。我们可以在解析 Stage 将一些 joins 重写为左深树。
 
-public class Main {
-    // 以连接到本地 Databend 并使用名为 'user1' 和密码 'abc123' 的 SQL 用户为例。
-    // 请随意使用您自己的值，同时保持相同的格式。
-    static final String DB_URL = "jdbc:databend://127.0.0.1:8000";
+这是一个`sqlparser` AST 的示例，注释部分是简化的 AST 调试字符串：
 
-    public static void main(String[] args) throws Exception {
-        Properties properties = new Properties();
-        properties.setProperty("user", "user1");
-        properties.setProperty("password", "abc123");
-        properties.setProperty("SSL", "false");
+```sql
+SELECT *
+FROM a, b NATURAL JOIN c, d;
+/*
+Query {
+    with: None,
+    body: Select(
+        SELECT {
+            projection: [Wildcard],
+            from: [
+                TableWithJoins {
+                    relation: Table {
+                        name: "a",
+                    },
+                    joins: []
+                },
+                TableWithJoins {
+                    relation: Table {
+                        name: "b",
+                    },
+                    joins: [
+                        Join {
+                            relation: Table {
+                                name: "c",
+                            },
+                            join_operator: Inner(Natural)
+                        }
+                    ]
+                },
+                TableWithJoins {
+                    relation: Table {
+                        name: "d",
+                    },
+                    joins: []
+                }
+            ],
+        }
+    ),
+}
+*/
+```
 
-        Connection conn = DriverManager.getConnection(DB_URL, properties);
+上述 AST 可以直接表示为一个灌木状树：
 
-        Statement stmt = conn.createStatement();
-        String create_sql = "CREATE DATABASE IF NOT EXISTS book_db";
-        stmt.execute(create_sql);
+```
+    join
+   /    \
+  join   d
+ /    \
+a     join
+     /    \
+    b      c
+```
 
-        String use_sql = "USE book_db";
-        stmt.execute(use_sql);
+这个灌木状树等价于下面的左深树，因此我们可以在解析 Stage 重写它：
 
-        String ct_sql = "CREATE TABLE IF NOT EXISTS books(title VARCHAR, author VARCHAR, date VARCHAR)";
-        stmt.execute(ct_sql);
-        stmt.close();
-        conn.close();
-        System.exit(0);
-    }
+```
+      join
+     /    \
+    join   d
+   /    \
+  join   c
+ /    \
+a      b
+```
+
+在将 AST 重写为左深树后，我们将使用目录将 AST 绑定到具体的表和列上。在绑定过程中，需要进行语义检查（例如，检查列名是否模糊不清）。
+
+为了实现语义检查并简化绑定过程，我们引入`Scope`来表示每个查询块的上下文。它将记录当前上下文中可用列的信息以及它们所属的表。
+
+来自父`Scope`的列对其所有子`Scope`都是可见的。
+
+```rust
+struct Scope {
+    pub parent: Arc<Scope>,
+    pub columns: Vec<ColumnRef>
 }
 ```
 
-### 示例：复制或合并到表
+这里有一个例子来解释`Scope`是如何工作的：
 
-```java
-    public void copyInto(String tableName, List<String> files) throws Exception {
-        String filesStr = "'" + String.join("','", files) + "'";
-        String copyIntoSql = String.format("copy into %s from @~ files=(%s) file_format=(type=NDJSON) purge=true;", tableName, filesStr);
-        Connection connection = createConnection();
-        try (Statement statement = connection.createStatement()) {
-            Instant copyIntoStart = Instant.now();
-            statement.execute(copyIntoSql);
-            ResultSet r = statement.getResultSet();
-            while (r.next()) {
-            }
-            Instant copyIntoEnd = Instant.now();
-            System.out.println("Copied files into: " + files.size() + " , time elapsed: " + (copyIntoEnd.toEpochMilli() - copyIntoStart.toEpochMilli()) + "ms");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            connection.close();
-        }
-    }
-// For merge into just replace the copyIntoSql.
+```sql
+CREATE TABLE t0 (a INT);
+CREATE TABLE t1 (b INT);
+CREATE TABLE t2 (c INT);
+
+SELECT *
+FROM t0, (
+    SELECT b, c, c+1 AS d FROM t1, t2
+) t;
+
+/*
+Scope root: [t0.a, t.b, t.c, t.d]
+|  \
+|   Scope t0: [a]
+|
+Scope t: [t1.b, t2.c, d]
+|  \
+|   Scope t1: [b]
+|
+Scope t2: [c]
+*/
 ```
 
-:::tip
+由于连接后可能存在同名的不同列，我们应该用唯一的`ColumnID`来标识`ColumnRef`。同时，由于关联名称保证是唯一的，用名称字符串来标识它们是可以的。
 
-1. 由于 SELECT、COPY INTO 和 MERGE INTO 等 SQL 命令返回一个 ResultSet 对象，因此需要在访问数据之前调用 rs.next()。否则，查询可能会被取消。如果不打算检索结果，可以使用 while 循环（while (r.next()){}）遍历 ResultSet 以避免此问题。
-2. 对于 CREATE TABLE 或 DROP TABLE 等非查询类型的 SQL 命令，可以直接调用 statement.execute()。
-   :::
-
-### 示例：批量插入
-
-在您的 Java 应用程序代码中，可以通过在 INSERT 语句中绑定参数并调用 addBatch() 和 executeBatch() 来一次性插入多行。
-
-例如，以下代码向包含 INT 列和 VARCHAR 列的表中插入两行。该示例在 INSERT 语句中绑定值并调用 addBatch() 和 executeBatch() 来执行批量插入。
-
-```java
-Connection connection = DriverManager.getConnection(url, prop);
-
-PreparedStatement pstmt = connection.prepareStatement("INSERT INTO t(c1, c2) VALUES(?, ?)");
-pstmt.setInt(1, 101);
-pstmt.setString(2, "test1");
-pstmt.addBatch();
-
-pstmt.setInt(1, 102);
-pstmt.setString(2, "test2");
-pstmt.addBatch();
-
-int[] count = pstmt.executeBatch(); // 执行后，count[0]=1, count[1]=1
-...
-pstmt.close();
-```
-
-### 示例：上传文件到内部阶段
-
-```java
- /**
-     * 将 inputStream 上传到 databend 内部阶段，数据将作为单个文件上传，不进行分割。
-     * 调用者应在上传完成后关闭输入流。
-     *
-     * @param stageName 接收上传文件的阶段
-     * @param destPrefix 阶段中文件名的前缀
-     * @param inputStream 文件的输入流
-     * @param destFileName 阶段中的目标文件名
-     * @param fileSize 阶段中的文件大小
-     * @param compressData 是否压缩数据
-     * @throws SQLException 上传输入流失败
-     */
-    public void uploadStream(String stageName, String destPrefix, InputStream inputStream, String destFileName, long fileSize, boolean compressData) throws SQLException;
-```
-
-上传 CSV 文件到 Databend：
-
-```java
-        File f = new File("test.csv");
-        try (InputStream fileInputStream = Files.newInputStream(f.toPath())) {
-            Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.ALL);
-            Connection connection = createConnection();
-            String stageName = "test_stage";
-            DatabendConnection databendConnection = connection.unwrap(DatabendConnection.class);
-            PresignContext.createStageIfNotExists(databendConnection, stageName);
-            databendConnection.uploadStream(stageName, "jdbc/test/", fileInputStream, "test.csv", f.length(), false);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            f.delete();
-        }
-```
-
-### 示例：从内部阶段下载文件
-
-```java
- /**
-     * 从 databend 内部阶段下载文件，数据将作为单个文件下载，不进行分割。
-     *
-     * @param stageName 包含文件的阶段
-     * @param sourceFileName 阶段中的文件名
-     * @param decompress 是否解压缩数据
-     * @return 文件的输入流
-     * @throws SQLException
-     */
-    public InputStream downloadStream(String stageName, String sourceFileName, boolean decompress) throws SQLException;
-```
-
-从 Databend 下载 CSV 文件：
-
-```Java
-        File f = new File("test.csv");
-        try (InputStream fileInputStream = Files.newInputStream(f.toPath())) {
-            Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.ALL);
-            Connection connection = createConnection(true);
-            String stageName = "test_stage";
-            DatabendConnection databendConnection = connection.unwrap(DatabendConnection.class);
-            PresignContext.createStageIfNotExists(databendConnection, stageName);
-            databendConnection.uploadStream(stageName, "jdbc/test/", fileInputStream, "test.csv", f.length(), false);
-            InputStream downloaded = databendConnection.downloadStream(stageName, "jdbc/test/test.csv", false);
-            byte[] arr = streamToByteArray(downloaded);
-            System.out.println(arr);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            f.delete();
-        }
-```
-
-### 示例：与 Databend Cloud 集成
-
-在开始之前，请确保您已成功创建了一个计算集群并获取了连接信息。具体操作方法请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
-
-#### 步骤 1. 使用 Maven 添加依赖
-
-```xml
-<dependency>
-    <groupId>com.databend</groupId>
-    <artifactId>databend-jdbc</artifactId>
-    <version>0.2.8</version>
-</dependency>
-```
-
-#### 步骤 2. 使用 databend-jdbc 连接
-
-创建一个名为 `sample.java` 的文件，包含以下代码：
-
-```java
-package databend_cloud;
-
-import java.sql.*;
-import java.util.Properties;
-
-public class sample {
-    public static void main(String[] args) throws Exception {
-
-        String url = "jdbc:databend://{WAREHOUSE_HOST}:443/{DATABASE}";
-        Properties properties = new Properties();
-        properties.setProperty("user", "{USER}");
-        properties.setProperty("password", "{PASSWORD}");
-        properties.setProperty("SSL", "true");
-        Connection connection = DriverManager.getConnection(url, properties);
-
-        // 执行
-        connection.createStatement().execute("CREATE TABLE IF NOT EXISTS sample_test(id TINYINT, obj VARIANT, d TIMESTAMP, s String, arr ARRAY(INT64)) Engine = Fuse");
-
-        // 查询
-        Statement statement = connection.createStatement();
-        statement.execute("SELECT number from numbers(200000) order by number");
-        ResultSet r = statement.getResultSet();
-        r.next();
-        for (int i = 1; i < 1000; i++) {
-            r.next();
-            System.out.println(r.getInt(1));
-        }
-
-        // 使用 executeBatch() 进行批量插入
-        connection.setAutoCommit(false);
-        PreparedStatement ps = connection.prepareStatement("insert into sample_test values");
-        ps.setInt(1, 1);
-        ps.setString(2, "{\"a\": 1,\"b\": 2}");
-        ps.setTimestamp(3, Timestamp.valueOf("1983-07-12 21:30:55.888"));
-        ps.setString(4, "hello world, 你好");
-        ps.setString(5, "[1,2,3,4,5]");
-        ps.addBatch();
-        int[] ans = ps.executeBatch();
-        Statement s = connection.createStatement();
-
-        System.out.println("execute select on table");
-        statement.execute("SELECT * from sample_test");
-        ResultSet r2 = statement.getResultSet();
-
-        while (r2.next()) {
-            System.out.println(r2.getInt(1));
-            System.out.println(r2.getString(2));
-            System.out.println(r2.getTimestamp(3).toString());
-            System.out.println(r2.getString(4));
-            System.out.println(r2.getString(5));
-        }
-        connection.close();
-    }
+```rust
+struct ColumnRef {
+    pub id: ColumnID,
+    pub column_name: String,
+    pub table_name: String
 }
 ```
 
-:::tip
-在代码中替换 `{USER}, {PASSWORD}, {WAREHOUSE_HOST}, 和 {DATABASE}` 为您的连接信息。如何获取连接信息，请参见 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
-:::
+有了唯一的`ColumnID`，我们可以检查查询是否模糊不清，并同时保留它们的原始名称。
 
-#### 步骤 3. 使用 Maven 运行示例
+对于规划器，我们将为`PlanNode`添加一个变体`Join`来表示连接操作符：
 
-```shell
-$ mvn compile
-$ mvn exec:java -D exec.mainClass="databend_cloud.sample"
+```rust
+enum PlanNode {
+    ...
+    Join(JoinPlan)
+}
+
+enum JoinType {
+    Inner,
+    LeftOuter,
+    RightOuter,
+    FullOuter,
+    Cross
+}
+
+struct JoinPlan {
+    pub join_type: JoinType,
+    pub join_conditions: Vec<ExpressionPlan>, // 连接条件的联结
+    pub left_child: Arc<PlanNode>,
+    pub right_child: Arc<PlanNode>
+}
 ```
+
+这里有一个问题，databend-query 使用`arrow::datatypes::Schema`来表示数据模式，而`arrow::datatypes::Schema`原生不支持用`ColumnID`标识列。
+
+我建议引入一个内部的`DataSchema`结构来在 databend-query 中表示数据模式，它可以存储更多信息，并且可以自然地转换为`arrow::datatypes::Schema`。
+
+```rust
+struct DataSchema {
+    pub columns: Vec<Arc<Column>>
+}
+
+struct Column {
+    pub column_id: ColumnID,
+    pub column_name: String,
+    pub data_type: DataType,
+    pub is_nullable: bool
+}
+```
+
+### 优化器
+
+有两种优化需要完成：
+
+- 启发式优化
+- 基于成本的优化
+
+启发式优化（**RBO**，即基于规则的优化），是一种总能降低查询成本的优化。由于启发式规则太多，我们在这里不讨论。
+
+基于成本的优化使用统计信息来计算查询的成本。通过探索框架（例如 Volcano 优化器，Cascades 优化器），它可以选择最佳执行计划。
+
+优化器是 SQL 引擎中最复杂的部分，我们最好一开始只支持有限的启发式优化。
+
+> 待办：列出常见的启发式规则
+
+### 执行
+
+正如我们在[背景](#Background)部分讨论的，连接算法可以分为三种：
+
+- 嵌套循环连接
+- 哈希连接
+- 排序合并连接
+
+此外，还有两种分布式连接算法：
+
+- 广播连接
+- 重分区连接（又称为洗牌连接）
+
+我们在这里不讨论分布式连接算法的细节，但我们仍然需要考虑它们。
+
+不同的连接算法在不同的场景下有优势。
+
+嵌套循环连接在数据量相对较小的情况下有效。通过向量化执行模型，自然可以实现块嵌套循环连接，这是一种改进的嵌套循环连接算法。嵌套循环连接的另一个优势是它可以处理非等值连接条件。
+
+哈希连接在一个表很小而另一个表很大的情况下非常有效。由于分布式连接算法总是会产生小表（通过分区），所以它非常适合哈希连接。同时，**Marcin Zucowski**（Snowflake 的联合创始人，CWI 的博士）引入了向量化哈希连接算法。哈希连接的缺点是它会消耗比其他连接算法更多的内存，并且它只支持等值连接。
+
+如果输入已排序，排序 - 合并连接是有效的，尽管这种情况很少发生。
+
+上述比较有很大的偏见，实际上很难说哪种算法更好。在我看来，我们可以首先实现哈希连接和嵌套循环连接，因为它们更常见。
+
+由于我们目前没有选择连接算法的基础设施（规划器，优化器），我建议目前只实现块嵌套循环连接，这样我们可以构建一个完整的原型。
+
+我们将介绍一个向量化的块嵌套循环连接算法。
+
+[背景](#Background)部分介绍了简单嵌套循环连接的伪代码。众所周知，嵌套循环连接在每次循环中只从外表中获取一行数据，这并不具有良好的局部性。块嵌套循环连接是一种嵌套循环连接，它在每次循环中会获取一块数据。这里我们介绍简单的块嵌套循环连接。
+
+```
+// R⋈S
+var innerTable = R
+var outerTable = S
+var result
+
+for s <- outerTable.fetchBlock():
+    for r <- innerTable.fetchBlock():
+        buffer = conditionEvalBlock(s, r)
+        for row <- buffer:
+            insert(result, row)
+```
+
+在向量化执行中，我们可以使用位图来指示是否应该将一行返回到结果集中。然后我们可以稍后实现结果的具体化。
+
+例如，假设我们有以下 SQL 查询：
+
+```SQL
+CREATE TABLE t(a INT, b INT);
+CREATE TABLE t1(b INT, c INT);
+-- insert some rows
+SELECT a, b, c FROM t INNER JOIN t1 ON t.b = t1.b;
+```
+
+这个查询的执行计划应该看起来像这样：
+
+```
+Join (t.b = t1.b)
+    -> TableScan t
+    -> TableScan t1
+```
+
+如果我们使用上面介绍的向量化块嵌套循环连接算法，伪代码应该看起来像这样：
+
+```
+var leftChild: BlockStream = scan(t)
+var rightChild: BlockStream = scan(t1)
+var condition: Expression = equal(column(t.b), column(t1.b))
+var result
+
+for l <- leftChild:
+    for r <- rightChild:
+        buffer = mergeBlock(l, r)
+        var bitMap: Array[boolean] = condition.eval(buffer)
+        buffer.insertColumn(bitMap)
+        result.insertBlock(buffer)
+
+materialize(result)
+```
+
+在 databend-query 中，我们可以添加一个`NestedLoopJoinTransform`来实现向量化块嵌套循环连接。

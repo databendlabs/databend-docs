@@ -280,7 +280,7 @@ Follow the instructions below to deploy Databend on your local machine.
 
 ### Download Databend
 
-1. Download the installation package suitable for your platform from the [Download](/download) page.
+1. Download the installation package suitable for your platform from the [Download](https://www.databend.com/download) page.
 
 2. Extract the installation package to a local directory.
 

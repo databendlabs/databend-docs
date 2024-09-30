@@ -28,4 +28,4 @@ Here is an example of connecting to Databend Cloud:
 
 ### Step 3: Create Data Replication Tasks
 
-Once connections to the data source and Databend Cloud are established, you can begin data synchronization by creating data replication tasks. Refer to [Create a Data Replication Task](https://docs.tapdata.io/user-guide/data-pipeline/copy-data/create-task) for the operational steps.
+Once connections to the data source and Databend Cloud are established, you can begin data synchronization by creating data replication tasks. Refer to [Create a Data Replication Task](https://docs.tapdata.io/user-guide/copy-data/create-task/) for the operational steps.

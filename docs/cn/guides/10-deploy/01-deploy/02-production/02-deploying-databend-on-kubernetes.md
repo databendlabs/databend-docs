@@ -12,7 +12,7 @@ description: 如何在 Kubernetes 上部署 Databend 查询集群。
 
 **场景描述**
 
-- 本示例演示如何在支持多租户的 Kubernetes 集群内创建一个 Databend 集群。如图所示，`tenant1` 和 `tenant2` 各自拥有独立的 Databend Query 集群，同时共享一个 Databend Meta 集群。
+- 本示例展示了如何在支持多租户的 Kubernetes 集群内创建一个 Databend 集群。如图所示，`tenant1` 和 `tenant2` 各自拥有独立的 Databend Query 集群，同时共享一个 Databend Meta 集群。
 - 您需要拥有 Kubernetes 集群的管理员访问权限。您可以选择任何 Kubernetes 节点进行操作，但我们建议在管理节点上执行操作。在本示例中，您需要在工作节点上安装 helm 和 BendSQL 工具以执行命令。
 
 ## 开始之前
@@ -52,7 +52,7 @@ import TabItem from '@theme/TabItem';
 
   - AWS S3 或其他兼容 S3 的存储服务
   - Azure Storage Blob
-  - 其他受 [Apache OpenDAL](https://github.com/datafuselabs/opendal#services) 支持的存储服务
+  - [Apache OpenDAL](https://github.com/datafuselabs/opendal#services) 支持的其他存储服务
 
   :::tip 推荐的存储设置
   [准备存储](/guides/deploy/deploy/production/preparing-storage) 提供了详细的推荐存储设置说明。
@@ -70,54 +70,52 @@ import TabItem from '@theme/TabItem';
 
 - 确保 Kubernetes 集群有一个默认的存储类。
 
-  ````mdx-code-block
-
-  :::tip 对于云平台
+  :::tip 云平台
 
   <Tabs>
   <TabItem value="aws" label="EKS(AWS)">
 
-    推荐使用 [Amazon Elastic Block Store (EBS) CSI 驱动](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md)。
-    并在添加存储类时记住设置默认类的注解，例如：
+  推荐使用 [Amazon Elastic Block Store (EBS) CSI 驱动](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md)。
+  并在添加存储类时设置默认类的注解，例如：
 
-    ```yaml
-    storageClasses:
-      - name: gp3
-        annotations:
-          storageclass.kubernetes.io/is-default-class: "true"
-        allowVolumeExpansion: true
-        volumeBindingMode: WaitForFirstConsumer
-        reclaimPolicy: Delete
-        parameters:
-          type: gp3
-    ```
+  ```yaml
+  storageClasses:
+    - name: gp3
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+      allowVolumeExpansion: true
+      volumeBindingMode: WaitForFirstConsumer
+      reclaimPolicy: Delete
+      parameters:
+        type: gp3
+  ```
 
-    ```shell
-    ❯ kubectl get sc
-    NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-    gp2             kubernetes.io/aws-ebs   Delete          WaitForFirstConsumer   true                   16d
-    gp3 (default)   ebs.csi.aws.com         Delete          WaitForFirstConsumer   true                   15d
-    ```
+  ```shell
+  ❯ kubectl get sc
+  NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+  gp2             kubernetes.io/aws-ebs   Delete          WaitForFirstConsumer   true                   16d
+  gp3 (default)   ebs.csi.aws.com         Delete          WaitForFirstConsumer   true                   15d
+  ```
 
   </TabItem>
 
   <TabItem value="aliyun" label="ACK(Alibaba Cloud)">
 
-    确保组件 `csi-provisioner` 已安装，然后设置默认存储类：
+  确保组件 `csi-provisioner` 已安装，然后设置默认存储类：
 
-    ```shell
-    ❯ kubectl get sc
-    NAME                             PROVISIONER                       RECLAIMPOLICY   VOLUMEBINDINGMODE            ALLOWVOLUMEEXPANSION   AGE
-    alicloud-disk-available          diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-    alicloud-disk-efficiency         diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-    alicloud-disk-essd               diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-    alicloud-disk-ssd                diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-    alicloud-disk-topology           diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
-    alicloud-disk-topology-alltype   diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
-    # 选择所需的存储类作为默认存储类，例如：alicloud-disk-topology-alltype
-    // highlight-next-line
-    ❯ kubectl annotate sc alicloud-disk-topology-alltype storageclass.kubernetes.io/is-default-class=true --overwrite
-    ```
+  ```shell
+  ❯ kubectl get sc
+  NAME                             PROVISIONER                       RECLAIMPOLICY   VOLUMEBINDINGMODE            ALLOWVOLUMEEXPANSION   AGE
+  alicloud-disk-available          diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-efficiency         diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-essd               diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-ssd                diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-topology           diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
+  alicloud-disk-topology-alltype   diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
+  # 选择所需的存储类作为默认类，例如：alicloud-disk-topology-alltype
+  // highlight-next-line
+  ❯ kubectl annotate sc alicloud-disk-topology-alltype storageclass.kubernetes.io/is-default-class=true --overwrite
+  ```
 
   </TabItem>
 
@@ -125,13 +123,11 @@ import TabItem from '@theme/TabItem';
 
   :::
 
-  ````
-
-- **推荐** 确保 Kubernetes 集群中运行了 Prometheus Operator，如果您希望监控 Databend Meta 和 Databend Query 的状态。
+- **推荐** 确保 Kubernetes 集群中运行着 Prometheus Operator，如果您希望监控 Databend Meta 和 Databend Query 的状态。
 
   :::tip 简单 Kube Prometheus Stack 的步骤
 
-  1. 添加 kube-prometheus-stack 的 chart 仓库
+  1. 为 kube-prometheus-stack 添加 chart 仓库
 
      ```shell
      helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -199,7 +195,7 @@ serviceMonitor:
 ```
 
 :::caution
-强烈建议部署一个至少包含 3 个节点的集群，每个节点都带有持久存储，以实现高可用性。
+强烈建议部署一个至少包含 3 个节点的集群，并在每个节点上使用持久存储以实现高可用性。
 
 当 `replicaCount > 1` 时，首次运行时需要 `bootstrap: true`，当集群中所有节点都启动并运行后，可以移除。
 :::
@@ -222,7 +218,7 @@ helm upgrade --install databend-meta databend/databend-meta \
 NAME              READY   STATUS    RESTARTS        AGE
 databend-meta-0   1/1     Running   0               5m36s
 databend-meta-1   1/1     Running   1 (4m38s ago)   4m53s
-databend-meta-2   1/1     Running   1 (4m2s ago)    4m18s
+databend-meta-2   1/2     Running   1 (4m2s ago)    4m18s
 
 ❯ kubectl -n databend-meta get pvc
 NAME                   STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
@@ -322,7 +318,7 @@ service:
 :::tip 关于云存储
 
 <Tabs>
-<TabItem value="aws" label="S3(AWS)">
+<TabItem value="aws" label="S3(aws)">
 
 ```yaml
 config:
@@ -342,7 +338,7 @@ config:
 
 <TabItem value="aliyun" label="OSS(阿里云)">
 
-```yaml title="使用 s3 客户端的 OSS"
+```yaml title="使用 s3 客户端的 oss"
 config:
   storage:
     type: s3
@@ -356,7 +352,7 @@ config:
       enable_virtual_host_style: true
 ```
 
-```yaml title="原生 OSS"
+```yaml title="原生 oss"
 config:
   storage:
     type: oss
@@ -372,7 +368,7 @@ config:
 
 <TabItem value="qcloud" label="COS(腾讯云)">
 
-```yaml title="原生 COS"
+```yaml title="原生 cos"
 config:
   storage:
     type: cos
@@ -469,15 +465,15 @@ tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
 
 ### 扩缩容
 
-要扩容或缩容查询集群，有两种方法：
+要扩容或缩容查询集群，有两种方法
 
 - 直接使用 `kubectl`
 
   ```shell
-   # 将查询集群数量缩容到 0
+   # 将查询集群数量缩容至 0
    kubectl -n databend-query scale statefulset tenant1-databend-query --replicas=0
 
-   # 将查询集群数量扩容到 5
+   # 将查询集群数量扩容至 5
    kubectl -n databend-query scale statefulset tenant1-databend-query --replicas=5
   ```
 
@@ -579,9 +575,9 @@ helm upgrade --install tenant1 databend/databend-query \
 24 rows in set (0.008 sec)
 ```
 
-分布式查询正常工作，集群将通过 `flight_api_address` 高效传输数据。
+分布式查询正常工作，计算集群将通过 `flight_api_address` 高效传输数据。
 
-### 上传数据到集群
+### 上传数据到计算集群
 
 ```sql
 CREATE TABLE t1(i INT, j INT);
@@ -603,33 +599,33 @@ SELECT count(*) FROM t1;
 +----------+
 ```
 
-## 监控 Meta 和 Query 集群
+## 监控元数据和查询计算集群
 
 :::info
-部署 Meta 和 Query 集群时应注意启用 `serviceMonitor`。
+部署元数据和查询计算集群时，请注意应启用 `serviceMonitor`。
 :::
 
-- 从以下地址下载 grafana 仪表板文件：[datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)。
+- 从以下地址下载 Grafana 仪表板文件：[datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)。
 
-- 打开集群的 grafana 网页。
+- 打开计算集群的 Grafana 网页。
 
 - 在右上角选择 `+` 展开菜单，点击“导入仪表板”以导入仪表板，并上传两个下载的 JSON 文件。
 
   ![Alt text](/img/deploy/import-dashboard.png)
 
-- 然后你应该会看到两个仪表板：
+- 之后，您应该会看到两个仪表板：
 
-  - Databend Meta 运行时
+  - Databend Meta Runtime
 
     ![Alt text](/img/deploy/databend-meta-runtime.png)
 
-  - Databend Query 运行时
+  - Databend Query Runtime
 
     ![Alt text](/img/deploy/databend-query-runtime.png)
 
 ## 下一步
 
-部署 Databend 后，你可能需要了解以下主题：
+部署 Databend 后，您可能需要了解以下主题：
 
-- [加载 & 卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
+- [加载与卸载数据](/guides/load-data)：在 Databend 中管理数据的导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取洞察。

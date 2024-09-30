@@ -12,15 +12,15 @@ This section provides pricing information on warehouse, storage, and cloud servi
 
 Your warehouses incur costs when they are running (specifically, when in the Running state). The cost depends on the warehouse's size and running time. **Billing is calculated on a per-second basis**. For example, if you have a warehouse running for three seconds, you will be charged for that exact duration.
 
-The size of a warehouse refers to the number of vCPUs it contains, and prices vary based on the different sizes available and the Databend Cloud edition you use.
+The size of a warehouse refers to the maximum number of concurrent queries it can handle, and prices vary based on the different sizes available and the Databend Cloud edition you use.
 
-| Size (vCPUs) | Hourly Cost (Standard) | Hourly Cost (Business) |
-|--------------|------------------------|------------------------|
-| XSmall (8)   | $1.00                  | $1.50                  |
-| Small (16)   | $2.00                  | $3.00                  |
-| Medium (32)  | $4.00                  | $6.00                  |
-| Large (64)   | $8.00                  | $12.00                 |
-| XLarge (128) | $16.00                 | $24.00                 |
+| Size   | Max. Concurrency | Hourly Cost (Standard) | Hourly Cost (Business) |
+|--------|------------------|------------------------|------------------------|
+| XSmall | 2                | $1.00                  | $1.50                  |
+| Small  | 4                | $2.00                  | $3.00                  |
+| Medium | 8                | $4.00                  | $6.00                  |
+| Large  | 16               | $8.00                  | $12.00                 |
+| XLarge | 32               | $16.00                 | $24.00                 |
 
 A suspended warehouse does not consume any resources. By default, Databend Cloud automatically suspends a warehouse after five minutes of inactivity to save resources and costs. You can adjust or disable this automatic suspension feature according to your preferences.
 

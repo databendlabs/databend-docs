@@ -2,15 +2,15 @@
 title: 查询概要
 ---
 
-查询概要指的是特定 SQL 语句执行过程的图形表示或可视化分解。它本质上是 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令的图形版本，提供了关于查询执行计划和性能细节的洞察。
+查询概要指的是特定 SQL 语句执行过程的图形表示或可视化分解。它本质上是一个图形化的 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令版本，提供了查询执行计划和性能细节的洞察。
 
 ## 访问查询概要
 
-查询概要可以直接在 Databend Cloud 中访问。要查看某个查询的查询概要，请前往 **监控** > **SQL 历史记录**。从历史列表中选择一个 SQL 语句，然后点击 **查询概要** 标签页。如果您使用的是自托管的 Databend，可以使用 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令作为替代。
+查询概要可以直接在 Databend Cloud 中访问。要查看查询的查询概要，请前往 **Monitor** > **SQL History**。从历史列表中选择一个 SQL 语句，然后点击 **Query Profile** 标签。如果您使用的是自托管的 Databend，可以使用 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令作为替代。
 
 ## 查询概要包含的内容
 
-以下是一个查询概要的示例，包含一组三个操作符节点，呈层次结构。在执行 SQL 语句时，Databend Cloud 按自底向上的顺序处理这些节点。查询概要包含的操作符节点数量和类型取决于您的 SQL 语句的具体情况。对于常见的操作符及其统计字段，请参见 [常见操作符与字段](#常见操作符与字段)。
+以下是一个查询概要的示例，由一组三个操作符节点组成，呈层次结构。在执行 SQL 语句时，Databend Cloud 按自底向上的顺序处理这些节点。查询概要包含的操作符节点数量和类型取决于您的 SQL 语句的具体情况。对于常见的操作符及其统计字段，请参见 [常见操作符与字段](#常见操作符与字段)。
 
 ![alt text](/img/cloud/query-profile-1.png)
 
@@ -20,8 +20,8 @@ title: 查询概要
 
 | 窗格                 | 描述                                                                                                                                                                                            |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 最耗时节点           | 列出执行时间最长的节点。                                                                                                                                                                              |
-| 概要总览             | 显示在 CPU 和 I/O 上花费时间的百分比。请注意，如果您选择一个节点，此信息窗格将显示您所选节点的特定信息，而不是整个查询的信息。 |
+| 最耗时的节点         | 列出执行时间最长的节点。                                                                                                                                                                              |
+| 概要总览             | 显示在 CPU 和 I/O 上花费的时间百分比。请注意，如果您选择一个节点，此信息窗格将显示您所选节点的特定信息，而不是整个查询的信息。 |
 
 如果您点击 `TableScan [4]` 节点，您会注意到右侧添加了两个额外的信息窗格：
 
@@ -29,36 +29,36 @@ title: 查询概要
 
 | 窗格       | 描述                                                                                                        |
 | ---------- | ------------------------------------------------------------------------------------------------------------------ |
-| 统计信息   | 包括扫描进度、扫描字节数、从缓存扫描的百分比、扫描的分区等信息。 |
-| 属性       | 显示特定于该节点的详细信息。显示的字段根据节点的功能而有所不同。               |
+| 统计信息   | 包括扫描进度、扫描的字节数、从缓存中扫描的百分比、扫描的分区等信息。 |
+| 属性       | 显示节点特定的详细信息。显示的字段根据节点的功能而有所不同。               |
 
 ## 常见操作符与字段
 
 解释计划包括各种操作符，具体取决于您希望 Databend 解释的 SQL 语句。以下是常见操作符及其字段的列表：
 
-* **TableScan**：从表中读取数据。
-    - table：表的全名。例如，`catalog1.database1.table1`。
-    - read rows：要读取的行数。
-    - read bytes：要读取的数据字节数。
-    - partition total：表的分区总数。
-    - partition scanned：要读取的分区数。
-    - push downs：要下推到存储层处理的过滤器和限制。
-* **Filter**：过滤读取的数据。
-    - filters：用于过滤数据的谓词表达式。返回 false 的数据将被过滤掉。
-* **EvalScalar**：计算标量表达式。例如，`SELECT a+1 AS b FROM t` 中的 `a+1`。
-    - expressions：要计算的标量表达式。
-* **AggregatePartial** 和 **AggregateFinal**：按键聚合并返回聚合函数的结果。
-    - group by：用于聚合的键。
-    - aggregate functions：用于聚合的函数。
-* **Sort**：按键对数据进行排序。
-    - sort keys：用于排序的表达式。
-* **Limit**：限制返回的行数。
-    - limit：要返回的行数。
-    - offset：返回任何行之前要跳过的行数。
-* **HashJoin**：使用哈希连接算法对两个表执行连接操作。哈希连接算法会选择两个表中的一个作为构建侧来构建哈希表，然后使用另一个表作为探测侧从哈希表中读取匹配数据以形成结果。
-    - join type：连接类型（INNER、LEFT OUTER、RIGHT OUTER、FULL OUTER、CROSS、SINGLE 或 MARK）。
-    - build keys：构建侧用于构建哈希表的表达式。
-    - probe keys：探测侧用于从哈希表中读取数据的表达式。
-    - filters：非等值连接条件，例如 `t.a > t1.a`。
-* **Exchange**：在 Databend 查询节点之间交换数据，以进行分布式并行计算。
-    - exchange type：数据重分区类型（Hash、Broadcast 或 Merge）。
+* **TableScan**: 从表中读取数据。
+    - table: 表的全名。例如，`catalog1.database1.table1`。
+    - read rows: 要读取的行数。
+    - read bytes: 要读取的数据字节数。
+    - partition total: 表的分区总数。
+    - partition scanned: 要读取的分区数。
+    - push downs: 要推送到存储层进行处理的过滤器和限制。
+* **Filter**: 过滤读取的数据。
+    - filters: 用于过滤数据的谓词表达式。返回 false 的数据将被过滤掉。
+* **EvalScalar**: 计算标量表达式。例如，`SELECT a+1 AS b FROM t` 中的 `a+1`。
+    - expressions: 要计算的标量表达式。
+* **AggregatePartial** & **AggregateFinal**: 按键聚合并返回聚合函数的结果。
+    - group by: 用于聚合的键。
+    - aggregate functions: 用于聚合的函数。
+* **Sort**: 按键排序数据。
+    - sort keys: 用于排序的表达式。
+* **Limit**: 限制返回的行数。
+    - limit: 要返回的行数。
+    - offset: 返回任何行之前要跳过的行数。
+* **HashJoin**: 使用 Hash Join 算法对两个表执行 Join 操作。Hash Join 算法将选择两个表中的一个作为构建侧来构建哈希表。然后使用另一个表作为探测侧从哈希表中读取匹配数据以形成结果。
+    - join type: JOIN 类型（INNER、LEFT OUTER、RIGHT OUTER、FULL OUTER、CROSS、SINGLE 或 MARK）。
+    - build keys: 构建侧用于构建哈希表的表达式。
+    - probe keys: 探测侧用于从哈希表中读取数据的表达式。
+    - filters: 非等值 JOIN 条件，例如 `t.a > t1.a`。
+* **Exchange**: 在 Databend 查询节点之间交换数据以进行分布式并行计算。
+    - exchange type: 数据重分区类型（Hash、Broadcast 或 Merge）。

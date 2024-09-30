@@ -1,16 +1,15 @@
 ---
-title: 查询 Stage 中的 Parquet 文件
-sidebar_label: 查询 Parquet 文件
+title: 查询Stage中的Parquet文件
+sidebar_label: 查询Parquet文件
 ---
 
-## 查询 Stage 中的 Parquet 文件
+## 查询Stage中的Parquet文件
 
-语法：
-
+语法:
 ```sql
-SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...]
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
-[(
+SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...] 
+FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
+[( 
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
   [ FILE_FORMAT => 'PARQUET | <custom_format_name>'],
@@ -19,35 +18,33 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 ```
 
 :::info 提示
-Parquet 包含了架构信息，因此我们可以直接查询列 `<column> [, <column> ...]`。
+Parquet包含模式信息，因此我们可以直接查询列 `<column> [, <column> ...]`。
 :::
 
 ## 教程
 
-### 第 1 步. 创建一个外部 Stage
+### 步骤1. 创建外部Stage
 
-使用您自己的 S3 桶和凭证创建一个外部 stage，您的 Parquet 文件存储在其中。
-
+使用您自己的S3存储桶和凭证创建一个外部Stage，其中存储了您的Parquet文件。
 ```sql
-CREATE STAGE parquet_query_stage
-URL = 's3://load/parquet/'
+CREATE STAGE parquet_query_stage 
+URL = 's3://load/parquet/' 
 CONNECTION = (
-    ACCESS_KEY_ID = '<your-access-key-id>'
+    ACCESS_KEY_ID = '<your-access-key-id>' 
     SECRET_ACCESS_KEY = '<your-secret-access-key>'
 );
 ```
 
-### 第 2 步. 创建自定义 Parquet 文件格式
+### 步骤2. 创建自定义Parquet文件格式
 
 ```sql
-CREATE FILE FORMAT parquet_query_format
+CREATE FILE FORMAT parquet_query_format 
     TYPE = PARQUET
     ;
 ```
+- 更多Parquet文件格式选项请参考 [Parquet文件格式选项](/sql/sql-reference/file-format-options#parquet-options)
 
-- 更多 Parquet 文件格式选项，请参考 [Parquet 文件格式选项](/sql/sql-reference/file-format-options#parquet-options)
-
-### 第 3 步. 查询 Parquet 文件
+### 步骤3. 查询Parquet文件
 
 ```sql
 SELECT *

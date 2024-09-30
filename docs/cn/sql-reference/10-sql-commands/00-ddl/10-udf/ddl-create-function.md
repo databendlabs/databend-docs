@@ -1,12 +1,12 @@
 ---
-title: 创建函数
+title: CREATE FUNCTION
 sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.339"/>
+<FunctionDescription description="引入或更新: v1.2.339"/>
 
-创建用户定义的函数。
+创建一个用户定义函数。
 
 ## 语法
 
@@ -18,4 +18,4 @@ CREATE [ OR REPLACE ] FUNCTION [ IF NOT EXISTS ] <function_name>
 
 ## 示例
 
-参见[使用示例](/guides/query/udf#usage-examples)。
+参见 [使用示例](/guides/query/udf#usage-examples)。

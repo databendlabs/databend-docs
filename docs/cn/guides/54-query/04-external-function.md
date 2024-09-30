@@ -1,69 +1,52 @@
 ---
-title: 外部函数
+title: 'Databend Cloud 中的外部函数'
+sidebar_label: '外部函数'
 ---
 
-在 Databend 中，外部函数允许您定义自定义操作来处理数据。这些函数使用 Python 等编程语言在外部服务器上实现。它们代表了自定义操作的高级形式，依赖外部服务器来定义和执行自定义数据处理操作。外部函数的关键特性包括：
+Databend 中的外部函数允许您使用 Python 等编程语言编写的外部服务器定义自定义操作来处理数据。这些函数使您能够通过集成自定义逻辑、利用外部库和处理复杂处理任务来扩展 Databend 的功能。外部函数的关键特性包括：
 
-- 可扩展性：外部函数非常适合处理复杂且资源密集型的数据操作，使其适用于要求苛刻的处理任务。
-
-- 外部库：它们可以利用外部库和依赖项，通过集成额外的功能增强其能力和多功能性。
-
-- 高级逻辑：外部函数可以实现先进且复杂的数据处理逻辑，使其成为复杂数据处理场景的理想选择。
+- **可扩展性**：适用于复杂且资源密集的数据操作。
+- **外部库**：通过外部库和依赖项利用额外的功能。
+- **高级逻辑**：为复杂场景实现复杂的数据处理逻辑。
 
 ## 支持的编程语言
 
-下表列出了在 Databend 中创建外部函数所支持的语言及其所需的库：
+下表列出了创建 Databend 外部函数所支持的语言及其所需的库：
 
 | 语言   | 所需库                                                |
-| ------ | ----------------------------------------------------- |
+|--------|-------------------------------------------------------|
 | Python | [databend-udf](https://pypi.org/project/databend-udf) |
 
 ## 管理外部函数
 
-Databend 提供了多种命令来管理外部函数。详细信息请参见[外部函数](/sql/sql-commands/ddl/external-function/)。
+您可以使用 `CREATE FUNCTION`、`DROP FUNCTION` 和 `SHOW FUNCTIONS` 等 SQL 命令来管理外部函数。更多详情，请参阅 [外部函数](/sql/sql-commands/ddl/external-function/)。
 
-## 外部函数服务器配置
+## 在 Databend Cloud 中配置外部函数
 
-Databend 提供了以下设置来配置与外部函数服务器的通信：
+要在 Databend Cloud 中使用外部函数，您需要**将外部函数服务器的地址列入白名单**。外部函数服务器必须可以通过 HTTPS 上的域名访问。请联系 Databend Cloud 支持以添加您允许的 UDF 服务器地址：
 
-| 设置名称                               | 默认值 | 描述                           | 范围          |
-| -------------------------------------- | ------ | ------------------------------ | ------------- |
-| `external_server_connect_timeout_secs` | 10     | 与外部服务器的连接超时时间     | 0 到 u64::MAX |
-| `external_server_request_timeout_secs` | 180    | 与外部服务器的请求超时时间     | 0 到 u64::MAX |
-| `external_server_request_batch_rows`   | 65536  | 发送到外部服务器的请求批次行数 | 1 到 u64::MAX |
+1. 在 Databend Cloud 控制台中导航到 **Support** > **Create New Ticket**。
+2. 提供您希望列入白名单的外部服务器地址（带有 HTTPS 域名）。
+3. 提交工单并等待支持团队的确认。
 
-## 使用示例
+## 使用示例：使用 Python 创建外部函数
 
-本节展示了如何在[支持的编程语言](#支持的编程语言)中创建外部函数。
+本节演示如何使用 Python 创建外部函数。
 
-### 在 Python 中创建外部函数
+### 1. 安装所需库
 
-1. 在启动 Databend 之前，将以下参数添加到您的[databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml)配置文件的[query]部分。
-
-:::note
-如果您使用的是 Databend Cloud，请跳过此步骤，并通过在**支持** > **创建新工单**中创建工单，与我们联系以获取允许的 UDF 服务器地址。
-:::
-
-```toml title='databend-query.toml'
-[query]
-...
-enable_udf_server = true
-# 列出允许的服务器地址，多个地址用逗号分隔。
-# 例如，['http://0.0.0.0:8815', 'http://example.com']
-udf_server_allow_list = ['http://0.0.0.0:8815']
-...
-```
-
-2. 使用 pip 安装[databend-udf](https://pypi.org/project/databend-udf)。如果您尚未安装 pip，可以按照官方文档的说明下载并安装：[安装 pip](https://pip.pypa.io/en/stable/installation/)。
+使用 `pip` 安装 [databend-udf](https://pypi.org/project/databend-udf) 库：
 
 ```bash
 pip install databend-udf
 ```
 
-3. 定义您的函数。以下代码定义并运行一个 Python 中的外部服务器，该服务器公开了一个名为*gcd*的自定义函数，用于计算两个整数的最大公约数，并允许远程执行此函数：
+### 2. 定义您的函数
 
-```python title='external_function.py'
-from databend_udf import *
+创建一个 Python 文件（例如 `external_function.py`）并定义您的外部函数。以下示例定义了一个 Python 外部服务器，该服务器公开了一个自定义函数 `gcd`，用于计算两个整数的最大公约数：
+
+```python
+from databend_udf import udf, UDFServer
 
 @udf(
     input_types=["INT", "INT"],
@@ -72,11 +55,11 @@ from databend_udf import *
 )
 def gcd(x: int, y: int) -> int:
     while y != 0:
-        (x, y) = (y, x % y)
+        x, y = y, x % y
     return x
 
 if __name__ == '__main__':
-    # 创建一个监听在'0.0.0.0:8815'的外部服务器
+    # 创建一个监听 '0.0.0.0:8815' 的外部服务器
     server = UDFServer("0.0.0.0:8815")
     # 添加定义的函数
     server.add_function(gcd)
@@ -84,48 +67,80 @@ if __name__ == '__main__':
     server.serve()
 ```
 
-`@udf`是一个用于在 Databend 中定义外部函数的装饰器，支持以下参数：
+**`@udf` 装饰器参数说明：**
 
-| 参数        | 描述                                                                                                                 |
-| ----------- | -------------------------------------------------------------------------------------------------------------------- |
-| input_types | 指定输入数据类型的字符串列表或 Arrow 数据类型。                                                                      |
-| result_type | 指定返回值类型的字符串或 Arrow 数据类型。                                                                            |
-| name        | 可选的字符串，指定函数名称。如果未提供，将使用原始名称。                                                             |
-| io_threads  | 每个数据块用于 I/O 绑定函数的 I/O 线程数。                                                                           |
-| skip_null   | 指定是否跳过 NULL 值的布尔值。如果设置为 True，则不会将 NULL 值传递给函数，相应的返回值设置为 NULL。默认值为 False。 |
+| 参数         | 描述                                                                                                                         |
+|--------------|------------------------------------------------------------------------------------------------------------------------------|
+| `input_types`  | 指定输入数据类型的字符串列表（例如 `["INT", "VARCHAR"]`）。                                                                 |
+| `result_type`  | 指定返回值类型的字符串（例如 `"INT"`）。                                                                                     |
+| `name`         | （可选）函数的自定义名称。如果未提供，则使用原始函数名称。                                                                   |
+| `io_threads`   | 每个数据块用于 I/O 绑定函数的 I/O 线程数。                                                                                   |
+| `skip_null`    | 如果设置为 `True`，则不会将 NULL 值传递给函数，并且相应的返回值将设置为 NULL。默认值为 `False`。                            |
 
-下表说明了 Databend 数据类型与其对应的 Python 类型之间的对应关系：
+**Databend 和 Python 之间的数据类型映射：**
 
-| Databend 类型       | Python 类型       |
-| ------------------- | ----------------- |
-| BOOLEAN             | bool              |
-| TINYINT (UNSIGNED)  | int               |
-| SMALLINT (UNSIGNED) | int               |
-| INT (UNSIGNED)      | int               |
-| BIGINT (UNSIGNED)   | int               |
-| FLOAT               | float             |
-| DOUBLE              | float             |
-| DECIMAL             | decimal.Decimal   |
-| DATE                | datetime.date     |
-| TIMESTAMP           | datetime.datetime |
-| VARCHAR             | str               |
-| VARIANT             | any               |
-| MAP(K,V)            | dict              |
-| ARRAY(T)            | list[T]           |
-| TUPLE(T...)         | tuple(T...)       |
+| Databend 类型         | Python 类型          |
+|-----------------------|----------------------|
+| BOOLEAN               | `bool`               |
+| TINYINT (UNSIGNED)    | `int`                |
+| SMALLINT (UNSIGNED)   | `int`                |
+| INT (UNSIGNED)        | `int`                |
+| BIGINT (UNSIGNED)     | `int`                |
+| FLOAT                 | `float`              |
+| DOUBLE                | `float`              |
+| DECIMAL               | `decimal.Decimal`    |
+| DATE                  | `datetime.date`      |
+| TIMESTAMP             | `datetime.datetime`  |
+| VARCHAR               | `str`                |
+| VARIANT               | `any`                |
+| MAP(K,V)              | `dict`               |
+| ARRAY(T)              | `list[T]`            |
+| TUPLE(T,...)          | `tuple(T,...)`       |
 
-4. 运行 Python 文件以启动外部服务器：
+### 3. 运行外部服务器
 
-```shell
+运行 Python 文件以启动外部服务器：
+
+```bash
 python3 external_function.py
 ```
 
-5. 在 Databend 中使用[CREATE FUNCTION](/sql/sql-commands/ddl/external-function/)注册函数*gcd*：
+**注意：** 确保服务器可从 Databend Cloud 访问，并且地址已列入白名单。如果尚未完成，请联系 Databend Cloud 支持将服务器地址添加到白名单中。
+
+### 4. 在 Databend Cloud 中注册函数
+
+使用 `CREATE FUNCTION` 语句在 Databend 中注册函数 `gcd`：
 
 ```sql
 CREATE FUNCTION gcd (INT, INT)
     RETURNS INT
-    LANGUAGE python
-HANDLER = 'gcd'
-ADDRESS = 'http://0.0.0.0:8815';
+    LANGUAGE PYTHON
+    HANDLER = 'gcd'
+    ADDRESS = '<your-allowed-server-address>';
 ```
+
+- 将 `<your-allowed-server-address>` 替换为您的 Databend Cloud 中已列入白名单的外部服务器的实际地址（必须是 HTTPS 域名）。
+- `HANDLER` 指定在您的 Python 代码中定义的函数名称。
+- `ADDRESS` 应与您的外部服务器运行的地址匹配，并且必须由 Databend Cloud 列入白名单。
+
+**示例：**
+
+```sql
+CREATE FUNCTION gcd (INT, INT)
+    RETURNS INT
+    LANGUAGE PYTHON
+    HANDLER = 'gcd'
+    ADDRESS = 'https://your-server-address';
+```
+
+**重要：** 在执行此语句之前，请确保 `'https://your-server-address'` 已通过联系支持列入 Databend Cloud 的白名单。
+
+现在，您可以在 SQL 查询中使用外部函数 `gcd`：
+
+```sql
+SELECT gcd(48, 18); -- 返回 6
+```
+
+## 结论
+
+Databend Cloud 中的外部函数提供了一种强大的方式，通过集成用 Python 等语言编写的自定义代码来扩展您的数据处理管道的功能。通过遵循上述步骤，您可以创建和使用外部函数来处理复杂的处理任务、利用外部库和实现高级逻辑。

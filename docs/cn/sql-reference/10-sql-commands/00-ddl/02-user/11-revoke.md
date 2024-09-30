@@ -1,28 +1,27 @@
 ---
-title: 撤销授权（REVOKE）
+title: REVOKE
 sidebar_position: 11
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.275"/>
+<FunctionDescription description="Introduced or updated: v1.2.275"/>
 
 撤销特定数据库对象的权限、角色和所有权。这包括：
 
 - 从用户或角色撤销权限。
-- 从用户或角色撤销角色。
+- 从用户或其他角色移除角色。
 
-相关内容：
+另请参阅：
 
-- [GRANT（授权）](10-grant.md)
-- [SHOW GRANTS（显示授权）](22-show-grants.md)
+- [GRANT](10-grant.md)
+- [SHOW GRANTS](22-show-grants.md)
 
 ## 语法
 
 ### 撤销权限
 
 ```sql
-REVOKE {
+REVOKE { 
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
        }
 FROM [ ROLE <role_name> ] [ <user> ]
@@ -32,22 +31,22 @@ FROM [ ROLE <role_name> ] [ <user> ]
 
 ```sql
 schemaObjectPrivileges ::=
--- 对于表
+-- 对于 TABLE
   { SELECT | INSERT }
-
--- 对于模式
+  
+-- 对于 SCHEMA
   { CREATE | DROP | ALTER }
-
--- 对于用户
+  
+-- 对于 USER
   { CREATE USER }
-
--- 对于角色
+  
+-- 对于 ROLE
   { CREATE ROLE}
 
--- 对于存储区
+-- 对于 STAGE
   { READ, WRITE }
 
--- 对于UDF
+-- 对于 UDF
   { USAGE }
 ```
 
@@ -75,17 +74,15 @@ REVOKE ROLE <role_name> FROM ROLE <role_name>
 ### 示例 1：从用户撤销权限
 
 创建用户：
-
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 ```
 
-授予用户`user1`在`default`数据库中所有现有表的`SELECT,INSERT`权限：
-
+授予用户 `user1` 在 `default` 数据库中所有现有表的 `SELECT,INSERT` 权限：
+ 
 ```sql
 GRANT SELECT,INSERT ON default.* TO user1;
 ```
-
 ```sql
 SHOW GRANTS FOR user1;
 +---------------------------------------------------+
@@ -95,8 +92,7 @@ SHOW GRANTS FOR user1;
 +---------------------------------------------------+
 ```
 
-从用户`user1`撤销`INSERT`权限：
-
+从用户 `user1` 撤销 `INSERT` 权限：
 ```sql
 REVOKE INSERT ON default.* FROM user1;
 ```
@@ -112,22 +108,19 @@ SHOW GRANTS FOR user1;
 
 ### 示例 2：从角色撤销权限
 
-授予角色`role1`在`mydb`数据库中所有现有表的`SELECT,INSERT`权限：
+授予角色 `role1` 在 `mydb` 数据库中所有现有表的 `SELECT,INSERT` 权限：
 
 创建角色：
-
 ```sql
 CREATE ROLE role1;
 ```
 
-授予角色权限：
-
+授予权限给角色：
 ```sql
 GRANT SELECT,INSERT ON mydb.* TO ROLE role1;
 ```
 
 显示角色的授权：
-
 ```sql
 SHOW GRANTS FOR ROLE role1;
 +--------------------------------------------+
@@ -137,8 +130,7 @@ SHOW GRANTS FOR ROLE role1;
 +--------------------------------------------+
 ```
 
-从角色`role1`撤销`INSERT`权限：
-
+从角色 `role1` 撤销 `INSERT` 权限：
 ```sql
 REVOKE INSERT ON mydb.* FROM ROLE role1;
 ```

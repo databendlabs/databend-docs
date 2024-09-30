@@ -1,5 +1,5 @@
 ---
-title: 删除角色
+title: DROP ROLE
 sidebar_position: 8
 ---
 
@@ -12,8 +12,7 @@ DROP ROLE [ IF EXISTS ] <role_name>
 ```
 
 ## 使用说明
-
-- 如果角色已被授权给用户，Databend 不会自动从角色中移除这些授权。
+* 如果一个角色被授予用户，Databend 无法自动从角色中移除这些授权。
 
 ## 示例
 

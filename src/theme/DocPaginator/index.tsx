@@ -13,6 +13,7 @@ import ArrowRight from "@site/static/icons/arrowright.svg";
 import { evaluateDocs } from "@site/src/api";
 import ThumbsUp from "./ThumbsUp.svg";
 import ThumbsDown from "./ThumbsDown.svg";
+import clsx from "clsx";
 const { TextArea } = Input;
 export default function DocPaginator(props) {
   const { previous, next } = props;
@@ -60,7 +61,7 @@ export default function DocPaginator(props) {
     }
   }
   return (
-    <div>
+    <div className="databend-bottom-footer">
       <Spin
         spinning={loading}
         indicator={<LoadingOutlined style={{ fontSize: 24 }} />}
@@ -96,7 +97,13 @@ export default function DocPaginator(props) {
         })}
       >
         {previous ? (
-          <Link className={styles.page} to={previous?.permalink}>
+          <Link
+            className={clsx(
+              styles.page,
+              "pagination-nav__link pagination-nav__link--prev"
+            )}
+            to={previous?.permalink}
+          >
             <ArrowLeft />
             <span>{previous?.title}</span>
           </Link>
@@ -104,7 +111,13 @@ export default function DocPaginator(props) {
           <i></i>
         )}
         {next && (
-          <Link className={styles.page} to={next?.permalink}>
+          <Link
+            className={clsx(
+              styles.page,
+              "pagination-nav__link pagination-nav__link--next"
+            )}
+            to={next?.permalink}
+          >
             <span>{next?.title}</span>
             <ArrowRight />
           </Link>

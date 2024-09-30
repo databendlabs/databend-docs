@@ -1,18 +1,17 @@
 ---
-title: External Function
+title: 'External Functions in Databend Cloud'
+sidebar_label: 'External Function'
 ---
 
-External functions in Databend allow you to define custom operations for processing data. These functions are implemented using an external server in programming languages such as Python. They represent an advanced form of custom operation, relying on an external server to define and execute custom data processing operations. Key features of external functions include:
+External functions in Databend allow you to define custom operations for processing data using external servers written in programming languages like Python. These functions enable you to extend Databend's capabilities by integrating custom logic, leveraging external libraries, and handling complex processing tasks. Key features of external functions include:
 
-- Scalability: External functions are well-suited for handling complex and resource-intensive data operations, making them suitable for demanding processing tasks.
-
-- External Libraries: They can utilize external libraries and dependencies, enhancing their capabilities and versatility by integrating additional functionality.
-
-- Advanced Logic: External functions can implement advanced and sophisticated data processing logic, making them ideal for complex data processing scenarios.
+- **Scalability**: Ideal for complex and resource-intensive data operations.
+- **External Libraries**: Leverage additional functionality through external libraries and dependencies.
+- **Advanced Logic**: Implement sophisticated data processing logic for complex scenarios.
 
 ## Supported Programming Languages
 
-This table lists the supported languages and the required libraries for creating external functions in Databend:
+The following table lists the supported languages and the required libraries for creating external functions in Databend:
 
 | Language | Required Library                                      |
 |----------|-------------------------------------------------------|
@@ -20,51 +19,34 @@ This table lists the supported languages and the required libraries for creating
 
 ## Managing External Functions
 
-Databend provides a variety of commands to manage external functions. For details, see [External Function](/sql/sql-commands/ddl/external-function/).
+You can manage external functions using SQL commands such as `CREATE FUNCTION`, `DROP FUNCTION`, and `SHOW FUNCTIONS`. For more details, see [External Function](/sql/sql-commands/ddl/external-function/).
 
-## Databend Settings for External Functions Server
+## Configuring External Functions in Databend Cloud
 
-Databend provides the following settings to configure the external function server communication:
+To use external functions in Databend Cloud, you need to **allowlist the addresses of your external function servers**. The external function server must be accessible via a domain name over HTTPS. Please contact Databend Cloud support to add your allowed UDF server addresses:
 
-| Setting Name | Default Value | Description                                    | Range |
-|--------------|---------------|------------------------------------------------|-------|
-| `external_server_connect_timeout_secs` | 10 | Connection timeout to external server | 0 to u64::MAX |
-| `external_server_request_timeout_secs` | 180 | Request timeout to external server    | 0 to u64::MAX |
-| `external_server_request_batch_rows` | 65536 | Request batch rows to external server | 1 to u64::MAX |
+1. Navigate to **Support** > **Create New Ticket** in the Databend Cloud console.
+2. Provide the external server addresses (with HTTPS domain names) you wish to allowlist.
+3. Submit the ticket and await confirmation from the support team.
 
+## Usage Example: Creating an External Function in Python
 
-## Usage Examples
+This section demonstrates how to create an external function using Python.
 
-This section demonstrates how to create an external function in each of the [Supported Programming Languages](#supported-programming-languages).
+### 1. Install the Required Library
 
-### Creating an External Function in Python
-
-1. Before starting Databend, add the following parameters to the [query] section in your [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
-
-:::note
-If you are on Databend Cloud, skip this step and contact us with your allowed UDF server addresses by creating a ticket on **Support** > **Create New Ticket**.
-:::
-
-```toml title='databend-query.toml'
-[query]
-...
-enable_udf_server = true
-# List the allowed server addresses, separating multiple addresses with commas.
-# For example, ['http://0.0.0.0:8815', 'http://example.com']
-udf_server_allow_list = ['http://0.0.0.0:8815']
-...
-```
-
-2. Install [databend-udf](https://pypi.org/project/databend-udf) using pip. If you haven't installed pip, you can download and install it following the official documentation: [Installing pip](https://pip.pypa.io/en/stable/installation/).
+Install the [databend-udf](https://pypi.org/project/databend-udf) library using `pip`:
 
 ```bash
 pip install databend-udf
 ```
 
-3. Define your function. This code defines and runs an external server in Python, which exposes a custom function *gcd* for calculating the greatest common divisor of two integers and allows remote execution of this function:
+### 2. Define Your Function
 
-```python title='external_function.py'
-from databend_udf import *
+Create a Python file (e.g., `external_function.py`) and define your external function. The following example defines an external server in Python that exposes a custom function `gcd` for calculating the greatest common divisor of two integers:
+
+```python
+from databend_udf import udf, UDFServer
 
 @udf(
     input_types=["INT", "INT"],
@@ -73,60 +55,92 @@ from databend_udf import *
 )
 def gcd(x: int, y: int) -> int:
     while y != 0:
-        (x, y) = (y, x % y)
+        x, y = y, x % y
     return x
 
 if __name__ == '__main__':
-    # create an external server listening at '0.0.0.0:8815'
+    # Create an external server listening at '0.0.0.0:8815'
     server = UDFServer("0.0.0.0:8815")
-    # add defined functions
+    # Add the defined function
     server.add_function(gcd)
-    # start the external server
+    # Start the external server
     server.serve()
 ```
 
-`@udf` is a decorator used for defining external functions in Databend, supporting the following parameters:
+**Explanation of `@udf` Decorator Parameters:**
 
-| Parameter    | Description                                                                                         |
-|--------------|-----------------------------------------------------------------------------------------------------|
-| input_types  | A list of strings or Arrow data types that specify the input data types.                          |
-| result_type  | A string or an Arrow data type that specifies the return value type.                                |
-| name         | An optional string specifying the function name. If not provided, the original name will be used. |
-| io_threads   | Number of I/O threads used per data chunk for I/O bound functions.                                    |
-| skip_null    | A boolean value specifying whether to skip NULL values. If set to True, NULL values will not be passed to the function, and the corresponding return value is set to NULL. Default is False. |
+| Parameter    | Description                                                                                                                                          |
+|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `input_types`  | A list of strings specifying the input data types (e.g., `["INT", "VARCHAR"]`).                                                                     |
+| `result_type`  | A string specifying the return value type (e.g., `"INT"`).                                                                                          |
+| `name`         | (Optional) Custom name for the function. If not provided, the original function name is used.                                                       |
+| `io_threads`   | Number of I/O threads used per data chunk for I/O-bound functions.                                                                                  |
+| `skip_null`    | If set to `True`, NULL values are not passed to the function, and the corresponding return value is set to NULL. Default is `False`.                 |
 
-This table illustrates the correspondence between Databend data types and their corresponding Python equivalents:
+**Data Type Mappings Between Databend and Python:**
 
 | Databend Type         | Python Type          |
-|-----------------------|-----------------------|
-| BOOLEAN               | bool                  |
-| TINYINT (UNSIGNED)    | int                   |
-| SMALLINT (UNSIGNED)   | int                   |
-| INT (UNSIGNED)        | int                   |
-| BIGINT (UNSIGNED)     | int                   |
-| FLOAT                 | float                 |
-| DOUBLE                | float                 |
-| DECIMAL               | decimal.Decimal       |
-| DATE                  | datetime.date         |
-| TIMESTAMP             | datetime.datetime     |
-| VARCHAR               | str                   |
-| VARIANT               | any                   |
-| MAP(K,V)              | dict                  |
-| ARRAY(T)              | list[T]               |
-| TUPLE(T...)           | tuple(T...)           |
+|-----------------------|----------------------|
+| BOOLEAN               | `bool`               |
+| TINYINT (UNSIGNED)    | `int`                |
+| SMALLINT (UNSIGNED)   | `int`                |
+| INT (UNSIGNED)        | `int`                |
+| BIGINT (UNSIGNED)     | `int`                |
+| FLOAT                 | `float`              |
+| DOUBLE                | `float`              |
+| DECIMAL               | `decimal.Decimal`    |
+| DATE                  | `datetime.date`      |
+| TIMESTAMP             | `datetime.datetime`  |
+| VARCHAR               | `str`                |
+| VARIANT               | `any`                |
+| MAP(K,V)              | `dict`               |
+| ARRAY(T)              | `list[T]`            |
+| TUPLE(T,...)          | `tuple(T,...)`       |
 
-4. Run the Python file to start the external server:
+### 3. Run the External Server
 
-```shell
+Run the Python file to start the external server:
+
+```bash
 python3 external_function.py
 ```
 
-5. Register the function *gcd* with the [CREATE FUNCTION](/sql/sql-commands/ddl/external-function/) in Databend:
+**Note:** Ensure that the server is accessible from Databend Cloud and that the address is allowlisted. If not already done, contact Databend Cloud support to add the server address to the allowlist.
+
+### 4. Register the Function in Databend Cloud
+
+Register the function `gcd` in Databend using the `CREATE FUNCTION` statement:
 
 ```sql
 CREATE FUNCTION gcd (INT, INT)
     RETURNS INT
-    LANGUAGE python
-HANDLER = 'gcd'
-ADDRESS = 'http://0.0.0.0:8815';
+    LANGUAGE PYTHON
+    HANDLER = 'gcd'
+    ADDRESS = '<your-allowed-server-address>';
 ```
+
+- Replace `<your-allowed-server-address>` with the actual address of your external server that has been allowlisted in Databend Cloud (must be an HTTPS domain).
+- The `HANDLER` specifies the name of the function as defined in your Python code.
+- The `ADDRESS` should match the address where your external server is running and must be allowlisted by Databend Cloud.
+
+**Example:**
+
+```sql
+CREATE FUNCTION gcd (INT, INT)
+    RETURNS INT
+    LANGUAGE PYTHON
+    HANDLER = 'gcd'
+    ADDRESS = 'https://your-server-address';
+```
+
+**Important:** Before executing this statement, ensure that `'https://your-server-address'` is allowlisted in Databend Cloud by contacting support.
+
+You can now use the external function `gcd` in your SQL queries:
+
+```sql
+SELECT gcd(48, 18); -- Returns 6
+```
+
+## Conclusion
+
+External functions in Databend Cloud provide a powerful way to extend the functionality of your data processing pipelines by integrating custom code written in languages like Python. By following the steps outlined above, you can create and use external functions to handle complex processing tasks, leverage external libraries, and implement advanced logic.

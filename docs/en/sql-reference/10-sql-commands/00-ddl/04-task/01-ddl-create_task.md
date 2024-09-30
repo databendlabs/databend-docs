@@ -41,7 +41,7 @@ AS
 | session_parameter                                | Optional. Specifies session parameters to use for the task during task run.                                                                                                  |
 | sql                                              | The SQL statement that the task will execute, it could be a single statement or a script This is a mandatory field.                                                          |
 
-### Usage Notes:
+### Usage Notes
 
 - A schedule must be defined for a standalone task or the root task in a DAG of tasks; otherwise, the task only runs if manually executed using EXECUTE TASK.
 - A schedule cannot be specified for child tasks in a DAG.
@@ -58,12 +58,48 @@ AS
 - Tasks will not retry on each execution; each execution is serial. Each script SQL is executed one by one, with no parallel execution. This ensures that the sequence and dependencies of task execution are maintained.
 - Interval-based tasks follow a fixed interval spot in a tight way. This means that if the current task execution time exceeds the interval unit, the next task will execute immediately. Otherwise, the next task will wait until the next interval unit is triggered. For example, if a task is defined with a 1-second interval and one task execution takes 1.5 seconds, the next task will execute immediately. If one task execution takes 0.5 seconds, the next task will wait until the next 1-second interval tick starts.
 
+### Important Notes on Cron Expressions
+
+- The cron expression used in the `SCHEDULE` parameter must contain **exactly 6 fields**.
+- The fields represent the following:
+  1. **Second** (0-59)
+  2. **Minute** (0-59)
+  3. **Hour** (0-23)
+  4. **Day of the Month** (1-31)
+  5. **Month** (1-12 or JAN-DEC)
+  6. **Day of the Week** (0-6, where 0 is Sunday, or SUN-SAT)
+
+ #### Example Cron Expressions:
+
+- **Daily at 9:00:00 AM Pacific Time:**
+  - `USING CRON '0 0 9 * * *' 'America/Los_Angeles'`
+
+- **Every minute:**
+  - `USING CRON '0 * * * * *' 'UTC'`
+  - This runs the task every minute at the start of the minute.
+
+- **Every hour at the 15th minute:**
+  - `USING CRON '0 15 * * * *' 'UTC'`
+  - This runs the task every hour at 15 minutes past the hour.
+
+- **Every Monday at 12:00:00 PM:**
+  - `USING CRON '0 0 12 * * 1' 'UTC'`
+  - This runs the task every Monday at noon.
+
+- **On the first day of every month at midnight:**
+  - `USING CRON '0 0 0 1 * *' 'UTC'`
+  - This runs the task at midnight on the first day of every month.
+
+- **Every weekday at 8:30:00 AM:**
+  - `USING CRON '0 30 8 * * 1-5' 'UTC'`
+  - This runs the task every weekday (Monday to Friday) at 8:30 AM.
+
 ## Usage Examples
 
 ```sql
 CREATE TASK my_daily_task
  WAREHOUSE = 'compute_wh'
- SCHEDULE = USING CRON '0 9 * * * *' 'America/Los_Angeles'
+ SCHEDULE = USING CRON '0 0 9 * * *' 'America/Los_Angeles'
  COMMENT = 'Daily summary task'
  AS
  INSERT INTO summary_table SELECT * FROM source_table;
@@ -105,7 +141,7 @@ In this example, a task named process_orders is created, and it is defined to ru
 ```sql
 CREATE TASK IF NOT EXISTS hourly_data_cleanup
  WAREHOUSE = 'maintenance'
- SCHEDULE = '0 * * * *'
+ SCHEDULE = '0 0 * * * *'
  WHEN STREAM_STATUS('change_stream') = TRUE
 AS
 DELETE FROM archived_data

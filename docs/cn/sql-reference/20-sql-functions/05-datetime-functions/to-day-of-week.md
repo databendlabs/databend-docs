@@ -18,7 +18,7 @@ TO_DAY_OF_WEEK(<expr>)
 
 ## 返回类型
 
-``TINYINT`
+`TINYINT`
 
 ## 示例
 

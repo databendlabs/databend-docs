@@ -27,6 +27,7 @@ This section provides reference information for the semi-structured data functio
 - [JSON_PATH_QUERY](json-path-query.md)
 - [JSON_PATH_QUERY_ARRAY](json-path-query-array.md)
 - [JSON_PATH_QUERY_FIRST](json-path-query-first.md)
+- [JQ](jq.md)
 
 ## JSON Data Manipulation:
 - [JSON_ARRAY](json-array.md)

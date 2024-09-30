@@ -220,10 +220,3 @@ Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/d
 |:----------|:---------------------------------------------------------|
 | SUPER     | SHOW CREATE catalog. Creates or drops a catalog.         |
 | ALL       | Grants all the privileges for the specified object type. |
-
-### Share Privileges
-
-| Privilege | Description                                              |
-|:----------|:---------------------------------------------------------|
-| SUPER     | Creates, drops, or describes a share. Shows shares.      |
-| ALL       | Grants all the privileges for the specified object type. |

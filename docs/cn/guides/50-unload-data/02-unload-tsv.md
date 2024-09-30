@@ -4,7 +4,7 @@ title: 卸载 TSV 文件
 
 ## 卸载 TSV 文件
 
-语法：
+语法:
 
 ```sql
 COPY INTO { internalStage | externalStage | externalLocation }
@@ -22,11 +22,11 @@ FILE_FORMAT = (
 
 - 更多 TSV 选项请参考 [TSV 文件格式选项](/sql/sql-reference/file-format-options#tsv-options)
 - 卸载到多个文件使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- 更多语法细节请参见 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
+- 更多语法细节请参考 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
 
 ## 教程
 
-### 步骤 1. 创建外部阶段
+### 步骤 1. 创建外部 Stage
 
 ```sql
 CREATE STAGE tsv_unload_stage
@@ -57,7 +57,7 @@ FILE_FORMAT = (FORMAT_NAME = 'tsv_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
-结果：
+结果:
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
@@ -69,7 +69,7 @@ DETAILED_OUTPUT = true;
 
 ### 步骤 4. 验证卸载的 TSV 文件
 
-```sql
+```
 SELECT COUNT($1)
 FROM @tsv_unload_stage
 (
@@ -78,7 +78,7 @@ FROM @tsv_unload_stage
 );
 ```
 
-结果：
+结果:
 
 ```text
 ┌───────────┐

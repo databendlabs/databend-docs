@@ -5,18 +5,18 @@ description:
   从源码获取并构建 Databend
 ---
 
-作为一个开源平台，Databend 为用户提供了根据其特定需求修改、分发和增强软件的灵活性。此外，用户还可以从源代码构建 Databend，这使他们能够充分了解软件的工作原理，并有可能为其开发做出贡献。
+作为一个开源平台，Databend 为用户提供了根据特定需求修改、分发和增强软件的灵活性。此外，用户可以自由地从源代码构建 Databend，从而完全理解软件的工作原理并可能为其开发做出贡献。
 
 :::tip
-Databend 提供了一个包含所有必要开发工具的 Docker 镜像，但目前仅适用于 amd64 架构。要使用它，请确保 Docker 已安装并正在运行，然后运行 `INTERACTIVE=true scripts/setup/run_build_tool.sh`。这将启动一个用于构建和测试的环境，`INTERACTIVE=true` 标志启用交互模式。
+Databend 提供了一个包含所有必要开发工具的 Docker 镜像，但目前仅适用于 amd64 架构。要使用它，请确保 Docker 已安装并运行，然后运行 `INTERACTIVE=true scripts/setup/run_build_tool.sh`。这将启动一个用于构建和测试的环境，`INTERACTIVE=true` 标志启用交互模式。
 :::
 
-## 先决条件
+## 前提条件
 
 在构建 Databend 之前，请确保已满足以下要求：
 
-- 构建 Databend 的源代码至少需要 16 GB 的 RAM。
-- 您已安装以下所需工具：
+- 至少需要 16 GB 的 RAM 来从源代码构建 Databend。
+- 您已安装以下必需工具：
   - Git
   - cmake
   - [rustup](https://rustup.rs/)
@@ -41,12 +41,12 @@ export PATH=$PATH:~/.cargo/bin
 
 3. 构建 Databend。
 
-  - 要构建包含调试信息的 Databend 以进行调试，请运行 `make build`。结果文件将位于 "target/debug/" 目录中。
+  - 要构建带有调试信息的 Databend 以进行调试，请运行 `make build`。生成的文件将位于 "target/debug/" 目录中。
 
 ```shell
 make build
 ```
-  - 要为生产环境构建 Databend，优化您的本地 CPU，请运行 `make build-release`。结果文件将位于 "target/release/" 目录中。
+  - 要为生产构建 Databend，针对本地 CPU 进行优化，请运行 `make build-release`。生成的文件将位于 "target/release/" 目录中。
 
 ```shell
 make build-release
@@ -84,7 +84,7 @@ killall -9 databend-query
     export CMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++
     ```
 
-  - 使用自定义 jemalloc 环境配置：
+  - 使用自定义的 jemalloc 环境配置：
     ```bash
     export JEMALLOC_SYS_WITH_LG_PAGE=14
     export JEMALLOC_SYS_WITH_MALLOC_CONF="oversize_threshold:0,dirty_decay_ms:5000,muzzy_decay_ms:5000"
@@ -98,15 +98,15 @@ killall -9 databend-query
   Error: Custom { kind: Other, error: "protoc failed: Unknown flag: --experimental_allow_proto3_optional\n" }
 warning: build failed, waiting for other jobs to finish...
 All done...
-# 通过压缩二进制文件来减小二进制大小。
+# 通过压缩二进制文件来减少二进制大小。
 objcopy --compress-debug-sections=zlib-gnu /home/aucker/mldb/databend/target/release/databend-query
 objcopy: '/home/aucker/mldb/databend/target/release/databend-query': No such file
 make: *** [Makefile:51: build-release] Error 1
 ```
 
-错误信息表明在使用 protoc（一种协议缓冲区编译器）时由于使用了未知标志（--experimental_allow_proto3_optional）导致构建 Databend 出现问题。这个标志只在 protoc 版本 3.12 或更高版本中可用，当前使用的版本不支持它。
+错误消息表明，由于使用了 protoc（协议缓冲区编译器）的未知标志（--experimental_allow_proto3_optional），构建 Databend 时出现问题。此标志仅在 protoc 版本 3.12 或更高版本中可用，当前使用的版本不支持它。
 
-推荐的解决方案是升级到支持该标志的 protoc 版本。您可以通过从官方发布页面（ https://github.com/protocolbuffers/protobuf/releases ）下载最新版本的 protoc 并在您的系统上安装它来实现这一点。
+推荐的解决方案是升级到支持该标志的 protoc 版本。您可以从官方发布页面（https://github.com/protocolbuffers/protobuf/releases）下载最新版本的 protoc 并安装在您的系统上。
 
 ```bash
 PB_REL="https://github.com/protocolbuffers/protobuf/releases"
@@ -117,8 +117,8 @@ $protoc --version
 libprotoc 3.15.6
 ```
 
-3. 在一个 fork 的 Databend 项目中无法连接到 databend-meta。
+3. 在分叉的 Databend 项目中无法连接到 databend-meta。
 
-这个问题可能是由于 Databend-meta 实现的版本检查没有被 fork 项目满足所导致的。
+此问题可能是由于 databend-meta 中实现的版本检查未被分叉项目满足所致。
 
-一个可能的解决方案是使用命令 `git fetch https://github.com/datafuselabs/databend.git --tags` 从官方 Databend 仓库获取最新的标签。这应该确保项目使用的是最新版本的 Databend-meta，并将通过版本检查。
+一种可能的解决方案是使用命令 `git fetch https://github.com/datafuselabs/databend.git --tags` 从官方 Databend 仓库获取最新的标签。这应确保项目使用最新版本的 databend-meta 并通过版本检查。

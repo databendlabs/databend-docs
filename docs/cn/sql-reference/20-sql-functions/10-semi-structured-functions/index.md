@@ -27,6 +27,7 @@ title: 半结构化函数
 - [JSON_PATH_QUERY](json-path-query.md)
 - [JSON_PATH_QUERY_ARRAY](json-path-query-array.md)
 - [JSON_PATH_QUERY_FIRST](json-path-query-first.md)
+- [JQ](jq.md)
 
 ## JSON 数据操作：
 - [JSON_ARRAY](json-array.md)

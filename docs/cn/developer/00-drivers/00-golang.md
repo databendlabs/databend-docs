@@ -86,7 +86,7 @@ import (
 	"fmt"
 	"log"
 
-	_ "github.com/databendcloud/databend-go"
+	_ "github.com/datafuselabs/databend-go"
 )
 
 const (

@@ -2,6 +2,8 @@
 title: Enterprise Features
 ---
 
+import DatabendTable from '@site/src/components/DatabendTable';
+
 This page provides an updated list of available enterprise features. To access these features, you will need an enterprise or trial license. For more details, see [Licensing Databend](20-license.md).
 
 ### Enterprise Feature List
@@ -19,6 +21,7 @@ This page provides an updated list of available enterprise features. To access t
 | [Stream](/sql/sql-commands/ddl/stream)                                           | Data Streaming | Efficient data change management with stream:<br/>- Append-only mode supported: Instantly capture data insertions in real-time.<br/>- Seamlessly leverage streams for direct querying and analysis, ensuring swift insights.                                                                                                                                                                                                                                                |
 | [Masking Policy](/sql/sql-commands/ddl/mask-policy/)                             | Security       | Enhance your data security with role-based masking feature:<br/>- Safeguard sensitive information through customizable data masking.<br/>- Preserve data usability while reinforcing security.                                                                                                                                                                                                                                                                              |
 | Storage Encryption                                                               | Security       | Enhance the security of your server-side data encryption, safeguarding your data from unauthorized access by the storage vendor:<br/>- Choose encryption through service-managed keys, KMS managed keys, or customer-managed keys. Options may vary by storage type.<br/>- Currently supported on Alibaba Cloud OSS.<br/>See the [deploy guide](../../../10-deploy/01-deploy/01-non-production/01-deploying-databend.md) for encryption parameters for each storage vendor. |
+| [Fail-Safe](/guides/security/fail-safe) | Security | Recover table data from S3-compatible object storage. |
 
 ## Databend Community vs. Enterprise
 
@@ -26,96 +29,135 @@ This section compares Databend Community with Databend Enterprise in the followi
 
 ### Core Functionalities
 
-| Functionality                                     | Databend Community       | Databend Enterprise      |
-| ------------------------------------------------- | ------------------------ | ------------------------ |
-| Distributed Metadata Management                   | ✓                        | ✓                        |
-| Distributed SQL Engine                            | ✓                        | ✓                        |
-| Distributed Storage Engine                        | ✓                        | ✓                        |
-| Distributed Scheduling Engine                     | ✓                        | ✓                        |
-| Vectorized Engine                                 | ✓                        | ✓                        |
-| Distributed Transaction                           | ✓                        | ✓                        |
-| Multi-version Data                                | ✓                        | ✓                        |
-| Time Travel                                       | ✓                        | ✓                        |
-| Performance Optimizer                             | ✓                        | ✓                        |
-| Multi-tenancy and Permission Management           | ✓                        | ✓                        |
-| Standard Data Types                               | ✓                        | ✓                        |
-| Semi-structured Data Type (JSON)                  | ✓                        | ✓                        |
-| Unstructured Data Types                           | Parquet/CSV/TSV/JSON/ORC | Parquet/CSV/TSV/JSON/ORC |
-| Advanced Compression                              | ✓                        | ✓                        |
-| Vector Storage                                    | ✓                        | ✓                        |
-| Apache Hive Query                                 | ✓                        | ✓                        |
-| Apache Iceberg Query                              | ✓                        | ✓                        |
-| Semi-structured Data Query                        | ✓                        | ✓                        |
-| External User-defined Functions                   | ✓                        | ✓                        |
-| Large Query Resource Isolation Protection (Spill) | ✓                        | ✓                        |
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Distributed Metadata Management', '✓', '✓'],
+['Distributed SQL Engine', '✓', '✓'],
+['Distributed Storage Engine', '✓', '✓'],
+['Distributed Scheduling Engine', '✓', '✓'],
+['Vectorized Engine', '✓', '✓'],
+['Distributed Transaction', '✓', '✓'],
+['Multi-version Data', '✓', '✓'],
+['Time Travel', '✓', '✓'],
+['Performance Optimizer', '✓', '✓'],
+['Multi-tenancy and Permission Management', '✓', '✓'],
+['Standard Data Types', '✓', '✓'],
+['Semi-structured Data Type (JSON)', '✓', '✓'],
+['Unstructured Data Types', 'Parquet/CSV/TSV/JSON/ORC', 'Parquet/CSV/TSV/JSON/ORC'],
+['Advanced Compression', '✓', '✓'],
+['Vector Storage', '✓', '✓'],
+['Apache Hive Query', '✓', '✓'],
+['Apache Iceberg Query', '✓', '✓'],
+['Semi-structured Data Query', '✓', '✓'],
+['External User-defined Functions', '✓', '✓'],
+['Large Query Resource Isolation Protection (Spill)', '✓', '✓'],
+]}
+/>
 
 ### Extended Functionalities
 
-| Functionality                                            | Databend Community | Databend Enterprise            |
-| -------------------------------------------------------- | ------------------ | ------------------------------ |
-| Cluster Mode                                             | ✕                  | ✓                              |
-| Materialized Views                                       | ✕                  | ✓                              |
-| AI Functions (Sentiment Analysis, Data Annotation, etc.) | ✕                  | HuggingFace Open Source Models |
-| Multi-tenant Data Sharing                                | ✕                  | ✓                              |
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Cluster Mode', '✕', '✓'],
+['Materialized Views', '✕', '✓'],
+['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', 'HuggingFace Open Source Models'],
+['Multi-tenant Data Sharing', '✕', '✓'],
+]}
+/>
 
 ### Deployment
 
-| Functionality                                            | Databend Community | Databend Enterprise |
-| -------------------------------------------------------- | ------------------ | ------------------- |
-| Deployment Support: K8s, Baremetal, Installer            | ✓                  | ✓                   |
-| Backend Storage Support: S3, Azblob, GCS, OSS, COS, HDFS | ✓                  | ✓                   |
-| x86_64 &amp; ARM64 Architecture                          | ✓                  | ✓                   |
-| Compatible with LoongArch, openEuler, etc.               | ✓                  | ✓                   |
-| Monitoring and Alerting APIs                             | ✓                  | ✓                   |
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Deployment Support: K8s, Baremetal, Installer', '✓', '✓'],
+['Backend Storage Support: S3, Azblob, GCS, OSS, COS, HDFS', '✓', '✓'],
+['x86_64 & ARM64 Architecture', '✓', '✓'],
+['Compatible with LoongArch, openEuler, etc.', '✓', '✓'],
+['Monitoring and Alerting APIs', '✓', '✓'],
+]}
+/>
 
 ### Ecosystem
 
-| Functionality                              | Databend Community | Databend Enterprise |
-| ------------------------------------------ | ------------------ | ------------------- |
-| Driver Support: Go, Java, Rust, JS, Python | ✓                  | ✓                   |
-| Native REST APIs                           | ✓                  | ✓                   |
-| Native Client BendSQL                      | ✓                  | ✓                   |
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Driver Support: Go, Java, Rust, JS, Python', '✓', '✓'],
+['Native REST APIs', '✓', '✓'],
+['Native Client BendSQL', '✓', '✓'],
+]}
+/>
 
 ### Security
 
-| Functionality                       | Databend Community | Databend Enterprise |
-| ----------------------------------- | ------------------ | ------------------- |
-| Audit Functionality                 | ✓                  | ✓                   |
-| Access Control RBAC                 | ✓                  | ✓                   |
-| Password Strength and Expiry Policy | ✓                  | ✓                   |
-| Whitelist Management                | ✓                  | ✓                   |
-| Storage Encryption                  | ✕                  | ✓                   |
-| Data Dynamic Masking Policy         | ✕                  | ✓                   |
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Audit Functionality', '✓', '✓'],
+['Access Control RBAC', '✓', '✓'],
+['Password Strength and Expiry Policy', '✓', '✓'],
+['Whitelist Management', '✓', '✓'],
+['Storage Encryption', '✕', '✓'],
+['Data Dynamic Masking Policy', '✕', '✓'],
+]}
+/>
 
 ### Data Import & Export
 
-| Functionality                 | Databend Community     | Databend Enterprise    |
-| ----------------------------- | ---------------------- | ---------------------- |
-| Data Processing during Import | ✓                      | ✓                      |
-| Data Streaming                | ✕                      | ✓                      |
-| CDC Real-time Data Import     | ✕                      | ✓                      |
-| Data Export Formats           | Parquet/ORC/CSV/NDJSON | Parquet/ORC/CSV/NDJSON |
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Data Processing during Import', '✓', '✓'],
+['Data Streaming', '✕', '✓'],
+['CDC Real-time Data Import', '✕', '✓'],
+['Data Export Formats', 'Parquet/ORC/CSV/NDJSON', 'Parquet/ORC/CSV/NDJSON'],
+]}
+/>
 
 ### Query Optimizations
 
-| Functionality                               | Databend Community | Databend Enterprise |
-| ------------------------------------------- | ------------------ | ------------------- |
-| Aggregation Query Acceleration Optimization | ✕                  | ✓                   |
-| JSON Query Acceleration Optimization        | ✕                  | ✓                   |
-| Precomputation Capability                   | ✕                  | ✓                   |
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Aggregation Query Acceleration Optimization', '✕', '✓'],
+['JSON Query Acceleration Optimization', '✕', '✓'],
+['Precomputation Capability', '✕', '✓'],
+]}
+title="Query Optimizations"
+/>
 
 ### Storage Optimizations
 
-| Functionality                   | Databend Community | Databend Enterprise |
-| ------------------------------- | ------------------ | ------------------- |
-| Cold/Hot Data Separation        | ✕                  | ✓                   |
-| Automatic Expiry Data Cleaning  | ✕                  | ✓                   |
-| Automatic Garbage Data Cleaning | ✕                  | ✓                   |
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Cold/Hot Data Separation', '✕', '✓'],
+['Automatic Expiry Data Cleaning', '✕', '✓'],
+['Automatic Garbage Data Cleaning', '✕', '✓'],
+]}
+title="Storage Optimizations"
+/>
 
 ### Customer Support
 
-| Functionality                     | Databend Community | Databend Enterprise |
-| --------------------------------- | ------------------ | ------------------- |
-| 24/7 Support & Emergency Response | ✕                  | ✓                   |
-| Deployment and Upgrade            | ✕                  | ✓                   |
-| Operational Support               | ✕                  | ✓                   |
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['24/7 Support & Emergency Response', '✕', '✓'],
+['Deployment and Upgrade', '✕', '✓'],
+['Operational Support', '✕', '✓'],
+]}
+title="Customer Support"
+/>

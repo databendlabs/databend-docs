@@ -96,9 +96,56 @@ WARN[0072] Failed to read message from Kafka: context deadline exceeded  kafka_b
 2024/08/20 15:10:15 ingest 2 rows (1.225576 rows/s), 75 bytes (45.959100 bytes/s)
 ```
 
-3. In Databend Cloud, verify that the data has been successfully loaded:
+3. Connect to Databend Cloud using BendSQL and verify that the data has been successfully loaded:
 
-![alt text](../../../../static/img/documents/tutorials/kafka-6.png)
+```bash
+Welcome to BendSQL 0.19.2-1e338e1(2024-07-17T09:02:28.323121000Z).
+Connecting to tn3ftqihs--eric.gw.aws-us-east-2.default.databend.com:443 with warehouse eric as user cloudapp
+Connected to Databend Query v1.2.626-nightly-a055124b65(rust-1.81.0-nightly-2024-08-27T15:49:08.376336236Z)
 
+cloudapp@(eric)/doc> SELECT * FROM databend_topic;
 
+SELECT * FROM databend_topic
 
+-[ RECORD 1 ]-----------------------------------
+  id: 1
+name: Alice
+ age: 30
+-[ RECORD 2 ]-----------------------------------
+  id: 2
+name: Bob
+ age: 25
+```
+
+4. To load the messages in RAW mode, simple run the following command:
+
+```bash
+bend-ingest-kafka \
+  --kafka-bootstrap-servers="localhost:9092" \
+  --kafka-topic="test-topic" \
+  --databend-dsn="<your-dsn>" \
+  --is-json-transform=false 
+```
+
+You will get a new table in the `doc` database, containing the following rows:
+
+```bash
+cloudapp@(eric)/doc> SELECT * FROM test_ingest;
+
+SELECT * FROM test_ingest
+
+-[ RECORD 1 ]-----------------------------------
+           uuid: 17f9e56e-19ba-4d42-88a0-e16b27815d04
+        koffset: 0
+     kpartition: 0
+       raw_data: {"age":30,"id":1,"name":"Alice"}
+record_metadata: {"create_time":"2024-08-27T19:10:45.888Z","key":"","offset":0,"partition":0,"topic":"test-topic"}
+       add_time: 2024-08-27 19:12:55.081444
+-[ RECORD 2 ]-----------------------------------
+           uuid: 0f57f71a-32ee-4df3-b75e-d123b9a91543
+        koffset: 1
+     kpartition: 0
+       raw_data: {"age":25,"id":2,"name":"Bob"}
+record_metadata: {"create_time":"2024-08-27T19:10:52.946Z","key":"","offset":1,"partition":0,"topic":"test-topic"}
+       add_time: 2024-08-27 19:12:55.081470
+```

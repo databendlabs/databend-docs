@@ -1,5 +1,5 @@
 ---
-title: 删除用户
+title: DROP USER
 sidebar_position: 4
 ---
 

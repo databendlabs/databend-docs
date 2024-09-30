@@ -35,9 +35,9 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 
 ## 教程：从CSV文件加载数据
 
-### 步骤1. 创建内部阶段
+### 步骤1. 创建内部Stage
 
-创建一个内部阶段来存储CSV文件。
+创建一个内部Stage以存储CSV文件。
 
 ```sql
 CREATE STAGE my_csv_stage;
@@ -85,7 +85,7 @@ CREATE TABLE books
 );
 ```
 
-### 步骤4. 直接从CSV复制数据
+### 步骤4. 直接从CSV复制
 
 要直接从CSV文件将数据复制到表中，请使用以下SQL命令：
 
@@ -97,7 +97,7 @@ FILE_FORMAT = (
     TYPE = CSV,
     FIELD_DELIMITER = ',',
     RECORD_DELIMITER = '\n',
-    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过，这里我们没有标题
+    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过第一行，这里我们没有标题
     COMPRESSION = AUTO
 );
 ```
@@ -114,7 +114,7 @@ FILE_FORMAT = (
 
 ### 步骤4（选项）。使用SELECT复制数据
 
-为了更精细的控制，例如在复制过程中转换数据，请使用SELECT语句。了解更多信息请参见[`SELECT from CSV`](../04-transform/01-querying-csv.md)。
+为了获得更多控制，例如在复制时转换数据，请使用SELECT语句。了解更多信息请参见[`SELECT from CSV`](../04-transform/01-querying-csv.md)。
 
 ```sql
 COPY INTO books (title, author)
@@ -127,7 +127,7 @@ FILE_FORMAT = (
     TYPE = 'CSV',
     FIELD_DELIMITER = ',',
     RECORD_DELIMITER = '\n',
-    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过，这里我们没有标题
+    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过第一行，这里我们没有标题
     COMPRESSION = 'AUTO'
 );
 ```

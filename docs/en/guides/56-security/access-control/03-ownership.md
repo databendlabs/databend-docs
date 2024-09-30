@@ -2,17 +2,22 @@
 title: Ownership
 ---
 
-Ownership is a specialized privilege that signifies the exclusive rights and responsibilities a role holds over a specific data object (currently including a database, table, UDF, and stage) within Databend. The ownership of an object is automatically granted to the current role of the user who creates it.
+Ownership is a specialized privilege that signifies the exclusive rights and responsibilities a role holds over a specific data object (currently including a database, table, UDF, and stage) within Databend. 
 
 ## Granting Ownership
 
-The ownership of an object can be granted from one role to another. Once it is granted from one role to another, the ownership is transferred to the new role.
+An object's ownership is automatically granted to the role of the user who creates it and can be transferred between roles using the [GRANT](/sql/sql-commands/ddl/user/grant) command:
 
-- Granting ownership to the built-in role `public` is not recommended for security reasons. If a user is in the `public` role when creating a object, then all users will have ownership of the object because each Databend user has the `public` role by default. Databend recommends creating and assigning customized roles to users instead of using the `public` role for clarified ownership management. For information about the built-in roles, see [Built-in Roles](02-roles.md).
-- If a role that has ownership of an object is deleted, an account_admin can grant ownership of the object to another role.
+- Granting ownership of an object to a new role transfers full ownership to the new role, removing it from the previous role. For example, if Role A initially owns a table and you grant ownership to Role B, Role B will become the new owner, and Role A will no longer have ownership rights to that table.
+- Granting ownership to the built-in role `public` is not recommended for security reasons. If a user is in the `public` role when creating a object, then all users will have ownership of the object because each user has the `public` role by default. Databend recommends creating and assigning customized roles to users instead of using the `public` role for clarified ownership management. For information about the built-in roles, see [Built-in Roles](02-roles.md).
 - Ownership cannot be granted for tables in the `default` database, as it is owned by the built-in role `account_admin`.
 
-Dropping an object will revoke ownership from the owner role. However, restoring (UNDROP, if available) a dropped object will NOT restore ownership. In this case, you will need an `account_admin` to grant ownership to a role again.
+## Revoking Ownership Not Allowed
+
+Revoking ownership is *not* supported because every object must have an owner. 
+
+- If an object is dropped, it will not retain its ownership by the original role. If the object is restored (if possible), ownership will not be automatically reassigned, and an `account_admin` will need to manually reassign ownership to a role.
+- If a role that owns an object is deleted, an `account_admin` can transfer ownership of the object to another role.
 
 ## Examples
 

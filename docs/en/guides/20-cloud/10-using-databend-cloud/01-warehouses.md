@@ -2,59 +2,91 @@
 title: Warehouses
 ---
 
-The warehouse is an essential component of Databend Cloud. A warehouse represents a set of computing capacities including CPU, memory, and local caches. You must run a warehouse to perform the following SQL tasks in Databend Cloud:
+import PlaySVG from '@site/static/img/icon/play.svg'
+import SuspendSVG from '@site/static/img/icon/suspend.svg'
+import CheckboxSVG from '@site/static/img/icon/checkbox.svg'
+import EllipsisSVG from '@site/static/img/icon/ellipsis.svg'
+import  { Button } from 'antd'
 
-- Query data with the SELECT statement
-- Modify data with the INSERT, UPDATE, or DELETE statement
-- Load data into a table with the COPY INTO TABLE command
-- Unload data from a table with the COPY INTO LOCATION command
+The warehouse is an essential component of Databend Cloud. A warehouse represents a set of computing capacities including CPU, memory, and local caches. You must run a warehouse to perform SQL tasks such as:
 
-Running a warehouse consumes credits. For more information, see [Pricing & Billing](/guides/overview/editions/dc/pricing).
+- Querying data with the SELECT statement
+- Modifying data with the INSERT, UPDATE, or DELETE statement
+- Loading data into a table with the COPY INTO command
+
+Running a warehouse incurs expenses. For more information, see [Warehouse Pricing](/guides/overview/editions/dc/pricing#warehouse-pricing).
 
 ## Warehouse Sizes
 
-The warehouse comes in different sizes in Databend Cloud. Because Databend Cloud measures the computing capacity of a warehouse in vCPUs, the size of a warehouse basically reflects the number of vCPUs that the warehouse includes. You can have multiple warehouses in different sizes in Databend Cloud. The following sizes are available to select when you create a warehouse:
+In Databend Cloud, warehouses are available in various sizes, each defined by the maximum number of concurrent queries it can handle. When creating a warehouse, you can choose from the following sizes:
 
-- XSmall: Includes 8 vCPUs.
-- Small: Includes 16 vCPUs.
-- Medium: Includes 32 vCPUs.
-- Large: Includes 64 vCPUs.
-- XLarge: Includes 128 vCPUs.
+| Size                  | Max. Concurrency | Recommended Use Cases                                                                                                                            |
+|-----------------------|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| XSmall                | 2                | Best for simple tasks like testing or running light queries. Suitable for small datasets (around 50GB).                                          |
+| Small                 | 4                | Great for running regular reports and moderate workloads. Suitable for medium-sized datasets (around 200GB).                                     |
+| Medium                | 8                | Ideal for teams handling more complex queries and higher concurrency. Suitable for larger datasets (around 1TB).                                 |
+| Large                 | 16               | Perfect for organizations running many concurrent queries. Suitable for large datasets (around 5TB).                                             |
+| XLarge                | 32               | Built for enterprise-scale workloads with high concurrency. Suitable for very large datasets (over 10TB).                                        |
+| Multi-Cluster Scaling | Unlimited        | Automatically scales out and scales in to match your workload, providing the most cost-efficient way to improve concurrency based on your needs. |
 
-:::tip
-**Choose the right warehouse size**. Generally, a small warehouse will take more time to execute the SQL tasks than a medium or large one. The best practice is to start from a small one. If it takes a long time (for example, minutes) to return the results, try a medium or large one.
-:::
-
-## Warehouse States
-A warehouse can have the following types of states in Databend Cloud:
-
-- Suspended
-- Starting
-- Running
-
-Please note that Databend Cloud charges credits only when your warehouses are in the Running state. A warehouse automatically goes into the Suspended state in case of no activities to reduce your expense on credits.
-
-When you select a suspended warehouse to perform a SQL task, the warehouse will automatically wake up and start to run the task. You can also manually start or suspend a warehouse on the **Warehouses** page.
-
-![](@site/static/img/documents/warehouses/states.jpg)
-
+To choose the appropriate warehouse size, Databend recommends starting with a smaller size. Smaller warehouses may take longer to execute SQL tasks compared to medium or large ones. If you find that query execution is taking too long (for example, several minutes), consider scaling up to a medium or large warehouse for faster results.
 
 ## Managing Warehouses {#managing}
 
-The **Warehouses** page lists the existing warehouses and allows you to start or suspend a warehouse manually. If you are an admin user, you can also create or delete a warehouse on the page.
+An organization can have as many warehouses as needed. The **Warehouses** page displays all the warehouses in your organization and allows you to manage them. Please note that only `account_admin` can create or delete a warehouse.
 
-![](@site/static/img/documents/warehouses/warehouse-overview.png)
+### Suspending / Resuming Warehouses
 
-Clicking a warehouse in the list opens the warehouse's details page where you can see your credit usage statistics and history.
+A suspended warehouse does not consume any credits. You can manually suspend or resume a warehouse by clicking the <SuspendSVG/> or <PlaySVG/> button on the warehouse. However, a warehouse can automatically suspend or resume in the following scenarios: 
 
-![](@site/static/img/documents/warehouses/warehouse-detail.png)
+- A warehouse can automatically suspend if there is no activity, based on its auto-suspend setting.
+- When you select a suspended warehouse to perform a SQL task, the warehouse will automatically resume.
+
+### Performing Bulk Operations
+
+You can perform bulk operations on warehouses, including bulk restart, bulk suspend, bulk resume, and bulk delete. To do so, select the warehouses for bulk operations by checking the checkboxes <CheckboxSVG/> in the warehouse list, and then click the ellipse button <EllipsisSVG/> for the desired operation.
+
+![alt text](../../../../../static/img/cloud/bulk.png)
+
+### Best Practices
+
+To effectively manage your warehouses and ensure optimal performance and cost-efficiency, consider the following best practices. These guidelines will help you size, organize, and fine-tune your warehouses for various workloads and environments:
+
+- **Choose the Right Size**  
+  - For **development & testing**, use smaller warehouses (XSmall, Small).  
+  - For **production**, opt for larger warehouses (Medium, Large, XLarge).  
+
+- **Separate Warehouses**  
+  - Use separate warehouses for **data loading** and **query execution**.  
+  - Create distinct warehouses for **development**, **testing**, and **production** environments.  
+
+- **Data Loading Tips**  
+  - Smaller warehouses (Small, Medium) are suitable for data loading.  
+  - Optimize file size and the number of files to enhance performance.  
+
+- **Optimize for Cost & Performance**  
+  - Avoid running simple queries like `SELECT 1` to minimize credit usage.  
+  - Use bulk loading (`COPY`) rather than individual `INSERT` statements.  
+  - Monitor long-running queries and optimize them to improve performance.  
+
+- **Auto-Suspend**  
+  - Enable auto-suspend to save credits when the warehouse is idle.  
+
+- **Disable Auto-Suspend for Frequent Queries**  
+  - Keep warehouses active for frequent or repetitive queries to maintain cache and avoid delays.  
+
+- **Use Auto-Scaling (Business & Dedicated Plans Only)**  
+  - Multi-cluster scaling automatically adjusts resources based on workload demand.  
+
+- **Monitor & Adjust Usage**  
+  - Regularly review warehouse usage and resize as needed to balance cost and performance.
 
 ## Connecting to a Warehouse {#connecting}
 
-To obtain the necessary connection information, select and click a warehouse on the **Warehouses** page to enter the details page, then click **Connect** to show a pop-up.
+Connecting to a warehouse provides the compute resources required to run queries and analyze data within Databend Cloud. This connection is necessary when accessing Databend Cloud from your applications or SQL clients.
 
-![Alt text](@site/static/img/documents/warehouses/connect-warehouse.png)
+To obtain the connection information for a warehouse:
 
-The following is an example of a pop-up connection information window where Databend Cloud offers a SQL user named *cloudapp* with a randomly generated password. You will need the username and password for authentication when connecting to the warehouse. Please note that Databend will not store the generated password for you. You must copy and paste the password to a secure place. If you forget the password, click **Reset DB Password** to generate a new one.
-
-![Alt text](@site/static/img/documents/warehouses/connect-warehouse-2.png)
+1. Click **Connect** on the **Overview** page.
+2. Select the database and warehouse you wish to connect to. The connection information will update based on your selection.
+3. The connection details include a SQL user named `cloudapp` with a randomly generated password. Databend Cloud does not store this password. Be sure to copy and save it securely. If you forget the password, click **Reset** to generate a new one.

@@ -2,27 +2,27 @@
 title: 用户与角色
 ---
 
-本页提供 Databend 中与用户和角色相关的命令参考信息。
+本页提供 Databend 中与用户和角色相关命令的参考信息。
 
 ## 用户与角色管理：
 
-- [创建用户](01-user-create-user.md)
-- [删除用户](02-user-drop-user.md)
-- [创建角色](04-user-create-role.md)
-- [设置角色](04-user-set-role.md)
-- [删除角色](05-user-drop-role.md)
+- [CREATE USER](01-user-create-user.md)
+- [DROP USER](02-user-drop-user.md)
+- [CREATE ROLE](04-user-create-role.md)
+- [SET ROLE](04-user-set-role.md)
+- [DROP ROLE](05-user-drop-role.md)
 
 ## 权限管理：
 
-- [授予权限](10-grant.md)
-- [撤销权限](11-revoke.md)
+- [GRANT](10-grant.md)
+- [REVOKE](11-revoke.md)
 
 ## 信息检索：
 
-- [显示用户](02-user-show-users.md)
-- [显示角色](04-user-show-roles.md)
-- [显示授权](22-show-grants.md)
+- [SHOW USERS](02-user-show-users.md)
+- [SHOW ROLES](04-user-show-roles.md)
+- [SHOW GRANTS](22-show-grants.md)
 
 ## 用户修改：
 
-- [修改用户](03-user-alter-user.md)
+- [ALTER USER](03-user-alter-user.md)

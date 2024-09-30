@@ -13,7 +13,7 @@ To launch an AI-Chat:
 
 1. Click the magnifying glass icon <SearchSVG/> located in the sidebar to open the search box.
 
-2. Click on **Chat** to navigate to the Chat tab.
+2. Switch to the **Chat** tab.
 
 3. Enter your question.
 
@@ -21,4 +21,12 @@ To launch an AI-Chat:
 
 ### AI-Powered SQL Assistant
 
-AI assistance is available for editing SQL statements within the Databend Cloud editor. Simply type "/" at the beginning of a new line and input your query, like "Query the current time". The editor will display an AI-generated SQL statement. For additional guidance on the statement, highlight it, and click **Edit** to explain your desired changes or request further assistance. Alternatively, click **Chat** to engage in a conversation with AI for more comprehensive support.
+AI assistance is available for editing SQL statements within worksheets. You don't need to write your SQL from scratch — AI can generate it for you.
+
+To involve AI when editing a SQL statement, simply type "/" at the beginning of a new line and input your query, like "return current time":
+
+![Alt text](@site/static/img/documents/worksheet/ai-worksheet-1.gif)
+
+You can also get AI assistance for an existing SQL statement. To do so, highlight your SQL and click **Edit** to specify your desired changes or request further help. Alternatively, click **Chat** to engage in a conversation with AI for more comprehensive support.
+
+![Alt text](@site/static/img/documents/worksheet/ai-worksheet-2.gif)

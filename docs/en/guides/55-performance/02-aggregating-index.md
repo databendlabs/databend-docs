@@ -1,6 +1,7 @@
 ---
 title: Aggregating Index
 ---
+
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='AGGREGATING INDEX'/>
@@ -98,7 +99,7 @@ AggregateFinal                                                                  
         ├── read bytes: 61                                                                                            |
         ├── partitions total: 1                                                                                       |
         ├── partitions scanned: 1                                                                                     |
-        ├── pruning stats: [segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1, bloom pruning: 0 to 0>]|
+        ├── pruning stats: `[segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1, bloom pruning: 0 to 0>]`|
         ├── push downs: [filters: [], limit: NONE]                                                                    |
         └── estimated rows: 4.00                                                                                      |
 ```

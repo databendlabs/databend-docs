@@ -24,9 +24,9 @@ FILE_FORMAT = (TYPE = ORC)
 
 本教程演示如何将存储在 S3 存储桶中的 ORC 文件数据加载到 Databend 表中。
 
-### 步骤 1. 创建外部阶段
+### 步骤 1. 创建外部 Stage
 
-创建一个指向 S3 存储桶中 ORC 文件的外部阶段。
+创建一个指向 S3 存储桶中 ORC 文件的外部 Stage。
 
 ```sql
 CREATE OR REPLACE CONNECTION aws_s3
@@ -39,7 +39,7 @@ CREATE OR REPLACE STAGE orc_data_stage
     CONNECTION=(CONNECTION_NAME='aws_s3');
 ```
 
-列出阶段中的文件：
+列出 Stage 中的文件：
 
 ```sql
 LIST @orc_data_stage;
@@ -61,9 +61,9 @@ LIST @orc_data_stage;
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 2：查询阶段文件
+### 步骤 2：查询 Stage 文件
 
-创建一个 ORC 文件格式并查询阶段以查看数据和模式。
+创建一个 ORC 文件格式并查询 Stage 以查看数据和模式。
 
 ```sql
 -- 创建 ORC 文件格式
@@ -113,7 +113,7 @@ CREATE OR REPLACE TABLE orc_test_table (
 
 ### 步骤 5. 使用 SELECT 复制数据
 
-将外部阶段中的 ORC 文件数据复制到目标表中。
+将外部 Stage 中 ORC 文件的数据复制到目标表中。
 
 ```sql
 COPY INTO orc_test_table

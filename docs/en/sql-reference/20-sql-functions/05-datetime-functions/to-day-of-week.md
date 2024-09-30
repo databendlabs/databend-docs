@@ -18,7 +18,7 @@ TO_DAY_OF_WEEK(<expr>)
 
 ## Return Type
 
-``TINYINT`
+`TINYINT`
 
 ## Examples
 

@@ -1,15 +1,15 @@
 ---
-title: 列出 Stage 中的文件
+title: 列出Stage文件
 sidebar_position: 4
 ---
 
 列出 Stage 中的文件。
 
-另请参见：
+另请参阅：
 
 - [LIST_STAGE](../../../20-sql-functions/17-table-functions/03-list-stage.md)：此函数列出 Stage 中的文件，并允许您根据文件扩展名过滤 Stage 中的文件，并获取每个文件的详细信息。
-- [PRESIGN](presign.md)：Databend 推荐使用预签名 URL 方法将文件上传到 Stage。
-- [从 Stage 中删除文件](05-ddl-remove-stage.md)。
+- [PRESIGN](presign.md)：Databend 建议使用预签名 URL 方法将文件上传到 Stage。
+- [REMOVE STAGE FILES](05-ddl-remove-stage.md)：从 Stage 中删除文件。
 
 ## 语法
 
@@ -44,7 +44,7 @@ LIST @my_internal_stage;
 要列出文件夹 **2023** 中的文件，请运行以下命令：
 
 :::note
-在命令中的路径末尾添加斜杠 "/" 是必要的，否则命令可能无法按预期工作，并可能导致错误。
+在命令的路径末尾添加斜杠 "/" 是必要的，否则命令可能无法按预期工作并可能导致错误。
 :::
 
 ```sql

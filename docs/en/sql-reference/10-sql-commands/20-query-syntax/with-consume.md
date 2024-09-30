@@ -7,6 +7,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Consumes data from a stream within a SELECT query.
 
+See also: [WITH Stream Hints](with-stream-hints.md)
+
 ## Syntax
 
 ```sql

@@ -7,23 +7,23 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='Python UDF'/>
 
-用户定义函数（UDFs）通过支持匿名 lambda 表达式和预定义处理程序（Python、JavaScript 和 WebAssembly）来定义 UDF，提供了增强的灵活性。这些功能允许用户创建定制的操作，以满足其特定的数据处理需求。Databend UDF 分为以下类型：
+用户定义函数（UDFs）通过支持匿名lambda表达式和预定义处理程序（Python、JavaScript和WebAssembly）来定义UDF，提供了增强的灵活性。这些功能允许用户创建定制的操作，以满足其特定的数据处理需求。Databend UDF分为以下几类：
 
 - [Lambda UDF](#lambda-udf)
-- [嵌入式 UDF](#embedded-udfs)
+- [嵌入式UDF](#embedded-udfs)
 
-Databend 提供了一系列命令来管理 UDF。详情请参阅 [用户定义函数](/sql/sql-commands/ddl/udf/)。
+Databend提供了多种命令来管理UDF。详情请参阅[用户定义函数](/sql/sql-commands/ddl/udf/)。
 
 ## Lambda UDF
 
-Lambda UDF 允许用户使用匿名函数（lambda 表达式）直接在其查询中定义自定义操作。这些 lambda 表达式通常简洁，可用于执行特定的数据转换或计算，这些操作可能无法仅使用内置函数实现。
+Lambda UDF允许用户使用匿名函数（lambda表达式）直接在其查询中定义自定义操作。这些lambda表达式通常简洁，可用于执行特定的数据转换或计算，这些操作可能无法仅使用内置函数实现。
 
 ### 使用示例
 
-此示例创建 UDF 以使用 SQL 查询从表中的 JSON 数据提取特定值。
+此示例创建UDF，以使用SQL查询从表中的JSON数据中提取特定值。
 
 ```sql
--- 定义 UDF
+-- 定义UDF
 CREATE FUNCTION get_v1 AS (json) -> json["v1"];
 CREATE FUNCTION get_v2 AS (json) -> json["v2"];
 
@@ -33,7 +33,7 @@ CREATE TABLE json_table(time TIMESTAMP, data JSON);
 -- 插入时间事件
 INSERT INTO json_table VALUES('2022-06-01 00:00:00.00000', PARSE_JSON('{"v1":1.5, "v2":20.5}'));
 
--- 从事件中获取 v1 和 v2 值
+-- 从事件中获取v1和v2值
 SELECT get_v1(data), get_v2(data) FROM json_table;
 +------------+------------+
 | data['v1'] | data['v2'] |
@@ -42,35 +42,35 @@ SELECT get_v1(data), get_v2(data) FROM json_table;
 +------------+------------+
 ```
 
-## 嵌入式 UDF
+## 嵌入式UDF
 
-嵌入式 UDF 允许您在 SQL 中嵌入以下编程语言编写的代码：
+嵌入式UDF允许您在SQL中嵌入以下编程语言编写的代码：
 
 - [Python](#python)
 - [JavaScript](#javascript)
 - [WebAssembly](#webassembly)
 
 :::note
-如果程序内容较大，可以将其压缩，然后传递到一个阶段。请参阅 [使用示例](#usage-examples-2) 中的 WebAssembly。
+如果您的程序内容较大，可以将其压缩，然后传递到Stage。请参阅[使用示例](#usage-examples-2)中的WebAssembly。
 :::
 
-### Python（需要 Databend 企业版）
+### Python（需要Databend企业版）
 
-Python UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 Python 代码，从而实现 Python 逻辑在 SQL 查询中的无缝集成。
+Python UDF允许您通过Databend的内置处理程序从SQL查询中调用Python代码，从而在SQL查询中无缝集成Python逻辑。
 
 :::note
-Python UDF 必须仅使用 Python 的标准库；不允许第三方导入。
+Python UDF必须仅使用Python的标准库；不允许使用第三方导入。
 :::
 
 #### 数据类型映射
 
-请参阅开发者指南中的 [数据类型映射](/developer/drivers/python#data-type-mappings)。
+请参阅开发者指南中的[数据类型映射](/developer/drivers/python#data-type-mappings)。
 
 #### 使用示例
 
-此示例定义了一个用于情感分析的 Python UDF，创建了一个表，插入了示例数据，并对文本数据进行了情感分析。
+此示例定义了一个用于情感分析的Python UDF，创建了一个表，插入了示例数据，并对文本数据进行了情感分析。
 
-1. 定义名为 `sentiment_analysis` 的 Python UDF。
+1. 定义名为`sentiment_analysis`的Python UDF。
 
 ```sql
 -- 创建情感分析函数
@@ -145,7 +145,7 @@ def sentiment_analysis_handler(text):
 $$;
 ```
 
-2. 使用 `sentiment_analysis` 函数对文本数据进行情感分析。
+2. 使用`sentiment_analysis`函数对文本数据进行情感分析。
 
 ```sql
 CREATE OR REPLACE TABLE texts (
@@ -179,13 +179,13 @@ FROM
 
 ### JavaScript
 
-JavaScript UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 JavaScript 代码，从而实现 JavaScript 逻辑在 SQL 查询中的无缝集成。
+JavaScript UDF允许您通过Databend的内置处理程序从SQL查询中调用JavaScript代码，从而在SQL查询中无缝集成JavaScript逻辑。
 
 #### 数据类型映射
 
-下表显示了 Databend 和 JavaScript 之间的类型映射：
+下表显示了Databend和JavaScript之间的类型映射：
 
-| Databend 类型     | JS 类型    |
+| Databend类型     | JS类型    |
 |-------------------|------------|
 | NULL              | null       |
 | BOOLEAN           | Boolean    |
@@ -206,7 +206,7 @@ JavaScript UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中�
 
 #### 使用示例
 
-此示例定义了一个名为 "gcd_js" 的 JavaScript UDF，用于计算两个整数的最大公约数（GCD），并在 SQL 查询中应用它：
+此示例定义了一个名为“gcd_js”的JavaScript UDF，用于计算两个整数的最大公约数（GCD），并在SQL查询中应用它：
 
 ```sql
 CREATE FUNCTION gcd_js (INT, INT) RETURNS BIGINT LANGUAGE javascript HANDLER = 'gcd_js' AS $$
@@ -232,16 +232,16 @@ ORDER BY 1;
 
 ### WebAssembly
 
-WebAssembly UDF 允许用户使用编译为 WebAssembly 的语言定义自定义逻辑或操作。这些 UDF 可以直接在 SQL 查询中调用，以执行特定的计算或数据转换。
+WebAssembly UDF允许用户使用编译为WebAssembly的语言定义自定义逻辑或操作。这些UDF可以直接在SQL查询中调用，以执行特定的计算或数据转换。
 
 #### 使用示例
 
-在此示例中，创建了名为 "wasm_gcd" 的函数，用于计算两个整数的最大公约数（GCD）。该函数使用 WebAssembly 定义，其实现在 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
+在此示例中，创建了名为“wasm_gcd”的函数，用于计算两个整数的最大公约数（GCD）。该函数使用WebAssembly定义，其实现位于'test10_udf_wasm_gcd.wasm.zst'二进制文件中。
 
-在执行之前，函数实现经历了一系列步骤。首先，它被编译成二进制文件，然后压缩成 'test10_udf_wasm_gcd.wasm.zst'。最后，压缩文件提前上传到一个阶段。
+在执行之前，函数实现经历了一系列步骤。首先，它被编译成二进制文件，然后被压缩成'test10_udf_wasm_gcd.wasm.zst'。最后，压缩文件被提前上传到Stage。
 
 :::note
-该函数可以使用 Rust 实现，如示例所示，地址为 https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs
+该函数可以使用Rust实现，如示例所示：https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs
 :::
 
 ```sql

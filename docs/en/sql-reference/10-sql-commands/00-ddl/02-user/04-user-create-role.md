@@ -12,7 +12,7 @@ See also: [GRANT](10-grant.md)
 ## Syntax
 
 ```sql
-CREATE ROLE <role_name> [ COMMENT = '<string_literal>' ]
+CREATE ROLE [ IF NOT EXISTS ] <role_name> [ COMMENT = '<string_literal>' ]
 ```
 ## Examples
 
