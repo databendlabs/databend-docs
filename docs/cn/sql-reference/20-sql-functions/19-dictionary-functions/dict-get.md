@@ -2,6 +2,8 @@
 title: DICT_GET
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 <FunctionDescription description="引入或更新版本：v1.2.636"/>
 
 使用提供的键表达式从字典中检索指定属性的值。
