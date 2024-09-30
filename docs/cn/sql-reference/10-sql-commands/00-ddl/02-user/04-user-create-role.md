@@ -12,7 +12,7 @@ sidebar_position: 5
 ## 语法
 
 ```sql
-CREATE ROLE <role_name> [ COMMENT = '<string_literal>' ]
+CREATE ROLE [ IF NOT EXISTS ] <role_name> [ COMMENT = '<string_literal>' ]
 ```
 ## 示例
 
