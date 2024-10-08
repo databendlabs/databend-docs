@@ -8,7 +8,7 @@ import CheckboxSVG from '@site/static/img/icon/checkbox.svg'
 import EllipsisSVG from '@site/static/img/icon/ellipsis.svg'
 import  { Button } from 'antd'
 
-The warehouse is an essential component of Databend Cloud. A warehouse represents a set of computing capacities including CPU, memory, and local caches. You must run a warehouse to perform SQL tasks such as:
+The warehouse is an essential component of Databend Cloud. A warehouse represents a set of compute resources including CPU, memory, and local caches. You must run a warehouse to perform SQL tasks such as:
 
 - Querying data with the SELECT statement
 - Modifying data with the INSERT, UPDATE, or DELETE statement
@@ -27,7 +27,7 @@ In Databend Cloud, warehouses are available in various sizes, each defined by th
 | Medium                | 8                | Ideal for teams handling more complex queries and higher concurrency. Suitable for larger datasets (around 1TB).                                 |
 | Large                 | 16               | Perfect for organizations running many concurrent queries. Suitable for large datasets (around 5TB).                                             |
 | XLarge                | 32               | Built for enterprise-scale workloads with high concurrency. Suitable for very large datasets (over 10TB).                                        |
-| Multi-Cluster Scaling | Unlimited        | Automatically scales out and scales in to match your workload, providing the most cost-efficient way to improve concurrency based on your needs. |
+| Multi-Cluster Scaling | Up to Unlimited  | Automatically scales out and scales in to match your workload, providing the most cost-efficient way to improve concurrency based on your needs. |
 
 To choose the appropriate warehouse size, Databend recommends starting with a smaller size. Smaller warehouses may take longer to execute SQL tasks compared to medium or large ones. If you find that query execution is taking too long (for example, several minutes), consider scaling up to a medium or large warehouse for faster results.
 
@@ -80,6 +80,36 @@ To effectively manage your warehouses and ensure optimal performance and cost-ef
 
 - **Monitor & Adjust Usage**  
   - Regularly review warehouse usage and resize as needed to balance cost and performance.
+
+## Multi-Cluster Warehouses
+
+A multi-cluster warehouse automatically adjusts compute resources by adding or removing clusters based on workload demand. It ensures high concurrency and performance while optimizing cost by scaling up or down as needed.
+
+:::note
+Multi-Cluster is only available for Databend Cloud users on the Business and Dedicated plans.
+:::
+
+### How it Works
+
+By default, a warehouse consists of a single cluster of compute resources, which can handle a maximum number of concurrent queries depending on its size. When Multi-Cluster is enabled for a warehouse, it allows multiple clusters (as defined by the `Max Clusters` setting) to be dynamically added to handle workloads that exceed the capacity of a single cluster.
+
+When the number of concurrent queries exceeds the capacity of your warehouse, an additional cluster is added to handle the extra load. If the demand continues to grow, more clusters are added one by one. As query demand decreases, clusters with no activity for longer than the `Auto Suspend` duration are automatically shut down.
+
+:::note
+If Multi-Cluster is enabled for a warehouse, the Auto Suspend duration must be set to at least 15 minutes.
+:::
+
+### Enabling Multi-Cluster
+
+You can enable Multi-Cluster for a warehouse when you create it and set the maximum number of clusters that the warehouse can scale up to.
+
+![alt text](../../../../../static/img/cloud/multi-cluster.png)
+
+### Cost Calculation
+
+Multi-Cluster Warehouses are billed based on the number of active clusters used during specific time intervals. 
+
+For example, for an XSmall Warehouse priced at $1 per hour, if one cluster is actively used from 13:00 to 14:00 and two clusters are actively used from 14:00 to 15:00, the total cost incurred from 13:00 to 15:00 is $3 ((1 cluster × 1 hour × $1) + (2 clusters × 1 hour × $1)).
 
 ## Connecting to a Warehouse {#connecting}
 
