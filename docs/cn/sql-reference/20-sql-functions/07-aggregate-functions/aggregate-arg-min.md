@@ -50,5 +50,5 @@ FROM students;
 ```sql
 | student_name |
 |--------------|
-| Charlie      |
+| Bob      |
 ```
