@@ -91,17 +91,15 @@ Multi-Cluster is only available for Databend Cloud users on the Business and Ded
 
 ### How it Works
 
-By default, a warehouse consists of a single cluster of compute resources, which can handle a maximum number of concurrent queries depending on its size. When Multi-Cluster is enabled for a warehouse, it allows multiple clusters (as defined by the `Max Clusters` setting) to be dynamically added to handle workloads that exceed the capacity of a single cluster.
+By default, a warehouse consists of a single cluster of compute resources, which can handle a maximum number of concurrent queries depending on its size. When Multi-Cluster is enabled for a warehouse, it allows multiple clusters (as defined by the **Max Clusters** setting) to be dynamically added to handle workloads that exceed the capacity of a single cluster.
 
-When the number of concurrent queries exceeds the capacity of your warehouse, an additional cluster is added to handle the extra load. If the demand continues to grow, more clusters are added one by one. As query demand decreases, clusters with no activity for longer than the `Auto Suspend` duration are automatically shut down.
+When the number of concurrent queries exceeds the capacity of your warehouse, an additional cluster is added to handle the extra load. If the demand continues to grow, more clusters are added one by one. As query demand decreases, clusters with no activity for longer than the **Auto Suspend** duration are automatically shut down.
 
-:::note
-If Multi-Cluster is enabled for a warehouse, the Auto Suspend duration must be set to at least 15 minutes.
-:::
+![alt text](../../../../../static/img/cloud/multi-cluster-how-it-works.png)
 
 ### Enabling Multi-Cluster
 
-You can enable Multi-Cluster for a warehouse when you create it and set the maximum number of clusters that the warehouse can scale up to.
+You can enable Multi-Cluster for a warehouse when you create it and set the maximum number of clusters that the warehouse can scale up to. Please note that if Multi-Cluster is enabled for a warehouse, the **Auto Suspend** duration must be set to at least 15 minutes.
 
 ![alt text](../../../../../static/img/cloud/multi-cluster.png)
 
