@@ -28,7 +28,9 @@ If your primary queries involve retrieving cities based on their temperature, se
 
 Rows are sorted based on the Temperature column in each block (file). However, there can be overlapping age ranges between blocks. If a query falls precisely within the overlapping range of blocks, it requires reading multiple blocks. The number of blocks involved in this situation is referred to as the "Depth." Therefore, the smaller the depth, the better. This implies that having fewer relevant blocks to read during queries enhances query performance.
 
-To see how well a table is clustered, use the function [CLUSTERING_INFORMATION](/sql/sql-functions/system-functions/clustering_information). For example,
+To see how well a table is clustered, use the function [CLUSTERING_INFORMATION](/sql/sql-functions/system-functions/clustering_information).
+**Note**: This function works only for clustered tables.
+For example,
 
 ```sql
  SELECT * FROM clustering_information('default','T');
@@ -68,8 +70,7 @@ CREATE TABLE sales (
     region VARCHAR,
     product_category VARCHAR,
     -- Other columns...
-    CLUSTER BY (order_id)
-);
+) CLUSTER BY (order_id);
 ```
 
 On the other hand, if filtering commonly occurs based on `region` and `product_category`, then clustering the table using both columns would be beneficial:
@@ -84,8 +85,7 @@ CREATE TABLE sales (
     region VARCHAR,
     product_category VARCHAR,
     -- Other columns...
-    CLUSTER BY (region, product_category)
-);
+) CLUSTER BY (region, product_category);
 ```
 
 When choosing a column as the cluster key, ensure that the number of distinct values strikes a balance between being sufficient for effective query performance and being manageable for optimal storage within the system.
@@ -104,8 +104,7 @@ CREATE TABLE sales (
     region VARCHAR,
     product_category VARCHAR,
     -- Other columns...
-    CLUSTER BY (SUBSTRING(order_id,7,8))
-);
+) CLUSTER BY (SUBSTRING(order_id,7,8));
 ```
 
 By clustering the table using the extracted date from the `order_id` column, transactions occurring on the same day are now grouped into the same or adjacent blocks. This frequently results in improved compression and a reduction in the volume of data that must be read from storage during query execution, contributing to enhanced overall performance.
