@@ -13,7 +13,7 @@ ARG_MIN(<arg>, <val>)
 ## Arguments
 
 | Arguments | Description                                                                                       |
-|-----------|---------------------------------------------------------------------------------------------------|
+| --------- | ------------------------------------------------------------------------------------------------- |
 | `<arg>`   | Argument of [any data type that Databend supports](../../00-sql-reference/10-data-types/index.md) |
 | `<val>`   | Value of [any data type that Databend supports](../../00-sql-reference/10-data-types/index.md)    |
 
@@ -21,11 +21,12 @@ ARG_MIN(<arg>, <val>)
 
 `arg` value that corresponds to minimum `val` value.
 
- matches `arg` type.
+matches `arg` type.
 
 ## Example
 
 Let's create a table students with columns id, name, and score, and insert some data:
+
 ```sql
 CREATE TABLE students (
   id INT,
@@ -41,14 +42,16 @@ INSERT INTO students (id, name, score) VALUES
 ```
 
 Now, we can use ARG_MIN to find the name of the student with the lowest score:
+
 ```sql
 SELECT ARG_MIN(name, score) AS student_name
 FROM students;
 ```
 
 Result:
+
 ```sql
 | student_name |
 |--------------|
-| Charlie      |
+| Bob      |
 ```
