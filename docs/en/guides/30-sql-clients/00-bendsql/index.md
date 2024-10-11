@@ -25,14 +25,14 @@ On Ubuntu and Debian systems, BendSQL can be installed via the Apt package manag
 #### DEB822-STYLE format (Ubuntu-22.04/Debian-12 and later)
 
 ```bash
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.com/deb/datafuselabs.sources
+sudo curl -L -o /etc/apt/sources.list.d/databend.sources https://repo.databend.com/deb/databend.sources
 ```
 
 #### Old format (Ubuntu-20.04/Debian-11 and earlier)
 
 ```bash
-sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.com/deb/datafuselabs.gpg
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.com/deb/datafuselabs.list
+sudo curl -L -o /usr/share/keyrings/databend-keyring.gpg https://repo.databend.com/deb/databend.gpg
+sudo curl -L -o /etc/apt/sources.list.d/databend.list https://repo.databend.com/deb/databend.list
 ```
 
 Finally, update the package list and install BendSQL:
@@ -68,7 +68,7 @@ cargo install bendsql
 
 ## User Authentication
 
-If you are connecting to a self-hosted Databend instance, you can use the admin users specified in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file, or you can connect using an SQL user created with the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command. 
+If you are connecting to a self-hosted Databend instance, you can use the admin users specified in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file, or you can connect using an SQL user created with the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command.
 
 For connections to Databend Cloud, you can use the default `cloudapp` user or an SQL user created with the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command. Please note that the user account you use to log in to the [Databend Cloud console](https://app.databend.com/) cannot be used for connecting to Databend Cloud.
 
