@@ -2,7 +2,7 @@
 title: ARG_MIN
 ---
 
-计算最小 `val` 值对应的 `arg` 值。如果有多个不同的 `arg` 值对应于最小 `val` 值，则返回最先遇到的这些值中的一个。
+计算最小 `val` 值对应的 `arg` 值。如果有多个不同的 `arg` 值对应于最小 `val` 值，则返回遇到的第一个值。
 
 ## 语法
 
@@ -12,10 +12,10 @@ ARG_MIN(<arg>, <val>)
 
 ## 参数
 
-| 参数      | 描述                                                                                               |
-|-----------|----------------------------------------------------------------------------------------------------|
-| `<arg>`   | 参数，[Databend 支持的任意数据类型](../../00-sql-reference/10-data-types/index.md)                |
-| `<val>`   | 值，[Databend 支持的任意数据类型](../../00-sql-reference/10-data-types/index.md)                   |
+| 参数      | 描述                                                                                       |
+| --------- | ------------------------------------------------------------------------------------------------- |
+| `<arg>`   | 参数，可以是 [Databend 支持的任何数据类型](../../00-sql-reference/10-data-types/index.md) |
+| `<val>`   | 值，可以是 [Databend 支持的任何数据类型](../../00-sql-reference/10-data-types/index.md)    |
 
 ## 返回类型
 
@@ -26,6 +26,7 @@ ARG_MIN(<arg>, <val>)
 ## 示例
 
 让我们创建一个包含 id、name 和 score 列的学生表，并插入一些数据：
+
 ```sql
 CREATE TABLE students (
   id INT,
@@ -40,15 +41,17 @@ INSERT INTO students (id, name, score) VALUES
   (4, 'Dave', 80);
 ```
 
-现在，我们可以使用 ARG_MIN 来查找得分最低的学生的姓名：
+现在，我们可以使用 ARG_MIN 来查找得分最低的学生的名字：
+
 ```sql
 SELECT ARG_MIN(name, score) AS student_name
 FROM students;
 ```
 
 结果：
+
 ```sql
 | student_name |
 |--------------|
-| Charlie      |
+| Bob      |
 ```

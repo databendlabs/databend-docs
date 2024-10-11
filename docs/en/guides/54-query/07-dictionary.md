@@ -6,9 +6,7 @@ Databend's dictionary feature provides an efficient way to integrate and query d
 
 ## How the Dictionary Works
 
-To use a dictionary in Databend, you first create it by defining its structure and specifying an external source. Once the dictionary is created, Databend dynamically loads the data from the source into an in-memory key-value store, making it available for quick access.
-
-After the dictionary is set up, it acts as a real-time data cache. You can efficiently query specific values using the function [DICT_GET](/sql/sql-functions/dictionary-functions/dict-get), which retrieves data from the in-memory store without directly querying the external source each time. If the data in the external source changes, Databend automatically refreshes the dictionary to stay synchronized. This ensures that queries always reflect the latest data, maintaining both performance and real-time accuracy. 
+In Databend, you create a dictionary by defining its structure and specifying an external source. When queried, Databend fetches the required data from the external source. You can use the [DICT_GET](/sql/sql-functions/dictionary-functions/dict-get) function to retrieve values efficiently, ensuring that queries always reflect the latest data.
 
 ## Supported External Sources
 
