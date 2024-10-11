@@ -2,13 +2,13 @@
 title: BendSQL
 ---
 
-[BendSQL](https://github.com/datafuselabs/BendSQL) 是一个专门为 Databend 设计的命令行工具。它允许用户与 Databend 建立连接，并直接从 CLI 窗口执行查询。
+[BendSQL](https://github.com/databendlabs/bendsql) 是一个专为 Databend 设计的命令行工具。它允许用户与 Databend 建立连接，并直接从 CLI 窗口执行查询。
 
 BendSQL 特别适用于那些偏好命令行界面并需要经常与 Databend 打交道的用户。通过 BendSQL，用户可以轻松高效地管理其数据库、表和数据，并轻松执行各种查询和操作。
 
 ## 安装 BendSQL
 
-BendSQL 可以通过不同的包管理器安装在各种平台上。以下部分概述了使用 Homebrew（适用于 macOS）、Apt（适用于 Ubuntu/Debian）和 Cargo（Rust 包管理器）安装 BendSQL 的步骤。或者，您可以从 GitHub 上的 [BendSQL 发布页面](https://github.com/datafuselabs/BendSQL/releases)下载安装包并手动安装 BendSQL。
+BendSQL 可以通过不同的包管理器安装在各种平台上。以下部分概述了使用 Homebrew（适用于 macOS）、Apt（适用于 Ubuntu/Debian）和 Cargo（Rust 包管理器）安装 BendSQL 的步骤。或者，您可以从 GitHub 上的 [BendSQL 发布页面](https://github.com/databendlabs/bendsql/releases)下载安装包并手动安装 BendSQL。
 
 ### Homebrew（适用于 macOS）
 
@@ -25,14 +25,14 @@ brew install databendcloud/homebrew-tap/bendsql
 #### DEB822-STYLE 格式（Ubuntu-22.04/Debian-12 及更高版本）
 
 ```bash
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.com/deb/datafuselabs.sources
+sudo curl -L -o /etc/apt/sources.list.d/databend.sources https://repo.databend.com/deb/databend.sources
 ```
 
 #### 旧格式（Ubuntu-20.04/Debian-11 及更早版本）
 
 ```bash
-sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.com/deb/datafuselabs.gpg
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.com/deb/datafuselabs.list
+sudo curl -L -o /usr/share/keyrings/databend-keyring.gpg https://repo.databend.com/deb/databend.gpg
+sudo curl -L -o /etc/apt/sources.list.d/databend.list https://repo.databend.com/deb/databend.list
 ```
 
 最后，更新包列表并安装 BendSQL：
@@ -52,7 +52,7 @@ sudo apt install bendsql
 
 **使用 cargo-binstall**
 
-请参考 [Cargo B(inary)Install - 安装](https://github.com/cargo-bins/cargo-binstall#installation) 来安装 `cargo-binstall` 并启用 `cargo binstall <crate-name>` 子命令。
+请参考 [Cargo B(inary)Install - 安装](https://github.com/cargo-bins/cargo-binstall#installation) 以安装 `cargo-binstall` 并启用 `cargo binstall <crate-name>` 子命令。
 
 ```bash
 cargo binstall bendsql
@@ -68,9 +68,9 @@ cargo install bendsql
 
 ## 用户认证
 
-如果您连接到自托管的 Databend 实例，可以使用 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中指定的管理员用户，或者可以使用通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户进行连接。
+如果您连接到自托管的 Databend 实例，可以使用 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中指定的管理员用户，或者使用通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户进行连接。
 
-对于连接到 Databend Cloud，您可以使用默认的 `cloudapp` 用户或通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户。请注意，您用于登录 [Databend Cloud 控制台](https://app.databend.com/) 的用户账户不能用于连接到 Databend Cloud。
+对于连接到 Databend Cloud，您可以使用默认的 `cloudapp` 用户或通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户。请注意，您用于登录 [Databend Cloud 控制台](https://app.databend.com/) 的用户账户不能用于连接 Databend Cloud。
 
 ## 教程
 
@@ -84,17 +84,17 @@ BendSQL 提供了一系列设置，允许您定义查询结果的呈现方式：
 | 设置               | 描述                                                                                                                                                 |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `display_pretty_sql` | 当设置为 `true` 时，SQL 查询将以视觉上吸引人的方式格式化，使其更易于阅读和理解。                                                                      |
-| `prompt`           | 命令行界面中显示的提示符，通常指示用户、计算集群和正在访问的数据库。                                                                                  |
-| `progress_color`   | 指定用于进度指示器的颜色，例如在执行需要一些时间完成的查询时。                                                                                       |
-| `show_progress`    | 当设置为 `true` 时，将显示进度指示器，以显示长时间运行的查询或操作的进度。                                                                           |
-| `show_stats`       | 如果为 `true`，则在执行每个查询后将显示查询统计信息，例如执行时间、读取的行数和处理的字节数。                                                         |
-| `max_display_rows` | 设置查询结果输出中将显示的最大行数。                                                                                                                 |
-| `max_col_width`    | 设置每个列显示渲染的最大宽度（以字符为单位）。小于 3 的值将禁用限制。                                                                                 |
-| `max_width`        | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时，默认使用终端窗口的宽度。                                                                      |
-| `output_format`    | 设置用于显示查询结果的格式（`table`、`csv`、`tsv`、`null`）。                                                                                        |
-| `expand`           | 控制查询输出的显示方式是作为单独的记录还是以表格格式显示。可用值：`on`、`off` 和 `auto`。                                                           |
-| `multi_line`       | 确定是否允许 SQL 查询的多行输入。当设置为 `true` 时，查询可以跨越多行，以提高可读性。                                                               |
-| `replace_newline`  | 指定查询结果输出中的换行符是否应替换为空格。这可以防止显示中出现意外的换行。                                                                         |
+| `prompt`             | 命令行界面中显示的提示符，通常指示用户、计算集群和正在访问的数据库。                                                                                  |
+| `progress_color`     | 指定用于进度指示器的颜色，例如在执行需要一些时间完成的查询时。                                                                                       |
+| `show_progress`      | 当设置为 `true` 时，将显示进度指示器，以显示长时间运行的查询或操作的进度。                                                                           |
+| `show_stats`         | 如果为 `true`，则在执行每个查询后将显示查询统计信息，如执行时间、读取的行数和处理的字节数。                                                          |
+| `max_display_rows`   | 设置查询结果输出中将显示的最大行数。                                                                                                                 |
+| `max_col_width`      | 设置每个列显示渲染的最大宽度（以字符为单位）。小于 3 的值将禁用限制。                                                                                |
+| `max_width`          | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时，默认使用终端窗口的宽度。                                                                     |
+| `output_format`      | 设置用于显示查询结果的格式（`table`、`csv`、`tsv`、`null`）。                                                                                       |
+| `expand`             | 控制查询输出的显示方式是作为单独的记录还是以表格格式显示。可用值：`on`、`off` 和 `auto`。                                                           |
+| `multi_line`         | 确定是否允许多行输入 SQL 查询。当设置为 `true` 时，查询可以跨越多行，以提高可读性。                                                                 |
+| `replace_newline`    | 指定查询结果输出中的换行符是否应替换为空格。这可以防止显示中出现意外的换行。                                                                       |
 
 有关每个设置的详细信息，请参阅以下参考信息：
 
@@ -187,7 +187,7 @@ root@localhost:8000/default> select * from numbers(1000000000000000);
 
 #### `show_stats`
 
-`show_stats` 设置控制是否在执行每个查询后显示查询统计信息。当设置为 `false` 时，如第一个查询在下面的示例中所示，查询统计信息不会显示。相反，当设置为 `true` 时，如第二个查询所示，查询统计信息（如执行时间、读取的行数和处理的字节数）将在执行每个查询后显示。
+`show_stats` 设置控制是否在执行每个查询后显示查询统计信息。当设置为 `false` 时，如第一个查询在下面的示例中所示，查询统计信息不会显示。相反，当设置为 `true` 时，如第二个查询所示，查询统计信息如执行时间、读取的行数和处理的字节数将在执行每个查询后显示。
 
 ```shell title='示例:'
 // highlight-next-line
@@ -390,7 +390,7 @@ root@localhost:8000/default> SELECT 'Hello\nWorld' AS message;
 └──────────────┘
 1 row read in 0.056 sec. Processed 1 row, 1 B (18 rows/s, 17 B/s)
 
-```
+```markdown
 // highlight-next-line
 root@localhost:8000/default> !set replace_newline false;
 root@localhost:8000/default> SELECT 'Hello\nWorld' AS message;
@@ -406,13 +406,13 @@ root@localhost:8000/default> SELECT 'Hello\nWorld' AS message;
 
 ### 配置 BendSQL 设置
 
-您有以下选项来配置 BendSQL 设置：
+您可以通过以下选项配置 BendSQL 设置：
 
 - 使用 `!set <setting> <value>` 命令。更多信息，请参阅 [实用命令](#utility-commands)。
 
 - 在配置文件 `~/.config/bendsql/config.toml` 中添加和配置设置。为此，打开文件并在 `[settings]` 部分下添加您的设置。以下示例将 `max_display_rows` 设置为 10，将 `max_width` 设置为 100：
 
-```toml title='示例:'
+```toml title='示例：'
 ...
 [settings]
 max_display_rows = 10
@@ -422,14 +422,14 @@ max_width = 100
 
 - 在运行时通过启动 BendSQL 并指定格式为 `.<setting> <value>` 的设置来配置设置。请注意，以这种方式配置的设置仅在当前会话中生效。
 
-```shell title='示例:'
+```shell title='示例：'
 root@localhost:8000/default> .max_display_rows 10
 root@localhost:8000/default> .max_width 100
 ```
 
 ## 实用命令
 
-BendSQL 为用户提供了多种命令，以简化其工作流程并自定义其体验。以下是 BendSQL 中可用命令的概述：
+BendSQL 为用户提供了多种命令，以简化其工作流程并自定义其体验。以下是 BendSQL 中可用的命令概览：
 
 | 命令                     | 描述                         |
 | ------------------------ | ---------------------------- |
@@ -445,7 +445,7 @@ BendSQL 为用户提供了多种命令，以简化其工作流程并自定义其
 
 断开与 Databend 的连接并退出 BendSQL。
 
-```shell title='示例:'
+```shell title='示例：'
 ➜  ~ bendsql
 Welcome to BendSQL 0.17.0-homebrew.
 Connecting to localhost:8000 as user root.
@@ -460,7 +460,7 @@ Bye~
 
 断开与 Databend 的连接并退出 BendSQL。
 
-```shell title='示例:'
+```shell title='示例：'
 ➜  ~ bendsql
 Welcome to BendSQL 0.17.0-homebrew.
 Connecting to localhost:8000 as user root.
@@ -476,7 +476,7 @@ Bye~
 
 显示当前 BendSQL 设置。
 
-```shell title='示例:'
+```shell title='示例：'
 // highlight-next-line
 root@localhost:8000/default> !configs
 Settings {
@@ -501,7 +501,7 @@ Settings {
 
 修改 BendSQL 设置。
 
-```shell title='示例:'
+```shell title='示例：'
 root@localhost:8000/default> !set display_pretty_sql false
 ```
 
@@ -509,7 +509,7 @@ root@localhost:8000/default> !set display_pretty_sql false
 
 执行 SQL 文件。
 
-```shell title='示例:'
+```shell title='示例：'
 ➜  ~ more ./desktop/test.sql
 CREATE TABLE test_table (
     id INT,
