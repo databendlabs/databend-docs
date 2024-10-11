@@ -6,7 +6,7 @@ title: EXPLAIN ANALYZE GRAPHICAL
 
 This is useful for analyzing query performance and identifying bottlenecks in a query.
 
- **Note:** This feature is available only in `bensql`.
+ **Note:** This feature is available only in BendSQL.
  
 ## Syntax
 
