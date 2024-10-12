@@ -10,7 +10,7 @@ Inserts a value into a JSON array at the specified index and returns the updated
 ## Syntax
 
 ```sql
-JSON_ARRAY_INSERT(<json_array>, <index>, <json_value>);
+JSON_ARRAY_INSERT(<json_array>, <index>, <json_value>)
 ```
 
 | Parameter      | Description                                                 |
