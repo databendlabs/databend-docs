@@ -4,7 +4,7 @@ title: JSON Operators
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.332"/>
+<FunctionDescription description="Introduced or updated: v1.2.644"/>
 
 | Operator    | Description                                                                                                                          | Example                                                                                                                                                                                   | Result                     |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
@@ -22,3 +22,4 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | `- '<key>'` | Deletes a key-value pair from a JSON object.                                                                                         | `SELECT '{"a":1,"b":2}'::JSON - 'a'`                                                                                                                                                      | `{"b":2}`                  |
 | `- <index>` | Deletes an element at the specified index (negative integers counting from the end) from an array.                                   | `SELECT '[1,2,3]'::JSON - 2`                                                                                                                                                              | `[1,2]`                    |
 | `#-`        | Deletes a key-value pair or an array element by key and/or index.                                                                    | `SELECT '{"a":1,"b":[1,2,3]}'::JSON #- '{b,2}'`                                                                                                                                           | `{"a":1,"b":[1,2]}`        |
+| \|\|        |  Combines multiple JSON objects into one | `SELECT '{"a": 1}'::JSON` \|\| `{"B": 1}'::JSON;` | `{"B":1,"a":1}`|
