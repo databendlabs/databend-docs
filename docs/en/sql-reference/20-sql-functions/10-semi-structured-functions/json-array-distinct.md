@@ -20,7 +20,7 @@ JSON array.
 ## Examples
 
 ```sql
-SELECT JSON_ARRAY_DISTINCT('["apple", "banana", "apple", "orange", "banana"]'::VARIANT)
+SELECT JSON_ARRAY_DISTINCT('["apple", "banana", "apple", "orange", "banana"]'::VARIANT);
 
 -[ RECORD 1 ]-----------------------------------
 json_array_distinct('["apple", "banana", "apple", "orange", "banana"]'::VARIANT): ["apple","banana","orange"]

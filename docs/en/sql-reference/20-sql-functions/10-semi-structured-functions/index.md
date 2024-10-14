@@ -39,6 +39,9 @@ This section provides reference information for the semi-structured data functio
 - [JSON_ARRAY_INSERT](json-array-insert.md)
 - [JSON_ARRAY_INTERSECTION](json-array-intersection.md)
 - [JSON_ARRAY_OVERLAP](json-array-overlap.md)
+- [JSON_ARRAY_TRANSFORM](json-array-transform.md)
+- [JSON_ARRAY_FILTER](json-array-filter.md)
+- [JSON_ARRAY_REDUCE](json-array-reduce.md)
 
 ## Object Operations:
 - [GET](get.md)
