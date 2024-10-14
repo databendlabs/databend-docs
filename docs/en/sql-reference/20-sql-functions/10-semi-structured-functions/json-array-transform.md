@@ -13,6 +13,11 @@ Transforms each element of a JSON array using a specified transformation express
 JSON_ARRAY_TRANSFORM(<json_array>, <transform_expression>)
 ```
 
+## Aliases
+
+- [JSON_ARRAY_APPLY](json-array-apply.md)
+- [JSON_ARRAY_MAP](json-array-map.md)
+
 ## Return Type
 
 JSON array.
