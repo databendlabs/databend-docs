@@ -1,32 +1,41 @@
 ---
-title: DATE DIFF
+title: DATE_DIFF
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Databend does not provide a `date_diff` function yet, but it supports direct arithmetic operations on dates and times. For example, you can use the expression `TO_DATE(NOW())-2` to obtain the date from two days ago.
+<FunctionDescription description="Introduced or updated: v1.2.645"/>
 
-This flexibility of directly manipulating dates and times in Databend makes it convenient and versatile for handling date and time computations. See an example below:
+Calculates the difference between two dates or timestamps based on a specified time unit. The result is positive if the `<end_date>` is after the `<start_date>`, and negative if it's before.
+
+## Syntax
 
 ```sql
-CREATE TABLE tasks (
-  task_name VARCHAR(50),
-  start_date DATE,
-  end_date DATE
-);
+DATE_DIFF(<unit>, <start_date>, <end_date>)
+```
 
-INSERT INTO tasks (task_name, start_date, end_date)
-VALUES
-  ('Task 1', '2023-06-15', '2023-06-20'),
-  ('Task 2', '2023-06-18', '2023-06-25'),
-  ('Task 3', '2023-06-20', '2023-06-23');
+| Parameter      | Description                                                                                                 |
+|----------------|-------------------------------------------------------------------------------------------------------------|
+| `<unit>`       | The time unit for the difference: `YEAR`, `QUARTER`, `MONTH`, `WEEK`, `DAY`, `HOUR`, `MINUTE`, or `SECOND`. |
+| `<start_date>` | The starting date or timestamp.                                                                             |
+| `<end_date>`   | The ending date or timestamp.                                                                               |
 
-SELECT task_name, end_date - start_date AS duration
-FROM tasks;
+## Examples
 
-┌────────────────────────────────────┐
-│     task_name    │     duration    │
-├──────────────────┼─────────────────┤
-│ Task 1           │               5 │
-│ Task 2           │               7 │
-│ Task 3           │               3 │
-└────────────────────────────────────┘
+This example calculates the difference in hours between **yesterday** and **today**:
+
+```sql
+SELECT DATE_DIFF(HOUR, YESTERDAY(), TODAY());
+
+-[ RECORD 1 ]-----------------------------------
+DATE_DIFF(HOUR, yesterday(), today()): 24
+```
+
+This example calculates the difference in years between the current date and January 1, 2000;
+
+```sql
+SELECT NOW(), DATE_DIFF(YEAR, NOW(), TO_DATE('2000-01-01'));
+
+-[ RECORD 1 ]-----------------------------------
+                                        now(): 2024-10-15 03:06:37.202434
+DATE_DIFF(YEAR, now(), to_date('2000-01-01')): -24
 ```
