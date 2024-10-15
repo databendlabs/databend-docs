@@ -2,12 +2,18 @@
 title: EXPLAIN ANALYZE GRAPHICAL
 ---
 
+:::warning
+
+At present, the function has not been released, and the two PRS can be used when they are combined into the main branch: [#484](https://github.com/databendlabs/bendsql/pull/484) and [#16543](https://github.com/databendlabs/databend/pull/16543).
+
+:::
+
 `EXPLAIN ANALYZE GRAPHICAL` used to open a browser page to display a query execution plan along with actual run-time performance statistics.
 
 This is useful for analyzing query performance and identifying bottlenecks in a query.
 
- **Note:** This feature is available only in BendSQL.
- 
+**Note:** This feature is available only in BendSQL.
+
 ## Syntax
 
 ```sql
@@ -17,6 +23,7 @@ EXPLAIN ANALYZE GRAPHICAL <statement>
 ## Examples
 
 TPC-H Q21:
+
 ```sql
 EXPLAIN ANALYZE GRAPHICAL SELECT s_name,
     ->        Count(*) AS numwait
