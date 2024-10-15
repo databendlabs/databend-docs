@@ -52,4 +52,5 @@ EXPLAIN ANALYZE GRAPHICAL SELECT s_name,
     -> LIMIT  100;
 
 // 将打开一个浏览器页面以显示查询执行计划和性能统计信息。
+
 ```
