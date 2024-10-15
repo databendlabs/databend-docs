@@ -2,12 +2,18 @@
 title: EXPLAIN ANALYZE GRAPHICAL
 ---
 
+:::warning
+
+目前，该函数还没有发布，待两个 PR 合并到主分支中可以使用：[#484](https://github.com/databendlabs/bendsql/pull/484) and [#16543](https://github.com/databendlabs/databend/pull/16543).
+
+:::
+
 `EXPLAIN ANALYZE GRAPHICAL` 用于打开一个浏览器页面，以显示查询执行计划以及实际运行时的性能统计数据。
 
 这对于分析查询性能和识别查询中的瓶颈非常有用。
 
- **注意：** 此功能仅在 BendSQL 中可用。
- 
+**注意：** 此功能仅在 BendSQL 中可用。
+
 ## 语法
 
 ```sql
@@ -17,6 +23,7 @@ EXPLAIN ANALYZE GRAPHICAL <statement>
 ## 示例
 
 TPC-H Q21:
+
 ```sql
 EXPLAIN ANALYZE GRAPHICAL SELECT s_name,
     ->        Count(*) AS numwait
