@@ -1,32 +1,46 @@
 ---
-title: DATE DIFF
+title: DATE_DIFF
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Databend 目前尚未提供 `date_diff` 函数，但它支持直接对日期和时间进行算术运算。例如，你可以使用表达式 `TO_DATE(NOW())-2` 来获取两天前的日期。
+<FunctionDescription description="引入或更新: v1.2.645"/>
 
-Databend 直接操作日期和时间的灵活性使其在处理日期和时间计算时既方便又多功能。请参见以下示例：
+根据指定的时间单位计算两个日期或时间戳之间的差异。如果 `<end_date>` 在 `<start_date>` 之后，结果为正；如果 `<end_date>` 在 `<start_date>` 之前，结果为负。
+
+## 语法
 
 ```sql
-CREATE TABLE tasks (
-  task_name VARCHAR(50),
-  start_date DATE,
-  end_date DATE
-);
+DATE_DIFF(<unit>, <start_date>, <end_date>)
+```
 
-INSERT INTO tasks (task_name, start_date, end_date)
-VALUES
-  ('Task 1', '2023-06-15', '2023-06-20'),
-  ('Task 2', '2023-06-18', '2023-06-25'),
-  ('Task 3', '2023-06-20', '2023-06-23');
+| 参数           | 描述                                                                                                 |
+|----------------|-------------------------------------------------------------------------------------------------------------|
+| `<unit>`       | 差异的时间单位：`YEAR`, `QUARTER`, `MONTH`, `WEEK`, `DAY`, `HOUR`, `MINUTE`, 或 `SECOND`。 |
+| `<start_date>` | 起始日期或时间戳。                                                                             |
+| `<end_date>`   | 结束日期或时间戳。                                                                               |
 
-SELECT task_name, end_date - start_date AS duration
-FROM tasks;
+## 示例
 
-┌────────────────────────────────────┐
-│     task_name    │     duration    │
-├──────────────────┼─────────────────┤
-│ Task 1           │               5 │
-│ Task 2           │               7 │
-│ Task 3           │               3 │
-└────────────────────────────────────┘
+此示例计算**昨天**和**今天**之间的小时差：
+
+```sql
+SELECT DATE_DIFF(HOUR, YESTERDAY(), TODAY());
+
+┌───────────────────────────────────────┐
+│ DATE_DIFF(HOUR, yesterday(), today()) │
+├───────────────────────────────────────┤
+│                                    24 │
+└───────────────────────────────────────┘
+```
+
+此示例计算当前日期与2000年1月1日之间的年份差：
+
+```sql
+SELECT NOW(), DATE_DIFF(YEAR, NOW(), TO_DATE('2000-01-01'));
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│            now()           │ DATE_DIFF(YEAR, now(), to_date('2000-01-01')) │
+├────────────────────────────┼───────────────────────────────────────────────┤
+│ 2024-10-15 03:38:23.726599 │                                           -24 │
+└────────────────────────────────────────────────────────────────────────────┘
 ```
