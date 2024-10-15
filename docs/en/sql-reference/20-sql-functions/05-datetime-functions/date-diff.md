@@ -26,8 +26,11 @@ This example calculates the difference in hours between **yesterday** and **toda
 ```sql
 SELECT DATE_DIFF(HOUR, YESTERDAY(), TODAY());
 
--[ RECORD 1 ]-----------------------------------
-DATE_DIFF(HOUR, yesterday(), today()): 24
+┌───────────────────────────────────────┐
+│ DATE_DIFF(HOUR, yesterday(), today()) │
+├───────────────────────────────────────┤
+│                                    24 │
+└───────────────────────────────────────┘
 ```
 
 This example calculates the difference in years between the current date and January 1, 2000;
@@ -35,7 +38,9 @@ This example calculates the difference in years between the current date and Jan
 ```sql
 SELECT NOW(), DATE_DIFF(YEAR, NOW(), TO_DATE('2000-01-01'));
 
--[ RECORD 1 ]-----------------------------------
-                                        now(): 2024-10-15 03:06:37.202434
-DATE_DIFF(YEAR, now(), to_date('2000-01-01')): -24
+┌────────────────────────────────────────────────────────────────────────────┐
+│            now()           │ DATE_DIFF(YEAR, now(), to_date('2000-01-01')) │
+├────────────────────────────┼───────────────────────────────────────────────┤
+│ 2024-10-15 03:38:23.726599 │                                           -24 │
+└────────────────────────────────────────────────────────────────────────────┘
 ```
