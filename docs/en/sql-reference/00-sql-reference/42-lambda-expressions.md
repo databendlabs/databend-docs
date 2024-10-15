@@ -7,6 +7,10 @@ Lambda expressions are anonymous functions that allow you to encapsulate logic a
 ## Syntax
 
 ```sql
+-- Take one parameter
+<parameter> -> <expression>
+
+-- Take multiple parameters
 (<parameter1>, <parameter2>, ...) -> <expression>
 ```
 
@@ -34,4 +38,10 @@ This lambda expression checks if num is even. It returns `true` for even numbers
 
 ```bash
 num -> (num % 2 = 0)
+```
+
+This lambda expression adds the two parameters x and y:
+
+```bash
+(x, y) -> (x + y)
 ```
