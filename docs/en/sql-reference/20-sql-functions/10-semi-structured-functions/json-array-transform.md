@@ -5,12 +5,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.644"/>
 
-Transforms each element of a JSON array using a specified transformation expression.
+Transforms each element of a JSON array using a specified transformation Lambda expression. For more information about Lambda expression, see [Lambda Expressions](docs/en/sql-reference/00-sql-reference/42-lambda-expressions.md).
 
 ## Syntax
 
 ```sql
-JSON_ARRAY_TRANSFORM(<json_array>, <transform_expression>)
+JSON_ARRAY_TRANSFORM(<json_array>, <lambda_expression>)
 ```
 
 ## Aliases

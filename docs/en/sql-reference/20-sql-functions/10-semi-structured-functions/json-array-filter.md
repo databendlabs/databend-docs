@@ -5,12 +5,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.644"/>
 
-Filters elements from a JSON array based on a specified condition, returning only the elements that satisfy the condition.
+Filters elements from a JSON array based on a specified Lambda expression, returning only the elements that satisfy the condition. For more information about Lambda expression, see [Lambda Expressions](docs/en/sql-reference/00-sql-reference/42-lambda-expressions.md).
 
 ## Syntax
 
 ```sql
-JSON_ARRAY_FILTER(<json_array>, <filter_condition>)
+JSON_ARRAY_FILTER(<json_array>, <lambda_expression>)
 ```
 
 ## Return Type
