@@ -34,6 +34,7 @@ This section provides reference information for the semi-structured data functio
 - [JSON_STRIP_NULLS](json-strip-nulls.md)
 - [JSON_OBJECT](json-object.md)
 - [JSON_OBJECT_KEEP_NULL](json-object-keep-null.md)
+- [JSON_OBJECT_INSERT](json-object-insert.md)
 - [JSON_ARRAY_DISTINCT](json-array-distinct.md)
 - [JSON_ARRAY_EXCEPT](json-array-except.md)
 - [JSON_ARRAY_INSERT](json-array-insert.md)
