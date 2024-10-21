@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.646"/>
 
-Lists dictionaries in a specified database, displaying their names, column details, and source information. Please note that this command currently only lists dictionaries that use MySQL as the data source.
+Lists dictionaries in a specified database, displaying their names, column details, and source information.
 
 ## Syntax
 
