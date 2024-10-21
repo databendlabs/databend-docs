@@ -158,7 +158,7 @@ copyOptions ::=
 |------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | SINGLE           | false                  | When `true`, the command unloads data into one single file.                                                                                                             |
 | MAX_FILE_SIZE    | 67108864 bytes (64 MB) | The maximum size (in bytes) of each file to be created. Effective when `SINGLE` is false.                                                                             |
-| OVERWRITE        | false                  | When `true`, existing files at the target path will be overwritten.                                                                                                     |
+| OVERWRITE        | false                  | When `true`, existing files with the same name at the target path will be overwritten.                                                                                                     |
 | INCLUDE_QUERY_ID | true                   | When `true`, a unique UUID will be included in the exported file names.                                                                                                 |
 | USE_RAW_PATH     | false                  | When `true`, the exact user-provided path (including the full file name) will be used for exporting the data. If set to `false`, the user must provide a directory path. |
 
