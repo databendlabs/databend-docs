@@ -10,7 +10,7 @@ Inserts or updates a key-value pair in a JSON object.
 ## Syntax
 
 ```sql
-JSON_OBJECT_INSERT(<json_object>, <key>, <value>[, true | false ])
+JSON_OBJECT_INSERT(<json_object>, <key>, <value>[, <update_flag>])
 ```
 
 | Parameter           | Description                                                                                                                                                                                                                                          |   |
@@ -18,7 +18,7 @@ JSON_OBJECT_INSERT(<json_object>, <key>, <value>[, true | false ])
 | `<json_object>`     | The input JSON object.                                                                                                                                                                                                                               |   |
 | `<key>`             | The key to be inserted or updated.                                                                                                                                                                                                                   |   |
 | `<value>`           | The value to assign to the key.                                                                                                                                                                                                                      |   |
-| `[, true ｜ false]` | A boolean flag that controls whether to replace the value if the specified key already exists in the JSON object. If `true`, the function replaces the value if the key already exists. If `false`  (or omitted), an error occurs if the key exists. |   |
+| `<update_flag>` | A boolean flag that controls whether to replace the value if the specified key already exists in the JSON object. If `true`, the function replaces the value if the key already exists. If `false`  (or omitted), an error occurs if the key exists. |   |
 
 ## Return Type
 
@@ -38,7 +38,7 @@ SELECT JSON_OBJECT_INSERT('{"a":1,"b":2,"d":4}'::variant, 'c', 3);
 └────────────────────────────────────────────────────────────┘
 ```
 
-This example shows how to update the value of an existing key 'a' from 1 to 10 using the boolean flag set to `true`, allowing the key's value to be replaced:
+This example shows how to update the value of an existing key 'a' from 1 to 10 using the update flag set to `true`, allowing the key's value to be replaced:
 
 ```sql
 SELECT JSON_OBJECT_INSERT('{"a":1,"b":2,"d":4}'::variant, 'a', 10, true);
@@ -50,7 +50,7 @@ SELECT JSON_OBJECT_INSERT('{"a":1,"b":2,"d":4}'::variant, 'a', 10, true);
 └───────────────────────────────────────────────────────────────────┘
 ```
 
-This example demonstrates an error that occurs when trying to insert a value for an existing key 'a' without specifying the boolean flag set to `true`:
+This example demonstrates an error that occurs when trying to insert a value for an existing key 'a' without specifying the update flag set to `true`:
 
 ```sql
 SELECT JSON_OBJECT_INSERT('{"a":1,"b":2,"d":4}'::variant, 'a', 10);
