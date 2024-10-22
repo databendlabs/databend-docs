@@ -19,6 +19,7 @@ title: 用户与角色
 
 ## 信息检索：
 
+- [DESC USER](01-user-desc-user.md)
 - [SHOW USERS](02-user-show-users.md)
 - [SHOW ROLES](04-user-show-roles.md)
 - [SHOW GRANTS](22-show-grants.md)
