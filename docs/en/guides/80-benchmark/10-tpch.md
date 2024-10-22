@@ -18,7 +18,7 @@ The TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing P
 - **[Snowflake](https://www.snowflake.com)**: Snowflake is renowned for its advanced features such as separating storage and compute, scalable computing on demand, data sharing, and cloning capabilities.
 
 - **[Databend Cloud](https://www.databend.com)**: Databend Cloud offers [similar functionalities](https://github.com/datafuselabs/databend/issues/13059) to Snowflake, being a cloud-native data warehouse that also separates storage from computing and provides scalable computing as needed.
- It is developed from the open-source [Databend project](https://github.com/datafuselabs/databend), positioning itself as a modern, cost-effective alternative to Snowflake, especially for large-scale analytics.
+  It is developed from the open-source [Databend project](https://github.com/datafuselabs/databend), positioning itself as a modern, cost-effective alternative to Snowflake, especially for large-scale analytics.
 
 ## Performance and Cost Comparison
 
@@ -28,15 +28,15 @@ The TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing P
 :::info Note
 
 For this benchmark, no special tuning was applied. Both Snowflake and Databend Cloud were used with their default settings.
-And remember, **don't just take our word for it — you're encouraged to run and verify these results yourself.** 
+And remember, **don't just take our word for it — you're encouraged to run and verify these results yourself.**
 :::
 
-### Data Loading Benchmark 
+### Data Loading Benchmark
 
-![image](https://github.com/datafuselabs/wizard/assets/172204/0e51510d-5aa6-4891-8510-c2741e7ddae0)
+![Alt text](@site/static/img/documents/tpch1.png)
 
 | Table            | Snowflake(695s, Cost $0.77) | Databend Cloud(446s, Cost $0.25) | Rows        |
-|------------------|-----------------------------|----------------------------------|-------------|
+| ---------------- | --------------------------- | -------------------------------- | ----------- |
 | customer         | 18.137                      | 13.436                           | 15,000,000  |
 | lineitem         | 477.740                     | 305.812                          | 600,037,902 |
 | nation           | 1.347                       | 0.708                            | 25          |
@@ -49,12 +49,12 @@ And remember, **don't just take our word for it — you're encouraged to run and
 | **Total Cost**   | **$0.77**                   | **$0.25**                        |             |
 | **Storage Size** | **20.8GB**                  | **24.5GB**                       |             |
 
-###  Query Benchmark: Cold Run
+### Query Benchmark: Cold Run
 
-![image](https://github.com/datafuselabs/wizard/assets/172204/d796acf0-0a66-4b1d-8754-cd2cd1de04c7)
+![Alt text](@site/static/img/documents/tpch2.png)
 
 | Query          | Snowflake(Total 207s, Cost $0.23) | Databend Cloud(Total 166s, Cost $0.09) |
-|----------------|-----------------------------------|----------------------------------------|
+| -------------- | --------------------------------- | -------------------------------------- |
 | TPC-H 1        | 11.703                            | 8.036                                  |
 | TPC-H 2        | 4.524                             | 3.786                                  |
 | TPC-H 3        | 8.908                             | 6.040                                  |
@@ -82,10 +82,10 @@ And remember, **don't just take our word for it — you're encouraged to run and
 
 ### Query Benchmark: Hot Run
 
-![image](https://github.com/datafuselabs/wizard/assets/172204/9a5533e1-b432-4c69-8e10-6a2d289793e7)
+![Alt text](@site/static/img/documents/tpch3.png)
 
 | Query          | Snowflake (Total 138s, Cost $0.15) | Databend Cloud (Total 124s, Cost $0.07) |
-|----------------|------------------------------------|-----------------------------------------|
+| -------------- | ---------------------------------- | --------------------------------------- |
 | TPC-H 1        | 8.934                              | 7.568                                   |
 | TPC-H 2        | 3.018                              | 3.125                                   |
 | TPC-H 3        | 6.089                              | 5.234                                   |
@@ -120,7 +120,7 @@ You can reproduce the benchmark by following the steps below.
 Both Snowflake and Databend Cloud was tested under similar conditions:
 
 | Parameter      | Snowflake                                                           | Databend Cloud                            |
-|----------------|---------------------------------------------------------------------|-------------------------------------------|
+| -------------- | ------------------------------------------------------------------- | ----------------------------------------- |
 | Warehouse Size | Small                                                               | Small                                     |
 | vCPU           | 16                                                                  | 16                                        |
 | Price          | [$4/hour](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/hour](https://www.databend.com/plan/) |
@@ -132,6 +132,7 @@ Both Snowflake and Databend Cloud was tested under similar conditions:
 ### Benchmark Methodology
 
 We conducted both Cold and Hot runs for query execution:
+
 1. **Cold Run**: The data warehouse was suspended and resumed before executing the queries.
 2. **Hot Run**: The data warehouse is not suspended, local disk cache is used.
 
@@ -143,21 +144,23 @@ We conducted both Cold and Hot runs for query execution:
 ### Data Loading
 
 1. **Snowflake Data Load**:
-    - Log into your [Snowflake account](https://app.snowflake.com/).
-    - Create tables corresponding to the TPC-H schema. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L1-L84).
-    - Use the `COPY INTO` command to load the data from AWS S3. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L87-L94).
+
+   - Log into your [Snowflake account](https://app.snowflake.com/).
+   - Create tables corresponding to the TPC-H schema. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L1-L84).
+   - Use the `COPY INTO` command to load the data from AWS S3. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L87-L94).
 
 2. **Databend Cloud Data Load**:
-    - Sign in to your [Databend Cloud account](https://app.databend.com).
-    - Create the necessary tables as per the TPC-H schema. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L1-L84).
-    - Utilize a similar method to Snowflake for loading data from AWS S3. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L87-L117).
+   - Sign in to your [Databend Cloud account](https://app.databend.com).
+   - Create the necessary tables as per the TPC-H schema. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L1-L84).
+   - Utilize a similar method to Snowflake for loading data from AWS S3. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L87-L117).
 
 ### TPC-H Queries
 
 1. **Snowflake Queries**:
-    - Log into your [Snowflake account](https://app.snowflake.com/).
-    - Run the TPC-H queries. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/queries.sql).
+
+   - Log into your [Snowflake account](https://app.snowflake.com/).
+   - Run the TPC-H queries. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/queries.sql).
 
 2. **Databend Cloud Queries**:
-    - Sign in to your [Databend Cloud account](https://app.databend.com).
-    - Run the TPC-H queries. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/queries.sql).
+   - Sign in to your [Databend Cloud account](https://app.databend.com).
+   - Run the TPC-H queries. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/queries.sql).
