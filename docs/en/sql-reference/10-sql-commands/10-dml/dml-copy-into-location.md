@@ -1,12 +1,11 @@
 ---
 title: "COPY INTO <location>"
 sidebar_label: "COPY INTO <location>"
-description: "Unload Data using COPY INTO <location>"
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.296"/>
+<FunctionDescription description="Introduced or updated: v1.2.647"/>
 
 COPY INTO allows you to unload data from a table or query into one or more files in one of the following locations:
 
@@ -148,14 +147,20 @@ See [Input & Output File Formats](../../00-sql-reference/50-file-format-options.
 
 ```sql
 copyOptions ::=
-  [ SINGLE = TRUE | FALSE ]
+  [ SINGLE = true | false ]
   [ MAX_FILE_SIZE = <num> ]
+  [ OVERWRITE = true | false ]
+  [ INCLUDE_QUERY_ID = true | false ]
+  [ USE_RAW_PATH = true | false ]
 ```
 
-| Parameter     | Description                                                                                                                     |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| SINGLE        | When TRUE, the command unloads data into one single file. Default: FALSE.                                                       |
-| MAX_FILE_SIZE | The maximum size (in bytes) of each file to be created.<br />Effective when `SINGLE` is FALSE. Default: 67108864 bytes (64 MB). |
+| Parameter        | Default                | Description                                                                                                                                                           |
+|------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SINGLE           | false                  | When `true`, the command unloads data into one single file.                                                                                                             |
+| MAX_FILE_SIZE    | 67108864 bytes (64 MB) | The maximum size (in bytes) of each file to be created. Effective when `SINGLE` is false.                                                                             |
+| OVERWRITE        | false                  | When `true`, existing files with the same name at the target path will be overwritten. Note: `OVERWRITE = true` requires `USE_RAW_PATH = true` and `INCLUDE_QUERY_ID = false`.   |
+| INCLUDE_QUERY_ID | true                   | When `true`, a unique UUID will be included in the exported file names.                                                                                                 |
+| USE_RAW_PATH     | false                  | When `true`, the exact user-provided path (including the full file name) will be used for exporting the data. If set to `false`, the user must provide a directory path. |
 
 ### DETAILED_OUTPUT
 
