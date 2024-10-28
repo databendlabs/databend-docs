@@ -69,7 +69,7 @@ The following is a list of the parameters available within the [log.file] sectio
 | dir                 | Path to store log files.                                                                            |
 | level               | Log level: DEBUG, INFO, or ERROR. Defaults to INFO.                                                 |
 | format              | Log format: json or text. Defaults to json.                                                         |
-| file_limit          | Determines the maximum number of log files to be retained. Defaults to 48.                        |
+| limit               | Determines the maximum number of log files to be retained. Defaults to 48.                          |
 
 ### [log.stderr] Section
 
