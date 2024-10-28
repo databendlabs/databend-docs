@@ -108,7 +108,15 @@ function Footer() {
                   "description": "Free, self-hosted version for community-driven use.",
                   "url": "https://www.databend.com/databend/"
                 }
-              ]
+              ],
+              {
+                "@type": "PostalAddress",
+                "streetAddress": "401 RYLAND ST. STE 200-A",
+                "addressLocality": "Reno",
+                "addressRegion": "NV",
+                "postalCode": "89502",
+                "addressCountry": "USA"
+              }
             }
           `}
           </script>
