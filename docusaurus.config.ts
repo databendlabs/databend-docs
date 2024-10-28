@@ -228,28 +228,28 @@ const config: Config = {
       },
       items: [
         {
-          to: "/guides",
+          to: "/guides/",
           label: "Guides",
           position: "right",
         },
         {
-          to: "/tutorials",
+          to: "/tutorials/",
           label: "Tutorials",
           position: "right",
         },
         {
-          to: "/developer",
+          to: "/developer/",
           label: "Developer",
           position: "right",
         },
         {
-          to: "/sql",
+          to: "/sql/",
           label: "SQL Reference",
           position: "right",
         },
         //
         {
-          to: "/release-notes",
+          to: "/release-notes/",
           label: "Releases",
           position: "right",
         },
@@ -268,11 +268,11 @@ const config: Config = {
           items: [
             {
               label: "Products",
-              to: `/guides/overview/editions/`,
+              to: `/guides/overview/editions`,
             },
             {
               label: "AI",
-              to: `/guides/ai-functions/`,
+              to: `/guides/ai-functions`,
             },
             {
               label: "Performance",
@@ -280,19 +280,19 @@ const config: Config = {
             },
             {
               label: "Changelog",
-              to: "/release-notes",
+              to: "/release-notes/",
             },
             {
               label: "Downloads",
-              to: `${homeLink}/download`,
+              to: `${homeLink}/download/`,
             },
             {
               label: "Developer",
-              to: "/developer",
+              to: "/developer/",
             },
             {
               label: "Blog",
-              to: `${homeLink}/blog`,
+              to: `${homeLink}/blog/`,
             },
           ],
         },
