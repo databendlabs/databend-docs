@@ -5,7 +5,7 @@ description: Basic Date and Time data type.
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.575"/>
+<FunctionDescription description="Introduced or updated: v1.2.648"/>
 
 ## Date and Time Data Types
 
@@ -196,6 +196,36 @@ SELECT to_datetime('2024-03-10 02:01:00');
 ├────────────────────────────────────┤
 │ 2024-03-10 03:01:00                │
 └────────────────────────────────────┘
+```
+
+## Handling Invalid Values
+
+Databend automatically converts invalid Date or Timestamp values to their minimum valid equivalents, `1000-01-01` for dates and `1000-01-01 00:00:00` for timestamps, ensuring consistency when working with out-of-range or incorrectly formatted dates and timestamps. 
+
+Examples:
+
+```sql
+-- Attempts to add one day to the maximum date, exceeding the valid range.
+-- Result: Returns DateMIN (1000-01-01) instead of an error.
+SELECT ADD_DAYS(TO_DATE('9999-12-31'), 1);
+
+┌────────────────────────────────────┐
+│ add_days(to_date('9999-12-31'), 1) │
+├────────────────────────────────────┤
+│ 1000-01-01                         │
+└────────────────────────────────────┘
+```
+
+```sql
+-- Attempts to subtract one minute from the minimum date, which would be invalid.
+-- Result: Returns DateMIN (1000-01-01 00:00:00), ensuring stability in results.
+SELECT SUBTRACT_MINUTES(TO_DATE('1000-01-01'), 1);
+
+┌────────────────────────────────────────────┐
+│ subtract_minutes(to_date('1000-01-01'), 1) │
+├────────────────────────────────────────────┤
+│ 1000-01-01 00:00:00                        │
+└────────────────────────────────────────────┘
 ```
 
 ## Formatting Date and Time
