@@ -16,6 +16,8 @@ SELECT ...
 FROM <stream_name> WITH (<hint1> = <value1>[, <hint2> = <value2>, ...])
 ```
 
+The following lists the available hints, including their descriptions and recommended usage for optimizing stream processing:
+
 | Hint             | Description                                                                                                                                                                               |
 |------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `CONSUME`        | Specifies whether this query will consume the stream. Defaults to `False`.                                                                                                                |
