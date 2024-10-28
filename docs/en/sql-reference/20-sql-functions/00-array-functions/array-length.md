@@ -17,11 +17,13 @@ ARRAY_LENGTH( <array> )
 ## Examples
 
 ```sql
-SELECT ARRAY_LENGTH([1, 2]), ARRAY_SIZE([1, 2]);
+SELECT 
+    ARRAY_LENGTH(['apple', 'banana', 'cherry']) AS item_count,
+    ARRAY_SIZE(['apple', 'banana', 'cherry']) AS item_count_alias;
 
-┌───────────────────────────────────────────┐
-│ array_length([1, 2]) │ array_size([1, 2]) │
-├──────────────────────┼────────────────────┤
-│                    2 │                  2 │
-└───────────────────────────────────────────┘
+┌───────────────────────────────┐
+│ item_count │ item_count_alias │
+├────────────┼──────────────────┤
+│          3 │                3 │
+└───────────────────────────────┘
 ```
