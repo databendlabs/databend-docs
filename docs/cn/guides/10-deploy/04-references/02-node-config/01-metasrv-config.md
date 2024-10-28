@@ -20,7 +20,7 @@ raft_dir      = "/var/lib/databend/raft"
 raft_api_port = 28103
 
 # 在测试配置中分配 raft_{listen|advertise}_host。
-# 这允许你在单元测试中捕捉到 raft meta 节点通信出错时的错误。
+# 这允许你在单元测试中捕捉到 raft 元节点通信出错时的 bug。
 raft_listen_host = "127.0.0.1"
 raft_advertise_host = "localhost"
 
@@ -60,6 +60,7 @@ single        = true
 | level   | 基于文件的日志记录的日志级别（例如，"DEBUG"，"INFO"）。默认："DEBUG" |
 | dir     | 存储日志文件的目录。默认："./.databend/logs"                          |
 | format  | 基于文件的日志记录的日志格式（例如，"json"，"text"）。默认："json"   |
+| limit   | 确定要保留的最大日志文件数量。默认值为 48                            |
 
 ### [log.stderr] 部分
 
@@ -84,9 +85,9 @@ single        = true
 | raft_advertise_host      | 用于广告 Raft API 的 IP 地址。                                        |
 | single                   | 布尔值，指示 Databend 是否应以单节点集群模式运行（true 或 false）。   |
 | join                     | 现有集群中节点的地址列表（&lt;raft_advertise_host&gt;:&lt;raft_api_port&gt;），新节点将加入该集群。 |
-| heartbeat_interval       | 心跳间隔（以毫秒为单位）。默认：1000                                 |
-| install_snapshot_timeout | 安装快照超时（以毫秒为单位）。默认：4000                             |
-| max_applied_log_to_keep  | 保留的最大应用 Raft 日志数。默认：1000                               |
-| snapshot_chunk_size      | 传输快照的块大小（以字节为单位）。默认：4MB                          |
-| snapshot_logs_since_last | 自上次快照以来的 Raft 日志数。默认：1024                             |
-| wait_leader_timeout      | 等待领导者超时（以毫秒为单位）。默认：70000                          |
+| heartbeat_interval       | 心跳间隔，以毫秒为单位。默认：1000                                   |
+| install_snapshot_timeout | 安装快照超时，以毫秒为单位。默认：4000                               |
+| max_applied_log_to_keep  | 保留的最大已应用 Raft 日志数量。默认：1000                           |
+| snapshot_chunk_size      | 传输快照的块大小，以字节为单位。默认值为 4MB                         |
+| snapshot_logs_since_last | 自上次快照以来的 Raft 日志数量。默认：1024                           |
+| wait_leader_timeout      | 等待领导者超时，以毫秒为单位。默认：70000                            |
