@@ -16,10 +16,12 @@ SELECT ...
 FROM <stream_name> WITH (<hint1> = <value1>[, <hint2> = <value2>, ...])
 ```
 
+The following lists the available hints, including their descriptions and recommended usage for optimizing stream processing:
+
 | Hint             | Description                                                                                                                                                                               |
 |------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `CONSUME`        | Specifies whether this query will consume the stream. Defaults to `False`.                                                                                                                |
-| `MAX_BATCH_SIZE` | Defines the maximum number of rows per batch processed from the stream.<br/>- If not specified, all rows from the stream are processed.<br/>- Changing `MAX_BATCH_SIZE` for the same stream within a transaction is not allowed and will result in an error. |
+| `MAX_BATCH_SIZE` | Defines the maximum number of rows per batch processed from the stream.<br/>- If not specified, all rows from the stream are processed.<br/>- Changing `MAX_BATCH_SIZE` for the same stream within a transaction is not allowed and will result in an error.<br/>- For streams with a large backlog of changes, such as when a stream hasn’t been consumed for a long time, setting `MAX_BATCH_SIZE` or using a smaller value is *not* recommended, as it may reduce capture efficiency. |
 
 ## Examples
 
