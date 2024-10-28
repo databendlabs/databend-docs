@@ -60,6 +60,7 @@ The following is a list of the parameters available within the [log.file] sectio
 | level     | Log level for file-based logging (e.g., "DEBUG", "INFO"). Default: "DEBUG" |
 | dir       | Directory where log files will be stored. Default: "./.databend/logs"      |
 | format    | Log format for file-based logging (e.g., "json", "text"). Default: "json"  |
+| limit     | Determines the maximum number of log files to be retained. Defaults to 48  |
 
 ### [log.stderr] Section
 
