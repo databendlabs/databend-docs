@@ -56,6 +56,7 @@ function Footer() {
                 { "@type": "WebPage", "url": "https://www.databend.com/databend/", "name": "Databend Community" },
                 { "@type": "WebPage", "url": "https://www.databend.com/security/", "name": "Databend Security" },
                 { "@type": "WebPage", "url": "https://www.databend.com/apply/", "name": "Join the Databend Cloud for FREE" },
+                { "@type": "WebPage", "url": "https://www.databend.com/contact-us/", "name": "Databend Support" },
                 { "@type": "WebPage", "url": "https://www.databend.com/blog/", "name": "Databend Blog" },
                 { "@type": "WebPage", "url": "https://www.databend.com/about/", "name": "About Databend" },
                 { "@type": "WebPage", "url": "https://www.databend.com/download/", "name": "Databend Download" },
