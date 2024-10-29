@@ -10,14 +10,20 @@ title: ARRAY_LENGTH
 ARRAY_LENGTH( <array> )
 ```
 
+## 别名
+
+- [ARRAY_SIZE](array-size.md)
+
 ## 示例
 
 ```sql
-SELECT ARRAY_LENGTH([1, 2]);
+SELECT 
+    ARRAY_LENGTH(['apple', 'banana', 'cherry']) AS item_count,
+    ARRAY_SIZE(['apple', 'banana', 'cherry']) AS item_count_alias;
 
-┌──────────────────────┐
-│ array_length([1, 2]) │
-├──────────────────────┤
-│                    2 │
-└──────────────────────┘
+┌───────────────────────────────┐
+│ item_count │ item_count_alias │
+├────────────┼──────────────────┤
+│          3 │                3 │
+└───────────────────────────────┘
 ```
