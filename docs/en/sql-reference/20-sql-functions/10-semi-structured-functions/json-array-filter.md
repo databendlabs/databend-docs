@@ -1,11 +1,12 @@
 ---
 title: JSON_ARRAY_FILTER
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.644"/>
 
-Filters elements from a JSON array based on a specified Lambda expression, returning only the elements that satisfy the condition. For more information about Lambda expression, see [Lambda Expressions](docs/en/sql-reference/00-sql-reference/42-lambda-expressions.md).
+Filters elements from a JSON array based on a specified Lambda expression, returning only the elements that satisfy the condition. For more information about Lambda expression, see [Lambda Expressions](../../00-sql-reference/42-lambda-expressions.md).
 
 ## Syntax
 
