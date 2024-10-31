@@ -4,11 +4,11 @@ title: system.functions
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.315"/>
+<FunctionDescription description="引入或更新: v1.2.315"/>
 
-包含关于支持的内置标量和聚合函数的信息。
+包含有关支持的内置标量和聚合函数的信息。
 
-另见：[SHOW FUNCTIONS](/sql/sql-commands/administration-cmds/show-functions)。
+另请参阅: [SHOW FUNCTIONS](/sql/sql-commands/administration-cmds/show-functions).
 
 ## 示例
 

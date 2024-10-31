@@ -2,7 +2,7 @@
 title: system.caches
 ---
 
-Databend 中各种缓存的概览。
+Databend 中管理的各种缓存的概述。
 
 下表显示了缓存名称、缓存中的项目数量以及缓存的大小：
 ```sql

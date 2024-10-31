@@ -1,18 +1,18 @@
 ---
-title: 映射
+title: Map
 ---
 
-MAP数据结构用于保存一组`Key:Value`对，并使用Array(Tuple(key, value))的嵌套数据结构来存储数据。它适用于数据类型恒定，但无法完全确定`Key`的值的情况。
+MAP 数据结构用于保存一组 `Key:Value` 对，并使用 Array(Tuple(key, value)) 的嵌套数据结构存储数据。它适用于数据类型固定，但 `Key` 的值不能完全确定的情况。
 
-## 理解Key:Value
+## 理解 Key:Value
 
-`Key`是指定的基本数据类型，包括布尔值、数字、小数、字符串、日期或时间戳。`Key`的值不能为Null，且不允许有重复。`Value`可以是任何数据类型，包括嵌套数组、元组等。
+`Key` 是特定的基本数据类型，包括 Boolean、Number、Decimal、String、Date 或 Timestamp。`Key` 的值不能为 Null，且不允许重复。`Value` 可以是任何数据类型，包括嵌套数组、元组等。
 
-可以通过大括号中的`Key:Value`对或使用Map函数将两个数组转换为Map来生成Map数据。Map函数接受两个数组作为输入，其中第一个数组的元素作为键，第二个数组的元素作为值。请看下面的示例：
+Map 数据可以通过包含在大括号中的 `Key:Value` 对生成，或者通过使用 Map 函数将两个数组转换为 Map。Map 函数接受两个数组作为输入，其中第一个数组的元素作为键，第二个数组的元素作为值。请参见以下示例：
 
 ```sql
--- 输入数组: [1, 2] 和 ['v1', 'v2']
--- 生成的Map: {1: 'v1', 2: 'v2'}
+-- 输入数组：[1, 2] 和 ['v1', 'v2']
+-- 生成的 Map：{1: 'v1', 2: 'v2'}
 
 SELECT {'k1': 1, 'k2': 2}, map([1, 2], ['v1', 'v2']);
 +-----------------+---------------------------+
@@ -22,15 +22,15 @@ SELECT {'k1': 1, 'k2': 2}, map([1, 2], ['v1', 'v2']);
 +-----------------+---------------------------+
 ```
 
-## Map和布隆过滤器索引
+## Map 和布隆过滤器索引
 
-在Databend Map中，为某些数据类型的值创建了布隆过滤器索引：`数值型`、`字符串`、`时间戳`和`日期`。
+在 Databend Map 中，对于某些数据类型的值（`Numeric`、`String`、`Timestamp` 和 `Date`），会创建布隆过滤器索引。
 
-这使得在MAP数据结构中搜索值变得更加容易和快速。
+这使得在 MAP 数据结构中搜索值变得更加容易和快速。
 
-Databend Map中布隆过滤器索引的实现在[PR#10457](https://github.com/datafuselabs/databend/pull/10457)。
+Databend Map 中布隆过滤器索引的实现位于 [PR#10457](https://github.com/datafuselabs/databend/pull/10457)。
 
-当查询的值不存在时，布隆过滤器特别有效地减少了查询时间。
+布隆过滤器在查询的值不存在时，特别有效地减少了查询时间。
 
 例如：
 ```sql
@@ -62,7 +62,7 @@ WHERE log['ip'] = '205.91.162.141';
 
 ## 示例
 
-**创建一个包含Map列的表来存储网页流量数据**
+**创建一个包含 Map 列的表，用于存储网络流量数据**
 
 ```sql
 CREATE TABLE web_traffic_data(
@@ -85,7 +85,7 @@ DESC web_traffic_data;
 └─────────────┴─────────────────────┴──────┴─────────┴───────┘
 ```
 
-**插入包含IP地址和访问过的URL的Map数据**
+**插入包含 IP 地址和访问 URL 的 Map 数据**
 
 ```sql
 INSERT INTO web_traffic_data 
@@ -111,7 +111,7 @@ SELECT * FROM web_traffic_data;
 └────┴─────────────────────────────────────────────────┘
 ```
 
-**查询每个IP地址的访问次数**
+**查询每个 IP 地址的访问次数**
 
 ```sql
 SELECT traffic_info['ip'] AS ip_address, COUNT(*) AS visits
@@ -129,7 +129,7 @@ GROUP BY traffic_info['ip'];
 └─────────────┴────────┘
 ```
 
-**查询访问次数最多的URL**
+**查询访问次数最多的 URL**
 ```sql
 SELECT traffic_info['url'] AS url, COUNT(*) AS visits
 FROM web_traffic_data
