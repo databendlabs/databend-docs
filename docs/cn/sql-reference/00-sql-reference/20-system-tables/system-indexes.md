@@ -4,11 +4,11 @@ title: system.indexes
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入版本：v1.1.50"/>
+<FunctionDescription description="引入: v1.1.50"/>
 
-包含有关创建的聚合索引的信息。
+包含有关已创建的聚合索引的信息。
 
-另见：[SHOW INDEXES](../../10-sql-commands/00-ddl/07-aggregating-index/show-indexes.md)
+另请参阅: [SHOW INDEXES](../../10-sql-commands/00-ddl/07-aggregating-index/show-indexes.md)
 
 ```sql
 CREATE TABLE t1(a int,b int);

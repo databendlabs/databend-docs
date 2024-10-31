@@ -2,7 +2,7 @@
 title: system.columns
 ---
 
-包含表格列的信息。
+包含表的列信息。
 
 ```sql
 DESC system.columns;

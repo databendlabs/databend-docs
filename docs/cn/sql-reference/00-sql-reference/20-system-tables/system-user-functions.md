@@ -4,11 +4,11 @@ title: system.user_functions
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.315"/>
+<FunctionDescription description="引入或更新: v1.2.315"/>
 
-包含系统中用户定义的函数和外部函数的信息。
+包含系统中用户定义函数和外部函数的信息。
 
-另见：[SHOW USER FUNCTIONS](/sql/sql-commands/administration-cmds/show-user-functions)。
+另请参阅: [SHOW USER FUNCTIONS](/sql/sql-commands/administration-cmds/show-user-functions).
 
 ```sql
 SELECT * FROM system.user_functions;

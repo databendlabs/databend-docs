@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.617"/>
 
-Databend 使用 Fuse 引擎作为其默认引擎，提供了一个类似于 Git 的用户友好界面的数据管理系统。用户可以轻松地在任何时刻查询数据，并轻松地将数据恢复到任何所需的时间点。
+Databend 使用 Fuse 引擎作为其默认引擎，提供了一个类似于 Git 的用户友好界面的数据管理系统。用户可以轻松地在任何给定时刻查询数据，并轻松地将数据恢复到任何所需的时间点。
 
 ## 语法
 
@@ -21,7 +21,7 @@ CREATE TABLE <table_name> (
 
 | 参数           | 描述                                                                                                                                                                                         |
 |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `ENGINE`     | 如果未明确指定引擎，Databend 将自动默认使用 Fuse 引擎创建表，这等同于 `ENGINE = FUSE`。                                                                                                    |
+| `ENGINE`     | 如果未明确指定引擎，Databend 将自动默认使用 Fuse 引擎创建表，这等同于 `ENGINE = FUSE`。                                    |
 | `CLUSTER BY` | 指定由多个表达式组成的数据的排序方法。更多信息请参阅 [Cluster Key](/guides/performance/cluster-key)。     |
 | `<Options>`  | Fuse 引擎提供了各种选项（不区分大小写），允许您自定义表的属性。详情请参阅 [Fuse 引擎选项](#fuse-engine-options)。<br/>- 使用空格分隔多个选项。<br/>- 使用 [ALTER TABLE OPTION](../../10-sql-commands/00-ddl/01-table/90-alter-table-option.md) 修改表的选项。<br/>- 使用 [SHOW CREATE TABLE](../../10-sql-commands/00-ddl/01-table/show-create-table.md) 显示表的选项。|
 
@@ -29,7 +29,7 @@ CREATE TABLE <table_name> (
 
 以下是可用的 Fuse 引擎选项：
 
-| 选项                     | 语法                                               | 描述                                                                                                                                                                                                                                                                                            |
+| 选项               	| 语法                                              	| 描述                                                                                                                                                                                                                                                                                           	|
 |----------------------	|-----------------------------------------------------	|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
 | bloom_index_columns  	| `bloom_index_columns = '<column> [, <column> ...]'` 	| 指定用于布隆索引的列。这些列的数据类型可以是 Map、Number、String、Date 或 Timestamp。如果没有指定特定列，布隆索引默认在所有支持的列上创建。`bloom_index_columns=''` 禁用布隆索引。                                                            	|
 | compression          	| `compression = '<compression>'`                     	| 指定引擎的压缩方法。压缩选项包括 lz4、zstd、snappy 或 none。压缩方法在对象存储中默认为 zstd，在文件系统 (fs) 存储中默认为 lz4。                                                                                               	|
