@@ -11,12 +11,12 @@ export default function HomeBreadcrumbItem() {
   const canUseDOM = ExecutionEnvironment.canUseDOM;
   const [menuName, setMenuName] = useState("");
   const pathname = canUseDOM ? window?.location?.pathname : "/";
-  const menu = canUseDOM ? `/${pathname?.split("/")[1]}` : "/";
+  const menu = canUseDOM ? `/${pathname?.split("/")[1]}/` : "/";
   const homeHref = useBaseUrl(menu);
   useMount(() => {
     if (canUseDOM) {
       const menuItems = (docusaurusConfig?.themeConfig?.navbar as any)?.items;
-      setMenuName(menuItems?.find(item => item.to === menu)?.label);
+      setMenuName(menuItems?.find((item) => item.to === menu)?.label);
     }
   });
   return (
