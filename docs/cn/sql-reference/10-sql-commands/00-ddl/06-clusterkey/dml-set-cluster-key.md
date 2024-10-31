@@ -3,16 +3,16 @@ title: SET CLUSTER KEY
 sidebar_position: 1
 ---
 
-在创建表时设置集群键。
+在创建表时设置集群。
 
-集群键旨在通过物理上将数据聚集在一起来提高查询性能。例如，当您将某一列设置为表的集群键时，表数据将按您设置的列进行物理排序。如果您的多数查询都是按该列进行过滤的，这将最大化查询性能。
+集群旨在通过物理上将数据聚集在一起来提高查询性能。例如，当您将某一列设置为表的集群时，表数据将按您设置的列进行物理排序。如果您的多数查询都是按该列进行过滤的，这将最大化查询性能。
 
-> **注意：** 对于字符串列，集群统计仅使用前8个字节。您可以使用子字符串来提供足够的基数。
+> **注意：** 对于字符串列，集群统计仅使用前 8 个字节。您可以使用子字符串来提供足够的基数。
 
 另请参阅：
 
-* [ALTER CLUSTER KEY](./dml-alter-cluster-key.md) 
-* [DROP CLUSTER KEY](./dml-drop-cluster-key.md)
+- [ALTER CLUSTER KEY](./dml-alter-cluster-key.md)
+- [DROP CLUSTER KEY](./dml-drop-cluster-key.md)
 
 ## 语法
 
