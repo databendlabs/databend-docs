@@ -2,13 +2,14 @@
 title: OPTIMIZE TABLE
 sidebar_position: 8
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.395"/>
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-在Databend中优化表涉及压缩或清除历史数据，以节省存储空间并提高查询性能。
+在 Databend 中优化表涉及压缩或清除历史数据，以节省存储空间并提高查询性能。
 
 <DetailsWrap>
 
@@ -21,37 +22,37 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 </DetailsWrap>
 
-## Databend数据存储: 快照、段和块
+## Databend 数据存储: 快照、段和块
 
-快照、段和块是Databend用于数据存储的概念。Databend使用它们来构建用于存储表数据的层次结构。
+快照、段和块是 Databend 用于数据存储的概念。Databend 使用它们来构建用于存储表数据的层次结构。
 
 ![](/img/sql/storage-structure.PNG)
 
-Databend在数据更新时自动创建表快照。快照表示表段元数据的版本。
+Databend 在数据更新时自动创建表快照。快照表示表段元数据的版本。
 
-在使用Databend时，当您使用[AT](../../20-query-syntax/03-query-at.md)子句检索和查询表数据的先前版本时，您最有可能使用快照ID访问快照。
+在使用 Databend 时，当您使用[AT](../../20-query-syntax/03-query-at.md)子句检索和查询表数据的先前版本时，您最有可能使用快照 ID 访问快照。
 
-快照是一个JSON文件，不保存表的数据，但指示快照链接到的段。如果您对表运行[FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)，您可以找到为该表保存的快照。
+快照是一个 JSON 文件，不保存表的数据，但指示快照链接到的段。如果您对表运行[FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)，您可以找到为该表保存的快照。
 
-段是一个JSON文件，它组织存储块(至少1个，最多1,000个)，其中存储了数据。如果您使用快照ID对快照运行[FUSE_SEGMENT](../../../20-sql-functions/16-system-functions/fuse_segment.md)，您可以找到快照引用了哪些段。
+段是一个 JSON 文件，它组织存储块(至少 1 个，最多 1,000 个)，其中存储了数据。如果您使用快照 ID 对快照运行[FUSE_SEGMENT](../../../20-sql-functions/16-system-functions/fuse_segment.md)，您可以找到快照引用了哪些段。
 
-Databend将实际表数据保存在parquet文件中，并将每个parquet文件视为一个块。如果您使用快照ID对快照运行[FUSE_BLOCK](../../../20-sql-functions/16-system-functions/fuse_block.md)，您可以找到快照引用了哪些块。
+Databend 将实际表数据保存在 parquet 文件中，并将每个 parquet 文件视为一个块。如果您使用快照 ID 对快照运行[FUSE_BLOCK](../../../20-sql-functions/16-system-functions/fuse_block.md)，您可以找到快照引用了哪些块。
 
-Databend为每个数据库和表创建一个唯一的ID，用于存储快照、段和块文件，并将它们保存到对象存储中的路径`<bucket_name>/<tenant_id>/<db_id>/<table_id>/`。每个快照、段和块文件都以UUID(32个字符的小写十六进制字符串)命名。
+Databend 为每个数据库和表创建一个唯一的 ID，用于存储快照、段和块文件，并将它们保存到对象存储中的路径`<bucket_name>/<tenant_id>/<db_id>/<table_id>/`。每个快照、段和块文件都以 UUID(32 个字符的小写十六进制字符串)命名。
 
-| 文件     | 格式  | 文件名                        | 存储文件夹                                      |
-|----------|---------|---------------------------------|-----------------------------------------------------|
+| 文件 | 格式    | 文件名                          | 存储文件夹                                          |
+| ---- | ------- | ------------------------------- | --------------------------------------------------- |
 | 快照 | JSON    | `<32bitUUID>_<version>.json`    | `<bucket_name>/<tenant_id>/<db_id>/<table_id>/_ss/` |
-| 段  | JSON    | `<32bitUUID>_<version>.json`    | `<bucket_name>/<tenant_id>/<db_id>/<table_id>/_sg/` |
-| 块    | parquet | `<32bitUUID>_<version>.parquet` | `<bucket_name>/<tenant_id>/<db_id>/<table_id>/_b/`  |
+| 段   | JSON    | `<32bitUUID>_<version>.json`    | `<bucket_name>/<tenant_id>/<db_id>/<table_id>/_sg/` |
+| 块   | parquet | `<32bitUUID>_<version>.parquet` | `<bucket_name>/<tenant_id>/<db_id>/<table_id>/_b/`  |
 
 ## 表优化
 
-在Databend中，建议的目标块大小为100MB(未压缩)或1,000,000行，每个段由1,000个块组成。为了最大化表优化，必须清楚地了解何时以及如何应用各种优化技术，例如[段压缩](#segment-compaction)、[块压缩](#block-compaction)和[清除](#purging)。
+在 Databend 中，建议的目标块大小为 100MB(未压缩)或 1,000,000 行，每个段由 1,000 个块组成。为了最大化表优化，必须清楚地了解何时以及如何应用各种优化技术，例如[段压缩](#segment-compaction)、[块压缩](#block-compaction)和[清除](#purging)。
 
-- 当使用COPY INTO或REPLACE INTO命令将数据写入包含集群键的表时，Databend将自动启动重新聚类过程，以及段和块压缩过程。
+- 当使用 COPY INTO 或 REPLACE INTO 命令将数据写入包含集群的表时，Databend 将自动启动重新聚类过程，以及段和块压缩过程。
 
-- 段和块压缩支持在集群环境中分布式执行。您可以通过将ENABLE_DISTRIBUTED_COMPACT设置为1来启用它们。这有助于提高集群环境中的数据查询性能和可扩展性。
+- 段和块压缩支持在集群环境中分布式执行。您可以通过将 ENABLE_DISTRIBUTED_COMPACT 设置为 1 来启用它们。这有助于提高集群环境中的数据查询性能和可扩展性。
 
   ```sql
   SET enable_distributed_compact = 1;
@@ -60,6 +61,7 @@ Databend为每个数据库和表创建一个唯一的ID，用于存储快照、�
 ### 段压缩
 
 当表有太多小段(每个段少于`100个块`)时，压缩段。
+
 ```sql
 SELECT
   block_count,
@@ -77,12 +79,12 @@ FROM
 **语法**
 
 ```sql
-OPTIMIZE TABLE [database.]table_name COMPACT SEGMENT [LIMIT <segment_count>]    
+OPTIMIZE TABLE [database.]table_name COMPACT SEGMENT [LIMIT <segment_count>]
 ```
 
 通过将小段合并为较大的段来压缩表数据。
 
-- 选项LIMIT设置要压缩的最大段数。在这种情况下，Databend将选择并压缩最新的段。
+- 选项 LIMIT 设置要压缩的最大段数。在这种情况下，Databend 将选择并压缩最新的段。
 
 **示例**
 
@@ -104,10 +106,10 @@ FROM
 +-------------+---------------+-------------------------------------+
 |         751 |            32 | The table needs segment compact now |
 +-------------+---------------+-------------------------------------+
-    
+
 -- 压缩段
 OPTIMIZE TABLE hits COMPACT SEGMENT;
-    
+
 -- 再次检查
 SELECT
   block_count,
@@ -155,20 +157,23 @@ FROM
 :::
 
 **语法**
+
 ```sql
-OPTIMIZE TABLE [database.]table_name COMPACT [LIMIT <segment_count>]    
+OPTIMIZE TABLE [database.]table_name COMPACT [LIMIT <segment_count>]
 ```
+
 通过将小块和段合并为较大的块和段来压缩表数据。
 
 - 此命令创建表最新数据的新快照(以及压缩的段和块)，而不影响现有存储文件，因此直到您清除历史数据时，存储空间才会被释放。
 
 - 根据给定表的大小，执行可能需要相当长的时间才能完成。
 
-- 选项LIMIT设置要压缩的最大段数。在这种情况下，Databend将选择并压缩最新的段。
+- 选项 LIMIT 设置要压缩的最大段数。在这种情况下，Databend 将选择并压缩最新的段。
 
-- Databend将在压缩过程后自动重新聚类聚类表。
+- Databend 将在压缩过程后自动重新聚类聚类表。
 
 **示例**
+
 ```sql
 OPTIMIZE TABLE my_database.my_table COMPACT LIMIT 50;
 ```
@@ -187,25 +192,25 @@ OPTIMIZE TABLE my_database.my_table COMPACT LIMIT 50;
 **语法**
 
 ```sql
-OPTIMIZE TABLE <table_name> PURGE 
-  [ BEFORE 
-          (SNAPSHOT => '<SNAPSHOT_ID>') | 
+OPTIMIZE TABLE <table_name> PURGE
+  [ BEFORE
+          (SNAPSHOT => '<SNAPSHOT_ID>') |
           (TIMESTAMP => '<TIMESTAMP>'::TIMESTAMP) |
           (STREAM => <stream_name>)
   ]
   [ LIMIT <snapshot_count> ]
 ```
 
-| 参数 | 描述                                                                                                                                                                          |
-|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| BEFORE    | 指定清除历史数据的条件。它与`SNAPSHOT`、`TIMESTAMP`或`STREAM`选项一起使用，以定义应清除数据的时间点。<br/>当指定`BEFORE`选项时，该命令首先选择一个基本快照，如指定的选项所示。随后，它删除在此基本快照之前生成的快照。在指定流的情况下，该命令将创建流之前最近的快照标识为基本快照。然后，它继续删除在此最近的快照之前生成的快照。|
-| LIMIT     | 设置要清除的最大快照数。当指定时，Databend将选择并清除最旧的快照，最多指定数量。                                   |
+| 参数   | 描述                                                                                                                                                                                                                                                                                                                               |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BEFORE | 指定清除历史数据的条件。它与`SNAPSHOT`、`TIMESTAMP`或`STREAM`选项一起使用，以定义应清除数据的时间点。<br/>当指定`BEFORE`选项时，该命令首先选择一个基本快照，如指定的选项所示。随后，它删除在此基本快照之前生成的快照。在指定流的情况下，该命令将创建流之前最近的快照标识为基本快照。然后，它继续删除在此最近的快照之前生成的快照。 |
+| LIMIT  | 设置要清除的最大快照数。当指定时，Databend 将选择并清除最旧的快照，最多指定数量。                                                                                                                                                                                                                                                  |
 
 **示例**
 
 此示例演示使用`BEFORE STREAM`选项清除历史数据。
 
-1. 创建一个名为`t`的表，其中包含单个列`a`，并向表中插入两行值1和2。
+1. 创建一个名为`t`的表，其中包含单个列`a`，并向表中插入两行值 1 和 2。
 
 ```sql
 CREATE TABLE t(a INT);
@@ -214,7 +219,7 @@ INSERT INTO t VALUES(1);
 INSERT INTO t VALUES(2);
 ```
 
-2. 在表`t`上创建一个名为`s`的流，并向表中添加一行值3。
+2. 在表`t`上创建一个名为`s`的流，并向表中添加一行值 3。
 
 ```sql
 CREATE STREAM s ON TABLE t;
@@ -222,7 +227,7 @@ CREATE STREAM s ON TABLE t;
 INSERT INTO t VALUES(3);
 ```
 
-3. 返回表`t`的快照ID和相应的时间戳。
+3. 返回表`t`的快照 ID 和相应的时间戳。
 
 ```sql
 SELECT snapshot_id, timestamp FROM FUSE_SNAPSHOT('default', 't');
