@@ -2,11 +2,9 @@
 title: EXPLAIN ANALYZE GRAPHICAL
 ---
 
-:::warning
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-At present, the function has not been released, and the two PRS can be used when they are combined into the main branch: [#484](https://github.com/databendlabs/bendsql/pull/484) and [#16543](https://github.com/databendlabs/databend/pull/16543).
-
-:::
+<FunctionDescription description="Introduced: v1.2.647"/>
 
 `EXPLAIN ANALYZE GRAPHICAL` used to open a browser page to display a query execution plan along with actual run-time performance statistics.
 
