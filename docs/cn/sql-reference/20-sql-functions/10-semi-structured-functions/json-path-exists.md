@@ -15,14 +15,14 @@ JSON_PATH_EXISTS(<json_data>, <json_path_expression>)
 
 - json_data: 指定要搜索的JSON数据。它可以是一个JSON对象或数组。
 
-- json_path_expression: 指定从JSON数据的根（用`$`表示）开始的路径，用于在JSON数据中进行检查。您还可以在表达式中包含条件，使用`@`来引用当前正在评估的节点或元素，以过滤结果。
+- json_path_expression: 指定要从JSON数据的根节点`$`开始检查的路径。您还可以在表达式中包含条件，使用`@`引用当前正在评估的节点或元素，以过滤结果。
 
 ## 返回类型
 
 该函数返回：
 
-- `true` 如果指定的JSON路径（及条件，如果有）存在于JSON数据中。
-- `false` 如果指定的JSON路径（及条件，如果有）不存在于JSON数据中。
+- `true` 如果指定的JSON路径（以及任何条件）存在于JSON数据中。
+- `false` 如果指定的JSON路径（以及任何条件）不存在于JSON数据中。
 - NULL 如果json_data或json_path_expression为NULL或无效。
 
 ## 示例

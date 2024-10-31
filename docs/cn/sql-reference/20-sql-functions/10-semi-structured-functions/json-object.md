@@ -10,7 +10,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 - 参数是零个或多个键值对（其中键是字符串，值可以是任何类型）。
 - 如果键或值为 NULL，则该键值对将从结果对象中省略。
-- 键必须是彼此不同的，并且它们在结果 JSON 中的顺序可能与您指定的顺序不同。
+- 键必须是唯一的，并且它们在结果 JSON 中的顺序可能与您指定的顺序不同。
 - `TRY_JSON_OBJECT` 在构建对象时发生错误时返回 NULL 值。
 
 另请参阅: [JSON_OBJECT_KEEP_NULL](json-object-keep-null.md)
