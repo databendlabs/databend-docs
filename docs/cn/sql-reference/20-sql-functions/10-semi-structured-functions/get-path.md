@@ -2,10 +2,10 @@
 title: GET_PATH
 ---
 
-从 `VARIANT` 中根据 `path_name` 提取值。
+通过 `path_name` 从 `VARIANT` 中提取值。
 如果任一参数为 `NULL`，则返回值为 `Variant` 或 `NULL`。
 
-`GET_PATH` 等效于一系列 `GET` 函数，`path_name` 由一系列以句点 (.)、冒号 (:) 或索引操作符 (`[index]`) 为前缀的字段名连接而成。第一个字段名不需要指定前导标识符。
+`GET_PATH` 等同于一系列 `GET` 函数的链式调用，`path_name` 由一系列以句点 (.)、冒号 (:) 或索引运算符 (`[index]`) 开头的字段名连接而成。第一个字段名不需要指定前导标识符。
 
 ## 语法
 
@@ -17,7 +17,7 @@ GET_PATH( <variant>, <path_name> )
 
 | 参数          | 描述                                                         |
 |---------------|--------------------------------------------------------------|
-| `<variant>`   | 包含数组或对象的 `VARIANT` 值                                |
+| `<variant>`   | 包含 ARRAY 或 OBJECT 的 VARIANT 值                           |
 | `<path_name>` | 由一系列字段名连接而成的字符串值                             |
 
 ## 返回类型

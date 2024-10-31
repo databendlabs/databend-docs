@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.91"/>
 
-返回JSON结构主层的类型。
+返回JSON结构的主层级的类型。
 
 ## 语法
 
@@ -15,12 +15,12 @@ JSON_TYPEOF(<json_string>)
 
 ## 返回类型
 
-json_typeof函数（或类似函数）的返回类型是一个字符串，指示解析的JSON值的数据类型。可能的返回值包括：'null'、'boolean'、'string'、'number'、'array'和'object'。
+json_typeof函数（或类似函数）的返回类型是一个字符串，指示解析的JSON值的数据类型。可能的返回值有：'null'、'boolean'、'string'、'number'、'array'和'object'。
 
 ## 示例
 
 ```sql
--- 解析一个NULL的JSON值
+-- 解析一个为NULL的JSON值
 SELECT JSON_TYPEOF(PARSE_JSON(NULL));
 
 --
@@ -28,7 +28,7 @@ json_typeof(parse_json(null))|
 -----------------------------+
                              |
 
--- 解析一个字符串为'null'的JSON值
+-- 解析一个为字符串'null'的JSON值
 SELECT JSON_TYPEOF(PARSE_JSON('null'));
 
 --

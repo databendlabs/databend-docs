@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.368"/>
 
-检查输入值是否为 JSON `null`。请注意，此函数检查的是 JSON `null`，而不是 SQL NULL。要检查一个值是否为 SQL NULL，请使用 [IS_NULL](../03-conditional-functions/is-null.md)。
+检查输入值是否为 JSON `null`。请注意，此函数检查 JSON `null`，而不是 SQL NULL。要检查值是否为 SQL NULL，请使用 [IS_NULL](../03-conditional-functions/is-null.md)。
 
 ```json title='JSON null 示例:'
 {

@@ -2,7 +2,8 @@
 title: GET
 ---
 
-从包含 `ARRAY` 的 `Variant` 中按 `index` 提取值，或从包含 `OBJECT` 的 `Variant` 中按 `field_name` 提取值。返回值为 `Variant` 或 `NULL`（如果任一参数为 `NULL`）。
+从包含 `ARRAY` 的 `Variant` 中按 `index` 提取值，或从包含 `OBJECT` 的 `Variant` 中按 `field_name` 提取值。
+返回的值为 `Variant` 类型，如果任一参数为 `NULL`，则返回 `NULL`。
 
 `GET` 对 `field_name` 应用区分大小写的匹配。对于不区分大小写的匹配，请使用 `GET_IGNORE_CASE`。
 
@@ -20,11 +21,11 @@ GET( <variant>, <field_name> )
 |----------------|--------------------------------------------------------------|
 | `<variant>`    | 包含 `ARRAY` 或 `OBJECT` 的 `VARIANT` 值                     |
 | `<index>`      | 指定 `ARRAY` 中值位置的 `Uint32` 值                          |
-| `<field_name>` | 指定 `OBJECT` 中键值对键的 `String` 值                       |
+| `<field_name>` | 指定 `OBJECT` 中键值对中键的 `String` 值                     |
 
 ## 返回类型
 
-`VARIANT`
+VARIANT
 
 ## 示例
 

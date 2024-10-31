@@ -18,7 +18,7 @@ JSON_OBJECT_INSERT(<json_object>, <key>, <value>[, <update_flag>])
 | `<json_object>`     | 输入的 JSON 对象。                                                                                                                                                                                                                               |   |
 | `<key>`             | 要插入或更新的键。                                                                                                                                                                                                                   |   |
 | `<value>`           | 要分配给键的值。                                                                                                                                                                                                                      |   |
-| `<update_flag>` | 一个布尔标志，控制是否替换 JSON 对象中已存在的指定键的值。如果为 `true`，函数会替换已存在键的值。如果为 `false`（或省略），如果键已存在，则会报错。 |   |
+| `<update_flag>` | 一个布尔标志，控制是否替换值（如果指定的键已经存在于 JSON 对象中）。如果为 `true`，函数会替换值（如果键已经存在）。如果为 `false`（或省略），如果键存在，则会发生错误。 |   |
 
 ## 返回类型
 

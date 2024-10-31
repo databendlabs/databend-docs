@@ -34,6 +34,17 @@ title: 半结构化函数
 - [JSON_STRIP_NULLS](json-strip-nulls.md)
 - [JSON_OBJECT](json-object.md)
 - [JSON_OBJECT_KEEP_NULL](json-object-keep-null.md)
+- [JSON_OBJECT_INSERT](json-object-insert.md)
+- [JSON_ARRAY_DISTINCT](json-array-distinct.md)
+- [JSON_ARRAY_EXCEPT](json-array-except.md)
+- [JSON_ARRAY_INSERT](json-array-insert.md)
+- [JSON_ARRAY_INTERSECTION](json-array-intersection.md)
+- [JSON_ARRAY_OVERLAP](json-array-overlap.md)
+- [JSON_ARRAY_TRANSFORM](json-array-transform.md)
+- [JSON_ARRAY_APPLY](json-array-apply.md)
+- [JSON_ARRAY_MAP](json-array-map.md)
+- [JSON_ARRAY_FILTER](json-array-filter.md)
+- [JSON_ARRAY_REDUCE](json-array-reduce.md)
 
 ## 对象操作：
 - [GET](get.md)

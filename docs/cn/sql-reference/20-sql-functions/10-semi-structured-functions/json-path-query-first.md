@@ -2,13 +2,14 @@
 title: JSON_PATH_QUERY_FIRST
 ---
 
-获取指定 JSON 值通过 JSON 路径返回的第一个 JSON 项。
+获取由指定JSON值的JSON路径返回的第一个JSON项。
 
 ## 语法
 
 ```sql
 JSON_PATH_QUERY_FIRST(<variant>, '<path_name>')
 ```
+
 
 ## 返回类型
 
