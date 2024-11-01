@@ -94,7 +94,7 @@ SET GLOBAL data_retention_time_in_days = 2;
 | 版本                                       | 默认保留时间    | 最大保留时间     |
 | ------------------------------------------ | --------------- | ---------------- |
 | Databend 社区版和企业版                    | 1 天（24 小时） | 90 天            |
-| Databend Cloud（个人版）                    | 1 天（24 小时） | 1 天（24 小时）  |
+| Databend Cloud（基础版）                    | 1 天（24 小时） | 1 天（24 小时）  |
 | Databend Cloud（商业版）                    | 1 天（24 小时） | 90 天            |
 
 要检查 `data_retention_time_in_days` 的当前值：
