@@ -2,6 +2,7 @@
 title: VACUUM DROP TABLE
 sidebar_position: 18
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.368"/>
@@ -17,23 +18,23 @@ See also: [VACUUM TABLE](91-vacuum-table.md)
 ### Syntax
 
 ```sql
-VACUUM DROP TABLE 
-    [ FROM <database_name> ] 
-    [ DRY RUN [SUMMARY] ] 
+VACUUM DROP TABLE
+    [ FROM <database_name> ]
+    [ DRY RUN [SUMMARY] ]
     [ LIMIT <file_count> ]
 ```
 
 - `FROM <database_name>`: This parameter restricts the search for dropped tables to a specific database. If not specified, the command will scan all databases, including those that have been dropped.
 
-    ```sql title="Example:"
-    -- Remove dropped tables from the "default" database
-    // highlight-next-line
-    VACUUM DROP TABLE FROM default;
+  ```sql title="Example:"
+  -- Remove dropped tables from the "default" database
+  // highlight-next-line
+  VACUUM DROP TABLE FROM default;
 
-    -- Remove dropped tables from all databases
-    // highlight-next-line
-    VACUUM DROP TABLE;
-    ```
+  -- Remove dropped tables from all databases
+  // highlight-next-line
+  VACUUM DROP TABLE;
+  ```
 
 - `DRY RUN [SUMMARY]`: When this parameter is specified, data files will not be removed; instead, it returns a result showing which data files would have been removed if this parameter were not specified. See examples in the [Output](#output) section.
 
@@ -94,9 +95,9 @@ SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 `DATA_RETENTION_TIME_IN_DAYS` defaults to 1 day (24 hours), and the maximum value varies across Databend editions:
 
 | Edition                                  | Default Retention | Max. Retention   |
-|------------------------------------------|-------------------|------------------|
+| ---------------------------------------- | ----------------- | ---------------- |
 | Databend Community & Enterprise Editions | 1 day (24 hours)  | 90 days          |
-| Databend Cloud (Standard)                | 1 day (24 hours)  | 1 day (24 hours) |
+| Databend Cloud (Personal)                | 1 day (24 hours)  | 1 day (24 hours) |
 | Databend Cloud (Business)                | 1 day (24 hours)  | 90 days          |
 
 To check the current value of `DATA_RETENTION_TIME_IN_DAYS`:

@@ -19,7 +19,7 @@ STDDEV_SAMP(<expr>)
 ## Arguments
 
 | Arguments | Description              |
-|-----------|--------------------------|
+| --------- | ------------------------ |
 | `<expr>`  | Any numerical expression |
 
 ## Return Type
@@ -29,6 +29,7 @@ double
 ## Example
 
 **Create a Table and Insert Sample Data**
+
 ```sql
 CREATE TABLE height_data (
   id INT,
@@ -45,12 +46,14 @@ VALUES (1, 1, 5.8),
 ```
 
 **Query Demo: Calculate Sample Standard Deviation of Heights**
+
 ```sql
 SELECT STDDEV_SAMP(height) AS height_stddev_samp
 FROM height_data;
 ```
 
 **Result**
+
 ```sql
 | height_stddev_samp |
 |--------------------|

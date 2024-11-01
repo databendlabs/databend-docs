@@ -27,8 +27,8 @@ With Databend Time Travel, you can revisit and retrieve data from the past, even
 
 ### Setting the Data Retention Period
 
-- **Standard Edition**: Choose between no retention (0 days) or the default of **1 day**.
-- **Enterprise Edition and Higher**:
+- **Personal Edition**: Choose between no retention (0 days) or the default of **1 day**.
+- **Business Edition and Higher**:
   - For temporary data: Set to 0 or the default of **1 day**.
   - For permanent data: Choose any period from **0 to 90 days**.
 
@@ -48,7 +48,7 @@ Fail-safe in Databend Cloud is an additional safety feature, different from Time
 
 ### How Fail-safe Works
 
-Fail-safe offers a fixed 7-day recovery window after the Time Travel period ends. 
+Fail-safe offers a fixed 7-day recovery window after the Time Travel period ends.
 
 Fail-safe includes:
 
@@ -58,7 +58,7 @@ Fail-safe includes:
 :::caution Attention
 
 - Fail-safe is an emergency service, not user-configurable, provided by Databend Cloud.
-- It should be used only after other recovery methods don’t work.
+- It should be used only after other recovery methods don't work.
 - Not intended for regular historical data access beyond the Time Travel period.
 - For restoring data after big problems, and you can't set it up yourself.
 - Recovery times can vary from a few hours to several days, depending on the situation.

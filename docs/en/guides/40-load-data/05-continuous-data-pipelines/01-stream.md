@@ -2,6 +2,7 @@
 title: Tracking and Transforming Data via Streams
 sidebar_label: Stream
 ---
+
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
@@ -216,25 +217,27 @@ We can see that both stream modes have the capability to capture insertions, alo
 In Databend, stream consumption is transactional within single-statement transactions. This means:
 
 **Successful Transaction**: If a transaction is committed, the stream is consumed. For instance:
+
 ```sql
 INSERT INTO table SELECT * FROM stream;
 ```
+
 If this `INSERT` transaction commits, the stream is consumed.
 
 **Failed Transaction**: If the transaction fails, the stream remains unchanged and available for future consumption.
 
-**Concurrent Access**: *Only one transaction can successfully consume a stream at a time*. If multiple transactions attempt to consume the same stream, only the first committed transaction succeeds, others fail.
+**Concurrent Access**: _Only one transaction can successfully consume a stream at a time_. If multiple transactions attempt to consume the same stream, only the first committed transaction succeeds, others fail.
 
 ### Table Metadata for Stream
 
 **A stream does not store any data for a table**. After creating a stream for a table, Databend introduces specific hidden metadata columns to the table for change tracking purposes. These columns include:
 
-| Column                | Description                                                                       |
-|-----------------------|-----------------------------------------------------------------------------------|
-| _origin_version       | Identifies the table version in which this row was initially created.             |
-| _origin_block_id      | Identifies the block ID to which this row belonged previously.                    |
-| _origin_block_row_num | Identifies the row number within the block to which this row belonged previously. |
-| _row_version          | Identifies the row version, starting at 0 and incrementing by 1 with each update. |
+| Column                 | Description                                                                       |
+| ---------------------- | --------------------------------------------------------------------------------- |
+| \_origin_version       | Identifies the table version in which this row was initially created.             |
+| \_origin_block_id      | Identifies the block ID to which this row belonged previously.                    |
+| \_origin_block_row_num | Identifies the row number within the block to which this row belonged previously. |
+| \_row_version          | Identifies the row version, starting at 0 and incrementing by 1 with each update. |
 
 To display the values of these columns, use the SELECT statement:
 
@@ -281,11 +284,11 @@ FROM
 
 You can use the SELECT statement to directly query a stream and retrieve the tracked changes. When querying a stream, consider incorporating these hidden columns for additional details about the changes:
 
-| Column           | Description                                                                                                                                                                       |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| change$action    | Type of change: INSERT or DELETE.                                                                                                                                                 |
-| change$is_update | Indicates whether the `change$action` is part of an UPDATE. In a stream, an UPDATE is represented by a combination of DELETE and INSERT operations, with this field set to  `true`. |
-| change$row_id    | Unique identifier for each row to track changes.                                                                                                                                  |
+| Column           | Description                                                                                                                                                                        |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| change$action    | Type of change: INSERT or DELETE.                                                                                                                                                  |
+| change$is_update | Indicates whether the `change$action` is part of an UPDATE. In a stream, an UPDATE is represented by a combination of DELETE and INSERT operations, with this field set to `true`. |
+| change$row_id    | Unique identifier for each row to track changes.                                                                                                                                   |
 
 ```sql title='Example:'
 CREATE TABLE t(a int);
@@ -301,7 +304,7 @@ SELECT * FROM s;
 │               2 │ INSERT        │ false            │ a577745c6a404f3384fa95791eb43f22000000 │
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- If you add a new row and then update it, 
+-- If you add a new row and then update it,
 -- the stream consolidates the changes as an INSERT with your updated value.
 UPDATE t SET a = 3 WHERE a = 2;
 SELECT * FROM s;
@@ -319,10 +322,11 @@ The following example demonstrates how to use streams to capture and track user 
 
 #### 1. Creating Tables
 
-The example uses three tables: 
-* `user_activities` table records user activities.
-* `user_profiles` table stores user profiles.
-* `user_activity_profiles` table is a combined view of the two tables.
+The example uses three tables:
+
+- `user_activities` table records user activities.
+- `user_profiles` table stores user profiles.
+- `user_activity_profiles` table is a combined view of the two tables.
 
 The `activities_stream` table is created as a stream to capture real-time changes to the `user_activities` table. The stream is then consumed by a query to update the` user_activity_profiles` table with the latest data.
 
@@ -360,6 +364,7 @@ CREATE TABLE user_activity_profiles (
 #### 2. Creating a Stream
 
 Create a stream on the `user_activities` table to capture real-time changes:
+
 ```sql
 CREATE STREAM activities_stream ON TABLE user_activities;
 ```
@@ -367,6 +372,7 @@ CREATE STREAM activities_stream ON TABLE user_activities;
 #### 3. Inserting Data into the Source Table
 
 Insert data into the `user_activities` table to make some changes:
+
 ```sql
 INSERT INTO user_activities VALUES (102, 'logout', '2023-12-19 09:00:00');
 INSERT INTO user_activities VALUES (103, 'view_profile', '2023-12-19 09:15:00');
@@ -378,6 +384,7 @@ INSERT INTO user_activities VALUES (102, 'login', '2023-12-19 11:00:00');
 #### 4. Consuming the Stream to Update the Target Table
 
 Consume the stream to update the `user_activity_profiles` table:
+
 ```sql
 -- Inserting data into the user_activity_profiles table
 INSERT INTO user_activity_profiles
@@ -397,6 +404,7 @@ WHERE a.change$action = 'INSERT';
 ```
 
 Then, check the updated `user_activity_profiles` table:
+
 ```sql
 SELECT
   *
@@ -422,11 +430,11 @@ The Databend `TASK` command(currently in private preview), can be utilized to de
 
 ```sql
 -- Define a task in Databend
-CREATE TASK user_activity_task 
+CREATE TASK user_activity_task
 WAREHOUSE = 'default'
 SCHEDULE = 1 MINUTE
 -- Trigger task when new data arrives in activities_stream
-WHEN stream_status('activities_stream') AS 
+WHEN stream_status('activities_stream') AS
     -- Insert new records into user_activity_profiles
     INSERT INTO user_activity_profiles
     SELECT
