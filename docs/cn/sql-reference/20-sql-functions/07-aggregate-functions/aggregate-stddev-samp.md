@@ -7,7 +7,7 @@ title: STDDEV_SAMP
 STDDEV_SAMP() 函数返回表达式的样本标准差（VAR_SAMP() 的平方根）。
 
 :::caution
-NULL 值不计入计算。
+NULL 值不计入。
 :::
 
 ## 语法
@@ -18,9 +18,9 @@ STDDEV_SAMP(<expr>)
 
 ## 参数
 
-| 参数       | 描述                 |
-|-----------|----------------------|
-| `<expr>`  | 任何数值表达式       |
+| 参数      | 描述               |
+| --------- | ------------------ |
+| `<expr>`  | 任何数值表达式     |
 
 ## 返回类型
 
@@ -29,6 +29,7 @@ double
 ## 示例
 
 **创建表并插入示例数据**
+
 ```sql
 CREATE TABLE height_data (
   id INT,
@@ -45,12 +46,14 @@ VALUES (1, 1, 5.8),
 ```
 
 **查询示例：计算身高的样本标准差**
+
 ```sql
 SELECT STDDEV_SAMP(height) AS height_stddev_samp
 FROM height_data;
 ```
 
 **结果**
+
 ```sql
 | height_stddev_samp |
 |--------------------|
