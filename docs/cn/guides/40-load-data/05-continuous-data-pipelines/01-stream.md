@@ -2,14 +2,15 @@
 title: 通过流跟踪和转换数据
 sidebar_label: 流
 ---
+
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在 Databend 中，流是对表更改的动态和实时表示。流被创建以捕获和跟踪关联表的修改，允许在数据更改发生时进行连续的消费和分析。
+在 Databend 中，流是对表更改的动态和实时表示。流被创建以捕获和跟踪关联表的修改，允许在数据更改发生时进行持续的消费和分析。
 
 ### 流的工作原理
 
-流可以以两种模式运行：**标准**和**仅追加**。在创建流时使用 `APPEND_ONLY` 参数（默认为 `false`）来指定模式。
+流可以以两种模式运行：**标准**和**仅追加**。在创建流时，使用 `APPEND_ONLY` 参数（默认为 `false`）指定模式。[CREATE STREAM](/sql/sql-commands/ddl/stream/create-stream)。
 
 - **标准**：捕获所有类型的数据更改，包括插入、更新和删除。
 - **仅追加**：在此模式下，流仅包含数据插入记录；数据更新或删除不会被捕获。
@@ -21,14 +22,14 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 #### 创建流以捕获更改
 
-首先创建两个表，然后为每个表创建一个不同模式的流以捕获表的更改。
+首先创建两个表，然后为每个表创建一个具有不同模式的流以捕获表的更改。
 
 ```sql
 -- 创建一个表并插入一个值
 CREATE TABLE t_standard(a INT);
 CREATE TABLE t_append_only(a INT);
 
--- 创建两个不同模式的流：标准和仅追加
+-- 创建两个具有不同模式的流：标准和仅追加
 CREATE STREAM s_standard ON TABLE t_standard APPEND_ONLY=false;
 CREATE STREAM s_append_only ON TABLE t_append_only APPEND_ONLY=true;
 ```
@@ -46,7 +47,7 @@ SHOW FULL STREAMS;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-现在，向每个表插入两个值并观察流捕获的内容：
+现在，向每个表插入两个值，并观察流捕获的内容：
 
 ```sql
 -- 插入两个新值
@@ -125,7 +126,7 @@ SELECT * FROM s_append_only;
 
 #### 消费流
 
-让我们创建两个新表并将流捕获的内容插入其中。
+让我们创建两个新表，并将流捕获的内容插入其中。
 
 ```sql
 CREATE TABLE t_consume_standard(b INT);
@@ -151,7 +152,7 @@ SELECT * FROM t_consume_append_only;
 └─────────────────┘
 ```
 
-如果您现在查询流，您会发现它们是空的，因为它们已经被消费。
+如果您现在查询流，您会发现它们是空的，因为它们已经被消费了。
 
 ```sql
 -- 空结果
@@ -187,7 +188,7 @@ SELECT * FROM s_standard;
 SELECT * FROM s_append_only;
 ```
 
-上述结果表明，标准流将 UPDATE 操作转换为 DELETE (`3`) 和 INSERT (`4`) 的组合，而仅追加流没有捕获任何内容。如果我们现在删除值 `4`，我们可以得到以下结果：
+上述结果表明，标准流将 UPDATE 操作转换为 DELETE（`3`）和 INSERT（`4`）的组合，而仅追加流没有捕获任何内容。如果我们现在删除值 `4`，我们可以得到以下结果：
 
 ```sql
 DELETE FROM t_standard WHERE a = 4;
@@ -216,14 +217,16 @@ SELECT * FROM s_append_only;
 在 Databend 中，流消费在单语句事务中是事务性的。这意味着：
 
 **成功的事务**：如果事务提交，流被消费。例如：
+
 ```sql
 INSERT INTO table SELECT * FROM stream;
 ```
-如果这个 `INSERT` 事务提交，流被消费。
 
-**失败的事务**：如果事务失败，流保持不变并可用于未来的消费。
+如果此 `INSERT` 事务提交，流被消费。
 
-**并发访问**：*一次只能有一个事务成功消费一个流*。如果多个事务尝试消费同一个流，只有第一个提交的事务成功，其他事务失败。
+**失败的事务**：如果事务失败，流保持不变，可供将来消费。
+
+**并发访问**：_一次只能有一个事务成功消费一个流_。如果多个事务尝试消费同一个流，只有第一个提交的事务成功，其他事务失败。
 
 ### 流的表元数据
 
@@ -231,16 +234,16 @@ INSERT INTO table SELECT * FROM stream;
 
 **流不会为表存储任何数据**。在为表创建流之后，Databend会为该表引入特定的隐藏元数据列，用于变更追踪。这些列包括：
 
-| 列                    | 描述                                                                       |
-|-----------------------|-----------------------------------------------------------------------------------|
-| _origin_version       | 标识此行最初创建时的表版本。             |
-| _origin_block_id      | 标识此行之前所属的块ID。                    |
-| _origin_block_row_num | 标识此行之前所属块中的行号。 |
-| _row_version          | 标识行版本，从0开始，每次更新递增1。 |
+| 列                     | 描述                                                                       |
+| ---------------------- | --------------------------------------------------------------------------------- |
+| \_origin_version       | 标识此行最初创建时的表版本。             |
+| \_origin_block_id      | 标识此行之前所属的块ID。                    |
+| \_origin_block_row_num | 标识此行之前所属块中的行号。 |
+| \_row_version          | 标识行版本，从0开始，每次更新递增1。 |
 
 要显示这些列的值，请使用SELECT语句：
 
-```sql title='示例：'
+```sql title='示例:'
 CREATE TABLE t(a int);
 INSERT INTO t VALUES (1);
 CREATE STREAM s ON TABLE t;
@@ -283,13 +286,13 @@ FROM
 
 您可以使用SELECT语句直接查询流并检索跟踪的变更。在查询流时，考虑包含这些隐藏列以获取有关变更的更多详细信息：
 
-| 列                | 描述                                                                                                                                                                       |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| change$action    | 变更类型：INSERT或DELETE。                                                                                                                                                 |
+| 列               | 描述                                                                                                                                                                        |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| change$action    | 变更类型：INSERT或DELETE。                                                                                                                                                  |
 | change$is_update | 指示`change$action`是否是UPDATE的一部分。在流中，UPDATE由DELETE和INSERT操作的组合表示，此字段设置为`true`。 |
-| change$row_id    | 用于跟踪变更的每一行的唯一标识符。                                                                                                                                  |
+| change$row_id    | 用于跟踪变更的每一行的唯一标识符。                                                                                                                                   |
 
-```sql title='示例：'
+```sql title='示例:'
 CREATE TABLE t(a int);
 INSERT INTO t VALUES (1);
 CREATE STREAM s ON TABLE t;
@@ -317,16 +320,17 @@ SELECT * FROM s;
 
 ### 示例：实时跟踪和转换数据
 
-以下示例演示了如何使用流来实时捕获和跟踪用户活动。
+以下示例演示如何使用流来捕获和跟踪实时用户活动。
 
 #### 1. 创建表
 
 该示例使用三个表：
-* `user_activities` 表记录用户活动。
-* `user_profiles` 表存储用户配置文件。
-* `user_activity_profiles` 表是两个表的组合视图。
 
-`activities_stream` 表被创建为流，以捕获 `user_activities` 表的实时变更。然后，流被查询以使用最新数据更新 `user_activity_profiles` 表。
+- `user_activities` 表记录用户活动。
+- `user_profiles` 表存储用户配置文件。
+- `user_activity_profiles` 表是两个表的组合视图。
+
+`activities_stream` 表作为流创建，以捕获 `user_activities` 表的实时变更。然后，流被查询消费，以使用最新数据更新 `user_activity_profiles` 表。
 
 ```sql
 -- 创建表以记录用户活动
@@ -362,6 +366,7 @@ CREATE TABLE user_activity_profiles (
 #### 2. 创建流
 
 在 `user_activities` 表上创建流以捕获实时变更：
+
 ```sql
 CREATE STREAM activities_stream ON TABLE user_activities;
 ```
@@ -369,6 +374,7 @@ CREATE STREAM activities_stream ON TABLE user_activities;
 #### 3. 向源表插入数据
 
 向 `user_activities` 表插入数据以进行一些变更：
+
 ```sql
 INSERT INTO user_activities VALUES (102, 'logout', '2023-12-19 09:00:00');
 INSERT INTO user_activities VALUES (103, 'view_profile', '2023-12-19 09:15:00');
@@ -380,6 +386,7 @@ INSERT INTO user_activities VALUES (102, 'login', '2023-12-19 11:00:00');
 #### 4. 消费流以更新目标表
 
 消费流以更新 `user_activity_profiles` 表：
+
 ```sql
 -- 向 user_activity_profiles 表插入数据
 INSERT INTO user_activity_profiles
@@ -394,11 +401,12 @@ JOIN
 ON
     a.user_id = p.user_id
 
--- a.change$action 是一个指示变更类型（Databend目前仅支持INSERT）的列
+-- a.change$action 是表示变更类型的列（Databend目前仅支持INSERT）
 WHERE a.change$action = 'INSERT';
 ```
 
 然后，检查更新的 `user_activity_profiles` 表：
+
 ```sql
 SELECT
   *
@@ -424,11 +432,11 @@ Databend的 `TASK` 命令（目前处于私有预览阶段），可以用于定�
 
 ```sql
 -- 在Databend中定义任务
-CREATE TASK user_activity_task 
+CREATE TASK user_activity_task
 WAREHOUSE = 'default'
 SCHEDULE = 1 MINUTE
 -- 当 activities_stream 中有新数据到达时触发任务
-WHEN stream_status('activities_stream') AS 
+WHEN stream_status('activities_stream') AS
     -- 向 user_activity_profiles 插入新记录
     INSERT INTO user_activity_profiles
     SELECT
