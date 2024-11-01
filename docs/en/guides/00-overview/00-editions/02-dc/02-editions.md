@@ -4,7 +4,7 @@ title: Editions
 
 import DatabendTable from '@site/src/components/DatabendTable';
 
-Databend Cloud comes in three editions: **Standard**, **Business**, and **Dedicated**, that you can choose from to serve a wide range of needs and ensure optimal performance for different use cases.
+Databend Cloud comes in three editions: **Personal**, **Business**, and **Dedicated**, that you can choose from to serve a wide range of needs and ensure optimal performance for different use cases.
 
 For a quick overview of these editions, see [https://www.databend.com/databend-cloud](https://www.databend.com/databend-cloud). For the pricing information, see [Pricing & Billing](/guides/overview/editions/dc/pricing). For the detailed feature list among these editions, see [Feature Lists](#feature-lists).
 
@@ -16,7 +16,7 @@ The following are feature lists of Databend Cloud among editions:
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Standard', 'Business', 'Dedicated']}
+thead={['Features', 'Personal', 'Business', 'Dedicated']}
 tbody={[
 [`Early access to weekly new releases, which can be used for additional testing/validation before each release is deployed to your production accounts.`, '', '✓', '✓']
 ]} />
@@ -25,7 +25,7 @@ tbody={[
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Standard', 'Business', 'Dedicated']}
+thead={['Features', 'Personal', 'Business', 'Dedicated']}
 tbody={[
 ['SOC 1 Type I certification.', '✓', '✓', '✓'],
 ['Automatic encryption of all data.', '✓', '✓', '✓'],
@@ -44,7 +44,7 @@ tbody={[
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Standard', 'Business', 'Dedicated']}
+thead={['Features', 'Personal', 'Business', 'Dedicated']}
 tbody={[
 ['Virtual warehouses, separate compute clusters for isolating query and data loading workloads.', '✓', '✓', '✓'],
 ['Multi-cluster scaling', '', '✓', '✓'],
@@ -56,7 +56,7 @@ tbody={[
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Standard', 'Business', 'Dedicated']}
+thead={['Features', 'Personal', 'Business', 'Dedicated']}
 tbody={[
 ['Standard SQL, including most DDL and DML defined in SQL:1999.', '✓', '✓', '✓'],
 ['Advanced DML such as multi-table INSERT, MERGE, and multi-merge.', '✓', '✓', '✓'],
@@ -85,7 +85,7 @@ tbody={[
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Standard', 'Business', 'Dedicated']}
+thead={['Features', 'Personal', 'Business', 'Dedicated']}
 tbody={[
 ['The next-generation SQL worksheet for advanced query development, data analysis, and visualization.', '✓', '✓', '✓'],
 ['BendSQL, a command line client for building/testing queries, loading/unloading bulk data, and automating DDL operations.', '✓', '✓', '✓'],
@@ -99,7 +99,7 @@ tbody={[
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Standard', 'Business', 'Dedicated']}
+thead={['Features', 'Personal', 'Business', 'Dedicated']}
 tbody={[
 ['Bulk loading from delimited flat files (CSV, TSV, etc.) and semi-structured data files (JSON, ORC, Parquet).', '✓', '✓', '✓'],
 ['Bulk unloading to delimited flat files and JSON files.', '✓', '✓', '✓'],
@@ -113,7 +113,7 @@ tbody={[
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Standard', 'Business', 'Dedicated']}
+thead={['Features', 'Personal', 'Business', 'Dedicated']}
 tbody={[
 ['Streams for tracking table changes.', '✓', '✓', '✓'],
 ['Tasks for scheduling the execution of SQL statements, often in conjunction with table streams.', '✓', '✓', '✓'],
@@ -124,7 +124,7 @@ tbody={[
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Standard', 'Business', 'Dedicated']}
+thead={['Features', 'Personal', 'Business', 'Dedicated']}
 tbody={[
 ['Logging and tracking support tickets.', '✓', '✓', '✓'],
 ['4/7 coverage and 1-hour response window for Severity 1 issues.', '✓', '✓', '✓'],

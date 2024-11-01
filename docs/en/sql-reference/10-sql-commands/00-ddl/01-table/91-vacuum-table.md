@@ -2,6 +2,7 @@
 title: VACUUM TABLE
 sidebar_position: 17
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.368"/>
@@ -31,7 +32,7 @@ VACUUM TABLE <table_name> [ DRY RUN [SUMMARY] ]
 The VACUUM TABLE command (without `DRY RUN`) returns a table summarizing vital statistics of the vacuumed files, containing the following columns:
 
 | Column         | Description                               |
-|----------------|-------------------------------------------|
+| -------------- | ----------------------------------------- |
 | snapshot_files | Number of snapshot files                  |
 | snapshot_size  | Total size of snapshot files in bytes     |
 | segments_files | Number of segment files                   |
@@ -91,9 +92,9 @@ SET GLOBAL data_retention_time_in_days = 2;
 `data_retention_time_in_days` defaults to 1 day (24 hours), and the maximum value varies across Databend editions:
 
 | Edition                                  | Default Retention | Max. Retention   |
-|------------------------------------------|-------------------|------------------|
+| ---------------------------------------- | ----------------- | ---------------- |
 | Databend Community & Enterprise Editions | 1 day (24 hours)  | 90 days          |
-| Databend Cloud (Standard)                | 1 day (24 hours)  | 1 day (24 hours) |
+| Databend Cloud (Personal)                | 1 day (24 hours)  | 1 day (24 hours) |
 | Databend Cloud (Business)                | 1 day (24 hours)  | 90 days          |
 
 To check the current value of `data_retention_time_in_days`:
@@ -106,12 +107,11 @@ SHOW SETTINGS LIKE 'data_retention_time_in_days';
 
 Databend provides two commands for removing historical data files from a table: VACUUM TABLE and [OPTIMIZE TABLE](60-optimize-table.md) (with the PURGE option). Although both commands are capable of permanently deleting data files, they differ in how they handle orphan files: OPTIMIZE TABLE is able to remove orphan snapshots, as well as the corresponding segments and blocks. However, there is a possibility of orphan segments and blocks existing without any associated snapshots. In such a scenario, only VACUUM TABLE can help clean them up.
 
-Both VACUUM TABLE and OPTIMIZE TABLE allow you to specify a period to determine which historical data files to remove. However, OPTIMIZE TABLE requires you to obtain the snapshot ID or timestamp from a query beforehand, whereas VACUUM TABLE allows you to specify the number of hours to retain the data files directly. VACUUM TABLE provides enhanced control over your historical data files both before their removal with the DRY RUN option, which allows you to preview the data files to be removed before applying the command. This provides a safe removal experience and helps you avoid unintended data loss. 
+Both VACUUM TABLE and OPTIMIZE TABLE allow you to specify a period to determine which historical data files to remove. However, OPTIMIZE TABLE requires you to obtain the snapshot ID or timestamp from a query beforehand, whereas VACUUM TABLE allows you to specify the number of hours to retain the data files directly. VACUUM TABLE provides enhanced control over your historical data files both before their removal with the DRY RUN option, which allows you to preview the data files to be removed before applying the command. This provides a safe removal experience and helps you avoid unintended data loss.
 
-
-| 	                                                  | VACUUM TABLE 	 | OPTIMIZE TABLE 	 |
-|----------------------------------------------------|----------------|------------------|
-| Associated snapshots (incl. segments and blocks) 	 | Yes          	 | Yes            	 |
-| Orphan snapshots (incl. segments and blocks)     	 | Yes          	 | Yes            	 |
-| Orphan segments and blocks only                  	 | Yes          	 | No             	 |
-| DRY RUN                                         	  | Yes          	 | No             	 |
+|                                                  | VACUUM TABLE | OPTIMIZE TABLE |
+| ------------------------------------------------ | ------------ | -------------- |
+| Associated snapshots (incl. segments and blocks) | Yes          | Yes            |
+| Orphan snapshots (incl. segments and blocks)     | Yes          | Yes            |
+| Orphan segments and blocks only                  | Yes          | No             |
+| DRY RUN                                          | Yes          | No             |
