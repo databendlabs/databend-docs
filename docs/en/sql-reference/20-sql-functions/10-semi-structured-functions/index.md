@@ -45,6 +45,9 @@ This section provides reference information for the semi-structured data functio
 - [JSON_ARRAY_MAP](json-array-map.md)
 - [JSON_ARRAY_FILTER](json-array-filter.md)
 - [JSON_ARRAY_REDUCE](json-array-reduce.md)
+- [JSON_MAP_FILTER](json-map-filter.md)
+- [JSON_MAP_TRANSFORM_KEYS](json-map-transform-keys.md)
+- [JSON_MAP_TRANSFORM_VALUES](json-map-transform-values.md)
 
 ## Object Operations:
 - [GET](get.md)
