@@ -3,7 +3,7 @@ title: MAP_CONTAINS_KEY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.464"/>
+<FunctionDescription description="引入或更新: v1.2.464"/>
 
 确定指定的MAP是否包含指定的键。
 
