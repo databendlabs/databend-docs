@@ -1,11 +1,12 @@
 ---
 title: JSON_ARRAY_TRANSFORM
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.644"/>
 
-使用指定的转换 Lambda 表达式转换 JSON 数组的每个元素。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](docs/en/sql-reference/00-sql-reference/42-lambda-expressions.md)。
+使用指定的转换 Lambda 表达式转换 JSON 数组的每个元素。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](../../00-sql-reference/42-lambda-expressions.md)。
 
 ## 语法
 
