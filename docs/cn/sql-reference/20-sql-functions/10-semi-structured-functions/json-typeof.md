@@ -20,7 +20,7 @@ json_typeof函数（或类似函数）的返回类型是一个字符串，指示
 ## 示例
 
 ```sql
--- 解析一个为NULL的JSON值
+-- 解析一个NULL的JSON值
 SELECT JSON_TYPEOF(PARSE_JSON(NULL));
 
 --
@@ -28,7 +28,7 @@ json_typeof(parse_json(null))|
 -----------------------------+
                              |
 
--- 解析一个为字符串'null'的JSON值
+-- 解析一个字符串'null'的JSON值
 SELECT JSON_TYPEOF(PARSE_JSON('null'));
 
 --

@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.241"/>
 
-检查指定的 JSON 路径表达式是否在 JSON 数据中匹配某些条件。请注意，`@@` 运算符与此函数是同义的。更多信息，请参见 [JSON 运算符](../../10-sql-commands/30-query-operators/index.md)。
+检查指定的 JSON 路径表达式是否在 JSON 数据中匹配某些条件。请注意，`@@` 运算符与此函数是同义的。更多信息，请参阅 [JSON 运算符](../../10-sql-commands/30-query-operators/index.md)。
 
 ## 语法
 

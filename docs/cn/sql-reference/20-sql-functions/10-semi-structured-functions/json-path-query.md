@@ -2,7 +2,7 @@
 title: JSON_PATH_QUERY
 ---
 
-获取指定 JSON 值的所有 JSON 路径返回的 JSON 项。
+获取指定 JSON 值的 JSON 路径返回的所有 JSON 项。
 
 ## 语法
 

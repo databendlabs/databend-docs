@@ -31,7 +31,7 @@ VALUES ('Laptop', '{"brand": "Dell", "colors": ["Black", "Silver"], "price": 120
        ('Headphones', '{"brand": "Sony", "colors": ["Black", "Blue", "Red"], "price": 150, "features": {"battery": "20h", "bluetooth": "5.0"}}');
 ```
 
-**查询示例：从产品详情中提取第一个特性**
+**查询演示：从产品详情中提取第一个特性**
 
 ```sql
 SELECT

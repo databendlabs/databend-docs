@@ -31,7 +31,7 @@ VALUES ('Laptop', '{"brand": "Dell", "colors": ["Black", "Silver"], "price": 120
        ('Headphones', '{"brand": "Sony", "colors": ["Black", "Blue", "Red"], "price": 150, "features": {"battery": "20h", "bluetooth": "5.0"}}');
 ```
 
-**查询示例：将产品详情中的所有功能提取为数组**
+**查询示例：从产品详情中提取所有功能作为数组**
 
 ```sql
 SELECT

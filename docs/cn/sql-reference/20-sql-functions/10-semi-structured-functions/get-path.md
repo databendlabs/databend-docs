@@ -2,7 +2,7 @@
 title: GET_PATH
 ---
 
-通过 `path_name` 从 `VARIANT` 中提取值。
+从 `VARIANT` 中通过 `path_name` 提取值。
 如果任一参数为 `NULL`，则返回值为 `Variant` 或 `NULL`。
 
 `GET_PATH` 等同于一系列 `GET` 函数的链式调用，`path_name` 由一系列以句点 (.)、冒号 (:) 或索引运算符 (`[index]`) 开头的字段名连接而成。第一个字段名不需要指定前导标识符。
