@@ -24,9 +24,9 @@ CREATE [ OR REPLACE ] STREAM [ IF NOT EXISTS ] [ <database_name>. ]<stream_name>
 
 | 参数                | 描述                                                                                                                                                                                                                                                                                                                    |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `< database_name >` | 流被视为属于特定数据库的对象，类似于表或视图。CREATE STREAM 允许流和关联表之间使用不同的数据库。如果没有明确指定数据库，则当前数据库将作为您创建的流的数据库。                                                                                                                               |
+| `< database_name >` | 流被视为属于特定数据库的对象，类似于表或视图。CREATE STREAM 允许流和关联表之间使用不同的数据库。如果没有明确指定数据库，则当前数据库将作为您创建的流的数据库。                                                                                                       |
 | AT                  | 当使用 `AT` 后跟 `TIMESTAMP =>` 或 `SNAPSHOT =>` 时，您可以通过时间戳或快照 ID 创建一个包含特定历史时间点之后数据变化的流；当 `AT` 后跟 `STREAM =>` 时，它允许创建一个与现有流相同的新流，保留相同的数据变化。 |
-| APPEND_ONLY         | 当设置为 `true` 时，流以 `Append-Only` 模式运行；当设置为 `false` 时，它以 `Standard` 模式运行。默认为 `false`。有关流操作模式的更多详细信息，请参阅 [How Stream Works](/guides/load-data/continuous-data-pipelines/stream#how-stream-works)。                                        |
+| APPEND_ONLY         | 当设置为 `true` 时，流以 `Append-Only` 模式运行；当设置为 `false` 时，它以 `Standard` 模式运行。默认为 `false`。有关流操作模式的更多详细信息，请参阅 [流的工作原理](/guides/load-data/continuous-data-pipelines/stream#how-stream-works)。                                        |
 
 ## 示例
 
@@ -36,7 +36,7 @@ CREATE [ OR REPLACE ] STREAM [ IF NOT EXISTS ] [ <database_name>. ]<stream_name>
 -- 创建一个名为 'orders' 的表
 CREATE TABLE orders (
     order_id INT,
-    product_name VARCHAR(255),
+    product_name VARCHAR,
     quantity INT,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
