@@ -3,7 +3,7 @@ title: MAP_VALUES
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.429"/>
+<FunctionDescription description="引入或更新: v1.2.429"/>
 
 返回一个映射中的值。
 
@@ -15,7 +15,7 @@ MAP_VALUES( <map> )
 
 ## 参数
 
-| 参数       | 描述         |
+| 参数      | 描述         |
 |-----------|--------------|
 | `<map>`   | 输入的映射。 |
 
