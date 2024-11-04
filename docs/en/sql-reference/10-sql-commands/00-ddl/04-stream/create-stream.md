@@ -36,7 +36,7 @@ This example demonstrates creating a stream named 'order_changes' to monitor cha
 -- Create a table named 'orders'
 CREATE TABLE orders (
     order_id INT,
-    product_name VARCHAR(255),
+    product_name VARCHAR,
     quantity INT,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
