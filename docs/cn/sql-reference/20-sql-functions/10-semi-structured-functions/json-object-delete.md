@@ -22,7 +22,7 @@ json_object_delete(<json_object>, <key1> [, <key2>, ...])
 
 ## 返回类型
 
-返回一个包含已删除指定键的修改后 JSON 对象的 VARIANT。
+返回一个包含修改后的 JSON 对象的 VARIANT，其中指定的键已被删除。
 
 ## 示例
 

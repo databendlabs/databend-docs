@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.213"/>
 
-将嵌套的 JSON 数据转换为表格格式，其中每个元素或字段都表示为单独的行。
+将嵌套的JSON数据转换为表格格式，其中每个元素或字段都表示为单独的一行。
 
 ## 语法
 
@@ -18,35 +18,35 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 | 参数/关键字 | 描述                                                                                                                                                                                                             | 默认值 |
 |-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
-| INPUT       | 指定要展平的 JSON 或数组数据。                                                                                                                                                                                   | -      |
+| INPUT       | 指定要展平的JSON或数组数据。                                                                                                                                                                                      | -      |
 | PATH        | 指定输入数据中要展平的数组或对象的路径。                                                                                                                                                                         | -      |
-| OUTER       | 如果设置为 TRUE，即使结果为零的行仍将包含在输出中，但这些行的 KEY、INDEX 和 VALUE 列的值将设置为 NULL。                                                                                                         | FALSE  |
-| RECURSIVE   | 如果设置为 TRUE，函数将继续展平嵌套元素。                                                                                                                                                                        | FALSE  |
-| MODE        | 控制是仅展平对象 ('OBJECT')、仅展平数组 ('ARRAY')，还是两者都展平 ('BOTH')。                                                                                                                                     | 'BOTH' |
-| LATERAL     | LATERAL 是一个可选关键字，用于在 FROM 子句中引用 LATERAL 关键字左侧定义的列。LATERAL 启用前表表达式与函数之间的交叉引用。                                                                                      | -      |
+| OUTER       | 如果设置为TRUE，即使结果为零的行仍将包含在输出中，但这些行的KEY、INDEX和VALUE列的值将设置为NULL。                                                                                                               | FALSE  |
+| RECURSIVE   | 如果设置为TRUE，函数将继续展平嵌套元素。                                                                                                                                                                          | FALSE  |
+| MODE        | 控制是仅展平对象('OBJECT')、仅展平数组('ARRAY')，还是两者都展平('BOTH')。                                                                                                                                         | 'BOTH' |
+| LATERAL     | LATERAL是一个可选关键字，用于在FROM子句中引用LATERAL关键字左侧定义的列。LATERAL允许在前面的表表达式和函数之间进行交叉引用。                                                                                     | -      |
 
 ## 输出
 
-下表描述了 FLATTEN 函数的输出列：
+下表描述了FLATTEN函数的输出列：
 
 :::note
-当与 FLATTEN 一起使用 LATERAL 关键字时，这些输出列可能不会显式提供，因为 LATERAL 引入了动态交叉引用，改变了输出结构。
+当与FLATTEN一起使用LATERAL关键字时，这些输出列可能不会显式提供，因为LATERAL引入了动态交叉引用，改变了输出结构。
 :::
 
 | 列    | 描述                                                                                     |
 |-------|------------------------------------------------------------------------------------------|
 | SEQ   | 与输入关联的唯一序列号。                                                                 |
-| KEY   | 扩展值的键。如果展平的元素不包含键，则设置为 NULL。                                      |
+| KEY   | 扩展值的键。如果展平的元素不包含键，则设置为NULL。                                       |
 | PATH  | 展平元素的路径。                                                                         |
-| INDEX | 如果元素是数组，此列包含其索引；否则，设置为 NULL。                                      |
+| INDEX | 如果元素是数组，此列包含其索引；否则，设置为NULL。                                       |
 | VALUE | 展平元素的值。                                                                           |
 | THIS  | 此列标识当前正在展平的元素。                                                             |
 
 ## 示例
 
-### 示例 1: 演示 PATH、OUTER、RECURSIVE 和 MODE 参数
+### 示例1: 演示PATH、OUTER、RECURSIVE和MODE参数
 
-此示例演示了 FLATTEN 函数在 PATH、OUTER、RECURSIVE 和 MODE 参数方面的行为。
+此示例演示了FLATTEN函数在PATH、OUTER、RECURSIVE和MODE参数方面的行为。
 
 ```sql
 SELECT
@@ -66,7 +66,7 @@ FROM
 │      1 │ name             │ name             │             NULL │ "John"                           │ {"address":{"city":"New York","state":"NY"},"languages":["English","Spanish","French"],"name":"John"} │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- PATH 帮助从原始 JSON 数据中选择特定路径的元素。
+-- PATH帮助从原始JSON数据中选择特定路径的元素。
 SELECT
   *
 FROM
@@ -85,7 +85,7 @@ FROM
 │      1 │ NULL             │ languages[2]     │                2 │ "French"          │ ["English","Spanish","French"] │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- RECURSIVE 启用嵌套结构的递归展平。
+-- RECURSIVE启用嵌套结构的递归展平。
 SELECT
   *
 FROM
@@ -97,13 +97,22 @@ FROM
   );
 ```
 
-### 示例 1：使用 FLATTEN 函数
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   seq  │        key       │       path       │       index      │               value              │                                                  this                                                 │
+├────────┼──────────────────┼──────────────────┼──────────────────┼──────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│      1 │ address          │ address          │             NULL │ {"city":"New York","state":"NY"} │ {"address":{"city":"New York","state":"NY"},"languages":["English","Spanish","French"],"name":"John"} │
+│      1 │ city             │ address.city     │             NULL │ "New York"                       │ {"city":"New York","state":"NY"}                                                                      │
+│      1 │ state            │ address.state    │             NULL │ "NY"                             │ {"city":"New York","state":"NY"}                                                                      │
+│      1 │ languages        │ languages        │             NULL │ ["English","Spanish","French"]   │ {"address":{"city":"New York","state":"NY"},"languages":["English","Spanish","French"],"name":"John"} │
+│      1 │ NULL             │ languages[0]     │                0 │ "English"                        │ ["English","Spanish","French"]                                                                        │
+│      1 │ NULL             │ languages[1]     │                1 │ "Spanish"                        │ ["English","Spanish","French"]                                                                        │
+│      1 │ NULL             │ languages[2]     │                2 │ "French"                         │ ["English","Spanish","French"]                                                                        │
+│      1 │ name             │ name             │             NULL │ "John"                           │ {"address":{"city":"New York","state":"NY"},"languages":["English","Spanish","French"],"name":"John"} │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-此示例展示了如何使用 FLATTEN 函数来展平 JSON 数据。
 
-```sql
 -- MODE 指定是否仅展平对象 ('OBJECT')、仅展平数组 ('ARRAY') 或两者都展平 ('BOTH')。
--- 在此示例中，MODE => 'ARRAY' 被使用，这意味着仅展平 JSON 数据中的数组。
+-- 在此示例中，使用 MODE => 'ARRAY'，这意味着仅展平 JSON 数据中的数组。
 SELECT
   *
 FROM
@@ -118,7 +127,7 @@ FROM
 
 
 -- OUTER 确定是否在输出中包含零行扩展。
--- 在第一个示例中，OUTER => TRUE 与一个空的 JSON 数组一起使用，这会导致零行扩展。
+-- 在第一个示例中，使用 OUTER => TRUE 和一个空的 JSON 数组，这会导致零行扩展。
 -- 即使没有值可以展平，行也会包含在输出中。
 SELECT
   *
@@ -131,7 +140,7 @@ FROM
 │      1 │ NULL             │ NULL             │             NULL │ NULL              │ NULL              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 在第二个示例中，OUTER 被省略，输出显示了当未指定 OUTER 时，零结果的行如何不被包含。
+-- 在第二个示例中，省略了 OUTER，输出显示了当未指定 OUTER 时，零结果行如何不被包含。
 SELECT
   *
 FROM
@@ -141,7 +150,7 @@ FROM
 
 ### 示例 2：演示 LATERAL FLATTEN
 
-此示例展示了在使用 LATERAL 关键字时 FLATTEN 函数的行为。
+此示例演示了在使用 LATERAL 关键字时 FLATTEN 函数的行为。
 
 ```sql
 -- 创建一个包含多个项目的 Tim Hortons 交易表

@@ -29,8 +29,8 @@ AS_OBJECT( <variant> )
 - AS_INTEGER: BIGINT
 - AS_FLOAT:   DOUBLE
 - AS_STRING:  VARCHAR
-- AS_ARRAY:   Variant 包含数组
-- AS_OBJECT:  Variant 包含对象
+- AS_ARRAY:   Variant 包含 Array
+- AS_OBJECT:  Variant 包含 Object
 
 ## 示例
 

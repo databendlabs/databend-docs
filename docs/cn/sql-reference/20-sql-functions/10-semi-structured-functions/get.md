@@ -19,9 +19,9 @@ GET( <variant>, <field_name> )
 
 | 参数           | 描述                                                         |
 |----------------|--------------------------------------------------------------|
-| `<variant>`    | 包含 `ARRAY` 或 `OBJECT` 的 `VARIANT` 值                     |
-| `<index>`      | 指定 `ARRAY` 中值位置的 `Uint32` 值                          |
-| `<field_name>` | 指定 `OBJECT` 中键值对中键的 `String` 值                     |
+| `<variant>`    | 包含 ARRAY 或 OBJECT 的 VARIANT 值                           |
+| `<index>`      | Uint32 值，指定 ARRAY 中值的位置                             |
+| `<field_name>` | String 值，指定 OBJECT 中键值对的键                          |
 
 ## 返回类型
 

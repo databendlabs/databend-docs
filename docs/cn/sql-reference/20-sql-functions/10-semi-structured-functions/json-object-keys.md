@@ -12,9 +12,9 @@ JSON_OBJECT_KEYS(<variant>)
 
 ## 参数
 
-| 参数        | 描述                                      |
+| 参数        | 描述                               |
 |-------------|-------------------------------------------|
-| `<variant>` | 包含 OBJECT 的 VARIANT 值                 |
+| `<variant>` | 包含 OBJECT 的 VARIANT 值 |
 
 ## 别名
 
