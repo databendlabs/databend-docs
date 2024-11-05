@@ -1,5 +1,5 @@
 ---
-title: 显示指标
+title: SHOW METRICS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
