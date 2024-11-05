@@ -5,6 +5,7 @@ title: SET
 Changes the value of a system setting for the current session. To show all the current settings, use [SHOW SETTINGS](03-show-settings.md).
 
 See also:
+- [SETTINGS Clause](../20-query-syntax/settings.md)
 - [SET_VAR](03-set-var.md)
 - [UNSET](02-unset.md)
 
