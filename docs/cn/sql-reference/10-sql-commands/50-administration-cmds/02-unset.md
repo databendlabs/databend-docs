@@ -3,11 +3,11 @@ title: UNSET
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.605"/>
+<FunctionDescription description="引入或更新: v1.2.605"/>
 
 将一个或多个系统设置恢复到其全局或默认级别和值。有关设置级别的更多信息，请参阅[设置级别](03-show-settings.md#setting-levels)。要显示所有当前设置，请使用[SHOW SETTINGS](03-show-settings.md)。
 
-另请参阅：[SET](02-set-global.md)
+另请参阅: [SET](02-set-global.md)
 
 ## 语法
 
@@ -68,7 +68,7 @@ SHOW SETTINGS LIKE 'timezone';
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例使用 `UNSET SESSION` 移除时区的会话级别设置，将其恢复回全局级别设置：
+此示例使用 UNSET SESSION 移除时区的会话级别设置，将其恢复回全局级别设置：
 
 ```sql
 SHOW SETTINGS LIKE 'timezone';
@@ -107,7 +107,7 @@ SHOW SETTINGS LIKE 'timezone';
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例使用 `UNSET SESSION` 移除时区的会话级别设置，将其恢复回会话级别设置：
+此示例使用 UNSET SESSION 移除时区的会话级别设置，将其恢复回会话级别设置：
 
 ```sql
 SHOW SETTINGS LIKE 'timezone';
