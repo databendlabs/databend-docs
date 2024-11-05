@@ -1,5 +1,5 @@
 ---
-title: WITH 流提示
+title: WITH Stream Hints
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
@@ -16,7 +16,7 @@ SELECT ...
 FROM <stream_name> WITH (<hint1> = <value1>[, <hint2> = <value2>, ...])
 ```
 
-以下列出了可用的提示，包括它们的描述和推荐的用法，以优化流处理:
+以下列出了可用的提示，包括它们的描述和推荐的用法，以优化流处理：
 
 | 提示             | 描述                                                                                                                                                                               |
 |------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -55,7 +55,7 @@ SELECT * FROM s WITH (CONSUME = FALSE, MAX_BATCH_SIZE = 2);
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-以下展示了在查询流时 `CONSUME` 提示的操作方式。将 `CONSUME = TRUE` 和 `MAX_BATCH_SIZE = 1` 设置时，每次查询会消费流中的一行。
+以下展示了在查询流时 `CONSUME` 提示的操作方式。将 `CONSUME = TRUE` 和 `MAX_BATCH_SIZE = 1` 设置时，每次查询会从流中消费一行。
 
 ```sql
 SELECT * FROM s WITH (CONSUME = TRUE, MAX_BATCH_SIZE = 1);
