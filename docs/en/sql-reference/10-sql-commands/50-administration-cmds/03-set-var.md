@@ -11,7 +11,9 @@ SET_VAR is used to specify optimizer hints within a single SQL statement, allowi
 
 - Control the deduplication behavior on [INSERT](../10-dml/dml-insert.md), [UPDATE](../10-dml/dml-update.md), or [REPLACE](../10-dml/dml-replace.md) operations with the label *deduplicate_label*. For those operations with a deduplicate_label in the SQL statements, Databend executes only the first statement, and subsequent statements with the same deduplicate_label value are ignored, regardless of their intended data modifications. Please note that once you set a deduplicate_label, it will remain in effect for a period of 24 hours. To understand how the deduplicate_label assists in deduplication, see [Example 3: Set Deduplicate Label](#example-3-set-deduplicate-label).
 
-See also: [SET](02-set-global.md)
+See also: 
+- [SETTINGS Clause](../20-query-syntax/settings.md)
+- [SET](02-set-global.md)
 
 ## Syntax
 

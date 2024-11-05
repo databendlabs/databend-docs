@@ -1,11 +1,13 @@
 ---
-title: SETTINGS
+title: SETTINGS Clause
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.652"/>
 
 The SETTINGS clause configures specific settings that influence the execution behavior of the SQL statement it precedes. To view the available settings in Databend and their values, use [SHOW SETTINGS](../50-administration-cmds/03-show-settings.md).
+
+See also: [SET](../50-administration-cmds/02-set-global.md)
 
 ## Syntax
 
