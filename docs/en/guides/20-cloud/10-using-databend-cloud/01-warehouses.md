@@ -81,6 +81,26 @@ To effectively manage your warehouses and ensure optimal performance and cost-ef
 - **Monitor & Adjust Usage**  
   - Regularly review warehouse usage and resize as needed to balance cost and performance.
 
+## Warehouse Access Control
+
+Databend Cloud allows you to manage warehouse access with role-based controls by assigning a specific role to a warehouse, so only users with that role can access the warehouse.
+
+:::note
+Warehouse access control is *not* enabled out of the box. To enable it, go to **Support** > **Create New Ticket** and submit a request.
+:::
+
+To assign a role to a warehouse, select the desired role in the **Advanced Options** during the warehouse creation or modification process:
+
+![alt text](../../../../../static/img/documents/warehouses/warehouse-role.png)
+
+- The two [Built-in Roles](../../56-security/access-control/02-roles.md#built-in-roles) are available for selection, and you can also create additional roles using the [CREATE ROLE](/sql/sql-commands/ddl/user/user-create-role) command. For more information about Databend roles, see [Roles](../../56-security/access-control/02-roles.md).
+- Warehouses without an assigned role default to the `public` role, allowing access to all users.
+- You can grant a role to a user (Databend Cloud login email or SQL user) using the [GRANT](/sql/sql-commands/ddl/user/grant) command, or, alternatively, assign a role when inviting the user to your organization. For more information, see [Inviting New Members](00-organization.md#inviting-new-members). This example grants the role `manager` to the user with the email `name@example.com`, allowing access to any warehouse assigned to the `manager` role:
+
+  ```sql title='Examples:'
+  GRANT ROLE manager to 'name@example.com';
+  ```
+
 ## Multi-Cluster Warehouses
 
 A multi-cluster warehouse automatically adjusts compute resources by adding or removing clusters based on workload demand. It ensures high concurrency and performance while optimizing cost by scaling up or down as needed.
