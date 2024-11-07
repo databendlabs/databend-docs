@@ -173,6 +173,13 @@ description:
 | databend_meta_grpc_client_request_duration_ms                   | Histogram | 向元领导者发出的不同类型请求（Upsert、Txn、StreamList、StreamMGet、GetClientInfo）的请求持续时间分布。              | endpoint, request                                                                                                                                       |
 | databend_meta_grpc_client_request_inflight                      | Gauge     | 当前连接到元的查询数量。                                                                                                            |                                                                                                                                                         |
 | databend_meta_grpc_client_request_success                       | Counter   | 向元发出的成功请求数。                                                                                                                   | endpoint, request                                                                                                                                       |
+| databend_process_cpu_seconds_total                              | Counter   | 用户和系统使用的总CPU时间（秒） | |
+| databend_process_max_fds                                        | Gauge     | 最大允许的打开文件描述符的数目 | |
+| databend_process_open_fds                                       | Gauge     | 打开的文件描述符的数目 | |
+| databend_process_resident_memory_bytes                          | Gauge     | 物理内存使用量（字节）. | |
+| databend_process_start_time_seconds                             | Gauge     | 进程启动的时刻（Unix时间戳，以秒为单位） | |
+| databend_process_threads                                        | Gauge     | 线程使用数目 | |
+| databend_process_virtual_memory_bytes                           | Gauge     | 虚拟内存使用量（字节） | |
 | databend_opendal_bytes                                          | Counter   | OpenDAL端点读取和写入的总字节数。                                                                                              | scheme（操作使用的方案，例如“s3”），op（操作类型，例如“read”或“write”）                                             |
 | databend_opendal_bytes_histogram                                | Histogram | 按操作的响应时间和计数分布。                                                                                                      | scheme（操作使用的方案，例如“s3”），op（操作类型，例如“write”）                                                       |
 | databend_opendal_errors                                         | Counter   | OpenDAL操作中遇到的错误及其类型数量。                                                                                          | scheme（操作使用的方案，例如“s3”），op（操作类型，例如“read”），err（遇到的错误类型，例如“NotFound”） |
