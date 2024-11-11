@@ -22,7 +22,7 @@ DROP TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 
 此命令仅在元数据服务中将表模式标记为已删除，确保实际数据保持不变。如果需要恢复已删除的表模式，可以使用 [UNDROP TABLE](./21-ddl-undrop-table.md) 命令。
 
-要完全删除表及其数据文件，请考虑使用 [VACUUM DROP TABLE](91-vacuum-drop-table.md) 命令。
+对于完全删除表及其数据文件，请考虑使用 [VACUUM DROP TABLE](91-vacuum-drop-table.md) 命令。
 
 
 ## 示例

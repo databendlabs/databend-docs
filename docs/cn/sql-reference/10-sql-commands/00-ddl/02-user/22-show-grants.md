@@ -29,7 +29,7 @@ SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF } <object_name> [ LIKE '<pattern
 
 ## 示例
 
-此示例展示了如何列出授予用户、角色和特定对象的权限。
+此示例说明了如何列出授予用户、角色和特定对象的权限。
 
 ```sql
 -- 创建新用户

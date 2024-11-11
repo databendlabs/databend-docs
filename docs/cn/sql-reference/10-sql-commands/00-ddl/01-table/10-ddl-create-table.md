@@ -11,7 +11,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='COMPUTED COLUMN'/>
 
-创建表是许多数据库中最复杂的操作之一，因为您可能需要：
+对于许多数据库来说，创建表是最复杂的操作之一，因为您可能需要：
 
 * 手动指定引擎
 * 手动指定索引
@@ -19,11 +19,11 @@ import EEFeature from '@site/src/components/EEFeature';
 
 Databend旨在通过设计变得易于使用，并且在创建表时不需要任何这些操作。此外，CREATE TABLE语句提供了这些选项，使您在各种场景下创建表变得更加容易：
 
-- [CREATE TABLE](#create-table): 从头开始创建一个表。
+- [CREATE TABLE](#create-table): 从头开始创建表。
 - [CREATE TABLE ... LIKE](#create-table--like): 创建一个与现有表具有相同列定义的表。
 - [CREATE TABLE ... AS](#create-table--as): 创建一个表并使用SELECT查询的结果插入数据。
-- [CREATE TRANSIENT TABLE](#create-transient-table): 创建一个不存储历史数据以进行时间回溯的表。
-- [CREATE TABLE ... EXTERNAL_LOCATION](#create-table--external-location): 创建一个表并指定一个S3桶用于数据存储，而不是FUSE引擎。
+- [CREATE TRANSIENT TABLE](#create-transient-table): 创建一个不存储其历史数据以进行时间回溯的表。
+- [CREATE TABLE ... EXTERNAL_LOCATION](#create-table--external_location): 创建一个表并指定一个S3桶作为数据存储，而不是FUSE引擎。
 
 ## CREATE TABLE
 
@@ -41,7 +41,7 @@ CREATE [ OR REPLACE ] [ TRANSIENT ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]
 :::note
 - 有关Databend中可用的数据类型，请参阅[数据类型](../../../00-sql-reference/10-data-types/index.md)。
 
-- Databend建议在命名列时尽量避免使用特殊字符。然而，在某些情况下，如果需要使用特殊字符，别名应使用反引号括起来，例如：CREATE TABLE price(\`$CA\` int);
+- Databend建议在命名列时尽量避免使用特殊字符。然而，在某些情况下，如果特殊字符是必要的，别名应使用反引号括起来，例如：CREATE TABLE price(\`$CA\` int);
 
 - Databend会自动将列名转换为小写。例如，如果您将列命名为*Total*，它将在结果中显示为*total*。
 :::
@@ -49,7 +49,7 @@ CREATE [ OR REPLACE ] [ TRANSIENT ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]
 
 ## CREATE TABLE ... LIKE
 
-创建一个与现有表具有相同列定义的表。现有表的列名、数据类型及其非空约束将被复制到新表中。
+创建一个与现有表具有相同列定义的表。现有表的列名、数据类型及其非NULL约束将被复制到新表中。
 
 语法:
 ```sql
@@ -60,7 +60,7 @@ LIKE [db.]origin_table_name
 此命令不包括原始表中的任何数据或属性（如`CLUSTER BY`、`TRANSIENT`和`COMPRESSION`），而是使用默认的系统设置创建一个新表。
 
 :::note 解决方法
-- 在使用此命令创建新表时，可以显式指定`TRANSIENT`和`COMPRESSION`。例如，
+- 当您使用此命令创建新表时，可以显式指定`TRANSIENT`和`COMPRESSION`。例如，
 
 ```sql
 create transient table t_new like t_old;
@@ -82,7 +82,7 @@ AS SELECT query
 此命令不包括原始表中的任何属性（如CLUSTER BY、TRANSIENT和COMPRESSION），而是使用默认的系统设置创建一个新表。
 
 :::note 解决方法
-- 在使用此命令创建新表时，可以显式指定`TRANSIENT`和`COMPRESSION`。例如，
+- 当您使用此命令创建新表时，可以显式指定`TRANSIENT`和`COMPRESSION`。例如，
 
 ```sql
 create transient table t_new as select * from t_old;
@@ -97,7 +97,7 @@ create table t_new compression='lz4' as select * from t_old;
 
 瞬态表用于保存不需要数据保护或恢复机制的临时数据。Databend不为瞬态表保留历史数据，因此您将无法使用时间回溯功能查询瞬态表的先前版本，例如，SELECT语句中的[AT](./../../20-query-syntax/03-query-at.md)子句对瞬态表不起作用。请注意，您仍然可以[删除](./20-ddl-drop-table.md)和[恢复](./21-ddl-undrop-table.md)瞬态表。
 
-瞬态表有助于节省存储成本，因为与非瞬态表相比，它们不需要额外的空间来存储历史数据。有关详细解释，请参阅[示例](#create-transient-table-1)。
+瞬态表有助于节省存储费用，因为与非瞬态表相比，它们不需要额外的空间来存储历史数据。有关详细解释，请参阅[示例](#create-transient-table-1)。
 
 :::caution
 对瞬态表的并发修改（包括写操作）可能会导致数据损坏，使数据不可读。此缺陷正在解决中。在修复之前，请避免对瞬态表进行并发修改。
@@ -121,7 +121,7 @@ CREATE TRANSIENT TABLE ...
 ```sql
 DEFAULT <expr>
 ```
-指定在通过`INSERT`或`CREATE TABLE AS SELECT`语句未指定值时插入到列中的默认值。
+如果通过`INSERT`或`CREATE TABLE AS SELECT`语句未指定值，则指定插入到列中的默认值。
 
 例如:
 
@@ -206,11 +206,171 @@ CREATE TABLE IF NOT EXISTS employees (
 :::tip 存储还是虚拟？
 在选择存储计算列和虚拟计算列时，请考虑以下因素：
 
-- 存储空间：存储计算列占用表中的额外存储空间，因为它们的计算值是物理存储的。如果您有有限的存储空间或希望最小化存储使用，虚拟计算列可能是一个更好的选择。
+- 存储空间：存储计算列占用表中的额外存储空间，因为其计算值是物理存储的。如果您有有限的存储空间或希望最小化存储使用，虚拟计算列可能是一个更好的选择。
 
 - 实时更新：存储计算列在依赖列更新时立即更新其计算值。这确保了在查询时始终拥有最新的计算值。虚拟计算列则在查询时动态计算其值，这可能会稍微增加处理时间。
 
-- 数据完整性和一致性：存储计算列在写操作时立即维护数据一致性，因为它们的计算值在写操作时更新。虚拟计算列则在查询时动态计算其值，这意味着在写操作和后续查询之间可能存在短暂的
+- 数据完整性和一致性：存储计算列在写操作时立即维护数据一致性，因为其计算值在写操作时更新。虚拟计算列则在查询时动态计算其值，这意味着在写操作和后续查询之间可能存在短暂的暂时不一致。
+:::
+
+## MySQL兼容性
+
+Databend的语法与MySQL的主要区别在于数据类型和一些特定的索引提示。
+
+## 示例
+
+### 创建表
+
+创建一个表并为列指定默认值（在本例中，`genre`列的默认值为'General'）：
+
+```sql
+CREATE TABLE books (
+    id BIGINT UNSIGNED,
+    title VARCHAR,
+    genre VARCHAR DEFAULT 'General'
+);
+```
+
+描述表以确认结构和`genre`列的默认值：
+
+```sql
+DESC books;
++-------+-----------------+------+---------+-------+
+| Field | Type            | Null | Default | Extra |
++-------+-----------------+------+---------+-------+
+| id    | BIGINT UNSIGNED | YES  | 0       |       |
+| title | VARCHAR         | YES  | ""      |       |
+| genre | VARCHAR         | YES  | 'General'|       |
++-------+-----------------+------+---------+-------+
+```
+
+插入一行而不指定`genre`：
+
+```sql
+INSERT INTO books(id, title) VALUES(1, 'Invisible Stars');
+```
+
+查询表并注意到`genre`列已设置为默认值'General'：
+
+```sql
+SELECT * FROM books;
++----+----------------+---------+
+| id | title          | genre   |
++----+----------------+---------+
+|  1 | Invisible Stars| General |
++----+----------------+---------+
+```
+
+### 创建表 ... Like
+
+创建一个新表(`books_copy`)，其结构与现有表(`books`)相同：
+
+```sql
+CREATE TABLE books_copy LIKE books;
+```
+
+检查新表的结构：
+
+```sql
+DESC books_copy;
++-------+-----------------+------+---------+-------+
+| Field | Type            | Null | Default | Extra |
++-------+-----------------+------+---------+-------+
+| id    | BIGINT UNSIGNED | YES  | 0       |       |
+| title | VARCHAR         | YES  | ""      |       |
+| genre | VARCHAR         | YES  | 'General'|       |
++-------+-----------------+------+---------+-------+
+```
+
+向新表插入一行并注意到`genre`列的默认值已被复制：
+
+```sql
+INSERT INTO books_copy(id, title) VALUES(1, 'Invisible Stars');
+
+SELECT * FROM books_copy;
++----+----------------+---------+
+| id | title          | genre   |
++----+----------------+---------+
+|  1 | Invisible Stars| General |
++----+----------------+---------+
+```
+
+### 创建表 ... As
+
+创建一个新表(`books_backup`)，其中包含现有表(`books`)的数据：
+
+```sql
+CREATE TABLE books_backup AS SELECT * FROM books;
+```
+
+描述新表并注意到`genre`列的默认值未被复制：
+
+```sql
+DESC books_backup;
++-------+-----------------+------+---------+-------+
+| Field | Type            | Null | Default | Extra |
++-------+-----------------+------+---------+-------+
+| id    | BIGINT UNSIGNED | NO   | 0       |       |
+| title | VARCHAR         | NO   | ""      |       |
+| genre | VARCHAR         | NO   | NULL    |       |
++-------+-----------------+------+---------+-------+
+```
+
+查询新表并注意到原始表的数据已被复制：
+
+```sql
+SELECT * FROM books_backup;
++----+----------------+---------+
+| id | title          | genre   |
++----+----------------+---------+
+|  1 | Invisible Stars| General |
++----+----------------+---------+
+```
+
+### 创建瞬态表
+
+创建一个瞬态表（临时表），在指定时间段后自动删除数据：
+
+```sql
+-- 创建瞬态表
+CREATE TRANSIENT TABLE visits (
+  visitor_id BIGINT
+);
+
+-- 插入值
+INSERT INTO visits VALUES(1);
+INSERT INTO visits VALUES(2);
+INSERT INTO visits VALUES(3);
+
+-- 检查插入的数据
+SELECT * FROM visits;
++-----------+
+| visitor_id |
++-----------+
+|         1 |
+|         2 |
+|         3 |
++-----------+
+```
+
+### 创建表 ... 列 As STORED | VIRTUAL
+
+以下示例演示了一个带有存储计算列的表，该列根据“price”或“quantity”列的更新自动重新计算：
+
+```sql
+-- 创建带有存储计算列的表
+CREATE TABLE IF NOT EXISTS products (
+  id INT,
+  price FLOAT64,
+  quantity INT,
+  total_price FLOAT64 AS (price * quantity) STORED
+);
+
+-- 向表中插入数据
+INSERT INTO products (id, price, quantity)
+VALUES (1, 10.5, 3),
+       (2, 15.2, 5),
+       (3, 8.7, 2);
 
 -- 查询表以查看计算列
 SELECT id, price, quantity, total_price

@@ -5,7 +5,7 @@ sidebar_position: 18
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.368"/>
+<FunctionDescription description="Introduced or updated: v1.2.368"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -13,7 +13,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 VACUUM DROP TABLE 命令通过永久删除已删除表的数据文件来帮助节省存储空间，释放存储空间，并使您能够高效地管理该过程。它提供了可选参数，以针对特定数据库、预览和限制要清理的数据文件数量。要列出数据库中已删除的表，请使用 [SHOW DROP TABLES](show-drop-tables.md)。
 
-另请参阅: [VACUUM TABLE](91-vacuum-table.md)
+另请参阅：[VACUUM TABLE](91-vacuum-table.md)
 
 ### 语法
 
@@ -42,7 +42,7 @@ VACUUM DROP TABLE
 
 ### 输出
 
-当指定 `DRY RUN` 或 `DRY RUN SUMMARY` 参数时，VACUUM DROP TABLE 命令会返回一个结果:
+当指定 `DRY RUN` 或 `DRY RUN SUMMARY` 参数时，VACUUM DROP TABLE 命令会返回一个结果：
 
 - `DRY RUN`: 返回每个已删除表的最多 1,000 个候选文件及其大小的列表（以字节为单位）。
 - `DRY RUN SUMMARY`: 返回每个已删除表要删除的文件总数及其总大小。
@@ -86,21 +86,21 @@ VACUUM DROP TABLE DRY RUN SUMMARY;
 
 ### 调整数据保留时间
 
-VACUUM DROP TABLE 命令会删除早于 `DATA_RETENTION_TIME_IN_DAYS` 设置的数据文件。可以根据需要调整此保留期，例如调整为 2 天:
+VACUUM DROP TABLE 命令会删除早于 `DATA_RETENTION_TIME_IN_DAYS` 设置的数据文件。可以根据需要调整此保留期，例如调整为 2 天：
 
 ```sql
 SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 ```
 
-`DATA_RETENTION_TIME_IN_DAYS` 默认为 1 天（24 小时），最大值因 Databend 版本而异:
+`DATA_RETENTION_TIME_IN_DAYS` 默认为 1 天（24 小时），最大值因 Databend 版本而异：
 
 | 版本                                     | 默认保留时间      | 最大保留时间     |
 | ---------------------------------------- | ----------------- | ---------------- |
-| Databend 社区版和企业版                  | 1 天 (24 小时)    | 90 天            |
-| Databend Cloud (基础版)                  | 1 天 (24 小时)    | 1 天 (24 小时)   |
-| Databend Cloud (商业版)                  | 1 天 (24 小时)    | 90 天            |
+| Databend 社区版和企业版                  | 1 天（24 小时）   | 90 天            |
+| Databend Cloud（个人版）                 | 1 天（24 小时）   | 1 天（24 小时）  |
+| Databend Cloud（商业版）                 | 1 天（24 小时）   | 90 天            |
 
-要检查 `DATA_RETENTION_TIME_IN_DAYS` 的当前值:
+要检查 `DATA_RETENTION_TIME_IN_DAYS` 的当前值：
 
 ```sql
 SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';

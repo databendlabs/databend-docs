@@ -1,14 +1,13 @@
 ---
 title: SHOW VARIABLES
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本: v1.2.634"/>
+<FunctionDescription description="引入或更新: v1.2.634"/>
 
-显示所有会话变量及其详细信息，例如名称、值和类型。
+显示所有会话变量及其详细信息，如名称、值和类型。
 
-另请参见：[SHOW_VARIABLES](/sql/sql-functions/table-functions/show-variables)
+另请参阅: [SHOW_VARIABLES](/sql/sql-functions/table-functions/show-variables)
 
 ## 语法
 
@@ -18,7 +17,7 @@ SHOW VARIABLES [ LIKE '<pattern>' | WHERE <expr> ]
 
 ## 示例
 
-以下示例列出了所有会话变量及其值和类型：
+以下示例列出所有会话变量及其值和类型：
 
 ```sql
 SHOW VARIABLES;

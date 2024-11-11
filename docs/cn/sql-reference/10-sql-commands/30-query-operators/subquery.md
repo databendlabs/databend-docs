@@ -2,9 +2,9 @@
 title: 子查询操作符
 ---
 
-子查询是嵌套在另一个查询中的查询。Databend支持以下子查询类型：
+子查询是嵌套在另一个查询中的查询。Databend 支持以下子查询类型：
 
-- [标量子查询](#标量子查询)
+- [标量子查询](#scalar-subquery)
 - [EXISTS / NOT EXISTS](#exists--not-exists)
 - [IN / NOT IN](#in--not-in)
 - [ANY (SOME)](#any-some)
@@ -12,10 +12,10 @@ title: 子查询操作符
 
 ## 标量子查询
 
-标量子查询只选择一个列或表达式，并且最多返回一行。SQL查询可以在期望列或表达式的任何位置有标量子查询。
+标量子查询仅选择一列或一个表达式，并且最多返回一行。SQL 查询可以在任何期望列或表达式的地方使用标量子查询。
 
-- 如果标量子查询返回0行，Databend将使用NULL作为子查询输出。
-- 如果标量子查询返回多于一行，Databend将抛出一个错误。
+- 如果标量子查询返回 0 行，Databend 将使用 NULL 作为子查询的输出。
+- 如果标量子查询返回多于一行，Databend 将抛出错误。
 
 ### 示例
 
@@ -47,9 +47,9 @@ WHERE  t1.a < (SELECT Min(t2.a)
 
 ## EXISTS / NOT EXISTS
 
-EXISTS子查询是可以出现在WHERE子句中的布尔表达式：
-* 如果子查询产生任何行，EXISTS表达式计算为TRUE。
-* 如果子查询没有产生任何行，NOT EXISTS表达式计算为TRUE。
+EXISTS 子查询是一个布尔表达式，可以出现在 WHERE 子句中：
+* EXISTS 表达式在子查询产生任何行时评估为 TRUE。
+* NOT EXISTS 表达式在子查询不产生任何行时评估为 TRUE。
 
 ### 语法
 
@@ -58,7 +58,7 @@ EXISTS子查询是可以出现在WHERE子句中的布尔表达式：
 ```
 
 :::note
-* 目前仅在WHERE子句中支持相关的EXISTS子查询。
+* 目前仅在 WHERE 子句中支持相关联的 EXISTS 子查询。
 :::
 
 ### 示例
@@ -66,7 +66,7 @@ EXISTS子查询是可以出现在WHERE子句中的布尔表达式：
 ```sql
 SELECT number FROM numbers(10) WHERE number>5 AND exists(SELECT number FROM numbers(5) WHERE number>4);
 ```
-`SELECT number FROM numbers(5) WHERE number>4` 没有产生任何行，`exists(SELECT number FROM numbers(5) WHERE number>4)` 为FALSE。
+`SELECT number FROM numbers(5) WHERE number>4` 不产生任何行，`exists(SELECT number FROM numbers(5) WHERE number>4)` 为 FALSE。
 
 ```sql
 SELECT number FROM numbers(10) WHERE number>5 and exists(SELECT number FROM numbers(5) WHERE number>3);
@@ -80,7 +80,7 @@ SELECT number FROM numbers(10) WHERE number>5 and exists(SELECT number FROM numb
 +--------+
 ```
 
-`EXISTS(SELECT NUMBER FROM NUMBERS(5) WHERE NUMBER>3)` 为TRUE。
+`EXISTS(SELECT NUMBER FROM NUMBERS(5) WHERE NUMBER>3)` 为 TRUE。
 
 ```sql
 SELECT number FROM numbers(10) WHERE number>5 AND not exists(SELECT number FROM numbers(5) WHERE number>4);
@@ -94,13 +94,13 @@ SELECT number FROM numbers(10) WHERE number>5 AND not exists(SELECT number FROM 
 +--------+
 ```
 
-`not exists(SELECT number FROM numbers(5) WHERE number>4)` 为TRUE。
+`not exists(SELECT number FROM numbers(5) WHERE number>4)` 为 TRUE。
 
 ## IN / NOT IN
 
-通过使用IN或NOT IN，您可以检查表达式是否匹配子查询返回的列表中的任何值。
+通过使用 IN 或 NOT IN，您可以检查表达式是否与子查询返回的列表中的任何值匹配。
 
-- 使用IN或NOT IN时，子查询必须返回单列值。
+- 当您使用 IN 或 NOT IN 时，子查询必须返回单列值。
 
 ### 语法
 
@@ -122,7 +122,7 @@ INSERT INTO t2 VALUES (3);
 INSERT INTO t2 VALUES (4);
 INSERT INTO t2 VALUES (5);
 
--- IN示例
+-- IN 示例
 SELECT * 
 FROM   t1 
 WHERE  t1.a IN (SELECT *
@@ -135,7 +135,7 @@ WHERE  t1.a IN (SELECT *
 |      3 |
 +--------+
 
--- NOT IN示例
+-- NOT IN 示例
 SELECT * 
 FROM   t1 
 WHERE  t1.a NOT IN (SELECT *
@@ -152,11 +152,11 @@ WHERE  t1.a NOT IN (SELECT *
 
 ## ANY (SOME)
 
-您可以使用ANY（或SOME）来检查比较是否对子查询返回的任何值都为真。
+您可以使用 ANY（或 SOME）来检查比较是否对子查询返回的任何值为真。
 
-- 关键字ANY（或SOME）必须跟随[比较操作符](comparison.md)之一。
-- 如果子查询没有返回任何值，比较计算为假。
-- SOME的工作方式与ANY相同。
+- 关键字 ANY（或 SOME）必须跟随在 [比较操作符](comparison.md) 之后。
+- 如果子查询不返回任何值，比较评估为 false。
+- SOME 的工作方式与 ANY 相同。
 
 ### 语法
 
@@ -199,10 +199,10 @@ WHERE  t1.a < ANY (SELECT *
 
 ## ALL
 
-您可以使用ALL来检查比较是否对子查询返回的所有值都为真。
+您可以使用 ALL 来检查比较是否对子查询返回的所有值为真。
 
-- 关键字ALL必须跟随[比较操作符](comparison.md)之一。
-- 如果子查询没有返回任何值，比较计算为真。
+- 关键字 ALL 必须跟随在 [比较操作符](comparison.md) 之后。
+- 如果子查询不返回任何值，比较评估为 true。
 
 ### 语法
 

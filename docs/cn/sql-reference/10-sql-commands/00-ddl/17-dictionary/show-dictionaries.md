@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.646"/>
 
-列出指定数据库中的字典，显示它们的名称、列详情和来源信息。
+列出指定数据库中的字典，显示它们的名称、列详细信息和来源信息。
 
 ## 语法
 

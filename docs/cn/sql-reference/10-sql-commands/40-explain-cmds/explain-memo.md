@@ -2,7 +2,7 @@
 title: EXPLAIN MEMO
 ---
 
-返回查询的内部结构`Memo`。
+返回查询的内部结构 `Memo`。
 
 ## 语法
 
