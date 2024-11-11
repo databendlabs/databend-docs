@@ -1,12 +1,12 @@
 ---
-title: 变体
+title: Variant
 ---
 
 VARIANT 可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，并且内部值可以是任何级别的嵌套结构，非常适合存储各种数据。VARIANT 也可以称为 JSON，更多信息请参考 [JSON 网站](https://www.json.org/json-en.html)。
 
 以下是在 Databend 中插入和查询 Variant 数据的示例：
 
-创建表：
+创建一个表：
 ```sql
 CREATE TABLE customer_orders(id INT64, order_data VARIANT);
 ```
@@ -50,13 +50,13 @@ SELECT * FROM customer_orders;
 
 ### 按索引访问
 
-VARIANT 类型包含一个数组，这是一个零基的数组，类似于许多其他编程语言。数组中的每个元素也是 VARIANT 类型。可以通过 **方括号** 访问元素的索引。
+VARIANT 类型包含一个数组，这是一个基于零的数组，类似于许多其他编程语言。数组中的每个元素也是 VARIANT 类型。可以通过 **方括号** 使用索引访问元素。
 
 #### 示例
 
-创建表：
+创建一个表：
 ```sql
--- 创建一个表来存储用户的爱好
+-- 创建一个表来存储用户爱好
 CREATE TABLE user_hobbies(user_id INT64, hobbies VARIANT NULL);
 ```
 
@@ -206,7 +206,7 @@ FROM user_preferences;
 │ "red"                            │
 └──────────────────────────────────┘
 
--- 当 'c' 在 'color' 中大写时，没有结果返回
+-- 当 'c' 在 'color' 中大写时没有结果返回
 SELECT preferences:"new settings":Color 
 FROM user_preferences;
 
@@ -253,4 +253,4 @@ SELECT user_id, pref:age::INT64 as age FROM user_pref;
 
 ## JSON 函数
 
-请参阅 [变体函数](/sql/sql-functions/semi-structured-functions)。
+请参阅 [Variant 函数](/sql/sql-functions/semi-structured-functions)。

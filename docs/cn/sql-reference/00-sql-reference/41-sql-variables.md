@@ -36,7 +36,7 @@ SELECT * FROM sales WHERE amount > getvariable('threshold');
 
 ### 使用 `IDENTIFIER` 访问对象
 
-`IDENTIFIER` 关键字允许你动态引用存储在变量中的数据库对象名称。请注意，`IDENTIFIER` 访问对象在 BendSQL 中尚不支持。
+`IDENTIFIER` 关键字允许你动态引用存储在变量中的数据库对象名称。请注意，BendSQL 尚不支持使用 `IDENTIFIER` 访问对象。
 
 ```sql title='示例:'
 -- 创建一个包含销售数据的表
