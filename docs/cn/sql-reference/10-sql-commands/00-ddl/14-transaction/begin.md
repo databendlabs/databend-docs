@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.371"/>
 
-开始一个新的事务。BEGIN 和 [COMMIT](commit.md)/[ROLLBACK](rollback.md) 必须一起使用来开始然后保存或撤销一个事务。
+开始一个新的事务。BEGIN 和 [COMMIT](commit.md)/[ROLLBACK](rollback.md) 必须一起使用，以开始然后保存或撤销一个事务。
 
 - Databend 不支持嵌套事务，因此不匹配的事务语句将被忽略。
 
@@ -62,11 +62,11 @@ BEGIN [ TRANSACTION ]
 
 Databend 自动为每个事务生成一个事务 ID。此 ID 允许用户识别哪些语句属于同一事务，便于问题排查。
 
-如果您在 Databend Cloud 上，可以在 **监控** > **SQL 历史记录** 中找到事务 ID：
+如果您在 Databend Cloud 上，可以在 **Monitor** > **SQL History** 中找到事务 ID：
 
 ![alt text](../../../../../../static/img/documents/sql/transaction-id.png)
 
-在 **事务** 列中，您还可以看到 SQL 语句在执行期间的事务状态：
+在 **Transaction** 列中，您还可以看到 SQL 语句在执行期间的事务状态：
 
 | 事务状态 | 描述                                                                                                                 |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------|

@@ -1,5 +1,5 @@
 ---
-title: 重命名表
+title: RENAME TABLE
 sidebar_position: 3
 ---
 

@@ -36,7 +36,7 @@ ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
 -- 更改数据类型和/或注释
--- 如果只想修改或添加列的注释，仍必须在命令中指定该列的当前数据类型
+-- 如果只想修改或添加列的注释，仍需在命令中指定该列的当前数据类型
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
 MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ]
        [ , [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ] ]
@@ -55,17 +55,17 @@ DROP [ COLUMN ] <column_name>
 ```
 
 :::note
-- 在添加或修改列时，只能接受常量值作为默认值。如果使用非常量表达式，将会发生错误。
+- 添加或修改列时，只能接受常量值作为默认值。如果使用非常量表达式，将会报错。
 - 目前不支持通过 ALTER TABLE 添加存储计算列。
-- 当您更改表的列的数据类型时，存在转换错误的风险。例如，如果您尝试将包含文本 (String) 的列转换为数字 (Float)，可能会导致问题。
-- 当您为列设置掩码策略时，请确保策略中定义的数据类型（参见 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的参数 *arg_type_to_mask*）与列匹配。
+- 更改表列的数据类型时，存在转换错误的风险。例如，如果尝试将文本 (String) 列转换为数字 (Float)，可能会出现问题。
+- 为列设置掩码策略时，请确保策略中定义的数据类型（参见 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的参数 *arg_type_to_mask*）与列匹配。
 :::
 
 ## 示例
 
 ### 示例 1: 添加、重命名和删除列
 
-此示例展示了创建一个名为 "default.users" 的表，包含列 'username'、'email' 和 'age'。它展示了添加列 'id' 和 'middle_name' 并带有各种约束。该示例还演示了重命名和随后删除 "age" 列。
+此示例展示了创建一个名为 "default.users" 的表，包含列 'username'、'email' 和 'age'。展示了添加列 'id' 和 'middle_name' 并设置各种约束。还演示了重命名和随后删除 "age" 列。
 
 ```sql
 -- 创建表
@@ -149,7 +149,7 @@ business_email|VARCHAR|NO  |'example@example.com'|     |
 
 ### 示例 2: 添加计算列
 
-此示例展示了创建一个用于存储员工信息的表，向表中插入数据，并添加一个计算列以根据员工的出生年份计算其年龄。
+此示例展示了创建一个存储员工信息的表，插入数据，并添加一个计算列以根据员工的出生年份计算其年龄。
 
 ```sql
 -- 创建表
@@ -181,7 +181,7 @@ ID | Name          | BirthYear | Age
 
 ### 示例 3: 转换计算列
 
-此示例创建了一个名为 "products" 的表，包含 ID、price、quantity 和计算列 "total_price"。ALTER TABLE 语句从 "total_price" 列中移除计算功能，将其转换为常规列。
+此示例创建了一个名为 "products" 的表，包含 ID、price、quantity 和计算列 "total_price"。ALTER TABLE 语句移除了 "total_price" 列的计算功能，将其转换为常规列。
 
 ```sql
 CREATE TABLE IF NOT EXISTS products (

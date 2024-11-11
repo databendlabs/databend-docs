@@ -76,11 +76,11 @@ SELECT snapshot_id, timestamp FROM FUSE_SNAPSHOT('default', 't');
 └───────────────────────────────────────────────────────────────┘
 
 -- 这些查询使用不同的方法检索相同的数据：
--- 通过快照 ID：
+-- 通过 snapshot_id:
 SELECT * FROM t AT (SNAPSHOT => 'aaa4857c5935401790db2c9f0f2818be');
--- 通过时间戳：
+-- 通过 timestamp:
 SELECT * FROM t AT (TIMESTAMP => '2024-04-02 15:19:02.484304'::TIMESTAMP);
--- 通过流：
+-- 通过 stream:
 SELECT * FROM t AT (STREAM => s);
 
 ┌─────────────────┐

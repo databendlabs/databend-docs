@@ -1,5 +1,5 @@
 ---
-title: CREATE TABLE(外部位置)
+title: CREATE TABLE(external-location)
 sidebar_position: 2
 ---
 
@@ -39,7 +39,7 @@ CONNECTION = (
 | 参数                        | 描述                                                                                                                                                                                                              | 必需       |
 |-----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
 | `s3://<bucket>/[<path>]`    | 文件位于指定的外部位置（类似 S3 的存储桶）                                                                                                                                                            | 是         |
-| ENDPOINT_URL              	 | 存储桶端点 URL，以 "https://" 开头。要使用以 "http://" 开头的 URL，请在 `databend-query-node.toml` 文件的 [storage] 块中将 `allow_insecure` 设置为 `true`。                                  	 | 可选 	 |
+| ENDPOINT_URL              	 | 以 "https://" 开头的存储桶端点 URL。要使用以 "http://" 开头的 URL，请在 `databend-query-node.toml` 文件的 [storage] 块中将 `allow_insecure` 设置为 `true`。                                  	 | 可选 	 |
 | ACCESS_KEY_ID             	 | 用于连接 AWS S3 兼容对象存储的访问密钥 ID。如果未提供，Databend 将以匿名方式访问存储桶。    	                                                                               | 可选 	 |
 | SECRET_ACCESS_KEY         	 | 用于连接 AWS S3 兼容对象存储的秘密访问密钥。 	                                                                                                                                            | 可选 	 |
 | REGION                    	 | AWS 区域名称。例如，us-east-1。                                    	                                                                                                                                            | 可选 	 |
@@ -60,7 +60,7 @@ CONNECTION = (
 **可写访问：**
 - `s3:PutObject`：允许将对象写入存储桶。
 - `s3:DeleteObject`：允许从存储桶中删除对象。
-- `s3:AbortMultipartUpload`：允许中止分段上传。
+- `s3:AbortMultipartUpload`：允许中止多部分上传。
 - `s3:DeleteObjectVersion`：允许删除对象的特定版本。
 :::
 
@@ -106,7 +106,7 @@ LOCATION = 's3 | bucket=testbucket,root=/admin/data/,endpoint=https://s3.amazona
 
 或者，您可以创建一个连接并使用它来创建表：
 ```sql
--- 创建一个名为 `s3_connection` 的连接，用于 S3 凭据
+-- 为 S3 凭据创建一个名为 `s3_connection` 的连接
 CREATE CONNECTION s3_connection
   STORAGE_TYPE = 's3'
   SECRET_ACCESS_KEY = '<your-secret-access-key>'

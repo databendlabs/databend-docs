@@ -1,9 +1,14 @@
-`PIVOT` 操作在 Databend 中允许你通过旋转表并根据指定列聚合结果来转换表。
+---
+title: PIVOT
+---
 
-它是一个有用的操作，用于以更易读的格式汇总和分析大量数据。在本文档中，我们将解释语法并提供一个如何使用 `PIVOT` 操作的示例。
+`PIVOT` 操作允许您通过旋转表并根据指定列聚合结果来转换表。
 
-**另请参阅:**
+它对于以更易读的格式汇总和分析大量数据非常有用。在本文档中，我们将解释语法并提供一个如何使用 `PIVOT` 操作的示例。
+
+**另请参阅：**
 [UNPIVOT](./05-query-unpivot.md)
+
 
 ## 语法
 
@@ -17,16 +22,18 @@ FROM ...
 ```
 
 其中：
-* `<aggregate_function>`: 用于组合 `pivot_column` 中分组值的聚合函数。
-* `<pivot_column>`: 将使用指定的 `<aggregate_function>` 进行聚合的列。
-* `<value_column>`: 其唯一值将成为旋转结果集中新列的列。
-* `<pivot_value_N>`: `<value_column>` 中的一个唯一值，将成为旋转结果集中的新列。
+* `<aggregate_function>`：用于组合 `pivot_column` 中分组值的聚合函数。
+* `<pivot_column>`：将使用指定的 `<aggregate_function>` 进行聚合的列。
+* `<value_column>`：其唯一值将成为旋转结果集中新列的列。
+* `<pivot_value_N>`：来自 `<value_column>` 的唯一值，将成为旋转结果集中的新列。
+
 
 ## 示例
 
 假设我们有一个名为 monthly_sales 的表，其中包含不同员工在不同月份的销售数据。我们可以使用 `PIVOT` 操作来汇总数据并计算每个员工在每个月的总销售额。
 
 ### 创建和插入数据
+
 
 ```sql
 -- 创建 monthly_sales 表

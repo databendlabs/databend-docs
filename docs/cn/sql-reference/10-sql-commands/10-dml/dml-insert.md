@@ -2,13 +2,13 @@
 title: INSERT
 ---
 
-向表中插入一行或多行数据。
+将一行或多行插入到表中。
 
 :::tip 原子操作
 Databend 通过原子操作确保数据完整性。插入、更新、替换和删除操作要么完全成功，要么完全失败。
 :::
 
-另见：[INSERT (多表)](dml-insert-multi.md)
+另请参阅：[INSERT (多表)](dml-insert-multi.md)
 
 ## 语法
 
@@ -25,16 +25,16 @@ INSERT { OVERWRITE | INTO } <table>
     }
 ```
 
-| 参数      | 描述                             |
-| --------- | -------------------------------- |
-| OVERWRITE | 表示是否在插入前截断现有数据。   |
-| VALUES    | 允许直接插入特定值或列的默认值。 |
+| 参数      | 描述                                                                 |
+|-----------|----------------------------------------------------------------------|
+| OVERWRITE | 指示在插入之前是否应截断现有数据。                                     |
+| VALUES    | 允许直接插入特定值或列的默认值。                                      |
 
 ## 示例
 
 ### 示例-1：使用 OVERWRITE 插入值
 
-在此示例中，使用 INSERT OVERWRITE 语句截断 employee 表并插入新数据，用提供的值替换所有现有记录，为 ID 为 100 的员工。
+在此示例中，使用 INSERT OVERWRITE 语句截断 employee 表并插入新数据，用提供的值替换所有现有记录，为 ID 为 100 的员工插入新数据。
 
 ```sql
 CREATE TABLE employee (
@@ -62,10 +62,10 @@ SELECT * FROM employee;
 
 ### 示例-2：插入查询结果
 
-在插入 SELECT 语句的结果时，列的映射遵循 SELECT 子句中的位置。因此，SELECT 语句中的列数必须等于或大于 INSERT 表中的列数。如果 SELECT 语句和 INSERT 表中的列的数据类型不同，则将根据需要执行类型转换。
+当插入 SELECT 语句的结果时，列的映射遵循它们在 SELECT 子句中的位置。因此，SELECT 语句中的列数必须等于或大于 INSERT 表中的列数。在 SELECT 语句和 INSERT 表中的列数据类型不同的情况下，将根据需要进行类型转换。
 
 ```sql
--- 创建一个名为 'employee_info' 的表，包含三个列：'employee_id', 'employee_name', 和 'department'
+-- 创建一个名为 'employee_info' 的表，包含三列：'employee_id'、'employee_name' 和 'department'
 CREATE TABLE employee_info (
     employee_id INT,
     employee_name VARCHAR(50),
@@ -75,7 +75,7 @@ CREATE TABLE employee_info (
 -- 向 'employee_info' 表插入一条记录
 INSERT INTO employee_info VALUES ('101', 'John Doe', 'Marketing');
 
--- 创建一个名为 'employee_data' 的表，包含三个列：'ID', 'Name', 和 'Dept'
+-- 创建一个名为 'employee_data' 的表，包含三列：'ID'、'Name' 和 'Dept'
 CREATE TABLE employee_data (
     ID INT,
     Name VARCHAR(50),
@@ -95,10 +95,10 @@ SELECT * FROM employee_data;
 └───────────────────────────────────────────────────────┘
 ```
 
-此示例演示了创建一个名为 "sales_summary" 的汇总表，用于存储每个产品的总销售数量和收入等聚合销售数据，通过从销售表中聚合信息实现：
+此示例演示创建一个名为 "sales_summary" 的汇总表，用于存储聚合的销售数据，例如每个产品的总销售数量和收入，通过从销售表中聚合信息：
 
 ```sql
--- 创建一个销售数据表
+-- 创建一个用于销售数据的表
 CREATE TABLE sales (
     product_id INT,
     quantity_sold INT,
@@ -112,22 +112,22 @@ INSERT INTO sales (product_id, quantity_sold, revenue) VALUES
     (1, 200, 1000.00),
     (3, 50, 250.00);
 
--- 创建一个汇总表来存储聚合的销售数据
+-- 创建一个汇总表以存储聚合的销售数据
 CREATE TABLE sales_summary (
     product_id INT,
     total_quantity_sold INT,
     total_revenue DECIMAL(10, 2)
 );
 
--- 将聚合的销售数据插入汇总表
+-- 将聚合的销售数据插入到汇总表中
 INSERT INTO sales_summary (product_id, total_quantity_sold, total_revenue)
-SELECT
+SELECT 
     product_id,
     SUM(quantity_sold) AS total_quantity_sold,
     SUM(revenue) AS total_revenue
-FROM
+FROM 
     sales
-GROUP BY
+GROUP BY 
     product_id;
 
 -- 显示 sales_summary 表的内容
@@ -144,10 +144,10 @@ SELECT * FROM sales_summary;
 
 ### 示例-3：插入默认值
 
-此示例演示了创建一个名为 "staff_records" 的表，为诸如部门和状态等列设置默认值。然后插入数据，展示了默认值的使用。
+此示例说明创建一个名为 "staff_records" 的表，并为 department 和 status 等列设置默认值。然后插入数据，展示默认值的使用。
 
 ```sql
--- 创建一个名为 'staff_records' 的表，包含列 'employee_id', 'department', 'salary', 和 'status'，并为其设置默认值
+-- 创建一个表 'staff_records'，包含列 'employee_id'、'department'、'salary' 和 'status'，并设置默认值
 CREATE TABLE staff_records (
     employee_id INT NULL,
     department VARCHAR(50) DEFAULT 'HR',
@@ -155,7 +155,7 @@ CREATE TABLE staff_records (
     status VARCHAR(10) DEFAULT 'Active'
 );
 
--- 使用默认值向 'staff_records' 插入数据
+-- 向 'staff_records' 插入数据，使用默认值
 INSERT INTO staff_records
 VALUES
     (DEFAULT, DEFAULT, DEFAULT, DEFAULT),
@@ -166,11 +166,19 @@ VALUES
 -- 显示 'staff_records' 表的内容
 SELECT * FROM staff_records;
 
+┌───────────────────────────────────────────────────────────────────────────┐
+│   employee_id   │    department    │       salary      │      status      │
+├─────────────────┼──────────────────┼───────────────────┼──────────────────┤
+│            NULL │ HR               │              NULL │ Active           │
+│             101 │ HR               │             50000 │ Active           │
+│             102 │ Finance          │             60000 │ Inactive         │
+│             103 │ Marketing        │             70000 │ Active           │
+└───────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 示例-4：将 Stage 中的文件数据插入到表中
+### 示例-4：使用 Staged 文件插入
 
-Databend 允许您使用 INSERT INTO 语句将 Stage 中的文件数据插入到表中。这利用了 Databend 的 [查询 Stage 中的文件](/guides/load-data/transform/querying-stage) 的能力，然后将查询结果并入表中。
+Databend 允许您使用 INSERT INTO 语句从 staged 文件中将数据插入到表中。这是通过 Databend 的 [查询 Staged 文件](/guides/load-data/transform/querying-stage) 功能实现的，然后将查询结果插入到表中。
 
 1. 创建一个名为 `sample` 的表：
 
@@ -184,20 +192,20 @@ CREATE TABLE sample
 );
 ```
 
-2. 使用样本数据设置一个内部 Stage
+2. 设置一个包含示例数据的内部 stage
 
-我们将建立一个名为 `mystage` 的内部 Stage，然后用样本数据填充它。
+我们将创建一个名为 `mystage` 的内部 stage，然后填充示例数据。
 
 ```sql
 CREATE STAGE mystage;
-
+       
 COPY INTO @mystage
-FROM
+FROM 
 (
-    SELECT *
-    FROM
+    SELECT * 
+    FROM 
     (
-        VALUES
+        VALUES 
         (1, 'Chengdu', 80),
         (3, 'Chongqing', 90),
         (6, 'Hangzhou', 92),
@@ -207,15 +215,15 @@ FROM
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-3. 使用 `INSERT INTO` 从 Stage 的 Parquet 文件插入数据
+3. 使用 `INSERT INTO` 从 staged Parquet 文件插入数据
 
 :::tip
-您可以使用 [COPY INTO](dml-copy-into-table.md) 命令中可用的 FILE_FORMAT 和 COPY_OPTIONS 指定文件格式和各种复制相关的设置。当 `purge` 设置为 `true` 时，只有在数据更新成功时，原始文件才会被删除。
+您可以使用 [COPY INTO](dml-copy-into-table.md) 命令中的 FILE_FORMAT 和 COPY_OPTIONS 指定文件格式和各种复制相关设置。当 `purge` 设置为 `true` 时，只有在数据更新成功时才会删除原始文件。
 :::
 
 ```sql
-INSERT INTO sample
-    (id, city, score)
+INSERT INTO sample 
+    (id, city, score) 
 ON
     (Id)
 SELECT
@@ -231,8 +239,7 @@ FROM
 SELECT * FROM sample;
 ```
 
-结果应该是：
-
+结果应为：
 ```sql
 ┌─────────────────────────────────────────────────────────────────────────┐
 │        id       │       city       │      score      │      country     │

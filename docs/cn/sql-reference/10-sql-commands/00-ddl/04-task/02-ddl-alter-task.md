@@ -4,11 +4,11 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.371"/>
+<FunctionDescription description="Introduced or updated: v1.2.371"/>
 
-ALTER TASK 语句用于修改现有任务。
+ALTER TASK 语句用于修改现有的任务。
 
-**注意:** 此功能仅在 Databend Cloud 中开箱即用。
+**注意：** 此功能仅在 Databend Cloud 中开箱即用。
 
 ## 语法
 
@@ -36,7 +36,7 @@ ALTER TASK [ IF EXISTS ] <name> MODIFY WHEN <boolean_expr>
 
 | 参数                             | 描述                                                                                                 |
 |----------------------------------|------------------------------------------------------------------------------------------------------|
-| IF EXISTS                        | 可选。如果指定，则只有在同名任务已存在时才会更改任务。                                               |
+| IF EXISTS                        | 可选。如果指定，只有在同名任务已存在时才会更改任务。                                                 |
 | name                             | 任务的名称。这是一个必填字段。                                                                         |
 | RESUME \| SUSPEND                | 恢复或暂停任务。                                                                                       |
 | SET                              | 更改任务设置。详细参数描述可以在 [Create Task](01-ddl-create_task.md) 中找到。                                                                               |

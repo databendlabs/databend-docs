@@ -78,10 +78,9 @@ SELECT
 
 1 row in 0.010 sec. Processed 1 rows, 1B (104.34 rows/s, 104B/s)
 ```
-
 ### 示例 2: 控制 COPY INTO 的并行处理
 
-在 Databend 中，*max_threads* 设置指定可以用于执行请求的最大线程数。默认情况下，此值通常设置为与机器上的 CPU 核心数匹配。
+在 Databend 中，*max_threads* 设置指定可以用于执行请求的最大线程数。默认情况下，此值通常设置为与机器上可用的 CPU 核心数匹配。
 
 当使用 COPY INTO 将数据加载到 Databend 时，您可以通过在 COPY INTO 命令中注入提示并设置 *max_threads* 参数来控制并行处理能力。例如：
 

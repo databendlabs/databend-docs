@@ -11,7 +11,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='AGGREGATING INDEX'/>
 
-删除现有的聚合索引。请注意，删除聚合索引并不会移除关联的存储块。要同时删除块，请使用 [VACUUM TABLE](../01-table/91-vacuum-table.md) 命令。要禁用聚合索引功能，请将 `enable_aggregating_index_scan` 设置为 0。
+删除现有的聚合索引。请注意，删除聚合索引并不会移除相关的存储块。要同时删除块，请使用 [VACUUM TABLE](../01-table/91-vacuum-table.md) 命令。要禁用聚合索引功能，请将 `enable_aggregating_index_scan` 设置为 0。
 
 ## 语法
 

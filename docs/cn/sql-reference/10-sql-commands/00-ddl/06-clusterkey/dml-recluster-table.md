@@ -5,7 +5,7 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入: v1.2.25"/>
+<FunctionDescription description="Introduced: v1.2.25"/>
 
 重新聚簇一个表。关于为什么以及何时重新聚簇一个表，请参见[重新聚簇表](index.md#re-clustering-table)。
 
@@ -15,17 +15,17 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [ LIMIT <segment_count> ]
 ```
 
-该命令在处理段的数量上有一定的限制，默认值为“max_thread * 4”。您可以通过使用**LIMIT**选项来修改此限制。或者，您有两种选择来进一步聚簇表中的数据：
+该命令在处理段的数量上有一定的限制，默认值为“max_thread * 4”。您可以通过使用 **LIMIT** 选项来修改此限制。或者，您有两种选择来进一步聚簇表中的数据：
 
 - 多次对表运行该命令。
-- 使用**FINAL**选项来持续优化表，直到它完全聚簇。
+- 使用 **FINAL** 选项来持续优化表，直到它完全聚簇。
 
 :::note
 
-重新聚簇一个表会消耗时间（如果包含**FINAL**选项，时间会更长）和信用点（当您在Databend Cloud中时）。在优化过程中，请勿对表执行DML操作。
+重新聚簇一个表会消耗时间（如果包含 **FINAL** 选项，时间会更长）和信用点（当您在 Databend Cloud 中时）。在优化过程中，请勿对表执行 DML 操作。
 :::
 
-该命令不会从头开始聚簇表。相反，它选择并重新组织来自最新**LIMIT**段的现有存储块中最混乱的部分，使用聚簇算法。
+该命令不会从头开始聚簇表。相反，它选择并重新组织来自最新 **LIMIT** 段中最混乱的现有存储块，使用聚簇算法。
 
 ### 示例
 
@@ -33,7 +33,7 @@ ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [
 -- 创建表
 create table t(a int, b int) cluster by(a+1);
 
--- 向t插入一些数据
+-- 向 t 插入一些数据
 insert into t values(1,1),(3,3);
 insert into t values(2,2),(5,5);
 insert into t values(4,4);

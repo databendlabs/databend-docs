@@ -3,7 +3,7 @@ title: SHOW STAGES
 sidebar_position: 6
 ---
 
-返回已创建的计算集群列表。输出列表不包括用户计算集群。
+返回已创建的Stage列表。输出列表不包括用户Stage。
 
 ## 语法
 
