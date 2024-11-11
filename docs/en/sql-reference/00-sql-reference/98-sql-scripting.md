@@ -5,7 +5,7 @@ title: SQL Scripting
 This page outlines the SQL scripting options available in Databend. You can use SQL scripting with either of the following query methods:
 
 - [Stored Procedure](/guides/query/stored-procedure)
-- [Execute Immediate](/sql/sql-commands/administration-cmds/execute-immediate)
+- [EXECUTE IMMEDIATE](/sql/sql-commands/administration-cmds/execute-immediate)
 
 ### Variable Declaration
 
