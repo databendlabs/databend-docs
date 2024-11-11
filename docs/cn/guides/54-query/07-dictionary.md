@@ -2,21 +2,21 @@
 title: 字典
 ---
 
-Databend的字典功能提供了一种高效的方式，可以直接在Databend中集成和查询来自[支持的外部数据源](#支持的外部数据源)的数据。通过作为内存中的键值存储，字典能够快速访问外部数据，而无需复杂的数据管道或传统的ETL流程。
+Databend的字典功能提供了一种高效的方式，可以直接在Databend中集成和查询来自[支持的外部源](#supported-external-sources)的数据。通过作为内存中的键值存储，字典使得快速访问外部数据成为可能，而无需复杂的数据管道或传统的ETL流程。
 
 ## 字典的工作原理
 
-在Databend中，您通过定义其结构并指定外部数据源来创建字典。当查询时，Databend会从外部数据源获取所需的数据。您可以使用[DICT_GET](/sql/sql-functions/dictionary-functions/dict-get)函数高效地检索值，确保查询始终反映最新的数据。
+在Databend中，您通过定义其结构并指定外部源来创建字典。当查询时，Databend从外部源获取所需的数据。您可以使用[DICT_GET](/sql/sql-functions/dictionary-functions/dict-get)函数高效地检索值，确保查询始终反映最新的数据。
 
-## 支持的外部数据源
+## 支持的外部源
 
-Databend目前支持MySQL和Redis作为字典的外部数据源。
+Databend目前支持MySQL和Redis作为字典的外部源。
 
 ## 教程
 
 - [使用字典访问MySQL和Redis](/tutorials/integrate/access-mysql-and-redis)
 
-    > 在本教程中，我们将指导您如何使用Databend中的字典访问MySQL和Redis数据。您将学习如何创建映射到这些外部数据源的字典，实现无缝的数据查询和集成。
+    > 在本教程中，我们将指导您使用Databend中的字典访问MySQL和Redis数据。您将学习如何创建映射到这些外部数据源的字典，实现无缝的数据查询和集成。
 
 ## 使用示例
 

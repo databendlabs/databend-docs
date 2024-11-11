@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Databend 支持使用 WITH 子句的公用表表达式 (CTEs)，允许您定义一个或多个命名的临时结果集，供后续查询使用。术语“临时”意味着这些结果集不会永久存储在数据库模式中。它们仅作为临时视图，仅对后续查询可访问。
 
-当执行带有 WITH 子句的查询时，WITH 子句中的 CTEs 首先被评估和执行。这将产生一个或多个临时结果集。然后，查询使用由 WITH 子句产生的结果集执行。
+当执行带有 WITH 子句的查询时，WITH 子句中的 CTEs 会首先被评估和执行。这将产生一个或多个临时结果集。然后，查询使用 WITH 子句产生的结果集执行。
 
 这是一个简单的演示，帮助您理解 CTEs 在查询中的工作方式：WITH 子句定义了一个 CTE，并产生一个结果集，该结果集包含所有来自 Québec 省的客户。主查询从 Québec 省的客户中筛选出居住在 Montréal 地区的客户。
 
@@ -37,7 +37,7 @@ ORDER  BY customername;
 
 ## 内联或物化？
 
-在使用 CTE 进行查询时，您可以通过使用 MATERIALIZED 关键字来控制 CTE 是内联还是物化。内联意味着 CTE 的定义直接嵌入到主查询中，而物化 CTE 意味着计算其结果一次并将其存储在内存中，减少重复的 CTE 执行。
+在使用 CTE 进行查询时，您可以通过使用 MATERIALIZED 关键字来控制 CTE 是内联还是物化。内联意味着 CTE 的定义直接嵌入在主查询中，而物化 CTE 意味着计算其结果一次并将其存储在内存中，减少重复的 CTE 执行。
 
 假设我们有一个名为 *orders* 的表，存储客户订单信息，包括订单号、客户 ID 和订单日期。
 
@@ -129,7 +129,7 @@ SELECT ...
 
 2. **递归查询执行**：此查询使用前一次迭代的结果集（从 R0 开始）作为输入，并生成新的结果集（Ri+1）。
 
-3. **迭代与组合**：递归执行继续迭代进行。递归查询的每个新结果集（Ri）成为下一次迭代的输入。此过程重复，直到递归查询返回空结果集，表明终止条件已满足。
+3. **迭代与组合**：递归执行继续迭代进行。递归查询的每个新结果集（Ri）成为下一次迭代的输入。此过程重复进行，直到递归查询返回空结果集，表明终止条件已满足。
 
 4. **最终结果集形成**：使用 `UNION ALL` 运算符，将每次迭代的结果集（R0 到 Rn）组合成一个单一结果集。`UNION ALL` 运算符确保每个结果集中的所有行都包含在最终组合结果中。
 
@@ -254,7 +254,7 @@ INSERT INTO store_details VALUES (9, 'Mississauga Store', '2022-03-20', 'Emma Br
 INSERT INTO store_details VALUES (5, 'Scarborough Store', '2022-04-05', 'David Lee');
 ```
 
-我们希望删除 "store_details" 表中与 "sales" 表中没有销售记录的商店对应的所有行：
+我们希望删除 "store_details" 表中没有 "sales" 表中销售记录的所有行：
 
 ```sql
 WITH stores_with_sales AS (
