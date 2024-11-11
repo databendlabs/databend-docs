@@ -11,15 +11,15 @@ Databend 中的外部函数允许您使用 Python 等编程语言编写的外部
 
 ## 支持的编程语言
 
-下表列出了创建 Databend 外部函数所支持的语言及其所需的库：
+下表列出了创建 Databend 外部函数时支持的语言及其所需的库：
 
-| 语言   | 所需库                                                |
-|--------|-------------------------------------------------------|
+| 语言   | 所需库                                              |
+|--------|-----------------------------------------------------|
 | Python | [databend-udf](https://pypi.org/project/databend-udf) |
 
 ## 管理外部函数
 
-您可以使用 `CREATE FUNCTION`、`DROP FUNCTION` 和 `SHOW FUNCTIONS` 等 SQL 命令来管理外部函数。更多详情，请参阅 [外部函数](/sql/sql-commands/ddl/external-function/)。
+您可以使用 `CREATE FUNCTION`、`DROP FUNCTION` 和 `SHOW FUNCTIONS` 等 SQL 命令来管理外部函数。有关更多详细信息，请参阅 [外部函数](/sql/sql-commands/ddl/external-function/)。
 
 ## 在 Databend Cloud 中配置外部函数
 
@@ -43,7 +43,7 @@ pip install databend-udf
 
 ### 2. 定义您的函数
 
-创建一个 Python 文件（例如 `external_function.py`）并定义您的外部函数。以下示例定义了一个 Python 外部服务器，该服务器公开了一个自定义函数 `gcd`，用于计算两个整数的最大公约数：
+创建一个 Python 文件（例如 `external_function.py`）并定义您的外部函数。以下示例定义了一个 Python 外部服务器，该服务器公开了一个用于计算两个整数的最大公约数的自定义函数 `gcd`：
 
 ```python
 from databend_udf import udf, UDFServer
@@ -59,7 +59,7 @@ def gcd(x: int, y: int) -> int:
     return x
 
 if __name__ == '__main__':
-    # 创建一个监听 '0.0.0.0:8815' 的外部服务器
+    # 创建一个监听在 '0.0.0.0:8815' 的外部服务器
     server = UDFServer("0.0.0.0:8815")
     # 添加定义的函数
     server.add_function(gcd)
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 python3 external_function.py
 ```
 
-**注意：** 确保服务器可从 Databend Cloud 访问，并且地址已列入白名单。如果尚未完成，请联系 Databend Cloud 支持将服务器地址添加到白名单中。
+**注意：** 确保服务器可从 Databend Cloud 访问，并且地址已列入白名单。如果尚未完成，请联系 Databend Cloud 支持将服务器地址添加到白名单。
 
 ### 4. 在 Databend Cloud 中注册函数
 
@@ -119,7 +119,7 @@ CREATE FUNCTION gcd (INT, INT)
     ADDRESS = '<your-allowed-server-address>';
 ```
 
-- 将 `<your-allowed-server-address>` 替换为您的 Databend Cloud 中已列入白名单的外部服务器的实际地址（必须是 HTTPS 域名）。
+- 将 `<your-allowed-server-address>` 替换为已在 Databend Cloud 中列入白名单的实际外部服务器地址（必须是 HTTPS 域名）。
 - `HANDLER` 指定在您的 Python 代码中定义的函数名称。
 - `ADDRESS` 应与您的外部服务器运行的地址匹配，并且必须由 Databend Cloud 列入白名单。
 
@@ -133,7 +133,7 @@ CREATE FUNCTION gcd (INT, INT)
     ADDRESS = 'https://your-server-address';
 ```
 
-**重要：** 在执行此语句之前，请确保 `'https://your-server-address'` 已通过联系支持列入 Databend Cloud 的白名单。
+**重要：** 在执行此语句之前，请确保 `'https://your-server-address'` 已在 Databend Cloud 中列入白名单，方法是联系支持。
 
 现在，您可以在 SQL 查询中使用外部函数 `gcd`：
 
@@ -143,4 +143,4 @@ SELECT gcd(48, 18); -- 返回 6
 
 ## 结论
 
-Databend Cloud 中的外部函数提供了一种强大的方式，通过集成用 Python 等语言编写的自定义代码来扩展您的数据处理管道的功能。通过遵循上述步骤，您可以创建和使用外部函数来处理复杂的处理任务、利用外部库和实现高级逻辑。
+Databend Cloud 中的外部函数提供了一种强大的方式，通过集成用 Python 等语言编写的自定义代码来扩展数据处理管道的功能。通过遵循上述步骤，您可以创建和使用外部函数来处理复杂的处理任务、利用外部库和实现高级逻辑。

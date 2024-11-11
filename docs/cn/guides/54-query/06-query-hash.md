@@ -8,7 +8,7 @@ title: 查询哈希
 
 Databend支持两种类型的查询哈希：
 
-- `query_hash`：query_hash确保重复查询，即使空白或注释有所不同，也共享相同的哈希。例如，以下查询共享相同的哈希：
+- `query_hash`：query_hash确保重复查询，即使存在空格或注释的变化，共享相同的哈希。例如，以下查询共享相同的哈希：
 
     ```sql
     SELECT * FROM t1 WHERE name = 'jim'
@@ -22,9 +22,9 @@ Databend支持两种类型的查询哈希：
     SELECT * FROM t1 WHERE name = 'bend'
     ```
 
-## 检索哈希值
+## 获取哈希值
 
-Databend将历史查询的哈希值存储在系统表[system.query_log](/sql/sql-reference/system-tables/system-query-log)的`query_hash`和`query_parameterized_hash`列中。要检索查询的哈希值，可以使用SELECT语句从系统表中提取它们。例如：
+Databend将历史查询的哈希值存储在系统表[system.query_log](/sql/sql-reference/system-tables/system-query-log)的`query_hash`和`query_parameterized_hash`列中。要获取查询的哈希值，可以使用SELECT语句从系统表中提取它们。例如：
 
 ```sql
 SELECT * FROM books;
