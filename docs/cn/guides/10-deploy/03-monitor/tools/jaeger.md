@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.199"/>
 
-[Jaeger](https://github.com/jaegertracing/jaeger) 是一个开源的端到端分布式追踪工具，源自 [Uber](https://www.uber.com/)。它有助于监控和故障排查基于微服务的应用程序。
+[Jaeger](https://github.com/jaegertracing/jaeger) 是一个开源的端到端分布式追踪工具，起源于 [Uber](https://www.uber.com/)。它有助于监控和故障排查基于微服务的应用程序。
 
 Databend 通过集成 [OpenTelemetry](https://opentelemetry.io/) SDK，具备将追踪数据导出到 Jaeger 的能力。以下教程展示了如何部署和使用 Jaeger 来追踪 Databend。
 

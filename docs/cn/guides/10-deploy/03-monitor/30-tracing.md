@@ -27,7 +27,7 @@ cd /path/to/databend
 LOG_LEVEL=DEBUG ./databend-query
 ```
 
-3. 在追踪查询执行之前，在 Databend 中将 `max_threads` 设置为 1。这确保了一个简化的环境，使得追踪和分析查询更加容易，有助于有效的故障排除和分析。
+3. 在追踪查询执行之前，在 Databend 中将 `max_threads` 设置为 1。这确保了一个简化的环境，使得追踪和分析查询更容易，有助于有效的故障排除和分析。
 
 ```sql
 SET max_threads=1;
@@ -46,7 +46,7 @@ otlp_endpoint = "http://127.0.0.1:4317"
 ...
 ```
 
-2. 在追踪查询执行之前，在 Databend 中将 `max_threads` 设置为 1。这确保了一个简化的环境，使得追踪和分析查询更加容易，有助于有效的故障排除和分析。
+2. 在追踪查询执行之前，在 Databend 中将 `max_threads` 设置为 1。这确保了一个简化的环境，使得追踪和分析查询更容易，有助于有效的故障排除和分析。
 
 ```sql
 SET max_threads=1;
@@ -55,7 +55,7 @@ SET max_threads=1;
 ## 追踪日志
 
 :::note
-Databend 使用 [tokio-tracing](https://github.com/tokio-rs/tracing) 来追踪日志，其中默认时区为 UTC，无法通过 Databend 时区设置进行更改，因此追踪日志中的时间将始终为 UTC，不会反映您的本地时间。
+Databend 使用 [tokio-tracing](https://github.com/tokio-rs/tracing) 来追踪日志，其中默认时区为 UTC，无法通过 Databend 时区设置更改，因此追踪日志中的时间将始终为 UTC，不会反映您的本地时间。
 :::
 
 ```sql
@@ -117,40 +117,40 @@ Jun 10 16:40:36.140  INFO ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-
 Jun 10 16:40:36.141  INFO ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-dc031b73c626"}: databend_query::interpreters::interpreter_select: 进入
 Jun 10 16:40:36.141 DEBUG ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-dc031b73c626"}: databend_query::optimizers::optimizer: 在 ProjectionPushDown 之前
 Projection: (sum((number + 1)) + 1):UInt64
-  Expression: (sum((number + 1)) + 1):UInt64 (在 Projection 之前)
-    AggregatorFinal: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
-      AggregatorPartial: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
-        Expression: (number % 3):UInt8, (number + 1):UInt64 (在 GroupBy 之前)
-          Filter: (number > 0)
-            ReadDataSource: 扫描分区: [1], 扫描模式: [number:UInt64], 统计: [read_rows: 10000, read_bytes: 80000]
+  表达式: (sum((number + 1)) + 1):UInt64 (在 Projection 之前)
+    聚合器最终: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
+      聚合器部分: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
+        表达式: (number % 3):UInt8, (number + 1):UInt64 (在 GroupBy 之前)
+          过滤器: (number > 0)
+            读取数据源: 扫描分区: [1], 扫描模式: [number:UInt64], 统计: [读取行数: 10000, 读取字节数: 80000]
 Jun 10 16:40:36.142 DEBUG ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-dc031b73c626"}: databend_query::optimizers::optimizer: 在 ProjectionPushDown 之后
 Projection: (sum((number + 1)) + 1):UInt64
-  Expression: (sum((number + 1)) + 1):UInt64 (在 Projection 之前)
-    AggregatorFinal: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
-      AggregatorPartial: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
-        Expression: (number % 3):UInt8, (number + 1):UInt64 (在 GroupBy 之前)
-          Filter: (number > 0)
-            ReadDataSource: 扫描分区: [1], 扫描模式: [number:UInt64], 统计: [read_rows: 10000, read_bytes: 80000]
+  表达式: (sum((number + 1)) + 1):UInt64 (在 Projection 之前)
+    聚合器最终: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
+      聚合器部分: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
+        表达式: (number % 3):UInt8, (number + 1):UInt64 (在 GroupBy 之前)
+          过滤器: (number > 0)
+            读取数据源: 扫描分区: [1], 扫描模式: [number:UInt64], 统计: [读取行数: 10000, 读取字节数: 80000]
 Jun 10 16:40:36.142 DEBUG ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-dc031b73c626"}: databend_query::optimizers::optimizer: 在 Scatters 之前
 Projection: (sum((number + 1)) + 1):UInt64
-  Expression: (sum((number + 1)) + 1):UInt64 (在 Projection 之前)
-    AggregatorFinal: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
-      AggregatorPartial: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
-        Expression: (number % 3):UInt8, (number + 1):UInt64 (在 GroupBy 之前)
-          Filter: (number > 0)
-            ReadDataSource: 扫描分区: [1], 扫描模式: [number:UInt64], 统计: [read_rows: 10000, read_bytes: 80000]
+  表达式: (sum((number + 1)) + 1):UInt64 (在 Projection 之前)
+    聚合器最终: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
+      聚合器部分: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
+        表达式: (number % 3):UInt8, (number + 1):UInt64 (在 GroupBy 之前)
+          过滤器: (number > 0)
+            读取数据源: 扫描分区: [1], 扫描模式: [number:UInt64], 统计: [读取行数: 10000, 读取字节数: 80000]
 Jun 10 16:40:36.143 DEBUG ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-dc031b73c626"}: databend_query::optimizers::optimizer: 在 Scatters 之后
 Projection: (sum((number + 1)) + 1):UInt64
-  Expression: (sum((number + 1)) + 1):UInt64 (在 Projection 之前)
-    AggregatorFinal: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
-      AggregatorPartial: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
-        Expression: (number % 3):UInt8, (number + 1):UInt64 (在 GroupBy 之前)
-          Filter: (number > 0)
-            ReadDataSource: 扫描分区: [1], 扫描模式: [number:UInt64], 统计: [read_rows: 10000, read_bytes: 80000]
+  表达式: (sum((number + 1)) + 1):UInt64 (在 Projection 之前)
+    聚合器最终: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
+      聚合器部分: groupBy=[[(number % 3)]], aggr=[[sum((number + 1))]]
+        表达式: (number % 3):UInt8, (number + 1):UInt64 (在 GroupBy 之前)
+          过滤器: (number > 0)
+            读取数据源: 扫描分区: [1], 扫描模式: [number:UInt64], 统计: [读取行数: 10000, 读取字节数: 80000]
 Jun 10 16:40:36.143  INFO ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-dc031b73c626"}:reschedule: databend_query::interpreters::plan_scheduler: 新建
 Jun 10 16:40:36.143  INFO ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-dc031b73c626"}:reschedule: databend_query::interpreters::plan_scheduler: 进入
 Jun 10 16:40:36.143  INFO ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-dc031b73c626"}:reschedule: databend_query::interpreters::plan_scheduler: 退出
-Jun 10 16:40:36.143  INFO ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-dc031b73c626"
+Jun 10 16:40:36.143  INFO ThreadId(3
 
 ## 使用 tokio-console 进行探索和诊断
 

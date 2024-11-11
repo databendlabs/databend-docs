@@ -22,14 +22,14 @@ description:
 
 ### 服务器
 
-这些指标描述了 `metasrv` 的状态。所有这些指标都以前缀 `metasrv_server_` 开头。
+这些指标描述了 `metasrv` 的状态。所有这些指标都以 `metasrv_server_` 为前缀。
 
 | 名称              | 描述                                       | 类型    |
 |-------------------|---------------------------------------------------|---------|
 | current_leader_id | 当前集群的领导者 ID，0 表示没有领导者。  | Gauge   |
 | is_leader         | 此节点是否为当前领导者。       | Gauge   |
 | node_is_health    | 此节点是否健康。               | Gauge   |
-| leader_changes    | 看到的领导者变更次数。                    | Counter |
+| leader_changes    | 观察到的领导者变更次数。                    | Counter |
 | applying_snapshot | 状态机是否正在应用快照。 | Gauge   |
 | proposals_applied | 已应用的共识提案总数。      | Gauge   |
 | last_log_index    | 最后一个日志条目的索引。                     | Gauge   |
@@ -56,12 +56,12 @@ description:
 
 ### Raft 网络
 
-这些指标描述了 `metasrv` 中 Raft 节点的网络状态。所有这些指标都以前缀 `metasrv_raft_network_` 开头。
+这些指标描述了 `metasrv` 中 Raft 节点的网络状态。所有这些指标都以 `metasrv_raft_network_` 为前缀。
 
 | 名称                    | 描述                                       | 标签                            | 类型      |
 |-------------------------|---------------------------------------------------|-----------------------------------|-----------|
 | active_peers            | 当前与对等节点的活跃连接数。    | id(节点 ID),address(对等地址) | Gauge     |
-| fail_connect_to_peer    | 与对等节点的连接失败总数。        | id(节点 ID),address(对等地址) | Counter   |
+| fail_connect_to_peer    | 与对等节点的失败连接总数。        | id(节点 ID),address(对等地址) | Counter   |
 | sent_bytes              | 发送到对等节点的字节总数。              | to(节点 ID)                       | Counter   |
 | recv_bytes              | 从对等节点接收的字节总数。        | from(远程地址)              | Counter   |
 | sent_failures           | 发送到对等节点的失败总数。           | to(节点 ID)                       | Counter   |
@@ -74,21 +74,21 @@ description:
 | snapshot_recv_inflights | 正在接收的快照总数。       | from(远程地址)              | Gauge     |
 | snapshot_recv_seconds   | 接收快照的总延迟分布。 | from(远程地址)              | Histogram |
 
-`active_peers` 指示集群成员之间的活跃连接数，`fail_connect_to_peer` 指示与对等节点的连接失败数。每个指标都有标签：id(节点 ID) 和 address(对等地址)。
+`active_peers` 指示集群成员之间的活跃连接数，`fail_connect_to_peer` 指示与对等节点的失败连接数。每个指标都有标签：id(节点 ID) 和 address(对等地址)。
 
-`sent_bytes` 和 `recv_bytes` 记录发送到和对等节点接收的字节数，`sent_failures` 记录发送到对等节点的失败数。
+`sent_bytes` 和 `recv_bytes` 记录发送到和对等节点接收的字节数，`sent_failures` 记录发送到对等节点的失败次数。
 
-`snapshot_send_success` 和 `snapshot_send_failures` 指示发送快照的成功和失败数。`snapshot_send_inflights` 指示正在发送的快照数，每次发送快照时，此字段将增加一，发送快照完成后，此字段将减少一。
+`snapshot_send_success` 和 `snapshot_send_failures` 指示成功和失败的发送快照数。`snapshot_send_inflights` 指示正在发送的快照数，每次发送快照时，此字段将增加一，发送快照完成后，此字段将减少一。
 
 `snapshot_sent_seconds` 指示发送快照的总延迟分布。
 
-`snapshot_recv_success` 和 `snapshot_recv_failures` 指示接收快照的成功和失败数。`snapshot_recv_inflights` 指示正在接收的快照数，每次接收快照时，此字段将增加一，接收快照完成后，此字段将减少一。
+`snapshot_recv_success` 和 `snapshot_recv_failures` 指示成功和失败的接收快照数。`snapshot_recv_inflights` 指示正在接收的快照数，每次接收快照时，此字段将增加一，接收快照完成后，此字段将减少一。
 
 `snapshot_recv_seconds` 指示接收快照的总延迟分布。
 
 ### Raft 存储
 
-这些指标描述了 `metasrv` 中 Raft 节点的存储状态。所有这些指标都以前缀 `metasrv_raft_storage_` 开头。
+这些指标描述了 `metasrv` 中 Raft 节点的存储状态。所有这些指标都以 `metasrv_raft_storage_` 为前缀。
 
 | 名称                    | 描述                                | 标签              | 类型    |
 |-------------------------|--------------------------------------------|---------------------|---------|
@@ -99,7 +99,7 @@ description:
 
 ### 元数据网络
 
-这些指标描述了 `metasrv` 中元数据服务的网络状态。所有这些指标都以前缀 `metasrv_meta_network_` 开头。
+这些指标描述了 `metasrv` 中元数据服务的网络状态。所有这些指标都以 `metasrv_meta_network_` 为前缀。
 
 | 名称              | 描述                                            | 类型      |
 |-------------------|--------------------------------------------------------|-----------|
@@ -146,11 +146,11 @@ description:
 | databend_fuse_commit_mutation_unresolvable_conflict             | Counter   | 发生不可解决的提交冲突的次数。                                                                                                      |                                                                                                                                                         |
 | databend_fuse_compact_block_build_lazy_part_milliseconds        | Histogram | 压缩期间构建惰性部分所花费时间的分布。                                                                                     |                                                                                                                                                         |
 | databend_fuse_compact_block_build_task_milliseconds             | Histogram | 构建压缩块所花费时间的分布。                                                                                                   |                                                                                                                                                         |
-| databend_fuse_compact_block_read_bytes                          | Counter   | 压缩期间读取的块的累积大小（字节）。                                                                                                  |                                                                                                                                                         |
+| databend_fuse_compact_block_read_bytes                          | Counter   | 压缩期间读取块的累积大小（字节）。                                                                                                  |                                                                                                                                                         |
 | databend_fuse_compact_block_read_milliseconds                   | Histogram | 压缩期间读取块所花费时间的直方图。                                                                                                    |                                                                                                                                                         |
 | databend_fuse_compact_block_read_nums                           | Counter   | 压缩期间读取的块数。                                                                                                          |                                                                                                                                                         |
 | databend_fuse_pruning_milliseconds                              | Histogram | 剪枝段所花费的时间。                                                                                                                              |                                                                                                                                                         |
-| databend_fuse_remote_io_deserialize_milliseconds                | Histogram | 将原始数据解压缩和反序列化为DataBlocks所花费的时间。                                                                                      |                                                                                                                                                         |
+| databend_fuse_remote_io_deserialize_milliseconds                | Histogram | 将原始数据解压缩并反序列化为DataBlocks所花费的时间。                                                                                      |                                                                                                                                                         |
 | databend_fuse_remote_io_read_bytes                              | Counter   | 从对象存储读取的累积字节数。                                                                                                         |                                                                                                                                                         |
 | databend_fuse_remote_io_read_bytes_after_merged                 | Counter   | 合并后从对象存储读取的累积字节数。                                                                                           |                                                                                                                                                         |
 | databend_fuse_remote_io_read_milliseconds                       | Histogram | 从S3读取所花费时间的直方图。                                                                                                                     |                                                                                                                                                         |
@@ -198,7 +198,7 @@ description:
 | databend_query_scan_io_bytes_cost_ms                            | Histogram | 查询期间IO扫描时间的分布。                                                                                                                 | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_scan_partitions                                  | Counter   | 查询扫描的分区（块）总数。                                                                                                      | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_scan_rows                                        | Counter   | 查询扫描的数据行总数。                                                                                                                | handler, kind, tenant, cluster                                                                                                                          |
-| databend_query_start                                            | Counter   | 跟踪由不同处理程序发起的查询执行次数。它将查询分类为各种类型，如SELECT、UPDATE、INSERT等。 | handler, kind, tenant, cluster                                                                                                                          |
+| databend_query_start                                            | Counter   | 由不同处理程序发起的查询执行次数。它将查询分类为各种类型，如SELECT、UPDATE、INSERT等。 | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_success                                          | Counter   | 按类型分类的成功查询数。                                                                                                                        | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_total_partitions                                 | Counter   | 查询涉及的分区（块）总数。                                                                                                   | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_write_bytes                                      | Counter   | 查询写入的累积字节数。                                                                                                               | handler, kind, tenant, cluster                                                                                                                          |
@@ -206,8 +206,8 @@ description:
 | databend_query_write_io_bytes_cost_ms                           | Histogram | 查询写入IO字节的时间成本。                                                                                                                   | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_write_rows                                       | Counter   | 查询写入的累积行数。                                                                                                                | handler, kind, tenant, cluster                                                                                                                          |
 | databend_session_close_numbers                                  | Counter   | 会话关闭次数。                                                                                                                                  |                                                                                                                                                         |
-| databend_session_connect_numbers                                | Counter   | 记录自系统启动以来连接到节点的累积总数。                                                               |                                                                                                                                                         |
-| databend_session_connections                                    | Gauge     | 测量当前连接到节点的活动连接数。                                                                                              |                                                                                                                                                         |
+| databend_session_connect_numbers                                | Counter   | 自系统启动以来连接到节点的累积总数。                                                               |                                                                                                                                                         |
+| databend_session_connections                                    | Gauge     | 当前连接到节点的活动连接数。                                                                                              |                                                                                                                                                         |
 | databend_session_queue_acquire_duration_ms                      | Histogram | 等待队列获取时间的分布。                                                                                                              |                                                                                                                                                         |
-| databend_session_queued_queries                                 | Gauge     | 当前在查询队列中的SQL查询数。                                                                                                          |                                                                                                                                                         |
-| databend_session_running_acquired_queries                       | Gauge     | 当前在运行会话中获取的查询数。                                                                                                   |                                                                                                                                                         |
+| databend_session_queued_queries                                 | Gauge     | 当前查询队列中的SQL查询数。                                                                                                          |                                                                                                                                                         |
+| databend_session_running_acquired_queries                       | Gauge     | 当前运行会话中获取的查询数。                                                                                                   |                                                                                                                                                         |
