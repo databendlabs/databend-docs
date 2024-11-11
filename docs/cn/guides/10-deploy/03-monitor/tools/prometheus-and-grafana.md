@@ -20,7 +20,7 @@ title: Prometheus & Grafana
 
 以下步骤描述了如何使用 Docker 安装和部署 Prometheus。
 
-1. 从 Docker Hub 注册表中拉取 Prometheus 的最新 Docker 镜像。
+1. 从 Docker Hub 注册表中拉取最新的 Prometheus Docker 镜像。
 
    ```bash
    docker pull prom/prometheus
@@ -74,7 +74,7 @@ title: Prometheus & Grafana
 
 以下步骤描述了如何使用 Docker 安装和部署 Grafana。
 
-1. 从 Docker Hub 注册表中拉取 Grafana 的最新 Docker 镜像。
+1. 从 Docker Hub 注册表中拉取最新的 Grafana Docker 镜像。
 
    ```bash
    docker pull grafana/grafana
