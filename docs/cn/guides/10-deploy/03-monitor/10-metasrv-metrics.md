@@ -22,7 +22,7 @@ description:
 
 ### 服务器
 
-这些指标描述了 `metasrv` 的状态。所有这些指标都以 `metasrv_server_` 为前缀。
+这些指标描述了 `metasrv` 的状态。所有这些指标都以前缀 `metasrv_server_` 开头。
 
 | 名称              | 描述                                       | 类型    |
 |-------------------|---------------------------------------------------|---------|
@@ -50,18 +50,18 @@ description:
 
 `proposals_pending` 指示当前排队等待提交的提案数量。待处理提案的增加表明客户端负载较高或成员无法提交提案。
 
-`proposals_failed` 显示失败的写请求总数，通常与两个问题相关：与领导者选举相关的临时故障或由于集群中失去法定人数导致的长时间停机。
+`proposals_failed` 显示失败的写请求总数，通常与两个问题相关：与领导者选举相关的临时故障或集群中失去法定人数导致的长时间停机。
 
 `watchers` 显示当前活跃的观察者总数。
 
 ### Raft 网络
 
-这些指标描述了 `metasrv` 中 Raft 节点的网络状态。所有这些指标都以 `metasrv_raft_network_` 为前缀。
+这些指标描述了 `metasrv` 中 Raft 节点的网络状态。所有这些指标都以前缀 `metasrv_raft_network_` 开头。
 
 | 名称                    | 描述                                       | 标签                            | 类型      |
 |-------------------------|---------------------------------------------------|-----------------------------------|-----------|
 | active_peers            | 当前与对等节点的活跃连接数。    | id(节点 ID),address(对等地址) | Gauge     |
-| fail_connect_to_peer    | 与对等节点的失败连接总数。        | id(节点 ID),address(对等地址) | Counter   |
+| fail_connect_to_peer    | 与对等节点的连接失败总数。        | id(节点 ID),address(对等地址) | Counter   |
 | sent_bytes              | 发送到对等节点的字节总数。              | to(节点 ID)                       | Counter   |
 | recv_bytes              | 从对等节点接收的字节总数。        | from(远程地址)              | Counter   |
 | sent_failures           | 发送到对等节点的失败总数。           | to(节点 ID)                       | Counter   |
@@ -74,21 +74,21 @@ description:
 | snapshot_recv_inflights | 正在接收的快照总数。       | from(远程地址)              | Gauge     |
 | snapshot_recv_seconds   | 接收快照的总延迟分布。 | from(远程地址)              | Histogram |
 
-`active_peers` 指示集群成员之间的活跃连接数，`fail_connect_to_peer` 指示与对等节点的失败连接数。每个指标都有标签：id(节点 ID) 和 address(对等地址)。
+`active_peers` 指示集群成员之间的活跃连接数，`fail_connect_to_peer` 指示与对等节点的连接失败数。每个指标都有标签：id(节点 ID) 和 address(对等地址)。
 
 `sent_bytes` 和 `recv_bytes` 记录发送到和对等节点接收的字节数，`sent_failures` 记录发送到对等节点的失败数。
 
-`snapshot_send_success` 和 `snapshot_send_failures` 指示成功和失败的发送快照数。`snapshot_send_inflights` 指示正在发送的快照数，每次发送快照时，此字段将增加一，发送快照完成后，此字段将减少一。
+`snapshot_send_success` 和 `snapshot_send_failures` 指示发送快照的成功和失败数。`snapshot_send_inflights` 指示正在发送的快照数，每次发送快照时，此字段将增加一，发送快照完成后，此字段将减少一。
 
 `snapshot_sent_seconds` 指示发送快照的总延迟分布。
 
-`snapshot_recv_success` 和 `snapshot_recv_failures` 指示成功和失败的接收快照数。`snapshot_recv_inflights` 指示正在接收的快照数，每次接收快照时，此字段将增加一，接收快照完成后，此字段将减少一。
+`snapshot_recv_success` 和 `snapshot_recv_failures` 指示接收快照的成功和失败数。`snapshot_recv_inflights` 指示正在接收的快照数，每次接收快照时，此字段将增加一，接收快照完成后，此字段将减少一。
 
 `snapshot_recv_seconds` 指示接收快照的总延迟分布。
 
 ### Raft 存储
 
-这些指标描述了 `metasrv` 中 Raft 节点的存储状态。所有这些指标都以 `metasrv_raft_storage_` 为前缀。
+这些指标描述了 `metasrv` 中 Raft 节点的存储状态。所有这些指标都以前缀 `metasrv_raft_storage_` 开头。
 
 | 名称                    | 描述                                | 标签              | 类型    |
 |-------------------------|--------------------------------------------|---------------------|---------|
@@ -99,7 +99,7 @@ description:
 
 ### 元数据网络
 
-这些指标描述了 `metasrv` 中元数据服务的网络状态。所有这些指标都以 `metasrv_meta_network_` 为前缀。
+这些指标描述了 `metasrv` 中元数据服务的网络状态。所有这些指标都以前缀 `metasrv_meta_network_` 开头。
 
 | 名称              | 描述                                            | 类型      |
 |-------------------|--------------------------------------------------------|-----------|
@@ -141,12 +141,12 @@ description:
 | databend_fuse_commit_aborts                                     | Counter   | 由于错误导致提交中止的次数。                                                                                                                |                                                                                                                                                         |
 | databend_fuse_commit_copied_files                               | Counter   | 提交操作期间复制的文件总数。                                                                                                       |                                                                                                                                                         |
 | databend_fuse_commit_milliseconds                               | Counter   | 提交突变所花费的总时间。                                                                                                                       |                                                                                                                                                         |
-| databend_fuse_commit_mutation_modified_segment_exists_in_latest | Counter   | 最新提交突变中存在修改段的数量。                                                                                     |                                                                                                                                                         |
+| databend_fuse_commit_mutation_modified_segment_exists_in_latest | Counter   | 最新提交突变中存在的已修改段的数量。                                                                                     |                                                                                                                                                         |
 | databend_fuse_commit_mutation_success                           | Counter   | 成功提交的突变次数。                                                                                                                    |                                                                                                                                                         |
 | databend_fuse_commit_mutation_unresolvable_conflict             | Counter   | 发生不可解决的提交冲突的次数。                                                                                                      |                                                                                                                                                         |
 | databend_fuse_compact_block_build_lazy_part_milliseconds        | Histogram | 压缩期间构建惰性部分所花费时间的分布。                                                                                     |                                                                                                                                                         |
 | databend_fuse_compact_block_build_task_milliseconds             | Histogram | 构建压缩块所花费时间的分布。                                                                                                   |                                                                                                                                                         |
-| databend_fuse_compact_block_read_bytes                          | Counter   | 压缩期间读取块的累积大小（字节）。                                                                                                  |                                                                                                                                                         |
+| databend_fuse_compact_block_read_bytes                          | Counter   | 压缩期间读取的块的累积大小（字节）。                                                                                                  |                                                                                                                                                         |
 | databend_fuse_compact_block_read_milliseconds                   | Histogram | 压缩期间读取块所花费时间的直方图。                                                                                                    |                                                                                                                                                         |
 | databend_fuse_compact_block_read_nums                           | Counter   | 压缩期间读取的块数。                                                                                                          |                                                                                                                                                         |
 | databend_fuse_pruning_milliseconds                              | Histogram | 剪枝段所花费的时间。                                                                                                                              |                                                                                                                                                         |
@@ -171,17 +171,24 @@ description:
 | databend_merge_into_split_milliseconds                          | Histogram | 合并操作拆分所花费的时间。                                                                                                                   |                                                                                                                                                         |
 | databend_merge_into_unmatched_rows                              | Counter   | 合并操作中未匹配的行总数。                                                                                                                |                                                                                                                                                         |
 | databend_meta_grpc_client_request_duration_ms                   | Histogram | 向元领导者发出的不同类型请求（Upsert、Txn、StreamList、StreamMGet、GetClientInfo）的请求持续时间分布。              | endpoint, request                                                                                                                                       |
-| databend_meta_grpc_client_request_inflight                      | Gauge     | 当前连接到元的查询数量。                                                                                                            |                                                                                                                                                         |
-| databend_meta_grpc_client_request_success                       | Counter   | 向元发出的成功请求数。                                                                                                                   | endpoint, request                                                                                                                                       |
+| databend_meta_grpc_client_request_inflight                      | Gauge     | 当前连接到元服务的查询数。                                                                                                            |                                                                                                                                                         |
+| databend_meta_grpc_client_request_success                       | Counter   | 向元服务成功请求的次数。                                                                                                                   | endpoint, request                                                                                                                                       |
 | databend_opendal_bytes                                          | Counter   | OpenDAL端点读取和写入的总字节数。                                                                                              | scheme（操作使用的方案，例如“s3”），op（操作类型，例如“read”或“write”）                                             |
-| databend_opendal_bytes_histogram                                | Histogram | 按操作的响应时间和计数分布。                                                                                                      | scheme（操作使用的方案，例如“s3”），op（操作类型，例如“write”）                                                       |
-| databend_opendal_errors                                         | Counter   | OpenDAL操作中遇到的错误及其类型数量。                                                                                          | scheme（操作使用的方案，例如“s3”），op（操作类型，例如“read”），err（遇到的错误类型，例如“NotFound”） |
+| databend_opendal_bytes_histogram                                | Histogram | 操作的响应时间和计数的分布。                                                                                                      | scheme（操作使用的方案，例如“s3”），op（操作类型，例如“write”）                                                       |
+| databend_opendal_errors                                         | Counter   | OpenDAL操作中遇到的错误及其类型的数量。                                                                                          | scheme（操作使用的方案，例如“s3”），op（操作类型，例如“read”），err（遇到的错误类型，例如“NotFound”） |
 | databend_opendal_request_duration_seconds                       | Histogram | 向对象存储发出的OpenDAL请求的持续时间。                                                                                                              | scheme（操作使用的方案，例如“s3”），op（操作类型，例如“read”）                                                        |
 | databend_opendal_requests                                       | Counter   | 使用OpenDAL发出的各种类型请求的数量。                                                                                                      | scheme（请求使用的方案，例如“s3”），op（操作类型，例如“batch”、“list”、“presign”、“read”、“write”、“delete”、“stat”）      |
+| databend_process_cpu_seconds_total                              | Counter   | 用户和系统使用的总CPU时间（秒）。 | |
+| databend_process_max_fds                                        | Gauge     | 最大打开文件描述符数。 | |
+| databend_process_open_fds                                       | Gauge     | 打开的文件描述符数。 | |
+| databend_process_resident_memory_bytes                          | Gauge     | 驻留内存大小（字节）。 | |
+| databend_process_start_time_seconds                             | Gauge     | 进程自Unix纪元以来的启动时间（秒）。 | |
+| databend_process_threads                                        | Gauge     | 使用的OS线程数。 | |
+| databend_process_virtual_memory_bytes                           | Gauge     | 虚拟内存大小（字节）。 | |
 | databend_query_duration_ms                                      | Histogram | 由各种处理程序发起的不同类型查询的执行时间分布。                                                     | handler, kind, tenant, cluster                                                                                                                          |
-| databend_query_error                                            | Counter   | 查询错误总数。                                                                                                                                | handler="HTTPQuery", kind="Other", tenant="wubx", cluster="w189"                                                                                        |
-| databend_query_failed                                           | Counter   | 失败请求总数。                                                                                                                             |                                                                                                                                                         |
-| databend_query_http_requests_count                              | Counter   | 按方法、API端点和状态码分类的HTTP请求数量。                                                                               | method, api, status                                                                                                                                     |
+| databend_query_error                                            | Counter   | 查询错误的总数。                                                                                                                                | handler="HTTPQuery", kind="Other", tenant="wubx", cluster="w189"                                                                                        |
+| databend_query_failed                                           | Counter   | 失败请求的总数。                                                                                                                             |                                                                                                                                                         |
+| databend_query_http_requests_count                              | Counter   | 按方法、API端点和状态码分类的HTTP请求数。                                                                               | method, api, status                                                                                                                                     |
 | databend_query_http_response_duration_seconds                   | Histogram | 按HTTP方法和API端点分类的查询响应时间分布。                                                                               | method, api, le, sum, count                                                                                                                             |
 | databend_query_http_response_errors_count                       | Counter   | 请求错误的计数和类型。                                                                                                                          | code, err                                                                                                                                               |
 | databend_query_result_bytes                                     | Counter   | 每个查询返回的数据总字节数。                                                                                                    | handler, kind, tenant, cluster                                                                                                                          |
@@ -191,16 +198,16 @@ description:
 | databend_query_scan_io_bytes_cost_ms                            | Histogram | 查询期间IO扫描时间的分布。                                                                                                                 | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_scan_partitions                                  | Counter   | 查询扫描的分区（块）总数。                                                                                                      | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_scan_rows                                        | Counter   | 查询扫描的数据行总数。                                                                                                                | handler, kind, tenant, cluster                                                                                                                          |
-| databend_query_start                                            | Counter   | 由不同处理程序发起的查询执行次数。它将查询分类为各种类型，如SELECT、UPDATE、INSERT等。 | handler, kind, tenant, cluster                                                                                                                          |
-| databend_query_success                                          | Counter   | 按类型分类的成功查询数量。                                                                                                                        | handler, kind, tenant, cluster                                                                                                                          |
+| databend_query_start                                            | Counter   | 跟踪由不同处理程序发起的查询执行次数。它将查询分类为各种类型，如SELECT、UPDATE、INSERT等。 | handler, kind, tenant, cluster                                                                                                                          |
+| databend_query_success                                          | Counter   | 按类型分类的成功查询数。                                                                                                                        | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_total_partitions                                 | Counter   | 查询涉及的分区（块）总数。                                                                                                   | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_write_bytes                                      | Counter   | 查询写入的累积字节数。                                                                                                               | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_write_io_bytes                                   | Counter   | 查询写入和传输的数据总字节数。                                                                                                       | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_write_io_bytes_cost_ms                           | Histogram | 查询写入IO字节的时间成本。                                                                                                                   | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_write_rows                                       | Counter   | 查询写入的累积行数。                                                                                                                | handler, kind, tenant, cluster                                                                                                                          |
 | databend_session_close_numbers                                  | Counter   | 会话关闭次数。                                                                                                                                  |                                                                                                                                                         |
-| databend_session_connect_numbers                                | Counter   | 自系统启动以来连接到节点的累积总数。                                                               |                                                                                                                                                         |
-| databend_session_connections                                    | Gauge     | 当前连接到节点的活动连接数。                                                                                              |                                                                                                                                                         |
+| databend_session_connect_numbers                                | Counter   | 记录自系统启动以来连接到节点的累积总数。                                                               |                                                                                                                                                         |
+| databend_session_connections                                    | Gauge     | 测量当前连接到节点的活动连接数。                                                                                              |                                                                                                                                                         |
 | databend_session_queue_acquire_duration_ms                      | Histogram | 等待队列获取时间的分布。                                                                                                              |                                                                                                                                                         |
-| databend_session_queued_queries                                 | Gauge     | 当前查询队列中的SQL查询数量。                                                                                                          |                                                                                                                                                         |
-| databend_session_running_acquired_queries                       | Gauge     | 当前运行会话中获取的查询数量。                                                                                                   |                                                                                                                                                         |
+| databend_session_queued_queries                                 | Gauge     | 当前在查询队列中的SQL查询数。                                                                                                          |                                                                                                                                                         |
+| databend_session_running_acquired_queries                       | Gauge     | 当前在运行会话中获取的查询数。                                                                                                   |                                                                                                                                                         |
