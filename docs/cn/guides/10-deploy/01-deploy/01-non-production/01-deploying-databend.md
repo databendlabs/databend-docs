@@ -14,7 +14,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='存储加密'/>
 
-本主题介绍如何使用您的对象存储部署 Databend。有关支持的对象存储解决方案列表，请参阅[理解部署模式](../00-understanding-deployment-modes.md)。
+本主题介绍如何使用您的对象存储部署 Databend。有关支持的对象存储解决方案列表，请参阅[了解部署模式](../00-understanding-deployment-modes.md)。
 
 ### 开始之前
 
@@ -46,7 +46,7 @@ import TabItem from '@theme/TabItem';
 
 1. 按照 Google 文档中的主题[创建新存储桶](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket)创建一个名为 `my_bucket` 的存储桶。
 2. 按照 Google 文档中的主题[创建服务账户密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating)创建并下载服务账户密钥文件。
-3. 使用 Base64 编码将服务账户密钥文件的内容转换为 Base64 编码的字符串。例如，
+3. 使用 Base64 编码将服务账户密钥文件的内容转换为 Base64 编码字符串。例如，
 
 ```bash
 base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
@@ -92,6 +92,19 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 - [https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2](https://www.alibabacloud.com/help/zh/object-storage-service/latest/create-buckets-2)
 - [https://help.aliyun.com/document_detail/53045.htm](https://help.aliyun.com/document_detail/53045.htm)
+
+</TabItem>
+
+<TabItem value="QingCloud QingStor" label="QingCloud QingStor">
+
+1. 创建一个名为 `my_bucket` 的存储桶或容器。
+2. 获取连接到您创建的存储桶或容器的端点 URL。
+3. 获取您账户的访问密钥 ID 和秘密访问密钥。
+
+有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
+
+- [https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/](https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/)
+- [https://docsv3.qingcloud.com/development_docs/api/overview/](https://docsv3.qingcloud.com/development_docs/api/overview/)
 
 </TabItem>
 
@@ -182,7 +195,7 @@ tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
 
 </StepsWrap>
 
-### 步骤 1: 部署 Meta 节点
+### 步骤 1：部署 Meta 节点
 
 按照以下说明部署 Meta 节点：
 
@@ -212,7 +225,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 </StepContent>
 </StepsWrap>
 
-### 步骤 2: 部署 Query 节点
+### 步骤 2：部署 Query 节点
 
 按照以下说明部署 Query 节点：
 
@@ -225,7 +238,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 1. 在文件夹 `/usr/local/databend/configs` 中找到文件 `databend-query.toml`。
 2. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type*，并配置连接到您的对象存储的访问凭证和端点 URL。
 
-要配置存储设置，请通过在每行开头添加 `#` 来注释掉 [storage.fs] 部分。然后，通过删除 `#` 符号来取消注释适用于您的对象存储提供商的相关部分，并填写您的值。
+要配置您的存储设置，请通过在每行开头添加 `#` 来注释掉 [storage.fs] 部分。然后，通过删除 `#` 符号来取消注释适用于您的对象存储提供商的相关部分，并填写您的值。
 
 <Tabs groupId="operating-systems">
 
@@ -292,7 +305,7 @@ account_key = "<your-account-key>"
 
 <TabItem value="Tencent COS" label="Tencent COS">
 
-在指定 `endpoint_url` 参数时，确保从您的存储桶端点中排除 `<BucketName-APPID>` 部分。例如，如果您的存储桶端点是 `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`，请使用 `https://cos.ap-beijing.myqcloud.com`。有关腾讯云 COS 各区域的端点，请参阅 https://www.tencentcloud.com/document/product/436/6224。
+在指定 `endpoint_url` 参数时，请确保从您的存储桶端点中排除 `<BucketName-APPID>` 部分。例如，如果您的存储桶端点是 `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`，请使用 `https://cos.ap-beijing.myqcloud.com`。有关腾讯云 COS 在各个区域的端点，请参阅 https://www.tencentcloud.com/document/product/436/6224。
 
 ```toml title='databend-query.toml'
 [storage]
@@ -339,8 +352,6 @@ bucket = "my_bucket"
 endpoint_url = "https://oss-cn-beijing-internal.aliyuncs.com"
 # enable_virtual_host_style = true
 
-
-
 # 如何获取 access_key_id 和 secret_access_key:
 # https://help.aliyun.com/document_detail/53045.htm
 // highlight-next-line
@@ -349,14 +360,41 @@ access_key_id = "<your-key-id>"
 secret_access_key = "<your-access-key>"
 ```
 
-Databend 企业版支持 OSS 中的服务器端加密。此功能使您能够通过激活 OSS 中存储数据的服务器端加密来增强数据安全性和隐私。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参阅 [Licensing Databend](../../../00-overview/00-editions/01-dee/20-license.md)。
+Databend 企业版支持 OSS 中的服务器端加密。此功能使您能够通过为存储在 OSS 中的数据激活服务器端加密来增强数据安全性和隐私。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参阅 [Licensing Databend](../../../00-overview/00-editions/01-dee/20-license.md)。
 
 要在 Databend 中启用服务器端加密，请将以下参数添加到 [storage.oss] 部分：
 
-| 参数                          | 描述                                                                                                                                                                              | 可用值                                                  |
+| 参数                          | 描述                                                                                                                                                                              | 可用值                                                |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | server_side_encryption        | 指定 OSS 数据的服务器端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
 | server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务器端加密密钥 ID。它仅在使用 KMS 加密模式时适用。      | 字符串，KMS 加密密钥的唯一标识符。 |
+
+</TabItem>
+
+<TabItem value="QingCloud QingStor" label="QingCloud QingStor">
+
+```toml title='databend-query.toml'
+[storage]
+# s3
+type = "s3"
+
+[storage.s3]
+// highlight-next-line
+bucket = "my_bucket"
+
+# 您可以从存储桶详情页面获取 URL。
+# https://docsv3.qingcloud.com/storage/object-storage/intro/object-storage/#zone
+# 使用与 AWS S3 兼容的 API。您需要在域名前添加 s3 子域，例如 https://s3.<zone-id>.qingstor.com
+// highlight-next-line
+endpoint_url = "https://s3.pek3b.qingstor.com"
+
+# 如何获取 access_key_id 和 secret_access_key:
+# https://docsv3.qingcloud.com/development_docs/api/overview/
+// highlight-next-line
+access_key_id = "<your-key-id>"
+// highlight-next-line
+secret_access_key = "<your-access-key>"
+```
 
 </TabItem>
 
@@ -371,12 +409,12 @@ type = "s3"
 // highlight-next-line
 bucket = "my_bucket"
 
-# 您可以从以下链接获取 URL：
+# 您可以从以下链接获取 URL:
 # https://wasabi-support.zendesk.com/hc/en-us/articles/360015106031-What-are-the-service-URLs-for-Wasabi-s-different-regions-
 // highlight-next-line
 endpoint_url = "https://s3.us-east-2.wasabisys.com"
 
-# 如何获取 access_key_id 和 secret_access_key：
+# 如何获取 access_key_id 和 secret_access_key:
 // highlight-next-line
 access_key_id = "<your-key-id>"
 // highlight-next-line
@@ -487,7 +525,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 启动/停止 Databend
 
-每次启动或停止 Databend 时，无需单独管理 Meta 和 Query 节点。在 `/usr/local/databend/scripts` 目录中执行脚本，以一次性处理两个节点：
+每次启动或停止 Databend 时，无需单独管理 Meta 和 Query 节点。执行 `/usr/local/databend/scripts` 目录中的脚本，以一次性处理两个节点：
 
 ```shell
 # 启动 Databend
@@ -503,7 +541,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 <details>
   <summary>权限被拒绝？</summary>
   <div>
-    如果在尝试启动 Databend 时遇到以下错误消息：
+    如果您在尝试启动 Databend 时遇到以下错误消息：
 
 ```shell
 ==> query.log <==
@@ -529,5 +567,5 @@ sudo chown -R $USER /var/lib/databend
 
 部署 Databend 后，您可能需要了解以下主题：
 
-- [加载 & 卸载数据](/guides/load-data)：在 Databend 中管理数据导入/导出。
+- [加载 & 卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取洞察。
