@@ -2,7 +2,7 @@
 title: GROUP BY GROUPING SETS
 ---
 
-`GROUP BY GROUPING SETS` 是 [GROUP BY](index.md) 子句的一个强大扩展，允许在单个语句中计算多个分组子句。分组集是维度列的集合。
+`GROUP BY GROUPING SETS` 是 [GROUP BY](index.md) 子句的一个强大扩展，允许在单个语句中计算多个 group-by 子句。group set 是一组维度列。
 
 `GROUP BY GROUPING SETS` 等同于同一结果集中的两个或多个 GROUP BY 操作的 UNION：
 

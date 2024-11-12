@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.26"/>
 
-显示Databend中所有现有的网络策略列表。它提供了有关可用网络策略的信息，包括它们的名称以及是否配置了任何允许或阻止的IP地址列表。
+显示Databend中所有现有的网络策略列表。它提供了可用网络策略的信息，包括它们的名称以及是否配置了允许或阻止的IP地址列表。
 
 ## 语法
 

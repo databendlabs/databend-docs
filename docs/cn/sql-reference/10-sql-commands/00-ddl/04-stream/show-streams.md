@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.460"/>
+<FunctionDescription description="Introduced or updated: v1.2.460"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -22,7 +22,7 @@ SHOW [ FULL ] STREAMS
 
 | 参数      | 描述                                                                                         |
 |-----------|----------------------------------------------------------------------------------------------|
-| FULL      | 列出带有附加信息的结果。更多详情请参见[示例](#examples)。                                      |
+| FULL      | 列出带有附加信息的结果。详见[示例](#examples)。                                                |
 | FROM / IN | 指定一个数据库。如果省略，命令将返回当前数据库的结果。                                         |
 | LIKE      | 使用区分大小写的模式匹配和 `%` 通配符过滤流名称。                                              |
 | WHERE     | 使用 WHERE 子句中的表达式过滤流名称。                                                         |

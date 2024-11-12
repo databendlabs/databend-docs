@@ -5,11 +5,11 @@ sidebar_position: 9
 
 使用快照ID或时间戳将表回滚到较早的版本，仅涉及元数据操作，使其成为一个快速的过程。
 
-通过命令中指定的快照ID或时间戳，Databend将表回滚到创建快照时的先前状态。要检索表的快照ID和时间戳，请使用[FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)。
+通过在命令中指定的快照ID或时间戳，Databend将表回滚到创建快照时的先前状态。要检索表的快照ID和时间戳，请使用[FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)。
 
 回滚表的能力受以下条件限制：
 
-- 该命令仅将现有表回滚到先前的状态。要恢复已删除的表，请使用[UNDROP TABLE](21-ddl-undrop-table.md)。
+- 该命令仅将现有表回滚到其先前的状态。要恢复已删除的表，请使用[UNDROP TABLE](21-ddl-undrop-table.md)。
 
 - 回滚表是Databend时间回溯功能的一部分。在使用该命令之前，请确保您要回滚的表符合时间回溯的条件。例如，该命令不适用于瞬态表，因为Databend不会为这些表创建或存储快照。
 

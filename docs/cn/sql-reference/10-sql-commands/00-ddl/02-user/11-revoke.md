@@ -120,7 +120,7 @@ CREATE ROLE role1;
 GRANT SELECT,INSERT ON mydb.* TO ROLE role1;
 ```
 
-显示角色的授权：
+显示角色的权限：
 ```sql
 SHOW GRANTS FOR ROLE role1;
 +--------------------------------------------+

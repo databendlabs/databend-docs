@@ -2,7 +2,7 @@
 title: system.credits
 ---
 
-包含关于信用的信息。
+包含信用信息。
 
 ```sql
 SELECT * FROM system.credits LIMIT 20;

@@ -1,5 +1,5 @@
 ---
-title: CREATE VIRTUAL COLUMN
+title: 创建虚拟列
 sidebar_position: 1
 ---
 

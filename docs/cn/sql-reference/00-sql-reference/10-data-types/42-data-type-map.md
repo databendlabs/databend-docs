@@ -28,7 +28,7 @@ SELECT {'k1': 1, 'k2': 2}, map([1, 2], ['v1', 'v2']);
 
 这使得在 MAP 数据结构中搜索值变得更加容易和快速。
 
-Databend Map 中布隆过滤器索引的实现位于 [PR#10457](https://github.com/datafuselabs/databend/pull/10457)。
+Databend Map 中布隆过滤器索引的实现见 [PR#10457](https://github.com/datafuselabs/databend/pull/10457)。
 
 布隆过滤器在查询的值不存在时，特别有效地减少了查询时间。
 

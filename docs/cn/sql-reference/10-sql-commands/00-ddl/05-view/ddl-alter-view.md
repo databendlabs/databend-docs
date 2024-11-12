@@ -3,7 +3,7 @@ title: ALTER VIEW
 sidebar_position: 2
 ---
 
-通过使用另一个 `QUERY` 来修改现有视图。
+通过使用另一个 `QUERY` 来修改现有的视图。
 
 ## 语法
 

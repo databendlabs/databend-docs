@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.32"/>
 
-GROUP BY 子句使您能够根据相同的分组项表达式对行进行分组，然后对每个结果组应用聚合函数。分组项表达式可以包括 SELECT 列表中的列名或别名、对 SELECT 列表中位置的数值引用、通用表达式或 SELECT 列表中的所有非聚合项。
+GROUP BY 子句使您能够根据相同的分组项表达式对行进行分组，然后对每个结果组应用聚合函数。分组项表达式可以包括列名或别名、SELECT 列表中的位置引用、通用表达式或 SELECT 列表中的所有非聚合项。
 
 Databend 中的 GROUP BY 子句带有以下扩展，以实现更全面的数据分组和多功能的数据分析：
 
@@ -27,7 +27,7 @@ GROUP BY [ ALL | groupItem [ , groupItem [ , ... ] ] ]
 
 - **ALL**: 当使用关键字 "ALL" 时，Databend 根据 SELECT 列表中的所有非聚合项对数据进行分组。
 - **groupItem**: 分组项可以是以下之一：
-    - SELECT 列表中定义的列名或别名。
+    - 在 SELECT 列表中定义的列名或别名。
     - 对 SELECT 列表中列位置的数值引用。
     - 涉及当前查询上下文中使用的表的列的任何表达式。
 
@@ -46,7 +46,7 @@ CREATE TABLE employees (
     hire_date DATE
 );
 
--- 向 "employees" 表中插入示例数据
+-- 向 "employees" 表插入示例数据
 INSERT INTO employees (id, first_name, last_name, department_id, job_id, hire_date)
 VALUES (1, 'John', 'Doe', 1, 101, '2021-01-15'),
        (2, 'Jane', 'Smith', 1, 101, '2021-02-20'),
@@ -139,7 +139,7 @@ GROUP BY 1;
 
 ### 按表达式分组
 
-此查询按员工被雇佣的年份进行分组，并计算每年雇佣的员工数量：
+此查询按员工被雇佣的年份对员工进行分组，并计算每年雇佣的员工数量：
 ```sql
 SELECT EXTRACT(YEAR FROM hire_date) AS hire_year, COUNT(*) AS num_hires
 FROM employees

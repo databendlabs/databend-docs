@@ -1,5 +1,5 @@
 ---
-title: 创建通知集成
+title: CREATE NOTIFICATION INTEGRATION
 sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
@@ -30,7 +30,7 @@ ENABLED = <bool>
 | 可选参数 [(Webhook)](#webhook-notification) | 描述 |
 |---------------------|-------------|
 | url                 | Webhook 的 URL。 |
-| method              | 发送 Webhook 时使用的 HTTP 方法。默认是 `GET`|
+| method              | 发送 Webhook 时使用的 HTTP 方法。默认是 `GET` |
 | authorization_header| 发送 Webhook 时使用的授权头。 |
 
 ## 示例

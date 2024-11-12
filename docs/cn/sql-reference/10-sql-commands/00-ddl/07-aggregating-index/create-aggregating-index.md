@@ -1,11 +1,11 @@
 ---
-title: 创建聚合索引
+title: CREATE AGGREGATING INDEX
 sidebar_position: 1
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.339"/>
+<FunctionDescription description="Introduced or updated: v1.2.339"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -19,7 +19,7 @@ import EEFeature from '@site/src/components/EEFeature';
 CREATE [ OR REPLACE ] [ ASYNC ] AGGREGATING INDEX <index_name> AS SELECT ...
 ```
 
-- `ASYNC` 选项: 添加 ASYNC 是可选的。它允许索引异步创建。这意味着索引不会立即构建。要稍后构建它，请使用 [REFRESH AGGREGATING INDEX](refresh-aggregating-index.md) 命令。
+- `ASYNC` 选项：添加 ASYNC 是可选的。它允许索引异步创建。这意味着索引不会立即构建。要稍后构建它，请使用 [REFRESH AGGREGATING INDEX](refresh-aggregating-index.md) 命令。
 
 - 在创建聚合索引时，限制其使用标准 [聚合函数](../../../20-sql-functions/07-aggregate-functions/index.md)（例如，AVG、SUM、MIN、MAX、COUNT 和 GROUP BY），同时请记住，[GROUPING SETS](/guides/query/groupby/group-by-grouping-sets)、[窗口函数](../../../20-sql-functions/08-window-functions/index.md)、[LIMIT](../../20-query-syntax/01-query-select.md#limit-clause) 和 [ORDER BY](../../20-query-syntax/01-query-select.md#order-by-clause) 是不被接受的，否则您将收到错误：`Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`。
 

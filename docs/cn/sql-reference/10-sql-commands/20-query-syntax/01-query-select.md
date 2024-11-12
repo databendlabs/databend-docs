@@ -76,7 +76,7 @@ SELECT number AS `Total` FROM numbers(3);
 +--------+
 ```
 
-如果您在 SELECT 子句中为列分配别名，您可以在 WHERE、GROUP BY 和 HAVING 子句中引用该别名，以及在别名定义后的 SELECT 子句中引用。
+如果您在 SELECT 子句中为列分配别名，您可以在 WHERE、GROUP BY 和 HAVING 子句中引用该别名，以及在别名定义后的 SELECT 子句本身中引用。
 
 ```sql
 SELECT number * 2 AS a, a * 2 AS double FROM numbers(3) WHERE (a + 1) % 3 = 0;
@@ -114,7 +114,7 @@ HAVING number > 5;
 
 ### EXCLUDE 关键字
 
-从结果中排除一个或多个列。该关键字通常与 `SELECT * ...` 一起使用，以排除结果中的几个列，而不是检索所有列。
+通过名称从结果中排除一个或多个列。该关键字通常与 `SELECT * ...` 一起使用，以从结果中排除几列而不是检索所有列。
 
 ```sql
 SELECT * FROM allemployees ORDER BY id;
@@ -232,7 +232,7 @@ SELECT a, $2 FROM t1;
 
 ## FROM 子句
 
-SELECT 语句中的 FROM 子句指定数据将从中查询的源表或表。您还可以通过将 FROM 子句放在 SELECT 子句之前来提高代码可读性，尤其是在管理长 SELECT 列表或旨在快速识别所选列的来源时。
+SELECT 语句中的 FROM 子句指定数据将从中查询的源表或表。您还可以通过将 FROM 子句放在 SELECT 子句之前来提高代码可读性，尤其是在管理较长的 SELECT 列表或旨在快速识别所选列的来源时。
 
 ```sql
 -- 以下两个语句是等效的：
@@ -391,6 +391,8 @@ INSERT INTO t_null VALUES (3);
 INSERT INTO t_null VALUES (NULL);
 INSERT INTO t_null VALUES (NULL);
 
+```
+
 -- Databend 认为 NULL 值大于任何非 NULL 值。
 -- 在以下按升序排序的示例中，NULL 值出现在最后：
 
@@ -418,7 +420,7 @@ SELECT number FROM t_null order by number ASC nulls first;
 |      3 |
 +--------+
 
--- 使用 NULLS LAST 选项使 NULL 值在降序中最后出现：
+-- 使用 NULLS LAST 选项使 NULL 值在降序排列中最后出现：
 
 SELECT number FROM t_null order by number DESC nulls last;
 +--------+
@@ -451,13 +453,13 @@ SELECT number FROM numbers(100000) ORDER BY number LIMIT 2 OFFSET 10;
 +--------+
 ```
 
-为了优化带有大结果集的查询性能，Databend 默认启用了 lazy_read_threshold 选项，默认值为 1,000。此选项专门设计用于涉及 LIMIT 子句的查询。当 lazy_read_threshold 启用时，优化将针对指定 LIMIT 数量小于或等于您设置的阈值的查询激活。要禁用该选项，请将其设置为 0。
+为了优化具有大量结果集的查询性能，Databend 默认启用了 lazy_read_threshold 选项，默认值为 1,000。此选项专门设计用于涉及 LIMIT 子句的查询。当 lazy_read_threshold 启用时，优化将针对指定 LIMIT 数量小于或等于您设置的阈值的查询激活。要禁用该选项，请将其设置为 0。
 
 <DetailsWrap>
 
 <details>
   <summary>工作原理</summary>
-    <div>该优化提高了带有 ORDER BY 子句和 LIMIT 子句的查询性能。启用后，如果查询中的 LIMIT 数量小于指定的阈值，则仅检索和排序涉及 ORDER BY 子句的列，而不是整个结果集。</div><br/><div>系统检索并排序涉及 ORDER BY 子句的列后，它会应用 LIMIT 约束从排序结果集中选择所需数量的行。然后系统将有限的一组行作为查询结果返回。这种方法通过仅获取和排序必要的列来减少资源使用，并通过将处理的行限制为所需子集来进一步优化查询执行。</div>
+    <div>该优化提高了具有 ORDER BY 子句和 LIMIT 子句的查询的性能。启用后，如果查询中的 LIMIT 数量小于指定的阈值，则仅检索和排序涉及 ORDER BY 子句的列，而不是整个结果集。</div><br/><div>系统检索并排序涉及 ORDER BY 子句的列后，它会应用 LIMIT 约束从排序结果集中选择所需数量的行。然后，系统将有限的结果集作为查询结果返回。这种方法通过仅获取和排序必要的列来减少资源使用，并通过将处理的行限制为所需子集来进一步优化查询执行。</div>
 </details>
 
 </DetailsWrap>

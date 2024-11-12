@@ -20,7 +20,7 @@ Databend 接受多种文件格式作为数据加载或卸载的源和目标。�
 ```
 
 - Databend 目前仅支持 ORC 作为源。不支持将数据卸载到 ORC 文件。
-- 如果在执行 COPY INTO 或 SELECT 操作时未指定 FILE_FORMAT，Databend 将使用您在创建阶段时最初为该阶段定义的文件格式。如果在创建阶段时未明确指定文件格式，Databend 默认使用 PARQUET 格式。如果在操作中指定了与创建阶段时定义的不同的 FILE_FORMAT，Databend 将优先使用操作中指定的 FILE_FORMAT。
+- 如果在执行 COPY INTO 或 SELECT 操作时未指定 FILE_FORMAT，Databend 将使用您最初在创建阶段时为该阶段定义的文件格式。如果在创建阶段时未明确指定文件格式，Databend 默认使用 PARQUET 格式。如果在操作中指定了与创建阶段时定义的不同的 FILE_FORMAT，Databend 将优先使用操作中指定的 FILE_FORMAT。
 - 有关在 Databend 中管理自定义文件格式，请参阅 [File Format](../10-sql-commands/00-ddl/13-file-format/index.md)。
 
 ### formatTypeOptions
@@ -43,11 +43,11 @@ formatTypeOptions ::=
 
 Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS 文件，并受以下条件限制：
 
-- 如果字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，则必须引用该字符串。
-- 在引用字符串中，除了 [QUOTE](#quote) 之外，不会转义任何字符。
+- 如果字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，则必须加引号。
+- 引号字符串中除 [QUOTE](#quote) 外的字符不会被转义。
 - [FIELD_DELIMITER](#field_delimiter) 和 [QUOTE](#quote) 之间不应有空格。
-- 如果字符串来自序列化的 Array 或 Struct 字段，则会在 CSV 中引用该字符串。
-- 如果您开发一个程序并从中生成 CSV 文件，Databend 建议使用编程语言中的 CSV 库。
+- 如果字符串来自序列化的 Array 或 Struct 字段，则会在 CSV 中加引号。
+- 如果您开发程序并从中生成 CSV 文件，Databend 建议使用编程语言的 CSV 库。
 
 ### RECORD_DELIMITER
 
@@ -74,7 +74,7 @@ Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS
 
 ### QUOTE
 
-在 CSV 文件中引用字符串。对于数据加载，除非字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，否则不需要引用。
+在 CSV 文件中引用字符串。对于数据加载，除非字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，否则不需要引号。
 
 :::note
 **仅用于数据加载**: 当您从 Databend 卸载数据时，此选项不可用。
@@ -86,7 +86,7 @@ Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS
 
 ### ESCAPE
 
-在引用字符串中转义引号。
+在引号字符串中转义引号。
 
 **可用值**: `'\\'` 或 `''`
 
@@ -104,9 +104,9 @@ Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS
 
 ### NAN_DISPLAY
 
-指定在查询结果中如何显示“NaN”（非数字）值。
+指定在查询结果中如何显示 "NaN" (Not-a-Number) 值。
 
-**可用值**: 必须是字面量 `'nan'` 或 `'null'`（不区分大小写）
+**可用值**: 必须是字面量 `'nan'` 或 `'null'` (不区分大小写)
 
 **默认**: `'NaN'`
 
@@ -131,7 +131,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 | 值               | 描述                                                                       |
 |------------------|---------------------------------------------------------------------------|
 | `null` (默认)    | 将空字段解释为 NULL 值。仅适用于可为空的列。                              |
-| `string`         | 将空字段解释为空字符串（''）。仅适用于 String 列。                        |
+| `string`         | 将空字段解释为空字符串 ('')。仅适用于 String 列。                         |
 | `field_default`  | 使用列的默认值作为空字段。                                                 |
 
 ### OUTPUT_HEADER
@@ -154,7 +154,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 | `AUTO`           | 通过文件扩展名自动检测压缩。                                               |
 | `GZIP`           |                                                                           |
 | `BZ2`            |                                                                           |
-| `BROTLI`         | 如果加载/卸载 Brotli 压缩文件，则必须指定。                                |
+| `BROTLI`         | 如果加载/卸载 Brotli 压缩文件，必须指定。                                  |
 | `ZSTD`           | 支持 Zstandard v0.8（及更高版本）。                                        |
 | `DEFLATE`        | 使用 zlib 头部的 Deflate 压缩文件（RFC1950）。                             |
 | `RAW_DEFLATE`    | 不带任何头部的 Deflate 压缩文件（RFC1951）。                               |
@@ -166,7 +166,7 @@ Databend 在处理 TSV 文件时受以下条件限制：
 
 - TSV 文件中的这些字符将被转义：`\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\\`, `\'`, [RECORD_DELIMITER](#record_delimiter-1), [FIELD_DELIMITER](#field_delimiter-1)。
 - 目前不支持引用或封闭。
-- 如果字符串来自序列化的 Array 或 Struct 字段，则会在 CSV 中引用该字符串。
+- 如果字符串来自序列化的 Array 或 Struct 字段，则会在 CSV 中加引号。
 - Null 序列化为 `\N`。
 
 :::note
@@ -174,7 +174,7 @@ Databend 在处理 TSV 文件时受以下条件限制：
 2. 我们建议使用 CSV 作为存储格式，因为它有正式的标准。
 3. TSV 可用于加载由以下方式生成的文件：
    1. Clickhouse TSV 文件格式。
-   2. MySQL `mysqldump` 命令，带有选项 `--tab`，但不带 `--fields-enclosed-by` 或 `--fields-optinally-enclosed-by`，如果指定了后两者，请使用 CSV。
+   2. MySQL `mysqldump` 命令，带有选项 `--tab`，不带 `--fields-enclosed-by` 或 `--fields-optinally-enclosed-by`，如果指定了后两者，请使用 CSV。
    3. Snowflake CSV，不带 `ESCAPE_UNENCLOSED_FIELD`。如果指定了 `ESCAPE_UNENCLOSED_FIELD`，请使用 CSV。
 :::
 
@@ -214,7 +214,7 @@ Databend 在处理 TSV 文件时受以下条件限制：
 | 可用值               | 描述                                                                                             |
 |----------------------|-------------------------------------------------------------------------------------------------|
 | `NULL` (默认)        | 将 null 值解释为可为空字段的 NULL。对于不可为空的字段，将生成错误。                             |
-| `FIELD_DEFAULT`      | 使用字段的默认值作为 null 值。                                                                  |
+| `FIELD_DEFAULT`      | 使用字段的默认值作为 null 值。                                                                   |
 
 ### MISSING_FIELD_AS
 
@@ -222,10 +222,10 @@ Databend 在处理 TSV 文件时受以下条件限制：
 
 | 可用值               | 描述                                                                                             |
 |----------------------|-------------------------------------------------------------------------------------------------|
-| `ERROR` (默认)       | 如果遇到缺失字段，则生成错误。                                                                  |
-| `NULL`               | 将缺失字段解释为 NULL 值。对于不可为空的字段，将生成错误。                                      |
-| `FIELD_DEFAULT`      | 使用字段的默认值作为缺失字段。                                                                  |
-| `TYPE_DEFAULT`       | 使用字段数据类型的默认值作为缺失字段。                                                          |
+| `ERROR` (默认)       | 如果遇到缺失字段，则生成错误。                                                                   |
+| `NULL`               | 将缺失字段解释为 NULL 值。对于不可为空的字段，将生成错误。                                       |
+| `FIELD_DEFAULT`      | 使用字段的默认值作为缺失字段。                                                                   |
+| `TYPE_DEFAULT`       | 使用字段数据类型的默认值作为缺失字段。                                                           |
 
 ### COMPRESSION
 
@@ -239,8 +239,8 @@ Databend 在处理 TSV 文件时受以下条件限制：
 
 | 可用值               | 描述                                                                                             |
 |----------------------|-------------------------------------------------------------------------------------------------|
-| `ERROR` (默认)       | 如果遇到缺失字段，则生成错误。                                                                  |
-| `FIELD_DEFAULT`      | 使用字段的默认值作为缺失字段。                                                                  |
+| `ERROR` (默认)       | 如果遇到缺失字段，则生成错误。                                                                   |
+| `FIELD_DEFAULT`      | 使用字段的默认值作为缺失字段。                                                                   |
 
 ## ORC 选项
 

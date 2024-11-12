@@ -2,7 +2,7 @@
 title: GROUP BY CUBE
 ---
 
-`GROUP BY CUBE` 是 [GROUP BY](index.md) 子句的扩展，类似于 [GROUP BY ROLLUP](group-by-rollup.md)。除了生成 `GROUP BY ROLLUP` 的所有行之外，`GROUP BY CUBE` 还添加了所有“交叉表”行。小计行是进一步聚合的行，其值是通过计算用于生成分组行的相同聚合函数得出的。
+`GROUP BY CUBE` 是 [GROUP BY](index.md) 子句的扩展，类似于 [GROUP BY ROLLUP](group-by-rollup.md)。除了生成 `GROUP BY ROLLUP` 的所有行之外，`GROUP BY CUBE` 还添加了所有“交叉表”行。子总计行是进一步聚合的行，其值是通过计算用于生成分组行的相同聚合函数得出的。
 
 `CUBE` 分组等同于一系列分组集，本质上是一个更简洁的规范。`CUBE` 规范的 N 个元素对应于 `2^N GROUPING SETS`。
 

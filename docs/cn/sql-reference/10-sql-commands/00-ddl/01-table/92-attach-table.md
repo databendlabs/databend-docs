@@ -5,7 +5,7 @@ sidebar_position: 6
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.549"/>
+<FunctionDescription description="Introduced or updated: v1.2.549"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -13,7 +13,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 将一个现有的表附加到另一个表上。该命令将一个表的数据和模式从一个数据库移动到另一个数据库，但不会实际复制数据。相反，它会创建一个指向原始表数据的链接，以便访问数据。
 
-Attach Table 使您能够将云服务平台中的表无缝连接到私有部署环境中的现有表，而无需实际移动数据。当您希望将数据从 Databend 的私有部署迁移到 [Databend Cloud](https://www.databend.com) 时，这特别有用，同时最大限度地减少数据传输开销。
+Attach Table 使您能够将云服务平台中的表无缝连接到私有部署环境中已部署的表，而无需实际移动数据。当您希望将数据从 Databend 的私有部署迁移到 [Databend Cloud](https://www.databend.com) 时，这特别有用，同时可以最小化数据传输开销。
 
 附加表以 READ_ONLY 模式运行。在此模式下，源表中的更改会立即反映在附加表中。但是，附加表仅用于查询目的，不支持更新。这意味着不允许对附加表执行 INSERT、UPDATE 和 DELETE 操作；只能执行 SELECT 查询。
 
@@ -52,7 +52,7 @@ CONNECTION = ( <connection_parameters> )
 
 ## 示例
 
-此示例说明了如何在 Databend Cloud 中链接一个新表与 Databend 中现有的表，该表存储在名为 "databend-toronto" 的 Amazon S3 存储桶中。
+此示例说明了如何在 Databend Cloud 中将新表与 Databend 中已存在的表链接，该表存储在名为 "databend-toronto" 的 Amazon S3 存储桶中。
 
 #### 步骤 1. 在 Databend 中创建表
 
@@ -90,7 +90,7 @@ SELECT * FROM FUSE_SNAPSHOT('default', 'population');
 
 #### 步骤 3. 在 Databend Cloud 中链接表
 
-登录 Databend Cloud 并在工作表中运行以下命令以链接一个名为 "population_readonly" 的表：
+登录到 Databend Cloud 并在工作表中运行以下命令，以链接一个名为 "population_readonly" 的表：
 
 ```sql title='Databend Cloud:'
 ATTACH TABLE population_readonly 's3://databend-toronto/1/556/' CONNECTION = (
@@ -104,7 +104,7 @@ ATTACH TABLE population_readonly 's3://databend-toronto/1/556/' CONNECTION = (
 ```sql title='Databend Cloud:'
 SELECT * FROM population_readonly;
 
--- 预期结果:
+-- 预期结果：
 ┌────────────────────────────────────┐
 │       city       │    population   │
 ├──────────────────┼─────────────────┤
@@ -114,7 +114,7 @@ SELECT * FROM population_readonly;
 └────────────────────────────────────┘
 ```
 
-您已经完成了！如果您在 Databend 中更新源表，您可以在 Databend Cloud 中的目标表中观察到相同的更改。例如，如果您将源表中 Toronto 的人口更改为 2,371,571：
+一切就绪！如果您在 Databend 中更新源表，您可以在 Databend Cloud 中的目标表中观察到相同的更改。例如，如果您将源表中 Toronto 的人口更改为 2,371,571：
 
 ```sql title='Databend:'
 UPDATE population
@@ -127,7 +127,7 @@ WHERE city = 'Toronto';
 ```sql title='Databend Cloud:'
 SELECT * FROM population_readonly;
 
--- 预期结果:
+-- 预期结果：
 ┌────────────────────────────────────┐
 │       city       │    population   │
 ├──────────────────┼─────────────────┤
