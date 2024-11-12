@@ -7,10 +7,10 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='Python UDF'/>
 
-用户定义函数（UDFs）通过支持匿名lambda表达式和预定义处理程序（Python、JavaScript和WebAssembly）来定义UDF，提供了增强的灵活性。这些功能允许用户创建定制的操作，以满足其特定的数据处理需求。Databend UDF分为以下几类：
+用户定义函数（UDFs）通过支持匿名lambda表达式和预定义处理程序（Python、JavaScript & WebAssembly）来定义UDF，提供了增强的灵活性。这些功能允许用户创建定制的操作，以满足其特定的数据处理需求。Databend UDF分为以下几类：
 
-- [Lambda UDF](#lambda-udf)
-- [嵌入式UDF](#embedded-udfs)
+- [Lambda UDFs](#lambda-udf)
+- [嵌入式UDFs](#embedded-udfs)
 
 Databend提供了多种命令来管理UDF。详情请参阅[用户定义函数](/sql/sql-commands/ddl/udf/)。
 
@@ -42,9 +42,9 @@ SELECT get_v1(data), get_v2(data) FROM json_table;
 +------------+------------+
 ```
 
-## 嵌入式UDF
+## 嵌入式UDFs
 
-嵌入式UDF允许您在SQL中嵌入以下编程语言编写的代码：
+嵌入式UDFs允许您在SQL中嵌入以下编程语言编写的代码：
 
 - [Python](#python)
 - [JavaScript](#javascript)
@@ -241,7 +241,7 @@ WebAssembly UDF允许用户使用编译为WebAssembly的语言定义自定义逻
 在执行之前，函数实现经历了一系列步骤。首先，它被编译成二进制文件，然后被压缩成'test10_udf_wasm_gcd.wasm.zst'。最后，压缩文件被提前上传到Stage。
 
 :::note
-该函数可以使用Rust实现，如示例所示：https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs
+该函数可以用Rust实现，如示例所示：https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs
 :::
 
 ```sql

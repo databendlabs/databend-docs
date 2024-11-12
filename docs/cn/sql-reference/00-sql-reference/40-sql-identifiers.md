@@ -16,7 +16,7 @@ My$databend
 _my_databend
 ```
 
-双引号标识符可以包含广泛的字符，例如数字（0-9）、特殊字符（如句号（.）、单引号（'）、感叹号（!）、@符号、井号（#）、美元符号（$）、百分号（%）、插入符号（^）和和号（&））、扩展ASCII和非ASCII字符，以及空白字符。
+双引号标识符可以包含广泛的字符，例如数字（0-9）、特殊字符（如句点（.）、单引号（'）、感叹号（!）、@符号（@）、井号（#）、美元符号（$）、百分号（%）、插入符号（^）和和号（&））、扩展ASCII和非ASCII字符，以及空白字符。
 
 ```text title='示例:'
 "MyDatabend"
@@ -50,7 +50,7 @@ Databend允许您控制标识符的大小写敏感性。有两个关键设置可
 - quoted_ident_case_sensitive：通过将此选项设置为0，您可以指示双引号标识符不应保留字符大小写，使其不区分大小写。
 :::
 
-此示例展示了Databend在创建和列出数据库时如何处理标识符的大小写：
+此示例演示了Databend在创建和列出数据库时如何处理标识符的大小写：
 
 ```sql
 -- 创建名为 "databend" 的数据库
@@ -76,7 +76,7 @@ information_schema  |
 system              |
 ```
 
-此示例展示了Databend如何处理表和列名称的标识符大小写，默认情况下区分大小写，并使用双引号来区分不同大小写的标识符：
+此示例演示了Databend如何处理表和列名称的标识符大小写，默认情况下区分大小写，并使用双引号来区分不同大小写的标识符：
 
 ```sql
 -- 创建名为 "databend" 的表
@@ -129,7 +129,7 @@ SELECT "Databend";
   |                                                                         ^^^^^^^^^^ column Databend doesn't exist, do you mean 'Databend'?
 ```
 
-默认情况下，Databend SQL方言为`PostgreSQL`：
+默认情况下，Databend SQL方言为 `PostgreSQL`：
 
 ```sql
 SHOW SETTINGS LIKE '%sql_dialect%';
@@ -139,7 +139,7 @@ name       |value     |default   |level  |description                           
 sql_dialect|PostgreSQL|PostgreSQL|SESSION|Sets the SQL dialect. Available values include "PostgreSQL", "MySQL", and "Hive".|String|
 ```
 
-您可以将其更改为`MySQL`以启用双引号（`"`）：
+您可以将其更改为 `MySQL` 以启用双引号（`"`）：
 
 ```sql
 SET sql_dialect='MySQL';

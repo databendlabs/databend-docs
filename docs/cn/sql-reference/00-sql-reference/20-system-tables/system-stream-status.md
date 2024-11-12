@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.225"/>
 
-提供有关指定流状态的信息，生成单列结果 (`has_data`)，其值可以是 `true` 或 `false`：
+提供关于指定流状态的信息，生成一个单列结果 (`has_data`)，其值可以是 `true` 或 `false`：
 
 - `true`: 表示流**可能包含**变更数据捕获记录。
 - `false`: 表示流当前不包含任何变更数据捕获记录。
@@ -23,7 +23,7 @@ SELECT * FROM STREAM_STATUS('<stream_name>');
 ## 示例
 
 ```sql
--- 创建一个包含列 'c' 的表 't'
+-- 创建一个带有列 'c' 的表 't'
 CREATE TABLE t (c int);
 
 -- 在表 't' 上创建流 's'

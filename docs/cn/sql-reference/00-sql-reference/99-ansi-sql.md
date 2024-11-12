@@ -6,7 +6,7 @@ title: SQL 方言与一致性
 
 ## 支持的 SQL 方言
 
-SQL 方言指的是结构化查询语言的特定变体或风格。Databend 默认支持 `PostgreSQL` 方言，并提供灵活性以切换到其他支持的方言。请参阅下表了解支持的方言及其各自的简要描述：
+SQL 方言指的是结构化查询语言的特定变体或风格。Databend 默认支持 `PostgreSQL` 方言，并提供切换到其他支持方言的灵活性。请参阅下表了解支持的方言及其各自的简要描述：
 
 | 方言          | 介绍                                                                                    | 了解更多                   |
 |---------------|-------------------------------------------------------------------------------------------------|------------------------------|
@@ -16,7 +16,7 @@ SQL 方言指的是结构化查询语言的特定变体或风格。Databend 默�
 | `Prql`        | PRQL 是一种用于转换数据的现代语言 — 一种简单、强大、管道化的 SQL 替代方案 | https://github.com/PRQL/prql |
 | `Experimental`| 用于测试和研究的实验性方言                                                   | N/A                          |
 
-要在支持的 SQL 方言之间切换或显示当前方言，请使用 `sql_dialect` 设置：
+要切换支持的 SQL 方言或显示当前方言，请使用 `sql_dialect` 设置：
 
 ```sql title='示例：'
 -- 将 SQL 方言设置为 PRQL
@@ -28,7 +28,7 @@ SHOW SETTINGS LIKE 'sql_dialect';
 
 ## SQL 一致性概述
 
-Databend 旨在符合 SQL 标准，特别是支持 ISO/IEC 9075:2011，也称为 SQL:2011。虽然这不是符合性的详尽声明，但 Databend 包含了 SQL 标准所需的许多特性，通常在语法或功能上略有不同。本页概述了 Databend 与 SQL:2011 标准的符合性水平。
+Databend 旨在符合 SQL 标准，特别是支持 ISO/IEC 9075:2011，也称为 SQL:2011。虽然这不是符合性的详尽声明，但 Databend 包含了 SQL 标准所需的许多特性，通常在语法或函数上略有不同。本页概述了 Databend 与 SQL:2011 标准的符合性水平。
 
 | 功能ID 	|                                                       功能名称                                                       	| 支持情况 	|                                                     备注                                                     	|
 |:----------:	|:------------------------------------------------------------------------------------------------------------------------:	|:----------:	|:------------------------------------------------------------------------------------------------------------:	|
@@ -106,16 +106,16 @@ Databend 旨在符合 SQL 标准，特别是支持 ISO/IEC 9075:2011，也称为
 | E091-07    	| DISTINCT 量词                                                                                                      	| <span class="text-orange">部分</span>    	| 目前，Databend 支持 COUNT(DISTINCT ...) 和 SELECT DISTINCT ... 查询。                            	|
 | **E101**   	| **基本数据操作**                                                                                              	| <span class="text-orange">部分</span>    	|                                                                                                              	|
 | E101-01    	| INSERT 语句                                                                                                         	| <span class="text-blue">是</span>        	|                                                                                                              	|
-| E101-03    	| 搜索型 UPDATE 语句                                                                                                	| <span class="text-blue">是</span>        	|                                                                                                              	|
-| E101-04    	| 搜索型 DELETE 语句                                                                                                	| <span class="text-blue">是</span>        	|                                                                                                              	|
+| E101-03    	| 搜索 UPDATE 语句                                                                                                	| <span class="text-blue">是</span>        	|                                                                                                              	|
+| E101-04    	| 搜索 DELETE 语句                                                                                                	| <span class="text-blue">是</span>        	|                                                                                                              	|
 | **E111**   	| **单行 SELECT 语句**                                                                                          	| <span class="text-blue">是</span>        	|                                                                                                              	|
 | **E121**   	| **基本游标支持**                                                                                                 	| <span class="text-orange">部分</span>    	|                                                                                                              	|
 | E121-01    	| DECLARE CURSOR                                                                                                           	| <span class="text-red">否</span>         	|                                                                                                              	|
 | E121-02    	| ORDER BY 列不需要在选择列表中                                                                              	| <span class="text-blue">是</span>        	|                                                                                                              	|
 | E121-03    	| ORDER BY 子句中的值表达式                                                                                     	| <span class="text-blue">是</span>        	|                                                                                                              	|
 | E121-04    	| OPEN 语句                                                                                                           	| <span class="text-red">否</span>         	|                                                                                                              	|
-| E121-06    	| 定位型 UPDATE 语句                                                                                              	| <span class="text-red">否</span>         	|                                                                                                              	|
-| E121-07    	| 定位型 DELETE 语句                                                                                              	| <span class="text-red">否</span>         	|                                                                                                              	|
+| E121-06    	| 定位 UPDATE 语句                                                                                              	| <span class="text-red">否</span>         	|                                                                                                              	|
+| E121-07    	| 定位 DELETE 语句                                                                                              	| <span class="text-red">否</span>         	|                                                                                                              	|
 | E121-08    	| CLOSE 语句                                                                                                          	| <span class="text-red">否</span>         	|                                                                                                              	|
 | E121-10    	| FETCH 语句：隐式 NEXT                                                                                           	| <span class="text-red">否</span>         	|                                                                                                              	|
 | E121-17    	| WITH HOLD 游标                                                                                                        	| <span class="text-red">否</span>         	|                                                                                                              	|
@@ -139,4 +139,4 @@ Databend 旨在符合 SQL 标准，特别是支持 ISO/IEC 9075:2011，也称为
 | **E161**   	| **使用前导双减号的 SQL 注释**                                                                              	| <span class="text-blue">是</span>        	|                                                                                                              	|
 | **E171**   	| **SQLSTATE 支持**                                                                                                     	| <span class="text-red">否</span>         	|                                                                                                              	|
 | **E182**   	| **宿主语言绑定**                                                                                                	| <span class="text-red">否</span>         	|                                                                                                              	|
-| **F031**   	| **基本模式操作**                                                                
+| **F031**   	| **基本模式操作**                                                                                            	| <span

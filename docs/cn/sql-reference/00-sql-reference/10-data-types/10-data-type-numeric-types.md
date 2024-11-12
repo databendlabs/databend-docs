@@ -29,7 +29,7 @@ CREATE TABLE test_numeric(tiny TINYINT, tiny_unsigned TINYINT UNSIGNED)
 
 ## 函数
 
-参见 [数值函数](/sql/sql-functions/numeric-functions)。
+请参阅 [数值函数](/sql/sql-functions/numeric-functions)。
 
 ## 示例
 
@@ -53,7 +53,7 @@ CREATE TABLE test_numeric
 DESC test_numeric;
 ```
 
-结果:
+结果：
 ```
 ┌───────────────────────────────────────────────────────────────────┐
 │       Field       │        Type       │  Null  │ Default │  Extra │
