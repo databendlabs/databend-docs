@@ -95,6 +95,19 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 </TabItem>
 
+<TabItem value="QingCloud QingStor" label="QingCloud QingStor">
+
+1. Create a bucket or container named `my_bucket`.
+2. Get the endpoint URL for connecting to the bucket or container you created.
+3. Get the Access Key ID and Secret Access Key for your account.
+
+For information about how to manage buckets and Access Keys for your cloud object storage, refer to the user manual from the solution provider. Here are some useful links you may need:
+
+- [https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/](https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/)
+- [https://docsv3.qingcloud.com/development_docs/api/overview/](https://docsv3.qingcloud.com/development_docs/api/overview/)
+
+</TabItem>
+
 <TabItem value="Wasabi" label="Wasabi">
 
 1. Create a bucket or container named `my_bucket`.
@@ -355,6 +368,33 @@ To enable server-side encryption in Databend, add the following parameters to th
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | server_side_encryption        | Specifies the server-side encryption method for OSS data. "AES256" uses an OSS-managed AES256 key for encryption, while "KMS" utilizes the key defined in server_side_encryption_key_id. | "AES256" or "KMS"                                       |
 | server_side_encryption_key_id | When server_side_encryption is set to "KMS," this parameter is used to specify the server-side encryption key ID for OSS. It is only applicable when using the KMS encryption mode.      | String, a unique identifier for the KMS encryption key. |
+
+</TabItem>
+
+<TabItem value="QingCloud QingStor" label="QingCloud QingStor">
+
+```toml title='databend-query.toml'
+[storage]
+# s3
+type = "s3"
+
+[storage.s3]
+// highlight-next-line
+bucket = "my_bucket"
+
+# You can obtain the URL from the bucket details page.
+# https://docsv3.qingcloud.com/storage/object-storage/intro/object-storage/#zone
+# Use an API compatible with AWS S3. You need to add an s3 subdomain to the domain name, like https://s3.<zone-id>.qingstor.com
+// highlight-next-line
+endpoint_url = "https://s3.pek3b.qingstor.com"
+
+# How to get access_key_id and secret_access_key:
+# https://docsv3.qingcloud.com/development_docs/api/overview/
+// highlight-next-line
+access_key_id = "<your-key-id>"
+// highlight-next-line
+secret_access_key = "<your-access-key>"
+```
 
 </TabItem>
 
