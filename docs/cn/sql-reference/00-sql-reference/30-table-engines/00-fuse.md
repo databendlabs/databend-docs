@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.617"/>
 
-Databend 使用 Fuse 引擎作为其默认引擎，提供了一个类似于 Git 的用户友好界面的数据管理系统。用户可以轻松地在任何给定时刻查询数据，并轻松地将数据恢复到任何所需的时间点。
+Databend 使用 Fuse 引擎作为其默认引擎，提供了一个类似于 Git 的用户友好界面的数据管理系统。用户可以轻松查询任意时刻的数据，并轻松将数据恢复到任何所需的时间点。
 
 ## 语法
 

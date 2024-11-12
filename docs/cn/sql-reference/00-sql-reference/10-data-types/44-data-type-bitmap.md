@@ -15,7 +15,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 - 集合操作: Bitmap 可用于各种集合操作，如并集、交集、差集和对称差集。这些集合操作可以通过位运算实现，为数据处理和分析提供了高效的集合操作。
 
-- 压缩存储: Bitmap 在存储方面具有很高的压缩性能。与传统的存储方法相比，Bitmap 可以有效利用存储空间，节省存储成本并提高查询性能。
+- 压缩存储: Bitmap 在存储方面具有高压缩性能。与传统存储方法相比，Bitmap 可以有效利用存储空间，节省存储成本并提高查询性能。
 :::
 
 Databend 使用 TO_BITMAP 函数以两种格式创建 Bitmap：
@@ -46,7 +46,7 @@ SELECT TO_STRING(TO_BITMAP('1,2,3'))
 
 **示例**:
 
-此示例说明了 Databend 中的 Bitmap 如何实现对具有大量可能值的数据的高效存储和查询，例如用户访问历史。
+此示例说明了 Databend 中的 Bitmap 如何实现对具有大量可能值的数据的高效存储和查询，例如用户访问历史记录。
 
 ```sql
 -- 创建包含 user_id 和 page_visits 列的 user_visits 表，使用 build_bitmap 表示 page_visits。
