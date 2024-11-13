@@ -81,3 +81,4 @@ Databend 支持自托管和云对象存储解决方案。在部署 Databend 之�
 - 腾讯 COS
 - 阿里 OSS
 - QingCloud QingStor
+- 华为 OBS

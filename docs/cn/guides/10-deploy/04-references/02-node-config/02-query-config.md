@@ -189,6 +189,17 @@ base64 -i -o ~/Desktop/base64-encoded-key.txt
 | presign_endpoint_url | 用于阿里云 OSS 预签名操作的 URL 端点。                                                                              |
 | root                 | 指定 Databend 将在其中操作的桶内的目录。示例：如果桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
 
+### [storage.obs] 部分
+
+以下是 [storage.obs] 部分中可用的参数列表：
+
+| 参数                 | 描述                                                                                                                |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| bucket               | 您的华为云 OBS 桶的名称。                                                                                           |
+| endpoint_url         | 华为云 OBS 的 URL 端点。                                                                                            |
+| access_key_id        | 用于与华为云 OBS 进行身份验证的访问密钥 ID。                                                                        |
+| access_key_secret    | 用于与华为云 OBS 进行身份验证的访问密钥秘密。                                                                       |
+
 ### [storage.cos] 部分
 
 以下是 [storage.cos] 部分中可用的参数列表：
