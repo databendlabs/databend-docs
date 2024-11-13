@@ -17,9 +17,7 @@ LANGUAGE <language>
 AS $$
 BEGIN
     <procedure_body>
-    RETURN <return_value>;             -- Use to return a single value
-    -- OR
-    RETURN TABLE(<select_query>);      -- Use to return a table
+    RETURN <return_value>;
 END;
 $$;
 ```
