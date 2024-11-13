@@ -10,7 +10,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 流的工作原理
 
-流可以以两种模式运行：**标准**和**仅追加**。在创建流时，使用 `APPEND_ONLY` 参数（默认为 `false`）指定模式。[CREATE STREAM](/sql/sql-commands/ddl/stream/create-stream)。
+流可以以两种模式运行：**标准**和**仅追加**。在创建流时使用 `APPEND_ONLY` 参数（默认为 `false`）指定模式。
 
 - **标准**：捕获所有类型的数据更改，包括插入、更新和删除。
 - **仅追加**：在此模式下，流仅包含数据插入记录；数据更新或删除不会被捕获。
@@ -47,7 +47,7 @@ SHOW FULL STREAMS;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-现在，向每个表插入两个值，并观察流捕获的内容：
+现在，向每个表插入两个值并观察流捕获的内容：
 
 ```sql
 -- 插入两个新值
@@ -126,7 +126,7 @@ SELECT * FROM s_append_only;
 
 #### 消费流
 
-让我们创建两个新表，并将流捕获的内容插入其中。
+让我们创建两个新表并将流捕获的内容插入其中。
 
 ```sql
 CREATE TABLE t_consume_standard(b INT);
@@ -152,7 +152,7 @@ SELECT * FROM t_consume_append_only;
 └─────────────────┘
 ```
 
-如果您现在查询流，您会发现它们是空的，因为它们已经被消费了。
+如果您现在查询流，您会发现它们是空的，因为它们已经被消费。
 
 ```sql
 -- 空结果
@@ -188,7 +188,7 @@ SELECT * FROM s_standard;
 SELECT * FROM s_append_only;
 ```
 
-上述结果表明，标准流将 UPDATE 操作转换为 DELETE（`3`）和 INSERT（`4`）的组合，而仅追加流没有捕获任何内容。如果我们现在删除值 `4`，我们可以得到以下结果：
+上述结果表明，标准流将 UPDATE 操作转换为 DELETE (`3`) 和 INSERT (`4`) 的组合，而仅追加流没有捕获任何内容。如果我们现在删除值 `4`，我们可以得到以下结果：
 
 ```sql
 DELETE FROM t_standard WHERE a = 4;
@@ -224,7 +224,7 @@ INSERT INTO table SELECT * FROM stream;
 
 如果此 `INSERT` 事务提交，流被消费。
 
-**失败的事务**：如果事务失败，流保持不变，可供将来消费。
+**失败的事务**：如果事务失败，流保持不变并可用于未来的消费。
 
 **并发访问**：_一次只能有一个事务成功消费一个流_。如果多个事务尝试消费同一个流，只有第一个提交的事务成功，其他事务失败。
 
@@ -320,14 +320,14 @@ SELECT * FROM s;
 
 ### 示例：实时跟踪和转换数据
 
-以下示例演示如何使用流来捕获和跟踪实时用户活动。
+以下示例演示了如何使用流来捕获和跟踪实时用户活动。
 
 #### 1. 创建表
 
 该示例使用三个表：
 
 - `user_activities` 表记录用户活动。
-- `user_profiles` 表存储用户配置文件。
+- `user_profiles` 表存储用户档案。
 - `user_activity_profiles` 表是两个表的组合视图。
 
 `activities_stream` 表作为流创建，以捕获 `user_activities` 表的实时变更。然后，流被查询消费，以使用最新数据更新 `user_activity_profiles` 表。
@@ -340,7 +340,7 @@ CREATE TABLE user_activities (
     timestamp TIMESTAMP
 );
 
--- 创建表以存储用户配置文件
+-- 创建表以存储用户档案
 CREATE TABLE user_profiles (
     user_id INT,
     username VARCHAR,
@@ -353,7 +353,7 @@ INSERT INTO user_profiles VALUES (102, 'Bob', 'San Francisco');
 INSERT INTO user_profiles VALUES (103, 'Charlie', 'Los Angeles');
 INSERT INTO user_profiles VALUES (104, 'Dana', 'Chicago');
 
--- 创建表以存储用户活动和配置文件的组合视图
+-- 创建表以存储用户活动和档案的组合视图
 CREATE TABLE user_activity_profiles (
     user_id INT,
     username VARCHAR,
@@ -396,7 +396,7 @@ FROM
     -- 变更数据的源表
     activities_stream AS a
 JOIN
-    -- 与用户配置文件数据连接
+    -- 与用户档案数据连接
     user_profiles AS p
 ON
     a.user_id = p.user_id
@@ -426,7 +426,7 @@ FROM
 
 #### 5. 实时数据处理的任务更新
 
-为了保持 `user_activity_profiles` 表的最新状态，重要的是定期将其与 `activities_stream` 中的数据同步。此同步应与 `user_activities` 表的更新间隔一致，确保 `user_activity_profiles` 准确反映最新的用户活动和配置文件，以便进行实时数据分析。
+为了保持 `user_activity_profiles` 表的最新状态，重要的是定期将其与 `activities_stream` 中的数据同步。此同步应与 `user_activities` 表的更新间隔一致，确保 `user_activity_profiles` 准确反映最新的用户活动和档案，以进行实时数据分析。
 
 Databend的 `TASK` 命令（目前处于私有预览阶段），可以用于定义每分钟或每秒更新 `user_activity_profiles` 表的任务。
 
@@ -449,7 +449,3 @@ WHEN stream_status('activities_stream') AS
     -- 仅包含 action 为 'INSERT' 的行
     WHERE a.change$action = 'INSERT';
 ```
-
-:::tip 任务处于私有预览阶段
-`TASK` 命令目前处于私有预览阶段，因此语法和用法可能会在未来发生变化。
-:::
