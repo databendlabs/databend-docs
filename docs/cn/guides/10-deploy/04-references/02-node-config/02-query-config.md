@@ -198,7 +198,7 @@ base64 -i -o ~/Desktop/base64-encoded-key.txt
 | bucket               | 您的华为云 OBS 桶的名称。                                                                                           |
 | endpoint_url         | 华为云 OBS 的 URL 端点。                                                                                            |
 | access_key_id        | 用于与华为云 OBS 进行身份验证的访问密钥 ID。                                                                        |
-| access_key_secret    | 用于与华为云 OBS 进行身份验证的访问密钥秘密。                                                                       |
+| secret_access_key    | 用于与华为云 OBS 进行身份验证的访问密钥秘密。                                                                       |
 
 ### [storage.cos] 部分
 
