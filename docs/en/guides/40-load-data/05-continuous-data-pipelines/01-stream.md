@@ -447,7 +447,3 @@ WHEN stream_status('activities_stream') AS
     -- Include only rows where the action is 'INSERT'
     WHERE a.change$action = 'INSERT';
 ```
-
-:::tip Task in Private Preview
-The `TASK` command is currently in private preview, so the synatx and usage may change in the future.
-:::
