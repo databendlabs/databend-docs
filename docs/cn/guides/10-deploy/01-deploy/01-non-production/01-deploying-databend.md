@@ -44,8 +44,8 @@ import TabItem from '@theme/TabItem';
 
 <TabItem value="Google GCS" label="Google GCS">
 
-1. 按照 Google 文档中的主题[创建新存储桶](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket)创建一个名为 `my_bucket` 的存储桶。
-2. 按照 Google 文档中的主题[创建服务账户密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating)创建并下载服务账户密钥文件。
+1. 按照 Google 文档中的主题 [创建新存储桶](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket) 创建一个名为 `my_bucket` 的存储桶。
+2. 按照 Google 文档中的主题 [创建服务账户密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating) 创建并下载服务账户密钥文件。
 3. 使用 Base64 编码将服务账户密钥文件的内容转换为 Base64 编码字符串。例如，
 
 ```bash
@@ -105,6 +105,19 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 - [https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/](https://docsv3.qingcloud.com/storage/object-storage/manual/console/bucket_manage/basic_opt/)
 - [https://docsv3.qingcloud.com/development_docs/api/overview/](https://docsv3.qingcloud.com/development_docs/api/overview/)
+
+</TabItem>
+
+<TabItem value="Huawei OBS" label="Huawei OBS">
+
+1. 创建一个名为 `my_bucket` 的存储桶或容器。
+2. 获取连接到您创建的存储桶或容器的端点 URL。
+3. 获取您账户的访问密钥 ID 和秘密访问密钥。
+
+有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
+
+- [https://support.huaweicloud.com/intl/zh-cn/usermanual-obs/zh-cn_topic_0045829088.html](https://support.huaweicloud.com/intl/zh-cn/usermanual-obs/zh-cn_topic_0045829088.html)
+- [https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html](https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html)
 
 </TabItem>
 
@@ -313,7 +326,7 @@ account_key = "<your-account-key>"
 type = "cos"
 
 [storage.cos]
-# 如何创建存储桶:
+# 如何创建存储桶：
 # https://cloud.tencent.com/document/product/436/13309
 // highlight-next-line
 bucket = "my_bucket"
@@ -390,6 +403,28 @@ endpoint_url = "https://s3.pek3b.qingstor.com"
 
 # 如何获取 access_key_id 和 secret_access_key:
 # https://docsv3.qingcloud.com/development_docs/api/overview/
+// highlight-next-line
+access_key_id = "<your-key-id>"
+// highlight-next-line
+secret_access_key = "<your-access-key>"
+```
+
+</TabItem>
+
+<TabItem value="Huawei OBS" label="Huawei OBS">
+
+```toml title='databend-query.toml'
+[storage]
+# obs
+type = "obs"
+[storage.obs]
+// highlight-next-line
+bucket = "my_bucket"
+# 您可以从存储桶详情页面获取 URL。
+// highlight-next-line
+endpoint_url = "https://obs.<obs-region>.myhuaweicloud.com"
+# 如何获取 access_key_id 和 secret_access_key:
+# https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html
 // highlight-next-line
 access_key_id = "<your-key-id>"
 // highlight-next-line
