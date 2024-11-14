@@ -1,14 +1,19 @@
 const fs = require("fs-extra");
 const path = require("path");
-// List of files to process
-const filesToProcess = require("./generate-language-block-url.js");
+const args = process.argv.slice(2);
+const lang = args[0].split(":")[1];
 
+// List of files to process
+let filesToProcess = require("./generate-language-block-url.js");
+const filesToProcessDealed = filesToProcess?.map(
+  (file) => `docs/${lang}/${file}`
+);
 // Regular expressions for English and Chinese blocks
 const EN_BLOCK_REGEX = /<!-- #ifendef -->\s*([\s\S]*?)\s*<!-- #endendef -->/g;
 const CN_BLOCK_REGEX = /<!-- #ifcndef -->\s*([\s\S]*?)\s*<!-- #endcndef -->/g;
 
 async function processFiles(language, action) {
-  for (const file of filesToProcess) {
+  for (const file of filesToProcessDealed) {
     const filePath = path.resolve(file);
     if (fs.existsSync(filePath)) {
       let fileContent = await fs.readFile(filePath, "utf-8");
@@ -56,7 +61,6 @@ async function processFiles(language, action) {
 }
 
 // Run the appropriate function based on command line arguments
-const args = process.argv.slice(2);
 if (args[0] === "block_before:en") {
   processFiles("en", "block_before");
 } else if (args[0] === "block_after:en") {
