@@ -6,7 +6,17 @@ import DatabendTable from '@site/src/components/DatabendTable';
 
 Databend Cloud comes in three editions: **Personal**, **Business**, and **Dedicated**, that you can choose from to serve a wide range of needs and ensure optimal performance for different use cases.
 
+<!-- #ifendef -->
+
 For a quick overview of these editions, see [https://www.databend.com/databend-cloud](https://www.databend.com/databend-cloud). For the pricing information, see [Pricing & Billing](/guides/overview/editions/dc/pricing). For the detailed feature list among these editions, see [Feature Lists](#feature-lists).
+
+<!-- #endendef -->
+
+<!-- #ifcndef -->
+
+如需快速了解这些版本，请访问 [https://www.databend.com/databend-cloud](https://www.databend.com/databend-cloud)。有关定价信息，请参阅 [定价与计费](/guides/overview/editions/dc/pricing)。有关各版本详细功能列表，请参阅 [功能列表](#feature-lists)。
+
+<!-- #endcndef -->
 
 ## Feature Lists
 
