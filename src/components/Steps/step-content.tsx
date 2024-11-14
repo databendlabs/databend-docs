@@ -21,19 +21,19 @@ const StepContent: FC<IProps> = ({
     if (!title) {
       const h3 = wrapRef?.current?.getElementsByClassName("anchor")[0];
       if (number == -1 || number === "") {
-        h3.setAttribute(
+        h3?.setAttribute(
           "style",
           `position: absolute; top: ${
             number == -1 ? "-10px" : "22px"
           }; left: 20px; cursor: ${outLink ? "pointer" : ""};`
         );
         if (outLink) {
-          h3.addEventListener("click", () => {
+          h3?.addEventListener("click", () => {
             window.open(outLink, "_blank");
           });
         }
       } else {
-        h3.setAttribute(
+        h3?.setAttribute(
           "style",
           `position: absolute; top: ${number == 1 ? "0" : "30px"}; left: 20px`
         );
