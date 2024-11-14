@@ -5,11 +5,9 @@ title: AI 驱动的功能
 import SearchSVG from '@site/static/img/icon/search.svg'
 
 <!-- #ifcndef -->
-
 :::tip
-中文功能有限或尚未完全开放。
+中文功能目前有限或尚未完全开放。
 :::
-
 <!-- #endcndef -->
 
 通过引入 AI 驱动的功能，Databend Cloud 允许您通过自然语言对话来获取帮助、支持和解决方案。这些 AI 驱动的功能默认启用，但您可以通过导航到 **管理** > **设置** 来禁用它们。
