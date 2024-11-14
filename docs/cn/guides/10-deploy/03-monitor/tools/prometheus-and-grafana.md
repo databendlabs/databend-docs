@@ -20,7 +20,7 @@ title: Prometheus & Grafana
 
 以下步骤描述了如何使用 Docker 安装和部署 Prometheus。
 
-1. 从 Docker Hub 注册表中拉取最新的 Prometheus Docker 镜像。
+1. 从 Docker Hub 注册表中拉取 Prometheus 的最新 Docker 镜像。
 
    ```bash
    docker pull prom/prometheus
@@ -31,7 +31,7 @@ title: Prometheus & Grafana
    将以下脚本添加到 `/etc/prometheus/prometheus.yml` 目录中的 prometheus.yml 文件末尾。请注意，使用 Docker 时，有多种方法可以修改容器的文件。在本教程中，我们演示如何通过将文件保存到本地文件夹并在运行 Prometheus 镜像时进行映射来实现这一点。
 
    :::tip
-   Docker 容器可以通过使用 `host.docker.internal` 连接到主机上运行的本地服务。此功能默认仅在 Docker for Windows/Mac 上可用。然而，从 **20.03** 版本开始，Linux 上也支持此功能。
+   Docker 容器可以通过使用 `host.docker.internal` 连接到主机上运行的本地服务。此功能默认仅在 Docker for Windows/Mac 上可用。但是，从 **20.03** 版本开始，Linux 上也支持此功能。
    :::
 
    ```yaml
@@ -74,7 +74,7 @@ title: Prometheus & Grafana
 
 以下步骤描述了如何使用 Docker 安装和部署 Grafana。
 
-1. 从 Docker Hub 注册表中拉取最新的 Grafana Docker 镜像。
+1. 从 Docker Hub 注册表中拉取 Grafana 的最新 Docker 镜像。
 
    ```bash
    docker pull grafana/grafana

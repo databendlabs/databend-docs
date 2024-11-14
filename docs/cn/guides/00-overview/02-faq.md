@@ -1,10 +1,6 @@
----
-title: FAQ
----
-
 ### Q1: Databend 的主要对象、层次结构及其关联的权限是什么？
 
-该图展示了 Databend 对象在两个层次上的层次结构。每种类型的对象都设计了细粒度的权限和所有权，提供了灵活性。更多信息，请参阅 [访问控制](../56-security/access-control/index.md)。
+该图展示了 Databend 对象在两个层次上的层次结构。每种类型的对象都设计了细粒度的权限和所有权，提供了灵活性。更多信息，请参见 [访问控制](../56-security/access-control/index.md)。
 
 ![Alt text](/img/guides/faq1.png)
 
@@ -12,7 +8,7 @@ title: FAQ
 
 使用 [CREATE TABLE](/sql/sql-commands/ddl/table/ddl-create-table) 命令在 Databend 中创建表：
 
-```sql title='示例：'
+```sql title='示例:'
 CREATE TABLE example (
 -- 除了 DECIMAL 外，不需要指定字段长度。
   c1 INT,

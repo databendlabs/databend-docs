@@ -29,7 +29,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 在开始之前，请在 Amazon EC2 上启动一个实例并安装 Docker 引擎。
 
-1. 登录 [Amazon EC2 控制台](https://console.aws.amazon.com/ec2/)，并启动一个至少具有 8 GiB 内存容量的 Ubuntu 实例。实例启动后，您可以在实例详细信息页面上找到分配给实例的公有 IP 地址和私有 IP 地址。
+1. 登录 [Amazon EC2 控制台](https://console.aws.amazon.com/ec2/)，并启动一个至少具有 8 GiB 内存容量的 Ubuntu 实例。实例启动后，您可以在实例详细信息页面上找到分配给该实例的公有 IP 地址和私有 IP 地址。
 
 ![Alt text](/img/deploy/docker-instance.png)
 
@@ -37,7 +37,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ![Alt text](/img/deploy/docker-create-sg.png)
 
-3. 连接到您的实例。有许多方法可以从本地机器连接到您的实例。有关更多信息，请参阅 [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html)。
+3. 连接到您的实例。从本地机器连接到实例有多种方式。更多信息，请参阅 [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html)。
 
 4. 按照 [Docker 用户手册](https://docs.docker.com/engine/install/ubuntu/) 在您的实例上安装 Docker 引擎。
 
@@ -51,7 +51,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 :::note
 
 - 我们将控制台地址更改为 `9001` 以避免端口冲突。
-- 该命令还设置了根用户凭证 (`ROOTUSER`/`CHANGEME123`)，您需要在后续步骤中提供这些凭证进行身份验证。如果在此时更改了根用户凭证，请确保在整个过程中保持一致。
+- 该命令还设置了根用户凭证 (`ROOTUSER`/`CHANGEME123`)，您将在后续步骤中需要提供这些凭证进行身份验证。如果在此时更改了根用户凭证，请确保在整个过程中保持一致。
   :::
 
 ```shell
@@ -90,7 +90,7 @@ STARTUP WARNINGS:
 - The standard parity is set to 0. This can lead to data loss.
 ```
 
-3. 在本地机器上打开您的网络浏览器，并使用上述日志中显示的 WebUI 地址访问 MinIO 控制台（将 IP 地址替换为您的实例的公有 IP 地址）。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，那么您的 MinIO 控制台地址将是 `http://3.142.131.212:9001`。
+3. 在本地机器上打开您的 Web 浏览器，并使用上述日志中显示的 WebUI 地址访问 MinIO 控制台（将 IP 地址替换为您的实例的公有 IP 地址）。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，那么您的 MinIO 控制台地址将是 `http://3.142.131.212:9001`。
 
 ![Alt text](/img/deploy/docker-minio.png)
 
@@ -110,7 +110,7 @@ STARTUP WARNINGS:
 
 - 将 `AWS_S3_ENDPOINT` 值替换为 `docker logs minio` 返回的 MinIO 日志消息中显示的 MinIO API 地址。
 - 在启动 Databend Docker 容器时，您可以使用环境变量 `QUERY_DEFAULT_USER` 和 `QUERY_DEFAULT_PASSWORD` 指定用户名和密码。如果未提供这些变量，将创建一个默认的 root 用户且没有密码。
-- 下面的命令还创建了一个 SQL 用户 (`databend`/`databend`)，您稍后需要使用该用户连接到 Databend。如果在此时更改了 SQL 用户，请确保在整个过程中保持一致。
+- 下面的命令还创建了一个 SQL 用户 (`databend`/`databend`)，您稍后将需要使用该用户连接到 Databend。如果在此时更改了 SQL 用户，请确保在整个过程中保持一致。
   :::
 
 ```shell
@@ -236,11 +236,11 @@ Databend HTTP
 
 ### 连接到 Databend
 
-在此步骤中，您将使用 [BendSQL](../../../30-sql-clients/00-bendsql/index.md) 从本地机器连接到 Databend。
+在本步骤中，您将使用本地机器上的 [BendSQL](../../../30-sql-clients/00-bendsql/index.md) 连接到 Databend。
 
-1. 将 BendSQL 安装到本地机器。有关说明，请参阅 [安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql)。
+1. 将 BendSQL 安装到本地机器。安装说明请参阅 [安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql)。
 
-2. 在本地机器上启动终端，然后运行命令 `bendsql -h <instance_public_ip> -u databend -p databend` 以与 Databend 建立连接。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，则命令将是 `bendsql -h 3.142.131.212 -u databend -p databend`。
+2. 在本地机器上启动终端，然后运行命令 `bendsql -h <instance_public_ip> -u databend -p databend` 以建立与 Databend 的连接。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，命令将是 `bendsql -h 3.142.131.212 -u databend -p databend`。
 
 ```shell
 bendsql -h 3.142.131.212 -u databend -p databend
@@ -280,17 +280,15 @@ SELECT
 
 ### 下载 Databend
 
-1. 从 [下载](https://www.databend.cn/download) 页面下载适合您平台的安装包。
+1. 从 [下载](https://www.databend.com/download) 页面下载适合您平台的安装包。
 
 2. 将安装包解压到本地目录。
 
 </StepContent>
 
-<StepContent number="2">
+<StepContent
 
-### 启动 Databend
-
-1. 配置管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。对于此示例，取消注释以下行以选择此账户：
+1. 配置一个管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。对于此示例，取消注释以下行以选择此账户：
 
 ```sql title="databend-query.toml"
 [[query.users]]
@@ -301,7 +299,7 @@ auth_type = "no_password"
 2. 打开终端并导航到存储提取文件和文件夹的文件夹。
 
 3. 在**scripts**文件夹中运行脚本**start.sh**：
-   MacOS 可能会提示错误，指出“_databend-meta 无法打开，因为 Apple 无法检查其是否存在恶意软件_”。要继续操作，请在 Mac 上打开**系统设置**，在左侧菜单中选择**隐私与安全**，然后在右侧的**安全**部分中为 databend-meta 点击**仍然打开**。对 databend-query 的错误执行相同的操作。
+   MacOS 可能会提示错误，指出“_databend-meta 无法打开，因为 Apple 无法检查其是否存在恶意软件_”。要继续，请在 Mac 上打开**系统设置**，在左侧菜单中选择**隐私与安全**，然后在右侧的**安全**部分中为 databend-meta 点击**仍然打开**。对 databend-query 的错误执行相同的操作。
 
 ```shell
 ./scripts/start.sh
@@ -382,5 +380,5 @@ SELECT
 
 部署 Databend 后，您可能需要了解以下主题：
 
-- [加载与卸载数据](/guides/load-data)：在 Databend 中管理数据导入/导出。
+- [加载 & 卸载数据](/guides/load-data)：在 Databend 中管理数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取洞察。

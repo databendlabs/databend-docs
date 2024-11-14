@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 在部署 Databend 之前，请确保您已成功设置 Hadoop 环境，并完成了以下任务：
 
 - 您的系统已安装带有 JVM 支持的 Java SDK。
-- 获取连接到 HDFS 的名称节点 URL。
+- 获取连接 HDFS 的名称节点 URL。
 - 您已将 Hadoop 发行版下载到系统中，并且可以访问发行版中的 JAR 包。
 
 :::note
@@ -84,7 +84,7 @@ c. 将提取的文件夹 `bin`、`configs` 和 `scripts` 移动到文件夹 `/us
 在部署 Databend 之前，请确保您已成功设置 Hadoop 环境，并完成了以下任务：
 
 - 在 Hadoop 上启用 WebHDFS 支持。
-- 获取连接到 WebHDFS 的端点 URL。
+- 获取连接 WebHDFS 的端点 URL。
 - 获取用于身份验证的委托令牌（如果需要）。
 
 有关如何在 Apache Hadoop 上启用和管理 WebHDFS 的信息，请参阅 WebHDFS 的手册。以下是一些可能有用的链接：
@@ -152,9 +152,9 @@ curl -I  http://127.0.0.1:28101/v1/health
 
 ### 部署 Query 节点
 
-a. 在文件夹 `/usr/local/databend/configs` 中找到文件 `databend-query.toml`。
+a. 找到文件夹 `/usr/local/databend/configs` 中的文件 `databend-query.toml`。
 
-b. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type*，并配置连接到 HDFS 的访问凭据和端点 URL。
+b. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type*，并配置连接 HDFS 的访问凭证和端点 URL。
 
 要配置存储设置，请通过在每行开头添加 '#' 来注释掉 [storage.fs] 部分，然后通过删除 '#' 符号来取消注释适用于您的 HDFS 提供商的部分，并填写必要的值。您可以复制并粘贴下面的相应模板到文件中并进行相应配置。
 
@@ -187,7 +187,7 @@ root = "/analyses/databend/storage"
 </TabItem>
 </Tabs>
 
-c. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参阅 [配置管理员用户](../../04-references/01-admin-users.md)。要继续使用默认的 root 用户和身份验证类型 "no_password"，请确保在文件 `databend-query.toml` 中删除以下行前的 '#' 字符：
+c. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参阅 [配置管理员用户](../../04-references/01-admin-users.md)。要继续使用默认的 root 用户和 "no_password" 身份验证类型，请确保在文件 `databend-query.toml` 中删除以下行前的 '#' 字符：
 
 :::caution
 在本教程中使用 "no_password" 身份验证的 root 用户只是一个示例，不建议在生产环境中使用，因为存在潜在的安全风险。
@@ -217,7 +217,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 验证部署
 
-在本节中，我们将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行一个简单的查询以验证部署。
+在本节中，我们将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行一个简单的查询，以验证部署。
 
 a. 按照 [安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) 在您的机器上安装 BendSQL。
 
@@ -248,7 +248,7 @@ b. 启动 BendSQL 并检索当前时间以进行验证。
 Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
 
-请运行以下命令并再次尝试启动 Databend：
+请运行以下命令，然后再次尝试启动 Databend：
 
 ```shell
 sudo mkdir /var/log/databend
@@ -265,5 +265,5 @@ sudo chown -R $USER /var/lib/databend
 
 部署 Databend 后，您可能需要了解以下主题：
 
-- [加载 & 卸载数据](/guides/load-data)：在 Databend 中管理数据导入/导出。
+- [加载 & 卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取洞察。

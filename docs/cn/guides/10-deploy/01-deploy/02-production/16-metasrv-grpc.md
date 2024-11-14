@@ -5,11 +5,11 @@ description:
   发送和接收 gRPC 元数据
 ---
 
-Databend 允许您通过命令行界面 (CLI) 命令向正在运行的元服务集群发送和接收 gRPC (gRPC 远程过程调用) 元数据 (键值对)。
+Databend 允许你通过命令行界面 (CLI) 命令向正在运行的元服务集群发送和接收 gRPC (gRPC 远程过程调用) 元数据 (键值对)。
 
 ## 更新和创建键值对
 
-此命令会更新现有键值对（如果指定的键已存在），并在指定的键不存在时创建新的键值对：
+如果指定的键已存在，此命令将更新现有的键值对；如果指定的键不存在，则创建新的键值对：
 
 ```shell
 ./databend-meta --grpc-api-address "<grpc-api-address>" --cmd kvapi::upsert --key <key> --value <value>

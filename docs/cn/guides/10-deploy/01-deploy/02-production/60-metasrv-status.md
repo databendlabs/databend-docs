@@ -147,7 +147,7 @@ metasrv_meta_network_rpc_delay_seconds_count 3283
 
 ## 快照触发 API
 
-仅用于调试。强制 raft 创建并同步快照到所有节点。
+仅供调试使用。强制 raft 创建并同步快照到所有节点。
 
 ### 请求端点
 
@@ -159,4 +159,4 @@ metasrv_meta_network_rpc_delay_seconds_count 3283
 
 ## CPU 和内存分析 API
 
-使您能够使用 [FlameGraph](https://github.com/brendangregg/FlameGraph) 可视化 CPU 和内存的性能数据。更多信息，请参阅 [如何分析 Databend](../../../90-community/00-contributor/04-how-to-profiling.md)。
+使您能够使用 [FlameGraph](https://github.com/brendangregg/FlameGraph) 可视化 CPU 和内存的性能数据。有关更多信息，请参阅 [如何分析 Databend](../../../90-community/00-contributor/04-how-to-profiling.md)。

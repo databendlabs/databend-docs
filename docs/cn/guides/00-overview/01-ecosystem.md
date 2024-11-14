@@ -32,7 +32,7 @@ title: 生态系统
     - [Redash](../31-visualize/redash.md)
     - [Tableau](../31-visualize/tableau.md)
 
-- **笔记本**
+- **Notebooks**
     - [Deepnote](../31-visualize/deepnote.md)
     - [Jupyter Notebook](../31-visualize/jupyter.md)
 

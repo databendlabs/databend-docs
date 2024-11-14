@@ -47,7 +47,7 @@ import TabItem from '@theme/TabItem';
 
 1. 按照 Google 文档中的主题[创建新存储桶](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket)创建一个名为 `my_bucket` 的存储桶。
 2. 按照 Google 文档中的主题[创建服务账户密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating)创建并下载服务账户密钥文件。
-3. 使用 Base64 编码将服务账户密钥文件的内容转换为 Base64 编码字符串。例如，
+3. 使用 Base64 编码将服务账户密钥文件的内容转换为 Base64 编码的字符串。例如，
 
 ```bash
 base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
@@ -281,7 +281,7 @@ secret_access_key = "<your-access-key>"
 
 <TabItem value="Google GCS" label="Google GCS">
 
-对于 `credential` 参数，粘贴在步骤 [设置您的对象存储](#setting-up-your-object-storage) 中获得的 Base64 编码字符串（用双引号括起来）。
+对于 `credential` 参数，粘贴在步骤[设置您的对象存储](#setting-up-your-object-storage)中获得的 Base64 编码字符串（用双引号括起来）。
 
 ```toml title='databend-query.toml'
 [storage]
@@ -365,7 +365,7 @@ bucket = "my_bucket"
 // highlight-next-line
 # https://<bucket-name>.<region-id>[-internal].aliyuncs.com
 // highlight-next-line
-# 此示例使用 OSS 区域 id: oss-cn-beijing-internal。
+# 此示例使用 OSS 区域 ID: oss-cn-beijing-internal。
 endpoint_url = "https://oss-cn-beijing-internal.aliyuncs.com"
 # enable_virtual_host_style = true
 
@@ -543,7 +543,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 步骤 3：验证部署
 
-在此步骤中，您将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行简单查询以验证部署。
+在此步骤中，您将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行一个简单的查询，以验证部署。
 
 <StepsWrap>
 
@@ -591,7 +591,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
 ```
 
-运行以下命令并再次尝试启动 Databend：
+请运行以下命令，然后再次尝试启动 Databend：
 
 ```shell
 sudo mkdir /var/log/databend
