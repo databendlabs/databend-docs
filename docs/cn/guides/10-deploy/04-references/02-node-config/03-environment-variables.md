@@ -36,7 +36,7 @@ export CONFIG_FILE='/etc/databend/databend-query.toml'
 
 ## Query 环境变量
 
-配置文件 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中 [query] 和 [storage] 部分的参数可以通过环境变量进行配置。环境变量的名称是通过将 QUERY 或 STORAGE 与相应的参数名称用下划线连接形成的。
+配置文件 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中 [query] 和 [storage] 部分的参数可以通过环境变量进行配置。环境变量的名称是通过将单词 QUERY 或 STORAGE 与相应的参数名称用下划线连接形成的。
 
 Databend 还接受来自存储服务的环境变量，只要它们与 Databend 的环境变量匹配。这使您可以使用最熟悉的环境变量命名约定，无需记住额外的变量名称，简化了配置过程。
 
