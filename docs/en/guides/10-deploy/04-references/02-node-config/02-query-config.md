@@ -192,7 +192,8 @@ The following is a list of the parameters available within the [storage.oss] sec
 | root                 | Specifies a directory within the bucket from which Databend will operate. Example: if a bucket's root directory has a folder called `myroot`, then `root = "myroot/"`. |
 
 <!-- #ifcndef -->
-### [storage.obs] 部分
+
+### [storage.obs] Section
 
 以下是 [storage.obs] 部分中可用的参数列表：
 
@@ -202,6 +203,7 @@ The following is a list of the parameters available within the [storage.oss] sec
 | endpoint_url      | 华为云 OBS 的 URL 端点。                      |
 | access_key_id     | 用于与华为云 OBS 进行身份验证的访问密钥 ID。  |
 | secret_access_key | 用于与华为云 OBS 进行身份验证的访问密钥秘密。 |
+
 <!-- #endcndef -->
 
 ### [storage.cos] Section

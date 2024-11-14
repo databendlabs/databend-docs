@@ -12,7 +12,7 @@ The Meta node is responsible for storing and managing various types of metadata.
 
 On the other hand, the Query node is dedicated to processing queries. It is responsible for executing user queries, retrieving data from the underlying storage, and returning the results to the user. The Query node handles the computational aspect of Databend, ensuring efficient and accurate query processing.
 
-Please note that, when we mention "nodes," it refers to individual servers that host and run specific components of the Databend system. Each node, such as a Meta node or a Query node, usually serves a distinct purpose in processing data and executing queries.
+Please note that, when we mention "nodes", it refers to individual servers that host and run specific components of the Databend system. Each node, such as a Meta node or a Query node, usually serves a distinct purpose in processing data and executing queries.
 
 ## Deployment Modes
 

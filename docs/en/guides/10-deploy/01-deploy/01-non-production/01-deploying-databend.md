@@ -423,7 +423,7 @@ type = "obs"
 [storage.obs]
 // highlight-next-line
 bucket = "my_bucket"
-# 您可以从存储桶详情页面获取 URL。
+# 您可以从存储桶详情页面获取 URL
 // highlight-next-line
 endpoint_url = "https://obs.<obs-region>.myhuaweicloud.com"
 # 如何获取 access_key_id 和 secret_access_key:
