@@ -11,7 +11,6 @@ async function processFiles(language, action) {
   for (const file of filesToProcess) {
     const filePath = path.resolve(file);
     if (fs.existsSync(filePath)) {
-      console.log(`Processing file: ${filePath}`);
 
       let fileContent = await fs.readFile(filePath, "utf-8");
 
@@ -51,7 +50,6 @@ async function processFiles(language, action) {
 
       // Write back to the file
       await fs.writeFile(filePath, fileContent, "utf-8");
-      console.log(`File updated: ${filePath}`);
     } else {
       console.log(`File not found: ${filePath}`);
     }
