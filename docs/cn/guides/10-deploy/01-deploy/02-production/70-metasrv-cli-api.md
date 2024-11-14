@@ -5,17 +5,17 @@ description:
     通过命令行界面访问 Databend Meta Service 集群
 ---
 
-二进制文件 `databend-meta` 提供了几个方便的命令来访问 databend meta service 的 KVApi。
-`databend-meta --help` 也包含了一个简单的使用这些 CLI 命令的指南。
+二进制文件 `databend-meta` 提供了几个方便的命令来访问 Databend Meta Service 的 KVApi。
+`databend-meta --help` 还包括一个简单的使用这些 CLI 命令的指南。
 
 :::caution
 
-这些是底层 API，如果可能应避免使用：
+这些是低级 API，如果可能应避免使用：
 
-- 存储在 databend-meta 中的某些数据是相关的，添加或删除可能会破坏这些内部一致性。
-  例如，删除一个 `database` 时，如果它仍然有属于它的 `table`。
+- Databend-meta 中存储的一些数据是相关的，添加或删除可能会破坏这些内部一致性。
+  例如，删除一个 `database` 时，仍然有属于它的 `table`。
 
-- databend-mate 中的大多数数据都是原始字节。数据的解释是在客户端完成的，即由 databend-query 完成。
+- Databend-mate 中的大多数数据都是原始字节。数据的解释是在客户端完成的，即由 databend-query 完成。
   修改数据可能会导致兼容性问题。
 
 :::

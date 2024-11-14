@@ -35,7 +35,7 @@ Databend Cloud 中的工作表用于组织、运行和保存 SQL 语句。它们
 
 ## 共享工作表
 
-你可以将你的工作表与组织中的每个人或特定个人共享。为此，请点击你要共享的工作表中的 **Share**，或者点击 **Share this Folder** 来共享工作表文件夹。
+你可以将你的工作表与组织中的每个人或特定个人共享。为此，请点击你要共享的工作表中的 **Share**，或者点击 **Share this Folder** 来共享一个工作表文件夹。
 
 ![Alt text](@site/static/img/documents/worksheet/share.png)
 

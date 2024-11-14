@@ -8,11 +8,11 @@ description: 如何备份和恢复 Meta 服务集群数据
 
 ## 从 Meta 服务导出数据
 
-支持从 databend-meta 数据目录或从运行的 databend-meta 服务器导出数据。
+支持从 databend-meta 数据目录或从正在运行的 databend-meta 服务器导出数据。
 
-### 从运行中的服务器导出
+### 从正在运行的服务器导出
 
-类似于从数据目录导出，但使用 `--grpc-api-address <ip:port>` 参数代替 `--raft-dir`，
+类似于从数据目录导出，但使用服务端点参数 `--grpc-api-address <ip:port>` 代替 `--raft-dir`，
 其中 `<ip:port>` 是 [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 中的 `grpc_api_address`，例如：
 
 ```shell
@@ -27,7 +27,7 @@ databend-metactl export --grpc-api-address "127.0.0.1:9191" --db <output_fn>
 
 关闭 `databend-meta` 服务。
 
-然后从 `databend-meta` 存储元数据的目录（`<your_meta_dir>`）导出 sled DB 到一个本地文件 `output_fn`，格式为多行 JSON。
+然后从 `databend-meta` 存储元数据的目录（`<your_meta_dir>`）导出 sled DB 到本地文件 `output_fn`，格式为多行 JSON。
 例如，输出文件中的每一行都是一个导出的键值记录的 JSON。
 
 ```sh
@@ -60,7 +60,7 @@ databend-meta --raft-dir "<your_meta_dir>" ...
 cat "<output_fn>" | databend-metactl import --raft-dir "<your_meta_dir>"
 ```
 
-**警告**：`<your_meta_dir>` 中的数据将被清除。
+**注意**：`<your_meta_dir>` 中的数据将被清除。
 
 ## 将数据导入为新的 databend-meta 集群
 
