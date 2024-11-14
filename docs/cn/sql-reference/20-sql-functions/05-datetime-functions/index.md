@@ -54,6 +54,9 @@ title: 日期与时间函数
 - [DATE_SUB](date-sub)
 - [SUBTRACT INTERVAL](subtractinterval.md)
 - [MONTHS_BETWEEN](months-between.md)
+- [LAST_DAY](last-day.md)
+- [NEXT_DAY](next-day.md)
+- [PREVIOUS_DAY](previous-day.md)
 
 ## 日期信息函数
 
