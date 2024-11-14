@@ -4,7 +4,7 @@ title: 仪表盘
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-仪表盘用于通过各种图表类型展示查询结果，包括**计分卡**、**饼图**、**柱状图**和**折线图**。这些图表是根据查询结果生成的。您可以选择在查询结果后创建一个图表。刷新仪表盘可以重新执行与图表对应的查询，从而用最新的结果更新图表。
+仪表盘用于通过各种图表类型展示查询结果，包括**计分卡**、**饼图**、**条形图**和**折线图**。这些图表是根据查询结果生成的。您可以选择在查询结果后创建一个图表。刷新仪表盘可以重新执行与图表对应的查询，从而用最新的结果更新图表。
 
 ![Alt text](@site/static/img/documents/dashboard/dashboard.png)
 
@@ -30,14 +30,14 @@ import StepContent from '@site/src/components/Steps/step-content';
 | Count                | 计算查询结果中该字段的记录数（不包括包含 NULL 和 '' 值的记录）。 |
 | Min                  | 计算查询结果中的最小值。                                     |
 | Max                  | 计算查询结果中的最大值。                                     |
-| Median               | 计算查询结果中的中位数值。                                   |
+| Median               | 计算查询结果中的中位数。                                     |
 | Sum                  | 计算查询结果中数值的总和。                                   |
 | Average              | 计算查询结果中数值数据的平均值。                             |
 | Mode                 | 识别查询结果中最常出现的值。                                 |
 
 4. 返回 Databend Cloud 主页，在左侧导航菜单中选择 **Dashboards**，然后点击 **New Dashboard**。
 
-5. 在新仪表盘页面中，点击 **Add Chart**。从左侧窗格中拖放图表到仪表盘上。如果您在左侧窗格中有多个图表，可以随意拖放所需的图表。
+5. 在新仪表盘页面中，点击 **Add Chart**。从左侧窗格中拖放图表到仪表盘上。如果您在左侧窗格中有多个图表可用，请随意拖放您需要的图表。
 
 :::note
 在查询表中生成图表后，请避免在同一查询表中运行其他查询，因为这可能会导致图表在仪表盘上不可用。
