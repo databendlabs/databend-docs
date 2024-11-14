@@ -286,7 +286,9 @@ SELECT
 
 </StepContent>
 
-<StepContent
+<StepContent number="2">
+
+### Start Databend
 
 1. 配置一个管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。对于此示例，取消注释以下行以选择此账户：
 
@@ -335,6 +337,7 @@ ps aux | grep databend
 eric             12789   0.0  0.0 408495808   1040 s003  U+    2:16pm   0:00.00 grep databend
 eric             12781   0.0  0.5 408790416  38896 s003  S     2:15pm   0:00.05 bin/databend-query --config-file=configs/databend-query.toml
 eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 bin/databend-meta --config-file=configs/databend-meta.toml
+
 ```
 
 </StepContent>
