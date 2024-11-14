@@ -54,6 +54,9 @@ This section provides reference information for the datetime-related functions i
 - [DATE_SUB](date-sub)
 - [SUBTRACT INTERVAL](subtractinterval.md)
 - [MONTHS_BETWEEN](months-between.md)
+- [LAST_DAY](last-day.md)
+- [NEXT_DAY](next-day.md)
+- [PREVIOUS_DAY](previous-day.md)
 
 ## Date Information Functions
 
