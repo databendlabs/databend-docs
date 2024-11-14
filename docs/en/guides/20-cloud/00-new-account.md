@@ -55,7 +55,6 @@ Please note that this step is visible only to users who sign up for their organi
 <!-- #endendef -->
 
 <!-- #ifcndef -->
-
 要开通 Databend Cloud 服务，您需要先获取 Databend Cloud，然后创建一个 Databend Cloud 账号。
 
 ## 获取 Databend Cloud
@@ -146,5 +145,4 @@ Please note that this step is visible only to users who sign up for their organi
 3. 选择云提供商和地区。请注意，此步骤仅对注册其组织的用户可见。完成设置后，点击“创建”。
 
 ![Alt text](@site/static/img/documents_cn/getting-started/02.png)
-
 <!-- #endcndef -->
