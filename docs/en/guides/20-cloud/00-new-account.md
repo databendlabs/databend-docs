@@ -147,4 +147,4 @@ Please note that this step is visible only to users who sign up for their organi
 
 ![Alt text](@site/static/img/documents_cn/getting-started/02.png)
 
-<!-- #endendef -->
+<!-- #endcndef -->
