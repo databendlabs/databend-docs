@@ -288,6 +288,8 @@ SELECT
 
 <StepContent number="2">
 
+### Start Databend
+
 1. 配置一个管理员用户。您将使用此账户连接到 Databend。更多信息，请参阅[配置管理员用户](../../04-references/01-admin-users.md)。对于此示例，取消注释以下行以选择此账户：
 
 ```sql title="databend-query.toml"
