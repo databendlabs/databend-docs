@@ -1,22 +1,26 @@
 ```yaml title="values.yaml"
-cluster: example_cluster
+meta:
+  address: "databend-meta.databend-meta.svc.cluster.local:9191"
+  endpoints:
+    - "databend-meta-0.databend-meta.databend-meta.svc.cluster.local:9191"
+    - "databend-meta-1.databend-meta.databend-meta.svc.cluster.local:9191"
+    - "databend-meta-2.databend-meta.databend-meta.svc.cluster.local:9191"
+
+cluster: "example_cluster"
+
 replicaCount: 3
 
-query:
-  users:
-    databend:
-      password: databend
-
-meta:
-  endpoint: databend-meta.databend-meta.svc.cluster.local:9191
+users:
+  - name: databend
+    password: databend
 
 storage:
   type: s3
   s3:
-    bucket: databend-bucket
-    region: us-east-1
-    access_key_id: <your-access-key-id>
-    secret_access_key: <your-secret-access-key>
+    bucket: "databend"
+    region: "us-east-1"
+    access_key_id: "<your-access-key-id>"
+    secret_access_key: "<your-secret-access-key>"
 
 serviceMonitor:
   enabled: true
@@ -38,53 +42,29 @@ NAME                READY   STATUS    RESTARTS   AGE
 databend-query-0    1/1     Running   0          5m36s
 databend-query-1    1/1     Running   0          4m53s
 databend-query-2    1/1     Running   0          4m18s
-
-❯ kubectl -n databend-query get svc
-NAME               TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
-databend-query     ClusterIP   10.96.123.123   <none>        8000/TCP,8080/TCP   5m45s
 ```
 
-### Step 3. Access Databend Query Cluster
+### Step 3. Access Databend Query
 
-1. Forward the service port to local
+1. Expose the service to access Databend Query
 
 ```shell
-kubectl -n databend-query port-forward svc/databend-query 8000:8000
+kubectl -n databend-query port-forward svc/databend-query 8000:80
 ```
 
-2. Connect to the Databend Query cluster using BendSQL
+2. Use BendSQL to connect to Databend Query
 
 ```shell
 bendsql --dsn "databend://databend:databend@localhost:8000?sslmode=disable"
 ```
 
-3. Verify the connection
-
-```shell
-❯ bendsql
-Welcome to BendSQL 0.7.4!
-Connecting to databend://databend:databend@localhost:8000?sslmode=disable...
-Connected to Databend server version 0.7.4
-
-databend :) SELECT 1;
-
-SELECT 1;
-
-┌─1─┐
-│ 1 │
-└───┘
-
-1 row in set. Query took 0.001 seconds.
-```
-
 ## Next Steps
 
-- Learn more about Databend by reading the [Databend Documentation](https://databend.rs/doc).
-- Explore the [Databend GitHub Repository](https://github.com/datafuselabs/databend) to see the source code and contribute.
+Congratulations! You have successfully deployed a Databend cluster on Kubernetes.
 
-{/*examples*/}
-
-详细和默认值可在[文档](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-query/values.yaml)中找到。
+- Learn more about Databend: [Databend Overview](/guides/overview)
+- Explore Databend Cloud: [Databend Cloud](https://databend.com)
+- Join our community: [Databend Community](https://databend.com/community)
 
 ```yaml
 replicaCount: 3
@@ -94,7 +74,7 @@ config:
     # 添加内置用户
     users:
       - name: databend
-        # 可用类型：sha256_password, double_sha1_password, no_password, jwt
+        # 可用类型: sha256_password, double_sha1_password, no_password, jwt
         authType: double_sha1_password
         # echo -n "databend" | sha1sum | cut -d' ' -f1 | xxd -r -p | sha1sum
         authString: 3081f32caef285c232d066033c89a78d88a6d8a5
@@ -124,14 +104,14 @@ service:
 
 ````mdx-code-block
 
-:::caution 关于 LoadBalancer
+:::caution 关于LoadBalancer
 当将服务类型设置为 `LoadBalancer` 时，
-几乎所有云平台都会为查询服务分配一个公网 IP 地址，
+几乎所有云平台都会为查询服务分配一个公网IP地址，
 这可能会导致安全问题。
 
-因此，需要使用注解来告知云平台创建一个内部负载均衡器。
+然后需要使用注解来告知云平台创建一个内部负载均衡器。
 
-对于不同的云提供商：
+对于不同的云服务提供商：
 
 
 <Tabs>
@@ -150,7 +130,7 @@ service:
 
 </TabItem>
 
-<TabItem value="aliyun" label="Alibaba Cloud">
+<TabItem value="aliyun" label="阿里云">
 
   ```yaml
   service:
@@ -189,14 +169,14 @@ config:
 
 </TabItem>
 
-<TabItem value="aliyun" label="OSS(Alibaba Cloud)">
+<TabItem value="aliyun" label="OSS(阿里云)">
 
-```yaml title="使用 s3 客户端的 oss"
+```yaml title="使用s3客户端的oss"
 config:
   storage:
     type: s3
     s3:
-      # 区域端点 URL
+      # 区域端点URL
       endpoint_url: "https://oss-ap-southeast-1.aliyuncs.com"
       bucket: "<bucket>"
       access_key_id: "<key>"
@@ -205,12 +185,12 @@ config:
       enable_virtual_host_style: true
 ```
 
-```yaml title="原生 oss"
+```yaml title="原生oss"
 config:
   storage:
     type: oss
     oss:
-      # 区域端点 URL
+      # 区域端点URL
       endpoint_url: "https://oss-ap-southeast-1.aliyuncs.com"
       bucket: "<bucket>"
       access_key_id: "<key>"
@@ -219,14 +199,14 @@ config:
 
 </TabItem>
 
-<TabItem value="qcloud" label="COS(Tencent Cloud)">
+<TabItem value="qcloud" label="COS(腾讯云)">
 
-```yaml title="原生 cos"
+```yaml title="原生cos"
 config:
   storage:
     type: cos
     cos:
-      # 区域端点 URL
+      # 区域端点URL
       endpoint_url: "https://cos.ap-singapore.myqcloud.com"
       bucket: "test-databend-1234567890"
       access_key_id: "<key>"
@@ -241,7 +221,7 @@ config:
 
 ````
 
-2. 在命名空间 `databend-query` 中为 `tenant1` 部署查询集群
+2. 在命名空间 `databend-query` 中为 `tenant1` 部署查询计算集群
 
 ```shell
 helm repo add databend https://charts.databend.com
@@ -266,7 +246,7 @@ NAME                     TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)    
 tenant1-databend-query   LoadBalancer   10.43.84.243   172.20.0.2    8080:32063/TCP,9000:31196/TCP,9090:30472/TCP,8000:30050/TCP,7070:31253/TCP,3307:31367/TCP   17m
 ```
 
-4. 访问查询集群
+4. 访问查询计算集群
 
 我们在这里使用内置用户 `databend`：
 
@@ -276,21 +256,21 @@ tenant1-databend-query   LoadBalancer   10.43.84.243   172.20.0.2    8080:32063/
   bendsql -htenant1-databend-query.databend-query.svc -P8000 -udatabend -pdatabend
   ```
 
-- 集群外访问，使用负载均衡器
+- 集群外访问（通过负载均衡器）
 
   ```shell
   # 这里的地址是上面服务 tenant1-databend-query 的 `EXTERNAL-IP`
   bendsql -h172.20.0.2 -P8000 -udatabend -pdatabend
   ```
 
-- 使用 kubectl 本地访问
+- 本地访问（通过kubectl）
 
   ```shell
   nohup kubectl port-forward -n databend-query svc/tenant1-databend-query 3307:3307 &
   bendsql -h127.0.0.1 -P8000 -udatabend -pdatabend
   ```
 
-5. 为 tenant2 部署第二个集群
+5. 为 tenant2 部署第二个计算集群
 
 修改 `values.yaml` 为 tenant2
 
@@ -314,23 +294,23 @@ tenant2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
 tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
 ```
 
-## 维护 Databend 查询集群
+## 维护 Databend 查询计算集群
 
 ### 扩展
 
-要扩展或缩减查询集群，有两种方法
+要扩展或缩减查询计算集群，有两种方法
 
 - 直接使用 `kubectl`
 
   ```shell
-   # 将查询集群数量扩展到 0
+   # 将查询计算集群数量缩减到 0
    kubectl -n databend-query scale statefulset tenant1-databend-query --replicas=0
 
-   # 将查询集群数量扩展到 5
+   # 将查询计算集群数量扩展到 5
    kubectl -n databend-query scale statefulset tenant1-databend-query --replicas=5
   ```
 
-- 更新 `values.yaml` 中的 `replicaCount` 为任意值，然后再次运行 helm upgrade
+- 将 `values.yaml` 中的 `replicaCount` 更新为任意值，然后再次运行 helm upgrade
 
   ```diff title="diff values.yaml"
   - replicaCount: 3
@@ -345,7 +325,7 @@ tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
 
 ### 升级
 
-要升级查询集群，我们需要修改上述查询集群的 `values.yaml`。
+要升级查询计算集群，我们需要修改上述查询计算集群的 `values.yaml`。
 
 ```diff title="diff values.yaml"
 replicaCount: 3
@@ -367,7 +347,7 @@ helm upgrade --install tenant1 databend/databend-query \
     --values values.yaml
 ```
 
-### 检查集群信息
+### 检查计算集群信息
 
 ```sql
 ❯ select * from system.clusters;
@@ -455,7 +435,7 @@ SELECT count(*) FROM t1;
 ## 监控 Meta 和 Query 计算集群
 
 :::info
-部署 meta 和 query 计算集群时，应启用 `serviceMonitor`。
+注意，在部署 meta 和 query 计算集群时，应启用 `serviceMonitor`。
 :::
 
 - 从以下地址下载 grafana 仪表盘文件：[datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards)。
