@@ -24,9 +24,9 @@ Databend 通过其元服务层高效支持多租户，该层在系统中起着�
 
 Databend 的查询层处理查询计算，由多个计算集群组成，每个集群包含多个节点。
 每个节点是查询层的核心单元，由以下部分组成：
-- **规划器**：使用 [关系代数](https://en.wikipedia.org/wiki/Relational_algebra) 中的元素为 SQL 语句制定执行计划，结合 Projection、Filter 和 Limit 等操作符。
+- **计划器**：使用 [关系代数](https://en.wikipedia.org/wiki/Relational_algebra) 中的元素为 SQL 语句制定执行计划，结合 Projection、Filter 和 Limit 等操作符。
 - **优化器**：基于规则的优化器应用预定义规则，如“谓词下推”和“修剪未使用列”，以实现最佳查询执行。
-- **处理器**：根据规划器指令构建查询执行管道，遵循 Pull&Push 方法。处理器相互连接，形成一个可以在节点间分布的管道，以提高性能。
+- **处理器**：根据计划器指令构建查询执行管道，遵循 Pull&Push 方法。处理器相互连接，形成一个可以在节点间分布的管道，以提高性能。
 
 在 GitHub 的 [query](https://github.com/datafuselabs/databend/tree/main/src/query) 目录中了解更多关于查询层的信息。
 
