@@ -7,6 +7,7 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 import Version from '@site/src/components/Version';
+import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="Introduced or updated: v1.2.168"/>
 
@@ -108,6 +109,19 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 </TabItem>
 
+<!-- #ifcndef -->
+<TabItem value="Huawei OBS" label="Huawei OBS">
+1. 创建一个名为 `my_bucket` 的存储桶或容器。
+2. 获取连接到您创建的存储桶或容器的端点 URL。
+3. 获取您账户的访问密钥 ID 和秘密访问密钥。
+
+有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
+
+- [https://support.huaweicloud.com/intl/zh-cn/usermanual-obs/zh-cn_topic_0045829088.html](https://support.huaweicloud.com/intl/zh-cn/usermanual-obs/zh-cn_topic_0045829088.html)
+- [https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html](https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html)
+</TabItem>
+<!-- #endcndef -->
+
 <TabItem value="Wasabi" label="Wasabi">
 
 1. Create a bucket or container named `my_bucket`.
@@ -134,6 +148,7 @@ For information about how to manage buckets and Access Keys for your MinIO, refe
 - [https://min.io/docs/minio/container/administration/console/security-and-access.html](https://min.io/docs/minio/container/administration/console/security-and-access.html)
 
 </TabItem>
+
 <TabItem value="CubeFS" label="CubeFS">
 
 1. Start the ObjectNode object gateway.
@@ -397,6 +412,30 @@ secret_access_key = "<your-access-key>"
 ```
 
 </TabItem>
+
+<!-- #ifcndef -->
+<TabItem value="Huawei OBS" label="Huawei OBS">
+
+```toml title='databend-query.toml'
+[storage]
+# obs
+type = "obs"
+[storage.obs]
+// highlight-next-line
+bucket = "my_bucket"
+# 您可以从存储桶详情页面获取 URL。
+// highlight-next-line
+endpoint_url = "https://obs.<obs-region>.myhuaweicloud.com"
+# 如何获取 access_key_id 和 secret_access_key:
+# https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html
+// highlight-next-line
+access_key_id = "<your-key-id>"
+// highlight-next-line
+secret_access_key = "<your-access-key>"
+```
+
+</TabItem>
+<!-- #endcndef -->
 
 <TabItem value="Wasabi" label="Wasabi">
 
