@@ -256,3 +256,9 @@ WHERE
     (number > 0)
 ORDER BY 1;
 ```
+
+## 查询用户函数
+
+```sql
+show user functions;
+```
