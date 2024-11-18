@@ -9,12 +9,10 @@ import EEFeature from '@site/src/components/EEFeature';
 
 User-Defined Functions (UDFs) offer enhanced flexibility by supporting both anonymous lambda expressions and predefined handlers (Python, JavaScript & WebAssembly) for defining UDFs. These features allow users to create custom operations tailored to their specific data processing needs. Databend UDFs are categorized into the following types:
 
-- [Lambda UDFs](#lambda-udf)
+- [Lambda UDFs](#lambda-udfs)
 - [Embedded UDFs](#embedded-udfs)
 
-Databend provides a variety of commands to manage UDFs. For details, see [User-Defined Function](/sql/sql-commands/ddl/udf/).
-
-## Lambda UDF
+## Lambda UDFs
 
 A lambda UDF allows users to define custom operations using anonymous functions (lambda expressions) directly within their queries. These lambda expressions are often concise and can be used to perform specific data transformations or computations that may not be achievable using built-in functions alone.
 
@@ -24,8 +22,17 @@ This example creates UDFs to extract specific values from JSON data within a tab
 
 ```sql
 -- Define UDFs
-CREATE FUNCTION get_v1 AS (json) -> json["v1"];
-CREATE FUNCTION get_v2 AS (json) -> json["v2"];
+CREATE FUNCTION get_v1 AS (input_json) -> input_json['v1'];
+CREATE FUNCTION get_v2 AS (input_json) -> input_json['v2'];
+
+SHOW USER FUNCTIONS;
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  name  │    is_aggregate   │ description │           arguments           │ language │         created_on         │
+├────────┼───────────────────┼─────────────┼───────────────────────────────┼──────────┼────────────────────────────┤
+│ get_v1 │ NULL              │             │ {"parameters":["input_json"]} │ SQL      │ 2024-11-18 23:20:28.432842 │
+│ get_v2 │ NULL              │             │ {"parameters":["input_json"]} │ SQL      │ 2024-11-18 23:21:46.838744 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- Create a table
 CREATE TABLE json_table(time TIMESTAMP, data JSON);
@@ -257,10 +264,6 @@ WHERE
 ORDER BY 1;
 ```
 
-## Show Created UDF
+## Managing UDFs
 
-If you want to show UDF you have already created.
-
-```sql
-show user functions;
-```
+Databend provides a variety of commands to manage UDFs. For details, see [User-Defined Function](/sql/sql-commands/ddl/udf/).
