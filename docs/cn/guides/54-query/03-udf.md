@@ -7,10 +7,10 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='Python UDF'/>
 
-用户定义函数（UDFs）通过支持匿名lambda表达式和预定义处理程序（Python、JavaScript & WebAssembly）来定义UDF，提供了增强的灵活性。这些功能允许用户创建定制的操作，以满足其特定的数据处理需求。Databend UDF分为以下几类：
+用户定义函数（UDFs）通过支持匿名lambda表达式和预定义处理程序（Python、JavaScript和WebAssembly）来定义UDF，提供了增强的灵活性。这些功能允许用户创建定制的操作，以满足其特定的数据处理需求。Databend UDF分为以下几类：
 
-- [Lambda UDFs](#lambda-udf)
-- [嵌入式UDFs](#embedded-udfs)
+- [Lambda UDF](#lambda-udf)
+- [嵌入式UDF](#embedded-udfs)
 
 Databend提供了多种命令来管理UDF。详情请参阅[用户定义函数](/sql/sql-commands/ddl/udf/)。
 
@@ -42,16 +42,16 @@ SELECT get_v1(data), get_v2(data) FROM json_table;
 +------------+------------+
 ```
 
-## 嵌入式UDFs
+## 嵌入式UDF
 
-嵌入式UDFs允许您在SQL中嵌入以下编程语言编写的代码：
+嵌入式UDF允许您在SQL中嵌入以下编程语言编写的代码：
 
 - [Python](#python)
 - [JavaScript](#javascript)
 - [WebAssembly](#webassembly)
 
 :::note
-如果您的程序内容较大，可以将其压缩，然后传递到Stage。请参阅[使用示例](#usage-examples-2)中的WebAssembly。
+如果您的程序内容较大，可以将其压缩，然后传递到Stage。请参阅WebAssembly的[使用示例](#usage-examples-2)。
 :::
 
 ### Python（需要Databend企业版）
@@ -59,7 +59,7 @@ SELECT get_v1(data), get_v2(data) FROM json_table;
 Python UDF允许您通过Databend的内置处理程序从SQL查询中调用Python代码，从而在SQL查询中无缝集成Python逻辑。
 
 :::note
-Python UDF必须仅使用Python的标准库；不允许使用第三方导入。
+Python UDF必须仅使用Python的标准库；不允许第三方导入。
 :::
 
 #### 数据类型映射
@@ -255,4 +255,12 @@ FROM
 WHERE
     (number > 0)
 ORDER BY 1;
+```
+
+## 显示已创建的UDF
+
+如果您想显示已创建的UDF。
+
+```sql
+show user functions;
 ```
