@@ -2,7 +2,7 @@
 title: DROP DATABASE
 ---
 
-删除一个数据库。
+删除数据库。
 
 另请参阅：[UNDROP DATABASE](undrop-database.md)
 
