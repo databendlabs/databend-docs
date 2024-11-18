@@ -7,8 +7,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 提供关于指定流状态的信息，生成一个单列结果 (`has_data`)，其值可以是 `true` 或 `false`：
 
-- `true`: 表示流**可能包含**变更数据捕获记录。
-- `false`: 表示流当前不包含任何变更数据捕获记录。
+- `true`: 表示该流**可能包含**变更数据捕获记录。
+- `false`: 表示该流当前不包含任何变更数据捕获记录。
 
 :::note
 结果中出现 `true` (`has_data`) **并不**保证变更数据捕获记录的确定存在。其他操作，例如执行表压缩操作，也可能导致 `true` 值，即使实际上没有变更数据捕获记录。
@@ -23,7 +23,7 @@ SELECT * FROM STREAM_STATUS('<stream_name>');
 ## 示例
 
 ```sql
--- 创建一个带有列 'c' 的表 't'
+-- 创建一个包含列 'c' 的表 't'
 CREATE TABLE t (c int);
 
 -- 在表 't' 上创建流 's'
