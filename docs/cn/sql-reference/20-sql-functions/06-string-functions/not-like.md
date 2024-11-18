@@ -2,7 +2,7 @@
 title: NOT LIKE
 ---
 
-使用 SQL 模式进行模式不匹配。返回 1（TRUE）或 0（FALSE）。如果 `expr` 或 `pat` 为 NULL，结果为 NULL。
+使用SQL模式进行模式不匹配。返回1（TRUE）或0（FALSE）。如果expr或pat为NULL，则结果为NULL。
 
 ## 语法
 

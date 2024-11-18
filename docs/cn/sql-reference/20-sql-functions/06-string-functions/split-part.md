@@ -36,7 +36,7 @@ split_part('databend cloud', ' ', 1)|
 ------------------------------------+
 Databend                            |
 
--- 使用空字符串作为分隔符或分隔符在输入字符串中不存在
+-- 使用空字符串作为分隔符或输入字符串中不存在的分隔符
 -- SPLIT_PART 返回整个输入字符串。
 SELECT SPLIT_PART('Databend Cloud', '', 1);
 

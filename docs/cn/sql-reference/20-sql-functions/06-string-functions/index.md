@@ -21,6 +21,11 @@ title: 字符串函数
 - [SUBSTRING](substring.md)
 - [TRANSLATE](translate.md)
 - [TRIM](trim.md)
+- [TRIM_BOTH](trim-both.md)
+- [TRIM_LEADING](trim-leading.md)
+- [TRIM_TRAILING](trim-trailing.md)
+- [LTRIM](ltrim.md)
+- [RTRIM](rtrim.md)
 
 ## 字符串信息：
 - [ASCII](ascii.md)
