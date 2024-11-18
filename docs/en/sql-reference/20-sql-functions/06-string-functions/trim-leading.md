@@ -4,7 +4,10 @@ title: TRIM_LEADING
 
 Removes specific characters from the beginning (left side) of a string.
 
-See also: [TRIM_TRAILING](trim-trailing.md)
+See also: 
+
+- [LTRIM](ltrim.md)
+- [TRIM_TRAILING](trim-trailing.md)
 
 ## Syntax
 

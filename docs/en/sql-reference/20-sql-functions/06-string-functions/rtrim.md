@@ -7,7 +7,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Removes specific characters from the end (right side) of a string.
 
-See also: [LTRIM](ltrim.md)
+See also: 
+
+- [TRIM_TRAILING](trim-trailing.md)
+- [LTRIM](ltrim.md)
 
 ## Syntax
 
