@@ -7,6 +7,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Removes specific characters from the end (right side) of a string.
 
+See also: [LTRIM](ltrim.md)
+
 ## Syntax
 
 ```sql
