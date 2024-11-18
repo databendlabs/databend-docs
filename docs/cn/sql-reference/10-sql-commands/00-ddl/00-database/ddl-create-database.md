@@ -1,5 +1,5 @@
 ---
-title: CREATE DATABASE
+title: 创建数据库
 sidebar_position: 1
 ---
 
