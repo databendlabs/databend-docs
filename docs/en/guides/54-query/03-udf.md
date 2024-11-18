@@ -256,3 +256,11 @@ WHERE
     (number > 0)
 ORDER BY 1;
 ```
+
+## Show Created UDF
+
+If you want to show UDF you have already created.
+
+```sql
+show user functions;
+```
