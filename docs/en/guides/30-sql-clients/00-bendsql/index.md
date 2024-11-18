@@ -12,13 +12,17 @@ BendSQL offers multiple installation options to suit different platforms and pre
 
 ### Shell Script
 
-BendSQL provides a convenient Shell Script for installation. You can choose between two options:
+BendSQL provides a convenient Shell script for installation. You can choose between two options:
 
 #### Default Installation
 
 Install BendSQL to the user's home directory (~/.bendsql):
 
 ```bash
+curl -fsSL https://repo.databend.com/install/bendsql.sh | bash
+```
+
+```bash title='Example:'
 # highlight-next-line
 curl -fsSL https://repo.databend.com/install/bendsql.sh | bash
 
@@ -56,6 +60,10 @@ Github: https://github.com/databendlabs/bendsql
 Install BendSQL to a specified directory (e.g., /usr/local):
 
 ```bash
+curl -fsSL https://repo.databend.com/install/bendsql.sh | bash -s -- -y --prefix /usr/local
+```
+
+```bash title='Example:'
 # highlight-next-line
 curl -fsSL https://repo.databend.com/install/bendsql.sh | bash -s -- -y --prefix /usr/local
                                   B E N D S Q L
