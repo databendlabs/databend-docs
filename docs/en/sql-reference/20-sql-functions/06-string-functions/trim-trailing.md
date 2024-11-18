@@ -4,7 +4,10 @@ title: TRIM_TRAILING
 
 Removes specific characters from the end (right side) of a string.
 
-See also: [TRIM_LEADING](trim-leading.md)
+See also: 
+
+- [RTRIM](rtrim.md)
+- [TRIM_LEADING](trim-leading.md)
 
 ## Syntax
 

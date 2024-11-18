@@ -7,7 +7,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Removes specific characters from the beginning (left side) of a string.
 
-See also: [RTRIM](rtrim.md)
+See also: 
+
+- [TRIM_LEADING](trim-leading.md)
+- [RTRIM](rtrim.md)
 
 ## Syntax
 
