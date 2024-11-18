@@ -21,6 +21,11 @@ This section provides reference information for the string-related functions in 
 - [SUBSTRING](substring.md)
 - [TRANSLATE](translate.md)
 - [TRIM](trim.md)
+- [TRIM_BOTH](trim-both.md)
+- [TRIM_LEADING](trim-leading.md)
+- [TRIM_TRAILING](trim-trailing.md)
+- [LTRIM](ltrim.md)
+- [RTRIM](rtrim.md)
 
 ## String Information:
 - [ASCII](ascii.md)
