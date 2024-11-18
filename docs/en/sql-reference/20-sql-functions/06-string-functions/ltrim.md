@@ -7,6 +7,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Removes specific characters from the beginning (left side) of a string.
 
+See also: [RTRIM](rtrim.md)
+
 ## Syntax
 
 ```sql

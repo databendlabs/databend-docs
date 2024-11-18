@@ -7,6 +7,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Removes specific characters or spaces from a string, optionally specifying the position (BOTH, LEADING, or TRAILING).
 
+See also: [TRIM_BOTH](trim-both.md)
+
 ## Syntax
 
 ```sql
