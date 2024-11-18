@@ -1,41 +1,74 @@
 ---
 title: TRIM
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Returns the string without leading or trailing occurrences of the specified remove string. If remove string
-is omitted, spaces are removed.
+<FunctionDescription description="Introduced or updated: v1.2.659"/>
+
+Removes specific characters or spaces from a string, optionally specifying the position (BOTH, LEADING, or TRAILING).
+
+See also: [TRIM_BOTH](trim-both.md)
 
 ## Syntax
 
 ```sql
-TRIM([{BOTH | LEADING | TRAILING} [remstr] FROM ] str)
+-- Trim specific characters and specify the position
+TRIM({ BOTH | LEADING | TRAILING } <trim_character> FROM <string>)
+
+-- Trim specific characters from both sides (default BOTH)
+TRIM(<string>, <trim_character>)
+
+-- Trim spaces from both sides
+TRIM(<string>)
 ```
 
 ## Examples
 
-Please note that ALL the examples in this section will return the string 'databend'.
-
 The following example removes the leading and trailing string 'xxx' from the string 'xxxdatabendxxx':
 
 ```sql
-SELECT TRIM(BOTH 'xxx' FROM 'xxxdatabendxxx');
+SELECT TRIM(BOTH 'xxx' FROM 'xxxdatabendxxx'), TRIM('xxxdatabendxxx', 'xxx');
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ TRIM(BOTH 'xxx' FROM 'xxxdatabendxxx') │ TRIM(BOTH 'xxx' FROM 'xxxdatabendxxx') │
+├────────────────────────────────────────┼────────────────────────────────────────┤
+│ databend                               │ databend                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 The following example removes the leading string 'xxx' from the string 'xxxdatabend':
 
 ```sql
 SELECT TRIM(LEADING 'xxx' FROM 'xxxdatabend' );
+
+┌────────────────────────────────────────┐
+│ TRIM(LEADING 'xxx' FROM 'xxxdatabend') │
+├────────────────────────────────────────┤
+│ databend                               │
+└────────────────────────────────────────┘
 ```
+
 The following example removes the trailing string 'xxx' from the string 'databendxxx':
 
 ```sql
 SELECT TRIM(TRAILING 'xxx' FROM 'databendxxx' );
+
+┌─────────────────────────────────────────┐
+│ TRIM(TRAILING 'xxx' FROM 'databendxxx') │
+├─────────────────────────────────────────┤
+│ databend                                │
+└─────────────────────────────────────────┘
 ```
 
-If no remove string is specified, the function removes all leading and trailing spaces. The following examples remove the leading and/or trailing spaces:
+The following examples remove the leading and/or trailing spaces:
 
 ```sql
-SELECT TRIM('   databend   ');
-SELECT TRIM('   databend');
-SELECT TRIM('databend   ');
+SELECT TRIM('   databend   '), TRIM('   databend'), TRIM('databend   ');
+
+┌────────────────────────────────────────────────────────────────────┐
+│ TRIM('   databend   ') │ TRIM('   databend') │ TRIM('databend   ') │
+│         String         │        String       │        String       │
+├────────────────────────┼─────────────────────┼─────────────────────┤
+│ databend               │ databend            │ databend            │
+└────────────────────────────────────────────────────────────────────┘
 ```
