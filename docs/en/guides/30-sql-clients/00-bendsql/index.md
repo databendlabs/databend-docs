@@ -8,7 +8,74 @@ BendSQL is particularly useful for those who prefer a command line interface and
 
 ## Installing BendSQL
 
-BendSQL can be installed on various platforms using different package managers. The following sections outline the installation steps for BendSQL using Homebrew (for macOS), Apt (for Ubuntu/Debian), and Cargo (Rust Package Manager). Alternatively, you can download the installation package from the [BendSQL release page](https://github.com/databendlabs/bendsql/releases) on GitHub and install BendSQL manually.
+BendSQL offers multiple installation options to suit different platforms and preferences. Choose your preferred method from the sections below or download the installation package from the [BendSQL release page](https://github.com/databendlabs/bendsql/releases) to install it manually.
+
+### Shell Script
+
+BendSQL provides a convenient Shell Script for installation. You can choose between two options:
+
+#### Default Installation
+
+Install BendSQL to the user's home directory (~/.bendsql):
+
+```bash
+# highlight-next-line
+curl -fsSL https://repo.databend.com/install/bendsql.sh | bash
+
+                                  B E N D S Q L
+                                    Installer
+
+--------------------------------------------------------------------------------
+Website: https://databend.com
+Docs: https://docs.databend.com
+Github: https://github.com/databendlabs/bendsql
+--------------------------------------------------------------------------------
+
+>>> We'll be installing BendSQL via a pre-built archive at https://repo.databend.com/bendsql/v0.22.2/
+>>> Ready to proceed? (y/n)
+
+>>> Please enter y or n.
+>>> y
+
+--------------------------------------------------------------------------------
+
+>>> Downloading BendSQL via https://repo.databend.com/bendsql/v0.22.2/bendsql-aarch64-apple-darwin.tar.gz ✓
+>>> Unpacking archive to /Users/eric/.bendsql ... ✓
+>>> Adding BendSQL path to /Users/eric/.zprofile ✓
+>>> Adding BendSQL path to /Users/eric/.profile ✓
+>>> Install succeeded! 🚀
+>>> To start BendSQL:
+
+    bendsql --help
+
+>>> More information at https://github.com/databendlabs/bendsql
+```
+
+#### Custom Installation with `--prefix`
+
+Install BendSQL to a specified directory (e.g., /usr/local):
+
+```bash
+# highlight-next-line
+curl -fsSL https://repo.databend.com/install/bendsql.sh | bash -s -- -y --prefix /usr/local
+                                  B E N D S Q L
+                                    Installer
+
+--------------------------------------------------------------------------------
+Website: https://databend.com
+Docs: https://docs.databend.com
+Github: https://github.com/databendlabs/bendsql
+--------------------------------------------------------------------------------
+
+>>> Downloading BendSQL via https://repo.databend.com/bendsql/v0.22.2/bendsql-aarch64-apple-darwin.tar.gz ✓
+>>> Unpacking archive to /usr/local ... ✓
+>>> Install succeeded! 🚀
+>>> To start BendSQL:
+
+    bendsql --help
+
+>>> More information at https://github.com/databendlabs/bendsql
+```
 
 ### Homebrew (for macOS)
 
