@@ -1,40 +1,74 @@
 ---
 title: TRIM
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-返回不包含指定移除字符串的前导或尾随出现的字符串。如果未指定移除字符串，则移除空格。
+<FunctionDescription description="引入或更新: v1.2.659"/>
+
+从字符串中移除特定的字符或空格，可以选择指定位置（BOTH、LEADING 或 TRAILING）。
+
+另请参阅: [TRIM_BOTH](trim-both.md)
 
 ## 语法
 
 ```sql
-TRIM([{BOTH | LEADING | TRAILING} [remstr] FROM ] str)
+-- 移除特定字符并指定位置
+TRIM({ BOTH | LEADING | TRAILING } <trim_character> FROM <string>)
+
+-- 从两边移除特定字符（默认 BOTH）
+TRIM(<string>, <trim_character>)
+
+-- 从两边移除空格
+TRIM(<string>)
 ```
 
 ## 示例
 
-请注意，本节中的所有示例都将返回字符串 'databend'。
-
-以下示例从字符串 'xxxdatabendxxx' 中移除前导和尾随的字符串 'xxx'：
+以下示例从字符串 'xxxdatabendxxx' 中移除前导和尾随的 'xxx'：
 
 ```sql
-SELECT TRIM(BOTH 'xxx' FROM 'xxxdatabendxxx');
+SELECT TRIM(BOTH 'xxx' FROM 'xxxdatabendxxx'), TRIM('xxxdatabendxxx', 'xxx');
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ TRIM(BOTH 'xxx' FROM 'xxxdatabendxxx') │ TRIM(BOTH 'xxx' FROM 'xxxdatabendxxx') │
+├────────────────────────────────────────┼────────────────────────────────────────┤
+│ databend                               │ databend                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-以下示例从字符串 'xxxdatabend' 中移除前导的字符串 'xxx'：
+以下示例从字符串 'xxxdatabend' 中移除前导的 'xxx'：
 
 ```sql
 SELECT TRIM(LEADING 'xxx' FROM 'xxxdatabend' );
+
+┌────────────────────────────────────────┐
+│ TRIM(LEADING 'xxx' FROM 'xxxdatabend') │
+├────────────────────────────────────────┤
+│ databend                               │
+└────────────────────────────────────────┘
 ```
-以下示例从字符串 'databendxxx' 中移除尾随的字符串 'xxx'：
+
+以下示例从字符串 'databendxxx' 中移除尾随的 'xxx'：
 
 ```sql
 SELECT TRIM(TRAILING 'xxx' FROM 'databendxxx' );
+
+┌─────────────────────────────────────────┐
+│ TRIM(TRAILING 'xxx' FROM 'databendxxx') │
+├─────────────────────────────────────────┤
+│ databend                                │
+└─────────────────────────────────────────┘
 ```
 
-如果未指定移除字符串，该函数将移除所有前导和尾随空格。以下示例移除前导和/或尾随空格：
+以下示例移除前导和/或尾随的空格：
 
 ```sql
-SELECT TRIM('   databend   ');
-SELECT TRIM('   databend');
-SELECT TRIM('databend   ');
+SELECT TRIM('   databend   '), TRIM('   databend'), TRIM('databend   ');
+
+┌────────────────────────────────────────────────────────────────────┐
+│ TRIM('   databend   ') │ TRIM('   databend') │ TRIM('databend   ') │
+│         String         │        String       │        String       │
+├────────────────────────┼─────────────────────┼─────────────────────┤
+│ databend               │ databend            │ databend            │
+└────────────────────────────────────────────────────────────────────┘
 ```
