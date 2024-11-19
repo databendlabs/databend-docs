@@ -25,7 +25,7 @@ import DatabendTable from '@site/src/components/DatabendTable';
 
 ## Databend 社区版与企业版
 
-本节从以下模块比较 Databend 社区版与 Databend 企业版：
+本节将 Databend 社区版与 Databend 企业版在以下模块中进行比较：
 
 ### 核心功能
 
@@ -64,9 +64,7 @@ thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
 ['集群模式', '✕', '✓'],
 ['物化视图', '✕', '✓'],
-['AI 函数 (情感分析、数据标注等)', '✕', 'HuggingFace 开源模型'],
-['多租户数据共享', '✕', '✓'],
-]}
+['AI 函数 (情感分析、数据标注等)', '✕', 'HuggingFace 开源模型']}
 />
 
 ### 部署
