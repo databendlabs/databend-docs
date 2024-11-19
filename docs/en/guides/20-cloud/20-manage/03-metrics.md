@@ -6,6 +6,10 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 [Prometheus](https://prometheus.io/) offers a robust solution for real-time monitoring, empowering you to track critical metrics and maintain system stability effectively. This topic guides you through the steps to integrate Prometheus with Databend Cloud and provides an overview of the available metrics.
 
+:::note
+Tracking metrics with Prometheus is only available for Databend Cloud users on the Business and Dedicated plans.
+:::
+
 ## Integrating with Prometheus
 
 Follow these steps to set up a Prometheus instance with Docker and integrate it with Databend Cloud:
@@ -13,9 +17,11 @@ Follow these steps to set up a Prometheus instance with Docker and integrate it 
 <StepsWrap>
 <StepContent number="1">
 
-### Enable Tenant Metrics
+### Prerequisites
 
-To start tracking metrics, ensure that metrics are enabled for your Databend Cloud tenant. To enable this feature, submit a support ticket in Databend Cloud by navigating to **Support** > **Create New Ticket** and requesting metrics activation for your tenant.
+- To start tracking metrics, ensure that metrics are enabled for your Databend Cloud tenant. To enable this feature, submit a support ticket in Databend Cloud by navigating to **Support** > **Create New Ticket** and requesting metrics activation for your tenant.
+
+- This procedure explains how to set up a Prometheus instance using Docker. Ensure that the Docker Engine is installed on your machine before proceeding.
 
 </StepContent>
 <StepContent number="2">
@@ -77,12 +83,12 @@ docker run -d \
 
 ![alt text](../../../../../static/img/documents/warehouses/metrics-1.png)
 
+</StepContent>
+</StepsWrap>
+
 You're all set! You can now query your tenant metrics directly from Prometheus. For example, try querying `databend_cloud_warehouse_status`:
 
 ![alt text](../../../../../static/img/documents/warehouses/metrics-2.png)
-
-</StepContent>
-</StepsWrap>
 
 ## Available Metrics List
 
