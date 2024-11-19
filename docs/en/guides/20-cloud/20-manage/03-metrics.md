@@ -1,0 +1,110 @@
+---
+title: Tracking Metrics with Prometheus
+---
+
+[Prometheus](https://prometheus.io/) offers a robust solution for real-time monitoring, empowering you to track critical metrics and maintain system stability effectively. This topic guides you through the steps to integrate Prometheus with Databend Cloud and provides an overview of the available metrics.
+
+## Integrating with Prometheus
+
+Follow these steps to set up a Prometheus instance with Docker and integrate it with Databend Cloud:
+
+### Step 1: Enable Tenant Metrics
+
+To start tracking metrics, ensure that metrics are enabled for your Databend Cloud tenant. To enable this feature, submit a support ticket in Databend Cloud by navigating to **Support** > **Create New Ticket** and requesting metrics activation for your tenant.
+
+### Step 2: Prepare a SQL User
+
+Create a dedicated SQL user in Databend Cloud for Prometheus to access metrics. For example, you can create a SQL user named `metrics` with the password `metrics_password` using the following SQL statement:
+
+```sql
+CREATE USER metrics IDENTIFIED BY 'metrics_password';
+```
+
+### Step 3: Start Prometheus Using Docker
+
+1. On your local machine, create a **prometheus.yml** file to configure Prometheus for scraping metrics from Databend Cloud. Use the following template:
+
+```yaml title='prometheus.yml'
+scrape_configs:
+  - job_name: databend-cloud
+    scheme: https
+    metrics_path: /metrics
+    basic_auth:
+      username: <USERNAME>
+      password: <PASSWORD>
+    scrape_interval: 10s
+    scrape_timeout: 3s
+    static_configs:
+      - targets:
+          - <TENANT_ENDPOINT>
+        labels:
+          tenant: <TENANT_ID>
+          platform: <PLATFORM>
+          region: <REGION>
+```
+
+| Placeholder         | Description                                      | Example                                                |
+|---------------------|--------------------------------------------------|--------------------------------------------------------|
+| `<USERNAME>`        | The username for the SQL user.                   | `metrics`                                              |
+| `<PASSWORD>`        | The secure password for the SQL user.            | `metrics_password`                                     |
+| `<TENANT_ENDPOINT>` | The endpoint URL for your Databend Cloud tenant. | `tnxxxxxxx--wh1.gw.aws-us-east-2.default.databend.com` |
+| `<TENANT_ID>`       | Your tenant's unique identifier.                 | `tnxxxxxxx`                                            |
+| `<PLATFORM>`        | The cloud platform hosting the tenant.           | `aws`                                                  |
+| `<REGION>`          | The region where the tenant is hosted.           | `us-east-2`                                            |
+
+2. Start Prometheus with the following command (replace `</path/to/prometheus.yml>` with the full path to your **prometheus.yml** file):
+
+```bash
+docker run -d \
+  --name prometheus \
+  -p 9090:9090 \
+  -v </path/to/prometheus.yml>:/etc/prometheus/prometheus.yml \
+  prom/prometheus
+```
+
+3. Open Prometheus in your browser at http://localhost:9090, navigate to **Status** > **Target health**, and confirm that the `databend-cloud` target is listed with a status of `UP`.
+
+![alt text](../../../../../static/img/documents/warehouses/metrics-1.png)
+
+You're all set! You can now query your tenant metrics directly from Prometheus. For example, try querying `databend_cloud_warehouse_status`:
+
+![alt text](../../../../../static/img/documents/warehouses/metrics-2.png)
+
+## Available Metrics List
+
+Please note that all metrics are prefixed with `databend_cloud_`.
+
+### Query Metrics
+
+The following is a list of query metrics available in Databend Cloud:
+
+| Name                 | Type    | Labels           | Description                         |
+|----------------------|---------|------------------|-------------------------------------|
+| query_count          | Counter | tenant,warehouse | Query counts made by clients        |
+| query_errors         | Counter | tenant,warehouse | Query error counts made by clients  |
+| query_request_bytes  | Counter | tenant,warehouse | Query request bytes from client     |
+| query_response_bytes | Counter | tenant,warehouse | Query response bytes sent to client |
+
+### Storage Metrics
+
+The following is a list of storage metrics available in Databend Cloud:
+
+| Name                          | Type  | Labels | Description                                           |
+|-------------------------------|-------|--------|-------------------------------------------------------|
+| storage_total_size            | Guage | tenant | Total size for backend object storage                 |
+| storage_staged_size           | Guage | tenant | Total size for staged files on backend object storage |
+| storage_table_compressed_size | Guage | tenant | Total size for current tables backend object storage  |
+
+### Warehouse Metrics
+
+The following is a list of warehouse metrics available in Databend Cloud:
+
+| Name                             | Type    | Labels                       | Description                                         |
+|----------------------------------|---------|------------------------------|-----------------------------------------------------|
+| warehouse_status                 | Guage   | tenant,warehouse,size,status | Flag for warehouse status (Suspended,Running, etc.) |
+| warehouse_session_queued_queries | Guage   | tenant,warehouse             | Queries waiting in queue currently                  |
+| warehouse_session_connections    | Guage   | tenant,warehouse             | Session Count currently                             |
+| warehouse_storage_requests_count | Counter | tenant,warehouse,scheme,op   | Requests count to backend storage                   |
+| warehouse_storage_requests_bytes | Counter | tenant,warehouse,scheme,op   | Requests bytes from backend storage                 |
+| warehouse_data_scan_rows         | Counter | tenant,warehouse             | Data rows scanned from backend storage              |
+| warehouse_data_write_rows        | Counter | tenant,warehouse             | Data rows written to backend storage                |
