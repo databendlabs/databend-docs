@@ -21,7 +21,7 @@ SELECT * FROM system.tables_with_history LIMIT 3;
 To show the schema of `system.tables_with_history`, use `DESCRIBE system.tables_with_history`:
 
 ```sql
-DESCRIBE system.tables_with_history
+DESCRIBE system.tables_with_history;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
 │         Field        │       Type      │  Null  │            Default           │  Extra │
