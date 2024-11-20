@@ -54,7 +54,7 @@ scrape_configs:
     static_configs:
       - targets:
           - <TENANT_ENDPOINT>
-        labels:
+        labels: # Optional
           tenant: <TENANT_ID>
           platform: <PLATFORM>
           region: <REGION>
