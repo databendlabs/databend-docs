@@ -64,9 +64,7 @@ thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
 tbody={[
 ['Cluster Mode', '✕', '✓'],
 ['Materialized Views', '✕', '✓'],
-['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', 'HuggingFace Open Source Models'],
-['Multi-tenant Data Sharing', '✕', '✓'],
-]}
+['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', 'HuggingFace Open Source Models']}
 />
 
 ### Deployment
