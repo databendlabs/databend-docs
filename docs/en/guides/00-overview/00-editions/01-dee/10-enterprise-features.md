@@ -59,12 +59,13 @@ tbody={[
 ### Extended Functionalities
 
 <DatabendTable
-width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
-tbody={[
-['Cluster Mode', '✕', '✓'],
-['Materialized Views', '✕', '✓'],
-['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', 'HuggingFace Open Source Models']}
+  width={['70%', '15%', '15%']}
+  thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+  tbody={[
+    ['Cluster Mode', '✕', '✓'],
+    ['Materialized Views', '✕', '✓'],
+    ['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', '✓ (HuggingFace Open Source Models)']
+  ]}
 />
 
 ### Deployment
