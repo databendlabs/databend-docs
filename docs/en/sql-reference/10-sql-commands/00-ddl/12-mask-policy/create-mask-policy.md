@@ -59,8 +59,8 @@ GRANT ROLE 'MANAGERS' TO 'manager_user';
 -- Create a masking policy
 CREATE MASKING POLICY email_mask
 AS
-  (val string)
-  RETURNS string ->
+  (val nullable(string))
+  RETURNS nullable(string) ->
   CASE
   WHEN current_role() IN ('MANAGERS') THEN
     val
