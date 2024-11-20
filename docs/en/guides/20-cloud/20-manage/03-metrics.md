@@ -95,7 +95,7 @@ You're all set! You can now query your tenant metrics directly from Prometheus. 
 
 Please note that all metrics are prefixed with `databend_cloud_`.
 
-:::caution
+:::note
 The following metrics are in alpha state and may change over time. We recommend that you monitor the metrics closely and adjust your monitoring setup accordingly.
 :::
 
