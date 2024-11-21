@@ -24,13 +24,13 @@ SELECT {'k1': 1, 'k2': 2}, map([1, 2], ['v1', 'v2']);
 
 ## Map 和布隆过滤器索引
 
-在 Databend Map 中，对于某些数据类型的值（`Numeric`、`String`、`Timestamp` 和 `Date`），会创建布隆过滤器索引。
+在 Databend Map 中，对于某些数据类型（`Numeric`、`String`、`Timestamp` 和 `Date`）的值创建了布隆过滤器索引。
 
 这使得在 MAP 数据结构中搜索值变得更加容易和快速。
 
 Databend Map 中布隆过滤器索引的实现见 [PR#10457](https://github.com/datafuselabs/databend/pull/10457)。
 
-布隆过滤器在查询的值不存在时，特别有效地减少了查询时间。
+布隆过滤器在查询的值不存在时特别有效，可以显著减少查询时间。
 
 例如：
 ```sql

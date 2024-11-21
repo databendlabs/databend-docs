@@ -6,7 +6,7 @@ VARIANT 可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、
 
 以下是在 Databend 中插入和查询 Variant 数据的示例：
 
-创建一个表：
+创建表：
 ```sql
 CREATE TABLE customer_orders(id INT64, order_data VARIANT);
 ```
@@ -50,11 +50,11 @@ SELECT * FROM customer_orders;
 
 ### 按索引访问
 
-VARIANT 类型包含一个数组，这是一个基于零的数组，类似于许多其他编程语言。数组中的每个元素也是 VARIANT 类型。可以通过 **方括号** 使用索引访问元素。
+VARIANT 类型包含一个数组，这是一个基于零的数组，类似于许多其他编程语言。数组中的每个元素也是 VARIANT 类型。可以通过 **方括号** 按索引访问元素。
 
 #### 示例
 
-创建一个表：
+创建表：
 ```sql
 -- 创建一个表来存储用户爱好
 CREATE TABLE user_hobbies(user_id INT64, hobbies VARIANT NULL);
@@ -206,7 +206,7 @@ FROM user_preferences;
 │ "red"                            │
 └──────────────────────────────────┘
 
--- 当 'c' 在 'color' 中大写时没有结果返回
+-- 当 'c' 在 'color' 中大写时，没有结果返回
 SELECT preferences:"new settings":Color 
 FROM user_preferences;
 

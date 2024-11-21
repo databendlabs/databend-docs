@@ -1,6 +1,6 @@
 ---
 title: 数值类型
-description: 基本的数值数据类型。
+description: 基本数值数据类型。
 ---
 
 ## 整数数据类型
