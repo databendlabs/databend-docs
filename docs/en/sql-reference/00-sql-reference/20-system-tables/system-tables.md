@@ -4,7 +4,10 @@ title: system.tables
 
 Provides metadata information for all tables. It includes details such as table properties, creation time, number of rows, data size, and more.
 
-See also: [SHOW TABLES](../../10-sql-commands/00-ddl/01-table/show-tables.md)
+See also:
+
+- [information_schema.tables](information-schema-tables.md)
+- [SHOW TABLES](../../10-sql-commands/00-ddl/01-table/show-tables.md)
 
 ```sql title='Examples:'
 SELECT * FROM system.tables LIMIT 3;
