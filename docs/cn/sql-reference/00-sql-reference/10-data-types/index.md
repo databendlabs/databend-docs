@@ -14,27 +14,27 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 | 数据类型                                                                 | 别名  | 存储大小 | 最小值                   | 最大值                          |
 | ----------------------------------------------------------------------- | ------ | ------------ | ------------------------ | ------------------------------ |
-| [BOOLEAN](./00-data-type-logical-types.md)                               | BOOL   | 1 byte       | N/A                      | N/A                            |
-| [TINYINT](./10-data-type-numeric-types.md#integer-data-types)            | INT8   | 1 byte       | -128                     | 127                            |
-| [SMALLINT](./10-data-type-numeric-types.md#integer-data-types)           | INT16  | 2 bytes      | -32768                   | 32767                          |
-| [INT](./10-data-type-numeric-types.md#integer-data-types)                 | INT32  | 4 bytes      | -2147483648              | 2147483647                     |
-| [BIGINT](./10-data-type-numeric-types.md#integer-data-types)              | INT64  | 8 bytes      | -9223372036854775808     | 9223372036854775807            |
-| [FLOAT](./10-data-type-numeric-types.md#floating-point-data-types)       | N/A    | 4 bytes      | -3.40282347e+38          | 3.40282347e+38                 |
-| [DOUBLE](./10-data-type-numeric-types.md#floating-point-data-types)      | N/A    | 8 bytes      | -1.7976931348623157E+308 | 1.7976931348623157E+308        |
-| [DECIMAL](./11-data-type-decimal-types.md)                               | N/A    | 16/32 bytes  | -10^P / 10^S             | 10^P / 10^S                    |
-| [DATE](./20-data-type-time-date-types.md)                                | N/A    | 4 bytes      | 1000-01-01               | 9999-12-31                     |
-| [TIMESTAMP](./20-data-type-time-date-types.md)                           | N/A    | 8 bytes      | 0001-01-01 00:00:00      | 9999-12-31 23:59:59.999999 UTC |
-| [VARCHAR](./30-data-type-string-types.md)                                | STRING | N/A          | N/A                      | N/A                            |
+| [BOOLEAN](./00-data-type-logical-types.md)                              | BOOL   | 1 byte       | N/A                      | N/A                            |
+| [TINYINT](./10-data-type-numeric-types.md#integer-data-types)           | INT8   | 1 byte       | -128                     | 127                            |
+| [SMALLINT](./10-data-type-numeric-types.md#integer-data-types)          | INT16  | 2 bytes      | -32768                   | 32767                          |
+| [INT](./10-data-type-numeric-types.md#integer-data-types)                | INT32  | 4 bytes      | -2147483648              | 2147483647                     |
+| [BIGINT](./10-data-type-numeric-types.md#integer-data-types)             | INT64  | 8 bytes      | -9223372036854775808     | 9223372036854775807            |
+| [FLOAT](./10-data-type-numeric-types.md#floating-point-data-types)      | N/A    | 4 bytes      | -3.40282347e+38          | 3.40282347e+38                 |
+| [DOUBLE](./10-data-type-numeric-types.md#floating-point-data-types)     | N/A    | 8 bytes      | -1.7976931348623157E+308 | 1.7976931348623157E+308        |
+| [DECIMAL](./11-data-type-decimal-types.md)                              | N/A    | 16/32 bytes  | -10^P / 10^S             | 10^P / 10^S                    |
+| [DATE](./20-data-type-time-date-types.md)                               | N/A    | 4 bytes      | 1000-01-01               | 9999-12-31                     |
+| [TIMESTAMP](./20-data-type-time-date-types.md)                          | N/A    | 8 bytes      | 0001-01-01 00:00:00      | 9999-12-31 23:59:59.999999 UTC |
+| [VARCHAR](./30-data-type-string-types.md)                               | STRING | N/A          | N/A                      | N/A                            |
 
 以下是Databend中半结构化数据类型的列表：
 
-| 数据类型                              | 别名 | 示例                         | 描述                                                                                                         |
-| -------------------------------------- | ----- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| [ARRAY](./40-data-type-array-types.md) | N/A   | [1, 2, 3, 4]                   | 相同数据类型的值的集合，通过其索引访问。                                              |
-| [TUPLE](./41-data-type-tuple-types.md) | N/A   | ('2023-02-14','Valentine Day') | 不同数据类型的值的有序集合，通过其索引访问。                                   |
-| [MAP](./42-data-type-map.md)           | N/A   | `{"a":1, "b":2, "c":3}`        | 一组键值对，其中每个键是唯一的，并映射到一个值。                                              |
-| [VARIANT](./43-data-type-variant.md)   | JSON  | `[1,{"a":1,"b":{"c":2}}]`      | 不同数据类型的元素集合，包括`ARRAY`和`OBJECT`。                                     |
-| [BITMAP](44-data-type-bitmap.md)       | N/A   | 0101010101                     | 用于表示一组值的二进制数据类型，其中每个位表示值的存在或不存在。 |
+| 数据类型                                | 别名 | 示例                         | 描述                                                                                                         |
+| --------------------------------------- | ----- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| [ARRAY](./40-data-type-array-types.md)  | N/A   | [1, 2, 3, 4]                   | 相同数据类型的值的集合，通过其索引访问。                                              |
+| [TUPLE](./41-data-type-tuple-types.md)  | N/A   | ('2023-02-14','Valentine Day') | 不同数据类型的值的有序集合，通过其索引访问。                                   |
+| [MAP](./42-data-type-map.md)            | N/A   | `{"a":1, "b":2, "c":3}`        | 一组键值对，其中每个键是唯一的，并映射到一个值。                                              |
+| [VARIANT](./43-data-type-variant.md)    | JSON  | `[1,{"a":1,"b":{"c":2}}]`      | 不同数据类型的元素集合，包括`ARRAY`和`OBJECT`。                                     |
+| [BITMAP](44-data-type-bitmap.md)        | N/A   | 0101010101                     | 用于表示一组值的二进制数据类型，其中每个位表示值的存在或不存在。 |
 
 ## 数据类型转换
 
@@ -123,21 +123,21 @@ select 39 = '  39  ';
 select true > 0.5;
 ```
 
-> 错误信息：“不能从可空数据转换为非空类型”是什么意思。
+> 错误信息是什么：“不能从可空数据转换为非空类型”。
 
-这意味着你的源列中有一个空值。你可以使用`TRY_CAST`函数或将目标类型设为可空类型。
+这意味着你的源列中有一个null。你可以使用`TRY_CAST`函数或将目标类型设为可空类型。
 
 > `select concat(1, col)` 不工作
 
-你可以改进SQL为`select concat('1', col)`。
+你可以改进SQL为 `select concat('1', col)`。
 
 我们可能会在未来改进表达式，如果可能的话，将字面量`1`解析为字符串值（concat函数只接受字符串参数）。
 
 ## NULL值和NOT NULL约束
 
-NULL值用于表示数据不存在或未知。在Databend中，每一列本质上都能够包含NULL值，这意味着一列可以容纳NULL值和常规数据。
+NULL值用于表示数据不存在或未知。在Databend中，每列本质上都可以包含NULL值，这意味着一列可以容纳NULL值和常规数据。
 
-如果你需要一个不允许NULL值的列，请使用NOT NULL约束。如果一列在Databend中配置为不允许NULL值，并且你在插入数据时没有为该列显式提供值，则会自动应用与该列数据类型关联的默认值。
+如果你需要一个不允许NULL值的列，请使用NOT NULL约束。如果一列在Databend中配置为不允许NULL值，并且在插入数据时没有为该列显式提供值，则会自动应用与该列数据类型关联的默认值。
 
 | 数据类型                 | 默认值                                              |
 | ------------------------- | ---------------------------------------------------------- |
@@ -147,7 +147,7 @@ NULL值用于表示数据不存在或未知。在Databend中，每一列本质�
 | 日期和时间数据类型  | '1970-01-01' 对于 DATE, '1970-01-01 00:00:00' 对于 TIMESTAMP |
 | 布尔数据类型         | False                                                      |
 
-例如，如果你创建一个表如下：
+例如，如果你创建如下表：
 
 ```sql
 CREATE TABLE test(
@@ -183,7 +183,7 @@ INSERT INTO test (id, name, age) VALUES (2, 'Alice', NULL);
 INSERT INTO test (id, name) VALUES (1, 'John');
 ```
 
-以下INSERT语句尝试插入一行，没有为"name"列提供值。列类型的默认值将被应用。
+以下INSERT语句尝试插入一行，但没有为"name"列提供值。列类型的默认值将被应用。
 
 ```sql
 INSERT INTO test (id, age) VALUES (3, 45);

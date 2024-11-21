@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.617"/>
 
-Databend 使用 Fuse 引擎作为其默认引擎，提供了一个类似于 Git 的用户友好界面的数据管理系统。用户可以轻松查询任意时刻的数据，并轻松将数据恢复到任何所需的时间点。
+Databend 使用 Fuse 引擎作为其默认引擎，提供了一个类似于 Git 的用户友好界面的数据管理系统。用户可以轻松地在任何给定时刻查询数据，并轻松地将数据恢复到任何所需的时间点。
 
 ## 语法
 
@@ -38,5 +38,5 @@ CREATE TABLE <table_name> (
 | block_size_threshold 	| `block_size_threshold = <n>`   	| 指定块的最大大小（以字节为单位）。默认值为 104,857,600 字节。                                                                                                                                                                                                                                                     	|
 | block_per_segment    	| `block_per_segment = <n>`         	| 指定段中的最大块数。默认值为 1,000。                                                                                                                                                                                                                               	|
 | row_per_block        	| `row_per_block = <n>`                 	| 指定文件中的最大行数。默认值为 1,000,000。                                                                                                                                                                                                                                   	|
-| change_tracking       | `change_tracking = True / False`        | 在 Fuse 引擎中将此选项设置为 `True` 允许跟踪表的更改。<br/>为表创建流将自动将 `change_tracking` 设置为 `True`，并引入额外的隐藏列作为更改跟踪元数据。更多信息请参阅 [How Stream Works](/guides/load-data/continuous-data-pipelines/stream#how-stream-works)。|
+| change_tracking       | `change_tracking = True / False`        | 在 Fuse 引擎中将此选项设置为 `True` 允许跟踪表的更改。<br/>为表创建流将自动将 `change_tracking` 设置为 `True`，并在表中引入额外的隐藏列作为更改跟踪元数据。更多信息请参阅 [How Stream Works](/guides/load-data/continuous-data-pipelines/stream#how-stream-works)。|
 | data_retention_period_in_hours | `data_retention_period_in_hours = <n>` | 指定保留表数据的小时数。最小值为 1 小时。最大值由 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中的 `data_retention_time_in_days_max` 设置定义，如果未指定，则默认为 2,160 小时（90 天 x 24 小时）。|
