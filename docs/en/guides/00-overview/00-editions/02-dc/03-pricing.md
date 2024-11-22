@@ -55,7 +55,6 @@ When billing users, Databend Cloud applies coupons first. If multiple coupons ar
 <!-- #endendef -->
 
 <!-- #ifcndef -->
-
 您在 Databend Cloud 上的费用由以下几个部分组成：计算集群、存储和云服务费。本页面包含各部分的价格信息以及账单的说明。
 
 ## Databend Cloud 定价
@@ -103,5 +102,4 @@ When billing users, Databend Cloud applies coupons first. If multiple coupons ar
 要查看您的账单，请前往 **管理**，然后点击 **费用中心**。
 
 在进行扣费时，Databend Cloud 首先使用优惠券。如果有多个优惠券可用，系统会优先从到期日期最早的优惠券中扣除。请确保在优惠券到期前使用。
-
 <!-- #endcndef -->

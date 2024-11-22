@@ -7,9 +7,11 @@ import DatabendTable from '@site/src/components/DatabendTable';
 Databend Cloud 提供三种版本：**个人版**、**商业版**和**专属版**，您可以根据不同的需求选择合适的版本，以确保不同使用场景下的最佳性能。
 
 <!-- #ifendef -->
-
+<!--
+<!--
 如需快速了解这些版本，请访问 [https://www.databend.com/databend-cloud](https://www.databend.com/databend-cloud)。有关定价信息，请参阅 [定价与计费](/guides/overview/editions/dc/pricing)。有关各版本详细功能列表，请参阅 [功能列表](#feature-lists)。
-
+-->
+-->
 <!-- #endendef -->
 
 <!-- #ifcndef -->
