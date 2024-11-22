@@ -80,7 +80,7 @@ docker run -d \
   prom/prometheus
 ```
 
-3. Open Prometheus in your browser at http://localhost:9090, navigate to **Status** > **Target health**, and confirm that the `databend-cloud` target is listed with a status of `UP`.
+3. Open Prometheus in your browser at `http://localhost:9090`, navigate to **Status** > **Target health**, and confirm that the `databend-cloud` target is listed with a status of `UP`.
 
 ![alt text](../../../../../static/img/documents/warehouses/metrics-1.png)
 
