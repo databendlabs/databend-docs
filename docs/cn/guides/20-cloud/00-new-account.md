@@ -3,7 +3,8 @@ title: 入门指南
 ---
 
 <!-- #ifendef -->
-
+<!--
+<!--
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
@@ -51,7 +52,8 @@ Databend Cloud 完全支持各种流行的浏览器，包括 Chrome、Microsoft 
 ![image](@site/static/img/documents/getting-started/02.jpg)
 </StepContent>
 </StepsWrap>
-
+-->
+-->
 <!-- #endendef -->
 
 <!-- #ifcndef -->
