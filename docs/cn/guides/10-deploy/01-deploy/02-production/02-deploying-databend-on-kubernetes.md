@@ -75,53 +75,53 @@ import TabItem from '@theme/TabItem';
   <Tabs>
   <TabItem value="aws" label="EKS(AWS)">
 
-[Amazon Elastic Block Store (EBS) CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md) 是推荐的选项。  
-添加存储类时，请记得设置默认类的注解，例如：
+  [Amazon Elastic Block Store (EBS) CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md) 是推荐的驱动。  
+  在添加存储类时，请记得为默认类设置注解，例如：
 
-```yaml
-storageClasses:
-  - name: gp3
-    annotations:
-      storageclass.kubernetes.io/is-default-class: "true"
-    allowVolumeExpansion: true
-    volumeBindingMode: WaitForFirstConsumer
-    reclaimPolicy: Delete
-    parameters:
-      type: gp3
-```
+  ```yaml
+  storageClasses:
+    - name: gp3
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+      allowVolumeExpansion: true
+      volumeBindingMode: WaitForFirstConsumer
+      reclaimPolicy: Delete
+      parameters:
+        type: gp3
+  ```
 
-```shell
-❯ kubectl get sc
-NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-gp2             kubernetes.io/aws-ebs   Delete          WaitForFirstConsumer   true                   16d
-gp3 (default)   ebs.csi.aws.com         Delete          WaitForFirstConsumer   true                   15d
-```
+  ```shell
+  ❯ kubectl get sc
+  NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+  gp2             kubernetes.io/aws-ebs   Delete          WaitForFirstConsumer   true                   16d
+  gp3 (default)   ebs.csi.aws.com         Delete          WaitForFirstConsumer   true                   15d
+  ```
 
   </TabItem>
 
   <TabItem value="aliyun" label="ACK(Alibaba Cloud)">
 
-确保已安装组件 `csi-provisioner`，然后设置默认存储类：
+  保已安装组件 `csi-provisioner`，然后设置默认存储类：
 
-```shell
-❯ kubectl get sc
-NAME                             PROVISIONER                       RECLAIMPOLICY   VOLUMEBINDINGMODE            ALLOWVOLUMEEXPANSION   AGE
-alicloud-disk-available          diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-alicloud-disk-efficiency         diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-alicloud-disk-essd               diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-alicloud-disk-ssd                diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
-alicloud-disk-topology           diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
-alicloud-disk-topology-alltype   diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
-# select the wanted storage class as default，for example: alicloud-disk-topology-alltype
-// highlight-next-line
-❯ kubectl annotate sc alicloud-disk-topology-alltype storageclass.kubernetes.io/is-default-class=true --overwrite
-```
+  ```shell
+  ❯ kubectl get sc
+  NAME                             PROVISIONER                       RECLAIMPOLICY   VOLUMEBINDINGMODE            ALLOWVOLUMEEXPANSION   AGE
+  alicloud-disk-available          diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-efficiency         diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-essd               diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-ssd                diskplugin.csi.alibabacloud.com   Delete          Immediate                    true                   66m
+  alicloud-disk-topology           diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
+  alicloud-disk-topology-alltype   diskplugin.csi.alibabacloud.com   Delete          WaitForFirstConsumer         true                   66m
+  # select the wanted storage class as default，for example: alicloud-disk-topology-alltype
+  // highlight-next-line
+  ❯ kubectl annotate sc alicloud-disk-topology-alltype storageclass.kubernetes.io/is-default-class=true --overwrite
+  ```
 
   </TabItem>
 
   </Tabs>
 
-:::
+  :::
 
 - **推荐** 如果需要监控 Databend Meta 和 Databend Query 的状态，请确保 Prometheus Operator 在 Kubernetes 集群中运行。
 
