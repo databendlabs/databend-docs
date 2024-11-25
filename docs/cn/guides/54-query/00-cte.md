@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Databend 支持使用 WITH 子句的公用表表达式 (CTEs)，允许您定义一个或多个命名的临时结果集，供后续查询使用。术语“临时”意味着这些结果集不会永久存储在数据库模式中。它们仅作为临时视图，仅对后续查询可访问。
 
-当执行带有 WITH 子句的查询时，WITH 子句中的 CTEs 会首先被评估和执行。这将产生一个或多个临时结果集。然后，查询使用 WITH 子句产生的结果集执行。
+当执行带有 WITH 子句的查询时，WITH 子句中的 CTEs 会首先被评估和执行。这将产生一个或多个临时结果集。然后，查询使用由 WITH 子句产生的结果集执行。
 
 这是一个简单的演示，帮助您理解 CTEs 在查询中的工作方式：WITH 子句定义了一个 CTE，并产生一个结果集，该结果集包含所有来自 Québec 省的客户。主查询从 Québec 省的客户中筛选出居住在 Montréal 地区的客户。
 
@@ -116,10 +116,10 @@ SELECT ...
 ```
 
 | 参数              | 描述                                                                                                                                                                                                                                                                                          |
-|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `cte_name`        | CTE 名称。   |
-| `initial_query`   | 初始查询，在递归开始时执行一次。它通常返回一组行。                                                                                                                                                                                                                                              |
-| `recursive_query` | 引用 CTE 本身的查询，并重复执行，直到返回空结果集。它必须包含对 CTE 名称的引用。查询不能包含聚合函数（例如，MAX、MIN、SUM、AVG、COUNT）、窗口函数、GROUP BY 子句、ORDER BY 子句、LIMIT 子句或 DISTINCT。 |
+| `initial_query`   | 初始查询，在递归开始时执行一次。它通常返回一组行。                                                                                                                                                                                                                                               |
+| `recursive_query` | 引用 CTE 本身的查询，并重复执行，直到返回空结果集。它必须包含对 CTE 名称的引用。查询不得包含聚合函数（例如 MAX、MIN、SUM、AVG、COUNT）、窗口函数、GROUP BY 子句、ORDER BY 子句、LIMIT 子句或 DISTINCT。 |
 
 ### 工作原理
 
@@ -133,13 +133,13 @@ SELECT ...
 
 4. **最终结果集形成**：使用 `UNION ALL` 运算符，将每次迭代的结果集（R0 到 Rn）组合成一个单一结果集。`UNION ALL` 运算符确保每个结果集中的所有行都包含在最终组合结果中。
 
-5. **最终选择**：最终的 `SELECT ...` 语句从 CTE 中检索组合结果集。此语句可以对组合结果集应用额外的过滤、排序或其他操作，以生成最终输出。
+5. **最终选择**：最终的 `SELECT ...` 语句从 CTE 中检索组合结果集。此语句可以在组合结果集上应用额外的过滤、排序或其他操作，以生成最终输出。
 
 ## 使用示例
 
 ### 非递归 CTE
 
-假设你管理着位于 GTA 地区不同区域的多家书店，并使用一个表来保存它们的商店 ID、区域以及上个月的交易量。
+假设你管理着位于 GTA 地区不同区域的多家书店，并使用一个表来存储它们的商店 ID、区域以及上个月的交易量。
 
 ```sql
 CREATE TABLE sales 
@@ -254,7 +254,7 @@ INSERT INTO store_details VALUES (9, 'Mississauga Store', '2022-03-20', 'Emma Br
 INSERT INTO store_details VALUES (5, 'Scarborough Store', '2022-04-05', 'David Lee');
 ```
 
-我们希望删除 "store_details" 表中没有 "sales" 表中销售记录的所有行：
+我们希望删除 "store_details" 表中与 "sales" 表中没有销售记录的商店对应的所有行：
 
 ```sql
 WITH stores_with_sales AS (
@@ -267,7 +267,7 @@ WHERE storeid NOT IN (SELECT storeid FROM stores_with_sales);
 
 ### 递归 CTE
 
-首先，我们创建一个表来存储员工数据，包括他们的 ID、姓名和管理者 ID。
+首先，我们创建一个表来存储员工数据，包括他们的 ID、姓名和经理 ID。
 
 ```sql
 CREATE TABLE Employees (
@@ -289,34 +289,34 @@ INSERT INTO Employees (EmployeeID, EmployeeName, ManagerID) VALUES
 (6, 'Frank', 3);        -- Frank 向 Charlie 汇报
 ```
 
-现在，我们使用递归 CTE 来查找特定管理者（例如 Alice，EmployeeID = 1）下的员工层级。
+现在，我们使用递归 CTE 来查找特定经理（例如 Alice，EmployeeID = 1）下的员工层级。
 
 ```sql
 WITH RECURSIVE EmployeeHierarchy AS (
-    -- 初始查询：从指定的管理者（Alice）开始
-    SELECT EmployeeID, EmployeeName, ManagerID
+    -- 从 Alice（CEO）开始
+    SELECT EmployeeID, EmployeeName, managerid, EmployeeName as LeaderName
     FROM Employees
-    WHERE ManagerID IS NULL  -- Alice，因为她没有管理者
+    WHERE EmployeeID=1
     UNION ALL
-    -- 递归查询：查找向当前层级汇报的员工
-    SELECT e.EmployeeID, e.EmployeeName, e.ManagerID
+    -- 递归查找向当前层级汇报的员工
+    SELECT e.EmployeeID, e.EmployeeName, e.managerid, eh.EmployeeName
     FROM Employees e
-    INNER JOIN EmployeeHierarchy eh ON e.ManagerID = eh.EmployeeID
+    JOIN EmployeeHierarchy eh ON e.ManagerID = eh.EmployeeID
 )
-SELECT * FROM EmployeeHierarchy;
+SELECT * FROM  EmployeeHierarchy;
 ```
 
 输出将列出 Alice 下的所有员工层级：
 
 ```sql
-┌──────────────────────────────────────────────────────┐
-│    employeeid   │   employeename   │    managerid    │
-├─────────────────┼──────────────────┼─────────────────┤
-│               1 │ Alice            │            NULL │
-│               2 │ Bob              │               1 │
-│               3 │ Charlie          │               1 │
-│               4 │ David            │               2 │
-│               5 │ Eve              │               2 │
-│               6 │ Frank            │               3 │
-└──────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│    employeeid   │   employeename   │    managerid    │    leadername    │
+├─────────────────┼──────────────────┼─────────────────┼──────────────────┤
+│               1 │ Alice            │            NULL │ Alice            │
+│               2 │ Bob              │               1 │ Alice            │
+│               3 │ Charlie          │               1 │ Alice            │
+│               4 │ David            │               2 │ Bob              │
+│               5 │ Eve              │               2 │ Bob              │
+│               6 │ Frank            │               3 │ Charlie          │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
