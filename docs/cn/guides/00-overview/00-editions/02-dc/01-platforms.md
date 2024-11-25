@@ -15,10 +15,10 @@ Databend Cloud 计划扩展对更多云平台和区域的支持。如果您的�
 
 您在开通 Databend Cloud 账号时需要选定一个云厂商及地域。开通成功后，选定的云厂商及地域暂不支持修改。
 -->
--->
 <!-- #endendef -->
 
 <!-- #ifcndef -->
+
 Databend Cloud 是一个云原生解决方案，目前支持以下区域的 [Amazon S3](https://aws.amazon.com/s3/)：
 
 ![alt text](/img/cloud/dc-platform.png)
@@ -28,4 +28,5 @@ Databend Cloud 计划扩展对更多云平台和区域的支持。如果您的�
 :::
 
 您在开通 Databend Cloud 账号时需要选定一个云厂商及地域。开通成功后，选定的云厂商及地域暂不支持修改。
+
 <!-- #endcndef -->
