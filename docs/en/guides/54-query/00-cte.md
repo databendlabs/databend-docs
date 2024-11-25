@@ -294,31 +294,29 @@ Now, we use a recursive CTE to find the hierarchy of employees under a specific 
 ```sql
 WITH RECURSIVE EmployeeHierarchy AS (
     -- Start with Alice (the CEO)
-    SELECT EmployeeID, EmployeeName, ManagerID
+    SELECT EmployeeID, EmployeeName, managerid, EmployeeName as LeaderName
     FROM Employees
-    WHERE ManagerID IS NULL
+    WHERE EmployeeID=1
     UNION ALL
     -- Recursively find employees reporting to the current level
-    SELECT e.EmployeeID, e.EmployeeName, e.ManagerID
+    SELECT e.EmployeeID, e.EmployeeName, e.managerid, eh.EmployeeName
     FROM Employees e
-    JOIN EmployeeHierarchy eh2 ON e.ManagerID = eh2.EmployeeID
+    JOIN EmployeeHierarchy eh ON e.ManagerID = eh.EmployeeID
 )
-SELECT eh.EmployeeID, eh.EmployeeName, m.EmployeeName AS ManagerName
-FROM EmployeeHierarchy eh
-JOIN Employees m ON eh.ManagerID = m.EmployeeID
-ORDER BY eh.EmployeeID;
+SELECT * FROM  EmployeeHierarchy;
 ```
 
 The output will list all employees in the hierarchy under Alice:
 
 ```sql
-┌───────────────────────────────────────────────────────┐
-│    employeeid   │   employeename   │    managername   │
-├─────────────────┼──────────────────┼──────────────────┤
-│               2 │ Bob              │ Alice            │
-│               3 │ Charlie          │ Alice            │
-│               4 │ David            │ Bob              │
-│               5 │ Eve              │ Bob              │
-│               6 │ Frank            │ Charlie          │
-└───────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│    employeeid   │   employeename   │    managerid    │    leadername    │
+├─────────────────┼──────────────────┼─────────────────┼──────────────────┤
+│               1 │ Alice            │            NULL │ Alice            │
+│               2 │ Bob              │               1 │ Alice            │
+│               3 │ Charlie          │               1 │ Alice            │
+│               4 │ David            │               2 │ Bob              │
+│               5 │ Eve              │               2 │ Bob              │
+│               6 │ Frank            │               3 │ Charlie          │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
