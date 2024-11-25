@@ -31,17 +31,17 @@ VACUUM TABLE <table_name> [ DRY RUN [SUMMARY] ]
 
 VACUUM TABLE 命令（不带 `DRY RUN`）返回一个表格，总结了清理文件的关键统计数据，包含以下列：
 
-| 列             | 描述                               |
-| -------------- | ---------------------------------- |
-| snapshot_files | 快照文件数量                       |
-| snapshot_size  | 快照文件总大小（以字节为单位）     |
-| segments_files | 段文件数量                         |
-| segments_size  | 段文件总大小（以字节为单位）       |
-| block_files    | 块文件数量                         |
-| block_size     | 块文件总大小（以字节为单位）       |
-| index_files    | 索引文件数量                       |
-| index_size     | 索引文件总大小（以字节为单位）     |
-| total_files    | 所有类型文件的总数量               |
+| 列             | 描述                                 |
+| -------------- | ------------------------------------ |
+| snapshot_files | 快照文件数量                         |
+| snapshot_size  | 快照文件总大小（以字节为单位）       |
+| segments_files | 段文件数量                           |
+| segments_size  | 段文件总大小（以字节为单位）         |
+| block_files    | 块文件数量                           |
+| block_size     | 块文件总大小（以字节为单位）         |
+| index_files    | 索引文件数量                         |
+| index_size     | 索引文件总大小（以字节为单位）       |
+| total_files    | 所有类型文件的总数量                 |
 | total_size     | 所有类型文件的总大小（以字节为单位） |
 
 ```sql title='示例:'
@@ -91,11 +91,11 @@ SET GLOBAL data_retention_time_in_days = 2;
 
 `data_retention_time_in_days` 默认值为 1 天（24 小时），最大值因 Databend 版本而异：
 
-| 版本                                       | 默认保留时间    | 最大保留时间     |
-| ---------------------------------------- | -------------- | ---------------- |
-| Databend 社区版和企业版                   | 1 天（24 小时） | 90 天            |
-| Databend Cloud（个人版）                  | 1 天（24 小时） | 1 天（24 小时）  |
-| Databend Cloud（商业版）                  | 1 天（24 小时） | 90 天            |
+| 版本                     | 默认保留时间    | 最大保留时间    |
+| ------------------------ | --------------- | --------------- |
+| Databend 社区版和企业版  | 1 天（24 小时） | 90 天           |
+| Databend Cloud（基础版） | 1 天（24 小时） | 1 天（24 小时） |
+| Databend Cloud（商业版） | 1 天（24 小时） | 90 天           |
 
 要检查 `data_retention_time_in_days` 的当前值：
 
@@ -109,9 +109,9 @@ Databend 提供了两个命令来删除表中的历史数据文件：VACUUM TABL
 
 VACUUM TABLE 和 OPTIMIZE TABLE 都允许您指定一个时间段来确定要删除的历史数据文件。然而，OPTIMIZE TABLE 要求您事先通过查询获取快照 ID 或时间戳，而 VACUUM TABLE 允许您直接指定保留数据文件的小时数。VACUUM TABLE 在删除数据文件之前提供了增强的控制，通过 DRY RUN 选项，您可以在应用命令之前预览要删除的数据文件。这提供了安全的删除体验，并帮助您避免意外的数据丢失。
 
-|                                                  | VACUUM TABLE | OPTIMIZE TABLE |
-| ------------------------------------------------ | ------------ | -------------- |
-| 关联的快照（包括段和块）                         | 是           | 是             |
-| 孤立的快照（包括段和块）                         | 是           | 是             |
-| 仅孤立的段和块                                   | 是           | 否             |
-| DRY RUN                                          | 是           | 否             |
+|                          | VACUUM TABLE | OPTIMIZE TABLE |
+| ------------------------ | ------------ | -------------- |
+| 关联的快照（包括段和块） | 是           | 是             |
+| 孤立的快照（包括段和块） | 是           | 是             |
+| 仅孤立的段和块           | 是           | 否             |
+| DRY RUN                  | 是           | 否             |
