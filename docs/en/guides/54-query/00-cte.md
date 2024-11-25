@@ -301,22 +301,29 @@ WITH RECURSIVE EmployeeHierarchy AS (
     -- Recursive query: find employees reporting to the current level
     SELECT e.EmployeeID, e.EmployeeName, e.ManagerID
     FROM Employees e
-    INNER JOIN EmployeeHierarchy eh ON e.ManagerID = eh.EmployeeID
+    INNER JOIN EmployeeHierarchy AS eh2 ON e.ManagerID = eh2.EmployeeID
 )
-SELECT * FROM EmployeeHierarchy;
+SELECT eh.EmployeeID, eh.EmployeeName, eh.ManagerID, m.EmployeeName AS ManagerName
+FROM EmployeeHierarchy eh
+LEFT JOIN Employees m ON eh.ManagerID = m.EmployeeID
+ORDER BY CASE 
+            WHEN eh.EmployeeName = 'Alice' THEN 0  -- Alice goes first
+            ELSE 1 
+         END, 
+         eh.EmployeeID;  -- Then order by EmployeeID
 ```
 
 The output will list all employees in the hierarchy under Alice:
 
 ```sql
-┌──────────────────────────────────────────────────────┐
-│    employeeid   │   employeename   │    managerid    │
-├─────────────────┼──────────────────┼─────────────────┤
-│               1 │ Alice            │            NULL │
-│               2 │ Bob              │               1 │
-│               3 │ Charlie          │               1 │
-│               4 │ David            │               2 │
-│               5 │ Eve              │               2 │
-│               6 │ Frank            │               3 │
-└──────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│    employeeid   │   employeename   │    managerid    │    managername   │
+├─────────────────┼──────────────────┼─────────────────┼──────────────────┤
+│               1 │ Alice            │            NULL │ NULL             │
+│               2 │ Bob              │               1 │ Alice            │
+│               3 │ Charlie          │               1 │ Alice            │
+│               4 │ David            │               2 │ Bob              │
+│               5 │ Eve              │               2 │ Bob              │
+│               6 │ Frank            │               3 │ Charlie          │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
