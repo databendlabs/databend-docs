@@ -293,37 +293,32 @@ Now, we use a recursive CTE to find the hierarchy of employees under a specific 
 
 ```sql
 WITH RECURSIVE EmployeeHierarchy AS (
-    -- Initial query: start with the specified manager (Alice)
+    -- Start with Alice (the CEO)
     SELECT EmployeeID, EmployeeName, ManagerID
     FROM Employees
-    WHERE ManagerID IS NULL  -- Alice, since she has no manager
+    WHERE ManagerID IS NULL
     UNION ALL
-    -- Recursive query: find employees reporting to the current level
+    -- Recursively find employees reporting to the current level
     SELECT e.EmployeeID, e.EmployeeName, e.ManagerID
     FROM Employees e
-    INNER JOIN EmployeeHierarchy AS eh2 ON e.ManagerID = eh2.EmployeeID
+    JOIN EmployeeHierarchy eh2 ON e.ManagerID = eh2.EmployeeID
 )
-SELECT eh.EmployeeID, eh.EmployeeName, eh.ManagerID, m.EmployeeName AS ManagerName
+SELECT eh.EmployeeID, eh.EmployeeName, m.EmployeeName AS ManagerName
 FROM EmployeeHierarchy eh
-LEFT JOIN Employees m ON eh.ManagerID = m.EmployeeID
-ORDER BY CASE 
-            WHEN eh.EmployeeName = 'Alice' THEN 0  -- Alice goes first
-            ELSE 1 
-         END, 
-         eh.EmployeeID;  -- Then order by EmployeeID
+JOIN Employees m ON eh.ManagerID = m.EmployeeID
+ORDER BY eh.EmployeeID;
 ```
 
 The output will list all employees in the hierarchy under Alice:
 
 ```sql
-┌─────────────────────────────────────────────────────────────────────────┐
-│    employeeid   │   employeename   │    managerid    │    managername   │
-├─────────────────┼──────────────────┼─────────────────┼──────────────────┤
-│               1 │ Alice            │            NULL │ NULL             │
-│               2 │ Bob              │               1 │ Alice            │
-│               3 │ Charlie          │               1 │ Alice            │
-│               4 │ David            │               2 │ Bob              │
-│               5 │ Eve              │               2 │ Bob              │
-│               6 │ Frank            │               3 │ Charlie          │
-└─────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│    employeeid   │   employeename   │    managername   │
+├─────────────────┼──────────────────┼──────────────────┤
+│               2 │ Bob              │ Alice            │
+│               3 │ Charlie          │ Alice            │
+│               4 │ David            │ Bob              │
+│               5 │ Eve              │ Bob              │
+│               6 │ Frank            │ Charlie          │
+└───────────────────────────────────────────────────────┘
 ```
