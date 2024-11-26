@@ -6,11 +6,12 @@ description: How to back up and restore Meta Service cluster data
 
 This guideline will introduce how to back up and restore the meta service cluster data.
 
-## Export Data From Meta Service
+## Export Data From databend-meta
 
-It supports to export from a databend-meta data dir or from a running databend-meta server.
+It supports to export either from a databend-meta data dir or from a running databend-meta server.
+Since Raft replicates the data to all nodes, it is enough to export from any one node.
 
-### Export from a running server
+### Export from running databend-meta
 
 Similar to exporting from data dir, but with the service endpoint argument `--grpc-api-address <ip:port>` in place of the `--raft-dir`,
 where `<ip:port>` is the `grpc_api_address` in [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml), e.g.:
@@ -27,7 +28,7 @@ databend-metactl export --grpc-api-address "127.0.0.1:9191" --db <output_fn>
 
 Shutdown the `databend-meta` service.
 
-Then export sled DB from the dir(`<your_meta_dir>`) in which the `databend-meta` stores meta to a local file `output_fn`, in multi-line JSON format.
+Then export the data from the dir(`<your_meta_dir>`) in which the `databend-meta` stores meta to a local file `output_fn`, in multi-line JSON format.
 E.g., every line in the output file is a JSON of an exported key-value record.
 
 ```sh
@@ -46,13 +47,13 @@ Note: without the `--db` argument, the exported data will output to the stdio in
 
 ## Restore a databend-meta
 
-The following command rebuild a meta service db in `<your_meta_dir>` from
-exported metadata:
+To restore a databend-meta node, use the following command.
 
 ```sh
 databend-metactl import --raft-dir "<your_meta_dir>" --db <output_fn>
 
-databend-meta --raft-dir "<your_meta_dir>" ...
+# Then it is ready to start the databend-meta node.
+# databend-meta --raft-dir "<your_meta_dir>" ...
 ```
 
 Note: without the `--db` argument, the import data come from stdio instead, like:
@@ -61,22 +62,39 @@ Note: without the `--db` argument, the import data come from stdio instead, like
 cat "<output_fn>" | databend-metactl import --raft-dir "<your_meta_dir>"
 ```
 
-**Caveat**: Data in `<your_meta_dir>` will be cleared.
+Note that the backup data contains node id,
+so it is necessary to ensure the node id in the backup data is consistent with the node id in the restored databend-meta node.
+To restore a different node, i.e., restore node-2 with the backup data of node-1, you need to specify the cluster config when importing, see the next section.
+
+**Caveat**: Data in `<your_meta_dir>` will be cleared when importing.
 
 ## Import data as a new databend-meta cluster
 
-With specifies the `--initial-cluster` argument, the `databend-metactl` can import the data as a new cluster.
-The `--initial-cluster` format is: `node_id=raft_advertise_host:raft_api_port`, each node config is separated by space, the meaning of `raft_advertise_host`,`raft_api_port` is the same in raft config.
+With the `--initial-cluster` argument, the `databend-metactl` import the data and re-initialize the cluster info and node ids.
+The `--initial-cluster` value format is: `<node_id>=<raft_advertise_host>:<raft_api_port`,
+`raft_advertise_host`,`raft_api_port` is the same as the fields in the toml config file.
 
-E.g.:
+For example, to restore a databend-meta cluster with three nodes:
 
 ```
-databend-metactl import --raft-dir ./.databend/new_meta1 --id=1 --db meta.db --initial-cluster 1=localhost:29103 --initial-cluster 2=localhost:29203 --initial-cluster 3=localhost:29303
-databend-metactl import --raft-dir ./.databend/new_meta2 --id=2 --db meta.db --initial-cluster 1=localhost:29103 --initial-cluster 2=localhost:29203 --initial-cluster 3=localhost:29303
-databend-metactl import --raft-dir ./.databend/new_meta3 --id=3 --db meta.db --initial-cluster 1=localhost:29103 --initial-cluster 2=localhost:29203 --initial-cluster 3=localhost:29303
+databend-metactl import --raft-dir ./.databend/new_meta1 --db meta.db \
+    --id=1 \
+    --initial-cluster 1=localhost:29103 \
+    --initial-cluster 2=localhost:29203 \
+    --initial-cluster 3=localhost:29303
+databend-metactl import --raft-dir ./.databend/new_meta2 --db meta.db \
+    --id=2 \
+    --initial-cluster 1=localhost:29103 \
+    --initial-cluster 2=localhost:29203 \
+    --initial-cluster 3=localhost:29303
+databend-metactl import --raft-dir ./.databend/new_meta3 --db meta.db \
+    --id=3 \
+    --initial-cluster 1=localhost:29103 \
+    --initial-cluster 2=localhost:29203 \
+    --initial-cluster 3=localhost:29303
 ```
 
-The script above imports the exported data from `meta.db` and initializes the three cluster nodes: id 1, which raft directory is `./.databend/new_meta1`, and so are id 2 and 3 with different raft directory.
-Note that the `--initial-cluster` argument in these three command line is the same.
+In the above commands, the cluster info are all identical.
+But each databend-meta node has a different node id specified.
 
-After that, can start a new three nodes databend-meta cluster with the new config and imported data.
+After that, it is ready to start a new three nodes databend-meta cluster.
