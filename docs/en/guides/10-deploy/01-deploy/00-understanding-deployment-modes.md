@@ -4,6 +4,8 @@ sidebar_label: Understanding Deployments
 description: Describes Databend deployment modes
 ---
 
+import LanguageDocs from '@site/src/components/LanguageDocs';
+
 ## Databend Node Types
 
 In a Databend deployment, two types of nodes are utilized: Meta and Query.
@@ -81,6 +83,11 @@ Databend supports for self-hosted and cloud object storage solutions. Prepare yo
 - Tencent COS
 - Alibaba OSS
 - QingCloud QingStor
-<!-- #ifcndef -->
+
+<LanguageDocs
+cn=
+'
+
 - 华为 OBS
-<!-- #endcndef -->
+
+'/>
