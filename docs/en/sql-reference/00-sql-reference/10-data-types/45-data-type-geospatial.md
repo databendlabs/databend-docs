@@ -12,7 +12,7 @@ Databend supports these geospatial data types for handling spatial data:
 The GEOMETRY and GEOGRAPHY types are currently experimental features. To create tables using these types, execute `SET enable_geo_create_table = 1` to enable them first.
 :::
 
-## Supported Geospatial Object Types
+## Supported Object Types
 
 Databend supports a range of geospatial object types, enabling precise representation and analysis of spatial data for both planar (GEOMETRY) and spherical (GEOGRAPHY) coordinate systems.
 
@@ -26,7 +26,7 @@ Databend supports a range of geospatial object types, enabling precise represent
 | MultiPolygon       | A collection of multiple Polygon objects, representing multiple regions or areas.                               | MULTIPOLYGON(((10 20, 30 40, 50 60, 10 20)), ((15 25, 25 35, 35 45, 15 25)))                      | MULTIPOLYGON(((-122.5 37.7, -122.4 37.8, -122.3 37.7, -122.5 37.7))) (Multiple regions in a city)  |
 | GeometryCollection | A collection of different types of geometric objects, such as points, lines, and polygons.                      | GEOMETRYCOLLECTION(POINT(10 20), LINESTRING(10 20, 30 40), POLYGON((10 20, 30 40, 50 60, 10 20))) | GEOMETRYCOLLECTION(POINT(-122.4194 37.7749), LINESTRING(-122.5 37.7, -122.4 37.8))                 |
 
-## Supported Geospatial Output Formats
+## Supported Output Formats
 
 Databend supports three geospatial output formats—[WKT (Well-Known Text)](https://www.ogc.org/standards/sfa), [WKB (Well-Known Binary)](https://www.ogc.org/standards/sfa), and [GeoJSON](https://geojson.org/)—enabling compatibility with a wide range of geospatial applications and tools.
 
