@@ -54,8 +54,8 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 | 参数                            | 描述                                                                                                                                                                                                                                                                                           |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| aggregate_spilling_memory_ratio | 控制聚合操作期间将数据溢出到磁盘的阈值。当内存使用量超过总可用内存的此百分比时，数据将被溢出到对象存储以避免内存耗尽。示例：如果设置为 60，则在内存使用量超过 60% 时发生溢出。                                                                                                                   |
-| join_spilling_memory_ratio      | 控制连接操作期间将数据溢出到磁盘的阈值。当内存使用量超过总可用内存的此百分比时，数据将被溢出到对象存储以避免内存耗尽。示例：如果设置为 60，则在内存使用量超过 60% 时发生溢出。                                                                                                                   |
+| aggregate_spilling_memory_ratio | 控制聚合操作期间将数据溢出到磁盘的阈值。当内存使用量超过总可用内存的此百分比时，数据将被溢出到对象存储以避免内存耗尽。示例：如果设置为 60，则当内存使用量超过 60% 时发生溢出。                                                                                                                 |
+| join_spilling_memory_ratio      | 控制连接操作期间将数据溢出到磁盘的阈值。当内存使用量超过总可用内存的此百分比时，数据将被溢出到对象存储以避免内存耗尽。示例：如果设置为 60，则当内存使用量超过 60% 时发生溢出。                                                                                                                  |
 
 ## [log] 部分
 
@@ -77,11 +77,11 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 以下是 [log.stderr] 部分中可用的参数列表：
 
-| 参数    | 描述                                                                 |
-| ------- | -------------------------------------------------------------------- |
-| on      | 启用或禁用 stderr 日志记录。默认为 false。                           |
-| level   | 日志级别：DEBUG、INFO 或 ERROR。默认为 DEBUG。                       |
-| format  | 日志格式：json 或 text。默认为 text。                                |
+| 参数    | 描述                                             |
+| ------- | ------------------------------------------------ |
+| on      | 启用或禁用 stderr 日志记录。默认为 false。       |
+| level   | 日志级别：DEBUG、INFO 或 ERROR。默认为 DEBUG。   |
+| format  | 日志格式：json 或 text。默认为 text。            |
 
 ### [log.query] 部分
 
@@ -95,73 +95,45 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 以下是 [log.tracing] 部分中可用的参数列表：
 
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| bucket          | The name of the S3 bucket used for storage.                                                                                                                                                                  |
-| region          | The region where the S3 bucket is located.                                                                                                                                                                   |
-| endpoint_url    | The endpoint URL for the S3 service. If you are using a custom S3-compatible service, you can specify the endpoint URL here.                                                                                |
-| access_key_id   | The access key ID for authenticating with the S3 service.                                                                                                                                                    |
-| secret_access_key | The secret access key for authenticating with the S3 service.                                                                                                                                                |
-| allow_anonymous | Defaults to false. Set it to true if you want to allow anonymous access to the S3 bucket. This is useful when you want to access public data without providing credentials.                                  |
+| Parameter         | Description                                                                                                                                                   |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| capture_log_level | 设置在执行过程中捕获跟踪的日志级别（DEBUG、TRACE、INFO、WARN 或 ERROR）。                                                                |
+| on                | 控制是否启用跟踪。默认值为 'false'，表示禁用。设置为 'true' 以启用跟踪。                                                  |
+| otlp_endpoint     | 指定用于跟踪的 OpenTelemetry 协议 (OTLP) 端点。默认值为 'http://127.0.0.1:4317'，但您可以将其替换为所需的 OTLP 端点。 |
 
-### [storage.azblob] Section
+## [meta] 部分
 
-The following is a list of the parameters available within the [storage.azblob] section:
+以下是 [meta] 部分中可用的参数列表：
 
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| container       | The name of the Azure Blob Storage container used for storage.                                                                                                                                               |
-| endpoint_url    | The endpoint URL for the Azure Blob Storage service. If you are using a custom Azure Blob Storage-compatible service, you can specify the endpoint URL here.                                                  |
-| account_name    | The account name for authenticating with the Azure Blob Storage service.                                                                                                                                     |
-| account_key     | The account key for authenticating with the Azure Blob Storage service.                                                                                                                                      |
+| Parameter                    | Description                                                                                                                                                                                                                                                                                                           |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| username                     | 用于连接 Meta 服务的用户名。默认值："root"。                                                                                                                                                                                                                                                    |
+| password                     | 用于连接 Meta 服务的密码。Databend 建议使用环境变量 META_PASSWORD 提供密码。默认值："root"。                                                                                                                                                          |
+| endpoints                    | 设置此查询服务器可以连接的一个或多个 Meta 服务器端点。为了与 Meta 建立健壮的连接，如果可能，请在集群中包含多个 Meta 服务器作为备份。示例：["192.168.0.1:9191", "192.168.0.2:9191"]。默认值：["0.0.0.0:9191"]。                                                   |
+| client_timeout_in_second     | 设置在终止尝试连接 Meta 服务器之前的等待时间（以秒为单位）。默认值：60。                                                                                                                                                                                                              |
+| auto_sync_interval           | 设置此查询服务器应自动从集群中的 Meta 服务器同步端点的频率（以秒为单位）。启用后，Databend-query 会定期联系 Databend-meta 服务器以获取 grpc_api_advertise_host:grpc-api-port 的列表。要禁用同步，请将其设置为 0。默认值：60。 |
+| unhealth_endpoint_evict_time | 内部时间（以秒为单位），用于不查询不健康的 Meta 节点端点。默认值：120。                                                                                                                                                                                                                            |
 
-### [storage.gcs] Section
+## [storage] 部分
 
-The following is a list of the parameters available within the [storage.gcs] section:
+以下是 [storage] 部分中可用的参数列表：
 
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| bucket          | The name of the Google Cloud Storage (GCS) bucket used for storage.                                                                                                                                          |
-| credentials_json | The JSON credentials for authenticating with the GCS service. This should be a string containing the JSON object with the credentials.                                                                       |
+| Parameter      | Description                                                                                                                                                                                                                                          |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type           | 使用的存储类型。可以是以下之一：fs、s3、azblob、gcs、oss、cos、hdfs、webhdfs。                                                                                                                                              |
+| allow_insecure | 默认为 false。在 MinIO 上部署 Databend 或通过以 `http://` 开头的 URL 加载数据时，请将其设置为 true，否则可能会遇到以下错误："不允许从不安全的存储复制数据。请设置 `allow_insecure=true`"。 |
 
-### [storage.oss] Section
+### [storage.fs] 部分
 
-The following is a list of the parameters available within the [storage.oss] section:
+以下是 [storage.fs] 部分中可用的参数列表：
 
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| bucket          | The name of the Alibaba Cloud OSS bucket used for storage.                                                                                                                                                   |
-| endpoint_url    | The endpoint URL for the OSS service. If you are using a custom OSS-compatible service, you can specify the endpoint URL here.                                                                              |
-| access_key_id   | The access key ID for authenticating with the OSS service.                                                                                                                                                   |
-| access_key_secret | The access key secret for authenticating with the OSS service.                                                                                                                                               |
+| Parameter | Description                            |
+| --------- | -------------------------------------- |
+| data_path | 数据存储位置的路径。 |
 
-### [storage.cos] Section
+### [storage.s3] 部分
 
-The following is a list of the parameters available within the [storage.cos] section:
-
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| bucket          | The name of the Tencent Cloud COS bucket used for storage.                                                                                                                                                   |
-| endpoint_url    | The endpoint URL for the COS service. If you are using a custom COS-compatible service, you can specify the endpoint URL here.                                                                              |
-| secret_id       | The secret ID for authenticating with the COS service.                                                                                                                                                       |
-| secret_key      | The secret key for authenticating with the COS service.                                                                                                                                                      |
-
-### [storage.hdfs] Section
-
-The following is a list of the parameters available within the [storage.hdfs] section:
-
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name_node       | The address of the HDFS NameNode.                                                                                                                                                                            |
-
-### [storage.webhdfs] Section
-
-The following is a list of the parameters available within the [storage.webhdfs] section:
-
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name_node       | The address of the WebHDFS NameNode.                                                                                                                                                                         |
-| user_name       | The username for authenticating with the WebHDFS service.                                                                                                                                                    |
+以下是 [storage.s3] 部分中可用的参数列表：
 
 | 参数                      | 描述                                                                                                                                                            |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -174,7 +146,7 @@ The following is a list of the parameters available within the [storage.webhdfs]
 | master_key                | 用于身份验证的主密钥。                                                                                                                                         |
 | region                    | S3 兼容存储服务的区域。                                                                                                                            |
 | role_arn                  | 用于身份验证的 ARN（Amazon 资源名称）。                                                                                                                         |
-| root                      | 指定 Databend 将从中操作的存储桶内的目录。例如：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
+| root                      | 指定 Databend 将从中操作的存储桶内的目录。示例：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
 | security_token            | 用于身份验证的安全令牌。                                                                                                                                     |
 
 ### [storage.azblob] 部分
@@ -187,7 +159,7 @@ The following is a list of the parameters available within the [storage.webhdfs]
 | container    | 你的 Azure 存储容器的名称。                                                                                                                              |
 | account_name | 你的 Azure 存储账户的名称。                                                                                                                                |
 | account_key  | 用于与 Azure Blob 存储进行身份验证的账户密钥。                                                                                                            |
-| root         | 指定 Databend 将从中操作的存储桶内的目录。例如：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
+| root         | 指定 Databend 将从中操作的存储桶内的目录。示例：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
 
 ### [storage.gcs] 部分
 
@@ -197,7 +169,7 @@ The following is a list of the parameters available within the [storage.webhdfs]
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | bucket     | 你的 Google Cloud Storage 存储桶的名称。                                                                                                                          |
 | credential | 用于 Google Cloud Storage 身份验证的 base64 编码的服务账户密钥文件。                                                                                   |
-| root       | 指定 Databend 将从中操作的存储桶内的目录。例如：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
+| root       | 指定 Databend 将从中操作的存储桶内的目录。示例：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
 
 要获取 `credential`，你可以按照 Google 文档中的主题 [创建服务账户密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating) 来创建并下载服务账户密钥文件。下载服务账户密钥文件后，你可以通过以下命令将其转换为 base64 字符串：
 
@@ -214,9 +186,9 @@ base64 -i -o ~/Desktop/base64-encoded-key.txt
 | bucket               | 你的阿里云 OSS 存储桶的名称。                                                                                                                             |
 | endpoint_url         | 阿里云 OSS 的 URL 端点。                                                                                                                                |
 | access_key_id        | 用于与阿里云 OSS 进行身份验证的访问密钥 ID。                                                                                                           |
-| access_key_secret    | 用于与阿里云 OSS 进行身份验证的访问密钥密钥。                                                                                                       |
+| access_key_secret    | 用于与阿里云 OSS 进行身份验证的访问密钥秘密。                                                                                                       |
 | presign_endpoint_url | 用于阿里云 OSS 预签名操作的 URL 端点。                                                                                                      |
-| root                 | 指定 Databend 将从中操作的存储桶内的目录。例如：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
+| root                 | 指定 Databend 将从中操作的存储桶内的目录。示例：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
 
 <LanguageDocs
 cn=
@@ -228,7 +200,7 @@ cn=
 
 | 参数              | 描述                                          |
 | ----------------- | --------------------------------------------- |
-| bucket            | 您的华为云 OBS 桶的名称。                     |
+| bucket            | 您的华为云 OBS 桶的名称。                    |
 | endpoint_url      | 华为云 OBS 的 URL 端点。                      |
 | access_key_id     | 用于与华为云 OBS 进行身份验证的访问密钥 ID。  |
 | secret_access_key | 用于与华为云 OBS 进行身份验证的访问密钥秘密。 |
@@ -240,38 +212,38 @@ cn=
 以下是 [storage.cos] 部分中可用的参数列表：
 
 | 参数         | 描述                                                                                                                                                            |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| bucket       | 您的腾讯云对象存储（COS）桶的名称。                                                                                                                            |
-| endpoint_url | 腾讯云 COS 的 URL 端点（可选）。                                                                                                                               |
-| secret_id    | 用于与腾讯云 COS 进行身份验证的密钥 ID。                                                                                                                       |
-| secret_key   | 用于与腾讯云 COS 进行身份验证的密钥。                                                                                                                          |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bucket       | 您的腾讯云对象存储（COS）桶的名称。                                                                                                            |
+| endpoint_url | 腾讯云 COS 的 URL 端点（可选）。                                                                                                                           |
+| secret_id    | 用于与腾讯云 COS 进行身份验证的密钥 ID。                                                                                                                     |
+| secret_key   | 用于与腾讯云 COS 进行身份验证的密钥。                                                                                                                    |
 | root         | 指定 Databend 将在桶内操作的目录。例如：如果桶的根目录有一个名为 `myroot` 的文件夹，那么 `root = "myroot/"`。 |
 
 ### [storage.hdfs] 部分
 
 以下是 [storage.hdfs] 部分中可用的参数列表：
 
-| 参数     | 描述                                                      |
-| -------- | --------------------------------------------------------- |
-| name_node | Hadoop 分布式文件系统（HDFS）的名称节点地址。             |
-| root     | 指定 Databend 将操作的目录。                              |
+| 参数      | 描述                                                      |
+| --------- | ---------------------------------------------------------------- |
+| name_node | Hadoop 分布式文件系统（HDFS）的名称节点地址。 |
+| root      | 指定 Databend 将操作的目录。          |
 
 ### [storage.webhdfs] 部分
 
 以下是 [storage.webhdfs] 部分中可用的参数列表：
 
 | 参数         | 描述                                                    |
-| ------------ | ------------------------------------------------------- |
-| endpoint_url | WebHDFS（Hadoop 分布式文件系统）的 URL 端点。           |
-| root         | 指定 Databend 将操作的目录。                            |
-| delegation   | 用于身份验证和授权的委托令牌。                          |
+| ------------ | -------------------------------------------------------------- |
+| endpoint_url | WebHDFS（Hadoop 分布式文件系统）的 URL 端点。 |
+| root         | 指定 Databend 将操作的目录。        |
+| delegation   | 用于身份验证和授权的委托令牌。         |
 
 ## [cache] 部分
 
 以下是 [cache] 部分中可用的参数列表：
 
 | 参数               | 描述                                                                                                                                            |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | data_cache_storage | 用于表数据缓存的存储类型。可用选项："none"（禁用表数据缓存），"disk"（启用磁盘缓存）。默认为 "none"。 |
 
 ### [cache.disk] 部分
@@ -279,6 +251,6 @@ cn=
 以下是 [cache.disk] 部分中可用的参数列表：
 
 | 参数      | 描述                                                                                              |
-| --------- | ------------------------------------------------------------------------------------------------- |
-| path      | 使用磁盘缓存时缓存存储的路径。                                                                    |
+| --------- | -------------------------------------------------------------------------------------------------------- |
+| path      | 使用磁盘缓存时缓存存储的路径。                                                |
 | max_bytes | 使用磁盘缓存时缓存数据的最大字节数。默认为 21474836480 字节（20 GB）。 |
