@@ -99,7 +99,7 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 | ----------------- | --------------------------------------------------------------------------------------------------------------------- |
 | capture_log_level | 设置在执行过程中捕获跟踪的日志级别（DEBUG、TRACE、INFO、WARN 或 ERROR）。                                             |
 | on                | 控制是否启用跟踪。默认值为 'false'，表示禁用。设置为 'true' 以启用跟踪。                                              |
-| otlp_endpoint     | 指定用于跟踪的 OpenTelemetry 协议 (OTLP) 端点。默认值为 'http://127.0.0.1:4317'，但您可以将其替换为所需的 OTLP 端点。 |
+| otlp_endpoint     | 指定用于跟踪的 OpenTelemetry 协议 (OTLP) 端点。默认值为 `http://127.0.0.1:4317`，但您可以将其替换为所需的 OTLP 端点。 |
 
 ## [meta] 部分
 

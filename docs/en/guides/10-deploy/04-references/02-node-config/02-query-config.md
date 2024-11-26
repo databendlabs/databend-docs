@@ -99,7 +99,7 @@ The following is a list of the parameters available within the [log.tracing] sec
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | capture_log_level | Sets the log level (DEBUG, TRACE, INFO, WARN, or ERROR) for capturing traces during execution.                                                                |
 | on                | Controls whether tracing is enabled. Default value is 'false' for disabled. Set to 'true' to enable tracing.                                                  |
-| otlp_endpoint     | Specifies the OpenTelemetry Protocol (OTLP) endpoint for tracing. Defaults to 'http://127.0.0.1:4317', but you can replace it with the desired OTLP endpoint. |
+| otlp_endpoint     | Specifies the OpenTelemetry Protocol (OTLP) endpoint for tracing. Defaults to `http://127.0.0.1:4317`, but you can replace it with the desired OTLP endpoint. |
 
 ## [meta] Section
 
