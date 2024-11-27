@@ -5,9 +5,11 @@ title: AI-Powered Features
 import SearchSVG from '@site/static/img/icon/search.svg'
 
 <!-- #ifcndef -->
+
 :::tip
-Chinese features are somewhat limited or not fully open.
+The AI-powered features are not available in some regions.
 :::
+
 <!-- #endcndef -->
 
 With the inclusion of AI-powered features, Databend Cloud allows you to engage in natural language conversations to receive help, assistance, and solutions. These AI-powered features are enabled by default, but you can disable them if desired by navigating to **Manage** > **Settings**.
