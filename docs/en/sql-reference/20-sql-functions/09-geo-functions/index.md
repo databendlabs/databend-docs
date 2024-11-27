@@ -1,8 +1,8 @@
 ---
-title: Geography Functions
+title: H3 Functions
 ---
 
-This section provides reference information for the geography functions in Databend.
+This section provides reference information for the H3 functions in Databend.
 
 ## Coordinate Conversion
 
