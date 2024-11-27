@@ -71,7 +71,7 @@ To restore a different node, i.e., restore node-2 with the backup data of node-1
 ## Import data as a new databend-meta cluster
 
 With the `--initial-cluster` argument, the `databend-metactl` import the data and re-initialize the cluster info and node ids.
-The `--initial-cluster` value format is: `<node_id>=<raft_advertise_host>:<raft_api_port`,
+The `--initial-cluster` value format is: `<node_id>=<raft_advertise_host>:<raft_api_port>`,
 `raft_advertise_host`,`raft_api_port` is the same as the fields in the toml config file.
 
 For example, to restore a databend-meta cluster with three nodes:

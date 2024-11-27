@@ -59,13 +59,13 @@ databend-metactl import --raft-dir "<your_meta_dir>" --db <output_fn>
 cat "<output_fn>" | databend-metactl import --raft-dir "<your_meta_dir>"
 ```
 
-请注意，备份数据包含节点 ID，因此需要确保备份数据中的节点 ID 与恢复的 databend-meta 节点中的节点 ID 一致。要恢复不同的节点，即使用节点 1 的备份数据恢复节点 2，您需要在导入时指定集群配置，请参见下一节。
+请注意，备份数据包含节点 ID，因此需要确保备份数据中的节点 ID 与要恢复的 databend-meta 节点中的节点 ID 一致。要恢复不同的节点，即使用节点 1 的备份数据恢复节点 2，您需要在导入时指定集群配置，请参见下一节。
 
 **注意**：导入时 `<your_meta_dir>` 中的数据将被清除。
 
 ## 将数据导入为新的 databend-meta 集群
 
-使用 `--initial-cluster` 参数，`databend-metactl` 将导入数据并重新初始化集群信息和节点 ID。`--initial-cluster` 值的格式为：`<node_id>=<raft_advertise_host>:<raft_api_port`，`raft_advertise_host` 和 `raft_api_port` 与 toml 配置文件中的字段相同。
+使用 `--initial-cluster` 参数，`databend-metactl` 将导入数据并重新初始化集群信息和节点 ID。`--initial-cluster` 值的格式为：`<node_id>=<raft_advertise_host>:<raft_api_port>`，`raft_advertise_host` 和 `raft_api_port` 与 toml 配置文件中的字段相同。
 
 例如，要恢复一个包含三个节点的 databend-meta 集群：
 
