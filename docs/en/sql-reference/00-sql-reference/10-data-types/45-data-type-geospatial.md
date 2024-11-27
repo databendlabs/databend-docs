@@ -40,7 +40,7 @@ Databend supports multiple geospatial output formats—[WKT (Well-Known Text)](h
 | MultiPolygon       | `MULTIPOLYGON(((10 20, 30 40, 50 60, 10 20)), ((15 25, 25 35, 35 45, 15 25)))`                      | `{"coordinates":[[[[10,20],[30,40],[50,60],[10,20]]],[[[15,25],[25,35],[35,45],[15,25]]]],"type":"MultiPolygon"}` |
 | GeometryCollection | `GEOMETRYCOLLECTION(POINT(10 20), LINESTRING(10 20, 30 40), POLYGON((10 20, 30 40, 50 60, 10 20)))` | `{"coordinates":[[[10,20],[30,40],[50,60],[10,20]]],"type":"Polygon"}`                                            |
 
-To switch the geospatial output format in Databend, configure the `SET geometry_output_format` setting with your desired format: `wkt`, `wkb`, or `geojson`. For example, 
+To switch the geospatial output format in Databend, configure the `SET geometry_output_format` setting with your desired format. For example, 
 
 ```sql
 SET geometry_output_format = 'geojson';
