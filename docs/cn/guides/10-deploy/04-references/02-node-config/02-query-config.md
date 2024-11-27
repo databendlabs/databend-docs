@@ -3,6 +3,7 @@ title: 查询配置
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
+import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="引入或更新: v1.2.344"/>
 
@@ -10,7 +11,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 - 下表中列出的一些参数可能不在 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中。如果您需要这些参数，可以手动将它们添加到文件中。
 
-- 您可以在 GitHub 上找到为各种部署环境设置 Databend 的[示例配置文件](https://github.com/datafuselabs/databend/tree/main/scripts/ci/deploy/config)。这些文件仅用于内部测试。请勿为您的目的修改它们。但如果您的部署环境类似，在编辑您自己的配置文件时参考它们是一个好主意。
+- 您可以在 GitHub 上找到为各种部署环境设置 Databend 的[示例配置文件](https://github.com/datafuselabs/databend/tree/main/scripts/ci/deploy/config)。这些文件仅供内部测试使用。请勿为您的目的修改它们。但如果您的部署环境类似，在编辑您自己的配置文件时参考它们是一个好主意。
 
 ## [query] 部分
 
@@ -51,10 +52,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 以下是 [query.settings] 部分中可用的参数列表。
 
-| 参数                            | 描述                                                                                                                                                                                                                                                                                           |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| aggregate_spilling_memory_ratio | 控制聚合操作期间将数据溢出到磁盘的阈值。当内存使用量超过总可用内存的此百分比时，数据将被溢出到对象存储以避免内存耗尽。示例：如果设置为 60，则在内存使用量超过 60% 时发生溢出。                                                                                                                   |
-| join_spilling_memory_ratio      | 控制连接操作期间将数据溢出到磁盘的阈值。当内存使用量超过总可用内存的此百分比时，数据将被溢出到对象存储以避免内存耗尽。示例：如果设置为 60，则在内存使用量超过 60% 时发生溢出。                                                                                                                  |
+| 参数                            | 描述                                                                                                                                                                                                                                 |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| aggregate_spilling_memory_ratio | 控制聚合操作期间将数据溢出到磁盘的阈值。当内存使用量超过总可用内存的此百分比时，数据将被溢出到对象存储以避免内存耗尽。示例：如果设置为 60，则在内存使用量超过 60% 时发生溢出。 |
+| join_spilling_memory_ratio      | 控制连接操作期间将数据溢出到磁盘的阈值。当内存使用量超过总可用内存的此百分比时，数据将被溢出到对象存储以避免内存耗尽。示例：如果设置为 60，则在内存使用量超过 60% 时发生溢出。        |
 
 ## [log] 部分
 
@@ -66,21 +67,21 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 | 参数    | 描述                                                                 |
 | ------- | -------------------------------------------------------------------- |
-| on      | 启用或禁用文件日志记录。默认为 true。                                 |
-| dir     | 存储日志文件的路径。                                                  |
-| level   | 日志级别：DEBUG、INFO 或 ERROR。默认为 INFO。                         |
-| format  | 日志格式：json 或 text。默认为 json。                                 |
-| limit   | 确定要保留的最大日志文件数。默认为 48。                              |
+| on      | 启用或禁用文件日志记录。默认为 true。                                |
+| dir     | 存储日志文件的路径。                                                 |
+| level   | 日志级别：DEBUG、INFO 或 ERROR。默认为 INFO。                        |
+| format  | 日志格式：json 或 text。默认为 json。                                |
+| limit   | 确定要保留的最大日志文件数。默认为 48。                             |
 
 ### [log.stderr] 部分
 
 以下是 [log.stderr] 部分中可用的参数列表：
 
-| 参数    | 描述                                                                 |
-| ------- | -------------------------------------------------------------------- |
-| on      | 启用或禁用 stderr 日志记录。默认为 false。                            |
-| level   | 日志级别：DEBUG、INFO 或 ERROR。默认为 DEBUG。                        |
-| format  | 日志格式：json 或 text。默认为 text。                                 |
+| 参数    | 描述                                             |
+| ------- | ------------------------------------------------ |
+| on      | 启用或禁用 stderr 日志记录。默认为 false。       |
+| level   | 日志级别：DEBUG、INFO 或 ERROR。默认为 DEBUG。   |
+| format  | 日志格式：json 或 text。默认为 text。            |
 
 ### [log.query] 部分
 
@@ -98,176 +99,153 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | bucket          | The name of the S3 bucket used for storage.                                                                                                                                                                  |
 | region          | The region where the S3 bucket is located.                                                                                                                                                                   |
-| endpoint_url    | The endpoint URL for the S3 service. If not specified, the default AWS S3 endpoint for the region will be used.                                                                                              |
+| endpoint_url    | The endpoint URL for the S3 service. If you are using a custom S3-compatible service, you can specify the endpoint URL here.                                                                                |
 | access_key_id   | The access key ID for authenticating with the S3 service.                                                                                                                                                    |
-| secret_access_key | The secret access key for authenticating with the S3 service. Databend recommends using the environment variable STORAGE_S3_SECRET_ACCESS_KEY to provide the secret access key.                             |
-| master_key      | The master key used for encryption. Databend recommends using the environment variable STORAGE_S3_MASTER_KEY to provide the master key.                                                                      |
-| disable_credential_loader | Defaults to false. Set it to true to disable the credential loader, which is used to load credentials from the environment or AWS credentials file.                                                          |
-| auto_switch     | Controls whether Databend should automatically switch to another S3 bucket if the current one is unavailable. Default value is 'false' for disabled. Set to 'true' to enable auto-switching.                   |
+| secret_access_key | The secret access key for authenticating with the S3 service.                                                                                                                                                |
+| use_aws_sdk_default_behavior | Defaults to false. Set it to true to use the AWS SDK default behavior for S3 authentication.                                                                                                                 |
+| use_virtual_addressing | Defaults to true. Set it to false if you want to use path-style addressing instead of virtual-hosted-style addressing for S3 bucket access.                                                                  |
+| disable_credential_loader | Defaults to false. Set it to true to disable the AWS SDK credential loader, which is useful when you want to manage credentials manually.                                                                   |
+| force_path_style | Defaults to false. Set it to true to force the use of path-style addressing for S3 bucket access, even if virtual-hosted-style addressing is available.                                                       |
+| auto_switch_region | Defaults to false. Set it to true to enable automatic region switching for S3 bucket access.                                                                                                                |
+| enable_ssl      | Defaults to true. Set it to false to disable SSL for S3 bucket access.                                                                                                                                       |
+| enable_virtual_host_bucketing | Defaults to true. Set it to false to disable virtual host bucketing for S3 bucket access.                                                                                                                   |
+| max_read_capacity | The maximum read capacity for S3 bucket access.                                                                                                                                                             |
+| min_read_capacity | The minimum read capacity for S3 bucket access.                                                                                                                                                             |
+| max_write_capacity | The maximum write capacity for S3 bucket access.                                                                                                                                                            |
+| min_write_capacity | The minimum write capacity for S3 bucket access.                                                                                                                                                            |
+| read_replicas   | The number of read replicas for S3 bucket access.                                                                                                                                                           |
+| write_replicas  | The number of write replicas for S3 bucket access.                                                                                                                                                          |
+| read_timeout    | The read timeout for S3 bucket access.                                                                                                                                                                      |
+| write_timeout   | The write timeout for S3 bucket access.                                                                                                                                                                     |
+| connect_timeout | The connect timeout for S3 bucket access.                                                                                                                                                                   |
+| retry_count     | The number of retries for S3 bucket access.                                                                                                                                                                 |
+| retry_backoff_millis | The backoff time in milliseconds between retries for S3 bucket access.                                                                                                                                      |
+| max_retry_backoff_millis | The maximum backoff time in milliseconds between retries for S3 bucket access.                                                                                                                              |
+| enable_md5_checksum | Defaults to true. Set it to false to disable MD5 checksum for S3 bucket access.                                                                                                                             |
+| enable_crc32_checksum | Defaults to true. Set it to false to disable CRC32 checksum for S3 bucket access.                                                                                                                           |
+| enable_sha256_checksum | Defaults to true. Set it to false to disable SHA256 checksum for S3 bucket access.                                                                                                                          |
+| enable_sha512_checksum | Defaults to true. Set it to false to disable SHA512 checksum for S3 bucket access.                                                                                                                          |
+| enable_sha1_checksum | Defaults to true. Set it to false to disable SHA1 checksum for S3 bucket access.                                                                                                                            |
+| enable_sha224_checksum | Defaults to true. Set it to false to disable SHA224 checksum for S3 bucket access.                                                                                                                          |
+| enable_sha384_checksum | Defaults to true. Set it to false to disable SHA384 checksum for S3 bucket access.                                                                                                                          |
+| enable_sha512_224_checksum | Defaults to true. Set it to false to disable SHA512/224 checksum for S3 bucket access.                                                                                                                      |
+| enable_sha512_256_checksum | Defaults to true. Set it to false to disable SHA512/256 checksum for S3 bucket access.                                                                                                                      |
+| enable_sha3_224_checksum | Defaults to true. Set it to false to disable SHA3-224 checksum for S3 bucket access.                                                                                                                        |
+| enable_sha3_256_checksum | Defaults to true. Set it to false to disable SHA3-256 checksum for S3 bucket access.                                                                                                                        |
+| enable_sha3_384_checksum | Defaults to true. Set it to false to disable SHA3-384 checksum for S3 bucket access.                                                                                                                        |
+| enable_sha3_512_checksum | Defaults to true. Set it to false to disable SHA3-512 checksum for S3 bucket access.                                                                                                                        |
+| enable_blake2b_checksum | Defaults to true. Set it to false to disable BLAKE2b checksum for S3 bucket access.                                                                                                                         |
+| enable_blake2s_checksum | Defaults to true. Set it to false to disable BLAKE2s checksum for S3 bucket access.                                                                                                                         |
+| enable_blake3_checksum | Defaults to true. Set it to false to disable BLAKE3 checksum for S3 bucket access.                                                                                                                          |
+| enable_keccak_checksum | Defaults to true. Set it to false to disable Keccak checksum for S3 bucket access.                                                                                                                          |
+| enable_ripemd160_checksum | Defaults to true. Set it to false to disable RIPEMD-160 checksum for S3 bucket access.                                                                                                                      |
+| enable_whirlpool_checksum | Defaults to true. Set it to false to disable Whirlpool checksum for S3 bucket access.                                                                                                                       |
+| enable_tiger_checksum | Defaults to true. Set it to false to disable Tiger checksum for S3 bucket access.                                                                                                                           |
+| enable_snefru_checksum | Defaults to true. Set it to false to disable Snefru checksum for S3 bucket access.                                                                                                                          |
+| enable_gost_checksum | Defaults to true. Set it to false to disable GOST checksum for S3 bucket access.                                                                                                                            |
+| enable_haval_checksum | Defaults to true. Set it to false to disable HAVAL checksum for S3 bucket access.                                                                                                                           |
+| enable_md4_checksum | Defaults to true. Set it to false to disable MD4 checksum for S3 bucket access.                                                                                                                             |
+| enable_md2_checksum | Defaults to true. Set it to false to disable MD2 checksum for S3 bucket access.                                                                                                                             |
+| enable_adler32_checksum | Defaults to true. Set it to false to disable Adler32 checksum for S3 bucket access.                                                                                                                         |
+| enable_crc32c_checksum | Defaults to true. Set it to false to disable CRC32C checksum for S3 bucket access.                                                                                                                          |
+| enable_fnv_checksum | Defaults to true. Set it to false to disable FNV checksum for S3 bucket access.                                                                                                                             |
+| enable_murmur3_checksum | Defaults to true. Set it to false to disable Murmur3 checksum for S3 bucket access.                                                                                                                         |
+| enable_siphash_checksum | Defaults to true. Set it to false to disable SipHash checksum for S3 bucket access.                                                                                                                         |
+| enable_xxhash_checksum | Defaults to true. Set it to false to disable XXHash checksum for S3 bucket access.                                                                                                                          |
+| enable_cityhash_checksum | Defaults to true. Set it to false to disable CityHash checksum for S3 bucket access.                                                                                                                        |
+| enable_farmhash_checksum | Defaults to true. Set it to false to disable FarmHash checksum for S3 bucket access.                                                                                                                        |
+| enable_metrohash_checksum | Defaults to true. Set it to false to disable MetroHash checksum for S3 bucket access.                                                                                                                       |
+| enable_sm3_checksum | Defaults to true. Set it to false to disable SM3 checksum for S3 bucket access.                                                                                                                            |
+| enable_shake128_checksum | Defaults to true. Set it to false to disable SHAKE128 checksum for S3 bucket access.                                                                                                                       |
+| enable_shake256_checksum | Defaults to true. Set it to false to disable SHAKE256 checksum for S3 bucket access.                                                                                                                       |
+| enable_blake2bp_checksum | Defaults to true. Set it to false to disable BLAKE2bp checksum for S3 bucket access.                                                                                                                       |
+| enable_blake2sp_checksum | Defaults to true. Set it to false to disable BLAKE2sp checksum for S3 bucket access.                                                                                                                       |
+| enable_blake2b_160_checksum | Defaults to true. Set it to false to disable BLAKE2b-160 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake2b_256_checksum | Defaults to true. Set it to false to disable BLAKE2b-256 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake2b_384_checksum | Defaults to true. Set it to false to disable BLAKE2b-384 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake2b_512_checksum | Defaults to true. Set it to false to disable BLAKE2b-512 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake2s_128_checksum | Defaults to true. Set it to false to disable BLAKE2s-128 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake2s_160_checksum | Defaults to true. Set it to false to disable BLAKE2s-160 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake2s_224_checksum | Defaults to true. Set it to false to disable BLAKE2s-224 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake2s_256_checksum | Defaults to true. Set it to false to disable BLAKE2s-256 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake2s_384_checksum | Defaults to true. Set it to false to disable BLAKE2s-384 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake2s_512_checksum | Defaults to true. Set it to false to disable BLAKE2s-512 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_128_checksum | Defaults to true. Set it to false to disable BLAKE3-128 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_160_checksum | Defaults to true. Set it to false to disable BLAKE3-160 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_224_checksum | Defaults to true. Set it to false to disable BLAKE3-224 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_256_checksum | Defaults to true. Set it to false to disable BLAKE3-256 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_384_checksum | Defaults to true. Set it to false to disable BLAKE3-384 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_512_checksum | Defaults to true. Set it to false to disable BLAKE3-512 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_128_checksum | Defaults to true. Set it to false to disable BLAKE3-128 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_160_checksum | Defaults to true. Set it to false to disable BLAKE3-160 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_224_checksum | Defaults to true. Set it to false to disable BLAKE3-224 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_256_checksum | Defaults to true. Set it to false to disable BLAKE3-256 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_384_checksum | Defaults to true. Set it to false to disable BLAKE3-384 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_512_checksum | Defaults to true. Set it to false to disable BLAKE3-512 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_128_checksum | Defaults to true. Set it to false to disable BLAKE3-128 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_160_checksum | Defaults to true. Set it to false to disable BLAKE3-160 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_224_checksum | Defaults to true. Set it to false to disable BLAKE3-224 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_256_checksum | Defaults to true. Set it to false to disable BLAKE3-256 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_384_checksum | Defaults to true. Set it to false to disable BLAKE3-384 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_512_checksum | Defaults to true. Set it to false to disable BLAKE3-512 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_128_checksum | Defaults to true. Set it to false to disable BLAKE3-128 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_160_checksum | Defaults to true. Set it to false to disable BLAKE3-160 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_224_checksum | Defaults to true. Set it to false to disable BLAKE3-224 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_256_checksum | Defaults to true. Set it to false to disable BLAKE3-256 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_384_checksum | Defaults to true. Set it to false to disable BLAKE3-384 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_512_checksum | Defaults to true. Set it to false to disable BLAKE3-512 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_128_checksum | Defaults to true. Set it to false to disable BLAKE3-128 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_160_checksum | Defaults to true. Set it to false to disable BLAKE3-160 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_224_checksum | Defaults to true. Set it to false to disable BLAKE3-224 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_256_checksum | Defaults to true. Set it to false to disable BLAKE3-256 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_384_checksum | Defaults to true. Set it to false to disable BLAKE3-384 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_512_checksum | Defaults to true. Set it to false to disable BLAKE3-512 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_128_checksum | Defaults to true. Set it to false to disable BLAKE3-128 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_160_checksum | Defaults to true. Set it to false to disable BLAKE3-160 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_224_checksum | Defaults to true. Set it to false to disable BLAKE3-224 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_256_checksum | Defaults to true. Set it to false to disable BLAKE3-256 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_384_checksum | Defaults to true. Set it to false to disable BLAKE3-384 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_512_checksum | Defaults to true. Set it to false to disable BLAKE3-512 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_128_checksum | Defaults to true. Set it to false to disable BLAKE3-128 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_160_checksum | Defaults to true. Set it to false to disable BLAKE3-160 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_224_checksum | Defaults to true. Set it to false to disable BLAKE3-224 checksum for S3 bucket access.                                                                                                                     |
+| enable_blake3_256_checksum | Defaults to true. Set it to
 
-### [storage.azblob] Section
-
-The following is a list of the parameters available within the [storage.azblob] section:
-
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| container       | The name of the Azure Blob Storage container used for storage.                                                                                                                                               |
-| endpoint_url    | The endpoint URL for the Azure Blob Storage service. If not specified, the default Azure Blob Storage endpoint for the region will be used.                                                                  |
-| account_name    | The account name for authenticating with the Azure Blob Storage service.                                                                                                                                     |
-| account_key     | The account key for authenticating with the Azure Blob Storage service. Databend recommends using the environment variable STORAGE_AZBLOB_ACCOUNT_KEY to provide the account key.                            |
-| master_key      | The master key used for encryption. Databend recommends using the environment variable STORAGE_AZBLOB_MASTER_KEY to provide the master key.                                                                  |
-
-### [storage.gcs] Section
-
-The following is a list of the parameters available within the [storage.gcs] section:
-
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| bucket          | The name of the Google Cloud Storage (GCS) bucket used for storage.                                                                                                                                          |
-| credentials_json | The JSON credentials for authenticating with the GCS service. Databend recommends using the environment variable STORAGE_GCS_CREDENTIALS_JSON to provide the credentials.                                   |
-| endpoint_url    | The endpoint URL for the GCS service. If not specified, the default GCS endpoint will be used.                                                                                                              |
-
-### [storage.oss] Section
-
-The following is a list of the parameters available within the [storage.oss] section:
-
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| bucket          | The name of the Alibaba Cloud OSS bucket used for storage.                                                                                                                                                   |
-| endpoint_url    | The endpoint URL for the OSS service. If not specified, the default OSS endpoint for the region will be used.                                                                                                |
-| access_key_id   | The access key ID for authenticating with the OSS service.                                                                                                                                                   |
-| access_key_secret | The access key secret for authenticating with the OSS service. Databend recommends using the environment variable STORAGE_OSS_ACCESS_KEY_SECRET to provide the access key secret.                           |
-| master_key      | The master key used for encryption. Databend recommends using the environment variable STORAGE_OSS_MASTER_KEY to provide the master key.                                                                     |
-
-### [storage.cos] Section
-
-The following is a list of the parameters available within the [storage.cos] section:
-
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| bucket          | The name of the Tencent Cloud COS bucket used for storage.                                                                                                                                                   |
-| endpoint_url    | The endpoint URL for the COS service. If not specified, the default COS endpoint for the region will be used.                                                                                                |
-| access_key_id   | The access key ID for authenticating with the COS service.                                                                                                                                                   |
-| access_key_secret | The access key secret for authenticating with the COS service. Databend recommends using the environment variable STORAGE_COS_ACCESS_KEY_SECRET to provide the access key secret.                           |
-| master_key      | The master key used for encryption. Databend recommends using the environment variable STORAGE_COS_MASTER_KEY to provide the master key.                                                                     |
-
-### [storage.hdfs] Section
-
-The following is a list of the parameters available within the [storage.hdfs] section:
-
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name_node       | The address of the HDFS NameNode.                                                                                                                                                                            |
-| user            | The user name used to connect to the HDFS service.                                                                                                                                                           |
-
-### [storage.webhdfs] Section
-
-The following is a list of the parameters available within the [storage.webhdfs] section:
-
-| Parameter       | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name_node       | The address of the WebHDFS NameNode.                                                                                                                                                                         |
-| user            | The user name used to connect to the WebHDFS service.                                                                                                                                                        |
-
-## [query] Section
-
-The following is a list of the parameters available within the [query] section:
-
-| Parameter                    | Description                                                                                                                                                                                                                                                                                                           |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| tenant_id                    | The tenant ID used to identify the tenant in a multi-tenant environment.                                                                                                                                                                                                                                              |
-| cluster_id                   | The cluster ID used to identify the cluster in a multi-cluster environment.                                                                                                                                                                                                                                           |
-| num_cpus                     | The number of CPUs allocated for query processing. Default: the number of available CPUs on the machine.                                                                                                                                                                                                             |
-| max_memory_usage             | The maximum amount of memory (in bytes) that can be used for query processing. Default: 0, which means no limit.                                                                                                                                                                                                     |
-| default_spill_threshold      | The default spill threshold (in bytes) for query processing. When the memory usage exceeds this threshold, Databend will spill data to disk. Default: 104857600 (100MB).                                                                                                                                             |
-| spill_strategy               | The strategy used for spilling data to disk. It can be one of the following: 'auto', 'manual', 'none'. Default: 'auto'.                                                                                                                                                                                               |
-| spill_path                   | The path where spilled data will be stored. Default: '/tmp/databend/spill'.                                                                                                                                                                                                                                           |
-| spill_compression            | Controls whether compression is enabled for spilled data. Default: false.                                                                                                                                                                                                                                             |
-| spill_encryption             | Controls whether encryption is enabled for spilled data. Default: false.                                                                                                                                                                                                                                              |
-| spill_file_size_threshold    | The file size threshold (in bytes) for spilling data. When the file size exceeds this threshold, Databend will spill the data. Default: 10485760 (10MB).                                                                                                                                                              |
-| spill_file_count_threshold   | The file count threshold for spilling data. When the number of files exceeds this threshold, Databend will spill the data. Default: 10.                                                                                                                                                                               |
-| spill_file_age_threshold     | The file age threshold (in seconds) for spilling data. When the file age exceeds this threshold, Databend will spill the data. Default: 3600 (1 hour).                                                                                                                                                                |
-| spill_file_cleanup_interval  | The interval (in seconds) for cleaning up spilled files. Default: 3600 (1 hour).                                                                                                                                                                                                                                      |
-| spill_file_cleanup_threshold | The threshold (in seconds) for cleaning up spilled files. When the file age exceeds this threshold, Databend will clean up the file. Default: 86400 (24 hours).                                                                                                                                                       |
-| spill_file_cleanup_strategy  | The strategy used for cleaning up spilled files. It can be one of the following: 'auto', 'manual', 'none'. Default: 'auto'.                                                                                                                                                                                           |
-| spill_file_cleanup_path      | The path where spilled files will be cleaned up. Default: '/tmp/databend/spill'.                                                                                                                                                                                                                                       |
-| spill_file_cleanup_compression | Controls whether compression is enabled for cleaning up spilled files. Default: false.                                                                                                                                                                                                                                |
-| spill_file_cleanup_encryption | Controls whether encryption is enabled for cleaning up spilled files. Default: false.                                                                                                                                                                                                                                 |
-| spill_file_cleanup_file_size_threshold | The file size threshold (in bytes) for cleaning up spilled files. When the file size exceeds this threshold, Databend will clean up the file. Default: 10485760 (10MB).                                                                                                                                               |
-| spill_file_cleanup_file_count_threshold | The file count threshold for cleaning up spilled files. When the number of files exceeds this threshold, Databend will clean up the file. Default: 10.                                                                                                                                                                |
-| spill_file_cleanup_file_age_threshold | The file age threshold (in seconds) for cleaning up spilled files. When the file age exceeds this threshold, Databend will clean up the file. Default: 3600 (1 hour).                                                                                                                                                  |
-| spill_file_cleanup_file_cleanup_interval | The interval (in seconds) for cleaning up spilled files. Default: 3600 (1 hour).                                                                                                                                                                                                                                      |
-| spill_file_cleanup_file_cleanup_threshold | The threshold (in seconds) for cleaning up spilled files. When the file age exceeds this threshold, Databend will clean up the file. Default: 86400 (24 hours).                                                                                                                                                       |
-| spill_file_cleanup_file_cleanup_strategy | The strategy used for cleaning up spilled files. It can be one of the following: 'auto', 'manual', 'none'. Default: 'auto'.                                                                                                                                                                                           |
-| spill_file_cleanup_file_cleanup_path | The path where spilled files will be cleaned up. Default: '/tmp/databend/spill'.                                                                                                                                                                                                                                       |
-| spill_file_cleanup_file_cleanup_compression | Controls whether compression is enabled for cleaning up spilled files. Default: false.                                                                                                                                                                                                                                |
-| spill_file_cleanup_file_cleanup_encryption | Controls whether encryption is enabled for cleaning up spilled files. Default: false.                                                                                                                                                                                                                                 |
-| spill_file_cleanup_file_cleanup_file_size_threshold | The file size threshold (in bytes) for cleaning up spilled files. When the file size exceeds this threshold, Databend will clean up the file. Default: 10485760 (10MB).                                                                                                                                               |
-| spill_file_cleanup_file_cleanup_file_count_threshold | The file count threshold for cleaning up spilled files. When the number of files exceeds this threshold, Databend will clean up the file. Default: 10.                                                                                                                                                                |
-| spill_file_cleanup_file_cleanup_file_age_threshold | The file age threshold (in seconds) for cleaning up spilled files. When the file age exceeds this threshold, Databend will clean up the file. Default: 3600 (1 hour).                                                                                                                                                  |
-| spill_file_cleanup_file_cleanup_file_cleanup_interval | The interval (in seconds) for cleaning up spilled files. Default: 3600 (1 hour).                                                                                                                                                                                                                                      |
-| spill_file_cleanup_file_cleanup_file_cleanup_threshold | The threshold (in seconds) for cleaning up spilled files. When the file age exceeds this threshold, Databend will clean up the file. Default: 86400 (24 hours).                                                                                                                                                       |
-| spill_file_cleanup_file_cleanup_file_cleanup_strategy | The strategy used for cleaning up spilled files. It can be one of the following: 'auto', 'manual', 'none'. Default: 'auto'.                                                                                                                                                                                           |
-| spill_file_cleanup_file_cleanup_file_cleanup_path | The path where spilled files will be cleaned up. Default: '/tmp/databend/spill'.                                                                                                                                                                                                                                       |
-| spill_file_cleanup_file_cleanup_file_cleanup_compression | Controls whether compression is enabled for cleaning up spilled files. Default: false.                                                                                                                                                                                                                                |
-| spill_file_cleanup_file_cleanup_file_cleanup_encryption | Controls whether encryption is enabled for cleaning up spilled files. Default: false.                                                                                                                                                                                                                                 |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_size_threshold | The file size threshold (in bytes) for cleaning up spilled files. When the file size exceeds this threshold, Databend will clean up the file. Default: 10485760 (10MB).                                                                                                                                               |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_count_threshold | The file count threshold for cleaning up spilled files. When the number of files exceeds this threshold, Databend will clean up the file. Default: 10.                                                                                                                                                                |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_age_threshold | The file age threshold (in seconds) for cleaning up spilled files. When the file age exceeds this threshold, Databend will clean up the file. Default: 3600 (1 hour).                                                                                                                                                  |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_interval | The interval (in seconds) for cleaning up spilled files. Default: 3600 (1 hour).                                                                                                                                                                                                                                      |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_threshold | The threshold (in seconds) for cleaning up spilled files. When the file age exceeds this threshold, Databend will clean up the file. Default: 86400 (24 hours).                                                                                                                                                       |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_strategy | The strategy used for cleaning up spilled files. It can be one of the following: 'auto', 'manual', 'none'. Default: 'auto'.                                                                                                                                                                                           |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_path | The path where spilled files will be cleaned up. Default: '/tmp/databend/spill'.                                                                                                                                                                                                                                       |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_compression | Controls whether compression is enabled for cleaning up spilled files. Default: false.                                                                                                                                                                                                                                |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_encryption | Controls whether encryption is enabled for cleaning up spilled files. Default: false.                                                                                                                                                                                                                                 |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_size_threshold | The file size threshold (in bytes) for cleaning up spilled files. When the file size exceeds this threshold, Databend will clean up the file. Default: 10485760 (10MB).                                                                                                                                               |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_count_threshold | The file count threshold for cleaning up spilled files. When the number of files exceeds this threshold, Databend will clean up the file. Default: 10.                                                                                                                                                                |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_age_threshold | The file age threshold (in seconds) for cleaning up spilled files. When the file age exceeds this threshold, Databend will clean up the file. Default: 3600 (1 hour).                                                                                                                                                  |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_cleanup_interval | The interval (in seconds) for cleaning up spilled files. Default: 3600 (1 hour).                                                                                                                                                                                                                                      |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_cleanup_threshold | The threshold (in seconds) for cleaning up spilled files. When the file age exceeds this threshold, Databend will clean up the file. Default: 86400 (24 hours).                                                                                                                                                       |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_cleanup_strategy | The strategy used for cleaning up spilled files. It can be one of the following: 'auto', 'manual', 'none'. Default: 'auto'.                                                                                                                                                                                           |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_cleanup_path | The path where spilled files will be cleaned up. Default: '/tmp/databend/spill'.                                                                                                                                                                                                                                       |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_cleanup_compression | Controls whether compression is enabled for cleaning up spilled files. Default: false.                                                                                                                                                                                                                                |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_cleanup_encryption | Controls whether encryption is enabled for cleaning up spilled files. Default: false.                                                                                                                                                                                                                                 |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_size_threshold | The file size threshold (in bytes) for cleaning up spilled files. When the file size exceeds this threshold, Databend will clean up the file. Default: 10485760 (10MB).                                                                                                                                               |
-| spill_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_cleanup_file_count_threshold | The file count threshold for cleaning up spilled files. When the number of files exceeds this threshold, Databend will clean up the file. Default: 10.                                                                                                                                                                |
-| spill_file_cleanup_file_cleanup_file
-
-| 参数                      | 描述                                                                                                                                                                     |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| bucket                    | 您的 Amazon S3 兼容存储桶的名称。                                                                                                                                        |
-| endpoint_url              | S3 兼容存储服务的 URL 端点。默认为 "https://s3.amazonaws.com"。                                                                                                           |
-| access_key_id             | 用于与存储服务进行身份验证的访问密钥 ID。                                                                                                                                 |
-| secret_access_key         | 用于与存储服务进行身份验证的秘密访问密钥。                                                                                                                               |
-| enable_virtual_host_style | 一个布尔标志，指示是否启用虚拟主机样式寻址。                                                                                                                             |
-| external_id               | 用于身份验证的外部 ID。                                                                                                                                                  |
-| master_key                | 用于身份验证的主密钥。                                                                                                                                                   |
-| region                    | S3 兼容存储服务的区域。                                                                                                                                                  |
-| role_arn                  | 用于身份验证的 ARN（Amazon 资源名称）。                                                                                                                                   |
-| root                      | 指定 Databend 将在其中操作的存储桶内的目录。例如：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
-| security_token            | 用于身份验证的安全令牌。                                                                                                                                                 |
+| 参数                      | 描述                                                                                                                                                            |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bucket                    | 您的 Amazon S3 兼容存储桶的名称。                                                                                                                        |
+| endpoint_url              | S3 兼容存储服务的 URL 端点。默认为 "https://s3.amazonaws.com"。                                                                              |
+| access_key_id             | 用于与存储服务进行身份验证的访问密钥 ID。                                                                                                         |
+| secret_access_key         | 用于与存储服务进行身份验证的秘密访问密钥。                                                                                                     |
+| enable_virtual_host_style | 布尔标志，指示是否启用虚拟主机样式寻址。                                                                                             |
+| external_id               | 用于身份验证的外部 ID。                                                                                                                                        |
+| master_key                | 用于身份验证的主密钥。                                                                                                                                         |
+| region                    | S3 兼容存储服务的区域。                                                                                                                            |
+| role_arn                  | 用于身份验证的 ARN（Amazon 资源名称）。                                                                                                                         |
+| root                      | 指定 Databend 将从中操作的存储桶内的目录。示例：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
+| security_token            | 用于身份验证的安全令牌。                                                                                                                                     |
 
 ### [storage.azblob] 部分
 
 以下是 [storage.azblob] 部分中可用的参数列表：
 
-| 参数         | 描述                                                                                                                                                                     |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| endpoint_url | Azure Blob 存储的 URL 端点（例如，`https://<your-storage-account-name>.blob.core.windows.net`）。                                                                         |
-| container    | 您的 Azure 存储容器的名称。                                                                                                                                              |
-| account_name | 您的 Azure 存储账户的名称。                                                                                                                                              |
-| account_key  | 用于与 Azure Blob 存储进行身份验证的账户密钥。                                                                                                                           |
-| root         | 指定 Databend 将在其中操作的存储桶内的目录。例如：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
+| 参数         | 描述                                                                                                                                                            |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| endpoint_url | Azure Blob 存储的 URL 端点（例如，`https://<your-storage-account-name>.blob.core.windows.net`）。                                                           |
+| container    | 您的 Azure 存储容器的名称。                                                                                                                              |
+| account_name | 您的 Azure 存储账户的名称。                                                                                                                                |
+| account_key  | 用于与 Azure Blob 存储进行身份验证的账户密钥。                                                                                                            |
+| root         | 指定 Databend 将从中操作的存储桶内的目录。示例：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
 
 ### [storage.gcs] 部分
 
 以下是 [storage.gcs] 部分中可用的参数列表：
 
-| 参数       | 描述                                                                                                                                                                     |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| bucket     | 您的 Google Cloud Storage 存储桶的名称。                                                                                                                                 |
-| credential | 用于 Google Cloud Storage 身份验证的 base64 编码的服务账户密钥文件。                                                                                                     |
-| root       | 指定 Databend 将在其中操作的存储桶内的目录。例如：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
+| 参数       | 描述                                                                                                                                                            |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bucket     | 您的 Google Cloud Storage 存储桶的名称。                                                                                                                          |
+| credential | 用于 Google Cloud Storage 身份验证的服务账户密钥文件的 base64 编码。                                                                                   |
+| root       | 指定 Databend 将从中操作的存储桶内的目录。示例：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
 
 要获取 `credential`，您可以按照 Google 文档中的主题 [创建服务账户密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating) 来创建并下载服务账户密钥文件。下载服务账户密钥文件后，您可以通过以下命令将其转换为 base64 字符串：
 
@@ -279,27 +257,31 @@ base64 -i -o ~/Desktop/base64-encoded-key.txt
 
 以下是 [storage.oss] 部分中可用的参数列表：
 
-| 参数                 | 描述                                                                                                                                                                     |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| bucket               | 您的阿里云 OSS 存储桶的名称。                                                                                                                                            |
-| endpoint_url         | 阿里云 OSS 的 URL 端点。                                                                                                                                                 |
-| access_key_id        | 用于与阿里云 OSS 进行身份验证的访问密钥 ID。                                                                                                                             |
-| access_key_secret    | 用于与阿里云 OSS 进行身份验证的访问密钥密钥。                                                                                                                           |
-| presign_endpoint_url | 用于阿里云 OSS 预签名操作的 URL 端点。                                                                                                                                   |
-| root                 | 指定 Databend 将在其中操作的存储桶内的目录。例如：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
+| 参数                 | 描述                                                                                                                                                            |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bucket               | 您的阿里云 OSS 存储桶的名称。                                                                                                                             |
+| endpoint_url         | 阿里云 OSS 的 URL 端点。                                                                                                                                |
+| access_key_id        | 用于与阿里云 OSS 进行身份验证的访问密钥 ID。                                                                                                           |
+| access_key_secret    | 用于与阿里云 OSS 进行身份验证的访问密钥密钥。                                                                                                       |
+| presign_endpoint_url | 用于阿里云 OSS 预签名操作的 URL 端点。                                                                                                      |
+| root                 | 指定 Databend 将从中操作的存储桶内的目录。示例：如果存储桶的根目录中有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
 
-<!-- #ifcndef -->
+<LanguageDocs
+cn=
+'
+
 ### [storage.obs] 部分
 
 以下是 [storage.obs] 部分中可用的参数列表：
 
 | 参数              | 描述                                          |
 | ----------------- | --------------------------------------------- |
-| bucket            | 您的华为云 OBS 桶的名称。                     |
+| bucket            | 您的华为云 OBS 桶的 名称。                    |
 | endpoint_url      | 华为云 OBS 的 URL 端点。                      |
 | access_key_id     | 用于与华为云 OBS 进行身份验证的访问密钥 ID。  |
 | secret_access_key | 用于与华为云 OBS 进行身份验证的访问密钥秘密。 |
-<!-- #endcndef -->
+
+'>
 
 ### [storage.cos] 部分
 
@@ -311,7 +293,7 @@ base64 -i -o ~/Desktop/base64-encoded-key.txt
 | endpoint_url | 腾讯云 COS 的 URL 端点（可选）。                                                                                                                           |
 | secret_id    | 用于与腾讯云 COS 进行身份验证的密钥 ID。                                                                                                                     |
 | secret_key   | 用于与腾讯云 COS 进行身份验证的密钥。                                                                                                                    |
-| root         | 指定 Databend 将在桶内操作的目录。例如：如果桶的根目录有一个名为 `myroot` 的文件夹，则 `root = "myroot/"`。 |
+| root         | 指定 Databend 将在桶内操作的目录。例如：如果桶的根目录有一个名为 `myroot` 的文件夹，那么 `root = "myroot/"`。 |
 
 ### [storage.hdfs] 部分
 

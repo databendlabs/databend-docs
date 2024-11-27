@@ -3,6 +3,7 @@ title: Query Configurations
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
+import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="Introduced or updated: v1.2.344"/>
 
@@ -98,7 +99,7 @@ The following is a list of the parameters available within the [log.tracing] sec
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | capture_log_level | Sets the log level (DEBUG, TRACE, INFO, WARN, or ERROR) for capturing traces during execution.                                                                |
 | on                | Controls whether tracing is enabled. Default value is 'false' for disabled. Set to 'true' to enable tracing.                                                  |
-| otlp_endpoint     | Specifies the OpenTelemetry Protocol (OTLP) endpoint for tracing. Defaults to 'http://127.0.0.1:4317', but you can replace it with the desired OTLP endpoint. |
+| otlp_endpoint     | Specifies the OpenTelemetry Protocol (OTLP) endpoint for tracing. Defaults to `http://127.0.0.1:4317`, but you can replace it with the desired OTLP endpoint. |
 
 ## [meta] Section
 
@@ -191,18 +192,22 @@ The following is a list of the parameters available within the [storage.oss] sec
 | presign_endpoint_url | The URL endpoint for presigned operations with Alibaba Cloud OSS.                                                                                                      |
 | root                 | Specifies a directory within the bucket from which Databend will operate. Example: if a bucket's root directory has a folder called `myroot`, then `root = "myroot/"`. |
 
-<!-- #ifcndef -->
+<LanguageDocs
+cn=
+'
+
 ### [storage.obs] Section
 
 以下是 [storage.obs] 部分中可用的参数列表：
 
 | 参数              | 描述                                          |
 | ----------------- | --------------------------------------------- |
-| bucket            | 您的华为云 OBS 桶的名称。                     |
+| bucket            | 您的华为云 OBS 桶的 名称。                    |
 | endpoint_url      | 华为云 OBS 的 URL 端点。                      |
 | access_key_id     | 用于与华为云 OBS 进行身份验证的访问密钥 ID。  |
 | secret_access_key | 用于与华为云 OBS 进行身份验证的访问密钥秘密。 |
-<!-- #endcndef -->
+
+'/>
 
 ### [storage.cos] Section
 
