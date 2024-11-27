@@ -28,7 +28,7 @@ Databend supports a range of geospatial object types, enabling precise represent
 
 ## Supported Output Formats
 
-Databend supports three geospatial output formats—[WKT (Well-Known Text)](https://www.ogc.org/standards/sfa), [WKB (Well-Known Binary)](https://www.ogc.org/standards/sfa), and [GeoJSON](https://geojson.org/)—enabling compatibility with a wide range of geospatial applications and tools.
+Databend supports multiple geospatial output formats—[WKT (Well-Known Text)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry), EWKT (Extended Well-Known Text), [WKB (Well-Known Binary)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary), EWKB (Extended Well-Known Binary), and [GeoJSON](https://geojson.org/). EWKT and EWKB extend WKT and WKB by including an SRID (Spatial Reference System Identifier) to specify the coordinate reference system, e.g., `SRID=4326;POINT(-44.3 60.1)`. 
 
 | Object Type        | WKT Example                                                                                         | GeoJSON Example                                                                                                   |
 |--------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
@@ -50,8 +50,8 @@ SET geometry_output_format = 'geojson';
 
 Explore the links below to discover all the available geospatial functions organized by category.
 
-- [Geography Functions](../../20-sql-functions/09-geo-functions/index.md)
 - [Geometry Functions](../../20-sql-functions/09-geometry-functions/index.md)
+- [H3](../../20-sql-functions/09-geo-functions/index.md)
 
 ## Examples
 
