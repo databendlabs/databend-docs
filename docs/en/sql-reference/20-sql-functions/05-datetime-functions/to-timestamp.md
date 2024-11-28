@@ -3,7 +3,7 @@ title: TO_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.575"/>
+<FunctionDescription description="Introduced or updated: v1.2.664"/>
 
 Converts an expression to a date with time.
 
@@ -11,25 +11,39 @@ See also: [TO_DATE](to-date)
 
 ## Syntax
 
+This function supports multiple overloads, covering the following use cases:
+
 ```sql
 -- Convert a string or integer to a timestamp
 TO_TIMESTAMP(<expr>)
 ```
 
-If given an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date format string, the function extracts a date from the string; If given is an integer, the function interprets the integer as the number of seconds, milliseconds, or microseconds before (for a negative number) or after (for a positive number) the Unix epoch (midnight on January 1, 1970):
+If given an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date format string, the function extracts a date from the string; If given is an integer, the function interprets the integer as the number of seconds, milliseconds, or microseconds before (for a negative number) or after (for a positive number) the Unix epoch (midnight on January 1, 1970), depending on the absolute value of `x`:
 
 | Range                                       | Unit                 |
 |---------------------------------------------|----------------------|
-| x < 31,536,000,000                          | Seconds              |
-| 31,536,000,000 ≤ x < 31,536,000,000,000     | Milliseconds         |
-| x ≥ 31,536,000,000,000                      | Microseconds         |
+| \|x\| < 31,536,000,000                      | Seconds              |
+| 31,536,000,000 ≤ \|x\| < 31,536,000,000,000 | Milliseconds         |
+| \|x\| ≥ 31,536,000,000,000                  | Microseconds         |
 
 ```sql
 -- Convert a string to a timestamp using the given pattern
 TO_TIMESTAMP(<expr>, <pattern>)
 ```
 
-If given two arguments, the function converts the first string to a timestamp based on the pattern specified in the second string. To specify the pattern, use specifiers. The specifiers allow you to define the desired format for date and time values. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
+The function converts the first string to a timestamp based on the pattern specified in the second string. To specify the pattern, use specifiers. The specifiers allow you to define the desired format for date and time values. For a comprehensive list of supported specifiers, see [Formatting Date and Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time).
+
+
+```sql
+-- Convert an integer to a timestamp based on the specified scale
+TO_TIMESTAMP(<int>, <scale>)
+```
+
+The function converts an integer value to a timestamp, interpreting the integer as the number of seconds (or fractional seconds, based on the specified scale) since the Unix epoch (midnight on January 1, 1970). The scale defines the precision of the fractional seconds and supports values from 0 to 6. For example:
+
+- `scale = 0`: Interprets the integer as seconds.
+- `scale = 1`: Interprets the integer as tenths of a second.
+- `scale = 6`: Interprets the integer as microseconds.
 
 ## Return Type
 
@@ -181,4 +195,26 @@ SELECT TO_TIMESTAMP('2022/01/02T01:12:00', '%Y/%m/%dT%H:%M:%S');
 ├──────────────────────────────────────────────────────────┤
 │ 2022-01-02 01:12:00                                      │
 └──────────────────────────────────────────────────────────┘
+```
+
+### Example-4: Converting Integer with Scale
+
+```sql
+-- Interpret an integer with seconds precision (scale = 0)
+SELECT TO_TIMESTAMP(1638473645, 0), TO_TIMESTAMP(-1638473645, 0);
+
+┌─────────────────────────────────────────────────────────────┐
+│ to_timestamp(1638473645, 0) │ to_timestamp(- 1638473645, 0) │
+├─────────────────────────────┼───────────────────────────────┤
+│ 2021-12-02 19:34:05         │ 1918-01-30 04:25:55           │
+└─────────────────────────────────────────────────────────────┘
+
+-- Interpret an integer with milliseconds precision (scale = 3)
+SELECT TO_TIMESTAMP(1638473645123, 3);
+
+┌────────────────────────────────┐
+│ to_timestamp(1638473645123, 3) │
+├────────────────────────────────┤
+│ 2021-12-02 19:34:05.123        │
+└────────────────────────────────┘
 ```
