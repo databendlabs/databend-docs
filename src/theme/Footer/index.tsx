@@ -25,6 +25,9 @@ function Footer() {
   } = useDocusaurusContext() as any;
   return (
     <footer className={clsx("footer", styles.footer)}>
+      <Head>
+        <meta name="robots" content="index, follow"></meta>
+      </Head>
       {!isChina && (
         <Head>
           <script async src={useBaseUrl("/Koala/index.js")}></script>
