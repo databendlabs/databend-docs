@@ -32,7 +32,7 @@ The workflow of a recluster operation is divided into two tasks, block selection
 ### syntax
 
 ```sql
-alter table [if exists] tbl_name recluster [final] [where condition]
+ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [ LIMIT <segment_count> ]
 ```
 
 If specify `final`, optimization is performed until the table is well clustered enough. Otherwise, the recluster workflow will only run once.
