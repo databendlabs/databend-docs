@@ -1,8 +1,6 @@
 ---
-title: 向量
+title: Vector
 ---
-
-import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入: v1.1.55"/>
 
@@ -59,7 +57,7 @@ password = "abc123" #Databend 密码
 
 #### 1.1 安装 Databend
 
-按照 [Docker 和本地部署](../../10-deploy/01-deploy/01-non-production/00-deploying-local.md) 指南部署本地 Databend。
+按照 [Docker 和本地部署](../../10-deploy/01-deploy/01-non-production/00-deploying-local.md) 指南部署本地 Databend，或者通过 Databend Cloud 开通 Databend 租户。
 
 #### 1.2 创建数据库和表
 
@@ -305,10 +303,10 @@ vector test ./vector.toml
 如果有效，输出为：
 
 ```shell
-运行测试
-从访问日志中提取字段 ... 通过
-2022-04-09T04:03:09.704557Z  WARN transform{component_kind="transform" component_id=nginx_access_log_parser component_type=remap component_name=nginx_access_log_parser}: vrl_stdlib::log: "无法解析访问日志: I am not access log" internal_log_rate_secs=1 vrl_position=479
-错误的访问日志不会产生事件 ... 通过
+Running tests
+test extract fields from access log ... passed
+2022-04-09T04:03:09.704557Z  WARN transform{component_kind="transform" component_id=nginx_access_log_parser component_type=remap component_name=nginx_access_log_parser}: vrl_stdlib::log: "Unable to parse access log: I am not access log" internal_log_rate_secs=1 vrl_position=479
+test no event from wrong access log ... passed
 ```
 
 #### 3.4 运行 Vector
