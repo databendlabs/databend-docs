@@ -2,6 +2,8 @@
 title: Vector
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
 <FunctionDescription description="引入: v1.1.55"/>
 
 [Vector](https://vector.dev/) 是一个高性能的可观测性数据管道，使组织能够控制其可观测性数据。收集、转换并将所有日志、指标和追踪数据路由到您今天想要的任何供应商，以及明天可能想要的任何其他供应商。Vector 实现了显著的成本降低、新颖的数据丰富以及数据安全，这些都是在您需要的地方，而不是在供应商最方便的地方。开源且比所有替代方案快 10 倍。
