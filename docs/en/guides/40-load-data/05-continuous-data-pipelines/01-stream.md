@@ -188,7 +188,11 @@ SELECT * FROM s_standard;
 SELECT * FROM s_append_only;
 ```
 
-The results above indicate that the Standard stream translates the UPDATE operation into a combination of DELETE (`3`) and INSERT (`4`), while the Append_Only stream does not capture anything. If we delete the value `4` now, we can obtain the following results:
+The results above show that the Standard stream processes the UPDATE operation as a combination of two actions: a DELETE action that removes the old value (`3`) and an INSERT action that adds the new value (`4`). When updating `3` to `4`, the existing value `3` must first be deleted because it no longer exists in the final state, followed by the insertion of the new value `4`. This behavior reflects how the Standard stream captures only the final changes, representing updates as a sequence of a deletion (removing the old value) and an insertion (adding the new value) for the same row. 
+
+On the other hand, the Append_Only stream does not capture anything because it is designed to log only new data additions (INSERT) and ignores updates or deletions.
+
+If we delete the value `4` now, we can obtain the following results:
 
 ```sql
 DELETE FROM t_standard WHERE a = 4;
