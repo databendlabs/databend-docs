@@ -15,7 +15,7 @@ A stream can operate in two modes: **Standard** and **Append-Only**. Specify a m
 - **Standard**: Captures all types of data changes, including insertions, updates, and deletions.
 - **Append-Only**: In this mode, the stream exclusively contains data insertion records; data updates or deletions are not captured.
 
-The following example illustrates what a stream looks like and how it works in both modes.
+The design philosophy of Databend streams is to focus on capturing the final state of the data. For instance, if you insert a value and then update it multiple times, the stream only keeps the most recent state of the value before it is consumed. The following example illustrates what a stream looks like and how it works in both modes.
 
 <StepsWrap>
 <StepContent number="1">
