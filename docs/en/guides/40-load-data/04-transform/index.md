@@ -72,10 +72,26 @@ The FILES option, on the other hand, enables you to explicitly specify one or mo
 
 ### CASE_SENSITIVE
 
-The CASE_SENSITIVE parameter determines whether column names in the queried *Parquet* files are treated with case sensitivity:
+The CASE_SENSITIVE parameter determines whether column names in the queried Parquet files are treated with case sensitivity:
 
-- `CASE_SENSITIVE => false` (default): Column names are treated as case-insensitive, meaning `b` and `B` are considered the same. However, queries will fail if the column name in the file does not match the queried column name exactly.
+- `CASE_SENSITIVE => false` (default): Column names are treated as case-insensitive, meaning `b` and `B` are considered the same.
 - `CASE_SENSITIVE => true`: Column names are treated as case-sensitive, meaning only exact matches (including case) are valid. For example, querying `B` will succeed if the column in the file is named `B`, but not if it is named `b`.
+
+For example, if you have a column named `MinTemp` in a Parquet file, you can query it using one of the following statements when `CASE_SENSITIVE` is set to `false`:
+
+```sql
+SELECT MinTemp FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
+
+SELECT MINTEMP FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
+
+SELECT mintemp FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
+```
+
+When `CASE_SENSITIVE` is set to `true`, you must use the exact column name as it appears in the file, as shown below:
+
+```sql
+SELECT `MinTemp` FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>true);
+```
 
 ### table_alias
 
