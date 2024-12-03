@@ -6,7 +6,7 @@ sidebar_label: 流
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在 Databend 中，流是对表更改的动态和实时表示。流被创建以捕获和跟踪关联表的修改，允许在数据更改发生时进行持续的消费和分析。
+在 Databend 中，流是对表更改的动态和实时表示。流被创建以捕获和跟踪对关联表的修改，允许在数据更改发生时持续消费和分析数据变化。
 
 ### 流的工作原理
 
@@ -15,21 +15,21 @@ import StepContent from '@site/src/components/Steps/step-content';
 - **标准**：捕获所有类型的数据更改，包括插入、更新和删除。
 - **仅追加**：在此模式下，流仅包含数据插入记录；数据更新或删除不会被捕获。
 
-以下示例说明了流的样子以及它在两种模式下的工作方式。
+Databend 流的设计理念是专注于捕获数据的最终状态。例如，如果您插入一个值然后多次更新它，流只会在被消费之前保留该值的最新状态。以下示例说明了流的样子以及它在两种模式下的工作方式。
 
 <StepsWrap>
 <StepContent number="1">
 
 #### 创建流以捕获更改
 
-首先创建两个表，然后为每个表创建一个具有不同模式的流以捕获表的更改。
+首先创建两个表，然后为每个表创建一个流，使用不同的模式来捕获表的更改。
 
 ```sql
 -- 创建一个表并插入一个值
 CREATE TABLE t_standard(a INT);
 CREATE TABLE t_append_only(a INT);
 
--- 创建两个具有不同模式的流：标准和仅追加
+-- 创建两个不同模式的流：标准和仅追加
 CREATE STREAM s_standard ON TABLE t_standard APPEND_ONLY=false;
 CREATE STREAM s_append_only ON TABLE t_append_only APPEND_ONLY=true;
 ```
@@ -47,7 +47,7 @@ SHOW FULL STREAMS;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-现在，向每个表插入两个值并观察流捕获的内容：
+现在，向每个表插入两个值，并观察流捕获的内容：
 
 ```sql
 -- 插入两个新值
@@ -73,7 +73,7 @@ SELECT * FROM s_append_only;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-上述结果表明，两个流都成功捕获了新的插入。有关结果中流列的详细信息，请参见 [流列](#stream-columns)。现在，让我们更新然后删除一个新插入的值，并检查流捕获是否有差异。
+上述结果表明，两个流都成功捕获了新的插入。有关结果中流列的详细信息，请参见 [流列](#stream-columns)。现在，让我们更新然后删除一个新插入的值，并检查流捕获的内容是否有差异。
 
 ```sql
 UPDATE t_standard SET a = 4 WHERE a = 2;
@@ -107,7 +107,7 @@ SELECT * FROM s_standard;
 │        a        │   change$action  │              change$row_id             │ change$is_update │
 │ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
 ├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
-│               3 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ false            │
+│               3 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca000001 │ false            │
 └────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 SELECT * FROM s_append_only;
@@ -126,7 +126,7 @@ SELECT * FROM s_append_only;
 
 #### 消费流
 
-让我们创建两个新表并将流捕获的内容插入其中。
+让我们创建两个新表，并将流捕获的内容插入其中。
 
 ```sql
 CREATE TABLE t_consume_standard(b INT);
@@ -152,7 +152,7 @@ SELECT * FROM t_consume_append_only;
 └─────────────────┘
 ```
 
-如果您现在查询流，您会发现它们是空的，因为它们已经被消费。
+如果您现在查询流，您会发现它们是空的，因为它们已经被消费了。
 
 ```sql
 -- 空结果
@@ -188,7 +188,11 @@ SELECT * FROM s_standard;
 SELECT * FROM s_append_only;
 ```
 
-上述结果表明，标准流将 UPDATE 操作转换为 DELETE (`3`) 和 INSERT (`4`) 的组合，而仅追加流没有捕获任何内容。如果我们现在删除值 `4`，我们可以得到以下结果：
+上述结果显示，标准流将 UPDATE 操作处理为两个动作的组合：一个 DELETE 动作删除旧值（`3`）和一个 INSERT 动作添加新值（`4`）。当将 `3` 更新为 `4` 时，现有值 `3` 必须首先被删除，因为它不再存在于最终状态中，然后插入新值 `4`。这种行为反映了标准流如何仅捕获最终更改，将更新表示为同一行的删除（移除旧值）和插入（添加新值）的序列。
+
+另一方面，仅追加流没有捕获任何内容，因为它被设计为仅记录新数据添加（INSERT）并忽略更新或删除。
+
+如果我们现在删除值 `4`，我们可以得到以下结果：
 
 ```sql
 DELETE FROM t_standard WHERE a = 4;
@@ -216,32 +220,30 @@ SELECT * FROM s_append_only;
 
 在 Databend 中，流消费在单语句事务中是事务性的。这意味着：
 
-**成功的事务**：如果事务提交，流被消费。例如：
+**成功的事务**：如果事务提交成功，流将被消费。例如：
 
 ```sql
 INSERT INTO table SELECT * FROM stream;
 ```
 
-如果此 `INSERT` 事务提交，流被消费。
+如果这个 `INSERT` 事务提交成功，流将被消费。
 
-**失败的事务**：如果事务失败，流保持不变并可用于未来的消费。
+**失败的事务**：如果事务失败，流将保持不变，并可用于未来的消费。
 
-**并发访问**：_一次只能有一个事务成功消费一个流_。如果多个事务尝试消费同一个流，只有第一个提交的事务成功，其他事务失败。
+**并发访问**：_同一时间只能有一个事务成功消费一个流_。如果有多个事务尝试消费同一个流，只有第一个提交的事务会成功，其他事务将失败。
 
 ### 流的表元数据
 
+**流不存储表的任何数据**。在为表创建流后，Databend 会为表引入特定的隐藏元数据列，用于变更跟踪。这些列包括：
 
-
-**流不会为表存储任何数据**。在为表创建流之后，Databend会为该表引入特定的隐藏元数据列，用于变更追踪。这些列包括：
-
-| 列                     | 描述                                                                       |
+| 列                    | 描述                                                                       |
 | ---------------------- | --------------------------------------------------------------------------------- |
 | \_origin_version       | 标识此行最初创建时的表版本。             |
-| \_origin_block_id      | 标识此行之前所属的块ID。                    |
+| \_origin_block_id      | 标识此行之前所属的块 ID。                    |
 | \_origin_block_row_num | 标识此行之前所属块中的行号。 |
-| \_row_version          | 标识行版本，从0开始，每次更新递增1。 |
+| \_row_version          | 标识行版本，从 0 开始，每次更新递增 1。 |
 
-要显示这些列的值，请使用SELECT语句：
+要显示这些列的值，请使用 SELECT 语句：
 
 ```sql title='示例:'
 CREATE TABLE t(a int);
@@ -284,12 +286,12 @@ FROM
 
 ### 流列
 
-您可以使用SELECT语句直接查询流并检索跟踪的变更。在查询流时，考虑包含这些隐藏列以获取有关变更的更多详细信息：
+您可以使用 SELECT 语句直接查询流并检索跟踪的变更。在查询流时，考虑包含这些隐藏列以获取有关变更的更多详细信息：
 
 | 列               | 描述                                                                                                                                                                        |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| change$action    | 变更类型：INSERT或DELETE。                                                                                                                                                  |
-| change$is_update | 指示`change$action`是否是UPDATE的一部分。在流中，UPDATE由DELETE和INSERT操作的组合表示，此字段设置为`true`。 |
+| change$action    | 变更类型：INSERT 或 DELETE。                                                                                                                                                  |
+| change$is_update | 指示 `change$action` 是否是 UPDATE 的一部分。在流中，UPDATE 由 DELETE 和 INSERT 操作的组合表示，此字段设置为 `true`。 |
 | change$row_id    | 用于跟踪变更的每一行的唯一标识符。                                                                                                                                   |
 
 ```sql title='示例:'
@@ -307,7 +309,7 @@ SELECT * FROM s;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- 如果您添加新行然后更新它，
--- 流会将变更合并为带有更新值的INSERT。
+-- 流会将变更合并为带有更新值的 INSERT。
 UPDATE t SET a = 3 WHERE a = 2;
 SELECT * FROM s;
 
@@ -320,27 +322,27 @@ SELECT * FROM s;
 
 ### 示例：实时跟踪和转换数据
 
-以下示例演示了如何使用流来捕获和跟踪实时用户活动。
+以下示例演示了如何使用流实时捕获和跟踪用户活动。
 
 #### 1. 创建表
 
-该示例使用三个表：
+示例使用三个表：
 
 - `user_activities` 表记录用户活动。
-- `user_profiles` 表存储用户档案。
+- `user_profiles` 表存储用户配置文件。
 - `user_activity_profiles` 表是两个表的组合视图。
 
-`activities_stream` 表作为流创建，以捕获 `user_activities` 表的实时变更。然后，流被查询消费，以使用最新数据更新 `user_activity_profiles` 表。
+`activities_stream` 表作为流创建，以捕获 `user_activities` 表的实时变更。然后，流被一个查询消费，以使用最新数据更新 `user_activity_profiles` 表。
 
 ```sql
--- 创建表以记录用户活动
+-- 创建一个表来记录用户活动
 CREATE TABLE user_activities (
     user_id INT,
     activity VARCHAR,
     timestamp TIMESTAMP
 );
 
--- 创建表以存储用户档案
+-- 创建一个表来存储用户配置文件
 CREATE TABLE user_profiles (
     user_id INT,
     username VARCHAR,
@@ -353,7 +355,7 @@ INSERT INTO user_profiles VALUES (102, 'Bob', 'San Francisco');
 INSERT INTO user_profiles VALUES (103, 'Charlie', 'Los Angeles');
 INSERT INTO user_profiles VALUES (104, 'Dana', 'Chicago');
 
--- 创建表以存储用户活动和档案的组合视图
+-- 创建一个表来存储用户活动和配置文件的组合视图
 CREATE TABLE user_activity_profiles (
     user_id INT,
     username VARCHAR,
@@ -396,12 +398,12 @@ FROM
     -- 变更数据的源表
     activities_stream AS a
 JOIN
-    -- 与用户档案数据连接
+    -- 与用户配置文件数据连接
     user_profiles AS p
 ON
     a.user_id = p.user_id
 
--- a.change$action 是表示变更类型的列（Databend目前仅支持INSERT）
+-- a.change$action 是一个指示变更类型（Databend 目前仅支持 INSERT）的列
 WHERE a.change$action = 'INSERT';
 ```
 
@@ -426,12 +428,12 @@ FROM
 
 #### 5. 实时数据处理的任务更新
 
-为了保持 `user_activity_profiles` 表的最新状态，重要的是定期将其与 `activities_stream` 中的数据同步。此同步应与 `user_activities` 表的更新间隔一致，确保 `user_activity_profiles` 准确反映最新的用户活动和档案，以进行实时数据分析。
+为了保持 `user_activity_profiles` 表的最新状态，重要的是定期将其与 `activities_stream` 中的数据同步。此同步应与 `user_activities` 表的更新间隔一致，确保 `user_activity_profiles` 准确反映最新的用户活动和配置文件，以便进行实时数据分析。
 
-Databend的 `TASK` 命令（目前处于私有预览阶段），可以用于定义每分钟或每秒更新 `user_activity_profiles` 表的任务。
+Databend 的 `TASK` 命令（目前处于私有预览阶段）可用于定义一个每分钟或每秒更新 `user_activity_profiles` 表的任务。
 
 ```sql
--- 在Databend中定义任务
+-- 在 Databend 中定义一个任务
 CREATE TASK user_activity_task
 WAREHOUSE = 'default'
 SCHEDULE = 1 MINUTE
