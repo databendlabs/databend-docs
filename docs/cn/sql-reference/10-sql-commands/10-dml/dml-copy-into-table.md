@@ -5,11 +5,11 @@ sidebar_label: "COPY INTO <表>"
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.466"/>
+<FunctionDescription description="引入或更新: v1.2.666"/>
 
 COPY INTO 允许您从以下位置之一的文件中加载数据：
 
-- 用户/内部/外部阶段: 请参阅 [什么是Stage?](/guides/load-data/stage/what-is-stage) 以了解 Databend 中的阶段。
+- 用户 / 内部 / 外部阶段: 请参阅 [什么是 Stage?](/guides/load-data/stage/what-is-stage) 以了解 Databend 中的阶段。
 - 存储服务中创建的存储桶或容器。
 - 远程服务器，您可以通过其 URL（以 "https://..." 开头）访问文件。
 - [IPFS](https://ipfs.tech)。
@@ -194,7 +194,7 @@ FILES 指定要加载的一个或多个文件名（用逗号分隔）。
 
 ### FILE_FORMAT
 
-详情请参阅 [输入 & 输出文件格式](../../00-sql-reference/50-file-format-options.md)。
+有关详细信息，请参阅 [输入 & 输出文件格式](../../00-sql-reference/50-file-format-options.md)。
 
 ### copyOptions
 
@@ -206,39 +206,42 @@ copyOptions ::=
   [ DISABLE_VARIANT_CHECK = <布尔值> ]
   [ ON_ERROR = { continue | abort | abort_N } ]
   [ MAX_FILES = <数字> ]
+  [ RETURN_FAILED_ONLY = <布尔值> ]
+  [ COLUMN_MATCH_MODE =  { case-sensitive | case-insensitive } ]
 ```
 
-| 参数                  | 描述                                                                                                                                                                                                                                                                                                                                                                                                                 | 是否必需 |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| SIZE_LIMIT            | 指定给定 COPY 语句要加载的最大数据行数。默认为 `0`，表示没有限制。                                                                                                                                                                                                                                                                                                                                                     | 可选     |
-| PURGE                 | 如果为 `True`，命令将在文件成功加载到表中后清除阶段中的文件。默认值：`False`。                                                                                                                                                                                                                                                                                                                                         | 可选     |
-| FORCE                 | COPY INTO 通过自动跟踪并防止在默认 12 小时期间内重复加载文件来确保幂等性。可以使用 `load_file_metadata_expire_hours` 设置自定义文件元数据过期时间。<br/>此参数默认为 `False`，表示 COPY INTO 在复制数据时会跳过重复文件。如果为 `True`，则不会跳过重复文件。                                                                                                                                                          | 可选     |
-| DISABLE_VARIANT_CHECK | 如果为 `true`，在 COPY INTO 期间，无效的 JSON 数据将被替换为 null 值。如果为 `false`（默认），COPY INTO 在遇到无效 JSON 数据时会失败。                                                                                                                                                                                                                                                                                 | 可选     |
-| ON_ERROR              | 决定如何处理包含错误的文件：'continue' 跳过并继续，'abort' 在错误时终止，'abort_N' 在错误 ≥ N 时终止。默认值为 'abort'。注意：'abort_N' 不适用于 Parquet 文件。                                                                                                                                                                                                                                                      | 可选     |
-| MAX_FILES             | 设置尚未加载的最大文件数。该值可以设置为最多 15000；任何大于 15000 的值都将被视为 15000。                                                                                                                                                                                                                                                                                                                            | 可选     |
-| RETURN_FAILED_ONLY    | 当设置为 'True' 时，输出中仅返回加载失败的文件。默认值：`False`。                                                                                                                                                                                                                                                                                                                                                     | 可选     |
+| 参数                  | 描述                                                                                                                                                                                                                                                                                                                                                                                                        | 是否必需 |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| SIZE_LIMIT            | 指定给定 COPY 语句要加载的最大数据行数。默认为 `0`，表示没有限制。                                                                                                                                                                                                                                                                                                     | 可选     |
+| PURGE                 | 如果为 `true`，命令将在文件成功加载到表中后清除阶段中的文件。默认值：`false`。                                                                                                                                                                                                                                                                                      | 可选     |
+| FORCE                 | COPY INTO 通过自动跟踪和防止在默认 12 小时期间内重新加载文件来确保幂等性。可以使用 `load_file_metadata_expire_hours` 设置自定义文件元数据过期时间。<br/>此参数默认为 `false`，表示 COPY INTO 在复制数据时会跳过重复文件。如果为 `true`，则不会跳过重复文件。 | 可选     |
+| DISABLE_VARIANT_CHECK | 如果为 `true`，在 COPY INTO 期间，无效的 JSON 数据将被替换为 null 值。如果为 `false`（默认），COPY INTO 在遇到无效 JSON 数据时会失败。                                                                                                                                                                                                                                                                            | 可选     |
+| ON_ERROR              | 决定如何处理包含错误的文件：`continue` 跳过并继续，`abort`（默认）在错误时终止，`abort_N` 在错误 ≥ N 时终止。注意：`abort_N` 不适用于 Parquet 文件。                                                                                                                                                                                     | 可选     |
+| MAX_FILES             | 设置要加载的未加载文件的最大数量。该值可以设置为最多 15,000；任何大于 15,000 的值都将被视为 15,000。                                                                                                                                                                                                                                               | 可选     |
+| RETURN_FAILED_ONLY    | 当设置为 `true` 时，输出中仅返回加载失败的文件。默认值：`false`。                                                                                                                                                                                                                                                                                                               | 可选     |
+| COLUMN_MATCH_MODE     | （仅适用于 Parquet）确定 COPY INTO 期间列名匹配是 `区分大小写` 还是 `不区分大小写`（默认）。 | 可选 |
 
 :::tip
-在导入大量数据（如日志）时，建议将 `PURGE` 和 `FORCE` 都设置为 True。这确保了高效的数据导入，无需与 Meta 服务器交互（更新已复制文件集）。但需要注意的是，这可能会导致重复数据导入。
+在导入大量数据（如日志）时，建议将 `PURGE` 和 `FORCE` 都设置为 `true`。这样可以确保高效的数据导入，而无需与 Meta 服务器交互（更新已复制文件集）。但需要注意的是，这可能会导致重复数据导入。
 :::
 
 ## 输出
 
-COPY INTO 提供了数据加载结果的摘要，包含以下列：
+COPY INTO 提供数据加载结果的摘要，包含以下列：
 
 | 列名               | 类型    | 可空性 | 描述                                     |
-| ------------------ | ------- | ------ | ---------------------------------------- |
-| FILE               | VARCHAR | 否     | 源文件的相对路径。                       |
-| ROWS_LOADED        | INT     | 否     | 从源文件加载的行数。                     |
-| ERRORS_SEEN        | INT     | 否     | 源文件中的错误行数。                     |
-| FIRST_ERROR        | VARCHAR | 是     | 源文件中发现的第一个错误。               |
-| FIRST_ERROR_LINE   | INT     | 是     | 第一个错误的行号。                       |
+| ---------------- | ------- | -------- | ----------------------------------------------- |
+| FILE             | VARCHAR | 否       | 源文件的相对路径。           |
+| ROWS_LOADED      | INT     | 否       | 从源文件加载的行数。 |
+| ERRORS_SEEN      | INT     | 否       | 源文件中的错误行数         |
+| FIRST_ERROR      | VARCHAR | 是       | 源文件中发现的第一个错误。       |
+| FIRST_ERROR_LINE | INT     | 是       | 第一个错误的行号。                 |
 
-如果 RETURN_FAILED_ONLY 设置为 True，输出将仅包含加载失败的文件。
+如果 `RETURN_FAILED_ONLY` 设置为 `true`，输出将仅包含加载失败的文件。
 
 ## 分布式 COPY INTO
 
-Databend 中的 COPY INTO 功能在集群环境中自动激活分布式执行，增强了数据加载的效率和可扩展性。
+Databend 中的 COPY INTO 功能在集群环境中自动激活分布式执行，增强数据加载效率和可扩展性。
 
 ## 示例
 
@@ -508,12 +511,12 @@ COPY INTO books_with_extra_columns
 ```
 
 :::note
-表中的额外列可以有 [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) 或 [ALTER TABLE COLUMN](../00-ddl/01-table/90-alter-table-column.md) 指定的默认值。如果未为额外列显式设置默认值，将应用与其数据类型关联的默认值。例如，整数类型列在没有其他值指定时将默认为 0。
+表中的额外列可以有由 [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) 或 [ALTER TABLE COLUMN](../00-ddl/01-table/90-alter-table-column.md) 指定的默认值。如果未为额外列显式设置默认值，将应用与其数据类型关联的默认值。例如，整数类型列在没有其他值指定时将默认为 0。
 :::
 
 ### 示例 6：加载具有自定义格式的 JSON
 
-此示例从具有以下内容的 CSV 文件 "data.csv" 加载数据：
+此示例从包含以下内容的 CSV 文件 "data.csv" 加载数据：
 
 ```json
 1,"U00010","{\"carPriceList\":[{\"carTypeId":10,\"distance":5860},{\"carTypeId":11,\"distance":5861}]}"
@@ -551,7 +554,7 @@ FILE_FORMAT=(FORMAT_NAME='my_csv_format');
 
 ### 示例 7：加载无效的 JSON
 
-当将数据加载到 Variant 列时，Databend 会自动检查数据的有效性，并在遇到任何无效数据时抛出错误。例如，如果您在用户阶段有一个包含无效 JSON 数据的 Parquet 文件 `invalid_json_string.parquet`，如下所示：
+当将数据加载到 Variant 列时，Databend 会自动检查数据的合法性，并在遇到任何无效数据时抛出错误。例如，如果您在用户阶段有一个包含无效 JSON 数据的 Parquet 文件 `invalid_json_string.parquet`，如下所示：
 
 ```sql
 SELECT *
@@ -574,14 +577,14 @@ DESC t2;
 └──────────────────────────────────────────────┘
 ```
 
-尝试将数据加载到表中时会发生错误：
+尝试将数据加载到表中时会出现错误：
 
 ```sql
 root@localhost:8000/default>  COPY INTO t2 FROM @~/invalid_json_string.parquet FILE_FORMAT = (TYPE = PARQUET) ON_ERROR = CONTINUE;
 error: APIError: ResponseError with 1006: EOF while parsing a value, pos 3 while evaluating function `parse_json('[1,')`
 ```
 
-要加载而不检查 JSON 有效性，请在 COPY INTO 语句中将选项 `DISABLE_VARIANT_CHECK` 设置为 `true`：
+要加载而不检查 JSON 的合法性，请在 COPY INTO 语句中将选项 `DISABLE_VARIANT_CHECK` 设置为 `true`：
 
 ```sql
 COPY INTO t2 FROM @~/invalid_json_string.parquet
