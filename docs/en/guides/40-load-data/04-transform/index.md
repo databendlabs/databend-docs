@@ -87,7 +87,7 @@ SELECT MINTEMP FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
 SELECT mintemp FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
 ```
 
-When `CASE_SENSITIVE` is set to `true`, you must use the exact column name as it appears in the file, as shown below:
+When `CASE_SENSITIVE` is set to `true`, you must use the exact column name as it appears in the file:
 
 ```sql
 SELECT `MinTemp` FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>true);
