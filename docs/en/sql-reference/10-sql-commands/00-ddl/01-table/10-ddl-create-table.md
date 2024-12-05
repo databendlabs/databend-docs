@@ -22,13 +22,17 @@ Databend aims to be easy to use by design and does NOT require any of those oper
 - [CREATE TABLE](#create-table): Creates a table from scratch.
 - [CREATE TABLE ... LIKE](#create-table--like): Creates a table with the same column definitions as an existing one.
 - [CREATE TABLE ... AS](#create-table--as): Creates a table and inserts data with the results of a SELECT query.
-- [CREATE TRANSIENT TABLE](#create-transient-table): Creates a table without storing its historical data for Time Travel.
-- [CREATE TABLE ... EXTERNAL_LOCATION](#create-table--external_location): Creates a table and specifies an S3 bucket for the data storage instead of the FUSE engine.
+
+See also:
+
+- [CREATE TEMP TABLE](10-ddl-create-temp-table.md)
+- [CREATE TRANSIENT TABLE](10-ddl-create-transient-table.md)
+- [CREATE EXTERNAL TABLE](10-ddl-create-table-external-location.md)
 
 ## CREATE TABLE
 
 ```sql
-CREATE [ OR REPLACE ] [ TRANSIENT ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
+CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 (
     <column_name> <data_type> [ NOT NULL | NULL ] 
                               [ { DEFAULT <expr> } ] 
@@ -90,27 +94,6 @@ create transient table t_new as select * from t_old;
 create table t_new compression='lz4' as select * from t_old;
 ```
 :::
-
-## CREATE TRANSIENT TABLE
-
-Creates a transient table. 
-
-Transient tables are used to hold transitory data that does not require a data protection or recovery mechanism. Dataebend does not hold historical data for a transient table so you will not be able to query from a previous version of the transient table with the Time Travel feature, for example, the [AT](./../../20-query-syntax/03-query-at.md) clause in the SELECT statement will not work for transient tables. Please note that you can still [drop](./20-ddl-drop-table.md) and [undrop](./21-ddl-undrop-table.md) a transient table.
-
-Transient tables help save your storage expenses because they do not need extra space for historical data compared to non-transient tables. See [example](#create-transient-table-1) for detailed explanations.
-
-:::caution
-Concurrent modifications (including write operations) on transient tables may cause data corruption, making the data unreadable. This defect is being addressed. Until fixed, please avoid concurrent modifications on transient tables.
-:::
-
-Syntax:
-```sql
-CREATE TRANSIENT TABLE ...
-```
-
-## CREATE TABLE ... EXTERNAL_LOCATION
-
-See [CREATE TABLE(EXTERNAL_LOCATION)](./10-ddl-create-table-external-location.md).
 
 ## Column Nullable
 
@@ -325,32 +308,6 @@ SELECT * FROM books_backup;
 +----+----------------+---------+
 |  1 | Invisible Stars| General |
 +----+----------------+---------+
-```
-
-### Create Transient Table
-
-Create a transient table (temporary table) that automatically deletes data after a specified period of time:
-
-```sql
--- Create a transient table
-CREATE TRANSIENT TABLE visits (
-  visitor_id BIGINT
-);
-
--- Insert values
-INSERT INTO visits VALUES(1);
-INSERT INTO visits VALUES(2);
-INSERT INTO visits VALUES(3);
-
--- Check the inserted data
-SELECT * FROM visits;
-+-----------+
-| visitor_id |
-+-----------+
-|         1 |
-|         2 |
-|         3 |
-+-----------+
 ```
 
 ### Create Table ... Column As STORED | VIRTUAL

@@ -1,5 +1,5 @@
 ---
-title: CREATE TABLE (external)
+title: CREATE EXTERNAL TABLE
 sidebar_position: 2
 ---
 
