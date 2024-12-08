@@ -85,7 +85,7 @@ const DocsOverview: FC = (): ReactElement => {
             <Col {...colLayout3}>
               <Card href="/guides/overview/editions/dce/" padding={[16, 16]}>
                 <h3>
-                  <span>{$t("Databend Cummunity")}</span>
+                  <span>{$t("Databend Community")}</span>
                 </h3>
                 <div>{$t("Self-Hosted & Free")}</div>
               </Card>
