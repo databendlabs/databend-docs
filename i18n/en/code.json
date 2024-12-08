@@ -613,13 +613,13 @@
     "message": "Self-Hosted with Additional Enterprise Features",
     "description": "Description for Databend Enterprise product"
   },
-  "Databend Cummunity": {
-    "message": "Databend Cummunity",
-    "description": "Title for Databend Cummunity product"
+  "Databend Community": {
+    "message": "Databend Community",
+    "description": "Title for Databend Community product"
   },
   "Self-Hosted & Free": {
     "message": "Self-Hosted & Free",
-    "description": "Description for Databend Cummunity product"
+    "description": "Description for Databend Community product"
   },
   "Create a Databend Cloud account or deploy your own Databend instance.": {
     "message": "Create a Databend Cloud account or deploy your own Databend instance.",
