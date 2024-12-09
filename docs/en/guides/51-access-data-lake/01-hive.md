@@ -3,7 +3,7 @@ title: Apache Hive
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.83"/>
+<FunctionDescription description="Introduced or updated: v1.2.668"/>
 
 Databend supports the integration of an [Apache Hive](https://hive.apache.org/) catalog, enhancing its compatibility and versatility for data management and analytics. This extends Databend's capabilities by seamlessly incorporating the powerful metadata and storage management capabilities of Apache Hive into the platform.
 
@@ -34,6 +34,7 @@ Databend provides you the following commands to manage catalogs:
 - [CREATE CATALOG](#create-catalog)
 - [SHOW CREATE CATALOG](#show-create-catalog)
 - [SHOW CATALOGS](#show-catalogs)
+- [USE CATALOG](#use-catalog)
 
 ### CREATE CATALOG
 
@@ -88,6 +89,16 @@ Shows all the created catalogs.
 
 ```sql
 SHOW CATALOGS [LIKE '<pattern>']
+```
+
+### USE CATALOG
+
+Switches the current session to the specified catalog.
+
+#### Syntax
+
+```sql
+USE CATALOG <catalog_name>
 ```
 
 ## Usage Examples
