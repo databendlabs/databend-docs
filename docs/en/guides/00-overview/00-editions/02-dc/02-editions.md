@@ -11,7 +11,7 @@ Databend Cloud comes in three editions: **Personal**, **Business**, and **Dedica
 cn=
 '
 
-如需快速了解这些版本，请访问 [https://www.databend.cn/databend-cloud](https://www.databend.com/databend-cloud)。有关定价信息，请参阅 [定价与计费](/guides/overview/editions/dc/pricing)。有关各版本详细功能列表，请参阅 [功能列表](#feature-lists)。
+如需快速了解这些版本，请访问 [https://www.databend.cn/databend-cloud](https://www.databend.cn/databend-cloud)。有关定价信息，请参阅 [定价与计费](/guides/overview/editions/dc/pricing)。有关各版本详细功能列表，请参阅 [功能列表](#feature-lists)。
 
 '
 en=
