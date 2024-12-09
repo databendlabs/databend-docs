@@ -201,6 +201,18 @@ const config: Config = {
         },
       },
     ],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            from: '/',
+            to: '/guides/'
+          }
+        ]
+      }
+
+    ]
   ],
   themes: ['@docusaurus/theme-mermaid'],
   markdown: {

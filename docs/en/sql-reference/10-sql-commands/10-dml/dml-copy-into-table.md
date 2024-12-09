@@ -5,7 +5,7 @@ sidebar_label: "COPY INTO <table>"
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.466"/>
+<FunctionDescription description="Introduced or updated: v1.2.666"/>
 
 COPY INTO allows you to load data from files located in one of the following locations:
 
@@ -206,20 +206,23 @@ copyOptions ::=
   [ DISABLE_VARIANT_CHECK = <bool> ]
   [ ON_ERROR = { continue | abort | abort_N } ]
   [ MAX_FILES = <num> ]
+  [ RETURN_FAILED_ONLY = <bool> ]
+  [ COLUMN_MATCH_MODE =  { case-sensitive | case-insensitive } ]
 ```
 
 | Parameter             | Description                                                                                                                                                                                                                                                                                                                                                                                                        | Required |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
 | SIZE_LIMIT            | Specifies the maximum rows of data to be loaded for a given COPY statement. Defaults to `0` meaning no limits.                                                                                                                                                                                                                                                                                                     | Optional |
-| PURGE                 | If `True`, the command will purge the files in the stage after they are loaded successfully into the table. Default: `False`.                                                                                                                                                                                                                                                                                      | Optional |
-| FORCE                 | COPY INTO ensures idempotence by automatically tracking and preventing the reloading of files for a default period of 12 hours. This can be customized using the `load_file_metadata_expire_hours` setting to control the expiration time for file metadata.<br/>This parameter defaults to `False` meaning COPY INTO will skip duplicate files when copying data. If `True`, duplicate files will not be skipped. | Optional |
+| PURGE                 | If `true`, the command will purge the files in the stage after they are loaded successfully into the table. Default: `false`.                                                                                                                                                                                                                                                                                      | Optional |
+| FORCE                 | COPY INTO ensures idempotence by automatically tracking and preventing the reloading of files for a default period of 12 hours. This can be customized using the `load_file_metadata_expire_hours` setting to control the expiration time for file metadata.<br/>This parameter defaults to `false` meaning COPY INTO will skip duplicate files when copying data. If `true`, duplicate files will not be skipped. | Optional |
 | DISABLE_VARIANT_CHECK | If `true`, invalid JSON data is replaced with null values during COPY INTO. If `false` (default), COPY INTO fails on invalid JSON data.                                                                                                                                                                                                                                                                            | Optional |
-| ON_ERROR              | Decides how to handle a file that contains errors: 'continue' to skip and proceed, 'abort' to terminate on error, 'abort_N' to terminate when errors ≥ N. Default is 'abort'. Note: 'abort_N' not available for Parquet files.                                                                                                                                                                                     | Optional |
-| MAX_FILES             | Sets the maximum number of files to load that have not been loaded already. The value can be set up to 15000; any value greater than 15000 will be treated as 15000.                                                                                                                                                                                                                                               | Optional |
-| RETURN_FAILED_ONLY    | When set to 'True', only files that failed to load will be returned in the output. Default: `False`.                                                                                                                                                                                                                                                                                                               | Optional |
+| ON_ERROR              | Decides how to handle a file that contains errors: `continue` to skip and proceed, `abort` (default) to terminate on error, `abort_N` to terminate when errors ≥ N. Note: `abort_N` not available for Parquet files.                                                                                                                                                                                     | Optional |
+| MAX_FILES             | Sets the maximum number of files to load that have not been loaded already. The value can be set up to 15,000; any value greater than 15,000 will be treated as 15,000.                                                                                                                                                                                                                                               | Optional |
+| RETURN_FAILED_ONLY    | When set to `true`, only files that failed to load will be returned in the output. Default: `false`.                                                                                                                                                                                                                                                                                                               | Optional |
+| COLUMN_MATCH_MODE     | (For Parquet only) Determines if column name matching during COPY INTO is `case-sensitive` or `case-insensitive` (default). | Optional |
 
 :::tip
-When importing large volumes of data, such as logs, it is recommended to set both `PURGE` and `FORCE` to True. This ensures efficient data import without the need for interaction with the Meta server (updating the copied-files set). However, it is important to be aware that this may lead to duplicate data imports.
+When importing large volumes of data, such as logs, it is recommended to set both `PURGE` and `FORCE` to `true`. This ensures efficient data import without the need for interaction with the Meta server (updating the copied-files set). However, it is important to be aware that this may lead to duplicate data imports.
 :::
 
 ## Output
@@ -234,7 +237,7 @@ COPY INTO provides a summary of the data loading results with these columns:
 | FIRST_ERROR      | VARCHAR | YES      | The first error found in the source file.       |
 | FIRST_ERROR_LINE | INT     | YES      | Line number of the first error.                 |
 
-If RETURN_FAILED_ONLY is set to True, the output will only contain the files that failed to load.
+If `RETURN_FAILED_ONLY` is set to `true`, the output will only contain the files that failed to load.
 
 ## Distributed COPY INTO
 

@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.339"/>
+<FunctionDescription description="Introduced or updated: v1.2.666"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -13,45 +13,51 @@ import EEFeature from '@site/src/components/EEFeature';
 
 Creating tables is one of the most complicated operations for many databases because you might need to:
 
-* Manually specify the engine
-* Manually specify the indexes
-* And even specify the data partitions or data shard
+- Manually specify the engine
+- Manually specify the indexes
+- And even specify the data partitions or data shard
 
 Databend aims to be easy to use by design and does NOT require any of those operations when you create a table. Moreover, the CREATE TABLE statement provides these options to make it much easier for you to create tables in various scenarios:
 
 - [CREATE TABLE](#create-table): Creates a table from scratch.
 - [CREATE TABLE ... LIKE](#create-table--like): Creates a table with the same column definitions as an existing one.
 - [CREATE TABLE ... AS](#create-table--as): Creates a table and inserts data with the results of a SELECT query.
-- [CREATE TRANSIENT TABLE](#create-transient-table): Creates a table without storing its historical data for Time Travel.
-- [CREATE TABLE ... EXTERNAL_LOCATION](#create-table--external_location): Creates a table and specifies an S3 bucket for the data storage instead of the FUSE engine.
+
+See also:
+
+- [CREATE TEMP TABLE](10-ddl-create-temp-table.md)
+- [CREATE TRANSIENT TABLE](10-ddl-create-transient-table.md)
+- [CREATE EXTERNAL TABLE](10-ddl-create-table-external-location.md)
 
 ## CREATE TABLE
 
 ```sql
-CREATE [ OR REPLACE ] [ TRANSIENT ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
+CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 (
-    <column_name> <data_type> [ NOT NULL | NULL ] 
-                              [ { DEFAULT <expr> } ] 
+    <column_name> <data_type> [ NOT NULL | NULL ]
+                              [ { DEFAULT <expr> } ]
                               [ AS (<expr>) STORED | VIRTUAL ]
                               [ COMMENT '<comment>' ],
     <column_name> <data_type> ...
     ...
 )
 ```
+
 :::note
+
 - For available data types in Databend, see [Data Types](../../../00-sql-reference/10-data-types/index.md).
 
 - Databend suggests avoiding special characters as much as possible when naming columns. However, if special characters are necessary in some cases, the alias should be enclosed in backticks, like this: CREATE TABLE price(\`$CA\` int);
 
-- Databend will automatically convert column names into lowercase. For example, if you name a column as *Total*, it will appear as *total* in the result.
-:::
-
+- Databend will automatically convert column names into lowercase. For example, if you name a column as _Total_, it will appear as _total_ in the result.
+  :::
 
 ## CREATE TABLE ... LIKE
 
 Creates a table with the same column definitions as an existing table. Column names, data types, and their non-NUll constraints of the existing will be copied to the new table.
 
 Syntax:
+
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
 LIKE [db.]origin_table_name
@@ -60,6 +66,7 @@ LIKE [db.]origin_table_name
 This command does not include any data or attributes (such as `CLUSTER BY`, `TRANSIENT`, and `COMPRESSION`) from the original table, and instead creates a new table using the default system settings.
 
 :::note WORKAROUND
+
 - `TRANSIENT` and `COMPRESSION` can be explicitly specified when you create a new table with this command. For example,
 
 ```sql
@@ -67,6 +74,7 @@ create transient table t_new like t_old;
 
 create table t_new compression='lz4' like t_old;
 ```
+
 :::
 
 ## CREATE TABLE ... AS
@@ -74,6 +82,7 @@ create table t_new compression='lz4' like t_old;
 Creates a table and fills it with data computed by a SELECT command.
 
 Syntax:
+
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
 AS SELECT query
@@ -82,6 +91,7 @@ AS SELECT query
 This command does not include any attributes (such as CLUSTER BY, TRANSIENT, and COMPRESSION) from the original table, and instead creates a new table using the default system settings.
 
 :::note WORKAROUND
+
 - `TRANSIENT` and `COMPRESSION` can be explicitly specified when you create a new table with this command. For example,
 
 ```sql
@@ -89,28 +99,8 @@ create transient table t_new as select * from t_old;
 
 create table t_new compression='lz4' as select * from t_old;
 ```
+
 :::
-
-## CREATE TRANSIENT TABLE
-
-Creates a transient table. 
-
-Transient tables are used to hold transitory data that does not require a data protection or recovery mechanism. Dataebend does not hold historical data for a transient table so you will not be able to query from a previous version of the transient table with the Time Travel feature, for example, the [AT](./../../20-query-syntax/03-query-at.md) clause in the SELECT statement will not work for transient tables. Please note that you can still [drop](./20-ddl-drop-table.md) and [undrop](./21-ddl-undrop-table.md) a transient table.
-
-Transient tables help save your storage expenses because they do not need extra space for historical data compared to non-transient tables. See [example](#create-transient-table-1) for detailed explanations.
-
-:::caution
-Concurrent modifications (including write operations) on transient tables may cause data corruption, making the data unreadable. This defect is being addressed. Until fixed, please avoid concurrent modifications on transient tables.
-:::
-
-Syntax:
-```sql
-CREATE TRANSIENT TABLE ...
-```
-
-## CREATE TABLE ... EXTERNAL_LOCATION
-
-See [CREATE TABLE(EXTERNAL_LOCATION)](./10-ddl-create-table-external-location.md).
 
 ## Column Nullable
 
@@ -121,6 +111,7 @@ By default, **all columns are nullable(NULL)** in Databend. If you need a column
 ```sql
 DEFAULT <expr>
 ```
+
 Specify a default value inserted in the column if a value is not specified via an `INSERT` or `CREATE TABLE AS SELECT` statement.
 
 For example:
@@ -159,7 +150,7 @@ SELECT * FROM t_default_value;
 
 ## Computed Columns
 
-Computed columns are columns that are generated from other columns in a table using a scalar expression. When data in any of the columns used in the computation is updated, the computed column will automatically recalculate its value to reflect the update. 
+Computed columns are columns that are generated from other columns in a table using a scalar expression. When data in any of the columns used in the computation is updated, the computed column will automatically recalculate its value to reflect the update.
 
 Databend supports two types of computed columns: stored and virtual. Stored computed columns are physically stored in the database and occupy storage space, while virtual computed columns are not physically stored and their values are calculated on the fly when accessed.
 
@@ -211,11 +202,11 @@ When choosing between stored computed columns and virtual computed columns, cons
 - Real-time Updates: Stored computed columns update their computed values immediately when the dependent columns are updated. This ensures that you always have the latest computed values when querying. Virtual computed columns, on the other hand, compute their values dynamically during queries, which may slightly increase the processing time.
 
 - Data Integrity and Consistency: Stored computed columns maintain immediate data consistency since their computed values are updated upon write operations. Virtual computed columns, however, calculate their values on-the-fly during queries, which means there might be a momentary inconsistency between write operations and subsequent queries.
-:::
+  :::
 
 ## MySQL Compatibility
 
-Databend’s syntax is difference from MySQL mainly in the data type and some specific index hints.
+Databend's syntax is difference from MySQL mainly in the data type and some specific index hints.
 
 ## Examples
 
@@ -327,32 +318,6 @@ SELECT * FROM books_backup;
 +----+----------------+---------+
 ```
 
-### Create Transient Table
-
-Create a transient table (temporary table) that automatically deletes data after a specified period of time:
-
-```sql
--- Create a transient table
-CREATE TRANSIENT TABLE visits (
-  visitor_id BIGINT
-);
-
--- Insert values
-INSERT INTO visits VALUES(1);
-INSERT INTO visits VALUES(2);
-INSERT INTO visits VALUES(3);
-
--- Check the inserted data
-SELECT * FROM visits;
-+-----------+
-| visitor_id |
-+-----------+
-|         1 |
-|         2 |
-|         3 |
-+-----------+
-```
-
 ### Create Table ... Column As STORED | VIRTUAL
 
 The following example demonstrates a table with a stored computed column that automatically recalculates based on updates to the "price" or "quantity" columns:
@@ -386,7 +351,7 @@ FROM products;
 +------+-------+----------+-------------+
 ```
 
-In this example, we create a table called student_profiles with a Variant type column named profile to store JSON data. We also add a virtual computed column named *age* that extracts the age property from the profile column and casts it to an integer.
+In this example, we create a table called student*profiles with a Variant type column named profile to store JSON data. We also add a virtual computed column named \_age* that extracts the age property from the profile column and casts it to an integer.
 
 ```sql
 -- Create the table with a virtual computed column
@@ -408,8 +373,8 @@ SELECT * FROM student_profiles;
 +--------+------------------------------------------------------------------------------------------------------------+------+
 | id     | profile                                                                                                    | age  |
 +--------+------------------------------------------------------------------------------------------------------------+------+
-| d78236 | {"age":"16","credits":120,"id":"d78236","name":"Arthur Read","school":"PVPHS","sports":"none"}             |   16 |
-| f98112 | {"age":"15","clubs":"MUN","credits":67,"id":"f98112","name":"Buster Bunny","school":"TEO"}                 |   15 |
-| t63512 | {"clubs":"Chess","id":"t63512","name":"Ernie Narayan","school":"Brooklyn Tech","sports":"Track and Field"} | NULL |
+| d78236 | `{"age":"16","credits":120,"id":"d78236","name":"Arthur Read","school":"PVPHS","sports":"none"}`            |   16 |
+| f98112 | `{"age":"15","clubs":"MUN","credits":67,"id":"f98112","name":"Buster Bunny","school":"TEO"}`                |   15 |
+| t63512 | `{"clubs":"Chess","id":"t63512","name":"Ernie Narayan","school":"Brooklyn Tech","sports":"Track and Field"}` | NULL |
 +--------+------------------------------------------------------------------------------------------------------------+------+
 ```

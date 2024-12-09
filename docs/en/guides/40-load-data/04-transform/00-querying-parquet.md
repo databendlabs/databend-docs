@@ -13,7 +13,8 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
   [ FILE_FORMAT => 'PARQUET | <custom_format_name>'],
-  [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
+  [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ],
+  [ CASE_SENSITIVE => true | false ]
 )]
 ```
 

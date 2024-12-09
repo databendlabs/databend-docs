@@ -22,7 +22,8 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
   [ FILE_FORMAT => 'CSV | TSV | NDJSON | PARQUET | ORC | <custom_format_name>'],
-  [ FILES => ( '<file_name>' [ , '<file_name>' ... ])]
+  [ FILES => ( '<file_name>' [ , '<file_name>' ... ])],
+  [ CASE_SENSITIVE => true | false ]
 )]
 ```
 
@@ -68,6 +69,29 @@ The PATTERN option allows you to specify a [PCRE2](https://www.pcre.org/current/
 ### FILES
 
 The FILES option, on the other hand, enables you to explicitly specify one or more file names separated by commas. This option allows you to directly filter and query data from specific files within a folder. For example, if you want to query data from the Parquet files "books-2023.parquet", "books-2022.parquet", and "books-2021.parquet", you can provide these file names within the FILES option.
+
+### CASE_SENSITIVE
+
+The CASE_SENSITIVE parameter determines whether column names in the queried Parquet files are treated with case sensitivity:
+
+- `CASE_SENSITIVE => false` (default): Column names are treated as case-insensitive, meaning `b` and `B` are considered the same.
+- `CASE_SENSITIVE => true`: Column names are treated as case-sensitive, meaning only exact matches (including case) are valid. For example, querying `B` will succeed if the column in the file is named `B`, but not if it is named `b`.
+
+For example, if you have a column named `MinTemp` in a Parquet file, you can query it using one of the following statements when `CASE_SENSITIVE` is set to `false`:
+
+```sql
+SELECT MinTemp FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
+
+SELECT MINTEMP FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
+
+SELECT mintemp FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
+```
+
+When `CASE_SENSITIVE` is set to `true`, you must use the exact column name as it appears in the file:
+
+```sql
+SELECT `MinTemp` FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>true);
+```
 
 ### table_alias
 
