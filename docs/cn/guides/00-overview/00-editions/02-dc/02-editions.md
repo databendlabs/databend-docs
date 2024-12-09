@@ -5,13 +5,13 @@ title: 版本
 import DatabendTable from '@site/src/components/DatabendTable';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 
-Databend Cloud 提供三种版本：**基础版**、**商业版**和**专属版**，您可以根据不同的需求选择合适的版本，以确保不同使用场景下的最佳性能。
+Databend Cloud 提供三种版本：**基础版**、**商业版**和**专属版**，您可以根据不同的需求选择合适的版本，以确保最佳性能。
 
 <LanguageDocs
 cn=
 '
 
-如需快速了解这些版本，请访问 [https://www.databend.cn/databend-cloud](https://www.databend.com/databend-cloud)。有关定价信息，请参阅 [定价与计费](/guides/overview/editions/dc/pricing)。有关各版本详细功能列表，请参阅 [功能列表](#feature-lists)。
+如需快速了解这些版本，请访问 [https://www.databend.cn/databend-cloud](https://www.databend.cn/databend-cloud)。有关定价信息，请参阅 [定价与计费](/guides/overview/editions/dc/pricing)。有关各版本详细功能列表，请参阅 [功能列表](#feature-lists)。
 
 '
 en=
@@ -77,7 +77,7 @@ tbody={[
 ['对半结构化数据（JSON、ORC、Parquet）的原生支持。', '✓', '✓', '✓'],
 ['对地理空间数据的原生支持。', '✓', '✓', '✓'],
 ['对非结构化数据的原生支持。', '✓', '✓', '✓'],
-['表列中字符串/文本数据的排序规则。', '✓', '✓', '✓'],
+['表列中字符串/文本数据的排序规则规则。', '✓', '✓', '✓'],
 ['多语句事务。', '✓', '✓', '✓'],
 ['用户定义函数（UDFs），支持 JavaScript、Python 和 WebAssembly。', '', '✓', '✓'],
 ['外部函数，用于扩展 Databend Cloud 到其他开发平台。', '✓', '✓', '✓'],
@@ -114,7 +114,7 @@ tbody={[
 width={['67%', '11%', '11%', '11%']}
 thead={['功能', '基础版', '商业版', '专属版']}
 tbody={[
-['从分隔的平面文件（CSV、TSV 等）和半结构化数据文件（JSON、ORC、Parquet）批量加载。', '✓', '✓', '✓'],
+['从分隔的平面文件（CSV、TSV 等）和半结构化数据文件（JSON、ORC、Parquet）进行批量加载。', '✓', '✓', '✓'],
 ['批量卸载到分隔的平面文件和 JSON 文件。', '✓', '✓', '✓'],
 ['连续微批量加载。', '✓', '✓', '✓'],
 ['用于低延迟加载流数据的流式处理。', '✓', '✓', '✓'],
