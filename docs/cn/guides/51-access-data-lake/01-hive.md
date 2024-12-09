@@ -3,7 +3,7 @@ title: Apache Hive
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.83"/>
+<FunctionDescription description="引入或更新: v1.2.668"/>
 
 Databend 支持集成 [Apache Hive](https://hive.apache.org/) 目录，增强了其数据管理和分析的兼容性和多功能性。这扩展了 Databend 的能力，通过无缝整合 Apache Hive 强大的元数据和存储管理功能到平台中。
 
@@ -34,6 +34,7 @@ Databend 提供了以下命令来管理目录：
 - [CREATE CATALOG](#create-catalog)
 - [SHOW CREATE CATALOG](#show-create-catalog)
 - [SHOW CATALOGS](#show-catalogs)
+- [USE CATALOG](#use-catalog)
 
 ### CREATE CATALOG
 
@@ -57,11 +58,11 @@ CONNECTION = (
 |-----------------------|-----------|---------------------------------------------------------------------------------------------------------------------------| 
 | TYPE                  | 是        | 目录类型：'HIVE' 用于 Hive 目录或 'ICEBERG' 用于 Iceberg 目录。                                      | 
 | METASTORE_ADDRESS     | 否        | Hive Metastore 地址。仅对 Hive 目录必需。| 
-| URL                   | 是        | 与此目录关联的外部存储位置。这可以是一个桶或桶内的一个文件夹。例如，'s3://databend-toronto/'。                       | 
+| URL                   | 是        | 与此目录关联的外部存储位置。这可以是桶或桶内的文件夹。例如，'s3://databend-toronto/'。                       | 
 | connection_parameter  | 是        | 用于与外部存储建立连接的连接参数。所需的参数根据特定的存储服务和认证方法而异。请参阅 [连接参数](/sql/sql-reference/connect-parameters) 获取详细信息。 |
 
 :::note
-要从 HDFS 读取数据，您需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 可以访问必要的 Java 和 Hadoop 依赖项，以有效地与 HDFS 交互。请确保将 "/path/to/java" 和 "/path/to/hadoop" 替换为 Java 和 Hadoop 安装的实际路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
+要从 HDFS 读取数据，您需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 可以访问必要的 Java 和 Hadoop 依赖项，以有效与 HDFS 交互。请确保将 "/path/to/java" 和 "/path/to/hadoop" 替换为 Java 和 Hadoop 安装的实际路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
 ```shell
 export JAVA_HOME=/path/to/java
 export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
@@ -88,6 +89,16 @@ SHOW CREATE CATALOG <catalog_name>;
 
 ```sql
 SHOW CATALOGS [LIKE '<pattern>']
+```
+
+### USE CATALOG
+
+将当前会话切换到指定的目录。
+
+#### 语法
+
+```sql
+USE CATALOG <catalog_name>
 ```
 
 ## 使用示例
