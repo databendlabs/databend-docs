@@ -16,7 +16,7 @@ Databend 是 Tapdata 支持的数据源之一。您可以使用 Tapdata 将其�
 
 Tapdata Agent 是数据同步、数据异构、数据开发场景中的关键程序。鉴于这些场景中数据流对实时性的高要求，在您的本地环境中部署 Tapdata Agent 可以基于低延迟的本地网络确保实时数据流的最佳性能。
 
-有关 Tapdata Agent 的下载和安装说明，请参阅 [步骤 1：配置 TapData - Tapdata Cloud](https://docs.tapdata.io/quick-start/install/install-tapdata-agent)。
+有关 Tapdata Agent 的下载和安装说明，请参阅 [步骤 1：配置 TapData - Tapdata Cloud](https://docs.tapdata.io/faq/agent-installation)。
 
 ### 步骤 2：创建连接
 

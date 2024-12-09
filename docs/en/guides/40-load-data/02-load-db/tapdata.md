@@ -16,7 +16,7 @@ To establish a connection with Databend Cloud and set it as the synchronization 
 
 Tapdata Agent is a key program in data synchronization, data heterogeneity, and data development scenarios. Given the high real-time requirements for data flow in these scenarios, deploying Tapdata Agent in your local environment ensures optimal performance based on low-latency local networks to guarantee real-time data flow.
 
-For Tapdata Agent download and installation instructions, please refer to [Step 1: Provision TapData - Tapdata Cloud](https://docs.tapdata.io/quick-start/install/install-tapdata-agent).
+For Tapdata Agent download and installation instructions, please refer to [Step 1: Provision TapData - Tapdata Cloud](https://docs.tapdata.io/faq/agent-installation).
 
 ### Step 2: Create Connections
 
