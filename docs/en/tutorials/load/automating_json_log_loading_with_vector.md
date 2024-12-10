@@ -4,6 +4,7 @@ title: Automating JSON Log Loading with Vector
 
 In this tutorial, we'll simulate generating logs locally, collect them using [Vector](https://vector.dev/), store them in S3, and automate their ingestion into Databend Cloud using scheduled tasks.
 
+## Before You Start
 
 Before you start, ensure you have the following prerequisites in place:
 
