@@ -3,24 +3,24 @@ title: 外部字典
 description: 本RFC提议在Databend中实现外部字典功能，以允许无缝访问来自外部数据源的数据。
 ---
 
-- RFC PR: [datafuselabs/databend-docs#996](https://github.com/datafuselabs/databend-docs/pull/996)
-- Tracking Issue: [datafuselabs/databend#15901](https://github.com/datafuselabs/databend/issues/15901)
+- RFC PR: [datafuselabs/databend-docs#996](https://github.com/databendlabs/databend-docs/pull/996)
+- Tracking Issue: [datafuselabs/databend#15901](https://github.com/databendlabs/databend/issues/15901)
 
 ## 概述
 
-实现外部字典功能允许Databend访问来自其他外部数据源的数据。
+实现外部字典功能允许 Databend 访问来自其他外部数据源的数据。
 
 ## 动机
 
-在Databend中访问MySQL等外部数据库的数据通常需要导出MySQL数据集，然后将其导入Databend数据库。当处理大量信息时，这一过程变得繁琐，并且由于频繁更新可能导致数据不一致。
+在 Databend 中访问 MySQL 等外部数据库的数据通常需要导出 MySQL 数据集，然后将其导入 Databend 数据库。当处理大量信息时，这一过程变得繁琐，并且由于频繁更新可能导致数据不一致。
 
-引入外部字典功能通过促进Databend与各种数据库系统之间的无缝集成，解决了这些挑战。通过字典创建，直接访问外部数据集实现了实时修改，同时简化了整体数据管理。
+引入外部字典功能通过促进 Databend 与各种数据库系统之间的无缝集成，解决了这些挑战。通过字典创建，直接访问外部数据集实现了实时修改，同时简化了整体数据管理。
 
 ## 指南级解释
 
-DICTIONARY使用以下语法进行创建、删除和查询。
+DICTIONARY 使用以下语法进行创建、删除和查询。
 
-1. 创建名为user_info的字典。
+1. 创建名为 user_info 的字典。
 
 ```sql
 CREATE DICTIONARY user_info(
@@ -44,13 +44,13 @@ SOURCE(MYSQL(
 SHOW DICTIONARIES;
 ```
 
-3. 查询用于创建字典user_info的SQL语句。
+3. 查询用于创建字典 user_info 的 SQL 语句。
 
 ```sql
 SHOW CREATE DICTIONARY user_info;
 ```
 
-4. 删除字典user_info。
+4. 删除字典 user_info。
 
 ```sql
 DROP DICTIONARY user_info;
@@ -58,17 +58,17 @@ DROP DICTIONARY user_info;
 
 您可以使用`dict_get(dict_name, dict_field, dict_id)`从字典中查询数据。
 
-`dict_get`函数接受三个参数：第一个是字典的名称，第二个是要查询的字段，第三个是查询字典的ID。
+`dict_get`函数接受三个参数：第一个是字典的名称，第二个是要查询的字段，第三个是查询字典的 ID。
 
 ## 参考级解释
 
-DICTIONARY的相关元数据存储在Databend的元模块中，并在执行SQL查询时用于检索必要的信息。
+DICTIONARY 的相关元数据存储在 Databend 的元模块中，并在执行 SQL 查询时用于检索必要的信息。
 
-### 使用protobuf编码数据
+### 使用 protobuf 编码数据
 
-Protocol Buffers（Protobuf）是一种高级数据序列化框架，特别适用于高性能计算环境。它提供了紧凑的二进制格式数据存储、快速序列化和反序列化过程、跨语言支持以及定义良好的数据结构模式等优势。因此，Databend使用Protobuf编码数据并将二进制结果转换为数据库。
+Protocol Buffers（Protobuf）是一种高级数据序列化框架，特别适用于高性能计算环境。它提供了紧凑的二进制格式数据存储、快速序列化和反序列化过程、跨语言支持以及定义良好的数据结构模式等优势。因此，Databend 使用 Protobuf 编码数据并将二进制结果转换为数据库。
 
-一个封装了此技术本质的示例Protobuf结构如下：
+一个封装了此技术本质的示例 Protobuf 结构如下：
 
 ```protobuf
 syntax = "proto3";
@@ -88,7 +88,7 @@ message DictionaryMeta {
 }
 ```
 
-### 查询DICTIONARY的数据
+### 查询 DICTIONARY 的数据
 
 在`async_function`模块中定义`DictionaryAsyncFunction`以实现外部数据的异步读取。
 
@@ -118,7 +118,7 @@ pub struct DictionaryAsyncFunction {
 }
 ```
 
-将`async_function`模块中的`AsyncFunction`重命名为`AsyncFunctionDesc`，以避免与AsyncFunction的逻辑和物理计划命名冲突。此外，包含`DictionaryAsyncFunction`。定义如下：
+将`async_function`模块中的`AsyncFunction`重命名为`AsyncFunctionDesc`，以避免与 AsyncFunction 的逻辑和物理计划命名冲突。此外，包含`DictionaryAsyncFunction`。定义如下：
 
 ```rust
 pub enum AsyncFunctionDesc {
@@ -127,7 +127,7 @@ pub enum AsyncFunctionDesc {
 }
 ```
 
-通过添加`AsyncFunctionDesc`字段更新逻辑和物理计划中的`AsyncFunction`定义。此过程重用现有逻辑生成字典AsyncFunction的逻辑和物理计划。
+通过添加`AsyncFunctionDesc`字段更新逻辑和物理计划中的`AsyncFunction`定义。此过程重用现有逻辑生成字典 AsyncFunction 的逻辑和物理计划。
 
 - 逻辑计划的结构如下：
 
@@ -181,9 +181,9 @@ pub struct TransformDictionary {
 
 ## 未来可能性
 
-1. 用户可以通过外部字典连接多种数据源，从同一客户端对各种数据端点执行实时操作，例如文件、HTTP接口和其他数据库如ClickHouse、Redis、MongoDB等。
+1. 用户可以通过外部字典连接多种数据源，从同一客户端对各种数据端点执行实时操作，例如文件、HTTP 接口和其他数据库如 ClickHouse、Redis、MongoDB 等。
 
-   例如，如果数据源是本地CSV文件：
+   例如，如果数据源是本地 CSV 文件：
 
 ```sql
 CREATE DICTIONARY dict_name
@@ -197,7 +197,7 @@ SOURCE(FILE(path './user_files/os.csv' format 'CommaSeparated')) -- 源配置
 
    例如，`dict_get_or_default(dict_name, dict_field, dict_id, default_value)`包含一个附加参数，用于在未找到目标数据时返回默认值。
 
-3. 支持使用TOML格式配置内置字典。
+3. 支持使用 TOML 格式配置内置字典。
 
 ## 参考
 

@@ -33,7 +33,7 @@ This topic does not cover all of the available data loading methods, but it prov
 <details>
   <summary>I want to load local data files ...</summary>
   <div>
-    <div>If you have data files in your local system, Databend recommends that you load them using <a href="https://github.com/datafuselabs/BendSQL">BendSQL</a>, the Databend native CLI tool, allowing you to establish a connection with Databend and execute queries directly from a CLI window.</div>
+    <div>If you have data files in your local system, Databend recommends that you load them using <a href="https://github.com/databendlabs/BendSQL">BendSQL</a>, the Databend native CLI tool, allowing you to establish a connection with Databend and execute queries directly from a CLI window.</div>
     <br/>
     <div>To learn more about using BendSQL to load your local data files, check out the <a href="local">Loading from Local File</a> page. This page includes tutorials that show you how to use the tool to load data from a local sample file.</div>
   </div>

@@ -2,7 +2,7 @@
 title: Grafana
 ---
 
-[Grafana](https://grafana.com/) 是一个监控仪表盘系统，是由 Grafana Labs 开发的开源监控工具。它可以通过让我们提供要监控的数据，生成各种可视化，极大地简化了监控的复杂性。此外，它还具有报警功能，在系统出现问题时发送通知。Databend 和 Databend Cloud 可以通过 [Grafana Databend Data Source Plugin](https://github.com/datafuselabs/grafana-databend-datasource) 与 Grafana 集成。
+[Grafana](https://grafana.com/) 是一个监控仪表盘系统，是由 Grafana Labs 开发的开源监控工具。它可以通过让我们提供要监控的数据，生成各种可视化，极大地简化了监控的复杂性。此外，它还具有报警功能，在系统出现问题时发送通知。Databend 和 Databend Cloud 可以通过 [Grafana Databend Data Source Plugin](https://github.com/databendlabs/grafana-databend-datasource) 与 Grafana 集成。
 
 ## 教程：与 Grafana 集成
 
@@ -28,14 +28,14 @@ allow_loading_unsigned_plugins = databend-datasource
 
 ### 步骤 3. 安装 Grafana Databend Data Source Plugin
 
-1. 在 [GitHub Release](https://github.com/datafuselabs/grafana-databend-datasource/releases) 找到最新版本。
+1. 在 [GitHub Release](https://github.com/databendlabs/grafana-databend-datasource/releases) 找到最新版本。
 
-2. 获取插件 zip 包的下载 URL，例如，`https://github.com/datafuselabs/grafana-databend-datasource/releases/download/v1.0.2/databend-datasource-1.0.2.zip`。
+2. 获取插件 zip 包的下载 URL，例如，`https://github.com/databendlabs/grafana-databend-datasource/releases/download/v1.0.2/databend-datasource-1.0.2.zip`。
 
 3. 获取 Grafana 插件文件夹并将下载的 zip 包解压到其中。
 
 ```shell
-curl -fLo /tmp/grafana-databend-datasource.zip https://github.com/datafuselabs/grafana-databend-datasource/releases/download/v1.0.2/databend-datasource-1.0.2.zip
+curl -fLo /tmp/grafana-databend-datasource.zip https://github.com/databendlabs/grafana-databend-datasource/releases/download/v1.0.2/databend-datasource-1.0.2.zip
 unzip /tmp/grafana-databend-datasource.zip -d /var/lib/grafana/plugins
 rm /tmp/grafana-databend-datasource.zip
 ```

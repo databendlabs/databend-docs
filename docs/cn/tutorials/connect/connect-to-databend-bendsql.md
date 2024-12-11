@@ -18,7 +18,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 - 确保 BendSQL 已安装在您的机器上。请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql) 以了解如何使用各种包管理器安装 BendSQL 的说明。
 - 确保您的 Databend 实例已成功启动。
-- 在本教程中，您将使用 `root` 账户连接到 Databend。在部署过程中，取消注释 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中的以下行以选择此账户：
+- 在本教程中，您将使用 `root` 账户连接到 Databend。在部署过程中，取消注释 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中的以下行以选择此账户：
 
   ```sql title="databend-query.toml"
   [[query.users]]
@@ -44,7 +44,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 执行查询
 
-连接成功后，您可以在 BendSQL  shell 中执行 SQL 查询。例如，输入 `SELECT NOW();` 以返回当前时间：
+连接成功后，您可以在 BendSQL shell 中执行 SQL 查询。例如，输入 `SELECT NOW();` 以返回当前时间：
 
 ![Alt text](/img/connect/bendsql-2.gif)
 

@@ -1,15 +1,14 @@
 ---
 title: 配置引导优化 (PGO)
 sidebar_label: 配置引导优化 (PGO)
-description:
-  使用配置引导优化构建优化的 Databend。
+description: 使用配置引导优化构建优化的 Databend。
 ---
 
 配置引导优化是一种编译器优化技术，涉及在程序执行期间收集典型的执行数据，包括可能的分支。然后使用这些收集的数据来优化代码的各个方面，例如内联、条件分支、机器代码布局和寄存器分配。
 
-根据[测试](https://github.com/datafuselabs/databend/issues/9387#issuecomment-1566210063)，PGO 可以将 Databend 的性能提升高达 10%。性能提升取决于您的典型工作负载 - 您可能会获得更好或更差的结果。
+根据[测试](https://github.com/databendlabs/databend/issues/9387#issuecomment-1566210063)，PGO 可以将 Databend 的性能提升高达 10%。性能提升取决于您的典型工作负载 - 您可能会获得更好或更差的结果。
 
-有关 Databend 中 PGO 的更多信息，您可以在 [Issue #9387 | 功能: 添加 PGO 支持](https://github.com/datafuselabs/databend/issues/9387) 中阅读。
+有关 Databend 中 PGO 的更多信息，您可以在 [Issue #9387 | 功能: 添加 PGO 支持](https://github.com/databendlabs/databend/issues/9387) 中阅读。
 
 ## 前提条件
 
@@ -34,7 +33,7 @@ $ cargo install cargo-pgo
 1. 下载源代码。
 
 ```shell
-git clone https://github.com/datafuselabs/databend.git
+git clone https://github.com/databendlabs/databend.git
 ```
 
 2. 安装依赖项并编译源代码。
@@ -64,9 +63,10 @@ killall databend-meta
 ```
 
 :::tip
+
 - 您需要检查当前构建对应的平台三元组，并替换上面的 `<target-tuple>`。例如：`x86_64-unknown-linux-gnu`。
 - 为了更精确的配置文件，请使用以下环境变量运行：`LLVM_PROFILE_FILE=./target/pgo-profiles/%m_%p.profraw`。
-:::
+  :::
 
 5. 构建优化的 Databend
 

@@ -3,8 +3,8 @@ title: JSON Optimization
 description: JSON Optimization for Databend Query
 ---
 
-- RFC PR: [datafuselabs/databend#6995](https://github.com/datafuselabs/databend/pull/6995)
-- Tracking Issue: [datafuselabs/databend#6994](https://github.com/datafuselabs/databend/issues/6994)
+- RFC PR: [datafuselabs/databend#6995](https://github.com/databendlabs/databend/pull/6995)
+- Tracking Issue: [datafuselabs/databend#6994](https://github.com/databendlabs/databend/issues/6994)
 
 ## Summary
 
@@ -113,7 +113,7 @@ JSONB is a tree structure. Each node consists of three parts, a 32-bit header, s
 Take this JSON as an example, we can see the encoding format of JSONB as follow.
 
 ```json
-{"a":1,"b":[true,2,"v"]}
+{ "a": 1, "b": [true, 2, "v"] }
 ```
 
 ```

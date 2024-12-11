@@ -1,11 +1,10 @@
 ---
 title: New SQL Planner Framework Design
-description:
-  New SQL planner framework design RFC
+description: New SQL planner framework design RFC
 ---
 
 - Start date: 2021/09/13
-- Tracking issues: https://github.com/datafuselabs/databend/issues/1217
+- Tracking issues: https://github.com/databendlabs/databend/issues/1217
 
 # Summary
 
@@ -102,7 +101,7 @@ In current implementation, a SQL query will be processed as follows:
 
 In our new framework, `PlanParser` will be refactored into two components:
 
-- `Parser`: parsing SQL text into uniform AST representation, which has been introduced in [this PR](https://github.com/datafuselabs/databend/pull/1478)
+- `Parser`: parsing SQL text into uniform AST representation, which has been introduced in [this PR](https://github.com/databendlabs/databend/pull/1478)
 - `Binder`: bind variables appeared in the AST with objects(e.g. tables, columns, etc) in database and perform semantic check(name resolution, type checking). Will produce logical representation of plan tree
 
 Besides, a new optimizer will be introduced with a `rule system` tod replace the current optimizer.
@@ -242,6 +241,7 @@ A structure `Memo` is introduced to store the alternations. Each `Memo` consists
 Different from the `Expression` we mentioned above, the `Expression` inside `Group` take `Group`s as its children instead of `Expression`s, so that equivalent `Expression`s can share the children candidates.
 
 Take the `JoinCommutativity` example, the `Memo` of original SQL can be represented as:
+
 ```
 Group 1: [Get(t)]
 
@@ -251,6 +251,7 @@ Group 3: [Join(1, 2, "t.a = t1.a")]
 ```
 
 After applying `JoinCommutativity` transformation, the `Memo` will become:
+
 ```
 Group 1: [Get(t)]
 
@@ -266,6 +267,7 @@ Now you have basic knowledge about Cascades optimizer framework. Although there 
 In new optimizer framework, there are several core structures.
 
 `Plan`, enum of logical operators and physical operators. Different from canonical Cascades, we don't make scalar operators a part of `Plan`.
+
 ```rust
 enum Plan {
     // ...
@@ -273,6 +275,7 @@ enum Plan {
 ```
 
 `SExpr`, abbreviation for single expression, represents a tree of `Plan`.
+
 ```rust
 struct SExpr {
     pub plan: Plan,
@@ -281,6 +284,7 @@ struct SExpr {
 ```
 
 `Memo`, collection of `Group`s, as `Memo` in Cascades.
+
 ```rust
 struct Memo {
     pub groups: Vec<Group>,
@@ -288,6 +292,7 @@ struct Memo {
 ```
 
 `Group`, collection of `MExpr`s, as `Group` in Cascades.
+
 ```rust
 struct Group {
     pub expressions: Vec<MExpr>,
@@ -295,6 +300,7 @@ struct Group {
 ```
 
 `MExpr`, the representation of `Expression` inside `Memo`.
+
 ```rust
 struct MExpr {
     pub plan: Plan,
@@ -303,6 +309,7 @@ struct MExpr {
 ```
 
 `Rule`, trait of transformation rules. The `Rule`s can be categorized as exploration rules(generate equivalent logical expressions) and implementation rules(generate physical expressions).
+
 ```rust
 trait Rule {
     fn pattern(&self) -> &SExpr;

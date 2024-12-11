@@ -67,9 +67,9 @@ The main functions are:
 
 **Take avg as an example**
 
-The implementation details can be found in [aggregate_avg.rs](https://github.com/datafuselabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_avg.rs).
+The implementation details can be found in [aggregate_avg.rs](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_avg.rs).
 
-Because we need to accumulate each value and divide them by the total number of non-null rows, the `avg` function is defined as a struct `AggregateAvgFunction<T, SumT>` where `T` and `SumT` are logical types that implement [Number](https://github.com/datafuselabs/databend/blob/2aec38605eebb7f0e1717f7f54ec52ae0f2e530b/src/query/expression/src/types/number.rs).
+Because we need to accumulate each value and divide them by the total number of non-null rows, the `avg` function is defined as a struct `AggregateAvgFunction<T, SumT>` where `T` and `SumT` are logical types that implement [Number](https://github.com/databendlabs/databend/blob/2aec38605eebb7f0e1717f7f54ec52ae0f2e530b/src/query/expression/src/types/number.rs).
 
 During the aggregation process, the avg function will get the sum of accumulated values and the number of non-null rows already scanned. Therefore, `AggregateAvgState` can be defined as the following structure:
 
@@ -110,8 +110,8 @@ fn accumulate_keys(
 As you see, adding a new aggregate function in Databend is not as hard as you think.
 Before you start to add one, please refer to other aggregate function examples, such as `sum`, `count`.
 
-- [sum](https://github.com/datafuselabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_sum.rs)
-- [count](https://github.com/datafuselabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_count.rs)
+- [sum](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_sum.rs)
+- [count](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_count.rs)
 
 ## Testing
 
@@ -119,8 +119,8 @@ As a good developer, you always test your code, don't you? Please add unit tests
 
 ### Unit Test
 
-The unit tests for aggregate functions are located in [agg.rs](https://github.com/datafuselabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/tests/it/aggregates/agg.rs).
+The unit tests for aggregate functions are located in [agg.rs](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/tests/it/aggregates/agg.rs).
 
 ### Logic Test
 
-The logic tests for functions are located in [tests/logictest/suites/base/02_function/](https://github.com/datafuselabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/tests/sqllogictests/suites/query/02_function).
+The logic tests for functions are located in [tests/logictest/suites/base/02_function/](https://github.com/databendlabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/tests/sqllogictests/suites/query/02_function).

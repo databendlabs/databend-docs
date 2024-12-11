@@ -12,7 +12,7 @@ description: 如何备份和恢复 Meta 服务集群数据
 
 ### 从正在运行的 databend-meta 导出
 
-类似于从数据目录导出，但使用服务端点参数 `--grpc-api-address <ip:port>` 代替 `--raft-dir`，其中 `<ip:port>` 是 [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 中的 `grpc_api_address`，例如：
+类似于从数据目录导出，但使用服务端点参数 `--grpc-api-address <ip:port>` 代替 `--raft-dir`，其中 `<ip:port>` 是 [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 中的 `grpc_api_address`，例如：
 
 ```shell
 databend-metactl export --grpc-api-address "127.0.0.1:9191" --db <output_fn>

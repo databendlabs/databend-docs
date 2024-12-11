@@ -6,7 +6,7 @@ Converts natural language instructions into SQL queries with the latest model `t
 
 Databend offers an efficient solution for constructing SQL queries by incorporating OLAP and AI. Through this function, instructions written in a natural language can be converted into SQL query statements that align with the table schema. For example, the function can be provided with a sentence like "Get all items that cost 10 dollars or less" as an input and generate the corresponding SQL query `SELECT * FROM items WHERE price <= 10` as output.
 
-The main code implementation can be found [here](https://github.com/datafuselabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/query/service/src/table_functions/openai/ai_to_sql.rs).
+The main code implementation can be found [here](https://github.com/databendlabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/query/service/src/table_functions/openai/ai_to_sql.rs).
 
 :::note
 The SQL query statements generated adhere to the PostgreSQL standards, so they might require manual revisions to align with the syntax of Databend.

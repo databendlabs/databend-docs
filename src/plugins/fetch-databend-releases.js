@@ -13,26 +13,26 @@ const MAC_ARM = "Mac Apple Chip (ARM, 64-bit)";
 const WINDOWS_X86 = "Windows (x86, 64-bit)";
 const REPO_DATABEND = "https://repo.databend.com";
 const GITHUB_DOWNLOAD =
-  "https://github.com/datafuselabs/databend/releases/download";
-const GITHUB_REPO = "https://api.github.com/repos/datafuselabs/databend";
+  "https://github.com/databendlabs/databend/releases/download";
+const GITHUB_REPO = "https://api.github.com/repos/databendlabs/databend";
 const DATABEND_RELEASES = "https://repo.databend.com/databend/releases.json";
 const DATABEND_DOWNLOAD = "https://repo.databend.com/databend";
 const BENDSQL_RELEASES = "https://repo.databend.com/bendsql/releases.json";
 const DATABEND_LATEST_RELEASE =
-  "https://api.github.com/repos/datafuselabs/databend/releases/latest";
+  "https://api.github.com/repos/databendlabs/databend/releases/latest";
 
 const IGNORE_TEXT =
   /<!-- Release notes generated using configuration in .github\/release.yml at [\w.-]+ -->/;
-const REG = /https:\/\/github\.com\/datafuselabs\/databend\/pull\/(\d+)/g;
+const REG = /https:\/\/github\.com\/databendlabs\/databend\/pull\/(\d+)/g;
 const REG_BENDSQL =
-  /https:\/\/github\.com\/datafuselabs\/bendsql\/pull\/(\d+)/g;
-const REPLACE_TEXT = "[#$1](https://github.com/datafuselabs/databend/pull/$1)";
+  /https:\/\/github\.com\/databendlabs\/bendsql\/pull\/(\d+)/g;
+const REPLACE_TEXT = "[#$1](https://github.com/databendlabs/databend/pull/$1)";
 const REPLACE_TEXT_BENS_SQL =
-  "[#$1](https://github.com/datafuselabs/bendsql/pull/$1)";
+  "[#$1](https://github.com/databendlabs/bendsql/pull/$1)";
 const PARTTERN =
-  /https:\/\/github\.com\/datafuselabs\/databend\/compare\/.*(\n|$)/;
+  /https:\/\/github\.com\/databendlabs\/databend\/compare\/.*(\n|$)/;
 const PARTTERN_BENDSQL =
-  /https:\/\/github\.com\/datafuselabs\/bendsql\/compare\/.*(\n|$)/;
+  /https:\/\/github\.com\/databendlabs\/bendsql\/compare\/.*(\n|$)/;
 
 module.exports = function fetchDatabendReleasesPlugin() {
   return {
@@ -119,7 +119,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
                 browser_download_url: downloadUrl,
               };
             });
-          const tagURL = `https://github.com/datafuselabs/databend/releases/tag/${release?.tag_name}`;
+          const tagURL = `https://github.com/databendlabs/databend/releases/tag/${release?.tag_name}`;
           return {
             ...release,
             tag_name: release?.tag_name,
@@ -185,7 +185,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
                   decimalPlaces: 1,
                 }),
                 browser_download_url: asset?.browser_download_url
-                  ?.replace("https://github.com/datafuselabs", REPO_DATABEND)
+                  ?.replace("https://github.com/databendlabs", REPO_DATABEND)
                   ?.replace("/releases/download", ""),
               };
             })
@@ -200,7 +200,7 @@ module.exports = function fetchDatabendReleasesPlugin() {
               (systemLinux, systemMac) =>
                 systemMac.isApple - systemLinux.isApple
             );
-          const tagURL = `https://github.com/datafuselabs/bendsql/releases/tag/${bendsqlRecource?.name}`;
+          const tagURL = `https://github.com/databendlabs/bendsql/releases/tag/${bendsqlRecource?.name}`;
           return {
             ...bendsqlRecource,
             filterBody: bendsqlRecource.body

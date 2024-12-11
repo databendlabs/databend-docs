@@ -1,8 +1,7 @@
 ---
 title: Building Databend
 sidebar_label: Building Databend
-description:
-  Getting and building Databend from Source
+description: Getting and building Databend from Source
 ---
 
 As an open-source platform, Databend provides the flexibility for users to modify, distribute and enhance the software according to their specific needs. Additionally, users have the freedom to build Databend from the source code, allowing them to fully understand how the software works and potentially contribute to its development.
@@ -28,7 +27,7 @@ Follow the steps below to build Databend:
 1. Download the source code.
 
 ```shell
-git clone https://github.com/datafuselabs/databend.git
+git clone https://github.com/databendlabs/databend.git
 ```
 
 2. Install dependencies and compile the source code.
@@ -41,12 +40,13 @@ export PATH=$PATH:~/.cargo/bin
 
 3. Build Databend.
 
-  - To build Databend with debug information for debugging purposes, run `make build`. The resulting files will be located in the "target/debug/" directory.
+- To build Databend with debug information for debugging purposes, run `make build`. The resulting files will be located in the "target/debug/" directory.
 
 ```shell
 make build
 ```
-  - To build Databend for production, optimized for your local CPU, run `make build-release`. The resulting files will be located in the "target/release/" directory.
+
+- To build Databend for production, optimized for your local CPU, run `make build-release`. The resulting files will be located in the "target/release/" directory.
 
 ```shell
 make build-release
@@ -61,6 +61,7 @@ nohup target/debug/databend-meta --single --log-level=ERROR &
 # 2. Start databend-query and connect it to databend-meta:
 nohup target/debug/databend-query -c scripts/ci/deploy/config/databend-query-node-1.toml &
 ```
+
 :::tip
 To stop databend-meta and databend-query, run the following commands:
 
@@ -68,28 +69,31 @@ To stop databend-meta and databend-query, run the following commands:
 killall -9 databend-meta
 killall -9 databend-query
 ```
+
 :::
 
 ## Common Errors
 
 1. Building in osx:
-  - better to use official clang instead of apple clang:
-    ```bash
-    brew install llvm
-    ```
-    And set compiler environment, for example:
 
-    ```bash
-    export CMAKE_CC_COMPILER=/opt/homebrew/opt/llvm/bin/clang
-    export CMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++
-    ```
+- better to use official clang instead of apple clang:
 
-  - use custom jemalloc env configuration:
-    ```bash
-    export JEMALLOC_SYS_WITH_LG_PAGE=14
-    export JEMALLOC_SYS_WITH_MALLOC_CONF="oversize_threshold:0,dirty_decay_ms:5000,muzzy_decay_ms:5000"
-    ```
+  ```bash
+  brew install llvm
+  ```
 
+  And set compiler environment, for example:
+
+  ```bash
+  export CMAKE_CC_COMPILER=/opt/homebrew/opt/llvm/bin/clang
+  export CMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++
+  ```
+
+- use custom jemalloc env configuration:
+  ```bash
+  export JEMALLOC_SYS_WITH_LG_PAGE=14
+  export JEMALLOC_SYS_WITH_MALLOC_CONF="oversize_threshold:0,dirty_decay_ms:5000,muzzy_decay_ms:5000"
+  ```
 
 2. protoc failed: Unknown flag: --experimental_allow_proto3_optional\n
 
@@ -121,4 +125,4 @@ libprotoc 3.15.6
 
 This issue is likely caused by a version check implemented in Databend-meta that is not being met by the forked project.
 
-One possible solution is to fetch the latest tags from the official Databend repository using the command `git fetch https://github.com/datafuselabs/databend.git --tags`. This should ensure that the project is using the latest version of Databend-meta and will pass the version check.
+One possible solution is to fetch the latest tags from the official Databend repository using the command `git fetch https://github.com/databendlabs/databend.git --tags`. This should ensure that the project is using the latest version of Databend-meta and will pass the version check.

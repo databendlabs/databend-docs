@@ -2,8 +2,8 @@
 title: Query Result Cache
 ---
 
-- RFC PR: [datafuselabs/databend#10014](https://github.com/datafuselabs/databend/pull/10014)
-- Tracking Issue: [datafuselabs/databend#10011](https://github.com/datafuselabs/databend/issues/10011)
+- RFC PR: [datafuselabs/databend#10014](https://github.com/databendlabs/databend/pull/10014)
+- Tracking Issue: [datafuselabs/databend#10011](https://github.com/databendlabs/databend/issues/10011)
 
 ## Summary
 
@@ -114,7 +114,7 @@ impl Interpreter for SelectInterpreterV2 {
 
 The process of `TransformWriteResultCache` is like:
 
-1. If upstream is finished, use `cache_writer` to generate  and write the result to a cache file. Go to 6.
+1. If upstream is finished, use `cache_writer` to generate and write the result to a cache file. Go to 6.
 2. Read a `DataBlock` from the input port.
 3. If `cache_writer` is full (reach `query_result_cache_max_bytes`), goto 5 (do not write to cache).
 4. Push the `DataBlock` into `cache_writer`.

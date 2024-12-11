@@ -6,7 +6,7 @@ Databend includes a password policy to strengthen system security and make user 
 
 ## How Password Policy Works
 
-In Databend, SQL users don't initially have a predefined password policy. This implies that there are no specific rules to follow when setting or changing a password for a user until a password policy is assigned to them. To assign a password policy, you can either create a new user with a password policy using the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command or link an existing user to a password policy using the [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) command. Please note that, the password policy does not apply to admin users configured through the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
+In Databend, SQL users don't initially have a predefined password policy. This implies that there are no specific rules to follow when setting or changing a password for a user until a password policy is assigned to them. To assign a password policy, you can either create a new user with a password policy using the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command or link an existing user to a password policy using the [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) command. Please note that, the password policy does not apply to admin users configured through the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
 When you set or change the password for a user with a password policy, Databend conducts thorough checks to ensure the chosen password follows the rules defined by the password policy. The following aspects are verified:
 
@@ -15,22 +15,24 @@ Generally, users cannot change their own passwords unless they are assigned the 
 :::
 
 - **Complexity Requirements**:
-    - **Minimum and Maximum Length**: Validates password length within defined boundaries.
-    - **Uppercase, Lowercase, Numeric, and Special Characters**: Confirms adherence to specific character type requirements.
+
+  - **Minimum and Maximum Length**: Validates password length within defined boundaries.
+  - **Uppercase, Lowercase, Numeric, and Special Characters**: Confirms adherence to specific character type requirements.
 
 - **Additional Checks during Password Change**:
-    - **Minimum Age Requirement**: Ensures passwords are not changed too frequently.
-    - **History Check**: Verifies that new passwords do not replicate recent ones.
+  - **Minimum Age Requirement**: Ensures passwords are not changed too frequently.
+  - **History Check**: Verifies that new passwords do not replicate recent ones.
 
 When a user attempts to log in with a password policy in place, Databend performs essential checks to enhance security and regulate user access. The following verifications take place:
 
 - **Consecutive Incorrect Password Attempts**:
-    - Ensures limits on consecutive incorrect password attempts are not exceeded.
-    - Exceeding limits results in a temporary lock on user login.
+
+  - Ensures limits on consecutive incorrect password attempts are not exceeded.
+  - Exceeding limits results in a temporary lock on user login.
 
 - **Maximum Age Requirement**:
-    - Checks if the maximum password change interval has been exceeded.
-    - If the interval is exceeded, the user can change the password after login, and cannot perform any other operations before the password is changed.
+  - Checks if the maximum password change interval has been exceeded.
+  - If the interval is exceeded, the user can change the password after login, and cannot perform any other operations before the password is changed.
 
 ## Managing Password Policies
 

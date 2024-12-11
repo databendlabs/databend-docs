@@ -1,11 +1,11 @@
 ---
-title: 'AI_EMBEDDING_VECTOR'
-description: '使用 Databend 中的 ai_embedding_vector 函数创建嵌入向量'
+title: "AI_EMBEDDING_VECTOR"
+description: "使用 Databend 中的 ai_embedding_vector 函数创建嵌入向量"
 ---
 
 本文档概述了 Databend 中的 ai_embedding_vector 函数，并演示了如何使用此函数创建文档嵌入向量。
 
-主要代码实现可以在[这里](https://github.com/datafuselabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/common/openai/src/embedding.rs)找到。
+主要代码实现可以在[这里](https://github.com/databendlabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/common/openai/src/embedding.rs)找到。
 
 默认情况下，Databend 使用 [text-embedding-ada](https://platform.openai.com/docs/models/embeddings) 模型来生成嵌入向量。
 
@@ -15,12 +15,14 @@ description: '使用 Databend 中的 ai_embedding_vector 函数创建嵌入向�
 这一集成提供了更好的数据隐私保护。
 
 要使用 Azure OpenAI，请在 `[query]` 部分添加以下配置：
+
 ```sql
 # Azure OpenAI
 openai_api_chat_base_url = "https://<name>.openai.azure.com/openai/deployments/<name>/"
 openai_api_embedding_base_url = "https://<name>.openai.azure.com/openai/deployments/<name>/"
 openai_api_version = "2023-03-15-preview"
 ```
+
 :::
 
 :::caution
@@ -31,7 +33,6 @@ Databend 依赖 (Azure) OpenAI 进行 `AI_EMBEDDING_VECTOR` 处理，并将嵌�
 此功能默认在 [Databend Cloud](https://databend.com) 上使用我们的 Azure OpenAI 密钥提供。如果您使用它们，即表示您确认您的数据将由我们发送至 Azure OpenAI。
 :::
 
-
 ## ai_embedding_vector 概述
 
 Databend 中的 `ai_embedding_vector` 函数是一个内置函数，用于生成文本数据的向量嵌入。它在自然语言处理任务中非常有用，例如文档相似性、聚类和推荐系统。
@@ -41,7 +42,9 @@ Databend 中的 `ai_embedding_vector` 函数是一个内置函数，用于生成
 ## 使用 ai_embedding_vector 创建嵌入向量
 
 要使用 `ai_embedding_vector` 函数为文本文档创建嵌入向量，请按照以下示例操作。
+
 1. 创建一个表来存储文档：
+
 ```sql
 CREATE TABLE documents (
                            id INT,
@@ -52,6 +55,7 @@ CREATE TABLE documents (
 ```
 
 2. 向表中插入示例文档：
+
 ```sql
 INSERT INTO documents(id, title, content)
 VALUES
@@ -61,9 +65,11 @@ VALUES
 ```
 
 3. 生成嵌入向量：
+
 ```sql
 UPDATE documents SET embedding = ai_embedding_vector(content) WHERE embedding IS NULL;
 ```
+
 运行查询后，表中的 embedding 列将包含生成的嵌入向量。
 
 嵌入向量以 `FLOAT32` 值的数组形式存储在 embedding 列中，该列具有 `ARRAY(FLOAT32 NOT NULL)` 列类型。
@@ -82,4 +88,5 @@ SELECT length(embedding) FROM documents;
 |              1536 |
 +-------------------+
 ```
+
 上述查询显示，每个文档生成的嵌入向量长度为 1536（维度）。

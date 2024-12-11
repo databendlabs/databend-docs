@@ -96,12 +96,12 @@ pub struct FunctionRegistry {
 此外，根据函数的需求，有不同级别的注册 API。
 
 |                                     | 自动向量化 | 访问输出列构建器 | 自动空值传递 | 自动组合空值 | 自动向下转换 | 抛出运行时错误 | 可变参数 | 元组 |
-| ----------------------------------- | -- | -- | -- | -- | -- | -- | -- | -- |
-| register_n_arg                      | ✔️ | ❌ | ✔️ | ❌ | ✔️ | ✔️ | ❌ | ❌ |
-| register_passthrough_nullable_n_arg | ❌ | ✔️ | ✔️ | ❌ | ✔️ | ✔️ | ❌ | ❌ |
-| register_combine_nullable_n_arg     | ❌ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
-| register_n_arg_core                 | ❌ | ✔️ | ❌ | ❌ | ✔️ | ✔️ | ❌ | ❌ |
-| register_function_factory           | ❌ | ✔️ | ❌ | ❌ | ❌ | ✔️ | ✔️ | ✔️ |
+| ----------------------------------- | ---------- | ---------------- | ------------ | ------------ | ------------ | -------------- | -------- | ---- |
+| register_n_arg                      | ✔️         | ❌               | ✔️           | ❌           | ✔️           | ✔️             | ❌       | ❌   |
+| register_passthrough_nullable_n_arg | ❌         | ✔️               | ✔️           | ❌           | ✔️           | ✔️             | ❌       | ❌   |
+| register_combine_nullable_n_arg     | ❌         | ✔️               | ✔️           | ✔️           | ✔️           | ✔️             | ❌       | ❌   |
+| register_n_arg_core                 | ❌         | ✔️               | ❌           | ❌           | ✔️           | ✔️             | ❌       | ❌   |
+| register_function_factory           | ❌         | ✔️               | ❌           | ❌           | ❌           | ✔️             | ✔️       | ✔️   |
 
 ## 函数组成
 
@@ -139,7 +139,7 @@ with_number_mapped_type!(|NUM_TYPE| match left {
     NumberDataType::NUM_TYPE => {
         registry.register_1_arg::<NumberType<NUM_TYPE>, NumberType<NUM_TYPE>, _, _>(
             "plus",
-            
+
             |lhs| Some(lhs.clone()),
             |a, _| a,
         );
@@ -162,7 +162,7 @@ length 函数接受一个 `String` 参数并返回一个 `Number`。它被命名
 ```rust
 registry.register_1_arg::<StringType, NumberType<u64>, _, _>(
     "length",
-    
+
     |_| None,
     |val, _| val.len() as u64,
 );
@@ -170,7 +170,7 @@ registry.register_1_arg::<StringType, NumberType<u64>, _, _>(
 
 在 `register_1_arg` 的实现中，我们看到调用的函数是 `register_passthrough_nullable_1_arg`，其名称包含 **nullable**。`eval` 由 `vectorize_1_arg` 调用。
 
-> 值得注意的是，[src/query/expression/src 中的 register.rs](https://github.com/datafuselabs/databend/blob/2aec38605eebb7f0e1717f7f54ec52ae0f2e530b/src/query/codegen/src/writes/register.rs) 不应手动修改，因为它是由 [src/query/codegen/src/writes/register.rs](https://github.com/datafuselabs/databend/blob/2aec38605eebb7f0e1717f7f54ec52ae0f2e530b/src/query/codegen/src/writes/register.rs) 生成的。
+> 值得注意的是，[src/query/expression/src 中的 register.rs](https://github.com/databendlabs/databend/blob/2aec38605eebb7f0e1717f7f54ec52ae0f2e530b/src/query/codegen/src/writes/register.rs) 不应手动修改，因为它是由 [src/query/codegen/src/writes/register.rs](https://github.com/databendlabs/databend/blob/2aec38605eebb7f0e1717f7f54ec52ae0f2e530b/src/query/codegen/src/writes/register.rs) 生成的。
 
 ```rust
 pub fn register_1_arg<I1: ArgType, O: ArgType, F, G>(
@@ -210,7 +210,7 @@ select length(id) from t;
 +------------+
 ```
 
-因此，如果我们不需要在函数中处理 `null` 值，我们可以简单地使用 `register_x_arg`。否则，我们可以参考 [try_to_timestamp](https://github.com/datafuselabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/scalars/datetime.rs) 的实现。
+因此，如果我们不需要在函数中处理 `null` 值，我们可以简单地使用 `register_x_arg`。否则，我们可以参考 [try_to_timestamp](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/scalars/datetime.rs) 的实现。
 
 对于需要在向量化中进行专门化的函数，应使用 `register_passthrough_nullable_x_arg` 进行特定的向量化优化。
 
@@ -219,7 +219,7 @@ select length(id) from t;
 ```rust
 registry.register_passthrough_nullable_2_arg::<StringType, StringType, BooleanType, _, _>(
     "regexp",
-    
+
     |_, _| None,
     vectorize_regexp(|str, pat, map, _| {
         let pattern = if let Some(pattern) = map.get(pat) {
@@ -240,8 +240,8 @@ registry.register_passthrough_nullable_2_arg::<StringType, StringType, BooleanTy
 
 ### 单元测试
 
-标量函数的单元测试位于 [scalars](https://github.com/datafuselabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/tests/it/scalars)。
+标量函数的单元测试位于 [scalars](https://github.com/databendlabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/tests/it/scalars)。
 
 ### 逻辑测试
 
-函数的逻辑测试位于 [02_function](https://github.com/datafuselabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/tests/sqllogictests/suites/query/02_function)。
+函数的逻辑测试位于 [02_function](https://github.com/databendlabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/tests/sqllogictests/suites/query/02_function)。

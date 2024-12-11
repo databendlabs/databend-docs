@@ -51,7 +51,7 @@ export CLASSPATH=$(find $HADOOP_HOME -iname "*.jar" | xargs echo | tr ' ' ':')
 
 a. Create a folder named `databend` in the directory `/usr/local`.
 
-b. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
+b. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/databendlabs/databend/releases):
 
 :::note
 To use HDFS as the storage backend, download a release with a file name formatted as `databend-hdfs-${version}-${target-platform}.tar.gz`.
@@ -95,7 +95,7 @@ For information about how to enable and manage WebHDFS on Apache Hadoop, please 
 
 a. Create a folder named `databend` in the directory `/usr/local`.
 
-b. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
+b. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/databendlabs/databend/releases):
 
 <Tabs>
 <TabItem value="linux-x86_64" label="Linux(x86)">
@@ -217,7 +217,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### Verifying Deployment
 
-In this section, we will run a simple query against Databend using [BendSQL](https://github.com/datafuselabs/BendSQL) to verify the deployment.
+In this section, we will run a simple query against Databend using [BendSQL](https://github.com/databendlabs/BendSQL) to verify the deployment.
 
 a. Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
 

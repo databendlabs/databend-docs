@@ -28,17 +28,20 @@ In Databend Map, a bloom filter index is created for the value with certain data
 
 This makes it easier and faster to search for values in the MAP data structure.
 
-The implementation of the bloom filter index in Databend Map is in [PR#10457](https://github.com/datafuselabs/databend/pull/10457).
+The implementation of the bloom filter index in Databend Map is in [PR#10457](https://github.com/databendlabs/databend/pull/10457).
 
-The bloom filter is particularly effective in reducing query time when the queried value does not exist. 
+The bloom filter is particularly effective in reducing query time when the queried value does not exist.
 
 For example:
+
 ```sql
 SELECT *
 FROM nginx_log
 WHERE log['ip'] = '205.91.162.148';
 ```
+
 Result:
+
 ```
 ┌────┬─────────────────────────────────────────┐
 │ id │ log                                     │
@@ -52,7 +55,9 @@ SELECT *
 FROM nginx_log
 WHERE log['ip'] = '205.91.162.141';
 ```
+
 Result:
+
 ```
 ┌────┬─────┐
 │ id │ log │
@@ -66,7 +71,7 @@ Result:
 
 ```sql
 CREATE TABLE web_traffic_data(
-    id INT64, 
+    id INT64,
     traffic_info MAP(STRING, STRING)
 );
 ```
@@ -76,6 +81,7 @@ DESC web_traffic_data;
 ```
 
 Result:
+
 ```
 ┌─────────────┬─────────────────────┬──────┬─────────┬───────┐
 │ Field       │ Type                │ Null │ Default │ Extra │
@@ -88,7 +94,7 @@ Result:
 **Insert Map data containing IP addresses and URLs visited**
 
 ```sql
-INSERT INTO web_traffic_data 
+INSERT INTO web_traffic_data
 VALUES
     (1, {'ip': '192.168.1.1', 'url': 'example.com/home'}),
     (2, {'ip': '192.168.1.2', 'url': 'example.com/about'}),
@@ -100,7 +106,9 @@ VALUES
 ```sql
 SELECT * FROM web_traffic_data;
 ```
+
 Result:
+
 ```
 ┌────┬─────────────────────────────────────────────────┐
 │ id │ traffic_info                                    │
@@ -120,6 +128,7 @@ GROUP BY traffic_info['ip'];
 ```
 
 Result:
+
 ```
 ┌─────────────┬────────┐
 │ ip_address  │ visits │
@@ -130,6 +139,7 @@ Result:
 ```
 
 **Query the most visited URLs**
+
 ```sql
 SELECT traffic_info['url'] AS url, COUNT(*) AS visits
 FROM web_traffic_data
@@ -139,6 +149,7 @@ LIMIT 3;
 ```
 
 Result:
+
 ```
 ┌─────────────────────┬────────┐
 │ url                 │ visits │

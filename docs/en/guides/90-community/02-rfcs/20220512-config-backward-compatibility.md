@@ -3,8 +3,8 @@ title: Config Backward Compatibility
 description: RFC for backward config compatibility
 ---
 
-- RFC PR: [datafuselabs/databend#5324](https://github.com/datafuselabs/databend/pull/5324)
-- Tracking Issue: [datafuselabs/databend#5297](https://github.com/datafuselabs/databend/issues/5297)
+- RFC PR: [datafuselabs/databend#5324](https://github.com/databendlabs/databend/pull/5324)
+- Tracking Issue: [datafuselabs/databend#5297](https://github.com/databendlabs/databend/issues/5297)
 
 # Summary
 
@@ -86,7 +86,7 @@ pub struct ConfigV0 {
 
     #[clap(flatten)]
     pub storage: StorageConfigV0,
-    
+
     #[clap(flatten)]
     pub catalog: HiveCatalogConfigV0,
 }

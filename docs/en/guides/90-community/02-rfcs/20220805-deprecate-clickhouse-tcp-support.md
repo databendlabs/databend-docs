@@ -1,7 +1,6 @@
 ---
 title: Deprecate ClickHouse's tcp support
-description: 
-  RFC for deprecate ClickHouse's tcp support
+description: RFC for deprecate ClickHouse's tcp support
 ---
 
 ## Summary
@@ -16,10 +15,8 @@ Databend now supports ClickHouse's tcp protocol but it's limited implementation.
 
 3. `clickhouse-client` will do SQL parsing, syntax/functions validations, data deserialization and serialization on the client side. But there are many differences between databend and ClickHouse. It's really hard for us to make them full compatible.
 
-4. The ClickHouse's tcp protocol will continue to be upgraded in the future. We do not have the energy to be compatible with the new version. For example, in https://github.com/datafuselabs/databend/issues/6951 the old version can work, but the new version has some compatibility issues that are more difficult to check.
+4. The ClickHouse's tcp protocol will continue to be upgraded in the future. We do not have the energy to be compatible with the new version. For example, in https://github.com/databendlabs/databend/issues/6951 the old version can work, but the new version has some compatibility issues that are more difficult to check.
 
 5. We already supported ClickHouse http protocol, MySQL protocol and databend's own HTTP handler. It's time to shrink the meaningless endpoints to make the other useful endpoints better.
 
-
 So we plan to deprecate ClickHouse's tcp support and focus on compatibility with ClickHouse http protocol.
-

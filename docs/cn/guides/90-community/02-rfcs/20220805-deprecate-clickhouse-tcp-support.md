@@ -1,7 +1,6 @@
 ---
 title: 弃用 ClickHouse 的 TCP 支持
-description: 
-  RFC 弃用 ClickHouse 的 TCP 支持
+description: RFC 弃用 ClickHouse 的 TCP 支持
 ---
 
 ## 概述
@@ -16,7 +15,7 @@ Databend 目前支持 ClickHouse 的 TCP 协议，但这是一个有限的实现
 
 3. `clickhouse-client` 会在客户端进行 SQL 解析、语法/函数验证、数据反序列化和序列化。但 databend 与 ClickHouse 之间存在许多差异，我们很难使它们完全兼容。
 
-4. ClickHouse 的 TCP 协议未来将继续升级。我们没有精力去兼容新版本。例如，在 https://github.com/datafuselabs/databend/issues/6951 中，旧版本可以工作，但新版本存在一些更难检查的兼容性问题。
+4. ClickHouse 的 TCP 协议未来将继续升级。我们没有精力去兼容新版本。例如，在 https://github.com/databendlabs/databend/issues/6951 中，旧版本可以工作，但新版本存在一些更难检查的兼容性问题。
 
 5. 我们已经支持了 ClickHouse 的 HTTP 协议、MySQL 协议和 databend 自己的 HTTP 处理程序。现在是时候缩减那些无意义的端点，以便让其他有用的端点更好。
 

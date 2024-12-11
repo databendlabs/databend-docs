@@ -3,8 +3,8 @@ title: The New Logging
 description: Make Databend Logging Great Again!
 ---
 
-- RFC PR: [datafuselabs/databend#6729](https://github.com/datafuselabs/databend/pull/6729)
-- Tracking Issue: [datafuselabs/databend#0000](https://github.com/datafuselabs/databend/issues/0000)
+- RFC PR: [datafuselabs/databend#6729](https://github.com/databendlabs/databend/pull/6729)
+- Tracking Issue: [datafuselabs/databend#0000](https://github.com/databendlabs/databend/issues/0000)
 
 # Summary
 
@@ -66,7 +66,7 @@ clickhouse (HTTP): http://root:@localhost:9001
 Useful Links
 
 Documentation:    https://docs.databend.com
-Looking for help: https://github.com/datafuselabs/databend/discussions
+Looking for help: https://github.com/databendlabs/databend/discussions
 ```
 
 To enable `stderr` logs, we can set `LOG_STDERR_ON=true` or `RUST_LOG=info`.

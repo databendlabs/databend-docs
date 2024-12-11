@@ -67,9 +67,9 @@ pub struct AggregateFunctionDescription {
 
 **以 avg 为例**
 
-实现细节可以在 [aggregate_avg.rs](https://github.com/datafuselabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_avg.rs) 中找到。
+实现细节可以在 [aggregate_avg.rs](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_avg.rs) 中找到。
 
-因为我们需要累积每个值并将其除以非空行的总数，所以 `avg` 函数被定义为一个结构体 `AggregateAvgFunction<T, SumT>`，其中 `T` 和 `SumT` 是实现 [Number](https://github.com/datafuselabs/databend/blob/2aec38605eebb7f0e1717f7f54ec52ae0f2e530b/src/query/expression/src/types/number.rs) 的逻辑类型。
+因为我们需要累积每个值并将其除以非空行的总数，所以 `avg` 函数被定义为一个结构体 `AggregateAvgFunction<T, SumT>`，其中 `T` 和 `SumT` 是实现 [Number](https://github.com/databendlabs/databend/blob/2aec38605eebb7f0e1717f7f54ec52ae0f2e530b/src/query/expression/src/types/number.rs) 的逻辑类型。
 
 在聚合过程中，avg 函数将获取累积值的总和以及已扫描的非空行数。因此，`AggregateAvgState` 可以定义为以下结构：
 
@@ -109,8 +109,8 @@ fn accumulate_keys(
 
 如你所见，在 Databend 中添加一个新的聚合函数并不像你想象的那么难。在你开始添加一个新函数之前，请参考其他聚合函数的示例，例如 `sum`、`count`。
 
-- [sum](https://github.com/datafuselabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_sum.rs)
-- [count](https://github.com/datafuselabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_count.rs)
+- [sum](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_sum.rs)
+- [count](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/aggregates/aggregate_count.rs)
 
 ## 测试
 
@@ -118,8 +118,8 @@ fn accumulate_keys(
 
 ### 单元测试
 
-聚合函数的单元测试位于 [agg.rs](https://github.com/datafuselabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/tests/it/aggregates/agg.rs)。
+聚合函数的单元测试位于 [agg.rs](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/tests/it/aggregates/agg.rs)。
 
 ### 逻辑测试
 
-函数的逻辑测试位于 [tests/logictest/suites/base/02_function/](https://github.com/datafuselabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/tests/sqllogictests/suites/query/02_function)。
+函数的逻辑测试位于 [tests/logictest/suites/base/02_function/](https://github.com/databendlabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/tests/sqllogictests/suites/query/02_function)。

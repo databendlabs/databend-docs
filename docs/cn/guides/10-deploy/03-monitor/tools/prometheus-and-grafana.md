@@ -13,7 +13,7 @@ title: Prometheus & Grafana
 按照 [部署指南](/guides/deploy) 部署一个本地的 Databend。
 
 :::tip
-本教程使用安装包 `configs` 文件夹中的 [默认配置文件](https://github.com/datafuselabs/databend/tree/main/scripts/distribution/configs)。databend-meta 的指标 API 为 `0.0.0.0:28101/v1/metrics`，databend-query 的指标 API 为 `0.0.0.0:7070/metrics`。
+本教程使用安装包 `configs` 文件夹中的 [默认配置文件](https://github.com/databendlabs/databend/tree/main/scripts/distribution/configs)。databend-meta 的指标 API 为 `0.0.0.0:28101/v1/metrics`，databend-query 的指标 API 为 `0.0.0.0:7070/metrics`。
 :::
 
 ### 步骤 2. 部署 Prometheus
@@ -99,7 +99,7 @@ title: Prometheus & Grafana
 
 4. 创建仪表盘。
 
-   Databend 建议导入 [datafuselabs/helm-charts - dashboards](https://github.com/datafuselabs/helm-charts/tree/main/dashboards) 中的文件来创建您的仪表盘。为此，首先下载文件，然后转到 `http://0.0.0.0:3000/dashboard/import` 逐个导入下载的文件，并为每个仪表盘选择 `Prometheus` 数据源。
+   Databend 建议导入 [datafuselabs/helm-charts - dashboards](https://github.com/databendlabs/helm-charts/tree/main/dashboards) 中的文件来创建您的仪表盘。为此，首先下载文件，然后转到 `http://0.0.0.0:3000/dashboard/import` 逐个导入下载的文件，并为每个仪表盘选择 `Prometheus` 数据源。
 
    ![Grafana import query json](/img/tracing/grafana-query-json.png)
 

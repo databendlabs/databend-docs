@@ -74,7 +74,7 @@ sudo systemctl start databend-query
 Databend 在 Docker Hub 上提供了以下类型的安装镜像：
 
 - [Databend All-in-One Docker 镜像](https://hub.docker.com/r/datafuselabs/databend)：适用于本地测试、CI 等。
-- 分离镜像：适用于生产环境、Kubernetes 和 [Helm Charts](https://github.com/datafuselabs/helm-charts)。
+- 分离镜像：适用于生产环境、Kubernetes 和 [Helm Charts](https://github.com/databendlabs/helm-charts)。
   - [databend-meta](https://hub.docker.com/r/datafuselabs/databend-meta)
   - [databend-query](https://hub.docker.com/r/datafuselabs/databend-query)
 

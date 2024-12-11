@@ -3,8 +3,8 @@ title: JSON 优化
 description: Databend 查询的 JSON 优化
 ---
 
-- RFC PR: [datafuselabs/databend#6995](https://github.com/datafuselabs/databend/pull/6995)
-- 跟踪问题: [datafuselabs/databend#6994](https://github.com/datafuselabs/databend/issues/6994)
+- RFC PR: [datafuselabs/databend#6995](https://github.com/databendlabs/databend/pull/6995)
+- 跟踪问题: [datafuselabs/databend#6994](https://github.com/databendlabs/databend/issues/6994)
 
 ## 概述
 
@@ -113,7 +113,7 @@ JSONB 是一种树结构。每个节点由三部分组成，一个 32 位头，�
 以这个 JSON 为例，我们可以看到 JSONB 的编码格式如下。
 
 ```json
-{"a":1,"b":[true,2,"v"]}
+{ "a": 1, "b": [true, 2, "v"] }
 ```
 
 ```

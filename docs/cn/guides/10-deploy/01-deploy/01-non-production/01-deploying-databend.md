@@ -172,7 +172,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 ### 下载 Databend
 
 1. 在目录 `/usr/local` 中创建一个名为 `databend` 的文件夹。
-2. 从 [GitHub Release](https://github.com/datafuselabs/databend/releases) 下载并提取适用于您平台的最新 Databend 版本：
+2. 从 [GitHub Release](https://github.com/databendlabs/databend/releases) 下载并提取适用于您平台的最新 Databend 版本：
 
 <Tabs>
 <TabItem value="linux-x86_64" label="Linux(x86)">
@@ -251,7 +251,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 ### 配置 Query 节点
 
 1. 在文件夹 `/usr/local/databend/configs` 中找到文件 `databend-query.toml`。
-2. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type*，并配置连接到您的对象存储的访问凭证和端点 URL。
+2. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 _type_，并配置连接到您的对象存储的访问凭证和端点 URL。
 
 要配置您的存储设置，请通过在每行开头添加 `#` 来注释掉 [storage.fs] 部分。然后，通过删除 `#` 符号并填写您的值来取消注释适用于您的对象存储提供商的相关部分。
 
@@ -381,10 +381,10 @@ Databend 企业版支持 OSS 中的服务器端加密。此功能使您能够通
 
 要在 Databend 中启用服务器端加密，请将以下参数添加到 [storage.oss] 部分：
 
-| 参数                          | 描述                                                                                                                                                                              | 可用值                                        |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| server_side_encryption        | 指定 OSS 数据的服务器端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
-| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务器端加密密钥 ID。它仅在使用 KMS 加密模式时适用。      | 字符串，KMS 加密密钥的唯一标识符。 |
+| 参数                          | 描述                                                                                                                                      | 可用值                             |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| server_side_encryption        | 指定 OSS 数据的服务器端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                  |
+| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务器端加密密钥 ID。它仅在使用 KMS 加密模式时适用。                      | 字符串，KMS 加密密钥的唯一标识符。 |
 
 </TabItem>
 
@@ -543,7 +543,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 步骤 3：验证部署
 
-在此步骤中，您将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行一个简单的查询，以验证部署。
+在此步骤中，您将使用 [BendSQL](https://github.com/databendlabs/BendSQL) 对 Databend 运行一个简单的查询，以验证部署。
 
 <StepsWrap>
 

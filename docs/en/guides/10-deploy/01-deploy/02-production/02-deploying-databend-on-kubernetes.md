@@ -52,7 +52,7 @@ import TabItem from '@theme/TabItem';
 
   - AWS S3 or other S3 compatible storage service
   - Azure Storage Blob
-  - Other storage services supported by [Apache OpenDAL](https://github.com/datafuselabs/opendal#services)
+  - Other storage services supported by [Apache OpenDAL](https://github.com/databendlabs/opendal#services)
 
   :::tip Recommended Storage Settings
   [Preparing Storage](/guides/deploy/deploy/production/preparing-storage) provides detailed instructions on recommended storage settings.
@@ -183,7 +183,7 @@ import TabItem from '@theme/TabItem';
 
 1. Create a values file with persistent and monitoring enabled:
 
-Detailed and default values are available at [documentation](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-meta/values.yaml)
+Detailed and default values are available at [documentation](https://github.com/databendlabs/helm-charts/blob/main/charts/databend-meta/values.yaml)
 
 ```yaml title="values.yaml"
 bootstrap: true
@@ -233,7 +233,7 @@ data-databend-meta-2   Bound    pvc-08bd4ceb-15c2-47f3-a637-c1cc10441874   20Gi 
 
 1. Create a values file with builtin user `databend:databend` and cluster name `example_cluster` with 3 nodes.
 
-Detailed and default values are available at [documentation](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-query/values.yaml)
+Detailed and default values are available at [documentation](https://github.com/databendlabs/helm-charts/blob/main/charts/databend-query/values.yaml)
 
 ```yaml
 replicaCount: 3
@@ -595,7 +595,7 @@ SELECT count(*) FROM t1;
 Note the `serviceMonitor` should be enabled when deploying meta and query cluster.
 :::
 
-- Download the grafana dashboard files from: [datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards).
+- Download the grafana dashboard files from: [datafuselabs/helm-charts](https://github.com/databendlabs/helm-charts/tree/main/dashboards).
 
 - Open grafana web for your cluster.
 

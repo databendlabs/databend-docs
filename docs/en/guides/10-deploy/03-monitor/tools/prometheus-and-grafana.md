@@ -13,7 +13,7 @@ This following tutorial guides you through deploying and integrating Databend, P
 Follow the [Deployment Guide](/guides/deploy) to deploy a local Databend.
 
 :::tip
-This tutorial uses the [default configuration files](https://github.com/datafuselabs/databend/tree/main/scripts/distribution/configs) in the `configs` folder of the install package. The metrics API for databend-meta is `0.0.0.0:28101/v1/metrics`, and the metrics API for databend-query is `0.0.0.0:7070/metrics`.
+This tutorial uses the [default configuration files](https://github.com/databendlabs/databend/tree/main/scripts/distribution/configs) in the `configs` folder of the install package. The metrics API for databend-meta is `0.0.0.0:28101/v1/metrics`, and the metrics API for databend-query is `0.0.0.0:7070/metrics`.
 :::
 
 ### Step 2. Deploy Prometheus
@@ -99,7 +99,7 @@ The steps below describe how to install and deploy Grafana using Docker.
 
 4. Create dashboards.
 
-   Databend recommend import the files in [datafuselabs/helm-charts - dashboards](https://github.com/datafuselabs/helm-charts/tree/main/dashboards) to create your dashboards. To do so, download the files first, then go to `http://0.0.0.0:3000/dashboard/import` to import the downloaded files one by one and select the `Prometheus` data source for each dashboard.
+   Databend recommend import the files in [datafuselabs/helm-charts - dashboards](https://github.com/databendlabs/helm-charts/tree/main/dashboards) to create your dashboards. To do so, download the files first, then go to `http://0.0.0.0:3000/dashboard/import` to import the downloaded files one by one and select the `Prometheus` data source for each dashboard.
 
    ![Grafana import query json](/img/tracing/grafana-query-json.png)
 

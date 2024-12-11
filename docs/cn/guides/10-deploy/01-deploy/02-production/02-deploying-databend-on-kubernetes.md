@@ -52,7 +52,7 @@ import TabItem from '@theme/TabItem';
 
   - AWS S3 或其他兼容 S3 的存储服务
   - Azure Storage Blob
-  - 其他由 [Apache OpenDAL](https://github.com/datafuselabs/opendal#services) 支持的存储服务
+  - 其他由 [Apache OpenDAL](https://github.com/databendlabs/opendal#services) 支持的存储服务
 
   :::tip 推荐的存储设置
   [准备存储](/guides/deploy/deploy/production/preparing-storage) 提供了关于推荐存储设置的详细说明。
@@ -183,7 +183,7 @@ import TabItem from '@theme/TabItem';
 
 1. 创建一个启用了持久化存储和监控的 values 文件：
 
-详细和默认配置请参考[文档](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-meta/values.yaml)。
+详细和默认配置请参考[文档](https://github.com/databendlabs/helm-charts/blob/main/charts/databend-meta/values.yaml)。
 
 ```yaml title="values.yaml"
 bootstrap: true
@@ -231,7 +231,7 @@ data-databend-meta-2   Bound    pvc-08bd4ceb-15c2-47f3-a637-c1cc10441874   20Gi 
 
 1. 创建一个包含内置用户 `databend:databend` 和集群名称 `example_cluster` 的 values 文件，部署 3 个节点。
 
-详细和默认配置请参考[文档](https://github.com/datafuselabs/helm-charts/blob/main/charts/databend-query/values.yaml)。
+详细和默认配置请参考[文档](https://github.com/databendlabs/helm-charts/blob/main/charts/databend-query/values.yaml)。
 
 ```yaml
 replicaCount: 3
@@ -591,7 +591,7 @@ SELECT count(*) FROM t1;
 注意：在部署 Meta 和 Query 集群时需要启用 `serviceMonitor`。
 :::
 
-- 从 [datafuselabs/helm-charts](https://github.com/datafuselabs/helm-charts/tree/main/dashboards) 下载 grafana 仪表板文件。
+- 从 [datafuselabs/helm-charts](https://github.com/databendlabs/helm-charts/tree/main/dashboards) 下载 grafana 仪表板文件。
 
 - 打开集群的 grafana Web 界面。
 

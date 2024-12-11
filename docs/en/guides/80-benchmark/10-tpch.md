@@ -17,8 +17,8 @@ The TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing P
 
 - **[Snowflake](https://www.snowflake.com)**: Snowflake is renowned for its advanced features such as separating storage and compute, scalable computing on demand, data sharing, and cloning capabilities.
 
-- **[Databend Cloud](https://www.databend.com)**: Databend Cloud offers [similar functionalities](https://github.com/datafuselabs/databend/issues/13059) to Snowflake, being a cloud-native data warehouse that also separates storage from computing and provides scalable computing as needed.
-  It is developed from the open-source [Databend project](https://github.com/datafuselabs/databend), positioning itself as a modern, cost-effective alternative to Snowflake, especially for large-scale analytics.
+- **[Databend Cloud](https://www.databend.com)**: Databend Cloud offers [similar functionalities](https://github.com/databendlabs/databend/issues/13059) to Snowflake, being a cloud-native data warehouse that also separates storage from computing and provides scalable computing as needed.
+  It is developed from the open-source [Databend project](https://github.com/databendlabs/databend), positioning itself as a modern, cost-effective alternative to Snowflake, especially for large-scale analytics.
 
 ## Performance and Cost Comparison
 
@@ -146,21 +146,21 @@ We conducted both Cold and Hot runs for query execution:
 1. **Snowflake Data Load**:
 
    - Log into your [Snowflake account](https://app.snowflake.com/).
-   - Create tables corresponding to the TPC-H schema. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L1-L84).
-   - Use the `COPY INTO` command to load the data from AWS S3. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L87-L94).
+   - Create tables corresponding to the TPC-H schema. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L1-L84).
+   - Use the `COPY INTO` command to load the data from AWS S3. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L87-L94).
 
 2. **Databend Cloud Data Load**:
    - Sign in to your [Databend Cloud account](https://app.databend.com).
-   - Create the necessary tables as per the TPC-H schema. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L1-L84).
-   - Utilize a similar method to Snowflake for loading data from AWS S3. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L87-L117).
+   - Create the necessary tables as per the TPC-H schema. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L1-L84).
+   - Utilize a similar method to Snowflake for loading data from AWS S3. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L87-L117).
 
 ### TPC-H Queries
 
 1. **Snowflake Queries**:
 
    - Log into your [Snowflake account](https://app.snowflake.com/).
-   - Run the TPC-H queries. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/queries.sql).
+   - Run the TPC-H queries. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/queries.sql).
 
 2. **Databend Cloud Queries**:
    - Sign in to your [Databend Cloud account](https://app.databend.com).
-   - Run the TPC-H queries. [SQL Script](https://github.com/datafuselabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/queries.sql).
+   - Run the TPC-H queries. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/queries.sql).
