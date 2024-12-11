@@ -91,9 +91,113 @@ aws s3 ls s3://databend-doc/logs/
 If the log file has been successfully synced to S3, you should see output similar to this:
 
 ```bash
-
+2024-12-10 15:22:13          0
+2024-12-10 17:52:42        112 1733871161-7b89e50a-6eb4-4531-8479-dd46981e4674.log.gz
 ```
 
+You can now download the synced log file from your bucket:
 
+```bash
+aws s3 cp s3://databend-doc/logs/1733871161-7b89e50a-6eb4-4531-8479-dd46981e4674.log.gz ~/Documents/
+```
 
+Compared to the original log, the synced log is in NDJSON format, with each record wrapped in an outer `log` field:
 
+```json
+{"log":{"event":"login","timestamp":"2024-12-08T10:00:00Z","user_id":1}}
+{"log":{"event":"purchase","timestamp":"2024-12-08T10:05:00Z","user_id":2}}
+```
+
+## Step 4: Create Task in Databend Cloud
+
+1. Open a worksheet, and create an external stage that links to the `logs` folder in your bucket:
+
+```sql
+CREATE STAGE mylog 's3://databend-doc/logs/' CONNECTION=(
+    ACCESS_KEY_ID = '<your-access-key-id>',
+    SECRET_ACCESS_KEY = '<your-secret-access-key>'
+);
+```
+
+Once the stage is successfully created, you can list the files in it:
+
+```sql
+LIST @mylog;
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                          name                          │  size  │                 md5                │         last_modified         │      creator     │
+├────────────────────────────────────────────────────────┼────────┼────────────────────────────────────┼───────────────────────────────┼──────────────────┤
+│ 1733871161-7b89e50a-6eb4-4531-8479-dd46981e4674.log.gz │    112 │ "231ddcc590222bfaabd296b151154844" │ 2024-12-10 22:52:42.000 +0000 │ NULL             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+2. Create a table with columns mapped to the fields in the log:
+
+```sql
+CREATE TABLE logs (
+    event String,
+    timestamp Timestamp,
+    user_id Int32
+);
+```
+
+3. Create a scheduled task to load logs from the external stage into the `logs` table:
+
+```sql
+CREATE TASK IF NOT EXISTS myvectortask
+    WAREHOUSE = 'eric'
+    SCHEDULE = 1 MINUTE
+    SUSPEND_TASK_AFTER_NUM_FAILURES = 3
+AS
+COPY INTO logs 
+FROM (
+    SELECT $1:log:event, $1:log:timestamp, $1:log:user_id
+    FROM @mylog/
+)
+FILE_FORMAT = (TYPE = NDJSON, COMPRESSION = AUTO) 
+MAX_FILES = 10000 
+PURGE = TRUE;
+```
+
+4. Start the task:
+
+```sql
+ALTER TASK myvectortask RESUME;
+```
+
+Wait for a moment, then check if the logs have been loaded into the table:
+
+```sql
+SELECT * FROM logs;
+
+┌──────────────────────────────────────────────────────────┐
+│       event      │      timestamp      │     user_id     │
+├──────────────────┼─────────────────────┼─────────────────┤
+│ login            │ 2024-12-08 10:00:00 │               1 │
+│ purchase         │ 2024-12-08 10:05:00 │               2 │
+└──────────────────────────────────────────────────────────┘
+```
+
+If you run `LIST @mylog;` now, you will see no files listed. This is because the task is configured with `PURGE = TRUE`, which deletes the synced files from S3 after the logs are loaded.
+
+Now, let's simulate generating two more logs in the local log file `app.log`:
+
+```bash
+echo '{"user_id": 3, "event": "logout", "timestamp": "2024-12-08T10:10:00Z"}' >> /Users/eric/Documents/logs/app.log
+echo '{"user_id": 4, "event": "login", "timestamp": "2024-12-08T10:15:00Z"}' >> /Users/eric/Documents/logs/app.log
+```
+
+Wait for a moment for the log to sync to S3 (a new file should appear in the logs folder). The scheduled task will then load the new logs into the table. If you query the table again, you will find these logs:
+
+```sql
+SELECT * FROM logs;
+
+┌──────────────────────────────────────────────────────────┐
+│       event      │      timestamp      │     user_id     │
+├──────────────────┼─────────────────────┼─────────────────┤
+│ logout           │ 2024-12-08 10:10:00 │               3 │
+│ login            │ 2024-12-08 10:15:00 │               4 │
+│ login            │ 2024-12-08 10:00:00 │               1 │
+│ purchase         │ 2024-12-08 10:05:00 │               2 │
+└──────────────────────────────────────────────────────────┘
+```
