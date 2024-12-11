@@ -187,7 +187,7 @@ echo '{"user_id": 3, "event": "logout", "timestamp": "2024-12-08T10:10:00Z"}' >>
 echo '{"user_id": 4, "event": "login", "timestamp": "2024-12-08T10:15:00Z"}' >> /Users/eric/Documents/logs/app.log
 ```
 
-Wait for a moment for the log to sync to S3 (a new file should appear in the logs folder). The scheduled task will then load the new logs into the table. If you query the table again, you will find these logs:
+Wait for a moment for the log to sync to S3 (a new file should appear in the `logs` folder). The scheduled task will then load the new logs into the table. If you query the table again, you will find these logs:
 
 ```sql
 SELECT * FROM logs;
