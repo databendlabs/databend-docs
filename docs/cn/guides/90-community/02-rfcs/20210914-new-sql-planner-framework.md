@@ -1,11 +1,10 @@
 ---
 title: 新 SQL 规划器框架设计
-description:
-  新 SQL 规划器框架设计 RFC
+description: 新 SQL 规划器框架设计 RFC
 ---
 
 - 开始日期: 2021/09/13
-- 跟踪问题: https://github.com/datafuselabs/databend/issues/1217
+- 跟踪问题: https://github.com/databendlabs/databend/issues/1217
 
 # 概述
 
@@ -102,7 +101,7 @@ pub struct DataField {
 
 在我们的新框架中，`PlanParser` 将被重构为两个组件：
 
-- `Parser`：将 SQL 文本解析为统一的 AST 表示，这在 [此 PR](https://github.com/datafuselabs/databend/pull/1478) 中已经引入
+- `Parser`：将 SQL 文本解析为统一的 AST 表示，这在 [此 PR](https://github.com/databendlabs/databend/pull/1478) 中已经引入
 - `Binder`：将 AST 中出现的变量与数据库中的对象（例如表、列等）绑定，并执行语义检查（名称解析、类型检查）。将生成计划树的逻辑表示
 
 此外，将引入一个新的优化器，用 `规则系统` 取代当前的优化器。
@@ -242,6 +241,7 @@ SELECT * FROM t1 INNER JOIN t ON t.a = t1.a;
 与前面提到的 `Expression` 不同，`Memo` 中的 `Expression` 将 `Group` 作为其子节点而不是 `Expression`，因此等价的 `Expression` 可以共享子节点候选。
 
 以 `JoinCommutativity` 为例，原始 SQL 的 `Memo` 可以表示为：
+
 ```
 Group 1: [Get(t)]
 
@@ -251,6 +251,7 @@ Group 3: [Join(1, 2, "t.a = t1.a")]
 ```
 
 应用 `JoinCommutativity` 转换后，`Memo` 将变为：
+
 ```
 Group 1: [Get(t)]
 
@@ -266,6 +267,7 @@ Group 3: [Join(1, 2, "t.a = t1.a"), Join(2, 1, "t.a = t1.a")]
 在新优化器框架中，有几个核心结构。
 
 `Plan`，逻辑操作符和物理操作符的枚举。与规范的 Cascades 不同，我们不将标量操作符作为 `Plan` 的一部分。
+
 ```rust
 enum Plan {
     // ...
@@ -273,6 +275,7 @@ enum Plan {
 ```
 
 `SExpr`，单表达式的缩写，表示 `Plan` 的树。
+
 ```rust
 struct SExpr {
     pub plan: Plan,
@@ -281,6 +284,7 @@ struct SExpr {
 ```
 
 `Memo`，`Group` 的集合，如 Cascades 中的 `Memo`。
+
 ```rust
 struct Memo {
     pub groups: Vec<Group>,
@@ -288,6 +292,7 @@ struct Memo {
 ```
 
 `Group`，`MExpr` 的集合，如 Cascades 中的 `Group`。
+
 ```rust
 struct Group {
     pub expressions: Vec<MExpr>,
@@ -295,6 +300,7 @@ struct Group {
 ```
 
 `MExpr`，`Memo` 中 `Expression` 的表示。
+
 ```rust
 struct MExpr {
     pub plan: Plan,
@@ -303,6 +309,7 @@ struct MExpr {
 ```
 
 `Rule`，转换规则的特征。`Rule` 可以分为探索规则（生成等价的逻辑表达式）和实现规则（生成物理表达式）。
+
 ```rust
 trait Rule {
     fn pattern(&self) -> &SExpr;

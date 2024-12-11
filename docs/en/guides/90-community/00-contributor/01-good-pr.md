@@ -1,11 +1,10 @@
 ---
 title: Your First PR for Databend
 sidebar_label: First Pull Request
-description:
-  You first good Databend pull request
+description: You first good Databend pull request
 ---
 
-[Databend](https://github.com/datafuselabs/databend) is an open-source project where everyone can contribute their code and make their creative ideas into a reality. This topic helps new contributors understand how to create a pull request for Databend on GitHub and provides useful considerations for code contributions.
+[Databend](https://github.com/databendlabs/databend) is an open-source project where everyone can contribute their code and make their creative ideas into a reality. This topic helps new contributors understand how to create a pull request for Databend on GitHub and provides useful considerations for code contributions.
 
 :::tip
 **Did You Know?** To show our appreciation, your GitHub username will be added to the table `system.contributors` after your code is successfully merged.
@@ -18,8 +17,9 @@ Check it out:
 ## Prerequisites
 
 Databend is written in Rust, to build Databend from scratch you will need to install the following tools:
-* **Git**
-* **Rust** Install with [rustup](https://rustup.rs/)
+
+- **Git**
+- **Rust** Install with [rustup](https://rustup.rs/)
 
 ## Coding Guidelines
 
@@ -33,15 +33,15 @@ $ make lint
 
 Any public fields, functions, and methods should be documented with [Rustdoc](https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#making-useful-documentation-comments).
 
-Please follow the conventions as detailed below for `modules`, `structs`, `enums`, and `functions`. The *single line* is used as a preview when navigating Rustdoc.  As an example, see the 'Structs' and 'Enums' sections in the [collections](https://doc.rust-lang.org/std/collections/index.html) Rustdoc.
+Please follow the conventions as detailed below for `modules`, `structs`, `enums`, and `functions`. The _single line_ is used as a preview when navigating Rustdoc. As an example, see the 'Structs' and 'Enums' sections in the [collections](https://doc.rust-lang.org/std/collections/index.html) Rustdoc.
 
- ```rust
- /// [Single line] One line summary description
- ///
- /// [Longer description] Multiple lines, inline code
- /// examples, invariants, purpose, usage, etc.
- [Attributes] If attributes exist, add after Rustdoc
- ```
+```rust
+/// [Single line] One line summary description
+///
+/// [Longer description] Multiple lines, inline code
+/// examples, invariants, purpose, usage, etc.
+[Attributes] If attributes exist, add after Rustdoc
+```
 
 Example below:
 
@@ -63,8 +63,8 @@ We welcome you to contribute to the Databend documentation, alongside your code!
 
 When submitting a document for a new command or function, it is crucial to adhere to the provided templates and guidelines to maintain consistency and ensure clarity in the Databend documentation. These templates are designed to include all the necessary information and formatting conventions, making it easier for users to understand and use the commands or functions.
 
-- [command-template](https://github.com/datafuselabs/databend/blob/d3a40d91b8a8ebaf878344e024164f36b6db5615/docs/public/templates/command-template.md?plain=1)
-- [function-template](https://github.com/datafuselabs/databend/blob/d3a40d91b8a8ebaf878344e024164f36b6db5615/docs/public/templates/function-template.md?plain=1)
+- [command-template](https://github.com/databendlabs/databend/blob/d3a40d91b8a8ebaf878344e024164f36b6db5615/docs/public/templates/command-template.md?plain=1)
+- [function-template](https://github.com/databendlabs/databend/blob/d3a40d91b8a8ebaf878344e024164f36b6db5615/docs/public/templates/function-template.md?plain=1)
 
 In addition to following the templates, please pay attention to the code included within them. The code serves the purpose of explicitly indicating whether the new command or function is exclusively available for Databend Enterprise and provides information about when the command or function was introduced. This contextual information is crucial for users as it allows them to accurately assess the scope and limitations of the feature. It also enables users to identify the specific versions of Databend that support the feature, enabling them to plan their usage effectively.
 
@@ -73,7 +73,7 @@ In addition to following the templates, please pay attention to the code include
 ### Submit a PR
 
 1. Fork the `databend` repo and create your branch from `main`.
-2. Open a regular [issue](https://github.com/datafuselabs/databend/issues/new/choose) for binding the pull request.
+2. Open a regular [issue](https://github.com/databendlabs/databend/issues/new/choose) for binding the pull request.
 3. Submit a [Draft Pull Requests](https://github.blog/2019-02-14-introducing-draft-pull-requests/), tag your work in progress.
 4. If you have added code that should be tested, add unit tests.
 5. Verify and ensure that the test suites passes, `make test`.
@@ -108,7 +108,7 @@ More types:
 
 ### PR Template
 
-Databend has a [Pull Request Template](https://github.com/datafuselabs/databend/blob/main/.github/PULL_REQUEST_TEMPLATE.md):
+Databend has a [Pull Request Template](https://github.com/databendlabs/databend/blob/main/.github/PULL_REQUEST_TEMPLATE.md):
 
 ```shell
 I hereby agree to the terms of the CLA available at: https://docs.databend.com/dev/policies/cla
@@ -126,13 +126,13 @@ You should not change the PR template context, but need to finish:
 
 ## Testing
 
-*Unit tests*
+_Unit tests_
 
 ```shell
 $ make unit-test
 ```
 
-*Stateless tests*
+_Stateless tests_
 
 ```shell
 $ make stateless-test
@@ -140,13 +140,12 @@ $ make stateless-test
 
 ## Issues
 
-Databend uses [GitHub issues](https://github.com/datafuselabs/databend/issues) to track bugs. Please include necessary information and instructions to reproduce your issue.
+Databend uses [GitHub issues](https://github.com/databendlabs/databend/issues) to track bugs. Please include necessary information and instructions to reproduce your issue.
 
 ## Documentation
 
-All developer documentation is published on the Databend developer site, [databend.com](/guides). 
+All developer documentation is published on the Databend developer site, [databend.com](/guides).
 
 ## Code of Conduct
 
 Please refer to the [Code of Conduct](/dev/policies/code-of-conduct), which describes the expectations for interactions within the community.
-

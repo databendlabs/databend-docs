@@ -3,8 +3,8 @@ title: 用户友好的发布
 description: 用户友好发布的RFC
 ---
 
-- RFC PR: [datafuselabs/databend#5665](https://github.com/datafuselabs/databend/pull/5665)
-- Tracking Issue: [datafuselabs/databend#5681](https://github.com/datafuselabs/databend/issues/5681)
+- RFC PR: [datafuselabs/databend#5665](https://github.com/databendlabs/databend/pull/5665)
+- Tracking Issue: [datafuselabs/databend#5681](https://github.com/databendlabs/databend/issues/5681)
 
 # 概述
 
@@ -12,7 +12,7 @@ description: 用户友好发布的RFC
 
 # 动机
 
-过去，Databend发布中只包含特定的二进制文件。了解如何操作和维护Databend通常需要大量的讨论。
+过去，Databend 发布中只包含特定的二进制文件。了解如何操作和维护 Databend 通常需要大量的讨论。
 
 本提案旨在通过提供一些简单的提示和默认配置来改进这一过程，以帮助用户无痛地进行操作。
 
@@ -41,11 +41,11 @@ description: 用户友好发布的RFC
 
 - `README.txt`，基本信息和重要提示，有用的链接。
 - `bin`，当然，我们的二进制文件。
-- `configs`，基本配置，提示配置使用并启动Databend服务。
+- `configs`，基本配置，提示配置使用并启动 Databend 服务。
 
 ## 可选
 
-- `databend-metactl`，也许我们不再需要发布databend-tools。
+- `databend-metactl`，也许我们不再需要发布 databend-tools。
 - `scripts`，用于方便的安装和部署。
 
 # 理由和替代方案

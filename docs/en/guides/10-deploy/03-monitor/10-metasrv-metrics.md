@@ -1,8 +1,7 @@
 ---
 title: Databend Metrics
 sidebar_label: Databend Metrics
-description: 
-  Meta and Query Service Metrics
+description: Meta and Query Service Metrics
 ---
 
 Metrics are crucial to monitor the performance and health of the system. Databend collects and stores two types of metrics, Meta Metrics and Query Metrics, in the format of [Prometheus](http://prometheus.io/docs/instrumenting/exposition_formats/). Meta Metrics are used for real-time monitoring and debugging of the Metasrv component, while Query Metrics are used for monitoring the performance of the Databend-query component.
@@ -13,7 +12,7 @@ You can access the metrics through a web browser using the following URLs:
 - Query Metrics: `http://<metric_api_address>/metrics`. Defaults to `0.0.0.0:7070/metrics`.
 
 :::tip
-Alternatively, you can visualize the metrics using third-party tools. For information about supported tools and integration tutorials, refer to **Monitor** > **Using 3rd-party Tools**. When employing the Prometheus & Grafana solution, you can create dashboards using our provided dashboard templates, available [here](https://github.com/datafuselabs/helm-charts/tree/main/dashboards). For more details, check out the [Prometheus & Grafana](tools/prometheus-and-grafana.md) guide.
+Alternatively, you can visualize the metrics using third-party tools. For information about supported tools and integration tutorials, refer to **Monitor** > **Using 3rd-party Tools**. When employing the Prometheus & Grafana solution, you can create dashboards using our provided dashboard templates, available [here](https://github.com/databendlabs/helm-charts/tree/main/dashboards). For more details, check out the [Prometheus & Grafana](tools/prometheus-and-grafana.md) guide.
 :::
 
 ## Meta Metrics
@@ -25,7 +24,7 @@ Here's a list of Meta metrics captured by Databend.
 These metrics describe the status of the `metasrv`. All these metrics are prefixed with `metasrv_server_`.
 
 | Name              | Description                                       | Type    |
-|-------------------|---------------------------------------------------|---------|
+| ----------------- | ------------------------------------------------- | ------- |
 | current_leader_id | Current leader id of cluster, 0 means no leader.  | Gauge   |
 | is_leader         | Whether or not this node is current leader.       | Gauge   |
 | node_is_health    | Whether or not this node is health.               | Gauge   |
@@ -59,7 +58,7 @@ If and only if the node state is `Follower` or `Leader` , `node_is_health` is 1,
 These metrics describe the network status of raft nodes in the `metasrv`. All these metrics are prefixed with `metasrv_raft_network_`.
 
 | Name                    | Description                                       | Labels                            | Type      |
-|-------------------------|---------------------------------------------------|-----------------------------------|-----------|
+| ----------------------- | ------------------------------------------------- | --------------------------------- | --------- |
 | active_peers            | Current number of active connections to peers.    | id(node id),address(peer address) | Gauge     |
 | fail_connect_to_peer    | Total number of fail connections to peers.        | id(node id),address(peer address) | Counter   |
 | sent_bytes              | Total number of sent bytes to peers.              | to(node id)                       | Counter   |
@@ -91,7 +90,7 @@ These metrics describe the network status of raft nodes in the `metasrv`. All th
 These metrics describe the storage status of raft nodes in the `metasrv`. All these metrics are prefixed with `metasrv_raft_storage_`.
 
 | Name                    | Description                                | Labels              | Type    |
-|-------------------------|--------------------------------------------|---------------------|---------|
+| ----------------------- | ------------------------------------------ | ------------------- | ------- |
 | raft_store_write_failed | Total number of raft store write failures. | func(function name) | Counter |
 | raft_store_read_failed  | Total number of raft store read failures.  | func(function name) | Counter |
 
@@ -102,7 +101,7 @@ These metrics describe the storage status of raft nodes in the `metasrv`. All th
 These metrics describe the network status of meta service in the `metasrv`. All these metrics are prefixed with `metasrv_meta_network_`.
 
 | Name              | Description                                            | Type      |
-|-------------------|--------------------------------------------------------|-----------|
+| ----------------- | ------------------------------------------------------ | --------- |
 | sent_bytes        | Total number of sent bytes to meta grpc client.        | Counter   |
 | recv_bytes        | Total number of recv bytes from meta grpc client.      | Counter   |
 | inflights         | Total number of inflight meta grpc requests.           | Gauge     |
@@ -115,7 +114,7 @@ These metrics describe the network status of meta service in the `metasrv`. All 
 Here's a list of Query metrics captured by Databend.
 
 | Name                                                            | Type      | Description                                                                                                                                                  | Labels                                                                                                                                                  |
-|-----------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | databend_cache_access_count                                     | Counter   | Number of cache accesses.                                                                                                                                    | cache_name                                                                                                                                              |
 | databend_cache_hit_count                                        | Counter   | Counts the number of cache hits for different cache types.                                                                                                   | cache_name                                                                                                                                              |
 | databend_cache_miss_count                                       | Counter   | Number of cache misses.                                                                                                                                      | cache_name                                                                                                                                              |
@@ -178,13 +177,13 @@ Here's a list of Query metrics captured by Databend.
 | databend_opendal_errors                                         | Counter   | Number of errors and their types encountered in OpenDAL operations.                                                                                          | scheme (the scheme used for the operation, e.g., "s3"), op (the type of operation, e.g., "read"), err (the type of error encountered, e.g., "NotFound") |
 | databend_opendal_request_duration_seconds                       | Histogram | Duration of OpenDAL requests to object storage.                                                                                                              | scheme (the scheme used for the operation, e.g., "s3"), op (the type of operation, e.g., "read")                                                        |
 | databend_opendal_requests                                       | Counter   | Number of various types of requests made using OpenDAL.                                                                                                      | scheme (the scheme used for the request, e.g., "s3"), op (the operation type, e.g., "batch", "list", "presign", "read", "write", "delete", "stat")      |
-| databend_process_cpu_seconds_total                              | Counter   | Total CPU time (seconds) used by users and system. | |
-| databend_process_max_fds                                        | Gauge     | Maximum number of open file descriptors. | |
-| databend_process_open_fds                                       | Gauge     | Number of open file descriptors. | |
-| databend_process_resident_memory_bytes                          | Gauge     | Resident memory size in bytes. | |
-| databend_process_start_time_seconds                             | Gauge     | Start time of the process since Unix epoch in seconds. | |
-| databend_process_threads                                        | Gauge     | Number of OS threads in use. | |
-| databend_process_virtual_memory_bytes                           | Gauge     | Virtual memory size in bytes. | |
+| databend_process_cpu_seconds_total                              | Counter   | Total CPU time (seconds) used by users and system.                                                                                                           |                                                                                                                                                         |
+| databend_process_max_fds                                        | Gauge     | Maximum number of open file descriptors.                                                                                                                     |                                                                                                                                                         |
+| databend_process_open_fds                                       | Gauge     | Number of open file descriptors.                                                                                                                             |                                                                                                                                                         |
+| databend_process_resident_memory_bytes                          | Gauge     | Resident memory size in bytes.                                                                                                                               |                                                                                                                                                         |
+| databend_process_start_time_seconds                             | Gauge     | Start time of the process since Unix epoch in seconds.                                                                                                       |                                                                                                                                                         |
+| databend_process_threads                                        | Gauge     | Number of OS threads in use.                                                                                                                                 |                                                                                                                                                         |
+| databend_process_virtual_memory_bytes                           | Gauge     | Virtual memory size in bytes.                                                                                                                                |                                                                                                                                                         |
 | databend_query_duration_ms                                      | Histogram | Tracks the distribution of execution times for different types of queries initiated by various handlers.                                                     | handler, kind, tenant, cluster                                                                                                                          |
 | databend_query_error                                            | Counter   | Total number of query errors.                                                                                                                                | handler="HTTPQuery", kind="Other", tenant="wubx", cluster="w189"                                                                                        |
 | databend_query_failed                                           | Counter   | Total number of failed requests.                                                                                                                             |                                                                                                                                                         |

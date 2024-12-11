@@ -1,13 +1,13 @@
 const fakeRelease = {
   releasesList: [
     {
-      url: "https://api.github.com/repos/datafuselabs/databend/releases/167216095",
+      url: "https://api.github.com/repos/databendlabs/databend/releases/167216095",
       assets_url:
-        "https://api.github.com/repos/datafuselabs/databend/releases/167216095/assets",
+        "https://api.github.com/repos/databendlabs/databend/releases/167216095/assets",
       upload_url:
-        "https://uploads.github.com/repos/datafuselabs/databend/releases/167216095/assets{?name,label}",
+        "https://uploads.github.com/repos/databendlabs/databend/releases/167216095/assets{?name,label}",
       html_url:
-        "https://github.com/datafuselabs/databend/releases/tag/untagged-18e3318f00387d4371da",
+        "https://github.com/databendlabs/databend/releases/tag/untagged-18e3318f00387d4371da",
       id: 167216095,
       author: {
         login: "everpcpc",
@@ -43,7 +43,7 @@ const fakeRelease = {
       published_at: null,
       assets: [
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885903",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885903",
           id: 181885903,
           node_id: "RA_kwDOEgzJIc4K11vP",
           name: "databend-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
@@ -93,7 +93,7 @@ const fakeRelease = {
           osType: "ARM",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885871",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885871",
           id: 181885871,
           node_id: "RA_kwDOEgzJIc4K11uv",
           name: "databend-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
@@ -143,7 +143,7 @@ const fakeRelease = {
           osType: "x86",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885875",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885875",
           id: 181885875,
           node_id: "RA_kwDOEgzJIc4K11uz",
           name: "databend-v1.2.583-nightly-aarch64-unknown-linux-musl.tar.gz",
@@ -193,7 +193,7 @@ const fakeRelease = {
           osType: "ARM",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885878",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885878",
           id: 181885878,
           node_id: "RA_kwDOEgzJIc4K11u2",
           name: "databend-v1.2.583-nightly-x86_64-unknown-linux-musl.tar.gz",
@@ -245,11 +245,11 @@ const fakeRelease = {
       ],
       tarball_url: null,
       zipball_url: null,
-      body: "<!-- Release notes generated using configuration in .github/release.yml at 03c09a571dcd22aeca83c135c2660fa09b8a6f96 -->\n\n## What's Changed\n### Exciting New Features ✨\n* feat(query): support json null for nullable response by @everpcpc in https://github.com/datafuselabs/databend/pull/16120\n### Thoughtful Bug Fix 🔧\n* fix: tenant tables with stream by @zhyass in https://github.com/datafuselabs/databend/pull/16115\n* fix(query): fix stackoverflow in collect_statistics by @zhang2014 in https://github.com/datafuselabs/databend/pull/16123\n### Code Refactor 🎉\n* refactor(query): If table_id is specified, use it directly by @TCeason in https://github.com/datafuselabs/databend/pull/16098\n* refactor: upgrade to Openraft-0.10.0-alpha.2 by @drmingdrmer in https://github.com/datafuselabs/databend/pull/16091\n### Others 📒\n* chore(query): add sigaltstack for signal handler  by @zhang2014 in https://github.com/datafuselabs/databend/pull/16122\n* chore(query): limit frames size for capture backtrace by @zhang2014 in https://github.com/datafuselabs/databend/pull/16118\n\n\n**Full Changelog**: https://github.com/datafuselabs/databend/compare/v1.2.582-nightly...v1.2.583-nightly",
+      body: "<!-- Release notes generated using configuration in .github/release.yml at 03c09a571dcd22aeca83c135c2660fa09b8a6f96 -->\n\n## What's Changed\n### Exciting New Features ✨\n* feat(query): support json null for nullable response by @everpcpc in https://github.com/databendlabs/databend/pull/16120\n### Thoughtful Bug Fix 🔧\n* fix: tenant tables with stream by @zhyass in https://github.com/databendlabs/databend/pull/16115\n* fix(query): fix stackoverflow in collect_statistics by @zhang2014 in https://github.com/databendlabs/databend/pull/16123\n### Code Refactor 🎉\n* refactor(query): If table_id is specified, use it directly by @TCeason in https://github.com/databendlabs/databend/pull/16098\n* refactor: upgrade to Openraft-0.10.0-alpha.2 by @drmingdrmer in https://github.com/databendlabs/databend/pull/16091\n### Others 📒\n* chore(query): add sigaltstack for signal handler  by @zhang2014 in https://github.com/databendlabs/databend/pull/16122\n* chore(query): limit frames size for capture backtrace by @zhang2014 in https://github.com/databendlabs/databend/pull/16118\n\n\n**Full Changelog**: https://github.com/databendlabs/databend/compare/v1.2.582-nightly...v1.2.583-nightly",
       mentions_count: 5,
       originAssets: [
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885904",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885904",
           id: 181885904,
           node_id: "RA_kwDOEgzJIc4K11vQ",
           name: "databend-hdfs-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
@@ -290,10 +290,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:48:08Z",
           updated_at: "2024-07-25T22:48:15Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-hdfs-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-hdfs-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885869",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885869",
           id: 181885869,
           node_id: "RA_kwDOEgzJIc4K11ut",
           name: "databend-hdfs-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
@@ -334,10 +334,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:56Z",
           updated_at: "2024-07-25T22:48:03Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-hdfs-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-hdfs-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885834",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885834",
           id: 181885834,
           node_id: "RA_kwDOEgzJIc4K11uK",
           name: "databend-testsuite-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
@@ -378,10 +378,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:36Z",
           updated_at: "2024-07-25T22:47:38Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-testsuite-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-testsuite-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885903",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885903",
           id: 181885903,
           node_id: "RA_kwDOEgzJIc4K11vP",
           name: "databend-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
@@ -422,10 +422,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:48:07Z",
           updated_at: "2024-07-25T22:48:15Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885875",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885875",
           id: 181885875,
           node_id: "RA_kwDOEgzJIc4K11uz",
           name: "databend-v1.2.583-nightly-aarch64-unknown-linux-musl.tar.gz",
@@ -466,10 +466,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:58Z",
           updated_at: "2024-07-25T22:48:09Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-aarch64-unknown-linux-musl.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-aarch64-unknown-linux-musl.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885871",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885871",
           id: 181885871,
           node_id: "RA_kwDOEgzJIc4K11uv",
           name: "databend-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
@@ -510,10 +510,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:57Z",
           updated_at: "2024-07-25T22:48:03Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885878",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885878",
           id: 181885878,
           node_id: "RA_kwDOEgzJIc4K11u2",
           name: "databend-v1.2.583-nightly-x86_64-unknown-linux-musl.tar.gz",
@@ -554,10 +554,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:48:00Z",
           updated_at: "2024-07-25T22:48:12Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-x86_64-unknown-linux-musl.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-x86_64-unknown-linux-musl.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885819",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885819",
           id: 181885819,
           node_id: "RA_kwDOEgzJIc4K11t7",
           name: "databend_1.2.583.nightly_amd64.deb",
@@ -598,10 +598,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:35Z",
           updated_at: "2024-07-25T22:47:43Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend_1.2.583.nightly_amd64.deb",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend_1.2.583.nightly_amd64.deb",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885833",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885833",
           id: 181885833,
           node_id: "RA_kwDOEgzJIc4K11uJ",
           name: "databend_1.2.583.nightly_arm64.deb",
@@ -642,22 +642,22 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:36Z",
           updated_at: "2024-07-25T22:47:43Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend_1.2.583.nightly_arm64.deb",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend_1.2.583.nightly_arm64.deb",
         },
       ],
       filterBody:
-        "\n\n## What's Changed\n### Exciting New Features ✨\n* feat(query): support json null for nullable response by **@everpcpc** in [#16120](https://github.com/datafuselabs/databend/pull/16120)\n### Thoughtful Bug Fix 🔧\n* fix: tenant tables with stream by **@zhyass** in [#16115](https://github.com/datafuselabs/databend/pull/16115)\n* fix(query): fix stackoverflow in collect_statistics by **@zhang2014** in [#16123](https://github.com/datafuselabs/databend/pull/16123)\n### Code Refactor 🎉\n* refactor(query): If table_id is specified, use it directly by **@TCeason** in [#16098](https://github.com/datafuselabs/databend/pull/16098)\n* refactor: upgrade to Openraft-0.10.0-alpha.2 by **@drmingdrmer** in [#16091](https://github.com/datafuselabs/databend/pull/16091)\n### Others 📒\n* chore(query): add sigaltstack for signal handler  by **@zhang2014** in [#16122](https://github.com/datafuselabs/databend/pull/16122)\n* chore(query): limit frames size for capture backtrace by **@zhang2014** in [#16118](https://github.com/datafuselabs/databend/pull/16118)\n\n\n**Full Changelog**: https://github.com/datafuselabs/databend/releases/tag/v1.2.583-nightly",
+        "\n\n## What's Changed\n### Exciting New Features ✨\n* feat(query): support json null for nullable response by **@everpcpc** in [#16120](https://github.com/databendlabs/databend/pull/16120)\n### Thoughtful Bug Fix 🔧\n* fix: tenant tables with stream by **@zhyass** in [#16115](https://github.com/databendlabs/databend/pull/16115)\n* fix(query): fix stackoverflow in collect_statistics by **@zhang2014** in [#16123](https://github.com/databendlabs/databend/pull/16123)\n### Code Refactor 🎉\n* refactor(query): If table_id is specified, use it directly by **@TCeason** in [#16098](https://github.com/databendlabs/databend/pull/16098)\n* refactor: upgrade to Openraft-0.10.0-alpha.2 by **@drmingdrmer** in [#16091](https://github.com/databendlabs/databend/pull/16091)\n### Others 📒\n* chore(query): add sigaltstack for signal handler  by **@zhang2014** in [#16122](https://github.com/databendlabs/databend/pull/16122)\n* chore(query): limit frames size for capture backtrace by **@zhang2014** in [#16118](https://github.com/databendlabs/databend/pull/16118)\n\n\n**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.583-nightly",
     },
   ],
   reOrigionList: [
     {
-      url: "https://api.github.com/repos/datafuselabs/databend/releases/167216095",
+      url: "https://api.github.com/repos/databendlabs/databend/releases/167216095",
       assets_url:
-        "https://api.github.com/repos/datafuselabs/databend/releases/167216095/assets",
+        "https://api.github.com/repos/databendlabs/databend/releases/167216095/assets",
       upload_url:
-        "https://uploads.github.com/repos/datafuselabs/databend/releases/167216095/assets{?name,label}",
+        "https://uploads.github.com/repos/databendlabs/databend/releases/167216095/assets{?name,label}",
       html_url:
-        "https://github.com/datafuselabs/databend/releases/tag/untagged-18e3318f00387d4371da",
+        "https://github.com/databendlabs/databend/releases/tag/untagged-18e3318f00387d4371da",
       id: 167216095,
       author: {
         login: "everpcpc",
@@ -693,7 +693,7 @@ const fakeRelease = {
       published_at: null,
       assets: [
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885904",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885904",
           id: 181885904,
           node_id: "RA_kwDOEgzJIc4K11vQ",
           name: "databend-hdfs-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
@@ -734,10 +734,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:48:08Z",
           updated_at: "2024-07-25T22:48:15Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-hdfs-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-hdfs-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885869",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885869",
           id: 181885869,
           node_id: "RA_kwDOEgzJIc4K11ut",
           name: "databend-hdfs-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
@@ -778,10 +778,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:56Z",
           updated_at: "2024-07-25T22:48:03Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-hdfs-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-hdfs-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885834",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885834",
           id: 181885834,
           node_id: "RA_kwDOEgzJIc4K11uK",
           name: "databend-testsuite-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
@@ -822,10 +822,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:36Z",
           updated_at: "2024-07-25T22:47:38Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-testsuite-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-testsuite-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885903",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885903",
           id: 181885903,
           node_id: "RA_kwDOEgzJIc4K11vP",
           name: "databend-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
@@ -866,10 +866,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:48:07Z",
           updated_at: "2024-07-25T22:48:15Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-aarch64-unknown-linux-gnu.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885875",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885875",
           id: 181885875,
           node_id: "RA_kwDOEgzJIc4K11uz",
           name: "databend-v1.2.583-nightly-aarch64-unknown-linux-musl.tar.gz",
@@ -910,10 +910,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:58Z",
           updated_at: "2024-07-25T22:48:09Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-aarch64-unknown-linux-musl.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-aarch64-unknown-linux-musl.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885871",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885871",
           id: 181885871,
           node_id: "RA_kwDOEgzJIc4K11uv",
           name: "databend-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
@@ -954,10 +954,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:57Z",
           updated_at: "2024-07-25T22:48:03Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-x86_64-unknown-linux-gnu.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885878",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885878",
           id: 181885878,
           node_id: "RA_kwDOEgzJIc4K11u2",
           name: "databend-v1.2.583-nightly-x86_64-unknown-linux-musl.tar.gz",
@@ -998,10 +998,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:48:00Z",
           updated_at: "2024-07-25T22:48:12Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-x86_64-unknown-linux-musl.tar.gz",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend-v1.2.583-nightly-x86_64-unknown-linux-musl.tar.gz",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885819",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885819",
           id: 181885819,
           node_id: "RA_kwDOEgzJIc4K11t7",
           name: "databend_1.2.583.nightly_amd64.deb",
@@ -1042,10 +1042,10 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:35Z",
           updated_at: "2024-07-25T22:47:43Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend_1.2.583.nightly_amd64.deb",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend_1.2.583.nightly_amd64.deb",
         },
         {
-          url: "https://api.github.com/repos/datafuselabs/databend/releases/assets/181885833",
+          url: "https://api.github.com/repos/databendlabs/databend/releases/assets/181885833",
           id: 181885833,
           node_id: "RA_kwDOEgzJIc4K11uJ",
           name: "databend_1.2.583.nightly_arm64.deb",
@@ -1086,12 +1086,12 @@ const fakeRelease = {
           created_at: "2024-07-25T22:47:36Z",
           updated_at: "2024-07-25T22:47:43Z",
           browser_download_url:
-            "https://github.com/datafuselabs/databend/releases/download/untagged-18e3318f00387d4371da/databend_1.2.583.nightly_arm64.deb",
+            "https://github.com/databendlabs/databend/releases/download/untagged-18e3318f00387d4371da/databend_1.2.583.nightly_arm64.deb",
         },
       ],
       tarball_url: null,
       zipball_url: null,
-      body: "<!-- Release notes generated using configuration in .github/release.yml at 03c09a571dcd22aeca83c135c2660fa09b8a6f96 -->\n\n## What's Changed\n### Exciting New Features ✨\n* feat(query): support json null for nullable response by @everpcpc in https://github.com/datafuselabs/databend/pull/16120\n### Thoughtful Bug Fix 🔧\n* fix: tenant tables with stream by @zhyass in https://github.com/datafuselabs/databend/pull/16115\n* fix(query): fix stackoverflow in collect_statistics by @zhang2014 in https://github.com/datafuselabs/databend/pull/16123\n### Code Refactor 🎉\n* refactor(query): If table_id is specified, use it directly by @TCeason in https://github.com/datafuselabs/databend/pull/16098\n* refactor: upgrade to Openraft-0.10.0-alpha.2 by @drmingdrmer in https://github.com/datafuselabs/databend/pull/16091\n### Others 📒\n* chore(query): add sigaltstack for signal handler  by @zhang2014 in https://github.com/datafuselabs/databend/pull/16122\n* chore(query): limit frames size for capture backtrace by @zhang2014 in https://github.com/datafuselabs/databend/pull/16118\n\n\n**Full Changelog**: https://github.com/datafuselabs/databend/compare/v1.2.582-nightly...v1.2.583-nightly",
+      body: "<!-- Release notes generated using configuration in .github/release.yml at 03c09a571dcd22aeca83c135c2660fa09b8a6f96 -->\n\n## What's Changed\n### Exciting New Features ✨\n* feat(query): support json null for nullable response by @everpcpc in https://github.com/databendlabs/databend/pull/16120\n### Thoughtful Bug Fix 🔧\n* fix: tenant tables with stream by @zhyass in https://github.com/databendlabs/databend/pull/16115\n* fix(query): fix stackoverflow in collect_statistics by @zhang2014 in https://github.com/databendlabs/databend/pull/16123\n### Code Refactor 🎉\n* refactor(query): If table_id is specified, use it directly by @TCeason in https://github.com/databendlabs/databend/pull/16098\n* refactor: upgrade to Openraft-0.10.0-alpha.2 by @drmingdrmer in https://github.com/databendlabs/databend/pull/16091\n### Others 📒\n* chore(query): add sigaltstack for signal handler  by @zhang2014 in https://github.com/databendlabs/databend/pull/16122\n* chore(query): limit frames size for capture backtrace by @zhang2014 in https://github.com/databendlabs/databend/pull/16118\n\n\n**Full Changelog**: https://github.com/databendlabs/databend/compare/v1.2.582-nightly...v1.2.583-nightly",
       mentions_count: 5,
     },
   ],
@@ -1099,110 +1099,110 @@ const fakeRelease = {
     id: 302827809,
     node_id: "MDEwOlJlcG9zaXRvcnkzMDI4Mjc4MDk=",
     name: "databend",
-    full_name: "datafuselabs/databend",
+    full_name: "databendlabs/databend",
     private: false,
     owner: {
-      login: "datafuselabs",
+      login: "databendlabs",
       id: 80994548,
       node_id: "MDEyOk9yZ2FuaXphdGlvbjgwOTk0NTQ4",
       avatar_url: "https://avatars.githubusercontent.com/u/80994548?v=4",
       gravatar_id: "",
-      url: "https://api.github.com/users/datafuselabs",
-      html_url: "https://github.com/datafuselabs",
-      followers_url: "https://api.github.com/users/datafuselabs/followers",
+      url: "https://api.github.com/users/databendlabs",
+      html_url: "https://github.com/databendlabs",
+      followers_url: "https://api.github.com/users/databendlabs/followers",
       following_url:
-        "https://api.github.com/users/datafuselabs/following{/other_user}",
-      gists_url: "https://api.github.com/users/datafuselabs/gists{/gist_id}",
+        "https://api.github.com/users/databendlabs/following{/other_user}",
+      gists_url: "https://api.github.com/users/databendlabs/gists{/gist_id}",
       starred_url:
-        "https://api.github.com/users/datafuselabs/starred{/owner}{/repo}",
+        "https://api.github.com/users/databendlabs/starred{/owner}{/repo}",
       subscriptions_url:
-        "https://api.github.com/users/datafuselabs/subscriptions",
-      organizations_url: "https://api.github.com/users/datafuselabs/orgs",
-      repos_url: "https://api.github.com/users/datafuselabs/repos",
-      events_url: "https://api.github.com/users/datafuselabs/events{/privacy}",
+        "https://api.github.com/users/databendlabs/subscriptions",
+      organizations_url: "https://api.github.com/users/databendlabs/orgs",
+      repos_url: "https://api.github.com/users/databendlabs/repos",
+      events_url: "https://api.github.com/users/databendlabs/events{/privacy}",
       received_events_url:
-        "https://api.github.com/users/datafuselabs/received_events",
+        "https://api.github.com/users/databendlabs/received_events",
       type: "Organization",
       site_admin: false,
     },
-    html_url: "https://github.com/datafuselabs/databend",
+    html_url: "https://github.com/databendlabs/databend",
     description:
       "A modern cloud data warehouse focusing on reducing cost and complexity for your massive-scale analytics needs. Open source alternative to Snowflake. Also available in the cloud: https://app.databend.com 🧠 ",
     fork: false,
-    url: "https://api.github.com/repos/datafuselabs/databend",
-    forks_url: "https://api.github.com/repos/datafuselabs/databend/forks",
+    url: "https://api.github.com/repos/databendlabs/databend",
+    forks_url: "https://api.github.com/repos/databendlabs/databend/forks",
     keys_url:
-      "https://api.github.com/repos/datafuselabs/databend/keys{/key_id}",
+      "https://api.github.com/repos/databendlabs/databend/keys{/key_id}",
     collaborators_url:
-      "https://api.github.com/repos/datafuselabs/databend/collaborators{/collaborator}",
-    teams_url: "https://api.github.com/repos/datafuselabs/databend/teams",
-    hooks_url: "https://api.github.com/repos/datafuselabs/databend/hooks",
+      "https://api.github.com/repos/databendlabs/databend/collaborators{/collaborator}",
+    teams_url: "https://api.github.com/repos/databendlabs/databend/teams",
+    hooks_url: "https://api.github.com/repos/databendlabs/databend/hooks",
     issue_events_url:
-      "https://api.github.com/repos/datafuselabs/databend/issues/events{/number}",
-    events_url: "https://api.github.com/repos/datafuselabs/databend/events",
+      "https://api.github.com/repos/databendlabs/databend/issues/events{/number}",
+    events_url: "https://api.github.com/repos/databendlabs/databend/events",
     assignees_url:
-      "https://api.github.com/repos/datafuselabs/databend/assignees{/user}",
+      "https://api.github.com/repos/databendlabs/databend/assignees{/user}",
     branches_url:
-      "https://api.github.com/repos/datafuselabs/databend/branches{/branch}",
-    tags_url: "https://api.github.com/repos/datafuselabs/databend/tags",
+      "https://api.github.com/repos/databendlabs/databend/branches{/branch}",
+    tags_url: "https://api.github.com/repos/databendlabs/databend/tags",
     blobs_url:
-      "https://api.github.com/repos/datafuselabs/databend/git/blobs{/sha}",
+      "https://api.github.com/repos/databendlabs/databend/git/blobs{/sha}",
     git_tags_url:
-      "https://api.github.com/repos/datafuselabs/databend/git/tags{/sha}",
+      "https://api.github.com/repos/databendlabs/databend/git/tags{/sha}",
     git_refs_url:
-      "https://api.github.com/repos/datafuselabs/databend/git/refs{/sha}",
+      "https://api.github.com/repos/databendlabs/databend/git/refs{/sha}",
     trees_url:
-      "https://api.github.com/repos/datafuselabs/databend/git/trees{/sha}",
+      "https://api.github.com/repos/databendlabs/databend/git/trees{/sha}",
     statuses_url:
-      "https://api.github.com/repos/datafuselabs/databend/statuses/{sha}",
+      "https://api.github.com/repos/databendlabs/databend/statuses/{sha}",
     languages_url:
-      "https://api.github.com/repos/datafuselabs/databend/languages",
+      "https://api.github.com/repos/databendlabs/databend/languages",
     stargazers_url:
-      "https://api.github.com/repos/datafuselabs/databend/stargazers",
+      "https://api.github.com/repos/databendlabs/databend/stargazers",
     contributors_url:
-      "https://api.github.com/repos/datafuselabs/databend/contributors",
+      "https://api.github.com/repos/databendlabs/databend/contributors",
     subscribers_url:
-      "https://api.github.com/repos/datafuselabs/databend/subscribers",
+      "https://api.github.com/repos/databendlabs/databend/subscribers",
     subscription_url:
-      "https://api.github.com/repos/datafuselabs/databend/subscription",
+      "https://api.github.com/repos/databendlabs/databend/subscription",
     commits_url:
-      "https://api.github.com/repos/datafuselabs/databend/commits{/sha}",
+      "https://api.github.com/repos/databendlabs/databend/commits{/sha}",
     git_commits_url:
-      "https://api.github.com/repos/datafuselabs/databend/git/commits{/sha}",
+      "https://api.github.com/repos/databendlabs/databend/git/commits{/sha}",
     comments_url:
-      "https://api.github.com/repos/datafuselabs/databend/comments{/number}",
+      "https://api.github.com/repos/databendlabs/databend/comments{/number}",
     issue_comment_url:
-      "https://api.github.com/repos/datafuselabs/databend/issues/comments{/number}",
+      "https://api.github.com/repos/databendlabs/databend/issues/comments{/number}",
     contents_url:
-      "https://api.github.com/repos/datafuselabs/databend/contents/{+path}",
+      "https://api.github.com/repos/databendlabs/databend/contents/{+path}",
     compare_url:
-      "https://api.github.com/repos/datafuselabs/databend/compare/{base}...{head}",
-    merges_url: "https://api.github.com/repos/datafuselabs/databend/merges",
+      "https://api.github.com/repos/databendlabs/databend/compare/{base}...{head}",
+    merges_url: "https://api.github.com/repos/databendlabs/databend/merges",
     archive_url:
-      "https://api.github.com/repos/datafuselabs/databend/{archive_format}{/ref}",
+      "https://api.github.com/repos/databendlabs/databend/{archive_format}{/ref}",
     downloads_url:
-      "https://api.github.com/repos/datafuselabs/databend/downloads",
+      "https://api.github.com/repos/databendlabs/databend/downloads",
     issues_url:
-      "https://api.github.com/repos/datafuselabs/databend/issues{/number}",
+      "https://api.github.com/repos/databendlabs/databend/issues{/number}",
     pulls_url:
-      "https://api.github.com/repos/datafuselabs/databend/pulls{/number}",
+      "https://api.github.com/repos/databendlabs/databend/pulls{/number}",
     milestones_url:
-      "https://api.github.com/repos/datafuselabs/databend/milestones{/number}",
+      "https://api.github.com/repos/databendlabs/databend/milestones{/number}",
     notifications_url:
-      "https://api.github.com/repos/datafuselabs/databend/notifications{?since,all,participating}",
+      "https://api.github.com/repos/databendlabs/databend/notifications{?since,all,participating}",
     labels_url:
-      "https://api.github.com/repos/datafuselabs/databend/labels{/name}",
+      "https://api.github.com/repos/databendlabs/databend/labels{/name}",
     releases_url:
-      "https://api.github.com/repos/datafuselabs/databend/releases{/id}",
+      "https://api.github.com/repos/databendlabs/databend/releases{/id}",
     deployments_url:
-      "https://api.github.com/repos/datafuselabs/databend/deployments",
+      "https://api.github.com/repos/databendlabs/databend/deployments",
     created_at: "2020-10-10T06:04:42Z",
     updated_at: "2023-08-12T01:04:20Z",
     pushed_at: "2023-08-12T09:44:36Z",
-    git_url: "git://github.com/datafuselabs/databend.git",
-    ssh_url: "git@github.com:datafuselabs/databend.git",
-    clone_url: "https://github.com/datafuselabs/databend.git",
-    svn_url: "https://github.com/datafuselabs/databend",
+    git_url: "git://github.com/databendlabs/databend.git",
+    ssh_url: "git@github.com:databendlabs/databend.git",
+    clone_url: "https://github.com/databendlabs/databend.git",
+    svn_url: "https://github.com/databendlabs/databend",
     homepage: "https://docs.databend.com",
     size: 201044,
     stargazers_count: 6332,
@@ -1248,26 +1248,26 @@ const fakeRelease = {
     default_branch: "main",
     temp_clone_token: null,
     organization: {
-      login: "datafuselabs",
+      login: "databendlabs",
       id: 80994548,
       node_id: "MDEyOk9yZ2FuaXphdGlvbjgwOTk0NTQ4",
       avatar_url: "https://avatars.githubusercontent.com/u/80994548?v=4",
       gravatar_id: "",
-      url: "https://api.github.com/users/datafuselabs",
-      html_url: "https://github.com/datafuselabs",
-      followers_url: "https://api.github.com/users/datafuselabs/followers",
+      url: "https://api.github.com/users/databendlabs",
+      html_url: "https://github.com/databendlabs",
+      followers_url: "https://api.github.com/users/databendlabs/followers",
       following_url:
-        "https://api.github.com/users/datafuselabs/following{/other_user}",
-      gists_url: "https://api.github.com/users/datafuselabs/gists{/gist_id}",
+        "https://api.github.com/users/databendlabs/following{/other_user}",
+      gists_url: "https://api.github.com/users/databendlabs/gists{/gist_id}",
       starred_url:
-        "https://api.github.com/users/datafuselabs/starred{/owner}{/repo}",
+        "https://api.github.com/users/databendlabs/starred{/owner}{/repo}",
       subscriptions_url:
-        "https://api.github.com/users/datafuselabs/subscriptions",
-      organizations_url: "https://api.github.com/users/datafuselabs/orgs",
-      repos_url: "https://api.github.com/users/datafuselabs/repos",
-      events_url: "https://api.github.com/users/datafuselabs/events{/privacy}",
+        "https://api.github.com/users/databendlabs/subscriptions",
+      organizations_url: "https://api.github.com/users/databendlabs/orgs",
+      repos_url: "https://api.github.com/users/databendlabs/repos",
+      events_url: "https://api.github.com/users/databendlabs/events{/privacy}",
       received_events_url:
-        "https://api.github.com/users/datafuselabs/received_events",
+        "https://api.github.com/users/databendlabs/received_events",
       type: "Organization",
       site_admin: false,
     },
@@ -1277,12 +1277,12 @@ const fakeRelease = {
   name: "v1.2.530",
   stargazersCount: 8888,
   bendsqlRecource: {
-    url: "https://api.github.com/repos/datafuselabs/bendsql/releases/132631293",
+    url: "https://api.github.com/repos/databendlabs/bendsql/releases/132631293",
     assets_url:
-      "https://api.github.com/repos/datafuselabs/bendsql/releases/132631293/assets",
+      "https://api.github.com/repos/databendlabs/bendsql/releases/132631293/assets",
     upload_url:
-      "https://uploads.github.com/repos/datafuselabs/bendsql/releases/132631293/assets{?name,label}",
-    html_url: "https://github.com/datafuselabs/bendsql/releases/tag/v0.12.0",
+      "https://uploads.github.com/repos/databendlabs/bendsql/releases/132631293/assets{?name,label}",
+    html_url: "https://github.com/databendlabs/bendsql/releases/tag/v0.12.0",
     id: 132631293,
     author: {
       login: "everpcpc",
@@ -1317,7 +1317,7 @@ const fakeRelease = {
     published_at: "2023-12-05T09:23:57Z",
     assets: [
       {
-        url: "https://api.github.com/repos/datafuselabs/bendsql/releases/assets/139026213",
+        url: "https://api.github.com/repos/databendlabs/bendsql/releases/assets/139026213",
         id: 139026213,
         node_id: "RA_kwDOJL4aoM4ISV8l",
         name: "bendsql-aarch64-apple-darwin.tar.gz",
@@ -1367,7 +1367,7 @@ const fakeRelease = {
         formatSize: "5.4MB",
       },
       {
-        url: "https://api.github.com/repos/datafuselabs/bendsql/releases/assets/139025592",
+        url: "https://api.github.com/repos/databendlabs/bendsql/releases/assets/139025592",
         id: 139025592,
         node_id: "RA_kwDOJL4aoM4ISVy4",
         name: "bendsql-x86_64-apple-darwin.tar.gz",
@@ -1417,7 +1417,7 @@ const fakeRelease = {
         formatSize: "5.7MB",
       },
       {
-        url: "https://api.github.com/repos/datafuselabs/bendsql/releases/assets/139024459",
+        url: "https://api.github.com/repos/databendlabs/bendsql/releases/assets/139024459",
         id: 139024459,
         node_id: "RA_kwDOJL4aoM4ISVhL",
         name: "bendsql-aarch64-unknown-linux-gnu.tar.gz",
@@ -1467,7 +1467,7 @@ const fakeRelease = {
         formatSize: "7.2MB",
       },
       {
-        url: "https://api.github.com/repos/datafuselabs/bendsql/releases/assets/139024456",
+        url: "https://api.github.com/repos/databendlabs/bendsql/releases/assets/139024456",
         id: 139024456,
         node_id: "RA_kwDOJL4aoM4ISVhI",
         name: "bendsql-x86_64-unknown-linux-gnu.tar.gz",
@@ -1517,7 +1517,7 @@ const fakeRelease = {
         formatSize: "7.6MB",
       },
       {
-        url: "https://api.github.com/repos/datafuselabs/bendsql/releases/assets/139024465",
+        url: "https://api.github.com/repos/databendlabs/bendsql/releases/assets/139024465",
         id: 139024465,
         node_id: "RA_kwDOJL4aoM4ISVhR",
         name: "bendsql-aarch64-unknown-linux-musl.tar.gz",
@@ -1567,7 +1567,7 @@ const fakeRelease = {
         formatSize: "7.4MB",
       },
       {
-        url: "https://api.github.com/repos/datafuselabs/bendsql/releases/assets/139024453",
+        url: "https://api.github.com/repos/databendlabs/bendsql/releases/assets/139024453",
         id: 139024453,
         node_id: "RA_kwDOJL4aoM4ISVhF",
         name: "bendsql-x86_64-unknown-linux-musl.tar.gz",
@@ -1617,7 +1617,7 @@ const fakeRelease = {
         formatSize: "7.8MB",
       },
       {
-        url: "https://api.github.com/repos/datafuselabs/bendsql/releases/assets/139025020",
+        url: "https://api.github.com/repos/databendlabs/bendsql/releases/assets/139025020",
         id: 139025020,
         node_id: "RA_kwDOJL4aoM4ISVp8",
         name: "bendsql-x86_64-pc-windows-msvc.zip",
@@ -1668,13 +1668,13 @@ const fakeRelease = {
       },
     ],
     tarball_url:
-      "https://api.github.com/repos/datafuselabs/bendsql/tarball/v0.12.0",
+      "https://api.github.com/repos/databendlabs/bendsql/tarball/v0.12.0",
     zipball_url:
-      "https://api.github.com/repos/datafuselabs/bendsql/zipball/v0.12.0",
-    body: "## What's Changed\r\n* feat: add qualify token by @ariesdevil in https://github.com/datafuselabs/bendsql/pull/313\r\n* feat(core): support auth with access token by @everpcpc in https://github.com/datafuselabs/bendsql/pull/314\r\n* chore: bump version to 0.12.0 by @everpcpc in https://github.com/datafuselabs/bendsql/pull/315\r\n\r\n## New Contributors\r\n* @ariesdevil made their first contribution in https://github.com/datafuselabs/bendsql/pull/313\r\n\r\n**Full Changelog**: https://github.com/datafuselabs/bendsql/compare/v0.11.3...v0.12.0",
+      "https://api.github.com/repos/databendlabs/bendsql/zipball/v0.12.0",
+    body: "## What's Changed\r\n* feat: add qualify token by @ariesdevil in https://github.com/databendlabs/bendsql/pull/313\r\n* feat(core): support auth with access token by @everpcpc in https://github.com/databendlabs/bendsql/pull/314\r\n* chore: bump version to 0.12.0 by @everpcpc in https://github.com/databendlabs/bendsql/pull/315\r\n\r\n## New Contributors\r\n* @ariesdevil made their first contribution in https://github.com/databendlabs/bendsql/pull/313\r\n\r\n**Full Changelog**: https://github.com/databendlabs/bendsql/compare/v0.11.3...v0.12.0",
     mentions_count: 2,
     filterBody:
-      "## What's Changed\r\n* feat: add qualify token by **@ariesdevil** in [#313](https://github.com/datafuselabs/bendsql/pull/313)\r\n* feat(core): support auth with access token by **@everpcpc** in [#314](https://github.com/datafuselabs/bendsql/pull/314)\r\n* chore: bump version to 0.12.0 by **@everpcpc** in [#315](https://github.com/datafuselabs/bendsql/pull/315)\r\n\r\n## New Contributors\r\n* **@ariesdevil** made their first contribution in [#313](https://github.com/datafuselabs/bendsql/pull/313)\r\n\r\n**Full Changelog**: https://github.com/datafuselabs/bendsql/compare/v0.11.3...v0.12.0",
+      "## What's Changed\r\n* feat: add qualify token by **@ariesdevil** in [#313](https://github.com/databendlabs/bendsql/pull/313)\r\n* feat(core): support auth with access token by **@everpcpc** in [#314](https://github.com/databendlabs/bendsql/pull/314)\r\n* chore: bump version to 0.12.0 by **@everpcpc** in [#315](https://github.com/databendlabs/bendsql/pull/315)\r\n\r\n## New Contributors\r\n* **@ariesdevil** made their first contribution in [#313](https://github.com/databendlabs/bendsql/pull/313)\r\n\r\n**Full Changelog**: https://github.com/databendlabs/bendsql/compare/v0.11.3...v0.12.0",
   },
 };
 

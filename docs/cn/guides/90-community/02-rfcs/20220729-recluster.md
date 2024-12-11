@@ -1,12 +1,11 @@
 ---
 title: 重新聚簇表
-description: 
-  重新聚簇表的RFC
+description: 重新聚簇表的RFC
 ---
 
 ## 概述
 
-聚簇的灵感来自于Snowflake中的数据聚簇和Oracle中的属性聚簇。
+聚簇的灵感来自于 Snowflake 中的数据聚簇和 Oracle 中的属性聚簇。
 
 一个聚簇表根据表中某些列的值以有序的方式存储数据。聚簇有利于分区消除和文件碎片整理。
 
@@ -14,11 +13,11 @@ description:
 
 ## 设计
 
-有关更详细的原理和图片，请参考[snowflake自动聚簇](https://sundy-li.github.io/posts/探索snowflake-auto-clustering/)。
+有关更详细的原理和图片，请参考[snowflake 自动聚簇](https://sundy-li.github.io/posts/探索snowflake-auto-clustering/)。
 
 对整个表进行排序的成本非常高，尤其是对于不断有新数据流入的表。为了在高效剪枝和低成本之间取得平衡，表只需要大致排序而不是完全排序。因此，在[指标](#指标)中引入了两个指标来确定表是否聚簇良好。重新聚簇的目标是减少`overlap`和`depth`。
 
-为了避免对同一块数据进行多次聚簇，我们将块分成不同的层级，类似于LSM树。重新聚簇类似于LSM的压缩操作。`level`表示该块中的数据被聚簇的次数。重新聚簇操作在同一层级上进行。
+为了避免对同一块数据进行多次聚簇，我们将块分成不同的层级，类似于 LSM 树。重新聚簇类似于 LSM 的压缩操作。`level`表示该块中的数据被聚簇的次数。重新聚簇操作在同一层级上进行。
 
 ```rust
 pub struct ClusterStatistics {
@@ -37,7 +36,7 @@ ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [
 
 如果指定`final`，优化将一直进行，直到表聚簇良好为止。否则，重新聚簇工作流程只会运行一次。
 
-该语句应由表上的DML触发。
+该语句应由表上的 DML 触发。
 
 ### 指标
 
@@ -49,13 +48,14 @@ ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [
 
 ### 块选择
 
-新流入数据的初始层级为0。我们首先关注较新的数据，换句话说，选择操作优先在层级0上进行。这样做的好处是减少写放大。
+新流入数据的初始层级为 0。我们首先关注较新的数据，换句话说，选择操作优先在层级 0 上进行。这样做的好处是减少写放大。
 
-1. 计算每个点的深度和块的重叠，并汇总得到avg_depth。该算法已经在[system$clustering_information](https://github.com/datafuselabs/databend/pull/5426)中反映，这里不再重复。avg_depth的理想结果是1。为了实现大致排序，考虑定义一个阈值或比例（threshold = blocks_num * ratio）。只要avg_depth不大于这个阈值，该层级的块就可以被认为是聚簇良好的，然后我们在下一层级进行块选择。
+1. 计算每个点的深度和块的重叠，并汇总得到 avg_depth。该算法已经在[system$clustering_information](https://github.com/databendlabs/databend/pull/5426)中反映，这里不再重复。avg_depth 的理想结果是 1。为了实现大致排序，考虑定义一个阈值或比例（threshold = blocks_num \* ratio）。只要 avg_depth 不大于这个阈值，该层级的块就可以被认为是聚簇良好的，然后我们在下一层级进行块选择。
 
 2. 选择深度最高的点范围（一个或多个），并选择该范围覆盖的块作为下一阶段块合并的对象集。如果存在多个深度最高的范围，可能会有多组块可以在块合并期间并行处理。
 
 提示：
+
 ```
 1. 聚簇键可能在表有数据时创建或更改，因此可能存在未按聚簇键排序的块。考虑在重新聚簇时暂时忽略这些块。
 
@@ -66,8 +66,8 @@ ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [
 
 ### 块合并
 
-对收集的块进行排序和合并。合并后的块超过一定阈值（1_000_000行）后，将分成多个块。新生成的块放入下一层级。
+对收集的块进行排序和合并。合并后的块超过一定阈值（1_000_000 行）后，将分成多个块。新生成的块放入下一层级。
 
-组织块并生成新的段和快照，最后更新表元数据。如果在此时有新的DML执行，当前工作流程将无法提交并返回错误。我们需要考虑具体的处理流程。
+组织块并生成新的段和快照，最后更新表元数据。如果在此时有新的 DML 执行，当前工作流程将无法提交并返回错误。我们需要考虑具体的处理流程。
 
 选择和合并操作重复进行，直到表聚簇良好为止。

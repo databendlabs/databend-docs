@@ -46,7 +46,7 @@ const JoinCommunity: FC<TProps> = ({
           icon: <GitHub />,
           star: formatStargazersCount,
           title: "GitHub",
-          link: "https://github.com/datafuselabs/databend",
+          link: "https://github.com/databendlabs/databend",
         },
         {
           icon: <Zhihu />,
@@ -69,7 +69,7 @@ const JoinCommunity: FC<TProps> = ({
           icon: <GitHub />,
           star: formatStargazersCount,
           title: "GitHub",
-          link: "https://github.com/datafuselabs/databend",
+          link: "https://github.com/databendlabs/databend",
         },
         {
           icon: <Slack />,

@@ -383,6 +383,6 @@ id|city       |score|country|
 
 ## 客户端实现
 
-官方客户端[bendsql](https://github.com/datafuselabs/bendsql)主要基于 HTTP 处理程序。
+官方客户端[bendsql](https://github.com/databendlabs/bendsql)主要基于 HTTP 处理程序。
 
-最简单的 HTTP 处理程序客户端实现示例位于[sqllogictest](https://github.com/datafuselabs/databend/blob/main/tests/sqllogictests/src/client/http_client.rs)中，用于 databend。
+最简单的 HTTP 处理程序客户端实现示例位于[sqllogictest](https://github.com/databendlabs/databend/blob/main/tests/sqllogictests/src/client/http_client.rs)中，用于 databend。

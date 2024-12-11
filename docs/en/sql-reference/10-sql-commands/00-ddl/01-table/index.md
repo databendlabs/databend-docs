@@ -18,7 +18,7 @@ Databend supports two types of tables based on their Time Travel support:
 
 ### 2. Selecting Table Storage
 
-Databend defaults to storing table data in the location configured in the [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file. Additionally, it provides the flexibility to store table data in a different bucket, deviating from the default setting. For more information, see [CREATE TABLE ... EXTERNAL_LOCATION](10-ddl-create-table.md#create-table--external_location).
+Databend defaults to storing table data in the location configured in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file. Additionally, it provides the flexibility to store table data in a different bucket, deviating from the default setting. For more information, see [CREATE TABLE ... EXTERNAL_LOCATION](10-ddl-create-table.md#create-table--external_location).
 
 ### 3. Defining Table Structure
 
@@ -44,7 +44,7 @@ Once your table is created, you gain the foundation for organizing and managing 
 - [SHOW DROP TABLES](show-drop-tables.md): Lists the dropped tables in the current or a specified database.
 - [SHOW TABLE STATUS](show-table-status.md): Shows the status of the tables in a database.
 - [SHOW TABLES](show-tables.md): Lists the tables in the current or a specified database.
-- [ALTER TABLE COLUMN](90-alter-table-column.md): Modifies the structure of a table by making changes to its columns. 
+- [ALTER TABLE COLUMN](90-alter-table-column.md): Modifies the structure of a table by making changes to its columns.
 - [ALTER TABLE OPTION](90-alter-table-option.md): Modifies the Fuse engine [Options](../../../00-sql-reference/30-table-engines/00-fuse.md#options) of a table.
 - [RENAME TABLE](30-ddl-rename-table.md): Changes the name of a table.
 
@@ -52,13 +52,12 @@ Once your table is created, you gain the foundation for organizing and managing 
 
 Databend provides a variety of commands for deleting a table or vacuuming the table data. The table below compares these commands, which may initially seem complex, outlining any associated recovery options for each operation.
 
-| Command           | Enterprise Edition? | Description                                                        | Recovery        |
-|-------------------|---------------------|--------------------------------------------------------------------|-----------------|
+| Command                                      | Enterprise Edition? | Description                                                        | Recovery                                 |
+| -------------------------------------------- | ------------------- | ------------------------------------------------------------------ | ---------------------------------------- |
 | [TRUNCATE TABLE](40-ddl-truncate-table.md)   | No                  | Removes all data from a table while preserving the table's schema. | [FLASHBACK TABLE](70-flashback-table.md) |
-| [DROP TABLE](20-ddl-drop-table.md)        | No                  | Deletes a table.                                                   | [UNDROP TABLE](21-ddl-undrop-table.md)    |
-| [VACUUM TABLE](91-vacuum-table.md)      | Yes                 | Permanently removes historical data files of a table.              | Not applicable. |
-| [VACUUM DROP TABLE](91-vacuum-drop-table.md) | Yes                 | Permanently removes data files of dropped tables.                  | Not applicable. |
-
+| [DROP TABLE](20-ddl-drop-table.md)           | No                  | Deletes a table.                                                   | [UNDROP TABLE](21-ddl-undrop-table.md)   |
+| [VACUUM TABLE](91-vacuum-table.md)           | Yes                 | Permanently removes historical data files of a table.              | Not applicable.                          |
+| [VACUUM DROP TABLE](91-vacuum-drop-table.md) | Yes                 | Permanently removes data files of dropped tables.                  | Not applicable.                          |
 
 ## Advanced Table Optimization Techniques
 

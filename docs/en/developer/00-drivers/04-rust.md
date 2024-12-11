@@ -7,7 +7,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 Databend offers a driver ([crates.io - databend-driver](https://crates.io/crates/databend-driver)) written in Rust, which facilitates the development of applications using the Rust programming language and establishes connectivity with Databend. Please note that the driver currently does not support handling arrays.
 
-For installation instructions, examples, and the source code, see [GitHub - databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver).
+For installation instructions, examples, and the source code, see [GitHub - databend-driver](https://github.com/databendlabs/BendSQL/tree/main/driver).
 
 ## Data Type Mappings
 

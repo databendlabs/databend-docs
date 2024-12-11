@@ -1,7 +1,6 @@
 ---
 title: recluster table
-description: 
-  RFC for recluster a clustered table
+description: RFC for recluster a clustered table
 ---
 
 ## Summary
@@ -51,11 +50,12 @@ The statement should be triggered by DML on the table.
 
 The initial level of newly incoming data is 0. We focus on the newer data first, in other words the selection operations are preferentially performed on level 0. The advantage of doing this is to reduce write amplification.
 
-1. Calculate the depth of each point and the overlaps of the block, and summarize to get avg_depth. The algorithm has already been reflected in [system$clustering_information](https://github.com/datafuselabs/databend/pull/5426), and will not be repeated here. The ideal result for avg_depth is 1. In order to achieve roughly ordering, consider defining a threshold or a ratio (threshold = blocks_num * ratio). As long as avg_depth is not greater than this threshold, the blocks at this level can be considered well-clustered, then we perform block selection on the next level.
+1. Calculate the depth of each point and the overlaps of the block, and summarize to get avg_depth. The algorithm has already been reflected in [system$clustering_information](https://github.com/databendlabs/databend/pull/5426), and will not be repeated here. The ideal result for avg_depth is 1. In order to achieve roughly ordering, consider defining a threshold or a ratio (threshold = blocks_num \* ratio). As long as avg_depth is not greater than this threshold, the blocks at this level can be considered well-clustered, then we perform block selection on the next level.
 
 2. Select the point range (one or more) with the highest depth, and select the blocks covered by the range as a set of objects for the next block-merge. If there is more than one range with the highest depth, there may be multiple sets of blocks that can be parallelized during block-merge.
 
 Tip:
+
 ```
 1. The cluster key may be created or altered when the table has data, so there may be blocks that are not sorted according to the cluster key. Consider temporarily ignoring such blocks when doing recluster.
 

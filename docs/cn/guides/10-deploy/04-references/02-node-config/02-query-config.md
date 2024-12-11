@@ -7,11 +7,11 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="引入或更新: v1.2.344"/>
 
-本页描述了在 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中可用的查询节点配置。
+本页描述了在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中可用的查询节点配置。
 
-- 下表中列出的一些参数可能不在 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中。如果您需要这些参数，可以手动将它们添加到文件中。
+- 下表中列出的一些参数可能不在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中。如果您需要这些参数，可以手动将它们添加到文件中。
 
-- 您可以在 GitHub 上找到为各种部署环境设置 Databend 的[示例配置文件](https://github.com/datafuselabs/databend/tree/main/scripts/ci/deploy/config)。这些文件仅供内部测试使用。请勿为您的目的修改它们。但如果您的部署环境类似，在编辑您自己的配置文件时参考它们是一个好主意。
+- 您可以在 GitHub 上找到为各种部署环境设置 Databend 的[示例配置文件](https://github.com/databendlabs/databend/tree/main/scripts/ci/deploy/config)。这些文件仅供内部测试使用。请勿为您的目的修改它们。但如果您的部署环境类似，在编辑您自己的配置文件时参考它们是一个好主意。
 
 ## [query] 部分
 

@@ -28,17 +28,20 @@ SELECT {'k1': 1, 'k2': 2}, map([1, 2], ['v1', 'v2']);
 
 这使得在 MAP 数据结构中搜索值变得更加容易和快速。
 
-Databend Map 中布隆过滤器索引的实现见 [PR#10457](https://github.com/datafuselabs/databend/pull/10457)。
+Databend Map 中布隆过滤器索引的实现见 [PR#10457](https://github.com/databendlabs/databend/pull/10457)。
 
 布隆过滤器在查询的值不存在时特别有效，可以显著减少查询时间。
 
 例如：
+
 ```sql
 SELECT *
 FROM nginx_log
 WHERE log['ip'] = '205.91.162.148';
 ```
+
 结果：
+
 ```
 ┌────┬─────────────────────────────────────────┐
 │ id │ log                                     │
@@ -52,7 +55,9 @@ SELECT *
 FROM nginx_log
 WHERE log['ip'] = '205.91.162.141';
 ```
+
 结果：
+
 ```
 ┌────┬─────┐
 │ id │ log │
@@ -66,7 +71,7 @@ WHERE log['ip'] = '205.91.162.141';
 
 ```sql
 CREATE TABLE web_traffic_data(
-    id INT64, 
+    id INT64,
     traffic_info MAP(STRING, STRING)
 );
 ```
@@ -76,6 +81,7 @@ DESC web_traffic_data;
 ```
 
 结果：
+
 ```
 ┌─────────────┬─────────────────────┬──────┬─────────┬───────┐
 │ Field       │ Type                │ Null │ Default │ Extra │
@@ -88,7 +94,7 @@ DESC web_traffic_data;
 **插入包含 IP 地址和访问 URL 的 Map 数据**
 
 ```sql
-INSERT INTO web_traffic_data 
+INSERT INTO web_traffic_data
 VALUES
     (1, {'ip': '192.168.1.1', 'url': 'example.com/home'}),
     (2, {'ip': '192.168.1.2', 'url': 'example.com/about'}),
@@ -100,7 +106,9 @@ VALUES
 ```sql
 SELECT * FROM web_traffic_data;
 ```
+
 结果：
+
 ```
 ┌────┬─────────────────────────────────────────────────┐
 │ id │ traffic_info                                    │
@@ -120,6 +128,7 @@ GROUP BY traffic_info['ip'];
 ```
 
 结果：
+
 ```
 ┌─────────────┬────────┐
 │ ip_address  │ visits │
@@ -130,6 +139,7 @@ GROUP BY traffic_info['ip'];
 ```
 
 **查询访问次数最多的 URL**
+
 ```sql
 SELECT traffic_info['url'] AS url, COUNT(*) AS visits
 FROM web_traffic_data
@@ -139,6 +149,7 @@ LIMIT 3;
 ```
 
 结果：
+
 ```
 ┌─────────────────────┬────────┐
 │ url                 │ visits │

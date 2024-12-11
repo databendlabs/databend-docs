@@ -172,7 +172,7 @@ For information about how to manage buckets and Access Keys for your CubeFS, ref
 ### Download Databend
 
 1. Create a folder named `databend` in the directory `/usr/local`.
-2. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/datafuselabs/databend/releases):
+2. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/databendlabs/databend/releases):
 
 <Tabs>
 <TabItem value="linux-x86_64" label="Linux(x86)">
@@ -541,7 +541,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### Step 3: Verifying Deployment
 
-In this step, you will run a simple query against Databend using [BendSQL](https://github.com/datafuselabs/BendSQL) to verify the deployment.
+In this step, you will run a simple query against Databend using [BendSQL](https://github.com/databendlabs/BendSQL) to verify the deployment.
 
 <StepsWrap>
 

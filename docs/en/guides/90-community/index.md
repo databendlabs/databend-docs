@@ -19,7 +19,7 @@ Join us and contribute to the growth of the Databend project. Here’s how you c
 Become part of our vibrant community, open to all data enthusiasts. Connect with us through:
 
 - **Slack**: [Join our channel](https://link.databend.com/join-slack) for real-time discussions.
-- **GitHub**: [Visit our repository](https://github.com/datafuselabs/databend) and help develop Databend.
+- **GitHub**: [Visit our repository](https://github.com/databendlabs/databend) and help develop Databend.
 - **Twitter**: [Follow us](https://twitter.com/DatabendLabs) for updates and discussions.
 - **LinkedIn**: [Connect](https://www.linkedin.com/company/datafuselabs) for networking and news.
 - **YouTube**: [Subscribe](https://www.youtube.com/@DatabendLabs) for tutorials and highlights.

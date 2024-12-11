@@ -99,7 +99,7 @@ const Releases: FC = (): ReactElement => {
               please refer to{" "}
               <a
                 target="_blank"
-                href="https://github.com/datafuselabs/databend/releases"
+                href="https://github.com/databendlabs/databend/releases"
               >
                 GitHub
               </a>
@@ -158,7 +158,7 @@ const Releases: FC = (): ReactElement => {
               earlier versions, please refer to{" "}
               <a
                 target="_blank"
-                href="https://github.com/datafuselabs/bendsql/releases"
+                href="https://github.com/databendlabs/bendsql/releases"
               >
                 GitHub
               </a>

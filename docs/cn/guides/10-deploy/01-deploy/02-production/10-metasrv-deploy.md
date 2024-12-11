@@ -15,12 +15,12 @@ Databend 建议在生产环境中部署至少三个元节点和一个查询节�
 - 规划您的部署。本主题基于以下集群部署计划，该计划涉及设置一个由三个元节点组成的元集群和一个由两个查询节点组成的查询集群：
 
 | 节点 #  | IP 地址           | 领导元节点？ | 租户 ID | 集群 ID |
-| ------- | ----------------- | ------------ | -------- | -------- |
-| Meta-1  | 172.16.125.128/24 | 是           | -        | -        |
-| Meta-2  | 172.16.125.129/24 | 否           | -        | -        |
-| Meta-3  | 172.16.125.130/24 | 否           | -        | -        |
-| Query-1 | 172.16.125.131/24 | -            | default  | default  |
-| Query-2 | 172.16.125.132/24 | -            | default  | default  |
+| ------- | ----------------- | ------------ | ------- | ------- |
+| Meta-1  | 172.16.125.128/24 | 是           | -       | -       |
+| Meta-2  | 172.16.125.129/24 | 否           | -       | -       |
+| Meta-3  | 172.16.125.130/24 | 否           | -       | -       |
+| Query-1 | 172.16.125.131/24 | -            | default | default |
+| Query-2 | 172.16.125.132/24 | -            | default | default |
 
 - 将最新的 Databend 包下载并解压到每个节点。
 
@@ -35,7 +35,7 @@ root@meta-1:/usr/databend# tar -xzvf databend-v1.2.410-aarch64-unknown-linux-gnu
 
 ## 步骤 1：部署元节点
 
-1. 在每个元节点上配置文件 [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml)：
+1. 在每个元节点上配置文件 [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml)：
 
    - 确保 [raft_config] 中的 **id** 参数设置为唯一值。
    - 将领导元节点的 **single** 参数设置为 _true_。
@@ -150,12 +150,12 @@ curl 172.16.125.128:28101/v1/cluster/nodes
 
 ## 步骤 2：部署查询节点
 
-1. 在每个查询节点上配置文件 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml)。以下列表仅包括您需要在每个查询节点中设置的参数，以反映本文档中概述的部署计划。
+1. 在每个查询节点上配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml)。以下列表仅包括您需要在每个查询节点中设置的参数，以反映本文档中概述的部署计划。
 
    - 根据部署计划设置租户 ID 和集群 ID。
    - 将 **endpoints** 参数设置为元节点的 IP 地址数组。
 
-| 参数      | Query-1 / Query-2                                                   |
+| 参数       | Query-1 / Query-2                                                   |
 | ---------- | ------------------------------------------------------------------- |
 | tenant_id  | default                                                             |
 | cluster_id | default                                                             |
@@ -203,7 +203,7 @@ endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
   </TabItem>
 </Tabs>
 
-2. 对于每个查询节点，您还需要在文件 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中配置对象存储和 admin 用户。有关详细说明，请参阅 [此处](../01-non-production/01-deploying-databend.md#deploying-a-query-node)。
+2. 对于每个查询节点，您还需要在文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中配置对象存储和 admin 用户。有关详细说明，请参阅 [此处](../01-non-production/01-deploying-databend.md#deploying-a-query-node)。
 
 3. 在每个查询节点上运行以下脚本来启动它们：
 

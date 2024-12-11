@@ -16,7 +16,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 ### 开始之前
 
 - 确保您有一个本地 Databend 实例可供测试。详细说明请参见[Docker 和本地部署](/guides/deploy/deploy/non-production/deploying-local)。
-- 在本教程中，您将使用 `root` 账户连接到 Databend。在部署过程中，取消注释 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中的以下行以选择此账户：
+- 在本教程中，您将使用 `root` 账户连接到 Databend。在部署过程中，取消注释 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中的以下行以选择此账户：
 
   ```sql title="databend-query.toml"
   [[query.users]]

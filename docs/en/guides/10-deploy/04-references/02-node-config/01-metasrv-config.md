@@ -2,7 +2,7 @@
 title: Meta Configurations
 ---
 
-This page describes the Meta node configurations available in the [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) configuration file.
+This page describes the Meta node configurations available in the [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) configuration file.
 
 ```toml title='databend-meta.toml'
 # Usage:
@@ -28,13 +28,13 @@ raft_advertise_host = "localhost"
 single        = true
 ```
 
-- Some parameters listed in the table below may not be present in [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml). If you require these parameters, you can manually add them to the file.
+- Some parameters listed in the table below may not be present in [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml). If you require these parameters, you can manually add them to the file.
 
-- You can find [sample configuration files](https://github.com/datafuselabs/databend/tree/main/scripts/ci/deploy/config) on GitHub that set up Databend for various deployment environments. These files were created for internal testing ONLY. Please do NOT modify them for your own purposes. But if you have a similar deployment, it is a good idea to reference them when editing your own configuration files.
+- You can find [sample configuration files](https://github.com/databendlabs/databend/tree/main/scripts/ci/deploy/config) on GitHub that set up Databend for various deployment environments. These files were created for internal testing ONLY. Please do NOT modify them for your own purposes. But if you have a similar deployment, it is a good idea to reference them when editing your own configuration files.
 
 ## General Parameters
 
-The following is a list of general parameters available in the [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) configuration file. These parameters should not be included under any specific section.
+The following is a list of general parameters available in the [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) configuration file. These parameters should not be included under any specific section.
 
 | Parameter               | Description                                                                               |
 | ----------------------- | ----------------------------------------------------------------------------------------- |
@@ -78,33 +78,33 @@ The following is a list of the parameters available within the [raft_config] sec
 
 Here is the translated `databend-meta` startup configuration table in English:
 
-| Parameter                       | Description                                                                                                                                                   |
-|---------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id                              | Unique identifier for the Raft configuration.                                                                                                                  |
-| raft_dir                        | Directory to store Raft data.                                                                                                                                 |
-| raft_api_port                   | Port for the Databend Raft API.                                                                                                                                |
-| raft_listen_host                | IP address for Raft to listen on.                                                                                                                              |
-| raft_advertise_host             | IP address for advertising the Raft API.                                                                                                                       |
-| cluster_name                    | Node name. If the user specifies a name, the provided name is used; otherwise, the default name is used.                                                        |
-| wait_leader_timeout             | Timeout for waiting for the leader, in milliseconds. Default: 180000.                                                                                          |
-| -- **Management** --            |                                                                                                                                                               |
-| single                          | Boolean indicating whether Databend should run in single-node cluster mode (`true` or `false`).                                                                 |
-| join                            | List of addresses of existing cluster nodes (`<raft_advertise_host>:<raft_api_port>`), new node will join this cluster.                                        |
-| leave_via                       | Do not run `databend-meta`, but remove a node from the cluster via the provided endpoints. The node will be removed by `id`.                                     |
-| leave_id                        | ID of the node to leave the cluster.                                                                                                                            |
-| -- **RPC** --                   |                                                                                                                                                               |
-| heartbeat_interval              | Heartbeat interval in milliseconds. Default: 500.                                                                                                              |
-| install_snapshot_timeout        | Timeout for installing snapshots, in milliseconds. Default: 4000.                                                                                              |
-| -- **Raft Log Storage** --      |                                                                                                                                                               |
-| log_cache_max_items             | Maximum number of log entries cached in Raft logs. Default: 1,000,000.                                                                                         |
-| log_cache_capacity              | Maximum memory (bytes) for log caching in Raft logs. Default: 1G.                                                                                              |
-| log_wal_chunk_max_records       | Maximum number of records per file chunk in Raft log WAL. Default: 100,000.                                                                                     |
-| log_wal_chunk_max_size          | Maximum size (bytes) for a file chunk in Raft log WAL. Default: 256M.                                                                                           |
-| -- **Raft Snapshot Storage** -- |                                                                                                                                                               |
-| snapshot_chunk_size             | Chunk size for transmitting snapshots, in bytes. Default: 4MB.                                                                                                |
-| snapshot_logs_since_last        | Maximum number of logs since the last snapshot. If exceeded, a new snapshot is created. Default: 1024.                                                        |
-| snapshot_db_debug_check         | Whether to check if the keys in the input snapshot are sorted. For debugging only; Default: `true`.                                                               |
-| snapshot_db_block_keys          | Maximum number of keys allowed per block in the snapshot database. Default: 8000.                                                                              |
-| snapshot_db_block_cache_item    | Total number of blocks to cache. Default: 1024.                                                                                                               |
-| snapshot_db_block_cache_size    | Total cache size for snapshot blocks. Default: 1GB.                                                                                                           |
-| max_applied_log_to_keep         | Maximum number of applied logs to keep in the snapshot. Default: 1000.                                                                                        |
+| Parameter                       | Description                                                                                                                  |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| id                              | Unique identifier for the Raft configuration.                                                                                |
+| raft_dir                        | Directory to store Raft data.                                                                                                |
+| raft_api_port                   | Port for the Databend Raft API.                                                                                              |
+| raft_listen_host                | IP address for Raft to listen on.                                                                                            |
+| raft_advertise_host             | IP address for advertising the Raft API.                                                                                     |
+| cluster_name                    | Node name. If the user specifies a name, the provided name is used; otherwise, the default name is used.                     |
+| wait_leader_timeout             | Timeout for waiting for the leader, in milliseconds. Default: 180000.                                                        |
+| -- **Management** --            |                                                                                                                              |
+| single                          | Boolean indicating whether Databend should run in single-node cluster mode (`true` or `false`).                              |
+| join                            | List of addresses of existing cluster nodes (`<raft_advertise_host>:<raft_api_port>`), new node will join this cluster.      |
+| leave_via                       | Do not run `databend-meta`, but remove a node from the cluster via the provided endpoints. The node will be removed by `id`. |
+| leave_id                        | ID of the node to leave the cluster.                                                                                         |
+| -- **RPC** --                   |                                                                                                                              |
+| heartbeat_interval              | Heartbeat interval in milliseconds. Default: 500.                                                                            |
+| install_snapshot_timeout        | Timeout for installing snapshots, in milliseconds. Default: 4000.                                                            |
+| -- **Raft Log Storage** --      |                                                                                                                              |
+| log_cache_max_items             | Maximum number of log entries cached in Raft logs. Default: 1,000,000.                                                       |
+| log_cache_capacity              | Maximum memory (bytes) for log caching in Raft logs. Default: 1G.                                                            |
+| log_wal_chunk_max_records       | Maximum number of records per file chunk in Raft log WAL. Default: 100,000.                                                  |
+| log_wal_chunk_max_size          | Maximum size (bytes) for a file chunk in Raft log WAL. Default: 256M.                                                        |
+| -- **Raft Snapshot Storage** -- |                                                                                                                              |
+| snapshot_chunk_size             | Chunk size for transmitting snapshots, in bytes. Default: 4MB.                                                               |
+| snapshot_logs_since_last        | Maximum number of logs since the last snapshot. If exceeded, a new snapshot is created. Default: 1024.                       |
+| snapshot_db_debug_check         | Whether to check if the keys in the input snapshot are sorted. For debugging only; Default: `true`.                          |
+| snapshot_db_block_keys          | Maximum number of keys allowed per block in the snapshot database. Default: 8000.                                            |
+| snapshot_db_block_cache_item    | Total number of blocks to cache. Default: 1024.                                                                              |
+| snapshot_db_block_cache_size    | Total cache size for snapshot blocks. Default: 1GB.                                                                          |
+| max_applied_log_to_keep         | Maximum number of applied logs to keep in the snapshot. Default: 1000.                                                       |

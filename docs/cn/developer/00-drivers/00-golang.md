@@ -7,7 +7,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 Databend 提供了一个用 Golang 编写的驱动程序（databend-go），该驱动程序便于使用 Golang 编程语言开发应用程序并与 Databend 建立连接。
 
-有关安装说明、示例和源代码，请参阅 GitHub 上的 [databend-go](https://github.com/datafuselabs/databend-go) 仓库。
+有关安装说明、示例和源代码，请参阅 GitHub 上的 [databend-go](https://github.com/databendlabs/databend-go) 仓库。
 
 ## 数据类型映射
 

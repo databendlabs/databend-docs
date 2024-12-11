@@ -6,17 +6,17 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 Databend code is distributed under two licensing types:
 
-| Type                | Description                                                                                                                                                                                                                                                                                         |
-|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Apache 2.0 License  | Core features under the Apache License are free to use and fully open source.                                                                                                                                                                                                                       |
-| Elastic 2.0 License | * Elastic (Free) features are free to use. The source code is available to view and modify under Elastic 2.0 License Limitations. <br/> * Elastic (Paid) features require an Enterprise License key to access. The source code is available to view and modify under Elastic 2.0 License Limitations. | 
+| Type                | Description                                                                                                                                                                                                                                                                                           |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Apache 2.0 License  | Core features under the Apache License are free to use and fully open source.                                                                                                                                                                                                                         |
+| Elastic 2.0 License | _ Elastic (Free) features are free to use. The source code is available to view and modify under Elastic 2.0 License Limitations. <br/> _ Elastic (Paid) features require an Enterprise License key to access. The source code is available to view and modify under Elastic 2.0 License Limitations. |
 
 Databend's core functionality is available for free usage. The majority of core features are licensed under the permissive Apache License. However, specific features located in the src/query/ee and src/meta/ee directories are governed by the more restrictive Elastic License.
 
 For access to Databend Enterprise features, a paid license from Databend is required, and these features are also subject to the Elastic License. For additional custom licensing options, please feel free to [contact us](https://www.databend.com/contact-us).
 
 :::note
-You can find the feature's license by taking a look on the code file's header under the [Databend repository](https://github.com/datafuselabs/databend)
+You can find the feature's license by taking a look on the code file's header under the [Databend repository](https://github.com/databendlabs/databend)
 :::
 
 The following topics cover how to obtain, set, and verify an enterprise or trial license to access the [Enterprise Features](10-enterprise-features.md).
@@ -24,8 +24,9 @@ The following topics cover how to obtain, set, and verify an enterprise or trial
 ## Obtaining a License
 
 All Databend code is included in the same binary. No license key is required to access Apache and Elastic (Free) features. To access Elastic (Paid) features, users have two options:
-* An **Enterprise license** enables you to use Databend Enterprise features for longer periods (one year or more). To upgrade to Enterprise license, [contact sales](https://www.databend.com/contact-us).
-* A **Trial license** enables you to try out Databend for 15 days for free, [contact us](https://www.databend.com/contact-us) to get your trial license.
+
+- An **Enterprise license** enables you to use Databend Enterprise features for longer periods (one year or more). To upgrade to Enterprise license, [contact sales](https://www.databend.com/contact-us).
+- A **Trial license** enables you to try out Databend for 15 days for free, [contact us](https://www.databend.com/contact-us) to get your trial license.
 
 :::note
 Databend Labs encourage non-commercial academic research involving Databend. For such projects, please [contact us](https://www.databend.com/contact-us) for possible long term licenses)
@@ -96,9 +97,7 @@ This is permitted under ELv2, because you are not providing the software as a ma
 **I am a Managed Service Provider running Databend for my customers**
 
 If your customers do not access Databend. this is permitted under ELv2. If your customers do have access to substantial portions of functionality of Databend as part of your service, this may not be permitted.
+
 </details>
 
 </DetailsWrap>
-
-
-

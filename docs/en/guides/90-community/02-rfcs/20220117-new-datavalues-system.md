@@ -1,7 +1,6 @@
 ---
 title: New DataValues System
-description:
-  New DataValues system design RFC
+description: New DataValues system design RFC
 ---
 
 :::tip
@@ -9,14 +8,13 @@ description:
 
 **Learn More**
 
-- [RFC: Formal Type System](https://github.com/datafuselabs/databend/discussions/5438)
-- [refactor: Merge new expression](https://github.com/datafuselabs/databend/pull/9411)
-:::
+- [RFC: Formal Type System](https://github.com/databendlabs/databend/discussions/5438)
+- [refactor: Merge new expression](https://github.com/databendlabs/databend/pull/9411)
+  :::
 
 ## Summary
 
 ### Short comes of current `DataType`
-
 
 - `DataType` is an enum type, we must use specific type after matching. For example, if we want to create deserializer/serializer by `DataType`, we should always do matching. It does not mean that match is not necessary. If we want to add more and more functions to `DataType`, matching may be very annoyment.
 
@@ -28,7 +26,8 @@ description:
 
 ### Too many concepts about column (Series/Column/Array)
 
--  DataColumn is an enum, including `Constant(value)` and `Array(Series)`
+- DataColumn is an enum, including `Constant(value)` and `Array(Series)`
+
 ```rust
 pub enum DataColumn {
     // Array of values.
@@ -39,6 +38,7 @@ pub enum DataColumn {
 ```
 
 - Series is a wrap of `SeriesTrait`
+
 ```rust
 pub struct Series(pub Arc<dyn SeriesTrait>);
 ```
@@ -60,6 +60,7 @@ pub struct SeriesWrap<T>(pub T);
 ```
 
 - For functions, we must consider about `Constant` case for `Column`, so there are many branch matching.
+
 ```rust
 match (
             columns[0].column().cast_with_type(&DataType::String)?,
@@ -79,9 +80,7 @@ match (
             ...
 ```
 
-
 ## New DataValues system design
-
 
 ### Introduce `DataType` as a trait
 
@@ -169,6 +168,7 @@ pub trait Column: Send + Sync {
 - Introduce `Constant column`
 
 > `Constant column` is a wrapper of a `Column` with a single value(size = 1)
+
 ```rust
 #[derive(Clone)]
 pub struct ConstColumn {
@@ -214,6 +214,7 @@ let column = Series::from_data(vec![1，2，3，4);
 ```
 
 - Downcast into the specific `Column`
+
 ```rust
 impl Series {
     /// Get a pointer to the underlying data of this Series.
