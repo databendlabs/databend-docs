@@ -4,6 +4,8 @@ title: Automating JSON Log Loading with Vector
 
 In this tutorial, we'll simulate generating logs locally, collect them using [Vector](https://vector.dev/), store them in S3, and automate their ingestion into Databend Cloud using scheduled tasks.
 
+![Automating JSON Log Loading with Vector](@site/static/img/documents/tutorials/vector-tutorial.png)
+
 ## Before You Start
 
 Before you start, ensure you have the following prerequisites in place:
@@ -13,7 +15,7 @@ Before you start, ensure you have the following prerequisites in place:
 - **AWS CLI**: Ensure that the [AWS CLI](https://aws.amazon.com/cli/) is installed and configured with the necessary permissions to access your S3 bucket.
 - **Docker**: Ensure that [Docker](https://www.docker.com/) is installed on your local machine, as it will be used to set up Vector.
 
-## Step 1: Create Target Folder in S3 Bucket
+## Step 1: Create a Target Folder in S3 Bucket
 
 To store the logs collected by Vector, create a folder named logs in your S3 bucket. In this tutorial, we use `s3://databend-doc/logs/` as the target location. 
 
@@ -23,7 +25,7 @@ This command creates an empty folder named `logs` in the `databend-doc` bucket:
 aws s3api put-object --bucket databend-doc --key logs/
 ```
 
-## Step 2: Create Local Log File
+## Step 2: Create a Local Log File
 
 Simulate log generation by creating a local log file. In this tutorial, we use `/Users/eric/Documents/logs/app.log` as the file path.
 
@@ -108,7 +110,7 @@ Compared to the original log, the synced log is in NDJSON format, with each reco
 {"log":{"event":"purchase","timestamp":"2024-12-08T10:05:00Z","user_id":2}}
 ```
 
-## Step 4: Create Task in Databend Cloud
+## Step 4: Create a Task in Databend Cloud
 
 1. Open a worksheet, and create an external stage that links to the `logs` folder in your bucket:
 
