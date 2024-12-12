@@ -3,8 +3,8 @@ title: Iceberg Catalog
 description: Accessing Apache Iceberg formatted data source as an external catalog.
 ---
 
-- RFC PR: [datafuselabs/databend#8215](https://github.com/datafuselabs/databend/pull/8215)
-- Tracking Issue: [datafuselabs/databend#8216](https://github.com/datafuselabs/databend/issues/8216)
+- RFC PR: [datafuselabs/databend#8215](https://github.com/databendlabs/databend/pull/8215)
+- Tracking Issue: [datafuselabs/databend#8216](https://github.com/databendlabs/databend/issues/8216)
 
 ## Summary
 

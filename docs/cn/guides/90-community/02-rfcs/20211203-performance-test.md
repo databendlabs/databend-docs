@@ -1,13 +1,13 @@
 ---
 title: 性能测试的测试基础设施
-description:
-  性能测试的测试基础设施 RFC
+description: 性能测试的测试基础设施 RFC
 ---
 
 目前，我们已经支持在 tests/perfs 目录下本地运行性能测试，这里我们需要在 CI 中支持性能测试。
 
 计算和存储的解耦使得 databend 能够轻松集成到 kubernetes 中。
 借助 kubernetes 平台的支持，databend 基准测试可以实现以下优势：
+
 1. 稳定的基准测试结果，通过容器化和 cgroup，易于测试的实例可以具有幂等的计算资源
 2. 弹性，可以根据需求扩展或缩减测试，并且还支持在本地（minikube + DinD）或云上运行测试
 3. 对于后续测试，我们需要在 TPC 基准测试上进行测试，并将 databend-dfs 存储层集成到测试基础设施中，到目前为止，kubernetes 可以帮助轻松实现实例扩展
@@ -37,6 +37,7 @@ description:
 比较当前 pull requests 的最新 SHA 构建与给定分支名称之间的性能差异
 
 Branch-name 支持：
+
 1. 主分支：main（某些仓库是 main）
 2. 发布标签分支：例如 v1.1.1-nightly
 3. 最新标签：获取 github 仓库中的最新标签
@@ -48,25 +49,29 @@ Branch-name 支持：
 与 run-perf 部分类似，唯一的区别是它会绕过 docker 构建部分，并假设性能 docker 构建镜像已准备好进行测试
 
 示例：
+
 ```bash
 /run-perf main
 ```
 
 它将比较当前 PR 的最新提交与主分支之间的性能
+
 ```bash
 /run-perf v1.1.1-nightly
 ```
 
 它将比较当前 PR 的最新提交与发布标签 v1.1.1-nightly 之间的性能
+
 ```bash
 /run-perf latest
 ```
 
 它将比较当前 PR 的最新提交与最新发布标签之间的性能
+
 ```bash
 /rerun-perf main
 ```
 
 与 `/run-perf main` 做同样的事情，但会跳过 docker 镜像构建步骤
 
-更多信息请查看 [test-infra](https://github.com/datafuselabs/test-infra)
+更多信息请查看 [test-infra](https://github.com/databendlabs/test-infra)

@@ -1,7 +1,6 @@
 ---
 title: 新 DataValues 系统
-description:
-  新 DataValues 系统设计 RFC
+description: 新 DataValues 系统设计 RFC
 ---
 
 :::tip
@@ -9,9 +8,9 @@ description:
 
 **了解更多**
 
-- [RFC: 正式类型系统](https://github.com/datafuselabs/databend/discussions/5438)
-- [重构: 合并新表达式](https://github.com/datafuselabs/databend/pull/9411)
-:::
+- [RFC: 正式类型系统](https://github.com/databendlabs/databend/discussions/5438)
+- [重构: 合并新表达式](https://github.com/databendlabs/databend/pull/9411)
+  :::
 
 ## 概述
 
@@ -28,6 +27,7 @@ description:
 ### 关于列（Series/Column/Array）的概念过多
 
 - `DataColumn` 是一个枚举，包括 `Constant(value)` 和 `Array(Series)`
+
 ```rust
 pub enum DataColumn {
     // 值的数组。
@@ -38,6 +38,7 @@ pub enum DataColumn {
 ```
 
 - `Series` 是 `SeriesTrait` 的包装
+
 ```rust
 pub struct Series(pub Arc<dyn SeriesTrait>);
 ```
@@ -59,6 +60,7 @@ pub struct SeriesWrap<T>(pub T);
 ```
 
 - 对于函数，我们必须考虑 `Column` 的 `Constant` 情况，因此有许多分支匹配。
+
 ```rust
 match (
             columns[0].column().cast_with_type(&DataType::String)?,
@@ -166,6 +168,7 @@ pub trait Column: Send + Sync {
 - 引入 `Constant column`
 
 > `Constant column` 是一个包装了单个值（大小 = 1）的 `Column`
+
 ```rust
 #[derive(Clone)]
 pub struct ConstColumn {
@@ -211,6 +214,7 @@ let column = Series::from_data(vec![1，2，3，4);
 ```
 
 - 向下转换为特定的 `Column`
+
 ```rust
 impl Series {
     /// 获取此 Series 底层数据的指针。

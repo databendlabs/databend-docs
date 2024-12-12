@@ -1,16 +1,16 @@
 ---
 title: Tracing Databend
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.199"/>
 
 Databend utilizes Rust's tracing ecosystem, specifically [tokio-tracing](https://github.com/tokio-rs/tracing), for logging and profiling purposes.
 
-
 ## Enable Tracing
 
-Tracing in Databend can be enabled with the environment variable `LOG_LEVEL` or the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml).
+Tracing in Databend can be enabled with the environment variable `LOG_LEVEL` or the configuration file [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml).
 
 ### Enabling with Environment Variable
 
@@ -35,7 +35,7 @@ SET max_threads=1;
 
 ### Enabling with Configuration File
 
-1. Add the following parameters to the [log] section in the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For a detailed description of each parameter, see [[log.tracing] Section](../04-references/02-node-config/02-query-config.md#logtracing-section).
+1. Add the following parameters to the [log] section in the configuration file [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For a detailed description of each parameter, see [[log.tracing] Section](../04-references/02-node-config/02-query-config.md#logtracing-section).
 
 ```toml title='databend-query.toml'
 ...

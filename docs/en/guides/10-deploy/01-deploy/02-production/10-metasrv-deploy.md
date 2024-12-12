@@ -35,7 +35,7 @@ root@meta-1:/usr/databend# tar -xzvf databend-v1.2.410-aarch64-unknown-linux-gnu
 
 ## Step 1: Deploy Meta Nodes
 
-1. Configure the file [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) in each meta node:
+1. Configure the file [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) in each meta node:
 
    - Ensure that the **id** parameter in [raft_config] is set to a unique value.
    - Set the **single** parameter to _true_ for the leader meta node.
@@ -150,7 +150,7 @@ curl 172.16.125.128:28101/v1/cluster/nodes
 
 ## Step 2: Deploy Query Nodes
 
-1. Configure the file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) in each query node. The following list only includes the parameters you need to set in each query node to reflect the deployment plan outlined in this document.
+1. Configure the file [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) in each query node. The following list only includes the parameters you need to set in each query node to reflect the deployment plan outlined in this document.
 
    - Set the tenant ID and cluster ID according to the deployment plan.
    - Set the **endpoints** parameter to an array of the IP addresses of the meta nodes.
@@ -203,7 +203,7 @@ endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
   </TabItem>
 </Tabs>
 
-2. For each query node, you also need to configure the object storage and admin users in the file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For detailed instructions, see [here](../01-non-production/01-deploying-databend.md#deploying-a-query-node).
+2. For each query node, you also need to configure the object storage and admin users in the file [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For detailed instructions, see [here](../01-non-production/01-deploying-databend.md#deploying-a-query-node).
 
 3. Run the following script on each query node to start them:
 

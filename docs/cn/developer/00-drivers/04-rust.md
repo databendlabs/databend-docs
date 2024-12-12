@@ -7,7 +7,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 Databend 提供了一个用 Rust 编写的驱动程序（[crates.io - databend-driver](https://crates.io/crates/databend-driver)），该驱动程序便于使用 Rust 编程语言开发应用程序并与 Databend 建立连接。请注意，该驱动程序目前不支持处理数组。
 
-有关安装说明、示例和源代码，请参阅 [GitHub - databend-driver](https://github.com/datafuselabs/BendSQL/tree/main/driver)。
+有关安装说明、示例和源代码，请参阅 [GitHub - databend-driver](https://github.com/databendlabs/BendSQL/tree/main/driver)。
 
 ## 数据类型映射
 

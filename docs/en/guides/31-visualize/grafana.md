@@ -2,7 +2,7 @@
 title: Grafana
 ---
 
-[Grafana](https://grafana.com/) is a monitoring dashboard system, which is an open-source monitoring tool developed by Grafana Labs. It can greatly simplify the complexity of monitoring by allowing us to provide the data to be monitored, and it generates various visualizations. Additionally, it has an alarm function that sends notifications when there is an issue with the system. Databend and Databend Cloud can integrate with Grafana through the [Grafana Databend Data Source Plugin](https://github.com/datafuselabs/grafana-databend-datasource).
+[Grafana](https://grafana.com/) is a monitoring dashboard system, which is an open-source monitoring tool developed by Grafana Labs. It can greatly simplify the complexity of monitoring by allowing us to provide the data to be monitored, and it generates various visualizations. Additionally, it has an alarm function that sends notifications when there is an issue with the system. Databend and Databend Cloud can integrate with Grafana through the [Grafana Databend Data Source Plugin](https://github.com/databendlabs/grafana-databend-datasource).
 
 ## Tutorial: Integrating with Grafana
 
@@ -28,14 +28,14 @@ allow_loading_unsigned_plugins = databend-datasource
 
 ### Step 3. Install the Grafana Databend Data Source Plugin
 
-1. Find the latest release on [GitHub Release](https://github.com/datafuselabs/grafana-databend-datasource/releases).
+1. Find the latest release on [GitHub Release](https://github.com/databendlabs/grafana-databend-datasource/releases).
 
-2. Get the download URL for the plugin zip package, for example, `https://github.com/datafuselabs/grafana-databend-datasource/releases/download/v1.0.2/databend-datasource-1.0.2.zip`.
+2. Get the download URL for the plugin zip package, for example, `https://github.com/databendlabs/grafana-databend-datasource/releases/download/v1.0.2/databend-datasource-1.0.2.zip`.
 
 3. Get the Grafana plugins folder and unzip the downloaded zip package into it.
 
 ```shell
-curl -fLo /tmp/grafana-databend-datasource.zip https://github.com/datafuselabs/grafana-databend-datasource/releases/download/v1.0.2/databend-datasource-1.0.2.zip
+curl -fLo /tmp/grafana-databend-datasource.zip https://github.com/databendlabs/grafana-databend-datasource/releases/download/v1.0.2/databend-datasource-1.0.2.zip
 unzip /tmp/grafana-databend-datasource.zip -d /var/lib/grafana/plugins
 rm /tmp/grafana-databend-datasource.zip
 ```

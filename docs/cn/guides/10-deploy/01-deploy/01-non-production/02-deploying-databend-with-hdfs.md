@@ -51,7 +51,7 @@ export CLASSPATH=$(find $HADOOP_HOME -iname "*.jar" | xargs echo | tr ' ' ':')
 
 a. 在目录 `/usr/local` 中创建一个名为 `databend` 的文件夹。
 
-b. 从 [GitHub Release](https://github.com/datafuselabs/databend/releases) 下载并提取适用于您平台的最新 Databend 发行版：
+b. 从 [GitHub Release](https://github.com/databendlabs/databend/releases) 下载并提取适用于您平台的最新 Databend 发行版：
 
 :::note
 要使用 HDFS 作为存储后端，请下载文件名为 `databend-hdfs-${version}-${target-platform}.tar.gz` 的发行版。
@@ -95,7 +95,7 @@ c. 将提取的文件夹 `bin`、`configs` 和 `scripts` 移动到文件夹 `/us
 
 a. 在目录 `/usr/local` 中创建一个名为 `databend` 的文件夹。
 
-b. 从 [GitHub Release](https://github.com/datafuselabs/databend/releases) 下载并提取适用于您平台的最新 Databend 发行版：
+b. 从 [GitHub Release](https://github.com/databendlabs/databend/releases) 下载并提取适用于您平台的最新 Databend 发行版：
 
 <Tabs>
 <TabItem value="linux-x86_64" label="Linux(x86)">
@@ -154,7 +154,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 
 a. 找到文件夹 `/usr/local/databend/configs` 中的文件 `databend-query.toml`。
 
-b. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 *type*，并配置连接 HDFS 的访问凭证和端点 URL。
+b. 在文件 `databend-query.toml` 中，设置 [storage] 块中的参数 _type_，并配置连接 HDFS 的访问凭证和端点 URL。
 
 要配置存储设置，请通过在每行开头添加 '#' 来注释掉 [storage.fs] 部分，然后通过删除 '#' 符号来取消注释适用于您的 HDFS 提供商的部分，并填写必要的值。您可以复制并粘贴下面的相应模板到文件中并进行相应配置。
 
@@ -217,7 +217,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 验证部署
 
-在本节中，我们将使用 [BendSQL](https://github.com/datafuselabs/BendSQL) 对 Databend 运行一个简单的查询，以验证部署。
+在本节中，我们将使用 [BendSQL](https://github.com/databendlabs/BendSQL) 对 Databend 运行一个简单的查询，以验证部署。
 
 a. 按照 [安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) 在您的机器上安装 BendSQL。
 

@@ -1,11 +1,11 @@
 ---
-title: 'AI_EMBEDDING_VECTOR'
-description: 'Creating embeddings using the ai_embedding_vector function in Databend'
+title: "AI_EMBEDDING_VECTOR"
+description: "Creating embeddings using the ai_embedding_vector function in Databend"
 ---
 
 This document provides an overview of the ai_embedding_vector function in Databend and demonstrates how to create document embeddings using this function.
 
-The main code implementation can be found [here](https://github.com/datafuselabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/common/openai/src/embedding.rs).
+The main code implementation can be found [here](https://github.com/databendlabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/common/openai/src/embedding.rs).
 
 By default, Databend leverages the [text-embedding-ada](https://platform.openai.com/docs/models/embeddings) model for generating embeddings.
 
@@ -15,12 +15,14 @@ Starting from Databend v1.1.47, Databend supports the [Azure OpenAI service](htt
 This integration offers improved data privacy.
 
 To use Azure OpenAI, add the following configurations to the `[query]` section:
+
 ```sql
 # Azure OpenAI
 openai_api_chat_base_url = "https://<name>.openai.azure.com/openai/deployments/<name>/"
 openai_api_embedding_base_url = "https://<name>.openai.azure.com/openai/deployments/<name>/"
 openai_api_version = "2023-03-15-preview"
 ```
+
 :::
 
 :::caution
@@ -31,7 +33,6 @@ They will only work when the Databend configuration includes the `openai_api_key
 This function is available by default on [Databend Cloud](https://databend.com) using our Azure OpenAI key. If you use them, you acknowledge that your data will be sent to Azure OpenAI by us.
 :::
 
-
 ## Overview of ai_embedding_vector
 
 The `ai_embedding_vector` function in Databend is a built-in function that generates vector embeddings for text data. It is useful for natural language processing tasks, such as document similarity, clustering, and recommendation systems.
@@ -41,7 +42,9 @@ The function takes a text input and returns a high-dimensional vector that repre
 ## Creating embeddings using ai_embedding_vector
 
 To create embeddings for a text document using the `ai_embedding_vector` function, follow the example below.
+
 1. Create a table to store the documents:
+
 ```sql
 CREATE TABLE documents (
                            id INT,
@@ -52,6 +55,7 @@ CREATE TABLE documents (
 ```
 
 2. Insert example documents into the table:
+
 ```sql
 INSERT INTO documents(id, title, content)
 VALUES
@@ -61,9 +65,11 @@ VALUES
 ```
 
 3. Generate the embeddings:
+
 ```sql
 UPDATE documents SET embedding = ai_embedding_vector(content) WHERE embedding IS NULL;
 ```
+
 After running the query, the embedding column in the table will contain the generated embeddings.
 
 The embeddings are stored as an array of `FLOAT32` values in the embedding column, which has the `ARRAY(FLOAT32 NOT NULL)` column type.
@@ -82,4 +88,5 @@ SELECT length(embedding) FROM documents;
 |              1536 |
 +-------------------+
 ```
+
 The query above shows that the generated embeddings have a length of 1536(dimensions) for each document.

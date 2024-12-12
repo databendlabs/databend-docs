@@ -3,8 +3,8 @@ title: 多目录支持
 description: 为 Databend 提供多目录支持
 ---
 
-- RFC PR: [datafuselabs/databend#8255](https://github.com/datafuselabs/databend/pull/8255)
-- 跟踪问题: [datafuselabs/databend#8300](https://github.com/datafuselabs/databend/issues/8300)
+- RFC PR: [datafuselabs/databend#8255](https://github.com/databendlabs/databend/pull/8255)
+- 跟踪问题: [datafuselabs/databend#8300](https://github.com/databendlabs/databend/issues/8300)
 
 ## 概述
 
@@ -18,9 +18,9 @@ Databend 以三层结构组织数据：
 catalog -> database -> table
 ```
 
-- `catalog`：Databend 的最大层级，包含所有数据库和表，由 [`Catalog`](https://github.com/datafuselabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/catalog.rs#L80) 提供。
-- `database`：表的容器，由 [`Database`](https://github.com/datafuselabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/database.rs#L44) 提供。
-- `table`：Databend 的最小单元，由 [`Table`](https://github.com/datafuselabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/table.rs#L44) 提供。
+- `catalog`：Databend 的最大层级，包含所有数据库和表，由 [`Catalog`](https://github.com/databendlabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/catalog.rs#L80) 提供。
+- `database`：表的容器，由 [`Database`](https://github.com/databendlabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/database.rs#L44) 提供。
+- `table`：Databend 的最小单元，由 [`Table`](https://github.com/databendlabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/table.rs#L44) 提供。
 
 默认情况下，所有数据库和表将存储在 `default` 目录中（由 `metasrv` 提供支持）。
 
@@ -131,8 +131,8 @@ DESCRIBE ctas_nation;
 
 ### Iceberg Catalog
 
-在 RFC [Iceberg External Table](https://github.com/datafuselabs/databend/pull/8215) 中讨论
+在 RFC [Iceberg External Table](https://github.com/databendlabs/databend/pull/8215) 中讨论
 
 ### Delta Sharing Catalog
 
-在 [与 delta sharing 集成的跟踪问题](https://github.com/datafuselabs/databend/issues/7830) 中讨论
+在 [与 delta sharing 集成的跟踪问题](https://github.com/databendlabs/databend/issues/7830) 中讨论

@@ -7,7 +7,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 Databend offers a driver (databend-go) written in Golang, which facilitates the development of applications using the Golang programming language and establishes connectivity with Databend.
 
-For installation instructions, examples, and the source code, see the GitHub [databend-go](https://github.com/datafuselabs/databend-go) repo.
+For installation instructions, examples, and the source code, see the GitHub [databend-go](https://github.com/databendlabs/databend-go) repo.
 
 ## Data Type Mappings
 

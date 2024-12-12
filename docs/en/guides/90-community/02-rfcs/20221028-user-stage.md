@@ -2,8 +2,8 @@
 title: User Stage
 ---
 
-- RFC PR: [datafuselabs/databend#8519](https://github.com/datafuselabs/databend/pull/8519)
-- Tracking Issue: [datafuselabs/databend#8520](https://github.com/datafuselabs/databend/issues/8520)
+- RFC PR: [datafuselabs/databend#8519](https://github.com/databendlabs/databend/pull/8519)
+- Tracking Issue: [datafuselabs/databend#8520](https://github.com/databendlabs/databend/issues/8520)
 
 ## Summary
 
@@ -47,7 +47,7 @@ And users can't set format options for user stage. They need to specify the form
 
 ## Reference-level explanation
 
-Databend now has two different [`StageType`](https://github.com/datafuselabs/databend/blob/c2d4e9d3e0a5bf7d54a2a6ce1db1d41b00cd2cd1/src/meta/types/src/user_stage.rs#L52-L55):
+Databend now has two different [`StageType`](https://github.com/databendlabs/databend/blob/c2d4e9d3e0a5bf7d54a2a6ce1db1d41b00cd2cd1/src/meta/types/src/user_stage.rs#L52-L55):
 
 ```rust
 pub enum StageType {

@@ -14,7 +14,7 @@ Since Raft replicates the data to all nodes, it is enough to export from any one
 ### Export from running databend-meta
 
 Similar to exporting from data dir, but with the service endpoint argument `--grpc-api-address <ip:port>` in place of the `--raft-dir`,
-where `<ip:port>` is the `grpc_api_address` in [databend-meta.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml), e.g.:
+where `<ip:port>` is the `grpc_api_address` in [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml), e.g.:
 
 ```shell
 databend-metactl export --grpc-api-address "127.0.0.1:9191" --db <output_fn>

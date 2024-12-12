@@ -3,8 +3,8 @@ title: 新的日志记录
 description: 让 Databend 日志记录再次伟大！
 ---
 
-- RFC PR: [datafuselabs/databend#6729](https://github.com/datafuselabs/databend/pull/6729)
-- 跟踪问题: [datafuselabs/databend#0000](https://github.com/datafuselabs/databend/issues/0000)
+- RFC PR: [datafuselabs/databend#6729](https://github.com/databendlabs/databend/pull/6729)
+- 跟踪问题: [datafuselabs/databend#0000](https://github.com/databendlabs/databend/issues/0000)
 
 # 概要
 
@@ -66,7 +66,7 @@ clickhouse (HTTP): http://root:@localhost:9001
 Useful Links
 
 Documentation:    https://docs.databend.com
-Looking for help: https://github.com/datafuselabs/databend/discussions
+Looking for help: https://github.com/databendlabs/databend/discussions
 ```
 
 要启用 `stderr` 日志，我们可以设置 `LOG_STDERR_ON=true` 或 `RUST_LOG=info`。

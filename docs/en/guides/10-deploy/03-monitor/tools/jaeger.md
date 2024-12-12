@@ -36,7 +36,7 @@ docker run --rm -d --name jaeger \
 
 1. Follow the [Deployment Guide](/guides/deploy) to deploy Databend.
 
-2. Enable tracing in the configuration file [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For more information, see [Enabling with Configuration File](../30-tracing.md#enabling-with-configuration-file).
+2. Enable tracing in the configuration file [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For more information, see [Enabling with Configuration File](../30-tracing.md#enabling-with-configuration-file).
 
 ```toml title='databend-query.toml'
 ...

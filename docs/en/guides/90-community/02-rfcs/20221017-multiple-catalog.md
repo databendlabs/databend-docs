@@ -3,8 +3,8 @@ title: Multiple Catalog
 description: multiple catalog support for databend
 ---
 
-- RFC PR: [datafuselabs/databend#8255](https://github.com/datafuselabs/databend/pull/8255)
-- Tracking Issue: [datafuselabs/databend#8300](https://github.com/datafuselabs/databend/issues/8300)
+- RFC PR: [datafuselabs/databend#8255](https://github.com/databendlabs/databend/pull/8255)
+- Tracking Issue: [datafuselabs/databend#8300](https://github.com/databendlabs/databend/issues/8300)
 
 ## Summary
 
@@ -18,9 +18,9 @@ Databend organize data in three layers:
 catalog -> database -> table
 ```
 
-- `catalog`: the biggest layer for databend, contains all databases and tables, provided by [`Catalog`](https://github.com/datafuselabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/catalog.rs#L80)
-- `database`: the container of tables, provided by [`Database`](https://github.com/datafuselabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/database.rs#L44)
-- `table`: the smallest unit in databend, provided by [`Table`](https://github.com/datafuselabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/table.rs#L44)
+- `catalog`: the biggest layer for databend, contains all databases and tables, provided by [`Catalog`](https://github.com/databendlabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/catalog.rs#L80)
+- `database`: the container of tables, provided by [`Database`](https://github.com/databendlabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/database.rs#L44)
+- `table`: the smallest unit in databend, provided by [`Table`](https://github.com/databendlabs/databend/blob/556aedc00e5e8a95a7551d0ec21b8e6fa7573e0a/src/query/catalog/src/table.rs#L44)
 
 By default, all databases and tables will be stored in `default` catalog (powered by `metasrv`).
 
@@ -131,8 +131,8 @@ None.
 
 ### Iceberg Catalog
 
-Discussed in RFC [Iceberg External Table](https://github.com/datafuselabs/databend/pull/8215)
+Discussed in RFC [Iceberg External Table](https://github.com/databendlabs/databend/pull/8215)
 
 ### Delta Sharing Catalog
 
-Discussed in [Tracking issues of integration with delta sharing](https://github.com/datafuselabs/databend/issues/7830)
+Discussed in [Tracking issues of integration with delta sharing](https://github.com/databendlabs/databend/issues/7830)

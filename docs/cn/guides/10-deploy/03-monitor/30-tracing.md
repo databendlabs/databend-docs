@@ -1,16 +1,16 @@
 ---
 title: 追踪 Databend
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.199"/>
 
 Databend 使用 Rust 的 tracing 生态系统，特别是 [tokio-tracing](https://github.com/tokio-rs/tracing)，用于日志记录和分析。
 
-
 ## 启用追踪
 
-在 Databend 中，可以通过环境变量 `LOG_LEVEL` 或配置文件 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 启用追踪。
+在 Databend 中，可以通过环境变量 `LOG_LEVEL` 或配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 启用追踪。
 
 ### 通过环境变量启用
 
@@ -35,7 +35,7 @@ SET max_threads=1;
 
 ### 通过配置文件启用
 
-1. 将以下参数添加到配置文件 [databend-query.toml](https://github.com/datafuselabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 的 [log] 部分。有关每个参数的详细描述，请参见 [[log.tracing] 部分](../04-references/02-node-config/02-query-config.md#logtracing-section)。
+1. 将以下参数添加到配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 的 [log] 部分。有关每个参数的详细描述，请参见 [[log.tracing] 部分](../04-references/02-node-config/02-query-config.md#logtracing-section)。
 
 ```toml title='databend-query.toml'
 ...
@@ -58,7 +58,7 @@ SET max_threads=1;
 Databend 使用 [tokio-tracing](https://github.com/tokio-rs/tracing) 来追踪日志，其中默认时区为 UTC，无法通过 Databend 时区设置更改，因此追踪日志中的时间将始终为 UTC，不会反映您的本地时间。
 :::
 
-```sql
+````sql
 [2021-06-10T08:40:36Z DEBUG clickhouse_srv::cmd] 收到数据包 Query(QueryRequest { query_id: "bac2b254-6245-4cae-910d-3e5e979c8b68", client_info: QueryClientInfo { query_kind: 1, initial_user: "", initial_query_id: "", initial_address: "0.0.0.0:0", interface: 1, os_user: "bohu", client_hostname: "thinkpad", client_name: "ClickHouse ", client_version_major: 21, client_version_minor: 4, client_version_patch: 6, client_revision: 54447, http_method: 0, http_user_agent: "", quota_key: "" }, stage: 2, compression: 1, query: "SELECT sum(number+1)+1 from numbers(10000) where number>0 group by number%3;" })
 Jun 10 16:40:36.131 DEBUG ThreadId(16) databend_query::sql::plan_parser: query="SELECT sum(number+1)+1 from numbers(10000) where number>0 group by number%3;"
 [2021-06-10T08:40:36Z DEBUG sqlparser::parser] 解析表达式
@@ -162,7 +162,7 @@ Jun 10 16:40:36.143  INFO ThreadId(309) execute{ctx.id="1c651744-3e73-4b94-9df0-
 
    ```shell
    RUSTFLAGS="--cfg tokio_unstable" cargo build --features tokio-console
-   ```
+````
 
 2. 运行 `databend-meta` 或/和 `databend-query`，记得将要诊断的程序的日志级别设置为 `TRACE`。
 

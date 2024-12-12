@@ -33,7 +33,7 @@ Databend 提供了多种工具和命令，可以帮助您将数据文件加载�
 <details>
   <summary>我想加载本地数据文件 ...</summary>
   <div>
-    <div>如果您在本地系统中有数据文件，Databend 建议您使用 <a href="https://github.com/datafuselabs/BendSQL">BendSQL</a>，这是 Databend 的原生 CLI 工具，允许您与 Databend 建立连接并直接从 CLI 窗口执行查询。</div>
+    <div>如果您在本地系统中有数据文件，Databend 建议您使用 <a href="https://github.com/databendlabs/BendSQL">BendSQL</a>，这是 Databend 的原生 CLI 工具，允许您与 Databend 建立连接并直接从 CLI 窗口执行查询。</div>
     <br/>
     <div>要了解有关使用 BendSQL 加载本地数据文件的更多信息，请查看 <a href="local">从本地文件加载</a> 页面。该页面包含教程，展示了如何使用该工具从本地示例文件加载数据。</div>
   </div>

@@ -8,9 +8,7 @@ slug: /
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-This page provides information about recent features, enhancements, and bug fixes for <a href="https://github.com/datafuselabs/databend">Databend</a>.
-
-
+This page provides information about recent features, enhancements, and bug fixes for <a href="https://github.com/databendlabs/databend">Databend</a>.
 
 import MD1 from '@site/docs/release-stable/2024-08-19_v1.2.615.md';
 import MD2 from '@site/docs/release-stable/2024-08-13_v1.2.609.md';
@@ -27,12 +25,9 @@ import MD12 from '@site/docs/release-stable/2023-12-30_v1.2.275.md';
 import MD13 from '@site/docs/release-stable/2023-12-20_v1.2.262.md';
 import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
+<StepsWrap>
 
-<StepsWrap> 
-
-
-
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.615" number="-1">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.615" number="-1">
 
 ## Aug 19, 2024 (v1.2.615)
 
@@ -40,7 +35,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.609" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.609" number="">
 
 ## Aug 13, 2024 (v1.2.609)
 
@@ -48,7 +43,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.530" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.530" number="">
 
 ## Jun 16, 2024 (v1.2.530)
 
@@ -56,7 +51,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.452" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.452" number="">
 
 ## May 6, 2024 (v1.2.452)
 
@@ -64,7 +59,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.410" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.410" number="">
 
 ## Apr 8, 2024 (v1.2.410)
 
@@ -72,7 +67,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.371" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.371" number="">
 
 ## Mar 11, 2024 (v1.2.371)
 
@@ -80,7 +75,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.344" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.344" number="">
 
 ## Feb 22, 2024 (v1.2.344)
 
@@ -88,7 +83,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.307" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.307" number="">
 
 ## Jan 25, 2024 (v1.2.307)
 
@@ -96,7 +91,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.292" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.292" number="">
 
 ## Jan 11, 2024 (v1.2.292)
 
@@ -104,7 +99,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.290" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.290" number="">
 
 ## Jan 10, 2024 (v1.2.290)
 
@@ -112,7 +107,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.279" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.279" number="">
 
 ## Jan 2, 2024 (v1.2.279)
 
@@ -120,7 +115,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.275" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.275" number="">
 
 ## Dec 30, 2023 (v1.2.275)
 
@@ -128,7 +123,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.262" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.262" number="">
 
 ## Dec 20, 2023 (v1.2.262)
 
@@ -136,7 +131,7 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.233" number="">
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.233" number="">
 
 ## Dec 13, 2023 (v1.2.233)
 
@@ -144,4 +139,4 @@ import MD14 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-</StepsWrap> 
+</StepsWrap>
