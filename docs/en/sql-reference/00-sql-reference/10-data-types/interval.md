@@ -11,6 +11,7 @@ The INTERVAL data type represents a duration of time, allowing precise manipulat
 - Supports units including `Millennium`, `Century`, `Decade`, `Year`, `Quarter`, `Month`, `Week`, `Day`, `Hour`, `Minute`, `Second`, `Millisecond`, and `Microsecond`.
 - Accepts natural language formats (e.g., '1 year 2 months ago') or numeric values interpreted as microseconds.
 - Handles both positive and negative intervals with precision down to microseconds.
+- INTERVAL columns are *not* supported in the ORDER BY clause.
 - It is *not* recommended to use the MySQL client to query INTERVAL columns in Databend, as the MySQL protocol does not fully support the INTERVAL type. This may result in errors or unexpected behavior.
 
 ```sql title='Examples:'
