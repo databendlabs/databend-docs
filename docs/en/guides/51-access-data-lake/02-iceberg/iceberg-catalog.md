@@ -13,19 +13,19 @@ This table maps data types between Apache Iceberg and Databend. Please note that
 
 | Apache Iceberg                  | Databend                |
 | ------------------------------- | ----------------------- |
-| BOOLEAN                         | [BOOLEAN](/sql/sql-reference/data-types/data-type-logical-types)                 |
-| INT                             | [INT32](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)                   |
-| LONG                            | [INT64](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)                   |
-| DATE                            | [DATE](/sql/sql-reference/data-types/data-type-time-date-types)                    |
-| TIMESTAMP/TIMESTAMPZ            | [TIMESTAMP](/sql/sql-reference/data-types/data-type-time-date-types)               |
-| FLOAT                           | [FLOAT](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-types)                  |
-| DOUBLE                          | [DOUBLE](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-type)                  |
-| STRING/BINARY                   | [STRING](/sql/sql-reference/data-types/data-type-string-types)                  |
-| DECIMAL                         | [DECIMAL](/sql/sql-reference/data-types/data-type-decimal-types)                 |
-| ARRAY&lt;TYPE&gt;               | [ARRAY](/sql/sql-reference/data-types/data-type-array-types), supports nesting |
-| MAP&lt;KEYTYPE, VALUETYPE&gt;       | [MAP](/sql/sql-reference/data-types/data-type-map)                     |
-| STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/data-type-tuple-types)           |
-| LIST                            | [ARRAY](/sql/sql-reference/data-types/data-type-array-types)                   |
+| BOOLEAN                         | [BOOLEAN](/sql/sql-reference/data-types/boolean)                 |
+| INT                             | [INT32](/sql/sql-reference/data-types/numeric#integer-data-types)                   |
+| LONG                            | [INT64](/sql/sql-reference/data-types/numeric#integer-data-types)                   |
+| DATE                            | [DATE](/sql/sql-reference/data-types/datetime)                    |
+| TIMESTAMP/TIMESTAMPZ            | [TIMESTAMP](/sql/sql-reference/data-types/datetime)               |
+| FLOAT                           | [FLOAT](/sql/sql-reference/data-types/numeric#floating-point-data-types)                  |
+| DOUBLE                          | [DOUBLE](/sql/sql-reference/data-types/numeric#floating-point-data-type)                  |
+| STRING/BINARY                   | [STRING](/sql/sql-reference/data-types/string)                  |
+| DECIMAL                         | [DECIMAL](/sql/sql-reference/data-types/decimal)                 |
+| ARRAY&lt;TYPE&gt;               | [ARRAY](/sql/sql-reference/data-types/array), supports nesting |
+| MAP&lt;KEYTYPE, VALUETYPE&gt;       | [MAP](/sql/sql-reference/data-types/map)                     |
+| STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)           |
+| LIST                            | [ARRAY](/sql/sql-reference/data-types/array)                   |
 
 ## Managing Catalogs
 

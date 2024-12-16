@@ -11,7 +11,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VIRTUAL COLUMN'/>
 
-Creates virtual columns for a table. Please note that virtual columns exclusively support the [FUSE Engine](../../../00-sql-reference/30-table-engines/00-fuse.md), are designed for exclusive compatibility with the [Variant](../../../00-sql-reference/10-data-types/43-data-type-variant.md) data type. Refer to [Accessing Elements in JSON](../../../00-sql-reference/10-data-types/43-data-type-variant.md#accessing-elements-in-json) for column definition.
+Creates virtual columns for a table. Please note that virtual columns exclusively support the [FUSE Engine](../../../00-sql-reference/30-table-engines/00-fuse.md), are designed for exclusive compatibility with the [Variant](../../../00-sql-reference/10-data-types/variant.md) data type. Refer to [Accessing Elements in JSON](../../../00-sql-reference/10-data-types/variant.md#accessing-elements-in-json) for column definition.
 
 Please note that after creating virtual columns for a table that already contains Variant data, it is necessary to refresh the virtual columns using the [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) command.
 

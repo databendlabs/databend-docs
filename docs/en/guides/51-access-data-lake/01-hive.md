@@ -13,19 +13,19 @@ This table maps data types between Apache Hive and Databend. Please note that Da
 
 | Apache Hive         | Databend             |
 | ------------------- | -------------------- |
-| BOOLEAN             | [BOOLEAN](/sql/sql-reference/data-types/data-type-logical-types)              |
-| TINYINT             | [TINYINT (INT8)](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)       |
-| SMALLINT            | [SMALLINT (INT16)](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)     |
-| INT                 | [INT (INT32)](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)          |
-| BIGINT              | [BIGINT (INT64)](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)       |
-| DATE                | [DATE](/sql/sql-reference/data-types/data-type-time-date-types)                 |
-| TIMESTAMP           | [TIMESTAMP](/sql/sql-reference/data-types/data-type-time-date-types)            |
-| FLOAT               | [FLOAT (FLOAT32)](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-types)      |
-| DOUBLE              | [DOUBLE (FLOAT64)](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-types)     |
-| VARCHAR             | [VARCHAR (STRING)](/sql/sql-reference/data-types/data-type-string-types)     |
-| DECIMAL             | [DECIMAL](/sql/sql-reference/data-types/data-type-decimal-types)              |
-| ARRAY&lt;TYPE&gt;    | [ARRAY](/sql/sql-reference/data-types/data-type-array-types), supports nesting |
-| MAP&lt;KEYTYPE, VALUETYPE&gt; | [MAP](/sql/sql-reference/data-types/data-type-map)             |
+| BOOLEAN             | [BOOLEAN](/sql/sql-reference/data-types/boolean)              |
+| TINYINT             | [TINYINT (INT8)](/sql/sql-reference/data-types/numeric#integer-data-types)       |
+| SMALLINT            | [SMALLINT (INT16)](/sql/sql-reference/data-types/numeric#integer-data-types)     |
+| INT                 | [INT (INT32)](/sql/sql-reference/data-types/numeric#integer-data-types)          |
+| BIGINT              | [BIGINT (INT64)](/sql/sql-reference/data-types/numeric#integer-data-types)       |
+| DATE                | [DATE](/sql/sql-reference/data-types/datetime)                 |
+| TIMESTAMP           | [TIMESTAMP](/sql/sql-reference/data-types/datetime)            |
+| FLOAT               | [FLOAT (FLOAT32)](/sql/sql-reference/data-types/numeric#floating-point-data-types)      |
+| DOUBLE              | [DOUBLE (FLOAT64)](/sql/sql-reference/data-types/numeric#floating-point-data-types)     |
+| VARCHAR             | [VARCHAR (STRING)](/sql/sql-reference/data-types/string)     |
+| DECIMAL             | [DECIMAL](/sql/sql-reference/data-types/decimal)              |
+| ARRAY&lt;TYPE&gt;    | [ARRAY](/sql/sql-reference/data-types/array), supports nesting |
+| MAP&lt;KEYTYPE, VALUETYPE&gt; | [MAP](/sql/sql-reference/data-types/map)             |
 
 ## Managing Catalogs
 

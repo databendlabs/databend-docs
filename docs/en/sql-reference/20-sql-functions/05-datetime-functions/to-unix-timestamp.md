@@ -16,7 +16,7 @@ TO_UNIX_TIMESTAMP(<expr>)
 | ----------- | ------------------- |
 | `<expr>`    | Timestamp           |
 
-For more information about the timestamp data type, see [Date & Time](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md).
+For more information about the timestamp data type, see [Date & Time](../../00-sql-reference/10-data-types/datetime.md).
 
 ## Return Type
 
