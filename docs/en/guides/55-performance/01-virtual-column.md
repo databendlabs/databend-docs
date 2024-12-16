@@ -7,7 +7,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VIRTUAL COLUMN'/>
 
-A virtual column is a construct formed by extracting nested fields within [Variant](/sql/sql-reference/data-types/data-type-variant) data and storing that data in separate storage files. Consider using virtual columns when you regularly query specific nested fields within Variant data to realize the following benefits:
+A virtual column is a construct formed by extracting nested fields within [Variant](/sql/sql-reference/data-types/variant) data and storing that data in separate storage files. Consider using virtual columns when you regularly query specific nested fields within Variant data to realize the following benefits:
 
 - **Accelerated Query Processing**: Virtual columns streamline the querying process by eliminating the need to traverse the entire nested structure to locate the desired data. Direct data retrieval from virtual columns parallels the process of accessing regular columns, resulting in a significant acceleration of query execution.
 
