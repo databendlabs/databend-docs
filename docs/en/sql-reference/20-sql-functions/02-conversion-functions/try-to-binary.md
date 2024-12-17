@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.673"/>
 
-Attempts to convert supported data types, including variant, bitmap, geometry, and geography, into their binary representation, returning `NULL` if the conversion fails.
+An enhanced version of [TO_BINARY](to-binary.md) that converts an input expression to a binary value, returning `NULL` if the conversion fails instead of raising an error.
 
 See also: [TO_BINARY](to-binary.md)
 
