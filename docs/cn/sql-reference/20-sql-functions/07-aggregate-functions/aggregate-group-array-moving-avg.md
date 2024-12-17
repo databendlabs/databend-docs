@@ -21,7 +21,7 @@ GROUP_ARRAY_MOVING_AVG(<window_size>)(<expr>)
 
 ## 返回类型
 
-返回一个包含双精度或十进制元素的 [数组](../../00-sql-reference/10-data-types/40-data-type-array-types.md)，具体取决于源数据类型。
+返回一个 [Array](../../00-sql-reference/10-data-types/array.md)，元素类型为 double 或 decimal，具体取决于源数据类型。
 
 ## 示例
 

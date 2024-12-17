@@ -3,11 +3,11 @@ title: TRY_TO_TIMESTAMP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.528"/>
+<FunctionDescription description="引入或更新: v1.2.528"/>
 
-Databend中[TO_TIMESTAMP](to-timestamp.md)的一个变体，它在将输入表达式转换为时间戳的同时，通过在转换失败时返回NULL而不是引发错误来支持错误处理。
+Databend 中 [TO_TIMESTAMP](to-timestamp.md) 的一个变体，它在将输入表达式转换为时间戳的同时，通过在转换失败时返回 NULL 而不是引发错误来支持错误处理。
 
-另请参阅：[TO_TIMESTAMP](to-timestamp.md)
+另请参阅: [TO_TIMESTAMP](to-timestamp.md)
 
 ## 语法
 
@@ -19,7 +19,7 @@ TRY_TO_TIMESTAMP(<expr>)
 TRY_TO_TIMESTAMP(<expr>, <pattern>)
 ```
 
-如果给定两个参数，该函数根据第二个字符串中指定的模式将第一个字符串转换为时间戳。要指定模式，请使用说明符。说明符允许您定义日期和时间值的所需格式。有关支持的说明符的完整列表，请参阅[日期和时间格式化](../../00-sql-reference/10-data-types/20-data-type-time-date-types.md#formatting-date-and-time)。
+如果给定两个参数，函数会根据第二个字符串中指定的模式将第一个字符串转换为时间戳。要指定模式，请使用说明符。说明符允许您定义日期和时间值的所需格式。有关支持的说明符的完整列表，请参阅 [日期和时间格式化](../../00-sql-reference/10-data-types/datetime.md#formatting-date-and-time)。
 
 ## 别名
 
