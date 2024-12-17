@@ -9,23 +9,23 @@ Databend 支持集成 [Apache Hive](https://hive.apache.org/) 目录，增强了
 
 ## 数据类型映射
 
-此表映射了 Apache Hive 和 Databend 之间的数据类型。请注意，Databend 目前不支持表中未列出的 Hive 数据类型。
+下表映射了 Apache Hive 和 Databend 之间的数据类型。请注意，Databend 目前不支持表中未列出的 Hive 数据类型。
 
 | Apache Hive         | Databend             |
 | ------------------- | -------------------- |
-| BOOLEAN             | [BOOLEAN](/sql/sql-reference/data-types/data-type-logical-types)              |
-| TINYINT             | [TINYINT (INT8)](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)       |
-| SMALLINT            | [SMALLINT (INT16)](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)     |
-| INT                 | [INT (INT32)](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)          |
-| BIGINT              | [BIGINT (INT64)](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)       |
-| DATE                | [DATE](/sql/sql-reference/data-types/data-type-time-date-types)                 |
-| TIMESTAMP           | [TIMESTAMP](/sql/sql-reference/data-types/data-type-time-date-types)            |
-| FLOAT               | [FLOAT (FLOAT32)](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-types)      |
-| DOUBLE              | [DOUBLE (FLOAT64)](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-types)     |
-| VARCHAR             | [VARCHAR (STRING)](/sql/sql-reference/data-types/data-type-string-types)     |
-| DECIMAL             | [DECIMAL](/sql/sql-reference/data-types/data-type-decimal-types)              |
-| ARRAY&lt;TYPE&gt;    | [ARRAY](/sql/sql-reference/data-types/data-type-array-types), 支持嵌套 |
-| MAP&lt;KEYTYPE, VALUETYPE&gt; | [MAP](/sql/sql-reference/data-types/data-type-map)             |
+| BOOLEAN             | [BOOLEAN](/sql/sql-reference/data-types/boolean)              |
+| TINYINT             | [TINYINT (INT8)](/sql/sql-reference/data-types/numeric#integer-data-types)       |
+| SMALLINT            | [SMALLINT (INT16)](/sql/sql-reference/data-types/numeric#integer-data-types)     |
+| INT                 | [INT (INT32)](/sql/sql-reference/data-types/numeric#integer-data-types)          |
+| BIGINT              | [BIGINT (INT64)](/sql/sql-reference/data-types/numeric#integer-data-types)       |
+| DATE                | [DATE](/sql/sql-reference/data-types/datetime)                 |
+| TIMESTAMP           | [TIMESTAMP](/sql/sql-reference/data-types/datetime)            |
+| FLOAT               | [FLOAT (FLOAT32)](/sql/sql-reference/data-types/numeric#floating-point-data-types)      |
+| DOUBLE              | [DOUBLE (FLOAT64)](/sql/sql-reference/data-types/numeric#floating-point-data-types)     |
+| VARCHAR             | [VARCHAR (STRING)](/sql/sql-reference/data-types/string)     |
+| DECIMAL             | [DECIMAL](/sql/sql-reference/data-types/decimal)              |
+| ARRAY&lt;TYPE&gt;    | [ARRAY](/sql/sql-reference/data-types/array), 支持嵌套 |
+| MAP&lt;KEYTYPE, VALUETYPE&gt; | [MAP](/sql/sql-reference/data-types/map)             |
 
 ## 管理目录
 
@@ -54,12 +54,12 @@ CONNECTION = (
 )
 ```
 
-| 参数                  | 必需？    | 描述                                                                                                               | 
+| 参数                  | 是否必需 | 描述                                                                                                               | 
 |-----------------------|-----------|---------------------------------------------------------------------------------------------------------------------------| 
-| TYPE                  | 是        | 目录类型：'HIVE' 用于 Hive 目录或 'ICEBERG' 用于 Iceberg 目录。                                      | 
+| TYPE                  | 是        | 目录类型：'HIVE' 表示 Hive 目录，'ICEBERG' 表示 Iceberg 目录。                                      | 
 | METASTORE_ADDRESS     | 否        | Hive Metastore 地址。仅对 Hive 目录必需。| 
 | URL                   | 是        | 与此目录关联的外部存储位置。这可以是桶或桶内的文件夹。例如，'s3://databend-toronto/'。                       | 
-| connection_parameter  | 是        | 用于与外部存储建立连接的连接参数。所需的参数根据特定的存储服务和认证方法而异。请参阅 [连接参数](/sql/sql-reference/connect-parameters) 获取详细信息。 |
+| connection_parameter  | 是        | 用于与外部存储建立连接的连接参数。所需的参数因特定的存储服务和认证方法而异。请参阅 [连接参数](/sql/sql-reference/connect-parameters) 获取详细信息。 |
 
 :::note
 要从 HDFS 读取数据，您需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 可以访问必要的 Java 和 Hadoop 依赖项，以有效与 HDFS 交互。请确保将 "/path/to/java" 和 "/path/to/hadoop" 替换为 Java 和 Hadoop 安装的实际路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
