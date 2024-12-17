@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.673"/>
 
-Converts supported data types, including variant, bitmap, geometry, and geography, into their binary representation.
+Converts supported data types, including string, variant, bitmap, geometry, and geography, into their binary representation (hex format).
 
 See also: [TRY_TO_BINARY](try-to-binary.md)
 
@@ -16,6 +16,18 @@ TO_BINARY( <expr> )
 ```
 
 ## Examples
+
+This example converts a string to binary:
+
+```sql
+SELECT TO_BINARY('Databend');
+
+┌───────────────────────┐
+│ to_binary('Databend') │
+├───────────────────────┤
+│ 4461746162656E64      │
+└───────────────────────┘
+```
 
 This example converts JSON data to binary:
 
