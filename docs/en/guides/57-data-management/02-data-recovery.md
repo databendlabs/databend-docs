@@ -18,7 +18,7 @@ With Databend Time Travel, you can revisit and retrieve data from the past, even
 ### Main Uses of Time Travel
 
 - **Access Past Data**: Look at data from the past, even if it has been changed or deleted.
-- **Recover Lost Data**: Bring back tables and databases that were deleted.
+- **Recover Lost Data**: Bring back tables and databases that were deleted using the [FLASHBACK TABLE](/sql/sql-commands/ddl/table/flashback-table) command.
 
 ### Time Travel SQL Extensions
 
