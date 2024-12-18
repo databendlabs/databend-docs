@@ -43,16 +43,18 @@ VALUES
 
 -- Use LAST_VALUE to retrieve the first name of the employee with the lowest salary
 SELECT employee_id, first_name, last_name, salary,
-       LAST_VALUE(first_name) OVER (ORDER BY salary DESC) AS lowest_salary_first_name
+       LAST_VALUE(first_name) OVER (ORDER BY salary DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS lowest_salary_first_name
 FROM employees;
 
-employee_id | first_name | last_name | salary  | lowest_salary_first_name
-------------+------------+-----------+---------+------------------------
-4           | Mary       | Williams  | 7000.00 | Michael
-2           | Jane       | Smith     | 6000.00 | Michael
-3           | David      | Johnson   | 5500.00 | Michael
-1           | John       | Doe       | 5000.00 | Michael
-5           | Michael    | Brown     | 4500.00 | Michael
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   employee_id   │    first_name    │     last_name    │          salary          │ lowest_salary_first_name │
+├─────────────────┼──────────────────┼──────────────────┼──────────────────────────┼──────────────────────────┤
+│               4 │ Mary             │ Williams         │ 7000.00                  │ Michael                  │
+│               2 │ Jane             │ Smith            │ 6000.00                  │ Michael                  │
+│               3 │ David            │ Johnson          │ 5500.00                  │ Michael                  │
+│               1 │ John             │ Doe              │ 5000.00                  │ Michael                  │
+│               5 │ Michael          │ Brown            │ 4500.00                  │ Michael                  │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 This example excludes the NULL values from the window frame with the `IGNORE NULLS` option:
