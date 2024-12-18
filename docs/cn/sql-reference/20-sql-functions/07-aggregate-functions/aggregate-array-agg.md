@@ -15,13 +15,13 @@ LIST(<expr>)
 
 ## 参数
 
-| 参数       | 描述         |
+| 参数      | 描述         |
 |-----------| ------------ |
 | `<expr>`  | 任何表达式   |
 
 ## 返回类型
 
-返回一个 [Array](../../00-sql-reference/10-data-types/40-data-type-array-types.md)，其元素类型与原始数据类型相同。
+返回一个 [Array](../../00-sql-reference/10-data-types/array.md)，其元素类型与原始数据类型相同。
 
 ## 示例
 

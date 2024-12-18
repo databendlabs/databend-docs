@@ -1,35 +1,35 @@
 ---
-title: Iceberg 目录
+title: Iceberg Catalog
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.668"/>
 
-Databend 支持集成 [Apache Iceberg](https://iceberg.apache.org/) 目录，增强了其数据管理和分析的兼容性和多功能性。这扩展了 Databend 的能力，通过无缝集成 Apache Iceberg 强大的元数据和存储管理功能到平台中。
+Databend 支持集成 [Apache Iceberg](https://iceberg.apache.org/) 目录，增强了其数据管理和分析的兼容性和多功能性。这通过无缝整合 Apache Iceberg 强大的元数据和存储管理能力，扩展了 Databend 的功能。
 
 ## 数据类型映射
 
-此表映射了 Apache Iceberg 和 Databend 之间的数据类型。请注意，Databend 目前不支持表中未列出的 Iceberg 数据类型。
+下表展示了 Apache Iceberg 和 Databend 之间的数据类型映射。请注意，Databend 目前不支持表中未列出的 Iceberg 数据类型。
 
 | Apache Iceberg                  | Databend                |
 | ------------------------------- | ----------------------- |
-| BOOLEAN                         | [BOOLEAN](/sql/sql-reference/data-types/data-type-logical-types)                 |
-| INT                             | [INT32](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)                   |
-| LONG                            | [INT64](/sql/sql-reference/data-types/data-type-numeric-types#integer-data-types)                   |
-| DATE                            | [DATE](/sql/sql-reference/data-types/data-type-time-date-types)                    |
-| TIMESTAMP/TIMESTAMPZ            | [TIMESTAMP](/sql/sql-reference/data-types/data-type-time-date-types)               |
-| FLOAT                           | [FLOAT](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-types)                  |
-| DOUBLE                          | [DOUBLE](/sql/sql-reference/data-types/data-type-numeric-types#floating-point-data-type)                  |
-| STRING/BINARY                   | [STRING](/sql/sql-reference/data-types/data-type-string-types)                  |
-| DECIMAL                         | [DECIMAL](/sql/sql-reference/data-types/data-type-decimal-types)                 |
-| ARRAY&lt;TYPE&gt;               | [ARRAY](/sql/sql-reference/data-types/data-type-array-types), 支持嵌套 |
-| MAP&lt;KEYTYPE, VALUETYPE&gt;       | [MAP](/sql/sql-reference/data-types/data-type-map)                     |
-| STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/data-type-tuple-types)           |
-| LIST                            | [ARRAY](/sql/sql-reference/data-types/data-type-array-types)                   |
+| BOOLEAN                         | [BOOLEAN](/sql/sql-reference/data-types/boolean)                 |
+| INT                             | [INT32](/sql/sql-reference/data-types/numeric#integer-data-types)                   |
+| LONG                            | [INT64](/sql/sql-reference/data-types/numeric#integer-data-types)                   |
+| DATE                            | [DATE](/sql/sql-reference/data-types/datetime)                    |
+| TIMESTAMP/TIMESTAMPZ            | [TIMESTAMP](/sql/sql-reference/data-types/datetime)               |
+| FLOAT                           | [FLOAT](/sql/sql-reference/data-types/numeric#floating-point-data-types)                  |
+| DOUBLE                          | [DOUBLE](/sql/sql-reference/data-types/numeric#floating-point-data-type)                  |
+| STRING/BINARY                   | [STRING](/sql/sql-reference/data-types/string)                  |
+| DECIMAL                         | [DECIMAL](/sql/sql-reference/data-types/decimal)                 |
+| ARRAY&lt;TYPE&gt;               | [ARRAY](/sql/sql-reference/data-types/array), 支持嵌套 |
+| MAP&lt;KEYTYPE, VALUETYPE&gt;       | [MAP](/sql/sql-reference/data-types/map)                     |
+| STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)           |
+| LIST                            | [ARRAY](/sql/sql-reference/data-types/array)                   |
 
 ## 管理目录
 
-Databend 提供了以下命令来管理目录:
+Databend 提供了以下命令来管理目录：
 
 - [CREATE CATALOG](#create-catalog)
 - [SHOW CREATE CATALOG](#show-create-catalog)
@@ -54,15 +54,15 @@ CONNECTION = (
 )
 ```
 
-| 参数                  | 必需? | 描述                                                                                                               | 
+| 参数                  | 是否必需 | 描述                                                                                                               | 
 |-----------------------|-----------|---------------------------------------------------------------------------------------------------------------------------| 
-| TYPE                  | 是       | 目录类型: 'HIVE' 用于 Hive 目录或 'ICEBERG' 用于 Iceberg 目录。                                      | 
+| TYPE                  | 是        | 目录类型：'HIVE' 表示 Hive 目录，'ICEBERG' 表示 Iceberg 目录。                                      | 
 | METASTORE_ADDRESS     | 否        | Hive Metastore 地址。仅对 Hive 目录必需。| 
-| URL                   | 是       | 与此目录关联的外部存储位置。这可以是一个桶或桶内的一个文件夹。例如，'s3://databend-toronto/'。                       | 
-| connection_parameter  | 是       | 用于与外部存储建立连接的连接参数。所需的参数因特定的存储服务和认证方法而异。请参阅 [连接参数](/sql/sql-reference/connect-parameters) 获取详细信息。 |
+| URL                   | 是        | 与此目录关联的外部存储位置。这可以是桶或桶内的文件夹。例如，'s3://databend-toronto/'。                       | 
+| connection_parameter  | 是        | 用于与外部存储建立连接的连接参数。所需的参数因特定的存储服务和认证方法而异。请参阅 [连接参数](/sql/sql-reference/connect-parameters) 获取详细信息。 |
 
 :::note
-要从 HDFS 读取数据，您需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 可以访问必要的 Java 和 Hadoop 依赖项，以有效地与 HDFS 交互。请确保将 "/path/to/java" 和 "/path/to/hadoop" 替换为 Java 和 Hadoop 安装的实际路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
+要从 HDFS 读取数据，您需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 可以访问必要的 Java 和 Hadoop 依赖项，以有效与 HDFS 交互。请确保将 "/path/to/java" 和 "/path/to/hadoop" 替换为 Java 和 Hadoop 安装的实际路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
 ```shell
 export JAVA_HOME=/path/to/java
 export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
@@ -103,7 +103,7 @@ USE CATALOG <catalog_name>
 
 ## 使用示例
 
-此示例演示了创建一个配置为与位于 MinIO 的 's3://databend/iceberg/' 的 Iceberg 数据存储交互的目录。
+此示例演示了创建一个目录，该目录配置为与位于 MinIO 的 's3://databend/iceberg/' 的 Iceberg 数据存储进行交互。
 
 ```sql
 CREATE CATALOG iceberg_ctl
