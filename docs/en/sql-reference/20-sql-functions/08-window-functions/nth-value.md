@@ -43,16 +43,18 @@ VALUES
 
 -- Use NTH_VALUE to retrieve the first name of the employee with the second highest salary
 SELECT employee_id, first_name, last_name, salary,
-       NTH_VALUE(first_name, 2) OVER (ORDER BY salary DESC) AS second_highest_salary_first_name
+       NTH_VALUE(first_name, 2) OVER (ORDER BY salary DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS second_highest_salary_first_name
 FROM employees;
 
-employee_id | first_name | last_name | salary  | second_highest_salary_first_name
-------------+------------+-----------+---------+----------------------------------
-4           | Mary       | Williams  | 7000.00 | Jane
-2           | Jane       | Smith     | 6000.00 | Jane
-3           | David      | Johnson   | 5500.00 | Jane
-1           | John       | Doe       | 5000.00 | Jane
-5           | Michael    | Brown     | 4500.00 | Jane
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│   employee_id   │    first_name    │     last_name    │          salary          │ second_highest_salary_first_name │
+├─────────────────┼──────────────────┼──────────────────┼──────────────────────────┼──────────────────────────────────┤
+│               4 │ Mary             │ Williams         │ 7000.00                  │ Jane                             │
+│               2 │ Jane             │ Smith            │ 6000.00                  │ Jane                             │
+│               3 │ David            │ Johnson          │ 5500.00                  │ Jane                             │
+│               1 │ John             │ Doe              │ 5000.00                  │ Jane                             │
+│               5 │ Michael          │ Brown            │ 4500.00                  │ Jane                             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 This example excludes the NULL values from the window frame with the `IGNORE NULLS` option:
