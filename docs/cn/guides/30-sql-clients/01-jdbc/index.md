@@ -35,7 +35,7 @@ Databend 建议更新到最新版本的 Databend JDBC 驱动，以访问最新�
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.1.6</version>
+    <version>0.3.4</version>
 </dependency>
 ```
 
