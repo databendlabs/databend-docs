@@ -20,7 +20,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name (
     <column_name> <data_type> [NOT NULL | NULL] [{ DEFAULT <expr> }],
     ...
 )
-LOCATION = 's3://<bucket>/[<path>]'
+'s3://<bucket>/[<path>]'
 CONNECTION = (
     ENDPOINT_URL = 'https://<endpoint-URL>'
     ACCESS_KEY_ID = '<your-access-key-ID>'
