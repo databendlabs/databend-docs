@@ -248,6 +248,7 @@ config:
   meta:
     # Set endpoints to use remote meta service
     # depends on previous deployed meta service、namespace and nodes
+    namespace: "databend-meta"
     endpoints:
       - "databend-meta-0.databend-meta.databend-meta.svc:9191"
       - "databend-meta-1.databend-meta.databend-meta.svc:9191"
