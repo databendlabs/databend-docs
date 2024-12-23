@@ -39,6 +39,7 @@ This section provides reference information for the string-related functions in 
 - [ORD](ord.md)
 - [POSITION](position.md)
 - [STRCMP](strcmp.md)
+- [JARO_WINKLER](jaro-winkler.md)
 
 ## Case Conversion:
 - [LCASE](lcase.md)
