@@ -2,7 +2,7 @@
 title: 字符串函数
 ---
 
-本节提供 Databend 中与字符串相关的函数的参考信息。
+本节提供了 Databend 中与字符串相关的函数的参考信息。
 
 ## 字符串操作：
 - [CONCAT](concat.md)
@@ -39,6 +39,7 @@ title: 字符串函数
 - [ORD](ord.md)
 - [POSITION](position.md)
 - [STRCMP](strcmp.md)
+- [JARO_WINKLER](jaro-winkler.md)
 
 ## 大小写转换：
 - [LCASE](lcase.md)
