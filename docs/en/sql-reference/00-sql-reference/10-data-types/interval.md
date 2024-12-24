@@ -48,5 +48,4 @@ The INTERVAL data type represents a duration of time, allowing precise manipulat
     └───────────────────────────────────────────────────────┘
     ```
 - Handles both positive and negative intervals with precision down to microseconds.
-- INTERVAL columns are *not* supported in the ORDER BY clause.
 - It is *not* recommended to use the MySQL client to query INTERVAL columns in Databend, as the MySQL protocol does not fully support the INTERVAL type. This may result in errors or unexpected behavior.
