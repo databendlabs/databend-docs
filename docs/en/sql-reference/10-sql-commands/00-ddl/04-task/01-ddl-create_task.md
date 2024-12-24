@@ -49,7 +49,7 @@ AS
 - When Condition only support a subset of `<boolean_expression>`
   The following are supported in a task WHEN clause:
 
-  - [STREAM_STATUS](../../../00-sql-reference/20-system-tables/system-stream-status.md) is supported for evaluation in the SQL expression. This function indicates whether a specified stream contains change tracking data. You can use this function to evaluate whether the specified stream contains change data before starting the current run. If the result is FALSE, then the task does not run.
+  - [STREAM_STATUS](../../../20-sql-functions/17-table-functions/stream-status.md) is supported for evaluation in the SQL expression. This function indicates whether a specified stream contains change tracking data. You can use this function to evaluate whether the specified stream contains change data before starting the current run. If the result is FALSE, then the task does not run.
   - Boolean operators such as AND, OR, NOT, and others.
   - Casts between numeric, string and boolean types.
   - Comparison operators such as equal, not equal, greater than, less than, and others.
