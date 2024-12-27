@@ -3,9 +3,9 @@ title: FUSE_VACUUM_TEMPORARY_TABLE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.666"/>
+<FunctionDescription description="引入或更新于：v1.2.666"/>
 
-清理未自动删除的临时表的残留文件，例如在查询节点崩溃后。
+清理未自动删除的临时表残留文件，例如在查询节点崩溃后。
 
 ## 语法
 

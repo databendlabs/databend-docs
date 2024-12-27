@@ -3,9 +3,9 @@ title: SYSTEM$FUSE_AMEND
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.609"/>
+<FunctionDescription description="引入或更新于：v1.2.609"/>
 
-从兼容 S3 的对象存储中恢复表数据。
+从 S3 兼容的对象存储中恢复表数据。
 
 ## 语法
 

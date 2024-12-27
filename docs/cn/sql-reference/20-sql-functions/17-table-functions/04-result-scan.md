@@ -2,7 +2,7 @@
 title: RESULT_SCAN
 ---
 
-返回同一会话中先前命令的结果集，如同结果是一个表。
+返回同一会话中前一个命令的结果集，就像该结果是一个表一样。
 
 ## 语法
 
@@ -12,7 +12,7 @@ RESULT_SCAN( { '<query_id>' | LAST_QUERY_ID() } )
 
 ## 示例
 
-创建一个简单表：
+创建一个简单的表：
 
 ```sql
 CREATE TABLE t1(a int);

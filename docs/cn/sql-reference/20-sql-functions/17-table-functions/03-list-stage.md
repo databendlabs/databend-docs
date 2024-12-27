@@ -1,11 +1,11 @@
 ---
-title: LIST_STAGE
+title: LIST_STAGE 
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.32"/>
+<FunctionDescription description="引入或更新于：v1.2.32"/>
 
-列出阶段中的文件。该功能允许您根据文件扩展名过滤阶段中的文件，并获取每个文件的详细信息。此函数类似于DDL命令[LIST STAGE FILES](../../10-sql-commands/00-ddl/03-stage/04-ddl-list-stage.md)，但提供了通过SELECT语句检索特定文件信息的灵活性，例如文件名、大小、MD5哈希、最后修改时间戳和创建者，而不是所有文件信息。
+列出 Stage 中的文件。该功能允许您根据文件扩展名过滤 Stage 中的文件，并获取每个文件的详细信息。该函数类似于 DDL 命令 [LIST STAGE FILES](../../10-sql-commands/00-ddl/03-stage/04-ddl-list-stage.md)，但提供了通过 SELECT 语句检索特定文件信息的灵活性，例如文件名、大小、MD5 哈希值、最后修改时间戳和创建者，而不是所有文件信息。
 
 ## 语法
 
@@ -16,7 +16,7 @@ LIST_STAGE(
 )
 ```
 
-其中:
+其中：
 
 ### internalStage
 
@@ -38,7 +38,7 @@ userStage ::= @~[/<path>]
 
 ### PATTERN
 
-参见[COPY INTO table](/10-sql-commands/10-dml/dml-copy-into-table.md)。
+参见 [COPY INTO table](/10-sql-commands/10-dml/dml-copy-into-table.md)。
 
 
 ## 示例
@@ -52,6 +52,6 @@ SELECT * FROM list_stage(location => '@my_stage/', pattern => '.*[.]log');
 | 2023/query.log | 1348 | "1c6654b207472c277fc8c6207c035e18" | 2023-04-19 20:23:24.000 +0000 | NULL    |
 +----------------+------+------------------------------------+-------------------------------+---------+
 
--- 等效于以下语句:
+-- 等同于以下语句：
 LIST @my_stage PATTERN = '.log';
 ```
