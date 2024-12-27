@@ -1,5 +1,5 @@
 ---
-title: system.stream_status
+title: STREAM_STATUS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
