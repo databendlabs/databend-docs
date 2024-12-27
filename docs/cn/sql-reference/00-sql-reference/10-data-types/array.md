@@ -5,10 +5,10 @@ description: 定义数据类型的数组。
 
 ## Array(T) 数据类型
 
-ARRAY(T) 由定义的可变长度内部 T 数据类型值组成，这与半结构化的 ARRAY 非常相似，只是内部数据类型需要定义而不是任意的。T 可以是任何数据类型。
+ARRAY(T) 由定义的可变长度内部 T 数据类型值组成，与半结构化 ARRAY 非常相似，只是内部数据类型需要定义而不是任意的。T 可以是任何数据类型。
 
 :::note
-Databend 使用基于 1 的编号约定来表示数组。一个包含 n 个元素的数组从 array[1] 开始，到 array[n] 结束。
+Databend 使用基于 1 的数组编号约定。一个包含 n 个元素的数组从 array[1] 开始，到 array[n] 结束。
 :::
 
 ### 示例
@@ -21,18 +21,18 @@ CREATE TABLE array_int64_table(arr ARRAY(INT64));
 DESC array_int64_table;
 ```
 
-结果:
+结果：
 
 ```
 ┌───────────────────────────────────────────────────┐
-│  Field │     Type     │  Null  │ Default │  Extra │
+│  字段  │     类型     │  可为空  │  默认值  │  额外  │
 ├────────┼──────────────┼────────┼─────────┼────────┤
-│ arr    │ ARRAY(INT64) │ YES    │ NULL    │        │
+│ arr    │ ARRAY(INT64) │ 是     │ NULL    │        │
 └───────────────────────────────────────────────────┘
 ```
 
 ```sql
--- 向表中插入数组值
+-- 将数组值插入表中
 INSERT INTO array_int64_table
 VALUES
 ([1, 2, 3, 4]),
@@ -43,7 +43,7 @@ VALUES
 SELECT arr FROM array_int64_table;
 ```
 
-结果:
+结果：
 
 ```
 +-----------+
@@ -60,7 +60,7 @@ SELECT arr[0]
 FROM array_int64_table;
 ```
 
-结果:
+结果：
 
 ```
 ┌─────────────────┐

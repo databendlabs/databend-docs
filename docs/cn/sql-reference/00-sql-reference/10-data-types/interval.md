@@ -4,16 +4,16 @@ title: Interval
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.673"/>
+<FunctionDescription description="引入或更新于：v1.2.673"/>
 
-INTERVAL 数据类型表示一段时间的持续时间，允许精确操作和存储跨越各种单位的时间间隔。
+INTERVAL 数据类型表示时间间隔，允许精确操作和存储跨不同单位的时间间隔。
 
 - 接受自然语言格式（例如，'1 year 2 months ago'）或解释为微秒的数值。
 
     - 支持的时间单位包括 `Millennium`、`Century`、`Decade`、`Year`、`Quarter`、`Month`、`Week`、`Day`、`Hour`、`Minute`、`Second`、`Millisecond` 和 `Microsecond`。
 
-    ```sql title='示例:'
-    -- 创建一个包含一个 INTERVAL 列的表
+    ```sql title='示例：'
+    -- 创建一个包含 INTERVAL 列的表
     CREATE OR REPLACE TABLE intervals (duration INTERVAL);
 
     -- 插入不同类型的 INTERVAL 数据
@@ -36,9 +36,9 @@ INTERVAL 数据类型表示一段时间的持续时间，允许精确操作和�
     └──────────────────────────┘
     ```
 
-    - 当给定数值时，Databend 仅识别数值的整数部分。例如，`TO_INTERVAL('1 seconds')` 和 `TO_INTERVAL('1.6 seconds')` 都表示 1 秒的间隔。小数点后的部分被忽略。
+    - 当给定一个数值时，Databend 只识别该值的整数部分。例如，`TO_INTERVAL('1 seconds')` 和 `TO_INTERVAL('1.6 seconds')` 都表示 1 秒的间隔。小数点后的分数部分被忽略。
 
-    ```sql title='示例:'
+    ```sql title='示例：'
     SELECT TO_INTERVAL('1 seconds'), TO_INTERVAL('1.6 seconds');
 
     ┌───────────────────────────────────────────────────────┐
@@ -48,4 +48,4 @@ INTERVAL 数据类型表示一段时间的持续时间，允许精确操作和�
     └───────────────────────────────────────────────────────┘
     ```
 - 处理正负间隔，精度可达微秒。
-- 不建议使用 MySQL 客户端查询 Databend 中的 INTERVAL 列，因为 MySQL 协议不完全支持 INTERVAL 类型。这可能会导致错误或意外行为。
+- *不* 建议使用 MySQL 客户端查询 Databend 中的 INTERVAL 列，因为 MySQL 协议不完全支持 INTERVAL 类型。这可能导致错误或意外行为。

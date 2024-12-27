@@ -2,16 +2,16 @@
 title: Variant
 ---
 
-VARIANT 可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，并且内部值可以是任何级别的嵌套结构，非常适合存储各种数据。VARIANT 也可以称为 JSON，更多信息请参考 [JSON 网站](https://www.json.org/json-en.html)。
+VARIANT 类型可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，其内部值可以是任意层级的嵌套结构，非常灵活地存储各种数据。VARIANT 也可以称为 JSON，更多信息请参考 [JSON 网站](https://www.json.org/json-en.html)。
 
 以下是在 Databend 中插入和查询 Variant 数据的示例：
 
-创建一个表：
+创建表：
 ```sql
 CREATE TABLE customer_orders(id INT64, order_data VARIANT);
 ```
 
-向表中插入不同类型的值：
+向表中插入不同类型的数据：
 ```sql
 INSERT INTO
   customer_orders
@@ -50,13 +50,13 @@ SELECT * FROM customer_orders;
 
 ### 通过索引访问
 
-VARIANT 类型包含一个数组，这是一个零基的数组，类似于许多其他编程语言。数组中的每个元素也是 VARIANT 类型。可以通过索引使用 **方括号** 访问元素。
+VARIANT 类型包含一个数组，该数组是一个从零开始的数组，类似于许多其他编程语言。数组中的每个元素也是 VARIANT 类型。可以使用**方括号**通过索引访问元素。
 
 #### 示例
 
-创建一个表：
+创建表：
 ```sql
--- 创建一个表来存储用户爱好
+-- 创建一个表来存储用户的爱好
 CREATE TABLE user_hobbies(user_id INT64, hobbies VARIANT NULL);
 ```
 
@@ -68,7 +68,7 @@ VALUES
     (2, '["Photography", "Travel", "Swimming"]');
 ```
 
-检索每个用户的首个爱好：
+检索每个用户的第一个爱好：
 ```sql
 SELECT
   user_id,
@@ -129,7 +129,7 @@ GROUP BY
 
 ### 通过字段名访问
 
-VARIANT 类型包含键值对，表示为对象，其中每个键是 VARCHAR，每个值是 VARIANT。它的功能类似于其他编程语言中的“字典”、“哈希”或“映射”。可以通过字段名使用 **方括号** 或 **冒号**，以及仅在第二级及更深层次使用 **点** 来访问值（点不能用作第一级名称表示法，以避免与表和列之间的点表示法混淆）。
+VARIANT 类型包含表示为对象的键值对，其中每个键是 VARCHAR，每个值是 VARIANT。它的功能类似于其他编程语言中的“字典”、“哈希”或“映射”。可以使用**方括号**或**冒号**以及**点号**（仅适用于第二层及更深层次，点号不能用作第一层名称表示法，以避免与表和列之间的点号表示法混淆）通过字段名访问值。
 
 #### 示例
 
@@ -159,7 +159,7 @@ VALUES
   );
 ```
 
-检索每个用户的首选颜色：
+检索每个用户的偏好颜色：
 ```sql
 SELECT
   preferences['settings']['color'],
@@ -182,7 +182,7 @@ FROM
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-请注意，字段名是 **区分大小写** 的。如果字段名包含空格或特殊字符，请用双引号括起来。
+请注意，字段名是**区分大小写**的。如果字段名包含空格或特殊字符，请用双引号括起来。
 
 ```sql
 INSERT INTO
@@ -194,7 +194,7 @@ VALUES
     ('Cole', 13)
   );
 
--- 双引号字段名 "new settings"
+-- 用双引号括起字段名 "new settings"
 SELECT preferences:"new settings":color 
 FROM user_preferences;
 
@@ -206,7 +206,7 @@ FROM user_preferences;
 │ "red"                            │
 └──────────────────────────────────┘
 
--- 当 'c' 在 'color' 中大写时，没有结果返回
+-- 当 'c' 在 'color' 中大写时，没有返回结果
 SELECT preferences:"new settings":Color 
 FROM user_preferences;
 
