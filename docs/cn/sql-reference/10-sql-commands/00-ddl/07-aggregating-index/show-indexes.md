@@ -4,11 +4,11 @@ sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.190"/>
+<FunctionDescription description="引入或更新于：v1.2.190"/>
 
 显示已创建的聚合索引。等同于 `SELECT * FROM system.indexes`。
 
-另请参阅: [system.indexes](../../../00-sql-reference/20-system-tables/system-indexes.md)
+另请参阅：[system.indexes](../../../00-sql-reference/20-system-tables/system-indexes.md)
 
 ## 语法
 

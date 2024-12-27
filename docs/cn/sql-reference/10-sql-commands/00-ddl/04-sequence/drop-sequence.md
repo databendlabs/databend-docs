@@ -4,7 +4,7 @@ title: DROP SEQUENCE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.426"/>
+<FunctionDescription description="引入或更新于：v1.2.426"/>
 
 从 Databend 中删除一个现有的序列。
 

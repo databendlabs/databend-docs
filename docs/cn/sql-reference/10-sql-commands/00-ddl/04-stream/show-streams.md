@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.460"/>
+<FunctionDescription description="引入或更新于：v1.2.460"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -20,16 +20,16 @@ SHOW [ FULL ] STREAMS
      [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
-| 参数      | 描述                                                                                         |
+| 参数      | 描述                                                                                  |
 |-----------|----------------------------------------------------------------------------------------------|
-| FULL      | 列出带有附加信息的结果。详见[示例](#examples)。                                                |
-| FROM / IN | 指定一个数据库。如果省略，命令将返回当前数据库的结果。                                         |
-| LIKE      | 使用区分大小写的模式匹配和 `%` 通配符过滤流名称。                                              |
-| WHERE     | 使用 WHERE 子句中的表达式过滤流名称。                                                         |
+| FULL      | 列出包含额外信息的结果。详见[示例](#examples)。   |
+| FROM / IN | 指定一个数据库。如果省略，则返回当前数据库的结果。 |
+| LIKE      | 使用区分大小写的模式匹配和 `%` 通配符过滤流名称。        |
+| WHERE     | 使用 WHERE 子句中的表达式过滤流名称。                            |
 
 ## 示例
 
-此示例显示属于当前数据库的流：
+以下示例展示了属于当前数据库的流：
 
 ```sql
 SHOW STREAMS;
@@ -43,7 +43,7 @@ SHOW STREAMS;
 └──────────────────────────────────────────────────────────┘
 ```
 
-此示例显示当前数据库中流的详细信息：
+以下示例展示了当前数据库中流的详细信息：
 
 ```sql
 SHOW FULL STREAMS;

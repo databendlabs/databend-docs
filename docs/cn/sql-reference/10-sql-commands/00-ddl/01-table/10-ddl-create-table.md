@@ -5,23 +5,23 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.666"/>
+<FunctionDescription description="引入或更新版本：v1.2.666"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='COMPUTED COLUMN'/>
+<EEFeature featureName='计算列'/>
 
-对于许多数据库来说，创建表是最复杂的操作之一，因为您可能需要：
+创建表是许多数据库中最复杂的操作之一，因为您可能需要：
 
 - 手动指定引擎
 - 手动指定索引
 - 甚至指定数据分区或数据分片
 
-Databend旨在通过设计变得易于使用，并且在创建表时不需要任何这些操作。此外，CREATE TABLE语句提供了这些选项，使您在各种场景下创建表变得更加容易：
+Databend 旨在通过设计使其易于使用，并且在创建表时不需要任何这些操作。此外，CREATE TABLE 语句提供了这些选项，使您在各种场景下创建表变得更加容易：
 
-- [CREATE TABLE](#create-table): 从头开始创建表。
-- [CREATE TABLE ... LIKE](#create-table--like): 创建一个与现有表具有相同列定义的表。
-- [CREATE TABLE ... AS](#create-table--as): 创建一个表并使用SELECT查询的结果插入数据。
+- [CREATE TABLE](#create-table)：从零开始创建表。
+- [CREATE TABLE ... LIKE](#create-table--like)：创建一个与现有表具有相同列定义的表。
+- [CREATE TABLE ... AS](#create-table--as)：创建一个表并使用 SELECT 查询的结果插入数据。
 
 另请参阅：
 
@@ -45,11 +45,11 @@ CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 
 :::note
 
-- 有关Databend中可用的数据类型，请参阅[数据类型](../../../00-sql-reference/10-data-types/index.md)。
+- 有关 Databend 中可用的数据类型，请参阅 [数据类型](../../../00-sql-reference/10-data-types/index.md)。
 
-- Databend建议在命名列时尽量避免使用特殊字符。然而，在某些情况下如果需要特殊字符，别名应使用反引号括起来，例如：CREATE TABLE price(\`$CA\` int);
+- Databend 建议在命名列时尽量避免使用特殊字符。但是，如果某些情况下必须使用特殊字符，别名应使用反引号括起来，例如：CREATE TABLE price(\`$CA\` int);
 
-- Databend会自动将列名转换为小写。例如，如果您将列命名为_Total_，它将在结果中显示为_total_。
+- Databend 会自动将列名转换为小写。例如，如果您将列命名为 _Total_，它将在结果中显示为 _total_。
   :::
 
 ## CREATE TABLE ... LIKE
@@ -63,11 +63,11 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 LIKE [db.]origin_table_name
 ```
 
-此命令不包括原始表中的任何数据或属性（如`CLUSTER BY`、`TRANSIENT`和`COMPRESSION`），而是使用默认系统设置创建一个新表。
+此命令不包括原始表中的任何数据或属性（如 `CLUSTER BY`、`TRANSIENT` 和 `COMPRESSION`），而是使用默认系统设置创建一个新表。
 
 :::note 解决方法
 
-- 当使用此命令创建新表时，可以显式指定`TRANSIENT`和`COMPRESSION`。例如，
+- 在使用此命令创建新表时，可以显式指定 `TRANSIENT` 和 `COMPRESSION`。例如，
 
 ```sql
 create transient table t_new like t_old;
@@ -79,7 +79,7 @@ create table t_new compression='lz4' like t_old;
 
 ## CREATE TABLE ... AS
 
-创建一个表并使用SELECT命令计算的数据填充它。
+创建一个表并使用 SELECT 命令的结果填充数据。
 
 语法：
 
@@ -88,11 +88,11 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 AS SELECT query
 ```
 
-此命令不包括原始表中的任何属性（如CLUSTER BY、TRANSIENT和COMPRESSION），而是使用默认系统设置创建一个新表。
+此命令不包括原始表中的任何属性（如 CLUSTER BY、TRANSIENT 和 COMPRESSION），而是使用默认系统设置创建一个新表。
 
 :::note 解决方法
 
-- 当使用此命令创建新表时，可以显式指定`TRANSIENT`和`COMPRESSION`。例如，
+- 在使用此命令创建新表时，可以显式指定 `TRANSIENT` 和 `COMPRESSION`。例如，
 
 ```sql
 create transient table t_new as select * from t_old;
@@ -102,9 +102,9 @@ create table t_new compression='lz4' as select * from t_old;
 
 :::
 
-## 列可空性
+## 列可为空
 
-默认情况下，**Databend中的所有列都是可空的(NULL)**。如果您需要一个不允许NULL值的列，请使用NOT NULL约束。有关更多信息，请参阅[NULL值和NOT NULL约束](../../../00-sql-reference/10-data-types/index.md)。
+默认情况下，Databend 中的所有列都是可为空的(NULL)。如果您需要一个不允许 NULL 值的列，请使用 NOT NULL 约束。有关更多信息，请参阅 [NULL 值和 NOT NULL 约束](../../../00-sql-reference/10-data-types/index.md)。
 
 ## 默认值
 
@@ -112,7 +112,7 @@ create table t_new compression='lz4' as select * from t_old;
 DEFAULT <expr>
 ```
 
-如果通过`INSERT`或`CREATE TABLE AS SELECT`语句未指定值，则指定插入到列中的默认值。
+指定在通过 `INSERT` 或 `CREATE TABLE AS SELECT` 语句未指定值时插入列的默认值。
 
 例如：
 
@@ -120,7 +120,7 @@ DEFAULT <expr>
 CREATE TABLE t_default_value(a TINYINT UNSIGNED, b VARCHAR DEFAULT 'b');
 ```
 
-描述`t_default_value`表：
+描述 `t_default_value` 表：
 
 ```sql
 DESC t_default_value;
@@ -150,11 +150,11 @@ SELECT * FROM t_default_value;
 
 ## 计算列
 
-计算列是使用表中其他列的标量表达式生成的列。当用于计算的任何列中的数据更新时，计算列将自动重新计算其值以反映更新。
+计算列是使用表中的其他列通过标量表达式生成的列。当用于计算的任何列中的数据更新时，计算列将自动重新计算其值以反映更新。
 
-Databend支持两种类型的计算列：存储和虚拟。存储计算列在数据库中物理存储并占用存储空间，而虚拟计算列不物理存储，其值在访问时动态计算。
+Databend 支持两种类型的计算列：存储列和虚拟列。存储计算列在数据库中物理存储并占用存储空间，而虚拟计算列不物理存储，其值在访问时动态计算。
 
-Databend支持两种创建计算列的语法选项：一种使用`AS (<expr>)`，另一种使用`GENERATED ALWAYS AS (<expr>)`。两种语法都允许指定计算列是存储还是虚拟。
+Databend 支持两种创建计算列的语法选项：一种使用 `AS (<expr>)`，另一种使用 `GENERATED ALWAYS AS (<expr>)`。这两种语法都允许指定计算列是存储列还是虚拟列。
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
@@ -172,7 +172,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 )
 ```
 
-以下是创建存储计算列的示例：每当“price”或“quantity”列的值更新时，“total_price”列将自动重新计算并更新其存储值。
+以下是一个创建存储计算列的示例：每当“price”或“quantity”列的值更新时，“total_price”列将自动重新计算并更新其存储值。
 
 ```sql
 CREATE TABLE IF NOT EXISTS products (
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS products (
 );
 ```
 
-以下是创建虚拟计算列的示例：“full_name”列根据“first_name”和“last_name”列的当前值动态计算。它不占用额外的存储空间。每当访问“first_name”或“last_name”值时，“full_name”列将被计算并返回。
+以下是一个创建虚拟计算列的示例：“full_name”列基于“first_name”和“last_name”列的当前值动态计算。它不占用额外的存储空间。每当访问“first_name”或“last_name”值时，“full_name”列将被计算并返回。
 
 ```sql
 CREATE TABLE IF NOT EXISTS employees (
@@ -194,25 +194,25 @@ CREATE TABLE IF NOT EXISTS employees (
 );
 ```
 
-:::tip 存储还是虚拟？
+:::tip 存储列还是虚拟列？
 在选择存储计算列和虚拟计算列时，请考虑以下因素：
 
-- 存储空间：存储计算列占用表中的额外存储空间，因为其计算值是物理存储的。如果您有有限的数仓空间或希望最小化存储使用，虚拟计算列可能是一个更好的选择。
+- 存储空间：存储计算列在表中占用额外的存储空间，因为它们的计算值是物理存储的。如果您的数据库空间有限或希望最小化存储使用，虚拟计算列可能是更好的选择。
 
-- 实时更新：存储计算列在依赖列更新时立即更新其计算值。这确保了在查询时始终拥有最新的计算值。虚拟计算列则在查询时动态计算其值，这可能会稍微增加处理时间。
+- 实时更新：存储计算列在依赖列更新时立即更新其计算值。这确保在查询时始终拥有最新的计算值。虚拟计算列则在查询期间动态计算其值，这可能会略微增加处理时间。
 
-- 数据完整性和一致性：存储计算列在写操作时立即维护数据一致性，因为其计算值在写操作时更新。虚拟计算列则在查询时动态计算其值，这意味着在写操作和后续查询之间可能会有短暂的差异。
+- 数据完整性和一致性：存储计算列在写入操作时立即保持数据一致性。虚拟计算列在查询期间动态计算其值，这意味着在写入操作和后续查询之间可能存在短暂的不一致性。
   :::
 
-## MySQL兼容性
+## MySQL 兼容性
 
-Databend的语法与MySQL的主要区别在于数据类型和一些特定的索引提示。
+Databend 的语法与 MySQL 的主要区别在于数据类型和一些特定的索引提示。
 
 ## 示例
 
 ### 创建表
 
-创建一个表并为列指定默认值（在本例中，`genre`列的默认值为'General'）：
+创建一个带有列默认值的表（在本例中，`genre` 列的默认值为 'General'）：
 
 ```sql
 CREATE TABLE books (
@@ -222,7 +222,7 @@ CREATE TABLE books (
 );
 ```
 
-描述表以确认结构和`genre`列的默认值：
+描述表以确认结构及 `genre` 列的默认值：
 
 ```sql
 DESC books;
@@ -235,13 +235,13 @@ DESC books;
 +-------+-----------------+------+---------+-------+
 ```
 
-插入一行而不指定`genre`：
+插入一行而不指定 `genre`：
 
 ```sql
 INSERT INTO books(id, title) VALUES(1, 'Invisible Stars');
 ```
 
-查询表并注意到`genre`列已设置为默认值'General'：
+查询表并注意 `genre` 列已设置为默认值 'General'：
 
 ```sql
 SELECT * FROM books;
@@ -254,7 +254,7 @@ SELECT * FROM books;
 
 ### 创建表 ... LIKE
 
-创建一个新表(`books_copy`)，其结构与现有表(`books`)相同：
+创建一个与现有表 (`books`) 具有相同结构的新表 (`books_copy`)：
 
 ```sql
 CREATE TABLE books_copy LIKE books;
@@ -273,7 +273,7 @@ DESC books_copy;
 +-------+-----------------+------+---------+-------+
 ```
 
-向新表插入一行并注意到`genre`列的默认值已被复制：
+向新表中插入一行并注意 `genre` 列的默认值已被复制：
 
 ```sql
 INSERT INTO books_copy(id, title) VALUES(1, 'Invisible Stars');
@@ -288,13 +288,13 @@ SELECT * FROM books_copy;
 
 ### 创建表 ... AS
 
-创建一个新表(`books_backup`)，其中包含现有表(`books`)的数据：
+创建一个包含现有表 (`books`) 数据的新表 (`books_backup`)：
 
 ```sql
 CREATE TABLE books_backup AS SELECT * FROM books;
 ```
 
-描述新表并注意到`genre`列的默认值未被复制：
+描述新表并注意 `genre` 列的默认值未被复制：
 
 ```sql
 DESC books_backup;
@@ -307,7 +307,7 @@ DESC books_backup;
 +-------+-----------------+------+---------+-------+
 ```
 
-查询新表并注意到原始表的数据已被复制：
+查询新表并注意原始表中的数据已被复制：
 
 ```sql
 SELECT * FROM books_backup;
@@ -320,7 +320,7 @@ SELECT * FROM books_backup;
 
 ### 创建表 ... 列 AS STORED | VIRTUAL
 
-以下示例演示了一个带有存储计算列的表，该列会根据“price”或“quantity”列的更新自动重新计算：
+以下示例演示了一个带有存储计算列的表，该列基于“price”或“quantity”列的更新自动重新计算：
 
 ```sql
 -- 创建带有存储计算列的表
@@ -351,7 +351,7 @@ FROM products;
 +------+-------+----------+-------------+
 ```
 
-在这个示例中，我们创建了一个名为student_profiles的表，其中包含一个名为profile的Variant类型列来存储JSON数据。我们还添加了一个名为_age_的虚拟计算列，该列从profile列中提取age属性并将其转换为整数。
+在此示例中，我们创建了一个名为 student*profiles 的表，其中包含一个名为 profile 的 Variant 类型列，用于存储 JSON 数据。我们还添加了一个名为 \_age* 的虚拟计算列，该列从 profile 列中提取 age 属性并将其转换为整数。
 
 ```sql
 -- 创建带有虚拟计算列的表

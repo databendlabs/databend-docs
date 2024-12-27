@@ -1,5 +1,5 @@
 ---
-title: 重命名数据库
+title: RENAME DATABASE
 sidebar_position: 4
 ---
 

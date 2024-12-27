@@ -4,9 +4,9 @@ sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.116"/>
+<FunctionDescription description="引入或更新版本：v1.2.116"/>
 
-删除用户定义的函数。
+删除一个用户自定义函数。
 
 ## 语法
 

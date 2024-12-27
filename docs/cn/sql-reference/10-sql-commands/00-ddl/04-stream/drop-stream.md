@@ -4,13 +4,13 @@ sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.223"/>
+<FunctionDescription description="引入或更新于：v1.2.223"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='STREAM'/>
 
-删除一个现有的流。
+删除一个已存在的流。
 
 ## 语法
 

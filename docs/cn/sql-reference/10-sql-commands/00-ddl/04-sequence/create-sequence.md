@@ -5,14 +5,14 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.426"/>
+<FunctionDescription description="引入或更新版本：v1.2.426"/>
 
 在 Databend 中创建一个新的序列。
 
-序列是一个用于自动生成唯一数值标识符的对象，通常用于为表中的行分配唯一标识符，例如用户 ID 列。通常，序列从指定值开始，并按指定数量递增。
+序列是一种用于自动生成唯一数值标识符的对象，通常用于为表中的行分配唯一标识符，例如用户 ID 列。通常情况下，序列从指定的值开始，并按指定的量递增。
 
 :::note
-Databend 中的序列当前从 1 开始，并按 1 递增。虽然序列保证唯一值，但它们**不**保证连续性（即无间隙）。
+Databend 中的序列目前从 1 开始，并按 1 递增。虽然序列保证了唯一值，但它们**不**保证连续性（即没有间隔）。
 :::
 
 ## 语法
@@ -27,7 +27,7 @@ CREATE [ OR REPLACE ] SEQUENCE [IF NOT EXISTS] <sequence>
 
 ## 示例
 
-此示例展示了如何使用序列和 [NEXTVAL](/sql/sql-functions/sequence-functions/nextval) 函数来自动生成并分配唯一标识符到表中的行。
+此示例展示了如何使用序列和 [NEXTVAL](/sql/sql-functions/sequence-functions/nextval) 函数自动生成并分配唯一标识符给表中的行。
 
 ```sql
 -- 创建一个名为 staff_id_seq 的新序列
@@ -40,11 +40,11 @@ CREATE TABLE staff (
     department VARCHAR(50)
 );
 
--- 插入新行到 staff 表中，使用 staff_id_seq 序列的下一个值作为 staff_id 列
+-- 向 staff 表中插入一行，使用 staff_id_seq 序列的下一个值作为 staff_id 列的值
 INSERT INTO staff (staff_id, name, department)
 VALUES (NEXTVAL(staff_id_seq), 'John Doe', 'HR');
 
--- 插入另一行到 staff 表中，使用 staff_id_seq 序列的下一个值作为 staff_id 列
+-- 向 staff 表中插入另一行，使用 staff_id_seq 序列的下一个值作为 staff_id 列的值
 INSERT INTO staff (staff_id, name, department)
 VALUES (NEXTVAL(staff_id_seq), 'Jane Smith', 'Finance');
 

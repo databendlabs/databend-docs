@@ -4,9 +4,9 @@ sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.283"/>
+<FunctionDescription description="引入或更新于：v1.2.283"/>
 
-修改Databend中现有的密码策略。
+修改 Databend 中现有的密码策略。
 
 ## 语法
 
@@ -42,11 +42,11 @@ ALTER PASSWORD POLICY [ IF EXISTS ] <name> UNSET
     [ COMMENT ]
 ```
 
-有关密码策略属性的详细描述，请参阅[密码策略属性](create-password-policy.md#password-policy-attributes)。
+有关密码策略属性的详细描述，请参见[密码策略属性](create-password-policy.md#password-policy-attributes)。
 
 ## 示例
 
-此示例创建了一个名为'SecureLogin'的密码策略，要求最小密码长度为10个字符，随后更新为允许密码长度在10到16个字符之间：
+此示例创建了一个名为 'SecureLogin' 的密码策略，初始设置密码最小长度为 10 个字符，随后更新为允许密码长度在 10 到 16 个字符之间：
 
 ```sql
 CREATE PASSWORD POLICY SecureLogin

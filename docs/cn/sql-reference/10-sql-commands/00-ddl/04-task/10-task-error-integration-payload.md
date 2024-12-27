@@ -4,11 +4,11 @@ sidebar_position: 10
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.371"/>
+<FunctionDescription description="引入或更新于：v1.2.371"/>
 
-任务错误通知的负载体。
+任务错误通知的负载内容。
 
-**注意:** 此功能在 Databend Cloud 中开箱即用。
+**注意：** 此功能仅在 Databend Cloud 中开箱即用。
 
 以下是一个描述任务错误的示例消息负载。负载可以包含一个或多个错误消息。
 

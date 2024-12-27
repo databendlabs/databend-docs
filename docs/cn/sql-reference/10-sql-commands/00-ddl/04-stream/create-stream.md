@@ -1,10 +1,10 @@
 ---
-title: CREATE STREAM
+title: 创建流
 sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.391"/>
+<FunctionDescription description="引入或更新版本：v1.2.391"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -22,15 +22,15 @@ CREATE [ OR REPLACE ] STREAM [ IF NOT EXISTS ] [ <database_name>. ]<stream_name>
   [ COMMENT = '<comment>' ]
 ```
 
-| 参数                | 描述                                                                                                                                                                                                                                                                                                                    |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `< database_name >` | 流被视为属于特定数据库的对象，类似于表或视图。CREATE STREAM 允许流和关联表之间使用不同的数据库。如果未明确指定数据库，则当前数据库将作为您创建的流的数据库。                                                                                                                             |
-| AT                  | 当使用 `AT` 后跟 `TIMESTAMP =>` 或 `SNAPSHOT =>` 时，您可以通过时间戳或快照 ID 创建一个包含特定历史时间点之后数据变化的流；当 `AT` 后跟 `STREAM =>` 时，它允许创建一个与现有流相同的新流，保留相同的数据变化。                                                                 |
-| APPEND_ONLY         | 当设置为 `true` 时，流以 `Append-Only` 模式运行；当设置为 `false` 时，它以 `Standard` 模式运行。默认为 `true`。有关流操作模式的更多详细信息，请参阅 [流的工作原理](/guides/load-data/continuous-data-pipelines/stream#how-stream-works)。                                        |
+| 参数               | 描述                                                                                                                                                                                                                                                                                                                    |
+|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `< database_name >` | 流被视为属于特定数据库的对象，类似于表或视图。CREATE STREAM 允许流和关联的表位于不同的数据库中。如果未明确指定数据库，则当前数据库将作为所创建流的数据库。                                                                               |
+| AT                  | 当使用 `AT` 后跟 `TIMESTAMP =>` 或 `SNAPSHOT =>` 时，您可以创建一个流，包含特定历史点之后的数据更改，该历史点由时间戳或快照 ID 指定；当 `AT` 后跟 `STREAM =>` 时，它允许创建一个与现有流相同的新流，保留相同的数据更改捕获。 |
+| APPEND_ONLY         | 当设置为 `true` 时，流以 `仅追加` 模式运行；当设置为 `false` 时，流以 `标准` 模式运行。默认为 `true`。有关流操作模式的更多详细信息，请参阅 [流的工作原理](/guides/load-data/continuous-data-pipelines/stream#how-stream-works)。                                        |
 
 ## 示例
 
-此示例演示了创建一个名为 'order_changes' 的流来监控 'orders' 表中的变化：
+此示例演示了创建一个名为 'order_changes' 的流，以监控 'orders' 表中的更改：
 
 ```sql
 -- 创建一个名为 'orders' 的表
@@ -41,13 +41,13 @@ CREATE TABLE orders (
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 为 'orders' 表创建一个名为 'order_changes' 的流
+-- 为表 'orders' 创建一个名为 'order_changes' 的流
 CREATE STREAM order_changes ON TABLE orders;
 
--- 向 'orders' 表插入订单 1001
+-- 向表 'orders' 中插入订单 1001
 INSERT INTO orders (order_id, product_name, quantity) VALUES (1001, 'Product A', 10);
 
--- 向 'orders' 表插入订单 1002
+-- 向表 'orders' 中插入订单 1002
 INSERT INTO orders (order_id, product_name, quantity) VALUES (1002, 'Product B', 20);
 
 -- 从 'order_changes' 流中检索所有记录
@@ -61,10 +61,10 @@ SELECT * FROM order_changes;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-以下示例创建了一个名为 'order_changes_copy' 的新流，并使用 `AT` 参数，包含与 'order_changes' 相同的数据变化：
+以下示例使用 `AT` 参数创建一个名为 'order_changes_copy' 的新流，包含与 'order_changes' 相同的数据更改：
 
 ```sql
--- 在 'orders' 表上创建一个名为 'order_changes_copy' 的流，复制 'order_changes' 的数据变化
+-- 在 'orders' 表上创建一个流 'order_changes_copy'，从 'order_changes' 复制数据更改
 CREATE STREAM order_changes_copy ON TABLE orders AT (STREAM => order_changes);
 
 -- 从 'order_changes_copy' 流中检索所有记录
@@ -78,7 +78,7 @@ SELECT * FROM order_changes_copy;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例在 'orders' 表上创建了两个流。每个流都使用 `AT` 参数分别获取特定快照 ID 或时间戳之后的数据变化。
+此示例在 'orders' 表上创建两个流。每个流都使用 `AT` 参数分别获取特定快照 ID 或时间戳之后的数据更改。
 
 ```sql
 -- 从 'orders' 表中检索快照和时间戳信息
@@ -91,10 +91,10 @@ SELECT snapshot_id, timestamp from FUSE_SNAPSHOT('default','orders');
 │ 11b9d81eabc94c7da648908f0ba313a1 │ 2024-03-28 03:24:16.611835 │
 └───────────────────────────────────────────────────────────────┘
 
--- 在 'orders' 表上创建一个名为 'order_changes_after_snapshot' 的流，捕获特定快照之后的数据变化
+-- 在 'orders' 表上创建一个流 'order_changes_after_snapshot'，捕获特定快照之后的数据更改
 CREATE STREAM order_changes_after_snapshot ON TABLE orders AT (SNAPSHOT => '11b9d81eabc94c7da648908f0ba313a1');
 
--- 查询 'order_changes_after_snapshot' 流以查看捕获的特定快照之后的数据变化
+-- 查询 'order_changes_after_snapshot' 流以查看在指定快照之后捕获的数据更改
 SELECT * FROM order_changes_after_snapshot;
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -103,10 +103,10 @@ SELECT * FROM order_changes_after_snapshot;
 │            1002 │ Product B        │              20 │ 2024-03-28 03:24:16.629135 │ INSERT        │ false            │ acb58bd6bb4243a4bf0832bf570b38c2000000 │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 在 'orders' 表上创建一个名为 'order_changes_after_timestamp' 的流，捕获特定时间戳之后的数据变化
+-- 在 'orders' 表上创建一个流 'order_changes_after_timestamp'，捕获特定时间戳之后的数据更改
 CREATE STREAM order_changes_after_timestamp ON TABLE orders AT (TIMESTAMP => '2024-03-28 03:24:16.611835'::TIMESTAMP);
 
--- 查询 'order_changes_after_timestamp' 流以查看捕获的特定时间戳之后的数据变化
+-- 查询 'order_changes_after_timestamp' 流以查看在指定时间戳之后捕获的数据更改
 SELECT * FROM order_changes_after_timestamp;
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐

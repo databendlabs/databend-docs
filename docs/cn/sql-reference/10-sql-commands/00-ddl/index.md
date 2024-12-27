@@ -1,18 +1,18 @@
 ---
-title: DDL (数据定义语言) 命令
+title: DDL（数据定义语言）命令
 ---
 
-这些主题提供了 Databend 中 DDL (数据定义语言) 命令的参考信息。
+这些主题提供了 Databend 中 DDL（数据定义语言）命令的参考信息。
 
 ## 数据库和表管理
 
-- [数据库](00-database/index.md) 
+- [数据库](00-database/index.md)
 - [表](01-table/index.md)
 - [视图](05-view/index.md)
 
 ## 数据库性能和索引
 
-- [聚簇键](06-clusterkey/index.md)
+- [集群键](06-clusterkey/index.md)
 - [聚合索引](07-aggregating-index/index.md)
 
 ## 用户、角色和安全管理
@@ -30,5 +30,5 @@ title: DDL (数据定义语言) 命令
 
 ## 函数和外部集成
 
-- [UDF (用户定义函数)](10-udf/index.md)
+- [UDF（用户定义函数）](10-udf/index.md)
 - [外部函数](11-external-function/index.md)

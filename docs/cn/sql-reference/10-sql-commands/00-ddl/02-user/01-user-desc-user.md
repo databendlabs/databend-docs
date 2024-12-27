@@ -3,7 +3,7 @@ title: DESC USER
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.644"/>
+<FunctionDescription description="引入或更新于：v1.2.644"/>
 
 显示特定 SQL 用户的详细信息，包括认证类型、角色、网络策略、密码策略以及其他用户相关设置。
 
@@ -30,14 +30,14 @@ CREATE PASSWORD POLICY my_password_policy
     PASSWORD_MAX_RETRIES = 3
     PASSWORD_LOCKOUT_TIME_MINS = 30
     PASSWORD_HISTORY = 5
-    COMMENT = 'test comment';
+    COMMENT = '测试注释';
 
 CREATE USER eric IDENTIFIED BY '123ABCabc$$123' WITH SET PASSWORD POLICY='my_password_policy', SET NETWORK POLICY='my_network_policy';
 
 DESC USER eric;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│  name  │ hostname │       auth_type      │ default_role │  roles │ disabled │   network_policy  │   password_policy  │ must_change_password │
+│  名称  │ 主机名 │       认证类型       │ 默认角色 │  角色  │ 禁用状态 │   网络策略   │   密码策略   │ 必须更改密码 │
 ├────────┼──────────┼──────────────────────┼──────────────┼────────┼──────────┼───────────────────┼────────────────────┼──────────────────────┤
 │ eric   │ %        │ double_sha1_password │              │        │ false    │ my_network_policy │ my_password_policy │ NULL                 │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘

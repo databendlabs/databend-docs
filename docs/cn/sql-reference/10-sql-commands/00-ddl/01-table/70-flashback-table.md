@@ -3,24 +3,24 @@ title: FLASHBACK TABLE
 sidebar_position: 9
 ---
 
-使用快照ID或时间戳将表回滚到较早的版本，仅涉及元数据操作，使其成为一个快速的过程。
+使用快照 ID 或时间戳将表恢复到早期版本，仅涉及元数据操作，因此过程非常快速。
 
-通过在命令中指定的快照ID或时间戳，Databend将表回滚到创建快照时的先前状态。要检索表的快照ID和时间戳，请使用[FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)。
+通过命令中指定的快照 ID 或时间戳，Databend 将表恢复到创建该快照时的先前状态。要检索表的快照 ID 和时间戳，请使用 [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)。
 
-回滚表的能力受以下条件限制：
+表的时间回溯功能受以下条件限制：
 
-- 该命令仅将现有表回滚到其先前的状态。要恢复已删除的表，请使用[UNDROP TABLE](21-ddl-undrop-table.md)。
+- 该命令仅将现有表恢复到其先前状态。要恢复已删除的表，请使用 [UNDROP TABLE](21-ddl-undrop-table.md)。
 
-- 回滚表是Databend时间回溯功能的一部分。在使用该命令之前，请确保您要回滚的表符合时间回溯的条件。例如，该命令不适用于瞬态表，因为Databend不会为这些表创建或存储快照。
+- 表的时间回溯是 Databend 时间回溯功能的一部分。在使用该命令之前，请确保您要回溯的表符合时间回溯的条件。例如，该命令不适用于临时表，因为 Databend 不会为此类表创建或存储快照。
 
-- 在将表回滚到先前状态后，您无法回滚操作，但可以再次将表回滚到更早的状态。
+- 您无法在将表恢复到先前状态后回滚，但可以再次将表回溯到更早的状态。
 
-- Databend建议仅在紧急恢复时使用此命令。要查询表的历史数据，请使用[AT](../../20-query-syntax/03-query-at.md)子句。
+- Databend 建议仅在紧急恢复时使用此命令。要查询表的历史数据，请使用 [AT](../../20-query-syntax/03-query-at.md) 子句。
 
 ## 语法
 
 ```sql
--- 使用快照ID恢复
+-- 使用快照 ID 恢复
 ALTER TABLE <table> FLASHBACK TO (SNAPSHOT => '<snapshot-id>');
 
 -- 使用快照时间戳恢复
@@ -29,7 +29,7 @@ ALTER TABLE <table> FLASHBACK TO (TIMESTAMP => '<timestamp>'::TIMESTAMP);
 
 ## 示例
 
-### 步骤1：创建示例用户表并插入数据
+### 步骤 1：创建示例用户表并插入数据
 ```sql
 -- 创建示例用户表
 CREATE TABLE users (
@@ -74,7 +74,7 @@ previous_snapshot_id: NULL
            timestamp: 2023-04-19 04:20:25.062854
 ```
 
-### 步骤2：模拟意外删除操作
+### 步骤 2：模拟意外删除操作
 
 ```sql
 -- 模拟意外删除操作
@@ -119,9 +119,9 @@ previous_snapshot_id: NULL
            timestamp: 2023-04-19 04:20:25.062854
 ```
 
-### 步骤3：找到删除操作前的快照ID
+### 步骤 3：找到删除操作前的快照 ID
 ```sql
--- 假设从之前的查询中得到的快照ID是'xxxxxx'
+-- 假设之前查询的快照 ID 是 'xxxxxx'
 -- 将表恢复到删除操作前的快照
 ALTER TABLE users FLASHBACK TO (SNAPSHOT => 'c5c538d6b8bc42f483eefbddd000af7d');
 ```
