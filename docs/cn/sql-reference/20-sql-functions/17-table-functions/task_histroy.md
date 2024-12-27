@@ -2,7 +2,7 @@
 title: TASK_HISTORY
 ---
 
-显示给定变量的任务运行历史记录。
+显示给定变量的任务运行历史。
 
 ## 语法
 ```sql
@@ -14,5 +14,3 @@ TASK_HISTORY(
       [, ERROR_ONLY => { TRUE | FALSE } ]
       [, ROOT_TASK_ID => '<string>'] )
 ```
-
-

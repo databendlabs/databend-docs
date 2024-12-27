@@ -3,11 +3,11 @@ title: SHOW_GRANTS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.487"/>
+<FunctionDescription description="引入或更新于：v1.2.487"/>
 
-列出明确授予用户、角色或特定对象的权限。
+列出显式授予用户、角色或特定对象的权限。
 
-另请参阅: [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
+另请参阅：[SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
 
 ## 语法
 
@@ -22,22 +22,22 @@ SHOW_GRANTS('database', '<db_name>', '<catalog_name>')
 
 ## 示例
 
-此示例说明了如何列出授予用户、角色和特定对象的权限。
+此示例展示了如何列出授予用户、角色和特定对象的权限。
 
 ```sql
--- 创建新用户
+-- 创建一个新用户
 CREATE USER 'user1' IDENTIFIED BY 'password';
 
--- 创建新角色
+-- 创建一个新角色
 CREATE ROLE analyst;
 
 -- 将 analyst 角色授予用户
 GRANT ROLE analyst TO 'user1';
 
--- 创建 stage
+-- 创建一个 stage
 CREATE STAGE my_stage;
 
--- 将 stage 上的权限授予角色
+-- 将 stage 的权限授予角色
 GRANT READ ON STAGE my_stage TO ROLE analyst;
 
 -- 列出授予用户的权限
