@@ -150,10 +150,10 @@ If you re-cluster the example table in the [How Cluster Key Works](#how-cluster-
 This is the most ideal scenario. In most cases, achieving this situation might require running a re-cluster operation more than once. Re-clustering a table consumes time (even longer if you include the **FINAL** option) and credits (when you are in Databend Cloud). Databend recommends using the function [CLUSTERING_INFORMATION](/sql/sql-functions/system-functions/clustering_information) to determine when to re-cluster a table:
 
 ```sql
-SELECT If(average_depth > total_block_count * 0.001
-          AND average_depth > 1, 'The table needs re-cluster now',
+SELECT IF(average_depth > 2 * LEAST(GREATEST(total_block_count * 0.001, 1), 16),
+              'The table needs re-cluster now',
               'The table does not need re-cluster now')
-FROM CLUSTERING_INFORMATION('<your_database>', '<your_table>');
+FROM   clustering_information('<your_database>', '<your_table>'); 
 ```
 
 ## Managing Cluster Key
