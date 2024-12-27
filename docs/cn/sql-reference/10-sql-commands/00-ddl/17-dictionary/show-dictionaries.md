@@ -3,14 +3,14 @@ title: SHOW DICTIONARIES
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.646"/>
+<FunctionDescription description="引入或更新于：v1.2.646"/>
 
-列出指定数据库中的字典，显示它们的名称、列详细信息和来源信息。
+列出指定数据库中的字典，显示其名称、列详细信息以及源信息。
 
 ## 语法
 
 ```sql
-SHOW DICTIONARIES [FROM | IN <database_name>] [LIKE '<pattern>'] [WHERE <condition>]
+SHOW DICTIONARIES [FROM ｜ IN <database_name>] [LIKE '<pattern>'] [WHERE <condition>]
 ```
 
 ## 示例
@@ -39,7 +39,7 @@ SHOW DICTIONARIES LIKE 'order%';
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例使用 WHERE 子句显示名称完全为 'order_dict' 的字典：
+此示例使用 WHERE 子句显示名称为 'order_dict' 的字典：
 
 ```sql
 SHOW DICTIONARIES WHERE name = 'order_dict';

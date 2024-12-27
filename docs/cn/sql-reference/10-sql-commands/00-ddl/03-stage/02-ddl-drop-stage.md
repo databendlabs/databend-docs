@@ -3,7 +3,7 @@ title: DROP STAGE
 sidebar_position: 7
 ---
 
-删除一个Stage。
+删除一个 Stage。
 
 ## 语法
 

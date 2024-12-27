@@ -3,7 +3,7 @@ title: SET ROLE
 sidebar_position: 5
 ---
 
-切换会话的当前活动角色，可以使用 [SHOW ROLES](04-user-show-roles.md) 命令查看当前活动角色，`is_current` 字段表示当前活动角色。有关活动角色和次要角色的更多信息，请参阅 [Active Role & Secondary Roles](/guides/security/access-control/roles#active-role--secondary-roles)。
+切换会话中的活动角色，当前活动角色可以通过 [SHOW ROLES](04-user-show-roles.md) 命令查看，其中 `is_current` 字段表示活动角色。有关活动角色和次要角色的更多信息，请参阅 [活动角色 & 次要角色](/guides/security/access-control/roles#active-role--secondary-roles)。
 
 另请参阅：[SET SECONDARY ROLES](04-user-set-2nd-roles.md)
 

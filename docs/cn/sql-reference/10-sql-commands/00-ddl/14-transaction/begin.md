@@ -3,34 +3,34 @@ title: BEGIN
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.371"/>
+<FunctionDescription description="引入或更新版本：v1.2.371"/>
 
-开始一个新的事务。BEGIN 和 [COMMIT](commit.md)/[ROLLBACK](rollback.md) 必须一起使用，以开始然后保存或撤销一个事务。
+开始一个新的事务。BEGIN 和 [COMMIT](commit.md)/[ROLLBACK](rollback.md) 必须一起使用，以开始事务并随后保存或撤销事务。
 
-- Databend 不支持嵌套事务，因此不匹配的事务语句将被忽略。
+- Databend *不* 支持嵌套事务，因此不匹配的事务语句将被忽略。
 
-    ```sql title="示例:"
+    ```sql title="示例："
     BEGIN; -- 开始一个事务
 
-    MERGE INTO ... -- 此语句属于该事务
+    MERGE INTO ... -- 该语句属于事务
 
-    BEGIN; -- 在事务中执行 BEGIN 被忽略，不会开始新的事务，不会引发错误
+    BEGIN; -- 在事务中执行 BEGIN 会被忽略，不会开始新事务，也不会报错
 
-    INSERT INTO ... -- 此语句也属于该事务
+    INSERT INTO ... -- 该语句也属于事务
 
     COMMIT; -- 结束事务
 
-    INSERT INTO ... -- 此语句属于单语句事务
+    INSERT INTO ... -- 该语句属于单语句事务
 
-    COMMIT; -- 在多语句事务外执行 COMMIT 被忽略，不会执行提交操作，不会引发错误
+    COMMIT; -- 在多语句事务外执行 COMMIT 会被忽略，不会执行提交操作，也不会报错
 
     BEGIN; -- 开始另一个事务
     ... 
     ```
 
-- 当在多语句事务中执行 DDL 语句时，它将提交当前的多语句事务，并将后续语句作为单语句事务执行，直到发出另一个 BEGIN。
+- 当在多语句事务中执行 DDL 语句时，它将提交当前的多语句事务，并将后续语句作为单语句事务执行，直到再次发出 BEGIN。
 
-    ```sql title="示例:"
+    ```sql title="示例："
     BEGIN; -- 开始一个多语句事务
 
     -- 这里的 DML 语句属于当前事务
@@ -40,15 +40,15 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
     CREATE TABLE new_table (column1 data_type, column2 data_type); 
     -- 这将提交当前事务
 
-    -- 后续语句作为单语句事务执行
+    -- 后续语句将作为单语句事务执行
     UPDATE table_name SET column1 = value WHERE condition;
 
     BEGIN; -- 开始一个新的多语句事务
 
-    -- 新的 DML 语句属于新的事务
+    -- 这里的 DML 语句属于新事务
     DELETE FROM table_name WHERE condition;
 
-    COMMIT; -- 结束新的事务
+    COMMIT; -- 结束新事务
     ```
 
 
@@ -60,7 +60,7 @@ BEGIN [ TRANSACTION ]
 
 ## 事务 ID 和状态
 
-Databend 自动为每个事务生成一个事务 ID。此 ID 允许用户识别哪些语句属于同一事务，便于问题排查。
+Databend 会自动为每个事务生成一个事务 ID。该 ID 允许用户识别哪些语句属于同一事务，便于问题排查。
 
 如果您在 Databend Cloud 上，可以在 **Monitor** > **SQL History** 中找到事务 ID：
 
@@ -71,12 +71,12 @@ Databend 自动为每个事务生成一个事务 ID。此 ID 允许用户识别�
 | 事务状态 | 描述                                                                                                                 |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------|
 | AutoCommit         | 该语句不属于多语句事务。                                                                 |
-| Active             | 该语句属于多语句事务，并且该事务中之前的所有语句都成功。   |
-| Fail               | 该语句属于多语句事务，并且该事务中至少有一个之前的语句失败。 |
+| Active             | 该语句属于多语句事务，并且事务中它之前的所有语句都成功执行。   |
+| Fail               | 该语句属于多语句事务，并且事务中它之前的至少一个语句执行失败。 |
 
 ## 示例
 
-在此示例中，所有三个语句（INSERT、UPDATE、DELETE）都属于同一个多语句事务。它们作为一个单元执行，并且在发出 COMMIT 时一起提交更改。
+在此示例中，所有三个语句（INSERT、UPDATE、DELETE）都属于同一个多语句事务。它们作为一个单元执行，并在发出 COMMIT 时一起提交更改。
 
 ```sql
 -- 首先创建一个表
@@ -89,7 +89,7 @@ CREATE TABLE employees (
 -- 开始一个多语句事务
 BEGIN;
 
--- 事务中的第一个语句：插入新员工
+-- 事务中的第一个语句：插入一个新员工
 INSERT INTO employees (id, name, department) VALUES (1, 'Alice', 'HR');
 
 -- 事务中的第二个语句：插入另一个新员工
@@ -112,7 +112,7 @@ SELECT * FROM employees;
 └───────────────────────────────────────────────────────┘
 ```
 
-在此示例中，ROLLBACK 语句撤销了事务期间所做的所有更改。因此，最后的 SELECT 查询应显示一个空的 employees 表，确认没有提交任何更改。
+在此示例中，ROLLBACK 语句撤销了事务期间所做的所有更改。因此，最后的 SELECT 查询应显示一个空的 employees 表，确认没有更改被提交。
 
 ```sql
 -- 首先创建一个表
@@ -125,7 +125,7 @@ CREATE TABLE employees (
 -- 开始一个多语句事务
 BEGIN;
 
--- 事务中的第一个语句：插入新员工
+-- 事务中的第一个语句：插入一个新员工
 INSERT INTO employees (id, name, department) VALUES (1, 'Alice', 'HR');
 
 -- 事务中的第二个语句：插入另一个新员工
@@ -137,11 +137,11 @@ UPDATE employees SET department = 'Finance' WHERE id = 1;
 -- 回滚事务
 ROLLBACK;
 
--- 验证表为空
+-- 验证表是否为空
 SELECT * FROM employees;
 ```
 
-此示例设置了一个流和一个任务来消费该流，使用事务块（BEGIN; COMMIT）将数据插入两个目标表。
+此示例设置了一个流和一个任务来消费该流，并使用事务块（BEGIN; COMMIT）将数据插入到两个目标表中。
 
 ```sql
 CREATE DATABASE my_db;

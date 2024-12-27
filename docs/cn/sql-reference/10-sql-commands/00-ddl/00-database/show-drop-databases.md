@@ -3,14 +3,14 @@ title: SHOW DROP DATABASES
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.658"/>
+<FunctionDescription description="引入或更新版本：v1.2.658"/>
 
 列出所有数据库及其删除时间戳（如果已被删除），允许用户查看已删除的数据库及其详细信息。
 
-- 只有在数据保留期内，已删除的数据库才能被检索。
-- 建议使用管理员用户，如 `root`。如果您使用的是 Databend Cloud，请使用具有 `account_admin` 角色的用户来查询已删除的数据库。
+- 只有在数据保留期内的已删除数据库才能被检索。
+- 建议使用管理员用户，例如 `root`。如果您使用的是 Databend Cloud，请使用具有 `account_admin` 角色的用户来查询已删除的数据库。
 
-另请参阅: [system.databases_with_history](../../../00-sql-reference/20-system-tables/system-databases-with-history.md)
+另请参阅：[system.databases_with_history](../../../00-sql-reference/20-system-tables/system-databases-with-history.md)
 
 ## 语法
 
@@ -30,7 +30,7 @@ CREATE DATABASE my_db;
 DROP DATABASE my_db;
 
 -- 如果数据库已被删除，dropped_on 显示删除时间；
--- 如果它仍然活跃，dropped_on 为 NULL。
+-- 如果数据库仍然存在，dropped_on 为 NULL。
 SHOW DROP DATABASES;
 
 ┌─────────────────────────────────────────────────────────────────────────────────┐

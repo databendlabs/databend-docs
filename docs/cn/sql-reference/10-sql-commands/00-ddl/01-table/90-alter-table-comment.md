@@ -4,9 +4,9 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.419"/>
+<FunctionDescription description="引入或更新于：v1.2.419"/>
 
-修改表的注释。如果表还没有注释，此命令会将指定的注释添加到表中。
+修改表的注释。如果表还没有注释，此命令将为表添加指定的注释。
 
 ## 语法
 
@@ -17,7 +17,7 @@ COMMENT = '<comment>'
 
 ## 示例
 
-此示例创建一个带有注释的表，然后修改注释：
+此示例创建一个带有注释的表，然后修改该注释：
 
 ```sql
 -- 创建一个带有注释的表
@@ -43,7 +43,7 @@ SHOW CREATE TABLE t;
 └─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例创建一个没有注释的表，然后向表添加注释：
+此示例创建一个没有注释的表，然后为该表添加注释：
 
 ```sql
 -- 创建一个没有注释的表

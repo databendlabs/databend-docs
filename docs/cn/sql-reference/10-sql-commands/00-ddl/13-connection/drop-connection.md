@@ -4,9 +4,9 @@ sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.208"/>
+<FunctionDescription description="引入或更新于：v1.2.208"/>
 
-删除一个现有的连接。
+删除一个已存在的连接。
 
 ## 语法
 

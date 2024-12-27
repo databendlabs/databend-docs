@@ -4,11 +4,11 @@ sidebar_position: 10
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.487"/>
+<FunctionDescription description="引入或更新于：v1.2.487"/>
 
 列出显式授予用户、角色或特定对象的权限。
 
-另请参阅:
+另请参阅：
 
 - [SHOW_GRANTS](/sql/sql-functions/table-functions/show-grants)
 - [GRANT](10-grant.md)
@@ -29,19 +29,19 @@ SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF } <object_name> [ LIKE '<pattern
 
 ## 示例
 
-此示例说明了如何列出授予用户、角色和特定对象的权限。
+此示例展示了如何列出授予用户、角色和特定对象的权限。
 
 ```sql
--- 创建新用户
+-- 创建一个新用户
 CREATE USER 'user1' IDENTIFIED BY 'password';
 
--- 创建新角色
+-- 创建一个新角色
 CREATE ROLE analyst;
 
 -- 将角色授予用户
 GRANT ROLE analyst TO 'user1';
 
--- 创建数据库
+-- 创建一个数据库
 CREATE DATABASE my_db;
 
 -- 将数据库的权限授予角色

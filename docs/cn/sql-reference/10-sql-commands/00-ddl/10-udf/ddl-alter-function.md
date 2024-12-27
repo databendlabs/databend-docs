@@ -4,9 +4,9 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.116"/>
+<FunctionDescription description="引入或更新版本：v1.2.116"/>
 
-修改用户定义函数。
+修改用户自定义函数。
 
 ## 语法
 
@@ -19,9 +19,9 @@ ALTER FUNCTION [ IF NOT EXISTS ] <function_name>
 ## 示例
 
 ```sql
--- 创建一个UDF
+-- 创建一个 UDF
 CREATE FUNCTION a_plus_3 AS (a) -> a+3+3;
 
--- 修改UDF的lambda表达式
+-- 修改 UDF 的 lambda 表达式
 ALTER FUNCTION a_plus_3 AS (a) -> a+3;
 ```
