@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.368"/>
 
-import EEFeature from '@site/src/src/components/EEFeature';
+import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VACUUM DROP TABLE'/>
 
@@ -94,11 +94,11 @@ SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 
 `DATA_RETENTION_TIME_IN_DAYS` 默认值为 1 天（24 小时），不同 Databend 版本的最大值如下：
 
-| 版本                                  | 默认保留时间 | 最大保留时间   |
-| ---------------------------------------- | ----------------- | ---------------- |
-| Databend 社区版和企业版 | 1 天（24 小时）  | 90 天          |
-| Databend Cloud（基础版）                | 1 天（24 小时）  | 1 天（24 小时） |
-| Databend Cloud（商业版）                | 1 天（24 小时）  | 90 天          |
+| 版本                     | 默认保留时间    | 最大保留时间    |
+| ------------------------ | --------------- | --------------- |
+| Databend 社区版和企业版  | 1 天（24 小时） | 90 天           |
+| Databend Cloud（基础版） | 1 天（24 小时） | 1 天（24 小时） |
+| Databend Cloud（商业版） | 1 天（24 小时） | 90 天           |
 
 要查看 `DATA_RETENTION_TIME_IN_DAYS` 的当前值：
 
