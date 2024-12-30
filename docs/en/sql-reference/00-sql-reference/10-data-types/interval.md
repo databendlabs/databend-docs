@@ -4,7 +4,7 @@ title: Interval
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.673"/>
+<FunctionDescription description="Introduced or updated: v1.2.677"/>
 
 The INTERVAL data type represents a duration of time, allowing precise manipulation and storage of time intervals across various units.
 
@@ -48,4 +48,34 @@ The INTERVAL data type represents a duration of time, allowing precise manipulat
     └───────────────────────────────────────────────────────┘
     ```
 - Handles both positive and negative intervals with precision down to microseconds.
+- An interval can be added to or subtracted from another interval.
+
+    ```sql title='Examples:'
+    SELECT TO_DAYS(3) + TO_DAYS(1), TO_DAYS(3) - TO_DAYS(1);
+
+    ┌───────────────────────────────────────────────────┐
+    │ to_days(3) + to_days(1) │ to_days(3) - to_days(1) │
+    ├─────────────────────────┼─────────────────────────┤
+    │ 4 days                  │ 2 days                  │
+    └───────────────────────────────────────────────────┘
+    ```
+- Intervals can be added to or subtracted from DATE and TIMESTAMP values. 
+
+    ```sql title='Examples:'
+    SELECT DATE '2024-12-20' + TO_DAYS(2),  DATE '2024-12-20' - TO_DAYS(2);
+
+    ┌───────────────────────────────────────────────────────────────────────────────────┐
+    │ CAST('2024-12-20' AS DATE) + to_days(2) │ CAST('2024-12-20' AS DATE) - to_days(2) │
+    ├─────────────────────────────────────────┼─────────────────────────────────────────┤
+    │ 2024-12-22 00:00:00                     │ 2024-12-18 00:00:00                     │
+    └───────────────────────────────────────────────────────────────────────────────────┘
+
+    SELECT TIMESTAMP '2024-12-20 10:00:00' + TO_DAYS(2), TIMESTAMP '2024-12-20 10:00:00' - TO_DAYS(2);
+
+    ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+    │ CAST('2024-12-20 10:00:00' AS TIMESTAMP) + to_days(2) │ CAST('2024-12-20 10:00:00' AS TIMESTAMP) - to_days(2) │
+    ├───────────────────────────────────────────────────────┼───────────────────────────────────────────────────────┤
+    │ 2024-12-22 10:00:00                                   │ 2024-12-18 10:00:00                                   │
+    └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ```
 - It is *not* recommended to use the MySQL client to query INTERVAL columns in Databend, as the MySQL protocol does not fully support the INTERVAL type. This may result in errors or unexpected behavior.
