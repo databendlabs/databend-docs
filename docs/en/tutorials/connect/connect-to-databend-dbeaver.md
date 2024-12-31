@@ -6,30 +6,35 @@ sidebar_label: "Connecting to Self-Hosted Databend (DBeaver)"
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-In this tutorial, we will guide you through the process of connecting to a self-hosted Databend instance through the Databend JDBC driver as the user `root`.
+In this tutorial, we will guide you through the process of connecting to a self-hosted Databend instance as the user `root`.
 
 <StepsWrap>
 <StepContent number="1">
 
 ### Before You Start
 
-- Ensure that you have a local Databend instance ready for testing. See [Docker and Local Deployments](/guides/deploy/deploy/non-production/deploying-local) for detailed instructions.
-- In this tutorial, you will use the `root` account to connect to Databend. During deployment, uncomment the following lines in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file to select this account:
-
-  ```sql title="databend-query.toml"
-  [[query.users]]
-  name = "root"
-  auth_type = "no_password"
-  ```
-
-- Ensure you have added the Databend JDBC driver to your DBeaver. See [Adding Databend JDBC Driver to DBeaver](/guides/sql-clients/jdbc/#adding-databend-jdbc-driver-to-dbeaver) for detailed instructions.
+- Ensure that [Docker](https://www.docker.com/) is installed on your local machine, as it will be used to launch Databend.
+- Verify that DBeaver 24.3.1 or a later version is installed on your local machine.
 
 </StepContent>
 <StepContent number="2">
 
+### Start Databend
+
+Run the following command in your terminal to launch a Databend instance:
+
+```bash
+docker run -d --name databend \
+  -p 3307:3307 -p 8000:8000 -p 8124:8124 -p 8900:8900 \
+  datafuselabs/databend:nightly
+```
+
+</StepContent>
+<StepContent number="3">
+
 ### Create Connection
 
-1. In DBeaver, search for and select `databend` on **Database** > **New Database Connection** first, and then click **Next**.
+1. In DBeaver, go to **Database** > **New Database Connection** to open the connection wizard, then select **Databend** under the **Analytical** category.
 
 ![Alt text](/img/integration/jdbc-new-driver.png)
 
