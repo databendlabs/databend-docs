@@ -36,13 +36,19 @@ docker run -d --name databend \
 
 1. In DBeaver, go to **Database** > **New Database Connection** to open the connection wizard, then select **Databend** under the **Analytical** category.
 
-![Alt text](/img/integration/jdbc-new-driver.png)
+![alt text](@site/static/img/connect/dbeaver-analytical.png)
 
-2. Configure your connection settings if needed. The default settings connect to a local instance of Databend as the user `root`.
+2. Enter `root` for the **Username**.
 
-![Alt text](/img/integration/jdbc-connect.png)
+![alt text](@site/static/img/connect/dbeaver-user-root.png)
 
-3. Click **Test Connection** to check if the connection is successful.
+3. Click **Test Connection** to verify the connection. If this is your first time connecting to Databend, you will be prompted to download the driver. Click **Download** to proceed.
+
+![alt text](@site/static/img/connect/dbeaver-download-driver.png)
+
+Once the download is complete, the test connection should succeed, as shown below:
+
+![alt text](../../../../static/img/connect/dbeaver-success.png)
 
 </StepContent>
 </StepsWrap>
