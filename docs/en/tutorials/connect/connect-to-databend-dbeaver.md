@@ -23,6 +23,10 @@ In this tutorial, we will guide you through the process of connecting to a self-
 
 Run the following command in your terminal to launch a Databend instance:
 
+:::note
+If no custom values for `QUERY_DEFAULT_USER` or `QUERY_DEFAULT_PASSWORD` are specified when starting the container, a default `root` user will be created with no password. 
+:::
+
 ```bash
 docker run -d --name databend \
   -p 3307:3307 -p 8000:8000 -p 8124:8124 -p 8900:8900 \
