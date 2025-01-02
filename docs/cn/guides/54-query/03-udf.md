@@ -7,21 +7,21 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='Python UDF'/>
 
-用户定义函数（UDFs）通过支持匿名lambda表达式和预定义处理程序（Python、JavaScript & WebAssembly）来定义UDF，提供了增强的灵活性。这些功能允许用户创建定制的操作，以满足其特定的数据处理需求。Databend UDF分为以下几类：
+用户定义函数（UDFs）通过支持匿名 lambda 表达式和预定义的处理程序（Python、JavaScript 和 WebAssembly）来定义 UDF，提供了更高的灵活性。这些功能允许用户根据其特定的数据处理需求创建自定义操作。Databend 的 UDFs 分为以下几种类型：
 
 - [Lambda UDFs](#lambda-udfs)
-- [嵌入式UDFs](#embedded-udfs)
+- [嵌入式 UDFs](#embedded-udfs)
 
 ## Lambda UDFs
 
-Lambda UDF允许用户使用匿名函数（lambda表达式）直接在其查询中定义自定义操作。这些lambda表达式通常简洁，可用于执行特定的数据转换或计算，这些操作可能无法仅使用内置函数实现。
+Lambda UDF 允许用户直接在查询中使用匿名函数（lambda 表达式）定义自定义操作。这些 lambda 表达式通常简洁，可用于执行特定的数据转换或计算，这些操作可能无法仅通过内置函数实现。
 
 ### 使用示例
 
-此示例创建UDF，以使用SQL查询从表中的JSON数据中提取特定值。
+本示例创建 UDFs，以使用 SQL 查询从表中的 JSON 数据中提取特定值。
 
 ```sql
--- 定义UDF
+-- 定义 UDFs
 CREATE FUNCTION get_v1 AS (input_json) -> input_json['v1'];
 CREATE FUNCTION get_v2 AS (input_json) -> input_json['v2'];
 
@@ -40,7 +40,7 @@ CREATE TABLE json_table(time TIMESTAMP, data JSON);
 -- 插入时间事件
 INSERT INTO json_table VALUES('2022-06-01 00:00:00.00000', PARSE_JSON('{"v1":1.5, "v2":20.5}'));
 
--- 从事件中获取v1和v2值
+-- 从事件中获取 v1 和 v2 值
 SELECT get_v1(data), get_v2(data) FROM json_table;
 +------------+------------+
 | data['v1'] | data['v2'] |
@@ -49,24 +49,24 @@ SELECT get_v1(data), get_v2(data) FROM json_table;
 +------------+------------+
 ```
 
-## 嵌入式UDFs
+## 嵌入式 UDFs
 
-嵌入式UDF允许您在SQL中嵌入以下编程语言编写的代码：
+嵌入式 UDFs 允许您在 SQL 中嵌入以下编程语言编写的代码：
 
 - [Python](#python)
 - [JavaScript](#javascript)
 - [WebAssembly](#webassembly)
 
 :::note
-如果您的程序内容较大，可以将其压缩，然后传递到Stage。请参阅WebAssembly的[使用示例](#usage-examples-2)。
+如果您的程序内容较大，可以将其压缩后传递到 stage。请参阅 WebAssembly 的[使用示例](#usage-examples-2)。
 :::
 
-### Python（需要Databend企业版）
+### Python（需要 Databend Enterprise）
 
-Python UDF允许您通过Databend的内置处理程序从SQL查询中调用Python代码，从而在SQL查询中无缝集成Python逻辑。
+Python UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 Python 代码，从而在 SQL 查询中无缝集成 Python 逻辑。
 
 :::note
-Python UDF必须仅使用Python的标准库；不允许使用第三方导入。
+Python UDF 必须仅使用 Python 的标准库；不允许使用第三方导入。
 :::
 
 #### 数据类型映射
@@ -75,9 +75,9 @@ Python UDF必须仅使用Python的标准库；不允许使用第三方导入。
 
 #### 使用示例
 
-此示例定义了一个用于情感分析的Python UDF，创建了一个表，插入了示例数据，并对文本数据进行了情感分析。
+本示例定义了一个用于情感分析的 Python UDF，创建了一个表，插入了示例数据，并对文本数据进行了情感分析。
 
-1. 定义名为`sentiment_analysis`的Python UDF。
+1. 定义一个名为 `sentiment_analysis` 的 Python UDF。
 
 ```sql
 -- 创建情感分析函数
@@ -86,7 +86,7 @@ LANGUAGE python HANDLER = 'sentiment_analysis_handler'
 AS $$
 def remove_stop_words(text, stop_words):
     """
-    从文本中移除常见停用词。
+    从文本中移除常见的停用词。
     
     参数:
     text (str): 输入文本。
@@ -99,15 +99,15 @@ def remove_stop_words(text, stop_words):
 
 def calculate_sentiment(text, positive_words, negative_words):
     """
-    计算文本的情感分数。
+    计算文本的情感得分。
     
     参数:
     text (str): 输入文本。
-    positive_words (set): 积极词汇集合。
-    negative_words (set): 消极词汇集合。
+    positive_words (set): 正面词集合。
+    negative_words (set): 负面词集合。
     
     返回:
-    int: 情感分数。
+    int: 情感得分。
     """
     words = text.split()
     score = sum(1 for word in words if word in positive_words) - sum(1 for word in words if word in negative_words)
@@ -115,10 +115,10 @@ def calculate_sentiment(text, positive_words, negative_words):
 
 def get_sentiment_label(score):
     """
-    根据情感分数确定情感标签。
+    根据情感得分确定情感标签。
     
     参数:
-    score (int): 情感分数。
+    score (int): 情感得分。
     
     返回:
     str: 情感标签（'Positive', 'Negative', 'Neutral'）。
@@ -138,7 +138,7 @@ def sentiment_analysis_handler(text):
     text (str): 输入文本。
     
     返回:
-    str: 情感分析结果，包括分数和标签。
+    str: 情感分析结果，包括得分和标签。
     """
     stop_words = set(["a", "an", "the", "and", "or", "but", "if", "then", "so"])
     positive_words = set(["good", "happy", "joy", "excellent", "positive", "love"])
@@ -152,7 +152,7 @@ def sentiment_analysis_handler(text):
 $$;
 ```
 
-2. 使用`sentiment_analysis`函数对文本数据进行情感分析。
+2. 使用 `sentiment_analysis` 函数对文本数据进行情感分析。
 
 ```sql
 CREATE OR REPLACE TABLE texts (
@@ -186,13 +186,13 @@ FROM
 
 ### JavaScript
 
-JavaScript UDF允许您通过Databend的内置处理程序从SQL查询中调用JavaScript代码，从而在SQL查询中无缝集成JavaScript逻辑。
+JavaScript UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 JavaScript 代码，从而在 SQL 查询中无缝集成 JavaScript 逻辑。
 
 #### 数据类型映射
 
-下表显示了Databend和JavaScript之间的类型映射：
+下表显示了 Databend 和 JavaScript 之间的类型映射：
 
-| Databend类型     | JS类型    |
+| Databend 类型     | JS 类型    |
 |-------------------|------------|
 | NULL              | null       |
 | BOOLEAN           | Boolean    |
@@ -213,7 +213,7 @@ JavaScript UDF允许您通过Databend的内置处理程序从SQL查询中调用J
 
 #### 使用示例
 
-此示例定义了一个名为“gcd_js”的JavaScript UDF，用于计算两个整数的最大公约数（GCD），并在SQL查询中应用它：
+本示例定义了一个名为 "gcd_js" 的 JavaScript UDF，用于计算两个整数的最大公约数（GCD），并在 SQL 查询中应用它：
 
 ```sql
 CREATE FUNCTION gcd_js (INT, INT) RETURNS BIGINT LANGUAGE javascript HANDLER = 'gcd_js' AS $$
@@ -239,16 +239,16 @@ ORDER BY 1;
 
 ### WebAssembly
 
-WebAssembly UDF允许用户使用编译为WebAssembly的语言定义自定义逻辑或操作。这些UDF可以直接在SQL查询中调用，以执行特定的计算或数据转换。
+WebAssembly UDF 允许用户使用编译为 WebAssembly 的语言定义自定义逻辑或操作。这些 UDFs 可以直接在 SQL 查询中调用，以执行特定的计算或数据转换。
 
 #### 使用示例
 
-在此示例中，创建了名为“wasm_gcd”的函数，用于计算两个整数的最大公约数（GCD）。该函数使用WebAssembly定义，其实现位于'test10_udf_wasm_gcd.wasm.zst'二进制文件中。
+在本示例中，创建了 "wasm_gcd" 函数来计算两个整数的最大公约数（GCD）。该函数使用 WebAssembly 定义，其实现位于 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
 
-在执行之前，函数实现经历了一系列步骤。首先，它被编译成二进制文件，然后压缩成'test10_udf_wasm_gcd.wasm.zst'。最后，压缩文件被提前上传到Stage。
+在执行之前，函数实现经过一系列步骤。首先，它被编译为二进制文件，然后压缩为 'test10_udf_wasm_gcd.wasm.zst'。最后，压缩文件被提前上传到 stage。
 
 :::note
-该函数可以用Rust实现，如示例所示，网址为https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs
+该函数可以用 Rust 实现，如 https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs 中的示例所示。
 :::
 
 ```sql
@@ -264,6 +264,6 @@ WHERE
 ORDER BY 1;
 ```
 
-## 管理UDF
+## 管理 UDFs
 
-Databend提供了多种命令来管理UDF。有关详细信息，请参阅[用户定义函数](/sql/sql-commands/ddl/udf/)。
+Databend 提供了多种命令来管理 UDFs。详情请参阅[用户定义函数](/sql/sql-commands/ddl/udf/)。

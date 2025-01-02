@@ -4,16 +4,16 @@ title: SYSTEM ENABLE / DISABLE EXCEPTION_BACKTRACE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.530"/>
+<FunctionDescription description="引入或更新于：v1.2.530"/>
 
-控制Databend中Rust回溯的生成。SYSTEM ENABLE EXCEPTION_BACKTRACE在发生panic时启用回溯以进行调试，而SYSTEM DISABLE EXCEPTION_BACKTRACE则禁用它们以避免额外的开销或敏感信息的暴露。
+控制 Databend 中 Rust backtraces 的生成。SYSTEM ENABLE EXCEPTION_BACKTRACE 在发生 panic 时启用 backtraces 以用于调试目的，而 SYSTEM DISABLE EXCEPTION_BACKTRACE 则禁用它们，以避免额外的开销或敏感信息的暴露。
 
 ## 语法
 
 ```sql
--- 启用Rust回溯
+-- 启用 Rust backtraces
 SYSTEM ENABLE EXCEPTION_BACKTRACE
 
--- 禁用Rust回溯
+-- 禁用 Rust backtraces
 SYSTEM DISABLE EXCEPTION_BACKTRACE
 ```

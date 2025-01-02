@@ -1,8 +1,9 @@
 ---
-title: 管理命令
+title: 间隔函数
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-本页面提供了 Databend 中系统管理命令的参考信息。
+本节提供了 Databend 中间隔函数的参考信息。
 
 <IndexOverviewList />
