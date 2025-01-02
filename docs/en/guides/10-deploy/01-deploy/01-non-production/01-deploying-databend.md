@@ -372,7 +372,7 @@ endpoint_url = "https://oss-cn-beijing-internal.aliyuncs.com"
 // highlight-next-line
 access_key_id = "<your-key-id>"
 // highlight-next-line
-secret_access_key = "<your-access-key>"
+access_key_secret = "<your-access-key>"
 ```
 
 Databend Enterprise Edition supports server-side encryption in OSS. This feature enables you to enhance data security and privacy by activating server-side encryption for data stored in OSS. You can choose the encryption method that best suits your needs. Please note that you must have a valid Databend Enterprise Edition license to utilize this feature. To obtain one, see [Licensing Databend](../../../00-overview/00-editions/01-dee/20-license.md).
