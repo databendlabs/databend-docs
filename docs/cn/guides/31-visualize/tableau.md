@@ -2,7 +2,7 @@
 title: Tableau
 ---
 
-[Tableau](https://www.tableau.com/) 是一个可视化分析平台，正在改变我们使用数据解决问题的方式——赋予个人和组织充分利用其数据的能力。通过利用 [databend-jdbc 驱动程序](https://github.com/databendcloud/databend-jdbc)（版本 0.0.8 或更高），Databend 和 Databend Cloud 都可以与 Tableau 集成，实现无缝的数据访问和高效的分析。需要注意的是，为了获得最佳兼容性，建议使用 Tableau 版本 2022.3 或更高，以避免潜在的兼容性问题。
+[Tableau](https://www.tableau.com/) 是一个可视化分析平台，正在改变我们使用数据解决问题的方式——赋予个人和组织充分利用其数据的能力。通过利用 [databend-jdbc 驱动程序](https://github.com/databendcloud/databend-jdbc)（版本 0.3.4 或更高），Databend 和 Databend Cloud 都可以与 Tableau 集成，实现无缝的数据访问和高效的分析。需要注意的是，为了获得最佳兼容性，建议使用 Tableau 版本 2022.3 或更高，以避免潜在的兼容性问题。
 
 Databend 目前提供了两种与 Tableau 的集成方法。第一种方法利用 Tableau 中的 Other Databases (JDBC) 接口，适用于 Databend 和 Databend Cloud。第二种方法推荐使用 Databend 专门为与 Databend 最佳连接而开发的 [databend-tableau-connector-jdbc](https://github.com/databendcloud/databend-tableau-connector-jdbc) 连接器。
 
@@ -24,9 +24,9 @@ GRANT ALL ON *.* TO tableau;
 
 ### 步骤 2. 安装 databend-jdbc
 
-1. 从 Maven Central Repository 下载 databend-jdbc 驱动程序（版本 0.0.8 或更高），地址为 https://repo1.maven.org/maven2/com/databend/databend-jdbc/
+1. 从 Maven Central Repository 下载 databend-jdbc 驱动程序（版本 0.3.4 或更高），地址为 https://repo1.maven.org/maven2/com/databend/databend-jdbc/
 
-2. 要安装 databend-jdbc 驱动程序，请将 jar 文件（例如，databend-jdbc-0.0.8.jar）移动到 Tableau 的驱动程序文件夹。Tableau 的驱动程序文件夹因操作系统而异：
+2. 要安装 databend-jdbc 驱动程序，请将 jar 文件（例如，databend-jdbc-0.3.4.jar）移动到 Tableau 的驱动程序文件夹。Tableau 的驱动程序文件夹因操作系统而异：
 
 | 操作系统 | Tableau 的驱动程序文件夹          |
 | -------- | -------------------------------- |
@@ -70,9 +70,9 @@ GRANT ALL ON *.* TO tableau;
 
 ### 步骤 2. 安装 databend-jdbc
 
-1. 从 Maven Central Repository 下载 databend-jdbc 驱动程序（版本 0.0.8 或更高），地址为 https://repo1.maven.org/maven2/com/databend/databend-jdbc/
+1. 从 Maven Central Repository 下载 databend-jdbc 驱动程序（版本 0.3.4 或更高），地址为 https://repo1.maven.org/maven2/com/databend/databend-jdbc/
 
-2. 要安装 databend-jdbc 驱动程序，请将 jar 文件（例如，databend-jdbc-0.0.8.jar）移动到 Tableau 的驱动程序文件夹。Tableau 的驱动程序文件夹因操作系统而异：
+2. 要安装 databend-jdbc 驱动程序，请将 jar 文件（例如，databend-jdbc-0.3.4.jar）移动到 Tableau 的驱动程序文件夹。Tableau 的驱动程序文件夹因操作系统而异：
 
 | 操作系统 | Tableau 的驱动程序文件夹          |
 | -------- | -------------------------------- |
@@ -118,9 +118,9 @@ GRANT ALL ON *.* TO tableau;
 
 ### 步骤 2. 安装 databend-jdbc
 
-1. 从 Maven Central Repository 下载 databend-jdbc 驱动程序（版本 0.0.8 或更高），地址为 https://repo1.maven.org/maven2/com/databend/databend-jdbc/
+1. 从 Maven Central Repository 下载 databend-jdbc 驱动程序（版本 0.3.4 或更高），地址为 https://repo1.maven.org/maven2/com/databend/databend-jdbc/
 
-2. 要安装 databend-jdbc 驱动程序，请将 jar 文件（例如，databend-jdbc-0.0.8.jar）移动到 Tableau 的驱动程序文件夹。Tableau 的驱动程序文件夹因操作系统而异：
+2. 要安装 databend-jdbc 驱动程序，请将 jar 文件（例如，databend-jdbc-0.3.4.jar）移动到 Tableau 的驱动程序文件夹。Tableau 的驱动程序文件夹因操作系统而异：
 
 | 操作系统 | Tableau 的驱动程序文件夹          |
 | -------- | -------------------------------- |
