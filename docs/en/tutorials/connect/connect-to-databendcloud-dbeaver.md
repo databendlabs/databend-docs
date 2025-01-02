@@ -26,7 +26,7 @@ Before creating a connection to Databend Cloud, you need to log in to Databend C
 </StepContent>
 <StepContent number="3">
 
-### Create Connection
+### Set up Connection
 
 1. In DBeaver, go to **Database** > **New Database Connection** to open the connection wizard, then select **Databend** under the **Analytical** category.
 
@@ -44,7 +44,7 @@ Before creating a connection to Databend Cloud, you need to log in to Databend C
 
 ![alt text](@site/static/img/connect/dbeaver-use-ssl.png)
 
-3. Click **Test Connection** to verify the connection. If this is your first time connecting to Databend, you will be prompted to download the driver. Click **Download** to proceed. Once the download is complete, the test connection should succeed, as shown below:
+5. Click **Test Connection** to verify the connection. If this is your first time connecting to Databend, you will be prompted to download the driver. Click **Download** to proceed. Once the download is complete, the test connection should succeed, as shown below:
 
 ![alt text](@site/static/img/connect/dbeaver-cloud-success.png)
 

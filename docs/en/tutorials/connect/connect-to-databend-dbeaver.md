@@ -36,7 +36,7 @@ docker run -d --name databend \
 </StepContent>
 <StepContent number="3">
 
-### Create Connection
+### Set up Connection
 
 1. In DBeaver, go to **Database** > **New Database Connection** to open the connection wizard, then select **Databend** under the **Analytical** category.
 
