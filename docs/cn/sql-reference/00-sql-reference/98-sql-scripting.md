@@ -4,8 +4,8 @@ title: SQL 脚本
 
 本页概述了 Databend 中可用的 SQL 脚本选项。您可以使用以下任意一种查询方法来使用 SQL 脚本：
 
-<!-- - [存储过程](/guides/query/stored-procedure)
-- [EXECUTE IMMEDIATE](/sql/sql-commands/administration-cmds/execute-immediate) -->
+- [存储过程](/guides/query/stored-procedure)
+- [EXECUTE IMMEDIATE](/sql/sql-commands/administration-cmds/execute-immediate)
 
 ### 变量声明
 
