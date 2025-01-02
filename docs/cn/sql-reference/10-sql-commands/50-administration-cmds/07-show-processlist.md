@@ -3,11 +3,11 @@ title: SHOW PROCESSLIST
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.190"/>
+<FunctionDescription description="引入或更新版本：v1.2.190"/>
 
-Databend 进程列表指示服务器内当前正在执行的线程集所执行的操作。
+Databend 的进程列表显示了当前在服务器内执行的线程集正在执行的操作。
 
-另请参阅: [KILL](01-kill.md)
+另请参阅：[KILL](01-kill.md)
 
 ## 语法
 
