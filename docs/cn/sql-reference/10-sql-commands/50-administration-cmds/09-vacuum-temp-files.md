@@ -1,28 +1,28 @@
 ---
-title: 清理临时文件
+title: VACUUM TEMPORARY FILES
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.348"/>
+<FunctionDescription description="引入或更新于：v1.2.348"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='清理临时文件'/>
+<EEFeature featureName='VACUUM TEMPORARY FILES'/>
 
 删除由 Databend 创建的临时文件，例如溢出文件。
 
-另请参阅: [system.temp_files](../../00-sql-reference/20-system-tables/system-temp-files.md)
+另请参阅：[system.temp_files](../../00-sql-reference/20-system-tables/system-temp-files.md)
 
 ## 语法
 
 ```sql
-清理临时文件 [ LIMIT <limit> ]
+VACUUM TEMPORARY FILES [ LIMIT <limit> ]
 ```
 
 | 参数    | 描述                                          |
 |---------|-----------------------------------------------|
-| LIMIT   | 要删除的临时文件的最大数量。                  |
+| LIMIT   | 要删除的临时文件的最大数量。                   |
 
 ## 输出
 
@@ -34,8 +34,9 @@ import EEFeature from '@site/src/components/EEFeature';
 SELECT * FROM system.temp_files;
 ```
 
+```markdown
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ file_type │                          file_name                          │ file_content_length │ file_last_modified_time │
+│ 文件类型 │                          文件名                          │ 文件内容长度 │ 文件最后修改时间 │
 ├───────────┼─────────────────────────────────────────────────────────────┼─────────────────────┼─────────────────────────┤
 │ Spill     │ 1e9411e1-3c2f-48ee-9712-9d3ce396d1b3/0tUE8EqsxxjO4ftZA8Zni6 │           591239232 │ 2024-11-19 03:06:03     │
 │ Spill     │ 1e9411e1-3c2f-48ee-9712-9d3ce396d1b3/440NKJwbRrW8HCFfQuNmb4 │           607193920 │ 2024-11-19 03:05:18     │
@@ -80,14 +81,19 @@ SELECT * FROM system.temp_files;
 │ Spill     │ 71c1bdcd-8ebb-45c1-98af-2700df2f9e10/fnQanOb1s6OmwJtooi35K5 │           796730688 │ 2024-11-19 03:01:08     │
 │ Spill     │ 71c1bdcd-8ebb-45c1-98af-2700df2f9e10/hHSrrfmMjtnPP4gbKBuTc2 │           764452672 │ 2024-11-19 03:01:07     │
 │ Spill     │ 71c1bdcd-8ebb-45c1-98af-2700df2f9e10/pZ06OYSniDzOLp8vTtruQ6 │           796523712 │ 2024-11-19 03:02:37     │
-│ Spill     │ 71c1bdcd-8ebb-45
-
-```sql
-VACUUM TEMPORARY FILES;
+│ Spill     │ 71c1bdcd-8ebb-45c1-98af-2700df2f9e10/rPdRFZz6g3NlhIlbnk5b16 │           790081408 │ 2024-11-19 03:01:07     │
+│ Spill     │ 71c1bdcd-8ebb-45c1-98af-2700df2f9e10/sxOeDcjyKRrahkCHtAbeG2 │           605099776 │ 2024-11-19 03:01:52     │
+│ Spill     │ 71c1bdcd-8ebb-45c1-98af-2700df2f9e10/v1PU6oEHSSEieXL7mceqz5 │           682199616 │ 2024-11-19 03:02:36     │
+│ Spill     │ 71c1bdcd-8ebb-45c1-98af-2700df2f9e10/xRRUU3sKkjyFAKv4LDuUt2 │           786471232 │ 2024-11-19 03:01:08     │
+│ Spill     │ 71c1bdcd-8ebb-45c1-98af-2700df2f9e10/ys9yCVJNSRBY73ce46bCA6 │           747938176 │ 2024-11-19 03:01:07     │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+VACUUM TEMPORARY FILES;
+
 ┌────────┐
-│  Files │
+│  文件  │
 ├────────┤
 │     48 │
 └────────┘
+```

@@ -4,11 +4,11 @@ title: SHOW FUNCTIONS
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.315"/>
+<FunctionDescription description="引入或更新于：v1.2.315"/>
 
-列出当前支持的内置标量和聚合函数。
+列出当前支持的标量和聚合函数。
 
-另请参阅: [system.functions](../../00-sql-reference/20-system-tables/system-functions.md)
+另请参阅：[system.functions](../../00-sql-reference/20-system-tables/system-functions.md)
 
 ## 语法
 
@@ -37,7 +37,7 @@ SHOW FUNCTIONS;
 +-------------------------+--------------+---------------------------+
 ```
 
-显示以 `"today"` 开头的函数:
+显示以 `"today"` 开头的函数：
 
 ```sql
 SHOW FUNCTIONS LIKE 'today%';
@@ -52,7 +52,7 @@ SHOW FUNCTIONS LIKE 'today%';
 +--------------+--------------+-------------+
 ```
 
-使用 `WHERE` 显示以 `"today"` 开头的函数:
+使用 `WHERE` 显示以 `"today"` 开头的函数：
 
 ```sql
 SHOW FUNCTIONS WHERE name LIKE 'today%';
