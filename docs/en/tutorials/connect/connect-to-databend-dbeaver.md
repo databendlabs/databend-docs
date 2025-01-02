@@ -6,7 +6,7 @@ sidebar_label: "Connecting to Self-Hosted Databend (DBeaver)"
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-In this tutorial, we will guide you through the process of connecting to a self-hosted Databend instance as the user `root`.
+In this tutorial, we will guide you through the process of connecting to a self-hosted Databend instance using DBeaver.
 
 <StepsWrap>
 <StepContent number="1">
