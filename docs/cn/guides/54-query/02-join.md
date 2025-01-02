@@ -2,9 +2,9 @@
 title: JOINs
 ---
 
-## 支持的JOIN类型
+## 支持的 Join 类型
 
-*join* 将两个或多个表的列组合成一个结果集。Databend支持以下 *join* 类型：
+*join* 将两个或多个表中的列组合成一个结果集。Databend 支持以下 *join* 类型：
 
 * [Inner Join](#inner-join)
 * [Natural Join](#natural-join)
@@ -17,9 +17,9 @@ title: JOINs
 
 ## 示例表
 
-除非明确指定，本页上的join示例基于以下表：
+除非明确指定，本页的 join 示例均基于以下表：
 
-表 "vip_info"：此表存储VIP客户信息。
+表 "vip_info"：该表存储 VIP 客户信息。
 
 | Client_ID 	   | Region    	 |
 |---------------|-------------|
@@ -27,7 +27,7 @@ title: JOINs
 | 102         	 | Quebec    	 |
 | 103         	 | Vancouver 	 |
 
-表 "purchase_records"：此表列出了所有客户的购买记录。
+表 "purchase_records"：该表列出了所有客户的购买记录。
 
 | Client_ID 	   | Item      	 | QTY 	     |
 |---------------|-------------|-----------|
@@ -36,7 +36,7 @@ title: JOINs
 | 103         	 | Coffee    	 | 6,000   	 |
 | 106         	 | Soda      	 | 4,000   	 |
 
-表 "gift"：此表列出了VIP客户的礼品选项。
+表 "gift"：该表列出了 VIP 客户的礼品选项。
 
 | Gift      	 |
 |-------------|
@@ -47,7 +47,7 @@ title: JOINs
 
 ## Inner Join
 
-*inner join* 返回满足join条件的结果集中的行。
+*inner join* 返回结果集中满足 join 条件的行。
 
 ### 语法
 
@@ -64,7 +64,7 @@ FROM table_a
 关键字 INNER 是可选的。
 :::
 
-当您在具有相等运算符的公共列上连接两个表时，可以使用关键字 USING 来简化语法。
+当你在两个表的公共列上使用等号运算符进行 join 时，可以使用关键字 USING 来简化语法。
 
 ```sql    
 SELECT select_list
@@ -77,7 +77,7 @@ FROM table_a
 
 ### 示例
 
-以下示例返回VIP客户的购买记录：
+以下示例返回 VIP 客户的购买记录：
 
 ```sql    
 SELECT purchase_records.client_id,
@@ -88,7 +88,7 @@ FROM   vip_info
                ON vip_info.client_id = purchase_records.client_id; 
 ```
 
-有关示例中表的定义，请参见 [示例表](#示例表)。
+有关示例中表的定义，请参见 [示例表](#example-tables)。
 
 输出：
 
@@ -99,7 +99,7 @@ FROM   vip_info
 
 ## Natural Join
 
-*natural join* 基于两个表中具有相同名称的所有列连接两个表。
+*natural join* 根据两个表中所有具有相同名称的列进行 join。
 
 ### 语法
 
@@ -112,7 +112,7 @@ FROM table_a
 
 ### 示例
 
-以下示例返回VIP客户的购买记录：
+以下示例返回 VIP 客户的购买记录：
 
 ```sql    
 SELECT purchase_records.client_id,
@@ -122,7 +122,7 @@ FROM   vip_info
        NATURAL JOIN purchase_records; 
 ```
 
-有关示例中表的定义，请参见 [示例表](#示例表)。
+有关示例中表的定义，请参见 [示例表](#example-tables)。
 
 输出：
 
@@ -133,7 +133,7 @@ FROM   vip_info
 
 ## Cross Join
 
-*cross join* 返回一个结果集，其中包括第一个表中的每一行与第二个表中的每一行连接。
+*cross join* 返回一个结果集，其中包括第一个表中的每一行与第二个表中的每一行的组合。
 
 ### 语法
 
@@ -145,7 +145,7 @@ FROM table_a
 
 ### 示例
 
-以下示例返回一个结果集，将每个礼品选项分配给每个VIP客户：
+以下示例返回一个结果集，将每个礼品选项分配给每个 VIP 客户：
 
 ```sql    
 SELECT *
@@ -153,7 +153,7 @@ FROM   vip_info
        CROSS JOIN gift; 
 ```
 
-有关示例中表的定义，请参见 [示例表](#示例表)。
+有关示例中表的定义，请参见 [示例表](#example-tables)。
 
 输出：
 
@@ -174,7 +174,7 @@ FROM   vip_info
 
 ## Left Join
 
-*left join* 返回左表中的所有记录，以及右表中的匹配记录。如果没有匹配项，则右边的结果为NULL记录。
+*left join* 返回左表中的所有记录，以及右表中匹配的记录。如果没有匹配，则右表的结果为 NULL。
 
 ### 语法
 
@@ -190,7 +190,7 @@ FROM table_a
 
 ### 示例
 
-以下示例返回所有VIP客户的购买记录，如果VIP客户没有购买记录，则购买记录将为NULL：
+以下示例返回所有 VIP 客户的购买记录，如果 VIP 客户没有购买记录，则购买记录为 NULL：
 
 ```sql    
 SELECT vip_info.client_id,
@@ -201,7 +201,7 @@ FROM   vip_info
               ON vip_info.client_id = purchase_records.client_id; 
 ```
 
-有关示例中表的定义，请参见 [示例表](#示例表)。
+有关示例中表的定义，请参见 [示例表](#example-tables)。
 
 输出：
 
@@ -213,7 +213,7 @@ FROM   vip_info
 
 ## Right Join
 
-*right join* 返回右表中的所有记录，以及左表中的匹配记录。如果没有匹配项，则左边的结果为NULL记录。
+*right join* 返回右表中的所有记录，以及左表中匹配的记录。如果没有匹配，则左表的结果为 NULL。
 
 ### 语法
 
@@ -230,9 +230,9 @@ FROM table_a
 
 ### 示例
 
-想象我们有以下表：
+假设我们有以下表：
 
-以下示例返回所有购买记录的所有vip_info，如果购买记录没有相应的vip_info，则vip_info将为NULL。
+以下示例返回所有 purchase_records 的 vip_info，如果 purchase_record 没有对应的 vip_info，则 vip_info 为 NULL。
 
 ```sql    
 SELECT vip_info.client_id,
@@ -242,7 +242,7 @@ FROM   vip_info
                ON vip_info.client_id = purchase_records.client_id; 
 ```
 
-有关示例中表的定义，请参见 [示例表](#示例表)。
+有关示例中表的定义，请参见 [示例表](#example-tables)。
 
 输出：
 
@@ -255,7 +255,7 @@ NULL|NULL
 
 ## Full Outer Join
 
-*full outer join* 返回两个表中的所有行，匹配行无论是否匹配都会显示，如果没有匹配行，则放置NULL。
+*full outer join* 返回两个表中的所有行，匹配的行将组合在一起，没有匹配的行将放置 NULL。
 
 ### 语法
 
@@ -272,7 +272,7 @@ FROM   table_a
 
 ### 示例
 
-以下示例返回两个表中的所有匹配和不匹配行：
+以下示例返回两个表中所有匹配和不匹配的行：
 
 ```sql
 SELECT vip_info.region,
@@ -282,7 +282,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-有关示例中表的定义，请参见 [示例表](#示例表)。
+有关示例中表的定义，请参见 [示例表](#example-tables)。
 
 输出：
 
@@ -318,7 +318,7 @@ FROM   table_a
 
 ### 示例
 
-以下示例返回有购买记录的VIP客户（Client_ID & Region）：
+以下示例返回有购买记录的 VIP 客户（Client_ID & Region）：
 
 ```sql
 SELECT *
@@ -327,7 +327,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-有关示例中表的定义，请参见 [示例表](#示例表)。
+有关示例中表的定义，请参见 [示例表](#example-tables)。
 
 输出：
 
@@ -336,7 +336,7 @@ FROM   vip_info
 103|Vancouver
 ```
 
-以下示例返回VIP客户的购买记录（Client_ID, Item, 和 QTY）：
+以下示例返回 VIP 客户的购买记录（Client_ID、Item 和 QTY）：
 
 ```sql
 SELECT *
@@ -345,7 +345,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-有关示例中表的定义，请参见 [示例表](#示例表)。
+有关示例中表的定义，请参见 [示例表](#example-tables)。
 
 输出：
 
@@ -378,7 +378,7 @@ FROM   table_a
 
 ### 示例
 
-以下示例返回没有购买记录的VIP客户（Client_ID & Region）：
+以下示例返回没有购买记录的 VIP 客户（Client_ID & Region）：
 
 ```sql
 SELECT *
@@ -387,7 +387,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-有关示例中表的定义，请参见 [示例表](#示例表)。
+有关示例中表的定义，请参见 [示例表](#example-tables)。
 
 输出：
 
@@ -395,7 +395,7 @@ FROM   vip_info
 101|Toronto
 ```
 
-以下示例返回非VIP客户的购买记录（Client_ID, Item, 和 QTY）：
+以下示例返回非 VIP 客户的购买记录（Client_ID、Item 和 QTY）：
 
 ```sql
 SELECT *
@@ -404,7 +404,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-有关示例中表的定义，请参见 [示例表](#示例表)。
+有关示例中表的定义，请参见 [示例表](#example-tables)。
 
 输出：
 
