@@ -2,7 +2,7 @@
 title: Tableau
 ---
 
-[Tableau](https://www.tableau.com/) is a visual analytics platform transforming the way we use data to solve problems—empowering people and organizations to make the most of their data. By leveraging the [databend-jdbc driver](https://github.com/databendcloud/databend-jdbc) (version 0.0.8 or higher), both Databend and Databend Cloud can integrate with Tableau, enabling seamless data access and efficient analysis. It is important to note that for optimal compatibility, it is advisable to use Tableau version 2022.3 or higher to avoid potential compatibility issues.
+[Tableau](https://www.tableau.com/) is a visual analytics platform transforming the way we use data to solve problems—empowering people and organizations to make the most of their data. By leveraging the [databend-jdbc driver](https://github.com/databendcloud/databend-jdbc) (version 0.3.4 or higher), both Databend and Databend Cloud can integrate with Tableau, enabling seamless data access and efficient analysis. It is important to note that for optimal compatibility, it is advisable to use Tableau version 2022.3 or higher to avoid potential compatibility issues.
 
 Databend currently provides two integration methods with Tableau. The first approach utilizes the Other Databases (JDBC) interface within Tableau and is applicable to both Databend and Databend Cloud. The second method recommends using the [databend-tableau-connector-jdbc](https://github.com/databendcloud/databend-tableau-connector-jdbc) connector specifically developed by Databend for optimal connectivity with Databend.
 
@@ -24,9 +24,9 @@ GRANT ALL ON *.* TO tableau;
 
 ### Step 2. Install databend-jdbc
 
-1. Download the databend-jdbc driver (version 0.0.8 or higher) from the Maven Central Repository at https://repo1.maven.org/maven2/com/databend/databend-jdbc/
+1. Download the databend-jdbc driver (version 0.3.4 or higher) from the Maven Central Repository at https://repo1.maven.org/maven2/com/databend/databend-jdbc/
 
-2. To install the databend-jdbc driver, move the jar file (for example, databend-jdbc-0.0.8.jar) to Tableau's driver folder. Tableau's driver folder varies depending on the operating system:
+2. To install the databend-jdbc driver, move the jar file (for example, databend-jdbc-0.3.4.jar) to Tableau's driver folder. Tableau's driver folder varies depending on the operating system:
 
 | Operating System | Tableau's Driver Folder          |
 | ---------------- | -------------------------------- |
@@ -70,9 +70,9 @@ GRANT ALL ON *.* TO tableau;
 
 ### Step 2. Install databend-jdbc
 
-1. Download the databend-jdbc driver (version 0.0.8 or higher) from the Maven Central Repository at https://repo1.maven.org/maven2/com/databend/databend-jdbc/
+1. Download the databend-jdbc driver (version 0.3.4 or higher) from the Maven Central Repository at https://repo1.maven.org/maven2/com/databend/databend-jdbc/
 
-2. To install the databend-jdbc driver, move the jar file (for example, databend-jdbc-0.0.8.jar) to Tableau's driver folder. Tableau's driver folder varies depending on the operating system:
+2. To install the databend-jdbc driver, move the jar file (for example, databend-jdbc-0.3.4.jar) to Tableau's driver folder. Tableau's driver folder varies depending on the operating system:
 
 | Operating System | Tableau's Driver Folder          |
 | ---------------- | -------------------------------- |
@@ -118,9 +118,9 @@ Obtain the connection information from Databend Cloud. For how to do that, refer
 
 ### Step 2. Install databend-jdbc
 
-1. Download the databend-jdbc driver (version 0.0.8 or higher) from the Maven Central Repository at https://repo1.maven.org/maven2/com/databend/databend-jdbc/
+1. Download the databend-jdbc driver (version 0.3.4 or higher) from the Maven Central Repository at https://repo1.maven.org/maven2/com/databend/databend-jdbc/
 
-2. To install the databend-jdbc driver, move the jar file (for example, databend-jdbc-0.0.8.jar) to Tableau's driver folder. Tableau's driver folder varies depending on the operating system:
+2. To install the databend-jdbc driver, move the jar file (for example, databend-jdbc-0.3.4.jar) to Tableau's driver folder. Tableau's driver folder varies depending on the operating system:
 
 | Operating System | Tableau's Driver Folder          |
 | ---------------- | -------------------------------- |
