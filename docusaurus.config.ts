@@ -227,7 +227,7 @@ const config: Config = {
     },
     announcementBar: {
       id: "announcementBar-2", // Increment on change
-      content: `⭐️ If you like Databend, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/datafuselabs/databend">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/DatabendLabs" >Twitter</a> ${TwitterSvg}`,
+      content: `⭐️ If you like Databend, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/datafuselabs/databend">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://x.com/DatabendLabs" >Twitter</a> ${TwitterSvg}`,
     },
     navbar: {
       title: "Databend",
@@ -317,7 +317,7 @@ const config: Config = {
             },
             {
               label: "Twitter",
-              href: "https://twitter.com/DatabendLabs",
+              href: "https://x.com/DatabendLabs",
             },
           ],
         },
