@@ -20,6 +20,6 @@ title: 社区
 
 - **Slack**: [加入我们的频道](https://link.databend.com/join-slack) 进行实时讨论。
 - **GitHub**: [访问我们的仓库](https://github.com/databendlabs/databend) 并帮助开发 Databend。
-- **Twitter**: [关注我们](https://twitter.com/DatabendLabs) 获取更新和讨论。
+- **Twitter**: [关注我们](https://x.com/DatabendLabs) 获取更新和讨论。
 - **LinkedIn**: [连接](https://www.linkedin.com/company/datafuselabs) 进行网络交流和新闻。
 - **YouTube**: [订阅](https://www.youtube.com/@DatabendLabs) 获取教程和亮点。

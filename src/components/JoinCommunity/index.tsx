@@ -79,7 +79,7 @@ const JoinCommunity: FC<TProps> = ({
         {
           icon: <X />,
           title: "Twitter",
-          link: "https://twitter.com/DatabendLabs",
+          link: "https://x.com/DatabendLabs",
         },
         {
           icon: <YouTube />,

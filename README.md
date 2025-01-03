@@ -5,7 +5,7 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/datafuselabs/databend-docs.svg)](https://github.com/datafuselabs/databend-docs/graphs/contributors)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/datafuselabs/databend-docs.svg)](https://github.com/datafuselabs/databend-docs/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/datafuselabs/databend-docs.svg)](https://github.com/datafuselabs/databend-docs/issues)
-[![Twitter Follow](https://img.shields.io/twitter/follow/DatabendLabs?style=social)](https://twitter.com/DatabendLabs)
+[![Twitter Follow](https://img.shields.io/twitter/follow/DatabendLabs?style=social)](https://x.com/DatabendLabs)
 [![YouTube Channel](https://img.shields.io/badge/YouTube-Subscribe-red?style=flat&logo=youtube)](https://www.youtube.com/@DatabendLabs)
 
 Welcome to the official documentation repository for Databend! We invite you to contribute and help improve the Databend Docs.
