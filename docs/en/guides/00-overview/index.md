@@ -6,7 +6,7 @@ slug: /
 import DocsOverview from '@site/src/components/DocsOverview'
 import Speaker from '@site/src/components/Speaker'
 
-Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> Guides, covering all Databend products.
+Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> documentation. Databend is an affordable, Snowflake-like cloud data warehouse. You can choose to self-host Databend as a completely free and open-source solution, or opt for the convenience of getting started right away with Databend Cloud.
 
 <DocsOverview />
 
