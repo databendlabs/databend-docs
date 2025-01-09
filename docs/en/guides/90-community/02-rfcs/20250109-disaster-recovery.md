@@ -3,8 +3,8 @@ title: Disaster Recovery
 description: Enable Databend to recover from disasters involving the loss of either metadata or data.
 ---
 
-- RFC PR: [databendlabs/databend-docs#1546](https://github.com/databendlabs/databend-docs/pull/1546)
-- Tracking Issue: [datafuselabs/databend#17234](https://github.com/databendlabs/databend/issues/17234)
+- RFC PR: [datafuselabs/databend#0000](https://github.com/databendlabs/databend/pull/0000)
+- Tracking Issue: [datafuselabs/databend#0000](https://github.com/databendlabs/databend/issues/0000)
 
 ## Summary
 
