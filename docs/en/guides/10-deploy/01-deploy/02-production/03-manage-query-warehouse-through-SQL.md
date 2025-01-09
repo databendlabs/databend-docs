@@ -5,7 +5,7 @@ description: How to manage scalable and flexible query warehouse through SQL on 
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.681"/>
+<FunctionDescription description="Introduced or updated: v1.2.687"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
