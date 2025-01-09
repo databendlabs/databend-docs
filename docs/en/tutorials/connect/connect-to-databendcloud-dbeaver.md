@@ -5,38 +5,48 @@ sidebar_label: 'Connecting to Databend Cloud (DBeaver)'
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-In this tutorial, we will guide you through the process of connecting to Databend Cloud through the Databend JDBC driver.
+In this tutorial, we will guide you through the process of connecting to Databend Cloud using DBeaver.
 
 <StepsWrap>
 <StepContent number="1">
 
 ### Before You Start
 
-- Ensure you have added the Databend JDBC driver to your DBeaver. See [Adding Databend JDBC Driver to DBeaver](/guides/sql-clients/jdbc/#adding-databend-jdbc-driver-to-dbeaver) for detailed instructions.
-- Ensure that you already have a Databend Cloud account and can log in successfully.
+- Verify that DBeaver 24.3.1 or a later version is installed on your local machine.
 
 </StepContent>
 <StepContent number="2">
 
-### Create Connection
+### Obtain Connection Information
 
-Before creating a connection to Databend Cloud, you need to log in to Databend Cloud to obtain connection information. For more information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+Before creating a connection to Databend Cloud, you need to log in to Databend Cloud to obtain connection information. For more information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting). In this tutorial, we will use the following connection information:
 
-1. In DBeaver, search for and select `databendcloud` on **Database** > **New Database Connection** first, and then click **Next**.
+![alt text](@site/static/img/connect/dbeaver-connect-info.png)
 
-![Alt text](@site/static/img/documents/develop/jdbc-select-driver.png)
+</StepContent>
+<StepContent number="3">
 
-2. Configure your connection settings.
+### Set up Connection
 
-| Setting         | Value                                                                                   |
-|-----------------|-----------------------------------------------------------------------------------------|
-| Host            | Copy and paste your host address obtained from Databend Cloud, starting with `https://` |
-| Password        | Copy and paste your password generated from Databend Cloud                              |
-| Database/Schema | For example, `default`                                                                  |
+1. In DBeaver, go to **Database** > **New Database Connection** to open the connection wizard, then select **Databend** under the **Analytical** category.
 
-![Alt text](@site/static/img/documents/develop/jdbc-connect.png)
+![alt text](@site/static/img/connect/dbeaver-analytical.png)
 
-3. Click **Test Connection** to check if the connection is successful.
+2. In the **Main** tab, enter the **Host**, **Port**, **Username**, and **Password** based on the connection information obtained in the previous step.
+
+![alt text](@site/static/img/connect/dbeaver-main-tab.png) 
+
+3. In the **Driver properties** tab, enter the **Warehouse** name based on the connection information obtained in the previous step.
+
+![alt text](@site/static/img/connect/dbeaver-driver-properties.png)
+
+4. In the **SSL** tab, select the **Use SSL** checkbox.
+
+![alt text](@site/static/img/connect/dbeaver-use-ssl.png)
+
+5. Click **Test Connection** to verify the connection. If this is your first time connecting to Databend, you will be prompted to download the driver. Click **Download** to proceed. Once the download is complete, the test connection should succeed, as shown below:
+
+![alt text](@site/static/img/connect/dbeaver-cloud-success.png)
 
 </StepContent>
 </StepsWrap>
