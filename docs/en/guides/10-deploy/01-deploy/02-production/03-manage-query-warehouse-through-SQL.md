@@ -95,12 +95,7 @@ this command will create a warehouse named `test_warehouse_1` with 2 nodes.
 ```sql
 root@localhost:8000/default> create warehouse test_warehouse_1 with warehouse_size = 2;
 
-create warehouse test_warehouse_1 with warehouse_size = 2
-
-
 root@localhost:8000/default> show online nodes;
-
-show online nodes
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │     warehouse    │ cluster │           version           │
@@ -123,8 +118,6 @@ show online nodes
 ```sql
 root@localhost:8000/default> show warehouses;
 
-show warehouses
-
 ┌───────────────────────────────────────────┐
 │    warehouse   │      type      │  status │
 ├────────────────┼────────────────┼─────────┤
@@ -138,12 +131,7 @@ system.clusters is a system table that stores the information of all clusters, a
 ```sql
 root@localhost:8000/default> use warehouse test_warehouse_1;
 
-use warehouse test_warehouse_1
-
-
 root@(test_warehouse_1)/default> select * from system.clusters;
-
-SELECT * FROM system.clusters
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────┐
 │          name          │          cluster         │    host   │  port  │     version      │
@@ -167,8 +155,6 @@ alter warehouse test_warehouse add cluster test_cluster with cluster_size = 3
 
 
 root@localhost:8000/default> show online nodes;
-
-show online nodes
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │    cluster   │           version           │
@@ -195,12 +181,7 @@ Databend allow user to create multi-cluster warehouse with different node group.
 ```sql
 root@localhost:8000/default> create warehouse test_warehouse(assign 1 nodes from log_node, assign 2 nodes from infra_node);
 
-create warehouse test_warehouse(assign 1 nodes from log_node, assign 2 nodes from infra_node)
-
-
 root@localhost:8000/default> show online nodes;
-
-show online nodes
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │ cluster │           version           │
@@ -222,12 +203,8 @@ show online nodes
 ```sql
 root@localhost:8000/default> alter warehouse test_warehouse add cluster test_cluster (assign 1 nodes from dev_node, assign 1 nodes from infra_node);
 
-alter warehouse test_warehouse add cluster test_cluster (assign 1 nodes from dev_node, assign 1 nodes from infra_node)
-
-
 root@localhost:8000/default> show online nodes;
 
-show online nodes
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │    cluster   │           version           │
 ├────────────────────────┼───────────────┼────────────┼────────────────┼──────────────┼─────────────────────────────┤
@@ -249,12 +226,7 @@ show online nodes
 ```sql
 root@localhost:8000/default> alter warehouse test_warehouse assign nodes(assign 1 nodes from dev_node for default, assign 1 nodes from infra_node for default);
 
-alter warehouse test_warehouse assign nodes(assign 1 nodes from dev_node for default, assign 1 nodes from infra_node for default)
-
-
 root@localhost:8000/default> show online nodes;
-
-show online nodes
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │ cluster │           version           │
@@ -277,12 +249,7 @@ show online nodes
 ```sql
 root@localhost:8000/default> alter warehouse test_warehouse unassign nodes(unassign 1 nodes from dev_node for default, unassign 2 nodes from infra_node for default);
 
-alter warehouse test_warehouse unassign nodes(unassign 1 nodes from dev_node for default, unassign 2 nodes from infra_node for default)
-
-
 root@localhost:8000/default> show online nodes;
-
-show online nodes
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │ cluster │           version           │
