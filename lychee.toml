@@ -102,8 +102,7 @@ exclude = [
   'https://singup.snowflake.com/',
   'https://www.uber.com/',
   'https://www.cse.iitb.ac.in/infolab/Data/Courses/CS632/Papers/Cascades-graefe.pdf',
-  '^https://repo\.databend\.com/databend/',
-  'https://www.hhs.gov',
+  '^https://repo\.databend\.com/databend/'
 ]
 
 # URLs to check (supports regex). Has preference over all excludes.
