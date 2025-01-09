@@ -105,11 +105,11 @@ SELECT vacuum_backup(
     -- keep at least for 7 days.
     MIN_RETENTION_DAYS => 7,
     -- keep at most 5 full backups.
-    MAX_FULL_BACKUPS => 5,
+    MAX_FULL_BACKUPS = 5,
     -- keep at least 2 full backups.
-    MIN_FULL_BACKUPS => 2,
+    MIN_FULL_BACKUPS = 2,
     -- keep at most 10 incremental backups.
-    MAX_INCREMENTAL_BACKUPS => 10,
+    MAX_INCREMENTAL_BACKUPS = 10,
 );
 ```
 
