@@ -1,7 +1,7 @@
 ---
 title: 通过 SQL 管理本地查询计算集群
 sidebar_label: 通过 SQL 管理查询计算集群
-description: 如何通过 SQL 在本地管理可扩展且灵活的查询计算集群。
+description: 如何在本地通过 SQL 管理可扩展且灵活的查询计算集群。
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
@@ -12,19 +12,19 @@ import EEFeature from '@site/src/components/EEFeature';
 <EEFeature featureName='动态集群'/>
 
 
-本主题解释了如何通过 SQL 在本地管理可扩展且灵活的查询计算集群。
+本主题解释了如何在本地通过 SQL 管理可扩展且灵活的查询计算集群。
 
 ## 理解计算集群
 
 ![本地计算集群](/img/deploy/on-premise-warehouse.png)
 
 **场景描述**
-之前，我们在[部署](https://docs.databend.com/guides/deploy/deploy/production/metasrv-deploy#step-2-deploy-query-nodes)中介绍了如何使用静态的 `tenant_id` 和 `cluster_id` 来部署 Databend。
+之前，我们在[部署](https://docs.databend.com/guides/deploy/deploy/production/metasrv-deploy#step-2-deploy-query-nodes)中介绍了如何使用静态的 `tenant_id` 和 `cluster_id` 部署 Databend。
 
-为了使本地部署成功，必须有一个熟练的 DevOps 团队来有效管理部署和配置。这包括：
+为了使本地部署成功，必须拥有一支熟练的 DevOps 团队来有效管理部署和配置。这包括：
 1. 在高峰使用期间，策略性地将查询路由到不同的集群以提高并发性。
 2. 根据需要重新启动节点并将其重新分配到不同的集群来调整集群大小。
-3. 实施一个强大的集群节点负载均衡策略，这在本地环境中可能会带来独特的挑战。
+3. 为集群节点实施稳健的负载均衡策略，这在本地环境中可能会带来独特的挑战。
 
 Databend 的本地计算集群 SQL 命令提供了一个强大的解决方案，让用户在几秒钟内构建一个多集群查询计算集群。这些命令使您能够：
 
@@ -37,7 +37,7 @@ Databend 的本地计算集群 SQL 命令提供了一个强大的解决方案，
 
 ### 计算集群相关概念
 
-在 Databend 中处理计算集群时，以下概念非常重要：
+在使用 Databend 中的计算集群时，以下概念非常重要：
 - **计算集群**：用户与之交互以执行 SQL 查询的计算资源集合。它内部可以包含多个集群来处理并发查询工作负载。
 
 - **集群**：表示一组计算资源的抽象概念。每个 SQL 查询将尝试使用所有节点的资源（包括 CPU、内存、磁盘等）来完成查询。一个计算集群由多个集群组成，每个集群在物理上是隔离的。当需要增加计算集群的并发处理能力时，可以添加新的集群。在之前静态配置的 `tenant_id` 和 `cluster_id` 部署中，计算集群是一个名为 `cluster_id` 的单集群计算集群。
@@ -94,12 +94,7 @@ show online nodes;
 ```sql
 root@localhost:8000/default> create warehouse test_warehouse_1 with warehouse_size = 2;
 
-create warehouse test_warehouse_1 with warehouse_size = 2
-
-
 root@localhost:8000/default> show online nodes;
-
-show online nodes
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │     warehouse    │ cluster │           version           │
@@ -122,8 +117,6 @@ show online nodes
 ```sql
 root@localhost:8000/default> show warehouses;
 
-show warehouses
-
 ┌───────────────────────────────────────────┐
 │    warehouse   │      type      │  status │
 ├────────────────┼────────────────┼─────────┤
@@ -131,18 +124,13 @@ show warehouses
 └───────────────────────────────────────────┘
 ```
 
-### 使用现有的计算集群之一来运行查询
+### 使用现有的计算集群之一运行查询
 system.clusters 是一个系统表，存储了所有集群及其节点的信息。
 
 ```sql
 root@localhost:8000/default> use warehouse test_warehouse_1;
 
-use warehouse test_warehouse_1
-
-
 root@(test_warehouse_1)/default> select * from system.clusters;
-
-SELECT * FROM system.clusters
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────┐
 │          name          │          cluster         │    host   │  port  │     version      │
@@ -167,8 +155,6 @@ alter warehouse test_warehouse add cluster test_cluster with cluster_size = 3
 
 root@localhost:8000/default> show online nodes;
 
-show online nodes
-
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │    cluster   │           version           │
 ├────────────────────────┼───────────────┼────────────┼────────────────┼──────────────┼─────────────────────────────┤
@@ -187,19 +173,16 @@ show online nodes
 
 ### 使用节点组创建和管理计算集群
 
-Databend 允许用户使用不同的节点组创建多集群计算集群。同一节点组下的节点将被随机分配到指定的计算集群。
+Databend 允许用户使用不同的节点组创建和管理多集群计算集群。同一节点组下的节点将被随机分配到指定的计算集群。
 
 #### 在指定的节点组中创建计算集群
 ```sql
 root@localhost:8000/default> create warehouse test_warehouse(assign 1 nodes from log_node, assign 2 nodes from infra_node);
 
-create warehouse test_warehouse(assign 1 nodes from log_node, assign 2 nodes from infra_node)
-
-
 root@localhost:8000/default> show online nodes;
+```
 
-show online nodes
-
+```sql
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │ cluster │           version           │
 ├────────────────────────┼───────────────┼────────────┼────────────────┼─────────┼─────────────────────────────┤
@@ -209,9 +192,9 @@ show online nodes
 │ DQUhMHYSdKqML5HJFhVbn4 │ SystemManaged │ infra_node │                │         │ v1.2.686-nightly            │
 │ Ji2SZp1zsJQHLyBUTDcrm1 │ SystemManaged │ infra_node │                │         │ v1.2.686-nightly            │
 │ a4XEkpidlCSuRkB7cMlCv4 │ SystemManaged │ dev_node   │                │         │ v1.2.686-nightly            │
-│ dtawAX7FT56iJJv6rER6R2 │ SystemManaged │ infra_node │                │         │ v1.2.686-nightly            │
+│ dtawAX7FT56iJJv6rER6R2 │ SystemManaged │ infra_node │ test_warehouse │ default │ v1.2.686-nightly            │
 │ jze3JfzDyY2amoN7Zbq3u6 │ SystemManaged │ infra_node │ test_warehouse │ default │ v1.2.686-nightly            │
-│ s7Yfg7OgXPHAX7pETAbcc  │ SystemManaged │ dev_node   │                │         │ v1.2.686-nightly            │
+│ s7Yfg7OgXPHAX7pETAbcc  │ SystemManaged │ dev_node   │ test_warehouse │ default │ v1.2.686-nightly            │
 │ tM8lj2NOTTtTwjnQIzCwI6 │ SystemManaged │ infra_node │ test_warehouse │ default │ v1.2.686-nightly            │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -220,12 +203,8 @@ show online nodes
 ```sql
 root@localhost:8000/default> alter warehouse test_warehouse add cluster test_cluster (assign 1 nodes from dev_node, assign 1 nodes from infra_node);
 
-alter warehouse test_warehouse add cluster test_cluster (assign 1 nodes from dev_node, assign 1 nodes from infra_node)
-
-
 root@localhost:8000/default> show online nodes;
 
-show online nodes
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │    cluster   │           version           │
 ├────────────────────────┼───────────────┼────────────┼────────────────┼──────────────┼─────────────────────────────┤
@@ -247,12 +226,7 @@ show online nodes
 ```sql
 root@localhost:8000/default> alter warehouse test_warehouse assign nodes(assign 1 nodes from dev_node for default, assign 1 nodes from infra_node for default);
 
-alter warehouse test_warehouse assign nodes(assign 1 nodes from dev_node for default, assign 1 nodes from infra_node for default)
-
-
 root@localhost:8000/default> show online nodes;
-
-show online nodes
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │ cluster │           version           │
@@ -270,17 +244,12 @@ show online nodes
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-#### 从计算集群的集群中按节点组移除节点
+#### 通过节点组从计算集群中移除节点
 
 ```sql
 root@localhost:8000/default> alter warehouse test_warehouse unassign nodes(unassign 1 nodes from dev_node for default, unassign 2 nodes from infra_node for default);
 
-alter warehouse test_warehouse unassign nodes(unassign 1 nodes from dev_node for default, unassign 2 nodes from infra_node for default)
-
-
 root@localhost:8000/default> show online nodes;
-
-show online nodes
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │ cluster │           version           │
