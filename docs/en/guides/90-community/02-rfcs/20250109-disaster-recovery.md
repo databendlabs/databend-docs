@@ -47,7 +47,7 @@ RESOTRE DATABASE
 For example, users can backup the `test` table to an external stage:
 
 ```sql
-BACKUP TABLE test INTO 's3://bucket_bucket/table/test/2025_01_09_08_00_00/';
+BACKUP TABLE test INTO @backup_stage/table/test/2025_01_09_08_00_00/;
 ```
 
 `BACKUP` supports both full and incremental backups. The full backup will back up all metadata and data, while the incremental backup will only back up the changes since the last full or incremental backup.
@@ -55,7 +55,7 @@ BACKUP TABLE test INTO 's3://bucket_bucket/table/test/2025_01_09_08_00_00/';
 `BACKUP` will perform incremental backups by default. Users can specify the `FULL` keyword to perform a full backup:
 
 ```sql
-BACKUP TABLE test INTO 's3://bucket_bucket/table/test/2025_01_09_08_00_00/' FULL;
+BACKUP TABLE test INTO @backup_stage/table/test/2025_01_09_08_00_00/ FULL;
 ```
 
 The backup will store all relevant metadata and data in the backup storage, ensuring that users can restore it even if the entire databend cluster is lost.
@@ -63,13 +63,13 @@ The backup will store all relevant metadata and data in the backup storage, ensu
 Users can restore the `test` table from the external stage in another databend cluster:
 
 ```sql
-RESOTRE TABLE FROM 's3://bucket_bucket/table/test/2025_01_09_08_00_00/';
+RESOTRE TABLE FROM @backup_stage/table/test/2025_01_09_08_00_00/;
 ```
 
 `RESTORE` also supports `DRY RUN` to preview the restore operation without actually restoring the metadata and data.
 
 ```sql
-RESOTRE TABLE FROM 's3://bucket_bucket/table/test/2025_01_09_08_00_00/' DRY RUN;
+RESOTRE TABLE FROM @backup_stage/table/test/2025_01_09_08_00_00/ DRY RUN;
 ```
 
 Users can use `DRY RUN` to check and validate the backup without affecting the existing metadata and data.
@@ -83,7 +83,7 @@ Databend will provide a set of system functions to manage the backups:
 SELECT list_backups(
     -- full identifier of the database or table,
     'test',
-    location => 's3://bucket_bucket/table/test/'
+    location => '@backup_stage/table/test/'
 );
 
 -- delete backup in given location
@@ -91,7 +91,7 @@ SELECT delete_backup(
     -- full identifier of the database or table,
     'test',
     -- the location to search the backups.
-    location => 's3://bucket_bucket/table/test/'
+    location => '@backup_stage/table/test/2025_01_09_08_00_00/'
 );
 
 -- vacuum backup in given location to meet the retention policy.
@@ -99,7 +99,7 @@ SELECT vacuum_backup(
     -- full identifier of the database or table,
     'test',
     -- the location to search the backups.
-    location => 's3://bucket_bucket/table/test/',
+    location => '@backup_stage/table/test',
     -- keep recent 30 days backups
     RETENTION_DAYS => 30,
     -- keep at least for 7 days.
