@@ -31,8 +31,7 @@ This flexibility allows you to optimize resource utilization and maintain high a
 ### Warehouse related concepts
 
 The following concepts are important to understand when working with warehouses in Databend:
-
-- **Warehouse**: An abstract concept representing one or more groups of compute resources. It is the smallest logical unit of compute resources for executing SQL queries.
+- **Warehouse**: A collection of compute resources that users interact with to execute SQL queries. It can internally contain multiple clusters to handle concurrent query workloads.
 
 - **Cluster**: An abstract concept representing a group of compute resources. Each SQL query will try to use all nodes's resources(including CPU, memory, disk, etc.) to finish the query. A warehouse consists of multiple clusters, with each cluster being physically isolated. When increased concurrent processing capacity is needed for a warehouse, new clusters can be added. In previous static configured `tenant_id` and `cluster_id` deployment, the warehouse is a single cluster warehouse named `cluster_id`.
 
