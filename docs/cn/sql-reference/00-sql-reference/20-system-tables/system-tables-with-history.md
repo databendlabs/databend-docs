@@ -4,7 +4,7 @@ title: system.tables_with_history
 
 提供所有表的元数据信息，包括历史表。它包含表属性、创建时间、行数、数据大小等详细信息。
 
-另请参阅: [SHOW DROP TABLES](../../10-sql-commands/00-ddl/01-table/show-drop-tables.md)
+另请参阅：[SHOW DROP TABLES](../../10-sql-commands/00-ddl/01-table/show-drop-tables.md)
 
 ```sql title='示例:'
 SELECT * FROM system.tables_with_history LIMIT 3;
@@ -18,7 +18,7 @@ SELECT * FROM system.tables_with_history LIMIT 3;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-要显示 `system.tables_with_history` 的架构，请使用 `DESCRIBE system.tables_with_history`:
+要显示 `system.tables_with_history` 的表结构，请使用 `DESCRIBE system.tables_with_history`：
 
 ```sql
 DESCRIBE system.tables_with_history;

@@ -4,11 +4,11 @@ title: system.databases_with_history
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入: v1.1.658"/>
+<FunctionDescription description="引入版本：v1.1.658"/>
 
-记录所有数据库，包括活跃的和已删除的数据库。显示每个数据库的目录、名称、唯一ID、所有者（如果指定）以及删除时间戳（如果仍活跃则为NULL）。
+记录所有数据库，包括活跃的和已删除的。它显示每个数据库的目录、名称、唯一ID、所有者（如果指定）以及删除时间戳（如果仍然活跃则为NULL）。
 
-另请参阅: [SHOW DROP DATABASES](../../10-sql-commands/00-ddl/00-database/show-drop-databases.md)
+另请参阅：[SHOW DROP DATABASES](../../10-sql-commands/00-ddl/00-database/show-drop-databases.md)
 
 ```sql
 SELECT * FROM system.databases_with_history;
