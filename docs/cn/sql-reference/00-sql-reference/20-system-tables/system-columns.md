@@ -2,41 +2,41 @@
 title: system.columns
 ---
 
-包含表的列信息。
+包含有关表列的信息。
 
 ```sql
 DESC system.columns;
 +--------------------+---------+------+---------+-------+
-| Field              | Type    | Null | Default | Extra |
+| 字段               | 类型    | 空值 | 默认值  | 额外  |
 +--------------------+---------+------+---------+-------+
-| name               | VARCHAR | NO   |         |       |
-| database           | VARCHAR | NO   |         |       |
-| table              | VARCHAR | NO   |         |       |
-| type               | VARCHAR | NO   |         |       |
-| default_kind       | VARCHAR | NO   |         |       |
-| default_expression | VARCHAR | NO   |         |       |
-| is_nullable        | BOOLEAN | NO   | false   |       |
-| comment            | VARCHAR | NO   |         |       |
+| name               | VARCHAR | 否   |         |       |
+| database           | VARCHAR | 否   |         |       |
+| table              | VARCHAR | 否   |         |       |
+| type               | VARCHAR | 否   |         |       |
+| default_kind       | VARCHAR | 否   |         |       |
+| default_expression | VARCHAR | 否   |         |       |
+| is_nullable        | BOOLEAN | 否   | false   |       |
+| comment            | VARCHAR | 否   |         |       |
 
 ```
 
 ```sql
 +--------------------------+----------+---------------------+------------------+-------------------+--------------+--------------------+-------------+---------+
-| name                     | database | table               | column_type      | data_type         | default_kind | default_expression | is_nullable | comment |
+| 名称                     | 数据库   | 表                  | 列类型           | 数据类型          | 默认类型     | 默认表达式         | 可为空      | 注释    |
 +--------------------------+----------+---------------------+------------------+-------------------+--------------+--------------------+-------------+---------+
-| id                       | system   | processes           | String           | VARCHAR           |              |                    | NO          |         |
-| type                     | system   | processes           | String           | VARCHAR           |              |                    | NO          |         |
-| host                     | system   | processes           | Nullable(String) | VARCHAR           |              |                    | YES         |         |
-| user                     | system   | processes           | String           | VARCHAR           |              |                    | NO          |         |
-| command                  | system   | processes           | String           | VARCHAR           |              |                    | NO          |         |
-| database                 | system   | processes           | String           | VARCHAR           |              |                    | NO          |         |
-| extra_info               | system   | processes           | String           | VARCHAR           |              |                    | NO          |         |
-| memory_usage             | system   | processes           | Int64            | BIGINT            |              |                    | NO          |         |
-| data_read_bytes          | system   | processes           | UInt64           | BIGINT UNSIGNED   |              |                    | NO          |         |
-| data_write_bytes         | system   | processes           | UInt64           | BIGINT UNSIGNED   |              |                    | NO          |         |
-| scan_progress_read_rows  | system   | processes           | UInt64           | BIGINT UNSIGNED   |              |                    | NO          |         |
-| scan_progress_read_bytes | system   | processes           | UInt64           | BIGINT UNSIGNED   |              |                    | NO          |         |
-| mysql_connection_id      | system   | processes           | Nullable(UInt32) | INT UNSIGNED      |              |                    | YES         |         |
+| id                       | system   | processes           | String           | VARCHAR           |              |                    | 否          |         |
+| type                     | system   | processes           | String           | VARCHAR           |              |                    | 否          |         |
+| host                     | system   | processes           | Nullable(String) | VARCHAR           |              |                    | 是          |         |
+| user                     | system   | processes           | String           | VARCHAR           |              |                    | 否          |         |
+| command                  | system   | processes           | String           | VARCHAR           |              |                    | 否          |         |
+| database                 | system   | processes           | String           | VARCHAR           |              |                    | 否          |         |
+| extra_info               | system   | processes           | String           | VARCHAR           |              |                    | 否          |         |
+| memory_usage             | system   | processes           | Int64            | BIGINT            |              |                    | 否          |         |
+| data_read_bytes          | system   | processes           | UInt64           | BIGINT UNSIGNED   |              |                    | 否          |         |
+| data_write_bytes         | system   | processes           | UInt64           | BIGINT UNSIGNED   |              |                    | 否          |         |
+| scan_progress_read_rows  | system   | processes           | UInt64           | BIGINT UNSIGNED   |              |                    | 否          |         |
+| scan_progress_read_bytes | system   | processes           | UInt64           | BIGINT UNSIGNED   |              |                    | 否          |         |
+| mysql_connection_id      | system   | processes           | Nullable(UInt32) | INT UNSIGNED      |              |                    | 是          |         |
 ....
 
 ```
