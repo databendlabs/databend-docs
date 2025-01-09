@@ -4,7 +4,7 @@ title: 地理空间
 
 Databend 支持以下地理空间数据类型，用于处理空间数据：
 
-- **GEOMETRY**：使用平面坐标系（笛卡尔坐标），适用于二维几何对象。坐标表示为 (X, Y) 对，单位由关联的空间参考系统 (SRS) 决定。默认 SRID 为 0，但可以指定自定义 SRID。适用于小规模测量，如城市或省级分析，具有高计算速度和低资源使用率，但在较大区域可能会引入显著误差。
+- **GEOMETRY**：使用平面坐标系（笛卡尔坐标），适用于二维几何对象。坐标表示为 (X, Y) 对，单位由关联的空间参考系统（SRS）决定。默认 SRID 为 0，但可以指定自定义 SRID。适用于小规模测量，如城市或省级分析，具有高计算速度和低资源使用率，但在较大区域可能会引入显著误差。
 
 - **GEOGRAPHY**：使用地理坐标系（球面坐标），基于纬度（-90° 到 90°）和经度（-180° 到 180°），遵循 WGS 84（SRID 4326）。设计用于全球或大规模空间数据，提供在大距离上的准确性，但计算复杂度和资源需求较高。需要时可以转换为 GEOMETRY。
 
@@ -16,29 +16,29 @@ GEOMETRY 和 GEOGRAPHY 类型目前是实验性功能。要使用这些类型创
 
 Databend 支持一系列地理空间对象类型，能够精确表示和分析平面（GEOMETRY）和球面（GEOGRAPHY）坐标系的空间数据。
 
-| 对象类型           | 描述                                                                                                     | GEOMETRY 示例                                                                                  | GEOGRAPHY 示例                                                                                  |
+| 对象类型        | 描述                                                                                                     | GEOMETRY 示例                                                                                  | GEOGRAPHY 示例                                                                                  |
 |--------------------|-----------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| 点 (Point)         | 零维几何对象，表示特定位置或坐标点。                                                                     | POINT(10 20)                                                                                      | POINT(-122.4194 37.7749)（旧金山坐标）                                                           |
-| 线 (LineString)    | 一维几何对象，由一系列连接的点组成，表示路径或线段。                                                     | LINESTRING(10 20, 30 40, 50 60)                                                                   | LINESTRING(-122.4194 37.7749, -73.9352 40.7306)（旧金山到纽约）                                  |
-| 多边形 (Polygon)   | 二维几何对象，具有外环和可选的内环，表示区域。                                                           | POLYGON((10 20, 30 40, 50 60, 10 20))                                                             | POLYGON((-122.5 37.7, -122.4 37.8, -122.3 37.7, -122.5 37.7))（旧金山的一个区域）                |
-| 多点 (MultiPoint)  | 多个零维几何对象的集合。                                                                                 | MULTIPOINT((10 20), (30 40), (50 60))                                                             | MULTIPOINT((-122.4194 37.7749), (-73.9352 40.7306))（旧金山和纽约的点）                          |
-| 多线 (MultiLineString) | 多个 LineString 对象的集合。                                                                         | MULTILINESTRING((10 20, 30 40), (50 60, 70 80))                                                   | MULTILINESTRING((-122.5 37.7, -122.4 37.8), (-122.3 37.7, -122.2 37.8))（城市中的多条路径）      |
-| 多面 (MultiPolygon)| 多个 Polygon 对象的集合，表示多个区域或区域。                                                           | MULTIPOLYGON(((10 20, 30 40, 50 60, 10 20)), ((15 25, 25 35, 35 45, 15 25)))                      | MULTIPOLYGON(((-122.5 37.7, -122.4 37.8, -122.3 37.7, -122.5 37.7)))（城市中的多个区域）         |
-| 几何集合 (GeometryCollection) | 不同类型几何对象的集合，如点、线和多边形。                                                      | GEOMETRYCOLLECTION(POINT(10 20), LINESTRING(10 20, 30 40), POLYGON((10 20, 30 40, 50 60, 10 20))) | GEOMETRYCOLLECTION(POINT(-122.4194 37.7749), LINESTRING(-122.5 37.7, -122.4 37.8))               |
+| 点              | 零维几何对象，表示特定位置或坐标点。                      | POINT(10 20)                                                                                      | POINT(-122.4194 37.7749)（旧金山坐标）                                               |
+| 线串         | 一维几何对象，由一系列连接的点组成，表示路径或线段。 | LINESTRING(10 20, 30 40, 50 60)                                                                   | LINESTRING(-122.4194 37.7749, -73.9352 40.7306)（旧金山到纽约）                        |
+| 多边形            | 二维几何对象，具有外环和可选的内环，表示区域。             | POLYGON((10 20, 30 40, 50 60, 10 20))                                                             | POLYGON((-122.5 37.7, -122.4 37.8, -122.3 37.7, -122.5 37.7))（旧金山的一个区域）          |
+| 多点         | 多个零维几何对象的集合。                                                    | MULTIPOINT((10 20), (30 40), (50 60))                                                             | MULTIPOINT((-122.4194 37.7749), (-73.9352 40.7306))（旧金山和纽约的点）         |
+| 多线串    | 多个线串对象的集合。                                                                    | MULTILINESTRING((10 20, 30 40), (50 60, 70 80))                                                   | MULTILINESTRING((-122.5 37.7, -122.4 37.8), (-122.3 37.7, -122.2 37.8))（城市中的多条路径） |
+| 多多边形       | 多个多边形对象的集合，表示多个区域或区域。                               | MULTIPOLYGON(((10 20, 30 40, 50 60, 10 20)), ((15 25, 25 35, 35 45, 15 25)))                      | MULTIPOLYGON(((-122.5 37.7, -122.4 37.8, -122.3 37.7, -122.5 37.7)))（城市中的多个区域）  |
+| 几何集合 | 不同类型几何对象的集合，如点、线和多边形。                      | GEOMETRYCOLLECTION(POINT(10 20), LINESTRING(10 20, 30 40), POLYGON((10 20, 30 40, 50 60, 10 20))) | GEOMETRYCOLLECTION(POINT(-122.4194 37.7749), LINESTRING(-122.5 37.7, -122.4 37.8))                 |
 
 ## 支持的输出格式
 
-Databend 支持多种地理空间输出格式——[WKT (Well-Known Text)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)、EWKT (Extended Well-Known Text)、[WKB (Well-Known Binary)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary)、EWKB (Extended Well-Known Binary) 和 [GeoJSON](https://geojson.org/)。EWKT 和 EWKB 扩展了 WKT 和 WKB，通过包含 SRID（空间参考系统标识符）来指定坐标参考系统，例如 `SRID=4326;POINT(-44.3 60.1)`。
+Databend 支持多种地理空间输出格式——[WKT（Well-Known Text）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)、EWKT（扩展 Well-Known Text）、[WKB（Well-Known Binary）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary)、EWKB（扩展 Well-Known Binary）和 [GeoJSON](https://geojson.org/)。EWKT 和 EWKB 通过包含 SRID（空间参考系统标识符）来扩展 WKT 和 WKB，以指定坐标参考系统，例如 `SRID=4326;POINT(-44.3 60.1)`。
 
-| 对象类型           | WKT 示例                                                                                         | GeoJSON 示例                                                                                                   |
+| 对象类型        | WKT 示例                                                                                         | GeoJSON 示例                                                                                                   |
 |--------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| 点 (Point)         | `POINT(10 10)`                                                                                      | `{"coordinates":[10,10],"type":"Point"}`                                                                          |
-| 线 (LineString)    | `LINESTRING(10 10, 20 30)`                                                                          | `{"coordinates":[[10,10],[20,30]],"type":"LineString"}`                                                           |
-| 多边形 (Polygon)   | `POLYGON((10 10, 15 16, 22 10, 30 32))`                                                             | `{"coordinates":[[[10,10],[15,16],[22,10],[30,32],[10,10]]],"type":"Polygon"}`                                    |
-| 多点 (MultiPoint)  | `MULTIPOINT((10 20), (30 40), (50 60))`                                                             | `{"coordinates":[[10,20],[30,40],[50,60]],"type":"MultiPoint"}`                                                   |
-| 多线 (MultiLineString) | `MULTILINESTRING((10 20, 30 40), (50 60, 70 80))`                                                   | `{"coordinates":[[[10,20],[30,40]],[[50,60],[70,80]]],"type":"MultiLineString"}`                                  |
-| 多面 (MultiPolygon)| `MULTIPOLYGON(((10 20, 30 40, 50 60, 10 20)), ((15 25, 25 35, 35 45, 15 25)))`                      | `{"coordinates":[[[[10,20],[30,40],[50,60],[10,20]]],[[[15,25],[25,35],[35,45],[15,25]]]],"type":"MultiPolygon"}` |
-| 几何集合 (GeometryCollection) | `GEOMETRYCOLLECTION(POINT(10 20), LINESTRING(10 20, 30 40), POLYGON((10 20, 30 40, 50 60, 10 20)))` | `{"coordinates":[[[10,20],[30,40],[50,60],[10,20]]],"type":"Polygon"}`                                            |
+| 点              | `POINT(10 10)`                                                                                      | `{"coordinates":[10,10],"type":"Point"}`                                                                          |
+| 线串         | `LINESTRING(10 10, 20 30)`                                                                          | `{"coordinates":[[10,10],[20,30]],"type":"LineString"}`                                                           |
+| 多边形            | `POLYGON((10 10, 15 16, 22 10, 30 32))`                                                             | `{"coordinates":[[[10,10],[15,16],[22,10],[30,32],[10,10]]],"type":"Polygon"}`                                    |
+| 多点         | `MULTIPOINT((10 20), (30 40), (50 60))`                                                             | `{"coordinates":[[10,20],[30,40],[50,60]],"type":"MultiPoint"}`                                                   |
+| 多线串    | `MULTILINESTRING((10 20, 30 40), (50 60, 70 80))`                                                   | `{"coordinates":[[[10,20],[30,40]],[[50,60],[70,80]]],"type":"MultiLineString"}`                                  |
+| 多多边形       | `MULTIPOLYGON(((10 20, 30 40, 50 60, 10 20)), ((15 25, 25 35, 35 45, 15 25)))`                      | `{"coordinates":[[[[10,20],[30,40],[50,60],[10,20]]],[[[15,25],[25,35],[35,45],[15,25]]]],"type":"MultiPolygon"}` |
+| 几何集合 | `GEOMETRYCOLLECTION(POINT(10 20), LINESTRING(10 20, 30 40), POLYGON((10 20, 30 40, 50 60, 10 20)))` | `{"coordinates":[[[10,20],[30,40],[50,60],[10,20]]],"type":"Polygon"}`                                            |
 
 要在 Databend 中切换地理空间输出格式，请使用 `SET geometry_output_format` 设置配置所需的格式。例如，
 
@@ -104,7 +104,7 @@ SELECT id, st_asgeojson(geo) FROM test WHERE id=1;
 │               1 │ {"coordinates":[66,12],"type":"Point"} │
 └──────────────────────────────────────────────────────────┘
 
--- 获取 Point 的 X 和 Y 坐标
+-- 获取点的 X 和 Y 坐标
 SELECT id, st_x(geo), st_y(geo) FROM test WHERE id=1;
 ┌─────────────────────────────────────────────────────────┐
 │        id       │     st_x(geo)     │     st_y(geo)     │

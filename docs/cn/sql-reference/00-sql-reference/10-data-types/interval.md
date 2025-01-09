@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.677"/>
 
-INTERVAL 数据类型表示一段时间间隔，允许精确操作和存储跨不同单位的时间间隔。
+INTERVAL 数据类型表示时间间隔，允许精确操作和存储跨不同单位的时间间隔。
 
 - 接受自然语言格式（例如，'1 year 2 months ago'）或解释为微秒的数值。
 
@@ -18,10 +18,10 @@ INTERVAL 数据类型表示一段时间间隔，允许精确操作和存储跨�
 
     -- 插入不同类型的 INTERVAL 数据
     INSERT INTO intervals VALUES 
-        ('1 year 2 months ago'),     -- 带有 'ago' 的自然语言格式（负间隔）
-        ('1 year 2 months'),         -- 不带 'ago' 的自然语言格式（正间隔）
-        ('1000000'),                 -- 解释为微秒的正数值
-        ('-1000000');                -- 解释为微秒的负数值
+        ('1 year 2 months ago'),     -- 自然语言格式，带有 'ago'（负间隔）
+        ('1 year 2 months'),         -- 自然语言格式，不带 'ago'（正间隔）
+        ('1000000'),                 -- 正数值，解释为微秒
+        ('-1000000');                -- 负数值，解释为微秒
 
     -- 查询表以查看结果
     SELECT * FROM intervals;
@@ -36,7 +36,7 @@ INTERVAL 数据类型表示一段时间间隔，允许精确操作和存储跨�
     └──────────────────────────┘
     ```
 
-    - 当给定一个数值时，Databend 只识别该值的整数部分。例如，`TO_INTERVAL('1 seconds')` 和 `TO_INTERVAL('1.6 seconds')` 都表示 1 秒的间隔。小数点后的分数部分被忽略。
+    - 当给定一个数值时，Databend 只识别该值的整数部分。例如，`TO_INTERVAL('1 seconds')` 和 `TO_INTERVAL('1.6 seconds')` 都表示 1 秒的间隔。小数点后的部分被忽略。
 
     ```sql title='示例：'
     SELECT TO_INTERVAL('1 seconds'), TO_INTERVAL('1.6 seconds');
@@ -48,7 +48,7 @@ INTERVAL 数据类型表示一段时间间隔，允许精确操作和存储跨�
     └───────────────────────────────────────────────────────┘
     ```
 - 处理正负间隔，精度可达微秒。
-- 一个间隔可以与其他间隔相加或相减。
+- 一个间隔可以加上或减去另一个间隔。
 
     ```sql title='示例：'
     SELECT TO_DAYS(3) + TO_DAYS(1), TO_DAYS(3) - TO_DAYS(1);
@@ -59,7 +59,7 @@ INTERVAL 数据类型表示一段时间间隔，允许精确操作和存储跨�
     │ 4 days                  │ 2 days                  │
     └───────────────────────────────────────────────────┘
     ```
-- 间隔可以与 DATE 和 TIMESTAMP 值相加或相减。
+- 间隔可以加上或减去 DATE 和 TIMESTAMP 值。
 
     ```sql title='示例：'
     SELECT DATE '2024-12-20' + TO_DAYS(2),  DATE '2024-12-20' - TO_DAYS(2);
