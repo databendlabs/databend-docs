@@ -9,6 +9,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 import EEFeature from '@site/src/components/EEFeature';
 
+<EEFeature featureName='Dynamic Cluster'/>
+
 
 This topic explains how to manage scalable and flexible query warehouse through SQL on premise.
 
