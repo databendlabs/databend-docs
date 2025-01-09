@@ -10,7 +10,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='STREAM'/>
 
-描述特定 stream 的详细信息。
+描述特定流的详细信息。
 
 ## 语法
 

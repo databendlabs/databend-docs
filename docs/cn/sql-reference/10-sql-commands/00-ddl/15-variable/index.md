@@ -3,6 +3,6 @@ title: 变量
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-本页面提供了 Databend 中与变量相关的命令的参考信息。
+本页面提供 Databend 中与变量相关的命令参考信息。
 
 <IndexOverviewList />

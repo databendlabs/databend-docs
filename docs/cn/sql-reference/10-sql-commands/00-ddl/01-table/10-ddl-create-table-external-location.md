@@ -3,7 +3,7 @@ title: 创建外部表
 sidebar_position: 2
 ---
 
-`CREATE TABLE ... CONNECTION = (...)` 语句用于创建表，并指定一个 S3 兼容的存储桶来存储数据，而不是使用默认的本地存储。
+`CREATE TABLE ... CONNECTION = (...)` 语句用于创建表并指定一个 S3 兼容的存储桶来存储数据，而不是使用默认的本地存储。
 
 然后，fuse 表引擎表将存储在指定的 S3 兼容存储桶中。
 
@@ -43,7 +43,7 @@ CONNECTION = (
 | ACCESS_KEY_ID             	 | 用于连接 AWS S3 兼容对象存储的访问密钥 ID。如果未提供，Databend 将匿名访问存储桶。    	                                                                               | 可选 	 |
 | SECRET_ACCESS_KEY         	 | 用于连接 AWS S3 兼容对象存储的密钥访问密钥。 	                                                                                                                                            | 可选 	 |
 | REGION                    	 | AWS 区域名称。例如，us-east-1。                                    	                                                                                                                                            | 可选 	 |
-| ENABLE_VIRTUAL_HOST_STYLE 	 | 如果您使用虚拟主机来访问存储桶，请将其设置为 "true"。                               	                                                                                                                      | 可选 	 |
+| ENABLE_VIRTUAL_HOST_STYLE 	 | 如果使用虚拟主机来访问存储桶，请将其设置为 "true"。                               	                                                                                                                      | 可选 	 |
 
 有关 `CONNECTION_NAME` 的更多信息，请参阅 [CREATE CONNECTION](../13-connection/create-connection.md)
 
@@ -76,7 +76,7 @@ SET GLOBAL hide_options_in_show_create_table = 0;
 
 ### 创建带有外部位置的表
 
-创建一个表，并将数据存储在外部位置，例如 Amazon S3：
+创建一个表，数据存储在外部位置，如 Amazon S3：
 
 ```sql
 -- 创建一个名为 `mytable` 的表，并指定数据存储位置为 `s3://testbucket/admin/data/`

@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.371"/>
+<FunctionDescription description="引入或更新于：v1.2.371"/>
 
 ALTER TASK 语句用于修改现有任务。
 
@@ -39,9 +39,9 @@ ALTER TASK [ IF EXISTS ] <name> MODIFY WHEN <boolean_expr>
 | IF EXISTS                        | 可选。如果指定，仅当存在同名任务时才会修改任务。 |
 | name                             | 任务的名称。这是一个必填字段。                                                       |
 | RESUME \| SUSPEND                | 恢复或暂停任务。                                                                          |
-| SET                              | 更改任务设置。详细参数描述请参见 [创建任务](01-ddl-create_task.md)。                                                                               |
+| SET                              | 更改任务设置。详细参数描述请参见 [Create Task](01-ddl-create_task.md)。                                                                               |
 | MODIFY AS                        | 更改任务 SQL。                                                                                     |
-| REMOVE AFTER | 从任务 DAG 中移除前置任务，如果没有任何前置任务，任务将变为独立任务或根任务。 |
+| REMOVE AFTER |  从任务 DAG 中移除前置任务，如果没有前置任务，任务将变为独立任务或根任务。 |
 | ADD AFTER | 向任务 DAG 中添加前置任务。 |
 | MODIFY WHEN | 更改任务执行条件。 |
 
@@ -57,14 +57,14 @@ ALTER TASK IF EXISTS mytask SET
   WAREHOUSE = 'new_warehouse'
   SCHEDULE = USING CRON '0 12 * * * *' 'UTC';
 ```
-此示例修改了 mytask 任务，将其计算集群更改为 new_warehouse，并将其计划更新为每天中午 UTC 运行。
+此示例修改了 mytask 任务，将其计算集群更改为 new_warehouse，并将其计划更新为每天中午 UTC 时间运行。
 
 ```sql
 ALTER TASK IF EXISTS mytask MODIFY 
 AS
 INSERT INTO new_table SELECT * FROM source_table;
 ```
-在此示例中，mytask 任务执行的 SQL 语句被更改为将数据从 source_table 插入到 new_table。
+在此示例中，mytask 执行的 SQL 语句被更改为将数据从 source_table 插入到 new_table。
 
 ```sql
 ALTER TASK mytaskchild MODIFY WHEN STREAM_STATUS('stream3') = False;

@@ -6,13 +6,13 @@ title: 表
 
 ## 表创建要点
 
-在继续创建表之前，建议您熟悉以下主题。
+在继续创建表之前，最好先熟悉以下主题。
 
 ### 1. 理解表类型
 
 Databend 根据其时间回溯支持支持两种类型的表：
 
-- **常规表（默认）**：这些表天生支持时间回溯，允许您追踪和检索历史数据。此功能对于数据分析和审计非常有价值。
+- **常规表（默认）**：这些表固有地支持时间回溯，允许您追踪和检索历史数据。此功能对于数据分析和审计非常有价值。
 
 - **临时表**：相比之下，临时表不支持时间回溯。它们设计用于不需要历史数据追踪的场景。要创建临时表，您必须在 [CREATE TABLE](10-ddl-create-table.md) 命令中明确指定关键字 TRANSIENT。有关更多信息，请参阅 [CREATE TRANSIENT TABLE](10-ddl-create-table.md#create-transient-table)。
 
@@ -32,7 +32,7 @@ Databend 还提供了通过复制现有表的列结构甚至数据来创建表�
 
 ### 4. 为大表设置集群键
 
-[集群键](../06-clusterkey/index.md)旨在通过物理上组织数据来提高查询性能。Databend 建议为遇到查询性能缓慢的大表配置集群键。有关在表创建期间设置集群键的语法，请参阅 [SET CLUSTER KEY](../06-clusterkey/dml-set-cluster-key.md)。
+[集群键](../06-clusterkey/index.md) 旨在通过物理上组织数据来提高查询性能。Databend 建议为遇到查询性能缓慢的大表配置集群键。有关在表创建期间设置集群键的语法，请参阅 [SET CLUSTER KEY](../06-clusterkey/dml-set-cluster-key.md)。
 
 ## 常规表维护
 
@@ -44,7 +44,7 @@ Databend 还提供了通过复制现有表的列结构甚至数据来创建表�
 - [SHOW DROP TABLES](show-drop-tables.md)：列出当前或指定数据库中删除的表。
 - [SHOW TABLE STATUS](show-table-status.md)：显示数据库中表的状态。
 - [SHOW TABLES](show-tables.md)：列出当前或指定数据库中的表。
-- [ALTER TABLE COLUMN](90-alter-table-column.md)：通过更改列来修改表的结构。
+- [ALTER TABLE COLUMN](90-alter-table-column.md)：通过更改表的列来修改表的结构。
 - [ALTER TABLE OPTION](90-alter-table-option.md)：修改表的 Fuse 引擎 [选项](../../../00-sql-reference/30-table-engines/00-fuse.md#options)。
 - [RENAME TABLE](30-ddl-rename-table.md)：更改表的名称。
 

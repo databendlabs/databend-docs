@@ -1,5 +1,5 @@
 ---
-title: 创建文件格式
+title: CREATE FILE FORMAT
 sidebar_position: 1
 ---
 
@@ -15,7 +15,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 CREATE [ OR REPLACE ] FILE FORMAT [ IF NOT EXISTS ] <format_name> FileFormatOptions
 ```
 
-有关 `FileFormatOptions` 的详细信息，请参阅[输入与输出文件格式](../../../00-sql-reference/50-file-format-options.md)。
+有关 `FileFormatOptions` 的详细信息，请参阅 [输入 & 输出文件格式](../../../00-sql-reference/50-file-format-options.md)。
 
 ## 示例
 

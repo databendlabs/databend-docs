@@ -5,9 +5,9 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 ### 什么是连接？
 
-在 Databend 中，连接指的是一个指定的配置，它封装了与外部存储服务交互所需的详细信息。它作为一组集中且可重用的参数，例如访问凭证、端点 URL 和存储类型，便于 Databend 与各种存储服务的集成。
+在 Databend 中，连接指的是一个指定的配置，它封装了与外部存储服务交互所需的详细信息。它作为一组集中且可重用的参数，如访问凭证、端点 URL 和存储类型，便于 Databend 与各种存储服务的集成。
 
-连接可用于创建外部 Stage、外部表以及附加表，提供了一种流线化和模块化的方法来管理和访问通过 Databend 存储在外部存储服务中的数据。有关示例，请参见[使用示例](#usage-examples)。
+连接可用于创建外部 Stage、外部表和附加表，提供了一种流线化和模块化的方法来管理和访问通过 Databend 存储在外部存储服务中的数据。请参阅[使用示例](#usage-examples)以获取示例。
 
 ### 管理连接
 
@@ -17,9 +17,9 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 ### 使用示例
 
-本节中的示例首先创建了一个连接，其中包含连接到 Amazon S3 所需的凭证。随后，它们利用这个已建立的连接来创建一个外部 Stage 并附加一个现有表。
+本节中的示例首先创建一个连接，其中包含连接到 Amazon S3 所需的凭证。随后，它们利用这个已建立的连接来创建一个外部 Stage 并附加一个现有表。
 
-以下语句启动了一个到 Amazon S3 的连接，指定了必要的连接参数：
+以下语句启动了一个连接到 Amazon S3 的连接，指定了必要的连接参数：
 
 ```sql
 CREATE CONNECTION toronto 

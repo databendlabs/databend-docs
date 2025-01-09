@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.371"/>
+<FunctionDescription description="引入或更新于：v1.2.371"/>
 
 EXECUTE TASK 语句用于手动执行现有任务
 
@@ -29,4 +29,4 @@ EXECUTE TASK  <name>
 EXECUTE TASK  mytask;
 ```
 
-该命令执行名为 mytask 的任务。
+此命令执行名为 mytask 的任务。

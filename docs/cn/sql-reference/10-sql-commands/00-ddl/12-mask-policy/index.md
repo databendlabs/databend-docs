@@ -9,3 +9,4 @@ import EEFeature from '@site/src/components/EEFeature';
 本页面提供了 Databend 中数据脱敏策略命令的参考信息。有关数据脱敏策略的更多信息，请参阅[数据脱敏策略](/guides/security/masking-policy)。
 
 <IndexOverviewList />
+{/*examples*/}

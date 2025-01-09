@@ -28,7 +28,7 @@ CREATE [ OR REPLACE ] PASSWORD POLICY [ IF NOT EXISTS ] <policy_name>
 
 ### 密码策略属性
 
-下表总结了密码策略的关键参数，涵盖了长度、字符要求、年龄限制、重试限制、锁定时长和密码历史等方面：
+下表总结了密码策略的关键参数，涵盖了长度、字符要求、年龄限制、重试限制、锁定时间和密码历史等方面：
 
 | 属性                     | 最小值 | 最大值 | 默认值 | 描述                                                                          |
 |-------------------------------|-----|-----|---------|--------------------------------------------------------------------------------------|
@@ -41,12 +41,12 @@ CREATE [ OR REPLACE ] PASSWORD POLICY [ IF NOT EXISTS ] <policy_name>
 | PASSWORD_MIN_AGE_DAYS         | 0   | 999 | 0       | 密码修改前的最小天数（0 表示无限制）  |
 | PASSWORD_MAX_AGE_DAYS         | 0   | 999 | 90      | 密码修改前的最大天数（0 表示无限制） |
 | PASSWORD_MAX_RETRIES          | 1   | 10  | 5       | 锁定前的最大密码重试次数                                    |
-| PASSWORD_LOCKOUT_TIME_MINS    | 1   | 999 | 15      | 超过重试次数后的锁定时长（分钟）                               |
+| PASSWORD_LOCKOUT_TIME_MINS    | 1   | 999 | 15      | 超过重试次数后的锁定时间（分钟）                               |
 | PASSWORD_HISTORY              | 0   | 24  | 0       | 检查重复的最近密码数量（0 表示无限制）     |
 
 ## 示例
 
-以下示例创建了一个名为 'SecureLogin' 的密码策略，并将密码的最小长度要求设置为 10 个字符：
+此示例创建了一个名为 'SecureLogin' 的密码策略，并将密码的最小长度要求设置为 10 个字符：
 
 ```sql
 CREATE PASSWORD POLICY SecureLogin

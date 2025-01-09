@@ -3,7 +3,7 @@ title: SHOW TABLE FUNCTIONS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.190"/>
+<FunctionDescription description="引入或更新版本：v1.2.190"/>
 
 显示当前支持的表函数列表。
 

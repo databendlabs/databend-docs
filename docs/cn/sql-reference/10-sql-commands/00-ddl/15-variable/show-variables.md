@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.634"/>
 
-显示所有会话变量及其详细信息，例如名称、值和类型。
+显示所有会话变量及其详细信息，如名称、值和类型。
 
 另请参阅：[SHOW_VARIABLES](/sql/sql-functions/table-functions/show-variables)
 

@@ -4,23 +4,23 @@ title: MERGE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.241"/>
+<FunctionDescription description="引入或更新于：v1.2.241"/>
 
-根据语句中指定的条件和匹配标准，对目标表中的行执行INSERT、UPDATE或DELETE操作，使用指定源中的数据。
+根据语句中指定的条件和匹配标准，使用指定源的数据对目标表中的行执行 INSERT、UPDATE 或 DELETE 操作。
 
-数据源（可以是子查询）通过JOIN表达式与目标数据链接。该表达式评估源中的每一行是否能在目标表中找到匹配，然后确定在下一步执行中应进入哪种类型（MATCHED或NOT MATCHED）的子句。
+数据源可以是子查询，通过 JOIN 表达式与目标数据链接。该表达式评估源中的每一行是否能在目标表中找到匹配项，然后确定在下一步执行中应移动到哪种类型的子句（MATCHED 或 NOT MATCHED）。
 
 ![Alt text](/img/sql/merge-into-single-clause.jpeg)
 
-MERGE语句通常包含一个MATCHED和/或NOT MATCHED子句，指示Databend如何处理匹配和不匹配的情况。对于MATCHED子句，您可以选择对目标表执行UPDATE或DELETE操作。相反，对于NOT MATCHED子句，可用的选择是INSERT。
+MERGE 语句通常包含一个 MATCHED 和/或一个 NOT MATCHED 子句，指示 Databend 如何处理匹配和不匹配的情况。对于 MATCHED 子句，您可以选择在目标表上执行 UPDATE 或 DELETE 操作。相反，对于 NOT MATCHED 子句，可用的选择是 INSERT。
 
-## 多个MATCHED & NOT MATCHED子句
+## 多个 MATCHED & NOT MATCHED 子句
 
-MERGE语句可以包含多个MATCHED和/或NOT MATCHED子句，使您能够根据MERGE操作中满足的条件指定不同的操作。
+MERGE 语句可以包含多个 MATCHED 和/或 NOT MATCHED 子句，使您能够根据 MERGE 操作期间满足的条件指定不同的操作。
 
 ![Alt text](/img/sql/merge-into-multi-clause.jpeg)
 
-如果MERGE语句包含多个MATCHED子句，则需要为除最后一个子句外的每个子句指定条件。这些条件决定了相关操作的执行标准。Databend按指定顺序评估条件。一旦满足条件，它将触发指定的操作，跳过任何剩余的MATCHED子句，然后继续处理源中的下一行。如果MERGE语句还包含多个NOT MATCHED子句，Databend以类似的方式处理它们。
+如果 MERGE 语句包含多个 MATCHED 子句，则需要为每个子句（最后一个除外）指定条件。这些条件决定了在什么情况下执行相关操作。Databend 按指定顺序评估条件。一旦条件满足，就会触发指定的操作，跳过任何剩余的 MATCHED 子句，然后继续处理源中的下一行。如果 MERGE 语句还包含多个 NOT MATCHED 子句，Databend 会以类似的方式处理它们。
 
 ## 语法
 
@@ -37,36 +37,36 @@ notMatchedClause ::=
   { INSERT ( <col_name> [ , <col_name2> ... ] ) VALUES ( <expr> [ , ... ] ) | INSERT * }
 ```
 
-| 参数 | 描述                                                                                                                                                                                                                                                                                                   |
+| 参数      | 描述                                                                                                                                                                                                                                                                                                   |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| UPDATE \* | 使用源中相应行的值更新目标表中匹配行的所有列。这要求源和目标之间的列名一致（尽管它们的顺序可以不同），因为在更新过程中，匹配是基于列名进行的。 |
-| INSERT \* | 使用源行的值将新行插入目标表。                                                                                                                                                                                                                                      |
+| UPDATE \* | 使用源中对应行的值更新目标表中匹配行的所有列。这要求源和目标之间的列名一致（尽管顺序可以不同），因为在更新过程中，匹配是基于列名进行的。 |
+| INSERT \* | 使用源行的值向目标表插入新行。                                                                                                                                                                                                                                      |
 
 ## 输出
 
-MERGE提供数据合并结果的摘要，包含以下列：
+MERGE 提供数据合并结果的摘要，包含以下列：
 
-| 列 | 描述 |
+| 列                  | 描述                                          |
 | ----------------------- | ---------------------------------------------------- |
-| number of rows inserted | 添加到目标表的新行数。 |
-| number of rows updated | 目标表中修改的现有行数。 |
-| number of rows deleted | 从目标表中删除的行数。 |
+| number of rows inserted | 添加到目标表的新行数。         |
+| number of rows updated  | 目标表中修改的现有行数。 |
+| number of rows deleted  | 从目标表中删除的行数。         |
 
 ## 示例
 
-### 示例1: 带有多个MATCHED子句的合并
+### 示例 1：使用多个 MATCHED 子句进行合并
 
-此示例使用MERGE将员工数据从'employees'同步到'salaries'，根据指定标准插入和更新薪资信息。
+此示例使用 MERGE 将 'employees' 中的员工数据同步到 'salaries' 中，允许根据指定条件插入和更新薪资信息。
 
 ```sql
--- 创建'employees'表作为合并的源
+-- 创建 'employees' 表作为合并的源
 CREATE TABLE employees (
     employee_id INT,
     employee_name VARCHAR(255),
     department VARCHAR(255)
 );
 
--- 创建'salaries'表作为合并的目标
+-- 创建 'salaries' 表作为合并的目标
 CREATE TABLE salaries (
     employee_id INT,
     salary DECIMAL(10, 2)
@@ -84,9 +84,9 @@ INSERT INTO salaries VALUES
     (1, 50000.00),
     (2, 60000.00);
 
--- 启用MERGE INTO
+-- 启用 MERGE INTO
 
--- 根据'employees'中的员工详情将数据合并到'salaries'
+-- 根据 'employees' 中的员工详情将数据合并到 'salaries' 中
 MERGE INTO salaries
     USING (SELECT * FROM employees) AS employees
     ON salaries.employee_id = employees.employee_id
@@ -106,7 +106,7 @@ MERGE INTO salaries
 │                      2  │                      2 │
 └──────────────────────────────────────────────────┘
 
--- 合并后从'salaries'表中检索所有记录
+-- 合并后从 'salaries' 表中检索所有记录
 SELECT * FROM salaries;
 
 ┌────────────────────────────────────────────┐
@@ -119,12 +119,12 @@ SELECT * FROM salaries;
 └────────────────────────────────────────────┘
 ```
 
-### 示例2: 带有UPDATE \* & INSERT \*的合并
+### 示例 2：使用 UPDATE \* & INSERT \* 进行合并
 
-此示例使用MERGE在target_table和source_table之间同步数据，使用源中的值更新匹配行并插入不匹配的行。
+此示例使用 MERGE 同步 target_table 和 source_table 之间的数据，使用源中的值更新匹配的行，并插入不匹配的行。
 
 ```sql
--- 创建目标表target_table
+-- 创建目标表 target_table
 CREATE TABLE target_table (
     ID INT,
     Name VARCHAR(50),
@@ -132,14 +132,14 @@ CREATE TABLE target_table (
     City VARCHAR(50)
 );
 
--- 向target_table插入初始数据
+-- 向 target_table 插入初始数据
 INSERT INTO target_table (ID, Name, Age, City)
 VALUES
     (1, 'Alice', 25, 'Toronto'),
     (2, 'Bob', 30, 'Vancouver'),
     (3, 'Carol', 28, 'Montreal');
 
--- 创建源表source_table
+-- 创建源表 source_table
 CREATE TABLE source_table (
     ID INT,
     Name VARCHAR(50),
@@ -147,16 +147,16 @@ CREATE TABLE source_table (
     City VARCHAR(50)
 );
 
--- 向source_table插入初始数据
+-- 向 source_table 插入初始数据
 INSERT INTO source_table (ID, Name, Age, City)
 VALUES
     (1, 'David', 27, 'Calgary'),
     (2, 'Emma', 29, 'Ottawa'),
     (4, 'Frank', 32, 'Edmonton');
 
--- 启用MERGE INTO
+-- 启用 MERGE INTO
 
--- 将source_table中的数据合并到target_table
+-- 将 source_table 中的数据合并到 target_table 中
 MERGE INTO target_table AS T
     USING (SELECT * FROM source_table) AS S
     ON T.ID = S.ID
@@ -171,7 +171,7 @@ MERGE INTO target_table AS T
 │                      1  │                      2 │
 └──────────────────────────────────────────────────┘
 
--- 合并后从'target_table'中检索所有记录
+-- 合并后从 'target_table' 中检索所有记录
 SELECT * FROM target_table order by ID;
 
 ┌─────────────────────────────────────────────────────────────────────────┐

@@ -3,7 +3,7 @@ title: SHOW ROLES
 sidebar_position: 6
 ---
 
-列出当前用户分配的所有角色。
+列出分配给当前用户的所有角色。
 
 ## 语法
 

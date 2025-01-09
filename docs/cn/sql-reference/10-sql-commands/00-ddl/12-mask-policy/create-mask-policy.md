@@ -27,8 +27,8 @@ CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS
 | policy_name              	| 要创建的数据脱敏策略的名称。                                                                                          	|
 | arg_name_to_mask       	| 需要脱敏的原始数据参数的名称。                                                                      	|
 | arg_type_to_mask       	| 需要脱敏的原始数据参数的数据类型。                                                                            	|
-| expression_on_arg_name 	| 决定如何处理原始数据以生成脱敏数据的表达式。                                    	|
-| comment                   | 提供有关数据脱敏策略信息或注释的可选说明。                                                          	|
+| expression_on_arg_name 	| 决定如何对原始数据进行处理以生成脱敏数据的表达式。                                    	|
+| comment                   | 提供有关数据脱敏策略信息或注释的可选注释。                                                          	|
 
 :::note
 确保 *arg_type_to_mask* 与将应用数据脱敏策略的列的数据类型匹配。
@@ -36,7 +36,7 @@ CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS
 
 ## 示例
 
-此示例展示了如何根据用户角色设置数据脱敏策略，以选择性地显示或隐藏敏感数据。
+此示例演示了如何设置数据脱敏策略，以根据用户角色选择性地显示或隐藏敏感数据。
 
 ```sql
 -- 创建表并插入示例数据

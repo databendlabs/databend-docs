@@ -29,4 +29,4 @@ SHOW CREATE DICTIONARY courses_dict;
 )
 PRIMARY KEY course_id
 SOURCE(mysql(db='test' host='localhost' password='[HIDDEN]' port='3306' table='courses' username='root'))
-```{/*examples*/}
+```

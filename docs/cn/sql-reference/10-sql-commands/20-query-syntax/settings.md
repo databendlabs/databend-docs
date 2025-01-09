@@ -3,11 +3,11 @@ title: SETTINGS 子句
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.652"/>
+<FunctionDescription description="引入或更新版本：v1.2.652"/>
 
-SETTINGS 子句配置特定的设置，这些设置会影响其前面的 SQL 语句的执行行为。要查看 Databend 中可用的设置及其值，请使用 [SHOW SETTINGS](../50-administration-cmds/03-show-settings.md)。
+SETTINGS 子句用于配置特定的设置，这些设置会影响其前面的 SQL 语句的执行行为。要查看 Databend 中可用的设置及其值，请使用 [SHOW SETTINGS](../50-administration-cmds/03-show-settings.md)。
 
-另请参阅: [SET](../50-administration-cmds/02-set-global.md)
+另请参阅：[SET](../50-administration-cmds/02-set-global.md)
 
 ## 语法
 
@@ -32,7 +32,7 @@ SETTINGS 子句可以与以下 SQL 语句一起使用：
 
 ## 示例
 
-此示例展示了如何使用 SETTINGS 子句在 SELECT 查询中调整时区参数，影响 `now()` 显示的结果：
+此示例展示了如何使用 SETTINGS 子句调整 SELECT 查询中的时区参数，从而影响 `now()` 函数的显示结果：
 
 ```sql
 -- 当未设置时区时，Databend 默认使用 UTC，因此 now() 返回当前的 UTC 时间戳
@@ -54,7 +54,7 @@ SETTINGS (timezone = 'Asia/Shanghai') SELECT timezone(), now();
 │ Asia/Shanghai │ 2024-11-05 03:42:42.209404 │
 └────────────────────────────────────────────┘
 
--- 将时区设置为 America/Toronto 调整 now() 输出为多伦多的本地时间，反映东部时区（UTC-5 或夏令时期间的 UTC-4）。
+-- 将时区设置为 America/Toronto 会将 now() 的输出调整为多伦多的本地时间，反映东部时区（UTC-5 或夏令时期间的 UTC-4）。
 SETTINGS (timezone = 'America/Toronto') SELECT timezone(), now();
 
 ┌──────────────────────────────────────────────┐

@@ -4,14 +4,14 @@ sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.383"/>
+<FunctionDescription description="引入或更新版本：v1.2.383"/>
 
 返回视图的列列表。
 
 ## 语法
 
 ```sql
-DESC[RIBE] VIEW [<数据库名>.]<视图名>
+DESC[RIBE] VIEW [<数据库名称>.]<视图名称>
 ```
 
 ## 输出

@@ -1,13 +1,13 @@
 ---
-title: 创建视图
+title: CREATE VIEW
 sidebar_position: 1
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.339"/>
+<FunctionDescription description="引入或更新于：v1.2.339"/>
 
-基于查询创建一个新视图；逻辑视图不存储任何物理数据，当我们访问逻辑视图时，它会将 SQL 转换为子查询格式来完成。
+基于查询创建一个新的视图；逻辑视图不存储任何物理数据，当我们访问逻辑视图时，它会将 SQL 转换为子查询格式来完成。
 
 例如，如果你创建一个逻辑视图如下：
 
@@ -18,7 +18,7 @@ CREATE VIEW view_t1 AS SELECT a, b FROM t1;
 ```sql
 SELECT a FROM view_t1;
 ```
-结果等同于以下查询
+结果等同于以下查询：
 ```sql
 SELECT a FROM (SELECT a, b FROM t1);
 ```
@@ -28,7 +28,7 @@ SELECT a FROM (SELECT a, b FROM t1);
 ## 语法
 
 ```sql
-CREATE [ OR REPLACE ] VIEW [ IF NOT EXISTS ] [ db. ]view_name [ (<列>, ...) ] AS SELECT 查询
+CREATE [ OR REPLACE ] VIEW [ IF NOT EXISTS ] [ db. ]view_name [ (<column>, ...) ] AS SELECT query
 ```
 
 ## 示例

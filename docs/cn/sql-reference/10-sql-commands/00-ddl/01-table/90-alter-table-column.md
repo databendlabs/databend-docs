@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.415"/>
+<FunctionDescription description="引入或更新版本：v1.2.415"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -36,7 +36,7 @@ ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
 -- 更改数据类型和/或注释
--- 如果只想修改或添加列的注释，仍然必须在命令中指定该列的当前数据类型
+-- 如果只想修改或添加列的注释，仍必须在命令中指定该列的当前数据类型
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
 MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ]
        [ , [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ] ]
@@ -55,10 +55,10 @@ DROP [ COLUMN ] <column_name>
 ```
 
 :::note
-- 在添加或修改列时，只能接受常量值作为默认值。如果使用非常量表达式，将会报错。
+- 添加或修改列时，只能接受常量值作为默认值。如果使用非常量表达式，将会报错。
 - 目前不支持通过 ALTER TABLE 添加存储的计算列。
-- 当更改表列的数据类型时，存在转换错误的风险。例如，如果尝试将包含文本（String）的列转换为数字（Float），可能会导致问题。
-- 当为列设置脱敏策略时，请确保策略中定义的数据类型（参考 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的参数 *arg_type_to_mask*）与列的数据类型匹配。
+- 更改表列的数据类型时，存在转换错误的风险。例如，如果尝试将包含文本（String）的列转换为数字（Float），可能会导致问题。
+- 为列设置脱敏策略时，请确保策略中定义的数据类型（参考 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的 *arg_type_to_mask* 参数）与列的数据类型匹配。
 :::
 
 ## 示例
@@ -181,7 +181,7 @@ ID | Name          | BirthYear | Age
 
 ### 示例 3：转换计算列
 
-此示例创建了一个名为 "products" 的表，包含 ID、price、quantity 和计算列 "total_price"。ALTER TABLE 语句从 "total_price" 列中删除计算功能，将其转换为普通列。
+此示例创建了一个名为 "products" 的表，包含 ID、price、quantity 和一个计算列 "total_price"。ALTER TABLE 语句删除了 "total_price" 列的计算功能，将其转换为普通列。
 
 ```sql
 CREATE TABLE IF NOT EXISTS products (

@@ -2,18 +2,18 @@
 title: SET_VAR
 ---
 
-SET_VAR 用于在单个 SQL 语句中指定优化器提示，从而更精细地控制该特定语句的执行计划。这包括：
+SET_VAR 用于在单个 SQL 语句中指定优化器提示，允许对该特定语句的执行计划进行更精细的控制。这包括：
 
 :::note
 SET_VAR 将在未来的版本中弃用。请考虑使用 [SETTINGS 子句](../20-query-syntax/settings.md) 作为替代。
 :::
 
-- 临时配置设置，仅影响 SQL 语句执行期间。需要注意的是，使用 SET_VAR 指定的设置仅会影响当前执行的语句结果，而不会对整体数据库配置产生持久影响。有关可以使用 SET_VAR 配置的可用设置列表，请参见 [SHOW SETTINGS](03-show-settings.md)。要了解其工作原理，请参阅以下示例：
+- 临时配置设置，仅影响 SQL 语句执行的持续时间。需要注意的是，使用 SET_VAR 指定的设置仅会影响当前执行的语句结果，而不会对整体数据库配置产生持久影响。有关可以使用 SET_VAR 配置的可用设置列表，请参见 [SHOW SETTINGS](03-show-settings.md)。要了解其工作原理，请参见以下示例：
 
-    - [示例 1：临时设置时区](#示例-1临时设置时区)
-    - [示例 2：控制 COPY INTO 的并行处理](#示例-2控制-copy-into-的并行处理)
+    - [示例 1：临时设置时区](#示例-1-临时设置时区)
+    - [示例 2：控制 COPY INTO 的并行处理](#示例-2-控制-copy-into-的并行处理)
 
-- 使用标签 *deduplicate_label* 控制 [INSERT](../10-dml/dml-insert.md)、[UPDATE](../10-dml/dml-update.md) 或 [REPLACE](../10-dml/dml-replace.md) 操作的去重行为。对于 SQL 语句中带有 deduplicate_label 的操作，Databend 仅执行第一条语句，后续具有相同 deduplicate_label 值的语句将被忽略，无论其预期的数据修改如何。请注意，一旦设置了 deduplicate_label，它将在 24 小时内保持有效。要了解 deduplicate_label 如何协助去重，请参见 [示例 3：设置去重标签](#示例-3设置去重标签)。
+- 使用标签 *deduplicate_label* 控制 [INSERT](../10-dml/dml-insert.md)、[UPDATE](../10-dml/dml-update.md) 或 [REPLACE](../10-dml/dml-replace.md) 操作的去重行为。对于 SQL 语句中带有 deduplicate_label 的操作，Databend 仅执行第一条语句，后续具有相同 deduplicate_label 值的语句将被忽略，无论其预期的数据修改是什么。请注意，一旦设置了 deduplicate_label，它将持续生效 24 小时。要了解 deduplicate_label 如何协助去重，请参见 [示例 3：设置去重标签](#示例-3-设置去重标签)。
 
 另请参阅：
 - [SETTINGS 子句](../20-query-syntax/settings.md)
@@ -28,7 +28,7 @@ SET_VAR 将在未来的版本中弃用。请考虑使用 [SETTINGS 子句](../20
 - 提示必须紧跟在 [SELECT](../20-query-syntax/01-query-select.md)、[INSERT](../10-dml/dml-insert.md)、[UPDATE](../10-dml/dml-update.md)、[REPLACE](../10-dml/dml-replace.md)、[MERGE](../10-dml/dml-merge.md)、[DELETE](../10-dml/dml-delete-from.md) 或 [COPY](../10-dml/dml-copy-into-table.md) (INTO) 关键字之后，这些关键字用于开始 SQL 语句。
 - 一个 SET_VAR 只能包含一个 Key=Value 对，这意味着你只能使用一个 SET_VAR 配置一个设置。但是，你可以使用多个 SET_VAR 提示来配置多个设置。
     - 如果多个 SET_VAR 提示包含相同的键，将应用第一个 Key=Value 对。
-    - 如果某个键无法解析或绑定，所有提示将被忽略。
+    - 如果某个键解析或绑定失败，所有提示都将被忽略。
 
 ## 示例
 
@@ -80,7 +80,7 @@ SELECT
 ```
 ### 示例 2：控制 COPY INTO 的并行处理
 
-在 Databend 中，*max_threads* 设置指定了可以用于执行请求的最大线程数。默认情况下，此值通常设置为与机器上可用的 CPU 核心数匹配。
+在 Databend 中，*max_threads* 设置指定了可以用于执行请求的最大线程数。默认情况下，此值通常设置为与机器上可用的 CPU 核心数相匹配。
 
 在使用 COPY INTO 将数据加载到 Databend 时，你可以通过向 COPY INTO 命令注入提示并设置 *max_threads* 参数来控制并行处理能力。例如：
 

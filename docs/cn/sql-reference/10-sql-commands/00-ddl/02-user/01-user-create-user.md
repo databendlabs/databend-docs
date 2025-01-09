@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.566"/>
+<FunctionDescription description="引入或更新于：v1.2.566"/>
 
 创建一个 SQL 用户。
 
@@ -27,7 +27,7 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 
 - *auth_type* 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
 - 当 `MUST_CHANGE_PASSWORD` 设置为 `true` 时，新用户必须在首次登录时更改密码。用户可以使用 [ALTER USER](03-user-alter-user.md) 命令更改自己的密码。
-- 当你使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在性或自动将该角色授予用户。你必须显式地将角色授予用户，角色才会生效。
+- 当您使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在性或自动将角色授予用户。您必须显式地将角色授予用户，角色才会生效。
 - 当 `DISABLED` 设置为 `true` 时，新用户将处于禁用状态。处于此状态的用户无法登录 Databend，直到他们被启用。要启用或禁用已创建的用户，请使用 [ALTER USER](03-user-alter-user.md) 命令。
 
 ## 示例
@@ -75,7 +75,7 @@ SHOW USERS;
 
 1. 创建一个名为 'user1' 的用户，并将默认角色设置为 'manager'：
 
-```sql title='以用户 "root" 连接：'
+```sql title='以 "root" 用户连接：'
 SHOW ROLES;
 
 ┌───────────────────────────────────────────────────────────┐
@@ -94,7 +94,7 @@ GRANT ROLE developer TO user1;
 
 2. 使用 [SHOW ROLES](04-user-show-roles.md) 命令验证用户 "user1" 的默认角色：
 
-```sql title='以用户 "user1" 连接：'
+```sql title='以 "user1" 用户连接：'
 eric@Erics-iMac ~ % bendsql --user user1 --password abc123
 Welcome to BendSQL 0.9.3-db6b232(2023-10-26T12:36:55.578667000Z).
 Connecting to localhost:8000 as user user1.
@@ -167,7 +167,7 @@ Connected to Databend Query v1.2.424-nightly-d3a89f708d(rust-1.77.0-nightly-2024
 CREATE USER eric IDENTIFIED BY 'abc123' WITH MUST_CHANGE_PASSWORD = TRUE;
 ```
 
-2. 启动 BendSQL 并以新用户身份连接 Databend。连接后，你将看到一条消息，提示需要更改密码。
+2. 启动 BendSQL 并以新用户身份连接 Databend。连接后，您将看到一条消息，提示需要更改密码。
 
 ```bash
 MacBook-Air:~ eric$ bendsql -ueric -pabc123

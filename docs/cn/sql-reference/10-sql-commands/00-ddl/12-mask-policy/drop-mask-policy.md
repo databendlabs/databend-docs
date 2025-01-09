@@ -5,13 +5,13 @@ sidebar_position: 3
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.45"/>
+<FunctionDescription description="引入或更新于：v1.2.45"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MASKING POLICY'/>
 
-从 Databend 中删除现有的数据脱敏策略。当你删除一个数据脱敏策略时，它将从 Databend 中移除，并且其关联的脱敏规则将不再生效。请注意，在删除数据脱敏策略之前，请确保该策略未与任何列关联。
+从 Databend 中删除现有的脱敏策略。当你删除一个脱敏策略时，它将从 Databend 中移除，并且其关联的脱敏规则将不再生效。请注意，在删除脱敏策略之前，请确保该策略未与任何列关联。
 
 ## 语法
 

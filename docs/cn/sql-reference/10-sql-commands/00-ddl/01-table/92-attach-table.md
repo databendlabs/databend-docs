@@ -5,7 +5,7 @@ sidebar_position: 6
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.549"/>
+<FunctionDescription description="引入或更新版本：v1.2.549"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -13,7 +13,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 将现有表附加到另一个表。该命令将表的数据和模式从一个数据库移动到另一个数据库，但实际上并不复制数据。相反，它创建一个指向原始表数据的链接以访问数据。
 
-Attach Table 使您能够无缝地将云服务平台中的表连接到私有部署环境中已存在的表，而无需物理移动数据。这在您希望将数据从私有部署的 Databend 迁移到 [Databend Cloud](https://www.databend.com) 时特别有用，同时最大限度地减少数据传输开销。
+Attach Table 使您能够无缝地将云服务平台中的表连接到私有部署环境中已存在的表，而无需物理移动数据。这在您希望将数据从 Databend 的私有部署迁移到 [Databend Cloud](https://www.databend.com) 时特别有用，同时最大限度地减少数据传输开销。
 
 附加的表以 READ_ONLY 模式运行。在此模式下，源表中的更改会立即反映在附加表中。然而，附加表仅用于查询目的，不支持更新。这意味着在附加表上不允许执行 INSERT、UPDATE 和 DELETE 操作；只能执行 SELECT 查询。
 
@@ -48,11 +48,11 @@ CONNECTION = ( <connection_parameters> )
   timestamp           |2023-07-11 05:38:27.0                              |
   ```
 
-- `CONNECTION` 指定建立与存储源表数据的对象存储链接所需的连接参数。不同存储服务的连接参数根据其特定要求和认证机制而有所不同。有关更多信息，请参见 [连接参数](../../../00-sql-reference/51-connect-parameters.md)。
+- `CONNECTION` 指定建立与存储源表数据的对象存储的链接所需的连接参数。不同存储服务的连接参数根据其特定要求和认证机制而有所不同。有关更多信息，请参见 [连接参数](../../../00-sql-reference/51-connect-parameters.md)。
 
 ## 示例
 
-本示例展示了如何将 Databend Cloud 中的新表与 Databend 中的现有表链接，该表将数据存储在名为 "databend-toronto" 的 Amazon S3 存储桶中。
+本示例演示了如何将 Databend Cloud 中的新表与 Databend 中的现有表链接，该表将数据存储在名为 "databend-toronto" 的 Amazon S3 存储桶中。
 
 #### 步骤 1. 在 Databend 中创建表
 
@@ -84,7 +84,7 @@ SELECT * FROM FUSE_SNAPSHOT('default', 'population');
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-当您访问 Amazon S3 上的存储桶页面时，您会观察到数据被组织在路径 `databend-toronto` > `1` > `556` 中，如下所示：
+当您访问 Amazon S3 上的存储桶页面时，您会观察到数据组织在路径 `databend-toronto` > `1` > `556` 中，如下所示：
 
 ![Alt text](/img/sql/attach-table-2.png)
 

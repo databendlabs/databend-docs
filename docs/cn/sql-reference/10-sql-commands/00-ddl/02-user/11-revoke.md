@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 撤销特定数据库对象的权限、角色和所有权。这包括：
 
-- 从用户或角色中撤销权限。
+- 从用户或角色撤销权限。
 - 从用户或其他角色中移除角色。
 
 另请参阅：
@@ -62,16 +62,16 @@ privileges_level ::=
 ### 撤销角色
 
 ```sql
--- 从用户中撤销角色
+-- 从用户撤销角色
 REVOKE ROLE <role_name> FROM <user_name>
 
--- 从角色中撤销角色
+-- 从角色撤销角色
 REVOKE ROLE <role_name> FROM ROLE <role_name>
 ```
 
 ## 示例
 
-### 示例 1：从用户中撤销权限
+### 示例 1：从用户撤销权限
 
 创建用户：
 ```sql
@@ -92,7 +92,7 @@ SHOW GRANTS FOR user1;
 +---------------------------------------------------+
 ```
 
-从用户 `user1` 中撤销 `INSERT` 权限：
+从用户 `user1` 撤销 `INSERT` 权限：
 ```sql
 REVOKE INSERT ON default.* FROM user1;
 ```
@@ -106,7 +106,7 @@ SHOW GRANTS FOR user1;
 +--------------------------------------------+
 ```
 
-### 示例 2：从角色中撤销权限
+### 示例 2：从角色撤销权限
 
 将 `mydb` 数据库中所有现有表的 `SELECT,INSERT` 权限授予角色 `role1`：
 
@@ -130,7 +130,7 @@ SHOW GRANTS FOR ROLE role1;
 +--------------------------------------------+
 ```
 
-从角色 `role1` 中撤销 `INSERT` 权限：
+从角色 `role1` 撤销 `INSERT` 权限：
 ```sql
 REVOKE INSERT ON mydb.* FROM ROLE role1;
 ```
@@ -144,7 +144,7 @@ SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
 ```
 
-### 示例 3：从用户中撤销角色
+### 示例 3：从用户撤销角色
 
 ```sql
 REVOKE ROLE role1 FROM USER user1;

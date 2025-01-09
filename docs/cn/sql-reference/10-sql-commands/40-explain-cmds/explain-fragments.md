@@ -4,7 +4,7 @@ title: EXPLAIN FRAGMENTS
 
 显示 SQL 语句的分布式执行计划。
 
-此命令将 SQL 语句的执行计划转换为计划片段，您可以从中看到从 Databend 中检索所需数据的过程。
+该命令将 SQL 语句的执行计划转换为计划片段，您可以看到从 Databend 中检索所需数据的过程。
 
 ## 语法
 
@@ -32,5 +32,5 @@ EXPLAIN FRAGMENTS select COUNT() from numbers(10) GROUP BY number % 3;
 |     AggregatorFinal: groupBy=[[(number % 3)]], aggr=[[COUNT()]]                                                                                                             |
 |       Remote[receive fragment: 0]                                                                                                                                           |
 +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-11 rows in set (0.02 sec)
+11 行记录 (0.02 秒)
 ```

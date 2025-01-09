@@ -1,13 +1,13 @@
 ---
-title: WITH Stream Hints
+title: WITH Stream 提示
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.670"/>
+<FunctionDescription description="引入或更新于：v1.2.670"/>
 
 使用提示指定各种流配置选项，以控制流的处理方式。
 
-另请参阅: [WITH CONSUME](with-consume.md)
+另请参阅：[WITH CONSUME](with-consume.md)
 
 ## 语法
 
@@ -16,16 +16,16 @@ SELECT ...
 FROM <stream_name> WITH (<hint1> = <value1>[, <hint2> = <value2>, ...])
 ```
 
-以下列出了可用的提示，包括它们的描述和推荐的用法，以优化流处理:
+以下列出了可用的提示，包括它们的描述和优化流处理的推荐用法：
 
 | 提示             | 描述                                                                                                                                                                               |
 |------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `CONSUME`        | 指定此查询是否会消费流。默认为 `False`。                                                                                                                |
-| `MAX_BATCH_SIZE` | 定义从流中处理的每个批次的最大行数。<br/>- 如果未指定，则处理流中的所有行。<br/>- 不允许在同一事务中为同一流更改 `MAX_BATCH_SIZE`，否则会导致错误。<br/>- 对于有大量积压更改的流，例如当流长时间未被消费时，不建议设置 `MAX_BATCH_SIZE` 或使用较小的值，因为这可能会降低捕获效率。 |
+| `MAX_BATCH_SIZE` | 定义从流中处理的每批次的最大行数。<br/>- 如果未指定，则处理流中的所有行。<br/>- 在同一事务中更改同一流的 `MAX_BATCH_SIZE` 是不允许的，会导致错误。<br/>- 对于具有大量积压更改的流，例如当流长时间未被消费时，设置 `MAX_BATCH_SIZE` 或使用较小的值*不*推荐，因为它可能会降低捕获效率。 |
 
 ## 示例
 
-在演示之前，让我们创建一个表，在其上定义一个流，并插入两行数据。
+在演示之前，让我们创建一个表，定义一个流，并插入两行数据。
 
 ```sql
 CREATE TABLE t1(a int);
@@ -34,7 +34,7 @@ INSERT INTO t1 values(1);
 INSERT INTO t1 values(2);
 ```
 
-以下演示了 `MAX_BATCH_SIZE` 提示如何影响查询流时每个批次处理的行数。将 `MAX_BATCH_SIZE` 设置为 1 时，每个批次包含一行，而将其设置为 2 时，则在一个批次中处理两行。
+以下演示了 `MAX_BATCH_SIZE` 提示在查询流时如何影响每批次处理的行数。将 `MAX_BATCH_SIZE` 设置为 1 时，每批次包含一行，而将其设置为 2 时，则在一个批次中处理两行。
 
 ```sql
 SELECT * FROM s WITH (CONSUME = FALSE, MAX_BATCH_SIZE = 1);
@@ -55,7 +55,7 @@ SELECT * FROM s WITH (CONSUME = FALSE, MAX_BATCH_SIZE = 2);
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-以下展示了在查询流时 `CONSUME` 提示的操作方式。将 `CONSUME = TRUE` 和 `MAX_BATCH_SIZE = 1` 设置时，每个查询从流中消费一行。
+以下展示了 `CONSUME` 提示在查询流时的操作方式。当 `CONSUME = TRUE` 且 ` MAX_BATCH_SIZE = 1` 时，每次查询消费流中的一行。
 
 ```sql
 SELECT * FROM s WITH (CONSUME = TRUE, MAX_BATCH_SIZE = 1);

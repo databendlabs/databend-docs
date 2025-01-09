@@ -11,10 +11,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ```sql
 -- 移除一个变量
-UNSET VARIABLE <变量名>
+UNSET VARIABLE <variable_name>
 
 -- 移除多个变量
-UNSET VARIABLE (<变量1>, <变量2>, ...)
+UNSET VARIABLE (<variable1>, <variable2>, ...)
 ```
 
 ## 示例

@@ -6,7 +6,7 @@ title: DDL（数据定义语言）命令
 
 ## 数据库和表管理
 
-- [数据库](00-database/index.md)
+- [数据库](00-database/index.md) 
 - [表](01-table/index.md)
 - [视图](05-view/index.md)
 

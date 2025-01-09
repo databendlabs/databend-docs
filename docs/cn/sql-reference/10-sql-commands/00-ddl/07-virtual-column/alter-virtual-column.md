@@ -9,7 +9,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='VIRTUAL COLUMN'/>
+<EEFeature featureName='虚拟列'/>
 
 修改表的虚拟列。请注意，修改表的虚拟列后，请使用 [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) 命令刷新它们。
 

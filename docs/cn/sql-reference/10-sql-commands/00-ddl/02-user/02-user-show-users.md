@@ -2,7 +2,7 @@
 title: SHOW USERS
 sidebar_position: 3
 ---
-import FunctionDescription from '@site/src/components/FunctionDescription';
+import FunctionDescription from '@site/src/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.644"/>
 

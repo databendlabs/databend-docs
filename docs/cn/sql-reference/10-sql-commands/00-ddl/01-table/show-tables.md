@@ -4,12 +4,12 @@ sidebar_position: 15
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.415"/>
+<FunctionDescription description="引入或更新于：v1.2.415"/>
 
 列出当前或指定数据库中的表。
 
 :::note
-从版本 1.2.415 开始，SHOW TABLES 命令的结果不再包含视图。要显示视图，请使用 [SHOW VIEWS](../05-view/show-views.md)。
+从版本 1.2.415 开始，SHOW TABLES 命令的结果中不再包含视图。要显示视图，请使用 [SHOW VIEWS](../05-view/show-views.md)。
 :::
 
 另请参阅：[system.tables](../../../00-sql-reference/20-system-tables/system-tables.md)
@@ -27,7 +27,7 @@ SHOW [ FULL ] TABLES
 |-----------|-----------------------------------------------------------------------------------------------------------------------------|
 | FULL      | 列出带有附加信息的结果。详见 [示例](#examples)。                                  |
 | FROM / IN | 指定一个数据库。如果省略，则返回当前数据库的结果。                                |
-| HISTORY   | 显示在保留期内（默认 24 小时）删除表的时间戳。如果表尚未被删除，`drop_time` 的值为 NULL。 |
+| HISTORY   | 显示在保留期内（默认为 24 小时）删除表的时间戳。如果表尚未被删除，`drop_time` 的值为 NULL。 |
 | LIKE      | 使用区分大小写的模式匹配过滤结果名称。                                                   |
 | WHERE     | 使用 WHERE 子句中的表达式过滤结果。                                                                |
 
@@ -63,7 +63,7 @@ SHOW FULL TABLES;
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-以下示例展示了当存在可选参数 HISTORY 时，结果将包含已删除的表：
+以下示例展示了当存在可选参数 HISTORY 时，结果将包括已删除的表：
 
 ```sql
 DROP TABLE products;
@@ -102,7 +102,7 @@ SHOW TABLES LIKE '%time';
 └───────────────────┘
 
 -- 区分大小写的模式匹配。
--- 如果按以下方式编写上述语句，将不会返回任何结果：
+-- 如果按以下方式编写前面的语句，将不会返回结果：
 SHOW TABLES LIKE '%TIME';
 ```
 

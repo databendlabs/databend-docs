@@ -9,11 +9,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='INVERTED INDEX'/>
+<EEFeature featureName='倒排索引'/>
 
 在 Databend 中刷新倒排索引。在以下场景中，倒排索引需要刷新：
 
-- 当数据在创建倒排索引之前插入到表中时，创建后需要手动刷新倒排索引，以有效索引插入的数据。
+- 当在创建倒排索引之前向表中插入了数据时，创建后需要手动刷新倒排索引，以有效索引插入的数据。
 - 当倒排索引遇到问题或损坏时，需要刷新。如果倒排索引由于某些块的倒排索引文件损坏而中断，查询如 `where match(body, 'wiki')` 将返回错误。在这种情况下，您需要刷新倒排索引以修复问题。
 
 ## 语法

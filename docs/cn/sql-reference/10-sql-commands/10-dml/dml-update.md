@@ -1,19 +1,19 @@
 ---
-title: UPDATE
+title: 更新
 ---
 
-修改表中的行以使用新值。
+使用新值修改表中的行。
 
 :::tip 原子操作
-Databend 通过原子操作确保数据完整性。插入、更新、替换和删除要么完全成功，要么完全失败。
+Databend 通过原子操作确保数据完整性。插入、更新、替换和删除操作要么完全成功，要么完全失败。
 :::
 
 ## 语法
 
 ```sql
-UPDATE <table_name>
-SET <col_name> = <value> [ , <col_name> = <value> , ... ]
-    [ WHERE <condition> ]
+UPDATE <表名>
+SET <列名> = <值> [ , <列名> = <值> , ... ]
+    [ WHERE <条件> ]
 ```
 
 ## 示例
@@ -32,7 +32,7 @@ INSERT INTO bookstore VALUES (103, 'The long answer');
 INSERT INTO bookstore VALUES (104, 'Wartime friends');
 INSERT INTO bookstore VALUES (105, 'Deconstructed');
 
--- 更新前的表
+-- 更新前显示表内容
 SELECT * FROM bookstore;
 
 101|After the death of Don Juan
@@ -44,7 +44,7 @@ SELECT * FROM bookstore;
 -- 更新一本书 (Id: 103)
 UPDATE bookstore SET book_name = 'The long answer (2nd)' WHERE book_id = 103;
 
--- 更新后的表
+-- 更新后再次显示表内容
 SELECT * FROM bookstore;
 
 101|After the death of Don Juan

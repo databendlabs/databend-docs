@@ -45,8 +45,8 @@ ALTER USER <name> WITH DISABLED = true | false
 ```
 
 - *auth_type* 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
-- 当 `MUST_CHANGE_PASSWORD` 设置为 `true` 时，用户必须在下次登录时更改密码。请注意，这仅对自账户创建以来从未更改过密码的用户生效。如果用户曾经自己更改过密码，则无需再次更改。
-- 当您使用 [CREATE USER](01-user-create-user.md) 或 ALTER USER 为用户设置默认角色时，Databend 不会验证角色的存在性或自动将该角色授予用户。您必须明确将角色授予用户，角色才能生效。
+- 当 `MUST_CHANGE_PASSWORD` 设置为 `true` 时，用户必须在下次登录时更改密码。请注意，这仅对自账户创建以来从未更改过密码的用户生效。如果用户曾经自行更改过密码，则无需再次更改。
+- 当您使用 [CREATE USER](01-user-create-user.md) 或 ALTER USER 为用户设置默认角色时，Databend 不会验证角色的存在性或自动将角色授予用户。您必须明确将角色授予用户，角色才能生效。
 - `DISABLED` 允许您启用或禁用用户。被禁用的用户无法登录 Databend，直到他们被启用。点击[此处](01-user-create-user.md#example-5-creating-user-in-disabled-state)查看示例。
 
 ## 示例
@@ -105,7 +105,7 @@ ALTER USER user1 WITH UNSET NETWORK POLICY;
 
 1. 创建一个名为 "user1" 的用户，并将默认角色设置为 "writer"：
 
-```sql title='以用户 "root" 身份连接：'
+```sql title='以用户 "root" 连接：'
 
 root@localhost:8000/default> CREATE USER user1 IDENTIFIED BY 'abc123';
 
@@ -134,7 +134,7 @@ ALTER user user1 WITH DEFAULT_ROLE = 'writer'
 
 2. 使用 [SHOW ROLES](04-user-show-roles.md) 命令验证用户 "user1" 的默认角色：
 
-```sql title='以用户 "user1" 身份连接：'
+```sql title='以用户 "user1" 连接：'
 eric@Erics-iMac ~ % bendsql --user user1 --password abc123
 Welcome to BendSQL 0.9.3-db6b232(2023-10-26T12:36:55.578667000Z).
 Connecting to localhost:8000 as user user1.

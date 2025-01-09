@@ -7,7 +7,7 @@ sidebar_position: 4
 
 另请参阅：
 
-- [LIST_STAGE](../../../20-sql-functions/17-table-functions/03-list-stage.md)：该函数列出 Stage 中的文件，并允许您根据文件扩展名过滤文件，并获取每个文件的详细信息。
+- [LIST_STAGE](../../../20-sql-functions/17-table-functions/03-list-stage.md)：此函数列出 Stage 中的文件，并允许您根据文件扩展名过滤文件，并获取每个文件的详细信息。
 - [PRESIGN](presign.md)：Databend 推荐使用 Presigned URL 方法将文件上传到 Stage。
 - [REMOVE STAGE FILES](05-ddl-remove-stage.md)：从 Stage 中删除文件。
 
@@ -19,7 +19,7 @@ LIST { userStage | internalStage | externalStage } [ PATTERN = '<regex_pattern>'
 
 ## 示例
 
-以下 Stage 包含一个名为 **books.parquet** 的文件和一个名为 **2023** 的文件夹。
+下面的 Stage 包含一个名为 **books.parquet** 的文件和一个名为 **2023** 的文件夹。
 
 ![Alt text](/img/sql/list-stage.png)
 

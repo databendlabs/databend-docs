@@ -4,13 +4,13 @@ title: EXPLAIN ANALYZE GRAPHICAL
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入: v1.2.647"/>
+<FunctionDescription description="引入版本：v1.2.647"/>
 
-`EXPLAIN ANALYZE GRAPHICAL` 用于打开一个浏览器页面，显示查询执行计划以及实际运行时的性能统计数据。
+`EXPLAIN ANALYZE GRAPHICAL` 用于在浏览器页面中显示查询执行计划以及实际的运行时性能统计信息。
 
 这对于分析查询性能和识别查询中的瓶颈非常有用。
 
-**注意:** 此功能仅在 BendSQL 中可用。
+**注意：** 此功能仅在 BendSQL 中可用。
 
 ## 语法
 
@@ -20,7 +20,7 @@ EXPLAIN ANALYZE GRAPHICAL <statement>
 
 ## 示例
 
-TPC-H Q21:
+TPC-H Q21：
 
 ```sql
 EXPLAIN ANALYZE GRAPHICAL SELECT s_name,
@@ -49,5 +49,5 @@ EXPLAIN ANALYZE GRAPHICAL SELECT s_name,
     ->           s_name
     -> LIMIT  100;
 
-// 将打开一个浏览器页面以显示查询执行计划和性能统计数据。
+// 将会在浏览器页面中显示查询执行计划和性能统计信息。
 ```

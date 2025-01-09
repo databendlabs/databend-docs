@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.208"/>
 
-描述特定连接的详细信息，提供其类型和配置信息。
+描述特定连接的详细信息，提供其类型和配置的相关信息。
 
 ## 语法
 

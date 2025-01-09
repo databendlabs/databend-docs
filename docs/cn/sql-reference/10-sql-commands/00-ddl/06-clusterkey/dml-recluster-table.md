@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入版本：v1.2.25"/>
 
-重新聚类表。关于为何以及何时需要重新聚类表，请参阅[重新聚类表](index.md#re-clustering-table)。
+重新聚类表。关于为何以及何时重新聚类表，请参阅[重新聚类表](index.md#re-clustering-table)。
 
 ### 语法
 
@@ -15,7 +15,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [ LIMIT <segment_count> ]
 ```
 
-该命令对可以处理的段数量有限制，默认值为“max_thread * 4”。您可以通过使用 **LIMIT** 选项来修改此限制。或者，您有两种选择来进一步聚类表中的数据：
+该命令对可处理的段数有限制，默认值为“max_thread * 4”。您可以使用 **LIMIT** 选项修改此限制。或者，您有两种选择来进一步聚类表中的数据：
 
 - 多次对表运行该命令。
 - 使用 **FINAL** 选项持续优化表，直到其完全聚类。
@@ -33,7 +33,7 @@ ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [
 -- 创建表
 create table t(a int, b int) cluster by(a+1);
 
--- 向 t 中插入一些数据
+-- 向 t 插入一些数据
 insert into t values(1,1),(3,3);
 insert into t values(2,2),(5,5);
 insert into t values(4,4);

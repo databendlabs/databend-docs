@@ -6,7 +6,7 @@ sidebar_position: 3
 根据您提供的 stage 名称和文件路径，生成预签名 URL。预签名 URL 使您能够通过 Web 浏览器或 API 请求访问文件。
 
 :::tip
-当使用 cURL 与非 S3 类存储交互时，请记住包含由 PRESIGN 命令生成的标头，以确保文件上传或下载的安全性。例如，
+当使用 cURL 与非 S3 类似存储交互时，请记住包含由 PRESIGN 命令生成的标头，以确保文件上传或下载的安全性。例如，
 
 ```bash
 curl -H "<header-generated-by-presign>" -o books.csv <presigned-url>
@@ -33,7 +33,7 @@ PRESIGN [ { DOWNLOAD | UPLOAD }] @<stage_name>/.../<file_name> [ EXPIRE = <expir
 
 ## 示例
 
-### 生成并使用用于下载的预签名 URL
+### 生成并使用下载的预签名 URL
 
 此示例生成用于下载 stage `my-stage` 上文件 `books.csv` 的预签名 URL：
 
@@ -46,7 +46,7 @@ PRESIGN @my_stage/books.csv
 +--------+---------+---------------------------------------------------------------------------------+
 ```
 
-此示例与上一个示例功能相同：
+此示例的功能与前一个示例相同：
 
 ```sql
 PRESIGN DOWNLOAD @my_stage/books.csv
@@ -64,7 +64,7 @@ curl <presigned-url> -o books.csv
 PRESIGN @my_stage/books.csv EXPIRE = 7200
 ```
 
-### 生成并使用用于上传的预签名 URL
+### 生成并使用上传的预签名 URL
 
 此示例生成用于将文件上传为 `books.csv` 到 stage `my_stage` 的预签名 URL：
 

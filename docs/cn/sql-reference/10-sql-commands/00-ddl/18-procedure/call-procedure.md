@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.637"/>
 
-通过调用存储过程的名称来执行它，如果存储过程需要参数，可以传递参数。
+通过调用存储过程的名称来执行它，如果存储过程需要参数，可以选择传递参数。
 
 ## 语法
 

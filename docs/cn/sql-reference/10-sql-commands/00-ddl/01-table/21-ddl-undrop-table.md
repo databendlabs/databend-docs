@@ -3,7 +3,7 @@ title: UNDROP TABLE
 sidebar_position: 20
 ---
 
-恢复最近删除的表。此功能利用了 Databend 的时间回溯特性；删除的对象只能在保留期内（默认为 24 小时）恢复。
+恢复最近删除的表。此操作利用了 Databend 的时间回溯功能；删除的对象只能在保留期内恢复（默认为 24 小时）。
 
 **另请参阅：**
 - [CREATE TABLE](./10-ddl-create-table.md)

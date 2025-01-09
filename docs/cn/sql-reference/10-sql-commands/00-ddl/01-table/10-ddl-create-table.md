@@ -17,11 +17,11 @@ import EEFeature from '@site/src/components/EEFeature';
 - 手动指定索引
 - 甚至指定数据分区或数据分片
 
-Databend 旨在通过设计使其易于使用，并且在创建表时不需要任何这些操作。此外，CREATE TABLE 语句提供了这些选项，使您在各种场景下创建表变得更加容易：
+Databend 旨在通过设计使其易于使用，并且在创建表时不需要任何这些操作。此外，CREATE TABLE 语句提供了这些选项，使您在各种场景下更容易创建表：
 
-- [CREATE TABLE](#create-table)：从零开始创建表。
+- [CREATE TABLE](#create-table)：从头开始创建表。
 - [CREATE TABLE ... LIKE](#create-table--like)：创建一个与现有表具有相同列定义的表。
-- [CREATE TABLE ... AS](#create-table--as)：创建一个表并使用 SELECT 查询的结果插入数据。
+- [CREATE TABLE ... AS](#create-table--as)：创建一个表并插入 SELECT 查询的结果数据。
 
 另请参阅：
 
@@ -79,7 +79,7 @@ create table t_new compression='lz4' like t_old;
 
 ## CREATE TABLE ... AS
 
-创建一个表并使用 SELECT 命令的结果填充数据。
+创建一个表并用 SELECT 命令计算的数据填充它。
 
 语法：
 
@@ -104,7 +104,7 @@ create table t_new compression='lz4' as select * from t_old;
 
 ## 列可为空
 
-默认情况下，Databend 中的所有列都是可为空的(NULL)。如果您需要一个不允许 NULL 值的列，请使用 NOT NULL 约束。有关更多信息，请参阅 [NULL 值和 NOT NULL 约束](../../../00-sql-reference/10-data-types/index.md)。
+默认情况下，Databend 中的所有列都是可为空的（NULL）。如果您需要一个不允许 NULL 值的列，请使用 NOT NULL 约束。有关更多信息，请参阅 [NULL 值和 NOT NULL 约束](../../../00-sql-reference/10-data-types/index.md)。
 
 ## 默认值
 
@@ -150,11 +150,11 @@ SELECT * FROM t_default_value;
 
 ## 计算列
 
-计算列是使用表中的其他列通过标量表达式生成的列。当用于计算的任何列中的数据更新时，计算列将自动重新计算其值以反映更新。
+计算列是使用标量表达式从表中的其他列生成的列。当用于计算的任何列中的数据更新时，计算列将自动重新计算其值以反映更新。
 
-Databend 支持两种类型的计算列：存储列和虚拟列。存储计算列在数据库中物理存储并占用存储空间，而虚拟计算列不物理存储，其值在访问时动态计算。
+Databend 支持两种类型的计算列：存储列和虚拟列。存储列在数据库中物理存储并占用存储空间，而虚拟列不物理存储，其值在访问时动态计算。
 
-Databend 支持两种创建计算列的语法选项：一种使用 `AS (<expr>)`，另一种使用 `GENERATED ALWAYS AS (<expr>)`。这两种语法都允许指定计算列是存储列还是虚拟列。
+Databend 支持两种创建计算列的语法选项：一种使用 `AS (<expr>)`，另一种使用 `GENERATED ALWAYS AS (<expr>)`。两种语法都允许指定计算列是存储列还是虚拟列。
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
@@ -172,7 +172,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 )
 ```
 
-以下是一个创建存储计算列的示例：每当“price”或“quantity”列的值更新时，“total_price”列将自动重新计算并更新其存储值。
+以下是创建存储计算列的示例：每当 "price" 或 "quantity" 列的值更新时，"total_price" 列将自动重新计算并更新其存储值。
 
 ```sql
 CREATE TABLE IF NOT EXISTS products (
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS products (
 );
 ```
 
-以下是一个创建虚拟计算列的示例：“full_name”列基于“first_name”和“last_name”列的当前值动态计算。它不占用额外的存储空间。每当访问“first_name”或“last_name”值时，“full_name”列将被计算并返回。
+以下是创建虚拟计算列的示例："full_name" 列基于 "first_name" 和 "last_name" 列的当前值动态计算。它不占用额外的存储空间。每当访问 "first_name" 或 "last_name" 值时，"full_name" 列将被计算并返回。
 
 ```sql
 CREATE TABLE IF NOT EXISTS employees (
@@ -199,9 +199,9 @@ CREATE TABLE IF NOT EXISTS employees (
 
 - 存储空间：存储计算列在表中占用额外的存储空间，因为它们的计算值是物理存储的。如果您的数据库空间有限或希望最小化存储使用，虚拟计算列可能是更好的选择。
 
-- 实时更新：存储计算列在依赖列更新时立即更新其计算值。这确保在查询时始终拥有最新的计算值。虚拟计算列则在查询期间动态计算其值，这可能会略微增加处理时间。
+- 实时更新：存储计算列在依赖列更新时立即更新其计算值。这确保在查询时始终具有最新的计算值。虚拟计算列在查询期间动态计算其值，这可能会略微增加处理时间。
 
-- 数据完整性和一致性：存储计算列在写入操作时立即保持数据一致性。虚拟计算列在查询期间动态计算其值，这意味着在写入操作和后续查询之间可能存在短暂的不一致性。
+- 数据完整性和一致性：存储计算列在写入操作时立即更新其计算值，从而保持数据一致性。虚拟计算列在查询期间动态计算其值，这意味着在写入操作和后续查询之间可能存在短暂的不一致性。
   :::
 
 ## MySQL 兼容性
@@ -273,7 +273,7 @@ DESC books_copy;
 +-------+-----------------+------+---------+-------+
 ```
 
-向新表中插入一行并注意 `genre` 列的默认值已被复制：
+插入一行到新表并注意 `genre` 列的默认值已被复制：
 
 ```sql
 INSERT INTO books_copy(id, title) VALUES(1, 'Invisible Stars');
@@ -307,7 +307,7 @@ DESC books_backup;
 +-------+-----------------+------+---------+-------+
 ```
 
-查询新表并注意原始表中的数据已被复制：
+查询新表并注意原始表的数据已被复制：
 
 ```sql
 SELECT * FROM books_backup;
@@ -320,7 +320,7 @@ SELECT * FROM books_backup;
 
 ### 创建表 ... 列 AS STORED | VIRTUAL
 
-以下示例演示了一个带有存储计算列的表，该列基于“price”或“quantity”列的更新自动重新计算：
+以下示例演示了一个带有存储计算列的表，该列基于 "price" 或 "quantity" 列的更新自动重新计算：
 
 ```sql
 -- 创建带有存储计算列的表

@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.283"/>
+<FunctionDescription description="引入或更新版本：v1.2.283"/>
 
 显示 Databend 中特定密码策略的详细信息。有关密码策略属性的详细描述，请参见[密码策略属性](create-password-policy.md#password-policy-attributes)。
 
@@ -35,8 +35,8 @@ DESC PASSWORD POLICY SecureLogin;
 │ PASSWORD_MIN_SPECIAL_CHARS    │ 0           │ 0                │ 新密码中特殊字符的最小数量。                                                                                      │
 │ PASSWORD_MIN_AGE_DAYS         │ 0           │ 0                │ 密码更改后再次更改密码所需的最小天数。                                               │
 │ PASSWORD_MAX_AGE_DAYS         │ 90          │ 90               │ 密码必须更改的最大天数。                                                                                      │
-│ PASSWORD_MAX_RETRIES          │ 5           │ 5                │ 用户输入正确密码的尝试次数，超过此次数后账户将被锁定。                                                │
-│ PASSWORD_LOCKOUT_TIME_MINS    │ 15          │ 15               │ 用户多次输入错误密码（由 MAX_RETRIES 指定）后账户被锁定的时间，单位为分钟。 │
+│ PASSWORD_MAX_RETRIES          │ 5           │ 5                │ 用户在账户被锁定之前可以尝试输入正确密码的次数。                                                │
+│ PASSWORD_LOCKOUT_TIME_MINS    │ 15          │ 15               │ 用户在多次输入错误密码（由 MAX_RETRIES 指定）后将被锁定的时间（以分钟为单位）。 │
 │ PASSWORD_HISTORY              │ 0           │ 0                │ 用户不能重复使用的最新的密码数量。                                                                      │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```

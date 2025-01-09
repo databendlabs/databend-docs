@@ -1,10 +1,10 @@
 ---
-title: CREATE CONNECTION
+title: 创建连接
 sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.339"/>
+<FunctionDescription description="引入或更新版本：v1.2.339"/>
 
 创建与外部存储的连接。
 
@@ -19,7 +19,7 @@ CREATE [ OR REPLACE ] CONNECTION [ IF NOT EXISTS ] <connection_name>
 
 | 参数        | 描述                                                                                                                                        |
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| STORAGE_TYPE     | 存储服务的类型。可能的值包括：`s3`, `azblob`, `gcs`, `oss`, `cos`, `hdfs`, 和 `webhdfs`.                                      |
+| STORAGE_TYPE     | 存储服务的类型。可能的值包括：`s3`、`azblob`、`gcs`、`oss`、`cos`、`hdfs` 和 `webhdfs`。                                      |
 | storage_params   | 根据存储类型和认证方法的不同而有所变化。详情请参见[连接参数](../../../00-sql-reference/51-connect-parameters.md)。 |
 
 ## 示例

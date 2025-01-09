@@ -4,7 +4,7 @@ sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.371"/>
+<FunctionDescription description="引入或更新版本：v1.2.371"/>
 
 DROP TASK 语句用于删除现有的任务。
 
@@ -23,7 +23,7 @@ DROP TASK [ IF EXISTS ] <name>
 
 ## 使用说明：
 
-- 如果 DAG 中的前驱任务被删除，那么所有将该任务作为前驱任务的子任务将变为独立任务或根任务，具体取决于是否有其他任务将这些子任务作为其前驱任务。这些子任务默认会被暂停，必须手动恢复。
+- 如果在 DAG 中删除了一个前驱任务，那么所有将该任务作为前驱任务的子任务将变为独立任务或根任务，具体取决于是否有其他任务将这些子任务作为其前驱任务。这些子任务默认会被暂停，必须手动恢复。
 - 根任务在删除前必须被暂停。
 
 ## 使用示例
