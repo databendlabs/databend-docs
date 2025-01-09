@@ -12,7 +12,7 @@ This topic explains how to manage scalable and flexible query warehouse through 
 ![Warehouse On Premise](/img/deploy/on-premise-warehouse.png)
 
 **Scenario Description**
-Previously, we introduced to deploy databend using static `tenant_id` and `cluster_id` in the ![deployment](https://docs.databend.com/guides/deploy/deploy/production/metasrv-deploy#step-2-deploy-query-nodes).
+Previously, we introduced to deploy databend using static `tenant_id` and `cluster_id` in the [deployment](https://docs.databend.com/guides/deploy/deploy/production/metasrv-deploy#step-2-deploy-query-nodes).
 
 For on-premise deployments to be successful, it's essential to have a skilled DevOps team in place to effectively manage the deployment and configuration. This includes:
 1. Strategically routing queries to various clusters to enhance concurrency during peak usage times.
@@ -69,7 +69,6 @@ show online nodes;
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────-─────┐
 │           id           │      type     │ node_group │ warehouse │ cluster │     version        │
-│         String         │     String    │   String   │   String  │  String │      String        │
 ├────────────────────────┼───────────────┼────────────┼───────────┼─────────┼────────────────────┤
 │ 9rabYMxa0ReDyZe6F9igH5 │ SystemManaged │ log_node   │           │         │ v1.2.686-nightly   │
 │ CbzfLlTVO29EhkZXdeR625 │ SystemManaged │ log_node   │           │         │ v1.2.686-nightly   │
@@ -82,7 +81,6 @@ show online nodes;
 │ ilPer0ps5wWnEDOLIlk821 │ SystemManaged │ infra_node │           │         │ v1.2.686-nightly   │
 │ shnWu1TC41sAxVwJMIVQF3 │ SystemManaged │ infra_node │           │         │ v1.2.686-nightly   │
 └───────────────────────────────────────────────────────────────────────────────────────────---──┘
-10 rows read in 0.131 sec. Processed 0 rows, 0 B (0 row/s, 0 B/s)
 ``` 
 
 ###  Create a single cluster warehouse with 2 nodes
@@ -92,7 +90,6 @@ root@localhost:8000/default> create warehouse test_warehouse_1 with warehouse_si
 
 create warehouse test_warehouse_1 with warehouse_size = 2
 
-0 row written in 0.015 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 
 root@localhost:8000/default> show online nodes;
 
@@ -100,7 +97,6 @@ show online nodes
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │     warehouse    │ cluster │           version           │
-│         String         │     String    │   String   │      String      │  String │            String           │
 ├────────────────────────┼───────────────┼────────────┼──────────────────┼─────────┼─────────────────────────────┤
 │ 9rabYMxa0ReDyZe6F9igH5 │ SystemManaged │ log_node   │                  │         │ v1.2.686-nightly           │
 │ CbzfLlTVO29EhkZXdeR625 │ SystemManaged │ log_node   │                  │         │ v1.2.686-nightly           │
@@ -113,7 +109,6 @@ show online nodes
 │ ilPer0ps5wWnEDOLIlk821 │ SystemManaged │ infra_node │                  │         │ v1.2.686-nightly           │
 │ shnWu1TC41sAxVwJMIVQF3 │ SystemManaged │ infra_node │                  │         │ v1.2.686-nightly           │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-10 rows read in 0.130 sec. Processed 0 rows, 0 B (0 row/s, 0 B/s)
 ```
 
 ### Get all existing warehouses
@@ -125,11 +120,9 @@ show warehouses
 
 ┌───────────────────────────────────────────┐
 │    warehouse   │      type      │  status │
-│     String     │     String     │  String │
 ├────────────────┼────────────────┼─────────┤
 │ test_warehouse │ System-Managed │ Running │
 └───────────────────────────────────────────┘
-1 row read in 0.130 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 ```
 
 ### Use one of the existing warehouses to run query
@@ -140,7 +133,6 @@ root@localhost:8000/default> use warehouse test_warehouse_1;
 
 use warehouse test_warehouse_1
 
-0 row read in 0.014 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 
 root@(test_warehouse_1)/default> select * from system.clusters;
 
@@ -148,12 +140,10 @@ SELECT * FROM system.clusters
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────┐
 │          name          │          cluster         │    host   │  port  │     version      │
-│         String         │          String          │   String  │ UInt16 │      String      │
 ├────────────────────────┼──────────────────────────┼───────────┼────────┼──────────────────┤
 │ SoZcaT4gmhVoGKcChlDw93 │ test_warehouse_1/default │ 127.0.0.1 │  27498 │ v1.2.686-nightly │
 │ Zu7rmhVZ2s2HqTUCdFBdu2 │ test_warehouse_1/default │ 127.0.0.1 │  29798 │ v1.2.686-nightly │
 └───────────────────────────────────────────────────────────────────────────────────────────┘
-2 rows read in 0.679 sec. Processed 2 rows, 350 B (2.95 rows/s, 515 B/s)
 ```
 
 ### Add clusters to an existing warehouse
@@ -168,7 +158,6 @@ root@localhost:8000/default> alter warehouse test_warehouse add cluster test_clu
 
 alter warehouse test_warehouse add cluster test_cluster with cluster_size = 3
 
-0 row written in 0.039 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 
 root@localhost:8000/default> show online nodes;
 
@@ -176,7 +165,6 @@ show online nodes
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │    cluster   │           version           │
-│         String         │     String    │   String   │     String     │    String    │            String           │
 ├────────────────────────┼───────────────┼────────────┼────────────────┼──────────────┼─────────────────────────────┤
 │ 9rabYMxa0ReDyZe6F9igH5 │ SystemManaged │ log_node   │                │              │ v1.2.686-nightly            │
 │ CbzfLlTVO29EhkZXdeR625 │ SystemManaged │ log_node   │                │              │ v1.2.686-nightly            │
@@ -202,7 +190,6 @@ root@localhost:8000/default> create warehouse test_warehouse(assign 1 nodes from
 
 create warehouse test_warehouse(assign 1 nodes from log_node, assign 2 nodes from infra_node)
 
-0 row written in 0.013 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 
 root@localhost:8000/default> show online nodes;
 
@@ -210,7 +197,6 @@ show online nodes
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │ cluster │           version           │
-│         String         │     String    │   String   │     String     │  String │            String           │
 ├────────────────────────┼───────────────┼────────────┼────────────────┼─────────┼─────────────────────────────┤
 │ 6yCaMTMAZbP6nSsNfzkSG5 │ SystemManaged │ log_node   │                │         │ v1.2.686-nightly            │
 │ 8g0E9LxG3mk2eBhKNT9DT2 │ SystemManaged │ log_node   │ test_warehouse │ default │ v1.2.686-nightly            │
@@ -223,7 +209,6 @@ show online nodes
 │ s7Yfg7OgXPHAX7pETAbcc  │ SystemManaged │ dev_node   │                │         │ v1.2.686-nightly            │
 │ tM8lj2NOTTtTwjnQIzCwI6 │ SystemManaged │ infra_node │ test_warehouse │ default │ v1.2.686-nightly            │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-10 rows read in 0.128 sec. Processed 0 rows, 0 B (0 row/s, 0 B/s)
 ```
 
 #### Add a cluster to an existing warehouse, cluster nodes come from different node groups
@@ -232,14 +217,12 @@ root@localhost:8000/default> alter warehouse test_warehouse add cluster test_clu
 
 alter warehouse test_warehouse add cluster test_cluster (assign 1 nodes from dev_node, assign 1 nodes from infra_node)
 
-0 row written in 0.034 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 
 root@localhost:8000/default> show online nodes;
 
 show online nodes
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │    cluster   │           version           │
-│         String         │     String    │   String   │     String     │    String    │            String           │
 ├────────────────────────┼───────────────┼────────────┼────────────────┼──────────────┼─────────────────────────────┤
 │ DZB0EWAz4EiR9UnndkQY92 │ SystemManaged │ dev_node   │                │              │ v1.2.686-nightly            │
 │ GFkSBv96W9bWBa85n5sC87 │ SystemManaged │ infra_node │                │              │ v1.2.686-nightly            │
@@ -252,7 +235,6 @@ show online nodes
 │ wXgSNxxOTOkjazEPLbDVF3 │ SystemManaged │ infra_node │ test_warehouse │ default      │ v1.2.686-nightly            │
 │ xqWmN2SR1wRjMUt4T2Oy66 │ SystemManaged │ dev_node   │ test_warehouse │ test_cluster │ v1.2.686-nightly            │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-10 rows read in 0.128 sec. Processed 0 rows, 0 B (0 row/s, 0 B/s)
 ```
 
 #### Add nodes to an existing warehouse, cluster nodes come from different node groups
@@ -262,7 +244,6 @@ root@localhost:8000/default> alter warehouse test_warehouse assign nodes(assign 
 
 alter warehouse test_warehouse assign nodes(assign 1 nodes from dev_node for default, assign 1 nodes from infra_node for default)
 
-0 row written in 0.075 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 
 root@localhost:8000/default> show online nodes;
 
@@ -270,7 +251,6 @@ show online nodes
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │ cluster │           version           │
-│         String         │     String    │   String   │     String     │  String │            String           │
 ├────────────────────────┼───────────────┼────────────┼────────────────┼─────────┼─────────────────────────────┤
 │ 6yCaMTMAZbP6nSsNfzkSG5 │ SystemManaged │ log_node   │                │         │ v1.2.686-nightly            │
 │ 8g0E9LxG3mk2eBhKNT9DT2 │ SystemManaged │ log_node   │ test_warehouse │ default │ v1.2.686-nightly            │
@@ -283,7 +263,6 @@ show online nodes
 │ s7Yfg7OgXPHAX7pETAbcc  │ SystemManaged │ dev_node   │ test_warehouse │ default │ v1.2.686-nightly            │
 │ tM8lj2NOTTtTwjnQIzCwI6 │ SystemManaged │ infra_node │ test_warehouse │ default │ v1.2.686-nightly            │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-10 rows read in 0.139 sec. Processed 0 rows, 0 B (0 row/s, 0 B/s)
 ```
 
 #### Remove Nodes from cluster of a Warehouse by Node Group
@@ -293,7 +272,6 @@ root@localhost:8000/default> alter warehouse test_warehouse unassign nodes(unass
 
 alter warehouse test_warehouse unassign nodes(unassign 1 nodes from dev_node for default, unassign 2 nodes from infra_node for default)
 
-0 row written in 0.028 sec. Processed 0 row, 0 B (0 row/s, 0 B/s)
 
 root@localhost:8000/default> show online nodes;
 
@@ -301,7 +279,6 @@ show online nodes
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │           id           │      type     │ node_group │    warehouse   │ cluster │           version           │
-│         String         │     String    │   String   │     String     │  String │            String           │
 ├────────────────────────┼───────────────┼────────────┼────────────────┼─────────┼─────────────────────────────┤
 │ 6yCaMTMAZbP6nSsNfzkSG5 │ SystemManaged │ log_node   │                │         │ v1.2.686-nightly            │
 │ 8g0E9LxG3mk2eBhKNT9DT2 │ SystemManaged │ log_node   │ test_warehouse │ default │ v1.2.686-nightly            │
@@ -314,5 +291,4 @@ show online nodes
 │ s7Yfg7OgXPHAX7pETAbcc  │ SystemManaged │ dev_node   │                │         │ v1.2.686-nightly            │
 │ tM8lj2NOTTtTwjnQIzCwI6 │ SystemManaged │ infra_node │ test_warehouse │ default │ v1.2.686-nightly            │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-10 rows read in 0.128 sec. Processed 0 rows, 0 B (0 row/s, 0 B/s)
 ```
