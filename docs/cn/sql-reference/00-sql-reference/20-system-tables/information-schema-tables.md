@@ -2,9 +2,9 @@
 title: information_schema.tables
 ---
 
-`information_schema.tables` 系统表是一个视图，提供了所有数据库中所有表的元数据，包括它们的模式、类型、引擎和创建细节。它还包括存储指标，如数据长度、索引长度和行数，提供了对表结构和使用的洞察。
+`information_schema.tables` 系统表是一个视图，提供了所有数据库中所有表的元数据，包括它们的模式、类型、引擎和创建细节。它还包含存储指标，如数据长度、索引长度和行数，提供了对表结构和使用的洞察。
 
-另请参阅: [system.tables](system-tables.md)
+另请参阅：[system.tables](system-tables.md)
 
 ```sql title='示例:'
 SELECT * FROM information_schema.tables LIMIT 3;
@@ -18,7 +18,7 @@ SELECT * FROM information_schema.tables LIMIT 3;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-要显示 `information_schema.tables` 的模式，请使用 `DESCRIBE information_schema.tables`:
+要显示 `information_schema.tables` 的模式，请使用 `DESCRIBE information_schema.tables`：
 
 ```sql
 DESCRIBE information_schema.tables;

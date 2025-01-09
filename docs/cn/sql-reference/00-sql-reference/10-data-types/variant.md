@@ -2,7 +2,7 @@
 title: Variant
 ---
 
-VARIANT 类型可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，其内部值可以是任意层级的嵌套结构，非常灵活地存储各种数据。VARIANT 也可以称为 JSON，更多信息请参考 [JSON 网站](https://www.json.org/json-en.html)。
+VARIANT 类型可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，其内部值可以是任意层级的嵌套结构，非常灵活，适用于存储各种数据。VARIANT 也可以称为 JSON，更多信息请参考 [JSON 网站](https://www.json.org/json-en.html)。
 
 以下是在 Databend 中插入和查询 Variant 数据的示例：
 
@@ -56,7 +56,7 @@ VARIANT 类型包含一个数组，该数组是一个从零开始的数组，类
 
 创建表：
 ```sql
--- 创建一个表来存储用户的爱好
+-- 创建一个表来存储用户的兴趣爱好
 CREATE TABLE user_hobbies(user_id INT64, hobbies VARIANT NULL);
 ```
 
@@ -68,7 +68,7 @@ VALUES
     (2, '["Photography", "Travel", "Swimming"]');
 ```
 
-检索每个用户的第一个爱好：
+检索每个用户的第一个兴趣爱好：
 ```sql
 SELECT
   user_id,
@@ -86,7 +86,7 @@ FROM
 └─────────────────────────────────────┘
 ```
 
-检索每个用户的第三个爱好：
+检索每个用户的第三个兴趣爱好：
 ```sql
 SELECT
   hobbies [2],
@@ -107,7 +107,7 @@ GROUP BY
 └─────────────────────────────────┘
 ```
 
-通过分组检索爱好：
+按组检索兴趣爱好：
 ```sql
 SELECT
   hobbies [2],
@@ -129,7 +129,7 @@ GROUP BY
 
 ### 通过字段名访问
 
-VARIANT 类型包含表示为对象的键值对，其中每个键是 VARCHAR，每个值是 VARIANT。它的功能类似于其他编程语言中的“字典”、“哈希”或“映射”。可以使用**方括号**或**冒号**以及**点号**（仅适用于第二层及更深层次，点号不能用作第一层名称表示法，以避免与表和列之间的点号表示法混淆）通过字段名访问值。
+VARIANT 类型包含表示为对象的键值对，其中每个键是一个 VARCHAR，每个值是一个 VARIANT。它的功能类似于其他编程语言中的“字典”、“哈希”或“映射”。可以通过字段名使用**方括号**或**冒号**访问值，以及使用**点号**访问第二层及更深层级的字段（点号不能用作第一层字段名的表示法，以避免与表和列之间的点号表示法混淆）。
 
 #### 示例
 
