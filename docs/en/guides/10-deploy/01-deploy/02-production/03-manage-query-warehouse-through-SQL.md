@@ -3,7 +3,12 @@ title: Manage Query Warehouse through SQL on Premise
 sidebar_label: Manage Query Warehouse through SQL
 description: How to manage scalable and flexible query warehouse through SQL on premise.
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.681"/>
+
 import EEFeature from '@site/src/components/EEFeature';
+
 
 This topic explains how to manage scalable and flexible query warehouse through SQL on premise.
 
