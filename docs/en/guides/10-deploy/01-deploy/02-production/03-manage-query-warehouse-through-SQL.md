@@ -19,7 +19,7 @@ For on-premise deployments to be successful, it's essential to have a skilled De
 2. Adjusting cluster sizes by restarting nodes and reallocating them to different clusters as needed.
 3. Implementing a robust load balancing strategy for cluster nodes, which can present unique challenges in an on-premise environment.
 
-Databend's on-premise warehouse SQL commands provide a powerful solution to let user built a multi-cluster query warehouse within 5 minutes. These commands enable you to:
+Databend's on-premise warehouse SQL commands provide a powerful solution to let user built a multi-cluster query warehouse within several seconds. These commands enable you to:
 
 - Build and manage multiple query warehouses to improve query concurrency during peak hours
 - Dynamically route queries across different clusters to handle peak traffic periods
@@ -256,6 +256,7 @@ show online nodes
 ```
 
 #### Add nodes to an existing warehouse, cluster nodes come from different node groups
+
 ```sql
 root@localhost:8000/default> alter warehouse test_warehouse assign nodes(assign 1 nodes from dev_node for default, assign 1 nodes from infra_node for default);
 
