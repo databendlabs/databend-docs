@@ -115,6 +115,7 @@ const config: Config = {
     "docusaurus-plugin-sass",
     "./src/plugins/global-sass-var-inject",
     "./src/plugins/fetch-databend-releases",
+    require.resolve("./src/plugins/gurubase-widget.js"),
     [
       "@docusaurus/plugin-content-docs",
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
