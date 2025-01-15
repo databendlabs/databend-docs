@@ -46,7 +46,7 @@ A suspended warehouse does not consume any credits. You can manually suspend or 
 
 You can perform bulk operations on warehouses, including bulk restart, bulk suspend, bulk resume, and bulk delete. To do so, select the warehouses for bulk operations by checking the checkboxes <CheckboxSVG/> in the warehouse list, and then click the ellipse button <EllipsisSVG/> for the desired operation.
 
-![alt text](../../../../../static/img/cloud/bulk.png)
+![alt text](../../../../../static/img/cloud/bulk.gif)
 
 ### Best Practices
 
