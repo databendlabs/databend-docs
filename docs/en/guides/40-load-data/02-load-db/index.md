@@ -1,16 +1,9 @@
 ---
-title: Loading Data with Tools
+title: Loading with Platforms
 ---
 
-Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization. See the below table for supported tools and their Databend connectors.
+import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-:::info
-These connectors also support Databend Cloud. For setup instructions, visit: [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses/#connecting) 
-:::
+This guide introduces platforms for loading data into Databend, including:
 
-| Tool      	| Plugin / Connector                                                                                                                                                 	|
-|-----------	|--------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| Airbyte   	| [datafuselabs/destination-databend:alpha](https://hub.docker.com/r/airbyte/destination-databend)                                                                   	|
-| dbt       	| [dbt-databend-cloud](https://github.com/databendcloud/dbt-databend)                                                                                                	|
-| Kafka     	| [bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka)                                                                                            	|
-| Vector    	| [Databend sink](https://vector.dev/docs/reference/configuration/sinks/databend/)                                                                                   	|
+<IndexOverviewList />

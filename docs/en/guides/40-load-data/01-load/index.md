@@ -1,5 +1,5 @@
 ---
-title: Loading Data from Files
+title: Loading from Files
 ---
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
