@@ -1,6 +1,6 @@
 ---
 title: Loading ORC File into Databend
-sidebar_label: Loading ORC File
+sidebar_label: ORC
 ---
 
 ## What is ORC?

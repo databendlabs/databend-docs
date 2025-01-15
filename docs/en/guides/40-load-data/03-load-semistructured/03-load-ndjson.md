@@ -1,6 +1,6 @@
 ---
 title: Loading NDJSON File into Databend
-sidebar_label: Loading NDJSON File
+sidebar_label: NDJSON
 ---
 
 ## What is NDJSON?
