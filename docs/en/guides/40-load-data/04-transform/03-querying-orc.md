@@ -1,6 +1,6 @@
 ---
 title: Querying Staged ORC Files in Stage
-sidebar_label: Querying ORC File
+sidebar_label: ORC
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';

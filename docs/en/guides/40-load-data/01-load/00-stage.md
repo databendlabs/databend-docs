@@ -1,5 +1,6 @@
 ---
 title: Loading from Stage
+sidebar_label: Stage
 ---
 
 Databend enables you to easily import data from files uploaded to either the user stage or an internal/external stage. To do so, you can first upload the files to a stage using [BendSQL](../../30-sql-clients/00-bendsql/index.md), and then employ the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command to load the data from the staged file. Please note that the files must be in a format supported by Databend, otherwise the data cannot be imported. For more information on the file formats supported by Databend, see [Input & Output File Formats](/sql/sql-reference/file-format-options).

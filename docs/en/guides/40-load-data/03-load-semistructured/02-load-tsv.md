@@ -1,6 +1,6 @@
 ---
 title: Loading TSV File into Databend
-sidebar_label: Loading TSV File
+sidebar_label: TSV
 ---
 
 ## What is TSV?

@@ -1,6 +1,6 @@
 ---
 title: Loading Parquet File into Databend
-sidebar_label: Loading Parquet File
+sidebar_label: Parquet
 ---
 
 ## What is Parquet?

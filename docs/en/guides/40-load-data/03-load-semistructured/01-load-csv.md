@@ -1,6 +1,6 @@
 ---
 title: Loading CSV File into Databend
-sidebar_label: Loading CSV File
+sidebar_label: CSV
 ---
 
 ## What is CSV?
