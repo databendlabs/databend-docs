@@ -2,11 +2,11 @@
 title: MySQL
 ---
 
-This guide explains how to migrate data from MySQL to Databend. Databend supports two main migration approaches: batch loading and continuous data synchronization.
+This guide introduces how to migrate data from MySQL to Databend. Databend supports two main migration approaches: batch loading and continuous data sync.
 
 ## Batch Loading
 
-To migrate data from MySQL to Databend in batches, you can utilize tools such as Addax or DataX. 
+To migrate data from MySQL to Databend in batches, you can use tools such as Addax or DataX. 
 
 ### Addax
 
@@ -36,7 +36,7 @@ DatabendWriter supports two operational modes: INSERT (default) and REPLACE. In 
 
 If you need more information about DatabendWriter and its functionalities, you can refer to the documentation available at https://github.com/alibaba/DataX/blob/master/databendwriter/doc/databendwriter.md
 
-## Continuous Synchronization with CDC
+## Continuous Sync with CDC
 
 To migrate data from MySQL to Databend in real-time, you can use Change Data Capture (CDC) tools such as Debezium or Flink CDC.
 
