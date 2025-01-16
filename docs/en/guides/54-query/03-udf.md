@@ -57,8 +57,11 @@ Embedded UDFs allow you to embed code written in the following programming langu
 - [JavaScript](#javascript)
 - [WebAssembly](#webassembly)
 
+With Embedded UDFs, you can create both scalar functions and aggregate functions. Scalar functions operate on a single row of input and return a single value, while aggregate functions process multiple rows of input and return a single aggregated result, such as a sum or average.
+
 :::note
-If your program content is large, you can compress it and then pass it to a stage. See the [Usage Examples](#usage-examples-2) for WebAssembly.
+- Creating aggregate UDFs with WebAssembly is not yet supported.
+- If your program content is large, you can compress it and then pass it to a stage. See the [Usage Examples](#usage-examples-2) for WebAssembly.
 :::
 
 ### Python (requires Databend Enterprise)
@@ -235,6 +238,35 @@ FROM
 WHERE
     (number > 0)
 ORDER BY 1;
+```
+
+This example defines an aggregate UDF that calculates the weighted average of a set of values by aggregating them based on their corresponding weights:
+
+```sql
+CREATE FUNCTION weighted_avg (INT, INT) STATE {sum INT, weight INT} RETURNS FLOAT
+LANGUAGE javascript AS $$
+export function create_state() {
+    return {sum: 0, weight: 0};
+}
+export function accumulate(state, value, weight) {
+    state.sum += value * weight;
+    state.weight += weight;
+    return state;
+}
+export function retract(state, value, weight) {
+    state.sum -= value * weight;
+    state.weight -= weight;
+    return state;
+}
+export function merge(state1, state2) {
+    state1.sum += state2.sum;
+    state1.weight += state2.weight;
+    return state1;
+}
+export function finish(state) {
+    return state.sum / state.weight;
+}
+$$;
 ```
 
 ### WebAssembly
