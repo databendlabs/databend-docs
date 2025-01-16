@@ -22,6 +22,8 @@ In this tutorial, we will guide you through the process of connecting to Databen
 Before creating a connection to Databend Cloud, you need to log in to Databend Cloud to obtain connection information. For more information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting). In this tutorial, we will use the following connection information:
 
 ![alt text](@site/static/img/connect/dbeaver-connect-info.png)
+> **Note**:
+> If your `user` or `password` contains special characters, you need to provide them separately in the corresponding fields (e.g., the `Username` and `Password` fields in DBeaver). In this case, Databend will handle the necessary encoding for you. However, if you're providing the credentials together (e.g., as `user:password`), you must ensure that the entire string is properly encoded before use.
 
 </StepContent>
 <StepContent number="3">
@@ -34,7 +36,7 @@ Before creating a connection to Databend Cloud, you need to log in to Databend C
 
 2. In the **Main** tab, enter the **Host**, **Port**, **Username**, and **Password** based on the connection information obtained in the previous step.
 
-![alt text](@site/static/img/connect/dbeaver-main-tab.png) 
+![alt text](@site/static/img/connect/dbeaver-main-tab.png)
 
 3. In the **Driver properties** tab, enter the **Warehouse** name based on the connection information obtained in the previous step.
 
