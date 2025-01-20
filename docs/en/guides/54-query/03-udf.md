@@ -1,6 +1,7 @@
 ---
 title: User-Defined Function
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 import EEFeature from '@site/src/components/EEFeature';
@@ -87,11 +88,11 @@ AS $$
 def remove_stop_words(text, stop_words):
     """
     Removes common stop words from the text.
-    
+
     Args:
     text (str): The input text.
     stop_words (set): A set of stop words to remove.
-    
+
     Returns:
     str: Text with stop words removed.
     """
@@ -100,12 +101,12 @@ def remove_stop_words(text, stop_words):
 def calculate_sentiment(text, positive_words, negative_words):
     """
     Calculates the sentiment score of the text.
-    
+
     Args:
     text (str): The input text.
     positive_words (set): A set of positive words.
     negative_words (set): A set of negative words.
-    
+
     Returns:
     int: Sentiment score.
     """
@@ -116,10 +117,10 @@ def calculate_sentiment(text, positive_words, negative_words):
 def get_sentiment_label(score):
     """
     Determines the sentiment label based on the sentiment score.
-    
+
     Args:
     score (int): The sentiment score.
-    
+
     Returns:
     str: Sentiment label ('Positive', 'Negative', 'Neutral').
     """
@@ -133,10 +134,10 @@ def get_sentiment_label(score):
 def sentiment_analysis_handler(text):
     """
     Analyzes the sentiment of the input text.
-    
+
     Args:
     text (str): The input text.
-    
+
     Returns:
     str: Sentiment analysis result including the score and label.
     """
@@ -147,7 +148,7 @@ def sentiment_analysis_handler(text):
     clean_text = remove_stop_words(text, stop_words)
     sentiment_score = calculate_sentiment(clean_text, positive_words, negative_words)
     sentiment_label = get_sentiment_label(sentiment_score)
-    
+
     return f'Sentiment Score: {sentiment_score}; Sentiment Label: {sentiment_label}'
 $$;
 ```
@@ -161,7 +162,7 @@ CREATE OR REPLACE TABLE texts (
 
 -- Insert sample data
 INSERT INTO texts (original_text)
-VALUES 
+VALUES
 ('The quick brown fox feels happy and joyful'),
 ('A hard journey, but it was painful and sad'),
 ('Uncertain outcomes leave everyone unsure and hesitant'),
@@ -193,7 +194,7 @@ A JavaScript UDF allows you to invoke JavaScript code from a SQL query via Datab
 The following table shows the type mapping between Databend and JavaScript:
 
 | Databend Type     | JS Type    |
-|-------------------|------------|
+| ----------------- | ---------- |
 | NULL              | null       |
 | BOOLEAN           | Boolean    |
 | TINYINT           | Number     |
