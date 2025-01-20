@@ -166,12 +166,18 @@ upstream udf_string_functions {
     server 10.0.2.2:8080 backup;
 }
 
+upstream udf_database_functions {
+    server 10.0.3.1:8080;
+    server 10.0.3.2:8080 backup;
+}
+
 # Map function names to backend servers
 map $http_x_databend_function $udf_backend {
     default   "udf_default";
     gcd       "udf_math_functions";
     lcm       "udf_math_functions";
     string_*  "udf_string_functions";
+    *_db     "udf_database_functions";
 }
 
 # Server configuration
