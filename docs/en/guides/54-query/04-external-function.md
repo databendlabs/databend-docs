@@ -168,11 +168,10 @@ upstream udf_string_functions {
 
 # Map function names to backend servers
 map $http_x_databend_function $udf_backend {
-    default              "udf_default";
-    "gcd"               "udf_math_functions";
-    "lcm"               "udf_math_functions";
-    "string_reverse"    "udf_string_functions";
-    "string_concat"     "udf_string_functions";
+    default   "udf_default";
+    gcd       "udf_math_functions";
+    lcm       "udf_math_functions";
+    string_*  "udf_string_functions";
 }
 
 # Server configuration
