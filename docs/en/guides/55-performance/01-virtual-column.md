@@ -59,6 +59,12 @@ VALUES
     '{"id":5,"name":"bigquery","tags":["innovative","cost-efficient"],"pricings":[{"type":"Flat Rate","price":"Monthly"},{"type":"Flex","price":"Per query"}]}'
   );
 
+INSERT INTO test SELECT * FROM test;
+INSERT INTO test SELECT * FROM test;
+INSERT INTO test SELECT * FROM test;
+INSERT INTO test SELECT * FROM test;
+INSERT INTO test SELECT * FROM test;
+
 -- Refresh the virtual columns
 REFRESH VIRTUAL COLUMN FOR test;
 
@@ -78,14 +84,14 @@ Exchange
 └── TableScan
     ├── table: default.book_db.test
     ├── output columns: [val['name'] (#2), val['tags'][0] (#3), val['pricings'][0]['type'] (#4)]
-    ├── read rows: 5
-    ├── read size: < 1 KiB
-    ├── partitions total: 1
-    ├── partitions scanned: 1
-    ├── pruning stats: [segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1>]
+    ├── read rows: 160
+    ├── read size: 4.96 KiB
+    ├── partitions total: 16
+    ├── partitions scanned: 16
+    ├── pruning stats: [segments: <range pruning: 6 to 6>, blocks: <range pruning: 16 to 16>]
     ├── push downs: [filters: [], limit: NONE]
     ├── virtual columns: [val['name'], val['pricings'][0]['type'], val['tags'][0]]
-    └── estimated rows: 5.00
+    └── estimated rows: 160.00
 
 -- Explain the query execution plan for selecting only the 'name' field from the table.
 EXPLAIN
@@ -101,14 +107,14 @@ Exchange
 └── TableScan
     ├── table: default.book_db.test
     ├── output columns: [val['name'] (#2)]
-    ├── read rows: 5
-    ├── read size: < 1 KiB
-    ├── partitions total: 1
-    ├── partitions scanned: 1
-    ├── pruning stats: [segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1>]
+    ├── read rows: 160
+    ├── read size: 1.70 KiB
+    ├── partitions total: 16
+    ├── partitions scanned: 16
+    ├── pruning stats: [segments: <range pruning: 6 to 6>, blocks: <range pruning: 16 to 16>]
     ├── push downs: [filters: [], limit: NONE]
     ├── virtual columns: [val['name']]
-    └── estimated rows: 5.00
+    └── estimated rows: 160.00
 
 -- Display all the virtual columns defined in the system.
 SHOW VIRTUAL COLUMNS;
