@@ -143,7 +143,7 @@ SELECT gcd(48, 18); -- Returns 6
 
 ## Load Balancing External Functions
 
-When deploying multiple external function servers, you can implement load balancing based on function names. Databend includes a `X-DATABEND-FUNCTION` header in each UDF request, which contains the function name being called. This header can be used to route requests to different backend servers.
+When deploying multiple external function servers, you can implement load balancing based on function names. Databend includes a `X-DATABEND-FUNCTION` header in each UDF request, which contains the lowercased function name being called. This header can be used to route requests to different backend servers.
 
 ### Using Nginx for Function-Based Routing
 
