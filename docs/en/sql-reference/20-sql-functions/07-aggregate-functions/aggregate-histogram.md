@@ -5,43 +5,35 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.377"/>
 
-Computes the distribution of the data. It uses an "equal height" bucketing strategy to generate the histogram. The result of the function returns an empty or Json string.
+Generates a data distribution histogram using an "equal height" bucketing strategy.
 
 ## Syntax
 
 ```sql
 HISTOGRAM(<expr>)
-HISTOGRAM(<expr> [, max_num_buckets])
+
+HISTOGRAM(<max_num_buckets>)(<expr>)
 ```
 
-`max_num_buckets` means the maximum number of buckets that can be used, by default it is 128.
-
-For example:
-```sql
-select histogram(c_id) from histagg;
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                                  histogram(c_id)                                                  │
-│                                                  Nullable(String)                                                 │
-├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ [{"lower":"1","upper":"1","ndv":1,"count":6,"pre_sum":0},{"lower":"2","upper":"2","ndv":1,"count":6,"pre_sum":6}] │
-└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-```
-:::
-
-## Arguments
-
-| Arguments         | Description                                                                                |
-|-------------------|--------------------------------------------------------------------------------------------|
-| `<expr>`          | The data type of `<expr>` should be sortable.                                              |
-| `max_num_buckets` | Optional constant positive integer, the maximum number of buckets that can be used.        |
+| Parameter         | Description                                                                         |
+|-------------------|-------------------------------------------------------------------------------------|
+| `expr`            | The data type of `expr` should be sortable.                                         |
+| `max_num_buckets` | Optional positive integer specifying the maximum number of buckets. Default is 128. |
 
 ## Return Type
 
-the Nullable String type
+Returns either an empty string or a JSON object with the following structure:
 
-## Example
+- **buckets**: List of buckets with detailed information:
+  - **lower**: Lower bound of the bucket.
+  - **upper**: Upper bound of the bucket.
+  - **count**: Number of elements in the bucket.
+  - **pre_sum**: Cumulative count of elements up to the current bucket.
+  - **ndv**: Number of distinct values in the bucket.
 
-**Create a Table and Insert Sample Data**
+## Examples
+
+This example shows how the HISTOGRAM function analyzes the distribution of `c_int` values in the `histagg` table, returning bucket boundaries, distinct value counts, element counts, and cumulative counts:
 
 ```sql
 CREATE TABLE histagg (
@@ -58,24 +50,17 @@ INSERT INTO histagg VALUES
   (2, 21, 22, 23),
   (2, 31, 32, 33),
   (2, 10, 20, 30);
-```
 
-**Query Demo 1**
-```sql
 SELECT HISTOGRAM(c_int) FROM histagg;
-```
 
-**Result**
-```sql
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                                                                                              histogram(c_int)                                                                                                             │
-│                                                                                                              Nullable(String)                                                                                                             │
 ├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ [{"lower":"13","upper":"13","ndv":1,"count":1,"pre_sum":0},{"lower":"23","upper":"23","ndv":1,"count":1,"pre_sum":1},{"lower":"30","upper":"30","ndv":1,"count":2,"pre_sum":2},{"lower":"33","upper":"33","ndv":1,"count":2,"pre_sum":4}] │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Query result description：
+The result is returned as a JSON array:
 
 ```json
 [
@@ -110,11 +95,35 @@ Query result description：
 ]
 ```
 
-Fields description:
+This example shows how `HISTOGRAM(2)` groups c_int values into two buckets:
 
-- buckets：All buckets
-  - lower：Upper bound of the bucket
-  - upper：Lower bound of the bucket
-  - count：The number of elements contained in the bucket
-  - pre_sum：The total number of elements in the front bucket
-  - ndv：The number of distinct values in the bucket
+```sql
+SELECT HISTOGRAM(2)(c_int) FROM histagg;
+
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                  histogram(2)(c_int)                                                  │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ [{"lower":"13","upper":"30","ndv":3,"count":4,"pre_sum":0},{"lower":"33","upper":"33","ndv":1,"count":2,"pre_sum":4}] │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+The result is returned as a JSON array:
+
+```json
+[
+  {
+    "lower": "13",
+    "upper": "30",
+    "ndv": 3,
+    "count": 4,
+    "pre_sum": 0
+  },
+  {
+    "lower": "33",
+    "upper": "33",
+    "ndv": 1,
+    "count": 2,
+    "pre_sum": 4
+  }
+]
+```
