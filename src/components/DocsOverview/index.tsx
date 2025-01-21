@@ -163,7 +163,7 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>{$t("Topics you might find useful:")}</div>
                   <ul>
                     <li>
-                      <Link to={"/guides/overview/editions/dce/download"}>
+                      <Link to={"/guides/deploy/deploy/download"}>
                         {$t("Downloading Databend")}
                       </Link>
                     </li>
