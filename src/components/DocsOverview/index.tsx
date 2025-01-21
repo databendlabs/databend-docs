@@ -52,7 +52,7 @@ const colLayout3 = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 24 };
 const DocsOverview: FC = (): ReactElement => {
   const {
     siteConfig: {
-      customFields: { homeLink },
+      customFields: { homeLink, isChina },
     },
   } = useDocusaurusContext();
   return (
@@ -163,7 +163,13 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>{$t("Topics you might find useful:")}</div>
                   <ul>
                     <li>
-                      <Link to={"/guides/deploy/deploy/download"}>
+                      <Link
+                        to={
+                          isChina
+                            ? "/guides/overview/editions/dce/download"
+                            : "/guides/deploy/deploy/download"
+                        }
+                      >
                         {$t("Downloading Databend")}
                       </Link>
                     </li>
