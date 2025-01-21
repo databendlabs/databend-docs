@@ -12,7 +12,9 @@ Generates a data distribution histogram using an "equal height" bucketing strate
 ```sql
 HISTOGRAM(<expr>)
 
+-- The following two forms are equivalent:
 HISTOGRAM(<max_num_buckets>)(<expr>)
+HISTOGRAM(<expr> [, <max_num_buckets>])
 ```
 
 | Parameter         | Description                                                                         |
@@ -99,6 +101,8 @@ This example shows how `HISTOGRAM(2)` groups c_int values into two buckets:
 
 ```sql
 SELECT HISTOGRAM(2)(c_int) FROM histagg;
+-- Or
+SELECT HISTOGRAM(c_int, 2) FROM histagg;
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                                  histogram(2)(c_int)                                                  │
