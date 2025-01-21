@@ -40,7 +40,8 @@ tbody={[
 width={['67%', '11%', '11%', '11%']}
 thead={['Features', 'Personal', 'Business', 'Dedicated']}
 tbody={[
-['SOC 1 Type I certification.', '✓', '✓', '✓'],
+['SOC 2 Type II certification.', '✓', '✓', '✓'],
+['GDPR', '✓', '✓', '✓'],
 ['Automatic encryption of all data.', '✓', '✓', '✓'],
 ['Object-level access control.', '✓', '✓', '✓'],
 ['Standard Time Travel (up to 1 day) for accessing/restoring modified and deleted data.', '✓', '✓', '✓'],

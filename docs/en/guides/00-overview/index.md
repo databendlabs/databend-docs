@@ -5,8 +5,22 @@ slug: /
 
 import DocsOverview from '@site/src/components/DocsOverview'
 import Speaker from '@site/src/components/Speaker'
+import LanguageDocs from '@site/src/components/LanguageDocs';
 
-Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> documentation. Databend is an affordable, Snowflake-like cloud data warehouse. You can choose to self-host Databend as a completely free and open-source solution, or opt for the convenience of getting started right away with Databend Cloud.
+Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> documentation.
+<LanguageDocs
+cn=
+'
+
+Databend 是一个开源的、Serverless 产品形态、存算分离架构、基于对象存储构建的云原生数据湖仓，提供极致的性能、快速的弹性扩展能力，致力于打造开源版的 **Snowflake**。
+
+'
+en=
+'
+
+Databend is an open-source, serverless, cloud-native data lakehouse built on object storage with a decoupled storage and compute architecture. It delivers exceptional performance and rapid elasticity, aiming to be the open-source alternative to Snowflake.
+
+'/>
 
 <DocsOverview />
 

@@ -527,7 +527,87 @@ const DocsOverview: FC = (): ReactElement => {
           </Row>
         </div>
       </ContentCardWrap>
-      <hr></hr>
+      <div
+        className={styles.productFeatures}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <h3 className={styles.title}>{$t("Product Features")}</h3>
+        <Row gutter={[12, 12]} className={styles.topCard}>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Serverless Elastic Architecture")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Stateless compute nodes with serverless elasticity enable rapid scaling and recovery based on workload."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span> {$t("Object Storage & HDFS")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Stores all data in object storage to reduce costs, while supporting HDFS for existing Hadoop and Hive clusters."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Parquet Data Format")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Uses the standard Parquet format, eliminating data lock-in risks."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Decoupled Storage and Compute")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Designed for multi-tenant data sharing with a truly decoupled architecture, enabling data marketplace functionality."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Open Source with Flexible Deployment")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Supports both public cloud SaaS and private deployments, with an open-source core to avoid vendor lock-in."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Data Lake Support")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Reads data from Iceberg, Hive, and Delta Lake seamlessly."
+                )}
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+      {/* <hr></hr> */}
     </div>
   );
 };
