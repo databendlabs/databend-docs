@@ -7,7 +7,7 @@ title: Getting Started
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-This topic outlines the steps for applying for beta access and signing up for a Databend Cloud account.
+Databend Cloud is a SaaS-based service powered by the Databend Enterprise Edition core engine, offered to users through a public cloud platform. It requires no maintenance or installation; users can simply register an account and start using the service.
 
 :::tip
 Databend Cloud fully supports various popular browsers, including Chrome, Microsoft Edge, Firefox, Opera, and Safari.
@@ -55,11 +55,14 @@ Please note that this step is visible only to users who sign up for their organi
 <!-- #endendef -->
 
 <!-- #ifcndef -->
-要开通 Databend Cloud 服务，您需要先获取 Databend Cloud，然后创建一个 Databend Cloud 账号。
 
-## 获取 Databend Cloud
+## Databend Cloud 介绍
 
-您可以通过以下方式获取 Databend Cloud：
+Databend Cloud 是以 Databend 企业版为核心引擎，提供 SaaS 化服务，以公有云云平台的形式提供给用户使用，免运维免安装，注册账号即可使用。
+
+## 使用 Databend Cloud
+
+您可以通过以下方式使用 Databend Cloud：
 
 - 在 [Databend Cloud 官网](https://www.databend.cn/)直接注册
 - 在[阿里云市场](https://www.aliyun.com/search?k=%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%20Databend%20Cloud&scene=market)购买 Databend Cloud
@@ -145,4 +148,5 @@ Please note that this step is visible only to users who sign up for their organi
 3. 选择云提供商和地区。请注意，此步骤仅对注册其组织的用户可见。完成设置后，点击“创建”。
 
 ![Alt text](@site/static/img/documents_cn/getting-started/02.png)
+
 <!-- #endcndef -->

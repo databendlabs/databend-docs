@@ -676,5 +676,57 @@
   "FAQ": {
     "message": "FAQ",
     "description": "FAQ"
+  },
+  "Product Features": {
+    "message": "Product Features",
+    "description": "Product Features"
+  },
+  "Serverless Elastic Architecture": {
+    "message": "Serverless Elastic Architecture",
+    "description": "Title for serverless elastic architecture card"
+  },
+  "Stateless compute nodes with serverless elasticity enable rapid scaling and recovery based on workload.": {
+    "message": "Stateless compute nodes with serverless elasticity enable rapid scaling and recovery based on workload.",
+    "description": "Description for serverless elastic architecture card"
+  },
+  "Object Storage & HDFS": {
+    "message": "Object Storage & HDFS",
+    "description": "Title for object storage and HDFS card"
+  },
+  "Stores all data in object storage to reduce costs, while supporting HDFS for existing Hadoop and Hive clusters.": {
+    "message": "Stores all data in object storage to reduce costs, while supporting HDFS for existing Hadoop and Hive clusters.",
+    "description": "Description for object storage and HDFS card"
+  },
+  "Parquet Data Format": {
+    "message": "Parquet Data Format",
+    "description": "Title for Parquet data format card"
+  },
+  "Uses the standard Parquet format, eliminating data lock-in risks.": {
+    "message": "Uses the standard Parquet format, eliminating data lock-in risks.",
+    "description": "Description for Parquet data format card"
+  },
+  "Decoupled Storage and Compute": {
+    "message": "Decoupled Storage and Compute",
+    "description": "Title for decoupled storage and compute card"
+  },
+  "Designed for multi-tenant data sharing with a truly decoupled architecture, enabling data marketplace functionality.": {
+    "message": "Designed for multi-tenant data sharing with a truly decoupled architecture, enabling data marketplace functionality.",
+    "description": "Description for decoupled storage and compute card"
+  },
+  "Open Source with Flexible Deployment": {
+    "message": "Open Source with Flexible Deployment",
+    "description": "Title for open source with flexible deployment card"
+  },
+  "Supports both public cloud SaaS and private deployments, with an open-source core to avoid vendor lock-in.": {
+    "message": "Supports both public cloud SaaS and private deployments, with an open-source core to avoid vendor lock-in.",
+    "description": "Description for open source with flexible deployment card"
+  },
+  "Data Lake Support": {
+    "message": "Data Lake Support",
+    "description": "Title for data lake support card"
+  },
+  "Reads data from Iceberg, Hive, and Delta Lake seamlessly.": {
+    "message": "Reads data from Iceberg, Hive, and Delta Lake seamlessly.",
+    "description": "Description for data lake support card"
   }
 }

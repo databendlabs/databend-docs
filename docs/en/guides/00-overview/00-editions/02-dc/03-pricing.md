@@ -20,13 +20,13 @@ cn=
 
 计算集群的大小指的是它能够处理的并发查询的最大数量，价格根据不同的大小和所使用的 Databend Cloud 版本而有所不同。
 
-| 大小   | 最大并发 | 每小时费用 (标准版) | 每小时费用 (商业版) |
-| ------ | -------- | ------------------- | ------------------- |
-| XSmall | 2        | ￥ 3.00             | ￥ 4.50             |
-| Small  | 4        | ￥ 6.00             | ￥ 9.00             |
-| Medium | 8        | ￥ 12.00            | ￥ 18.00            |
-| Large  | 16       | ￥ 24.00            | ￥ 36.00            |
-| XLarge | 32       | ￥ 48.00            | ￥ 72.00            |
+| 大小   | 最大并发 | 每小时费用 (基础版) | 每小时费用 (商业版) | 每秒费用 (基础版) | 每秒费用 (商业版) |
+| ------ | -------- | ------------------- | ------------------- | ----------------- | ----------------- |
+| XSmall | 2        | ￥ 3.00             | ￥ 4.50             | ￥ 0.000833333    | ￥ 0.00125        |
+| Small  | 4        | ￥ 6.00             | ￥ 9.00             | ￥ 0.001666667    | ￥ 0.0025         |
+| Medium | 8        | ￥ 12.00            | ￥ 18.00            | ￥ 0.003333333    | ￥ 0.005          |
+| Large  | 16       | ￥ 24.00            | ￥ 36.00            | ￥ 0.006666667    | ￥ 0.01           |
+| XLarge | 32       | ￥ 48.00            | ￥ 72.00            | ￥ 0.013333333    | ￥ 0.02           |
 
 暂停的计算集群不会消耗任何资源。默认情况下，Databend Cloud 会在五分钟不活动后自动暂停计算集群以节省资源和成本。您可以根据自己的偏好调整或禁用此自动暂停功能。
 
@@ -38,6 +38,44 @@ cn=
 | ------ | -------------- |
 | 标准版 | ￥ 160.00      |
 | 商业版 | ￥ 160.00      |
+
+## 例子 1：
+
+某用户使用商业版 XSmall 集群，偶尔查询一次数据，此次查询耗时 5 分 20 秒，数据存储容量为 100G，当天的费用是:
+
+### 计算费用：
+
+0.00125*(5*60+20)=0.4 元（XSmall 集群 1 秒计费为 0.00125，时长 5 分 20 秒）
+
+### 存储费用：
+
+160/1024/30\*100=0.52 元(存储单价:160 元/T/月，1T=1024G，30 天)
+
+### 该天总费用：计算费用+存储费用=0.4+0.52=0.92 元
+
+该月按照每天一次的查询频率，总费用为：0.92\*30=27.6 元
+（注：因云服务 API 调用次数太少，几乎为 0，所以不产生云服务费，每天有大量频繁查询才会产生服务费，如例子 2）
+
+## 例子 2：
+
+某用户使用商业版 XSmall 集群，将数据持续导入 Dataend Cloud。期间，计算集群 24 小时不间断运行，存储数据量为 1T。为实现数据的动态持续加载，该用户运用了 Databend Cloud 提供的 Task 服务，设置任务为每分钟执行一次，将数据加载至 Databend Cloud 中，预计调用 API 次数为 10 万次。当天产生的费用是:
+
+### 计算费用：
+
+0.00125*3600*24=4.5\*24=108 元（XSmall 集群 1 秒计费为 0.00125，1 小时为 3600 秒，24 小时）
+
+### 存储费用：
+
+160/30\*1=5.33 元 (存储单价:160 元/T/月，1 个月为 30 天)
+
+### 云服务费用：
+
+4.5\*10=45 元（4.5 元/1 万次 API 调用，10 万次）
+
+### 该天总费用：
+
+计算费用+存储费用+云服务费用=108+5.33+45=158.33 元
+该月按照 24 小时持续数据导入，总费用为：158.33\*30=4749.9 元
 
 ### 云服务定价
 
@@ -72,13 +110,13 @@ Your warehouses incur costs when they are running (specifically, when in the Run
 
 The size of a warehouse refers to the maximum number of concurrent queries it can handle, and prices vary based on the different sizes available and the Databend Cloud edition you use.
 
-| Size   | Max. Concurrency | Hourly Cost (Personal) | Hourly Cost (Business) |
-| ------ | ---------------- | ---------------------- | ---------------------- |
-| XSmall | 2                | $1.00                  | $1.50                  |
-| Small  | 4                | $2.00                  | $3.00                  |
-| Medium | 8                | $4.00                  | $6.00                  |
-| Large  | 16               | $8.00                  | $12.00                 |
-| XLarge | 32               | $16.00                 | $24.00                 |
+| Size   | Max. Concurrency | Hourly Cost (Personal) | Hourly Cost (Business) | Per-Second Cost (Personal) | Per-Second Cost (Business) |
+| ------ | ---------------- | ---------------------- | ---------------------- | -------------------------- | -------------------------- |
+| XSmall | 2                | $1.00                  | $1.50                  | $0.000277778               | $0.000416667               |
+| Small  | 4                | $2.00                  | $3.00                  | $0.000555556               | $0.000833333               |
+| Medium | 8                | $4.00                  | $6.00                  | $0.001111111               | $0.001666667               |
+| Large  | 16               | $8.00                  | $12.00                 | $0.002222222               | $0.003333333               |
+| XLarge | 32               | $16.00                 | $24.00                 | $0.004444444               | $0.006666667               |
 
 A suspended warehouse does not consume any resources. By default, Databend Cloud automatically suspends a warehouse after five minutes of inactivity to save resources and costs. You can adjust or disable this automatic suspension feature according to your preferences.
 
@@ -90,6 +128,52 @@ Your data in Databend Cloud is physically stored in Amazon S3. Storage costs in 
 | ---------------- | ---------------------- |
 | Personal Edition | $23.00                 |
 | Business Edition | $23.00                 |
+
+## Example-1:
+
+A user is using an XSmall warehouse (Business) and occasionally queries data. This specific query took 5 minutes and 20 seconds, and the data storage size is 100GB. The charges for the day are as follows:
+
+### Compute charges:
+
+0.000416667 \* (5 \* 60 + 20) = $0.13
+(XSmall cluster charges 0.00125 RMB per second, and the query duration is 5 minutes and 20 seconds)
+
+### Storage charges:
+
+23 / 1024 / 30 \* 100 = $0.75
+(Storage price is $23 per TB/month, 1TB = 1024GB, 30 days in a month)
+
+### Total daily cost:
+
+Compute charges + Storage charges = $0.13 + $0.75 = $0.88
+Assuming one query per day, the total cost for the month would be:
+0.88 \* 30 = $26.4
+(Note: Because the API calls are infrequent, the cloud service fee is negligible. Only frequent queries will generate cloud service fees, as shown in Example 2.)
+
+## Example-2:
+
+A user is using an XSmall warehouse (Business) to continuously import data into Databend Cloud. The warehouse runs 24 hours a day, and the data storage is 1TB. To facilitate continuous data loading, the user has set up a task to run every minute, loading data into Databend Cloud. The estimated number of API calls is 100,000. The charges for the day are as follows:
+
+### Compute charges:
+
+1.50 \* 24 = $36
+(XSmall cluster charges $1.50 per hour)
+
+### Storage charges:
+
+23 / 30 = $0.77
+(Storage price is $23 per TB/month, 1TB = 1024GB, 30 days in a month)
+
+### Cloud service charges:
+
+2 \* 10 = $20
+($2 per 10,000 API calls)
+
+### Total daily cost:
+
+Compute charges + Storage charges + Cloud service charges = 36 + 0.77 + 20 = $56.77
+Assuming 24-hour continuous data import throughout the month, the total cost for the month would be:
+56.77 \* 30 = $1703.1
 
 ### Cloud Service Pricing
 
