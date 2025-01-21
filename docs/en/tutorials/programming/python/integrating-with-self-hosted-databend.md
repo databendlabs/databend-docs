@@ -1,57 +1,14 @@
 ---
-title: Python
+title: Integrating with Self-Hosted Databend
 ---
 
-Databend offers the following Python packages enabling you to develop Python applications that interact with Databend:
+This tutorial demonstrates how to connect to a locally deployed Databend instance using Python. We'll cover three approaches—`databend-driver`, `databend-sqlalchemy` with the connector, and `databend-sqlalchemy` with the engine—to perform basic operations such as creating a database, adding a table, inserting data, querying, and cleaning up resources.
 
-- [databend-driver (**Recommended**)](https://pypi.org/project/databend-driver/): A Python driver for Databend, providing both synchronous and asynchronous interfaces to interact with the Databend database, execute SQL queries, and handle data operations.
-- [databend-sqlalchemy](https://github.com/databendcloud/databend-sqlalchemy): Provides a SQL toolkit and [Object-Relational Mapping](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) to interface with the Databend database. [SQLAlchemy](https://www.sqlalchemy.org/) is a popular SQL toolkit and ORM for Python, and databend-SQLAlchemy is a dialect for SQLAlchemy that allows you to use SQLAlchemy to interact with Databend.
-
-Both packages require Python version 3.7 or higher. To check your Python version, run `python --version` in your command prompt. To install the latest `databend-driver` or `databend-sqlalchemy` package:
-
-```bash
-# install databend-driver
-pip install databend-driver
-
-# install databend-sqlalchemy
-pip install databend-sqlalchemy
-```
-
-## Data Type Mappings
-
-This table illustrates the correspondence between Databend general data types and their corresponding Python equivalents:
-
-| Databend  | Python            |
-| --------- | ----------------- |
-| BOOLEAN   | bool              |
-| TINYINT   | int               |
-| SMALLINT  | int               |
-| INT       | int               |
-| BIGINT    | int               |
-| FLOAT     | float             |
-| DOUBLE    | float             |
-| DECIMAL   | decimal.Decimal   |
-| DATE      | datetime.date     |
-| TIMESTAMP | datetime.datetime |
-| VARCHAR   | str               |
-| BINARY    | bytes             |
-
-This table illustrates the correspondence between Databend semi-structured data types and their corresponding Python equivalents:
-
-| Databend | Python |
-| -------- | ------ |
-| ARRAY    | list   |
-| TUPLE    | tuple  |
-| MAP      | dict   |
-| VARIANT  | str    |
-| BITMAP   | str    |
-| GEOMETRY | str    |
-
-## Tutorial-1: Integrating with Self-Hosted Databend
+## Before You Start
 
 Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/deploy/deploy/non-production/deploying-local).
 
-### Step 1. Prepare a SQL User Account
+## Step 1: Prepare a SQL User Account
 
 To connect your program to Databend and execute SQL operations, you must provide a SQL user account with appropriate privileges in your code. Create one in Databend if needed, and ensure that the SQL user has only the necessary privileges for security.
 
@@ -62,7 +19,7 @@ CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL on *.* TO user1;
 ```
 
-### Step 2. Write a Python Program
+## Step 2: Write a Python Program
 
 In this step, you'll create a simple Python program that communicates with Databend. The program will involve tasks such as creating a table, inserting data, and executing data queries.
 
@@ -215,84 +172,3 @@ Readings in Database Systems Michael Stonebraker 2004
 
 </TabItem>
 </Tabs>
-
-## Tutorial-2: Integrating with Databend Cloud using databend-driver
-
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
-
-### Step 1. Install Dependencies with pip
-
-```shell
-pip install databend-driver
-```
-
-### Step 2. Connect with databend-driver
-
-1. Copy and paste the following code to the file `main.py`:
-
-```python
-from databend_driver import BlockingDatabendClient
-
-# Connecting to Databend Cloud with your credentials (replace PASSWORD, HOST, DATABASE, and WAREHOUSE_NAME)
-client = BlockingDatabendClient(f"databend://cloudapp:{PASSWORD}@{HOST}:443/{DATABASE}?warehouse={WAREHOUSE_NAME}")
-
-# Get a cursor from the client to execute queries
-cursor = client.cursor()
-
-# Drop the table if it exists
-cursor.execute('DROP TABLE IF EXISTS data')
-
-# Create the table if it doesn't exist
-cursor.execute('CREATE TABLE IF NOT EXISTS data (x Int32, y String)')
-
-# Describe the table
-cursor.execute('DESC data')
-
-# Insert data into the table
-cursor.execute("INSERT INTO data (x, y) VALUES (1, 'yy'), (2, 'xx')")
-
-# Select all data from the table
-cursor.execute('SELECT * FROM data')
-
-# Fetch all rows from the result
-rows = cursor.fetchall()
-
-# Print the result
-for row in rows:
-    print(row.values())
-```
-
-2. Run `python main.py`:
-
-```bash
-python main.py
-(1, 'yy')
-(2, 'xx')
-```
-
-## Tutorial-3: Integrating with Databend Cloud using databend-sqlalchemy
-
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
-
-### Step 1. Install Dependencies with pip
-
-```shell
-pip install databend-sqlalchemy
-```
-
-### Step 2. Connect with Databend SQLAlchemy
-
-```python
-from databend_sqlalchemy import connector
-
-cursor = connector.connect(f"databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}).cursor()
-cursor.execute('DROP TABLE IF EXISTS data')
-cursor.execute('CREATE TABLE IF NOT EXISTS  data( Col1 TINYINT, Col2 VARCHAR )')
-cursor.execute("INSERT INTO data (Col1,Col2) VALUES ", [1, 'yy', 2, 'xx'])
-cursor.execute("SELECT * FROM data")
-print(cursor.fetchall())
-```
-
-:::tip
-Replace `{USER}, {PASSWORD}, {HOST}, {WAREHOUSE_NAME} and {DATABASE}` in the code with your connection information. For how to obtain the connection information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
-:::
