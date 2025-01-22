@@ -74,7 +74,7 @@ Databend's JDBC Driver generally follows the JDBC specifications. Below is a lis
 
 ## Configuring Connection String
 
-Once the driver is installed and integrated into your project, you can use it to connect to Databend using the following JDBC connection string format:
+Once the driver is installed and integrated into your project , you can use it to connect to Databend using the following JDBC connection string format:
 
 ```java
 jdbc:databend://<username>:<password>@<host_port>/<database>?<connection_params>
