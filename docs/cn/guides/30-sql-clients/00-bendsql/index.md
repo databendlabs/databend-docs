@@ -143,33 +143,33 @@ cargo install bendsql
 
 ## 用户认证
 
-如果您连接到自托管的 Databend 实例，可以使用 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中指定的管理员用户，或者使用通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户进行连接。
+如果您连接到私有化部署的 Databend 实例，可以使用 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中指定的管理员用户，或者使用通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户进行连接。
 
 对于连接到 Databend Cloud，您可以使用默认的 `cloudapp` 用户或通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户。请注意，您用于登录 [Databend Cloud 控制台](https://app.databend.com/) 的用户账户不能用于连接 Databend Cloud。
 
 ## 教程
 
-- [使用 BendSQL 连接到自托管的 Databend](/tutorials/)
+- [使用 BendSQL 连接到私有化部署的 Databend](/tutorials/)
 - [使用 BendSQL 连接到 Databend Cloud](/tutorials/connect/connect-to-databendcloud-bendsql)
 
 ## BendSQL 设置
 
 BendSQL 提供了一系列设置，允许您定义查询结果的呈现方式：
 
-| 设置               | 描述                                                                                                                                                 |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `display_pretty_sql` | 当设置为 `true` 时，SQL 查询将以视觉上吸引人的方式格式化，使其更易于阅读和理解。                                                                      |
-| `prompt`             | 命令行界面中显示的提示符，通常指示用户、计算集群和正在访问的数据库。                                                                                  |
-| `progress_color`     | 指定用于进度指示器的颜色，例如在执行需要一些时间完成的查询时。                                                                                       |
-| `show_progress`      | 当设置为 `true` 时，将显示进度指示器，以显示长时间运行的查询或操作的进度。                                                                           |
-| `show_stats`         | 如果为 `true`，则在执行每个查询后将显示查询统计信息，如执行时间、读取的行数和处理的字节数。                                                           |
-| `max_display_rows`   | 设置查询结果输出中将显示的最大行数。                                                                                                                 |
-| `max_col_width`      | 设置每个列显示渲染的最大宽度（以字符为单位）。小于 3 的值将禁用限制。                                                                                |
-| `max_width`          | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时，默认使用终端窗口的宽度。                                                                      |
-| `output_format`      | 设置用于显示查询结果的格式（`table`、`csv`、`tsv`、`null`）。                                                                                        |
-| `expand`             | 控制查询输出的显示方式是作为单独的记录还是以表格格式显示。可用值：`on`、`off` 和 `auto`。                                                           |
-| `multi_line`         | 确定是否允许多行输入 SQL 查询。当设置为 `true` 时，查询可以跨越多行，以提高可读性。                                                                 |
-| `replace_newline`    | 指定查询结果输出中的换行符是否应替换为空格。这可以防止显示中出现意外的换行。                                                                         |
+| 设置                 | 描述                                                                                        |
+| -------------------- | ------------------------------------------------------------------------------------------- |
+| `display_pretty_sql` | 当设置为 `true` 时，SQL 查询将以视觉上吸引人的方式格式化，使其更易于阅读和理解。            |
+| `prompt`             | 命令行界面中显示的提示符，通常指示用户、计算集群和正在访问的数据库。                        |
+| `progress_color`     | 指定用于进度指示器的颜色，例如在执行需要一些时间完成的查询时。                              |
+| `show_progress`      | 当设置为 `true` 时，将显示进度指示器，以显示长时间运行的查询或操作的进度。                  |
+| `show_stats`         | 如果为 `true`，则在执行每个查询后将显示查询统计信息，如执行时间、读取的行数和处理的字节数。 |
+| `max_display_rows`   | 设置查询结果输出中将显示的最大行数。                                                        |
+| `max_col_width`      | 设置每个列显示渲染的最大宽度（以字符为单位）。小于 3 的值将禁用限制。                       |
+| `max_width`          | 设置整个显示输出的最大宽度（以字符为单位）。值为 0 时，默认使用终端窗口的宽度。             |
+| `output_format`      | 设置用于显示查询结果的格式（`table`、`csv`、`tsv`、`null`）。                               |
+| `expand`             | 控制查询输出的显示方式是作为单独的记录还是以表格格式显示。可用值：`on`、`off` 和 `auto`。   |
+| `multi_line`         | 确定是否允许多行输入 SQL 查询。当设置为 `true` 时，查询可以跨越多行，以提高可读性。         |
+| `replace_newline`    | 指定查询结果输出中的换行符是否应替换为空格。这可以防止显示中出现意外的换行。                |
 
 有关每个设置的详细信息，请参阅下面的参考信息：
 
@@ -505,13 +505,13 @@ root@localhost:8000/default> .max_width 100
 
 BendSQL 为用户提供了各种命令，以简化他们的工作流程并自定义他们的体验。以下是 BendSQL 中可用的命令概述：
 
-| 命令                     | 描述                        |
-| ------------------------ | --------------------------- |
-| `!exit`                  | 退出 BendSQL。               |
-| `!quit`                  | 退出 BendSQL。               |
-| `!configs`               | 显示当前 BendSQL 设置。      |
-| `!set <setting> <value>` | 修改 BendSQL 设置。          |
-| `!source <sql_file>`     | 执行 SQL 文件。              |
+| 命令                     | 描述                    |
+| ------------------------ | ----------------------- |
+| `!exit`                  | 退出 BendSQL。          |
+| `!quit`                  | 退出 BendSQL。          |
+| `!configs`               | 显示当前 BendSQL 设置。 |
+| `!set <setting> <value>` | 修改 BendSQL 设置。     |
+| `!source <sql_file>`     | 执行 SQL 文件。         |
 
 有关每个命令的示例，请参阅下面的参考信息：
 
