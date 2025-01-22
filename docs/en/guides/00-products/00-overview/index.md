@@ -1,5 +1,6 @@
 ---
 title: Databend Products
+sidebar_position: 1
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';

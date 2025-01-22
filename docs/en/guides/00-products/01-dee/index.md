@@ -1,6 +1,8 @@
 ---
 title: Databend Enterprise
+sidebar_position: 3
 ---
+
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 Databend Enterprise enhances the [Databend Community Edition](../00-dce.md) by incorporating additional enterprise features, requiring a purchased license for utilization.
