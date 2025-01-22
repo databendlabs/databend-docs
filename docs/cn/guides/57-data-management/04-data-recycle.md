@@ -10,7 +10,7 @@ sidebar_label: 数据回收
 - **历史数据**：用于时间回溯，存储历史数据或已删除表的数据。
 - **临时数据**：系统用于存储溢出数据的临时文件。
 
-如果数据量较大，你可以运行几个命令（[企业版功能](/guides/overview/editions/dee/enterprise-features)）来删除这些数据并释放存储空间。
+如果数据量较大，你可以运行几个命令（[企业版功能](/guides/products/dee/enterprise-features)）来删除这些数据并释放存储空间。
 
 ## 清理已删除表的数据
 

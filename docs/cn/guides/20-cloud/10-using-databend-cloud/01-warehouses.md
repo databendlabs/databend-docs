@@ -14,7 +14,7 @@ import { Button } from 'antd'
 - 使用 INSERT、UPDATE 或 DELETE 语句修改数据
 - 使用 COPY INTO 命令将数据加载到表中
 
-运行计算集群会产生费用。更多信息，请参阅 [计算集群定价](/guides/overview/editions/dc/pricing#warehouse-pricing)。
+运行计算集群会产生费用。更多信息，请参阅 [计算集群定价](/guides/products/dc/pricing#warehouse-pricing)。
 
 ## 计算集群大小
 
