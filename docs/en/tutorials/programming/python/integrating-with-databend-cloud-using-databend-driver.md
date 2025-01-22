@@ -31,10 +31,7 @@ cursor = client.cursor()
 cursor.execute('DROP TABLE IF EXISTS data')
 
 # Create the table if it doesn't exist
-cursor.execute('CREATE TABLE IF NOT EXISTS data (x Int32, y String)')
-
-# Describe the table
-cursor.execute('DESC data')
+cursor.execute('CREATE TABLE IF NOT EXISTS data (x Int32, y String)')          
 
 # Insert data into the table
 cursor.execute("INSERT INTO data (x, y) VALUES (1, 'yy'), (2, 'xx')")
