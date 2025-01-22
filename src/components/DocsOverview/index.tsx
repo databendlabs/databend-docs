@@ -165,10 +165,9 @@ const DocsOverview: FC = (): ReactElement => {
                     <li>
                       <Link
                         to={
-                          // isChina
-                          //   ? "/guides/overview/editions/dce/download"
-                          //   :
-                          "/guides/deploy/deploy/download"
+                          isChina
+                            ? "/guides/overview/editions/dce/download"
+                            : "/guides/deploy/deploy/download"
                         }
                       >
                         {$t("Downloading Databend")}
