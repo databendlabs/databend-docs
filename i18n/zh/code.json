@@ -714,7 +714,7 @@
     "description": "Description for object storage and HDFS card"
   },
   "Parquet Data Format": {
-    "message": "开发数据格式 Parquet",
+    "message": "开放数据格式 Parquet",
     "description": "Title for Parquet data format card"
   },
   "Uses the standard Parquet format, eliminating data lock-in risks.": {

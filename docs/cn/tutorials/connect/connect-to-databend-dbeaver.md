@@ -1,12 +1,12 @@
 ---
-title: "使用 DBeaver 连接到自托管 Databend"
-sidebar_label: "连接到自托管 Databend (DBeaver)"
+title: "使用 DBeaver 连接到私有化部署 Databend"
+sidebar_label: "连接到私有化部署 Databend (DBeaver)"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在本教程中，我们将指导您通过 Databend JDBC 驱动程序以 `root` 用户的身份连接到自托管的 Databend 实例。
+在本教程中，我们将指导您通过 Databend JDBC 驱动程序以 `root` 用户的身份连接到私有化部署的 Databend 实例。
 
 您可能想知道如何[安装和部署 Databend](/guides/deploy/)
 

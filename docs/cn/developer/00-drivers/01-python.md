@@ -51,4 +51,4 @@ pip install databend-sqlalchemy
 
 - [使用 databend-driver 与 Databend Cloud 集成](/tutorials/programming/python/integrating-with-databend-cloud-using-databend-driver)
 - [使用 databend-sqlalchemy 与 Databend Cloud 集成](/tutorials/programming/python/integrating-with-databend-cloud-using-databend-sqlalchemy)
-- [与自托管的 Databend 集成](/tutorials/programming/python/integrating-with-self-hosted-databend)
+- [与私有化部署的 Databend 集成](/tutorials/programming/python/integrating-with-self-hosted-databend)

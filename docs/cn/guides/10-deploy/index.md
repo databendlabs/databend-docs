@@ -1,5 +1,5 @@
 ---
-title: 自托管 Databend
+title: 私有化部署 Databend
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';

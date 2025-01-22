@@ -1,5 +1,5 @@
 ---
-title: 与自托管 Databend 集成
+title: 与私有化部署 Databend 集成
 ---
 
 本教程演示了如何使用 Python 连接到本地部署的 Databend 实例。我们将介绍三种方法——`databend-driver`、`databend-sqlalchemy` 与连接器，以及 `databend-sqlalchemy` 与引擎——来执行基本操作，如创建数据库、添加表、插入数据、查询和清理资源。

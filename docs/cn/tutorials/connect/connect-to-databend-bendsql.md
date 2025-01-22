@@ -1,13 +1,13 @@
 ---
-title: "使用 BendSQL 连接到自托管 Databend"
-sidebar_label: "连接到自托管 Databend (BendSQL)"
+title: "使用 BendSQL 连接到私有化部署 Databend"
+sidebar_label: "连接到私有化部署 Databend (BendSQL)"
 slug: /
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在本教程中，我们将指导您使用 `root` 用户通过 BendSQL 连接到自托管的 Databend 实例。
+在本教程中，我们将指导您使用 `root` 用户通过 BendSQL 连接到私有化部署的 Databend 实例。
 
 您可能想知道如何[安装和部署 Databend](/guides/deploy/)
 
