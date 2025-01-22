@@ -5,6 +5,8 @@ title: 入门指南
 <!-- #ifendef -->
 <!--
 <!--
+<!--
+<!--
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
@@ -53,6 +55,8 @@ Databend Cloud 完全支持各种流行的浏览器，包括 Chrome、Microsoft 
 </StepContent>
 </StepsWrap>
 -->
+-->
+-->
 <!-- #endendef -->
 
 <!-- #ifcndef -->
@@ -67,7 +71,7 @@ Databend Cloud 完全支持各种流行的浏览器，包括 Chrome、Microsoft 
 - 在[阿里云市场](https://www.aliyun.com/search?k=%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%20Databend%20Cloud&scene=market)购买 Databend Cloud
 - 在[腾讯云市场](https://market.cloud.tencent.com/products/40683?keyword=databend)购买 Databend Cloud
 
-需要注意的是，以上几种方式的付费方式略有差异，详情请参考[定价与计费](../00-overview/00-editions/02-dc/03-pricing.md)。
+需要注意的是，以上几种方式的付费方式略有差异，详情请参考[定价与计费](../00-products/02-dc/03-pricing.md)。
 
 ### 在 Databend Cloud 官网直接注册
 
