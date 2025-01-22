@@ -55,7 +55,15 @@ Please note that this step is visible only to users who sign up for their organi
 <!-- #endendef -->
 
 <!-- #ifcndef -->
-
+<!--
+<!--
+<!--
+<!--
+<!--
+<!--
+<!--
+<!--
+<!--
 ## Databend Cloud 介绍
 
 Databend Cloud 是以 Databend 企业版为核心引擎，提供 SaaS 化服务，以公有云云平台的形式提供给用户使用，免运维免安装，注册账号即可使用。
@@ -64,11 +72,11 @@ Databend Cloud 是以 Databend 企业版为核心引擎，提供 SaaS 化服务�
 
 您可以通过以下方式使用 Databend Cloud：
 
-- 在 [Databend Cloud 官网](https://www.databend.cn/)直接注册
-- 在[阿里云市场](https://www.aliyun.com/search?k=%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%20Databend%20Cloud&scene=market)购买 Databend Cloud
-- 在[腾讯云市场](https://market.cloud.tencent.com/products/40683?keyword=databend)购买 Databend Cloud
+- 在 [Databend Cloud 官网](https://www.databend.cn/) 直接注册
+- 在 [阿里云市场](https://www.aliyun.com/search?k=%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%20Databend%20Cloud&scene=market) 购买 Databend Cloud
+- 在 [腾讯云市场](https://market.cloud.tencent.com/products/40683?keyword=databend) 购买 Databend Cloud
 
-需要注意的是，以上几种方式的付费方式略有差异，详情请参考[定价与计费](../00-overview/00-editions/02-dc/03-pricing.md)。
+需要注意的是，以上几种方式的付费方式略有差异，详情请参考 [定价与计费](../00-products/02-dc/03-pricing.md)。
 
 ### 在 Databend Cloud 官网直接注册
 
@@ -76,13 +84,13 @@ Databend Cloud 是以 Databend 企业版为核心引擎，提供 SaaS 化服务�
 
 ![Alt text](@site/static/img/documents_cn/getting-started/register.png)
 
-您会收到一封包含注册账号链接的邮件。请留意您的信箱，并通过邮件中的链接开始创建 Databend Cloud 账号，创建过程请参考[创建 Databend Cloud 账号](#创建-databend-cloud-账号)。
+您会收到一封包含注册账号链接的邮件。请留意您的信箱，并通过邮件中的链接开始创建 Databend Cloud 账号，创建过程请参考 [创建 Databend Cloud 账号](#创建-databend-cloud-账号)。
 
 ### 在阿里云市场购买 Databend Cloud
 
 您可以在阿里云市场免费开通 Databend Cloud。开通步骤如下：
 
-1. 打开[阿里云市场](https://www.aliyun.com/search?k=%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%20Databend%20Cloud&scene=market)，并搜索关键字“databend cloud”。
+1. 打开 [阿里云市场](https://www.aliyun.com/search?k=%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%20Databend%20Cloud&scene=market)，并搜索关键字“databend cloud”。
 
 2. 找到“云原生数据仓库 Databend Cloud”后，点击“立即开通”。
 
@@ -104,7 +112,7 @@ Databend Cloud 是以 Databend 企业版为核心引擎，提供 SaaS 化服务�
 
 ![Alt text](@site/static/img/documents/getting-started/activate-2.jpg)
 
-7. 收到注册邮件后，点击注册链接开始创建 Databend Cloud 账号，创建过程请参考[创建 Databend Cloud 账号](#创建-databend-cloud-账号)。
+7. 收到注册邮件后，点击注册链接开始创建 Databend Cloud 账号，创建过程请参考 [创建 Databend Cloud 账号](#创建-databend-cloud-账号)。
 
 :::tip
 注册并完成绑定后，在阿里云后台点击“免登”可以自动连接到 Databend Cloud 平台。
@@ -114,7 +122,7 @@ Databend Cloud 是以 Databend 企业版为核心引擎，提供 SaaS 化服务�
 
 您可以在腾讯云市场开通 Databend Cloud。开通步骤如下：
 
-1. 打开[腾讯云市场](https://market.cloud.tencent.com/products/40683?keyword=databend)，并搜索关键字“databend cloud”。
+1. 打开 [腾讯云市场](https://market.cloud.tencent.com/products/40683?keyword=databend)，并搜索关键字“databend cloud”。
 
 2. 找到“Databend Cloud”后，点击“立即购买”，并根据指引完成支付（注册完成后，此处支付的 100 元将充值到您的 Databend Cloud 账户）。
 
@@ -124,7 +132,7 @@ Databend Cloud 是以 Databend 企业版为核心引擎，提供 SaaS 化服务�
 
 ![Alt text](@site/static/img/documents/getting-started/tencent-manage.png)
 
-4. 在打开的页面中，点击“免登地址”的链接开始创建 Databend Cloud 账号。创建过程请参考[创建 Databend Cloud 账号](#创建-databend-cloud-账号)。
+4. 在打开的页面中，点击“免登地址”的链接开始创建 Databend Cloud 账号。创建过程请参考 [创建 Databend Cloud 账号](#创建-databend-cloud-账号)。
 
 ![Alt text](@site/static/img/documents/getting-started/tencent-address.png)
 
@@ -148,5 +156,14 @@ Databend Cloud 是以 Databend 企业版为核心引擎，提供 SaaS 化服务�
 3. 选择云提供商和地区。请注意，此步骤仅对注册其组织的用户可见。完成设置后，点击“创建”。
 
 ![Alt text](@site/static/img/documents_cn/getting-started/02.png)
+-->
 
+-->
+-->
+-->
+-->
+-->
+-->
+-->
+-->
 <!-- #endcndef -->

@@ -10,7 +10,7 @@ There are two types of data:
 - **History Data**: Used by Time Travel to store historical data or data from dropped tables.
 - **Temporary Data**: Used by the system to store spilled data.
 
-If the data size is significant, you can run several commands ([Enterprise Edition Features](/guides/overview/editions/dee/enterprise-features)) to delete these data and free up storage space.
+If the data size is significant, you can run several commands ([Enterprise Edition Features](/guides/products/dee/enterprise-features)) to delete these data and free up storage space.
 
 ## Purge Drop Table Data
 

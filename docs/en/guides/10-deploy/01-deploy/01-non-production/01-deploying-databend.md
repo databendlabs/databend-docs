@@ -110,6 +110,7 @@ For information about how to manage buckets and Access Keys for your cloud objec
 </TabItem>
 
 <!-- #ifcndef -->
+
 <TabItem value="Huawei OBS" label="Huawei OBS">
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
 2. 获取连接到您创建的存储桶或容器的端点 URL。
@@ -119,7 +120,9 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 - [https://support.huaweicloud.com/intl/zh-cn/usermanual-obs/zh-cn_topic_0045829088.html](https://support.huaweicloud.com/intl/zh-cn/usermanual-obs/zh-cn_topic_0045829088.html)
 - [https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html](https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html)
+
 </TabItem>
+
 <!-- #endcndef -->
 
 <TabItem value="Wasabi" label="Wasabi">
@@ -375,7 +378,7 @@ access_key_id = "<your-key-id>"
 access_key_secret = "<your-access-key>"
 ```
 
-Databend Enterprise Edition supports server-side encryption in OSS. This feature enables you to enhance data security and privacy by activating server-side encryption for data stored in OSS. You can choose the encryption method that best suits your needs. Please note that you must have a valid Databend Enterprise Edition license to utilize this feature. To obtain one, see [Licensing Databend](../../../00-overview/00-editions/01-dee/20-license.md).
+Databend Enterprise Edition supports server-side encryption in OSS. This feature enables you to enhance data security and privacy by activating server-side encryption for data stored in OSS. You can choose the encryption method that best suits your needs. Please note that you must have a valid Databend Enterprise Edition license to utilize this feature. To obtain one, see [Licensing Databend](../../../00-products/01-dee/20-license.md).
 
 To enable server-side encryption in Databend, add the following parameters to the [storage.oss] section:
 

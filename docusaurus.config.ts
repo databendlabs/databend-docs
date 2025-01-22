@@ -281,7 +281,7 @@ const config: Config = {
           items: [
             {
               label: "Products",
-              to: `/guides/overview/editions`,
+              to: `/guides/products/overview/`,
             },
             {
               label: "AI",

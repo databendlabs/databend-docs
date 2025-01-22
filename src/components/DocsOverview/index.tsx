@@ -65,7 +65,7 @@ const DocsOverview: FC = (): ReactElement => {
         <div style={{ height: "100%", width: "100%" }}>
           <Row gutter={[12, 12]} className={styles.topCard}>
             <Col {...colLayout3}>
-              <Card href="/guides/overview/editions/dc/" padding={[16, 16]}>
+              <Card href="/guides/products/dc/" padding={[16, 16]}>
                 <h3>
                   <span>{$t("Databend Cloud")}</span>
                 </h3>
@@ -73,7 +73,7 @@ const DocsOverview: FC = (): ReactElement => {
               </Card>
             </Col>
             <Col {...colLayout3}>
-              <Card href="/guides/overview/editions/dee/" padding={[16, 16]}>
+              <Card href="/guides/products/dee/" padding={[16, 16]}>
                 <h3>
                   <span> {$t("Databend Enterprise")}</span>
                 </h3>
@@ -83,7 +83,7 @@ const DocsOverview: FC = (): ReactElement => {
               </Card>
             </Col>
             <Col {...colLayout3}>
-              <Card href="/guides/overview/editions/dce/" padding={[16, 16]}>
+              <Card href="/guides/products/dce/" padding={[16, 16]}>
                 <h3>
                   <span>{$t("Databend Community")}</span>
                 </h3>
@@ -125,17 +125,17 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>{$t("Topics you might find useful:")}</div>
                   <ul>
                     <li>
-                      <Link to={"/guides/overview/editions/dc/platforms"}>
+                      <Link to={"/guides/products/dc/platforms"}>
                         {$t("Supported Platforms & Regions")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/overview/editions/dc/editions"}>
+                      <Link to={"/guides/products/dc/editions"}>
                         {$t("Databend Cloud Editions")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/overview/editions/dc/pricing"}>
+                      <Link to={"/guides/products/dc/pricing"}>
                         {$t("Pricing & Billing")}
                       </Link>
                     </li>
@@ -165,16 +165,17 @@ const DocsOverview: FC = (): ReactElement => {
                     <li>
                       <Link
                         to={
-                          isChina
-                            ? "/guides/overview/editions/dce/download"
-                            : "/guides/deploy/deploy/download"
+                          // isChina
+                          //   ? "/guides/overview/editions/dce/download"
+                          //   :
+                          "/guides/deploy/deploy/download"
                         }
                       >
                         {$t("Downloading Databend")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/overview/editions/dee/license"}>
+                      <Link to={"/guides/products/dee/license"}>
                         {$t("Licensing Databend")}
                       </Link>
                     </li>
@@ -514,7 +515,7 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<FAQ></FAQ>}
                 text={$t("FAQ")}
-                to={`/guides/overview/faq`}
+                to={`/guides/products/overview/faq`}
               />
             </Col>
             <Col {...colLayout}>
