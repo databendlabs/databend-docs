@@ -1,40 +1,40 @@
 ---
-title: 通过Stream跟踪和转换数据
+title: 通过 Stream 跟踪和转换数据
 sidebar_label: Stream
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-Databend中的Stream是表变更的动态实时表示。创建Stream是为了捕获和跟踪关联表的修改，允许在数据变更发生时持续消费和分析这些变更。
+Databend 中的 Stream 是表变更的动态实时表示。创建 Stream 是为了捕获和跟踪关联表的修改，允许在数据变更发生时持续消费和分析这些变更。
 
-### Stream的工作原理
+### Stream 的工作原理
 
-Stream可以以两种模式运行：**标准**和**仅追加**。在[CREATE STREAM](/sql/sql-commands/ddl/stream/create-stream)时，使用`APPEND_ONLY`参数（默认为`true`）指定模式。
+Stream 可以以两种模式运行：**标准**和**仅追加**。在[CREATE STREAM](/sql/sql-commands/ddl/stream/create-stream)时，使用`APPEND_ONLY`参数（默认为`true`）指定模式。
 
 - **标准**：捕获所有类型的数据变更，包括插入、更新和删除。
-- **仅追加**：在此模式下，Stream仅包含数据插入记录；不捕获数据更新或删除。
+- **仅追加**：在此模式下，Stream 仅包含数据插入记录；不捕获数据更新或删除。
 
-Databend Stream的设计理念是专注于捕获数据的最终状态。例如，如果你插入一个值然后多次更新它，Stream只保留该值在被消费之前的最新状态。以下示例展示了Stream在两种模式下的外观和工作方式。
+Databend Stream 的设计理念是专注于捕获数据的最终状态。例如，如果你插入一个值然后多次更新它，Stream 只保留该值在被消费之前的最新状态。以下示例展示了 Stream 在两种模式下的外观和工作方式。
 
 <StepsWrap>
 <StepContent number="1">
 
-#### 创建Stream以捕获变更
+#### 创建 Stream 以捕获变更
 
-首先创建两个表，然后为每个表创建一个不同模式的Stream，以捕获表的变更。
+首先创建两个表，然后为每个表创建一个不同模式的 Stream，以捕获表的变更。
 
 ```sql
 -- 创建一个表并插入一个值
 CREATE TABLE t_standard(a INT);
 CREATE TABLE t_append_only(a INT);
 
--- 创建两个不同模式的Stream：标准和仅追加
+-- 创建两个不同模式的 Stream：标准和仅追加
 CREATE STREAM s_standard ON TABLE t_standard APPEND_ONLY=false;
 CREATE STREAM s_append_only ON TABLE t_append_only APPEND_ONLY=true;
 ```
 
-你可以使用[SHOW FULL STREAMS](/sql/sql-commands/ddl/stream/show-streams)命令查看创建的Stream及其模式：
+你可以使用[SHOW FULL STREAMS](/sql/sql-commands/ddl/stream/show-streams)命令查看创建的 Stream 及其模式：
 
 ```sql
 SHOW FULL STREAMS;
@@ -47,7 +47,7 @@ SHOW FULL STREAMS;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-现在，让我们在每个表中插入两个值，并观察Stream捕获的内容：
+现在，让我们在每个表中插入两个值，并观察 Stream 捕获的内容：
 
 ```sql
 -- 插入两个新值
@@ -73,7 +73,7 @@ SELECT * FROM s_append_only;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-上述结果表明，两个Stream都成功捕获了新的插入。有关结果中Stream列的详细信息，请参见[Stream列](#stream-columns)。现在，让我们更新然后删除一个新插入的值，并检查Stream捕获的内容是否有差异。
+上述结果表明，两个 Stream 都成功捕获了新的插入。有关结果中 Stream 列的详细信息，请参见[Stream 列](#stream-columns)。现在，让我们更新然后删除一个新插入的值，并检查 Stream 捕获的内容是否有差异。
 
 ```sql
 UPDATE t_standard SET a = 4 WHERE a = 2;
@@ -119,14 +119,14 @@ SELECT * FROM s_append_only;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-到目前为止，我们还没有注意到两种模式之间的显著差异，因为我们还没有处理Stream。所有变更都已合并并表现为INSERT操作。**Stream可以通过任务、DML（数据操作语言）操作或带有[WITH CONSUME](/sql/sql-commands/query-syntax/with-consume)或[WITH Stream Hints](/sql/sql-commands/query-syntax/with-stream-hints)的查询来消费**。消费后，Stream不包含数据，但可以继续捕获新的变更（如果有）。为了进一步分析差异，让我们继续消费Stream并检查输出。
+到目前为止，我们还没有注意到两种模式之间的显著差异，因为我们还没有处理 Stream。所有变更都已合并并表现为 INSERT 操作。**Stream 可以通过任务、DML（数据操作语言）操作或带有[WITH CONSUME](/sql/sql-commands/query-syntax/with-consume)或[WITH Stream Hints](/sql/sql-commands/query-syntax/with-stream-hints)的查询来消费**。消费后，Stream 不包含数据，但可以继续捕获新的变更（如果有）。为了进一步分析差异，让我们继续消费 Stream 并检查输出。
 
 </StepContent>
 <StepContent number="2">
 
-#### 消费Stream
+#### 消费 Stream
 
-让我们创建两个新表，并将Stream捕获的内容插入其中。
+让我们创建两个新表，并将 Stream 捕获的内容插入其中。
 
 ```sql
 CREATE TABLE t_consume_standard(b INT);
@@ -152,7 +152,7 @@ SELECT * FROM t_consume_append_only;
 └─────────────────┘
 ```
 
-如果你现在查询Stream，你会发现它们是空的，因为它们已经被消费了。
+如果你现在查询 Stream，你会发现它们是空的，因为它们已经被消费了。
 
 ```sql
 -- 空结果
@@ -167,7 +167,7 @@ SELECT * FROM s_append_only;
 
 #### 捕获新变更
 
-现在，让我们将每个表中的值从`3`更新为`4`，然后再次检查它们的Stream：
+现在，让我们将每个表中的值从`3`更新为`4`，然后再次检查它们的 Stream：
 
 ```sql
 UPDATE t_standard SET a = 4 WHERE a = 3;
@@ -188,9 +188,9 @@ SELECT * FROM s_standard;
 SELECT * FROM s_append_only;
 ```
 
-上述结果表明，标准Stream将UPDATE操作处理为两个动作的组合：一个DELETE动作删除旧值（`3`），一个INSERT动作添加新值（`4`）。当将`3`更新为`4`时，必须首先删除现有值`3`，因为它不再存在于最终状态中，然后插入新值`4`。这种行为反映了标准Stream如何仅捕获最终变更，将更新表示为同一行的删除（删除旧值）和插入（添加新值）的序列。
+上述结果表明，标准 Stream 将 UPDATE 操作处理为两个动作的组合：一个 DELETE 动作删除旧值（`3`），一个 INSERT 动作添加新值（`4`）。当将`3`更新为`4`时，必须首先删除现有值`3`，因为它不再存在于最终状态中，然后插入新值`4`。这种行为反映了标准 Stream 如何仅捕获最终变更，将更新表示为同一行的删除（删除旧值）和插入（添加新值）的序列。
 
-另一方面，仅追加Stream没有捕获任何内容，因为它设计为仅记录新数据添加（INSERT），忽略更新或删除。
+另一方面，仅追加 Stream 没有捕获任何内容，因为它设计为仅记录新数据添加（INSERT），忽略更新或删除。
 
 如果我们现在删除值`4`，我们可以得到以下结果：
 
@@ -211,10 +211,7 @@ SELECT * FROM s_standard;
 SELECT * FROM s_append_only;
 ```
 
-我们可以看到，两种Stream模式都能够捕获插入，以及在Stream被消费之前对插入值的任何后续更新和删除。然而，消费后，如果对先前插入的数据进行更新或删除，只有标准Stream能够捕获这些变更，并将其记录为DELETE和INSERT操作。
-
-</StepContent>
-</StepsWrap>
+我们可以看到，两种 Stream 模式都能够捕获插入，以及在 Stream 被消费之前对插入值的任何后续更新和删除。然而，消费后，如果对先前插入的数据进行更新或删除，只有标准 Stream 能够捕获这些变更，并将其记录为 DELETE 和 INSERT 操作。
 
 </StepContent>
 </StepsWrap>
@@ -239,16 +236,16 @@ INSERT INTO table SELECT * FROM stream;
 
 **流不会存储表的任何数据**。在为表创建流后，Databend 会向表中引入特定的隐藏元数据列，用于变更跟踪。这些列包括：
 
-| 列                 | 描述                                                                       |
-| ---------------------- | --------------------------------------------------------------------------------- |
-| \_origin_version       | 标识最初创建此行的表版本。             |
-| \_origin_block_id      | 标识此行先前所属的块 ID。                    |
-| \_origin_block_row_num | 标识此行先前所属块中的行号。 |
+| 列                     | 描述                                    |
+| ---------------------- | --------------------------------------- |
+| \_origin_version       | 标识最初创建此行的表版本。              |
+| \_origin_block_id      | 标识此行先前所属的块 ID。               |
+| \_origin_block_row_num | 标识此行先前所属块中的行号。            |
 | \_row_version          | 标识行版本，从 0 开始，每次更新递增 1。 |
 
 要显示这些列的值，请使用 SELECT 语句：
 
-```sql title='示例:'
+```sql title='示例：'
 CREATE TABLE t(a int);
 INSERT INTO t VALUES (1);
 CREATE STREAM s ON TABLE t;
@@ -291,13 +288,13 @@ FROM
 
 您可以使用 SELECT 语句直接查询流并获取跟踪的变更。在查询流时，可以考虑包含这些隐藏列以获取有关变更的更多详细信息：
 
-| 列           | 描述                                                                                                                                                                        |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| change$action    | 变更类型：INSERT 或 DELETE。                                                                                                                                                  |
+| 列               | 描述                                                                                                                  |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
+| change$action    | 变更类型：INSERT 或 DELETE。                                                                                          |
 | change$is_update | 指示 `change$action` 是否为 UPDATE 的一部分。在流中，UPDATE 由 DELETE 和 INSERT 操作的组合表示，此字段设置为 `true`。 |
-| change$row_id    | 每行的唯一标识符，用于跟踪变更。                                                                                                                                   |
+| change$row_id    | 每行的唯一标识符，用于跟踪变更。                                                                                      |
 
-```sql title='示例:'
+```sql title='示例：'
 CREATE TABLE t(a int);
 INSERT INTO t VALUES (1);
 CREATE STREAM s ON TABLE t;
