@@ -187,7 +187,7 @@ A user is using an XSmall warehouse (Business) to continuously import data into 
 ### Total daily cost:
 
 Compute charges + Storage charges + Cloud service charges = 36 + 0.77 + 20 = $56.77
-
+ 
 ### The total cost for the month would be:
 
 Assuming 24-hour continuous data import throughout the month, 56.77 \* 30 = $1703.1
