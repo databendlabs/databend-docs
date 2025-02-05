@@ -43,7 +43,7 @@ jobs:
           region: cn-beijing
           role-session-name: github-actions-${{ github.run_id }}
           oidc-provider-arn: acs:ram::1953761221157405:oidc-provider/github
-          set-outputs: "true"
+          export-environment-variables: "true"
       - name: Sync to OSS
         run: |
           rclone sync ./build/ oss:databend-docs/
