@@ -11,7 +11,7 @@ Creates a warehouse with specified size or by assigning nodes from specific node
 
 ```sql
 CREATE WAREHOUSE <warehouse_name>  
-[WITH warehouse_size = <size> | ASSIGN <node_count> NODES FROM <node_group>[, <node_count> NODES FROM <node_group> ...]]
+[WITH warehouse_size = <size> | ( ASSIGN <node_count> NODES FROM <node_group>[, <node_count> NODES FROM <node_group> ... ] ) ]
 ```
 
 ## Examples
