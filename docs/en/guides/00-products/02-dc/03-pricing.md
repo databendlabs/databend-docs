@@ -160,7 +160,7 @@ A user is using an XSmall warehouse (Business) and occasionally queries data. Th
 
 Compute charges + Storage charges = $0.13 + $0.75 = $0.88
 
-### the total cost for the month would be:
+### The total cost for the month would be:
 
 Assuming one query per day, 0.88 \* 30 = $26.4
 (Note: Because the API calls are infrequent, the cloud service fee is negligible. Only frequent queries will generate cloud service fees, as shown in Example 2.)
@@ -188,7 +188,7 @@ A user is using an XSmall warehouse (Business) to continuously import data into 
 
 Compute charges + Storage charges + Cloud service charges = 36 + 0.77 + 20 = $56.77
 
-### the total cost for the month would be:
+### The total cost for the month would be:
 
 Assuming 24-hour continuous data import throughout the month, 56.77 \* 30 = $1703.1
 
