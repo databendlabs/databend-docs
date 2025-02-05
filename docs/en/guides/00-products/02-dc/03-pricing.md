@@ -39,6 +39,15 @@ cn=
 | 标准版 | ￥ 160.00      |
 | 商业版 | ￥ 160.00      |
 
+### 云服务定价
+
+云服务费目前包括 API 请求的费用。每次您使用 Databend Cloud 运行 SQL 查询时，都会通过 [Databend HTTP 处理器](/developer/apis/http) 向 `databend-query` 发送一个 REST API 请求。在标准版中，每 10,000 次 API 请求收费 3 元，而在商业版中，每 10,000 次 API 请求收费 4.5 元。
+
+| 版本   | 每 10,000 次 API 请求费用 |
+| ------ | ------------------------- |
+| 标准版 | ￥ 3.00                   |
+| 商业版 | ￥ 4.50                   |
+
 ## 例子 1：
 
 某用户使用商业版 XSmall 集群，偶尔查询一次数据，此次查询耗时 5 分 20 秒，数据存储容量为 100G，当天的费用是:
@@ -51,9 +60,13 @@ cn=
 
 160/1024/30\*100=0.52 元(存储单价:160 元/T/月，1T=1024G，30 天)
 
-### 该天总费用：计算费用+存储费用=0.4+0.52=0.92 元
+### 该天总费用：
 
-该月按照每天一次的查询频率，总费用为：0.92\*30=27.6 元
+计算费用+存储费用=0.4+0.52=0.92 元
+
+### 总费用为：
+
+该月按照每天一次的查询频率，0.92\*30=27.6 元
 （注：因云服务 API 调用次数太少，几乎为 0，所以不产生云服务费，每天有大量频繁查询才会产生服务费，如例子 2）
 
 ## 例子 2：
@@ -76,15 +89,6 @@ cn=
 
 计算费用+存储费用+云服务费用=108+5.33+45=158.33 元
 该月按照 24 小时持续数据导入，总费用为：158.33\*30=4749.9 元
-
-### 云服务定价
-
-云服务费目前包括 API 请求的费用。每次您使用 Databend Cloud 运行 SQL 查询时，都会通过 [Databend HTTP 处理器](/developer/apis/http) 向 `databend-query` 发送一个 REST API 请求。在标准版中，每 10,000 次 API 请求收费 3 元，而在商业版中，每 10,000 次 API 请求收费 4.5 元。
-
-| 版本   | 每 10,000 次 API 请求费用 |
-| ------ | ------------------------- |
-| 标准版 | ￥ 3.00                   |
-| 商业版 | ￥ 4.50                   |
 
 ## Databend Cloud 计费
 
@@ -129,6 +133,15 @@ Your data in Databend Cloud is physically stored in Amazon S3. Storage costs in 
 | Personal Edition | $23.00                 |
 | Business Edition | $23.00                 |
 
+### Cloud Service Pricing
+
+The cloud service fee currently includes fees for the API requests. Each time you run a SQL query with Databend Cloud, a REST API request is sent to the `databend-query` through the [Databend HTTP handler](/developer/apis/http). In the Personal Edition, you are billed $1 for every 10,000 API requests, while in the Business Edition, the cost is $2 for every 10,000 API requests.
+
+| Edition          | Cost per 10,000 API Requests |
+| ---------------- | ---------------------------- |
+| Personal Edition | $1.00                        |
+| Business Edition | $2.00                        |
+
 ## Example-1:
 
 A user is using an XSmall warehouse (Business) and occasionally queries data. This specific query took 5 minutes and 20 seconds, and the data storage size is 100GB. The charges for the day are as follows:
@@ -146,8 +159,10 @@ A user is using an XSmall warehouse (Business) and occasionally queries data. Th
 ### Total daily cost:
 
 Compute charges + Storage charges = $0.13 + $0.75 = $0.88
-Assuming one query per day, the total cost for the month would be:
-0.88 \* 30 = $26.4
+
+### the total cost for the month would be:
+
+Assuming one query per day, 0.88 \* 30 = $26.4
 (Note: Because the API calls are infrequent, the cloud service fee is negligible. Only frequent queries will generate cloud service fees, as shown in Example 2.)
 
 ## Example-2:
@@ -172,17 +187,10 @@ A user is using an XSmall warehouse (Business) to continuously import data into 
 ### Total daily cost:
 
 Compute charges + Storage charges + Cloud service charges = 36 + 0.77 + 20 = $56.77
-Assuming 24-hour continuous data import throughout the month, the total cost for the month would be:
-56.77 \* 30 = $1703.1
 
-### Cloud Service Pricing
+### the total cost for the month would be:
 
-The cloud service fee currently includes fees for the API requests. Each time you run a SQL query with Databend Cloud, a REST API request is sent to the `databend-query` through the [Databend HTTP handler](/developer/apis/http). In the Personal Edition, you are billed $1 for every 10,000 API requests, while in the Business Edition, the cost is $2 for every 10,000 API requests.
-
-| Edition          | Cost per 10,000 API Requests |
-| ---------------- | ---------------------------- |
-| Personal Edition | $1.00                        |
-| Business Edition | $2.00                        |
+Assuming 24-hour continuous data import throughout the month, 56.77 \* 30 = $1703.1
 
 ## Databend Cloud Billing
 
