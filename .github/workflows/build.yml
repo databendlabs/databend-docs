@@ -20,6 +20,19 @@ jobs:
       - run: |
           yarn install
           yarn build:cn
+      - name: Install RClone
+        run: |
+          curl https://rclone.org/install.sh | sudo bash
+      - name: Configure RClone
+        run: |
+          mkdir -p ~/.config/rclone
+          cat <<EOF > ~/.config/rclone/rclone.conf
+          [oss]
+          type = s3
+          provider = Alibaba
+          env_auth = true
+          endpoint = oss-cn-beijing.aliyuncs.com
+          EOF
       - name: Configure Aliyun credentials
         id: aliyun
         uses: mozillazg/alibabacloud-oidc-auth@v1
@@ -28,15 +41,7 @@ jobs:
           region: cn-beijing
           role-session-name: github-actions-${{ github.run_id }}
           oidc-provider-arn: acs:ram::1953761221157405:oidc-provider/github
-          set-outputs: "true"
-      - name: Configure AWS CLI
-        run: aws configure set default.s3.addressing_style virtual
+          export-environment-variables: "true"
       - name: Sync to OSS
-        env:
-          AWS_ENDPOINT_URL: https://oss-cn-beijing.aliyuncs.com
-          AWS_ACCESS_KEY_ID: ${{ steps.aliyun.outputs.access-key-id }}
-          AWS_SECRET_ACCESS_KEY: ${{ steps.aliyun.outputs.access-key-secret }}
-          AWS_SESSION_TOKEN: ${{ steps.aliyun.outputs.security-token }}
-          AWS_REGION: cn-beijing
         run: |
-          aws s3 sync ./build/ s3://databend-docs/ --no-progress
+          rclone sync ./build/ oss:databend-docs/
