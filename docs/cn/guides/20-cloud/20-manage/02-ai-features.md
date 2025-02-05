@@ -4,13 +4,12 @@ title: AI 驱动的功能
 
 import SearchSVG from '@site/static/img/icon/search.svg'
 
-<!-- #ifcndef -->
+import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import AITip from '@site/docs/fragment/ai-tip.md'
 
-:::tip
-AI 驱动的功能在某些地区不可用。
-:::
-
-<!-- #endcndef -->
+<LanguageFileParse
+cn={<AITip />}
+/>
 
 通过引入 AI 驱动的功能，Databend Cloud 允许您通过自然语言对话来获取帮助、支持和解决方案。这些 AI 驱动的功能默认启用，但如果需要，您可以通过导航到 **管理** > **设置** 来禁用它们。
 
