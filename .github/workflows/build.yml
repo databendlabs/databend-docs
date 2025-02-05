@@ -27,6 +27,7 @@ jobs:
           curl https://rclone.org/install.sh | sudo bash
       - name: Configure RClone
         run: |
+          mkdir -p ~/.config/rclone
           cat <<EOF > ~/.config/rclone/rclone.conf
           [oss]
           type = s3
