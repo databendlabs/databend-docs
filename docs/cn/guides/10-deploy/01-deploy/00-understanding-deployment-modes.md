@@ -102,7 +102,7 @@ cn=
 '
 
 - 腾讯 COS
-- 阿里巴巴 OSS
+- 阿里云 OSS
 - 青云 QingStor
 - 华为 OBS
 
