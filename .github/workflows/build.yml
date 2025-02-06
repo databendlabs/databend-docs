@@ -34,7 +34,13 @@ jobs:
           region: cn-beijing
           role-session-name: github-actions-${{ github.run_id }}
           oidc-provider-arn: acs:ram::1953761221157405:oidc-provider/github
-          export-environment-variables: "true"
+          set-outputs: "true"
       - name: Sync to OSS
         run: |
-          ossutil sync ./build/ oss://databend-docs/ --delete -f
+          ossutil \
+            --access-key-id ${{ steps.aliyun.outputs.access-key-id }} \
+            --access-key-secret ${{ steps.aliyun.outputs.access-key-secret }} \
+            --sts-token ${{ steps.aliyun.outputs.security-token }} \
+            --mode StsToken \
+            --endpoint oss-cn-beijing.aliyuncs.com \
+            sync ./build/ oss://databend-docs/ --delete -f
