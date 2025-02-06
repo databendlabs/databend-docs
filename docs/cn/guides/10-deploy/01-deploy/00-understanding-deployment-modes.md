@@ -59,7 +59,21 @@ Query 集群的主要目标是确保查询处理速度满足您的需求并提�
 
 ### 硬件推荐
 
+<LanguageDocs
+
+cn=
+'
+
 Databend 节点可以部署在本地服务器或云端。Databend 兼容各种公共云平台，如 Amazon EC2、Azure VM、腾讯云和阿里云。下表列出了运行 Databend 节点的服务器的推荐硬件规格：
+
+'
+
+en=
+'
+
+Databend nodes can be deployed either on-premises servers or in the cloud. Databend is compatible with various public cloud platforms, such as Amazon EC2, Azure VMs, Tencent Cloud, and Alibaba Cloud. The table below outlines the recommended hardware specifications for servers running Databend nodes:
+
+'/>
 
 | 硬件规格      | 独立模式       | 集群模式（Meta 节点） | 集群模式（Query 节点） |
 | ------------- | -------------- | --------------------- | ---------------------- |
@@ -80,14 +94,14 @@ Databend 支持私有化部署和云对象存储解决方案。在部署 Databen
 - Wasabi
 - SeaweedFS
 - Cloudflare R2
-- 腾讯 COS
-- 阿里 OSS
-- 青云 QingStor
 
 <LanguageDocs
 cn=
 '
 
+- 腾讯 COS
+- 阿里巴巴 OSS
+- 青云 QingStor
 - 华为 OBS
 
 '/>
