@@ -70,6 +70,8 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 </TabItem>
 
+<!-- #ifcndef -->
+
 <TabItem value="Tencent COS" label="Tencent COS">
 
 1. Create a bucket or container named `my_bucket`.
@@ -108,8 +110,6 @@ For information about how to manage buckets and Access Keys for your cloud objec
 - [https://docsv3.qingcloud.com/development_docs/api/overview/](https://docsv3.qingcloud.com/development_docs/api/overview/)
 
 </TabItem>
-
-<!-- #ifcndef -->
 
 <TabItem value="Huawei OBS" label="Huawei OBS">
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
@@ -321,6 +321,7 @@ account_key = "<your-account-key>"
 
 </TabItem>
 
+<!-- #ifcndef -->
 <TabItem value="Tencent COS" label="Tencent COS">
 
 When specifying the `endpoint_url` parameter, ensure to exclude the `<BucketName-APPID>` portion from your bucket's endpoint. For instance, if your bucket endpoint is `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`, use `https://cos.ap-beijing.myqcloud.com`. For Tencent COS endpoints in various regions, refer to https://www.tencentcloud.com/document/product/436/6224.
@@ -416,7 +417,6 @@ secret_access_key = "<your-access-key>"
 
 </TabItem>
 
-<!-- #ifcndef -->
 <TabItem value="Huawei OBS" label="Huawei OBS">
 
 ```toml title='databend-query.toml'

@@ -59,7 +59,23 @@ This topic provides information on the recommended hardware specifications for D
 
 ### Hardware Recommendations
 
-Databend nodes can be deployed either on-premises servers or in the cloud. Databend is compatible with various public cloud platforms, such as Amazon EC2, Azure VMs, Tencent Cloud, and Alibaba Cloud. The table below outlines the recommended hardware specifications for servers running Databend nodes:
+<LanguageDocs
+
+cn=
+'
+
+Databend 节点可以部署在本地服务器或云端。Databend 兼容各种公共云平台，如 Amazon EC2、Azure VM、腾讯云和阿里云。下表列出了运行 Databend 节点的服务器的推荐硬件规格：
+
+'
+
+en=
+'
+
+Databend nodes can be deployed either on-premises servers or in the cloud. Databend is compatible with various public cloud platforms, such as Amazon EC2 and Azure VMs.
+
+The table below outlines the recommended hardware specifications for servers running Databend nodes:
+
+'/>
 
 | Hardware Specification | Standalone Mode   | Cluster Mode (Meta Node) | Cluster Mode (Query Node) |
 | ---------------------- | ----------------- | ------------------------ | ------------------------- |
@@ -80,14 +96,14 @@ Databend supports for self-hosted and cloud object storage solutions. Prepare yo
 - Wasabi
 - SeaweedFS
 - Cloudflare R2
-- Tencent COS
-- Alibaba OSS
-- QingCloud QingStor
 
 <LanguageDocs
 cn=
 '
 
+- 腾讯 COS
+- 阿里云 OSS
+- 青云 QingStor
 - 华为 OBS
 
 '/>

@@ -70,6 +70,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 </TabItem>
 
+<!-- #ifcndef -->
 <TabItem value="Tencent COS" label="Tencent COS">
 
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
@@ -109,7 +110,6 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 </TabItem>
 
-<!-- #ifcndef -->
 <TabItem value="Huawei OBS" label="Huawei OBS">
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
 2. 获取连接到您创建的存储桶或容器的端点 URL。
@@ -318,6 +318,7 @@ account_key = "<your-account-key>"
 
 </TabItem>
 
+<!-- #ifcndef -->
 <TabItem value="Tencent COS" label="腾讯云 COS">
 
 在指定 `endpoint_url` 参数时，请确保从您的存储桶端点中排除 `<BucketName-APPID>` 部分。例如，如果您的存储桶端点是 `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`，请使用 `https://cos.ap-beijing.myqcloud.com`。有关腾讯云 COS 各区域的端点，请参阅 https://www.tencentcloud.com/document/product/436/6224。
@@ -413,7 +414,6 @@ secret_access_key = "<your-access-key>"
 
 </TabItem>
 
-<!-- #ifcndef -->
 <TabItem value="Huawei OBS" label="华为云 OBS">
 
 ```toml title='databend-query.toml'
