@@ -9,7 +9,7 @@ In this tutorial, we'll walk you through the process of migrating from MySQL to 
 Before you start, ensure you have the following prerequisites in place:
 
 - [Docker](https://www.docker.com/) is installed on your local machine, as it will be used to launch MySQL.
-- [Java 8 or 11](https://www.java.com/) is installed on your local machine, as it is required by the [Flink Databend Connector](https://github.com/databendcloud/flink-connector-databend).
+- Java 8 or 11 is installed on your local machine, as it is required by the [Flink Databend Connector](https://github.com/databendcloud/flink-connector-databend).
 - BendSQL is installed on your local machine. See [Installing BendSQL](/guides/sql-clients/bendsql/#installing-bendsql) for instructions on how to install BendSQL using various package managers.
 
 ## Step 1: Launch MySQL in Docker
