@@ -71,7 +71,9 @@ Databend 节点可以部署在本地服务器或云端。Databend 兼容各种�
 en=
 '
 
-Databend nodes can be deployed either on-premises servers or in the cloud. Databend is compatible with various public cloud platforms, such as Amazon EC2, Azure VMs, Tencent Cloud, and Alibaba Cloud. The table below outlines the recommended hardware specifications for servers running Databend nodes:
+Databend nodes can be deployed either on-premises servers or in the cloud. Databend is compatible with various public cloud platforms, such as Amazon EC2 and Azure VMs.
+
+The table below outlines the recommended hardware specifications for servers running Databend nodes:
 
 '/>
 
