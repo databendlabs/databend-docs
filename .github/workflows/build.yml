@@ -20,19 +20,12 @@ jobs:
       - run: |
           yarn install
           yarn build:cn
-      - name: Install RClone
+      - name: Install OSSUTIL
         run: |
-          curl https://rclone.org/install.sh | sudo bash
-      - name: Configure RClone
-        run: |
-          mkdir -p ~/.config/rclone
-          cat <<EOF > ~/.config/rclone/rclone.conf
-          [oss]
-          type = s3
-          provider = Alibaba
-          env_auth = true
-          endpoint = oss-cn-beijing.aliyuncs.com
-          EOF
+          curl -sSLfo ossutil64 https://gosspublic.alicdn.com/ossutil/1.7.12/ossutil64
+          chmod 755 ossutil64
+          sudo mv ossutil64 /usr/local/bin/ossutil
+          ossutil --version
       - name: Configure Aliyun credentials
         id: aliyun
         uses: mozillazg/alibabacloud-oidc-auth@v1
@@ -41,7 +34,13 @@ jobs:
           region: cn-beijing
           role-session-name: github-actions-${{ github.run_id }}
           oidc-provider-arn: acs:ram::1953761221157405:oidc-provider/github
-          export-environment-variables: "true"
+          set-outputs: "true"
       - name: Sync to OSS
         run: |
-          rclone sync ./build/ oss:databend-docs/
+          ossutil \
+            --access-key-id ${{ steps.aliyun.outputs.access-key-id }} \
+            --access-key-secret ${{ steps.aliyun.outputs.access-key-secret }} \
+            --sts-token ${{ steps.aliyun.outputs.security-token }} \
+            --mode StsToken \
+            --endpoint oss-cn-beijing.aliyuncs.com \
+            sync ./build/ oss://databend-docs/ --delete -f
