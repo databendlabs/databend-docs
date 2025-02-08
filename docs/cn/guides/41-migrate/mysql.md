@@ -1,18 +1,3 @@
-<think>
-好的，我需要将用户提供的关于如何从MySQL迁移到Databend的文档翻译成简体中文。首先，我要仔细阅读原文，理解每个部分的内容和结构。用户特别强调要保留Markdown的结构，不改变链接和代码块，同时遵循特定的术语翻译规则。
-
-首先，标题部分“MySQL”需要保持原样，但后面的内容需要翻译。注意用户提到的术语，比如“time travel”要翻译为“时间回溯”，“warehouse”翻译为“计算集群”，“Data Warehouse”是“数仓”，“Self-Hosted”是“私有化部署”，而“Databend Cloud”、“Vector”、“Stage”则保持不译。此外，JSON对象的键不需要翻译，但内容可能需要处理。
-
-接下来是迁移方法的表格。表格中的内容需要准确翻译，同时保持格式不变。例如，“Batch Loading”翻译为“批量加载”，“Continuous Sync with CDC”翻译为“CDC实时同步”。工具名称如“db-archiver”和“Apache Flink CDC”不需要翻译，版本信息也要保留原样。
-
-在“Batch Loading”部分，介绍db-archiver时，需要确保工具名称和GitHub链接不变。安装命令的代码块必须保留原样，不能有任何改动。同时，教程链接的路径也要保持不变，仅翻译显示文本。
-
-然后是“Continuous Sync with CDC”部分，涉及Flink CDC。这里需要注意版本限制和系统要求的翻译，比如“Java 8 or 11”翻译为“Java 8或11”。安装步骤中的命令行操作和路径示例需要保持原样，确保用户能够正确复制和执行。
-
-在教程部分，链接的路径不能改变，但显示文本需要翻译。例如，“Migrating from MySQL with db-archiver”翻译为“使用 db-archiver 从 MySQL 迁移”。
-
-整个过程中，我需要确保不添加或删除任何空行，保持原有的换行符。同时，避免使用任何Markdown之外的格式，比如不要添加新的注释或标签。特别注意用户提到的不要包含任何`</think>
-
 ---
 title: MySQL
 ---
