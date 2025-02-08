@@ -1,45 +1,58 @@
 ---
-title: "使用 DBeaver 连接到私有化部署 Databend"
-sidebar_label: "连接到私有化部署 Databend (DBeaver)"
+title: "使用 DBeaver 连接私有化部署的 Databend"
+sidebar_label: "连接私有化部署的 Databend（DBeaver）"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在本教程中，我们将指导您通过 Databend JDBC 驱动程序以 `root` 用户的身份连接到私有化部署的 Databend 实例。
-
-您可能想知道如何[安装和部署 Databend](/guides/deploy/)
+本教程将指导您如何使用 DBeaver 连接到私有化部署的 Databend 实例。
 
 <StepsWrap>
 <StepContent number="1">
 
-### 开始之前
+### 准备工作
 
-- 确保您有一个本地 Databend 实例可供测试。详细说明请参见[Docker 和本地部署](/guides/deploy/deploy/non-production/deploying-local)。
-- 在本教程中，您将使用 `root` 账户连接到 Databend。在部署过程中，取消注释 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中的以下行以选择此账户：
-
-  ```sql title="databend-query.toml"
-  [[query.users]]
-  name = "root"
-  auth_type = "no_password"
-  ```
-
-- 确保您已将 Databend JDBC 驱动程序添加到 DBeaver 中。详细说明请参见[将 Databend JDBC 驱动程序添加到 DBeaver](/guides/sql-clients/jdbc/#adding-databend-jdbc-driver-to-dbeaver)。
+- 确保本地已安装 [Docker](https://www.docker.com/)，用于启动 Databend。
+- 确认本地已安装 DBeaver 24.3.1 或更高版本。
 
 </StepContent>
 <StepContent number="2">
 
-### 创建连接
+### 启动 Databend
 
-1. 在 DBeaver 中，首先在 **Database** > **New Database Connection** 中搜索并选择 `databend`，然后点击 **Next**。
+在终端运行以下命令启动 Databend 实例：
 
-![Alt text](/img/integration/jdbc-new-driver.png)
+:::note
+如果在启动容器时未指定 `QUERY_DEFAULT_USER` 或 `QUERY_DEFAULT_PASSWORD` 的自定义值，系统将自动创建默认的 `root` 用户且无密码。
+:::
 
-2. 根据需要配置您的连接设置。默认设置将以 `root` 用户的身份连接到本地 Databend 实例。
+```bash
+docker run -d --name databend \
+  -p 3307:3307 -p 8000:8000 -p 8124:8124 -p 8900:8900 \
+  datafuselabs/databend:nightly
+```
 
-![Alt text](/img/integration/jdbc-connect.png)
+</StepContent>
+<StepContent number="3">
 
-3. 点击 **Test Connection** 以检查连接是否成功。
+### 配置连接
+
+1. 在 DBeaver 中，导航至 **Database** > **New Database Connection** 打开连接向导，然后在 **Analytical** 分类下选择 **Databend**。
+
+![alt text](@site/static/img/connect/dbeaver-analytical.png)
+
+2. 在 **Username** 字段输入 `root`。
+
+![alt text](@site/static/img/connect/dbeaver-user-root.png)
+
+3. 点击 **Test Connection** 验证连接。首次连接 Databend 时会提示下载驱动，点击 **Download** 继续。
+
+![alt text](@site/static/img/connect/dbeaver-download-driver.png)
+
+驱动下载完成后，连接测试将显示成功，如下图所示：
+
+![alt text](../../../../static/img/connect/dbeaver-success.png)
 
 </StepContent>
 </StepsWrap>
