@@ -2,6 +2,7 @@
 title: "使用 BendSQL 连接私有化部署的 Databend"
 sidebar_label: "连接私有化部署的 Databend（BendSQL）"
 slug: /
+---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
