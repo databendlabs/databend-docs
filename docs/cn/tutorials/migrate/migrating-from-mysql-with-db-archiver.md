@@ -1,20 +1,34 @@
+<think>
+好的，我需要把用户提供的关于使用db-archiver从MySQL迁移到Databend Cloud的教程翻译成简体中文。首先，我要仔细阅读整个文档，理解每个步骤和代码块的作用。用户给了一些具体的翻译规则，比如保留Markdown结构，不改变代码块，保留换行和空行，不删除任何内容，还有特定术语的翻译要求，比如“time travel”要翻译成“时间回溯”，“warehouse”翻译成“计算集群”等。
+
+首先，标题部分要翻译，但保持结构不变。然后检查每个章节，确保步骤描述准确。例如，“Before You Start”要翻译成“准备工作”，里面的列表项要保留原格式。代码块里的命令和输出结果不能改动，所以需要特别注意不要误删或修改任何代码。
+
+在翻译配置文件和命令时，比如conf.json文件，里面的注释需要翻译，但键名和URL要保持原样。例如，注释中的“Replace the placeholders with your actual values:”要翻译成“将占位符替换为实际值：”，但键如“sourceHost”不翻译。
+
+遇到特定术语时，比如“Databend Cloud”、“Vector”、“Stage”保持不译，而“Self-Hosted”翻译成“私有化部署”。此外，注意用户提到的“Personal”计划要翻译成“基础版”。
+
+在翻译过程中，还要确保不改变任何链接和HTML标签，比如<Notes>标签要保留原样。同时，保持原有的换行和段落结构，避免添加或删除空行。
+
+最后，检查整个翻译后的文档，确保技术术语准确，语句通顺，符合技术文档的规范。特别是验证步骤中的SQL查询结果，确保表格的格式正确，数据与原文一致。确认所有步骤编号正确，代码块和命令行输出无误。完成后，再通读一遍，确保没有遗漏任何用户的特定要求，比如保留permalink和HTML标签的结构。
+</think>
+
 ---
 title: 使用 db-archiver 从 MySQL 迁移
 ---
 
-在本教程中，我们将指导您如何使用 db-archiver 从 MySQL 迁移到 Databend Cloud。
+在本教程中，我们将指导您使用 db-archiver 从 MySQL 迁移到 Databend Cloud。
 
-## 开始之前
+## 准备工作 {#before-you-start}
 
-在开始之前，请确保您已准备好以下先决条件：
+开始前，请确保已满足以下先决条件：
 
-- 本地机器上已安装 [Docker](https://www.docker.com/)，因为它将用于启动 MySQL。
-- 本地机器上已安装 [Go](https://go.dev/dl/)，因为它是安装 db-archiver 所必需的。
-- 本地机器上已安装 BendSQL。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 本地机器已安装 [Docker](https://www.docker.com/)，用于启动 MySQL。
+- 本地机器已安装 [Go](https://go.dev/dl/)，用于安装 db-archiver。
+- 本地机器已安装 BendSQL。有关使用不同包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
 
-## 第一步：在 Docker 中启动 MySQL
+## 步骤 1：在 Docker 中启动 MySQL {#step-1-launch-mysql-in-docker}
 
-1. 在本地机器上启动一个 MySQL 容器。以下命令启动一个名为 **mysql-server** 的 MySQL 容器，创建一个名为 **mydb** 的数据库，并将 root 密码设置为 `root`：
+1. 在本地机器上启动 MySQL 容器。以下命令将启动名为 **mysql-server** 的 MySQL 容器，创建名为 **mydb** 的数据库，并将 root 密码设置为 `root`：
 
 ```bash
 docker run \
@@ -25,22 +39,22 @@ docker run \
   -d mysql:8
 ```
 
-2. 验证 MySQL 是否正在运行：
+2. 验证 MySQL 是否运行：
 
 ```bash
 docker ps
 ```
 
-检查输出中是否有一个名为 **mysql-server** 的容器：
+检查输出中是否存在名为 **mysql-server** 的容器：
 
 ```bash 
 CONTAINER ID   IMAGE                          COMMAND                  CREATED        STATUS             PORTS                                                                                            NAMES
 1a8f8d7d0e1a   mysql:8                        "docker-entrypoint.s…"   10 hours ago   Up About an hour   0.0.0.0:3306->3306/tcp, 33060/tcp                                                                mysql-server
 ```
 
-## 第二步：向 MySQL 中填充示例数据
+## 步骤 2：向 MySQL 填充示例数据 {#step-2-populate-mysql-with-sample-data}
 
-1. 登录到 MySQL 容器，并在提示时输入密码 `root`：
+1. 登录 MySQL 容器，提示输入密码时输入 `root`：
 
 ```bash
 docker exec -it mysql-server mysql -u root -p
@@ -68,7 +82,7 @@ mysql> USE mydb;
 Database changed
 ```
 
-3. 复制并粘贴以下 SQL 以创建一个名为 **my_table** 的表并插入数据：
+3. 复制并粘贴以下 SQL 以创建名为 **my_table** 的表并插入数据：
 
 ```sql
 CREATE TABLE my_table (
@@ -103,10 +117,10 @@ mysql> quit
 Bye
 ```
 
-## 第三步：在 Databend Cloud 中设置目标
+## 步骤 3：在 Databend Cloud 中设置目标 {#step-3-set-up-target-in-databend-cloud}
 
-1. 使用 BendSQL 连接到 Databend Cloud。如果您不熟悉 BendSQL，请参考本教程：[使用 BendSQL 连接到 Databend Cloud](../connect/connect-to-databendcloud-bendsql.md)。
-2. 复制并粘贴以下 SQL 以创建一个名为 **my_table** 的目标表：
+1. 使用 BendSQL 连接 Databend Cloud。如果不熟悉 BendSQL，请参考本教程：[使用 BendSQL 连接 Databend Cloud](../connect/connect-to-databendcloud-bendsql.md)。
+2. 复制并粘贴以下 SQL 以创建名为 **my_table** 的目标表：
 
 ```sql
 CREATE TABLE my_table (
@@ -116,7 +130,7 @@ CREATE TABLE my_table (
 );
 ```
 
-## 第四步：安装 db-archiver
+## 步骤 4：安装 db-archiver {#step-4-install-db-archiver}
 
 使用 `go install` 命令安装 db-archiver：
 
@@ -124,13 +138,13 @@ CREATE TABLE my_table (
 go install github.com/databend/db-archiver@latest
 ```
 
-## 第五步：配置并运行 db-archiver
+## 步骤 5：配置并运行 db-archiver {#step-5-configure--run-db-archiver}
 
-1. 在本地机器上创建一个名为 **conf.json** 的文件，内容如下：
+1. 在本地机器上创建名为 **conf.json** 的文件，内容如下：
 
 ```json
 {
-    // 将占位符替换为您的实际值：
+    // 将占位符替换为实际值：
     "sourceHost": "127.0.0.1",
     "sourcePort": 3306,
     "sourceUser": "root",
@@ -153,7 +167,7 @@ go install github.com/databend/db-archiver@latest
 }
 ```
 
-2. 在 **conf.json** 文件所在的目录中运行以下命令以开始迁移：
+2. 在 **conf.json** 文件所在目录运行以下命令以开始迁移：
 
 ```bash
 db-archiver -f conf.json
@@ -201,7 +215,7 @@ end time: 2025-01-22 21:45:34
 total time: 1.269478875s
 ```
 
-3. 返回到您的 BendSQL 会话并验证迁移：
+3. 返回 BendSQL 会话并验证迁移：
 
 ```sql
 SELECT * FROM my_table;
