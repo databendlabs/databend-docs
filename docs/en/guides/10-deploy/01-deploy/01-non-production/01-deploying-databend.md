@@ -71,7 +71,6 @@ For information about how to manage buckets and Access Keys for your cloud objec
 </TabItem>
 
 <!-- #ifcndef -->
-
 <TabItem value="Tencent COS" label="Tencent COS">
 
 1. Create a bucket or container named `my_bucket`.
@@ -122,7 +121,6 @@ For information about how to manage buckets and Access Keys for your cloud objec
 - [https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html](https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html)
 
 </TabItem>
-
 <!-- #endcndef -->
 
 <TabItem value="Wasabi" label="Wasabi">
