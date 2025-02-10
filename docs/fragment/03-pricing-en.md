@@ -45,7 +45,7 @@ A user is using an XSmall warehouse (Business) and occasionally queries data. Th
 ### Compute charges:
 
 0.000416667 \* (5 \* 60 + 20) = $0.13
-(XSmall cluster charges 0.00125 RMB per second, and the query duration is 5 minutes and 20 seconds)
+(XSmall cluster charges $0.000416667 per second, and the query duration is 5 minutes and 20 seconds)
 
 ### Storage charges:
 
