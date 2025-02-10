@@ -55,7 +55,7 @@ docker ps
 
 检查输出中是否存在名为 **mysql-server** 的容器：
 
-```bash 
+```bash
 CONTAINER ID   IMAGE       COMMAND                  CREATED        STATUS        PORTS                               NAMES
 aac4c28be56e   mysql:5.7   "docker-entrypoint.s…"   17 hours ago   Up 17 hours   0.0.0.0:3306->3306/tcp, 33060/tcp   mysql-server
 ```
@@ -188,27 +188,7 @@ taskmanager.memory.process.size: 4096m
 
 您将看到 Flink SQL 客户端启动横幅，确认客户端已成功启动。
 
-```bash
-
-<think>
-好的，我需要将用户提供的关于使用Flink SQL将MySQL数据同步到Databend Cloud的文档内容翻译成简体中文。首先，我要仔细阅读原文，理解每个步骤和命令的作用，确保翻译后的内容准确传达原意。
-
-首先，用户提供了在BendSQL终端连接到Databend Cloud的步骤，包括连接命令和示例输出。这里需要注意保持代码块不变，只翻译周围的说明文字。例如，“Connect to Databend Cloud with BendSQL:”应翻译为“使用BendSQL连接到Databend Cloud：”，而代码块中的命令和输出应保留原样。
-
-接下来是设置检查点间隔的部分，命令“SET execution.checkpointing.interval = 3s;”需要保持原样，只翻译前面的说明文字。同样，在创建MySQL和Databend表的步骤中，SQL语句的结构和参数不能改动，但表名和字段名的注释可能需要翻译，但根据规则，数据库特定术语不翻译，所以“id INT”、“name STRING”等应保留。
-
-在创建表的WITH子句中，参数如'connector'、'hostname'等是配置项，需要保留不变。替换占位符的部分（如{password}、{host}）也要保持原样，确保用户使用时能正确替换。注意URL中的参数如warehouse和ssl=true不需要翻译。
-
-同步数据的INSERT INTO语句需要保持原样，但周围的说明文字要翻译。例如，“synchronize the data from the mysql_products table to the databend_products table”应翻译为“将数据从mysql_products表同步到databend_products表”。
-
-在Flink Dashboard的截图说明中，Alt文本“/img/load/cdc-job.png”不需要翻译，保持原样。最后的验证步骤，用户查询products表的结果展示，表格中的内容如id、name、description等列名和示例数据应保留不变，只翻译周围的说明文字。
-
-当用户插入新数据到MySQL并验证同步时，同样需要保持SQL语句不变，翻译说明部分。例如，“insert a new product”翻译为“插入一个新商品”，而实际的INSERT语句和SELECT查询保留原样。
-
-此外，需要注意术语的一致性，如“time travel”翻译为“时间回溯”，“warehouse”翻译为“计算集群”，“Data Warehouse”翻译为“数仓”，“Self-Hosted”翻译为“私有化部署”，而“Databend Cloud”、“Vector”、“Stage”保持不译。同时，确保不添加或删除任何Markdown结构、链接或代码块，保持原有的空白行和格式。
-
-最后，检查整个翻译文档，确保没有遗漏任何步骤，所有命令和输出正确无误，符合用户的要求。特别是要避免引入任何新的标签或改动原有的HTML结构，如<Notes>标签等。保持翻译后的文档结构清晰，技术术语准确，符合中文技术文档的常见表达习惯。
-</think>
+````bash
 
 ```markdown
 ```bash
@@ -237,7 +217,7 @@ root@localhost:8000/default> INSERT INTO products (name, description) VALUES
                             -> ('spare tire', '24 inch spare tire');
 
 10 行写入于 0.113 秒。已处理 10 行，1.02 KiB (88.50 行/秒，9.00 KiB/秒)
-```
+````
 
 2. 将检查点间隔设置为 3 秒。
 
@@ -318,47 +298,19 @@ INSERT INTO products VALUES (default, "bicycle", "Lightweight road bicycle");
 SELECT * FROM products;
 ```
 
-<think>
-好的，我现在需要处理用户提供的这个表格的翻译任务。首先，用户明确要求将Markdown或JSON内容翻译成简体中文，同时必须严格遵守一系列规则。让我仔细分析这些规则，确保翻译过程中不出现任何错误。
-
-首先，用户提到不能改变Markdown的结构，包括链接和URL。这里提供的表格是Markdown格式的，所以我要确保翻译后的表格结构完全一致，不添加或删除任何链接，保持原有的行和列的结构。
-
-接下来，用户强调不能修改代码块的内容，即使看起来有错误。这里的表格虽然看起来像数据表，但可能被视为代码块的一部分，因此我需要保持表格内的数据不变，只翻译其中的文本内容，而数字和符号保持不变。
-
-关于保留原始换行符和空白行，我需要特别注意在翻译过程中不要合并或拆分现有的行，保持原有的布局。表格中的每一行对应一条数据，必须逐行处理，确保行数一致。
-
-用户还提到不能处理HTML标签和permalink，例如`{/*examples*/}`。在当前的表格中没有这些元素，但需要留意后续内容中是否出现，确保不进行任何修改。
-
-在术语翻译方面，有几个特定词汇需要特别注意：'time travel'译为'时间回溯'，'warehouse'或'warehouses'译为'计算集群'，'Data Warehouse'译为'数仓'，'Self-Hosted'译为'私有化部署'，而'Databend Cloud'、'Vector'、'Stage'保持不译。此外，如果遇到描述'Personal'计划，需译为'基础版'。当前表格中的内容没有涉及这些术语，但需要记住这些规则以备后续翻译其他内容时使用。
-
-现在来看具体的表格内容。表格有三列：id（整数）、name（字符串）和description（可为空的字符串）。需要翻译的是name和description列的内容，而id列的数字保持不变。
-
-例如，第一行的name是“12-pack drill bits”，应翻译为“12件套钻头”，description是“12-pack of drill bits with sizes ranging from #40 to #3”需要准确翻译，同时保持技术术语如尺寸范围不变，可能译为“包含从#40到#3尺寸的12件套钻头”。
-
-接下来检查是否有特殊术语或需要保留的英文词汇。例如，“car battery”翻译为“汽车电池”，“12V”保持不变。“hammer”翻译为“锤子”，但需要区分不同规格，如“14oz carpenter's hammer”译为“14盎司木工锤”，保持“oz”作为单位不译。
-
-其他条目如“scooter”译为“滑板车”，“bicycle”译为“自行车”，“spare tire”译为“备用轮胎”，“rocks”译为“岩石”，“jacket”译为“夹克”等，都需要准确对应，同时保持描述中的技术参数不变，例如“24 inch”译为“24英寸”，“black wind breaker”译为“黑色防风外套”。
-
-需要确保所有翻译后的描述清晰准确，不改变原意，同时符合中文表达习惯。例如，“test for databend”可能需要译为“用于Databend的测试”，其中“Databend”保持不译。
-
-最后，检查整个表格的格式是否与原表一致，包括分隔线“│”、“├───────┼────────────────────┼─────────────────────────────────────────────────────────┤”等符号的位置和数量，确保翻译后的Markdown表格结构正确无误，不会导致渲染问题。
-
-总结来说，处理这个表格的翻译需要严格遵守用户提供的格式和术语规则，逐行逐列准确翻译文本内容，同时保持所有结构和符号不变。确保最终输出既符合中文语言习惯，又完全保留原有的Markdown格式和数据结构。
-</think>
-
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
-│   id  │        name        │                       description                       │
-│ Int32 │       String       │                     Nullable(String)                    │
+│ id │ name │ description │
+│ Int32 │ String │ Nullable(String) │
 ├───────┼────────────────────┼─────────────────────────────────────────────────────────┤
-│    12 │ 12件套钻头         │ 包含从#40到#3尺寸的12件套钻头                           │
-│    11 │ 汽车电池           │ 12V汽车电池                                             │
-│    14 │ 锤子               │ 14盎司木工锤                                            │
-│    13 │ 锤子               │ 12盎司木工锤                                            │
-│    10 │ 滑板车             │ 小型两轮滑板车                                          │
-│    20 │ 自行车             │ 轻便公路自行车                                          │
-│    19 │ 备用轮胎           │ 24英寸备用轮胎                                          │
-│    16 │ 岩石               │ 混合岩石盒装                                            │
-│    15 │ 锤子               │ 16盎司木工锤                                            │
-│    18 │ 云                 │ 用于Databend的测试                                      │
-│    17 │ 夹克               │ 黑色防风外套                                            │
+│ 12 │ 12 件套钻头 │ 包含从#40 到#3 尺寸的 12 件套钻头 │
+│ 11 │ 汽车电池 │ 12V 汽车电池 │
+│ 14 │ 锤子 │ 14 盎司木工锤 │
+│ 13 │ 锤子 │ 12 盎司木工锤 │
+│ 10 │ 滑板车 │ 小型两轮滑板车 │
+│ 20 │ 自行车 │ 轻便公路自行车 │
+│ 19 │ 备用轮胎 │ 24 英寸备用轮胎 │
+│ 16 │ 岩石 │ 混合岩石盒装 │
+│ 15 │ 锤子 │ 16 盎司木工锤 │
+│ 18 │ 云 │ 用于 Databend 的测试 │
+│ 17 │ 夹克 │ 黑色防风外套 │
 └──────────────────────────────────────────────────────────────────────────────────────┘
