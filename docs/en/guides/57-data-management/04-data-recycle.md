@@ -20,17 +20,17 @@ Self-hosted Databend supports spilling intermediate query results to disk when m
 
 Databend provides the following spill storage configurations:
 
-- Local Disk Storage: Spilled data is written to a specified local directory in the query node (Windows only).
-- Remote S3-Compatible Storage: Spilled data is stored in an external S3 bucket.
+- Local Disk Storage: Spilled data is written to a specified local directory in the query node. Please note that local disk storage is supported only for [Windows Functions](/sql/sql-functions/window-functions/).
+- Remote S3-Compatible Storage: Spilled data is stored in an external bucket.
 - Default Storage: If no spill storage is configured, Databend spills data to the default storage bucket along with your table data.
 
 ### Spill Priority
 
-If both local and S3 spill storage are configured, Databend follows this order:
+If both local and S3-compatible spill storage are configured, Databend follows this order:
 
 1. Spill to local disk first (if configured).
-2. Spill to remote S3 storage when local disk space is insufficient.
-3. Spill to Databend’s default storage bucket if neither local nor external S3 storage is configured.
+2. Spill to remote S3-compatible storage when local disk space is insufficient.
+3. Spill to Databend’s default storage bucket if neither local nor external S3-compatible storage is configured.
 
 ### Configuring Spill Storage
 
@@ -40,7 +40,7 @@ This example sets Databend to use up to 1 TB of local disk space for spill opera
 
 ```toml
 [spill]
-spill_local_disk_path = "C:\data1\databend\databend_spill"
+spill_local_disk_path = "/data1/databend/databend_spill"
 spill_local_disk_reserved_space_percentage = 40
 spill_local_disk_max_bytes = 1099511627776
 ```

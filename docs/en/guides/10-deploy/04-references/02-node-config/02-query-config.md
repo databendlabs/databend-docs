@@ -261,11 +261,11 @@ The following is a list of the parameters available within the [cache.disk] sect
 
 The following is a list of the parameters available within the [spill] section:
 
-| Parameter                                  | Description                                                                                                                |
-|--------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| spill_local_disk_path                      | Specifies the directory path where spilled data will be stored on the local disk.                                          |
-| spill_local_disk_reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. The default value is `30`.              |
-| spill_local_disk_max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local disk. The default value is `18446744073709551615`. |
+| Parameter                                  | Description                                                                                                   |
+|--------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| spill_local_disk_path                      | Specifies the directory path where spilled data will be stored on the local disk.                             |
+| spill_local_disk_reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. The default value is `30`. |
+| spill_local_disk_max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local disk. Defaults to unlimited.          |
 
 ### [spill.storage] Section
 
@@ -275,15 +275,4 @@ The following is a list of the parameters available within the [spill.storage] s
 |-----------|--------------------------------------------------------------------|
 | type      | Specifies the storage type for remote spilling, for example, `s3`. |
 
-### [spill.storage.s3] Section
-
-The following is a list of the parameters available within the [spill.storage.s3] section:
-
-| Parameter         | Description                                                                                        |
-|-------------------|----------------------------------------------------------------------------------------------------|
-| bucket            | The name of the S3 bucket used for spilling data.                                                  |
-| root              | The root directory (prefix) within the S3 bucket where spilled data will be stored.                |
-| endpoint_url      | The S3-compatible endpoint URL. Required when using MinIO or other S3-compatible services.         |
-| access_key_id     | The access key ID used for authentication with the S3 service.                                     |
-| secret_access_key | The secret access key used for authentication with the S3 service.                                 |
-| allow_insecure    | Whether to allow insecure connections (e.g., HTTP instead of HTTPS). The default value is `false`. |
+To specify a specific storage, use the parameters in the [storage Section](#storage-section). For examples, see [Configuring Spill Storage](/guides/data-management/data-recycle#configuring-spill-storage). 
