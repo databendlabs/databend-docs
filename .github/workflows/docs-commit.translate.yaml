@@ -8,6 +8,7 @@ on:
       - ".github**/*"
       - "docs/cn/**/*"
       - "docs/release-notes/**/*"
+      - "docs/fragment/**/*"
       - "docs/release-stable/**/*"
       - "api/**/*"
       - "i18n/**/*"
@@ -35,7 +36,7 @@ jobs:
         uses: 3ru/gpt-translate@v1.1.11
         with:
           apikey: ${{ secrets.OPENAI_API_KEY }}
-          model: "DeepSeek-R1"
+          model: "DeepSeek-V3"
           inputFiles: "${{ steps.changed_files.outputs.files }}"
           outputFiles: "docs/cn/**/*.md"
           languages: "Simplified-Chinese"
