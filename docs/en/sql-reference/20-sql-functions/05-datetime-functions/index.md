@@ -57,6 +57,7 @@ This section provides reference information for the datetime-related functions i
 - [LAST_DAY](last-day.md)
 - [NEXT_DAY](next-day.md)
 - [PREVIOUS_DAY](previous-day.md)
+- [TIMESTAMP_DIFF](timestamp-diff.md)
 
 ## Date Information Functions
 
