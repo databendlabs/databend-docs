@@ -230,6 +230,7 @@ SELECT * FROM my_table;
 ```
 
 Databend extends SQL syntax by allowing queries to start with `FROM <table>` without explicitly using `SELECT *`:
+
 ```sql
 FROM my_table;
 ```
