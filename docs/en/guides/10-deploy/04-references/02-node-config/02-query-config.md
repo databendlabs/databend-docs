@@ -256,3 +256,23 @@ The following is a list of the parameters available within the [cache.disk] sect
 | --------- | -------------------------------------------------------------------------------------------------------- |
 | path      | The path where the cache is stored when using disk cache.                                                |
 | max_bytes | The maximum amount of cached data in bytes when using disk cache. Defaults to 21474836480 bytes (20 GB). |
+
+## [spill] Section
+
+The following is a list of the parameters available within the [spill] section:
+
+| Parameter                                  | Description                                                                                                   |
+|--------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| spill_local_disk_path                      | Specifies the directory path where spilled data will be stored on the local disk.                             |
+| spill_local_disk_reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. The default value is `30`. |
+| spill_local_disk_max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local disk. Defaults to unlimited.          |
+
+### [spill.storage] Section
+
+The following is a list of the parameters available within the [spill.storage] section:
+
+| Parameter | Description                                                        |
+|-----------|--------------------------------------------------------------------|
+| type      | Specifies the storage type for remote spilling, for example, `s3`. |
+
+To specify a specific storage, use the parameters in the [storage Section](#storage-section). For examples, see [Configuring Spill Storage](/guides/data-management/data-recycle#configuring-spill-storage). 
