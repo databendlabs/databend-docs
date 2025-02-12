@@ -3,9 +3,9 @@ title: LTRIM
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.659"/>
+<FunctionDescription description="Introduced or updated: v1.2.694"/>
 
-Removes specific characters from the beginning (left side) of a string.
+Removes all trailing occurrences of any character present in the specified trim string from the left side of the string.
 
 See also: 
 
@@ -15,17 +15,17 @@ See also:
 ## Syntax
 
 ```sql
-LTRIM(<string>, <trim_character>)
+LTRIM(<string>, <trim_string>)
 ```
 
 ## Examples
 
 ```sql
-SELECT LTRIM('xxdatabend', 'xx');
+SELECT LTRIM('xxdatabend', 'xx'), LTRIM('xxdatabend', 'xy');
 
-┌───────────────────────────┐
-│ ltrim('xxdatabend', 'xx') │
-├───────────────────────────┤
-│ databend                  │
-└───────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│ ltrim('xxdatabend', 'xx') │ ltrim('xxdatabend', 'xy') │
+├───────────────────────────┼───────────────────────────┤
+│ databend                  │ databend                  │
+└───────────────────────────────────────────────────────┘
 ```
