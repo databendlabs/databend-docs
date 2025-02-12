@@ -2,14 +2,42 @@
 title: system.query_log
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.696"/>
+
 A read-only in-memory table stores all the query logs.
 
+
+## Setting a Session Tag
+
+You can optionally assign a tag to your session, making it easier to filter logs in the log table based on the assigned session tag. For example, the following assigns the tag ‘eric’ to the current session:
+
+```sql
+set session query_tag='eric';
+
+```
+
+We can then run a query and retrieve the log from the log table using the assigned tag:
+
+```sql
+show users;
+
+select query_tag, query_text from system.query_log where query_tag='eric' limit 1;
+
+```
+
+In the returned result, you can find the record for the query, tagged as 'eric':
+
+```sql
+-[ RECORD 1 ]-----------------------------------
+               query_tag: eric
+              query_text: SHOW USERS
+```
 
 ## Examples
 
 ```sql
-set session query_tag='tag1';
-
 SELECT * FROM system.query_log LIMIT 1;
 
 -[ RECORD 1 ]-----------------------------------
@@ -22,7 +50,7 @@ SELECT * FROM system.query_log LIMIT 1;
                 sql_user: root
           sql_user_quota: UserQuota<cpu:0,mem:0,store:0>
      sql_user_privileges: GRANT ALL ON *.*, ROLES: ["account_admin"]
-               query_tag: tag1
+               query_tag: 
                 query_id: 7e03cd7a-36fa-463d-afe4-041da4092c45
               query_kind: Other
               query_text: SHOW TABLES
