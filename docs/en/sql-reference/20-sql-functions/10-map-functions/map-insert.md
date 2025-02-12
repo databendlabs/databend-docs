@@ -15,12 +15,12 @@ MAP_INSERT( <map>, <key>, <value> [, <updateFlag> ] )
 
 ## Arguments
 
-| Arguments      | Description                                                                                      |
-|----------------|--------------------------------------------------------------------------------------------------|
-| `<map>`        | The input MAP.                                                                                   |
-| `<key>`        | The new key to insert into the MAP.                                                              |
-| `<value>`      | The new value to insert into the MAP.                                                            |
-| `<updateFlag>` | The boolean flag identifies whether can overwrite the key that already exists. default is FALSE. |
+| Arguments      | Description                                                                                  |
+|----------------|----------------------------------------------------------------------------------------------|
+| `<map>`        | The input MAP.                                                                               |
+| `<key>`        | The new key to insert into the MAP.                                                          |
+| `<value>`      | The new value to insert into the MAP.                                                        |
+| `<updateFlag>` | The boolean flag indicates whether an existing key can be overwritten. The default is FALSE. |
 
 ## Return Type
 
