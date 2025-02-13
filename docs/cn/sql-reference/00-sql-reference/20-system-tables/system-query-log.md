@@ -2,8 +2,37 @@
 title: system.query_log
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.696"/>
+
 一个只读的内存表，用于存储所有查询日志。
 
+## 设置会话标签
+
+您可以选择为会话分配一个标记，从而更容易根据分配的会话标记过滤日志表中的日志。例如，下面的代码将标签“eric”分配给当前会话：
+
+```sql
+set session query_tag='eric';
+
+```
+
+然后，我们可以运行一个查询，并使用指定的标签从日志表中检索日志：
+
+```sql
+show users;
+
+select query_tag, query_text from system.query_log where query_tag='eric' limit 1;
+
+```
+
+在返回的结果中，您可以找到标记为“eric”的查询记录：
+
+```sql
+-[ RECORD 1 ]-----------------------------------
+               query_tag: eric
+              query_text: SHOW USERS
+```
 
 ## 示例
 
@@ -20,6 +49,7 @@ SELECT * FROM system.query_log LIMIT 1;
                 sql_user: root
           sql_user_quota: UserQuota<cpu:0,mem:0,store:0>
      sql_user_privileges: GRANT ALL ON *.*, ROLES: ["account_admin"]
+               query_tag:
                 query_id: 7e03cd7a-36fa-463d-afe4-041da4092c45
               query_kind: Other
               query_text: SHOW TABLES
