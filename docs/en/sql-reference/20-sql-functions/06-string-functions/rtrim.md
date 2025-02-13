@@ -3,9 +3,9 @@ title: RTRIM
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.659"/>
+<FunctionDescription description="Introduced or updated: v1.2.694"/>
 
-Removes specific characters from the end (right side) of a string.
+Removes all occurrences of any character present in the specified trim string from the right side of the string.
 
 See also: 
 
@@ -15,17 +15,17 @@ See also:
 ## Syntax
 
 ```sql
-RTRIM(<string>, <trim_character>)
+RTRIM(<string>, <trim_string>)
 ```
 
 ## Examples
 
 ```sql
-SELECT RTRIM('databendxx', 'xx');
+SELECT RTRIM('databendxx', 'x'), RTRIM('databendxx', 'xy');
 
-┌───────────────────────────┐
-│ rtrim('databendxx', 'xx') │
-├───────────────────────────┤
-│ databend                  │
-└───────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│ rtrim('databendxx', 'x') │ rtrim('databendxx', 'xy') │
+├──────────────────────────┼───────────────────────────┤
+│ databend                 │ databend                  │
+└──────────────────────────────────────────────────────┘
 ```
