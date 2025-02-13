@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.694"/>
 
-Removes all trailing occurrences of any character present in the specified trim string from the right side of the string.
+Removes all occurrences of any character present in the specified trim string from the right side of the string.
 
 See also: 
 
