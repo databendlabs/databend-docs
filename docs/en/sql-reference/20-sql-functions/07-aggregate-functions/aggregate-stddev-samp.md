@@ -2,13 +2,10 @@
 title: STDDEV_SAMP
 ---
 
-Aggregate function.
+Returns the sample standard deviation (the square root of VAR_SAMP()) of an expression.
 
-The STDDEV_SAMP() function returns the sample standard deviation(the square root of VAR_SAMP()) of an expression.
-
-:::caution
-NULL values are not counted.
-:::
+- NULL values are ignored.
+- STDDEV_SAMP() returns `NULL` instead of `0` when there is only one input record.
 
 ## Syntax
 
@@ -24,7 +21,7 @@ STDDEV_SAMP(<expr>)
 
 ## Return Type
 
-double
+Double.
 
 ## Example
 
