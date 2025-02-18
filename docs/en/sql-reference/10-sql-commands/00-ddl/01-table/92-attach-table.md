@@ -5,7 +5,7 @@ sidebar_position: 6
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.549"/>
+<FunctionDescription description="Introduced or updated: v1.2.698"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
