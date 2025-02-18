@@ -23,7 +23,11 @@ Attaches an existing table to another one. The command moves the data and schema
 ATTACH TABLE <target_table_name> [ ( <column_list> ) ] '<source_table_data_URI>'
 CONNECTION = ( <connection_parameters> )
 ```
-- `<column_list>`: An optional list of columns to include from the source table, allowing users to specify only the necessary columns instead of loading all available data. If not specified, all columns from the source table will be included.
+- `<column_list>`: An optional, comma-separated list of columns to include from the source table, allowing users to specify only the necessary columns instead of including all of them. If not specified, all columns from the source table will be included.
+
+  - Renaming an included column in the source table updates its name in the attached table, and it must be accessed using the new name.
+  - Dropping an included column in the source table makes it inaccessible in the attached table.
+  - Changes to non-included columns, such as renaming or dropping them in the source table, do not affect the attached table.
 
 - `<source_table_data_URI>` represents the path to the source table's data. For S3-like object storage, the format is `s3://<bucket-name>/<database_ID>/<table_ID>`, for example, _s3://databend-toronto/1/23351/_, which represents the exact path to the table folder within the bucket.
 
