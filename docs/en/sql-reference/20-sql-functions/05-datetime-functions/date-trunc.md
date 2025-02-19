@@ -10,13 +10,13 @@ Truncates a date or timestamp to a specified precision. For example, if you trun
 ## Syntax
 
 ```sql
-DATE_TRUNC(<precision>, <date_or_time_expr>)
+DATE_TRUNC(<precision>, <date_or_timestamp>)
 ```
 
 | Parameter             | Description                                                                                                |
 |-----------------------|------------------------------------------------------------------------------------------------------------|
 | `<precision>`         | Must be of the following values: `YEAR`, `QUARTER`, `MONTH`, `WEEK`, `DAY`, `HOUR`, `MINUTE` and `SECOND`. |
-| `<date_or_time_expr>` | A value of `DATE` or `TIMESTAMP` type.                                                                     |
+| `<date_or_timestamp>` | A value of `DATE` or `TIMESTAMP` type.                                                                     |
 
 ## Return Type
 
