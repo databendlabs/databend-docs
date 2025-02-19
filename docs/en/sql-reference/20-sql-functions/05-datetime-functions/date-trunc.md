@@ -25,7 +25,9 @@ Same as `<date_or_timestamp>`.
 ## Examples
 
 ```sql
-SELECT DATE_TRUNC(MONTH, to_date('2022-07-07')), DATE_TRUNC(WEEK, to_date('2022-07-07'));
+SELECT
+    DATE_TRUNC(MONTH, to_date('2022-07-07')),
+    DATE_TRUNC(WEEK, to_date('2022-07-07'));
 
 ┌────────────────────────────────────────────────────────────────────────────────────┐
 │ DATE_TRUNC(MONTH, to_date('2022-07-07')) │ DATE_TRUNC(WEEK, to_date('2022-07-07')) │
