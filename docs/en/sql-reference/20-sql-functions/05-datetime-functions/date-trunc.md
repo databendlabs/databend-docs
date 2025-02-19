@@ -20,7 +20,7 @@ DATE_TRUNC(<precision>, <date_or_timestamp>)
 
 ## Return Type
 
-Same as `<date_or_time_expr>`.
+Same as `<date_or_timestamp>`.
 
 ## Examples
 
