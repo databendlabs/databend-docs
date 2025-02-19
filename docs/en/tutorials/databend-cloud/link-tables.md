@@ -2,7 +2,7 @@
 title: Linking Tables with ATTACH TABLE
 ---
 
-In this tutorial, we'll walk you through how to link a table in Databend Cloud with an existing Databend table stored in an S3 bucket using the ATTACH TABLE command.
+In this tutorial, we'll walk you through how to link a table in Databend Cloud with an existing Databend table stored in an S3 bucket using the [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) command.
 
 ## Before You Start
 
@@ -23,8 +23,8 @@ docker run \
     -e QUERY_STORAGE_TYPE=s3 \
     -e AWS_S3_ENDPOINT="https://s3.us-east-2.amazonaws.com" \
     -e AWS_S3_BUCKET=databend-doc\
-    -e AWS_ACCESS_KEY_ID=<your-aws-access-key-id> \ # Replace with your AWS access key ID
-    -e AWS_SECRET_ACCESS_KEY=<your-aws-secrect-access-key> \ # Replace with your AWS secret access key
+    -e AWS_ACCESS_KEY_ID=<your-aws-access-key-id> \ 
+    -e AWS_SECRET_ACCESS_KEY=<your-aws-secrect-access-key> \ 
     datafuselabs/databend:v1.2.699-nightly
 ```
 
@@ -61,7 +61,7 @@ SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'population');
 
 2. Execute the following statements to create two attached tables:
     - The first table, `population_all_columns`, includes all columns from the source data.
-    - The second table, `population_withoutprovince`, includes only the selected columns (city & population).
+    - The second table, `population_only`, includes only the selected columns (`city` & `population`).
 
 ```sql
 -- Create an attached table with all columns from the source
@@ -72,7 +72,7 @@ ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' CONNECTION = (
 );
 
 -- Create an attached table with selected columns (city & population) from the source
-ATTACH TABLE population_withoutprovince (city, population) 's3://databend-doc/1/16/' CONNECTION = (
+ATTACH TABLE population_only (city, population) 's3://databend-doc/1/16/' CONNECTION = (
   REGION='us-east-2',
   AWS_KEY_ID = '<your_aws_key_id>',
   AWS_SECRET_KEY = '<your_aws_secret_key>'
@@ -94,7 +94,7 @@ SELECT * FROM population_all_columns;
 │ Vancouver        │ British Columbia │          631486 │
 └───────────────────────────────────────────────────────┘
 
-SELECT * FROM population_withoutprovince;
+SELECT * FROM population_only;
 
 ┌────────────────────────────────────┐
 │       city       │    population   │
@@ -113,4 +113,55 @@ SET population = 2371571
 WHERE city = 'Toronto';
 ```
 
-    After executing the update, you can query the attached table again to see the updated data:
+After executing the update, you can query both attached tables to verify that the changes are reflected:
+
+```sql
+-- Check the updated population in the attached table with all columns  
+SELECT population FROM population_all_columns WHERE city = 'Toronto';
+
+-- Check the updated population in the attached table with only the population column  
+SELECT population FROM population_only WHERE city = 'Toronto';
+```
+
+Expected output for both queries above:
+
+```sql
+┌─────────────────┐
+│    population   │
+├─────────────────┤
+│         2371571 │
+└─────────────────┘
+```
+
+3. If you drop the `province` column from the source table, it will no longer be available in the attached table for queries.
+
+```sql
+ALTER TABLE population DROP province;
+```
+
+After dropping the column, any queries referencing it will result in an error. However, the remaining columns can still be queried successfully.
+
+For example, attempting to query the dropped `province` column will fail:
+
+```sql
+SELECT province FROM population_all_columns;
+error: APIError: QueryFailed: [1065]error:
+  --> SQL:1:8
+  |
+1 | SELECT province FROM population_all_columns
+  |        ^^^^^^^^ column province doesn't exist
+```
+
+However, you can still retrieve the `city` and `population` columns:
+
+```sql
+SELECT city, population FROM population_all_columns;
+
+┌────────────────────────────────────┐
+│       city       │    population   │
+├──────────────────┼─────────────────┤
+│ Toronto          │         2371571 │
+│ Montreal         │         1704694 │
+│ Vancouver        │          631486 │
+└────────────────────────────────────┘
+```
