@@ -1,58 +1,62 @@
 ---
 title: SUM
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-Aggregate function.
+<FunctionDescription description="Introduced or updated: v1.2.697"/>
 
-The SUM() function calculates the sum of a set of values.
+Calculates the sum of a set of values.
 
-:::caution
-NULL values are not counted.
-:::
+- NULL values are ignored.
+- Supports numeric and interval types.
 
 ## Syntax
 
-```
+```sql
 SUM(<expr>)
 ```
 
-## Arguments
-
-| Arguments | Description              |
-|-----------|--------------------------|
-| `<expr>`  | Any numerical expression |
-
 ## Return Type
 
-A double if the input type is double, otherwise integer.
+Same as the input type.
 
-## Example
+## Examples
 
-**Create a Table and Insert Sample Data**
+This example demonstrates how to create a table with INTEGER, DOUBLE, and INTERVAL columns, insert data, and use SUM to calculate the total for each column:
+
 ```sql
-CREATE TABLE sales_data (
-  id INT,
-  product_id INT,
-  quantity INT
+-- Create a table with integer, double, and interval columns
+CREATE TABLE sum_example (
+    id INT,
+    int_col INTEGER,
+    double_col DOUBLE,
+    interval_col INTERVAL
 );
 
-INSERT INTO sales_data (id, product_id, quantity)
-VALUES (1, 1, 10),
-       (2, 2, 5),
-       (3, 3, 8),
-       (4, 4, 3),
-       (5, 5, 15);
+-- Insert data
+INSERT INTO sum_example VALUES 
+(1, 10, 15.5, INTERVAL '2 days'),
+(2, 20, 25.7, INTERVAL '3 days'),
+(3, NULL, 5.2, INTERVAL '1 day'),  
+(4, 30, 40.1, INTERVAL '4 days');
+
+-- Calculate the sum for each column
+SELECT 
+    SUM(int_col) AS total_integer,
+    SUM(double_col) AS total_double,
+    SUM(interval_col) AS total_interval
+FROM sum_example;
 ```
 
-**Query Demo: Calculate the Total Quantity of Products Sold**
-```sql
-SELECT SUM(quantity) AS total_quantity_sold
-FROM sales_data;
-```
+Expected Output:
 
-**Result**
 ```sql
-| total_quantity_sold |
-|---------------------|
-|         41          |
+-- NULL values are ignored.
+-- SUM(interval_col) returns 240:00:00 (10 days).
+
+┌──────────────────────────────────────────────────────────┐
+│  total_integer  │    total_double   │   total_interval   │
+├─────────────────┼───────────────────┼────────────────────┤
+│              60 │              86.5 │ 240:00:00          │
+└──────────────────────────────────────────────────────────┘
 ```
