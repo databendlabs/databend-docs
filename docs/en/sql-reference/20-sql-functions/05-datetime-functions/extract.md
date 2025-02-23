@@ -17,7 +17,7 @@ See also: [DATE_PART](date-part.md)
 EXTRACT( YEAR | QUARTER | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND | DOW | DOY | EPOCH FROM <date_or_timestamp> )
 
 -- Extract from an interval
-EXTRACT( YEAR | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND | EPOCH FROM <interval> )
+EXTRACT( YEAR | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND | MICROSECOND ｜ EPOCH FROM <interval> )
 ```
 
 - `DOW`: Day of the Week.
