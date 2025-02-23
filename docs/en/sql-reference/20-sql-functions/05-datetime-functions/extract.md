@@ -4,16 +4,20 @@ title: EXTRACT
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.692"/>
+<FunctionDescription description="Introduced or updated: v1.2.697"/>
 
-Retrieves the designated portion of a date, time, or timestamp.
+Retrieves the designated portion of a date, timestamp, or interval.
 
 See also: [DATE_PART](date-part.md)
 
 ## Syntax
 
 ```sql
-EXTRACT( YEAR | QUARTER | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND | DOW | DOY | EPOCH FROM <date_or_time_expr> )
+-- Extract from a date or timestamp
+EXTRACT( YEAR | QUARTER | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND | DOW | DOY | EPOCH FROM <date_or_timestamp> )
+
+-- Extract from an interval
+EXTRACT( YEAR | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND | EPOCH FROM <interval> )
 ```
 
 - `DOW`: Day of the Week.
@@ -39,6 +43,8 @@ The return type depends on the field being extracted:
 
 ## Examples
 
+This example extracts various fields from the current timestamp:
+
 ```sql
 SELECT NOW(), EXTRACT(DAY FROM NOW()), EXTRACT(DOY FROM NOW()), EXTRACT(EPOCH FROM NOW());
 
@@ -47,4 +53,16 @@ SELECT NOW(), EXTRACT(DAY FROM NOW()), EXTRACT(DOY FROM NOW()), EXTRACT(EPOCH FR
 ├────────────────────────────┼─────────────────────────┼─────────────────────────┼───────────────────────────┤
 │ 2025-02-08 03:51:51.991167 │                       8 │                      39 │         1738986711.991167 │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+This example extracts the number of days from an interval:
+
+```sql
+SELECT EXTRACT(DAY FROM '1 day 2 hours 3 minutes 4 seconds'::INTERVAL);
+
+┌─────────────────────────────────────────────────────────────────┐
+│ EXTRACT(DAY FROM '1 day 2 hours 3 minutes 4 seconds'::INTERVAL) │
+├─────────────────────────────────────────────────────────────────┤
+│                                                               1 │
+└─────────────────────────────────────────────────────────────────┘
 ```
