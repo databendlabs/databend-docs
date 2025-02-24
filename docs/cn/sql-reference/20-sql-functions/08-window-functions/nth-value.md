@@ -4,11 +4,11 @@ title: NTH_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.568"/>
+<FunctionDescription description="引入或更新于：v1.2.697"/>
 
 返回窗口框架中第 `N` 个位置的值，其中 `N` 是一个指定的整数，用于确定值的确切位置。
 
-另请参阅:
+另请参阅：
 
 - [FIRST_VALUE](first-value.md)
 - [LAST_VALUE](last-value.md)
@@ -19,9 +19,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 NTH_VALUE (expression, n) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-- `[ { IGNORE | RESPECT } NULLS ]`: 此选项控制窗口函数中如何处理 NULL 值。默认情况下，使用 `RESPECT NULLS`，表示 NULL 值包含在计算中并影响结果。当设置为 `IGNORE NULLS` 时，NULL 值被排除在考虑之外，函数仅对非 NULL 值进行操作。
+- `[ { IGNORE | RESPECT } NULLS ]`: 控制窗口函数中如何处理 NULL 值。
+  - 默认情况下，使用 `RESPECT NULLS`，意味着 NULL 值会被包含在计算中并影响结果。
+  - 当设置为 `IGNORE NULLS` 时，NULL 值会被排除在考虑范围之外，函数仅对非 NULL 值进行操作。
+  - 如果窗口框架中的所有值都是 NULL，即使指定了 `IGNORE NULLS`，函数也会返回 NULL。
 
-- 有关窗口框架的语法，请参阅 [窗口框架语法](index.md#window-frame-syntax)。
+- 关于窗口框架的语法，请参阅 [Window Frame Syntax](index.md#window-frame-syntax)。
 
 ## 示例
 
@@ -41,7 +44,7 @@ VALUES
   (4, 'Mary', 'Williams', 7000.00),
   (5, 'Michael', 'Brown', 4500.00);
 
--- 使用 NTH_VALUE 检索薪水第二高的员工的姓名
+-- 使用 NTH_VALUE 获取第二高薪员工的 first_name
 SELECT employee_id, first_name, last_name, salary,
        NTH_VALUE(first_name, 2) OVER (ORDER BY salary DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS second_highest_salary_first_name
 FROM employees;
@@ -57,7 +60,7 @@ FROM employees;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例使用 `IGNORE NULLS` 选项排除窗口框架中的 NULL 值：
+以下示例使用 `IGNORE NULLS` 选项从窗口框架中排除 NULL 值：
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES
