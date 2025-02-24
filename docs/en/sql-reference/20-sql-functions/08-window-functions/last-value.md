@@ -4,7 +4,7 @@ title: LAST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.568"/>
+<FunctionDescription description="Introduced or updated: v1.2.697"/>
 
 Returns the last value in the window frame.
 
@@ -19,7 +19,10 @@ See also:
 LAST_VALUE (expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-- `[ { IGNORE | RESPECT } NULLS ]`: This option controls how NULL values are handled within the window function. By default, `RESPECT NULLS` is used, meaning NULL values are included in the calculation and affect the result. When set to `IGNORE NULLS`, NULL values are excluded from consideration, and the function operates only on non-NULL values.
+- `[ { IGNORE | RESPECT } NULLS ]`: Controls how NULL values are handled within the window function. 
+  - By default, `RESPECT NULLS` is used, meaning NULL values are included in the calculation and affect the result. 
+  - When set to `IGNORE NULLS`, NULL values are excluded from consideration, and the function operates only on non-NULL values.
+  - If all values in the window frame are NULL, the function returns NULL even when `IGNORE NULLS` is specified.
 
 - For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
 
