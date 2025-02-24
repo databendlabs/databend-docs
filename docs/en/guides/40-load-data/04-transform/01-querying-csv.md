@@ -1,6 +1,6 @@
 ---
 title: Querying CSV Files in Stage
-sidebar_label: Querying CSV File
+sidebar_label: CSV
 ---
 
 ## Query CSV Files in Stage

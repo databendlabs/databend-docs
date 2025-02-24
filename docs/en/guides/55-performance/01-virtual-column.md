@@ -34,14 +34,39 @@ CREATE VIRTUAL COLUMN (
   val ['pricings'] [0] ['type'] -- Extract the 'type' field from the first pricing in the 'pricings' array.
 ) FOR test;
 
--- Insert a sample record into the 'test' table with Variant data.
+-- Insert sample records into the 'test' table with Variant data.
 INSERT INTO
   test
 VALUES
   (
     1,
     '{"id":1,"name":"databend","tags":["powerful","fast"],"pricings":[{"type":"Standard","price":"Pay as you go"},{"type":"Enterprise","price":"Custom"}]}'
+  ),
+  (
+    2,
+    '{"id":2,"name":"databricks","tags":["scalable","flexible"],"pricings":[{"type":"Free","price":"Trial"},{"type":"Premium","price":"Subscription"}]}'
+  ),
+  (
+    3,
+    '{"id":3,"name":"snowflake","tags":["cloud-native","secure"],"pricings":[{"type":"Basic","price":"Pay per second"},{"type":"Enterprise","price":"Annual"}]}'
+  ),
+  (
+    4,
+    '{"id":4,"name":"redshift","tags":["reliable","scalable"],"pricings":[{"type":"On-Demand","price":"Pay per usage"},{"type":"Reserved","price":"1 year contract"}]}'
+  ),
+  (
+    5,
+    '{"id":5,"name":"bigquery","tags":["innovative","cost-efficient"],"pricings":[{"type":"Flat Rate","price":"Monthly"},{"type":"Flex","price":"Per query"}]}'
   );
+
+INSERT INTO test SELECT * FROM test;
+INSERT INTO test SELECT * FROM test;
+INSERT INTO test SELECT * FROM test;
+INSERT INTO test SELECT * FROM test;
+INSERT INTO test SELECT * FROM test;
+
+-- Refresh the virtual columns
+REFRESH VIRTUAL COLUMN FOR test;
 
 -- Explain the query execution plan for selecting specific fields from the table.
 EXPLAIN
@@ -53,16 +78,20 @@ FROM
   test;
 
 -[ EXPLAIN ]-----------------------------------
-TableScan
-├── table: default.default.test
-├── output columns: [val['name'] (#2), val['tags'][0] (#3), val['pricings'][0]['type'] (#4)]
-├── read rows: 1
-├── read bytes: 203
-├── partitions total: 1
-├── partitions scanned: 1
-├── pruning stats: [segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1, bloom pruning: 0 to 0>]
-├── push downs: [filters: [], limit: NONE, virtual_columns: [val['name'], val['pricings'][0]['type'], val['tags'][0]]]
-└── estimated rows: 1.00
+Exchange
+├── output columns: [test.val['name'] (#2), test.val['tags'][0] (#3), test.val['pricings'][0]['type'] (#4)]
+├── exchange type: Merge
+└── TableScan
+    ├── table: default.book_db.test
+    ├── output columns: [val['name'] (#2), val['tags'][0] (#3), val['pricings'][0]['type'] (#4)]
+    ├── read rows: 160
+    ├── read size: 4.96 KiB
+    ├── partitions total: 16
+    ├── partitions scanned: 16
+    ├── pruning stats: [segments: <range pruning: 6 to 6>, blocks: <range pruning: 16 to 16>]
+    ├── push downs: [filters: [], limit: NONE]
+    ├── virtual columns: [val['name'], val['pricings'][0]['type'], val['tags'][0]]
+    └── estimated rows: 160.00
 
 -- Explain the query execution plan for selecting only the 'name' field from the table.
 EXPLAIN
@@ -72,16 +101,20 @@ FROM
   test;
 
 -[ EXPLAIN ]-----------------------------------
-TableScan
-├── table: default.default.test
-├── output columns: [val['name'] (#2)]
-├── read rows: 1
-├── read bytes: 203
-├── partitions total: 1
-├── partitions scanned: 1
-├── pruning stats: [segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1, bloom pruning: 0 to 0>]
-├── push downs: [filters: [], limit: NONE, virtual_columns: [val['name']]]
-└── estimated rows: 1.00
+Exchange
+├── output columns: [test.val['name'] (#2)]
+├── exchange type: Merge
+└── TableScan
+    ├── table: default.book_db.test
+    ├── output columns: [val['name'] (#2)]
+    ├── read rows: 160
+    ├── read size: 1.70 KiB
+    ├── partitions total: 16
+    ├── partitions scanned: 16
+    ├── pruning stats: [segments: <range pruning: 6 to 6>, blocks: <range pruning: 16 to 16>]
+    ├── push downs: [filters: [], limit: NONE]
+    ├── virtual columns: [val['name']]
+    └── estimated rows: 160.00
 
 -- Display all the virtual columns defined in the system.
 SHOW VIRTUAL COLUMNS;

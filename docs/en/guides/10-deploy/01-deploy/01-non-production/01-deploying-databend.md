@@ -70,6 +70,7 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 </TabItem>
 
+<!-- #ifcndef -->
 <TabItem value="Tencent COS" label="Tencent COS">
 
 1. Create a bucket or container named `my_bucket`.
@@ -109,7 +110,6 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 </TabItem>
 
-<!-- #ifcndef -->
 <TabItem value="Huawei OBS" label="Huawei OBS">
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
 2. 获取连接到您创建的存储桶或容器的端点 URL。
@@ -119,6 +119,7 @@ For information about how to manage buckets and Access Keys for your cloud objec
 
 - [https://support.huaweicloud.com/intl/zh-cn/usermanual-obs/zh-cn_topic_0045829088.html](https://support.huaweicloud.com/intl/zh-cn/usermanual-obs/zh-cn_topic_0045829088.html)
 - [https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html](https://support.huaweicloud.com/intl/zh-cn/api-obs/obs_04_0116.html)
+
 </TabItem>
 <!-- #endcndef -->
 
@@ -318,6 +319,7 @@ account_key = "<your-account-key>"
 
 </TabItem>
 
+<!-- #ifcndef -->
 <TabItem value="Tencent COS" label="Tencent COS">
 
 When specifying the `endpoint_url` parameter, ensure to exclude the `<BucketName-APPID>` portion from your bucket's endpoint. For instance, if your bucket endpoint is `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`, use `https://cos.ap-beijing.myqcloud.com`. For Tencent COS endpoints in various regions, refer to https://www.tencentcloud.com/document/product/436/6224.
@@ -375,7 +377,7 @@ access_key_id = "<your-key-id>"
 access_key_secret = "<your-access-key>"
 ```
 
-Databend Enterprise Edition supports server-side encryption in OSS. This feature enables you to enhance data security and privacy by activating server-side encryption for data stored in OSS. You can choose the encryption method that best suits your needs. Please note that you must have a valid Databend Enterprise Edition license to utilize this feature. To obtain one, see [Licensing Databend](../../../00-overview/00-editions/01-dee/20-license.md).
+Databend Enterprise Edition supports server-side encryption in OSS. This feature enables you to enhance data security and privacy by activating server-side encryption for data stored in OSS. You can choose the encryption method that best suits your needs. Please note that you must have a valid Databend Enterprise Edition license to utilize this feature. To obtain one, see [Licensing Databend](../../../00-products/01-dee/20-license.md).
 
 To enable server-side encryption in Databend, add the following parameters to the [storage.oss] section:
 
@@ -413,7 +415,6 @@ secret_access_key = "<your-access-key>"
 
 </TabItem>
 
-<!-- #ifcndef -->
 <TabItem value="Huawei OBS" label="Huawei OBS">
 
 ```toml title='databend-query.toml'

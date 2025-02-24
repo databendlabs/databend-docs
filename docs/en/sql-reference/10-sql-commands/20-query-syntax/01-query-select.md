@@ -3,13 +3,11 @@ title: SELECT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.435"/>
+<FunctionDescription description="Introduced or updated: v1.2.690"/>
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
 Retrieves data from a table. 
-
-
 
 ## Syntax
 
@@ -18,7 +16,7 @@ Retrieves data from a table.
 SELECT
     [ALL | DISTINCT]
     [ TOP <n> ]
-    <select_expr> | <col_name> [[AS] <alias>] | $<col_position> [, ...] |  
+    <select_expr> | <col_name> [[AS] <alias>] | $<col_position> [, ...] | * 
     COLUMNS <expr>
     [EXCLUDE (<col_name1> [, <col_name2>, <col_name3>, ...] ) ]
     [FROM table_references]
@@ -38,17 +36,6 @@ SELECT
 - In the examples on this page, the table `numbers(N)` is used for testing, with a single UInt64 column (named `number`) that contains integers from 0 to N-1.
 
 ## SELECT Clause
-
-```sql
-SELECT number FROM numbers(3);
-+--------+
-| number |
-+--------+
-|      0 |
-|      1 |
-|      2 |
-+--------+
-```
 
 ### AS Keyword 
 
@@ -155,7 +142,7 @@ SELECT * EXCLUDE (id,lastname) FROM allemployees;
 | Macy      | F      |
 ```
 
-### COLUMNS
+### COLUMNS Keyword
 
 The COLUMNS keyword provides a flexible mechanism for column selection based on literal regular expression patterns and lambda expressions.
 
@@ -230,6 +217,28 @@ SELECT a, $2 FROM t1;
 | 1 | a     |
 | 2 | b     |
 +---+-------+
+```
+
+### Retrieving All Columns
+
+The `SELECT *` statement is used to retrieve all columns from a table or query result. It is a convenient way to fetch complete data sets without specifying individual column names.
+
+This example returns all columns from my_table:
+
+```sql
+SELECT * FROM my_table;
+```
+
+Databend extends SQL syntax by allowing queries to start with `FROM <table>` without explicitly using `SELECT *`:
+
+```sql
+FROM my_table;
+```
+
+This is equivalent to:
+
+```sql
+SELECT * FROM my_table;
 ```
 
 ## FROM Clause

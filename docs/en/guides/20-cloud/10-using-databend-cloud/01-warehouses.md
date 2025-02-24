@@ -6,7 +6,7 @@ import PlaySVG from '@site/static/img/icon/play.svg'
 import SuspendSVG from '@site/static/img/icon/suspend.svg'
 import CheckboxSVG from '@site/static/img/icon/checkbox.svg'
 import EllipsisSVG from '@site/static/img/icon/ellipsis.svg'
-import  { Button } from 'antd'
+import { Button } from 'antd'
 
 The warehouse is an essential component of Databend Cloud. A warehouse represents a set of compute resources including CPU, memory, and local caches. You must run a warehouse to perform SQL tasks such as:
 
@@ -14,14 +14,14 @@ The warehouse is an essential component of Databend Cloud. A warehouse represent
 - Modifying data with the INSERT, UPDATE, or DELETE statement
 - Loading data into a table with the COPY INTO command
 
-Running a warehouse incurs expenses. For more information, see [Warehouse Pricing](/guides/overview/editions/dc/pricing#warehouse-pricing).
+Running a warehouse incurs expenses. For more information, see [Warehouse Pricing](/guides/products/dc/pricing#warehouse-pricing).
 
 ## Warehouse Sizes
 
 In Databend Cloud, warehouses are available in various sizes, each defined by the maximum number of concurrent queries it can handle. When creating a warehouse, you can choose from the following sizes:
 
 | Size                  | Max. Concurrency | Recommended Use Cases                                                                                                                            |
-|-----------------------|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | XSmall                | 2                | Best for simple tasks like testing or running light queries. Suitable for small datasets (around 50GB).                                          |
 | Small                 | 4                | Great for running regular reports and moderate workloads. Suitable for medium-sized datasets (around 200GB).                                     |
 | Medium                | 8                | Ideal for teams handling more complex queries and higher concurrency. Suitable for larger datasets (around 1TB).                                 |
@@ -37,7 +37,7 @@ An organization can have as many warehouses as needed. The **Warehouses** page d
 
 ### Suspending / Resuming Warehouses
 
-A suspended warehouse does not consume any credits. You can manually suspend or resume a warehouse by clicking the <SuspendSVG/> or <PlaySVG/> button on the warehouse. However, a warehouse can automatically suspend or resume in the following scenarios: 
+A suspended warehouse does not consume any credits. You can manually suspend or resume a warehouse by clicking the <SuspendSVG/> or <PlaySVG/> button on the warehouse. However, a warehouse can automatically suspend or resume in the following scenarios:
 
 - A warehouse can automatically suspend if there is no activity, based on its auto-suspend setting.
 - When you select a suspended warehouse to perform a SQL task, the warehouse will automatically resume.
@@ -52,33 +52,40 @@ You can perform bulk operations on warehouses, including bulk restart, bulk susp
 
 To effectively manage your warehouses and ensure optimal performance and cost-efficiency, consider the following best practices. These guidelines will help you size, organize, and fine-tune your warehouses for various workloads and environments:
 
-- **Choose the Right Size**  
-  - For **development & testing**, use smaller warehouses (XSmall, Small).  
-  - For **production**, opt for larger warehouses (Medium, Large, XLarge).  
+- **Choose the Right Size**
 
-- **Separate Warehouses**  
-  - Use separate warehouses for **data loading** and **query execution**.  
-  - Create distinct warehouses for **development**, **testing**, and **production** environments.  
+  - For **development & testing**, use smaller warehouses (XSmall, Small).
+  - For **production**, opt for larger warehouses (Medium, Large, XLarge).
 
-- **Data Loading Tips**  
-  - Smaller warehouses (Small, Medium) are suitable for data loading.  
-  - Optimize file size and the number of files to enhance performance.  
+- **Separate Warehouses**
 
-- **Optimize for Cost & Performance**  
-  - Avoid running simple queries like `SELECT 1` to minimize credit usage.  
-  - Use bulk loading (`COPY`) rather than individual `INSERT` statements.  
-  - Monitor long-running queries and optimize them to improve performance.  
+  - Use separate warehouses for **data loading** and **query execution**.
+  - Create distinct warehouses for **development**, **testing**, and **production** environments.
 
-- **Auto-Suspend**  
-  - Enable auto-suspend to save credits when the warehouse is idle.  
+- **Data Loading Tips**
 
-- **Disable Auto-Suspend for Frequent Queries**  
-  - Keep warehouses active for frequent or repetitive queries to maintain cache and avoid delays.  
+  - Smaller warehouses (Small, Medium) are suitable for data loading.
+  - Optimize file size and the number of files to enhance performance.
 
-- **Use Auto-Scaling (Business & Dedicated Plans Only)**  
-  - Multi-cluster scaling automatically adjusts resources based on workload demand.  
+- **Optimize for Cost & Performance**
 
-- **Monitor & Adjust Usage**  
+  - Avoid running simple queries like `SELECT 1` to minimize credit usage.
+  - Use bulk loading (`COPY`) rather than individual `INSERT` statements.
+  - Monitor long-running queries and optimize them to improve performance.
+
+- **Auto-Suspend**
+
+  - Enable auto-suspend to save credits when the warehouse is idle.
+
+- **Disable Auto-Suspend for Frequent Queries**
+
+  - Keep warehouses active for frequent or repetitive queries to maintain cache and avoid delays.
+
+- **Use Auto-Scaling (Business & Dedicated Plans Only)**
+
+  - Multi-cluster scaling automatically adjusts resources based on workload demand.
+
+- **Monitor & Adjust Usage**
   - Regularly review warehouse usage and resize as needed to balance cost and performance.
 
 ## Warehouse Access Control
@@ -86,7 +93,7 @@ To effectively manage your warehouses and ensure optimal performance and cost-ef
 Databend Cloud allows you to manage warehouse access with role-based controls by assigning a specific role to a warehouse, so only users with that role can access the warehouse.
 
 :::note
-Warehouse access control is *not* enabled out of the box. To enable it, go to **Support** > **Create New Ticket** and submit a request.
+Warehouse access control is _not_ enabled out of the box. To enable it, go to **Support** > **Create New Ticket** and submit a request.
 :::
 
 To assign a role to a warehouse, select the desired role in the **Advanced Options** during the warehouse creation or modification process:
@@ -125,7 +132,7 @@ You can enable Multi-Cluster for a warehouse when you create it and set the maxi
 
 ### Cost Calculation
 
-Multi-Cluster Warehouses are billed based on the number of active clusters used during specific time intervals. 
+Multi-Cluster Warehouses are billed based on the number of active clusters used during specific time intervals.
 
 For example, for an XSmall Warehouse priced at $1 per hour, if one cluster is actively used from 13:00 to 14:00 and two clusters are actively used from 14:00 to 15:00, the total cost incurred from 13:00 to 15:00 is $3 ((1 cluster × 1 hour × $1) + (2 clusters × 1 hour × $1)).
 

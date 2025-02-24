@@ -1,6 +1,6 @@
 ---
 title: Querying NDJSON Files in Stage
-sidebar_label: Querying NDJSON File
+sidebar_label: NDJSON
 ---
 
 ## Query NDJSON Files in Stage

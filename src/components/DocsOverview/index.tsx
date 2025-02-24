@@ -52,7 +52,7 @@ const colLayout3 = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 24 };
 const DocsOverview: FC = (): ReactElement => {
   const {
     siteConfig: {
-      customFields: { homeLink },
+      customFields: { homeLink, isChina },
     },
   } = useDocusaurusContext();
   return (
@@ -65,7 +65,7 @@ const DocsOverview: FC = (): ReactElement => {
         <div style={{ height: "100%", width: "100%" }}>
           <Row gutter={[12, 12]} className={styles.topCard}>
             <Col {...colLayout3}>
-              <Card href="/guides/overview/editions/dc/" padding={[16, 16]}>
+              <Card href="/guides/products/dc/" padding={[16, 16]}>
                 <h3>
                   <span>{$t("Databend Cloud")}</span>
                 </h3>
@@ -73,7 +73,7 @@ const DocsOverview: FC = (): ReactElement => {
               </Card>
             </Col>
             <Col {...colLayout3}>
-              <Card href="/guides/overview/editions/dee/" padding={[16, 16]}>
+              <Card href="/guides/products/dee/" padding={[16, 16]}>
                 <h3>
                   <span> {$t("Databend Enterprise")}</span>
                 </h3>
@@ -83,7 +83,7 @@ const DocsOverview: FC = (): ReactElement => {
               </Card>
             </Col>
             <Col {...colLayout3}>
-              <Card href="/guides/overview/editions/dce/" padding={[16, 16]}>
+              <Card href="/guides/products/dce/" padding={[16, 16]}>
                 <h3>
                   <span>{$t("Databend Community")}</span>
                 </h3>
@@ -125,17 +125,17 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>{$t("Topics you might find useful:")}</div>
                   <ul>
                     <li>
-                      <Link to={"/guides/overview/editions/dc/platforms"}>
+                      <Link to={"/guides/products/dc/platforms"}>
                         {$t("Supported Platforms & Regions")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/overview/editions/dc/editions"}>
+                      <Link to={"/guides/products/dc/editions"}>
                         {$t("Databend Cloud Editions")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/overview/editions/dc/pricing"}>
+                      <Link to={"/guides/products/dc/pricing"}>
                         {$t("Pricing & Billing")}
                       </Link>
                     </li>
@@ -163,12 +163,12 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>{$t("Topics you might find useful:")}</div>
                   <ul>
                     <li>
-                      <Link to={"/guides/overview/editions/dce/download"}>
+                      <Link to={"/guides/deploy/deploy/download"}>
                         {$t("Downloading Databend")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/overview/editions/dee/license"}>
+                      <Link to={"/guides/products/dee/license"}>
                         {$t("Licensing Databend")}
                       </Link>
                     </li>
@@ -508,7 +508,7 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<FAQ></FAQ>}
                 text={$t("FAQ")}
-                to={`/guides/overview/faq`}
+                to={`/guides/products/overview/faq`}
               />
             </Col>
             <Col {...colLayout}>
@@ -521,7 +521,87 @@ const DocsOverview: FC = (): ReactElement => {
           </Row>
         </div>
       </ContentCardWrap>
-      <hr></hr>
+      <div
+        className={styles.productFeatures}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <h3 className={styles.title}>{$t("Product Features")}</h3>
+        <Row gutter={[12, 12]} className={styles.topCard}>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Serverless Elastic Architecture")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Stateless compute nodes with serverless elasticity enable rapid scaling and recovery based on workload."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span> {$t("Object Storage & HDFS")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Stores all data in object storage to reduce costs, while supporting HDFS for existing Hadoop and Hive clusters."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Parquet Data Format")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Uses the standard Parquet format, eliminating data lock-in risks."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Decoupled Storage and Compute")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Designed for multi-tenant data sharing with a truly decoupled architecture, enabling data marketplace functionality."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Open Source with Flexible Deployment")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Supports both public cloud SaaS and private deployments, with an open-source core to avoid vendor lock-in."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Data Lake Support")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Reads data from Iceberg, Hive, and Delta Lake seamlessly."
+                )}
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+      {/* <hr></hr> */}
     </div>
   );
 };

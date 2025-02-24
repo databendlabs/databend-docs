@@ -70,6 +70,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 </TabItem>
 
+<!-- #ifcndef -->
 <TabItem value="Tencent COS" label="Tencent COS">
 
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
@@ -109,7 +110,6 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 </TabItem>
 
-<!-- #ifcndef -->
 <TabItem value="Huawei OBS" label="Huawei OBS">
 1. 创建一个名为 `my_bucket` 的存储桶或容器。
 2. 获取连接到您创建的存储桶或容器的端点 URL。
@@ -251,7 +251,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 ### 配置 Query 节点
 
 1. 在文件夹 `/usr/local/databend/configs` 中找到文件 `databend-query.toml`。
-2. 在文件 `databend-query.toml` 中，设置 [storage] 块中的 *type* 参数，并配置连接到您的对象存储的访问凭据和端点 URL。
+2. 在文件 `databend-query.toml` 中，设置 [storage] 块中的 _type_ 参数，并配置连接到您的对象存储的访问凭据和端点 URL。
 
 要配置您的存储设置，请在 [storage.fs] 部分前添加 `#` 注释掉每一行。然后，删除相关对象存储提供程序部分的 `#` 符号并填写您的值。
 
@@ -318,6 +318,7 @@ account_key = "<your-account-key>"
 
 </TabItem>
 
+<!-- #ifcndef -->
 <TabItem value="Tencent COS" label="腾讯云 COS">
 
 在指定 `endpoint_url` 参数时，请确保从您的存储桶端点中排除 `<BucketName-APPID>` 部分。例如，如果您的存储桶端点是 `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`，请使用 `https://cos.ap-beijing.myqcloud.com`。有关腾讯云 COS 各区域的端点，请参阅 https://www.tencentcloud.com/document/product/436/6224。
@@ -375,14 +376,14 @@ access_key_id = "<your-key-id>"
 access_key_secret = "<your-access-key>"
 ```
 
-Databend 企业版支持 OSS 中的服务器端加密。此功能使您能够通过激活 OSS 中存储数据的服务器端加密来增强数据安全性和隐私性。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参阅 [Databend 企业版许可证](../../../00-overview/00-editions/01-dee/20-license.md)。
+Databend 企业版支持 OSS 中的服务器端加密。此功能使您能够通过激活 OSS 中存储数据的服务器端加密来增强数据安全性和隐私性。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参阅 [Databend 企业版许可证](../../../00-products/01-dee/20-license.md)。
 
 要在 Databend 中启用服务器端加密，请在 [storage.oss] 部分添加以下参数：
 
-| 参数                     | 描述                                                                                                                                                                              | 可用值                                        |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| server_side_encryption        | 指定 OSS 数据的服务器端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
-| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务器端加密密钥 ID。仅在 KMS 加密模式下适用。      | 字符串，KMS 加密密钥的唯一标识符。 |
+| 参数                          | 描述                                                                                                                                      | 可用值                             |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| server_side_encryption        | 指定 OSS 数据的服务器端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                  |
+| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务器端加密密钥 ID。仅在 KMS 加密模式下适用。                            | 字符串，KMS 加密密钥的唯一标识符。 |
 
 </TabItem>
 
@@ -413,7 +414,6 @@ secret_access_key = "<your-access-key>"
 
 </TabItem>
 
-<!-- #ifcndef -->
 <TabItem value="Huawei OBS" label="华为云 OBS">
 
 ```toml title='databend-query.toml'

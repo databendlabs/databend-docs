@@ -1,43 +1,52 @@
 ---
-title: "使用 DBeaver 连接到 Databend Cloud"
-sidebar_label: "连接到 Databend Cloud (DBeaver)"
+title: '使用 DBeaver 连接 Databend Cloud'
+sidebar_label: '连接 Databend Cloud（DBeaver）'
 ---
-
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在本教程中，我们将引导您通过 Databend JDBC 驱动程序连接到 Databend Cloud。
+本教程将指导您使用 DBeaver 连接 Databend Cloud。
 
 <StepsWrap>
 <StepContent number="1">
 
 ### 开始之前
 
-- 确保您已将 Databend JDBC 驱动程序添加到 DBeaver 中。详细步骤请参阅[将 Databend JDBC 驱动程序添加到 DBeaver](/guides/sql-clients/jdbc/#adding-databend-jdbc-driver-to-dbeaver)。
-- 确保您已拥有 Databend Cloud 账户并能成功登录。
+- 确保本地已安装 DBeaver 24.3.1 或更高版本。
 
 </StepContent>
 <StepContent number="2">
 
-### 创建连接
+### 获取连接信息
 
-在创建与 Databend Cloud 的连接之前，您需要登录 Databend Cloud 以获取连接信息。更多信息，请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+在创建 Databend Cloud 连接前，您需要登录 Databend Cloud 获取连接信息。更多信息请参阅[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。本教程将使用以下连接信息：
 
-1. 在 DBeaver 中，首先在**数据库** > **新建数据库连接**中搜索并选择`databendcloud`，然后点击**下一步**。
+![alt text](@site/static/img/connect/dbeaver-connect-info.png)
 
-![Alt text](@site/static/img/documents/develop/jdbc-select-driver.png)
+</StepContent>
+<StepContent number="3">
 
-2. 配置您的连接设置。
+### 配置连接
 
-| 设置        | 值                                                             |
-| ----------- | -------------------------------------------------------------- |
-| 主机        | 复制并粘贴您从 Databend Cloud 获取的主机地址，以`https://`开头 |
-| 密码        | 复制并粘贴您从 Databend Cloud 生成的密码                       |
-| 数据库/模式 | 例如，`default`                                                |
+1. 在 DBeaver 中，进入 **Database** > **New Database Connection** 打开连接向导，选择 **Analytical** 分类下的 **Databend**。
 
-![Alt text](@site/static/img/documents/develop/jdbc-connect.png)
+![alt text](@site/static/img/connect/dbeaver-analytical.png)
 
-3. 点击**测试连接**以检查连接是否成功。
+2. 在 **Main** 标签页，根据上一步获取的连接信息填写 **Host**、**Port**、**Username** 和 **Password**。
+
+![alt text](@site/static/img/connect/dbeaver-main-tab.png)
+
+3. 在 **Driver properties** 标签页，根据连接信息填写 **Warehouse** 名称。
+
+![alt text](@site/static/img/connect/dbeaver-driver-properties.png)
+
+4. 在 **SSL** 标签页，勾选 **Use SSL** 复选框。
+
+![alt text](@site/static/img/connect/dbeaver-use-ssl.png)
+
+5. 点击 **Test Connection** 验证连接。首次连接 Databend 时会提示下载驱动，点击 **Download** 继续。下载完成后测试连接成功，如下图所示：
+
+![alt text](@site/static/img/connect/dbeaver-cloud-success.png)
 
 </StepContent>
 </StepsWrap>

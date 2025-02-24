@@ -1,20 +1,20 @@
 ---
-title: "使用 BendSQL 连接到 Databend Cloud"
-sidebar_label: "连接到 Databend Cloud (BendSQL)"
+title: "使用 BendSQL 连接 Databend Cloud"
+sidebar_label: "连接 Databend Cloud（BendSQL）"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在本教程中，我们将指导您使用 BendSQL 连接到 Databend Cloud 的过程。
+本教程将指导您使用 BendSQL 连接 Databend Cloud。
 
 <StepsWrap>
 <StepContent number="1">
 
 ### 开始之前
 
-- 确保 BendSQL 已安装在您的机器上。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
-- 确保您已经拥有 Databend Cloud 账户并且能够成功登录。
+- 确保已安装 BendSQL。使用不同包管理器安装 BendSQL 的方法请参考[安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 确保您已拥有 Databend Cloud 账户并可成功登录。
 
 </StepContent>
 
@@ -22,13 +22,13 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 获取连接信息
 
-1. 登录到 Databend Cloud，然后点击 **连接**。
+1. 登录 Databend Cloud，点击 **Connect**。
 
 ![Alt text](/img/connect/bendsql-4.gif)
 
-2. 选择您要连接的数据库，例如 "default"；然后选择一个计算集群。如果您忘记了密码，请重置密码。
+2. 选择需要连接的数据库（例如"default"）；然后选择计算集群。若忘记密码请重置。
 
-3. 您可以在 **示例** 部分找到当前计算集群的 DSN 详细信息和用于通过 BendSQL 连接到 Databend Cloud 的连接字符串。对于这一步，只需复制 **BendSQL** 标签中提供的内容。
+3. 在 **Examples** 区域可查看当前计算集群的 DSN 详细信息，以及通过 BendSQL 连接 Databend Cloud 的字符串。此步骤只需复制 **BendSQL** 标签页中的内容。
 
 ![Alt text](/img/connect/bendsql-5.png)
 
@@ -37,7 +37,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 启动 BendSQL
 
-要启动 BendSQL，请将您复制的内容粘贴到终端或命令提示符中。如果您复制的密码显示为 "**\*\***"，请将其替换为您的实际密码。
+将复制内容粘贴至终端或命令提示符窗口以启动 BendSQL。若复制的密码显示为"**\*\***"，请替换为真实密码。
 
 ![Alt text](/img/connect/bendsql-6.png)
 
@@ -47,7 +47,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 执行查询
 
-连接成功后，您可以在 BendSQL shell 中执行 SQL 查询。例如，输入 `SELECT NOW();` 以返回当前时间。
+连接成功后即可在 BendSQL shell 中执行 SQL 查询。例如输入 `SELECT NOW();` 可返回当前时间。
 
 ![Alt text](/img/connect/bendsql-7.png)
 
@@ -56,7 +56,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 退出 BendSQL
 
-要退出 BendSQL，请输入 `quit`。
+输入 `quit` 即可退出 BendSQL。
 
 </StepContent>
 </StepsWrap>

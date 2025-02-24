@@ -19,7 +19,7 @@ ST_GEOMETRYFROMWKT(<string>, [<srid>])
 - [ST_GEOMETRYFROMEWKT](st-geometryfromewkt.md)
 - [ST_GEOMFROMEWKT](st-geomfromewkt.md)
 - [ST_GEOMFROMTEXT](st-geomfromtext.md)
-- [ST_GEOMTRYFROMTEXT](st-geomtryfromtext.md)
+- [ST_GEOMETRYFROMTEXT](st-geometryfromtext.md)
 
 ## Arguments
 

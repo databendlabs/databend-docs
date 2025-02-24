@@ -614,7 +614,7 @@
     "description": "Databend Cloud 产品的标题"
   },
   "Fully-Managed on Cloud": {
-    "message": "全托管云服务",
+    "message": "公有云服务 Databend Cloud & 按需按量付费",
     "description": "Databend Cloud 产品的描述"
   },
   "Databend Enterprise": {
@@ -622,7 +622,7 @@
     "description": "Databend Enterprise 产品的标题"
   },
   "Self-Hosted with Additional Enterprise Features": {
-    "message": "自托管与额外的企业功能",
+    "message": "私有化部署 & 更多功能 & 收取 License 费用",
     "description": "Databend Enterprise 产品的描述"
   },
   "Databend Community": {
@@ -630,7 +630,7 @@
     "description": "Databend 社区版 产品的标题"
   },
   "Self-Hosted & Free": {
-    "message": "自托管 & 免费",
+    "message": "私有化部署 & 基础功能 & 免费",
     "description": "Databend 社区版 产品的描述"
   },
   "Getting Started": {
@@ -692,5 +692,57 @@
   "FAQ": {
     "message": "常见问题",
     "description": "FAQ"
+  },
+  "Product Features": {
+    "message": "产品特点",
+    "description": "Product Features"
+  },
+  "Serverless Elastic Architecture": {
+    "message": "Serverless 弹性架构",
+    "description": "Title for serverless elastic architecture card"
+  },
+  "Stateless compute nodes with serverless elasticity enable rapid scaling and recovery based on workload.": {
+    "message": "计算层采用 Serverless 弹性架构，计算节点无状态，根据业务感知负载，具有快速的弹性扩展能力和业务恢复能力。",
+    "description": "Description for serverless elastic architecture card"
+  },
+  "Object Storage & HDFS": {
+    "message": "底层存储采用对象存储&HDFS",
+    "description": "Title for object storage and HDFS card"
+  },
+  "Stores all data in object storage to reduce costs, while supporting HDFS for existing Hadoop and Hive clusters.": {
+    "message": "所有数据存储在对象存储中，降低企业存储成本。对于原有 Hadoop、Hive 集群，支持读取 HDFS 中数据。",
+    "description": "Description for object storage and HDFS card"
+  },
+  "Parquet Data Format": {
+    "message": "开放数据格式 Parquet",
+    "description": "Title for Parquet data format card"
+  },
+  "Uses the standard Parquet format, eliminating data lock-in risks.": {
+    "message": "存储采用标准 Parquet 格式，无需担心数据锁定风险。",
+    "description": "Description for Parquet data format card"
+  },
+  "Decoupled Storage and Compute": {
+    "message": "存算分离架构，一份数据多个租户共享",
+    "description": "Title for decoupled storage and compute card"
+  },
+  "Designed for multi-tenant data sharing with a truly decoupled architecture, enabling data marketplace functionality.": {
+    "message": "Databend 自 Day 1 就是基于存算分离架构进行设计开发，真正的存算分离架构，一份数据可以共享给多个租户共享，实现数据集市的功能。",
+    "description": "Description for decoupled storage and compute card"
+  },
+  "Open Source with Flexible Deployment": {
+    "message": "开源，私有化部署和公有云服务均支持",
+    "description": "Title for open source with flexible deployment card"
+  },
+  "Supports both public cloud SaaS and private deployments, with an open-source core to avoid vendor lock-in.": {
+    "message": "Databend 支持公有云 SaaS 服务和私有化部署，内核开源，无需担心产品锁定，可以根据自身需求选择不同产品。",
+    "description": "Description for open source with flexible deployment card"
+  },
+  "Data Lake Support": {
+    "message": "支持数据湖",
+    "description": "Title for data lake support card"
+  },
+  "Reads data from Iceberg, Hive, and Delta Lake seamlessly.": {
+    "message": "支持读取 Iceberg、Hive、Delta Lake 中数据。",
+    "description": "Description for data lake support card"
   }
 }

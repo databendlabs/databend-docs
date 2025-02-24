@@ -1,5 +1,5 @@
 ---
-title: Loading Semi-structured Data
+title: Loading Semi-structured Formats
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 

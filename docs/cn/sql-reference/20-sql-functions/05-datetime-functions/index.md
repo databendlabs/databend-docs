@@ -2,7 +2,7 @@
 title: 日期与时间函数
 ---
 
-本节提供 Databend 中与日期时间相关的函数的参考信息。
+本节提供了 Databend 中与日期时间相关的函数的参考信息。
 
 ## 转换函数
 
@@ -57,6 +57,7 @@ title: 日期与时间函数
 - [LAST_DAY](last-day.md)
 - [NEXT_DAY](next-day.md)
 - [PREVIOUS_DAY](previous-day.md)
+- [TIMESTAMP_DIFF](timestamp-diff.md)
 
 ## 日期信息函数
 
@@ -73,3 +74,4 @@ title: 日期与时间函数
 - [TIME_SLOT](time-slot)
 - [TIMEZONE](timezone.md)
 - [YESTERDAY](yesterday.md)
+{/*examples*/}
