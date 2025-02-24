@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.697"/>
 
-返回窗口框架中第 `N` 个位置的值，其中 `N` 是一个指定的整数，用于确定值的确切位置。
+返回窗口框架中第 `N` 个位置的值，其中 `N` 是一个指定整数，用于确定值的确切位置。
 
 另请参阅：
 

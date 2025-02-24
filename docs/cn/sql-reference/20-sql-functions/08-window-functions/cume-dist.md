@@ -3,11 +3,11 @@ title: CUME_DIST
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入版本: v1.2.7"/>
+<FunctionDescription description="引入版本：v1.2.7"/>
 
-返回一组值中给定值的累积分布。它计算值小于或等于指定值的行数占总行数的比例。请注意，结果值介于0和1之间（含0和1）。
+返回一组值中给定值的累积分布。它计算小于或等于指定值的行数占总行数的比例。请注意，结果值介于 0 和 1 之间，包括 0 和 1。
 
-另请参阅: [PERCENT_RANK](percent_rank.md)
+另请参阅：[PERCENT_RANK](percent_rank.md)
 
 ## 语法
 
@@ -20,7 +20,7 @@ CUME_DIST() OVER (
 
 ## 示例
 
-此示例检索学生的姓名、分数、年级以及使用CUME_DIST()窗口函数在每个年级内的累积分布值（cume_dist_val）。
+本示例使用 CUME_DIST() 窗口函数获取每个年级中学生的姓名、分数、年级以及累积分布值（cume_dist_val）。
 
 ```sql
 CREATE TABLE students (

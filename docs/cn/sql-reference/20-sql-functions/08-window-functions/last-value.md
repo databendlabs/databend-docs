@@ -24,7 +24,7 @@ LAST_VALUE (expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY parti
   - 当设置为 `IGNORE NULLS` 时，NULL 值会被排除在考虑范围之外，函数仅对非 NULL 值进行操作。
   - 如果窗口框架中的所有值都是 NULL，即使指定了 `IGNORE NULLS`，函数也会返回 NULL。
 
-- 有关窗口框架的语法，请参阅 [Window Frame Syntax](index.md#window-frame-syntax)。
+- 关于窗口框架的语法，请参阅 [Window Frame Syntax](index.md#window-frame-syntax)。
 
 ## 示例
 
@@ -44,7 +44,7 @@ VALUES
   (4, 'Mary', 'Williams', 7000.00),
   (5, 'Michael', 'Brown', 4500.00);
 
--- 使用 LAST_VALUE 获取最低薪水的员工的名字
+-- 使用 LAST_VALUE 获取薪资最低的员工的名字
 SELECT employee_id, first_name, last_name, salary,
        LAST_VALUE(first_name) OVER (ORDER BY salary DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS lowest_salary_first_name
 FROM employees;
