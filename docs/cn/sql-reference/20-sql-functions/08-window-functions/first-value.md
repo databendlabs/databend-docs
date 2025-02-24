@@ -20,11 +20,11 @@ FIRST_VALUE (expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY part
 ```
 
 - `[ { IGNORE | RESPECT } NULLS ]`: 控制窗口函数中如何处理 NULL 值。
-  - 默认情况下，使用 `RESPECT NULLS`，表示 NULL 值包含在计算中并影响结果。
-  - 当设置为 `IGNORE NULLS` 时，NULL 值将被排除在考虑范围之外，函数仅对非 NULL 值进行操作。
-  - 如果窗口框架中的所有值都为 NULL，即使指定了 `IGNORE NULLS`，函数也会返回 NULL。
+  - 默认情况下，使用 `RESPECT NULLS`，意味着 NULL 值会被包含在计算中并影响结果。
+  - 当设置为 `IGNORE NULLS` 时，NULL 值会被排除在考虑范围之外，函数仅对非 NULL 值进行操作。
+  - 如果窗口框架中的所有值都是 NULL，即使指定了 `IGNORE NULLS`，函数也会返回 NULL。
 
-- 有关窗口框架的语法，请参见 [Window Frame Syntax](index.md#window-frame-syntax)。
+- 关于窗口框架的语法，请参阅 [Window Frame Syntax](index.md#window-frame-syntax)。
 
 ## 示例
 
@@ -60,7 +60,7 @@ employee_id | first_name | last_name | salary  | highest_salary_first_name
 
 ```
 
-此示例使用 `IGNORE NULLS` 选项从窗口框架中排除 NULL 值：
+以下示例使用 `IGNORE NULLS` 选项从窗口框架中排除 NULL 值：
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES

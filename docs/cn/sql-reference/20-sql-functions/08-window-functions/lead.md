@@ -4,11 +4,11 @@ title: LEAD
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.45"/>
+<FunctionDescription description="引入或更新于：v1.2.45"/>
 
-LEAD 允许你访问同一结果集中后续行的列值。它通常用于根据指定的排序获取下一行的列值。
+LEAD 允许你访问同一结果集中后续行的列值。它通常用于根据指定的排序，检索下一行中某列的值。
 
-另请参阅: [LAG](lag.md)
+另请参阅：[LAG](lag.md)
 
 ## 语法
 
@@ -16,10 +16,10 @@ LEAD 允许你访问同一结果集中后续行的列值。它通常用于根据
 LEAD(expression [, offset [, default]]) OVER (PARTITION BY partition_expression ORDER BY sort_expression)
 ```
 
-- *offset*: 指定在分区中相对于当前行向前（LEAD）或向后（LAG）的行数，以获取该行的值。默认为 1。
-> 注意，设置负偏移量与使用 [LAG](lag.md) 函数效果相同。
+- *offset*: 指定从当前行向前（LEAD）或向后（LAG）的行数，以检索值。默认为 1。
+> 注意，设置负的偏移量与使用 [LAG](lag.md) 函数效果相同。
 
-- *default*: 指定当 LEAD 或 LAG 函数因偏移量超出分区边界而无法获取值时返回的默认值。默认为 NULL。
+- *default*: 指定当 LEAD 或 LAG 函数由于偏移量超出分区边界而无法获取值时返回的值。默认为 NULL。
 
 ## 示例
 

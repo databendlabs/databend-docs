@@ -3,11 +3,11 @@ title: NTILE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入版本: v1.1.50"/>
+<FunctionDescription description="引入版本：v1.1.50"/>
 
-将排序后的结果集划分为指定数量的桶或组。它将排序后的行均匀分布到这些桶中，并为每一行分配一个桶号。NTILE 函数通常与 ORDER BY 子句一起使用以对结果进行排序。
+将排序后的结果集划分为指定数量的桶或组。它将排序后的行均匀地分布到这些桶中，并为每一行分配一个桶号。NTILE 函数通常与 ORDER BY 子句一起使用以对结果进行排序。
 
-请注意，NTILE 函数根据行的排序顺序将行均匀分布到桶中，并确保每个桶中的行数尽可能相等。如果行数不能均匀分布到桶中，某些桶可能比其他桶多一行。
+请注意，NTILE 函数根据行的排序顺序将行均匀地分布到桶中，并确保每个桶中的行数尽可能相等。如果行数无法均匀分布到桶中，某些桶可能会比其他桶多出一行。
 
 ## 语法
 

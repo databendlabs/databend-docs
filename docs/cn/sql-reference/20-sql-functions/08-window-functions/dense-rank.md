@@ -2,11 +2,11 @@
 title: DENSE_RANK
 ---
 
-返回一组值中某个值的排名，排名中没有间隔。
+返回一组值中某个值的排名，且排名之间没有间隔。
 
-排名值从1开始，并按顺序递增。
+排名值从1开始，依次递增。
 
-如果两个值相同，它们具有相同的排名。
+如果两个值相同，则它们具有相同的排名。
 
 ## 语法
 
@@ -37,7 +37,7 @@ INSERT INTO employees (employee_id, first_name, last_name, department, salary) V
   (5, 'Tom', 'Brown', 'HR', 75000);
 ```
 
-**使用 DENSE_RANK 计算每个部门的工资总额**
+**使用 DENSE_RANK 计算每个部门的总工资**
 
 ```sql
 SELECT
@@ -57,4 +57,3 @@ GROUP BY
 | IT         | 172000       | 1          |
 | HR         | 160000       | 2          |
 | Sales      | 77000        | 3          |
-
