@@ -20,14 +20,14 @@ Running a warehouse incurs expenses. For more information, see [Warehouse Pricin
 
 In Databend Cloud, warehouses are available in various sizes, each defined by the maximum number of concurrent queries it can handle. When creating a warehouse, you can choose from the following sizes:
 
-| Size                  | Max. Concurrency | Recommended Use Cases                                                                                                                            |
-| --------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| XSmall                | 2                | Best for simple tasks like testing or running light queries. Suitable for small datasets (around 50GB).                                          |
-| Small                 | 4                | Great for running regular reports and moderate workloads. Suitable for medium-sized datasets (around 200GB).                                     |
-| Medium                | 8                | Ideal for teams handling more complex queries and higher concurrency. Suitable for larger datasets (around 1TB).                                 |
-| Large                 | 16               | Perfect for organizations running many concurrent queries. Suitable for large datasets (around 5TB).                                             |
-| XLarge                | 32               | Built for enterprise-scale workloads with high concurrency. Suitable for very large datasets (over 10TB).                                        |
-| Multi-Cluster Scaling | Up to Unlimited  | Automatically scales out and scales in to match your workload, providing the most cost-efficient way to improve concurrency based on your needs. |
+| Size                  | Recommended Use Cases                                                                                                                            |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| XSmall                | Best for simple tasks like testing or running light queries. Suitable for small datasets (around 50GB).                                          |
+| Small                 | Great for running regular reports and moderate workloads. Suitable for medium-sized datasets (around 200GB).                                     |
+| Medium                | Ideal for teams handling more complex queries and higher concurrency. Suitable for larger datasets (around 1TB).                                 |
+| Large                 | Perfect for organizations running many concurrent queries. Suitable for large datasets (around 5TB).                                             |
+| XLarge                | Built for enterprise-scale workloads with high concurrency. Suitable for very large datasets (over 10TB).                                        |
+| Multi-Cluster Scaling | Automatically scales out and scales in to match your workload, providing the most cost-efficient way to improve concurrency based on your needs. |
 
 To choose the appropriate warehouse size, Databend recommends starting with a smaller size. Smaller warehouses may take longer to execute SQL tasks compared to medium or large ones. If you find that query execution is taking too long (for example, several minutes), consider scaling up to a medium or large warehouse for faster results.
 

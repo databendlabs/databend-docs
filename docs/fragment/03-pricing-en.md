@@ -10,13 +10,13 @@ Your warehouses incur costs when they are running (specifically, when in the Run
 
 The size of a warehouse refers to the maximum number of concurrent queries it can handle, and prices vary based on the different sizes available and the Databend Cloud edition you use.
 
-| Size   | Max. Concurrency | Hourly Cost (Personal) | Hourly Cost (Business) | Per-Second Cost (Personal) | Per-Second Cost (Business) |
-| ------ | ---------------- | ---------------------- | ---------------------- | -------------------------- | -------------------------- |
-| XSmall | 2                | $1.00                  | $1.50                  | $0.000277778               | $0.000416667               |
-| Small  | 4                | $2.00                  | $3.00                  | $0.000555556               | $0.000833333               |
-| Medium | 8                | $4.00                  | $6.00                  | $0.001111111               | $0.001666667               |
-| Large  | 16               | $8.00                  | $12.00                 | $0.002222222               | $0.003333333               |
-| XLarge | 32               | $16.00                 | $24.00                 | $0.004444444               | $0.006666667               |
+| Size   | Hourly Cost (Personal) | Hourly Cost (Business) | Per-Second Cost (Personal) | Per-Second Cost (Business) |
+| ------ | ---------------------- | ---------------------- | -------------------------- | -------------------------- |
+| XSmall | $1.00                  | $1.50                  | $0.000277778               | $0.000416667               |
+| Small  | $2.00                  | $3.00                  | $0.000555556               | $0.000833333               |
+| Medium | $4.00                  | $6.00                  | $0.001111111               | $0.001666667               |
+| Large  | $8.00                  | $12.00                 | $0.002222222               | $0.003333333               |
+| XLarge | $16.00                 | $24.00                 | $0.004444444               | $0.006666667               |
 
 A suspended warehouse does not consume any resources. By default, Databend Cloud automatically suspends a warehouse after five minutes of inactivity to save resources and costs. You can adjust or disable this automatic suspension feature according to your preferences.
 
