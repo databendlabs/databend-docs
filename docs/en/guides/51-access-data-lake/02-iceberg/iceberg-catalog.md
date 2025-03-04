@@ -44,22 +44,26 @@ Defines and establishes a new catalog in the Databend query engine.
 
 ```sql
 CREATE CATALOG <catalog_name>
-TYPE = <catalog_type>
-CONNECTION = (
-    METASTORE_ADDRESS = '<hive_metastore_address>'
-    URL = '<data_storage_path>'
-    <connection_parameter> = '<connection_parameter_value>'
-    <connection_parameter> = '<connection_parameter_value>'
+TYPE=ICEBERG
+CONNECTION=(
+    TYPE='<connection_type>'
+    ADDRESS='<address>'
+    WAREHOUSE='<warehouse_location>'
+    "<connection_parameter>"='<connection_parameter_value>'
+    "<connection_parameter>"='<connection_parameter_value>'
     ...
-)
+);
 ```
 
-| Parameter             | Required? | Description                                                                                                               | 
-|-----------------------|-----------|---------------------------------------------------------------------------------------------------------------------------| 
-| TYPE                  | Yes       | Type of the catalog: 'HIVE' for Hive catalog or 'ICEBERG' for Iceberg catalog.                                      | 
-| METASTORE_ADDRESS     | No        | Hive Metastore address. Required for Hive catalog only.| 
-| URL                   | Yes       | Location of the external storage linked to this catalog. This could be a bucket or a folder within a bucket. For example, 's3://databend-toronto/'.                       | 
-| connection_parameter  | Yes       | Connection parameters to establish connections with external storage. The required parameters vary based on the specific storage service and authentication methods. Refer to [Connection Parameters](/sql/sql-reference/connect-parameters) for detailed information. |
+| Parameter                    | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                           |
+|------------------------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<catalog_name>`             | Yes       | The name of the catalog you want to create.                                                                                                                                                                                                                                                                                                                                                                           |
+| `TYPE`                       | Yes       | Specifies the catalog type. For Iceberg, set to `ICEBERG`.                                                                                                                                                                                                                                                                                                                                                            |
+| `CONNECTION`                 | Yes       | The connection parameters for the Iceberg catalog.                                                                                                                                                                                                                                                                                                                                                                    |
+| `TYPE` (inside `CONNECTION`) | Yes       | The connection type. For Iceberg, it is typically set to `rest` for REST-based connection.                                                                                                                                                                                                                                                                                                                            |
+| `ADDRESS`                    | Yes       | The address or URL of the Iceberg service (e.g., `http://127.0.0.1:8181`).                                                                                                                                                                                                                                                                                                                                            |
+| `WAREHOUSE`                  | Yes       | The location of the Iceberg warehouse, usually an S3 bucket or compatible object storage system.                                                                                                                                                                                                                                                                                                                      |
+| `<connection_parameter>`     | Yes       | Connection parameters to establish connections with external storage. The required parameters vary based on the specific storage service and authentication methods. Refer to [Connection Parameters](/sql/sql-reference/connect-parameters) for detailed information. If you're using Amazon S3 or S3-compatible storage systems, make sure to prefix the parameters with  `s3.` (e.g., `s3.region`, `s3.endpoint`). |
 
 :::note
 To read data from HDFS, you need to set the following environment variables before starting Databend. These environment variables ensure that Databend can access the necessary Java and Hadoop dependencies to interact with HDFS effectively. Make sure to replace "/path/to/java" and "/path/to/hadoop" with the actual paths to your Java and Hadoop installations, and adjust the CLASSPATH to include all the required Hadoop JAR files.
@@ -103,24 +107,16 @@ USE CATALOG <catalog_name>
 
 ## Usage Examples
 
-This example demonstrates the creation of a catalog configured to interact with an Iceberg data storage located in MinIO at 's3://databend/iceberg/'.
+This example shows how to create an Iceberg catalog using a REST-based connection, specifying the service address, warehouse location (S3), and optional parameters like AWS region and custom endpoint:
 
 ```sql
-CREATE CATALOG iceberg_ctl
-TYPE = ICEBERG
-CONNECTION = (
-    URL = 's3://databend/iceberg/'
-    AWS_KEY_ID = 'minioadmin'
-    AWS_SECRET_KEY = 'minioadmin'
-    ENDPOINT_URL = 'http://127.0.0.1:9000'
-    REGION = 'us-east-2'
+CREATE CATALOG ctl
+TYPE=ICEBERG
+CONNECTION=(
+    TYPE='rest'
+    ADDRESS='http://127.0.0.1:8181'
+    WAREHOUSE='s3://iceberg-tpch'
+    "s3.region"='us-east-1'
+    "s3.endpoint"='http://127.0.0.1:9000'
 );
-
-SHOW CREATE CATALOG iceberg_ctl;
-
-┌─────────────┬─────────┬────────────────────────────────────────────────────────────────────────────────────────┐
-│  Catalog    │  Type   │  Option                                                                                │
-├─────────────┼─────────┼────────────────────────────────────────────────────────────────────────────────────────┤
-│ iceberg_ctl │ iceberg │ STORAGE PARAMS s3 | bucket=databend, root=/iceberg/, endpoint=http://127.0.0.1:9000    │
-└─────────────┴─────────┴────────────────────────────────────────────────────────────────────────────────────────┘
 ```
