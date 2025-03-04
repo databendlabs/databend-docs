@@ -3,13 +3,13 @@ title: Iceberg Catalog
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.668"/>
+<FunctionDescription description="引入或更新于：v1.2.668"/>
 
-Databend 支持集成 [Apache Iceberg](https://iceberg.apache.org/) 目录，增强了其数据管理和分析的兼容性和多功能性。这通过无缝整合 Apache Iceberg 强大的元数据和存储管理能力，扩展了 Databend 的功能。
+Databend 支持集成 [Apache Iceberg](https://iceberg.apache.org/) 目录，增强了其在数据管理和分析方面的兼容性和多功能性。这通过将 Apache Iceberg 强大的元数据和存储管理能力无缝集成到平台中，扩展了 Databend 的功能。
 
 ## 数据类型映射
 
-下表展示了 Apache Iceberg 和 Databend 之间的数据类型映射。请注意，Databend 目前不支持表中未列出的 Iceberg 数据类型。
+下表列出了 Apache Iceberg 和 Databend 之间的数据类型映射。请注意，Databend 目前不支持表中未列出的 Iceberg 数据类型。
 
 | Apache Iceberg                  | Databend                |
 | ------------------------------- | ----------------------- |
@@ -44,25 +44,29 @@ Databend 提供了以下命令来管理目录：
 
 ```sql
 CREATE CATALOG <catalog_name>
-TYPE = <catalog_type>
-CONNECTION = (
-    METASTORE_ADDRESS = '<hive_metastore_address>'
-    URL = '<data_storage_path>'
-    <connection_parameter> = '<connection_parameter_value>'
-    <connection_parameter> = '<connection_parameter_value>'
+TYPE=ICEBERG
+CONNECTION=(
+    TYPE='<connection_type>'
+    ADDRESS='<address>'
+    WAREHOUSE='<warehouse_location>'
+    "<connection_parameter>"='<connection_parameter_value>'
+    "<connection_parameter>"='<connection_parameter_value>'
     ...
-)
+);
 ```
 
-| 参数                  | 是否必需 | 描述                                                                                                               | 
-|-----------------------|-----------|---------------------------------------------------------------------------------------------------------------------------| 
-| TYPE                  | 是        | 目录类型：'HIVE' 表示 Hive 目录，'ICEBERG' 表示 Iceberg 目录。                                      | 
-| METASTORE_ADDRESS     | 否        | Hive Metastore 地址。仅对 Hive 目录必需。| 
-| URL                   | 是        | 与此目录关联的外部存储位置。这可以是桶或桶内的文件夹。例如，'s3://databend-toronto/'。                       | 
-| connection_parameter  | 是        | 用于与外部存储建立连接的连接参数。所需的参数因特定的存储服务和认证方法而异。请参阅 [连接参数](/sql/sql-reference/connect-parameters) 获取详细信息。 |
+| 参数                        | 是否必填 | 描述                                                                                                                                                                                                                                                                                                                                                                                                           |
+|------------------------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<catalog_name>`             | 是       | 要创建的 catalog 名称。                                                                                                                                                                                                                                                                                                                                                                           |
+| `TYPE`                       | 是       | 指定 catalog 类型。对于 Iceberg，设置为 `ICEBERG`。                                                                                                                                                                                                                                                                                                                                                            |
+| `CONNECTION`                 | 是       | Iceberg catalog 的连接参数。                                                                                                                                                                                                                                                                                                                                                                    |
+| `TYPE` (在 `CONNECTION` 内) | 是       | 连接类型。对于 Iceberg，通常设置为 `rest` 以使用基于 REST 的连接。                                                                                                                                                                                                                                                                                                                            |
+| `ADDRESS`                    | 是       | Iceberg 服务的地址或 URL（例如 `http://127.0.0.1:8181`）。                                                                                                                                                                                                                                                                                                                                            |
+| `WAREHOUSE`                  | 是       | Iceberg 数仓的位置，通常是一个 S3 存储桶或兼容的对象存储系统。                                                                                                                                                                                                                                                                                                                                                      |
+| `<connection_parameter>`     | 是       | 用于与外部存储建立连接的参数。所需的参数根据具体的存储服务和认证方法而有所不同。有关详细信息，请参阅[连接参数](/sql/sql-reference/connect-parameters)。如果您使用的是 Amazon S3 或 S3 兼容的存储系统，请确保在参数前加上 `s3.` 前缀（例如 `s3.region`、`s3.endpoint`）。 |
 
 :::note
-要从 HDFS 读取数据，您需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 可以访问必要的 Java 和 Hadoop 依赖项，以有效与 HDFS 交互。请确保将 "/path/to/java" 和 "/path/to/hadoop" 替换为 Java 和 Hadoop 安装的实际路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
+要从 HDFS 读取数据，您需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 能够访问必要的 Java 和 Hadoop 依赖项，以有效地与 HDFS 交互。请确保将 "/path/to/java" 和 "/path/to/hadoop" 替换为实际的 Java 和 Hadoop 安装路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
 ```shell
 export JAVA_HOME=/path/to/java
 export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
@@ -73,7 +77,7 @@ export CLASSPATH=/all/hadoop/jar/files
 
 ### SHOW CREATE CATALOG
 
-返回指定目录的详细配置，包括其类型和存储参数。
+返回指定 catalog 的详细配置，包括其类型和存储参数。
 
 #### 语法
 
@@ -83,7 +87,7 @@ SHOW CREATE CATALOG <catalog_name>;
 
 ### SHOW CATALOGS
 
-显示所有已创建的目录。
+显示所有已创建的 catalog。
 
 #### 语法
 
@@ -93,7 +97,7 @@ SHOW CATALOGS [LIKE '<pattern>']
 
 ### USE CATALOG
 
-将当前会话切换到指定的目录。
+将当前会话切换到指定的 catalog。
 
 #### 语法
 
@@ -103,24 +107,16 @@ USE CATALOG <catalog_name>
 
 ## 使用示例
 
-此示例演示了创建一个目录，该目录配置为与位于 MinIO 的 's3://databend/iceberg/' 的 Iceberg 数据存储进行交互。
+此示例展示了如何使用基于 REST 的连接创建 Iceberg catalog，指定服务地址、数仓位置（S3）以及可选的参数（如 AWS 区域和自定义端点）：
 
 ```sql
-CREATE CATALOG iceberg_ctl
-TYPE = ICEBERG
-CONNECTION = (
-    URL = 's3://databend/iceberg/'
-    AWS_KEY_ID = 'minioadmin'
-    AWS_SECRET_KEY = 'minioadmin'
-    ENDPOINT_URL = 'http://127.0.0.1:9000'
-    REGION = 'us-east-2'
+CREATE CATALOG ctl
+TYPE=ICEBERG
+CONNECTION=(
+    TYPE='rest'
+    ADDRESS='http://127.0.0.1:8181'
+    WAREHOUSE='s3://iceberg-tpch'
+    "s3.region"='us-east-1'
+    "s3.endpoint"='http://127.0.0.1:9000'
 );
-
-SHOW CREATE CATALOG iceberg_ctl;
-
-┌─────────────┬─────────┬────────────────────────────────────────────────────────────────────────────────────────┐
-│  Catalog    │  Type   │  Option                                                                                │
-├─────────────┼─────────┼────────────────────────────────────────────────────────────────────────────────────────┤
-│ iceberg_ctl │ iceberg │ STORAGE PARAMS s3 | bucket=databend, root=/iceberg/, endpoint=http://127.0.0.1:9000    │
-└─────────────┴─────────┴────────────────────────────────────────────────────────────────────────────────────────┘
 ```
