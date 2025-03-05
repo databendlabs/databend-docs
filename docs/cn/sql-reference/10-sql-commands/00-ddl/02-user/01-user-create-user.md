@@ -1,18 +1,18 @@
 ---
-title: 创建用户
+title: CREATE USER
 sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.566"/>
+<FunctionDescription description="引入或更新于：v1.2.703"/>
 
 创建一个 SQL 用户。
 
 另请参阅：
 
- - [创建密码策略](../12-password-policy/create-password-policy.md)
- - [创建网络策略](../12-network-policy/ddl-create-policy.md)
- - [授权](10-grant.md)
+ - [CREATE PASSWORD POLICY](../12-password-policy/create-password-policy.md)
+ - [CREATE NETWORK POLICY](../12-network-policy/ddl-create-policy.md)
+ - [GRANT](10-grant.md)
 
 ## 语法
 
@@ -25,9 +25,14 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 [ WITH DISABLED = true | false ] -- 用户创建时处于禁用状态
 ```
 
+- `<name>` 不能包含以下非法字符：
+    - 单引号 (')
+    - 双引号 (")
+    - 退格符 (\b)
+    - 换页符 (\f)
 - *auth_type* 可以是 `double_sha1_password`（默认）、`sha256_password` 或 `no_password`。
-- 当 `MUST_CHANGE_PASSWORD` 设置为 `true` 时，新用户必须在首次登录时更改密码。用户可以使用 [ALTER USER](03-user-alter-user.md) 命令更改自己的密码。
-- 当你使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在性或自动将该角色授予用户。你必须显式地将角色授予用户，角色才会生效。
+- 当 `MUST_CHANGE_PASSWORD` 设置为 `true` 时，新用户首次登录时必须更改密码。用户可以使用 [ALTER USER](03-user-alter-user.md) 命令更改自己的密码。
+- 当使用 CREATE USER 或 [ALTER USER](03-user-alter-user.md) 为用户设置默认角色时，Databend 不会验证角色的存在性或自动将角色授予用户。您必须显式地将角色授予用户，角色才会生效。
 - 当 `DISABLED` 设置为 `true` 时，新用户将处于禁用状态。处于此状态的用户无法登录 Databend，直到他们被启用。要启用或禁用已创建的用户，请使用 [ALTER USER](03-user-alter-user.md) 命令。
 
 ## 示例
@@ -116,9 +121,9 @@ SHOW ROLES
 
 ### 示例 5：创建处于禁用状态的用户
 
-此示例创建一个名为 'u1' 的用户，该用户处于禁用状态，无法登录。使用 [ALTER USER](03-user-alter-user.md) 命令启用用户后，登录访问权限将恢复。
+本示例创建一个名为 'u1' 的用户，该用户处于禁用状态，无法登录。使用 [ALTER USER](03-user-alter-user.md) 命令启用用户后，登录访问权限将恢复。
 
-1. 创建一个名为 'u1' 的用户，并将其设置为禁用状态：
+1. 创建一个名为 'u1' 的用户，并设置为禁用状态：
 
 ```sql
 CREATE USER u1 IDENTIFIED BY '123' WITH DISABLED = TRUE;
@@ -159,7 +164,7 @@ Connected to Databend Query v1.2.424-nightly-d3a89f708d(rust-1.77.0-nightly-2024
 
 ### 示例 6：创建必须更改密码的用户
 
-在此示例中，我们将创建一个带有 `MUST_CHANGE_PASSWORD` 选项的用户。然后，我们将使用 BendSQL 以新用户身份连接 Databend 并更改密码。
+在本示例中，我们将创建一个带有 `MUST_CHANGE_PASSWORD` 选项的用户。然后，我们将使用 BendSQL 以新用户身份连接 Databend 并更改密码。
 
 1. 创建一个名为 'eric' 的新用户，并将 `MUST_CHANGE_PASSWORD` 选项设置为 `TRUE`。
 
@@ -167,7 +172,7 @@ Connected to Databend Query v1.2.424-nightly-d3a89f708d(rust-1.77.0-nightly-2024
 CREATE USER eric IDENTIFIED BY 'abc123' WITH MUST_CHANGE_PASSWORD = TRUE;
 ```
 
-2. 启动 BendSQL 并以新用户身份连接 Databend。连接后，你将看到一条消息，提示需要更改密码。
+2. 启动 BendSQL 并以新用户身份连接 Databend。连接后，您将看到一条消息，提示需要更改密码。
 
 ```bash
 MacBook-Air:~ eric$ bendsql -ueric -pabc123
