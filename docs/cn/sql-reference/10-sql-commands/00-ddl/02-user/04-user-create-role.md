@@ -2,6 +2,9 @@
 title: CREATE ROLE
 sidebar_position: 5
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.703"/>
 
 创建一个新角色。
 
@@ -12,8 +15,15 @@ sidebar_position: 5
 ## 语法
 
 ```sql
-CREATE ROLE [ IF NOT EXISTS ] <role_name> [ COMMENT = '<string_literal>' ]
+CREATE ROLE [ IF NOT EXISTS ] <name> [ COMMENT = '<string_literal>' ]
 ```
+
+- `<name>` 不能包含以下非法字符：
+    - 单引号 (')
+    - 双引号 (")
+    - 退格符 (\b)
+    - 换页符 (\f)
+
 ## 示例
 
 ```sql
