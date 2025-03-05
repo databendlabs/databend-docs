@@ -3,7 +3,7 @@ title: SHOW_GRANTS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.487"/>
+<FunctionDescription description="Introduced or updated: v1.2.704"/>
 
 Lists privileges explicitly granted to a user, to a role, or on a specific object.
 
@@ -19,6 +19,22 @@ SHOW_GRANTS('udf', '<udf_name>')
 SHOW_GRANTS('table', '<table_name>', '<catalog_name>', '<db_name>')
 SHOW_GRANTS('database', '<db_name>', '<catalog_name>')
 ```
+
+## Configuring `enable_expand_roles` Setting
+
+The `enable_expand_roles` setting controls whether the SHOW_GRANTS function expands role inheritance when displaying privileges.
+
+- `enable_expand_roles=1` (default):
+
+    - SHOW_GRANTS recursively expands inherited privileges, meaning that if a role has been granted another role, it will display all the inherited privileges.
+    - Users will also see all privileges granted through their assigned roles.
+
+- `enable_expand_roles=0`:
+
+    - SHOW_GRANTS only displays privileges that are directly assigned to the specified role or user.
+    - However, the result will still include GRANT ROLE statements to indicate role inheritance.
+
+
 
 ## Examples
 
