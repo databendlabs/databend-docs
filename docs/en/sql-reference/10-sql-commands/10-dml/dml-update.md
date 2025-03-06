@@ -22,7 +22,9 @@ UPDATE <target_table>
 
 ## Examples
 
-The following example demonstrates how to update rows in a table, both directly and using values from another table. We will first create a **bookstore** table and insert some sample data, then update a specific row directly. After that, we will use a second table, **book_updates**, to update rows in the **bookstore** table based on the values from **book_updates**.
+The following example demonstrates how to update rows in a table, both directly and using values from another table. 
+
+We will first create a **bookstore** table and insert some sample data, then update a specific row directly. After that, we will use a second table, **book_updates**, to update rows in the **bookstore** table based on the values from **book_updates**.
 
 #### Step 1: Create the bookstore table and insert initial data
 
