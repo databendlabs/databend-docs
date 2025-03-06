@@ -5,19 +5,25 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.225"/>
 
-提供指定流的状态信息，生成一个单列结果（`has_data`），其值可以是 `true` 或 `false`：
+提供指定流的状态信息，返回一个单列结果（`has_data`），其值可以是 `true` 或 `false`：
 
 - `true`：表示流**可能包含**变更数据捕获记录。
 - `false`：表示流当前不包含任何变更数据捕获记录。
 
 :::note
-结果中的 `true` 值**并不**确保一定存在变更数据捕获记录。其他操作，例如执行表压缩操作，也可能导致 `true` 值，即使实际上没有变更数据捕获记录。
+结果中的 `true`（`has_data`）**并不**确保一定存在变更数据捕获记录。其他操作，例如执行表压缩操作，也可能导致 `true` 值，即使实际上没有变更数据捕获记录。
+:::
+
+:::note
+在任务中使用 `STREAM_STATUS` 时，引用流时必须包含数据库名称（例如 `STREAM_STATUS('mydb.stream_name')`）。
 :::
 
 ## 语法
 
 ```sql
-SELECT * FROM STREAM_STATUS('<stream_name>');
+SELECT * FROM STREAM_STATUS('<database_name>.<stream_name>');
+-- 或
+SELECT * FROM STREAM_STATUS('<stream_name>');  -- 使用当前数据库
 ```
 
 ## 示例
@@ -51,4 +57,7 @@ SELECT * FROM STREAM_STATUS('s');
 ├──────────┤
 │ true     │
 └──────────┘
+
+-- 指定数据库名称的示例
+SELECT * FROM STREAM_STATUS('mydb.s');
 ```
