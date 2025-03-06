@@ -34,7 +34,60 @@ The `enable_expand_roles` setting controls whether the SHOW_GRANTS function expa
     - SHOW_GRANTS only displays privileges that are directly assigned to the specified role or user.
     - However, the result will still include GRANT ROLE statements to indicate role inheritance.
 
+For example, role `a` has the `SELECT` privilege on `t1`, and role `b` has the `SELECT` privilege on `t2`:
 
+```sql
+SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
+
+┌──────────────────────────────────────────────────────┐
+│                        grants                        │
+├──────────────────────────────────────────────────────┤
+│ GRANT SELECT ON 'default'.'default'.'t1' TO ROLE `a` │
+└──────────────────────────────────────────────────────┘
+
+SELECT grants FROM show_grants('role', 'b') ORDER BY object_id;
+
+┌──────────────────────────────────────────────────────┐
+│                        grants                        │
+├──────────────────────────────────────────────────────┤
+│ GRANT SELECT ON 'default'.'default'.'t2' TO ROLE `b` │
+└──────────────────────────────────────────────────────┘
+```
+
+If you grant role `b` to role `a` and check the grants on role `a` again, you can see than the `SELECT` privilege on `t2` is now included in role `a`:
+
+```sql
+GRANT ROLE b TO ROLE a;
+```
+
+```sql
+SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
+
+┌──────────────────────────────────────────────────────┐
+│                        grants                        │
+├──────────────────────────────────────────────────────┤
+│ GRANT SELECT ON 'default'.'default'.'t1' TO ROLE `a` │
+│ GRANT SELECT ON 'default'.'default'.'t2' TO ROLE `a` │
+└──────────────────────────────────────────────────────┘
+```
+
+If you set `enable_expand_roles` to `0` and check the grants on role `a` again, the result will show the `GRANT ROLE` statement instead of listing the specific privileges inherited from role `b`:
+
+```sql
+SET enable_expand_roles=0;
+```
+
+```sql
+SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
+
+┌──────────────────────────────────────────────────────┐
+│                        grants                        │
+├──────────────────────────────────────────────────────┤
+│ GRANT SELECT ON 'default'.'default'.'t1' TO ROLE `a` │
+│ GRANT ROLE b to ROLE `a`                             │
+│ GRANT ROLE public to ROLE `a`                        │
+└──────────────────────────────────────────────────────┘
+```
 
 ## Examples
 
