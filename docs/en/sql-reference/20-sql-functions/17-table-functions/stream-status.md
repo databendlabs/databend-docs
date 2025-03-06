@@ -14,10 +14,16 @@ Provides information about the status of a specified stream, yielding a single-c
 The presence of a `true` in the result (`has_data`) does **not** ensure the definite existence of change data capture records. Other operations, such as performing a table compact operation, could also lead to a `true` value even when there are no actual change data capture records.
 :::
 
+:::note
+When using `STREAM_STATUS` in tasks, you must include the database name when referencing the stream (e.g., `STREAM_STATUS('mydb.stream_name')`).
+:::
+
 ## Syntax
 
 ```sql
-SELECT * FROM STREAM_STATUS('<stream_name>');
+SELECT * FROM STREAM_STATUS('<database_name>.<stream_name>');
+-- OR
+SELECT * FROM STREAM_STATUS('<stream_name>');  -- Uses current database
 ```
 
 ## Examples
@@ -51,4 +57,7 @@ SELECT * FROM STREAM_STATUS('s');
 ├──────────┤
 │ true     │
 └──────────┘
+
+-- Example with database name specified
+SELECT * FROM STREAM_STATUS('mydb.s');
 ```
