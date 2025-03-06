@@ -3,7 +3,7 @@ title: SHOW_GRANTS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.487"/>
+<FunctionDescription description="引入或更新于：v1.2.704"/>
 
 列出显式授予用户、角色或特定对象的权限。
 
@@ -20,24 +20,93 @@ SHOW_GRANTS('table', '<table_name>', '<catalog_name>', '<db_name>')
 SHOW_GRANTS('database', '<db_name>', '<catalog_name>')
 ```
 
+## 配置 `enable_expand_roles` 设置
+
+`enable_expand_roles` 设置控制 SHOW_GRANTS 函数在显示权限时是否展开角色继承。
+
+- `enable_expand_roles=1`（默认）：
+
+    - SHOW_GRANTS 递归展开继承的权限，这意味着如果一个角色被授予了另一个角色，它将显示所有继承的权限。
+    - 用户还将看到通过其分配的角色授予的所有权限。
+
+- `enable_expand_roles=0`：
+
+    - SHOW_GRANTS 仅显示直接分配给指定角色或用户的权限。
+    - 但是，结果仍将包括 GRANT ROLE 语句以指示角色继承。
+
+例如，角色 `a` 在 `t1` 上具有 `SELECT` 权限，角色 `b` 在 `t2` 上具有 `SELECT` 权限：
+
+```sql
+SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
+
+┌──────────────────────────────────────────────────────┐
+│                        grants                        │
+├──────────────────────────────────────────────────────┤
+│ GRANT SELECT ON 'default'.'default'.'t1' TO ROLE `a` │
+└──────────────────────────────────────────────────────┘
+
+SELECT grants FROM show_grants('role', 'b') ORDER BY object_id;
+
+┌──────────────────────────────────────────────────────┐
+│                        grants                        │
+├──────────────────────────────────────────────────────┤
+│ GRANT SELECT ON 'default'.'default'.'t2' TO ROLE `b` │
+└──────────────────────────────────────────────────────┘
+```
+
+如果将角色 `b` 授予角色 `a` 并再次检查角色 `a` 的权限，可以看到角色 `a` 现在包含了在 `t2` 上的 `SELECT` 权限：
+
+```sql
+GRANT ROLE b TO ROLE a;
+```
+
+```sql
+SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
+
+┌──────────────────────────────────────────────────────┐
+│                        grants                        │
+├──────────────────────────────────────────────────────┤
+│ GRANT SELECT ON 'default'.'default'.'t1' TO ROLE `a` │
+│ GRANT SELECT ON 'default'.'default'.'t2' TO ROLE `a` │
+└──────────────────────────────────────────────────────┘
+```
+
+如果将 `enable_expand_roles` 设置为 `0` 并再次检查角色 `a` 的权限，结果将显示 `GRANT ROLE` 语句，而不是列出从角色 `b` 继承的具体权限：
+
+```sql
+SET enable_expand_roles=0;
+```
+
+```sql
+SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
+
+┌──────────────────────────────────────────────────────┐
+│                        grants                        │
+├──────────────────────────────────────────────────────┤
+│ GRANT SELECT ON 'default'.'default'.'t1' TO ROLE `a` │
+│ GRANT ROLE b to ROLE `a`                             │
+│ GRANT ROLE public to ROLE `a`                        │
+└──────────────────────────────────────────────────────┘
+```
+
 ## 示例
 
 此示例展示了如何列出授予用户、角色和特定对象的权限。
 
 ```sql
--- 创建一个新用户
+-- 创建新用户
 CREATE USER 'user1' IDENTIFIED BY 'password';
 
--- 创建一个新角色
+-- 创建新角色
 CREATE ROLE analyst;
 
 -- 将 analyst 角色授予用户
 GRANT ROLE analyst TO 'user1';
 
--- 创建一个 stage
+-- 创建 stage
 CREATE STAGE my_stage;
 
--- 将 stage 的权限授予角色
+-- 将 stage 上的权限授予角色
 GRANT READ ON STAGE my_stage TO ROLE analyst;
 
 -- 列出授予用户的权限
