@@ -11,6 +11,8 @@ The ARRAY_AGG function (also known by its alias LIST) transforms all the values,
 ARRAY_AGG(<expr>)
 
 LIST(<expr>)
+         
+ARRAY_AGG(<expr>) WITHIN GROUP ( ORDER BY <expr1> [ ASC | DESC, NULLS FIRST | NULLS LAST ] )
 ```
 
 ## Arguments
@@ -18,6 +20,13 @@ LIST(<expr>)
 | Arguments | Description    |
 |-----------| -------------- |
 | `<expr>`  | Any expression |
+| `<expr1>` | Any expression |
+
+## Optional
+
+| Optional                      | Description                                            |
+|-------------------------------|--------------------------------------------------------|
+| WITHIN GROUP <orderby_clause> | defines the order of values for ordered set aggregates |
 
 ## Return Type
 
@@ -52,4 +61,14 @@ GROUP BY movie_title;
 | movie_title |  ratings   |
 |-------------|------------|
 | Inception   | [5, 4, 5]  |
+
+-- List all ratings for Inception in an array Using `WITHIN GROUP`
+SELECT movie_title, ARRAY_AGG(rating) WITHIN GROUP ( ORDER BY rating DESC ) AS ratings
+FROM movie_ratings
+WHERE movie_title = 'Inception'
+GROUP BY movie_title;
+
+| movie_title |  ratings   |
+|-------------|------------|
+| Inception   | [5, 5, 4]  |
 ```

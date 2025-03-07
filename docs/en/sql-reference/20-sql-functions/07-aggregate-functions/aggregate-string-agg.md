@@ -4,13 +4,22 @@ title: STRING_AGG
 
 Aggregate function.
 
-The STRING_AGG() function converts all the non-NULL values of a column to String, separated by the delimiter.
+The STRING_AGG() function (also known by its alias GROUP_CONCAT or LISTAGG) converts all the non-NULL values of a column to String, separated by the delimiter.
 
 ## Syntax
 
 ```sql
 STRING_AGG(<expr>)
+GROUP_CONCAT(<expr>)
+LISTAGG(<expr>)
+          
 STRING_AGG(<expr> [, delimiter])
+GROUP_CONCAT(<expr> [, delimiter])
+LISTAGG(<expr> [, delimiter])
+          
+STRING_AGG(<expr> [, delimiter]) WITHIN GROUP ( ORDER BY <expr1> [ ASC | DESC, NULLS FIRST | NULLS LAST ] )
+GROUP_CONCAT(<expr> [, delimiter]) WITHIN GROUP ( ORDER BY <expr1> [ ASC | DESC, NULLS FIRST | NULLS LAST ] )
+LISTAGG(<expr> [, delimiter]) WITHIN GROUP ( ORDER BY <expr1> [ ASC | DESC, NULLS FIRST | NULLS LAST ] )
 ```
 
 :::info
@@ -33,6 +42,13 @@ SELECT string_agg(number::VARCHAR, '|') AS s FROM numbers(5);
 |-------------|---------------------------------------------------------------------|
 | `<expr>`    | Any string expression (if not a string, use `::VARCHAR` to convert) |
 | `delimiter` | Optional constant String, if not specified, use empty String        |
+| `<expr1>`   | Any expression                                                      |
+
+## Optional
+
+| Optional                      | Description                                            |
+|-------------------------------|--------------------------------------------------------|
+| WITHIN GROUP <orderby_clause> | defines the order of values for ordered set aggregates |
 
 ## Return Type
 
@@ -64,8 +80,19 @@ FROM programming_languages;
 
 **Result**
 ```sql
-|          concatenated_languages         |
+|          concatenated_languages          |
 |------------------------------------------|
-| Python, JavaScript, Java, C#, Ruby      |
+| Python, JavaScript, Java, C#, Ruby       |
 ```
 
+**Query Demo: Concatenate Programming Language Names with a Delimiter Using `WITHIN GROUP`**
+```sql
+SELECT STRING_AGG(language_name, ', ') WITHIN GROUP ( ORDER BY language_name DESC ) AS concatenated_languages
+FROM programming_languages;
+```
+**Result**
+```sql
+|          concatenated_languages          |
+|------------------------------------------|
+| Ruby, Python, JavaScript, Java, C#       |
+```
