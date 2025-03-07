@@ -8,11 +8,9 @@ The ARRAY_AGG function (also known by its alias LIST) transforms all the values,
 ## Syntax
 
 ```sql
-ARRAY_AGG(<expr>)
+ARRAY_AGG(<expr>) [ WITHIN GROUP ( <orderby_clause> ) ]
 
 LIST(<expr>)
-         
-ARRAY_AGG(<expr>) WITHIN GROUP ( ORDER BY <expr1> [ ASC | DESC, NULLS FIRST | NULLS LAST ] )
 ```
 
 ## Arguments
@@ -20,13 +18,12 @@ ARRAY_AGG(<expr>) WITHIN GROUP ( ORDER BY <expr1> [ ASC | DESC, NULLS FIRST | NU
 | Arguments | Description    |
 |-----------| -------------- |
 | `<expr>`  | Any expression |
-| `<expr1>` | Any expression |
 
 ## Optional
 
-| Optional                            | Description                                            |
-|-------------------------------------|--------------------------------------------------------|
-| WITHIN GROUP &lt;orderby_clause&gt; | defines the order of values for ordered set aggregates |
+| Optional                            | Description                                           |
+|-------------------------------------|-------------------------------------------------------|
+| WITHIN GROUP [&lt;orderby_clause&gt;](https://docs.databend.com/sql/sql-commands/query-syntax/query-select#order-by-clause) | Defines the order of values in ordered set aggregates        |
 
 ## Return Type
 
