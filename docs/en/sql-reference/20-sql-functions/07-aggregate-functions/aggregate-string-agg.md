@@ -46,9 +46,9 @@ SELECT string_agg(number::VARCHAR, '|') AS s FROM numbers(5);
 
 ## Optional
 
-| Optional                      | Description                                            |
-|-------------------------------|--------------------------------------------------------|
-| WITHIN GROUP <orderby_clause> | defines the order of values for ordered set aggregates |
+| Optional                            | Description                                            |
+|-------------------------------------|--------------------------------------------------------|
+| WITHIN GROUP &lt;orderby_clause&gt; | defines the order of values for ordered set aggregates |
 
 ## Return Type
 
