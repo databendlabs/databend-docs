@@ -8,7 +8,7 @@ The ARRAY_AGG function (also known by its alias LIST) transforms all the values,
 ## Syntax
 
 ```sql
-ARRAY_AGG(<expr>)
+ARRAY_AGG(<expr>) [ WITHIN GROUP ( <orderby_clause> ) ]
 
 LIST(<expr>)
 ```
@@ -18,6 +18,12 @@ LIST(<expr>)
 | Arguments | Description    |
 |-----------| -------------- |
 | `<expr>`  | Any expression |
+
+## Optional
+
+| Optional                            | Description                                           |
+|-------------------------------------|-------------------------------------------------------|
+| WITHIN GROUP [&lt;orderby_clause&gt;](https://docs.databend.com/sql/sql-commands/query-syntax/query-select#order-by-clause) | Defines the order of values in ordered set aggregates        |
 
 ## Return Type
 
@@ -52,4 +58,14 @@ GROUP BY movie_title;
 | movie_title |  ratings   |
 |-------------|------------|
 | Inception   | [5, 4, 5]  |
+
+-- List all ratings for Inception in an array Using `WITHIN GROUP`
+SELECT movie_title, ARRAY_AGG(rating) WITHIN GROUP ( ORDER BY rating DESC ) AS ratings
+FROM movie_ratings
+WHERE movie_title = 'Inception'
+GROUP BY movie_title;
+
+| movie_title |  ratings   |
+|-------------|------------|
+| Inception   | [5, 5, 4]  |
 ```
