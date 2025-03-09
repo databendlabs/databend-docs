@@ -5,14 +5,15 @@ description: Basic Date and Time data type.
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.648"/>
+<FunctionDescription description="Introduced or updated: v1.2.705"/>
 
 ## Date and Time Data Types
 
-| Name      | Aliases  | Storage Size | Resolution  | Min Value           | Max Value                      | Description                                                               |
-| --------- | -------- | ------------ | ----------- | ------------------- | ------------------------------ | ------------------------------------------------------------------------- |
-| DATE      |          | 4 bytes      | day         | 1000-01-01          | 9999-12-31                     | YYYY-MM-DD                                                                |
-| TIMESTAMP | DATETIME | 8 bytes      | microsecond | 1000-01-01 00:00:00 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`, up to microseconds (6 digits) precision |
+| Name      | Aliases  | Storage Size | Resolution  | Min Value                  | Max Value                      | Format                                                                         |
+|-----------|----------|--------------|-------------|----------------------------|--------------------------------|--------------------------------------------------------------------------------|
+| DATE      |          | 4 bytes      | Day         | 0001-01-01                 | 9999-12-31                     | `YYYY-MM-DD`                                                                   |
+| TIMESTAMP | DATETIME | 8 bytes      | Microsecond | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`, supports up to 6-digit microsecond precision |
+
 
 ## Examples
 
