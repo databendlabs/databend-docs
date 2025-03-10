@@ -1,5 +1,5 @@
 ---
-title: Iceberg Catalog
+title: Apache Iceberg
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
@@ -63,7 +63,26 @@ CONNECTION=(
 | `TYPE` (inside `CONNECTION`) | Yes       | The connection type. For Iceberg, it is typically set to `rest` for REST-based connection.                                                                                                                                                                                                                                                                                                                            |
 | `ADDRESS`                    | Yes       | The address or URL of the Iceberg service (e.g., `http://127.0.0.1:8181`).                                                                                                                                                                                                                                                                                                                                            |
 | `WAREHOUSE`                  | Yes       | The location of the Iceberg warehouse, usually an S3 bucket or compatible object storage system.                                                                                                                                                                                                                                                                                                                      |
-| `<connection_parameter>`     | Yes       | Connection parameters to establish connections with external storage. The required parameters vary based on the specific storage service and authentication methods. Refer to [Connection Parameters](/sql/sql-reference/connect-parameters) for detailed information. If you're using Amazon S3 or S3-compatible storage systems, make sure to prefix the parameters with  `s3.` (e.g., `s3.region`, `s3.endpoint`). |
+| `<connection_parameter>`     | Yes       | Connection parameters to establish connections with external storage. The required parameters vary based on the specific storage service and authentication methods. See the table below for a full list of the available parameters. |
+
+| Connection Parameter              | Description                                                                                                                            |
+|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| `s3.endpoint`                     | S3 endpoint.                                                                                                                           |
+| `s3.access-key-id`                | S3 access key ID.                                                                                                                      |
+| `s3.secret-access-key`            | S3 secret access key.                                                                                                                  |
+| `s3.session-token`                | S3 session token, required when using temporary credentials.                                                                           |
+| `s3.region`                       | S3 region.                                                                                                                             |
+| `client.region`                   | Region to use for the S3 client, takes precedence over `s3.region`.                                                                    |
+| `s3.path-style-access`            | S3 Path Style Access.                                                                                                                  |
+| `s3.sse.type`                     | S3 Server-Side Encryption (SSE) type.                                                                                                  |
+| `s3.sse.key`                      | S3 SSE key. If encryption type is `kms`, this is a KMS Key ID. If encryption type is `custom`, this is a base-64 AES256 symmetric key. |
+| `s3.sse.md5`                      | S3 SSE MD5 checksum.                                                                                                                   |
+| `client.assume-role.arn`          | ARN of the IAM role to assume instead of using the default credential chain.                                                           |
+| `client.assume-role.external-id`  | Optional external ID used to assume an IAM role.                                                                                       |
+| `client.assume-role.session-name` | Optional session name used to assume an IAM role.                                                                                      |
+| `s3.allow-anonymous`              | Option to allow anonymous access (e.g., for public buckets/folders).                                                                   |
+| `s3.disable-ec2-metadata`         | Option to disable loading credentials from EC2 metadata (typically used with `s3.allow-anonymous`).                                    |
+| `s3.disable-config-load`          | Option to disable loading configuration from config files and environment variables.                                                   |
 
 :::note
 To read data from HDFS, you need to set the following environment variables before starting Databend. These environment variables ensure that Databend can access the necessary Java and Hadoop dependencies to interact with HDFS effectively. Make sure to replace "/path/to/java" and "/path/to/hadoop" with the actual paths to your Java and Hadoop installations, and adjust the CLASSPATH to include all the required Hadoop JAR files.
