@@ -4,10 +4,9 @@ title: system.query_log
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.696"/>
+<FunctionDescription description="Introduced or updated: v1.2.703"/>
 
 A read-only in-memory table stores all the query logs.
-
 
 ## Setting a Session Tag
 
@@ -15,7 +14,6 @@ You can optionally assign a tag to your session, making it easier to filter logs
 
 ```sql
 set session query_tag='eric';
-
 ```
 
 We can then run a query and retrieve the log from the log table using the assigned tag:
@@ -24,7 +22,6 @@ We can then run a query and retrieve the log from the log table using the assign
 show users;
 
 select query_tag, query_text from system.query_log where query_tag='eric' limit 1;
-
 ```
 
 In the returned result, you can find the record for the query, tagged as 'eric':
@@ -33,6 +30,30 @@ In the returned result, you can find the record for the query, tagged as 'eric':
 -[ RECORD 1 ]-----------------------------------
                query_tag: eric
               query_text: SHOW USERS
+```
+
+## Managing Query Memory
+
+Databend records query memory usage in the query-details log. The **peek_memory_usage** field captures the peak memory consumption for each node involved in executing a query. The values are recorded in bytes. An example log entry:
+
+```json
+{
+   ...
+    "node_id": "h9TzDEdlF0dKO0yYqoNpL", 
+    "sql_user": "root", 
+    "query_id": "62141f08-de9e-4054-88de-06489cb1c357", 
+   ...
+    "peek_memory_usage": {
+        "h9TzDEdlF0dKO0yYqoNpL": 484980
+    }
+}
+```
+
+Additionally, Databend provides the **max_query_memory_usage** setting to define per-query memory limits. Queries exceeding this limit will be automatically terminated with an Out-Of-Memory (OOM) error. The default value is `0`, which allows queries to use unlimited memory.
+
+```sql
+-- Example: Limit query memory usage to 500,000 bytes (approximately 488 KB)
+SET max_query_memory_usage = 500000; 
 ```
 
 ## Examples
