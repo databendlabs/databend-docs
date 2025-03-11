@@ -5,7 +5,7 @@ title: Query Configurations
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 
-<FunctionDescription description="Introduced or updated: v1.2.344"/>
+<FunctionDescription description="Introduced or updated: v1.2.698"/>
 
 This page describes the Query node configurations available in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
@@ -65,23 +65,23 @@ This section can include three subsections: [log.file], [log.stderr], [log.query
 
 The following is a list of the parameters available within the [log.file] section:
 
-| Parameter | Description                                                                |
-| --------- | -------------------------------------------------------------------------- |
-| on        | Enables or disables file logging. Defaults to true.                        |
-| dir       | Path to store log files.                                                   |
-| level     | Log level: DEBUG, INFO, or ERROR. Defaults to INFO.                        |
-| format    | Log format: json or text. Defaults to json.                                |
-| limit     | Determines the maximum number of log files to be retained. Defaults to 48. |
+| Parameter | Description                                                                                                                                                                                 |
+|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| on        | Enables or disables file logging. Defaults to `true`.                                                                                                                                       |
+| dir       | Path to store log files.                                                                                                                                                                    |
+| level     | Log level, following [env_logger](https://docs.rs/env_logger/latest/env_logger/) syntax: `error`, `warn`, `info`, `debug`, `trace`, `off`. Defaults to `warn,databend_=info,openraft=info`. |
+| format    | Log format: `json` or `text`. Defaults to `json`.                                                                                                                                           |
+| limit     | Determines the maximum number of log files to be retained. Defaults to `48`.                                                                                                                |
 
 ### [log.stderr] Section
 
 The following is a list of the parameters available within the [log.stderr] section:
 
-| Parameter | Description                                            |
-| --------- | ------------------------------------------------------ |
-| on        | Enables or disables stderr logging. Defaults to false. |
-| level     | Log level: DEBUG, INFO, or ERROR. Defaults to DEBUG.   |
-| format    | Log format: json or text. Defaults to text.            |
+| Parameter | Description                                                                                                                                                                                 |
+|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| on        | Enables or disables stderr logging. Defaults to `false`.                                                                                                                                    |
+| level     | Log level, following [env_logger](https://docs.rs/env_logger/latest/env_logger/) syntax: `error`, `warn`, `info`, `debug`, `trace`, `off`. Defaults to `warn,databend_=info,openraft=info`. |
+| format    | Log format: `json` or `text`. Defaults to `json`.                                                                                                                                           |
 
 ### [log.query] Section
 
