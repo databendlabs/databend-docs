@@ -59,7 +59,7 @@ The following is a list of the parameters available within the [query.settings] 
 
 ## [log] Section
 
-This section can include three subsections: [log.file], [log.stderr], [log.query], and [log.tracing].
+This section can include these subsections: [log.file], [log.stderr], [log.query], and [log.tracing].
 
 ### [log.file] Section
 
