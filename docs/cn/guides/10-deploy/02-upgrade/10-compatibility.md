@@ -23,7 +23,7 @@ description:
   min-compatible-metasrv-version: 0.7.59
   ```
 
-  这意味着此版本的 databend-query(`0.7.61-nightly`) 可以与至少版本为 `0.7.59` 的 databend-meta 通信。
+  这意味着此构建的 databend-query(`0.7.61-nightly`) 可以与至少版本为 `0.7.59` 的 databend-meta 通信。
 
 - 要查找 databend-meta 的构建版本及其兼容的 databend-query 版本：
 
@@ -35,7 +35,7 @@ description:
   min-compatible-client-version: 0.7.57
   ```
 
-  这意味着此版本的 databend-meta(`0.7.61-nightly`) 可以与至少版本为 `0.7.57` 的 databend-query 通信。
+  这意味着此构建的 databend-meta(`0.7.61-nightly`) 可以与至少版本为 `0.7.57` 的 databend-query 通信。
 
 ### 维护兼容性
 
@@ -49,9 +49,8 @@ databend-bend.version  >= databend-query.min-compatible-metasrv-version
 
 :::caution
 
-如果部署了不兼容的版本，当 databend-query 尝试连接 databend-meta 时，将会发生 `InvalidArgument` 错误，
-该错误可以在 databend-query 日志中找到。
-然后 databend-query 将停止工作。
+如果部署了不兼容的版本，当 databend-query 尝试连接 databend-meta 时，会发生 `InvalidArgument` 错误，
+该错误可以在 databend-query 日志中找到。然后 databend-query 将停止工作。
 
 :::
 
@@ -67,15 +66,16 @@ databend-bend.version  >= databend-query.min-compatible-metasrv-version
 当握手时：
 
 - `C` 发送其版本 `C.ver` 给 `S`，
-- 当 `S` 收到握手请求时，`S` 断言 `C.ver >= S.min_cli_ver`。
+- 当 `S` 接收到握手请求时，`S` 断言 `C.ver >= S.min_cli_ver`。
 - 然后 `S` 回复握手响应，包含其 `S.ver`。
-- 当 `C` 收到响应时，`C` 断言 `S.ver >= C.min_srv_ver`。
+- 当 `C` 接收到响应时，`C` 断言 `S.ver >= C.min_srv_ver`。
 
 如果这两个断言都成立，则握手成功。
 
 例如：
 - `S: (ver=3, min_cli_ver=1)` 与 `C: (ver=3, min_srv_ver=2)` 兼容。
-- `S: (ver=4, min_cli_ver=4)` **不** 与 `C: (ver=3, min_srv_ver=2)` 兼容。
+- `S: (ver=4, min_cli_ver=4)` 与 `C: (ver=3, min_srv_ver=2)` **不兼容**。
+
   因为虽然 `S.ver(4) >= C.min_srv_ver(3)` 成立，
   但 `C.ver(3) >= S.min_cli_ver(4)` 不成立。
 
@@ -93,7 +93,8 @@ S.ver:           2      3      4
 
 #### 兼容性状态
 
-以下是 query-meta 最新兼容性的说明：
+以下是最新 query-meta 兼容性的说明：
+
 
 | `Meta\Query`       | [0.9.41, 1.1.34) | [1.1.34, 1.2.287) | [1.2.287, 1.2.361) | [1.2.361, +∞) |
 |:-------------------|:-----------------|:---------------|:-----------|:-----------|
@@ -116,11 +117,12 @@ S.ver:           2      3      4
 
 ## databend-query 之间的兼容性
 
-| Query 版本      | 向后兼容于  |
-|:-------------------|:--------------------------|
-| [-∞, 1.2.307)      | [-∞, 1.2.311)             |
-| [1.2.307, 1.2.311) | [-∞, 1.2.311)             |
-| [1.2.311, +∞)      | [1.2.307, +∞)             |
+| Query 版本      | 向后兼容  |
+|:----------------|:----------|
+| [-∞, 1.2.307)   | [-∞, 1.2.311) |
+| [1.2.307, 1.2.311) | [-∞, 1.2.311) |
+| [1.2.311, +∞)   | [1.2.307, +∞) |
+
 
 自 1.2.307 起，支持使用 pb 和 json 反序列化 Role 信息，但仅支持将 Role 信息序列化为 json。
 
@@ -137,19 +139,20 @@ S.ver:           2      3      4
 
 ## databend-meta 之间的兼容性
 
-| Meta 版本        | 向后兼容于 |
-|:--------------------|:-------------------------|
-| [0.9.41,   1.2.212) | [0.9.41,  1.2.212)       |
-| [1.2.212,  1.2.479) | [0.9.41,  1.2.479)       |
-| [1.2.479,  1.2.655) | [1.2.288, 1.2.655)       |
-| [1.2.655, +∞)       | [1.2.288, +∞)            |
+| Meta 版本        | 向后兼容 |
+|:-----------------|:---------|
+| [0.9.41,   1.2.212) | [0.9.41,  1.2.212) |
+| [1.2.212,  1.2.479) | [0.9.41,  1.2.479) |
+| [1.2.479,  1.2.655) | [1.2.288, 1.2.655) |
+| [1.2.655, +∞)       | [1.2.288, +∞)      |
 
 
-![Image](https://github.com/user-attachments/assets/f63d80ee-f646-4d6a-9bec-be607e47088d)
+![](@site/static/img/deploy/compat-meta-meta-1-2-655.svg)
 
 - `1.2.53` 不兼容，允许在不传输快照的情况下进行滚动升级。
   快照格式已更改，因此在滚动升级期间，
-  需要所有节点数据保持最新，确保无需通过快照进行复制。
+  需要所有节点数据都是最新的，确保不需要通过快照进行复制。
+
 
 - `1.2.163` 功能：gRPC API：添加了 `kv_read_v1()`。用于流式读取。
 
@@ -159,7 +162,9 @@ S.ver:           2      3      4
   raft-client 将尝试使用此新 API 或原始的 `install_snapshot()`。
 
 - `1.2.479` 2024-05-21 移除：`install_snapshot()`(v0) 从客户端和服务器中移除。
-  `install_snapshot_v1()` 是安装快照的唯一 API，并且成为客户端的 **必需** 功能。
+
+  `install_snapshot_v1()` 是安装快照的唯一 API，并且成为客户端的**必需**。
+
 
 - `1.2.528` 2024-06-13 移除磁盘数据版本 `V001`。第一个使用 `V002` 的版本是 `1.2.53`，2023-08-08。
   因此，自 `1.2.528` 起，最旧的兼容版本是 `1.2.53`。
@@ -177,11 +182,11 @@ S.ver:           2      3      4
 Databend-meta 的磁盘数据随着时间的推移而演变，同时保持向后兼容性。
 
 | 数据版本 | Databend 版本 | 最小兼容版本 |
-|:------------|:-----------------|:--------------------|
-| V004        | 1.2.655          | V002                | 
-| V003        | 1.2.547          | V002                | 
-| V002        | 1.2.53           | V001                | 
-| V001        | 1.1.40           | V0                  |
+|:---------|:--------------|:-------------|
+| V004     | 1.2.655       | V002         | 
+| V003     | 1.2.547       | V002         | 
+| V002     | 1.2.53        | V001         | 
+| V001     | 1.1.40        | V0           |
 
 ### 识别版本
 
@@ -210,8 +215,8 @@ Working DataVersion 必须大于或等于磁盘 DataVersion；否则，它将 pa
 
 ### 自动升级
 
-当 `databend-meta` 启动时，如果磁盘数据与 Working DataVersion 兼容，则会进行升级。
-升级进度将打印到 `stderr` 并记录到日志文件中，例如：
+当 `databend-meta` 启动时，如果磁盘数据与 Working DataVersion 兼容，则会升级磁盘数据。
+升级进度将打印到 `stderr` 并记录到 INFO 级别的日志文件中，例如：
 
 ```text
 Upgrade on-disk data
@@ -225,7 +230,8 @@ Write header: version: V001, upgrading: None
 ```
 
 如果 `databend-meta` 在升级完成前崩溃，
-它将在启动时清除部分升级的数据并恢复升级。
+它将在启动时清除部分升级的数据并继续升级。
+
 
 ### 备份数据兼容性
 
@@ -233,6 +239,6 @@ Write header: version: V001, upgrading: None
 
 - 备份的第一行是版本，例如：
   `["header",{"DataHeader":{"key":"header","value":{"version":"V100","upgrading":null}}}]`
+- 导入时**不会**自动升级。
 
-- 导入时 **不会** 进行自动升级。
   自动升级仅在 `databend-meta` 启动时进行。
