@@ -24,7 +24,8 @@ FROM ...
 Where:
 * `<value_column>`: The column that will store the values extracted from the columns listed in `<column_list>`.
 * `<name_column>`: The column that will store the names of the columns from which the values were extracted.
-* `<column_list>`: The list of columns to be unpivoted, separated by commas.
+* `<column_list>`: The list of columns to be unpivoted, separated by commas. You can optionally provide aliases for the column names using AS or just a string literal.
+
 
 
 ## Examples
@@ -57,21 +58,22 @@ INSERT INTO unpivoted_monthly_sales VALUES
 SELECT *
 FROM unpivoted_monthly_sales
     UNPIVOT (amount
-    FOR month IN (jan, feb, mar, apr));
+    FOR month IN (jan as 'Jan', feb AS 'Feb', mar 'MARCH', apr));
 ```
 
 Output:
 ```sql
-+-------+-------+--------+
-| empid | month | amount |
-+-------+-------+--------+
-|     1 | jan   |  10400 |
-|     1 | feb   |   8000 |
-|     1 | mar   |  11000 |
-|     1 | apr   |  18000 |
-|     2 | jan   |  39500 |
-|     2 | feb   |  90700 |
-|     2 | mar   |  12000 |
-|     2 | apr   |   5300 |
-+-------+-------+--------+
+┌──────────────────────────────────────────────────────┐
+│      empid      │       month      │      amount     │
+├─────────────────┼──────────────────┼─────────────────┤
+│               1 │ Jan              │           10400 │
+│               1 │ Feb              │            8000 │
+│               1 │ MARCH            │           11000 │
+│               1 │ apr              │           18000 │
+│               2 │ Jan              │           39500 │
+│               2 │ Feb              │           90700 │
+│               2 │ MARCH            │           12000 │
+│               2 │ apr              │            5300 │
+└──────────────────────────────────────────────────────┘
+
 ```
