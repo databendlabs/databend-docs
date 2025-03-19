@@ -276,6 +276,25 @@ Result:
 </TabItem>
 </Tabs>
 
+### Uploading a Directory with PUT Command
+
+You can also upload multiple files from a directory using the PUT command with wildcards. This is useful when you need to stage a large number of files at once.
+
+```sql
+PUT fs:///home/ubuntu/datas/event_data/*.parquet @your_stage;
+```
+
+Result:
+```
+┌───────────────────────────────────────────────────────┐
+│                 file                        │status   │
+├─────────────────────────────────────────────┼─────────┤
+│ /home/ubuntu/datas/event_data/file1.parquet │ SUCCESS │
+│ /home/ubuntu/datas/event_data/file2.parquet │ SUCCESS │
+│ /home/ubuntu/datas/event_data/file3.parquet │ SUCCESS │
+└───────────────────────────────────────────────────────┘
+```
+
 ### Downloading with GET Command
 
 The following examples demonstrate how to use BendSQL to download a sample file ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)) from the user stage, an internal stage, and an external stage with the GET command.
