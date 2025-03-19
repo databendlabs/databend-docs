@@ -2,7 +2,7 @@
 title: LEFT
 ---
 
-Returns the leftmost len characters from the string str, or NULL if any argument is NULL.
+Returns the leftmost `len` characters from the string `str`, or NULL if any argument is NULL. If `len` is greater than the length of `str`, the entire `str` is returned.
 
 ## Syntax
 
@@ -24,10 +24,11 @@ LEFT(<str>, <len>);
 ## Examples
 
 ```sql
-SELECT LEFT('foobarbar', 5);
-+----------------------+
-| LEFT('foobarbar', 5) |
-+----------------------+
-| fooba                |
-+----------------------+
+SELECT LEFT('foobarbar', 5), LEFT('foobarbar', 10);
+
+┌──────────────────────────────────────────────┐
+│ left('foobarbar', 5) │ left('foobarbar', 10) │
+├──────────────────────┼───────────────────────┤
+│ fooba                │ foobarbar             │
+└──────────────────────────────────────────────┘
 ```
