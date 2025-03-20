@@ -3,6 +3,7 @@ title: Dashboards
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
+import EllipsisSVG from '@site/static/img/icon/ellipsis.svg';
 
 Dashboards are employed to present query results through a variety of chart types, including **scorecards**, **pie charts**, **bar charts**, and **line charts**. These charts are generated from the query results. You have the option to create a chart based on the query result after executing a query in a worksheet. Refreshing a dashboard allows you to re-execute the queries corresponding to the charts, thereby updating the charts with the latest results.
 
@@ -43,6 +44,20 @@ Please note that these aggregation functions assist in summarizing and revealing
 :::note
 After generating a chart from the query results in a worksheet, please avoid running other queries in the same worksheet, as doing so might result in the chart becoming unavailable on the dashboard.
 :::
+
+## Sharing a Dashboard
+
+You can share your dashboards with everyone in your organization or specific individuals. To do so, click the ellipse button <EllipsisSVG/> on the dashboard you want to share, then select **Share**.
+
+![alt text](@site/static/img/documents/dashboard/dashboard-share.png)
+
+When sharing a dashboard, you can choose one of the following permission levels to control how others can access it:
+
+- **Read Only**: View the dashboard but cannot make changes or run queries to retrieve the latest results.
+- **Execute**: Run queries to retrieve the latest results or interact with the dashboard without modifying it.
+- **Edit**: Modify the dashboard, including changing queries and how the dashboard reflects the results.
+
+To view the dashboards shared with you by others, click **Dashboards** in the sidebar, then click the **Shared with Me** tab on the right.
 
 ## Tutorials
 
