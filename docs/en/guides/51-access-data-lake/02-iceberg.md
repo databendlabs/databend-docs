@@ -124,6 +124,13 @@ Switches the current session to the specified catalog.
 USE CATALOG <catalog_name>
 ```
 
+## Iceberg Table Functions
+
+Databend provides the following table functions for querying Iceberg metadata, allowing users to inspect snapshots and manifests efficiently:
+
+- [ICEBERG_MANIFEST](/sql/sql-functions/table-functions/iceberg-manifest)
+- [ICEBERG_SNAPSHOT](/sql/sql-functions/table-functions/iceberg-snapshot)
+
 ## Usage Examples
 
 This example shows how to create an Iceberg catalog using a REST-based connection, specifying the service address, warehouse location (S3), and optional parameters like AWS region and custom endpoint:
