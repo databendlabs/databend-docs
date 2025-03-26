@@ -285,6 +285,7 @@ PUT fs:///home/ubuntu/datas/event_data/*.parquet @your_stage;
 ```
 
 Result:
+
 ```
 ┌───────────────────────────────────────────────────────┐
 │                 file                        │status   │
@@ -367,7 +368,9 @@ Result:
 <TabItem value="external" label="Download from External Stage">
 
 ```sql
+
 LIST @my_external_stage;
+
 ```
 
 Result:
