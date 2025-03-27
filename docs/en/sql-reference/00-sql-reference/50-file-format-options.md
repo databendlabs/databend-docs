@@ -227,7 +227,6 @@ Determines the behavior when encountering missing fields during data loading. Re
 | `ERROR` (Default)  | Generates an error if a missing field is encountered.                                         |
 | `NULL`             | Interprets missing fields as NULL values. An error will be generated for non-nullable fields. |
 | `FIELD_DEFAULT`    | Uses the default value of the field for missing fields.                                       |
-| `TYPE_DEFAULT`     | Uses the default value of the field's data type for missing fields.                           |
 
 ### COMPRESSION
 
@@ -246,4 +245,11 @@ Determines the behavior when encountering missing fields during data loading. Re
 
 ## ORC Options
 
-No options available for the ORC format yet.
+### MISSING_FIELD_AS
+
+Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
+
+| Available Values | Description                                                                                   |
+|------------------|-----------------------------------------------------------------------------------------------|
+| `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
+| `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
