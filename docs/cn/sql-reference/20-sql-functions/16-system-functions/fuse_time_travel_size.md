@@ -1,52 +1,64 @@
+Here's the documentation for the `fuse_time_travel_size` function in a professional format:
+
 ---
-title: FUSE_TIME_TRAVEL_SIZE
----
-import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.684"/>
+# fuse_time_travel_size
 
-计算表的历史数据（用于时间回溯）的存储大小。
+<FunctionDescription description="Introduced or updated: v1.2.684"/>
 
-## 语法
+The `fuse_time_travel_size` function calculates the storage size of historical data (for Time Travel) for tables in Databend.
+
+## Syntax
 
 ```sql
--- 计算所有数据库中所有表的历史数据大小
-SELECT ...
-FROM fuse_time_travel_size();
+-- Calculate historical data size for all tables in all databases
+SELECT * FROM fuse_time_travel_size();
 
--- 计算指定数据库中所有表的历史数据大小
-SELECT ...
-FROM fuse_time_travel_size('<database_name>');
+-- Calculate historical data size for all tables in a specified database
+SELECT * FROM fuse_time_travel_size('<database_name>');
 
--- 计算指定数据库中指定表的历史数据大小
-SELECT ...
-FROM fuse_time_travel_size('<database_name>', '<table_name>'));
+-- Calculate historical data size for a specific table
+SELECT * FROM fuse_time_travel_size('<database_name>', '<table_name>');
 ```
 
-## 输出
+## Output Columns
 
-该函数返回一个包含以下列的结果集：
+| Column Name | Data Type | Description |
+|-------------|-----------|-------------|
+| `database_name` | String | Name of the database containing the table |
+| `table_name` | String | Name of the table |
+| `is_dropped` | Boolean | `true` if the table has been dropped, `false` otherwise |
+| `time_travel_size` | UInt64 | Total size of historical data (Time Travel) in bytes |
+| `latest_snapshot_size` | UInt64 | Size of the latest table snapshot in bytes |
+| `data_retention_period_in_hours` | Nullable(UInt64) | Retention period for Time Travel data in hours (NULL means using default policy) |
+| `error` | Nullable(String) | Error message if any occurred during calculation |
 
-| 列名                           | 描述                                                                                           |
-|----------------------------------|-------------------------------------------------------------------------------------------------------|
-| `database_name`                  | 表所在的数据库名称。                                                  |
-| `table_name`                     | 表的名称。                                                                                |
-| `is_dropped`                     | 表示表是否已被删除（`true` 表示已删除，`false` 表示未删除）。          |
-| `time_travel_size`               | 表的历史数据（用于时间回溯）的总存储大小，单位为字节。                  |
-| `latest_snapshot_size`           | 表的最新快照的存储大小，单位为字节。                                       |
-| `data_retention_period_in_hours` | 时间回溯数据的保留时间，单位为小时（`NULL` 表示使用默认保留策略）。 |
-| `error`                          | 获取存储大小时遇到的任何错误（如果没有错误发生，则为 `NULL`）。               |
+## Examples
 
-## 示例
-
-以下示例计算 `default` 数据库中所有表的历史数据：
+### Calculate Time Travel size for all tables in the 'default' database
 
 ```sql
-SELECT * FROM fuse_time_travel_size('default')
-
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ database_name │ table_name │ is_dropped │ time_travel_size │ latest_snapshot_size │ data_retention_period_in_hours │       error      │
-├───────────────┼────────────┼────────────┼──────────────────┼──────────────────────┼────────────────────────────────┼──────────────────┤
-│ default       │ books      │ true       │             2810 │                 1490 │                           NULL │ NULL             │
-└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+SELECT * FROM fuse_time_travel_size('default');
 ```
+
+Result:
+```
+┌───────────────┬────────────┬────────────┬──────────────────┬──────────────────────┬────────────────────────────────┬───────┐
+│ database_name │ table_name │ is_dropped │ time_travel_size │ latest_snapshot_size │ data_retention_period_in_hours │ error │
+├───────────────┼────────────┼────────────┼──────────────────┼──────────────────────┼────────────────────────────────┼───────┤
+│ default       │ books      │ true       │             2810 │                 1490 │                           NULL │ NULL  │
+└───────────────┴────────────┴────────────┴──────────────────┴──────────────────────┴────────────────────────────────┴───────┘
+```
+
+### Calculate Time Travel size for a specific table
+
+```sql
+SELECT * FROM fuse_time_travel_size('default', 'books');
+```
+
+## Notes
+
+- The function requires appropriate privileges to access table metadata
+- The `time_travel_size` includes all historical versions of the table data
+- A NULL `data_retention_period_in_hours` indicates the table inherits the system default retention policy
+- Dropped tables will still appear in results with `is_dropped` set to true
