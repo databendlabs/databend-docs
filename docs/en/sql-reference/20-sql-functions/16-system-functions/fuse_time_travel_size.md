@@ -20,7 +20,7 @@ FROM fuse_time_travel_size('<database_name>');
 
 -- Calculate historical data size for a specified table in a specified database
 SELECT ...
-FROM fuse_time_travel_size('<database_name>', '<table_name>'));
+FROM fuse_time_travel_size('<database_name>', '<table_name>');
 ```
 
 ## Output
