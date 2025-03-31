@@ -3,7 +3,7 @@ title: Input & Output File Formats
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.530"/>
+<FunctionDescription description="Introduced or updated: v1.2.713"/>
 
 Databend accepts a variety of file formats both as a source and as a target for data loading or unloading. This page explains the supported file formats and their available options.
 
@@ -72,13 +72,9 @@ Separates fields in a record.
 
 **Default**: `,` (comma)
 
-### QUOTE
+### QUOTE (Data Loading Only)
 
 Quotes strings in a CSV file. For data loading, the quote is not necessary unless a string contains the character of a [QUOTE](#quote), [ESCAPE](#escape), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
-
-:::note
-**Used for data loading ONLY**: This option is not available when you unload data from Databend.
-:::
 
 **Available Values**: `'`, `"`, or `(backtick)
 
@@ -92,13 +88,9 @@ Escapes a quote in a quoted string.
 
 **Default**: `''`
 
-### SKIP_HEADER
+### SKIP_HEADER (Data Loading Only)
 
 Specifies how many lines to be skipped from the beginning of the file.
-
-:::note
-**Used for data loading ONLY**: This option is not available when you unload data from Databend.
-:::
 
 **Default**: `0`
 
@@ -126,9 +118,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH is a boolean option that, when set to true, speci
 
 Specifies the value that should be used when encountering empty fields, including both `,,` and `,"",`, in the CSV data being loaded into the table.
 
-**Available Values**:
-
-| Value            | Description                                                                       |
+| Available Values | Description                                                                       |
 |------------------|-----------------------------------------------------------------------------------|
 | `null` (Default) | Interprets empty fields as NULL values. Applicable to nullable columns only.      |
 | `string`         | Interprets empty fields as empty strings (''). Applicable to String columns only. |
@@ -146,9 +136,7 @@ Controls the binary encoding format during both data export and import operation
 
 Specifies the compression algorithm.
 
-**Available Values**:
-
-| Value            | Description                                                     |
+| Available Values | Description                                                     |
 |------------------|-----------------------------------------------------------------|
 | `NONE` (Default) | Indicates that the files are not compressed.                    |
 | `AUTO`           | Auto detect compression via file extensions                     |
@@ -242,6 +230,16 @@ Determines the behavior when encountering missing fields during data loading. Re
 |------------------|-----------------------------------------------------------------------------------------------|
 | `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
 | `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
+
+### COMPRESSION (Data Unloading Only)
+
+Specifies the compression algorithm, which is used for compressing internal blocks of the file rather than the entire file, so the output remains in Parquet format.
+
+| Available Values | Description                                                                 |
+|------------------|-----------------------------------------------------------------------------|
+| `ZSTD` (default) | Zstandard v0.8 (and higher) is supported.                                   |
+| `SNAPPY`         | Snappy is a popular and fast compression algorithm often used with Parquet. |
+
 
 ## ORC Options
 
