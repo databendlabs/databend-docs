@@ -72,7 +72,7 @@ Separates fields in a record.
 
 **Default**: `,` (comma)
 
-### QUOTE (Data Loading Only)
+### QUOTE (Load Only)
 
 Quotes strings in a CSV file. For data loading, the quote is not necessary unless a string contains the character of a [QUOTE](#quote), [ESCAPE](#escape), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
 
@@ -88,13 +88,13 @@ Escapes a quote in a quoted string.
 
 **Default**: `''`
 
-### SKIP_HEADER (Data Loading Only)
+### SKIP_HEADER (Load Only)
 
 Specifies how many lines to be skipped from the beginning of the file.
 
 **Default**: `0`
 
-### NAN_DISPLAY
+### NAN_DISPLAY (Load Only)
 
 Specifies how "NaN" (Not-a-Number) values are displayed in query results.
 
@@ -102,19 +102,19 @@ Specifies how "NaN" (Not-a-Number) values are displayed in query results.
 
 **Default**: `'NaN'`
 
-### NULL_DISPLAY
+### NULL_DISPLAY (Load Only)
 
 Specifies how NULL values are displayed in query results. 
 
 **Default**: `'\N'`
 
-### ERROR_ON_COLUMN_COUNT_MISMATCH
+### ERROR_ON_COLUMN_COUNT_MISMATCH (Load Only)
 
 ERROR_ON_COLUMN_COUNT_MISMATCH is a boolean option that, when set to true, specifies that an error should be raised if the number of columns in the data file doesn't match the number of columns in the destination table. Setting it to true helps ensure data integrity and consistency during the loading process.
 
 **Default**: `true`
 
-### EMPTY_FIELD_AS
+### EMPTY_FIELD_AS (Load Only)
 
 Specifies the value that should be used when encountering empty fields, including both `,,` and `,"",`, in the CSV data being loaded into the table.
 
@@ -124,7 +124,7 @@ Specifies the value that should be used when encountering empty fields, includin
 | `string`         | Interprets empty fields as empty strings (''). Applicable to String columns only. |
 | `field_default`  | Uses the column's default value for empty fields.                                 |
 
-### OUTPUT_HEADER
+### OUTPUT_HEADER (Unload Only)
 
 Specifies whether to include a header row in the CSV file when exporting data with the `COPY INTO <location>` command. Defaults to `false`.
 
@@ -197,7 +197,7 @@ Same as [the COMPRESSION option for CSV](#compression).
 
 ## NDJSON Options
 
-### NULL_FIELD_AS
+### NULL_FIELD_AS (Load Only)
 
 Specifies how to handle null values during data loading. Refer to the options in the table below for possible configurations.
 
@@ -206,7 +206,7 @@ Specifies how to handle null values during data loading. Refer to the options in
 | `NULL` (Default)        | Interprets null values as NULL for nullable fields. An error will be generated for non-nullable fields. |
 | `FIELD_DEFAULT`         | Uses the default value of the field for null values.                                                    |
 
-### MISSING_FIELD_AS
+### MISSING_FIELD_AS (Load Only)
 
 Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
 
@@ -222,7 +222,7 @@ Same as [the COMPRESSION option for CSV](#compression).
 
 ## PARQUET Options
 
-### MISSING_FIELD_AS
+### MISSING_FIELD_AS (Load Only)
 
 Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
 
@@ -231,7 +231,7 @@ Determines the behavior when encountering missing fields during data loading. Re
 | `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
 | `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
 
-### COMPRESSION (Data Unloading Only)
+### COMPRESSION (Unload Only)
 
 Specifies the compression algorithm, which is used for compressing internal blocks of the file rather than the entire file, so the output remains in Parquet format.
 
@@ -243,7 +243,7 @@ Specifies the compression algorithm, which is used for compressing internal bloc
 
 ## ORC Options
 
-### MISSING_FIELD_AS
+### MISSING_FIELD_AS (Load Only)
 
 Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
 
