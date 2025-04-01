@@ -35,8 +35,8 @@ jobs:
       - name: Run GPT Translate
         uses: 3ru/gpt-translate@v1.1.11
         with:
-          apikey: ${{ secrets.OPENAI_API_KEY }}
-          model: "deepseek-chat"
+          apikey: ${{ secrets.API_KEY }}
+          model: ${{ secrets.LLM_MODEL }}
           inputFiles: "${{ steps.changed_files.outputs.files }}"
           outputFiles: "docs/cn/**/*.md"
           languages: "Simplified-Chinese"
