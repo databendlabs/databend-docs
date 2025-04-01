@@ -50,7 +50,7 @@ jobs:
         uses: 3ru/gpt-translate@v1.1.11
         with:
           apikey: ${{ secrets.OPENAI_API_KEY }}
-          model: "DeepSeek-V3"
+          model: "deepseek-chat"
           inputFiles: "${{ steps.check_missing.outputs.missing_md_files }}${{ steps.check_missing.outputs.missing_json_files }}"
           outputFiles: "docs/cn/**/*.{md,json}"
           languages: "Simplified-Chinese"
