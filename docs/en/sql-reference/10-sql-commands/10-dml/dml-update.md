@@ -3,7 +3,7 @@ title: UPDATE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.699"/>
+<FunctionDescription description="Introduced or updated: v1.2.705"/>
 
 Updates rows in a table with new values, optionally using values from other tables.
 
@@ -19,6 +19,88 @@ UPDATE <target_table>
         [ FROM <additional_tables> ] -- Use values from other tables  
         [ WHERE <condition> ] -- Filter rows
 ```
+
+## Configuring `error_on_nondeterministic_update` Setting
+
+The `error_on_nondeterministic_update` setting controls whether an error is returned when an UPDATE statement attempts to update a target row that joins multiple source rows without a deterministic update rule.
+
+- When `error_on_nondeterministic_update` = `true` (default): Databend returns an error if a target row matches multiple source rows and there is no clear rule for selecting which value to use.
+- When `error_on_nondeterministic_update` = `false`: The UPDATE statement proceeds even if a target row joins multiple source rows, but the final update result may be non-deterministic.
+
+Example:
+
+Consider the following tables:
+
+```sql
+CREATE OR REPLACE TABLE target (
+    id INT,
+    price DECIMAL(10, 2)
+);
+
+INSERT INTO target VALUES
+(1, 299.99),
+(2, 399.99);
+
+CREATE OR REPLACE TABLE source (
+    id INT,
+    price DECIMAL(10, 2)
+);
+
+INSERT INTO source VALUES
+(1, 279.99),
+(2, 399.99),
+(2, 349.99);  -- Duplicate id in source
+```
+
+Executing the following UPDATE statement:
+
+```sql
+UPDATE target
+SET target.price = source.price
+FROM source
+WHERE target.id = source.id;
+```
+
+- With `error_on_nondeterministic_update = true`, this query fails because id = 2 in target matches multiple rows in source, making the update ambiguous.
+
+  ```sql
+  SET error_on_nondeterministic_update = 1;
+
+  root@localhost:8000/default> UPDATE target
+  SET target.price = source.price
+  FROM source
+  WHERE target.id = source.id;
+
+  error: APIError: QueryFailed: [4001]multi rows from source match one and the same row in the target_table multi times
+  ```
+
+- With `error_on_nondeterministic_update = false`, the update succeeds, but target.price for id = 2 may be updated to either 399.99 or 349.99, depending on execution order.
+
+  ```sql
+  SET error_on_nondeterministic_update = 0;
+
+  root@localhost:8000/default> UPDATE target
+  SET target.price = source.price
+  FROM source
+  WHERE target.id = source.id;
+
+  ┌────────────────────────┐
+  │ number of rows updated │
+  ├────────────────────────┤
+  │                      2 │
+  └────────────────────────┘
+
+  SELECT * FROM target;
+
+  ┌────────────────────────────────────────────┐
+  │        id       │           price          │
+  ├─────────────────┼──────────────────────────┤
+  │               1 │ 279.99                   │
+  │               2 │ 399.99                   │
+  └────────────────────────────────────────────┘
+  ```
+
+
 
 ## Examples
 
