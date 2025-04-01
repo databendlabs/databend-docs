@@ -1,34 +1,36 @@
----
-title: UPDATE
----
-import FunctionDescription from '@site/src/components/FunctionDescription';
+Here's a professional documentation page for the `UPDATE` statement in Databend, incorporating your provided content with improved organization and clarity:
 
-<FunctionDescription description="引入或更新于：v1.2.699"/>
+# UPDATE Statement
 
-使用新值更新表中的行，可选择使用其他表中的值。
+## Overview
 
-:::tip 原子操作
-Databend 通过原子操作确保数据完整性。插入、更新、替换和删除操作要么完全成功，要么完全失败。
-:::
+The `UPDATE` statement modifies existing rows in a table with new values, with the option to use values from other tables. Databend ensures data integrity by performing these operations atomically - updates either complete successfully or fail entirely without partial application.
 
-## 语法
+<FunctionDescription description="Introduced or updated: v1.2.705"/>
+
+## Syntax
 
 ```sql
-UPDATE <目标表>
-       SET <列名> = <值> [ , <列名> = <值> , ... ] -- 设置新值  
-        [ FROM <其他表> ] -- 使用其他表中的值  
-        [ WHERE <条件> ] -- 过滤行
+UPDATE <target_table>
+       SET <col_name> = <value> [ , <col_name> = <value> , ... ]  -- Assign new values
+        [ FROM <additional_tables> ]                              -- Source tables for values
+        [ WHERE <condition> ]                                     -- Row selection criteria
 ```
 
-## 示例
+## Configuration Settings
 
-以下示例演示了如何直接更新表中的行，以及如何使用另一个表中的值来更新行。
+### error_on_nondeterministic_update
 
-我们将首先创建一个 **bookstore** 表并插入一些示例数据，然后直接更新特定行。之后，我们将使用第二个表 **book_updates**，根据 **book_updates** 中的值更新 **bookstore** 表中的行。
+This setting controls behavior when an UPDATE statement encounters ambiguous matches between source and target rows:
 
-#### 步骤 1：创建 bookstore 表并插入初始数据
+- **true (default)**: Returns an error if a target row matches multiple source rows without a deterministic update rule
+- **false**: Allows the update to proceed, potentially with non-deterministic results
 
-在此步骤中，我们创建一个名为 **bookstore** 的表，并填充一些示例书籍数据。
+## Examples
+
+### Basic Update Operation
+
+1. Create and populate a sample table:
 
 ```sql
 CREATE TABLE bookstore (
@@ -36,34 +38,21 @@ CREATE TABLE bookstore (
   book_name VARCHAR
 );
 
-INSERT INTO bookstore VALUES (101, 'After the death of Don Juan');
-INSERT INTO bookstore VALUES (102, 'Grown ups');
-INSERT INTO bookstore VALUES (103, 'The long answer');
-INSERT INTO bookstore VALUES (104, 'Wartime friends');
-INSERT INTO bookstore VALUES (105, 'Deconstructed');
+INSERT INTO bookstore VALUES 
+  (101, 'After the death of Don Juan'),
+  (102, 'Grown ups'),
+  (103, 'The long answer'),
+  (104, 'Wartime friends'),
+  (105, 'Deconstructed');
 ```
 
-#### 步骤 2：查看更新前的 bookstore 表
-
-我们现在可以检查 **bookstore** 表的内容，查看初始数据。
+2. View initial data:
 
 ```sql
 SELECT * FROM bookstore;
-
-┌───────────────────────────────────────────────┐
-│     book_id     │          book_name          │
-├─────────────────┼─────────────────────────────┤
-│             102 │ Grown ups                   │
-│             103 │ The long answer             │
-│             101 │ After the death of Don Juan │
-│             105 │ Deconstructed               │
-│             104 │ Wartime friends             │
-└───────────────────────────────────────────────┘
 ```
 
-#### 步骤 3：直接更新单行
-
-接下来，让我们更新 book_id 为 `103` 的书籍，更改其名称。
+3. Update a single row directly:
 
 ```sql
 UPDATE bookstore 
@@ -71,23 +60,15 @@ SET book_name = 'The long answer (2nd)'
 WHERE book_id = 103;
 ```
 
-#### 步骤 4：查看更新后的 bookstore 表
-
-现在，让我们再次检查表，查看直接更新的结果。
+4. Verify the update:
 
 ```sql
 SELECT book_name FROM bookstore WHERE book_id=103;
-
-┌───────────────────────┐
-│       book_name       │
-├───────────────────────┤
-│ The long answer (2nd) │
-└───────────────────────┘
 ```
 
-#### 步骤 5：创建新表以存储更新值
+### Update Using Values from Another Table
 
-在此步骤中，我们创建第二个表 **book_updates**，其中包含我们将用于更新 **bookstore** 表的更新书籍名称。
+1. Create a table with update values:
 
 ```sql
 CREATE TABLE book_updates (
@@ -95,13 +76,12 @@ CREATE TABLE book_updates (
   new_book_name VARCHAR
 );
 
-INSERT INTO book_updates VALUES (103, 'The long answer (Revised)');
-INSERT INTO book_updates VALUES (104, 'Wartime friends (Expanded Edition)');
+INSERT INTO book_updates VALUES 
+  (103, 'The long answer (Revised)'),
+  (104, 'Wartime friends (Expanded Edition)');
 ```
 
-#### 步骤 6：使用 book_updates 中的值更新 bookstore 表
-
-现在，我们将使用 **book_updates** 表中的值更新 **bookstore** 表。
+2. Perform the update:
 
 ```sql
 UPDATE bookstore
@@ -110,20 +90,41 @@ FROM book_updates
 WHERE bookstore.book_id = book_updates.book_id;
 ```
 
-#### 步骤 7：查看更新后的 bookstore 表
-
-最后，我们再次检查 **bookstore** 表，确认已使用 **book_updates** 中的值更新了名称。
+3. View the results:
 
 ```sql
 SELECT * FROM bookstore;
-
-┌──────────────────────────────────────────────────────┐
-│     book_id     │              book_name             │
-├─────────────────┼────────────────────────────────────┤
-│             105 │ Deconstructed                      │
-│             101 │ After the death of Don Juan        │
-│             102 │ Grown ups                          │
-│             104 │ Wartime friends (Expanded Edition) │
-│             103 │ The long answer (Revised)          │
-└──────────────────────────────────────────────────────┘
 ```
+
+### Handling Ambiguous Updates
+
+1. With strict checking (default):
+
+```sql
+SET error_on_nondeterministic_update = true;
+
+-- This will fail if multiple source rows match a target row
+UPDATE target_table
+SET column = source.column
+FROM source_table
+WHERE target_table.id = source_table.id;
+```
+
+2. With relaxed checking:
+
+```sql
+SET error_on_nondeterministic_update = false;
+
+-- This will proceed but may have non-deterministic results
+UPDATE target_table
+SET column = source.column
+FROM source_table
+WHERE target_table.id = source_table.id;
+```
+
+## Best Practices
+
+- Always include a WHERE clause to limit the scope of updates
+- Test updates with SELECT statements first to verify affected rows
+- Consider transactions for multi-statement updates
+- Use the strict mode (`error_on_nondeterministic_update=true`) for production environments to ensure data consistency
