@@ -4,7 +4,7 @@ title: 输入 & 输出文件格式
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.713"/>
+<FunctionDescription description="引入或更新于： v1.2.713"/>
 
 Databend 接受多种文件格式作为数据加载或卸载的源和目标。本页介绍了支持的文件格式及其可用选项。
 
