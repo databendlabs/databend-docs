@@ -47,7 +47,7 @@ This section provides reference information for the string-related functions in 
 - [UCASE](ucase.md)
 - [UPPER](upper.md)
 
-## Regular Expressions:
+## Pattern Matching:
 - [LIKE](like.md)
 - [NOT_LIKE](not-like.md)
 - [NOT_REGEXP](not-regexp.md)
@@ -58,6 +58,7 @@ This section provides reference information for the string-related functions in 
 - [REGEXP_REPLACE](regexp-replace.md)
 - [REGEXP_SUBSTR](regexp-substr.md)
 - [RLIKE](rlike.md)
+- [GLOB](glob.md)
 
 ## Encoding and Decoding:
 - [BIN](bin.md)
