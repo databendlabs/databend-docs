@@ -42,27 +42,27 @@ This example showcases how sequences and the NEXTVAL function are employed to au
 -- Create a new sequence named staff_id_seq
 CREATE SEQUENCE staff_id_seq;
 
--- Create a new table named staff with columns for staff_id, name, and department
+-- Create a new table named staff with an auto-generated staff_id
 CREATE TABLE staff (
-    staff_id INT,
+    staff_id INT DEFAULT NEXTVAL(staff_id_seq),
     name VARCHAR(50),
     department VARCHAR(50)
 );
 
--- Insert a new row into the staff table, using the next value from the staff_id_seq sequence for the staff_id column
-INSERT INTO staff (staff_id, name, department)
-VALUES (NEXTVAL(staff_id_seq), 'John Doe', 'HR');
+--  Insert a new staff member with an auto-generated staff_id into the staff table
+INSERT INTO staff (name, department)
+VALUES ('John Doe', 'HR');
 
--- Insert another row into the staff table, using the next value from the staff_id_seq sequence for the staff_id column
-INSERT INTO staff (staff_id, name, department)
-VALUES (NEXTVAL(staff_id_seq), 'Jane Smith', 'Finance');
+-- Insert another row
+INSERT INTO staff (name, department)
+VALUES ('Jane Smith', 'Finance');
 
 SELECT * FROM staff;
 
 ┌───────────────────────────────────────────────────────┐
 │     staff_id    │       name       │    department    │
 ├─────────────────┼──────────────────┼──────────────────┤
-│               2 │ Jane Smith       │ Finance          │
-│               1 │ John Doe         │ HR               │
+│               3 │ Jane Smith       │ Finance          │
+│               2 │ John Doe         │ HR               │
 └───────────────────────────────────────────────────────┘
 ```
