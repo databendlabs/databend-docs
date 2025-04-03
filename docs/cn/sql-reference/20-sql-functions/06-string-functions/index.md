@@ -4,7 +4,7 @@ title: 字符串函数
 
 本节提供了 Databend 中与字符串相关的函数的参考信息。
 
-## 字符串操作：
+## 字符串操作:
 - [CONCAT](concat.md)
 - [CONCAT_WS](concat-ws.md)
 - [INSERT](insert.md)
@@ -27,7 +27,7 @@ title: 字符串函数
 - [LTRIM](ltrim.md)
 - [RTRIM](rtrim.md)
 
-## 字符串信息：
+## 字符串信息:
 - [ASCII](ascii.md)
 - [BIT_LENGTH](bit-length.md)
 - [CHAR_LENGTH](char-length.md)
@@ -41,13 +41,13 @@ title: 字符串函数
 - [STRCMP](strcmp.md)
 - [JARO_WINKLER](jaro-winkler.md)
 
-## 大小写转换：
+## 大小写转换:
 - [LCASE](lcase.md)
 - [LOWER](lower.md)
 - [UCASE](ucase.md)
 - [UPPER](upper.md)
 
-## 正则表达式：
+## 模式匹配:
 - [LIKE](like.md)
 - [NOT_LIKE](not-like.md)
 - [NOT_REGEXP](not-regexp.md)
@@ -58,8 +58,9 @@ title: 字符串函数
 - [REGEXP_REPLACE](regexp-replace.md)
 - [REGEXP_SUBSTR](regexp-substr.md)
 - [RLIKE](rlike.md)
+- [GLOB](glob.md)
 
-## 编码与解码：
+## 编码和解码:
 - [BIN](bin.md)
 - [FROM_BASE64](from-base64.md)
 - [HEX](hex.md)
@@ -67,7 +68,7 @@ title: 字符串函数
 - [TO_BASE64](to-base64.md)
 - [UNHEX](unhex.md)
 
-## 其他：
+## 其他:
 - [CHAR](char.md)
 - [MID](mid.md)
 - [QUOTE](quote.md)
