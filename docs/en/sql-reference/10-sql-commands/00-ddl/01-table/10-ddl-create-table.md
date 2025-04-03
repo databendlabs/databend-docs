@@ -108,10 +108,14 @@ By default, **all columns are nullable(NULL)** in Databend. If you need a column
 
 ## Column Default Values
 
-`DEFAULT <expr>` sets a default value for the column when no explicit value is provided. The default value can be a fixed constant, such as `Marketing` for the `department` column in the example below, or a dynamically generated value by [NEXTVAL](/sql/sql-functions/sequence-functions/nextval), such as `NEXTVAL(staff_id_seq)` for the `staff_id` column, which assigns the next number from a sequence.
+`DEFAULT <expr>` sets a default value for the column when no explicit value is provided. The default value can be:
 
-- NEXTVAL must be used as a standalone default value; expressions like `NEXTVAL(seq1) + 1` are not supported.
-- When using COPY INTO without explicitly specifying a column with a DEFAULT NEXTVAL value, Databend will automatically generate values for that column.
+- A fixed constant, such as `Marketing` for the `department` column in the example below.
+- The result of an expression with no input arguments, such as `1 + 1`.
+- The result of a non-deterministic function, such as `NOW()` or `UUID()`.
+- A dynamically generated value from a sequence, such as `NEXTVAL(staff_id_seq)` for the `staff_id` column in the example below.
+  - NEXTVAL must be used as a standalone default value; expressions like `NEXTVAL(seq1) + 1` are not supported.
+  - When using COPY INTO without explicitly specifying a column with a DEFAULT NEXTVAL value, Databend will automatically generate values for that column.
 
 ```sql
 CREATE SEQUENCE staff_id_seq;
