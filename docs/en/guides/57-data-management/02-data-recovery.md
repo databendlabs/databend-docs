@@ -1,9 +1,8 @@
 ---
-title: Data Recovery in Databend Cloud
-sidebar_label: Data Recovery
+title: Data Recovery
 ---
 
-This topic explains how to restore changed or deleted data using Databend Cloud.
+This topic explains how to back up and restore data in Databend.
 
 ## Time Travel: Easy Access to Past Data
 
@@ -64,3 +63,68 @@ Fail-safe includes:
 - Recovery times can vary from a few hours to several days, depending on the situation.
 
 :::
+
+
+## BendSave
+
+BendSave is a command-line tool for backing up and restoring metadata in Databend. It stores backups in S3-compatible object storage, making it ideal for disaster recovery and environment cloning.
+
+:::note
+This tool only backs up and restores metadata (e.g., databases, tables, users). It does not include actual data files stored in object storage.
+:::
+
+### Downloading BendSave
+
+The BendSave binary is distributed as part of the [Databend release packages](https://github.com/databendlabs/databend/releases).
+
+To download:
+
+1. Go to the latest [Databend Releases](https://github.com/databendlabs/databend/releases).
+
+2. Select the release that matches your currently running `databend-query` version.
+
+3. Download and extract the release package.
+
+4. Inside the extracted archive, locate the **bin** directory and find the **databend-bendsave** binary.
+
+### Command Reference
+
+To back up the metadata of a Databend cluster:
+
+```bash
+databend-bendsave backup \
+  --from <query-config-path> \
+  --to <backup-destination>
+```
+
+| Parameter | Description                                                             |
+|-----------|-------------------------------------------------------------------------|
+| from      | Path to the  `databend-query.toml` configuration file.                  |
+| to        | Backup destination, e.g.,`s3://backup?endpoint=http://127.0.0.1:9900&access_key_id=xxx&secret_access_key=xxx`.<br/>- It is recommended to use environment variables such as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to provide credentials.|
+
+To restore the metadata to a Databend cluster:
+
+```bash
+databend-bendsave restore \
+  --from <backup-source> \
+  --to-query <query-config-path> \
+  --to-meta <meta-config-path> \
+  --confirm
+```
+
+| Parameter | Description                                                           |
+|-----------|-----------------------------------------------------------------------|
+| from      | Backup source path.                                                   |
+| to-query  | Path to the restored `databend-query.toml` configuration file.        |
+| to-meta   | Path to the restored `databend-meta.toml` configuration file.         |
+| confirm   | Required flag to confirm restoration and avoid accidental overwrites. |
+
+#### Examples
+
+```bash
+# Backup
+bendsave backup --from /path/to/query-node-1.toml --to s3://backup/
+
+# Restore
+bendsave restore --from s3://backup/manifests/20250115_201500.manifest --to /path/to/query-node-1.toml
+```
