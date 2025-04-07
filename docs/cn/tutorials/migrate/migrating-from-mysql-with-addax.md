@@ -1,4 +1,3 @@
-```md
 ---
 title: 使用 Addax 从 MySQL 迁移
 ---

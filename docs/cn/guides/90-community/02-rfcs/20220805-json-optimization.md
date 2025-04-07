@@ -1,4 +1,3 @@
-```md
 ---
 title: JSON 优化
 description: Databend Query 的 JSON 优化
@@ -192,4 +191,3 @@ PostgreSQL 和 CockroachDB 都使用 JSONB 作为优化的 JSON 格式，我们�
 
 - 提取具有不同数据类型值的键路径的虚拟列
 - 为 JSONB 添加额外的索引
-```

@@ -1,4 +1,3 @@
-```md
 ---
 title: "通过 AWS PrivateLink 连接到 Databend Cloud"
 sidebar_label: "AWS PrivateLink"
@@ -80,4 +79,3 @@ sidebar_label: "AWS PrivateLink"
 :::info
 恭喜！您已成功通过 AWS PrivateLink 连接到 Databend Cloud。
 :::
-```

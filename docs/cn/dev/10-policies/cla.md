@@ -1,4 +1,3 @@
-```md
 ---
 title: Contributor License Agreement
 ---
@@ -30,4 +29,3 @@ title: Contributor License Agreement
 8\. 其他事实/情况。您同意将您意识到的任何会使上述声明和保证在任何方面不准确的事实或情况通知 Datafuse Labs。
 
 9\. 授权。如果您作为一家公司签订本 CLA，您声明并保证接受本 CLA 的个人已获得正式授权代表公司签订本 CLA。
-```

@@ -1,4 +1,3 @@
-```md
 ---
 title: SHOW NETWORK POLICIES
 sidebar_position: 4

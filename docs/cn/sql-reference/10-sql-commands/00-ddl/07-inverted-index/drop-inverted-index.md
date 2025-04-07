@@ -1,4 +1,3 @@
-```md
 ---
 title: DROP INVERTED INDEX
 ---

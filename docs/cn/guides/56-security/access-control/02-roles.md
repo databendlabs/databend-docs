@@ -1,4 +1,3 @@
-```md
 ---
 title: 角色
 ---
@@ -17,7 +16,7 @@ Databend 中的角色在简化权限管理方面起着关键作用。当多个�
 
 角色授予使一个角色能够继承另一个角色的权限和职责。这有助于创建灵活的层级结构，类似于组织结构，其中存在两个 [内置角色](#built-in-roles)：最高的是 `account-admin`，最低的是 `public`。
 
-考虑创建三个角色的场景：*manager*、*engineer* 和 *intern*。在此示例中，*intern* 角色被授予给 *engineer* 角色。因此，*engineer* 不仅拥有自己的权限集，还继承了与 *intern* 角色相关的权限。进一步扩展此层级结构，如果将 *engineer* 角色授予给 *manager*，则 *manager* 现在获得 *engineer* 和 *intern* 角色的固有权限。
+考虑创建三个角色的场景：_manager_、_engineer_ 和 _intern_。在此示例中，_intern_ 角色被授予给 _engineer_ 角色。因此，_engineer_ 不仅拥有自己的权限集，还继承了与 _intern_ 角色相关的权限。进一步扩展此层级结构，如果将 _engineer_ 角色授予给 _manager_，则 _manager_ 现在获得 _engineer_ 和 _intern_ 角色的固有权限。
 
 ![Alt text](/img/guides/access-control-4.png)
 
@@ -25,10 +24,10 @@ Databend 中的角色在简化权限管理方面起着关键作用。当多个�
 
 Databend 附带以下内置角色：
 
-| 内置角色      | 描述                                                                                                                            |
-|---------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| account-admin | 拥有所有权限，充当所有其他角色的父角色，并能够无缝切换到租户中的任何角色。                                                                                                |
-| public        | 不继承任何权限，将所有角色视为其父角色，并允许任何角色切换到 public 角色。                                                                                                 |
+| 内置角色      | 描述                                                                       |
+| ------------- | -------------------------------------------------------------------------- |
+| account-admin | 拥有所有权限，充当所有其他角色的父角色，并能够无缝切换到租户中的任何角色。 |
+| public        | 不继承任何权限，将所有角色视为其父角色，并允许任何角色切换到 public 角色。 |
 
 要在 Databend Cloud 中将 `account-admin` 角色分配给用户，请在邀请用户时选择该角色。您也可以在用户加入后将该角色分配给用户。如果您使用的是 Databend Community Edition 或 Enterprise Edition，请首先在部署期间配置 `account-admin` 用户，然后根据需要将该角色分配给其他用户。有关配置管理员用户的更多信息，请参阅 [配置管理员用户](../../10-deploy/04-references/01-admin-users.md)。
 
@@ -79,6 +78,7 @@ ALTER USER eric WITH DEFAULT_ROLE = 'account_admin';
 ```sql
 CREATE ROLE billing;
 ```
+
 角色名称不区分大小写，因此 `billing` 和 `Billing` 被认为是相同的。有关设置和分配角色 `billing` 的详细步骤，请参阅 [授予财务人员访问权限](/guides/cloud/manage/costs#granting-access-to-finance-personnel)。
 
 ## 使用示例

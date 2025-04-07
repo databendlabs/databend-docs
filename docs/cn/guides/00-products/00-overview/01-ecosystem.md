@@ -1,4 +1,3 @@
-```md
 ---
 title: Ecosystem
 ---
@@ -47,4 +46,3 @@ title: Ecosystem
 
 - **AI**
   - [MindsDB](../../31-visualize/mindsdb.md)
-```

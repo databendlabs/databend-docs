@@ -1,4 +1,3 @@
-```md
 ---
 title: CREATE AGGREGATING INDEX
 sidebar_position: 1
@@ -30,7 +29,7 @@ CREATE [ OR REPLACE ] [ ASYNC ] AGGREGATING INDEX <index_name> AS SELECT ...
 
 ## 示例
 
-此示例为查询 "SELECT MIN(a), MAX(c) FROM agg" 创建一个名为 *my_agg_index* 的聚合索引：
+此示例为查询 "SELECT MIN(a), MAX(c) FROM agg" 创建一个名为 _my_agg_index_ 的聚合索引：
 
 ```sql
 -- Prepare data

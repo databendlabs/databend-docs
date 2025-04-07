@@ -1,7 +1,7 @@
-```md
 ---
 title: Delta Lake
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.262"/>
@@ -15,9 +15,9 @@ Databend 的 [Delta Lake](https://delta.io/) 引擎允许您无缝查询和分�
 ## 语法
 
 ```sql
-CREATE TABLE <table_name> 
-ENGINE = Delta 
-LOCATION = 's3://<path_to_table>' 
+CREATE TABLE <table_name>
+ENGINE = Delta
+LOCATION = 's3://<path_to_table>'
 CONNECTION_NAME = '<connection_name>'
 ```
 
@@ -27,13 +27,13 @@ CONNECTION_NAME = '<connection_name>'
 
 ```sql
 --Set up connection
-CREATE CONNECTION my_s3_conn 
-STORAGE_TYPE = 's3' 
+CREATE CONNECTION my_s3_conn
+STORAGE_TYPE = 's3'
 ACCESS_KEY_ID ='your-ak' SECRET_ACCESS_KEY ='your-sk';
 
 -- Create table with Delta Lake engine
-CREATE TABLE test_delta 
-ENGINE = Delta 
-LOCATION = 's3://testbucket/admin/data/delta/delta-table/' 
+CREATE TABLE test_delta
+ENGINE = Delta
+LOCATION = 's3://testbucket/admin/data/delta/delta-table/'
 CONNECTION_NAME = 'my_s3_conn';
 ```

@@ -1,4 +1,3 @@
-```md
 ---
 title: Loading from Kafka with databend-kafka-connect
 ---
@@ -39,7 +38,7 @@ Save the API key and secret. The secret is not retrievable later.
 confluent api-key use <your-api-key> --resource lkc-jr57j2
 ```
 
-### Step 2: Add Custom Connector Plugin 
+### Step 2: Add Custom Connector Plugin
 
 在此步骤中，您将 Kafka Connect sink connector 插件 databend-kafka-connect 上传到 Confluent Cloud。
 
@@ -49,12 +48,12 @@ confluent api-key use <your-api-key> --resource lkc-jr57j2
 
 3. 填写插件详细信息，如下所示，然后上传 databend-kafka-connect 包。
 
-| Parameter                 | Description                                                                   |
-|---------------------------|-------------------------------------------------------------------------------|
-| Connector plugin name     | 设置一个名称，例如 `databend_plugin`                                    |
+| Parameter                 | Description                                                |
+| ------------------------- | ---------------------------------------------------------- |
+| Connector plugin name     | 设置一个名称，例如 `databend_plugin`                       |
 | Custom plugin description | 描述插件，例如 `Kafka Connect sink connector for Databend` |
-| Connector class           | `com.databend.kafka.connect.DatabendSinkConnector`                            |
-| Connector type            | `Sink`                                                                        |
+| Connector class           | `com.databend.kafka.connect.DatabendSinkConnector`         |
+| Connector type            | `Sink`                                                     |
 
 ### Step 3: Create a Kafka Topic
 
@@ -72,26 +71,26 @@ confluent api-key use <your-api-key> --resource lkc-jr57j2
 
 ```json
 {
-    "doc": "Sample schema to help you get started.",
-    "fields": [
-        {
-            "doc": "The int type is a 32-bit signed integer.",
-            "name": "id",
-            "type": "int"
-        },
-        {
-            "doc": "The string is a unicode character sequence.",
-            "name": "name",
-            "type": "string"
-        },
-        {
-            "doc": "The string is a unicode character sequence.",
-            "name": "age",
-            "type": "int"
-        }
-    ],
-    "name": "sampleRecord",
-    "type": "record"
+  "doc": "Sample schema to help you get started.",
+  "fields": [
+    {
+      "doc": "The int type is a 32-bit signed integer.",
+      "name": "id",
+      "type": "int"
+    },
+    {
+      "doc": "The string is a unicode character sequence.",
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "doc": "The string is a unicode character sequence.",
+      "name": "age",
+      "type": "int"
+    }
+  ],
+  "name": "sampleRecord",
+  "type": "record"
 }
 ```
 
@@ -149,26 +148,26 @@ confluent api-key use <your-api-key> --resource lkc-jr57j2
 
 ```json
 {
-    "doc": "Sample schema to help you get started.",
-    "fields": [
-        {
-            "doc": "The int type is a 32-bit signed integer.",
-            "name": "id",
-            "type": "int"
-        },
-        {
-            "doc": "The string is a unicode character sequence.",
-            "name": "name",
-            "type": "string"
-        },
-        {
-            "doc": "The string is a unicode character sequence.",
-            "name": "age",
-            "type": "int"
-        }
-    ],
-    "name": "sampleRecord",
-    "type": "record"
+  "doc": "Sample schema to help you get started.",
+  "fields": [
+    {
+      "doc": "The int type is a 32-bit signed integer.",
+      "name": "id",
+      "type": "int"
+    },
+    {
+      "doc": "The string is a unicode character sequence.",
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "doc": "The string is a unicode character sequence.",
+      "name": "age",
+      "type": "int"
+    }
+  ],
+  "name": "sampleRecord",
+  "type": "record"
 }
 ```
 
@@ -187,4 +186,3 @@ Starting Kafka Producer. Use Ctrl-C or Ctrl-D to exit.
 3. 在 Databend Cloud 中，验证数据是否已成功加载：
 
 ![alt text](../../../../static/img/documents/tutorials/kafka-5.png)
-```

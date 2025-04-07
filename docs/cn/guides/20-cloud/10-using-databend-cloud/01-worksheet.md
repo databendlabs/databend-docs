@@ -1,7 +1,7 @@
-```md
 ---
 title: Worksheets
 ---
+
 import DbSVG from '@site/static/img/icon/database.svg'
 import RoleSVG from '@site/static/img/icon/role.svg'
 import WarehouseSVG from '@site/static/img/icon/warehouse.svg'
@@ -24,15 +24,16 @@ Databend Cloud 中的 Worksheets 用于组织、运行和保存 SQL 语句。它
 
 3. 在 SQL 编辑器中编辑 SQL 语句。
 4. 点击 SQL 编辑器下方的计算集群图标 <WarehouseSVG/>，然后从列表中选择一个计算集群。
-4. 点击 **Run Script**。
+5. 点击 **Run Script**。
 
 查询结果显示在输出区域中。您可以点击 **Export** 将整个结果保存到 CSV 文件，或者在输出区域中选择一个或多个单元格，然后按 Command + C (在 Mac 上) 或 Ctrl + C (在 Windows 上) 将它们复制到剪贴板。
 
 :::tip
+
 - 为了方便您编辑 SQL 语句，您可以选择数据库列表中的一个表，然后点击它旁边的 "..." 按钮。然后，按照菜单提示选择将表名或所有列名一键复制到右侧的 SQL 输入区域。
 
 - 如果您在 SQL 输入区域中输入多个语句，Databend Cloud 将仅执行光标所在的语句。您可以移动光标以执行其他语句。此外，您可以使用键盘快捷键：Ctrl + Enter (Windows) 或 Command + Enter (Mac) 执行当前语句，以及 Ctrl + Shift + Enter (Windows) 或 Command + Shift + Enter (Mac) 执行所有语句。
-:::
+  :::
 
 ## 共享 Worksheet
 
@@ -44,4 +45,3 @@ Databend Cloud 中的 Worksheets 用于组织、运行和保存 SQL 语句。它
 
 - 要查看其他人与您共享的 Worksheets，请点击侧边栏中的 **Worksheets**，然后点击右侧的 **Shared with Me** 选项卡。
 - 当您与他人共享 Worksheet 时，如果他们具有必要的权限，他们可以执行其中的 SQL 语句，但他们无法对语句进行任何编辑。
-```

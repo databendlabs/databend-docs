@@ -1,4 +1,3 @@
-```md
 ---
 title: information_schema.tables
 ---

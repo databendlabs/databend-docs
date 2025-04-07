@@ -1,4 +1,3 @@
-```md
 ---
 title: system.query_log
 ---
@@ -50,7 +49,7 @@ SELECT * FROM system.query_log LIMIT 1;
                 sql_user: root
           sql_user_quota: UserQuota<cpu:0,mem:0,store:0>
      sql_user_privileges: GRANT ALL ON *.*, ROLES: ["account_admin"]
-               query_tag: 
+               query_tag:
                 query_id: 7e03cd7a-36fa-463d-afe4-041da4092c45
               query_kind: Other
               query_text: SHOW TABLES

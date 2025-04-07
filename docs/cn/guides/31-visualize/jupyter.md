@@ -1,4 +1,3 @@
-```md
 ---
 title: Jupyter Notebook
 ---
@@ -70,7 +69,7 @@ jupyter notebook
 
 ### Step 1. 部署 Databend
 
-1. 按照[部署指南]/guides/deploy)部署本地 Databend。
+1. 按照[部署指南]/guides/deploy) 部署本地 Databend。
 2. 在 Databend 中创建一个 SQL 用户。您将使用此帐户在 Jupyter Notebook 中连接到 Databend。
 
 ```sql
@@ -298,4 +297,3 @@ plt.show()
 您现在可以在 notebook 上看到一个条形图：
 
 ![Alt text](@site/static/img/documents/BI/jupyter-bar.png)
-```

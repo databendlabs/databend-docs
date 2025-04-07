@@ -1,4 +1,3 @@
-```md
 ---
 title: Loading Parquet File into Databend
 sidebar_label: Parquet

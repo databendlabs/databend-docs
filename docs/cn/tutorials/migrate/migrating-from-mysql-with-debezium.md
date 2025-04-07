@@ -1,4 +1,3 @@
-```md
 ---
 title: 使用 Debezium 从 MySQL 迁移
 ---
@@ -90,4 +89,3 @@ quarkus.log.category."org.eclipse.jetty".level=WARN
 ```
 
 一切就绪！如果您查询 Databend 中的 products 表，您将看到来自 MySQL 的数据已成功同步。您可以随意在 MySQL 中执行插入、更新或删除操作，并且您会观察到 Databend 中也反映了相应的更改。
-```

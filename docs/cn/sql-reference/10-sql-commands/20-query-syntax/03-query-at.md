@@ -1,7 +1,7 @@
-```md
 ---
 title: AT
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.410"/>
@@ -14,22 +14,22 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ## 语法
 
-```sql    
+```sql
 SELECT ...
 FROM ...
 AT (
        SNAPSHOT => '<snapshot_id>' |
-       TIMESTAMP => <timestamp> | 
+       TIMESTAMP => <timestamp> |
        STREAM => <stream_name> |
-       OFFSET => <time_interval> 
-   )   
+       OFFSET => <time_interval>
+   )
 ```
 
-| Parameter | Description                                                                                                                                                                                                                                                                                                      |
-|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SNAPSHOT  | 指定要从中查询先前数据的特定快照 ID。                                                                                                                                                                                                                                                    |
-| TIMESTAMP | 指定要从中检索数据的特定时间戳。                                                                                                                                                                                                                                                          |
-| STREAM    | 表示查询创建指定流时的数据。                                                                                                                                                                                                                                        |
+| Parameter | Description                                                                                                                     |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| SNAPSHOT  | 指定要从中查询先前数据的特定快照 ID。                                                                                           |
+| TIMESTAMP | 指定要从中检索数据的特定时间戳。                                                                                                |
+| STREAM    | 表示查询创建指定流时的数据。                                                                                                    |
 | OFFSET    | 指定从当前时间回溯的秒数。它应该采用负整数的形式，其中绝对值表示以秒为单位的时间差。例如，`-3600` 表示回溯 1 小时（3,600 秒）。 |
 
 ## 获取快照 ID 和时间戳
@@ -37,9 +37,9 @@ AT (
 要返回表的所有快照的快照 ID 和时间戳，请使用 [FUSE_SNAPSHOT](../../20-sql-functions/16-system-functions/fuse_snapshot.md) 函数：
 
 ```sql
-SELECT snapshot_id, 
-       timestamp 
-FROM   FUSE_SNAPSHOT('<database_name>', '<table_name>'); 
+SELECT snapshot_id,
+       timestamp
+FROM   FUSE_SNAPSHOT('<database_name>', '<table_name>');
 ```
 
 ## 示例

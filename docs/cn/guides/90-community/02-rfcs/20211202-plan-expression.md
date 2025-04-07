@@ -1,8 +1,6 @@
-```md
 ---
 title: Expression and Plan Builder
-description:
-  Expression and plan builder RFC
+description: Expression and plan builder RFC
 ---
 
 ## Summary
@@ -19,10 +17,9 @@ Aliasing is useful in SQL, we can alias a complex expression as a short alias na
 
 In the standard SQL protocol, aliasing can work in:
 
-- Group By, eg: ```SELECT a + 3 as b, count(1) from table group by b```
-- Having, eg: ```SELECT a + 3 as b, count(1) as c from table group by b having c > 0```
-- Order By: eg: ```SELECT a + 3 as b from table order by b```
-
+- Group By, eg: `SELECT a + 3 as b, count(1) from table group by b`
+- Having, eg: `SELECT a + 3 as b, count(1) as c from table group by b having c > 0`
+- Order By: eg: `SELECT a + 3 as b from table order by b`
 
 :::tip
 ClickHouse has extended the usage of expression alias, it can be work in:
@@ -41,7 +38,7 @@ Eg:
 `SELECT number + 1 as c, sum(number) from numbers(10) group by c having c > 3 order by c limit 10`
 
 - Firstly, we can scan all the alias expressions from projection ASTs. `c ---> (number + 1)`
-- Then we replaced the alias into the corresponding expression in *having*, *order by*, *group by* clause. So the query will be: `SELECT number + 1 as c, sum(number) from numbers(10) group by (number + 1) having (number + 1) > 3 order by (number + 1) limit 10`
+- Then we replaced the alias into the corresponding expression in _having_, _order by_, _group by_ clause. So the query will be: `SELECT number + 1 as c, sum(number) from numbers(10) group by (number + 1) having (number + 1) > 3 order by (number + 1) limit 10`
 - At last, when the query is finished, we apply the projection to rename the column `(number+1)` to `c`
 
 Let's take a look at the explain result of this query:
@@ -62,7 +59,7 @@ We can see we do not need to care about aliasing until the projection, so it wil
 
 ### Materialized Expression
 
-Materialized expression processing is that we can rebase the expression as a *ExpressionColumn* if the same expression is already processed upstream.
+Materialized expression processing is that we can rebase the expression as a _ExpressionColumn_ if the same expression is already processed upstream.
 
 Eg:
 
@@ -71,7 +68,6 @@ Eg:
 After aliases replacement, we will know that order by is `sum(number)`, but `sum(number)` is already processed during the aggregating stage, so we can rebase the order by expression `SortExpression { ... }` to `Column("sum(number)")`, this could remove useless calculation of same expressions.
 
 So `number + 1` in having can also apply to rebase the expression.
-
 
 ### Expression Functions
 
@@ -82,8 +78,7 @@ There are many kinds of expression functions.
 - BinaryFunctions, a special kind of ·ScalarFunctions· eg: `SELECT 1 + 2 `
 - ...
 
-For ScalarFunctions, we really don't care about the whole block, we just care about the columns involved by the arguments. `sum(number)` just care about the Column which named *number* .  And the result is also a column, so we have the virtual method in `IFunction` is:
-
+For ScalarFunctions, we really don't care about the whole block, we just care about the columns involved by the arguments. `sum(number)` just care about the Column which named _number_ . And the result is also a column, so we have the virtual method in `IFunction` is:
 
 ```rust
 fn eval(&self, columns: &[DataColumn], _input_rows: usize) -> Result<DataColumn>;
@@ -100,13 +95,13 @@ fn merge_result(&self) -> Result<DataValue>;
 
 The process is `accumulate`(apply data to the function) --> `accumulate_result`(to get the current state) --> `merge` (merge current state from other state) ---> `merge_result (to get the final result value)`
 
-
 ps: We don't store the arguments types and arguments names in functions, we can store them later if we need.
 
 ### Column
 
-*Block* is the unit of data passed between streams for pipeline processing, while *Column* is the unit of data passed between expressions.
-So in the view of expression(functions, literal, ...), everything is *Column*, we have *DataColumn* to represent a column.
+_Block_ is the unit of data passed between streams for pipeline processing, while _Column_ is the unit of data passed between expressions.
+So in the view of expression(functions, literal, ...), everything is _Column_, we have _DataColumn_ to represent a column.
+
 ```rust
 #[derive(Clone, Debug)]
 pub enum DataColumn {
@@ -117,26 +112,23 @@ pub enum DataColumn {
 }
 ```
 
-*DataColumn::Constant* is like  *ConstantColumn* in *ClickHouse*.
+_DataColumn::Constant_ is like _ConstantColumn_ in _ClickHouse_.
 
-Note: We don't have *ScalarValue* , because it can be known as `Constant(DataValue, 1)`, and there is *DataValue* struct.
-
+Note: We don't have _ScalarValue_ , because it can be known as `Constant(DataValue, 1)`, and there is _DataValue_ struct.
 
 ### Expression chain and expression executor
 
-Currently, we can collect the inner expression from expressions to build ExpressionChain. This could be done by Depth-first-search visiting.  ExpressionFunction: `number + (number + 1)` will be :  `[ ExpressionColumn(number),  ExpressionColumn(number), ExpressionLiteral(1),  ExpressionBinary('+', 'number', '1'), ExpressionBinary('+', 'number',  '(number + 1)')  ]`.
+Currently, we can collect the inner expression from expressions to build ExpressionChain. This could be done by Depth-first-search visiting. ExpressionFunction: `number + (number + 1)` will be : `[ ExpressionColumn(number),  ExpressionColumn(number), ExpressionLiteral(1),  ExpressionBinary('+', 'number', '1'), ExpressionBinary('+', 'number',  '(number + 1)')  ]`.
 
-We have the *ExpressionExecutor* the execute the expression chain, during the execution, we don't need to care about the kind of the arguments. We just consider them as *ColumnExpression* from upstream, so we just fetch the column *number* and the column *(number + 1)* from the block.
-
+We have the _ExpressionExecutor_ the execute the expression chain, during the execution, we don't need to care about the kind of the arguments. We just consider them as _ColumnExpression_ from upstream, so we just fetch the column _number_ and the column _(number + 1)_ from the block.
 
 ## Plan Builder
 
 ### None aggregation query
 
-This is for queries without *group by* and *aggregate functions*.
+This is for queries without _group by_ and _aggregate functions_.
 
 Eg: `explain SELECT number + 1 as b from numbers(10) where number + 1 > 3  order by number + 3 `
-
 
 ```
 | explain                                                                                                                                                                                                                                                                                             |
@@ -153,17 +145,16 @@ Eg: `explain SELECT number + 1 as b from numbers(10) where number + 1 > 3  order
 The build process is
 
 - SourcePlan : schema --> [number]
-- FilterPlan:  filter expression is  `(number + 1) > 3`, the schema keeps the same,  schema --> [number]
-- Expression:  we will collect expressions from `order by` and `having ` clauses to apply the expression, schema --> `[number, number + 1, number + 3]`
-- Sort: since we already have the `number + 1` in the input plan, so the sorting will consider `number + 1` as *ColumnExpression*, schema --> `[number, number + 1, number + 3]`
-- Projection: applying the aliases and projection the columns,  schema --> `[b]`
-
+- FilterPlan: filter expression is `(number + 1) > 3`, the schema keeps the same, schema --> [number]
+- Expression: we will collect expressions from `order by` and `having ` clauses to apply the expression, schema --> `[number, number + 1, number + 3]`
+- Sort: since we already have the `number + 1` in the input plan, so the sorting will consider `number + 1` as _ColumnExpression_, schema --> `[number, number + 1, number + 3]`
+- Projection: applying the aliases and projection the columns, schema --> `[b]`
 
 ### Aggregation query
 
 To build `Aggregation` query, there will be more complex than the previous one.
 
-Eg:  `explain SELECT number + 1 as b, sum(number + 2 ) + 4 as c from numbers(10) where number + 3 > 0  group by number + 1 having c > 3 and sum(number + 4) + 1 > 4  order by sum(number + 5) + 1;`
+Eg: `explain SELECT number + 1 as b, sum(number + 2 ) + 4 as c from numbers(10) where number + 3 > 0  group by number + 1 having c > 3 and sum(number + 4) + 1 > 4  order by sum(number + 5) + 1;`
 
 ```
 | Projection: (number + 1) as b:UInt64, (sum((number + 2)) + 4) as c:UInt64
@@ -181,12 +172,11 @@ Eg:  `explain SELECT number + 1 as b, sum(number + 2 ) + 4 as c from numbers(10)
 The build process is
 
 - SourcePlan : schema --> [number]
-- FilterPlan:  filter expression is  `(number + 3) > 0`, the schema keeps the same,  schema --> [number]
-- Expression: Before group by  `(number + 1):UInt64, (number + 2):UInt64, (number + 5):UInt64, (number + 4):UInt64 (Before GroupBy)`
-Before GroupBy, We must visit all the expression in `projections`, `having`, `group by` to collect the expressions and aggregate functions,  schema --> `[number, number + 1, number + 2, number + 4, number + 5]`
+- FilterPlan: filter expression is `(number + 3) > 0`, the schema keeps the same, schema --> [number]
+- Expression: Before group by `(number + 1):UInt64, (number + 2):UInt64, (number + 5):UInt64, (number + 4):UInt64 (Before GroupBy)`
+  Before GroupBy, We must visit all the expression in `projections`, `having`, `group by` to collect the expressions and aggregate functions, schema --> `[number, number + 1, number + 2, number + 4, number + 5]`
 - AggregatorPartial: `groupBy=[[(number + 1)]], aggr=[[sum((number + 2)), sum((number + 5)), sum((number + 4))]]`, note that: the expressions are already materialized in upstream, so we just consider all the arguments as columns.
-- AggregatorFinal,  schema --> `[number + 1, sum((number + 2)), sum((number + 5)), sum((number + 4))]`
-- Expression:  schema --> `[number + 1, sum((number + 2)), sum((number + 5)), sum((number + 4)),  sum((number + 2)) + 4, sum((number + 5)) + 1]`
+- AggregatorFinal, schema --> `[number + 1, sum((number + 2)), sum((number + 5)), sum((number + 4))]`
+- Expression: schema --> `[number + 1, sum((number + 2)), sum((number + 5)), sum((number + 4)),  sum((number + 2)) + 4, sum((number + 5)) + 1]`
 - Sort: the schema keeps the same
 - Projection: schema --> `b, c`
-```

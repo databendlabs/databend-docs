@@ -1,8 +1,8 @@
-```md
 ---
 title: GRANT
 sidebar_position: 9
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.275"/>
@@ -25,7 +25,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 要了解什么是权限以及它是如何工作的，请参见 [Privileges](/guides/security/access-control/privileges)。
 
 ```sql
-GRANT { 
+GRANT {
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
       }
 TO [ ROLE <role_name> ] [ <user_name> ]
@@ -37,19 +37,19 @@ TO [ ROLE <role_name> ] [ <user_name> ]
 schemaObjectPrivileges ::=
 -- For TABLE
   { SELECT | INSERT }
-  
+
 -- For SCHEMA
   { CREATE | DROP | ALTER }
-  
+
 -- For USER
   { CREATE USER }
-  
+
 -- For ROLE
   { CREATE ROLE}
-  
+
 -- For STAGE
   { READ, WRITE }
-           
+
 -- For UDF
   { USAGE }
 ```
@@ -95,12 +95,13 @@ GRANT OWNERSHIP ON UDF <udf_name> TO ROLE '<role_name>'
 ### Example 1: Granting Privileges to a User
 
 创建一个用户：
+
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 ```
 
 将 `default` 数据库中所有现有表的 `ALL` 权限授予用户 `user1`：
- 
+
 ```sql
 GRANT ALL ON default.* TO user1;
 ```
@@ -119,6 +120,7 @@ SHOW GRANTS FOR user1;
 ```sql
 GRANT ALL ON *.* TO 'user1';
 ```
+
 ```sql
 SHOW GRANTS FOR user1;
 +-----------------------------------------+
@@ -129,12 +131,12 @@ SHOW GRANTS FOR user1;
 +-----------------------------------------+
 ```
 
-
 将名为 `s1` 的 Stage 的 `ALL` 权限授予用户 `user1`：
 
 ```sql
 GRANT ALL ON STAGE s1 TO 'user1';
 ```
+
 ```sql
 SHOW GRANTS FOR user1;
 +-----------------------------------------------------------------+
@@ -151,6 +153,7 @@ SHOW GRANTS FOR user1;
 ```sql
 GRANT ALL ON UDF f1 TO 'user1';
 ```
+
 ```sql
 SHOW GRANTS FOR user1;
 +-----------------------------------------------------------------+
@@ -167,16 +170,19 @@ SHOW GRANTS FOR user1;
 将 `mydb` 数据库中所有现有表的 `SELECT` 权限授予角色 `role1`：
 
 创建角色：
-```sql 
+
+```sql
 CREATE ROLE role1;
 ```
 
 将权限授予角色：
+
 ```sql
 GRANT SELECT ON mydb.* TO ROLE role1;
 ```
 
 显示角色的授权：
+
 ```sql
 SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
@@ -189,6 +195,7 @@ SHOW GRANTS FOR ROLE role1;
 ### Example 3: Granting a Role to a User
 
 用户 `user1` 的授权是：
+
 ```sql
 SHOW GRANTS FOR user1;
 +-----------------------------------------+
@@ -200,6 +207,7 @@ SHOW GRANTS FOR user1;
 ```
 
 角色 `role1` 的授权是：
+
 ```sql
 SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
@@ -210,11 +218,13 @@ SHOW GRANTS FOR ROLE role1;
 ```
 
 将角色 `role1` 授予用户 `user1`：
+
 ```sql
  GRANT ROLE role1 TO user1;
 ```
 
 现在，用户 `user1` 的授权是：
+
 ```sql
 SHOW GRANTS FOR user1;
 +-----------------------------------------+

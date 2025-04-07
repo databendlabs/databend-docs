@@ -1,4 +1,3 @@
-```md
 ---
 title: 使用 Vector 自动化 JSON 日志加载
 ---
@@ -64,10 +63,10 @@ sinks:
       - "extract_message"
     bucket: databend-doc
     region: us-east-2
-    key_prefix: "logs/" 
-    content_type: "text/plain" 
+    key_prefix: "logs/"
+    content_type: "text/plain"
     encoding:
-      codec: "native_json" 
+      codec: "native_json"
     auth:
       access_key_id: "<your-access-key-id>"
       secret_access_key: "<your-secret-access-key>"
@@ -152,13 +151,13 @@ CREATE TASK IF NOT EXISTS myvectortask
     SCHEDULE = 1 MINUTE
     SUSPEND_TASK_AFTER_NUM_FAILURES = 3
 AS
-COPY INTO logs 
+COPY INTO logs
 FROM (
     SELECT $1:log:event, $1:log:timestamp, $1:log:user_id
     FROM @mylog/
 )
-FILE_FORMAT = (TYPE = NDJSON, COMPRESSION = AUTO) 
-MAX_FILES = 10000 
+FILE_FORMAT = (TYPE = NDJSON, COMPRESSION = AUTO)
+MAX_FILES = 10000
 PURGE = TRUE;
 ```
 
