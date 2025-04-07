@@ -4,10 +4,10 @@ title: MAX_IF
 
 ## MAX_IF
 
-后缀 `_IF` 可以附加到任何聚合函数的名称上。在这种情况下，聚合函数接受一个额外的参数 —— 一个条件。
+后缀 `_IF` 可以附加到任何聚合函数的名称。在这种情况下，聚合函数接受一个额外的参数 - 一个条件。
 
 ```sql
-MAX_IF(<列>, <条件>)
+MAX_IF(<column>, <cond>)
 ```
 
 ## 示例
@@ -29,7 +29,7 @@ VALUES (1, 1, 1, 1000),
        (5, 2, 2, 2500);
 ```
 
-**查询示例：查找销售人员 ID 为 1 的最大收入**
+**查询演示：查找 ID 为 1 的销售人员的最大收入**
 
 ```sql
 SELECT MAX_IF(revenue, salesperson_id = 1) AS max_revenue_salesperson_1

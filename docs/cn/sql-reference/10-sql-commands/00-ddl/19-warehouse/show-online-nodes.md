@@ -1,20 +1,19 @@
 ---
 title: SHOW ONLINE NODES
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.687"/>
+<FunctionDescription description="Introduced or updated: v1.2.687"/>
 
-列出租户内所有当前在线的节点，显示节点 ID、类型、节点组、仓库、集群和版本等详细信息。
+列出租户中当前所有在线节点，显示节点 ID、类型、节点组、计算集群、集群和版本等详细信息。
 
-## 语法
+## Syntax
 
 ```sql
 SHOW ONLINE NODES
 ```
 
-## 例子
+## Examples
 
 ```sql
 SHOW ONLINE NODES;

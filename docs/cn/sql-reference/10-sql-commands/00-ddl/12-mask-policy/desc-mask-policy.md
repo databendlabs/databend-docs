@@ -5,13 +5,13 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.45"/>
+<FunctionDescription description="Introduced or updated: v1.2.45"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MASKING POLICY'/>
 
-显示 Databend 中特定脱敏策略的详细信息。
+显示有关 Databend 中特定 masking policy 的详细信息。
 
 ## 语法
 

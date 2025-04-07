@@ -3,11 +3,11 @@ title: TO_BINARY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.673"/>
+<FunctionDescription description="Introduced or updated: v1.2.673"/>
 
-将支持的数据类型（包括字符串、变体、位图、几何和地理）转换为其二进制表示形式（十六进制格式）。
+将支持的数据类型（包括字符串、variant、bitmap、geometry 和 geography）转换为其二进制表示形式（十六进制格式）。
 
-另请参阅: [TRY_TO_BINARY](try-to-binary.md)
+另请参阅：[TRY_TO_BINARY](try-to-binary.md)
 
 ## 语法
 
@@ -29,7 +29,7 @@ SELECT TO_BINARY('Databend');
 └───────────────────────┘
 ```
 
-此示例将JSON数据转换为二进制：
+此示例将 JSON 数据转换为二进制：
 
 ```sql
 SELECT TO_BINARY(PARSE_JSON('{"key":"value", "number":123}')) AS binary_variant;
@@ -41,7 +41,7 @@ SELECT TO_BINARY(PARSE_JSON('{"key":"value", "number":123}')) AS binary_variant;
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例将位图数据转换为二进制：
+此示例将 bitmap 数据转换为二进制：
 
 ```sql
 SELECT TO_BINARY(TO_BITMAP('10,20,30')) AS binary_bitmap;
@@ -53,7 +53,7 @@ SELECT TO_BINARY(TO_BITMAP('10,20,30')) AS binary_bitmap;
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例将几何数据（WKT格式）转换为二进制：
+此示例将 geometry 数据（WKT 格式）转换为二进制：
 
 ```sql
 SELECT TO_BINARY(ST_GEOMETRYFROMWKT('SRID=4326;POINT(1.0 2.0)')) AS binary_geometry;
@@ -65,7 +65,7 @@ SELECT TO_BINARY(ST_GEOMETRYFROMWKT('SRID=4326;POINT(1.0 2.0)')) AS binary_geome
 └────────────────────────────────────────────────────┘
 ```
 
-此示例将地理数据（EWKT格式）转换为二进制：
+此示例将 geography 数据（EWKT 格式）转换为二进制：
 
 ```sql
 SELECT TO_BINARY(ST_GEOGRAPHYFROMEWKT('SRID=4326;POINT(-122.35 37.55)')) AS binary_geography;

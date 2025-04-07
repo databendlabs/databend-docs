@@ -2,9 +2,9 @@
 title: ARRAY_TO_STRING
 ---
 
-将数组中的元素连接成一个字符串，使用指定的分隔符。
+使用指定的分隔符将数组元素连接成一个字符串。
 
-## 语法
+## 句法
 
 ```sql
 ARRAY_TO_STRING( <array>, '<separator>' )

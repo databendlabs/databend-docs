@@ -3,9 +3,9 @@ title: JSON_PATH_EXISTS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.119"/>
+<FunctionDescription description="Introduced or updated: v1.2.119"/>
 
-检查指定的路径是否存在于JSON数据中。
+检查 JSON 数据中是否存在指定的路径。
 
 ## 语法
 
@@ -13,17 +13,17 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 JSON_PATH_EXISTS(<json_data>, <json_path_expression>)
 ```
 
-- json_data: 指定要搜索的JSON数据。它可以是一个JSON对象或数组。
+- json_data: 指定要在其中搜索的 JSON 数据。它可以是 JSON 对象或数组。
 
-- json_path_expression: 指定要从JSON数据的根节点`$`开始检查的路径。您还可以在表达式中包含条件，使用`@`引用当前正在评估的节点或元素，以过滤结果。
+- json_path_expression: 指定路径，从由 `$` 表示的 JSON 数据的根开始，您想要检查 JSON 数据中的路径。您还可以在表达式中包含条件，使用 `@` 来引用当前正在评估的节点或元素，以过滤结果。
 
 ## 返回类型
 
 该函数返回：
 
-- `true` 如果指定的JSON路径（以及任何条件）存在于JSON数据中。
-- `false` 如果指定的JSON路径（以及任何条件）不存在于JSON数据中。
-- NULL 如果json_data或json_path_expression为NULL或无效。
+- 如果指定的 JSON 路径（以及任何条件，如果存在）存在于 JSON 数据中，则返回 `true`。
+- 如果指定的 JSON 路径（以及任何条件，如果存在）不存在于 JSON 数据中，则返回 `false`。
+- 如果 json_data 或 json_path_expression 为 NULL 或无效，则返回 NULL。
 
 ## 示例
 

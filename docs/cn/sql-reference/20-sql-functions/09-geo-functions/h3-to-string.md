@@ -2,7 +2,7 @@
 title: H3_TO_STRING
 ---
 
-将给定的 [H3](https://eng.uber.com/h3/) 索引表示形式转换为字符串表示形式。
+将给定的 [H3](https://eng.uber.com/h3/) 索引转换为字符串表示形式。
 
 ## 语法
 

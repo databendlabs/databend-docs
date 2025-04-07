@@ -2,9 +2,9 @@
 title: BITMAP_CONTAINS
 ---
 
-检查位图是否包含特定值。
+检查 bitmap 是否包含特定值。
 
-## 语法
+## 句法
 
 ```sql
 BITMAP_CONTAINS( <bitmap>, <value> )

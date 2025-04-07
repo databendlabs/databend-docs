@@ -2,9 +2,9 @@
 title: H3_GET_UNIDIRECTIONAL_EDGES_FROM_HEXAGON
 ---
 
-返回从提供的 H3Index 中获取的所有单向边。
+返回来自提供的 H3Index 的所有单向边。
 
-## 语法
+## 句法
 
 ```sql
 H3_GET_UNIDIRECTIONAL_EDGES_FROM_HEXAGON(h3)

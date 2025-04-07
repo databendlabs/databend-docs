@@ -2,9 +2,9 @@
 title: FUSE_SEGMENT
 ---
 
-返回指定表快照的段信息。有关Databend中段的更多信息，请参阅[什么是快照、段和块？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block)。
+返回指定表快照的 segment 信息。有关 Databend 中 segment 的更多信息，请参见 [什么是快照、Segment 和 Block？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#什么是快照-segment-和-block)。
 
-另请参阅：
+参见：
 
 - [FUSE_SNAPSHOT](fuse_snapshot.md)
 - [FUSE_BLOCK](fuse_block.md)
@@ -22,7 +22,7 @@ CREATE TABLE mytable(c int);
 INSERT INTO mytable values(1);
 INSERT INTO mytable values(2); 
 
--- 获取一个快照ID
+-- 获取快照 ID
 SELECT snapshot_id FROM FUSE_SNAPSHOT('default', 'mytable') limit 1;
 
 ---

@@ -2,7 +2,7 @@
 title: 字符串函数
 ---
 
-本节提供了 Databend 中与字符串相关的函数的参考信息。
+本文档提供了 Databend 中与字符串相关的函数的参考信息。
 
 ## 字符串操作:
 - [CONCAT](concat.md)

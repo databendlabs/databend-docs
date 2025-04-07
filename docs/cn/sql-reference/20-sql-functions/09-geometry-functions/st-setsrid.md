@@ -3,9 +3,9 @@ title: ST_SETSRID
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.566"/>
+<FunctionDescription description="Introduced or updated: v1.2.566"/>
 
-返回一个GEOMETRY对象，其[SRID（空间参考系统标识符）](https://en.wikipedia.org/wiki/Spatial_reference_system#Identifier)设置为指定值。此函数仅更改SRID，而不影响对象的坐标。如果还需要将坐标更改为与新的SRS（空间参考系统）匹配，请改用[ST_TRANSFORM](st-transform.md)。
+返回一个 GEOMETRY 对象，该对象的 [SRID (空间参考系统标识符)](https://en.wikipedia.org/wiki/Spatial_reference_system#Identifier) 设置为指定值。此函数仅更改 SRID，不影响对象的坐标。如果还需要更改坐标以匹配新的 SRS（空间参考系统），请改用 [ST_TRANSFORM](st-transform.md)。
 
 ## 语法
 
@@ -15,10 +15,10 @@ ST_SETSRID(<geometry>, <srid>)
 
 ## 参数
 
-| 参数         | 描述                                                         |
+| 参数         | 描述                                                        |
 |--------------|-------------------------------------------------------------|
-| `<geometry>` | 参数必须是GEOMETRY对象类型的表达式。                         |
-| `<srid>`     | 要在返回的GEOMETRY对象中设置的SRID整数。                     |
+| `<geometry>` | 该参数必须是 GEOMETRY 对象类型的表达式。                    |
+| `<srid>`     | 要在返回的 GEOMETRY 对象中设置的 SRID 整数。                |
 
 ## 返回类型
 

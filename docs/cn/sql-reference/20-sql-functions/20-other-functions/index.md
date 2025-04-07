@@ -7,7 +7,7 @@ title: 其他函数
 - [TO_NULLABLE](to-nullable.md)
 - [TYPEOF](typeof.md)
 
-## 实用工具函数
+## 实用函数
 
 - [HUMANIZE-NUMBER](humanize-number.md)
 - [HUMANIZE-SIZE](humanize-size.md)

@@ -2,7 +2,7 @@
 title: system.configs
 ---
 
-包含有关 Databend 服务器配置的信息。
+包含 Databend 服务器配置的信息。
 
 :::note
 您可以使用配置选项 `disable_system_table_load` 来禁用对 `configs` 表的访问。
@@ -13,7 +13,7 @@ title: system.configs
 ```sql
 mysql> SELECT * FROM system.configs;
 +---------+----------------------------------------+--------------------------------+-------------+
-| 分组    | 名称                                   | 值                             | 描述         |
+| group   | name                                   | value                          | description |
 +---------+----------------------------------------+--------------------------------+-------------+
 | query   | tenant_id                              | admin                          |             |
 | query   | cluster_id                             |                                |             |

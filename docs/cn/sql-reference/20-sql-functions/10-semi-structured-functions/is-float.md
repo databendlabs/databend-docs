@@ -3,9 +3,9 @@ title: IS_FLOAT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.368"/>
+<FunctionDescription description="Introduced or updated: v1.2.368"/>
 
-检查输入的 JSON 值是否为浮点数。
+检查输入的 JSON 值是否为 float。
 
 ## 语法
 
@@ -15,7 +15,7 @@ IS_FLOAT( <expr> )
 
 ## 返回类型
 
-如果输入的 JSON 值是浮点数，则返回 `true`，否则返回 `false`。
+如果输入的 JSON 值为 float，则返回 `true`，否则返回 `false`。
 
 ## 示例
 

@@ -2,15 +2,15 @@
 title: BITMAP_AND_COUNT
 ---
 
-对位图执行逻辑与操作，并计算其中设置为1的位数。
+通过执行逻辑 AND 操作来计算 bitmap 中设置为 1 的位数。
 
-## 语法
+## Syntax
 
 ```sql
 BITMAP_AND_COUNT( <bitmap> )
 ```
 
-## 示例
+## Examples
 
 ```sql
 SELECT BITMAP_AND_COUNT(TO_BITMAP('1, 3, 5'));

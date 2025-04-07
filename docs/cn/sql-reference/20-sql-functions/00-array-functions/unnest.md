@@ -2,9 +2,9 @@
 title: UNNEST
 ---
 
-将数组展开并返回元素集合。
+展开数组并返回元素集合。
 
-## 语法
+## 句法
 
 ```sql
 UNNEST( <array> )
@@ -22,7 +22,7 @@ SELECT UNNEST([1, 2]);
 │               2 │
 └─────────────────┘
 
--- UNNEST(array) 可用作表函数。
+-- UNNEST(array) 可以用作表函数。
 SELECT * FROM UNNEST([1, 2]);
 
 ┌─────────────────┐

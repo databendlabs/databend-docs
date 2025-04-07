@@ -3,9 +3,9 @@ title: ST_MAKEGEOMPOINT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.347"/>
+<FunctionDescription description="Introduced or updated: v1.2.347"/>
 
-构造一个表示具有指定经度和纬度的点的 GEOMETRY 对象。
+构造一个 GEOMETRY 对象，用于表示具有指定经度和纬度的点。
 
 ## 语法
 
@@ -19,10 +19,10 @@ ST_MAKEGEOMPOINT(<longitude>, <latitude>)
 
 ## 参数
 
-| 参数          | 描述                                   |
-|---------------|----------------------------------------|
-| `<longitude>` | 表示经度的 Double 值。                 |
-| `<latitude>`  | 表示纬度的 Double 值。                 |
+| 参数          | 描述                                          |
+|---------------|-----------------------------------------------|
+| `<longitude>` | 表示经度的 Double 值。                        |
+| `<latitude>`  | 表示纬度的 Double 值。                        |
 
 ## 返回类型
 

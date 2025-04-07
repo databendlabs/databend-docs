@@ -12,11 +12,11 @@ TO_UNIX_TIMESTAMP(<expr>)
 
 ## 参数
 
-| 参数        | 描述         |
+| 参数      | 描述             |
 | ----------- | ------------------- |
-| `<expr>`    | 时间戳           |
+| `<expr>`    | 时间戳             |
 
-有关时间戳数据类型的更多信息，请参阅 [日期与时间](../../00-sql-reference/10-data-types/datetime.md)。
+有关时间戳数据类型的更多信息，请参见 [Date & Time](../../00-sql-reference/10-data-types/datetime.md)。
 
 ## 返回类型
 

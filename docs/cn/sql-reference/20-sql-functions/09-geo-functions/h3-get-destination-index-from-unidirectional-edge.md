@@ -2,7 +2,7 @@
 title: H3_GET_DESTINATION_INDEX_FROM_UNIDIRECTIONAL_EDGE
 ---
 
-返回从单向边缘 H3Index 的目标六边形索引。
+从单向边 H3Index 返回目标六边形索引。
 
 ## 语法
 

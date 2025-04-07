@@ -2,8 +2,7 @@
 title: FUSE_COLUMN
 ---
 
-返回表的最新或指定快照的列信息。有关 Databend 中块的更多信息，请参阅 [什么是快照、段和块？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block)。
-
+返回表的最新或指定快照的列信息。有关 Databend 中 block 的更多信息，请参见 [什么是快照、段和块？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block)。
 
 另请参阅：
 

@@ -3,9 +3,9 @@ title: ST_MAKEPOLYGON
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.413"/>
+<FunctionDescription description="Introduced or updated: v1.2.413"/>
 
-构造一个表示无孔多边形的GEOMETRY对象。该函数使用指定的LineString作为外部环。
+构造一个 GEOMETRY 对象，表示没有孔的 Polygon。该函数使用指定的 LineString 作为外环。
 
 ## 语法
 
@@ -19,9 +19,9 @@ ST_MAKEPOLYGON(<geometry>)
 
 ## 参数
 
-| 参数         | 描述                                             |
-|--------------|--------------------------------------------------|
-| `<geometry>` | 参数必须是一个GEOMETRY类型的表达式。             |
+| 参数         | 描述                                               |
+|--------------|----------------------------------------------------|
+| `<geometry>` | 该参数必须是 GEOMETRY 类型的表达式。                 |
 
 ## 返回类型
 

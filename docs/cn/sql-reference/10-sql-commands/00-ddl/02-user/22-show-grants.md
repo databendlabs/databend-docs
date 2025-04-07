@@ -4,7 +4,7 @@ sidebar_position: 10
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.487"/>
+<FunctionDescription description="Introduced or updated: v1.2.487"/>
 
 列出显式授予用户、角色或特定对象的权限。
 
@@ -14,40 +14,40 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 - [GRANT](10-grant.md)
 - [REVOKE](11-revoke.md)
 
-## 语法
+## Syntax
 
 ```sql
--- 列出授予用户的权限
+-- List privileges granted to a user
 SHOW GRANTS FOR <user_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
--- 列出授予角色的权限
+-- List privileges granted to a role
 SHOW GRANTS FOR ROLE <role_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
--- 列出授予对象的权限
+-- List privileges granted on an object
 SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF } <object_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 ```
 
-## 示例
+## Examples
 
-此示例展示了如何列出授予用户、角色和特定对象的权限。
+此示例说明如何列出授予用户、角色和特定对象的权限。
 
 ```sql
--- 创建一个新用户
+-- Create a new user
 CREATE USER 'user1' IDENTIFIED BY 'password';
 
--- 创建一个新角色
+-- Create a new role
 CREATE ROLE analyst;
 
--- 将角色授予用户
+-- Grant the analyst role to the user
 GRANT ROLE analyst TO 'user1';
 
--- 创建一个数据库
+-- Create a database
 CREATE DATABASE my_db;
 
--- 将数据库的权限授予角色
+-- Grant privileges on the database to the role
 GRANT OWNERSHIP ON my_db.* TO ROLE analyst;
 
--- 列出授予用户的权限
+-- List privileges granted to the user
 SHOW GRANTS FOR user1;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -56,7 +56,7 @@ SHOW GRANTS FOR user1;
 │ OWNERSHIP  │ my_db       │               16 │ USER     │ user1  │ GRANT OWNERSHIP ON 'default'.'my_db'.* TO 'user1'@'%' │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 列出授予角色的权限
+-- List privileges granted to the role
 SHOW GRANTS FOR ROLE analyst;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -64,7 +64,7 @@ SHOW GRANTS FOR ROLE analyst;
 ├────────────┼─────────────┼──────────────────┼──────────┼─────────┼──────────────────────────────────────────────────────────┤
 │ OWNERSHIP  │ my_db       │               16 │ ROLE     │ analyst │ GRANT OWNERSHIP ON 'default'.'my_db'.* TO ROLE `analyst` │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
--- 列出授予数据库的权限
+-- List privileges granted on the database
 SHOW GRANTS ON DATABASE my_db;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────┐

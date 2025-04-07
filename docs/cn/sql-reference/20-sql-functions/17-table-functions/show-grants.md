@@ -1,11 +1,12 @@
+```md
 ---
 title: SHOW_GRANTS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.704"/>
+<FunctionDescription description="Introduced or updated: v1.2.704"/>
 
-列出显式授予用户、角色或特定对象的权限。
+列出显式授予给用户、角色或特定对象的权限。
 
 另请参阅：[SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
 
@@ -24,17 +25,17 @@ SHOW_GRANTS('database', '<db_name>', '<catalog_name>')
 
 `enable_expand_roles` 设置控制 SHOW_GRANTS 函数在显示权限时是否展开角色继承。
 
-- `enable_expand_roles=1`（默认）：
+- `enable_expand_roles=1` (默认):
 
     - SHOW_GRANTS 递归展开继承的权限，这意味着如果一个角色被授予了另一个角色，它将显示所有继承的权限。
     - 用户还将看到通过其分配的角色授予的所有权限。
 
-- `enable_expand_roles=0`：
+- `enable_expand_roles=0`:
 
     - SHOW_GRANTS 仅显示直接分配给指定角色或用户的权限。
     - 但是，结果仍将包括 GRANT ROLE 语句以指示角色继承。
 
-例如，角色 `a` 在 `t1` 上具有 `SELECT` 权限，角色 `b` 在 `t2` 上具有 `SELECT` 权限：
+例如，角色 `a` 具有 `t1` 上的 `SELECT` 权限，角色 `b` 具有 `t2` 上的 `SELECT` 权限：
 
 ```sql
 SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
@@ -54,7 +55,7 @@ SELECT grants FROM show_grants('role', 'b') ORDER BY object_id;
 └──────────────────────────────────────────────────────┘
 ```
 
-如果将角色 `b` 授予角色 `a` 并再次检查角色 `a` 的权限，可以看到角色 `a` 现在包含了在 `t2` 上的 `SELECT` 权限：
+如果将角色 `b` 授予角色 `a` 并再次检查角色 `a` 上的权限，您可以看到 `t2` 上的 `SELECT` 权限现在包含在角色 `a` 中：
 
 ```sql
 GRANT ROLE b TO ROLE a;
@@ -71,7 +72,7 @@ SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
 └──────────────────────────────────────────────────────┘
 ```
 
-如果将 `enable_expand_roles` 设置为 `0` 并再次检查角色 `a` 的权限，结果将显示 `GRANT ROLE` 语句，而不是列出从角色 `b` 继承的具体权限：
+如果将 `enable_expand_roles` 设置为 `0` 并再次检查角色 `a` 上的权限，则结果将显示 `GRANT ROLE` 语句，而不是列出从角色 `b` 继承的特定权限：
 
 ```sql
 SET enable_expand_roles=0;
@@ -91,25 +92,25 @@ SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
 
 ## 示例
 
-此示例展示了如何列出授予用户、角色和特定对象的权限。
+本示例说明如何列出授予给用户、角色和特定对象的权限。
 
 ```sql
--- 创建新用户
+-- 创建一个新用户
 CREATE USER 'user1' IDENTIFIED BY 'password';
 
--- 创建新角色
+-- 创建一个新角色
 CREATE ROLE analyst;
 
--- 将 analyst 角色授予用户
+-- 将 analyst 角色授予给用户
 GRANT ROLE analyst TO 'user1';
 
--- 创建 stage
+-- 创建一个 Stage
 CREATE STAGE my_stage;
 
--- 将 stage 上的权限授予角色
+-- 将 Stage 上的权限授予给角色
 GRANT READ ON STAGE my_stage TO ROLE analyst;
 
--- 列出授予用户的权限
+-- 列出授予给用户的权限
 SELECT * FROM SHOW_GRANTS('user', 'user1');
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -118,7 +119,7 @@ SELECT * FROM SHOW_GRANTS('user', 'user1');
 │ Read       │ my_stage    │             NULL │ USER     │ user1  │ GRANT Read ON STAGE my_stage TO 'user1'@'%' │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 列出授予角色的权限
+-- 列出授予给角色的权限
 SELECT * FROM SHOW_GRANTS('role', 'analyst');
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -127,7 +128,7 @@ SELECT * FROM SHOW_GRANTS('role', 'analyst');
 │ Read       │ my_stage    │             NULL │ ROLE     │ analyst │ GRANT Read ON STAGE my_stage TO ROLE `analyst` │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 列出授予 stage 的权限
+-- 列出在 Stage 上授予的权限
 SELECT * FROM SHOW_GRANTS('stage', 'my_stage');
 
 ┌─────────────────────────────────────────────────────────────────────────────────────┐

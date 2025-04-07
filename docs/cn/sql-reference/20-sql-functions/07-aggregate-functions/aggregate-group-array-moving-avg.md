@@ -2,7 +2,7 @@
 title: GROUP_ARRAY_MOVING_AVG
 ---
 
-GROUP_ARRAY_MOVING_AVG 函数用于计算输入值的移动平均值。该函数可以接受窗口大小作为参数。如果未指定，函数将窗口大小设置为输入值的数量。
+GROUP_ARRAY_MOVING_AVG 函数用于计算输入值的移动平均值。该函数可以将窗口大小作为参数。如果未指定，则该函数将窗口大小设置为等于输入值的数量。
 
 ## 语法
 
@@ -14,14 +14,14 @@ GROUP_ARRAY_MOVING_AVG(<window_size>)(<expr>)
 
 ## 参数
 
-| 参数             | 描述               |
-|------------------| ------------------ |
-| `<window_size>`  | 任何数值表达式     |
-| `<expr>`         | 任何数值表达式     |
+| 参数             | 描述                   |
+|------------------| ------------------------ |
+| `<window_size>`  | 任何数值表达式           |
+| `<expr>`         | 任何数值表达式           |
 
 ## 返回类型
 
-返回一个 [Array](../../00-sql-reference/10-data-types/array.md)，元素类型为 double 或 decimal，具体取决于源数据类型。
+返回一个 [Array](../../00-sql-reference/10-data-types/array.md)，其元素类型为 double 或 decimal，具体取决于源数据类型。
 
 ## 示例
 

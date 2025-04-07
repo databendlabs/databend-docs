@@ -2,7 +2,7 @@
 title: H3_IS_PENTAGON
 ---
 
-检查给定的 [H3](https://eng.uber.com/h3/) 索引是否表示一个五边形单元格。
+检查给定的 [H3](https://eng.uber.com/h3/) 索引是否代表五边形单元格。
 
 ## 语法
 

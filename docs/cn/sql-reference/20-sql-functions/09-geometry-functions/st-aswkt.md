@@ -3,9 +3,9 @@ title: ST_ASWKT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.436"/>
+<FunctionDescription description="Introduced or updated: v1.2.436"/>
 
-将一个 GEOMETRY 对象转换为 [WKT(well-known-text)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 格式的表示。
+将 GEOMETRY 对象转换为 [WKT(well-known-text)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 格式的表示。
 
 ## 语法
 
@@ -20,8 +20,8 @@ ST_ASWKT(<geometry>)
 ## 参数
 
 | 参数         | 描述                                           |
-|--------------|------------------------------------------------|
-| `<geometry>` | 参数必须是一个 GEOMETRY 类型的表达式。         |
+|--------------|------------------------------------------------------|
+| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。                    |
 
 ## 返回类型
 

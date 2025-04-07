@@ -3,7 +3,7 @@ title: TO_WEEKS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.677"/>
+<FunctionDescription description="Introduced or updated: v1.2.677"/>
 
 将指定的周数转换为 Interval 类型。
 
@@ -17,7 +17,7 @@ TO_WEEKS(<weeks>)
 
 ## 返回类型
 
-Interval（以天表示）。
+Interval (以天表示)。
 
 ## 示例
 

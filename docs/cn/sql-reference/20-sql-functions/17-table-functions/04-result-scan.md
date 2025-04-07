@@ -2,7 +2,8 @@
 title: RESULT_SCAN
 ---
 
-返回同一会话中前一个命令的结果集，就像该结果是一个表一样。
+返回同一会话中先前命令的结果集，如同结果是一个表。
+
 
 ## 语法
 
@@ -26,6 +27,7 @@ INSERT INTO t1(a) VALUES (1), (2), (3);
 
 ### `result_scan`
 
+
 ```shell
 SELECT * FROM t1 ORDER BY a;
 +-------+
@@ -38,6 +40,7 @@ SELECT * FROM t1 ORDER BY a;
 |   3   |
 +-------+
 ```
+
 
 ```shell
 SELECT * FROM RESULT_SCAN(LAST_QUERY_ID()) ORDER BY a;

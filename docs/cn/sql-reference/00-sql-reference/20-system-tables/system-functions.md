@@ -4,13 +4,13 @@ title: system.functions
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.315"/>
+<FunctionDescription description="Introduced or updated: v1.2.315"/>
 
-包含有关支持的标量和聚合函数的信息。
+包含关于支持的内置标量和聚合函数的信息。
 
 另请参阅：[SHOW FUNCTIONS](/sql/sql-commands/administration-cmds/show-functions)。
 
-## 示例
+## Example
 
 ```sql
 SELECT * FROM system.functions LIMIT 10;

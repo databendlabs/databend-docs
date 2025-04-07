@@ -3,7 +3,7 @@ title: ST_GEOMETRYFROMWKT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.347"/>
+<FunctionDescription description="Introduced or updated: v1.2.347"/>
 
 解析 [WKT(well-known-text)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 或 [EWKT(extended well-known-text)](https://postgis.net/docs/ST_GeomFromEWKT.html) 输入，并返回 GEOMETRY 类型的值。
 
@@ -23,14 +23,14 @@ ST_GEOMETRYFROMWKT(<string>, [<srid>])
 
 ## 参数
 
-| 参数        | 描述                                                     |
-|-------------|-----------------------------------------------------------------|
-| `<string>`  | 该参数必须是一个 WKT 或 EWKT 格式的字符串表达式。 |
-| `<srid>`    | 要使用的 SRID 的整数值。                           |
+| 参数        | 描述                                                          |
+|-------------|---------------------------------------------------------------|
+| `<string>`  | 参数必须是 WKT 或 EWKT 格式的字符串表达式。                    |
+| `<srid>`    | 要使用的 SRID 的整数值。                                       |
 
 ## 返回类型
 
-Geometry。
+Geometry.
 
 ## 示例
 

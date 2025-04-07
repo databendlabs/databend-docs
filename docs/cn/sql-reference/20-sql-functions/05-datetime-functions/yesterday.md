@@ -1,8 +1,9 @@
+```md
 ---
-title: 昨日
+title: YESTERDAY
 ---
 
-返回昨天的日期，等同于 `today() - 1`。
+返回昨天的日期，与 `today() - 1` 相同。
 
 ## 语法
 
@@ -12,7 +13,7 @@ YESTERDAY()
 
 ## 返回类型
 
-`DATE`，返回日期格式为“YYYY-MM-DD”。
+`DATE`，返回 “YYYY-MM-DD” 格式的日期。
 
 ## 示例
 

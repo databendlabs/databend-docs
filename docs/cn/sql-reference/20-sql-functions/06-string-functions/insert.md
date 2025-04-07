@@ -2,28 +2,28 @@
 title: INSERT
 ---
 
-返回字符串 `str`，其中从位置 `pos` 开始的子字符串被长度为 `len` 的字符串 `newstr` 替换。如果 `pos` 不在字符串的长度范围内，则返回原始字符串。如果 `len` 不在剩余字符串的长度范围内，则从位置 `pos` 开始替换剩余的字符串。如果任何参数为 `NULL`，则返回 `NULL`。
+返回字符串 str，其中从位置 pos 开始且长度为 len 的子字符串被字符串 newstr 替换。如果 pos 不在字符串长度范围内，则返回原始字符串。如果 len 不在字符串剩余长度范围内，则从位置 pos 替换字符串的其余部分。如果任何参数为 NULL，则返回 NULL。
 
-## 语法
+## Syntax
 
 ```sql
 INSERT(<str>, <pos>, <len>, <newstr>)
 ```
 
-## 参数
+## Arguments
 
-| 参数       | 描述          |
-|------------|---------------|
-| `<str>`    | 字符串。      |
-| `<pos>`    | 位置。        |
-| `<len>`    | 长度。        |
-| `<newstr>` | 新字符串。    |
+| Arguments  | Description     |
+|------------|-----------------|
+| `<str>`    | 字符串。        |
+| `<pos>`    | 位置。          |
+| `<len>`    | 长度。          |
+| `<newstr>` | 新字符串。      |
 
-## 返回类型
+## Return Type
 
 `VARCHAR`
 
-## 示例
+## Examples
 
 ```sql
 SELECT INSERT('Quadratic', 3, 4, 'What');
@@ -53,7 +53,7 @@ SELECT INSERT('Quadratic', 3, 100, 'What');
 | 123456789                                  |      0 |
 | aaa23456789                                |      1 |
 | 1aaa456789                                 |      2 |
-| 12aaa6789                                  |      3 |
+| 12aaa6789                                 |      3 |
 | 123aaa89                                   |      4 |
 | 1234aaa                                    |      5 |
 | 12345aaa                                   |      6 |

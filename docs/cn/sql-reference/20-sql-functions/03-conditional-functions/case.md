@@ -17,10 +17,10 @@ END AS <column_name>
 
 ## 示例
 
-此示例使用 CASE 语句对员工薪资进行分类，并展示了一个动态分配的列名 "SalaryCategory"：
+此示例使用 CASE 语句对员工薪资进行分类，并使用动态分配的名为 "SalaryCategory" 的列显示详细信息：
 
 ```sql
--- 创建示例表
+-- 创建一个示例表
 CREATE TABLE Employee (
     EmployeeID INT,
     FirstName VARCHAR(50),
@@ -35,7 +35,7 @@ INSERT INTO Employee VALUES (3, 'Bob', 'Johnson', 75000);
 INSERT INTO Employee VALUES (4, 'Alice', 'Williams', 90000);
 
 -- 使用 CASE 语句添加新列 'SalaryCategory'
--- 根据薪资对员工进行分类
+-- 根据员工的薪资对其进行分类
 SELECT
     EmployeeID,
     FirstName,

@@ -3,11 +3,11 @@ title: RTRIM
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.659"/>
+<FunctionDescription description="Introduced or updated: v1.2.694"/>
 
-从字符串的末尾（右侧）移除特定字符。
+从字符串右侧删除指定删除字符串中出现的任何字符。
 
-另请参阅: 
+另请参阅：
 
 - [TRIM_TRAILING](trim-trailing.md)
 - [LTRIM](ltrim.md)
@@ -15,17 +15,17 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
-RTRIM(<string>, <trim_character>)
+RTRIM(<string>, <trim_string>)
 ```
 
 ## 示例
 
 ```sql
-SELECT RTRIM('databendxx', 'xx');
+SELECT RTRIM('databendxx', 'x'), RTRIM('databendxx', 'xy');
 
-┌───────────────────────────┐
-│ rtrim('databendxx', 'xx') │
-├───────────────────────────┤
-│ databend                  │
-└───────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│ rtrim('databendxx', 'x') │ rtrim('databendxx', 'xy') │
+├──────────────────────────┼───────────────────────────┤
+│ databend                 │ databend                  │
+└──────────────────────────────────────────────────────┘
 ```

@@ -3,11 +3,11 @@ title: IS_NOT_ERROR
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.379"/>
+<FunctionDescription description="Introduced or updated: v1.2.379"/>
 
-返回一个布尔值，指示表达式是否为错误值。
+返回一个 Boolean 值，指示表达式是否为错误值。
 
-另请参阅: [IS_ERROR](is-error.md)
+另请参阅：[IS_ERROR](is-error.md)
 
 ## 语法
 
@@ -31,7 +31,7 @@ SELECT IS_ERROR(1/0), IS_NOT_ERROR(1/0);
 │ true              │ false                 │
 └───────────────────────────────────────────┘
 
--- 转换为 DATE 成功，因此不是一个错误
+-- 转换为 DATE 成功，因此不是错误
 SELECT IS_ERROR('2024-03-17'::DATE), IS_NOT_ERROR('2024-03-17'::DATE);
 
 ┌─────────────────────────────────────────────────────────────────┐

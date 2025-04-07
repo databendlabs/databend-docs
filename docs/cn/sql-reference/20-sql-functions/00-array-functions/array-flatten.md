@@ -2,9 +2,9 @@
 title: ARRAY_FLATTEN
 ---
 
-将嵌套的数组扁平化，转换成单一层级的数组。
+将嵌套数组展平，将其转换为单层数组。
 
-## 语法
+## 句法
 
 ```sql
 ARRAY_FLATTEN( <array> )

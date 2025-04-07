@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.283"/>
+<FunctionDescription description="Introduced or updated: v1.2.283"/>
 
 显示 Databend 中所有现有密码策略的列表。
 

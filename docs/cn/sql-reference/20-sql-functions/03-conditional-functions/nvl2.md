@@ -3,9 +3,9 @@ title: NVL2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.312"/>
+<FunctionDescription description="Introduced or updated: v1.2.312"/>
 
-如果 `<expr1>` 不为 NULL，则返回 `<expr2>`；否则返回 `<expr3>`。
+如果 `<expr1>` 不为 NULL，则返回 `<expr2>`；否则，返回 `<expr3>`。
 
 ## 语法
 

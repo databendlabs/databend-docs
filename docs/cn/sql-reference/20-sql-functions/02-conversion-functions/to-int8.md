@@ -2,15 +2,15 @@
 title: TO_INT8
 ---
 
-将一个值转换为 INT8 数据类型。
+将值转换为 INT8 数据类型。
 
-## 语法
+## Syntax
 
 ```sql
 TO_INT8( <expr> )
 ```
 
-## 示例
+## Examples
 
 ```sql
 SELECT TO_INT8('123');

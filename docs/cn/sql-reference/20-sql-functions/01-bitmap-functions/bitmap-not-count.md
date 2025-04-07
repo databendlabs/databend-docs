@@ -2,15 +2,15 @@
 title: BITMAP_NOT_COUNT
 ---
 
-通过执行逻辑NOT操作，计算位图中设置为0的位数。
+通过执行逻辑 NOT 运算，计算 bitmap 中设置为 0 的位数。
 
-## 语法
+## Syntax
 
 ```sql
 BITMAP_NOT_COUNT( <bitmap> )
 ```
 
-## 示例
+## Examples
 
 ```sql
 SELECT BITMAP_NOT_COUNT(TO_BITMAP('1, 3, 5'));

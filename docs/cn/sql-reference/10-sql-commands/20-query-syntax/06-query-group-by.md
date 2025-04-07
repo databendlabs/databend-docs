@@ -2,4 +2,4 @@
 title: GROUP BY
 ---
 
-Databend 支持带有多种扩展的 GROUP BY。更多信息，请参阅 [GROUP BY](/guides/query/groupby/)。
+Databend 支持 GROUP BY 以及各种扩展。更多信息，请参考 [GROUP BY](/guides/query/groupby/)。

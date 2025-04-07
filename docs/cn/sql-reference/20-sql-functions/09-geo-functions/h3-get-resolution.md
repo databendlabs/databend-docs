@@ -2,7 +2,7 @@
 title: H3_GET_RESOLUTION
 ---
 
-返回给定 [H3](https://eng.uber.com/h3/) 索引的分辨率。
+返回给定 [H3](https://eng.uber.com/h3/) 索引的精度。
 
 ## 语法
 

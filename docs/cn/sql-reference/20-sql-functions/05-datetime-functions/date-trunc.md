@@ -3,9 +3,9 @@ title: DATE_TRUNC
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.697"/>
+<FunctionDescription description="Introduced or updated: v1.2.697"/>
 
-将日期或时间戳截断到指定的精度。例如，如果将 `2022-07-07` 截断到 `MONTH`，结果将是 `2022-07-01`；如果将 `2022-07-07 01:01:01.123456` 截断到 `SECOND`，结果将是 `2022-07-07 01:01:01.000000`。
+将日期或时间戳截断为指定的精度。例如，如果将 `2022-07-07` 截断为 `MONTH`，结果将为 `2022-07-01`；如果将 `2022-07-07 01:01:01.123456` 截断为 `SECOND`，结果将为 `2022-07-07 01:01:01.000000`。
 
 ## 语法
 
@@ -13,10 +13,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 DATE_TRUNC(<precision>, <date_or_timestamp>)
 ```
 
-| 参数                 | 描述                                                                                                |
-|----------------------|----------------------------------------------------------------------------------------------------|
-| `<precision>`        | 必须是以下值之一：`YEAR`、`QUARTER`、`MONTH`、`WEEK`、`DAY`、`HOUR`、`MINUTE` 和 `SECOND`。         |
-| `<date_or_timestamp>`| 一个 `DATE` 或 `TIMESTAMP` 类型的值。                                                              |
+| 参数             | 描述                                                                                                |
+|-----------------------|------------------------------------------------------------------------------------------------------------|
+| `<precision>`         | 必须是以下值之一：`YEAR`、`QUARTER`、`MONTH`、`WEEK`、`DAY`、`HOUR`、`MINUTE` 和 `SECOND`。 |
+| `<date_or_timestamp>` | `DATE` 或 `TIMESTAMP` 类型的值。                                                                     |
 
 ## 返回类型
 

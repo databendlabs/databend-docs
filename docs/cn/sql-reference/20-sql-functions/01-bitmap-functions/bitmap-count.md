@@ -2,7 +2,7 @@
 title: BITMAP_COUNT
 ---
 
-计算位图中设置为1的位数。
+统计 bitmap 中设置为 1 的位数。
 
 ## 语法
 

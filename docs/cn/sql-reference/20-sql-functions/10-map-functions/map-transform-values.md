@@ -3,9 +3,9 @@ title: MAP_TRANSFORM_VALUES
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.652"/>
+<FunctionDescription description="Introduced or updated: v1.2.652"/>
 
-使用[lambda表达式](../../00-sql-reference/42-lambda-expressions.md)对map中的每个值应用转换。
+使用 [lambda 表达式](../../00-sql-reference/42-lambda-expressions.md) 将转换应用于 map 中的每个值。
 
 ## 语法
 
@@ -15,11 +15,11 @@ MAP_TRANSFORM_VALUES(<map>, (<key>, <value>) -> <value_transformation>)
 
 ## 返回类型
 
-返回一个map，其键与输入map相同，但值根据指定的lambda转换进行修改。
+返回一个 map，该 map 具有与输入 map 相同的键，但值根据指定的 lambda 转换进行修改。
 
 ## 示例
 
-此示例将每个产品的价格降低10%，而产品ID（键）保持不变：
+此示例将每种产品的价格降低 10%，而产品 ID（键）保持不变：
 
 ```sql
 SELECT MAP_TRANSFORM_VALUES({101: 100.0, 102: 150.0, 103: 200.0}, (product_id, price) -> price * 0.9) AS discounted_prices;

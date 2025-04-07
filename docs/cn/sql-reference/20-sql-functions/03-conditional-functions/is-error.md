@@ -3,11 +3,11 @@ title: IS_ERROR
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.379"/>
+<FunctionDescription description="Introduced or updated: v1.2.379"/>
 
 返回一个布尔值，指示表达式是否为错误值。
 
-另请参阅: [IS_NOT_ERROR](is-not-error.md)
+另请参阅：[IS_NOT_ERROR](is-not-error.md)
 
 ## 语法
 

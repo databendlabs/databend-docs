@@ -3,11 +3,11 @@ title: TRY_TO_BINARY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.673"/>
+<FunctionDescription description="Introduced or updated: v1.2.673"/>
 
-[TO_BINARY](to-binary.md) 的增强版本，将输入表达式转换为二进制值，如果转换失败则返回 `NULL` 而不是引发错误。
+[TO_BINARY](to-binary.md) 的增强版本，可将输入表达式转换为二进制值，如果转换失败，则返回 `NULL` 而不是引发错误。
 
-另请参阅: [TO_BINARY](to-binary.md)
+另请参见：[TO_BINARY](to-binary.md)
 
 ## 语法
 
@@ -17,7 +17,7 @@ TRY_TO_BINARY( <expr> )
 
 ## 示例
 
-此示例成功将 JSON 数据转换为二进制:
+此示例成功将 JSON 数据转换为二进制：
 
 ```sql
 SELECT TRY_TO_BINARY(PARSE_JSON('{"key":"value", "number":123}')) AS binary_variant_success;
@@ -29,7 +29,7 @@ SELECT TRY_TO_BINARY(PARSE_JSON('{"key":"value", "number":123}')) AS binary_vari
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例演示了当输入为 `NULL` 时，函数无法转换:
+此示例表明，当输入为 `NULL` 时，该函数无法转换：
 
 ```sql
 SELECT TRY_TO_BINARY(PARSE_JSON(NULL)) AS binary_variant_invalid_json;

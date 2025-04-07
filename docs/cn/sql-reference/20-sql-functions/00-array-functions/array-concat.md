@@ -2,15 +2,15 @@
 title: ARRAY_CONCAT
 ---
 
-将两个数组连接起来。
+连接两个数组。
 
-## 语法
+## Syntax
 
 ```sql
 ARRAY_CONCAT( <array1>, <array2> )
 ```
 
-## 示例
+## Examples
 
 ```sql
 SELECT ARRAY_CONCAT([1, 2], [3, 4]);

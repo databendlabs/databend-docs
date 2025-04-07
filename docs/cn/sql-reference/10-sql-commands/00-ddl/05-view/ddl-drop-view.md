@@ -3,7 +3,7 @@ title: DROP VIEW
 sidebar_position: 5
 ---
 
-删除视图。
+删除 View。
 
 ## 语法
 

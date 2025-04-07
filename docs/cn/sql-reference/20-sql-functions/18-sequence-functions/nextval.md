@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 从序列中检索下一个值。
 
-## 句法
+## 语法
 
 ```sql
 NEXTVAL(<sequence_name>)
@@ -39,7 +39,7 @@ SELECT
 此示例展示了如何使用序列和 NEXTVAL 函数来自动生成唯一标识符并将其分配给表中的行。
 
 ```sql
--- 创建一个名为 staff_id_seq 的新序列
+-- 创建名为 staff_id_seq 的新序列
 CREATE SEQUENCE staff_id_seq;
 
 -- 创建一个名为 staff 的新表，其中包含自动生成的 staff_id

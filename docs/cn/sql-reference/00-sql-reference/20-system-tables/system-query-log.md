@@ -1,3 +1,4 @@
+```md
 ---
 title: system.query_log
 ---
@@ -10,14 +11,14 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ## 设置会话标签
 
-您可以选择为会话分配一个标记，从而更容易根据分配的会话标记过滤日志表中的日志。例如，下面的代码将标签“eric”分配给当前会话：
+您可以选择为会话分配一个标签，以便更容易地根据分配的会话标签在日志表中筛选日志。例如，以下代码将标签“eric”分配给当前会话：
 
 ```sql
 set session query_tag='eric';
 
 ```
 
-然后，我们可以运行一个查询，并使用指定的标签从日志表中检索日志：
+然后，我们可以运行一个查询，并使用分配的标签从日志表中检索日志：
 
 ```sql
 show users;
@@ -26,7 +27,7 @@ select query_tag, query_text from system.query_log where query_tag='eric' limit 
 
 ```
 
-在返回的结果中，您可以找到标记为“eric”的查询记录：
+在返回的结果中，您可以找到查询的记录，标记为“eric”：
 
 ```sql
 -[ RECORD 1 ]-----------------------------------
@@ -49,7 +50,7 @@ SELECT * FROM system.query_log LIMIT 1;
                 sql_user: root
           sql_user_quota: UserQuota<cpu:0,mem:0,store:0>
      sql_user_privileges: GRANT ALL ON *.*, ROLES: ["account_admin"]
-               query_tag:
+               query_tag: 
                 query_id: 7e03cd7a-36fa-463d-afe4-041da4092c45
               query_kind: Other
               query_text: SHOW TABLES

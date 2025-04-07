@@ -3,11 +3,11 @@ title: SPLIT_PART
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.164"/>
+<FunctionDescription description="Introduced or updated: v1.2.164"/>
 
-使用指定的分隔符分割字符串并返回指定部分。
+使用指定的分隔符分割字符串，并返回指定的部分。
 
-另请参阅: [SPLIT](split.md)
+另请参阅：[SPLIT](split.md)
 
 ## 语法
 
@@ -15,11 +15,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 SPLIT_PART('<input_string>', '<delimiter>', '<position>')
 ```
 
-*position* 参数指定要返回的部分。它使用基于1的索引，但也可以接受正数、负数或零值：
+*position* 参数指定要返回的部分。它使用从 1 开始的索引，但也接受正数、负数或零值：
 
-- 如果 *position* 是正数，则从左到右返回该位置的部分，如果不存在则返回 NULL。
-- 如果 *position* 是负数，则从右到左返回该位置的部分，如果不存在则返回 NULL。
-- 如果 *position* 是 0，则视为 1，实际上返回字符串的第一部分。
+- 如果 *position* 是一个正数，它返回从左到右的位置上的部分，如果不存在则返回 NULL。
+- 如果 *position* 是一个负数，它返回从右到左的位置上的部分，如果不存在则返回 NULL。
+- 如果 *position* 是 0，它被视为 1，有效地返回字符串的第一部分。
 
 ## 返回类型
 
@@ -29,7 +29,7 @@ SPLIT_PART('<input_string>', '<delimiter>', '<position>')
 
 ```sql
 -- 使用空格作为分隔符
--- SPLIT_PART 返回特定部分。
+-- SPLIT_PART 返回特定的部分。
 SELECT SPLIT_PART('Databend Cloud', ' ', 1);
 
 split_part('databend cloud', ' ', 1)|
@@ -51,14 +51,14 @@ split_part('databend cloud', ',', 1)|
 Databend Cloud                      |
 
 -- 使用 '    ' (制表符) 作为分隔符
--- SPLIT_PART 返回各个字段。
+-- SPLIT_PART 返回单独的字段。
 SELECT SPLIT_PART('2023-10-19 15:30:45   INFO   Log message goes here', '   ', 3);
 
 split_part('2023-10-19 15:30:45   info   log message goes here', '   ', 3)|
 --------------------------------------------------------------------------+
 Log message goes here                                                     |
 
--- SPLIT_PART 返回空字符串，因为指定的部分根本不存在。
+-- SPLIT_PART 返回一个空字符串，因为根本不存在指定的部分。
 SELECT SPLIT_PART('2023-10-19 15:30:45   INFO   Log message goes here', '   ', 4);
 
 split_part('2023-10-19 15:30:45   info   log message goes here', '   ', 4)|

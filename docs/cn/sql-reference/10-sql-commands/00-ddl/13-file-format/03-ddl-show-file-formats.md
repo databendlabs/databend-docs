@@ -5,7 +5,7 @@ sidebar_position: 2
 
 返回已创建的文件格式列表。
 
-## 语法
+## 句法
 
 ```sql
 SHOW FILE FORMATS;
