@@ -4,7 +4,7 @@ title: system.indexes
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入版本：v1.1.50"/>
+<FunctionDescription description="Introduced: v1.1.50"/>
 
 包含有关已创建的聚合索引的信息。
 

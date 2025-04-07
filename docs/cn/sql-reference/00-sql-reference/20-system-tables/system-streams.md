@@ -3,11 +3,11 @@ title: system.streams
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.223"/>
+<FunctionDescription description="Introduced or updated: v1.2.223"/>
 
-提供系统中流的相关信息。此表中的每一行对应一个流，列中包含流的详细信息，如流的模式、注释（如果有）、关联的表名、表ID、表版本、快照位置、无效原因（如果适用）以及所有者。
+提供系统中 stream 的信息。此表中的每一行对应一个 stream，列包含 stream 的模式、注释（如果存在）、关联的表名、表 ID、表版本、快照位置、无效原因（如果适用）和所有者等详细信息。
 
-```sql title="示例："
+```sql title="Example:"
 SELECT * FROM system.streams;
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐

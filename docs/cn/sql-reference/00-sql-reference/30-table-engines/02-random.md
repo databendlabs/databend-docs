@@ -1,22 +1,22 @@
 ---
-title: 随机引擎
+title: Random 引擎
 ---
 
 ## 语法
 
 ```sql
-CREATE TABLE 表名 (
-  列名1 列类型1,
-  列名2 列类型2,
+CREATE TABLE table_name (
+  column_name1 column_type1,
+  column_name2 column_type2,
   ...
 ) ENGINE = Random;
 ```
 
 ## 使用场景
 
-随机引擎用于生成随机数据以进行测试。如果查询中未指定限制，它将使用 `max_block_size` 作为限制值。
+Random 引擎用于生成随机数据以进行测试。 如果查询中未指定 limit，它将使用 `max_block_size` 作为 limit 值。
 
-示例：
+例如：
 
 ```sql
 > create table r (a int, b timestamp, c String, d Variant) Engine = Random;
