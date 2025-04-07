@@ -2,9 +2,9 @@
 title: EXPLAIN FRAGMENTS
 ---
 
-显示 SQL 语句的分布式执行计划。
+展示 SQL 语句的分布式执行计划。
 
-此命令将 SQL 语句的执行计划转换为计划片段，您可以从中看到从 Databend 中检索所需数据的过程。
+此命令将 SQL 语句的执行计划转换为 plan fragments，您可以在其中查看从 Databend 检索所需数据的过程。
 
 ## 语法
 

@@ -3,7 +3,7 @@ title: SHOW CREATE DATABASE
 sidebar_position: 2
 ---
 
-显示创建指定数据库的 CREATE DATABASE 语句。
+显示用于创建指定数据库的 CREATE DATABASE 语句。
 
 ## 语法
 

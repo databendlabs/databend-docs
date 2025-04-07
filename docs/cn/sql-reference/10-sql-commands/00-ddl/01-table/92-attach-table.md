@@ -1,3 +1,4 @@
+```markdown
 ---
 title: ATTACH TABLE
 sidebar_position: 6
@@ -5,31 +6,31 @@ sidebar_position: 6
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.698"/>
+<FunctionDescription description="Introduced or updated: v1.2.698"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='ATTACH TABLE'/>
 
-将现有表附加到另一个表。该命令将表的数据和模式从一个数据库移动到另一个数据库，但实际上并不复制数据。相反，它创建一个指向原始表数据的链接以访问数据。
+将现有表附加到另一个表。该命令将表的数据和模式从一个数据库移动到另一个数据库，但实际上并不复制数据。而是创建一个指向原始表数据的链接以访问数据。
 
-- Attach Table 使您能够无缝地将云服务平台中的表连接到私有化部署环境中现有的表，而无需物理移动数据。这在您希望将数据从 Databend 的私有化部署迁移到 [Databend Cloud](https://www.databend.com) 同时最小化数据传输开销时特别有用。
+- 通过附加表，您可以无缝地将云服务平台中的表连接到私有化部署环境中已部署的现有表，而无需实际移动数据。当您希望将数据从 Databend 的私有化部署迁移到 [Databend Cloud](https://www.databend.com) 同时最大限度地减少数据传输开销时，此功能特别有用。
 
-- 附加的表以 READ_ONLY 模式运行。在此模式下，源表中的更改会立即反映在附加的表中。然而，附加的表仅用于查询目的，不支持更新。这意味着在附加的表上不允许执行 INSERT、UPDATE 和 DELETE 操作；只能执行 SELECT 查询。
+- 附加表以 READ_ONLY 模式运行。在此模式下，源表中的更改会立即反映在附加表中。但是，附加表仅用于查询目的，不支持更新。这意味着 INSERT、UPDATE 和 DELETE 操作在附加表上是不允许的；只能执行 SELECT 查询。
 
 ## 语法
 
 ```sql
-ATTACH TABLE <目标表名> [ ( <列列表> ) ] '<源表数据_URI>'
-CONNECTION = ( <连接参数> )
+ATTACH TABLE <target_table_name> [ ( <column_list> ) ] '<source_table_data_URI>'
+CONNECTION = ( <connection_parameters> )
 ```
-- `<列列表>`: 一个可选的、逗号分隔的列列表，用于包含源表中的列，允许用户指定仅需要的列，而不是包含所有列。如果未指定，将包含源表中的所有列。
+- `<column_list>`：一个可选的、逗号分隔的列列表，用于包含源表中的列，允许用户仅指定必要的列，而不是包含所有列。如果未指定，将包含源表中的所有列。
 
-  - 在源表中重命名包含的列会更新其在附加表中的名称，并且必须使用新名称访问它。
-  - 在源表中删除包含的列会使其在附加表中无法访问。
-  - 对未包含的列的更改，例如在源表中重命名或删除它们，不会影响附加表。
+  - 重命名源表中包含的列会更新其在附加表中的名称，并且必须使用新名称访问它。
+  - 删除源表中包含的列会使其在附加表中无法访问。
+  - 对未包含的列的更改（例如在源表中重命名或删除它们）不会影响附加表。
 
-- `<源表数据_URI>` 表示源表数据的路径。对于 S3 类似的对象存储，格式为 `s3://<bucket-name>/<database_ID>/<table_ID>`，例如 _s3://databend-toronto/1/23351/_，它表示桶内表文件夹的确切路径。
+- `<source_table_data_URI>` 表示源表数据的路径。对于类似 S3 的对象存储，格式为 `s3://<bucket-name>/<database_ID>/<table_ID>`，例如 _s3://databend-toronto/1/23351/_，它表示存储桶中表文件夹的确切路径。
 
   ![Alt text](/img/sql/attach.png)
 
@@ -53,7 +54,7 @@ CONNECTION = ( <连接参数> )
   timestamp           |2023-07-11 05:38:27.0                              |
   ```
 
-- `CONNECTION` 指定建立与存储源表数据的对象存储链接所需的连接参数。连接参数因不同存储服务的特定要求和认证机制而异。有关更多信息，请参见 [连接参数](../../../00-sql-reference/51-connect-parameters.md)。
+- `CONNECTION` 指定建立与对象存储的链接所需的连接参数，该对象存储存储源表的数据。连接参数因不同的存储服务而异，具体取决于其特定要求和身份验证机制。有关更多信息，请参见 [连接参数](../../../00-sql-reference/51-connect-parameters.md)。
 
 ## 教程
 
@@ -61,7 +62,7 @@ CONNECTION = ( <连接参数> )
 
 ## 示例
 
-此示例创建一个附加表，其中包含存储在 AWS S3 中的源表的所有列：
+此示例创建一个附加表，其中包括存储在 AWS S3 中的源表中的所有列：
 
 ```sql
 ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' CONNECTION = (
@@ -71,7 +72,7 @@ ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' CONNECTION = (
 );
 ```
 
-此示例创建一个附加表，其中仅包含存储在 AWS S3 中的源表的选定列（`city` 和 `population`）：
+此示例创建一个附加表，其中包括仅从存储在 AWS S3 中的源表中选择的列（`city` 和 `population`）：
 
 ```sql
 ATTACH TABLE population_only (city, population) 's3://databend-doc/1/16/' CONNECTION = (

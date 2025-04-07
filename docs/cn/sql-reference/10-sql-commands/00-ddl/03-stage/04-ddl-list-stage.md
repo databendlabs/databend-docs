@@ -1,5 +1,5 @@
 ---
-title: 列出 Stage 中的文件
+title: LIST STAGE FILES
 sidebar_position: 4
 ---
 
@@ -7,11 +7,11 @@ sidebar_position: 4
 
 另请参阅：
 
-- [LIST_STAGE](../../../20-sql-functions/17-table-functions/03-list-stage.md)：该函数列出 Stage 中的文件，并允许您根据文件扩展名过滤文件，并获取每个文件的详细信息。
-- [PRESIGN](presign.md)：Databend 推荐使用 Presigned URL 方法将文件上传到 Stage。
+- [LIST_STAGE](../../../20-sql-functions/17-table-functions/03-list-stage.md)：此函数列出 Stage 中的文件，并允许您根据文件扩展名筛选 Stage 中的文件，并获取有关每个文件的全面详细信息。
+- [PRESIGN](presign.md)：Databend 建议使用 Presigned URL 方法将文件上传到 Stage。
 - [REMOVE STAGE FILES](05-ddl-remove-stage.md)：从 Stage 中删除文件。
 
-## 语法
+## 句法
 
 ```sql
 LIST { userStage | internalStage | externalStage } [ PATTERN = '<regex_pattern>' ]
@@ -19,11 +19,11 @@ LIST { userStage | internalStage | externalStage } [ PATTERN = '<regex_pattern>'
 
 ## 示例
 
-以下 Stage 包含一个名为 **books.parquet** 的文件和一个名为 **2023** 的文件夹。
+下面的 Stage 包含一个名为 **books.parquet** 的文件和一个名为 **2023** 的文件夹。
 
 ![Alt text](/img/sql/list-stage.png)
 
-文件夹 **2023** 包含以下文件：
+**2023** 文件夹包含以下文件：
 
 ![Alt text](/img/sql/list-stage-2.png)
 
@@ -44,7 +44,7 @@ LIST @my_internal_stage;
 要列出文件夹 **2023** 中的文件，请运行以下命令：
 
 :::note
-在命令中的路径末尾添加斜杠 "/" 是必要的，否则命令可能无法按预期工作，并可能导致错误。
+必须在命令中的路径末尾添加斜杠“/”，否则，该命令可能无法按预期工作，并可能导致错误。
 :::
 
 ```sql
@@ -58,7 +58,7 @@ LIST @my_internal_stage/2023/;
 +-----------------+------+------------------------------------+-------------------------------+---------+
 ```
 
-要列出 Stage 中扩展名为 *.log 的所有文件，请运行以下命令：
+要列出 Stage 中所有扩展名为 *.log 的文件，请运行以下命令：
 
 ```sql
 LIST @my_internal_stage PATTERN = '.log';

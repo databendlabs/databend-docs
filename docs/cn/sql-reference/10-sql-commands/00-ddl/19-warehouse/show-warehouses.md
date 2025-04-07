@@ -1,12 +1,11 @@
 ---
 title: SHOW WAREHOUSES
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.687"/>
+<FunctionDescription description="Introduced or updated: v1.2.687"/>
 
-返回所有现有集群的列表以及它们的类型和状态。
+返回所有现有计算集群的列表，以及它们的类型和状态。
 
 ## 语法
 
@@ -14,7 +13,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 SHOW WAREHOUSES
 ```
 
-## 例子
+## 示例
 
 ```sql
 SHOW WAREHOUSES;

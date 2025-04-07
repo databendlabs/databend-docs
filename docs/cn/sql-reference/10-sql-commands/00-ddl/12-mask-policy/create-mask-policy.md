@@ -1,17 +1,18 @@
+```markdown
 ---
-title: 创建数据脱敏策略
+title: CREATE MASKING POLICY
 sidebar_position: 1
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.341"/>
+<FunctionDescription description="Introduced or updated: v1.2.341"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='数据脱敏策略'/>
+<EEFeature featureName='MASKING POLICY'/>
 
-在 Databend 中创建一个新的数据脱敏策略。
+在 Databend 中创建一个新的 masking policy。
 
 ## 语法
 
@@ -22,24 +23,24 @@ CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS
     [ COMMENT = '<comment>' ]
 ```
 
-| 参数              	| 描述                                                                                                                           	|
+| Parameter              	| Description                                                                                                                           	|
 |------------------------	|---------------------------------------------------------------------------------------------------------------------------------------	|
-| policy_name              	| 要创建的数据脱敏策略的名称。                                                                                          	|
-| arg_name_to_mask       	| 需要脱敏的原始数据参数的名称。                                                                      	|
-| arg_type_to_mask       	| 需要脱敏的原始数据参数的数据类型。                                                                            	|
-| expression_on_arg_name 	| 决定如何处理原始数据以生成脱敏数据的表达式。                                    	|
-| comment                   | 提供有关数据脱敏策略信息或注释的可选说明。                                                          	|
+| policy_name              	| 要创建的 masking policy 的名称。                                                                                                       	|
+| arg_name_to_mask       	| 需要被 mask 的原始数据参数的名称。                                                                                                   	|
+| arg_type_to_mask       	| 需要被 mask 的原始数据参数的数据类型。                                                                                                 	|
+| expression_on_arg_name 	| 一个表达式，用于确定如何处理原始数据以生成 mask 后的数据。                                                                             	|
+| comment                   | 一个可选的注释，提供关于 masking policy 的信息或说明。                                                                                  	|
 
 :::note
-确保 *arg_type_to_mask* 与将应用数据脱敏策略的列的数据类型匹配。
+确保 *arg_type_to_mask* 与将应用 masking policy 的列的数据类型相匹配。
 :::
 
 ## 示例
 
-此示例展示了如何根据用户角色设置数据脱敏策略，以选择性地显示或隐藏敏感数据。
+此示例说明了如何设置 masking policy，以根据用户角色选择性地显示或 mask 敏感数据的过程。
 
 ```sql
--- 创建表并插入示例数据
+-- 创建一个表并插入示例数据
 CREATE TABLE user_info (
     id INT,
     email STRING
@@ -48,15 +49,15 @@ CREATE TABLE user_info (
 INSERT INTO user_info (id, email) VALUES (1, 'sue@example.com');
 INSERT INTO user_info (id, email) VALUES (2, 'eric@example.com');
 
--- 创建角色
+-- 创建一个角色
 CREATE ROLE 'MANAGERS';
 GRANT ALL ON *.* TO ROLE 'MANAGERS';
 
--- 创建用户并将角色授予用户
+-- 创建一个用户并将角色授予该用户
 CREATE USER manager_user IDENTIFIED BY 'databend';
 GRANT ROLE 'MANAGERS' TO 'manager_user';
 
--- 创建数据脱敏策略
+-- 创建一个 masking policy
 CREATE MASKING POLICY email_mask
 AS
   (val nullable(string))
@@ -69,7 +70,7 @@ AS
   END
   COMMENT = 'hide_email';
 
--- 将数据脱敏策略与 'email' 列关联
+-- 将 masking policy 与 'email' 列关联
 ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
 
 -- 使用 Root 用户查询

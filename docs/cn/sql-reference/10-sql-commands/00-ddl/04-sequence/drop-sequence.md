@@ -4,9 +4,9 @@ title: DROP SEQUENCE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.426"/>
+<FunctionDescription description="Introduced or updated: v1.2.426"/>
 
-从 Databend 中删除一个现有的序列。
+从 Databend 中删除现有序列。
 
 ## 语法
 
@@ -14,9 +14,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 DROP SEQUENCE [IF EXISTS] <sequence>
 ```
 
-| 参数         | 描述                             |
-|--------------|-----------------------------------------|
-| `<sequence>` | 要删除的序列的名称。 |
+| 参数         | 描述                                  |
+|--------------|---------------------------------------|
+| `<sequence>` | 要删除的序列的名称。                    |
 
 ## 示例
 

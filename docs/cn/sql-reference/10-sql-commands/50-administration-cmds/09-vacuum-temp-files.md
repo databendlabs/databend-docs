@@ -4,13 +4,13 @@ title: VACUUM TEMPORARY FILES
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.348"/>
+<FunctionDescription description="Introduced or updated: v1.2.348"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VACUUM TEMPORARY FILES'/>
 
-删除由 Databend 创建的临时文件，例如溢出文件。
+删除 Databend 创建的临时文件，例如溢出文件。
 
 另请参阅：[system.temp_files](../../00-sql-reference/20-system-tables/system-temp-files.md)
 
@@ -20,13 +20,13 @@ import EEFeature from '@site/src/components/EEFeature';
 VACUUM TEMPORARY FILES [ LIMIT <limit> ]
 ```
 
-| 参数    | 描述                                          |
-|---------|-----------------------------------------------|
-| LIMIT   | 要删除的临时文件的最大数量。                   |
+| 参数    | 描述                                     |
+|---------|------------------------------------------|
+| LIMIT   | 要删除的临时文件的最大数量。               |
 
 ## 输出
 
-返回已删除的临时文件数量。
+返回已删除的临时文件数。
 
 ## 示例
 
@@ -34,9 +34,9 @@ VACUUM TEMPORARY FILES [ LIMIT <limit> ]
 SELECT * FROM system.temp_files;
 ```
 
-```markdown
+```
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ 文件类型 │                          文件名                          │ 文件内容长度 │ 文件最后修改时间 │
+│ file_type │                          file_name                          │ file_content_length │ file_last_modified_time │
 ├───────────┼─────────────────────────────────────────────────────────────┼─────────────────────┼─────────────────────────┤
 │ Spill     │ 1e9411e1-3c2f-48ee-9712-9d3ce396d1b3/0tUE8EqsxxjO4ftZA8Zni6 │           591239232 │ 2024-11-19 03:06:03     │
 │ Spill     │ 1e9411e1-3c2f-48ee-9712-9d3ce396d1b3/440NKJwbRrW8HCFfQuNmb4 │           607193920 │ 2024-11-19 03:05:18     │
@@ -89,10 +89,11 @@ SELECT * FROM system.temp_files;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+```markdown
 VACUUM TEMPORARY FILES;
 
 ┌────────┐
-│  文件  │
+│  Files │
 ├────────┤
 │     48 │
 └────────┘

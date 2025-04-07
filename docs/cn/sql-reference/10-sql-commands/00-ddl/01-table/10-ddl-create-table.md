@@ -1,3 +1,4 @@
+```markdown
 ---
 title: CREATE TABLE
 sidebar_position: 1
@@ -5,13 +6,13 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.714"/>
+<FunctionDescription description="Introduced or updated: v1.2.714"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='COMPUTED COLUMN'/>
 
-创建表是许多数据库最复杂的操作之一，因为您可能需要：
+创建表是许多数据库中最复杂的操作之一，因为您可能需要：
 
 - 手动指定引擎
 - 手动指定索引
@@ -47,7 +48,7 @@ CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 
 - 有关 Databend 中可用的数据类型，请参阅 [Data Types](../../../00-sql-reference/10-data-types/index.md)。
 
-- Databend 建议尽可能避免在命名列时使用特殊字符。但是，如果在某些情况下必须使用特殊字符，则别名应包含在反引号中，例如：CREATE TABLE price(\`$CA\` int);
+- Databend 建议在命名列时尽可能避免特殊字符。但是，如果在某些情况下必须使用特殊字符，则别名应包含在反引号中，例如：CREATE TABLE price(\`$CA\` int);
 
 - Databend 会自动将列名转换为小写。例如，如果您将列命名为 _Total_，它将在结果中显示为 _total_。
   :::
@@ -104,7 +105,7 @@ create table t_new compression='lz4' as select * from t_old;
 
 ## Column Nullable
 
-默认情况下，Databend 中**所有列都允许为空（NULL）**。如果您需要一个不允许 NULL 值的列，请使用 NOT NULL 约束。有关更多信息，请参阅 [NULL Values and NOT NULL Constraint](../../../00-sql-reference/10-data-types/index.md)。
+默认情况下，Databend 中**所有列都是可空的（NULL）**。如果您需要一个不允许 NULL 值的列，请使用 NOT NULL 约束。有关更多信息，请参阅 [NULL Values and NOT NULL Constraint](../../../00-sql-reference/10-data-types/index.md)。
 
 ## Column Default Values
 
@@ -113,7 +114,7 @@ create table t_new compression='lz4' as select * from t_old;
 - 一个固定的常量，例如下面示例中 `department` 列的 `Marketing`。
 - 一个没有输入参数并返回标量值的表达式，例如 `1 + 1`、`NOW()` 或 `UUID()`。
 - 来自序列的动态生成的值，例如下面示例中 `staff_id` 列的 `NEXTVAL(staff_id_seq)`。
-  - NEXTVAL 必须用作独立的默认值；不支持像 `NEXTVAL(seq1) + 1` 这样的表达式。
+  - NEXTVAL 必须用作独立的默认值；不支持 `NEXTVAL(seq1) + 1` 之类的表达式。
 
 ```sql
 CREATE SEQUENCE staff_id_seq;
@@ -124,7 +125,7 @@ CREATE TABLE staff (
     department VARCHAR(50) DEFAULT 'Marketing' -- 如果未提供值，则默认为 'Marketing'
 );
 
--- staff_id 在未包含在 COPY INTO 中时自动生成
+-- 当 COPY INTO 中未包含 staff_id 时，会自动生成
 COPY INTO staff(name, department) FROM @stage ...
 
 -- staff_id 从暂存文件中加载
@@ -134,11 +135,11 @@ COPY INTO staff(staff_id, name, department) FROM @stage ...
 
 ## Computed Columns
 
-Computed Columns 是使用标量表达式从表中的其他列生成的列。当计算中使用的任何列中的数据更新时，Computed Column 将自动重新计算其值以反映更新。
+Computed Columns 是指使用标量表达式从表中的其他列生成的列。当计算中使用的任何列中的数据更新时，Computed Columns 将自动重新计算其值以反映更新。
 
-Databend 支持两种类型的 Computed Columns：存储的和虚拟的。存储的 Computed Columns 物理存储在数据库中并占用存储空间，而虚拟的 Computed Columns 不物理存储，并且它们的值在访问时动态计算。
+Databend 支持两种类型的 Computed Columns：存储列和虚拟列。存储的 Computed Columns 物理存储在数据库中并占用存储空间，而虚拟 Computed Columns 不物理存储，其值在访问时动态计算。
 
-Databend 支持两种用于创建 Computed Columns 的语法选项：一种使用 `AS (<expr>)`，另一种使用 `GENERATED ALWAYS AS (<expr>)`。两种语法都允许指定 Computed Column 是存储的还是虚拟的。
+Databend 支持两种用于创建 Computed Columns 的语法选项：一种使用 `AS (<expr>)`，另一种使用 `GENERATED ALWAYS AS (<expr>)`。两种语法都允许指定 Computed Columns 是存储的还是虚拟的。
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
@@ -156,7 +157,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 )
 ```
 
-以下是创建存储的 Computed Column 的示例：每当更新 "price" 或 "quantity" 列的值时，"total_price" 列将自动重新计算并更新其存储的值。
+以下是创建存储的 Computed Columns 的示例：每当更新 "price" 或 "quantity" 列的值时，"total_price" 列将自动重新计算并更新其存储的值。
 
 ```sql
 CREATE TABLE IF NOT EXISTS products (
@@ -167,7 +168,7 @@ CREATE TABLE IF NOT EXISTS products (
 );
 ```
 
-以下是创建虚拟 Computed Column 的示例："full_name" 列根据 "first_name" 和 "last_name" 列的当前值动态计算。它不占用额外的存储空间。每当访问 "first_name" 或 "last_name" 值时，将计算并返回 "full_name" 列。
+以下是创建虚拟 Computed Columns 的示例："full_name" 列根据 "first_name" 和 "last_name" 列的当前值动态计算。它不占用额外的存储空间。每当访问 "first_name" 或 "last_name" 值时，将计算并返回 "full_name" 列。
 
 ```sql
 CREATE TABLE IF NOT EXISTS employees (
@@ -179,13 +180,13 @@ CREATE TABLE IF NOT EXISTS employees (
 ```
 
 :::tip STORED or VIRTUAL?
-在存储的 Computed Columns 和虚拟的 Computed Columns 之间进行选择时，请考虑以下因素：
+在存储的 Computed Columns 和虚拟 Computed Columns 之间进行选择时，请考虑以下因素：
 
-- 存储空间：存储的 Computed Columns 占用表中额外的存储空间，因为它们的计算值是物理存储的。如果您的数据库空间有限或想要最大限度地减少存储使用量，则虚拟的 Computed Columns 可能是更好的选择。
+- 存储空间：存储的 Computed Columns 占用表中额外的存储空间，因为它们的计算值是物理存储的。如果您的数据库空间有限或想要最大限度地减少存储使用量，那么虚拟 Computed Columns 可能是更好的选择。
 
-- 实时更新：存储的 Computed Columns 在依赖列更新时立即更新其计算值。这确保您在查询时始终具有最新的计算值。另一方面，虚拟的 Computed Columns 在查询期间动态计算其值，这可能会稍微增加处理时间。
+- 实时更新：当依赖列更新时，存储的 Computed Columns 会立即更新其计算值。这确保了在查询时始终具有最新的计算值。另一方面，虚拟 Computed Columns 在查询期间动态计算其值，这可能会稍微增加处理时间。
 
-- 数据完整性和一致性：存储的 Computed Columns 维护即时数据一致性，因为它们的计算值在写入操作时更新。但是，虚拟的 Computed Columns 在查询期间动态计算其值，这意味着写入操作和后续查询之间可能存在瞬间的不一致。
+- 数据完整性和一致性：存储的 Computed Columns 维护即时数据一致性，因为它们的计算值在写入操作时会更新。但是，虚拟 Computed Columns 在查询期间动态计算其值，这意味着写入操作和后续查询之间可能存在瞬间的不一致。
   :::
 
 ## MySQL Compatibility
@@ -219,13 +220,13 @@ DESC books;
 +-------+-----------------+------+---------+-------+
 ```
 
-插入一行，不指定 `genre`：
+插入一行，但不指定 `genre`：
 
 ```sql
 INSERT INTO books(id, title) VALUES(1, 'Invisible Stars');
 ```
 
-查询该表，并注意 `genre` 列已设置默认值 'General'：
+查询该表，并注意 `genre` 列已设置为默认值 'General'：
 
 ```sql
 SELECT * FROM books;
@@ -291,7 +292,7 @@ DESC books_backup;
 +-------+-----------------+------+---------+-------+
 ```
 
-查询新表，并注意来自原始表的数据已被复制：
+查询新表，并注意原始表中的数据已被复制：
 
 ```sql
 SELECT * FROM books_backup;
@@ -304,10 +305,10 @@ SELECT * FROM books_backup;
 
 ### Create Table ... Column As STORED | VIRTUAL
 
-以下示例演示了一个具有存储的 Computed Column 的表，该列根据对 "price" 或 "quantity" 列的更新自动重新计算：
+以下示例演示了一个具有存储的 Computed Columns 的表，该列根据对 "price" 或 "quantity" 列的更新自动重新计算：
 
 ```sql
--- 创建具有存储的 Computed Column 的表
+-- 创建具有存储的 Computed Columns 的表
 CREATE TABLE IF NOT EXISTS products (
   id INT,
   price FLOAT64,
@@ -321,7 +322,7 @@ VALUES (1, 10.5, 3),
        (2, 15.2, 5),
        (3, 8.7, 2);
 
--- 查询表以查看 Computed Column
+-- 查询表以查看 Computed Columns
 SELECT id, price, quantity, total_price
 FROM products;
 
@@ -335,16 +336,17 @@ FROM products;
 +------+-------+----------+-------------+
 ```
 
-在此示例中，我们创建一个名为 student*profiles 的表，其中包含一个名为 profile 的 Variant 类型列，用于存储 JSON 数据。我们还添加了一个名为 \_age* 的虚拟 Computed Column，该列从 profile 列中提取 age 属性并将其转换为整数。
+在此示例中，我们创建一个名为 student*profiles 的表，其中包含一个名为 profile 的 Variant 类型列，用于存储 JSON 数据。我们还添加了一个名为 \_age* 的虚拟 Computed Columns，该列从 profile 列中提取 age 属性并将其转换为整数。
 
 ```sql
--- 创建具有虚拟 Computed Column 的表
+-- 创建具有虚拟 Computed Columns 的表
 CREATE TABLE student_profiles (
     id STRING,
     profile VARIANT,
     age INT NULL AS (profile['age']::INT) VIRTUAL
 );
 ```
+
 
 ```sql
 -- Insert data into the table

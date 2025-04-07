@@ -3,7 +3,7 @@ title: SHOW CREATE TABLE
 sidebar_position: 10
 ---
 
-显示指定表的 CREATE TABLE 语句。要在结果中包含 Fuse Engine 选项，请将 `hide_options_in_show_create_table` 设置为 `0`。
+显示指定表的 CREATE TABLE 语句。若要在结果中包含 Fuse Engine 选项，请将 `hide_options_in_show_create_table` 设置为 `0`。
 
 ## 语法
 
@@ -13,7 +13,7 @@ SHOW CREATE TABLE [ <database_name>. ]<table_name>
 
 ## 示例
 
-此示例展示了如何通过将 `hide_options_in_show_create_table` 设置为 `0` 来显示完整的 CREATE TABLE 语句，包括 Fuse Engine 选项：
+以下示例展示了如何通过将 `hide_options_in_show_create_table` 设置为 `0` 来显示完整的 CREATE TABLE 语句，包括 Fuse Engine 选项：
 
 ```sql
 CREATE TABLE fuse_table (a int);

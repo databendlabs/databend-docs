@@ -5,7 +5,7 @@ sidebar_position: 4
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.415"/>
+<FunctionDescription description="Introduced or updated: v1.2.415"/>
 
 返回指定数据库中的视图名称列表，如果未提供数据库名称，则返回当前数据库中的视图名称列表。
 
@@ -18,13 +18,13 @@ SHOW [ FULL ] VIEWS
      [ LIKE '<pattern>' | WHERE <expr> ]
 ```
 
-| 参数      | 描述                                                                                  |
-|-----------|----------------------------------------------------------------------------------------------|
-| FULL      | 列出包含额外信息的结果。详见[示例](#examples)。                                           |
-| FROM / IN | 指定数据库。如果省略，则返回当前数据库的结果。                                             |
-| HISTORY   | 显示在保留期内（默认24小时）视图删除的时间戳。如果视图尚未被删除，`drop_time` 的值为 NULL。 |
-| LIKE      | 使用区分大小写的模式匹配和 `%` 通配符过滤视图名称。                                        |
-| WHERE     | 使用 WHERE 子句中的表达式过滤视图名称。                                                    |
+| 参数      | 描述                                                                                             |
+|-----------|--------------------------------------------------------------------------------------------------|
+| FULL      | 列出包含附加信息的结果。 更多详细信息，请参见 [示例](#examples)。                                                       |
+| FROM / IN | 指定一个数据库。 如果省略，该命令将返回当前数据库的结果。                                                                 |
+| HISTORY   | 显示保留期内（默认为 24 小时）视图删除的时间戳。 如果视图尚未被删除，则 `drop_time` 的值为 NULL。                                |
+| LIKE      | 使用区分大小写的模式匹配和 `%` 通配符来过滤视图名称。                                                                 |
+| WHERE     | 使用 WHERE 子句中的表达式过滤视图名称。                                                                     |
 
 ## 示例
 

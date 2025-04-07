@@ -4,27 +4,27 @@ sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.383"/>
+<FunctionDescription description="Introduced or updated: v1.2.383"/>
 
-返回视图的列列表。
+返回视图的列的列表。
 
 ## 语法
 
 ```sql
-DESC[RIBE] VIEW [<数据库名>.]<视图名>
+DESC[RIBE] VIEW [<database_name>.]<view_name>
 ```
 
 ## 输出
 
 该命令输出一个包含以下列的表：
 
-| 列名    | 描述                                                                                                             |
-|---------|-------------------------------------------------------------------------------------------------------------------------|
-| Field   | 视图中的列名。                                                                                     |
-| Type    | 列的数据类型。                                                                                            |
-| Null    | 指示列是否允许 NULL 值（YES 表示允许 NULL，NO 表示不允许 NULL）。                      |
-| Default | 指定列的默认值。                                                                             |
-| Extra   | 提供有关列的额外信息，例如是否为计算列，或其他特殊属性。 |
+| 列      | 描述                                                                                                                |
+|---------|---------------------------------------------------------------------------------------------------------------------|
+| Field   | 视图中列的名称。                                                                                                      |
+| Type    | 列的数据类型。                                                                                                        |
+| Null    | 指示列是否允许 NULL 值（YES 表示允许 NULL，NO 表示不允许 NULL）。                                                              |
+| Default | 指定列的默认值。                                                                                                      |
+| Extra   | 提供关于列的附加信息，例如它是否是一个计算列，或者其他特殊属性。                                                                |
 
 ## 示例
 
@@ -39,7 +39,7 @@ CREATE TABLE employees (
     department_id INT
 );
 
--- 向 employees 表插入数据
+-- 向 employees 表中插入数据
 INSERT INTO employees (employee_id, first_name, last_name, email, hire_date, department_id)
 VALUES
 (1, 'John', 'Doe', 'john@example.com', '2020-01-01', 101),

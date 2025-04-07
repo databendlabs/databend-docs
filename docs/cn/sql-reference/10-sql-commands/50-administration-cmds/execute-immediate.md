@@ -3,9 +3,9 @@ title: EXECUTE IMMEDIATE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.452"/>
+<FunctionDescription description="Introduced or updated: v1.2.452"/>
 
-执行一个 SQL 脚本。关于如何为 Databend 编写 SQL 脚本，请参阅 [SQL 脚本](/sql/sql-reference/sql-scripting)。
+执行一个 SQL 脚本。关于如何为 Databend 编写 SQL 脚本，请参考 [SQL Scripting](/sql/sql-reference/sql-scripting)。
 
 ## 语法
 
@@ -14,7 +14,7 @@ EXECUTE IMMEDIATE $$
 BEGIN
     <procedure_body>
     RETURN <return_value>;             -- 用于返回单个值
-    -- 或者
+    -- OR
     RETURN TABLE(<select_query>);      -- 用于返回一个表
 END;
 $$;
@@ -22,7 +22,7 @@ $$;
 
 ## 示例
 
-此示例使用循环从 -1 迭代到 2 来递增 sum，结果为 sum (2):
+本示例使用循环从 -1 迭代到 2 来递增 sum，结果为总和 (2)：
 
 ```sql
 EXECUTE IMMEDIATE $$
@@ -37,8 +37,8 @@ END;
 $$;
 
 ┌────────┐
-│ 结果   │
-│ 字符串 │
+│ Result │
+│ String │
 ├────────┤
 │ 2      │
 └────────┘
@@ -55,8 +55,8 @@ END;
 $$;
 
 ┌───────────┐
-│   结果    │
-│   字符串  │
+│   Result  │
+│   String  │
 ├───────────┤
 │ ┌───────┐ │
 │ │ 1 + 1 │ │

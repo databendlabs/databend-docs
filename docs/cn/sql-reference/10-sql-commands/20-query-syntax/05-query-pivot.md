@@ -1,12 +1,13 @@
+```markdown
 ---
 title: PIVOT
 ---
 
-`PIVOT` 操作允许您通过旋转表并根据指定列聚合结果来转换表。
+Databend 中的 `PIVOT` 操作允许您通过旋转表并根据指定的列聚合结果来转换表。
 
-它对于以更易读的格式汇总和分析大量数据非常有用。在本文档中，我们将解释语法并提供一个如何使用 `PIVOT` 操作的示例。
+对于以更易读的格式汇总和分析大量数据，这是一个有用的操作。在本文档中，我们将解释语法并提供如何使用 `PIVOT` 操作的示例。
 
-**另请参阅：**
+**参见：**
 [UNPIVOT](./05-query-unpivot.md)
 
 
@@ -22,10 +23,10 @@ FROM ...
 ```
 
 其中：
-* `<aggregate_function>`：用于组合 `pivot_column` 中分组值的聚合函数。
-* `<pivot_column>`：将使用指定的 `<aggregate_function>` 进行聚合的列。
-* `<value_column>`：其唯一值将成为旋转结果集中新列的列。
-* `<pivot_value_N>`：来自 `<value_column>` 的唯一值，将成为旋转结果集中的新列。
+* `<aggregate_function>`：用于组合来自 `pivot_column` 的分组值的聚合函数。
+* `<pivot_column>`：将使用指定的 `<aggregate_function>` 聚合的列。
+* `<value_column>`：其唯一值将成为透视结果集中的新列的列。
+* `<pivot_value_N>`：来自 `<value_column>` 的唯一值，它将成为透视结果集中的新列。
 
 
 ## 示例
@@ -65,7 +66,7 @@ INSERT INTO monthly_sales VALUES
 
 ### 使用 PIVOT
 
-现在，我们可以使用 `PIVOT` 操作来计算每个员工在每个月的总销售额。我们将使用 `SUM` 聚合函数来计算总销售额，并且 MONTH 列将被旋转以创建每个月的新列。
+现在，我们可以使用 `PIVOT` 操作来计算每个员工在每个月的总销售额。我们将使用 `SUM` 聚合函数来计算总销售额，并且 MONTH 列将被透视以创建每个月的新列。
 
 ```sql
 SELECT * 

@@ -5,13 +5,13 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.271"/>
+<FunctionDescription description="Introduced or updated: v1.2.271"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VIRTUAL COLUMN'/>
 
-修改表的虚拟列。请注意，修改表的虚拟列后，请使用 [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) 命令刷新它们。
+修改表的 virtual column。请注意，在修改表的 virtual column 后，使用 [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) 命令刷新它们。
 
 ## 语法
 
@@ -22,10 +22,10 @@ ALTER VIRTUAL COLUMN [ IF EXISTS ] ( <virtual_column_1>, <virtual_column_2>, ...
 ## 示例
 
 ```sql
--- 创建一个名为 'test' 的表，包含 'id' 和 'val' 列，类型为 Variant。
+-- 创建一个名为 'test' 的表，其中包含类型为 Variant 的列 'id' 和 'val'。
 CREATE TABLE test(id int, val variant);
 
--- 向 'test' 表中插入一条包含 Variant 数据的示例记录。
+-- 将示例记录插入到包含 Variant 数据的 'test' 表中。
 INSERT INTO
   test
 VALUES
@@ -34,7 +34,7 @@ VALUES
     '{"id":1,"name":"databend","tags":["powerful","fast"],"pricings":[{"type":"Standard","price":"Pay as you go"},{"type":"Enterprise","price":"Custom"}]}'
   );
 
--- 为 'val' 列中的特定元素创建虚拟列。
+-- 为 'val' 列中的特定元素创建 virtual column。
 CREATE VIRTUAL COLUMN (
   val ['name'],                 -- 提取 'name' 字段。
   val ['tags'] [0],             -- 提取 'tags' 数组中的第一个元素。
@@ -50,7 +50,7 @@ SHOW VIRTUAL COLUMNS;
 └─────────────────────────────────────────────────────────────────────────────┘
 
 
--- 修改虚拟列，仅包含 "val ['name']"
+-- 修改 virtual column 以仅包含 "val ['name']"
 
 ALTER VIRTUAL COLUMN (
   val ['name']
