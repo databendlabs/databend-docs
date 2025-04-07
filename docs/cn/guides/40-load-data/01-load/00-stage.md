@@ -34,7 +34,7 @@ CREATE TABLE books
 
 ## 教程 1：从用户 Stage 加载
 
-按照本教程将示例文件上传到用户 stage，然后从 staged 文件将数据加载到 Databend 中。
+按照本教程将示例文件上传到用户 stage，并将数据从 staged 文件加载到 Databend 中。
 
 ### 步骤 1：上传示例文件
 
@@ -83,7 +83,7 @@ Readings in Database Systems|Michael Stonebraker|2004|
 
 ## 教程 2：从内部 Stage 加载
 
-按照本教程将示例文件上传到内部 stage，然后从 staged 文件将数据加载到 Databend 中。
+按照本教程将示例文件上传到内部 stage，并将数据从 staged 文件加载到 Databend 中。
 
 ### 步骤 1. 创建一个内部 Stage
 
@@ -155,7 +155,7 @@ Readings in Database Systems|Michael Stonebraker|2004|
 
 ## 教程 3：从外部 Stage 加载
 
-按照本教程将示例文件上传到外部 stage，然后从 staged 文件将数据加载到 Databend 中。
+按照本教程将示例文件上传到外部 stage，并将数据从 staged 文件加载到 Databend 中。
 
 ### 步骤 1. 创建一个外部 Stage
 

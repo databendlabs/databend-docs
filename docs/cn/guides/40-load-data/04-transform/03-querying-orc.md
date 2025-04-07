@@ -1,6 +1,6 @@
 ---
-title: 查询Stage中的ORC文件
-sidebar_label: 查询ORC文件
+title: 查询 Stage 中的 Staged ORC 文件
+sidebar_label: ORC
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
@@ -20,23 +20,23 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 
 ## 教程
 
-在本教程中，我们将引导您完成下载Iris数据集（以ORC格式）、将其上传到Amazon S3存储桶、创建外部Stage，并直接从ORC文件查询数据的过程。
+在本教程中，我们将引导您完成以下过程：下载 ORC 格式的 Iris 数据集，将其上传到 Amazon S3 bucket，创建外部 Stage，以及直接从 ORC 文件查询数据。
 
 <StepsWrap>
 <StepContent number="1">
 
-### 下载Iris数据集
+### 下载 Iris 数据集
 
-从 https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc 下载iris数据集，然后将其上传到您的Amazon S3存储桶。
+从 https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc 下载 iris 数据集，然后将其上传到您的 Amazon S3 bucket。
 
-iris数据集包含3个类别的50个实例，每个类别指的是一种鸢尾植物。它有4个属性：（1）萼片长度，（2）萼片宽度，（3）花瓣长度，（4）花瓣宽度，最后一列包含类别标签。
+iris 数据集包含 3 个类别，每个类别有 50 个实例，其中每个类别都指一种鸢尾植物。它有 4 个属性：（1）萼片长度，（2）萼片宽度，（3）花瓣长度，（4）花瓣宽度，最后一列包含类别标签。
 
 </StepContent>
 <StepContent number="2">
 
-### 创建外部Stage
+### 创建外部 Stage
 
-使用存储iris数据集文件的Amazon S3存储桶创建一个外部Stage。
+使用存储 iris 数据集文件的 Amazon S3 bucket 创建一个外部 Stage。
 
 ```sql
 CREATE STAGE orc_query_stage 
@@ -50,7 +50,7 @@ CREATE STAGE orc_query_stage
 </StepContent>
 <StepContent number="3">
 
-### 查询ORC文件
+### 查询 ORC 文件
 
 ```sql
 SELECT *
@@ -61,6 +61,7 @@ FROM @orc_query_stage
 );
 ```
 
+```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
 │    sepal_length   │    sepal_width    │    petal_length   │    petal_width    │      species     │
 ├───────────────────┼───────────────────┼───────────────────┼───────────────────┼──────────────────┤
@@ -112,11 +113,8 @@ FROM @orc_query_stage
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-您还可以直接查询远程的 ORC 文件：
+您还可以直接查询远程 ORC 文件：
 
-```sql
-SELECT * FROM 'https://datasets.databend.rs/iris.orc';
-```
 
 ```sql
 SELECT
@@ -124,6 +122,3 @@ SELECT
 FROM
   'https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc' (file_format = > 'orc');
 ```
-
-</StepContent>
-</StepsWrap>

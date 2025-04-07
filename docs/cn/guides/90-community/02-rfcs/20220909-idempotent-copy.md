@@ -1,41 +1,45 @@
 ---
 title: 幂等复制
-description: 避免在复制阶段文件到表时重复
+description: 避免将 Stage 文件复制到表时出现重复
 ---
 
-- 跟踪问题: https://github.com/databendlabs/databend/issues/6338
+- Tracking Issue: https://github.com/databendlabs/databend/issues/6338
 
-## 概述
+## 概要
 
-在流式复制阶段文件到表时，有可能某些文件已经复制过，因此需要一些方法来避免重复复制文件，使其成为一个 `幂等` 操作。
+当流式复制 Stage 文件到表时，某些文件可能已经被复制，因此需要一些方法来避免重复复制文件，使其成为一个 `idempotent` 操作。
 
-## 在元服务中保存复制到表的阶段文件元信息
+## 将复制到表的 Stage 文件元信息保存在 Meta Service 中
 
-每当复制阶段文件到表时，将阶段文件的元信息保存到元服务中：
+每当将 Stage 文件复制到表时，将 Stage 文件元信息保存到 Meta Service 中：
 
-- 键: 结合 `(租户, 数据库, 表, 文件名)`。
-- 值: 值必须包含阶段文件的所有元信息，例如 `content-length`、`etag`、`最后修改时间`。
+- 键：与 `(tenant, database, table, file name)` 组合。
+- 值：值必须包含 Stage 文件的所有元数据，例如 `content-length`、`etag`、`last modified`。
 
 ![](/img/rfc/20220909-idempotent-copy/stage-file-meta.png)
 
-阶段文件元信息的默认过期时间为 64 天。
+Stage 文件元信息的过期时间默认为 64 天。
 
-## 避免在复制阶段文件到表时重复
+## 避免将 Stage 文件复制到表时出现重复
 
-使用阶段文件元信息，每当复制阶段文件到表时，遵循以下步骤：
+使用 Stage 文件元信息，每当将 Stage 文件复制到表时，请按照以下步骤操作：
 
-- 首先，获取想要复制到表中的所有阶段文件的表文件元信息（如果有）。
-- 其次，获取所有阶段文件的元信息。
-- 第三，比较表文件元信息与阶段文件元信息：
-  - 如果它们匹配，则忽略此文件，不进行复制。
-  - 否则，复制阶段文件并更新插入到表阶段文件元信息中。
+- 首先，获取要复制到表中的复制 Stage 文件的所有表文件元信息（如果有）。
+- 其次，获取所有 Stage 文件元信息。
+- 第三，比较表文件元信息与 Stage 文件元信息：
+  - 如果它们匹配，则忽略此文件而不进行复制。
+  - 否则，复制 Stage 文件并向上插入到表 Stage 文件元数据中。
 
 ![](/img/rfc/20220909-idempotent-copy/example.png)
 
 以上图为例：
 
-- 客户端请求将三个文件（file1, file2, file3）复制到表中。
-- 获取 (file1, file2, file3) 的表阶段文件元信息。
-- 在元服务中，仅找到 (file1, file3) 阶段文件信息。
-- 比较表阶段文件信息与阶段文件信息，发现 file1 未更改，因此在此次复制操作中将忽略 file1，而 (file2, file3) 将被复制。
-- 复制新文件后，(file2, file3) 阶段文件信息将被保存到表文件信息中。
+- 客户端发出将三个文件（file1、file2、file3）复制到表中的请求。
+
+- 获取（file1、file2、file3）的表 Stage 文件元数据。
+
+- 在 Meta Service 中，仅找到（file1、file3）Stage 文件信息。
+
+- 将表 Stage 文件信息与 Stage 文件信息进行比较，发现 file1 没有更改，因此在此复制操作中将忽略 file1，并且将复制（file2、file3）。
+
+- 复制新文件后，（file2、file3）Stage 文件信息将保存到表文件信息中。

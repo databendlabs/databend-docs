@@ -1,27 +1,27 @@
 ---
-title: "Databend vs. Snowflake: 数据摄取基准测试"
-sidebar_label: "数据摄取基准测试"
+title: "Databend vs. Snowflake: 数据导入基准测试"
+sidebar_label: "数据导入基准测试"
 ---
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
 ## 概述
 
-我们进行了四项具体的基准测试，以评估 Databend Cloud 与 Snowflake 的性能：
+我们进行了四项具体的基准测试，以评估 Databend Cloud 与 Snowflake：
 
-1. **TPC-H SF100 数据集加载**：专注于加载大规模数据集（100GB，约 6 亿行）的性能和成本。
-2. **ClickBench Hits 数据集加载**：测试加载宽表数据集（76GB，约 1 亿行，105 列）的效率，强调高列数带来的挑战。
-3. **1 秒新鲜度**：衡量平台在严格 1 秒新鲜度要求下摄取数据的能力。
-4. **5 秒新鲜度**：比较平台在 5 秒新鲜度约束下的数据摄取能力。
+1. **TPC-H SF100 数据集加载**：侧重于大型数据集（100GB，约 6 亿行）的加载性能和成本。
+2. **ClickBench Hits 数据集加载**：测试加载宽表数据集（76GB，约 1 亿行，105 列）的效率，重点关注与高列数相关的挑战。
+3. **1 秒时效性**：衡量平台在严格的 1 秒时效性要求下摄取数据的能力。
+4. **5 秒时效性**：比较平台在 5 秒时效性约束下的数据摄取能力。
 
 ## 平台
 
-- **[Snowflake](https://snowflake.com)**：一个知名的云数据平台，强调可扩展计算和数据共享。
-- **[Databend Cloud](https://databend.com)**：一个基于开源项目 Databend 构建的云原生数仓，专注于可扩展性和成本效益。
+- **[Snowflake](https://snowflake.com)**：一个知名的云数据平台，强调可扩展的计算、数据共享。
+- **[Databend Cloud](https://databend.com)**：一个构建在开源 Databend 项目之上的云原生数仓，专注于可扩展性和成本效益。
 
 ## 基准测试条件
 
-在 `Small-Size` 计算集群（16vCPU，AWS us-east-2）上进行，使用相同的 S3 存储桶中的数据。
+在 `Small-Size` 计算集群（16vCPU，AWS us-east-2）上使用来自同一 S3 存储桶的数据进行。
 
 ## 性能和成本比较
 
@@ -29,83 +29,83 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 - **TPC-H SF100 数据**：Databend Cloud 比 Snowflake 节省 **67% 的成本**。
 - **ClickBench Hits 数据**：Databend Cloud 实现了 **91% 的成本降低**。
-- **1 秒新鲜度**：Databend 加载的数据量是 Snowflake 的 **400 倍**。
-- **5 秒新鲜度**：Databend 加载的数据量超过 Snowflake 的 **27 倍**。
+- **1 秒时效性**：Databend 加载的数据量是 Snowflake 的 **400 倍**。
+- **5 秒时效性**：Databend 加载的数据量是 Snowflake 的 **27 倍以上**。
 
-## 数据摄取基准测试
+## 数据导入基准测试
 
 ![image](https://github.com/databendlabs/databend/assets/172204/c61d7a40-f6fe-4fb9-83e8-06ea9599aeb4)
 
 ### TPC-H SF100 数据集
 
-| 指标       | Snowflake | Databend Cloud | 描述               |
-| ---------- | --------- | -------------- | ------------------ |
-| **总时间** | 695s      | 446s           | 加载数据集的时间。 |
-| **总成本** | $0.77     | $0.25          | 数据加载的成本。   |
+| 指标           | Snowflake | Databend Cloud | 描述                   |
+| -------------- | --------- | -------------- | ---------------------- |
+| **总时间**     | 695s      | 446s           | 加载数据集的时间。     |
+| **总成本**     | $0.77     | $0.25          | 数据加载的成本。       |
 
 - 数据量：100GB
 - 行数：约 6 亿
 
 ### ClickBench Hits 数据集
 
-| 指标       | Snowflake | Databend Cloud | 描述               |
-| ---------- | --------- | -------------- | ------------------ |
-| **总时间** | 51m 17s   | 9m 58s         | 加载数据集的时间。 |
-| **总成本** | $3.42     | $0.30          | 数据加载的成本。   |
+| 指标           | Snowflake | Databend Cloud | 描述                   |
+| -------------- | --------- | -------------- | ---------------------- |
+| **总时间**     | 51m 17s   | 9m 58s         | 加载数据集的时间。     |
+| **总成本**     | $3.42     | $0.30          | 数据加载的成本。       |
 
 - 数据量：76GB
 - 行数：约 1 亿
 - 表宽度：105 列
 
-## 新鲜度基准测试
+## 时效性基准测试
 
 ![image](https://github.com/databendlabs/databend/assets/172204/41b04e6a-9027-47bf-a749-49c267a7f9ec)
 
-### 1 秒新鲜度基准测试
+### 1 秒时效性基准测试
 
-评估在 1 秒新鲜度要求下摄取的数据量。
+评估在 1 秒时效性要求内摄取的数据量。
 
-| 指标       | Snowflake | Databend Cloud | 描述                        |
-| ---------- | --------- | -------------- | --------------------------- |
-| **总时间** | 1s        | 1s             | 加载时间框架。              |
-| **总行数** | 100 行    | 40,000 行      | 在 1 秒内成功摄取的数据量。 |
+| 指标           | Snowflake | Databend Cloud | 描述                                           |
+| -------------- | --------- | -------------- | ---------------------------------------------- |
+| **总时间**     | 1s        | 1s             | 加载时间范围。                                 |
+| **总行数**     | 100 Rows  | 40,000 Rows    | 在 1 秒内成功摄取的数据量。                    |
 
-### 5 秒新鲜度基准测试
+### 5 秒时效性基准测试
 
-评估在 5 秒新鲜度要求下可以摄取的数据量。
+评估在 5 秒时效性要求内可以摄取的数据量。
 
-| 指标       | Snowflake | Databend Cloud | 描述                        |
-| ---------- | --------- | -------------- | --------------------------- |
-| **总时间** | 5s        | 5s             | 加载时间框架。              |
-| **总行数** | 90,000 行 | 2,500,000 行   | 在 5 秒内成功摄取的数据量。 |
+| 指标           | Snowflake   | Databend Cloud | 描述                                           |
+| -------------- | ----------- | -------------- | ---------------------------------------------- |
+| **总时间**     | 5s          | 5s             | 加载时间范围。                                 |
+| **总行数**     | 90,000 Rows | 2,500,000 Rows | 在 5 秒内成功摄取的数据量。                    |
 
-## 复现基准测试
+## 重现基准测试
 
-您可以按照以下步骤复现基准测试。
+您可以按照以下步骤重现基准测试。
 
 ### 基准测试环境
 
-Snowflake 和 Databend Cloud 在相似条件下进行测试：
+Snowflake 和 Databend Cloud 都在相似的条件下进行了测试：
 
-| 参数         | Snowflake                                                           | Databend Cloud                            |
-| ------------ | ------------------------------------------------------------------- | ----------------------------------------- |
-| 计算集群大小 | Small                                                               | Small                                     |
-| vCPU         | 16                                                                  | 16                                        |
-| 价格         | [$4/小时](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/小时](https://www.databend.com/plan/) |
-| AWS 区域     | us-east-2                                                           | us-east-2                                 |
-| 存储         | AWS S3                                                              | AWS S3                                    |
+| 参数           | Snowflake                                                           | Databend Cloud                            |
+| -------------- | ------------------------------------------------------------------- | ----------------------------------------- |
+| 计算集群大小   | Small                                                               | Small                                     |
+| vCPU           | 16                                                                  | 16                                        |
+| 价格           | [$4/hour](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/hour](https://www.databend.com/plan/) |
+| AWS 区域       | us-east-2                                                           | us-east-2                                 |
+| 存储           | AWS S3                                                              | AWS S3                                    |
 
-- TPC-H SF100 数据集，来源自 [Amazon Redshift](https://github.com/awslabs/amazon-redshift-utils/tree/master/src/CloudDataWarehouseBenchmark/Cloud-DWB-Derived-from-TPCH)。
-- ClickBench 数据集，来源自 [ClickBench](https://github.com/ClickHouse/ClickBench)。
+- TPC-H SF100 数据集，来源于 [Amazon Redshift](https://github.com/awslabs/amazon-redshift-utils/tree/master/src/CloudDataWarehouseBenchmark/Cloud-DWB-Derived-from-TPCH)。
+- ClickBench 数据集，来源于 [ClickBench](https://github.com/ClickHouse/ClickBench)。
 
 ### 前提条件
 
 - 拥有一个 [Snowflake 账户](https://singup.snowflake.com)
 - 创建一个 [Databend Cloud 账户](https://www.databend.com/apply/)。
 
-### 数据摄取基准测试
+### 数据导入基准测试
 
-可以使用以下步骤复现数据摄取基准测试：
+可以使用以下步骤重现数据导入基准测试：
 
 <DetailsWrap>
 
@@ -143,11 +143,11 @@ Snowflake 和 Databend Cloud 在相似条件下进行测试：
 
 </DetailsWrap>
 
-### 新鲜度基准测试
+### 时效性基准测试
 
-可以使用以下步骤复现新鲜度基准测试的数据生成和摄取：
+可以使用以下步骤重现时效性基准测试的数据生成和摄取：
 
-1. 在 Databend Cloud 中创建一个 [外部 Stage](https://docs.databend.com/sql/sql-commands/ddl/stage/ddl-create-stage#example-2-create-external-stage-with-aws-access-key)
+1. 在 Databend Cloud 中创建一个 [external stage](https://docs.databend.com/sql/sql-commands/ddl/stage/ddl-create-stage#example-2-create-external-stage-with-aws-access-key)
 
 ```sql
 CREATE STAGE hits_unload_stage
@@ -158,7 +158,7 @@ CONNECTION = (
 );
 ```
 
-2. 将数据卸载到外部 Stage。
+2. 将数据卸载到 external stage。
 
 ```sql
 CREATE or REPLACE FILE FORMAT tsv_unload_format_gzip
@@ -174,7 +174,7 @@ FILE_FORMAT = (FORMAT_NAME = 'tsv_unload_format_gzip')
 DETAILED_OUTPUT = true;
 ```
 
-3. 从外部 Stage 加载数据到 `hits` 表。
+3. 将数据从 external stage 加载到 `hits` 表。
 
 ```sql
 COPY INTO hits
@@ -183,4 +183,4 @@ COPY INTO hits
     FILE_FORMAT = (TYPE = TSV,  COMPRESSION=auto);
 ```
 
-4. 从仪表板测量结果。
+4. 从仪表板衡量结果。

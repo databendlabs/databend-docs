@@ -1,29 +1,29 @@
 ---
-title: 故障安全
+title: Fail-Safe
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='FAIL-SAFE'/>
 
-故障安全是指旨在从对象存储中恢复丢失或意外删除数据的机制。
+Fail-Safe 指的是旨在从对象存储中恢复丢失或意外删除的数据的机制。
 
-- 存储兼容性：目前，故障安全仅支持 S3 兼容的存储类型。
-- 存储桶版本控制：要使故障安全生效，必须启用存储桶版本控制。请注意，在启用版本控制之前创建的数据*无法*使用此方法恢复。
+- 存储兼容性：目前，Fail-Safe 仅支持 S3 兼容的存储类型。
+- Bucket 版本控制：为了使 Fail-Safe 正常工作，必须启用 bucket 版本控制。请注意，在启用版本控制之前创建的数据*无法*使用此方法恢复。
 
-### 实现故障安全
+### 实施 Fail-Safe
 
-Databend 提供了 [SYSTEM$FUSE_AMEND](/sql/sql-functions/table-functions/fuse-amend) 表函数来启用故障安全恢复。当存储桶版本控制启用时，此函数允许您从 S3 兼容的存储桶中恢复数据。
+Databend 提供了 [SYSTEM$FUSE_AMEND](/sql/sql-functions/table-functions/fuse-amend) 表函数来启用 Fail-Safe 恢复。此函数允许您在启用 bucket 版本控制时从 S3 兼容的存储 bucket 恢复数据。
 
 ### 使用示例
 
-以下是使用 [SYSTEM$FUSE_AMEND](/sql/sql-functions/table-functions/fuse-amend) 函数从 S3 恢复表数据的逐步示例：
+以下是使用 [SYSTEM$FUSE_AMEND](/sql/sql-functions/table-functions/fuse-amend) 函数从 S3 恢复表数据的分步示例：
 
-1. 为存储桶 `databend-doc` 启用版本控制。
+1. 为 bucket `databend-doc` 启用版本控制。
 
 ![alt text](../../../../static/img/guides/bucket-versioning.png)
 
-2. 创建一个外部表，将表数据存储在 `databend-doc` 存储桶中的 `fail-safe` 文件夹中。
+2. 创建一个外部表，将表数据存储在 `databend-doc` bucket 的 `fail-safe` 文件夹中。
 
 ```sql
 CREATE TABLE t(a INT) 
@@ -34,7 +34,7 @@ CONNECTION = (access_key_id ='<your-access-key-id>' secret_access_key ='<your-se
 INSERT INTO t VALUES (1), (2), (3);
 ```
 
-如果您现在打开存储桶中的 `fail-safe` 文件夹，您可以看到数据已经存在：
+如果现在打开 bucket 中的 `fail-safe` 文件夹，您可以看到数据已存在：
 
 ![alt text](../../../../static/img/guides/bucket-versioning-2.png)
 
@@ -42,7 +42,7 @@ INSERT INTO t VALUES (1), (2), (3);
 
 ![alt text](../../../../static/img/guides/bucket-versioning-3.png)
 
-4. 尝试在删除后查询表将导致错误：
+4. 删除后尝试查询表将导致错误：
 
 ```sql
 SELECT * FROM t;
@@ -59,7 +59,7 @@ CALL system$fuse_amend('default', 't');
 result: Ok
 ```
 
-6. 验证表数据是否已恢复：
+6. 验证表数据是否恢复：
 
 ```sql
 SELECT * FROM t;
