@@ -2,23 +2,23 @@
 title: 使用字典访问 MySQL 和 Redis
 ---
 
-在本教程中，我们将指导您使用 Databend 中的字典访问 MySQL 和 Redis 数据。您将学习如何创建映射到这些外部数据源的字典，从而实现无缝的数据查询和集成。
+在本教程中，我们将指导您如何使用 Databend 中的字典访问 MySQL 和 Redis 数据。您将学习如何创建映射到这些外部数据源的字典，从而实现无缝的数据查询和集成。
 
 ## 开始之前
 
-在开始之前，请确保您的本地机器上已安装 [Docker](https://www.docker.com/)。我们需要 Docker 来设置 Databend、MySQL 和 Redis 所需的容器。您还需要一个 SQL 客户端来连接到 MySQL；我们推荐使用 [BendSQL](/guides/sql-clients/bendsql/) 来连接 Databend。
+在开始之前，请确保您的本地机器上安装了 [Docker](https://www.docker.com/)。我们需要 Docker 来为 Databend、MySQL 和 Redis 设置必要的容器。您还需要一个 SQL 客户端来连接到 MySQL；我们建议使用 [BendSQL](/guides/sql-clients/bendsql/) 连接到 Databend。
 
 ## 步骤 1：设置环境
 
 在这一步中，我们将在您的本地机器上使用 Docker 启动 Databend、MySQL 和 Redis 的实例。
 
-1. 创建一个名为 `mynetwork` 的 Docker 网络，以实现 Databend、MySQL 和 Redis 容器之间的通信：
+1. 创建一个名为 `mynetwork` 的 Docker 网络，以启用您的 Databend、MySQL 和 Redis 容器之间的通信：
 
 ```bash
 docker network create mynetwork
 ```
 
-2. 运行以下命令，在 `mynetwork` 网络中启动一个名为 `mysql` 的 MySQL 容器：
+2. 运行以下命令以在 `mynetwork` 网络中启动一个名为 `mysql` 的 MySQL 容器：
 
 ```bash
 docker run -d \
@@ -29,7 +29,7 @@ docker run -d \
   mysql:latest
 ```
 
-3. 运行以下命令，在 `mynetwork` 网络中启动一个名为 `databend` 的 Databend 容器：
+3. 运行以下命令以在 `mynetwork` 网络中启动一个名为 `databend` 的 Databend 容器：
 
 ```bash
 docker run -d \
@@ -42,7 +42,7 @@ docker run -d \
   datafuselabs/databend:nightly
 ```
 
-4. 运行以下命令，在 `mynetwork` 网络中启动一个名为 `redis` 的 Redis 容器：
+4. 运行以下命令以在 `mynetwork` 网络中启动一个名为 `redis` 的 Redis 容器：
 
 ```bash
 docker run -d \
@@ -113,9 +113,9 @@ docker network inspect mynetwork
 
 ## 步骤 2：填充示例数据
 
-在这一步中，我们将向 MySQL 和 Redis 以及 Databend 中添加示例数据。
+在这一步中，我们将向 MySQL 和 Redis 以及 Databend 添加示例数据。
 
-1. 在 Databend 中，创建一个名为 `users_databend` 的表并插入示例用户数据：
+1. 在 Databend 中，创建一个名为 `users_databend` 的表，并插入示例用户数据：
 
 ```sql
 CREATE TABLE users_databend (
@@ -129,7 +129,7 @@ INSERT INTO users_databend (id, name) VALUES
 (3, 'Charlie');
 ```
 
-2. 在 MySQL 中，创建一个名为 `dict` 的数据库，创建一个 `users` 表并插入示例数据：
+2. 在 MySQL 中，创建一个名为 `dict` 的数据库，创建一个 `users` 表，并插入示例数据：
 
 ```sql
 CREATE DATABASE dict;
@@ -147,17 +147,17 @@ INSERT INTO users (name, email) VALUES
 ('Charlie', 'charlie@example.com');
 ```
 
-3. 在 Docker Desktop 或通过在终端中运行 `docker ps` 找到您的 Redis 容器 ID：
+3. 在 Docker Desktop 上或通过在终端中运行 `docker ps` 找到您的 Redis 容器 ID：
 
 ![alt text](../../../../static/img/documents/tutorials/redis-container-id.png)
 
-4. 使用您的 Redis 容器 ID 访问 Redis CLI（将 `14d50cc4d075` 替换为您的实际容器 ID）：
+4. 使用您的 Redis 容器 ID 访问 Redis CLI（将 `14d50cc4d075` 替换为您实际的容器 ID）：
 
 ```bash
 docker exec -it 14d50cc4d075 redis-cli
 ```
 
-5. 在 Redis CLI 中运行以下命令，将示例用户数据插入 Redis：
+5. 通过在 Redis CLI 中运行以下命令，将示例用户数据插入到 Redis 中：
 
 ```bash
 SET user:1 '{"notifications": "enabled", "theme": "dark"}'
@@ -167,9 +167,9 @@ SET user:3 '{"notifications": "enabled", "theme": "dark"}'
 
 ## 步骤 3：创建字典
 
-在这一步中，我们将在 Databend 中为 MySQL 和 Redis 创建字典，然后从这些外部数据源查询数据。
+在这一步中，我们将在 Databend 中为 MySQL 和 Redis 创建字典，然后从这些外部源查询数据。
 
-1. 在 Databend 中，创建一个名为 `mysql_users` 的字典，连接到 MySQL 实例：
+1. 在 Databend 中，创建一个名为 `mysql_users` 的字典，该字典连接到 MySQL 实例：
 
 ```sql
 CREATE DICTIONARY mysql_users
@@ -189,7 +189,7 @@ SOURCE(MySQL(
 ));
 ```
 
-2. 创建一个名为 `mysql_users` 的字典，连接到 Redis 实例：
+2. 在 Databend 中，创建一个名为 `mysql_users` 的字典，该字典连接到 Redis 实例：
 
 ```sql
 CREATE DICTIONARY redis_user_preferences
@@ -216,9 +216,9 @@ FROM
     users_databend AS u;
 ```
 
-上述查询从 `users_databend` 表中检索用户信息，包括他们的 ID 和姓名，以及从 MySQL 字典中获取的电子邮件和从 Redis 字典中获取的用户偏好。
+上面的查询检索用户信息，包括来自 `users_databend` 表的 ID 和姓名，以及来自 MySQL 字典的电子邮件和来自 Redis 字典的用户偏好设置。
 
-```sql title='结果：'
+```sql title='Result:'
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        id       │   name  │ dict_get(default.mysql_users, 'email', u.id) │ dict_get(default.redis_user_preferences, 'preferences', CONCAT('user:', TO_STRING(u.id))) │
 │ Nullable(Int32) │  String │               Nullable(String)               │                                      Nullable(String)                                     │
