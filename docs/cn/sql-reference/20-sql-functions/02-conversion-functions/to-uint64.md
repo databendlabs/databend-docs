@@ -2,9 +2,9 @@
 title: TO_UINT64
 ---
 
-将一个值转换为 UINT64 数据类型。
+将值转换为 UINT64 数据类型。
 
-## 语法
+## 句法
 
 ```sql
 TO_UINT64( <expr> )

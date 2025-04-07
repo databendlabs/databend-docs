@@ -26,6 +26,7 @@ SELECT CAST(1 AS VARCHAR), 1::VARCHAR;
 └───────────────────────────────┘
 ```
 
+
 将字符串转换为 Variant 并将 Variant 转换为 `Map<String, Variant>`
 ```sql
 select '{"k1":"v1","k2":"v2"}'::Variant a, a::Map(String, String) b, b::Variant = a;

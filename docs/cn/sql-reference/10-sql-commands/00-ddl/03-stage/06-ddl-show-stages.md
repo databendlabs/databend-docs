@@ -3,7 +3,7 @@ title: SHOW STAGES
 sidebar_position: 6
 ---
 
-返回已创建的 stages 列表。输出列表不包括用户 stage。
+返回已创建的 Stage 列表。输出列表不包括用户 Stage。
 
 ## 语法
 

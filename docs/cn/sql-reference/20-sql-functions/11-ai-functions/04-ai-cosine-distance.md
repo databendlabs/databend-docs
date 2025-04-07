@@ -1,25 +1,25 @@
 ---
 title: 'COSINE_DISTANCE'
-description: '在Databend中使用cosine_distance函数测量相似度'
+description: '在 Databend 中使用 cosine_distance 函数测量相似度'
 ---
 
-本文档概述了Databend中的cosine_distance函数，并演示如何使用该函数测量文档相似度。
+本文档概述了 Databend 中的 cosine_distance 函数，并演示了如何使用此函数测量文档相似度。
 
 :::info
 
-cosine_distance函数在Databend内部执行向量计算，不依赖于（Azure）OpenAI API。
+cosine_distance 函数在 Databend 中执行向量计算，不依赖于 (Azure) OpenAI API。
 
 :::
 
-Databend中的cosine_distance函数是一个内置函数，用于计算两个向量之间的余弦距离。它通常用于自然语言处理任务，如文档相似度和推荐系统。
+Databend 中的 cosine_distance 函数是一个内置函数，用于计算两个向量之间的余弦距离。它通常用于自然语言处理任务，例如文档相似度和推荐系统。
 
-余弦距离是基于两个向量之间夹角的余弦值来衡量相似度的一种度量。该函数接受两个输入向量，并返回一个介于0和1之间的值，其中0表示完全相同的向量，1表示正交（完全不相似）的向量。
+余弦距离是基于两个向量之间夹角的余弦值来衡量它们之间相似度的一种方法。该函数接受两个输入向量，并返回一个介于 0 和 1 之间的值，其中 0 表示完全相同的向量，1 表示正交（完全不相似）的向量。
 
 ## 示例
 
 **创建表并插入示例数据**
 
-让我们创建一个表来存储一些示例文本文档及其对应的嵌入向量：
+让我们创建一个表来存储一些示例文本文档及其对应的 embeddings：
 ```sql
 CREATE TABLE articles (
     id INT,
@@ -29,7 +29,7 @@ CREATE TABLE articles (
 );
 ```
 
-现在，让我们向表中插入一些示例文档：
+现在，让我们将一些示例文档插入到表中：
 ```sql
 INSERT INTO articles (id, title, content, embedding)
 VALUES
@@ -40,7 +40,7 @@ VALUES
 
 **查询相似文档**
 
-现在，让我们使用cosine_distance函数找到与给定查询最相似的文档：
+现在，让我们使用 cosine_distance 函数查找与给定查询最相似的文档：
 ```sql
 SELECT
     id,

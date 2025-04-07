@@ -2,7 +2,7 @@
 title: H3_GET_FACES
 ---
 
-查找给定 [H3](https://eng.uber.com/h3/) 索引所相交的所有二十面体面。面以 0-19 的整数表示。
+查找给定 [H3](https://eng.uber.com/h3/) 索引相交的所有二十面体面。面用 0-19 的整数表示。
 
 ## 语法
 

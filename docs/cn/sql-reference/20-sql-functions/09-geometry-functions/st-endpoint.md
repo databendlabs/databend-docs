@@ -3,9 +3,9 @@ title: ST_ENDPOINT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.458"/>
+<FunctionDescription description="Introduced or updated: v1.2.458"/>
 
-返回 LineString 中的最后一个点。
+返回 LineString 中的最后一个 Point。
 
 ## 语法
 
@@ -15,13 +15,13 @@ ST_ENDPOINT(<geometry>)
 
 ## 参数
 
-| 参数         | 描述                                                                               |
-|--------------|------------------------------------------------------------------------------------|
-| `<geometry>` | 参数必须是一个表示 LineString 的几何类型的 GEOMETRY 表达式。                       |
+| 参数         | 描述                                                                           |
+|--------------|-----------------------------------------------------------------------------------|
+| `<geometry>` | 该参数必须是 GEOMETRY 类型的表达式，表示一个 LineString。                         |
 
 ## 返回类型
 
-几何类型。
+Geometry。
 
 ## 示例
 

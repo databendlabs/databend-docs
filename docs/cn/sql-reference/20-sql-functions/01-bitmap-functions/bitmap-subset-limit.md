@@ -2,7 +2,7 @@
 title: BITMAP_SUBSET_LIMIT
 ---
 
-生成源位图的一个子位图，从起始值开始，并设置大小限制。
+生成源 bitmap 的子 bitmap，从起始值开始，具有大小限制。
 
 ## 语法
 

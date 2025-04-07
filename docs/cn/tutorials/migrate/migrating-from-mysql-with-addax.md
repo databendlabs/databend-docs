@@ -1,12 +1,13 @@
+```md
 ---
-title: 使用 Addax 从 MySQL 迁移数据
+title: 使用 Addax 从 MySQL 迁移
 ---
 
-在本教程中，您将使用 Addax 从 MySQL 加载数据到 Databend。开始前，请确保您已在环境中成功部署 Databend、MySQL 和 Addax。
+在本教程中，您将使用 Addax 将数据从 MySQL 加载到 Databend。在开始之前，请确保您已在环境中成功设置 Databend、MySQL 和 Addax。
 
-1. 在 MySQL 中创建一个用于数据加载的 SQL 用户，然后创建表并填充示例数据。
+1. 在 MySQL 中，创建一个 SQL 用户，您将使用该用户加载数据，然后创建一个表并使用示例数据填充它。
 
-```sql title='在 MySQL 中执行:'
+```sql title='In MySQL:'
 mysql> create user 'mysqlu1'@'%' identified by '123';
 mysql> grant all on *.* to 'mysqlu1'@'%';
 mysql> create database db;
@@ -14,17 +15,17 @@ mysql> create table db.tb01(id int, col1 varchar(10));
 mysql> insert into db.tb01 values(1, 'test1'), (2, 'test2'), (3, 'test3');
 ```
 
-2. 在 Databend 中创建对应的目标表。
+2. 在 Databend 中，创建一个对应的目标表。
 
-```sql title='在 Databend 中执行:'
+```sql title='In Databend:'
 databend> create database migrated_db;
 databend> create table migrated_db.tb01(id int null, col1 String null);
 ```
 
-3. 将以下代码复制到文件并保存为 _mysql_demo.json_：
+3. 将以下代码复制并粘贴到文件中，并将文件命名为 _mysql_demo.json_：
 
 :::note
-可用参数及说明请参考文档：https://wgzhao.github.io/Addax/develop/writer/databendwriter/#_2
+有关可用参数及其说明，请参阅以下链接提供的文档：https://wgzhao.github.io/Addax/develop/writer/databendwriter/#_2
 :::
 
 ```json title='mysql_demo.json'
@@ -80,7 +81,7 @@ cd {YOUR_ADDAX_DIR_BIN}
 ./addax.sh -L debug ./mysql_demo.json
 ```
 
-完成后，您可以在 Databend 中验证数据加载结果：
+一切就绪！要验证数据加载，请在 Databend 中执行查询：
 
 ```sql
 databend> select * from migrated_db.tb01;

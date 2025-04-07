@@ -3,9 +3,9 @@ title: ERROR_OR
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.379"/>
+<FunctionDescription description="Introduced or updated: v1.2.379"/>
 
-返回其输入中的第一个非错误表达式。如果所有表达式都导致错误，则返回 NULL。
+返回其输入中第一个非错误表达式。如果所有表达式都导致错误，则返回 NULL。
 
 ## 语法
 
@@ -17,7 +17,7 @@ ERROR_OR(expr1, expr2, ...)
 
 ```sql
 -- 如果没有错误发生，则返回有效日期
--- 如果转换结果为错误，则返回当前日期
+-- 如果转换导致错误，则返回当前日期
 SELECT NOW(), ERROR_OR('2024-12-25'::DATE, NOW()::DATE);
 
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -26,7 +26,7 @@ SELECT NOW(), ERROR_OR('2024-12-25'::DATE, NOW()::DATE);
 │ 2024-03-18 01:22:39.460320 │ 2024-12-25                                │
 └────────────────────────────────────────────────────────────────────────┘
 
--- 返回 NULL，因为转换结果为错误
+-- 返回 NULL，因为转换导致错误
 SELECT ERROR_OR('2024-1234'::DATE);
 
 ┌─────────────────────────────┐

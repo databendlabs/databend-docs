@@ -3,9 +3,9 @@ title: JSON_ARRAY_EXCEPT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.644"/>
+<FunctionDescription description="Introduced or updated: v1.2.644"/>
 
-返回一个新的JSON数组，其中包含第一个JSON数组中不在第二个JSON数组中的元素。
+返回一个新的 JSON 数组，其中包含第一个 JSON 数组中存在但第二个 JSON 数组中不存在的元素。
 
 ## 语法
 
@@ -15,7 +15,7 @@ JSON_ARRAY_EXCEPT(<json_array1>, <json_array2>)
 
 ## 返回类型
 
-JSON数组。
+JSON 数组。
 
 ## 示例
 

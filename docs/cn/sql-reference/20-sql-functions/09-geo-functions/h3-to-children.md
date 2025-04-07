@@ -2,7 +2,7 @@
 title: H3_TO_CHILDREN
 ---
 
-返回 `h3` 在分辨率 `child_res` 下包含的索引。
+返回 `h3` 在 `child_res` 分辨率下包含的索引。
 
 ## 语法
 

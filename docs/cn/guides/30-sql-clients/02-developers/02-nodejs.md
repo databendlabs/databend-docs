@@ -1,5 +1,5 @@
 ---
-title: '使用 Node.js 连接到 Databend'
+title: '使用 Node.js 连接 Databend'
 sidebar_label: 'Node.js'
 ---
 

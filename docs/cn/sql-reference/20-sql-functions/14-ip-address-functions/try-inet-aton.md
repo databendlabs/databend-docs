@@ -2,7 +2,7 @@
 title: TRY_INET_ATON
 ---
 
-try_inet_aton 函数用于将 IPv4 地址的点分十进制表示形式作为字符串，并返回该 IP 地址的数值形式（整数）。
+`try_inet_aton` 函数用于将 IPv4 地址的点分四段表示形式的字符串作为输入，并以整数形式返回给定 IP 地址的数值。
 
 ## 语法
 
@@ -16,7 +16,7 @@ TRY_INET_ATON( <str> )
 
 ## 返回类型
 
-整数。
+Integer.
 
 ## 示例
 

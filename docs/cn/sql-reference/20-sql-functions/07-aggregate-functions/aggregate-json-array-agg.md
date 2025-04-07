@@ -4,11 +4,11 @@ title: JSON_ARRAY_AGG
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.595"/>
+<FunctionDescription description="Introduced or updated: v1.2.595"/>
 
 将值转换为 JSON 数组，同时跳过 NULL 值。
 
-另请参阅: [JSON_OBJECT_AGG](aggregate-json-object-agg.md)
+另请参阅：[JSON_OBJECT_AGG](aggregate-json-object-agg.md)
 
 ## 语法
 
@@ -22,7 +22,7 @@ JSON 数组。
 
 ## 示例
 
-此示例演示了 JSON_ARRAY_AGG 如何将每一列的值聚合为 JSON 数组：
+此示例演示了 JSON_ARRAY_AGG 如何将每列中的值聚合到 JSON 数组中：
 
 ```sql
 CREATE TABLE d (

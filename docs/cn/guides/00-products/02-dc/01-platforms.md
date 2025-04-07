@@ -1,5 +1,6 @@
+```markdown
 ---
-title: 平台与区域
+title: 平台和区域
 ---
 
 import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
@@ -10,3 +11,4 @@ import PlatformsEN from '@site/docs/fragment/01-platforms-en.md'
 en={<PlatformsEN />}
 cn={<PlatformsCN />}
 />
+```

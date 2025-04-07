@@ -2,7 +2,7 @@
 title: H3_INDEXES_ARE_NEIGHBORS
 ---
 
-判断提供的 [H3](https://eng.uber.com/h3/) 索引是否为邻居。
+返回提供的 [H3](https://eng.uber.com/h3/) 索引是否为邻居。
 
 ## 语法
 

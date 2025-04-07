@@ -1,5 +1,5 @@
 ---
-title: 入门指南
+title: 快速开始
 ---
 
 import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'

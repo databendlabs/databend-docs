@@ -3,7 +3,7 @@ title: TO_MILLISECONDS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.677"/>
+<FunctionDescription description="Introduced or updated: v1.2.677"/>
 
 将指定的毫秒数转换为 Interval 类型。
 
@@ -12,12 +12,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
-TO_MILLISECONDS(<毫秒数>)
+TO_MILLISECONDS(<milliseconds>)
 ```
 
 ## 返回类型
 
-Interval（格式为 `hh:mm:ss.sss`）。
+Interval (格式为 `hh:mm:ss.sss`)。
 
 ## 示例
 

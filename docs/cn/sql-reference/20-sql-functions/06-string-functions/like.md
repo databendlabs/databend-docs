@@ -2,7 +2,7 @@
 title: LIKE
 ---
 
-使用 SQL 模式进行模式匹配。返回 1（TRUE）或 0（FALSE）。如果 expr 或 pat 为 NULL，则结果为 NULL。
+使用 SQL 模式进行模式匹配。返回 1 (TRUE) 或 0 (FALSE)。如果 expr 或 pat 中有一个为 NULL，则结果为 NULL。
 
 ## 语法
 

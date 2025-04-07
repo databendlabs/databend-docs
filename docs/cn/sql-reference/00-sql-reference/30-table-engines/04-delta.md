@@ -1,6 +1,5 @@
 ---
-title: Delta Lake 引擎
+title: Delta Lake Engine
 ---
 
-参见 [Delta Lake 引擎](/guides/access-data-lake/delta)。
----
+请参阅 [Delta Lake Engine](/guides/access-data-lake/delta)。

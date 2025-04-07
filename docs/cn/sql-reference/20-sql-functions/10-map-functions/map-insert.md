@@ -3,9 +3,9 @@ title: MAP_INSERT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.654"/>
+<FunctionDescription description="Introduced or updated: v1.2.654"/>
 
-返回一个新的 MAP，该 MAP 由输入的 MAP 插入一个新的键值对组成（如果键已存在，则更新其值）。
+返回一个新 MAP，其中包含已插入新键值对的输入 MAP（使用新值更新现有键）。
 
 ## 语法
 
@@ -15,12 +15,12 @@ MAP_INSERT( <map>, <key>, <value> [, <updateFlag> ] )
 
 ## 参数
 
-| 参数          | 描述                                                                                  |
-|---------------|--------------------------------------------------------------------------------------|
-| `<map>`       | 输入的 MAP。                                                                         |
-| `<key>`       | 要插入到 MAP 中的新键。                                                              |
-| `<value>`     | 要插入到 MAP 中的新值。                                                              |
-| `<updateFlag>`| 布尔标志，指示是否可以覆盖已存在的键。默认值为 FALSE。                                |
+| 参数           | 描述                                                                                       |
+|----------------|--------------------------------------------------------------------------------------------|
+| `<map>`        | 输入 MAP。                                                                                 |
+| `<key>`        | 要插入到 MAP 中的新键。                                                                    |
+| `<value>`      | 要插入到 MAP 中的新值。                                                                    |
+| `<updateFlag>` | 布尔标志，指示是否可以覆盖现有键。 默认为 FALSE。                                                 |
 
 ## 返回类型
 

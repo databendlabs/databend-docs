@@ -4,7 +4,7 @@ title: 卸载 CSV 文件
 
 ## 卸载 CSV 文件
 
-语法:
+语法：
 
 ```sql
 COPY INTO { internalStage | externalStage | externalLocation }
@@ -14,19 +14,19 @@ FILE_FORMAT = (
     RECORD_DELIMITER = '<character>',
     FIELD_DELIMITER = '<character>',
     COMPRESSION = gzip,
-    OUTPUT_HEADER = true -- 卸载时包含表头
+    OUTPUT_HEADER = true -- 卸载时带表头
 )
 [MAX_FILE_SIZE = <num>]
 [DETAILED_OUTPUT = true | false]
 ```
 
 - 更多 CSV 选项请参考 [CSV 文件格式选项](/sql/sql-reference/file-format-options#csv-options)
-- 卸载到多个文件使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- 更多语法细节请参考 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
+- 卸载到多个文件请使用 [MAX_FILE_SIZE Copy 选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 更多关于语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到
 
 ## 教程
 
-### 步骤 1. 创建外部 Stage
+### Step 1. 创建一个 External Stage
 
 ```sql
 CREATE STAGE csv_unload_stage
@@ -37,19 +37,19 @@ CONNECTION = (
 );
 ```
 
-### 步骤 2. 创建自定义 CSV 文件格式
+### Step 2. 创建自定义 CSV 文件格式
 
 ```sql
 CREATE FILE FORMAT csv_unload_format
     TYPE = CSV,
     RECORD_DELIMITER = '\n',
     FIELD_DELIMITER = ',',
-    COMPRESSION = gzip,     -- 使用 gzip 压缩卸载
-    OUTPUT_HEADER = true,   -- 卸载时包含表头
-    SKIP_HEADER = 1;        -- 仅用于加载，查询时跳过第一行（如果 CSV 文件有表头）
+    COMPRESSION = gzip,     -- 卸载时使用 gzip 压缩
+    OUTPUT_HEADER = true,   -- 卸载时带表头
+    SKIP_HEADER = 1;        -- 仅用于加载，如果 CSV 文件有表头，查询时跳过第一行
 ```
 
-### 步骤 3. 卸载到 CSV 文件
+### Step 3. 卸载到 CSV 文件
 
 ```sql
 COPY INTO @csv_unload_stage
@@ -61,7 +61,7 @@ FILE_FORMAT = (FORMAT_NAME = 'csv_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
-结果:
+结果：
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
@@ -71,7 +71,7 @@ DETAILED_OUTPUT = true;
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 4. 验证卸载的 CSV 文件
+### Step 4. 验证卸载的 CSV 文件
 
 ```sql
 SELECT COUNT($1)
@@ -82,7 +82,7 @@ FROM @csv_unload_stage
 );
 ```
 
-结果:
+结果：
 
 ```text
 ┌───────────┐

@@ -3,9 +3,9 @@ title: ST_SRID
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.458"/>
+<FunctionDescription description="Introduced or updated: v1.2.458"/>
 
-返回一个 GEOMETRY 对象的 SRID（空间参考系统标识符）。
+返回 GEOMETRY 对象的 SRID（空间参考系统标识符）。
 
 ## 语法
 
@@ -15,13 +15,13 @@ ST_SRID(<geometry>)
 
 ## 参数
 
-| 参数         | 描述                                             |
-|--------------|--------------------------------------------------|
-| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。               |
+| 参数         | 描述                                               |
+|--------------|----------------------------------------------------|
+| `<geometry>` | 该参数必须是 GEOMETRY 类型的表达式。               |
 
 ## 返回类型
 
-INT32。
+INT32.
 
 :::note
 如果 Geometry 没有 SRID，将返回默认值 4326。

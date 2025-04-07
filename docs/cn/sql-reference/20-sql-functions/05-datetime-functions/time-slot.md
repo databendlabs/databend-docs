@@ -3,8 +3,7 @@ title: TIME_SLOT
 ---
 
 将时间四舍五入到半小时。
-
-## 语法
+## 句法
 
 ```sql
 time_slot(<expr>)
@@ -12,13 +11,13 @@ time_slot(<expr>)
 
 ## 参数
 
-| 参数        | 描述     |
-| ----------- | -------- |
-| `<expr>`    | 时间戳   |
+| 参数   | 描述 |
+| ----------- | ----------- |
+| `<expr>`    | timestamp   |
 
 ## 返回类型
 
-`TIMESTAMP`，返回格式为“YYYY-MM-DD hh:mm:ss.ffffff”。
+`TIMESTAMP`，以“YYYY-MM-DD hh:mm:ss.ffffff”格式返回。
 
 ## 示例
 

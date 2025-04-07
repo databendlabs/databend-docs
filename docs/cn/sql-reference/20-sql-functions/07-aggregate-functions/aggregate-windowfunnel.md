@@ -1,6 +1,6 @@
 ---
 title: WINDOW_FUNNEL
-description: 漏斗分析
+description: Funnel Analysis
 ---
 
 <p align="center">
@@ -9,15 +9,15 @@ description: 漏斗分析
 
 ## WINDOW_FUNNEL
 
-类似于 ClickHouse 中的 `windowFunnel`（它们由同一位作者创建），它在滑动时间窗口中搜索事件链并计算链中事件的最大数量。
+类似于 ClickHouse 中的 `windowFunnel` (它们由同一作者创建)，它在滑动时间窗口中搜索事件链，并计算链中事件的最大数量。
 
-函数按照以下算法工作：
+该函数按照以下算法工作：
 
--   函数在数据中搜索触发链中第一个条件的事件，并将事件计数器设置为 1。这是滑动窗口开始的时间点。
+-   该函数搜索触发链中第一个条件的数据，并将事件计数器设置为 1。这是滑动窗口开始的时刻。
 
--   如果链中的事件在窗口内按顺序发生，计数器递增。如果事件的顺序被打乱，计数器不会递增。
+-   如果在窗口中按顺序出现链中的事件，则计数器会递增。如果事件的顺序被打乱，则计数器不会递增。
 
--   如果数据包含多个在不同完成点的事件链，函数将仅输出最长链的大小。
+-   如果数据在不同的完成点有多个事件链，则该函数将仅输出最长链的大小。
 
 
 ```sql
@@ -26,31 +26,31 @@ WINDOW_FUNNEL( <window> )( <timestamp>, <cond1>, <cond2>, ..., <condN> )
 
 **参数**
 
--   `<timestamp>` — 包含时间戳的列名。支持的数据类型：整数类型和日期时间类型。
--   `<cond>` — 描述事件链的条件或数据。必须是 `Boolean` 类型。
+-   `<timestamp>` — 包含时间戳的列的名称。支持的数据类型：整数类型和日期时间类型。
+-   `<cond>` — 描述事件链的条件或数据。必须是 `Boolean` 数据类型。
 
 **参数**
 
--   `<window>` — 滑动窗口的长度，即第一个条件和最后一个条件之间的时间间隔。`window` 的单位取决于 `timestamp` 本身，并有所不同。通过表达式 `cond1 的时间戳 <= cond2 的时间戳 <= ... <= condN 的时间戳 <= cond1 的时间戳 + window` 确定。
+-   `<window>` — 滑动窗口的长度，它是第一个条件和最后一个条件之间的时间间隔。`window` 的单位取决于 `timestamp` 本身并且会有所不同。使用表达式 `timestamp of cond1 <= timestamp of cond2 <= ... <= timestamp of condN <= timestamp of cond1 + window` 确定。
 
 **返回值**
 
-在滑动时间窗口内，链中连续触发条件的最大数量。
-选择中的所有链都会被分析。
+滑动时间窗口中链中连续触发条件的最大数量。
+分析选择中的所有链。
 
 类型：`UInt8`。
 
 
 **示例**
 
-确定用户是否在设定的时间段内足够完成在在线商店中选择手机并购买两次。
+确定设定的时间段是否足够用户在网上商店中 SELECT 手机并购买两次。
 
-设定以下事件链：
+设置以下事件链：
 
-1. 用户登录到商店账户（`event_name = 'login'`）。
-2. 用户访问页面（`event_name = 'visit'`）。
-3. 用户将商品添加到购物车（`event_name = 'cart'`）。
-4. 用户完成购买（`event_name = 'purchase'`）。
+1. 用户登录到他们在商店中的帐户 (`event_name = 'login'`)。
+2. 用户访问页面 (`event_name = 'visit'`)。
+3. 用户添加到购物车 (`event_name = 'cart'`)。
+4. 用户完成购买 (`event_name = 'purchase'`)。
 
 
 ```sql
@@ -87,7 +87,7 @@ INSERT INTO events VALUES(100126, 'visit', '2022-05-15 12:01:00');
 +---------+------------+----------------------------+
 ```
 
-找出用户 `user_id` 在一个小时的滑动窗口内能完成事件链的程度。
+找出用户 `user_id` 在一小时窗口滑动中可以通过链到达多远。
 
 查询：
 
@@ -108,7 +108,7 @@ GROUP BY level ORDER BY level ASC;
 
 :::tip
 
-`event_timestamp` 类型是时间戳，`3600000000` 是一个小时的时间窗口。
+`event_timestamp` 类型是 timestamp，`3600000000` 是一个小时的时间窗口。
 
 :::
 
@@ -124,6 +124,6 @@ GROUP BY level ORDER BY level ASC;
 +-------+-------+
 ```
 
-* 用户 `100126` 的级别是 2（`login -> visit`）。
-* 用户 `100125` 的级别是 3（`login -> visit -> cart`）。
-* 用户 `100123` 的级别是 4（`login -> visit -> cart -> purchase`）。
+* 用户 `100126` 的级别为 2 (`login -> visit`)。
+* 用户 `100125` 的级别为 3 (`login -> visit -> cart`)。
+* 用户 `100123` 的级别为 4 (`login -> visit -> cart -> purchase`)。

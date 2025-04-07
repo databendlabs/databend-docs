@@ -2,9 +2,9 @@
 title: BITMAP_NOT
 ---
 
-生成一个新的位图，其中包含第一个位图中不在第二个位图中的元素。
+生成一个新 bitmap，其中的元素来自第一个 bitmap，但不在第二个 bitmap 中。
 
-## 语法
+## 句法
 
 ```sql
 BITMAP_NOT( <bitmap1>, <bitmap2> )

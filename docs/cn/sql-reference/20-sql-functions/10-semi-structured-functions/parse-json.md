@@ -1,13 +1,13 @@
 ---
 title: PARSE_JSON
 description:
-  解释输入的JSON字符串，生成一个VARIANT值
+  解析输入的 JSON 字符串，生成 VARIANT 值
 title_includes: TRY_PARSE_JSON
 ---
 
-`parse_json` 和 `try_parse_json` 将输入字符串解释为JSON文档，生成一个VARIANT值。
+`parse_json` 和 `try_parse_json` 将输入字符串解析为 JSON 文档，生成 VARIANT 值。
 
-`try_parse_json` 在解析过程中发生错误时返回NULL值。
+如果在解析过程中发生错误，`try_parse_json` 将返回 NULL 值。
 
 ## 语法
 
@@ -18,9 +18,9 @@ TRY_PARSE_JSON(<expr>)
 
 ## 参数
 
-| 参数      | 描述                                                                         |
-|-----------|------------------------------------------------------------------------------|
-| `<expr>`  | 一个字符串类型的表达式（例如VARCHAR），包含有效的JSON信息。                   |
+| 参数      | 描述                                                                       |
+|-----------|----------------------------------------------------------------------------|
+| `<expr>`  | 字符串类型的表达式（例如 VARCHAR），其中包含有效的 JSON 信息。                 |
 
 ## 返回类型
 

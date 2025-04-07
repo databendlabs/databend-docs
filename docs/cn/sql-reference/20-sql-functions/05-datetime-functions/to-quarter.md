@@ -4,9 +4,9 @@ title: TO_QUARTER
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.153"/>
+<FunctionDescription description="Introduced or updated: v1.2.153"/>
 
-从给定的日期或时间戳中提取季度（1、2、3 或 4）。
+从给定的日期或时间戳中检索季度（1、2、3 或 4）。
 
 ## 语法
 
@@ -20,7 +20,7 @@ TO_QUARTER( <date_or_time_expr> )
 
 ## 返回类型
 
-整数。
+Integer.
 
 ## 示例
 

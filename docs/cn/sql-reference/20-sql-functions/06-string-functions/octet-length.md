@@ -4,7 +4,7 @@ title: OCTET_LENGTH
 
 OCTET_LENGTH() 是 LENGTH() 的同义词。
 
-## 语法
+## 句法
 
 ```sql
 OCTET_LENGTH(<str>)

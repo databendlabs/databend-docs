@@ -1,5 +1,5 @@
 ---
-title: Databend Cloud 使用手册
+title: 使用 Databend Cloud
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';

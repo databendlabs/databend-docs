@@ -2,9 +2,9 @@
 title: ARRAY_PREPEND
 ---
 
-在数组前添加一个元素。
+将元素添加到数组的开头。
 
-## 语法
+## 句法
 
 ```sql
 ARRAY_PREPEND( <element>, <array> )

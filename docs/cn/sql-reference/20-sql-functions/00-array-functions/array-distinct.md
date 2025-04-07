@@ -2,9 +2,9 @@
 title: ARRAY_DISTINCT
 ---
 
-从数组中移除所有重复项及 NULL 值，且不保留原始顺序。
+删除数组中所有重复项和 NULL 值，但不保留原始顺序。
 
-## 语法
+## 句法
 
 ```sql
 ARRAY_DISTINCT( <array> )

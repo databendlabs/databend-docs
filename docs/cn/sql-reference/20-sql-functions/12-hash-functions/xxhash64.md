@@ -2,7 +2,7 @@
 title: XXHASH64
 ---
 
-计算字符串的 xxHash64 64 位哈希值。该值以 UInt64 类型返回，如果参数为 NULL，则返回 NULL。
+计算字符串的 xxHash64 64 位哈希值。该值以 UInt64 形式返回，如果参数为 NULL，则返回 NULL。
 
 ## 语法
 

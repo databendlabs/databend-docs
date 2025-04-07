@@ -3,11 +3,11 @@ title: TO_WEEK_OF_YEAR
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.151"/>
+<FunctionDescription description="Introduced or updated: v1.2.151"/>
 
-计算给定日期在一年中的周数。
+计算给定日期在一年中的第几周。
 
-ISO 周数计算方式如下：1月4日始终被视为第一周的一部分。如果1月1日是星期四，则从12月29日星期一到1月4日星期日的周被指定为ISO周1。如果1月1日是星期五，则从1月4日星期一到1月10日星期日的周被标记为ISO周1。
+ISO 周编号规则如下：1 月 4 日始终被视为第一周的一部分。如果 1 月 1 日是星期四，那么从 12 月 29 日星期一到 1 月 4 日星期日的这一周被指定为 ISO 第 1 周。如果 1 月 1 日是星期五，那么从 1 月 4 日星期一到 1 月 10 日星期日的这一周被标记为 ISO 第 1 周。
 
 ## 语法
 
@@ -17,9 +17,9 @@ TO_WEEK_OF_YEAR(<expr>)
 
 ## 参数
 
-| 参数       | 描述         |
-|-----------|--------------|
-| `<expr>`  | 日期/时间戳  |
+| 参数      | 描述           |
+|-----------|----------------|
+| `<expr>`  | date/timestamp |
 
 ## 别名
 
@@ -28,7 +28,7 @@ TO_WEEK_OF_YEAR(<expr>)
 
 ## 返回类型
 
-返回一个整数，表示一年中的周数，范围从1到53。
+返回一个整数，表示一年中的第几周，编号范围从 1 到 53。
 
 ## 示例
 

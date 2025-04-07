@@ -3,7 +3,7 @@ title: TO_SECONDS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.677"/>
+<FunctionDescription description="Introduced or updated: v1.2.677"/>
 
 将指定的秒数转换为 Interval 类型。
 
@@ -21,7 +21,7 @@ TO_SECONDS(<seconds>)
 
 ## 返回类型
 
-Interval（格式为 `hh:mm:ss`）。
+Interval (格式为 `hh:mm:ss`)。
 
 ## 示例
 

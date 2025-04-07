@@ -2,9 +2,9 @@
 title: JSON_OBJECT_KEYS
 ---
 
-返回一个包含输入 Variant OBJECT 中键列表的数组。
+返回一个 Array，其中包含输入 Variant OBJECT 中的键列表。
 
-## 语法
+## 句法
 
 ```sql
 JSON_OBJECT_KEYS(<variant>)
@@ -12,8 +12,8 @@ JSON_OBJECT_KEYS(<variant>)
 
 ## 参数
 
-| 参数        | 描述                               |
-|-------------|-------------------------------------------|
+| 参数        | 描述                                    |
+|-------------|-----------------------------------------|
 | `<variant>` | 包含 OBJECT 的 VARIANT 值 |
 
 ## 别名

@@ -3,7 +3,7 @@ title: TO_DAYS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.677"/>
+<FunctionDescription description="Introduced or updated: v1.2.677"/>
 
 将指定的天数转换为 Interval 类型。
 
@@ -17,7 +17,7 @@ TO_DAYS(<days>)
 
 ## 返回类型
 
-Interval（以天为单位表示）。
+Interval (以天为单位表示)。
 
 ## 示例
 

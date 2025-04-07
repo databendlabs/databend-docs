@@ -3,12 +3,12 @@ title: SUM
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.697"/>
+<FunctionDescription description="引入或更新：v1.2.697"/>
 
 计算一组值的总和。
 
-- NULL 值会被忽略。
-- 支持数值和间隔类型。
+- NULL 值将被忽略。
+- 支持数值和时间间隔类型。
 
 ## 语法
 
@@ -22,10 +22,10 @@ SUM(<expr>)
 
 ## 示例
 
-此示例演示了如何创建一个包含 INTEGER、DOUBLE 和 INTERVAL 列的表，插入数据，并使用 SUM 计算每列的总和：
+此示例演示如何创建一个包含 INTEGER、DOUBLE 和 INTERVAL 列的表，插入数据，并使用 SUM 计算每列的总数：
 
 ```sql
--- 创建一个包含整数、双精度和间隔列的表
+-- 创建一个包含整数、双精度和时间间隔列的表
 CREATE TABLE sum_example (
     id INT,
     int_col INTEGER,
@@ -51,8 +51,8 @@ FROM sum_example;
 预期输出：
 
 ```sql
--- NULL 值被忽略。
--- SUM(interval_col) 返回 240:00:00（10 天）。
+-- NULL 值将被忽略。
+-- SUM(interval_col) 返回 240:00:00 (10 days)。
 
 ┌──────────────────────────────────────────────────────────┐
 │  total_integer  │    total_double   │   total_interval   │

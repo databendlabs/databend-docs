@@ -3,7 +3,7 @@ title: MEDIAN_TDIGEST
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.41"/>
+<FunctionDescription description="Introduced or updated: v1.2.41"/>
 
 使用 [t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf) 算法计算数值数据序列的中位数。
 
@@ -19,9 +19,9 @@ MEDIAN_TDIGEST(<expr>)
 
 ## 参数
 
-| 参数       | 描述               |
-|-----------|--------------------|                                                                                                                 
-| `<expr>`  | 任何数值表达式     |                                                                                                     
+| 参数     | 描述                 |
+|----------|----------------------|
+| `<expr>` | 任何数值表达式       |
 
 ## 返回类型
 
@@ -44,7 +44,7 @@ VALUES (1, 1, 80),
        (4, 4, 95),
        (5, 5, 85);
 
--- 计算考试成绩的中位数
+-- 计算考试成绩中位数
 SELECT MEDIAN_TDIGEST(score) AS median_score
 FROM exam_scores;
 

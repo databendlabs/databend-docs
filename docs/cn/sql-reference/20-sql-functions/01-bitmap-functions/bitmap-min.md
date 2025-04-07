@@ -2,7 +2,7 @@
 title: BITMAP_MIN
 ---
 
-获取位图中包含的最小值。
+获取 bitmap 中的最小值。
 
 ## 语法
 

@@ -1,8 +1,8 @@
 ---
-title: 地理函数
+title: H3 函数
 ---
 
-本节提供 Databend 中地理函数的参考信息。
+本节提供了 Databend 中 H3 函数的参考信息。
 
 ## 坐标转换
 
@@ -54,7 +54,7 @@ title: 地理函数
 - [H3_EXACT_EDGE_LENGTH_M](h3-exact-edge-length-m.md)
 - [H3_EXACT_EDGE_LENGTH_RADS](h3-exact-edge-length-rads.md)
 
-## 通用工具
+## 常用工具
 
 - [POINT_IN_POLYGON](point-in-polygon.md)
 - [H3_LINE](h3-line.md)

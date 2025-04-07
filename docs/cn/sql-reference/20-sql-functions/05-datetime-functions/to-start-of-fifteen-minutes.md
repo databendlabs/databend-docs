@@ -2,25 +2,24 @@
 title: TO_START_OF_FIFTEEN_MINUTES
 ---
 
-将日期和时间（时间戳/日期时间）向下舍入到十五分钟间隔的开始。
-
-## 语法
+将日期和时间（timestamp/datetime）向下舍入到十五分钟间隔的开始时间。
+## Syntax
 
 ```sql
 TO_START_OF_FIFTEEN_MINUTES(<expr>)
 ```
 
-## 参数
+## Arguments
 
-| 参数       | 描述     |
-|-----------|---------|
-| `<expr>`  | 时间戳   |
+| Arguments | Description |
+|-----------|-------------|
+| `<expr>`  | timestamp   |
 
-## 返回类型
+## Return Type
 
-`TIMESTAMP`，返回日期格式为“YYYY-MM-DD hh:mm:ss.ffffff”。
+`TIMESTAMP`，以“YYYY-MM-DD hh:mm:ss.ffffff”格式返回日期。
 
-## 示例
+## Examples
 
 ```sql
 SELECT

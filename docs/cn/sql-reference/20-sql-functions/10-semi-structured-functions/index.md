@@ -2,9 +2,9 @@
 title: 半结构化函数
 ---
 
-本节提供 Databend 中半结构化数据函数的参考信息。
+本节提供了 Databend 中半结构化数据函数的参考信息。
 
-## JSON 解析、转换与类型检查：
+## JSON 解析、转换和类型检查：
 - [CHECK_JSON](check-json.md)
 - [JSON_PRETTY](json-pretty.md)
 - [JSON_TYPEOF](json-typeof.md)
@@ -18,7 +18,7 @@ title: 半结构化函数
 - [IS_OBJECT](is-object.md)
 - [IS_STRING](is-string.md)
 
-## JSON 查询与提取：
+## JSON 查询和提取：
 - [JSON_ARRAY_ELEMENTS](json-array-elements.md)
 - [JSON_EACH](json-each.md)
 - [JSON_EXTRACT_PATH_TEXT](json-extract-path-text.md)

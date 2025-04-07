@@ -3,9 +3,9 @@ title: MAP_KEYS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.429"/>
+<FunctionDescription description="Introduced or updated: v1.2.429"/>
 
-返回一个映射中的键。
+返回 map 中的键。
 
 ## 语法
 
@@ -15,13 +15,13 @@ MAP_KEYS( <map> )
 
 ## 参数
 
-| 参数      | 描述         |
-|-----------|--------------|
-| `<map>`   | 输入的映射。 |
+| 参数 | 描述    |
+|-----------|----------------|
+| `<map>`   | 输入 map。 |
 
 ## 返回类型
 
-数组。
+Array。
 
 ## 示例
 

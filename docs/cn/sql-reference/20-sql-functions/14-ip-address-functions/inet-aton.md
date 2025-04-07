@@ -16,7 +16,7 @@ INET_ATON( '<ip>' )
 
 ## 返回类型
 
-整数。
+Integer.
 
 ## 示例
 

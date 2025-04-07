@@ -3,9 +3,9 @@ title: ST_XMIN
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.512"/>
+<FunctionDescription description="Introduced or updated: v1.2.512"/>
 
-返回指定GEOMETRY对象中所有点的最小经度（X坐标）。
+返回指定 GEOMETRY 对象中包含的所有点的最小经度（X 坐标）。
 
 ## 语法
 
@@ -15,13 +15,13 @@ ST_XMIN(<geometry>)
 
 ## 参数
 
-| 参数         | 描述                                             |
-|--------------|--------------------------------------------------|
-| `<geometry>` | 参数必须是GEOMETRY类型的表达式。                 |
+| 参数         | 描述                                           |
+|--------------|---------------------------------------------------|
+| `<geometry>` | 该参数必须是 GEOMETRY 类型的表达式。              |
 
 ## 返回类型
 
-Double。
+Double.
 
 ## 示例
 

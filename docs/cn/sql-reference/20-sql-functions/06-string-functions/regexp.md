@@ -2,9 +2,9 @@
 title: REGEXP
 ---
 
-如果字符串 `<expr>` 匹配指定的正则表达式 `<pattern>`，则返回 `true`，否则返回 `false`。
+如果字符串 `<expr>` 与 `<pattern>` 指定的正则表达式匹配，则返回 `true`，否则返回 `false`。
 
-## 语法
+## 句法
 
 ```sql
 <expr> REGEXP <pattern>

@@ -4,9 +4,9 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.315"/>
+<FunctionDescription description="Introduced or updated: v1.2.315"/>
 
-列出系统中现有的用户定义函数和外部函数。等同于 `SELECT name, is_aggregate, description, arguments, language FROM system.user_functions ...`。
+列出系统中已存在的用户自定义函数和外部函数。等效于 `SELECT name, is_aggregate, description, arguments, language FROM system.user_functions ...`。
 
 另请参阅：[system.user_functions](../../00-sql-reference/20-system-tables/system-user-functions.md)
 

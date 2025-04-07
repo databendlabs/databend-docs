@@ -6,7 +6,7 @@ sidebar_position: 1
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 
-Databend 提供了一系列多样化的产品，以满足广泛的需求。点击以下链接详细了解每个产品：
+Databend 提供了多样化的产品，旨在满足各种需求。点击以下链接，详细了解每个产品：
 
 <IndexOverviewList />
 
@@ -37,4 +37,3 @@ en=
 | Target Audience | Enterprises already using or planning to use public cloud services like AWS      | Enterprises using private clouds or self-managed data centers with high requirements for data security and business stability | Enterprises using private clouds or self-managed data centers |
 
 '/>
-{/*overview*/}

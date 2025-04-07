@@ -2,7 +2,7 @@
 title: EXPLAIN ANALYZE
 ---
 
-`EXPLAIN ANALYZE` 用于显示查询执行计划以及实际运行时的性能统计信息。
+`EXPLAIN ANALYZE` 用于显示查询执行计划以及实际的运行时性能统计信息。
 
 这对于分析查询性能和识别查询中的瓶颈非常有用。
 
@@ -14,7 +14,7 @@ EXPLAIN ANALYZE <statement>
 
 ## 示例
 
-TPC-H Q21:
+
 ```sql
 EXPLAIN ANALYZE SELECT s_name,
     ->        Count(*) AS numwait
@@ -158,7 +158,7 @@ EXPLAIN ANALYZE SELECT s_name,
 |                                     │   ├── read rows: 11000                                                                                                     |
 |                                     │   ├── read bytes: 42015                                                                                                    |
 |                                     │   ├── partitions total: 2                                                                                                  |
-|                                     │   ├── partitions scanned: 2                                                                                                |
+|                                     │   ├── partitions scanned: 2                                                                                                  |
 |                                     │   ├── pruning stats: [segments: <range pruning: 2 to 2>, blocks: <range pruning: 2 to 2, bloom pruning: 0 to 0>]           |
 |                                     │   ├── push downs: [filters: [], limit: NONE]                                                                               |
 |                                     │   ├── output columns: [s_suppkey, s_name, s_nationkey]                                                                     |

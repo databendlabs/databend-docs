@@ -3,9 +3,9 @@ title: ST_ASEWKB
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.436"/>
+<FunctionDescription description="Introduced or updated: v1.2.436"/>
 
-将一个 GEOMETRY 对象转换为 [EWKB（扩展已知二进制）](https://postgis.net/docs/ST_GeomFromEWKB.html) 格式的表示。
+将 GEOMETRY 对象转换为 [EWKB(extended well-known-binary)](https://postgis.net/docs/ST_GeomFromEWKB.html) 格式的表示形式。
 
 ## 语法
 
@@ -15,13 +15,13 @@ ST_ASEWKB(<geometry>)
 
 ## 参数
 
-| 参数         | 描述                                             |
-|--------------|--------------------------------------------------|
-| `<geometry>` | 参数必须是一个 GEOMETRY 类型的表达式。           |
+| 参数           | 描述                                           |
+|----------------|------------------------------------------------|
+| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。               |
 
 ## 返回类型
 
-二进制。
+Binary.
 
 ## 示例
 

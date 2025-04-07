@@ -3,12 +3,13 @@ title: QUANTILE_TDIGEST_WEIGHTED
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.174"/>
+<FunctionDescription description="Introduced or updated: v1.2.174"/>
 
-使用[t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf)算法计算数值数据序列的近似分位数。该函数考虑了每个序列成员的权重。内存消耗为**log(n)**，其中**n**是值的数量。
+使用 [t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf) 算法计算数值数据序列的近似分位数。
+此函数考虑了每个序列成员的权重。内存消耗为 **log(n)**，其中 **n** 是值的数量。
 
 :::caution
-NULL值不包括在计算中。
+NULL 值不包含在计算中。
 :::
 
 ## 语法
@@ -19,15 +20,15 @@ QUANTILE_TDIGEST_WEIGHTED(<level1>[, <level2>, ...])(<expr>, <weight_expr>)
 
 ## 参数
 
-| 参数            | 描述                                                                                                               |
-|-----------------|--------------------------------------------------------------------------------------------------------------------|
-| `<level n>`     | 分位数级别表示一个从0到1的常量浮点数。建议使用[0.01, 0.99]范围内的级别值。                                         |
-| `<expr>`        | 任何数值表达式                                                                                                     |
-| `<weight_expr>` | 任何无符号整数表达式。权重是值的出现次数。                                                                         |
+| 参数            | 描述                                                                                                                                                  |
+|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<level n>`     | 分位数的级别表示一个从 0 到 1 的常量浮点数。建议使用 [0.01, 0.99] 范围内的级别值。                                                                                    |
+| `<expr>`        | 任何数值表达式                                                                                                                                              |
+| `<weight_expr>` | 任何无符号整数表达式。权重是值的出现次数。                                                                                                                               |
 
 ## 返回类型
 
-根据指定的分位数级别数量，返回一个Float64值或一个Float64值数组。
+返回 Float64 值或 Float64 值数组，具体取决于指定的分位数级别数。
 
 ## 示例
 

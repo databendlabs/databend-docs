@@ -5,7 +5,7 @@ sidebar_position: 4
 
 更改数据库的名称。
 
-## 语法
+## 句法
 
 ```sql
 ALTER DATABASE [ IF EXISTS ] <name> RENAME TO <new_db_name>

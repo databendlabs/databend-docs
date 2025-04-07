@@ -3,11 +3,11 @@ title: LTRIM
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.659"/>
+<FunctionDescription description="Introduced or updated: v1.2.694"/>
 
-从字符串的开头（左侧）移除特定字符。
+从字符串左侧删除指定删除字符串中出现的任何字符。
 
-另请参阅: 
+参考：
 
 - [TRIM_LEADING](trim-leading.md)
 - [RTRIM](rtrim.md)
@@ -15,17 +15,17 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
-LTRIM(<string>, <trim_character>)
+LTRIM(<string>, <trim_string>)
 ```
 
 ## 示例
 
 ```sql
-SELECT LTRIM('xxdatabend', 'xx');
+SELECT LTRIM('xxdatabend', 'xx'), LTRIM('xxdatabend', 'xy');
 
-┌───────────────────────────┐
-│ ltrim('xxdatabend', 'xx') │
-├───────────────────────────┤
-│ databend                  │
-└───────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│ ltrim('xxdatabend', 'xx') │ ltrim('xxdatabend', 'xy') │
+├───────────────────────────┼───────────────────────────┤
+│ databend                  │ databend                  │
+└───────────────────────────────────────────────────────┘
 ```

@@ -2,7 +2,7 @@
 title: BITMAP_HAS_ALL
 ---
 
-检查第一个位图是否包含第二个位图中的所有位。
+检查第一个 bitmap 是否包含第二个 bitmap 中的所有位。
 
 ## 语法
 

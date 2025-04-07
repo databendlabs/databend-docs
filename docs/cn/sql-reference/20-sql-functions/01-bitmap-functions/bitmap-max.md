@@ -2,7 +2,7 @@
 title: BITMAP_MAX
 ---
 
-获取位图中最大的值。
+获取 bitmap 中的最大值。
 
 ## 语法
 

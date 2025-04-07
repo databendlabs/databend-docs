@@ -1,27 +1,28 @@
+```md
 ---
-title: 与私有化部署的 Databend 集成
+title: Integrating with Self-Hosted Databend
 ---
 
-本教程演示如何使用 Python 连接到本地部署的 Databend 实例。我们将介绍三种方法——`databend-driver`、使用连接器的 `databend-sqlalchemy` 和使用引擎的 `databend-sqlalchemy`——来执行创建数据库、添加表、插入数据、查询和清理资源等基本操作。
+本教程演示了如何使用 Python 连接到本地部署的 Databend 实例。我们将介绍三种方法——`databend-driver`、带有连接器的 `databend-sqlalchemy` 以及带有引擎的 `databend-sqlalchemy`——来执行基本操作，例如创建数据库、添加表、插入数据、查询和清理资源。
 
-## 开始前准备
+## Before You Start
 
-开始前，请确保已成功在本地安装 Databend。详细说明请参阅[本地与 Docker 部署](/guides/deploy/deploy/non-production/deploying-local)。
+在开始之前，请确保已成功安装本地 Databend。有关详细说明，请参阅 [Local and Docker Deployments](/guides/deploy/deploy/non-production/deploying-local)。
 
-## 步骤 1：准备 SQL 用户账户
+## Step 1: Prepare a SQL User Account
 
-要将程序连接到 Databend 并执行 SQL 操作，必须在代码中提供一个具有适当权限的 SQL 用户账户。如需创建，请确保该 SQL 用户仅拥有必要的权限以保证安全。
+要将程序连接到 Databend 并执行 SQL 操作，必须在代码中提供具有适当权限的 SQL 用户帐户。如果需要，在 Databend 中创建一个，并确保 SQL 用户仅具有必要的权限以确保安全。
 
-本教程使用名为 'user1' 密码为 'abc123' 的 SQL 用户为例。由于程序将向 Databend 写入数据，用户需要 ALL 权限。有关管理 SQL 用户及其权限的详细信息，请参阅[用户与角色](/sql/sql-commands/ddl/user/)。
+本教程使用名为 'user1'，密码为 'abc123' 的 SQL 用户作为示例。由于程序会将数据写入 Databend，因此该用户需要 ALL 权限。有关如何管理 SQL 用户及其权限，请参阅 [User & Role](/sql/sql-commands/ddl/user/)。
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 GRANT ALL on *.* TO user1;
 ```
 
-## 步骤 2：编写 Python 程序
+## Step 2: Write a Python Program
 
-在此步骤中，您将创建一个与 Databend 通信的简单 Python 程序。程序将涉及创建表、插入数据和执行数据查询等任务。
+在此步骤中，你将创建一个与 Databend 通信的简单 Python 程序。该程序将涉及创建表、插入数据和执行数据查询等任务。
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -35,40 +36,40 @@ import TabItem from '@theme/TabItem';
 pip install databend-driver
 ```
 
-2. 将以下代码复制到文件 `main.py`：
+2. 将以下代码复制并粘贴到文件 `main.py` 中：
 
 ```python title='main.py'
 from databend_driver import BlockingDatabendClient
 
-# 连接到本地 Databend，使用 SQL 用户 'user1' 和密码 'abc123' 为例。
+# Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
 client = BlockingDatabendClient('databend://user1:abc123@127.0.0.1:8000/?sslmode=disable')
 
-# 创建游标以与 Databend 交互
+# Create a cursor to interact with Databend
 cursor = client.cursor()
 
-# 创建数据库并使用
+# Create database and use it
 cursor.execute("CREATE DATABASE IF NOT EXISTS bookstore")
 cursor.execute("USE bookstore")
 
-# 创建表
+# Create table
 cursor.execute("CREATE TABLE IF NOT EXISTS booklist(title VARCHAR, author VARCHAR, date VARCHAR)")
 
-# 向表中插入数据
+# Insert data into the table
 cursor.execute("INSERT INTO booklist VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')")
 
-# 从表中查询数据
+# Query data from the table
 cursor.execute("SELECT * FROM booklist")
 rows = cursor.fetchall()
 
-# 打印结果
+# Print the results
 for row in rows:
     print(f"{row[0]} {row[1]} {row[2]}")
 
-# 删除表和数据库
+# Drop the table and database
 cursor.execute('DROP TABLE booklist')
 cursor.execute('DROP DATABASE bookstore')
 
-# 关闭游标
+# Close the cursor
 cursor.close()
 ```
 
@@ -81,9 +82,9 @@ Readings in Database Systems Michael Stonebraker 2004
 
 </TabItem>
 
-<TabItem value="databend-sqlalchemy with Object" label="databend-sqlalchemy（连接器）">
+<TabItem value="databend-sqlalchemy with Object" label="databend-sqlalchemy (Connector)">
 
-您将使用 databend-sqlalchemy 库创建连接器实例，并使用游标对象执行 SQL 查询。
+你将使用 databend-sqlalchemy 库创建一个 connector 实例，并使用 cursor 对象执行 SQL 查询。
 
 1. 安装 databend-sqlalchemy。
 
@@ -91,13 +92,13 @@ Readings in Database Systems Michael Stonebraker 2004
 pip install databend-sqlalchemy
 ```
 
-2. 将以下代码复制到文件 `main.py`：
+2. 将以下代码复制并粘贴到文件 `main.py` 中：
 
 ```python title='main.py'
 from databend_sqlalchemy import connector
 
-# 连接到本地 Databend，使用 SQL 用户 'user1' 和密码 'abc123' 为例。
-# 请根据实际情况替换值，但保持格式一致。
+# Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
+# Feel free to use your own values while maintaining the same format.
 conn = connector.connect(f"http://user1:abc123@127.0.0.1:8000").cursor()
 conn.execute("CREATE DATABASE IF NOT EXISTS bookstore")
 conn.execute("USE bookstore")
@@ -111,7 +112,7 @@ for (title, author, date) in results:
 conn.execute('drop table booklist')
 conn.execute('drop database bookstore')
 
-# 关闭连接
+# Close Connect.
 conn.close()
 ```
 
@@ -123,9 +124,9 @@ Readings in Database Systems Michael Stonebraker 2004
 
 </TabItem>
 
-<TabItem value="databend-sqlalchemy with Engine" label="databend-sqlalchemy（引擎）">
+<TabItem value="databend-sqlalchemy with Engine" label="databend-sqlalchemy (Engine)">
 
-您将使用 databend-sqlalchemy 库创建引擎实例，并通过 connect 方法创建连接来执行查询。
+你将使用 databend-sqlalchemy 库创建一个引擎实例，并使用 connect 方法创建可以执行查询的连接。
 
 1. 安装 databend-sqlalchemy。
 
@@ -133,14 +134,14 @@ Readings in Database Systems Michael Stonebraker 2004
 pip install databend-sqlalchemy
 ```
 
-2. 将以下代码复制到文件 `main.py`：
+2. 将以下代码复制并粘贴到文件 `main.py` 中：
 
 ```python title='main.py'
 from sqlalchemy import create_engine, text
 
-# 连接到本地 Databend，使用 SQL 用户 'user1' 和密码 'abc123' 为例。
-# 请根据实际情况替换值，但保持格式一致。
-# 设置 secure=False 表示客户端将使用 HTTP 而非 HTTPS 连接 Databend。
+# Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
+# Feel free to use your own values while maintaining the same format.
+# Setting secure=False means the client will connect to Databend using HTTP instead of HTTPS.
 engine = create_engine("databend://user1:abc123@127.0.0.1:8000/default?secure=False")
 
 connection1 = engine.connect()
@@ -158,7 +159,7 @@ results = result.fetchall()
 for (title, author, date) in results:
     print("{} {} {}".format(title, author, date))
 
-# 关闭连接
+# Close Connect.
 connection1.close()
 connection2.close()
 engine.dispose()
@@ -172,3 +173,4 @@ Readings in Database Systems Michael Stonebraker 2004
 
 </TabItem>
 </Tabs>
+```

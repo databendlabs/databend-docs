@@ -3,9 +3,9 @@ title: MAP_PICK
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.654"/>
+<FunctionDescription description="Introduced or updated: v1.2.654"/>
 
-从现有 MAP 中返回包含指定键值对的新 MAP。
+返回一个新的 MAP，其中包含现有 MAP 中指定的键值对。
 
 ## 语法
 
@@ -16,15 +16,15 @@ MAP_PICK( <map>, <array> )
 
 ## 参数
 
-| 参数      | 描述                                             |
+| 参数 | 描述 |
 |-----------|-------------------------------------------------------- |
-| `<map>`   | 输入的 MAP。                                          |
-| `<keyN>`  | 要包含在返回 MAP 中的 KEY。          |
-| `<array>` | 要包含在返回 MAP 中的 KEY 数组。 |
+| `<map>`   | 输入 MAP。                                          |
+| `<keyN>`  | 要从返回的 MAP 中包含的 KEY。          |
+| `<array>` | 要从返回的 MAP 中包含的 KEY 数组。 |
 
 :::note
-- 键表达式的类型和 MAP 中的键类型必须相同。
-- 在 MAP 中未找到的键值将被忽略。
+- 键表达式的类型和 map 中的键必须相同。
+- 将忽略在 map 中找不到的键值。
 :::
 
 ## 返回类型

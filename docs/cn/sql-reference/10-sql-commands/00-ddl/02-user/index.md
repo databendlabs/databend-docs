@@ -1,10 +1,10 @@
 ---
-title: 用户与角色
+title: 用户 & 角色
 ---
 
-本页面提供了 Databend 中与用户和角色相关命令的参考信息。
+本页提供了 Databend 中与用户和角色相关命令的参考信息。
 
-## 用户与角色管理：
+## 用户和角色管理：
 
 - [CREATE USER](01-user-create-user.md)
 - [DROP USER](02-user-drop-user.md)

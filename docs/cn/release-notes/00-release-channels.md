@@ -1,39 +1,38 @@
 ---
-title: Databend Release Channels
-sidebar_label: Databend Release Channels
+title: Databend 发布通道
+sidebar_label: Databend 发布通道
 sidebar_position: 3
 description:
-  What's Databend release channels?
+  什么是 Databend 发布通道？
 ---
 
-
-Databend release process following the `release train` model used by e.g. Rust, Firefox and Chrome, as well as `feature staging`.
+Databend 发布过程遵循 `release train` 模型，该模型被 Rust、Firefox 和 Chrome 等使用，以及 `feature staging`。
 
 :::tip
-In the early stage Databend will upgrade the nightly version number only, and when a nightly version is ready for beta, we will leave a beta version getting off of the nightly version.
+在早期阶段，Databend 只会升级 nightly 版本号，当 nightly 版本准备好进行 beta 测试时，我们会留下一个脱离 nightly 版本的 beta 版本。
 :::
 
-Ok, Let's start by understanding how Databend do the releases.
-The following is mainly from the Rust documentation [How Rust is Made and “Nightly Rust”](https://github.com/rust-lang/book/blob/main/src/appendix-07-nightly-rust.md).
+好的，让我们从了解 Databend 如何进行发布开始。
+以下内容主要来自 Rust 文档 [How Rust is Made and “Nightly Rust”](https://github.com/rust-lang/book/blob/main/src/appendix-07-nightly-rust.md)。
 
-There are three release channels for Databend(this is same as Rust):
+Databend 有三个发布通道（这与 Rust 相同）：
 - Nightly
 - Beta
 - Stable
 
-So as time passes, our releases look like this, once a night:
+随着时间的推移，我们的发布看起来像这样，每天一次：
 ```
 nightly: * - - * - - *
 ```
 
-Every six weeks, it's time to prepare a new release! The beta branch of the Databend repository branches off from the main branch used by nightly. Now, there are two releases:
+每六周，就到了准备新版本的时候了！ Databend 仓库的 beta 分支从 nightly 使用的 main 分支分叉出来。现在，有两个版本：
 ```
 nightly: * - - * - - *
                      |
 beta:                *
 ```
 
-Six weeks after the first beta was created, it's time for a stable release! The stable branch is produced from the beta branch:
+在创建第一个 beta 版本六周后，就到了发布 stable 版本的时候了！ stable 分支由 beta 分支产生：
 ```
 nightly: * - - * - - * - - * - - * - - * - * - *
                      |
@@ -42,4 +41,4 @@ beta:                * - - - - - - - - *
 stable:                                *
 ```
 
-This is called the `train model` because every six weeks, a release `leaves the station`, but still has to take a journey through the beta channel before it arrives as a stable release.
+这被称为 `train model`，因为每六周，一个版本都会 `离开车站`，但在作为 stable 版本到达之前，仍然需要经过 beta 通道的旅程。

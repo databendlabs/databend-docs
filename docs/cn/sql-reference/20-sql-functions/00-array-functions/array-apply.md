@@ -2,7 +2,7 @@
 title: ARRAY_APPLY
 ---
 
-是 [ARRAY_TRANSFORM](array-transform.md) 的别名。
+[ARRAY_TRANSFORM](array-transform.md) 的别名。
 
 ## 语法
 

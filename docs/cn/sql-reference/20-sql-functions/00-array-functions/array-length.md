@@ -4,7 +4,7 @@ title: ARRAY_LENGTH
 
 返回数组的长度。
 
-## 语法
+## 句法
 
 ```sql
 ARRAY_LENGTH( <array> )

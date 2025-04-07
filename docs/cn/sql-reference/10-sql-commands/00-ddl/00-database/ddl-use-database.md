@@ -3,7 +3,7 @@ title: USE DATABASE
 sidebar_position: 3
 ---
 
-选择当前会话的数据库。该语句允许您指定并切换到不同的数据库。一旦您使用此命令设置了当前数据库，它将保持不变，直到会话结束，除非您选择更改它。
+为当前会话选择一个数据库。此语句允许你指定并切换到不同的数据库。一旦你使用此命令设置了当前数据库，它将保持不变直到会话结束，除非你选择更改它。
 
 ## 语法
 
@@ -27,11 +27,11 @@ CREATE TABLE table1 (
   name VARCHAR(50)
 );
 
--- 向 "table1" 中插入数据
+-- 将数据插入 "table1"
 INSERT INTO table1 (id, name) VALUES (1, 'John');
 INSERT INTO table1 (id, name) VALUES (2, 'Alice');
 
--- 查询 "table1" 中的所有数据
+-- 从 "table1" 查询所有数据
 SELECT * FROM table1;
 
 -- 切换到 "database2" 作为当前数据库
@@ -43,10 +43,10 @@ CREATE TABLE table2 (
   city VARCHAR(50)
 );
 
--- 向 "table2" 中插入数据
+-- 将数据插入 "table2"
 INSERT INTO table2 (id, city) VALUES (1, 'New York');
 INSERT INTO table2 (id, city) VALUES (2, 'London');
 
--- 查询 "table2" 中的所有数据
+-- 从 "table2" 查询所有数据
 SELECT * FROM table2;
 ```

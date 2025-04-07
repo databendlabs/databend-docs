@@ -12,7 +12,7 @@ No connection. Trying to reconnect...
 您可以从 `system.tracing` 表中获取服务器日志（level=50 仅显示 ERROR 日志）：
 
 :::note
-Databend 使用 [tokio-tracing](https://github.com/tokio-rs/tracing) 来追踪日志，其中默认时区为 UTC，无法通过 Databend 时区设置进行更改，因此追踪日志中的时间将始终为 UTC，不会反映您的本地时间。
+Databend 使用 [tokio-tracing](https://github.com/tokio-rs/tracing) 跟踪日志，其中默认时区为 UTC，无法通过 Databend 时区设置进行更改，因此跟踪日志中的时间将始终为 UTC，不会反映您的本地时间。
 :::
 
 ```sql

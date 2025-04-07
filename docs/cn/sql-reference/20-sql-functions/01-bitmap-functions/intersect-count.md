@@ -2,7 +2,7 @@
 title: INTERSECT_COUNT
 ---
 
-计算两个位图列之间相交的位数。
+计算两个 Bitmap 列之间相交的位数。
 
 ## 语法
 

@@ -2,9 +2,9 @@
 title: IS_NOT_NULL
 ---
 
-检查一个值是否不为 NULL。
+检查一个值是否不是 NULL。
 
-## 语法
+## 句法
 
 ```sql
 IS_NOT_NULL(<expr>)

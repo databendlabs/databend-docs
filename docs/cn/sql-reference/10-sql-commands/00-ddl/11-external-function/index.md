@@ -1,8 +1,8 @@
 ---
-title: 外部函数
+title: External Function
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-本页面提供了 Databend 中与外部函数相关的命令的参考信息。有关外部函数的更多信息，请参阅 [外部函数](/guides/query/external-function)。
+本页提供了 Databend 中 external function 相关命令的参考信息。有关 external function 的更多信息，请参见 [External Function](/guides/query/external-function)。
 
 <IndexOverviewList />
