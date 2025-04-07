@@ -1,8 +1,8 @@
 ---
-title: 序列
+title: Sequence
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-本页面提供了 Databend 中与序列相关命令的参考信息。
+本页提供 Databend 中与 sequence 相关的命令的参考信息。
 
 <IndexOverviewList />

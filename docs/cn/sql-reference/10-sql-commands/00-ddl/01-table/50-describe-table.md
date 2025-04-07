@@ -3,10 +3,10 @@ title: DESCRIBE TABLE
 sidebar_position: 2
 ---
 
-显示给定表中列的信息。等同于 [SHOW FIELDS](show-fields.md)。
+显示给定表中列的信息。等效于 [SHOW FIELDS](show-fields.md)。
 
 :::tip
-[SHOW COLUMNS](show-full-columns.md) 提供了类似但更详细的表列信息。
+[SHOW COLUMNS](show-full-columns.md) 提供了关于表列的类似但更全面的信息。
 :::
 
 ## 语法

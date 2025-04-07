@@ -1,28 +1,28 @@
 ---
-title: 设置集群键
+title: SET CLUSTER KEY
 sidebar_position: 1
 ---
 
-在创建表时设置集群键。
+在创建表时设置 cluster key。
 
-集群键旨在通过物理上将数据聚集在一起来提高查询性能。例如，当您将某一列设置为表的集群键时，表数据将按照您设置的列进行物理排序。如果您的查询大多通过该列进行过滤，这将最大化查询性能。
+Cluster key 旨在通过将数据进行物理聚类来提高查询性能。例如，当你为一个表设置一个列作为 cluster key 时，表数据将按照你设置的列进行物理排序。如果你的大多数查询都按该列进行过滤，这将最大化查询性能。
 
-> **注意:** 对于字符串列，集群统计仅使用前8个字节。您可以使用子字符串来提供足够的基数。
+> **注意：** 对于 String 类型的列，集群统计信息仅使用前 8 个字节。你可以使用子字符串来提供足够的基数。
 
 另请参阅：
 
-* [修改集群键](./dml-alter-cluster-key.md) 
-* [删除集群键](./dml-drop-cluster-key.md)
+* [ALTER CLUSTER KEY](./dml-alter-cluster-key.md)
+* [DROP CLUSTER KEY](./dml-drop-cluster-key.md)
 
 ## 语法
 
 ```sql
-CREATE TABLE <表名> ... CLUSTER BY ( <表达式1> [ , <表达式2> ... ] )
+CREATE TABLE <name> ... CLUSTER BY ( <expr1> [ , <expr2> ... ] )
 ```
 
 ## 示例
 
-以下命令创建了一个按列聚类的表：
+此命令创建一个按列聚类的表：
 
 ```sql
 CREATE TABLE t1(a int, b int) CLUSTER BY(b,a);

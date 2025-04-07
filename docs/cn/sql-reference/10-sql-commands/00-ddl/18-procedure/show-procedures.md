@@ -3,7 +3,7 @@ title: SHOW PROCEDURES
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.637"/>
+<FunctionDescription description="Introduced or updated: v1.2.637"/>
 
 返回系统中所有存储过程的列表。
 
@@ -19,8 +19,8 @@ SHOW PROCEDURES
 SHOW PROCEDURES;
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│       名称       │ 存储过程ID │                        参数                        │            注释            │       描述       │         创建时间         │
+│       name       │ procedure_id │                        arguments                        │            comment           │       description      │         created_on         │
 ├──────────────────┼──────────────┼─────────────────────────────────────────────────────────┼──────────────────────────────┼────────────────────────┼────────────────────────────┤
-│ convert_kg_to_lb │         2104 │ convert_kg_to_lb(Decimal(4, 2)) RETURN (Decimal(10, 2)) │ 将千克转换为磅 │ 用户定义的存储过程 │ 2024-11-07 04:12:25.243143 │
+│ convert_kg_to_lb │         2104 │ convert_kg_to_lb(Decimal(4, 2)) RETURN (Decimal(10, 2)) │ Converts kilograms to pounds │ user-defined procedure │ 2024-11-07 04:12:25.243143 │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```

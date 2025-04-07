@@ -4,9 +4,9 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.558"/>
+<FunctionDescription description="Introduced or updated: v1.2.558"/>
 
-列出所有用户自定义函数（UDFs），包括它们的名称、类型、描述、参数、语言和创建时间戳。
+列出所有用户定义函数 (UDF)，包括它们的名称、类型、描述、参数、语言和创建时间戳。
 
 ## 语法
 

@@ -1,3 +1,4 @@
+```md
 ---
 title: SHOW NETWORK POLICIES
 sidebar_position: 4
@@ -5,9 +6,9 @@ sidebar_position: 4
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.26"/>
+<FunctionDescription description="Introduced or updated: v1.2.26"/>
 
-显示 Databend 中所有现有网络策略的列表。它提供了有关可用网络策略的信息，包括它们的名称以及是否配置了允许或阻止的 IP 地址列表。
+显示 Databend 中所有现有网络策略的列表。它提供有关可用网络策略的信息，包括它们的名称以及是否配置了任何允许或阻止的 IP 地址列表。
 
 ## 语法
 

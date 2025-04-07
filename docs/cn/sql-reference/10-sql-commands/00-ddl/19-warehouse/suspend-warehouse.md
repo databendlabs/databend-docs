@@ -1,14 +1,13 @@
 ---
 title: SUSPEND WAREHOUSE
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.687"/>
+<FunctionDescription description="Introduced or updated: v1.2.687"/>
 
-挂起集群，释放关联的机器资源，但不删除集群。
+暂停一个计算集群，释放相关的机器资源，但不会删除该计算集群。
 
-当您挂起一个集群时，它会释放与该集群关联的机器资源。但是，在尝试与集群交互时，此操作可能会导致问题。具体来说，如果尝试使用或查询挂起的集群，可能会遇到指示集群不可用的错误。例如，试图运行 SHOW ONLINE NODES 或引用挂起集群的其他命令将导致错误。要解决这个问题，您需要退出当前会话并重新连接。
+当您暂停一个计算集群时，它会释放与该计算集群相关的机器资源。但是，此操作可能会在尝试与计算集群交互时导致问题。具体来说，如果您尝试使用或查询一个已暂停的计算集群，您可能会遇到错误，表明该计算集群不可用。例如，尝试运行 SHOW ONLINE NODES 或其他引用已暂停计算集群的命令将导致错误。要解决此问题，您需要退出当前会话并重新连接。
 
 ```sql title='Example:'
 root@(test_warehouse)/default> suspend warehouse test_warehouse;
@@ -45,15 +44,15 @@ show online nodes
 10 rows read in 0.133 sec. Processed 0 rows, 0 B (0 row/s, 0 B/s)
 ```
 
-## 语法
+## Syntax
 
 ```sql
 SUSPEND WAREHOUSE <warehouse_name>
 ```
 
-## 例子
+## Examples
 
-下面的例子挂起了 `test_warehouse` 集群：
+此示例暂停 `test_warehouse` 计算集群：
 
 ```sql
 SUSPEND WAREHOUSE test_warehouse;

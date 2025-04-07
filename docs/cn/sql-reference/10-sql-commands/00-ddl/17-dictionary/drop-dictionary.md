@@ -3,9 +3,9 @@ title: DROP DICTIONARY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.636"/>
+<FunctionDescription description="Introduced or updated: v1.2.636"/>
 
-移除指定的字典。
+删除指定的 dictionary。
 
 ## 语法
 
@@ -15,7 +15,7 @@ DROP DICTIONARY [ IF EXISTS ] <dictionary_name>
 
 ## 示例
 
-以下示例移除了 `courses_dict` 字典：
+以下示例删除 `courses_dict` dictionary：
 
 ```sql
 DROP DICTIONARY courses_dict;

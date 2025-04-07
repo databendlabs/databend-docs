@@ -3,7 +3,7 @@ title: DROP USER
 sidebar_position: 4
 ---
 
-从系统中删除指定的用户。
+从系统中删除指定用户。
 
 ## 语法
 

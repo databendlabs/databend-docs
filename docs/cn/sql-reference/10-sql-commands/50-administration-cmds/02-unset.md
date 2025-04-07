@@ -3,40 +3,40 @@ title: UNSET
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.605"/>
+<FunctionDescription description="Introduced or updated: v1.2.605"/>
 
-将一个或多个系统设置恢复为其全局或默认级别和值。有关设置级别的更多信息，请参见[设置级别](03-show-settings.md#setting-levels)。要显示所有当前设置，请使用[SHOW SETTINGS](03-show-settings.md)。
+将一个或多个系统设置恢复到其全局或默认级别和值。有关设置级别的更多信息，请参见 [设置级别](03-show-settings.md#setting-levels)。要显示所有当前设置，请使用 [SHOW SETTINGS](03-show-settings.md)。
 
-另请参阅：[SET](02-set-global.md)
+另请参见：[SET](02-set-global.md)
 
 ## 语法
 
 ```sql
--- 取消一个设置
+-- 取消设置一个设置
 UNSET [ SESSION | GLOBAL ] <setting_name> 
 
--- 取消多个设置
+-- 取消设置多个设置
 UNSET [ SESSION | GLOBAL ] ( <setting_name>, <setting_name> ... )
 ```
 
-| 参数     | 描述                                                                                                                                                                                         |
-|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SESSION  | 如果设置具有全局级别的值，则移除会话级别的覆盖并恢复为全局设置。如果设置仅具有会话级别的值，则恢复为默认设置。                                                                 |
-| GLOBAL   | 移除全局级别的设置并恢复为默认级别的值。                                                                                                                         |
+| 参数      | 描述                                                                                                                                                                                          |
+|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SESSION   | 如果设置具有全局级别的值，它将删除会话级别的覆盖并恢复为全局设置。如果设置仅具有会话级别的值，它将恢复为默认设置。                                                                                                                                                                                              |
+| GLOBAL    | 删除全局级别的设置并将其恢复为默认级别的值。                                                                                                                         |
 
 
 :::warning[注意]
 
 | Databend-Query 版本 | 描述                                                                    |
-|---------------------|--------------------------------------------------------------------------------|
-| [-∞, v1.2.605)      | 默认情况下，`UNSET <setting_name>` 等同于 `UNSET GLOBAL <setting_name>`。  |
-| [v1.2.605, +∞]      | 默认情况下，`UNSET <setting_name>` 等同于 `UNSET SESSION <setting_name>`。 |
+|------------------------|--------------------------------------------------------------------------------|
+| [-∞, v1.2.605)         | 默认情况下，`UNSET <setting_name>` 等同于 `UNSET GLOBAL <setting_name>`。  |
+| [v1.2.605, +∞]         | 默认情况下，`UNSET <setting_name>` 等同于 `UNSET SESSION <setting_name>`。 |
 
 :::
 
 ## 示例
 
-此示例使用 `UNSET GLOBAL` 移除全局级别的时区设置，将其恢复为默认值和级别：
+此示例使用 `UNSET GLOBAL` 删除时区的全局级别设置，将其恢复为其默认值和级别：
 
 ```sql
 SHOW SETTINGS LIKE 'timezone';
@@ -47,7 +47,7 @@ SHOW SETTINGS LIKE 'timezone';
 │ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ Sets the timezone. │ String │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 在全局级别设置时区为 'Asia/Shanghai'
+-- 将时区设置为全局级别的 'Asia/Shanghai'
 SET GLOBAL timezone = 'Asia/Shanghai';
 SHOW SETTINGS LIKE 'timezone';
 
@@ -57,7 +57,7 @@ SHOW SETTINGS LIKE 'timezone';
 │ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ Sets the timezone. │ String │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 移除全局级别的时区设置
+-- 删除时区的全局级别设置
 UNSET GLOBAL timezone;
 SHOW SETTINGS LIKE 'timezone';
 
@@ -68,7 +68,7 @@ SHOW SETTINGS LIKE 'timezone';
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例使用 `UNSET SESSION` 移除会话级别的时区设置，将其恢复为全局级别的设置：
+此示例使用 UNSET SESSION 删除时区的会话级别设置，将其恢复为全局级别设置：
 
 ```sql
 SHOW SETTINGS LIKE 'timezone';
@@ -79,7 +79,7 @@ SHOW SETTINGS LIKE 'timezone';
 │ timezone │ UTC    │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ DEFAULT │ Sets the timezone. │ String │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 在全局级别设置时区为 'Asia/Shanghai'
+-- 将时区设置为全局级别的 'Asia/Shanghai'
 SET GLOBAL timezone = 'Asia/Shanghai';
 SHOW SETTINGS LIKE 'timezone';
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -88,7 +88,7 @@ SHOW SETTINGS LIKE 'timezone';
 │ timezone │ Asia/Shanghai │ UTC     │ ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa... │ GLOBAL │ Sets the timezone. │ String │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 在当前会话中设置时区为 'America/Santiago'
+-- 在当前会话中将时区设置为 'America/Santiago'
 SET timezone = 'America/Santiago';
 SHOW SETTINGS LIKE 'timezone';
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -107,7 +107,7 @@ SHOW SETTINGS LIKE 'timezone';
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例使用 `UNSET SESSION` 移除会话级别的时区设置，将其恢复为会话级别的设置：
+此示例使用 UNSET SESSION 删除时区的会话级别设置，将其恢复为会话级别设置：
 
 ```sql
 SHOW SETTINGS LIKE 'timezone';

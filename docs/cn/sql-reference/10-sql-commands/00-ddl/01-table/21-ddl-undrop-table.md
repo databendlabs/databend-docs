@@ -3,9 +3,9 @@ title: UNDROP TABLE
 sidebar_position: 20
 ---
 
-恢复最近删除的表。此功能利用了 Databend 的时间回溯特性；删除的对象只能在保留期内（默认为 24 小时）恢复。
+恢复最近删除的表版本。这利用了 Databend 的时间回溯功能；删除的对象只能在保留期内恢复（默认为 24 小时）。
 
-**另请参阅：**
+**参见：**
 - [CREATE TABLE](./10-ddl-create-table.md)
 - [DROP TABLE](./20-ddl-drop-table.md)
 - [SHOW TABLES](show-tables.md)
@@ -16,9 +16,9 @@ sidebar_position: 20
 UNDROP TABLE [ <database_name>. ]<table_name>
 ```
 
-- 如果已经存在同名的表，将返回错误。
+- 如果已存在同名的表，则会返回错误。
 
-    ```sql title='示例：'
+    ```sql title='Examples:'
     root@localhost:8000/default> CREATE TABLE t(id INT);
     processed in (0.036 sec)
 
@@ -32,9 +32,9 @@ UNDROP TABLE [ <database_name>. ]<table_name>
     error: APIError: QueryFailed: [2308]Undrop Table 't' already exists
     ```
 
-- 恢复表不会自动将所有权恢复到原始角色。恢复后，必须手动将所有权授予之前的角色或其他角色。在此之前，只有 `account-admin` 角色可以访问该表。
+- 恢复表不会自动将所有权恢复到原始角色。恢复后，必须手动将所有权授予之前的角色或其他角色。在此之前，该表仅对 `account-admin` 角色可见。
 
-    ```sql title='示例：'
+    ```sql title='Examples:'
     GRNAT OWNERSHIP on doc.t to ROLE writer;
     ```
 
@@ -43,10 +43,10 @@ UNDROP TABLE [ <database_name>. ]<table_name>
 ```sql
 CREATE TABLE test(a INT, b VARCHAR);
 
--- 删除表
+-- drop table
 DROP TABLE test;
 
--- 显示当前数据库中已删除的表
+-- show dropped tables from current database
 SHOW TABLES HISTORY;
 
 ┌────────────────────────────────────────────────────┐
@@ -55,6 +55,6 @@ SHOW TABLES HISTORY;
 │ test                  │ 2024-01-23 04:56:34.766820 │
 └────────────────────────────────────────────────────┘
 
--- 恢复表
+-- restore table
 UNDROP TABLE test;
 ```

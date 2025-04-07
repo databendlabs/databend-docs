@@ -3,7 +3,7 @@ title: DESC STAGE
 sidebar_position: 2
 ---
 
-描述一个 stage 的属性。
+描述 Stage 的属性。
 
 ## 语法
 

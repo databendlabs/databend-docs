@@ -1,21 +1,21 @@
 ---
-title: 刷新虚拟列
+title: REFRESH VIRTUAL COLUMN
 sidebar_position: 3
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.271"/>
+<FunctionDescription description="Introduced or updated: v1.2.271"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='虚拟列'/>
+<EEFeature featureName='VIRTUAL COLUMN'/>
 
-刷新表的虚拟列。在以下场景中需要刷新虚拟列：
+刷新表的 virtual columns。在以下情况下，virtual columns 需要刷新：
 
-- 在为已包含 Variant 数据的表创建虚拟列后，需要刷新虚拟列。
-- 在修改表的虚拟列后，需要刷新虚拟列。
-- 如果 `enable_refresh_virtual_column_after_write` 设置为 1（默认值），则在数据更新后会自动刷新表的虚拟列。但如果未启用此设置，则需要手动刷新虚拟列。
+- 在为已包含 Variant 数据的表创建 virtual columns 后，需要刷新 virtual columns。
+- 修改表的 virtual columns 时，在修改后刷新它们。
+- 如果 `enable_refresh_virtual_column_after_write` 设置为 1（默认），则在数据更新后会自动刷新表的 virtual columns。但是，如果未启用此设置，则需要手动刷新 virtual columns。
 
 ## 语法
 
@@ -25,7 +25,7 @@ REFRESH VIRTUAL COLUMN FOR <table>
 
 ## 示例
 
-以下示例刷新了名为 'test' 的表的虚拟列：
+此示例刷新名为“test”的表的 virtual columns：
 
 ```sql
 REFRESH VIRTUAL COLUMN FOR test;
