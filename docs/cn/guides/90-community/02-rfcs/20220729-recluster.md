@@ -1,23 +1,24 @@
+```md
 ---
-title: 重新聚簇表
-description: 重新聚簇表的RFC
+title: recluster table
+description: RFC for recluster a clustered table
 ---
 
-## 概述
+## Summary
 
-聚簇的灵感来自于 Snowflake 中的数据聚簇和 Oracle 中的属性聚簇。
+Clustering is inspired by data clustering in Snowflake and attribute clustering in Oracle.
 
-一个聚簇表根据表中某些列的值以有序的方式存储数据。聚簇有利于分区消除和文件碎片整理。
+A clustered table stores data in an ordered way based on the values of a certain set of columns in the table. Clustering is beneficial to partition elimination and file defragmentation.
 
-默认情况下，数据按照自然维度存储在表中。我们需要根据聚簇键重新聚簇表。另一方面，即使聚簇表已经很好地聚簇，如果不断写入新数据，聚簇效果会随着时间的推移而变差。因此，有必要添加重新聚簇操作。
+By default, data is stored in tables according to natural dimensions. We need to recluster the tables by the cluster key. On the other hand, even though the clustered table has been well-clustered, clustering will become worse over time if new data is constantly written. Therefore, it is necessary to add recluster operation.
 
-## 设计
+## Design
 
-有关更详细的原理和图片，请参考[snowflake 自动聚簇](https://sundy-li.github.io/posts/探索snowflake-auto-clustering/)。
+For more detailed principles and pictures, please refer to [snowflake auto clustering](https://sundy-li.github.io/posts/探索snowflake-auto-clustering/).
 
-对整个表进行排序的成本非常高，尤其是对于不断有新数据流入的表。为了在高效剪枝和低成本之间取得平衡，表只需要大致排序而不是完全排序。因此，在[指标](#指标)中引入了两个指标来确定表是否聚簇良好。重新聚簇的目标是减少`overlap`和`depth`。
+The cost of performing full table sorting is very expensive, especially for the tables that constantly have new data inflow. In order to make a balance between efficient pruning and low cost, the tables only need to be roughly sorted instead of fully sorted. Therefore, two metrics are introduced in [Metrics](#metrics) to determine whether the table is well clustered. The goal of recluster is to reduce `overlap` and `depth`.
 
-为了避免对同一块数据进行多次聚簇，我们将块分成不同的层级，类似于 LSM 树。重新聚簇类似于 LSM 的压缩操作。`level`表示该块中的数据被聚簇的次数。重新聚簇操作在同一层级上进行。
+To avoid churning on the same piece of data many times, we divides the blocks into different levels like LSM trees. The recluster is similar to the LSM compact operation. The `level` represents the number of times the data in that block has been clustered. The recluster operation is performed on the same level.
 
 ```rust
 pub struct ClusterStatistics {
@@ -26,48 +27,49 @@ pub struct ClusterStatistics {
 }
 ```
 
-重新聚簇操作的工作流程分为两个任务：块选择和块合并。
+The workflow of a recluster operation is divided into two tasks, block selection and block merge.
 
-### 语法
+### syntax
 
 ```sql
 ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [ LIMIT <segment_count> ]
 ```
 
-如果指定`final`，优化将一直进行，直到表聚簇良好为止。否则，重新聚簇工作流程只会运行一次。
+If specify `final`, optimization is performed until the table is well clustered enough. Otherwise, the recluster workflow will only run once.
 
-该语句应由表上的 DML 触发。
+The statement should be triggered by DML on the table.
 
-### 指标
+### Metrics
 
 - overlap
-  与给定块重叠的块数。
+  The number of blocks that overlap with a given block.
 
 - depth
-  在同一位置重叠的块数。这些点从聚簇值域范围的最小值和最大值中收集。
+  The number of blocks that overlap at the same point. The points are collected from the minimum and maximum value in the clustering values domain range.
 
-### 块选择
+### Block Selection
 
-新流入数据的初始层级为 0。我们首先关注较新的数据，换句话说，选择操作优先在层级 0 上进行。这样做的好处是减少写放大。
+The initial level of newly incoming data is 0. We focus on the newer data first, in other words the selection operations are preferentially performed on level 0. The advantage of doing this is to reduce write amplification.
 
-1. 计算每个点的深度和块的重叠，并汇总得到 avg_depth。该算法已经在[system$clustering_information](https://github.com/databendlabs/databend/pull/5426)中反映，这里不再重复。avg_depth 的理想结果是 1。为了实现大致排序，考虑定义一个阈值或比例（threshold = blocks_num \* ratio）。只要 avg_depth 不大于这个阈值，该层级的块就可以被认为是聚簇良好的，然后我们在下一层级进行块选择。
+1. Calculate the depth of each point and the overlaps of the block, and summarize to get avg_depth. The algorithm has already been reflected in [system$clustering_information](https://github.com/databendlabs/databend/pull/5426), and will not be repeated here. The ideal result for avg_depth is 1. In order to achieve roughly ordering, consider defining a threshold or a ratio (threshold = blocks_num \* ratio). As long as avg_depth is not greater than this threshold, the blocks at this level can be considered well-clustered, then we perform block selection on the next level.
 
-2. 选择深度最高的点范围（一个或多个），并选择该范围覆盖的块作为下一阶段块合并的对象集。如果存在多个深度最高的范围，可能会有多组块可以在块合并期间并行处理。
+2. Select the point range (one or more) with the highest depth, and select the blocks covered by the range as a set of objects for the next block-merge. If there is more than one range with the highest depth, there may be multiple sets of blocks that can be parallelized during block-merge.
 
-提示：
+Tip:
 
 ```
-1. 聚簇键可能在表有数据时创建或更改，因此可能存在未按聚簇键排序的块。考虑在重新聚簇时暂时忽略这些块。
+1. The cluster key may be created or altered when the table has data, so there may be blocks that are not sorted according to the cluster key. Consider temporarily ignoring such blocks when doing recluster.
 
-2. 如果一个块的聚簇键只有一个值（最大值和最小值相等，达到常量状态）且其row_num为1_000_000，将其层级设置为-1并在重新聚簇时过滤掉。
+2. If the cluster key of a block has only one value (the maximum and minimum values are equal, reaching the constant state) and its row_num is 1_000_000, set its level to -1 and filter it out when doing recluster.
 
-3. 选择的块可能需要考虑总大小，否则排序可能会导致内存不足。
+3. The selected blocks maybe need to consider the total size, otherwise the sorting may be out of memory.
 ```
 
-### 块合并
+### Block Merge
 
-对收集的块进行排序和合并。合并后的块超过一定阈值（1_000_000 行）后，将分成多个块。新生成的块放入下一层级。
+Sort and merge the collected blocks. After the merged block exceeds a certain threshold (1_000_000 rows), it will be divided into multiple blocks. The newly generated block is put into the next level.
 
-组织块并生成新的段和快照，最后更新表元数据。如果在此时有新的 DML 执行，当前工作流程将无法提交并返回错误。我们需要考虑具体的处理流程。
+Organize the blocks and generate new segments and snapshot, and finally update table meta. If there is a new DML execution during this period, the current workflow will fail to commit and return an error. We need to consider the specific processing flow later.
 
-选择和合并操作重复进行，直到表聚簇良好为止。
+The selection and merge operation is repeated until the table is well clustered enough.
+```

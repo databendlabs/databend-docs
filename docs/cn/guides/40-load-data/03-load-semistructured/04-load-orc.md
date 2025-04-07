@@ -1,11 +1,12 @@
+```markdown
 ---
-title: 加载 ORC 文件到 Databend
-sidebar_label: 加载 ORC 文件
+title: Loading ORC File into Databend
+sidebar_label: ORC
 ---
 
 ## 什么是 ORC？
 
-ORC（优化行列式）是一种常用于数据分析的列式存储格式。
+ORC (Optimized Row Columnar) 是一种常用于数据分析的列式存储格式。
 
 ## 加载 ORC 文件
 
@@ -18,15 +19,15 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = ORC)
 ```
 
-更多关于语法的详细信息可以在 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table) 中找到。
+有关语法的更多详细信息，请参见 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
 
 ## 教程：从 ORC 文件加载数据
 
-本教程演示如何将存储在 S3 存储桶中的 ORC 文件数据加载到 Databend 表中。
+本教程演示了如何将存储在 S3 bucket 中的 ORC 文件中的数据加载到 Databend 表中。
 
 ### 步骤 1. 创建外部 Stage
 
-创建一个指向 S3 存储桶中 ORC 文件的外部 Stage。
+创建一个外部 Stage，指向 S3 bucket 中的 ORC 文件。
 
 ```sql
 CREATE OR REPLACE CONNECTION aws_s3
@@ -63,10 +64,10 @@ LIST @orc_data_stage;
 
 ### 步骤 2：查询 Stage 文件
 
-创建一个 ORC 文件格式并查询 Stage 以查看数据和模式。
+为 ORC 创建文件格式，并查询 Stage 以查看数据和 schema。
 
 ```sql
--- 创建 ORC 文件格式
+-- 创建一个 ORC 文件格式
 CREATE OR REPLACE FILE FORMAT orc_ff TYPE = 'ORC';
 
 
@@ -99,7 +100,7 @@ LIMIT 10;
 
 ### 步骤 4：创建目标表
 
-在 Databend 中创建一个目标表，用于存储来自 ORC 文件的数据。我们选择 ORC 文件中的一些列来创建表。
+在 Databend 中创建一个目标表，用于存储来自 ORC 文件的数据。我们从 ORC 文件中选择一些列来创建表。
 
 ```sql
 CREATE OR REPLACE TABLE orc_test_table (

@@ -4,17 +4,17 @@ title: Jaeger
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.199"/>
+<FunctionDescription description="Introduced or updated: v1.2.199"/>
 
-[Jaeger](https://github.com/jaegertracing/jaeger) 是一个开源的端到端分布式追踪工具，起源于 [Uber](https://www.uber.com/)。它有助于监控和故障排查基于微服务的应用程序。
+[Jaeger](https://github.com/jaegertracing/jaeger) 是一个开源的端到端分布式追踪工具，起源于 [Uber](https://www.uber.com/)。它可以帮助监控和排除基于微服务的应用程序的故障。
 
-Databend 通过集成 [OpenTelemetry](https://opentelemetry.io/) SDK，具备将追踪数据导出到 Jaeger 的能力。以下教程展示了如何部署和使用 Jaeger 来追踪 Databend。
+Databend 能够通过与 [OpenTelemetry](https://opentelemetry.io/) SDK 集成，将追踪数据导出到 Jaeger。以下教程展示了如何部署和使用 Jaeger 来追踪 Databend。
 
-## 教程: 使用 Jaeger 追踪 Databend
+## 教程：使用 Jaeger 追踪 Databend
 
 ### 步骤 1. 部署 Jaeger
 
-本教程使用 All In One 镜像在 Docker 中部署 Jaeger。如果您已经有一个正在运行的 Jaeger 实例，可以跳过此步骤。
+本教程使用 All In One 镜像在 Docker 中部署 Jaeger。如果您已经有一个正在运行的 Jaeger 实例，则可以跳过此步骤。
 
 ```bash
 docker run --rm -d --name jaeger \
@@ -36,7 +36,7 @@ docker run --rm -d --name jaeger \
 
 1. 按照 [部署指南](/guides/deploy) 部署 Databend。
 
-2. 在配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中启用追踪。更多信息，请参阅 [通过配置文件启用](../30-tracing.md#enabling-with-configuration-file)。
+2. 在配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中启用 tracing。更多信息，请参见 [通过配置文件启用](../30-tracing.md#enabling-with-configuration-file)。
 
 ```toml title='databend-query.toml'
 ...
@@ -47,7 +47,7 @@ otlp_endpoint = "http://127.0.0.1:4317"
 ...
 ```
 
-3. 启动 Databend，并运行以下 SQL 语句:
+3. 启动 Databend，并运行以下 SQL 语句：
 
 ```sql
 CREATE TABLE t1(a INT);
@@ -55,9 +55,9 @@ INSERT INTO t1 VALUES(1);
 INSERT INTO t1 SELECT * FROM t1;
 ```
 
-### 步骤 3. 在 Jaeger 上检查追踪信息
+### 步骤 3. 在 Jaegar 上检查追踪信息
 
-1. 前往 http://127.0.0.1:16686/ 并选择 **Search** 标签页。
+1. 访问 http://127.0.0.1:16686/ 并选择 **Search** 选项卡。
 
 2. 在 **Service** 下拉列表中选择一个服务。例如，选择 databend-query 服务。
 
