@@ -114,7 +114,6 @@ By default, **all columns are nullable(NULL)** in Databend. If you need a column
 - An expression with no input arguments and returns a scalar value, such as `1 + 1`, `NOW()` or `UUID()`.
 - A dynamically generated value from a sequence, such as `NEXTVAL(staff_id_seq)` for the `staff_id` column in the example below.
   - NEXTVAL must be used as a standalone default value; expressions like `NEXTVAL(seq1) + 1` are not supported.
-  - When using COPY INTO without explicitly specifying a column with a DEFAULT NEXTVAL value, Databend will automatically generate values for that column.
 
 ```sql
 CREATE SEQUENCE staff_id_seq;
