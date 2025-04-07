@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.666"/>
+<FunctionDescription description="Introduced or updated: v1.2.714"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -106,46 +106,30 @@ create table t_new compression='lz4' as select * from t_old;
 
 By default, **all columns are nullable(NULL)** in Databend. If you need a column that does not allow NULL values, use the NOT NULL constraint. For more information, see [NULL Values and NOT NULL Constraint](../../../00-sql-reference/10-data-types/index.md).
 
-## Default Values
+## Column Default Values
+
+`DEFAULT <expr>` sets a default value for the column when no explicit expression is provided. The default expression can be:
+
+- A fixed constant, such as `Marketing` for the `department` column in the example below.
+- An expression with no input arguments and returns a scalar value, such as `1 + 1`, `NOW()` or `UUID()`.
+- A dynamically generated value from a sequence, such as `NEXTVAL(staff_id_seq)` for the `staff_id` column in the example below.
+  - NEXTVAL must be used as a standalone default value; expressions like `NEXTVAL(seq1) + 1` are not supported.
 
 ```sql
-DEFAULT <expr>
-```
+CREATE SEQUENCE staff_id_seq;
 
-Specify a default value inserted in the column if a value is not specified via an `INSERT` or `CREATE TABLE AS SELECT` statement.
+CREATE TABLE staff (
+    staff_id INT DEFAULT NEXTVAL(staff_id_seq), -- Assigns the next number from the sequence 'staff_id_seq' if no value is provided
+    name VARCHAR(50),
+    department VARCHAR(50) DEFAULT 'Marketing' -- Defaults to 'Marketing' if no value is provided
+);
 
-For example:
+-- staff_id is auto-generated when not included in COPY INTO  
+COPY INTO staff(name, department) FROM @stage ...
 
-```sql
-CREATE TABLE t_default_value(a TINYINT UNSIGNED, b VARCHAR DEFAULT 'b');
-```
-
-Desc the `t_default_value` table:
-
-```sql
-DESC t_default_value;
-
-Field|Type            |Null|Default|Extra|
------+----------------+----+-------+-----+
-a    |TINYINT UNSIGNED|YES |NULL   |     |
-b    |VARCHAR         |YES |'b'    |     |
-```
-
-Insert a value:
-
-```sql
-INSERT INTO T_default_value(a) VALUES(1);
-```
-
-Check the table values:
-
-```sql
-SELECT * FROM t_default_value;
-+------+------+
-| a    | b    |
-+------+------+
-|    1 | b    |
-+------+------+
+-- staff_id is loaded from the staged file  
+COPY INTO staff FROM @stage ...
+COPY INTO staff(staff_id, name, department) FROM @stage ...
 ```
 
 ## Computed Columns
