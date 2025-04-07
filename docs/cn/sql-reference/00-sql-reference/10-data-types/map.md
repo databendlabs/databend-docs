@@ -2,13 +2,13 @@
 title: Map
 ---
 
-MAP 数据结构用于存储一组 `Key:Value` 对，并使用 Array(Tuple(key, value)) 的嵌套数据结构来存储数据。它适用于数据类型恒定但 `Key` 的值无法完全确定的情况。
+MAP 数据结构用于保存一组 `Key:Value` 对，并使用 Array(Tuple(key, value)) 的嵌套数据结构存储数据。它适用于数据类型恒定，但 `Key` 的值无法完全确定的情况。
 
 ## 理解 Key:Value
 
-`Key` 是一个指定的基本数据类型，包括 Boolean、Number、Decimal、String、Date 或 Timestamp。`Key` 的值不能为 Null，且不允许重复。`Value` 可以是任何数据类型，包括嵌套的数组、元组等。
+`Key` 是一种指定的 Basic 数据类型，包括 Boolean、Number、Decimal、String、Date 或 Timestamp。`Key` 的值不能为 Null，并且不允许重复。`Value` 可以是任何数据类型，包括嵌套数组、元组等。
 
-Map 数据可以通过花括号中的 `Key:Value` 对生成，或者使用 Map 函数将两个数组转换为 Map。Map 函数接受两个数组作为输入，其中第一个数组的元素作为键，第二个数组的元素作为值。参见以下示例：
+Map 数据可以通过用花括号括起来的 `Key:Value` 对生成，也可以使用 Map 函数将两个数组转换为 Map。Map 函数接受两个数组作为输入，其中第一个数组中的元素用作键，第二个数组中的元素用作值。请参见以下示例：
 
 ```sql
 -- 输入数组：[1, 2] 和 ['v1', 'v2']
@@ -22,15 +22,15 @@ SELECT {'k1': 1, 'k2': 2}, map([1, 2], ['v1', 'v2']);
 +-----------------+---------------------------+
 ```
 
-## Map 和布隆过滤器索引
+## Map 和 Bloom Filter Index
 
-在 Databend Map 中，为某些数据类型的值创建了布隆过滤器索引：`Numeric`、`String`、`Timestamp` 和 `Date`。
+在 Databend Map 中，将为具有某些数据类型的值创建 Bloom Filter Index：`Numeric`、`String`、`Timestamp` 和 `Date`。
 
-这使得在 MAP 数据结构中搜索值变得更加容易和快速。
+这使得在 MAP 数据结构中搜索值更加容易和快速。
 
-Databend Map 中布隆过滤器索引的实现见 [PR#10457](https://github.com/databendlabs/databend/pull/10457)。
+Databend Map 中 Bloom Filter Index 的实现在 [PR#10457](https://github.com/databendlabs/databend/pull/10457) 中。
 
-当查询的值不存在时，布隆过滤器特别有效，可以减少查询时间。
+当查询的值不存在时，Bloom Filter 在减少查询时间方面特别有效。
 
 例如：
 
@@ -67,7 +67,7 @@ WHERE log['ip'] = '205.91.162.141';
 
 ## 示例
 
-**创建一个带有 Map 列的表用于存储网络流量数据**
+**创建一个包含 Map 列的表，用于存储 Web 流量数据**
 
 ```sql
 CREATE TABLE web_traffic_data(
@@ -91,7 +91,7 @@ DESC web_traffic_data;
 └─────────────┴─────────────────────┴──────┴─────────┴───────┘
 ```
 
-**插入包含 IP 地址和访问 URL 的 Map 数据**
+**插入包含 IP 地址和访问的 URL 的 Map 数据**
 
 ```sql
 INSERT INTO web_traffic_data

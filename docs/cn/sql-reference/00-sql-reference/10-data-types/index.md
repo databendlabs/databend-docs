@@ -4,13 +4,13 @@ title: 数据类型
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.100"/>
+<FunctionDescription description="Introduced or updated: v1.2.100"/>
 
-本页解释了数据类型的各个方面，包括数据类型列表、数据类型转换、转换方法以及 NULL 值和 NOT NULL 约束的处理。
+本页介绍了数据类型的各个方面，包括数据类型列表、数据类型转换、转换方法以及 NULL 值和 NOT NULL 约束的处理。
 
 ## 数据类型列表
 
-以下是 Databend 中的通用数据类型列表：
+以下是 Databend 中的常规数据类型列表：
 
 | 数据类型                                                           | 别名  | 存储大小 | 最小值                | 最大值                      |
 | ------------------------------------------------------------------- | ------ | ------------ | ------------------------ | ------------------------------ |
@@ -33,8 +33,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | [ARRAY](array.md) | N/A   | [1, 2, 3, 4]                   | 相同数据类型的值的集合，通过索引访问。                                              |
 | [TUPLE](tuple.md) | N/A   | ('2023-02-14','Valentine Day') | 不同数据类型的值的有序集合，通过索引访问。                                   |
 | [MAP](map.md)           | N/A   | `{"a":1, "b":2, "c":3}`        | 一组键值对，其中每个键都是唯一的并映射到一个值。                                              |
-| [VARIANT](variant.md)   | JSON  | `[1,{"a":1,"b":{"c":2}}]`      | 不同数据类型的元素的集合，包括 `ARRAY` 和 `OBJECT`。                                     |
-| [BITMAP](bitmap.md)       | N/A   | 0101010101                     | 用于表示一组值的二进制数据类型，其中每个位表示一个值的存在或不存在。 |
+| [VARIANT](variant.md)   | JSON  | `[1,{"a":1,"b":{"c":2}}]`      | 不同数据类型元素的集合，包括 `ARRAY` 和 `OBJECT`。                                     |
+| [BITMAP](bitmap.md)       | N/A   | 0101010101                     | 一种二进制数据类型，用于表示一组值，其中每个位表示值的存在或缺失。 |
 
 ## 数据类型转换
 
@@ -44,15 +44,15 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 1. `CAST` 函数，如果在转换过程中发生错误，它会抛出错误。
 
-我们还支持 pg 转换风格：`CAST(c as INT)` 与 `c::Int` 相同。
+我们还支持 pg 转换样式：`CAST(c as INT)` 与 `c::Int` 相同
 
-2. `TRY_CAST` 函数，如果在转换过程中发生错误，它返回 NULL。
+2. `TRY_CAST` 函数，如果在转换过程中发生错误，它会返回 NULL。
 
-### 隐式转换（"强制转换"）
+### 隐式转换 ("Coercion")
 
-关于 "强制转换"（即自动转换）的一些基本规则：
+关于 "Coercion" （也称为自动转换）的一些基本规则
 
-1. 所有整数数据类型都可以隐式转换为 `BIGINT` 即 (`INT64`) 数据类型。
+1. 所有整数数据类型都可以隐式转换为 `BIGINT` （也称为 `INT64`）数据类型。
 
 例如：
 
@@ -62,7 +62,7 @@ UInt8 --> bigint
 Int32 --> bigint
 ```
 
-2. 所有数值数据类型都可以隐式转换为 `Double` 即 (`Float64`) 数据类型。
+2. 所有数字数据类型都可以隐式转换为 `Double` （也称为 `Float64`）数据类型。
 
 例如：
 
@@ -89,17 +89,17 @@ String -->  Nullable<String>
 Int --> Variant
 ```
 
-5. 字符串数据类型是最低级别的数据类型，不能隐式转换为其他数据类型。
-6. `Array<T>` --> `Array<U>` 如果 `T` --> `U`。
-7. `Nullable<T>` --> `Nullable<U>` 如果 `T`--> `U`。
-8. `Null` --> `Nullable<T>` 对于任何 `T` 数据类型。
-9. 如果无损，数值可以隐式转换为其他数值数据类型。
+5. String 数据类型是最低的数据类型，不能隐式转换为其他数据类型。
+6. 如果 `T` --> `U`，则 `Array<T>` --> `Array<U>`。
+7. 如果 `T`--> `U`，则 `Nullable<T>` --> `Nullable<U>`。
+8. 对于任何 `T` 数据类型，`Null` --> `Nullable<T>`。
+9. 如果没有精度损失，则数值可以隐式转换为其他数值数据类型。
 
-### 常见问题
+### 常见问题解答
 
-> 为什么数值类型不能自动转换为字符串类型。
+> 为什么数值类型不能自动转换为 String 类型。
 
-这在其他流行的数据库中很常见，但它会引入歧义。
+这很简单，甚至在其他流行的数据库中也可以工作。但是这会引入歧义。
 
 例如：
 
@@ -108,11 +108,11 @@ select 39 > '301';
 select 39 = '  39  ';
 ```
 
-我们不知道是用数值规则还是字符串规则来比较它们。因为根据不同的规则，结果会不同。
+我们不知道如何使用数值规则或 String 规则来比较它们。因为根据不同的规则，它们会产生不同的结果。
 
-`select 39 > 301` 是 false，而 `select '39' > '301'` 是 true。
+`select 39 > 301` 为 false，而 `select '39' > '301'` 为 true。
 
-为了使语法更精确且减少歧义，我们向用户抛出错误并要求更精确的 SQL。
+为了使语法更精确且更少歧义，我们会向用户抛出错误并获得更精确的 SQL。
 
 > 为什么布尔类型不能自动转换为数值类型。
 
@@ -123,31 +123,31 @@ select 39 = '  39  ';
 select true > 0.5;
 ```
 
-> 错误信息 "can't cast from nullable data into non-nullable type" 是什么意思。
+> 什么是错误消息：“can't cast from nullable data into non-nullable type”。
 
-这意味着你的源列中有 NULL 值。你可以使用 `TRY_CAST` 函数或将目标类型设为可空类型。
+这意味着您的源列中有一个 null 值。您可以使用 `TRY_CAST` 函数或使您的目标类型成为可空类型。
 
 > `select concat(1, col)` 不起作用
 
-你可以将 SQL 改进为 `select concat('1', col)`。
+您可以将 SQL 改进为 `select concat('1', col)`。
 
-我们可能会在未来改进表达式，以便在可能的情况下将字面量 `1` 解析为字符串值（concat 函数只接受字符串参数）。
+我们将来可能会改进表达式，如果可能的话，可以将文字 `1` 解析为 String 值（concat 函数只接受 String 参数）。
 
 ## NULL 值和 NOT NULL 约束
 
-NULL 值用于表示不存在或未知的数据。在 Databend 中，每个列默认都可以包含 NULL 值，这意味着列可以同时容纳 NULL 值和常规数据。
+NULL 值用于表示不存在或未知的数据。在 Databend 中，每个列本质上都能够包含 NULL 值，这意味着列可以容纳 NULL 以及常规数据。
 
-如果你需要一个不允许 NULL 值的列，请使用 NOT NULL 约束。如果在 Databend 中将列配置为不允许 NULL 值，并且在插入数据时没有显式提供该列的值，则将自动应用与该列数据类型关联的默认值。
+如果您需要一个不允许 NULL 值的列，请使用 NOT NULL 约束。如果将列配置为不允许 Databend 中的 NULL 值，并且在插入数据时没有显式为该列提供值，则会自动应用与该列数据类型关联的默认值。
 
 | 数据类型                 | 默认值                                              |
 | ------------------------- | ---------------------------------------------------------- |
 | 整数数据类型        | 0                                                          |
 | 浮点数据类型 | 0.0                                                        |
 | 字符和字符串      | 空字符串 ('')                                          |
-| 日期和时间数据类型  | '1970-01-01' 对于 DATE, '1970-01-01 00:00:00' 对于 TIMESTAMP |
+| 日期和时间数据类型  | DATE 为 '1970-01-01'，TIMESTAMP 为 '1970-01-01 00:00:00' |
 | 布尔数据类型         | False                                                      |
 
-例如，如果你创建如下表：
+例如，如果您创建一个表如下：
 
 ```sql
 CREATE TABLE test(
@@ -165,25 +165,25 @@ name |VARCHAR|NO  |''     |     |
 age  |INT    |YES |NULL   |     |
 ```
 
-- "id" 列可以包含 NULL 值，因为它没有 "NOT NULL" 约束。这意味着它可以存储整数或留空以表示缺失的数据。
+- “id” 列可以包含 NULL 值，因为它缺少 “NOT NULL” 约束。这意味着它可以存储整数或留空以表示缺少数据。
 
-- "name" 列必须始终有一个值，因为它有 "NOT NULL" 约束，不允许 NULL 值。
+- 由于 “NOT NULL” 约束， “name” 列必须始终具有值，不允许 NULL 值。
 
-- "age" 列与 "id" 列一样，也可以包含 NULL 值，因为它没有 "NOT NULL" 约束，允许空条目或 NULL 值来表示未知的年龄。
+- 与 “id” 类似， “age” 列也可以包含 NULL 值，因为它没有 “NOT NULL” 约束，允许空条目或 NULL 来指示未知年龄。
 
-以下 INSERT 语句插入一行，其中 "age" 列的值为 NULL。这是允许的，因为 "age" 列没有 NOT NULL 约束，因此它可以包含 NULL 值以表示缺失或未知的数据。
+以下 INSERT 语句插入一行，其中 “age” 列的值为 NULL。这是允许的，因为 “age” 列没有 NOT NULL 约束，因此它可以保存 NULL 值以表示缺失或未知数据。
 
 ```sql
 INSERT INTO test (id, name, age) VALUES (2, 'Alice', NULL);
 ```
 
-以下 INSERT 语句向 "test" 表插入一行，其中 "id" 和 "name" 列有值，但没有为 "age" 列提供值。这是允许的，因为 "age" 列没有 NOT NULL 约束，因此可以留空或分配 NULL 值以表示缺失或未知的数据。
+以下 INSERT 语句将一行插入到 “test” 表中，其中包含 “id” 和 “name” 列的值，而没有为 “age” 列提供值。这是允许的，因为 “age” 列没有 NOT NULL 约束，因此可以将其留空或分配 NULL 值以指示缺失或未知数据。
 
 ```sql
 INSERT INTO test (id, name) VALUES (1, 'John');
 ```
 
-以下 INSERT 语句尝试插入一行，但没有为 "name" 列提供值。将应用列类型的默认值。
+以下 INSERT 语句尝试插入一行，其中没有 “name” 列的值。将应用列类型的默认值。
 
 ```sql
 INSERT INTO test (id, age) VALUES (3, 45);
