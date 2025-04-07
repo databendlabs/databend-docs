@@ -1,5 +1,5 @@
 ---
-title: Databend 社区
+title: Databend 社区版
 sidebar_position: 4
 ---
 
