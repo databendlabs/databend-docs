@@ -1,11 +1,12 @@
+```markdown
 ---
-title: 在Stage中查询NDJSON文件
-sidebar_label: 查询NDJSON文件
+title: Querying NDJSON Files in Stage
+sidebar_label: NDJSON
 ---
 
-## 在Stage中查询NDJSON文件
+## Query NDJSON Files in Stage
 
-语法:
+语法：
 ```sql
 SELECT [<alias>.]$1:<column> [, $1:<column> ...] 
 FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
@@ -18,15 +19,15 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 ```
 
 
-:::info 提示
-NDJSON是整行的变体，列是`$1:<column> [, $1:<column> ...]`。
+:::info Tips
+NDJSON 是整行的变体，列是 `$1:<column> [, $1:<column> ...]`。
 :::
 
-## 教程
+## Tutorial
 
-### 步骤1. 创建外部Stage
+### Step 1. Create an External Stage
 
-使用您自己的S3桶和凭证创建一个外部Stage，其中存储了您的NDJSON文件。
+使用您自己的 S3 存储桶和凭据创建一个外部 Stage，用于存储您的 NDJSON 文件。
 ```sql
 CREATE STAGE ndjson_query_stage 
 URL = 's3://load/ndjson/' 
@@ -36,7 +37,7 @@ CONNECTION = (
 );
 ```
 
-### 步骤2. 创建自定义NDJSON文件格式
+### Step 2. Create Custom NDJSON File Format
 
 ```sql
 CREATE FILE FORMAT ndjson_query_format 
@@ -44,9 +45,9 @@ CREATE FILE FORMAT ndjson_query_format
     COMPRESSION = AUTO;
 ```
 
-- 更多NDJSON文件格式选项请参考[NDJSON文件格式选项](/sql/sql-reference/file-format-options#ndjson-options)
+- 更多 NDJSON 文件格式选项请参考 [NDJSON File Format Options](/sql/sql-reference/file-format-options#ndjson-options)
 
-### 步骤3. 查询NDJSON文件
+### Step 3. Query NDJSON Files
 
 ```sql
 SELECT $1:title, $1:author
@@ -57,7 +58,7 @@ FROM @ndjson_query_stage
 );
 ```
 
-如果NDJSON文件使用gzip压缩，我们可以使用以下查询：
+如果 NDJSON 文件使用 gzip 压缩，我们可以使用以下查询：
 
 ```sql
 SELECT $1:title, $1:author

@@ -1,26 +1,26 @@
 ## 背景
 
-Join 是 SQL 中的主要功能之一，同时也是最复杂的部分。
+Join 是 SQL 中的主要功能之一。同时，它也是最复杂的部分。
 
-因此，在本节中，我们将简要介绍 Join 的语义类型和 Join 算法。
+因此，在本节中，我们将简要介绍 join 语义和 join 算法的类型。
 
-一般来说，Join 可以根据语义分为以下几类：
+通常，join 可以按语义分为以下类型：
 
-- `INNER JOIN`：返回满足 Join 条件的所有元组
-- `LEFT OUTER JOIN`：返回满足 Join 条件的所有元组，以及左表中没有满足 Join 条件的行
-- `RIGHT OUTER JOIN`：返回满足 Join 条件的所有元组，以及右表中没有满足 Join 条件的行
-- `FULL OUTER JOIN`：返回满足 Join 条件的所有元组，以及两个表中没有满足 Join 条件的行
-- `CROSS JOIN`：连接表的笛卡尔积
+- `INNER JOIN`: 返回所有满足 join 条件的元组
+- `LEFT OUTER JOIN`: 返回所有满足 join 条件的元组，以及左表中没有行满足 join 条件的行
+- `RIGHT OUTER JOIN`: 返回所有满足 join 条件的元组，以及右表中没有行满足 join 条件的行
+- `FULL OUTER JOIN`: 返回所有满足 join 条件的元组，以及一个表中没有行满足其他表 join 条件的行
+- `CROSS JOIN`: 连接表的笛卡尔积
 
 此外，`IN`、`EXISTS`、`NOT IN`、`NOT EXISTS` 表达式可以通过 **semi-join** 和 **anti-join**（称为子查询）来实现。
 
-常见的 Join 算法有三种：
+有三种常见的 join 算法：
 
-- 嵌套循环 Join
-- 哈希 Join
-- 排序合并 Join
+- 嵌套循环 join
+- 哈希 join
+- 排序合并 join
 
-嵌套循环 Join 是最基本的 Join 算法，可以用以下伪代码描述：
+嵌套循环 join 是基本的 join 算法，可以描述为以下伪代码：
 
 ```
 // R⋈S
@@ -33,14 +33,13 @@ for s <- outerTable:
             insert(result, combine(r, s))
 ```
 
-在介绍哈希 Join 之前，我们先在这里介绍 **equi join** 的定义。**equi join** 是 Join 条件为等式的 Join（例如 `r.a == s.a`）。对于 Join 条件不是等式的 Join，我们称之为 **non-equi join**。
+在介绍哈希 join 之前，我们先介绍一下 **equi join** 的定义。**equi join** 是指 join 条件是一个等式（例如 `r.a == s.a`）的 join。对于 join 条件不是等式的 join，我们称之为 **non-equi join**。
 
-哈希 Join 只能处理 equi join。它可以分为两个阶段：**构建阶段** 和 **探测阶段**。
+哈希 join 只能与 equi join 一起使用。它可以描述为两个阶段：**构建阶段** 和 **探测阶段**。
 
-与嵌套循环 Join 的内部表和外部表类似，哈希 Join 会选择一个表作为 **构建侧**，另一个表作为 **探测侧**。
+与嵌套循环 join 的内表和外表一样，哈希 join 将选择一个表作为 **构建端**，另一个表作为 **探测端**。
 
-哈希 Join 的伪代码如下：
-
+哈希 join 的伪代码：
 ```
 // R⋈S
 var build = R
@@ -60,27 +59,26 @@ for s <- probe:
         insert(result, combine(r, s))
 ```
 
-排序合并 Join 会在 Join 表未按 Join 键排序时对其进行排序，然后像归并排序一样进行合并。
+如果排序合并 join 的连接表没有按连接键排序，则会对它们进行排序，然后像合并排序一样合并它们。
 
-一般来说，排序合并 Join 也只能处理 equi-join，但它有一种带状 Join 优化，可以使排序合并 Join 处理某些特定的 non-equi join。由于这有点超出范围，我们在这里不讨论。
+通常，排序合并 join 也只能与 equi-join 一起使用，但存在一种带状 join 优化，可以使排序合并 join 与某些特定的 non-equi join 一起使用。由于这有点超出范围，我们在这里不讨论。
 
 ## Join 框架
 
-要实现 Join，我们有几部分工作要做：
+要实现 join，我们需要完成以下几个部分的工作：
 
-- 支持将 Join 语句解析为逻辑计划
-- 支持为 Join 表绑定列引用
-- 支持一些基本的启发式优化（例如外连接消除、子查询消除）和选择实现的 Join 重排序
-- 支持一些 Join 算法（目前仅支持本地执行，但设计为分布式执行）
+- 支持将 join 语句解析为逻辑计划
+- 支持绑定连接表的列引用
+- 支持一些基本的启发式优化（例如，外部 join 消除、子查询消除）和 join 重排序以及选择实现
+- 支持一些 join 算法（目前是本地执行，但设计用于分布式执行）
 
-### 解析器与计划器
+### Parser & Planner
 
-根据 ANSI-SQL 规范，Join 定义在 `FROM` 子句中。此外，在某些情况下，其他子句中的子查询可以转换为 Join（相关子查询将转换为 semi join 或 anti join）。
+根据 ANSI-SQL 规范，join 在 `FROM` 子句中定义。此外，其他子句中的子查询在某些情况下可以转换为 join（相关子查询将转换为 semi join 或 anti join）。
 
-在将 SQL 字符串解析为 AST 后，我们将使用 `PlanParser` 从 AST 构建逻辑计划。
+将 SQL 字符串解析为 AST 后，我们将使用 `PlanParser` 从 AST 构建逻辑计划。
 
 以下 bnf 定义是 `FROM` 子句的简化 ANSI-SQL 规范：
-
 ```bnf
 <from clause> ::= FROM <table reference list>
 
@@ -119,20 +117,19 @@ for s <- probe:
 <join column list> ::= <column name list>
 ```
 
-`<table reference>` 与 `<comma>` 连接的表是交叉连接的。并且可以在 `WHERE` 子句中找到一些连接条件，即将交叉连接重写为内连接。
+用 `<comma>` 连接的 `<table reference>` 是交叉连接的。并且有可能在 `WHERE` 子句中找到一些连词作为它们的 join 条件，这就是将交叉连接重写为内部 join。
 
-有许多查询以这种方式组织，没有明确指定连接条件，例如 TPCH 查询集。
+有许多查询以这种方式组织，没有明确指定 join 条件，例如 TPCH 查询集。
 
-`sqlparser` 库可以将 SQL 字符串解析为 AST。Join 以树结构组织。
+`sqlparser` 库可以将 SQL 字符串解析为 AST。Join 被组织成树结构。
 
-以下是几种 Join 树：
+有以下几种 join 树：
 
 - 左深树
 - 右深树
-- 茂密树
+- 稠密树
 
-在左深树中，每个 Join 节点的右子节点是一个表，例如：
-
+在左深树中，每个 join 节点的右子节点都是一个表，例如：
 ```sql
 SELECT *
 FROM a, b, c, d;
@@ -147,8 +144,7 @@ a      b
 */
 ```
 
-在右深树中，每个 Join 节点的左子节点是一个表，例如：
-
+在右深树中，每个 join 节点的左子节点都是一个表，例如：
 ```sql
 SELECT *
 FROM a, b, c, d;
@@ -163,8 +159,7 @@ a   join
 */
 ```
 
-在茂密树中，每个 Join 节点的所有子节点可以是 Join 结果或表，例如：
-
+在稠密树中，每个 join 节点的所有子节点都可以是 join 的结果或表，例如：
 ```sql
 SELECT *
 FROM a, b, c, d;
@@ -177,10 +172,9 @@ FROM a, b, c, d;
 */
 ```
 
-大多数 Join 可以表示为左深树，这更容易优化。我们可以在解析阶段将一些 Join 重写为左深树。
+大多数 join 可以表示为左深树，这更容易优化。我们可以在解析阶段将一些 join 重写为左深树。
 
-以下是 `sqlparser` AST 的示例，注释部分是简化的 AST 调试字符串：
-
+这是一个 `sqlparser` AST 的示例，注释部分是简化的 AST 调试字符串：
 ```sql
 SELECT *
 FROM a, b NATURAL JOIN c, d;
@@ -223,8 +217,7 @@ Query {
 */
 ```
 
-上面的 AST 可以直接表示为茂密树：
-
+上面的 AST 可以直接表示为稠密树：
 ```
     join
    /    \
@@ -235,8 +228,7 @@ a     join
     b      c
 ```
 
-这个茂密树等价于以下左深树，因此我们可以在解析阶段重写它：
-
+这个稠密树等价于下面的左深树，所以我们可以在解析阶段重写它：
 ```
       join
      /    \
@@ -247,11 +239,11 @@ a     join
 a      b
 ```
 
-在将 AST 重写为左深树后，我们将使用目录将 AST 绑定到具体的表和列。在绑定过程中，需要进行语义检查（例如检查列名是否模糊）。
+将 AST 重写为左深树后，我们将使用 catalog 将 AST 绑定到具体的表和列。在绑定期间，语义检查是必要的（例如，检查列名是否不明确）。
 
 为了实现语义检查并简化绑定过程，我们引入 `Scope` 来表示每个查询块的上下文。它将记录当前上下文中可用列的信息以及它们所属的表。
 
-来自父 `Scope` 的列对所有子 `Scope` 可见。
+父 `Scope` 中的列对它的所有子 `Scope` 可见。
 
 ```rust
 struct Scope {
@@ -260,8 +252,7 @@ struct Scope {
 }
 ```
 
-以下是一个示例，说明 `Scope` 的工作原理：
-
+这是一个解释 `Scope` 如何工作的示例：
 ```sql
 CREATE TABLE t0 (a INT);
 CREATE TABLE t1 (b INT);
@@ -285,7 +276,7 @@ Scope t2: [c]
 */
 ```
 
-由于 Join 后可能存在同名列，我们应该使用唯一的 `ColumnID` 来标识 `ColumnRef`。同时，相关名称保证是唯一的，因此可以使用名称字符串来标识它们。
+由于在 join 之后可能存在具有相同名称的不同列，因此我们应该使用唯一的 `ColumnID` 标识 `ColumnRef`。同时，相关名称被确认为唯一的，因此可以使用名称字符串来标识它们。
 
 ```rust
 struct ColumnRef {
@@ -295,9 +286,9 @@ struct ColumnRef {
 }
 ```
 
-通过唯一的 `ColumnID`，我们可以检查查询是否模糊，并同时保持它们的原始名称。
+使用唯一的 `ColumnID`，我们可以检查查询是否不明确，并同时保留它们的原始名称。
 
-对于计划器，我们将为 `PlanNode` 添加一个变体 `Join` 来表示 Join 操作符：
+对于 planner，我们将为 `PlanNode` 添加一个变体 `Join` 来表示 join 运算符：
 
 ```rust
 enum PlanNode {
@@ -315,15 +306,15 @@ enum JoinType {
 
 struct JoinPlan {
     pub join_type: JoinType,
-    pub join_conditions: Vec<ExpressionPlan>, // Join 条件的合取
+    pub join_conditions: Vec<ExpressionPlan>, // 连接条件的连词
     pub left_child: Arc<PlanNode>,
     pub right_child: Arc<PlanNode>
 }
 ```
 
-这里有一个问题，databend-query 使用 `arrow::datatypes::Schema` 来表示数据模式，而 `arrow::datatypes::Schema` 不支持使用 `ColumnID` 来标识列。
+这里有一个问题，databend-query 使用 `arrow::datatypes::Schema` 来表示数据模式，而 `arrow::datatypes::Schema` 本身不支持使用 `ColumnID` 标识列。
 
-我建议在 databend-query 中引入一个内部 `DataSchema` 结构来表示数据模式，它可以存储更多信息，并且可以自然地转换为 `arrow::datatypes::Schema`。
+我建议引入一个内部 `DataSchema` 结构来表示 databend-query 中的数据模式，它可以存储更多信息，并且可以自然地转换为 `arrow::datatypes::Schema`。
 
 ```rust
 struct DataSchema {
@@ -338,51 +329,52 @@ struct Column {
 }
 ```
 
-### 优化器
+### Optimizer
 
-有两种优化需要完成：
+需要完成两种优化：
 
 - 启发式优化
 - 基于成本的优化
 
-启发式优化（**RBO**，即基于规则的优化）是可以始终减少查询成本的优化。由于启发式规则太多，我们在这里不讨论。
+启发式优化（**RBO**，也称为基于规则的优化）是可以始终降低查询成本的优化。由于启发式规则太多，我们在这里不讨论。
 
-基于成本的优化使用统计信息来计算查询的成本。通过探索框架（例如 Volcano 优化器、Cascades 优化器），它可以选择最佳执行计划。
+基于成本的优化使用统计信息来计算查询的成本。通过探索框架（例如 Volcano optimizer、Cascades optimizer），它可以选择最佳执行计划。
 
-优化器是 SQL 引擎中最复杂的部分，我们最好在开始时只支持有限的启发式优化。
+Optimizer 是 SQL 引擎中最复杂的部分，我们最好在一开始只支持有限的启发式优化。
 
 > TODO: 列出常见的启发式规则
 
-### 执行
+### Execution
 
-正如我们在 [背景](#背景) 部分讨论的那样，Join 算法可以分为三类：
+正如我们在 [背景](#Background) 部分讨论的那样，join 算法可以分为三种：
 
-- 嵌套循环 Join
-- 哈希 Join
-- 排序合并 Join
+- 嵌套循环 join
+- 哈希 join
+- 排序合并 join
 
-此外，还有两种分布式 Join 算法：
+此外，还有两种分布式 join 算法：
 
-- 广播 Join
-- 重分区 Join（即 shuffle join）
+- 广播 join
+- 重分区 join（也称为 shuffle join）
 
-我们在这里不讨论分布式 Join 算法的细节，但我们仍然需要考虑它们。
+我们在这里不讨论分布式 join 算法的细节，但我们仍然需要考虑它们。
 
-不同的 Join 算法在不同场景下有优势。
+不同的 join 算法在不同的场景中具有优势。
 
-嵌套循环 Join 在小数据量时有效。通过向量化执行模型，自然可以实现块嵌套循环 Join，这是一种改进的嵌套循环 Join 算法。嵌套循环 Join 的另一个优势是它可以处理 non-equi join 条件。
+如果数据量相对较小，则嵌套循环 join 有效。使用向量化执行模型，自然可以实现块嵌套循环 join，这是一种改进的嵌套循环 join 算法。嵌套循环 join 的另一个优点是它可以与 non-equi join 条件一起使用。
 
-哈希 Join 在其中一个连接表较小而另一个较大时有效。由于分布式 Join 算法总是会产生小表（通过分区），它非常适合哈希 Join。同时，向量化哈希 Join 算法由 **Marcin Zucowski**（Snowflake 的联合创始人，CWI 的博士）引入。哈希 Join 的缺点是它比其他 Join 算法消耗更多内存，并且它只支持 equi join。
+如果连接的表之一较小而另一个较大，则哈希 join 有效。由于分布式 join 算法总是会产生小表（通过分区），因此它非常适合哈希 join。同时，**Marcin Zucowski**（Snowflake 的联合创始人，CWI 的博士）介绍了向量化哈希 join 算法。哈希 join 的缺点是哈希 join 比其他 join 算法消耗更多的内存，并且它只支持 equi join。
 
-排序合并 Join 在输入已排序时有效，但这很少发生。
+如果输入已排序，则排序合并 join 有效，但这很少发生。
 
-上面的比较有偏见，事实上很难说哪种算法更好。我认为，我们可以先实现哈希 Join 和嵌套循环 Join，因为它们更常见。
+上面的比较有很大的偏差，事实上很难说哪种算法更好。我认为，我们可以先实现哈希 join 和嵌套循环 join，因为它们更常见。
 
-由于我们目前没有选择 Join 算法的基础设施（计划器、优化器），我建议目前只实现块嵌套循环 Join，以便我们可以构建一个完整的原型。
+由于我们目前没有用于选择 join 算法的基础设施（planner、optimizer），因此我建议目前只实现块嵌套循环 join，以便我们可以构建一个完整的原型。
 
-我们将引入一种向量化的块嵌套循环 Join 算法。
+我们将介绍一种向量化块嵌套循环 join 算法。
 
-在[背景](#背景)部分已经介绍了朴素嵌套循环连接的伪代码。正如我们所知，嵌套循环连接在每次循环中只会从外部表中获取一行数据，这没有很好的局部性。块嵌套循环连接是一种嵌套循环连接，它会在每次循环中获取一批数据。这里我们介绍朴素的块嵌套循环连接。
+
+在 [背景](#Background) 部分中已经介绍了朴素嵌套循环连接的伪代码。众所周知，嵌套循环连接在每个循环中仅从外部表获取一行，这不具有良好的局部性。块嵌套循环连接是一种嵌套循环连接，它将在每个循环中获取一个数据块。这里我们介绍朴素块嵌套循环连接。
 
 ```
 // R⋈S
@@ -397,18 +389,18 @@ for s <- outerTable.fetchBlock():
             insert(result, row)
 ```
 
-在向量化执行中，我们可以使用位图来指示某一行是否应该返回给结果集。然后我们可以在稍后物化结果。
+在向量化执行中，我们可以使用位图来指示是否应将行返回到结果集中。然后我们可以稍后实现结果。
 
-例如，假设我们有以下SQL查询：
+例如，假设我们有以下 SQL 查询：
 
 ```SQL
 CREATE TABLE t(a INT, b INT);
 CREATE TABLE t1(b INT, c INT);
--- 插入一些行
+-- insert some rows
 SELECT a, b, c FROM t INNER JOIN t1 ON t.b = t1.b;
 ```
 
-这个查询的执行计划应该如下所示：
+此查询的执行计划应如下所示：
 
 ```
 Join (t.b = t1.b)
@@ -416,7 +408,7 @@ Join (t.b = t1.b)
     -> TableScan t1
 ```
 
-如果我们使用上面介绍的向量化块嵌套循环连接算法，伪代码应该如下所示：
+如果我们使用上面介绍的向量化块嵌套循环连接算法，则伪代码应如下所示：
 
 ```
 var leftChild: BlockStream = scan(t)
@@ -434,4 +426,4 @@ for l <- leftChild:
 materialize(result)
 ```
 
-在databend-query中，我们可以添加一个`NestedLoopJoinTransform`来实现向量化块嵌套循环连接。
+在 databend-query 中，我们可以添加一个 `NestedLoopJoinTransform` 来实现向量化块嵌套循环连接。

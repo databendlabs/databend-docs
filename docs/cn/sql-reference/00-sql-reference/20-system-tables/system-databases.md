@@ -2,11 +2,11 @@
 title: system.databases
 ---
 
-提供系统中所有数据库的元数据，包括它们的目录、名称、唯一ID、所有者以及删除时间戳。
+提供系统中所有数据库的元数据，包括它们的 catalogs、名称、唯一 ID、所有者和删除时间戳。
 
 另请参阅：[SHOW DATABASES](../../10-sql-commands/00-ddl/00-database/show-databases.md)
 
-```sql title='示例:'
+```sql title='Examples:'
 SELECT * FROM system.databases;
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -19,18 +19,18 @@ SELECT * FROM system.databases;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-要显示 `system.databases` 的表结构，请使用 `DESCRIBE system.databases`：
+要显示 `system.databases` 的 schema，请使用 `DESCRIBE system.databases`：
 
 ```sql
 DESCRIBE system.databases;
 
 ┌───────────────────────────────────────────────────────────┐
-│    字段    │       类型      │  可为空  │ 默认值 │  额外  │
+│    Field    │       Type      │  Null  │ Default │  Extra │
 ├─────────────┼─────────────────┼────────┼─────────┼────────┤
-│ catalog     │ VARCHAR         │ 否     │ ''      │        │
-│ name        │ VARCHAR         │ 否     │ ''      │        │
-│ database_id │ BIGINT UNSIGNED │ 否     │ 0       │        │
-│ owner       │ VARCHAR         │ 是     │ NULL    │        │
-│ dropped_on  │ TIMESTAMP       │ 是     │ NULL    │        │
+│ catalog     │ VARCHAR         │ NO     │ ''      │        │
+│ name        │ VARCHAR         │ NO     │ ''      │        │
+│ database_id │ BIGINT UNSIGNED │ NO     │ 0       │        │
+│ owner       │ VARCHAR         │ YES    │ NULL    │        │
+│ dropped_on  │ TIMESTAMP       │ YES    │ NULL    │        │
 └───────────────────────────────────────────────────────────┘
 ```

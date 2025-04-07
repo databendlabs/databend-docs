@@ -1,10 +1,11 @@
+```markdown
 ---
-title: 卸载 NDJSON 文件
+title: Unloading NDJSON File
 ---
 
-## 卸载 TSV 文件
+## Unloading TSV File
 
-语法:
+语法：
 
 ```sql
 COPY INTO { internalStage | externalStage | externalLocation }
@@ -18,13 +19,13 @@ FILE_FORMAT = (
 [DETAILED_OUTPUT = true | false]
 ```
 
-- 更多 NDJSON 选项请参考 [NDJSON 文件格式选项](/sql/sql-reference/file-format-options#ndjson-options)
-- 卸载到多个文件使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- 更多语法细节请参考 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
+- 更多 NDJSON 选项请参考 [NDJSON File Format Options](/sql/sql-reference/file-format-options#ndjson-options)
+- 卸载到多个文件请使用 [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 更多关于该语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到。
 
-## 教程
+## Tutorial
 
-### 步骤 1. 创建外部 Stage
+### Step 1. Create an External Stage
 
 ```sql
 CREATE STAGE ndjson_unload_stage
@@ -35,15 +36,15 @@ CONNECTION = (
 );
 ```
 
-### 步骤 2. 创建自定义 NDJSON 文件格式
+### Step 2. Create Custom NDJSON File Format
 
 ```
 CREATE FILE FORMAT ndjson_unload_format
     TYPE = NDJSON,
-    COMPRESSION = gzip;     -- 使用 gzip 压缩卸载
+    COMPRESSION = gzip;     -- Unload with gzip compression
 ```
 
-### 步骤 3. 卸载到 NDJSON 文件
+### Step 3. Unload into NDJSON File
 
 ```sql
 COPY INTO @ndjson_unload_stage
@@ -55,7 +56,7 @@ FILE_FORMAT = (FORMAT_NAME = 'ndjson_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
-结果:
+Result:
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -65,7 +66,7 @@ DETAILED_OUTPUT = true;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 4. 验证卸载的 NDJSON 文件
+### Step 4. Verify the Unloaded NDJSON Files
 
 ```sql
 SELECT COUNT($1)
@@ -76,7 +77,7 @@ FROM @ndjson_unload_stage
 );
 ```
 
-结果:
+Result:
 
 ```text
 ┌───────────┐

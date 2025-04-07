@@ -1,5 +1,5 @@
 ---
-title: '使用 Golang 连接到 Databend'
+title: '使用 Golang 连接 Databend'
 sidebar_label: 'Golang'
 ---
 

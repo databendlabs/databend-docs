@@ -1,11 +1,12 @@
+```markdown
 ---
 title: Apache Hive
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.668"/>
+<FunctionDescription description="Introduced or updated: v1.2.668"/>
 
-Databend 支持集成 [Apache Hive](https://hive.apache.org/) 目录，增强了其数据管理和分析的兼容性和多功能性。这扩展了 Databend 的能力，通过无缝整合 Apache Hive 强大的元数据和存储管理功能到平台中。
+Databend 支持集成 [Apache Hive](https://hive.apache.org/) catalog，从而增强了其数据管理和分析的兼容性和多功能性。通过将 Apache Hive 强大的元数据和存储管理功能无缝集成到平台中，扩展了 Databend 的功能。
 
 ## 数据类型映射
 
@@ -24,12 +25,12 @@ Databend 支持集成 [Apache Hive](https://hive.apache.org/) 目录，增强了
 | DOUBLE              | [DOUBLE (FLOAT64)](/sql/sql-reference/data-types/numeric#floating-point-data-types)     |
 | VARCHAR             | [VARCHAR (STRING)](/sql/sql-reference/data-types/string)     |
 | DECIMAL             | [DECIMAL](/sql/sql-reference/data-types/decimal)              |
-| ARRAY&lt;TYPE&gt;    | [ARRAY](/sql/sql-reference/data-types/array), 支持嵌套 |
+| ARRAY&lt;TYPE&gt;    | [ARRAY](/sql/sql-reference/data-types/array), supports nesting |
 | MAP&lt;KEYTYPE, VALUETYPE&gt; | [MAP](/sql/sql-reference/data-types/map)             |
 
-## 管理目录
+## 管理 Catalogs
 
-Databend 提供了以下命令来管理目录：
+Databend 为您提供了以下命令来管理 catalogs：
 
 - [CREATE CATALOG](#create-catalog)
 - [SHOW CREATE CATALOG](#show-create-catalog)
@@ -38,7 +39,7 @@ Databend 提供了以下命令来管理目录：
 
 ### CREATE CATALOG
 
-在 Databend 查询引擎中定义并建立一个新的目录。
+在 Databend 查询引擎中定义并建立一个新的 catalog。
 
 #### 语法
 
@@ -54,15 +55,15 @@ CONNECTION = (
 )
 ```
 
-| 参数                  | 是否必需 | 描述                                                                                                               | 
+| Parameter             | Required? | Description                                                                                                               | 
 |-----------------------|-----------|---------------------------------------------------------------------------------------------------------------------------| 
-| TYPE                  | 是        | 目录类型：'HIVE' 表示 Hive 目录，'ICEBERG' 表示 Iceberg 目录。                                      | 
-| METASTORE_ADDRESS     | 否        | Hive Metastore 地址。仅对 Hive 目录必需。| 
-| URL                   | 是        | 与此目录关联的外部存储位置。这可以是桶或桶内的文件夹。例如，'s3://databend-toronto/'。                       | 
-| connection_parameter  | 是        | 用于与外部存储建立连接的连接参数。所需的参数因特定的存储服务和认证方法而异。请参阅 [连接参数](/sql/sql-reference/connect-parameters) 获取详细信息。 |
+| TYPE                  | Yes       | catalog 的类型：Hive catalog 为 'HIVE'，Iceberg catalog 为 'ICEBERG'。                                      | 
+| METASTORE_ADDRESS     | No        | Hive Metastore 地址。仅 Hive catalog 需要。| 
+| URL                   | Yes       | 链接到此 catalog 的外部存储的位置。这可以是 bucket 或 bucket 中的文件夹。例如，'s3://databend-toronto/'。                       | 
+| connection_parameter  | Yes       | 用于建立与外部存储连接的连接参数。所需的参数因具体的存储服务和身份验证方法而异。有关详细信息，请参阅 [连接参数](/sql/sql-reference/connect-parameters)。 |
 
 :::note
-要从 HDFS 读取数据，您需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 可以访问必要的 Java 和 Hadoop 依赖项，以有效与 HDFS 交互。请确保将 "/path/to/java" 和 "/path/to/hadoop" 替换为 Java 和 Hadoop 安装的实际路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
+要从 HDFS 读取数据，您需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 可以访问必要的 Java 和 Hadoop 依赖项，以有效地与 HDFS 交互。请确保将 "/path/to/java" 和 "/path/to/hadoop" 替换为 Java 和 Hadoop 安装的实际路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
 ```shell
 export JAVA_HOME=/path/to/java
 export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
@@ -73,7 +74,7 @@ export CLASSPATH=/all/hadoop/jar/files
 
 ### SHOW CREATE CATALOG
 
-返回指定目录的详细配置，包括其类型和存储参数。
+返回指定 catalog 的详细配置，包括其类型和存储参数。
 
 #### 语法
 
@@ -83,7 +84,7 @@ SHOW CREATE CATALOG <catalog_name>;
 
 ### SHOW CATALOGS
 
-显示所有已创建的目录。
+显示所有已创建的 catalogs。
 
 #### 语法
 
@@ -93,7 +94,7 @@ SHOW CATALOGS [LIKE '<pattern>']
 
 ### USE CATALOG
 
-将当前会话切换到指定的目录。
+将当前会话切换到指定的 catalog。
 
 #### 语法
 
@@ -103,7 +104,7 @@ USE CATALOG <catalog_name>
 
 ## 使用示例
 
-此示例演示了创建一个配置为与 Hive Metastore 交互并访问存储在 Amazon S3 上的数据的目录，位于 's3://databend-toronto/'。
+此示例演示了如何创建一个配置为与 Hive Metastore 交互并访问存储在 Amazon S3 上（位于 's3://databend-toronto/'）的数据的 catalog。
 
 ```sql
 CREATE CATALOG hive_ctl 

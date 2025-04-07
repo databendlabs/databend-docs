@@ -4,9 +4,9 @@ title: system.locks
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.262"/>
+<FunctionDescription description="Introduced or updated: v1.2.262"/>
 
-包含系统中锁的相关信息。
+包含系统中锁的信息。
 
 另请参阅：[SHOW LOCKS](../../10-sql-commands/00-ddl/14-transaction/show-locks.md)
 

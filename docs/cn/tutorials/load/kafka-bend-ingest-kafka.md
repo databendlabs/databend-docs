@@ -2,7 +2,7 @@
 title: 使用 bend-ingest-kafka 从 Kafka 加载数据
 ---
 
-在本教程中，我们将指导您使用 Docker 设置 Kafka 环境，并通过 [bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka) 将消息从 Kafka 加载到 Databend Cloud。
+在本教程中，我们将指导您使用 Docker 设置 Kafka 环境，并使用 [bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka) 将消息从 Kafka 加载到 Databend Cloud。
 
 ### 步骤 1：设置 Kafka 环境
 
@@ -30,7 +30,7 @@ Status: Downloaded newer image for apache/kafka:latest
 0261b8f3d5fde74f5f20340b58cb85d29d9b40ee4f48f1df2c41a68b616d22dc
 ```
 
-### 步骤 2：创建主题并生成消息
+### 步骤 2：创建 Topic 并生产消息
 
 1. 访问 Kafka 容器：
 
@@ -38,14 +38,14 @@ Status: Downloaded newer image for apache/kafka:latest
 MacBook-Air:~ eric$ docker exec --workdir /opt/kafka/bin/ -it kafka sh
 ```
 
-2. 创建一个名为 `test-topic` 的新 Kafka 主题：
+2. 创建一个名为 `test-topic` 的新 Kafka topic：
 
 ```shell
 /opt/kafka/bin $ ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic test-topic
 Created topic test-topic.
 ```
 
-3. 使用 Kafka 控制台生产者向 `test-topic` 生成消息：
+3. 使用 Kafka 控制台生产者将消息发送到 test-topic：
 
 ```shell
 /opt/kafka/bin $ ./kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test-topic
@@ -58,7 +58,7 @@ Created topic test-topic.
 {"id": 2, "name": "Bob", "age": 25}
 ```
 
-5. 完成后使用 Ctrl+C 停止生产者。
+5. 完成后，使用 Ctrl+C 停止生产者。
 
 ### 步骤 3：在 Databend Cloud 中创建表
 
@@ -76,13 +76,13 @@ CREATE    TABLE databend_topic (
 
 ### 步骤 4：安装并运行 bend-ingest-kafka
 
-1. 通过运行以下命令安装 bend-ingest-kafka 工具：
+1. 运行以下命令安装 bend-ingest-kafka 工具：
 
 ```shell
 go install  github.com/databendcloud/bend-ingest-kafka@latest
 ```
 
-2. 运行以下命令将消息从 `test-topic` Kafka 主题加载到 Databend Cloud 中的目标表：
+2. 运行以下命令，将来自 `test-topic` Kafka topic 的消息提取到 Databend Cloud 中的目标表：
 
 ```shell
 MacBook-Air:~ eric$ bend-ingest-kafka \
@@ -96,7 +96,7 @@ WARN[0072] Failed to read message from Kafka: context deadline exceeded  kafka_b
 2024/08/20 15:10:15 ingest 2 rows (1.225576 rows/s), 75 bytes (45.959100 bytes/s)
 ```
 
-3. 使用 BendSQL 连接到 Databend Cloud 并验证数据是否已成功加载：
+3. 使用 BendSQL 连接到 Databend Cloud，并验证数据是否已成功加载：
 
 ```bash
 Welcome to BendSQL 0.19.2-1e338e1(2024-07-17T09:02:28.323121000Z).
@@ -117,7 +117,7 @@ name: Bob
  age: 25
 ```
 
-4. 要在 RAW 模式下加载消息，只需运行以下命令：
+4. 要以 RAW 模式加载消息，只需运行以下命令：
 
 ```bash
 bend-ingest-kafka \
@@ -127,7 +127,7 @@ bend-ingest-kafka \
   --is-json-transform=false 
 ```
 
-您将在 `doc` 数据库中获得一个新表，包含以下行：
+您将在 `doc` 数据库中获得一个新表，其中包含以下行：
 
 ```bash
 cloudapp@(eric)/doc> SELECT * FROM test_ingest;

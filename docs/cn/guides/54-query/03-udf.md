@@ -1,6 +1,5 @@
-```markdown
 ---
-title: User-Defined Function
+title: 用户自定义函数
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
@@ -12,18 +11,18 @@ import EEFeature from '@site/src/components/EEFeature';
 用户自定义函数 (UDFs) 通过支持匿名 lambda 表达式和预定义的处理程序（Python、JavaScript 和 WebAssembly）来定义 UDF，从而提供增强的灵活性。这些功能允许用户创建根据其特定数据处理需求量身定制的自定义操作。Databend UDF 分为以下类型：
 
 - [Lambda UDFs](#lambda-udfs)
-- [Embedded UDFs](#embedded-udfs)
+- [嵌入式 UDFs](#embedded-udfs)
 
 ## Lambda UDFs
 
 lambda UDF 允许用户直接在其查询中使用匿名函数（lambda 表达式）来定义自定义操作。这些 lambda 表达式通常简洁明了，可用于执行仅使用内置函数可能无法实现的特定数据转换或计算。
 
-### Usage Examples
+### 使用示例
 
 此示例创建 UDF，以使用 SQL 查询从表中的 JSON 数据中提取特定值。
 
 ```sql
--- Define UDFs
+-- 定义 UDF
 CREATE FUNCTION get_v1 AS (input_json) -> input_json['v1'];
 CREATE FUNCTION get_v2 AS (input_json) -> input_json['v2'];
 
@@ -36,13 +35,13 @@ SHOW USER FUNCTIONS;
 │ get_v2 │ NULL              │             │ {"parameters":["input_json"]} │ SQL      │ 2024-11-18 23:21:46.838744 │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- Create a table
+-- 创建表
 CREATE TABLE json_table(time TIMESTAMP, data JSON);
 
--- Insert a time event
+-- 插入时间事件
 INSERT INTO json_table VALUES('2022-06-01 00:00:00.00000', PARSE_JSON('{"v1":1.5, "v2":20.5}'));
 
--- Get v1 and v2 value from the event
+-- 从事件中获取 v1 和 v2 值
 SELECT get_v1(data), get_v2(data) FROM json_table;
 +------------+------------+
 | data['v1'] | data['v2'] |
@@ -51,22 +50,22 @@ SELECT get_v1(data), get_v2(data) FROM json_table;
 +------------+------------+
 ```
 
-## Embedded UDFs
+## 嵌入式 UDFs
 
-Embedded UDF 允许您在 SQL 中嵌入使用以下编程语言编写的代码：
+嵌入式 UDF 允许您在 SQL 中嵌入使用以下编程语言编写的代码：
 
 - [Python](#python)
 - [JavaScript](#javascript)
 - [WebAssembly](#webassembly)
 
-使用 Embedded UDF，您可以创建标量函数和聚合函数。标量函数对单行输入进行操作并返回单个值，而聚合函数处理多行输入并返回单个聚合结果，例如总和或平均值。
+使用嵌入式 UDF，您可以创建标量函数和聚合函数。标量函数对单行输入进行操作并返回单个值，而聚合函数处理多行输入并返回单个聚合结果，例如总和或平均值。
 
 :::note
 - 尚不支持使用 WebAssembly 创建聚合 UDF。
-- 如果您的程序内容很大，您可以压缩它，然后将其传递到 Stage。有关 WebAssembly，请参见 [Usage Examples](#usage-examples-2)。
+- 如果您的程序内容很大，您可以压缩它，然后将其传递到 Stage。有关 WebAssembly，请参见[使用示例](#usage-examples-2)。
 :::
 
-### Python (requires Databend Enterprise)
+### Python (需要 Databend Enterprise)
 
 Python UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 Python 代码，从而可以在 SQL 查询中无缝集成 Python 逻辑。
 
@@ -74,45 +73,45 @@ Python UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用
 Python UDF 必须仅使用 Python 的标准库；不允许第三方导入。
 :::
 
-#### Data Type Mappings
+#### 数据类型映射
 
-请参见开发者指南中的 [Data Type Mappings](/developer/drivers/python#data-type-mappings)。
+请参见开发者指南中的 [数据类型映射](/developer/drivers/python#data-type-mappings)。
 
-#### Usage Examples
+#### 使用示例
 
 此示例定义了一个用于情感分析的 Python UDF，创建了一个表，插入了示例数据，并对文本数据执行情感分析。
 
 1. 定义一个名为 `sentiment_analysis` 的 Python UDF。
 
 ```sql
--- Create the sentiment analysis function
+-- 创建情感分析函数
 CREATE OR REPLACE FUNCTION sentiment_analysis(STRING) RETURNS STRING
 LANGUAGE python HANDLER = 'sentiment_analysis_handler'
 AS $$
 def remove_stop_words(text, stop_words):
     """
-    Removes common stop words from the text.
+    从文本中删除常见的停用词。
 
     Args:
-    text (str): The input text.
-    stop_words (set): A set of stop words to remove.
+    text (str): 输入文本。
+    stop_words (set): 要删除的停用词集。
 
     Returns:
-    str: Text with stop words removed.
+    str: 删除停用词后的文本。
     """
     return ' '.join([word for word in text.split() if word.lower() not in stop_words])
 
 def calculate_sentiment(text, positive_words, negative_words):
     """
-    Calculates the sentiment score of the text.
+    计算文本的情感得分。
 
     Args:
-    text (str): The input text.
-    positive_words (set): A set of positive words.
-    negative_words (set): A set of negative words.
+    text (str): 输入文本。
+    positive_words (set): 一组积极词。
+    negative_words (set): 一组消极词。
 
     Returns:
-    int: Sentiment score.
+    int: 情感得分。
     """
     words = text.split()
     score = sum(1 for word in words if word in positive_words) - sum(1 for word in words if word in negative_words)
@@ -120,13 +119,13 @@ def calculate_sentiment(text, positive_words, negative_words):
 
 def get_sentiment_label(score):
     """
-    Determines the sentiment label based on the sentiment score.
+    根据情感得分确定情感标签。
 
     Args:
-    score (int): The sentiment score.
+    score (int): 情感得分。
 
     Returns:
-    str: Sentiment label ('Positive', 'Negative', 'Neutral').
+    str: 情感标签（“积极”、“消极”、“中性”）。
     """
     if score > 0:
         return 'Positive'
@@ -137,13 +136,13 @@ def get_sentiment_label(score):
 
 def sentiment_analysis_handler(text):
     """
-    Analyzes the sentiment of the input text.
+    分析输入文本的情感。
 
     Args:
-    text (str): The input text.
+    text (str): 输入文本。
 
     Returns:
-    str: Sentiment analysis result including the score and label.
+    str: 情感分析结果，包括得分和标签。
     """
     stop_words = set(["a", "an", "the", "and", "or", "but", "if", "then", "so"])
     positive_words = set(["good", "happy", "joy", "excellent", "positive", "love"])
@@ -164,7 +163,7 @@ CREATE OR REPLACE TABLE texts (
     original_text STRING
 );
 
--- Insert sample data
+-- 插入示例数据
 INSERT INTO texts (original_text)
 VALUES
 ('The quick brown fox feels happy and joyful'),
@@ -193,7 +192,7 @@ FROM
 
 JavaScript UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 JavaScript 代码，从而可以在 SQL 查询中无缝集成 JavaScript 逻辑。
 
-#### Data Type Mappings
+#### 数据类型映射
 
 下表显示了 Databend 和 JavaScript 之间的类型映射：
 
@@ -216,7 +215,7 @@ JavaScript UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中�
 | DECIMAL           | BigDecimal |
 | BINARY            | Uint8Array |
 
-#### Usage Examples
+#### 使用示例
 
 此示例定义了一个名为 "gcd_js" 的 JavaScript UDF，用于计算两个整数的最大公约数 (GCD)，并在 SQL 查询中应用它：
 
@@ -275,11 +274,11 @@ $$;
 
 WebAssembly UDF 允许用户使用编译为 WebAssembly 的语言定义自定义逻辑或操作。然后可以直接在 SQL 查询中调用这些 UDF，以执行特定的计算或数据转换。
 
-#### Usage Examples
+#### 使用示例
 
-在此示例中，创建 "wasm_gcd" 函数来计算两个整数的最大公约数 (GCD)。该函数使用 WebAssembly 定义，其实现在 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
+在此示例中，创建了 "wasm_gcd" 函数来计算两个整数的最大公约数 (GCD)。该函数使用 WebAssembly 定义，其实现在 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
 
-在执行之前，函数实现会经过一系列步骤。首先，将其编译为二进制文件，然后压缩为 'test10_udf_wasm_gcd.wasm.zst'。最后，将压缩文件提前上传到 Stage。
+在执行之前，函数实现会经过一系列步骤。首先，它被编译成一个二进制文件，然后被压缩成 'test10_udf_wasm_gcd.wasm.zst'。最后，压缩后的文件会提前上传到 Stage。
 
 :::note
 该函数可以使用 Rust 实现，如 https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs 提供的示例所示
@@ -298,7 +297,6 @@ WHERE
 ORDER BY 1;
 ```
 
-## Managing UDFs
+## 管理 UDF
 
-Databend 提供了各种命令来管理 UDF。有关详细信息，请参见 [User-Defined Function](/sql/sql-commands/ddl/udf/)。
-```
+Databend 提供了各种命令来管理 UDF。有关详细信息，请参见 [用户自定义函数](/sql/sql-commands/ddl/udf/)。

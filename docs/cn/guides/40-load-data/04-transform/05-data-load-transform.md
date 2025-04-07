@@ -1,8 +1,8 @@
 ---
-title: 在加载时转换数据
+title: 加载时转换数据
 ---
 
-Databend 提供了一个强大的功能，允许在加载过程中使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令进行数据转换，语法如下：
+Databend 提供了一个强大的功能，可以在加载过程中使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令转换数据，其语法如下：
 
 ```sql
 COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
@@ -17,37 +17,37 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 [ copyOptions ]
 ```
 
-- *COPY INTO 还支持其他语法选项。更多详情，请参阅 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)*。
+- *Copy INTO 也支持其他语法选项。有关更多详细信息，请参见 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)*。
 
-此功能通过在加载过程中进行基本转换，简化了您的 ETL 管道，无需使用临时表。通过在加载时转换数据，您可以有效地简化 ETL 流程。以下是使用此功能增强数据加载的实用方法：
+此功能通过合并基本转换来简化您的 ETL 管道，从而无需使用临时表。通过在加载期间转换数据，您可以有效地简化 ETL 流程。以下是使用此功能增强数据加载的实用方法：
 
-- **加载数据列的子集**：允许您从数据集中选择性导入特定列，专注于与您的分析或应用相关的数据。
+- **加载数据列的子集**：允许您有选择地从数据集中导入特定列，从而专注于与您的分析或应用程序相关的数据。
 
-- **在加载时重新排序列**：使您能够在加载数据时更改列的顺序，确保所需的列排列，以便更好地组织数据或满足特定要求。
+- **在加载期间重新排序列**：使您能够在加载数据时更改列的顺序，从而确保所需的列排列，以实现更好的数据组织或与特定要求保持一致。
 
-- **在加载时转换数据类型**：提供在数据加载过程中转换某些列数据类型的能力，使您能够确保与所需数据格式或分析技术的一致性和兼容性。
+- **在加载期间转换数据类型**：提供在数据加载过程中转换某些列的数据类型的功能，从而使您可以确保与所需数据格式或分析技术的一致性和兼容性。
 
-- **在加载时执行算术操作**：允许您在数据加载时对特定列执行数学计算和操作，促进高级数据转换或生成新的派生数据。
+- **在加载期间执行算术运算**：允许您在加载数据时对特定列执行数学计算和运算，从而促进高级数据转换或生成新的派生数据。
 
-- **加载数据到包含额外列的表**：使您能够将数据加载到已经包含额外列的表中，适应现有结构的同时高效地将数据映射并插入到相应的列中。
+- **将数据加载到具有附加列的表中**：使您可以将数据加载到已经包含附加列的表中，从而适应现有结构，同时有效地将数据映射和插入到相应的列中。
 
 ## 教程
 
-本节提供了几个简短的教程，提供在加载数据时如何进行数据转换的实用指导。每个教程将通过两种方式引导您完成数据加载过程：直接从远程文件加载和从暂存文件加载。请注意，这些教程是相互独立的，您无需按顺序完成它们。请根据您的需求自由跟随。
+本节提供了一些简短的教程，这些教程提供了有关如何在加载时转换数据的实用指导。每个教程都将引导您以两种方式完成数据加载过程：直接从远程文件加载和从暂存文件加载。请注意，这些教程彼此独立，您无需按顺序完成它们。您可以根据自己的需求随意进行操作。
 
-### 开始之前
+### 准备工作
 
-在开始之前，您需要创建一个暂存区并生成一个示例文件；这里以 Parquet 文件为例：
+在开始之前，您需要创建一个 Stage 并生成一个示例文件；这是一个 Parquet 文件作为示例：
 
 ```sql
 CREATE STAGE my_parquet_stage;
 COPY INTO @my_parquet_stage 
 FROM (
-    SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS id, -- 生成一个顺序 id
-           'Name_' || CAST(number AS VARCHAR) AS name,       -- 为每一行生成一个唯一名称
-           20 + MOD(number, 23) AS age,                      -- 生成一个介于 20 到 42 之间的年龄
-           DATE_ADD('day', MOD(number, 60), '2022-01-01') AS onboarded -- 从 2022-01-01 开始生成 onboarded 日期
-    FROM numbers(10) -- 生成 10 行
+    SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS id, -- Generates a sequential id
+           'Name_' || CAST(number AS VARCHAR) AS name,       -- Generates a unique name for each row
+           20 + MOD(number, 23) AS age,                      -- Generates an age between 20 and 42
+           DATE_ADD('day', MOD(number, 60), '2022-01-01') AS onboarded -- Generates onboarded dates starting from 2022-01-01
+    FROM numbers(10) -- Generating 10 rows
 ) 
 FILE_FORMAT = (TYPE = PARQUET);
 ```
@@ -77,9 +77,9 @@ SELECT * FROM @my_parquet_stage;
 
 ### 教程 1 - 加载数据列的子集
 
-在本教程中，您将创建一个比示例文件列数少的表，然后从示例文件中提取相应数据填充该表。
+在本教程中，您将创建一个列数少于示例文件的表，然后使用从示例文件中提取的相应数据填充该表。
 
-1. 创建一个不包含 'age' 列的表。
+1. 创建一个没有“age”列的表。
 
 ```sql
 CREATE TABLE employees_no_age (
@@ -89,10 +89,10 @@ CREATE TABLE employees_no_age (
 );
 ```
 
-2. 从暂存的示例文件中加载数据，除了 'age' 列。
+2. 加载暂存的示例文件中的数据，但“age”列除外。
 
 ```sql
--- 从暂存文件加载
+-- Load from staged file
 COPY INTO employees_no_age
 FROM (
     SELECT t.id, 
@@ -103,6 +103,7 @@ FROM (
 FILE_FORMAT = (TYPE = PARQUET)
 PATTERN = '.*parquet';
 ```
+
 
 3. 检查加载的数据：
 
@@ -128,11 +129,11 @@ SELECT * FROM employees_no_age;
 └──────────────────────────────────────────────────────────┘
 ```
 
-### 教程 2 - 在加载时重新排序列
+### 教程 2 - 在加载期间重新排序列
 
-在本教程中，您将创建一个与示例文件列数相同但顺序不同的表，然后从示例文件中提取相应数据填充该表。
+在本教程中，您将创建一个与示例文件具有相同列但顺序不同的表，然后使用从示例文件中提取的相应数据填充该表。
 
-1. 创建一个 'name' 和 'age' 列互换的表。
+1. 创建一个交换了“name”和“age”列的表。
 
 ```sql
 CREATE TABLE employees_new_order (
@@ -143,10 +144,10 @@ CREATE TABLE employees_new_order (
 );
 ```
 
-2. 从暂存的示例文件中按新顺序加载数据。
+2. 以新顺序加载暂存的示例文件中的数据。
 
 ```sql
--- 从暂存文件加载
+-- Load from staged file
 COPY INTO employees_new_order
 FROM (
     SELECT 
@@ -183,11 +184,11 @@ SELECT * FROM employees_new_order;
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 教程 3 - 在加载时转换数据类型
+### 教程 3 - 在加载期间转换数据类型
 
-在本教程中，您将创建一个与示例文件列数相同但某一列数据类型不同的表，然后从示例文件中提取并转换数据填充该表。
+在本教程中，您将创建一个与示例文件具有相同列的表，但其中一列的数据类型不同，然后使用从示例文件中提取和转换的数据填充该表。
 
-1. 创建一个 'onboarded' 列为 Date 类型的表。
+1. 创建一个“onboarded”列为 Date 类型的表。
 
 ```sql
 CREATE TABLE employees_date (
@@ -198,10 +199,10 @@ CREATE TABLE employees_date (
 );
 ```
 
-2. 从暂存的示例文件中加载数据，并将 'onboarded' 列转换为 Date 类型。
+2. 加载暂存的示例文件中的数据，并将“onboarded”列转换为 Date 类型。
 
 ```sql
--- 从暂存文件加载
+-- Load from staged file
 COPY INTO employees_date
 FROM (
     SELECT 
@@ -239,11 +240,11 @@ SELECT * FROM employees_date;
 └───────────────────────────────────────────────────────────────────────┘
 ```
 
-### 教程 4 - 在加载过程中执行算术运算
+### Tutorial 4 - Performing Arithmetic Operations During Load
 
 在本教程中，您将创建一个与示例文件具有相同列的表。然后，您将从示例文件中提取和转换数据，对提取的数据执行算术运算，并将结果填充到表中。
 
-1. 创建一个与示例文件具有完全相同列的表：
+1. 创建一个包含与示例文件完全相同列的表：
 
 ```sql
 CREATE TABLE employees_new_age (
@@ -254,10 +255,10 @@ CREATE TABLE employees_new_age (
 );
 ```
 
-2. 从暂存的示例文件中加载数据，并在将 'age' 列的值插入目标表之前对其执行算术运算，将其值加 1。
+2. 从暂存的示例文件加载数据，并对 'age' 列执行算术运算，使其值递增 1，然后再将其插入到目标表中。
 
 ```sql
--- 从暂存文件加载
+-- Load from staged file
 COPY INTO employees_new_age
 FROM (
     SELECT 
@@ -276,7 +277,7 @@ PATTERN = '.*parquet';
 ```sql
 SELECT * FROM employees_new_age
 ```    
-结果：
+Result:
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │      onboarded      │
@@ -295,11 +296,11 @@ SELECT * FROM employees_new_age
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 教程 5 - 加载到具有额外列的表
+### Tutorial 5 - Loading to a Table with Additional Columns
 
-在本教程中，您将创建一个比示例文件包含更多列的新表。然后，您将从示例文件中提取数据，最后将转换后的数据填充到新表中。
+在本教程中，您将创建一个新表，该表包含比示例文件更多的列。然后，您将从示例文件中提取数据，最后使用转换后的数据填充新表。
 
-1. 创建一个比示例文件包含更多列的表：
+1. 创建一个包含比示例文件更多列的表：
 
 ```sql
 CREATE TABLE employees_plus (
@@ -311,10 +312,10 @@ CREATE TABLE employees_plus (
 );
 ```
 
-2. 从暂存的示例文件中加载数据：
+2. 从暂存的示例文件加载数据：
 
 ```sql
--- 从暂存文件加载
+-- Load from staged file
 COPY INTO employees_plus (id, name, age, onboarded)
 FROM (
     SELECT 
@@ -334,7 +335,7 @@ PATTERN = '.*parquet';
 SELECT * FROM employees_plus;
 ```
 
-结果：
+Result:
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        id       │       name       │       age       │      onboarded      │       lastday       │

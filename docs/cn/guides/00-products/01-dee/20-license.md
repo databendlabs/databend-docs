@@ -1,35 +1,35 @@
 ---
-title: Databend 许可
+title: Databend 授权
 ---
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-Databend 代码以两种许可类型分发：
+Databend 代码通过两种许可类型分发：
 
 | 类型                | 描述                                                                                                                                                                                                                                                                                           |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Apache 2.0 许可证  | 核心功能在 Apache 许可证下免费使用且完全开源。                                                                                                                                                                                                                         |
-| Elastic 2.0 许可证 | _ Elastic（免费）功能可免费使用。源代码可在 Elastic 2.0 许可证限制下查看和修改。<br/> _ Elastic（付费）功能需要企业许可证密钥才能访问。源代码可在 Elastic 2.0 许可证限制下查看和修改。 |
+| Apache 2.0 许可  | Apache 许可下的核心功能可以免费使用，并且完全开源。                                                                                                                                                                                                                                                        |
+| Elastic 2.0 许可 | _ Elastic (免费) 功能可以免费使用。源代码可以在 Elastic 2.0 许可限制下查看和修改。<br/> _ Elastic (付费) 功能需要企业许可密钥才能访问。源代码可以在 Elastic 2.0 许可限制下查看和修改。 |
 
-Databend 的核心功能可免费使用。大多数核心功能在宽松的 Apache 许可证下授权。然而，位于 `src/query/ee` 和 `src/meta/ee` 目录中的特定功能受更严格的 Elastic 许可证约束。
+Databend 的核心功能可以免费使用。大多数核心功能都获得了宽松的 Apache 许可。但是，位于 src/query/ee 和 src/meta/ee 目录中的特定功能受更严格的 Elastic 许可的约束。
 
-要访问 Databend 企业版功能，需要从 Databend 购买付费许可证，这些功能也受 Elastic 许可证约束。如需其他自定义许可选项，请随时[联系我们](https://www.databend.com/contact-us)。
+要访问 Databend 企业版功能，需要从 Databend 购买付费许可，并且这些功能也受 Elastic 许可的约束。如需其他自定义许可选项，请随时[联系我们](https://www.databend.com/contact-us)。
 
 :::note
-您可以通过查看 [Databend 仓库](https://github.com/databendlabs/databend) 中代码文件的头部来了解功能的许可证。
+您可以通过查看 [Databend 存储库](https://github.com/databendlabs/databend) 下的代码文件的标头来查找功能的许可证
 :::
 
-以下主题涵盖如何获取、设置和验证企业版或试用版许可证以访问 [企业版功能](10-enterprise-features.md)。
+以下主题介绍了如何获取、设置和验证企业或试用许可证以访问 [企业功能](10-enterprise-features.md)。
 
 ## 获取许可证
 
-所有 Databend 代码都包含在同一个二进制文件中。访问 Apache 和 Elastic（免费）功能不需要许可证密钥。要访问 Elastic（付费）功能，用户有两种选择：
+所有 Databend 代码都包含在同一个二进制文件中。访问 Apache 和 Elastic (免费) 功能不需要许可证密钥。要访问 Elastic (付费) 功能，用户有两种选择：
 
-- **企业版许可证** 使您能够长期使用 Databend 企业版功能（一年或更长时间）。要升级到企业版许可证，请[联系销售](https://www.databend.com/contact-us)。
-- **试用版许可证** 使您能够免费试用 Databend 15 天，[联系我们](https://www.databend.com/contact-us) 获取您的试用版许可证。
+- **企业许可证** 使您能够更长时间地使用 Databend 企业版功能（一年或更长时间）。要升级到企业许可证，请[联系销售](https://www.databend.com/contact-us)。
+- **试用许可证** 使您可以免费试用 Databend 15 天，[联系我们](https://www.databend.com/contact-us) 以获取您的试用许可证。
 
 :::note
-Databend Labs 鼓励涉及 Databend 的非商业学术研究。对于此类项目，请[联系我们](https://www.databend.com/contact-us) 获取可能的长期许可证。
+Databend Labs 鼓励涉及 Databend 的非商业学术研究。对于此类项目，请[联系我们](https://www.databend.com/contact-us) 以获取可能的长期许可证）
 :::
 
 ## 设置许可证
@@ -37,66 +37,66 @@ Databend Labs 鼓励涉及 Databend 的非商业学术研究。对于此类项�
 在以下示例中，我们假设您是 `root` 用户。然后使用 `SET GLOBAL SETTING` 命令设置许可证密钥：
 
 ```sql
-SET GLOBAL enterprise_license='您的企业版许可证密钥';
+SET GLOBAL enterprise_license='you enterprise license key';
 ```
 
 ## 验证许可证
 
-要验证许可证，您可以使用管理过程 `CALL` 命令检查组织名称和过期日期信息。
+要验证许可证，您可以使用 admin procedure `CALL` 命令来检查组织名称和到期日期信息。
 
 ```sql
 call admin$license_info();
 +----------------+--------------+--------------------+----------------------------+----------------------------+---------------------------------------+
 | license_issuer | license_type | organization       | issued_at                  | expire_at                  | available_time_until_expiry           |
 +----------------+--------------+--------------------+----------------------------+----------------------------+---------------------------------------+
-| databend       | enterprise   | databend           | 2023-05-10 09:13:21.000000 | 2024-05-09 09:13:20.000000 | 11个月 30天 2小时 3分钟 31秒 802毫秒 872微秒 |
+| databend       | enterprise   | databend           | 2023-05-10 09:13:21.000000 | 2024-05-09 09:13:20.000000 | 11months 30days 2h 3m 31s 802ms 872us |
 +----------------+--------------+--------------------+----------------------------+----------------------------+---------------------------------------+
 ```
 
-## 许可证常见问题
+## 许可证常见问题解答
 
-如果您有任何其他未涵盖的问题，请随时[联系我们](https://www.databend.com/contact-us)。
+如果您有以下未涵盖的任何其他问题，请随时[联系我们](https://www.databend.com/contact-us)。
 <DetailsWrap>
 
 <details open>
-  <summary>我可以在组织内部托管 Databend 作为服务使用吗？</summary>
+  <summary>我可以在我的组织内部托管 Databend 作为服务吗？</summary>
    <p></p>
-   是的，员工和承包商可以在 Elastic 许可证下使用您的内部 Databend 实例作为服务，因为它是自创建以来就允许的。 
+   可以，员工和承包商可以使用您的内部 Databend 实例作为 Elastic 许可下的服务，因为它已创建。
 使用企业版功能始终需要许可证。
 </details>
 
 <details>
-  <summary>为什么 Databend 选择 Elastic 2.0 许可证用于企业版功能？</summary>
+  <summary>为什么 Databend 为企业版功能选择 Elastic License 2.0？</summary>
    <p></p>
-   Elastic 2.0 许可证在开源价值和商业利益之间提供了良好的平衡。
-与其他许可证（如商业源代码许可证、自定义社区许可证）相比，Elastic 2.0 许可证简单、简短且清晰。
-仅有三项限制适用：<br/>
-1. 不能将软件作为托管或管理服务提供给第三方，且不能提供对功能/功能的实质性访问。<br/>
-2. 不能修改或规避许可证密钥功能，或删除/隐藏受保护的功能。<br/>
-3. 不能更改/删除/许可、版权或许可人的商标声明。
+   Elastic License 2.0 在开源价值和商业利益之间提供了良好的平衡。
+与其他许可证（如 Business Source License、Custom Community License）相比，Elastic License 2.0 简单、简短且清晰。
+仅应用三个限制：<br/>
+1. 不能提供软件作为托管或管理的服务，并能大量访问功能/特性。<br/>
+2. 不能修改或规避许可证密钥功能，也不能删除/模糊受保护的功能。<br/>
+3. 不能更改/删除/许可软件中许可方拥有的版权或商标声明。
 </details>
 
 <details>
-  <summary>我想在自己的软件中重用 Databend 项目中的一些组件，该软件使用 Agpl 或其他开源许可证，这可能吗？</summary>
+  <summary>我想在我的软件中重用 Databend 项目中的一些组件，该软件使用 Agpl 或其他开源许可证，这可能吗？</summary>
    <p></p>
-   Databend 团队致力于支持开源社区，并愿意考虑将特定内部组件提取为单独的项目，使用其自己的许可证，例如 APL。
+   Databend 团队致力于支持开源社区，并愿意考虑提取通常有用的特定内部组件，作为一个单独的项目，并使用自己的许可证，例如 APL。
 </details>
 
 <details>
-  <summary>您能提供一些关于“将软件作为托管或管理服务提供给第三方”或不符合条件的例子吗？</summary>
+  <summary>您能否提供一些关于什么符合“将软件作为托管或管理的服务提供给第三方”或不符合的示例？</summary>
    <p></p>
 
-**我在我的分析 SaaS 产品中使用 Databend 进行数据仪表板**
+**我正在我的分析 SaaS 产品上使用 databend 进行数据仪表板**
 
-这在 ELv2 下是允许的。<br/><br/>
+ELv2 允许这样做。<br/><br/>
 
-**我是一名分析工程师，为我的组织设置 Databend 供内部使用**
+**我是一名分析工程师，正在为我的组织设置 Databend 以供内部使用**
 
-这在 ELv2 下是允许的，因为您没有将软件作为托管服务提供。<br/><br/>
+ELv2 允许这样做，因为您没有将软件作为托管服务提供。<br/><br/>
 
-**我是一家托管服务提供商，为我的客户运行 Databend**
+**我是一家为客户运行 Databend 的管理服务提供商**
 
-如果您的客户不访问 Databend，这在 ELv2 下是允许的。如果您的客户确实作为您服务的一部分访问了 Databend 的实质性功能部分，这可能不被允许。
+如果您的客户无法访问 Databend，则 ELv2 允许这样做。如果您的客户可以访问 Databend 的大部分功能作为您服务的一部分，则可能不允许这样做。
 
 </details>
 
