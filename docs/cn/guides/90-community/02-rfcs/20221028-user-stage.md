@@ -1,4 +1,3 @@
-```markdown
 ---
 title: User Stage
 ---
@@ -136,4 +135,3 @@ COPY INTO my_table FROM @#my_table;
 ### Garbage Collection for user stage
 
 我们可以支持用户 Stage 的垃圾回收，以便可以删除过时的文件。
-```

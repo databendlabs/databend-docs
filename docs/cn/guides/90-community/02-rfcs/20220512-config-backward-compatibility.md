@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Config Backward Compatibility
 description: RFC for backward config compatibility
@@ -172,4 +171,3 @@ export QUERY_B = "Version 42"
 ```
 
 For the best situation, we can load from env via version 42 and then load from config via version 23.
-```

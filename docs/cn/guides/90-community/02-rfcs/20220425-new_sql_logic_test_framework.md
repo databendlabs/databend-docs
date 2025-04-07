@@ -1,4 +1,3 @@
-```markdown
 ---
 title: New SQL Logic Test Framework
 description: New sql logic test framework design RFC.
@@ -52,7 +51,7 @@ create table db1.tbl1 (id int);
 
 `query <desired_query_schema_type> <options> <labels>`：sql 语句输出预期成功，并具有所需的结果。
 
-`desired_query_schema_type` 表示查询结果的模式类型。 详细信息请参考 https://github.com/gregrahn/sqllogictest/blob/master/about.wiki#test-script-format
+`desired_query_schema_type` 表示查询结果的模式类型。详细信息请参考 https://github.com/gregrahn/sqllogictest/blob/master/about.wiki#test-script-format
 
 - `I` 表示整数
 - `F` 表示浮点数

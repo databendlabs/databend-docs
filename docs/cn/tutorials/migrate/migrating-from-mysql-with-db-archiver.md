@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Migrating from MySQL with db-archiver
 ---
@@ -131,26 +130,26 @@ go install github.com/databend/db-archiver@latest
 
 ```json
 {
-    // Replace the placeholders with your actual values:
-    "sourceHost": "127.0.0.1",
-    "sourcePort": 3306,
-    "sourceUser": "root",
-    "sourcePass": "root",
-    "sourceDB": "mydb",
-    "sourceTable": "my_table",
-    "sourceQuery": "select * from mydb.my_table",
-    "sourceSplitKey": "id",
-    "sourceWhereCondition": "id < 100",
-    "databendDSN": "https://cloudapp:{password}@{host}:443?warehouse={warehouse_name}",
-    "databendTable": "{database}.my_table",
-    "batchSize": 2,
-    "batchMaxInterval": 30,
-    "workers": 1,
-    "copyPurge": false,
-    "copyForce": false,
-    "disableVariantCheck": false,
-    "deleteAfterSync": false,
-    "maxThread": 10
+  // Replace the placeholders with your actual values:
+  "sourceHost": "127.0.0.1",
+  "sourcePort": 3306,
+  "sourceUser": "root",
+  "sourcePass": "root",
+  "sourceDB": "mydb",
+  "sourceTable": "my_table",
+  "sourceQuery": "select * from mydb.my_table",
+  "sourceSplitKey": "id",
+  "sourceWhereCondition": "id < 100",
+  "databendDSN": "https://cloudapp:{password}@{host}:443?warehouse={warehouse_name}",
+  "databendTable": "{database}.my_table",
+  "batchSize": 2,
+  "batchMaxInterval": 30,
+  "workers": 1,
+  "copyPurge": false,
+  "copyForce": false,
+  "disableVariantCheck": false,
+  "deleteAfterSync": false,
+  "maxThread": 10
 }
 ```
 

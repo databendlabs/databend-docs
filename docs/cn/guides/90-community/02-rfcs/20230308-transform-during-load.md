@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 加载时转换
 ---
@@ -49,7 +48,7 @@ COPY into table1 from (select c1， c2 from @stage1/path/to/dir where c3 > 1);
 
 1. 对于像 Parquet 这样的文件格式，列剪裁和过滤下推可以很好地工作。
 2. 对于其他格式，如 CSV/TSV/NDJSON，有机会快速解析未使用的列，例如对于 TSV，
-我们可以在解析完投影中的最后一个字段后直接跳转到下一个 `\n`。
+   我们可以在解析完投影中的最后一个字段后直接跳转到下一个 `\n`。
 
 ## 参考级解释
 
@@ -76,4 +75,3 @@ COPY into <table> from (select <expr> from @<stage>/<path>(<options>) <alias> wh
 1. 修剪开头或结尾空格？还是两者都修剪？
 2. 在引号内还是在引号外？
 3. 应用于某些列？空格对于某些列可能是有意义的。
-```

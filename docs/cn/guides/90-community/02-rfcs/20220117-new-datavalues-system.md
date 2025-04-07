@@ -1,4 +1,3 @@
-```markdown
 ---
 title: New DataValues System
 description: New DataValues system design RFC
@@ -266,4 +265,3 @@ Ok(())
 
 - 使 `datavalues2` 更加成熟。
 - 将 `datavalues2` 合并到 Databend 中。
-```

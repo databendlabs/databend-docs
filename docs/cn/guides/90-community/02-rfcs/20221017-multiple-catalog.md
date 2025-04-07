@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 多目录
 description: databend 的多目录支持
@@ -137,4 +136,3 @@ DESCRIBE ctas_nation;
 ### Delta Sharing Catalog
 
 在 [Tracking issues of integration with delta sharing](https://github.com/databendlabs/databend/issues/7830) 中讨论
-```

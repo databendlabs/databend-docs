@@ -1,4 +1,3 @@
-```markdown
 ---
 title: SQL Identifiers
 sidebar_label: SQL Identifiers
@@ -8,7 +7,7 @@ SQL identifiers are names used for different elements within Databend, such as t
 
 ## Unquoted & Double-quoted Identifiers
 
-Unquoted identifiers begin with a letter (A-Z, a-z) or underscore (“_”) and may consist of letters, underscores, numbers (0-9), or dollar signs (“$”).
+Unquoted identifiers begin with a letter (A-Z, a-z) or underscore ("\_") and may consist of letters, underscores, numbers (0-9), or dollar signs ("$").
 
 ```text title='Examples:'
 mydatabend
@@ -49,7 +48,7 @@ Databend allows you to have control over the casing sensitivity of identifiers. 
 - unquoted_ident_case_sensitive: When set to 1, this option preserves the case of characters for unquoted identifiers, ensuring they are case-sensitive. If left at the default value of 0, unquoted identifiers remain case-insensitive, converting to lowercase.
 
 - quoted_ident_case_sensitive: By setting this option to 0, you can indicate that double-quoted identifiers should not preserve the case of characters, making them case-insensitive.
-:::
+  :::
 
 This example demonstrates how Databend treats the casing of identifiers when creating and listing databases:
 
@@ -123,7 +122,7 @@ Databend  |
 
 SELECT "Databend";
 
->> SQL Error [1105] [HY000]: SemanticError. Code: 1065, Text = error: 
+>> SQL Error [1105] [HY000]: SemanticError. Code: 1065, Text = error:
   --> SQL:1:73
   |
 1 | /* ApplicationName=DBeaver 23.2.0 - SQLEditor <Script-12.sql> */ SELECT "Databend"

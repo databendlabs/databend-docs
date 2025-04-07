@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 从 Snowflake 迁移
 ---
@@ -21,35 +20,30 @@ title: 从 Snowflake 迁移
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-              "s3:PutObject",
-              "s3:GetObject",
-              "s3:GetObjectVersion",
-              "s3:DeleteObject",
-              "s3:DeleteObjectVersion"
-            ],
-            "Resource": "arn:aws:s3:::databend-doc/snowflake/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket",
-                "s3:GetBucketLocation"
-            ],
-            "Resource": "arn:aws:s3:::databend-doc",
-            "Condition": {
-                "StringLike": {
-                    "s3:prefix": [
-                        "snowflake/*"
-                    ]
-                }
-            }
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:DeleteObject",
+        "s3:DeleteObjectVersion"
+      ],
+      "Resource": "arn:aws:s3:::databend-doc/snowflake/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket", "s3:GetBucketLocation"],
+      "Resource": "arn:aws:s3:::databend-doc",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["snowflake/*"]
         }
-    ]
+      }
+    }
+  ]
 }
 ```
 
@@ -59,12 +53,13 @@ title: 从 Snowflake 迁移
 - `s3:ListBucket`、`s3:GetBucketLocation`：允许列出 `databend-doc` 存储桶的内容并检索其位置。`Condition` 元素确保列表仅限于 `snowflake` 文件夹中的对象。
 
 2. 在 **IAM** > **Roles** 上创建一个名为 `databend-doc-role` 的角色，并附加我们创建的策略。
-    - 在创建角色的第一步中，为 **Trusted entity type** 选择 **AWS account**，为 **An AWS account** 选择 **This account (xxxxx)**。
 
-    ![alt text](../../../../static/img/documents/tutorials/trusted-entity.png)
+   - 在创建角色的第一步中，为 **Trusted entity type** 选择 **AWS account**，为 **An AWS account** 选择 **This account (xxxxx)**。
 
-    - 创建角色后，复制角色 ARN 并将其保存在安全的位置，例如 `arn:aws:iam::123456789012:role/databend-doc-role`。
-    - 稍后，在获得 Snowflake 帐户的 IAM 用户 ARN 后，我们将更新该角色的 **Trust Relationships**。
+   ![alt text](../../../../static/img/documents/tutorials/trusted-entity.png)
+
+   - 创建角色后，复制角色 ARN 并将其保存在安全的位置，例如 `arn:aws:iam::123456789012:role/databend-doc-role`。
+   - 稍后，在获得 Snowflake 帐户的 IAM 用户 ARN 后，我们将更新该角色的 **Trust Relationships**。
 
 3. 在 Snowflake 中打开一个 SQL 工作表，并使用角色 ARN 创建一个名为 `my_s3_integration` 的 storage integration。
 
@@ -74,7 +69,7 @@ CREATE OR REPLACE STORAGE INTEGRATION my_s3_integration
   STORAGE_PROVIDER = 'S3'
   STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::123456789012:role/databend-doc-role'
   STORAGE_ALLOWED_LOCATIONS = ('s3://databend-doc/snowflake/')
-  ENABLED = TRUE; 
+  ENABLED = TRUE;
 ```
 
 4. 显示 storage integration 详细信息，并在结果中获取 `STORAGE_AWS_IAM_USER_ARN` 属性的值，例如 `arn:aws:iam::123456789012:user/example`。我们将在下一步中使用此值来更新角色 `databend-doc-role` 的 **Trust Relationships**。
@@ -87,16 +82,16 @@ DESCRIBE INTEGRATION my_s3_integration;
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::123456789012:user/example"
-            },
-            "Action": "sts:AssumeRole"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:user/example"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
 }
 ```
 
@@ -107,9 +102,9 @@ DESCRIBE INTEGRATION my_s3_integration;
 1. 在 Snowflake 中使用 Snowflake storage integration `my_s3_integration` 创建一个 external stage：
 
 ```sql
-CREATE OR REPLACE STAGE my_external_stage 
-    URL = 's3://databend-doc/snowflake/' 
-    STORAGE_INTEGRATION = my_s3_integration 
+CREATE OR REPLACE STAGE my_external_stage
+    URL = 's3://databend-doc/snowflake/'
+    STORAGE_INTEGRATION = my_s3_integration
     FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 

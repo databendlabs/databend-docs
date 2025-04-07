@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 新的日志记录
 description: 让 Databend 的日志记录更上一层楼！
@@ -154,4 +153,3 @@ nodeID:              1
 ## 支持从 stdin 读取 SQL
 
 基于此 RFC，我们可以实现从 stdin 读取 SQL。
-```

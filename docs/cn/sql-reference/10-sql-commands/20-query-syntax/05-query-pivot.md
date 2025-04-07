@@ -1,4 +1,3 @@
-```markdown
 ---
 title: PIVOT
 ---
@@ -9,7 +8,6 @@ Databend 中的 `PIVOT` 操作允许您通过旋转表并根据指定的列聚�
 
 **参见：**
 [UNPIVOT](./05-query-unpivot.md)
-
 
 ## 语法
 
@@ -23,11 +21,11 @@ FROM ...
 ```
 
 其中：
-* `<aggregate_function>`：用于组合来自 `pivot_column` 的分组值的聚合函数。
-* `<pivot_column>`：将使用指定的 `<aggregate_function>` 聚合的列。
-* `<value_column>`：其唯一值将成为透视结果集中的新列的列。
-* `<pivot_value_N>`：来自 `<value_column>` 的唯一值，它将成为透视结果集中的新列。
 
+- `<aggregate_function>`：用于组合来自 `pivot_column` 的分组值的聚合函数。
+- `<pivot_column>`：将使用指定的 `<aggregate_function>` 聚合的列。
+- `<value_column>`：其唯一值将成为透视结果集中的新列的列。
+- `<pivot_value_N>`：来自 `<value_column>` 的唯一值，它将成为透视结果集中的新列。
 
 ## 示例
 
@@ -35,12 +33,11 @@ FROM ...
 
 ### 创建和插入数据
 
-
 ```sql
 -- 创建 monthly_sales 表
 CREATE TABLE monthly_sales(
-  empid INT, 
-  amount INT, 
+  empid INT,
+  amount INT,
   month VARCHAR
 );
 
@@ -69,13 +66,14 @@ INSERT INTO monthly_sales VALUES
 现在，我们可以使用 `PIVOT` 操作来计算每个员工在每个月的总销售额。我们将使用 `SUM` 聚合函数来计算总销售额，并且 MONTH 列将被透视以创建每个月的新列。
 
 ```sql
-SELECT * 
+SELECT *
 FROM monthly_sales
 PIVOT(SUM(amount) FOR MONTH IN ('JAN', 'FEB', 'MAR', 'APR'))
 ORDER BY EMPID;
 ```
 
 输出：
+
 ```sql
 +-------+-------+-------+-------+-------+
 | empid | jan   | feb   | mar   | apr   |

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Metabase
 ---
@@ -72,18 +71,17 @@ docker run  -d -p 3000:3000 --name metabase metabase/metabase
 
 3. 点击右上角的 **齿轮** 图标，然后导航到 **Admin settings** > **Databases** > **Add a database** 以创建连接：
 
-| Parameter                     | Databend               | Databend Cloud                     |
-| ----------------------------- | ---------------------- | ---------------------------------- |
-| Database type                 | `Databend`             | `Databend`                         |
-| Host                          | `host.docker.internal` | 从连接信息中获取                   |
-| Port                          | `8000`                 | `443`                              |
-| Username                      | 例如，`root`           | `cloudapp`                         |
-| Password                      | 输入你的密码           | 从连接信息中获取                   |
-| Use a secure connection (SSL) | 关闭                   | 开启                               |
+| Parameter                     | Databend               | Databend Cloud   |
+| ----------------------------- | ---------------------- | ---------------- |
+| Database type                 | `Databend`             | `Databend`       |
+| Host                          | `host.docker.internal` | 从连接信息中获取 |
+| Port                          | `8000`                 | `443`            |
+| Username                      | 例如，`root`           | `cloudapp`       |
+| Password                      | 输入你的密码           | 从连接信息中获取 |
+| Use a secure connection (SSL) | 关闭                   | 开启             |
 
 4. 点击 **Save changes**，然后点击 **Exit admin**。
 
 一切就绪！你现在可以开始创建查询和构建仪表盘了。有关更多信息，请参阅 Metabase 文档：https://www.metabase.com/docs/latest/index.html
 
 ![Alt text](/img/integration/allset.png)
-```

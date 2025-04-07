@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Loading NDJSON File into Databend
 sidebar_label: NDJSON
@@ -108,7 +107,7 @@ FILE_FORMAT = (
 
 ### 步骤 4（可选）。使用 SELECT 复制数据
 
-为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。 更多信息请参考 [`SELECT from NDJSON`](../04-transform/03-querying-ndjson.md)。
+为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。更多信息请参考 [`SELECT from NDJSON`](../04-transform/03-querying-ndjson.md)。
 
 ```sql
 COPY INTO books(title, author)

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: External Dictionaries
 description: This RFC proposes the implementation of an external dictionary feature in Databend to allow seamless access to data from external sources.
@@ -203,10 +202,12 @@ SOURCE(FILE(path './user_files/os.csv' format 'CommaSeparated')) -- Source confi
 ## Reference
 
 [Clickhouse Dictionary](https://clickhouse.com/docs/en/dictionary)
+
 ```
 
-```json
 {
   "title": "外部字典"
 }
+
+
 ```

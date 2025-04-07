@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 定价与账单
 ---
@@ -11,4 +10,3 @@ import PricingCN from '@site/docs/fragment/03-pricing-cn.md'
 en={<PricingEN />}
 cn={<PricingCN />}
 />
-```

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 密码策略
 ---

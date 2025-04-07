@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Stage With Schema
 ---
@@ -57,7 +56,9 @@ SELECT <exprs> FROM @<stage>/'<uri>'(SCHEMA= (<schema> | "<table_name>"), ..)
 只能推断出粗略的 schema。
 
 1. 对于 CSV/TSV，所有列都是 `STRING` 类型。
-  - 用户只能使用列名 `$1`，`$2`，当有很多列时，这不友好。
+
+- 用户只能使用列名 `$1`，`$2`，当有很多列时，这不友好。
+
 2. 对于 ndjson，所有列都是 `VARINT` 类型。
 3. 即使对于 Parquet，字符串格式的 variant/datetime 等高级类型列也不能直接映射。
 
@@ -70,13 +71,13 @@ infer_schema 本身的开销，至少 2 个操作：
 
 限制于文件源：infer schema 只能在 copy 中使用，不能在流式插入中使用。
 
-### alternatives 
+### alternatives
 
-#### WITH_SCHEMA 
+#### WITH_SCHEMA
 
 ```sql
 
-SELECT <exprs> FROM @<stage>|'<uri>' WITH_SCHEMA <data_schema> 
+SELECT <exprs> FROM @<stage>|'<uri>' WITH_SCHEMA <data_schema>
 ```
 
 缺点：与其他表或嵌套查询一起使用时，难以阅读和解析，例如：

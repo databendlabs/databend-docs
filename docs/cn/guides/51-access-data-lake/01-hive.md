@@ -1,7 +1,7 @@
-```markdown
 ---
 title: Apache Hive
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.668"/>
@@ -12,21 +12,21 @@ Databend 支持集成 [Apache Hive](https://hive.apache.org/) catalog，从而�
 
 下表映射了 Apache Hive 和 Databend 之间的数据类型。请注意，Databend 目前不支持表中未列出的 Hive 数据类型。
 
-| Apache Hive         | Databend             |
-| ------------------- | -------------------- |
-| BOOLEAN             | [BOOLEAN](/sql/sql-reference/data-types/boolean)              |
-| TINYINT             | [TINYINT (INT8)](/sql/sql-reference/data-types/numeric#integer-data-types)       |
-| SMALLINT            | [SMALLINT (INT16)](/sql/sql-reference/data-types/numeric#integer-data-types)     |
-| INT                 | [INT (INT32)](/sql/sql-reference/data-types/numeric#integer-data-types)          |
-| BIGINT              | [BIGINT (INT64)](/sql/sql-reference/data-types/numeric#integer-data-types)       |
-| DATE                | [DATE](/sql/sql-reference/data-types/datetime)                 |
-| TIMESTAMP           | [TIMESTAMP](/sql/sql-reference/data-types/datetime)            |
-| FLOAT               | [FLOAT (FLOAT32)](/sql/sql-reference/data-types/numeric#floating-point-data-types)      |
-| DOUBLE              | [DOUBLE (FLOAT64)](/sql/sql-reference/data-types/numeric#floating-point-data-types)     |
-| VARCHAR             | [VARCHAR (STRING)](/sql/sql-reference/data-types/string)     |
-| DECIMAL             | [DECIMAL](/sql/sql-reference/data-types/decimal)              |
-| ARRAY&lt;TYPE&gt;    | [ARRAY](/sql/sql-reference/data-types/array), supports nesting |
-| MAP&lt;KEYTYPE, VALUETYPE&gt; | [MAP](/sql/sql-reference/data-types/map)             |
+| Apache Hive                   | Databend                                                                            |
+| ----------------------------- | ----------------------------------------------------------------------------------- |
+| BOOLEAN                       | [BOOLEAN](/sql/sql-reference/data-types/boolean)                                    |
+| TINYINT                       | [TINYINT (INT8)](/sql/sql-reference/data-types/numeric#integer-data-types)          |
+| SMALLINT                      | [SMALLINT (INT16)](/sql/sql-reference/data-types/numeric#integer-data-types)        |
+| INT                           | [INT (INT32)](/sql/sql-reference/data-types/numeric#integer-data-types)             |
+| BIGINT                        | [BIGINT (INT64)](/sql/sql-reference/data-types/numeric#integer-data-types)          |
+| DATE                          | [DATE](/sql/sql-reference/data-types/datetime)                                      |
+| TIMESTAMP                     | [TIMESTAMP](/sql/sql-reference/data-types/datetime)                                 |
+| FLOAT                         | [FLOAT (FLOAT32)](/sql/sql-reference/data-types/numeric#floating-point-data-types)  |
+| DOUBLE                        | [DOUBLE (FLOAT64)](/sql/sql-reference/data-types/numeric#floating-point-data-types) |
+| VARCHAR                       | [VARCHAR (STRING)](/sql/sql-reference/data-types/string)                            |
+| DECIMAL                       | [DECIMAL](/sql/sql-reference/data-types/decimal)                                    |
+| ARRAY&lt;TYPE&gt;             | [ARRAY](/sql/sql-reference/data-types/array), supports nesting                      |
+| MAP&lt;KEYTYPE, VALUETYPE&gt; | [MAP](/sql/sql-reference/data-types/map)                                            |
 
 ## 管理 Catalogs
 
@@ -55,21 +55,23 @@ CONNECTION = (
 )
 ```
 
-| Parameter             | Required? | Description                                                                                                               | 
-|-----------------------|-----------|---------------------------------------------------------------------------------------------------------------------------| 
-| TYPE                  | Yes       | catalog 的类型：Hive catalog 为 'HIVE'，Iceberg catalog 为 'ICEBERG'。                                      | 
-| METASTORE_ADDRESS     | No        | Hive Metastore 地址。仅 Hive catalog 需要。| 
-| URL                   | Yes       | 链接到此 catalog 的外部存储的位置。这可以是 bucket 或 bucket 中的文件夹。例如，'s3://databend-toronto/'。                       | 
-| connection_parameter  | Yes       | 用于建立与外部存储连接的连接参数。所需的参数因具体的存储服务和身份验证方法而异。有关详细信息，请参阅 [连接参数](/sql/sql-reference/connect-parameters)。 |
+| Parameter            | Required? | Description                                                                                                                                              |
+| -------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TYPE                 | Yes       | catalog 的类型：Hive catalog 为 'HIVE'，Iceberg catalog 为 'ICEBERG'。                                                                                   |
+| METASTORE_ADDRESS    | No        | Hive Metastore 地址。仅 Hive catalog 需要。                                                                                                              |
+| URL                  | Yes       | 链接到此 catalog 的外部存储的位置。这可以是 bucket 或 bucket 中的文件夹。例如，'s3://databend-toronto/'。                                                |
+| connection_parameter | Yes       | 用于建立与外部存储连接的连接参数。所需的参数因具体的存储服务和身份验证方法而异。有关详细信息，请参阅 [连接参数](/sql/sql-reference/connect-parameters)。 |
 
 :::note
 要从 HDFS 读取数据，您需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 可以访问必要的 Java 和 Hadoop 依赖项，以有效地与 HDFS 交互。请确保将 "/path/to/java" 和 "/path/to/hadoop" 替换为 Java 和 Hadoop 安装的实际路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
+
 ```shell
 export JAVA_HOME=/path/to/java
 export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
 export HADOOP_HOME=/path/to/hadoop
 export CLASSPATH=/all/hadoop/jar/files
 ```
+
 :::
 
 ### SHOW CREATE CATALOG
@@ -107,13 +109,13 @@ USE CATALOG <catalog_name>
 此示例演示了如何创建一个配置为与 Hive Metastore 交互并访问存储在 Amazon S3 上（位于 's3://databend-toronto/'）的数据的 catalog。
 
 ```sql
-CREATE CATALOG hive_ctl 
-TYPE = HIVE 
+CREATE CATALOG hive_ctl
+TYPE = HIVE
 CONNECTION =(
-    METASTORE_ADDRESS = '127.0.0.1:9083' 
-    URL = 's3://databend-toronto/' 
-    AWS_KEY_ID = '<your_key_id>' 
-    AWS_SECRET_KEY = '<your_secret_key>' 
+    METASTORE_ADDRESS = '127.0.0.1:9083'
+    URL = 's3://databend-toronto/'
+    AWS_KEY_ID = '<your_key_id>'
+    AWS_SECRET_KEY = '<your_secret_key>'
 );
 
 SHOW CREATE CATALOG hive_ctl;

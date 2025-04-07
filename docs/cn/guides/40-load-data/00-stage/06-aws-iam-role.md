@@ -1,4 +1,3 @@
-```markdown
 ---
 title: "使用 AWS IAM Role 创建 External Stage"
 ---
@@ -83,4 +82,3 @@ title: "使用 AWS IAM Role 创建 External Stage"
 :::info
 恭喜！您现在可以使用 IAM Role 在 Databend Cloud 中访问您自己的 AWS S3 存储桶了。
 :::
-```

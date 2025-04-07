@@ -1,4 +1,3 @@
-```markdown
 ---
 title: CREATE SEQUENCE
 sidebar_position: 1
@@ -22,9 +21,9 @@ Databend 中的序列当前从 1 开始，并递增 1。虽然序列保证唯一
 CREATE [ OR REPLACE ] SEQUENCE [IF NOT EXISTS] <sequence>
 ```
 
-| 参数         | 描述                               |
-|--------------|------------------------------------|
-| `<sequence>` | 要创建的序列的名称。                 |
+| 参数         | 描述                 |
+| ------------ | -------------------- |
+| `<sequence>` | 要创建的序列的名称。 |
 
 ## 示例
 

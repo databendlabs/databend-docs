@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Querying & Transforming
 slug: querying-stage

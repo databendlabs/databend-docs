@@ -1,4 +1,3 @@
-```markdown
 ---
 title: CREATE TABLE
 sidebar_position: 1
@@ -346,7 +345,6 @@ CREATE TABLE student_profiles (
     age INT NULL AS (profile['age']::INT) VIRTUAL
 );
 ```
-
 
 ```sql
 -- Insert data into the table

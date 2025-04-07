@@ -1,4 +1,3 @@
-```markdown
 ---
 title: ATTACH TABLE
 sidebar_position: 6
@@ -24,6 +23,7 @@ import EEFeature from '@site/src/components/EEFeature';
 ATTACH TABLE <target_table_name> [ ( <column_list> ) ] '<source_table_data_URI>'
 CONNECTION = ( <connection_parameters> )
 ```
+
 - `<column_list>`：一个可选的、逗号分隔的列列表，用于包含源表中的列，允许用户仅指定必要的列，而不是包含所有列。如果未指定，将包含源表中的所有列。
 
   - 重命名源表中包含的列会更新其在附加表中的名称，并且必须使用新名称访问它。

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Loading ORC File into Databend
 sidebar_label: ORC

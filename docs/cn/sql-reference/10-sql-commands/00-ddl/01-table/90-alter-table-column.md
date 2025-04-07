@@ -1,8 +1,8 @@
-```markdown
 ---
 title: ALTER TABLE COLUMN
 sidebar_position: 4
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.415"/>
@@ -17,19 +17,19 @@ import EEFeature from '@site/src/components/EEFeature';
 
 ```sql
 -- Add a column to the end of the table
-ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 ADD [ COLUMN ] <column_name> <data_type> [ NOT NULL | NULL ] [ DEFAULT <constant_value> ]
 
 -- Add a column to a specified position
-ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 ADD [ COLUMN ] <column_name> <data_type> [ NOT NULL | NULL ] [ DEFAULT <constant_value> ] [ FIRST | AFTER <column_name> ]
 
 -- Add a virtual computed column
-ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 ADD [ COLUMN ] <column_name> <data_type> AS (<expr>) VIRTUAL
 
 -- Convert a stored computed column to a regular column
-ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> DROP STORED
 
 -- Rename a column
@@ -38,7 +38,7 @@ RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
 -- Change data type and/or comment
 -- If you only want to modify or add a comment for a column, you must still specify the current data type for that column in the command
-ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ]
        [ , [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ] ]
        ...
@@ -51,16 +51,17 @@ ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> UNSET MASKING POLICY
 
 -- Remove a column
-ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 DROP [ COLUMN ] <column_name>
 ```
 
 :::note
+
 - 仅接受常量值作为添加或修改列的默认值。如果使用非常量表达式，则会发生错误。
 - 尚不支持使用 ALTER TABLE 添加存储的计算列。
 - 更改表的列的数据类型时，存在转换错误的风险。例如，如果您尝试将具有文本 (String) 的列转换为数字 (Float)，则可能会导致问题。
-- 当您为列设置 masking policy 时，请确保 policy 中定义的数据类型（请参阅 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的参数 *arg_type_to_mask*）与该列匹配。
-:::
+- 当您为列设置 masking policy 时，请确保 policy 中定义的数据类型（请参阅 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的参数 _arg_type_to_mask_）与该列匹配。
+  :::
 
 ## Examples
 

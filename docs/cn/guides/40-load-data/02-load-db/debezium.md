@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Debezium
 ---
@@ -93,4 +92,3 @@ docker-compose up -d
 ### 教程
 
 - [使用 Debezium 从 MySQL 迁移](/tutorials/migrate/migrating-from-mysql-with-debezium)
-```

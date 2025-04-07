@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 查询 Stage 中的 TSV 文件
 sidebar_label: TSV
@@ -7,17 +6,17 @@ sidebar_label: TSV
 ## 查询 Stage 中的 TSV 文件
 
 语法：
+
 ```sql
-SELECT [<alias>.]$<col_position> [, $<col_position> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
+SELECT [<alias>.]$<col_position> [, $<col_position> ...]
+FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
+[(
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
   [ FILE_FORMAT => 'TSV| <custom_format_name>'],
   [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
 )]
 ```
-
 
 :::info Tips
 TSV 没有 schema 信息，所以我们只能通过位置查询列 `$<col_position> [, $<col_position> ...]`。
@@ -28,11 +27,12 @@ TSV 没有 schema 信息，所以我们只能通过位置查询列 `$<col_positi
 ### 步骤 1. 创建外部 Stage
 
 使用您自己的 S3 bucket 和存储 TSV 文件的凭据创建一个外部 stage。
+
 ```sql
-CREATE STAGE tsv_query_stage 
-URL = 's3://load/tsv/' 
+CREATE STAGE tsv_query_stage
+URL = 's3://load/tsv/'
 CONNECTION = (
-    ACCESS_KEY_ID = '<your-access-key-id>' 
+    ACCESS_KEY_ID = '<your-access-key-id>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>'
 );
 ```
@@ -40,7 +40,7 @@ CONNECTION = (
 ### 步骤 2. 创建自定义 TSV 文件格式
 
 ```sql
-CREATE FILE FORMAT tsv_query_format 
+CREATE FILE FORMAT tsv_query_format
     TYPE = TSV,
     RECORD_DELIMITER = '\n',
     FIELD_DELIMITER = ',',

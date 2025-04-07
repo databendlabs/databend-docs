@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Loading CSV File into Databend
 sidebar_label: CSV
@@ -115,7 +114,7 @@ Result:
 
 ### Step 4 (Option). Using SELECT to Copy Data
 
-为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。 在 [`SELECT from CSV`](../04-transform/01-querying-csv.md) 了解更多信息。
+为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。在 [`SELECT from CSV`](../04-transform/01-querying-csv.md) 了解更多信息。
 
 ```sql
 COPY INTO books (title, author)

@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 灾难恢复
 description: 使 Databend 能够从涉及元数据或数据丢失的灾难中恢复。
@@ -25,7 +24,7 @@ Databend 旨在实现高可用性和容错性。其元数据由 Databend MetaSrv
 
 本 RFC 介绍了通过提供强大的备份和恢复解决方案，使 Databend 能够从灾难（例如元数据或数据丢失）中恢复的第一步。我们提出的产品，暂定名为 `bendsave`，将允许用户有效地备份和恢复元数据和数据。
 
-*此产品的名称尚未确定，我们称之为 `bendsave`*
+_此产品的名称尚未确定，我们称之为 `bendsave`_
 
 ### 1. 备份
 
@@ -38,6 +37,7 @@ bendsave backup --from /path/to/query-node-1.toml --to s3://backup/
 ```
 
 要点：
+
 - 元数据和数据存储在备份位置。
 - 即使在完全失败的情况下，也能实现完整的集群恢复。
 
@@ -92,7 +92,7 @@ bendsave vacuum s3://backup \
 ```rust
 struct BackupManifest {
     backup_meta: BackupMeta,
-    
+
     metasrv: BackupFile,
     storage: Vec<BackupFile>,
     ...
@@ -252,4 +252,3 @@ DROP TABLE my_test;
 将来，我们可以扩展备份和恢复功能以支持复制。这将允许用户跨不同的 databend 集群复制数据库或表，以实现灾难恢复或数据分发。
 
 Databend 还可以实施热备，以确保高可用性和容错性。
-```

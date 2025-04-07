@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 平台和区域
 ---
@@ -11,4 +10,3 @@ import PlatformsEN from '@site/docs/fragment/01-platforms-en.md'
 en={<PlatformsEN />}
 cn={<PlatformsCN />}
 />
-```

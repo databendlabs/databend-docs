@@ -1,4 +1,3 @@
-```markdown
 ---
 title: 卸载 TSV 文件
 ---

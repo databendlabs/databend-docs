@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Querying NDJSON Files in Stage
 sidebar_label: NDJSON
@@ -7,17 +6,17 @@ sidebar_label: NDJSON
 ## Query NDJSON Files in Stage
 
 语法：
+
 ```sql
-SELECT [<alias>.]$1:<column> [, $1:<column> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
+SELECT [<alias>.]$1:<column> [, $1:<column> ...]
+FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
+[(
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
   [ FILE_FORMAT => 'NDJSON| <custom_format_name>'],
   [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
 )]
 ```
-
 
 :::info Tips
 NDJSON 是整行的变体，列是 `$1:<column> [, $1:<column> ...]`。
@@ -28,11 +27,12 @@ NDJSON 是整行的变体，列是 `$1:<column> [, $1:<column> ...]`。
 ### Step 1. Create an External Stage
 
 使用您自己的 S3 存储桶和凭据创建一个外部 Stage，用于存储您的 NDJSON 文件。
+
 ```sql
-CREATE STAGE ndjson_query_stage 
-URL = 's3://load/ndjson/' 
+CREATE STAGE ndjson_query_stage
+URL = 's3://load/ndjson/'
 CONNECTION = (
-    ACCESS_KEY_ID = '<your-access-key-id>' 
+    ACCESS_KEY_ID = '<your-access-key-id>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>'
 );
 ```
@@ -40,7 +40,7 @@ CONNECTION = (
 ### Step 2. Create Custom NDJSON File Format
 
 ```sql
-CREATE FILE FORMAT ndjson_query_format 
+CREATE FILE FORMAT ndjson_query_format
     TYPE = NDJSON,
     COMPRESSION = AUTO;
 ```

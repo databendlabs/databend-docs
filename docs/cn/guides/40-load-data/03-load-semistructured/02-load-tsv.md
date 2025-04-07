@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Loading TSV File into Databend
 sidebar_label: TSV
@@ -6,7 +5,7 @@ sidebar_label: TSV
 
 ## What is TSV?
 
-TSV (Tab Separated Values) 是一种简单的文件格式，用于存储表格数据，例如电子表格或数据库。 TSV 文件格式与 CSV 非常相似，记录由换行符分隔，每个字段由制表符分隔。
+TSV (Tab Separated Values) 是一种简单的文件格式，用于存储表格数据，例如电子表格或数据库。TSV 文件格式与 CSV 非常相似，记录由换行符分隔，每个字段由制表符分隔。
 以下示例显示了一个包含两条记录的 TSV 文件：
 
 ```text
@@ -110,7 +109,7 @@ Result:
 
 ### Step 4 (Option). Using SELECT to Copy Data
 
-为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。 有关更多信息，请参见 [`SELECT from TSV`](../04-transform/02-querying-tsv.md)。
+为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。有关更多信息，请参见 [`SELECT from TSV`](../04-transform/02-querying-tsv.md)。
 
 ```sql
 COPY INTO books (title, author)

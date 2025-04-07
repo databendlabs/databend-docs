@@ -1,4 +1,3 @@
-```markdown
 ---
 title: Iceberg Catalog
 description: Accessing Apache Iceberg formatted data source as an external catalog.
@@ -120,7 +119,7 @@ No matter where the Iceberg is, like S3, GCS or OSS, if Databend support the sto
 | `binary`        | Arbitrary-length byte array                              | `VARCHAR`                            |
 | `struct`        | a tuple of typed values                                  | `OBJECT`                             |
 | `list`          | a collection of values with some element type            | `ARRAY`                              |
-| `map`          |                                                          | `OBJECT`                             |
+| `map`           |                                                          | `OBJECT`                             |
 
 ## Drawbacks
 
@@ -221,4 +220,5 @@ SELECT snapshot_id from ICEBERG_SNAPSHOT(iceberg_catalog.iceberg_db.iceberg_tbl)
 ---------------
  0000000000001
  0000000000002
+
 ```

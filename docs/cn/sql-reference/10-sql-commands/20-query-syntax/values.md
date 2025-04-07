@@ -1,7 +1,7 @@
-```markdown
 ---
 title: VALUES
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.65"/>
@@ -13,10 +13,11 @@ VALUES 子句用于显式定义一组行，以便在查询中使用。它允许�
 ```sql
 VALUES (value_1_1, value_1_2, ...), (value_2_1, value_2_2, ...), ...
 ```
+
 - VALUES 子句后跟用括号括起来的值集。
 - 每个值集表示要插入到临时表中的一行。
 - 在每个值集中，各个值以逗号分隔，并对应于临时表的列。
-- 当您插入多行而不指定列名时，Databend 会自动分配默认列名，如 *col0*、*col1*、*col2* 等。
+- 当您插入多行而不指定列名时，Databend 会自动分配默认列名，如 _col0_、_col1_、_col2_ 等。
 
 ## 示例
 
@@ -46,7 +47,7 @@ Toronto  |2731571|
 
 ```sql
 -- 选择单列
-SELECT col1 
+SELECT col1
 FROM (VALUES ('Toronto', 2731571), ('Vancouver', 631486), ('Montreal', 1704694));
 
 col1   |
@@ -57,8 +58,8 @@ col1   |
 
 -- 选择带有别名的列
 SELECT * FROM (
-    VALUES ('Toronto', 2731571), 
-           ('Vancouver', 631486), 
+    VALUES ('Toronto', 2731571),
+           ('Vancouver', 631486),
            ('Montreal', 1704694)
 ) AS CityPopulation(City, Population);
 
