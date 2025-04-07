@@ -2,7 +2,7 @@
 title: BITMAP_SUBSET_IN_RANGE
 ---
 
-生成源位图在指定范围内的子位图。
+生成指定范围内源 bitmap 的子 bitmap。
 
 ## 语法
 

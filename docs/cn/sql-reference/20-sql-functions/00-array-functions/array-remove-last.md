@@ -2,15 +2,15 @@
 title: ARRAY_REMOVE_LAST
 ---
 
-移除数组的最后一个元素。
+删除数组中的最后一个元素。
 
-## 语法
+## Syntax
 
 ```sql
 ARRAY_REMOVE_LAST( <array> )
 ```
 
-## 示例
+## Examples
 
 ```sql
 SELECT ARRAY_REMOVE_LAST([1, 2, 3]);

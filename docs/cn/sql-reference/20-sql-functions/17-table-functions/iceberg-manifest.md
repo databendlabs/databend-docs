@@ -1,32 +1,33 @@
+```md
 ---
 title: ICEBERG_MANIFEST
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.709"/>
+<FunctionDescription description="Introduced or updated: v1.2.709"/>
 
-返回Iceberg表清单文件的元数据，包括文件路径、分区详情及快照关联信息。
+返回关于 Iceberg 表的 manifest 文件的元数据，包括文件路径、分区详细信息和快照关联。
 
 ## 语法
 
 ```sql
-ICEBERG_MANIFEST('<数据库名>', '<表名>');
+ICEBERG_MANIFEST('<database_name>', '<table_name>');
 ```
 
 ## 输出
 
-该函数返回包含以下列的表：
+该函数返回一个包含以下列的表：
 
-- `content` (`INT`): 文件内容类型（0表示数据文件，1表示删除文件）。
-- `path` (`STRING`): 数据文件或删除文件的路径。
-- `length` (`BIGINT`): 文件大小（字节）。
-- `partition_spec_id` (`INT`): 文件关联的分区规范ID。
-- `added_snapshot_id` (`BIGINT`): 添加该文件的快照ID。
-- `added_data_files_count` (`INT`): 新增数据文件数量。
-- `existing_data_files_count` (`INT`): 引用的现有数据文件数量。
-- `deleted_data_files_count` (`INT`): 删除的数据文件数量。
-- `added_delete_files_count` (`INT`): 新增删除文件数量。
-- `partition_summaries` (`MAP<STRING, STRING>`): 文件相关分区值的摘要。
+- `content` (`INT`): 内容类型（0 表示数据文件，1 表示删除文件）。
+- `path` (`STRING`): 数据或删除文件的文件路径。
+- `length` (`BIGINT`): 文件大小，以字节为单位。
+- `partition_spec_id` (`INT`): 与文件关联的分区规范 ID。
+- `added_snapshot_id` (`BIGINT`): 添加此文件的快照 ID。
+- `added_data_files_count` (`INT`): 添加的新数据文件数。
+- `existing_data_files_count` (`INT`): 引用的现有数据文件数。
+- `deleted_data_files_count` (`INT`): 删除的数据文件数。
+- `added_delete_files_count` (`INT`): 添加的删除文件数。
+- `partition_summaries` (`MAP<STRING, STRING>`): 与文件相关的分区值摘要。
 
 ## 示例
 

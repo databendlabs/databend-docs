@@ -4,9 +4,9 @@ title: EXTRACT
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.697"/>
+<FunctionDescription description="Introduced or updated: v1.2.697"/>
 
-从日期、时间戳或时间间隔中提取指定的部分。
+检索日期、时间戳或间隔的指定部分。
 
 另请参阅：[DATE_PART](date-part.md)
 
@@ -16,29 +16,29 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 -- 从日期或时间戳中提取
 EXTRACT( YEAR | QUARTER | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND | DOW | DOY | EPOCH FROM <date_or_timestamp> )
 
--- 从时间间隔中提取
+-- 从间隔中提取
 EXTRACT( YEAR | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND | MICROSECOND ｜ EPOCH FROM <interval> )
 ```
 
-- `DOW`: 星期几。
-- `DOY`: 一年中的第几天。
+- `DOW`: Day of the Week（星期几）.
+- `DOY`: Day of the Year（一年中的第几天）.
 - `EPOCH`: 自 1970-01-01 00:00:00 以来的秒数。
 
 ## 返回类型
 
-返回类型取决于提取的字段：
+返回类型取决于要提取的字段：
 
-- 返回整数：当提取离散的日期或时间组件（例如 YEAR、MONTH、DAY、DOY、HOUR、MINUTE、SECOND）时，函数返回一个整数。
+- 返回 Integer：当提取离散的日期或时间分量（例如，YEAR、MONTH、DAY、DOY、HOUR、MINUTE、SECOND）时，该函数返回一个 Integer。
 
     ```sql
-    SELECT EXTRACT(DAY FROM now());  -- 返回整数
-    SELECT EXTRACT(DOY FROM now());  -- 返回整数
+    SELECT EXTRACT(DAY FROM now());  -- 返回 Integer
+    SELECT EXTRACT(DOY FROM now());  -- 返回 Integer
     ```
 
-- 返回浮点数：当提取 EPOCH（自 1970-01-01 00:00:00 UTC 以来的秒数）时，函数返回一个浮点数，因为它可能包括小数秒。
+- 返回 Float：当提取 EPOCH（自 1970-01-01 00:00:00 UTC 以来的秒数）时，该函数返回一个 Float，因为它可能包含小数秒。
 
     ```sql
-    SELECT EXTRACT(EPOCH FROM now());  -- 返回浮点数
+    SELECT EXTRACT(EPOCH FROM now());  -- 返回 Float
     ```
 
 ## 示例
@@ -55,7 +55,7 @@ SELECT NOW(), EXTRACT(DAY FROM NOW()), EXTRACT(DOY FROM NOW()), EXTRACT(EPOCH FR
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例从时间间隔中提取天数：
+此示例从间隔中提取天数：
 
 ```sql
 SELECT EXTRACT(DAY FROM '1 day 2 hours 3 minutes 4 seconds'::INTERVAL);

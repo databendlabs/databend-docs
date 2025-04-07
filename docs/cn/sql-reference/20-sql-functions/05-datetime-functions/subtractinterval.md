@@ -1,12 +1,11 @@
 ---
-title: 减去时间间隔
-description: 减去时间间隔函数
+title: SUBTRACT TIME INTERVAL
+description: Subtract time interval function
 title_includes: subtract_years, subtract_quarters, subtract_months, subtract_days, subtract_hours, subtract_minutes, subtract_seconds
 ---
 
 从日期或时间戳中减去时间间隔，返回日期或时间戳类型的结果。
-
-## 语法
+## Syntax
 
 ```sql
 SUBTRACT_YEARS(<exp0>, <expr1>)
@@ -18,11 +17,11 @@ SUBTRACT_MINUTES(<exp0>, <expr1>)
 SUBTRACT_SECONDS(<exp0>, <expr1>)
 ```
 
-## 返回类型
+## Return Type
 
 `DATE`, `TIMESTAMP` 取决于输入。
 
-## 示例
+## Examples
 
 ```sql
 SELECT to_date(18875), subtract_years(to_date(18875), 2);

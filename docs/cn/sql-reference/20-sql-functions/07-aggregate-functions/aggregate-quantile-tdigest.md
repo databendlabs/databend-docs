@@ -3,12 +3,12 @@ title: QUANTILE_TDIGEST
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.41"/>
+<FunctionDescription description="Introduced or updated: v1.2.41"/>
 
 使用 [t-digest](https://github.com/tdunning/t-digest/blob/master/docs/t-digest-paper/histo.pdf) 算法计算数值数据序列的近似分位数。
 
 :::caution
-计算中不包括 NULL 值。
+NULL 值不包含在计算中。
 :::
 
 ## 语法
@@ -19,14 +19,14 @@ QUANTILE_TDIGEST(<level1>[, <level2>, ...])(<expr>)
 
 ## 参数
 
-| 参数         | 描述                                                                                      |
-|--------------|-------------------------------------------------------------------------------------------|
-| `<level n>`  | 分位数级别，表示一个常量浮点数，范围从 0 到 1。建议使用 [0.01, 0.99] 范围内的级别值。 |
-| `<expr>`     | 任何数值表达式                                                                            |
+| 参数      | 描述                                                                                                                                      |
+|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<level n>` | 分位数的 level 表示一个从 0 到 1 的常量浮点数。建议使用 [0.01, 0.99] 范围内的 level 值。                                                                                                |
+| `<expr>`    | 任何数值表达式                                                                                                                          |
 
 ## 返回类型
 
-根据指定的分位数级别数量，返回一个 Float64 值或一个 Float64 值数组。
+返回 Float64 值或 Float64 值数组，具体取决于指定的分位数 level 的数量。
 
 ## 示例
 

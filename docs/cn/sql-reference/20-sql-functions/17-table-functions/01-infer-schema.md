@@ -2,12 +2,11 @@
 title: INFER_SCHEMA
 ---
 
-自动检测文件元数据模式并检索列定义。
-
+自动检测文件元数据 schema 并检索列定义。
 
 :::caution
 
-`infer_schema` 目前仅支持 parquet 文件格式。
+`infer_schema` 目前仅支持 Parquet 文件格式。
 
 :::
 
@@ -36,11 +35,11 @@ externalStage ::= @<external_stage_name>[/<path>]
 
 ### PATTERN = 'regex_pattern'
 
-一个基于 [PCRE2](https://www.pcre.org/current/doc/html/) 的正则表达式模式字符串，用单引号括起来，指定要匹配的文件名。点击[这里](#loading-data-with-pattern-matching)查看示例。有关 PCRE2 语法，请参见 http://www.pcre.org/current/doc/html/pcre2syntax.html。
+一个基于 [PCRE2](https://www.pcre.org/current/doc/html/) 的正则表达式模式字符串，用单引号括起来，用于指定要匹配的文件名。点击[这里](#loading-data-with-pattern-matching)查看示例。有关 PCRE2 语法，请参见 http://www.pcre.org/current/doc/html/pcre2syntax.html。
 
 ## 示例
 
-在 stage 中生成一个 parquet 文件：
+在 Stage 中生成一个 Parquet 文件：
 
 ```sql
 CREATE STAGE infer_parquet FILE_FORMAT = (TYPE = PARQUET);
@@ -68,7 +67,7 @@ SELECT * FROM INFER_SCHEMA(location => '@infer_parquet/data_e0fd9cba-f45c-4c43-a
 +-------------+-----------------+----------+----------+
 ```
 
-### 使用模式匹配的 `infer_schema`
+### 带模式匹配的 `infer_schema`
 
 ```sql
 SELECT * FROM infer_schema(location => '@infer_parquet/', pattern => '.*parquet');
@@ -81,9 +80,9 @@ SELECT * FROM infer_schema(location => '@infer_parquet/', pattern => '.*parquet'
 
 ### 从 Parquet 文件创建表
 
-`infer_schema` 只能显示 parquet 文件的模式，无法从中创建表。
+`infer_schema` 只能显示 Parquet 文件的 schema，不能从中创建表。
 
-要从 parquet 文件创建表：
+要从 Parquet 文件创建表，请执行以下操作：
 
 ```sql
 CREATE TABLE mytable AS SELECT * FROM @infer_parquet/ (pattern=>'.*parquet') LIMIT 0;

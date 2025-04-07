@@ -2,10 +2,10 @@
 title: TO_MONDAY
 ---
 
-将日期或带时间的日期（时间戳/日期时间）向下舍入到最近的周一。
+将日期或带时间的日期（timestamp/datetime）向下舍入到最近的星期一。
 返回日期。
 
-## 语法
+## 句法
 
 ```sql
 TO_MONDAY(<expr>)
@@ -13,13 +13,13 @@ TO_MONDAY(<expr>)
 
 ## 参数
 
-| 参数        | 描述        |
+| 参数   | 描述 |
 | ----------- | ----------- |
-| `<expr>` | 日期/时间戳 |
+| `<expr>` | date/timestamp |
 
 ## 返回类型
 
-`DATE`，返回格式为“YYYY-MM-DD”的日期。
+`DATE`，返回 “YYYY-MM-DD” 格式的日期。
 
 ## 示例
 

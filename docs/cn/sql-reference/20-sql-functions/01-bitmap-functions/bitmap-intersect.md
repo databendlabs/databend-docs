@@ -2,7 +2,7 @@
 title: BITMAP_INTERSECT
 ---
 
-计算位图中设置为1的位数，通过执行逻辑INTERSECT操作。
+计算通过执行逻辑 INTERSECT 操作在 bitmap 中设置为 1 的位数。
 
 ## 语法
 

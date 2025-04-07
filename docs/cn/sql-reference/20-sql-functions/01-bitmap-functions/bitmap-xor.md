@@ -2,7 +2,7 @@
 title: BITMAP_XOR
 ---
 
-对两个位图执行按位异或（XOR）操作。
+对两个 bitmap 执行按位异或 (XOR) 运算。
 
 ## 语法
 

@@ -3,9 +3,9 @@ title: JSON_ARRAY_ELEMENTS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.152"/>
+<FunctionDescription description="Introduced or updated: v1.2.152"/>
 
-从 JSON 数组中提取元素，并将它们作为结果集中的单独行返回。JSON_ARRAY_ELEMENTS 不会递归展开嵌套数组；它将它们视为单个元素。
+从 JSON 数组中提取元素，并在结果集中将它们作为单独的行返回。JSON_ARRAY_ELEMENTS 不会递归展开嵌套数组；它将它们视为单个元素。
 
 ## 语法
 
@@ -15,7 +15,7 @@ JSON_ARRAY_ELEMENTS(<json_string>)
 
 ## 返回类型
 
-JSON_ARRAY_ELEMENTS 返回一组 VARIANT 值，每个值表示从输入 JSON 数组中提取的元素。
+JSON_ARRAY_ELEMENTS 返回一组 VARIANT 值，每个值代表从输入 JSON 数组中提取的元素。
 
 ## 示例
 
@@ -40,7 +40,7 @@ SELECT
 │ {"brand":"Sony","price":150,"product":"Headphones"}                                                                                                                                                                             │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 显示提取元素的数据类型
+-- 显示提取的元素的数据类型
 SELECT
   TYPEOF (
     JSON_ARRAY_ELEMENTS(

@@ -2,9 +2,9 @@
 title: GREATEST
 ---
 
-从一组值中返回最大值。
+返回一组值中的最大值。
 
-## 语法
+## 句法
 
 ```sql
 GREATEST(<value1>, <value2> ...)

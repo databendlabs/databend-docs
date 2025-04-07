@@ -4,11 +4,11 @@ title: FIRST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.697"/>
+<FunctionDescription description="Introduced or updated: v1.2.697"/>
 
 返回窗口框架中的第一个值。
 
-另请参阅：
+参见：
 
 - [LAST_VALUE](last-value.md)
 - [NTH_VALUE](nth-value.md)
@@ -19,12 +19,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 FIRST_VALUE (expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
 ```
 
-- `[ { IGNORE | RESPECT } NULLS ]`: 控制窗口函数中如何处理 NULL 值。
-  - 默认情况下，使用 `RESPECT NULLS`，意味着 NULL 值会被包含在计算中并影响结果。
-  - 当设置为 `IGNORE NULLS` 时，NULL 值会被排除在考虑范围之外，函数仅对非 NULL 值进行操作。
-  - 如果窗口框架中的所有值都是 NULL，即使指定了 `IGNORE NULLS`，函数也会返回 NULL。
+- `[ { IGNORE | RESPECT } NULLS ]`: 控制如何在窗口函数中处理 NULL 值。
+  - 默认情况下，使用 `RESPECT NULLS`，这意味着 NULL 值包含在计算中并影响结果。
+  - 当设置为 `IGNORE NULLS` 时，NULL 值将被排除在考虑之外，并且该函数仅对非 NULL 值进行操作。
+  - 如果窗口框架中的所有值均为 NULL，即使指定了 `IGNORE NULLS`，该函数也会返回 NULL。
 
-- 关于窗口框架的语法，请参阅 [Window Frame Syntax](index.md#window-frame-syntax)。
+- 有关窗口框架的语法，请参见 [Window Frame Syntax](index.md#window-frame-syntax)。
 
 ## 示例
 
@@ -44,7 +44,7 @@ VALUES
   (4, 'Mary', 'Williams', 7000.00),
   (5, 'Michael', 'Brown', 4500.00);
 
--- 使用 FIRST_VALUE 获取最高薪员工的第一个名字
+-- 使用 FIRST_VALUE 检索薪水最高的员工的名字
 SELECT employee_id, first_name, last_name, salary,
        FIRST_VALUE(first_name) OVER (ORDER BY salary DESC) AS highest_salary_first_name
 FROM employees;
@@ -60,7 +60,7 @@ employee_id | first_name | last_name | salary  | highest_salary_first_name
 
 ```
 
-以下示例使用 `IGNORE NULLS` 选项从窗口框架中排除 NULL 值：
+此示例使用 `IGNORE NULLS` 选项从窗口框架中排除 NULL 值：
 
 ```sql
 CREATE or replace TABLE example AS SELECT * FROM (VALUES

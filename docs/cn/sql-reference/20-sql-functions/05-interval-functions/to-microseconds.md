@@ -3,7 +3,7 @@ title: TO_MICROSECONDS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.677"/>
+<FunctionDescription description="Introduced or updated: v1.2.677"/>
 
 将指定的微秒数转换为 Interval 类型。
 
@@ -17,7 +17,7 @@ TO_MICROSECONDS(<microseconds>)
 
 ## 返回类型
 
-Interval（格式为 `hh:mm:ss.sssssss`）。
+Interval (格式为 `hh:mm:ss.sssssss`)。
 
 ## 示例
 

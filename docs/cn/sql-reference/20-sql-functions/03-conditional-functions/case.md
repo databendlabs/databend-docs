@@ -2,7 +2,7 @@
 title: CASE
 ---
 
-处理 IF/THEN 逻辑。它由至少一对 `WHEN` 和 `THEN` 语句构成。每个 `CASE` 语句必须以 `END` 关键字结束。`ELSE` 语句是可选的，提供了一种捕获未在 `WHEN` 和 `THEN` 语句中明确指定的值的方法。
+处理 IF/THEN 逻辑。它由至少一对 `WHEN` 和 `THEN` 语句组成。每个 `CASE` 语句必须以 `END` 关键字结束。`ELSE` 语句是可选的，提供了一种捕获未在 `WHEN` 和 `THEN` 语句中明确指定的值的方法。
 
 ## 语法
 
@@ -17,7 +17,7 @@ END AS <column_name>
 
 ## 示例
 
-此示例使用 CASE 语句对员工薪资进行分类，并展示了一个动态分配的列名 "SalaryCategory"：
+此示例使用 CASE 语句对员工薪资进行分类，并使用动态分配的名为 "SalaryCategory" 的列显示详细信息：
 
 ```sql
 -- 创建示例表
@@ -35,7 +35,7 @@ INSERT INTO Employee VALUES (3, 'Bob', 'Johnson', 75000);
 INSERT INTO Employee VALUES (4, 'Alice', 'Williams', 90000);
 
 -- 使用 CASE 语句添加新列 'SalaryCategory'
--- 根据薪资对员工进行分类
+-- 根据员工的薪资对其进行分类
 SELECT
     EmployeeID,
     FirstName,

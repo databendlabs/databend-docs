@@ -2,15 +2,15 @@
 title: ARRAY_INDEXOF
 ---
 
-返回数组中元素的索引（从 1 开始），如果数组包含该元素。
+如果数组包含该元素，则返回该元素的索引（从 1 开始）。
 
-## 语法
+## Syntax
 
 ```sql
 ARRAY_INDEXOF( <array>, <element> )
 ```
 
-## 示例
+## Examples
 
 ```sql
 SELECT ARRAY_INDEXOF([1, 2, 9], 9);

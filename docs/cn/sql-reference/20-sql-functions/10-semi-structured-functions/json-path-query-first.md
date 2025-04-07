@@ -2,7 +2,7 @@
 title: JSON_PATH_QUERY_FIRST
 ---
 
-获取由指定JSON值的JSON路径返回的第一个JSON项。
+获取指定 JSON 值的 JSON 路径返回的第一个 JSON 项。
 
 ## 语法
 
@@ -31,7 +31,7 @@ VALUES ('Laptop', '{"brand": "Dell", "colors": ["Black", "Silver"], "price": 120
        ('Headphones', '{"brand": "Sony", "colors": ["Black", "Blue", "Red"], "price": 150, "features": {"battery": "20h", "bluetooth": "5.0"}}');
 ```
 
-**查询演示：从产品详情中提取第一个特性**
+**查询演示：从产品详细信息中提取第一个特性**
 
 ```sql
 SELECT

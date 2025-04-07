@@ -2,15 +2,15 @@
 title: ARRAY_PREPEND
 ---
 
-在数组前添加一个元素。
+将元素添加到数组的开头。
 
-## 语法
+## Syntax
 
 ```sql
 ARRAY_PREPEND( <element>, <array> )
 ```
 
-## 示例
+## Examples
 
 ```sql
 SELECT ARRAY_PREPEND(1, [3, 4]);

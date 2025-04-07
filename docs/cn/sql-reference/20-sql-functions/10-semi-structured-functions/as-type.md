@@ -1,10 +1,10 @@
 ---
-title: AS_<类型>
+title: AS_<type>
 ---
 
-严格将 `VARIANT` 值转换为其他数据类型。
+将 `VARIANT` 值强制转换为其他数据类型。
 如果输入数据类型不是 `VARIANT`，则输出为 `NULL`。
-如果 `VARIANT` 中的值类型与输出值不匹配，则输出为 `NULL`。
+如果 `VARIANT` 中的值的类型与输出值不匹配，则输出为 `NULL`。
 
 ## 语法
 
@@ -19,9 +19,9 @@ AS_OBJECT( <variant> )
 
 ## 参数
 
-| 参数        | 描述          |
-|-------------|---------------|
-| `<variant>` | VARIANT 值    |
+| 参数        | 描述            |
+|-------------|-------------------|
+| `<variant>` | The VARIANT value |
 
 ## 返回类型
 
@@ -29,8 +29,8 @@ AS_OBJECT( <variant> )
 - AS_INTEGER: BIGINT
 - AS_FLOAT:   DOUBLE
 - AS_STRING:  VARCHAR
-- AS_ARRAY:   Variant 包含 Array
-- AS_OBJECT:  Variant 包含 Object
+- AS_ARRAY:   Variant contains Array
+- AS_OBJECT:  Variant contains Object
 
 ## 示例
 

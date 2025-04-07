@@ -3,9 +3,9 @@ title: TO_MONTHS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.677"/>
+<FunctionDescription description="Introduced or updated: v1.2.677"/>
 
-将指定的月数转换为 Interval 类型。
+将指定的月份数转换为 Interval 类型。
 
 - 接受正整数、零和负整数作为输入。
 
@@ -17,7 +17,7 @@ TO_MONTHS(<months>)
 
 ## 返回类型
 
-Interval（以月为单位表示）。
+Interval (以月表示)。
 
 ## 示例
 

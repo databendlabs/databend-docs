@@ -1,5 +1,5 @@
 ---
-title: 日期与时间函数
+title: 日期 & 时间函数
 ---
 
 本节提供了 Databend 中与日期时间相关的函数的参考信息。
@@ -74,4 +74,3 @@ title: 日期与时间函数
 - [TIME_SLOT](time-slot)
 - [TIMEZONE](timezone.md)
 - [YESTERDAY](yesterday.md)
-{/*examples*/}

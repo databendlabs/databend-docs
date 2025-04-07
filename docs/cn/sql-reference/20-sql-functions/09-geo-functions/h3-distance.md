@@ -2,7 +2,7 @@
 title: H3_DISTANCE
 ---
 
-返回两个给定的 [H3](https://eng.uber.com/h3/) 索引之间的网格距离。
+返回给定的两个 [H3](https://eng.uber.com/h3/) 索引之间的网格距离。
 
 ## 语法
 

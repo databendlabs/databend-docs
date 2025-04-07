@@ -2,9 +2,9 @@
 title: TO_BOOLEAN
 ---
 
-将一个值转换为 BOOLEAN 数据类型。
+将值转换为 BOOLEAN 数据类型。
 
-## 语法
+## 句法
 
 ```sql
 TO_BOOLEAN( <expr> )

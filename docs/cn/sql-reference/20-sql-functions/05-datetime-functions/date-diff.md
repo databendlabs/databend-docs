@@ -3,9 +3,9 @@ title: DATE_DIFF
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.645"/>
+<FunctionDescription description="Introduced or updated: v1.2.645"/>
 
-根据指定的时间单位计算两个日期或时间戳之间的差异。如果 `<end_date>` 在 `<start_date>` 之后，结果为正；如果 `<end_date>` 在 `<start_date>` 之前，结果为负。
+计算基于指定时间单位的两个日期或时间戳之间的差值。如果 `<end_date>` 在 `<start_date>` 之后，则结果为正；如果 `<end_date>` 在 `<start_date>` 之前，则结果为负。
 
 ## 语法
 
@@ -13,11 +13,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 DATE_DIFF(<unit>, <start_date>, <end_date>)
 ```
 
-| 参数           | 描述                                                                                                 |
-|----------------|-------------------------------------------------------------------------------------------------------------|
-| `<unit>`       | 差异的时间单位：`YEAR`, `QUARTER`, `MONTH`, `WEEK`, `DAY`, `HOUR`, `MINUTE`, 或 `SECOND`。 |
-| `<start_date>` | 起始日期或时间戳。                                                                             |
-| `<end_date>`   | 结束日期或时间戳。                                                                               |
+| 参数           | 描述                                                                                                    |
+|----------------|---------------------------------------------------------------------------------------------------------|
+| `<unit>`       | 差值的时间单位：`YEAR`、`QUARTER`、`MONTH`、`WEEK`、`DAY`、`HOUR`、`MINUTE` 或 `SECOND`。                |
+| `<start_date>` | 起始日期或时间戳。                                                                                       |
+| `<end_date>`   | 结束日期或时间戳。                                                                                       |
 
 ## 示例
 
@@ -33,7 +33,7 @@ SELECT DATE_DIFF(HOUR, YESTERDAY(), TODAY());
 └───────────────────────────────────────┘
 ```
 
-此示例计算当前日期与2000年1月1日之间的年份差：
+此示例计算当前日期与 2000 年 1 月 1 日之间的年份差：
 
 ```sql
 SELECT NOW(), DATE_DIFF(YEAR, NOW(), TO_DATE('2000-01-01'));

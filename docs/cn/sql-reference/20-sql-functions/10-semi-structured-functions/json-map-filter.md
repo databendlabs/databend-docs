@@ -3,9 +3,9 @@ title: JSON_MAP_FILTER
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.652"/>
+<FunctionDescription description="Introduced or updated: v1.2.652"/>
 
-根据指定的条件过滤 JSON 对象中的键值对，条件由 [lambda 表达式](../../00-sql-reference/42-lambda-expressions.md) 定义。
+根据指定的条件过滤 JSON 对象中的键值对，该条件使用 [lambda 表达式](../../00-sql-reference/42-lambda-expressions.md) 定义。
 
 ## 语法
 

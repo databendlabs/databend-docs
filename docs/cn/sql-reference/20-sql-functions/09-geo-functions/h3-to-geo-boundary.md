@@ -2,7 +2,7 @@
 title: H3_TO_GEO_BOUNDARY
 ---
 
-返回一个数组，包含与 [H3](https://eng.uber.com/h3/) 索引对应的六边形顶点的经纬度坐标。
+返回一个数组，其中包含与 [H3](https://eng.uber.com/h3/) 索引对应的六边形顶点的经度和纬度坐标。
 
 ## 语法
 

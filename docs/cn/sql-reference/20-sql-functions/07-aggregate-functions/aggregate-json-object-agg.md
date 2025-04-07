@@ -4,9 +4,9 @@ title: JSON_OBJECT_AGG
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新：v1.2.611"/>
+<FunctionDescription description="Introduced or updated: v1.2.611"/>
 
-将键值对转换为 JSON 对象。对于输入中的每一行，它生成一个键值对，其中键来自 `<key_expression>`，值来自 `<value_expression>`。这些键值对随后被合并成一个单一的 JSON 对象。
+将键值对转换为 JSON 对象。对于输入的每一行，它生成一个键值对，其中键从 `<key_expression>` 派生，值从 `<value_expression>` 派生。然后，这些键值对被组合成一个 JSON 对象。
 
 另请参阅：[JSON_ARRAY_AGG](aggregate-json-array-agg.md)
 
@@ -16,10 +16,10 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 JSON_OBJECT_AGG(<key_expression>, <value_expression>)
 ```
 
-| 参数             | 描述                                                                                     |
-|------------------|------------------------------------------------------------------------------------------|
-| key_expression   | 指定 JSON 对象中的键。**仅支持字符串**表达式。如果 `key_expression` 计算结果为 NULL，则跳过该键值对。 |
-| value_expression | 指定 JSON 对象中的值。可以是任何支持的数据类型。如果 `value_expression` 计算结果为 NULL，则跳过该键值对。 |
+| 参数             | 描述                                                                                                                                                |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| key_expression   | 指定 JSON 对象中的键。**仅支持字符串**表达式。如果 `key_expression` 的计算结果为 NULL，则跳过该键值对。                                                                 |
+| value_expression | 指定 JSON 对象中的值。它可以是任何支持的数据类型。如果 `value_expression` 的计算结果为 NULL，则跳过该键值对。                                                               |
 
 ## 返回类型
 
@@ -27,7 +27,7 @@ JSON 对象。
 
 ## 示例
 
-此示例演示了如何使用 JSON_OBJECT_AGG 将不同类型的数据（如小数、整数、JSON 变体和数组）聚合到 JSON 对象中，其中列 b 作为每个 JSON 对象的键：
+本示例演示了如何使用 JSON_OBJECT_AGG 将不同类型的数据（如 decimals、integers、JSON variants 和 arrays）聚合到 JSON 对象中，其中列 b 作为每个 JSON 对象的键：
 
 ```sql
 CREATE TABLE d (

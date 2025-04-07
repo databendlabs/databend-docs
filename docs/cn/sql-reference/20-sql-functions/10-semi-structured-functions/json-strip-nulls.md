@@ -3,9 +3,9 @@ title: JSON_STRIP_NULLS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.89"/>
+<FunctionDescription description="Introduced or updated: v1.2.89"/>
 
-从 JSON 对象中移除所有值为 null 的属性。
+从 JSON 对象中删除所有具有 null 值的属性。
 
 ## 语法
 

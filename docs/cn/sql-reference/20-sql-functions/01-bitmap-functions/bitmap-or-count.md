@@ -2,15 +2,15 @@
 title: BITMAP_OR_COUNT
 ---
 
-计算位图中设置为1的位数，通过执行逻辑OR操作。
+通过执行逻辑 OR 操作，计算 bitmap 中设置为 1 的位数。
 
-## 语法
+## Syntax
 
 ```sql
 BITMAP_OR_COUNT( <bitmap> )
 ```
 
-## 示例
+## Examples
 
 ```sql
 SELECT BITMAP_OR_COUNT(TO_BITMAP('1, 3, 5'));

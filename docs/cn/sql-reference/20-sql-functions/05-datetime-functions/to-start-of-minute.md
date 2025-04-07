@@ -2,7 +2,7 @@
 title: TO_START_OF_MINUTE
 ---
 
-将日期时间（时间戳/日期时间）向下舍入到分钟开始。
+将带时间（timestamp/datetime）的日期向下舍入到分钟的开始。
 
 ## 语法
 
@@ -12,13 +12,13 @@ TO_START_OF_MINUTE( <expr> )
 
 ## 参数
 
-| 参数       | 描述       |
-|-----------|------------|
-| `<expr>`  | 时间戳     |
+| 参数 | 描述 |
+|-----------|-------------|
+| `<expr>`  | timestamp   |
 
 ## 返回类型
 
-`TIMESTAMP`，返回日期格式为“YYYY-MM-DD hh:mm:ss.ffffff”。
+`TIMESTAMP`，以“YYYY-MM-DD hh:mm:ss.ffffff”格式返回日期。
 
 ## 示例
 

@@ -2,7 +2,7 @@
 title: SIPHASH64
 ---
 
-生成一个64位的[SipHash](https://en.wikipedia.org/wiki/SipHash)哈希值。
+生成一个 64 位的 [SipHash](https://en.wikipedia.org/wiki/SipHash) 哈希值。
 
 ## 语法
 

@@ -4,7 +4,7 @@ title: TODAY
 
 返回当前日期。
 
-## 语法
+## 句法
 
 ```sql
 TODAY()
@@ -12,7 +12,7 @@ TODAY()
 
 ## 返回类型
 
-`DATE`，返回格式为“YYYY-MM-DD”的日期。
+`DATE`，返回 “YYYY-MM-DD” 格式的日期。
 
 ## 示例
 

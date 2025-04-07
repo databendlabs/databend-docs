@@ -2,7 +2,7 @@
 title: ASSUME_NOT_NULL
 ---
 
-将可空类型转换为等效的非`Nullable`值。如果原始值为`NULL`，则结果未定义。
+将 Nullable 类型转换为等效的非 `Nullable` 值。如果原始值为 `NULL`，则结果不确定。
 
 ## 语法
 
@@ -16,7 +16,7 @@ ASSUME_NOT_NULL(<x>)
 
 ## 返回类型
 
-返回非`Nullable`类型的原始数据类型；对于`Nullable`类型，返回其嵌入的非`Nullable`数据类型。
+返回非 `Nullable` 类型的原始数据类型；返回 `Nullable` 类型的嵌入式非 `Nullable` 数据类型。
 
 ## 示例
 

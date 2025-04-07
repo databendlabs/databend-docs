@@ -4,9 +4,9 @@ title: PREVIOUS_DAY
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.655"/>
+<FunctionDescription description="Introduced or updated: v1.2.655"/>
 
-返回给定日期或时间戳之前最近指定的星期几的日期。
+返回给定日期或时间戳之前最近的指定星期几的日期。
 
 ## 语法
 
@@ -14,18 +14,18 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 PREVIOUS_DAY(<date_expression>, <target_day>)
 ```
 
-| 参数                | 描述                                                                                                                                                              |
+| 参数              | 描述                                                                                                                                                              |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<date_expression>` | 一个 `DATE` 或 `TIMESTAMP` 值，用于计算指定星期几的前一个出现日期。                                                                                 |
-| `<target_day>`      | 要查找前一个出现日期的目标星期几。接受的值包括 `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, 和 `sunday`。 |
+| `<date_expression>` | 用于计算指定日期之前最近一次出现的 `DATE` 或 `TIMESTAMP` 值。                                                                                                                |
+| `<target_day>`      | 要查找之前最近一次出现的目标星期几。可接受的值包括 `monday`、`tuesday`、`wednesday`、`thursday`、`friday`、`saturday` 和 `sunday`。 |
 
 ## 返回类型
 
-日期。
+Date.
 
 ## 示例
 
-如果您需要查找给定日期（如 2024-11-13）之前的上一个星期五：
+如果您需要查找给定日期（例如 2024-11-13）之前的上一个星期五：
 
 ```sql
 SELECT PREVIOUS_DAY(to_date('2024-11-13'), friday) AS last_friday;

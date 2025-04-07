@@ -3,7 +3,7 @@ title: MODE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.647"/>
+<FunctionDescription description="Introduced or updated: v1.2.647"/>
 
 返回一组值中出现频率最高的值。
 
@@ -15,7 +15,7 @@ MODE(<expr>)
 
 ## 示例
 
-此示例从销售数据中识别每个月最畅销的产品：
+此示例从销售数据中识别每个月的畅销产品：
 
 ```sql
 CREATE OR REPLACE TABLE sales (

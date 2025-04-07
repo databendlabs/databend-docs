@@ -2,7 +2,7 @@
 title: BITMAP_OR
 ---
 
-对两个位图执行按位 OR 操作。
+对两个 bitmap 执行按位 OR 操作。
 
 ## 语法
 

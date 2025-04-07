@@ -2,9 +2,9 @@
 title: FUSE_BLOCK
 ---
 
-返回表的最新或指定快照的块信息。有关Databend中块的更多信息，请参见[什么是快照、段和块？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block)。
+返回表的最新或指定快照的块信息。有关 Databend 中块的更多信息，请参见 [什么是快照、段和块？](../../10-sql-commands/00-ddl/01-table/60-optimize-table.md#what-are-snapshot-segment-and-block)。
 
-该命令返回快照引用的每个Parquet文件的位置信息。这使得下游应用程序能够访问和消费存储在文件中的数据。
+该命令返回快照引用的每个 Parquet 文件的位置信息。这使下游应用程序可以访问和使用存储在文件中的数据。
 
 另请参阅：
 

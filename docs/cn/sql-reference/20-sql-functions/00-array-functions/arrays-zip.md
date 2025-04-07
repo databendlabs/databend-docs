@@ -3,7 +3,7 @@ title: ARRAYS_ZIP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.690"/>
+<FunctionDescription description="Introduced or updated: v1.2.690"/>
 
 将多个数组合并为一个数组元组。
 
@@ -15,9 +15,9 @@ ARRAYS_ZIP( <array1> [, ...] )
 
 ## 参数
 
-| 参数       | 描述           |
-|------------|----------------|
-| `<arrayN>` | 输入的 ARRAYs。 |
+| 参数       | 描述              |
+|------------|-------------------|
+| `<arrayN>` | 输入的 ARRAY。     |
 
 :::note
 - 每个数组的长度必须相同。

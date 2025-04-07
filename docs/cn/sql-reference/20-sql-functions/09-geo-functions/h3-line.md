@@ -2,7 +2,7 @@
 title: H3_LINE
 ---
 
-返回两个给定 [H3](https://eng.uber.com/h3/) 索引之间的索引线。
+返回给定两个 [H3](https://eng.uber.com/h3/) 索引之间的索引线。
 
 ## 语法
 

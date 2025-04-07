@@ -3,9 +3,9 @@ title: JSON_PRETTY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.77"/>
+<FunctionDescription description="Introduced or updated: v1.2.77"/>
 
-格式化JSON数据，使其更具可读性和可展示性。它会自动为JSON数据添加缩进、换行和其他格式化内容，以获得更好的视觉呈现。
+格式化 JSON 数据，使其更易读和呈现。它自动向 JSON 数据添加缩进、换行和其他格式，以获得更好的视觉表示。
 
 ## 语法
 
@@ -44,7 +44,7 @@ SELECT JSON_PRETTY(PARSE_JSON('{"person": {"name": "Bob", "age": 25}, "location"
 │   "location": "City",                                                                 │
 │   "person": {                                                                         │
 │     "age": 25,                                                                        │
-│     "name": "Bob"                                                                     │
+│     "name": "Bob"                                                                    │
 │   }                                                                                   │
 │ }                                                                                     │
 └───────────────────────────────────────────────────────────────────────────────────────┘

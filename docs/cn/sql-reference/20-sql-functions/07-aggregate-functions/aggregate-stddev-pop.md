@@ -8,11 +8,11 @@ title_includes: STD, STDDEV
 STDDEV_POP() 函数返回表达式的总体标准差（VAR_POP() 的平方根）。
 
 :::tip
-也可以使用 STD() 或 STDDEV()，它们是等价的但不是标准 SQL。
+也可以使用 STD() 或 STDDEV()，它们是等效的，但不是标准 SQL。
 :::
 
 :::caution
-NULL 值不会被计算在内。
+NULL 值不计算在内。
 :::
 
 ## 语法
@@ -25,7 +25,7 @@ STD(<expr>)
 
 ## 参数
 
-| 参数       | 描述                 |
+| 参数      | 描述                 |
 |-----------|----------------------|
 | `<expr>`  | 任何数值表达式       |
 
@@ -51,7 +51,7 @@ VALUES (1, 1, 80),
        (5, 5, 100);
 ```
 
-**查询示例：计算测试成绩的总体标准差**
+**查询示例：计算测试分数的总体标准差**
 ```sql
 SELECT STDDEV_POP(score) AS test_score_stddev_pop
 FROM test_scores;

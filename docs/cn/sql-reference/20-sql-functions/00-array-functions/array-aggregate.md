@@ -2,17 +2,17 @@
 title: ARRAY_AGGREGATE
 ---
 
-使用聚合函数对数组中的元素进行聚合。
+使用聚合函数聚合数组中的元素。
 
-## 语法
+## 句法
 
 ```sql
 ARRAY_AGGREGATE( <array>, '<agg_func>' )
 ```
 
-- 支持的聚合函数包括 `avg`, `count`, `max`, `min`, `sum`, `any`, `stddev_samp`, `stddev_pop`, `stddev`, `std`, `median`, `approx_count_distinct`, `kurtosis`, 和 `skewness`。
+- 支持的聚合函数包括 `avg`、`count`、`max`、`min`、`sum`、`any`、`stddev_samp`、`stddev_pop`、`stddev`、`std`、`median`、`approx_count_distinct`、`kurtosis` 和 `skewness`。
 
-- 语法可以重写为 `ARRAY_<agg_func>( <array> )`。例如，`ARRAY_AVG( <array> )`。
+- 此语法可以重写为 `ARRAY_<agg_func>( <array> )`。例如，`ARRAY_AVG( <array> )`。
 
 ## 示例
 

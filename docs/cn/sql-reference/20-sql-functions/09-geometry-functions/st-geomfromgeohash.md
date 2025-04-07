@@ -3,9 +3,9 @@ title: ST_GEOMFROMGEOHASH
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.402"/>
+<FunctionDescription description="Introduced or updated: v1.2.402"/>
 
-返回一个表示 [geohash](https://en.wikipedia.org/wiki/Geohash) 边界的多边形的 GEOMETRY 对象。
+返回一个 GEOMETRY 对象，该对象表示 [geohash](https://en.wikipedia.org/wiki/Geohash) 的边界。
 
 ## 语法
 
@@ -15,9 +15,9 @@ ST_GEOMFROMGEOHASH(<geohash>)
 
 ## 参数
 
-| 参数        | 描述                     |
-|-------------|--------------------------|
-| `<geohash>` | 参数必须是一个 geohash。 |
+| 参数        | 描述                      |
+|-------------|---------------------------|
+| `<geohash>` | 该参数必须是一个 geohash。 |
 
 ## 返回类型
 

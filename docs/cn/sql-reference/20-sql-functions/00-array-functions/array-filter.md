@@ -2,9 +2,9 @@
 title: ARRAY_FILTER
 ---
 
-从输入数组中构建一个新数组，该数组仅包含使 lambda 函数返回 true 的元素。
+从输入数组的元素中构造一个数组，lambda 函数对这些元素返回 true。
 
-## 语法
+## 句法
 
 ```sql
 ARRAY_FILTER( <array>, <lambda> )

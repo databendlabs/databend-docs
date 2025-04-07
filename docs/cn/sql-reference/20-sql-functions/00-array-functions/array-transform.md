@@ -2,9 +2,9 @@
 title: ARRAY_TRANSFORM
 ---
 
-返回一个数组，该数组是应用 lambda 函数到输入数组的每个元素后的结果。
+返回将 lambda 函数应用于输入数组的每个元素后得到的数组。
 
-## 语法
+## 句法
 
 ```sql
 ARRAY_TRANSFORM( <array>, <lambda> )

@@ -2,7 +2,7 @@
 title: BITMAP_AND
 ---
 
-对两个位图执行按位与操作。
+对两个 bitmap 执行按位 AND 运算。
 
 ## 语法
 

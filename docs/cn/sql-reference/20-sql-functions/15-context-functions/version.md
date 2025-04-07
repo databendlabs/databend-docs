@@ -2,7 +2,7 @@
 title: VERSION
 ---
 
-返回当前 DatabendQuery 的版本信息。
+返回当前 DatabendQuery 的版本。
 
 ## 语法
 

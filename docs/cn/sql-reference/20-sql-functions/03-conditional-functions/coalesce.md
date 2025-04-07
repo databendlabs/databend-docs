@@ -2,7 +2,7 @@
 title: COALESCE
 ---
 
-返回其参数中的第一个非 NULL 表达式；如果所有参数都是 NULL，则返回 NULL。
+返回其参数中第一个非 NULL 的表达式；如果所有参数都为 NULL，则返回 NULL。
 
 ## 语法
 

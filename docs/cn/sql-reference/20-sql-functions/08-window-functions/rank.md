@@ -2,9 +2,9 @@
 title: RANK
 ---
 
-RANK() 函数为有序值组中的每个值分配一个唯一的排名。
+RANK() 函数为排序后的值组中的每个值分配一个唯一的排名。
 
-排名值从 1 开始，依次递增。如果两个值相同，则它们具有相同的排名。
+排名值从 1 开始，然后按顺序递增。如果两个值相同，则它们具有相同的排名。
 
 ## 语法
 
@@ -39,7 +39,7 @@ INSERT INTO employees (employee_id, first_name, last_name, department, salary) V
   (5, 'Tom', 'Brown', 'HR', 75000);
 ```
 
-**按薪资对员工进行排名**
+**按薪水对员工进行排名**
 ```sql
 SELECT
   employee_id,

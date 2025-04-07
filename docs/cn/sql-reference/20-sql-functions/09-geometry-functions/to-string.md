@@ -3,35 +3,35 @@ title: TO_STRING
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.330"/>
+<FunctionDescription description="Introduced or updated: v1.2.330"/>
 
-将 GEOMETRY 对象转换为字符串表示形式。输出数据的显示格式由 `geometry_output_format` 设置控制，该设置包含以下类型：
+将 GEOMETRY 对象转换为字符串表示形式。输出数据的显示格式由 `geometry_output_format` 设置控制，其中包含以下类型：
 
-| 参数            | 描述                                                         |
-|-----------------|--------------------------------------------------------------|
-| GeoJSON (默认) | GEOMETRY 结果以 GeoJSON 格式的 JSON 对象呈现。               |
-| WKT             | GEOMETRY 结果以 WKT 格式的字符串呈现。                        |
-| WKB             | GEOMETRY 结果以 WKB 格式的二进制呈现。                        |
-| EWKT            | GEOMETRY 结果以 EWKT 格式的字符串呈现。                       |
-| EWKB            | GEOMETRY 结果以 EWKB 格式的二进制呈现。                       |
+| Parameter         | Description                                                         |
+|-------------------|---------------------------------------------------------------------|
+| GeoJSON (default) | GEOMETRY 结果呈现为 GeoJSON 格式的 JSON 对象。 |
+| WKT               | GEOMETRY 结果呈现为 WKT 格式的字符串。          |
+| WKB               | GEOMETRY 结果呈现为 WKB 格式的二进制数据。          |
+| EWKT              | GEOMETRY 结果呈现为 EWKT 格式的字符串。         |
+| EWKB              | GEOMETRY 结果呈现为 EWKB 格式的二进制数据。         |
 
-## 语法
+## Syntax
 
 ```sql
 TO_STRING(<geometry>)
 ```
 
-## 参数
+## Arguments
 
-| 参数         | 描述                                           |
-|--------------|------------------------------------------------|
-| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。             |
+| Arguments    | Description                                          |
+|--------------|------------------------------------------------------|
+| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。 |
 
-## 返回类型
+## Return Type
 
-字符串。
+String.
 
-## 示例
+## Examples
 
 ```sql
 SET geometry_output_format='GeoJSON';
@@ -107,5 +107,5 @@ SELECT
 │                                      pipeline_geometry                                     │
 ├────────────────────────────────────────────────────────────────────────────────────────────┤
 │ 0102000020E61000000200000000000000006A18410000000060E3564100000000A07918410000000024ED5641 │
-└────────────────────────────────────────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────────────────────────────────┘
 ```
