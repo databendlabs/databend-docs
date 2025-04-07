@@ -111,7 +111,7 @@ By default, **all columns are nullable(NULL)** in Databend. If you need a column
 `DEFAULT <expr>` sets a default value for the column when no explicit expression is provided. The default expression can be:
 
 - A fixed constant, such as `Marketing` for the `department` column in the example below.
-- The result of an expression with no input arguments, such as `1 + 1`.
+-  An expression with no input arguments and returns a scalar value, such as `1 + 1`, `NOW()` or `UUID()`.
 - The result of a non-deterministic function, such as `NOW()` or `UUID()`.
 - A dynamically generated value from a sequence, such as `NEXTVAL(staff_id_seq)` for the `staff_id` column in the example below.
   - NEXTVAL must be used as a standalone default value; expressions like `NEXTVAL(seq1) + 1` are not supported.
