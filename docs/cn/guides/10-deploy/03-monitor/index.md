@@ -1,5 +1,5 @@
 ---
-title: 监控
+title: Monitor
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 

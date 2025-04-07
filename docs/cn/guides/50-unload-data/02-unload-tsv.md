@@ -1,10 +1,11 @@
+```markdown
 ---
 title: 卸载 TSV 文件
 ---
 
 ## 卸载 TSV 文件
 
-语法:
+语法：
 
 ```sql
 COPY INTO { internalStage | externalStage | externalLocation }
@@ -14,19 +15,19 @@ FILE_FORMAT = (
     RECORD_DELIMITER = '<character>',
     FIELD_DELIMITER = '<character>',
     COMPRESSION = gzip,
-    OUTPUT_HEADER = true -- 卸载时包含表头
+    OUTPUT_HEADER = true -- Unload with header
 )
 [MAX_FILE_SIZE = <num>]
 [DETAILED_OUTPUT = true | false]
 ```
 
-- 更多 TSV 选项请参考 [TSV 文件格式选项](/sql/sql-reference/file-format-options#tsv-options)
-- 卸载到多个文件使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- 更多语法细节请参考 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
+- 更多 TSV 选项请参考 [TSV File Format Options](/sql/sql-reference/file-format-options#tsv-options)
+- 卸载到多个文件请使用 [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 更多关于语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到。
 
-## 教程
+## Tutorial
 
-### 步骤 1. 创建外部 Stage
+### Step 1. 创建一个 External Stage
 
 ```sql
 CREATE STAGE tsv_unload_stage
@@ -37,15 +38,15 @@ CONNECTION = (
 );
 ```
 
-### 步骤 2. 创建自定义 TSV 文件格式
+### Step 2. 创建自定义 TSV 文件格式
 
 ```sql
 CREATE FILE FORMAT tsv_unload_format
     TYPE = TSV,
-    COMPRESSION = gzip;     -- 使用 gzip 压缩卸载
+    COMPRESSION = gzip;     -- Unload with gzip compression
 ```
 
-### 步骤 3. 卸载到 TSV 文件
+### Step 3. 卸载到 TSV 文件
 
 ```sql
 COPY INTO @tsv_unload_stage
@@ -57,7 +58,7 @@ FILE_FORMAT = (FORMAT_NAME = 'tsv_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
-结果:
+结果：
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
@@ -67,7 +68,7 @@ DETAILED_OUTPUT = true;
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 4. 验证卸载的 TSV 文件
+### Step 4. 验证卸载的 TSV 文件
 
 ```
 SELECT COUNT($1)
@@ -78,7 +79,7 @@ FROM @tsv_unload_stage
 );
 ```
 
-结果:
+结果：
 
 ```text
 ┌───────────┐

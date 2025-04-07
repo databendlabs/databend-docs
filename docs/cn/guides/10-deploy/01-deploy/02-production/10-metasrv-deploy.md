@@ -1,30 +1,31 @@
+```
 ---
-title: 部署 Databend 集群
-sidebar_label: 部署 Databend 集群
+title: Deploying Databend Cluster
+sidebar_label: Deploying Databend Cluster
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Databend 建议在生产环境中部署至少三个元节点和一个查询节点的集群。要更好地理解 Databend 集群部署，请参阅 [理解 Databend 部署](../00-understanding-deployment-modes.md)，这将使您熟悉相关概念。本主题旨在提供一个实用的指南，帮助您部署 Databend 集群。
+Databend 建议部署一个集群，在生产环境中至少包含三个 meta 节点和一个 query 节点。为了更好地理解 Databend 集群的部署，请参考 [Understanding Databend Deployments](../00-understanding-deployment-modes.md)，这将帮助您熟悉相关概念。本主题旨在为部署 Databend 集群提供一个实用的指南。
 
-## 开始之前
+## Before You Begin
 
 在开始之前，请确保您已完成以下准备工作：
 
-- 规划您的部署。本主题基于以下集群部署计划，该计划涉及设置一个由三个元节点组成的元集群和一个由两个查询节点组成的查询集群：
+- 规划您的部署。本主题基于以下集群部署计划，包括设置一个包含三个 meta 节点的 meta 集群和一个包含两个 query 节点的 query 集群：
 
-| 节点 #  | IP 地址           | 领导元节点？ | 租户 ID | 集群 ID |
-| ------- | ----------------- | ------------ | ------- | ------- |
-| Meta-1  | 172.16.125.128/24 | 是           | -       | -       |
-| Meta-2  | 172.16.125.129/24 | 否           | -       | -       |
-| Meta-3  | 172.16.125.130/24 | 否           | -       | -       |
-| Query-1 | 172.16.125.131/24 | -            | default | default |
-| Query-2 | 172.16.125.132/24 | -            | default | default |
+| Node #  | IP Address        | Leader Meta Node? | Tenant ID | Cluster ID |
+| ------- | ----------------- | ----------------- | --------- | ---------- |
+| Meta-1  | 172.16.125.128/24 | Yes               | -         | -          |
+| Meta-2  | 172.16.125.129/24 | No                | -         | -          |
+| Meta-3  | 172.16.125.130/24 | No                | -         | -          |
+| Query-1 | 172.16.125.131/24 | -                 | default   | default    |
+| Query-2 | 172.16.125.132/24 | -                 | default   | default    |
 
-- 将最新的 Databend 包下载并解压到每个节点。
+- 下载最新的 Databend 软件包并将其解压到每个节点。
 
-```shell title='示例:'
+```shell title='Example:'
 root@meta-1:/usr# mkdir databend && cd databend
 root@meta-1:/usr/databend# curl -O https://repo.databend.com/databend/v1.2.410/databend-v1.2.410-aarch64-unknown-linux-gnu.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -33,15 +34,15 @@ root@meta-1:/usr/databend# curl -O https://repo.databend.com/databend/v1.2.410/d
 root@meta-1:/usr/databend# tar -xzvf databend-v1.2.410-aarch64-unknown-linux-gnu.tar.gz
 ```
 
-## 步骤 1：部署元节点
+## Step 1: Deploy Meta Nodes
 
-1. 在每个元节点上配置文件 [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml)：
+1. 在每个 meta 节点中配置 [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 文件：
 
    - 确保 [raft_config] 中的 **id** 参数设置为唯一值。
-   - 将领导元节点的 **single** 参数设置为 _true_。
-   - 对于跟随者元节点，使用 # 符号注释掉 **single** 参数，然后添加一个名为 **join** 的参数，并将其值设置为其他元节点的 IP 地址数组。
+   - 对于 leader meta 节点，将 **single** 参数设置为 _true_。
+   - 对于 follower meta 节点，使用 # 符号注释掉 **single** 参数，然后添加一个名为 **join** 的参数，并提供其他 meta 节点的 IP 地址数组作为其值。
 
-| 参数                    | Meta-1         | Meta-2                                          | Meta-3                                          |
+| Parameter               | Meta-1         | Meta-2                                          | Meta-3                                          |
 | ----------------------- | -------------- | ----------------------------------------------- | ----------------------------------------------- |
 | grpc_api_advertise_host | 172.16.125.128 | 172.16.125.129                                  | 172.16.125.130                                  |
 | id                      | 1              | 2                                               | 3                                               |
@@ -134,28 +135,28 @@ join            = ["172.16.125.128:28103", "172.16.125.129:28103"]
   </TabItem>
 </Tabs>
 
-2. 在每个节点上运行以下脚本来启动元节点：首先启动领导节点（Meta-1），然后依次启动跟随者节点。
+2. 要启动 meta 节点，请在每个节点上运行以下脚本：从 leader 节点 (Meta-1) 开始，然后按顺序处理 follower 节点。
 
 ```shell
 cd .. && cd bin
 ./databend-meta -c ../configs/databend-meta.toml > meta.log 2>&1 &
 ```
 
-3. 所有元节点启动后，您可以使用以下 curl 命令检查它们：
+3. 启动所有 meta 节点后，您可以使用以下 curl 命令检查它们：
 
 ```shell
 curl 172.16.125.128:28101/v1/cluster/nodes
 [{"name":"1","endpoint":{"addr":"172.16.125.128","port":28103},"grpc_api_advertise_address":"172.16.125.128:9191"},{"name":"2","endpoint":{"addr":"172.16.125.129","port":28103},"grpc_api_advertise_address":"172.16.125.129:9191"},{"name":"3","endpoint":{"addr":"172.16.125.130","port":28103},"grpc_api_advertise_address":"172.16.125.130:9191"}]
 ```
 
-## 步骤 2：部署查询节点
+## Step 2: Deploy Query Nodes
 
-1. 在每个查询节点上配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml)。以下列表仅包括您需要在每个查询节点中设置的参数，以反映本文档中概述的部署计划。
+1. 在每个 query 节点中配置 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 文件。以下列表仅包含您需要在每个 query 节点中设置的参数，以反映本文档中概述的部署计划。
 
-   - 根据部署计划设置租户 ID 和集群 ID。
-   - 将 **endpoints** 参数设置为元节点的 IP 地址数组。
+   - 根据部署计划设置 tenant ID 和 cluster ID。
+   - 将 **endpoints** 参数设置为 meta 节点的 IP 地址数组。
 
-| 参数       | Query-1 / Query-2                                                   |
+| Parameter  | Query-1 / Query-2                                                   |
 | ---------- | ------------------------------------------------------------------- |
 | tenant_id  | default                                                             |
 | cluster_id | default                                                             |
@@ -203,24 +204,25 @@ endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
   </TabItem>
 </Tabs>
 
-2. 对于每个查询节点，您还需要在文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中配置对象存储和 admin 用户。有关详细说明，请参阅 [此处](../01-non-production/01-deploying-databend.md#deploying-a-query-node)。
+2. 对于每个 query 节点，您还需要在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 文件中配置对象存储和管理用户。有关详细说明，请参见 [here](../01-non-production/01-deploying-databend.md#deploying-a-query-node)。
 
-3. 在每个查询节点上运行以下脚本来启动它们：
+3. 在每个 query 节点上运行以下脚本以启动它们：
 
 ```shell
 cd .. && cd bin
 ./databend-query -c ../configs/databend-query.toml > query.log 2>&1 &
 ```
 
-## 步骤 3：验证部署
+## Step 3: Verify Deployment
 
-使用 [BendSQL](/guides/sql-clients/bendsql/) 连接到其中一个查询节点，并检索现有查询节点的信息：
+使用 [BendSQL](/guides/sql-clients/bendsql/) 连接到其中一个 query 节点，并检索有关现有 query 节点的信息：
+
 
 ```shell
 bendsql -h 172.16.125.131
-欢迎使用 BendSQL 0.16.0-homebrew。
-正在连接到 172.16.125.131:8000，用户为 root。
-已连接到 Databend Query v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z)
+Welcome to BendSQL 0.16.0-homebrew.
+Connecting to 172.16.125.131:8000 as user root.
+Connected to Databend Query v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z)
 
 root@172.16.125.131:8000/default> SELECT * FROM system.clusters;
 
@@ -235,12 +237,12 @@ FROM
 │ 7rwadq5otY2AlBDdT25QL4 │ default │ 172.16.125.132 │   9091 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
 │ cH331pYsoFmvMSZXKRrn2  │ default │ 172.16.125.131 │   9091 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-2 行已读取，耗时 0.031 秒。处理了 2 行，327 字节 (64.1 行/秒, 10.23 KiB/秒)
+2 rows read in 0.031 sec. Processed 2 rows, 327 B (64.1 rows/s, 10.23 KiB/s)
 ```
 
-## 下一步
+## 后续步骤
 
-部署 Databend 后，您可能需要了解以下主题：
+在部署 Databend 之后，您可能需要了解以下主题：
 
-- [加载与卸载数据](/guides/load-data): 在 Databend 中管理数据的导入/导出。
-- [可视化](/guides/visualize): 将 Databend 与可视化工具集成以获取洞察。
+- [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
+- [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获得深入见解。

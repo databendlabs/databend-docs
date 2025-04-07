@@ -1,12 +1,12 @@
 ---
-title: Notice
+title: 声明
 ---
 
-# Databend includes some code from
+# Databend 包含以下代码
 
 - [pola-rs/polars](https://github.com/pola-rs/polars)
 
-We include the text of the original license below:
+我们在下面包含了原始许可证的文本：
 
 ```
  Licensed to the Apache Software Foundation (ASF) under one
