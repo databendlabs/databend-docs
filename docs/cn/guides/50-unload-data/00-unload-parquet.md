@@ -4,7 +4,7 @@ title: 卸载 Parquet 文件
 
 ## 卸载 Parquet 文件
 
-语法:
+语法：
 
 ```sql
 COPY INTO {internalStage | externalStage | externalLocation}
@@ -14,13 +14,13 @@ FILE_FORMAT = (TYPE = PARQUET)
 [DETAILED_OUTPUT = true | false]
 ```
 
-- 更多 Parquet 选项请参考 [Parquet 文件格式选项](/sql/sql-reference/file-format-options#parquet-options)
-- 卸载到多个文件使用 [MAX_FILE_SIZE 复制选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
-- 更多语法细节请参考 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)
+- 更多 Parquet 选项请参考 [Parquet File Format Options](/sql/sql-reference/file-format-options#parquet-options)
+- 卸载到多个文件请使用 [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 更多关于语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到
 
 ## 教程
 
-### 步骤 1. 创建外部 Stage
+### Step 1. 创建一个 External Stage
 
 ```sql
 CREATE STAGE parquet_unload_stage
@@ -31,7 +31,7 @@ CONNECTION = (
 );
 ```
 
-### 步骤 2. 创建自定义 Parquet 文件格式
+### Step 2. 创建自定义 Parquet 文件格式
 
 ```sql
 CREATE FILE FORMAT parquet_unload_format
@@ -39,7 +39,7 @@ CREATE FILE FORMAT parquet_unload_format
     ;
 ```
 
-### 步骤 3. 卸载到 Parquet 文件
+### Step 3. 卸载到 Parquet 文件
 
 ```sql
 COPY INTO @parquet_unload_stage
@@ -51,7 +51,7 @@ FILE_FORMAT = (FORMAT_NAME = 'parquet_unload_format')
 DETAILED_OUTPUT = true;
 ```
 
-结果:
+结果：
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────┐
@@ -62,7 +62,7 @@ DETAILED_OUTPUT = true;
 └───────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 4. 验证卸载的 Parquet 文件
+### Step 4. 验证卸载的 Parquet 文件
 
 ```sql
 SELECT COUNT($1)
@@ -73,7 +73,7 @@ FROM @parquet_unload_stage
 );
 ```
 
-结果:
+结果：
 
 ```text
 ┌───────────┐

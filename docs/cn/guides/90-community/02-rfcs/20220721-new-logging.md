@@ -1,29 +1,30 @@
+```markdown
 ---
 title: 新的日志记录
-description: 让 Databend 日志记录再次伟大！
+description: 让 Databend 的日志记录更上一层楼！
 ---
 
 - RFC PR: [datafuselabs/databend#6729](https://github.com/databendlabs/databend/pull/6729)
-- 跟踪问题: [datafuselabs/databend#0000](https://github.com/databendlabs/databend/issues/0000)
+- Tracking Issue: [datafuselabs/databend#0000](https://github.com/databendlabs/databend/issues/0000)
 
 # 概要
 
-引入新的配置，使 Databend 的日志记录更加用户友好，并为未来的改进创造更多空间。
+引入一个新的配置，使 databend 的日志记录更加用户友好，并为进一步的改进创造更多空间。
 
 # 动机
 
-Databend 的日志记录过于冗长。
+Databend 的日志记录很冗长。
 
-每条日志都会同时写入文件和控制台。用户无法控制日志记录行为。
+每个日志都将被写入文件和控制台。用户无法控制日志记录行为。
 
 例如：
 
-- 用户无法为标准错误或文件指定 `JSON` / `TEXT` 格式。
-- 用户无法禁用文件日志记录。
+- 用户无法为 stderr 或文件指定 `JSON` / `TEXT` 格式。
+- 用户无法禁用文件的日志记录
 
-更糟糕的是，我们无法向用户留下有意义的信息。我们的用户会被大量的日志淹没。我们应该使用 `stdout` 与用户沟通。
+更糟糕的是，我们无法向用户留下有意义的消息。我们的用户将被大量的日志淹没。我们应该使用 `stdout` 与用户沟通。
 
-# 指南级解释
+# 指导性解释
 
 通过此 RFC，用户将拥有新的配置选项：
 
@@ -40,10 +41,10 @@ level = "debug"
 format = "text"
 ```
 
-- 用户可以禁用任何输出。
-- 用户可以控制日志级别和格式。
+- 用户可以禁用任何输出
+- 用户可以控制日志级别和格式
 
-默认情况下，我们将仅启用 `file` 日志。启动 `databend-query` 将不再将记录打印到 `stderr`。我们将改为将以下消息打印到 `stdout`：
+默认情况下，我们将仅启用 `file` 日志。并且启动 `databend-query` 将不再向 `stderr` 打印记录。我们将改为将以下消息打印到 `stdout`：
 
 ```shell
 Databend Server starting at xxxxxxx (took x.xs)
@@ -71,19 +72,19 @@ Looking for help: https://github.com/databendlabs/databend/discussions
 
 要启用 `stderr` 日志，我们可以设置 `LOG_STDERR_ON=true` 或 `RUST_LOG=info`。
 
-# 参考级解释
+# 参考性解释
 
-在内部，我们将在 `Config` 中添加新的配置结构。旧的配置将保持兼容。
+在内部，我们将在 `Config` 中添加新的配置结构。旧配置将兼容。
 
 # 缺点
 
 无
 
-# 理由和替代方案
+# 基本原理和替代方案
 
 ## Minio
 
-[Minio](https://github.com/minio/minio) 不会将日志打印到 `stdout` 或 `stderr`。相反，他们只打印欢迎消息：
+[Minio](https://github.com/minio/minio) 不会将日志打印到 `stdout` 或 `stderr`。相反，它们仅打印欢迎消息：
 
 ```shell
 :) minio server . --address ":9900"
@@ -114,9 +115,9 @@ Documentation: https://docs.min.io
 
 ## CockroachDB
 
-[CockroachDB](https://www.cockroachlabs.com/) 默认情况下不会将日志打印到 `stderr`：
+[CockroachDB](https://www.cockroachlabs.com/) 默认情况下不将日志打印到 `stderr`：
 
-他们允许用户使用 `--log=<yaml-config>` 指定日志记录行为。
+它们允许用户使用 `--log=<yaml-config>` 来指定日志记录行为。
 
 ```shell
 :) ./cockroach start-single-node
@@ -144,12 +145,13 @@ nodeID:              1
 
 无
 
-# 未来的可能性
+# 未来可能性
 
 ## 添加 HTTP 日志支持
 
-允许将日志发送到 HTTP 端点。
+允许将日志发送到 HTTP 端点
 
 ## 支持从 stdin 读取 SQL
 
 基于此 RFC，我们可以实现从 stdin 读取 SQL。
+```

@@ -2,33 +2,33 @@
 title: Kafka
 ---
 
-[Apache Kafka](https://kafka.apache.org/) 是一个开源的分布式事件流平台，允许您发布和订阅记录流。它旨在处理高吞吐量、容错和实时数据流。Kafka 实现了各种应用程序之间的无缝通信，是构建数据管道和流数据处理应用程序的理想选择。
+[Apache Kafka](https://kafka.apache.org/) 是一个开源的分布式事件流平台，允许您发布和订阅记录流。它旨在处理高吞吐量、容错和实时数据馈送。Kafka 实现了各种应用程序之间的无缝通信，使其成为构建数据管道和流数据处理应用程序的理想选择。
 
-Databend 提供了以下插件和工具，用于从 Kafka 主题中摄取数据：
+Databend 提供了以下插件和工具，用于从 Kafka topics 提取数据：
 
 - [databend-kafka-connect](#databend-kafka-connect)
 - [bend-ingest-kafka](#bend-ingest-kafka)
 
 ## databend-kafka-connect
 
-[databend-kafka-connect](https://github.com/databendcloud/databend-kafka-connect) 是一个专为 Databend 设计的 Kafka Connect 接收器连接器插件。该插件能够将 Kafka 主题中的数据无缝传输到 Databend 表中，实现实时数据摄取，配置简单。databend-kafka-connect 的主要特点包括：
+[databend-kafka-connect](https://github.com/databendcloud/databend-kafka-connect) 是一个专为 Databend 设计的 Kafka Connect sink connector 插件。此插件支持从 Kafka topics 直接无缝地将数据传输到 Databend tables 中，从而以最少的配置实现实时数据提取。databend-kafka-connect 的主要功能包括：
 
-- 根据数据模式自动在 Databend 中创建表。
-- 支持 **仅追加** 和 **更新插入** 写入模式。
-- 随着传入数据结构的变化，自动调整 Databend 表的模式。
+- 根据数据模式自动在 Databend 中创建 tables。
+- 支持 **Append Only** 和 **Upsert** 写入模式。
+- 随着传入数据结构的变化，自动调整 Databend tables 的模式。
 
-要下载 databend-kafka-connect 并了解更多关于该插件的信息，请访问 [GitHub 仓库](https://github.com/databendcloud/databend-kafka-connect)，并参考 README 获取详细说明。
+要下载 databend-kafka-connect 并了解有关该插件的更多信息，请访问 [GitHub 存储库](https://github.com/databendcloud/databend-kafka-connect) 并参阅 README 以获取详细说明。
 
 ## bend-ingest-kafka
 
-[bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka) 是一个高性能的数据摄取工具，专为高效地将数据从 Kafka 主题加载到 Databend 表中而设计。它支持两种主要操作模式：JSON 转换模式和原始模式，以满足不同的数据摄取需求。bend-ingest-kafka 的主要特点包括：
+[bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka) 是一种高性能数据提取工具，专门用于将数据从 Kafka topics 有效地加载到 Databend tables 中。它支持两种主要的操作模式：JSON Transform Mode 和 Raw Mode，以满足不同的数据提取需求。bend-ingest-kafka 的主要功能包括：
 
-- 支持两种模式：**JSON 转换模式**，根据数据模式直接将 Kafka JSON 数据映射到 Databend 表中；**原始模式**，摄取原始 Kafka 数据并捕获完整的 Kafka 记录元数据。
-- 提供可配置的批处理设置，包括大小和间隔，确保高效且可扩展的数据摄取。
+- 支持两种模式：**JSON Transform Mode**，它根据数据模式将 Kafka JSON 数据直接映射到 Databend tables，以及 **Raw Mode**，它提取原始 Kafka 数据，同时捕获完整的 Kafka 记录元数据。
+- 提供可配置的批量处理设置，用于大小和间隔，确保高效且可扩展的数据提取。
 
-要下载 bend-ingest-kafka 并了解更多关于该工具的信息，请访问 [GitHub 仓库](https://github.com/databendcloud/bend-ingest-kafka)，并参考 README 获取详细说明。
+要下载 bend-ingest-kafka 并了解有关该工具的更多信息，请访问 [GitHub 存储库](https://github.com/databendcloud/bend-ingest-kafka) 并参阅 README 以获取详细说明。
 
 ## 教程
 
-- [使用 bend-ingest-kafka 从 Kafka 加载数据](/tutorials/load/kafka-bend-ingest-kafka)
-- [使用 databend-kafka-connect 从 Kafka 加载数据](/tutorials/load/kafka-databend-kafka-connect)
+- [使用 bend-ingest-kafka 从 Kafka 加载](/tutorials/load/kafka-bend-ingest-kafka)
+- [使用 databend-kafka-connect 从 Kafka 加载](/tutorials/load/kafka-databend-kafka-connect)

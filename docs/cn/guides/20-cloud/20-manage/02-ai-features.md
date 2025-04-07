@@ -3,7 +3,6 @@ title: AI 驱动的功能
 ---
 
 import SearchSVG from '@site/static/img/icon/search.svg'
-
 import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
 import AITip from '@site/docs/fragment/ai-tip.md'
 
@@ -11,17 +10,17 @@ import AITip from '@site/docs/fragment/ai-tip.md'
 cn={<AITip />}
 />
 
-通过引入 AI 驱动的功能，Databend Cloud 允许您通过自然语言对话来获取帮助、支持和解决方案。这些 AI 驱动的功能默认启用，但如果需要，您可以通过导航到 **管理** > **设置** 来禁用它们。
+通过包含 AI 驱动的功能，Databend Cloud 允许您进行自然语言对话，以获得帮助、协助和解决方案。这些 AI 驱动的功能默认启用，但如果需要，您可以通过导航到 **管理** > **设置** 来禁用它们。
 
-### AI 聊天助手
+### 用于辅助的 AI 聊天
 
-AI 聊天助手支持自然语言交互，实现直观的信息检索和高效的问题解决。
+AI 聊天支持自然语言交互，从而实现直观的信息检索和简化的故障排除。
 
-要启动 AI 聊天助手：
+要启动 AI 聊天：
 
-1. 点击侧边栏中的放大镜图标 <SearchSVG/> 以打开搜索框。
+1. 单击位于侧边栏中的放大镜图标 <SearchSVG/> 以打开搜索框。
 
-2. 切换到 **聊天** 标签。
+2. 切换到 **聊天** 选项卡。
 
 3. 输入您的问题。
 
@@ -29,12 +28,12 @@ AI 聊天助手支持自然语言交互，实现直观的信息检索和高效�
 
 ### AI 驱动的 SQL 助手
 
-AI 助手可用于在工作表中编辑 SQL 语句。您无需从头开始编写 SQL — AI 可以为您生成。
+AI 辅助功能可用于在工作表中编辑 SQL 语句。您无需从头开始编写 SQL，AI 可以为您生成。
 
-要在编辑 SQL 语句时引入 AI，只需在新行的开头输入 "/" 并输入您的查询，例如 "返回当前时间"：
+要在编辑 SQL 语句时使用 AI，只需在新行的开头键入“/”并输入您的查询，例如“返回当前时间”：
 
 ![Alt text](@site/static/img/documents/worksheet/ai-worksheet-1.gif)
 
-您还可以为现有的 SQL 语句获取 AI 帮助。为此，请突出显示您的 SQL 并点击 **编辑** 以指定您希望的更改或请求进一步帮助。或者，点击 **聊天** 以与 AI 进行对话，获取更全面的支持。
+您还可以获得 AI 对现有 SQL 语句的帮助。为此，请突出显示您的 SQL 并单击 **编辑** 以指定您想要的更改或请求进一步的帮助。或者，单击 **聊天** 以与 AI 进行对话以获得更全面的支持。
 
 ![Alt text](@site/static/img/documents/worksheet/ai-worksheet-2.gif)

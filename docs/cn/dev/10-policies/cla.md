@@ -1,31 +1,33 @@
+```md
 ---
 title: Contributor License Agreement
 ---
 
 # Datafuse Labs, Inc.
 
-## Contributor License Agreement
+## 贡献者许可协议
 
-Thank you for your interest in the open source project(s) managed by Datafuse Labs, Inc. ("Datafuse Labs"). In order to clarify the intellectual property license granted with Contributions from any person or entity, Datafuse Labs must have a Contributor License Agreement ("CLA") on file that has been entered into by each contributor, indicating agreement to the license terms below. This license is for your protection as a contributor as well as the protection of Datafuse Labs and its other contributors and users; it does not change your rights to use your own Contributions for any other purpose.
+感谢您对 Datafuse Labs, Inc.（"Datafuse Labs"）管理的开源项目感兴趣。为了明确任何个人或实体提供的贡献所授予的知识产权许可，Datafuse Labs 必须拥有一份贡献者许可协议（"CLA"）文件，该文件由每位贡献者签署，表明同意以下许可条款。此许可既是为了保护您作为贡献者，也是为了保护 Datafuse Labs 及其其他贡献者和用户；它不会改变您出于任何其他目的使用您自己的贡献的权利。
 
-1\. Definitions.
+1\. 定义。
 
-"You" (or "Your") shall mean the copyright owner or legal entity authorized by the copyright owner that is entering into this CLA with Datafuse Labs. For legal entities, the entity making a Contribution and all other entities that control, are controlled by, or are under common control with that entity are considered to be a single Contributor. For the purposes of this definition, "control" means (i) the power, direct or indirect, to cause the direction or management of such entity, whether by contract or otherwise, or (ii) ownership of fifty percent (50%) or more of the outstanding shares, or (iii) beneficial ownership of such entity.
+"您"（或 "您的"）应指版权所有者或版权所有者授权的、与 Datafuse Labs 签订本 CLA 的法律实体。对于法律实体，进行贡献的实体以及控制该实体、受该实体控制或与该实体处于共同控制下的所有其他实体均被视为单个贡献者。就本定义而言，"控制"是指 (i) 通过合同或其他方式直接或间接地导致该实体进行指导或管理的权力，或 (ii) 拥有该实体百分之五十 (50%) 或以上的已发行股份，或 (iii) 对该实体的实益所有权。
 
-"Contribution" shall mean any code, documentation or other original works of authorship, including any modifications or additions to an existing work, that are intentionally submitted by You to Datafuse Labs for inclusion in, or documentation of, any of the products owned or managed by Datafuse Labs (the "Work"). For the purposes of this definition, "submitted" means any form of electronic, verbal, or written communication sent to Datafuse Labs or its representatives, including but not limited to communication on electronic mailing lists, source code control systems, and issue tracking systems that are managed by, or on behalf of, Datafuse Labs for the purpose of discussing and improving the Work, but excluding communication that is conspicuously marked or otherwise designated in writing by You as "Not a Contribution."
+"贡献"应指任何代码、文档或其他原创作品，包括对现有作品的任何修改或添加，这些作品由您有意提交给 Datafuse Labs，以便纳入 Datafuse Labs 拥有或管理的任何产品（"作品"）或作为其文档。就本定义而言，"提交"是指以任何形式发送给 Datafuse Labs 或其代表的电子、口头或书面通信，包括但不限于 Datafuse Labs 管理或代表 Datafuse Labs 管理的电子邮件列表、源代码控制系统和问题跟踪系统上的通信，目的是讨论和改进作品，但不包括您以书面形式明确标记或以其他方式指定为"非贡献"的通信。
 
-2\. Grant of Copyright License. Subject to the terms and conditions of this CLA, You hereby grant to Datafuse Labs and to recipients of software distributed by Datafuse Labs a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare derivative works of, publicly display, publicly perform, sublicense, and distribute Your Contributions and such derivative works.
+2\. 授予版权许可。根据本 CLA 的条款和条件，您在此授予 Datafuse Labs 以及 Datafuse Labs 分发的软件的接收者永久的、全球性的、非独占的、免版税的、不可撤销的版权许可，以复制、准备衍生作品、公开展示、公开表演、再许可和分发您的贡献以及此类衍生作品。
 
-3\. Grant of Patent License. Subject to the terms and conditions of this CLA, You hereby grant to Datafuse Labs and to recipients of software distributed by Datafuse Labs a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable (except as stated in this section) patent license to make, have made, use, offer to sell, sell, import, and otherwise transfer the Work, where such license applies only to those patent claims licensable by You that are necessarily infringed by Your Contribution(s) alone or by combination of Your Contribution(s) with the Work to which such Contribution(s) were submitted. If any entity institutes patent litigation against You or any other entity (including a cross-claim or counterclaim in a lawsuit) alleging that Your Contribution, or the Work to which You have contributed, constitutes direct or contributory patent infringement, then any patent licenses granted to that entity under this CLA for that Contribution or Work shall terminate as of the date such litigation is filed.
+3\. 授予专利许可。根据本 CLA 的条款和条件，您在此授予 Datafuse Labs 以及 Datafuse Labs 分发的软件的接收者永久的、全球性的、非独占的、免版税的、不可撤销的（除非本节另有规定）专利许可，以制造、委托制造、使用、提供销售、销售、进口和以其他方式转让作品，其中此类许可仅适用于您可许可的、因您的贡献单独或您的贡献与提交贡献的作品相结合而必然侵犯的那些专利权利要求。如果任何实体对您或任何其他实体（包括诉讼中的反诉或交叉诉讼）提起专利诉讼，声称您的贡献或您已贡献的作品构成直接或间接的专利侵权，则根据本 CLA 授予该实体的针对该贡献或作品的任何专利许可应自提起此类诉讼之日起终止。
 
-4\. Authority. You represent and warrant that You are legally entitled to grant the above license. If You are an individual and Your employer(s) has rights to intellectual property that You create that includes Your Contributions, You represent that You have received permission to make Contributions on behalf of that employer, that Your employer has waived such rights for Your Contributions to Datafuse Labs, or that Your employer has entered into a separate CLA with Datafuse Labs covering Your Contributions. If You are a Company, You represent further that each employee making a Contribution to Datafuse Labs under the Company's name is authorized to submit Contributions on behalf of the Company.
+4\. 授权。您声明并保证您在法律上有权授予上述许可。如果您是个人，并且您的雇主拥有您创作的包含您的贡献的知识产权，则您声明您已获得代表该雇主进行贡献的许可，您的雇主已放弃对您对 Datafuse Labs 的贡献的此类权利，或者您的雇主已与 Datafuse Labs 签订了单独的 CLA，涵盖您的贡献。如果您是一家公司，您进一步声明，以公司名义向 Datafuse Labs 做出贡献的每位员工均已获得授权代表公司提交贡献。
 
-5\. Original Works. You represent and warrant that each of Your Contributions is Your original creation (see section 7 for submissions on behalf of others). You represent and warrant that, to Your knowledge, none of Your Contributions infringe, violate, or misappropriate any third party intellectual property or other proprietary rights.
+5\. 原创作品。您声明并保证您的每项贡献都是您的原创作品（有关代表他人提交的内容，请参见第 7 节）。您声明并保证，据您所知，您的任何贡献均未侵犯、违反或盗用任何第三方的知识产权或其他专有权利。
 
-6\. Disclaimer. You are not expected to provide support for Your Contributions, except to the extent You desire to provide support. You may provide support for free, for a fee, or not at all. UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING, EXCEPT FOR THE WARRANTIES SET FORTH ABOVE, YOU PROVIDE YOUR CONTRIBUTIONS ON AN "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION, ANY WARRANTIES OR CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+6\. 免责声明。不期望您为您的贡献提供支持，除非您希望提供支持。您可以免费、收费或根本不提供支持。除非适用法律要求或以书面形式约定，否则，除上述保证外，您按"原样"提供您的贡献，不提供任何形式的明示或暗示的保证或条件，包括但不限于对所有权、非侵权、适销性或特定用途适用性的任何保证或条件。
 
-7\. Submissions on Behalf of Others. Should You wish to submit work that is not Your original creation, You may submit it to Datafuse Labs separately from any Contribution, identifying the complete details of its source and of any license or other restriction (including, but not limited to, related patents, trademarks, and license agreements) of which You are personally aware, and conspicuously marking the work as "Submitted on behalf of a third-party: [named here]".
+7\. 代表他人提交的内容。如果您希望提交不是您的原创作品的作品，您可以将其与任何贡献分开提交给 Datafuse Labs，并注明其来源的完整详细信息以及您个人知道的任何许可或其他限制（包括但不限于相关的专利、商标和许可协议），并明确地将该作品标记为"代表第三方提交：[在此处命名]"。
 
-8\. Additional Facts/Circumstances. You agree to notify Datafuse Labs of any facts or circumstances of which You become aware that would make the above representations and warranties inaccurate in any respect.
+8\. 其他事实/情况。您同意将您意识到的任何会使上述声明和保证在任何方面不准确的事实或情况通知 Datafuse Labs。
 
-9\. Authorization. If You are entering into this CLA as a Company, You represent and warrant that the individual accepting this CLA is duly authorized to enter into this CLA on the Company's behalf.
+9\. 授权。如果您作为一家公司签订本 CLA，您声明并保证接受本 CLA 的个人已获得正式授权代表公司签订本 CLA。
+```
