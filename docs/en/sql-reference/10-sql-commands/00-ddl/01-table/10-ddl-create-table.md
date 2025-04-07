@@ -108,7 +108,7 @@ By default, **all columns are nullable(NULL)** in Databend. If you need a column
 
 ## Column Default Values
 
-`DEFAULT <expr>` sets a default value for the column when no explicit value is provided. The default value can be:
+`DEFAULT <expr>` sets a default value for the column when no explicit expression is provided. The default expression can be:
 
 - A fixed constant, such as `Marketing` for the `department` column in the example below.
 - The result of an expression with no input arguments, such as `1 + 1`.
