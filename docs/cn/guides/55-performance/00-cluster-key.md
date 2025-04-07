@@ -1,35 +1,35 @@
 ---
-title: 集群键
+title: Cluster Key
 ---
 
-在 Databend 中，您可以选择通过集群表来增强查询性能。这涉及向 Databend 提供明确的指令，以如何组织和分组存储中的行，而不仅仅依赖于数据摄取的顺序。您可以通过定义一个集群键来集群表，通常由一个或多个列或表达式组成。因此，Databend 根据此集群键排列数据，将相似的行分组到相邻的块中。这些块对应于 Databend 用于数据存储的 Parquet 文件。有关更多详细信息，请参阅 [Databend 数据存储：快照、段和块](/sql/sql-commands/ddl/table/optimize-table#databend-数据存储-快照-段和块)。
+在 Databend 中，您可以选择通过对表进行聚簇来提高查询性能。这包括向 Databend 提供关于如何在存储中组织和分组行的明确指令，而不是仅仅依赖于数据摄取的顺序。您可以通过定义一个聚簇键来聚簇表，该聚簇键通常由一个或多个列或表达式组成。因此，Databend 会根据这个聚簇键来排列数据，将相似的行分组到相邻的块中。这些块对应于 Databend 用于数据存储的 Parquet 文件。有关更多详细信息，请参阅 [Databend Data Storage: Snapshot, Segment, and Block](/sql/sql-commands/ddl/table/optimize-table#databend-data-storage-snapshot-segment-and-block)。
 
 :::tip
-在大多数情况下，设置集群键并非必要。集群或重新集群表需要时间并消耗您的信用点，尤其是在 Databend Cloud 环境中。Databend 建议主要为查询性能较慢的大表定义集群键。
+在大多数情况下，设置聚簇键不是必需的。聚簇或重新聚簇表需要时间并消耗您的 credits，尤其是在 Databend Cloud 环境中。Databend 建议主要为遇到查询性能缓慢的大型表定义聚簇键。
 :::
 
-集群键作为 Databend 元服务层中的元数据与存储块（Parquet 文件）之间的连接。一旦为表定义了集群键，表的元数据将建立一个键值列表，指示列或表达式值与其各自存储块之间的连接。当执行查询时，Databend 可以使用元数据快速定位正确的块，并读取比未设置集群键时更少的行。
+聚簇键充当 Databend Meta Service Layer 中的元数据和存储块（Parquet 文件）之间的连接。一旦为表定义了聚簇键，该表的元数据就会建立一个键值列表，指示列或表达式值与其各自存储块之间的连接。当执行查询时，Databend 可以使用元数据快速定位正确的块，并且与未设置聚簇键时相比，读取更少的行。
 
-## 集群键的工作原理
+## 聚簇键的工作原理
 
-让我们考虑一个包含加拿大所有城市温度的表，具有三列：城市、温度和省份。
+让我们考虑一个包含加拿大所有城市温度的表，其中包含三列：City、Temperature 和 Province。
 
 ```sql
 CREATE TABLE T (
-    城市 VARCHAR(255),
-    温度 DECIMAL(10, 2),
-    省份 VARCHAR(255)
+    City VARCHAR(255),
+    Temperature DECIMAL(10, 2),
+    Province VARCHAR(255)
 );
 ```
 
-如果您的查询主要涉及根据温度检索城市，请将集群键设置为温度列。以下说明了给定表的数据如何在块中存储：
+如果您的主要查询涉及根据温度检索城市，请将聚簇键设置为 Temperature 列。以下说明了如何为给定表将数据存储在块中：
 
 ![Alt text](/img/sql/clustered.png)
 
-行根据每个块（文件）中的温度列进行排序。然而，块之间可能存在重叠的温度范围。如果查询恰好落在块的重叠范围内，则需要读取多个块。在这种情况下涉及的块数量称为“深度”。因此，深度越小越好。这意味着在查询期间读取的相关块越少，查询性能越好。
+行根据每个块（文件）中的 Temperature 列进行排序。但是，块之间可能存在重叠的年龄范围。如果查询恰好落在块的重叠范围内，则需要读取多个块。这种情况涉及的块数称为“Depth”。因此，深度越小越好。这意味着在查询期间读取的相关块越少，查询性能就越好。
 
-要查看表的集群情况，请使用函数 [CLUSTERING_INFORMATION](/sql/sql-functions/system-functions/clustering_information)。
-**注意**：此函数仅适用于已集群的表。
+要查看表的聚簇效果如何，请使用函数 [CLUSTERING_INFORMATION](/sql/sql-functions/system-functions/clustering_information)。
+**注意**：此函数仅适用于聚簇表。
 例如，
 
 ```sql
@@ -46,19 +46,19 @@ unclustered_block_count: 0
 Read 1 rows, 448.00 B in 0.015 sec., 67.92 rows/sec., 29.71 KiB/sec.
 ```
 
-| 参数                    | 描述                                                                                                                                   |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| cluster_key             | 定义的集群键。                                                                                                                      |
-| total_block_count       | 当前块的数量。                                                                                                                  |
-| constant_block_count    | 最小/最大值相等的块数量，意味着每个块仅包含一个（组）集群键值。                        |
-| unclustered_block_count | 尚未集群的块数量。                                                                                         |
-| average_overlaps        | 给定范围内重叠块的平均比例。                                                                                 |
-| average_depth           | 集群键的平均重叠分区深度。                                                                              |
-| block_depth_histogram   | 每个深度级别的分区数量。较低深度级别的分区集中度越高，表示表的集群效果越好。 |
+| 参数                    | 描述                                                                                                                                       |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| cluster_key             | 定义的聚簇键。                                                                                                                             |
+| total_block_count       | 当前块的计数。                                                                                                                             |
+| constant_block_count    | 最小/最大值相等的块的计数，这意味着每个块仅包含一个（组）cluster_key 值。                                                                  |
+| unclustered_block_count | 尚未聚簇的块的计数。                                                                                                                         |
+| average_overlaps        | 给定范围内重叠块的平均比率。                                                                                                                   |
+| average_depth           | 聚簇键的重叠分区的平均深度。                                                                                                                     |
+| block_depth_histogram   | 每个深度级别的分区数。较低深度处的分区集中度越高，表明表聚簇越有效。                                                                                       |
 
-### 选择集群键
+### 选择聚簇键
 
-集群键可以是表中的一个或多个列，或者是基于这些列的表达式。通常，您定义的集群键应与数据查询中的主要过滤器一致。例如，如果大多数查询涉及按 `order_id` 过滤数据，建议将 `order_id` 列设置为表的集群键。
+聚簇键可以是表中的一列或多列，也可以是基于这些列的表达式。通常，您定义的聚簇键应与数据查询中应用的主要过滤器对齐。例如，如果您的查询大多数涉及按 `order_id` 过滤数据，则建议将 `order_id` 列设置为表的聚簇键。
 
 ```sql
 CREATE TABLE sales (
@@ -73,7 +73,7 @@ CREATE TABLE sales (
 ) CLUSTER BY (order_id);
 ```
 
-另一方面，如果过滤通常基于 `region` 和 `product_category`，则使用这两个列对表进行集群会更有利：
+另一方面，如果通常基于 `region` 和 `product_category` 进行过滤，则使用这两列对表进行聚簇将是有益的：
 
 ```sql
 CREATE TABLE sales (
@@ -88,11 +88,11 @@ CREATE TABLE sales (
 ) CLUSTER BY (region, product_category);
 ```
 
-在选择列作为集群键时，确保不同值的数量在有效查询性能和系统内最佳存储之间取得平衡。
+选择列作为聚簇键时，请确保不同值的数量在有效查询性能和系统内最佳存储管理之间取得平衡。
 
-例如，基于仅包含布尔值的 `is_secondhand` 列对表进行集群可能不会在分组相似数据方面提供太多好处。这是因为不同值有限，集群可能不会导致相似数据的显著物理分组，从而影响查询优化的潜在优势。
+例如，基于仅包含布尔值的 `is_secondhand` 列对表进行聚簇可能无法在将相似数据分组在一起方面提供太多好处。这是因为不同的值受到限制，并且聚簇可能不会导致相似数据的显着物理分组，从而影响聚簇对查询优化的潜在优势。
 
-具有较大数量不同值的列，如 `order_id` 列，通常不是直接用作集群键的好候选，因为其倾向于阻碍存储效率并削弱数据分组的效果。然而，一个可行的替代方案是考虑使用表达式来“减少”不同值。例如，如果 `order_id` 通常包含从固定位置开始的日期（例如，20240116），则可以从其中提取时间组件作为更合适的集群键。
+具有大量不同值的列（例如 `order_id` 列）通常不是直接用作聚簇键的理想选择，因为它倾向于阻碍存储效率并降低数据分组的有效性。但是，一种可行的替代方法是考虑使用表达式来“减少”不同的值。例如，如果 `order_id` 通常包含从固定位置开始的日期（例如，20240116），则从中提取时间分量可以用作更合适的聚簇键。
 
 ```sql
 CREATE TABLE sales (
@@ -107,47 +107,47 @@ CREATE TABLE sales (
 ) CLUSTER BY (SUBSTRING(order_id,7,8));
 ```
 
-通过使用从 `order_id` 列提取的日期对表进行集群，发生在同一天的交易现在被分组到相同的或相邻的块中。这通常会导致更好的压缩和在查询执行期间从存储中读取的数据量的减少，从而提高整体性能。
+通过使用从 `order_id` 列中提取的日期对表进行聚簇，现在将同一天发生的事务分组到相同或相邻的块中。这通常会导致改进的压缩，并减少在查询执行期间必须从存储中读取的数据量，从而有助于提高整体性能。
 
 ### 使用自定义块大小调整性能
 
-Databend 中的块大小由 [Fuse 引擎](/sql/sql-reference/table-engines/fuse) 的 ROW_PER_BLOCK 和 BLOCK_SIZE_THRESHOLD 参数决定。当达到任一阈值时，Databend 会创建一个新块。您可以通过为包含集群键的表自定义块大小来进一步增强单点和范围查询的性能。
+Databend 中的块大小由 [Fuse Engine](/sql/sql-reference/table-engines/fuse) 的 ROW_PER_BLOCK 和 BLOCK_SIZE_THRESHOLD 参数确定。当达到任一阈值时，Databend 会创建一个新块。您可以通过为包含聚簇键的表自定义块大小来进一步提高单点和范围查询的性能。
 
-通过自定义块大小以增加存储块的数量，可以减少查询处理期间读取的行数。这是因为，随着相同数据集的块数量增加，每个 Parquet 文件中的行数减少。
+自定义块大小以增加存储块的数量会导致在查询处理期间读取的行数减少。这是因为，随着同一数据集的块数量增加，每个 Parquet 文件中的行数会减少。
 
 **示例**：
 
-以下语句需要扫描近 500,000 行来处理单点查询：
+以下语句需要扫描近 500,000 行才能处理单点查询：
 
 ![Alt text](/img/sql/block-size-before.png)
 
-优化减少了块大小，导致每个 Parquet 文件的行数减少。
+优化会减小块大小，从而减少每个 Parquet 文件的行数。
 
 ```sql
 ALTER TABLE sbtest10w SET OPTIONS(ROW_PER_BLOCK=100000,BLOCK_SIZE_THRESHOLD=52428800);
 ```
 
-优化后，相同的查询只需扫描 100,000 行：
+优化后，对于同一查询，只需要扫描 100,000 行：
 
 ![Alt text](/img/sql/block-size-after.png)
 
 :::tip
-虽然减少块大小可能会减少单个查询中涉及的行数，但需要注意的是，较小的块大小并不总是更好。在调整块大小之前，进行适当的性能调优和测试以确定最佳配置至关重要。不同的数据和查询类型可能需要不同的块大小以实现最佳性能。
+虽然减小块大小可能会减少单个查询中涉及的行数，但重要的是要注意，较小的块大小并不总是更好。在调整块大小之前，至关重要的是进行适当的性能调整和测试，以确定最佳配置。不同的数据和查询类型可能需要不同的块大小才能获得最佳性能。
 :::
 
-## 重新集群表
+## 重新聚簇表
 
-一个良好集群的表可能在某些存储块中变得无序，这可能会对查询性能产生负面影响。例如，如果表持续进行 DML 操作（INSERT / UPDATE / DELETE），可能需要考虑重新集群表。有关如何重新集群表，请参阅 [RECLUSTER TABLE](/sql/sql-commands/ddl/clusterkey/dml-recluster-table)。
+一个聚簇良好的表可能会在某些存储块中变得无序，这可能会对查询性能产生负面影响。例如，如果表继续进行 DML 操作（INSERT / UPDATE / DELETE），则最好考虑重新聚簇表。有关如何重新聚簇表的信息，请参阅 [RECLUSTER TABLE](/sql/sql-commands/ddl/clusterkey/dml-recluster-table)。
 
 :::note
-当使用 COPY INTO 或 REPLACE INTO 命令将数据写入包含集群键的表时，Databend 将自动启动重新集群过程，以及段和块压缩过程。
+当使用 COPY INTO 或 REPLACE INTO 命令将数据写入包含聚簇键的表时，Databend 将自动启动重新聚簇过程，以及段和块压缩过程。
 :::
 
-如果您重新集群 [集群键的工作原理](#集群键的工作原理) 部分中的示例表，您可能会得到如下存储的数据：
+如果您重新聚簇 [聚簇键的工作原理](#how-cluster-key-works) 部分中的示例表，您可能会得到如下存储的数据：
 
 ![Alt text](/img/sql/well-clustered.png)
 
-这是最理想的情况。在大多数情况下，实现这种情况可能需要多次运行重新集群操作。重新集群表需要时间（如果包含 **FINAL** 选项，时间会更长）和信用点（在 Databend Cloud 中）。Databend 建议使用函数 [CLUSTERING_INFORMATION](/sql/sql-functions/system-functions/clustering_information) 来确定何时重新集群表：
+这是最理想的情况。在大多数情况下，要实现这种情况可能需要多次运行重新聚簇操作。重新聚簇表会消耗时间（如果您包含 **FINAL** 选项，则时间会更长）和 credits（当您在 Databend Cloud 中时）。Databend 建议使用函数 [CLUSTERING_INFORMATION](/sql/sql-functions/system-functions/clustering_information) 来确定何时重新聚簇表：
 
 ```sql
 SELECT IF(average_depth > 2 * LEAST(GREATEST(total_block_count * 0.001, 1), 16),
@@ -156,6 +156,6 @@ SELECT IF(average_depth > 2 * LEAST(GREATEST(total_block_count * 0.001, 1), 16),
 FROM   clustering_information('<your_database>', '<your_table>'); 
 ```
 
-## 管理集群键
+## 管理聚簇键
 
-在 Databend 中，您可以在创建表时设置集群键，并在必要时更改集群键。如果一个完全集群的表持续进行数据摄取或数据操作语言操作（如 INSERT、UPDATE、DELETE），表可能会变得混乱，您需要重新集群表以修复混乱。有关更多信息，请参阅 [集群键](/sql/sql-commands/ddl/clusterkey/)。
+在 Databend 中，您可以在创建表时设置聚簇键，并且可以在必要时更改聚簇键。如果完全聚簇的表继续进行摄取或数据操作语言操作（例如 INSERT、UPDATE、DELETE），则可能会变得混乱，您需要重新聚簇表以修复混乱。有关更多信息，请参阅 [Cluster Key](/sql/sql-commands/ddl/clusterkey/)。

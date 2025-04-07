@@ -1,31 +1,32 @@
+```markdown
 ---
 title: Iceberg Catalog
-description: 将Apache Iceberg格式的数据源作为外部目录访问。
+description: Accessing Apache Iceberg formatted data source as an external catalog.
 ---
 
 - RFC PR: [datafuselabs/databend#8215](https://github.com/databendlabs/databend/pull/8215)
 - Tracking Issue: [datafuselabs/databend#8216](https://github.com/databendlabs/databend/issues/8216)
 
-## 概述
+## Summary
 
-Iceberg 是数据湖仓中广泛支持的表格式。
-本 RFC 描述了 iceberg 外部目录的行为以及我们将如何实现它。
+Iceberg is a widely supported table format among data lake-houses.
+This RFC describes how the iceberg external catalog will behave and how we will implement it.
 
-## 动机
+## Motivation
 
-[Apache Iceberg](https://iceberg.apache.org) 是一种广泛用于数据湖仓的表格式，它提供了更完整的逻辑数据库视图，并且在作为外部表访问时具有更高的性能，因为用户不需要了解分区，并且在访问时通过文件的索引较少，相比`Hive`。
+The [Apache Iceberg](https://iceberg.apache.org) is a table format widely used in data lake-houses, it offers a more complete logical view of databases and has much higher performance of accessing as external tables, since users don't need to know about partitions and less indexing through files when accessing is required comparing to `Hive`.
 
-`Iceberg`的分裂和结构化也使得数据源的并发访问和版本管理更加安全、节省和方便。
+The split and well-defined structure of `Iceberg` also makes concurrent accessing and version managementing on data sources safer, saver and convenient.
 
-![Apache Iceberg的堆栈](https://iceberg.apache.org/assets/images/iceberg-metadata.png)
+![stack of Apache Iceberg](https://iceberg.apache.org/assets/images/iceberg-metadata.png)
 
-支持 Iceberg 将使 databend 成为一个开放的数据湖，赋予其更多的 OLAP 能力。
+Supporting Iceberg will empower databend as a open data lake, giving it more OLAP abilities.
 
-## 指南级解释
+## Guide-level explanation
 
-### 创建 Iceberg Catalog
+### Create Iceberg Catalog
 
-要使用 Iceberg 目录，用户需要建立一个具有必要权限的 iceberg 存储。然后他们可以在其上创建一个`catalog`。
+To use Iceberg catalog, users need to have an iceberg storage with necessary permission established. Then they can create a `catalog` on it.
 
 ```sql
 CREATE CATALOG my_iceberg
@@ -38,13 +39,13 @@ CREATE CATALOG my_iceberg
   )
 ```
 
-### 访问 Iceberg 表的内容
+### Accessing Iceberg Table's content
 
 ```sql
 SELECT * FROM my_iceberg.iceberg_db.iceberg_tbl;
 ```
 
-在普通表和 Iceberg 表上的联合查询：
+Joint query on normal table and Iceberg Table:
 
 ```sql
 SELECT normal_tbl.book_name,
@@ -55,11 +56,11 @@ WHERE normal_tbl.isbn = my_iceberg.iceberg_db.iceberg_tbl.isbn
   AND iceberg_tbl.sales > 100000;
 ```
 
-在操作表时，所有数据仍然保留在用户提供的端。
+On operating the table, all data remains still on the user-provided ends.
 
-### 时间回溯
+### Time Travel
 
-Iceberg 提供了一系列快照及其时间戳。在其上进行时间回溯是自然的。
+Iceberg offers a list of snapshots and its timestamps. Time travelling on it is naturally.
 
 ```sql
 SELECT ...
@@ -67,9 +68,9 @@ FROM <iceberg_catalog>.<database_name>.<table_name>
 AT ( { SNAPSHOT => <snapshot_id> | TIMESTAMP => <timestamp> } );
 ```
 
-#### 访问快照元数据
+#### Accessing Snapshot Metadata
 
-用户应该能够在目录中查找快照 ID 列表：
+Users should be able to lookup the list of snapshot id in catalog:
 
 ```sql
 SELECT snapshot_id FROM ICEBERG_SNAPSHOT(my_iceberg.iceberg_db.iceberg_tbl);
@@ -83,53 +84,53 @@ SELECT snapshot_id FROM ICEBERG_SNAPSHOT(my_iceberg.iceberg_db.iceberg_tbl);
 (2 rows)
 ```
 
-外部表当前读取的快照 ID 将始终是最新的。但用户可以使用`AT`进行时间回溯。
+Current snapshot id the external table is reading will always be the newest. But users can using `time travel` with `AT`.
 
-## 参考级解释
+## Reference-level explanation
 
-一个新的目录类型`ICEBERG`，以及用于从 Iceberg 存储读取数据的表引擎。
+A new catalog type `ICEBERG`, and table engine for reading data from Iceberg storage.
 
-### 表引擎
+### Table Engine
 
-该表引擎使用户能够从已建立的 Apache Iceberg 端点读取数据。外部表的所有表内容和元数据应保留在用户提供的 Iceberg 数据源中，以 Iceberg 的方式。
+The table engine enables users reading data from established Apache Iceberg endpoints. All table content and metadata of external table should remain in user-provided Iceberg data sources, in Iceberg's manner.
 
-该引擎将跟踪最后提交的快照，并且应该能够从前快照读取。
+The engine will track the last committed snapshot, and should able to read from former snapshots.
 
-### 外部位置
+### external-location
 
-无论 Iceberg 在哪里，如 S3、GCS 或 OSS，如果 Databend 支持该存储，那么 Iceberg 应该是可访问的。用户需要告诉 databend Iceberg 存储的位置以及 databend 应该如何访问该存储。
+No matter where the Iceberg is, like S3, GCS or OSS, if Databend support the storage, then the Iceberg should be accessible. Users need to tell databend where the Iceberg storage is and how should databend access the storage.
 
-### 类型约定
+### Type convention
 
-| Iceberg         | 说明                                | Databend                      |
-| --------------- | ----------------------------------- | ----------------------------- |
-| `boolean`       | 真或假                              | `BOOLEAN`                     |
-| `int`           | 32 位有符号整数                     | `INT32`                       |
-| `long`          | 64 位有符号整数                     | `INT64`                       |
-| `float`         | 32 位 IEEE 754 浮点数               | `FLOAT`                       |
-| `double`        | 64 位 IEEE 754 浮点数               | `DOUBLE`                      |
-| `decimal(P, S)` | 固定点小数；精度 P，比例 S          | 不支持                        |
-| `date`          | 没有时区或时间的日历日期            | `DATE`                        |
-| `time`          | 没有日期、时区的时间戳              | `TIMESTAMP`，将日期转换为今天 |
-| `timestamp`     | 没有时区的时间戳                    | `TIMESTAMP`，将时区转换为 GMT |
-| `timestamptz`   | 带时区的时间戳                      | `TIMESTAMP`                   |
-| `string`        | UTF-8 字符串                        | `VARCHAR`                     |
-| `uuid`          | 16 字节固定字节数组，通用唯一标识符 | `VARCHAR`                     |
-| `fixed(L)`      | 长度为 L 的固定长度字节数组         | `VARCHAR`                     |
-| `binary`        | 任意长度的字节数组                  | `VARCHAR`                     |
-| `struct`        | 类型化值的元组                      | `OBJECT`                      |
-| `list`          | 具有某些元素类型的值的集合          | `ARRAY`                       |
-| `map`           |                                     | `OBJECT`                      |
+| Iceberg         | Note                                                     | Databend                             |
+| --------------- | -------------------------------------------------------- | ------------------------------------ |
+| `boolean`       | True or false                                            | `BOOLEAN`                            |
+| `int`           | 32 bit signed integer                                    | `INT32`                              |
+| `long`          | 64 bit signed integer                                    | `INT64`                              |
+| `float`         | 32 bit IEEE 754 float point number                       | `FLOAT`                              |
+| `double`        | 64 bit IEEE 754 float point number                       | `DOUBLE`                             |
+| `decimal(P, S)` | Fixed point decimal; precision P, scale S                | not supported                        |
+| `date`          | Calendar date without timezone or time                   | `DATE`                               |
+| `time`          | Timestamp without date, timezone                         | `TIMESTAMP`, convert date to today   |
+| `timestamp`     | Timestamp without timezone                               | `TIMESTAMP`, convert timezone to GMT |
+| `timestamptz`   | Timestamp with timezone                                  | `TIMESTAMP`                          |
+| `string`        | UTF-8 string                                             | `VARCHAR`                            |
+| `uuid`          | 16-byte fixed byte array, universally unique identifiers | `VARCHAR`                            |
+| `fixed(L)`      | Fixed-length byte array of length L                      | `VARCHAR`                            |
+| `binary`        | Arbitrary-length byte array                              | `VARCHAR`                            |
+| `struct`        | a tuple of typed values                                  | `OBJECT`                             |
+| `list`          | a collection of values with some element type            | `ARRAY`                              |
+| `map`          |                                                          | `OBJECT`                             |
 
-## 缺点
+## Drawbacks
 
-无
+None
 
-## 基本原理和替代方案
+## Rationale and alternatives
 
-### Iceberg 外部表
+### Iceberg External Table
 
-从 Iceberg 存储创建外部表：
+Creating an external table from Iceberg storage:
 
 ```sql
 CREATE EXTERNAL TABLE [IF NOT EXISTS] [db.]table_name
@@ -145,7 +146,7 @@ ENGINE_OPTIONS=(
 )
 ```
 
-将引入一个新的表引擎`ICEBERG`，所有数据将仍然保留在 Iceberg 存储中。外部表还应支持用户查询其快照数据和时间回溯。
+A new table engine `ICEBERG` will be introduced, and all data will remain still in the Iceberg storage. The external table also should support users to query its snapshot data and time travelling.
 
 ```sql
 SELECT snapshot_id FROM ICEBERG_SNAPSHOT('<db_name>', '<external_table_name');
@@ -157,21 +158,21 @@ SELECT snapshot_id FROM ICEBERG_SNAPSHOT('<db_name>', '<external_table_name');
 73556087355608
 ```
 
-经过讨论，选择了上述的目录方式，因为它对 Iceberg 功能的支持更完整，并且更符合当前 Hive 目录的设计。
+After discussion, the catalog way above is chosen, for its more complete support to Iceberg features, and it is more aligned to the current design of Hive catalog.
 
-## 先前技术
+## Prior art
 
-无
+None
 
-## 未解决的问题
+## Unresolved questions
 
-无
+None
 
-## 未来的可能性
+## Future possibilities
 
-### 从 Iceberg 快照创建表
+### Create Table from Iceberg Snapshots
 
-Iceberg 提供了快照功能，可以从快照创建表。
+Iceberg provides a snapshot capability and tables can be created from them.
 
 ```sql
 CREATE TABLE [IF NOT EXISTS] [db.]table_name
@@ -188,9 +189,9 @@ ENGINE_OPTIONS = (
 )
 ```
 
-### 模式演变
+### Schema Evolution
 
-外部表使用的默认 Iceberg 快照应始终是最新提交的快照：
+The default Iceberg snapshot use in external table should always be the newest committed one:
 
 ```sql
 SELECT snapshot_id from ICEBERG_SNAPSHOT(iceberg_catalog.iceberg_db.iceberg_tbl);
@@ -202,14 +203,14 @@ SELECT snapshot_id from ICEBERG_SNAPSHOT(iceberg_catalog.iceberg_db.iceberg_tbl)
  0000000000001
 ```
 
-支持模式演变使 databend 能够修改 Iceberg 的内容。
-例如，向 Iceberg 表插入新记录：
+Supporting schema evolution making databend able to modify contents of Iceberg.
+For example, inserting a new record into Iceberg Table:
 
 ```sql
 INSERT INTO iceberg_catalog.iceberg_db.iceberg_tbl VALUES ('datafuselabs', 'How To Be a Healthy DBA', '2022-10-14');
 ```
 
-这将在 Iceberg 存储中创建一个新的快照：
+This will create a new snapshot in Iceberg Storage:
 
 ```sql
 SELECT snapshot_id from ICEBERG_SNAPSHOT(iceberg_catalog.iceberg_db.iceberg_tbl);

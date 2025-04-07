@@ -1,5 +1,5 @@
 ---
-title: '使用 Python 连接到 Databend'
+title: '使用 Python 连接 Databend'
 sidebar_label: 'Python'
 ---
 

@@ -1,5 +1,6 @@
+```markdown
 ---
-title: 价格和账单
+title: 定价与账单
 ---
 
 import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
@@ -10,3 +11,4 @@ import PricingCN from '@site/docs/fragment/03-pricing-cn.md'
 en={<PricingEN />}
 cn={<PricingCN />}
 />
+```
