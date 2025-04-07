@@ -1,26 +1,27 @@
+```markdown
 ---
-title: 外部字典
-description: 本RFC提议在Databend中实现外部字典功能，以允许无缝访问来自外部数据源的数据。
+title: External Dictionaries
+description: This RFC proposes the implementation of an external dictionary feature in Databend to allow seamless access to data from external sources.
 ---
 
 - RFC PR: [datafuselabs/databend-docs#996](https://github.com/databendlabs/databend-docs/pull/996)
 - Tracking Issue: [datafuselabs/databend#15901](https://github.com/databendlabs/databend/issues/15901)
 
-## 概述
+## Summary
 
-实现外部字典功能允许 Databend 访问来自其他外部数据源的数据。
+Implementing External Dictionary allows Databend to access data from other external data sources.
 
-## 动机
+## Motivation
 
-在 Databend 中访问 MySQL 等外部数据库的数据通常需要导出 MySQL 数据集，然后将其导入 Databend 数据库。当处理大量信息时，这一过程变得繁琐，并且由于频繁更新可能导致数据不一致。
+Accessing data from external databases like MySQL within Databend often requires exporting the MySQL dataset and subsequently importing it into the Databend database. This procedure becomes burdensome when handling substantial amounts of information and may result in inconsistencies due to frequent updates.
 
-引入外部字典功能通过促进 Databend 与各种数据库系统之间的无缝集成，解决了这些挑战。通过字典创建，直接访问外部数据集实现了实时修改，同时简化了整体数据管理。
+The introduction of an external dictionary feature resolves these challenges by facilitating seamless integration between Databend and diverse database systems. Through dictionary creation, direct access to external datasets enables real-time modifcations while streamlining overall data management.
 
-## 指南级解释
+## Guide-level explanation
 
-DICTIONARY 使用以下语法进行创建、删除和查询。
+DICTIONARY employs the subsequent syntax for creation, deletion, and querying.
 
-1. 创建名为 user_info 的字典。
+1. Create a Dictionary named user_info.
 
 ```sql
 CREATE DICTIONARY user_info(
@@ -38,59 +39,59 @@ SOURCE(MYSQL(
 ));
 ```
 
-2. 查询现有字典。
+2. Query the existing dictionary.
 
 ```sql
 SHOW DICTIONARIES;
 ```
 
-3. 查询用于创建字典 user_info 的 SQL 语句。
+3. Inquire about the SQL statement utilized for creating the dictionary user_info.
 
 ```sql
 SHOW CREATE DICTIONARY user_info;
 ```
 
-4. 删除字典 user_info。
+4. Delete the Dictionary user_info.
 
 ```sql
 DROP DICTIONARY user_info;
 ```
 
-您可以使用`dict_get(dict_name, dict_field, dict_id)`从字典中查询数据。
+You can use the `dict_get(dict_name, dict_field, dict_id)` to query data from a dictionary.
 
-`dict_get`函数接受三个参数：第一个是字典的名称，第二个是要查询的字段，第三个是查询字典的 ID。
+The `dict_get` function takes three arguments: the first is the name of the dictionary, the second is the field to query, and the third is the ID of the query dictionary.
 
-## 参考级解释
+## Reference-level explanation
 
-DICTIONARY 的相关元数据存储在 Databend 的元模块中，并在执行 SQL 查询时用于检索必要的信息。
+The relevant metadata of the DICTIONARY is stored in the meta module of Databend and is used to retrieve the necessary information when executing SQL queries.
 
-### 使用 protobuf 编码数据
+### Use protobuf to encode the data
 
-Protocol Buffers（Protobuf）是一种高级数据序列化框架，特别适用于高性能计算环境。它提供了紧凑的二进制格式数据存储、快速序列化和反序列化过程、跨语言支持以及定义良好的数据结构模式等优势。因此，Databend 使用 Protobuf 编码数据并将二进制结果转换为数据库。
+Protocol Buffers (Protobuf), a sophisticated data serialization framework, provides a suite of benefits that are particularly advantageous for high-performance computing environments. Its capabilities include the efficient storage of data in a compact binary format, rapid serialization and deserialization processes, cross-language support, and a well-defined schema for data structures. Therefore, Databend uses Protobuf to encode the data and convert the binary results to the database.
 
-一个封装了此技术本质的示例 Protobuf 结构如下：
+An exemplar Protobuf structure, which encapsulates the essence of this technology, is articulated as follows:
 
 ```protobuf
 syntax = "proto3";
 package databend.meta;
-//描述字典的元数据
+//Describes the metadata of the dictionary
 message DictionaryMeta {
-  //字典名称
+  //Dictionary name
   string name = 1;
-  //字典数据源
+  //Dictionary data source
   string source = 2;
-  //字典配置选项
+  //Dictionary configuration options
   map<string, string> options = 3;
-  //表的架构，如列数据类型和其他元信息。
+  //The schema of a table, such as column data types and other meta info.
   DataSchema schema = 4;
-  //主键列的ID
+  //ID of the primary key column
   u32 primary_column_id = 5;
 }
 ```
 
-### 查询 DICTIONARY 的数据
+### Query the data of the DICTIONARY
 
-在`async_function`模块中定义`DictionaryAsyncFunction`以实现外部数据的异步读取。
+Define `DictionaryAsyncFunction` in the `async_function` module to facilitate asynchronous reading of external data.
 
 ```rust
 enum DictionarySourceEngine {
@@ -103,22 +104,22 @@ enum DictionarySourceEngine {
 ```rust
 pub struct DictionaryAsyncFunction {
     engine: DictionarySourceEngine,
-    // 字典地址，例如：mysql://root:123@0.0.0.0:3306/default
+    // dictonary address, for examaple: mysql://root:123@0.0.0.0:3306/default
     url: String,
-    // 从源表获取值的SQL。
-    // 例如：select name from user_info where id=1;
+    // sql to get the value from source table.
+    // for example: select name from user_info where id=1;
     query_sql: String,
     return_type: DataType,
-    //指定连接数据源的最大尝试时间。
+    //Specify the maximum time to attempt a connection to the data source.
     connection_timeout: std::time::Duration,
-    //指定查询操作的最大执行时间。
+    //Specify the maximum execution time for the query operation.
     query_timeout: std::time::Duration,
-    //用于存储查询可能需要的附加参数，例如SQL查询中的占位符值。
+    //Used to store additional parameters that the query might require, such as the values for placeholders in the SQL query.
     params: Vec<ParameterValue>,
 }
 ```
 
-将`async_function`模块中的`AsyncFunction`重命名为`AsyncFunctionDesc`，以避免与 AsyncFunction 的逻辑和物理计划命名冲突。此外，包含`DictionaryAsyncFunction`。定义如下：
+Rename `AsyncFunction` in the `async_function` module to `AsyncFunctionDesc` to avoid naming conflicts with the logical and physical plan of AsyncFunction. Additionally, include `DictionaryAsyncFunction`. The definition is as follows:
 
 ```rust
 pub enum AsyncFunctionDesc {
@@ -127,9 +128,9 @@ pub enum AsyncFunctionDesc {
 }
 ```
 
-通过添加`AsyncFunctionDesc`字段更新逻辑和物理计划中的`AsyncFunction`定义。此过程重用现有逻辑生成字典 AsyncFunction 的逻辑和物理计划。
+Update the `AsyncFunction` definition in both the logical and physical plans by adding the `AsyncFunctionDesc` field. This process reuses existing logic for generating dictionary AsyncFunction logical and physical plans.
 
-- 逻辑计划的结构如下：
+- The struct of logical plan is as follows:
 
 ```rust
 pub struct AsyncFunction {
@@ -138,11 +139,11 @@ pub struct AsyncFunction {
    pub arguments: Vec<String>,
    pub return_type: DataType,
    pub index: IndexType,
-   pub desc: AsyncFunctionDesc,//新增属性
+   pub desc: AsyncFunctionDesc,//Newly added property
 }
 ```
 
-- 物理计划的结构如下：
+- The struct of physical plan is as follows:
 
 ```rust
 pub struct AsyncFunction {
@@ -154,11 +155,11 @@ pub struct AsyncFunction {
    pub schema: DataSchemaRef,
    pub input: Box<PhysicalPlan>,
    pub stat_info: Option<PlanStatsInfo>,
-   pub desc: AsyncFunctionDesc,//新增属性
+   pub desc: AsyncFunctionDesc,//Newly added property
 }
 ```
 
-在实际读取外部数据的管道中的`Transform`可以定义如下：
+The `Transform` in the pipeline, where the actual reading of external data takes place, can be defined as follows:
 
 ```rust
 pub struct TransformDictionary {
@@ -167,38 +168,45 @@ pub struct TransformDictionary {
 }
 ```
 
-实现`AsyncTransform`特性的`transform`方法并调用外部数据库以获取字典数据。主要过程如下图所示：
+Implement the `transform` method of the `AsyncTransform` trait and call an external database to obtain dictionary data. The main process is illustrated in the following diagram:
 
-<img src="/img/rfc/20240721-external-dictionary/external-dictionary-1.png" alt="获取外部数据的流程图" />
+<img src="/img/rfc/20240721-external-dictionary/external-dictionary-1.png" alt="Flowchart of getting external data" />
 
-`dict_get`函数的执行过程总结如下图：
+The execution process of the `dict_get` function is summarized in the following diagram:
 
-<img src="/img/rfc/20240721-external-dictionary/external-dictionary-2.png" alt="dict_get的流程图" />
+<img src="/img/rfc/20240721-external-dictionary/external-dictionary-2.png" alt="Flowchart of the dict_get" />
 
-## 未解决的问题
+## Unresolved questions
 
-- 是否可以使用算法来提高数据字典查询的速度？
+- Can algorithms be employed to improve the speed of data dictionary queries?
 
-## 未来可能性
+## Future possibilities
 
-1. 用户可以通过外部字典连接多种数据源，从同一客户端对各种数据端点执行实时操作，例如文件、HTTP 接口和其他数据库如 ClickHouse、Redis、MongoDB 等。
+1. Users can connect multiple types of data sources through the External Dictionary to perform real-time operations on various data endpoints from the same client, such as files, HTTP interfaces, and additional databases like ClickHouse, Redis, MongoDB, etc.
 
-   例如，如果数据源是本地 CSV 文件：
+   For example, if the data source is a local CSV file:
 
 ```sql
 CREATE DICTIONARY dict_name
 (
-    ... -- 属性
+    ... -- attributes
 )
-SOURCE(FILE(path './user_files/os.csv' format 'CommaSeparated')) -- 源配置
+SOURCE(FILE(path './user_files/os.csv' format 'CommaSeparated')) -- Source configuration
 ```
 
-2. 为操作数据字典添加更多功能，例如`dict_get_or_default`、`dict_get_or_null`、`dict_has`等。
+2. Add more functions for operating data dictionaries, such as `dict_get_or_default`, `dict_get_or_null`, `dict_has`, etc.
 
-   例如，`dict_get_or_default(dict_name, dict_field, dict_id, default_value)`包含一个附加参数，用于在未找到目标数据时返回默认值。
+   For instance, `dict_get_or_default(dict_name, dict_field, dict_id, default_value)` includes an additional parameter for the default value to be returned if the target data is not found.
 
-3. 支持使用 TOML 格式配置内置字典。
+3. Support configuring the built-in dictionary using the TOML format.
 
-## 参考
+## Reference
 
 [Clickhouse Dictionary](https://clickhouse.com/docs/en/dictionary)
+```
+
+```json
+{
+  "title": "外部字典"
+}
+```

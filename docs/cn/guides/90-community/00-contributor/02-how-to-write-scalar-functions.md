@@ -1,3 +1,4 @@
+```
 ---
 title: 如何编写标量函数
 sidebar_label: 如何编写标量函数
@@ -5,7 +6,7 @@ sidebar_label: 如何编写标量函数
 
 ## 什么是标量函数
 
-标量函数为每一行返回一个值，而不是一个结果集。标量函数可以在查询或 SET 语句中的大多数地方使用（除了 FROM 子句）。
+标量函数为每一行返回一个单一值，而不是一个结果集。标量函数可以用于查询或 SET 语句中的大多数位置（除了 FROM 子句）。
 
 ```text title="一对一映射执行"
 
@@ -19,56 +20,55 @@ sidebar_label: 如何编写标量函数
 │  d  │     Exec           │   u  │
 ├─────┤                    ├──────┤
 │  e  │                    │   v  │
-├─────┤                    ├──────┤
-│  f  │                    │   w  │
+├─────┤                    │   w  │
 └─────┘                    └──────┘
 ```
 
-### 编写前需要了解的内容
+### 编写之前需要了解的内容
 
 #### 逻辑数据类型和物理数据类型
 
 我们在 Databend 中使用逻辑数据类型，在执行/计算引擎中使用物理数据类型。
 
-以 `Date` 为例，`Date` 是逻辑数据类型，而其物理数据类型是 `Int32`，因此其列由 `Buffer<i32>` 表示。
+以 `Date` 为例，`Date` 是一种逻辑数据类型，而它的物理数据类型是 `Int32`，所以它的列由 `Buffer<i32>` 表示。
 
 #### Arrow 的内存布局
 
-Databend 的内存布局基于 Arrow 系统，你可以在 [这里](https://arrow.apache.org/docs/format/Columnar.html#format-columnar) 找到 Arrow 的内存布局。
+Databend 的内存布局基于 Arrow 系统，你可以在 [这里] (https://arrow.apache.org/docs/format/Columnar.html#format-columnar) 找到 Arrow 的内存布局。
 
-例如一个 int32 的基本数组：
+例如，一个 int32s 的原始数组：
 
 [1, null, 2, 4, 8]
-看起来像这样：
+看起来会是这样：
 
 ```text
-* 长度: 5, 空值计数: 1
-* 有效性位图缓冲区:
+* Length: 5, Null count: 1
+* Validity bitmap buffer:
 
-  |字节 0 (有效性位图) | 字节 1-63            |
+  |Byte 0 (validity bitmap) | Bytes 1-63            |
   |-------------------------|-----------------------|
-  | 00011101                | 0 (填充)           |
+  | 00011101                | 0 (padding)           |
 
-* 值缓冲区:
+* Value Buffer:
 
-  |字节 0-3   | 字节 4-7   | 字节 8-11  | 字节 12-15 | 字节 16-19 | 字节 20-63 |
+  |Bytes 0-3   | Bytes 4-7   | Bytes 8-11  | Bytes 12-15 | Bytes 16-19 | Bytes 20-63 |
   |------------|-------------|-------------|-------------|-------------|-------------|
-  | 1          | 未指定      | 2           | 4           | 8           | 未指定      |
+  | 1          | unspecified | 2           | 4           | 8           | unspecified |
 
 ```
 
-在大多数情况下，我们可以忽略 null 进行 simd 操作，并在操作后将 null 掩码添加到结果中。
-这是一种非常常见的优化，广泛用于 arrow 的计算系统中。
+在大多数情况下，我们可以忽略 simd 操作的 null，并在操作后将 null 掩码添加到结果中。
+这是一种非常常见的优化，并在 arrow 的计算系统中广泛使用。
 
 ### 特殊列
 
-- 常量列
+- 常数列
 
-  有时列在块中是常量，例如：`SELECT 3 from table`，列 3 始终为 3，因此我们可以使用常量列来表示它。这有助于在计算过程中节省内存空间。
+  有时列在块中是常量，例如：`SELECT 3 from table`，列 3 始终为 3，因此我们可以使用常数列来表示它。这有助于在计算期间节省内存空间。
 
 - 可空列
 
-  默认情况下，列不可为空。要在列中包含空值，可以使用可空列。
+  默认情况下，列不可为空。要在列中包含 null 值，可以使用可空列。
 
 ## 函数注册
 
@@ -87,25 +87,25 @@ pub struct FunctionRegistry {
 }
 ```
 
-它包含三个 HashMaps：`funcs`、`factories` 和 `aliases`。
+它包含三个 HashMap：`funcs`、`factories` 和 `aliases`。
 
-`funcs` 和 `factories` 都存储已注册的函数。`funcs` 接受固定数量的参数（目前从 0 到 5），`register_0_arg`、`register_1_arg` 等。`factories` 接受可变长度的参数（如 concat）并调用函数 `register_function_factory`。
+`funcs` 和 `factories` 都存储已注册的函数。`funcs` 接受固定数量的参数（目前从 0 到 5），`register_0_arg`、`register_1_arg` 等。`factories` 接受可变长度的参数（例如 concat），并调用函数 `register_function_factory`。
 
-`aliases` 使用键值对存储函数的别名。一个函数可以有多个别名（例如，`minus` 有 `subtract` 和 'neg'）。键是函数的别名，值是当前函数的名称，将调用 `register_aliases` 函数。
+`aliases` 使用键值对来存储函数的别名。一个函数可以有多个别名（例如，`minus` 有 `subtract` 和 'neg'）。键是函数的别名，值是当前函数的名称，并且将调用 `register_aliases` 函数。
 
-此外，根据函数的需求，有不同级别的注册 API。
+此外，根据所需的功能，有不同级别的注册 api。
 
-|                                     | 自动向量化 | 访问输出列构建器 | 自动空值传递 | 自动组合空值 | 自动向下转换 | 抛出运行时错误 | 可变参数 | 元组 |
-| ----------------------------------- | ---------- | ---------------- | ------------ | ------------ | ------------ | -------------- | -------- | ---- |
-| register_n_arg                      | ✔️         | ❌               | ✔️           | ❌           | ✔️           | ✔️             | ❌       | ❌   |
-| register_passthrough_nullable_n_arg | ❌         | ✔️               | ✔️           | ❌           | ✔️           | ✔️             | ❌       | ❌   |
-| register_combine_nullable_n_arg     | ❌         | ✔️               | ✔️           | ✔️           | ✔️           | ✔️             | ❌       | ❌   |
-| register_n_arg_core                 | ❌         | ✔️               | ❌           | ❌           | ✔️           | ✔️             | ❌       | ❌   |
-| register_function_factory           | ❌         | ✔️               | ❌           | ❌           | ❌           | ✔️             | ✔️       | ✔️   |
+|                                     | 自动向量化 | 访问输出列构建器 | 自动 Null 传递 | 自动合并 Null | 自动向下转换 | 抛出运行时错误 | 变长参数 | 元组 |
+| ----------------------------------- | ------------------ | ---------------------------- | --------------------- | ----------------- | ------------- | ------------------- | -------- | ----- |
+| register_n_arg                      | ✔️                 | ❌                           | ✔️                    | ❌                | ✔️            | ✔️                  | ❌       | ❌    |
+| register_passthrough_nullable_n_arg | ❌                 | ✔️                           | ✔️                    | ❌                | ✔️            | ✔️                  | ❌       | ❌    |
+| register_combine_nullable_n_arg     | ❌                 | ✔️                           | ✔️                    | ✔️                | ✔️            | ✔️                  | ❌       | ❌    |
+| register_n_arg_core                 | ❌                 | ✔️                           | ❌                    | ❌                | ✔️            | ✔️                  | ❌       | ❌    |
+| register_function_factory           | ❌                 | ✔️                           | ❌                    | ❌                | ❌            | ✔️                  | ✔️       | ✔️    |
 
-## 函数组成
+## 函数组合
 
-由于 `funcs` 的值是函数的主体，让我们看看 `Function` 在 Databend 中是如何构建的。
+由于 `funcs` 的值是函数的主体，让我们看看如何在 Databend 中构造 `Function`。
 
 ```rust
 pub struct Function {
@@ -119,7 +119,7 @@ pub struct Function {
 
 函数由 `Function` 结构体表示，其中包括函数 `signature`、计算域 (`cal_domain`) 和评估函数 (`eval`)。
 
-签名包括函数名称、参数类型、返回类型和函数属性（目前不可用，保留用于函数）。特别需要注意的是，注册时函数名称需要小写。一些标记通过 `src/query/ast/src/parser/token.rs` 进行转换。
+签名包括函数名称、参数类型、返回类型和函数属性（目前不可用，保留用于函数）。特别注意，注册时函数名称需要小写。一些 token 通过 `src/query/ast/src/parser/token.rs` 进行转换。
 
 ```rust
 #[allow(non_camel_case_types)]
@@ -132,7 +132,7 @@ pub enum TokenKind {
 }
 ```
 
-例如，让我们考虑查询 `select 1+2` 中使用的加法函数。`+` 标记被转换为 `Plus`，而函数名称需要小写。因此，用于注册的函数名称是 `plus`。
+例如，让我们考虑查询 `select 1+2` 中使用的加法函数。`+` token 被转换为 `Plus`，并且函数名称需要小写。因此，用于注册的函数名称是 `plus`。
 
 ```rust
 with_number_mapped_type!(|NUM_TYPE| match left {
@@ -147,17 +147,17 @@ with_number_mapped_type!(|NUM_TYPE| match left {
 });
 ```
 
-`calc_domain` 用于计算输出值的输入值集。这由数学公式 `y = f(x)` 描述，其中域是可用于生成值 `y` 的 `x` 值集。这使我们能够轻松过滤掉索引数据时不在域中的值，大大提高响应效率。
+`calc_domain` 用于计算输出值的输入值集。这由数学公式描述，例如 `y = f(x)`，其中域是可以作为 `f` 的参数以生成值 `y` 的值 `x` 的集合。这使我们能够轻松地过滤掉索引数据时不在域中的值，从而大大提高响应效率。
 
-`eval` 可以理解为函数的具体实现，它接受字符或数字作为输入，将其解析为表达式，并转换为另一组值。
+`eval` 可以理解为函数的具体实现，它接受字符或数字作为输入，将它们解析为表达式，并将它们转换为另一组值。
 
 ## 示例
 
-有几类函数，包括算术、数组、布尔、控制、比较、日期时间、数学和字符串。
+函数有几个类别，包括算术、数组、布尔、控制、比较、日期时间、数学和字符串。
 
 ### `length` 函数
 
-length 函数接受一个 `String` 参数并返回一个 `Number`。它被命名为 `length`，**没有域限制**，因为每个字符串都应该有一个长度。最后一个参数是一个闭包函数，作为 `length` 的实现。
+length 函数接受一个 `String` 参数并返回一个 `Number`。它被命名为 `length`，**没有域限制**，因为每个字符串都应该有一个长度。最后一个参数是一个闭包函数，用作 `length` 的实现。
 
 ```rust
 registry.register_1_arg::<StringType, NumberType<u64>, _, _>(
@@ -192,7 +192,7 @@ pub fn register_1_arg<I1: ArgType, O: ArgType, F, G>(
 }
 ```
 
-在实际场景中，`eval` 接受的不仅仅是字符串或数字，还可能是 null 或其他各种类型。`null` 无疑是最特殊的一个。我们接收的参数也可能是一个列或一个值。例如，在以下 SQL 查询中，length 被调用时使用了一个 null 值或一个列：
+在实际场景中，`eval` 不仅接受字符串或数字，还接受 null 或其他各种类型。`null` 无疑是最特殊的一个。我们收到的参数也可能是一列或一个值。例如，在以下 SQL 查询中，length 使用 null 值或列调用：
 
 ```sql
 select length(null);
@@ -210,16 +210,18 @@ select length(id) from t;
 +------------+
 ```
 
-因此，如果我们不需要在函数中处理 `null` 值，我们可以简单地使用 `register_x_arg`。否则，我们可以参考 [try_to_timestamp](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/scalars/datetime.rs) 的实现。
+因此，如果我们在函数中不需要处理 `null` 值，我们可以简单地使用 `register_x_arg`。否则，我们可以参考 [try_to_timestamp](https://github.com/databendlabs/databend/blob/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/src/scalars/datetime.rs) 的实现。
 
-对于需要在向量化中进行专门化的函数，应使用 `register_passthrough_nullable_x_arg` 进行特定的向量化优化。
+对于需要在 vectorize 中进行专门化的函数，应使用 `register_passthrough_nullable_x_arg` 来执行特定的向量化优化。
 
-例如，`regexp` 函数的实现接受两个 `String` 参数并返回一个 `Bool`。为了进一步优化并减少正则表达式的重复解析，引入了一个 `HashMap` 结构来进行向量化执行。因此，单独实现了 `vectorize_regexp` 来处理这种优化。
+例如，`regexp` 函数的实现接受两个 `String` 参数并返回一个 `Bool`。为了进一步优化并减少正则表达式的重复解析，引入了 `HashMap` 结构来进行向量化执行。因此，单独实现了 `vectorize_regexp` 来处理这种优化。
 
 ```rust
 registry.register_passthrough_nullable_2_arg::<StringType, StringType, BooleanType, _, _>(
     "regexp",
+```
 
+```
     |_, _| None,
     vectorize_regexp(|str, pat, map, _| {
         let pattern = if let Some(pattern) = map.get(pat) {
@@ -236,12 +238,12 @@ registry.register_passthrough_nullable_2_arg::<StringType, StringType, BooleanTy
 
 ## 测试
 
-作为一名优秀的开发者，你总是测试你的代码，不是吗？请在完成新的标量函数后添加单元测试和逻辑测试。
+作为一个优秀的开发者，你总是会测试你的代码，不是吗？请在完成新的标量函数后添加单元测试和逻辑测试。
 
 ### 单元测试
 
-标量函数的单元测试位于 [scalars](https://github.com/databendlabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/tests/it/scalars)。
+标量函数的单元测试位于 [scalars](https://github.com/databendlabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/src/query/functions/tests/it/scalars) 中。
 
 ### 逻辑测试
 
-函数的逻辑测试位于 [02_function](https://github.com/databendlabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/tests/sqllogictests/suites/query/02_function)。
+函数的逻辑测试位于 [02_function](https://github.com/databendlabs/databend/tree/d5e06af03ba0f99afdd6bdc974bf2f5c1c022db8/tests/sqllogictests/suites/query/02_function) 中。

@@ -1,5 +1,5 @@
 ---
-title: 参考资料
+title: 参考
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
