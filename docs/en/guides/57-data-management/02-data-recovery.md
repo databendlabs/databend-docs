@@ -67,11 +67,7 @@ Fail-safe includes:
 
 ## BendSave
 
-BendSave is a command-line tool for backing up and restoring metadata in Databend. It stores backups in S3-compatible object storage, making it ideal for disaster recovery and environment cloning.
-
-:::note
-This tool only backs up and restores metadata (e.g., databases, tables, users). It does not include actual data files stored in object storage.
-:::
+BendSave is a command-line tool for backing up and restoring both metadata (such as databases, tables, and users) and actual data files in Databend. It stores backups in S3-compatible object storage, making it ideal for disaster recovery.
 
 ### Downloading BendSave
 
@@ -122,8 +118,13 @@ databend-bendsave restore \
 #### Examples
 
 ```bash
+export AWS_ACCESS_KEY_ID=minioadmin
+export AWS_SECRET_ACCESS_KEY=minioadmin
+
 # Backup
-bendsave backup --from /path/to/query-node-1.toml --to s3://backup/
+./databend-bendsave backup \
+  --from ../configs/databend-query.toml \
+  --to 's3://backupbucket?endpoint=http://127.0.0.1:9000/&region=us-east-1'
 
 # Restore
 bendsave restore --from s3://backup/manifests/20250115_201500.manifest --to /path/to/query-node-1.toml
