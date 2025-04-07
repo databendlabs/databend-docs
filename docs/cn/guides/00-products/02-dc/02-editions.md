@@ -1,12 +1,11 @@
-```markdown
 ---
-title: Editions
+title: 版本
 ---
 
 import DatabendTable from '@site/src/components/DatabendTable';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 
-Databend Cloud 提供三个版本：**Personal**（基础版）、**Business**（商业版）和 **Dedicated**（专属版），您可以根据不同的需求选择合适的版本，以确保各种使用场景下的最佳性能。
+Databend Cloud 提供三个版本：**基础版**、**商业版**和**专属版**，您可以根据不同的需求选择适合的版本，以确保在不同使用场景下获得最佳性能。
 
 <LanguageDocs
 cn=
@@ -22,128 +21,127 @@ For a quick overview of these editions, see [https://www.databend.com/databend-c
 
 '/>
 
-## Feature Lists
+## 功能列表
 
-以下是 Databend Cloud 各个版本的功能列表：
+以下是 Databend Cloud 各版本的功能列表：
 
-#### Release Management
+#### 发布管理
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Personal', 'Business', 'Dedicated']}
+thead={['功能', '基础版', '商业版', '专属版']}
 tbody={[
-[`Early access to weekly new releases, which can be used for additional testing/validation before each release is deployed to your production accounts.`, '', '✓', '✓']
+[`提前访问每周新版本，可在每个版本部署到生产账户之前进行额外的测试/验证。`, '', '✓', '✓']
 ]} />
 
-#### Security & Governance
+#### 安全与治理
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Personal', 'Business', 'Dedicated']}
+thead={['功能', '基础版', '商业版', '专属版']}
 tbody={[
-['SOC 2 Type II certification.', '✓', '✓', '✓'],
+['SOC 2 Type II 认证。', '✓', '✓', '✓'],
 ['GDPR', '✓', '✓', '✓'],
-['Automatic encryption of all data.', '✓', '✓', '✓'],
-['Object-level access control.', '✓', '✓', '✓'],
-['Standard Time Travel (up to 1 day) for accessing/restoring modified and deleted data.', '✓', '✓', '✓'],
-['Disaster recovery of modified/deleted data (for 7 days beyond Time Travel) through Fail-safe.', '✓', '✓', '✓'],
-['<b>Extended Time Travel</b>.', '', '90 days', '90 days'],
-['Column-level Security to apply masking policies to columns in tables or views.', '✓', '✓', '✓'],
-['Audit the user access history through the Account Usage ACCESS_HISTORY view.', '✓', '✓', '✓'],
-['<b>Support for private connectivity to the Databend Cloud service using AWS PrivateLink</b>.', '', '✓', '✓'],
-['<b>Dedicated metadata store and pool of compute resources (used in virtual warehouses)</b>.', '', '', '✓'],
+['自动加密所有数据。', '✓', '✓', '✓'],
+['对象级访问控制。', '✓', '✓', '✓'],
+['标准时间回溯（最多 1 天）用于访问/恢复修改和删除的数据。', '✓', '✓', '✓'],
+['通过 Fail-safe 实现修改/删除数据的灾难恢复（超出时间回溯 7 天）。', '✓', '✓', '✓'],
+['<b>扩展时间回溯</b>。', '', '90 天', '90 天'],
+['列级安全，用于对表或视图中的列应用掩码策略。', '✓', '✓', '✓'],
+['通过 Account Usage ACCESS_HISTORY 视图审计用户访问历史。', '✓', '✓', '✓'],
+['<b>支持使用 AWS PrivateLink 进行 Databend Cloud 服务的私有连接</b>。', '', '✓', '✓'],
+['<b>专属元数据存储和计算资源池（用于虚拟计算集群）</b>。', '', '', '✓'],
 ]}
 />
 
-#### Compute Resource
+#### 计算资源
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Personal', 'Business', 'Dedicated']}
+thead={['功能', '基础版', '商业版', '专属版']}
 tbody={[
-['Virtual warehouses, separate compute clusters for isolating query and data loading workloads.', '✓', '✓', '✓'],
-['Multi-cluster scaling', '', '✓', '✓'],
-['Resource monitors for monitoring virtual warehouse credit usage.', '✓', '✓', '✓'],
+['虚拟计算集群，用于隔离查询和数据加载工作负载。', '✓', '✓', '✓'],
+['多集群扩展', '', '✓', '✓'],
+['资源监控器，用于监控虚拟计算集群的信用使用情况。', '✓', '✓', '✓'],
 ]}
 />
 
-#### SQL Support
+#### SQL 支持
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Personal', 'Business', 'Dedicated']}
+thead={['功能', '基础版', '商业版', '专属版']}
 tbody={[
-['Standard SQL, including most DDL and DML defined in SQL:1999.', '✓', '✓', '✓'],
-['Advanced DML such as multi-table INSERT, MERGE, and multi-merge.', '✓', '✓', '✓'],
-['Broad support for standard data types.', '✓', '✓', '✓'],
-['Native support for semi-structured data (JSON, ORC, Parquet).', '✓', '✓', '✓'],
-['Native support for geospatial data.', '✓', '✓', '✓'],
-['Native support for unstructured data.', '✓', '✓', '✓'],
-['Collation rules for string/text data in table columns.', '✓', '✓', '✓'],
-['Multi-statement transactions.', '✓', '✓', '✓'],
-['User-defined functions (UDFs) with support for JavaScript, Python, and WebAssembly.', '', '✓', '✓'],
-['External functions for extending Databend Cloud to other development platforms.', '✓', '✓', '✓'],
-['Amazon API Gateway private endpoints for external functions.', '✓', '✓', '✓'],
-['External tables for referencing data in a cloud storage data lake.', '✓', '✓', '✓'],
-['Support for clustering data in very large tables to improve query performance, with automatic maintenance of clustering.', '✓', '✓', '✓'],
-['Search optimization for point lookup queries, with automatic maintenance.', '✓', '✓', '✓'],
-['Materialized views, with automatic maintenance of results.', '✓', '✓', '✓'],
-['Iceberg tables for referencing data in a cloud storage data lake.', '✓', '✓', '✓'],
-['Schema detection for automatically detecting the schema in a set of staged semi-structured data files and retrieving the column definitions.', '✓', '✓', '✓'],
-['Schema evolution for automatically evolving tables to support the structure of new data received from the data sources.', '✓', '✓', '✓'],
-['Support for <a href="/sql/sql-commands/ddl/table/ddl-create-table-external-location" target="_self">creating table with external location</a>.', '✓', '✓', '✓'],
-['Supports for <a href="/sql/sql-commands/ddl/table/attach-table" target="_self">ATTACH TABLE</a>.', '✓', '✓', '✓'],
+['标准 SQL，包括 SQL:1999 中定义的大多数 DDL 和 DML。', '✓', '✓', '✓'],
+['高级 DML，如多表 INSERT、MERGE 和多合并。', '✓', '✓', '✓'],
+['广泛支持标准数据类型。', '✓', '✓', '✓'],
+['原生支持半结构化数据（JSON、ORC、Parquet）。', '✓', '✓', '✓'],
+['原生支持地理空间数据。', '✓', '✓', '✓'],
+['原生支持非结构化数据。', '✓', '✓', '✓'],
+['表列中字符串/文本数据的排序规则。', '✓', '✓', '✓'],
+['多语句事务。', '✓', '✓', '✓'],
+['用户定义函数（UDF），支持 JavaScript、Python 和 WebAssembly。', '', '✓', '✓'],
+['外部函数，用于将 Databend Cloud 扩展到其他开发平台。', '✓', '✓', '✓'],
+['Amazon API Gateway 私有端点用于外部函数。', '✓', '✓', '✓'],
+['外部表，用于引用云存储数据湖中的数据。', '✓', '✓', '✓'],
+['支持对非常大的表中的数据进行聚类以提高查询性能，并自动维护聚类。', '✓', '✓', '✓'],
+['搜索优化，用于点查找查询，并自动维护。', '✓', '✓', '✓'],
+['物化视图，并自动维护结果。', '✓', '✓', '✓'],
+['Iceberg 表，用于引用云存储数据湖中的数据。', '✓', '✓', '✓'],
+['模式检测，用于自动检测一组分阶段的半结构化数据文件中的模式并检索列定义。', '✓', '✓', '✓'],
+['模式演化，用于自动演化表以支持从数据源接收的新数据的结构。', '✓', '✓', '✓'],
+['支持 <a href="/sql/sql-commands/ddl/table/ddl-create-table-external-location" target="_self">创建带有外部位置的表</a>。', '✓', '✓', '✓'],
+['支持 <a href="/sql/sql-commands/ddl/table/attach-table" target="_self">ATTACH TABLE</a>。', '✓', '✓', '✓'],
 ]}
 />
 
-#### Interfaces & Tools
+#### 接口与工具
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Personal', 'Business', 'Dedicated']}
+thead={['功能', '基础版', '商业版', '专属版']}
 tbody={[
-['The next-generation SQL worksheet for advanced query development, data analysis, and visualization.', '✓', '✓', '✓'],
-['BendSQL, a command line client for building/testing queries, loading/unloading bulk data, and automating DDL operations.', '✓', '✓', '✓'],
-['Programmatic interfaces for Rust, Python, Java, Node.js, .js, PHP, and Go.', '✓', '✓', '✓'],
-['Native support for JDBC.', '✓', '✓', '✓'],
-['Extensive ecosystem for connecting to ETL, BI, and other third-party vendors and technologies.', '✓', '✓', '✓'],
+['下一代 SQL 工作表，用于高级查询开发、数据分析和可视化。', '✓', '✓', '✓'],
+['BendSQL，一个命令行客户端，用于构建/测试查询、加载/卸载批量数据以及自动化 DDL 操作。', '✓', '✓', '✓'],
+['编程接口，支持 Rust、Python、Java、Node.js、.js、PHP 和 Go。', '✓', '✓', '✓'],
+['原生支持 JDBC。', '✓', '✓', '✓'],
+['广泛的生态系统，用于连接到 ETL、BI 和其他第三方供应商和技术。', '✓', '✓', '✓'],
 ]}
 />
 
-#### Data Import & Export
+#### 数据导入与导出
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Personal', 'Business', 'Dedicated']}
+thead={['功能', '基础版', '商业版', '专属版']}
 tbody={[
-['Bulk loading from delimited flat files (CSV, TSV, etc.) and semi-structured data files (JSON, ORC, Parquet).', '✓', '✓', '✓'],
-['Bulk unloading to delimited flat files and JSON files.', '✓', '✓', '✓'],
-['Continuous micro-batch loading.', '✓', '✓', '✓'],
-['Streaming for low-latency loading of streaming data.', '✓', '✓', '✓'],
-['Databend Cloud Connector for Kafka for loading data from Apache Kafka topics.', '✓', '✓', '✓'],
+['从分隔的平面文件（CSV、TSV 等）和半结构化数据文件（JSON、ORC、Parquet）批量加载。', '✓', '✓', '✓'],
+['批量卸载到分隔的平面文件和 JSON 文件。', '✓', '✓', '✓'],
+['连续微批加载。', '✓', '✓', '✓'],
+['流式处理，用于低延迟加载流数据。', '✓', '✓', '✓'],
+['Databend Cloud Connector for Kafka，用于从 Apache Kafka 主题加载数据。', '✓', '✓', '✓'],
 ]}
 />
 
-#### Data Pipelines
+#### 数据管道
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Personal', 'Business', 'Dedicated']}
+thead={['功能', '基础版', '商业版', '专属版']}
 tbody={[
-['Streams for tracking table changes.', '✓', '✓', '✓'],
-['Tasks for scheduling the execution of SQL statements, often in conjunction with table streams.', '✓', '✓', '✓'],
+['流，用于跟踪表更改。', '✓', '✓', '✓'],
+['任务，用于调度 SQL 语句的执行，通常与表流结合使用。', '✓', '✓', '✓'],
 ]}
 />
 
-#### Customer Support
+#### 客户支持
 
 <DatabendTable
 width={['67%', '11%', '11%', '11%']}
-thead={['Features', 'Personal', 'Business', 'Dedicated']}
+thead={['功能', '基础版', '商业版', '专属版']}
 tbody={[
-['Logging and tracking support tickets.', '✓', '✓', '✓'],
-['4/7 coverage and 1-hour response window for Severity 1 issues.', '✓', '✓', '✓'],
-['<b>Response to non-severity-1 issues in hours</b>.', '8h', '4h', '1h'],
+['记录和跟踪支持工单。', '✓', '✓', '✓'],
+['4/7 覆盖和 1 小时响应窗口，用于严重性 1 问题。', '✓', '✓', '✓'],
+['<b>非严重性 1 问题的响应时间</b>。', '8h', '4h', '1h'],
 ]}
 />
-```
