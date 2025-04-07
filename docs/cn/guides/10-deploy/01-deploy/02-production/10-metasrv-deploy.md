@@ -1,4 +1,3 @@
-```
 ---
 title: Deploying Databend Cluster
 sidebar_label: Deploying Databend Cluster
@@ -216,7 +215,6 @@ cd .. && cd bin
 ## Step 3: Verify Deployment
 
 使用 [BendSQL](/guides/sql-clients/bendsql/) 连接到其中一个 query 节点，并检索有关现有 query 节点的信息：
-
 
 ```shell
 bendsql -h 172.16.125.131

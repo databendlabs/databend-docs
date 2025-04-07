@@ -1,7 +1,7 @@
-```
 ---
 title: SELECT
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.690"/>
@@ -17,13 +17,13 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 SELECT
     [ALL | DISTINCT]
     [ TOP <n> ]
-    <select_expr> | <col_name> [[AS] <alias>] | $<col_position> [, ...] | * 
+    <select_expr> | <col_name> [[AS] <alias>] | $<col_position> [, ...] | *
     COLUMNS <expr>
     [EXCLUDE (<col_name1> [, <col_name2>, <col_name3>, ...] ) ]
     [FROM table_references]
     [AT ...]
     [WHERE <expr>]
-    [GROUP BY {{<col_name> | <expr> | <col_alias> | <col_position>}, 
+    [GROUP BY {{<col_name> | <expr> | <col_alias> | <col_position>},
          ... | <extended_grouping_expr>}]
     [HAVING <expr>]
     [ORDER BY {<col_name> | <expr> | <col_alias> | <col_position>} [ASC | DESC],
@@ -32,6 +32,7 @@ SELECT
     [OFFSET <row_count>]
     [IGNORE_RESULT]
 ```
+
 - SELECT 语句还允许您直接查询 Stage 文件。有关语法和示例，请参见 [使用 Databend 进行高效数据转换](/guides/load-data/transform/querying-stage)。
 
 - 在此页面上的示例中，表 `numbers(N)` 用于测试，它具有一个 UInt64 类型的单列（名为 `number`），其中包含从 0 到 N-1 的整数。
@@ -44,7 +45,7 @@ SELECT
 
 - Databend 建议在创建列别名时尽可能避免特殊字符。但是，如果某些情况下必须使用特殊字符，则应将别名用反引号括起来，例如：SELECT price AS \`$CA\` FROM ...
 
-- Databend 会自动将别名转换为小写。例如，如果您将列别名为 *Total*，它将在结果中显示为 *total*。如果大小写对您很重要，请将别名用反引号括起来：\`Total\`。
+- Databend 会自动将别名转换为小写。例如，如果您将列别名为 _Total_，它将在结果中显示为 _total_。如果大小写对您很重要，请将别名用反引号括起来：\`Total\`。
 
 ```sql
 SELECT number AS Total FROM numbers(3);
@@ -316,8 +317,8 @@ SELECT number%2 as c1, number%3 as c2, MAX(number) FROM numbers(10000) GROUP BY 
 
 ```sql
 SELECT
-    number % 2 as c1, 
-    number % 3 as c2, 
+    number % 2 as c1,
+    number % 3 as c2,
     MAX(number) as max
 FROM
     numbers(10000)

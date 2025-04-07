@@ -1,4 +1,3 @@
-```
 ---
 title: Node.js
 ---
@@ -58,15 +57,15 @@ Node.js 驱动程序提供与 Rust Driver 绑定类似的功能，具有相同�
 
 下表总结了 Node.js Driver 的主要行为和函数及其用途：
 
-| 函数名称         | 描述                                                                                                                       |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `info`         | 返回客户端的连接信息。                                                                                                             |
-| `version`      | 返回执行 `SELECT VERSION()` 语句的结果。                                                                                              |
-| `exec`         | 执行 SQL 语句并返回受影响的行数。                                                                                                        |
-| `query_iter`   | 执行 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                                                                  |
-| `query_iter_ext` | 执行 SQL 查询并返回一个迭代器，其中包含有关结果的统计信息。                                                                                              |
-| `query_row`    | 执行 SQL 查询并返回单个行结果。                                                                                                        |
-| `stream_load`  | 将数据上传到内置的 Stage 并使用 [stage attachment](/developer/apis/http#stage-attachment) 执行插入/替换。 |
+| 函数名称         | 描述                                                                                                      |
+| ---------------- | --------------------------------------------------------------------------------------------------------- |
+| `info`           | 返回客户端的连接信息。                                                                                    |
+| `version`        | 返回执行 `SELECT VERSION()` 语句的结果。                                                                  |
+| `exec`           | 执行 SQL 语句并返回受影响的行数。                                                                         |
+| `query_iter`     | 执行 SQL 查询并返回一个迭代器，用于逐行处理结果。                                                         |
+| `query_iter_ext` | 执行 SQL 查询并返回一个迭代器，其中包含有关结果的统计信息。                                               |
+| `query_row`      | 执行 SQL 查询并返回单个行结果。                                                                           |
+| `stream_load`    | 将数据上传到内置的 Stage 并使用 [stage attachment](/developer/apis/http#stage-attachment) 执行插入/替换。 |
 
 ## 教程 1：使用 Node.js 与 Databend 集成
 
@@ -96,7 +95,9 @@ const { Client } = require("databend-driver");
 
 // Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
 // Feel free to use your own values while maintaining the same format.
-const dsn = process.env.DATABEND_DSN ? process.env.DATABEND_DSN : "databend://user1:abc123@localhost:8000/default?sslmode=disable";
+const dsn = process.env.DATABEND_DSN
+  ? process.env.DATABEND_DSN
+  : "databend://user1:abc123@localhost:8000/default?sslmode=disable";
 
 async function create_conn() {
   this.client = new Client(dsn);
@@ -113,11 +114,13 @@ async function select_books() {
   await this.conn.exec(sql);
   console.log("Database used");
 
-  var sql = "CREATE TABLE IF NOT EXISTS books(title VARCHAR, author VARCHAR, date VARCHAR)";
+  var sql =
+    "CREATE TABLE IF NOT EXISTS books(title VARCHAR, author VARCHAR, date VARCHAR)";
   await this.conn.exec(sql);
   console.log("Table created");
 
-  var sql = "INSERT INTO books VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')";
+  var sql =
+    "INSERT INTO books VALUES('Readings in Database Systems', 'Michael Stonebraker', '2004')";
   await this.conn.exec(sql);
   console.log("1 record inserted");
 
@@ -132,7 +135,7 @@ async function select_books() {
   console.log(ret);
 }
 
-create_conn().then(conn => {
+create_conn().then((conn) => {
   select_books();
 });
 ```
@@ -192,7 +195,9 @@ $ npm install --save databend-driver
 ```javascript
 const { Client } = require("databend-driver");
 
-const dsn = process.env.DATABEND_DSN ? process.env.DATABEND_DSN : "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}";
+const dsn = process.env.DATABEND_DSN
+  ? process.env.DATABEND_DSN
+  : "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}";
 
 async function create_conn() {
   this.client = new Client(dsn);
@@ -212,7 +217,8 @@ async function select_data() {
 
   await this.conn.exec(sql_table_create);
 
-  let sql_insert = "INSERT INTO data VALUES ('1234', '2345', '3.1415', 'test', 'test2', '2021-01-01', '2021-01-01 00:00:00');";
+  let sql_insert =
+    "INSERT INTO data VALUES ('1234', '2345', '3.1415', 'test', 'test2', '2021-01-01', '2021-01-01 00:00:00');";
   await this.conn.exec(sql_insert);
 
   let sql_select = "SELECT * FROM data";
@@ -226,7 +232,7 @@ async function select_data() {
   console.log(ret);
 }
 
-create_conn().then(conn => {
+create_conn().then((conn) => {
   select_data();
 });
 ```

@@ -1,10 +1,9 @@
-```
 ---
 title: 新的 SQL Planner 框架设计
 description: 新的 SQL planner 框架设计 RFC
 ---
 
-- 开始日期: 2021/09/13
+- 开始日期：2021/09/13
 - 追踪 issue: https://github.com/databendlabs/databend/issues/1217
 
 # 概要
@@ -334,7 +333,6 @@ trait Rule {
 # 里程碑
 
 在此重构之后，我们希望：
-```
 
 - 为 `JOIN` 提供朴素实现（等值连接使用哈希连接，交叉连接使用嵌套循环连接），包括计划和执行
 - 支持使用 `databend` 运行 TPCH 基准测试中的大多数查询（包含不同类型的连接和相关子查询）

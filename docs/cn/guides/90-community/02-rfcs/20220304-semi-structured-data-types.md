@@ -1,14 +1,11 @@
-```
 ---
 title: 半结构化数据类型
-description:
-  半结构化数据类型设计 RFC
+description: 半结构化数据类型设计 RFC
 ---
 
 ## 概要
 
 ### 当前 `DataType` 的不足
-
 
 - `DataType` 是一个枚举类型，我们必须在使用前进行类型匹配。例如，如果我们想通过 `DataType` 创建反序列化器/序列化器，我们总是需要进行匹配。这并不意味着匹配是不必要的。如果我们想向 `DataType` 添加越来越多的函数，匹配可能会非常繁琐。
 
@@ -21,6 +18,7 @@ description:
 ### 关于列的太多概念 (Series/Column/Array)
 
 - DataColumn 是一个枚举，包括 `Constant(value)` 和 `Array(Series)`
+
 ```rust
 pub enum DataColumn {
     // Array of values.
@@ -31,6 +29,7 @@ pub enum DataColumn {
 ```
 
 - Series 是 `SeriesTrait` 的一个包装器
+
 ```rust
 pub struct Series(pub Arc<dyn SeriesTrait>);
 ```
@@ -170,4 +169,3 @@ type JsonColumn = ObjectColumn<serde_json::Value>;
 ## TODO
 
 - 使用更好的存储格式来提高查询性能
-```
