@@ -127,5 +127,9 @@ export AWS_SECRET_ACCESS_KEY=minioadmin
   --to 's3://backupbucket?endpoint=http://127.0.0.1:9000/&region=us-east-1'
 
 # Restore
-bendsave restore --from s3://backup/manifests/20250115_201500.manifest --to /path/to/query-node-1.toml
+./databend-bendsave restore \
+  --from "s3://backupbucket?endpoint=http://127.0.0.1:9000/&region=us-east-1" \
+  --to-query ../configs/databend-query.toml \
+  --to-meta ../configs/databend-meta.toml \
+  --confirm
 ```
