@@ -61,7 +61,7 @@ tbody={[
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['功能', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
 ['集群模式', '✕', '✓'],
 ['物化视图', '✕', '✓'],
@@ -73,7 +73,7 @@ tbody={[
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['功能', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
 ['部署支持: K8s, 裸机, 安装程序', '✓', '✓'],
 ['后端存储支持: S3, Azblob, GCS, OSS, COS, HDFS', '✓', '✓'],
@@ -87,7 +87,7 @@ tbody={[
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['功能', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
 ['驱动支持: Go, Java, Rust, JS, Python', '✓', '✓'],
 ['原生 REST API', '✓', '✓'],
@@ -99,7 +99,7 @@ tbody={[
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['功能', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
 ['审计功能', '✓', '✓'],
 ['访问控制 RBAC', '✓', '✓'],
@@ -114,7 +114,7 @@ tbody={[
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['功能', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
 ['导入时数据处理', '✓', '✓'],
 ['数据流式处理', '✕', '✓'],
@@ -127,7 +127,7 @@ tbody={[
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['功能', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
 ['聚合查询加速优化', '✕', '✓'],
 ['JSON 查询加速优化', '✕', '✓'],
@@ -138,7 +138,7 @@ title="查询优化"
 存储优化
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['功能', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
 ['冷/热数据分离', '✕', '✓'],
 ['自动过期数据清理', '✕', '✓'],
@@ -151,7 +151,7 @@ title="存储优化"
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['功能', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
 ['24/7 支持和紧急响应', '✕', '✓'],
 ['部署和升级支持', '✕', '✓'],
