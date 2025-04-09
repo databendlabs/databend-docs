@@ -1,26 +1,15 @@
 ---
-title: Docker & Local Deployments
+title: Deploying on Docker
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-To quickly access Databend features and gain practical expertise, you have the following deployment options:
-
-- [Deploying with Docker](#deploying-databend-on-docker): You can deploy Databend along with [MinIO](https://min.io/) on Docker for a containerized setup.
-- [Deploying on Local Machine](#deploying-a-local-databend): You can opt for a local deployment and use the file system as storage if object storage is unavailable.
-
-:::note non-production use only
-
-- Object storage is a requirement for production use of Databend. The file system should only be used for evaluation, testing, and non-production scenarios.
-- The MinIO deployment covered in this chapter is only suitable for development and demonstration. Due to the limited resources in a single-machine environment, it is not recommended for production environments or performance testing.
-  :::
-
-## Deploying on Docker
-
 In this guide, you will deploy Databend along with [MinIO](https://min.io/) using [Docker](https://www.docker.com/) for a containerized setup on an [Amazon EC2](https://aws.amazon.com/ec2/) Ubuntu virtual machine.
 
-![Alt text](/img/deploy/docker-deploy.png)
+:::note non-production use only
+The MinIO deployment covered in this guide is only suitable for development and demonstration. Due to the limited resources in a single-machine environment, it is not recommended for production environments or performance testing.
+:::
 
 <StepsWrap>
 <StepContent number="1">
@@ -269,118 +258,3 @@ SELECT
 
 </StepContent>
 </StepsWrap>
-
-## Deploying on Local Machine
-
-Follow the instructions below to deploy Databend on your local machine.
-
-<StepsWrap>
-
-<StepContent number="1">
-
-### Download Databend
-
-1. Download the installation package suitable for your platform from the [Download](https://www.databend.com/download) page.
-
-2. Extract the installation package to a local directory.
-
-</StepContent>
-
-<StepContent number="2">
-
-### Start Databend
-
-1. Configure an admin user. You will utilize this account to connect to Databend. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). For this example, uncomment the following lines to choose this account:
-
-```sql title="databend-query.toml"
-[[query.users]]
-name = "root"
-auth_type = "no_password"
-```
-
-2. Open a terminal and navigate to the folder where the extracted files and folders are stored.
-
-3. Run the script **start.sh** in the folder **scripts**:
-   MacOS might prompt an error saying "_databend-meta can't be opened because Apple cannot check it for malicious software._". To proceed, open **System Settings** on your Mac, select **Privacy & Security** on the left menu, and click **Open Anyway** for databend-meta in the **Security** section on the right side. Do the same for the error on databend-query.
-
-```shell
-./scripts/start.sh
-```
-
-:::tip
-In case you encounter the subsequent error messages while attempting to start Databend:
-
-```shell
-==> query.log <==
-: No getcpu support: percpu_arena:percpu
-: option background_thread currently supports pthread only
-Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
-```
-
-Run the following commands and try starting Databend again:
-
-```shell
-sudo mkdir /var/log/databend
-sudo mkdir /var/lib/databend
-sudo chown -R $USER /var/log/databend
-sudo chown -R $USER /var/lib/databend
-```
-
-:::
-
-3. Run the following command to verify Databend has started successfully:
-
-```shell
-ps aux | grep databend
-
----
-eric             12789   0.0  0.0 408495808   1040 s003  U+    2:16pm   0:00.00 grep databend
-eric             12781   0.0  0.5 408790416  38896 s003  S     2:15pm   0:00.05 bin/databend-query --config-file=configs/databend-query.toml
-eric             12776   0.0  0.3 408654368  24848 s003  S     2:15pm   0:00.06 bin/databend-meta --config-file=configs/databend-meta.toml
-```
-
-</StepContent>
-
-<StepContent number="3">
-
-### Connect to Databend
-
-To establish a connection with Databend, you'll use the BendSQL CLI tool in this step. For instructions on how to install and operate BendSQL, see [BendSQL](../../../30-sql-clients/00-bendsql/index.md).
-
-1. To establish a connection with a local Databend, execute the following command:
-
-```shell
-eric@Erics-iMac ~ % bendsql
-Welcome to BendSQL 0.13.2-4419bda(2024-02-02T04:21:46.064145000Z).
-Connecting to localhost:8000 as user root.
-Connected to DatabendQuery v1.2.252-nightly-193ed56304(rust-1.75.0-nightly-2023-12-12T22:07:25.371440000Z)
-
-root@localhost:8000/default>
-```
-
-2. Query the Databend version to verify the connection:
-
-```sql
-root@localhost> SELECT VERSION();
-
-SELECT
-  VERSION()
-
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                                          version()                                                         │
-│                                                           String                                                           │
-├────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ DatabendQuery v1.1.75-nightly-59eea5df495245b9475f81a28c7b688f013aac05(rust-1.72.0-nightly-2023-06-28T01:04:32.054683000Z) │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-1 row in 0.024 sec. Processed 1 rows, 1B (41.85 rows/s, 42B/s)
-```
-
-</StepContent>
-</StepsWrap>
-
-## Next Steps
-
-After deploying Databend, you might need to learn about the following topics:
-
-- [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
-- [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.

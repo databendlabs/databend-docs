@@ -10,12 +10,15 @@ Utilizing a stage for loading data also improves the efficiency of uploading, ma
 
 Based on the actual storage location and accessibility, stages can be categorized into these types: Internal Stage, External Stage, and User Stage. The following table summarizes the characteristics of different stage types in Databend, including their storage locations, accessibility, and recommended usage scenarios:
 
-| Stage Type     | Storage Location                   | Accessibility                                   | When to Choose                                    |
-| -------------- | ---------------------------------- | ----------------------------------------------- | ------------------------------------------------- |
-| Internal Stage | Object storage where Databend sits | Accessible to all users within the organization | Suitable for shared data within the organization  |
-| External Stage | External object storage            | Accessible to all users within the organization | Ideal for integrating with external data sources  |
-| User Stage     | Object storage where Databend sits | Accessible only to the respective user          | Perfect for personal data files or temporary data |
-
+|                      | User Stage                         | Internal Stage                                   | External Stage                                                                                                |
+|----------------------|------------------------------------|--------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Storage Location** | Internal object storage (Databend) | Internal object storage (Databend)               | External object storage (e.g., S3, Azure)                                                                     |
+| **Creation Method**  | Automatically created              | Manually created via: `CREATE STAGE stage_name;` | Manually created via: `CREATE STAGE stage_name` `'s3://bucket/prefix/'` `CONNECTION=(endpoint_url='x', ...);` |
+| **Access Control**   | Only accessible by the user        | Can be shared with other users or roles          | Can be shared with other users or roles                                                                       |
+| **Drop Stage**       | Not allowed                        | Deletes the stage and clears files in it         | Deletes only the stage; files in the external location are retained                                           |
+| **File Upload**      | Must upload files to Databend      | Must upload files to Databend                    | No upload needed; used to read or unload data from/to external storage                                        |
+| **Usage Scenario**   | Personal/private data              | Team/shared data                                 | External data integration or unloading                                                                        |
+| **Path Format**      | `@~/`                              | `@stage_name/`                                   | `@stage_name/`                                                                                                |
 ### Internal Stage
 
 Files in an internal stage are actually stored in the object storage where Databend resides. An internal stage is accessible to all users within your organization, allowing each user to utilize the stage for their data loading or export tasks. Similar to creating a folder, specifying a name is necessary when creating a stage. Below is an example of creating an internal stage with the [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) command:
