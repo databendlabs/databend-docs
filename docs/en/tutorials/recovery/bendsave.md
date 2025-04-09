@@ -96,10 +96,14 @@ curl -I  http://127.0.0.1:28101/v1/health
 curl -I  http://127.0.0.1:8080/v1/health
 ```
 
-4. Connect to your Databend instance from your local machine with BendSQL, then create a table and insert some sample data.
+4. Connect to your Databend instance from your local machine with BendSQL, then apply your Databend Enterprise license, create a table, and insert some sample data.
 
 ```bash
 bendsql -h <your-linux-host>
+```
+
+```sql
+SET GLOBAL enterprise_license='<your-license-key>';
 ```
 
 ```sql

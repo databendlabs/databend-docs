@@ -1,6 +1,9 @@
 ---
 title: Data Recovery
 ---
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='BendSave'/>
 
 This topic explains how to back up and restore data in Databend.
 
@@ -67,7 +70,7 @@ Fail-safe includes:
 
 ## BendSave
 
-BendSave is a command-line tool for backing up and restoring both metadata (such as databases, tables, and users) and actual data files in Databend. It stores backups in S3-compatible object storage, making it ideal for disaster recovery.
+BendSave is a command-line tool for backing up and restoring both metadata and actual data files in Databend. It stores backups in S3-compatible object storage, making it ideal for disaster recovery.
 
 ### Downloading BendSave
 
