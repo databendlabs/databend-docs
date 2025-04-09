@@ -1,7 +1,7 @@
 ---
-title: Understanding Databend Deployments
-sidebar_label: Understanding Deployments
-description: Describes Databend deployment modes
+title: 理解 Databend 的部署方式
+sidebar_label: 部署方式
+description: 描述 Databend 的部署模式
 ---
 
 import LanguageDocs from '@site/src/components/LanguageDocs';
