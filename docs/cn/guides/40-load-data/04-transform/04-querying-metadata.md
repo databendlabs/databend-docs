@@ -27,9 +27,9 @@ INFER_SCHEMA(
 
 ## 教程：查询列定义
 
-在本教程中，我们将指导您完成将示例文件上传到内部 Stage、查询列定义，并最终基于 Stage 文件创建表的过程。在开始之前，请下载并将示例文件 [books.parquet](https://datafuse-1253727613.cos.ap.hongkong.myqcloud.com/data/books.parquet) 保存到本地文件夹。
+在本教程中，我们将指导您完成将示例文件上传到内部 Stage、查询列定义，并最终基于 Stage 文件创建表的过程。在开始之前，请下载并将示例文件 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 保存到本地文件夹。
 
-1. 创建一个名为 *my_internal_stage* 的内部 Stage：
+1. 创建一个名为 _my_internal_stage_ 的内部 Stage：
 
 ```sql
 CREATE STAGE my_internal_stage;
@@ -42,6 +42,7 @@ PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
 ```
 
 结果：
+
 ```
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
@@ -58,6 +59,7 @@ SELECT * FROM INFER_SCHEMA(location => '@my_internal_stage/books.parquet');
 ```
 
 结果：
+
 ```
 ┌─────────────┬─────────┬─────────┬─────────┐
 │ column_name │ type    │ nullable│ order_id│
@@ -68,7 +70,7 @@ SELECT * FROM INFER_SCHEMA(location => '@my_internal_stage/books.parquet');
 └─────────────┴─────────┴─────────┴─────────┘
 ```
 
-4. 基于 Stage 的示例文件创建一个名为 *mybooks* 的表：
+4. 基于 Stage 的示例文件创建一个名为 _mybooks_ 的表：
 
 ```sql
 CREATE TABLE mybooks AS SELECT * FROM @my_internal_stage/books.parquet;
@@ -81,6 +83,7 @@ DESC mybooks;
 ```
 
 结果：
+
 ```
 ┌─────────┬─────────┬──────┬─────────┬───────┐
 │ Field   │ Type    │ Null │ Default │ Extra │
@@ -96,6 +99,7 @@ SELECT * FROM mybooks;
 ```
 
 结果：
+
 ```
 ┌───────────────────────────┬───────────────────┬──────┐
 │ title                     │ author            │ date │
