@@ -1,12 +1,12 @@
 ---
-title: 企业功能
+title: 企业版功能
 ---
 
 import DatabendTable from '@site/src/components/DatabendTable';
 
-本页提供了可用企业功能的最新列表。要访问这些功能，您需要企业版或试用版许可证。有关更多详细信息，请参见 [Databend 授权](20-license.md)。
+本页提供了可用企业版功能的最新列表。要访问这些功能，您需要企业版或试用版许可证。有关更多详细信息，请参见 [Databend 授权](20-license.md)。
 
-### 企业功能列表
+### 企业版功能列表
 
 
 | 功能                                                                               | 分类           | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
@@ -25,140 +25,138 @@ import DatabendTable from '@site/src/components/DatabendTable';
 | [Fail-Safe](/guides/security/fail-safe)                                           | 安全           | 从 S3 兼容的对象存储中恢复表数据。                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | [BendSave](/guides/data-management/data-recovery#bendsave) |  恢复 | BendSave 是一个命令行工具，用于备份和恢复 Databend 中的元数据和实际数据文件。 |
 
-## Databend Community vs. Enterprise
+Databend 社区版与企业版对比
+本节比较了 Databend 社区版 和 Databend 企业版在以下模块中的功能：
 
-本节比较了 Databend Community 和 Databend Enterprise 在以下模块中的功能：
-
-### Core Functionalities
-
-<DatabendTable
-width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
-tbody={[
-['Distributed Metadata Management', '✓', '✓'],
-['Distributed SQL Engine', '✓', '✓'],
-['Distributed Storage Engine', '✓', '✓'],
-['Distributed Scheduling Engine', '✓', '✓'],
-['Vectorized Engine', '✓', '✓'],
-['Distributed Transaction', '✓', '✓'],
-['Multi-version Data', '✓', '✓'],
-['Time Travel', '✓', '✓'],
-['Performance Optimizer', '✓', '✓'],
-['Multi-tenancy and Permission Management', '✓', '✓'],
-['Standard Data Types', '✓', '✓'],
-['Semi-structured Data Type (JSON)', '✓', '✓'],
-['Unstructured Data Types', 'Parquet/CSV/TSV/JSON/ORC', 'Parquet/CSV/TSV/JSON/ORC'],
-['Advanced Compression', '✓', '✓'],
-['Vector Storage', '✓', '✓'],
-['Apache Hive Query', '✓', '✓'],
-['Apache Iceberg Query', '✓', '✓'],
-['Semi-structured Data Query', '✓', '✓'],
-['External User-defined Functions', '✓', '✓'],
-['Large Query Resource Isolation Protection (Spill)', '✓', '✓'],
-]}
-/>
-
-### Extended Functionalities
+###核心功能
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
-['Cluster Mode', '✕', '✓'],
-['Materialized Views', '✕', '✓'],
-['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', '✓ (HuggingFace Open Source Models)']
+['分布式元数据管理', '✓', '✓'],
+['分布式 SQL 引擎', '✓', '✓'],
+['分布式存储引擎', '✓', '✓'],
+['分布式调度引擎', '✓', '✓'],
+['向量化引擎', '✓', '✓'],
+['分布式事务', '✓', '✓'],
+['多版本数据', '✓', '✓'],
+['时间旅行', '✓', '✓'],
+['性能优化器', '✓', '✓'],
+['多租户和权限管理', '✓', '✓'],
+['标准数据类型', '✓', '✓'],
+['半结构化数据类型 (JSON)', '✓', '✓'],
+['非结构化数据类型', 'Parquet/CSV/TSV/JSON/ORC', 'Parquet/CSV/TSV/JSON/ORC'],
+['高级压缩', '✓', '✓'],
+['向量存储', '✓', '✓'],
+['Apache Hive 查询', '✓', '✓'],
+['Apache Iceberg 查询', '✓', '✓'],
+['半结构化数据查询', '✓', '✓'],
+['外部用户定义函数', '✓', '✓'],
+['大查询资源隔离保护 (Spill)', '✓', '✓'],
 ]}
 />
 
-### Deployment
+###扩展功能
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend Community', 'Databend Enterprise']}
 tbody={[
-['Deployment Support: K8s, Baremetal, Installer', '✓', '✓'],
-['Backend Storage Support: S3, Azblob, GCS, OSS, COS, HDFS', '✓', '✓'],
-['x86_64 & ARM64 Architecture', '✓', '✓'],
-['Compatible with LoongArch, openEuler, etc.', '✓', '✓'],
-['Monitoring and Alerting APIs', '✓', '✓'],
+['集群模式', '✕', '✓'],
+['物化视图', '✕', '✓'],
+['AI 功能 (情感分析、数据标注等)', '✕', '✓ (HuggingFace 开源模型)']
 ]}
 />
 
-### Ecosystem
+###部署
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend Community', 'Databend Enterprise']}
 tbody={[
-['Driver Support: Go, Java, Rust, JS, Python', '✓', '✓'],
-['Native REST APIs', '✓', '✓'],
-['Native Client BendSQL', '✓', '✓'],
+['部署支持: K8s, 裸机, 安装程序', '✓', '✓'],
+['后端存储支持: S3, Azblob, GCS, OSS, COS, HDFS', '✓', '✓'],
+['x86_64 & ARM64 架构', '✓', '✓'],
+['兼容 LoongArch, openEuler 等', '✓', '✓'],
+['监控和告警 API', '✓', '✓'],
 ]}
 />
 
-### Security
+###生态系统
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend Community', 'Databend Enterprise']}
 tbody={[
-['Audit Functionality', '✓', '✓'],
-['Access Control RBAC', '✓', '✓'],
-['Password Strength and Expiry Policy', '✓', '✓'],
-['Whitelist Management', '✓', '✓'],
-['Storage Encryption', '✕', '✓'],
-['Data Dynamic Masking Policy', '✕', '✓'],
+['驱动支持: Go, Java, Rust, JS, Python', '✓', '✓'],
+['原生 REST API', '✓', '✓'],
+['原生客户端 BendSQL', '✓', '✓'],
 ]}
 />
 
-### Data Import & Export
+###安全
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend Community', 'Databend Enterprise']}
 tbody={[
-['Data Processing during Import', '✓', '✓'],
-['Data Streaming', '✕', '✓'],
-['CDC Real-time Data Import', '✕', '✓'],
-['Data Export Formats', 'Parquet/ORC/CSV/NDJSON', 'Parquet/ORC/CSV/NDJSON'],
+['审计功能', '✓', '✓'],
+['访问控制 RBAC', '✓', '✓'],
+['密码强度和过期策略', '✓', '✓'],
+['白名单管理', '✓', '✓'],
+['存储加密', '✕', '✓'],
+['数据动态掩码策略', '✕', '✓'],
 ]}
 />
 
-### Query Optimizations
+###数据导入与导出
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend Community', 'Databend Enterprise']}
 tbody={[
-['Aggregation Query Acceleration Optimization', '✕', '✓'],
-['JSON Query Acceleration Optimization', '✕', '✓'],
-['Precomputation Capability', '✕', '✓'],
+['导入时数据处理', '✓', '✓'],
+['数据流式处理', '✕', '✓'],
+['CDC 实时数据导入', '✕', '✓'],
+['数据导出格式', 'Parquet/ORC/CSV/NDJSON', 'Parquet/ORC/CSV/NDJSON'],
 ]}
-title="Query Optimizations"
 />
 
-### Storage Optimizations
+###查询优化
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend Community', 'Databend Enterprise']}
 tbody={[
-['Cold/Hot Data Separation', '✕', '✓'],
-['Automatic Expiry Data Cleaning', '✕', '✓'],
-['Automatic Garbage Data Cleaning', '✕', '✓'],
+['聚合查询加速优化', '✕', '✓'],
+['JSON 查询加速优化', '✕', '✓'],
+['预计算能力', '✕', '✓'],
 ]}
-title="Storage Optimizations"
+title="查询优化"
+/>
+存储优化
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['功能', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['冷/热数据分离', '✕', '✓'],
+['自动过期数据清理', '✕', '✓'],
+['自动垃圾数据清理', '✕', '✓'],
+]}
+title="存储优化"
 />
 
-### Customer Support
+###客户支持
 
 <DatabendTable
 width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+thead={['功能', 'Databend Community', 'Databend Enterprise']}
 tbody={[
-['24/7 Support & Emergency Response', '✕', '✓'],
-['Deployment and Upgrade', '✕', '✓'],
-['Operational Support', '✕', '✓'],
+['24/7 支持和紧急响应', '✕', '✓'],
+['部署和升级支持', '✕', '✓'],
+['运营支持', '✕', '✓'],
 ]}
-title="Customer Support"
+title="客户支持"
 />
+
