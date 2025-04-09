@@ -1,12 +1,12 @@
 ---
-title: 企业功能
+title: 企业版功能
 ---
 
 import DatabendTable from '@site/src/components/DatabendTable';
 
-本页提供了可用企业功能的最新列表。要访问这些功能，您需要企业版或试用版许可证。有关更多详细信息，请参见 [Databend 授权](20-license.md)。
+本页提供了可用企业版功能的最新列表。要访问这些功能，您需要企业版或试用版许可证。有关更多详细信息，请参见 [Databend 授权](20-license.md)。
 
-### 企业功能列表
+### 企业版功能列表
 
 
 | 功能                                                                             | 分类           | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
@@ -76,7 +76,7 @@ tbody={[
 width={['70%', '15%', '15%']}
 thead={['功能', 'Databend 社区版', 'Databend 企业版']}
 tbody={[
-['部署支持: K8s, 裸金属, 安装程序', '✓', '✓'],
+['部署支持: K8s, 裸机, 安装程序', '✓', '✓'],
 ['后端存储支持: S3, Azblob, GCS, OSS, COS, HDFS', '✓', '✓'],
 ['x86_64 & ARM64 架构', '✓', '✓'],
 ['兼容 LoongArch, openEuler 等', '✓', '✓'],
