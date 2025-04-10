@@ -17,7 +17,7 @@ Stores information about cached query results, including details such as the que
 Example:
 
 ```sql
-SELECT * FROM system.query_cache
+SELECT * FROM system.query_cache;
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        sql       │               query_id               │ result_size │ num_rows │                          partitions_sha                          │                                                         location                                                        │ active_result_scan │

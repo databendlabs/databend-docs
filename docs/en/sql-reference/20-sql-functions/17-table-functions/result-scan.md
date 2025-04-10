@@ -4,7 +4,6 @@ title: RESULT_SCAN
 
 Retrieves the cached result of a previous query by its query ID.
 
-
 ## Syntax
 
 ```sql
