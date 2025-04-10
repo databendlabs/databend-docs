@@ -1,37 +1,19 @@
 ---
-title: 使用 Docker 部署
+title: 在 Docker 上部署
 ---
 
-import StepsWrap from '@site/src/components/StepsWrap';
-import StepContent from '@site/src/components/Steps/step-content';
-
-在本指南中，您将使用 [Docker](https://www.docker.com/) 部署 Databend 和 [MinIO](https://min.io/)，以便在 [Amazon EC2](https://aws.amazon.com/ec2/) Ubuntu 虚拟机上进行容器化设置。
+本指南将引导你使用 [Docker](https://www.docker.com/) 和 [MinIO](https://min.io/) 部署 Databend，以便在你的本地机器上实现完全容器化的设置。
 
 :::note non-production use only
 本指南中介绍的 MinIO 部署仅适用于开发和演示。由于单机环境中的资源有限，因此不建议将其用于生产环境或性能测试。
 :::
 
-<StepsWrap>
-<StepContent number="1">
+### 开始之前
 
-### 设置环境
+在开始之前，请确保你已具备以下先决条件：
 
-在开始之前，请在 Amazon EC2 上启动一个实例并安装 Docker 引擎。
-
-1. 登录到 [Amazon EC2 控制台](https://console.aws.amazon.com/ec2/)，然后启动一个内存容量至少为 8 GiB 的 Ubuntu 实例。实例启动后，您可以在实例详细信息页面上找到分配给该实例的公有 IP 地址和私有 IP 地址。
-
-![Alt text](/img/deploy/docker-instance.png)
-
-2. 创建一个安全组，并添加一个入站规则，以允许通过端口 `9001` 访问您的实例，然后将该安全组添加到该实例。
-
-![Alt text](/img/deploy/docker-create-sg.png)
-
-3. 连接到您的实例。有很多方法可以从本地计算机连接到您的实例。有关更多信息，请参见 [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-linux-instance.html)。
-
-4. 按照 [Docker 用户手册](https://docs.docker.com/engine/install/ubuntu/) 在您的实例上安装 Docker 引擎。
-
-</StepContent>
-<StepContent number="2">
+- 确保你的本地机器上已安装 [Docker](https://www.docker.com/)。
+- 确保你的机器上已安装 BendSQL。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
 
 ### 部署 MinIO
 
@@ -40,46 +22,46 @@ import StepContent from '@site/src/components/Steps/step-content';
 :::note
 
 - 我们在这里将控制台地址更改为 `9001`，以避免端口冲突。
-- 该命令还设置了 root 用户凭据 (`ROOTUSER`/`CHANGEME123`)，您需要在后续步骤中提供这些凭据进行身份验证。如果您此时更改 root 用户凭据，请确保在整个过程中保持一致。
+- 该命令还设置了 root 用户凭据 (`ROOTUSER`/`CHANGEME123`)，你需要在后续步骤中提供这些凭据以进行身份验证。如果你此时更改 root 用户凭据，请确保在整个过程中保持一致。
   :::
 
 ```shell
-mkdir -p ${HOME}/minio/data
-
-docker run -d \
-   --name minio \
-   --user $(id -u):$(id -g) \
-   --net=host \
-   -e "MINIO_ROOT_USER=ROOTUSER" \
-   -e "MINIO_ROOT_PASSWORD=CHANGEME123" \
-   -v ${HOME}/minio/data:/data \
-   minio/minio server /data --console-address ":9001"
+docker run -d --name minio \
+  -e "MINIO_ACCESS_KEY=ROOTUSER" \
+  -e "MINIO_SECRET_KEY=CHANGEME123" \
+  -p 9000:9000 \
+  -p 9001:9001 \
+  minio/minio server /data \
+    --address :9000 \
+    --console-address :9001
 ```
 
 2. 运行命令 `docker logs minio` 以在日志消息中查找 MinIO API 和控制台 (WebUI) 地址：
 
 ```shell
 docker logs minio
-
-Formatting 1st pool, 1 set(s), 1 drives per set.
-WARNING: Host local has more than 0 drives of set. A host failure will result in data becoming unavailable.
-MinIO Object Storage Server
-Copyright: 2015-2024 MinIO, Inc.
-License: GNU AGPLv3 [https://www.gnu.org/licenses/agpl-3.0.html](https://www.gnu.org/licenses/agpl-3.0.html)
-Version: RELEASE.2024-04-06T05-26-02Z (go1.21.9 linux/amd64)
-
-// highlight-next-line
-API: http://172.31.15.63:9000  http://172.17.0.1:9000  http://127.0.0.1:9000
-// highlight-next-line
-WebUI: http://172.31.15.63:9001 http://172.17.0.1:9001 http://127.0.0.1:9001
-
-Docs: https://min.io/docs/minio/linux/index.html
-Status:         1 Online, 0 Offline.
-STARTUP WARNINGS:
-- The standard parity is set to 0. This can lead to data loss.
 ```
 
-3. 在本地计算机上打开 Web 浏览器，然后使用上面日志中显示的 WebUI 地址访问 MinIO 控制台（将 IP 地址替换为实例的公有 IP 地址）。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，则您的 MinIO 控制台地址将是 `http://3.142.131.212:9001`。
+```
+INFO: WARNING: MINIO_ACCESS_KEY and MINIO_SECRET_KEY are deprecated.
+         Please use MINIO_ROOT_USER and MINIO_ROOT_PASSWORD
+INFO: Formatting 1st pool, 1 set(s), 1 drives per set.
+INFO: WARNING: Host local has more than 0 drives of set. A host failure will result in data becoming unavailable.
+MinIO Object Storage Server
+Copyright: 2015-2025 MinIO, Inc.
+License: GNU AGPLv3 - https://www.gnu.org/licenses/agpl-3.0.html
+Version: RELEASE.2025-04-03T14-56-28Z (go1.24.2 linux/arm64)
+
+API: http://172.17.0.2:9000  http://127.0.0.1:9000
+WebUI: http://172.17.0.2:9001 http://127.0.0.1:9001
+
+Docs: https://docs.min.io
+INFO:
+ You are running an older version of MinIO released 5 days before the latest release
+ Update: Run `mc admin update ALIAS`
+```
+
+3. 在本地机器上打开 Web 浏览器，然后使用日志中显示的 WebUI 地址 (`http://127.0.0.1:9001`) 访问 MinIO 控制台。
 
 ![Alt text](/img/deploy/docker-minio.png)
 
@@ -87,123 +69,126 @@ STARTUP WARNINGS:
 
 ![Alt text](/img/deploy/docker-bucket.png)
 
-</StepContent>
-
-<StepContent number="3">
-
 ### 部署 Databend
 
 1. 使用以下命令拉取 Databend 镜像并将其作为容器运行：
 
 :::note
 
-- 将 `AWS_S3_ENDPOINT` 值替换为 `docker logs minio` 返回的 MinIO 日志消息中显示的 MinIO API 地址。
-- 启动 Databend Docker 容器时，您可以使用环境变量 `QUERY_DEFAULT_USER` 和 `QUERY_DEFAULT_PASSWORD` 指定用户名和密码。如果未提供这些变量，则将创建一个没有密码的默认 root 用户。
-- 以下命令还会创建一个 SQL 用户 (`databend`/`databend`)，您需要使用该用户连接到 Databend。如果您此时更改 SQL 用户，请确保在整个过程中保持一致。
+- 启动 Databend Docker 容器时，可以使用环境变量 `QUERY_DEFAULT_USER` 和 `QUERY_DEFAULT_PASSWORD` 指定用户名和密码。如果未提供这些变量，将创建一个没有密码的默认 root 用户。
+- 以下命令还会创建一个 SQL 用户 (`databend`/`databend`)，你将需要使用该用户稍后连接到 Databend。如果你此时更改 SQL 用户，请确保在整个过程中保持一致。
   :::
 
 ```shell
 docker run -d \
-    --name databend \
-    --net=host \
-    -v meta_storage_dir:/var/lib/databend/meta \
-    -v log_dir:/var/log/databend \
-    -e QUERY_DEFAULT_USER=databend \
-    -e QUERY_DEFAULT_PASSWORD=databend \
-    -e QUERY_STORAGE_TYPE=s3 \
-    -e AWS_S3_ENDPOINT=http://172.31.15.63:9000 \
-    -e AWS_S3_BUCKET=databend \
-    -e AWS_ACCESS_KEY_ID=ROOTUSER \
-    -e AWS_SECRET_ACCESS_KEY=CHANGEME123 \
-    datafuselabs/databend
+  --name databend \
+  -p 3307:3307 \
+  -p 8000:8000 \
+  -p 8124:8124 \
+  -p 8900:8900 \
+  -e QUERY_DEFAULT_USER=databend \
+  -e QUERY_DEFAULT_PASSWORD=databend \
+  -e QUERY_STORAGE_TYPE=s3 \
+  -e AWS_S3_ENDPOINT=http://host.docker.internal:9000 \
+  -e AWS_S3_BUCKET=databend \
+  -e AWS_ACCESS_KEY_ID=ROOTUSER \
+  -e AWS_SECRET_ACCESS_KEY=CHANGEME123 \
+  datafuselabs/databend
 ```
 
 2. 运行命令 `docker logs databend` 以检查 Databend 日志消息，并确保 Databend 容器已成功启动：
 
 ```shell
 docker logs databend
+```
 
+```shell
 ==> QUERY_CONFIG_FILE is not set, using default: /etc/databend/query.toml
 ==> /tmp/std-meta.log <==
-<jemalloc>: Number of CPUs detected is not deterministic. Per-CPU arena disabled.
 Databend Metasrv
 
-Version: v1.2.410-4b8cd16f0c-simd(1.77.0-nightly-2024-04-08T12:27:32.972822624Z)
-Working DataVersion: V002(2023-07-22: Store snapshot in a file)
+Version: v1.2.697-d40f88cc51-simd(1.85.0-nightly-2025-02-14T11:57:01.874747910Z)
+Working DataVersion: V004(2024-11-11: WAL based raft-log)
 
 Raft Feature set:
-    Server Provide: { append:v0, install_snapshot:v0, install_snapshot:v1, vote:v0 }
-    Client Require: { append:v0, install_snapshot:v0, vote:v0 }
+    Server Provide: { append:v0, install_snapshot:v1, install_snapshot:v3, vote:v0 }
+    Client Require: { append:v0, install_snapshot:v3, vote:v0 }
 
-On Disk Data:
-    Dir: /var/lib/databend/meta
-    DataVersion: V001(2023-05-15: Get rid of compat, use only openraft v08 data types)
-    In-Upgrading: None
+Disk  Data: V002(2023-07-22: Store snapshot in a file); Upgrading: None
+      Dir: /var/lib/databend/meta
 
-Log:
-    File: enabled=true, level=INFO, dir=/var/log/databend, format=json
-    Stderr: enabled=false(To enable: LOG_STDERR_ON=true or RUST_LOG=info), level=WARN, format=text
-    OTLP: enabled=false, level=INFO, endpoint=http://127.0.0.1:4317, labels=
-    Tracing: enabled=false, capture_log_level=INFO, otlp_endpoint=http://127.0.0.1:4317
-Id: 0
-Raft Cluster Name: foo_cluster
-Raft Dir: /var/lib/databend/meta
-Raft Status: single
+Log   File:   enabled=true, level='Warn,databend_=Info,openraft=Info', dir=/var/log/databend, format=json, limit=48
+      Stderr: enabled=false(To enable: LOG_STDERR_ON=true or RUST_LOG=info), level=WARN, format=text
+Raft  Id: 0; Cluster: foo_cluster
+      Dir: /var/lib/databend/meta
+      Status: single
 
-HTTP API
-   listening at 127.0.0.1:28002
-gRPC API
-   listening at 127.0.0.1:9191
-   advertise:  -
-Raft API
-   listening at 127.0.0.1:28004
-   advertise:  ip-172-31-15-63:28004
+HTTP API listen at: 127.0.0.1:28002
+gRPC API listen at: 127.0.0.1:9191 advertise: -
+Raft API listen at: 127.0.0.1:28004 advertise: 055b9e5d09a9:28004
 
+Upgrade ondisk data if out of date: V002
+    Find and clean previous unfinished upgrading
 Upgrade on-disk data
-    From: V001(2023-05-15: Get rid of compat, use only openraft v08 data types)
-    To:   V002(2023-07-22: Store snapshot in a file)
-Begin upgrading: version: V001, upgrading: V002
-Write header: version: V001, upgrading: V002
-tree raft_state not found
-tree raft_log not found
-Found state machine trees: []
-Found min state machine id: 18446744073709551615
-No state machine tree, skip upgrade
-Finished upgrading: version: V002, upgrading: None
-Write header: version: V002, upgrading: None
+    From: V002(2023-07-22: Store snapshot in a file)
+    To:   V003(2024-06-27: Store snapshot in rotbl)
+    No V002 snapshot, skip upgrade
+    Finished upgrading: V003
+Upgrade on-disk data
+    From: V003(2024-06-27: Store snapshot in rotbl)
+    To:   V004(2024-11-11: WAL based raft-log)
+    Upgrade V003 raft log in sled db to V004
+    Clean upgrading: V003 -> V004 (cleaning)
+    Remove V003 log from sled db
+        Removing sled tree: header
+        Removing sled tree: raft_log
+        Removing sled tree: raft_state
+    Done: Remove V003 log from sled db
+        Removing: /var/lib/databend/meta/heap
+        Removing: /var/lib/databend/meta/conf
+        Removing: /var/lib/databend/meta/db
+        Removing: /var/lib/databend/meta/DO_NOT_USE_THIS_DIRECTORY_FOR_ANYTHING
+    Finished upgrading: V004
+Upgrade ondisk data finished: V004
 Wait for 180s for active leader...
 Leader Id: 0
-    Metrics: id=0, Leader, term=1, last_log=Some(3), last_applied=Some(1-0-3), membership={log_id:Some(1-0-3), voters:[{0:{EmptyNode}}], learners:[]}
+    Metrics: id=0, Leader, term=1, last_log=Some(3), last_applied=Some(T1-N0.3), membership={log_id:Some(T1-N0.3), {voters:[{0:EmptyNode}], learners:[]}}
 
-Register this node: {id=0 raft=ip-172-31-15-63:28004 grpc=}
+Register this node: {id=0 raft=055b9e5d09a9:28004 grpc=}
 
     Register-node: Ok
 
 Databend Metasrv started
 
 ==> /tmp/std-query.log <==
-<jemalloc>: Number of CPUs detected is not deterministic. Per-CPU arena disabled.
 Databend Query
 
-Version: v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:20:44.288903419Z)
+Version: v1.2.697-d40f88cc51(rust-1.85.0-nightly-2025-02-14T11:30:59.842308760Z)
 
 Logging:
-    file: enabled=true, level=INFO, dir=/var/log/databend, format=json
+    file: enabled=true, level='INFO', dir=/var/log/databend, format=json, limit=48
     stderr: enabled=false(To enable: LOG_STDERR_ON=true or RUST_LOG=info), level=WARN, format=text
-    otlp: enabled=false, level=INFO, endpoint=http://127.0.0.1:4317, labels=
-    query: enabled=false, dir=, otlp_endpoint=, labels=
-    tracing: enabled=false, capture_log_level=INFO, otlp_endpoint=http://127.0.0.1:4317
+
 Meta: connected to endpoints [
     "0.0.0.0:9191",
 ]
+
 Memory:
     limit: unlimited
     allocator: jemalloc
     config: percpu_arena:percpu,oversize_threshold:0,background_thread:true,dirty_decay_ms:5000,muzzy_decay_ms:5000
+
 Cluster: standalone
-Storage: s3 | bucket=databend,root=,endpoint=http://172.31.15.63:9000
-Cache: none
+
+Storage: s3 | bucket=databend,root=,endpoint=http://host.docker.internal:9000
+Disk cache:
+    storage: none
+    path: DiskCacheConfig { max_bytes: 21474836480, path: "./.databend/_cache", sync_data: true }
+    reload policy: reset
+
 Builtin users: databend
+
+Builtin UDFs:
 
 Admin
     listened at 0.0.0.0:8080
@@ -219,42 +204,34 @@ Databend HTTP
     usage:  curl -u${USER} -p${PASSWORD}: --request POST '0.0.0.0:8000/v1/query/' --header 'Content-Type: application/json' --data-raw '{"sql": "SELECT avg(number) FROM numbers(100000000)"}'
 ```
 
-</StepContent>
-
-<StepContent number="4">
-
 ### 连接到 Databend
 
-在此步骤中，您将使用本地计算机上的 [BendSQL](../../../30-sql-clients/00-bendsql/index.md) 连接到 Databend。
-
-1. 将 BendSQL 安装到您的本地计算机。有关说明，请参见 [安装 BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql)。
-
-2. 在本地计算机上启动终端，然后运行命令 `bendsql -h <instance_public_ip> -u databend -p databend` 以建立与 Databend 的连接。例如，如果您的实例的公有 IP 地址是 `3.142.131.212`，则该命令将是 `bendsql -h 3.142.131.212 -u databend -p databend`。
+在本地机器上启动一个终端，然后运行以下命令以连接到 Databend：
 
 ```shell
-bendsql -h 3.142.131.212 -u databend -p databend
-
-Welcome to BendSQL 0.16.0-homebrew.
-Connecting to 3.142.131.212:8000 as user databend.
-Connected to Databend Query v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:20:44.288903419Z)
+bendsql -u databend -p databend
 ```
 
-一切就绪！现在，您可以执行一个简单的查询来验证部署：
+```shell
+Welcome to BendSQL 0.24.1-f1f7de0(2024-12-04T12:31:18.526234000Z).
+Connecting to localhost:8000 as user databend.
+Connected to Databend Query v1.2.697-d40f88cc51(rust-1.85.0-nightly-2025-02-14T11:30:59.842308760Z)
+Loaded 1411 auto complete keywords from server.
+Started web server at 127.0.0.1:8080
+```
+
+一切就绪！现在，你可以执行一个简单的查询来验证部署：
 
 ```sql
-databend@3.142.131.212:8000/default> select now();
+databend@localhost:8000/default> SELECT NOW();
 
-SELECT
-  NOW()
+SELECT NOW()
 
 ┌────────────────────────────┐
 │            now()           │
 │          Timestamp         │
 ├────────────────────────────┤
-│ 2024-04-17 17:53:56.307155 │
+│ 2025-04-10 03:14:06.778815 │
 └────────────────────────────┘
-1 row read in 0.178 sec. Processed 1 row, 1 B (5.62 row/s, 5 B/s)
+1 row read in 0.003 sec. Processed 1 row, 1 B (333.33 rows/s, 333 B/s)
 ```
-
-</StepContent>
-</StepsWrap>
