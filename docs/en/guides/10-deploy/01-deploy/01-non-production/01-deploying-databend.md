@@ -169,7 +169,7 @@ For information about how to manage buckets and Access Keys for your CubeFS, ref
 ### Download Databend
 
 1. Create a folder named `databend` in the `/usr/local` directory.
-2. Download the latest Databend release for your platform from the [GitHub Release](https://github.com/databendlabs/databend/releases) page.
+2. Download the latest Databend release for your platform (Linux `aarch64` or `x86_64`) from the [GitHub Release](https://github.com/databendlabs/databend/releases) page.
 3. Extract the downloaded package into `/usr/local/databend`.
 
 </StepContent>
