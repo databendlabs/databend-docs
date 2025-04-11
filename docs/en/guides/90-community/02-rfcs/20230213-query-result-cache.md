@@ -129,7 +129,7 @@ Databend will validate the `ResultCacheValue` by the cache key (AST) from `datab
 
 ### System table `system.query_cache`
 
-System table `system.query.cache` is used to look up query result cache information.
+System table `system.query_cache` is used to look up query result cache information.
 
 The table contains such information:
 
