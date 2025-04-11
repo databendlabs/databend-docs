@@ -11,15 +11,11 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="Introduced or updated: v1.2.168"/>
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='Storage Encryption'/>
-
-本主题介绍如何使用对象存储部署 Databend。有关支持的对象存储解决方案的列表，请参阅 [了解部署模式](../00-understanding-deployment-modes.md)。
+本主题介绍如何使用对象存储部署 Databend。有关支持的对象存储解决方案的列表，请参见 [了解部署模式](../00-understanding-deployment-modes.md)。
 
 ### 开始之前
 
-在部署 Databend 之前，请确保您已成功设置对象存储并下载了最新版本的 Databend。
+在部署 Databend 之前，请确保已成功设置对象存储并下载最新版本的 Databend。
 
 <StepsWrap>
 <StepContent number="1">
@@ -53,7 +49,7 @@ import TabItem from '@theme/TabItem';
 base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 ```
 
-上面的命令将生成一个名为 `base64-encoded-key.txt` 的文件，其中包含您随后将在 `databend-query.toml` 配置文件中配置连接的凭据。
+上面的命令将生成一个名为 `base64-encoded-key.txt` 的文件，其中包含您随后将在 `databend-query.toml` 配置文件中用于配置连接的凭据。
 
 </TabItem>
 
@@ -142,7 +138,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 2. 获取用于连接到您创建的存储桶或容器的端点 URL。
 3. 获取您账户的访问密钥 ID 和秘密访问密钥。
 
-有关如何管理 MinIO 的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
+有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
 - [https://min.io/docs/minio/container/index.html](https://min.io/docs/minio/container/index.html)
 - [https://min.io/docs/minio/container/administration/console/managing-objects.html](https://min.io/docs/minio/container/administration/console/managing-objects.html)
@@ -157,7 +153,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 3. 获取用于连接到您创建的存储桶或容器的端点 URL。
 4. 获取您账户的访问密钥 ID 和秘密访问密钥。
 
-有关如何管理 CubeFS 的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
+有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
 - [https://cubefs.io/docs/master/quick-start/node.html](https://cubefs.io/docs/master/quick-start/node.html)
 - [https://cubefs.io/docs/master/user-guide/objectnode.html](https://cubefs.io/docs/master/user-guide/objectnode.html)
@@ -172,40 +168,9 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 ### 下载 Databend
 
-1. 在目录 `/usr/local` 中创建一个名为 `databend` 的文件夹。
-2. 从 [GitHub Release](https://github.com/databendlabs/databend/releases) 下载并提取适用于您平台的最新 Databend 版本：
-
-<Tabs>
-<TabItem value="linux-x86_64" label="Linux(x86)">
-
-<Version>
-```shell
-curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-x86_64-unknown-linux-musl.tar.gz
-```
-
-```shell
-tar xzvf databend-[version]-x86_64-unknown-linux-musl.tar.gz
-```
-
-</Version>
-
-</TabItem>
-<TabItem value="linux-arm64" label="Linux(Arm)">
-
-<Version>
-```shell
-curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-aarch64-unknown-linux-musl.tar.gz
-```
-
-```shell
-tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
-```
-
-</Version>
-</TabItem>
-</Tabs>
-
-3. 将提取的文件夹 `bin`、`configs` 和 `scripts` 移动到文件夹 `/usr/local/databend`。
+1. 在 `/usr/local` 目录中创建一个名为 `databend` 的文件夹。
+2. 从 [GitHub Release](https://github.com/databendlabs/databend/releases) 页面下载适用于您平台的最新 Databend 版本（Linux `aarch64` 或 `x86_64`）。
+3. 将下载的软件包解压到 `/usr/local/databend`。
 
 </StepContent>
 
@@ -220,7 +185,7 @@ tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
 
 ### 启动 Meta 节点
 
-1. 打开一个终端窗口，导航到文件夹 `/usr/local/databend/bin`。
+1. 打开一个终端窗口，然后导航到文件夹 `/usr/local/databend/bin`。
 2. 运行以下命令以启动 Meta 节点：
 
 ```shell
@@ -308,9 +273,7 @@ type = "azblob"
 
 [storage.azblob]
 endpoint_url = "https://<your-storage-account-name>.blob.core.windows.net"
-```
 
-```md
 # https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container
 container = "my_bucket"
 account_name = "<your-storage-account-name>"
@@ -324,7 +287,8 @@ account_key = "<your-account-key>"
 <!-- #ifcndef -->
 <TabItem value="Tencent COS" label="Tencent COS">
 
-当指定 `endpoint_url` 参数时，请确保从存储桶的 endpoint 中排除 `<BucketName-APPID>` 部分。例如，如果您的存储桶 endpoint 是 `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`，请使用 `https://cos.ap-beijing.myqcloud.com`。有关各个区域中的腾讯 COS endpoint，请参阅 https://www.tencentcloud.com/document/product/436/6224。
+指定 `endpoint_url` 参数时，请确保从存储桶的端点中排除 `<BucketName-APPID>` 部分。例如，如果您的存储桶端点是 `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`，请使用 `https://cos.ap-beijing.myqcloud.com`。有关各个区域中的腾讯 COS 端点，请参阅 https://www.tencentcloud.com/document/product/436/6224。
+
 
 ```toml title='databend-query.toml'
 [storage]
@@ -337,7 +301,7 @@ type = "cos"
 // highlight-next-line
 bucket = "my_bucket"
 
-# 以下示例中，区域为北京 (ap-beijing)。
+# 以下是区域为北京 (ap-beijing) 的示例。
 // highlight-next-line
 endpoint_url = "https://cos.ap-beijing.myqcloud.com"
 
@@ -385,12 +349,12 @@ Databend 企业版支持 OSS 中的服务端加密。此功能使您能够通过
 
 | Parameter                     | Description                                                                                                                                                                              | Available Values                                        |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| server_side_encryption        | 指定 OSS 数据的服务端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用在 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
+| server_side_encryption        | 指定 OSS 数据的服务端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 利用 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
 | server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务端加密密钥 ID。它仅在使用 KMS 加密模式时适用。      | 字符串，KMS 加密密钥的唯一标识符。 |
 
 </TabItem>
 
-<TabItem value="QingCloud QingStor" label="QingCloud QingStor">
+<TabItem value="QingCloud QingStor" label="青云 QingStor">
 
 ```toml title='databend-query.toml'
 [storage]
@@ -499,7 +463,7 @@ secret_access_key = "<your-access-key>"
 
 </Tabs>
 
-3. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参阅 [配置管理员用户](../../04-references/01-admin-users.md)。要继续使用默认的 root 用户和 "no_password" 身份验证类型，请确保删除文件 `databend-query.toml` 中以下行之前的 '#' 字符：
+3. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参见 [配置管理员用户](../../04-references/01-admin-users.md)。要继续使用默认的 root 用户和 "no_password" 身份验证类型，请确保删除文件 `databend-query.toml` 中以下行之前的 '#' 字符：
 
 :::caution
 在本教程中使用 "no_password" 身份验证 root 用户只是一个示例，由于潜在的安全风险，不建议在生产环境中使用。
@@ -544,7 +508,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 步骤 3：验证部署
 
-在此步骤中，您将使用 [BendSQL](https://github.com/databendlabs/BendSQL) 运行一个简单的查询来验证 Databend 的部署。
+在此步骤中，您将使用 [BendSQL](https://github.com/databendlabs/BendSQL) 针对 Databend 运行一个简单的查询，以验证部署。
 
 <StepsWrap>
 
@@ -562,48 +526,31 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 启动 BendSQL 并检索当前时间以进行验证。
 
+```bash
+➜  ~ bendsql
+Welcome to BendSQL 0.24.7-ff9563a(2024-12-27T03:23:17.723492000Z).
+Connecting to localhost:8000 as user root.
+Connected to Databend Query v1.2.714-nightly-59a3e4bd20(rust-1.85.0-nightly-2025-03-30T09:36:19.609323900Z)
+Loaded 1406 auto complete keywords from server.
+Started web server at 127.0.0.1:8080
+
+root@localhost:8000/default> SELECT NOW();
+
+SELECT NOW()
+
+┌────────────────────────────┐
+│            now()           │
+│          Timestamp         │
+├────────────────────────────┤
+│ 2025-04-11 02:36:18.343596 │
+└────────────────────────────┘
+1 row read in 0.004 sec. Processed 1 row, 1 B (250 rows/s, 250 B/s)
+
+root@localhost:8000/default>
+```
+
 </StepContent>
 </StepsWrap>
-
-### 启动/停止 Databend
-
-每次启动或停止 Databend 时，无需单独管理 Meta 和 Query 节点。执行 `/usr/local/databend/scripts` 目录中的脚本，以通过一次运行处理两个节点：
-
-```shell
-# 启动 Databend
-./scripts/start.sh
-
-# 停止 Databend
-# 此脚本使用 KILLALL 命令。如果未安装，请为您的系统安装 psmisc 软件包。
-# 例如，在 CentOS 上：yum install psmisc
-./scripts/stop.sh
-```
-
-<DetailsWrap>
-<details>
-  <summary>权限被拒绝？</summary>
-  <div>
-    如果您在尝试启动 Databend 时遇到以下错误消息：
-
-```shell
-==> query.log <==
-: No getcpu support: percpu_arena:percpu
-: option background_thread currently supports pthread only
-Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
-```
-
-运行以下命令，然后再次尝试启动 Databend：
-
-```shell
-sudo mkdir /var/log/databend
-sudo mkdir /var/lib/databend
-sudo chown -R $USER /var/log/databend
-sudo chown -R $USER /var/lib/databend
-```
-
-  </div>
-</details>
-</DetailsWrap>
 
 ### 后续步骤
 
