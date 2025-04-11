@@ -11,10 +11,6 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="Introduced or updated: v1.2.168"/>
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='Storage Encryption'/>
-
 This topic explains how to deploy Databend with your object storage. For a list of supported object storage solutions, see [Understanding Deployment Modes](../00-understanding-deployment-modes.md).
 
 ### Before You start
@@ -172,40 +168,9 @@ For information about how to manage buckets and Access Keys for your CubeFS, ref
 
 ### Download Databend
 
-1. Create a folder named `databend` in the directory `/usr/local`.
-2. Download and extract the latest Databend release for your platform from [GitHub Release](https://github.com/databendlabs/databend/releases):
-
-<Tabs>
-<TabItem value="linux-x86_64" label="Linux(x86)">
-
-<Version>
-```shell
-curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-x86_64-unknown-linux-musl.tar.gz
-```
-
-```shell
-tar xzvf databend-[version]-x86_64-unknown-linux-musl.tar.gz
-```
-
-</Version>
-
-</TabItem>
-<TabItem value="linux-arm64" label="Linux(Arm)">
-
-<Version>
-```shell
-curl -LJO https://repo.databend.com/databend/[version]/databend-[version]-aarch64-unknown-linux-musl.tar.gz
-```
-
-```shell
-tar xzvf databend-[version]-aarch64-unknown-linux-musl.tar.gz
-```
-
-</Version>
-</TabItem>
-</Tabs>
-
-3. Move the extracted folders `bin`, `configs`, and `scripts` to the folder `/usr/local/databend`.
+1. Create a folder named `databend` in the `/usr/local` directory.
+2. Download the latest Databend release for your platform (Linux `aarch64` or `x86_64`) from the [GitHub Release](https://github.com/databendlabs/databend/releases) page.
+3. Extract the downloaded package into `/usr/local/databend`.
 
 </StepContent>
 
@@ -560,48 +525,31 @@ Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installi
 
 Launch BendSQL and retrieve the current time for verification.
 
+```bash
+➜  ~ bendsql
+Welcome to BendSQL 0.24.7-ff9563a(2024-12-27T03:23:17.723492000Z).
+Connecting to localhost:8000 as user root.
+Connected to Databend Query v1.2.714-nightly-59a3e4bd20(rust-1.85.0-nightly-2025-03-30T09:36:19.609323900Z)
+Loaded 1406 auto complete keywords from server.
+Started web server at 127.0.0.1:8080
+
+root@localhost:8000/default> SELECT NOW();
+
+SELECT NOW()
+
+┌────────────────────────────┐
+│            now()           │
+│          Timestamp         │
+├────────────────────────────┤
+│ 2025-04-11 02:36:18.343596 │
+└────────────────────────────┘
+1 row read in 0.004 sec. Processed 1 row, 1 B (250 rows/s, 250 B/s)
+
+root@localhost:8000/default>
+```
+
 </StepContent>
 </StepsWrap>
-
-### Starting / Stopping Databend
-
-Each time you initiate or halt Databend, there's no need to manage the Meta and Query nodes individually. Execute the scripts in the `/usr/local/databend/scripts` directory to handle both nodes with a single run:
-
-```shell
-# Start Databend
-./scripts/start.sh
-
-# Stop Databend
-# This script employs the KILLALL command. If not installed, please install the psmisc package for your system.
-# For example, on CentOS: yum install psmisc
-./scripts/stop.sh
-```
-
-<DetailsWrap>
-<details>
-  <summary>Permission denied?</summary>
-  <div>
-    If you encounter the subsequent error messages while attempting to start Databend:
-
-```shell
-==> query.log <==
-: No getcpu support: percpu_arena:percpu
-: option background_thread currently supports pthread only
-Databend Query start failure, cause: Code: 1104, Text = failed to create appender: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }.
-```
-
-Run the following commands and try starting Databend again:
-
-```shell
-sudo mkdir /var/log/databend
-sudo mkdir /var/lib/databend
-sudo chown -R $USER /var/log/databend
-sudo chown -R $USER /var/lib/databend
-```
-
-  </div>
-</details>
-</DetailsWrap>
 
 ### Next Steps
 
