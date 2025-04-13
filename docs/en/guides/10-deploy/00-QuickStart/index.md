@@ -113,7 +113,9 @@ CREATE TABLE t_person (
 COPY INTO t_person FROM @mystage PATTERN='.*[.]csv' FILE_FORMAT=(TYPE=CSV, SKIP_HEADER=1);
 
 ```
+
 | File      | Rows_loaded | Errors_seen | First_error      | First_error_line |
+|-----------|-------------|-------------|------------------|------------------|
 | String    | Int32       | Int32       | Nullable(String) | Nullable(Int32)  |
 | data.csv  | 5           | 0           | NULL             | NULL             |
 
