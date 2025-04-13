@@ -74,7 +74,7 @@ CONNECTION=(
   region='us-east-1'
 );
 ```
-Show the external stage @mystage file:
+Show files in the external stage @mystage:
 ```
 LIST @mystage;
 ```
