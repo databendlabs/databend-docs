@@ -81,12 +81,11 @@ LIST @mystage;
 | name     | size   | md5               | last_modified        | creator     |
 |----------|--------|-------------------|-----------------------|-------------|
 | String   | UInt64 | Nullable(String)  | String               | Nullable(String) |
-|----------|--------|-------------------|-----------------------|-------------|
 | data.csv | 104    | "a27fa15258911f534fb795a8c64e05d4" | 2025-04-12 00:51:11.015 +0000 | NULL       |
 
 Preview the CSV data:
 ```
-SELECT \$1, \$2, \$3, \$4 FROM @mystage/data.csv (FILE_FORMAT=>'CSV') LIMIT 10;
+SELECT $1, $2, $3, $4 FROM @mystage/data.csv (FILE_FORMAT=>'CSV') LIMIT 10;
 ```
 | \$1                | \$2                | \$3                | \$4                |
 |-------------------|-------------------|-------------------|-------------------|
