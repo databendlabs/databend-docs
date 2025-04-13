@@ -1,5 +1,5 @@
 ---
-title: QuikStart
+title: QuickStart
 ---
 
 Databend Quick Start: Experience Databend in 5 Minutes
@@ -133,7 +133,7 @@ SELECT * FROM t_person;
 
 🚀 Now you’ve successfully imported data into Databend! 
 
-## Alternative: Use Databend Cloud
+## Alternative: Databend Cloud
 If setting up a local environment is troublesome, you can try [Databend Cloud](https://www.databend.com) for a fully managed experience.
 
 
