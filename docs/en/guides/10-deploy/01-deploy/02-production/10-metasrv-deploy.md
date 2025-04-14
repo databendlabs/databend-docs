@@ -6,6 +6,9 @@ sidebar_label: Deploying Databend Cluster
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/10-metasrv-deploy-cnvideo.md'
+
 Databend recommends deploying a cluster with a minimum of three meta nodes and one query node for production environments. To gain a better understanding of Databend cluster deployment, see [Understanding Databend Deployments](../00-understanding-deployment-modes.md), which will familiarize you with the concept. This topic aims to provide a practical guide for deploying a Databend cluster.
 
 ## Before You Begin
@@ -244,3 +247,7 @@ After deploying Databend, you might need to learn about the following topics:
 
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
 - [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
+
+<LanguageFileParse
+cn={<VideoCN />}
+/>
