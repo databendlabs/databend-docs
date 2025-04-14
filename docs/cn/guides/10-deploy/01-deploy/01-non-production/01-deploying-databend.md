@@ -8,14 +8,16 @@ import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 import Version from '@site/src/components/Version';
 import LanguageDocs from '@site/src/components/LanguageDocs';
+import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/01-deploying-databend-cnvideo.md'
 
-<FunctionDescription description="Introduced or updated: v1.2.168"/>
+<FunctionDescription description="引入或更新：v1.2.168"/>
 
 本主题介绍如何使用对象存储部署 Databend。有关支持的对象存储解决方案的列表，请参见 [了解部署模式](../00-understanding-deployment-modes.md)。
 
 ### 开始之前
 
-在部署 Databend 之前，请确保已成功设置对象存储并下载最新版本的 Databend。
+在部署 Databend 之前，请确保您已成功设置对象存储并下载了最新版本的 Databend。
 
 <StepsWrap>
 <StepContent number="1">
@@ -42,14 +44,14 @@ import TabItem from '@theme/TabItem';
 <TabItem value="Google GCS" label="Google GCS">
 
 1. 按照 Google 文档中的主题 [创建新存储桶](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket) 创建一个名为 `my_bucket` 的存储桶。
-2. 按照 Google 文档中的主题 [创建服务帐号密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating) 创建并下载服务帐号密钥文件。
-3. 使用 Base64 编码将服务帐号密钥文件的内容转换为 Base64 编码的字符串。例如，
+2. 按照 Google 文档中的主题 [创建服务账号密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating) 创建并下载服务账号密钥文件。
+3. 使用 Base64 编码将服务账号密钥文件的内容转换为 Base64 编码的字符串。例如，
 
 ```bash
 base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 ```
 
-上面的命令将生成一个名为 `base64-encoded-key.txt` 的文件，其中包含您随后将在 `databend-query.toml` 配置文件中用于配置连接的凭据。
+上面的命令将生成一个名为 `base64-encoded-key.txt` 的文件，其中包含您随后将在 `databend-query.toml` 配置文件中配置连接时使用的凭据。
 
 </TabItem>
 
@@ -138,7 +140,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 2. 获取用于连接到您创建的存储桶或容器的端点 URL。
 3. 获取您账户的访问密钥 ID 和秘密访问密钥。
 
-有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
+有关如何管理 MinIO 的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
 - [https://min.io/docs/minio/container/index.html](https://min.io/docs/minio/container/index.html)
 - [https://min.io/docs/minio/container/administration/console/managing-objects.html](https://min.io/docs/minio/container/administration/console/managing-objects.html)
@@ -153,7 +155,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 3. 获取用于连接到您创建的存储桶或容器的端点 URL。
 4. 获取您账户的访问密钥 ID 和秘密访问密钥。
 
-有关如何管理云对象存储的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
+有关如何管理 CubeFS 的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
 
 - [https://cubefs.io/docs/master/quick-start/node.html](https://cubefs.io/docs/master/quick-start/node.html)
 - [https://cubefs.io/docs/master/user-guide/objectnode.html](https://cubefs.io/docs/master/user-guide/objectnode.html)
@@ -169,8 +171,8 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 ### 下载 Databend
 
 1. 在 `/usr/local` 目录中创建一个名为 `databend` 的文件夹。
-2. 从 [GitHub Release](https://github.com/databendlabs/databend/releases) 页面下载适用于您平台的最新 Databend 版本（Linux `aarch64` 或 `x86_64`）。
-3. 将下载的软件包解压到 `/usr/local/databend`。
+2. 从 [GitHub Release](https://github.com/databendlabs/databend/releases) 页面下载适用于您的平台（Linux `aarch64` 或 `x86_64`）的最新 Databend 版本。
+3. 将下载的软件包解压到 `/usr/local/databend` 中。
 
 </StepContent>
 
@@ -185,7 +187,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 ### 启动 Meta 节点
 
-1. 打开一个终端窗口，然后导航到文件夹 `/usr/local/databend/bin`。
+1. 打开一个终端窗口，导航到文件夹 `/usr/local/databend/bin`。
 2. 运行以下命令以启动 Meta 节点：
 
 ```shell
@@ -287,8 +289,7 @@ account_key = "<your-account-key>"
 <!-- #ifcndef -->
 <TabItem value="Tencent COS" label="Tencent COS">
 
-指定 `endpoint_url` 参数时，请确保从存储桶的端点中排除 `<BucketName-APPID>` 部分。例如，如果您的存储桶端点是 `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`，请使用 `https://cos.ap-beijing.myqcloud.com`。有关各个区域中的腾讯 COS 端点，请参阅 https://www.tencentcloud.com/document/product/436/6224。
-
+当指定 `endpoint_url` 参数时，请确保从存储桶的 endpoint 中排除 `<BucketName-APPID>` 部分。例如，如果您的存储桶 endpoint 是 `https://databend-xxxxxxxxxx.cos.ap-beijing.myqcloud.com`，请使用 `https://cos.ap-beijing.myqcloud.com`。有关各个区域中腾讯 COS endpoint 的信息，请参阅 https://www.tencentcloud.com/document/product/436/6224。
 
 ```toml title='databend-query.toml'
 [storage]
@@ -301,7 +302,7 @@ type = "cos"
 // highlight-next-line
 bucket = "my_bucket"
 
-# 以下是区域为北京 (ap-beijing) 的示例。
+# 以下示例中，区域为北京 (ap-beijing)。
 // highlight-next-line
 endpoint_url = "https://cos.ap-beijing.myqcloud.com"
 
@@ -315,7 +316,7 @@ secret_key = "<your-secret-key>"
 
 </TabItem>
 
-<TabItem value="Alibaba OSS" label="阿里云 OSS">
+<TabItem value="Alibaba OSS" label="Alibaba Cloud OSS">
 
 ```toml title='databend-query.toml'
 [storage]
@@ -349,12 +350,12 @@ Databend 企业版支持 OSS 中的服务端加密。此功能使您能够通过
 
 | Parameter                     | Description                                                                                                                                                                              | Available Values                                        |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| server_side_encryption        | 指定 OSS 数据的服务端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 利用 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
+| server_side_encryption        | 指定 OSS 数据的服务端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用在 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
 | server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务端加密密钥 ID。它仅在使用 KMS 加密模式时适用。      | 字符串，KMS 加密密钥的唯一标识符。 |
 
 </TabItem>
 
-<TabItem value="QingCloud QingStor" label="青云 QingStor">
+<TabItem value="QingCloud QingStor" label="QingCloud QingStor">
 
 ```toml title='databend-query.toml'
 [storage]
@@ -381,7 +382,7 @@ secret_access_key = "<your-access-key>"
 
 </TabItem>
 
-<TabItem value="Huawei OBS" label="华为 OBS">
+<TabItem value="Huawei OBS" label="Huawei OBS">
 
 ```toml title='databend-query.toml'
 [storage]
@@ -463,10 +464,10 @@ secret_access_key = "<your-access-key>"
 
 </Tabs>
 
-3. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参见 [配置管理员用户](../../04-references/01-admin-users.md)。要继续使用默认的 root 用户和 "no_password" 身份验证类型，请确保删除文件 `databend-query.toml` 中以下行之前的 '#' 字符：
+3. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参阅 [配置管理员用户](../../04-references/01-admin-users.md)。要继续使用默认的 root 用户和 "no_password" 身份验证类型，请确保删除文件 `databend-query.toml` 中以下行之前的 '#' 字符：
 
 :::caution
-在本教程中使用 "no_password" 身份验证 root 用户只是一个示例，由于潜在的安全风险，不建议在生产环境中使用。
+在本教程中使用 "no_password" 身份验证作为 root 用户只是一个示例，由于潜在的安全风险，不建议在生产环境中使用。
 :::
 
 ```toml title='databend-query.toml'
@@ -556,5 +557,9 @@ root@localhost:8000/default>
 
 部署 Databend 后，您可能需要了解以下主题：
 
-- [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
+- [加载 & 卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取见解。
+
+<LanguageFileParse
+cn={<VideoCN />}
+/>
