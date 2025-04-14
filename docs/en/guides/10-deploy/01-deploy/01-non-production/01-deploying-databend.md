@@ -8,6 +8,8 @@ import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 import Version from '@site/src/components/Version';
 import LanguageDocs from '@site/src/components/LanguageDocs';
+import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/01-deploying-databend-cnvideo.md'
 
 <FunctionDescription description="Introduced or updated: v1.2.168"/>
 
@@ -557,3 +559,7 @@ After deploying Databend, you might need to learn about the following topics:
 
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
 - [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
+
+<LanguageFileParse
+cn={<VideoCN />}
+/>
