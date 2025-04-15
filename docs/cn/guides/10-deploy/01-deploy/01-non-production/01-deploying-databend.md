@@ -8,8 +8,9 @@ import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 import Version from '@site/src/components/Version';
 import LanguageDocs from '@site/src/components/LanguageDocs';
-import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
-import VideoCN from '@site/docs/fragment/01-deploying-databend-cnvideo.md'
+
+<!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/01-deploying-databend-cnvideo.md' -->
 
 <FunctionDescription description="引入或更新：v1.2.168"/>
 
@@ -44,14 +45,14 @@ import TabItem from '@theme/TabItem';
 <TabItem value="Google GCS" label="Google GCS">
 
 1. 按照 Google 文档中的主题 [创建新存储桶](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket) 创建一个名为 `my_bucket` 的存储桶。
-2. 按照 Google 文档中的主题 [创建服务账号密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating) 创建并下载服务账号密钥文件。
-3. 使用 Base64 编码将服务账号密钥文件的内容转换为 Base64 编码的字符串。例如，
+2. 按照 Google 文档中的主题 [创建服务帐号密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating) 创建并下载服务帐号密钥文件。
+3. 使用 Base64 编码将服务帐号密钥文件的内容转换为 Base64 编码的字符串。例如，
 
 ```bash
 base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 ```
 
-上面的命令将生成一个名为 `base64-encoded-key.txt` 的文件，其中包含您随后将在 `databend-query.toml` 配置文件中配置连接时使用的凭据。
+上面的命令将生成一个名为 `base64-encoded-key.txt` 的文件，其中包含您随后将在 `databend-query.toml` 配置文件中用于配置连接的凭据。
 
 </TabItem>
 
@@ -172,7 +173,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 1. 在 `/usr/local` 目录中创建一个名为 `databend` 的文件夹。
 2. 从 [GitHub Release](https://github.com/databendlabs/databend/releases) 页面下载适用于您的平台（Linux `aarch64` 或 `x86_64`）的最新 Databend 版本。
-3. 将下载的软件包解压到 `/usr/local/databend` 中。
+3. 将下载的软件包解压到 `/usr/local/databend`。
 
 </StepContent>
 
@@ -187,7 +188,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 
 ### 启动 Meta 节点
 
-1. 打开一个终端窗口，导航到文件夹 `/usr/local/databend/bin`。
+1. 打开一个终端窗口，然后导航到文件夹 `/usr/local/databend/bin`。
 2. 运行以下命令以启动 Meta 节点：
 
 ```shell
@@ -302,7 +303,7 @@ type = "cos"
 // highlight-next-line
 bucket = "my_bucket"
 
-# 以下示例的区域为北京（ap-beijing）。
+# 以下示例中，区域为北京 (ap-beijing)。
 // highlight-next-line
 endpoint_url = "https://cos.ap-beijing.myqcloud.com"
 
@@ -344,14 +345,14 @@ access_key_id = "<your-key-id>"
 access_key_secret = "<your-access-key>"
 ```
 
-Databend 企业版支持 OSS 中的服务端加密。此功能使您能够通过激活存储在 OSS 中的数据的服务端加密来增强数据安全性和隐私。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参阅 [Databend 授权](../../../00-products/01-dee/20-license.md)。
+Databend 企业版支持 OSS 中的服务器端加密。此功能使您能够通过为存储在 OSS 中的数据激活服务器端加密来增强数据安全性和隐私。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参阅 [Databend 授权](../../../00-products/01-dee/20-license.md)。
 
-要在 Databend 中启用服务端加密，请将以下参数添加到 [storage.oss] 部分：
+要在 Databend 中启用服务器端加密，请将以下参数添加到 [storage.oss] 部分：
 
 | Parameter                     | Description                                                                                                                                                                              | Available Values                                        |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| server_side_encryption        | 指定 OSS 数据的服务端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用在 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
-| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务端加密密钥 ID。它仅在使用 KMS 加密模式时适用。      | 字符串，KMS 加密密钥的唯一标识符。 |
+| server_side_encryption        | 指定 OSS 数据的服务器端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用在 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
+| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务器端加密密钥 ID。它仅在使用 KMS 加密模式时适用。      | 字符串，KMS 加密密钥的唯一标识符。 |
 
 </TabItem>
 
@@ -557,9 +558,9 @@ root@localhost:8000/default>
 
 部署 Databend 后，您可能需要了解以下主题：
 
-- [加载 & 卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
+- [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取见解。
 
-<LanguageFileParse
+<!-- <LanguageFileParse
 cn={<VideoCN />}
-/>
+/> -->
