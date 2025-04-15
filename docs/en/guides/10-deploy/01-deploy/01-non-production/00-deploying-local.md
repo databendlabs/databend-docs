@@ -2,8 +2,8 @@
 title: Deploying on Docker
 ---
 
-import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
-import VideoCN from '@site/docs/fragment/01-deploying-local-cnvideo.md'
+<!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/01-deploying-local-cnvideo.md' -->
 
 This guide walks you through deploying Databend with [MinIO](https://min.io/) using [Docker](https://www.docker.com/) for a fully containerized setup on your local machine.
 
@@ -239,6 +239,6 @@ SELECT NOW()
 1 row read in 0.003 sec. Processed 1 row, 1 B (333.33 rows/s, 333 B/s)
 ```
 
-<LanguageFileParse
+<!-- <LanguageFileParse
 cn={<VideoCN />}
-/>
+/> -->

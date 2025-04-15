@@ -4,8 +4,8 @@ sidebar_label: Deploying a Cluster on Kubernetes
 description: How to Databend a Databend query cluster on Kubernetes.
 ---
 
-import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
-import VideoCN from '@site/docs/fragment/02-deploying-databend-on-kubernetes-cnvideo.md'
+<!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/02-deploying-databend-on-kubernetes-cnvideo.md' -->
 
 This topic explains how to install and configure the Databend cluster on Kubernetes.
 
@@ -624,6 +624,6 @@ After deploying Databend, you might need to learn about the following topics:
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
 - [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
 
-<LanguageFileParse
+<!-- <LanguageFileParse
 cn={<VideoCN />}
-/>
+/> -->
