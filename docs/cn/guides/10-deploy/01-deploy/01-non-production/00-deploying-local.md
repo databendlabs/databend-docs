@@ -2,16 +2,16 @@
 title: 在 Docker 上部署
 ---
 
-import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
-import VideoCN from '@site/docs/fragment/01-deploying-local-cnvideo.md'
+<!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/01-deploying-local-cnvideo.md' -->
 
-本指南将引导你使用 [Docker](https://www.docker.com/) 和 [MinIO](https://min.io/) 部署 Databend，以便在你的本地机器上进行完全容器化的设置。
+本指南将引导你使用 [Docker](https://www.docker.com/) 和 [MinIO](https://min.io/) 部署 Databend，以便在本地机器上进行完全容器化的设置。
 
 :::note non-production use only
 本指南中介绍的 MinIO 部署仅适用于开发和演示。由于单机环境中的资源有限，因此不建议将其用于生产环境或性能测试。
 :::
 
-### 准备工作
+### 开始之前
 
 在开始之前，请确保你已具备以下先决条件：
 
@@ -20,12 +20,12 @@ import VideoCN from '@site/docs/fragment/01-deploying-local-cnvideo.md'
 
 ### 部署 MinIO
 
-1. 使用以下命令拉取 MinIO 镜像并将其作为容器运行：
+1. 使用以下命令拉取并运行 MinIO 镜像作为容器：
 
 :::note
 
 - 我们在这里将控制台地址更改为 `9001`，以避免端口冲突。
-- 该命令还设置了 root 用户凭据（`ROOTUSER`/`CHANGEME123`），你需要在后续步骤中提供这些凭据进行身份验证。如果你在此处更改 root 用户凭据，请确保在整个过程中保持一致。
+- 该命令还设置了 root 用户凭据 (`ROOTUSER`/`CHANGEME123`)，你需要在后续步骤中提供这些凭据进行身份验证。如果你此时更改 root 用户凭据，请确保在整个过程中保持一致。
   :::
 
 ```shell
@@ -64,7 +64,7 @@ INFO:
  Update: Run `mc admin update ALIAS`
 ```
 
-3. 在本地机器上打开 Web 浏览器，然后使用上面日志中显示的 WebUI 地址 (`http://127.0.0.1:9001`) 访问 MinIO 控制台。
+3. 在本地机器上打开 Web 浏览器，然后使用日志中显示的 WebUI 地址 (`http://127.0.0.1:9001`) 访问 MinIO 控制台。
 
 ![Alt text](/img/deploy/docker-minio.png)
 
@@ -74,12 +74,12 @@ INFO:
 
 ### 部署 Databend
 
-1. 使用以下命令拉取 Databend 镜像并将其作为容器运行：
+1. 使用以下命令拉取并运行 Databend 镜像作为容器：
 
 :::note
 
-- 启动 Databend Docker 容器时，可以使用环境变量 `QUERY_DEFAULT_USER` 和 `QUERY_DEFAULT_PASSWORD` 指定用户名和密码。如果未提供这些变量，则将创建一个没有密码的默认 root 用户。
-- 以下命令还会创建一个 SQL 用户 (`databend`/`databend`)，你将需要使用该用户连接到 Databend。如果你在此处更改 SQL 用户，请确保在整个过程中保持一致。
+- 启动 Databend Docker 容器时，可以使用环境变量 `QUERY_DEFAULT_USER` 和 `QUERY_DEFAULT_PASSWORD` 指定用户名和密码。如果未提供这些变量，将创建一个没有密码的默认 root 用户。
+- 以下命令还会创建一个 SQL 用户 (`databend`/`databend`)，你将需要使用该用户稍后连接到 Databend。如果你此时更改 SQL 用户，请确保在整个过程中保持一致。
   :::
 
 ```shell
@@ -239,6 +239,6 @@ SELECT NOW()
 1 row read in 0.003 sec. Processed 1 row, 1 B (333.33 rows/s, 333 B/s)
 ```
 
-<LanguageFileParse
+<!-- <LanguageFileParse
 cn={<VideoCN />}
-/>
+/> -->

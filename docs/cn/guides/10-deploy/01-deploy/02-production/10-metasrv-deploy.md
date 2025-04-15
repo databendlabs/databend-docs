@@ -6,22 +6,22 @@ sidebar_label: 部署 Databend 集群
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
-import VideoCN from '@site/docs/fragment/10-metasrv-deploy-cnvideo.md'
+<!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/10-metasrv-deploy-cnvideo.md' -->
 
-Databend 建议在生产环境中部署至少包含三个 meta 节点和一个 query 节点的集群。为了更好地理解 Databend 集群的部署，请参考 [了解 Databend 部署模式](../00-understanding-deployment-modes.md)，这将帮助您熟悉相关概念。本主题旨在为部署 Databend 集群提供一个实用的指南。
+Databend 建议在生产环境中部署至少包含三个 meta 节点和一个 query 节点的集群。为了更好地理解 Databend 集群的部署，请参考 [了解 Databend 部署模式](../00-understanding-deployment-modes.md)，这将帮助您熟悉相关概念。本主题旨在为部署 Databend 集群提供实用的指南。
 
 ## 准备工作
 
 在开始之前，请确保您已完成以下准备工作：
 
-- 规划您的部署。本主题基于以下集群部署计划，该计划涉及设置一个包含三个 meta 节点的 meta 集群和一个包含两个 query 节点的 query 集群：
+- 规划您的部署。本主题基于以下集群部署计划，包括设置一个包含三个 meta 节点的 meta 集群和一个包含两个 query 节点的 query 集群：
 
-| 节点 #  | IP 地址         | Leader Meta 节点? | Tenant ID | Cluster ID |
+| 节点 #  | IP 地址         | Leader Meta 节点？ | Tenant ID | Cluster ID |
 | ------- | ----------------- | ----------------- | --------- | ---------- |
-| Meta-1  | 172.16.125.128/24 | 是                 | -         | -          |
-| Meta-2  | 172.16.125.129/24 | 否                 | -         | -          |
-| Meta-3  | 172.16.125.130/24 | 否                 | -         | -          |
+| Meta-1  | 172.16.125.128/24 | 是                | -         | -          |
+| Meta-2  | 172.16.125.129/24 | 否                | -         | -          |
+| Meta-3  | 172.16.125.130/24 | 否                | -         | -          |
 | Query-1 | 172.16.125.131/24 | -                 | default   | default    |
 | Query-2 | 172.16.125.132/24 | -                 | default   | default    |
 
@@ -36,7 +36,7 @@ root@meta-1:/usr/databend# curl -O https://repo.databend.com/databend/v1.2.410/d
 root@meta-1:/usr/databend# tar -xzvf databend-v1.2.410-aarch64-unknown-linux-gnu.tar.gz
 ```
 
-## 步骤 1: 部署 Meta 节点
+## 步骤 1：部署 Meta 节点
 
 1. 在每个 meta 节点中配置 [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 文件：
 
@@ -137,7 +137,7 @@ join            = ["172.16.125.128:28103", "172.16.125.129:28103"]
   </TabItem>
 </Tabs>
 
-2. 要启动 meta 节点，请在每个节点上运行以下脚本：从 leader 节点 (Meta-1) 开始，然后依次处理 follower 节点。
+2. 要启动 meta 节点，请在每个节点上运行以下脚本：从 leader 节点 (Meta-1) 开始，然后依次启动 follower 节点。
 
 ```shell
 cd .. && cd bin
@@ -151,7 +151,7 @@ curl 172.16.125.128:28101/v1/cluster/nodes
 [{"name":"1","endpoint":{"addr":"172.16.125.128","port":28103},"grpc_api_advertise_address":"172.16.125.128:9191"},{"name":"2","endpoint":{"addr":"172.16.125.129","port":28103},"grpc_api_advertise_address":"172.16.125.129:9191"},{"name":"3","endpoint":{"addr":"172.16.125.130","port":28103},"grpc_api_advertise_address":"172.16.125.130:9191"}]
 ```
 
-## 步骤 2: 部署 Query 节点
+## 步骤 2：部署 Query 节点
 
 1. 在每个 query 节点中配置 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 文件。以下列表仅包含您需要在每个 query 节点中设置的参数，以反映本文档中概述的部署计划。
 
@@ -215,7 +215,7 @@ cd .. && cd bin
 ./databend-query -c ../configs/databend-query.toml > query.log 2>&1 &
 ```
 
-## 步骤 3: 验证部署
+## 步骤 3：验证部署
 
 使用 [BendSQL](/guides/sql-clients/bendsql/) 连接到其中一个 query 节点，并检索有关现有 query 节点的信息：
 
@@ -242,13 +242,13 @@ FROM
 2 rows read in 0.031 sec. Processed 2 rows, 327 B (64.1 rows/s, 10.23 KiB/s)
 ```
 
-## 接下来
+## Next Steps
 
 在部署 Databend 之后，您可能需要了解以下主题：
 
-- [加载和卸载数据](/guides/load-data): 管理 Databend 中的数据导入/导出。
-- [可视化](/guides/visualize): 将 Databend 与可视化工具集成以获得见解。
+- [Load & Unload Data](/guides/load-data): 管理 Databend 中的数据导入/导出。
+- [Visualize](/guides/visualize): 将 Databend 与可视化工具集成以获得见解。
 
-<LanguageFileParse
+<!-- <LanguageFileParse
 cn={<VideoCN />}
-/>
+/> -->
