@@ -6,6 +6,7 @@
   border="0" 
   frameborder="no" 
   framespacing="0" 
+  className="iframe-video" 
   allowfullscreen="true" 
   width="800" 
   height="450">

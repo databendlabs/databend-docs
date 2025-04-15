@@ -561,5 +561,5 @@ After deploying Databend, you might need to learn about the following topics:
 - [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
 
 <LanguageFileParse
-cn={<VideoCN />}
+en={<VideoCN />}
 />

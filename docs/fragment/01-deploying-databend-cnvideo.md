@@ -7,6 +7,7 @@
   frameborder="no" 
   framespacing="0" 
   allowfullscreen="true" 
+  className="iframe-video" 
   width="800" 
   height="450">
 </iframe>
@@ -19,6 +20,7 @@
   border="0" 
   frameborder="no" 
   framespacing="0" 
+  className="iframe-video" 
   allowfullscreen="true" 
   width="800" 
   height="450">
@@ -31,6 +33,7 @@
   scrolling="no" 
   border="0" 
   frameborder="no" 
+  className="iframe-video" 
   framespacing="0" 
   allowfullscreen="true" 
   width="800" 
