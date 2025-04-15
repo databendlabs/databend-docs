@@ -1,5 +1,5 @@
 ---
-title: Loading NDJSON File into Databend
+title: Loading NDJSON into Databend
 sidebar_label: NDJSON
 ---
 

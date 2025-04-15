@@ -1,5 +1,5 @@
 ---
-title: Loading ORC File into Databend
+title: Loading ORC into Databend
 sidebar_label: ORC
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Loading TSV File into Databend
+title: Loading TSV into Databend
 sidebar_label: TSV
 ---
 
