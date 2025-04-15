@@ -44,8 +44,8 @@ import TabItem from '@theme/TabItem';
 <TabItem value="Google GCS" label="Google GCS">
 
 1. 按照 Google 文档中的主题 [创建新存储桶](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket) 创建一个名为 `my_bucket` 的存储桶。
-2. 按照 Google 文档中的主题 [创建服务账号密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating) 创建并下载服务账号密钥文件。
-3. 使用 Base64 编码将服务账号密钥文件的内容转换为 Base64 编码的字符串。例如，
+2. 按照 Google 文档中的主题 [创建服务帐号密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating) 创建并下载服务帐号密钥文件。
+3. 使用 Base64 编码将服务帐号密钥文件的内容转换为 Base64 编码的字符串。例如，
 
 ```bash
 base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
@@ -348,10 +348,10 @@ Databend 企业版支持 OSS 中的服务端加密。此功能使您能够通过
 
 要在 Databend 中启用服务端加密，请将以下参数添加到 [storage.oss] 部分：
 
-| Parameter                     | Description                                                                                                                                                                              | Available Values                                        |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| server_side_encryption        | 指定 OSS 数据的服务端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用在 server_side_encryption_key_id 中定义的密钥。 | "AES256" 或 "KMS"                                       |
-| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务端加密密钥 ID。它仅在使用 KMS 加密模式时适用。      | 字符串，KMS 加密密钥的唯一标识符。 |
+| 参数                          | 描述                                                                                                                                                                                 | 可用值                                                  |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------- |
+| server_side_encryption        | 指定 OSS 数据的服务端加密方法。"AES256" 使用 OSS 管理的 AES256 密钥进行加密，而 "KMS" 使用在 server_side_encryption_key_id 中定义的密钥。                                                | "AES256" 或 "KMS"                                       |
+| server_side_encryption_key_id | 当 server_side_encryption 设置为 "KMS" 时，此参数用于指定 OSS 的服务端加密密钥 ID。它仅在使用 KMS 加密模式时适用。                                                                | 字符串，KMS 加密密钥的唯一标识符。                        |
 
 </TabItem>
 
@@ -467,7 +467,7 @@ secret_access_key = "<your-access-key>"
 3. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参阅 [配置管理员用户](../../04-references/01-admin-users.md)。要继续使用默认的 root 用户和 "no_password" 身份验证类型，请确保删除文件 `databend-query.toml` 中以下行之前的 '#' 字符：
 
 :::caution
-在本教程中使用 "no_password" 身份验证作为 root 用户只是一个示例，由于潜在的安全风险，不建议在生产环境中使用。
+在本教程中，为 root 用户使用 "no_password" 身份验证只是一个示例，由于潜在的安全风险，不建议在生产环境中使用。
 :::
 
 ```toml title='databend-query.toml'
@@ -557,9 +557,9 @@ root@localhost:8000/default>
 
 部署 Databend 后，您可能需要了解以下主题：
 
-- [加载 & 卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
+- [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
 - [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取见解。
 
 <LanguageFileParse
-cn={<VideoCN />}
+en={<VideoCN />}
 />
