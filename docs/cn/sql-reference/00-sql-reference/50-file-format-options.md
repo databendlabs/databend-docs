@@ -1,7 +1,6 @@
 ---
 title: 输入 & 输出文件格式
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.713"/>
@@ -14,19 +13,19 @@ Databend 接受多种文件格式作为数据加载或卸载的源和目标。�
 
 ```sql
 -- 指定标准文件格式
-... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | ORC } [ formatTypeOptions ] )
+... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ] )
 
 -- 指定自定义文件格式
 ... FILE_FORMAT = ( FORMAT_NAME = '<your-custom-format>' )
 ```
 
-- Databend 目前仅支持 ORC 作为源。尚不支持将数据卸载到 ORC 文件中。
-- 如果在执行 COPY INTO 或从 Stage 执行 SELECT 操作时未指定 FILE_FORMAT，Databend 将使用您最初为 Stage 定义的文件格式（在创建时）。如果您在创建 Stage 期间未显式指定文件格式，Databend 默认使用 PARQUET 格式。如果您指定的 FILE_FORMAT 与创建 Stage 时定义的格式不同，Databend 将优先使用操作期间指定的 FILE_FORMAT。
+- Databend 目前仅支持将 ORC 和 AVRO 作为数据源。尚不支持将数据卸载到 ORC 或 AVRO 文件中。
+- 如果在执行 COPY INTO 或从 Stage 执行 SELECT 操作时未指定 FILE_FORMAT，Databend 将使用您最初为 Stage 定义的文件格式（在创建 Stage 时）。如果您在创建 Stage 期间未显式指定文件格式，Databend 默认使用 PARQUET 格式。如果您指定的 FILE_FORMAT 与创建 Stage 时定义的 FILE_FORMAT 不同，Databend 将优先使用操作期间指定的 FILE_FORMAT。
 - 有关在 Databend 中管理自定义文件格式的信息，请参阅 [文件格式](../10-sql-commands/00-ddl/13-file-format/index.md)。
 
 ### formatTypeOptions
 
-`formatTypeOptions` 包括一个或多个选项，用于描述有关文件的其他格式详细信息。这些选项因文件格式而异。请参阅下面的部分，了解每种支持的文件格式的可用选项。
+`formatTypeOptions` 包括一个或多个选项，用于描述文件的其他格式详细信息。这些选项因文件格式而异。请参阅下面的部分，了解每种支持的文件格式的可用选项。
 
 ```sql
 formatTypeOptions ::=
@@ -75,7 +74,7 @@ Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS
 
 ### QUOTE (仅加载)
 
-引用 CSV 文件中的字符串。对于数据加载，除非字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，否则不需要引号。
+引用 CSV 文件中的字符串。对于数据加载，除非字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，否则引号不是必需的。
 
 **可用值**：`'`、`"` 或 `(反引号)
 
@@ -119,11 +118,11 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 
 指定在 CSV 数据加载到表中时，遇到空字段（包括 `,,` 和 `,"",`）时应使用的值。
 
-| 可用值          | 描述                                              |
-| --------------- | ------------------------------------------------- |
-| `null` (默认)   | 将空字段解释为 NULL 值。仅适用于可为空的列。      |
-| `string`        | 将空字段解释为空字符串 ('')。仅适用于 String 列。 |
-| `field_default` | 对空字段使用列的默认值。                          |
+| 可用值           | 描述                                                                              |
+|-----------------|-----------------------------------------------------------------------------------|
+| `null` (默认)    | 将空字段解释为 NULL 值。仅适用于可为空的列。                                            |
+| `string`        | 将空字段解释为空字符串 ('')。仅适用于 String 列。                                   |
+| `field_default` | 对空字段使用列的默认值。                                                              |
 
 ### OUTPUT_HEADER (仅卸载)
 
@@ -137,17 +136,17 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 
 指定压缩算法。
 
-| 可用值        | 描述                                          |
-| ------------- | --------------------------------------------- |
-| `NONE` (默认) | 表示文件未压缩。                              |
-| `AUTO`        | 通过文件扩展名自动检测压缩                    |
-| `GZIP`        |                                               |
-| `BZ2`         |                                               |
-| `BROTLI`      | 如果加载/卸载 Brotli 压缩文件，则必须指定。   |
-| `ZSTD`        | 支持 Zstandard v0.8（及更高版本）。           |
-| `DEFLATE`     | Deflate 压缩文件（带有 zlib 标头，RFC1950）。 |
-| `RAW_DEFLATE` | Deflate 压缩文件（没有任何标头，RFC1951）。   |
-| `XZ`          |                                               |
+| 可用值           | 描述                                                                 |
+|-----------------|----------------------------------------------------------------------|
+| `NONE` (默认)    | 指示文件未压缩。                                                       |
+| `AUTO`          | 通过文件扩展名自动检测压缩                                                   |
+| `GZIP`          |                                                                      |
+| `BZ2`           |                                                                      |
+| `BROTLI`        | 如果加载/卸载 Brotli 压缩文件，则必须指定。                                  |
+| `ZSTD`          | 支持 Zstandard v0.8（及更高版本）。                                           |
+| `DEFLATE`       | Deflate 压缩文件（带有 zlib 标头，RFC1950）。                                |
+| `RAW_DEFLATE`   | Deflate 压缩文件（没有任何标头，RFC1951）。                                |
+| `XZ`            |                                                                      |
 
 ## TSV 选项
 
@@ -158,15 +157,16 @@ Databend 在处理 TSV 文件时受以下条件的约束：
 - 如果字符串来自序列化的 Array 或 Struct 字段，则将在 CSV 中引用该字符串。
 - Null 序列化为 `\N`。
 
-:::note
 
-1. 在 Databend 中，TSV 和 CSV 之间的主要区别不是使用制表符而不是逗号作为字段分隔符（可以通过选项更改），而是使用转义而不是引用来解决 [分隔符冲突](https://en.wikipedia.org/wiki/Delimiter#Delimiter_collision)
+:::note
+1. 在 Databend 中，TSV 和 CSV 之间的主要区别不是使用制表符而不是逗号作为字段分隔符（可以通过选项更改），而是使用转义而不是引用来解决
+[分隔符冲突](https://en.wikipedia.org/wiki/Delimiter#Delimiter_collision)
 2. 我们建议使用 CSV 作为存储格式，因为它具有正式标准。
-3. TSV 可用于加载由以下项生成的文件
+3. TSV 可用于加载以下文件生成的文件
    1. Clickhouse TSV 文件格式。
    2. MySQL `mysqldump` 命令，带有选项 `--tab`，没有 `--fields-enclosed-by` 或 `--fields-optinally-enclosed-by`，如果指定了后两个，则改用 CSV。
-   3. Snowflake CSV 没有 `ESCAPE_UNENCLOSED_FIELD`。如果指定了 `ESCAPE_UNENCLOSED_FIELD`，则改用 CSV。
-      :::
+   3. Snowflake CSV，没有 `ESCAPE_UNENCLOSED_FIELD`。如果指定了 `ESCAPE_UNENCLOSED_FIELD`，则改用 CSV。
+:::
 
 ### RECORD_DELIMITER
 
@@ -201,20 +201,20 @@ Databend 在处理 TSV 文件时受以下条件的约束：
 
 指定在数据加载期间如何处理 null 值。有关可能的配置，请参阅下表中的选项。
 
-| 可用值          | 描述                                                          |
-| --------------- | ------------------------------------------------------------- |
-| `NULL` (默认)   | 将 null 值解释为可为空字段的 NULL。将为不可为空字段生成错误。 |
-| `FIELD_DEFAULT` | 对 null 值使用字段的默认值。                                  |
+| 可用值           | 描述                                                                                              |
+|-----------------|---------------------------------------------------------------------------------------------------|
+| `NULL` (默认)    | 将 null 值解释为可为空字段的 NULL。将为不可为空的字段生成错误。                                            |
+| `FIELD_DEFAULT` | 对 null 值使用字段的默认值。                                                                    |
 
 ### MISSING_FIELD_AS (仅加载)
 
 确定在数据加载期间遇到缺失字段时的行为。有关可能的配置，请参阅下表中的选项。
 
-| 可用值          | 描述                                                 |
-| --------------- | ---------------------------------------------------- |
-| `ERROR` (默认)  | 如果遇到缺失字段，则生成错误。                       |
-| `NULL`          | 将缺失字段解释为 NULL 值。将为不可为空字段生成错误。 |
-| `FIELD_DEFAULT` | 对缺失字段使用字段的默认值。                         |
+| 可用值           | 描述                                                                                              |
+|-----------------|---------------------------------------------------------------------------------------------------|
+| `ERROR` (默认)   | 如果遇到缺失字段，则生成错误。                                                                         |
+| `NULL`          | 将缺失字段解释为 NULL 值。将为不可为空的字段生成错误。                                                        |
+| `FIELD_DEFAULT` | 对缺失字段使用字段的默认值。                                                                      |
 
 ### COMPRESSION
 
@@ -226,19 +226,19 @@ Databend 在处理 TSV 文件时受以下条件的约束：
 
 确定在数据加载期间遇到缺失字段时的行为。有关可能的配置，请参阅下表中的选项。
 
-| 可用值          | 描述                           |
-| --------------- | ------------------------------ |
-| `ERROR` (默认)  | 如果遇到缺失字段，则生成错误。 |
-| `FIELD_DEFAULT` | 对缺失字段使用字段的默认值。   |
+| 可用值           | 描述                                                                                              |
+|-----------------|---------------------------------------------------------------------------------------------------|
+| `ERROR` (默认)   | 如果遇到缺失字段，则生成错误。                                                                         |
+| `FIELD_DEFAULT` | 对缺失字段使用字段的默认值。                                                                      |
 
 ### COMPRESSION (仅卸载)
 
 指定压缩算法，该算法用于压缩文件的内部块，而不是整个文件，因此输出仍为 Parquet 格式。
 
-| 可用值        | 描述                                                       |
-| ------------- | ---------------------------------------------------------- |
-| `ZSTD` (默认) | 支持 Zstandard v0.8（及更高版本）。                        |
-| `SNAPPY`      | Snappy 是一种流行的快速压缩算法，通常与 Parquet 一起使用。 |
+| 可用值           | 描述                                                                   |
+|-----------------|------------------------------------------------------------------------|
+| `ZSTD` (默认)    | 支持 Zstandard v0.8（及更高版本）。                                             |
+| `SNAPPY`        | Snappy 是一种流行的快速压缩算法，通常与 Parquet 一起使用。                             |
 
 ## ORC 选项
 
@@ -246,7 +246,18 @@ Databend 在处理 TSV 文件时受以下条件的约束：
 
 确定在数据加载期间遇到缺失字段时的行为。有关可能的配置，请参阅下表中的选项。
 
-| 可选值          | 描述                           |
-| --------------- | ------------------------------ |
-| `ERROR` (默认)  | 如果遇到缺失字段，则生成错误。 |
-| `FIELD_DEFAULT` | 对缺失字段使用该字段的默认值。 |
+| 可选值         | 描述                                                                                              |
+|--------------|-------------------------------------------------------------------------------------------------|
+| `ERROR` (默认) | 如果遇到缺失字段，则生成错误。                                                                                 |
+| `FIELD_DEFAULT`  | 对于缺失的字段，使用该字段的默认值。                                                                               |
+
+## AVRO 选项
+
+### MISSING_FIELD_AS (仅加载)
+
+确定在数据加载期间遇到缺失字段时的行为。请参考下表中的选项以获取可能的配置。
+
+| 可选值         | 描述                                                                                              |
+|--------------|-------------------------------------------------------------------------------------------------|
+| `ERROR` (默认) | 如果遇到缺失字段，则生成错误。                                                                                 |
+| `FIELD_DEFAULT`  | 对于缺失的字段，使用该字段的默认值。                                                                               |

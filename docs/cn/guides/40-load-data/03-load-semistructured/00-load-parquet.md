@@ -1,17 +1,17 @@
 ---
-title: Loading Parquet File into Databend
+title: 将 Parquet 文件加载到 Databend
 sidebar_label: Parquet
 ---
 
-## What is Parquet?
+## 什么是 Parquet？
 
-Parquet 是一种列式存储格式，通常用于数据分析。它旨在支持复杂的数据结构，并且可以高效地处理大型数据集。
+Parquet 是一种列式存储格式，常用于数据分析。它旨在支持复杂的数据结构，并且在处理大型数据集时非常高效。
 
 Parquet 文件对 Databend 最友好。建议使用 Parquet 文件作为 Databend 的数据源。
 
-## Loading Parquet File
+## 加载 Parquet 文件
 
-加载 Parquet 文件的常用语法如下：
+加载 Parquet 文件的常见语法如下：
 
 ```sql
 COPY INTO [<database>.]<table_name>
@@ -22,19 +22,19 @@ FILE_FORMAT = (TYPE = PARQUET)
 
 有关语法的更多详细信息，请参见 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
 
-## Tutorial: Loading Data from Parquet Files
+## 教程：从 Parquet 文件加载数据
 
-### Step 1. Create an Internal Stage
+### 步骤 1. 创建一个内部 Stage
 
-创建一个 internal stage 来存储 Parquet 文件。
+创建一个内部 Stage 来存储 Parquet 文件。
 
 ```sql
 CREATE STAGE my_parquet_stage;
 ```
 
-### Step 2. Create Parquet files
+### 步骤 2. 创建 Parquet 文件
 
-使用以下 SQL 语句生成 Parquet 文件：
+使用以下 SQL 语句生成一个 Parquet 文件：
 
 ```sql
 COPY INTO @my_parquet_stage
@@ -53,7 +53,7 @@ FROM (
 LIST @my_parquet_stage;
 ```
 
-Result:
+结果：
 
 ```text
 
@@ -64,9 +64,9 @@ Result:
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-有关将数据卸载到 stage 的更多详细信息，请参见 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)。
+有关将数据卸载到 Stage 的更多详细信息，请参见 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location)。
 
-### Step 3: Create Target Table
+### 步骤 3：创建目标表
 
 ```sql
 CREATE TABLE books
@@ -76,7 +76,7 @@ CREATE TABLE books
 );
 ```
 
-### Step 4. Copying Directly from Parquet
+### 步骤 4. 直接从 Parquet 复制
 
 要直接从 Parquet 文件将数据复制到表中，请使用以下 SQL 命令：
 
@@ -87,7 +87,7 @@ COPY INTO books
     FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-Result:
+结果：
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -97,9 +97,9 @@ Result:
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Step 4 (Option). Using SELECT to Copy Data
+### 步骤 4（可选）。使用 SELECT 复制数据
 
-为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。在 [`SELECT from Parquet`](../04-transform/00-querying-parquet.md) 了解更多信息。
+为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。有关更多信息，请参见 [`SELECT from Parquet`](../04-transform/00-querying-parquet.md)
 
 ```sql
 COPY INTO books (title, author)

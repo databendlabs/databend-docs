@@ -1,11 +1,11 @@
 ---
-title: Loading NDJSON File into Databend
+title: 将 NDJSON 加载到 Databend
 sidebar_label: NDJSON
 ---
 
 ## 什么是 NDJSON？
 
-NDJSON 构建于 JSON 之上，是 JSON 的一个严格子集。每一行必须包含一个独立的、自包含的有效 JSON 对象。
+NDJSON 构建于 JSON 之上，是 JSON 的严格子集。每一行必须包含一个单独的、自包含的有效 JSON 对象。
 
 以下示例展示了一个包含两个 JSON 对象的 NDJSON 文件：
 
@@ -16,7 +16,7 @@ NDJSON 构建于 JSON 之上，是 JSON 的一个严格子集。每一行必须�
 
 ## 加载 NDJSON 文件
 
-加载 NDJSON 文件的常用语法如下：
+加载 NDJSON 文件的常见语法如下：
 
 ```sql
 COPY INTO [<database>.]<table_name>
@@ -32,9 +32,9 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 
 ## 教程：从 NDJSON 文件加载数据
 
-### 步骤 1. 创建一个 Internal Stage
+### 步骤 1. 创建一个内部 Stage
 
-创建一个 internal stage 来存储 NDJSON 文件。
+创建一个内部 Stage 来存储 NDJSON 文件。
 
 ```sql
 CREATE STAGE my_ndjson_stage;
@@ -107,7 +107,7 @@ FILE_FORMAT = (
 
 ### 步骤 4（可选）。使用 SELECT 复制数据
 
-为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。更多信息请参考 [`SELECT from NDJSON`](../04-transform/03-querying-ndjson.md)。
+为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。在 [`SELECT from NDJSON`](../04-transform/03-querying-ndjson.md) 了解更多信息。
 
 ```sql
 COPY INTO books(title, author)

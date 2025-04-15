@@ -1,11 +1,11 @@
 ---
-title: Loading CSV File into Databend
+title: 将 CSV 文件加载到 Databend
 sidebar_label: CSV
 ---
 
-## What is CSV?
+## 什么是 CSV？
 
-CSV (Comma Separated Values) 是一种用于存储表格数据的简单文件格式，例如电子表格或数据库。CSV 文件是纯文本文件，其中包含表格格式的数据，其中每一行都用新行表示，列由分隔符分隔。
+CSV（逗号分隔值）是一种简单的文件格式，用于存储表格数据，例如电子表格或数据库。CSV 文件是纯文本文件，其中包含表格格式的数据，其中每一行在新行上表示，列由分隔符分隔。
 
 以下示例显示了一个包含两条记录的 CSV 文件：
 
@@ -14,7 +14,7 @@ Title_0,Author_0
 Title_1,Author_1
 ```
 
-## Loading CSV File
+## 加载 CSV 文件
 
 加载 CSV 文件的常用语法如下：
 
@@ -33,9 +33,9 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 
 有关语法的更多详细信息，请参见 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
 
-## Tutorial: Loading Data from CSV Files
+## 教程：从 CSV 文件加载数据
 
-### Step 1. Create an Internal Stage
+### 步骤 1. 创建一个 Internal Stage
 
 创建一个 internal stage 来存储 CSV 文件。
 
@@ -43,7 +43,7 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 CREATE STAGE my_csv_stage;
 ```
 
-### Step 2. Create CSV files
+### 步骤 2. 创建 CSV 文件
 
 使用以下 SQL 语句生成 CSV 文件：
 
@@ -65,7 +65,7 @@ FROM (
 LIST @my_csv_stage;
 ```
 
-Result:
+结果：
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -75,7 +75,7 @@ Result:
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Step 3: Create Target Table
+### 步骤 3：创建目标表
 
 ```sql
 CREATE TABLE books
@@ -85,7 +85,7 @@ CREATE TABLE books
 );
 ```
 
-### Step 4. Copying Directly from CSV
+### 步骤 4. 直接从 CSV 复制
 
 要直接从 CSV 文件将数据复制到表中，请使用以下 SQL 命令：
 
@@ -102,7 +102,7 @@ FILE_FORMAT = (
 );
 ```
 
-Result:
+结果：
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -112,9 +112,9 @@ Result:
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Step 4 (Option). Using SELECT to Copy Data
+### 步骤 4（可选）。使用 SELECT 复制数据
 
-为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。在 [`SELECT from CSV`](../04-transform/01-querying-csv.md) 了解更多信息。
+为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。有关更多信息，请参见 [`SELECT from CSV`](../04-transform/01-querying-csv.md)。
 
 ```sql
 COPY INTO books (title, author)
