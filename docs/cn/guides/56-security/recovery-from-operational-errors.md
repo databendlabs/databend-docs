@@ -9,14 +9,11 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 ## 简介
 
-Databend 可以帮助您从以下常见操作错误中恢复：
-- **意外删除数据库**
-- **意外删除表**
-- **不正确的数据修改（UPDATE/DELETE 操作）**
-- **意外截断表**
-- **数据加载错误**
-- **Schema 演变回滚**（恢复表结构更改）
-- **删除列或约束**
+Databend 可以帮您恢复这些常见操作错误：
+- **误删数据库或表**
+- **数据错误修改或删除**
+- **表结构误操作**
+- **数据误加载**
 
 这些恢复能力由 Databend 的 FUSE 引擎及其类似 Git 的存储设计提供支持，该设计维护了不同时间点的数据快照。
 
