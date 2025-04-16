@@ -1,9 +1,9 @@
 ---
-title: 从操作错误中恢复
+title: 数据误操作恢复指南
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-# 从操作错误中恢复
+# 数据误操作恢复指南
 
 本指南提供了从 Databend 中常见操作错误恢复的分步说明。
 
