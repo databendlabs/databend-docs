@@ -106,45 +106,6 @@ externalLocation ::=
 
 For the connection parameters available for accessing Tencent Cloud Object Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
-
-<TabItem value="HDFS" label="HDFS">
-
-```sql
-externalLocation ::=
-  "hdfs://<endpoint_url>[<path>]"
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing HDFS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="WebHDFS" label="WebHDFS">
-
-```sql
-externalLocation ::=
-  "webhdfs://<endpoint_url>[<path>]"
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing WebHDFS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="Hugging Face" label="Hugging Face">
-
-```sql
-externalLocation ::=
-  "hf://<repo_id>[<path>]"
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing Hugging Face, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
 </Tabs>
 
 ### FILE_FORMAT
