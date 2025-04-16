@@ -2,9 +2,11 @@
 title: UNDROP DATABASE
 ---
 
-恢复已删除数据库的最新版本。这利用了 Databend 的时间回溯功能；删除的对象只能在保留期内恢复（默认为 24 小时）。
+恢复已删除数据库的最新版本。 这利用了 Databend 的时间回溯功能； 删除的对象只能在保留期内恢复（默认为 24 小时）。
 
-另请参阅：[DROP DATABASE](ddl-drop-database.md)
+**参见：**
+[DROP DATABASE](ddl-drop-database.md)
+[SHOW DROP DATABASES](show-drop-databases.md)
 
 ## 语法
 
@@ -27,7 +29,7 @@ UNDROP DATABASE <database_name>
     root@localhost:8000/default> UNDROP DATABASE doc;
     error: APIError: QueryFailed: [2301]Database 'doc' already exists
     ```
-- 恢复数据库不会自动将所有权恢复到原始角色。恢复后，必须手动将所有权授予先前的角色或其他角色。在此之前，只有 `account-admin` 角色才能访问该数据库。
+- 恢复数据库不会自动将所有权恢复到原始角色。 恢复后，必须手动将所有权授予先前的角色或其他角色。 在此之前，只有 `account-admin` 角色才能访问该数据库。
 
     ```sql title='Examples:'
     GRNAT OWNERSHIP on doc.* to ROLE writer;
