@@ -193,4 +193,4 @@ DESC customers;
 - **临时表**：回溯不适用于临时表（不存储快照）。
 
 **对于紧急情况**：遇到严重数据丢失？立即联系 Databend 支持以获得帮助。
-[联系 Databend 支持](https://www.databend.com/contact-us/)
+[联系 Databend 支持](https://www.databend.cn/contact-us/)
