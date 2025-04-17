@@ -46,6 +46,8 @@ This section provides reference information for the datetime-related functions i
 - [TO_YYYYMMDD](to-yyyymmdd)
 - [TO_YYYYMMDDHH](to-yyyymmddhh)
 - [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss)
+- [MILLENNIUM](millennium.md)
+- [YEARWEEK](yearweek.md)
 
 ## Date Arithmetic Functions
 
