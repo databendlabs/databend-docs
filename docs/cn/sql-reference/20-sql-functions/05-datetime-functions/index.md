@@ -1,5 +1,5 @@
 ---
-title: 日期与时间函数
+title: 日期 & 时间函数
 ---
 
 本节提供了 Databend 中与日期时间相关的函数的参考信息。
@@ -46,8 +46,10 @@ title: 日期与时间函数
 - [TO_YYYYMMDD](to-yyyymmdd)
 - [TO_YYYYMMDDHH](to-yyyymmddhh)
 - [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss)
+- [MILLENNIUM](millennium.md)
+- [YEARWEEK](yearweek.md)
 
-## 日期算术函数
+## 日期计算函数
 
 - [ADD INTERVAL](addinterval.md)
 - [DATE_ADD](date-add)
@@ -74,4 +76,3 @@ title: 日期与时间函数
 - [TIME_SLOT](time-slot)
 - [TIMEZONE](timezone.md)
 - [YESTERDAY](yesterday.md)
-{/*examples*/}
