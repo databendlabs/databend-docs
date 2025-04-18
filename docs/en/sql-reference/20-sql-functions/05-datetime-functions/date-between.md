@@ -1,18 +1,18 @@
 ---
-title: DATE_DIFF
+title: DATE_BETWEEN
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.723"/>
+<FunctionDescription description="Introduced or updated: v1.2.725"/>
 
-Calculates the difference between two dates or timestamps based on a specified time unit. The result is positive if the `<end_date>` is after the `<start_date>`, and negative if it's before.
+Calculates the time interval between two dates or timestamps, returning the difference as an integer in the specified unit, with positive values indicating the first time is earlier than the second, and negative values indicating the opposite.
 
-See also: [DATE_BETWEEN](date-between.md)
+See also: [DATE_DIFF](date-diff.md)
 
 ## Syntax
 
 ```sql
-DATE_DIFF(
+DATE_BETWEEN(
   YEAR | QUARTER | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND |
   DOW | DOY | EPOCH | ISODOW | YEARWEEK | MILLENNIUM,
   <start_date_or_timestamp>,
@@ -47,26 +47,26 @@ This example calculates the difference between a fixed timestamp (`2020-01-01 00
 
 ```sql
 SELECT
-  DATE_DIFF(YEAR,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_year,
-  DATE_DIFF(QUARTER,     TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_quarter,
-  DATE_DIFF(MONTH,       TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_month,
-  DATE_DIFF(WEEK,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_week,
-  DATE_DIFF(DAY,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_day,
-  DATE_DIFF(HOUR,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_hour,
-  DATE_DIFF(MINUTE,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_minute,
-  DATE_DIFF(SECOND,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_second,
-  DATE_DIFF(DOW,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_dow,
-  DATE_DIFF(DOY,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_doy,
-  DATE_DIFF(EPOCH,       TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_epoch,
-  DATE_DIFF(ISODOW,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_isodow,
-  DATE_DIFF(YEARWEEK,    TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_yearweek,
-  DATE_DIFF(MILLENNIUM,  TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_millennium;
+  DATE_BETWEEN(YEAR,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_year,
+  DATE_BETWEEN(QUARTER,     TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_quarter,
+  DATE_BETWEEN(MONTH,       TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_month,
+  DATE_BETWEEN(WEEK,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_week,
+  DATE_BETWEEN(DAY,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_day,
+  DATE_BETWEEN(HOUR,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_hour,
+  DATE_BETWEEN(MINUTE,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_minute,
+  DATE_BETWEEN(SECOND,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_second,
+  DATE_BETWEEN(DOW,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_dow,
+  DATE_BETWEEN(DOY,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_doy,
+  DATE_BETWEEN(EPOCH,       TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_epoch,
+  DATE_BETWEEN(ISODOW,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_isodow,
+  DATE_BETWEEN(YEARWEEK,    TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_yearweek,
+  DATE_BETWEEN(MILLENNIUM,  TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_millennium;
 ```
 
 ```sql
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ diff_year │ diff_quarter │ diff_month │ diff_week │ diff_day │ diff_hour │ diff_minute │ diff_second │ diff_dow │ diff_doy │ diff_epoch │ diff_isodow │ diff_yearweek │ diff_millennium │
 ├───────────┼──────────────┼────────────┼───────────┼──────────┼───────────┼─────────────┼─────────────┼──────────┼──────────┼────────────┼─────────────┼───────────────┼─────────────────┤
-│         5 │           21 │         63 │       276 │     1932 │     46386 │     2783184 │   166991069 │     1932 │     1932 │  166991069 │        1932 │           515 │               0 │
+│         5 │           21 │         63 │       276 │     1933 │     46414 │     2784887 │   167093234 │     1933 │     1933 │  167093234 │        1933 │           276 │               0 │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
