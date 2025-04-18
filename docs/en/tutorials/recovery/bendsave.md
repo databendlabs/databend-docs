@@ -66,7 +66,7 @@ auth_type = "no_password"
 ...
 # Storage config.
 [storage]
-# fs | s3 | azblob | gcs | oss | cos | hdfs | webhdfs
+# fs | s3 | azblob | gcs | oss | cos
 type = "s3"
 ...
 # To use an Amazon S3-like storage service, uncomment this block and set your values.

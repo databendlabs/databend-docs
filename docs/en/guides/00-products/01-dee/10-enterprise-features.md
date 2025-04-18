@@ -76,7 +76,7 @@ width={['70%', '15%', '15%']}
 thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
 tbody={[
 ['Deployment Support: K8s, Baremetal, Installer', '✓', '✓'],
-['Backend Storage Support: S3, Azblob, GCS, OSS, COS, HDFS', '✓', '✓'],
+['Backend Storage Support: S3, Azblob, GCS, OSS, COS', '✓', '✓'],
 ['x86_64 & ARM64 Architecture', '✓', '✓'],
 ['Compatible with LoongArch, openEuler, etc.', '✓', '✓'],
 ['Monitoring and Alerting APIs', '✓', '✓'],

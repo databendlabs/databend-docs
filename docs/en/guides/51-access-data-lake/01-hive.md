@@ -61,16 +61,6 @@ CONNECTION = (
 | URL                   | Yes       | Location of the external storage linked to this catalog. This could be a bucket or a folder within a bucket. For example, 's3://databend-toronto/'.                       | 
 | connection_parameter  | Yes       | Connection parameters to establish connections with external storage. The required parameters vary based on the specific storage service and authentication methods. Refer to [Connection Parameters](/sql/sql-reference/connect-parameters) for detailed information. |
 
-:::note
-To read data from HDFS, you need to set the following environment variables before starting Databend. These environment variables ensure that Databend can access the necessary Java and Hadoop dependencies to interact with HDFS effectively. Make sure to replace "/path/to/java" and "/path/to/hadoop" with the actual paths to your Java and Hadoop installations, and adjust the CLASSPATH to include all the required Hadoop JAR files.
-```shell
-export JAVA_HOME=/path/to/java
-export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
-export HADOOP_HOME=/path/to/hadoop
-export CLASSPATH=/all/hadoop/jar/files
-```
-:::
-
 ### SHOW CREATE CATALOG
 
 Returns the detailed configuration of a specified catalog, including its type and storage parameters.
