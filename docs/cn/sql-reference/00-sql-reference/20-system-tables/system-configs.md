@@ -5,7 +5,7 @@ title: system.configs
 包含 Databend 服务器配置的信息。
 
 :::note
-您可以使用配置选项 `disable_system_table_load` 来禁用对 `configs` 表的访问。
+您可以使用配置选项 `disable_system_table_load` 禁用对 `configs` 表的访问。
 
 例如，DatabendCloud 的用户将无法看到此表。
 :::
@@ -109,8 +109,6 @@ mysql> SELECT * FROM system.configs;
 | storage | azblob.container                       |                                |             |
 | storage | azblob.endpoint_url                    |                                |             |
 | storage | azblob.root                            |                                |             |
-| storage | hdfs.name_node                         |                                |             |
-| storage | hdfs.root                              |                                |             |
 | storage | obs.access_key_id                      |                                |             |
 | storage | obs.secret_access_key                  |                                |             |
 | storage | obs.bucket                             |                                |             |

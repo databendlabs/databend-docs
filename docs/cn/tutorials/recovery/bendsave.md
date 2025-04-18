@@ -2,13 +2,13 @@
 title: 使用 BendSave 备份和恢复数据
 ---
 
-本教程将引导您完成如何使用 BendSave 备份和恢复数据的过程。我们将使用本地 MinIO 实例作为 Databend 的 S3 兼容存储后端以及存储备份的目标位置。
+本教程将引导您了解如何使用 BendSave 备份和恢复数据。我们将使用本地 MinIO 实例作为 Databend 的 S3 兼容存储后端和存储备份的目标位置。
 
 ## 开始之前
 
 在开始之前，请确保您已准备好以下先决条件：
 
-- Linux 机器（x86_64 或 aarch64 架构）：在本教程中，我们将在 Linux 机器上部署 Databend。您可以使用本地机器、虚拟机或云实例，例如 AWS EC2。
+- 一台 Linux 机器（x86_64 或 aarch64 架构）：在本教程中，我们将在 Linux 机器上部署 Databend。您可以使用本地机器、虚拟机或云实例，例如 AWS EC2。
     - [Docker](https://www.docker.com/): 用于部署本地 MinIO 实例。
     - [AWS CLI](https://aws.amazon.com/cli/): 用于管理 MinIO 中的存储桶。
     - 如果您使用的是 AWS EC2，请确保您的安全组允许端口 `8000` 上的入站流量，因为 BendSQL 需要此端口才能连接到 Databend。
@@ -66,7 +66,7 @@ auth_type = "no_password"
 ...
 # Storage config.
 [storage]
-# fs | s3 | azblob | gcs | oss | cos | hdfs | webhdfs
+# fs | s3 | azblob | gcs | oss | cos
 type = "s3"
 ...
 # To use an Amazon S3-like storage service, uncomment this block and set your values.
@@ -96,7 +96,7 @@ curl -I  http://127.0.0.1:28101/v1/health
 curl -I  http://127.0.0.1:8080/v1/health
 ```
 
-4. 使用 BendSQL 从您的本地机器连接到您的 Databend 实例，然后应用您的 Databend Enterprise 许可证，创建一个表，并插入一些示例数据。
+4. 使用 BendSQL 从您的本地机器连接到您的 Databend 实例，然后应用您的 Databend Enterprise 许可证，创建一个表并插入一些示例数据。
 
 ```bash
 bendsql -h <your-linux-host>

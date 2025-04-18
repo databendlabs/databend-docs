@@ -38,7 +38,7 @@ import TabItem from '@theme/TabItem';
 
 <Tabs groupId="externalstageparams">
 
-<TabItem value="Amazon S3-compatible Storage" label="类 Amazon S3 存储服务">
+<TabItem value="Amazon S3-compatible Storage" label="Amazon S3-like Storage Services">
 
 ```sql
 externalStageParams ::=
@@ -48,10 +48,10 @@ externalStageParams ::=
   )
 ```
 
-有关访问类 Amazon S3 存储服务的可用连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问类 Amazon S3 存储服务可用的连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
 
 :::note
-要在 Amazon S3 上创建外部 Stage，你还可以使用 IAM 用户帐户，从而能够为 Stage 定义细粒度的访问控制，包括指定对特定 S3 存储桶的读取或写入访问等操作。请参见 [示例 3：使用 AWS IAM 用户创建外部 Stage](#example-3-create-external-stage-with-aws-iam-user)。
+要在 Amazon S3 上创建外部 Stage，您还可以使用 IAM 用户帐户，从而可以为 Stage 定义细粒度的访问控制，包括指定对特定 S3 存储桶的读取或写入访问等操作。请参见 [示例 3：使用 AWS IAM 用户创建外部 Stage](#example-3-create-external-stage-with-aws-iam-user)。
 :::
 </TabItem>
 
@@ -65,7 +65,7 @@ externalStageParams ::=
   )
 ```
 
-有关访问 Azure Blob Storage 的可用连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问 Azure Blob Storage 可用的连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
 <TabItem value="Google Cloud Storage" label="Google Cloud Storage">
@@ -78,10 +78,10 @@ externalLocation ::=
   )
 ```
 
-有关访问 Google Cloud Storage 的可用连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问 Google Cloud Storage 可用的连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
-<TabItem value="Alibaba Cloud OSS" label="阿里云 OSS">
+<TabItem value="Alibaba Cloud OSS" label="Alibaba Cloud OSS">
 
 ```sql
 externalLocation ::=
@@ -91,10 +91,10 @@ externalLocation ::=
   )
 ```
 
-有关访问阿里云 OSS 的可用连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问阿里云 OSS 可用的连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 
-<TabItem value="Tencent Cloud Object Storage" label="腾讯云对象存储">
+<TabItem value="Tencent Cloud Object Storage" label="Tencent Cloud Object Storage">
 
 ```sql
 externalLocation ::=
@@ -104,46 +104,7 @@ externalLocation ::=
   )
 ```
 
-有关访问腾讯云对象存储的可用连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
-</TabItem>
-
-<TabItem value="HDFS" label="HDFS">
-
-```sql
-externalLocation ::=
-  "hdfs://<endpoint_url>[<path>]"
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-有关访问 HDFS 的可用连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
-</TabItem>
-
-<TabItem value="WebHDFS" label="WebHDFS">
-
-```sql
-externalLocation ::=
-  "webhdfs://<endpoint_url>[<path>]"
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-有关访问 WebHDFS 的可用连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
-</TabItem>
-
-<TabItem value="Hugging Face" label="Hugging Face">
-
-```sql
-externalLocation ::=
-  "hf://<repo_id>[<path>]"
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-有关访问 Hugging Face 的可用连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
+有关访问腾讯云对象存储可用的连接参数，请参见 [连接参数](/00-sql-reference/51-connect-parameters.md)。
 </TabItem>
 </Tabs>
 
@@ -159,10 +120,10 @@ copyOptions ::=
   [ PURGE = <bool> ]
 ```
 
-| 参数                 | 描述                                                                                                                            | 必需   |
+| 参数                 | 描述                                                                                                                            | 是否必需 |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------|----------|
-| `SIZE_LIMIT = <num>` | 指定给定 COPY 语句要加载的最大数据行数的数字（> 0）。默认值为 `0`                                                                 | 可选   |
-| `PURGE = <bool>`     | 如果文件已成功加载到表中，则 True 指定该命令将清除 Stage 中的文件。默认值为 `false`                                                | 可选   |
+| `SIZE_LIMIT = <num>` | 指定给定 COPY 语句要加载的最大数据行数的数字 (> 0)。默认值为 `0`                                                                       | 可选     |
+| `PURGE = <bool>`     | 如果文件已成功加载到表中，则 True 指定该命令将清除 Stage 中的文件。默认值为 `false`                                                               | 可选     |
 
 ## 示例
 
@@ -204,7 +165,7 @@ DESC STAGE my_s3_stage;
 
 以下过程在 Amazon S3 上为存储桶 *databend-toronto* 创建一个名为 *databend-access* 的访问策略：
 
-1. 登录到 AWS 管理控制台，然后选择 **服务** > **安全、身份与合规性** > **IAM**。
+1. 登录到 AWS 管理控制台，然后选择 **服务** > **安全、身份与合规** > **IAM**。
 2. 在左侧导航窗格中选择 **账户设置**，然后转到右侧页面上的 **Security Token Service (STS)** 部分。确保您的账户所属的 AWS 区域的状态为 **活动**。
 3. 在左侧导航窗格中选择 **策略**，然后在右侧页面上选择 **创建策略**。
 4. 单击 **JSON** 选项卡，将以下代码复制并粘贴到编辑器中，然后将策略另存为 *databend_access*。
@@ -244,7 +205,7 @@ DESC STAGE my_s3_stage;
 3. 创建用户后，单击用户名以打开详细信息页面，然后选择 **安全凭证** 选项卡。
 4. 在 **访问密钥** 部分中，单击 **创建访问密钥**。
 5. 为用例选择 **第三方服务**，然后勾选下面的复选框以确认创建访问密钥。
-6. 将生成的访问密钥和秘密访问密钥复制并保存到安全的地方。
+6. 将生成的访问密钥和秘密访问密钥复制并保存到安全位置。
 
 #### 步骤 3：创建外部 Stage
 
@@ -272,7 +233,7 @@ CREATE STAGE iam_external_stage url = 's3://databend-toronto' CONNECTION =(aws_k
 1. 单击 **R2** > **概述** 上的 **管理 R2 API 令牌**。
 2. 单击 **创建 API 令牌** 以创建一个 API 令牌。
 3. 配置 API 令牌时，选择必要的权限并根据需要设置 **TTL**。
-4. 单击 **创建 API 令牌** 以获取访问密钥 ID 和秘密访问密钥。将它们复制并保存到安全的地方。
+4. 单击 **创建 API 令牌** 以获取访问密钥 ID 和秘密访问密钥。将它们复制并保存到安全位置。
 
 #### 步骤 3：创建外部 Stage
 
