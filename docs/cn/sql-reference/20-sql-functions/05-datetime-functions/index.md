@@ -49,11 +49,13 @@ title: 日期 & 时间函数
 - [MILLENNIUM](millennium.md)
 - [YEARWEEK](yearweek.md)
 
-## 日期计算函数
+## 日期算术函数
 
 - [ADD INTERVAL](addinterval.md)
 - [DATE_ADD](date-add)
 - [DATE_SUB](date-sub)
+- [DATE_DIFF](date-diff)
+- [DATE_BETWEEN](date-between.md)
 - [SUBTRACT INTERVAL](subtractinterval.md)
 - [MONTHS_BETWEEN](months-between.md)
 - [LAST_DAY](last-day.md)
@@ -64,7 +66,6 @@ title: 日期 & 时间函数
 ## 日期信息函数
 
 - [DATE_PART](date-part.md)
-- [DATE_DIFF](date-diff)
 - [DATE_FORMAT](date-format)
 - [DATE_TRUNC](date-trunc)
 - [NOW](now.md)

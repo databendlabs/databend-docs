@@ -1,18 +1,18 @@
 ---
-title: DATE_DIFF
+title: DATE_BETWEEN
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.723"/>
+<FunctionDescription description="Introduced or updated: v1.2.725"/>
 
-计算基于指定时间单位的两个日期或时间戳之间的差值。如果 `<end_date>` 在 `<start_date>` 之后，则结果为正；如果 `<end_date>` 在 `<start_date>` 之前，则结果为负。
+计算两个日期或时间戳之间的时间间隔，以指定的单位返回差值，正值表示第一个时间早于第二个时间，负值表示相反。
 
-另请参阅：[DATE_BETWEEN](date-between.md)
+另请参阅：[DATE_DIFF](date-diff.md)
 
 ## 语法
 
 ```sql
-DATE_DIFF(
+DATE_BETWEEN(
   YEAR | QUARTER | MONTH | WEEK | DAY | HOUR | MINUTE | SECOND |
   DOW | DOY | EPOCH | ISODOW | YEARWEEK | MILLENNIUM,
   <start_date_or_timestamp>,
@@ -22,16 +22,16 @@ DATE_DIFF(
 
 | 关键字      | 描述                                                                  |
 |--------------|-----------------------------------------------------------------------|
-| `DOW`        | Day of the Week. 星期日 (0) 到星期六 (6).                               |
-| `DOY`        | Day of the Year. 1 到 366.                                             |
-| `EPOCH`      | 自 1970-01-01 00:00:00 以来的秒数。                                     |
-| `ISODOW`     | ISO Day of the Week. 星期一 (1) 到星期日 (7).                           |
-| `YEARWEEK`   | 遵循 ISO 8601 的年份和周数组合 (例如，202415)。                         |
-| `MILLENNIUM` | 日期的千年 (1 表示 1–1000 年，2 表示 1001–2000 年，依此类推)。 |
+| `DOW`        | 星期几。 星期日 (0) 到星期六 (6)。                                       |
+| `DOY`        | 一年中的第几天。 1 到 366。                                          |
+| `EPOCH`      | 自 1970-01-01 00:00:00 以来的秒数。                                  |
+| `ISODOW`     | ISO 星期几。 星期一 (1) 到星期日 (7)。                                   |
+| `YEARWEEK`   | 遵循 ISO 8601 的年份和周数组合（例如，202415）。                        |
+| `MILLENNIUM` | 日期的千年（1 表示 1-1000 年，2 表示 1001-2000 年，依此类推）。 |
 
 ## DATE_DIFF vs. DATE_BETWEEN
 
-`DATE_DIFF` 函数计算两个日期之间跨越的用户指定单位（如天、月或年）的边界数，而 `DATE_BETWEEN` 计算严格介于它们之间的完整单位数。例如：
+`DATE_DIFF` 函数计算两个日期之间跨越的用户指定单位（例如，日、月或年）的边界数，而 `DATE_BETWEEN` 计算严格位于它们之间的完整单位数。 例如：
 
 ```sql
 SELECT
@@ -43,30 +43,30 @@ SELECT
 
 ## 示例
 
-此示例计算固定时间戳 (`2020-01-01 00:00:00`) 与当前时间戳 (`NOW()`) 之间在各种单位（如年、ISO 工作日、年-周和千年）上的差异：
+此示例计算固定时间戳 (`2020-01-01 00:00:00`) 和当前时间戳 (`NOW()`) 之间的差异，跨越各种单位，例如年、ISO 工作日、年-周和千年：
 
 ```sql
 SELECT
-  DATE_DIFF(YEAR,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_year,
-  DATE_DIFF(QUARTER,     TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_quarter,
-  DATE_DIFF(MONTH,       TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_month,
-  DATE_DIFF(WEEK,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_week,
-  DATE_DIFF(DAY,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_day,
-  DATE_DIFF(HOUR,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_hour,
-  DATE_DIFF(MINUTE,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_minute,
-  DATE_DIFF(SECOND,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_second,
-  DATE_DIFF(DOW,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_dow,
-  DATE_DIFF(DOY,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_doy,
-  DATE_DIFF(EPOCH,       TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_epoch,
-  DATE_DIFF(ISODOW,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_isodow,
-  DATE_DIFF(YEARWEEK,    TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_yearweek,
-  DATE_DIFF(MILLENNIUM,  TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_millennium;
+  DATE_BETWEEN(YEAR,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_year,
+  DATE_BETWEEN(QUARTER,     TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_quarter,
+  DATE_BETWEEN(MONTH,       TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_month,
+  DATE_BETWEEN(WEEK,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_week,
+  DATE_BETWEEN(DAY,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_day,
+  DATE_BETWEEN(HOUR,        TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_hour,
+  DATE_BETWEEN(MINUTE,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_minute,
+  DATE_BETWEEN(SECOND,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_second,
+  DATE_BETWEEN(DOW,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_dow,
+  DATE_BETWEEN(DOY,         TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_doy,
+  DATE_BETWEEN(EPOCH,       TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_epoch,
+  DATE_BETWEEN(ISODOW,      TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_isodow,
+  DATE_BETWEEN(YEARWEEK,    TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_yearweek,
+  DATE_BETWEEN(MILLENNIUM,  TIMESTAMP '2020-01-01 00:00:00', NOW())        AS diff_millennium;
 ```
 
 ```sql
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ diff_year │ diff_quarter │ diff_month │ diff_week │ diff_day │ diff_hour │ diff_minute │ diff_second │ diff_dow │ diff_doy │ diff_epoch │ diff_isodow │ diff_yearweek │ diff_millennium │
 ├───────────┼──────────────┼────────────┼───────────┼──────────┼───────────┼─────────────┼─────────────┼──────────┼──────────┼────────────┼─────────────┼───────────────┼─────────────────┤
-│         5 │           21 │         63 │       276 │     1932 │     46386 │     2783184 │   166991069 │     1932 │     1932 │  166991069 │        1932 │           515 │               0 │
+│         5 │           21 │         63 │       276 │     1933 │     46414 │     2784887 │   167093234 │     1933 │     1933 │  167093234 │        1933 │           276 │               0 │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
