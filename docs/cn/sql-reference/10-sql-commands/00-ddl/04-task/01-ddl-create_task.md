@@ -1,3 +1,4 @@
+```md
 ---
 title: CREATE TASK
 sidebar_position: 1
@@ -15,8 +16,8 @@ CREATE TASK 语句用于定义一个新的 task，该 task 按照预定的时间
 
 ```sql
 CREATE TASK [ IF NOT EXISTS ] <name>
- [ WAREHOUSE = <string ]
- [ SCHEDULE = { <num> MINUTE | <num> SECOND | USING CRON <expr> <time_zone> } ]
+ WAREHOUSE = <string>
+ SCHEDULE = { <num> MINUTE | <num> SECOND | USING CRON <expr> <time_zone> }
  [ AFTER <string> [ , <string> , ... ]]
  [ WHEN <boolean_expr> ]
  [ SUSPEND_TASK_AFTER_NUM_FAILURES = <num> ]
@@ -27,19 +28,19 @@ AS
 <sql>
 ```
 
-| 参数                                             | 描述                                                                                                                                                                       |
+| 参数                                             | 描述                                                                                                                                                                     |
 | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IF NOT EXISTS                                    | 可选。如果指定，则仅当不存在同名的 task 时才创建 task。                                                                                                                            |
-| name                                             | task 的名称。这是一个必填字段。                                                                                                                                               |
-| WAREHOUSE                                        | 可选。指定用于 task 的虚拟计算集群。                                                                                                                                                |
-| SCHEDULE                                         | 可选。定义 task 运行的时间表。可以以分钟为单位指定，也可以使用 CRON 表达式以及时区指定。                                                                                                           |
-| SUSPEND_TASK_AFTER_NUM_FAILURES                  | 可选。task 在自动暂停之前的连续失败次数。                                                                                                                                              |
-| AFTER                                            | 列出必须在 task 启动之前完成的 task。                                                                                                                                                |
-| WHEN boolean_expr                                | task 运行必须为 true 的条件。                                                                                                                                                    |
-| [ERROR_INTEGRATION](../16-notification/index.md) | 可选。用于 task 错误通知的通知集成名称，应用了特定的 [task 错误负载 ](./10-task-error-integration-payload.md)                                                                        |
-| COMMENT                                          | 可选。一个字符串文字，用作 task 的注释或描述。                                                                                                                                          |
-| session_parameter                                | 可选。指定在 task 运行时使用的会话参数。                                                                                                                                              |
-| sql                                              | task 将执行的 SQL 语句，它可以是单个语句或脚本。这是一个必填字段。                                                                                                                             |
+| IF NOT EXISTS                                    | 可选。如果指定，则仅当不存在同名的 task 时才会创建 task。                                                                                                                   |
+| name                                             | task 的名称。这是一个必填字段。                                                                                                                                            |
+| WAREHOUSE                                        | 必需。指定用于 task 的虚拟计算集群。                                                                                                                                        |
+| SCHEDULE                                         | 必需。定义 task 运行的时间表。可以以分钟为单位指定，也可以使用 CRON 表达式以及时区指定。                                                                                               |
+| SUSPEND_TASK_AFTER_NUM_FAILURES                  | 可选。task 在自动暂停之前连续失败的次数。                                                                                                                                  |
+| AFTER                                            | 列出必须在当前 task 启动之前完成的 task。                                                                                                                                   |
+| WHEN boolean_expr                                | task 运行必须为 true 的条件。                                                                                                                                               |
+| [ERROR_INTEGRATION](../16-notification/index.md) | 可选。用于 task 错误通知的通知集成的名称，并应用特定的 [task 错误负载 ](./10-task-error-integration-payload.md)。                                                               |
+| COMMENT                                          | 可选。一个字符串，用作 task 的注释或描述。                                                                                                                                  |
+| session_parameter                                | 可选。指定在 task 运行期间用于 task 的会话参数。                                                                                                                             |
+| sql                                              | task 将执行的 SQL 语句，它可以是单个语句或脚本。这是一个必填字段。                                                                                                               |
 
 ### 使用说明
 
@@ -49,17 +50,17 @@ AS
 - When Condition 仅支持 `<boolean_expression>` 的子集
   task WHEN 子句中支持以下内容：
 
-  - [STREAM_STATUS](../../../20-sql-functions/17-table-functions/stream-status.md) 支持在 SQL 表达式中进行评估。此函数指示指定的 stream 是否包含更改跟踪数据。您可以使用此函数来评估指定的 stream 在启动当前运行之前是否包含更改数据。如果结果为 FALSE，则 task 不运行。
+  - [STREAM_STATUS](../../../20-sql-functions/17-table-functions/stream-status.md) 支持在 SQL 表达式中进行评估。此函数指示指定的 stream 是否包含更改跟踪数据。您可以使用此函数来评估指定的 stream 在开始当前运行之前是否包含更改数据。如果结果为 FALSE，则 task 不运行。
   - 布尔运算符，例如 AND、OR、NOT 等。
-  - 数字、字符串和布尔类型之间的转换。
+  - 数值、字符串和布尔类型之间的转换。
   - 比较运算符，例如等于、不等于、大于、小于等。
  
    :::note
-  警告：在 task 中使用 STREAM_STATUS 时，必须在引用 stream 时包含数据库名称（例如，`STREAM_STATUS('mydb.stream_name')`）。
+  警告：在 task 中使用 STREAM_STATUS 时，引用 stream 时必须包含数据库名称（例如，`STREAM_STATUS('mydb.stream_name')`）。
    :::
 
-- 多个从单个表 stream 消耗更改数据的 task 检索不同的增量。当 task 使用 DML 语句消耗 stream 中的更改数据时，stream 会提前偏移量。更改数据不再可供下一个 task 消耗。目前，我们建议只有一个 task 消耗 stream 中的更改数据。可以为同一表创建多个 stream，并由不同的 task 消耗。
-- task 不会在每次执行时重试；每次执行都是串行的。每个脚本 SQL 逐个执行，没有并行执行。这确保了 task 执行的顺序和依赖关系得到维护。
+- 多个从单个表 stream 中使用更改数据的 task 检索不同的增量。当 task 使用 DML 语句使用 stream 中的更改数据时，stream 会提前偏移量。更改数据不再可供下一个 task 使用。目前，我们建议只有一个 task 使用 stream 中的更改数据。可以为同一表创建多个 stream，并由不同的 task 使用。
+- Task 不会在每次执行时重试；每次执行都是串行的。每个脚本 SQL 逐个执行，没有并行执行。这确保了 task 执行的顺序和依赖关系得到维护。
 - 基于间隔的 task 以严格的方式遵循固定的间隔点。这意味着如果当前 task 执行时间超过间隔单位，则下一个 task 将立即执行。否则，下一个 task 将等待直到下一个间隔单位被触发。例如，如果一个 task 定义为 1 秒的间隔，并且一个 task 执行需要 1.5 秒，则下一个 task 将立即执行。如果一个 task 执行需要 0.5 秒，则下一个 task 将等待直到下一个 1 秒间隔刻度开始。
 
 ### 关于 Cron 表达式的重要说明
@@ -109,7 +110,7 @@ CREATE TASK my_daily_task
  INSERT INTO summary_table SELECT * FROM source_table;
 ```
 
-在此示例中，创建了一个名为 my_daily_task 的 task。它使用 compute_wh 计算集群运行一个 SQL 语句，该语句将数据从 source_table 插入到 summary_table 中。该 task 计划每天太平洋时间上午 9 点运行。
+在此示例中，创建了一个名为 my_daily_task 的 task。它使用 compute_wh 计算集群运行一个 SQL 语句，该语句将数据从 source_table 插入到 summary_table 中。该 task 计划在太平洋时间每天上午 9 点运行。
 
 ```sql
 CREATE TASK IF NOT EXISTS mytask
@@ -130,7 +131,7 @@ FROM sales_data
 GROUP BY sales_date;
 ```
 
-在此示例中，创建了一个名为 daily_sales_summary 的 task，并具有秒级调度。它计划每 30 秒运行一次。该 task 使用 'analytics' 计算集群，并通过聚合 sales_data 表中的数据来计算每日销售摘要。
+在此示例中，创建了一个名为 daily_sales_summary 的 task，并具有秒级调度。它计划每 30 秒运行一次。该 task 使用 'analytics' 计算集群，并通过聚合 sales_data 表中的数据来计算每日销售额摘要。
 
 ```sql
 CREATE TASK IF NOT EXISTS process_orders
@@ -140,7 +141,7 @@ ASINSERT INTO data_warehouse.orders
 SELECT * FROM staging.orders;
 ```
 
-在此示例中，创建了一个名为 process_orders 的 task，并将其定义为在 task1 和 task2 成功完成后运行。这对于在有向无环图 (DAG) 中创建依赖关系非常有用。该 task 使用 'etl' 计算集群，并将数据从暂存区域传输到数仓。
+在此示例中，创建了一个名为 process_orders 的 task，并将其定义为在 task1 和 task2 成功完成后运行。这对于在 task 的有向无环图 (DAG) 中创建依赖关系非常有用。该 task 使用 'etl' 计算集群并将数据从暂存区传输到数仓。
 
 ```sql
 CREATE TASK IF NOT EXISTS hourly_data_cleanup
@@ -170,3 +171,4 @@ END;
 ```
 
 在此示例中，创建了一个名为 mytask 的 task。它使用 mywh 计算集群，并计划每 30 秒运行一次。该 task 执行一个 BEGIN 块，其中包含一个 INSERT 语句和一个 DELETE 语句。该 task 在执行完两个语句后提交事务。当 task 失败时，它将触发名为 myerror 的错误集成。
+```
