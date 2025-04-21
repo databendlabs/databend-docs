@@ -60,9 +60,9 @@ aws --endpoint-url http://127.0.0.1:9000/ s3 mb s3://databend
 1. Download the latest Databend release and extract it to get the necessary binaries:
 
 ```bash
-wget https://github.com/databendlabs/databend/releases/download/v1.2.719-nightly/databend-dbg-v1.2.719-nightly-x86_64-unknown-linux-gnu.tar.gz
+wget https://github.com/databendlabs/databend/releases/download/v1.2.25-nightly/databend-dbg-v1.2.725-nightly-x86_64-unknown-linux-gnu.tar.gz
 
-tar -xzvf databend-dbg-v1.2.719-nightly-x86_64-unknown-linux-gnu.tar.gz
+tar -xzvf databend-dbg-v1.2.725-nightly-x86_64-unknown-linux-gnu.tar.gz
 ```
 
 2. Configure the **databend-query.toml** configuration file in the **configs** folder. 
