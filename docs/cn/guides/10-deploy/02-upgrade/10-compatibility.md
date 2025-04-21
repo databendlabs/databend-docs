@@ -50,7 +50,7 @@ databend-bend.version  >= databend-query.min-compatible-metasrv-version
 :::caution
 
 如果部署了不兼容的版本，当 databend-query 尝试连接到 databend-meta 时，将发生 `InvalidArgument` 错误，
-可以在 databend-query 日志中找到该错误。
+可以在 databend-query 日志中找到。
 然后 databend-query 将停止工作。
 
 :::
@@ -106,7 +106,7 @@ S.ver:           2      3      4
 | [1.2.226, 1.2.258) | ✅                | ✅              | ✅          |❌          |
 | [1.2.258, +∞)      | ✅                | ✅              | ✅          |✅          |
 
-以上图表中未包含的历史版本：
+未包含在上述图表中的历史版本：
 
 - Query `[0.7.59, 0.8.80)` 与 Meta `[0.8.30, 0.9.23)` 兼容。
 - Query `[0.8.80, 0.9.41)` 与 Meta `[0.8.35, 0.9.42)` 兼容。
@@ -114,30 +114,38 @@ S.ver:           2      3      4
 
 <img src="/img/deploy/compatibility.excalidraw.png"/>
 
-## databend-query 之间的兼容性
+# databend-query 之间的兼容性
 
-| Query version      | 向后兼容  |
-|:-------------------|:--------------------------|
-| [-∞, 1.2.307)      | [-∞, 1.2.311)             |
-| [1.2.307, 1.2.311) | [-∞, 1.2.311)             |
-| [1.2.311, +∞)      | [1.2.307, +∞)             |
+## 版本兼容性矩阵
 
-自 1.2.307 起，支持使用 pb 和 json 反序列化 Role 信息，但仅支持将 Role 信息序列化为 json。
+| Query version      | Backward compatible with  | Key Changes |
+|:-------------------|:--------------------------|:------------|
+| [-∞, 1.2.307)      | [-∞, 1.2.311)             | Original format |
+| [1.2.307, 1.2.311) | [-∞, 1.2.311)             | Added Role info with PB/JSON support |
+| [1.2.311, 1.2.709) | [1.2.307, +∞)             | Role info serialized to PB only |
+| [1.2.709, +∞)      | [1.2.709, +∞)             | **Important**: Fuse storage path changed |
 
-自 1.2.311 起，仅支持将 Role 信息序列化为 pb。
+## Important Changes & Upgrade Instructions
 
-防止未成功升级的查询节点由于滚动升级期间对角色的操作而无法读取数据。 建议您升级到 1.2.307，然后再升级到 1.2.311。
+### Version 1.2.307
+- Support deserialize Role info with PB and JSON
+- Only support serialize Role info to JSON
+- **Upgrade to this version first** if you're on an earlier version
 
-例如，当前版本为 1.2.306 升级到 1.2.312：
+### Version 1.2.311
+- Only support serialize Role info to PB
+- **Upgrade to this version next** after reaching 1.2.307
+- Example upgrade path: `1.2.306 -> 1.2.307 -> 1.2.311 -> 1.2.312`
 
-```
-1.2.307 -> 1.2.311 -> 1.2.312
-
-```
+### Version 1.2.709
+- **Important Change**: Fuse storage path modified
+- ⚠️ Versions before 1.2.709 may not be able to read some data from versions 1.2.709+
+- ⚠️ **Recommendation**: All nodes under the same tenant should be upgraded together
+- Avoid mixing nodes with versions before and after 1.2.709 to prevent potential data access issues
 
 ## databend-meta 之间的兼容性
 
-| Meta version        | 向后兼容 |
+| Meta version        | Backward compatible with |
 |:--------------------|:-------------------------|
 | [0.9.41,   1.2.212) | [0.9.41,  1.2.212)       |
 | [1.2.212,  1.2.479) | [0.9.41,  1.2.479)       |
@@ -149,34 +157,34 @@ S.ver:           2      3      4
 
 - `1.2.53` 不兼容，允许滚动升级，无需传输快照。
   快照格式已更改，因此在滚动升级期间，
-  它要求所有节点数据都是最新的，确保无需使用快照进行复制。
+  它要求所有节点数据都是最新的，确保不需要使用快照进行复制。
 
-- `1.2.163` 功能：gRPC API：添加了 `kv_read_v1()`。 用于流式读取。
+- `1.2.163` 功能：gRPC API：添加了 `kv_read_v1()`。用于流式读取。
 
-- `1.2.212` 2023-11-16 功能：raft API：`install_snapshot_v1()`。 与旧版本兼容。
+- `1.2.212` 2023-11-16 功能：raft API：`install_snapshot_v1()`。与旧版本兼容。
   支持滚动升级。
   在此版本中，databend-meta raft-server 引入了一个新的 API `install_snapshot_v1()`。
-  raft-client 将尝试使用此新 API 或原始的 `install_snapshot()`。
+  raft-client 将尝试使用这个新的 API 或原始的 `install_snapshot()`。
 
 - `1.2.479` 2024-05-21 从客户端和服务器中删除：`install_snapshot()`(v0)。
   `install_snapshot_v1()` 是安装快照的唯一 API，并且对于客户端来说是**必需的**。
 
-- `1.2.528` 2024-06-13 删除磁盘数据版本 `V001`。 使用 `V002` 的第一个版本是 `1.2.53`，2023-08-08。
-  因此，自 `1.2.528` 起，最旧的兼容版本是 `1.2.53`。
+- `1.2.528` 2024-06-13 删除磁盘数据版本 `V001`。使用 `V002` 的第一个版本是 `1.2.53`，2023-08-08。
+  因此，自 `1.2.528` 以来，最旧的兼容版本是 `1.2.53`。
   因此，自此版本起，兼容性保持不变。
 
 - `1.2.552` 2024-07-02 引入磁盘 `V003`，使用 `rotbl` 格式快照，
-  与 `V002` 兼容。 最旧的兼容版本是 `1.2.288`（已删除 `1.2.212~1.2.287`）。
+  与 `V002` 兼容。最旧的兼容版本是 `1.2.288`（`1.2.212~1.2.287` 已删除）。
 
 - `1.2.655` 2024-11-11 引入磁盘 `V004`，使用基于 WAL 的 Raft 日志存储，
-  与 `V002` 兼容。 最旧的兼容版本是 `1.2.288`（已删除 `1.2.212~1.2.287`）。
+  与 `V002` 兼容。最旧的兼容版本是 `1.2.288`（`1.2.212~1.2.287` 已删除）。
 
 
 ## databend-meta 磁盘数据的兼容性
 
 Databend-meta 的磁盘数据随着时间的推移而演变，同时保持向后兼容性。
 
-| DataVersion | Databend-version | 最小兼容版本 |
+| DataVersion | Databend-version | Min Compatible with |
 |:------------|:-----------------|:--------------------|
 | V004        | 1.2.655          | V002                | 
 | V003        | 1.2.547          | V002                | 
@@ -210,7 +218,7 @@ Working DataVersion 必须大于或等于磁盘 DataVersion；否则，它将 pa
 
 ### 自动升级
 
-当 `databend-meta` 启动时，如果磁盘与工作 DataVersion 兼容，则会升级磁盘。
+当 `databend-meta` 启动时，如果磁盘数据与工作 DataVersion 兼容，则会升级磁盘数据。
 升级进度将打印到 `stderr` 和 INFO 级别的日志文件中，例如：
 
 ```text
@@ -234,5 +242,5 @@ Write header: version: V001, upgrading: None
 - 备份的第一行是版本，例如：
   `["header",{"DataHeader":{"key":"header","value":{"version":"V100","upgrading":null}}}]`
 
-- 导入时**不会进行自动升级**。
-  自动升级仅在启动 `databend-meta` 时完成。
+- 导入时**不会自动升级**。
+  只有在启动 `databend-meta` 时才会自动升级。
