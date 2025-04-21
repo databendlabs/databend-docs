@@ -1,4 +1,3 @@
-```md
 ---
 title: "COPY INTO <table>"
 sidebar_label: "COPY INTO <table>"
