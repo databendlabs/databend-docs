@@ -114,26 +114,34 @@ History versions that are not included in the above chart:
 
 <img src="/img/deploy/compatibility.excalidraw.png"/>
 
-## Compatibility between databend-query
+# Compatibility between databend-query
 
-| Query version      | Backward compatible with  |
-|:-------------------|:--------------------------|
-| [-∞, 1.2.307)      | [-∞, 1.2.311)             |
-| [1.2.307, 1.2.311) | [-∞, 1.2.311)             |
-| [1.2.311, +∞)      | [1.2.307, +∞)             |
+## Version Compatibility Matrix
 
-Since 1.2.307, support deseriazlie Role info with pb and json but only support serialize Role info to json.
+| Query version      | Backward compatible with  | Key Changes |
+|:-------------------|:--------------------------|:------------|
+| [-∞, 1.2.307)      | [-∞, 1.2.311)             | Original format |
+| [1.2.307, 1.2.311) | [-∞, 1.2.311)             | Added Role info with PB/JSON support |
+| [1.2.311, 1.2.709) | [1.2.307, +∞)             | Role info serialized to PB only |
+| [1.2.709, +∞)      | [1.2.709, +∞)             | **Important**: Fuse storage path changed |
 
-Since 1.2.311, only support seriazlie Role info to pb.
+## Important Changes & Upgrade Instructions
 
-Prevents the query node that is not successfully upgraded from reading data due to operations on the role during rolling upgrade. You are advised to upgrade to 1.2.307 and then 1.2.311.
+### Version 1.2.307
+- Support deserialize Role info with PB and JSON
+- Only support serialize Role info to JSON
+- **Upgrade to this version first** if you're on an earlier version
 
-For example, Current Version is 1.2.306 upgrade to 1.2.312:
+### Version 1.2.311
+- Only support serialize Role info to PB
+- **Upgrade to this version next** after reaching 1.2.307
+- Example upgrade path: `1.2.306 -> 1.2.307 -> 1.2.311 -> 1.2.312`
 
-```
-1.2.307 -> 1.2.311 -> 1.2.312
-
-```
+### Version 1.2.709
+- **Important Change**: Fuse storage path modified
+- ⚠️ Versions before 1.2.709 may not be able to read some data from versions 1.2.709+
+- ⚠️ **Recommendation**: All nodes under the same tenant should be upgraded together
+- Avoid mixing nodes with versions before and after 1.2.709 to prevent potential data access issues
 
 ## Compatibility between databend-meta
 
