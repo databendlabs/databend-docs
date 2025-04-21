@@ -1,5 +1,5 @@
 ---
-title: Loading CSV File into Databend
+title: Loading CSV into Databend
 sidebar_label: CSV
 ---
 

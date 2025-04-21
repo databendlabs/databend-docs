@@ -109,8 +109,6 @@ mysql> SELECT * FROM system.configs;
 | storage | azblob.container                       |                                |             |
 | storage | azblob.endpoint_url                    |                                |             |
 | storage | azblob.root                            |                                |             |
-| storage | hdfs.name_node                         |                                |             |
-| storage | hdfs.root                              |                                |             |
 | storage | obs.access_key_id                      |                                |             |
 | storage | obs.secret_access_key                  |                                |             |
 | storage | obs.bucket                             |                                |             |

@@ -46,12 +46,16 @@ This section provides reference information for the datetime-related functions i
 - [TO_YYYYMMDD](to-yyyymmdd)
 - [TO_YYYYMMDDHH](to-yyyymmddhh)
 - [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss)
+- [MILLENNIUM](millennium.md)
+- [YEARWEEK](yearweek.md)
 
 ## Date Arithmetic Functions
 
 - [ADD INTERVAL](addinterval.md)
 - [DATE_ADD](date-add)
 - [DATE_SUB](date-sub)
+- [DATE_DIFF](date-diff)
+- [DATE_BETWEEN](date-between.md)
 - [SUBTRACT INTERVAL](subtractinterval.md)
 - [MONTHS_BETWEEN](months-between.md)
 - [LAST_DAY](last-day.md)
@@ -62,7 +66,6 @@ This section provides reference information for the datetime-related functions i
 ## Date Information Functions
 
 - [DATE_PART](date-part.md)
-- [DATE_DIFF](date-diff)
 - [DATE_FORMAT](date-format)
 - [DATE_TRUNC](date-trunc)
 - [NOW](now.md)

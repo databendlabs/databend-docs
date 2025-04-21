@@ -542,11 +542,11 @@ const DocsOverview: FC = (): ReactElement => {
           <Col {...colLayout2}>
             <Card style={{ height: "100%" }} padding={[16, 16]}>
               <h3>
-                <span> {$t("Object Storage & HDFS")}</span>
+                <span> {$t("Object Storage")}</span>
               </h3>
               <div>
                 {$t(
-                  "Stores all data in object storage to reduce costs, while supporting HDFS for existing Hadoop and Hive clusters."
+                  "Stores all data in object storage."
                 )}
               </div>
             </Card>

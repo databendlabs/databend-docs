@@ -3,7 +3,7 @@ title: Apache Iceberg
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.668"/>
+<FunctionDescription description="引入或更新：v1.2.668"/>
 
 Databend 支持集成 [Apache Iceberg](https://iceberg.apache.org/) catalog，从而增强了其数据管理和分析的兼容性和多功能性。通过将 Apache Iceberg 强大的元数据和存储管理功能无缝集成到平台中，扩展了 Databend 的功能。
 
@@ -22,7 +22,7 @@ Databend 支持集成 [Apache Iceberg](https://iceberg.apache.org/) catalog，�
 | DOUBLE                          | [DOUBLE](/sql/sql-reference/data-types/numeric#floating-point-data-type)                  |
 | STRING/BINARY                   | [STRING](/sql/sql-reference/data-types/string)                  |
 | DECIMAL                         | [DECIMAL](/sql/sql-reference/data-types/decimal)                 |
-| ARRAY&lt;TYPE&gt;               | [ARRAY](/sql/sql-reference/data-types/array), supports nesting |
+| ARRAY&lt;TYPE&gt;               | [ARRAY](/sql/sql-reference/data-types/array), 支持嵌套 |
 | MAP&lt;KEYTYPE, VALUETYPE&gt;       | [MAP](/sql/sql-reference/data-types/map)                     |
 | STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)           |
 | LIST                            | [ARRAY](/sql/sql-reference/data-types/array)                   |
@@ -55,44 +55,34 @@ CONNECTION=(
 );
 ```
 
-| 参数                       | 是否必需 | 描述                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|----------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<catalog_name>`           | 是        | 你想要创建的 catalog 的名称。                                                                                                                                                                                                                                                                                                                                                                                              |
-| `TYPE`                     | 是        | 指定 catalog 类型。对于 Iceberg，设置为 `ICEBERG`。                                                                                                                                                                                                                                                                                                                                                                           |
-| `CONNECTION`               | 是        | Iceberg catalog 的连接参数。                                                                                                                                                                                                                                                                                                                                                                                                |
-| `TYPE` (在 `CONNECTION` 中) | 是        | 连接类型。对于 Iceberg，通常设置为 `rest` 以进行基于 REST 的连接。                                                                                                                                                                                                                                                                                                                                                            |
-| `ADDRESS`                  | 是        | Iceberg 服务的地址或 URL（例如，`http://127.0.0.1:8181`）。                                                                                                                                                                                                                                                                                                                                                                   |
-| `WAREHOUSE`                | 是        | Iceberg warehouse 的位置，通常是 S3 bucket 或兼容的对象存储系统。                                                                                                                                                                                                                                                                                                                                                            |
-| `<connection_parameter>`   | 是        | 用于建立与外部存储连接的连接参数。所需的参数因特定的存储服务和身份验证方法而异。有关可用参数的完整列表，请参见下表。                                                                                                                                                                                                                                                                                                                             |
+| 参数                        | 是否必需 | 描述                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|-----------------------------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<catalog_name>`            | 是      | 你想要创建的 catalog 的名称。                                                                                                                                                                                                                                                                                                                                                                                          |
+| `TYPE`                      | 是      | 指定 catalog 类型。对于 Iceberg，设置为 `ICEBERG`。                                                                                                                                                                                                                                                                                                                                                                        |
+| `CONNECTION`                | 是      | Iceberg catalog 的连接参数。                                                                                                                                                                                                                                                                                                                                                                                            |
+| `TYPE` (在 `CONNECTION` 中) | 是      | 连接类型。对于 Iceberg，通常对于基于 REST 的连接设置为 `rest`。                                                                                                                                                                                                                                                                                                                                                         |
+| `ADDRESS`                   | 是      | Iceberg 服务的地址或 URL (例如，`http://127.0.0.1:8181`)。                                                                                                                                                                                                                                                                                                                                                               |
+| `WAREHOUSE`                 | 是      | Iceberg 计算集群的位置，通常是 S3 bucket 或兼容的对象存储系统。                                                                                                                                                                                                                                                                                                                                                              |
+| `<connection_parameter>`    | 是      | 用于建立与外部存储连接的连接参数。所需的参数因特定的存储服务和身份验证方法而异。有关可用参数的完整列表，请参见下表。                                                                                                                                                                                                                                                                                                                        |
 
-| 连接参数                      | 描述                                                                                                                                |
-|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `s3.endpoint`                 | S3 端点。                                                                                                                            |
-| `s3.access-key-id`            | S3 访问密钥 ID。                                                                                                                    |
-| `s3.secret-access-key`        | S3 私有密钥。                                                                                                                        |
-| `s3.session-token`            | S3 会话令牌，使用临时凭证时是必需的。                                                                                                |
-| `s3.region`                   | S3 区域。                                                                                                                            |
-| `client.region`               | 用于 S3 客户端的区域，优先于 `s3.region`。                                                                                             |
-| `s3.path-style-access`        | S3 Path Style Access。                                                                                                               |
-| `s3.sse.type`                 | S3 服务器端加密 (SSE) 类型。                                                                                                        |
-| `s3.sse.key`                  | S3 SSE 密钥。如果加密类型是 `kms`，这是一个 KMS 密钥 ID。如果加密类型是 `custom`，这是一个 base-64 AES256 对称密钥。                  |
-| `s3.sse.md5`                  | S3 SSE MD5 校验和。                                                                                                                  |
-| `client.assume-role.arn`      | 要承担的 IAM 角色的 ARN，而不是使用默认凭证链。                                                                                       |
-| `client.assume-role.external-id` | 用于承担 IAM 角色的可选外部 ID。                                                                                                     |
-| `client.assume-role.session-name` | 用于承担 IAM 角色的可选会话名称。                                                                                                   |
-| `s3.allow-anonymous`          | 允许匿名访问的选项（例如，对于公共存储桶/文件夹）。                                                                                      |
-| `s3.disable-ec2-metadata`     | 用于禁用从 EC2 元数据加载凭证的选项（通常与 `s3.allow-anonymous` 一起使用）。                                                          |
-| `s3.disable-config-load`      | 用于禁用从配置文件和环境变量加载配置的选项。                                                                                           |
-
-:::note
-要从 HDFS 读取数据，需要在启动 Databend 之前设置以下环境变量。这些环境变量确保 Databend 可以访问必要的 Java 和 Hadoop 依赖项，从而有效地与 HDFS 交互。请确保将“/path/to/java”和“/path/to/hadoop”替换为 Java 和 Hadoop 安装的实际路径，并调整 CLASSPATH 以包含所有必需的 Hadoop JAR 文件。
-```shell
-export JAVA_HOME=/path/to/java
-export LD_LIBRARY_PATH=${JAVA_HOME}/lib/server:${LD_LIBRARY_PATH}
-export HADOOP_HOME=/path/to/hadoop
-export CLASSPATH=/all/hadoop/jar/files
-```
-:::
+| 连接参数                    | 描述                                                                                                                                |
+|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `s3.endpoint`               | S3 端点。                                                                                                                             |
+| `s3.access-key-id`          | S3 访问密钥 ID。                                                                                                                        |
+| `s3.secret-access-key`      | S3 密钥。                                                                                                                             |
+| `s3.session-token`          | S3 会话令牌，使用临时凭证时需要。                                                                                                                |
+| `s3.region`                 | S3 区域。                                                                                                                             |
+| `client.region`             | 用于 S3 客户端的区域，优先于 `s3.region`。                                                                                                       |
+| `s3.path-style-access`      | S3 路径样式访问。                                                                                                                          |
+| `s3.sse.type`               | S3 服务器端加密 (SSE) 类型。                                                                                                                 |
+| `s3.sse.key`                | S3 SSE 密钥。如果加密类型为 `kms`，则为 KMS 密钥 ID。如果加密类型为 `custom`，则为 base-64 AES256 对称密钥。                                 |
+| `s3.sse.md5`                | S3 SSE MD5 校验和。                                                                                                                      |
+| `client.assume-role.arn`    | 要承担的 IAM 角色的 ARN，而不是使用默认凭证链。                                                                                                    |
+| `client.assume-role.external-id` | 用于承担 IAM 角色的可选外部 ID。                                                                                                                 |
+| `client.assume-role.session-name` | 用于承担 IAM 角色的可选会话名称。                                                                                                               |
+| `s3.allow-anonymous`        | 允许匿名访问的选项（例如，对于公共存储桶/文件夹）。                                                                                                         |
+| `s3.disable-ec2-metadata`   | 用于禁用从 EC2 元数据加载凭证的选项（通常与 `s3.allow-anonymous` 一起使用）。                                                                                |
+| `s3.disable-config-load`    | 用于禁用从配置文件和环境变量加载配置的选项。                                                                                                          |
 
 ### SHOW CREATE CATALOG
 
@@ -124,16 +114,16 @@ SHOW CATALOGS [LIKE '<pattern>']
 USE CATALOG <catalog_name>
 ```
 
-## Iceberg Table Functions
+## Iceberg 表函数
 
-Databend 提供了以下表函数来查询 Iceberg 元数据，允许用户有效地检查快照和清单：
+Databend 提供了以下表函数，用于查询 Iceberg 元数据，允许用户高效地检查快照和清单：
 
 - [ICEBERG_MANIFEST](/sql/sql-functions/table-functions/iceberg-manifest)
 - [ICEBERG_SNAPSHOT](/sql/sql-functions/table-functions/iceberg-snapshot)
 
 ## 使用示例
 
-此示例展示了如何使用基于 REST 的连接创建 Iceberg catalog，指定服务地址、计算集群位置 (S3) 以及可选参数（如 AWS 区域和自定义端点）：
+此示例展示了如何使用基于 REST 的连接创建 Iceberg catalog，指定服务地址、计算集群位置 (S3) 和可选参数（如 AWS 区域和自定义端点）：
 
 ```sql
 CREATE CATALOG ctl

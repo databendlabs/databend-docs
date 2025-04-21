@@ -1,5 +1,5 @@
 ---
-title: 日期与时间函数
+title: 日期 & 时间函数
 ---
 
 本节提供了 Databend 中与日期时间相关的函数的参考信息。
@@ -46,12 +46,16 @@ title: 日期与时间函数
 - [TO_YYYYMMDD](to-yyyymmdd)
 - [TO_YYYYMMDDHH](to-yyyymmddhh)
 - [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss)
+- [MILLENNIUM](millennium.md)
+- [YEARWEEK](yearweek.md)
 
 ## 日期算术函数
 
 - [ADD INTERVAL](addinterval.md)
 - [DATE_ADD](date-add)
 - [DATE_SUB](date-sub)
+- [DATE_DIFF](date-diff)
+- [DATE_BETWEEN](date-between.md)
 - [SUBTRACT INTERVAL](subtractinterval.md)
 - [MONTHS_BETWEEN](months-between.md)
 - [LAST_DAY](last-day.md)
@@ -62,7 +66,6 @@ title: 日期与时间函数
 ## 日期信息函数
 
 - [DATE_PART](date-part.md)
-- [DATE_DIFF](date-diff)
 - [DATE_FORMAT](date-format)
 - [DATE_TRUNC](date-trunc)
 - [NOW](now.md)
@@ -74,4 +77,3 @@ title: 日期与时间函数
 - [TIME_SLOT](time-slot)
 - [TIMEZONE](timezone.md)
 - [YESTERDAY](yesterday.md)
-{/*examples*/}

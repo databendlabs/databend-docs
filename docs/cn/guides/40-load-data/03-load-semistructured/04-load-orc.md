@@ -1,5 +1,5 @@
 ---
-title: Loading ORC File into Databend
+title: 加载 ORC 文件到 Databend
 sidebar_label: ORC
 ---
 
@@ -22,11 +22,11 @@ FILE_FORMAT = (TYPE = ORC)
 
 ## 教程：从 ORC 文件加载数据
 
-本教程演示了如何将存储在 S3 bucket 中的 ORC 文件中的数据加载到 Databend 表中。
+本教程演示如何将存储在 S3 bucket 中的 ORC 文件中的数据加载到 Databend 表中。
 
 ### 步骤 1. 创建外部 Stage
 
-创建一个外部 Stage，指向 S3 bucket 中的 ORC 文件。
+创建一个外部 stage，指向 S3 bucket 中的 ORC 文件。
 
 ```sql
 CREATE OR REPLACE CONNECTION aws_s3
@@ -39,7 +39,7 @@ CREATE OR REPLACE STAGE orc_data_stage
     CONNECTION=(CONNECTION_NAME='aws_s3');
 ```
 
-列出 Stage 中的文件：
+列出 stage 中的文件：
 
 ```sql
 LIST @orc_data_stage;
@@ -63,10 +63,10 @@ LIST @orc_data_stage;
 
 ### 步骤 2：查询 Stage 文件
 
-为 ORC 创建文件格式，并查询 Stage 以查看数据和 schema。
+为 ORC 创建文件格式，并查询 stage 以查看数据和 schema。
 
 ```sql
--- 创建一个 ORC 文件格式
+-- 创建 ORC 文件格式
 CREATE OR REPLACE FILE FORMAT orc_ff TYPE = 'ORC';
 
 
@@ -113,7 +113,7 @@ CREATE OR REPLACE TABLE orc_test_table (
 
 ### 步骤 5. 使用 SELECT 复制数据
 
-将外部 Stage 中 ORC 文件的数据复制到目标表中。
+将外部 stage 中 ORC 文件的数据复制到目标表中。
 
 ```sql
 COPY INTO orc_test_table

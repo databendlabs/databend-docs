@@ -2,6 +2,9 @@
 title: 在 Docker 上部署
 ---
 
+<!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/01-deploying-local-cnvideo.md' -->
+
 本指南将引导你使用 [Docker](https://www.docker.com/) 和 [MinIO](https://min.io/) 部署 Databend，以便在本地机器上进行完全容器化的设置。
 
 :::note non-production use only
@@ -17,7 +20,7 @@ title: 在 Docker 上部署
 
 ### 部署 MinIO
 
-1. 使用以下命令拉取 MinIO 镜像并将其作为容器运行：
+1. 使用以下命令拉取并运行 MinIO 镜像作为容器：
 
 :::note
 
@@ -71,12 +74,12 @@ INFO:
 
 ### 部署 Databend
 
-1. 使用以下命令拉取 Databend 镜像并将其作为容器运行：
+1. 使用以下命令拉取并运行 Databend 镜像作为容器：
 
 :::note
 
 - 启动 Databend Docker 容器时，可以使用环境变量 `QUERY_DEFAULT_USER` 和 `QUERY_DEFAULT_PASSWORD` 指定用户名和密码。如果未提供这些变量，将创建一个没有密码的默认 root 用户。
-- 以下命令还会创建一个 SQL 用户 (`databend`/`databend`)，你将需要使用该用户连接到 Databend。如果你此时更改 SQL 用户，请确保在整个过程中保持一致。
+- 以下命令还会创建一个 SQL 用户 (`databend`/`databend`)，你将需要使用该用户稍后连接到 Databend。如果你此时更改 SQL 用户，请确保在整个过程中保持一致。
   :::
 
 ```shell
@@ -235,3 +238,7 @@ SELECT NOW()
 └────────────────────────────┘
 1 row read in 0.003 sec. Processed 1 row, 1 B (333.33 rows/s, 333 B/s)
 ```
+
+<!-- <LanguageFileParse
+cn={<VideoCN />}
+/> -->

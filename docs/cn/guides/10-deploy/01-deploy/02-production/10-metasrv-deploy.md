@@ -1,30 +1,33 @@
 ---
-title: Deploying Databend Cluster
-sidebar_label: Deploying Databend Cluster
+title: 部署 Databend 集群
+sidebar_label: 部署 Databend 集群
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Databend 建议部署一个集群，在生产环境中至少包含三个 meta 节点和一个 query 节点。为了更好地理解 Databend 集群的部署，请参考 [Understanding Databend Deployments](../00-understanding-deployment-modes.md)，这将帮助您熟悉相关概念。本主题旨在为部署 Databend 集群提供一个实用的指南。
+<!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/10-metasrv-deploy-cnvideo.md' -->
 
-## Before You Begin
+Databend 建议在生产环境中部署至少包含三个 meta 节点和一个 query 节点的集群。为了更好地理解 Databend 集群的部署，请参考 [了解 Databend 部署模式](../00-understanding-deployment-modes.md)，这将帮助您熟悉相关概念。本主题旨在为部署 Databend 集群提供实用的指南。
+
+## 准备工作
 
 在开始之前，请确保您已完成以下准备工作：
 
 - 规划您的部署。本主题基于以下集群部署计划，包括设置一个包含三个 meta 节点的 meta 集群和一个包含两个 query 节点的 query 集群：
 
-| Node #  | IP Address        | Leader Meta Node? | Tenant ID | Cluster ID |
+| 节点 #  | IP 地址         | Leader Meta 节点？ | Tenant ID | Cluster ID |
 | ------- | ----------------- | ----------------- | --------- | ---------- |
-| Meta-1  | 172.16.125.128/24 | Yes               | -         | -          |
-| Meta-2  | 172.16.125.129/24 | No                | -         | -          |
-| Meta-3  | 172.16.125.130/24 | No                | -         | -          |
+| Meta-1  | 172.16.125.128/24 | 是                | -         | -          |
+| Meta-2  | 172.16.125.129/24 | 否                | -         | -          |
+| Meta-3  | 172.16.125.130/24 | 否                | -         | -          |
 | Query-1 | 172.16.125.131/24 | -                 | default   | default    |
 | Query-2 | 172.16.125.132/24 | -                 | default   | default    |
 
-- 下载最新的 Databend 软件包并将其解压到每个节点。
+- 下载最新的 Databend 安装包并解压到每个节点。
 
-```shell title='Example:'
+```shell title='示例:'
 root@meta-1:/usr# mkdir databend && cd databend
 root@meta-1:/usr/databend# curl -O https://repo.databend.com/databend/v1.2.410/databend-v1.2.410-aarch64-unknown-linux-gnu.tar.gz
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -33,7 +36,7 @@ root@meta-1:/usr/databend# curl -O https://repo.databend.com/databend/v1.2.410/d
 root@meta-1:/usr/databend# tar -xzvf databend-v1.2.410-aarch64-unknown-linux-gnu.tar.gz
 ```
 
-## Step 1: Deploy Meta Nodes
+## 步骤 1：部署 Meta 节点
 
 1. 在每个 meta 节点中配置 [databend-meta.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-meta.toml) 文件：
 
@@ -41,7 +44,7 @@ root@meta-1:/usr/databend# tar -xzvf databend-v1.2.410-aarch64-unknown-linux-gnu
    - 对于 leader meta 节点，将 **single** 参数设置为 _true_。
    - 对于 follower meta 节点，使用 # 符号注释掉 **single** 参数，然后添加一个名为 **join** 的参数，并提供其他 meta 节点的 IP 地址数组作为其值。
 
-| Parameter               | Meta-1         | Meta-2                                          | Meta-3                                          |
+| 参数                    | Meta-1         | Meta-2                                          | Meta-3                                          |
 | ----------------------- | -------------- | ----------------------------------------------- | ----------------------------------------------- |
 | grpc_api_advertise_host | 172.16.125.128 | 172.16.125.129                                  | 172.16.125.130                                  |
 | id                      | 1              | 2                                               | 3                                               |
@@ -134,7 +137,7 @@ join            = ["172.16.125.128:28103", "172.16.125.129:28103"]
   </TabItem>
 </Tabs>
 
-2. 要启动 meta 节点，请在每个节点上运行以下脚本：从 leader 节点 (Meta-1) 开始，然后按顺序处理 follower 节点。
+2. 要启动 meta 节点，请在每个节点上运行以下脚本：从 leader 节点 (Meta-1) 开始，然后依次启动 follower 节点。
 
 ```shell
 cd .. && cd bin
@@ -148,14 +151,14 @@ curl 172.16.125.128:28101/v1/cluster/nodes
 [{"name":"1","endpoint":{"addr":"172.16.125.128","port":28103},"grpc_api_advertise_address":"172.16.125.128:9191"},{"name":"2","endpoint":{"addr":"172.16.125.129","port":28103},"grpc_api_advertise_address":"172.16.125.129:9191"},{"name":"3","endpoint":{"addr":"172.16.125.130","port":28103},"grpc_api_advertise_address":"172.16.125.130:9191"}]
 ```
 
-## Step 2: Deploy Query Nodes
+## 步骤 2：部署 Query 节点
 
 1. 在每个 query 节点中配置 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 文件。以下列表仅包含您需要在每个 query 节点中设置的参数，以反映本文档中概述的部署计划。
 
    - 根据部署计划设置 tenant ID 和 cluster ID。
    - 将 **endpoints** 参数设置为 meta 节点的 IP 地址数组。
 
-| Parameter  | Query-1 / Query-2                                                   |
+| 参数       | Query-1 / Query-2                                                   |
 | ---------- | ------------------------------------------------------------------- |
 | tenant_id  | default                                                             |
 | cluster_id | default                                                             |
@@ -203,7 +206,7 @@ endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
   </TabItem>
 </Tabs>
 
-2. 对于每个 query 节点，您还需要在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 文件中配置对象存储和管理用户。有关详细说明，请参见 [here](../01-non-production/01-deploying-databend.md#deploying-a-query-node)。
+2. 对于每个 query 节点，您还需要在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 文件中配置对象存储和管理用户。有关详细说明，请参见 [此处](../01-non-production/01-deploying-databend.md#deploying-a-query-node)。
 
 3. 在每个 query 节点上运行以下脚本以启动它们：
 
@@ -212,9 +215,10 @@ cd .. && cd bin
 ./databend-query -c ../configs/databend-query.toml > query.log 2>&1 &
 ```
 
-## Step 3: Verify Deployment
+## 步骤 3：验证部署
 
 使用 [BendSQL](/guides/sql-clients/bendsql/) 连接到其中一个 query 节点，并检索有关现有 query 节点的信息：
+
 
 ```shell
 bendsql -h 172.16.125.131
@@ -238,9 +242,13 @@ FROM
 2 rows read in 0.031 sec. Processed 2 rows, 327 B (64.1 rows/s, 10.23 KiB/s)
 ```
 
-## 后续步骤
+## Next Steps
 
 在部署 Databend 之后，您可能需要了解以下主题：
 
-- [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
-- [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获得深入见解。
+- [Load & Unload Data](/guides/load-data): 管理 Databend 中的数据导入/导出。
+- [Visualize](/guides/visualize): 将 Databend 与可视化工具集成以获得见解。
+
+<!-- <LanguageFileParse
+cn={<VideoCN />}
+/> -->

@@ -120,7 +120,7 @@ The following is a list of the parameters available within the [storage] section
 
 | Parameter      | Description                                                                                                                                                                                                                                          |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type           | The type of storage used. It can be one of the following: fs, s3, azblob, gcs, oss, cos, hdfs, webhdfs.                                                                                                                                              |
+| type           | The type of storage used. It can be one of the following: fs, s3, azblob, gcs, oss, cos.                                                                                                                                              |
 | allow_insecure | Defaults to false. Set it to true when deploying Databend on MinIO or loading data via a URL prefixed by `http://`, otherwise, you may encounter the following error: "copy from insecure storage is not allowed. Please set `allow_insecure=true`". |
 
 ### [storage.fs] Section
@@ -220,25 +220,6 @@ The following is a list of the parameters available within the [storage.cos] sec
 | secret_id    | The secret ID for authenticating with Tencent COS.                                                                                                                     |
 | secret_key   | The secret key for authenticating with Tencent COS.                                                                                                                    |
 | root         | Specifies a directory within the bucket from which Databend will operate. Example: if a bucket's root directory has a folder called `myroot`, then `root = "myroot/"`. |
-
-### [storage.hdfs] Section
-
-The following is a list of the parameters available within the [storage.hdfs] section:
-
-| Parameter | Description                                                      |
-| --------- | ---------------------------------------------------------------- |
-| name_node | The name node address for Hadoop Distributed File System (HDFS). |
-| root      | Specifies a directory from which Databend will operate.          |
-
-### [storage.webhdfs] Section
-
-The following is a list of the parameters available within the [storage.webhdfs] section:
-
-| Parameter    | Description                                                    |
-| ------------ | -------------------------------------------------------------- |
-| endpoint_url | The URL endpoint for WebHDFS (Hadoop Distributed File System). |
-| root         | Specifies a directory from which Databend will operate.        |
-| delegation   | Delegation token for authentication and authorization.         |
 
 ## [cache] Section
 

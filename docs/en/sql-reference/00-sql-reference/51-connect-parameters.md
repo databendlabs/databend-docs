@@ -165,43 +165,6 @@ CREATE STAGE my_cos_stage
 
 </TabItem>
 
-<TabItem value="HDFS" label="HDFS">
-
-The following table lists connection parameters for accessing Hadoop Distributed File System (HDFS):
-
-| Parameter 	| Required? 	| Description                                          	|
-|-----------	|-----------	|------------------------------------------------------	|
-| name_node 	| Yes       	| HDFS NameNode address for connecting to the cluster. 	|
-
-```sql title='Examples'
-CREATE STAGE my_hdfs_stage
-  'hdfs://my-bucket'
-  CONNECTION = (
-    NAME_NODE = 'hdfs://<namenode-host>:<port>'
-  );
-```
-
-</TabItem>
-
-<TabItem value="WebHDFS" label="WebHDFS">
-
-The following table lists connection parameters for accessing WebHDFS:
-
-| Parameter    	| Required? 	| Description                                       	|
-|--------------	|-----------	|---------------------------------------------------	|
-| endpoint_url 	| Yes       	| Endpoint URL for WebHDFS.                         	|
-| delegation   	| No        	| Delegation token for accessing WebHDFS.           	|
-
-```sql title='Examples'
-CREATE STAGE my_webhdfs_stage
-  'webhdfs://my-bucket'
-  CONNECTION = (
-    ENDPOINT_URL = 'http://<namenode-host>:<port>'
-  );
-```
-
-</TabItem>
-
 <TabItem value="Hugging Face" label="HuggingFace">
 
 The following table lists connection parameters for accessing Hugging Face:

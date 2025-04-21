@@ -15,8 +15,8 @@ The CREATE TASK statement is used to define a new task that executes a specified
 
 ```sql
 CREATE TASK [ IF NOT EXISTS ] <name>
- [ WAREHOUSE = <string ]
- [ SCHEDULE = { <num> MINUTE | <num> SECOND | USING CRON <expr> <time_zone> } ]
+ WAREHOUSE = <string>
+ SCHEDULE = { <num> MINUTE | <num> SECOND | USING CRON <expr> <time_zone> }
  [ AFTER <string> [ , <string> , ... ]]
  [ WHEN <boolean_expr> ]
  [ SUSPEND_TASK_AFTER_NUM_FAILURES = <num> ]
@@ -31,8 +31,8 @@ AS
 | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | IF NOT EXISTS                                    | Optional. If specified, the task will only be created if a task of the same name does not already exist.                                                                     |
 | name                                             | The name of the task. This is a mandatory field.                                                                                                                             |
-| WAREHOUSE                                        | Optional. Specifies the virtual warehouse to use for the task.                                                                                                               |
-| SCHEDULE                                         | Optional. Defines the schedule on which the task will run. Can be specified in minutes or using a CRON expression along with a time zone.                                    |
+| WAREHOUSE                                        | Required. Specifies the virtual warehouse to use for the task.                                                                                                               |
+| SCHEDULE                                         | Required. Defines the schedule on which the task will run. Can be specified in minutes or using a CRON expression along with a time zone.                                    |
 | SUSPEND_TASK_AFTER_NUM_FAILURES                  | Optional. The number of consecutive failures after which the task will be automatically suspended.                                                                           |
 | AFTER                                            | Lists tasks that must be completed before this task starts.                                                                                                                  |
 | WHEN boolean_expr                                | A condition that must be true for the task to run.                                                                                                                           |

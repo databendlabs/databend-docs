@@ -5,7 +5,7 @@ sidebar_label: "COPY INTO <table>"
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.666"/>
+<FunctionDescription description="Introduced or updated: v1.2.704"/>
 
 COPY INTO allows you to load data from files located in one of the following locations:
 
@@ -27,7 +27,7 @@ COPY INTO [<database_name>.]<table_name>
 [ PATTERN = '<regex_pattern>' ]
 [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
-         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC } [ formatTypeOptions ]
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ]
        ) ]
 [ copyOptions ]
 ```
@@ -131,32 +131,6 @@ externalLocation ::=
 ```
 
 For the connection parameters available for accessing Tencent Cloud Object Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="Hadoop Distributed File System (HDFS)" label="HDFS">
-
-```sql
-externalLocation ::=
-  'hdfs://<endpoint_url>[<path>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing HDFS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="WebHDFS" label="WebHDFS">
-
-```sql
-externalLocation ::=
-  'webhdfs://<endpoint_url>[<path>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing WebHDFS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
 <TabItem value="Remote Files" label="Remote Files">

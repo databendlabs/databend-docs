@@ -15,6 +15,21 @@ Before you start, ensure you have the following prerequisites in place:
 
 - BendSQL is installed on your local machine. See [Installing BendSQL](/guides/sql-clients/bendsql/#installing-bendsql) for instructions on how to install BendSQL using various package managers.
 
+- The Databend release package: Download the release from the [Databend GitHub Releases page](https://github.com/databendlabs/databend/releases). The package contains the `databend-bendsave` binary in the `bin` directory, which is the tool we'll use for backup and restore operations in this tutorial.
+```bash
+databend-v1.2.725-nightly-x86_64-unknown-linux-gnu/
+├── bin
+│   ├── bendsql
+│   ├── databend-bendsave  # The BendSave binary used in this tutorial
+│   ├── databend-meta
+│   ├── databend-metactl
+│   └── databend-query
+├── configs
+│   ├── databend-meta.toml
+│   └── databend-query.toml
+└── ...
+```
+
 ## Step 1: Launch MinIO in Docker
 
 1. Start a MinIO container on your Linux machine. The following command launches a MinIO container named **minio**, with ports `9000` (for the API) and `9001` (for the web console) exposed:
@@ -45,9 +60,9 @@ aws --endpoint-url http://127.0.0.1:9000/ s3 mb s3://databend
 1. Download the latest Databend release and extract it to get the necessary binaries:
 
 ```bash
-wget https://github.com/databendlabs/databend/releases/download/v1.2.719-nightly/databend-dbg-v1.2.719-nightly-x86_64-unknown-linux-gnu.tar.gz
+wget https://github.com/databendlabs/databend/releases/download/v1.2.25-nightly/databend-dbg-v1.2.725-nightly-x86_64-unknown-linux-gnu.tar.gz
 
-tar -xzvf databend-dbg-v1.2.719-nightly-x86_64-unknown-linux-gnu.tar.gz
+tar -xzvf databend-dbg-v1.2.725-nightly-x86_64-unknown-linux-gnu.tar.gz
 ```
 
 2. Configure the **databend-query.toml** configuration file in the **configs** folder. 
@@ -66,7 +81,7 @@ auth_type = "no_password"
 ...
 # Storage config.
 [storage]
-# fs | s3 | azblob | gcs | oss | cos | hdfs | webhdfs
+# fs | s3 | azblob | gcs | oss | cos
 type = "s3"
 ...
 # To use an Amazon S3-like storage service, uncomment this block and set your values.

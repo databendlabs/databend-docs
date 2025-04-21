@@ -1,5 +1,5 @@
 ---
-title: Loading Parquet File into Databend
+title: Loading Parquet into Databend
 sidebar_label: Parquet
 ---
 

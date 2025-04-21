@@ -19,7 +19,7 @@ CREATE [ OR REPLACE ] CONNECTION [ IF NOT EXISTS ] <connection_name>
 
 | Parameter        | Description                                                                                                                                        |
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| STORAGE_TYPE     | Type of storage service. Possible values include: `s3`, `azblob`, `gcs`, `oss`, `cos`, `hdfs`, and `webhdfs`.                                      |
+| STORAGE_TYPE     | Type of storage service. Possible values include: `s3`, `azblob`, `gcs`, `oss`, and `cos`.                                                         |
 | storage_params   | Vary based on storage type and authentication method. See [Connection Parameters](../../../00-sql-reference/51-connect-parameters.md) for details. |
 
 ## Examples

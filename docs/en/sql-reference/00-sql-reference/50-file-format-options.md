@@ -13,13 +13,13 @@ To specify a file format in a statement, use the following syntax:
 
 ```sql
 -- Specify a standard file format
-... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | ORC } [ formatTypeOptions ] )
+... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ] )
 
 -- Specify a custom file format
 ... FILE_FORMAT = ( FORMAT_NAME = '<your-custom-format>' )
 ```
 
-- Databend currently supports ORC as a source ONLY. Unloading data into an ORC file is not supported yet.
+- Databend currently supports ORC and AVRO as a source ONLY. Unloading data into an ORC or AVRO file is not supported yet.
 - If you don't specify the FILE_FORMAT when performing a COPY INTO or SELECT operation from a stage, Databend will use the file format that you initially defined for the stage when you created it. In cases where you didn't explicitly specify a file format during the stage creation, Databend defaults to using the PARQUET format. If you specify a different FILE_FORMAT from the one you defined when creating the stage, Databend will prioritize the FILE_FORMAT specified during the operation.
 - For managing custom file formats in Databend, see [File Format](../10-sql-commands/00-ddl/13-file-format/index.md).
 
@@ -242,6 +242,18 @@ Specifies the compression algorithm, which is used for compressing internal bloc
 
 
 ## ORC Options
+
+### MISSING_FIELD_AS (Load Only)
+
+Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
+
+| Available Values | Description                                                                                   |
+|------------------|-----------------------------------------------------------------------------------------------|
+| `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
+| `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
+
+
+## AVRO Options
 
 ### MISSING_FIELD_AS (Load Only)
 
