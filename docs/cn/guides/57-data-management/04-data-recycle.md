@@ -7,40 +7,18 @@ sidebar_label: 数据回收
 
 在 Databend 中，当你运行 `DROP`、`TRUNCATE` 或 `DELETE` 命令时，数据不会立即被删除。这使得 Databend 的时间回溯功能成为可能，允许你访问数据的先前状态。然而，这种方法意味着在这些操作之后，存储空间不会自动释放。
 
-```
-Before DELETE:                After DELETE:                 After VACUUM:
-+----------------+           +----------------+           +----------------+
-| Current Data   |           | New Version    |           | Current Data   |
-|                |           | (After DELETE) |           | (After DELETE) |
-+----------------+           +----------------+           +----------------+
-| Historical Data|           | Historical Data|           |                |
-| (Time Travel)  |           | (Original Data)|           |                |
-+----------------+           +----------------+           +----------------+
-                             Storage not freed            Storage freed
-```
-
 ## 需要清理的数据类型
 
 在 Databend 中，主要有四种类型的数据可能需要清理：
 
-1. **已删除表的数据**：使用 DROP TABLE 命令删除的表的数据文件
+1. **已删除表的数据**：使用 DROP TABLE 命令删除的表中的数据文件
 2. **表历史数据**：表的历史版本，包括通过 UPDATE、DELETE 和其他操作创建的快照
 3. **孤立文件**：不再与任何表关联的快照、段和块
 4. **溢出临时文件**：在查询执行期间，当内存使用量超过可用限制时创建的临时文件（用于连接、聚合、排序等）。Databend 在查询正常完成后会自动清理这些文件。只有在 Databend 在查询执行期间崩溃或意外关闭的极少数情况下才需要手动清理。
 
 ## 使用 VACUUM 命令
 
-VACUUM 命令系列是在 Databend 中清理数据的主要方法 ([企业版功能](/guides/products/dee/enterprise-features))。根据需要清理的数据类型，使用不同的 VACUUM 子命令。
-
-```
-VACUUM 命令:
-+------------------------+    +------------------------+    +------------------------+
-| VACUUM DROP TABLE      |    | VACUUM TABLE          |    | VACUUM TEMPORARY FILES |
-+------------------------+    +------------------------+    +------------------------+
-| Cleans dropped tables  |    | Cleans table history  |    | Cleans spill files     |
-| and their data files   |    | and orphan files      |    | (rarely needed)        |
-+------------------------+    +------------------------+    +------------------------+
-```
+VACUUM 命令系列是在 Databend 中清理数据的主要方法 ([企业版功能](/guides/products/dee/enterprise-features))。根据你需要清理的数据类型，使用不同的 VACUUM 子命令。
 
 ### VACUUM DROP TABLE
 
@@ -53,7 +31,7 @@ VACUUM DROP TABLE [FROM <database_name>] [DRY RUN [SUMMARY]] [LIMIT <file_count>
 **选项：**
 - `FROM <database_name>`：限制为特定数据库
 - `DRY RUN [SUMMARY]`：预览要删除的文件，而不实际删除它们
-- `LIMIT <file_count>`：限制要清理的文件数
+- `LIMIT <file_count>`：限制要清理的文件数量
 
 **示例：**
 
@@ -117,8 +95,8 @@ SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
 ```
 
-| 版本                                  | 默认保留时间 | 最长保留时间 |
+| 版本                                   | 默认保留时间 | 最长保留时间 |
 | ---------------------------------------- | ----------------- | ---------------- |
-| Databend 社区版 & 企业版 | 1 天（24 小时）  | 90 天          |
+| Databend Community & Enterprise Editions | 1 天（24 小时）  | 90 天          |
 | Databend Cloud (基础版)                | 1 天（24 小时）  | 1 天（24 小时） |
-| Databend Cloud (商业版)                | 1 天（24 小时）  | 90 天          |
+| Databend Cloud (Business)                | 1 天（24 小时）  | 90 天          |
