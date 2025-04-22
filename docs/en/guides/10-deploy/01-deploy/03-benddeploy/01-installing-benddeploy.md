@@ -65,18 +65,18 @@ NAME                               STATUS   ROLES                  AGE     VERSI
 k3d-benddeploy-tutorial-server-0   Ready    control-plane,master   7m35s   v1.31.5+k3s1
 ```
 
-## Step 2: Deploy the Logging Components (Optional)
-
-This step is optional but recommended if you want to collect system logs from BendDeploy and store them in S3 for further analysis.
-
-1. Clone the BendDeploy Helm charts repository:
+3. Clone the BendDeploy Helm charts repository:
 
 ```bash
 git clone https://github.com/databendcloud/benddeploy-charts.git
 cd benddeploy-charts/charts/logging
 ```
 
-2. Update the **values.yaml** file in the `charts/logging` directory to enable the `warehouseLogCollector` and configure it to use your S3-compatible storage:
+## Step 2: Deploy the Logging Components (Optional)
+
+This step is optional but recommended if you want to collect system logs from BendDeploy and store them in S3 for further analysis.
+
+1. Update the **values.yaml** file in the `charts/logging` directory to enable the `warehouseLogCollector` and configure it to use your S3-compatible storage:
 
 ```yaml
 ...
@@ -97,7 +97,7 @@ warehouseLogCollector:
 ...
 ```
 
-3. Edit the **agent.yaml** file located in `configs/vector/` to configure the S3 sink for log storage:
+2. Edit the **agent.yaml** file located in `configs/vector/` to configure the S3 sink for log storage:
 
 ```yaml
 ...
@@ -124,7 +124,7 @@ warehouseLogCollector:
 ...
 ```
 
-4. Deploy the logging components using Helm:
+3. Deploy the logging components using Helm:
 
 ```bash
 helm upgrade --install logging . --namespace=logging --create-namespace
@@ -142,7 +142,7 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-5. Verify the logging components are running:
+4. Verify the logging components are running:
 
 ```bash
 kubectl get pod -n logging
