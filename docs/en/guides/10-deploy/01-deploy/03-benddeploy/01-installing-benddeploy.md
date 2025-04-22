@@ -9,7 +9,7 @@ This guide walks you through deploying BendDeploy and its optional Logging compo
 Before you begin, make sure the following tools are installed:
 
 - **S3 Bucket**: Used to store logs collected from BendDeploy. This guide uses an Amazon S3 bucket named `databend-doc` in the `us-east-2` region as an example, but you can use any S3-compatible storage. Make sure you have the appropriate Access Key ID and Secret Access Key.
-- **k3d**: This guide uses k3d to create a local Kubernetes cluster for testing and development. k3d runs lightweight K3s clusters inside Docker containers, making it easy to get started quickly. However, you can use any Kubernetes environment that fits your needs. Install it from [k3d.io](k3d.io).
+- **k3d**: This guide uses k3d to create a local Kubernetes cluster for testing and development. k3d runs lightweight K3s clusters inside Docker containers, making it easy to get started quickly. However, you can use any Kubernetes environment that fits your needs. Install it from [k3d.io](https://k3d.io/stable/).
 - **kubectl**: Needed to manage and interact with the Kubernetes cluster. Installation instructions are available in the [official Kubernetes docs](https://kubernetes.io/docs/tasks/tools/).
 - **Helm**: Required for installing BendDeploy and the optional logging component as Helm charts. It simplifies the deployment process and handles configuration for you. Install Helm from [helm.sh](https://helm.sh/docs/intro/install/).
 
