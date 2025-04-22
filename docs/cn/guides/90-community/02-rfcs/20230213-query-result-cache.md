@@ -11,9 +11,9 @@ title: 查询结果缓存
 
 ## 动机
 
-对于一些数据不经常更改的开销大的查询，我们可以缓存结果以加快查询响应。对于具有相同底层数据的相同查询，我们可以直接返回缓存的结果，从而大大提高查询效率。
+对于一些数据不经常更改的开销大的查询，我们可以缓存结果以加快查询响应速度。对于具有相同底层数据的相同查询，我们可以直接返回缓存的结果，从而大大提高查询效率。
 
-例如，如果我们想每 10 秒执行以下查询以获取销量排名前 5 的畅销产品：
+例如，如果我们想每 10 秒执行以下查询以获取销量排名前 5 的产品：
 
 ```sql
 SELECT product, count(product) AS sales_count
@@ -23,7 +23,7 @@ ORDER BY sales_count DESC
 LIMIT 5;
 ```
 
-如果每次都执行完整的查询流水线，成本可能非常高，但结果非常小（5 行）。由于 `sales_log` 的数据可能不会经常更改，我们可以缓存查询结果，并直接为相同的查询返回缓存的结果。
+如果我们每次都执行完整的查询流水线，成本可能非常高，但结果非常小（5 行）。由于 `sales_log` 的数据可能不会经常更改，我们可以缓存查询结果，并直接为同一查询返回缓存的结果。
 
 ## 详细设计
 
@@ -31,7 +31,7 @@ LIMIT 5;
 
 每个结果缓存都有一个生存时间 (TTL)。每次访问结果缓存都会刷新 TTL。当 TTL 过期时，将不再使用结果缓存。
 
-除了 TTL 之外，当底层数据发生更改时（我们可以通过快照 ID、段 ID 或分区位置推断出这一点），结果缓存也将失效。
+除了 TTL 之外，当底层数据发生更改时（我们可以通过快照 ID、段 ID 或分区位置推断出这一点），结果缓存也会失效。
 
 ### 结果缓存存储
 
@@ -129,7 +129,7 @@ Databend 将首先通过来自 `databend-meta` 的缓存键 (AST) 验证 `Result
 
 ### 系统表 `system.query_cache`
 
-系统表 `system.query.cache` 用于查找查询结果缓存信息。
+系统表 `system.query_cache` 用于查找查询结果缓存信息。
 
 该表包含以下信息：
 
@@ -150,7 +150,7 @@ select * from RESULT_SCAN('<query_id>');
 select * from RESULT_SCAN(LAST_QUERY_ID());
 ```
 
-如果先前的查询结果已缓存，我们可以从查询结果缓存中快速获取结果集。
+如果先前的查询结果被缓存，我们可以从查询结果缓存中快速获取结果集。
 
 ### 非确定性函数
 
@@ -160,5 +160,5 @@ select * from RESULT_SCAN(LAST_QUERY_ID());
 
 - [ClickHouse 中的查询缓存](https://clickhouse.com/docs/en/operations/query-cache/)
 - [关于 ClickHouse 中查询缓存的博客](https://clickhouse.com/blog/introduction-to-the-clickhouse-query-cache-and-design)
-- [Snowflake 中的 RESULT_SCAN](https://docs.snowflake.com/en/sql-reference/functions/result_scan)
+- [snowflake 中的 RESULT_SCAN](https://docs.snowflake.com/en/sql-reference/functions/result_scan)
 - [在 Oracle 中调整结果缓存](https://docs.oracle.com/en/database/oracle/oracle-database/19/tgdba/tuning-result-cache.html)
