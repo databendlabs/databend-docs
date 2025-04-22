@@ -7,6 +7,18 @@ sidebar_label: Data Recycle
 
 In Databend, data is not immediately deleted when you run `DROP`, `TRUNCATE`, or `DELETE` commands. This enables Databend's time travel feature, allowing you to access previous states of your data. However, this approach means that storage space is not automatically freed up after these operations.
 
+```
+Before DELETE:                After DELETE:                 After VACUUM:
++----------------+           +----------------+           +----------------+
+| Current Data   |           | New Version    |           | Current Data   |
+|                |           | (After DELETE) |           | (After DELETE) |
++----------------+           +----------------+           +----------------+
+| Historical Data|           | Historical Data|           |                |
+| (Time Travel)  |           | (Original Data)|           |                |
++----------------+           +----------------+           +----------------+
+                             Storage not freed            Storage freed
+```
+
 ## Types of Data to Clean
 
 In Databend, there are four main types of data that may need cleaning:
@@ -16,9 +28,20 @@ In Databend, there are four main types of data that may need cleaning:
 3. **Orphan Files**: Snapshots, segments, and blocks that are no longer associated with any table
 4. **Spill Temporary Files**: Temporary files created when memory usage exceeds available limits during query execution (for joins, aggregates, sorts, etc.). Databend automatically cleans up these files when queries complete normally. Manual cleanup is only needed in rare cases when Databend crashes or shuts down unexpectedly during query execution.
 
+
 ## Using VACUUM Commands
 
 The VACUUM command family is the primary method for cleaning data in Databend ([Enterprise Edition Feature](/guides/products/dee/enterprise-features)). Different VACUUM subcommands are used depending on the type of data you need to clean.
+
+```
+VACUUM Commands:
++------------------------+    +------------------------+    +------------------------+
+| VACUUM DROP TABLE      |    | VACUUM TABLE          |    | VACUUM TEMPORARY FILES |
++------------------------+    +------------------------+    +------------------------+
+| Cleans dropped tables  |    | Cleans table history  |    | Cleans spill files     |
+| and their data files   |    | and orphan files      |    | (rarely needed)        |
++------------------------+    +------------------------+    +------------------------+
+```
 
 ### VACUUM DROP TABLE
 
