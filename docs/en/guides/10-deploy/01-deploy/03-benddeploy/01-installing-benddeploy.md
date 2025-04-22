@@ -244,6 +244,6 @@ Forwarding from 127.0.0.1:8080 -> 8080
 Forwarding from [::1]:8080 -> 8080
 ```
 
-2. Navigate to http://localhost:8080 to access BendDeploy using the default credentials (Username: `databend`, Password: `Databend@1*`).
+2. Navigate to [http://localhost:8080](http://localhost:8080) to access BendDeploy using the default credentials (Username: `databend`, Password: `Databend@1*`).
 
 ![alt text](@site/static/img/documents/benddeploy/login.png)
