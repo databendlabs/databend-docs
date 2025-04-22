@@ -4,8 +4,6 @@ title: BendDeploy
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-<IndexOverviewList />
-
 BendDeploy is a Kubernetes-based platform developed by Databend to simplify and standardize the deployment and management of Databend clusters. It provides a visual, user-friendly interface for multi-cluster, multi-tenant operations, significantly improving operational efficiency, reliability, and control.
 
 - Multi-Tenant Management: Isolated tenant environments with role-based user access controls.
@@ -27,7 +25,7 @@ The charts are organized into two main components:
 
 BendDeploy is free to use for a 6-month trial period after installation. Once the trial expires, you can contact the Databend team to purchase a permanent license and continue using the platform without interruption.
 
-For license inquiries or support, please reach out to: 📧 [hi@databend.com](mailto:hi@databend.com)
+For license inquiries or support, please reach out to: [hi@databend.com](mailto:hi@databend.com)
 
 ## Getting Started with BendDeploy
 
