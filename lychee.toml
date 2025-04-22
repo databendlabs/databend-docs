@@ -104,6 +104,8 @@ exclude = [
   'https://www.cse.iitb.ac.in/infolab/Data/Courses/CS632/Papers/Cascades-graefe.pdf',
   '^https://repo\.databend\.com/databend/',
   'https://www.hhs.gov',
+  'https://docs.wasabi.com/docs/access-keys-1',
+  'https://docs.wasabi.com/docs/creating-a-bucket'
 ]
 
 # URLs to check (supports regex). Has preference over all excludes.

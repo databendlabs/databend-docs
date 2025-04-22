@@ -14,8 +14,7 @@ plugins:
             "https://asciinema.org",
             "https://github.com",
             "https://link.databend.com",
-            "https://docs.wasabi.com/docs/access-keys-1",
-            "https://docs.wasabi.com/docs/creating-a-bucket",
+            "https://docs.wasabi.com",
           ],
         gotOptions:
           {
