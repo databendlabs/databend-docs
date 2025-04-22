@@ -65,7 +65,13 @@ NAME                               STATUS   ROLES                  AGE     VERSI
 k3d-benddeploy-tutorial-server-0   Ready    control-plane,master   7m35s   v1.31.5+k3s1
 ```
 
-3. Clone the BendDeploy Helm charts repository:
+3. Install Prometheus CRDs. Before continuing, make sure your cluster has the required Prometheus Operator CRDs, especially ServiceMonitor.
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+```
+
+4. Clone the BendDeploy Helm charts repository:
 
 ```bash
 git clone https://github.com/databendcloud/benddeploy-charts.git
