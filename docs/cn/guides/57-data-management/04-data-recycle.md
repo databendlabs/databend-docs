@@ -8,15 +8,15 @@ sidebar_label: 数据回收
 在 Databend 中，当你运行 `DROP`、`TRUNCATE` 或 `DELETE` 命令时，数据不会立即被删除。这使得 Databend 的时间回溯功能成为可能，允许你访问数据的先前状态。然而，这种方法意味着在这些操作之后，存储空间不会自动释放。
 
 ```
-DELETE 前:                DELETE 后:                 VACUUM 后:
+Before DELETE:                After DELETE:                 After VACUUM:
 +----------------+           +----------------+           +----------------+
-| 当前数据   |           | 新版本    |           | 当前数据   |
-|                |           | (DELETE 后) |           | (DELETE 后) |
+| Current Data   |           | New Version    |           | Current Data   |
+|                |           | (After DELETE) |           | (After DELETE) |
 +----------------+           +----------------+           +----------------+
-| 历史数据|           | 历史数据|           |                |
-| (时间回溯)  |           | (原始数据)|           |                |
+| Historical Data|           | Historical Data|           |                |
+| (Time Travel)  |           | (Original Data)|           |                |
 +----------------+           +----------------+           +----------------+
-                             存储未释放            存储已释放
+                             Storage not freed            Storage freed
 ```
 
 ## 需要清理的数据类型
@@ -37,8 +37,8 @@ VACUUM 命令:
 +------------------------+    +------------------------+    +------------------------+
 | VACUUM DROP TABLE      |    | VACUUM TABLE          |    | VACUUM TEMPORARY FILES |
 +------------------------+    +------------------------+    +------------------------+
-| 清理已删除的表  |    | 清理表历史  |    | 清理溢出文件     |
-| 及其数据文件   |    | 和孤立文件      |    | (极少需要)        |
+| Cleans dropped tables  |    | Cleans table history  |    | Cleans spill files     |
+| and their data files   |    | and orphan files      |    | (rarely needed)        |
 +------------------------+    +------------------------+    +------------------------+
 ```
 
