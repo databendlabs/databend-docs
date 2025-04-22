@@ -212,7 +212,7 @@ pg-benddeploy-64c64b95c-wd55m          1/1     Running   0          69s
 
 With the deployment complete, you can now access the BendDeploy web UI in your browser.
 
-1. Expose the frontend via port forwarding。
+1. Expose the frontend via port forwarding.
 
 :::tip
 While port forwarding is great for quick local access, for production or shared environments, consider configuring an Ingress controller (like NGINX Ingress) or exposing the service via a LoadBalancer to make BendDeploy accessible from outside the cluster. This allows you to access the web UI through a real domain or IP address.
