@@ -156,7 +156,3 @@ For debugging use only. Forces raft to create and sync a snapshot to all nodes.
 ### Response Example
 
 None.
-
-## CPU and Memory Profiling APIs
-
-Enables you to visualize performance data of your CPU and memory with [FlameGraph](https://github.com/brendangregg/FlameGraph). For more information, see [How to Profile Databend](../../../90-community/00-contributor/04-how-to-profiling.md).

@@ -6,13 +6,13 @@ title: Community
 
 Join us and contribute to the growth of the Databend project. Here’s how you can get involved:
 
-- **[RFCs](/guides/overview/community/rfcs)**: Share your insights on proposed features and changes.
+- **[RFCs](/developer/community/rfcs)**: Share your insights on proposed features and changes.
 
 - **[Development Roadmaps](01-roadmap.md)**: Discover what's next for Databend.
 
 - **[Performance Benchmarks](https://www.databend.com/blog/clickbench-databend-top/)**: Check out Databend's speed and efficiency.
 
-- **[Contributor's Guide](/guides/overview/community/contributor)**: Learn how to contribute to our success.
+- **[Contributor's Guide](/developer/community/contributor)**: Learn how to contribute to our success.
 
 # Connect with Us
 
