@@ -147,6 +147,36 @@ If you are connecting to a self-hosted Databend instance, you can use the admin 
 
 For connections to Databend Cloud, you can use the default `cloudapp` user or an SQL user created with the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command. Please note that the user account you use to log in to the [Databend Cloud console](https://app.databend.com/) cannot be used for connecting to Databend Cloud.
 
+## Connecting with BendSQL
+
+BendSQL allows you to connect to both Databend Cloud and self-hosted Databend instances.
+
+### Connect to Databend Cloud
+
+The best practice for connecting to Databend Cloud is using a DSN (Data Source Name)—a connection string that includes all necessary information such as username, password, host, port, warehouse, and database.
+
+To obtain your DSN:
+
+1. Log in to Databend Cloud and click **Connect** on the **Overview** page.
+
+2. Select the database and warehouse you want to connect to.
+
+Your DSN will be automatically generated in the **Examples** section. Below the DSN, you'll find a **BendSQL** snippet that exports the DSN as an environment variable and launches BendSQL with the correct configuration. You can copy and paste it directly into your terminal.
+
+### Connect to Self-hosted Databend
+
+To connect to a self-hosted Databend instance, use the `--host` and `--port` parameters:
+
+```bash
+bendsql --host <HOST> --port <PORT> --user <USER> --password <PASSWORD> --database <DATABASE>
+```
+
+This example connects to a Databend instance running locally on port `8000` using the `root` user and the `default` database:
+
+```bash
+bendsql --host 127.0.0.1 --port 8000 --user root --database default
+```
+
 ## Tutorials
 
 - [Connecting to Self-Hosted Databend using BendSQL](/tutorials/)
