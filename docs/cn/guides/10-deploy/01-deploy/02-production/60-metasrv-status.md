@@ -156,7 +156,3 @@ metasrv_meta_network_rpc_delay_seconds_count 3283
 ### Response Example
 
 None.
-
-## CPU and Memory Profiling APIs
-
-使您能够使用 [FlameGraph](https://github.com/brendangregg/FlameGraph) 可视化 CPU 和内存的性能数据。有关更多信息，请参见 [How to Profile Databend](../../../90-community/00-contributor/04-how-to-profiling.md)。
