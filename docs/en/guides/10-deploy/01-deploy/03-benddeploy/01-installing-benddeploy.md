@@ -181,10 +181,11 @@ Now that your cluster is ready, you can install BendDeploy into the Kubernetes e
 | `db.postgresDSN`       | DSN for an external PostgreSQL database.                                                                                                                                                              |
 | `oidcProvider`         | OIDC provider URL for authentication. Must be accessible from within the cluster or exposed via Ingress.                                                                                              |
 
-2. Install BendDeploy using Helm from the root of the cloned repository:
+2. Install BendDeploy using Helm from the root of the cloned repository. Visit the [BendDeploy image repository on Amazon ECR Public Gallery](https://gallery.ecr.aws/databendlabs/benddeploy) and check the **Image tags** section to find the latest version, such as `v1.0.2`.
 
 ```bash
-helm install benddeploy -n benddeploy --create-namespace ./charts/benddeploy --set image=public.ecr.aws/databendlabs/benddeploy:v1.0.1
+# Replace <version> with the latest release version:
+helm install benddeploy -n benddeploy --create-namespace ./charts/benddeploy --set image=public.ecr.aws/databendlabs/benddeploy:<version>
 ```
 
 Helm will confirm the deployment:
