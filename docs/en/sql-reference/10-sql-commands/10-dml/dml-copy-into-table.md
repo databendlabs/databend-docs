@@ -115,8 +115,39 @@ externalLocation ::=
       [ TOKEN = '<your-api-token>' ]
     )
 
-formatTypeOptions ::= /* Format-specific options based on FILE_FORMAT TYPE */
-  [ option1 = value1 ] [ option2 = value2 ] ...
+formatTypeOptions ::=
+  /* Common options for all formats */
+  [ COMPRESSION = AUTO | GZIP | BZ2 | BROTLI | ZSTD | DEFLATE | RAW_DEFLATE | XZ | NONE ]
+  
+  /* CSV specific options */
+  [ RECORD_DELIMITER = '<character>' ]
+  [ FIELD_DELIMITER = '<character>' ]
+  [ SKIP_HEADER = <integer> ]
+  [ QUOTE = '<character>' ]
+  [ ESCAPE = '<character>' ]
+  [ NAN_DISPLAY = '<string>' ]
+  [ NULL_DISPLAY = '<string>' ]
+  [ ERROR_ON_COLUMN_COUNT_MISMATCH = TRUE | FALSE ]
+  [ EMPTY_FIELD_AS = null | string | field_default ]
+  [ BINARY_FORMAT = HEX | BASE64 ]
+  
+  /* TSV specific options */
+  [ RECORD_DELIMITER = '<character>' ]
+  [ FIELD_DELIMITER = '<character>' ]
+  
+  /* NDJSON specific options */
+  [ NULL_FIELD_AS = NULL | FIELD_DEFAULT ]
+  [ MISSING_FIELD_AS = ERROR | NULL | FIELD_DEFAULT ]
+  [ ALLOW_DUPLICATE_KEYS = TRUE | FALSE ]
+  
+  /* PARQUET specific options */
+  [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  
+  /* ORC specific options */
+  [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  
+  /* AVRO specific options */
+  [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
 
 copyOptions ::=
   [ SIZE_LIMIT = <num> ]
@@ -127,6 +158,7 @@ copyOptions ::=
   [ MAX_FILES = <num> ]
   [ RETURN_FAILED_ONLY = <bool> ]
   [ COLUMN_MATCH_MODE = { case-sensitive | case-insensitive } ]
+
 ```
 
 :::note
