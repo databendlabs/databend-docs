@@ -6,7 +6,7 @@ import EnterPriseSvg from "@site/static/icons/enterprise";
 interface IProps {
   list?: string[];
 }
-const DatabendTags: FC<IProps> = ({ list }): ReactElement => {
+const DatabendTags: FC<IProps> = ({ list = ["Enterprise"] }): ReactElement => {
   return (
     <div className={styles.wrap}>
       {list?.map((item) => {
@@ -24,7 +24,5 @@ const DatabendTags: FC<IProps> = ({ list }): ReactElement => {
     </div>
   );
 };
-DatabendTags.defaultProps = {
-  list: ["Enterprise"],
-};
+
 export default DatabendTags;
