@@ -4,26 +4,39 @@ sidebar_label: "COPY INTO <table>"
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 <FunctionDescription description="Introduced or updated: v1.2.704"/>
 
-COPY INTO allows you to load data from files located in one of the following locations:
+COPY INTO 允许您从位于以下位置之一的文件中加载数据：
 
-- User / Internal / External stages: See [What is Stage?](/guides/load-data/stage/what-is-stage) to learn about stages in Databend.
-- Buckets or containers created in a storage service.
-- Remote servers from where you can access the files by their URL (starting with "https://...").
-- [IPFS](https://ipfs.tech).
+- User / Internal / External stages: 请参阅 [什么是 Stage?](/guides/load-data/stage/what-is-stage) 以了解 Databend 中的 stages。
+- 在存储服务中创建的存储桶或容器。
+- 可以通过 URL 访问文件的远程服务器（以 "https://..." 开头）。
+- [IPFS](https://ipfs.tech) 和 Hugging Face 仓库。
 
-See also: [`COPY INTO <location>`](dml-copy-into-location.md)
+另请参阅：[`COPY INTO <location>`](dml-copy-into-location.md)
 
-## Syntax
+## 语法
 
 ```sql
-COPY INTO [<database_name>.]<table_name>
-     FROM { userStage | internalStage | externalStage | externalLocation |
-            ( SELECT [<file_col> ... ]
-              FROM { userStage | internalStage | externalStage } ) }
+/* Standard data load */
+COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
+     FROM { userStage | internalStage | externalStage | externalLocation }
 [ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
+[ PATTERN = '<regex_pattern>' ]
+[ FILE_FORMAT = (
+         FORMAT_NAME = '<your-custom-format>'
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ]
+       ) ]
+[ copyOptions ]
+
+/* Data load with transformation */
+COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
+     FROM ( SELECT [<alias>.]$<file_col_num>[.<element>] [ , [<alias>.]$<file_col_num>[.<element>] ... ]
+            FROM { userStage | internalStage | externalStage } )
+[ FILES = ( '<file_name>' [ , <file_name>' ] [ , ... ] ) ]
 [ PATTERN = '<regex_pattern>' ]
 [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
@@ -32,147 +45,110 @@ COPY INTO [<database_name>.]<table_name>
 [ copyOptions ]
 ```
 
-### FROM ...
-
-The FROM clause specifies the source location (user stage, internal stage, external stage, or external location) from which data will be loaded into the specified table using the COPY INTO command. You can also nest a SELECT ... FROM subquery to transform the data you want to load. For more information, see [Transforming Data on Load](/guides/load-data/transform/data-load-transform).
-
-:::note
-When you load data from a staged file and the stage path contains special characters such as spaces or parentheses, you can enclose the entire path in single quotes, as demonstrated in the following SQL statements:
-
-COPY INTO mytable FROM 's3://mybucket/dataset(databend)/' ...
-COPY INTO mytable FROM 's3://mybucket/dataset databend/' ...
-:::
-
-#### userStage
+其中：
 
 ```sql
 userStage ::= @~[/<path>]
-```
 
-#### internalStage
-
-```sql
 internalStage ::= @<internal_stage_name>[/<path>]
-```
 
-#### externalStage
-
-```sql
 externalStage ::= @<external_stage_name>[/<path>]
-```
 
-#### externalLocation
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-<Tabs groupId="externallocation">
-
-<TabItem value="Amazon S3-like Storage" label="Amazon S3-like Storage">
-
-```sql
 externalLocation ::=
-  's3://<bucket>[<path>]'
+  /* Amazon S3-like Storage */
+  's3://<bucket>[/<path>]'
   CONNECTION = (
-        <connection_parameters>
+    [ ENDPOINT_URL = '<endpoint-url>' ]
+    [ ACCESS_KEY_ID = '<your-access-key-ID>' ]
+    [ SECRET_ACCESS_KEY = '<your-secret-access-key>' ]
+    [ ENABLE_VIRTUAL_HOST_STYLE = TRUE | FALSE ]
+    [ MASTER_KEY = '<your-master-key>' ]
+    [ REGION = '<region>' ]
+    [ SECURITY_TOKEN = '<security-token>' ]
+    [ ROLE_ARN = '<role-arn>' ]
+    [ EXTERNAL_ID = '<external-id>' ]
   )
-```
+  
+  /* Azure Blob Storage */
+  | 'azblob://<container>[/<path>]'
+    CONNECTION = (
+      ENDPOINT_URL = '<endpoint-url>'
+      ACCOUNT_NAME = '<account-name>'
+      ACCOUNT_KEY = '<account-key>'
+    )
+  
+  /* Google Cloud Storage */
+  | 'gcs://<bucket>[/<path>]'
+    CONNECTION = (
+      CREDENTIAL = '<your-base64-encoded-credential>'
+    )
+  
+  /* Alibaba Cloud OSS */
+  | 'oss://<bucket>[/<path>]'
+    CONNECTION = (
+      ACCESS_KEY_ID = '<your-ak>'
+      ACCESS_KEY_SECRET = '<your-sk>'
+      ENDPOINT_URL = '<endpoint-url>'
+      [ PRESIGN_ENDPOINT_URL = '<presign-endpoint-url>' ]
+    )
+  
+  /* Tencent Cloud Object Storage */
+  | 'cos://<bucket>[/<path>]'
+    CONNECTION = (
+      SECRET_ID = '<your-secret-id>'
+      SECRET_KEY = '<your-secret-key>'
+      ENDPOINT_URL = '<endpoint-url>'
+    )
+  
+  /* Remote Files */
+  | 'https://<url>'
+  
+  /* IPFS */
+  | 'ipfs://<your-ipfs-hash>'
+    CONNECTION = (ENDPOINT_URL = 'https://<your-ipfs-gateway>')
+  
+  /* Hugging Face */
+  | 'hf://<repo-id>[/<path>]'
+    CONNECTION = (
+      [ REPO_TYPE = 'dataset' | 'model' ]
+      [ REVISION = '<revision>' ]
+      [ TOKEN = '<your-api-token>' ]
+    )
 
-For the connection parameters available for accessing Amazon S3-like storage services, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
+formatTypeOptions ::=
+  /* Common options for all formats */
+  [ COMPRESSION = AUTO | GZIP | BZ2 | BROTLI | ZSTD | DEFLATE | RAW_DEFLATE | XZ | NONE ]
+  
+  /* CSV specific options */
+  [ RECORD_DELIMITER = '<character>' ]
+  [ FIELD_DELIMITER = '<character>' ]
+  [ SKIP_HEADER = <integer> ]
+  [ QUOTE = '<character>' ]
+  [ ESCAPE = '<character>' ]
+  [ NAN_DISPLAY = '<string>' ]
+  [ NULL_DISPLAY = '<string>' ]
+  [ ERROR_ON_COLUMN_COUNT_MISMATCH = TRUE | FALSE ]
+  [ EMPTY_FIELD_AS = null | string | field_default ]
+  [ BINARY_FORMAT = HEX | BASE64 ]
+  
+  /* TSV specific options */
+  [ RECORD_DELIMITER = '<character>' ]
+  [ FIELD_DELIMITER = '<character>' ]
+  
+  /* NDJSON specific options */
+  [ NULL_FIELD_AS = NULL | FIELD_DEFAULT ]
+  [ MISSING_FIELD_AS = ERROR | NULL | FIELD_DEFAULT ]
+  [ ALLOW_DUPLICATE_KEYS = TRUE | FALSE ]
+  
+  /* PARQUET specific options */
+  [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  
+  /* ORC specific options */
+  [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  
+  /* AVRO specific options */
+  [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
 
-<TabItem value="Azure Blob Storage" label="Azure Blob Storage">
-
-```sql
-externalLocation ::=
-  'azblob://<container>[<path>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing Azure Blob Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="Google Cloud Storage" label="Google Cloud Storage">
-
-```sql
-externalLocation ::=
-  'gcs://<bucket>[<path>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing Google Cloud Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="Alibaba Cloud OSS" label="Alibaba Cloud OSS">
-
-```sql
-externalLocation ::=
-  'oss://<bucket>[<path>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing Alibaba Cloud OSS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="Tencent Cloud Object Storage" label="Tencent Cloud Object Storage">
-
-```sql
-externalLocation ::=
-  'cos://<bucket>[<path>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing Tencent Cloud Object Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="Remote Files" label="Remote Files">
-
-```sql
-externalLocation ::=
-  'https://<url>'
-```
-
-You can use glob patterns to specify more than one file. For example, use
-
-- `ontime_200{6,7,8}.csv` to represents `ontime_2006.csv`,`ontime_2007.csv`,`ontime_2008.csv`.
-- `ontime_200[6-8].csv` to represents `ontime_2006.csv`,`ontime_2007.csv`,`ontime_2008.csv`.
-
-</TabItem>
-
-<TabItem value="IPFS" label="IPFS">
-
-```sql
-externalLocation ::=
-  'ipfs://<your-ipfs-hash>'
-  CONNECTION = (ENDPOINT_URL = 'https://<your-ipfs-gateway>')
-```
-
-</TabItem>
-</Tabs>
-
-### FILES
-
-FILES specifies one or more file names (separated by commas) to be loaded.
-
-### PATTERN
-
-A [PCRE2](https://www.pcre.org/current/doc/html/)-based regular expression pattern string, enclosed in single quotes, specifying the file names to match. For PCRE2 syntax, see http://www.pcre.org/current/doc/html/pcre2syntax.html. See [Example 4: Filtering Files with Pattern](#example-4-filtering-files-with-pattern) for examples and useful tips about filtering files with the PATTERN parameter.
-
-### FILE_FORMAT
-
-See [Input & Output File Formats](../../00-sql-reference/50-file-format-options.md) for details.
-
-### copyOptions
-
-```sql
 copyOptions ::=
   [ SIZE_LIMIT = <num> ]
   [ PURGE = <bool> ]
@@ -181,47 +157,120 @@ copyOptions ::=
   [ ON_ERROR = { continue | abort | abort_N } ]
   [ MAX_FILES = <num> ]
   [ RETURN_FAILED_ONLY = <bool> ]
-  [ COLUMN_MATCH_MODE =  { case-sensitive | case-insensitive } ]
+  [ COLUMN_MATCH_MODE = { case-sensitive | case-insensitive } ]
+
 ```
 
-| Parameter             | Description                                                                                                                                                                                                                                                                                                                                                                                                        | Required |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
-| SIZE_LIMIT            | Specifies the maximum rows of data to be loaded for a given COPY statement. Defaults to `0` meaning no limits.                                                                                                                                                                                                                                                                                                     | Optional |
-| PURGE                 | If `true`, the command will purge the files in the stage after they are loaded successfully into the table. Default: `false`.                                                                                                                                                                                                                                                                                      | Optional |
-| FORCE                 | COPY INTO ensures idempotence by automatically tracking and preventing the reloading of files for a default period of 12 hours. This can be customized using the `load_file_metadata_expire_hours` setting to control the expiration time for file metadata.<br/>This parameter defaults to `false` meaning COPY INTO will skip duplicate files when copying data. If `true`, duplicate files will not be skipped. | Optional |
-| DISABLE_VARIANT_CHECK | If `true`, invalid JSON data is replaced with null values during COPY INTO. If `false` (default), COPY INTO fails on invalid JSON data.                                                                                                                                                                                                                                                                            | Optional |
-| ON_ERROR              | Decides how to handle a file that contains errors: `continue` to skip and proceed, `abort` (default) to terminate on error, `abort_N` to terminate when errors ≥ N. Note: `abort_N` not available for Parquet files.                                                                                                                                                                                               | Optional |
-| MAX_FILES             | Sets the maximum number of files to load that have not been loaded already. The value can be set up to 15,000; any value greater than 15,000 will be treated as 15,000.                                                                                                                                                                                                                                            | Optional |
-| RETURN_FAILED_ONLY    | When set to `true`, only files that failed to load will be returned in the output. Default: `false`.                                                                                                                                                                                                                                                                                                               | Optional |
-| COLUMN_MATCH_MODE     | (For Parquet only) Determines if column name matching during COPY INTO is `case-sensitive` or `case-insensitive` (default).                                                                                                                                                                                                                                                                                        | Optional |
-
-:::tip
-When importing large volumes of data, such as logs, it is recommended to set both `PURGE` and `FORCE` to `true`. This ensures efficient data import without the need for interaction with the Meta server (updating the copied-files set). However, it is important to be aware that this may lead to duplicate data imports.
+:::note
+对于远程文件，您可以使用 glob 模式来指定多个文件。例如：
+- `ontime_200{6,7,8}.csv` 表示 `ontime_2006.csv`、`ontime_2007.csv`、`ontime_2008.csv`
+- `ontime_200[6-8].csv` 表示相同的文件
 :::
 
-## Output
+## 关键参数
 
-COPY INTO provides a summary of the data loading results with these columns:
+- **FILES**: 指定要加载的一个或多个文件名（以逗号分隔）。
+
+- **PATTERN**: 一个基于 [PCRE2](https://www.pcre.org/current/doc/html/) 的正则表达式模式字符串，用于指定要匹配的文件名。请参阅 [示例 4：使用 Pattern 过滤文件](#example-4-filtering-files-with-pattern)。
+
+## Format Type Options
+
+`FILE_FORMAT` 参数支持不同的文件类型，每种类型都有特定的格式化选项。以下是每种支持的文件格式的可用选项：
+
+### 所有格式的通用选项
+
+| Option | Description | Values | Default |
+|--------|-------------|--------|--------|
+| COMPRESSION | 数据文件的压缩算法 | AUTO, GZIP, BZ2, BROTLI, ZSTD, DEFLATE, RAW_DEFLATE, XZ, NONE | AUTO |
+
+### TYPE = CSV
+
+| Option | Description | Default |
+|--------|-------------|--------|
+| RECORD_DELIMITER | 分隔记录的字符 | newline |
+| FIELD_DELIMITER | 分隔字段的字符 | 逗号 (,) |
+| SKIP_HEADER | 要跳过的标题行数 | 0 |
+| QUOTE | 用于引用字段的字符 | 双引号 (") |
+| ESCAPE | 用于封闭字段的转义字符 | NONE |
+| NAN_DISPLAY | 表示 NaN 值的字符串 | NaN |
+| NULL_DISPLAY | 表示 NULL 值的字符串 | \N |
+| ERROR_ON_COLUMN_COUNT_MISMATCH | 如果列计数不匹配则报错 | TRUE |
+| EMPTY_FIELD_AS | 如何处理空字段 | null |
+| BINARY_FORMAT | 二进制数据的编码格式 | HEX |
+
+### TYPE = TSV
+
+| Option | Description | Default |
+|--------|-------------|--------|
+| RECORD_DELIMITER | 分隔记录的字符 | newline |
+| FIELD_DELIMITER | 分隔字段的字符 | tab (\t) |
+
+### TYPE = NDJSON
+
+| Option | Description | Default |
+|--------|-------------|--------|
+| NULL_FIELD_AS | 如何处理 null 字段 | NULL |
+| MISSING_FIELD_AS | 如何处理缺失字段 | ERROR |
+| ALLOW_DUPLICATE_KEYS | 允许重复的对象键 | FALSE |
+
+### TYPE = PARQUET
+
+| Option | Description | Default |
+|--------|-------------|--------|
+| MISSING_FIELD_AS | 如何处理缺失字段 | ERROR |
+
+### TYPE = ORC
+
+| Option | Description | Default |
+|--------|-------------|--------|
+| MISSING_FIELD_AS | 如何处理缺失字段 | ERROR |
+
+### TYPE = AVRO
+
+| Option | Description | Default |
+|--------|-------------|--------|
+| MISSING_FIELD_AS | 如何处理缺失字段 | ERROR |
+
+## Copy Options
+
+| Parameter | Description | Default |
+|-----------|-------------|----------|
+| SIZE_LIMIT | 要加载的最大数据行数 | `0` (无限制) |
+| PURGE | 成功加载后清除文件 | `false` |
+| FORCE | 允许重新加载重复文件 | `false` (跳过重复文件) |
+| DISABLE_VARIANT_CHECK | 用 null 替换无效的 JSON | `false` (在无效的 JSON 上失败) |
+| ON_ERROR | 如何处理错误：`continue`、`abort` 或 `abort_N` | `abort` |
+| MAX_FILES | 要加载的最大文件数（最多 15,000 个） | - |
+| RETURN_FAILED_ONLY | 仅在输出中返回失败的文件 | `false` |
+| COLUMN_MATCH_MODE | 对于 Parquet：列名匹配模式 | `case-insensitive` |
+
+:::tip
+当导入大量数据（如日志）时，将 `PURGE` 和 `FORCE` 都设置为 `true`，以实现高效的数据导入，而无需与 Meta server 交互。请注意，这可能会导致重复的数据导入。
+:::
+
+:::tip
+当导入大量数据（例如日志）时，建议将 `PURGE` 和 `FORCE` 都设置为 `true`。这可确保高效的数据导入，而无需与 Meta server 交互（更新 copied-files 集）。但是，重要的是要注意，这可能会导致重复的数据导入。
+:::
+
+## 输出
+
+COPY INTO 提供了数据加载结果的摘要，包含以下列：
 
 | Column           | Type    | Nullable | Description                                     |
 | ---------------- | ------- | -------- | ----------------------------------------------- |
-| FILE             | VARCHAR | NO       | The relative path to the source file.           |
-| ROWS_LOADED      | INT     | NO       | The number of rows loaded from the source file. |
-| ERRORS_SEEN      | INT     | NO       | Number of error rows in the source file         |
-| FIRST_ERROR      | VARCHAR | YES      | The first error found in the source file.       |
-| FIRST_ERROR_LINE | INT     | YES      | Line number of the first error.                 |
+| FILE             | VARCHAR | NO       | 源文件的相对路径。                              |
+| ROWS_LOADED      | INT     | NO       | 从源文件加载的行数。                            |
+| ERRORS_SEEN      | INT     | NO       | 源文件中的错误行数                              |
+| FIRST_ERROR      | VARCHAR | YES      | 在源文件中找到的第一个错误。                    |
+| FIRST_ERROR_LINE | INT     | YES      | 第一个错误的行号。                              |
 
-If `RETURN_FAILED_ONLY` is set to `true`, the output will only contain the files that failed to load.
+如果 `RETURN_FAILED_ONLY` 设置为 `true`，则输出将仅包含加载失败的文件。
 
-## Distributed COPY INTO
+## 示例
 
-The COPY INTO feature in Databend activates distributed execution automatically in cluster environments, enhancing data loading efficiency and scalability.
+### 示例 1：从 Stages 加载
 
-## Examples
-
-### Example 1: Loading from Stages
-
-These examples showcase data loading into Databend from various types of stages:
+这些示例展示了从各种类型的 stages 将数据加载到 Databend 中：
 
 <Tabs>
   <TabItem value="user" label="User Stage" default>
@@ -256,14 +305,15 @@ COPY INTO mytable
   </TabItem>
 </Tabs>
 
-### Example 2: Loading from External Locations
+### 示例 2：从外部位置加载
 
-These examples showcase data loading into Databend from various types of external sources:
+这些示例展示了从各种类型的外部源将数据加载到 Databend 中：
 
 <Tabs groupId="external-example">
 <TabItem value="Amazon S3" label="Amazon S3">
 
-This example establishes a connection to Amazon S3 using AWS access keys and secrets, and it loads 10 rows from a CSV file:
+此示例使用 AWS 访问密钥和密钥建立与 Amazon S3 的连接，并从 CSV 文件加载 10 行：
+
 
 ```sql
 -- Authenticated by AWS access keys and secrets.
