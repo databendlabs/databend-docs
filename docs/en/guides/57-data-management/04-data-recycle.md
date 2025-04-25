@@ -3,89 +3,123 @@ title: Data Purge and Recycle
 sidebar_label: Data Recycle
 ---
 
-In Databend, the data is not truly deleted when you run `DROP`, `TRUNCATE`, or `DELETE` commands, allowing for time travel back to previous states.
+## Overview
 
-There are two types of data:
+In Databend, data is not immediately deleted when you run `DROP`, `TRUNCATE`, or `DELETE` commands. This enables Databend's time travel feature, allowing you to access previous states of your data. However, this approach means that storage space is not automatically freed up after these operations.
 
-- **History Data**: Used by Time Travel to store historical data or data from dropped tables.
-- **Temporary Data**: Used by the system to store spilled data.
-
-If the data size is significant, you can run several commands ([Enterprise Edition Features](/guides/products/dee/enterprise-features)) to delete these data and free up storage space.
-
-## Spill Data Storage
-
-Self-hosted Databend supports spilling intermediate query results to disk when memory usage exceeds available limits. Users can configure where spill data is stored, choosing between local disk storage and a remote S3-compatible bucket.
-
-### Spill Storage Options
-
-Databend provides the following spill storage configurations:
-
-- Local Disk Storage: Spilled data is written to a specified local directory in the query node. Please note that local disk storage is supported only for [Windows Functions](/sql/sql-functions/window-functions/).
-- Remote S3-Compatible Storage: Spilled data is stored in an external bucket.
-- Default Storage: If no spill storage is configured, Databend spills data to the default storage bucket along with your table data.
-
-### Spill Priority
-
-If both local and S3-compatible spill storage are configured, Databend follows this order:
-
-1. Spill to local disk first (if configured).
-2. Spill to remote S3-compatible storage when local disk space is insufficient.
-3. Spill to Databend’s default storage bucket if neither local nor external S3-compatible storage is configured.
-
-### Configuring Spill Storage
-
-To configure spill storage, update the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
-
-This example sets Databend to use up to 1 TB of local disk space for spill operations, while reserving 40% of the disk for system use:
-
-```toml
-[spill]
-spill_local_disk_path = "/data1/databend/databend_spill"
-spill_local_disk_reserved_space_percentage = 40
-spill_local_disk_max_bytes = 1099511627776
+```
+Before DELETE:                After DELETE:                 After VACUUM:
++----------------+           +----------------+           +----------------+
+| Current Data   |           | New Version    |           | Current Data   |
+|                |           | (After DELETE) |           | (After DELETE) |
++----------------+           +----------------+           +----------------+
+| Historical Data|           | Historical Data|           |                |
+| (Time Travel)  |           | (Original Data)|           |                |
++----------------+           +----------------+           +----------------+
+                             Storage not freed            Storage freed
 ```
 
-This example sets Databend to use MinIO as an S3-compatible storage service for spill operations:
+## Types of Data to Clean
 
-```toml
-[spill]
-[spill.storage]
-type = "s3"
-[spill.storage.s3]
-bucket = "databend"
-root = "admin"
-endpoint_url = "http://127.0.0.1:9900"
-access_key_id = "minioadmin"
-secret_access_key = "minioadmin"
-allow_insecure = true
+In Databend, there are four main types of data that may need cleaning:
+
+1. **Dropped Table Data**: Data files from tables that have been dropped using the DROP TABLE command
+2. **Table History Data**: Historical versions of tables, including snapshots created through UPDATE, DELETE, and other operations
+3. **Orphan Files**: Snapshots, segments, and blocks that are no longer associated with any table
+4. **Spill Temporary Files**: Temporary files created when memory usage exceeds available limits during query execution (for joins, aggregates, sorts, etc.). Databend automatically cleans up these files when queries complete normally. Manual cleanup is only needed in rare cases when Databend crashes or shuts down unexpectedly during query execution.
+
+
+## Using VACUUM Commands
+
+The VACUUM command family is the primary method for cleaning data in Databend ([Enterprise Edition Feature](/guides/products/dee/enterprise-features)). Different VACUUM subcommands are used depending on the type of data you need to clean.
+
+```
+VACUUM Commands:
++------------------------+    +------------------------+    +------------------------+
+| VACUUM DROP TABLE      |    | VACUUM TABLE          |    | VACUUM TEMPORARY FILES |
++------------------------+    +------------------------+    +------------------------+
+| Cleans dropped tables  |    | Cleans table history  |    | Cleans spill files     |
+| and their data files   |    | and orphan files      |    | (rarely needed)        |
++------------------------+    +------------------------+    +------------------------+
 ```
 
-## Purge Drop Table Data
+### VACUUM DROP TABLE
 
-Deletes data files of all dropped tables, freeing up storage space.
+This command permanently deletes data files of dropped tables, freeing up storage space.
 
 ```sql
-VACUUM DROP TABLE;
+VACUUM DROP TABLE [FROM <database_name>] [DRY RUN [SUMMARY]] [LIMIT <file_count>];
 ```
 
-See more [VACUUM DROP TABLE](/sql/sql-commands/administration-cmds/vacuum-drop-table).
+**Options:**
+- `FROM <database_name>`: Restrict to a specific database
+- `DRY RUN [SUMMARY]`: Preview files to be removed without actually deleting them
+- `LIMIT <file_count>`: Limit the number of files to be vacuumed
 
-## Purge Table History Data
-
-Removes historical data for a specified table, clearing old versions and freeing storage.
+**Examples:**
 
 ```sql
-VACUUM TABLE <table_name>;
+-- Preview files that would be removed
+VACUUM DROP TABLE DRY RUN;
+
+-- Preview summary of files that would be removed
+VACUUM DROP TABLE DRY RUN SUMMARY;
+
+-- Remove dropped tables from the "default" database
+VACUUM DROP TABLE FROM default;
+
+-- Remove up to 1000 files from dropped tables
+VACUUM DROP TABLE LIMIT 1000;
 ```
 
-See more [VACUUM TABLE](/sql/sql-commands/administration-cmds/vacuum-table).
+### VACUUM TABLE
 
-## Purge Temporary Data
+This command removes historical data for a specified table, clearing old versions and freeing storage.
 
-Clears temporary spilled files used for joins, aggregates, and sorts, freeing up storage space.
+```sql
+VACUUM TABLE <table_name> [DRY RUN [SUMMARY]];
+```
+
+**Options:**
+- `DRY RUN [SUMMARY]`: Preview files to be removed without actually deleting them
+
+**Examples:**
+
+```sql
+-- Preview files that would be removed
+VACUUM TABLE my_table DRY RUN;
+
+-- Preview summary of files that would be removed
+VACUUM TABLE my_table DRY RUN SUMMARY;
+
+-- Remove historical data from my_table
+VACUUM TABLE my_table;
+```
+
+### VACUUM TEMPORARY FILES
+
+This command clears temporary spilled files used for joins, aggregates, and sorts, freeing up storage space.
 
 ```sql
 VACUUM TEMPORARY FILES;
 ```
 
-See more [VACUUM TEMPORARY FILES](/sql/sql-commands/administration-cmds/vacuum-temp-files).
+**Note:** While this command is provided as a manual method for cleaning up temporary files, it's rarely needed during normal operation since Databend automatically handles cleanup in most cases.
+
+## Adjusting Data Retention Time
+
+The VACUUM commands remove data files older than the `DATA_RETENTION_TIME_IN_DAYS` setting. By default, Databend retains historical data for 1 day (24 hours). You can adjust this setting:
+
+```sql
+-- Change retention period to 2 days
+SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
+
+-- Check current retention setting
+SHOW SETTINGS LIKE 'DATA_RETENTION_TIME_IN_DAYS';
+```
+
+| Edition                                  | Default Retention | Maximum Retention |
+| ---------------------------------------- | ----------------- | ---------------- |
+| Databend Community & Enterprise Editions | 1 day (24 hours)  | 90 days          |
+| Databend Cloud (Personal)                | 1 day (24 hours)  | 1 day (24 hours) |
+| Databend Cloud (Business)                | 1 day (24 hours)  | 90 days          |

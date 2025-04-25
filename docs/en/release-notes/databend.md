@@ -12,32 +12,50 @@ This page provides information about recent features, enhancements, and bug fixe
 
 
 
-import MD1 from '@site/docs/release-stable/2025-01-02_v1.2.680.md';
-import MD2 from '@site/docs/release-stable/2024-08-19_v1.2.615.md';
-import MD3 from '@site/docs/release-stable/2024-08-13_v1.2.609.md';
-import MD4 from '@site/docs/release-stable/2024-06-16_v1.2.530.md';
-import MD5 from '@site/docs/release-stable/2024-05-06_v1.2.452.md';
-import MD6 from '@site/docs/release-stable/2024-04-08_v1.2.410.md';
-import MD7 from '@site/docs/release-stable/2024-03-11_v1.2.371.md';
-import MD8 from '@site/docs/release-stable/2024-02-22_v1.2.344.md';
-import MD9 from '@site/docs/release-stable/2024-01-25_v1.2.307.md';
-import MD10 from '@site/docs/release-stable/2024-01-11_v1.2.292.md';
-import MD11 from '@site/docs/release-stable/2024-01-10_v1.2.290.md';
-import MD12 from '@site/docs/release-stable/2024-01-02_v1.2.279.md';
-import MD13 from '@site/docs/release-stable/2023-12-30_v1.2.275.md';
-import MD14 from '@site/docs/release-stable/2023-12-20_v1.2.262.md';
-import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
+import MD1 from '@site/docs/release-stable/2025-04-21_v1.2.725.md';
+import MD2 from '@site/docs/release-stable/2025-02-14_v1.2.697.md';
+import MD3 from '@site/docs/release-stable/2025-01-02_v1.2.680.md';
+import MD4 from '@site/docs/release-stable/2024-08-19_v1.2.615.md';
+import MD5 from '@site/docs/release-stable/2024-08-13_v1.2.609.md';
+import MD6 from '@site/docs/release-stable/2024-06-16_v1.2.530.md';
+import MD7 from '@site/docs/release-stable/2024-05-06_v1.2.452.md';
+import MD8 from '@site/docs/release-stable/2024-04-08_v1.2.410.md';
+import MD9 from '@site/docs/release-stable/2024-03-11_v1.2.371.md';
+import MD10 from '@site/docs/release-stable/2024-02-22_v1.2.344.md';
+import MD11 from '@site/docs/release-stable/2024-01-25_v1.2.307.md';
+import MD12 from '@site/docs/release-stable/2024-01-11_v1.2.292.md';
+import MD13 from '@site/docs/release-stable/2024-01-10_v1.2.290.md';
+import MD14 from '@site/docs/release-stable/2024-01-02_v1.2.279.md';
+import MD15 from '@site/docs/release-stable/2023-12-30_v1.2.275.md';
+import MD16 from '@site/docs/release-stable/2023-12-20_v1.2.262.md';
+import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 
 <StepsWrap> 
 
 
 
-<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.680" number="-1">
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.725" number="-1">
+
+## Apr 21, 2025 (v1.2.725)
+
+<MD1 />
+
+</StepContent>
+
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.697" number="">
+
+## Feb 14, 2025 (v1.2.697)
+
+<MD2 />
+
+</StepContent>
+
+<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/v1.2.680" number="">
 
 ## Jan 2, 2025 (v1.2.680)
 
-<MD1 />
+<MD3 />
 
 </StepContent>
 
@@ -45,7 +63,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Aug 19, 2024 (v1.2.615)
 
-<MD2 />
+<MD4 />
 
 </StepContent>
 
@@ -53,7 +71,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Aug 13, 2024 (v1.2.609)
 
-<MD3 />
+<MD5 />
 
 </StepContent>
 
@@ -61,7 +79,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Jun 16, 2024 (v1.2.530)
 
-<MD4 />
+<MD6 />
 
 </StepContent>
 
@@ -69,7 +87,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## May 6, 2024 (v1.2.452)
 
-<MD5 />
+<MD7 />
 
 </StepContent>
 
@@ -77,7 +95,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Apr 8, 2024 (v1.2.410)
 
-<MD6 />
+<MD8 />
 
 </StepContent>
 
@@ -85,7 +103,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Mar 11, 2024 (v1.2.371)
 
-<MD7 />
+<MD9 />
 
 </StepContent>
 
@@ -93,7 +111,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Feb 22, 2024 (v1.2.344)
 
-<MD8 />
+<MD10 />
 
 </StepContent>
 
@@ -101,7 +119,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Jan 25, 2024 (v1.2.307)
 
-<MD9 />
+<MD11 />
 
 </StepContent>
 
@@ -109,7 +127,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Jan 11, 2024 (v1.2.292)
 
-<MD10 />
+<MD12 />
 
 </StepContent>
 
@@ -117,7 +135,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Jan 10, 2024 (v1.2.290)
 
-<MD11 />
+<MD13 />
 
 </StepContent>
 
@@ -125,7 +143,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Jan 2, 2024 (v1.2.279)
 
-<MD12 />
+<MD14 />
 
 </StepContent>
 
@@ -133,7 +151,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Dec 30, 2023 (v1.2.275)
 
-<MD13 />
+<MD15 />
 
 </StepContent>
 
@@ -141,7 +159,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Dec 20, 2023 (v1.2.262)
 
-<MD14 />
+<MD16 />
 
 </StepContent>
 
@@ -149,7 +167,7 @@ import MD15 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 ## Dec 13, 2023 (v1.2.233)
 
-<MD15 />
+<MD17 />
 
 </StepContent>
 

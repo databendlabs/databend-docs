@@ -15,9 +15,24 @@ title: 使用 BendSave 备份和恢复数据
 
 - BendSQL 已安装在您的本地机器上。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
 
+- Databend 发布包：从 [Databend GitHub Releases 页面](https://github.com/databendlabs/databend/releases) 下载发布包。该软件包在 `bin` 目录中包含 `databend-bendsave` 二进制文件，这是我们将在本教程中用于备份和恢复操作的工具。
+```bash
+databend-v1.2.725-nightly-x86_64-unknown-linux-gnu/
+├── bin
+│   ├── bendsql
+│   ├── databend-bendsave  # 本教程中使用的 BendSave 二进制文件
+│   ├── databend-meta
+│   ├── databend-metactl
+│   └── databend-query
+├── configs
+│   ├── databend-meta.toml
+│   └── databend-query.toml
+└── ...
+```
+
 ## 步骤 1：在 Docker 中启动 MinIO
 
-1. 在您的 Linux 机器上启动一个 MinIO 容器。以下命令启动一个名为 **minio** 的 MinIO 容器，并暴露端口 `9000`（用于 API）和 `9001`（用于 Web 控制台）：
+1. 在您的 Linux 机器上启动一个 MinIO 容器。以下命令启动一个名为 **minio** 的 MinIO 容器，并公开端口 `9000`（用于 API）和 `9001`（用于 Web 控制台）：
 
 ```bash
 docker run -d --name minio \
@@ -30,7 +45,7 @@ docker run -d --name minio \
     --console-address :9001
 ```
 
-2. 将您的 MinIO 凭据设置为环境变量，然后使用 AWS CLI 创建两个存储桶：一个用于存储备份 (**backupbucket**)，另一个用于 Databend 数据 (**databend**)：
+2. 将您的 MinIO 凭据设置为环境变量，然后使用 AWS CLI 创建两个存储桶：一个用于存储备份 (**backupbucket**)，另一个用于存储 Databend 数据 (**databend**)：
 
 ```bash
 export AWS_ACCESS_KEY_ID=minioadmin
@@ -45,9 +60,9 @@ aws --endpoint-url http://127.0.0.1:9000/ s3 mb s3://databend
 1. 下载最新的 Databend 版本并解压它以获取必要的二进制文件：
 
 ```bash
-wget https://github.com/databendlabs/databend/releases/download/v1.2.719-nightly/databend-dbg-v1.2.719-nightly-x86_64-unknown-linux-gnu.tar.gz
+wget https://github.com/databendlabs/databend/releases/download/v1.2.25-nightly/databend-dbg-v1.2.725-nightly-x86_64-unknown-linux-gnu.tar.gz
 
-tar -xzvf databend-dbg-v1.2.719-nightly-x86_64-unknown-linux-gnu.tar.gz
+tar -xzvf databend-dbg-v1.2.725-nightly-x86_64-unknown-linux-gnu.tar.gz
 ```
 
 2. 配置 **configs** 文件夹中的 **databend-query.toml** 配置文件。
