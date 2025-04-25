@@ -7,53 +7,92 @@ slug: /
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在本教程中，我们将指导您使用 BendSQL 以用户 `root` 身份连接到私有化部署的 Databend 实例。
+在本教程中，我们将指导您完成使用 BendSQL 连接到私有化部署 Databend 实例的过程。
 
 <StepsWrap>
 <StepContent number="1">
 
 ### 开始之前
 
-- 确保您的机器上已安装 BendSQL。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
-- 确保您的 Databend 实例已成功启动。
-- 在本教程中，您将使用 `root` 帐户连接到 Databend。在部署期间，取消注释 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中的以下行以选择此帐户：
-
-  ```sql title="databend-query.toml"
-  [[query.users]]
-  name = "root"
-  auth_type = "no_password"
-  ```
+- 确保您的本地机器上安装了 [Docker](https://www.docker.com/)，因为它将用于启动 Databend。
+- 确保您的机器上安装了 BendSQL。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
 
 </StepContent>
 <StepContent number="2">
 
-### 启动 BendSQL
+### 启动 Databend
 
-要启动 BendSQL，请直接在终端或命令提示符中输入 `bendsql`。
+在您的终端中运行以下命令以启动 Databend 实例：
 
-:::note
-命令 `bendsql` 启动 BendSQL 并将其连接到本地 Databend（位于 127.0.0.1），使用 `root` 用户而无需密码。如果您希望使用其他用户（例如密码为 'abc123' 的 'eric'）连接到本地 Databend，请使用命令 `bendsql --user eric --password abc123`。要查看所有可用的参数及其默认值，请键入 `bendsql --help`。
-:::
+```bash
+docker run -d --name databend \
+  -e QUERY_DEFAULT_USER=eric \
+  -e QUERY_DEFAULT_PASSWORD=abc123 \
+  -p 3307:3307 -p 8000:8000 -p 8124:8124 -p 8900:8900 \
+  datafuselabs/databend:nightly
+```
 
-![Alt text](/img/connect/bendsql-1.gif)
+此命令在 Docker 容器中本地启动一个 Databend 实例，连接信息如下：
+
+- Host: `127.0.0.1`
+- Port: `8000`
+- User: `eric`
+- Password: `abc123`
 
 </StepContent>
 <StepContent number="3">
+
+### 启动 BendSQL
+
+一旦 Databend 实例正在运行，您可以使用 BendSQL 连接到它。打开一个终端并使用以下命令进行连接：
+
+```bash
+bendsql --host 127.0.0.1 --port 8000 --user eric --password abc123
+```
+
+这将使用 HTTP API 通过用户 `eric` 和密码 `abc123` 连接到 `127.0.0.1:8000` 上的 Databend。运行此命令后，您应该会看到一个成功的连接消息，如下所示：
+
+```bash
+Welcome to BendSQL 0.24.7-ff9563a(2024-12-27T03:23:17.723492000Z).
+Connecting to 127.0.0.1:8000 as user eric.
+Connected to Databend Query v1.2.725-nightly-25ee2d6e65(rust-1.88.0-nightly-2025-04-16T13:54:25.363718584Z)
+Loaded 1432 auto complete keywords from server.
+Started web server at 127.0.0.1:8080
+```
+
+</StepContent>
+<StepContent number="4">
 
 ### 执行查询
 
 连接后，您可以在 BendSQL shell 中执行 SQL 查询。例如，键入 `SELECT NOW();` 以返回当前时间：
 
-![Alt text](/img/connect/bendsql-2.gif)
+```bash
+eric@127.0.0.1:8000/default> SELECT NOW();
+
+SELECT NOW()
+
+┌────────────────────────────┐
+│            now()           │
+│          Timestamp         │
+├────────────────────────────┤
+│ 2025-04-24 13:24:06.640616 │
+└────────────────────────────┘
+1 row read in 0.025 sec. Processed 1 row, 1 B (40 rows/s, 40 B/s)
+```
 
 </StepContent>
-<StepContent number="4">
+<StepContent number="5">
 
 ### 退出 BendSQL
 
 要退出 BendSQL，请键入 `quit`。
 
-![Alt text](/img/connect/bendsql-3.gif)
+```bash
+eric@127.0.0.1:8000/default> quit
+Bye~
+➜  ~
+```
 
 </StepContent>
 </StepsWrap>

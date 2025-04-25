@@ -27,7 +27,6 @@ import Redash from "@site/static/icons/redash.svg";
 import Superset from "@site/static/icons/superset.svg";
 import Teableau from "@site/static/icons/tableau.svg";
 import MindsDB from "@site/static/icons/mindsdb.svg";
-import Pipeline from "@site/static/icons/pipeline.svg";
 import Stream from "@site/static/icons/stream.svg";
 import Task from "@site/static/icons/task.svg";
 import Contact from "@site/static/icons/contact.svg";
@@ -108,7 +107,7 @@ const DocsOverview: FC = (): ReactElement => {
                   to={"/guides/cloud/new-account"}
                   className={"global-overview-card"}
                 >
-                  <LightDatabendCloudSingleSvg></LightDatabendCloudSingleSvg>
+                  <LightDatabendCloudSingleSvg width={150} />
                   <div>
                     <h5>{$t("Activate Databend Cloud")}</h5>
                     <div>
@@ -146,7 +145,7 @@ const DocsOverview: FC = (): ReactElement => {
             <Col {...colLayout2}>
               <Card padding={[20, 0]} className={styles.cardActiveOut}>
                 <Link to={"/guides/deploy/"} className={"global-overview-card"}>
-                  <LightDatabendSingleSvg></LightDatabendSingleSvg>
+                  <LightDatabendSingleSvg width={150} />
                   <div>
                     <h5>{$t("Self-Hosted Databend")}</h5>
                     <div>
@@ -544,11 +543,7 @@ const DocsOverview: FC = (): ReactElement => {
               <h3>
                 <span> {$t("Object Storage")}</span>
               </h3>
-              <div>
-                {$t(
-                  "Stores all data in object storage."
-                )}
-              </div>
+              <div>{$t("Stores all data in object storage.")}</div>
             </Card>
           </Col>
           <Col {...colLayout2}>
