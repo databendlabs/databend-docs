@@ -209,10 +209,6 @@ const config: Config = {
           {
             from: '/',
             to: '/guides/'
-          },
-          {
-            from: '/index.html',
-            to: '/guides/'
           }
         ]
       }
