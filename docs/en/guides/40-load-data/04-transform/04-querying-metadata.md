@@ -1,106 +1,93 @@
 ---
-title: Query Metadata for Staged Files
+title: Working with File and Column Metadata
 sidebar_label: Metadata
 ---
 
-## Why and What is Metadata?
+This guide explains how to query metadata from staged files. Metadata includes both file-level metadata (such as file name and row number) and column-level metadata (such as column names, types, and nullability).
 
-Databend allows you to retrieve metadata from your data files using the [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema) function. This means you can extract column definitions from data files stored in internal or external stages. Retrieving metadata through the `INFER_SCHEMA` function provides a better understanding of the data structure, ensures data consistency, and enables automated data integration and analysis. The metadata for each column includes the following information:
+## Accessing File-Level Metadata
 
-- **column_name**: Indicates the name of the column.
-- **type**: Indicates the data type of the column.
-- **nullable**: Indicates whether the column allows null values.
-- **order_id**: Represents the column's position in the table.
+Databend supports accessing the following file-level metadata fields when reading staged files in the formats CSV, TSV, Parquet, and NDJSON:
 
-:::note
-This feature is currently only available for the Parquet file format.
-:::
+| File Metadata              | Type    | Description                                      |
+|----------------------------|---------|--------------------------------------------------|
+| `metadata$filename`        | VARCHAR | The name of the file from which the row was read |
+| `metadata$file_row_number` | INT     | The row number within the file (starting from 0) |
 
-The syntax for `INFER_SCHEMA` is as follows. For more detailed information about this function, see [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema).
+These metadata fields are available in:
 
-```sql
-INFER_SCHEMA(
-  LOCATION => '{ internalStage | externalStage }'
-  [ PATTERN => '<regex_pattern>']
-)
-```
+- SELECT queries over stages (e.g., `SELECT FROM @stage`)
+- `COPY INTO <table>` statements
 
-## Tutorial: Querying Column Definitions
+### Examples
 
-In this tutorial, we will guide you through the process of uploading the sample file to an internal stage, querying the column definitions, and finally creating a table based on the staged file. Before you start, download and save the sample file [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) to a local folder.
+1. Querying Metadata Fields
 
-1. Create an internal stage named *my_internal_stage*:
+You can directly select metadata fields when reading from a stage:
 
 ```sql
-CREATE STAGE my_internal_stage;
-```
-
-2. Stage the sample file using [BendSQL](../../30-sql-clients/00-bendsql/index.md):
-
-```sql
-PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
-```
-
-Result:
-```
-┌───────────────────────────────────────────────┐
-│                 file                │  status │
-│                String               │  String │
-├─────────────────────────────────────┼─────────┤
-│ /Users/eric/Documents/books.parquet │ SUCCESS │
-└───────────────────────────────────────────────┘
-```
-
-3. Query the column definitions from the staged sample file:
-
-```sql
-SELECT * FROM INFER_SCHEMA(location => '@my_internal_stage/books.parquet');
-```
-
-Result:
-```
-┌─────────────┬─────────┬─────────┬─────────┐
-│ column_name │ type    │ nullable│ order_id│
-├─────────────┼─────────┼─────────┼─────────┤
-│ title       │ VARCHAR │       0 │       0 │
-│ author      │ VARCHAR │       0 │       1 │
-│ date        │ VARCHAR │       0 │       2 │
-└─────────────┴─────────┴─────────┴─────────┘
-```
-
-4. Create a table named *mybooks* based on the staged sample file:
-
-```sql
-CREATE TABLE mybooks AS SELECT * FROM @my_internal_stage/books.parquet;
-```
-
-Check the created table:
-
-```sql
-DESC mybooks;
-```
-
-Result:
-```
-┌─────────┬─────────┬──────┬─────────┬───────┐
-│ Field   │ Type    │ Null │ Default │ Extra │
-├─────────┼─────────┼──────┼─────────┼───────┤
-│ title   │ VARCHAR │ NO   │ ''      │       │
-│ author  │ VARCHAR │ NO   │ ''      │       │
-│ date    │ VARCHAR │ NO   │ ''      │       │
-└─────────┴─────────┴──────┴─────────┴───────┘
+SELECT
+  metadata$filename,
+  metadata$file_row_number,
+  *
+FROM @my_internal_stage/iris.parquet
+LIMIT 5;
 ```
 
 ```sql
-SELECT * FROM mybooks;
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ metadata$filename │ metadata$file_row_number │        id       │    sepal_length   │    sepal_width    │    petal_length   │    petal_width    │      species     │ metadata$filename │ metadata$file_row_number │
+├───────────────────┼──────────────────────────┼─────────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────┼──────────────────┼───────────────────┼──────────────────────────┤
+│ iris.parquet      │                        0 │               1 │               5.1 │               3.5 │               1.4 │               0.2 │ setosa           │ iris.parquet      │                        0 │
+│ iris.parquet      │                        1 │               2 │               4.9 │                 3 │               1.4 │               0.2 │ setosa           │ iris.parquet      │                        1 │
+│ iris.parquet      │                        2 │               3 │               4.7 │               3.2 │               1.3 │               0.2 │ setosa           │ iris.parquet      │                        2 │
+│ iris.parquet      │                        3 │               4 │               4.6 │               3.1 │               1.5 │               0.2 │ setosa           │ iris.parquet      │                        3 │
+│ iris.parquet      │                        4 │               5 │                 5 │               3.6 │               1.4 │               0.2 │ setosa           │ iris.parquet      │                        4 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Result:
+2. Using Metadata in COPY INTO
+
+You can pass metadata fields into target table columns using COPY INTO:
+
+```sql
+COPY INTO iris_with_meta 
+FROM (SELECT metadata$filename, metadata$file_row_number, $1, $2, $3, $4, $5 FROM @my_internal_stage/iris.parquet) 
+FILE_FORMAT=(TYPE=parquet); 
 ```
-┌───────────────────────────┬───────────────────┬──────┐
-│ title                     │ author            │ date │
-├───────────────────────────┼───────────────────┼──────┤
-│ Transaction Processing    │ Jim Gray          │ 1992 │
-│ Readings in Database Systems│ Michael Stonebraker│ 2004│
-└───────────────────────────┴───────────────────┴──────┘
+
+## Inferring Column Metadata from Files
+
+Databend allows you to retrieve the following column-level metadata from your staged files in the Parquet format using the [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema) function:
+
+| Column Metadata | Type    | Description                                      |
+|-----------------|---------|--------------------------------------------------|
+| `column_name`   | String  | Indicates the name of the column.                |
+| `type`          | String  | Indicates the data type of the column.           |
+| `nullable`      | Boolean | Indicates whether the column allows null values. |
+| `order_id`      | UInt64  | Represents the column's position in the table.   |
+
+### Examples
+
+The following example retrieves column metadata from a Parquet file staged in `@my_internal_stage`:
+
+```sql
+SELECT * FROM INFER_SCHEMA(location => '@my_internal_stage/iris.parquet');
 ```
+
+```sql
+┌──────────────────────────────────────────────┐
+│  column_name │   type  │ nullable │ order_id │
+├──────────────┼─────────┼──────────┼──────────┤
+│ id           │ BIGINT  │ true     │        0 │
+│ sepal_length │ DOUBLE  │ true     │        1 │
+│ sepal_width  │ DOUBLE  │ true     │        2 │
+│ petal_length │ DOUBLE  │ true     │        3 │
+│ petal_width  │ DOUBLE  │ true     │        4 │
+│ species      │ VARCHAR │ true     │        5 │
+└──────────────────────────────────────────────┘
+```
+
+## Tutorials
+
+- [Querying Metadata](/tutorials/load/query-metadata)
