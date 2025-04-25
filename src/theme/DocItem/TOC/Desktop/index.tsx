@@ -1,11 +1,11 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { ThemeClassNames } from "@docusaurus/theme-common";
-import { useDoc } from "@docusaurus/theme-common/internal";
+import { useDoc } from "@docusaurus/plugin-content-docs/client";
 
 import TOC from "@theme/TOC";
 import TryCloudCard from "@site/src/components/TryCloudCard";
 
-export default function DocItemTOCDesktop(): JSX.Element {
+export default function DocItemTOCDesktop(): ReactNode {
   const { toc, frontMatter } = useDoc();
   return (
     <div
