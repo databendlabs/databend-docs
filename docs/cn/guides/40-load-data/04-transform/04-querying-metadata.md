@@ -1,110 +1,93 @@
 ---
-title: 查询 Stage 文件的元数据
+title: 使用文件和列元数据
 sidebar_label: 元数据
 ---
 
-## 为什么需要元数据以及什么是元数据？
+本指南解释了如何从已暂存的文件中查询元数据。元数据包括文件级别的元数据（例如文件名和行号）和列级别的元数据（例如列名、类型和可空性）。
 
-Databend 允许您使用 [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema) 函数从数据文件中检索元数据。这意味着您可以从存储在内部或外部 Stage 中的数据文件中提取列定义。通过 `INFER_SCHEMA` 函数检索元数据可以更好地理解数据结构，确保数据一致性，并实现自动化的数据集成和分析。每列的元数据包括以下信息：
+## 访问文件级别元数据
 
-- **column_name**: 表示列的名称。
-- **type**: 表示列的数据类型。
-- **nullable**: 表示列是否允许空值。
-- **order_id**: 表示列在表中的位置。
+当读取 CSV、TSV、Parquet 和 NDJSON 格式的已暂存文件时，Databend 支持访问以下文件级别的元数据字段：
 
-:::note
-此功能目前仅适用于 Parquet 文件格式。
-:::
+| 文件元数据              | 类型    | 描述                                           |
+|----------------------------|---------|---------------------------------------------------|
+| `metadata$filename`        | VARCHAR | 读取行的文件名                                  |
+| `metadata$file_row_number` | INT     | 文件中的行号（从 0 开始）                          |
 
-`INFER_SCHEMA` 的语法如下。有关此函数的更多详细信息，请参见 [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema)。
+这些元数据字段在以下位置可用：
 
-```sql
-INFER_SCHEMA(
-  LOCATION => '{ internalStage | externalStage }'
-  [ PATTERN => '<regex_pattern>']
-)
-```
+- 基于 Stage 的 SELECT 查询（例如，`SELECT FROM @stage`）
+- `COPY INTO <table>` 语句
 
-## 教程：查询列定义
+### 示例
 
-在本教程中，我们将指导您完成将示例文件上传到内部 Stage、查询列定义，并最终基于 Stage 文件创建表的过程。在开始之前，请下载并将示例文件 [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) 保存到本地文件夹。
+1. 查询元数据字段
 
-1. 创建一个名为 _my_internal_stage_ 的内部 Stage：
+从 Stage 读取时，您可以直接选择元数据字段：
 
 ```sql
-CREATE STAGE my_internal_stage;
-```
-
-2. 使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) Stage 示例文件：
-
-```sql
-PUT fs:///Users/eric/Documents/books.parquet @my_internal_stage
-```
-
-结果：
-
-```
-┌───────────────────────────────────────────────┐
-│                 file                │  status │
-│                String               │  String │
-├─────────────────────────────────────┼─────────┤
-│ /Users/eric/Documents/books.parquet │ SUCCESS │
-└───────────────────────────────────────────────┘
-```
-
-3. 从 Stage 的示例文件中查询列定义：
-
-```sql
-SELECT * FROM INFER_SCHEMA(location => '@my_internal_stage/books.parquet');
-```
-
-结果：
-
-```
-┌─────────────┬─────────┬─────────┬─────────┐
-│ column_name │ type    │ nullable│ order_id│
-├─────────────┼─────────┼─────────┼─────────┤
-│ title       │ VARCHAR │       0 │       0 │
-│ author      │ VARCHAR │       0 │       1 │
-│ date        │ VARCHAR │       0 │       2 │
-└─────────────┴─────────┴─────────┴─────────┘
-```
-
-4. 基于 Stage 的示例文件创建一个名为 _mybooks_ 的表：
-
-```sql
-CREATE TABLE mybooks AS SELECT * FROM @my_internal_stage/books.parquet;
-```
-
-检查创建的表：
-
-```sql
-DESC mybooks;
-```
-
-结果：
-
-```
-┌─────────┬─────────┬──────┬─────────┬───────┐
-│ Field   │ Type    │ Null │ Default │ Extra │
-├─────────┼─────────┼──────┼─────────┼───────┤
-│ title   │ VARCHAR │ NO   │ ''      │       │
-│ author  │ VARCHAR │ NO   │ ''      │       │
-│ date    │ VARCHAR │ NO   │ ''      │       │
-└─────────┴─────────┴──────┴─────────┴───────┘
+SELECT
+  metadata$filename,
+  metadata$file_row_number,
+  *
+FROM @my_internal_stage/iris.parquet
+LIMIT 5;
 ```
 
 ```sql
-SELECT * FROM mybooks;
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ metadata$filename │ metadata$file_row_number │        id       │    sepal_length   │    sepal_width    │    petal_length   │    petal_width    │      species     │ metadata$filename │ metadata$file_row_number │
+├───────────────────┼──────────────────────────┼─────────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────┼──────────────────┼───────────────────┼──────────────────────────┤
+│ iris.parquet      │                        0 │               1 │               5.1 │               3.5 │               1.4 │               0.2 │ setosa           │ iris.parquet      │                        0 │
+│ iris.parquet      │                        1 │               2 │               4.9 │                 3 │               1.4 │               0.2 │ setosa           │ iris.parquet      │                        1 │
+│ iris.parquet      │                        2 │               3 │               4.7 │               3.2 │               1.3 │               0.2 │ setosa           │ iris.parquet      │                        2 │
+│ iris.parquet      │                        3 │               4 │               4.6 │               3.1 │               1.5 │               0.2 │ setosa           │ iris.parquet      │                        3 │
+│ iris.parquet      │                        4 │               5 │                 5 │               3.6 │               1.4 │               0.2 │ setosa           │ iris.parquet      │                        4 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-结果：
+2. 在 COPY INTO 中使用元数据
 
+您可以使用 COPY INTO 将元数据字段传递到目标表列中：
+
+```sql
+COPY INTO iris_with_meta 
+FROM (SELECT metadata$filename, metadata$file_row_number, $1, $2, $3, $4, $5 FROM @my_internal_stage/iris.parquet) 
+FILE_FORMAT=(TYPE=parquet); 
 ```
-┌───────────────────────────┬───────────────────┬──────┐
-│ title                     │ author            │ date │
-├───────────────────────────┼───────────────────┼──────┤
-│ Transaction Processing    │ Jim Gray          │ 1992 │
-│ Readings in Database Systems│ Michael Stonebraker│ 2004│
-└───────────────────────────┴───────────────────┴──────┘
+
+## 从文件推断列元数据
+
+Databend 允许您使用 [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema) 函数从 Parquet 格式的已暂存文件中检索以下列级别的元数据：
+
+| 列元数据 | 类型    | 描述                                           |
+|-----------------|---------|---------------------------------------------------|
+| `column_name`   | String  | 指示列的名称。                                  |
+| `type`          | String  | 指示列的数据类型。                               |
+| `nullable`      | Boolean | 指示列是否允许空值。                             |
+| `order_id`      | UInt64  | 表示列在表中的位置。                             |
+
+### 示例
+
+以下示例从 `@my_internal_stage` 中暂存的 Parquet 文件中检索列元数据：
+
+```sql
+SELECT * FROM INFER_SCHEMA(location => '@my_internal_stage/iris.parquet');
 ```
+
+```sql
+┌──────────────────────────────────────────────┐
+│  column_name │   type  │ nullable │ order_id │
+├──────────────┼─────────┼──────────┼──────────┤
+│ id           │ BIGINT  │ true     │        0 │
+│ sepal_length │ DOUBLE  │ true     │        1 │
+│ sepal_width  │ DOUBLE  │ true     │        2 │
+│ petal_length │ DOUBLE  │ true     │        3 │
+│ petal_width  │ DOUBLE  │ true     │        4 │
+│ species      │ VARCHAR │ true     │        5 │
+└──────────────────────────────────────────────┘
+```
+
+## 教程
+
+- [查询元数据](/tutorials/load/query-metadata)
