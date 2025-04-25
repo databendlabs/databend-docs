@@ -40,7 +40,7 @@
     "@docusaurus/theme-mermaid": "^3.7.0",
     "@mdx-js/react": "^3.0.0",
     "ahooks": "^3.8.0",
-    "antd": "^5.19.2",
+    "antd": "^5.24.8",
     "axios": "^1.7.2",
     "clsx": "^2.0.0",
     "copyforjs": "^1.0.6",

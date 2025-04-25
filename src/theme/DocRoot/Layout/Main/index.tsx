@@ -30,6 +30,7 @@ export default function DocRootLayoutMain({
       )}
     >
       <div
+        onClick={getImgElement}
         className={clsx(
           "container padding-top--md padding-bottom--lg",
           styles.docItemWrapper,
