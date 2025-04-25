@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.636"/>
 
-Creates a dictionary using a specified source.
+Creates a dictionary that enables real-time data access from external sources. Dictionaries allow Databend to query data directly from external systems like MySQL and Redis without traditional ETL processes, ensuring data consistency and improving query performance.
 
 ## Syntax
 
@@ -20,15 +20,17 @@ PRIMARY KEY <primary_key_column>
 SOURCE(<source_type>(<source_parameters>))
 ```
 
+When a dictionary is created, Databend establishes a connection to the specified external data source. The dictionary can then be queried using the `dict_get()` function to retrieve data directly from the source at query time.
+
 | Parameter              | Description                                                                                                                                |
 |------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| `<dictionary_name>`    | The name of the dictionary.                                                                                                                |
-| `<column_name>`        | The name of a column in the dictionary.                                                                                                    |
-| `<data_type>`          | The type of data stored in the column.                                                                                                     |
-| `<default-value>`      | Specifies a default value for a column in case no value is provided when the dictionary is populated from the source. |
-| `<primary_key_column>` | The primary key column used for fast lookups. This key should correspond to a unique value for each entry in the dictionary.               |
-| `<source_type>`        | Specifies the type of data source, `MYSQL` or `REDIS`. |
-| `<source_parameters>`  | Defines the configuration parameters required for the specified source type. |
+| `<dictionary_name>`    | The name of the dictionary to be referenced in queries.                                                                                     |
+| `<column_name>`        | The name of a column in the dictionary. These columns define the structure of data that can be retrieved from the external source.           |
+| `<data_type>`          | The data type for each column. For MySQL sources, Databend supports boolean, string, and numeric types (including int, bigint, float32, float64). For Redis sources, only string type is supported. |
+| `<default-value>`      | Optional default value for a column when no value is found in the external source. This ensures queries return meaningful results even when data is missing. |
+| `<primary_key_column>` | The column used as the lookup key when querying the dictionary. This should correspond to a unique identifier in the external data source. |
+| `<source_type>`        | The type of external data source. Currently supported: `MYSQL` or `REDIS`. Future versions will support additional sources. |
+| `<source_parameters>`  | Connection and configuration parameters specific to the selected source type. |
 
 ### MySQL Parameters
 
@@ -57,6 +59,8 @@ The following table lists the required and optional parameters for configuring a
 
 ## Examples
 
+### MySQL Dictionary Example
+
 The following example creates a dictionary named `courses_dict` using data from a MySQL database:
 
 ```sql
@@ -76,6 +80,8 @@ SOURCE(MYSQL(
 ));
 ```
 
+### Redis Dictionary Example
+
 The following example creates a dictionary named `student_name_dict` using data from a Redis data source:
 
 ```sql
@@ -90,3 +96,19 @@ SOURCE(REDIS(
     port='6379'
 ));
 ```
+
+## Usage with dict_get()
+
+After creating a dictionary, you can query it using the `dict_get()` function:
+
+```sql
+-- Query student information using the dictionary
+SELECT 
+    student_id,
+    dict_get(student_name_dict, 'student_name', to_string(student_id)) as student_name,
+    course_id,
+    dict_get(courses_dict, 'course_name', course_id) as course_name
+FROM student_scores;
+```
+
+This approach enables real-time data integration across multiple sources without complex ETL processes.
