@@ -126,7 +126,6 @@ Download the db-archiver from the [release page](https://github.com/databendclou
 
 ```json
 {
-    // Replace the placeholders with your actual values:
     "sourceHost": "127.0.0.1",
     "sourcePort": 3306,
     "sourceUser": "root",
