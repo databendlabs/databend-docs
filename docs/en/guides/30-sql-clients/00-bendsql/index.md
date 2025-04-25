@@ -216,16 +216,27 @@ The best practice for connecting to Databend Cloud is to obtain your DSN from Da
 
 ### Connect to Self-hosted Databend
 
-To connect to a self-hosted Databend instance, use the `--host` and `--port` parameters:
+You can connect to a self-hosted Databend instance using either BendSQL command-line arguments or a DSN.
+
+#### Option 1: Use BendSQL Arguments
 
 ```bash
 bendsql --host <HOST> --port <PORT> --user <USER> --password <PASSWORD> --database <DATABASE>
 ```
 
-This example connects to a Databend instance running locally on port `8000` using the `root` user and the `default` database:
+This example connects to a Databend instance running locally on port `8000` using `eric` as the user:
 
 ```bash title='Example'
-bendsql --host 127.0.0.1 --port 8000 --user root --database default
+bendsql --host 127.0.0.1 --port 8000 --user eric --password abc123
+```
+
+#### Option 2: Use a DSN
+
+You can also define the connection using a DSN and export it as the `BENDSQL_DSN` environment variable:
+
+```bash title='Example'
+export BENDSQL_DSN="databend://eric:abc123@localhost:8000/?sslmode=disable"
+bendsql
 ```
 
 ## Tutorials
