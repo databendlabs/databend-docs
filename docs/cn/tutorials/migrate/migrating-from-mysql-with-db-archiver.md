@@ -1,4 +1,3 @@
-```md
 ---
 title: 使用 db-archiver 从 MySQL 迁移
 ---
@@ -34,7 +33,7 @@ docker ps
 
 检查输出中是否存在名为 **mysql-server** 的容器：
 
-```bash 
+```bash
 CONTAINER ID   IMAGE                          COMMAND                  CREATED        STATUS             PORTS                                                                                            NAMES
 1a8f8d7d0e1a   mysql:8                        "docker-entrypoint.s…"   10 hours ago   Up About an hour   0.0.0.0:3306->3306/tcp, 33060/tcp                                                                mysql-server
 ```
@@ -119,7 +118,7 @@ CREATE TABLE my_table (
 
 ## 步骤 4：安装 db-archiver
 
-从 [release page](https://github.com/databendcloud/db-archiver/releases/) 根据你的 arch 下载 db-archiver。
+从 [release page](https://github.com/databendcloud/db-archiver/releases/) 根据你的架构下载 db-archiver。
 
 ## 步骤 5：配置并运行 db-archiver
 
@@ -127,7 +126,6 @@ CREATE TABLE my_table (
 
 ```json
 {
-    // Replace the placeholders with your actual values:
     "sourceHost": "127.0.0.1",
     "sourcePort": 3306,
     "sourceUser": "root",
