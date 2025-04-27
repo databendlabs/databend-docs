@@ -1,4 +1,3 @@
-```md
 ---
 title: 安装 BendDeploy
 ---
@@ -86,8 +85,8 @@ cd benddeploy-charts/charts/logging
 1. 更新 `charts/logging` 目录中的 **values.yaml** 文件，以启用 `warehouseLogCollector` 并将其配置为使用与 S3 兼容的存储：
 
 ```yaml
-...
 
+---
 warehouseLogCollector:
   enabled: true
   replicas: 1
@@ -100,35 +99,31 @@ warehouseLogCollector:
     auth:
       accessKeyId: "<your-access-key-id>"
       secretAccessKey: "<your-secret-access-key>"
-
-...
 ```
 
 2. 编辑位于 `configs/vector/` 中的 **agent.yaml** 文件，以配置 S3 sink 用于日志存储：
 
 ```yaml
-...
 
- # S3 sink
- s3_logs:
-   type: aws_s3
-   inputs:
-#      - filter_kubernetes_logs
-     - filter_warehouse_system_logs
-   endpoint: "https://s3.us-east-2.amazonaws.com"
-   bucket: "databend-doc"
-   key_prefix: "logs/{{ tenant }}/system/"
-   compression: gzip
-   encoding:
-     codec: native_json
+---
+# S3 sink
+s3_logs:
+  type: aws_s3
+  inputs:
+    #      - filter_kubernetes_logs
+    - filter_warehouse_system_logs
+  endpoint: "https://s3.us-east-2.amazonaws.com"
+  bucket: "databend-doc"
+  key_prefix: "logs/{{ tenant }}/system/"
+  compression: gzip
+  encoding:
+    codec: native_json
 
-   auth:
-      access_key_id: "<your-access-key-id>"
-      secret_access_key: "<your-secret-access-key>"
+  auth:
+    access_key_id: "<your-access-key-id>"
+    secret_access_key: "<your-secret-access-key>"
 
-   region: "us-east-2" 
-
-...
+  region: "us-east-2"
 ```
 
 3. 使用 Helm 部署 logging 组件：
@@ -170,17 +165,17 @@ warehouse-log-collector-0    1/1     Running   0          3s
 
 1. 对于生产部署，自定义 `charts/benddeploy/templates` 目录中的 **configmap-benddeploy.yaml** 文件，以确保 BendDeploy 可以正确拉取镜像、存储日志、连接到指标和数据库以及验证用户身份。如果保持不变，将使用默认设置，这些设置适用于测试，但不建议用于生产环境。
 
-| 字段                  | 描述                                                                                                                                                                                           |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 字段                   | 描述                                                                                                                                                        |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `imageRegistry`        | 用于拉取 Databend Docker 镜像的镜像仓库。如果你的集群无法访问互联网，请将镜像推送到你自己的仓库（例如，`registry.databend.local`）。留空以使用 Docker Hub。 |
-| `registryUsername`     | 用于访问你的镜像仓库的用户名（如果需要）。                                                                                                                                              |
-| `registryPassword`     | 用于访问你的镜像仓库的密码（如果需要）。                                                                                                                                              |
-| `repoNamespace`        | 存储 Databend 镜像的命名空间。例如，如果镜像为 `registry.databend.local/datafuselabs/databend-query:tag`，则 `repoNamespace` 为 `datafuselabs`。                  |
-| `promEndpoint`         | 你的 Prometheus 服务器的端点，例如 `prometheus-k8s.monitoring.svc.cluster.local:9090`。                                                                                                         |
-| `logCollectorEndpoint` | 你的日志收集器（例如，Vector 或 OpenTelemetry）的端点，例如 `http://warehouse-log-collector.logging.svc.cluster.local:4318`。                                                               |
-| `grafanaEndpoint`      | 你的 Grafana 仪表板的地址，例如 `http://grafana.monitoring.svc.cluster.local:80`。                                                                                                            |
-| `db.postgresDSN`       | 外部 PostgreSQL 数据库的 DSN。                                                                                                                                                              |
-| `oidcProvider`         | 用于身份验证的 OIDC 提供程序 URL。必须可以从集群内部访问或通过 Ingress 公开。                                                                                              |
+| `registryUsername`     | 用于访问你的镜像仓库的用户名（如果需要）。                                                                                                                  |
+| `registryPassword`     | 用于访问你的镜像仓库的密码（如果需要）。                                                                                                                    |
+| `repoNamespace`        | 存储 Databend 镜像的命名空间。例如，如果镜像为 `registry.databend.local/datafuselabs/databend-query:tag`，则 `repoNamespace` 为 `datafuselabs`。            |
+| `promEndpoint`         | 你的 Prometheus 服务器的端点，例如 `prometheus-k8s.monitoring.svc.cluster.local:9090`。                                                                     |
+| `logCollectorEndpoint` | 你的日志收集器（例如，Vector 或 OpenTelemetry）的端点，例如 `http://warehouse-log-collector.logging.svc.cluster.local:4318`。                               |
+| `grafanaEndpoint`      | 你的 Grafana 仪表板的地址，例如 `http://grafana.monitoring.svc.cluster.local:80`。                                                                          |
+| `db.postgresDSN`       | 外部 PostgreSQL 数据库的 DSN。                                                                                                                              |
+| `oidcProvider`         | 用于身份验证的 OIDC 提供程序 URL。必须可以从集群内部访问或通过 Ingress 公开。                                                                               |
 
 2. 使用 Helm 从克隆的存储库的根目录安装 BendDeploy。访问 [Amazon ECR Public Gallery 上的 BendDeploy 镜像存储库](https://gallery.ecr.aws/databendlabs/benddeploy) 并检查 **Image tags** 部分以查找最新版本，例如 `v1.0.2`。
 
@@ -221,7 +216,6 @@ pg-benddeploy-64c64b95c-wd55m          1/1     Running   0          69s
 部署完成后，你现在可以在浏览器中访问 BendDeploy Web UI。
 
 1. 通过端口转发公开前端。
-
 
 :::tip
 虽然端口转发非常适合快速本地访问，但对于生产或共享环境，请考虑配置 Ingress 控制器（如 NGINX Ingress）或通过 LoadBalancer 公开服务，以便从集群外部访问 BendDeploy。这允许您通过真实的域名或 IP 地址访问 Web UI。
