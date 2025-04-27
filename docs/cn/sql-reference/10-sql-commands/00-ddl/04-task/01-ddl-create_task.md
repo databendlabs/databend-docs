@@ -1,4 +1,3 @@
-```md
 ---
 title: CREATE TASK
 sidebar_position: 1
@@ -28,19 +27,19 @@ AS
 <sql>
 ```
 
-| 参数                                             | 描述                                                                                                                                                                     |
-| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| IF NOT EXISTS                                    | 可选。如果指定，则仅当不存在同名的 task 时才会创建 task。                                                                                                                   |
-| name                                             | task 的名称。这是一个必填字段。                                                                                                                                            |
-| WAREHOUSE                                        | 必需。指定用于 task 的虚拟计算集群。                                                                                                                                        |
-| SCHEDULE                                         | 必需。定义 task 运行的时间表。可以以分钟为单位指定，也可以使用 CRON 表达式以及时区指定。                                                                                               |
-| SUSPEND_TASK_AFTER_NUM_FAILURES                  | 可选。task 在自动暂停之前连续失败的次数。                                                                                                                                  |
-| AFTER                                            | 列出必须在当前 task 启动之前完成的 task。                                                                                                                                   |
-| WHEN boolean_expr                                | task 运行必须为 true 的条件。                                                                                                                                               |
-| [ERROR_INTEGRATION](../16-notification/index.md) | 可选。用于 task 错误通知的通知集成的名称，并应用特定的 [task 错误负载 ](./10-task-error-integration-payload.md)。                                                               |
-| COMMENT                                          | 可选。一个字符串，用作 task 的注释或描述。                                                                                                                                  |
-| session_parameter                                | 可选。指定在 task 运行期间用于 task 的会话参数。                                                                                                                             |
-| sql                                              | task 将执行的 SQL 语句，它可以是单个语句或脚本。这是一个必填字段。                                                                                                               |
+| 参数                                             | 描述                                                                                                              |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| IF NOT EXISTS                                    | 可选。如果指定，则仅当不存在同名的 task 时才会创建 task。                                                         |
+| name                                             | task 的名称。这是一个必填字段。                                                                                   |
+| WAREHOUSE                                        | 必需。指定用于 task 的虚拟计算集群。                                                                              |
+| SCHEDULE                                         | 必需。定义 task 运行的时间表。可以以分钟为单位指定，也可以使用 CRON 表达式以及时区指定。                          |
+| SUSPEND_TASK_AFTER_NUM_FAILURES                  | 可选。task 在自动暂停之前连续失败的次数。                                                                         |
+| AFTER                                            | 列出必须在当前 task 启动之前完成的 task。                                                                         |
+| WHEN boolean_expr                                | task 运行必须为 true 的条件。                                                                                     |
+| [ERROR_INTEGRATION](../16-notification/index.md) | 可选。用于 task 错误通知的通知集成的名称，并应用特定的 [task 错误负载 ](./10-task-error-integration-payload.md)。 |
+| COMMENT                                          | 可选。一个字符串，用作 task 的注释或描述。                                                                        |
+| session_parameter                                | 可选。指定在 task 运行期间用于 task 的会话参数。                                                                  |
+| sql                                              | task 将执行的 SQL 语句，它可以是单个语句或脚本。这是一个必填字段。                                                |
 
 ### 使用说明
 
@@ -54,10 +53,10 @@ AS
   - 布尔运算符，例如 AND、OR、NOT 等。
   - 数值、字符串和布尔类型之间的转换。
   - 比较运算符，例如等于、不等于、大于、小于等。
- 
-   :::note
+
+  :::note
   警告：在 task 中使用 STREAM_STATUS 时，引用 stream 时必须包含数据库名称（例如，`STREAM_STATUS('mydb.stream_name')`）。
-   :::
+  :::
 
 - 多个从单个表 stream 中使用更改数据的 task 检索不同的增量。当 task 使用 DML 语句使用 stream 中的更改数据时，stream 会提前偏移量。更改数据不再可供下一个 task 使用。目前，我们建议只有一个 task 使用 stream 中的更改数据。可以为同一表创建多个 stream，并由不同的 task 使用。
 - Task 不会在每次执行时重试；每次执行都是串行的。每个脚本 SQL 逐个执行，没有并行执行。这确保了 task 执行的顺序和依赖关系得到维护。
@@ -74,24 +73,29 @@ AS
   5. **月份** (1-12 或 JAN-DEC)
   6. **星期几** (0-6，其中 0 是星期日，或 SUN-SAT)
 
- #### Cron 表达式示例：
+#### Cron 表达式示例：
 
 - **每天太平洋时间上午 9:00:00：**
+
   - `USING CRON '0 0 9 * * *' 'America/Los_Angeles'`
 
 - **每分钟：**
+
   - `USING CRON '0 * * * * *' 'UTC'`
   - 这会在每分钟的开始时运行 task。
 
 - **每小时的第 15 分钟：**
+
   - `USING CRON '0 15 * * * *' 'UTC'`
   - 这会在每小时的 15 分钟后运行 task。
 
 - **每个星期一中午 12:00:00：**
+
   - `USING CRON '0 0 12 * * 1' 'UTC'`
   - 这会在每个星期一的中午运行 task。
 
 - **每个月的第一天午夜：**
+
   - `USING CRON '0 0 0 1 * *' 'UTC'`
   - 这会在每个月的第一天的午夜运行 task。
 
@@ -171,4 +175,3 @@ END;
 ```
 
 在此示例中，创建了一个名为 mytask 的 task。它使用 mywh 计算集群，并计划每 30 秒运行一次。该 task 执行一个 BEGIN 块，其中包含一个 INSERT 语句和一个 DELETE 语句。该 task 在执行完两个语句后提交事务。当 task 失败时，它将触发名为 myerror 的错误集成。
-```

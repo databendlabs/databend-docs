@@ -1,4 +1,3 @@
-```md
 ---
 title: Loading Avro into Databend
 sidebar_label: Avro
@@ -34,19 +33,19 @@ FILE_FORMAT = (TYPE = AVRO)
   "type": "record",
   "name": "User",
   "fields": [
-    {"name": "registration_dttm", "type": "string"},
-    {"name": "id", "type": "int"},
-    {"name": "first_name", "type": "string"},
-    {"name": "last_name", "type": "string"},
-    {"name": "email", "type": "string"},
-    {"name": "gender", "type": "string"},
-    {"name": "ip_address", "type": "string"},
-    {"name": "cc", "type": "string"},
-    {"name": "country", "type": "string"},
-    {"name": "birthdate", "type": "string"},
-    {"name": "salary", "type": "float"},
-    {"name": "title", "type": "string"},
-    {"name": "comments", "type": "string"}
+    { "name": "registration_dttm", "type": "string" },
+    { "name": "id", "type": "int" },
+    { "name": "first_name", "type": "string" },
+    { "name": "last_name", "type": "string" },
+    { "name": "email", "type": "string" },
+    { "name": "gender", "type": "string" },
+    { "name": "ip_address", "type": "string" },
+    { "name": "cc", "type": "string" },
+    { "name": "country", "type": "string" },
+    { "name": "birthdate", "type": "string" },
+    { "name": "salary", "type": "float" },
+    { "name": "title", "type": "string" },
+    { "name": "comments", "type": "string" }
   ]
 }
 ```

@@ -1,4 +1,3 @@
-```md
 ---
 title: Loading TSV into Databend
 sidebar_label: TSV
