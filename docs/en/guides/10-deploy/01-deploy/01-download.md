@@ -28,8 +28,8 @@ import TabItem from '@theme/TabItem';
 <TabItem value="deb-old" label="Ubuntu/Debian">
 
 ```shell
-sudo curl -L -o /usr/share/keyrings/datafuselabs-keyring.gpg https://repo.databend.com/deb/datafuselabs.gpg
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.list https://repo.databend.com/deb/datafuselabs.list
+sudo curl -L -o /usr/share/keyrings/databend-keyring.gpg https://repo.databend.com/deb/databend.gpg
+sudo curl -L -o /etc/apt/sources.list.d/databend.list https://repo.databend.com/deb/databend.list
 
 sudo apt update
 
@@ -49,7 +49,7 @@ Available platforms:
 :::
 
 ```shell
-sudo curl -L -o /etc/apt/sources.list.d/datafuselabs.sources https://repo.databend.com/deb/datafuselabs.sources
+sudo curl -L -o /etc/apt/sources.list.d/databend.sources https://repo.databend.com/deb/databend.sources
 
 sudo apt update
 
