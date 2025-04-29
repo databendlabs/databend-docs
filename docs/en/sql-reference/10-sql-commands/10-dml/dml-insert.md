@@ -30,6 +30,10 @@ INSERT { OVERWRITE | INTO } <table>
 | OVERWRITE | Indicates whether existing data should be truncated before insertion.            |
 | VALUES    | Allows direct insertion of specific values or the default values of the columns. |
 
+## Important Notes
+
+- Aggregate functions, external UDFs, and window functions are not allowed in the `VALUES(...)` expressions.
+
 ## Examples
 
 ### Example-1: Insert Values with OVERWRITE
