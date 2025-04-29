@@ -4,7 +4,7 @@ sidebar_position: 5
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.643"/>
+<FunctionDescription description="Introduced or updated: v1.2.733"/>
 
 Sets or unsets [Fuse Engine options](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options) for a table. 
 
@@ -23,11 +23,14 @@ Please note that only the following Fuse Engine options can be unset:
 - `block_per_segment`
 - `block_size_threshold`
 - `data_retention_period_in_hours`
+- `data_retention_num_snapshots_to_keep`
 - `row_avg_depth_threshold`
 - `row_per_block`
 - `row_per_page`
 
 ## Examples
+
+### Setting Fuse Engine Options
 
 The following demonstrates how to set Fuse Engine options and verify changes with [SHOW CREATE TABLE](show-create-table.md):
 
@@ -59,6 +62,26 @@ Create Table: CREATE TABLE fuse_table (
 ) ENGINE=FUSE BLOCK_PER_SEGMENT='500' COMPRESSION='lz4' DATA_RETENTION_PERIOD_IN_HOURS='240' STORAGE_FORMAT='native'
 ```
 
+The following demonstrates how to use the `data_retention_num_snapshots_to_keep` option with `enable_auto_vacuum`:
+
+```sql
+-- Create a new table
+CREATE OR REPLACE TABLE t(c INT);
+
+-- Set the table to retain only the most recent snapshot
+ALTER TABLE t SET OPTIONS(data_retention_num_snapshots_to_keep = 1);
+
+-- Enable automatic vacuum to trigger snapshot cleanup
+SET enable_auto_vacuum = 1;
+
+-- After each of these operations, only one snapshot will be kept
+INSERT INTO t VALUES(1);
+INSERT INTO t VALUES(2);
+INSERT INTO t VALUES(3);
+```
+
+### Unsetting Fuse Engine Options
+
 The following demonstrates how to unset Fuse Engine options, reverting them to their default values:
 
 ```sql
@@ -71,4 +94,3 @@ SHOW CREATE TABLE fuse_table;
 Create Table: CREATE TABLE fuse_table (
   a INT NULL
 ) ENGINE=FUSE COMPRESSION='lz4' STORAGE_FORMAT='native'
-```

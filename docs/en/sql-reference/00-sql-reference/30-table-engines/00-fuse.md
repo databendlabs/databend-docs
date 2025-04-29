@@ -4,7 +4,7 @@ title: Fuse Engine
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.617"/>
+<FunctionDescription description="Introduced or updated: v1.2.733"/>
 
 Databend utilizes the Fuse Engine as its default engine, offering a data management system with a user-friendly interface reminiscent of Git. Users have the ability to effortlessly query data at any given moment and effortlessly restore data to any desired point in time.
 
@@ -41,3 +41,4 @@ The following are the available Fuse Engine options:
 | row_per_block                  | `row_per_block = <n>`                               | Specifies the maximum number of rows in a file. Defaults to 1,000,000.                                                                                                                                                                                                                                                                                                                  |
 | change_tracking                | `change_tracking = True / False`                    | Setting this option to `True` in the Fuse Engine allows for tracking changes for a table.<br/>Creating a stream for a table will automatically set `change_tracking` to `True` and introduce additional hidden columns to the table as change tracking metadata. For more information, see [How Stream Works](/guides/load-data/continuous-data-pipelines/stream#how-stream-works).     |
 | data_retention_period_in_hours | `data_retention_period_in_hours = <n>`              | Specifies the number of hours to retain table data. The minimum value is 1 hour. The maximum value is defined by the `data_retention_time_in_days_max` setting in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file , or defaults to 2,160 hours (90 days x 24 hours) if not specified. |
+| data_retention_num_snapshots_to_keep | `data_retention_num_snapshots_to_keep = <n>`  | Specifies the number of snapshots to retain for a table. This option works in conjunction with the `enable_auto_vacuum` setting to provide granular control over snapshot retention policies on a per-table basis. When set, only the specified number of most recent snapshots will be kept after vacuum operations. |
