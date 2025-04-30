@@ -325,3 +325,31 @@ div[class*="searchQueryColumn"] {
     flex: 1;
   }
 }
+
+.ant-input-outlined {
+  border-color: transparent !important;
+  background: var(--color-bg-0) !important;
+  &:focus {
+    border-color: var(--color-primary) !important;
+  }
+}
+.ant-input-lg,
+.ant-input {
+  font-size: 12px;
+  &::placeholder {
+    color: var(--color-text-2);
+  }
+}
+.ant-alert {
+  color: var(--color-text-1) !important;
+}
+.ant-btn-lg {
+  font-size: 14px;
+}
+.ant-alert {
+  border: unset;
+  font-size: 12px;
+}
+textarea {
+  padding-top: 12px !important;
+}
