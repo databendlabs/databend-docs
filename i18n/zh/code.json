@@ -402,11 +402,11 @@
     "description": "The title of the tag list page"
   },
   "Leave an optional comment…": {
-    "message": "留下您宝贵的意见…",
+    "message": "意见/建议/文档错误",
     "description": "Leave an optional comment…"
   },
   "Vote": {
-    "message": "确认",
+    "message": "提交反馈",
     "description": "Vote"
   },
   "Thanks for voting!": {
@@ -414,7 +414,7 @@
     "description": "Thanks for voting!"
   },
   "Did this page help you?": {
-    "message": "这篇文章对您有帮助吗？",
+    "message": "指出文档中的错误或问题，我们将会赠予您专属纪念 T 恤一件！",
     "description": "Did this page help you?"
   },
   "Explore Databend Cloud for FREE": {
@@ -744,5 +744,13 @@
   "Reads data from Iceberg, Hive, and Delta Lake seamlessly.": {
     "message": "支持读取 Iceberg、Hive、Delta Lake 中数据。",
     "description": "Description for data lake support card"
+  },
+  "NoDesc": {
+    "message": "问题反馈",
+    "description": "NoDesc"
+  },
+  "Please describe the specific errors or issues that": {
+    "message": "请描述您在文档中发现的具体错误或问题（例如：内容错误、流程卡住走不通、排版问题、链接失效等）",
+    "description": "Please describe the specific errors or issues that you have identified in the document (such as: content mistakes, process getting stuck and unable to proceed, layout problems, broken links, etc.)"
   }
 }
