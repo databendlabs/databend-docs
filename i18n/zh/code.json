@@ -401,9 +401,9 @@
     "message": "标签",
     "description": "The title of the tag list page"
   },
-  "Leave an optional comment…": {
+  "Help Us Improve Our Documentation": {
     "message": "意见/建议/文档错误",
-    "description": "Leave an optional comment…"
+    "description": "Help Us Improve Our Documentation"
   },
   "Vote": {
     "message": "提交反馈",

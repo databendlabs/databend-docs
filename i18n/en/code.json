@@ -385,9 +385,9 @@
     "message": "Search docs",
     "description": "The placeholder of the input of the DocSearch pop-up modal"
   },
-  "Leave an optional comment…": {
-    "message": "Leave an optional comment…",
-    "description": "Leave an optional comment…"
+  "Help Us Improve Our Documentation": {
+    "message": "Help Us Improve Our Documentation",
+    "description": "Help Us Improve Our Documentation"
   },
   "Vote": {
     "message": "Submit",
