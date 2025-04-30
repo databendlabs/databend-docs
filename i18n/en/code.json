@@ -390,7 +390,7 @@
     "description": "Leave an optional comment…"
   },
   "Vote": {
-    "message": "Vote",
+    "message": "Submit",
     "description": "Vote"
   },
   "Thanks for voting!": {
