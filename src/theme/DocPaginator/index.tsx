@@ -46,7 +46,7 @@ export default function DocPaginator(props) {
               <Form.Item
                 name={"name"}
                 style={{ marginBottom: "16px", marginTop: "12px" }}
-                label={$t("领取人信息")}
+                label={$t("领取人信息（可选）")}
               >
                 <Input size="large" placeholder="您的姓名" />
               </Form.Item>
@@ -66,7 +66,7 @@ export default function DocPaginator(props) {
         {isChina && (
           <Alert
             message={
-              "帮助我们改进文档！如果您在阅读过程中发现任何错误，请在此处告知我们。留下您的联系方式，我们将与您确认问题并及时修复，感谢您的支持！"
+              "帮助我们改进文档！如果您在阅读过程中发现任何错误，请在此处告知我们。可以留下您的联系方式，我们将与您确认问题并及时修复，感谢您的支持！"
             }
             style={{ textAlign: "left", marginBottom: "20px" }}
             type="info"

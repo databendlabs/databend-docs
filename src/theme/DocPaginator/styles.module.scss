@@ -14,7 +14,8 @@
   }
   div.button {
     cursor: pointer;
-    width: 86px;
+    width: auto;
+    padding: 0 12px;
     height: 32px;
     margin-left: 6px;
     background-color: var(--color-bg-1);
@@ -32,7 +33,9 @@
     }
     &:hover {
       background-color: var(--color-fill-0);
-      border: 1px solid hsl(var(--border));
+    }
+    @media screen and (max-width: 768px) {
+      margin-top: 12px;
     }
     @media screen and (max-width: 768px) {
       margin-top: 12px;
