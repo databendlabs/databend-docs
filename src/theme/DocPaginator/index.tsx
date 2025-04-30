@@ -32,7 +32,7 @@ export default function DocPaginator(props) {
           <Form.Item
             style={{ marginBottom: "20px" }}
             name="commentValue"
-            label={$t("Leave an optional comment…")}
+            label={$t("Help Us Improve Our Documentation")}
           >
             <TextArea
               placeholder={$t(
