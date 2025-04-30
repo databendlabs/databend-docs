@@ -730,7 +730,7 @@
     "description": "Description for data lake support card"
   },
   "NoDesc": {
-    "message": "No",
+    "message": "FeedBack",
     "description": "NoDesc"
   },
   "Please describe the specific errors or issues that": {
