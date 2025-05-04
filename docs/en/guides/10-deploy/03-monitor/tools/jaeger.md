@@ -42,7 +42,7 @@ docker run --rm -d --name jaeger \
 ...
 [log.tracing]
 capture_log_level = "DEBUG"
-on = "true"
+on = true
 otlp_endpoint = "http://127.0.0.1:4317"
 ...
 ```
