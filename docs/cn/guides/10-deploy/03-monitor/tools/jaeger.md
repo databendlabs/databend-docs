@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 [Jaeger](https://github.com/jaegertracing/jaeger) 是一个开源的端到端分布式追踪工具，起源于 [Uber](https://www.uber.com/)。它可以帮助监控和排除基于微服务的应用程序的故障。
 
-Databend 能够通过与 [OpenTelemetry](https://opentelemetry.io/) SDK 集成，将追踪数据导出到 Jaeger。以下教程展示了如何部署和使用 Jaeger 来追踪 Databend。
+通过与 [OpenTelemetry](https://opentelemetry.io/) SDK 集成，Databend 能够将追踪数据导出到 Jaeger。以下教程展示了如何部署和使用 Jaeger 来追踪 Databend。
 
 ## 教程：使用 Jaeger 追踪 Databend
 
@@ -42,7 +42,7 @@ docker run --rm -d --name jaeger \
 ...
 [log.tracing]
 capture_log_level = "DEBUG"
-on = "true"
+on = true
 otlp_endpoint = "http://127.0.0.1:4317"
 ...
 ```
