@@ -170,15 +170,16 @@ Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/d
 
 | Privilege | Description                                                                                                      |
 |:----------|:-----------------------------------------------------------------------------------------------------------------|
-| Alter     | Renames a database.                                                                                              |
+| ALTER     | Renames a database.                                                                                              |
 | CREATE    | Creates a database.                                                                                              |
 | DROP      | Drops or undrops a database. Restores the recent version of a dropped database.                                  |
 | SELECT    | SHOW CREATE a database.                                                                                          |
 | OWNERSHIP | Grants full control over a database.  Only a single role can hold this privilege on a specific object at a time. |
+| USAGE     | Allows entering a database using `USE <database>`, without granting access to any contained objects.             |
 
 > Note:
 >
-> 1. If a role own a database, this role can access all tables under this database.
+> 1. If a role owns a database, the role can access all the tables in the database.
  
 
 ### Session Policy Privileges
