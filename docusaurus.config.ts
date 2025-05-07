@@ -209,8 +209,18 @@ const config: Config = {
           {
             from: '/',
             to: '/guides/'
+          },
+          {
+            from: '/sql/sql-reference/table-engines/iceberg',
+            to: '/guides/access-data-lake/iceberg/'
           }
-        ]
+        ],
+        createRedirects(existingPath) {
+          if (existingPath.startsWith('/guides/community/rfcs/')) {
+            return existingPath.replace('/guides/community/rfcs/', '/developer/community/rfcs/');
+          }
+          return undefined;
+        }
       }
 
     ]
