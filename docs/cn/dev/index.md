@@ -1,0 +1,1 @@
+Okay, I understand. Please provide the Markdown or JSON content you want me to translate into Chinese, and I will follow all the rules you've outlined. I will pay close attention to the specific vocabulary and formatting requirements.
