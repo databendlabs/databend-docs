@@ -18,19 +18,9 @@ If you want to quickly try out Apache Iceberg and experiment with table operatio
 
 ### Prerequisites
 
-- Docker and Docker Compose installed.
-- The **load_tpch.sh** script in the project is designed for x86 architecture. If you're using an ARM architecture (e.g., Apple M1/M2 chips), modify the script to download the appropriate DuckDB CLI binary for ARM-based systems.
-    1. In the **load_tpch.sh** script, locate the section where DuckDB CLI is downloaded:
-     ```bash
-     curl https://install.duckdb.org | sh
-     ```
-    2. Replace the above line with the following to download the ARM-compatible binary:
-     ```bash
-     curl -sSL https://github.com/duckdb/duckdb/releases/download/v1.2.2/duckdb_cli-linux-arm64.zip -o duckdb.zip
-     ```
-    3. Continue with the rest of the script as normal.
+Before you start, make sure Docker and Docker Compose are installed on your system.
 
-### Getting Started
+### Start Iceberg Environment
 
 ```bash
 git clone https://github.com/databendlabs/iceberg-quick-start.git
@@ -46,12 +36,13 @@ This will start the following services:
 - `mc`: MinIO client (for setting up the bucket)
 
 ```bash
-WARN[0000] /Users/eric/Downloads/iceberg-quick-start/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
-[+] Running 4/4
- ✔ Container minio              Started                                    0.4s
- ✔ Container mc                 Started                                    0.5s
- ✔ Container spark-iceberg      Started                                    0.6s
- ✔ Container iceberg-rest-test  Started                                    0.2s
+WARN[0000] /Users/eric/iceberg-quick-start/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
+[+] Running 5/5
+ ✔ Network iceberg-quick-start_iceberg_net  Created                        0.0s
+ ✔ Container iceberg-rest-test              Started                        0.4s
+ ✔ Container minio                          Started                        0.4s
+ ✔ Container mc                             Started                        0.6s
+ ✔ Container spark-iceberg                  S...                           0.7s
 ```
 
 ### Load TPC-H Data via Spark Shell
@@ -63,125 +54,35 @@ docker exec spark-iceberg bash /home/iceberg/load_tpch.sh
 ```
 
 ```bash
-+ main
-+ tee /home/iceberg/load_tpch.log
-+ log 'Starting TPCH data generation and loading process'
-++ date '+%Y-%m-%d %H:%M:%S'
-+ echo '[2025-05-07 00:32:45] Starting TPCH data generation and loading process'
-[2025-05-07 00:32:45] Starting TPCH data generation and loading process
-+ check_commands
-+ commands=('spark-shell')
-+ local commands
-+ for cmd in "${commands[@]}"
-+ command -v spark-shell
-+ SCALE_FACTOR=1
-+ log 'Using TPCH scale factor: 1'
-++ date '+%Y-%m-%d %H:%M:%S'
-+ echo '[2025-05-07 00:32:45] Using TPCH scale factor: 1'
-[2025-05-07 00:32:45] Using TPCH scale factor: 1
-+ DATA_DIR=/home/iceberg/data/tpch_1
-+ log 'Creating data directory: /home/iceberg/data/tpch_1'
-++ date '+%Y-%m-%d %H:%M:%S'
-+ echo '[2025-05-07 00:32:45] Creating data directory: /home/iceberg/data/tpch_1'
-[2025-05-07 00:32:45] Creating data directory: /home/iceberg/data/tpch_1
-+ mkdir -p /home/iceberg/data/tpch_1
-+ log 'Generating TPCH data with DuckDB'
-++ date '+%Y-%m-%d %H:%M:%S'
-+ echo '[2025-05-07 00:32:45] Generating TPCH data with DuckDB'
-[2025-05-07 00:32:45] Generating TPCH data with DuckDB
-+ curl -sSL https://github.com/duckdb/duckdb/releases/download/v1.2.2/duckdb_cli-linux-aarch64.zip -o duckdb.zip
-+ unzip -o duckdb.zip -d /usr/local/bin
-Archive:  duckdb.zip
-  inflating: /usr/local/bin/duckdb
-+ chmod +x /usr/local/bin/duckdb
-+ rm -f duckdb.zip
-+ /usr/local/bin/duckdb
-┌─────────┐
-│ Success │
-│ boolean │
-├─────────┤
-│ 0 rows  │
-└─────────┘
-+ log 'Checking generated data files'
-++ date '+%Y-%m-%d %H:%M:%S'
-+ echo '[2025-05-07 00:32:57] Checking generated data files'
-[2025-05-07 00:32:57] Checking generated data files
-++ find /home/iceberg/data/tpch_1 -name '*.parquet'
-++ wc -l
-+ '[' 8 -eq 0 ']'
-+ log 'Loading data into Iceberg catalog'
-++ date '+%Y-%m-%d %H:%M:%S'
-+ echo '[2025-05-07 00:32:57] Loading data into Iceberg catalog'
-[2025-05-07 00:32:57] Loading data into Iceberg catalog
-+ spark-shell --driver-memory 8g
+Collecting duckdb
+  Downloading duckdb-1.2.2-cp310-cp310-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl (18.7 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.7/18.7 MB 5.8 MB/s eta 0:00:00
+Requirement already satisfied: pyspark in /opt/spark/python (3.5.5)
+Collecting py4j==0.10.9.7
+  Downloading py4j-0.10.9.7-py2.py3-none-any.whl (200 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 200.5/200.5 kB 5.9 MB/s eta 0:00:00
+Installing collected packages: py4j, duckdb
+Successfully installed duckdb-1.2.2 py4j-0.10.9.7
+
+[notice] A new release of pip is available: 23.0.1 -> 25.1.1
+[notice] To update, run: pip install --upgrade pip
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/05/07 00:33:01 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-25/05/07 00:33:01 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-Spark context Web UI available at http://85e068a04715:4041
-Spark context available as 'sc' (master = local[*], app id = local-1746577981827).
-Spark session available as 'spark'.
-Welcome to
-      ____              __
-     / __/__  ___ _____/ /__
-    _\ \/ _ \/ _ `/ __/  '_/
-   /___/ .__/\_,_/_/ /_/\_\   version 3.5.5
-      /_/
-
-Using Scala version 2.12.18 (OpenJDK 64-Bit Server VM, Java 17.0.14)
-Type in expressions to have them evaluated.
-Type :help for more information.
-
-scala> import org.apache.spark.sql.SaveMode
-import org.apache.spark.sql.SaveMode
-
-scala> import java.io.File
-import java.io.File
-
-scala>
-
-scala> val icebergWarehouse = "s3://warehouse"
-icebergWarehouse: String = s3://warehouse
-
-scala> val parquetDir = "/home/iceberg/data/tpch_1"
-parquetDir: String = /home/iceberg/data/tpch_1
-
-scala>
-
-scala> val files = new File(parquetDir).listFiles.filter(_.getName.endsWith(".parquet"))
-files: Array[java.io.File] = Array(/home/iceberg/data/tpch_1/part.parquet, /home/iceberg/data/tpch_1/region.parquet, /home/iceberg/data/tpch_1/supplier.parquet, /home/iceberg/data/tpch_1/orders.parquet, /home/iceberg/data/tpch_1/nation.parquet, /home/iceberg/data/tpch_1/lineitem.parquet, /home/iceberg/data/tpch_1/partsupp.parquet, /home/iceberg/data/tpch_1/customer.parquet)
-
-scala>
-
-scala> files.foreach { file =>
-     |   val tableName = file.getName.stripSuffix(".parquet")
-     |   val df = spark.read.parquet(file.getAbsolutePath)
-     |
-     |   val fullyQualifiedTableName = s"demo.tpch.$tableName"
-     |
-     |   df.createOrReplaceTempView(tableName)
-     |
-     |   spark.sql(s"""
-     |     CREATE TABLE IF NOT EXISTS $fullyQualifiedTableName
-     |     USING iceberg
-     |     LOCATION '$icebergWarehouse/tpch/$tableName'
-     |     AS SELECT * FROM $tableName
-     |   """)
-     |
-     |   println(s"Created table $fullyQualifiedTableName from ${file.getName}")
-     | }
-Created table demo.tpch.part from part.parquet
-Created table demo.tpch.region from region.parquet
-Created table demo.tpch.supplier from supplier.parquet
-Created table demo.tpch.orders from orders.parquet
-Created table demo.tpch.nation from nation.parquet
-Created table demo.tpch.lineitem from lineitem.parquet
-Created table demo.tpch.partsupp from partsupp.parquet
-Created table demo.tpch.customer from customer.parquet
-
-scala>
-
-scala> spark.sql("SHOW TABLES IN demo.tpch").show()
+25/05/07 12:17:27 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+25/05/07 12:17:28 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[2025-05-07 12:17:18] [INFO] Starting TPC-H data generation and loading process
+[2025-05-07 12:17:18] [INFO] Configuration: Scale Factor=1, Data Dir=/home/iceberg/data/tpch_1
+[2025-05-07 12:17:18] [INFO] Generating TPC-H data with DuckDB (Scale Factor: 1)
+[2025-05-07 12:17:27] [INFO] Generated 8 Parquet files in /home/iceberg/data/tpch_1
+[2025-05-07 12:17:28] [INFO] Loading data into Iceberg catalog
+[2025-05-07 12:17:33] [INFO] Created Iceberg table: demo.tpch.part from part.parquet
+[2025-05-07 12:17:33] [INFO] Created Iceberg table: demo.tpch.region from region.parquet
+[2025-05-07 12:17:33] [INFO] Created Iceberg table: demo.tpch.supplier from supplier.parquet
+[2025-05-07 12:17:35] [INFO] Created Iceberg table: demo.tpch.orders from orders.parquet
+[2025-05-07 12:17:35] [INFO] Created Iceberg table: demo.tpch.nation from nation.parquet
+[2025-05-07 12:17:40] [INFO] Created Iceberg table: demo.tpch.lineitem from lineitem.parquet
+[2025-05-07 12:17:40] [INFO] Created Iceberg table: demo.tpch.partsupp from partsupp.parquet
+[2025-05-07 12:17:41] [INFO] Created Iceberg table: demo.tpch.customer from customer.parquet
 +---------+---------+-----------+
 |namespace|tableName|isTemporary|
 +---------+---------+-----------+
@@ -195,23 +96,20 @@ scala> spark.sql("SHOW TABLES IN demo.tpch").show()
 |     tpch| supplier|      false|
 +---------+---------+-----------+
 
-
-scala> System.exit(0)
-+ log 'TPCH data generation and loading completed successfully'
-++ date '+%Y-%m-%d %H:%M:%S'
-+ echo '[2025-05-07 00:33:17] TPCH data generation and loading completed successfully'
-[2025-05-07 00:33:17] TPCH data generation and loading completed successfully
+[2025-05-07 12:17:42] [SUCCESS] TPCH data generation and loading completed successfully
 ```
 
 ### Query Data in Databend
 
-Once the TPC-H tables are loaded, you can query the data in Databend using BendSQL:
+Once the TPC-H tables are loaded, you can query the data in Databend:
 
 1. Launch Databend in Docker:
 
 ```bash
 docker network create iceberg_net
+```
 
+```bash
 docker run -d \
   --name databend \
   --network iceberg_net \
@@ -222,7 +120,19 @@ docker run -d \
   datafuselabs/databend
 ```
 
-2. Create an Iceberg catalog:
+2. Connect to Databend using BendSQL first, and then create an Iceberg catalog:
+
+```bash
+bendsql
+```
+
+```bash
+Welcome to BendSQL 0.24.1-f1f7de0(2024-12-04T12:31:18.526234000Z).
+Connecting to localhost:8000 as user root.
+Connected to Databend Query v1.2.725-8d073f6b7a(rust-1.88.0-nightly-2025-04-21T11:49:03.577976082Z)
+Loaded 1436 auto complete keywords from server.
+Started web server at 127.0.0.1:8080
+```
 
 ```sql
 CREATE CATALOG iceberg TYPE = ICEBERG CONNECTION = (
@@ -242,7 +152,7 @@ CREATE CATALOG iceberg TYPE = ICEBERG CONNECTION = (
 USE CATALOG iceberg;
 ```
 
-3. Show available databases:
+4. Show available databases:
 
 ```sql
 SHOW DATABASES;
@@ -257,7 +167,7 @@ SHOW DATABASES;
 ╰──────────────────────╯
 ```
 
-4. Run a sample query to aggregate TPC-H data:
+5. Run a sample query to aggregate TPC-H data:
 
 ```bash
 SELECT
@@ -400,6 +310,31 @@ Switches the current session to the specified catalog.
 ```sql
 USE CATALOG <catalog_name>
 ```
+
+## Caching Iceberg Catalog
+
+Databend offers a Catalog Metadata Cache specifically designed for Iceberg catalogs. When a query is executed on an Iceberg table for the first time, the metadata is cached in memory. By default, this cache remains valid for 10 minutes, after which it is asynchronously refreshed. This ensures that queries on Iceberg tables are faster by avoiding repeated metadata retrieval.
+
+If you need fresh metadata, you can manually refresh the cache using the following commands:
+
+```sql
+USE CATALOG iceberg;
+ALTER DATABASE tpch REFRESH CACHE; -- Refresh metadata cache for the tpch database
+ALTER TABLE tpch.lineitem REFRESH CACHE; -- Refresh metadata cache for the lineitem table
+```
+
+If you prefer not to use the metadata cache, you can disable it entirely by configuring the `iceberg_table_meta_count` setting to `0` in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file:
+
+```toml
+...
+# Cache config.
+[cache]
+...
+iceberg_table_meta_count = 0
+...
+```
+
+In addition to metadata caching, Databend also supports table data caching for Iceberg catalog tables, similar to Fuse tables. For more information on data caching, refer to the `[cache] Section` in the [Query Configurations](../10-deploy/04-references/02-node-config/02-query-config.md) reference.
 
 ## Iceberg Table Functions
 
