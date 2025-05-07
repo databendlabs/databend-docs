@@ -209,6 +209,10 @@ const config: Config = {
           {
             from: '/',
             to: '/guides/'
+          },
+          {
+            from: '/sql/sql-reference/table-engines/iceberg',
+            to: '/guides/access-data-lake/iceberg/'
           }
         ]
       }
