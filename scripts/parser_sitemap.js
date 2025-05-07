@@ -32,8 +32,15 @@ try {
     }
 
     const urls = result.urlset.url
-      .map((entry) => entry.loc[0])
-      .filter((url) => !excludeUrls.includes(url));
+      .map((entry) => entry.loc[0]?.trim())
+      .filter((url) => !excludeUrls.includes(url))
+      .sort((a, b) => {
+        const aHasGuides = a.includes("/guides/");
+        const bHasGuides = b.includes("/guides/");
+        if (aHasGuides && !bHasGuides) return -1; // a comes first
+        if (!aHasGuides && bHasGuides) return 1; // b comes first
+        return 0; // maintain original order for others
+      });
 
     fs.writeFileSync(outputFilePath, urls.join("\n"), "utf8");
 

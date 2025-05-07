@@ -28,6 +28,9 @@ table {
     max-width: 50%;
   }
 }
+code, td, th {
+  white-space: pre-wrap;
+}
 .global-overview-card {
   display: flex;
   align-items: flex-start;

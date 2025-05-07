@@ -1,24 +1,30 @@
-import React, { useState } from "react";
-import { useMount } from "ahooks";
+import React from "react";
+import { useLocation } from "@docusaurus/router";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import { translate } from "@docusaurus/Translate";
-import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
-import docusaurusConfig from "@generated/docusaurus.config";
-// https://github.com/facebook/docusaurus/issues/6953
-// https://github.com/facebook/docusaurus/issues/6096
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+
 export default function HomeBreadcrumbItem() {
-  const canUseDOM = ExecutionEnvironment.canUseDOM;
-  const [menuName, setMenuName] = useState("");
-  const pathname = canUseDOM ? window?.location?.pathname : "/";
-  const menu = canUseDOM ? `/${pathname?.split("/")[1]}/` : "/";
+  const { siteConfig } = useDocusaurusContext();
+  const { pathname } = useLocation();
+
+  // 从配置中获取 navbar items
+  const navbarItems =
+    (
+      siteConfig?.themeConfig?.navbar as {
+        items?: { to: string; label: string }[];
+      }
+    )?.items || [];
+
+  // 计算 menu 和 menuName
+  const menu = `/${pathname.split("/")[1] || ""}/`;
+  const menuName =
+    navbarItems.find((item) => item.to === menu)?.label || "Home";
+
+  // 生成链接
   const homeHref = useBaseUrl(menu);
-  useMount(() => {
-    if (canUseDOM) {
-      const menuItems = (docusaurusConfig?.themeConfig?.navbar as any)?.items;
-      setMenuName(menuItems?.find((item) => item.to === menu)?.label);
-    }
-  });
+
   return (
     <li className="breadcrumbs__item">
       <Link
