@@ -228,6 +228,7 @@ The following is a list of the parameters available within the [cache] section:
 | Parameter          | Description                                                                                                                                            |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | data_cache_storage | The type of storage used for table data cache. Available options: "none" (disables table data cache), "disk" (enables disk cache). Defaults to "none". |
+| iceberg_table_meta_count | Controls the number of Iceberg table metadata entries to cache. Set to `0` to disable metadata caching.                         |
 
 ### [cache.disk] Section
 
