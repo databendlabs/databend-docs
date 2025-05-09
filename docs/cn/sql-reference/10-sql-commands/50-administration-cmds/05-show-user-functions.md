@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 列出系统中已存在的用户自定义函数和外部函数。等效于 `SELECT name, is_aggregate, description, arguments, language FROM system.user_functions ...`。
 
-另请参阅：[system.user_functions](../../00-sql-reference/20-system-tables/system-user-functions.md)
+另请参阅：[system.user_functions](../../00-sql-reference/31-system-tables/system-user-functions.md)
 
 ## 语法
 
