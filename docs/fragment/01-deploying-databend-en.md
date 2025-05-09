@@ -7,7 +7,7 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="Introduced or updated: v1.2.168"/>
 
-This topic explains how to deploy Databend with your object storage. For a list of supported object storage solutions, see [Understanding Deployment Modes](../00-understanding-deployment-modes.md).
+This topic explains how to deploy Databend with your object storage. For a list of supported object storage solutions, see [Understanding Deployment Modes](/guides/deploy/deploy/understanding-deployment-modes).
 
 ### Before You start
 
@@ -286,7 +286,7 @@ secret_access_key = "<your-access-key>"
 
 </Tabs>
 
-3. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](../../04-references/01-admin-users.md). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
+3. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](/guides/deploy/references/admin-users). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
 
 :::caution
 Using "no_password" authentication for the root user in this tutorial is just an example and not recommended for production due to potential security risks.
@@ -339,7 +339,7 @@ In this step, you will run a simple query against Databend using [BendSQL](https
 
 ### Install BendSQL
 
-Follow [Installing BendSQL](../../../30-sql-clients/00-bendsql/index.md#installing-bendsql) to install BendSQL on your machine.
+Follow [Installing BendSQL](/guides/sql-clients/bendsql/#installing-bendsql) to install BendSQL on your machine.
 
 </StepContent>
 
