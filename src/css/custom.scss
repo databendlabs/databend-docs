@@ -353,3 +353,19 @@ div[class*="searchQueryColumn"] {
 textarea {
   padding-top: 12px !important;
 }
+
+.ant-popover .ant-popover-inner {
+  background-color: var(--color-bg-1);
+}
+.ant-alert-info {
+  background: var(--color-info-light-default);
+}
+.ant-form-item .ant-form-item-label > label {
+  color: var(--color-text-1);
+}
+.ant-popover {
+  --antd-arrow-background-color: var(--color-bg-1);
+}
+.ant-input {
+  color: var(--color-text-1);
+}
