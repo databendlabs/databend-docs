@@ -12,7 +12,7 @@ Lists the tables in the current or a specified database.
 Starting from version 1.2.415, the SHOW TABLES command no longer includes views in its results. To display views, use [SHOW VIEWS](../05-view/show-views.md) instead.
 :::
 
-See also: [system.tables](../../../00-sql-reference/20-system-tables/system-tables.md)
+See also: [system.tables](../../../00-sql-reference/31-system-tables/system-tables.md)
 
 ## Syntax
 

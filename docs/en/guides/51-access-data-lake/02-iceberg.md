@@ -1,15 +1,15 @@
 ---
-title: Apache Iceberg
+title: Apache Iceberg™
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.668"/>
 
-Databend supports the integration of an [Apache Iceberg](https://iceberg.apache.org/) catalog, enhancing its compatibility and versatility for data management and analytics. This extends Databend's capabilities by seamlessly incorporating the powerful metadata and storage management capabilities of Apache Iceberg into the platform.
+Databend supports the integration of an [Apache Iceberg™](https://iceberg.apache.org/) catalog, enhancing its compatibility and versatility for data management and analytics. This extends Databend's capabilities by seamlessly incorporating the powerful metadata and storage management capabilities of Apache Iceberg™ into the platform.
 
-## Quick Start with Apache Iceberg
+## Quick Start with Iceberg
 
-If you want to quickly try out Apache Iceberg and experiment with table operations locally, a [Docker-based starter project](https://github.com/databendlabs/iceberg-quick-start) is available. This setup allows you to:
+If you want to quickly try out Iceberg and experiment with table operations locally, a [Docker-based starter project](https://github.com/databendlabs/iceberg-quick-start) is available. This setup allows you to:
 
 - Run Spark with Iceberg support
 - Use a REST catalog (Iceberg REST Fixture)
@@ -205,9 +205,9 @@ ORDER BY
 
 ## Datatype Mapping
 
-This table maps data types between Apache Iceberg and Databend. Please note that Databend does not currently support Iceberg data types that are not listed in the table.
+This table maps data types between Apache Iceberg™ and Databend. Please note that Databend does not currently support Iceberg data types that are not listed in the table.
 
-| Apache Iceberg                  | Databend                |
+| Apache Iceberg™                  | Databend                |
 | ------------------------------- | ----------------------- |
 | BOOLEAN                         | [BOOLEAN](/sql/sql-reference/data-types/boolean)                 |
 | INT                             | [INT32](/sql/sql-reference/data-types/numeric#integer-data-types)                   |
@@ -254,7 +254,7 @@ CONNECTION=(
 | Parameter                    | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                           |
 |------------------------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `<catalog_name>`             | Yes       | The name of the catalog you want to create.                                                                                                                                                                                                                                                                                                                                                                           |
-| `TYPE`                       | Yes       | Specifies the catalog type. For Iceberg, set to `ICEBERG`.                                                                                                                                                                                                                                                                                                                                                            |
+| `TYPE`                       | Yes       | Specifies the catalog type. For Apache Iceberg™, set to `ICEBERG`.                                                                                                                                                                                                                                                                                                                                                            |
 | `CONNECTION`                 | Yes       | The connection parameters for the Iceberg catalog.                                                                                                                                                                                                                                                                                                                                                                    |
 | `TYPE` (inside `CONNECTION`) | Yes       | The connection type. For Iceberg, it is typically set to `rest` for REST-based connection.                                                                                                                                                                                                                                                                                                                            |
 | `ADDRESS`                    | Yes       | The address or URL of the Iceberg service (e.g., `http://127.0.0.1:8181`).                                                                                                                                                                                                                                                                                                                                            |
@@ -336,7 +336,7 @@ iceberg_table_meta_count = 0
 
 In addition to metadata caching, Databend also supports table data caching for Iceberg catalog tables, similar to Fuse tables. For more information on data caching, refer to the `[cache] Section` in the [Query Configurations](../10-deploy/04-references/02-node-config/02-query-config.md) reference.
 
-## Iceberg Table Functions
+## Apache Iceberg™ Table Functions
 
 Databend provides the following table functions for querying Iceberg metadata, allowing users to inspect snapshots and manifests efficiently:
 
