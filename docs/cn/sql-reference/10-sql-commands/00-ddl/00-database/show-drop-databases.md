@@ -10,7 +10,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 - 只有在数据保留期内的已删除数据库才能被检索。
 - 建议使用 `root` 等管理员用户。如果您使用的是 Databend Cloud，请使用具有 `account_admin` 角色的用户来查询已删除的数据库。
 
-另请参阅：[system.databases_with_history](../../../00-sql-reference/20-system-tables/system-databases-with-history.md)
+另请参阅：[system.databases_with_history](../../../00-sql-reference/31-system-tables/system-databases-with-history.md)
 
 ## 语法
 

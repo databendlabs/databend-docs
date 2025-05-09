@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 显示已创建的聚合索引。等效于 `SELECT * FROM system.indexes`。
 
-另请参阅：[system.indexes](../../../00-sql-reference/20-system-tables/system-indexes.md)
+另请参见：[system.indexes](../../../00-sql-reference/31-system-tables/system-indexes.md)
 
 ## 语法
 

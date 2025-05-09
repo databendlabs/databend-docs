@@ -1,38 +1,16 @@
 ---
-title: VACUUM TEMPORARY FILES
+title: system.temp_files
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.348"/>
+<FunctionDescription description="引入或更新: v1.2.348"/>
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='VACUUM TEMPORARY FILES'/>
-
-删除 Databend 创建的临时文件，例如溢出文件。
-
-另请参阅：[system.temp_files](../../00-sql-reference/31-system-tables/system-temp-files.md)
-
-## 语法
-
-```sql
-VACUUM TEMPORARY FILES [ LIMIT <limit> ]
-```
-
-| 参数      | 描述                                               |
-|-----------|------------------------------------------------------|
-| LIMIT     | 要删除的临时文件的最大数量。                           |
-
-## 输出
-
-返回已删除的临时文件数。
-
-## 示例
+包含有关 Databend 创建的临时文件的信息，例如溢出文件。要删除临时文件，请使用 [VACUUM TEMPORARY FILES](/sql/sql-commands/administration-cmds/vacuum-temp-files) 命令。
 
 ```sql
 SELECT * FROM system.temp_files;
-
+```
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -87,14 +65,4 @@ SELECT * FROM system.temp_files;
 │ Spill     │ 71c1bdcd-8ebb-45c1-98af-2700df2f9e10/xRRUU3sKkjyFAKv4LDuUt2 │           786471232 │ 2024-11-19 03:01:08     │
 │ Spill     │ 71c1bdcd-8ebb-45c1-98af-2700df2f9e10/ys9yCVJNSRBY73ce46bCA6 │           747938176 │ 2024-11-19 03:01:07     │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
-```sql
-VACUUM TEMPORARY FILES;
-
-┌────────┐
-│  Files │
-├────────┤
-│     48 │
-└────────┘
 ```
