@@ -13,7 +13,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 - 要显示会话中现有的临时表，请查询 [system.temporary_tables](../../../00-sql-reference/20-system-tables/system-temp-tables.md) 系统表。请参见 [Example-1](#example-1)。
 - 与普通表同名的临时表优先，在删除之前会隐藏普通表。请参见 [Example-2](#example-2)。
 - 创建或操作临时表不需要任何权限。
-- Databend 支持使用 [Fuse Engine](../../../00-sql-reference/30-table-engines/00-fuse.md) 和 [Memory Engine](../../../00-sql-reference/30-table-engines/01-memory.md) 创建临时表。
+- Databend 支持使用 [Fuse Engine](../../../00-sql-reference/30-table-engines/00-fuse.md) 创建临时表。
 - 要使用 BendSQL 创建临时表，请确保您使用的是最新版本的 BendSQL。
 
 ## 语法
