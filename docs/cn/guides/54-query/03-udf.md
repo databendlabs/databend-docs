@@ -8,51 +8,66 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='Python UDF'/>
 
-用户自定义函数 (UDFs) 通过支持匿名 lambda 表达式和预定义的处理程序（Python、JavaScript 和 WebAssembly）来定义 UDF，从而提供增强的灵活性。这些功能允许用户创建根据其特定数据处理需求量身定制的自定义操作。Databend UDF 分为以下类型：
+用户自定义函数（UDF）通过支持匿名 lambda 表达式和预定义的处理程序（Python、JavaScript 和 WebAssembly）来定义 UDF，从而提供增强的灵活性。这些功能允许用户创建根据其特定数据处理需求量身定制的自定义操作。Databend UDF 分为以下类型：
 
 - [Lambda UDFs](#lambda-udfs)
-- [嵌入式 UDFs](#embedded-udfs)
+- [Embedded UDFs](#embedded-udfs)
 
 ## Lambda UDFs
 
-lambda UDF 允许用户直接在其查询中使用匿名函数（lambda 表达式）来定义自定义操作。这些 lambda 表达式通常简洁明了，可用于执行仅使用内置函数可能无法实现的特定数据转换或计算。
+lambda UDF 允许用户直接在其查询中使用匿名函数（lambda 表达式）定义自定义操作。这些 lambda 表达式通常简洁明了，可用于执行特定的数据转换或计算，而这些转换或计算可能无法仅使用内置函数来实现。
 
 ### 使用示例
 
 此示例创建 UDF，以使用 SQL 查询从表中的 JSON 数据中提取特定值。
 
 ```sql
--- 定义 UDF
-CREATE FUNCTION get_v1 AS (input_json) -> input_json['v1'];
-CREATE FUNCTION get_v2 AS (input_json) -> input_json['v2'];
+CREATE OR REPLACE TABLE sale_items (
+    item_id INT,
+    details VARIANT
+);
+
+INSERT INTO sale_items VALUES
+    (1, PARSE_JSON('{"name": "T-Shirt", "price": 20.00, "discount_pct": 10}')),  -- 10% discount
+    (2, PARSE_JSON('{"name": "Jeans", "price": 50.00, "discount_pct": 25}')),   -- 25% discount
+    (3, PARSE_JSON('{"name": "Jacket", "price": 100.00, "discount_pct": 0}')),    -- No discount
+    (4, PARSE_JSON('{"name": "Socks", "price": 5.00, "discount_pct": 50}'));    -- 50% discount
+
+-- Define a Lambda UDF to calculate the final price after discount
+-- WITH EXPLICIT CASTING
+CREATE OR REPLACE FUNCTION calculate_final_price AS (item_info) -> 
+    (item_info['price']::FLOAT) * (1 - (item_info['discount_pct']::FLOAT) / 100.0);
 
 SHOW USER FUNCTIONS;
+--+-----------------------+----------------+-------------+---------------------------------+----------+----------------------------+
+--| name                  | is_aggregate   | description | arguments                       | language | created_on                 |
+--+-----------------------+----------------+-------------+---------------------------------+----------+----------------------------+
+--| calculate_final_price |    0           |             | {"parameters":["item_info"]}    | SQL      | YYYY-MM-DD HH:MM:SS.ffffff |
+--+-----------------------+----------------+-------------+---------------------------------+----------+----------------------------+
 
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│  name  │    is_aggregate   │ description │           arguments           │ language │         created_on         │
-├────────┼───────────────────┼─────────────┼───────────────────────────────┼──────────┼────────────────────────────┤
-│ get_v1 │ NULL              │             │ {"parameters":["input_json"]} │ SQL      │ 2024-11-18 23:20:28.432842 │
-│ get_v2 │ NULL              │             │ {"parameters":["input_json"]} │ SQL      │ 2024-11-18 23:21:46.838744 │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+-- Use the Lambda UDF to get item names and their final prices
+SELECT
+    item_id,
+    details['name']::STRING AS item_name,
+    details['price']::FLOAT AS original_price,
+    calculate_final_price(details) AS final_price
+FROM sale_items
+ORDER BY item_id;
 
--- 创建表
-CREATE TABLE json_table(time TIMESTAMP, data JSON);
-
--- 插入时间事件
-INSERT INTO json_table VALUES('2022-06-01 00:00:00.00000', PARSE_JSON('{"v1":1.5, "v2":20.5}'));
-
--- 从事件中获取 v1 和 v2 值
-SELECT get_v1(data), get_v2(data) FROM json_table;
-+------------+------------+
-| data['v1'] | data['v2'] |
-+------------+------------+
-| 1.5        | 20.5       |
-+------------+------------+
+-- Expected output for the SELECT query (final_price should now have values):
+--+---------+-----------+----------------+-------------+
+--| item_id | item_name | original_price | final_price |
+--+---------+-----------+----------------+-------------+
+--|       1 | T-Shirt   |          20.00 |       18.00 |
+--|       2 | Jeans     |          50.00 |       37.50 |
+--|       3 | Jacket    |         100.00 |      100.00 |
+--|       4 | Socks     |           5.00 |        2.50 |
+--+---------+-----------+----------------+-------------+
 ```
 
-## 嵌入式 UDFs
+## Embedded UDFs
 
-嵌入式 UDF 允许您在 SQL 中嵌入使用以下编程语言编写的代码：
+通过嵌入式 UDF，您可以将使用以下编程语言编写的代码嵌入到 SQL 中：
 
 - [Python](#python)
 - [JavaScript](#javascript)
@@ -62,12 +77,12 @@ SELECT get_v1(data), get_v2(data) FROM json_table;
 
 :::note
 - 尚不支持使用 WebAssembly 创建聚合 UDF。
-- 如果您的程序内容很大，您可以压缩它，然后将其传递到 Stage。有关 WebAssembly，请参见[使用示例](#usage-examples-2)。
+- 如果您的程序内容很大，您可以对其进行压缩，然后将其传递到 Stage。有关 WebAssembly，请参见[使用示例](#usage-examples-2)。
 :::
 
 ### Python (需要 Databend Enterprise)
 
-Python UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 Python 代码，从而可以在 SQL 查询中无缝集成 Python 逻辑。
+通过 Python UDF，您可以经由 Databend 的内置处理程序从 SQL 查询调用 Python 代码，从而可以在 SQL 查询中无缝集成 Python 逻辑。
 
 :::note
 Python UDF 必须仅使用 Python 的标准库；不允许第三方导入。
@@ -75,126 +90,117 @@ Python UDF 必须仅使用 Python 的标准库；不允许第三方导入。
 
 #### 数据类型映射
 
-请参见开发者指南中的 [数据类型映射](/developer/drivers/python#data-type-mappings)。
+| Databend  | Python            |
+| --------- | ----------------- |
+| BOOLEAN   | bool              |
+| TINYINT   | int               |
+| SMALLINT  | int               |
+| INT       | int               |
+| BIGINT    | int               |
+| FLOAT     | float             |
+| DOUBLE    | float             |
+| DECIMAL   | decimal.Decimal   |
+| DATE      | datetime.date     |
+| TIMESTAMP | datetime.datetime |
+| VARCHAR   | str               |
+| BINARY    | bytes             |
+| ARRAY     | list              |
+| TUPLE     | tuple             |
+| MAP       | dict              |
+| VARIANT   | str               |
+| BITMAP    | str               |
+| GEOMETRY  | str               |
 
 #### 使用示例
 
-此示例定义了一个用于情感分析的 Python UDF，创建了一个表，插入了示例数据，并对文本数据执行情感分析。
-
-1. 定义一个名为 `sentiment_analysis` 的 Python UDF。
-
 ```sql
--- 创建情感分析函数
-CREATE OR REPLACE FUNCTION sentiment_analysis(STRING) RETURNS STRING
-LANGUAGE python HANDLER = 'sentiment_analysis_handler'
-AS $$
-def remove_stop_words(text, stop_words):
-    """
-    从文本中删除常见的停用词。
-
-    Args:
-    text (str): 输入文本。
-    stop_words (set): 要删除的停用词集。
-
-    Returns:
-    str: 删除停用词后的文本。
-    """
-    return ' '.join([word for word in text.split() if word.lower() not in stop_words])
-
-def calculate_sentiment(text, positive_words, negative_words):
-    """
-    计算文本的情感得分。
-
-    Args:
-    text (str): 输入文本。
-    positive_words (set): 一组积极词。
-    negative_words (set): 一组消极词。
-
-    Returns:
-    int: 情感得分。
-    """
-    words = text.split()
-    score = sum(1 for word in words if word in positive_words) - sum(1 for word in words if word in negative_words)
-    return score
-
-def get_sentiment_label(score):
-    """
-    根据情感得分确定情感标签。
-
-    Args:
-    score (int): 情感得分。
-
-    Returns:
-    str: 情感标签（“积极”、“消极”、“中性”）。
-    """
-    if score > 0:
-        return 'Positive'
-    elif score < 0:
-        return 'Negative'
-    else:
-        return 'Neutral'
-
-def sentiment_analysis_handler(text):
-    """
-    分析输入文本的情感。
-
-    Args:
-    text (str): 输入文本。
-
-    Returns:
-    str: 情感分析结果，包括得分和标签。
-    """
-    stop_words = set(["a", "an", "the", "and", "or", "but", "if", "then", "so"])
-    positive_words = set(["good", "happy", "joy", "excellent", "positive", "love"])
-    negative_words = set(["bad", "sad", "pain", "terrible", "negative", "hate"])
-
-    clean_text = remove_stop_words(text, stop_words)
-    sentiment_score = calculate_sentiment(clean_text, positive_words, negative_words)
-    sentiment_label = get_sentiment_label(sentiment_score)
-
-    return f'Sentiment Score: {sentiment_score}; Sentiment Label: {sentiment_label}'
-$$;
-```
-
-2. 使用 `sentiment_analysis` 函数对文本数据执行情感分析。
-
-```sql
-CREATE OR REPLACE TABLE texts (
-    original_text STRING
+-- Create a table with user interaction logs
+CREATE TABLE user_interaction_logs (
+    log_id INT,
+    log_data VARIANT  -- JSON interaction log
 );
 
--- 插入示例数据
-INSERT INTO texts (original_text)
-VALUES
-('The quick brown fox feels happy and joyful'),
-('A hard journey, but it was painful and sad'),
-('Uncertain outcomes leave everyone unsure and hesitant'),
-('The movie was excellent and everyone loved it'),
-('A terrible experience that made me feel bad');
+-- Insert sample interaction log data
+INSERT INTO user_interaction_logs VALUES
+    (1, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:00:00Z", "action": "view_product", "details": {"product_id": "p789", "category": "electronics", "price": 99.99}}')),
+    (2, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:05:10Z", "action": "add_to_cart", "details": {"product_id": "p789", "quantity": 1, "category": "electronics"}}')),
+    (3, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:02:30Z", "action": "search", "details": {"query": "wireless headphones", "results_count": 15}}')),
+    (4, PARSE_JSON('{"user_id": "u789", "timestamp": "2023-01-15T10:08:00Z", "action": "purchase", "details": {"order_id": "o555", "total_amount": 125.50, "item_count": 2}}')),
+    (5, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:10:00Z", "action": "view_page", "details": {"page_name": "homepage"}}')),
+    (6, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:12:00Z", "action": "purchase", "details": {"order_id": "o556", "total_amount": 25.00, "item_count": 1}}'));
 
+-- Create a Python UDF to extract features from interaction logs
+CREATE OR REPLACE FUNCTION extract_interaction_features_py(VARIANT)
+RETURNS VARCHAR
+LANGUAGE python HANDLER = 'extract_features'
+AS $$
+import json
 
+def extract_features(log):
+    log_dict = log if isinstance(log, dict) else {}
+    action = log_dict.get('action', '').lower()
+    details = log_dict.get('details', {})
+    if not isinstance(details, dict):
+        details = {}
+
+    is_search_action = False
+    has_product_interaction = False
+    product_category_if_any = None
+    search_query_length = 0
+    purchase_value_bucket = None
+
+    if action == 'search':
+        is_search_action = True
+        search_query_length = len(details.get('query', ''))
+
+    if action in ['view_product', 'add_to_cart', 'remove_from_cart']:
+        has_product_interaction = True
+        product_category_if_any = details.get('category')
+    
+    if action == 'purchase':
+        has_product_interaction = True 
+
+    if action == 'purchase':
+        total_amount = details.get('total_amount', 0.0)
+        if not isinstance(total_amount, (int, float)):
+            total_amount = 0.0
+
+        if total_amount < 50:
+            purchase_value_bucket = 'Low'
+        elif total_amount < 200:
+            purchase_value_bucket = 'Medium'
+        else:
+            purchase_value_bucket = 'High'
+            
+    result_dict = {
+        "is_search_action": is_search_action,
+        "has_product_interaction": has_product_interaction,
+        "product_category_if_any": product_category_if_any,
+        "search_query_length": search_query_length,
+        "purchase_value_bucket": purchase_value_bucket
+    }
+    return json.dumps(result_dict)
+$$;
+
+-- Use the Python UDF to extract features
 SELECT
-    original_text,
-    sentiment_analysis(original_text) AS processed_text
+    log_id,
+    log_data['user_id']::STRING AS user_id,
+    log_data['action']::STRING AS action,
+    extract_interaction_features_py(log_data) AS extracted_features
 FROM
-    texts;
-
-|   original_text                                          |   processed_text                                  |
-|----------------------------------------------------------|---------------------------------------------------|
-|   The quick brown fox feels happy and joyful             |   Sentiment Score: 1; Sentiment Label: Positive   |
-|   A hard journey, but it was painful and sad             |   Sentiment Score: -1; Sentiment Label: Negative  |
-|   Uncertain outcomes leave everyone unsure and hesitant  |   Sentiment Score: 0; Sentiment Label: Neutral    |
-|   The movie was excellent and everyone loved it          |   Sentiment Score: 1; Sentiment Label: Positive   |
-|   A terrible experience that made me feel bad            |   Sentiment Score: -2; Sentiment Label: Negative  |
+    user_interaction_logs
+ORDER BY
+    log_id;
 ```
+
 
 ### JavaScript
 
-JavaScript UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中调用 JavaScript 代码，从而可以在 SQL 查询中无缝集成 JavaScript 逻辑。
+通过 JavaScript UDF，您可以经由 Databend 的内置处理程序从 SQL 查询调用 JavaScript 代码，从而可以在 SQL 查询中无缝集成 JavaScript 逻辑。
 
 #### 数据类型映射
 
-下表显示了 Databend 和 JavaScript 之间的类型映射：
 
 | Databend Type     | JS Type    |
 | ----------------- | ---------- |
@@ -210,78 +216,94 @@ JavaScript UDF 允许您通过 Databend 的内置处理程序从 SQL 查询中�
 | BIGINT UNSIGNED   | Number     |
 | FLOAT             | Number     |
 | DOUBLE            | Number     |
-| STRING            | String     |
+| VARCHAR           | String     |
 | DATE / TIMESTAMP  | Date       |
 | DECIMAL           | BigDecimal |
 | BINARY            | Uint8Array |
 
 #### 使用示例
 
-此示例定义了一个名为 "gcd_js" 的 JavaScript UDF，用于计算两个整数的最大公约数 (GCD)，并在 SQL 查询中应用它：
-
 ```sql
-CREATE FUNCTION gcd_js (INT, INT) RETURNS BIGINT LANGUAGE javascript HANDLER = 'gcd_js' AS $$
-export function gcd_js(a, b) {
-    while (b != 0) {
-        let t = b;
-        b = a % b;
-        a = t;
+-- Create a table with user interaction logs
+CREATE TABLE user_interaction_logs (
+    log_id INT,
+    log_data VARIANT  -- JSON interaction log
+);
+
+-- Insert sample interaction log data
+INSERT INTO user_interaction_logs VALUES
+    (1, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:00:00Z", "action": "view_product", "details": {"product_id": "p789", "category": "electronics", "price": 99.99}}')),
+    (2, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:05:10Z", "action": "add_to_cart", "details": {"product_id": "p789", "quantity": 1, "category": "electronics"}}')),
+    (3, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:02:30Z", "action": "search", "details": {"query": "wireless headphones", "results_count": 15}}')),
+    (4, PARSE_JSON('{"user_id": "u789", "timestamp": "2023-01-15T10:08:00Z", "action": "purchase", "details": {"order_id": "o555", "total_amount": 125.50, "item_count": 2}}')),
+    (5, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:10:00Z", "action": "view_page", "details": {"page_name": "homepage"}}')),
+    (6, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:12:00Z", "action": "purchase", "details": {"order_id": "o556", "total_amount": 25.00, "item_count": 1}}'));
+
+
+```md
+-- Create a JavaScript UDF to extract features from interaction logs
+CREATE FUNCTION extract_interaction_features_js(VARIANT)
+RETURNS VARIANT
+LANGUAGE javascript HANDLER = 'extractFeatures'
+AS $$
+export function extractFeatures(log) {
+    const action = (log.action || '').toLowerCase();
+    const details = log.details || {};
+
+    let isSearchAction = false;
+    let hasProductInteraction = false;
+    let productCategoryIfAny = null;
+    let searchQueryLength = 0;
+    let purchaseValueBucket = null;
+
+    if (action === 'search') {
+        isSearchAction = true;
+        searchQueryLength = (details.query || '').length;
     }
-    return a;
-}
-$$
 
-SELECT
-    number,
-    gcd_js((number * 3), (number * 6))
-FROM
-    numbers(5)
-WHERE
-    (number > 0)
-ORDER BY 1;
-```
+    if (['view_product', 'add_to_cart', 'remove_from_cart'].includes(action)) {
+        hasProductInteraction = true;
+        productCategoryIfAny = details.category || null;
+    }
+    
+    if (action === 'purchase' && !productCategoryIfAny) {
+         hasProductInteraction = true;
+    }
 
-此示例定义了一个聚合 UDF，该 UDF 通过根据一组值的相应权重对其进行聚合来计算该组值的加权平均值：
-
-```sql
-CREATE FUNCTION weighted_avg (INT, INT) STATE {sum INT, weight INT} RETURNS FLOAT
-LANGUAGE javascript AS $$
-export function create_state() {
-    return {sum: 0, weight: 0};
-}
-export function accumulate(state, value, weight) {
-    state.sum += value * weight;
-    state.weight += weight;
-    return state;
-}
-export function retract(state, value, weight) {
-    state.sum -= value * weight;
-    state.weight -= weight;
-    return state;
-}
-export function merge(state1, state2) {
-    state1.sum += state2.sum;
-    state1.weight += state2.weight;
-    return state1;
-}
-export function finish(state) {
-    return state.sum / state.weight;
+    if (action === 'purchase') {
+        const totalAmount = details.total_amount || 0.0;
+        if (totalAmount < 50) {
+            purchaseValueBucket = 'Low';
+        } else if (totalAmount < 200) {
+            purchaseValueBucket = 'Medium';
+        } else {
+            purchaseValueBucket = 'High';
+        }
+    }
+            
+    return {
+        is_search_action: isSearchAction,
+        has_product_interaction: has_product_interaction,
+        product_category_if_any: productCategoryIfAny,
+        search_query_length: searchQueryLength,
+        purchase_value_bucket: purchaseValueBucket
+    };
 }
 $$;
 ```
 
 ### WebAssembly
 
-WebAssembly UDF 允许用户使用编译为 WebAssembly 的语言定义自定义逻辑或操作。然后可以直接在 SQL 查询中调用这些 UDF，以执行特定的计算或数据转换。
+WebAssembly UDF 允许用户使用编译为 WebAssembly 的语言定义自定义逻辑或操作。然后，可以在 SQL 查询中直接调用这些 UDF，以执行特定的计算或数据转换。
 
-#### 使用示例
+#### Usage Examples
 
-在此示例中，创建了 "wasm_gcd" 函数来计算两个整数的最大公约数 (GCD)。该函数使用 WebAssembly 定义，其实现在 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
+在此示例中，创建 "wasm_gcd" 函数来计算两个整数的最大公约数 (GCD)。该函数使用 WebAssembly 定义，其实现在 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
 
 在执行之前，函数实现会经过一系列步骤。首先，它被编译成一个二进制文件，然后被压缩成 'test10_udf_wasm_gcd.wasm.zst'。最后，压缩后的文件会提前上传到 Stage。
 
 :::note
-该函数可以使用 Rust 实现，如 https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs 提供的示例所示
+该函数可以使用 Rust 实现，如 https://github.com/arrow-udf/arrow-udf/blob/main/arrow-udf-example/src/lib.rs 上的示例所示。
 :::
 
 ```sql
@@ -297,6 +319,6 @@ WHERE
 ORDER BY 1;
 ```
 
-## 管理 UDF
+## Managing UDFs
 
-Databend 提供了各种命令来管理 UDF。有关详细信息，请参见 [用户自定义函数](/sql/sql-commands/ddl/udf/)。
+Databend 提供了各种命令来管理 UDF。有关详细信息，请参见 [User-Defined Function](/sql/sql-commands/ddl/udf/)。{/*examples*/}
