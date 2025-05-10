@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 列出当前支持的内置标量函数和聚合函数。
 
-另请参阅：[system.functions](../../00-sql-reference/20-system-tables/system-functions.md)
+另请参阅：[system.functions](../../00-sql-reference/31-system-tables/system-functions.md)
 
 ## 语法
 

@@ -3,9 +3,9 @@ title: SHOW METRICS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.190"/>
+<FunctionDescription description="Introduced or updated: v1.2.190"/>
 
-显示 [系统指标](../../00-sql-reference/20-system-tables/system-metrics.md) 列表。
+显示 [系统指标](../../00-sql-reference/31-system-tables/system-metrics.md) 列表。
 
 ## 语法
 

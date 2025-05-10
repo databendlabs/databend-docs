@@ -12,7 +12,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 删除 Databend 创建的临时文件，例如溢出文件。
 
-另请参阅：[system.temp_files](../../00-sql-reference/20-system-tables/system-temp-files.md)
+另请参阅：[system.temp_files](../../00-sql-reference/31-system-tables/system-temp-files.md)
 
 ## 语法
 
@@ -20,9 +20,9 @@ import EEFeature from '@site/src/components/EEFeature';
 VACUUM TEMPORARY FILES [ LIMIT <limit> ]
 ```
 
-| 参数  | 描述                         |
-| ----- | ---------------------------- |
-| LIMIT | 要删除的临时文件的最大数量。 |
+| 参数      | 描述                                               |
+|-----------|------------------------------------------------------|
+| LIMIT     | 要删除的临时文件的最大数量。                           |
 
 ## 输出
 
@@ -32,7 +32,7 @@ VACUUM TEMPORARY FILES [ LIMIT <limit> ]
 
 ```sql
 SELECT * FROM system.temp_files;
-```
+
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -89,7 +89,7 @@ SELECT * FROM system.temp_files;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-```
+```sql
 VACUUM TEMPORARY FILES;
 
 ┌────────┐

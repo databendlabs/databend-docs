@@ -4,11 +4,11 @@ sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.203"/>
+<FunctionDescription description="Introduced or updated: v1.2.203"/>
 
 列出当前或指定数据库中已删除的表。
 
-另请参阅：[system.tables_with_history](../../../00-sql-reference/20-system-tables/system-tables-with-history.md)
+另请参阅：[system.tables_with_history](../../../00-sql-reference/31-system-tables/system-tables-with-history.md)
 
 ## 语法
 
