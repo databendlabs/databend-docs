@@ -4,7 +4,7 @@ title: Fuse Engine Tables
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.73666666"/>
+<FunctionDescription description="Introduced or updated: v1.2.736"/>
 
 ## Overview
 
