@@ -22,32 +22,47 @@ A lambda UDF allows users to define custom operations using anonymous functions 
 This example creates UDFs to extract specific values from JSON data within a table using SQL queries.
 
 ```sql
--- Define UDFs
-CREATE FUNCTION get_v1 AS (input_json) -> input_json['v1'];
-CREATE FUNCTION get_v2 AS (input_json) -> input_json['v2'];
+CREATE OR REPLACE TABLE sale_items (
+    item_id INT,
+    details VARIANT
+);
+
+INSERT INTO sale_items VALUES
+    (1, PARSE_JSON('{"name": "T-Shirt", "price": 20.00, "discount_pct": 10}')),  -- 10% discount
+    (2, PARSE_JSON('{"name": "Jeans", "price": 50.00, "discount_pct": 25}')),   -- 25% discount
+    (3, PARSE_JSON('{"name": "Jacket", "price": 100.00, "discount_pct": 0}')),    -- No discount
+    (4, PARSE_JSON('{"name": "Socks", "price": 5.00, "discount_pct": 50}'));    -- 50% discount
+
+-- Define a Lambda UDF to calculate the final price after discount
+-- WITH EXPLICIT CASTING
+CREATE OR REPLACE FUNCTION calculate_final_price AS (item_info) -> 
+    (item_info['price']::FLOAT) * (1 - (item_info['discount_pct']::FLOAT) / 100.0);
 
 SHOW USER FUNCTIONS;
+--+-----------------------+----------------+-------------+---------------------------------+----------+----------------------------+
+--| name                  | is_aggregate   | description | arguments                       | language | created_on                 |
+--+-----------------------+----------------+-------------+---------------------------------+----------+----------------------------+
+--| calculate_final_price |    0           |             | {"parameters":["item_info"]}    | SQL      | YYYY-MM-DD HH:MM:SS.ffffff |
+--+-----------------------+----------------+-------------+---------------------------------+----------+----------------------------+
 
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│  name  │    is_aggregate   │ description │           arguments           │ language │         created_on         │
-├────────┼───────────────────┼─────────────┼───────────────────────────────┼──────────┼────────────────────────────┤
-│ get_v1 │ NULL              │             │ {"parameters":["input_json"]} │ SQL      │ 2024-11-18 23:20:28.432842 │
-│ get_v2 │ NULL              │             │ {"parameters":["input_json"]} │ SQL      │ 2024-11-18 23:21:46.838744 │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+-- Use the Lambda UDF to get item names and their final prices
+SELECT
+    item_id,
+    details['name']::STRING AS item_name,
+    details['price']::FLOAT AS original_price,
+    calculate_final_price(details) AS final_price
+FROM sale_items
+ORDER BY item_id;
 
--- Create a table
-CREATE TABLE json_table(time TIMESTAMP, data JSON);
-
--- Insert a time event
-INSERT INTO json_table VALUES('2022-06-01 00:00:00.00000', PARSE_JSON('{"v1":1.5, "v2":20.5}'));
-
--- Get v1 and v2 value from the event
-SELECT get_v1(data), get_v2(data) FROM json_table;
-+------------+------------+
-| data['v1'] | data['v2'] |
-+------------+------------+
-| 1.5        | 20.5       |
-+------------+------------+
+-- Expected output for the SELECT query (final_price should now have values):
+--+---------+-----------+----------------+-------------+
+--| item_id | item_name | original_price | final_price |
+--+---------+-----------+----------------+-------------+
+--|       1 | T-Shirt   |          20.00 |       18.00 |
+--|       2 | Jeans     |          50.00 |       37.50 |
+--|       3 | Jacket    |         100.00 |      100.00 |
+--|       4 | Socks     |           5.00 |        2.50 |
+--+---------+-----------+----------------+-------------+
 ```
 
 ## Embedded UDFs
@@ -75,118 +90,110 @@ The Python UDF must use only Python's standard library; third-party imports are 
 
 #### Data Type Mappings
 
-See [Data Type Mappings](/developer/drivers/python#data-type-mappings) in the Developer Guide.
+| Databend  | Python            |
+| --------- | ----------------- |
+| BOOLEAN   | bool              |
+| TINYINT   | int               |
+| SMALLINT  | int               |
+| INT       | int               |
+| BIGINT    | int               |
+| FLOAT     | float             |
+| DOUBLE    | float             |
+| DECIMAL   | decimal.Decimal   |
+| DATE      | datetime.date     |
+| TIMESTAMP | datetime.datetime |
+| VARCHAR   | str               |
+| BINARY    | bytes             |
+| ARRAY     | list              |
+| TUPLE     | tuple             |
+| MAP       | dict              |
+| VARIANT   | str               |
+| BITMAP    | str               |
+| GEOMETRY  | str               |
 
 #### Usage Examples
 
-This example defines a Python UDF for sentiment analysis, creates a table, inserts sample data, and performs sentiment analysis on the text data.
-
-1. Define a Python UDF named `sentiment_analysis`.
-
 ```sql
--- Create the sentiment analysis function
-CREATE OR REPLACE FUNCTION sentiment_analysis(STRING) RETURNS STRING
-LANGUAGE python HANDLER = 'sentiment_analysis_handler'
-AS $$
-def remove_stop_words(text, stop_words):
-    """
-    Removes common stop words from the text.
-
-    Args:
-    text (str): The input text.
-    stop_words (set): A set of stop words to remove.
-
-    Returns:
-    str: Text with stop words removed.
-    """
-    return ' '.join([word for word in text.split() if word.lower() not in stop_words])
-
-def calculate_sentiment(text, positive_words, negative_words):
-    """
-    Calculates the sentiment score of the text.
-
-    Args:
-    text (str): The input text.
-    positive_words (set): A set of positive words.
-    negative_words (set): A set of negative words.
-
-    Returns:
-    int: Sentiment score.
-    """
-    words = text.split()
-    score = sum(1 for word in words if word in positive_words) - sum(1 for word in words if word in negative_words)
-    return score
-
-def get_sentiment_label(score):
-    """
-    Determines the sentiment label based on the sentiment score.
-
-    Args:
-    score (int): The sentiment score.
-
-    Returns:
-    str: Sentiment label ('Positive', 'Negative', 'Neutral').
-    """
-    if score > 0:
-        return 'Positive'
-    elif score < 0:
-        return 'Negative'
-    else:
-        return 'Neutral'
-
-def sentiment_analysis_handler(text):
-    """
-    Analyzes the sentiment of the input text.
-
-    Args:
-    text (str): The input text.
-
-    Returns:
-    str: Sentiment analysis result including the score and label.
-    """
-    stop_words = set(["a", "an", "the", "and", "or", "but", "if", "then", "so"])
-    positive_words = set(["good", "happy", "joy", "excellent", "positive", "love"])
-    negative_words = set(["bad", "sad", "pain", "terrible", "negative", "hate"])
-
-    clean_text = remove_stop_words(text, stop_words)
-    sentiment_score = calculate_sentiment(clean_text, positive_words, negative_words)
-    sentiment_label = get_sentiment_label(sentiment_score)
-
-    return f'Sentiment Score: {sentiment_score}; Sentiment Label: {sentiment_label}'
-$$;
-```
-
-2. Perform sentiment analysis on the text data using the `sentiment_analysis` function.
-
-```sql
-CREATE OR REPLACE TABLE texts (
-    original_text STRING
+-- Create a table with user interaction logs
+CREATE TABLE user_interaction_logs (
+    log_id INT,
+    log_data VARIANT  -- JSON interaction log
 );
 
--- Insert sample data
-INSERT INTO texts (original_text)
-VALUES
-('The quick brown fox feels happy and joyful'),
-('A hard journey, but it was painful and sad'),
-('Uncertain outcomes leave everyone unsure and hesitant'),
-('The movie was excellent and everyone loved it'),
-('A terrible experience that made me feel bad');
+-- Insert sample interaction log data
+INSERT INTO user_interaction_logs VALUES
+    (1, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:00:00Z", "action": "view_product", "details": {"product_id": "p789", "category": "electronics", "price": 99.99}}')),
+    (2, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:05:10Z", "action": "add_to_cart", "details": {"product_id": "p789", "quantity": 1, "category": "electronics"}}')),
+    (3, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:02:30Z", "action": "search", "details": {"query": "wireless headphones", "results_count": 15}}')),
+    (4, PARSE_JSON('{"user_id": "u789", "timestamp": "2023-01-15T10:08:00Z", "action": "purchase", "details": {"order_id": "o555", "total_amount": 125.50, "item_count": 2}}')),
+    (5, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:10:00Z", "action": "view_page", "details": {"page_name": "homepage"}}')),
+    (6, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:12:00Z", "action": "purchase", "details": {"order_id": "o556", "total_amount": 25.00, "item_count": 1}}'));
 
+-- Create a Python UDF to extract features from interaction logs
+CREATE OR REPLACE FUNCTION extract_interaction_features_py(VARIANT)
+RETURNS VARCHAR
+LANGUAGE python HANDLER = 'extract_features'
+AS $$
+import json
 
+def extract_features(log):
+    log_dict = log if isinstance(log, dict) else {}
+    action = log_dict.get('action', '').lower()
+    details = log_dict.get('details', {})
+    if not isinstance(details, dict):
+        details = {}
+
+    is_search_action = False
+    has_product_interaction = False
+    product_category_if_any = None
+    search_query_length = 0
+    purchase_value_bucket = None
+
+    if action == 'search':
+        is_search_action = True
+        search_query_length = len(details.get('query', ''))
+
+    if action in ['view_product', 'add_to_cart', 'remove_from_cart']:
+        has_product_interaction = True
+        product_category_if_any = details.get('category')
+    
+    if action == 'purchase':
+        has_product_interaction = True 
+
+    if action == 'purchase':
+        total_amount = details.get('total_amount', 0.0)
+        if not isinstance(total_amount, (int, float)):
+            total_amount = 0.0
+
+        if total_amount < 50:
+            purchase_value_bucket = 'Low'
+        elif total_amount < 200:
+            purchase_value_bucket = 'Medium'
+        else:
+            purchase_value_bucket = 'High'
+            
+    result_dict = {
+        "is_search_action": is_search_action,
+        "has_product_interaction": has_product_interaction,
+        "product_category_if_any": product_category_if_any,
+        "search_query_length": search_query_length,
+        "purchase_value_bucket": purchase_value_bucket
+    }
+    return json.dumps(result_dict)
+$$;
+
+-- Use the Python UDF to extract features
 SELECT
-    original_text,
-    sentiment_analysis(original_text) AS processed_text
+    log_id,
+    log_data['user_id']::STRING AS user_id,
+    log_data['action']::STRING AS action,
+    extract_interaction_features_py(log_data) AS extracted_features
 FROM
-    texts;
-
-|   original_text                                          |   processed_text                                  |
-|----------------------------------------------------------|---------------------------------------------------|
-|   The quick brown fox feels happy and joyful             |   Sentiment Score: 1; Sentiment Label: Positive   |
-|   A hard journey, but it was painful and sad             |   Sentiment Score: -1; Sentiment Label: Negative  |
-|   Uncertain outcomes leave everyone unsure and hesitant  |   Sentiment Score: 0; Sentiment Label: Neutral    |
-|   The movie was excellent and everyone loved it          |   Sentiment Score: 1; Sentiment Label: Positive   |
-|   A terrible experience that made me feel bad            |   Sentiment Score: -2; Sentiment Label: Negative  |
+    user_interaction_logs
+ORDER BY
+    log_id;
 ```
+
 
 ### JavaScript
 
@@ -194,7 +201,6 @@ A JavaScript UDF allows you to invoke JavaScript code from a SQL query via Datab
 
 #### Data Type Mappings
 
-The following table shows the type mapping between Databend and JavaScript:
 
 | Databend Type     | JS Type    |
 | ----------------- | ---------- |
@@ -210,62 +216,77 @@ The following table shows the type mapping between Databend and JavaScript:
 | BIGINT UNSIGNED   | Number     |
 | FLOAT             | Number     |
 | DOUBLE            | Number     |
-| STRING            | String     |
+| VARCHAR           | String     |
 | DATE / TIMESTAMP  | Date       |
 | DECIMAL           | BigDecimal |
 | BINARY            | Uint8Array |
 
 #### Usage Examples
 
-This example defines a JavaScript UDF named "gcd_js" to calculate the greatest common divisor (GCD) of two integers, and applies it within a SQL query:
-
 ```sql
-CREATE FUNCTION gcd_js (INT, INT) RETURNS BIGINT LANGUAGE javascript HANDLER = 'gcd_js' AS $$
-export function gcd_js(a, b) {
-    while (b != 0) {
-        let t = b;
-        b = a % b;
-        a = t;
+-- Create a table with user interaction logs
+CREATE TABLE user_interaction_logs (
+    log_id INT,
+    log_data VARIANT  -- JSON interaction log
+);
+
+-- Insert sample interaction log data
+INSERT INTO user_interaction_logs VALUES
+    (1, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:00:00Z", "action": "view_product", "details": {"product_id": "p789", "category": "electronics", "price": 99.99}}')),
+    (2, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:05:10Z", "action": "add_to_cart", "details": {"product_id": "p789", "quantity": 1, "category": "electronics"}}')),
+    (3, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:02:30Z", "action": "search", "details": {"query": "wireless headphones", "results_count": 15}}')),
+    (4, PARSE_JSON('{"user_id": "u789", "timestamp": "2023-01-15T10:08:00Z", "action": "purchase", "details": {"order_id": "o555", "total_amount": 125.50, "item_count": 2}}')),
+    (5, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:10:00Z", "action": "view_page", "details": {"page_name": "homepage"}}')),
+    (6, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:12:00Z", "action": "purchase", "details": {"order_id": "o556", "total_amount": 25.00, "item_count": 1}}'));
+
+
+-- Create a JavaScript UDF to extract features from interaction logs
+CREATE FUNCTION extract_interaction_features_js(VARIANT)
+RETURNS VARIANT
+LANGUAGE javascript HANDLER = 'extractFeatures'
+AS $$
+export function extractFeatures(log) {
+    const action = (log.action || '').toLowerCase();
+    const details = log.details || {};
+
+    let isSearchAction = false;
+    let hasProductInteraction = false;
+    let productCategoryIfAny = null;
+    let searchQueryLength = 0;
+    let purchaseValueBucket = null;
+
+    if (action === 'search') {
+        isSearchAction = true;
+        searchQueryLength = (details.query || '').length;
     }
-    return a;
-}
-$$
 
-SELECT
-    number,
-    gcd_js((number * 3), (number * 6))
-FROM
-    numbers(5)
-WHERE
-    (number > 0)
-ORDER BY 1;
-```
+    if (['view_product', 'add_to_cart', 'remove_from_cart'].includes(action)) {
+        hasProductInteraction = true;
+        productCategoryIfAny = details.category || null;
+    }
+    
+    if (action === 'purchase' && !productCategoryIfAny) {
+         hasProductInteraction = true;
+    }
 
-This example defines an aggregate UDF that calculates the weighted average of a set of values by aggregating them based on their corresponding weights:
-
-```sql
-CREATE FUNCTION weighted_avg (INT, INT) STATE {sum INT, weight INT} RETURNS FLOAT
-LANGUAGE javascript AS $$
-export function create_state() {
-    return {sum: 0, weight: 0};
-}
-export function accumulate(state, value, weight) {
-    state.sum += value * weight;
-    state.weight += weight;
-    return state;
-}
-export function retract(state, value, weight) {
-    state.sum -= value * weight;
-    state.weight -= weight;
-    return state;
-}
-export function merge(state1, state2) {
-    state1.sum += state2.sum;
-    state1.weight += state2.weight;
-    return state1;
-}
-export function finish(state) {
-    return state.sum / state.weight;
+    if (action === 'purchase') {
+        const totalAmount = details.total_amount || 0.0;
+        if (totalAmount < 50) {
+            purchaseValueBucket = 'Low';
+        } else if (totalAmount < 200) {
+            purchaseValueBucket = 'Medium';
+        } else {
+            purchaseValueBucket = 'High';
+        }
+    }
+            
+    return {
+        is_search_action: isSearchAction,
+        has_product_interaction: hasProductInteraction,
+        product_category_if_any: productCategoryIfAny,
+        search_query_length: searchQueryLength,
+        purchase_value_bucket: purchaseValueBucket
+    };
 }
 $$;
 ```
@@ -281,7 +302,7 @@ In this example, the "wasm_gcd" function is created to compute the greatest comm
 Prior to its execution, the function implementation undergoes a series of steps. First, it is compiled into a binary file, followed by compression into 'test10_udf_wasm_gcd.wasm.zst'. Finally, the compressed file is uploaded to a stage in advance.
 
 :::note
-The function can be implemented in Rust, as demonstrated in the example available at https://github.com/risingwavelabs/arrow-udf/blob/main/arrow-udf-wasm/examples/wasm.rs
+The function can be implemented in Rust, as demonstrated in the example available at https://github.com/arrow-udf/arrow-udf/blob/main/arrow-udf-example/src/lib.rs
 :::
 
 ```sql
