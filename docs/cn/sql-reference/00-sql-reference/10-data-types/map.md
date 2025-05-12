@@ -6,7 +6,7 @@ MAP 数据结构用于保存一组 `Key:Value` 对，并使用 Array(Tuple(key, 
 
 ## 理解 Key:Value
 
-`Key` 是一种指定的 Basic 数据类型，包括 Boolean、Number、Decimal、String、Date 或 Timestamp。`Key` 的值不能为 Null，并且不允许重复。`Value` 可以是任何数据类型，包括嵌套数组、元组等。
+`Key` 是一种指定的基本数据类型，包括 Boolean、Number、Decimal、String、Date 或 Timestamp。`Key` 的值不能为 Null，并且不允许重复。`Value` 可以是任何数据类型，包括嵌套数组、元组等。
 
 Map 数据可以通过用花括号括起来的 `Key:Value` 对生成，也可以使用 Map 函数将两个数组转换为 Map。Map 函数接受两个数组作为输入，其中第一个数组中的元素用作键，第二个数组中的元素用作值。请参见以下示例：
 
@@ -22,13 +22,13 @@ SELECT {'k1': 1, 'k2': 2}, map([1, 2], ['v1', 'v2']);
 +-----------------+---------------------------+
 ```
 
-## Map 和 Bloom Filter Index
+## Map 和 Bloom Filter 索引
 
-在 Databend Map 中，将为具有某些数据类型的值创建 Bloom Filter Index：`Numeric`、`String`、`Timestamp` 和 `Date`。
+在 Databend Map 中，将为具有某些数据类型的值创建 Bloom Filter 索引：`Numeric`、`String`、`Timestamp` 和 `Date`。
 
 这使得在 MAP 数据结构中搜索值更加容易和快速。
 
-Databend Map 中 Bloom Filter Index 的实现在 [PR#10457](https://github.com/databendlabs/databend/pull/10457) 中。
+Databend Map 中 Bloom Filter 索引的实现在 [PR#10457](https://github.com/databendlabs/databend/pull/10457) 中。
 
 当查询的值不存在时，Bloom Filter 在减少查询时间方面特别有效。
 

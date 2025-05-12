@@ -4,7 +4,7 @@ title: system.user_functions
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.315"/>
+<FunctionDescription description="引入或更新: v1.2.315"/>
 
 包含系统中用户定义函数和外部函数的信息。
 

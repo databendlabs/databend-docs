@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced: v1.1.658"/>
 
-记录所有数据库，包括活动的和已删除的数据库。它显示了每个数据库的 catalog、名称、唯一 ID、所有者（如果已指定）和删除时间戳（如果仍然处于活动状态，则为 NULL）。
+记录所有数据库，包括活跃的和已删除的。它显示了每个数据库的 catalog、名称、唯一 ID、所有者（如果已指定）以及删除时间戳（如果仍然活跃，则为 NULL）。
 
 另请参阅：[SHOW DROP DATABASES](../../10-sql-commands/00-ddl/00-database/show-drop-databases.md)
 

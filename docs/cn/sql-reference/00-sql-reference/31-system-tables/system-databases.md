@@ -19,7 +19,7 @@ SELECT * FROM system.databases;
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-要显示 `system.databases` 的 schema，请使用 `DESCRIBE system.databases`：
+要显示 `system.databases` 的 schema，请使用 `DESCRIBE system.databases`:
 
 ```sql
 DESCRIBE system.databases;

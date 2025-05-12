@@ -2,7 +2,7 @@
 title: SQL 脚本
 ---
 
-本页概述了 Databend 中可用的 SQL 脚本选项。你可以将 SQL 脚本与以下任一查询方法结合使用：
+本页概述了 Databend 中可用的 SQL 脚本选项。您可以将 SQL 脚本与以下任一查询方法结合使用：
 
 - [存储过程](/guides/query/stored-procedure)
 - [EXECUTE IMMEDIATE](/sql/sql-commands/administration-cmds/execute-immediate)
@@ -78,7 +78,7 @@ RETURN [expr];
 
 ### RETURN TABLE
 
-从脚本返回，表结果作为一个 String 列。
+从脚本返回，返回一个表结果作为 String 列。
 
 ```sql title='Examples:'
 EXECUTE IMMEDIATE $$
