@@ -9,7 +9,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 # Virtual Columns in Databend: Accelerating Queries on Semi-Structured Data
 
-Virtual columns in Databend provide a powerful and automatic way to significantly accelerate queries on semi-structured data, particularly data stored in the `VARIANT` data type. This feature dynamically optimizes data access, leading to faster query execution and reduced resource consumption.
+Virtual columns in Databend provide a powerful and automatic way to significantly accelerate queries on semi-structured data, particularly data stored in the [Variant](/sql/sql-reference/data-types/variant) data type. This feature dynamically optimizes data access, leading to faster query execution and reduced resource consumption.
 
 ## Overview
 
@@ -37,8 +37,8 @@ Databend automatically detects nested fields within `VARIANT` columns during dat
 
 *   **Overhead:** While virtual columns generally improve query performance, they do introduce some storage and maintenance overhead. Databend automatically balances the benefits of virtual columns against this overhead to ensure optimal performance.
 *   **Experimental Feature:** Virtual columns are currently an experimental feature. They are disabled by default. To enable virtual columns, you must set the `enable_experimental_virtual_column` setting to `1`:
-*   **Automatic Refresh:** Virtual columns will be refreshed automatically after inserting data. If you don't want to generate virtual column data automatically, you can set `enable_refresh_virtual_column_after_write` to `0` to disable the generation of virtual columns. Asynchronous refresh can be done by using the refresh virtual column command. For details, see [REFRESH VIRTUAL COLUMN](/sql/sql-reference/sql-commands/ddl/virtual-column/refresh-virtual-column.md).
-*   **Show Virtual columns:** You can view information about virtual columns through the [SHOW VIRTUAL COLUMNS](/sql/sql-reference/sql-commands/ddl/virtual-column/show-virtual-columns.md) command, and you can view information about virtual column metas through the [FUSE_VIRTUAL_COLUMN](/sql/sql-reference/sql-functions/system-functions/fuse_virtual_column.md) system function.
+*   **Automatic Refresh:** Virtual columns will be refreshed automatically after inserting data. If you don't want to generate virtual column data automatically, you can set `enable_refresh_virtual_column_after_write` to `0` to disable the generation of virtual columns. Asynchronous refresh can be done by using the refresh virtual column command. For details, see [REFRESH VIRTUAL COLUMN](/sql/sql-commands/ddl/virtual-column/refresh-virtual-column.md).
+*   **Show Virtual columns:** You can view information about virtual columns through the [SHOW VIRTUAL COLUMNS](/sql/sql-commands/ddl/virtual-column/show-virtual-columns.md) command, and you can view information about virtual column metas through the [FUSE_VIRTUAL_COLUMN](/sql/sql-functions/system-functions/fuse_virtual_column.md) system function.
 
 ## Usage Examples
 
