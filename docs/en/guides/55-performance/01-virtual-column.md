@@ -37,8 +37,8 @@ Databend automatically detects nested fields within `VARIANT` columns during dat
 
 *   **Overhead:** While virtual columns generally improve query performance, they do introduce some storage and maintenance overhead. Databend automatically balances the benefits of virtual columns against this overhead to ensure optimal performance.
 *   **Experimental Feature:** Virtual columns are currently an experimental feature. They are disabled by default. To enable virtual columns, you must set the `enable_experimental_virtual_column` setting to `1`:
-*   **Automatic Refresh:** Virtual columns will be refreshed automatically after inserting data. If you don't want to generate virtual column data automatically, you can set `enable_refresh_virtual_column_after_write` to `0` to disable the generation of virtual columns. Asynchronous refresh can be done by using the refresh virtual column command. For details, see [REFRESH VIRTUAL COLUMN](/sql/sql-commands/ddl/virtual-column/refresh-virtual-column.md).
-*   **Show Virtual columns:** You can view information about virtual columns through the [SHOW VIRTUAL COLUMNS](/sql/sql-commands/ddl/virtual-column/show-virtual-columns.md) command, and you can view information about virtual column metas through the [FUSE_VIRTUAL_COLUMN](/sql/sql-functions/system-functions/fuse_virtual_column.md) system function.
+*   **Automatic Refresh:** Virtual columns will be refreshed automatically after inserting data. If you don't want to generate virtual column data automatically, you can set `enable_refresh_virtual_column_after_write` to `0` to disable the generation of virtual columns. Asynchronous refresh can be done by using the refresh virtual column command. For details, see [REFRESH VIRTUAL COLUMN](/sql/sql-commands/ddl/virtual-column/refresh-virtual-column).
+*   **Show Virtual columns:** You can view information about virtual columns through the [SHOW VIRTUAL COLUMNS](/sql/sql-commands/ddl/virtual-column/show-virtual-columns) command, and you can view information about virtual column metas through the [FUSE_VIRTUAL_COLUMN](/sql/sql-functions/system-functions/fuse_virtual_column) system function.
 
 ## Usage Examples
 
