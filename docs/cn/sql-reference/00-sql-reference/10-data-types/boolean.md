@@ -1,9 +1,9 @@
 ---
 title: Boolean
-description: 基础逻辑数据类型。
+description: 基本的逻辑数据类型。
 ---
 
-BOOLEAN 类型表示真值语句（`true` 或 `false`）。
+BOOLEAN 类型表示一个真值语句（`true` 或 `false`）。
 
 ## Boolean 数据类型
 
@@ -17,13 +17,13 @@ BOOLEAN 类型表示真值语句（`true` 或 `false`）。
 
 数值转换：
 * 零 (0) 转换为 FALSE。
-* 任何非零值都将转换为 TRUE。
+* 任何非零值都转换为 TRUE。
 
 字符串转换：
 * 转换为 TRUE 的字符串：`true`
 * 转换为 FALSE 的字符串：`false`
 * 转换不区分大小写。
-* 所有其他文本字符串都无法转换为 Boolean 值，将会出现 `Code: 1010` 错误。
+* 所有其他文本字符串都无法转换为布尔值，会得到 `Code: 1010` 错误。
 
 ## 函数
 

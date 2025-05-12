@@ -7,11 +7,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.696"/>
 
-一个只读的内存表，用于存储所有查询日志。有关查询日志中可用的特定字段，请参阅[示例](#examples)部分。
+`system.query_log` 是一个只读的内存表，用于存储所有的查询日志。有关查询日志中可用的特定字段，请参阅 [示例](#examples) 部分。
 
 ## 设置会话标签
 
-您可以选择为会话分配一个标签，以便更轻松地根据分配的会话标签在日志表中筛选日志。例如，以下代码将标签 `eric` 分配给当前会话：
+您可以选择为会话分配一个标签，以便更容易地根据分配的会话标签在日志表中筛选日志。例如，以下代码将标签 `eric` 分配给当前会话：
 
 ```sql
 set session query_tag='eric';

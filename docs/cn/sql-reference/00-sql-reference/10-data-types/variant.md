@@ -7,13 +7,11 @@ VARIANT 可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、
 以下是在 Databend 中插入和查询 Variant 数据的示例：
 
 创建表：
-
 ```sql
 CREATE TABLE customer_orders(id INT64, order_data VARIANT);
 ```
 
-将不同类型的值插入到表中：
-
+将不同类型的值插入表中：
 ```sql
 INSERT INTO
   customer_orders
@@ -33,13 +31,11 @@ VALUES
 ```
 
 查询结果：
-
 ```sql
 SELECT * FROM customer_orders;
 ```
 
 结果：
-
 ```sql
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        id       │                                                   order_data                                                  │
@@ -59,23 +55,20 @@ VARIANT 类型包含一个数组，它是一个从零开始的数组，类似于
 #### 示例
 
 创建表：
-
 ```sql
 -- 创建一个表来存储用户的爱好
 CREATE TABLE user_hobbies(user_id INT64, hobbies VARIANT NULL);
 ```
 
-将示例数据插入到表中：
-
+将示例数据插入表中：
 ```sql
-INSERT INTO user_hobbies
+INSERT INTO user_hobbies 
 VALUES
     (1, '["Cooking", "Reading", "Cycling"]'),
     (2, '["Photography", "Travel", "Swimming"]');
 ```
 
 检索每个用户的第一个爱好：
-
 ```sql
 SELECT
   user_id,
@@ -83,9 +76,7 @@ SELECT
 FROM
   user_hobbies;
 ```
-
 结果：
-
 ```sql
 ┌─────────────────────────────────────┐
 │     user_id     │    first_hobby    │
@@ -96,7 +87,6 @@ FROM
 ```
 
 检索每个用户的第三个爱好：
-
 ```sql
 SELECT
   hobbies [2],
@@ -108,7 +98,6 @@ GROUP BY
 ```
 
 结果：
-
 ```sql
 ┌─────────────────────────────────┐
 │     hobbies[2]    │ third_hobby │
@@ -119,7 +108,6 @@ GROUP BY
 ```
 
 使用 group by 检索爱好：
-
 ```sql
 SELECT
   hobbies [2],
@@ -129,9 +117,7 @@ FROM
 GROUP BY
   hobbies [2];
 ```
-
 结果：
-
 ```sql
 ┌────────────┬─────────────┐
 │ hobbies[2] │ third_hobby │
@@ -143,12 +129,11 @@ GROUP BY
 
 ### 通过字段名访问
 
-VARIANT 类型包含表示为对象的键值对，其中每个键都是 VARCHAR，每个值都是 VARIANT。它的功能类似于其他编程语言中的“字典”、“哈希”或“映射”。可以使用**方括号**或**冒号**以及**点**（仅适用于第二层和更深层）通过字段名访问值（点不能用作第一级名称表示法，以避免与表和列之间的点表示法混淆）。
+VARIANT 类型包含表示为对象的键值对，其中每个键都是 VARCHAR，每个值都是 VARIANT。它与其他编程语言中的“字典”、“哈希”或“映射”类似。可以使用**方括号**或**冒号**通过字段名访问值，以及仅用于第二层和更深层的**点**（点不能用作第一级名称表示法，以避免与表和列之间的点表示法混淆）。
 
 #### 示例
 
 创建一个表来存储具有 VARIANT 类型的用户偏好设置：
-
 ```sql
 CREATE TABLE user_preferences(
   user_id INT64,
@@ -157,8 +142,7 @@ CREATE TABLE user_preferences(
 );
 ```
 
-将示例数据插入到表中：
-
+将示例数据插入表中：
 ```sql
 INSERT INTO
   user_preferences
@@ -176,7 +160,6 @@ VALUES
 ```
 
 检索每个用户的首选颜色：
-
 ```sql
 SELECT
   preferences['settings']['color'],
@@ -190,7 +173,6 @@ FROM
 ```
 
 结果：
-
 ```sql
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ preferences['settings']['color'] │ preferences['settings']:color │ preferences['settings']:color │ preferences:settings['color'] │ preferences:settings:color │ preferences:settings:color │
@@ -213,7 +195,7 @@ VALUES
   );
 
 -- 用双引号括起字段名 "new settings"
-SELECT preferences:"new settings":color
+SELECT preferences:"new settings":color 
 FROM user_preferences;
 
 ┌──────────────────────────────────┐
@@ -225,7 +207,7 @@ FROM user_preferences;
 └──────────────────────────────────┘
 
 -- 当 'color' 中的 'c' 大写时，不返回任何结果
-SELECT preferences:"new settings":Color
+SELECT preferences:"new settings":Color 
 FROM user_preferences;
 
 ┌──────────────────────────────────┐
@@ -243,28 +225,23 @@ FROM user_preferences;
 默认情况下，返回从 VARIANT 列检索的元素。要将返回的元素转换为特定类型，请添加 `::` 运算符和目标数据类型（例如 expression::type）。
 
 创建一个表来存储具有 VARIANT 列的用户偏好设置：
-
 ```sql
 CREATE TABLE user_pref(user_id INT64, pref VARIANT NULL);
 ```
 
-将示例数据插入到表中：
-
+将示例数据插入表中：
 ```sql
-INSERT INTO user_pref
+INSERT INTO user_pref 
 VALUES
     (1, parse_json('{"age": 25, "isPremium": "true", "lastActive": "2023-04-10"}')),
     (2, parse_json('{"age": 30, "isPremium": "false", "lastActive": "2023-03-15"}'));
 ```
 
 将年龄转换为 INT64：
-
 ```sql
 SELECT user_id, pref:age::INT64 as age FROM user_pref;
 ```
-
 结果：
-
 ```sql
 ┌─────────┬─────┐
 │ user_id │ age │
