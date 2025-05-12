@@ -13,7 +13,7 @@ description: Basic Numeric data type.
 | BIGINT   | INT64 | 8 bytes | -9223372036854775808 | 9223372036854775807 |
 
 :::tip
-如果您想要无符号整数，请使用 `UNSIGNED` 约束，它与 MySQL 兼容，例如：
+如果您想要无符号整数，请使用 `UNSIGNED` 约束，这与 MySQL 兼容，例如：
 
 ```sql
 CREATE TABLE test_numeric(tiny TINYINT, tiny_unsigned TINYINT UNSIGNED)

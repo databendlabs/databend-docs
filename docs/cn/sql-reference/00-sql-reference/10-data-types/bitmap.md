@@ -46,7 +46,7 @@ SELECT TO_STRING(TO_BITMAP('1,2,3'))
 
 **Example**:
 
-此示例说明了 Databend 中的 Bitmap 如何能够有效地存储和查询具有大量可能值的数据，例如用户访问历史记录。
+此示例说明了 Databend 中的 Bitmap 如何能够高效地存储和查询具有大量可能值的数据，例如用户访问历史记录。
 
 ```sql
 -- Create table user_visits with user_id and page_visits columns, using build_bitmap for representing page_visits.
