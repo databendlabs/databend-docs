@@ -105,7 +105,8 @@ exclude = [
   '^https://repo\.databend\.com/databend/',
   'https://www.hhs.gov',
   'https://docs.wasabi.com/docs/access-keys-1',
-  'https://docs.wasabi.com/docs/creating-a-bucket'
+  'https://docs.wasabi.com/docs/creating-a-bucket',
+  'https://doc.rust-lang.org/reference/conditional_compilation.html#target_feature',
 ]
 
 # URLs to check (supports regex). Has preference over all excludes.
