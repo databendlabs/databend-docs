@@ -11,11 +11,15 @@ Contains information about the created virtual columns in the system.
 See also: [SHOW VIRTUAL COLUMNS](../../10-sql-commands/00-ddl/07-virtual-column/show-virtual-columns.md)
 
 ```sql
+SET enable_experimental_virtual_column=1;
+
 SELECT * FROM system.virtual_columns;
 
-┌───────────────────────────────────────────────────────────────────────────────────────────────┐
-│ database │  table │ virtual_columns │         created_on         │         updated_on         │
-├──────────┼────────┼─────────────────┼────────────────────────────┼────────────────────────────┤
-│ default  │ test   │ val['name']     │ 2023-12-25 21:24:26.127790 │ 2023-12-25 21:24:38.455268 │
-└───────────────────────────────────────────────────────────────────────────────────────────────┘
+╭───────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ database │  table │ source_column │ virtual_column_id │ virtual_column_name │ virtual_column_type │
+│  String  │ String │     String    │       UInt32      │        String       │        String       │
+├──────────┼────────┼───────────────┼───────────────────┼─────────────────────┼─────────────────────┤
+│ default  │ test   │ val           │        3000000000 │ ['id']              │ UInt64              │
+│ default  │ test   │ val           │        3000000001 │ ['name']            │ String              │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
