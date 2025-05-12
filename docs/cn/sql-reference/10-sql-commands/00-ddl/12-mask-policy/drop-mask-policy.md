@@ -11,7 +11,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MASKING POLICY'/>
 
-从 Databend 中删除现有的 masking policy。当你删除一个 masking policy 时，它会从 Databend 中移除，并且其相关的 masking 规则不再生效。请注意，在删除 masking policy 之前，请确保此 policy 未与任何列相关联。
+从 Databend 中删除现有的 masking policy。当你删除一个 masking policy 时，它将从 Databend 中移除，并且其相关的 masking 规则将不再生效。请注意，在删除 masking policy 之前，请确保此 policy 未与任何列相关联。
 
 ## 语法
 

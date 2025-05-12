@@ -42,11 +42,11 @@ ALTER PASSWORD POLICY [ IF EXISTS ] <name> UNSET
     [ COMMENT ]
 ```
 
-有关密码策略属性的详细描述，请参见 [密码策略属性](create-password-policy.md#password-policy-attributes)。
+关于密码策略属性的详细描述，请参考 [密码策略属性](create-password-policy.md#password-policy-attributes)。
 
 ## 示例
 
-本示例创建了一个名为 'SecureLogin' 的密码策略，设置了密码最小长度为 10 个字符，之后更新为允许密码长度在 10 到 16 个字符之间：
+这个例子创建了一个名为 'SecureLogin' 的密码策略，设置了密码最小长度为 10 个字符，之后更新为允许密码长度在 10 到 16 个字符之间：
 
 ```sql
 CREATE PASSWORD POLICY SecureLogin

@@ -9,9 +9,9 @@ import TabItem from '@theme/TabItem';
 
 <FunctionDescription description="Introduced or updated: v1.2.704"/>
 
-COPY INTO 允许您从位于以下位置之一的文件中加载数据：
+COPY INTO 允许您从位于以下位置之一的文件加载数据：
 
-- User / Internal / External stages: 请参阅 [什么是 Stage?](/guides/load-data/stage/what-is-stage) 以了解 Databend 中的 stages。
+- User / Internal / External stages: 请参阅 [What is Stage?](/guides/load-data/stage/what-is-stage) 以了解 Databend 中的 stages。
 - 在存储服务中创建的存储桶或容器。
 - 可以通过 URL 访问文件的远程服务器（以 "https://..." 开头）。
 - [IPFS](https://ipfs.tech) 和 Hugging Face 仓库。
@@ -36,7 +36,7 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
      FROM ( SELECT [<alias>.]$<file_col_num>[.<element>] [ , [<alias>.]$<file_col_num>[.<element>] ... ]
             FROM { userStage | internalStage | externalStage } )
-[ FILES = ( '<file_name>' [ , <file_name>' ] [ , ... ] ) ]
+[ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
 [ PATTERN = '<regex_pattern>' ]
 [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
@@ -173,21 +173,21 @@ copyOptions ::=
 
 - **PATTERN**: 一个基于 [PCRE2](https://www.pcre.org/current/doc/html/) 的正则表达式模式字符串，用于指定要匹配的文件名。请参阅 [示例 4：使用 Pattern 过滤文件](#example-4-filtering-files-with-pattern)。
 
-## Format Type Options
+## 格式类型选项
 
 `FILE_FORMAT` 参数支持不同的文件类型，每种类型都有特定的格式化选项。以下是每种支持的文件格式的可用选项：
 
 ### 所有格式的通用选项
 
-| Option | Description | Values | Default |
+| 选项 | 描述 | 值 | 默认值 |
 |--------|-------------|--------|--------|
 | COMPRESSION | 数据文件的压缩算法 | AUTO, GZIP, BZ2, BROTLI, ZSTD, DEFLATE, RAW_DEFLATE, XZ, NONE | AUTO |
 
 ### TYPE = CSV
 
-| Option | Description | Default |
+| 选项 | 描述 | 默认值 |
 |--------|-------------|--------|
-| RECORD_DELIMITER | 分隔记录的字符 | newline |
+| RECORD_DELIMITER | 分隔记录的字符 | 换行符 |
 | FIELD_DELIMITER | 分隔字段的字符 | 逗号 (,) |
 | SKIP_HEADER | 要跳过的标题行数 | 0 |
 | QUOTE | 用于引用字段的字符 | 双引号 (") |
@@ -200,14 +200,14 @@ copyOptions ::=
 
 ### TYPE = TSV
 
-| Option | Description | Default |
+| 选项 | 描述 | 默认值 |
 |--------|-------------|--------|
-| RECORD_DELIMITER | 分隔记录的字符 | newline |
-| FIELD_DELIMITER | 分隔字段的字符 | tab (\t) |
+| RECORD_DELIMITER | 分隔记录的字符 | 换行符 |
+| FIELD_DELIMITER | 分隔字段的字符 | 制表符 (\t) |
 
 ### TYPE = NDJSON
 
-| Option | Description | Default |
+| 选项 | 描述 | 默认值 |
 |--------|-------------|--------|
 | NULL_FIELD_AS | 如何处理 null 字段 | NULL |
 | MISSING_FIELD_AS | 如何处理缺失字段 | ERROR |
@@ -215,30 +215,30 @@ copyOptions ::=
 
 ### TYPE = PARQUET
 
-| Option | Description | Default |
+| 选项 | 描述 | 默认值 |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | 如何处理缺失字段 | ERROR |
 
 ### TYPE = ORC
 
-| Option | Description | Default |
+| 选项 | 描述 | 默认值 |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | 如何处理缺失字段 | ERROR |
 
 ### TYPE = AVRO
 
-| Option | Description | Default |
+| 选项 | 描述 | 默认值 |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | 如何处理缺失字段 | ERROR |
 
-## Copy Options
+## Copy 选项
 
-| Parameter | Description | Default |
+| 参数 | 描述 | 默认值 |
 |-----------|-------------|----------|
 | SIZE_LIMIT | 要加载的最大数据行数 | `0` (无限制) |
 | PURGE | 成功加载后清除文件 | `false` |
 | FORCE | 允许重新加载重复文件 | `false` (跳过重复文件) |
-| DISABLE_VARIANT_CHECK | 用 null 替换无效的 JSON | `false` (在无效的 JSON 上失败) |
+| DISABLE_VARIANT_CHECK | 将无效 JSON 替换为 null | `false` (在无效 JSON 上失败) |
 | ON_ERROR | 如何处理错误：`continue`、`abort` 或 `abort_N` | `abort` |
 | MAX_FILES | 要加载的最大文件数（最多 15,000 个） | - |
 | RETURN_FAILED_ONLY | 仅在输出中返回失败的文件 | `false` |
@@ -256,13 +256,13 @@ copyOptions ::=
 
 COPY INTO 提供了数据加载结果的摘要，包含以下列：
 
-| Column           | Type    | Nullable | Description                                     |
+| 列 | 类型 | 是否可为空 | 描述 |
 | ---------------- | ------- | -------- | ----------------------------------------------- |
-| FILE             | VARCHAR | NO       | 源文件的相对路径。                              |
-| ROWS_LOADED      | INT     | NO       | 从源文件加载的行数。                            |
-| ERRORS_SEEN      | INT     | NO       | 源文件中的错误行数                              |
-| FIRST_ERROR      | VARCHAR | YES      | 在源文件中找到的第一个错误。                    |
-| FIRST_ERROR_LINE | INT     | YES      | 第一个错误的行号。                              |
+| FILE | VARCHAR | NO | 源文件的相对路径。 |
+| ROWS_LOADED | INT | NO | 从源文件加载的行数。 |
+| ERRORS_SEEN | INT | NO | 源文件中的错误行数 |
+| FIRST_ERROR | VARCHAR | YES | 在源文件中找到的第一个错误。 |
+| FIRST_ERROR_LINE | INT | YES | 第一个错误的行号。 |
 
 如果 `RETURN_FAILED_ONLY` 设置为 `true`，则输出将仅包含加载失败的文件。
 

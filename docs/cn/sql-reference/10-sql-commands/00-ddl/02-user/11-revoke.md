@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.275"/>
 
-撤销特定数据库对象的权限、角色和所有权。 这包括：
+撤销特定数据库对象的权限、角色和所有权。包括：
 
 - 撤销用户或角色的权限。
 - 从用户或其他角色中删除角色。
@@ -73,8 +73,7 @@ REVOKE ROLE <role_name> FROM ROLE <role_name>
 
 ### 示例 1：从用户撤销权限
 
-
-创建用户：
+创建一个用户：
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
 ```
@@ -93,7 +92,7 @@ SHOW GRANTS FOR user1;
 +---------------------------------------------------+
 ```
 
-撤销用户 `user1` 的 `INSERT` 权限：
+从用户 `user1` 撤销 `INSERT` 权限：
 ```sql
 REVOKE INSERT ON default.* FROM user1;
 ```
@@ -131,7 +130,7 @@ SHOW GRANTS FOR ROLE role1;
 +--------------------------------------------+
 ```
 
-撤销角色 `role1` 的 `INSERT` 权限：
+从角色 `role1` 撤销 `INSERT` 权限：
 ```sql
 REVOKE INSERT ON mydb.* FROM ROLE role1;
 ```

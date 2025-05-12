@@ -17,7 +17,7 @@ CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 
 ## 示例
 
-以下示例创建一个名为 `test` 的数据库：
+以下示例创建了一个名为 `test` 的数据库：
 
 ```sql
 CREATE DATABASE test;

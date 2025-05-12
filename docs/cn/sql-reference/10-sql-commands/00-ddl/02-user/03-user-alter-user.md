@@ -2,7 +2,6 @@
 title: ALTER USER
 sidebar_position: 2
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.566"/>
@@ -45,10 +44,10 @@ ALTER USER <name> WITH DEFAULT_ROLE = '<role_name>'
 ALTER USER <name> WITH DISABLED = true | false
 ```
 
-- _auth_type_ 可以是 `double_sha1_password` (默认), `sha256_password` 或 `no_password`。
+- *auth_type* 可以是 `double_sha1_password` (默认), `sha256_password` 或 `no_password`。
 - 当 `MUST_CHANGE_PASSWORD` 设置为 `true` 时，用户必须在下次登录时更改密码。请注意，这仅对自帐户创建以来从未更改过密码的用户生效。如果用户曾经自己更改过密码，则无需再次更改。
 - 当您使用 [CREATE USER](01-user-create-user.md) 或 ALTER USER 为用户设置默认角色时，Databend 不会验证该角色是否存在或自动将该角色授予用户。您必须显式地将角色授予用户，该角色才能生效。
-- `DISABLED` 允许您启用或禁用用户。禁用的用户在启用之前无法登录 Databend。单击 [此处](01-user-create-user.md#example-5-creating-user-in-disabled-state) 查看示例。
+- `DISABLED` 允许您启用或禁用用户。禁用的用户在启用之前无法登录 Databend。点击 [这里](01-user-create-user.md#example-5-creating-user-in-disabled-state) 查看示例。
 
 ## 示例
 

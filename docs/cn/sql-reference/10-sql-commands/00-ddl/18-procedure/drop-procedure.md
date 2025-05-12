@@ -13,12 +13,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 DROP PROCEDURE <procedure_name>([<parameter_type1>, <parameter_type2>, ...])
 ```
 
-- 如果一个过程没有参数，使用空括号：`DROP PROCEDURE <procedure_name>()`;
-- 对于有参数的过程，请指定准确的类型以避免错误。
+- 如果存储过程没有参数，使用空括号：`DROP PROCEDURE <procedure_name>()`;
+- 对于带有参数的存储过程，请指定准确的类型以避免错误。
 
 ## 示例
 
-这个例子创建并删除一个存储过程：
+此示例创建然后删除一个存储过程：
 
 ```sql
 CREATE PROCEDURE convert_kg_to_lb(kg DECIMAL(4, 2)) 

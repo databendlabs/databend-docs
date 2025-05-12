@@ -29,8 +29,8 @@ ALTER NOTIFICATION INTEGRATION [ IF NOT EXISTS ] <name> SET
 |---------------------|-------------|
 | enabled             | 是否启用通知集成。 |
 | url                 | Webhook 的 URL。 |
-| method              | 发送 Webhook 时使用的 HTTP 方法。默认为 `GET` |
-| authorization_header| 发送 Webhook 时使用的授权标头。 |
+| method              | 发送 Webhook 时要使用的 HTTP 方法。默认为 `GET` |
+| authorization_header| 发送 Webhook 时要使用的授权标头。 |
 | comment             | 与通知集成关联的注释。 |
 
 ## 示例

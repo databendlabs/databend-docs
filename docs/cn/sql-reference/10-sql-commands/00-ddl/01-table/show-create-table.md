@@ -3,7 +3,7 @@ title: SHOW CREATE TABLE
 sidebar_position: 10
 ---
 
-显示指定表的 CREATE TABLE 语句。若要在结果中包含 Fuse Engine 选项，请将 `hide_options_in_show_create_table` 设置为 `0`。
+显示指定表的 CREATE TABLE 语句。要在结果中包含 Fuse Engine 选项，请将 `hide_options_in_show_create_table` 设置为 `0`。
 
 ## 语法
 

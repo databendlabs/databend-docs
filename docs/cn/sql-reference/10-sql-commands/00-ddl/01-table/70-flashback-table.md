@@ -3,17 +3,17 @@ title: FLASHBACK TABLE
 sidebar_position: 9
 ---
 
-通过快照 ID 或时间戳将表恢复到较早的版本，仅涉及元数据操作，使其成为一个快速的过程。
+将表恢复到具有快照 ID 或时间戳的早期版本，仅涉及元数据操作，使其成为一个快速的过程。
 
 通过您在命令中指定的快照 ID 或时间戳，Databend 将表恢复到创建快照之前的状态。要检索表的快照 ID 和时间戳，请使用 [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)。
 
 恢复表的功能受以下条件限制：
 
-- 该命令仅将现有表恢复到之前的状态。要恢复已删除的表，请使用 [UNDROP TABLE](21-ddl-undrop-table.md)。
+- 该命令仅将现有表恢复到其先前的状态。要恢复已删除的表，请使用 [UNDROP TABLE](21-ddl-undrop-table.md)。
 
-- 恢复表是 Databend 时间回溯功能的一部分。在使用该命令之前，请确保您要恢复的表符合时间回溯的条件。例如，该命令不适用于临时表，因为 Databend 不会为此类表创建或存储快照。
+- 恢复表是 Databend 的时间回溯功能的一部分。在使用该命令之前，请确保您要恢复的表符合时间回溯的条件。例如，该命令不适用于临时表，因为 Databend 不会为此类表创建或存储快照。
 
-- 将表恢复到之前的状态后，您无法回滚，但您可以再次将表恢复到更早的状态。
+- 将表恢复到先前的状态后，您无法回滚，但您可以再次将表恢复到更早的状态。
 
 - Databend 建议仅在紧急恢复时使用此命令。要查询表的历史数据，请使用 [AT](../../20-query-syntax/03-query-at.md) 子句。
 
@@ -121,7 +121,7 @@ previous_snapshot_id: NULL
 
 ### 步骤 3：查找删除操作之前的快照 ID
 ```sql
--- 假设之前查询的 snapshot_id 是 'xxxxxx'
+-- 假设先前查询中的 snapshot_id 为 'xxxxxx'
 -- 将表恢复到删除操作之前的快照
 ALTER TABLE users FLASHBACK TO (SNAPSHOT => 'c5c538d6b8bc42f483eefbddd000af7d');
 ```

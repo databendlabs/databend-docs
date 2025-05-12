@@ -23,11 +23,11 @@ LIST { userStage | internalStage | externalStage } [ PATTERN = '<regex_pattern>'
 
 ![Alt text](/img/sql/list-stage.png)
 
-**2023** 文件夹包含以下文件：
+文件夹 **2023** 包含以下文件：
 
 ![Alt text](/img/sql/list-stage-2.png)
 
-默认情况下，LIST 命令会列出 Stage 中的所有文件：
+默认情况下，LIST 命令列出 Stage 中的所有文件：
 
 ```sql
 LIST @my_internal_stage;

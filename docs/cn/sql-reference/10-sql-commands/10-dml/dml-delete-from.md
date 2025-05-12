@@ -18,9 +18,9 @@ Databend 通过原子操作确保数据完整性。插入、更新、替换和�
 DELETE FROM <table_name> [AS <table_alias>] 
 [WHERE <condition>]
 ```
-- `AS <table_alias>`: 允许你为表设置别名，从而更轻松地在查询中引用该表。这有助于简化和缩短 SQL 代码，尤其是在处理涉及多个表的复杂查询时。请参见[使用 EXISTS / NOT EXISTS 子句删除](#deleting-with-subquery-using-exists--not-exists-clause)中的示例。
+- `AS <table_alias>`: 允许您为表设置别名，从而更轻松地在查询中引用该表。这有助于简化和缩短 SQL 代码，尤其是在处理涉及多个表的复杂查询时。请参见[使用 EXISTS / NOT EXISTS 子句删除](#deleting-with-subquery-using-exists--not-exists-clause)中的示例。
 
-- DELETE 尚不支持 USING 子句。如果需要使用子查询来标识要删除的行，请直接将其包含在 WHERE 子句中。请参见[基于子查询的删除](#subquery-based-deletions)中的示例。
+- DELETE 尚不支持 USING 子句。如果您需要使用子查询来标识要删除的行，请直接将其包含在 WHERE 子句中。请参见[基于子查询的删除](#subquery-based-deletions)中的示例。
 
 ## 示例
 
@@ -105,7 +105,7 @@ WHERE EXISTS (
     WHERE EMPLOYEES.DEPARTMENT = DEPARTMENTS.DEPARTMENT
 );
 
--- 或者，你可以使用别名 'e' 表示 'EMPLOYEES' 表，使用 'd' 表示 'DEPARTMENTS' 表，当他们的 department 匹配时删除员工。
+-- 或者，您可以使用别名 'e' 表示 'EMPLOYEES' 表，使用别名 'd' 表示 'DEPARTMENTS' 表，当他们的 department 匹配时删除员工。
 DELETE FROM EMPLOYEES AS e
 WHERE EXISTS (
     SELECT *
@@ -113,7 +113,7 @@ WHERE EXISTS (
     WHERE e.DEPARTMENT = d.DEPARTMENT
 );
 ```
-这将删除属于 departments 表中存在的 department 的员工。在本例中，它将删除 ID 为 2 和 3 的员工。
+这将删除属于 departments 表中存在的 department 的员工。在这种情况下，它将删除 ID 为 2 和 3 的员工。
 
 #### 使用 ALL 子句删除
 
@@ -124,7 +124,7 @@ WHERE DEPARTMENT = ALL (
     FROM DEPARTMENTS
 );
 ```
-这将删除 employees 表中 department 与 departments 表中所有 department 匹配的员工。在本例中，不会删除任何员工。
+这将删除 employees 表中 department 与 departments 表中所有 department 匹配的员工。在这种情况下，不会删除任何员工。
 
 #### 使用 ANY 子句删除
 
@@ -135,7 +135,7 @@ WHERE DEPARTMENT = ANY (
     FROM DEPARTMENTS
 );
 ```
-这将删除 employees 表中 department 与 departments 表中任何 department 匹配的员工。在本例中，它将删除 ID 为 2 和 3 的员工。
+这将删除 employees 表中 department 与 departments 表中任何 department 匹配的员工。在这种情况下，它将删除 ID 为 2 和 3 的员工。
 
 #### 结合多个条件使用子查询删除
 
@@ -149,4 +149,4 @@ WHERE DEPARTMENT = ANY (
    OR ID > 2;
 ```
 
-如果 employees 表中 department 列的值与 departments 表中 department 列的任何值匹配，或者 id 列的值大于 2，则从 employees 表中删除员工。在本例中，它将删除 id 为 2、3 和 4 的行，因为 Mary 的 department 是 "Sales"，它存在于 departments 表中，并且 ID 3 和 4 大于 2。
+如果 department 列的值与 departments 表的 department 列中的任何值匹配，或者 id 列的值大于 2，则从 employees 表中删除员工。在这种情况下，它将删除 id 为 2、3 和 4 的行，因为 Mary 的 department 是 "Sales"，它存在于 departments 表中，并且 ID 3 和 4 大于 2。

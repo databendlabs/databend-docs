@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.644"/>
 
-列出系统中所有的 SQL 用户。如果您正在使用 Databend Cloud，此命令还会显示您的组织内用于登录 Databend Cloud 的用户帐户（电子邮件地址）。
+列出系统中所有的 SQL 用户。如果您正在使用 Databend Cloud，此命令还会显示组织内用于登录 Databend Cloud 的用户帐户（电子邮件地址）。
 
 ## 语法
 

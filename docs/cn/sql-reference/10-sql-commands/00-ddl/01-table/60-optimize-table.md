@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-在 Databend 中优化表包括压缩或清除历史数据，以节省存储空间并提高查询性能。
+在 Databend 中优化表涉及压缩或清除历史数据，以节省存储空间并提高查询性能。
 
 <DetailsWrap>
 
@@ -16,7 +16,7 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
   <summary>为什么要优化？</summary>
     <div>Databend 使用 Parquet 格式将数据存储在表中，Parquet 格式被组织成块。此外，Databend 支持时间回溯功能，其中每个修改表的操作都会生成一个 Parquet 文件，该文件捕获并反映对表所做的更改。</div><br/>
 
-   <div>随着时间的推移，当一个表积累了更多的 Parquet 文件时，可能会导致性能问题和存储需求的增加。为了优化表的性能，可以删除不再需要的历史 Parquet 文件。这种优化有助于提高查询性能并减少表使用的存储空间量。</div>
+   <div>随着表随时间积累更多的 Parquet 文件，可能会导致性能问题和存储需求增加。为了优化表的性能，可以删除不再需要的历史 Parquet 文件。此优化有助于提高查询性能并减少表使用的存储空间量。</div>
 </details>
 
 </DetailsWrap>
@@ -29,13 +29,13 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 Databend 在数据更新时自动创建表快照。快照表示表段元数据的版本。
 
-当使用 Databend 时，当您使用 [AT](../../20-query-syntax/03-query-at.md) 子句检索和查询表的先前版本的数据时，您最有可能使用快照 ID 访问快照。
+使用 Databend 时，当您使用 [AT](../../20-query-syntax/03-query-at.md) 子句检索和查询表的先前版本的数据时，您最有可能使用快照 ID 访问快照。
 
-快照是一个 JSON 文件，它不保存表的数据，但指示快照链接到的段。如果您对表运行 [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)，您可以找到为该表保存的快照。
+快照是一个 JSON 文件，不保存表的数据，但指示快照链接到的段。如果对表运行 [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md)，则可以找到该表保存的快照。
 
-段是一个 JSON 文件，用于组织存储数据的存储块（至少 1 个，最多 1,000 个）。如果您使用快照 ID 对快照运行 [FUSE_SEGMENT](../../../20-sql-functions/16-system-functions/fuse_segment.md)，您可以找到快照引用的段。
+段是一个 JSON 文件，用于组织存储数据的存储块（至少 1 个，最多 1,000 个）。如果使用快照 ID 对快照运行 [FUSE_SEGMENT](../../../20-sql-functions/16-system-functions/fuse_segment.md)，则可以找到快照引用的段。
 
-Databends 将实际表数据保存在 parquet 文件中，并将每个 parquet 文件视为一个块。如果您使用快照 ID 对快照运行 [FUSE_BLOCK](../../../20-sql-functions/16-system-functions/fuse_block.md)，您可以找到快照引用的块。
+Databends 将实际表数据保存在 parquet 文件中，并将每个 parquet 文件视为一个块。如果使用快照 ID 对快照运行 [FUSE_BLOCK](../../../20-sql-functions/16-system-functions/fuse_block.md)，则可以找到快照引用的块。
 
 Databend 为每个数据库和表创建一个唯一的 ID，用于存储快照、段和块文件，并将它们保存到对象存储中的路径 `<bucket_name>/<tenant_id>/<db_id>/<table_id>/`。每个快照、段和块文件都使用 UUID（32 个字符的小写十六进制字符串）命名。
 
@@ -47,7 +47,7 @@ Databend 为每个数据库和表创建一个唯一的 ID，用于存储快照�
 
 ## 表优化
 
-在 Databend 中，建议以 100MB（未压缩）或 1,000,000 行作为理想的块大小，每个段由 1,000 个块组成。为了最大限度地优化表，至关重要的是要清楚地了解何时以及如何应用各种优化技术，例如 [段压缩](#segment-compaction)、[块压缩](#block-compaction) 和 [清除](#purging)。
+在 Databend 中，建议以 100MB（未压缩）或 1,000,000 行作为理想块大小，每个段由 1,000 个块组成。为了最大限度地提高表优化，至关重要的是要清楚地了解何时以及如何应用各种优化技术，例如 [段压缩](#segment-compaction)、[块压缩](#block-compaction) 和 [清除](#purging)。
 
 - 当使用 COPY INTO 或 REPLACE INTO 命令将数据写入包含聚簇键的表时，Databend 将自动启动重新聚簇过程，以及段和块压缩过程。
 
@@ -130,9 +130,9 @@ FROM
 
 ### 块压缩
 
-当一个表有大量小块或当该表有很高比例的插入、删除或更新的行时，压缩块。
+当一个表有大量小块或该表有很高比例的插入、删除或更新的行时，压缩块。
 
-您可以通过检查每个块的未压缩大小是否接近 `100MB` 的完美大小来检查它。
+您可以检查每个块的未压缩大小是否接近 `100MB` 的理想大小。
 
 如果大小小于 `50MB`，我们建议进行块压缩，因为它表示有太多小块：
 
@@ -160,7 +160,7 @@ OPTIMIZE TABLE [database.]table_name COMPACT [LIMIT <segment_count>]
 ```
 通过将小块和段合并为大块和段来压缩表数据。
 
-- 此命令创建最新表数据的新快照（以及压缩的段和块），而不影响现有存储文件，因此在您清除历史数据之前，不会释放存储空间。
+- 此命令创建最新表数据的新快照（以及压缩的段和块），而不会影响现有的存储文件，因此在您清除历史数据之前，不会释放存储空间。
 
 - 根据给定表的大小，完成执行可能需要相当长的时间。
 
@@ -178,10 +178,10 @@ OPTIMIZE TABLE my_database.my_table COMPACT LIMIT 50;
 清除会永久删除历史数据，包括未使用的快照、段和块，但保留期内的快照（包括此快照引用的段和块）除外。这可以节省存储空间，但可能会影响时间回溯功能。在以下情况下考虑清除：
 
 - 存储成本是一个主要问题，并且您不需要历史数据用于时间回溯或其他目的。
-- 您已经压缩了您的表，并且想要删除较旧的、未使用的的数据。
+- 您已压缩表并想要删除较旧的未使用数据。
 
 :::note
-默认保留期为 24 小时的历史数据将不会被删除。要调整保留期，请使用 *data_retention_time_in_days* 设置。
+默认保留期为 24 小时内的历史数据将不会被删除。要调整保留期，请使用 *data_retention_time_in_days* 设置。
 :::
 
 **语法**
@@ -198,14 +198,14 @@ OPTIMIZE TABLE <table_name> PURGE
 
 | 参数 | 描述 |
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| BEFORE    | 指定清除历史数据的条件。它与 `SNAPSHOT`、`TIMESTAMP` 或 `STREAM` 选项一起使用，以定义应清除数据的时间点。<br/>当指定 `BEFORE` 选项时，该命令首先选择一个基本快照（如指定选项所示）来清除历史数据。随后，它会删除在此基本快照之前生成的快照。在指定带有 `BEFORE STREAM` 的流的情况下，该命令会将创建流之前的最近快照识别为基本快照。然后，它会删除在此最近快照之前生成的快照。|
+| BEFORE    | 指定清除历史数据的条件。它与 `SNAPSHOT`、`TIMESTAMP` 或 `STREAM` 选项一起使用，以定义应清除数据的时间点。 <br/>当指定 `BEFORE` 选项时，该命令首先选择一个基本快照（如指定选项所示）来清除历史数据。随后，它会删除在此基本快照之前生成的快照。如果使用 `BEFORE STREAM` 指定流，则该命令会将创建流之前的最近快照识别为基本快照。然后，它会删除在此最近快照之前生成的快照。|
 | LIMIT     | 设置要清除的最大快照数。指定后，Databend 将选择并清除最旧的快照，最多达到指定的计数。 |
 
 **示例**
 
 此示例演示如何使用 `BEFORE STREAM` 选项清除历史数据。
 
-1. 创建一个名为 `t` 的表，其中包含一个列 `a`，并将两行值 1 和 2 插入到表中。
+1. 创建一个名为 `t` 的表，其中包含一个名为 `a` 的列，并将两行值 1 和 2 插入到表中。
 
 ```sql
 CREATE TABLE t(a INT);
@@ -214,7 +214,7 @@ INSERT INTO t VALUES(1);
 INSERT INTO t VALUES(2);
 ```
 
-2. 在表 `t` 上创建一个名为 `s` 的流，并将一个值为 3 的附加行添加到表中。
+2. 在表 `t` 上创建一个名为 `s` 的流，并将另一行值 3 添加到表中。
 
 ```sql
 CREATE STREAM s ON TABLE t;
@@ -235,7 +235,7 @@ SELECT snapshot_id, timestamp FROM FUSE_SNAPSHOT('default', 't');
 │ 2ac038dd83e741afbae543b170105d63 │ 2024-04-02 18:09:34.966336 │
 └───────────────────────────────────────────────────────────────┘
 
--- 仅出于演示目的，将数据保留时间设置为 0。不建议在生产中使用。
+-- 仅出于演示目的将数据保留时间设置为 0。不建议在生产中使用。
 SET data_retention_time_in_days = 0;
 ```
 

@@ -2,7 +2,7 @@
 title: 表
 ---
 
-本页汇集了关于表操作的重要见解，为您提供在 Databend 中处理表的复杂性的全面指南。它将基本的表相关命令串联在一起，以提供对表管理中关键考虑因素的统一理解。
+本页汇集了关于表操作的重要见解，为您在 Databend 中处理表的复杂性提供全面的指南。它将基本的表相关命令串联在一起，以提供对表管理中关键考虑因素的统一理解。
 
 ## 表创建要点
 
@@ -24,15 +24,15 @@ Databend 默认将表数据存储在 [databend-query.toml](https://github.com/da
 
 在表中定义列的主要方法是通过 [CREATE TABLE](10-ddl-create-table.md#create-table) 命令，您可以在其中逐个列出您的列。请注意，计算列在 Databend 中作为企业版功能受支持。有关更多信息，请参见 [计算列](10-ddl-create-table.md#computed-columns)。
 
-Databend 还提供了通过复制列结构甚至来自现有表的数据来创建表的便捷方法：
+Databend 还提供了方便的方法来创建表，通过复制列结构甚至来自现有表的数据：
 
-- [CREATE TABLE ... LIKE](10-ddl-create-table.md#create-table--like)：创建一个与现有表具有相同列定义的表。
+- [CREATE TABLE ... LIKE](10-ddl-create-table.md#create-table--like)：创建一个具有与现有表相同的列定义的表。
 - [CREATE TABLE ... AS](10-ddl-create-table.md#create-table--as)：创建一个表并根据 SELECT 查询的结果插入数据。
 - [ATTACH TABLE](92-attach-table.md)：通过将表与现有表关联来创建表。
 
 ### 4. 为大表设置 Cluster Key
 
-[Cluster Key](../06-clusterkey/index.md) 旨在通过物理上组织邻近的数据来提高查询性能。Databend 建议配置 Cluster Key，特别是对于遇到查询性能缓慢的大型表。有关在表创建期间设置 Cluster Key 的语法，请参见 [SET CLUSTER KEY](../06-clusterkey/dml-set-cluster-key.md)。
+[Cluster Key](../06-clusterkey/index.md) 旨在通过物理上组织邻近的数据来提高查询性能。Databend 建议配置 cluster key，特别是对于遇到查询性能缓慢的大型表。有关在表创建期间设置 cluster key 的语法，请参见 [SET CLUSTER KEY](../06-clusterkey/dml-set-cluster-key.md)。
 
 ## 常规表维护
 
@@ -52,12 +52,12 @@ Databend 还提供了通过复制列结构甚至来自现有表的数据来创�
 
 Databend 提供了各种用于删除表或清理表数据的命令。下表比较了这些命令，这些命令最初可能看起来很复杂，概述了每个操作的任何相关恢复选项。
 
-| 命令                                         | 企业版？ | 描述                                                         | 恢复                                  |
-| -------------------------------------------- | -------- | ------------------------------------------------------------ | ------------------------------------- |
-| [TRUNCATE TABLE](40-ddl-truncate-table.md)   | 否       | 从表中删除所有数据，同时保留表的架构。                         | [FLASHBACK TABLE](70-flashback-table.md) |
-| [DROP TABLE](20-ddl-drop-table.md)           | 否       | 删除表。                                                       | [UNDROP TABLE](21-ddl-undrop-table.md)  |
-| [VACUUM TABLE](91-vacuum-table.md)           | 是       | 永久删除表的历史数据文件。                                     | 不适用。                                |
-| [VACUUM DROP TABLE](91-vacuum-drop-table.md) | 是       | 永久删除已删除表的数据文件。                                   | 不适用。                                |
+| 命令                                         | Enterprise Edition? | 描述                                                         | 恢复                                  |
+| -------------------------------------------- | ------------------- | ------------------------------------------------------------------ | ------------------------------------- |
+| [TRUNCATE TABLE](40-ddl-truncate-table.md)   | No                  | 从表中删除所有数据，同时保留表的架构。                             | [FLASHBACK TABLE](70-flashback-table.md) |
+| [DROP TABLE](20-ddl-drop-table.md)           | No                  | 删除表。                                                           | [UNDROP TABLE](21-ddl-undrop-table.md)  |
+| [VACUUM TABLE](91-vacuum-table.md)           | Yes                 | 永久删除表的历史数据文件。                                         | 不适用。                                |
+| [VACUUM DROP TABLE](91-vacuum-drop-table.md) | Yes                 | 永久删除已删除表的数据文件。                                       | 不适用。                                |
 
 ## 高级表优化技术
 

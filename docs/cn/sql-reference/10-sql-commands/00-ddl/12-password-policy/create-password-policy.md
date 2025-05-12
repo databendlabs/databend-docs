@@ -32,17 +32,17 @@ CREATE [ OR REPLACE ] PASSWORD POLICY [ IF NOT EXISTS ] <policy_name>
 
 | Attribute                     | Min | Max | Default | Description                                                                          |
 |-------------------------------|-----|-----|---------|--------------------------------------------------------------------------------------|
-| PASSWORD_MIN_LENGTH           | 8   | 256 | 8       | 密码的最小长度                                                                       |
-| PASSWORD_MAX_LENGTH           | 8   | 256 | 256     | 密码的最大长度                                                                       |
-| PASSWORD_MIN_UPPER_CASE_CHARS | 0   | 256 | 1       | 密码中大写字符的最小数量                                                             |
-| PASSWORD_MIN_LOWER_CASE_CHARS | 0   | 256 | 1       | 密码中小写字符的最小数量                                                             |
-| PASSWORD_MIN_NUMERIC_CHARS    | 0   | 256 | 1       | 密码中数字字符的最小数量                                                             |
-| PASSWORD_MIN_SPECIAL_CHARS    | 0   | 256 | 0       | 密码中特殊字符的最小数量                                                             |
-| PASSWORD_MIN_AGE_DAYS         | 0   | 999 | 0       | 密码可以修改前的最小天数（0 表示没有限制）                                               |
-| PASSWORD_MAX_AGE_DAYS         | 0   | 999 | 90      | 密码必须修改前的最大天数（0 表示没有限制）                                               |
-| PASSWORD_MAX_RETRIES          | 1   | 10  | 5       | 锁定前的最大密码重试次数                                                               |
-| PASSWORD_LOCKOUT_TIME_MINS    | 1   | 999 | 15      | 超过重试次数后的锁定持续时间（分钟）                                                     |
-| PASSWORD_HISTORY              | 0   | 24  | 0       | 检查重复的最近密码数量（0 表示没有限制）                                                   |
+| PASSWORD_MIN_LENGTH           | 8   | 256 | 8       | 密码的最小长度                                                                      |
+| PASSWORD_MAX_LENGTH           | 8   | 256 | 256     | 密码的最大长度                                                                      |
+| PASSWORD_MIN_UPPER_CASE_CHARS | 0   | 256 | 1       | 密码中大写字符的最小数量                                                              |
+| PASSWORD_MIN_LOWER_CASE_CHARS | 0   | 256 | 1       | 密码中小写字符的最小数量                                                              |
+| PASSWORD_MIN_NUMERIC_CHARS    | 0   | 256 | 1       | 密码中数字字符的最小数量                                                              |
+| PASSWORD_MIN_SPECIAL_CHARS    | 0   | 256 | 0       | 密码中特殊字符的最小数量                                                              |
+| PASSWORD_MIN_AGE_DAYS         | 0   | 999 | 0       | 密码可以修改前的最小天数（0 表示没有限制）                                                 |
+| PASSWORD_MAX_AGE_DAYS         | 0   | 999 | 90      | 密码必须修改前的最大天数（0 表示没有限制）                                                 |
+| PASSWORD_MAX_RETRIES          | 1   | 10  | 5       | 锁定前的最大密码重试次数                                                              |
+| PASSWORD_LOCKOUT_TIME_MINS    | 1   | 999 | 15      | 超过重试次数后的锁定持续时间（分钟）                                                        |
+| PASSWORD_HISTORY              | 0   | 24  | 0       | 检查重复的最近密码数量（0 表示没有限制）                                                    |
 
 ## 示例
 

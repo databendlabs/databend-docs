@@ -13,7 +13,7 @@ SET_VAR 将在即将发布的版本中弃用。请考虑改用 [SETTINGS Clause]
     - [示例 1：临时设置时区](#example-1-temporarily-set-timezone)
     - [示例 2：控制 COPY INTO 的并行处理](#example-2-control-parallel-processing-for-copy-into)
 
-- 使用标签 *deduplicate_label* 控制 [INSERT](../10-dml/dml-insert.md)、[UPDATE](../10-dml/dml-update.md) 或 [REPLACE](../10-dml/dml-replace.md) 操作的去重行为。对于 SQL 语句中带有 deduplicate_label 的那些操作，Databend 仅执行第一个语句，而忽略具有相同 deduplicate_label 值的后续语句，无论它们的预期数据修改如何。请注意，一旦设置了 deduplicate_label，它将在 24 小时内保持有效。要了解 deduplicate_label 如何帮助去重，请参阅 [示例 3：设置去重标签](#example-3-set-deduplicate-label)。
+- 通过标签 *deduplicate_label* 控制 [INSERT](../10-dml/dml-insert.md)、[UPDATE](../10-dml/dml-update.md) 或 [REPLACE](../10-dml/dml-replace.md) 操作的去重行为。对于 SQL 语句中带有 deduplicate_label 的操作，Databend 仅执行第一个语句，而忽略具有相同 deduplicate_label 值的后续语句，无论其预期的数据修改如何。请注意，一旦设置了 deduplicate_label，它将保持 24 小时有效。要了解 deduplicate_label 如何帮助去重，请参阅 [示例 3：设置去重标签](#example-3-set-deduplicate-label)。
 
 另请参阅：
 - [SETTINGS Clause](../20-query-syntax/settings.md)
@@ -58,9 +58,9 @@ SELECT
 ┌─────────────────┐
 │    timezone()   │
 │      String     │
-├────────────┤
+├─────────────────┤
 │ America/Toronto │
-└────────────┘
+└─────────────────┘
 
 1 row in 0.023 sec. Processed 1 rows, 1B (43.99 rows/s, 43B/s)
 

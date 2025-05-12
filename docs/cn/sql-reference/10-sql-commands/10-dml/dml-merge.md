@@ -12,11 +12,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 ![Alt text](/img/sql/merge-into-single-clause.jpeg)
 
-MERGE 语句通常包含 MATCHED 和/或 NOT MATCHED 子句，指示 Databend 如何处理匹配和不匹配的情况。对于 MATCHED 子句，您可以选择对目标表执行 UPDATE 或 DELETE 操作。相反，对于 NOT MATCHED 子句，可用的选择是 INSERT。
+MERGE 语句通常包含 MATCHED 和/或 NOT MATCHED 子句，指示 Databend 如何处理匹配和不匹配的情况。对于 MATCHED 子句，您可以选择对目标表执行 UPDATE 或 DELETE 操作。相反，在 NOT MATCHED 子句的情况下，可用的选择是 INSERT。
 
-## 多个 MATCHED 和 NOT MATCHED 子句
+## 多个 MATCHED & NOT MATCHED 子句
 
-MERGE 语句可以包含多个 MATCHED 和/或 NOT MATCHED 子句，使您可以灵活地根据 MERGE 操作期间满足的条件指定要执行的不同操作。
+MERGE 语句可以包含多个 MATCHED 和/或 NOT MATCHED 子句，使您可以灵活地指定根据 MERGE 操作期间满足的条件要采取的不同操作。
 
 ![Alt text](/img/sql/merge-into-multi-clause.jpeg)
 
@@ -39,7 +39,7 @@ notMatchedClause ::=
 
 | 参数      | 描述                                                                                                                                                                                                                                                                                                   |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| UPDATE \* | 使用源中相应行的值更新目标表中匹配行的所有列。这要求源和目标之间的列名一致（尽管它们的顺序可能不同），因为在更新过程中，匹配是基于列名完成的。 |
+| UPDATE \* | 使用源中相应行的值更新目标表中匹配行的所有列。这要求源和目标之间的列名一致（尽管它们的顺序可能不同），因为在更新过程中，匹配是基于列名完成的。                                                                                                                                                                                                                                                                                                    |
 | INSERT \* | 使用源行的值将新行插入到目标表中。                                                                                                                                                                                                                                                                     |
 
 ## 输出
@@ -47,26 +47,26 @@ notMatchedClause ::=
 MERGE 提供了数据合并结果的摘要，其中包含以下列：
 
 | 列                      | 描述                                           |
-| ----------------------- | ---------------------------------------------------- |
-| number of rows inserted | 添加到目标表的新行数。                             |
-| number of rows updated  | 目标表中修改的现有行数。                           |
-| number of rows deleted  | 从目标表中删除的行数。                             |
+| ----------------------- | --------------------------------------------- |
+| number of rows inserted | 添加到目标表的新行数。                         |
+| number of rows updated  | 目标表中修改的现有行数。                       |
+| number of rows deleted  | 从目标表中删除的行数。                         |
 
 ## 示例
 
-### 示例 1：合并具有多个匹配子句
+### 示例 1：具有多个匹配子句的合并
 
 此示例使用 MERGE 将员工数据从“employees”同步到“salaries”，从而可以根据指定的标准插入和更新工资信息。
 
 ```sql
--- 创建“employees”表作为合并的源
+-- 创建 'employees' 表作为合并的源
 CREATE TABLE employees (
     employee_id INT,
     employee_name VARCHAR(255),
     department VARCHAR(255)
 );
 
--- 创建“salaries”表作为合并的目标
+-- 创建 'salaries' 表作为合并的目标
 CREATE TABLE salaries (
     employee_id INT,
     salary DECIMAL(10, 2)
@@ -86,7 +86,7 @@ INSERT INTO salaries VALUES
 
 -- 启用 MERGE INTO
 
--- 根据“employees”中的员工详细信息将数据合并到“salaries”中
+-- 根据 'employees' 中的员工详细信息将数据合并到 'salaries' 中
 MERGE INTO salaries
     USING (SELECT * FROM employees) AS employees
     ON salaries.employee_id = employees.employee_id
@@ -106,7 +106,7 @@ MERGE INTO salaries
 │                      2  │                      2 │
 └──────────────────────────────────────────────────┘
 
--- 合并后从“salaries”表中检索所有记录
+-- 合并后从 'salaries' 表中检索所有记录
 SELECT * FROM salaries;
 
 ┌────────────────────────────────────────────┐
@@ -119,7 +119,7 @@ SELECT * FROM salaries;
 └────────────────────────────────────────────┘
 ```
 
-### 示例 2：合并具有 UPDATE \* 和 INSERT \*
+### 示例 2：使用 UPDATE \* & INSERT \* 合并
 
 此示例使用 MERGE 在 target_table 和 source_table 之间同步数据，使用源中的值更新匹配的行，并插入不匹配的行。
 
@@ -171,7 +171,7 @@ MERGE INTO target_table AS T
 │                      1  │                      2 │
 └──────────────────────────────────────────────────┘
 
--- 合并后从“target_table”中检索所有记录
+-- 合并后从 'target_table' 中检索所有记录
 SELECT * FROM target_table order by ID;
 
 ┌─────────────────────────────────────────────────────────────────────────┐

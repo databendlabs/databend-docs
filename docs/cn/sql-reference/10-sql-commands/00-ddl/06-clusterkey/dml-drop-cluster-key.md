@@ -5,7 +5,7 @@ sidebar_position: 4
 
 删除表的 cluster key。
 
-参见：
+另请参阅：
 [ALTER CLUSTER KEY](./dml-alter-cluster-key.md) 
 
 ## 语法

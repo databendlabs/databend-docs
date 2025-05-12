@@ -5,7 +5,7 @@ sidebar_position: 3
 
 修改表的 cluster key。
 
-参见：
+另请参阅：
 [DROP CLUSTER KEY](./dml-drop-cluster-key.md)
 
 ## 语法

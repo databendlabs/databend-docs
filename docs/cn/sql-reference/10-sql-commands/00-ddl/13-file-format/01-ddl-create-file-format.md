@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.339"/>
 
-创建一个命名的文件格式。
+创建一个命名文件格式。
 
 ## 语法
 
@@ -15,7 +15,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 CREATE [ OR REPLACE ] FILE FORMAT [ IF NOT EXISTS ] <format_name> FileFormatOptions
 ```
 
-关于 `FileFormatOptions` 的详细信息，请参考 [输入 & 输出文件格式](../../../00-sql-reference/50-file-format-options.md)。
+有关 `FileFormatOptions` 的详细信息，请参见 [输入 & 输出文件格式](../../../00-sql-reference/50-file-format-options.md)。
 
 ## 示例
 

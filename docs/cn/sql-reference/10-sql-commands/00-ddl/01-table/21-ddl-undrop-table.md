@@ -3,7 +3,7 @@ title: UNDROP TABLE
 sidebar_position: 20
 ---
 
-恢复最近删除的表。这利用了 Databend 的时间回溯功能；删除的对象只能在保留期内恢复（默认为 24 小时）。
+恢复最近删除的表版本。这利用了 Databend 的时间回溯功能；删除的对象只能在保留期内恢复（默认为 24 小时）。
 
 **参见：**
 - [CREATE TABLE](./10-ddl-create-table.md)
@@ -33,7 +33,7 @@ UNDROP TABLE [ <database_name>. ]<table_name>
     error: APIError: QueryFailed: [2308]Undrop Table 't' already exists
     ```
 
-- 恢复表不会自动将所有权恢复到原始角色。恢复后，必须手动将所有权授予先前的角色或其他角色。在此之前，该表仅对 `account-admin` 角色可见。
+- 恢复表不会自动将所有权恢复到原始角色。恢复后，必须手动将所有权授予先前的角色或其他角色。在此之前，该表仅对 `account-admin` 角色可访问。
 
     ```sql title='Examples:'
     GRNAT OWNERSHIP on doc.t to ROLE writer;

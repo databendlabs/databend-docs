@@ -1,5 +1,5 @@
 ---
-title: 数据库
+title: Database
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 

@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.644"/>
 
-显示关于特定 SQL 用户的详细信息，包括身份验证类型、角色、网络策略、密码策略和其他与用户相关的设置。
+显示关于特定 SQL 用户的详细信息，包括认证类型、角色、网络策略、密码策略和其他用户相关设置。
 
 ## 语法
 

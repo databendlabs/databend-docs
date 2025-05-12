@@ -11,7 +11,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 Databend 通过原子操作确保数据完整性。插入、更新、替换和删除要么完全成功，要么完全失败。
 :::
 
-## 语法
+## Syntax
 
 ```sql
 UPDATE <target_table>
@@ -22,10 +22,10 @@ UPDATE <target_table>
 
 ## 配置 `error_on_nondeterministic_update` 设置
 
-`error_on_nondeterministic_update` 设置控制当 UPDATE 语句尝试更新一个目标行，该目标行在没有确定性更新规则的情况下连接了多个源行时，是否返回错误。
+`error_on_nondeterministic_update` 设置控制当 UPDATE 语句尝试更新一个目标行，该目标行在没有确定性更新规则的情况下连接多个源行时，是否返回错误。
 
 - 当 `error_on_nondeterministic_update` = `true` (默认): 如果一个目标行匹配多个源行，并且没有明确的规则来选择使用哪个值，Databend 将返回一个错误。
-- 当 `error_on_nondeterministic_update` = `false`: 即使一个目标行连接了多个源行，UPDATE 语句也会继续执行，但最终的更新结果可能是不确定的。
+- 当 `error_on_nondeterministic_update` = `false`: 即使一个目标行连接多个源行，UPDATE 语句也会继续执行，但最终的更新结果可能是不确定的。
 
 示例:
 
@@ -102,13 +102,13 @@ WHERE target.id = source.id;
 
 
 
-## 示例
+## Examples
 
-以下示例演示了如何直接以及使用另一个表中的值来更新表中的行。
+以下示例演示如何更新表中的行，包括直接更新和使用另一个表中的值进行更新。
 
 我们将首先创建一个 **bookstore** 表并插入一些示例数据，然后直接更新特定行。之后，我们将使用第二个表 **book_updates**，根据 **book_updates** 中的值更新 **bookstore** 表中的行。
 
-#### 步骤 1: 创建 bookstore 表并插入初始数据
+#### Step 1: 创建 bookstore 表并插入初始数据
 
 在此步骤中，我们创建一个名为 **bookstore** 的表，并使用一些示例图书数据填充它。
 
@@ -125,9 +125,9 @@ INSERT INTO bookstore VALUES (104, 'Wartime friends');
 INSERT INTO bookstore VALUES (105, 'Deconstructed');
 ```
 
-#### 步骤 2: 在更新之前查看 bookstore 表
+#### Step 2: 查看更新前的 bookstore 表
 
-我们现在可以检查 **bookstore** 表的内容以查看初始数据。
+现在，我们可以检查 **bookstore** 表的内容，以查看初始数据。
 
 ```sql
 SELECT * FROM bookstore;
@@ -143,9 +143,9 @@ SELECT * FROM bookstore;
 └───────────────────────────────────────────────┘
 ```
 
-#### 步骤 3: 直接更新单行
+#### Step 3: 直接更新单行
 
-接下来，让我们更新 book_id 为 `103` 的书以更改其名称。
+接下来，让我们更新 book_id 为 `103` 的书，以更改其名称。
 
 ```sql
 UPDATE bookstore 
@@ -153,9 +153,9 @@ SET book_name = 'The long answer (2nd)'
 WHERE book_id = 103;
 ```
 
-#### 步骤 4: 在更新之后查看 bookstore 表
+#### Step 4: 查看更新后的 bookstore 表
 
-现在，让我们再次检查该表以查看直接更新的结果。
+现在，让我们再次检查该表，以查看直接更新的结果。
 
 ```sql
 SELECT book_name FROM bookstore WHERE book_id=103;
@@ -167,9 +167,9 @@ SELECT book_name FROM bookstore WHERE book_id=103;
 └───────────────────────┘
 ```
 
-#### 步骤 5: 创建一个新表用于更新的值
+#### Step 5: 创建一个新表用于存储更新后的值
 
-在此步骤中，我们创建第二个名为 **book_updates** 的表，该表保存更新的书名，我们将使用它来更新 **bookstore** 表。
+在此步骤中，我们创建第二个表，名为 **book_updates**，其中包含更新后的书名，我们将使用这些书名来更新 **bookstore** 表。
 
 ```sql
 CREATE TABLE book_updates (
@@ -181,7 +181,7 @@ INSERT INTO book_updates VALUES (103, 'The long answer (Revised)');
 INSERT INTO book_updates VALUES (104, 'Wartime friends (Expanded Edition)');
 ```
 
-#### 步骤 6: 使用 book_updates 中的值更新 bookstore 表
+#### Step 6: 使用 book_updates 中的值更新 bookstore 表
 
 现在，我们将使用 **book_updates** 表中的值更新 **bookstore** 表。
 
@@ -192,9 +192,9 @@ FROM book_updates
 WHERE bookstore.book_id = book_updates.book_id;
 ```
 
-#### 步骤 7: 在更新之后查看 bookstore 表
+#### Step 7: 查看更新后的 bookstore 表
 
-最后，我们再次检查 **bookstore** 表以确认已使用 **book_updates** 中的值更新了名称。
+最后，我们再次检查 **bookstore** 表，以确认已使用 **book_updates** 中的值更新了名称。
 
 ```sql
 SELECT * FROM bookstore;

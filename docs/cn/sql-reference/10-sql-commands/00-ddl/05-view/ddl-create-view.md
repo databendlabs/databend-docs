@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.339"/>
 
-基于查询创建一个新的视图；逻辑视图不存储任何物理数据，当我们访问一个逻辑视图时，它会将 SQL 转换为子查询格式来完成它。
+创建一个基于查询的新视图；逻辑视图不存储任何物理数据，当我们访问逻辑视图时，它会将 SQL 转换为子查询格式来完成。
 
 例如，如果您创建一个如下的逻辑视图：
 
@@ -23,7 +23,7 @@ SELECT a FROM view_t1;
 SELECT a FROM (SELECT a, b FROM t1);
 ```
 
-因此，如果您删除视图所依赖的表，则会发生原始表不存在的错误。您可能需要删除旧视图并重新创建所需的新视图。
+因此，如果您删除视图所依赖的表，则会发生错误，提示原始表不存在。您可能需要删除旧视图并重新创建所需的新视图。
 
 ## 语法
 

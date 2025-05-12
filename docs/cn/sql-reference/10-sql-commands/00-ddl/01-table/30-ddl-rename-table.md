@@ -5,7 +5,7 @@ sidebar_position: 3
 
 更改表的名称。
 
-## 句法
+## 语法
 
 ```sql
 ALTER TABLE [ IF EXISTS ] <name> RENAME TO <new_table_name>

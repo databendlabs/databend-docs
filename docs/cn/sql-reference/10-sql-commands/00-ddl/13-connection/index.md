@@ -5,21 +5,21 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 ### 什么是 Connection？
 
-Databend 中的 Connection 是指一种指定的配置，它封装了与外部存储服务交互所需的详细信息。它作为一个集中且可重用的参数集，例如访问凭据、端点 URL 和存储类型，从而方便 Databend 与各种存储服务的集成。
+在 Databend 中，Connection 是指一种指定的配置，它封装了与外部存储服务交互所需的详细信息。它作为一个集中且可重用的参数集，例如访问凭据、端点 URL 和存储类型，从而简化了 Databend 与各种存储服务的集成。
 
-Connection 可用于创建外部 Stage、外部表和附加表，从而提供了一种简化的模块化方法来管理和访问存储在外部存储服务中并通过 Databend 访问的数据。有关示例，请参见 [使用示例](#usage-examples)。
+Connection 可用于创建外部 Stage、外部表和附加表，从而提供了一种简化的模块化方法来管理和访问存储在外部存储服务中的数据（通过 Databend）。有关示例，请参见 [使用示例](#usage-examples)。
 
-### 管理 Connection
+### 管理 Connections
 
-要管理 Databend 中的 Connection，请使用以下命令：
+要在 Databend 中管理 Connections，请使用以下命令：
 
 <IndexOverviewList />
 
 ### 使用示例
 
-本节中的示例首先创建一个 Connection，其中包含连接到 Amazon S3 所需的凭据。 随后，它们利用此已建立的 Connection 来创建外部 Stage 并附加现有表。
+本节中的示例首先创建一个 Connection，其中包含连接到 Amazon S3 所需的凭据。 随后，它们利用这个已建立的 Connection 来创建一个外部 Stage 并附加一个现有表。
 
-此语句启动与 Amazon S3 的 Connection，指定必要的 Connection 参数：
+以下语句启动与 Amazon S3 的 Connection，指定必要的 Connection 参数：
 
 ```sql
 CREATE CONNECTION toronto 
@@ -39,7 +39,7 @@ CREATE STAGE my_s3_stage
     CONNECTION = (CONNECTION_NAME = 'toronto');
 
 
--- 相当于以下不使用 Connection 的语句：
+-- 等效于以下不使用 Connection 的语句：
 
 CREATE STAGE my_s3_stage 
     URL = 's3://databend-toronto' 

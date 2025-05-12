@@ -18,7 +18,7 @@ FROM <stream_name> WITH CONSUME [ AS <alias> ]
 ```
 
 :::note
-只要查询成功执行，即使仅使用 WHERE 条件查询了部分数据，WITH CONSUME 子句也会消费流捕获的所有数据。
+只要查询成功执行，即使仅使用 WHERE 条件查询了流捕获的部分数据，WITH CONSUME 子句也会消费流捕获的所有数据。
 :::
 
 ## 示例

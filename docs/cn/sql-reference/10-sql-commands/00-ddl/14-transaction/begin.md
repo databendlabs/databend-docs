@@ -14,7 +14,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
     MERGE INTO ... -- 此语句属于该事务
 
-    BEGIN; -- 在事务中执行 BEGIN 会被忽略，不会启动新事务，也不会引发错误
+    BEGIN; -- 在事务中执行 BEGIN 将被忽略，不会启动新事务，也不会引发错误
 
     INSERT INTO ... -- 此语句也属于该事务
 
@@ -22,7 +22,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
     INSERT INTO ... -- 此语句属于单语句事务
 
-    COMMIT; -- 在多语句事务之外执行 COMMIT 会被忽略，不会执行提交操作，也不会引发错误
+    COMMIT; -- 在多语句事务之外执行 COMMIT 将被忽略，不会执行提交操作，也不会引发错误
 
     BEGIN; -- 启动另一个事务
     ... 
@@ -141,7 +141,7 @@ ROLLBACK;
 SELECT * FROM employees;
 ```
 
-此示例设置了一个 stream 和一个 task 来使用 stream，使用事务块 (BEGIN; COMMIT) 将数据插入到两个目标表中。
+此示例设置一个 stream 和一个 task 来使用 stream，使用事务块 (BEGIN; COMMIT) 将数据插入到两个目标表中。
 
 ```sql
 CREATE DATABASE my_db;

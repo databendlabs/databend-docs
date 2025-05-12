@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.190"/>
 
-Databend 进程列表指示当前由服务器中执行的线程集执行的操作。
+Databend 进程列表指示服务器中执行的线程集当前正在执行的操作。
 
 另请参阅：[KILL](01-kill.md)
 

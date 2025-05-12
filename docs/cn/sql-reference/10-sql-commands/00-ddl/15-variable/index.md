@@ -1,5 +1,5 @@
 ---
-title: 变量
+title: Variable
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 

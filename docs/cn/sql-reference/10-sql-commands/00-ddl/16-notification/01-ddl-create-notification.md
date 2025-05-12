@@ -30,8 +30,8 @@ ENABLED = <bool>
 | 可选参数 [(Webhook)](#webhook-notification) | 描述 |
 |---------------------|-------------|
 | url                 | Webhook 的 URL。 |
-| method              | 发送 Webhook 时要使用的 HTTP 方法。默认为 `GET` |
-| authorization_header| 发送 Webhook 时要使用的授权标头。 |
+| method              | 发送 webhook 时使用的 HTTP 方法。默认为 `GET` |
+| authorization_header| 发送 webhook 时使用的授权标头。 |
 
 ## 示例
 
@@ -41,4 +41,4 @@ ENABLED = <bool>
 CREATE NOTIFICATION INTEGRATION IF NOT EXISTS SampleNotification type = webhook enabled = true webhook = (url = 'https://example.com', method = 'GET', authorization_header = 'bearer auth')
 ```
 
-此示例创建一个名为 `SampleNotification` 的通知集成，类型为 `webhook`，已启用，并使用 `GET` 方法和 `bearer auth` 授权标头将通知发送到 `https://example.com` URL。
+此示例创建一个名为 `SampleNotification` 的 `webhook` 类型通知集成，该集成已启用，并使用 `GET` 方法和 `bearer auth` 授权标头将通知发送到 `https://example.com` URL。

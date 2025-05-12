@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.733"/>
 
-设置或取消表的 [Fuse Engine 选项](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options)。
+为表设置或取消设置 [Fuse Engine 选项](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options)。
 
 ## 语法
 
@@ -65,10 +65,10 @@ Create Table: CREATE TABLE fuse_table (
 以下示例演示如何将 `data_retention_num_snapshots_to_keep` 选项与 `enable_auto_vacuum` 一起使用：
 
 ```sql
--- 创建新表
+-- 创建一个新表
 CREATE OR REPLACE TABLE t(c INT);
 
--- 设置表仅保留最新的快照
+-- 设置该表仅保留最新的快照
 ALTER TABLE t SET OPTIONS(data_retention_num_snapshots_to_keep = 1);
 
 -- 启用自动清理以触发快照清理
@@ -94,4 +94,3 @@ SHOW CREATE TABLE fuse_table;
 Create Table: CREATE TABLE fuse_table (
   a INT NULL
 ) ENGINE=FUSE COMPRESSION='lz4' STORAGE_FORMAT='native'
-```

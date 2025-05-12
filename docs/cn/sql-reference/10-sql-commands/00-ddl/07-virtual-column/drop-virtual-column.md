@@ -13,15 +13,15 @@ import EEFeature from '@site/src/components/EEFeature';
 
 删除为表创建的 virtual column。
 
-## 语法
+## Syntax
 
 ```sql
 DROP VIRTUAL COLUMN [ IF EXISTS ] FOR <table>
 ```
 
-## 示例
+## Examples
 
-以下示例删除为名为“test”的表创建的 virtual column：
+此示例删除为名为 'test' 的表创建的 virtual column：
 
 ```sql
 DROP VIRTUAL COLUMN FOR test;

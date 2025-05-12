@@ -1,9 +1,10 @@
 ---
-title: Set Operators
-description: Set operators combine the results of two queries into a single result.
+title: 集合运算符
+description:
+  集合运算符将两个查询的结果合并为一个结果。
 ---
 
-Set operators combine the results of two queries into a single result. Databend supports the following set operators:
+集合运算符将两个查询的结果合并为一个结果。Databend 支持以下集合运算符：
 
 - [INTERSECT](#intersect)
 - [EXCEPT](#except)
@@ -11,9 +12,9 @@ Set operators combine the results of two queries into a single result. Databend 
 
 ## INTERSECT
 
-Returns all distinct rows selected by both queries.
+返回两个查询选择的所有不同的行。
 
-### Syntax
+### 语法
 
 ```sql
 SELECT column1 , column2 ....
@@ -27,7 +28,7 @@ FROM table_names
 WHERE condition
 ```
 
-### Example
+### 示例
 
 ```sql
 create table t1(a int, b int);
@@ -39,7 +40,7 @@ insert into t2 values(2,2), (3, 5), (7 ,8), (2, 3), (3, 4);
 select * from t1 intersect select * from t2;
 ```
 
-Output:
+输出:
 
 ```sql
 2|3
@@ -48,9 +49,9 @@ Output:
 
 ## EXCEPT
 
-Returns All distinct rows selected by the first query but not the second.
+返回第一个查询选择的所有不同的行，但不包括第二个查询选择的行。
 
-### Syntax
+### 语法
 
 ```sql
 SELECT column1 , column2 ....
@@ -64,7 +65,7 @@ FROM table_names
 WHERE condition
 ```
 
-### Example
+### 示例
 
 ```sql
 create table t1(a int, b int);
@@ -76,7 +77,7 @@ insert into t2 values(2,2), (3, 5), (7 ,8), (2, 3), (3, 4);
 select * from t1 except select * from t2;
 ```
 
-Output:
+输出:
 
 ```sql
 1|2
@@ -84,11 +85,11 @@ Output:
 
 ## UNION [ALL]
 
-Combines rows from two or more result sets. Each result set must return the same number of columns, and the corresponding columns must have the same or compatible data types.
+合并两个或多个结果集中的行。每个结果集必须返回相同数量的列，并且对应的列必须具有相同或兼容的数据类型。
 
-The command removes duplicate rows by default when combining result sets. To include duplicate rows, use **UNION ALL**.
+默认情况下，该命令在合并结果集时删除重复的行。要包括重复的行，请使用 **UNION ALL**。
 
-### Syntax
+### 语法
 
 ```sql
 SELECT column1 , column2 ...
@@ -110,50 +111,50 @@ WHERE condition]...
 [ORDER BY ...]
 ```
 
-### Example
+### 示例
 
 ```sql
-CREATE TABLE support_team
-  (
-     NAME   STRING,
-     salary UINT32
-  );
+CREATE TABLE support_team 
+  ( 
+     NAME   STRING, 
+     salary UINT32 
+  ); 
 
-CREATE TABLE hr_team
-  (
-     NAME   STRING,
-     salary UINT32
-  );
+CREATE TABLE hr_team 
+  ( 
+     NAME   STRING, 
+     salary UINT32 
+  ); 
 
-INSERT INTO support_team
-VALUES      ('Alice',
-             1000),
-            ('Bob',
-             3000),
-            ('Carol',
-             5000);
+INSERT INTO support_team 
+VALUES      ('Alice', 
+             1000), 
+            ('Bob', 
+             3000), 
+            ('Carol', 
+             5000); 
 
-INSERT INTO hr_team
-VALUES      ('Davis',
-             1000),
-            ('Eva',
-             4000);
+INSERT INTO hr_team 
+VALUES      ('Davis', 
+             1000), 
+            ('Eva', 
+             4000); 
 
 -- The following code returns the employees in both teams who are paid less than 2,000 dollars:
 
-SELECT NAME AS SelectedEmployee,
-       salary
-FROM   support_team
-WHERE  salary < 2000
-UNION
-SELECT NAME AS SelectedEmployee,
-       salary
-FROM   hr_team
-WHERE  salary < 2000
-ORDER  BY selectedemployee DESC;
+SELECT NAME AS SelectedEmployee, 
+       salary 
+FROM   support_team 
+WHERE  salary < 2000 
+UNION 
+SELECT NAME AS SelectedEmployee, 
+       salary 
+FROM   hr_team 
+WHERE  salary < 2000 
+ORDER  BY selectedemployee DESC; 
 ```
 
-Output:
+输出:
 
 ```sql
 Davis|1000

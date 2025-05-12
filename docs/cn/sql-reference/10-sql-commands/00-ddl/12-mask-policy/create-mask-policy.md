@@ -16,27 +16,27 @@ import EEFeature from '@site/src/components/EEFeature';
 ## 语法
 
 ```sql
-CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS
+CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS 
     ( <arg_name_to_mask> <arg_type_to_mask> [ , <arg_1> <arg_type_1> ... ] )
     RETURNS <arg_type_to_mask> -> <expression_on_arg_name>
     [ COMMENT = '<comment>' ]
 ```
 
-| Parameter              | Description                                                |
-| ---------------------- | ---------------------------------------------------------- |
-| policy_name            | 要创建的 masking policy 的名称。                           |
-| arg_name_to_mask       | 需要被 mask 的原始数据参数的名称。                         |
-| arg_type_to_mask       | 需要被 mask 的原始数据参数的数据类型。                     |
-| expression_on_arg_name | 一个表达式，用于确定如何处理原始数据以生成 mask 后的数据。 |
-| comment                | 一个可选的注释，提供关于 masking policy 的信息或说明。     |
+| Parameter              	| Description                                                                                                                           	|
+|------------------------	|---------------------------------------------------------------------------------------------------------------------------------------	|
+| policy_name              	| 要创建的 masking policy 的名称。                                                                                                       	|
+| arg_name_to_mask       	| 需要被 mask 的原始数据参数的名称。                                                                                                   	|
+| arg_type_to_mask       	| 需要被 mask 的原始数据参数的数据类型。                                                                                                 	|
+| expression_on_arg_name 	| 一个表达式，用于确定如何处理原始数据以生成 mask 后的数据。                                                                               	|
+| comment                   | 一个可选的注释，提供关于 masking policy 的信息或说明。                                                                                   	|
 
 :::note
-确保 _arg_type_to_mask_ 与将应用 masking policy 的列的数据类型相匹配。
+确保 *arg_type_to_mask* 与将应用 masking policy 的列的数据类型相匹配。
 :::
 
 ## 示例
 
-此示例说明了如何设置 masking policy，以根据用户角色选择性地显示或 mask 敏感数据的过程。
+此示例说明了设置 masking policy 以根据用户角色选择性地显示或 mask 敏感数据的过程。
 
 ```sql
 -- 创建一个表并插入示例数据

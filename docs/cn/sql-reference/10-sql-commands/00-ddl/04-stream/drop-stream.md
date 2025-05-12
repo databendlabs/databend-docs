@@ -10,7 +10,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='STREAM'/>
 
-删除已存在的 stream。
+删除现有的 stream。
 
 ## 语法
 

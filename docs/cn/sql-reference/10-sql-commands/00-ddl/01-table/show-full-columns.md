@@ -6,7 +6,7 @@ sidebar_position: 13
 显示给定表中关于列的信息。
 
 :::tip
-[DESCRIBE TABLE](50-describe-table.md) 提供了类似的信息，但不如本命令全面。
+[DESCRIBE TABLE](50-describe-table.md) 提供了类似但较少的关于表列的信息。
 :::
 
 ## 语法

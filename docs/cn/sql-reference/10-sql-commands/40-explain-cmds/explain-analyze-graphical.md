@@ -56,7 +56,7 @@ order by
     l_linestatus;
 ```
 
-运行命令后，BendSQL 会输出一条消息，例如：
+运行命令后，BendSQL 会输出一条类似以下内容的消息：
 
 ```bash
 View graphical online: http://127.0.0.1:8080?perf_id=1

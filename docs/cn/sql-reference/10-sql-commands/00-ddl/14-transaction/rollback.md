@@ -13,6 +13,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ROLLBACK
 ```
 
-## 示例
+## Examples
 
-请参阅 [示例](begin.md#examples)。
+请参阅 [Examples](begin.md#examples)。

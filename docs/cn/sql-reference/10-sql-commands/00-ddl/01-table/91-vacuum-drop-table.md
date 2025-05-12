@@ -13,7 +13,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 VACUUM DROP TABLE 命令通过永久删除已删除表的数据文件来帮助节省存储空间，释放存储空间，并使您能够有效地管理该过程。它提供了可选参数来定位特定数据库、预览和限制要清理的数据文件数量。要列出数据库的已删除表，请使用 [SHOW DROP TABLES](show-drop-tables.md)。
 
-另请参阅：[VACUUM TABLE](91-vacuum-table.md)
+另请参阅: [VACUUM TABLE](91-vacuum-table.md)
 
 ### 语法
 
@@ -24,7 +24,7 @@ VACUUM DROP TABLE
     [ LIMIT <file_count> ]
 ```
 
-- `FROM <database_name>`：此参数将已删除表的搜索限制为特定数据库。如果未指定，该命令将扫描所有数据库，包括已删除的数据库。
+- `FROM <database_name>`: 此参数将已删除表的搜索限制为特定数据库。如果未指定，该命令将扫描所有数据库，包括已删除的数据库。
 
   ```sql title="Example:"
   -- Remove dropped tables from the "default" database
@@ -36,16 +36,16 @@ VACUUM DROP TABLE
   VACUUM DROP TABLE;
   ```
 
-- `DRY RUN [SUMMARY]`：指定此参数后，将不会删除数据文件；相反，它会返回一个结果，显示如果未指定此参数，将删除哪些数据文件。请参阅[输出](#output)部分中的示例。
+- `DRY RUN [SUMMARY]`: 指定此参数后，将不会删除数据文件；而是返回一个结果，显示如果未指定此参数，将删除哪些数据文件。请参阅 [输出](#output) 部分中的示例。
 
-- `LIMIT <file_count>`：此参数可以与 DRY RUN 参数一起使用，也可以不与 DRY RUN 参数一起使用。与 DRY RUN 一起使用时，它会限制在 `DRY RUN` 结果中显示的数据文件数量。在不使用 `DRY RUN` 的情况下使用时，它会限制要清理的数据文件数量。
+- `LIMIT <file_count>`: 此参数可以与 DRY RUN 参数一起使用，也可以不与 DRY RUN 参数一起使用。与 DRY RUN 一起使用时，它限制了在 `DRY RUN` 结果中显示的数据文件数量。在没有 `DRY RUN` 的情况下使用时，它限制了要清理的数据文件数量。
 
 ### 输出
 
 当指定 `DRY RUN` 或 `DRY RUN SUMMARY` 参数时，VACUUM DROP TABLE 命令会返回结果：
 
-- `DRY RUN`：返回每个已删除表的最多 1,000 个候选文件及其大小（以字节为单位）的列表。
-- `DRY RUN SUMMARY`：返回每个已删除表的要删除的文件总数及其组合大小。
+- `DRY RUN`: 返回每个已删除表的最多 1,000 个候选文件及其大小（以字节为单位）的列表。
+- `DRY RUN SUMMARY`: 返回每个已删除表的要删除的文件总数及其组合大小。
 
 ```sql title='Example:'
 // highlight-next-line
@@ -86,7 +86,7 @@ VACUUM DROP TABLE DRY RUN SUMMARY;
 
 ### 调整数据保留时间
 
-VACUUM DROP TABLE 命令删除早于 `DATA_RETENTION_TIME_IN_DAYS` 设置的数据文件。可以根据需要调整此保留期限，例如，调整为 2 天：
+VACUUM DROP TABLE 命令删除早于 `DATA_RETENTION_TIME_IN_DAYS` 设置的数据文件。可以根据需要调整此保留期，例如，调整为 2 天：
 
 ```sql
 SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
@@ -94,11 +94,11 @@ SET GLOBAL DATA_RETENTION_TIME_IN_DAYS = 2;
 
 `DATA_RETENTION_TIME_IN_DAYS` 默认为 1 天（24 小时），最大值因 Databend 版本而异：
 
-| 版本                                     | 默认保留时间    | 最大保留时间    |
-| ---------------------------------------- | --------------- | --------------- |
-| Databend Community & Enterprise Editions | 1 天（24 小时） | 90 天           |
-| Databend Cloud (基础版)                  | 1 天（24 小时） | 1 天（24 小时） |
-| Databend Cloud (Business)                | 1 天（24 小时） | 90 天           |
+| Edition                                  | Default Retention | Max. Retention   |
+| ---------------------------------------- | ----------------- | ---------------- |
+| Databend Community & Enterprise Editions | 1 day (24 hours)  | 90 days          |
+| Databend Cloud (Personal)                | 1 day (24 hours)  | 1 day (24 hours) |
+| Databend Cloud (Business)                | 1 day (24 hours)  | 90 days          |
 
 要检查 `DATA_RETENTION_TIME_IN_DAYS` 的当前值：
 

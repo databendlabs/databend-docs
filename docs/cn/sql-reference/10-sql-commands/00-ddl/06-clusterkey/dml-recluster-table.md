@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced: v1.2.25"/>
 
-对表进行重新聚类。有关为什么以及何时重新聚类表，请参阅 [重新聚类表](index.md#re-clustering-table)。
+对表进行重新聚类。有关为什么以及何时重新聚类表，请参见 [重新聚类表](index.md#re-clustering-table)。
 
 ### 语法
 
@@ -15,9 +15,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ALTER TABLE [ IF EXISTS ] <table_name> RECLUSTER [ FINAL ] [ WHERE condition ] [ LIMIT <segment_count> ]
 ```
 
-该命令对可以处理的 segment 数量有限制，默认值为“max_thread * 4”。您可以使用 **LIMIT** 选项修改此限制。或者，您有两个选项可以进一步聚类表中的数据：
+该命令对可以处理的 segment 数量有限制，默认值为“max_thread * 4”。您可以使用 **LIMIT** 选项修改此限制。或者，您有两种选择可以进一步对表中的数据进行聚类：
 
-- 对表多次运行该命令。
+- 多次对表运行该命令。
 - 使用 **FINAL** 选项持续优化表，直到完全聚类。
 
 :::note

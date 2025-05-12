@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced: v1.1.55"/>
 
-REPLACE INTO 语句可以使用以下数据源将多个新行插入到表中，或者在这些行已存在时更新现有行：
+REPLACE INTO 可以将多个新行插入到表中，或者在这些行已存在时更新现有行，使用以下数据源：
 
 - 直接值
 
@@ -18,14 +18,14 @@ REPLACE INTO 语句可以使用以下数据源将多个新行插入到表中，�
 Databend 通过原子操作确保数据完整性。插入、更新、替换和删除要么完全成功，要么完全失败。
 :::
 
-## 语法
+## Syntax
 
 ```sql
 REPLACE INTO <table_name> [ ( <col_name> [ , ... ] ) ]
     ON (<CONFLICT KEY>) ...
 ```
 
-当在表中找到指定的冲突键时，REPLACE INTO 会更新现有行；如果冲突键不存在，则插入新行。冲突键是表中唯一标识行的列或列的组合，用于确定是使用 REPLACE INTO 语句插入新行还是更新表中的现有行。请参见以下示例：
+当在表中找到指定的冲突键时，REPLACE INTO 会更新现有行；如果冲突键不存在，则插入新行。冲突键是表中唯一标识行的列或列的组合，用于确定是插入新行还是使用 REPLACE INTO 语句更新表中的现有行。请参见以下示例：
 
 ```sql
 CREATE TABLE employees (
@@ -46,7 +46,7 @@ ON (employee_email)
 VALUES (123, 'John Doe', 60000, 'john.doe@example.com');
 ```
 
-## 分布式 REPLACE INTO
+## Distributed REPLACE INTO
 
 `REPLACE INTO` 支持在集群环境中进行分布式执行。您可以通过将 ENABLE_DISTRIBUTED_REPLACE_INTO 设置为 1 来启用分布式 REPLACE INTO。这有助于提高集群环境中的数据加载性能和可伸缩性。
 
@@ -54,9 +54,9 @@ VALUES (123, 'John Doe', 60000, 'john.doe@example.com');
 SET enable_distributed_replace_into = 1;
 ```
 
-## 示例
+## Examples
 
-### 示例 1：使用直接值替换
+### Example 1: Replace with Direct Values
 
 此示例使用直接值替换数据：
 
@@ -74,7 +74,7 @@ SELECT  * FROM Employees;
 +------+----------+--------+
 ```
 
-### 示例 2：使用查询结果替换
+### Example 2: Replace with Query Results
 
 此示例使用查询结果替换数据：
 
@@ -96,7 +96,7 @@ SELECT  * FROM Employees;
 +------+----------+--------+
 ```
 
-### 示例 3：使用 Staged Files 替换
+### Example 3: Replace with Staged Files
 
 此示例演示如何使用 staged file 中的数据替换表中现有的数据。
 
@@ -139,10 +139,10 @@ FROM
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-3. 使用 staged Parquet 文件和 `REPLACE INTO` 替换现有数据
+3. 使用带有 `REPLACE INTO` 的 staged Parquet 文件替换现有数据
 
 :::tip
-您可以使用 [COPY INTO](dml-copy-into-table.md) 命令中的 FILE_FORMAT 和 COPY_OPTIONS 指定文件格式和各种与复制相关的设置。
+您可以使用 [COPY INTO](dml-copy-into-table.md) 命令中提供的 FILE_FORMAT 和 COPY_OPTIONS 指定文件格式和各种与复制相关的设置。
 :::
 
 ```sql

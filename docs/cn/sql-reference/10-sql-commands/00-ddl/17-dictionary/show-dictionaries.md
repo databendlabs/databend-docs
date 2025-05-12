@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.646"/>
 
-列出指定数据库中的 dictionaries，显示它们的名称、列详细信息和源信息。
+列出指定数据库中的字典，显示它们的名称、列详细信息和源信息。
 
 ## 语法
 
@@ -15,7 +15,7 @@ SHOW DICTIONARIES [FROM ｜ IN <database_name>] [LIKE '<pattern>'] [WHERE <condi
 
 ## 示例
 
-此示例列出当前数据库中的所有 dictionaries：
+此示例列出当前数据库中的所有字典：
 
 ```sql
 SHOW DICTIONARIES;
@@ -27,7 +27,7 @@ SHOW DICTIONARIES;
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例使用 LIKE 子句来筛选名称以 'order' 开头的 dictionaries：
+此示例使用 LIKE 子句来筛选名称以 'order' 开头的字典：
 
 ```sql
 SHOW DICTIONARIES LIKE 'order%';
@@ -39,7 +39,7 @@ SHOW DICTIONARIES LIKE 'order%';
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-此示例使用 WHERE 子句显示具有完全名称 'order_dict' 的 dictionaries：
+此示例使用 WHERE 子句显示具有完全名称 'order_dict' 的字典：
 
 ```sql
 SHOW DICTIONARIES WHERE name = 'order_dict';

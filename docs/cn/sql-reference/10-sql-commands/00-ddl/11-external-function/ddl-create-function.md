@@ -31,4 +31,4 @@ CREATE [ OR REPLACE ] FUNCTION [ IF NOT EXISTS ] <function_name>
 
 ## 示例
 
-更多信息请参考 [使用示例](/guides/query/external-function#usage-examples)。
+更多信息，请参考 [使用示例](/guides/query/external-function#usage-examples)。

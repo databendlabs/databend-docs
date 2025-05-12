@@ -5,9 +5,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.687"/>
 
-暂停一个计算集群，释放相关的机器资源，但不会删除该计算集群。
+挂起一个计算集群，释放相关的机器资源，但不会删除该计算集群。
 
-当您暂停一个计算集群时，它会释放与该计算集群相关的机器资源。但是，此操作可能会在尝试与计算集群交互时导致问题。具体来说，如果您尝试使用或查询一个已暂停的计算集群，您可能会遇到错误，表明该计算集群不可用。例如，尝试运行 SHOW ONLINE NODES 或其他引用已暂停计算集群的命令将导致错误。要解决此问题，您需要退出当前会话并重新连接。
+当你挂起一个计算集群时，它会释放与该计算集群相关的机器资源。但是，此操作可能会在尝试与计算集群交互时导致问题。具体来说，如果你尝试使用或查询一个已挂起的计算集群，你可能会遇到错误，指示该计算集群不可用。例如，尝试运行 SHOW ONLINE NODES 或其他引用已挂起计算集群的命令将导致错误。要解决此问题，你需要退出当前会话并重新连接。
 
 ```sql title='Example:'
 root@(test_warehouse)/default> suspend warehouse test_warehouse;
@@ -52,7 +52,7 @@ SUSPEND WAREHOUSE <warehouse_name>
 
 ## Examples
 
-此示例暂停 `test_warehouse` 计算集群：
+此示例挂起 `test_warehouse` 计算集群：
 
 ```sql
 SUSPEND WAREHOUSE test_warehouse;

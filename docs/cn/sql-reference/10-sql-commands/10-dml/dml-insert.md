@@ -25,10 +25,10 @@ INSERT { OVERWRITE | INTO } <table>
     }
 ```
 
-| 参数      | 描述                                                                        |
-|-----------|-----------------------------------------------------------------------------|
-| OVERWRITE | 指示在插入之前是否应截断现有数据。                                                |
-| VALUES    | 允许直接插入特定值或列的默认值。                                                   |
+| 参数      | 描述                                                                      |
+|-----------|----------------------------------------------------------------------------------|
+| OVERWRITE | 指示在插入之前是否应截断现有数据。                                           |
+| VALUES    | 允许直接插入特定值或列的默认值。                                                |
 
 ## 重要说明
 
@@ -38,7 +38,7 @@ INSERT { OVERWRITE | INTO } <table>
 
 ### 示例-1：使用 OVERWRITE 插入值
 
-在此示例中，INSERT OVERWRITE 语句用于截断 employee 表并插入新数据，将所有现有记录替换为 ID 为 100 的员工提供的值。
+在此示例中，INSERT OVERWRITE 语句用于截断 employee 表并插入新数据，用 ID 为 100 的员工提供的值替换所有现有记录。
 
 ```sql
 CREATE TABLE employee (
@@ -46,15 +46,15 @@ CREATE TABLE employee (
     employee_name VARCHAR(50)
 );
 
--- Inserting initial data into the employee table
+-- 向 employee 表中插入初始数据
 INSERT INTO employee(employee_id, employee_name) VALUES
     (101, 'John Doe'),
     (102, 'Jane Smith');
 
--- Inserting new data with OVERWRITE
+-- 使用 OVERWRITE 插入新数据
 INSERT OVERWRITE employee VALUES (100, 'John Johnson');
 
--- Displaying the contents of the employee table
+-- 显示 employee 表的内容
 SELECT * FROM employee;
 
 ┌────────────────────────────────────┐
@@ -69,27 +69,27 @@ SELECT * FROM employee;
 当插入 SELECT 语句的结果时，列的映射遵循它们在 SELECT 子句中的位置。因此，SELECT 语句中的列数必须等于或大于 INSERT 表中的列数。如果 SELECT 语句和 INSERT 表中列的数据类型不同，将根据需要执行类型转换。
 
 ```sql
--- Creating a table named 'employee_info' with three columns: 'employee_id', 'employee_name', and 'department'
+-- 创建一个名为 'employee_info' 的表，包含三列：'employee_id'、'employee_name' 和 'department'
 CREATE TABLE employee_info (
     employee_id INT,
     employee_name VARCHAR(50),
     department VARCHAR(50)
 );
 
--- Inserting a record into the 'employee_info' table
+-- 向 'employee_info' 表中插入一条记录
 INSERT INTO employee_info VALUES ('101', 'John Doe', 'Marketing');
 
--- Creating a table named 'employee_data' with three columns: 'ID', 'Name', and 'Dept'
+-- 创建一个名为 'employee_data' 的表，包含三列：'ID'、'Name' 和 'Dept'
 CREATE TABLE employee_data (
     ID INT,
     Name VARCHAR(50),
     Dept VARCHAR(50)
 );
 
--- Inserting data from 'employee_info' into 'employee_data'
+-- 将数据从 'employee_info' 插入到 'employee_data'
 INSERT INTO employee_data SELECT * FROM employee_info;
 
--- Displaying the contents of the 'employee_data' table
+-- 显示 'employee_data' 表的内容
 SELECT * FROM employee_data;
 
 ┌───────────────────────────────────────────────────────┐
@@ -99,31 +99,31 @@ SELECT * FROM employee_data;
 └───────────────────────────────────────────────────────┘
 ```
 
-此示例演示如何创建一个名为 "sales_summary" 的摘要表，用于存储每个产品的聚合销售数据，例如总销售数量和收入，通过聚合 sales 表中的信息：
+此示例演示了创建一个名为 "sales_summary" 的摘要表，用于存储每个产品的聚合销售数据，例如总销售数量和收入，通过聚合 sales 表中的信息：
 
 ```sql
--- Creating a table for sales data
+-- 创建一个用于销售数据的表
 CREATE TABLE sales (
     product_id INT,
     quantity_sold INT,
     revenue DECIMAL(10, 2)
 );
 
--- Inserting some sample sales data
+-- 插入一些示例销售数据
 INSERT INTO sales (product_id, quantity_sold, revenue) VALUES
     (1, 100, 500.00),
     (2, 150, 750.00),
     (1, 200, 1000.00),
     (3, 50, 250.00);
 
--- Creating a summary table to store aggregated sales data
+-- 创建一个摘要表来存储聚合销售数据
 CREATE TABLE sales_summary (
     product_id INT,
     total_quantity_sold INT,
     total_revenue DECIMAL(10, 2)
 );
 
--- Inserting aggregated sales data into the summary table
+-- 将聚合销售数据插入到摘要表中
 INSERT INTO sales_summary (product_id, total_quantity_sold, total_revenue)
 SELECT 
     product_id,
@@ -134,7 +134,7 @@ FROM
 GROUP BY 
     product_id;
 
--- Displaying the contents of the sales_summary table
+-- 显示 sales_summary 表的内容
 SELECT * FROM sales_summary;
 
 ┌──────────────────────────────────────────────────────────────────┐
@@ -148,10 +148,10 @@ SELECT * FROM sales_summary;
 
 ### 示例-3：插入默认值
 
-此示例说明如何创建一个名为 "staff_records" 的表，并为部门和状态等列设置默认值。然后插入数据，展示默认值的使用。
+此示例说明了创建一个名为 "staff_records" 的表，其中为部门和状态等列设置了默认值。然后插入数据，展示默认值的使用。
 
 ```sql
--- Creating a table 'staff_records' with columns 'employee_id', 'department', 'salary', and 'status' with default values
+-- 创建一个表 'staff_records'，其中包含列 'employee_id'、'department'、'salary' 和 'status'，并具有默认值
 CREATE TABLE staff_records (
     employee_id INT NULL,
     department VARCHAR(50) DEFAULT 'HR',
@@ -159,7 +159,7 @@ CREATE TABLE staff_records (
     status VARCHAR(10) DEFAULT 'Active'
 );
 
--- Inserting data into 'staff_records' with default values
+-- 将数据插入到 'staff_records' 中，使用默认值
 INSERT INTO staff_records
 VALUES
     (DEFAULT, DEFAULT, DEFAULT, DEFAULT),
@@ -167,7 +167,7 @@ VALUES
     (102, 'Finance', 60000.00, 'Inactive'),
     (103, 'Marketing', 70000.00, 'Active');
 
--- Displaying the contents of the 'staff_records' table
+-- 显示 'staff_records' 表的内容
 SELECT * FROM staff_records;
 
 ┌───────────────────────────────────────────────────────────────────────────┐
@@ -182,7 +182,7 @@ SELECT * FROM staff_records;
 
 ### 示例-4：从 Stage 文件插入
 
-Databend 允许您使用 INSERT INTO 语句从 Stage 文件将数据插入到表中。这是通过 Databend 的 [查询 Stage 文件](/guides/load-data/transform/querying-stage) 的能力，然后将查询结果合并到表中来实现的。
+Databend 允许您使用 INSERT INTO 语句从 Stage 文件将数据插入到表中。这是通过 Databend 的 [查询 Stage 文件](/guides/load-data/transform/querying-stage) 的能力实现的，然后将查询结果合并到表中。
 
 1. 创建一个名为 `sample` 的表：
 
@@ -196,7 +196,7 @@ CREATE TABLE sample
 );
 ```
 
-2. 使用示例数据设置内部 Stage
+2. 使用示例数据设置一个内部 Stage
 
 我们将建立一个名为 `mystage` 的内部 Stage，然后用示例数据填充它。
 

@@ -39,7 +39,7 @@ a|b      |
 -+-------+
 1|example|
 
--- 删除表
+-- Delete the table
 DROP TABLE test;
 SELECT * FROM test;
 >> SQL Error [1105] [HY000]: UnknownTable. Code: 1025, Text = error: 
@@ -48,7 +48,7 @@ SELECT * FROM test;
 1 | /* ApplicationName=DBeaver 23.2.0 - SQLEditor <Script-12.sql> */ SELECT * FROM test
   |                                                                                ^^^^ Unknown table `default`.`test` in catalog 'default'
 
--- 恢复表
+-- Recover the table
 UNDROP TABLE test;
 SELECT * FROM test;
 
