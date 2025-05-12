@@ -23,11 +23,28 @@ SHOW VIRTUAL COLUMNS [ LIKE '<pattern>' | WHERE <expr> ] | [ LIMIT <limit> ]
 ## Example
 
 ```sql
-SHOW VIRTUAL COLUMNS;
+SET enable_experimental_virtual_column=1;
 
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ database │  table │                     virtual_columns                     │
-├──────────┼────────┼─────────────────────────────────────────────────────────┤
-│ default  │ test   │ val['name'], val['pricings'][0]['type'], val['tags'][0] │
-└─────────────────────────────────────────────────────────────────────────────┘
+CREATE TABLE test(id int, val variant);
+
+INSERT INTO
+  test
+VALUES
+  (
+    1,
+    '{"id":1,"name":"databend"}'
+  ),
+  (
+    2,
+    '{"id":2,"name":"databricks"}'
+  );
+
+SHOW VIRTUAL COLUMNS WHERE table = 'test';
+╭───────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ database │  table │ source_column │ virtual_column_id │ virtual_column_name │ virtual_column_type │
+│  String  │ String │     String    │       UInt32      │        String       │        String       │
+├──────────┼────────┼───────────────┼───────────────────┼─────────────────────┼─────────────────────┤
+│ default  │ test   │ val           │        3000000000 │ ['id']              │ UInt64              │
+│ default  │ test   │ val           │        3000000001 │ ['name']            │ String              │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
