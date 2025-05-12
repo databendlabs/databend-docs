@@ -162,7 +162,7 @@ During data ingestion, Databend automatically analyzes the JSON structure and cr
 
 ### Multiple Access Patterns
 
-Databend supports flexible syntax for accessing nested JSON:
+Databend supports multiple syntax options for accessing and manipulating JSON data, including Snowflake-compatible and PostgreSQL-compatible patterns:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -181,7 +181,7 @@ Databend supports flexible syntax for accessing nested JSON:
 │    }                                                            │
 │  }                                                              │
 │                                                                 │
-│  Access Options:                                                │
+│  Snowflake-Compatible Access:                                   │
 │  ┌──────────────────────────────────────────────────────┐       │
 │  │ 1. Square Bracket Notation:                          │       │
 │  │    data['user']['profile']['settings']['theme']      │       │
@@ -194,10 +194,29 @@ Databend supports flexible syntax for accessing nested JSON:
 │  │    data:user:profile.settings.theme                  │       │
 │  └──────────────────────────────────────────────────────┘       │
 │                                                                 │
+│  PostgreSQL-Compatible Operators:                               │
+│  ┌──────────────────────────────────────────────────────┐       │
+│  │ 1. Arrow Operators:                                  │       │
+│  │    data->'user'->'profile'->'settings'->'theme'      │       │
+│  │    data->>'user'  (returns text instead of JSON)     │       │
+│  │                                                      │       │
+│  │ 2. Path Operators:                                   │       │
+│  │    data#>'{user,profile,settings,theme}'             │       │
+│  │    data#>>'{user,profile,settings,theme}'            │       │
+│  │                                                      │       │
+│  │ 3. Containment Operators:                            │       │
+│  │    data @> '{"user":{"profile":{"name":"Alice"}}}'   │       │
+│  │    data ? 'user'  (checks if key exists)             │       │
+│  │                                                      │       │
+│  │ 4. Modification Operators:                           │       │
+│  │    data - 'user'  (removes key)                      │       │
+│  │    data || '{"new_field":123}'  (concatenates)       │       │
+│  └──────────────────────────────────────────────────────┘       │
+│                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-For more details on access syntax, see the [Variant documentation](https://docs.databend.com/sql/sql-reference/data-types/variant#accessing-elements-in-json).
+For more details on access syntax, see the [Variant documentation](/sql/sql-reference/data-types/variant#accessing-elements-in-json) and [JSON Operators documentation](/sql/sql-commands/query-operators/json).
 
 ### Rich Function Support
 
