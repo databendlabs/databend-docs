@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.371"/>
+<FunctionDescription description="Introduced or updated: v1.2.738"/>
 
 The CREATE TASK statement is used to define a new task that executes a specified SQL statement on a scheduled basis or dag based task graph.
 
@@ -14,7 +14,7 @@ The CREATE TASK statement is used to define a new task that executes a specified
 ## Syntax
 
 ```sql
-CREATE TASK [ IF NOT EXISTS ] <name>
+CREATE [ OR REPLACE ] TASK [ IF NOT EXISTS ] <name>
  WAREHOUSE = <string>
  SCHEDULE = { <num> MINUTE | <num> SECOND | USING CRON <expr> <time_zone> }
  [ AFTER <string> [ , <string> , ... ]]
