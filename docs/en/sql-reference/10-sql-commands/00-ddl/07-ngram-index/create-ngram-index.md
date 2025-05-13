@@ -19,7 +19,7 @@ Creates an Ngram index on one or more columns for a table.
 -- Create an Ngram index on an existing table
 CREATE [OR REPLACE] NGRAM INDEX [IF NOT EXISTS] <index_name>
 ON [<database>.]<table_name>(<column1> [, <column2>, ...])
-gram_size = <number>;
+[gram_size = <number>] [bitmap_size = <number>]
 
 -- Create an Ngram index when creating a table
 CREATE [OR REPLACE] TABLE <table_name> (
@@ -35,10 +35,10 @@ CREATE [OR REPLACE] TABLE <table_name> (
   "hel", "ell", "llo", "lo ", "o w", " wo", "wor", "orl", "rld"
   ```
 
-- `bitmap_size` specifies the size in bytes of the Bloom filter bitmap used to accelerate string matching within each block of data. It controls the trade-off between index accuracy and memory usage:
+- `bloom_size` specifies the size in bytes of the Bloom filter bitmap used to accelerate string matching within each block of data. It controls the trade-off between index accuracy and memory usage:
 
-  - A larger bitmap reduces false positives in string lookups, improving query precision at the cost of more memory.
-  - A smaller bitmap saves memory but may increase false positives.
+  - A larger `bloom_size` reduces false positives in string lookups, improving query precision at the cost of more memory.
+  - A smaller `bloom_size` saves memory but may increase false positives.
   - If not explicitly set, the default is 1,048,576 bytes (1m) per indexed column per block. The valid range is from 512 bytes to 10,485,760 bytes (10m).
 
 ## Examples
@@ -62,7 +62,7 @@ CREATE OR REPLACE TABLE amazon_reviews_ngram (
     verified_purchase   boolean NULL,
     review_headline   varchar(500) NULL,
     review_body   string NULL,
-    NGRAM INDEX idx1 (review_body) gram_size = 10 bitmap_size = 2097152
+    NGRAM INDEX idx1 (review_body) gram_size = 10 bloom_size = 2097152
 ) Engine = Fuse bloom_index_columns='review_body';
 ```
 
@@ -73,11 +73,11 @@ SHOW INDEXES;
 ```
 
 ```sql
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│  name  │  type  │ original │                    definition                   │         created_on         │      updated_on     │
-├────────┼────────┼──────────┼─────────────────────────────────────────────────┼────────────────────────────┼─────────────────────┤
-│ idx1   │ NGRAM  │          │ amazon_reviews_ngram(review_body)gram_size='10' │ 2025-05-12 23:06:58.166381 │ NULL                │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  name  │  type  │ original │                              definition                              │         created_on         │      updated_on     │
+├────────┼────────┼──────────┼──────────────────────────────────────────────────────────────────────┼────────────────────────────┼─────────────────────┤
+│ idx1   │ NGRAM  │          │ amazon_reviews_ngram(review_body)bloom_size='2097152' gram_size='10' │ 2025-05-13 01:22:34.123927 │ NULL                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 Alternatively, you can create the table first, then create the Ngram index on the `review_body` column:
@@ -105,5 +105,5 @@ CREATE TABLE amazon_reviews_ngram (
 ```sql
 CREATE NGRAM INDEX idx1
 ON amazon_reviews_ngram(review_body)
-gram_size = 10;
+gram_size = 10 bloom_size = 2097152;
 ```
