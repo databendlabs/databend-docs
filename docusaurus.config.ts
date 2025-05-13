@@ -216,8 +216,8 @@ const config: Config = {
           }
         ],
         createRedirects(existingPath) {
-          if (existingPath?.includes('/guides/community/rfcs/')) {
-            return existingPath.replace('/guides/community/rfcs/', '/developer/community/rfcs/');
+          if (existingPath?.includes('/developer/community/rfcs/')) {
+            return existingPath.replace('/developer/community/rfcs/', '/guides/community/rfcs/');
           }
           return undefined;
         }
