@@ -4,7 +4,7 @@ title: INSERT (multi-table)
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.738"/>
+<FunctionDescription description="Introduced or updated: v1.2.396"/>
 
 Inserts rows into multiple tables in a single transaction, with the option for the insertion to be dependent on certain conditions (conditionally) or to occur regardless of any conditions (unconditionally).
 
@@ -18,14 +18,14 @@ See also: [INSERT](dml-insert.md)
 
 ```sql
 -- Unconditional INSERT ALL: Inserts each row into multiple tables without any conditions or restrictions.
-INSERT [ OVERWRITE [ INTO ] ] ALL
+INSERT [ OVERWRITE ] ALL
     INTO <target_table> [ ( <target_col_name> [ , ... ] ) ] [ VALUES ( <source_col_name> [ , ... ] ) ]
     ...
 SELECT ...
 
 
 -- Conditional INSERT ALL: Inserts each row into multiple tables, but only if certain conditions are met.
-INSERT [ OVERWRITE [ INTO ] ] ALL
+INSERT [ OVERWRITE ] ALL
     WHEN <condition> THEN
         INTO <target_table> [ ( <target_col_name> [ , ... ] ) ] [ VALUES ( <source_col_name> [ , ... ] ) ]
       [ INTO ... ]
@@ -37,7 +37,7 @@ SELECT ...
 
 
 -- Conditional INSERT FIRST: Inserts each row into multiple tables, but stops after the first successful insertion.
-INSERT [ OVERWRITE [ INTO ] ] FIRST
+INSERT [ OVERWRITE ] FIRST
     WHEN <condition> THEN
         INTO <target_table> [ ( <target_col_name> [ , ... ] ) ] [ VALUES ( <source_col_name> [ , ... ] ) ]
       [ INTO ... ]
@@ -50,7 +50,7 @@ SELECT ...
 
 | Parameter                                | Description                                                                                                                                                                                                                                                                                                                                           |
 | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `OVERWRITE [ INTO ]`                     | Indicates whether existing data should be truncated before insertion.                                                                                                                                                                                                                                                                                 |
+| `OVERWRITE`                              | Indicates whether existing data should be truncated before insertion.                                                                                                                                                                                                                                                                                 |
 | `( <target_col_name> [ , ... ] )`        | Specifies the column names in the target table where data will be inserted.<br/>- If omitted, data will be inserted into all columns in the target table.                                                                                                                                                                                             |
 | `VALUES ( <source_col_name> [ , ... ] )` | Specifies the source column names from which data will be inserted into the target table.<br/>- If omitted, all columns returned by the subquery will be inserted into the target table.<br/>- The data types of the columns listed in `<source_col_name>` must match or be compatible with those specified in `<target_col_name>`.                   |
 | `SELECT ...`                             | A subquery that provides the data to be inserted into the target table(s).<br/>- You have the option to explicitly assign aliases to columns within the subquery. This allows you to reference the columns by their aliases within WHEN clauses and VALUES clauses.                                                                                   |
