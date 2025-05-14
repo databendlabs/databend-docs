@@ -5,53 +5,88 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.609"/>
 
-设置会话中一个或多个 SQL 变量的值。这些值可以是简单常量、表达式、查询结果或数据库对象。
+设置会话中一个或多个 SQL 变量的值。这些值可以是简单常量、表达式、查询结果或数据库对象。变量在会话期间持续存在，并可在后续查询中使用。
 
-## 语法
+## Syntax
 
 ```sql
--- 设置一个变量
+-- Set one variable
 SET VARIABLE <variable_name> = <expression>
 
--- 设置多个变量
+-- Set more than one variable
 SET VARIABLE (<variable1>, <variable2>, ...) = (<expression1>, <expression2>, ...)
+
+-- Set multiple variables from a query result
+SET VARIABLE (<variable1>, <variable2>, ...) = <query>
 ```
 
-## 示例
+## Accessing Variables
 
-以下示例设置单个变量：
+可以使用美元符号语法访问变量：`$variable_name`
+
+## Examples
+
+### Setting a Single Variable
 
 ```sql
--- 将变量 a 设置为字符串 'databend'
+-- Sets variable a to the string 'databend'
 SET VARIABLE a = 'databend'; 
+
+-- Access the variable
+SELECT $a;
+┌─────────┐
+│ $a      │
+├─────────┤
+│ databend│
+└─────────┘
 ```
 
-以下示例设置一个包含表名的变量，并使用 IDENTIFIER 基于该变量动态查询表：
+### Setting Multiple Variables
 
 ```sql
-CREATE TABLE monthly_sales(empid INT, amount INT, month TEXT) AS SELECT 1, 2, '3';
+-- Sets variable x to 'xx' and y to 'yy'
+SET VARIABLE (x, y) = ('xx', 'yy');
 
--- 将变量 't' 设置为表 'monthly_sales' 的名称
+-- Access multiple variables
+SELECT $x, $y;
+┌────┬────┐
+│ $x │ $y │
+├────┼────┤
+│ xx │ yy │
+└────┴────┘
+```
+
+### Setting Variables from Query Results
+
+```sql
+-- Sets variable a to 3 and b to 55
+SET VARIABLE (a, b) = (SELECT 3, 55); 
+
+-- Access the variables
+SELECT $a, $b;
+┌────┬────┐
+│ $a │ $b │
+├────┼────┤
+│ 3  │ 55 │
+└────┴────┘
+```
+
+### Dynamic Table References
+
+变量可以与 `IDENTIFIER()` 函数一起使用，以动态引用数据库对象：
+
+```sql
+-- Create a sample table
+CREATE OR REPLACE TABLE monthly_sales(empid INT, amount INT, month TEXT) AS SELECT 1, 2, '3';
+
+-- Set a variable 't' to the name of the table 'monthly_sales'
 SET VARIABLE t = 'monthly_sales';
 
--- 使用 IDENTIFIER 动态引用存储在变量 't' 中的表名
+-- Use IDENTIFIER to dynamically reference the table name stored in the variable 't'
 SELECT * FROM IDENTIFIER($t);
-
-empid|amount|month|
------+------+-----+
-    1|     2|3    |
-```
-
-以下示例在单个语句中从查询设置多个变量。查询必须只返回一行，且值的数量与要设置的变量数量相同。
-
-```sql
--- 将变量 a 设置为 3，b 设置为 55
-SET VARIABLE (a, b) = (SELECT 3, 55); 
-```
-
-以下示例将多个变量设置为常量：
-
-```sql
--- 将变量 x 设置为 'xx'，y 设置为 'yy'
-SET VARIABLE (x, y) = ('xx', 'yy');
+┌───────┬────────┬───────┐
+│ empid │ amount │ month │
+├───────┼────────┼───────┤
+│     1 │      2 │ 3     │
+└───────┴────────┴───────┘
 ```
