@@ -82,6 +82,14 @@ CREATE OR REPLACE TABLE monthly_sales(empid INT, amount INT, month TEXT) AS SELE
 -- Set a variable 't' to the name of the table 'monthly_sales'
 SET VARIABLE t = 'monthly_sales';
 
+-- Access the variable directly
+SELECT $t;
+┌──────────────┐
+│ $t           │
+├──────────────┤
+│ monthly_sales│
+└──────────────┘
+
 -- Use IDENTIFIER to dynamically reference the table name stored in the variable 't'
 SELECT * FROM IDENTIFIER($t);
 ┌───────┬────────┬───────┐
