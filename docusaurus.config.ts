@@ -48,7 +48,7 @@ const config: Config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: lang,
-    locales: [lang],
+    locales: ['en', 'zh'],
     localeConfigs: {
       en: {
         label: "English",
@@ -216,8 +216,8 @@ const config: Config = {
           }
         ],
         createRedirects(existingPath) {
-          if (existingPath.startsWith('/guides/community/rfcs/')) {
-            return existingPath.replace('/guides/community/rfcs/', '/developer/community/rfcs/');
+          if (existingPath?.includes('/developer/community/rfcs/')) {
+            return existingPath.replace('/developer/community/rfcs/', '/guides/community/rfcs/');
           }
           return undefined;
         }
@@ -275,6 +275,10 @@ const config: Config = {
           to: "/release-notes/",
           label: "Releases",
           position: "right",
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
         },
         // { to: '/blog', label: 'Blog', position: 'left' }, // or position: 'right'
         // {

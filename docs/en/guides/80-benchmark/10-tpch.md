@@ -122,7 +122,6 @@ Both Snowflake and Databend Cloud was tested under similar conditions:
 | Parameter      | Snowflake                                                           | Databend Cloud                            |
 | -------------- | ------------------------------------------------------------------- | ----------------------------------------- |
 | Warehouse Size | Small                                                               | Small                                     |
-| vCPU           | 16                                                                  | 16                                        |
 | Price          | [$4/hour](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/hour](https://www.databend.com/plan/) |
 | AWS Region     | us-east-2                                                           | us-east-2                                 |
 | Storage        | AWS S3                                                              | AWS S3                                    |
