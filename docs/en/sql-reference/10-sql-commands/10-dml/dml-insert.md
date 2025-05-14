@@ -1,6 +1,9 @@
 ---
 title: INSERT
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.738"/>
 
 Inserts one or more rows into a table.
 
@@ -13,7 +16,7 @@ See also: [INSERT (multi-table)](dml-insert-multi.md)
 ## Syntax
 
 ```sql
-INSERT { OVERWRITE | INTO } <table>
+INSERT { OVERWRITE [ INTO ] | INTO } <table>
     -- Optionally specify the columns to insert into
     ( <column> [ , ... ] )
     -- Insertion options:
@@ -25,10 +28,10 @@ INSERT { OVERWRITE | INTO } <table>
     }
 ```
 
-| Parameter | Description                                                                      |
-|-----------|----------------------------------------------------------------------------------|
-| OVERWRITE | Indicates whether existing data should be truncated before insertion.            |
-| VALUES    | Allows direct insertion of specific values or the default values of the columns. |
+| Parameter          | Description                                                                      |
+|--------------------|----------------------------------------------------------------------------------|
+| `OVERWRITE [INTO]` | Indicates whether existing data should be truncated before insertion.            |
+| `VALUES`           | Allows direct insertion of specific values or the default values of the columns. |
 
 ## Important Notes
 
