@@ -38,17 +38,21 @@ const config: Config = {
     "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics.",
   url: docsHomeLink,
   baseUrl: "/",
+  onBrokenAnchors: "ignore",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "throw",
   favicon: "img/rect-icon.png",
   organizationName: "DatabendLabs",
   projectName: 'Databend', // Usually your repo name.
+  future: {
+    experimental_faster: true,
+  },
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: lang,
-    locales: ['en', 'zh'],
+    locales: [lang],
     localeConfigs: {
       en: {
         label: "English",
