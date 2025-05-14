@@ -36,7 +36,9 @@ SELECT * FROM t WHERE content LIKE '%quick br%'
 is issued, the condition `%quick br%` is also tokenized into trigrams, such as "qui", "uic", "ick", "ck ", "k b", " br", etc. Databend uses these to filter data blocks via the n-gram index before applying the full `LIKE` filter, significantly reducing the amount of data scanned.
 
 :::note
-The index only works when the pattern to be matched is at least as long as `gram_size`. Short patterns (e.g., '%yo%' with gram_size = 3) won't benefit from the index.
+- The index only works when the pattern to be matched is at least as long as `gram_size`. Short patterns (e.g., '%yo%' with gram_size = 3) won't benefit from the index.
+
+- When using the Ngram index, matches are case-insensitive. For example, searching for "FOO" will match "foo", "Foo", or "fOo".
 :::
 
 ## Managing Ngram Indexes
