@@ -6,9 +6,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced: v1.1.50"/>
 
-包含有关已创建的聚合索引的信息。
+包含有关已创建索引的信息。
 
-另请参阅：[SHOW INDEXES](../../10-sql-commands/00-ddl/07-aggregating-index/show-indexes.md)
+另请参阅：[SHOW INDEXES](../../10-sql-commands/50-administration-cmds/show-indexes.md)
 
 ```sql
 CREATE TABLE t1(a int,b int);
