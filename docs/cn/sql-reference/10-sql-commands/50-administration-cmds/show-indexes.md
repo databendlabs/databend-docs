@@ -6,17 +6,17 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.190"/>
 
-Shows the created aggregating indexes. Equivalent to `SELECT * FROM system.indexes`.
+显示已创建的索引。等效于 `SELECT * FROM system.indexes`。
 
-See also: [system.indexes](../../../00-sql-reference/31-system-tables/system-indexes.md)
+另请参阅：[system.indexes](../../00-sql-reference/31-system-tables/system-indexes.md)
 
-## Syntax
+## 语法
 
 ```sql
 SHOW INDEXES [LIKE '<pattern>' | WHERE <expr>] | [LIMIT <limit>]
 ```
 
-## Example
+## 示例
 
 ```sql
 CREATE TABLE t1(a int,b int);

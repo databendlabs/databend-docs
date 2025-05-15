@@ -6,9 +6,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced: v1.1.50"/>
 
-Contains information about the created aggregating indexes.
+Contains information about the created indexes.
 
-See also: [SHOW INDEXES](../../10-sql-commands/00-ddl/07-aggregating-index/show-indexes.md)
+See also: [SHOW INDEXES](../../10-sql-commands/50-administration-cmds/show-indexes.md)
 
 ```sql
 CREATE TABLE t1(a int,b int);
