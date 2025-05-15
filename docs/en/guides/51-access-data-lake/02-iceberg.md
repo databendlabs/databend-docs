@@ -223,6 +223,109 @@ This table maps data types between Apache Iceberg™ and Databend. Please note t
 | STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)           |
 | LIST                            | [ARRAY](/sql/sql-reference/data-types/array)                   |
 
+## Catalog Types
+
+Databend supports four types of Iceberg catalogs, each providing a different way to store and manage table metadata. The right choice depends on your infrastructure and operational preferences. In all cases, table data files are stored in object storage such as Amazon S3 or MinIO.
+
+### REST Catalog
+
+This catalog uses a RESTful service to manage Iceberg metadata. It’s lightweight, stateless, and great for local testing or custom deployments where you control the catalog service.
+
+- Requires a running REST catalog service (like Iceberg's REST implementation).
+- Metadata is stored by the REST service, typically in a local or cloud-backed database.
+- Data files are stored in S3-compatible storage.
+
+This example points to a local REST catalog service at `localhost:8181` and stores table data in a MinIO bucket at `localhost:9000`:
+
+```sql
+CREATE CATALOG iceberg_rest TYPE = ICEBERG CONNECTION = (
+    TYPE = 'rest',
+    ADDRESS = 'http://localhost:8181',
+    warehouse = 's3://warehouse/demo/',
+    "s3.endpoint" = 'http://localhost:9000',
+    "s3.access-key-id" = 'admin',
+    "s3.secret-access-key" = 'password',
+    "s3.region" = 'us-east-1'
+);
+```
+
+### Glue Catalog
+
+This catalog integrates with the AWS Glue Data Catalog, or compatible local services like LocalStack. Ideal for users already in the AWS ecosystem who want a centralized, fully managed metadata store.
+
+- Requires AWS credentials and access to Glue, or a local Glue-compatible service.
+- Metadata is stored in the Glue Data Catalog.
+- Data files are stored in S3 or MinIO.
+
+In this example, Glue (or a compatible local service) manages the metadata, while the table data is written to S3-compatible storage at `localhost:9000`:
+
+```sql
+CREATE CATALOG iceberg_glue TYPE = ICEBERG CONNECTION = (
+    TYPE = 'glue',
+    ADDRESS = 'http://localhost:5000',
+    warehouse = 's3a://warehouse/glue/',
+    "aws_access_key_id" = 'my_access_id',
+    "aws_secret_access_key" = 'my_secret_key',
+    "region_name" = 'us-east-1',
+    "s3.endpoint" = 'http://localhost:9000',
+    "s3.access-key-id" = 'admin',
+    "s3.secret-access-key" = 'password',
+    "s3.region" = 'us-east-1'
+);
+```
+
+### Storage Catalog (S3 Tables)
+
+This is a serverless catalog that uses a virtual S3 bucket to manage both metadata and data. No separate metadata service is required.
+
+- No external catalog service needed.
+- Metadata and data files are managed together inside a virtual S3 bucket (via the S3 Tables service).
+- Requires specifying the bucket’s ARN and basic AWS credentials.
+
+In this example, the `table_bucket_arn` identifies a virtual bucket. The catalog service at `localhost:9111` handles everything transparently—no Hive, Glue, or REST service needed.
+
+```sql
+CREATE CATALOG iceberg_storage TYPE = ICEBERG CONNECTION = (
+    TYPE = 'storage',
+    ADDRESS = 'http://localhost:9111',
+    "table_bucket_arn" = "my-bucket",
+    "aws_access_key_id" = "my_access_id",
+    "aws_secret_access_key" = "my_secret_key",
+    "region_name" = "us-east-1"
+);
+```
+
+| Parameter               | Description                                        |
+|-------------------------|----------------------------------------------------|
+| `table_bucket_arn`      | The ARN of the virtual S3 Tables bucket             |
+| `region_name`           | The AWS region used for S3                         |
+| `aws_access_key_id`     | The AWS access key                                 |
+| `aws_secret_access_key` | The AWS secret access key                          |
+| `aws_session_token`     | (Optional) Session token for temporary credentials |
+| `profile_name`          | (Optional) AWS CLI profile name                    |
+
+### Hive Metastore (HMS) Catalog
+
+This catalog uses Hive Metastore to manage Iceberg metadata. It's a good fit for users migrating from Hive or using an existing Hadoop ecosystem.
+
+- Requires a running Hive Metastore service.
+- Metadata is stored in HMS.
+- Data files are stored in S3-compatible storage.
+
+This example connects to a Hive Metastore at `192.168.10.111:9083`, with MinIO as the object storage backend:
+
+```sql
+CREATE CATALOG iceberg_hms TYPE = ICEBERG CONNECTION = (
+    TYPE = 'hive',
+    ADDRESS = '192.168.10.111:9083',
+    warehouse = 's3a://warehouse/hive/',
+    "s3.endpoint" = 'http://localhost:9000',
+    "s3.access-key-id" = 'admin',
+    "s3.secret-access-key" = 'password',
+    "s3.region" = 'us-east-1'
+);
+```
+
 ## Managing Catalogs
 
 Databend provides you the following commands to manage catalogs:
@@ -256,7 +359,7 @@ CONNECTION=(
 | `<catalog_name>`             | Yes       | The name of the catalog you want to create.                                                                                                                                                                                                                                                                                                                                                                           |
 | `TYPE`                       | Yes       | Specifies the catalog type. For Apache Iceberg™, set to `ICEBERG`.                                                                                                                                                                                                                                                                                                                                                            |
 | `CONNECTION`                 | Yes       | The connection parameters for the Iceberg catalog.                                                                                                                                                                                                                                                                                                                                                                    |
-| `TYPE` (inside `CONNECTION`) | Yes       | The connection type. For Iceberg, it is typically set to `rest` for REST-based connection.                                                                                                                                                                                                                                                                                                                            |
+| `TYPE` (inside `CONNECTION`) | Yes       | The catalog type: `rest`, `glue`, `storage`, or `hive`.                                                                                                                                                                                                                                                   |
 | `ADDRESS`                    | Yes       | The address or URL of the Iceberg service (e.g., `http://127.0.0.1:8181`).                                                                                                                                                                                                                                                                                                                                            |
 | `WAREHOUSE`                  | Yes       | The location of the Iceberg warehouse, usually an S3 bucket or compatible object storage system.                                                                                                                                                                                                                                                                                                                      |
 | `<connection_parameter>`     | Yes       | Connection parameters to establish connections with external storage. The required parameters vary based on the specific storage service and authentication methods. See the table below for a full list of the available parameters. |
