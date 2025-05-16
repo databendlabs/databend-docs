@@ -1,6 +1,9 @@
 ---
 title: Migrating from MySQL with DataX
+sidebar_label: 'MySQL → Databend: DataX'
 ---
+
+> **Capabilities**: Full Load, Incremental
 
 In this tutorial, you will load data from MySQL to Databend with DataX. Before you start, make sure you have successfully set up Databend, MySQL, and DataX in your environment.
 

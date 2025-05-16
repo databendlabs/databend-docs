@@ -1,8 +1,9 @@
 ---
 title: Migrating from MySQL with Kafka Connect
+sidebar_label: 'MySQL → Databend: Kafka Connect'
 ---
 
-# Real-time Data Migration from MySQL with Kafka Connect
+> **Capabilities**: CDC, Incremental, Full Load
 
 This tutorial shows how to build a real-time data pipeline from MySQL to Databend using Kafka Connect.
 
