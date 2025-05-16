@@ -2,9 +2,11 @@
 title: COVAR_SAMP
 ---
 
-Aggregate function.
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-The covar_samp() function returns the sample covariance (Σ((x - x̅)(y - y̅)) / (n - 1)) of two data columns.
+<FunctionDescription description="Introduced or updated: v1.2.738"/>
+
+Returns the sample covariance (Σ((x - x̅)(y - y̅)) / (n - 1)) of two data columns.
 
 :::caution
 NULL values are not counted.
@@ -22,6 +24,11 @@ COVAR_SAMP(<expr1>, <expr2>)
 | --------- | ------------------------ |
 | `<expr1>` | Any numerical expression |
 | `<expr2>` | Any numerical expression |
+
+## Aliases
+
+- [VAR_SAMP](aggregate-var-samp.md)
+- [VARIANCE_SAMP](aggregate-variance-samp.md)
 
 ## Return Type
 

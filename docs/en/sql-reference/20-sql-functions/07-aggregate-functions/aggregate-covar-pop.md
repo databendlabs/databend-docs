@@ -1,8 +1,11 @@
 ---
 title: COVAR_POP
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-COVAR_POP returns the population covariance of a set of number pairs. 
+<FunctionDescription description="Introduced or updated: v1.2.738"/>
+
+Returns the population covariance of a set of number pairs. 
 
 ## Syntax
 
@@ -16,6 +19,11 @@ COVAR_POP(<expr1>, <expr2>)
 |-----------| ------------------------ |
 | `<expr1>` | Any numerical expression |
 | `<expr2>` | Any numerical expression |
+
+## Aliases
+
+- [VAR_POP](aggregate-var-pop.md)
+- [VARIANCE_POP](aggregate-variance-pop.md)
 
 ## Return Type
 
