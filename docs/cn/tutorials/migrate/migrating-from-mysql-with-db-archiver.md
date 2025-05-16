@@ -1,6 +1,10 @@
 ---
 title: 使用 db-archiver 从 MySQL 迁移
+sidebar_label: 'MySQL → Databend: db-archiver'
 ---
+
+> **功能**: 全量加载, 增量
+> **✅ 推荐** 用于历史数据的批量迁移
 
 在本教程中，我们将引导你完成使用 db-archiver 从 MySQL 迁移到 Databend Cloud 的过程。
 
@@ -31,7 +35,7 @@ docker run \
 docker ps
 ```
 
-检查输出中是否存在名为 **mysql-server** 的容器：
+检查输出中是否有名为 **mysql-server** 的容器：
 
 ```bash
 CONTAINER ID   IMAGE                          COMMAND                  CREATED        STATUS             PORTS                                                                                            NAMES
@@ -40,7 +44,7 @@ CONTAINER ID   IMAGE                          COMMAND                  CREATED  
 
 ## 步骤 2：使用示例数据填充 MySQL
 
-1. 登录到 MySQL 容器，并在出现提示时输入密码 `root`：
+1. 登录到 MySQL 容器，并在提示时输入密码 `root`：
 
 ```bash
 docker exec -it mysql-server mysql -u root -p
@@ -118,7 +122,7 @@ CREATE TABLE my_table (
 
 ## 步骤 4：安装 db-archiver
 
-从 [release page](https://github.com/databendcloud/db-archiver/releases/) 根据你的架构下载 db-archiver。
+从 [release page](https://github.com/databendcloud/db-archiver/releases/) 根据你的 arch 下载 db-archiver。
 
 ## 步骤 5：配置并运行 db-archiver
 

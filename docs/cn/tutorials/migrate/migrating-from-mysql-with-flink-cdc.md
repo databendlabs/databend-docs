@@ -1,16 +1,19 @@
 ---
 title: 使用 Flink CDC 从 MySQL 迁移
+sidebar_label: 'MySQL → Databend: Flink CDC'
 ---
 
-在本教程中，我们将引导你完成使用 Apache Flink CDC 从 MySQL 迁移到 Databend Cloud 的过程。
+> **功能**: CDC, 全量加载, 转换
+
+在本教程中，我们将引导您完成使用 Apache Flink CDC 从 MySQL 迁移到 Databend Cloud 的过程。
 
 ## 开始之前
 
-在开始之前，请确保你已准备好以下先决条件：
+在开始之前，请确保您已准备好以下先决条件：
 
-- 你的本地机器上安装了 [Docker](https://www.docker.com/)，因为它将用于启动 MySQL。
-- 你的本地机器上安装了 Java 8 或 11，这是 [Flink Databend Connector](https://github.com/databendcloud/flink-connector-databend) 所必需的。
-- 你的本地机器上安装了 BendSQL。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 您的本地机器上已安装 [Docker](https://www.docker.com/)，因为它将用于启动 MySQL。
+- 您的本地机器上已安装 Java 8 或 11，这是 [Flink Databend Connector](https://github.com/databendcloud/flink-connector-databend) 所必需的。
+- 您的本地机器上已安装 BendSQL。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
 
 ## 步骤 1：在 Docker 中启动 MySQL
 
@@ -33,7 +36,7 @@ collation-server=utf8mb4_unicode_ci
 default-authentication-plugin=mysql_native_password
 ```
 
-2. 在你的本地机器上启动一个 MySQL 容器。下面的命令启动一个名为 **mysql-server** 的 MySQL 容器，创建一个名为 **mydb** 的数据库，并将 root 密码设置为 `root`：
+2. 在您的本地机器上启动一个 MySQL 容器。以下命令启动一个名为 **mysql-server** 的 MySQL 容器，创建一个名为 **mydb** 的数据库，并将 root 密码设置为 `root`：
 
 ```bash
 docker run \
@@ -132,7 +135,7 @@ mysql> select * from products;
 
 ## 步骤 3：在 Databend Cloud 中设置目标
 
-1. 使用 BendSQL 连接到 Databend Cloud。如果你不熟悉 BendSQL，请参阅本教程：[使用 BendSQL 连接到 Databend Cloud](../connect/connect-to-databendcloud-bendsql.md)。
+1. 使用 BendSQL 连接到 Databend Cloud。如果您不熟悉 BendSQL，请参阅本教程：[使用 BendSQL 连接到 Databend Cloud](../connect/connect-to-databendcloud-bendsql.md)。
 
 2. 复制并粘贴以下 SQL 以创建一个名为 **products** 的目标表：
 
@@ -162,19 +165,19 @@ curl -Lo lib/flink-connector-databend.jar https://github.com/databendcloud/flink
 curl -Lo lib/flink-sql-connector-mysql-cdc-2.4.1.jar https://repo1.maven.org/maven2/com/ververica/flink-sql-connector-mysql-cdc/2.4.1/flink-sql-connector-mysql-cdc-2.4.1.jar
 ```
 
-3. 打开 `flink-1.17.1/conf/` 下的 **flink-conf.yaml** 文件，将 `taskmanager.memory.process.size` 更新为 `4096m`，然后保存该文件。
+3. 打开 `flink-1.17.1/conf/` 下的 **flink-conf.yaml** 文件，将 `taskmanager.memory.process.size` 更新为 `4096m`，然后保存文件。
 
 ```yaml
 taskmanager.memory.process.size: 4096m
 ```
 
-4. 启动 Flink 集群：
+4. 启动一个 Flink 集群：
 
 ```shell
 ./bin/start-cluster.sh
 ```
 
-现在，如果你在浏览器中访问 [http://localhost:8081](http://localhost:8081)，则可以打开 Apache Flink Dashboard：
+现在，如果您在浏览器中访问 [http://localhost:8081](http://localhost:8081)，则可以打开 Apache Flink 仪表板：
 
 ![Alt text](/img/load/cdc-dashboard.png)
 
@@ -186,12 +189,11 @@ taskmanager.memory.process.size: 4096m
 ./bin/sql-client.sh
 ```
 
-你将看到 Flink SQL Client 启动横幅，确认客户端已成功启动。
+您将看到 Flink SQL Client 启动横幅，确认客户端已成功启动。
 
 ```bash
-
-
 ```
+
                                    ▒▓██▓██▒
                                ▓████▒▒█▓▒▓███▓▒
                             ▓███▓░░        ▒▒▒▓██▒  ▒
@@ -215,7 +217,7 @@ taskmanager.memory.process.size: 4096m
           █▓▒▒▓▓██  ░▒▒░░░▒▒▒▒▓██▓░                            █▓
           ██ ▓░▒█   ▓▓▓▓▒░░  ▒█▓       ▒▓▓██▓    ▓▒          ▒▒▓
           ▓█▓ ▓▒█  █▓░  ░▒▓▓██▒            ░▓█▒   ▒▒▒░▒▒▓█████▒
-           ██░ ▓█▒█▒  ▒▓▓▒  ▓█                █░      ░░░░   ░█▒
+          ██░ ▓█▒█▒  ▒▓▓▒  ▓█                █░      ░░░░   ░█▒
            ▓█   ▒█▓   ░     █░                ▒█              █▓
             █▓   ██         █░                 ▓▓        ▒█▓▓▓▒█░
              █▓ ░▓██░       ▓▒                  ▓█▓▒░░░▒▓█░    ▒█
@@ -241,7 +243,7 @@ taskmanager.memory.process.size: 4096m
 Flink SQL> SET execution.checkpointing.interval = 3s;
 ```
 
-3. 在 Flink SQL Client 中创建带有 MySQL 和 Databend 连接器的相应表（将占位符替换为您的实际值）：
+3. 在 Flink SQL Client 中使用 MySQL 和 Databend 连接器创建相应的表（将占位符替换为您的实际值）：
 
 ```sql
 CREATE TABLE mysql_products (id INT,name STRING,description STRING,PRIMARY KEY (id) NOT ENFORCED)

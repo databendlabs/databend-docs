@@ -1,12 +1,16 @@
 ---
 title: 使用 Debezium 从 MySQL 迁移
+sidebar_label: 'MySQL → Databend: Debezium'
 ---
+
+> **功能**: CDC, 全量加载  
+> **✅ 推荐** 用于实时迁移，具有完整变更数据捕获
 
 在本教程中，您将使用 Debezium 将数据从 MySQL 加载到 Databend。在开始之前，请确保您已在环境中成功设置 Databend、MySQL 和 Debezium。
 
-## Step 1. 准备 MySQL 中的数据
+## 步骤 1. 准备 MySQL 中的数据
 
-在 MySQL 中创建一个数据库和一个表，并将示例数据插入到该表中。
+在 MySQL 中创建一个数据库和一个表，并将示例数据插入到表中。
 
 ```sql
 CREATE DATABASE mydb;
@@ -27,19 +31,19 @@ INSERT INTO products VALUES (default,"scooter","Small 2-wheel scooter"),
 (default,"spare tire","24 inch spare tire");
 ```
 
-## Step 2. 在 Databend 中创建数据库
+## 步骤 2. 在 Databend 中创建数据库
 
-在 Databend 中创建相应的数据库。请注意，您不需要创建与 MySQL 中的表相对应的表。
+在 Databend 中创建相应的数据库。请注意，您无需创建与 MySQL 中的表对应的表。
 
 ```sql
 CREATE DATABASE debezium;
 ```
 
-## Step 3. 创建 application.properties
+## 步骤 3. 创建 application.properties
 
 创建文件 _application.properties_，然后启动 debezium-server-databend。有关如何安装和启动该工具，请参见 [安装 debezium-server-databend](#installing-debezium-server-databend)。
 
-首次启动时，该工具使用指定的 Batch Size 执行从 MySQL 到 Databend 的数据完全同步。因此，在成功复制后，来自 MySQL 的数据现在在 Databend 中可见。
+首次启动时，该工具使用指定的批量大小执行从 MySQL 到 Databend 的数据完全同步。因此，成功复制后，MySQL 中的数据现在在 Databend 中可见。
 
 ```text title='application.properties'
 debezium.sink.type=databend
@@ -88,4 +92,4 @@ quarkus.log.level=INFO
 quarkus.log.category."org.eclipse.jetty".level=WARN
 ```
 
-一切就绪！如果您查询 Databend 中的 products 表，您将看到来自 MySQL 的数据已成功同步。您可以随意在 MySQL 中执行插入、更新或删除操作，并且您会观察到 Databend 中也反映了相应的更改。
+一切就绪！如果您查询 Databend 中的 products 表，您将看到 MySQL 中的数据已成功同步。您可以随意在 MySQL 中执行插入、更新或删除操作，并且您会观察到 Databend 中也反映了相应的更改。
