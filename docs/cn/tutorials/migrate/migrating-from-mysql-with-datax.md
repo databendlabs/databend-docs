@@ -1,12 +1,15 @@
 ---
 title: 使用 DataX 从 MySQL 迁移
+sidebar_label: 'MySQL → Databend: DataX'
 ---
 
-在本教程中，您将使用 DataX 将数据从 MySQL 加载到 Databend。在开始之前，请确保您已在您的环境中成功设置 Databend、MySQL 和 DataX。
+> **能力**: 全量加载, 增量
+
+在本教程中，您将使用 DataX 将数据从 MySQL 加载到 Databend。在开始之前，请确保您已在您的环境中成功设置了 Databend、MySQL 和 DataX。
 
 1. 在 MySQL 中，创建一个 SQL 用户，您将使用该用户进行数据加载，然后创建一个表并使用示例数据填充它。
 
-```sql title='In MySQL:'
+```sql title='在 MySQL 中:'
 mysql> create user 'mysqlu1'@'%' identified by 'databend';
 mysql> grant all on *.* to 'mysqlu1'@'%';
 mysql> create database db;
@@ -14,18 +17,18 @@ mysql> create table db.tb01(id int, d double, t TIMESTAMP,  col1 varchar(10));
 mysql> insert into db.tb01 values(1, 3.1,now(), 'test1'), (1, 4.1,now(), 'test2'), (1, 4.1,now(), 'test2');
 ```
 
-2. 在 Databend 中，创建对应的目标表。
+2. 在 Databend 中，创建一个对应的目标表。
 
 :::note
-DataX 数据类型在加载到 Databend 时可以转换为 Databend 的数据类型。有关 DataX 数据类型和 Databend 数据类型之间的具体对应关系，请参阅以下链接中提供的文档：https://github.com/alibaba/DataX/blob/master/databendwriter/doc/databendwriter.md#33-type-convert
+DataX 数据类型在加载到 Databend 时可以转换为 Databend 的数据类型。有关 DataX 数据类型与 Databend 数据类型之间的具体对应关系，请参阅以下链接中提供的文档：https://github.com/alibaba/DataX/blob/master/databendwriter/doc/databendwriter.md#33-type-convert
 :::
 
-```sql title='In Databend:'
+```sql title='在 Databend 中:'
 databend> create database migrated_db;
 databend> create table migrated_db.tb01(id int null, d double null, t TIMESTAMP null,  col1 varchar(10) null);
 ```
 
-3. 将以下代码复制并粘贴到文件中，并将文件命名为 *mysql_demo.json*。有关可用参数及其描述，请参阅以下链接中提供的文档：https://github.com/alibaba/DataX/blob/master/databendwriter/doc/databendwriter.md#32-configuration-description
+3. 将以下代码复制并粘贴到一个文件中，并将该文件命名为 *mysql_demo.json*。有关可用参数及其描述，请参阅以下链接中提供的文档：https://github.com/alibaba/DataX/blob/master/databendwriter/doc/databendwriter.md#32-configuration-description
 
 ```json title='mysql_demo.json'
 {
@@ -100,7 +103,7 @@ databend> create table migrated_db.tb01(id int null, d double null, t TIMESTAMP 
 ```
 :::
 
-4. 运行 DataX：
+4. 运行 DataX:
 
 ```shell
 cd {YOUR_DATAX_DIR_BIN}
