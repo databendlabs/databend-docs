@@ -1,6 +1,10 @@
 ---
 title: Migrating from MySQL with Debezium
+sidebar_label: 'MySQL → Databend: Debezium'
 ---
+
+> **Capabilities**: CDC, Full Load  
+> **✅ Recommended** for real-time migration with complete change data capture
 
 In this tutorial, you will load data from MySQL to Databend with Debezium. Before you start, make sure you have successfully set up Databend, MySQL, and Debezium in your environment.
 

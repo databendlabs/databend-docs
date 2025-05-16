@@ -1,6 +1,10 @@
 ---
 title: Migrating from MySQL with db-archiver
+sidebar_label: 'MySQL → Databend: db-archiver'
 ---
+
+> **Capabilities**: Full Load, Incremental  
+> **✅ Recommended** for batch migration of historical data
 
 In this tutorial, we'll walk you through the process of migrating from MySQL to Databend Cloud using db-archiver.
 

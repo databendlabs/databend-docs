@@ -1,6 +1,10 @@
 ---
 title: Migrating from Snowflake
+sidebar_label: Snowflake → Databend
+
 ---
+
+> **Capabilities**: Full Load
 
 In this tutorial, we'll walk you through the process of exporting data from Snowflake in Parquet format to an Amazon S3 bucket, and then loading it into Databend Cloud.
 

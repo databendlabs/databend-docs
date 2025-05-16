@@ -1,6 +1,9 @@
 ---
 title: Migrating from MySQL with Addax
+sidebar_label: 'MySQL → Databend: Addax'
 ---
+
+> **Capabilities**: Full Load, Incremental
 
 In this tutorial, you will load data from MySQL to Databend with Addax. Before you start, make sure you have successfully set up Databend, MySQL, and Addax in your environment.
 
