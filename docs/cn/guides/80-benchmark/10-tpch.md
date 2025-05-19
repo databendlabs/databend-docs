@@ -84,32 +84,33 @@ TPC Benchmark™ 和 TPC-H™ 是事务处理性能委员会 ([TPC](http://www.t
 
 ![Alt text](@site/static/img/documents/tpch3.png)
 
-| 查询       | Snowflake (总计 138s, 成本 $0.15) | Databend Cloud (总计 124s, 成本 $0.07) |
-| ---------- | --------------------------------- | -------------------------------------- |
-| TPC-H 1    | 8.934                             | 7.568                                  |
-| TPC-H 2    | 3.018                             | 3.125                                  |
-| TPC-H 3    | 6.089                             | 5.234                                  |
-| TPC-H 4    | 4.914                             | 3.392                                  |
-| TPC-H 5    | 5.800                             | 4.857                                  |
-| TPC-H 6    | 0.891                             | 2.142                                  |
-| TPC-H 7    | 5.381                             | 4.389                                  |
-| TPC-H 8    | 5.724                             | 5.887                                  |
-| TPC-H 9    | 10.283                            | 9.621                                  |
-| TPC-H 10   | 10.368                            | 8.524                                  |
-| TPC-H 11   | 1.165                             | 1.364                                  |
-| TPC-H 12   | 7.052                             | 5.352                                  |
-| TPC-H 13   | 12.829                            | 6.180                                  |
-| TPC-H 14   | 3.288                             | 2.725                                  |
-| TPC-H 15   | 3.475                             | 2.748                                  |
-| TPC-H 16   | 4.094                             | 1.124                                  |
-| TPC-H 17   | 4.203                             | 13.757                                 |
-| TPC-H 18   | 18.583                            | 11.630                                 |
-| TPC-H 19   | 3.888                             | 7.881                                  |
-| TPC-H 20   | 6.379                             | 5.797                                  |
-| TPC-H 21   | 10.287                            | 9.806                                  |
-| TPC-H 22   | 1.573                             | 1.122                                  |
-| **总时间** | **138s**                          | **124s**                               |
-| **总成本** | **$0.15**                         | **$0.07**                              |
+
+| 查询          | Snowflake (总计 138s, 成本 $0.15) | Databend Cloud (总计 124s, 成本 $0.07) |
+| -------------- | ---------------------------------- | --------------------------------------- |
+| TPC-H 1        | 8.934                              | 7.568                                   |
+| TPC-H 2        | 3.018                              | 3.125                                   |
+| TPC-H 3        | 6.089                              | 5.234                                   |
+| TPC-H 4        | 4.914                              | 3.392                                   |
+| TPC-H 5        | 5.800                              | 4.857                                   |
+| TPC-H 6        | 0.891                              | 2.142                                   |
+| TPC-H 7        | 5.381                              | 4.389                                   |
+| TPC-H 8        | 5.724                              | 5.887                                   |
+| TPC-H 9        | 10.283                             | 9.621                                   |
+| TPC-H 10       | 10.368                             | 8.524                                   |
+| TPC-H 11       | 1.165                              | 1.364                                   |
+| TPC-H 12       | 7.052                              | 5.352                                   |
+| TPC-H 13       | 12.829                             | 6.180                                   |
+| TPC-H 14       | 3.288                              | 2.725                                   |
+| TPC-H 15       | 3.475                              | 2.748                                   |
+| TPC-H 16       | 4.094                              | 1.124                                   |
+| TPC-H 17       | 4.203                              | 13.757                                  |
+| TPC-H 18       | 18.583                             | 11.630                                  |
+| TPC-H 19       | 3.888                              | 7.881                                   |
+| TPC-H 20       | 6.379                              | 5.797                                   |
+| TPC-H 21       | 10.287                             | 9.806                                   |
+| TPC-H 22       | 1.573                              | 1.122                                   |
+| **总时间** | **138s**                           | **124s**                                |
+| **总成本** | **$0.15**                          | **$0.07**                               |
 
 ## 重现基准测试
 
@@ -119,21 +120,21 @@ TPC Benchmark™ 和 TPC-H™ 是事务处理性能委员会 ([TPC](http://www.t
 
 Snowflake 和 Databend Cloud 均在相似条件下进行了测试：
 
-| 参数         | Snowflake                                                | Databend Cloud                            |
-| ------------ | -------------------------------------------------------- | ----------------------------------------- |
+| 参数      | Snowflake                                                | Databend Cloud                            |
+| -------------- | -------------------------------------------------------- | ----------------------------------------- |
 | 计算集群大小 | Small                                                    | Small                                     |
-| 价格         | [$4/小时](https://www.snowflake.com/en/pricing-options/) | [$2/小时](https://www.databend.com/plan/) |
+| 价格          | [$4/小时](https://www.snowflake.com/en/pricing-options/) | [$2/小时](https://www.databend.com/plan/) |
 | AWS 区域     | us-east-2                                                | us-east-2                                 |
-| 存储         | AWS S3                                                   | AWS S3                                    |
+| 存储        | AWS S3                                                   | AWS S3                                    |
 
 - TPC-H SF100 数据集来源于 [Amazon Redshift](https://github.com/awslabs/amazon-redshift-utils/tree/master/src/CloudDataWarehouseBenchmark/Cloud-DWB-Derived-from-TPCH)，已加载到 Databend Cloud 和 Snowflake 中，未进行任何特定调整。
 
 ### 基准测试方法
 
-我们对查询执行进行了冷启动和热启动两种方式：
+我们对查询执行进行了冷热运行：
 
-1. **冷启动**: 在执行查询之前，数仓被暂停并恢复。
-2. **热启动**: 数仓未被暂停，使用本地磁盘缓存。
+1. **冷启动**: 在执行查询之前，先暂停再恢复计算集群。
+2. **热启动**: 计算集群未暂停，使用本地磁盘缓存。
 
 ### 前提条件
 
@@ -151,7 +152,7 @@ Snowflake 和 Databend Cloud 均在相似条件下进行了测试：
 2. **Databend Cloud 数据加载**:
    - 登录您的 [Databend Cloud 账户](https://app.databend.com)。
    - 按照 TPC-H 模式创建必要的表。[SQL 脚本](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L1-L84)。
-   - 使用类似于 Snowflake 的方法从 AWS S3 加载数据。[SQL 脚本](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L87-L117)。
+   - 采用类似于 Snowflake 的方法从 AWS S3 加载数据。[SQL 脚本](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L87-L117)。
 
 ### TPC-H 查询
 
