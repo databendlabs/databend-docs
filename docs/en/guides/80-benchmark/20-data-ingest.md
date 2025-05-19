@@ -87,13 +87,13 @@ You can reproduce the benchmark by following the steps below.
 
 Both Snowflake and Databend Cloud was tested under similar conditions:
 
-| Parameter      | Snowflake                                                           | Databend Cloud                            |
-| -------------- | ------------------------------------------------------------------- | ----------------------------------------- |
-| Warehouse Size | Small                                                               | Small                                     |
-| vCPU           | 16                                                                  | 16                                        |
-| Price          | [$4/hour](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/hour](https://www.databend.com/plan/) |
-| AWS Region     | us-east-2                                                           | us-east-2                                 |
-| Storage        | AWS S3                                                              | AWS S3                                    |
+| Parameter      | Snowflake                                                | Databend Cloud                            |
+| -------------- | -------------------------------------------------------- | ----------------------------------------- |
+| Warehouse Size | Small                                                    | Small                                     |
+| vCPU           | 16                                                       | 16                                        |
+| Price          | [$4/hour](https://www.snowflake.com/en/pricing-options/) | [$2/hour](https://www.databend.com/plan/) |
+| AWS Region     | us-east-2                                                | us-east-2                                 |
+| Storage        | AWS S3                                                   | AWS S3                                    |
 
 - The TPC-H SF100 dataset, sourced from [Amazon Redshift](https://github.com/awslabs/amazon-redshift-utils/tree/master/src/CloudDataWarehouseBenchmark/Cloud-DWB-Derived-from-TPCH).
 - The ClickBench dataset, sourced from [ClickBench](https://github.com/ClickHouse/ClickBench).

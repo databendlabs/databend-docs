@@ -38,20 +38,20 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 ### TPC-H SF100 数据集
 
-| 指标           | Snowflake | Databend Cloud | 描述                   |
-| -------------- | --------- | -------------- | ---------------------- |
-| **总时间**     | 695s      | 446s           | 加载数据集的时间。     |
-| **总成本**     | $0.77     | $0.25          | 数据加载的成本。       |
+| 指标       | Snowflake | Databend Cloud | 描述               |
+| ---------- | --------- | -------------- | ------------------ |
+| **总时间** | 695s      | 446s           | 加载数据集的时间。 |
+| **总成本** | $0.77     | $0.25          | 数据加载的成本。   |
 
 - 数据量：100GB
 - 行数：约 6 亿
 
 ### ClickBench Hits 数据集
 
-| 指标           | Snowflake | Databend Cloud | 描述                   |
-| -------------- | --------- | -------------- | ---------------------- |
-| **总时间**     | 51m 17s   | 9m 58s         | 加载数据集的时间。     |
-| **总成本**     | $3.42     | $0.30          | 数据加载的成本。       |
+| 指标       | Snowflake | Databend Cloud | 描述               |
+| ---------- | --------- | -------------- | ------------------ |
+| **总时间** | 51m 17s   | 9m 58s         | 加载数据集的时间。 |
+| **总成本** | $3.42     | $0.30          | 数据加载的成本。   |
 
 - 数据量：76GB
 - 行数：约 1 亿
@@ -65,19 +65,19 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 评估在 1 秒时效性要求内摄取的数据量。
 
-| 指标           | Snowflake | Databend Cloud | 描述                                           |
-| -------------- | --------- | -------------- | ---------------------------------------------- |
-| **总时间**     | 1s        | 1s             | 加载时间范围。                                 |
-| **总行数**     | 100 Rows  | 40,000 Rows    | 在 1 秒内成功摄取的数据量。                    |
+| 指标       | Snowflake | Databend Cloud | 描述                        |
+| ---------- | --------- | -------------- | --------------------------- |
+| **总时间** | 1s        | 1s             | 加载时间范围。              |
+| **总行数** | 100 Rows  | 40,000 Rows    | 在 1 秒内成功摄取的数据量。 |
 
 ### 5 秒时效性基准测试
 
 评估在 5 秒时效性要求内可以摄取的数据量。
 
-| 指标           | Snowflake   | Databend Cloud | 描述                                           |
-| -------------- | ----------- | -------------- | ---------------------------------------------- |
-| **总时间**     | 5s          | 5s             | 加载时间范围。                                 |
-| **总行数**     | 90,000 Rows | 2,500,000 Rows | 在 5 秒内成功摄取的数据量。                    |
+| 指标       | Snowflake   | Databend Cloud | 描述                        |
+| ---------- | ----------- | -------------- | --------------------------- |
+| **总时间** | 5s          | 5s             | 加载时间范围。              |
+| **总行数** | 90,000 Rows | 2,500,000 Rows | 在 5 秒内成功摄取的数据量。 |
 
 ## 重现基准测试
 
@@ -87,13 +87,13 @@ import DetailsWrap from '@site/src/components/DetailsWrap';
 
 Snowflake 和 Databend Cloud 都在相似的条件下进行了测试：
 
-| 参数           | Snowflake                                                           | Databend Cloud                            |
-| -------------- | ------------------------------------------------------------------- | ----------------------------------------- |
-| 计算集群大小   | Small                                                               | Small                                     |
-| vCPU           | 16                                                                  | 16                                        |
-| 价格           | [$4/hour](https://www.snowflake.com/en/data-cloud/pricing-options/) | [$2/hour](https://www.databend.com/plan/) |
-| AWS 区域       | us-east-2                                                           | us-east-2                                 |
-| 存储           | AWS S3                                                              | AWS S3                                    |
+| 参数         | Snowflake                                                | Databend Cloud                            |
+| ------------ | -------------------------------------------------------- | ----------------------------------------- |
+| 计算集群大小 | Small                                                    | Small                                     |
+| vCPU         | 16                                                       | 16                                        |
+| 价格         | [$4/hour](https://www.snowflake.com/en/pricing-options/) | [$2/hour](https://www.databend.com/plan/) |
+| AWS 区域     | us-east-2                                                | us-east-2                                 |
+| 存储         | AWS S3                                                   | AWS S3                                    |
 
 - TPC-H SF100 数据集，来源于 [Amazon Redshift](https://github.com/awslabs/amazon-redshift-utils/tree/master/src/CloudDataWarehouseBenchmark/Cloud-DWB-Derived-from-TPCH)。
 - ClickBench 数据集，来源于 [ClickBench](https://github.com/ClickHouse/ClickBench)。
