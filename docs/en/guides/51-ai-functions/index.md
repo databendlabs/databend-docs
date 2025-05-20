@@ -26,7 +26,7 @@ Embeddings are vector representations of text that capture semantic meaning. Sim
 
 ## Vector Storage in Databend
 
-Databend can store embedding vectors using the `ARRAY(FLOAT32 NOT NULL)` data type and perform similarity calculations with the cosine_distance function directly in SQL.
+Databend can store embedding vectors using the `ARRAY(FLOAT NOT NULL)` data type and perform similarity calculations with the cosine_distance function directly in SQL.
 
 ## Example: Document Similarity Search
 
@@ -36,7 +36,7 @@ CREATE TABLE articles (
     id INT,
     title VARCHAR,
     content VARCHAR,
-    embedding ARRAY(FLOAT32 NOT NULL)
+    embedding ARRAY(FLOAT NOT NULL)
 );
 
 -- Insert documents with embeddings

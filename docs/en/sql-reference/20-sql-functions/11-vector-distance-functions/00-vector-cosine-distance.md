@@ -13,8 +13,8 @@ COSINE_DISTANCE(vector1, vector2)
 
 ## Arguments
 
-- `vector1`: First vector (ARRAY(FLOAT32 NOT NULL))
-- `vector2`: Second vector (ARRAY(FLOAT32 NOT NULL))
+- `vector1`: First vector (ARRAY(FLOAT NOT NULL))
+- `vector2`: Second vector (ARRAY(FLOAT NOT NULL))
 
 ## Returns
 
@@ -51,7 +51,7 @@ Create a table with vector data:
 ```sql
 CREATE OR REPLACE TABLE vectors (
     id INT,
-    vec ARRAY(FLOAT32 NOT NULL)
+    vec ARRAY(FLOAT NOT NULL)
 );
 
 INSERT INTO vectors VALUES
