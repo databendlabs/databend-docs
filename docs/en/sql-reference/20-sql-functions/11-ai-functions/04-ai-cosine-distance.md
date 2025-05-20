@@ -3,64 +3,80 @@ title: 'COSINE_DISTANCE'
 description: 'Measuring similarity using the cosine_distance function in Databend'
 ---
 
-This document provides an overview of the cosine_distance function in Databend and demonstrates how to measure document similarity using this function.
+Calculates the cosine distance between two vectors, measuring how dissimilar they are.
+
+## Syntax
+
+```sql
+COSINE_DISTANCE(vector1, vector2)
+```
+
+## Arguments
+
+- `vector1`: First vector (ARRAY(FLOAT32 NOT NULL))
+- `vector2`: Second vector (ARRAY(FLOAT32 NOT NULL))
+
+## Returns
+
+Returns a FLOAT value between 0 and 1:
+- 0: Identical vectors (completely similar)
+- 1: Orthogonal vectors (completely dissimilar)
+
+## Description
+
+The cosine distance measures the dissimilarity between two vectors based on the angle between them, regardless of their magnitude. The function:
+
+1. Verifies that both input vectors have the same length
+2. Computes the sum of element-wise products (dot product) of the two vectors
+3. Calculates the square root of the sum of squares for each vector (vector magnitudes)
+4. Returns `1 - (dot_product / (magnitude1 * magnitude2))`
+
+The mathematical formula implemented is:
+
+```
+cosine_distance(v1, v2) = 1 - (Σ(v1ᵢ * v2ᵢ) / (√Σ(v1ᵢ²) * √Σ(v2ᵢ²)))
+```
+
+Where v1ᵢ and v2ᵢ are the elements of the input vectors.
 
 :::info
-
-The cosine_distance function performs vector computations within Databend and does not rely on the (Azure) OpenAI API. 
-
+This function performs vector computations within Databend and does not rely on external APIs.
 :::
 
-The cosine_distance function in Databend is a built-in function that calculates the cosine distance between two vectors. It is commonly used in natural language processing tasks, such as document similarity and recommendation systems.
-
-Cosine distance is a measure of similarity between two vectors, based on the cosine of the angle between them. The function takes two input vectors and returns a value between 0 and 1, with 0 indicating identical vectors and 1 indicating orthogonal (completely dissimilar) vectors.
 
 ## Examples
 
-**Creating a Table and Inserting Sample Data**
+Create a table with vector data:
 
-Let's create a table to store some sample text documents and their corresponding embeddings:
 ```sql
-CREATE TABLE articles (
+CREATE OR REPLACE TABLE vectors (
     id INT,
-    title VARCHAR,
-    content VARCHAR,
-    embedding ARRAY(FLOAT32)
+    vec ARRAY(FLOAT32 NOT NULL)
 );
+
+INSERT INTO vectors VALUES
+    (1, [1.0000, 2.0000, 3.0000]),
+    (2, [1.0000, 2.2000, 3.0000]),
+    (3, [4.0000, 5.0000, 6.0000]);
 ```
 
-Now, let's insert some sample documents into the table:
+Find the vector most similar to [1, 2, 3]:
+
 ```sql
-INSERT INTO articles (id, title, content, embedding)
-VALUES
-    (1, 'Python for Data Science', 'Python is a versatile programming language widely used in data science...', ai_embedding_vector('Python is a versatile programming language widely used in data science...')),
-    (2, 'Introduction to R', 'R is a popular programming language for statistical computing and graphics...', ai_embedding_vector('R is a popular programming language for statistical computing and graphics...')),
-    (3, 'Getting Started with SQL', 'Structured Query Language (SQL) is a domain-specific language used for managing relational databases...', ai_embedding_vector('Structured Query Language (SQL) is a domain-specific language used for managing relational databases...'));
+SELECT 
+    vec, 
+    COSINE_DISTANCE(vec, [1.0000, 2.0000, 3.0000]) AS distance
+FROM 
+    vectors
+ORDER BY 
+    distance ASC
+LIMIT 1;
 ```
 
-**Querying for Similar Documents**
-
-Now, let's find the documents that are most similar to a given query using the cosine_distance function:
-```sql
-SELECT
-    id,
-    title,
-    content,
-    cosine_distance(embedding, ai_embedding_vector('How to use Python in data analysis?')) AS similarity
-FROM
-    articles
-ORDER BY
-    similarity ASC
-    LIMIT 3;
 ```
-
-Result:
-```sql
-+------+--------------------------+---------------------------------------------------------------------------------------------------------+------------+
-| id   | title                    | content                                                                                                 | similarity |
-+------+--------------------------+---------------------------------------------------------------------------------------------------------+------------+
-|    1 | Python for Data Science  | Python is a versatile programming language widely used in data science...                               |  0.1142081 |
-|    2 | Introduction to R        | R is a popular programming language for statistical computing and graphics...                           | 0.18741018 |
-|    3 | Getting Started with SQL | Structured Query Language (SQL) is a domain-specific language used for managing relational databases... | 0.25137568 |
-+------+--------------------------+---------------------------------------------------------------------------------------------------------+------------+
++-------------------------+----------+
+| vec                     | distance |
++-------------------------+----------+
+| [1.0000,2.2000,3.0000]  | 0.0      |
++-------------------------+----------+
 ```
