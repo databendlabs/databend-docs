@@ -13,13 +13,13 @@ COSINE_DISTANCE(vector1, vector2)
 
 ## 参数
 
-- `vector1`: 第一个向量 (ARRAY(FLOAT32 NOT NULL))
-- `vector2`: 第二个向量 (ARRAY(FLOAT32 NOT NULL))
+- `vector1`: 第一个向量 (ARRAY(FLOAT NOT NULL))
+- `vector2`: 第二个向量 (ARRAY(FLOAT NOT NULL))
 
 ## 返回值
 
 返回一个介于 0 和 1 之间的 FLOAT 值：
-- 0：相同的向量（完全相似）
+- 0：相同向量（完全相似）
 - 1：正交向量（完全不相似）
 
 ## 描述
@@ -51,7 +51,7 @@ cosine_distance(v1, v2) = 1 - (Σ(v1ᵢ * v2ᵢ) / (√Σ(v1ᵢ²) * √Σ(v2ᵢ
 ```sql
 CREATE OR REPLACE TABLE vectors (
     id INT,
-    vec ARRAY(FLOAT32 NOT NULL)
+    vec ARRAY(FLOAT NOT NULL)
 );
 
 INSERT INTO vectors VALUES
