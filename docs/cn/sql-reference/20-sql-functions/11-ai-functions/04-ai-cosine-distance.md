@@ -1,66 +1,82 @@
 ---
 title: 'COSINE_DISTANCE'
-description: '在Databend中使用cosine_distance函数测量相似度'
+description: '在 Databend 中使用 cosine_distance 函数测量相似度'
 ---
 
-本文档概述了Databend中的cosine_distance函数，并演示如何使用该函数测量文档相似度。
+计算两个向量之间的余弦距离，测量它们的相异程度。
+
+## 语法
+
+```sql
+COSINE_DISTANCE(vector1, vector2)
+```
+
+## 参数
+
+- `vector1`: 第一个向量 (ARRAY(FLOAT32 NOT NULL))
+- `vector2`: 第二个向量 (ARRAY(FLOAT32 NOT NULL))
+
+## 返回值
+
+返回一个介于 0 和 1 之间的 FLOAT 值：
+- 0：相同向量（完全相似）
+- 1：正交向量（完全不相似）
+
+## 描述
+
+余弦距离测量两个向量之间基于它们之间角度的相异度，而不管它们的大小。该函数：
+
+1. 验证两个输入向量是否具有相同的长度
+2. 计算两个向量的元素乘积之和（点积）
+3. 计算每个向量的平方和的平方根（向量大小）
+4. 返回 `1 - (dot_product / (magnitude1 * magnitude2))`
+
+实现的数学公式为：
+
+```
+cosine_distance(v1, v2) = 1 - (Σ(v1ᵢ * v2ᵢ) / (√Σ(v1ᵢ²) * √Σ(v2ᵢ²)))
+```
+
+其中 v1ᵢ 和 v2ᵢ 是输入向量的元素。
 
 :::info
-
-cosine_distance函数在Databend内部执行向量计算，不依赖于（Azure）OpenAI API。
-
+此函数在 Databend 中执行向量计算，不依赖于外部 API。
 :::
 
-Databend中的cosine_distance函数是一个内置函数，用于计算两个向量之间的余弦距离。它通常用于自然语言处理任务，如文档相似度和推荐系统。
-
-余弦距离是基于两个向量之间夹角的余弦值来衡量相似度的一种度量。该函数接受两个输入向量，并返回一个介于0和1之间的值，其中0表示完全相同的向量，1表示正交（完全不相似）的向量。
 
 ## 示例
 
-**创建表并插入示例数据**
+创建一个包含向量数据的表：
 
-让我们创建一个表来存储一些示例文本文档及其对应的嵌入向量：
 ```sql
-CREATE TABLE articles (
+CREATE OR REPLACE TABLE vectors (
     id INT,
-    title VARCHAR,
-    content VARCHAR,
-    embedding ARRAY(FLOAT32)
+    vec ARRAY(FLOAT32 NOT NULL)
 );
+
+INSERT INTO vectors VALUES
+    (1, [1.0000, 2.0000, 3.0000]),
+    (2, [1.0000, 2.2000, 3.0000]),
+    (3, [4.0000, 5.0000, 6.0000]);
 ```
 
-现在，让我们向表中插入一些示例文档：
+找到与 [1, 2, 3] 最相似的向量：
+
 ```sql
-INSERT INTO articles (id, title, content, embedding)
-VALUES
-    (1, 'Python for Data Science', 'Python is a versatile programming language widely used in data science...', ai_embedding_vector('Python is a versatile programming language widely used in data science...')),
-    (2, 'Introduction to R', 'R is a popular programming language for statistical computing and graphics...', ai_embedding_vector('R is a popular programming language for statistical computing and graphics...')),
-    (3, 'Getting Started with SQL', 'Structured Query Language (SQL) is a domain-specific language used for managing relational databases...', ai_embedding_vector('Structured Query Language (SQL) is a domain-specific language used for managing relational databases...'));
+SELECT 
+    vec, 
+    COSINE_DISTANCE(vec, [1.0000, 2.0000, 3.0000]) AS distance
+FROM 
+    vectors
+ORDER BY 
+    distance ASC
+LIMIT 1;
 ```
 
-**查询相似文档**
-
-现在，让我们使用cosine_distance函数找到与给定查询最相似的文档：
-```sql
-SELECT
-    id,
-    title,
-    content,
-    cosine_distance(embedding, ai_embedding_vector('How to use Python in data analysis?')) AS similarity
-FROM
-    articles
-ORDER BY
-    similarity ASC
-    LIMIT 3;
 ```
-
-结果：
-```sql
-+------+--------------------------+---------------------------------------------------------------------------------------------------------+------------+
-| id   | title                    | content                                                                                                 | similarity |
-+------+--------------------------+---------------------------------------------------------------------------------------------------------+------------+
-|    1 | Python for Data Science  | Python is a versatile programming language widely used in data science...                               |  0.1142081 |
-|    2 | Introduction to R        | R is a popular programming language for statistical computing and graphics...                           | 0.18741018 |
-|    3 | Getting Started with SQL | Structured Query Language (SQL) is a domain-specific language used for managing relational databases... | 0.25137568 |
-+------+--------------------------+---------------------------------------------------------------------------------------------------------+------------+
++-------------------------+----------+
+| vec                     | distance |
++-------------------------+----------+
+| [1.0000,2.2000,3.0000]  | 0.0      |
++-------------------------+----------+
 ```
