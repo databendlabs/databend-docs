@@ -42,7 +42,7 @@ Databend provides built-in AI functions for various natural language processing 
 
 - [ai_embedding_vector](/sql/sql-functions/ai-functions/ai-embedding-vector): Generates embeddings for text documents.
 - [ai_text_completion](/sql/sql-functions/ai-functions/ai-text-completion): Generates text completions based on a given prompt.
-- [cosine_distance](/sql/sql-functions/ai-functions/ai-cosine-distance): Calculates the cosine distance between two embeddings.
+- [cosine_distance](/sql/sql-functions/vector-distance-functions/vector-cosine-distance): Calculates the cosine distance between two embeddings.
 
 ## Generating Embeddings
 
@@ -67,7 +67,7 @@ VALUES
 
 ## Calculating Cosine Distance
 
-Now, let's find the documents that are most similar to a given query using the [cosine_distance](/sql/sql-functions/ai-functions/ai-cosine-distance) function:
+Now, let's find the documents that are most similar to a given query using the [cosine_distance](/sql/sql-functions/vector-distance-functions/vector-cosine-distance) function:
 ```sql
 SELECT
     id,
