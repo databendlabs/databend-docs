@@ -9,6 +9,7 @@ on:
       - "docs/cn/**/*"
       - "docs/release-notes/**/*"
       - "docs/fragment/**/*"
+      
       - "docs/release-stable/**/*"
       - "api/**/*"
       - "i18n/**/*"
