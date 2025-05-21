@@ -1,4 +1,3 @@
-```md
 ---
 title: system.query_log
 ---
