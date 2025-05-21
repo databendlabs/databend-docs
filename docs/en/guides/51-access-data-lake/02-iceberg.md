@@ -1,6 +1,7 @@
 ---
 title: Apache Iceberg™
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.668"/>
@@ -137,9 +138,9 @@ Started web server at 127.0.0.1:8080
 ```sql
 CREATE CATALOG iceberg TYPE = ICEBERG CONNECTION = (
     TYPE = 'rest'
-    ADDRESS = 'http://host.docker.internal:8181'  
+    ADDRESS = 'http://host.docker.internal:8181'
     warehouse = 's3://warehouse/wh/'
-    "s3.endpoint" = 'http://host.docker.internal:9000'  
+    "s3.endpoint" = 'http://host.docker.internal:9000'
     "s3.access-key-id" = 'admin'
     "s3.secret-access-key" = 'password'
     "s3.region" = 'us-east-1'
@@ -207,21 +208,21 @@ ORDER BY
 
 This table maps data types between Apache Iceberg™ and Databend. Please note that Databend does not currently support Iceberg data types that are not listed in the table.
 
-| Apache Iceberg™                  | Databend                |
-| ------------------------------- | ----------------------- |
-| BOOLEAN                         | [BOOLEAN](/sql/sql-reference/data-types/boolean)                 |
-| INT                             | [INT32](/sql/sql-reference/data-types/numeric#integer-data-types)                   |
-| LONG                            | [INT64](/sql/sql-reference/data-types/numeric#integer-data-types)                   |
-| DATE                            | [DATE](/sql/sql-reference/data-types/datetime)                    |
-| TIMESTAMP/TIMESTAMPZ            | [TIMESTAMP](/sql/sql-reference/data-types/datetime)               |
-| FLOAT                           | [FLOAT](/sql/sql-reference/data-types/numeric#floating-point-data-types)                  |
-| DOUBLE                          | [DOUBLE](/sql/sql-reference/data-types/numeric#floating-point-data-type)                  |
-| STRING/BINARY                   | [STRING](/sql/sql-reference/data-types/string)                  |
-| DECIMAL                         | [DECIMAL](/sql/sql-reference/data-types/decimal)                 |
-| ARRAY&lt;TYPE&gt;               | [ARRAY](/sql/sql-reference/data-types/array), supports nesting |
-| MAP&lt;KEYTYPE, VALUETYPE&gt;       | [MAP](/sql/sql-reference/data-types/map)                     |
-| STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)           |
-| LIST                            | [ARRAY](/sql/sql-reference/data-types/array)                   |
+| Apache Iceberg™                             | Databend                                                                 |
+| ------------------------------------------- | ------------------------------------------------------------------------ |
+| BOOLEAN                                     | [BOOLEAN](/sql/sql-reference/data-types/boolean)                         |
+| INT                                         | [INT32](/sql/sql-reference/data-types/numeric#integer-data-types)        |
+| LONG                                        | [INT64](/sql/sql-reference/data-types/numeric#integer-data-types)        |
+| DATE                                        | [DATE](/sql/sql-reference/data-types/datetime)                           |
+| TIMESTAMP/TIMESTAMPZ                        | [TIMESTAMP](/sql/sql-reference/data-types/datetime)                      |
+| FLOAT                                       | [FLOAT](/sql/sql-reference/data-types/numeric#floating-point-data-types) |
+| DOUBLE                                      | [DOUBLE](/sql/sql-reference/data-types/numeric#floating-point-data-type) |
+| STRING/BINARY                               | [STRING](/sql/sql-reference/data-types/string)                           |
+| DECIMAL                                     | [DECIMAL](/sql/sql-reference/data-types/decimal)                         |
+| ARRAY&lt;TYPE&gt;                           | [ARRAY](/sql/sql-reference/data-types/array), supports nesting           |
+| MAP&lt;KEYTYPE, VALUETYPE&gt;               | [MAP](/sql/sql-reference/data-types/map)                                 |
+| STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)                             |
+| LIST                                        | [ARRAY](/sql/sql-reference/data-types/array)                             |
 
 ## Managing Catalogs
 
@@ -251,18 +252,18 @@ CONNECTION=(
 );
 ```
 
-| Parameter                    | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                           |
-|------------------------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<catalog_name>`             | Yes       | The name of the catalog you want to create.                                                                                                                                                                                                                                                                                                                                                                           |
-| `TYPE`                       | Yes       | Specifies the catalog type. For Apache Iceberg™, set to `ICEBERG`.                                                                                                                                                                                                                                                                                                                                                            |
-| `CONNECTION`                 | Yes       | The connection parameters for the Iceberg catalog.                                                                                                                                                                                                                                                                                                                                                                    |
-| `TYPE` (inside `CONNECTION`) | Yes       | The connection type. For Iceberg, it is typically set to `rest` for REST-based connection.                                                                                                                                                                                                                                                                                                                            |
-| `ADDRESS`                    | Yes       | The address or URL of the Iceberg service (e.g., `http://127.0.0.1:8181`).                                                                                                                                                                                                                                                                                                                                            |
-| `WAREHOUSE`                  | Yes       | The location of the Iceberg warehouse, usually an S3 bucket or compatible object storage system.                                                                                                                                                                                                                                                                                                                      |
+| Parameter                    | Required? | Description                                                                                                                                                                                                                           |
+| ---------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<catalog_name>`             | Yes       | The name of the catalog you want to create.                                                                                                                                                                                           |
+| `TYPE`                       | Yes       | Specifies the catalog type. For Apache Iceberg™, set to `ICEBERG`.                                                                                                                                                                    |
+| `CONNECTION`                 | Yes       | The connection parameters for the Iceberg catalog.                                                                                                                                                                                    |
+| `TYPE` (inside `CONNECTION`) | Yes       | The connection type. For Iceberg, it is typically set to `rest` for REST-based connection.                                                                                                                                            |
+| `ADDRESS`                    | Yes       | The address or URL of the Iceberg service (e.g., `http://127.0.0.1:8181`).                                                                                                                                                            |
+| `WAREHOUSE`                  | Yes       | The location of the Iceberg warehouse, usually an S3 bucket or compatible object storage system.                                                                                                                                      |
 | `<connection_parameter>`     | Yes       | Connection parameters to establish connections with external storage. The required parameters vary based on the specific storage service and authentication methods. See the table below for a full list of the available parameters. |
 
 | Connection Parameter              | Description                                                                                                                            |
-|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | `s3.endpoint`                     | S3 endpoint.                                                                                                                           |
 | `s3.access-key-id`                | S3 access key ID.                                                                                                                      |
 | `s3.secret-access-key`            | S3 secret access key.                                                                                                                  |
@@ -279,7 +280,6 @@ CONNECTION=(
 | `s3.allow-anonymous`              | Option to allow anonymous access (e.g., for public buckets/folders).                                                                   |
 | `s3.disable-ec2-metadata`         | Option to disable loading credentials from EC2 metadata (typically used with `s3.allow-anonymous`).                                    |
 | `s3.disable-config-load`          | Option to disable loading configuration from config files and environment variables.                                                   |
-
 
 ### SHOW CREATE CATALOG
 
