@@ -46,6 +46,12 @@ jobs:
           echo "Markdown Files Missing: ${{ steps.check_missing.outputs.missing_md_files }}"
           echo "JSON Files Missing: ${{ steps.check_missing.outputs.missing_json_files }}"
 
+      - name: Read prompt from file
+        id: prompt
+        run: |
+          prompt_value=$(cat .github/workflows/prompt.txt | sed ':a;N;$!ba;s/\n/\\n/g')
+          echo "prompt=$prompt_value" >> $GITHUB_OUTPUT
+
       - name: Run GPT Translate
         uses: 3ru/gpt-translate@v1.1.11
         with:
@@ -54,5 +60,5 @@ jobs:
           inputFiles: "${{ steps.check_missing.outputs.missing_md_files }}${{ steps.check_missing.outputs.missing_json_files }}"
           outputFiles: "docs/cn/**/*.{md,json}"
           languages: "Simplified-Chinese"
-          prompt: "$(cat .github/workflows/prompt.txt)"
+          prompt: "${{ steps.prompt.outputs.prompt }}"
           basePath: ${{ secrets.BASE_URL }}

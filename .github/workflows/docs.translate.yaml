@@ -11,6 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Read prompt from file
+        id: prompt
+        run: |
+          prompt_value=$(cat .github/workflows/prompt.txt | sed ':a;N;$!ba;s/\n/\\n/g')
+          echo "prompt=$prompt_value" >> $GITHUB_OUTPUT
+
       - name: Run GPT Translate
         if: |
           contains(github.event.comment.body, '/gt')
@@ -18,5 +24,5 @@ jobs:
         with:
           apikey: ${{ secrets.API_KEY }}
           model: ${{ secrets.LLM_MODEL }}
-          prompt: "$(cat .github/workflows/prompt.txt)"
+          prompt: "${{ steps.prompt.outputs.prompt }}"
           basePath: ${{ secrets.BASE_URL }}
