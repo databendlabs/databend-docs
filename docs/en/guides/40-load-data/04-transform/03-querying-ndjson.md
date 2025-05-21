@@ -67,3 +67,18 @@ FROM @ndjson_query_stage
     PATTERN => '.*[.]ndjson[.]gz'
 );
 ```
+### Query with Metadata
+
+Query NDJSON files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
+
+```sql
+SELECT
+    metadata$filename AS file,
+    metadata$file_row_number AS row,
+    $1:title, $1:author
+FROM @ndjson_query_stage
+(
+    FILE_FORMAT => 'ndjson_query_format',
+    PATTERN => '.*[.]ndjson'
+);
+```
