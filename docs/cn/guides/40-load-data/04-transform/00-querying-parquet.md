@@ -1,3 +1,4 @@
+```md
 ---
 title: 查询 Stage 中的 Parquet 文件
 sidebar_label: Parquet
@@ -49,6 +50,21 @@ CREATE FILE FORMAT parquet_query_format
 
 ```sql
 SELECT *
+FROM @parquet_query_stage
+(
+    FILE_FORMAT => 'parquet_query_format',
+    PATTERN => '.*[.]parquet'
+);
+```
+### 使用元数据查询
+
+直接从 Stage 查询 Parquet 文件，包括元数据列，如 `metadata$filename` 和 `metadata$file_row_number`：
+
+```sql
+SELECT
+    metadata$filename AS file,
+    metadata$file_row_number AS row,
+    *
 FROM @parquet_query_stage
 (
     FILE_FORMAT => 'parquet_query_format',
