@@ -69,3 +69,18 @@ FROM @tsv_query_stage
     PATTERN => '.*[.]tsv[.]gz'
 );
 ```
+### Query with Metadata
+
+Query TSV files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
+
+```sql
+SELECT
+    metadata$filename AS file,
+    metadata$file_row_number AS row,
+    $1, $2, $3
+FROM @tsv_query_stage
+(
+    FILE_FORMAT => 'tsv_query_format',
+    PATTERN => '.*[.]tsv'
+);
+```
