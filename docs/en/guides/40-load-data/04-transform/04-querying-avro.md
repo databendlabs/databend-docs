@@ -84,7 +84,7 @@ FROM @avro_query_stage
 );
 ```
 
-#### Query with Metadata
+### Query with Metadata
 
 Query Avro files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
 

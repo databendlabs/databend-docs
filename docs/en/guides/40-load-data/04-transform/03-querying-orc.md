@@ -8,9 +8,9 @@ import StepContent from '@site/src/components/Steps/step-content';
 ## Syntax
 
 ```sql
-SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
+SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...]
+FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
+[(
   [<connection_parameters>],
   [ PATTERN => '<regex_pattern>'],
   [ FILE_FORMAT => 'ORC | <custom_format_name>'],
@@ -39,7 +39,7 @@ The iris dataset contains 3 classes of 50 instances each, where each class refer
 Create an external stage with your Amazon S3 bucket where your iris dataset file is stored.
 
 ```sql
-CREATE STAGE orc_query_stage 
+CREATE STAGE orc_query_stage
     URL = 's3://databend-doc'
     CONNECTION = (
         AWS_KEY_ID = '<your-key-id>',
@@ -76,6 +76,25 @@ SELECT
   *
 FROM
   'https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc' (file_format = > 'orc');
+```
+
+</StepContent>
+<StepContent number="4">
+
+### Query with Metadata
+
+Query ORC files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
+
+```sql
+SELECT
+    metadata$filename AS file,
+    metadata$file_row_number AS row,
+    *
+FROM @orc_query_stage
+(
+    FILE_FORMAT => 'orc',
+    PATTERN => '.*[.]orc'
+);
 ```
 
 </StepContent>

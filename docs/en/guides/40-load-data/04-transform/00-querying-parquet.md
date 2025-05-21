@@ -55,3 +55,18 @@ FROM @parquet_query_stage
     PATTERN => '.*[.]parquet'
 );
 ```
+### Query with Metadata
+
+Query Parquet files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
+
+```sql
+SELECT
+    metadata$filename AS file,
+    metadata$file_row_number AS row,
+    *
+FROM @parquet_query_stage
+(
+    FILE_FORMAT => 'parquet_query_format',
+    PATTERN => '.*[.]parquet'
+);
+```

@@ -70,3 +70,18 @@ FROM @csv_query_stage
     PATTERN => '.*[.]csv[.]gz'
 );
 ```
+### Query with Metadata
+
+Query CSV files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
+
+```sql
+SELECT
+    metadata$filename AS file,
+    metadata$file_row_number AS row,
+    $1, $2, $3
+FROM @csv_query_stage
+(
+    FILE_FORMAT => 'csv_query_format',
+    PATTERN => '.*[.]csv'
+);
+```
