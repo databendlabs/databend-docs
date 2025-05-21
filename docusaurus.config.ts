@@ -219,7 +219,7 @@ const config: Config = {
             to: '/guides/access-data-lake/iceberg/'
           },
           {
-            form: '/sql/sql-functions/ai-functions/ai-cosine-distance',
+            from: '/sql/sql-functions/ai-functions/ai-cosine-distance',
             to: '/sql/sql-functions/vector-distance-functions/vector-cosine-distance/'
           }
         ],
