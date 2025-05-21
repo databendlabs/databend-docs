@@ -32,13 +32,6 @@ jobs:
         run: |
           echo "files=$(git diff --diff-filter=d --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
-      - name: Read prompt from file
-        id: read_prompt
-        run: |
-          echo "prompt<<EOF" >> $GITHUB_OUTPUT
-          cat .github/workflows/prompt.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
       - name: Run GPT Translate
         uses: 3ru/gpt-translate@v1.1.11
         with:
@@ -47,5 +40,5 @@ jobs:
           inputFiles: "${{ steps.changed_files.outputs.files }}"
           outputFiles: "docs/cn/**/*.md"
           languages: "Simplified-Chinese"
-          prompt: "${{ steps.read_prompt.outputs.prompt }}"
+          prompt: "$(cat .github/workflows/prompt.txt)"
           basePath: ${{ secrets.BASE_URL }}
