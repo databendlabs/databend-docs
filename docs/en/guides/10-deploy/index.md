@@ -8,6 +8,7 @@ These guides provide detailed instructions for deploying and upgrading Databend,
 
 :::tip try out databend cloud
 Say goodbye to deployment and upgrade hassles – Databend Cloud manages these intricacies for you, freeing up your focus for what truly matters. Ready to experience the ease? [Sign up here](https://www.databend.com/apply/?r=doc-card).
+
 :::
 
 <IndexOverviewList />
