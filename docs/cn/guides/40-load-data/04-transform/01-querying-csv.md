@@ -70,3 +70,18 @@ FROM @csv_query_stage
     PATTERN => '.*[.]csv[.]gz'
 );
 ```
+### 使用元数据查询
+
+直接从 Stage 查询 CSV 文件，包括元数据列，如 `metadata$filename` 和 `metadata$file_row_number`：
+
+```sql
+SELECT
+    metadata$filename AS file,
+    metadata$file_row_number AS row,
+    $1, $2, $3
+FROM @csv_query_stage
+(
+    FILE_FORMAT => 'csv_query_format',
+    PATTERN => '.*[.]csv'
+);
+```
