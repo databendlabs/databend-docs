@@ -3,11 +3,14 @@ title: Working with File and Column Metadata
 sidebar_label: Metadata
 ---
 
-This guide explains how to query metadata from staged files. Metadata includes both file-level metadata (such as file name and row number) and column-level metadata (such as column names, types, and nullability).
+This guide explains how to query metadata from staged files. The supported file formats for metadata querying are summarized in the table below:
 
-## Accessing File-Level Metadata
+| Metadata Type       | Supported File Formats                               |
+|---------------------|------------------------------------------------------|
+| File-level metadata | CSV, TSV, Parquet, NDJSON, Avro                      |
+| Column-level metadata (INFER_SCHEMA) | Parquet                                              |
 
-Databend supports accessing the following file-level metadata fields when reading staged files in the formats CSV, TSV, Parquet, and NDJSON:
+The following file-level metadata fields are available for the supported file formats:
 
 | File Metadata              | Type    | Description                                      |
 |----------------------------|---------|--------------------------------------------------|
@@ -28,22 +31,15 @@ You can directly select metadata fields when reading from a stage:
 ```sql
 SELECT
   metadata$filename,
-  metadata$file_row_number,
-  *
-FROM @my_internal_stage/iris.parquet
-LIMIT 5;
+  metadata$file_row_number
+FROM @my_internal_stage
+LIMIT 1;
 ```
 
 ```sql
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ metadata$filename │ metadata$file_row_number │        id       │    sepal_length   │    sepal_width    │    petal_length   │    petal_width    │      species     │ metadata$filename │ metadata$file_row_number │
-├───────────────────┼──────────────────────────┼─────────────────┼───────────────────┼───────────────────┼───────────────────┼───────────────────┼──────────────────┼───────────────────┼──────────────────────────┤
-│ iris.parquet      │                        0 │               1 │               5.1 │               3.5 │               1.4 │               0.2 │ setosa           │ iris.parquet      │                        0 │
-│ iris.parquet      │                        1 │               2 │               4.9 │                 3 │               1.4 │               0.2 │ setosa           │ iris.parquet      │                        1 │
-│ iris.parquet      │                        2 │               3 │               4.7 │               3.2 │               1.3 │               0.2 │ setosa           │ iris.parquet      │                        2 │
-│ iris.parquet      │                        3 │               4 │               4.6 │               3.1 │               1.5 │               0.2 │ setosa           │ iris.parquet      │                        3 │
-│ iris.parquet      │                        4 │               5 │                 5 │               3.6 │               1.4 │               0.2 │ setosa           │ iris.parquet      │                        4 │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+│ metadata$filename │ metadata$file_row_number  │
+├───────────────────┼───────────────────────────┤
+│ iris.parquet      │                        10 │
 ```
 
 2. Using Metadata in COPY INTO
@@ -58,7 +54,7 @@ FILE_FORMAT=(TYPE=parquet);
 
 ## Inferring Column Metadata from Files
 
-Databend allows you to retrieve the following column-level metadata from your staged files in the Parquet format using the [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema) function:
+Databend allows you to retrieve column-level metadata from your staged files using the [INFER_SCHEMA](/sql/sql-functions/table-functions/infer-schema) function. This is currently supported for **Parquet** files.
 
 | Column Metadata | Type    | Description                                      |
 |-----------------|---------|--------------------------------------------------|
