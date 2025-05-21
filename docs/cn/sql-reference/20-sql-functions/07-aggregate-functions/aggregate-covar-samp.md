@@ -2,12 +2,14 @@
 title: COVAR_SAMP
 ---
 
-聚合函数。
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-covar_samp() 函数返回两个数据列的样本协方差（Σ((x - x̅)(y - y̅)) / (n - 1)）。
+<FunctionDescription description="Introduced or updated: v1.2.738"/>
+
+返回两个数据列的样本协方差 (Σ((x - x̅)(y - y̅)) / (n - 1))。
 
 :::caution
-NULL 值不计入计算。
+NULL 值不计算在内。
 :::
 
 ## 语法
@@ -18,10 +20,15 @@ COVAR_SAMP(<expr1>, <expr2>)
 
 ## 参数
 
-| 参数       | 描述               |
-| ---------- | ------------------ |
-| `<expr1>`  | 任何数值表达式     |
-| `<expr2>`  | 任何数值表达式     |
+| 参数      | 描述                 |
+| ----------- | -------------------- |
+| `<expr1>` | 任何数值表达式       |
+| `<expr2>` | 任何数值表达式       |
+
+## 别名
+
+- [VAR_SAMP](aggregate-var-samp.md)
+- [VARIANCE_SAMP](aggregate-variance-samp.md)
 
 ## 返回类型
 
@@ -47,7 +54,7 @@ VALUES (1, 1, 100, 1000),
        (5, 5, 500, 5000);
 ```
 
-**查询示例：计算售出商品数量与利润之间的样本协方差**
+**查询演示：计算售出商品和利润之间的样本协方差**
 
 ```sql
 SELECT COVAR_SAMP(items_sold, profit) AS covar_samp_items_profit
