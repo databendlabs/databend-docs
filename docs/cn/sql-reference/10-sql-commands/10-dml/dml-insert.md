@@ -1,6 +1,9 @@
 ---
 title: INSERT
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.738"/>
 
 将一行或多行插入到表中。
 
@@ -13,7 +16,7 @@ Databend 通过原子操作确保数据完整性。插入、更新、替换和�
 ## 语法
 
 ```sql
-INSERT { OVERWRITE | INTO } <table>
+INSERT { OVERWRITE [ INTO ] | INTO } <table>
     -- Optionally specify the columns to insert into
     ( <column> [ , ... ] )
     -- Insertion options:
@@ -25,12 +28,12 @@ INSERT { OVERWRITE | INTO } <table>
     }
 ```
 
-| 参数      | 描述                                                                        |
-|-----------|-----------------------------------------------------------------------------|
-| OVERWRITE | 指示在插入之前是否应截断现有数据。                                                |
-| VALUES    | 允许直接插入特定值或列的默认值。                                                   |
+| 参数               | 描述                                                                          |
+|--------------------|----------------------------------------------------------------------------------|
+| `OVERWRITE [INTO]` | 指示在插入之前是否应截断现有数据。                                                |
+| `VALUES`           | 允许直接插入特定值或列的默认值。                                                  |
 
-## 重要说明
+## 重要提示
 
 - 聚合函数、外部 UDF 和窗口函数在 `VALUES(...)` 表达式中是不允许的。
 
@@ -38,7 +41,7 @@ INSERT { OVERWRITE | INTO } <table>
 
 ### 示例-1：使用 OVERWRITE 插入值
 
-在此示例中，INSERT OVERWRITE 语句用于截断 employee 表并插入新数据，将所有现有记录替换为 ID 为 100 的员工提供的值。
+在此示例中，INSERT OVERWRITE 语句用于截断 employee 表并插入新数据，从而将所有现有记录替换为 ID 为 100 的 employee 提供的值。
 
 ```sql
 CREATE TABLE employee (
@@ -66,7 +69,7 @@ SELECT * FROM employee;
 
 ### 示例-2：插入查询结果
 
-当插入 SELECT 语句的结果时，列的映射遵循它们在 SELECT 子句中的位置。因此，SELECT 语句中的列数必须等于或大于 INSERT 表中的列数。如果 SELECT 语句和 INSERT 表中列的数据类型不同，将根据需要执行类型转换。
+当插入 SELECT 语句的结果时，列的映射遵循它们在 SELECT 子句中的位置。因此，SELECT 语句中的列数必须等于或大于 INSERT 表中的列数。如果 SELECT 语句和 INSERT 表中列的数据类型不同，则会根据需要执行类型转换。
 
 ```sql
 -- Creating a table named 'employee_info' with three columns: 'employee_id', 'employee_name', and 'department'
@@ -99,7 +102,7 @@ SELECT * FROM employee_data;
 └───────────────────────────────────────────────────────┘
 ```
 
-此示例演示如何创建一个名为 "sales_summary" 的摘要表，用于存储每个产品的聚合销售数据，例如总销售数量和收入，通过聚合 sales 表中的信息：
+此示例演示如何创建一个名为 "sales_summary" 的摘要表，用于存储聚合的销售数据，例如每个产品的总销售数量和收入，方法是聚合 sales 表中的信息：
 
 ```sql
 -- Creating a table for sales data
@@ -148,7 +151,7 @@ SELECT * FROM sales_summary;
 
 ### 示例-3：插入默认值
 
-此示例说明如何创建一个名为 "staff_records" 的表，并为部门和状态等列设置默认值。然后插入数据，展示默认值的使用。
+此示例说明如何创建一个名为 "staff_records" 的表，并为 department 和 status 等列设置默认值。然后插入数据，展示默认值的使用。
 
 ```sql
 -- Creating a table 'staff_records' with columns 'employee_id', 'department', 'salary', and 'status' with default values
@@ -180,9 +183,9 @@ SELECT * FROM staff_records;
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 示例-4：从 Stage 文件插入
+### 示例-4：使用 Staged Files 插入
 
-Databend 允许您使用 INSERT INTO 语句从 Stage 文件将数据插入到表中。这是通过 Databend 的 [查询 Stage 文件](/guides/load-data/transform/querying-stage) 的能力，然后将查询结果合并到表中来实现的。
+通过 Databend ，您可以使用 INSERT INTO 语句从 Staged Files 将数据插入到表中。这是通过 Databend 的[查询 Staged Files](/guides/load-data/transform/querying-stage)的能力实现的，然后将查询结果合并到表中。
 
 1. 创建一个名为 `sample` 的表：
 
@@ -198,7 +201,7 @@ CREATE TABLE sample
 
 2. 使用示例数据设置内部 Stage
 
-我们将建立一个名为 `mystage` 的内部 Stage，然后用示例数据填充它。
+我们将建立一个名为 `mystage` 的内部 Stage，然后使用示例数据填充它。
 
 ```sql
 CREATE STAGE mystage;
@@ -219,7 +222,7 @@ FROM
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-3. 使用 `INSERT INTO` 从 Stage 的 Parquet 文件插入数据
+3. 使用 `INSERT INTO` 从 Staged Parquet 文件插入数据
 
 :::tip
 您可以使用 [COPY INTO](dml-copy-into-table.md) 命令中提供的 FILE_FORMAT 和 COPY_OPTIONS 指定文件格式和各种与复制相关的设置。当 `purge` 设置为 `true` 时，只有在数据更新成功后才会删除原始文件。
