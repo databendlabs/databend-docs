@@ -217,6 +217,10 @@ const config: Config = {
           {
             from: '/sql/sql-reference/table-engines/iceberg',
             to: '/guides/access-data-lake/iceberg/'
+          },
+          {
+            form: '/sql/sql-functions/ai-functions/ai-cosine-distance',
+            to: '/sql/sql-functions/vector-distance-functions/vector-cosine-distance/'
           }
         ],
         createRedirects(existingPath) {
