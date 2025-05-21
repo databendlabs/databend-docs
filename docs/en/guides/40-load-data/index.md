@@ -14,18 +14,18 @@ This guide provides detailed instructions on how to import data into Databend.
 <details>
 <summary> Parquet </summary>
 
-- [How to load Parquet file into a table](./03-load-semistructured/00-load-parquet.md)
-- [How to export a table to Parquet file](../50-unload-data/00-unload-parquet.md)
-- [How to query directly on Parquet file](./04-transform/00-querying-parquet.md)
+- [Load Parquet into table](./03-load-semistructured/00-load-parquet.md)
+- [Export table to Parquet](../50-unload-data/00-unload-parquet.md)
+- [Query Parquet directly](./04-transform/00-querying-parquet.md)
  
 </details>
 
 <details>
 <summary> CSV </summary>
 
-- [How to load CSV file into a table](./03-load-semistructured/01-load-csv.md)
-- [How to export a table to CSV file](../50-unload-data/01-unload-csv.md)
-- [How to query directly on CSV file](./04-transform/01-querying-csv.md)
+- [Load CSV into table](./03-load-semistructured/01-load-csv.md)
+- [Export table to CSV](../50-unload-data/01-unload-csv.md)
+- [Query CSV directly](./04-transform/01-querying-csv.md)
 
 </details>
 
@@ -33,28 +33,37 @@ This guide provides detailed instructions on how to import data into Databend.
 <details>
 <summary> TSV </summary>
 
-- [How to load TSV file into a table](./03-load-semistructured/02-load-tsv.md)
-- [How to export a table to TSV file](../50-unload-data/02-unload-tsv.md)
-- [How to query directly on TSV file](./04-transform/02-querying-tsv.md)
+- [Load TSV into table](./03-load-semistructured/02-load-tsv.md)
+- [Export table to TSV](../50-unload-data/02-unload-tsv.md)
+- [Query TSV directly](./04-transform/02-querying-tsv.md)
 
 </details>
 
 <details>
 <summary> NDJSON </summary>
 
-- [How to load NDJSON file into a table](./03-load-semistructured/03-load-ndjson.md)
-- [How to export a table to NDJSON file](../50-unload-data/03-unload-ndjson.md)
-- [How to query directly on NDJSON file](./04-transform/03-querying-ndjson.md)
+- [Load NDJSON into table](./03-load-semistructured/03-load-ndjson.md)
+- [Export table to NDJSON](../50-unload-data/03-unload-ndjson.md)
+- [Query NDJSON directly](./04-transform/03-querying-ndjson.md)
 
 </details>
 
 <details>
 <summary> ORC </summary>
 
-- [How to load ORC file into a table](./03-load-semistructured/04-load-orc.md)
-- [How to query directly on ORC file](./04-transform/03-querying-orc.md)
+- [Load ORC into table](./03-load-semistructured/04-load-orc.md)
+- [Query ORC directly](./04-transform/03-querying-orc.md)
 
 </details>
+
+<details>
+<summary> Avro </summary>
+
+- [Load Avro into table](./03-load-semistructured/05-load-avro.md)
+
+</details>
+
+
 
 
 <details>
@@ -70,30 +79,45 @@ This guide provides detailed instructions on how to import data into Databend.
 
 </DetailsWrap>
 
-## Loading Data From Other Databases
+## Loading Data from External Systems
 
 <DetailsWrap>
 
 <details>
 <summary> MySQL Data to Databend </summary>
 
-- [How to Load Full MySQL Tables into Databend](./02-load-db/datax.md)
-- [How to Sync Full and Incremental MySQL Changes into Databend](./02-load-db/debezium.md)
+- [Load Full MySQL Tables](./02-load-db/datax.md)
+- [Sync MySQL Changes (Full & Incremental)](./02-load-db/debezium.md)
 
 </details>
 
 <details>
 <summary> PostgreSQL Data to Databend </summary>
 
-- [How to Sync Full and Incremental PostgreSQL Changes into Databend](./02-load-db/flink-cdc.md)
+- [Sync PostgreSQL Changes (Full & Incremental)](./02-load-db/flink-cdc.md)
 
 </details>
 
 <details>
 <summary> Oracle Data to Databend </summary>
 
-- [How to Sync Full and Incremental Oracle Changes into Databend](./02-load-db/flink-cdc.md)
+- [Sync Oracle Changes (Full & Incremental)](./02-load-db/flink-cdc.md)
 
 </details>
+
+<details>
+<summary> Flink Data to Databend </summary>
+
+- [Sync Flink Data](./02-load-db/flink-cdc.md)
+
+</details>
+
+<details>
+<summary> Kafka Data to Databend </summary>
+
+- [Kafka Data Ingestion](./02-load-db/kafka.md)
+
+</details>
+
 
 </DetailsWrap>
