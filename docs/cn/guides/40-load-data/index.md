@@ -109,21 +109,21 @@ Databend 强大的 ETL 能力允许从各种来源和格式高效加载数据。
 <summary> MySQL 数据到 Databend </summary>
 
 - [加载完整的 MySQL 表](./02-load-db/datax.md)
-- [同步 MySQL 更改（完整和增量）](./02-load-db/debezium.md)
+- [同步 MySQL 更改（全量和增量）](./02-load-db/debezium.md)
 
 </details>
 
 <details>
 <summary> PostgreSQL 数据到 Databend </summary>
 
-- [同步 PostgreSQL 更改（完整和增量）](./02-load-db/flink-cdc.md)
+- [同步 PostgreSQL 更改（全量和增量）](./02-load-db/flink-cdc.md)
 
 </details>
 
 <details>
 <summary> Oracle 数据到 Databend </summary>
 
-- [同步 Oracle 更改（完整和增量）](./02-load-db/flink-cdc.md)
+- [同步 Oracle 更改（全量和增量）](./02-load-db/flink-cdc.md)
 
 </details>
 
