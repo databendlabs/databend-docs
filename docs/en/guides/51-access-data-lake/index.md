@@ -1,11 +1,13 @@
 ---
-title: Accessing Data Lake
+title: Databend for Data Lakehouse
 ---
 
-Databend presents a seamless integration with three robust Data Lake technologies—[Apache Hive](https://hive.apache.org/), [Apache Iceberg](https://iceberg.apache.org/), and [Delta Lake](https://delta.io/). This integration brings a distinct advantage by supporting multiple facets of Data Lake functionality. Databend offers a versatile and comprehensive platform, empowering users with increased flexibility and efficiency in handling diverse datasets within the Data Lake environment.
+Databend integrates with popular data lake technologies to provide a unified lakehouse architecture that combines data lake flexibility with data warehouse performance.
 
-Furthermore, the integration of these three technologies within Databend is characterized by varying approaches. While some, like Apache Hive, integrate at the catalog level, others, such as Delta Lake, operate at the table engine level. The catalog-based integration establishes a centralized connection to the Data Lake, streamlining access and management across multiple tables. On the other hand, table engine-level integration provides a more granular control, allowing for tailored optimization and fine-tuning at the individual table level.
+| Technology | Integration Type | Key Features | Documentation |
+|------------|-----------------|--------------|---------------|
+| Apache Hive | Catalog-level | Legacy data lake support, schema registry | [Apache Hive Catalog](01-hive.md) |
+| Apache Iceberg™ | Catalog-level | ACID transactions, schema evolution, time travel | [Apache Iceberg™ Catalog](02-iceberg.md) |
+| Delta Lake | Table engine-level | ACID transactions, data versioning, schema enforcement | [Delta Lake Table Engine](03-delta.md) |
 
-- [Apache Hive Catalog](01-hive.md)
-- [Apache Iceberg Catalog](02-iceberg.md)
-- [Delta Lake Table Engine](03-delta.md)
+These integrations enable Databend users to efficiently query, analyze, and manage diverse datasets across both data lake and data warehouse environments without data duplication.
