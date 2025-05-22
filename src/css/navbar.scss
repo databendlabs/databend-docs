@@ -23,7 +23,7 @@
       width: 88%;
     }
     @include media {
-      img{
+      img {
         width: 70%;
       }
     }
@@ -38,12 +38,13 @@
 .navbar__search-input {
   cursor: pointer;
   border-radius: calc(var(--radius) - 2px);
-  box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   border: 1px solid hsl(var(--input));
-  &:hover{
-    border: 2px solid var(--ifm-menu-color-active) ;
+  &:hover {
+    border: 2px solid var(--ifm-menu-color-active);
   }
-  &::placeholder{
+  &::placeholder {
     font-weight: bold;
     color: var(--color-text-2);
   }
@@ -52,9 +53,9 @@
   font-weight: 600;
 }
 
-.navbar__search-input{
-  border-radius: 3px!important;
-  --ifm-navbar-search-input-background-color: var(--color-fill-0)!important;
+.navbar__search-input {
+  border-radius: 3px !important;
+  --ifm-navbar-search-input-background-color: var(--color-fill-0) !important;
   --ifm-navbar-search-input-color: var(--color-text-1);
 }
 .navbar__items {
@@ -64,24 +65,14 @@
 }
 // navbar end
 
-// .navbar.navbar--fixed-top {
-//   background-color: transparent !important;
-//   backdrop-filter: blur(4px);
-//   border: var(--color-border);
-// }
-// .navbar__inner .navbar__item {
-//   font-weight: 600;
-// }
-
-// .navbar-sidebar {
-//   height: 100vh;
-// }
-
-// .navbar-sidebar__items {
-//   padding-bottom: 4rem;
-// }
 .navbar__title {
-  display: none;
+  font-size: 14px;
+  font-weight: 600;
+  position: relative;
+  top: 2.4px;
+}
+.navbar__brand:hover {
+  color: var(----ifm-navbar-link-color);
 }
 div[class^="searchBox"] {
   width: 167.4px;
