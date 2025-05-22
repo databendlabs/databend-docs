@@ -1,3 +1,7 @@
+> [!WARNING]  
+> **Important Notice for Contributors**  
+> If you delete a document, you **must** provide the old URL and the new URL for a 301 redirect to ensure proper navigation. Additionally, please notify @Chasen-Zhang about the change, or you can directly modify the redirect configuration in the file: [docusaurus.config.ts#L210](https://github.com/databendlabs/databend-docs/blob/main/docusaurus.config.ts#L210). Failure to do so may disrupt user access.  
+
 # Databend Docs: Your Contributions Matter
 
 [![GitHub stars](https://img.shields.io/github/stars/datafuselabs/databend-docs.svg?style=social&label=Stars)](https://github.com/datafuselabs/databend-docs/stargazers)
