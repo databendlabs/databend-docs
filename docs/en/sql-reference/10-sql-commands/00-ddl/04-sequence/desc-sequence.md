@@ -3,6 +3,10 @@ title: DESC SEQUENCE
 sidebar_position: 4
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.742"/>
+
 Describes the properties of a sequence.
 
 ## Syntax
@@ -10,6 +14,10 @@ Describes the properties of a sequence.
 ```sql
 DESC SEQUENCE <sequence_name>
 ```
+
+| Parameter      | Description                                                                                                                 |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------|
+| sequence_name  | The name of the sequence to describe. This will display all properties of the sequence including start value, interval, current value, creation timestamp, last update timestamp, and any comment. |
 
 ## Examples
 
