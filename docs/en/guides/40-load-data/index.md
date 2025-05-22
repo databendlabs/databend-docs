@@ -60,19 +60,41 @@ This guide provides detailed instructions on how to import data into Databend.
 <summary> Avro </summary>
 
 - [Load Avro into table](./03-load-semistructured/05-load-avro.md)
+- [Query Avro directly](./04-transform/04-querying-avro.md)
 
 </details>
 
 
+</DetailsWrap>
 
+## Load Data from Different Sources
+
+<DetailsWrap>
 
 <details>
-<summary> HTTP(S), S3, and More </summary>
+<summary> Loading from Stage </summary>
 
-- [Understanding Stages](./00-stage/index.md)
 - [Loading from Stage](./01-load/00-stage.md)
+
+</details>
+
+<details>
+<summary> Loading from Bucket (S3) </summary>
+
 - [Loading from Bucket](./01-load/01-s3.md)
+
+</details>
+
+<details>
+<summary> Loading from Local File </summary>
+
 - [Loading from Local File](./01-load/02-local.md)
+
+</details>
+
+<details>
+<summary> Loading from Remote File (HTTP/HTTPS) </summary>
+
 - [Loading from Remote File](./01-load/03-http.md)
 
 </details>
