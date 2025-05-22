@@ -44,4 +44,9 @@ These topics provide reference information for the DDL (Data Definition Language
 
 - [UDF (User Defined Function)](10-udf/index.md)
 - [External Function](11-external-function/index.md)
+- [Procedure](18-procedure/index.md)
 - [Notification](16-notification/index.md)
+
+## Compute Resource Management
+
+- [Warehouse](19-warehouse/index.md)
