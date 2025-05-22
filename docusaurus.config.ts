@@ -249,11 +249,10 @@ const config: Config = {
       content: `⭐️ If you like Databend, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/datafuselabs/databend">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://x.com/DatabendLabs" >Twitter</a> ${TwitterSvg}`,
     },
     navbar: {
-      title: "Databend",
+      title: "DOCUMENTATION",
       logo: {
-        alt: "Databend Logo",
         href: homeLink,
-        target: "_self",
+        target: "_blank",
         srcDark: "img/logo-dark.svg",
         src: "img/logo.svg",
       },
