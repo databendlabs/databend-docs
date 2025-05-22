@@ -252,7 +252,7 @@ const config: Config = {
       title: "Databend",
       logo: {
         alt: "Databend Logo",
-        href: homeLink,
+        href: '/guides/',
         target: "_self",
         srcDark: "img/logo-dark.svg",
         src: "img/logo.svg",
