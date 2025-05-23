@@ -196,7 +196,7 @@ The `FILE_FORMAT` parameter supports different file types, each with specific fo
 | NULL_DISPLAY | String representing NULL values | \N |
 | ERROR_ON_COLUMN_COUNT_MISMATCH | Error if column count doesn't match | TRUE |
 | EMPTY_FIELD_AS | How to handle empty fields | null |
-| BINARY_FORMAT | Encoding format for binary data | HEX |
+| BINARY_FORMAT | Encoding format(HEX or BASE64) for binary data | HEX |
 
 ### TYPE = TSV
 
