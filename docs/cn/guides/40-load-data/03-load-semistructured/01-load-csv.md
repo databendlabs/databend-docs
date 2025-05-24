@@ -5,7 +5,7 @@ sidebar_label: CSV
 
 ## 什么是 CSV？
 
-CSV（逗号分隔值）是一种简单的文件格式，用于存储表格数据，例如电子表格或数据库。CSV 文件是纯文本文件，其中包含表格格式的数据，每行代表一个新行，列之间用分隔符分隔。
+CSV (Comma Separated Values) 是一种用于存储表格数据的简单文件格式，例如电子表格或数据库。CSV 文件是纯文本文件，以表格形式包含数据，其中每行表示一个新行，列由分隔符分隔。
 
 以下示例显示了一个包含两条记录的 CSV 文件：
 
@@ -36,9 +36,9 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 
 ## 教程：从 CSV 文件加载数据
 
-### 步骤 1. 创建内部 Stage
+### 步骤 1. 创建 Internal Stage
 
-创建内部 Stage 以存储 CSV 文件。
+创建一个 Internal Stage 来存储 CSV 文件。
 
 ```sql
 CREATE STAGE my_csv_stage;
@@ -46,7 +46,7 @@ CREATE STAGE my_csv_stage;
 
 ### 步骤 2. 创建 CSV 文件
 
-使用以下 SQL 语句生成 CSV 文件：
+使用以下 SQL 语句生成一个 CSV 文件：
 
 ```sql
 COPY INTO @my_csv_stage
@@ -88,7 +88,7 @@ CREATE TABLE books
 
 ### 步骤 4. 直接从 CSV 复制
 
-要直接从 CSV 文件复制数据到表中，请使用以下 SQL 命令：
+要直接从 CSV 文件将数据复制到表中，请使用以下 SQL 命令：
 
 ```sql
 COPY INTO books
@@ -98,7 +98,7 @@ FILE_FORMAT = (
     TYPE = CSV,
     FIELD_DELIMITER = ',',
     RECORD_DELIMITER = '\n',
-    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过，这里我们没有标题
+    SKIP_HEADER = 0, -- 如果是标题行，则跳过第一行，这里我们没有标题行
     COMPRESSION = AUTO
 );
 ```
@@ -113,9 +113,9 @@ FILE_FORMAT = (
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 4（选项）。使用 SELECT 复制数据
+### 步骤 4 (可选). 使用 SELECT 复制数据
 
-为了更好地控制，例如在复制时转换数据，请使用 SELECT 语句。了解更多信息，请参阅 [`SELECT from CSV`](../04-transform/01-querying-csv.md)。
+为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。在 [`SELECT from CSV`](../04-transform/01-querying-csv.md) 中了解更多信息。
 
 ```sql
 COPY INTO books (title, author)
@@ -128,7 +128,7 @@ FILE_FORMAT = (
     TYPE = 'CSV',
     FIELD_DELIMITER = ',',
     RECORD_DELIMITER = '\n',
-    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过，这里我们没有标题
+    SKIP_HEADER = 0, -- 如果是标题行，则跳过第一行，这里我们没有标题行
     COMPRESSION = 'AUTO'
 );
 ```

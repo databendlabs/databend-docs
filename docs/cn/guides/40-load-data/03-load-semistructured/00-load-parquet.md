@@ -5,7 +5,7 @@ sidebar_label: Parquet
 
 ## 什么是 Parquet？
 
-Parquet 是一种列式存储格式，常用于数据分析。它旨在支持复杂数据结构，并且能高效处理大型数据集。
+Parquet 是一种列式存储格式，常用于数据分析。它旨在支持复杂的数据结构，并且能高效处理大型数据集。
 
 Parquet 文件对 Databend 最友好。建议使用 Parquet 文件作为 Databend 的数据源。
 
@@ -27,7 +27,7 @@ FILE_FORMAT = (TYPE = PARQUET)
 
 ### 步骤 1. 创建内部 Stage
 
-创建内部 Stage 以存储 Parquet 文件。
+创建一个内部 Stage 来存储 Parquet 文件。
 
 ```sql
 CREATE STAGE my_parquet_stage;
@@ -35,7 +35,7 @@ CREATE STAGE my_parquet_stage;
 
 ### 步骤 2. 创建 Parquet 文件
 
-使用以下 SQL 语句生成 Parquet 文件：
+使用以下 SQL 语句生成一个 Parquet 文件：
 
 ```sql
 COPY INTO @my_parquet_stage
@@ -98,9 +98,9 @@ COPY INTO books
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 4（选项）。使用 SELECT 复制数据
+### 步骤 4 (可选). 使用 SELECT 复制数据
 
-为了更好地控制，例如在复制时转换数据，请使用 SELECT 语句。了解更多信息，请参阅 [`SELECT from Parquet`](../04-transform/00-querying-parquet.md)
+如需更多控制，例如在复制时转换数据，请使用 SELECT 语句。了解更多信息，请参阅 [`SELECT from Parquet`](../04-transform/00-querying-parquet.md)。
 
 ```sql
 COPY INTO books (title, author)

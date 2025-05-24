@@ -9,7 +9,7 @@ ORC (Optimized Row Columnar) 是一种列式存储格式，常用于数据分析
 
 ## 加载 ORC 文件
 
-加载 ORC 文件的常见语法如下：
+加载 ORC 文件的常用语法如下：
 
 ```sql
 COPY INTO [<database>.]<table_name>
@@ -23,7 +23,7 @@ FILE_FORMAT = (TYPE = ORC)
 
 ## 教程：从 ORC 文件加载数据
 
-本教程演示如何将存储在 S3 存储桶中的 ORC 文件中的数据加载到 Databend 表中。
+本教程演示如何将存储在 S3 存储桶中的 ORC 文件数据加载到 Databend 表中。
 
 ### 步骤 1. 创建外部 Stage
 
@@ -64,7 +64,7 @@ LIST @orc_data_stage;
 
 ### 步骤 2：查询 Stage 文件
 
-为 ORC 创建文件格式并查询 Stage 以查看数据和 Schema。
+为 ORC 创建文件格式，并查询 Stage 以查看数据和 Schema。
 
 ```sql
 -- 创建 ORC 文件格式
@@ -100,7 +100,7 @@ LIMIT 10;
 
 ### 步骤 4：创建目标表
 
-在 Databend 中创建目标表以存储 ORC 文件中的数据。我们从 ORC 文件中选择一些列来创建表。
+在 Databend 中创建目标表，用于存储来自 ORC 文件的数据。我们从 ORC 文件中选择一些列来创建表。
 
 ```sql
 CREATE OR REPLACE TABLE orc_test_table (
@@ -114,7 +114,7 @@ CREATE OR REPLACE TABLE orc_test_table (
 
 ### 步骤 5. 使用 SELECT 复制数据
 
-将外部 Stage 中 ORC 文件中的数据复制到目标表。
+将外部 Stage 中 ORC 文件的数据复制到目标表。
 
 ```sql
 COPY INTO orc_test_table
