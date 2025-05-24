@@ -1,4 +1,3 @@
-```md
 ---
 title: 查询 Stage 中的 Parquet 文件
 sidebar_label: Parquet
@@ -6,9 +5,9 @@ sidebar_label: Parquet
 
 ## 查询 Stage 中的 Parquet 文件
 
-语法：
+语法:
 ```sql
-SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...] 
+SELECT [<alias>.]<column> [, <column> ...] 
 FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
 [( 
   [<connection_parameters>],
@@ -20,14 +19,22 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 ```
 
 :::info Tips
-Parquet 具有 schema 信息，因此我们可以直接查询列 `<column> [, <column> ...]`。
+**查询返回内容说明:**
+
+* **返回格式**: 列值以其原生数据类型返回 (非变体)
+* **访问方法**: 直接使用列名 `column_name`
+* **示例**: `SELECT id, name, age FROM @stage_name`
+* **主要特点**:
+  * 无需路径表达式 (如 `$1:name`)
+  * 无需类型转换
+  * Parquet 文件包含嵌入式 Schema 信息
 :::
 
 ## 教程
 
 ### 步骤 1. 创建外部 Stage
 
-使用您自己的 S3 bucket 和存储 Parquet 文件的凭据创建一个外部 Stage。
+使用您自己的 S3 存储桶和凭据创建外部 Stage，其中存储了您的 Parquet 文件。
 ```sql
 CREATE STAGE parquet_query_stage 
 URL = 's3://load/parquet/' 
@@ -58,7 +65,7 @@ FROM @parquet_query_stage
 ```
 ### 使用元数据查询
 
-直接从 Stage 查询 Parquet 文件，包括元数据列，如 `metadata$filename` 和 `metadata$file_row_number`：
+直接从 Stage 查询 Parquet 文件，包括 `metadata$filename` 和 `metadata$file_row_number` 等元数据列：
 
 ```sql
 SELECT

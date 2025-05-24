@@ -1,11 +1,11 @@
 ---
-title: Loading Avro into Databend
+title: 将 Avro 数据加载到 Databend
 sidebar_label: Avro
 ---
 
 ## 什么是 Avro？
 
-[Apache Avro™](https://avro.apache.org/) 是领先的记录数据序列化格式，也是流数据管道的首选。
+[Apache Avro™](https://avro.apache.org/) 是记录数据的主要序列化格式，也是流式数据管道的首选。
 
 ## 加载 Avro 文件
 
@@ -18,41 +18,42 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = AVRO)
 ```
 
-有关语法的更多详细信息，请参见 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
+- 有关 Avro 文件格式的更多选项，请参阅 [Avro 文件格式选项](/sql/sql-reference/file-format-options#avro-options)。
+- 有关 COPY INTO table 的更多选项，请参阅 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
 
 ## 教程：从远程 HTTP URL 将 Avro 数据加载到 Databend
 
-在本教程中，你将使用 Avro schema 在 Databend 中创建一个表，并直接通过 HTTPS 从 GitHub 托管的 `.avro` 文件加载 Avro 数据。
+在本教程中，你将使用 Avro 模式在 Databend 中创建表，并通过 HTTPS 直接从 GitHub 托管的 `.avro` 文件加载 Avro 数据。
 
-### 第 1 步：查看 Avro Schema
+### 步骤 1：查看 Avro 模式
 
-在 Databend 中创建表之前，让我们快速浏览一下我们正在使用的 Avro schema：[userdata.avsc](https://github.com/Teradata/kylo/blob/master/samples/sample-data/avro/userdata.avsc)。此 schema 定义了一个名为 `User` 的记录，其中包含 13 个字段，主要为字符串类型，以及 `int` 和 `float` 类型。
+在 Databend 中创建表之前，我们先快速查看一下正在使用的 Avro 模式：[userdata.avsc](https://github.com/Teradata/kylo/blob/master/samples/sample-data/avro/userdata.avsc)。此模式定义了一个名为 `User` 的记录，包含 13 个字段，大部分是字符串类型，还有 `int` 和 `float`。
 
 ```json
 {
   "type": "record",
   "name": "User",
   "fields": [
-    { "name": "registration_dttm", "type": "string" },
-    { "name": "id", "type": "int" },
-    { "name": "first_name", "type": "string" },
-    { "name": "last_name", "type": "string" },
-    { "name": "email", "type": "string" },
-    { "name": "gender", "type": "string" },
-    { "name": "ip_address", "type": "string" },
-    { "name": "cc", "type": "string" },
-    { "name": "country", "type": "string" },
-    { "name": "birthdate", "type": "string" },
-    { "name": "salary", "type": "float" },
-    { "name": "title", "type": "string" },
-    { "name": "comments", "type": "string" }
+    {"name": "registration_dttm", "type": "string"},
+    {"name": "id", "type": "int"},
+    {"name": "first_name", "type": "string"},
+    {"name": "last_name", "type": "string"},
+    {"name": "email", "type": "string"},
+    {"name": "gender", "type": "string"},
+    {"name": "ip_address", "type": "string"},
+    {"name": "cc", "type": "string"},
+    {"name": "country", "type": "string"},
+    {"name": "birthdate", "type": "string"},
+    {"name": "salary", "type": "float"},
+    {"name": "title", "type": "string"},
+    {"name": "comments", "type": "string"}
   ]
 }
 ```
 
-### 第 2 步：在 Databend 中创建表
+### 步骤 2：在 Databend 中创建表
 
-创建一个与 schema 中定义的结构匹配的表：
+创建与模式中定义的结构匹配的表：
 
 ```sql
 CREATE TABLE userdata (
@@ -72,7 +73,7 @@ CREATE TABLE userdata (
 );
 ```
 
-### 第 3 步：从远程 HTTPS URL 加载数据
+### 步骤 3：从远程 HTTPS URL 加载数据
 
 ```sql
 COPY INTO userdata
@@ -88,9 +89,9 @@ FILE_FORMAT = (type = avro);
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 第 4 步：查询数据
+### 步骤 4：查询数据
 
-现在，你可以浏览刚刚导入的数据：
+现在你可以探索刚刚导入的数据：
 
 ```sql
 SELECT id, first_name, email, salary FROM userdata LIMIT 5;

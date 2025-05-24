@@ -2,50 +2,27 @@
 title: 从文件加载
 ---
 
-import DetailsWrap from '@site/src/components/DetailsWrap';
+Databend 提供简单、强大的命令来将数据文件加载到表中。大多数操作只需要一个命令。您的数据必须采用[支持的格式](/sql/sql-reference/file-format-options)。
 
-Databend 提供了多种工具和命令，可以帮助您将数据文件加载到表中。它们中的大多数都很简单，这意味着您只需一个命令即可加载数据。请注意，您的数据文件必须是 Databend 支持的格式之一。有关支持的文件格式的列表，请参见 [输入 & 输出文件格式](/sql/sql-reference/file-format-options)。以下是数据加载和卸载流程及其各自方法的概述。有关详细说明，请参阅本章中的主题。
+![数据加载和卸载概述](/img/load/load-unload.jpeg)
 
-![Alt text](/img/load/load-unload.jpeg)
+## 支持的文件格式
 
-本主题未涵盖所有可用的数据加载方法，但它根据数据文件的存储位置提供了建议。要查找推荐的方法以及指向相应详细信息页面的链接，请切换下面的块：
+| 格式 | 类型 | 描述 |
+|--------|------|-------------|
+| [**CSV**](/guides/load-data/load-semistructured/load-csv), [**TSV**](/guides/load-data/load-semistructured/load-tsv) | 分隔符 | 带有可自定义分隔符的文本文件 |
+| [**NDJSON**](/guides/load-data/load-semistructured/load-ndjson) | 半结构化 | JSON 对象，每行一个 |
+| [**Parquet**](/guides/load-data/load-semistructured/load-parquet) | 半结构化 | 高效的列式存储格式 |
+| [**ORC**](/guides/load-data/load-semistructured/load-orc) | 半结构化 | 高性能列式格式 |
+| [**Avro**](/guides/load-data/load-semistructured/load-avro) | 半结构化 | 带有 schema 的紧凑二进制格式 |
 
-<DetailsWrap>
+## 按文件位置加载
 
-<details>
-  <summary>我想加载暂存的数据文件 ...</summary>
-  <div>
-    <div>如果您的数据文件位于内部/外部 Stage 或用户 Stage 中，Databend 建议您使用 COPY INTO 命令加载它们。COPY INTO 命令是一个强大的工具，可以快速有效地加载大量数据。</div>
-    <br/>
-    <div>要了解有关使用 COPY INTO 命令从 Stage 加载数据的更多信息，请查看 <a href="stage">从 Stage 加载</a> 页面。此页面包含详细的教程，向您展示如何使用该命令从内部/外部 Stage 或用户 Stage 中的示例文件加载数据。</div>
-  </div>
-</details>
+选择文件位置以查找推荐的加载方法：
 
-<details>
-  <summary>我想加载存储桶中的数据文件 ...</summary>
-  <div>
-    <div>如果您的数据文件位于对象存储（如 Amazon S3、Google Cloud Storage 和 Microsoft Azure）上的存储桶或容器中，Databend 建议您使用 COPY INTO 命令加载它们。COPY INTO 命令是一个强大的工具，可以快速有效地加载大量数据。</div>
-    <br/>
-    <div>要了解有关使用 COPY INTO 命令从存储桶或容器加载数据的更多信息，请查看 <a href="s3">从存储桶加载</a> 页面。此页面包含一个教程，向您展示如何使用该命令从 Amazon S3 存储桶中的示例文件加载数据。</div>
-  </div>
-</details>
-
-<details>
-  <summary>我想加载本地数据文件 ...</summary>
-  <div>
-    <div>如果您的数据文件位于本地系统中，Databend 建议您使用 <a href="https://github.com/databendlabs/BendSQL">BendSQL</a>（Databend 原生 CLI 工具）加载它们，该工具允许您建立与 Databend 的连接并直接从 CLI 窗口执行查询。</div>
-    <br/>
-    <div>要了解有关使用 BendSQL 加载本地数据文件的更多信息，请查看 <a href="local">从本地文件加载</a> 页面。此页面包含教程，向您展示如何使用该工具从本地示例文件加载数据。</div>
-  </div>
-</details>
-
-<details>
-  <summary>我想加载远程数据文件 ...</summary>
-  <div>
-    <div>如果您的数据文件是远程数据文件，Databend 建议您使用 COPY INTO 命令加载它们。COPY INTO 命令是一个强大的工具，可以快速有效地加载大量数据。</div>
-    <br/>
-    <div>要了解有关使用 COPY INTO 命令加载远程数据文件的更多信息，请查看 <a href="http">从远程文件加载</a> 页面。此页面包含一个教程，向您展示如何使用该命令从远程示例文件加载数据。</div>
-  </div>
-</details>
-
-</DetailsWrap>
+| 数据源 | 推荐工具 | 描述 | 文档 |
+|-------------|-----------------|-------------|---------------|
+| **Stage 数据文件** | **COPY INTO** | 从内部/外部 Stage 或用户 Stage 快速高效加载 | [从 Stage 加载](stage) |
+| **云存储** | **COPY INTO** | 从 Amazon S3、Google Cloud Storage、Microsoft Azure 加载 | [从 Bucket 加载](s3) |
+| **本地文件** | [**BendSQL**](https://github.com/databendlabs/BendSQL) | Databend 用于本地文件加载的本机 CLI 工具 | [从本地文件加载](local) |
+| **远程文件** | **COPY INTO** | 从远程 HTTP/HTTPS 位置加载数据 | [从远程文件加载](http) |
