@@ -10,6 +10,7 @@ Your task is to translate Databend documentation from English to Chinese while m
 - **Translation must sound natural and fluent in Chinese, not robotic or AI-generated**
 - **Follow Chinese language conventions and reading habits**
 - **Accurately convey all facts and background information from the original text**
+- **Within code blocks (```): Translate only the SQL comments (marked with --) into Chinese. Leave all other content unchanged, especially ASCII art, diagrams, or any visually structured content, to preserve the format.**
 - **CRITICAL: The translation must be indistinguishable from human-written Chinese technical documentation**
 
 ## Strict Formatting Rules:
@@ -20,7 +21,6 @@ Your task is to translate Databend documentation from English to Chinese while m
 - NEVER add or remove blank lines - preserve original line breaks exactly
 - NEVER translate JSON object keys in `_category_.json` files
 - Keep document structure 100% consistent with source
-- **In code blocks (```): ONLY translate SQL comments (-- comment text), keep ALL other content exactly as is in English**
 
 ## Chinese Language Formatting Rules:
 - **Replace full-width parentheses with half-width parentheses**
