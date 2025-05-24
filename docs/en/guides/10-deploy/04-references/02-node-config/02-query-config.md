@@ -122,6 +122,13 @@ The following is a list of the parameters available within the [storage] section
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | type           | The type of storage used. It can be one of the following: fs, s3, azblob, gcs, oss, cos.                                                                                                                                              |
 | allow_insecure | Defaults to false. Set it to true when deploying Databend on MinIO or loading data via a URL prefixed by `http://`, otherwise, you may encounter the following error: "copy from insecure storage is not allowed. Please set `allow_insecure=true`". |
+| `storage_retry_timeout`             | *(in seconds)* Retries an OpenDAL read/write operation if it exceeds this threshold. Default: `10`. |
+| `storage_retry_io_timeout`          | *(in seconds)* Retries an OpenDAL HTTP request if it exceeds this threshold. Default: `60`. |
+| `storage_pool_max_idle_per_host`    | Maximum connection pool size per host. Default: unlimit. |
+| `storage_connect_timeout`           | *(in seconds)* TCP connection timeout. Default: `30`. |
+| `storage_tcp_keepalive`             | *(in seconds)* TCP keepalive duration. Default: None. |
+| `storage_max_concurrent_io_requests`| Maximum number of concurrent I/O requests. Default: unlimit. |
+
 
 ### [storage.fs] Section
 
