@@ -21,12 +21,16 @@ Before DELETE:                After DELETE:                 After VACUUM:
 
 ## Types of Data to Clean
 
-In Databend, there are four main types of data that may need cleaning:
+Databend provides specific commands to clean different types of data. The following table summarizes the data types and their corresponding cleanup commands:
 
-1. **Dropped Table Data**: Data files from tables that have been dropped using the DROP TABLE command
-2. **Table History Data**: Historical versions of tables, including snapshots created through UPDATE, DELETE, and other operations
-3. **Orphan Files**: Snapshots, segments, and blocks that are no longer associated with any table
-4. **Spill Temporary Files**: Temporary files created when memory usage exceeds available limits during query execution (for joins, aggregates, sorts, etc.). Databend automatically cleans up these files when queries complete normally. Manual cleanup is only needed in rare cases when Databend crashes or shuts down unexpectedly during query execution.
+| Data Type | Description | Cleanup Command |
+|-----------|-------------|-----------------|
+| **Dropped Table Data** | Data files from tables that have been dropped using the DROP TABLE command | `VACUUM DROP TABLE` |
+| **Table History Data** | Historical versions of tables, including snapshots created through UPDATE, DELETE, and other operations | `VACUUM TABLE` |
+| **Orphan Files** | Snapshots, segments, and blocks that are no longer associated with any table | `VACUUM TABLE` |
+| **Spill Temporary Files** | Temporary files created when memory usage exceeds available limits during query execution (for joins, aggregates, sorts, etc.) | `VACUUM TEMPORARY FILES` |
+
+> **Note**: Spill temporary files are typically cleaned automatically by Databend. Manual cleanup is only needed when Databend crashes or shuts down unexpectedly during query execution.
 
 
 ## Using VACUUM Commands
