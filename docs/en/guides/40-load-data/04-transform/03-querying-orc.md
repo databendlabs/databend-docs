@@ -8,7 +8,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 ## Syntax
 
 ```sql
-SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...]
+SELECT [<alias>.]<column> [, <column> ...]
 FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 [(
   [<connection_parameters>],
@@ -19,16 +19,7 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 ```
 
 :::info Tips
-**Query Return Content Explanation:**
-
-* **Return Format**: Column values in their native data types (not variants)
-* **Access Method**: Directly use column names `column_name`
-* **Example**: `SELECT sepal_length, species FROM @stage_name`
-* **Key Features**:
-  * No need for path expressions (like `$1:column_name`)
-  * No type casting required
-  * ORC files contain embedded schema information
-  * Column values are returned directly in their original types
+ORC has schema information, so we can query the columns `<column> [, <column> ...]` directly.
 :::
 
 ## Tutorial
