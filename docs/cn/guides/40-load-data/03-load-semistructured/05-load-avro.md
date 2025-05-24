@@ -5,7 +5,7 @@ sidebar_label: Avro
 
 ## 什么是 Avro？
 
-[Apache Avro™](https://avro.apache.org/) 是记录数据的主要序列化格式，也是流式数据管道的首选。
+[Apache Avro™](https://avro.apache.org/) 是领先的记录数据序列化格式，也是流式数据管道的首选。
 
 ## 加载 Avro 文件
 
@@ -19,7 +19,7 @@ FILE_FORMAT = (TYPE = AVRO)
 ```
 
 - 有关 Avro 文件格式的更多选项，请参阅 [Avro 文件格式选项](/sql/sql-reference/file-format-options#avro-options)。
-- 有关 COPY INTO table 的更多选项，请参阅 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
+- 有关 `COPY INTO table` 的更多选项，请参阅 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
 
 ## 教程：从远程 HTTP URL 将 Avro 数据加载到 Databend
 
@@ -27,7 +27,7 @@ FILE_FORMAT = (TYPE = AVRO)
 
 ### 步骤 1：查看 Avro 模式
 
-在 Databend 中创建表之前，我们先快速查看一下正在使用的 Avro 模式：[userdata.avsc](https://github.com/Teradata/kylo/blob/master/samples/sample-data/avro/userdata.avsc)。此模式定义了一个名为 `User` 的记录，包含 13 个字段，大部分是字符串类型，还有 `int` 和 `float`。
+在 Databend 中创建表之前，我们先快速查看一下正在使用的 Avro 模式：[userdata.avsc](https://github.com/Teradata/kylo/blob/master/samples/sample-data/avro/userdata.avsc)。此模式定义了一个名为 `User` 的记录，包含 13 个字段，大部分是字符串类型，还有 `int` 和 `float` 类型。
 
 ```json
 {

@@ -17,24 +17,25 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 )]
 ```
 
+
 :::info Tips
 **查询返回内容说明:**
 
 * **返回格式**: 默认情况下，单个列值以字符串形式返回
-* **访问方法**: 使用位置引用 `$<col_position>` (例如, `$1`, `$2`, `$3`)
+* **访问方法**: 使用位置引用 `$<col_position>` ( 例如，`$1`, `$2`, `$3`)
 * **示例**: `SELECT $1, $2, $3 FROM @stage_name`
 * **主要特点**:
   * 列通过位置而不是名称访问
-  * 每个 `$<col_position>` 指的是单个列，而不是整行
-  * 非字符串操作需要类型转换 (例如, `CAST($1 AS INT)`)
-  * TSV 文件中没有嵌入的 schema 信息
+  * 每个 `$<col_position>` 指代单个列，而不是整行
+  * 对于非字符串操作需要进行类型转换 ( 例如，`CAST($1 AS INT)`)
+  * TSV 文件中没有嵌入的 Schema 信息
 :::
 
 ## 教程
 
 ### 步骤 1. 创建外部 Stage
 
-使用您自己的 S3 存储桶和凭据创建一个外部 Stage，其中存储了您的 TSV 文件。
+使用您自己的 S3 存储桶和凭据创建外部 Stage，您的 TSV 文件将存储在此处。
 ```sql
 CREATE STAGE tsv_query_stage 
 URL = 's3://load/tsv/' 
@@ -67,7 +68,7 @@ FROM @tsv_query_stage
 );
 ```
 
-如果 TSV 文件使用 gzip 压缩，我们可以使用以下查询：
+如果 TSV 文件使用 gzip 压缩，我们可以使用以下查询:
 
 ```sql
 SELECT $1, $2, $3
@@ -79,12 +80,12 @@ FROM @tsv_query_stage
 ```
 ### 查询元数据
 
-直接从 Stage 查询 TSV 文件，包括 `metadata$filename` 和 `metadata$file_row_number` 等元数据列：
+直接从 Stage 查询 TSV 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列:
 
 ```sql
 SELECT
-    metadata$filename AS file,
-    metadata$file_row_number AS row,
+    METADATA$FILENAME,
+    METADATA$FILE_ROW_NUMBER,
     $1, $2, $3
 FROM @tsv_query_stage
 (
