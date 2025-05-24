@@ -49,7 +49,7 @@ retry_wait_time = 2
 # accept = "200..=204, 429"
 # accept = ["200", "429"]
 # accept = "200, 429"
-accept = ["200", "429", '403']
+accept = ["200", "429", '403', "500..=599"]
 
 # Proceed for server connections considered insecure (invalid TLS).
 insecure = false
