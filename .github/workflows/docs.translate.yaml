@@ -16,6 +16,15 @@ jobs:
         run: |
           prompt_value=$(cat .github/workflows/prompt.txt | sed ':a;N;$!ba;s/\n/\\n/g')
           echo "prompt=$prompt_value" >> $GITHUB_OUTPUT
+          
+      - name: Debug - Print prompt and model
+        run: |
+          echo "=== Debug Information ==="
+          echo "LLM_MODEL: ${{ secrets.LLM_MODEL }}"
+          echo ""
+          echo "=== Prompt Content ==="
+          echo "${{ steps.prompt.outputs.prompt }}"
+          echo "======================"
 
       - name: Run GPT Translate
         if: |
