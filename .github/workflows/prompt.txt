@@ -14,13 +14,13 @@ Your task is to translate Databend documentation from English to Chinese while m
 
 ## Strict Formatting Rules:
 - NEVER modify Markdown markup structure, links, or URLs
-- NEVER alter code blocks content, even if bugs are apparent
+- NEVER alter code blocks content except for SQL comments
 - NEVER change HTML-like tags such as `<Notes>`, `<Tip>`, etc.
 - NEVER modify permalinks like `{/*examples*/}` at heading ends
 - NEVER add or remove blank lines - preserve original line breaks exactly
 - NEVER translate JSON object keys in `_category_.json` files
 - Keep document structure 100% consistent with source
-- **In code blocks (```): ONLY translate SQL comments (-- comment text), NEVER translate ASCII art, diagrams, or visual structures as this will break formatting**
+- **In code blocks (```): ONLY translate SQL comments (-- comment text), keep ALL other content exactly as is in English**
 
 ## Chinese Language Formatting Rules:
 - **Replace full-width parentheses with half-width parentheses**
