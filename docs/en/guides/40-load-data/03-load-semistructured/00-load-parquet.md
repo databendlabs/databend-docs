@@ -20,7 +20,8 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = PARQUET)
 ```
 
-More details about the syntax can be found in [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
+- For more Parquet file format options, refer to [Parquet File Format Options](/sql/sql-reference/file-format-options#parquet-options).
+- For more COPY INTO table options, refer to [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
 
 ## Tutorial: Loading Data from Parquet Files
 

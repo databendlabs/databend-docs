@@ -18,6 +18,19 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 )]
 ```
 
+:::info Tips
+**Query Return Content Explanation:**
+
+* **Return Format**: Column values in their native data types (not variants)
+* **Access Method**: Directly use column names `column_name`
+* **Example**: `SELECT sepal_length, species FROM @stage_name`
+* **Key Features**:
+  * No need for path expressions (like `$1:column_name`)
+  * No type casting required
+  * ORC files contain embedded schema information
+  * Column values are returned directly in their original types
+:::
+
 ## Tutorial
 
 In this tutorial, we will walk you through the process of downloading the Iris dataset in ORC format, uploading it to an Amazon S3 bucket, creating an external stage, and querying the data directly from the ORC file.
@@ -75,7 +88,7 @@ You can also query the remote ORC file directly:
 SELECT
   *
 FROM
-  'https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc' (file_format = > 'orc');
+  'https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc' (file_format => 'orc');
 ```
 
 </StepContent>

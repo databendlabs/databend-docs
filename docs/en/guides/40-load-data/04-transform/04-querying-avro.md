@@ -18,7 +18,16 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 ```
 
 :::info Tips
-Avro files can be queried directly as variants using `$1:<column>`.
+**Query Return Content Explanation:**
+
+* **Return Format**: Each row as a single variant object (referenced as `$1`)
+* **Access Method**: Use path expressions `$1:column_name`
+* **Example**: `SELECT $1:id, $1:name FROM @stage_name`
+* **Key Features**:
+  * Must use path notation to access specific fields
+  * Type casting required for type-specific operations (e.g., `CAST($1:id AS INT)`)
+  * Avro schema is mapped to variant structure
+  * Whole row is represented as a single variant object
 :::
 
 ## Avro Querying Features Overview

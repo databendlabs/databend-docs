@@ -7,7 +7,7 @@ sidebar_label: Parquet
 
 Syntax:
 ```sql
-SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...] 
+SELECT [<alias>.]<column> [, <column> ...] 
 FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
 [( 
   [<connection_parameters>],
@@ -19,7 +19,15 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 ```
 
 :::info Tips
-Parquet has schema information, so we can query the columns `<column> [, <column> ...]` directly.
+**Query Return Content Explanation:**
+
+* **Return Format**: Column values in their native data types (not variants)
+* **Access Method**: Directly use column names `column_name`
+* **Example**: `SELECT id, name, age FROM @stage_name`
+* **Key Features**:
+  * No need for path expressions (like `$1:name`)
+  * No type casting required
+  * Parquet files contain embedded schema information
 :::
 
 ## Tutorial
