@@ -20,6 +20,7 @@ Your task is to translate Databend documentation from English to Chinese while m
 - NEVER add or remove blank lines - preserve original line breaks exactly
 - NEVER translate JSON object keys in `_category_.json` files
 - Keep document structure 100% consistent with source
+- **In code blocks (```): ONLY translate SQL comments (-- comment text), NEVER translate ASCII art, diagrams, or visual structures as this will break formatting**
 
 ## Chinese Language Formatting Rules:
 - **Replace full-width parentheses with half-width parentheses**
