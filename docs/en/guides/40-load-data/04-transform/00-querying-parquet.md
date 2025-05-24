@@ -65,12 +65,12 @@ FROM @parquet_query_stage
 ```
 ### Query with Metadata
 
-Query Parquet files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
+Query Parquet files directly from a stage, including metadata columns like `METADATA$FILENAME` and `METADATA$FILE_ROW_NUMBER`:
 
 ```sql
 SELECT
-    metadata$filename AS file,
-    metadata$file_row_number AS row,
+    METADATA$FILENAME,
+    METADATA$FILE_ROW_NUMBER,
     *
 FROM @parquet_query_stage
 (

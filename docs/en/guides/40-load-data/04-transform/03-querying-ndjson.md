@@ -78,12 +78,12 @@ FROM @ndjson_query_stage
 ```
 ### Query with Metadata
 
-Query NDJSON files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
+Query NDJSON files directly from a stage, including metadata columns like `METADATA$FILENAME` and `METADATA$FILE_ROW_NUMBER`:
 
 ```sql
 SELECT
-    metadata$filename AS file,
-    metadata$file_row_number AS row,
+    METADATA$FILENAME,
+    METADATA$FILE_ROW_NUMBER,
     $1:title, $1:author
 FROM @ndjson_query_stage
 (

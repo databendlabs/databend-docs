@@ -87,12 +87,12 @@ FROM
 
 ### Query with Metadata
 
-Query ORC files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
+Query ORC files directly from a stage, including metadata columns like `METADATA$FILENAME` and `METADATA$FILE_ROW_NUMBER`:
 
 ```sql
 SELECT
-    metadata$filename AS file,
-    metadata$file_row_number AS row,
+    METADATA$FILENAME,
+    METADATA$FILE_ROW_NUMBER,
     *
 FROM @orc_query_stage
 (
