@@ -5,7 +5,7 @@ sidebar_label: NDJSON
 
 ## 查询 Stage 中的 NDJSON 文件
 
-语法：
+语法:
 ```sql
 SELECT [<alias>.]$1:<column> [, $1:<column> ...] 
 FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
@@ -17,16 +17,24 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 )]
 ```
 
-
 :::info Tips
-NDJSON 是整行的变体，列是 `$1:<column> [, $1:<column> ...]`。
+**查询返回内容说明：**
+
+* **返回格式**：每行作为一个单独的变体对象（引用为 `$1`）
+* **访问方法**：使用路径表达式 `$1:column_name`
+* **示例**：`SELECT $1:title, $1:author FROM @stage_name`
+* **主要特点**：
+  * 必须使用路径表示法访问特定字段
+  * 对于特定类型操作（例如 `CAST($1:id AS INT)`）需要进行类型转换
+  * 每行 NDJSON 都被解析为一个完整的 JSON 对象
+  * 整行表示为一个单独的变体对象
 :::
 
 ## 教程
 
 ### 步骤 1. 创建外部 Stage
 
-使用您自己的 S3 bucket 和凭据创建一个外部 Stage，用于存储您的 NDJSON 文件。
+使用您自己的 S3 存储桶和凭据创建外部 Stage，您的 NDJSON 文件存储在其中。
 ```sql
 CREATE STAGE ndjson_query_stage 
 URL = 's3://load/ndjson/' 
@@ -69,7 +77,7 @@ FROM @ndjson_query_stage
 ```
 ### 使用元数据查询
 
-直接从 Stage 查询 NDJSON 文件，包括元数据列，如 `metadata$filename` 和 `metadata$file_row_number`：
+直接从 Stage 查询 NDJSON 文件，包括 `metadata$filename` 和 `metadata$file_row_number` 等元数据列：
 
 ```sql
 SELECT

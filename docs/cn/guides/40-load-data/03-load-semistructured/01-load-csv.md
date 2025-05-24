@@ -1,11 +1,11 @@
 ---
-title: 将 CSV 文件加载到 Databend
+title: 将 CSV 加载到 Databend
 sidebar_label: CSV
 ---
 
 ## 什么是 CSV？
 
-CSV（逗号分隔值）是一种简单的文件格式，用于存储表格数据，例如电子表格或数据库。CSV 文件是纯文本文件，其中包含表格格式的数据，其中每一行在新行上表示，列由分隔符分隔。
+CSV（逗号分隔值）是一种简单的文件格式，用于存储表格数据，例如电子表格或数据库。CSV 文件是纯文本文件，其中包含表格格式的数据，每行代表一个新行，列之间用分隔符分隔。
 
 以下示例显示了一个包含两条记录的 CSV 文件：
 
@@ -31,13 +31,14 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 ) ]
 ```
 
-有关语法的更多详细信息，请参见 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
+- 有关更多 CSV 文件格式选项，请参阅 [CSV 文件格式选项](/sql/sql-reference/file-format-options#csv-options)。
+- 有关更多 COPY INTO table 选项，请参阅 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
 
 ## 教程：从 CSV 文件加载数据
 
-### 步骤 1. 创建一个 Internal Stage
+### 步骤 1. 创建内部 Stage
 
-创建一个 internal stage 来存储 CSV 文件。
+创建内部 Stage 以存储 CSV 文件。
 
 ```sql
 CREATE STAGE my_csv_stage;
@@ -87,7 +88,7 @@ CREATE TABLE books
 
 ### 步骤 4. 直接从 CSV 复制
 
-要直接从 CSV 文件将数据复制到表中，请使用以下 SQL 命令：
+要直接从 CSV 文件复制数据到表中，请使用以下 SQL 命令：
 
 ```sql
 COPY INTO books
@@ -97,7 +98,7 @@ FILE_FORMAT = (
     TYPE = CSV,
     FIELD_DELIMITER = ',',
     RECORD_DELIMITER = '\n',
-    SKIP_HEADER = 0, -- Skip the first line if it is a header, here we don't have a header
+    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过，这里我们没有标题
     COMPRESSION = AUTO
 );
 ```
@@ -112,9 +113,9 @@ FILE_FORMAT = (
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 4（可选）。使用 SELECT 复制数据
+### 步骤 4（选项）。使用 SELECT 复制数据
 
-为了获得更多控制，例如在复制时转换数据，请使用 SELECT 语句。有关更多信息，请参见 [`SELECT from CSV`](../04-transform/01-querying-csv.md)。
+为了更好地控制，例如在复制时转换数据，请使用 SELECT 语句。了解更多信息，请参阅 [`SELECT from CSV`](../04-transform/01-querying-csv.md)。
 
 ```sql
 COPY INTO books (title, author)
@@ -127,7 +128,7 @@ FILE_FORMAT = (
     TYPE = 'CSV',
     FIELD_DELIMITER = ',',
     RECORD_DELIMITER = '\n',
-    SKIP_HEADER = 0, -- Skip the first line if it is a header, here we don't have a header
+    SKIP_HEADER = 0, -- 如果第一行是标题，则跳过，这里我们没有标题
     COMPRESSION = 'AUTO'
 );
 ```
