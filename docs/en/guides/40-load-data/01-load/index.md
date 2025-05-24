@@ -2,50 +2,27 @@
 title: Loading from Files
 ---
 
-import DetailsWrap from '@site/src/components/DetailsWrap';
+Databend offers simple, powerful commands to load data files into tables. Most operations require just a single command. Your data must be in a [supported format](/sql/sql-reference/file-format-options).
 
-Databend provides a variety of tools and commands that can help you load your data files into a table. Most of them are straightforward, meaning you can load your data with just a single command. Please note that your data files must be in one of the formats supported by Databend. See [Input & Output File Formats](/sql/sql-reference/file-format-options) for a list of supported file formats. The following is an overview of the data loading and unloading flows and their respective methods. Please refer to the topics in this chapter for detailed instructions.
+![Data Loading and Unloading Overview](/img/load/load-unload.jpeg)
 
-![Alt text](/img/load/load-unload.jpeg)
+## Supported File Formats
 
-This topic does not cover all of the available data loading methods, but it provides recommendations based on the location where your data files are stored. To find the recommended method and a link to the corresponding details page, toggle the block below:
+| Format | Type | Description |
+|--------|------|-------------|
+| [**CSV**](/guides/load-data/load-semistructured/load-csv), [**TSV**](/guides/load-data/load-semistructured/load-tsv) | Delimited | Text files with customizable delimiters |
+| [**NDJSON**](/guides/load-data/load-semistructured/load-ndjson) | Semi-structured | JSON objects, one per line |
+| [**Parquet**](/guides/load-data/load-semistructured/load-parquet) | Semi-structured | Efficient columnar storage format |
+| [**ORC**](/guides/load-data/load-semistructured/load-orc) | Semi-structured | High-performance columnar format |
+| [**Avro**](/guides/load-data/load-semistructured/load-avro) | Semi-structured | Compact binary format with schema |
 
-<DetailsWrap>
+## Loading by File Location
 
-<details>
-  <summary>I want to load staged data files ...</summary>
-  <div>
-    <div>If you have data files in an internal/external stage or the user stage, Databend recommends that you load them using the COPY INTO command. The COPY INTO command is a powerful tool that can load large amounts of data quickly and efficiently.</div>
-    <br/>
-    <div>To learn more about using the COPY INTO command to load data from a stage, check out the <a href="stage">Loading from Stage</a> page. This page includes detailed tutorials that show you how to use the command to load data from a sample file in an internal/external stage or the user stage.</div>
-  </div>
-</details>
+Select the location of your files to find the recommended loading method:
 
-<details>
-  <summary>I want to load data files in a bucket ...</summary>
-  <div>
-    <div>If you have data files in a bucket or container on your object storage, such as Amazon S3, Google Cloud Storage, and Microsoft Azure, Databend recommends that you load them using the COPY INTO command. The COPY INTO command is a powerful tool that can load large amounts of data quickly and efficiently.</div>
-    <br/>
-    <div>To learn more about using the COPY INTO command to load data from a bucket or container, check out the <a href="s3">Loading from Bucket</a> page. This page includes a tutorial that shows you how to use the command to load data from a sample file in an Amazon S3 Bucket.</div>
-  </div>
-</details>
-
-<details>
-  <summary>I want to load local data files ...</summary>
-  <div>
-    <div>If you have data files in your local system, Databend recommends that you load them using <a href="https://github.com/databendlabs/BendSQL">BendSQL</a>, the Databend native CLI tool, allowing you to establish a connection with Databend and execute queries directly from a CLI window.</div>
-    <br/>
-    <div>To learn more about using BendSQL to load your local data files, check out the <a href="local">Loading from Local File</a> page. This page includes tutorials that show you how to use the tool to load data from a local sample file.</div>
-  </div>
-</details>
-
-<details>
-  <summary>I want to load remote data files ...</summary>
-  <div>
-    <div>If you have remote data files, Databend recommends that you load them using the COPY INTO command. The COPY INTO command is a powerful tool that can load large amounts of data quickly and efficiently.</div>
-    <br/>
-    <div>To learn more about using the COPY INTO command to load remote data files, check out the <a href="http">Loading from Remote File</a> page. This page includes a tutorial that shows you how to use the command to load data from a remote sample file.</div>
-  </div>
-</details>
-
-</DetailsWrap>
+| Data Source | Recommended Tool | Description | Documentation |
+|-------------|-----------------|-------------|---------------|
+| **Staged Data Files** | **COPY INTO** | Fast, efficient loading from internal/external stages or user stage | [Loading from Stage](stage) |
+| **Cloud Storage** | **COPY INTO** | Load from Amazon S3, Google Cloud Storage, Microsoft Azure | [Loading from Bucket](s3) |
+| **Local Files** | [**BendSQL**](https://github.com/databendlabs/BendSQL) | Databend's native CLI tool for local file loading | [Loading from Local File](local) |
+| **Remote Files** | **COPY INTO** | Load data from remote HTTP/HTTPS locations | [Loading from Remote File](http) |

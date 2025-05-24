@@ -8,7 +8,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 ## Syntax
 
 ```sql
-SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...]
+SELECT [<alias>.]<column> [, <column> ...]
 FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 [(
   [<connection_parameters>],
@@ -17,6 +17,10 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
   [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
 )]
 ```
+
+:::info Tips
+ORC has schema information, so we can query the columns `<column> [, <column> ...]` directly.
+:::
 
 ## Tutorial
 
@@ -75,7 +79,7 @@ You can also query the remote ORC file directly:
 SELECT
   *
 FROM
-  'https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc' (file_format = > 'orc');
+  'https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc' (file_format => 'orc');
 ```
 
 </StepContent>

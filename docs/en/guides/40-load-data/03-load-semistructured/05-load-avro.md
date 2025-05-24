@@ -18,7 +18,8 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = AVRO)
 ```
 
-More details about the syntax can be found in [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
+- For more Avro file format options, refer to [Avro File Format Options](/sql/sql-reference/file-format-options#avro-options).
+- For more COPY INTO table options, refer to [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
 
 ## Tutorial: Loading Avro Data into Databend from Remote HTTP URL
 

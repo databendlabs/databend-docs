@@ -19,7 +19,16 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 
 
 :::info Tips
-CSV doesn't have schema information, so we can only query the columns `$<col_position> [, $<col_position> ...]` by position.
+**Query Return Content Explanation:**
+
+* **Return Format**: Individual column values as strings by default
+* **Access Method**: Use positional references `$<col_position>` (e.g., `$1`, `$2`, `$3`)
+* **Example**: `SELECT $1, $2, $3 FROM @stage_name`
+* **Key Features**:
+  * Columns accessed by position, not by name
+  * Each `$<col_position>` refers to a single column, not the whole row
+  * Type casting required for non-string operations (e.g., `CAST($1 AS INT)`)
+  * No embedded schema information in CSV files
 :::
 
 ## Tutorial

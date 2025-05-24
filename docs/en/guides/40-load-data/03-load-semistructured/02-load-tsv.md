@@ -28,7 +28,8 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 ) ]
 ```
 
-More details about the syntax can be found in [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
+- For more TSV file format options, refer to [TSV File Format Options](/sql/sql-reference/file-format-options#tsv-options).
+- For more COPY INTO table options, refer to [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
 
 ## Tutorial: Loading Data from TSV Files
 

@@ -19,7 +19,16 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 
 
 :::info Tips
-NDJSON is a variant for the whole row, the column is `$1:<column> [, $1:<column> ...]`.
+**Query Return Content Explanation:**
+
+* **Return Format**: Each row as a single variant object (referenced as `$1`)
+* **Access Method**: Use path expressions `$1:column_name`
+* **Example**: `SELECT $1:title, $1:author FROM @stage_name`
+* **Key Features**:
+  * Must use path notation to access specific fields
+  * Type casting required for type-specific operations (e.g., `CAST($1:id AS INT)`)
+  * Each NDJSON line is parsed as a complete JSON object
+  * Whole row is represented as a single variant object
 :::
 
 ## Tutorial

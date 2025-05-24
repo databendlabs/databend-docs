@@ -31,7 +31,8 @@ FROM { userStage | internalStage | externalStage | externalLocation }
 ) ]
 ```
 
-More details about the syntax can be found in [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
+- For more CSV file format options, refer to [CSV File Format Options](/sql/sql-reference/file-format-options#csv-options).
+- For more COPY INTO table options, refer to [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
 
 ## Tutorial: Loading Data from CSV Files
 

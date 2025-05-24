@@ -3,7 +3,7 @@ title: Querying & Transforming
 slug: querying-stage
 ---
 
-Databend supports querying and transforming data directly from staged files using the `SELECT` statement. This feature is available for user, internal, and external stages, as well as buckets in object storage (e.g., Amazon S3, Google Cloud Storage, Microsoft Azure) and remote servers via HTTPS. It's useful for inspecting staged file contents before or after data loading.
+Databend enables direct querying of staged files without loading data into tables first. Query files from any stage type (user, internal, external) or directly from object storage and HTTPS URLs. Ideal for data inspection, validation, and transformation before or after loading.
 
 ## Syntax
 
@@ -21,24 +21,26 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 
 ## Parameters Overview
 
-The `SELECT` statement for staged files supports various parameters to control data access and parsing. For detailed information and examples on each parameter, please refer to their respective documentation sections:
+Key parameters for controlling data access and parsing:
 
-- **`FILE_FORMAT`**: Specifies the format of the file (e.g., CSV, TSV, NDJSON, PARQUET, ORC, Avro, or custom formats).
-- **`PATTERN`**: Uses a regular expression to match and filter file names.
-- **`FILES`**: Explicitly lists specific file names to query.
-- **`CASE_SENSITIVE`**: Controls case sensitivity for column names in Parquet files.
-- **`table_alias`**: Assigns an alias to staged files for easier referencing in queries.
-- **`$col_position`**: Selects columns by their positional index (1-based).
-- **`connection_parameters`**: Provides connection details for external storage.
-- **`uri`**: Specifies the URI for remote files.
+| Parameter | Description |
+| --------- | ----------- |
+| `FILE_FORMAT` | File format type (CSV, TSV, NDJSON, PARQUET, ORC, Avro) |
+| `PATTERN` | Regex pattern to filter files |
+| `FILES` | Explicit list of files to query |
+| `CASE_SENSITIVE` | Column name case sensitivity (Parquet) |
+| `table_alias` | Alias for referencing staged files |
+| `$col_position` | Column selection by position (1-based) |
+| `connection_parameters` | External storage connection details |
+| `uri` | URI for remote files |
 
 ## Supported File Formats
 
-| File Format | Guide                                              |
-| ----------- | -------------------------------------------------- |
-| Parquet     | [Querying Parquet Files](./00-querying-parquet.md) |
-| CSV         | [Querying CSV Files](./01-querying-csv.md)         |
-| TSV         | [Querying TSV Files](./02-querying-tsv.md)         |
-| NDJSON      | [Querying NDJSON Files](./03-querying-ndjson.md)   |
-| ORC         | [Querying ORC Files](./03-querying-orc.md)         |
-| Avro        | [Querying Avro Files](./04-querying-avro.md)       |
+| File Format | Return Format | Access Method | Example | Guide |
+| ----------- | ------------ | ------------- | ------- | ----- |
+| Parquet | Native data types | Direct column names | `SELECT id, name FROM` | [Querying Parquet Files](./00-querying-parquet.md) |
+| ORC | Native data types | Direct column names | `SELECT id, name FROM` | [Querying ORC Files](./03-querying-orc.md) |
+| CSV | String values | Positional references `$<position>` | `SELECT $1, $2 FROM` | [Querying CSV Files](./01-querying-csv.md) |
+| TSV | String values | Positional references `$<position>` | `SELECT $1, $2 FROM` | [Querying TSV Files](./02-querying-tsv.md) |
+| NDJSON | Variant object | Path expressions `$1:<field>` | `SELECT $1:id, $1:name FROM` | [Querying NDJSON Files](./03-querying-ndjson.md) |
+| Avro | Variant object | Path expressions `$1:<field>` | `SELECT $1:id, $1:name FROM` | [Querying Avro Files](./04-querying-avro.md) |
