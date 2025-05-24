@@ -25,6 +25,10 @@ SHOW GRANTS FOR ROLE <role_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limi
 
 -- List privileges granted on an object
 SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF } <object_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
+
+-- Lists all users and roles that have been directly granted role_name.
+SHOW GRANTS OF ROLE <role_name>
+     
 ```
 
 ## Examples
@@ -71,4 +75,18 @@ SHOW GRANTS ON DATABASE my_db;
 │ privileges │ object_name │     object_id    │ grant_to │   name  │      grants      ├────────────┼─────────────┼──────────────────┼──────────┼─────────┼──────────────────┤
 │ OWNERSHIP  │ my_db       │               16 │ ROLE     │ analyst │                  │
 └─────────────────────────────────────────────────────────────────────────────────────┘
+
+-- Lists all users and roles that have been directly granted role_name.  
+-- This command displays only the direct grantees of role_name. 
+-- This means it lists users and roles that have explicitly received the role through a GRANT ROLE role_name TO <user_or_role> statement. 
+-- It does not show users or roles that acquire role_name indirectly via role hierarchies or inheritance.
+SHOW GRANTS OF ROLE analyst
+
+╭─────────────────────────────────────╮
+│   role  │ granted_to │ grantee_name │
+│  String │   String   │    String    │
+├─────────┼────────────┼──────────────┤
+│ analyst │ USER       │ user1        │
+╰─────────────────────────────────────╯
+
 ```
