@@ -24,14 +24,14 @@ ORC 包含 schema 信息，因此我们可以直接查询列 `<column> [, <colum
 
 ## 教程
 
-在本教程中，我们将引导你完成以下步骤：下载 ORC 格式的 Iris 数据集，将其上传到 Amazon S3 存储桶，创建外部 Stage，并直接从 ORC 文件中查询数据。
+在本教程中，我们将引导您完成下载 ORC 格式的 Iris 数据集、将其上传到 Amazon S3 存储桶、创建外部 Stage 以及直接从 ORC 文件查询数据的过程。
 
 <StepsWrap>
 <StepContent number="1">
 
 ### 下载 Iris 数据集
 
-从 https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc 下载 iris 数据集，然后将其上传到你的 Amazon S3 存储桶。
+从 https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc 下载 iris 数据集，然后将其上传到您的 Amazon S3 存储桶。
 
 iris 数据集包含 3 个类别，每个类别有 50 个实例，每个类别代表一种鸢尾花。它有 4 个属性：（1）萼片长度，（2）萼片宽度，（3）花瓣长度，（4）花瓣宽度，最后一列包含类别标签。
 
@@ -73,7 +73,7 @@ FROM @orc_query_stage
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-你也可以直接查询远程 ORC 文件：
+您也可以直接查询远程 ORC 文件：
 
 ```sql
 SELECT
@@ -87,12 +87,12 @@ FROM
 
 ### 查询元数据
 
-直接从 Stage 查询 ORC 文件，包括 `metadata$filename` 和 `metadata$file_row_number` 等元数据列：
+直接从 Stage 查询 ORC 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列：
 
 ```sql
 SELECT
-    metadata$filename AS file,
-    metadata$file_row_number AS row,
+    METADATA$FILENAME,
+    METADATA$FILE_ROW_NUMBER,
     *
 FROM @orc_query_stage
 (
