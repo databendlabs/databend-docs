@@ -80,12 +80,12 @@ FROM @tsv_query_stage
 ```
 ### Query with Metadata
 
-Query TSV files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
+Query TSV files directly from a stage, including metadata columns like `METADATA$FILENAME` and `METADATA$FILE_ROW_NUMBER`:
 
 ```sql
 SELECT
-    metadata$filename AS file,
-    metadata$file_row_number AS row,
+    METADATA$FILENAME,
+    METADATA$FILE_ROW_NUMBER,
     $1, $2, $3
 FROM @tsv_query_stage
 (

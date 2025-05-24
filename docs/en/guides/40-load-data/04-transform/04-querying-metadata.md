@@ -7,8 +7,8 @@ The following file-level metadata fields are available for the supported file fo
 
 | File Metadata              | Type    | Description                                      |
 | -------------------------- | ------- | ------------------------------------------------ |
-| `metadata$filename`        | VARCHAR | The name of the file from which the row was read |
-| `metadata$file_row_number` | INT     | The row number within the file (starting from 0) |
+| `METADATA$FILENAME`        | VARCHAR | The name of the file from which the row was read |
+| `METADATA$FILE_ROW_NUMBER` | INT     | The row number within the file (starting from 0) |
 
 These metadata fields are available in:
 

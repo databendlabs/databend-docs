@@ -36,7 +36,7 @@ Databend provides comprehensive support for querying Avro files directly from st
 
 *   **Variant Representation**: Each row in an Avro file is treated as a variant, referenced by `$1`. This allows for flexible access to nested structures within the Avro data.
 *   **Type Mapping**: Each Avro type is mapped to a corresponding variant type in Databend.
-*   **Metadata Access**: You can access metadata columns like `metadata$filename` and `metadata$file_row_number` for additional context about the source file and row.
+*   **Metadata Access**: You can access metadata columns like `METADATA$FILENAME` and `METADATA$FILE_ROW_NUMBER` for additional context about the source file and row.
 
 ## Tutorial
 
@@ -95,12 +95,12 @@ FROM @avro_query_stage
 
 ### Query with Metadata
 
-Query Avro files directly from a stage, including metadata columns like `metadata$filename` and `metadata$file_row_number`:
+Query Avro files directly from a stage, including metadata columns like `METADATA$FILENAME` and `METADATA$FILE_ROW_NUMBER`:
 
 ```sql
 SELECT
-    metadata$filename AS file,
-    metadata$file_row_number AS row,
+    METADATA$FILENAME,
+    METADATA$FILE_ROW_NUMBER,
     CAST($1:id AS INT) AS id,
     $1:name AS name
 FROM @avro_query_stage
