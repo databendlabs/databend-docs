@@ -6,14 +6,14 @@ title: JOIN
 
 *连接* (join) 操作将两个或多个表的列组合成单一结果集。Databend 支持以下连接类型：
 
-* [内连接](#inner-join)
-* [自然连接](#natural-join)
-* [交叉连接](#cross-join)
-* [左连接](#left-join)
-* [右连接](#right-join)
-* [全外连接](#full-outer-join)
-* [左/右半连接](#left--right-semi-join)
-* [左/右反连接](#left--right-anti-join)
+* [Inner Join](#inner-join)
+* [Natural Join](#natural-join)
+* [Cross Join](#cross-join)
+* [Left Join](#left-join)
+* [Right Join](#right-join)
+* [Full Outer Join](#full-outer-join)
+* [Left / Right Semi-Join](#left--right-semi-join)
+* [Left / Right Anti-Join](#left--right-anti-join)
 
 ## 示例表
 
@@ -46,9 +46,9 @@ title: JOIN
 | Coffee    	 |
 | Soda      	 |
 
-## 内连接
+## Inner Join
 
-*内连接* 返回结果集中满足连接条件的行。
+*Inner Join* 返回结果集中满足连接条件的行。
 
 ### 语法
 
@@ -98,9 +98,9 @@ FROM   vip_info
 |103|Coffee|6000
 ```
 
-## 自然连接
+## Natural Join
 
-*自然连接* 基于两个表中所有同名列自动进行连接。
+*Natural Join* 基于两个表中所有同名列自动进行连接。
 
 ### 语法
 
@@ -132,9 +132,9 @@ FROM   vip_info
 |103|6|6,000
 ```
 
-## 交叉连接
+## Cross Join
 
-*交叉连接* 返回第一个表的每一行与第二个表的每一行组合的结果集。
+*Cross Join* 返回第一个表的每一行与第二个表的每一行组合的结果集。
 
 ### 语法
 
@@ -173,9 +173,9 @@ FROM   vip_info
 103|Vancouver|Soda
 ```
 
-## 左连接
+## Left Join
 
-*左连接* 返回左表的所有记录，以及右表的匹配记录。若无匹配，则右表字段显示为 NULL。
+*Left Join* 返回左表的所有记录，以及右表的匹配记录。若无匹配，则右表字段显示为 NULL。
 
 ### 语法
 
@@ -212,9 +212,9 @@ FROM   vip_info
 |103|Coffee|6000
 ```
 
-## 右连接
+## Right Join
 
-*右连接* 返回右表的所有记录，以及左表的匹配记录。若无匹配，则左表字段显示为 NULL。
+*Right Join* 返回右表的所有记录，以及左表的匹配记录。若无匹配，则左表字段显示为 NULL。
 
 ### 语法
 
@@ -252,9 +252,9 @@ NULL|NULL
 NULL|NULL
 ```
 
-## 全外连接
+## Full Outer Join
 
-*全外连接* 返回两表的所有行，匹配成功的行进行组合，无匹配的行则填充 NULL。
+*Full Outer Join* 返回两表的所有行，匹配成功的行进行组合，无匹配的行则填充 NULL。
 
 ### 语法
 
@@ -293,21 +293,21 @@ NULL|Croissant
 NULL|Soda
 ```
 
-## 左/右半连接
+## Left / Right Semi Join
 
-*左半连接* 返回左表中与右表匹配的行连接*连接*连接* 返回右表中与左表匹配的行。
+*Left / Right Semi Join* 返回左表中与右表匹配的行连接*连接*连接* 返回右表中与左表匹配的行。
 
 ### 语法
 
 ```sql
--- 左半连接
+-- Left Semi Join
 
 SELECT select_list
 FROM   table_a
        LEFT SEMI JOIN table_b
                     ON join_condition
 
--- 右半连接
+-- Right Semi Join
 
 SELECT select_list
 FROM   table_a
@@ -353,21 +353,21 @@ FROM   vip_info
 |103|Coffee|6000
 ```
 
-## 左/右反连接
+## Left / Right Anti Join
 
-*左反连接* 返回左表中不与右表匹配的行。*右反连接* 返回右表中不与左表匹配的行。
+*Left / Right Anti Join* 返回左表中不与右表匹配的行。*右反连接* 返回右表中不与左表匹配的行。
 
 ### 语法
 
 ```sql
--- 左反连接
+-- Left Anti Join
 
 SELECT select_list
 FROM   table_a
        LEFT ANTI JOIN table_b
                     ON join_condition
 
--- 右反连接
+-- Right Anti Join
 
 SELECT select_list
 FROM   table_a
