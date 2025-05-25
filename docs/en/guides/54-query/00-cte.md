@@ -1,5 +1,5 @@
 ---
-title: Common Table Expressions (CTEs)
+title: Common Table Expressions (CTE)
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

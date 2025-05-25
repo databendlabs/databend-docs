@@ -24,7 +24,6 @@ Databend supports the following objects to create and modify them:
 - Role
 - Grants
 - Warehouse
-- Pipe
 - Task
 
 ## Organizing Data

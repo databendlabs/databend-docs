@@ -1,5 +1,5 @@
 ---
-title: JOINs
+title: JOIN
 ---
 
 ## Supported Join Types
