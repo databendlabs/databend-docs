@@ -53,14 +53,22 @@ jobs:
           cat .github/workflows/prompt.txt >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 
-      - name: Debug - Print prompt and model
+      - name: Debug - Save prompt to artifact
         run: |
-          echo "=== Debug Information ==="
-          echo "LLM_MODEL: ${{ secrets.LLM_MODEL }}"
-          echo ""
-          echo "=== Prompt Content ==="
-          echo "${{ steps.prompt.outputs.prompt }}"
-          echo "======================"
+          mkdir -p debug-output
+          printf '%s' '${{ steps.prompt.outputs.prompt }}' > debug-output/prompt-variable.txt
+          cp .github/workflows/prompt.txt debug-output/prompt-original.txt
+          echo "LLM_MODEL: ${{ secrets.LLM_MODEL }}" > debug-output/debug-info.txt
+          echo "BASE_URL: ${{ secrets.BASE_URL }}" >> debug-output/debug-info.txt
+          echo "Input Path: ${{ github.event.inputs.path }}" >> debug-output/debug-info.txt
+          echo "MD Files: ${{ steps.check_missing.outputs.missing_md_files }}" >> debug-output/debug-info.txt
+          echo "JSON Files: ${{ steps.check_missing.outputs.missing_json_files }}" >> debug-output/debug-info.txt
+
+      - name: Upload debug artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: debug-prompt-${{ github.run_number }}
+          path: debug-output/
 
       - name: Run GPT Translate
         uses: 3ru/gpt-translate@v1.1.11
