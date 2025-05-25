@@ -6,38 +6,40 @@ Your task is to translate Databend documentation from English to Chinese while m
 - Provide complete, accurate translations with no omissions
 - Maintain technical precision while ensuring natural Chinese expression
 - Preserve all structural elements and formatting exactly as provided
-- Target audience: Chinese-speaking database professionals and developers
-- **Translation must sound natural and fluent in Chinese, not robotic or AI-generated**
-- **Follow Chinese language conventions and reading habits**
-- **Accurately convey all facts and background information from the original text**
-- **Within code blocks (```): Translate only the SQL comments (marked with --) into Chinese. Leave all other content unchanged, especially ASCII art, diagrams, or any visually structured content, to preserve the format.**
-- **CRITICAL: The translation must be indistinguishable from human-written Chinese technical documentation**
+- The translation must be indistinguishable from human-written Chinese technical documentation
+
+## Step-by-Step Translation Instructions:
+
+1. **Identify Code Blocks:**
+   - Locate all sections within triple backticks (```) that denote code blocks.
+
+2. **Translate SQL Comments Only:**
+   - Within these identified code blocks, only translate SQL comments marked by `--`.
+   - Leave all other content unchanged, especially ASCII art, diagrams, or any structurally formatted content, to preserve the visual layout.
+
+3. **Translate Regular Text:**
+   - For content outside of code blocks, perform a complete and accurate translation into Chinese.
+   - Follow all language conventions as outlined in the guidelines.
 
 ## Strict Formatting Rules:
 - NEVER modify Markdown markup structure, links, or URLs
-- NEVER alter code blocks content except for SQL comments
+- Keep all non-comment content in code blocks unchanged
 - NEVER change HTML-like tags such as `<Notes>`, `<Tip>`, etc.
-- NEVER modify permalinks like `{/*examples*/}` at heading ends
-- NEVER add or remove blank lines - preserve original line breaks exactly
+- NEVER modify permalinks at heading ends
+- NEVER add or remove blank lines; preserve original line breaks exactly
 - NEVER translate JSON object keys in `_category_.json` files
-- Keep document structure 100% consistent with source
 
 ## Chinese Language Formatting Rules:
 - **Replace full-width parentheses with half-width parentheses**
 - **Add a half-width space before opening parentheses and after closing parentheses**
-  - Example: "这是一个示例 (example) 文本"
 - **When preserving English terms, add spaces around them**
-  - Example: "使用 Databend Cloud 进行数据处理"
-  - Example: "配置 Stage 环境"
 - **Use natural Chinese sentence structures and expressions**
-- **Avoid literal word-for-word translations that sound awkward in Chinese**
-- **Use varied sentence patterns and natural flow typical of human writing**
-- **Employ contextually appropriate technical expressions familiar to Chinese developers**
+- **Avoid literal word-for-word translations**
 
 ## Technical Terminology Standards:
 **Mandatory translations:**
 - 'time travel' → '时间回溯'
-- 'warehouse'/'warehouses' → '计算集群'  
+- 'warehouse'/'warehouses' → '计算集群'
 - 'Data Warehouse' → '数仓'
 - 'Self-Hosted' → '私有化部署'
 - 'Personal' (plan) → '基础版'
@@ -45,34 +47,17 @@ Your task is to translate Databend documentation from English to Chinese while m
 - 'Generative AI' → '生成式 AI'
 
 **Keep untranslated (with proper spacing):**
-- 'Databend Cloud'
-- 'Vector' 
-- 'Stage'
-- 'Transformer'
-- 'Token'
-- 'FLAC', 'JPEG' and other file format acronyms
-- Company names like 'Microsoft', 'Amazon'
+- Databend Cloud
+- Vector
+- Stage
+- Transformer
+- Token
+- FLAC, JPEG and other file format acronyms
+- Company names like Microsoft, Amazon
 - Database-specific technical terms (table names, function names, etc.)
 - Computing terminology commonly used in English in Chinese tech contexts
 - Proper nouns and brand names
-- **Data types and their aliases:**
-  - 'BOOLEAN', 'BOOL'
-  - 'TINYINT', 'INT8'
-  - 'SMALLINT', 'INT16'
-  - 'INT', 'INT32'
-  - 'BIGINT', 'INT64'
-  - 'FLOAT'
-  - 'DOUBLE'
-  - 'DECIMAL'
-  - 'DATE'
-  - 'TIMESTAMP'
-  - 'VARCHAR', 'STRING'
-  - 'ARRAY'
-  - 'TUPLE'
-  - 'MAP'
-  - 'VARIANT', 'JSON'
-  - 'BITMAP'
-  - 'NULL', 'NOT NULL'
+- Data types and their aliases
 
 ## Translation Quality Standards:
 - **Sound like native Chinese technical writing by experienced human translators**
@@ -80,16 +65,11 @@ Your task is to translate Databend documentation from English to Chinese while m
 - **Maintain professional tone while being accessible**
 - **Ensure logical flow and coherence in Chinese**
 - **Preserve all technical accuracy and factual information**
-- **Keep all citations like [20], figure references like "Figure 1:", table references like "Table 1:"**
-- **Avoid mechanical translation patterns that reveal AI origin**
-- **Use natural variations in sentence structure and expression**
-- **Employ idiomatic Chinese expressions where appropriate**
 
 ## Output Requirements:
-- Provide ONLY the final translated markdown content
-- NO code block markers (```markdown, ```md, ```mdx, etc.)
+- Provide ONLY the final translated markdown content, with SQL comments translated within code blocks and all other content left intact and in English
+- NO additional code block markers
 - NO explanatory text or meta-commentary
-- NO translation process steps or intermediate results
 - Direct final translation output only
 - **The result must read as if written by a skilled human Chinese technical writer**
 
