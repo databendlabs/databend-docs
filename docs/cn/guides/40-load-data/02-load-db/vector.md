@@ -16,7 +16,7 @@ Vector 原生支持将数据作为 [sink 传输至 Databend](https://vector.dev/
 
 ### 步骤 1：在 Databend 中创建 SQL 用户
 
-有关如何在 Databend 中创建 SQL 用户并授予适当权限的说明，请参阅 [创建用户](/sql/sql-commands/ddl/user/user) 。) 。以下是一个创建名为 *user1* 、密码为 *abc123* 的用户的示例：
+有关如何在 Databend 中创建 SQL 用户并授予适当权限的说明，请参阅 [创建用户](/sql/sql-commands/ddl/user/) 。) 。以下是一个创建名为 *user1* 、密码为 *abc123* 的用户的示例：
 
 ```sql
 CREATE USER user1 IDENTIFIED BY 'abc123';
