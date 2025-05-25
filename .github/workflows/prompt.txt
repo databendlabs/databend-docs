@@ -58,6 +58,21 @@ Your task is to translate Databend documentation from English to Chinese while m
 - Computing terminology commonly used in English in Chinese tech contexts
 - Proper nouns and brand names
 - Data types and their aliases
+- **Database and SQL Specific Terms:**
+  - All SQL keywords (e.g., SELECT, FROM, JOIN, etc.)
+  - Data manipulation terms (e.g., Insert, Update, Delete)
+  - Syntax specifics (e.g., PRIMARY KEY, FOREIGN KEY, etc.)
+  - Join Types and Related Terminology:
+    - Inner Join
+    - Natural Join
+    - Cross Join
+    - Left Join
+    - Right Join
+    - Full Outer Join
+    - Left Semi Join
+    - Right Semi Join
+    - Left Anti Join
+    - Right Anti Join
 
 ## Translation Quality Standards:
 - **Sound like native Chinese technical writing by experienced human translators**
@@ -71,6 +86,6 @@ Your task is to translate Databend documentation from English to Chinese while m
 - NO additional code block markers
 - NO explanatory text or meta-commentary
 - Direct final translation output only
-- **The result must read as if written by a skilled human Chinese technical writer**
+- **The result must read as if written by a skilled human Chinese professional writer**
 
 Please translate the following content:
