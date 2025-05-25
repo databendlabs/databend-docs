@@ -3,7 +3,7 @@ title: 查询与转换
 slug: querying-stage
 ---
 
-Databend 支持直接查询 Stage 中的文件，而无需先将数据加载到表中。您可以从任何 Stage 类型 (用户 Stage、内部 Stage、外部 Stage) 或直接从对象存储和 HTTPS URL 查询文件。这非常适合在数据加载之前或之后进行数据检查、验证和转换。
+Databend 允许直接查询暂存文件而无需先将数据加载到表中。可以从任何类型的 stage（用户、内部、外部）或直接从对象存储和 HTTPS URL 查询文件。非常适合在数据加载前后进行检查、验证和转换。
 
 ## 语法
 
@@ -26,11 +26,11 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 | 参数 | 描述 |
 | --------- | ----------- |
 | `FILE_FORMAT` | 文件格式类型 (CSV, TSV, NDJSON, PARQUET, ORC, Avro) |
-| `PATTERN` | 用于过滤文件的正则表达式模式 |
-| `FILES` | 要查询的文件的显式列表 |
-| `CASE_SENSITIVE` | 列名是否区分大小写 (Parquet) |
-| `table_alias` | 引用 Stage 文件的别名 |
-| `$col_position` | 按位置选择列 (从 1 开始) |
+| `PATTERN` | 用于筛选文件的正则表达式模式 |
+| `FILES` | 要查询的显式文件列表 |
+| `CASE_SENSITIVE` | 列名大小写敏感性 (Parquet) |
+| `table_alias` | 引用暂存文件的别名 |
+| `$col_position` | 按位置选择列 (从1开始) |
 | `connection_parameters` | 外部存储连接详情 |
 | `uri` | 远程文件的 URI |
 

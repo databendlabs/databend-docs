@@ -18,29 +18,29 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 )]
 ```
 
-:::info Tips
+:::info 提示
 **查询返回内容说明:**
 
-* **返回格式**: 列值以其原生数据类型返回 (而非 VARIANT 类型)
+* **返回格式**: 列值以其原生数据类型返回 (非 variant 类型)
 * **访问方式**: 直接使用列名 `column_name`
 * **示例**: `SELECT id, name, age FROM @stage_name`
-* **主要特性**:
-  * 无需路径表达式 (例如 `$1:name`)
+* **关键特性**:
+  * 无需使用路径表达式 (如 `$1:name`)
   * 无需类型转换
-  * Parquet 文件包含嵌入式 Schema 信息
+  * Parquet 文件包含内嵌的 schema 信息
 :::
 
 ## 教程
 
 ### 步骤 1. 创建外部 Stage
 
-使用您自己的 S3 存储桶和凭证创建外部 Stage，其中存储了您的 Parquet 文件。
+使用您自己的 S3 存储桶和凭证创建一个外部 stage，用于存储 Parquet 文件。
 ```sql
 CREATE STAGE parquet_query_stage 
 URL = 's3://load/parquet/' 
 CONNECTION = (
     ACCESS_KEY_ID = '<your-access-key-id>' 
-    SECRET_ACCESS_KEY = '<your-secret-access-key>'
+    SECRET_ = '< = '<your-secret-access-key>'
 );
 ```
 
@@ -63,9 +63,9 @@ FROM @parquet_query_stage
     PATTERN => '.*[.]parquet'
 );
 ```
-### 查询元数据
+### 包含元数据的查询
 
-直接从 Stage 查询 Parquet 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列:
+直接从 stage 查询 Parquet 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列:
 
 ```sql
 SELECT

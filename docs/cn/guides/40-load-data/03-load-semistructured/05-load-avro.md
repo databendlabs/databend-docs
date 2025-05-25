@@ -1,15 +1,15 @@
 ---
-title: 将 Avro 数据加载到 Databend
+title: 将 Avro 数据导入 Databend
 sidebar_label: Avro
 ---
 
 ## 什么是 Avro？
 
-[Apache Avro™](https://avro.apache.org/) 是领先的记录数据序列化格式，也是流式数据管道的首选。
+[Apache Avro™](https://avro.apache.org/) 是记录数据的首选序列化格式，也是流式数据管道的首选解决方案。
 
 ## 加载 Avro 文件
 
-加载 AVRO 文件的常用语法如下：
+加载 AVRO 文件的通用语法如下：
 
 ```sql
 COPY INTO [<database>.]<table_name>
@@ -18,16 +18,16 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = AVRO)
 ```
 
-- 有关 Avro 文件格式的更多选项，请参阅 [Avro 文件格式选项](/sql/sql-reference/file-format-options#avro-options)。
-- 有关 `COPY INTO table` 的更多选项，请参阅 [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table)。
+- 更多 Avro 文件格式选项，请参考 [Avro 文件格式选项](/sql/sql-reference/file-format-options#avro-options) 。
+- 更多 COPY INTO 表选项，请参考 [COPY INTO 表](/sql/sql-commands/dml/dml-copy-into-table) 。
 
-## 教程：从远程 HTTP URL 将 Avro 数据加载到 Databend
+## 教程：从远程 HTTP URL 加载 Avro 数据到 Databend
 
-在本教程中，你将使用 Avro 模式在 Databend 中创建表，并通过 HTTPS 直接从 GitHub 托管的 `.avro` 文件加载 Avro 数据。
+本教程将指导您在 Databend 中创建一个表，并通过 HTTPS 直接从 GitHub 托管的 `.avro` 文件加载 Avro 数据。
 
 ### 步骤 1：查看 Avro 模式
 
-在 Databend 中创建表之前，我们先快速查看一下正在使用的 Avro 模式：[userdata.avsc](https://github.com/Teradata/kylo/blob/master/samples/sample-data/avro/userdata.avsc)。此模式定义了一个名为 `User` 的记录，包含 13 个字段，大部分是字符串类型，还有 `int` 和 `float` 类型。
+在 Databend 中创建表之前，我们先快速浏览一下要使用的 Avro 模式：[userdata.avsc](https://github.com/Teradata/kylo/blob/master/samples/sample-data/avro/userdata.avsc) 。该模式定义了一个名为 `User` 的记录，包含 13 个字段，主要是字符串类型，以及 `int` 和 `float` 类型。
 
 ```json
 {
@@ -53,7 +53,7 @@ FILE_FORMAT = (TYPE = AVRO)
 
 ### 步骤 2：在 Databend 中创建表
 
-创建与模式中定义的结构匹配的表：
+创建一个与模式中定义的结构匹配的表：
 
 ```sql
 CREATE TABLE userdata (
@@ -91,7 +91,7 @@ FILE_FORMAT = (type = avro);
 
 ### 步骤 4：查询数据
 
-现在你可以探索刚刚导入的数据：
+您现在可以探索刚刚导入的数据：
 
 ```sql
 SELECT id, first_name, email, salary FROM userdata LIMIT 5;
