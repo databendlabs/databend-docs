@@ -8,14 +8,14 @@ Databend 支持符合 ANSI SQL:1999 和 SQL:2003 分析扩展的标准 SQL。本
 
 | 功能 | 描述 | 主要优势 |
 |---------|-------------|--------------|
-| [**公用表表达式 (CTE)**](00-cte.md) | 使用 WITH 子句定义命名临时结果集 | 提升查询可读性，可复用子查询 |
-| [**JOIN**](02-join.md) | 合并多表数据 | 支持内连接、外连接、交叉连接、半连接和反连接 |
-| [**GROUP BY 操作**](01-groupby/index.md) | 分组聚合数据及扩展功能支持 C支持 CUBE、ROLLUP 和 GROUPING SETS |
+| [**公共表表达式 (CTE)**](00-cte.md) | 使用 WITH 子句定义命名的临时结果集 | 提升查询可读性，可复用子查询 |
+| [**JOIN**](02-join.md) | 合并多表数据 | 支持 Inner、Outer、Cross、Semi 和 Anti 连接 |
+| [**GROUP BY**](01-groupby/index.md) | 数据分组聚合及扩展功能 | 支持 CUBE、ROLLUP 和 GROUPING SETS |
 | [**序列**](02-sequences.md) | 生成连续数值 | 自增标识符和计数器 |
 
 ## 高级查询能力
 
-|  | 类型 | 描述 | 应用场景 |
+| 功能 | 类型 | 描述 | 应用场景 |
 |---------|------|-------------|-----------|
 | [**用户定义函数**](03-udf.md) | Lambda & 嵌入式 | 使用 Python、JavaScript、WebAssembly 实现自定义操作 | 复杂数据转换，定制业务逻辑 |
 | [**外部函数**](04-external-function.md) | 云特性 | 通过外部服务器执行自定义操作 | 可扩展处理，外部库集成 |
@@ -29,7 +29,7 @@ Databend 支持符合 ANSI SQL:1999 和 SQL:2003 分析扩展的标准 SQL。本
 | [**查询分析**](05-query-profile.md) | 性能分析 | Databend Cloud 监控 | 可视化执行计划，性能指标 |
 | [**查询哈希**](06-query-hash.md) | 查询标识 | SQL 函数 | 唯一查询指纹，性能追踪 |
 
-## GROUP BY 扩展
+## GROUP BY 扩展功能
 
 | 扩展 | 描述 | 最佳适用场景 |
 |-----------|-------------|----------|
@@ -42,7 +42,7 @@ Databend 支持符合 ANSI SQL:1999 和 SQL:2003 分析扩展的标准 SQL。本
 1. **基础查询**：从 [JOIN](02-join.md) 和 [GROUP BY](01-groupby/index.md) 开始掌握基础数据操作
 2. **高级逻辑**：使用 [CTE](00-cte.md) 构建复杂查询结构
 3. **自定义函数**：通过 [UDF](03-udf.md) 实现特定数据处理
-4. **性能优化**：利用分析](分析](05-query-profile.md) 获取优化洞察
-5. **外部数据**：通过 [字典](07-dictionary.md) 集成外部数据源
+4. **性能优化**：利用 [查询分析](05-query-profile.md) 获取优化洞察
+5. **外部数据**：使用 [字典](07-dictionary.md) 集成外部数据源
 
 ---
