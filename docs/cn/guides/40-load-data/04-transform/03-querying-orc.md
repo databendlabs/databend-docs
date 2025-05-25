@@ -18,29 +18,29 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 )]
 ```
 
-:::info Tips
-ORC 包含 Schema 信息，因此我们可以直接查询列 `<column> [, <column> ...]`。
+:::info 提示
+ORC 文件包含 schema 信息，因此可以直接查询列 `<column> [, <column> ...]`。
 :::
 
 ## 教程
 
-在本教程中，我们将引导你完成下载 ORC 格式的 Iris 数据集、将其上传到 Amazon S3 存储桶、创建外部 Stage 以及直接从 ORC 文件查询数据的过程。
+本教程将指导您完成下载 ORC 格式的 Iris 数据集、上传至 Amazon S3 存储桶、创建外部 stage 以及直接从 ORC 文件查询数据的过程。
 
 <StepsWrap>
 <StepContent number="1">
 
 ### 下载 Iris 数据集
 
-从 https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc 下载 Iris 数据集，然后将其上传到你的 Amazon S3 存储桶。
+从 https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc 下载 iris 数据集，然后上传至您的 Amazon S3 存储桶。
 
-Iris 数据集包含 3 个类别，每个类别有 50 个实例，每个类别都指代一种鸢尾花。它有 4 个属性：(1) 花萼长度，(2) 花萼宽度，(3) 花瓣长度，(4) 花瓣宽度，最后一列包含类别标签。
+该数据集包含 3 类各 50 个样本，每类代表一种鸢尾花植物。它有 4 个特征：(1) 花萼长度，(2) 花萼宽度，(3) 花瓣长度，(4) 花瓣宽度，最后一列是类别标签。
 
 </StepContent>
 <StepContent number="2">
 
 ### 创建外部 Stage
 
-使用存储 Iris 数据集文件的 Amazon S3 存储桶创建外部 Stage。
+在存储 iris 数据集文件的 Amazon S3 存储桶上创建外部 stage。
 
 ```sql
 CREATE STAGE orc_query_stage
@@ -73,7 +73,7 @@ FROM @orc_query_stage
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-你也可以直接查询远程 ORC 文件：
+您也可以直接查询远程 ORC 文件：
 
 ```sql
 SELECT
@@ -85,9 +85,9 @@ FROM
 </StepContent>
 <StepContent number="4">
 
-### 查询元数据
+### 带元数据的查询
 
-直接从 Stage 查询 ORC 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列：
+从 stage 直接查询 ORC 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列：
 
 ```sql
 SELECT
