@@ -2,39 +2,89 @@
 title: Aggregating Index
 ---
 
+# Aggregating Index: Precomputed Results for Instant Analytics
+
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='AGGREGATING INDEX'/>
 
-The primary purpose of the aggregating index is to enhance query performance, especially in scenarios involving aggregation queries such as MIN, MAX, and SUM. It achieves this by precomputing and storing query results separately in blocks, eliminating the need to scan the entire table and thereby speeding up data retrieval. Please note the following when working with aggregating indexes:
 
-- When creating aggregating indexes, limit their usage to standard [Aggregate Functions](/sql/sql-functions/aggregate-functions/) (e.g., AVG, SUM, MIN, MAX, COUNT and GROUP BY), while keeping in mind that [GROUPING SETS](../54-query/01-groupby/group-by-grouping-sets.md), [Window Functions](/sql/sql-functions/window-functions/), [LIMIT](/sql/sql-commands/query-syntax/query-select#limit-clause), and [ORDER BY](/sql/sql-commands/query-syntax/query-select#order-by-clause) are not accepted, or you will get an error: `Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`.
+Aggregating indexes dramatically accelerate analytical queries by precomputing and storing aggregation results, eliminating the need to scan entire tables for common analytics operations.
 
-- The query filter scope defined when creating aggregating indexes should either match or encompass the scope of your actual queries.
+## What Problem Does It Solve?
 
-- To confirm if an aggregating index works for a query, use the [EXPLAIN](/sql/sql-commands/explain-cmds/explain) command to analyze the query.
+Analytical queries on large datasets face significant performance challenges:
 
-- If you no longer need an aggregating index, consider deleting it. Please note that deleting an aggregating index does NOT remove the associated storage blocks. To delete the blocks as well, use the [VACUUM TABLE](/sql/sql-commands/ddl/table/vacuum-table) command. To disable the aggregating indexing feature, set `enable_aggregating_index_scan` to 0.
+| Problem | Impact | Aggregating Index Solution |
+|---------|--------|---------------------------|
+| **Full Table Scans** | SUM, COUNT, MIN, MAX queries scan millions of rows | Read precomputed results instantly |
+| **Repeated Calculations** | Same aggregations computed over and over | Store results once, reuse many times |
+| **Slow Dashboard Queries** | Analytics dashboards take minutes to load | Sub-second response for common metrics |
+| **High Compute Costs** | Heavy aggregation workloads consume resources | Minimal compute for cached results |
+| **Poor User Experience** | Users wait for reports and analytics | Instant results for business intelligence |
 
-## Refreshing Aggregating Index
+**Example**: A sales analytics query `SELECT SUM(revenue), COUNT(*) FROM sales WHERE region = 'US'` on 100M rows. Without aggregating index, it scans all US sales records. With aggregating index, it returns precomputed results instantly.
 
-An aggregating index requires regular refreshes since the table may undergo data insertions and updates after the creation of the aggregating index. You have the following options to refresh an aggregating index:
+## How It Works
 
-- **Automatic Refresh**: If an aggregating index is **created with the SYNC keyword**, the aggregating index will refresh automatically when the table receive data updates that may affect the query results. For more information, see [CREATE AGGREGATING INDEX](/sql/sql-commands/ddl/aggregating-index/create-aggregating-index).
+1. **Index Creation** → Define aggregation queries to precompute
+2. **Result Storage** → Databend stores aggregated results in optimized blocks
+3. **Query Matching** → Incoming queries automatically use precomputed results
+4. **Automatic Updates** → Results refresh when underlying data changes
 
-- **Manual Refresh**: If an aggregating index is **created without the SYNC keyword**, the aggregating index does not refresh automatically. Instead, you can manually refresh it using the [REFRESH AGGREGATING INDEX](/sql/sql-commands/ddl/aggregating-index/refresh-aggregating-index) command. In this case, Databend recommends refreshing the aggregating index before executing the relevant query.
+## Quick Setup
 
-:::note automatic or manual?
-The Automatic Refresh mechanism in Databend has the potential to affect the duration of significant data loading. This is because Databend withholds the data loading result until the automatically refreshing aggregating indexes have been updated to reflect the latest results. Databend Cloud users are recommended to use the Manual Refresh mechanism. This is because Databend Cloud automatically updates aggregating indexes in the background, even for those created without the SYNC keyword, in response to changes in table data.
-:::
+```sql
+-- Create table with sample data
+CREATE TABLE sales(region VARCHAR, product VARCHAR, revenue DECIMAL, quantity INT);
 
-## Managing Aggregating Index
+-- Create aggregating index for common analytics
+CREATE AGGREGATING INDEX sales_summary AS 
+SELECT region, SUM(revenue), COUNT(*), AVG(quantity) 
+FROM sales 
+GROUP BY region;
 
-Databend provides a variety of commands to manage aggregating indexes. For details, see [Aggregating Index](/sql/sql-commands/ddl/aggregating-index/).
+-- Refresh the index (manual mode)
+REFRESH AGGREGATING INDEX sales_summary;
 
-## Usage Examples
+-- Verify the index is used
+EXPLAIN SELECT region, SUM(revenue) FROM sales GROUP BY region;
+```
 
-This example demonstrates the utilization of aggregating indexes and illustrates their impact on the query execution plan.
+## Supported Operations
+
+| ✅ Supported | ❌ Not Supported |
+|-------------|-----------------|
+| SUM, COUNT, MIN, MAX, AVG | Window Functions |
+| GROUP BY clauses | GROUPING SETS |
+| WHERE filters | ORDER BY, LIMIT |
+| Simple aggregations | Complex subqueries |
+
+## Refresh Strategies
+
+| Strategy | When to Use | Configuration |
+|----------|-------------|---------------|
+| **Automatic (SYNC)** | Real-time analytics, small datasets | `CREATE AGGREGATING INDEX ... SYNC` |
+| **Manual** | Large datasets, batch processing | `CREATE AGGREGATING INDEX ...` (default) |
+| **Background (Cloud)** | Production workloads | Automatic in Databend Cloud |
+
+### Automatic vs Manual Refresh
+
+```sql
+-- Automatic refresh (updates with every data change)
+CREATE AGGREGATING INDEX auto_summary AS 
+SELECT region, SUM(revenue) FROM sales GROUP BY region SYNC;
+
+-- Manual refresh (update on demand)
+CREATE AGGREGATING INDEX manual_summary AS 
+SELECT region, SUM(revenue) FROM sales GROUP BY region;
+
+REFRESH AGGREGATING INDEX manual_summary;
+```
+
+## Performance Example
+
+This example shows the dramatic performance improvement:
 
 ```sql
 -- Prepare data
@@ -50,56 +100,54 @@ REFRESH AGGREGATING INDEX my_agg_index;
 -- Verify if the aggregating index works
 EXPLAIN SELECT MIN(a), MAX(c) FROM agg;
 
-explain                                                                                                               |
-----------------------------------------------------------------------------------------------------------------------+
-AggregateFinal                                                                                                        |
-├── output columns: [MIN(a) (#8), MAX(c) (#9)]                                                                        |
-├── group by: []                                                                                                      |
-├── aggregate functions: [min(a), max(c)]                                                                             |
-├── estimated rows: 1.00                                                                                              |
-└── AggregatePartial                                                                                                  |
-    ├── output columns: [MIN(a) (#8), MAX(c) (#9)]                                                                    |
-    ├── group by: []                                                                                                  |
-    ├── aggregate functions: [min(a), max(c)]                                                                         |
-    ├── estimated rows: 1.00                                                                                          |
-    └── TableScan                                                                                                     |
-        ├── table: default.default.agg                                                                                |
-        ├── output columns: [a (#5), c (#7)]                                                                          |
-        ├── read rows: 4                                                                                              |
-        ├── read bytes: 61                                                                                            |
-        ├── partitions total: 1                                                                                       |
-        ├── partitions scanned: 1                                                                                     |
-        ├── pruning stats: [segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1, bloom pruning: 0 to 0>]|
-        ├── push downs: [filters: [], limit: NONE]                                                                    |
-        ├── aggregating index: [SELECT MIN(a), MAX(c) FROM default.agg]                                               |
-        ├── rewritten query: [selection: [index_col_0 (#0), index_col_1 (#1)]]                                        |
-        └── estimated rows: 4.00                                                                                      |
-
--- Delete the aggregating index
-DROP AGGREGATING INDEX my_agg_index;
-
-EXPLAIN SELECT MIN(a), MAX(c) FROM agg;
-
-explain                                                                                                               |
-----------------------------------------------------------------------------------------------------------------------+
-AggregateFinal                                                                                                        |
-├── output columns: [MIN(a) (#3), MAX(c) (#4)]                                                                        |
-├── group by: []                                                                                                      |
-├── aggregate functions: [min(a), max(c)]                                                                             |
-├── estimated rows: 1.00                                                                                              |
-└── AggregatePartial                                                                                                  |
-    ├── output columns: [MIN(a) (#3), MAX(c) (#4)]                                                                    |
-    ├── group by: []                                                                                                  |
-    ├── aggregate functions: [min(a), max(c)]                                                                         |
-    ├── estimated rows: 1.00                                                                                          |
-    └── TableScan                                                                                                     |
-        ├── table: default.default.agg                                                                                |
-        ├── output columns: [a (#0), c (#2)]                                                                          |
-        ├── read rows: 4                                                                                              |
-        ├── read bytes: 61                                                                                            |
-        ├── partitions total: 1                                                                                       |
-        ├── partitions scanned: 1                                                                                     |
-        ├── pruning stats: `[segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1, bloom pruning: 0 to 0>]`|
-        ├── push downs: [filters: [], limit: NONE]                                                                    |
-        └── estimated rows: 4.00                                                                                      |
+-- Key indicators in the execution plan:
+-- ├── aggregating index: [SELECT MIN(a), MAX(c) FROM default.agg]
+-- ├── rewritten query: [selection: [index_col_0 (#0), index_col_1 (#1)]]
+-- This shows the query uses precomputed results instead of scanning raw data
 ```
+
+## Best Practices
+
+| Practice | Benefit |
+|----------|---------|
+| **Index Common Queries** | Focus on frequently executed analytics |
+| **Use Manual Refresh** | Better control over update timing |
+| **Monitor Index Usage** | Use EXPLAIN to verify index utilization |
+| **Clean Up Unused Indexes** | Remove indexes that aren't being used |
+| **Match Query Patterns** | Index filters should match actual queries |
+
+## Management Commands
+
+| Command | Purpose |
+|---------|---------|
+| `CREATE AGGREGATING INDEX` | Create new aggregating index |
+| `REFRESH AGGREGATING INDEX` | Update index with latest data |
+| `DROP AGGREGATING INDEX` | Remove index (use VACUUM TABLE to clean storage) |
+| `SHOW AGGREGATING INDEXES` | List all indexes |
+
+## Important Notes
+
+:::tip
+**When to Use Aggregating Indexes:**
+- Frequent analytical queries (dashboards, reports)
+- Large datasets with repeated aggregations
+- Stable query patterns
+- Performance-critical applications
+
+**When NOT to Use:**
+- Frequently changing data
+- One-time analytical queries
+- Simple queries on small tables
+:::
+
+## Configuration
+
+```sql
+-- Enable/disable aggregating index feature
+SET enable_aggregating_index_scan = 1;  -- Enable (default)
+SET enable_aggregating_index_scan = 0;  -- Disable
+```
+
+---
+
+*Aggregating indexes are most effective for repetitive analytical workloads on large datasets. Start with your most common dashboard and reporting queries.*

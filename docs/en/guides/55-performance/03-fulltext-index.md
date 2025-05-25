@@ -1,79 +1,100 @@
 ---
 title: Full-Text Index
 ---
+
+# Full-Text Index: Automatic Lightning-Fast Text Search
+
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='INVERTED INDEX'/>
 
-## What is Full-Text Indexing?
 
-Full-text indexing, also known as inverted index, is a data structure used to efficiently map between terms and the documents or records that contain those terms. In a typical inverted index, each term from a document's text is associated with the document ID where it appears. This allows for fast full-text searches and retrieval of relevant documents based on search terms.
+Full-text indexes (inverted indexes) automatically enable lightning-fast text searches across large document collections by mapping terms to documents, eliminating the need for slow table scans.
 
-Databend utilizes [Tantivy](https://github.com/quickwit-oss/tantivy), a full-text search engine library, to implement inverted indexes. Suppose we have a collection of documents representing product reviews. Each document consists of a unique ID and some text content describing the review. Here are a few sample documents:
+## What Problem Does It Solve?
 
-| Document ID | Content                                                             |
-|-------------|---------------------------------------------------------------------|
-| 101         | "This product is amazing! It exceeded all my expectations."         |
-| 102         | "I'm disappointed with this product. It didn't work as advertised." |
-| 103         | "Highly recommended! Best purchase I've made in a long time."       |
+Text search operations on large datasets face significant performance challenges:
 
-An inverted index for these documents would look like the table below. The inverted index allows us to quickly find which documents contain a particular term. For example, if we search for the term `recommended`, we can easily retrieve Document ID 103 from the inverted index.
+| Problem | Impact | Full-Text Index Solution |
+|---------|--------|-------------------------|
+| **Slow LIKE Queries** | `WHERE content LIKE '%keyword%'` scans entire tables | Direct term lookup, skip irrelevant documents |
+| **Full Table Scans** | Every text search reads all rows | Read only documents containing search terms |
+| **Poor Search Experience** | Users wait seconds/minutes for search results | Sub-second search response times |
+| **Limited Search Capabilities** | Basic pattern matching only | Advanced features: fuzzy search, relevance scoring |
+| **High Resource Usage** | Text searches consume excessive CPU/memory | Minimal resources for indexed searches |
 
-| Term           | Document IDs |
-|----------------|--------------|
-| "product"      | 101, 102     |
-| "amazing"      | 101          |
-| "disappointed" | 102          |
-| "recommended"  | 103          |
+**Example**: Searching for "kubernetes error" in 10M log entries. Without full-text index, it scans all 10M rows. With full-text index, it directly finds the ~1000 matching documents instantly.
 
-## Full-Text Indexing vs. LIKE Pattern Matching
+## How It Works
 
-Full-text indexing and LIKE pattern matching are both methods used for searching text data in a database. However, full-text indexing offers significantly faster query performance compared to LIKE pattern matching, especially in large databases with extensive text content.
+Full-text indexes create an inverted mapping from terms to documents:
 
-The LIKE operator allows for pattern matching within text fields. It searches for a specified pattern within a string and returns rows where the pattern is found. For a query like the example below, Databend would perform a full table scan to check each row for the presence of the specified pattern `%Starbucks%`. This approach can be resource-intensive and result in slower query execution, especially with large tables.
+| Term | Document IDs |
+|------|-------------|
+| "kubernetes" | 101, 205, 1847 |
+| "error" | 101, 892, 1847 |
+| "pod" | 205, 1847, 2901 |
 
-```sql title='Example:'
-SELECT * FROM table WHERE content LIKE '%Starbucks%';
-```
+When searching for "kubernetes error", the index finds documents containing both terms (101, 1847) without scanning the entire table.
 
-In contrast, full-text indexing involves creating inverted indexes, which map terms to the documents or records containing those terms. These indexes enable efficient searching of text data based on specific keywords or phrases. Utilizing the inverted index, Databend can directly access the documents containing the specified term `Starbucks`, eliminating the need for scanning the entire table and significantly reducing query execution time, particularly in scenarios with large volumes of text content.
+## Quick Setup
 
-```sql title='Example:'
-CREATE INVERTED INDEX table_content_idx ON table(content);
-SELECT * FROM table WHERE match(content, 'Starbucks');
-```
-
-## Searching with Inverted Indexes
-
-Before searching with inverted indexes, you must create them:
-
-- You can create more than one inverted index for a table using the [CREATE INVERTED INDEX](/sql/sql-commands/ddl/inverted-index/create-inverted-index) command, but each column must be unique across the inverted indexes. In other words, a column can only be indexed by one inverted index. 
-- If your data is inserted into the table before the inverted index is created, you must refresh the inverted index using the [REFRESH INVERTED INDEX](/sql/sql-commands/ddl/inverted-index/refresh-inverted-index) command before searching so that the data can be properly indexed.
-
-```sql title='Example:'
--- Create an inverted index for the 'comment_title' and 'comment_body' columns in the table 'user_comments'
-CREATE INVERTED INDEX customer_feedback_idx ON customer_feedback(comment_title, comment_body);
-
--- If data existed in the table before creating the index, refresh the index to ensure indexing of existing data.
-REFRESH INVERTED INDEX customer_feedback_idx ON customer_feedback;
-```
-
-### Full-Text Search Functions
-
-Databend offers a range of full-text search functions empowering you to efficiently search through documents. For more information about their syntax and examples, see [Full-Text Search Functions](/sql/sql-functions/search-functions/).
-
-## Managing Inverted Indexes
-
-Databend provides a variety of commands to manage inverted indexes. For details, see [Inverted Index](/sql/sql-commands/ddl/inverted-index/).
-
-## Usage Examples
-
-In the following example, we're first creating a full-text search index on a table that contains Kubernetes log data, and then we're searching the log data using the [Full-Text Search Functions](#full-text-search-functions).
-
-1. Create a table named "k8s_logs" for Kubernetes log data, with a computed column named "event_message" derived from "event_data". Then, create an inverted index named "event_message_fulltext" on the column "event_message".
- 
 ```sql
--- Create a table with a compute column
+-- Create table with text content
+CREATE TABLE logs(id INT, message TEXT, timestamp TIMESTAMP);
+
+-- Create full-text index - automatically indexes new data
+CREATE INVERTED INDEX logs_message_idx ON logs(message);
+
+-- One-time refresh needed only for existing data before index creation
+REFRESH INVERTED INDEX logs_message_idx ON logs;
+
+-- Search using MATCH function - fully automatic optimization
+SELECT * FROM logs WHERE MATCH(message, 'error kubernetes');
+```
+
+**Automatic Index Management**:
+- **New Data**: Automatically indexed as it's inserted - no manual action needed
+- **Existing Data**: One-time refresh required only for data that existed before index creation
+- **Ongoing Maintenance**: Databend automatically maintains optimal search performance
+
+## Search Functions
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `MATCH(column, 'terms')` | Basic text search | `MATCH(content, 'database performance')` |
+| `QUERY('column:terms')` | Advanced query syntax | `QUERY('title:"full text" AND content:search')` |
+| `SCORE()` | Relevance scoring | `SELECT *, SCORE() FROM docs WHERE MATCH(...)` |
+
+## Advanced Search Features
+
+### Fuzzy Search
+```sql
+-- Find documents even with typos (fuzziness=1 allows 1 character difference)
+SELECT * FROM logs WHERE MATCH(message, 'kuberntes', 'fuzziness=1');
+```
+
+### Relevance Scoring
+```sql
+-- Get results with relevance scores, filter by minimum score
+SELECT id, message, SCORE() as relevance 
+FROM logs 
+WHERE MATCH(message, 'critical error') AND SCORE() > 0.5
+ORDER BY SCORE() DESC;
+```
+
+### Complex Queries
+```sql
+-- Advanced query syntax with boolean operators
+SELECT * FROM docs WHERE QUERY('title:"user guide" AND content:(tutorial OR example)');
+```
+
+## Complete Example
+
+This example demonstrates creating a full-text search index on Kubernetes log data and searching using various functions:
+
+```sql
+-- Create a table with a computed column
 CREATE TABLE k8s_logs (
     event_id INT,
     event_data VARIANT,
@@ -83,11 +104,8 @@ CREATE TABLE k8s_logs (
 
 -- Create an inverted index on the "event_message" column
 CREATE INVERTED INDEX event_message_fulltext ON k8s_logs(event_message);
-```
 
-2. Insert data into the table.
- 
-```sql
+-- Insert comprehensive sample data
 INSERT INTO k8s_logs (event_id, event_data, event_timestamp)
 VALUES
     (1,
@@ -149,13 +167,8 @@ VALUES
         "volume": "pv-logs"
     }'),
     '2024-04-08T12:00:00Z');
-```
 
-3. Search the log with the full-text search functions.
-
-The following query searches for events containing "PersistentVolume" within the event messages stored in the "k8s_logs" table:
-
-```sql
+-- Basic search for events containing "PersistentVolume"
 SELECT
   event_id,
   event_message
@@ -167,11 +180,8 @@ WHERE
 -[ RECORD 1 ]-----------------------------------
      event_id: 5
 event_message: PersistentVolume claim created
-```
 
-To check if the full-text index will be utilized for the search, use the [EXPLAIN](/sql/sql-commands/explain-cmds/explain) command:
-
-```sql
+-- Verify index usage with EXPLAIN
 EXPLAIN SELECT event_id, event_message FROM k8s_logs WHERE MATCH(event_message, 'PersistentVolume');
 
 -[ EXPLAIN ]-----------------------------------
@@ -189,14 +199,8 @@ Filter
     ├── pruning stats: [segments: <range pruning: 5 to 5>, blocks: <range pruning: 5 to 5, inverted pruning: 5 to 1>]
     ├── push downs: [filters: [k8s_logs._search_matched (#4)], limit: NONE]
     └── estimated rows: 5.00
-```
 
-`pruning stats: [segments: <range pruning: 5 to 5>, blocks: <range pruning: 5 to 5, inverted pruning: 5 to 1>]`
-indicates that the full-text index will be utilized, resulting in the pruning of 5 data blocks down to 1.
-
-The following query searches for events where the event message contains "PersistentVolume claim created" and ensures a relevance score threshold of 0.5 or higher:
-
-```sql
+-- Advanced search with relevance scoring
 SELECT
   event_id,
   event_message,
@@ -213,12 +217,8 @@ WHERE
   event_message: PersistentVolume claim created
 event_timestamp: 2024-04-08 12:00:00
         score(): 0.86304635
-```
 
-The following query performs a fuzzy search using the `fuzziness` option:
-
-```sql
--- 'PersistentVolume claim create' is intentionally misspelled
+-- Fuzzy search example (handles typos)
 SELECT
     event_id, event_message, event_timestamp
 FROM
@@ -231,3 +231,50 @@ WHERE
   event_message: PersistentVolume claim created
 event_timestamp: 2024-04-08 12:00:00
 ```
+
+**Key Points from the Example:**
+- `inverted pruning: 5 to 1` shows the index reduced blocks scanned from 5 to 1
+- Relevance scoring helps rank results by match quality
+- Fuzzy search finds results even with typos ("create" vs "created")
+
+## Best Practices
+
+| Practice | Benefit |
+|----------|---------|
+| **Index Frequently Searched Columns** | Focus on columns used in search queries |
+| **Use MATCH Instead of LIKE** | Leverage automatic index performance |
+| **Monitor Index Usage** | Use EXPLAIN to verify index utilization |
+| **Consider Multiple Indexes** | Different columns can have separate indexes |
+
+## Essential Commands
+
+| Command | Purpose | When to Use |
+|---------|---------|-------------|
+| `CREATE INVERTED INDEX name ON table(column)` | Create new full-text index | Initial setup - automatic for new data |
+| `REFRESH INVERTED INDEX name ON table` | Index existing data | One-time only for pre-existing data |
+| `DROP INVERTED INDEX name ON table` | Remove index | When index no longer needed |
+
+## Important Notes
+
+:::tip
+**When to Use Full-Text Indexes:**
+- Large text datasets (documents, logs, comments)
+- Frequent text search operations
+- Need for advanced search features (fuzzy, scoring)
+- Performance-critical search applications
+
+**When NOT to Use:**
+- Small text datasets
+- Exact string matching only
+- Infrequent search operations
+:::
+
+## Index Limitations
+
+- Each column can only be in one inverted index
+- Requires refresh after data insertion (if data existed before index creation)
+- Uses additional storage space for index data
+
+---
+
+*Full-text indexes are essential for applications requiring fast, sophisticated text search capabilities across large document collections.*
