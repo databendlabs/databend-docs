@@ -1,8 +1,48 @@
 ---
-title: 查询结构
+title: 在 Databend 中查询数据
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend 支持多种查询结构，以增强您的数据查询体验：
+Databend 支持符合 ANSI SQL:1999 和 SQL:2003 分析扩展的标准 SQL。本节涵盖高效数据处理所需的查询技术、优化工具和高级功能。
 
-<IndexOverviewList />
+## 核心查询功能
+
+| 功能 | 描述 | 主要优势 |
+|---------|-------------|--------------|
+| [**公用表表达式 (CTE)**](00-cte.md) | 使用 WITH 子句定义命名临时结果集 | 提升查询可读性，可复用子查询 |
+| [**JOIN**](02-join.md) | 合并多表数据 | 支持内连接、外连接、交叉连接、半连接和反连接 |
+| [**GROUP BY 操作**](01-groupby/index.md) | 分组聚合数据及扩展功能支持 C支持 CUBE、ROLLUP 和 GROUPING SETS |
+| [**序列**](02-sequences.md) | 生成连续数值 | 自增标识符和计数器 |
+
+## 高级查询能力
+
+| |  | 类型 | 描述 | 应用场景 |
+|---------|------|-------------|-----------|
+| [**用户定义函数**](03-udf.md) | Lambda & 嵌入式 | 使用 Python、JavaScript、WebAssembly 实现自定义操作 | 复杂数据转换，定制业务逻辑 |
+| [**外部函数**](04-external-function.md) | 云特性 | 通过外部服务器执行自定义操作 | 可扩展处理，外部库集成 |
+| [**字典**](07-dictionary.md) | 数据集成 | 外部数据的内存键值存储 | 快速查询 MySQL、Redis 等数据源 |
+| [**存储过程**](08-stored-procedure.md) | SQL 脚本 | 带控制流的可重用命令集 | 多步骤操作，复杂业务逻辑 |
+
+## 查询优化与分析
+
+| 工具 | 用途 | 访问方式 | 关键特性 |
+|------|---------|---------------|--------------|
+| [**查询分析**](05-query-profile.md) | 性能分析 | Databend Cloud 监控 | 可视化执行计划，性能指标 |
+| [**查询哈希**](06-query-hash.md) | 查询标识 | SQL 函数 | 唯一查询指纹，性能追踪 |
+
+## GROUP BY 扩展
+
+| 扩展 | 描述 | 最佳适用场景 |
+|-----------|-------------|----------|
+| [**CUBE**](01-groupby/group-by-cube.md) | 分组列的所有可能组合 | 多维分析 |
+| [**ROLLUP**](01-groupby/group-by-rollup.md) | 分层小计与总计 | 层级报表 |
+| [**GROUPING SETS**](01-groupby/group-by-grouping-sets.md) | 自定义分组组合 | 灵活聚合场景 |
+
+## 快速入门指南
+
+1. **基础查询**：从 [JOIN](02-join.md) 和 [GROUP BY](01-groupby/index.md) 开始掌握基础数据操作
+2. **高级逻辑**：使用 [CTE](00-cte.md) 构建复杂查询结构
+3. **自定义函数**：通过 [UDF](03-udf.md) 实现特定数据处理
+4. **性能优化**：利用分析](分析](05-query-profile.md) 获取优化洞察
+5. **外部数据**：通过 [字典](07-dictionary.md) 集成外部数据源
+
+---

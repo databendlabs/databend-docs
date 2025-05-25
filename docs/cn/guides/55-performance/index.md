@@ -1,8 +1,27 @@
 ---
 title: 性能优化
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend 支持以下功能来优化各种场景下的查询性能：
+Databend 提供多种优化特性，可在不同场景下加速查询性能。
 
-<IndexOverviewList />
+## 优化特性
+
+| 特性 | 类别 | 描述 | 使用示例 |
+|---------|----------|-------------|------------------|
+| [**集群键**](00-cluster-key.md) | **存储** | 为大表查询自动组织数据 | 时序数据使用 `CLUSTER BY (date, region)` |
+| [**查询结果缓存**](query-result-cache.md) | **缓存** | 为重复查询自动缓存结果 | 仪表盘查询、日报生成 |
+| [**虚拟列**](01-virtual-column.md) | **半结构化** | 为 VARIANT 数据查询自动加速 | 频繁访问嵌套字段的 JSON 数据 |
+| [**聚合索引**](02-aggregating-index.md) | **聚合** | 为聚合查询自动创建索引 | `SUM(sales) GROUP BY region` 类查询 |
+| [**全文索引**](03-fulltext-index.md) | **文本搜索** | 为文本搜索查询自动创建索引 | `WHERE MATCH(content, 'keyword')` 类搜索 |
+| [**Ngram 索引**](ngram-index.md) | **模式匹配** | 为通配符 LIKE 查询自动创建索引 | `WHERE name LIKE '%john%'` 类搜索 |
+
+## 特性可用性
+
+| 特性 | 社区版 | 企业版 | 云服务 |
+|---------|-----------|------------|-------|
+| 集群键 | ✅ | ✅ | ✅ |
+| 查询结果缓存 | ✅ | ✅ | ✅ |
+| 虚拟列 | ❌ | ✅ | ✅ |
+| 聚合索引 | ❌ | ✅ | ✅ |
+| 全文索引 | ❌ | ✅ | ✅ |
+| Ngram 索引 | ❌ | ✅ | ✅ |
