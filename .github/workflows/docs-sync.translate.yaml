@@ -49,8 +49,9 @@ jobs:
       - name: Read prompt from file
         id: prompt
         run: |
-          prompt_value=$(cat .github/workflows/prompt.txt | sed ':a;N;$!ba;s/\n/\\n/g')
-          echo "prompt=$prompt_value" >> $GITHUB_OUTPUT
+          echo 'prompt<<EOF' >> $GITHUB_OUTPUT
+          cat .github/workflows/prompt.txt >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Run GPT Translate
         uses: 3ru/gpt-translate@v1.1.11
