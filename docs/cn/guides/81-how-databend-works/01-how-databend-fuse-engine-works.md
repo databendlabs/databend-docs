@@ -1,20 +1,22 @@
 ---
-title: Fuse Engine 的工作原理
+title: Fuse Engine 工作原理
 ---
 
 ## Fuse Engine
 
-Fuse Engine 是 Databend 的核心存储引擎，经过优化，可以高效地管理 **PB 级别** 的数据，这些数据存储在 **云对象存储** 上。默认情况下，在 Databend 中创建的表会自动使用此引擎 (`ENGINE=FUSE`)。受到 Git 的启发，其基于快照的设计实现了强大的数据版本控制（如时间回溯），并通过高级的剪枝和索引提供 **高查询性能**。
+Fuse Engine 是 Databend 的核心存储引擎，专为在**云对象存储**上高效管理**PB级**数据而优化。默认情况下，在 Databend 中创建的表会自动使用此引擎 (`ENGINE=FUSE`)。其设计灵感源自 Git，基于快照的架构实现了强大的数据版本控制（如时间回溯），并通过高级剪枝和索引技术提供**卓越的查询性能**。
 
-本文档解释了它的核心概念以及它的工作原理。
+本文档将阐述其核心概念及工作原理。
+
 
 ## 核心概念
 
-Fuse Engine 使用三个核心结构来组织数据，与 Git 类似：
+Fuse Engine 采用类似 Git 的三层数据结构组织数据：
 
-*   **快照（类似于 Git 提交）：** 不可变的引用，通过指向特定的 Segment 来定义表在某个时间点的状态。支持时间回溯。
-*   **Segment（类似于 Git 树）：** Block 的集合，包含用于快速数据跳过（剪枝）的摘要统计信息。可以在快照之间共享。
-*   **Block（类似于 Git Blob）：** 不可变的数据文件（Parquet 格式），包含实际的行和详细的列级统计信息，用于细粒度的剪枝。
+*   **快照（类似 Git Commit）**：不可变引用，通过指向特定 Segment 来定义表在某一时刻的状态。支持时间回溯功能。
+*   **段（类似 Git Tree）**：包含数据块集合及摘要统计信息，用于快速数据跳过（剪枝）。可被多个快照共享。
+*   **块（类似 Git Blob）**：存储实际数据的不可变文件（Parquet 格式），包含详细列级统计信息以实现细粒度剪枝。
+
 
 ```
                          Table HEAD
@@ -39,29 +41,31 @@ Fuse Engine 使用三个核心结构来组织数据，与 Git 类似：
      └───────────────┘                           └───────────────┘
 ```
 
-## 写入工作原理
 
-当你向表中添加数据时，Fuse Engine 会创建一个对象链。让我们逐步了解这个过程：
 
-### 步骤 1：创建表
+## 写入流程
+
+当向表添加数据时，Fuse Engine 会创建一系列关联对象。以下是分步说明：
+
+### 第一步：创建表
 
 ```sql
 CREATE TABLE git(file VARCHAR, content VARCHAR);
 ```
 
-此时，表已存在，但不包含任何数据：
+此时表已存在但不含数据：
 
 ```
-(Empty table with no data)
+(空表无数据)
 ```
 
-### 步骤 2：插入第一条数据
+### 第二步：首次插入数据
 
 ```sql
 INSERT INTO git VALUES('cloud.txt', '2022/05/06, Databend, Cloud');
 ```
 
-在第一次插入后，Fuse Engine 会创建初始快照、segment 和 block：
+首次插入后，Fuse Engine 会创建初始快照、段和块：
 
 ```
          Table HEAD
@@ -85,13 +89,13 @@ INSERT INTO git VALUES('cloud.txt', '2022/05/06, Databend, Cloud');
      └───────────────┘
 ```
 
-### 步骤 3：插入更多数据
+### 第三步：追加数据
 
 ```sql
 INSERT INTO git VALUES('warehouse.txt', '2022/05/07, Databend, Warehouse');
 ```
 
-当我们插入更多数据时，Fuse Engine 会创建一个新的快照，该快照同时引用原始 segment 和新的 segment：
+再次插入时，Fuse Engine 会创建引用原始段和新段的新快照：
 
 ```
                          Table HEAD
@@ -116,9 +120,9 @@ INSERT INTO git VALUES('warehouse.txt', '2022/05/07, Databend, Warehouse');
      └───────────────┘                           └───────────────┘
 ```
 
-## 读取工作原理
+## 读取流程
 
-当你查询数据时，Fuse Engine 使用智能剪枝来高效地查找你的数据：
+执行查询时，Fuse Engine 通过智能剪枝高效定位数据：
 
 ```
 Query: SELECT * FROM git WHERE file = 'cloud.txt';
@@ -129,9 +133,9 @@ Query: SELECT * FROM git WHERE file = 'cloud.txt';
      ┌───────────────┐     ┌───────────────┐     ┌───────────────┐
      │  SEGMENT A    │◄────│  SNAPSHOT 2   │────►│  SEGMENT B    │
      │    CHECK      │     │               │     │    CHECK      │
-     └───────┬───────┘     └───────────────┘     └───────┬───────┘
+     └───────┬───────┘     └───────────────┘     └───────────────┘
              │                                          ✗
-             │                                    (Skip - doesn't contain
+             │                                    (跳过 - 不含
              │                                     'cloud.txt')
              ▼
      ┌───────────────┐
@@ -139,87 +143,88 @@ Query: SELECT * FROM git WHERE file = 'cloud.txt';
      │    CHECK      │
      └───────┬───────┘
              │
-             │ ✓ (Contains 'cloud.txt')
+             │ ✓ (包含 'cloud.txt')
              ▼
-        Read this block
+        读取该数据块
 ```
 
 ### 智能剪枝过程
 
 ```
 ┌─────────────────────────────────────────┐
-│ Query: WHERE file = 'cloud.txt'         │
+│ 查询条件: WHERE file = 'cloud.txt'      │
 └─────────────────┬───────────────────────┘
                   │
                   ▼
 ┌─────────────────────────────────────────┐
-│ Check SEGMENT A                         │
-│ Min file value: 'cloud.txt'             │
-│ Max file value: 'cloud.txt'             │
+│ 检查 SEGMENT A                          │
+│ 最小 file 值: 'cloud.txt'               │
+│ 最大 file 值: 'cloud.txt'               │
 │                                         │
-│ Result: ✓ Might contain 'cloud.txt'     │
+│ 结论: ✓ 可能包含 'cloud.txt'            │
 └─────────────────┬───────────────────────┘
                   │
                   ▼
 ┌─────────────────────────────────────────┐
-│ Check SEGMENT B                         │
-│ Min file value: 'warehouse.txt'         │
-│ Max file value: 'warehouse.txt'         │
+│ 检查 SEGMENT B                          │
+│ 最小 file 值: 'warehouse.txt'           │
+│ 最大 file 值: 'warehouse.txt'           │
 │                                         │
-│ Result: ✗ Cannot contain 'cloud.txt'    │
+│ 结论: ✗ 不可能包含 'cloud.txt'          │
 └─────────────────┬───────────────────────┘
                   │
                   ▼
 ┌─────────────────────────────────────────┐
-│ Check BLOCK 1 in SEGMENT A              │
-│ Min file value: 'cloud.txt'             │
-│ Max file value: 'cloud.txt'             │
+│ 检查 SEGMENT A 中的 BLOCK 1             │
+│ 最小 file 值: 'cloud.txt'               │
+│ 最大 file 值: 'cloud.txt'               │
 │                                         │
-│ Result: ✓ Contains 'cloud.txt'          │
+│ 结论: ✓ 包含 'cloud.txt'                │
 └─────────────────┬───────────────────────┘
                   │
                   ▼
 ┌─────────────────────────────────────────┐
-│ Read only BLOCK 1                       │
+│ 仅读取 BLOCK 1                          │
 └─────────────────────────────────────────┘
 ```
 
-## 基于快照的功能
+## 基于快照的特性
 
-Fuse Engine 的快照架构实现了强大的数据管理功能：
+Fuse Engine 的快照架构支持强大的数据管理能力：
 
 ### 时间回溯
 
+## 时间回溯查询
 
-查询任何时间点存在的数据。通过完整的审计跟踪和错误恢复，实现数据分支、标记和治理。
+可查询任意时间点的历史数据。通过完整审计追踪和错误恢复机制，实现数据分支、标记和治理能力。
 
-### 零拷贝 Schema 演进
+### 零拷贝模式演进
 
-修改表的结构（添加列、删除列、重命名、更改类型），**无需重写任何底层数据文件**。
+**无需重写底层数据文件**即可修改表结构（增删列、重命名、类型变更）：
 
-- 更改是仅元数据的操作，记录在新的快照中。
-- 这是即时的，不需要停机，并避免了昂贵的数据迁移任务。旧数据仍然可以使用其原始 schema 访问。
+- 变更仅记录为新快照的元数据操作
+- 操作瞬时完成，无需停机，避免高昂的数据迁移任务。旧数据仍可通过原始模式访问
 
-## 用于查询加速的高级索引（Fuse Engine）
+## 查询加速高级索引（Fuse 引擎）
 
-除了使用统计信息进行基本块/段修剪之外，Fuse Engine 还提供专门的二级索引，以进一步加速特定的查询模式：
+除基于统计的基础块/段剪枝外，Fuse 引擎提供专用二级索引进一步加速特定查询模式：
 
-| 索引类型            | 简要描述                                                     | 加速的查询类型...                               | 示例查询片段                              |
-| :------------------ | :----------------------------------------------------------- | :-------------------------------------------------- | :-------------------------------------- |
-| **Aggregate Index** | 预先计算指定组的聚合结果                                   | 更快的 `COUNT`、`SUM`、`AVG`... + `GROUP BY`          | `SELECT COUNT(*)... GROUP BY city`      |
-| **Full-Text Index** | 用于在文本中快速关键字搜索的倒排索引                           | 使用 `MATCH` 的文本搜索（例如，日志）                  | `WHERE MATCH(log_entry, 'error')`     |
-| **JSON Index**      | 索引 JSON 文档中的特定路径/键                               | 过滤特定 JSON 路径/值                               | `WHERE event_data:user.id = 123`      |
-| **Bloom Filter Index** | 概率性检查以快速跳过不匹配的块                             | 快速点查找 (`=`) 和 `IN` 列表过滤                   | `WHERE user_id = 'xyz'` |
+| 索引类型          | 简要描述                                         | 加速查询示例                         | 查询片段示例                   |
+| :------------------ | :-------------------------------------------------------- | :-------------------------------------------------- | :-------------------------------------- |
+| **聚合索引** | 预计算指定分组的聚合结果       | 加速 `COUNT`、`SUM`、`AVG`... + `GROUP BY`          | `SELECT COUNT(*)... GROUP BY city`      |
+| **全文索引** | 为文本内容建立倒排索引实现快速关键词检索        | 使用 `MATCH` 的文本搜索（如日志）              | `WHERE MATCH(log_entry, 'error')`     |
+| **JSON索引**      | 为JSON文档内特定路径/键建立索引       | 基于JSON路径/值的筛选             | `WHERE event_data:user.id = 123`      |
+| **布隆过滤器索引** | 概率性检查快速跳过不匹配数据块 | 加速等值查询（`=`）及 `IN` 列表筛选      | `WHERE user_id = 'xyz'` |
 
-## 比较：Databend Fuse Engine vs. Apache Iceberg
+## 对比：Databend Fuse 引擎 vs Apache Iceberg
 
-_**注意：** 此比较专门关注**表格式功能**。作为 Databend 的原生表格式，Fuse 不断发展，旨在提高**可用性和性能**。显示的功能是当前的；预计会有变化。_
+_**注意**：本对比聚焦**表格式特性**。作为Databend原生表格式，Fuse持续演进以提升**易用性与性能**。所示特性为当前版本，后续可能变更。_
 
-| 功能                   | Apache Iceberg                     | Databend Fuse Engine                 |
+| 特性                 | Apache Iceberg                     | Databend Fuse 引擎                 |
 | :---------------------- | :--------------------------------- | :----------------------------------- |
-| **Metadata Structure**  | Manifest Lists -> Manifest Files -> Data Files | **Snapshot** -> Segments -> Blocks   |
-| **Statistics Levels**   | 文件级别（+分区）                    | **多级别**（快照、段、块）→ 更精细的修剪 |
-| **Pruning Power**       | 良好（文件/分区统计）                | **优秀**（多级别统计 + 二级索引）         |
-| **Schema Evolution**    | 支持（元数据更改）                   | **零拷贝**（仅元数据，即时）            |
-| **Data Clustering**     | 排序（写入时）                       | **自动**优化（后台）                   |
-| **Streaming Support**   | 基本流式摄取                       | **高级增量**（插入/更新跟踪）            |
+| **元数据结构**  | 清单列表 -> 清单文件 -> 数据文件 | **快照** -> 段 -> 块   |
+| **统计层级**   | 文件级（+分区）            | **多层级**（快照、段、块）→ 更精细剪枝 |
+| **剪枝能力**       | 良好（文件/分区统计）      | **卓越**（多级统计 + 二级索引） |
+| **模式演进**    | 支持（元数据变更）        | **零拷贝**（仅元数据变更，瞬时完成） |
+| **数据聚类**     | 写入时排序     | **自动**优化（后台执行） |
+| **流式支持**   | 基础流式摄入          | **高级增量处理**（插入/更新追踪） |
