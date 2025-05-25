@@ -1,5 +1,6 @@
 ---
 title: MindsDB
+sidebar_position: 7
 ---
 
 Data that lives in your database is a valuable asset. [MindsDB](https://mindsdb.com/) enables you to use your data and make forecasts. It speeds up the ML development process by bringing machine learning into the database. With MindsDB, you can build, train, optimize, and deploy your ML models without the need for other platforms.

@@ -10,7 +10,7 @@ Databend supports standard SQL with ANSI SQL:1999 and SQL:2003 analytic extensio
 |---------|-------------|--------------|
 | [**Common Table Expressions (CTE)**](00-cte.md) | Define named temporary result sets with WITH clause | Improved query readability, reusable subqueries |
 | [**JOIN**](02-join.md) | Combine data from multiple tables | Support for Inner, Outer, Cross, Semi, and Anti joins |
-| [**GROUP BY Operations**](01-groupby/index.md) | Group and aggregate data with extensions | CUBE, ROLLUP, and GROUPING SETS support |
+| [**GROUP BY**](01-groupby/index.md) | Group and aggregate data with extensions | CUBE, ROLLUP, and GROUPING SETS support |
 | [**Sequence**](02-sequences.md) | Generate sequential numeric values | Auto-incrementing identifiers and counters |
 
 ## Advanced Query Capabilities
@@ -39,9 +39,9 @@ Databend supports standard SQL with ANSI SQL:1999 and SQL:2003 analytic extensio
 
 ## Quick Start Guide
 
-1. **Basic Queries**: Start with [JOINs](02-join.md) and [GROUP BY](01-groupby/index.md) for fundamental data operations
-2. **Advanced Logic**: Use [CTEs](00-cte.md) for complex query structures
-3. **Custom Functions**: Implement [UDFs](03-udf.md) for specialized data processing
+1. **Basic Queries**: Start with [JOIN](02-join.md) and [GROUP BY](01-groupby/index.md) for fundamental data operations
+2. **Advanced Logic**: Use [CTE](00-cte.md) for complex query structures
+3. **Custom Functions**: Implement [UDF](03-udf.md) for specialized data processing
 4. **Performance**: Leverage [Query Profile](05-query-profile.md) for optimization insights
 5. **External Data**: Integrate external sources with [Dictionary](07-dictionary.md)
 

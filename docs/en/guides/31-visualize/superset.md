@@ -1,5 +1,6 @@
 ---
 title: Superset
+sidebar_position: 3
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';

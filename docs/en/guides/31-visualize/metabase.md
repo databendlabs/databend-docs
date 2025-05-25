@@ -1,5 +1,6 @@
 ---
 title: Metabase
+sidebar_position: 4
 ---
 
 [Metabase](https://www.metabase.com/) is an open-source business intelligence platform. You can use Metabase to ask questions about your data, or embed Metabase in your app to let your customers explore their data on their own.

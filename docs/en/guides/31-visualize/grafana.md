@@ -1,5 +1,6 @@
 ---
 title: Grafana
+sidebar_position: 1
 ---
 
 [Grafana](https://grafana.com/) is a monitoring dashboard system, which is an open-source monitoring tool developed by Grafana Labs. It can greatly simplify the complexity of monitoring by allowing us to provide the data to be monitored, and it generates various visualizations. Additionally, it has an alarm function that sends notifications when there is an issue with the system. Databend and Databend Cloud can integrate with Grafana through the [Grafana Databend Data Source Plugin](https://github.com/databendlabs/grafana-databend-datasource).
