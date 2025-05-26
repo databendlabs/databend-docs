@@ -34,5 +34,6 @@ jobs:
         with:
           apikey: ${{ secrets.API_KEY }}
           model: ${{ secrets.LLM_MODEL }}
+          temperature: ${{ secrets.TEMPERATURE }}
           prompt: "${{ steps.prompt.outputs.prompt }}"
           basePath: ${{ secrets.BASE_URL }}
