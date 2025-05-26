@@ -45,6 +45,7 @@ jobs:
         with:
           apikey: ${{ secrets.API_KEY }}
           model: ${{ secrets.LLM_MODEL }}
+          temperature: ${{ secrets.TEMPERATURE }}
           inputFiles: "${{ steps.changed_files.outputs.files }}"
           outputFiles: "docs/cn/**/*.md"
           languages: "Simplified-Chinese"
