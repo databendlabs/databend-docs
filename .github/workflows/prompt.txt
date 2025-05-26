@@ -45,6 +45,8 @@ Your task is to translate Databend documentation from English to Chinese while m
 - 'Personal' (plan) → '基础版'
 - 'LLM/Large Language Model' → '大语言模型'
 - 'Generative AI' → '生成式 AI'
+- 'Databend Community' → 'Databend 社区版',
+- 'Databend Enterprise' → 'Databend 企业版'
 
 **Keep untranslated (with proper spacing):**
 - Databend Cloud
