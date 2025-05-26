@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
+import { useHistory } from "@docusaurus/router";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
-const Home = () => {
+export default function HomeRedirect() {
+  const history = useHistory();
   useEffect(() => {
-    if (ExecutionEnvironment.canUseDOM) {
-      window.location.href = "/guides";
+    if (ExecutionEnvironment?.canUseDOM) {
+      history.replace("/guides/");
     }
   }, []);
-
-  return <></>;
-};
-
-export default Home;
+  return null;
+}
