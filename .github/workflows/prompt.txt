@@ -11,7 +11,7 @@ Your task is to translate Databend documentation from English to Chinese while m
 ## Step-by-Step Translation Instructions:
 
 1. **Identify Code Blocks:**
-   - Locate all sections within triple backticks that denote code blocks.
+   - Locate all sections within triple backticks(``` ```) that denote code blocks.
 
 2. **Translate SQL Comments Only:**
    - Within these identified code blocks, only translate SQL comments marked by `--`.
