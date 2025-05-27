@@ -53,58 +53,11 @@ jobs:
           cat .github/workflows/prompt.txt >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 
-      - name: Debug - Print prompt and model
-        run: |
-          echo "=== Debug Information ==="
-          echo "LLM_MODEL: ${{ secrets.LLM_MODEL }}"
-          echo "BASE_URL: ${{ secrets.BASE_URL }}"
-          echo ""
-          echo "=== Writing prompt variable to temp file for safe debugging ==="
-          printf '%s' '${{ steps.prompt.outputs.prompt }}' > /tmp/prompt_debug.txt
-          echo "Prompt variable length: $(wc -c < /tmp/prompt_debug.txt)"
-          echo "Original file length: $(wc -c < .github/workflows/prompt.txt)"
-          echo ""
-          echo "=== Files comparison ==="
-          if cmp -s .github/workflows/prompt.txt /tmp/prompt_debug.txt; then
-            echo "✅ Prompt variable matches original file exactly"
-          else
-            echo "❌ Prompt variable differs from original file"
-            echo "Showing differences:"
-            diff .github/workflows/prompt.txt /tmp/prompt_debug.txt || true
-          fi
-          echo ""
-          echo "=== First 500 characters of prompt variable ==="
-          printf '%s' '${{ steps.prompt.outputs.prompt }}' | head -c 500
-          echo ""
-          echo ""
-          echo "=== Last 200 characters of prompt variable ==="
-          printf '%s' '${{ steps.prompt.outputs.prompt }}' | tail -c 200
-          echo ""
-          echo "======================"
-
-      - name: Debug - Save prompt to artifact
-        run: |
-          mkdir -p debug-output
-          printf '%s' '${{ steps.prompt.outputs.prompt }}' > debug-output/prompt-variable.txt
-          cp .github/workflows/prompt.txt debug-output/prompt-original.txt
-          echo "LLM_MODEL: ${{ secrets.LLM_MODEL }}" > debug-output/debug-info.txt
-          echo "BASE_URL: ${{ secrets.BASE_URL }}" >> debug-output/debug-info.txt
-          echo "Input Path: ${{ github.event.inputs.path }}" >> debug-output/debug-info.txt
-          echo "MD Files: ${{ steps.check_missing.outputs.missing_md_files }}" >> debug-output/debug-info.txt
-          echo "JSON Files: ${{ steps.check_missing.outputs.missing_json_files }}" >> debug-output/debug-info.txt
-
-      - name: Upload debug artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-prompt-${{ github.run_number }}
-          path: debug-output/
-
       - name: Run GPT Translate
         uses: 3ru/gpt-translate@v1.2.2
         with:
           apikey: ${{ secrets.API_KEY }}
           model: ${{ secrets.LLM_MODEL }}
-          temperature: ${{ secrets.TEMPERATURE }}
           inputFiles: "${{ steps.check_missing.outputs.missing_md_files }}${{ steps.check_missing.outputs.missing_json_files }}"
           outputFiles: "docs/cn/**/*.{md,json}"
           languages: "Simplified-Chinese"
