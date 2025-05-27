@@ -2,24 +2,24 @@
 title: 性能优化
 ---
 
-Databend 提供多种优化特性，可在不同场景下加速查询性能。
+Databend 提供了各种优化功能，可在不同场景下加速查询性能。
 
-## 优化特性
+## 优化功能
 
-| 特性 | 类别 | 描述 | 使用示例 |
+| 功能 | 类别 | 描述 | 示例用例 |
 |---------|----------|-------------|------------------|
-| [**集群键**](00-cluster-key.md) | **存储** | 为大表查询自动组织数据 | 时序数据使用 `CLUSTER BY (date, region)` |
-| [**查询结果缓存**](query-result-cache.md) | **缓存** | 为重复查询自动缓存结果 | 仪表盘查询、日报生成 |
-| [**虚拟列**](01-virtual-column.md) | **半结构化** | 为 VARIANT 数据查询自动加速 | 频繁访问嵌套字段的 JSON 数据 |
-| [**聚合索引**](02-aggregating-index.md) | **聚合** | 为聚合查询自动创建索引 | `SUM(sales) GROUP BY region` 类查询 |
-| [**全文索引**](03-fulltext-index.md) | **文本搜索** | 为文本搜索查询自动创建索引 | `WHERE MATCH(content, 'keyword')` 类搜索 |
-| [**Ngram 索引**](ngram-index.md) | **模式匹配** | 为通配符 LIKE 查询自动创建索引 | `WHERE name LIKE '%john%'` 类搜索 |
+| [**聚簇键**](00-cluster-key.md) | **存储** | 针对大型表查询的自动数据组织 | 针对时序数据的 `CLUSTER BY (date, region)` |
+| [**查询结果缓存**](query-result-cache.md) | **缓存** | 针对重复查询的自动缓存 | 仪表盘查询、日报表 |
+| [**虚拟列**](01-virtual-column.md) | **半结构化** | 针对 VARIANT 数据查询的自动加速 | 频繁访问嵌套字段的 JSON 数据 |
+| [**聚合索引**](02-aggregating-index.md) | **聚合** | 针对聚合查询的自动索引 | `SUM(sales) GROUP BY region` 查询 |
+| [**全文索引**](03-fulltext-index.md) | **文本搜索** | 针对文本搜索查询的自动索引 | `WHERE MATCH(content, 'keyword')` 搜索 |
+| [**Ngram 索引**](ngram-index.md) | **模式匹配** | 针对通配符 LIKE 查询的自动索引 | `WHERE name LIKE '%john%'` 搜索 |
 
-## 特性可用性
+## 功能可用性
 
-| 特性 | 社区版 | 企业版 | 云服务 |
+| 功能 | Databend 社区版 | Databend 企业版 | Databend Cloud |
 |---------|-----------|------------|-------|
-| 集群键 | ✅ | ✅ | ✅ |
+| 聚簇键 | ✅ | ✅ | ✅ |
 | 查询结果缓存 | ✅ | ✅ | ✅ |
 | 虚拟列 | ❌ | ✅ | ✅ |
 | 聚合索引 | ❌ | ✅ | ✅ |
