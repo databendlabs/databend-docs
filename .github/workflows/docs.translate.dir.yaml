@@ -100,7 +100,7 @@ jobs:
           path: debug-output/
 
       - name: Run GPT Translate
-        uses: 3ru/gpt-translate@v1.1.11
+        uses: 3ru/gpt-translate@v1.2.2
         with:
           apikey: ${{ secrets.API_KEY }}
           model: ${{ secrets.LLM_MODEL }}

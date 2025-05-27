@@ -17,7 +17,7 @@ jobs:
           echo 'prompt<<EOF' >> $GITHUB_OUTPUT
           cat .github/workflows/prompt.txt >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
-          
+
       - name: Debug - Print prompt and model
         run: |
           echo "=== Debug Information ==="
@@ -30,7 +30,7 @@ jobs:
       - name: Run GPT Translate
         if: |
           contains(github.event.comment.body, '/gt')
-        uses: 3ru/gpt-translate@v1.1.11
+        uses: 3ru/gpt-translate@v1.2.2
         with:
           apikey: ${{ secrets.API_KEY }}
           model: ${{ secrets.LLM_MODEL }}
