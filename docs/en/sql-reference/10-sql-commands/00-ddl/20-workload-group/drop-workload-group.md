@@ -1,5 +1,5 @@
 ---
-title: DROP WAREHOUSE
+title: DROP WORKLOAD GROUP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

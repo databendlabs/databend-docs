@@ -1,5 +1,5 @@
 ---
-title: SHOW WAREHOUSES
+title: SHOW WORKLOAD GROUPS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

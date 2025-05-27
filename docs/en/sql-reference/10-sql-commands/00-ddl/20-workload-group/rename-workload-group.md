@@ -1,5 +1,5 @@
 ---
-title: RENAME WAREHOUSE
+title: RENAME WORKLOAD GROUP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

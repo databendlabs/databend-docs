@@ -1,5 +1,5 @@
 ---
-title: CREATE WORKLOAD GROUP
+title: ALTER WORKLOAD GROUP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
