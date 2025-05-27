@@ -7,14 +7,13 @@ description: Basic String data type.
 
 在 Databend 中，字符串可以存储在 `VARCHAR` 字段中，存储大小是可变的。
 
-| 名称    | 别名  | 存储大小 |
-|---------|---------|--------------|
-| VARCHAR | STRING  | variable     |
+| Name | Aliases | Storage Size |
+| :-------- | :-------- | :-------- |
+| VARCHAR | STRING | variable |
 
 ## 函数
 
-请参考 [字符串函数](/sql/sql-functions/string-functions)。
-
+请参阅 [String 函数](/sql/sql-functions/string-functions)。
 
 ## 示例
 
@@ -25,7 +24,9 @@ CREATE TABLE string_table(text VARCHAR);
 ```
 DESC string_table;
 ```
-结果：
+
+Result:
+
 ```
 ┌──────────────────────────────────────────────┐
 │  Field │   Type  │  Null  │ Default │  Extra │
@@ -41,7 +42,9 @@ INSERT INTO string_table VALUES('databend');
 ```
 SELECT * FROM string_table;
 ```
-结果：
+
+Result:
+
 ```
 ┌──────────────────┐
 │       text       │

@@ -5,31 +5,31 @@ description: Basic Numeric data type.
 
 ## Integer Data Types
 
-| Name     | Alias | Size    | Min Value            | Max Value           |
-|----------|-------|---------|----------------------|---------------------|
-| TINYINT  | INT8  | 1 byte  | -128                 | 127                 |
-| SMALLINT | INT16 | 2 bytes | -32768               | 32767               |
-| INT      | INT32 | 4 bytes | -2147483648          | 2147483647          |
-| BIGINT   | INT64 | 8 bytes | -9223372036854775808 | 9223372036854775807 |
+| Name | Alias | Size | Min Value | Max Value |
+|---|---|---|---|---|
+| TINYINT | INT8 | 1 byte | -128 | 127 |
+| SMALLINT | INT16 | 2 bytes | -32768 | 32767 |
+| INT | INT32 | 4 bytes | -2147483648 | 2147483647 |
+| BIGINT | INT64 | 8 bytes | -9223372036854775808 | 9223372036854775807 |
 
 :::tip
-如果您想要无符号整数，请使用 `UNSIGNED` 约束，这与 MySQL 兼容，例如：
+If you want unsigned integer, please use `UNSIGNED` constraint, this is compatible with MySQL, for example:
 
 ```sql
-CREATE TABLE test_numeric(tiny TINYINT, tiny_unsigned TINYINT UNSIGNED)
+CREATE TABLE test_numeric(tiny TINYINT, tiny_unsigned TINYINT UNSIGNED) -- 如果需要无符号整数，请使用 UNSIGNED 约束，这与 MySQL 兼容。
 ```
 :::
 
 ## Floating-Point Data Types
 
-| Name   | Size    | Min Value                | Max Value               |
-|--------|---------|--------------------------|-------------------------|
-| FLOAT  | 4 bytes | -3.40282347e+38          | 3.40282347e+38          |
+| Name | Size | Min Value | Max Value |
+|---|---|---|---|
+| FLOAT | 4 bytes | -3.40282347e+38 | 3.40282347e+38 |
 | DOUBLE | 8 bytes | -1.7976931348623157E+308 | 1.7976931348623157E+308 |
 
 ## Functions
 
-请参阅 [Numeric Functions](/sql/sql-functions/numeric-functions)。
+See [Numeric Functions](/sql/sql-functions/numeric-functions).
 
 ## Examples
 

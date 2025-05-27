@@ -2,7 +2,7 @@
 title: Variant
 ---
 
-VARIANT 可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，并且内部值可以是任何级别的嵌套结构，这使得存储各种数据非常灵活。VARIANT 也可以称为 JSON，更多信息请参考 [JSON website](https://www.json.org/json-en.html)。
+VARIANT 可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、STRING、ARRAY 和 OBJECT，并且内部值可以是任何级别的嵌套结构，这使得它在存储各种数据时非常灵活。VARIANT 也可以称为 JSON，更多信息请参考 [JSON 官网](https://www.json.org/json-en.html)。
 
 以下是在 Databend 中插入和查询 Variant 数据的示例：
 
@@ -11,7 +11,7 @@ VARIANT 可以存储任何其他类型的值，包括 NULL、BOOLEAN、NUMBER、
 CREATE TABLE customer_orders(id INT64, order_data VARIANT);
 ```
 
-将不同类型的值插入表中：
+向表中插入不同类型的值：
 ```sql
 INSERT INTO
   customer_orders
@@ -48,9 +48,9 @@ SELECT * FROM customer_orders;
 
 ## 访问 JSON 中的元素
 
-### 通过索引访问
+### 按索引访问
 
-VARIANT 类型包含一个数组，它是一个从零开始的数组，类似于许多其他编程语言。数组中的每个元素也是 VARIANT 类型。可以使用**方括号**通过索引访问元素。
+VARIANT 类型包含一个数组，它是一个从零开始的数组，与许多其他编程语言类似。数组中的每个元素也都是 VARIANT 类型。可以使用**方括号**通过索引访问元素。
 
 #### 示例
 
@@ -60,7 +60,7 @@ VARIANT 类型包含一个数组，它是一个从零开始的数组，类似于
 CREATE TABLE user_hobbies(user_id INT64, hobbies VARIANT NULL);
 ```
 
-将示例数据插入表中：
+向表中插入示例数据：
 ```sql
 INSERT INTO user_hobbies 
 VALUES
@@ -107,7 +107,7 @@ GROUP BY
 └─────────────────────────────────┘
 ```
 
-使用 group by 检索爱好：
+按分组检索爱好：
 ```sql
 SELECT
   hobbies [2],
@@ -127,13 +127,13 @@ GROUP BY
 └────────────┴─────────────┘
 ```
 
-### 通过字段名访问
+### 按字段名访问
 
-VARIANT 类型包含表示为对象的键值对，其中每个键都是 VARCHAR，每个值都是 VARIANT。它与其他编程语言中的“字典”、“哈希”或“映射”类似。可以使用**方括号**或**冒号**通过字段名访问值，以及仅用于第二层和更深层的**点**（点不能用作第一级名称表示法，以避免与表和列之间的点表示法混淆）。
+VARIANT 类型包含表示为对象的键值对，其中每个键都是 VARCHAR，每个值都是 VARIANT。它的功能类似于其他编程语言中的“字典”、“哈希”或“映射”。可以使用**方括号**或**冒号**按字段名访问值，对于第二级及更深层级，也可以使用**点**（点不能用作第一级名称表示法，以避免与表和列之间的点表示法混淆）。
 
 #### 示例
 
-创建一个表来存储具有 VARIANT 类型的用户偏好设置：
+创建一个表来存储具有 VARIANT 类型的用户偏好：
 ```sql
 CREATE TABLE user_preferences(
   user_id INT64,
@@ -142,7 +142,7 @@ CREATE TABLE user_preferences(
 );
 ```
 
-将示例数据插入表中：
+向表中插入示例数据：
 ```sql
 INSERT INTO
   user_preferences
@@ -172,7 +172,6 @@ FROM
   user_preferences;
 ```
 
-结果：
 ```sql
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ preferences['settings']['color'] │ preferences['settings']:color │ preferences['settings']:color │ preferences:settings['color'] │ preferences:settings:color │ preferences:settings:color │
@@ -182,7 +181,7 @@ FROM
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-请注意，字段名**区分大小写**。如果字段名包含空格或特殊字符，请将其括在双引号中。
+请注意，字段名称是**区分大小写**的。如果字段名称包含空格或特殊字符，请用双引号将其括起来。
 
 ```sql
 INSERT INTO
@@ -194,7 +193,7 @@ VALUES
     ('Cole', 13)
   );
 
--- 用双引号括起字段名 "new settings"
+-- 双引号引用字段名 "new settings"
 SELECT preferences:"new settings":color 
 FROM user_preferences;
 
@@ -222,14 +221,14 @@ FROM user_preferences;
 
 ## 数据类型转换
 
-默认情况下，返回从 VARIANT 列检索的元素。要将返回的元素转换为特定类型，请添加 `::` 运算符和目标数据类型（例如 expression::type）。
+默认情况下，从 VARIANT 列中检索的元素将作为 VARIANT 返回。要将返回的元素转换为特定类型，请添加 `::` 运算符和目标数据类型 (例如 expression::type)。
 
-创建一个表来存储具有 VARIANT 列的用户偏好设置：
+创建一个表来存储带有 VARIANT 列的用户偏好设置：
 ```sql
 CREATE TABLE user_pref(user_id INT64, pref VARIANT NULL);
 ```
 
-将示例数据插入表中：
+向表中插入示例数据：
 ```sql
 INSERT INTO user_pref 
 VALUES
@@ -253,4 +252,4 @@ SELECT user_id, pref:age::INT64 as age FROM user_pref;
 
 ## JSON 函数
 
-请参阅 [Variant Functions](/sql/sql-functions/semi-structured-functions)。
+请参阅 [Variant 函数](/sql/sql-functions/semi-structured-functions)。
