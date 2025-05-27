@@ -50,3 +50,4 @@ These topics provide reference information for the DDL (Data Definition Language
 ## Compute Resource Management
 
 - [Warehouse](19-warehouse/index.md)
+- [Workload Group](20-workload-group/index.md)
