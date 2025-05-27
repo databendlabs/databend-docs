@@ -4,6 +4,8 @@ https://docs.databend.cn/guides/access-data-lake/delta
 https://docs.databend.cn/guides/access-data-lake/hive
 https://docs.databend.cn/guides/access-data-lake/iceberg
 https://docs.databend.cn/guides/ai-functions/
+https://docs.databend.cn/guides/ai-functions/built-in-functions
+https://docs.databend.cn/guides/ai-functions/external-functions
 https://docs.databend.cn/guides/benchmark/
 https://docs.databend.cn/guides/benchmark/data-ingest
 https://docs.databend.cn/guides/benchmark/tpch
@@ -63,6 +65,7 @@ https://docs.databend.cn/guides/deploy/upgrade/compatibility
 https://docs.databend.cn/guides/deploy/upgrade/upgrade
 https://docs.databend.cn/guides/how-databend-works/
 https://docs.databend.cn/guides/how-databend-works/how-databend-fuse-engine-works
+https://docs.databend.cn/guides/how-databend-works/how-databend-json-variant-works
 https://docs.databend.cn/guides/how-databend-works/how-databend-optimizer-works
 https://docs.databend.cn/guides/load-data/
 https://docs.databend.cn/guides/load-data/continuous-data-pipelines/
@@ -95,6 +98,7 @@ https://docs.databend.cn/guides/load-data/stage/aws-iam-role
 https://docs.databend.cn/guides/load-data/stage/stage-files
 https://docs.databend.cn/guides/load-data/stage/what-is-stage
 https://docs.databend.cn/guides/load-data/transform/data-load-transform
+https://docs.databend.cn/guides/load-data/transform/querying-avro
 https://docs.databend.cn/guides/load-data/transform/querying-csv
 https://docs.databend.cn/guides/load-data/transform/querying-metadata
 https://docs.databend.cn/guides/load-data/transform/querying-ndjson
@@ -109,6 +113,7 @@ https://docs.databend.cn/guides/performance/
 https://docs.databend.cn/guides/performance/aggregating-index
 https://docs.databend.cn/guides/performance/cluster-key
 https://docs.databend.cn/guides/performance/fulltext-index
+https://docs.databend.cn/guides/performance/ngram-index
 https://docs.databend.cn/guides/performance/query-result-cache
 https://docs.databend.cn/guides/performance/virtual-column
 https://docs.databend.cn/guides/products/dc/
@@ -231,7 +236,6 @@ https://docs.databend.cn/release-notes/v0.9.0
 https://docs.databend.cn/release-notes/v1.0.0
 https://docs.databend.cn/release-notes/v1.2.0
 https://docs.databend.cn/sql/
-https://docs.databend.cn/sql/category/%E7%B3%BB%E7%BB%9F%E8%A1%A8
 https://docs.databend.cn/sql/sql-commands/
 https://docs.databend.cn/sql/sql-commands/administration-cmds/
 https://docs.databend.cn/sql/sql-commands/administration-cmds/execute-immediate
@@ -240,6 +244,7 @@ https://docs.databend.cn/sql/sql-commands/administration-cmds/rust-backtrace
 https://docs.databend.cn/sql/sql-commands/administration-cmds/set-global
 https://docs.databend.cn/sql/sql-commands/administration-cmds/set-var
 https://docs.databend.cn/sql/sql-commands/administration-cmds/show-functions
+https://docs.databend.cn/sql/sql-commands/administration-cmds/show-indexes
 https://docs.databend.cn/sql/sql-commands/administration-cmds/show-metrics
 https://docs.databend.cn/sql/sql-commands/administration-cmds/show-processlist
 https://docs.databend.cn/sql/sql-commands/administration-cmds/show-settings
@@ -301,6 +306,9 @@ https://docs.databend.cn/sql/sql-commands/ddl/network-policy/ddl-create-policy
 https://docs.databend.cn/sql/sql-commands/ddl/network-policy/ddl-desc-policy
 https://docs.databend.cn/sql/sql-commands/ddl/network-policy/ddl-drop-policy
 https://docs.databend.cn/sql/sql-commands/ddl/network-policy/ddl-show-policy
+https://docs.databend.cn/sql/sql-commands/ddl/ngram-index/
+https://docs.databend.cn/sql/sql-commands/ddl/ngram-index/create-ngram-index
+https://docs.databend.cn/sql/sql-commands/ddl/ngram-index/drop-ngram-index
 https://docs.databend.cn/sql/sql-commands/ddl/notification/
 https://docs.databend.cn/sql/sql-commands/ddl/notification/ddl-alter-notification
 https://docs.databend.cn/sql/sql-commands/ddl/notification/ddl-create-notification
@@ -319,7 +327,9 @@ https://docs.databend.cn/sql/sql-commands/ddl/procedure/drop-procedure
 https://docs.databend.cn/sql/sql-commands/ddl/procedure/show-procedures
 https://docs.databend.cn/sql/sql-commands/ddl/sequence/
 https://docs.databend.cn/sql/sql-commands/ddl/sequence/create-sequence
+https://docs.databend.cn/sql/sql-commands/ddl/sequence/desc-sequence
 https://docs.databend.cn/sql/sql-commands/ddl/sequence/drop-sequence
+https://docs.databend.cn/sql/sql-commands/ddl/sequence/show-sequences
 https://docs.databend.cn/sql/sql-commands/ddl/stage/
 https://docs.databend.cn/sql/sql-commands/ddl/stage/ddl-create-stage
 https://docs.databend.cn/sql/sql-commands/ddl/stage/ddl-desc-stage
@@ -399,9 +409,6 @@ https://docs.databend.cn/sql/sql-commands/ddl/view/ddl-drop-view
 https://docs.databend.cn/sql/sql-commands/ddl/view/desc-view
 https://docs.databend.cn/sql/sql-commands/ddl/view/show-views
 https://docs.databend.cn/sql/sql-commands/ddl/virtual-column/
-https://docs.databend.cn/sql/sql-commands/ddl/virtual-column/alter-virtual-column
-https://docs.databend.cn/sql/sql-commands/ddl/virtual-column/create-virtual-column
-https://docs.databend.cn/sql/sql-commands/ddl/virtual-column/drop-virtual-column
 https://docs.databend.cn/sql/sql-commands/ddl/virtual-column/refresh-virtual-column
 https://docs.databend.cn/sql/sql-commands/ddl/virtual-column/show-virtual-columns
 https://docs.databend.cn/sql/sql-commands/ddl/warehouse/
@@ -494,6 +501,10 @@ https://docs.databend.cn/sql/sql-functions/aggregate-functions/aggregate-stddev-
 https://docs.databend.cn/sql/sql-functions/aggregate-functions/aggregate-string-agg
 https://docs.databend.cn/sql/sql-functions/aggregate-functions/aggregate-sum
 https://docs.databend.cn/sql/sql-functions/aggregate-functions/aggregate-sum-if
+https://docs.databend.cn/sql/sql-functions/aggregate-functions/aggregate-var-pop
+https://docs.databend.cn/sql/sql-functions/aggregate-functions/aggregate-var-samp
+https://docs.databend.cn/sql/sql-functions/aggregate-functions/aggregate-variance-pop
+https://docs.databend.cn/sql/sql-functions/aggregate-functions/aggregate-variance-samp
 https://docs.databend.cn/sql/sql-functions/aggregate-functions/aggregate-windowfunnel
 https://docs.databend.cn/sql/sql-functions/ai-functions/
 https://docs.databend.cn/sql/sql-functions/ai-functions/ai-cosine-distance
@@ -557,7 +568,9 @@ https://docs.databend.cn/sql/sql-functions/conditional-functions/case
 https://docs.databend.cn/sql/sql-functions/conditional-functions/coalesce
 https://docs.databend.cn/sql/sql-functions/conditional-functions/error-or
 https://docs.databend.cn/sql/sql-functions/conditional-functions/greatest
+https://docs.databend.cn/sql/sql-functions/conditional-functions/greatest-ignore-nulls
 https://docs.databend.cn/sql/sql-functions/conditional-functions/if
+https://docs.databend.cn/sql/sql-functions/conditional-functions/iff
 https://docs.databend.cn/sql/sql-functions/conditional-functions/ifnull
 https://docs.databend.cn/sql/sql-functions/conditional-functions/in
 https://docs.databend.cn/sql/sql-functions/conditional-functions/is-distinct-from
@@ -566,6 +579,7 @@ https://docs.databend.cn/sql/sql-functions/conditional-functions/is-not-error
 https://docs.databend.cn/sql/sql-functions/conditional-functions/is-not-null
 https://docs.databend.cn/sql/sql-functions/conditional-functions/is-null
 https://docs.databend.cn/sql/sql-functions/conditional-functions/least
+https://docs.databend.cn/sql/sql-functions/conditional-functions/least-ignore-nulls
 https://docs.databend.cn/sql/sql-functions/conditional-functions/nullif
 https://docs.databend.cn/sql/sql-functions/conditional-functions/nvl
 https://docs.databend.cn/sql/sql-functions/conditional-functions/nvl2
@@ -984,6 +998,7 @@ https://docs.databend.cn/sql/sql-functions/system-functions/fuse_segment
 https://docs.databend.cn/sql/sql-functions/system-functions/fuse_snapshot
 https://docs.databend.cn/sql/sql-functions/system-functions/fuse_statistic
 https://docs.databend.cn/sql/sql-functions/system-functions/fuse_time_travel_size
+https://docs.databend.cn/sql/sql-functions/system-functions/fuse_virtual_column
 https://docs.databend.cn/sql/sql-functions/table-functions/
 https://docs.databend.cn/sql/sql-functions/table-functions/fuse-amend
 https://docs.databend.cn/sql/sql-functions/table-functions/fuse-vacuum-temporary-table
@@ -1003,6 +1018,9 @@ https://docs.databend.cn/sql/sql-functions/test-functions/sleep
 https://docs.databend.cn/sql/sql-functions/uuid-functions/
 https://docs.databend.cn/sql/sql-functions/uuid-functions/gen-random-uuid
 https://docs.databend.cn/sql/sql-functions/uuid-functions/uuid
+https://docs.databend.cn/sql/sql-functions/vector-distance-functions/
+https://docs.databend.cn/sql/sql-functions/vector-distance-functions/vector-cosine-distance
+https://docs.databend.cn/sql/sql-functions/vector-distance-functions/vector-l2-distance
 https://docs.databend.cn/sql/sql-functions/window-functions/
 https://docs.databend.cn/sql/sql-functions/window-functions/cume-dist
 https://docs.databend.cn/sql/sql-functions/window-functions/dense-rank
@@ -1037,6 +1055,7 @@ https://docs.databend.cn/sql/sql-reference/lambda-expressions
 https://docs.databend.cn/sql/sql-reference/sql-identifiers
 https://docs.databend.cn/sql/sql-reference/sql-scripting
 https://docs.databend.cn/sql/sql-reference/sql-variables
+https://docs.databend.cn/sql/sql-reference/system-tables/
 https://docs.databend.cn/sql/sql-reference/system-tables/information-schema-tables
 https://docs.databend.cn/sql/sql-reference/system-tables/system-build-options
 https://docs.databend.cn/sql/sql-reference/system-tables/system-caches
@@ -1063,10 +1082,9 @@ https://docs.databend.cn/sql/sql-reference/system-tables/system-temp-files
 https://docs.databend.cn/sql/sql-reference/system-tables/system-temp-tables
 https://docs.databend.cn/sql/sql-reference/system-tables/system-user-functions
 https://docs.databend.cn/sql/sql-reference/system-tables/system-virtual-columns
-https://docs.databend.cn/sql/sql-reference/table-engines/delta
 https://docs.databend.cn/sql/sql-reference/table-engines/fuse
-https://docs.databend.cn/sql/sql-reference/table-engines/memory
-https://docs.databend.cn/sql/sql-reference/table-engines/random
+https://docs.databend.cn/sql/sql-reference/table-engines/hive
+https://docs.databend.cn/sql/sql-reference/table-engines/iceberg
 https://docs.databend.cn/tutorials/
 https://docs.databend.cn/tutorials/connect/connect-to-databend-dbeaver
 https://docs.databend.cn/tutorials/connect/connect-to-databendcloud-bendsql
@@ -1079,13 +1097,16 @@ https://docs.databend.cn/tutorials/load/automating_json_log_loading_with_vector
 https://docs.databend.cn/tutorials/load/kafka-bend-ingest-kafka
 https://docs.databend.cn/tutorials/load/kafka-databend-kafka-connect
 https://docs.databend.cn/tutorials/load/query-metadata
+https://docs.databend.cn/tutorials/migrate/
 https://docs.databend.cn/tutorials/migrate/migrating-from-mysql-with-addax
 https://docs.databend.cn/tutorials/migrate/migrating-from-mysql-with-datax
 https://docs.databend.cn/tutorials/migrate/migrating-from-mysql-with-db-archiver
 https://docs.databend.cn/tutorials/migrate/migrating-from-mysql-with-debezium
 https://docs.databend.cn/tutorials/migrate/migrating-from-mysql-with-flink-cdc
+https://docs.databend.cn/tutorials/migrate/migrating-from-mysql-with-kafka-connect
 https://docs.databend.cn/tutorials/migrate/migrating-from-snowflake
 https://docs.databend.cn/tutorials/programming/python/integrating-with-databend-cloud-using-databend-driver
 https://docs.databend.cn/tutorials/programming/python/integrating-with-databend-cloud-using-databend-sqlalchemy
 https://docs.databend.cn/tutorials/programming/python/integrating-with-self-hosted-databend
 https://docs.databend.cn/tutorials/recovery/bendsave
+https://docs.databend.cn/tutorials/taobao-tutorial

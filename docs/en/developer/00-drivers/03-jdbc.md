@@ -17,7 +17,7 @@ To download the Databend JDBC driver:
 To verify the version of Databend JDBC driver, for example, _databend-jdbc-0.1.1.jar_, run the following command in the terminal:
 
 ```bash
-java -jar databend-jdbc-0.2.1.jar --version
+java -jar databend-jdbc-0.3.7.jar --version
 ```
 
 The Databend JDBC driver is provided as a JAR file and can be integrated directly into your Java-based projects. Alternatively, you can declare a Maven dependency in your project's pom.xml file, like so:
@@ -26,7 +26,7 @@ The Databend JDBC driver is provided as a JAR file and can be integrated directl
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.2.1</version>
+    <version>0.3.7</version>
 </dependency>
 ```
 
@@ -182,6 +182,35 @@ int[] count = pstmt.executeBatch(); // After execution, count[0]=1, count[1]=1
 ...
 pstmt.close();
 ```
+
+### Example: Batch Update
+You can update multiple rows in a single batch binding parameters in an REPLACE INTO statement and calling addBatch() and executeBatch().
+
+As an example, the following code update the rows which have conflict values in field `a`. The example binds values to the parameters in the REPLACE INTO statement and calls addBatch() and executeBatch() to perform a batch update according to the key field.
+```java
+Connection c = Utils.createConnection();
+c.setAutoCommit(false);
+PreparedStatement ps1 = c.prepareStatement("insert into test_prepare_statement values");
+ps1.setInt(1, 1);
+ps1.setInt(2, 2);
+ps1.addBatch();
+ps1.executeBatch();
+
+PreparedStatement ps = c.prepareStatement("replace into test_prepare_statement on(a) values");
+ps.setInt(1, 1);
+ps.setString(2, "a");
+ps.addBatch();
+ps.setInt(1, 3);
+ps.setString(2, "b");
+ps.addBatch();
+System.out.println("execute batch replace into");
+int[] ans = ps.executeBatch();
+...
+```
+
+:::tip
+Databend does not support `executeBatch()` in UPDATE statement. If you want to do batch update, please use REPLACE INTO.
+:::
 
 ### Example: Uploading Files to an Internal Stage
 

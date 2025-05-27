@@ -9,7 +9,7 @@ on:
       - "docs/cn/**/*"
       - "docs/release-notes/**/*"
       - "docs/fragment/**/*"
-      
+
       - "docs/release-stable/**/*"
       - "api/**/*"
       - "i18n/**/*"
@@ -41,11 +41,10 @@ jobs:
           echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Run GPT Translate
-        uses: 3ru/gpt-translate@v1.1.11
+        uses: 3ru/gpt-translate@v1.2.2
         with:
           apikey: ${{ secrets.API_KEY }}
           model: ${{ secrets.LLM_MODEL }}
-          temperature: ${{ secrets.TEMPERATURE }}
           inputFiles: "${{ steps.changed_files.outputs.files }}"
           outputFiles: "docs/cn/**/*.md"
           languages: "Simplified-Chinese"
