@@ -306,6 +306,16 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://docs.databend.com/guides/ai-functions/built-in-functions</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/guides/ai-functions/external-functions</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://docs.databend.com/guides/benchmark/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -602,6 +612,11 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://docs.databend.com/guides/how-databend-works/how-databend-json-variant-works</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://docs.databend.com/guides/how-databend-works/how-databend-optimizer-works</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -762,6 +777,11 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://docs.databend.com/guides/load-data/transform/querying-avro</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://docs.databend.com/guides/load-data/transform/querying-csv</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -828,6 +848,11 @@
   </url>
   <url>
     <loc>https://docs.databend.com/guides/performance/fulltext-index</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/guides/performance/ngram-index</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -1182,11 +1207,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/category/system-tables</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://docs.databend.com/sql/sql-commands/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -1223,6 +1243,11 @@
   </url>
   <url>
     <loc>https://docs.databend.com/sql/sql-commands/administration-cmds/show-functions</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-commands/administration-cmds/show-indexes</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -1293,11 +1318,6 @@
   </url>
   <url>
     <loc>https://docs.databend.com/sql/sql-commands/ddl/aggregating-index/refresh-aggregating-index</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-commands/ddl/aggregating-index/show-indexes</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -1532,6 +1552,21 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://docs.databend.com/sql/sql-commands/ddl/ngram-index/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-commands/ddl/ngram-index/create-ngram-index</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-commands/ddl/ngram-index/drop-ngram-index</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://docs.databend.com/sql/sql-commands/ddl/notification/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -1622,7 +1657,17 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://docs.databend.com/sql/sql-commands/ddl/sequence/desc-sequence</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://docs.databend.com/sql/sql-commands/ddl/sequence/drop-sequence</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-commands/ddl/sequence/show-sequences</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -2018,21 +2063,6 @@
   </url>
   <url>
     <loc>https://docs.databend.com/sql/sql-commands/ddl/virtual-column/</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-commands/ddl/virtual-column/alter-virtual-column</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-commands/ddl/virtual-column/create-virtual-column</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-commands/ddl/virtual-column/drop-virtual-column</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -2501,17 +2531,32 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://docs.databend.com/sql/sql-functions/aggregate-functions/aggregate-var-pop</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/aggregate-functions/aggregate-var-samp</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/aggregate-functions/aggregate-variance-pop</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/aggregate-functions/aggregate-variance-samp</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://docs.databend.com/sql/sql-functions/aggregate-functions/aggregate-windowfunnel</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://docs.databend.com/sql/sql-functions/ai-functions/</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-functions/ai-functions/ai-cosine-distance</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -2816,7 +2861,17 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://docs.databend.com/sql/sql-functions/conditional-functions/greatest-ignore-nulls</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://docs.databend.com/sql/sql-functions/conditional-functions/if</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/conditional-functions/iff</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -2857,6 +2912,11 @@
   </url>
   <url>
     <loc>https://docs.databend.com/sql/sql-functions/conditional-functions/least</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/conditional-functions/least-ignore-nulls</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -4960,6 +5020,11 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://docs.databend.com/sql/sql-functions/system-functions/fuse_virtual_column</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://docs.databend.com/sql/sql-functions/table-functions/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -5051,6 +5116,22 @@
   </url>
   <url>
     <loc>https://docs.databend.com/sql/sql-functions/uuid-functions/uuid</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/vector-distance-functions/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>
+      https://docs.databend.com/sql/sql-functions/vector-distance-functions/vector-cosine-distance</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/vector-distance-functions/vector-l2-distance</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -5225,6 +5306,11 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://docs.databend.com/sql/sql-reference/system-tables/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://docs.databend.com/sql/sql-reference/system-tables/information-schema-tables</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -5355,22 +5441,17 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-reference/table-engines/delta</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://docs.databend.com/sql/sql-reference/table-engines/fuse</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-reference/table-engines/memory</loc>
+    <loc>https://docs.databend.com/sql/sql-reference/table-engines/hive</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-reference/table-engines/random</loc>
+    <loc>https://docs.databend.com/sql/sql-reference/table-engines/iceberg</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -5435,6 +5516,11 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://docs.databend.com/tutorials/migrate/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://docs.databend.com/tutorials/migrate/migrating-from-mysql-with-addax</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -5456,6 +5542,11 @@
   </url>
   <url>
     <loc>https://docs.databend.com/tutorials/migrate/migrating-from-mysql-with-flink-cdc</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/tutorials/migrate/migrating-from-mysql-with-kafka-connect</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

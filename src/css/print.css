@@ -1,11 +1,16 @@
 .pagination-nav,
 .databend-bottom-footer,
 .footer,
-.theme-doc-footer, 
+.theme-doc-footer,
 .databend-right-table-contents {
   display: none !important;
 }
-
+.col,
+div[class^="docItemCol"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+}
 div[role="region"][aria-label="Skip to main content"] {
   display: none;
 }
@@ -15,6 +20,11 @@ div[role="region"][aria-label="跳到主要内容"] {
 pre,
 table {
   white-space: break-spaces;
+  word-break: break-word;
+}
+table th {
+  max-width: 200px;
+  white-space: normal;
 }
 @media print {
   .ant-col-md-8 {
@@ -28,7 +38,9 @@ table {
     max-width: 50%;
   }
 }
-code, td, th {
+code,
+td,
+th {
   white-space: pre-wrap;
 }
 .global-overview-card {
@@ -44,6 +56,8 @@ code, td, th {
 .theme-doc-markdown.markdown table {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+  white-space: wrap;
+  word-break: break-word;
 }
 
 .theme-doc-markdown.markdown p + img,
@@ -128,7 +142,8 @@ code, td, th {
   line-height: 1.25rem;
   border: unset;
   padding: 0.2rem 0.3rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    Liberation Mono, Courier New, monospace;
   background-color: hsl(210 40% 96.1%);
 }
 
@@ -151,7 +166,7 @@ code, td, th {
   border-radius: 6px;
   padding: 0.6rem;
   border: 1px solid hsl(216 34% 17%);
-  background-color: rgba(18,24,38,1.00);
+  background-color: rgba(18, 24, 38, 1);
   cursor: zoom-in;
 }
 
@@ -159,12 +174,16 @@ code, td, th {
 .theme-doc-markdown.markdown table th {
   font-size: 1rem;
   text-align: left;
-  border-bottom: 1px solid #eee!important;
+  border-bottom: 1px solid #eee !important;
+  white-space: wrap;
+  word-break: break-word;
 }
 
 .theme-doc-markdown.markdown table td {
   border: unset;
   border-bottom: 1px solid hsl(216 34% 17%);
+  white-space: wrap;
+  word-break: break-word;
 }
 
 .theme-doc-markdown.markdown table td:first-child {
@@ -176,7 +195,8 @@ code, td, th {
 }
 
 .theme-doc-markdown.markdown table th {
-  white-space: nowrap;
+  white-space: wrap;
+  word-break: break-word;
 }
 
 .theme-doc-markdown.markdown table thead tr {
@@ -189,7 +209,8 @@ code, td, th {
   margin-bottom: 0.5rem;
 }
 
-.theme-doc-markdown.markdown div[class^="codeBlockContainer"]:has(.language-text) {
+.theme-doc-markdown.markdown
+  div[class^="codeBlockContainer"]:has(.language-text) {
   background-color: hsl(210 40% 96.1%);
 }
 
@@ -199,12 +220,13 @@ code, td, th {
   border: 1px solid hsl(216 34% 17%);
 }
 
-.theme-doc-markdown.markdown [class^="codeBlockContainer"]:not([class*=" language-"]) {
-  border-left: 5px solid rgba(50,147,248,1.00);
+.theme-doc-markdown.markdown
+  [class^="codeBlockContainer"]:not([class*=" language-"]) {
+  border-left: 5px solid rgba(50, 147, 248, 1);
 }
 
 .theme-doc-markdown.markdown div[class^="language-"] {
-  border-left: 5px solid rgba(50,147,248,1.00);
+  border-left: 5px solid rgba(50, 147, 248, 1);
   margin-top: 1rem;
   margin-bottom: 0.5rem;
   box-shadow: unset;
@@ -212,11 +234,13 @@ code, td, th {
 }
 
 .theme-doc-markdown.markdown div[class^="language-"] pre {
-  border-radius:3px;
+  border-radius: 3px;
   background-color: unset;
 }
 
-.theme-doc-markdown.markdown div[class^="language-"] div[class^="codeBlockTitle_"] {
+.theme-doc-markdown.markdown
+  div[class^="language-"]
+  div[class^="codeBlockTitle_"] {
   border: 1px solid hsl(216 34% 17%);
   border-left: unset;
   border-top-left-radius: 3px;
@@ -225,10 +249,14 @@ code, td, th {
   padding: 0.5rem;
   background-color: #fff;
   background: #fff !important;
-  color: #393A34;
+  color: #393a34;
 }
 
-.theme-doc-markdown.markdown div[class^="language-"] div[class^="codeBlockTitle_"] + div code {
+.theme-doc-markdown.markdown
+  div[class^="language-"]
+  div[class^="codeBlockTitle_"]
+  + div
+  code {
   border-top: unset;
   border-top-left-radius: unset;
   border-top-right-radius: unset;
@@ -240,4 +268,144 @@ code, td, th {
   border: 1px solid hsl(216 34% 17%);
   border-left: unset;
   border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important
+  border-bottom-left-radius: 0 !important;
+}
+
+/* ================== 打印优化扩展 ================== */
+@page {
+  size: A4 portrait;
+  margin: 0cm;
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+
+  h1,
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+  table,
+  pre,
+  blockquote,
+  img {
+    page-break-inside: avoid;
+  }
+
+  .theme-doc-markdown.markdown img {
+    max-width: 100%;
+    height: auto;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    cursor: default !important;
+  }
+
+  a {
+    color: #0645ad !important;
+    text-decoration: underline !important;
+  }
+
+  code {
+    background-color: #f4f4f4 !important;
+    border: 1px solid #ccc !important;
+    padding: 0.2em 0.4em;
+    width: 100%;
+    white-space: normal;
+  }
+
+  pre code {
+    font-size: 0.95em;
+    padding: 1rem;
+    background-color: #f4f4f4 !important;
+  }
+
+  .theme-doc-markdown.markdown table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 12pt;
+    white-space: wrap;
+    word-break: break-word;
+  }
+
+  .theme-doc-markdown.markdown table th,
+  .theme-doc-markdown.markdown table td {
+    border: 1px solid #ccc !important;
+    padding: 0.5rem;
+    white-space: wrap;
+    word-break: break-word;
+  }
+
+  .theme-doc-markdown.markdown h1 {
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .theme-doc-markdown.markdown h2 {
+    font-size: 1.6rem;
+    border-bottom: 1px solid #ccc;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .theme-doc-markdown.markdown h3 {
+    font-size: 1.3rem;
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .theme-doc-markdown.markdown p {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.6;
+  }
+
+  /* 可选：强制换页前避免孤行 */
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+  /* 表格容器横向滚动 */
+  .theme-doc-markdown.markdown table {
+    display: block;
+    overflow-x: auto;
+    white-space: wrap; /* 防止表格压缩变形 */
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    word-break: break-word;
+  }
+
+  /* 表头不换行，自动省略 */
+  .theme-doc-markdown.markdown th {
+    white-space: wrap;
+    word-break: break-word;
+  }
+
+  /* 表格单元格内容限制宽度、自动换行 */
+  .theme-doc-markdown.markdown td {
+    white-space: normal;
+    word-break: break-word;
+  }
+  .theme-doc-markdown.markdown table::-webkit-scrollbar {
+    height: 6px;
+  }
+  .theme-doc-markdown.markdown table::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  .col,
+  div[class^="docItemCol"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+  }
+}
