@@ -18,15 +18,6 @@ jobs:
           cat .github/workflows/prompt.txt >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 
-      - name: Debug - Print prompt and model
-        run: |
-          echo "=== Debug Information ==="
-          echo "LLM_MODEL: ${{ secrets.LLM_MODEL }}"
-          echo ""
-          echo "=== Prompt Content ==="
-          echo "${{ steps.prompt.outputs.prompt }}"
-          echo "======================"
-
       - name: Run GPT Translate
         if: |
           contains(github.event.comment.body, '/gt')
@@ -34,6 +25,5 @@ jobs:
         with:
           apikey: ${{ secrets.API_KEY }}
           model: ${{ secrets.LLM_MODEL }}
-          temperature: ${{ secrets.TEMPERATURE }}
           prompt: "${{ steps.prompt.outputs.prompt }}"
           basePath: ${{ secrets.BASE_URL }}
