@@ -41,12 +41,13 @@ This example illustrates the process of setting up a masking policy to selective
 ```sql
 -- Create a table and insert sample data
 CREATE TABLE user_info (
-    id INT,
-    email STRING
+    user_id INT,
+    phone  VARCHAR,
+    email VARCHAR
 );
 
-INSERT INTO user_info (id, email) VALUES (1, 'sue@example.com');
-INSERT INTO user_info (id, email) VALUES (2, 'eric@example.com');
+INSERT INTO user_info (user_id, phone, email) VALUES (1, '91234567', 'sue@example.com');
+INSERT INTO user_info (user_id, phone, email) VALUES (2, '81234567', 'eric@example.com');
 
 -- Create a role
 CREATE ROLE 'MANAGERS';
@@ -69,14 +70,24 @@ AS
   END
   COMMENT = 'hide_email';
 
+CREATE MASKING POLICY phone_mask AS (val nullable(string)) RETURNS nullable(string) -> CASE
+  WHEN current_role() IN ('MANAGERS') THEN val
+  ELSE '*********'
+END COMMENT = 'hide_phone';
+
 -- Associate the masking policy with the 'email' column
 ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
+
+-- Associate the masking policy with the 'phone' column
+ALTER TABLE user_info MODIFY COLUMN phone SET MASKING POLICY phone_mask;
 
 -- Query with the Root user
 SELECT * FROM user_info;
 
-id|email    |
---+---------+
- 2|*********|
- 1|*********|
+     user_id     │        phone     │       email      │
+ Nullable(Int32) │ Nullable(String) │ Nullable(String) │
+─────────────────┼──────────────────┼──────────────────┤
+               2 │ *********        │ *********        │
+               1 │ *********        │ *********        │
+
 ```
