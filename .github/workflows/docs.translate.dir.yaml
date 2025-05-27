@@ -58,7 +58,6 @@ jobs:
         with:
           apikey: ${{ secrets.API_KEY }}
           model: ${{ secrets.LLM_MODEL }}
-          temperature: ${{ secrets.TEMPERATURE }}
           inputFiles: "${{ steps.check_missing.outputs.missing_md_files }}${{ steps.check_missing.outputs.missing_json_files }}"
           outputFiles: "docs/cn/**/*.{md,json}"
           languages: "Simplified-Chinese"
