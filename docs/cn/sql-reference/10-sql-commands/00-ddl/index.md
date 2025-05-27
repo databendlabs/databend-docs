@@ -6,14 +6,14 @@ title: DDL (数据定义语言) 命令
 
 ## 数据库和表管理
 
-- [数据库](00-database/index.md)
+- [数据库](00-database/index.md) 
 - [表](01-table/index.md)
 - [视图](05-view/index.md)
 - [字典](17-dictionary/index.md)
 
 ## 数据库性能和索引
 
-- [聚簇键](06-clusterkey/index.md)
+- [Cluster Key](06-clusterkey/index.md)
 - [聚合索引](07-aggregating-index/index.md)
 - [倒排索引](07-inverted-index/index.md)
 - [Ngram 索引](07-ngram-index/index.md)
@@ -42,7 +42,7 @@ title: DDL (数据定义语言) 命令
 
 ## 函数和外部集成
 
-- [UDF (用户自定义函数)](10-udf/index.md)
+- [UDF (用户定义函数)](10-udf/index.md)
 - [外部函数](11-external-function/index.md)
 - [存储过程](18-procedure/index.md)
 - [通知](16-notification/index.md)
@@ -50,3 +50,4 @@ title: DDL (数据定义语言) 命令
 ## 计算资源管理
 
 - [计算集群](19-warehouse/index.md)
+- [工作负载组](20-workload-group/index.md)
