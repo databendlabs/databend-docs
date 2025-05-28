@@ -21,6 +21,51 @@ Your task is to translate Databend documentation from English to Chinese while m
    - For content outside of code blocks, perform a complete and accurate translation into Chinese.
    - Follow all language conventions as outlined in the guidelines.
 
+4. **Process Language-Specific Content:**
+   - When you encounter comments in the following format:
+     ```
+     {/* LANG_REPLACE: 
+        type=image|url|text
+        en=English_content
+        cn=Chinese_content
+     */}
+     ```
+   - Replace the content immediately following this comment with the appropriate language version based on the type:
+     - For `type=image`: Replace the entire image path in the subsequent image tag
+     - For `type=url`: Replace the URL in the subsequent link
+     - For `type=text`: Replace the text as specified
+   - When translating to Chinese, use the content specified after "cn="
+   - When translating to English, use the content specified after "en="
+   - Do not include the original comment in the output
+   - Examples:
+     ```
+     {/* LANG_REPLACE: 
+        type=image
+        en=../static/img/en/diagram.png
+        cn=../static/img/cn/diagram.png
+     */}
+     ![alt text](../static/img/en/diagram.png)
+     ```
+
+     ```
+     {/* LANG_REPLACE: 
+        type=url
+        en=databend.com
+        cn=databend.cn
+     */}
+     [Databend Website](https://databend.com)
+     ```
+
+     ```
+     {/* LANG_REPLACE: 
+        type=text
+        en=Enterprise Edition
+        cn=企业版
+     */}
+     Enterprise Edition
+     ```
+     
+
 ## Strict Formatting Rules:
 - NEVER modify Markdown markup structure, links, or URLs
 - Keep all non-comment content in code blocks unchanged
