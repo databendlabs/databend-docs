@@ -169,6 +169,10 @@ To obtain the connection information for a warehouse:
 2. Select the database and warehouse you wish to connect to. The connection information will update based on your selection.
 3. The connection details include a SQL user named `cloudapp` with a randomly generated password. Databend Cloud does not store this password. Be sure to copy and save it securely. If you forget the password, click **Reset** to generate a new one.
 
+{/* LANG_IMAGE: 
+   en=../../../../../static/img/documents/warehouses/databend_cloud_dsn.gif
+   cn=../../../../../static/img/documents_cn/warehouses/databend_cloud_dsn.gif 
+*/}
 ![alt text](../../../../../static/img/documents/warehouses/databend_cloud_dsn.gif)
 
 ### Connection String Format

@@ -21,6 +21,20 @@ Your task is to translate Databend documentation from English to Chinese while m
    - For content outside of code blocks, perform a complete and accurate translation into Chinese.
    - Follow all language conventions as outlined in the guidelines.
 
+4. **Process Image Path Tags:**
+   - When you encounter comments in the following format:
+     ```
+     {/* LANG_IMAGE: 
+        en=English_image_path
+        cn=Chinese_image_path
+     */}
+     ![alt text](image_path)
+     ```
+   - Replace the image path in the subsequent image tag with the appropriate language path
+   - When translating to Chinese, use the path specified after "cn="
+   - When translating to English, use the path specified after "en="
+   - Do not include the original comment in the output
+
 ## Strict Formatting Rules:
 - NEVER modify Markdown markup structure, links, or URLs
 - Keep all non-comment content in code blocks unchanged
