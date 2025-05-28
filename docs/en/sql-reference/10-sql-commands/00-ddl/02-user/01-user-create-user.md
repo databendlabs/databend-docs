@@ -21,6 +21,7 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 [ WITH MUST_CHANGE_PASSWORD = true | false ]
 [ WITH SET PASSWORD POLICY = '<policy_name>' ] -- Set password policy
 [ WITH SET NETWORK POLICY = '<policy_name>' ] -- Set network policy
+[ WITH SET WORKLOAD GROUP = '<workload_group_name>' ] -- Set workload group
 [ WITH DEFAULT_ROLE = '<role_name>' ] -- Set default role
 [ WITH DISABLED = true | false ] -- User created in a disabled state
 ```
