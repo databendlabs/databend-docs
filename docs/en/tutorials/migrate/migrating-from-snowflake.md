@@ -6,6 +6,10 @@ sidebar_label: Snowflake → Databend
 
 > **Capabilities**: Full Load
 
+This tutorial walks you through the process of migrating your data from Snowflake to Databend. The migration involves exporting data from Snowflake to an Amazon S3 bucket and then loading it into Databend. The process is broken down into three main steps:
+
+![alt text](@site/static/img/load/snowflake-databend.png)
+
 In this tutorial, we'll walk you through the process of exporting data from Snowflake in Parquet format to an Amazon S3 bucket, and then loading it into Databend Cloud.
 
 ## Before You Start

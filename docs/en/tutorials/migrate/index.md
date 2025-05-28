@@ -8,6 +8,13 @@ Select your source database and migration requirements to find the most suitable
 
 ## MySQL to Databend
 
+Databend supports two main migration approaches from MySQL:
+
+| Migration Approach       | Recommended Tool             | Supported MySQL versions |
+|--------------------------|------------------------------|--------------------------|
+| Batch Loading            | db-archiver                  | All MySQL versions       |
+| Continuous Sync with CDC | Debezium                     | All MySQL versions       |
+
 ### When to Choose Real-time Migration (CDC)
 
 > **Recommendation**: For real-time migration, we recommend **Debezium** as the default choice.
@@ -36,6 +43,12 @@ Select your source database and migration requirements to find the most suitable
 | [Addax](/tutorials/migrate/migrating-from-mysql-with-addax) | Full Load, Incremental | Enhanced DataX with better performance | You need better error handling than DataX; You want improved monitoring capabilities; You need more recent updates and features |
 
 ## Snowflake to Databend
+
+Migrating from Snowflake to Databend involves a three-step process:
+
+1. **Configuring Snowflake Storage Integration for Amazon S3**: Set up secure access between Snowflake and S3
+2. **Preparing & Exporting Data to Amazon S3**: Export your Snowflake data to S3 in Parquet format
+3. **Loading Data into Databend**: Import the data from S3 into Databend
 
 ### When to Choose Snowflake Migration
 
