@@ -221,6 +221,18 @@ const config: Config = {
           {
             from: '/sql/sql-functions/ai-functions/ai-cosine-distance',
             to: '/sql/sql-functions/vector-distance-functions/vector-cosine-distance/'
+          },
+          {
+            from: '/guides/migrate/',
+            to: '/tutorials/migrate/'
+          },
+          {
+            from: '/guides/migrate/mysql',
+            to: '/tutorials/migrate/migrating-from-mysql-with-db-archiver'
+          },
+          {
+            from: '/guides/migrate/snowflake',
+            to: '/tutorials/migrate/migrating-from-snowflake'
           }
         ],
         createRedirects(existingPath) {
