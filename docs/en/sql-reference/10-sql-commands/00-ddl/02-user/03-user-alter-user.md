@@ -42,6 +42,12 @@ ALTER USER <name> WITH DEFAULT_ROLE = '<role_name>'
 
 -- Enable or disable user
 ALTER USER <name> WITH DISABLED = true | false
+
+-- Set workload group
+ALTER USER <name> WITH SET WORKLOAD GROUP = '<workload_group_name>'
+
+-- Unset workload group
+ALTER USER <name> WITH UNSET WORKLOAD GROUP      
 ```
 
 - *auth_type* can be `double_sha1_password` (default), `sha256_password` or `no_password`.
@@ -154,4 +160,16 @@ SHOW roles
 │ writer    │               0 │ true       │ true       │
 └───────────────────────────────────────────────────────┘
 3 rows read in 0.010 sec. Processed 0 rows, 0 B (0 rows/s, 0 B/s)
+```
+
+### Example 2: Setting & Unsetting Workload Group
+
+```sql
+CREATE USER user1 IDENTIFIED BY 'abc123';
+
+ALTER USER user1 WITH SET WORKLOAD GROUP='wg';
+
+ALTER USER user1 WITH SET WORKLOAD GROUP='wg1';
+
+ALTER USER user1 WITH UNSET WORKLOAD GROUP;
 ```
