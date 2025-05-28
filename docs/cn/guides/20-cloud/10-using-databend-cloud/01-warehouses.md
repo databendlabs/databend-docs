@@ -110,38 +110,102 @@ Databend Cloud 允许您通过为计算集群分配特定角色来使用基于�
 
 ## Multi-Cluster 计算集群
 
-多集群计算集群通过根据工作负载需求添加或移除集群来自动调整计算资源。它确保高并发性和性能，同时通过根据需要扩展或缩减来优化成本。
+多集群计算集群通过根据工作负载需求自动添加或移除集群来调整计算资源。它确保高并发性和性能，同时通过按需扩展或缩减来优化成本。
 
 :::note
-Multi-Cluster 仅适用于商业版和专有版的 Databend Cloud 用户。
+多集群功能仅适用于商业版和专用版 Databend Cloud 用户。
 :::
 
 ### 工作原理
 
-默认情况下，计算集群由单个计算资源集群组成，根据其大小可以处理最大数量的并发查询。当为计算集群启用 Multi-Cluster 时，它允许动态添加多个集群 (由 **Max Clusters** 设置定义) 来处理超出单个集群容量的工作负载。
+默认情况下，计算集群由单个计算资源集群组成，根据其大小可以处理最大数量的并发查询。当为计算集群启用多集群功能时，它允许动态添加多个集群 (由 **最大集群数** 设置定义) 来处理超出单个集群容量的工作负载。
 
-当并发查询数量超过计算集群的容量时，会添加额外的集群来处理额外的负载。如果需求继续增长，会逐个添加更多集群。随着查询需求的减少，超过 **Auto Suspend** 持续时间没有活动的集群会自动关闭。
+当并发查询数量超过计算集群的容量时，会添加额外的集群来处理额外的负载。如果需求继续增长，会逐个添加更多集群。随着查询需求的减少，超过 **自动暂停** 持续时间且无活动的集群会自动关闭。
 
 ![alt text](../../../../../static/img/cloud/multi-cluster-how-it-works.png)
 
-### 启用 Multi-Cluster
+### 启用多集群
 
-您可以在创建计算集群时为其启用 Multi-Cluster，并设置计算集群可以扩展到的最大集群数量。请注意，如果为计算集群启用了 Multi-Cluster，**Auto Suspend** 持续时间必须设置为至少 15 分钟。
+您可以在创建计算集群时启用多集群功能，并设置计算集群可以扩展到的最大集群数量。请注意，如果为计算集群启用了多集群功能，**自动暂停** 持续时间必须设置为至少 15 分钟。
 
 ![alt text](../../../../../static/img/cloud/multi-cluster.png)
 
 ### 成本计算
 
-Multi-Cluster 计算集群根据特定时间间隔内使用的活跃集群数量进行计费。
+多集群计算集群根据特定时间间隔内使用的活跃集群数量进行计费。
 
-例如，对于价格为每小时 $1 的 XSmall 计算集群，如果从 13:00 到 14:00 活跃使用一个集群，从 14:00 到 15:00 活跃使用两个集群，那么从 13:00 到 15:00 产生的总成本为 $3 ((1 个集群 × 1 小时 × $1) + (2 个集群 × 1 小时 × $1))。
+例如，对于每小时 $1 的 XSmall 计算集群，如果从 13:00 到 14:00 活跃使用一个集群，从 14:00 到 15:00 活跃使用两个集群，那么从 13:00 到 15:00 产生的总成本为 $3 ((1 个集群 × 1 小时 × $1) + (2 个集群 × 1 小时 × $1))。
 
 ## 连接到计算集群 {#connecting}
 
-连接到计算集群提供在 Databend Cloud 中运行查询和分析数据所需的计算资源。当从您的应用程序或 SQL 客户端访问 Databend Cloud 时，此连接是必需的。
+连接到计算集群提供在 Databend Cloud 中运行查询和分析数据所需的计算资源。当从应用程序或 SQL 客户端访问 Databend Cloud 时，此连接是必需的。
+
+### 连接方法
+
+Databend Cloud 支持多种连接方法以满足您的特定需求。有关详细的连接说明，请参阅 [SQL 客户端文档](/guides/sql-clients/)。
+
+#### SQL 客户端和工具
+
+| 客户端 | 类型 | 最适用于 | 主要功能 |
+|--------|------|----------|------------|
+| **[BendSQL](/guides/sql-clients/bendsql)** | 命令行 | 开发者、脚本 | 原生 CLI、丰富格式化、多种安装选项 |
+| **[DBeaver](/guides/sql-clients/jdbc)** | GUI 应用程序 | 数据分析、可视化查询 | 内置驱动程序、跨平台、查询构建器 |
+
+#### 开发者驱动程序
+
+| 语言 | 驱动程序 | 用例 | 文档 |
+|----------|--------|----------|---------------|
+| **Go** | Golang Driver | 后端应用程序 | [Golang 指南](/guides/sql-clients/developers/golang) |
+| **Python** | Python Connector | 数据科学、分析 | [Python 指南](/guides/sql-clients/developers/python) |
+| **Node.js** | JavaScript Driver | Web 应用程序 | [Node.js 指南](/guides/sql-clients/developers/nodejs) |
+| **Java** | JDBC Driver | 企业应用程序 | [JDBC 指南](/guides/sql-clients/developers/jdbc) |
+| **Rust** | Rust Driver | 系统编程 | [Rust 指南](/guides/sql-clients/developers/rust) |
+
+### 获取连接信息
 
 要获取计算集群的连接信息：
 
-1. 在 **Overview** 页面上点击 **Connect**。
-2. 选择您希望连接的数据库和计算集群。连接信息将根据您的选择进行更新。
-3. 连接详细信息包括一个名为 `cloudapp` 的 SQL 用户和一个随机生成的密码。Databend Cloud 不存储此密码。请务必复制并安全保存。如果您忘记了密码，请点击 **Reset** 生成新密码。
+1. 在 **概览** 页面上点击 **连接**。
+2. 选择您希望连接的数据库和计算集群。连接信息将根据您的选择更新。
+3. 连接详细信息包括一个名为 `cloudapp` 的 SQL 用户和一个随机生成的密码。Databend Cloud 不存储此密码。请务必复制并安全保存。如果您忘记了密码，请点击 **重置** 生成新密码。
+
+{/* LANG_REPLACE: 
+   type=image
+   en=../../../../../static/img/documents/warehouses/databend_cloud_dsn.gif
+   cn=../../../../../static/img/documents_cn/warehouses/databend_cloud_dsn.gif
+*/}
+![alt text](../../../../../static/img/documents_cn/warehouses/databend_cloud_dsn.gif)
+
+### 连接字符串格式
+
+当您点击 **连接** 时，Databend Cloud 会自动生成您的连接字符串：
+
+```
+databend://<username>:<password>@<tenant>.gw.<region>.default.databend.com:443/<database>?warehouse=<warehouse_name>
+```
+
+其中：
+- `<username>`：默认为 `cloudapp`
+- `<password>`：点击 **重置** 查看或更改
+- `<tenant>`、`<region>`：您的账户信息 (显示在连接详细信息中)
+- `<database>`：选定的数据库 (显示在连接详细信息中)
+- `<warehouse_name>`：选定的计算集群 (显示在连接详细信息中)
+
+### 创建 SQL 用户以访问计算集群
+
+除了默认的 `cloudapp` 用户外，您还可以创建其他 SQL 用户以获得更好的安全性和访问控制：
+
+```sql
+-- 创建新的 SQL 用户
+CREATE USER warehouse_user1 IDENTIFIED BY 'StrongPassword123';
+
+-- 授予数据库的所有权限
+-- 此用户可以访问数据库中的所有表
+GRANT ALL ON my_database.* TO warehouse_user1;
+```
+
+有关更多详细信息，请参阅 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 和 [GRANT](/sql/sql-commands/ddl/user/grant) 文档。
+
+### 连接安全性
+
+默认情况下，所有到 Databend Cloud 计算集群的连接都使用 TLS 加密。对于需要额外安全性的企业用户，可以使用 [AWS PrivateLink](/guides/sql-clients/privatelink) 在您的 VPC 和 Databend Cloud 之间建立私有连接。
