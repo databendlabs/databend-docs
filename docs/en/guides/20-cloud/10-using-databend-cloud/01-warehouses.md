@@ -98,7 +98,7 @@ Warehouse access control is _not_ enabled out of the box. To enable it, go to **
 
 To assign a role to a warehouse, select the desired role in the **Advanced Options** during the warehouse creation or modification process:
 
-![alt text](../../../../../static/img/documents/warehouses/warehouse-role.png)
+![alt text](@site/static/img/documents/warehouses/warehouse-role.png)
 
 - The two [Built-in Roles](../../56-security/access-control/02-roles.md#built-in-roles) are available for selection, and you can also create additional roles using the [CREATE ROLE](/sql/sql-commands/ddl/user/user-create-role) command. For more information about Databend roles, see [Roles](../../56-security/access-control/02-roles.md).
 - Warehouses without an assigned role default to the `public` role, allowing access to all users.
@@ -122,13 +122,13 @@ By default, a warehouse consists of a single cluster of compute resources, which
 
 When the number of concurrent queries exceeds the capacity of your warehouse, an additional cluster is added to handle the extra load. If the demand continues to grow, more clusters are added one by one. As query demand decreases, clusters with no activity for longer than the **Auto Suspend** duration are automatically shut down.
 
-![alt text](../../../../../static/img/cloud/multi-cluster-how-it-works.png)
+![alt text](@site/static/img/cloud/multi-cluster-how-it-works.png)
 
 ### Enabling Multi-Cluster
 
 You can enable Multi-Cluster for a warehouse when you create it and set the maximum number of clusters that the warehouse can scale up to. Please note that if Multi-Cluster is enabled for a warehouse, the **Auto Suspend** duration must be set to at least 15 minutes.
 
-![alt text](../../../../../static/img/cloud/multi-cluster.png)
+![alt text](@site/static/img/cloud/multi-cluster.png)
 
 ### Cost Calculation
 
@@ -171,10 +171,10 @@ To obtain the connection information for a warehouse:
 
 {/* LANG_REPLACE: 
    type=image
-   en=../../../../../static/img/documents/warehouses/databend_cloud_dsn.gif
-   cn=../../../../../static/img/documents_cn/warehouses/databend_cloud_dsn.gif
+   en=@site/static/img/documents/warehouses/databend_cloud_dsn.gif
+   cn=@site/static/img/documents_cn/warehouses/databend_cloud_dsn.gif
 */}
-![alt text](../../../../../static/img/documents/warehouses/databend_cloud_dsn.gif)
+![alt text](@site/static/img/documents/warehouses/databend_cloud_dsn.gif)
 
 ### Connection String Format
 
