@@ -2,4 +2,4 @@
 title: Flink CDC
 ---
 
-See [Flink CDC](/guides/migrate/mysql#flink-cdc).
+See [Flink CDC](/tutorials/migrate/migrating-from-mysql-with-flink-cdc).
