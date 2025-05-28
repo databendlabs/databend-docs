@@ -140,8 +140,67 @@ For example, for an XSmall Warehouse priced at $1 per hour, if one cluster is ac
 
 Connecting to a warehouse provides the compute resources required to run queries and analyze data within Databend Cloud. This connection is necessary when accessing Databend Cloud from your applications or SQL clients.
 
+### Connection Methods
+
+Databend Cloud supports multiple connection methods to meet your specific needs. For detailed connection instructions, see the [SQL Clients documentation](/guides/sql-clients/).
+
+#### SQL Clients & Tools
+
+| Client | Type | Best For | Key Features |
+|--------|------|----------|------------|
+| **[BendSQL](/guides/sql-clients/bendsql)** | Command Line | Developers, Scripts | Native CLI, Rich formatting, Multiple install options |
+| **[DBeaver](/guides/sql-clients/jdbc)** | GUI Application | Data Analysis, Visual Queries | Built-in driver, Cross-platform, Query builder |
+
+#### Developer Drivers
+
+| Language | Driver | Use Case | Documentation |
+|----------|--------|----------|---------------|
+| **Go** | Golang Driver | Backend Applications | [Golang Guide](/guides/sql-clients/developers/golang) |
+| **Python** | Python Connector | Data Science, Analytics | [Python Guide](/guides/sql-clients/developers/python) |
+| **Node.js** | JavaScript Driver | Web Applications | [Node.js Guide](/guides/sql-clients/developers/nodejs) |
+| **Java** | JDBC Driver | Enterprise Applications | [JDBC Guide](/guides/sql-clients/developers/jdbc) |
+| **Rust** | Rust Driver | System Programming | [Rust Guide](/guides/sql-clients/developers/rust) |
+
+### Obtaining Connection Information
+
 To obtain the connection information for a warehouse:
 
 1. Click **Connect** on the **Overview** page.
 2. Select the database and warehouse you wish to connect to. The connection information will update based on your selection.
 3. The connection details include a SQL user named `cloudapp` with a randomly generated password. Databend Cloud does not store this password. Be sure to copy and save it securely. If you forget the password, click **Reset** to generate a new one.
+
+![alt text](../../../../../static/img/documents/warehouses/databend_cloud_dsn.gif)
+
+### Connection String Format
+
+Databend Cloud automatically generates your connection string when you click **Connect**:
+
+```
+databend://<username>:<password>@<tenant>.gw.<region>.default.databend.com:443/<database>?warehouse=<warehouse_name>
+```
+
+Where:
+- `<username>`: Default is `cloudapp`
+- `<password>`: Click **Reset** to view or change
+- `<tenant>`, `<region>`: Your account information (shown in the connection details)
+- `<database>`: Selected database (shown in the connection details)
+- `<warehouse_name>`: Selected warehouse (shown in the connection details)
+
+### Creating SQL Users for Warehouse Access
+
+Besides the default `cloudapp` user, you can create additional SQL users for better security and access control:
+
+```sql
+-- Create a new SQL user
+CREATE USER warehouse_user1 IDENTIFIED BY 'StrongPassword123';
+
+-- Grant ALL on database
+-- This user can access all tables in the database
+GRANT ALL ON my_database.* TO warehouse_user1;
+```
+
+For more details, see [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) and [GRANT](/sql/sql-commands/ddl/user/grant) documentation.
+
+### Connection Security
+
+All connections to Databend Cloud warehouses use TLS encryption by default. For enterprise users requiring additional security, [AWS PrivateLink](/guides/sql-clients/privatelink) is available to establish private connections between your VPC and Databend Cloud.
