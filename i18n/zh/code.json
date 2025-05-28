@@ -726,7 +726,7 @@
     "description": "Title for decoupled storage and compute card"
   },
   "Designed for multi-tenant data sharing with a truly decoupled architecture, enabling data marketplace functionality.": {
-    "message": "Databend 自 Day 1 就是基于存算分离架构进行设计开发，真正的存算分离架构，一份数据可以共享给多个租户共享，实现数据集市的功能。",
+    "message": "Databend 自创建以来就是基于存算分离架构进行设计开发，是真正的存算分离架构，一份数据可以共享给多个租户共享，实现数据集市的功能。",
     "description": "Description for decoupled storage and compute card"
   },
   "Open Source with Flexible Deployment": {
@@ -752,5 +752,13 @@
   "Please describe the specific errors or issues that": {
     "message": "*请描述您在文档中发现的具体错误或问题（例如：内容错误、流程卡住走不通、排版问题、链接失效等）",
     "description": "Please describe the specific errors or issues that you have identified in the document (such as: content mistakes, process getting stuck and unable to proceed, layout problems, broken links, etc.)"
+  },
+  "Object Storage": {
+    "message": "对象存储",
+    "description": "Object Storage"
+  },
+  "Stores all data in object storage.": {
+    "message": "所有数据存储在对象存储中。",
+    "description": "Stores all data in object storage."
   }
 }
