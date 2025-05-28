@@ -40,6 +40,8 @@ Your task is to translate Databend documentation from English to Chinese while m
 **Mandatory translations:**
 - 'time travel' → '时间回溯'
 - 'warehouse'/'warehouses' → '计算集群'
+- 'worksheet/worksheets' → '工作区'
+- 'dashboard/dashboards' → '仪表盘'
 - 'Data Warehouse' → '数仓'
 - 'Self-Hosted' → '私有化部署'
 - 'Personal' (plan) → '基础版'
