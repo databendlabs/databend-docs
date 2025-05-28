@@ -165,7 +165,7 @@ Databend Cloud 支持多种连接方法以满足您的特定需求。有关详�
 
 要获取计算集群的连接信息：
 
-1. 在 **概览** 页面上点击 **连接**。
+1. 在 **概览** 页面上点击 **连接（DSN）**。
 2. 选择您希望连接的数据库和计算集群。连接信息将根据您的选择更新。
 3. 连接详细信息包括一个名为 `cloudapp` 的 SQL 用户和一个随机生成的密码。Databend Cloud 不存储此密码。请务必复制并安全保存。如果您忘记了密码，请点击 **重置** 生成新密码。
 
@@ -178,7 +178,7 @@ Databend Cloud 支持多种连接方法以满足您的特定需求。有关详�
 
 ### 连接字符串格式
 
-当您点击 **连接** 时，Databend Cloud 会自动生成您的连接字符串：
+当您点击 **连接（DSN）** 时，Databend Cloud 会自动生成您的连接字符串：
 
 ```
 databend://<username>:<password>@<tenant>.gw.<region>.default.databend.com:443/<database>?warehouse=<warehouse_name>
@@ -186,7 +186,7 @@ databend://<username>:<password>@<tenant>.gw.<region>.default.databend.com:443/<
 
 其中：
 - `<username>`：默认为 `cloudapp`
-- `<password>`：点击 **重置** 查看或更改
+- `<password>`：点击 **重置密码** 查看或更改
 - `<tenant>`、`<region>`：您的账户信息 (显示在连接详细信息中)
 - `<database>`：选定的数据库 (显示在连接详细信息中)
 - `<warehouse_name>`：选定的计算集群 (显示在连接详细信息中)
@@ -208,4 +208,4 @@ GRANT ALL ON my_database.* TO warehouse_user1;
 
 ### 连接安全性
 
-默认情况下，所有到 Databend Cloud 计算集群的连接都使用 TLS 加密。对于需要额外安全性的企业用户，可以使用 [AWS PrivateLink](/guides/sql-clients/privatelink) 在您的 VPC 和 Databend Cloud 之间建立私有连接。
+默认情况下，所有到 Databend Cloud 计算集群的连接都使用 TLS 加密。对于需要额外安全性的企业用户，可以使用 [PrivateLink](/guides/sql-clients/privatelink) 在您的 VPC 和 Databend Cloud 之间建立私有连接。
