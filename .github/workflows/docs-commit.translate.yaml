@@ -30,13 +30,13 @@ jobs:
       - name: Get changed files name
         id: changed_files
         run: |
-          # add/edit .md 
+          # add or modify
           added_or_modified=$(git diff --diff-filter=AM --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' || true)
-          echo "files=$(echo "$added_or_modified" | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "files=$(echo "$added_or_modified" | sed -e 's/^/.\//' | tr '\n' ' ' | xargs)" >> $GITHUB_OUTPUT
 
-          # delete .md
+          # delte
           deleted=$(git diff --diff-filter=D --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' || true)
-          echo "deleted_files=$(echo "$deleted" | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "deleted_files=$(echo "$deleted" | tr '\n' ' ' | xargs)" >> $GITHUB_OUTPUT
 
       - name: Read prompt from file
         id: prompt
@@ -65,6 +65,8 @@ jobs:
             if [ -f "$cn_file" ]; then
               echo "Deleting $cn_file"
               git rm "$cn_file"
+            else
+              echo "No corresponding Chinese file found for $file"
             fi
           done
 
@@ -73,5 +75,10 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git commit -m "chore(i18n): remove translated docs for deleted English sources" || echo "Nothing to commit"
-          git push
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(i18n): remove translated docs for deleted English sources"
+            git push --set-upstream origin ${{ github.ref_name }}
+          fi
