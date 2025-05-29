@@ -1,12 +1,12 @@
 ---
-title: QuickStart
+title: 快速入门
 ---
 
 Databend 快速入门：5 分钟体验 Databend
-本指南将帮助您快速设置 Databend、连接到它并执行基本的数据导入。
+本指南将帮助您快速设置 Databend，连接到它，并执行基本的数据导入。
 
 ## 1. 使用 Docker 启动 Databend
-运行以下命令以在容器中启动 Databend：
+运行以下命令在容器中启动 Databend：
 
 ```
 docker run -d \
@@ -24,7 +24,7 @@ docker run -d \
 ```
 docker logs -f databend
 ```
-等待直到您看到日志表明 Databend 和 MinIO 已准备就绪。
+等待直到您看到日志显示 Databend 和 MinIO 已准备就绪。
 
 ## 2. 连接到 Databend
 安装 bendsql (Databend CLI)：
@@ -41,8 +41,8 @@ bendsql -udatabend -pdatabend
 ```
 
 ## 3. 执行基本数据导入
-### 步骤 1：创建外部 Bucket (myupload)
-安装 mc (MinIO client) 并创建一个 bucket：
+### 步骤 1：创建外部存储桶 (myupload)
+安装 mc (MinIO 客户端) 并创建存储桶：
 
 ```
 wget https://dl.min.io/client/mc/release/linux-amd64/mc
@@ -57,7 +57,7 @@ mc ls myminio
 [2025-04-12 08:43:59 CST]     0B myupload/
 ```
 
-### 步骤 2：生成 CSV 并上传到 myupload
+### 步骤 2：生成 CSV 文件并上传到 myupload
 ```
 echo -e "id,name,age,city\n1,John,32,New York\n2,Emma,28,London\n3,Liam,35,Paris\n4,Olivia,40,Berlin\n5,Noah,29,Tokyo" > data.csv
 mc cp data.csv myminio/myupload/
@@ -132,12 +132,11 @@ SELECT * FROM t_person;
 | 4        | Olivia   | 40       | Berlin   |
 | 5        | Noah     | 29       | Tokyo    |
 
-🚀 现在您已成功将数据导入 Databend！
+🚀 现在您已经成功将数据导入到 Databend 中了！
 
-## Alternative: Databend Cloud
-如果设置本地环境很麻烦，您可以尝试 [Databend Cloud](https://www.databend.com) 以获得完全托管的体验。
-
+## 替代方案：Databend Cloud
+如果设置本地环境比较麻烦，您可以尝试 [Databend Cloud](https://www.databend.com) 获得完全托管的体验。
 
 > 💬 **社区支持**  
-> 有问题？与我们的团队联系：  
-> 💬 [Slack Discussion](https://link.databend.com/join-slack)
+> 有疑问？联系我们的团队：  
+> 💬 [Slack 讨论](https://link.databend.com/join-slack)
