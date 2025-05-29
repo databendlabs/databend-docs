@@ -66,7 +66,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 If you have any questions or need support, please feel free to reach out via email:
 
-[![Email](https://img.shields.io/badge/Email-soyeric128%40yahoo.com-blue?style=flat-square&logo=yahoo-mail)](mailto:z@databend.com)
+[![Email](https://img.shields.io/badge/Email-z%40databend.com-blue?style=flat-square)](mailto:z@databend.com)
 
 Happy contributing!
 
