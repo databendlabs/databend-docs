@@ -46,7 +46,7 @@ jobs:
           echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Run GPT Translate
-        if: steps.changed_files.outputs.files != ''
+        if: ${{ steps.changed_files.outputs.files != '' }}
         uses: 3ru/gpt-translate@v1.2.2
         with:
           apikey: ${{ secrets.API_KEY }}
@@ -58,7 +58,7 @@ jobs:
           basePath: ${{ secrets.BASE_URL }}
 
       - name: Delete corresponding Chinese files
-        if: steps.changed_files.outputs.deleted_files != ''
+        if: ${{ steps.changed_files.outputs.deleted_files != '' }}
         run: |
           for file in ${{ steps.changed_files.outputs.deleted_files }}; do
             cn_file="docs/cn/$file"
@@ -69,7 +69,7 @@ jobs:
           done
 
       - name: Commit deleted translations
-        if: steps.changed_files.outputs.deleted_files != ''
+        if: ${{ steps.changed_files.outputs.deleted_files != '' }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
