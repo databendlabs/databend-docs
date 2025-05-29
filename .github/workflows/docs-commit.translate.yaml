@@ -9,6 +9,7 @@ on:
       - "docs/cn/**/*"
       - "docs/release-notes/**/*"
       - "docs/fragment/**/*"
+
       - "docs/release-stable/**/*"
       - "api/**/*"
       - "i18n/**/*"
@@ -27,16 +28,10 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Get changed files name
+      - name: get changed files name
         id: changed_files
         run: |
-          # add or modify
-          added_or_modified=$(git diff --diff-filter=AM --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' || true)
-          echo "files=$(echo "$added_or_modified" | sed -e 's/^/.\//' | tr '\n' ' ' | xargs)" >> $GITHUB_OUTPUT
-
-          # delte
-          deleted=$(git diff --diff-filter=D --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' || true)
-          echo "deleted_files=$(echo "$deleted" | tr '\n' ' ' | xargs)" >> $GITHUB_OUTPUT
+          echo "files=$(git diff --diff-filter=d --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
       - name: Read prompt from file
         id: prompt
@@ -46,7 +41,6 @@ jobs:
           echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Run GPT Translate
-        if: ${{ steps.changed_files.outputs.files != '' }}
         uses: 3ru/gpt-translate@v1.2.2
         with:
           apikey: ${{ secrets.API_KEY }}
@@ -56,29 +50,3 @@ jobs:
           languages: "Simplified-Chinese"
           prompt: "${{ steps.prompt.outputs.prompt }}"
           basePath: ${{ secrets.BASE_URL }}
-
-      - name: Delete corresponding Chinese files
-        if: ${{ steps.changed_files.outputs.deleted_files != '' }}
-        run: |
-          for file in ${{ steps.changed_files.outputs.deleted_files }}; do
-            cn_file="docs/cn/$file"
-            if [ -f "$cn_file" ]; then
-              echo "Deleting $cn_file"
-              git rm "$cn_file"
-            else
-              echo "No corresponding Chinese file found for $file"
-            fi
-          done
-
-      - name: Commit deleted translations
-        if: ${{ steps.changed_files.outputs.deleted_files != '' }}
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore(i18n): remove translated docs for deleted English sources"
-            git push --set-upstream origin ${{ github.ref_name }}
-          fi
