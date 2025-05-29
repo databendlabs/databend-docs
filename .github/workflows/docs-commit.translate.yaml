@@ -30,10 +30,12 @@ jobs:
       - name: Get changed files name
         id: changed_files
         run: |
-          added_or_modified=$(git diff --diff-filter=d --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn')
+          # add/edit .md 
+          added_or_modified=$(git diff --diff-filter=AM --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' || true)
           echo "files=$(echo "$added_or_modified" | sed -e 's/^/.\//' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
-          deleted=$(git diff --diff-filter=D --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn')
+          # delete .md
+          deleted=$(git diff --diff-filter=D --name-only HEAD^ HEAD | grep '\.md$' | grep -v 'cn' || true)
           echo "deleted_files=$(echo "$deleted" | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
       - name: Read prompt from file
