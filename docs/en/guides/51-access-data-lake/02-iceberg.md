@@ -337,7 +337,7 @@ aws_session_token: The AWS session token to use.
 CREATE CATALOG iceberg_storage TYPE = ICEBERG CONNECTION = (
     TYPE = 'storage'
     ADDRESS = 'http://localhost:9111'
-    "table_bucket_arn" = "my-bucket"
+    "table_bucket_arn" = 'my-bucket'
     -- Additional properties as needed
 )
 ```
