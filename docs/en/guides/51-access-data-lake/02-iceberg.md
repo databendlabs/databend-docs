@@ -320,7 +320,7 @@ CREATE CATALOG iceberg_glue TYPE = ICEBERG CONNECTION = (
 
 - Storage Catalog (S3Tables Catalog)
 
-The Storage catalog requires a table_bucket_arn parameter. Unlike other buckets, S3Tables bucket is not a physical bucket, but a virtual bucket that is managed by S3Tables. You cannot directly access the bucket with a path like s3://{bucket_name}/{file_path}. All operations are performed with respect to the bucket ARN.
+The Storage catalog requires a table_bucket_arn parameter. Unlike other buckets, S3Tables bucket is not a physical bucket, but a virtual bucket that is managed by S3Tables. You cannot directly access the bucket with a path like `s3://{bucket_name}/{file_path}`. All operations are performed with respect to the bucket ARN.
 
 Properties Parameters
 The following properties are available for the catalog:
