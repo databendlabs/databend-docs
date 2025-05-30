@@ -62,7 +62,7 @@ BEGIN
     LET x RESULTSET := select number n from numbers(10);
     LET sum := 0;
     FOR x IN x DO
-        For batch in 0 TO x.n DO
+        FOR batch in 0 TO x.n DO
             IF batch % 2 = 0 THEN
                 sum := sum + batch;
             ELSE
