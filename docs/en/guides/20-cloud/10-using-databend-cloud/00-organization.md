@@ -6,7 +6,7 @@ This topic explains the concept of an organization and its members in Databend C
 
 ## Understanding Organization
 
-Organization is an essential concept in Databend Cloud. All the users, databases, warehouses, and other objects in Databend Cloud are associated with an organization.  An organization is a group for managing users and their resources.
+Organization is an essential concept in Databend Cloud. All the users, databases, warehouses, and other objects in Databend Cloud are associated with an organization. An organization is a group for managing users and their resources.
 
 In an organization of Databend Cloud, data and resources are shared among all users of the organization. Users can collaborate with each other to manage and analyze the organization's data effectively by taking advantage of the cloud-native features.
 
@@ -34,10 +34,10 @@ To view all the members in your organization, go to **Manage** > **Members**. Th
 
 - The roles listed show the roles assigned to users when they were invited. While these roles can be changed on the page, they cannot be revoked using SQL. However, you can grant additional roles or privileges to users based on their email addresses. These user accounts, identified by their email addresses, can also function as SQL users in Databend Cloud. Example:
 
-    ```sql
-    GRANT ROLE writer to 'eric@databend.com';
-    GRANT SELECT ON *.* TO 'eric@databend.com';
-    ```
+```sql
+GRANT ROLE writer to 'eric@databend.com';
+GRANT SELECT ON *.* TO 'eric@databend.com';
+```
 
 - The page does not display users created using SQL. To view the SQL users that have been created, use the [SHOW USERS](/sql/sql-commands/ddl/user/user-show-users) command.
 
@@ -48,7 +48,8 @@ To invite a new member to your organization, navigate to the **Manage** > **Memb
 An invitation email will be sent to the invited user. Inside the email, there will be a link that the user can click on to initiate the signup process.
 
 :::note
+
 - Inviting new members to the organization is a privilege restricted to account_admin roles only.
 
 - If your organization is under the Trial Plan, it permits a maximum of one user. In such a case, you won't have the capability to extend invitations to additional members.
-:::
+  :::
