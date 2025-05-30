@@ -1,24 +1,25 @@
 ---
 title: Apache Iceberg™
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.668"/>
+<FunctionDescription description="引入或更新于: v1.2.668"/>
 
-Databend 支持集成 [Apache Iceberg™](https://iceberg.apache.org/) catalog，从而增强了其数据管理和分析的兼容性和多功能性。通过将 Apache Iceberg™ 强大的元数据和存储管理功能无缝集成到平台中，扩展了 Databend 的功能。
+Databend 支持集成 [Apache Iceberg™](https://iceberg.apache.org/) catalog，增强了其在数据管理和分析方面的兼容性和多功能性。这通过将 Apache Iceberg™ 强大的元数据和存储管理功能无缝集成到平台中，扩展了 Databend 的能力。
 
 ## Iceberg 快速入门
 
-如果您想快速试用 Iceberg 并在本地进行表操作实验，可以使用基于 [Docker 的入门项目](https://github.com/databendlabs/iceberg-quick-start)。此设置允许您：
+如果您想快速试用 Iceberg 并在本地实验表操作，可以使用 [基于 Docker 的入门项目](https://github.com/databendlabs/iceberg-quick-start)。此设置允许您：
 
 - 运行支持 Iceberg 的 Spark
 - 使用 REST catalog (Iceberg REST Fixture)
-- 使用 MinIO 模拟与 S3 兼容的对象存储
-- 将示例 TPC-H 数据加载到 Iceberg 表中以进行查询测试
+- 使用 MinIO 模拟 S3 兼容的对象存储
+- 将示例 TPC-H 数据加载到 Iceberg 表中进行查询测试
 
-### 前提条件
+### 前置条件
 
-在开始之前，请确保您的系统上已安装 Docker 和 Docker Compose。
+开始之前，请确保您的系统上已安装 Docker 和 Docker Compose。
 
 ### 启动 Iceberg 环境
 
@@ -30,10 +31,10 @@ docker compose up -d
 
 这将启动以下服务：
 
-- `spark-iceberg`: 带有 Iceberg 的 Spark 3.4
+- `spark-iceberg`: 支持 Iceberg 的 Spark 3.4
 - `rest`: Iceberg REST Catalog
-- `minio`: 与 S3 兼容的对象存储
-- `mc`: MinIO 客户端（用于设置存储桶）
+- `minio`: S3 兼容的对象存储
+- `mc`: MinIO 客户端 (用于设置存储桶)
 
 ```bash
 WARN[0000] /Users/eric/iceberg-quick-start/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
@@ -47,7 +48,7 @@ WARN[0000] /Users/eric/iceberg-quick-start/docker-compose.yml: the attribute `ve
 
 ### 通过 Spark Shell 加载 TPC-H 数据
 
-运行以下命令以生成示例 TPC-H 数据并将其加载到 Iceberg 表中：
+运行以下命令生成示例 TPC-H 数据并将其加载到 Iceberg 表中：
 
 ```bash
 docker exec spark-iceberg bash /home/iceberg/load_tpch.sh
@@ -101,7 +102,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 
 ### 在 Databend 中查询数据
 
-加载 TPC-H 表后，您可以在 Databend 中查询数据：
+TPC-H 表加载完成后，您可以在 Databend 中查询数据：
 
 1. 在 Docker 中启动 Databend：
 
@@ -137,9 +138,9 @@ Started web server at 127.0.0.1:8080
 ```sql
 CREATE CATALOG iceberg TYPE = ICEBERG CONNECTION = (
     TYPE = 'rest'
-    ADDRESS = 'http://host.docker.internal:8181'  
+    ADDRESS = 'http://host.docker.internal:8181'
     warehouse = 's3://warehouse/wh/'
-    "s3.endpoint" = 'http://host.docker.internal:9000'  
+    "s3.endpoint" = 'http://host.docker.internal:9000'
     "s3.access-key-id" = 'admin'
     "s3.secret-access-key" = 'password'
     "s3.region" = 'us-east-1'
@@ -167,7 +168,7 @@ SHOW DATABASES;
 ╰──────────────────────╯
 ```
 
-5. 运行示例查询以聚合 TPC-H 数据：
+5. 运行示例查询来聚合 TPC-H 数据：
 
 ```bash
 SELECT
@@ -205,28 +206,27 @@ ORDER BY
 
 ## 数据类型映射
 
-下表映射了 Apache Iceberg™ 和 Databend 之间的数据类型。请注意，Databend 目前不支持表中未列出的 Iceberg 数据类型。
+此表显示了 Apache Iceberg™ 和 Databend 之间的数据类型映射。请注意，Databend 目前不支持表中未列出的 Iceberg 数据类型。
 
+| Apache Iceberg™                             | Databend                                                                 |
+| ------------------------------------------- | ------------------------------------------------------------------------ |
+| BOOLEAN                                     | [BOOLEAN](/sql/sql-reference/data-types/boolean)                         |
+| INT                                         | [INT32](/sql/sql-reference/data-types/numeric#integer-data-types)        |
+| LONG                                        | [INT64](/sql/sql-reference/data-types/numeric#integer-data-types)        |
+| DATE                                        | [DATE](/sql/sql-reference/data-types/datetime)                           |
+| TIMESTAMP/TIMESTAMPZ                        | [TIMESTAMP](/sql/sql-reference/data-types/datetime)                      |
+| FLOAT                                       | [FLOAT](/sql/sql-reference/data-types/numeric#floating-point-data-types) |
+| DOUBLE                                      | [DOUBLE](/sql/sql-reference/data-types/numeric#floating-point-data-type) |
+| STRING/BINARY                               | [STRING](/sql/sql-reference/data-types/string)                           |
+| DECIMAL                                     | [DECIMAL](/sql/sql-reference/data-types/decimal)                         |
+| ARRAY&lt;TYPE&gt;                           | [ARRAY](/sql/sql-reference/data-types/array), 支持嵌套           |
+| MAP&lt;KEYTYPE, VALUETYPE&gt;               | [MAP](/sql/sql-reference/data-types/map)                                 |
+| STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)                             |
+| LIST                                        | [ARRAY](/sql/sql-reference/data-types/array)                             |
 
-| Apache Iceberg™                  | Databend                |
-| ------------------------------- | ----------------------- |
-| BOOLEAN                         | [BOOLEAN](/sql/sql-reference/data-types/boolean)                 |
-| INT                             | [INT32](/sql/sql-reference/data-types/numeric#integer-data-types)                   |
-| LONG                            | [INT64](/sql/sql-reference/data-types/numeric#integer-data-types)                   |
-| DATE                            | [DATE](/sql/sql-reference/data-types/datetime)                    |
-| TIMESTAMP/TIMESTAMPZ            | [TIMESTAMP](/sql/sql-reference/data-types/datetime)               |
-| FLOAT                           | [FLOAT](/sql/sql-reference/data-types/numeric#floating-point-data-types)                  |
-| DOUBLE                          | [DOUBLE](/sql/sql-reference/data-types/numeric#floating-point-data-type)                  |
-| STRING/BINARY                   | [STRING](/sql/sql-reference/data-types/string)                  |
-| DECIMAL                         | [DECIMAL](/sql/sql-reference/data-types/decimal)                 |
-| ARRAY&lt;TYPE&gt;               | [ARRAY](/sql/sql-reference/data-types/array), 支持嵌套 |
-| MAP&lt;KEYTYPE, VALUETYPE&gt;       | [MAP](/sql/sql-reference/data-types/map)                     |
-| STRUCT&lt;COL1: TYPE1, COL2: TYPE2, ...&gt; | [TUPLE](/sql/sql-reference/data-types/tuple)           |
-| LIST                            | [ARRAY](/sql/sql-reference/data-types/array)                   |
+## 管理 Catalog
 
-## 管理 Catalogs
-
-Databend 提供了以下命令来管理 catalogs：
+Databend 为您提供以下命令来管理 catalog：
 
 - [CREATE CATALOG](#create-catalog)
 - [SHOW CREATE CATALOG](#show-create-catalog)
@@ -252,35 +252,113 @@ CONNECTION=(
 );
 ```
 
-| 参数                    | 是否必须? | 描述                                                                                                                                                                                                                                                                                                                                                                                                           |
-|------------------------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<catalog_name>`             | 是       | 您要创建的 catalog 的名称。                                                                                                                                                                                                                                                                                                                                                                           |
-| `TYPE`                       | 是       | 指定 catalog 类型。对于 Apache Iceberg™，设置为 `ICEBERG`。                                                                                                                                                                                                                                                                                                                                                            |
-| `CONNECTION`                 | 是       | Iceberg catalog 的连接参数。                                                                                                                                                                                                                                                                                                                                                                    |
-| `TYPE` (在 `CONNECTION` 中) | 是       | 连接类型。对于 Iceberg，通常设置为 `rest` 以进行基于 REST 的连接。                                                                                                                                                                                                                                                                                                                                                           |
-| `ADDRESS`                    | 是       | Iceberg 服务的地址或 URL（例如，`http://127.0.0.1:8181`）。                                                                                                                                                                                                                                                                                                                                            |
-| `WAREHOUSE`                  | 是       | Iceberg warehouse 的位置，通常是 S3 bucket 或兼容的对象存储系统。                                                                                                                                                                                                                                                                                                                                                     |
-| `<connection_parameter>`     | 是       | 用于建立与外部存储连接的连接参数。所需的参数因特定的存储服务和身份验证方法而异。 有关可用参数的完整列表，请参见下表。 |
+| 参数                         | 是否必需 | 描述                                                                                                                                                                                                                                   |
+| ---------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<catalog_name>`             | 是       | 要创建的 catalog 的名称。                                                                                                                                                                                                           |
+| `TYPE`                       | 是       | 指定 catalog 类型。对于 Apache Iceberg™，设置为 `ICEBERG`。                                                                                                                                                                    |
+| `CONNECTION`                 | 是       | Iceberg catalog 的连接参数。                                                                                                                                                                                    |
+| `TYPE` (在 `CONNECTION` 内) | 是       | 连接类型。对于 Iceberg，通常设置为 `rest` 以进行基于 REST 的连接。                                                                                                                                            |
+| `ADDRESS`                    | 是       | Iceberg 服务的地址或 URL (例如，`http://127.0.0.1:8181`)。                                                                                                                                                                            |
+| `WAREHOUSE`                  | 是       | Iceberg 仓库的位置，通常是 S3 存储桶或兼容的对象存储系统。                                                                      |
+| `<connection_parameter>`     | 是       | 用于与外部存储建立连接的连接参数。所需参数因具体的存储服务和身份验证方法而异。有关可用参数的完整列表，请参见下表。 |
 
+| 连接参数                          | 描述                                                                                                                            |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `s3.endpoint`                     | S3 端点。                                                                                                                           |
+| `s3.access-key-id`                | S3 访问密钥 ID。                                                                                                                      |
+| `s3.secret-access-key`            | S3 秘密访问密钥。                                                                                                                  |
+| `s3.session-token`                | S3 会话 Token，使用临时凭证时必需。                                                                           |
+| `s3.region`                       | S3 区域。                                                                                                                             |
+| `client.region`                   | 用于 S3 客户端的区域，优先级高于 `s3.region`。                                                                    |
+| `s3.path-style-access`            | S3 路径样式访问。                                                                                                                  |
+| `s3.sse.type`                     | S3 服务端加密 (SSE) 类型。                                                                                                  |
+| `s3.sse.key`                      | S3 SSE 密钥。如果加密类型为 `kms`，这是一个 KMS 密钥 ID。如果加密类型为 `custom`，这是一个 base-64 AES256 对称密钥。 |
+| `s3.sse.md5`                      | S3 SSE MD5 校验和。                                                                                                                   |
+| `client.assume-role.arn`          | 要承担的 IAM 角色的 ARN，而不是使用默认凭证链。                                                           |
+| `client.assume-role.external-id`  | 用于承担 IAM 角色的可选外部 ID。                                                                                       |
+| `client.assume-role.session-name` | 用于承担 IAM 角色的可选会话名称。                                                                                      |
+| `s3.allow-anonymous`              | 允许匿名访问的选项 (例如，用于公共存储桶/文件夹)。                                                                   |
+| `s3.disable-ec2-metadata`         | 禁用从 EC2 元数据加载凭证的选项 (通常与 `s3.allow-anonymous` 一起使用)。                                    |
+| `s3.disable-config-load`          | 禁用从配置文件和环境变量加载配置的选项。                                                   |
 
-| 连接参数                     | 描述                                                                                                                                |
-|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `s3.endpoint`                | S3 端点。                                                                                                                            |
-| `s3.access-key-id`           | S3 访问密钥 ID。                                                                                                                      |
-| `s3.secret-access-key`       | S3 密钥。                                                                                                                            |
-| `s3.session-token`           | S3 会话令牌，使用临时凭证时需要。                                                                                                       |
-| `s3.region`                  | S3 区域。                                                                                                                            |
-| `client.region`              | 用于 S3 客户端的区域，优先于 `s3.region`。                                                                                              |
-| `s3.path-style-access`       | S3 Path Style Access。                                                                                                               |
-| `s3.sse.type`                | S3 服务器端加密 (SSE) 类型。                                                                                                          |
-| `s3.sse.key`                 | S3 SSE 密钥。如果加密类型为 `kms`，则为 KMS 密钥 ID。如果加密类型为 `custom`，则为 base-64 AES256 对称密钥。                               |
-| `s3.sse.md5`                 | S3 SSE MD5 校验和。                                                                                                                  |
-| `client.assume-role.arn`     | 要承担的 IAM 角色的 ARN，而不是使用默认凭证链。                                                                                          |
-| `client.assume-role.external-id` | 用于承担 IAM 角色的可选外部 ID。                                                                                                       |
-| `client.assume-role.session-name` | 用于承担 IAM 角色的可选会话名称。                                                                                                      |
-| `s3.allow-anonymous`         | 允许匿名访问的选项（例如，对于公共存储桶/文件夹）。                                                                                             |
-| `s3.disable-ec2-metadata`    | 用于禁用从 EC2 元数据加载凭证的选项（通常与 `s3.allow-anonymous` 一起使用）。                                                                  |
-| `s3.disable-config-load`     | 用于禁用从配置文件和环境变量加载配置的选项。                                                                                              |
+### Catalog 类型
+
+Databend 支持四种类型的 Iceberg catalog：
+
+- REST Catalog
+
+REST catalog 使用 RESTful API 方式与 Iceberg 表进行交互。
+
+```sql
+CREATE CATALOG iceberg_rest TYPE = ICEBERG CONNECTION = (
+    TYPE = 'rest'
+    ADDRESS = 'http://localhost:8181'
+    warehouse = 's3://warehouse/demo/'
+    "s3.endpoint" = 'http://localhost:9000'
+    "s3.access-key-id" = 'admin'
+    "s3.secret-access-key" = 'password'
+    "s3.region" = 'us-east-1'
+)
+```
+
+- AWS Glue Catalog
+
+对于 Glue catalog，配置包括 Glue 服务参数和存储 (S3) 参数。Glue 服务参数在前，然后是 S3 存储参数 (以 "s3." 为前缀)。
+
+```sql
+CREATE CATALOG iceberg_glue TYPE = ICEBERG CONNECTION = (
+    TYPE = 'glue'
+    ADDRESS = 'http://localhost:5000'
+    warehouse = 's3a://warehouse/glue/'
+    "aws_access_key_id" = 'my_access_id'
+    "aws_secret_access_key" = 'my_secret_key'
+    "region_name" = 'us-east-1'
+    "s3.endpoint" = 'http://localhost:9000'
+    "s3.access-key-id" = 'admin'
+    "s3.secret-access-key" = 'password'
+    "s3.region" = 'us-east-1'
+)
+```
+
+- Storage Catalog (S3Tables Catalog)
+
+Storage catalog 需要一个 table_bucket_arn 参数。与其他存储桶不同，S3Tables 存储桶不是物理存储桶，而是由 S3Tables 管理的虚拟存储桶。您无法通过 `s3://{bucket_name}/{file_path}` 这样的路径直接访问该存储桶。所有操作都是基于存储桶 ARN 执行的。
+
+属性参数
+catalog 可用的属性如下：
+
+```
+profile_name: 要使用的 AWS 配置文件名称。
+region_name: 要使用的 AWS 区域。
+aws_access_key_id: 要使用的 AWS 访问密钥 ID。
+aws_secret_access_key: 要使用的 AWS 秘密访问密钥。
+aws_session_token: 要使用的 AWS 会话令牌。
+```
+
+```sql
+CREATE CATALOG iceberg_storage TYPE = ICEBERG CONNECTION = (
+    TYPE = 'storage'
+    ADDRESS = 'http://localhost:9111'
+    "table_bucket_arn" = 'my-bucket'
+    -- 根据需要添加其他属性
+)
+```
+
+- Hive Catalog (HMS Catalog)
+
+Hive catalog 需要一个 ADDRESS 参数，即 Hive metastore 的地址。它还需要一个 warehouse 参数，即 Iceberg 数仓的位置，通常是 S3 存储桶或兼容的对象存储系统。
+
+```sql
+CREATE CATALOG iceberg_hms TYPE = ICEBERG CONNECTION = (
+    TYPE = 'hive'
+    ADDRESS = '192.168.10.111:9083'
+    warehouse = 's3a://warehouse/hive/'
+    "s3.endpoint" = 'http://localhost:9000'
+    "s3.access-key-id" = 'admin'
+    "s3.secret-access-key" = 'password'
+    "s3.region" = 'us-east-1'
+)
+```
 
 ### SHOW CREATE CATALOG
 
@@ -294,7 +372,7 @@ SHOW CREATE CATALOG <catalog_name>;
 
 ### SHOW CATALOGS
 
-显示所有已创建的 catalogs。
+显示所有已创建的 catalog。
 
 #### 语法
 
@@ -312,9 +390,9 @@ SHOW CATALOGS [LIKE '<pattern>']
 USE CATALOG <catalog_name>
 ```
 
-## Caching Iceberg Catalog
+## 缓存 Iceberg Catalog
 
-Databend 提供了一个专门为 Iceberg catalogs 设计的 Catalog Metadata Cache。当第一次在 Iceberg 表上执行查询时，元数据会被缓存在内存中。默认情况下，此缓存保持有效 10 分钟，之后会异步刷新。这确保了对 Iceberg 表的查询更快，避免了重复的元数据检索。
+Databend 为 Iceberg catalog 提供了专门设计的 Catalog 元数据缓存。当首次对 Iceberg 表执行查询时，元数据会被缓存在内存中。默认情况下，此缓存保持 10 分钟有效，之后会异步刷新。这确保了对 Iceberg 表的查询更快，避免了重复的元数据检索。
 
 如果您需要最新的元数据，可以使用以下命令手动刷新缓存：
 
@@ -324,7 +402,7 @@ ALTER DATABASE tpch REFRESH CACHE; -- 刷新 tpch 数据库的元数据缓存
 ALTER TABLE tpch.lineitem REFRESH CACHE; -- 刷新 lineitem 表的元数据缓存
 ```
 
-如果您不想使用元数据缓存，可以通过在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中将 `iceberg_table_meta_count` 设置为 `0` 来完全禁用它：
+如果您不想使用元数据缓存，可以在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中将 `iceberg_table_meta_count` 设置配置为 `0` 来完全禁用它：
 
 ```toml
 ...
@@ -335,18 +413,18 @@ iceberg_table_meta_count = 0
 ...
 ```
 
-除了元数据缓存之外，Databend 还支持 Iceberg catalog 表的表数据缓存，类似于 Fuse 表。有关数据缓存的更多信息，请参阅 [Query Configurations](../10-deploy/04-references/02-node-config/02-query-config.md) 参考中的 `[cache] Section`。
+除了元数据缓存，Databend 还支持对 Iceberg catalog 表进行表数据缓存，类似于 Fuse 表。有关数据缓存的更多信息，请参考 [查询配置](../10-deploy/04-references/02-node-config/02-query-config.md) 参考中的 `[cache] 部分`。
 
-## Apache Iceberg™ Table Functions
+## Apache Iceberg™ 表函数
 
-Databend 提供了以下表函数来查询 Iceberg 元数据，允许用户有效地检查快照和清单：
+Databend 提供以下表函数用于查询 Iceberg 元数据，允许用户高效地检查快照和清单：
 
 - [ICEBERG_MANIFEST](/sql/sql-functions/table-functions/iceberg-manifest)
 - [ICEBERG_SNAPSHOT](/sql/sql-functions/table-functions/iceberg-snapshot)
 
 ## 使用示例
 
-此示例展示了如何使用基于 REST 的连接创建 Iceberg catalog，指定服务地址、计算集群位置 (S3) 以及可选参数（如 AWS 区域和自定义端点）：
+此示例展示了如何使用基于 REST 的连接创建 Iceberg catalog，指定服务地址、数仓位置 (S3) 以及可选参数如 AWS 区域和自定义端点：
 
 ```sql
 CREATE CATALOG ctl
