@@ -281,6 +281,83 @@ CONNECTION=(
 | `s3.disable-ec2-metadata`         | Option to disable loading credentials from EC2 metadata (typically used with `s3.allow-anonymous`).                                    |
 | `s3.disable-config-load`          | Option to disable loading configuration from config files and environment variables.                                                   |
 
+### Catalog Types
+
+Databend supports four types of Iceberg catalogs:
+
+- REST Catalog
+
+REST catalog uses a RESTful API approach to interact with Iceberg tables.
+
+```sql
+CREATE CATALOG iceberg_rest TYPE = ICEBERG CONNECTION = (
+    TYPE = 'rest'
+    ADDRESS = 'http://localhost:8181'
+    warehouse = 's3://warehouse/demo/'
+    "s3.endpoint" = 'http://localhost:9000'
+    "s3.access-key-id" = 'admin'
+    "s3.secret-access-key" = 'password'
+    "s3.region" = 'us-east-1'
+)
+
+- AWS Glue Catalog
+For Glue catalogs, the configuration includes both Glue service parameters and storage (S3) parameters. The Glue service parameters appear first, followed by the S3 storage parameters (prefixed with "s3.").
+
+```sql
+CREATE CATALOG iceberg_glue TYPE = ICEBERG CONNECTION = (
+    TYPE = 'glue'
+    ADDRESS = 'http://localhost:5000'
+    warehouse = 's3a://warehouse/glue/'
+    "aws_access_key_id" = 'my_access_id'
+    "aws_secret_access_key" = 'my_secret_key'
+    "region_name" = 'us-east-1'
+    "s3.endpoint" = 'http://localhost:9000'
+    "s3.access-key-id" = 'admin'
+    "s3.secret-access-key" = 'password'
+    "s3.region" = 'us-east-1'
+)
+```
+
+- Storage Catalog (S3Tables Catalog)
+
+The Storage catalog requires a table_bucket_arn parameter. Unlike other buckets, S3Tables bucket is not a physical bucket, but a virtual bucket that is managed by S3Tables. You cannot directly access the bucket with a path like s3://{bucket_name}/{file_path}. All operations are performed with respect to the bucket ARN.
+
+Properties Parameters
+The following properties are available for the catalog:
+
+```
+profile_name: The name of the AWS profile to use.
+region_name: The AWS region to use.
+aws_access_key_id: The AWS access key ID to use.
+aws_secret_access_key: The AWS secret access key to use.
+aws_session_token: The AWS session token to use.
+```
+
+```sql
+CREATE CATALOG iceberg_storage TYPE = ICEBERG CONNECTION = (
+    TYPE = 'storage'
+    ADDRESS = 'http://localhost:9111'
+    "table_bucket_arn" = "my-bucket"
+    -- Additional properties as needed
+)
+```
+
+- Hive Catalog (HMS Catalog)
+
+The Hive catalog requires an ADDRESS parameter, which is the address of the Hive metastore. It also requires a warehouse parameter, which is the location of the Iceberg warehouse, usually an S3 bucket or compatible object storage system.
+
+```sql
+CREATE CATALOG iceberg_hms TYPE = ICEBERG CONNECTION = (
+    TYPE = 'hive'
+    ADDRESS = '192.168.10.111:9083'
+    warehouse = 's3a://warehouse/hive/'
+    "s3.endpoint" = 'http://localhost:9000'
+    "s3.access-key-id" = 'admin'
+    "s3.secret-access-key" = 'password'
+    "s3.region" = 'us-east-1'
+)
+```
+
 ### SHOW CREATE CATALOG
 
 Returns the detailed configuration of a specified catalog, including its type and storage parameters.
