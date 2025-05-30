@@ -34,10 +34,10 @@ title: 组织与成员
 
 - 列出的角色显示用户被邀请时分配给他们的角色。虽然这些角色可以在页面上更改，但无法使用 SQL 撤销。但是，您可以根据用户的电子邮件地址向他们授予额外的角色或权限。这些由电子邮件地址标识的用户账户也可以在 Databend Cloud 中作为 SQL 用户使用。示例：
 
-    ```sql
-    GRANT ROLE writer to 'eric@databend.com';
-    GRANT SELECT ON *.* TO 'eric@databend.com';
-    ```
+```sql
+GRANT ROLE writer to 'eric@databend.com';
+GRANT SELECT ON *.* TO 'eric@databend.com';
+```
 
 - 该页面不显示使用 SQL 创建的用户。要查看已创建的 SQL 用户，请使用 [SHOW USERS](/sql/sql-commands/ddl/user/user-show-users) 命令。
 
@@ -48,7 +48,8 @@ title: 组织与成员
 邀请邮件将发送给被邀请的用户。邮件中将包含一个链接，用户可以点击该链接启动注册流程。
 
 :::note
+
 - 邀请新成员加入组织是仅限于 account_admin 角色的权限。
 
 - 如果您的组织使用试用计划，最多允许一个用户。在这种情况下，您将无法邀请其他成员。
-:::
+  :::
