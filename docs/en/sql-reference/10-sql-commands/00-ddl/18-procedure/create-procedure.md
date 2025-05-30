@@ -49,7 +49,7 @@ END;
 $$;
 ```
 
-You can also define a stored procedure works with loop, conditions and dynamic variable.
+You can also define a stored procedure that works with loops, conditions, and dynamic variables.
 
 ```sql
 
