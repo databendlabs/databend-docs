@@ -26,11 +26,13 @@ en=
 
 **Here are some entries you might want to learn about**
 
-- **[SQL Reference](/sql)**: your swift-access guide for Databend essentials!
-- **[Data Unloading](../50-unload-data/index.md)**: Export data from Databend(Cloud).
-- **[External Functions](../54-query/04-external-function.md)**: Use external functions to extend Databend's capabilities.
-- **[Data Management](../57-data-management/index.md)**: Manage data in Databend(Cloud).
-- **[Benchmarks](../80-benchmark/index.md)**: Compare Databend Cloud performance with Snowflake on TPC-H SF100 benchmarks.
-- **[Accessing Data Lake](../51-access-data-lake/index.md)**: Databend presents a seamless integration with three robust Data Lake technologies—Apache Hive, Apache Iceberg, and Delta Lake.
-- **[Query Structures](../54-query/index.md)**: Databend supports diverse query structures to enhance your data querying experience
-- **[Performance Optimization](../55-performance/index.md)**: Databend supports the following features to optimize query performance across various scenarios
+- **[SQL Reference](/sql)**: Your swift-access guide for Databend essentials!
+- **[Connect to Databend](/guides/sql-clients)**: Connect with various SQL clients and programming languages.
+- **[Data Loading](/guides/load-data)**: Import data from various sources into Databend.
+- **[Data Unloading](/guides/unload-data)**: Export data from Databend to different formats.
+- **[External Functions](/guides/query/external-function)**: Extend Databend's capabilities with custom functions.
+- **[Databend AI and ML](/guides/ai-functions)**: Leverage AI capabilities in your data processing.
+- **[Data Management](/guides/data-management)**: Manage your data lifecycle effectively.
+- **[Data Lakehouse](/guides/access-data-lake)**: Seamless integration with Hive, Iceberg, and Delta Lake.
+- **[Performance Optimization](/guides/performance)**: Enhance query performance with various strategies.
+- **[Benchmarks](/guides/benchmark)**: Compare Databend performance with other data warehouses.
