@@ -1,12 +1,24 @@
 ---
-title: 从 Databend 卸载数据
+title: 从 Databend 导出数据
 slug: /unload-data
 ---
 
-Databend 可以使用 `COPY INTO` 命令轻松地将数据以各种文件格式（如 `CSV`、`TSV`、`NDJSON` 和 `Parquet`）导出到外部位置。
+Databend 的 `COPY INTO` 命令可以将数据导出到各种文件格式和存储位置，并提供灵活的格式化选项。
 
-本指南将向您展示如何从 Databend 批量卸载数据：
+## 支持的文件格式
 
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-<IndexOverviewList />
+| 格式 | 示例语法 | 主要用途 |
+|--------|---------------|------------------|
+| [**导出 Parquet 文件**](/guides/unload-data/unload-parquet) | `FILE_FORMAT = (TYPE = PARQUET)` | 分析工作负载，高效存储 |
+| [**导出 CSV 文件**](/guides/unload-data/unload-csv) | `FILE_FORMAT = (TYPE = CSV)` | 数据交换，通用兼容性 |
+| [**导出 TSV 文件**](/guides/unload-data/unload-tsv) | `FILE_FORMAT = (TYPE = TSV)` | 包含逗号值的表格数据 |
+| [**导出 NDJSON 文件**](/guides/unload-data/unload-ndjson) | `FILE_FORMAT = (TYPE = NDJSON)` | 半结构化数据，灵活模式 |
+
+## 存储目标
+
+
+| 目标 | 示例 | 使用场景 |
+|-------------|---------|-------------|
+| **命名 Stage** | `COPY INTO my_stage FROM my_table` | 重复导出到相同位置时使用 |
+| **S3 兼容存储** | `COPY INTO 's3://bucket/path/' FROM my_table` | 使用 Amazon S3 的云对象存储 |

@@ -1,8 +1,14 @@
 ---
-title: 安全性 & 可靠性
+title: 安全性与可靠性
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend 提供了多种方法来保护您的数据，确保隐私并保持系统可靠性：
+Databend 提供**企业级安全性和可靠性功能**，在数据的整个生命周期中保护您的数据。从控制谁可以访问您的数据到防范网络威胁以及从操作错误中恢复，Databend 的**多层安全方法**帮助您维护数据完整性、合规性和业务连续性。
 
-<IndexOverviewList />
+| 安全功能 | 用途 | 使用场景 |
+|-----------------|---------|------------|
+| [**访问控制**](/guides/security/access-control) | 管理用户权限 | 当您需要通过基于角色的安全性和对象所有权来控制数据访问时 |
+| [**网络策略**](/guides/security/network-policy) | 限制网络访问 | 当您希望即使在拥有有效凭据的情况下也将连接限制在特定 IP 范围内时 |
+| [**密码策略**](/guides/security/password-policy) | 设置密码要求 | 当您需要强制执行密码复杂性、轮换和账户锁定规则时 |
+| [**掩码策略**](/guides/security/masking-policy) | 隐藏敏感数据 | 当您需要保护机密数据同时仍允许授权访问时 |
+| [**故障安全**](/guides/security/fail-safe) | 防止数据丢失 | 当您需要从 S3 兼容存储中恢复意外删除的数据时 |
+| [**从错误中恢复**](/guides/security/recovery-from-operational-errors) | 修复操作错误 | 当您需要从删除的数据库/表或错误的数据修改中恢复时 |
