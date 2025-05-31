@@ -2,26 +2,26 @@
 title: 性能优化
 ---
 
-Databend 提供了各种优化功能，可在不同场景下加速查询性能。
+Databend 主要通过**各种索引技术**来加速查询性能，包括数据聚簇、结果缓存和专用索引，帮助您显著提升查询响应时间。
 
 ## 优化功能
 
-| 功能 | 类别 | 描述 | 示例用例 |
-|---------|----------|-------------|------------------|
-| [**聚簇键**](00-cluster-key.md) | **存储** | 针对大型表查询的自动数据组织 | 针对时序数据的 `CLUSTER BY (date, region)` |
-| [**查询结果缓存**](query-result-cache.md) | **缓存** | 针对重复查询的自动缓存 | 仪表盘查询、日报表 |
-| [**虚拟列**](01-virtual-column.md) | **半结构化** | 针对 VARIANT 数据查询的自动加速 | 频繁访问嵌套字段的 JSON 数据 |
-| [**聚合索引**](02-aggregating-index.md) | **聚合** | 针对聚合查询的自动索引 | `SUM(sales) GROUP BY region` 查询 |
-| [**全文索引**](03-fulltext-index.md) | **文本搜索** | 针对文本搜索查询的自动索引 | `WHERE MATCH(content, 'keyword')` 搜索 |
-| [**Ngram 索引**](ngram-index.md) | **模式匹配** | 针对通配符 LIKE 查询的自动索引 | `WHERE name LIKE '%john%'` 搜索 |
+| 功能 | 用途 | 使用场景 |
+|---------|---------|------------|
+| [**Cluster Key**](00-cluster-key.md) | 自动物理组织数据以获得最佳查询性能 | 当您有大型表且经常对特定列进行过滤时，特别是时间序列或分类数据 |
+| [**Query Result Cache**](query-result-cache.md) | 自动存储和重用相同查询的结果 | 当您的应用程序重复运行相同的分析查询时，例如在仪表盘或定时报告中 |
+| [**Virtual Column**](01-virtual-column.md) | 自动加速对 JSON/VARIANT 数据中字段的访问 | 当您频繁查询半结构化数据中的特定路径且需要亚秒级响应时间时 |
+| [**Aggregating Index**](02-aggregating-index.md) | 预计算并存储常见聚合结果 | 当您的分析工作负载经常在大型数据集上运行 SUM、COUNT、AVG 查询时 |
+| [**Full-Text Index**](03-fulltext-index.md) | 启用闪电般快速的语义文本搜索功能 | 当您需要高级文本搜索功能，如相关性评分和模糊匹配时 |
+| [**Ngram Index**](ngram-index.md) | 使用通配符加速模式匹配 | 当您的查询在大型文本列上使用带通配符的 LIKE 操作符 (特别是 '%keyword%') 时 |
 
 ## 功能可用性
 
-| 功能 | Databend 社区版 | Databend 企业版 | Databend Cloud |
+| 功能 | 社区版 | 企业版 | Cloud |
 |---------|-----------|------------|-------|
-| 聚簇键 | ✅ | ✅ | ✅ |
-| 查询结果缓存 | ✅ | ✅ | ✅ |
-| 虚拟列 | ❌ | ✅ | ✅ |
-| 聚合索引 | ❌ | ✅ | ✅ |
-| 全文索引 | ❌ | ✅ | ✅ |
-| Ngram 索引 | ❌ | ✅ | ✅ |
+| Cluster Key | ✅ | ✅ | ✅ |
+| Query Result Cache | ✅ | ✅ | ✅ |
+| Virtual Column | ❌ | ✅ | ✅ |
+| Aggregating Index | ❌ | ✅ | ✅ |
+| Full-Text Index | ❌ | ✅ | ✅ |
+| Ngram Index | ❌ | ✅ | ✅ |
