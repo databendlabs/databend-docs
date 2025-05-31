@@ -7,7 +7,7 @@ import DocsOverview from '@site/src/components/DocsOverview'
 import Speaker from '@site/src/components/Speaker'
 import LanguageDocs from '@site/src/components/LanguageDocs';
 
-欢迎来到 Databend (发音为 /ˈdeɪtəˌbɛnd/)<Speaker /> 的文档。
+欢迎来到 Databend (发音为 /ˈdeɪtəˌbɛnd/)<Speaker /> 文档。
 <LanguageDocs
 cn=
 '
@@ -24,13 +24,15 @@ en=
 
 <DocsOverview />
 
-**以下是一些您可能想要了解的条目**
+**以下是一些您可能想要了解的入口**
 
-- **[SQL Reference](/sql)**: 您的 Databend 基础知识快速访问指南！
-- **[Data Unloading](../50-unload-data/index.md)**: 从 Databend(Cloud) 导出数据。
-- **[External Functions](../54-query/04-external-function.md)**: 使用外部函数扩展 Databend 的功能。
-- **[Data Management](../57-data-management/index.md)**: 管理 Databend(Cloud) 中的数据。
-- **[Benchmarks](../80-benchmark/index.md)**: 在 TPC-H SF100 基准测试中比较 Databend Cloud 与 Snowflake 的性能。
-- **[Accessing Data Lake](../51-access-data-lake/index.md)**: Databend 提供了与三种强大的 Data Lake 技术（Apache Hive、Apache Iceberg 和 Delta Lake）的无缝集成。
-- **[Query Structures](../54-query/index.md)**: Databend 支持多种查询结构，以增强您的数据查询体验
-- **[Performance Optimization](../55-performance/index.md)**: Databend 支持以下功能来优化各种场景下的查询性能
+- **[SQL 参考](/sql)**: 您快速访问 Databend 基础知识的指南！
+- **[连接到 Databend](/guides/sql-clients)**: 使用各种 SQL 客户端和编程语言进行连接。
+- **[数据加载](/guides/load-data)**: 从各种数据源导入数据到 Databend。
+- **[数据卸载](/guides/unload-data)**: 将数据从 Databend 导出为不同格式。
+- **[外部函数](/guides/query/external-function)**: 使用自定义函数扩展 Databend 的功能。
+- **[Databend AI 和 ML](/guides/ai-functions)**: 在数据处理中利用 AI 功能。
+- **[数据管理](/guides/data-management)**: 有效管理您的数据生命周期。
+- **[数据湖仓](/guides/access-data-lake)**: 与 Hive、Iceberg 和 Delta Lake 的无缝集成。
+- **[性能优化](/guides/performance)**: 通过各种策略提升查询性能。
+- **[基准测试](/guides/benchmark)**: 将 Databend 性能与其他数据仓库进行比较。
