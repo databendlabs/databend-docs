@@ -3,7 +3,7 @@ title: system.settings
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.466"/>
+<FunctionDescription description="Introduced or updated: v1.2.745"/>
 
 Stores the system settings of the current session.
 
@@ -13,6 +13,7 @@ SELECT * FROM system.settings;
 name                                        |value       |default     |level  |description                                                                                                                                                                        |type  |
 --------------------------------------------+------------+------------+-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------+
 collation                                   |binary      |binary      |SESSION|Sets the character collation. Available values include "binary" and "utf8".                                                                                                        |String|
+date_format_style                           |MySQL       |MySQL       |SESSION|Sets the date format style for datetime functions. Available values: "MySQL" (using %Y, %m format) and "Oracle" (using YYYY, MM format for standard SQL compatibility).            |String|
 ddl_column_type_nullable                    |1           |1           |SESSION|If columns are default nullable when create or alter table                                                                                                                         |UInt64|
 efficiently_memory_group_by                 |0           |0           |SESSION|Memory is used efficiently, but this may cause performance degradation.                                                                                                            |UInt64|
 enable_aggregating_index_scan               |1           |1           |SESSION|Enable scanning aggregating index data while querying.                                                                                                                             |UInt64|
@@ -78,4 +79,4 @@ table_lock_expire_secs                      |5           |5           |SESSION|S
 timezone                                    |Japan       |UTC         |GLOBAL |Sets the timezone.                                                                                                                                                                 |String|
 unquoted_ident_case_sensitive               |0           |0           |SESSION|Determines whether Databend treats unquoted identifiers as case-sensitive.                                                                                                         |UInt64|
 use_parquet2                                |1           |1           |SESSION|Use parquet2 instead of parquet_rs when infer_schema().                                                                                                                            |UInt64|
-```
+week_start                                  |1           |1           |SESSION|Specifies the first day of the week (Used by week-related date functions). 0 for Sunday, 1 for Monday.                                                                             |UInt64|

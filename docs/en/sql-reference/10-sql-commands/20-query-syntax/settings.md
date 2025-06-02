@@ -65,8 +65,51 @@ SETTINGS (timezone = 'America/Toronto') SELECT timezone(), now();
 └──────────────────────────────────────────────┘
 ```
 
+This example demonstrates how to use the date_format_style setting to switch between MySQL and Oracle date formatting styles:
+
+```sql
+-- Default MySQL style date formatting
+SELECT to_string('2024-04-05'::DATE, '%b');
+
+┌────────────────────────────────┐
+│ to_string('2024-04-05', '%b')  │
+├────────────────────────────────┤
+│ Apr                            │
+└────────────────────────────────┘
+
+-- Oracle style date formatting
+SETTINGS (date_format_style = 'Oracle') SELECT to_string('2024-04-05'::DATE, 'MON');
+
+┌────────────────────────────────┐
+│ to_string('2024-04-05', 'MON') │
+├────────────────────────────────┤
+│ Apr                            │
+└────────────────────────────────┘
+```
+
+This example shows how the week_start setting affects week-related date functions:
+
+```sql
+-- Default week_start = 1 (Monday as first day of week)
+SELECT date_trunc(WEEK, to_date('2024-04-03'));  -- Wednesday
+
+┌────────────────────────────────────────┐
+│ date_trunc(WEEK, to_date('2024-04-03')) │
+├────────────────────────────────────────┤
+│ 2024-04-01                             │
+└────────────────────────────────────────┘
+
+-- Setting week_start = 0 (Sunday as first day of week)
+SETTINGS (week_start = 0) SELECT date_trunc(WEEK, to_date('2024-04-03'));  -- Wednesday
+
+┌────────────────────────────────────────┐
+│ date_trunc(WEEK, to_date('2024-04-03')) │
+├────────────────────────────────────────┤
+│ 2024-03-31                             │
+└────────────────────────────────────────┘
+```
+
 This example allows the COPY INTO operation to utilize up to 100 threads for parallel processing:
 
 ```sql
 SETTINGS (max_threads = 100) COPY INTO ...
-```
