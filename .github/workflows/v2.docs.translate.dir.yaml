@@ -1,4 +1,4 @@
-name: GPT Translate by Input
+name: GPT Translate by Input-V2
 
 on:
   workflow_dispatch:
