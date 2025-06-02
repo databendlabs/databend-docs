@@ -1,11 +1,11 @@
 ---
 title: Date & Time
-description: Basic Date and Time data type.
+description: Databend's Date and Time data type supports standardization and compatibility with various SQL standards, making it easier for users migrating from other database systems.
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.705"/>
+<FunctionDescription description="Introduced or updated: v1.2.745"/>
 
 ## Date and Time Data Types
 
@@ -231,7 +231,45 @@ SELECT SUBTRACT_MINUTES(TO_DATE('1000-01-01'), 1);
 
 ## Formatting Date and Time
 
-In Databend, certain date and time functions like [TO_DATE](../../20-sql-functions/05-datetime-functions/to-date.md) and [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md) require you to specify the desired format for date and time values. To handle date and time formatting, Databend makes use of the chrono::format::strftime module, which is a standard module provided by the chrono library in Rust. This module enables precise control over the formatting of dates and times. The following content is excerpted from [https://docs.rs/chrono/latest/chrono/format/strftime/index.html](https://docs.rs/chrono/latest/chrono/format/strftime/index.html):
+In Databend, certain date and time functions like [TO_DATE](../../20-sql-functions/05-datetime-functions/to-date.md) and [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md) require you to specify the desired format for date and time values. 
+
+### Date Format Styles
+
+Databend supports two date format styles that can be selected using the `date_format_style` setting:
+
+- **MySQL** (default): Uses MySQL-compatible format specifiers like `%Y`, `%m`, `%d`, etc.
+- **Oracle**: Uses format specifiers like `YYYY`, `MM`, `DD`, etc., which follow a standardized format to ensure compatibility with common SQL standards.
+
+To switch between format styles, use the `date_format_style` setting:
+
+```sql
+-- Set Oracle-style date format
+SETTINGS (date_format_style = 'Oracle') SELECT to_string('2024-04-05'::DATE, 'YYYY-MM-DD');
+
+-- Set MySQL date format style (default)
+SETTINGS (date_format_style = 'MySQL') SELECT to_string('2024-04-05'::DATE, '%Y-%m-%d');
+```
+
+### Week Start Configuration
+
+Databend provides a `week_start` setting that defines which day is considered the first day of the week:
+
+- `week_start = 1` (default): Monday is considered the first day of the week
+- `week_start = 0`: Sunday is considered the first day of the week
+
+This setting affects week-related date functions like `DATE_TRUNC` and `TRUNC` when using `WEEK` as the precision parameter:
+
+```sql
+-- Set Sunday as the first day of the week
+SETTINGS (week_start = 0) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05'));
+
+-- Set Monday as the first day of the week (default)
+SETTINGS (week_start = 1) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05'));
+```
+
+### MySQL Format Specifiers
+
+To handle date and time formatting, Databend makes use of the chrono::format::strftime module, which is a standard module provided by the chrono library in Rust. This module enables precise control over the formatting of dates and times. The following content is excerpted from [https://docs.rs/chrono/latest/chrono/format/strftime/index.html](https://docs.rs/chrono/latest/chrono/format/strftime/index.html):
 
 | Spec. | Example                          | Description                                                                                                                                                                                                                                                                                                                     |
 | ----- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -268,7 +306,7 @@ In Databend, certain date and time functions like [TO_DATE](../../20-sql-functio
 | %p    | AM                               | AM or PM in 12-hour clocks.                                                                                                                                                                                                                                                                                                     |
 | %M    | 34                               | Minute number (00–59), zero-padded to 2 digits.                                                                                                                                                                                                                                                                                 |
 | %S    | 60                               | Second number (00–60), zero-padded to 2 digits.                                                                                                                                                                                                                                                                                 |
-| %f    | 026490000                        | The fractional seconds (in nanoseconds) since last whole second.                                                                                                                                                                                                                                                                |
+| %f    | 026490000                        | The fractional seconds (in nanoseconds) since last whole second. Databend recommends converting the Integer string into an Integer first, other than using this specifier. See [Converting Integer to Timestamp](/sql/sql-functions/datetime-functions/to-timestamp#example-2-converting-integer-to-timestamp) for an example. |
 | %.f   | .026490                          | Similar to .%f but left-aligned. These all consume the leading dot.                                                                                                                                                                                                                                                             |
 | %.3f  | .026                             | Similar to .%f but left-aligned but fixed to a length of 3.                                                                                                                                                                                                                                                                     |
 | %.6f  | .026490                          | Similar to .%f but left-aligned but fixed to a length of 6.                                                                                                                                                                                                                                                                     |
@@ -334,3 +372,49 @@ It is possible to override the default padding behavior of numeric specifiers %?
   The typical strftime implementations have different (and locale-dependent) formats for this specifier. While Chrono's format for %+ is far more stable, it is best to avoid this specifier if you want to control the exact output.
 
 - %s: This is not padded and can be negative. For the purpose of Chrono, it only accounts for non-leap seconds so it slightly differs from ISO C strftime behavior.
+
+### Oracle Format Specifiers
+
+When `date_format_style` is set to 'Oracle', the following format specifiers are supported:
+
+| Oracle Format | Description                                  | Example Output (for '2024-04-05 14:30:45.123456') |
+|---------------|----------------------------------------------|---------------------------------------------------|
+| YYYY          | 4-digit year                                 | 2024                                              |
+| YY            | 2-digit year                                 | 24                                                |
+| MMMM          | Full month name                              | April                                             |
+| MON           | Abbreviated month name                       | Apr                                               |
+| MM            | Month number (01-12)                         | 04                                                |
+| DD            | Day of month (01-31)                         | 05                                                |
+| DY            | Abbreviated day name                         | Fri                                               |
+| HH24          | Hour of day (00-23)                          | 14                                                |
+| HH12          | Hour of day (01-12)                          | 02                                                |
+| AM/PM         | Meridian indicator                           | PM                                                |
+| MI            | Minute (00-59)                               | 30                                                |
+| SS            | Second (00-59)                               | 45                                                |
+| FF            | Fractional seconds                           | 123456                                            |
+| UUUU          | ISO week-numbering year                      | 2024                                              |
+| TZH:TZM       | Time zone hour and minute with colon         | +08:00                                            |
+| TZH           | Time zone hour                               | +08                                               |
+
+Examples comparing MySQL and Oracle format styles with the same data:
+
+```sql
+-- MySQL format style (default)
+SELECT to_string('2022-12-25'::DATE, '%m/%d/%Y');
+
+┌────────────────────────────────┐
+│ to_string('2022-12-25', '%m/%d/%Y') │
+├────────────────────────────────┤
+│ 12/25/2022                     │
+└────────────────────────────────┘
+
+-- Oracle format style (same data as MySQL example above)
+SETTINGS (date_format_style = 'Oracle')
+SELECT to_string('2022-12-25'::DATE, 'MM/DD/YYYY');
+
+┌────────────────────────────────┐
+│ to_string('2022-12-25', 'MM/DD/YYYY') │
+├────────────────────────────────┤
+│ 12/25/2022                     │
+└────────────────────────────────┘
+```
