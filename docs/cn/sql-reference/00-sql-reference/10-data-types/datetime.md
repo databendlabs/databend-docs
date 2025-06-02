@@ -1,21 +1,21 @@
 ---
-title: Date & Time
-description: Basic Date and Time data type.
+title: 日期和时间
+description: Databend 的日期和时间数据类型支持标准化，并与各种 SQL 标准兼容，使从其他数据库系统迁移的用户更加便利。
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.705"/>
+<FunctionDescription description="引入或更新于: v1.2.745"/>
 
-## Date and Time Data Types
+## 日期和时间数据类型
 
-| Name      | Aliases  | Storage Size | Resolution  | Min Value                  | Max Value                      | Format                                                                         |
-|-----------|----------|--------------|-------------|----------------------------|--------------------------------|--------------------------------------------------------------------------------|
-| DATE      |          | 4 bytes      | Day         | 0001-01-01                 | 9999-12-31                     | `YYYY-MM-DD`                                                                   |
-| TIMESTAMP | DATETIME | 8 bytes      | Microsecond | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`, supports up to 6-digit microsecond precision |
+| 名称      | 别名     | 存储大小 | 精度        | 最小值                     | 最大值                         | 格式                                                                           |
+|-----------|----------|----------|-------------|----------------------------|--------------------------------|--------------------------------------------------------------------------------|
+| DATE      |          | 4 字节   | 天          | 0001-01-01                 | 9999-12-31                     | `YYYY-MM-DD`                                                                   |
+| TIMESTAMP | DATETIME | 8 字节   | 微秒        | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`，支持最多 6 位微秒精度                       |
 
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE test_dt
@@ -29,7 +29,7 @@ CREATE TABLE test_dt
 DESC test_dt;
 ```
 
-Result:
+结果:
 
 ```
 ┌────────────────────────────────────────────────┐
@@ -40,10 +40,10 @@ Result:
 └────────────────────────────────────────────────┘
 ```
 
-A TIMESTAMP value can optionally include a trailing fractional seconds part in up to microseconds (6 digits) precision.
+TIMESTAMP 值可以选择性地包含尾随的小数秒部分，精度最高可达微秒 (6 位数字)。
 
 ```sql
--- Inserting values into the table
+-- 向表中插入值
 INSERT INTO test_dt
 VALUES
   ('2022-04-07', '2022-04-07 01:01:01.123456'),
@@ -53,7 +53,7 @@ SELECT *
 FROM test_dt;
 ```
 
-Result:
+结果:
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -64,16 +64,16 @@ Result:
 └─────────────────────────────────────────────┘
 ```
 
-Databend recognizes TIMESTAMP values in several formats.
+Databend 识别多种格式的 TIMESTAMP 值。
 
 ```sql
--- Create a table to test different timestamp formats
+-- 创建表来测试不同的时间戳格式
 CREATE TABLE test_formats (
     id INT,
     a TIMESTAMP
 );
 
--- Insert values with different timestamp formats
+-- 插入不同时间戳格式的值
 INSERT INTO test_formats
 VALUES
     (1, '2022-01-01 02:00:11'),
@@ -88,7 +88,7 @@ FROM test_formats;
 
 ```
 
-Result:
+结果:
 
 ```
 ┌───────────────────────────────────────┐
@@ -101,19 +101,19 @@ Result:
 └───────────────────────────────────────┘
 ```
 
-Databend automatically adjusts and shows TIMESTAMP values based on your current timezone.
+Databend 会根据您当前的时区自动调整并显示 TIMESTAMP 值。
 
 ```sql
--- Create a table to test timestamp values with timezone adjustments
+-- 创建表来测试带时区调整的时间戳值
 CREATE TABLE test_tz (
     id INT,
     t TIMESTAMP
 );
 
--- Set timezone to UTC
+-- 设置时区为 UTC
 SET timezone = 'UTC';
 
--- Insert timestamp values considering different timezones
+-- 插入考虑不同时区的时间戳值
 INSERT INTO test_tz
 VALUES
     (1, '2022-02-03T03:00:00'),
@@ -129,7 +129,7 @@ SELECT *
 FROM test_tz;
 ```
 
-Result:
+结果:
 
 ```
 ┌───────────────────────────────────────┐
@@ -145,15 +145,15 @@ Result:
 ```
 
 ```sql
--- Change the timezone to Asia/Shanghai
+-- 将时区更改为 Asia/Shanghai
 SET timezone = 'Asia/Shanghai';
 
--- Select data from the table with the new timezone setting
+-- 使用新的时区设置从表中选择数据
 SELECT *
 FROM test_tz;
 ```
 
-Result:
+结果:
 
 ```
 ┌───────────────────────────────────────┐
@@ -168,15 +168,15 @@ Result:
 └───────────────────────────────────────┘
 ```
 
-## Functions
+## 函数
 
-See [Date & Time Functions](/sql/sql-functions/datetime-functions).
+参见 [日期时间函数](/sql/sql-functions/datetime-functions)。
 
-## Handling Daylight Saving Time Adjustments
+## 处理夏令时调整
 
-在某些地区，会实行夏令时。在夏令时开始的当天，时钟会向前拨快一个小时。Databend 通过 `enable_dst_hour_fix` 设置来管理夏令时调整。启用后，Databend 会自动将时间提前一小时（例如，凌晨 2:10 将被处理为凌晨 3:10）。
+在某些地区，会实行夏令时。在夏令时开始的那一天，时钟会向前调整一小时。Databend 通过 `enable_dst_hour_fix` 设置来管理夏令时调整。启用后，Databend 会自动将时间向前推进一小时 (例如，2:10 AM 将被处理为 3:10 AM)。
 
-例如，多伦多的夏令时于 2024 年 3 月 10 日凌晨 2:00 开始。因此，当天凌晨 2:00 到凌晨 3:00 之间的时间是不存在的。Databend 依赖 [Chrono](https://github.com/chronotope/chrono) 来确定每个时区的夏令时。如果提供了此范围内的时间，Databend 将返回一个错误：
+例如，多伦多的夏令时于 2024 年 3 月 10 日凌晨 2:00 开始。因此，当天凌晨 2:00 到 3:00 之间的时间实际上不存在。Databend 依赖 [Chrono](https://github.com/chronotope/chrono) 来确定每个时区的夏令时。如果提供了这个范围内的时间，Databend 将返回错误：
 
 ```sql
 SET timezone = 'America/Toronto';
@@ -185,7 +185,7 @@ SELECT to_datetime('2024-03-10 02:01:00');
 error: APIError: ResponseError with 1006: cannot parse to type `TIMESTAMP`. BadArguments. Code: 1006, Text = unexpected argument. while evaluating function `to_timestamp('2024-03-10 02:01:00')` in expr `to_timestamp('2024-03-10 02:01:00')`
 ```
 
-要修复此类错误，您可以启用 `enable_dst_hour_fix` 设置以将时间提前一小时：
+要修复此类错误，您可以启用 `enable_dst_hour_fix` 设置来将时间向前推进一小时：
 
 ```sql
 SET enable_dst_hour_fix = 1;
@@ -199,15 +199,15 @@ SELECT to_datetime('2024-03-10 02:01:00');
 └────────────────────────────────────┘
 ```
 
-## Handling Invalid Values
+## 处理无效值
 
-Databend 会自动将无效的 Date 或 Timestamp 值转换为其最小有效等效值，日期为 `1000-01-01`，时间戳为 `1000-01-01 00:00:00`，从而确保在处理超出范围或格式不正确的日期和时间戳时保持一致性。
+Databend 会自动将无效的 Date 或 Timestamp 值转换为其最小有效等价值，日期为 `1000-01-01`，时间戳为 `1000-01-01 00:00:00`，确保在处理超出范围或格式错误的日期和时间戳时保持一致性。
 
-Examples:
+示例：
 
 ```sql
--- Attempts to add one day to the maximum date, exceeding the valid range.
--- Result: Returns DateMIN (1000-01-01) instead of an error.
+-- 尝试在最大日期上加一天，超出有效范围。
+-- 结果：返回 DateMIN (1000-01-01) 而不是错误。
 SELECT ADD_DAYS(TO_DATE('9999-12-31'), 1);
 
 ┌────────────────────────────────────┐
@@ -218,8 +218,8 @@ SELECT ADD_DAYS(TO_DATE('9999-12-31'), 1);
 ```
 
 ```sql
--- Attempts to subtract one minute from the minimum date, which would be invalid.
--- Result: Returns DateMIN (1000-01-01 00:00:00), ensuring stability in results.
+-- 尝试从最小日期减去一分钟，这将是无效的。
+-- 结果：返回 DateMIN (1000-01-01 00:00:00)，确保结果的稳定性。
 SELECT SUBTRACT_MINUTES(TO_DATE('1000-01-01'), 1);
 
 ┌────────────────────────────────────────────┐
@@ -229,109 +229,192 @@ SELECT SUBTRACT_MINUTES(TO_DATE('1000-01-01'), 1);
 └────────────────────────────────────────────┘
 ```
 
-## Formatting Date and Time
+## 格式化日期和时间
 
-在 Databend 中，某些日期和时间函数（如 [TO_DATE](../../20-sql-functions/05-datetime-functions/to-date.md) 和 [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md)）要求您指定日期和时间值的所需格式。为了处理日期和时间格式，Databend 使用了 chrono::format::strftime 模块，该模块是 Rust 中 chrono 库提供的标准模块。该模块可以精确控制日期和时间的格式。以下内容摘自 [https://docs.rs/chrono/latest/chrono/format/strftime/index.html](https://docs.rs/chrono/latest/chrono/format/strftime/index.html)：
+在 Databend 中，某些日期和时间函数如 [TO_DATE](../../20-sql-functions/05-datetime-functions/to-date.md) 和 [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md) 需要您指定日期和时间值的所需格式。
 
+### 日期格式样式
 
-| 规范 | 示例                             | 描述                                                                                                                                                                                                                                                                                                                         |
-| ---- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|      |                                  | 日期说明符：                                                                                                                                                                                                                                                                                                                      |
-| %Y   | 2001                             | 完整的预期格里高利年，用零填充到 4 位数字。chrono 支持 -262144 到 262143 年。注意：公元前 1 年之前或公元 9999 年之后的年份需要一个初始符号 (+/-)。                                                                                                                                                                           |
-| %C   | 20                               | 预期格里高利年除以 100，用零填充到 2 位数字。                                                                                                                                                                                                                                                                                       |
-| %y   | 01                               | 预期格里高利年模 100，用零填充到 2 位数字。                                                                                                                                                                                                                                                                                        |
-| %m   | 07                               | 月份数字 (01–12)，用零填充到 2 位数字。                                                                                                                                                                                                                                                                                          |
-| %b   | Jul                              | 缩写的月份名称。始终为 3 个字母。                                                                                                                                                                                                                                                                                                |
-| %B   | July                             | 完整的月份名称。在解析时也接受相应的缩写。                                                                                                                                                                                                                                                                                        |
-| %h   | Jul                              | 与 %b 相同。                                                                                                                                                                                                                                                                                                                      |
-| %d   | 08                               | 日期数字 (01–31)，用零填充到 2 位数字。                                                                                                                                                                                                                                                                                          |
-| %e   | 8                                | 与 %d 相同，但用空格填充。与 %\_d 相同。                                                                                                                                                                                                                                                                                         |
-| %a   | Sun                              | 缩写的星期几名称。始终为 3 个字母。                                                                                                                                                                                                                                                                                                |
-| %A   | Sunday                           | 完整的星期几名称。在解析时也接受相应的缩写。                                                                                                                                                                                                                                                                                        |
-| %w   | 0                                | 星期日 = 0，星期一 = 1，…，星期六 = 6。                                                                                                                                                                                                                                                                                          |
-| %u   | 7                                | 星期一 = 1，星期二 = 2，…，星期日 = 7。(ISO 8601)                                                                                                                                                                                                                                                                               |
-| %U   | 28                               | 从星期日开始的周数 (00–53)，用零填充到 2 位数字。                                                                                                                                                                                                                                                                                 |
-| %W   | 27                               | 与 %U 相同，但第 1 周从该年的第一个星期一开始。                                                                                                                                                                                                                                                                                   |
-| %G   | 2001                             | 与 %Y 相同，但使用 ISO 8601 周日期中的年份数字。                                                                                                                                                                                                                                                                                   |
-| %g   | 01                               | 与 %y 相同，但使用 ISO 8601 周日期中的年份数字。                                                                                                                                                                                                                                                                                   |
-| %V   | 27                               | 与 %U 相同，但使用 ISO 8601 周日期中的周数 (01–53)。                                                                                                                                                                                                                                                                             |
-| %j   | 189                              | 一年中的第几天 (001–366)，用零填充到 3 位数字。                                                                                                                                                                                                                                                                                    |
-| %D   | 07/08/01                         | 月-日-年格式。与 %m/%d/%y 相同。                                                                                                                                                                                                                                                                                                  |
-| %x   | 07/08/01                         | 区域设置的日期表示形式（例如，12/31/99）。                                                                                                                                                                                                                                                                                            |
-| %F   | 2001-07-08                       | 年-月-日格式 (ISO 8601)。与 %Y-%m-%d 相同。                                                                                                                                                                                                                                                                                        |
-| %v   | 8-Jul-2001                       | 日-月-年格式。与 %e-%b-%Y 相同。                                                                                                                                                                                                                                                                                                  |
-|      |                                  | 时间说明符：                                                                                                                                                                                                                                                                                                                      |
-| %H   | 00                               | 小时数 (00–23)，用零填充到 2 位数字。                                                                                                                                                                                                                                                                                            |
-| %k   | 0                                | 与 %H 相同，但用空格填充。与 %\_H 相同。                                                                                                                                                                                                                                                                                           |
-| %I   | 12                               | 12 小时制中的小时数 (01–12)，用零填充到 2 位数字。                                                                                                                                                                                                                                                                                  |
-| %l   | 12                               | 与 %I 相同，但用空格填充。与 %\_I 相同。                                                                                                                                                                                                                                                                                           |
-| %P   | am                               | 12 小时制中的 am 或 pm。                                                                                                                                                                                                                                                                                                         |
-| %p   | AM                               | 12 小时制中的 AM 或 PM。                                                                                                                                                                                                                                                                                                         |
-| %M   | 34                               | 分钟数 (00–59)，用零填充到 2 位数字。                                                                                                                                                                                                                                                                                            |
-| %S   | 60                               | 秒数 (00–60)，用零填充到 2 位数字。                                                                                                                                                                                                                                                                                            |
-| %f   | 026490000                        | 自上次整秒以来的小数秒（以纳秒为单位）。                                                                                                                                                                                                                                                                                          |
-| %.f  | .026490                          | 类似于 .%f，但左对齐。这些都消耗前导点。                                                                                                                                                                                                                                                                                          |
-| %.3f | .026                             | 类似于 .%f，但左对齐，但固定为长度 3。                                                                                                                                                                                                                                                                                          |
-| %.6f | .026490                          | 类似于 .%f，但左对齐，但固定为长度 6。                                                                                                                                                                                                                                                                                          |
-| %.9f | .026490000                       | 类似于 .%f，但左对齐，但固定为长度 9。                                                                                                                                                                                                                                                                                          |
-| %3f  | 026                              | 类似于 %.3f，但没有前导点。                                                                                                                                                                                                                                                                                                       |
-| %6f  | 026490                           | 类似于 %.6f，但没有前导点。                                                                                                                                                                                                                                                                                                       |
-| %9f  | 026490000                        | 类似于 %.9f，但没有前导点。                                                                                                                                                                                                                                                                                                       |
-| %R   | 00:34                            | 小时-分钟格式。与 %H:%M 相同。                                                                                                                                                                                                                                                                                                    |
-| %T   | 00:34:60                         | 小时-分钟-秒格式。与 %H:%M:%S 相同。                                                                                                                                                                                                                                                                                                |
-| %X   | 00:34:60                         | 区域设置的时间表示形式（例如，23:13:48）。                                                                                                                                                                                                                                                                                          |
-| %r   | 12:34:60 AM                      | 12 小时制中的小时-分钟-秒格式。与 %I:%M:%S %p 相同。                                                                                                                                                                                                                                                                               |
-|      |                                  | 时区说明符：                                                                                                                                                                                                                                                                                                                      |
-| %Z   | ACST                             | 本地时区名称。在解析期间跳过所有非空白字符。                                                                                                                                                                                                                                                                                        |
-| %z   | +0930                            | 从本地时间到 UTC 的偏移量（UTC 为 +0000）。                                                                                                                                                                                                                                                                                          |
-| %:z  | +09:30                           | 与 %z 相同，但带有冒号。                                                                                                                                                                                                                                                                                                          |
-| %::z | +09:30:00                        | 从本地时间到 UTC 的偏移量，带有秒数。                                                                                                                                                                                                                                                                                              |
-| %:::z| +09                              | 从本地时间到 UTC 的偏移量，没有分钟数。                                                                                                                                                                                                                                                                                            |
-| %#z  | +09                              | 仅解析：与 %z 相同，但允许缺少或存在分钟数。                                                                                                                                                                                                                                                                                        |
-|      |                                  | 日期和时间说明符：                                                                                                                                                                                                                                                                                                                  |
-| %c   | Sun Jul 8 00:34:60 2001          | 区域设置的日期和时间（例如，Thu Mar 3 23:05:25 2005）。                                                                                                                                                                                                                                                                             |
-| %+   | 2001-07-08T00:34:60.026490+09:30 | ISO 8601 / RFC 3339 日期和时间格式。                                                                                                                                                                                                                                                                                                |
-| %s   | 994518299                        | UNIX 时间戳，自 1970-01-01 00:00 UTC 以来的秒数。Databend 建议首先将整数字符串转换为整数，而不是使用此说明符。有关示例，请参阅 [将整数转换为时间戳](/sql/sql-functions/datetime-functions/to-timestamp#example-2-converting-integer-to-timestamp)。 |
-|      |                                  | 特殊说明符：                                                                                                                                                                                                                                                                                                                      |
-| %t   |                                  | 字面制表符 (\t)。                                                                                                                                                                                                                                                                                                                    |
-| %n   |                                  | 字面换行符 (\n)。                                                                                                                                                                                                                                                                                                                    |
-| %%   |                                  | 字面百分号。                                                                                                                                                                                                                                                                                                                         |
+Databend 支持两种日期格式样式，可以使用 `date_format_style` 设置进行选择：
 
-可以重写数字说明符 %? 的默认填充行为。其他说明符不允许这样做，否则会导致 BAD_FORMAT 错误。
+- **MySQL** (默认)：使用 MySQL 兼容的格式说明符，如 `%Y`、`%m`、`%d` 等。
+- **Oracle**：使用格式说明符，如 `YYYY`、`MM`、`DD` 等，遵循标准化格式以确保与常见 SQL 标准的兼容性。
 
-| 修饰符 | 描述                                                                          |
+要在格式样式之间切换，请使用 `date_format_style` 设置：
+
+```sql
+-- 设置 Oracle 样式日期格式
+SETTINGS (date_format_style = 'Oracle') SELECT to_string('2024-04-05'::DATE, 'YYYY-MM-DD');
+
+-- 设置 MySQL 日期格式样式 (默认)
+SETTINGS (date_format_style = 'MySQL') SELECT to_string('2024-04-05'::DATE, '%Y-%m-%d');
+```
+
+### 周开始配置
+
+Databend 提供了 `week_start` 设置，用于定义哪一天被视为一周的第一天：
+
+- `week_start = 1` (默认)：周一被视为一周的第一天
+- `week_start = 0`：周日被视为一周的第一天
+
+此设置会影响与周相关的日期函数，如 `DATE_TRUNC` 和 `TRUNC`，当使用 `WEEK` 作为精度参数时：
+
+```sql
+-- 设置周日为一周的第一天
+SETTINGS (week_start = 0) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05'));
+
+-- 设置周一为一周的第一天 (默认)
+SETTINGS (week_start = 1) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05'));
+```
+
+### MySQL 格式说明符
+
+为了处理日期和时间格式化，Databend 使用了 chrono::format::strftime 模块，这是 Rust 中 chrono 库提供的标准模块。该模块能够精确控制日期和时间的格式化。以下内容摘录自 [https://docs.rs/chrono/latest/chrono/format/strftime/index.html](https://docs.rs/chrono/latest/chrono/format/strftime/index.html)：
+
+| 规格 | 示例                          | 描述                                                                                                                                                                                                                                                                                                                     |
+| ----- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|       |                                  | 日期说明符：                                                                                                                                                                                                                                                                                                                |
+| %Y    | 2001                             | 完整的前推格里高利历年份，零填充至 4 位数字。chrono 支持从 -262144 到 262143 的年份。注意：公元前 1 年之前或公元 9999 年之后的年份需要初始符号 (+/-)。                                                                                                                                                             |
+| %C    | 20                               | 前推格里高利历年份除以 100，零填充至 2 位数字。                                                                                                                                                                                                                                                                           |
+| %y    | 01                               | 前推格里高利历年份模 100，零填充至 2 位数字。                                                                                                                                                                                                                                                                               |
+| %m    | 07                               | 月份数字 (01–12)，零填充至 2 位数字。                                                                                                                                                                                                                                                                                  |
+| %b    | Jul                              | 缩写月份名称。始终为 3 个字母。                                                                                                                                                                                                                                                                                       |
+| %B    | July                             | 完整月份名称。在解析时也接受相应的缩写。                                                                                                                                                                                                                                                                            |
+| %h    | Jul                              | 与 %b 相同。                                                                                                                                                                                                                                                                                                     |
+| %d    | 08                               | 日期数字 (01–31)，零填充至 2 位数字。                                                                                                                                                                                                                                                                                    |
+| %e    | 8                                | 与 %d 相同但使用空格填充。与 %\_d 相同。                                                                                                                                                                                                                                                                                      |
+| %a    | Sun                              | 缩写星期名称。始终为 3 个字母。                                                                                                                                                                                                                                                                                     |
+| %A    | Sunday                           | 完整星期名称。在解析时也接受相应的缩写。                                                                                                                                                                                                                                                                          |
+| %w    | 0                                | 星期日 = 0，星期一 = 1，…，星期六 = 6。                                                                                                                                                                                                                                                                                        |
+| %u    | 7                                | 星期一 = 1，星期二 = 2，…，星期日 = 7。(ISO 8601)                                                                                                                                                                                                                                                                              |
+| %U    | 28                               | 以星期日开始的周数 (00–53)，零填充至 2 位数字。                                                                                                                                                                                                                                                                              |
+| %W    | 27                               | 与 %U 相同，但第 1 周从该年的第一个星期一开始。                                                                                                                                                                                                                                                                       |
+| %G    | 2001                             | 与 %Y 相同但使用 ISO 8601 周日期中的年份数字。                                                                                                                                                                                                                                                                      |
+| %g    | 01                               | 与 %y 相同但使用 ISO 8601 周日期中的年份数字。                                                                                                                                                                                                                                                                      |
+| %V    | 27                               | 与 %U 相同但使用 ISO 8601 周日期中的周数 (01–53)。                                                                                                                                                                                                                                                                              |
+| %j    | 189                              | 一年中的第几天 (001–366)，零填充至 3 位数字。                                                                                                                                                                                                                                                                             |
+| %D    | 07/08/01                         | 月-日-年格式。与 %m/%d/%y 相同。                                                                                                                                                                                                                                                                                        |
+| %x    | 07/08/01                         | 本地日期表示 (例如，12/31/99)。                                                                                                                                                                                                                                                                                  |
+| %F    | 2001-07-08                       | 年-月-日格式 (ISO 8601)。与 %Y-%m-%d 相同。                                                                                                                                                                                                                                                                             |
+| %v    | 8-Jul-2001                       | 日-月-年格式。与 %e-%b-%Y 相同。                                                                                                                                                                                                                                                                                        |
+|       |                                  | 时间说明符：                                                                                                                                                                                                                                                                                                                |
+| %H    | 00                               | 小时数字 (00–23)，零填充至 2 位数字。                                                                                                                                                                                                                                                                                   |
+| %k    | 0                                | 与 %H 相同但使用空格填充。与 %\_H 相同。                                                                                                                                                                                                                                                                                      |
+| %I    | 12                               | 12 小时制中的小时数字 (01–12)，零填充至 2 位数字。                                                                                                                                                                                                                                                                                 |
+| %l    | 12                               | 与 %I 相同但使用空格填充。与 %\_I 相同。                                                                                                                                                                                                                                                                                      |
+| %P    | am                               | 12 小时制中的 am 或 pm。                                                                                                                                                                                                                                                                                                     |
+| %p    | AM                               | 12 小时制中的 AM 或 PM。                                                                                                                                                                                                                                                                                                     |
+| %M    | 34                               | 分钟数字 (00–59)，零填充至 2 位数字。                                                                                                                                                                                                                                                                                 |
+| %S    | 60                               | 秒数字 (00–60)，零填充至 2 位数字。                                                                                                                                                                                                                                                                                 |
+| %f    | 026490000                        | 自上一个整秒以来的小数秒 (以纳秒为单位)。Databend 建议先将 Integer 字符串转换为 Integer，而不是使用此说明符。请参阅[将 Integer 转换为 Timestamp](/sql/sql-functions/datetime-functions/to-timestamp#example-2-converting-integer-to-timestamp) 示例。 |
+| %.f   | .026490                          | 与 .%f 类似但左对齐。这些都会消耗前导点。                                                                                                                                                                                                                                                                             |
+| %.3f  | .026                             | 与 .%f 类似但左对齐且固定长度为 3。                                                                                                                                                                                                                                                                                     |
+| %.6f  | .026490                          | 与 .%f 类似但左对齐且固定长度为 6。                                                                                                                                                                                                                                                                                     |
+| %.9f  | .026490000                       | 与 .%f 类似但左对齐且固定长度为 9。                                                                                                                                                                                                                                                                                     |
+| %3f   | 026                              | 与 %.3f 类似但没有前导点。                                                                                                                                                                                                                                                                                    |
+| %6f   | 026490                           | 与 %.6f 类似但没有前导点。                                                                                                                                                                                                                                                                                    |
+| %9f   | 026490000                        | 与 %.9f 类似但没有前导点。                                                                                                                                                                                                                                                                                    |
+| %R    | 00:34                            | 小时-分钟格式。与 %H:%M 相同。                                                                                                                                                                                                                                                                                              |
+| %T    | 00:34:60                         | 小时-分钟-秒格式。与 %H:%M:%S 相同。                                                                                                                                                                                                                                                                                    |
+| %X    | 00:34:60                         | 本地时间表示 (例如，23:13:48)。                                                                                                                                                                                                                                                                                  |
+| %r    | 12:34:60 AM                      | 12 小时制中的小时-分钟-秒格式。与 %I:%M:%S %p 相同。                                                                                                                                                                                                                                                               |
+|       |                                  | 时区说明符：                                                                                                                                                                                                                                                                                                           |
+| %Z    | ACST                             | 本地时区名称。在解析期间跳过所有非空白字符。                                                                                                                                                                                                                                                                       |
+| %z    | +0930                            | 从本地时间到 UTC 的偏移量 (UTC 为 +0000)。                                                                                                                                                                                                                                                                       |
+| %:z   | +09:30                           | 与 %z 相同但带有冒号。                                                                                                                                                                                                                                                                                    |
+| %::z  | +09:30:00                        | 从本地时间到 UTC 的偏移量，包含秒。                                                                                                                                                                                                                                                                                 |
+| %:::z | +09                              | 从本地时间到 UTC 的偏移量，不包含分钟。                                                                                                                                                                                                                                                                              |
+| %#z   | +09                              | 仅解析：与 %z 相同但允许分钟缺失或存在。                                                                                                                                                                                                                                                                           |
+|       |                                  | 日期和时间说明符：                                                                                                                                                                                                                                                                                                         |
+| %c    | Sun Jul 8 00:34:60 2001          | 本地日期和时间 (例如，Thu Mar 3 23:05:25 2005)。                                                                                                                                                                                                                                                                         |
+| %+    | 2001-07-08T00:34:60.026490+09:30 | ISO 8601 / RFC 3339 日期和时间格式。                                                                                                                                                                                                                                                                         |
+| %s    | 994518299                        | UNIX 时间戳，自 1970-01-01 00:00 UTC 以来的秒数。Databend 建议先将 Integer 字符串转换为 Integer，而不是使用此说明符。请参阅[将 Integer 转换为 Timestamp](/sql/sql-functions/datetime-functions/to-timestamp#example-2-converting-integer-to-timestamp) 示例。 |
+|       |                                  | 特殊说明符：                                                                                                                                                                                                                                                                                                             |
+| %t    |                                  | 字面制表符 (\t)。                                                                                                                                                                                                                                                                                               |
+| %n    |                                  | 字面换行符 (\n)。                                                                                                                                                                                                                                                                                           |
+| %%    |                                  | 字面百分号。                                                                                                                                                                                                                                                                                           |
+
+可以覆盖数字说明符 %? 的默认填充行为。其他说明符不允许这样做，否则会导致 BAD_FORMAT 错误。
+
+| 修饰符 | 描述                                                                   |
 | -------- | ----------------------------------------------------------------------------- |
-| %-?      | 禁止任何填充，包括空格和零。（例如，%j = 012，%-j = 12）                       |
-| %\_?     | 使用空格作为填充。（例如，%j = 012，%\_j = 12）                               |
-| %0?      | 使用零作为填充。（例如，%e = 9，%0e = 09）                                  |
+| %-?      | 抑制任何填充，包括空格和零。(例如 %j = 012, %-j = 12) |
+| %\_?     | 使用空格作为填充。(例如 %j = 012, %\_j = 12)                          |
+| %0?      | 使用零作为填充。(例如 %e = 9, %0e = 09)                             |
 
-- %C, %y: 这是向下取整除法，因此公元前 100 年（年份数字 -99）将分别打印 -1 和 99。
+- %C, %y: 这是向下取整除法，所以公元前 100 年 (年份编号 -99) 将分别打印 -1 和 99。
 
-- %U: 第 1 周从当年的第一个星期日开始。在第一个星期日之前的几天可能属于第 0 周。
+- %U: 第 1 周从该年的第一个星期日开始。第一个星期日之前的日期可能属于第 0 周。
 
-- %G, %g, %V: 第 1 周是当年至少有 4 天的那一周。第 0 周不存在，因此应与 %G 或 %g 一起使用。
+- %G, %g, %V: 第 1 周是该年中至少有 4 天的第一周。不存在第 0 周，因此应与 %G 或 %g 一起使用。
 
-- %S: 它考虑了闰秒，因此可能为 60。
+- %S: 它考虑闰秒，所以 60 是可能的。
 
 - %f, %.f, %.3f, %.6f, %.9f, %3f, %6f, %9f:
-  默认的 %f 是右对齐的，并且始终用零填充到 9 位数字，以与 glibc 和其他程序兼容，因此它始终计算自上一个整秒以来的纳秒数。例如，上一个整秒后的 7 毫秒将打印 007000000，解析 7000000 将产生相同的结果。
+  默认的 %f 是右对齐的，并且为了与 glibc 和其他库的兼容性，总是用零填充到 9 位数字，因此它总是计算自上一个整秒以来的纳秒数。例如，距离上一秒 7ms 后将打印 007000000，解析 7000000 将产生相同的结果。
 
-  变量 %.f 是左对齐的，并根据精度打印 0、3、6 或 9 个小数位。例如，在 %.f 下，上一个整秒后的 70 毫秒将打印 .070（注意：不是 .07），解析 .07、.070000 等将产生相同的结果。请注意，如果小数部分为零或下一个字符不是 .，它们可以不打印或读取任何内容。
+  变体 %.f 是左对齐的，根据精度打印 0、3、6 或 9 位小数。例如，在 %.f 下距离上一秒 70ms 后将打印 .070 (注意: 不是 .07)，解析 .07、.070000 等将产生相同的结果。注意，如果小数部分为零或下一个字符不是 . ，它们可能不打印或读取任何内容。
 
-  变量 %.3f、%.6f 和 %.9f 是左对齐的，并根据 f 前面的数字打印 3、6 或 9 个小数位。例如，在 %.3f 下，上一个整秒后的 70 毫秒将打印 .070（注意：不是 .07），解析 .07、.070000 等将产生相同的结果。请注意，如果小数部分为零或下一个字符不是 .，它们可以不读取任何内容，但是会以指定的长度打印。
+  变体 %.3f、%.6f 和 %.9f 是左对齐的，根据 f 前面的数字打印 3、6 或 9 位小数。例如，在 %.3f 下距离上一秒 70ms 后将打印 .070 (注意: 不是 .07)，解析 .07、.070000 等将产生相同的结果。注意，如果小数部分为零或下一个字符不是 . ，它们可能读取不到任何内容，但会按指定长度打印。
 
-  变量 %3f、%6f 和 %9f 是左对齐的，并根据 f 前面的数字打印 3、6 或 9 个小数位，但没有前导点。例如，在 %3f 下，上一个整秒后的 70 毫秒将打印 070（注意：不是 07），解析 07、070000 等将产生相同的结果。请注意，如果小数部分为零，它们可以不读取任何内容。
+  变体 %3f、%6f 和 %9f 是左对齐的，根据 f 前面的数字打印 3、6 或 9 位小数，但没有前导点。例如，在 %3f 下距离上一秒 70ms 后将打印 070 (注意: 不是 07)，解析 07、070000 等将产生相同的结果。注意，如果小数部分为零，它们可能读取不到任何内容。
 
-- %Z: 偏移量不会从解析的数据中填充，也不会进行验证。时区被完全忽略。类似于 glibc strptime 对此格式代码的处理。
+- %Z: 偏移量不会从解析的数据中填充，也不会被验证。时区完全被忽略。类似于 glibc strptime 对此格式代码的处理。
 
-  无法可靠地从缩写转换为偏移量，例如 CDT 可以表示北美中部夏令时或中国夏令时。
+  无法可靠地从缩写转换为偏移量，例如 CDT 可能表示中部夏令时 (北美) 或中国夏令时。
 
-- %+: 与 %Y-%m-%dT%H:%M:%S%.f%:z 相同，即秒的小数位为 0、3、6 或 9 位，时区偏移量中带有冒号。
+- %+: 与 %Y-%m-%dT%H:%M:%S%.f%:z 相同，即秒的小数位数为 0、3、6 或 9 位，时区偏移中包含冒号。
 
-  此格式还支持使用 Z 或 UTC 代替 %:z。它们等效于 +00:00。
+  此格式还支持使用 Z 或 UTC 代替 %:z。它们等同于 +00:00。
 
-  请注意，所有 T、Z 和 UTC 都会以不区分大小写的方式进行解析。
+  注意，所有 T、Z 和 UTC 都是不区分大小写解析的。
 
-  典型的 strftime 实现对此说明符具有不同的（并且依赖于区域设置的）格式。虽然 Chrono 的 %+ 格式更加稳定，但如果您想控制确切的输出，最好避免使用此说明符。
+  典型的 strftime 实现对此说明符有不同的 (且依赖于区域设置的) 格式。虽然 Chrono 的 %+ 格式要稳定得多，但如果您想控制确切的输出，最好避免使用此说明符。
 
-- %s: 这是未填充的，并且可以为负数。就 Chrono 而言，它仅考虑非闰秒，因此与 ISO C strftime 行为略有不同。
+- %s: 这不会被填充，可以是负数。对于 Chrono 而言，它只考虑非闰秒，因此与 ISO C strftime 行为略有不同。
+
+### Oracle 格式说明符
+
+当 `date_format_style` 设置为 'Oracle' 时，支持以下格式说明符:
+
+| Oracle 格式 | 描述                                  | 示例输出 (对于 '2024-04-05 14:30:45.123456') |
+|---------------|----------------------------------------------|---------------------------------------------------|
+| YYYY          | 4 位年份                                 | 2024                                              |
+| YY            | 2 位年份                                 | 24                                                |
+| MMMM          | 完整月份名称                              | April                                             |
+| MON           | 缩写月份名称                       | Apr                                               |
+| MM            | 月份数字 (01-12)                         | 04                                                |
+| DD            | 月份中的天数 (01-31)                         | 05                                                |
+| DY            | 缩写日期名称                         | Fri                                               |
+| HH24          | 一天中的小时 (00-23)                          | 14                                                |
+| HH12          | 一天中的小时 (01-12)                          | 02                                                |
+| AM/PM         | 上午/下午指示符                           | PM                                                |
+| MI            | 分钟 (00-59)                               | 30                                                |
+| SS            | 秒 (00-59)                               | 45                                                |
+| FF            | 小数秒                           | 123456                                            |
+| UUUU          | ISO 周编号年份                      | 2024                                              |
+| TZH:TZM       | 带冒号的时区小时和分钟         | +08:00                                            |
+| TZH           | 时区小时                               | +08                                               |
+
+使用相同数据比较 MySQL 和 Oracle 格式样式的示例：
+
+```sql
+-- MySQL 格式样式 (默认)
+SELECT to_string('2022-12-25'::DATE, '%m/%d/%Y');
+
+┌────────────────────────────────┐
+│ to_string('2022-12-25', '%m/%d/%Y') │
+├────────────────────────────────┤
+│ 12/25/2022                     │
+└────────────────────────────────┘
+
+-- Oracle 格式样式 (与上面 MySQL 示例相同的数据)
+SETTINGS (date_format_style = 'Oracle')
+SELECT to_string('2022-12-25'::DATE, 'MM/DD/YYYY');
+
+┌────────────────────────────────┐
+│ to_string('2022-12-25', 'MM/DD/YYYY') │
+├────────────────────────────────┤
+│ 12/25/2022                     │
+└────────────────────────────────┘
+```

@@ -18,7 +18,7 @@ TRUNC(<date_or_timestamp>, <datetime_interval_type>)
 | `<date_or_timestamp>`      | `DATE` 或 `TIMESTAMP` 类型的值。                                                                    |
 | `<datetime_interval_type>` | 必须是以下值之一: `YEAR`、`QUARTER`、`MONTH`、`WEEK`、`DAY`、`HOUR`、`MINUTE`、`SECOND`。 |
 
-## 周开始配置
+## 周起始配置
 
 当使用 `WEEK` 作为日期时间间隔类型时，结果取决于 `week_start` 设置，该设置定义了一周的第一天:
 
