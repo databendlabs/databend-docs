@@ -40,7 +40,7 @@ jobs:
           git push -u origin $BRANCH_NAME
 
       - name: Run GPT Translate
-        uses: BohuTANG/gpt-translate-refine@v1.3.0
+        uses: BohuTANG/gpt-translate-refine@v1.4.4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           api_key: ${{ secrets.API_KEY }}
@@ -50,8 +50,8 @@ jobs:
           target_lang: "Simplified-Chinese"
           system_prompt: ".github/workflows/prompt.txt"
           refine_system_prompt: ".github/workflows/refine_prompt.txt"
-          TEMPERATURE:  ${{ secrets.TEMPERATURE }}
-          REFINE_TEMPERATURE:  ${{ secrets.REFINE_TEMPERATURE }}
+          temperature:  ${{ secrets.TEMPERATURE }}
+          refine_temperature:  ${{ secrets.REFINE_TEMPERATURE }}
           input_files: "${{ steps.changed_files.outputs.files }}"
           output_files: "docs/cn/**/*.{md,json}"
-          commit_message: "Add LLM Translations V2"
+          pr_title: "Add LLM Translations V2"
