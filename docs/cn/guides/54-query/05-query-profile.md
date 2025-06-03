@@ -1,64 +1,64 @@
 ---
-title: 查询 Profile
+title: 查询分析（Query Profile）
 ---
 
-查询 profile 指的是特定 SQL 语句执行方式的图形化表示或可视化分解。它本质上是 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令的图形化版本，提供了对查询执行计划和性能细节的深入了解。
+查询分析（Query Profile）指特定 SQL 语句执行过程的图形化表示或可视化分解。它本质上是 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令的图形化版本，帮助理解查询的执行计划和性能细节。
 
-## 访问查询 Profile
+## 访问查询分析（Query Profile）
 
-查询 profile 可以在 Databend Cloud 中直接访问。要查看查询的查询 profile，请转到 **Monitor** > **SQL History**。从历史记录列表中选择一个 SQL 语句，然后单击 **Query Profile** 选项卡。如果您使用的是私有化部署的 Databend，则可以使用 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令作为替代方法。
+在 Databend Cloud 中可直接访问查询分析（Query Profile）。查看查询分析时，请进入 **Monitor** > **SQL History**，从历史记录列表选择 SQL 语句后点击 **Query Profile** 选项卡。若使用自托管 Databend，可用 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令替代。
 
-## 查询 Profile 包含的内容
+## 查询分析（Query Profile）内容
 
-以下是一个查询 profile 的示例，它包含一个由三个运算符节点组成的层级结构。执行 SQL 语句时，Databend Cloud 按照自下而上的顺序处理节点。查询 profile 包含的运算符节点的数量和类型取决于您的 SQL 语句的具体情况。有关常见运算符及其统计字段，请参见 [常见运算符 & 字段](#common-operators--fields)。
+下图展示的查询分析示例包含三个分层排列的操作符节点。执行 SQL 语句时，Databend Cloud 按从底至顶的顺序处理节点。查询分析包含的节点数量和类型取决于 SQL 语句的具体内容。常见操作符及其统计字段请参阅[常见操作符和字段](#common-operators--fields)。
 
 ![alt text](/img/cloud/query-profile-1.png)
 
-*请注意，每个节点标题中的括号内的数字表示节点 ID，*不*表示执行步骤。*
+*注意：节点标题中括号内的数字表示节点 ID，*不*代表执行步骤。*
 
-查询 profile 附带一组信息窗格，可提供更多详细信息。上面的示例包括两个信息窗格：
+查询分析包含多个信息面板以提供详细信息。上例包含两个面板：
 
-| 窗格                 | 描述                                                                                                                                                                                            |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Most Expensive Nodes | 列出执行时间最长的节点。                                                                                                                                                      |
-| Profile Overview     | 显示花费在 CPU 和 I/O 上的时间百分比。请注意，如果您选择一个节点，则此信息窗格会显示特定于您选择的节点的信息，而不是整个查询的信息。 |
+| 面板                 | 描述                                                                                                 |
+| -------------------- | ---------------------------------------------------------------------------------------------------- |
+| Most Expensive Nodes | 列出执行时间最长的节点                                                                               |
+| Profile Overview     | 显示 CPU 和 I/O 操作的时间占比。注意：选择单个节点时，此面板仅显示该节点信息而非整个查询 |
 
-如果单击 `TableScan [4]` 节点，您会注意到右侧添加了两个附加的信息窗格：
+点击 `TableScan [4]` 节点后，右侧将新增两个信息面板：
 
 ![alt text](/img/cloud/query-profile-2.png)
 
-| 窗格       | 描述                                                                                                        |
-| ---------- | ------------------------------------------------------------------------------------------------------------------ |
-| Statistics | 包括扫描进度、扫描的字节数、从缓存扫描的百分比、扫描的分区等信息。 |
-| Attributes | 显示特定于节点的详细信息。显示的字段因节点的功能而异。               |
+| 面板       | 描述                                                                 |
+| ---------- | -------------------------------------------------------------------- |
+| Statistics | 包含扫描进度、扫描字节数、缓存扫描比例、扫描分区数等信息             |
+| Attributes | 显示节点特定信息，字段内容随节点功能变化                             |
 
-## 常见运算符 & 字段
+## 常见操作符和字段
 
-解释计划包括各种运算符，具体取决于您希望 Databend EXPLAIN 的 SQL 语句。以下是常见运算符及其字段的列表：
+执行计划包含的操作符类型取决于需 EXPLAIN 的 SQL 语句。以下是常见操作符及其字段：
 
-* **TableScan**: 从表中读取数据。
-    - table: 表的完整名称。例如，`catalog1.database1.table1`。
-    - read rows: 要读取的行数。
-    - read bytes: 要读取的数据的字节数。
-    - partition total: 表的分区总数。
-    - partition scanned: 要读取的分区数。
-    - push downs: 要下推到存储层进行处理的过滤器和限制。
-* **Filter**: 过滤读取的数据。
-    - filters: 用于过滤数据的谓词表达式。表达式评估返回 false 的数据将被过滤掉。
-* **EvalScalar**: 评估标量表达式。例如，`SELECT a+1 AS b FROM t` 中的 `a+1`。
-    - expressions: 要评估的标量表达式。
-* **AggregatePartial** & **AggregateFinal**: 按键聚合并返回聚合函数的结果。
-    - group by: 用于聚合的键。
-    - aggregate functions: 用于聚合的函数。
-* **Sort**: 按键对数据进行排序。
-    - sort keys: 用于排序的表达式。
-* **Limit**: 限制返回的行数。
-    - limit: 要返回的行数。
-    - offset: 在返回任何行之前要跳过的行数。
-* **HashJoin**: 使用 Hash Join 算法对两个表执行 Join 操作。Hash Join 算法将选择两个表中的一个作为构建端来构建 Hash 表。然后，它将使用另一个表作为探测端来从 Hash 表中读取匹配的数据以形成结果。
-    - join type: JOIN 类型（INNER、LEFT OUTER、RIGHT OUTER、FULL OUTER、CROSS、SINGLE 或 MARK）。
-    - build keys: 构建端用于构建 Hash 表的表达式。
-    - probe keys: 探测端用于从 Hash 表中读取数据的表达式。
-    - filters: 非等效 JOIN 条件，例如 `t.a > t1.a`。
-* **Exchange**: 在 Databend 查询节点之间交换数据，以进行分布式并行计算。
-    - exchange type: 数据重新分区类型（Hash、Broadcast 或 Merge）。
+* **TableScan**：读取表数据
+    - table：表全名（如 `catalog1.database1.table1`）
+    - read rows：待读取行数
+    - read bytes：待读取数据字节数
+    - partition total：表总分区数
+    - partition scanned：待扫描分区数
+    - push downs：下推至存储层处理的过滤器和限制条件
+* **Filter**：过滤数据
+    - filters：谓词表达式，表达式计算结果为 false 的数据将被过滤
+* **EvalScalar**：计算标量表达式（如 `SELECT a+1 AS b FROM t` 中的 `a+1`）
+    - expressions：待计算的标量表达式
+* **AggregatePartial** & **AggregateFinal**：按键聚合并返回函数结果
+    - group by：聚合键
+    - aggregate functions：聚合函数
+* **Sort**：按键排序数据
+    - sort keys：排序表达式
+* **Limit**：限制返回行数
+    - limit：返回行数
+    - offset：返回前跳过的行数
+* **HashJoin**：使用哈希连接算法执行表连接。该算法选择一个表作为构建端建立哈希表，另一表作为探测端从哈希表读取匹配数据
+    - join type：连接类型（INNER/LEFT OUTER/RIGHT OUTER/FULL OUTER/CROSS/SINGLE/MARK）
+    - build keys：构建端创建哈希表的表达式
+    - probe keys：探测端读取哈希表的表达式
+    - filters：非等值连接条件（如 `t.a > t1.a`）
+* **Exchange**：在 Databend 查询节点间交换数据以实现分布式并行计算
+    - exchange type：数据重分区类型（Hash/Broadcast/Merge）

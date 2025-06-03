@@ -2,7 +2,7 @@
 title: GROUP BY ROLLUP
 ---
 
-`GROUP BY ROLLUP` 是 [GROUP BY](index.md) 子句的扩展，用于生成小计行（除了分组行之外）。小计行是通过计算用于生成分组行的相同聚合函数来进一步聚合其值的行。
+`GROUP BY ROLLUP`（分组汇总）是 [GROUP BY](index.md) 子句的扩展，它除了生成分组行之外，还会生成小计行。小计行是进一步聚合的结果行，其值通过计算用于生成分组行的相同聚合函数得出。
 
 ## 语法
 
@@ -15,21 +15,17 @@ GROUP BY ROLLUP ( groupRollup [ , groupRollup [ , ... ] ] )
 ```
 
 其中：
-
 ```sql
 groupRollup ::= { <column_alias> | <position> | <expr> }
 ```
 
-- `<column_alias>`: 查询块的 SELECT 列表中出现的列别名
-
-- `<position>`: SELECT 列表中表达式的位置
-
-- `<expr>`: 当前作用域中表的任何表达式
+- `<column_alias>`：出现在查询块 SELECT 列表中的列别名  
+- `<position>`：表达式在 SELECT 列表中的位置  
+- `<expr>`：当前作用域内表上的任何表达式  
 
 ## 示例
 
-让我们创建一个名为 sales_data 的示例表并插入一些数据：
-
+创建示例表 `sales_data` 并插入数据：
 ```sql
 CREATE TABLE sales_data (
   region VARCHAR(255),
@@ -46,16 +42,14 @@ INSERT INTO sales_data (region, product, sales_amount) VALUES
   ('West', 'WidgetB', 200);
 ```
 
-现在，让我们使用 GROUP BY ROLLUP 子句来获取每个地区和产品的总销售额，以及每个地区的小计：
-
+使用 `GROUP BY ROLLUP` 子句获取各地区-产品的总销售额及各地区小计：
 ```sql
 SELECT region, product, SUM(sales_amount) AS total_sales
 FROM sales_data
 GROUP BY ROLLUP (region, product);
 ```
 
-结果将是：
-
+执行结果：
 ```sql
 +--------+---------+-------------+
 | region | product | total_sales |
@@ -73,4 +67,4 @@ GROUP BY ROLLUP (region, product);
 +--------+---------+-------------+
 ```
 
-在此示例中，GROUP BY ROLLUP 子句计算每个地区 - 产品组合、每个地区和总计的销售总额。
+此示例中，`GROUP BY ROLLUP` 子句计算了每个地区-产品组合的总销售额、各地区的总销售额以及总计。

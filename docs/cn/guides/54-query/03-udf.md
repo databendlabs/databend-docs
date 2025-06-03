@@ -1,5 +1,5 @@
 ---
-title: 用户自定义函数
+title: 用户定义函数（User-Defined Function）
 ---
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
@@ -8,18 +8,18 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='Python UDF'/>
 
-用户自定义函数（UDF）通过支持匿名 lambda 表达式和预定义的处理程序（Python、JavaScript 和 WebAssembly）来定义 UDF，从而提供增强的灵活性。这些功能允许用户创建根据其特定数据处理需求量身定制的自定义操作。Databend UDF 分为以下类型：
+用户定义函数（User-Defined Functions，UDFs）通过支持匿名 lambda 表达式和预定义处理程序（Python、JavaScript 和 WebAssembly）来定义 UDF，提供更强的灵活性。这些功能让用户能够创建满足特定数据处理需求的自定义操作。Databend UDF 分为以下类型：
 
 - [Lambda UDFs](#lambda-udfs)
-- [Embedded UDFs](#embedded-udfs)
+- [嵌入式 UDFs（Embedded UDFs）](#embedded-udfs)
 
 ## Lambda UDFs
 
-lambda UDF 允许用户直接在其查询中使用匿名函数（lambda 表达式）定义自定义操作。这些 lambda 表达式通常简洁明了，可用于执行特定的数据转换或计算，而这些转换或计算可能无法仅使用内置函数来实现。
+Lambda UDF 允许用户在查询中直接使用匿名函数（lambda 表达式）定义自定义操作。这些 lambda 表达式通常很简洁，可用于执行特定的数据转换或计算，这些操作可能无法仅通过内置函数实现。
 
 ### 使用示例
 
-此示例创建 UDF，以使用 SQL 查询从表中的 JSON 数据中提取特定值。
+本示例创建 UDF，通过 SQL 查询从表中的 JSON 数据提取特定值。
 
 ```sql
 CREATE OR REPLACE TABLE sale_items (
@@ -28,13 +28,13 @@ CREATE OR REPLACE TABLE sale_items (
 );
 
 INSERT INTO sale_items VALUES
-    (1, PARSE_JSON('{"name": "T-Shirt", "price": 20.00, "discount_pct": 10}')),  -- 10% discount
-    (2, PARSE_JSON('{"name": "Jeans", "price": 50.00, "discount_pct": 25}')),   -- 25% discount
-    (3, PARSE_JSON('{"name": "Jacket", "price": 100.00, "discount_pct": 0}')),    -- No discount
-    (4, PARSE_JSON('{"name": "Socks", "price": 5.00, "discount_pct": 50}'));    -- 50% discount
+    (1, PARSE_JSON('{"name": "T-Shirt", "price": 20.00, "discount_pct": 10}')),  -- 10% 折扣
+    (2, PARSE_JSON('{"name": "Jeans", "price": 50.00, "discount_pct": 25}')),   -- 25% 折扣
+    (3, PARSE_JSON('{"name": "Jacket", "price": 100.00, "discount_pct": 0}')),    -- 无折扣
+    (4, PARSE_JSON('{"name": "Socks", "price": 5.00, "discount_pct": 50}'));    -- 50% 折扣
 
--- Define a Lambda UDF to calculate the final price after discount
--- WITH EXPLICIT CASTING
+-- 定义 Lambda UDF 计算折扣后最终价格
+-- 使用显式类型转换
 CREATE OR REPLACE FUNCTION calculate_final_price AS (item_info) -> 
     (item_info['price']::FLOAT) * (1 - (item_info['discount_pct']::FLOAT) / 100.0);
 
@@ -45,7 +45,7 @@ SHOW USER FUNCTIONS;
 --| calculate_final_price |    0           |             | {"parameters":["item_info"]}    | SQL      | YYYY-MM-DD HH:MM:SS.ffffff |
 --+-----------------------+----------------+-------------+---------------------------------+----------+----------------------------+
 
--- Use the Lambda UDF to get item names and their final prices
+-- 使用 Lambda UDF 获取商品名称和最终价格
 SELECT
     item_id,
     details['name']::STRING AS item_name,
@@ -54,7 +54,7 @@ SELECT
 FROM sale_items
 ORDER BY item_id;
 
--- Expected output for the SELECT query (final_price should now have values):
+-- SELECT 查询预期输出（final_price 应有值）：
 --+---------+-----------+----------------+-------------+
 --| item_id | item_name | original_price | final_price |
 --+---------+-----------+----------------+-------------+
@@ -65,27 +65,27 @@ ORDER BY item_id;
 --+---------+-----------+----------------+-------------+
 ```
 
-## Embedded UDFs
+## 嵌入式 UDFs（Embedded UDFs）
 
-通过嵌入式 UDF，您可以将使用以下编程语言编写的代码嵌入到 SQL 中：
+嵌入式 UDF 允许在 SQL 中嵌入以下编程语言编写的代码：
 
 - [Python](#python)
 - [JavaScript](#javascript)
 - [WebAssembly](#webassembly)
 
-使用嵌入式 UDF，您可以创建标量函数和聚合函数。标量函数对单行输入进行操作并返回单个值，而聚合函数处理多行输入并返回单个聚合结果，例如总和或平均值。
+通过嵌入式 UDF，可创建标量函数和聚合函数。标量函数对单行输入进行操作并返回单个值，聚合函数处理多行输入数据并返回单个聚合结果（如求和或平均值）。
 
 :::note
-- 尚不支持使用 WebAssembly 创建聚合 UDF。
-- 如果您的程序内容很大，您可以对其进行压缩，然后将其传递到 Stage。有关 WebAssembly，请参见[使用示例](#usage-examples-2)。
+- 暂不支持使用 WebAssembly 创建聚合 UDF
+- 若程序内容较大，可压缩后传递到 stage，详见 WebAssembly 的[使用示例](#usage-examples-2)
 :::
 
-### Python (需要 Databend Enterprise)
+### Python（需 Databend 企业版）
 
-通过 Python UDF，您可以经由 Databend 的内置处理程序从 SQL 查询调用 Python 代码，从而可以在 SQL 查询中无缝集成 Python 逻辑。
+Python UDF 允许通过 Databend 内置处理器在 SQL 查询中调用 Python 代码，实现 Python 逻辑与 SQL 查询的无缝集成。
 
 :::note
-Python UDF 必须仅使用 Python 的标准库；不允许第三方导入。
+Python UDF 仅能使用 Python 标准库，禁止导入第三方库
 :::
 
 #### 数据类型映射
@@ -114,13 +114,13 @@ Python UDF 必须仅使用 Python 的标准库；不允许第三方导入。
 #### 使用示例
 
 ```sql
--- Create a table with user interaction logs
+-- 创建用户交互日志表
 CREATE TABLE user_interaction_logs (
     log_id INT,
-    log_data VARIANT  -- JSON interaction log
+    log_data VARIANT  -- JSON 交互日志
 );
 
--- Insert sample interaction log data
+-- 插入示例交互日志数据
 INSERT INTO user_interaction_logs VALUES
     (1, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:00:00Z", "action": "view_product", "details": {"product_id": "p789", "category": "electronics", "price": 99.99}}')),
     (2, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:05:10Z", "action": "add_to_cart", "details": {"product_id": "p789", "quantity": 1, "category": "electronics"}}')),
@@ -129,7 +129,7 @@ INSERT INTO user_interaction_logs VALUES
     (5, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:10:00Z", "action": "view_page", "details": {"page_name": "homepage"}}')),
     (6, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:12:00Z", "action": "purchase", "details": {"order_id": "o556", "total_amount": 25.00, "item_count": 1}}'));
 
--- Create a Python UDF to extract features from interaction logs
+-- 创建 Python UDF 从交互日志提取特征
 CREATE OR REPLACE FUNCTION extract_interaction_features_py(VARIANT)
 RETURNS VARCHAR
 LANGUAGE python HANDLER = 'extract_features'
@@ -182,7 +182,7 @@ def extract_features(log):
     return json.dumps(result_dict)
 $$;
 
--- Use the Python UDF to extract features
+-- 使用 Python UDF 提取特征
 SELECT
     log_id,
     log_data['user_id']::STRING AS user_id,
@@ -197,12 +197,11 @@ ORDER BY
 
 ### JavaScript
 
-通过 JavaScript UDF，您可以经由 Databend 的内置处理程序从 SQL 查询调用 JavaScript 代码，从而可以在 SQL 查询中无缝集成 JavaScript 逻辑。
+JavaScript UDF 允许通过 Databend 内置处理器在 SQL 查询中调用 JavaScript 代码，实现 JavaScript 逻辑与 SQL 查询的无缝集成。
 
 #### 数据类型映射
 
-
-| Databend Type     | JS Type    |
+| Databend 类型     | JS 类型    |
 | ----------------- | ---------- |
 | NULL              | null       |
 | BOOLEAN           | Boolean    |
@@ -224,13 +223,13 @@ ORDER BY
 #### 使用示例
 
 ```sql
--- Create a table with user interaction logs
+-- 创建用户交互日志表
 CREATE TABLE user_interaction_logs (
     log_id INT,
-    log_data VARIANT  -- JSON interaction log
+    log_data VARIANT  -- JSON 交互日志
 );
 
--- Insert sample interaction log data
+-- 插入示例交互日志数据
 INSERT INTO user_interaction_logs VALUES
     (1, PARSE_JSON('{"user_id": "u123", "timestamp": "2023-01-15T10:00:00Z", "action": "view_product", "details": {"product_id": "p789", "category": "electronics", "price": 99.99}}')),
     (2, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:05:10Z", "action": "add_to_cart", "details": {"product_id": "p789", "quantity": 1, "category": "electronics"}}')),
@@ -240,8 +239,7 @@ INSERT INTO user_interaction_logs VALUES
     (6, PARSE_JSON('{"user_id": "u456", "timestamp": "2023-01-15T10:12:00Z", "action": "purchase", "details": {"order_id": "o556", "total_amount": 25.00, "item_count": 1}}'));
 
 
-```md
--- Create a JavaScript UDF to extract features from interaction logs
+-- 创建 JavaScript UDF 从交互日志提取特征
 CREATE FUNCTION extract_interaction_features_js(VARIANT)
 RETURNS VARIANT
 LANGUAGE javascript HANDLER = 'extractFeatures'
@@ -283,7 +281,7 @@ export function extractFeatures(log) {
             
     return {
         is_search_action: isSearchAction,
-        has_product_interaction: has_product_interaction,
+        has_product_interaction: hasProductInteraction,
         product_category_if_any: productCategoryIfAny,
         search_query_length: searchQueryLength,
         purchase_value_bucket: purchaseValueBucket
@@ -294,16 +292,19 @@ $$;
 
 ### WebAssembly
 
-WebAssembly UDF 允许用户使用编译为 WebAssembly 的语言定义自定义逻辑或操作。然后，可以在 SQL 查询中直接调用这些 UDF，以执行特定的计算或数据转换。
+WebAssembly UDF 允许使用可编译为 WebAssembly 的语言定义自定义逻辑或操作，这些 UDF 可直接在 SQL 查询中调用以执行特定计算或数据转换。
 
-#### Usage Examples
+#### 使用示例
 
-在此示例中，创建 "wasm_gcd" 函数来计算两个整数的最大公约数 (GCD)。该函数使用 WebAssembly 定义，其实现在 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
+本示例创建 "wasm_gcd" 函数计算两个整数的最大公约数（GCD）。该函数使用 WebAssembly 定义，其实现位于 'test10_udf_wasm_gcd.wasm.zst' 二进制文件中。
 
-在执行之前，函数实现会经过一系列步骤。首先，它被编译成一个二进制文件，然后被压缩成 'test10_udf_wasm_gcd.wasm.zst'。最后，压缩后的文件会提前上传到 Stage。
+执行前需经过以下步骤：
+1. 将函数实现编译为二进制文件
+2. 压缩为 'test10_udf_wasm_gcd.wasm.zst'
+3. 提前将压缩文件上传至 stage
 
 :::note
-该函数可以使用 Rust 实现，如 https://github.com/arrow-udf/arrow-udf/blob/main/arrow-udf-example/src/lib.rs 上的示例所示。
+该函数可用 Rust 实现，示例见：https://github.com/arrow-udf/arrow-udf/blob/main/arrow-udf-example/src/lib.rs
 :::
 
 ```sql
@@ -319,6 +320,6 @@ WHERE
 ORDER BY 1;
 ```
 
-## Managing UDFs
+## 管理 UDF
 
-Databend 提供了各种命令来管理 UDF。有关详细信息，请参见 [User-Defined Function](/sql/sql-commands/ddl/udf/)。{/*examples*/}
+Databend 提供多种命令管理 UDF，详见[用户定义函数（User-Defined Function）](/sql/sql-commands/ddl/udf/)。
