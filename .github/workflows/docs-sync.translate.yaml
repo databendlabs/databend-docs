@@ -50,21 +50,25 @@ jobs:
           echo "Markdown Files Missing: ${{ steps.check_missing.outputs.missing_md_files }}"
           echo "JSON Files Missing: ${{ steps.check_missing.outputs.missing_json_files }}"
 
-      - name: Read prompt from file
-        id: prompt
+      - name: Set up branch for PR
         run: |
-          echo 'prompt<<EOF' >> $GITHUB_OUTPUT
-          cat .github/workflows/prompt.txt >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+          BRANCH_NAME="translate-${{ github.run_id }}"
+          git checkout -b $BRANCH_NAME
+          git push -u origin $BRANCH_NAME
 
       - name: Run GPT Translate
-        uses: 3ru/gpt-translate@v1.2.2
+        uses: BohuTANG/gpt-translate-refine@v1.3.0
         with:
-          apikey: ${{ secrets.API_KEY }}
-          model: ${{ secrets.LLM_MODEL }}
-          temperature: ${{ secrets.TEMPERATURE }}
-          inputFiles: "${{ steps.check_missing.outputs.missing_md_files }}${{ steps.check_missing.outputs.missing_json_files }}"
-          outputFiles: "docs/cn/**/*.{md,json}"
-          languages: "Simplified-Chinese"
-          prompt: "${{ steps.prompt.outputs.prompt }}"
-          basePath: ${{ secrets.BASE_URL }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          api_key: ${{ secrets.API_KEY }}
+          base_url: ${{ secrets.BASE_URL }}
+          ai_model: ${{ secrets.LLM_MODEL }}
+          refine_ai_model: ${{ secrets.REFINE_LLM_MODEL }}
+          target_lang: "Simplified-Chinese"
+          system_prompt: ".github/workflows/prompt.txt"
+          refine_system_prompt: ".github/workflows/refine_prompt.txt"
+          TEMPERATURE:  ${{ secrets.TEMPERATURE }}
+          REFINE_TEMPERATURE:  ${{ secrets.REFINE_TEMPERATURE }}
+          input_files: "${{ steps.check_missing.outputs.missing_md_files }}${{ steps.check_missing.outputs.missing_json_files }}"
+          output_files: "docs/cn/**/*.{md,json}"
+          commit_message: "Add LLM Translations V2"
