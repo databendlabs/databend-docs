@@ -101,6 +101,27 @@ The following is a list of the parameters available within the [log.tracing] sec
 | on                | Controls whether tracing is enabled. Default value is 'false' for disabled. Set to 'true' to enable tracing.                                                  |
 | otlp_endpoint     | Specifies the OpenTelemetry Protocol (OTLP) endpoint for tracing. Defaults to `http://127.0.0.1:4317`, but you can replace it with the desired OTLP endpoint. |
 
+### [log.history] Section
+
+The following is a list of the parameters available within the [log.history] section:
+
+
+| Parameter         | Description                                                                                                                                                      |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| on                | Enables or disables the history logging feature. Defaults to false. Set to true to enable history tables.                                                        |
+| interval          | Specifies the interval (in seconds) at which the history log is flushed. Defaults to 2.                                                                          |
+| stage_name        | Specifies the name of the staging area that temporarily holds log data before it is finally copied into the table. Defaults to a unique value to avoid conflicts.|
+| level             | Sets the log level  (DEBUG, TRACE, INFO, WARN, or ERROR)  for history logging. Defaults to WARN.                                                                 |
+| retention_interval| The interval (in hours) at which the retention process is triggered to check if need to clean up old data. Defaults to 24.                                       |
+| tables            | Specifies which history tables to enable and their retention policies. This is an array of objects, each with table_name (the name of the history table) and retention (the retention period in hours for that table). |
+
+`tables` are an array of objects, each object has two parameters:
+| Parameter  | Description |
+| ---------  | ----------- |
+| table_name | The name of the history table. (currently support: `log_history`, `profile_history`, `query_history`, `login_history`) |
+| retention  | The retention period in hours for that table.                                                                          |
+Note: `log_history` table will be enable in default
+
 ## [meta] Section
 
 The following is a list of the parameters available within the [meta] section:
