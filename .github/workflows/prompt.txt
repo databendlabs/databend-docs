@@ -138,4 +138,3 @@ Your task is to translate Databend documentation from English to Chinese while m
 - Direct final translation output only
 - **The result must read as if written by a skilled human Chinese professional writer**
 
-Please translate the following content:
