@@ -46,6 +46,7 @@
     "docusaurus-plugin-sass": "^0.2.5",
     "docusaurus-prince-pdf": "^1.2.1",
     "fs-extra": "^11.2.0",
+    "js-cookie": "^3.0.5",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -53,6 +54,7 @@
     "react-scroll-progress-bar": "^2.0.3",
     "sass": "^1.77.8",
     "sass-resources-loader": "^2.2.5",
+    "vanilla-cookieconsent": "^3.1.0",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {

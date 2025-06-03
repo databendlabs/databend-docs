@@ -10,10 +10,16 @@ import Head from "@docusaurus/Head";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Link from "@docusaurus/Link";
 import { useThemeConfig } from "@docusaurus/theme-common";
-import CookiesConsent from "../../components/CookiesConsent";
 import styles from "./index.module.scss";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { useMount } from "ahooks";
+import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
+import "vanilla-cookieconsent/dist/cookieconsent.css";
+import * as CookieConsent from "vanilla-cookieconsent";
+import pluginConfig from "@site/src/components/Config/CookieConsentConfig";
+import { shouldShowConsent } from "@site/src/utils/tools";
 // import ProgressBar from "react-scroll-progress-bar";
+const COOKIES_CLASS = "show--consent";
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -23,6 +29,36 @@ function Footer() {
       customFields: { isChina },
     },
   } = useDocusaurusContext() as any;
+  useMount(() => {
+    if (ExecutionEnvironment.canUseDOM) {
+      CookieConsent.run(pluginConfig);
+      const html = document.documentElement;
+      const updateHtmlClass = () => {
+        const shouldShow = shouldShowConsent();
+        if (shouldShow && !html.classList.contains(COOKIES_CLASS)) {
+          html.classList.add(COOKIES_CLASS);
+          // html.classList.add("cc--darkmode");
+        } else if (!shouldShow && html.classList.contains(COOKIES_CLASS)) {
+          html.classList.remove(COOKIES_CLASS);
+        }
+      };
+      updateHtmlClass();
+      const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          if (
+            mutation.type === "attributes" &&
+            mutation.attributeName === "class"
+          ) {
+            updateHtmlClass();
+          }
+        }
+      });
+      observer.observe(html, { attributes: true, attributeFilter: ["class"] });
+      return () => {
+        observer.disconnect();
+      };
+    }
+  });
   return (
     <footer className={clsx("footer", styles.footer)}>
       <Head>
@@ -162,20 +198,6 @@ function Footer() {
             </Link>
           );
         })}
-        {/* <span>|</span>
-        {(footer.links[1].items as any[])?.map((item, index) => {
-          const Icon = icons[item.label];
-          return (
-            <Link to={item.href} key={index}>
-              <h6>
-                <span className={clsx("icon", styles.icon)}>
-                  <Icon size={20} />
-                </span>
-                {item.label}
-              </h6>
-            </Link>
-          );
-        })} */}
       </div>
       <div className={styles.footerCopyright}>
         <p>
@@ -184,14 +206,6 @@ function Footer() {
           Software Foundation.
         </p>
       </div>
-      <CookiesConsent />
-      {/* <div className={styles.ProgressBar}>
-        <ProgressBar
-          height="2px"
-          bgcolor="var(--ifm-color-primary)"
-          duration="0.2"
-        />
-      </div> */}
     </footer>
   );
 }
