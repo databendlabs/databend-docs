@@ -2,57 +2,56 @@
 title: Cluster Key
 ---
 
-# 聚簇键 (Cluster Key): 自动数据组织以加速查询
+# Cluster Key：自动数据组织加速查询
 
-聚簇键 (cluster key) 提供自动数据组织功能，可显著提高大型表的查询性能。Databend 在后台无缝且持续地管理所有聚簇操作——您只需定义聚簇键，Databend 就会处理其余的工作。
+Cluster Key 提供自动数据组织功能，显著提升大型表的查询性能。Databend 在后台无缝持续管理所有集群操作 - 您只需定义 Cluster Key，Databend 自动处理后续工作。
 
-## 解决了什么问题？
+## 解决的问题
 
-未经适当组织的大型表会带来显著的性能和维护挑战：
+缺乏合理组织的大型表会引发显著的性能和维护挑战：
 
-| 问题 | 影响 | 自动聚簇解决方案 |
+| 问题 | 影响 | 自动聚类解决方案 |
 |---------|--------|------------------------------|
-| **全表扫描** | 即使是过滤后的数据，查询也会读取整个表 | 自动组织数据，只读取相关数据块 |
-| **随机数据访问** | 相似数据分散在存储中 | 持续将相关数据分组在一起 |
-| **慢速过滤查询** | WHERE 子句扫描不必要的行 | 自动完全跳过不相关的块 |
-| **高 I/O 成本** | 读取大量未使用的旧数据 | 自动最小化数据传输 |
-| **手动维护** | 需要监控和手动重新聚簇表 | 零维护——自动后台优化 |
-| **资源管理** | 必须为聚簇操作分配计算资源 | Databend 自动处理所有聚簇资源 |
+| **全表扫描** | 查询需扫描全表获取过滤数据 | 自动组织数据，仅读取相关块 |
+| **随机数据访问** | 相似数据分散存储 | 持续将相关数据分组存储 |
+| **慢速过滤查询** | WHERE 子句扫描无关行 | 自动跳过无关数据块 |
+| **高 I/O 成本** | 读取大量未使用数据 | 自动最小化数据传输量 |
+| **手动维护** | 需监控并手动重聚类表 | 零维护 - 自动后台优化 |
+| **资源管理** | 需为聚类操作分配计算资源 | Databend 自动管理所有聚类资源 |
 
-**示例**: 一个包含数百万商品的电商表。如果没有聚簇，查询 `WHERE category IN ('Electronics', 'Computers')` 必须扫描所有商品类别。通过按类别自动聚簇，Databend 会持续将电子产品和电脑产品分组在一起，只扫描 2 个数据块而不是 1000 多个数据块。
+**示例**：含数百万产品的电商表。未聚类时，查询 `WHERE category IN ('Electronics', 'Computers')` 需扫描所有产品类别。通过按类别自动聚类，Databend 持续将电子产品与计算机产品分组存储，仅扫描 2 个数据块而非 1000+ 个块。
 
-## 自动聚簇的优势
+## 自动聚类优势
 
-**易于维护**: Databend 消除了以下需求：
-- 监控聚簇表的状态
-- 手动触发重新聚簇操作
-- 为聚簇指定计算资源
+**维护便捷**：Databend 无需：
+- 监控聚类表状态
+- 手动触发重聚类操作
+- 分配聚类计算资源
 - 安排维护窗口
 
-**工作原理**: 定义聚簇键后，Databend 会自动：
-- 监控 DML 操作引起的表更改
-- 评估何时需要重新聚簇表
-- 执行后台聚簇优化
-- 持续维护最佳数据组织
+**工作原理**：定义 Cluster Key 后，Databend 自动：
+- 监控 DML 操作引起的表变更
+- 评估表是否需重聚类
+- 执行后台聚类优化
+- 持续保持最优数据组织
 
-您所需要做的就是为每个表定义一个聚簇键 (如果适用)，Databend 会自动管理所有未来的维护。
+您只需为表定义聚类键（如适用），Databend 将自动管理所有后续维护。
 
 ## 工作原理
 
-聚簇键根据指定的列将数据组织到存储块 (Parquet 文件) 中：
+Cluster Key 根据指定列将数据组织到存储块（Parquet 文件）中：
 
 ![Cluster Key Visualization](/img/sql/clustered.png)
 
-1. **数据组织** → 相似值分组到相邻的数据块中
-2. **元数据创建** → 存储块到值的映射，用于快速查找
-3. **查询优化** → 查询期间只读取相关数据块
-4. **性能提升** → 扫描的行数更少，结果更快
+1. **数据组织** → 相似值分组至相邻块
+2. **元数据创建** → 存储块值映射关系实现快速查找
+3. **查询优化** → 查询时仅读取相关块
+4. **性能提升** → 减少扫描行数，加速结果返回
 
 ## 快速设置
 
 ```sql
--- Create table with cluster key
--- 创建带有聚簇键的表
+-- 创建含 cluster key 的表
 CREATE TABLE sales (
     order_id INT,
     order_date TIMESTAMP,
@@ -60,109 +59,100 @@ CREATE TABLE sales (
     amount DECIMAL
 ) CLUSTER BY (region);
 
--- Or add cluster key to existing table
--- 或者为现有表添加聚簇键
+-- 为现有表添加 cluster key
 ALTER TABLE sales CLUSTER BY (region, order_date);
 ```
 
-## 选择正确的聚簇键
+## 选择合适 Cluster Key
 
-根据您最常见的查询过滤器选择列：
+根据常用查询过滤条件选择列：
 
-| 查询模式 | 推荐的聚簇键 | 示例 |
+| 查询模式 | 推荐 Cluster Key | 示例 |
 |---------------|------------------------|---------|
-| 按单列过滤 | 该列 | `CLUSTER BY (region)` |
-| 按多列过滤 | 多列 | `CLUSTER BY (region, category)` |
+| 单列过滤 | 该列 | `CLUSTER BY (region)` |
+| 多列过滤 | 多列组合 | `CLUSTER BY (region, category)` |
 | 日期范围查询 | 日期/时间戳列 | `CLUSTER BY (order_date)` |
-| 高基数列 | 使用表达式减少值 | `CLUSTER BY (DATE(created_at))` |
+| 高基数列 | 使用表达式降基 | `CLUSTER BY (DATE(created_at))` |
 
-### 好的聚簇键 vs 坏的聚簇键
+### 优劣 Cluster Key 对比
 
-| ✅ 好的选择 | ❌ 差的选择 |
+| ✅ 优选方案 | ❌ 劣选方案 |
 |----------------|----------------|
-| 频繁过滤的列 | 很少使用的列 |
-| 中等基数 (100-10K 个值) | 布尔列 (值太少) |
-| 日期/时间列 | 唯一 ID 列 (值太多) |
-| 区域、类别、状态 | 随机或哈希列 |
+| 高频过滤列 | 低频使用列 |
+| 中基数（100-10K 值） | 布尔列（取值过少） |
+| 日期/时间列 | 唯一 ID 列（取值过多） |
+| 区域/类别/状态列 | 随机或哈希列 |
 
-## 监控性能
+## 性能监控
 
 ```sql
--- Check clustering effectiveness
--- 检查聚簇效果
+-- 检查聚类效果
 SELECT * FROM clustering_information('database_name', 'table_name');
 
--- Key metrics to watch:
 -- 关键指标：
--- average_depth: Lower is better (< 2 ideal)
--- average_depth: 越低越好 (理想情况 < 2)
--- average_overlaps: Lower is better
--- average_overlaps: 越低越好
--- block_depth_histogram: More blocks at depth 1-2
--- block_depth_histogram: 更多数据块在深度 1-2
+-- average_depth: 值越低越好（<2 为优）
+-- average_overlaps: 值越低越好
+-- block_depth_histogram: 深度 1-2 的块占比越高越好
 ```
 
-## 何时重新聚簇
+## 重聚类时机
 
-随着数据变化，表会随着时间变得无序：
+数据变更会导致表逐渐失序：
 
 ```sql
--- Check if re-clustering is needed
--- 检查是否需要重新聚簇
+-- 检查是否需重聚类
 SELECT IF(average_depth > 2 * LEAST(GREATEST(total_block_count * 0.001, 1), 16),
           'Re-cluster needed',
           'Clustering is good')
 FROM clustering_information('your_database', 'your_table');
 
--- Re-cluster the table
--- 重新聚簇表
+-- 重聚类操作
 ALTER TABLE your_table RECLUSTER;
 ```
 
 ## 性能调优
 
-### 自定义数据块大小
-调整数据块大小以获得更好的性能：
+### 自定义块大小
+调整块大小优化性能：
 
 ```sql
--- Smaller blocks = fewer rows per query
--- 更小的数据块 = 每次查询的行数更少
+-- 较小块 = 单次查询处理行数更少
 ALTER TABLE sales SET OPTIONS(
     ROW_PER_BLOCK = 100000,
     BLOCK_SIZE_THRESHOLD = 52428800
 );
 ```
 
-### 自动重新聚簇
-- `COPY INTO` 和 `REPLACE INTO` 会自动触发重新聚簇
-- 定期监控聚簇指标
-- 当 `average_depth` 过高时重新聚簇
+### 自动重聚类
+- `COPY INTO` 和 `REPLACE INTO` 自动触发重聚类
+- 定期监控聚类指标
+- 当 `average_depth` 过高时执行重聚类
 
 ## 最佳实践
 
-| 实践 | 益处 |
+| 实践方案 | 优势 |
 |----------|---------|
-| **从简单开始** | 首先使用单列聚簇键 |
+| **从简开始** | 优先使用单列 Cluster Key |
 | **监控指标** | 定期检查 clustering_information |
-| **测试性能** | 在聚簇前后测量查询速度 |
-| **定期重新聚簇** | 数据更改后保持聚簇 |
-| **考虑成本** | 聚簇会消耗计算资源 |
+| **性能测试** | 对比聚类前后查询速度 |
+| **定期重聚类** | 数据变更后维护聚类状态 |
+| **成本考量** | 聚类消耗计算资源 |
 
 ## 重要说明
 
 :::tip
-**何时使用聚簇键:**
-- 大型表 (数百万行以上)
-- 查询性能慢
-- 频繁基于过滤器的查询
+**适用场景：**
+- 大型表（百万+行）
+- 查询性能低下
+- 高频过滤查询
 - 分析型工作负载
 
-**何时不使用:**
+**不适用场景：**
 - 小型表
 - 随机访问模式
-- 频繁更改的数据
+- 数据变更频繁
 :::
 
 ---
 
-*聚簇键在具有可预测过滤模式的大型、频繁查询的表上最有效。从您最常见的 WHERE 子句列开始。*
+*Cluster Key 在具有可预测过滤模式的大型高频查询表上效果最佳。建议从最常出现在 WHERE 子句的列开始实施。*

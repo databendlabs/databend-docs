@@ -1,59 +1,59 @@
 ---
-title: Virtual Column
+title: 虚拟列
 ---
 
-# 虚拟列：JSON 数据的自动加速
+# 虚拟列：JSON 数据自动加速
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VIRTUAL COLUMN'/>
 
-虚拟列 (Virtual Column) 自动加速对存储在 [VARIANT](/sql/sql-reference/data-types/variant) 列中的半结构化数据的查询。此功能为 JSON 数据访问提供了**零配置的性能优化**。
+虚拟列自动加速存储在 [VARIANT](/sql/sql-reference/data-types/variant) 列中的半结构化数据查询，为 JSON 数据访问提供**零配置性能优化**。
 
 ## 解决了什么问题？
 
-查询 JSON 数据时，传统数据库在每次访问嵌套字段时都必须解析整个 JSON 结构。这会造成性能瓶颈：
+查询 JSON 数据时，传统数据库每次访问嵌套字段都需解析整个 JSON 结构，导致性能瓶颈：
 
 | 问题 | 影响 | 虚拟列解决方案 |
 |---------|--------|------------------------|
-| **查询延迟** | 复杂的 JSON 查询需要数秒 | 亚秒级响应时间 |
-| **过度数据读取** | 即使只读取单个字段也必须读取整个 JSON 文档 | 只读取所需的特定字段 |
-| **JSON 解析缓慢** | 每次查询都重新解析整个 JSON 文档 | 预物化字段以实现即时访问 |
-| **CPU 使用率高** | JSON 遍历消耗处理能力 | 像常规数据一样直接读取列 |
-| **内存开销** | 将完整的 JSON 结构加载到内存中 | 只加载所需字段 |
+| **查询延迟** | 复杂 JSON 查询耗时数秒 | 亚秒级响应时间 |
+| **数据读取过多** | 即使只需单个字段也读取整个文档 | 仅读取所需字段 |
+| **JSON 解析缓慢** | 每次查询都重新解析完整文档 | 预物化字段实现即时访问 |
+| **CPU 使用率高** | JSON 遍历消耗大量算力 | 像常规数据直接读取 |
+| **内存开销大** | 加载完整 JSON 结构到内存 | 仅加载必要字段 |
 
-**示例场景**：一个电商分析表，其中包含 JSON 格式的产品数据。如果没有虚拟列，查询数百万行中的 `product_data['category']` 需要解析每个 JSON 文档。有了虚拟列，它就变成了直接的列查找。
+**示例场景**：电商分析表存储 JSON 格式产品数据。无虚拟列时，查询数百万行的 `product_data['category']` 需解析每个 JSON 文档；使用虚拟列后变为直接列查找。
 
-## 自动工作原理
+## 工作原理
 
 1. **数据摄取** → Databend 分析 VARIANT 列中的 JSON 结构
-2. **智能检测** → 系统识别频繁访问的嵌套字段
+2. **智能检测** → 识别高频访问的嵌套字段  
 3. **后台优化** → 自动创建虚拟列
-4. **查询加速** → 查询自动使用优化路径
+4. **查询加速** → 自动使用优化路径
 
-![Virtual Column Workflow](/img/sql/virtual-column.png)
+![虚拟列工作流程](/img/sql/virtual-column.png)
 
 ## 配置
 
 ```sql
--- 启用该功能（实验性）
+-- 启用功能（实验性）
 SET enable_experimental_virtual_column = 1;
 
 -- 可选：控制自动刷新行为
-SET enable_refresh_virtual_column_after_write = 1;  -- 默认：启用
+SET enable_refresh_virtual_column_after_write = 1;  -- 默认启用
 ```
 
 ## 完整示例
 
-此示例演示了虚拟列的自动创建和性能优势：
+演示自动虚拟列创建与性能优势：
 
 ```sql
 SET enable_experimental_virtual_column=1;
 
--- 创建一个名为 'test' 的表，包含 'id'（整型）和 'val'（Variant 类型）列。
+-- 创建表 'test'，含整型 id 列和 Variant 类型 val 列
 CREATE TABLE test(id int, val variant);
 
--- 向 'test' 表插入包含 Variant 数据的示例记录。
+-- 插入含 Variant 数据的示例记录
 INSERT INTO
   test
 VALUES
@@ -84,7 +84,7 @@ INSERT INTO test SELECT * FROM test;
 INSERT INTO test SELECT * FROM test;
 INSERT INTO test SELECT * FROM test;
 
--- 解释从表中选择特定字段的查询执行计划。
+-- 解释查询特定字段的执行计划
 EXPLAIN
 SELECT
   val ['name'],
@@ -109,7 +109,7 @@ Exchange
     ├── virtual columns: [val['name'], val['pricings'][0]['type'], val['tags'][0]]
     └── estimated rows: 160.00
 
--- 解释从表中仅选择 'name' 字段的查询执行计划。
+-- 解释仅查询 name 字段的执行计划
 EXPLAIN
 SELECT
   val ['name']
@@ -132,7 +132,7 @@ Exchange
     ├── virtual columns: [val['name']]
     └── estimated rows: 160.00
 
--- 显示所有自动生成的虚拟列。
+-- 显示所有自动生成的虚拟列
 SHOW VIRTUAL COLUMNS WHERE table='test';
 
 ╭────────────────────────────────────────────────────────────────────────────────────────────────────────╮
@@ -160,12 +160,12 @@ SHOW VIRTUAL COLUMNS WHERE table='test';
 
 ## 性能结果
 
-虚拟列通常提供：
-- JSON 字段访问速度**快 5-10 倍**
-- **无需更改查询**即可实现自动优化
-- 查询处理期间**资源消耗降低**
-- 对现有应用程序的**透明加速**
+虚拟列提供：
+- **5-10 倍** JSON 字段访问加速
+- **自动优化**，无需修改查询
+- **降低查询处理资源消耗**
+- **对现有应用透明加速**
 
 ---
 
-*虚拟列在后台自动工作 - 只需启用该功能，让 Databend 优化您的 JSON 查询。*
+*虚拟列在后台自动工作——只需启用功能，Databend 将优化您的 JSON 查询。*
