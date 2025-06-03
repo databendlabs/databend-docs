@@ -1,43 +1,42 @@
 ---
-title: JOIN
+title: 连接（JOIN）
 ---
 
 ## 支持的连接类型
 
-*连接* (join) 操作将两个或多个表的列组合成单一结果集。Databend 支持以下连接类型：
+*连接（join）* 将两个或多个表的列组合成单个结果集。Databend 支持以下连接类型：
 
-* [Inner Join](#inner-join)
-* [Natural Join](#natural-join)
-* [Cross Join](#cross-join)
-* [Left Join](#left-join)
-* [Right Join](#right-join)
-* [Full Outer Join](#full-outer-join)
-* [Left / Right Semi-Join](#left--right-semi-join)
-* [Left / Right Anti-Join](#left--right-anti-join)
+* [内连接（Inner Join）](#inner-join)
+* [自然连接（Natural Join）](#natural-join)
+* [交叉连接（Cross Join）](#cross-join)
+* [左连接（Left Join）](#left-join)
+* [右连接（Right Join）](#right-join)
+* [全外连接（Full Outer Join）](#full-outer-join)
+* [左/右半连接（Left / Right Semi-Join）](#left--right-semi-join)
+* [左/右反连接（Left / Right Anti-Join）](#left--right-anti-join)
 
 ## 示例表
 
-除非特别说明，本页所有连接示例均基于以下表结构：
+除非明确指定，本页面的连接示例均基于以下表：
 
 表 "vip_info"：存储 VIP 客户信息。
 
 | Client_ID 	   | Region    	 |
 |---------------|-------------|
 | 101         	 | Toronto   	 |
-| 102         	 | Quebec         	 | Quebec    	 |
+| 102         	 | Quebec    	 |
 | 103         	 | Vancouver 	 |
 
-表 "purchase_records"：记录所有客户的购买记录。
+表 "purchase_records"：记录所有客户的购买信息。
 
 | Client_ID 	   | Item      	 | QTY 	     |
-|---------------|-------------|
-||
+|---------------|-------------|-----------|
 | 100         	 | Croissant 	 | 2,000   	 |
 | 102         	 | Donut     	 | 3,000   	 |
 | 103         	 | Coffee    	 | 6,000   	 |
 | 106         	 | Soda      	 | 4,000   	 |
 
-表 "gift"：列出 VIP 客户可选的礼品。
+表 "gift"：列出 VIP 客户的礼品选项。
 
 | Gift      	 |
 |-------------|
@@ -46,9 +45,9 @@ title: JOIN
 | Coffee    	 |
 | Soda      	 |
 
-## Inner Join
+## 内连接（Inner Join）
 
-*Inner Join* 返回结果集中满足连接条件的行。
+*内连接* 返回结果集中满足连接条件的行。
 
 ### 语法
 
@@ -62,10 +61,10 @@ FROM table_a
 ```
 
 :::tip
-INNER 关键字可省略。
+关键字 INNER 可选。
 :::
 
-当使用等值运算符连接两个表的公共列时，可使用 USING 关键字简化语法：
+当通过等值运算符连接公共列时，可使用 USING 简化语法：
 
 ```sql    
 SELECT select_list
@@ -78,7 +77,7 @@ FROM table_a
 
 ### 示例
 
-以下示例返回 VIP 客户的购买记录：
+返回 VIP 客户的购买记录：
 
 ```sql    
 SELECT purchase_records.client_id,
@@ -89,7 +88,7 @@ FROM   vip_info
                ON vip_info.client_id = purchase_records.client_id; 
 ```
 
-示例表定义参见 [示例表](#example-tables)。
+表定义详见[示例表](#example-tables)。
 
 输出：
 
@@ -98,9 +97,9 @@ FROM   vip_info
 |103|Coffee|6000
 ```
 
-## Natural Join
+## 自然连接（Natural Join）
 
-*Natural Join* 基于两个表中所有同名列自动进行连接。
+*自然连接* 基于两表所有同名列自动连接。
 
 ### 语法
 
@@ -113,7 +112,7 @@ FROM table_a
 
 ### 示例
 
-以下示例返回 VIP 客户的购买记录：
+返回 VIP 客户的购买记录：
 
 ```sql    
 SELECT purchase_records.client_id,
@@ -123,18 +122,18 @@ FROM   vip_info
        NATURAL JOIN purchase_records; 
 ```
 
-示例表定义参见 [示例表](#example-tables)。
+表定义详见[示例表](#example-tables)。
 
 输出：
 
 ```sql
 |102|Donut|3,000
-|103|6|6,000
+|103|Coffee|6,000
 ```
 
-## Cross Join
+## 交叉连接（Cross Join）
 
-*Cross Join* 返回第一个表的每一行与第二个表的每一行组合的结果集。
+*交叉连接* 返回左表每行与右表每行的组合结果。
 
 ### 语法
 
@@ -146,7 +145,7 @@ FROM table_a
 
 ### 示例
 
-以下示例返回为每位 VIP 客户分配所有礼品选项的结果集：
+为每位 VIP 客户分配所有礼品选项：
 
 ```sql    
 SELECT *
@@ -154,7 +153,7 @@ FROM   vip_info
        CROSS JOIN gift; 
 ```
 
-示例表定义参见 [示例表](#example-tables)。
+表定义详见[示例表](#example-tables)。
 
 输出：
 
@@ -173,9 +172,9 @@ FROM   vip_info
 103|Vancouver|Soda
 ```
 
-## Left Join
+## 左连接（Left Join）
 
-*Left Join* 返回左表的所有记录，以及右表的匹配记录。若无匹配，则右表字段显示为 NULL。
+*左连接* 返回左表所有记录及右表匹配记录，无匹配时右表字段为 NULL。
 
 ### 语法
 
@@ -186,12 +185,12 @@ FROM table_a
 		ON join_condition
 ```
 :::tip
-OUTER 关键字可省略。
+关键字 OUTER 可选。
 :::
 
 ### 示例
 
-以下示例返回所有 VIP 客户的购买记录（若无购买则显示为 NULL）：
+返回所有 VIP 客户的购买记录（无购买记录时显示 NULL）：
 
 ```sql    
 SELECT vip_info.client_id,
@@ -202,7 +201,7 @@ FROM   vip_info
               ON vip_info.client_id = purchase_records.client_id; 
 ```
 
-示例表定义参见 [示例表](#example-tables)。
+表定义详见[示例表](#example-tables)。
 
 输出：
 
@@ -212,9 +211,9 @@ FROM   vip_info
 |103|Coffee|6000
 ```
 
-## Right Join
+## 右连接（Right Join）
 
-*Right Join* 返回右表的所有记录，以及左表的匹配记录。若无匹配，则左表字段显示为 NULL。
+*右连接* 返回右表所有记录及左表匹配记录，无匹配时左表字段为 NULL。
 
 ### 语法
 
@@ -226,12 +225,12 @@ FROM table_a
 ```
 
 :::tip
-OUTER 关键字可省略。
+关键字 OUTER 可选。
 :::
 
 ### 示例
 
-以下示例返回所有购买记录对应的 VIP 信息（若无 VIP 信息则显示为 NULL）：
+返回所有购买记录对应的 VIP 信息（无匹配时显示 NULL）：
 
 ```sql    
 SELECT vip_info.client_id,
@@ -241,7 +240,7 @@ FROM   vip_info
                ON vip_info.client_id = purchase_records.client_id; 
 ```
 
-示例表定义参见 [示例表](#example-tables)。
+表定义详见[示例表](#example-tables)。
 
 输出：
 
@@ -252,9 +251,9 @@ NULL|NULL
 NULL|NULL
 ```
 
-## Full Outer Join
+## 全外连接（Full Outer Join）
 
-*Full Outer Join* 返回两表的所有行，匹配成功的行进行组合，无匹配的行则填充 NULL。
+*全外连接* 返回两表所有记录，匹配行合并，无匹配处填充 NULL。
 
 ### 语法
 
@@ -266,12 +265,12 @@ FROM   table_a
 ```
 
 :::tip
-OUTER 关键字可省略。
+关键字 OUTER 可选。
 :::
 
 ### 示例
 
-以下示例返回两表所有匹配和非匹配的行：
+返回两表所有匹配及未匹配行：
 
 ```sql
 SELECT vip_info.region,
@@ -281,7 +280,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-示例表定义参见 [示例表](#example-tables)。
+表定义详见[示例表](#example-tables)。
 
 输出：
 
@@ -293,22 +292,21 @@ NULL|Croissant
 NULL|Soda
 ```
 
-## Left / Right Semi Join
+## 左/右半连接（Left / Right Semi Join）
 
-*Left / Right Semi Join* 返回左表中与右表匹配的行连接*连接*连接* 返回右表中与左表匹配的行。
+*左半连接* 返回左表中与右表匹配的行。  
+*右半连接* 返回右表中与左表匹配的行。
 
 ### 语法
 
 ```sql
--- Left Semi Join
-
+-- 左半连接
 SELECT select_list
 FROM   table_a
        LEFT SEMI JOIN table_b
                     ON join_condition
 
--- Right Semi Join
-
+-- 右半连接
 SELECT select_list
 FROM   table_a
        RIGHT SEMI JOIN table_b
@@ -317,7 +315,7 @@ FROM   table_a
 
 ### 示例
 
-以下示例返回有购买记录的 VIP 客户（Client_ID 和 Region）：
+返回有购买记录的 VIP 客户（Client_ID 和 Region）：
 
 ```sql
 SELECT *
@@ -326,7 +324,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-示例表定义参见 [示例表](#example-tables)。
+表定义详见[示例表](#example-tables)。
 
 输出：
 
@@ -335,7 +333,7 @@ FROM   vip_info
 103|Vancouver
 ```
 
-以下示例返回 VIP 客户的购买记录（Client_ID、Item 和 QTY）：
+返回 VIP 客户的购买记录（Client_ID、Item 和 QTY）：
 
 ```sql
 SELECT *
@@ -344,7 +342,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-示例表定义参见 [示例表](#example-tables)。
+表定义详见[示例表](#example-tables)。
 
 输出：
 
@@ -353,22 +351,21 @@ FROM   vip_info
 |103|Coffee|6000
 ```
 
-## Left / Right Anti Join
+## 左/右反连接（Left / Right Anti Join）
 
-*Left / Right Anti Join* 返回左表中不与右表匹配的行。*右反连接* 返回右表中不与左表匹配的行。
+*左反连接* 返回左表中与右表无匹配的行。  
+*右反连接* 返回右表中与左表无匹配的行。
 
 ### 语法
 
 ```sql
--- Left Anti Join
-
+-- 左反连接
 SELECT select_list
 FROM   table_a
        LEFT ANTI JOIN table_b
                     ON join_condition
 
--- Right Anti Join
-
+-- 右反连接
 SELECT select_list
 FROM   table_a
        RIGHT ANTI JOIN table_b
@@ -377,7 +374,7 @@ FROM   table_a
 
 ### 示例
 
-以下示例返回没有购买记录的 VIP 客户（Client_ID 和 Region）：
+返回无购买记录的 VIP 客户（Client_ID 和 Region）：
 
 ```sql
 SELECT *
@@ -386,7 +383,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-示例表定义参见 [示例表](#example-tables)。
+表定义详见[示例表](#example-tables)。
 
 输出：
 
@@ -394,7 +391,7 @@ FROM   vip_info
 101|Toronto
 ```
 
-以下示例返回非 VIP 客户的购买记录（Client_ID、Item 和 QTY）：
+返回非 VIP 客户的购买记录（Client_ID、Item 和 QTY）：
 
 ```sql
 SELECT *
@@ -403,7 +400,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-示例表定义参见 [示例表](#example-tables)。
+表定义详见[示例表](#example-tables)。
 
 输出：
 
