@@ -28,6 +28,7 @@ In self-hosted Databend, system history tables are disabled by default. To enabl
 [log.history]
 # Enable history tables
 on = true
+level = "INFO"
 
 # Configure retention policies for each table
 [[log.history.tables]]
