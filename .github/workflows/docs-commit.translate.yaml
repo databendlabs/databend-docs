@@ -52,6 +52,6 @@ jobs:
           refine_system_prompt: ".github/workflows/refine_prompt.txt"
           TEMPERATURE:  ${{ secrets.TEMPERATURE }}
           REFINE_TEMPERATURE:  ${{ secrets.REFINE_TEMPERATURE }}
-          input_files: "${{ github.event.inputs.path }}"
+          input_files: "${{ steps.changed_files.outputs.files }}"
           output_files: "docs/cn/**/*.{md,json}"
           commit_message: "Add LLM Translations V2"
