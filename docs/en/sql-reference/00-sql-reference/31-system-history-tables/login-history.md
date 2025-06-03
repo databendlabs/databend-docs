@@ -6,7 +6,8 @@ Records all login attempts in the system, including successful and failed login 
 
 Login successful example:
 ```sql
-SELECT * FROM system_history.login_history limit 1;
+SELECT * FROM system_history.login_history LIMIT 1;
+
 *************************** 1. row ***************************
     event_time: 2025-06-03 06:04:57.353108
        handler: HTTP
@@ -23,7 +24,8 @@ connection_uri: /query
 
 Login failed example:
 ```sql
-SELECT * FROM system_history.login_history limit 1;
+SELECT * FROM system_history.login_history LIMIT 1;
+
 *************************** 1. row ***************************
     event_time: 2025-06-03 06:07:32.512021
        handler: MySQL

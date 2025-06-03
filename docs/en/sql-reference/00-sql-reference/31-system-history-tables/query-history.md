@@ -5,7 +5,8 @@ title: system_history.query_history
 Records detailed logs of all SQL query executions in Databend. For each query, two entries are generated: one when the query starts and another when it finishes. This table is valuable for monitoring query activity, auditing user actions, and analyzing performance metrics.
 
 ```sql
-SELECT * FROM system_history.query_history limit 2;
+SELECT * FROM system_history.query_history LIMIT 2;
+
 *************************** 1. row ***************************
                 log_type: 1
            log_type_name: Start

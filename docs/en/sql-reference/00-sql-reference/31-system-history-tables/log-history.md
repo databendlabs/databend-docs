@@ -7,7 +7,8 @@ Stores raw log entries ingested from various nodes. This table acts as the prima
 All the other log tables are derived from this table, the difference is that other log tables will do some transformations to make the data more structured.
 
 ```sql
-DESCRIBE system_history.log_history
+DESCRIBE system_history.log_history;
+
 ╭──────────────────────────────────────────────────────╮
 │     Field    │    Type   │  Null  │ Default │  Extra │
 │    String    │   String  │ String │  String │ String │
@@ -27,7 +28,8 @@ DESCRIBE system_history.log_history
 ```
 
 ```sql
-SELECT * FROM system_history.log_history  LIMIT 1;
+SELECT * FROM system_history.log_history LIMIT 1;
+
 *************************** 1. row ***************************
    timestamp: 2025-06-03 01:29:49.335455
         path: databend_common_meta_client::channel_manager: channel_manager.rs:86

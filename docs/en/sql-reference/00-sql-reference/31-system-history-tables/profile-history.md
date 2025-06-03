@@ -6,7 +6,7 @@ Stores detailed execution profiles for SQL queries in Databend. Each entry provi
 The `profiles` field contains a JSON object with detailed information.
 
 ```sql
-DESCRIBE system_history.profile_history
+DESCRIBE system_history.profile_history;
 
 ╭─────────────────────────────────────────────────────────╮
 │      Field      │    Type   │  Null  │ Default │  Extra │
@@ -19,9 +19,10 @@ DESCRIBE system_history.profile_history
 ╰─────────────────────────────────────────────────────────╯
 ```
 
-You can use the `profiles` field to extract specific information from the JSON object. For example, to get the `OutputRows` value for every physical plan, you can use the following query:
+The `profiles` field can be used to extract specific information. For example, to get the `OutputRows` value for every physical plan, the following query can be used:
 ```sql
 SELECT jq('[.[] | {id, output_rows: .statistics[4]}]', profiles ) AS result FROM system_history.profile_history LIMIT 1;
+
 *************************** 1. row ***************************
 result: [{"id":0,"output_rows":1},{"id":3,"output_rows":8},{"id":1,"output_rows":1},{"id":2,"output_rows":1}]
 ```
