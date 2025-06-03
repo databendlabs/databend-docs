@@ -41,7 +41,7 @@ jobs:
           git push -u origin $BRANCH_NAME
 
       - name: Run GPT Translate
-        uses: BohuTANG/gpt-translate-refine@v1.4.0
+        uses: BohuTANG/gpt-translate-refine@v1.4.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           api_key: ${{ secrets.API_KEY }}
