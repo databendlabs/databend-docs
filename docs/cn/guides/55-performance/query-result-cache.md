@@ -2,24 +2,24 @@
 title: 查询结果缓存
 ---
 
-Databend 在启用时会缓存并持久化每次执行查询的查询结果。这可以极大地减少获取答案所需的时间。
+启用后，Databend 会缓存并持久化每个已执行查询的结果。这能显著缩短查询响应时间。
 
 ## 缓存使用条件
 
-仅当满足**所有**条件时，查询结果才会从缓存中重用：
+仅当满足**所有**条件时，才会复用缓存中的查询结果：
 
 | 条件 | 要求 |
 |-----------|-------------|
 | **缓存已启用** | 当前会话中 `enable_query_result_cache = 1` |
-| **完全相同的查询** | 查询文本必须完全匹配 (区分大小写) |
-| **执行时间** | 原始查询运行时长 ≥ `query_result_cache_min_execute_secs` |
+| **相同查询** | 查询文本必须完全匹配 (区分大小写) |
+| **执行时间** | 原始查询运行时间 ≥ `query_result_cache_min_execute_secs` |
 | **结果大小** | 缓存结果 ≤ `query_result_cache_max_bytes` |
-| **TTL 有效** | 缓存时间 < `query_result_cache_ttl_secs` |
-| **数据一致性** | 自缓存以来表数据未更改 (除非 `query_result_cache_allow_inconsistent = 1`) |
-| **会话范围** | 缓存是会话特定的 |
+| **TTL 有效** | 缓存生成时间 < `query_result_cache_ttl_secs` |
+| **数据一致性** | 表数据自缓存后未变更 (除非 `query_result_cache_allow_inconsistent = 1`) |
+| **会话范围** | 缓存作用域为会话级别 |
 
 :::note 自动缓存失效
-默认情况下 ( `query_result_cache_allow_inconsistent = 0` )，当底层表数据发生变化时，缓存结果会自动失效。这确保了数据一致性，但可能会降低在频繁更新的表中的缓存效率。
+默认配置下 (`query_result_cache_allow_inconsistent = 0`)，当底层表数据变更时缓存结果自动失效。这确保数据一致性，但可能降低高频更新场景的缓存效率。
 :::
 
 ## 快速入门
@@ -30,23 +30,23 @@ Databend 在启用时会缓存并持久化每次执行查询的查询结果。�
 -- 启用查询结果缓存
 SET enable_query_result_cache = 1;
 
--- 可选：缓存所有查询 (包括快速查询)
+-- 可选：缓存所有查询 (含快速查询)
 SET query_result_cache_min_execute_secs = 0;
 ```
 
-## 配置设置
+## 配置参数
 
-| 设置 | 默认值 | 描述 |
+| 参数 | 默认值 | 描述 |
 |---------|---------|-------------|
 | `enable_query_result_cache` | 0 | 启用/禁用查询结果缓存 |
-| `query_result_cache_allow_inconsistent` | 0 | 即使底层数据发生变化也允许使用缓存结果 |
-| `query_result_cache_max_bytes` | 1048576 | 单个缓存结果的最大大小 (字节) |
-| `query_result_cache_min_execute_secs` | 1 | 缓存前的最小执行时间 |
-| `query_result_cache_ttl_secs` | 300 | 缓存过期时间 (5 分钟) |
+| `query_result_cache_allow_inconsistent` | 0 | 允许使用底层数据变更后的缓存结果 |
+| `query_result_cache_max_bytes` | 1048576 | 单条缓存结果最大字节数 |
+| `query_result_cache_min_execute_secs` | 1 | 触发缓存的最小执行时间 |
+| `query_result_cache_ttl_secs` | 300 | 缓存有效期 (5 分钟) |
 
 ## 性能示例
 
-此示例演示缓存 TPC-H Q1 查询：
+以下演示 TPC-H Q1 查询的缓存效果：
 
 ### 1. 启用缓存
 ```sql
@@ -73,21 +73,21 @@ GROUP BY l_returnflag, l_linestatus
 ORDER BY l_returnflag, l_linestatus;
 ```
 
-**结果**：4 行，耗时 **21.492 秒** (处理了 6 亿行)
+**结果**：4 行，耗时 **21.492 秒** (处理 600M 行)
 
 ### 3. 验证缓存条目
 ```sql
 SELECT sql, query_id, result_size, num_rows FROM system.query_cache;
 ```
 
-### 4. 第二次执行 (从缓存中)
-再次运行相同的查询。
+### 4. 二次执行 (缓存命中)
+重复执行相同查询。
 
-**结果**：4 行，耗时 **0.164 秒** (处理了 0 行)
+**结果**：4 行，耗时 **0.164 秒** (处理 0 行)
 
 ## 缓存管理
 
-### 监控缓存使用情况
+### 监控缓存
 ```sql
 SELECT * FROM system.query_cache;
 ```
@@ -98,13 +98,13 @@ SELECT * FROM RESULT_SCAN(LAST_QUERY_ID());
 ```
 
 ### 缓存生命周期
-缓存结果在以下情况下会自动删除：
+缓存结果在以下情况自动清除：
 - **TTL 过期** (默认：5 分钟)
-- **结果大小超出限制** (默认：1MB)
-- **会话结束** (缓存是会话范围的)
-- **底层数据更改** (为保持一致性而自动失效)
-- **表结构更改** (模式修改会使缓存失效)
+- **结果超限** (默认：1MB)
+- **会话终止** (缓存作用域为会话级别)
+- **数据变更** (自动失效确保一致性)
+- **表结构变更** (Schema 修改触发失效)
 
-:::note 会话范围
-查询结果缓存是会话范围的。每个会话维护自己的缓存，并在会话结束时自动清理。
+:::note 会话作用域
+查询结果缓存按会话隔离。各会话维护独立缓存，会话结束时自动清理。
 :::
