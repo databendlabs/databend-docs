@@ -51,8 +51,8 @@ jobs:
           target_lang: "Simplified-Chinese"
           system_prompt: ".github/workflows/prompt.txt"
           refine_system_prompt: ".github/workflows/refine_prompt.txt"
-          TEMPERATURE:  ${{ secrets.TEMPERATURE }}
-          REFINE_TEMPERATURE:  ${{ secrets.REFINE_TEMPERATURE }}
+          temperature:  ${{ secrets.TEMPERATURE }}
+          refine_temperature:  ${{ secrets.REFINE_TEMPERATURE }}
           input_files: "${{ github.event.inputs.path }}"
           output_files: "docs/cn/**/*.{md,json}"
           pr_title: "Add LLM Translations V2"
