@@ -43,6 +43,7 @@ jobs:
       - name: Run GPT Translate
         uses: BohuTANG/gpt-translate-refine@v1.3.0
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           api_key: ${{ secrets.API_KEY }}
           base_url: ${{ secrets.BASE_URL }}
           ai_model: ${{ secrets.LLM_MODEL }}
@@ -54,4 +55,4 @@ jobs:
           REFINE_TEMPERATURE:  ${{ secrets.REFINE_TEMPERATURE }}
           input_files: "${{ github.event.inputs.path }}"
           output_files: "docs/cn/**/*.{md,json}"
-          commit_message: "Add LLM Translations"
+          commit_message: "Add LLM Translations V2"
