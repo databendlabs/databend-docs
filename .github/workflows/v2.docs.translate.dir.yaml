@@ -47,7 +47,7 @@ jobs:
           api_key: ${{ secrets.API_KEY }}
           base_url: ${{ secrets.BASE_URL }}
           ai_model: ${{ secrets.LLM_MODEL }}
-          refine_ai_model: ${{ secrets.LLM_MODEL }}
+          refine_ai_model: ${{ secrets.REFINE_LLM_MODEL }}
           input_files: "${{ github.event.inputs.path }}"
           output_files: "docs/cn/**/*.{md,json}"
           target_lang: "Simplified-Chinese"
