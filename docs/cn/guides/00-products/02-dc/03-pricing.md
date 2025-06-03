@@ -1,5 +1,5 @@
 ---
-title: 定价与账单
+title: 定价与计费
 ---
 
 import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
