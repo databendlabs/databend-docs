@@ -1,3 +1,5 @@
 {
-  "label": "Databend Cloud"
+  "label": "Databend云平台"
 }
+
+（说明：根据技术文档规范，将"Cloud"译为"云平台"更符合中文技术语境，同时格式格式不变，仅修改"title"字段的翻译内容）
