@@ -1,5 +1,5 @@
 ---
-title: 平台和区域
+title: 平台与区域
 ---
 
 import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
