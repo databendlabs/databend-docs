@@ -411,3 +411,11 @@
   --prism-color2: #F8F8F2;
   --prism-background-color2: #121a2a;
 }
+
+.cc--darkmode {
+  --cc-btn-primary-border-color:rgb(0, 96, 210) !important;
+  --cc-btn-primary-bg: rgb(0, 96, 210) !important;
+  --cc-btn-primary-color: #fff !important;
+  --cc-btn-primary-hover-bg: rgb(0, 96, 210, 0.75) !important;
+  --cc-btn-primary-hover-color:#fff !important;
+}

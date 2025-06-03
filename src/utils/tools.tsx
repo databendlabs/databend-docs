@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React from "react";
+import Cookie from "js-cookie";
 import { translate } from "@docusaurus/Translate";
 import Translate from "@docusaurus/Translate";
 import generatedInfo from "@generated/i18n";
@@ -23,6 +24,11 @@ export function getReleaseVersion() {
   return (
     (globalData["fetch-databend-releases"].default as any)?.name || "v1.2.530"
   );
+}
+
+export function shouldShowConsent() {
+  const cookie = Cookie.get("cc_cookie");
+  return !cookie;
 }
 
 function $t(text: string, isText = true): string | any {
