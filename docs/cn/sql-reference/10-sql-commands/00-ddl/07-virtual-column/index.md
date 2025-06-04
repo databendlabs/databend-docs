@@ -1,11 +1,23 @@
 ---
-title: VIRTUAL COLUMN
+title: 虚拟列（Virtual Column）
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VIRTUAL COLUMN'/>
 
-本页提供 Databend 中与虚拟列相关的命令的参考信息。有关虚拟列的更多信息，请参见 [Virtual Column](/guides/performance/virtual-column)。
+本页全面概述了 Databend 中的虚拟列操作，按功能组织以便参考。
 
-<IndexOverviewList />
+## 虚拟列管理
+
+| 命令 | 描述 |
+|---------|-------------|
+| [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) | 使用最新数据更新虚拟列 |
+| [SHOW VIRTUAL COLUMNS](show-virtual-columns.md) | 列出表中的所有虚拟列 |
+
+## 相关主题
+
+- [虚拟列](/guides/performance/virtual-column)
+
+:::note
+Databend 中的虚拟列是从表中其他列计算得出的派生列。它们不物理存储，而是在查询执行期间按需计算。
+:::

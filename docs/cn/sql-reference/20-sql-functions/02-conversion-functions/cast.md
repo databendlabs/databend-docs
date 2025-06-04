@@ -1,8 +1,8 @@
 ---
-title: "CAST, ::"
+title: "CAST::"
 ---
 
-将一个值从一种数据类型转换为另一种数据类型。`::` 是 CAST 的别名。
+将值从一种数据类型转换为另一种数据类型。`::` 是 CAST 的别名。
 
 另请参阅：[TRY_CAST](try-cast.md)
 
@@ -26,7 +26,8 @@ SELECT CAST(1 AS VARCHAR), 1::VARCHAR;
 └───────────────────────────────┘
 ```
 
-将字符串转换为 Variant 并将 Variant 转换为 `Map<String, Variant>`
+将字符串转换为
+变体类型（Variant），再将其转换为 `Map<String, Variant>`
 ```sql
 select '{"k1":"v1","k2":"v2"}'::Variant a, a::Map(String, String) b, b::Variant = a;
 ┌──────────────────────┬──────────────────────┬────────────────┐

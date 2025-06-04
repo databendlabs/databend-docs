@@ -1,8 +1,23 @@
 ---
-title: 事务
+title: 事务（Transaction）
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-本页提供了 Databend 中与事务相关的命令的参考信息。
+本文档全面介绍 Databend 中的事务操作，按功能分类以便查阅。
 
-<IndexOverviewList />
+## 事务控制
+
+| 命令 | 描述 |
+|---------|-------------|
+| [BEGIN](begin.md) | 启动新事务 |
+| [COMMIT](commit.md) | 提交当前事务并保存所有更改 |
+| [ROLLBACK](rollback.md) | 回滚当前事务并撤销所有更改 |
+
+## 事务信息
+
+| 命令 | 描述 |
+|---------|-------------|
+| [SHOW LOCKS](show-locks.md) | 显示系统中的活动锁信息 |
+
+:::note
+Databend 通过将 SQL 操作分组为原子单元来确保数据一致性，这些操作要么全部成功执行，要么完全回退，从而保障数据库完整性。
+:::

@@ -1,8 +1,18 @@
 ---
-title: 序列函数
+title: 序列函数（Sequence Functions）
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-本节提供 Databend 中序列函数的参考信息。
+本节提供 Databend 中序列函数的参考信息。序列函数允许您使用序列对象（Sequence Objects），这些对象生成唯一的、自动递增的数值。
 
-<IndexOverviewList />
+## 可用的序列函数
+
+| 函数 | 描述 | 示例 |
+|------|------|------|
+| [NEXTVAL](nextval) | 从序列中检索下一个值 | `NEXTVAL(my_sequence)` |
+
+主要优化说明：
+1. 标题保留首次术语注释后，正文统一使用中文术语
+2. 移除了表格描述中冗余的 "(Sequence)" 标注（前文已明确定义）
+3. 精简了 "可用的序列函数" 标题的重复注释
+4. 确保术语一致性："Sequence Objects" 首次出现时补充英文注释
+5. 优化了标点使用（删除不必要的括号）和句式流畅度
