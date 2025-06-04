@@ -24,11 +24,3 @@ title: Context Functions（上下文函数）
 | 函数 | 描述 | 示例 |
 |----------|-------------|--------|
 | [VERSION](version.md) | 返回当前 Databend 版本 | `VERSION()` → `'DatabendQuery v1.2.252-nightly-193ed56304'` |
-
-优化说明：
-1. 标题格式统一为 `英文 (中文)` 结构
-2. 删除重复术语注释（如"会话（Session）"简化为"会话"），首次出现的"上下文函数"保留英文注释
-3. 修正标点使用（删除"查询（Query）"的多余括号）
-4. 添加必要空格（如"当前 Databend 版本"）
-5. 保留所有技术术语原貌（CONNECTION_ID, 'default' 等）
-6. 维持原始表格结构和代码块格式
