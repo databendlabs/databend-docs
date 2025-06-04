@@ -12,7 +12,7 @@ Welcome to the official documentation repository for Databend! We invite you to 
 
 ## A Sneak Peek into Databend Docs
 
-The Databend docs are thoughtfully organized to provide users with a structured and comprehensive resource. Navigating through the documentation page at [https://docs.databend.com/](https://docs.databend.com/), you'll find key information categorized into distinct tabs. Each tab serves a specific purpose, offering detailed insights into different aspects of Databend:
+The Databend docs are thoughtfully organized to provide users with a structured and comprehensive resource. Navigating through the documentation page at [https://docs.databend.com/](https://docs.databend.com/guides), you'll find key information categorized into distinct tabs. Each tab serves a specific purpose, offering detailed insights into different aspects of Databend:
 
 | Tab            | Folder in this Repo                                                                                  | Description                                                                                                                                                                                                                          |
 | -------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
