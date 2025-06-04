@@ -54,7 +54,7 @@ CREATE CONNECTION external_table_conn_new
 
 -- Create an external table using the first connection
 CREATE OR REPLACE TABLE external_table_test (
-    id INTEGER,
+    id INT,
     name VARCHAR,
     age INT
 ) 
@@ -77,7 +77,7 @@ CREATE CONNECTION s3_access_key_conn
     SECRET_ACCESS_KEY = '<your-secret-access-key>';
 
 CREATE TABLE sales_data (
-    order_id INTEGER,
+    order_id INT,
     product_name VARCHAR,
     quantity INT
 ) 
