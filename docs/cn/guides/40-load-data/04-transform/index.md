@@ -3,7 +3,7 @@ title: 查询与转换
 slug: querying-stage
 ---
 
-Databend 允许直接查询暂存文件而无需先将数据加载到表中。可以从任何类型的 stage（用户、内部、外部）或直接从对象存储和 HTTPS URL 查询文件。非常适合在数据加载前后进行检查、验证和转换。
+Databend 支持直接查询暂存文件，无需先将数据加载到表中。您可以查询任何类型的暂存（用户、内部、外部）文件，或直接从对象存储和 HTTPS URL 查询。这非常适合在数据加载前后进行数据检查、验证和转换。
 
 ## 语法
 
@@ -19,19 +19,19 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 )]
 ```
 
-## 参数概览
+## 参数概述
 
 控制数据访问和解析的关键参数：
 
 | 参数 | 描述 |
 | --------- | ----------- |
-| `FILE_FORMAT` | 文件格式类型 (CSV, TSV, NDJSON, PARQUET, ORC, Avro) |
-| `PATTERN` | 用于筛选文件的正则表达式模式 |
+| `FILE_FORMAT` | 文件格式类型（CSV、TSV、NDJSON、PARQUET、ORC、Avro） |
+| `PATTERN` | 用于过滤文件的正则表达式模式 |
 | `FILES` | 要查询的显式文件列表 |
-| `CASE_SENSITIVE` | 列名大小写敏感性 (Parquet) |
+| `CASE_SENSITIVE` | 列名大小写敏感性（Parquet） |
 | `table_alias` | 引用暂存文件的别名 |
-| `$col_position` | 按位置选择列 (从1开始) |
-| `connection_parameters` | 外部存储连接详情 |
+| `$col_position` | 按位置选择列（从 1 开始） |
+| `connection_parameters` | 外部存储连接详细信息 |
 | `uri` | 远程文件的 URI |
 
 ## 支持的文件格式

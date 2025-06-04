@@ -1,55 +1,55 @@
 ---
-title: 什么是 Stage？
+title: 什么是暂存区（Stage）？
 ---
 
-在 Databend 中，Stage 是一个存放数据文件的虚拟位置。您可以直接查询 Stage 中的文件，或将数据加载到表中。反之，您也可以将表中的数据卸载到 Stage 作为文件存储。使用 Stage 的妙处在于，您可以像访问电脑文件夹一样便捷地进行数据加载和卸载操作。就像将文件放入文件夹时无需知晓其在硬盘上的确切位置一样，访问 Stage 中的文件只需指定 Stage 名称和文件名（例如 `@mystage/mydatafile.csv`），而无需指明其在对象存储桶中的具体路径。与电脑文件夹类似，您可以在 Databend 中创建任意数量的 Stage。但需注意，Stage 不能嵌套包含其他 Stage，每个 Stage 都是独立存在的。
+在 Databend 中，暂存区是数据文件所在的虚拟位置。暂存区中的文件可以直接查询或加载到表中。您也可以将表中的数据卸载到暂存区作为文件。使用暂存区的优势在于，您可以像操作计算机文件夹一样便捷地进行数据加载和卸载。如同将文件放入文件夹时无需知晓其在硬盘上的精确位置，访问暂存区文件时只需指定暂存区名称和文件名（如 `@mystage/mydatafile.csv`），无需关注其在对象存储桶中的具体路径。与计算机文件夹类似，您可以在 Databend 中创建任意数量的暂存区。但需注意：暂存区不可嵌套，每个暂存区独立运行且不包含其他暂存区。
 
-通过 Stage 加载数据还能提升文件上传、管理和筛选的效率。借助 [BendSQL](../../30-sql-clients/00-bendsql/index.md)，您只需一条命令即可轻松上传或下载 Stage 中的文件。向 Databend 加载数据时，您可以在 COPY INTO 命令中直接指定 Stage，使命令从该 Stage 读取甚至筛选数据文件。同样，从 Databend 导出数据时，您也可以将数据文件转储至 Stage。
+使用暂存区加载数据还能提升文件上传、管理和过滤的效率。通过 [BendSQL](../../30-sql-clients/00-bendsql/index.md)，您只需单条命令即可轻松上传或下载暂存区文件。向 Databend 加载数据时，您可在 COPY INTO 命令中直接指定暂存区，该命令将自动读取并过滤该暂存区的数据文件。同样，从 Databend 导出数据时，您可将数据文件转储至暂存区。
 
-## Stage 类型
+## 暂存区类型
 
-根据实际存储位置和可访问性，Stage 可分为以下类型：内部 Stage、外部 Stage 和用户 Stage。下表总结了 Databend 中不同 Stage 类型的特性，包括存储位置、可访问性及推荐使用场景：
+根据存储位置和访问权限，暂存区可分为三种类型：内部暂存区、外部暂存区和用户暂存区。下表总结了 Databend 中各类暂存区的特性，包括存储位置、访问权限及适用场景：
 
-|                      | 用户 Stage                      | 内部 Stage                                   | 外部 Stage                                                                                                |
-|----------------------|--------------------------------|----------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| **存储位置**         | 内部对象存储（Databend）       | 内部对象存储（Databend）                     | 外部对象存储（如 S3、Azure）                                                                              |
-| **创建方式**         | 自动创建                       | 手动创建：`CREATE STAGE stage_name;`         | 手动创建：`CREATE STAGE stage_name` `'s3://bucket/prefix/'` `CONNECTION=(endpoint_url='x', ...);`         |
-| **访问控制**         | 仅创建用户可访问               | 可与其他用户或角色共享                       | 可与其他用户或角色共享                                                                                    |
-| **删除 Stage**       | 不允许删除                     | 删除 Stage 并清空其中文件                    | 仅删除 Stage；外部存储中的文件保留                                                                        |
-| **文件上传**         | 必须上传文件至 Databend        | 必须上传文件至 Databend                      | 无需上传；用于从外部存储读取或卸载数据                                                                    |
-| **使用场景**         | 个人/私有数据                  | 团队/共享数据                                | 外部数据集成或卸载                                                                                        |
-| **路径格式**         | `@~/`                          | `@stage_name/`                               | `@stage_name/`                                                                                            |
+|                      | 用户暂存区                         | 内部暂存区                                   | 外部暂存区                                                                                                |
+|----------------------|------------------------------------|--------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **存储位置** | 内部对象存储（Databend） | 内部对象存储（Databend）               | 外部对象存储（如 S3、Azure）                                                                     |
+| **创建方式**  | 自动创建              | 手动创建：`CREATE STAGE stage_name;` | 手动创建：`CREATE STAGE stage_name` `'s3://bucket/prefix/'` `CONNECTION=(endpoint_url='x', ...);` |
+| **访问控制**   | 仅创建用户可访问        | 可共享给其他用户或角色          | 可共享给其他用户或角色                                                                       |
+| **删除操作**       | 禁止                        | 删除暂存区并清除其中文件         | 仅删除暂存区定义，外部文件保留                                           |
+| **文件上传**      | 需上传至 Databend      | 需上传至 Databend                    | 无需上传，直接读取或卸载外部存储数据                                        |
+| **适用场景**   | 个人/私有数据              | 团队/共享数据                                 | 外部数据集成或卸载                                                                        |
+| **路径格式**      | `@~/`                              | `@stage_name/`                                   | `@stage_name/`                                                                                                |
 
-### 内部 Stage
+### 内部暂存区
 
-内部 Stage 的文件实际存储在 Databend 所在的对象存储中。组织内所有用户均可访问内部 Stage，每个用户都能利用该 Stage 进行数据加载或导出任务。与创建文件夹类似，创建 Stage 时需要指定名称。以下是使用 [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令创建内部 Stage 的示例：
+内部暂存区的文件实际存储在 Databend 对象存储中。该类型可供组织内所有用户访问，每个用户均可用于数据加载或导出任务。创建时需指定名称，如同创建文件夹。以下是通过 [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令创建内部暂存区的示例：
 
 ```sql
--- 创建名为 my_internal_stage 的内部 Stage
+-- 创建名为 my_internal_stage 的内部暂存区
 CREATE STAGE my_internal_stage;
 ```
 
-### 外部 Stage
+### 外部暂存区
 
-外部 Stage 允许您指定 Databend 所在位置之外的对象存储。例如，若您的数据集存储在 Google 云存储容器中，可使用该容器创建外部 Stage。创建外部 Stage 时，必须提供连接信息以便 Databend 访问外部存储位置。
+外部暂存区指向 Databend 外部的对象存储位置。例如，若您的数据集位于 Google Cloud Storage 容器中，可基于该容器创建外部暂存区。创建时必须提供外部存储的连接信息。
 
-以下是创建外部 Stage 的示例。假设您有一个名为 `databend-doc` 的 Amazon S3 存储桶存放数据集：
+假设您的数据集存储在 Amazon S3 存储桶 `databend-doc` 中：
 
 ![alt text](/img/guides/external-stage.png)
 
-您可以使用 [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令创建外部 Stage 连接该存储桶：
+通过 [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令创建外部暂存区连接该存储桶：
 
 ```sql
--- 创建名为 my_external_stage 的外部 Stage
+-- 创建名为 my_external_stage 的外部暂存区
 CREATE STAGE my_external_stage
     URL = 's3://databend-doc'
     CONNECTION = (
-        AWS_KEY_ID = '<您的密钥ID>',
-        AWS_SECRET_KEY = '<您的密钥>'
+        AWS_KEY_ID = '<YOUR-KEY-ID>',
+        AWS_SECRET_KEY = '<YOUR-SECRET-KEY>'
     );
 ```
 
-创建外部 Stage 后，即可从 Databend 访问数据集。例如列出文件：
+创建后即可从 Databend 访问数据集。例如列出文件：
 
 ```sql
 LIST @my_external_stage;
@@ -62,27 +62,28 @@ LIST @my_external_stage;
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-请注意，外部存储必须是 Databend 支持的对象存储方案。[CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令页面提供了常用对象存储的连接信息配置示例。
+> **注意**  
+> 外部存储必须是 Databend 支持的对象存储方案。[CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令文档提供了常用对象存储的连接配置示例。
 
-### 用户 Stage
+### 用户暂存区
 
-用户 Stage 可视为特殊的内部 Stage：其文件存储在 Databend 内部对象存储中，但其他用户无法访问。每个用户都默认拥有专属的用户 Stage，无需预先创建或命名。此外，用户无法删除自己的用户 Stage。
+用户暂存区是内部暂存区的特殊类型：文件存储在 Databend 对象存储中，但其他用户不可访问。每个用户自动拥有专属用户暂存区，无需创建或命名，且不可删除。
 
-用户 Stage 适合作为无需共享的私有数据文件仓库。访问用户 Stage 需使用 `@~` 符号。例如列出 Stage 中所有文件：
+该类型适用于存储无需共享的个人数据文件。通过 `@~` 访问用户暂存区，例如列出所有文件：
 
 ```sql
 LIST @~;
 ```
 
-## 管理 Stage
+## 管理暂存区
 
-Databend 提供多种命令帮助您管理 Stage 及其中的暂存文件：
+Databend 提供以下命令管理暂存区及其文件：
 
-| 命令                                                         | 描述                                                                                                                                                                                                                               | 适用于用户 Stage      | 适用于内部 Stage          | 适用于外部 Stage          |
-| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------- | ------------------------- |
-| [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) | 创建内部或外部 stage                                                                                                                                                                                                               | 否                    | 是                        | 是                        |
-| [DROP STAGE](/sql/sql-commands/ddl/stage/ddl-drop-stage)     | 删除内部或外部 stage                                                                                                                                                                                                               | 否                    | 是                        | 是                        |
-| [DESC STAGE](/sql/sql-commands/ddl/stage/ddl-desc-stage)     | 显示内部或外部 stage 的属性                                                                                                                                                                                                        | 否                    | 是                        | 是                        |
-| [LIST](/sql/sql-commands/ddl/stage/ddl-list-stage)           | 返回 stage 中暂存文件的列表。或者，表函数 [LIST_STAGE](/sql/sql-functions/table-functions/list-stage) 提供类似功能，并增加了获取特定文件信息的灵活性                                                                                | 是                    | 是                        | 是                        |
-| [REMOVE](/sql/sql-commands/ddl/stage/ddl-remove-stage)       | 从 stage 中移除暂存文件                                                                                                                                                                                                            | 是                    | 是                        | 是                        |
-| [SHOW STAGES](/sql/sql-commands/ddl/stage/ddl-show-stages)   | 返回已创建的内部和外部 stage 列表                                                                                                                                                                                                  | 否                    | 是                        | 是                        |
+| 命令                                                      | 描述                                                                                                                                                                                                                          | 用户暂存区 | 内部暂存区 | 外部暂存区 |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------- | ------------------------- | ------------------------- |
+| [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) | 创建内部/外部暂存区                                                                                                                                                                                               | 否                    | 是                       | 是                       |
+| [DROP STAGE](/sql/sql-commands/ddl/stage/ddl-drop-stage)     | 删除内部/外部暂存区                                                                                                                                                                                               | 否                    | 是                       | 是                       |
+| [DESC STAGE](/sql/sql-commands/ddl/stage/ddl-desc-stage)     | 显示暂存区属性                                                                                                                                                                                               | 否                    | 是                       | 是                       |
+| [LIST](/sql/sql-commands/ddl/stage/ddl-list-stage)           | 列出暂存区文件<br>或使用表函数 [LIST_STAGE](/sql/sql-functions/table-functions/list-stage) 灵活获取文件详情 | 是                   | 是                       | 是                       |
+| [REMOVE](/sql/sql-commands/ddl/stage/ddl-remove-stage)       | 删除暂存区文件                                                                                                                                                                                                   | 是                   | 是                       | 是                       |
+| [SHOW STAGES](/sql/sql-commands/ddl/stage/ddl-show-stages)   | 列出所有已创建的暂存区                                                                                                                                                                          | 否                    | 是                       | 是                       |

@@ -1,28 +1,28 @@
 ---
-title: 上传文件至 Stage
+title: 上传到存储阶段 (Stage)
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Databend 推荐两种文件上传至 Stage 的方法：[PRESIGN](/sql/sql-commands/ddl/stage/presign) 和 PUT/GET 命令。这些方法可实现客户端与存储之间的直接数据传输，无需中间环节，从而减少 Databend 与存储之间的流量，节省成本。
+Databend 推荐两种文件上传方法用于存储阶段：[PRESIGN](/sql/sql-commands/ddl/stage/presign) 和 PUT/GET 命令。这些方法支持客户端与存储系统直接传输数据，消除中间环节，通过减少 Databend 与存储系统间的流量实现成本优化。
 
 ![Alt text](/img/load/staging-file.png)
 
-PRESIGN 方法会生成一个带签名且有时效性的 URL，客户端可用其安全地发起文件上传。该 URL 授予对指定 Stage 的临时访问权限，允许客户端直接传输数据而无需依赖 Databend 服务器全程参与，既提升安全性又提高效率。
+PRESIGN 方法生成带签名的限时 URL，客户端可通过该 URL 安全发起文件上传。此 URL 授予指定存储阶段的临时访问权限，允许客户端直接传输数据而无需全程依赖 Databend 服务器，兼顾安全性与效率。
 
-若使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 管理 Stage 中的文件，可通过 PUT 命令上传文件，GET 命令下载文件。
+若使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 管理存储阶段中的文件，可通过 PUT 命令上传文件，GET 命令下载文件。
 
-- 当前 GET 命令仅能下载 Stage 中的所有文件，无法单独下载特定文件。
-- 这些命令仅适用于 BendSQL，且当 Databend 使用文件系统作为存储后端时，GET 命令将无法使用。
+- GET 命令当前仅支持下载存储阶段内全部文件，不支持单文件下载
+- 这些命令仅适用于 BendSQL，当 Databend 使用文件系统作为存储后端时，GET 命令将失效
 
 ### 使用预签名 URL 上传
 
-以下示例展示如何通过预签名 URL 将示例文件 ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)) 上传至用户 Stage、内部 Stage 及外部 Stage。
+以下示例演示如何通过预签名 URL 将示例文件 ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)) 上传至用户存储阶段、内部存储阶段和外部存储阶段。
 
 <Tabs groupId="presign">
 
-<TabItem value="user" label="上传至用户 Stage">
+<TabItem value="user" label="上传到用户存储阶段 (User Stage)">
 
 ```sql
 PRESIGN UPLOAD @~/books.parquet;
@@ -44,7 +44,7 @@ PRESIGN UPLOAD @~/books.parquet;
 curl -X PUT -T books.parquet "https://s3.us-east-2.amazonaws.com/databend-toronto/stage/user/root/books.parquet?X-Amz-Algorithm=... ...
 ```
 
-检查已暂存文件：
+检查暂存文件：
 
 ```sql
 LIST @~;
@@ -62,7 +62,7 @@ LIST @~;
 
 </TabItem>
 
-<TabItem value="internal" label="上传至内部 Stage">
+<TabItem value="internal" label="上传到内部存储阶段 (Internal Stage)">
 
 ```sql
 CREATE STAGE my_internal_stage;
@@ -88,7 +88,7 @@ PRESIGN UPLOAD @my_internal_stage/books.parquet;
 curl -X PUT -T books.parquet "https://s3.us-east-2.amazonaws.com/databend-toronto/stage/internal/my_internal_stage/books.parquet?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASTQNLUZWP2UY2HSN%2F20230628%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20230628T022951Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=9cfcdf3b3554280211f88629d60358c6d6e6a5e49cd83146f1daea7dfe37f5c1"
 ```
 
-检查已暂存文件：
+检查暂存文件：
 
 ```sql
 LIST @my_internal_stage;
@@ -105,7 +105,7 @@ LIST @my_internal_stage;
 ```
 
 </TabItem>
-<TabItem value="external" label="上传至外部 Stage">
+<TabItem value="external" label="上传到外部存储阶段 (External Stage)">
 
 ```sql
 CREATE STAGE my_external_stage
@@ -125,7 +125,7 @@ PRESIGN UPLOAD @my_external_stage/books.parquet;
 
 ````
 ┌─────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ 名称    │ 值                                                                                                                                                                                                                                                                                                                             │
+│ Name    │ Value                                                                                                                                                                                                                                                                                                                             │
 ├─────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ method  │ PUT                                                                                                                                                                                                                                                                                                                               │
 │ headers │ {"host":"127.0.0.1:9000"}                                                                                                                                                                                                                                                                                                         │
@@ -154,13 +154,13 @@ LIST @my_external_stage;
 </TabItem>
 </Tabs>
 
-### 使用 PUT 命令上传文件
+### 使用 PUT 命令上传
 
-以下示例展示如何使用 BendSQL 通过 PUT 命令将示例文件 ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)) 上传到用户级 stage、内部 stage 和外部 stage。
+以下示例演示如何通过 BendSQL 的 PUT 命令将示例文件 ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet)) 上传至用户存储阶段、内部存储阶段和外部存储阶段。
 
 <Tabs groupId="PUT">
 
-<TabItem value="user" label="上传到用户级 Stage">
+<TabItem value="user" label="上传到用户存储阶段">
 
 ```sql
 PUT fs:///Users/eric/Documents/books.parquet @~
@@ -194,7 +194,7 @@ LIST @~;
 
 </TabItem>
 
-<TabItem value="internal" label="上传到内部 Stage">
+<TabItem value="internal" label="上传到内部存储阶段">
 
 ```sql
 CREATE STAGE my_internal_stage;
@@ -231,7 +231,7 @@ LIST @my_internal_stage;
 ```
 
 </TabItem>
-<TabItem value="external" label="上传到外部 Stage">
+<TabItem value="external" label="上传到外部存储阶段">
 
 ```
 CREATE STAGE my_external_stage
@@ -253,7 +253,7 @@ PUT fs:///Users/eric/Documents/books.parquet @my_external_stage
 ┌───────────────────────────────────────────────┐
 │                 file                │  status │
 ├─────────────────────────────────────┼─────────┤
-│/eric/eric/Documents/books.parquet │ SUCCESS │
+│ /Users/eric/Documents/books.parquet │ SUCCESS │
 └───────────────────────────────────────────────┘
 ```
 
@@ -278,7 +278,7 @@ LIST @my_external_stage;
 
 ### 使用 PUT 命令上传目录
 
-您还可以使用带通配符的 PUT 命令上传目录中的多个文件。这在需要一次性暂存大量文件时非常有用。
+可通过 PUT 命令配合通配符上传目录中的多个文件，适用于批量暂存场景：
 
 ```sql
 PUT fs:///home/ubuntu/datas/event_data/*.parquet @your_stage;
@@ -296,13 +296,13 @@ PUT fs:///home/ubuntu/datas/event_data/*.parquet @your_stage;
 └───────────────────────────────────────────────────────┘
 ```
 
-### 使用 GET 命令下载文件
+### 使用 GET 命令下载
 
-以下示例展示如何使用 BendSQL 通过 GET 命令从用户级 stage、内部 stage 和外部 stage 下载示例文件 ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet))。
+以下示例演示如何通过 BendSQL 的 GET 命令从用户存储阶段、内部存储阶段和外部存储阶段下载示例文件 ([books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet))。
 
 <Tabs groupId="GET">
 
-<TabItem value="user" label="从用户级 Stage 下载">
+<TabItem value="user" label="从用户存储阶段下载">
 
 ```sql
 LIST @~;
@@ -313,7 +313,7 @@ LIST @~;
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │      name     │  size  │ ··· │     last_modified    │      creator     │
-├───────────────┼────────┼────────────┼─────┼──────────────────────┼──────────────────┤
+├───────────────┼────────┼─────┼──────────────────────┼──────────────────┤
 │ books.parquet │    998 │ ... │ 2023-09-04 03:27:... │ NULL             │
 └────────────────────────────────────────────────────────────────────────┘
 ```
@@ -334,7 +334,7 @@ GET @~/ fs:///Users/eric/Downloads/fromStage/;
 
 </TabItem>
 
-<TabItem value="internal" label="从内部 Stage 下载">
+<TabItem value="internal" label="从内部存储阶段下载">
 
 ```sql
 LIST @my_internal_stage;
@@ -365,7 +365,7 @@ GET @my_internal_stage/ fs:///Users/eric/Downloads/fromStage/;
 ```
 
 </TabItem>
-<TabItem value="external" label="从外部 Stage 下载">
+<TabItem value="external" label="从外部存储阶段下载">
 
 ```sql
 
@@ -387,7 +387,7 @@ LIST @my_external_stage;
 GET @my_external_stage/ fs:///Users/eric/Downloads/fromStage/;
 ```
 
-执行结果:
+结果：
 
 ```
 ┌─────────────────────────────────────────────────────────┐

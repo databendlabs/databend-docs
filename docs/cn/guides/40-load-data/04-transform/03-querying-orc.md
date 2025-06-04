@@ -1,5 +1,5 @@
 ---
-title: 查询 Stage 中的 ORC 文件
+title: 在存储阶段（Stage）中查询 ORC 文件
 sidebar_label: ORC
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
@@ -19,28 +19,28 @@ FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
 ```
 
 :::info 提示
-ORC 文件包含 schema 信息，因此可以直接查询列 `<column> [, <column> ...]`。
+ORC 包含模式信息，因此可直接查询列 `<column> [, <column> ...]`。
 :::
 
 ## 教程
 
-本教程将指导您完成下载 ORC 格式的 Iris 数据集、上传至 Amazon S3 存储桶、创建外部 stage 以及直接从 ORC 文件查询数据的过程。
+本教程将指导您完成以下操作：下载 ORC 格式的鸢尾花数据集，上传至 Amazon S3 存储桶，创建外部存储阶段（Stage），并直接从 ORC 文件查询数据。
 
 <StepsWrap>
 <StepContent number="1">
 
-### 下载 Iris 数据集
+### 下载鸢尾花数据集
 
-从 https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc 下载 iris 数据集，然后上传至您的 Amazon S3 存储桶。
+从 https://github.com/tensorflow/io/raw/master/tests/test_orc/iris.orc 下载数据集，并上传至您的 Amazon S3 存储桶。
 
-该数据集包含 3 类各 50 个样本，每类代表一种鸢尾花植物。它有 4 个特征：(1) 花萼长度，(2) 花萼宽度，(3) 花瓣长度，(4) 花瓣宽度，最后一列是类别标签。
+该数据集包含 3 个类别，每类 50 个样本，对应不同鸢尾花品种。包含 4 个属性：(1) 萼片长度，(2) 萼片宽度，(3) 花瓣长度，(4) 花瓣宽度，最后一列为类别标签。
 
 </StepContent>
 <StepContent number="2">
 
-### 创建外部 Stage
+### 创建外部存储阶段（Stage）
 
-在存储 iris 数据集文件的 Amazon S3 存储桶上创建外部 stage。
+在存储数据集的 Amazon S3 存储桶上创建外部存储阶段：
 
 ```sql
 CREATE STAGE orc_query_stage
@@ -73,7 +73,7 @@ FROM @orc_query_stage
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-您也可以直接查询远程 ORC 文件：
+您还可以直接查询远程 ORC 文件：
 
 ```sql
 SELECT
@@ -85,9 +85,9 @@ FROM
 </StepContent>
 <StepContent number="4">
 
-### 带元数据的查询
+### 使用元数据查询
 
-从 stage 直接查询 ORC 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列：
+直接从存储阶段查询 ORC 文件，包含元数据列 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER`：
 
 ```sql
 SELECT
