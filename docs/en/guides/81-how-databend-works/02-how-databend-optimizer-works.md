@@ -1,4 +1,6 @@
-# How Databend Optimizer Works
+---
+title: How Databend Optimizer Works
+---
 
 ## Core Concepts
 
@@ -18,12 +20,14 @@ Databend's query optimizer is built on several key abstractions that work togeth
 Databend collects and uses these statistics to guide optimization decisions:
 
 **Table Statistics:**
+
 - `num_rows`: Number of rows in the table
 - `data_size`: Size of the table data in bytes
 - `number_of_blocks`: Number of storage blocks
 - `number_of_segments`: Number of segments
 
 **Column Statistics:**
+
 - `min`: Minimum value in the column
 - `max`: Maximum value in the column
 - `null_count`: Number of null values
@@ -133,12 +137,14 @@ Databend's query optimizer passes through four distinct phases to transform SQL 
 **1. Subquery Decorrelation (SubqueryDecorrelatorOptimizer)**
 
 **SQL Example:**
+
 ```sql
 SELECT * FROM customers c
 WHERE c.total_orders > (SELECT AVG(total_orders) FROM customers WHERE region = c.region)
 ```
 
 **Before:**
+
 ```
 Filter (c.total_orders > Subquery)
 └─ Scan (customers as c)
@@ -149,6 +155,7 @@ Filter (c.total_orders > Subquery)
 ```
 
 **After:**
+
 ```
 # Correlated subquery transformed into join operation
 Join (c.region = r.region)
@@ -165,11 +172,13 @@ Filter (c.total_orders > r.avg_total)
 **2. Statistics-based Aggregate Optimization (RuleStatsAggregateOptimizer)**
 
 **SQL Example:**
+
 ```sql
 SELECT MIN(price) FROM products
 ```
 
 **Before:**
+
 ```
 Aggregate (MIN(price))
 └─ EvalScalar
@@ -177,6 +186,7 @@ Aggregate (MIN(price))
 ```
 
 **After:**
+
 ```
 # MIN aggregate replaced with pre-computed value from statistics
 EvalScalar (price_min)
@@ -188,11 +198,13 @@ EvalScalar (price_min)
 **3. Statistics Collection (CollectStatisticsOptimizer)**
 
 **SQL Example:**
+
 ```sql
 SELECT * FROM orders WHERE region = 'Asia'
 ```
 
 **Before:**
+
 ```
 Filter (region = 'Asia')
 └─ Scan (orders)
@@ -200,6 +212,7 @@ Filter (region = 'Asia')
 ```
 
 **After:**
+
 ```
 Filter (region = 'Asia')
 └─ Scan (orders)
@@ -216,11 +229,13 @@ Filter (region = 'Asia')
 **4. Aggregate Normalization (RuleNormalizeAggregateOptimizer)**
 
 **SQL Example:**
+
 ```sql
 SELECT COUNT(id), COUNT(*), COUNT(DISTINCT region) FROM orders GROUP BY region
 ```
 
 **Before:**
+
 ```
 Aggregate (
   GROUP BY [region],
@@ -232,6 +247,7 @@ Aggregate (
 ```
 
 **After:**
+
 ```
 # Optimized aggregates
 EvalScalar (COUNT(*) AS count_id, COUNT(*) AS count_star)
@@ -244,18 +260,21 @@ EvalScalar (COUNT(*) AS count_id, COUNT(*) AS count_star)
 ```
 
 **What it does:** Optimizes aggregate functions by:
-1. Rewriting COUNT(non-nullable) to COUNT(*)
-2. Reusing a single COUNT(*) for multiple count expressions
+
+1. Rewriting COUNT(non-nullable) to COUNT(\*)
+2. Reusing a single COUNT(\*) for multiple count expressions
 3. Eliminating DISTINCT when counting columns that are already in GROUP BY
 
 **5. Filter Pull-up (PullUpFilterOptimizer)**
 
 **SQL Example:**
+
 ```sql
 SELECT * FROM orders o JOIN customers c ON o.customer_id = c.id WHERE o.region = 'Asia' AND c.status = 'active'
 ```
 
 **Before:**
+
 ```
 Filter (c.status = 'active')
 └─ Filter (o.region = 'Asia')
@@ -265,6 +284,7 @@ Filter (c.status = 'active')
 ```
 
 **After:**
+
 ```
 # Filters pulled up to the top
 Filter (o.region = 'Asia' AND c.status = 'active' AND o.customer_id = c.id)
@@ -284,17 +304,20 @@ Filter (o.region = 'Asia' AND c.status = 'active' AND o.customer_id = c.id)
 #### Filter Pushdown Rules
 
 **SQL Example:**
+
 ```sql
 SELECT * FROM orders WHERE region = 'Asia'
 ```
 
 **Before:**
+
 ```
 Filter (region = 'Asia')
 └─ Scan (orders)
 ```
 
 **After (PushDownFilterScan rule):**
+
 ```
 # Filter pushed down to scan layer
 Scan (orders, pushdown_predicates=[region = 'Asia'])
@@ -305,11 +328,13 @@ Scan (orders, pushdown_predicates=[region = 'Asia'])
 #### Limit Pushdown Rules
 
 **SQL Example:**
+
 ```sql
 SELECT * FROM orders ORDER BY order_date LIMIT 10
 ```
 
 **Before:**
+
 ```
 Limit (10)
 └─ Sort (order_date)
@@ -317,6 +342,7 @@ Limit (10)
 ```
 
 **After (PushDownLimitSort rule):**
+
 ```
 # Limit pushed through sort
 Sort (order_date)
@@ -329,17 +355,20 @@ Sort (order_date)
 #### Elimination Rules
 
 **SQL Example:**
+
 ```sql
 SELECT * FROM orders WHERE 1=1
 ```
 
 **Before:**
+
 ```
 Filter (1=1)
 └─ Scan (orders)
 ```
 
 **After (EliminateFilter rule):**
+
 ```
 # Redundant filter removed
 Scan (orders)
@@ -350,11 +379,13 @@ Scan (orders)
 **7. Aggregate Splitting (RecursiveRuleOptimizer - SplitAggregate)**
 
 **SQL Example:**
+
 ```sql
 SELECT region, SUM(amount) FROM orders GROUP BY region
 ```
 
 **Before:**
+
 ```
 # Single-phase aggregation (mode: Initial)
 Aggregate (
@@ -366,6 +397,7 @@ Aggregate (
 ```
 
 **After:**
+
 ```
 # Two-phase aggregation
 Aggregate (
@@ -388,11 +420,13 @@ Aggregate (
 **8. Join Order Optimization (DPhpyOptimizer)**
 
 **SQL Example:**
+
 ```sql
 SELECT * FROM orders o JOIN customers c ON o.customer_id = c.id JOIN products p ON o.product_id = p.id WHERE c.region = 'Asia'
 ```
 
 **Before (original order):**
+
 ```
 Join
 ├─ Join
@@ -402,6 +436,7 @@ Join
 ```
 
 **After (optimized order):**
+
 ```
 # Optimized join order based on cost estimation
 Join
@@ -424,11 +459,13 @@ This optimizer is particularly important for queries involving multiple joins, w
 **9. Single Join to Inner Join Conversion (SingleToInnerOptimizer)**
 
 **SQL Example:**
+
 ```sql
 SELECT o.* FROM orders o LEFT SINGLE JOIN customers c ON o.customer_id = c.id
 ```
 
 **Before:**
+
 ```
 LeftSingleJoin (o.customer_id = c.id)
 ├─ Scan (orders as o)
@@ -436,6 +473,7 @@ LeftSingleJoin (o.customer_id = c.id)
 ```
 
 **After:**
+
 ```
 # Single join converted to inner join
 InnerJoin (o.customer_id = c.id)
@@ -448,11 +486,13 @@ InnerJoin (o.customer_id = c.id)
 **10. Join Condition Deduplication (DeduplicateJoinConditionOptimizer)**
 
 **SQL Example:**
+
 ```sql
 SELECT * FROM t1, t2, t3 WHERE t1.id = t2.id AND t2.id = t3.id AND t3.id = t1.id
 ```
 
 **Before:**
+
 ```
 Join (t2.id = t3.id AND t3.id = t1.id)
 ├─ Scan (t3)
@@ -462,6 +502,7 @@ Join (t2.id = t3.id AND t3.id = t1.id)
 ```
 
 **After:**
+
 ```
 # Removed transitive join condition
 Join (t2.id = t3.id)
@@ -483,11 +524,13 @@ This optimization reduces the number of join conditions that need to be evaluate
 **11. Join Commutation (CommuteJoin Rule)**
 
 **SQL Example:**
+
 ```sql
 SELECT * FROM orders o JOIN customers c ON o.customer_id = c.id
 ```
 
 **Before (orders is larger than customers):**
+
 ```
 Join (o.customer_id = c.id)
 ├─ Scan (orders as o)  # Larger table (10M rows)
@@ -495,6 +538,7 @@ Join (o.customer_id = c.id)
 ```
 
 **After (CommuteJoin rule applied):**
+
 ```
 # Join order swapped to put smaller table on left
 Join (c.id = o.customer_id)
@@ -515,6 +559,7 @@ Since Databend typically uses the right side as the build side in hash joins, th
 **12. Cost-Based Implementation Selection (CascadesOptimizer)**
 
 **SQL Example:**
+
 ```sql
 SELECT customer_name, SUM(total_price) as total_spend
 FROM customers JOIN orders ON customers.id = orders.customer_id
@@ -606,6 +651,7 @@ Costs are calculated recursively - a plan's total cost includes all its operatio
 Databend's query optimizer employs a sophisticated, multi-stage pipeline to transform user SQL queries into highly efficient physical execution plans. It leverages core concepts like SExpr for plan representation, a rich set of transformation rules, detailed statistics, and a cost model to explore and evaluate various plan alternatives.
 
 The process involves:
+
 1.  **Preparation:** Decorrelating subqueries and gathering necessary statistics.
 2.  **Logical Optimization:** Applying rule-based transformations (like filter pushdown, aggregate normalization) to refine the logical plan structure.
 3.  **Join Optimization:** Strategically determining the best join order and methods using techniques like dynamic programming.
