@@ -16,20 +16,26 @@ For identified document-relevant technical terms, ALWAYS use format: **专有名
 - **Focus on relevance**: Not every technical word, only those central to the topic
 
 ### Content Processing Rules:
-1. **YAML frontmatter (--- ---)**:
+1. **YAML frontmatter (--- ---)**: 
    - Translate `title:` field values
    - Translate `description:` field values
    - Translate `sidebar_label:` field values
    - Keep all field names unchanged
    - Preserve YAML structure exactly
 
-2. **Code blocks (``` ```)**: Only translate SQL comments marked with `--`
+2. **_category_.json files**: 
+   - Only translate the values, never translate the keys
+   - Example: `{"label": "Queries"}` → `{"label": "查询（Query）"}`
+   - Keep JSON structure and syntax intact
+   - Apply technical term format to relevant terms in values
 
-3. **Regular text**: Translate completely, applying technical term strategy to relevant terms
+3. **Code blocks (``` ```)**: Only translate SQL comments marked with `--`
 
-4. **LANG_REPLACE comments**: Replace with Chinese version after "cn="
+4. **Regular text**: Translate completely, applying technical term strategy to relevant terms
 
-5. **Formatting**: Preserve all Markdown structure, HTML tags, links, line breaks
+5. **LANG_REPLACE comments**: Replace with Chinese version after "cn="
+
+6. **Formatting**: Preserve all Markdown structure, HTML tags, links, line breaks
 
 ### Always Translate These Core Terms (when they appear):
 - 'time travel' → '时间回溯（Time Travel）'
@@ -47,9 +53,10 @@ For identified document-relevant technical terms, ALWAYS use format: **专有名
 - Data Types: `可变字符（VARCHAR）`, `整数（INTEGER）` (when discussing data types)
 - Joins: `内连接（Inner Join）`, `左连接（Left Join）` (when explaining joins)
 
-### YAML Translation Examples:
-```yaml
+### Translation Examples:
+**YAML:**
 ---
 title: Cluster Keys Overview  →  title: 聚簇键（Cluster Key）概述
 description: Learn about cluster keys in Databend  →  description: 了解 Databend 中的聚簇键（Cluster Key）
 sidebar_label: Cluster Keys  →  sidebar_label: 聚簇键（Cluster Key）
+---
