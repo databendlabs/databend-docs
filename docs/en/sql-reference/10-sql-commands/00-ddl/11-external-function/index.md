@@ -1,8 +1,21 @@
 ---
 title: External Function
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-This page provides reference information for the external function-related commands in Databend. For more information about external function, see [External Function](/guides/query/external-function).
+This page provides a comprehensive overview of External Function operations in Databend, organized by functionality for easy reference.
 
-<IndexOverviewList />
+## External Function Management
+
+| Command | Description |
+|---------|-------------|
+| [CREATE EXTERNAL FUNCTION](ddl-create-function.md) | Creates a new external function |
+| [ALTER EXTERNAL FUNCTION](ddl-alter-function.md) | Modifies an existing external function |
+| [DROP EXTERNAL FUNCTION](ddl-drop-function.md) | Removes an external function |
+
+## Related Topics
+
+- [External Function](/guides/query/external-function)
+
+:::note
+External Functions in Databend allow you to extend functionality by integrating with external services through HTTP/HTTPS endpoints, enabling you to leverage external processing capabilities.
+:::

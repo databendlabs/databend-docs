@@ -1,11 +1,19 @@
 ---
-title: NGRAM INDEX
+title: Ngram Index
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='NGRAM INDEX'/>
 
-This page provides reference information for the Ngram index-related commands in Databend.
+This page provides a comprehensive overview of Ngram index operations in Databend, organized by functionality for easy reference.
 
-<IndexOverviewList />
+## Ngram Index Management
+
+| Command | Description |
+|---------|-------------|
+| [CREATE NGRAM INDEX](create-ngram-index.md) | Creates a new Ngram index for efficient substring search |
+| [DROP NGRAM INDEX](drop-ngram-index.md) | Removes an Ngram index |
+
+:::note
+Ngram indexes in Databend enable efficient substring and pattern matching searches within text data, improving performance for LIKE and similar operations.
+:::

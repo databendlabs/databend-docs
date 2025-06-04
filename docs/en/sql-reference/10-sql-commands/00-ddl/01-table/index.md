@@ -1,5 +1,5 @@
 ---
-title: Table Commands
+title: Table
 ---
 
 This page provides a comprehensive overview of table operations in Databend, organized by functionality for easy reference.
