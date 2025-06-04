@@ -50,6 +50,7 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 ### Core Terms (always apply format):
 - 'cluster key' → '聚簇键（Cluster Key）'
 - 'primary key' → '主键（Primary Key）'
+- 'stage'  → '暂存区（Stage）'
 - 'time travel' → '时间回溯（Time Travel）'
 - 'warehouse' → '计算集群（Warehouse）'
 - 'worksheet' → '工作区（Worksheet）'
