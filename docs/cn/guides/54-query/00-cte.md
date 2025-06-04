@@ -1,15 +1,15 @@
 ---
-title: 公共表表达式 (CTE)
+title: 通用表表达式（Common Table Expression，CTE）
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.530"/>
 
-Databend 支持使用 WITH 子句的公共表表达式 (CTE)，允许您定义一个或多个命名的临时结果集供后续查询使用。"临时"意味着这些结果集不会永久存储在数据库模式中，它们仅作为临时视图供后续查询访问。
+Databend 支持带有 WITH 子句的通用表表达式（CTE），允许您定义一个或多个命名的临时结果集，供后续查询使用。"临时"表示结果集不会永久存储在数据库模式中，它们仅作为临时视图供后续查询访问。
 
-当执行带有 WITH 子句的查询时，WITH 子句中的 CTE 会首先被评估和执行，生成一个或多个临时结果集。然后查询会使用这些由 WITH 子句生成的临时结果集执行。
+执行带 WITH 子句的查询时，会先评估并执行 WITH 子句中的 CTE，生成一个或多个临时结果集。随后主查询将使用这些临时结果集进行执行。
 
-以下是一个简单示例帮助理解 CTE 在查询中的工作原理：WITH 子句定义了一个 CTE，生成包含魁北克省所有客户的结果集。主查询则从魁北克省的客户中筛选出居住在蒙特利尔地区的客户。
+以下简单示例演示 CTE 在查询中的工作原理：WITH 子句定义 CTE 并生成包含魁北克省所有客户的结果集，主查询则从该结果集中筛选居住在蒙特利尔地区的客户。
 
 ```sql
 WITH customers_in_quebec 
@@ -23,7 +23,7 @@ WHERE  city = 'Montréal'
 ORDER  BY customername; 
 ```
 
-CTE 可以简化使用子查询的复杂查询，使代码更易于阅读和维护。如果不使用 CTE，前面的示例将如下所示：
+CTE 可简化使用子查询的复杂查询，提升代码可读性和可维护性。若不使用 CTE，前例将变为：
 
 ```sql
 SELECT customername 
@@ -37,9 +37,9 @@ ORDER  BY customername;
 
 ## 内联还是物化？
 
-在查询中使用 CTE 时，您可以通过 MATERIALIZED 关键字控制 CTE 是内联还是物化。内联意味着 CTE 的定义直接嵌入到主查询中，而物化 CTE 意味着计算其结果一次并存储在内存中，减少重复的 CTE 执行。
+查询中使用 CTE 时，可通过 MATERIALIZED 关键字控制 CTE 为内联或物化。内联表示 CTE 定义直接嵌入主查询，物化则会将 CTE 结果计算一次后存入内存，减少重复执行。
 
-假设我们有一个名为 *orders* 的表，存储客户订单信息，包括订单号、客户 ID 和订单日期。
+假设存在存储客户订单信息的 *orders* 表，包含订单号、客户 ID 和订单日期。
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -47,7 +47,7 @@ import TabItem from '@theme/TabItem';
 <Tabs>
   <TabItem value="Inline" label="内联" default>
 
-在此查询中，CTE *customer_orders* 将在查询执行时内联。Databend 会直接将 *customer_orders* 的定义嵌入到主查询中。
+此查询中 CTE *customer_orders* 将在执行时内联，Databend 会将其定义直接嵌入主查询。
 
 ```sql
 WITH customer_orders AS (
@@ -64,7 +64,7 @@ WHERE co1.order_count > 2
   </TabItem>
   <TabItem value="Materialized" label="物化">
 
-本例中我们使用 MATERIALIZED 关键字，意味着 CTE *customer_orders* 不会被内联。相反，CTE 的结果将在 CTE 定义执行时计算并存储在内存中。当执行主查询中的两个 CTE 实例时，Databend 会直接从内存中获取结果，避免冗余计算并可能提高性能。
+使用 MATERIALIZED 关键字时，CTE *customer_orders* 不会内联。其定义执行时会计算结果并存入内存，主查询中执行 CTE 实例时，Databend 直接从内存获取结果，避免冗余计算并可能提升性能。
 
 ```sql
 WITH customer_orders AS MATERIALIZED (
@@ -78,11 +78,10 @@ JOIN customer_orders co2 ON co1.customer_id = co2.customer_id
 WHERE co1.order_count > 2
   AND co2.order_count > 5;
 ```
-当 CTE 结果被多次使用时，这可以显著提高性能。但由于 CTE 不再内联，查询优化器可能难以将 CTE 的条件推入主查询或优化连接顺序，可能导致整体查询性能下降。
+此方式可显著提升多次使用 CTE 结果时的性能。但 CTE 不再内联后，查询优化器可能难以将 CTE 条件推入主查询或优化连接顺序，导致整体查询性能下降。
 
   </TabItem>
 </Tabs>
-
 
 ## 语法
 
@@ -94,16 +93,16 @@ WITH
 SELECT ... | UPDATE ... | DELETE FROM ...
 ```
 
-| 参数               	| 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           	|
-|-------------------------	|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| WITH                    	| 启动 WITH 子句。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            	|
-| cte_name1 ... cte_nameN 	| CTE 名称。当有多个 CTE 时，用逗号分隔。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                	|
-| cte_column_list         	| CTE 中的列名。一个 CTE 可以引用同一 WITH 子句中之前定义的其他 CTE。                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	|
-| MATERIALIZED            	| `Materialized` 是一个可选关键字，用于指示是否应将 CTE 物化。	|
+| 参数             | 描述                                                                 |
+|------------------|----------------------------------------------------------------------|
+| WITH             | 启动 WITH 子句                                                      |
+| cte_name1 ... N  | CTE 名称，多个 CTE 需用逗号分隔                                     |
+| cte_column_list  | CTE 中的列名，可引用同一 WITH 子句中先前定义的 CTE                  |
+| MATERIALIZED     | 可选关键字，指示是否物化 CTE                                        |
 
 ## 递归 CTE
 
-递归 CTE 是一种通过自我引用来执行递归操作的临时结果集，允许处理层次结构或递归数据结构。
+递归 CTE 是通过自引用执行递归操作的临时结果集，用于处理层次化或递归数据结构。
 
 ### 语法
 
@@ -115,31 +114,27 @@ WITH RECURSIVE <cte_name> AS (
 SELECT ... 
 ```
 
-| 参数              | 描述                                                                                                                                                                                                                                                                                 |
-|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `cte_name`        | CTE 名称。   |
-| `initial_query`   | 递归开始时执行一次的初始查询，通常返回一组行数据。                                                                                                                                                                                  |
-| `recursive_query` | 引用 CTE 自身并重复执行的查询，直到返回空结果集为止。必须包含对 CTE 名称的引用。该查询不得包含聚合函数 (如 MAX、MIN、SUM、AVG、COUNT)、窗口函数、GROUP BY 子句、ORDER BY 子句、LIMIT 子句或 DISTINCT。 |
+| 参数             | 描述                                                                 |
+|------------------|----------------------------------------------------------------------|
+| `cte_name`       | CTE 名称                                                            |
+| `initial_query`  | 递归起始时执行一次的初始查询，通常返回行集合                        |
+| `recursive_query`| 自引用 CTE 的查询，重复执行直至返回空集，禁止包含聚合函数、窗口函数、GROUP BY、ORDER BY、LIMIT 或 DISTINCT |
 
 ### 工作原理
 
-递归 CTE 的执行顺序如下：
+递归 CTE 执行顺序如下：
 
-1. **初始查询执行**：该查询形成基础结果集 R0，为递归提供起点。
-
-2. **递归查询执行**：该查询使用前一次迭代的结果集 (从 R0 开始) 作为输入，生成新的结果集 Ri+1。
-
-3. **迭代与合并**：递归执行持续进行迭代。每个新结果集 Ri 成为下一次迭代的输入，直到递归查询返回空结果集，表示终止条件已满足。
-
-4. **最终结果集形成**：使用 `UNION ALL` 操作符将所有迭代结果集 (R0 到 Rn) 合并为单一结果集。`UNION ALL` 确保每个结果集的所有行都包含在最终合并结果中。
-
-5. **最终选择**：最后的 `SELECT ...` 语句从 CTE 中检索合并后的结果集，可对合并结果应用额外的过滤、排序等操作以生成最终输出。
+1. **初始查询执行**：形成基础结果集 R0，作为递归起点
+2. **递归查询执行**：使用前次迭代结果集（从 R0 开始）作为输入，生成新结果集 Ri+1
+3. **迭代与组合**：递归执行持续迭代，新结果集 Ri 成为下次迭代输入，直至返回空集（终止条件满足）
+4. **最终结果集形成**：使用 `UNION ALL` 合并各次迭代结果集（R0 至 Rn）
+5. **最终选择**：通过 `SELECT ...` 从 CTE 检索合并结果集，可进行额外过滤、排序等操作
 
 ## 使用示例
 
 ### 非递归 CTE
 
-假设您管理 GTA 地区多家书店，使用表存储店铺 ID、区域和上月交易额。
+假设管理大多伦多地区多家书店，使用表存储店铺 ID、区域和上月交易量：
 
 ```sql
 CREATE TABLE sales 
@@ -158,10 +153,10 @@ INSERT INTO sales VALUES (6, 'Markham', 4350);
 INSERT INTO sales VALUES (7, 'North York', 2490);
 ```
 
-以下代码返回交易额低于平均值的店铺：
+返回交易量低于平均值的店铺：
 
 ```sql
--- 定义包含一个 CTE 的 WITH 子句
+-- 含单个 CTE 的 WITH 子句
 WITH avg_all 
      AS (SELECT Avg(amount) AVG_SALES 
          FROM   sales) 
@@ -185,10 +180,10 @@ WHERE  sales.amount < avg_sales;
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-以下代码返回各区域平均交易额和总交易额：
+返回各区域平均和总交易量：
 
 ```sql
--- 定义包含两个 CTE 的 WITH 子句
+-- 含两个 CTE 的 WITH 子句
 WITH avg_by_region 
      AS (SELECT region, 
                 Avg (amount) avg_by_region_value 
@@ -220,7 +215,7 @@ WHERE  avg_by_region.region = sum_by_region.region;
 └──────────────────────────────────────────────────────────────┘
 ```
 
-以下代码将低于区域平均销售额的店铺交易额更新为 0：
+将低于区域平均销售额的店铺交易量更新为 0：
 
 ```sql
 WITH region_avg_sales_cte AS (
@@ -237,7 +232,7 @@ WHERE amount < (
 );
 ```
 
-假设有另一个表 "store_details" 存储店铺额外信息（如开业日期和所有者）：
+假设存在存储店铺补充信息的 *store_details* 表：
 
 ```sql
 CREATE TABLE store_details (
@@ -254,7 +249,7 @@ INSERT INTO store_details VALUES (9, 'Mississauga Store', '2022-03-20', 'Emma Br
 INSERT INTO store_details VALUES (5, 'Scarborough Store', '2022-04-05', 'David Lee');
 ```
 
-删除 "store_details" 表中没有销售记录的店铺：
+删除 *store_details* 中无销售记录的店铺：
 
 ```sql
 WITH stores_with_sales AS (
@@ -267,7 +262,7 @@ WHERE storeid NOT IN (SELECT storeid FROM stores_with_sales);
 
 ### 递归 CTE 
 
-首先创建员工数据表，包含 ID、姓名和上级 ID：
+创建存储员工 ID、姓名和经理 ID 的表：
 
 ```sql
 CREATE TABLE Employees (
@@ -277,7 +272,7 @@ CREATE TABLE Employees (
 );
 ```
 
-插入样本数据表示简单组织结构：
+插入样本数据表示组织结构：
 
 ```sql
 INSERT INTO Employees (EmployeeID, EmployeeName, ManagerID) VALUES
@@ -289,7 +284,7 @@ INSERT INTO Employees (EmployeeID, EmployeeName, ManagerID) VALUES
 (6, 'Frank', 3);        -- Frank 向 Charlie 汇报
 ```
 
-使用递归 CTE 查找特定管理者（如 Alice，EmployeeID = 1）下属的层级关系：
+使用递归 CTE 查找特定经理（如 Alice）下属的员工层级：
 
 ```sql
 WITH RECURSIVE EmployeeHierarchy AS (
@@ -306,7 +301,7 @@ WITH RECURSIVE EmployeeHierarchy AS (
 SELECT * FROM  EmployeeHierarchy;
 ```
 
-输出显示 Alice 下属的所有员工层级：
+输出 Alice 下属的所有员工：
 
 ```sql
 ┌─────────────────────────────────────────────────────────────────────────┐

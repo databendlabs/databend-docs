@@ -1,21 +1,21 @@
 ---
-title: Query Hash
+title: 查询哈希（Query Hash）
 ---
 
-Query Hash 是一种用于表示唯一 SQL 查询的标识符。它将查询的结构和内容转换为固定长度的值，因此即使查询文本略有差异，只要逻辑结构相同，哈希值也将相同。这有助于识别相似的查询和频繁执行的查询。
+查询哈希是用于标识唯一 SQL 查询的编码值。它将查询的结构和内容转换为固定长度的哈希值，即使查询文本存在细微差异（如空格或注释），只要逻辑结构相同，哈希值就保持一致。这有助于识别相似查询和高频执行查询。
 
-## Query Hash 类型
+## 查询哈希类型
 
-Databend 支持两种类型的 query hash：
+Databend 支持两种查询哈希类型：
 
-- `query_hash`: 即使重复查询在空白或注释上有所不同，query_hash 也能确保它们共享相同的哈希值。例如，以下查询共享相同的哈希值：
+- `query_hash`：该哈希值确保重复查询（即使存在空格或注释差异）具有相同哈希值。例如以下查询共享相同哈希值：
 
     ```sql
     SELECT * FROM t1 WHERE name = 'jim'
     SELECT *  FROM t1 WHERE name  = 'jim'
     ```
 
-- `query_parameterized_hash`: query_parameterized_hash 通过处理比较谓词（例如 `=`、`!=`、`>=`、`<=`）中涉及的字面量来规范化查询，从而能够识别结构相似的查询，而不管使用的具体值如何。例如，以下查询共享相同的哈希值：
+- `query_parameterized_hash`：该哈希值通过标准化比较谓词（如 `=`、`!=`、`>=`、`<=`）中的字面量，实现结构相似查询的识别，无论具体取值如何。例如以下查询共享相同哈希值：
 
     ```sql
     SELECT * FROM t1 WHERE name = 'data'
@@ -24,7 +24,7 @@ Databend 支持两种类型的 query hash：
 
 ## 检索哈希值
 
-Databend 将历史查询的哈希值存储在系统表 [system.query_log](/sql/sql-reference/system-tables/system-query-log) 中名为 `query_hash` 和 `query_parameterized_hash` 的列中。要检索查询的哈希值，可以使用 SELECT 语句从系统表中提取它们。例如：
+Databend 在系统表 [system.query_log](/sql/sql-reference/system-tables/system-query-log) 的 `query_hash` 和 `query_parameterized_hash` 列中存储历史查询的哈希值。可通过 SELECT 语句从系统表检索哈希值，例如：
 
 ```sql
 SELECT * FROM books;
@@ -50,7 +50,7 @@ WHERE query_text = 'SELECT * FROM books';
 
 ## 示例
 
-假设我们有一个包含以下行的表：
+假设存在包含以下数据的表：
 
 ```sql
 SELECT * FROM books;
@@ -63,14 +63,14 @@ SELECT * FROM books;
 └───────────────────────────────────────────────────────────────┘
 ```
 
-以下查询将共享相同的哈希值：
+以下查询共享相同哈希值：
 
 ```sql
 SELECT * FROM books WHERE id = 1;
 SELECT *  FROM books WHERE id = 1;
 ```
 
-要检查它们：
+验证如下：
 
 ```sql
 SELECT query_text, query_hash, query_parameterized_hash 
@@ -88,7 +88,7 @@ WHERE query_text = 'SELECT * FROM books WHERE id = 1'
 └────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-以下查询共享相同的 `query_parameterized_hash` 值：
+以下查询共享相同 `query_parameterized_hash` 值：
 
 ```sql
 SELECT * FROM books WHERE id = 1;
