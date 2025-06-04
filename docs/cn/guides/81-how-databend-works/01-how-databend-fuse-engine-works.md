@@ -4,17 +4,17 @@ title: Fuse 引擎工作原理
 
 ## Fuse 引擎
 
-Fuse 引擎是 Databend 的核心存储引擎，经过优化，可高效管理**PB 级**数据在**云对象存储**上的存储。默认情况下，在 Databend 中创建的表会自动使用此引擎 (`ENGINE=FUSE`)。受 Git 启发，其基于快照的设计实现了强大的数据版本控制 (例如时间回溯)，并通过高级剪枝和索引提供了**高查询性能**。
+Fuse 引擎是 Databend 的核心存储引擎，专为在**云对象存储**上高效管理 **PB 级**数据而优化。默认情况下，在 Databend 中创建的表会自动使用此引擎（`ENGINE=FUSE`）。受 Git 启发，其基于快照的设计支持强大的数据版本控制（如 Time Travel），并通过高级剪枝和索引提供**高查询性能**。
 
-本文档解释了其核心概念和工作原理。
+本文档阐述其核心概念和工作原理。
 
 ## 核心概念
 
-Fuse 引擎使用三种核心结构来组织数据，类似于 Git：
+Fuse 引擎使用三种核心结构组织数据，与 Git 类似：
 
-*   **快照 (类似于 Git 提交):** 定义了表在某个时间点的状态的不可变引用，通过指向特定的 Segment 来实现。支持时间回溯。
-*   **Segment (类似于 Git 树):** Block 的集合，包含用于快速数据跳过 (剪枝) 的汇总统计信息。可以在不同快照之间共享。
-*   **Block (类似于 Git Blob):** 不可变的数据文件 (Parquet 格式)，包含实际的行和详细的列级统计信息，用于细粒度剪枝。
+*   **快照（Snapshot）（类似 Git Commits）：** 不可变引用，通过指向特定段（Segment）定义表在时间点的状态。支持 Time Travel。
+*   **段（Segment）（类似 Git Trees）：** 包含汇总统计信息的块（Block）集合，用于快速数据跳过（剪枝）。可在快照（Snapshot）间共享。
+*   **块（Block）（类似 Git Blobs）：** 不可变数据文件（Parquet 格式），存储实际行数据及详细的列级统计信息，用于细粒度剪枝。
 
 ```
                          Table HEAD
@@ -41,27 +41,27 @@ Fuse 引擎使用三种核心结构来组织数据，类似于 Git：
 
 ## 写入工作原理
 
-当您向表中添加数据时，Fuse 引擎会创建一系列对象。让我们逐步了解这个过程：
+向表添加数据时，Fuse 引擎会创建对象链。以下是分步说明：
 
-### 步骤 1: 创建表
+### 步骤 1：创建表
 
 ```sql
 CREATE TABLE git(file VARCHAR, content VARCHAR);
 ```
 
-此时，表已存在但未包含任何数据：
+此时表无数据：
 
 ```
-(Empty table with no data)
+(空表无数据)
 ```
 
-### 2: 插入第一批数据
+### 步骤 2：首次插入数据
 
 ```sql
 INSERT INTO git VALUES('cloud.txt', '2022/05/06, Databend, Cloud');
 ```
 
-第一次插入后，Fuse 引擎会创建初始快照、Segment 和 Block：
+首次插入后，Fuse 引擎创建初始快照（Snapshot）、段（Segment）和块（Block）：
 
 ```
          Table HEAD
@@ -85,13 +85,13 @@ INSERT INTO git VALUES('cloud.txt', '2022/05/06, Databend, Cloud');
      └───────────────┘
 ```
 
-### 步骤 3: 插入更多数据
+### 步骤 3：插入更多数据
 
 ```sql
 INSERT INTO git VALUES('warehouse.txt', '2022/05/07, Databend, Warehouse');
 ```
 
-当我们插入更多数据时，Fuse 引擎会创建一个新的快照，该快照引用原始 Segment 和新的 Segment：
+插入新数据时，Fuse 引擎创建引用原始段和新段的新快照：
 
 ```
                          Table HEAD
@@ -118,7 +118,7 @@ INSERT INTO git VALUES('warehouse.txt', '2022/05/07, Databend, Warehouse');
 
 ## 读取工作原理
 
-当您查询数据时，Fuse 引擎会使用智能剪枝来高效查找数据：
+查询数据时，Fuse 引擎通过智能剪枝高效定位数据：
 
 ```
 Query: SELECT * FROM git WHERE file = 'cloud.txt';
@@ -131,7 +131,7 @@ Query: SELECT * FROM git WHERE file = 'cloud.txt';
      │    CHECK      │     │               │     │    CHECK      │
      └───────┬───────┘     └───────────────┘     └───────────────┘
              │                                          ✗
-             │                                    (Skip - doesn't contain
+             │                                    (跳过 - 不包含
              │                                     'cloud.txt')
              ▼
      ┌───────────────┐
@@ -139,9 +139,9 @@ Query: SELECT * FROM git WHERE file = 'cloud.txt';
      │    CHECK      │
      └───────┬───────┘
              │
-             │ ✓ (Contains 'cloud.txt')
+             │ ✓ (包含 'cloud.txt')
              ▼
-        Read this block
+        读取此块
 ```
 
 ### 智能剪枝过程
@@ -153,72 +153,72 @@ Query: SELECT * FROM git WHERE file = 'cloud.txt';
                   │
                   ▼
 ┌─────────────────────────────────────────┐
-│ Check SEGMENT A                         │
+│ 检查 SEGMENT A                          │
 │ Min file value: 'cloud.txt'             │
 │ Max file value: 'cloud.txt'             │
 │                                         │
-│ Result: ✓ Might contain 'cloud.txt'     │
+│ Result: ✓ 可能包含 'cloud.txt'          │
 └─────────────────┬───────────────────────┘
                   │
                   ▼
 ┌─────────────────────────────────────────┐
-│ Check SEGMENT B                         │
+│ 检查 SEGMENT B                          │
 │ Min file value: 'warehouse.txt'         │
 │ Max file value: 'warehouse.txt'         │
 │                                         │
-│ Result: ✗ Cannot contain 'cloud.txt'    │
+│ Result: ✗ 不包含 'cloud.txt'            │
 └─────────────────┬───────────────────────┘
                   │
                   ▼
 ┌─────────────────────────────────────────┐
-│ Check BLOCK 1 in SEGMENT A              │
+│ 检查 SEGMENT A 中的 BLOCK 1             │
 │ Min file value: 'cloud.txt'             │
 │ Max file value: 'cloud.txt'             │
 │                                         │
-│ Result: ✓ Contains 'cloud.txt'          │
+│ Result: ✓ 包含 'cloud.txt'              │
 └─────────────────┬───────────────────────┘
                   │
                   ▼
 ┌─────────────────────────────────────────┐
-│ Read only BLOCK 1                       │
+│ 仅读取 BLOCK 1                          │
 └─────────────────────────────────────────┘
 ```
 
-## 基于快照的特性
+## 基于快照的功能
 
-Fuse 引擎的快照架构支持强大的数据管理功能：
+Fuse 引擎的快照架构支持强大数据管理能力：
 
-### 时间回溯
+### Time Travel
 
-查询任意时间点的数据。支持数据分支、标记和治理，并提供完整的审计跟踪和错误恢复功能。
+查询任意时间点的历史数据。支持数据分支、标记和治理，提供完整审计追踪和错误恢复。
 
 ### 零拷贝 Schema 演进
 
-**无需重写任何底层数据文件**即可修改表的结构 (添加列、删除列、重命名、更改类型)。
+**无需重写底层数据文件**即可修改表结构（添加/删除列、重命名、更改类型）。
 
-- 更改是仅涉及元数据的操作，记录在新的快照中。
-- 这是即时操作，无需停机，并避免了耗时的数据迁移任务。旧数据仍可使用其原始 Schema 进行访问。
+- 变更作为元数据操作记录在新快照中
+- 操作瞬时完成，无需停机，避免高成本数据迁移。历史数据仍可通过原始 schema 访问
 
-## 用于查询加速的高级索引 (Fuse Engine)
+## 查询加速的高级索引（Fuse 引擎）
 
-除了使用统计信息进行基本的块/段剪枝之外，Fuse Engine 还提供专门的二级索引，以进一步加速特定的查询模式：
+除基础块/段剪枝外，Fuse 引擎提供专用二级索引加速特定查询模式：
 
-| 索引类型             | 简要描述                                      | 加速查询，例如...                         | 查询代码片段示例                |
-| :------------------- | :-------------------------------------------- | :---------------------------------------- | :------------------------------ |
-| **聚合索引**         | 预计算指定组的聚合结果                        | 更快的 `COUNT`、`SUM`、`AVG`... + `GROUP BY` | `SELECT COUNT(*)... GROUP BY city` |
-| **全文索引**         | 用于文本中快速关键字搜索的倒排索引            | 使用 `MATCH` 进行文本搜索 (例如，日志)     | `WHERE MATCH(log_entry, 'error')` |
-| **JSON 索引**        | 索引 JSON 文档中的特定路径/键                 | 根据特定 JSON 路径/值进行过滤             | `WHERE event_data:user.id = 123` |
-| **布隆过滤器索引** | 概率检查，用于快速跳过不匹配的块              | 快速点查找 (`=`) 和 `IN` 列表过滤         | `WHERE user_id = 'xyz'`         |
+| 索引类型          | 简述                                         | 加速查询场景                         | 示例查询片段                   |
+| :------------------ | :-------------------------------------------------------- | :-------------------------------------------------- | :-------------------------------------- |
+| **聚合索引（Aggregate Index）** | 为指定组预计算聚合结果       | 加速 `COUNT`/`SUM`/`AVG` + `GROUP BY`          | `SELECT COUNT(*)... GROUP BY city`      |
+| **全文索引（Full-Text Index）** | 支持文本关键词快速检索的倒排索引        | 使用 `MATCH` 的文本搜索（如日志）              | `WHERE MATCH(log_entry, 'error')`     |
+| **JSON 索引（JSON Index）**      | 索引 JSON 文档内特定路径/键值       | 基于 JSON 路径/值的过滤             | `WHERE event_data:user.id = 123`      |
+| **布隆过滤器索引（Bloom Filter Index）** | 概率性检查快速跳过不匹配块 | 加速点查询（`=`）及 `IN` 列表过滤      | `WHERE user_id = 'xyz'` |
 
-## 对比：Databend Fuse Engine 与 Apache Iceberg
+## 对比：Databend Fuse 引擎 vs. Apache Iceberg
 
-_**注意：** 此比较专门关注 **表格式特性**。作为 Databend 的原生表格式，Fuse 不断发展，旨在提高 **可用性和性能**。所示特性为当前特性；预计会有变化。_
+_**注意：** 本对比聚焦**表格式特性**。作为 Databend 原生表格式，Fuse 持续演进以提升**易用性与性能**。所示特性为当前版本，后续可能变更。_
 
-| 特性                 | Apache Iceberg                     | Databend Fuse Engine                 |
-| :------------------- | :--------------------------------- | :----------------------------------- |
-| **元数据结构**       | 清单列表 -> 清单文件 -> 数据文件   | **快照** -> 段 -> 块                 |
-| **统计信息级别**     | 文件级 (+分区)                     | **多级** (快照、段、块) → 更精细的剪枝 |
-| **剪枝能力**         | 良好 (文件/分区统计信息)           | **优秀** (多级统计信息 + 二级索引)   |
-| **Schema 演进**      | 支持 (元数据更改)                  | **零拷贝** (仅元数据，即时)          |
-| **数据聚类**         | 排序 (写入时)                      | **自动** 优化 (后台)                 |
-| **流式支持**         | 基本流式摄取                       | **高级增量** (插入/更新跟踪)         |
+| 特性                 | Apache Iceberg                     | Databend Fuse 引擎                 |
+| :---------------------- | :--------------------------------- | :----------------------------------- |
+| **元数据结构**  | Manifest Lists → Manifest Files → Data Files | **Snapshot** → Segments → Blocks   |
+| **统计层级**   | 文件级（+分区）            | **多级**（Snapshot/Segment/Block）→ 更精细剪枝 |
+| **剪枝能力**       | 良好（文件/分区统计）      | **卓越**（多级统计 + 二级索引） |
+| **Schema 演进**    | 支持（元数据变更）        | **零拷贝**（纯元数据操作，瞬时生效） |
+| **数据聚簇**     | 写入时排序     | **自动**优化（后台执行） |
+| **流式支持**   | 基础流式摄取          | **高级增量处理**（插入/更新追踪） |
