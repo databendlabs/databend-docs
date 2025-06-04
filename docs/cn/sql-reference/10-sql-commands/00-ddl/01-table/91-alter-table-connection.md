@@ -1,4 +1,3 @@
-```markdown
 ---
 title: ALTER TABLE CONNECTION
 sidebar_position: 6
