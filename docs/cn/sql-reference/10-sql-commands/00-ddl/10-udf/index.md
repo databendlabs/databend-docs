@@ -1,8 +1,22 @@
 ---
-title: 用户自定义函数
+title: 用户定义函数（User-Defined Function）
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-本页提供了 Databend 中 UDF 相关命令的参考信息。有关 UDF 的更多信息，请参见 [用户自定义函数](/guides/query/udf)。
+本页面全面概述了 Databend 中的用户定义函数（UDF）操作，按功能组织以便参考。
 
-<IndexOverviewList />
+## UDF 管理
+
+| 命令 | 描述 |
+|---------|-------------|
+| [CREATE FUNCTION](ddl-create-function.md) | 创建新的用户定义函数 |
+| [ALTER FUNCTION](ddl-alter-function.md) | 修改现有的用户定义函数 |
+| [DROP FUNCTION](ddl-drop-function.md) | 删除用户定义函数 |
+| [SHOW USER FUNCTIONS](ddl-show-user-functions.md) | 列出所有用户定义函数 |
+
+## 相关主题
+
+- [用户定义函数（User-Defined Function）](/guides/query/udf)
+
+:::note
+Databend 中的用户定义函数（UDF）允许您使用 JavaScript、Python 或其他支持的语言创建自定义函数，从而扩展内置功能。
+:::
