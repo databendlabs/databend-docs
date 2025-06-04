@@ -21,9 +21,20 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 ### 3. Identify Code Blocks
 - Locate all sections within triple backticks (``` ```) that denote code blocks
 
-### 4. Translate SQL Comments Only
-- Within these identified code blocks, only translate SQL comments marked by `--`
-- Leave all other content unchanged, especially ASCII art, diagrams, or any structurally formatted content, to preserve the visual layout
+### 4. **CRITICAL: Code Block Translation Rules**
+- **ONLY translate SQL comments that start with `--`**
+- **For ASCII tables/diagrams with text content:**
+  - You MAY translate the text content IF you can maintain exact alignment
+  - **Apply technical term format: 中文翻译（英文名词）** for relevant terms
+  - **MUST preserve all spacing, padding, and visual structure**
+  - **Count character widths carefully** (Chinese characters = 2 width, English = 1 width)
+  - **Add/remove spaces as needed to maintain column alignment**
+  - **If alignment cannot be maintained perfectly, DO NOT TRANSLATE**
+- **NEVER translate:**
+  - Pure ASCII art symbols (┌─┐│└┘├┤┬┴┼)
+  - Code syntax, commands, outputs
+  - Variable names, function names
+- **When in doubt about alignment, DO NOT TRANSLATE**
 
 ### 5. Process LANG_REPLACE Comments
 - Replace with Chinese version specified after `cn=`
@@ -52,10 +63,12 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 - Data Types: `可变字符（VARCHAR）`, `整数（INTEGER）`
 - Joins: `内连接（Inner Join）`, `左连接（Left Join）`
 
-### Translation Examples:
+## Translation Examples
+
 **YAML:**
+```yaml
 ---
-title: Cluster Keys Overview  →  title: 聚簇键（Cluster Key）概述
-description: Learn about cluster keys in Databend  →  description: 了解 Databend 中的聚簇键（Cluster Key）
-sidebar_label: Cluster Keys  →  sidebar_label: 聚簇键（Cluster Key）
+title: Cluster Keys Overview → title: 聚簇键（Cluster Key）概述
+description: Learn about cluster keys in Databend → description: 了解 Databend 中的聚簇键（Cluster Key）
+sidebar_label: Cluster Keys → sidebar_label: 聚簇键（Cluster Key）
 ---
