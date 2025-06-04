@@ -1,5 +1,5 @@
 ---
-title: "CAST, ::"
+title: "CAST::"
 ---
 
 Converts a value from one data type to another. `::` is an alias for CAST.

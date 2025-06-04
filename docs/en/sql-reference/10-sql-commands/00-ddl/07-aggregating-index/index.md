@@ -1,11 +1,24 @@
 ---
-title: AGGREGATING INDEX
+title: Aggregating Index
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='AGGREGATING INDEX'/>
 
-This page provides reference information for the aggregating index-related commands in Databend. For more information about aggregating index, see [Aggregating Index](/guides/performance/aggregating-index).
+This page provides a comprehensive overview of aggregating index operations in Databend, organized by functionality for easy reference.
 
-<IndexOverviewList />
+## Aggregating Index Management
+
+| Command | Description |
+|---------|-------------|
+| [CREATE AGGREGATING INDEX](create-aggregating-index.md) | Creates a new aggregating index for a table |
+| [DROP AGGREGATING INDEX](drop-aggregating-index.md) | Removes an aggregating index |
+| [REFRESH AGGREGATING INDEX](refresh-aggregating-index.md) | Updates an aggregating index with the latest data |
+
+## Related Topics
+
+- [Aggregating Index](/guides/performance/aggregating-index)
+
+:::note
+Aggregating indexes in Databend are used to improve the performance of aggregate queries by pre-computing and storing aggregate results.
+:::

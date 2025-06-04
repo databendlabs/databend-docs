@@ -1,9 +1,28 @@
 ---
-title: NETWORK POLICY
+title: Network Policy
 ---
 
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
+This page provides a comprehensive overview of Network Policy operations in Databend, organized by functionality for easy reference.
 
-This page provides reference information for the network policy commands in Databend. For more information about network policy, see [Network Policy](/guides/security/network-policy).
+## Network Policy Management
 
-<IndexOverviewList />
+| Command | Description |
+|---------|-------------|
+| [CREATE NETWORK POLICY](ddl-create-policy.md) | Creates a new network policy to control access based on IP addresses |
+| [ALTER NETWORK POLICY](ddl-alter-policy.md) | Modifies an existing network policy |
+| [DROP NETWORK POLICY](ddl-drop-policy.md) | Removes a network policy |
+
+## Network Policy Information
+
+| Command | Description |
+|---------|-------------|
+| [DESCRIBE NETWORK POLICY](ddl-desc-policy.md) | Shows details of a specific network policy |
+| [SHOW NETWORK POLICIES](ddl-show-policy.md) | Lists all network policies |
+
+## Related Topics
+
+- [Network Policy](/guides/security/network-policy)
+
+:::note
+Network policies in Databend allow you to control access to your database by specifying allowed or blocked IP addresses and ranges.
+:::

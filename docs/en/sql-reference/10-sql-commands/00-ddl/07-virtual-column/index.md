@@ -1,11 +1,23 @@
 ---
-title: VIRTUAL COLUMN
+title: Virtual Column
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VIRTUAL COLUMN'/>
 
-This page provides reference information for the virtual column-related commands in Databend. For more information about virtual column, see [Virtual Column](/guides/performance/virtual-column).
+This page provides a comprehensive overview of virtual column operations in Databend, organized by functionality for easy reference.
 
-<IndexOverviewList />
+## Virtual Column Management
+
+| Command | Description |
+|---------|-------------|
+| [REFRESH VIRTUAL COLUMN](refresh-virtual-column.md) | Updates virtual columns with the latest data |
+| [SHOW VIRTUAL COLUMNS](show-virtual-columns.md) | Lists all virtual columns in a table |
+
+## Related Topics
+
+- [Virtual Column](/guides/performance/virtual-column)
+
+:::note
+Virtual columns in Databend are derived columns that are computed from other columns in the table. They are not physically stored but calculated on-demand during query execution.
+:::

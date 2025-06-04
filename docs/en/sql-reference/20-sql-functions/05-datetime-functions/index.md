@@ -2,78 +2,84 @@
 title: Date & Time Functions
 ---
 
-This section provides reference information for the datetime-related functions in Databend.
+This page provides a comprehensive overview of Date & Time functions in Databend, organized by functionality for easy reference.
 
-## Conversion Functions
+## Current Date & Time Functions
 
-- [DATE](date.md)
-- [TO_MONTH](to-month)
-- [MONTH](month.md)
-- [TO_DATE](to-date)
-- [TO_DATETIME](to-datetime)
-- [TODAY](today.md)
-- [TO_DAY_OF_MONTH](to-day-of-month)
-- [DAY](day.md)
-- [TO_DAY_OF_WEEK](to-day-of-week)
-- [TO_DAY_OF_YEAR](to-day-of-year)
-- [TO_HOUR](to-hour)
-- [TO_MINUTE](to-minute)
-- [TO_MONDAY](to-monday)
-- [TOMORROW](tomorrow.md)
-- [TO_QUARTER](to-quarter)
-- [QUARTER](quarter.md)
-- [TO_SECOND](to-second)
-- [TO_START_OF_DAY](to-start-of-day)
-- [TO_START_OF_FIFTEEN_MINUTES](to-start-of-fifteen-minutes)
-- [TO_START_OF_FIVE_MINUTES](to-start-of-five-minutes)
-- [TO_START_OF_HOUR](to-start-of-hour)
-- [TO_START_OF_ISO_YEAR](to-start-of-iso-year)
-- [TO_START_OF_MINUTE](to-start-of-minute)
-- [TO_START_OF_MONTH](to-start-of-month)
-- [TO_START_OF_QUARTER](to-start-of-quarter)
-- [TO_START_OF_SECOND](to-start-of-second)
-- [TO_START_OF_TENMINUTES](to-start-of-ten-minutes)
-- [TO_START_OF_WEEK](to-start-of-week)
-- [TO_START_OF_YEAR](to-start-of-year)
-- [TO_TIMESTAMP](to-timestamp)
-- [TO_UNIX_TIMESTAMP](to-unix-timestamp)
-- [TO_WEEK_OF_YEAR](to-week-of-year)
-- [WEEK](week.md)
-- [WEEKOFYEAR](weekofyear.md)
-- [TO_YEAR](to-year)
-- [YEAR](year.md)
-- [TO_YYYYMM](to-yyyymm)
-- [TO_YYYYMMDD](to-yyyymmdd)
-- [TO_YYYYMMDDHH](to-yyyymmddhh)
-- [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss)
-- [MILLENNIUM](millennium.md)
-- [YEARWEEK](yearweek.md)
+| Function | Description | Example |
+|----------|-------------|---------|
+| [NOW](now.md) | Returns the current date and time | `NOW()` → `2024-06-04 17:42:31.123456` |
+| [CURRENT_TIMESTAMP](current-timestamp.md) | Returns the current date and time | `CURRENT_TIMESTAMP()` → `2024-06-04 17:42:31.123456` |
+| [TODAY](today.md) | Returns the current date | `TODAY()` → `2024-06-04` |
+| [TOMORROW](tomorrow.md) | Returns tomorrow's date | `TOMORROW()` → `2024-06-05` |
+| [YESTERDAY](yesterday.md) | Returns yesterday's date | `YESTERDAY()` → `2024-06-03` |
 
-## Date Arithmetic Functions
+## Date & Time Extraction Functions
 
-- [ADD INTERVAL](addinterval.md)
-- [DATE_ADD](date-add)
-- [DATE_SUB](date-sub)
-- [DATE_DIFF](date-diff)
-- [DATE_BETWEEN](date-between.md)
-- [SUBTRACT INTERVAL](subtractinterval.md)
-- [MONTHS_BETWEEN](months-between.md)
-- [LAST_DAY](last-day.md)
-- [NEXT_DAY](next-day.md)
-- [PREVIOUS_DAY](previous-day.md)
-- [TIMESTAMP_DIFF](timestamp-diff.md)
+| Function | Description | Example |
+|----------|-------------|---------|
+| [YEAR](year.md) | Extracts the year from a date | `YEAR('2024-06-04')` → `2024` |
+| [MONTH](month.md) | Extracts the month from a date | `MONTH('2024-06-04')` → `6` |
+| [DAY](day.md) | Extracts the day from a date | `DAY('2024-06-04')` → `4` |
+| [QUARTER](quarter.md) | Extracts the quarter from a date | `QUARTER('2024-06-04')` → `2` |
+| [WEEK](week.md) / [WEEKOFYEAR](weekofyear.md) | Extracts the week number from a date | `WEEK('2024-06-04')` → `23` |
+| [EXTRACT](extract.md) | Extracts a part from a date | `EXTRACT(MONTH FROM '2024-06-04')` → `6` |
+| [DATE_PART](date-part.md) | Extracts a part from a date | `DATE_PART('month', '2024-06-04')` → `6` |
+| [YEARWEEK](yearweek.md) | Returns year and week number | `YEARWEEK('2024-06-04')` → `202423` |
+| [MILLENNIUM](millennium.md) | Returns the millennium from a date | `MILLENNIUM('2024-06-04')` → `3` |
 
-## Date Information Functions
+## Date & Time Conversion Functions
 
-- [DATE_PART](date-part.md)
-- [DATE_FORMAT](date-format)
-- [DATE_TRUNC](date-trunc)
-- [NOW](now.md)
-- [CURRENT_TIMESTAMP](current-timestamp.md)
+| Function | Description | Example |
+|----------|-------------|---------|
+| [DATE](date.md) | Converts a value to DATE type | `DATE('2024-06-04')` → `2024-06-04` |
+| [TO_DATE](to-date.md) | Converts a string to DATE type | `TO_DATE('2024-06-04')` → `2024-06-04` |
+| [TO_DATETIME](to-datetime.md) | Converts a string to DATETIME type | `TO_DATETIME('2024-06-04 12:30:45')` → `2024-06-04 12:30:45` |
+| [TO_TIMESTAMP](to-timestamp.md) | Converts a string to TIMESTAMP type | `TO_TIMESTAMP('2024-06-04 12:30:45')` → `2024-06-04 12:30:45` |
+| [TO_UNIX_TIMESTAMP](to-unix-timestamp.md) | Converts a date to Unix timestamp | `TO_UNIX_TIMESTAMP('2024-06-04')` → `1717516800` |
+| [TO_YYYYMM](to-yyyymm.md) | Formats date as YYYYMM | `TO_YYYYMM('2024-06-04')` → `202406` |
+| [TO_YYYYMMDD](to-yyyymmdd.md) | Formats date as YYYYMMDD | `TO_YYYYMMDD('2024-06-04')` → `20240604` |
+| [TO_YYYYMMDDHH](to-yyyymmddhh.md) | Formats date as YYYYMMDDHH | `TO_YYYYMMDDHH('2024-06-04 12:30:45')` → `2024060412` |
+| [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss.md) | Formats date as YYYYMMDDHHMMSS | `TO_YYYYMMDDHHMMSS('2024-06-04 12:30:45')` → `20240604123045` |
+| [DATE_FORMAT](date-format.md) | Formats a date according to a format string | `DATE_FORMAT('2024-06-04', '%Y-%m-%d')` → `'2024-06-04'` |
 
-## Others
+## Date & Time Arithmetic Functions
 
-- [EXTRACT](extract.md)
-- [TIME_SLOT](time-slot)
-- [TIMEZONE](timezone.md)
-- [YESTERDAY](yesterday.md)
+| Function | Description | Example |
+|----------|-------------|---------|
+| [DATE_ADD](date-add.md) | Adds a time interval to a date | `DATE_ADD(DAY, 7, '2024-06-04')` → `2024-06-11` |
+| [DATE_SUB](date-sub.md) | Subtracts a time interval from a date | `DATE_SUB(MONTH, 1, '2024-06-04')` → `2024-05-04` |
+| [ADD INTERVAL](addinterval.md) | Adds an interval to a date | `'2024-06-04' + INTERVAL 1 DAY` → `2024-06-05` |
+| [SUBTRACT INTERVAL](subtractinterval.md) | Subtracts an interval from a date | `'2024-06-04' - INTERVAL 1 MONTH` → `2024-05-04` |
+| [DATE_DIFF](date-diff.md) | Returns the difference between two dates | `DATE_DIFF(DAY, '2024-06-01', '2024-06-04')` → `3` |
+| [TIMESTAMP_DIFF](timestamp-diff.md) | Returns the difference between two timestamps | `TIMESTAMP_DIFF(HOUR, '2024-06-04 10:00:00', '2024-06-04 15:00:00')` → `5` |
+| [MONTHS_BETWEEN](months-between.md) | Returns the number of months between two dates | `MONTHS_BETWEEN('2024-06-04', '2024-01-04')` → `5` |
+| [DATE_BETWEEN](date-between.md) | Checks if a date is between two other dates | `DATE_BETWEEN('2024-06-04', '2024-06-01', '2024-06-10')` → `true` |
+
+## Date & Time Truncation Functions
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| [DATE_TRUNC](date-trunc.md) | Truncates a timestamp to a specified precision | `DATE_TRUNC('month', '2024-06-04')` → `2024-06-01` |
+| [TO_START_OF_DAY](to-start-of-day.md) | Returns the start of the day | `TO_START_OF_DAY('2024-06-04 12:30:45')` → `2024-06-04 00:00:00` |
+| [TO_START_OF_HOUR](to-start-of-hour.md) | Returns the start of the hour | `TO_START_OF_HOUR('2024-06-04 12:30:45')` → `2024-06-04 12:00:00` |
+| [TO_START_OF_MINUTE](to-start-of-minute.md) | Returns the start of the minute | `TO_START_OF_MINUTE('2024-06-04 12:30:45')` → `2024-06-04 12:30:00` |
+| [TO_START_OF_MONTH](to-start-of-month.md) | Returns the start of the month | `TO_START_OF_MONTH('2024-06-04')` → `2024-06-01` |
+| [TO_START_OF_QUARTER](to-start-of-quarter.md) | Returns the start of the quarter | `TO_START_OF_QUARTER('2024-06-04')` → `2024-04-01` |
+| [TO_START_OF_YEAR](to-start-of-year.md) | Returns the start of the year | `TO_START_OF_YEAR('2024-06-04')` → `2024-01-01` |
+| [TO_START_OF_WEEK](to-start-of-week.md) | Returns the start of the week | `TO_START_OF_WEEK('2024-06-04')` → `2024-06-03` |
+
+## Date & Time Navigation Functions
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| [LAST_DAY](last-day.md) | Returns the last day of the month | `LAST_DAY('2024-06-04')` → `2024-06-30` |
+| [NEXT_DAY](next-day.md) | Returns the date of the next specified day of week | `NEXT_DAY('2024-06-04', 'SUNDAY')` → `2024-06-09` |
+| [PREVIOUS_DAY](previous-day.md) | Returns the date of the previous specified day of week | `PREVIOUS_DAY('2024-06-04', 'MONDAY')` → `2024-06-03` |
+
+## Other Date & Time Functions
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| [TIMEZONE](timezone.md) | Returns the current timezone | `TIMEZONE()` → `'UTC'` |
+| [TIME_SLOT](time-slot.md) | Returns time slots | `TIME_SLOT('2024-06-04 12:30:45', 15, 'MINUTE')` → `2024-06-04 12:30:00` |
