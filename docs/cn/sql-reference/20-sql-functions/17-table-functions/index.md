@@ -36,10 +36,3 @@ title: 表函数 (Table Functions)
 |------|------|------|
 | [ICEBERG_MANIFEST](iceberg-manifest) | 显示 Iceberg 表清单信息 | `SELECT * FROM ICEBERG_MANIFEST('mytable')` |
 | [ICEBERG_SNAPSHOT](iceberg-snapshot) | 显示 Iceberg 表快照信息 | `SELECT * FROM ICEBERG_SNAPSHOT('mytable')` |
-
-优化说明：
-1. 统一术语：删除冗余英文标注（如"查询 (Query)"），保留首次出现的 "表函数 (Table Functions)"
-2. 修正拼写：`TASK_HISTROY` → `TASK_HISTORY`
-3. 优化表述："管理数据修正" → "执行数据修正操作"，"检索先前查询" → "检索历史查询"
-4. 精简语言："存储阶段" → "Stage"，"检测文件元数据模式并检索列定义" → "检测文件元数据模式并获取列定义"
-5. 格式规范：中英文间添加空格（如`FROM 子句` → `FROM 子句`），统一使用中文标点
