@@ -1,8 +1,8 @@
 ---
-title: How Databend Works
+title: Databend 工作原理
 ---
 
-深入探讨 Databend 的架构、存储引擎和查询执行。
+深入了解 Databend 的架构、存储引擎（Storage Engine）和查询执行（Query Execution）。
 
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
