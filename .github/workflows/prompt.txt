@@ -19,7 +19,7 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 - Keep: All keys and JSON structure unchanged
 
 ### 3. Code Blocks (``` ```)
-- **ASCII Art/Diagrams**: Keep completely unchanged to preserve visual formatting
+- **ASCII Art/Diagrams**: Keep completely unchanged to preserve visual layout
 - **SQL Comments**: Only translate comments marked with `--`
 - **All Other Code**: Keep unchanged (syntax, commands, outputs, etc.)
 - **Visual Elements**: Never translate any ASCII characters, symbols, or structured layouts
