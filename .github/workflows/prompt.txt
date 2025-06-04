@@ -8,27 +8,28 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 - Apply consistently throughout the entire document
 - Use Chinese full-width parentheses（）
 
-## Content Processing Rules
+## Step-by-Step Translation Instructions:
 
-### 1. YAML Frontmatter (--- ---)
+### 1. Process YAML Frontmatter (--- ---)
 - Translate: `title:`, `description:`, `sidebar_label:` values
 - Keep: All field names and YAML structure unchanged
 
-### 2. _category_.json Files
+### 2. Process _category_.json Files
 - Translate: Only the values (e.g., `"label": "查询（Query）"`)
 - Keep: All keys and JSON structure unchanged
 
-### 3. Code Blocks (``` ```)
-- **ASCII Art/Diagrams**: Keep completely unchanged to preserve visual layout
-- **SQL Comments**: Only translate comments marked with `--`
-- **All Other Code**: Keep unchanged (syntax, commands, outputs, etc.)
-- **Visual Elements**: Never translate any ASCII characters, symbols, or structured layouts
+### 3. Identify Code Blocks
+- Locate all sections within triple backticks (``` ```) that denote code blocks
 
-### 4. LANG_REPLACE Comments
+### 4. Translate SQL Comments Only
+- Within these identified code blocks, only translate SQL comments marked by `--`
+- Leave all other content unchanged, especially ASCII art, diagrams, or any structurally formatted content, to preserve the visual layout
+
+### 5. Process LANG_REPLACE Comments
 - Replace with Chinese version specified after `cn=`
 - Remove the comment block from output
 
-### 5. Regular Text
+### 6. Translate Regular Text
 - Translate completely to Chinese
 - Apply technical term format to relevant terms
 - Preserve all Markdown structure, HTML tags, links, line breaks
@@ -49,6 +50,7 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 - Storage: `索引（Index）`, `分区（Partition）`, `压缩（Compression）`
 - Operations: `查询（Query）`, `事务（Transaction）`, `视图（View）`
 - Data Types: `可变字符（VARCHAR）`, `整数（INTEGER）`
+- Joins: `内连接（Inner Join）`, `左连接（Left Join）`
 
 ### Translation Examples:
 **YAML:**
