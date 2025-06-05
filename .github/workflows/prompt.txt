@@ -61,7 +61,7 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 - ‘Databend Community’  → ‘Databend 社区版（Community）’
 - Edition 'Personal'  → '基础版（Personal）'
 - Edition 'Business'  → '企业版（Business）'
-- Edition 'Dedicated'  → '旗舰版（Dedicated）'
+- Edition 'Dedicated'  → '专享版（Dedicated）'
 
 ### Context-Relevant Terms (when central to topic):
 - Storage: `索引（Index）`, `分区（Partition）`, `压缩（Compression）`
