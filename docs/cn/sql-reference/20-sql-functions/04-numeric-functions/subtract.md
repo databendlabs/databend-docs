@@ -2,4 +2,4 @@
 title: SUBTRACT
 ---
 
-[MINUS](minus.md) 的别名。
+SUBTRACT 是 [MINUS](minus.md) 的别名。
