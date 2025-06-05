@@ -84,7 +84,7 @@ By using IAM Role, you can securely connect your Databend Cloud environment to y
 4. Run the following SQL statement in Databend Cloud cloud worksheet or `BendSQL`:
 
    ```sql
-   CREATE CONNECTION databend_test STORAGE_TYPE = 's3' ROLE_ARN = 'arn:aws:iam::987654321987:role/databend-test' EXTERNAL_ID = 'my-external-id-123';
+   CREATE CONNECTION databend_test STORAGE_TYPE = 's3' REGION = 'us-east-2' ROLE_ARN = 'arn:aws:iam::987654321987:role/databend-test' EXTERNAL_ID = 'my-external-id-123';
 
    CREATE STAGE databend_test URL = 's3://test-bucket-123' CONNECTION = (CONNECTION_NAME = 'databend_test');
 
