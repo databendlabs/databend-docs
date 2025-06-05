@@ -1,6 +1,7 @@
 ---
 title: "AI_TEXT_COMPLETION"
 description: "在 Databend 中使用 ai_text_completion 函数生成文本补全"
+---
 
 本文档概述了 Databend 中的 `ai_text_completion` 函数，并演示如何使用该函数生成文本补全。
 
