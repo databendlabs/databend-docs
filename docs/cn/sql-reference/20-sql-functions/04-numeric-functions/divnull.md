@@ -3,11 +3,11 @@ title: DIVNULL
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.345"/>
+<FunctionDescription description="引入或更新版本：v1.2.345"/>
 
-返回第一个数字除以第二个数字的商。如果第二个数字为0或NULL，则返回NULL。
+返回第一个数除以第二个数的商。若第二个数为 0 或 NULL，则返回 NULL。
 
-另请参阅:
+另请参阅：
 
 - [DIV](div.md)
 - [DIV0](div0.md)
