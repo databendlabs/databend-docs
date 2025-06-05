@@ -4,7 +4,7 @@ sidebar_position: 6
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.750"/>
+<FunctionDescription description="Introduced or updated: v1.2.752"/>
 
 Updates the connection settings for an external table.
 
