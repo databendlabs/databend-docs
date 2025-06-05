@@ -1,5 +1,5 @@
 ---
-title：COT
+title: COT
 ---
 
 返回 `x` 的余切值（`x` 以弧度表示）。
