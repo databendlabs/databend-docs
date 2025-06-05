@@ -109,8 +109,8 @@ Or you can create a connection and use it to create a table:
 -- Create a connection named `s3_connection` for the S3 credentials
 CREATE CONNECTION s3_connection
   STORAGE_TYPE = 's3'
-  SECRET_ACCESS_KEY = '<your-secret-access-key>'
-  ACCESS_KEY_ID = '<your-access-key-id>';
+  ACCESS_KEY_ID = '<your-access-key-id>'
+  SECRET_ACCESS_KEY = '<your-secret-access-key>';
 
 CREATE TABLE mytable (
   a INT
