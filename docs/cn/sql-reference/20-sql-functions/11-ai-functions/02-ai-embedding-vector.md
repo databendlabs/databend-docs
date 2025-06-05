@@ -1,20 +1,20 @@
 ---
 title: "AI_EMBEDDING_VECTOR"
-description: "在 Databend 中使用 ai_embedding_vector 函数创建 embeddings"
+description: "在 Databend 中使用 ai_embedding_vector 函数创建嵌入向量"
 ---
 
-本文档概述了 Databend 中的 ai_embedding_vector 函数，并演示了如何使用此函数创建文档 embeddings。
+本文档概述了 Databend 中的 ai_embedding_vector 函数，并演示如何使用此函数创建文档嵌入向量 (Embedding)。
 
-主要代码实现在[这里](https://github.com/databendlabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/common/openai/src/embedding.rs)。
+主要代码实现可在[此处](https://github.com/databendlabs/databend/blob/1e93c5b562bd159ecb0f336bb88fd1b7f9dc4a62/src/common/openai/src/embedding.rs)查看。
 
-默认情况下，Databend 利用 [text-embedding-ada](https://platform.openai.com/docs/models/embeddings) 模型来生成 embeddings。
+默认情况下，Databend 使用 [text-embedding-ada](https://platform.openai.com/docs/models/embeddings) 模型生成嵌入向量。
 
 :::info
-从 Databend v1.1.47 开始，Databend 支持 [Azure OpenAI service](https://azure.microsoft.com/en-au/products/cognitive-services/openai-service)。
+自 Databend v1.1.47 起，支持 [Azure OpenAI 服务](https://azure.microsoft.com/en-au/products/cognitive-services/openai-service)。
 
-这种集成提供了改进的数据隐私。
+此集成提供更优的数据隐私保护。
 
-要使用 Azure OpenAI，请将以下配置添加到 `[query]` 部分：
+要使用 Azure OpenAI，请在 `[query]` 部分添加以下配置：
 
 ```sql
 # Azure OpenAI
@@ -26,24 +26,24 @@ openai_api_version = "2023-03-15-preview"
 :::
 
 :::caution
-Databend 依赖于 (Azure) OpenAI 来实现 `AI_EMBEDDING_VECTOR`，并将 embedding 列数据发送到 (Azure) OpenAI。
+Databend 依赖 (Azure) OpenAI 实现 `AI_EMBEDDING_VECTOR`，并将嵌入列数据发送至 (Azure) OpenAI。
 
-只有当 Databend 配置包含 `openai_api_key` 时，它们才会工作，否则它们将处于非活动状态。
+仅当 Databend 配置包含 `openai_api_key` 时功能生效，否则无法使用。
 
-此函数在 [Databend Cloud](https://databend.com) 上默认可用，使用我们的 Azure OpenAI 密钥。如果您使用它们，您承认您的数据将由我们发送到 Azure OpenAI。
+此函数在 [Databend Cloud](https://databend.com) 默认启用（使用我们的 Azure OpenAI 密钥）。使用即表示您同意数据由我们发送至 Azure OpenAI。
 :::
 
 ## ai_embedding_vector 概述
 
-Databend 中的 `ai_embedding_vector` 函数是一个内置函数，用于为文本数据生成向量 embeddings。它对于自然语言处理任务非常有用，例如文档相似性、聚类和推荐系统。
+`ai_embedding_vector` 是 Databend 的内置函数，用于为文本数据生成向量嵌入。适用于自然语言处理任务，如文档相似度计算、聚类和推荐系统。
 
-该函数接受文本输入，并返回一个高维向量，该向量表示输入文本的语义含义和上下文。embeddings 是使用大型文本语料库上的预训练模型创建的，从而捕获连续空间中单词和短语之间的关系。
+该函数接收文本输入，返回表示语义和上下文的高维向量。嵌入通过预训练模型在大型语料库上生成，在连续空间中捕获词句间关系。
 
-## 使用 ai_embedding_vector 创建 embeddings
+## 使用 ai_embedding_vector 创建嵌入
 
-要使用 `ai_embedding_vector` 函数为文本文档创建 embeddings，请按照以下示例操作。
+按以下示例操作，为文本文档生成嵌入：
 
-1. 创建一个表来存储文档：
+1. 创建存储文档的表：
 
 ```sql
 CREATE TABLE documents (
@@ -54,7 +54,7 @@ CREATE TABLE documents (
 );
 ```
 
-2. 将示例文档插入到表中：
+2. 插入示例文档：
 
 ```sql
 INSERT INTO documents(id, title, content)
@@ -64,19 +64,19 @@ VALUES
     (3, 'Neural Networks Explained', 'A neural network is a series of algorithms that endeavors to recognize underlying relationships...'),
 ```
 
-3. 生成 embeddings：
+3. 生成嵌入：
 
 ```sql
 UPDATE documents SET embedding = ai_embedding_vector(content) WHERE embedding IS NULL;
 ```
 
-运行查询后，表中的 embedding 列将包含生成的 embeddings。
+运行查询后，表中 embedding 列将包含生成的嵌入。
 
-embeddings 作为 `FLOAT` 值的数组存储在 embedding 列中，该列具有 `ARRAY(FLOAT NOT NULL)` 列类型。
+嵌入以 `FLOAT` 值数组形式存储，列类型为 `ARRAY(FLOAT NOT NULL)`。
 
-现在，您可以将这些 embeddings 用于各种自然语言处理任务，例如查找相似文档或根据文档内容对文档进行聚类。
+这些嵌入可用于多种自然语言处理任务，例如查找相似文档或基于内容聚类。
 
-4. 检查 embeddings：
+4. 检查嵌入：
 
 ```sql
 SELECT length(embedding) FROM documents;
@@ -89,4 +89,4 @@ SELECT length(embedding) FROM documents;
 +-------------------+
 ```
 
-上面的查询显示，为每个文档生成的 embeddings 的长度为 1536（维度）。
+该查询显示每个文档的嵌入长度为 1536（维度）。
