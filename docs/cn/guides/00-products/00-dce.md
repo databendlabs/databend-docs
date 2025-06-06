@@ -6,7 +6,7 @@ sidebar_position: 4
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Databend 是一个开源、弹性且工作负载感知的云数据仓库（Data Warehouse），使用 Rust 构建，为 Snowflake 提供了经济高效的替代方案。它专为分析世界上最大数据集而设计。
+Databend 是一个开源、弹性且工作负载感知的云数据仓库（Data Warehouse），使用 Rust 构建，是 Snowflake 的经济高效替代方案。它专为分析世界上最大数据集而设计。
 
 <Tabs groupId="whydatabend">
 <TabItem value="Performance" label="性能">
