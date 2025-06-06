@@ -1,16 +1,16 @@
 ---
-title: Ecosystem
+title: 生态系统
 ---
 
 # Databend 生态系统
 
-为了与您的工作流程无缝集成，Databend 不断扩展其生态系统，积极与行业内的关键数据工具和技术集成。下图概述了 Databend 支持的工具、平台和编程语言：
+为了与您的工作流程无缝集成，Databend 持续扩展其生态系统，积极集成行业中的关键数据工具和技术。下图概述了 Databend 支持的工具、平台和编程语言：
 
 ![Alt text](@site/static/img/documents/overview/ecosystem.png)
 
-请参考以下链接，获取集成说明和教程：
+请参考以下链接获取集成指南和教程：
 
-- **Develop**
+- **开发**
 
   - [Golang](/developer/drivers/golang)
   - [Python](/developer/drivers/python)
@@ -28,19 +28,19 @@ title: Ecosystem
   - [DataX](../../40-load-data/02-load-db/datax.md)
   - [Debezium](../../40-load-data/02-load-db/debezium.md)
 
-- **BI & Visualization**
+- **BI 与可视化**
 
   - [Metabase](../../31-visualize/metabase.md)
   - [Grafana](../../31-visualize/grafana.md)
   - [Redash](../../31-visualize/redash.md)
   - [Tableau](../../31-visualize/tableau.md)
 
-- **Notebooks**
+- **笔记本**
 
   - [Deepnote](../../31-visualize/deepnote.md)
   - [Jupyter Notebook](../../31-visualize/jupyter.md)
 
-- **Log Collector**
+- **日志收集器**
 
   - [Vector](../../40-load-data/02-load-db/vector.md)
 
