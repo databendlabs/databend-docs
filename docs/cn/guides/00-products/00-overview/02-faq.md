@@ -2,9 +2,9 @@
 title: 常见问题
 ---
 
-### Q1: Databend 的主要对象、层级结构和相关权限是什么？
+### Q1: Databend 的主要对象、层次结构和相关权限是什么？
 
-下图展示了 Databend 对象在两个层级上的层级结构。精细的权限和所有权是为每种类型的对象设计的，提供了灵活性。更多信息，请参考 [访问控制](../../56-security/access-control/index.md)。
+该图表展示了 Databend 对象在两个层级上的层次结构。每种对象类型都支持细粒度的权限和所有权设计，提供灵活性。更多信息请参见[访问控制](../../56-security/access-control/index.md)。
 
 ![Alt text](/img/guides/faq1.png)
 
@@ -14,7 +14,7 @@ title: 常见问题
 
 ```sql title='示例:'
 CREATE TABLE example (
--- 除了 DECIMAL，不需要指定字段长度。
+-- 除了 DECIMAL 外，无需指定字段长度
   c1 INT,
   c2 VARCHAR,
   c3 DATETIME,
@@ -26,7 +26,7 @@ CREATE TABLE example (
 
 ### Q3: Databend、MySQL 和 Oracle 之间的数据类型映射是什么？
 
-此表概述了 Databend、MySQL 和 Oracle 之间的数据类型映射。
+此表提供了 Databend、MySQL 和 Oracle 之间数据类型映射的概述。
 
 | Databend      | MySQL      | Oracle       |
 | ------------- | ---------- | ------------ |
