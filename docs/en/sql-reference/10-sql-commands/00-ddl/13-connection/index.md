@@ -31,8 +31,8 @@ This statement initiates a connection to Amazon S3, specifying essential connect
 ```sql
 CREATE CONNECTION toronto 
     STORAGE_TYPE = 's3' 
-    SECRET_ACCESS_KEY = '<your-secret-access-key>' 
-    ACCESS_KEY_ID = '<your-access-key-id>';
+    ACCESS_KEY_ID = '<your-access-key-id>'
+    SECRET_ACCESS_KEY = '<your-secret-access-key>';
 
 ```
 
@@ -51,8 +51,8 @@ CREATE STAGE my_s3_stage
 CREATE STAGE my_s3_stage 
     URL = 's3://databend-toronto' 
     CONNECTION = (
+        ACCESS_KEY_ID = '<your-access-key-id>',
         SECRET_ACCESS_KEY = '<your-secret-access-key>' 
-        ACCESS_KEY_ID = '<your-access-key-id>'
     );
 
 ```

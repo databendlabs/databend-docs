@@ -37,11 +37,11 @@ SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'company_sales');
 ```sql
 -- Marketing: Customer behavior analysis
 ATTACH TABLE marketing_view (customer_id, product, amount, order_date) 
-'s3://your-bucket/1/23351/' CONNECTION = (AWS_KEY_ID = 'xxx', AWS_SECRET_KEY = 'yyy');
+'s3://your-bucket/1/23351/' CONNECTION = (ACCESS_KEY_ID = 'xxx', SECRET_ACCESS_KEY = 'yyy');
 
 -- Finance: Revenue tracking
 ATTACH TABLE finance_view (order_id, amount, profit, order_date) 
-'s3://your-bucket/1/23351/' CONNECTION = (AWS_KEY_ID = 'xxx', AWS_SECRET_KEY = 'yyy');
+'s3://your-bucket/1/23351/' CONNECTION = (ACCESS_KEY_ID = 'xxx', SECRET_ACCESS_KEY = 'yyy');
 
 -- HR: Employee info without salaries
 ATTACH TABLE hr_employees (employee_id, name, department) 

@@ -25,7 +25,6 @@ CONNECTION = (
     ENDPOINT_URL = 'https://<endpoint-URL>'
     ACCESS_KEY_ID = '<your-access-key-ID>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>'
-    REGION = '<region-name>'
     ENABLE_VIRTUAL_HOST_STYLE = 'true' | 'false'
 )
 |
@@ -42,7 +41,6 @@ Connection parameters:
 | ENDPOINT_URL              	 | The bucket endpoint URL starting with "https://". To use a URL starting with "http://", set `allow_insecure` to `true` in the [storage] block of the file `databend-query-node.toml`.                                  	 | Optional 	 |
 | ACCESS_KEY_ID             	 | Your access key ID for connecting the AWS S3 compatible object storage. If not provided, Databend will access the bucket anonymously.    	                                                                               | Optional 	 |
 | SECRET_ACCESS_KEY         	 | Your secret access key for connecting the AWS S3 compatible object storage. 	                                                                                                                                            | Optional 	 |
-| REGION                    	 | AWS region name. For example, us-east-1.                                    	                                                                                                                                            | Optional 	 |
 | ENABLE_VIRTUAL_HOST_STYLE 	 | If you use virtual hosting to address the bucket, set it to "true".                               	                                                                                                                      | Optional 	 |
 
 For more information on `CONNECTION_NAME`, see [CREATE CONNECTION](../13-connection/create-connection.md)

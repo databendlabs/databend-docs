@@ -65,9 +65,8 @@ This example creates an attached table, which includes all columns from a source
 
 ```sql
 ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' CONNECTION = (
-  REGION='us-east-2',
-  AWS_KEY_ID = '<your_aws_key_id>',
-  AWS_SECRET_KEY = '<your_aws_secret_key>'
+  ACCESS_KEY_ID = '<your_aws_key_id>',
+  SECRET_ACCESS_KEY = '<your_aws_secret_key>'
 );
 ```
 
@@ -75,8 +74,7 @@ This example creates an attached table, which includes only selected columns (`c
 
 ```sql
 ATTACH TABLE population_only (city, population) 's3://databend-doc/1/16/' CONNECTION = (
-  REGION='us-east-2',
-  AWS_KEY_ID = '<your_aws_key_id>',
-  AWS_SECRET_KEY = '<your_aws_secret_key>'
+  ACCESS_KEY_ID = '<your_aws_key_id>',
+  SECRET_ACCESS_KEY = '<your_aws_secret_key>'
 );
 ```
