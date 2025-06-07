@@ -65,7 +65,7 @@ SELECT order_date, SUM(profit) FROM finance_view GROUP BY order_date;
 
 **Real-Time Updates**: When source data changes, all attached tables see it instantly
 ```sql
-INSERT INTO company_sales VALUES (1001, 501, 'Laptop', 1299.99, 299.99, 'user@email.com', '2024-01-20');
+INSERT INTO company_sales VALUES (1001, 501, 'Laptop', 1299.99, 299.99, 'user@email.com', '2025-01-20');
 SELECT COUNT(*) FROM marketing_view WHERE order_date = '2024-01-20'; -- Returns: 1
 ```
 
