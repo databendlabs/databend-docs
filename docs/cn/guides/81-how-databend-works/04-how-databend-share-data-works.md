@@ -2,134 +2,134 @@
 title: Databend 免拷贝数据共享（Data Sharing）工作原理
 ---
 
-## 什么是数据共享？
+## 什么是数据共享（Data Sharing）？
 
-不同团队需要相同数据的不同部分。传统解决方案需要多次复制数据，导致成本高昂且难以维护。
+不同团队需要相同数据的不同部分。传统解决方案会多次复制数据，成本高昂且难以维护。
 
-Databend 的 **[ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table)** 优雅地解决了这一问题：为相同数据创建多个“视图”而无需复制。这利用了 Databend 的**真正计算存储分离**架构——无论使用云存储还是本地对象存储，都能实现**存储一次，随处访问**。
+Databend 的 **[ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table)** 优雅地解决了这一问题：无需复制数据即可创建多个“视图”。这得益于 Databend 的**真正计算存储分离（Compute-Storage Separation）**架构——无论使用云存储还是本地对象存储，都能实现**存储一次，随处访问**。
 
-可以将 ATTACH TABLE 类比为计算机快捷方式——它指向原始文件而不复制文件。
+ATTACH TABLE 类似于计算机快捷方式：指向原始文件而无需复制。
 
 ```
-                Object Storage (S3, MinIO, Azure, etc.)
+                对象存储（S3, MinIO, Azure 等）
                          ┌─────────────┐
-                         │ Your Data   │
+                         │   您的数据   │
                          └──────┬──────┘
                                 │
         ┌───────────────────────┼───────────────────────┐
         │                       │                       │
         ▼                       ▼                       ▼
 ┌─────────────┐         ┌─────────────┐         ┌─────────────┐
-│ Marketing   │         │  Finance    │         │   Sales     │
-│ Team View   │         │ Team View   │         │ Team View   │
+│   营销团队   │         │   财务团队   │         │   销售团队   │
+│    视图     │         │    视图     │         │    视图     │
 └─────────────┘         └─────────────┘         └─────────────┘
 ```
 
 ## 如何使用 ATTACH TABLE
 
-**步骤 1：查找数据位置**
+**步骤 1：定位数据位置**
 ```sql
 SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'company_sales');
--- Result: 1/23351/_ss/... → Data at s3://your-bucket/1/23351/
+-- 结果：1/23351/_ss/... → 数据位于 s3://your-bucket/1/23351/
 ```
 
-**步骤 2：创建团队特定视图**
+**步骤 2：创建团队专属视图**
 ```sql
--- Marketing: Customer behavior analysis
+-- 营销：客户行为分析
 ATTACH TABLE marketing_view (customer_id, product, amount, order_date) 
 's3://your-bucket/1/23351/' CONNECTION = (ACCESS_KEY_ID = 'xxx', SECRET_ACCESS_KEY = 'yyy');
 
--- Finance: Revenue tracking
+-- 财务：收入跟踪
 ATTACH TABLE finance_view (order_id, amount, profit, order_date) 
 's3://your-bucket/1/23351/' CONNECTION = (ACCESS_KEY_ID = 'xxx', SECRET_ACCESS_KEY = 'yyy');
 
--- HR: Employee info without salaries
+-- 人力资源：员工信息（不含薪资）
 ATTACH TABLE hr_employees (employee_id, name, department) 
 's3://data/1/23351/' CONNECTION = (...);
 
--- Development: Production structure without sensitive data
+-- 开发：生产结构（不含敏感数据）
 ATTACH TABLE dev_customers (customer_id, country, created_date) 
 's3://data/1/23351/' CONNECTION = (...);
 ```
 
 **步骤 3：独立查询**
 ```sql
--- Marketing analyzes trends
+-- 营销分析趋势
 SELECT product, COUNT(*) FROM marketing_view GROUP BY product;
 
--- Finance tracks profit
+-- 财务跟踪利润
 SELECT order_date, SUM(profit) FROM finance_view GROUP BY order_date;
 ```
 
 ## 主要优势
 
-**实时更新**：当源数据发生变化时，所有附加表都能立即看到更新。
+**实时更新（Real-Time Updates）**：源数据变更时，所有附加表即时可见
 ```sql
-INSERT INTO company_sales VALUES (1001, 501, 'Laptop', 1299.99, 299.99, 'user@email.com', '2024-01-20');
-SELECT COUNT(*) FROM marketing_view WHERE order_date = '2024-01-20'; -- Returns: 1
+INSERT INTO company_sales VALUES (1001, 501, 'Laptop', 1299.99, 299.99, 'user@email.com', '2025-01-20');
+SELECT COUNT(*) FROM marketing_view WHERE order_date = '2024-01-20'; -- 返回： 1
 ```
 
-**列级安全**：团队只能看到各自需要的内容——营销团队无法看到利润，财务团队无法看到客户邮箱。
+**列级安全性（Column-Level Security）**：团队仅见所需字段——营销不可见利润，财务不可见客户邮箱
 
-**强一致性**：永远不会读取部分更新，始终访问完整快照——非常适合财务报告和合规要求。
+**强一致性（Strong Consistency）**：永不读取部分更新，始终获取完整快照，完美适用于财务报告与合规场景
 
-**完整性能**：所有索引（Index）自动生效，与常规表速度相同。
+**完整性能（Full Performance）**：所有索引自动生效，速度与常规表一致
 
 ## 为什么这很重要
 
 | 传统方法 | Databend ATTACH TABLE |
 |---------|----------------------|
 | 多个数据副本 | 所有人共享单个副本 |
-| ETL 延迟，同步问题 | 实时，始终最新 |
-| 复杂维护 | 零维护 |
-| 更多副本 = 更多安全风险 | 细粒度列访问 |
-| 由于数据移动而变慢 | 对原始数据进行完整优化 |
+| ETL 延迟与同步问题 | 实时更新，始终最新 |
+| 维护复杂 | 零维护 |
+| 副本越多，安全风险越高 | 细粒度列访问控制 |
+| 因数据迁移导致性能下降 | 基于原始数据的完整优化 |
 
 ## 底层工作原理
 
 ```
-Query: SELECT product, SUM(amount) FROM marketing_view GROUP BY product
+查询：SELECT product, SUM(amount) FROM marketing_view GROUP BY product
 
 ┌─────────────────────────────────────────────────────────────────┐
-│                    查询执行流程                                   │
+│                      查询执行流程                                │
 └─────────────────────────────────────────────────────────────────┘
 
     用户查询
         │
         ▼
 ┌───────────────────┐    ┌─────────────────────────────────────┐
-│ 1. 读取快照       │───►│ s3://bucket/1/23351/_ss/            │
-│    元数据         │    │ 获取当前表状态                       │
+│ 1. 读取快照元数据   │───►│ s3://bucket/1/23351/_ss/            │
+│                   │    │ 获取当前表状态                       │
 └───────────────────┘    └─────────────────────────────────────┘
         │
         ▼
 ┌───────────────────┐    ┌─────────────────────────────────────┐
-│ 2. 应用列         │───►│ 过滤器：customer_id, product,       │
-│    过滤器         │    │         amount, order_date          │
+│ 2. 应用列过滤器     │───►│ 过滤字段：customer_id, product,     │
+│                   │    │         amount, order_date          │
 └───────────────────┘    └─────────────────────────────────────┘
         │
         ▼
 ┌───────────────────┐    ┌─────────────────────────────────────┐
-│ 3. 检查统计信息   │───►│ • 段最小/最大值                     │
-│    和索引         │    │ • 布隆过滤器                        │
-└───────────────────┘    │ • 聚合索引                          │
+│ 3. 检查统计信息     │───►│ • 段最小/最大值                     │
+│ 与索引            │    │ • 布隆过滤器                        │
+└───────────────────┘    │ • 聚合索引                         │
         │                └─────────────────────────────────────┘
         ▼
 ┌───────────────────┐    ┌─────────────────────────────────────┐
-│ 4. 智能数据       │───►│ 跳过无关块                          │
-│    获取           │    │ 仅从 _b/ 下载所需数据               │
+│ 4. 智能数据获取     │───►│ 跳过无关数据块                     │
+│                   │    │ 仅从 _b/ 下载所需数据               │
 └───────────────────┘    └─────────────────────────────────────┘
         │
         ▼
 ┌───────────────────┐    ┌─────────────────────────────────────┐
-│ 5. 本地           │───►│ 完整优化和并行处理                   │
-│    执行           │    │ 使用所有可用索引进行处理             │
+│ 5. 本地执行        │───►│ 完整优化与并行处理                   │
+│                   │    │ 利用所有可用索引处理                 │
 └───────────────────┘    └─────────────────────────────────────┘
         │
         ▼
     结果：产品销售摘要
 ```
 
-多个 Databend 集群可以同时执行此流程而无需协调——这是真正计算存储分离的实际体现。
+多个 Databend 集群可同时执行此流程而无需协调——真正计算存储分离的实际体现。
 
-ATTACH TABLE 代表了一个根本性转变：**从为每个用例复制数据转变为单一副本支持多个视图**。无论在云环境还是本地环境中，Databend 的架构都能实现强大、高效的数据共享，同时保持企业级一致性和安全性。
+ATTACH TABLE 代表根本性变革：**从为每个用例复制数据，转向单一副本多视图共享**。无论在云端还是本地环境，Databend 架构均能实现高效强大的数据共享（Data Sharing），同时保障企业级一致性与安全性。
