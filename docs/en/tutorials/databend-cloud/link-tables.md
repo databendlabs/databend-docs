@@ -66,16 +66,14 @@ SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'population');
 ```sql
 -- Create an attached table with all columns from the source
 ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' CONNECTION = (
-  REGION='us-east-2',
-  AWS_KEY_ID = '<your_aws_key_id>',
-  AWS_SECRET_KEY = '<your_aws_secret_key>'
+  ACCESS_KEY_ID = '<your_aws_key_id>',
+  SECRET_ACCESS_KEY = '<your_aws_secret_key>'
 );
 
 -- Create an attached table with selected columns (city & population) from the source
 ATTACH TABLE population_only (city, population) 's3://databend-doc/1/16/' CONNECTION = (
-  REGION='us-east-2',
-  AWS_KEY_ID = '<your_aws_key_id>',
-  AWS_SECRET_KEY = '<your_aws_secret_key>'
+  ACCESS_KEY_ID = '<your_aws_key_id>',
+  SECRET_ACCESS_KEY = '<your_aws_secret_key>'
 );
 ```
 

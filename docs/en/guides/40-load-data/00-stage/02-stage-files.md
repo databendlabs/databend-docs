@@ -112,8 +112,8 @@ CREATE STAGE my_external_stage
 URL = 's3://databend'
 CONNECTION = (
     ENDPOINT_URL = 'http://127.0.0.1:9000',
-    aws_key_id = 'ROOTUSER',
-    aws_secret_key = 'CHANGEME123'
+    ACCESS_KEY_ID = 'ROOTUSER',
+    SECRET_ACCESS_KEY = 'CHANGEME123'
 );
 ```
 
@@ -238,8 +238,8 @@ CREATE STAGE my_external_stage
     URL = 's3://databend'
     CONNECTION = (
         ENDPOINT_URL = 'http://127.0.0.1:9000',
-        AWS_KEY_ID = 'ROOTUSER',
-        AWS_SECRET_KEY = 'CHANGEME123'
+        ACCESS_KEY_ID = 'ROOTUSER',
+        SECRET_ACCESS_KEY = 'CHANGEME123'
     );
 ```
 

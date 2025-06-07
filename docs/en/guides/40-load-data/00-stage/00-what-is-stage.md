@@ -43,8 +43,8 @@ You can create an external stage with the [CREATE STAGE](/sql/sql-commands/ddl/s
 CREATE STAGE my_external_stage
     URL = 's3://databend-doc'
     CONNECTION = (
-        AWS_KEY_ID = '<YOUR-KEY-ID>',
-        AWS_SECRET_KEY = '<YOUR-SECRET-KEY>'
+        ACCESS_KEY_ID = '<YOUR-KEY-ID>',
+        SECRET_ACCESS_KEY = '<YOUR-SECRET-KEY>'
     );
 ```
 

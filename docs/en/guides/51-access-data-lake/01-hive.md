@@ -101,8 +101,8 @@ TYPE = HIVE
 CONNECTION =(
     METASTORE_ADDRESS = '127.0.0.1:9083' 
     URL = 's3://databend-toronto/' 
-    AWS_KEY_ID = '<your_key_id>' 
-    AWS_SECRET_KEY = '<your_secret_key>' 
+    ACCESS_KEY_ID = '<your_key_id>' 
+    SECRET_ACCESS_KEY = '<your_secret_key>' 
 );
 
 SHOW CREATE CATALOG hive_ctl;
