@@ -63,6 +63,7 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 - Edition 'Personal'  → '基础版（Personal）'
 - Edition 'Business'  → '企业版（Business）'
 - Edition 'Dedicated'  → '专享版（Dedicated）'
+- Pipeline  → 'Pipeline（流水线）'
 
 ### Context-Relevant Terms (when central to topic):
 - Storage: `索引（Index）`, `分区（Partition）`, `压缩（Compression）`
