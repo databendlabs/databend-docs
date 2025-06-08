@@ -5,11 +5,11 @@ sidebar_label: "Databend JSON 工作原理"
 另请参阅：
 
 - [Variant 数据类型](/sql/sql-reference/data-types/variant)
-- [半结构化函数 (Semi-Structured Functions)](/sql/sql-functions/semi-structured-functions/)
+- [半结构化函数](/sql/sql-functions/semi-structured-functions/)
 
 ## 核心概念
 
-Databend 的 Variant (变体) 类型是一种为处理 JSON 等半结构化数据而设计的灵活数据类型。它提供与 Snowflake 兼容的语法和函数，并通过高效的存储格式和优化的访问机制实现高性能。Databend 中大多数与 Variant 相关的函数都与 Snowflake 的对应函数直接兼容，使熟悉 Snowflake JSON 处理能力的用户能够无缝迁移。
+Databend 的 Variant 类型是一种灵活的数据类型，专为处理 JSON 等半结构化数据而设计。它提供与 Snowflake 兼容的语法和函数，同时通过高效的存储格式和优化的访问机制提供高性能。Databend 中大多数与 Variant 相关的函数都与 Snowflake 的对应函数直接兼容，这使得熟悉 Snowflake JSON 处理能力的用户可以无缝迁移。
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -42,7 +42,7 @@ Databend 的 Variant (变体) 类型是一种为处理 JSON 等半结构化数�
 │         ▼                                                       │
 │                                                                 │
 │  JSONB 编码:                                                    │
-│  [包含类型信息和优化结构的二进制格式]                            │
+│  [包含类型信息和优化结构的二进制格式]                           │
 │                                                                 │
 │         ▼                                                       │
 │                                                                 │
@@ -66,22 +66,22 @@ Databend 的 Variant (变体) 类型是一种为处理 JSON 等半结构化数�
 
 ### JSONB 存储格式
 
-Databend 使用 [JSONB 二进制格式](https://github.com/databendlabs/jsonb) 高效地存储 JSON 数据。这种自定义格式具有以下优势：
+Databend 使用 [JSONB 二进制格式 (JSONB binary format)](https://github.com/databendlabs/jsonb) 来高效存储 JSON 数据。这种自定义格式提供了：
 
-- **类型保留**：维护数据类型（数字、字符串、布尔值）。
-- **结构优化**：通过高效索引保留嵌套结构。
-- **空间效率**：比文本 JSON 更紧凑。
-- **直接二进制操作**：无需完全解析即可执行操作。
+- **类型保留**: 维护数据类型 (数字、字符串、布尔值)
+- **结构优化**: 通过高效索引保留嵌套结构
+- **空间效率**: 比文本 JSON 更紧凑
+- **直接二进制操作**: 无需完全解析即可执行操作
 
-[databendlabs/jsonb](https://github.com/databendlabs/jsonb) 库实现了这种二进制格式，以极小的开销提供高性能的 JSON 操作。
+[databendlabs/jsonb](https://github.com/databendlabs/jsonb) 库实现了这种二进制格式，以最小的开销提供高性能的 JSON 操作。
 
 ### 虚拟列生成
 
-在数据写入过程中，Databend 会自动分析 JSON 结构并创建虚拟列 (Virtual Columns)：
+在数据摄取 (data ingestion) 过程中，Databend 会自动分析 JSON 结构并创建虚拟列 (virtual columns)：
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                 虚拟列生成过程                                  │
+│                 虚拟列处理过程                                  │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  嵌套 JSON:                                                     │
@@ -116,8 +116,8 @@ Databend 使用 [JSONB 二进制格式](https://github.com/databendlabs/jsonb) �
 │                                                                 │
 │         ▼                                                       │
 │                                                                 │
-│  已创建虚拟列                                                   │
-│  [每个路径都成为一个具有原生类型的独立列]                       │
+│  虚拟列已创建                                                   │
+│  [每个路径都成为具有原生类型的独立列]                           │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -139,20 +139,20 @@ Databend 使用 [JSONB 二进制格式](https://github.com/databendlabs/jsonb) �
 │                                                                 │
 │  路径分析:                                                      │
 │  ┌─────────────────────────┬─────────────────┐                  │
-│  │ JSON 路径               │ 是否为虚拟列？  │                  │
+│  │ JSON 路径               │ 虚拟列?         │                  │
 │  ├─────────────────────────┼─────────────────┤                  │
 │  │ ['user']['id']          │ 是 (Int64)      │                  │
-│  │ ['user']['profile']['name'] │ 是 (String) │                 │
+│  │ ['user']['profile']['name'] │ 是 (String)  │                 │
 │  │ ['user']['orders'][0]['total'] │ 是 (Float64) │             │
 │  └─────────────────────────┴─────────────────┘                  │
 │                                                                 │
 │         ▼                                                       │
 │                                                                 │
 │  优化执行:                                                      │
-│  1. 对 `['user']['id']` 虚拟列应用筛选                         │
+│  1. 在 ['user']['id'] 虚拟列上应用筛选器                        │
 │  2. 仅读取所需的虚拟列:                                         │
-│     - `['user']['profile']['name']`                              │
-│     - `['user']['orders'][0]['total']`                           │
+│     - ['user']['profile']['name']                               │
+│     - ['user']['orders'][0]['total']                            │
 │  3. 跳过读取主 JSONB 列                                         │
 │  4. 直接从虚拟列返回结果                                        │
 │                                                                 │
@@ -180,7 +180,7 @@ Databend 支持多种语法选项来访问和操作 JSON 数据，包括与 Snow
 │    }                                                            │
 │  }                                                              │
 │                                                                 │
-│  兼容 Snowflake 的访问语法:                                     │
+│  Snowflake 兼容访问:                                            │
 │  ┌──────────────────────────────────────────────────────┐       │
 │  │ 1. 方括号表示法:                                     │       │
 │  │    data['user']['profile']['settings']['theme']      │       │
@@ -188,12 +188,12 @@ Databend 支持多种语法选项来访问和操作 JSON 数据，包括与 Snow
 │  │ 2. 冒号表示法:                                       │       │
 │  │    data:user:profile:settings:theme                  │       │
 │  │                                                      │       │
-│  │ 3. 使用点号的混合表示法:                             │       │
+│  │ 3. 混合点号表示法:                                   │       │
 │  │    data['user']['profile'].settings.theme            │       │
 │  │    data:user:profile.settings.theme                  │       │
 │  └──────────────────────────────────────────────────────┘       │
 │                                                                 │
-│  兼容 PostgreSQL 的操作符:                                      │
+│  PostgreSQL 兼容操作符:                                         │
 │  ┌──────────────────────────────────────────────────────┐       │
 │  │ 1. 箭头操作符:                                       │       │
 │  │    data->'user'->'profile'->'settings'->'theme'      │       │
@@ -215,7 +215,7 @@ Databend 支持多种语法选项来访问和操作 JSON 数据，包括与 Snow
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-有关访问语法的更多详细信息，请参阅 [Variant 文档](/sql/sql-reference/data-types/variant#accessing-elements-in-json) 和 [JSON 操作符文档](/sql/sql-commands/query-operators/json)。
+关于访问语法的更多详情，请参阅 [Variant 文档](/sql/sql-reference/data-types/variant#accessing-elements-in-json)和 [JSON 操作符文档](/sql/sql-commands/query-operators/json)。
 
 ### 丰富的函数支持
 
@@ -234,7 +234,7 @@ Databend 提供了一套全面的函数来处理 JSON 数据，这些函数按�
 │     • 类型检查与转换:                                           │
 │       - JSON_TYPEOF, AS_TYPE, IS_ARRAY, IS_OBJECT, IS_STRING    │
 │                                                                 │
-│  2. 构建与修改:                                                 │
+│  2. 构造与修改:                                                 │
 │     • JSON 对象操作:                                            │
 │       - JSON_OBJECT, JSON_OBJECT_INSERT, JSON_OBJECT_DELETE     │
 │       - JSON_OBJECT_PICK, JSON_STRIP_NULLS                      │
@@ -260,12 +260,12 @@ Databend 提供了一套全面的函数来处理 JSON 数据，这些函数按�
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-完整的 JSON 函数列表，请参阅[半结构化函数 (Semi-Structured Functions) 文档](/sql/sql-functions/semi-structured-functions/)。
+完整的 JSON 函数列表，请参阅[半结构化函数文档](/sql/sql-functions/semi-structured-functions/)。
 
 
 ## 性能比较
 
-Databend 的虚拟列技术带来了显著的性能优势：
+Databend 的虚拟列技术提供了显著的性能优势：
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -277,17 +277,17 @@ Databend 的虚拟列技术带来了显著的性能优势：
 │         FROM user_activity_logs                                 │
 │                                                                 │
 │  不使用虚拟列:                                                  │
-│  - 耗时 3.763 秒                                                │
-│  - 处理数据 11.90 GiB                                           │
+│  - 3.763 秒                                                     │
+│  - 处理 11.90 GiB 数据                                          │
 │                                                                 │
 │  使用虚拟列:                                                    │
-│  - 耗时 1.316 秒 (提速 3 倍)                                    │
-│  - 处理数据 461.34 MiB (数据量减少 26 倍)                       │
+│  - 1.316 秒 (速度提升 3 倍)                                     │
+│  - 处理 461.34 MiB 数据 (数据量减少 26 倍)                      │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-对于复杂的嵌套结构，其优势仍然十分显著：
+对于复杂的嵌套结构，其优势仍然十分可观：
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -296,37 +296,37 @@ Databend 的虚拟列技术带来了显著的性能优势：
 │         FROM user_activity_logs                                 │
 │                                                                 │
 │  不使用虚拟列:                                                  │
-│  - 耗时 5.509 秒                                                │
-│  - 处理数据 11.90 GiB                                           │
+│  - 5.509 秒                                                     │
+│  - 处理 11.90 GiB 数据                                          │
 │                                                                 │
 │  使用虚拟列:                                                    │
-│  - 耗时 3.924 秒 (提速 1.4 倍)                                  │
-│  - 处理数据 2.15 GiB (数据量减少 5.5 倍)                        │
+│  - 3.924 秒 (速度提升 1.4 倍)                                   │
+│  - 处理 2.15 GiB 数据 (数据量减少 5.5 倍)                       │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Databend 在处理 Variant 数据方面的优势
+## Databend 在 Variant 数据处理上的优势
 
-Databend 的 Variant 类型具有四大核心优势：
+Databend 的 Variant 类型具备四大核心优势：
 
 1. **Snowflake 兼容性**
    - 兼容的语法和函数
-   - 熟悉的访问模式：`data['field']`、`data:field`、`data.field`
+   - 熟悉的访问模式: `data['field']`、`data:field`、`data.field`
    - 无缝的迁移路径
 
-2. **卓越性能**
+2. **卓越的性能**
    - 查询执行速度提升 3 倍
    - 数据扫描量减少 26 倍
    - 为常用路径自动创建虚拟列
 
 3. **高级 JSON 功能**
-   - 丰富的函数集，可用于复杂操作
-   - 兼容 PostgreSQL 的路径查询
+   - 丰富的函数集，支持复杂操作
+   - 与 PostgreSQL 兼容的路径查询
    - 强大的数组和对象转换功能
 
 4. **成本效益**
    - 优化的 JSONB 二进制存储
    - 无需定义 Schema
-   - 更低的存储和计算成本
+   - 降低存储和计算成本
 
-Databend 兼具 Snowflake 的易用性、更强的性能和更高的成本效益，是现代数据分析工作负载的理想选择。
+Databend 将 Snowflake 的熟悉性与增强的性能和成本效益相结合，是现代数据分析工作负载的理想选择。
