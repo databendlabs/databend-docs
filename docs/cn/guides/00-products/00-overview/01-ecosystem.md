@@ -4,11 +4,11 @@ title: 生态系统
 
 # Databend 生态系统
 
-为了与您的工作流程无缝集成，Databend 持续扩展其生态系统，积极集成行业中的关键数据工具和技术。下图概述了 Databend 支持的工具、平台和编程语言：
+为了与您的工作流无缝集成，Databend 持续扩展其生态系统，积极整合业界关键的数据工具与技术。下图概述了 Databend 支持的工具、平台和编程语言：
 
 ![Alt text](@site/static/img/documents/overview/ecosystem.png)
 
-请参考以下链接获取集成指南和教程：
+有关集成说明和教程，请参阅以下链接：
 
 - **开发**
 
@@ -35,7 +35,7 @@ title: 生态系统
   - [Redash](../../31-visualize/redash.md)
   - [Tableau](../../31-visualize/tableau.md)
 
-- **笔记本**
+- **Notebooks**
 
   - [Deepnote](../../31-visualize/deepnote.md)
   - [Jupyter Notebook](../../31-visualize/jupyter.md)
