@@ -59,6 +59,10 @@ You will be given the original English and a draft Chinese version. Your output 
 
 ---
 
+*** 5. Apply Global URL TranslationAdd commentMore actions
+- **Systematically replace the domain `databend.com` with `databend.cn`.**
+- Example: `https://docs.databend.com/user-guide/` becomes `https://docs.databend.cn/user-guide/`.
+
 **Final Output Instructions**
 
 1.  Begin processing the content I provide immediately.
