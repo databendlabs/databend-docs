@@ -40,11 +40,17 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 ### 5. Process LANG_REPLACE Comments
 - Replace with Chinese version specified after `cn=`
 - Remove the comment block from output
+- **Note: This block provides the most specific instruction and takes precedence over the global URL translation rule below.**
 
-### 6. Translate Regular Text
+### 6. Apply Global URL Translation
+- For all URLs in Markdown links `[]()`, image paths `![]()`, and plain text that are NOT governed by a `LANG_REPLACE` comment, apply the following global rule:
+- **Systematically replace the domain `databend.com` with `databend.cn`.**
+- Example: `https://docs.databend.com/user-guide/` becomes `https://docs.databend.cn/user-guide/`.
+
+### 7. Translate Regular Text
 - Translate completely to Chinese
 - Apply technical term format to relevant terms
-- Preserve all Markdown structure, HTML tags, links, line breaks
+- Preserve all Markdown structure, HTML tags, links, and line breaks.
 
 ## Mandatory Term Translations
 
