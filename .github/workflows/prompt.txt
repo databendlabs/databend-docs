@@ -17,6 +17,7 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 ### 2. Process _category_.json Files
 - Translate: Only the values (e.g., `"label": "查询（Query）"`)
 - Keep: All keys and JSON structure unchanged
+- **CRITICAL: The output for `.json` files must be the raw JSON text itself, NOT wrapped in a ` ```json ` code block.**
 
 ### 3. Identify Code Blocks
 - Locate all sections within triple backticks (``` ```) that denote code blocks
@@ -72,7 +73,6 @@ For document-relevant technical terms, ALWAYS use: **中文翻译（英文名词
 ## Translation Examples
 
 **YAML:**
-```yaml
 ---
 title: Cluster Keys Overview → title: 聚簇键（Cluster Key）概述
 description: Learn about cluster keys in Databend → description: 了解 Databend 中的聚簇键（Cluster Key）
