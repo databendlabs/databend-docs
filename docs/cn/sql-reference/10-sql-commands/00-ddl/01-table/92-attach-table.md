@@ -5,79 +5,138 @@ sidebar_position: 6
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.698"/>
+<FunctionDescription description="引入或更新于：v1.2.698"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='ATTACH TABLE'/>
 
-将现有表附加到另一个表。该命令将表的数据和模式从一个数据库移动到另一个数据库，但实际上并不复制数据。而是创建一个指向原始表数据的链接以访问数据。
+ATTACH TABLE 创建指向现有表数据的只读链接而无需复制数据，特别适用于跨环境数据共享，尤其是从私有部署的 Databend 迁移至 [Databend Cloud](https://www.databend.cn)。
 
-- 通过附加表，您可以无缝地将云服务平台中的表连接到私有化部署环境中已部署的现有表，而无需实际移动数据。当您希望将数据从 Databend 的私有化部署迁移到 [Databend Cloud](https://www.databend.com) 同时最大限度地减少数据传输开销时，此功能特别有用。
+## 核心功能
 
-- 附加表以 READ_ONLY 模式运行。在此模式下，源表中的更改会立即反映在附加表中。但是，附加表仅用于查询目的，不支持更新。这意味着 INSERT、UPDATE 和 DELETE 操作在附加表上是不允许的；只能执行 SELECT 查询。
+- **零拷贝 (Zero-Copy) 数据访问**：链接源数据而无需物理移动
+- **实时更新**：源表变更即时反映在附加表中
+- **只读模式**：仅支持 SELECT 查询（禁止 INSERT/UPDATE/DELETE）
+- **列级 (Column-Level) 访问**：可选包含特定列以提升安全性与性能
 
 ## 语法
 
 ```sql
 ATTACH TABLE <target_table_name> [ ( <column_list> ) ] '<source_table_data_URI>'
-CONNECTION = ( <connection_parameters> )
+CONNECTION = ( CONNECTION_NAME = '<connection_name>' )
 ```
 
-- `<column_list>`：一个可选的、逗号分隔的列列表，用于包含源表中的列，允许用户仅指定必要的列，而不是包含所有列。如果未指定，将包含源表中的所有列。
+### 参数
 
-  - 重命名源表中包含的列会更新其在附加表中的名称，并且必须使用新名称访问它。
-  - 删除源表中包含的列会使其在附加表中无法访问。
-  - 对未包含的列的更改（例如在源表中重命名或删除它们）不会影响附加表。
+- **`<target_table_name>`**：新建附加表的名称
 
-- `<source_table_data_URI>` 表示源表数据的路径。对于类似 S3 的对象存储，格式为 `s3://<bucket-name>/<database_ID>/<table_ID>`，例如 _s3://databend-toronto/1/23351/_，它表示存储桶中表文件夹的确切路径。
+- **`<column_list>`**：可选列清单（从源表选择）
+  - 缺省时包含所有列
+  - 提供列级安全与访问控制
+  - 示例：`(customer_id, product, amount)`
 
-  ![Alt text](/img/sql/attach.png)
+- **`<source_table_data_URI>`**：对象存储中的源表数据路径
+  - 格式：`s3://<bucket-name>/<database_ID>/<table_ID>/`
+  - 示例：`s3://databend-toronto/1/23351/`
 
-  要获取表的数据库 ID 和表 ID，请使用 [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md) 函数。在下面的示例中，_snapshot_location_ 值中的 **1/23351/** 部分表示数据库 ID 为 **1**，表 ID 为 **23351**。
+- **`CONNECTION_NAME`**：引用 [CREATE CONNECTION](../13-connection/create-connection.md) 创建的连接
 
-  ```sql
-  SELECT * FROM FUSE_SNAPSHOT('default', 'employees');
+### 获取源表路径
 
-  Name                |Value                                              |
-  --------------------+---------------------------------------------------+
-  snapshot_id         |d6cd1f3afc3f4ad4af298ad94711ead1                   |
-  snapshot_location   |1/23351/_ss/d6cd1f3afc3f4ad4af298ad94711ead1_v4.mpk|
-  format_version      |4                                                  |
-  previous_snapshot_id|                                                   |
-  segment_count       |1                                                  |
-  block_count         |1                                                  |
-  row_count           |3                                                  |
-  bytes_uncompressed  |122                                                |
-  bytes_compressed    |523                                                |
-  index_size          |470                                                |
-  timestamp           |2023-07-11 05:38:27.0                              |
-  ```
+通过 [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md) 函数获取数据库/表 ID：
 
-- `CONNECTION` 指定建立与对象存储的链接所需的连接参数，该对象存储存储源表的数据。连接参数因不同的存储服务而异，具体取决于其特定要求和身份验证机制。有关更多信息，请参见 [连接参数](../../../00-sql-reference/51-connect-parameters.md)。
+```sql
+SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'employees');
+-- 结果示例：1/23351/_ss/... → 对应路径 s3://your-bucket/1/23351/
+```
 
-## 教程
+## 数据共享优势
 
-- [使用 ATTACH TABLE 链接表](/tutorials/databend-cloud/link-tables)
+### 工作原理
+
+```
+                对象存储（S3/MinIO/Azure 等）
+                         ┌─────────────┐
+                         │    源数据   │
+                         └──────┬──────┘
+                                │
+        ┌───────────────────────┼───────────────────────┐
+        │                       │                       │
+        ▼                       ▼                       ▼
+┌─────────────┐         ┌─────────────┐         ┌─────────────┐
+│ 市场团队视图 │         │ 财务团队视图 │         │ 销售团队视图 │
+└─────────────┘         └─────────────┘         └─────────────┘
+```
+
+### 核心优势
+
+| 传统方法 | Databend ATTACH TABLE |
+|---------------------|----------------------|
+| 多份数据副本 | 单副本全局共享 |
+| ETL 延迟与同步问题 | 实时更新永不滞后 |
+| 复杂维护流程 | 零维护成本 |
+| 副本增加安全风险 | 细粒度列级访问 |
+| 数据移动导致性能下降 | 基于原始数据全面优化 |
+
+### 安全与性能
+
+- **列级安全**：团队仅见所需列
+- **实时更新**：源表变更全局即时可见
+- **强一致性 (Strong Consistency)**：始终获取完整数据快照
+- **完整性能**：继承源表所有索引与优化
 
 ## 示例
 
-此示例创建一个附加表，其中包括存储在 AWS S3 中的源表中的所有列：
+### 基础用法
 
 ```sql
-ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' CONNECTION = (
-  REGION='us-east-2',
-  AWS_KEY_ID = '<your_aws_key_id>',
-  AWS_SECRET_KEY = '<your_aws_secret_key>'
-);
+-- 1. 创建存储连接
+CREATE CONNECTION my_s3_connection 
+    STORAGE_TYPE = 's3' 
+    ACCESS_KEY_ID = '<your_aws_key_id>'
+    SECRET_ACCESS_KEY = '<your_aws_secret_key>';
+
+-- 2. 附加全列数据表
+ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' 
+    CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 ```
 
-此示例创建一个附加表，其中包括仅从存储在 AWS S3 中的源表中选择的列（`city` 和 `population`）：
+### 安全列筛选
 
 ```sql
-ATTACH TABLE population_only (city, population) 's3://databend-doc/1/16/' CONNECTION = (
-  REGION='us-east-2',
-  AWS_KEY_ID = '<your_aws_key_id>',
-  AWS_SECRET_KEY = '<your_aws_secret_key>'
-);
+-- 附加选定列保障数据安全
+ATTACH TABLE population_selected (city, population) 's3://databend-doc/1/16/' 
+    CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 ```
+
+### IAM 角色认证
+
+```sql
+-- 创建 IAM 角色连接（比密钥更安全）
+CREATE CONNECTION s3_role_connection 
+    STORAGE_TYPE = 's3' 
+    ROLE_ARN = 'arn:aws:iam::123456789012:role/databend-role';
+
+-- 通过 IAM 角色附加表
+ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' 
+    CONNECTION = (CONNECTION_NAME = 's3_role_connection');
+```
+
+### 团队专属视图
+
+```sql
+-- 市场分析视图
+ATTACH TABLE marketing_view (customer_id, product, amount, order_date) 
+'s3://your-bucket/1/23351/' 
+CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
+
+-- 财务分析视图（不同列）
+ATTACH TABLE finance_view (order_id, amount, profit, order_date) 
+'s3://your-bucket/1/23351/' 
+CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
+```
+
+## 扩展阅读
+
+- [使用 ATTACH TABLE 链接表](/tutorials/databend-cloud/link-tables)
