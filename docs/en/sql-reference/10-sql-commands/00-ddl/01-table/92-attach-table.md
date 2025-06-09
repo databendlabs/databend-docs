@@ -11,70 +11,133 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='ATTACH TABLE'/>
 
-Attaches an existing table to another one. The command moves the data and schema of a table from one database to another, but without actually copying the data. Instead, it creates a link that points to the original table data for accessing the data.
+ATTACH TABLE creates a read-only link to existing table data without copying it. This command is ideal for data sharing across environments, especially when migrating from a private Databend deployment to [Databend Cloud](https://www.databend.com).
 
-- Attach Table enables you to seamlessly connect a table in the cloud service platform to an existing table deployed in a private deployment environment without the need to physically move the data. This is particularly useful when you want to migrate data from a private deployment of Databend to [Databend Cloud](https://www.databend.com) while minimizing the data transfer overhead.
+## Key Features
 
-- The attached table operates in READ_ONLY mode. In this mode, changes in the source table are instantly reflected in the attached table. However, the attached table is exclusively for querying purposes and does not support updates. This means INSERT, UPDATE, and DELETE operations are not allowed on the attached table; only SELECT queries can be executed.
+- **Zero-Copy Data Access**: Links to source data without physical data movement
+- **Real-Time Updates**: Changes in the source table are instantly visible in attached tables
+- **Read-Only Mode**: Only supports SELECT queries (no INSERT, UPDATE, or DELETE operations)
+- **Column-Level Access**: Optionally include only specific columns for security and performance
 
 ## Syntax
 
 ```sql
 ATTACH TABLE <target_table_name> [ ( <column_list> ) ] '<source_table_data_URI>'
-CONNECTION = ( <connection_parameters> )
+CONNECTION = ( CONNECTION_NAME = '<connection_name>' )
 ```
-- `<column_list>`: An optional, comma-separated list of columns to include from the source table, allowing users to specify only the necessary columns instead of including all of them. If not specified, all columns from the source table will be included.
 
-  - Renaming an included column in the source table updates its name in the attached table, and it must be accessed using the new name.
-  - Dropping an included column in the source table makes it inaccessible in the attached table.
-  - Changes to non-included columns, such as renaming or dropping them in the source table, do not affect the attached table.
+### Parameters
 
-- `<source_table_data_URI>` represents the path to the source table's data. For S3-like object storage, the format is `s3://<bucket-name>/<database_ID>/<table_ID>`, for example, _s3://databend-toronto/1/23351/_, which represents the exact path to the table folder within the bucket.
+- **`<target_table_name>`**: Name of the new attached table to create
 
-  ![Alt text](/img/sql/attach.png)
+- **`<column_list>`**: Optional list of columns to include from the source table
+  - When omitted, all columns are included
+  - Provides column-level security and access control
+  - Example: `(customer_id, product, amount)`
 
-  To obtain the database ID and table ID of a table, use the [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md) function. In the example below, the part **1/23351/** in the value of _snapshot_location_ indicates that the database ID is **1**, and the table ID is **23351**.
+- **`<source_table_data_URI>`**: Path to the source table data in object storage
+  - Format: `s3://<bucket-name>/<database_ID>/<table_ID>/`
+  - Example: `s3://databend-toronto/1/23351/`
 
-  ```sql
-  SELECT * FROM FUSE_SNAPSHOT('default', 'employees');
+- **`CONNECTION_NAME`**: References a connection created with [CREATE CONNECTION](../13-connection/create-connection.md)
 
-  Name                |Value                                              |
-  --------------------+---------------------------------------------------+
-  snapshot_id         |d6cd1f3afc3f4ad4af298ad94711ead1                   |
-  snapshot_location   |1/23351/_ss/d6cd1f3afc3f4ad4af298ad94711ead1_v4.mpk|
-  format_version      |4                                                  |
-  previous_snapshot_id|                                                   |
-  segment_count       |1                                                  |
-  block_count         |1                                                  |
-  row_count           |3                                                  |
-  bytes_uncompressed  |122                                                |
-  bytes_compressed    |523                                                |
-  index_size          |470                                                |
-  timestamp           |2023-07-11 05:38:27.0                              |
-  ```
+### Finding the Source Table Path
 
-- `CONNECTION` specifies the connection parameters required for establishing a link to the object storage where the source table's data is stored. The connection parameters vary for different storage services based on their specific requirements and authentication mechanisms. For more information, see [Connection Parameters](../../../00-sql-reference/51-connect-parameters.md).
+Use the [FUSE_SNAPSHOT](../../../20-sql-functions/16-system-functions/fuse_snapshot.md) function to get the database and table IDs:
 
-## Tutorials
+```sql
+SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'employees');
+-- Result contains: 1/23351/_ss/... → Path is s3://your-bucket/1/23351/
+```
 
-- [Linking Tables with ATTACH TABLE](/tutorials/databend-cloud/link-tables)
+## Data Sharing Benefits
+
+### How It Works
+
+```
+                Object Storage (S3, MinIO, Azure, etc.)
+                         ┌─────────────┐
+                         │ Source Data │
+                         └──────┬──────┘
+                                │
+        ┌───────────────────────┼───────────────────────┐
+        │                       │                       │
+        ▼                       ▼                       ▼
+┌─────────────┐         ┌─────────────┐         ┌─────────────┐
+│ Marketing   │         │  Finance    │         │   Sales     │
+│ Team View   │         │ Team View   │         │ Team View   │
+└─────────────┘         └─────────────┘         └─────────────┘
+```
+
+### Key Advantages
+
+| Traditional Approach | Databend ATTACH TABLE |
+|---------------------|----------------------|
+| Multiple data copies | Single copy shared by all |
+| ETL delays, sync issues | Real-time, always current |
+| Complex maintenance | Zero maintenance |
+| More copies = more security risk | Fine-grained column access |
+| Slower due to data movement | Full optimization on original data |
+
+### Security and Performance
+
+- **Column-Level Security**: Teams see only the columns they need
+- **Real-Time Updates**: Source changes instantly visible in all attached tables
+- **Strong Consistency**: Always see complete data snapshots, never partial updates
+- **Full Performance**: Inherit all source table indexes and optimizations
 
 ## Examples
 
-This example creates an attached table, which includes all columns from a source table stored in AWS S3:
+### Basic Usage
 
 ```sql
-ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' CONNECTION = (
-  ACCESS_KEY_ID = '<your_aws_key_id>',
-  SECRET_ACCESS_KEY = '<your_aws_secret_key>'
-);
+-- Step 1: Create a connection to your storage
+CREATE CONNECTION my_s3_connection 
+    STORAGE_TYPE = 's3' 
+    ACCESS_KEY_ID = '<your_aws_key_id>'
+    SECRET_ACCESS_KEY = '<your_aws_secret_key>';
+
+-- Step 2: Attach a table with all columns
+ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' 
+    CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 ```
 
-This example creates an attached table, which includes only selected columns (`city` and `population`) from a source table stored in AWS S3:
+### Column Selection for Security
 
 ```sql
-ATTACH TABLE population_only (city, population) 's3://databend-doc/1/16/' CONNECTION = (
-  ACCESS_KEY_ID = '<your_aws_key_id>',
-  SECRET_ACCESS_KEY = '<your_aws_secret_key>'
-);
+-- Attach only specific columns for data security
+ATTACH TABLE population_selected (city, population) 's3://databend-doc/1/16/' 
+    CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 ```
+
+### Using IAM Role Authentication
+
+```sql
+-- Create a connection using IAM role (more secure than access keys)
+CREATE CONNECTION s3_role_connection 
+    STORAGE_TYPE = 's3' 
+    ROLE_ARN = 'arn:aws:iam::123456789012:role/databend-role';
+
+-- Attach table using the IAM role connection
+ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' 
+    CONNECTION = (CONNECTION_NAME = 's3_role_connection');
+```
+
+### Team-Specific Views
+
+```sql
+-- Marketing: Customer behavior analysis
+ATTACH TABLE marketing_view (customer_id, product, amount, order_date) 
+'s3://your-bucket/1/23351/' 
+CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
+
+-- Finance: Revenue tracking (different columns)
+ATTACH TABLE finance_view (order_id, amount, profit, order_date) 
+'s3://your-bucket/1/23351/' 
+CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
+```
+
+## Learn More
+
+- [Linking Tables with ATTACH TABLE](/tutorials/databend-cloud/link-tables)
