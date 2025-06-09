@@ -2,7 +2,7 @@
 title: REGEXP
 ---
 
-如果字符串 `<expr>` 匹配指定的正则表达式 `<pattern>`，则返回 `true`，否则返回 `false`。
+如果字符串 `<expr>` 匹配 `<pattern>` 指定的正则表达式，则返回 `true`，否则返回 `false`。
 
 ## 语法
 
