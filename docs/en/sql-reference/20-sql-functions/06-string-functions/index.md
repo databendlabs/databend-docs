@@ -87,7 +87,7 @@ This page provides a comprehensive overview of String functions in Databend, org
 |----------|-------------|---------|
 | [ASCII](ascii.md) | Returns ASCII value of first character | `ASCII('D')` → `68` |
 | [ORD](ord.md) | Returns Unicode code point of first character | `ORD('D')` → `68` |
-| [CHAR](char.md) | Returns character for given code points | `CHAR(68,97,116,97)` → `'Data'` |
+| [CHAR](char.md) / [CHR](char.md) | Returns string of characters for given Unicode code points | `CHAR(68,97,116,97)` → `'Data'` |
 | [BIN](bin.md) | Returns binary representation | `BIN(5)` → `'101'` |
 | [OCT](oct.md) | Returns octal representation | `OCT(8)` → `'10'` |
 | [HEX](hex.md) | Returns hexadecimal representation | `HEX('ABC')` → `'414243'` |
