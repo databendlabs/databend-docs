@@ -11,21 +11,21 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='NGRAM INDEX'/>
 
-Creates an Ngram index on one or more columns for a table.
+Creates an Ngram index on a column for a table.
 
 ## Syntax
 
 ```sql
 -- Create an Ngram index on an existing table
 CREATE [OR REPLACE] NGRAM INDEX [IF NOT EXISTS] <index_name>
-ON [<database>.]<table_name>(<column1> [, <column2>, ...])
-[gram_size = <number>] [bitmap_size = <number>]
+ON [<database>.]<table_name>(<column>)
+[gram_size = <number>] [bloom_size = <number>]
 
 -- Create an Ngram index when creating a table
 CREATE [OR REPLACE] TABLE <table_name> (
     <column_definitions>,
-    NGRAM INDEX <index_name> (<column1> [, <column2>, ...])
-        [gram_size = <number>] [bitmap_size = <number>]
+    NGRAM INDEX <index_name> (<column>)
+        [gram_size = <number>] [bloom_size = <number>]
 )...
 ```
 
@@ -43,67 +43,79 @@ CREATE [OR REPLACE] TABLE <table_name> (
 
 ## Examples
 
-The following example creates a table `amazon_reviews_ngram` with an Ngram index on the `review_body` column. The index is configured with a `gram_size` of 10 and a `bitmap_size` of 2 MB to optimize fuzzy search performance on large text fields such as user reviews.
+### Creating a Table with NGRAM Index
 
 ```sql
-CREATE OR REPLACE TABLE amazon_reviews_ngram (
-    review_date   int(11) NULL,
-    marketplace   varchar(20) NULL,
-    customer_id   bigint(20) NULL,
-    review_id   varchar(40) NULL,
-    product_id   varchar(10) NULL,
-    product_parent   bigint(20) NULL,
-    product_title   varchar(500) NULL,
-    product_category   varchar(50) NULL,
-    star_rating   smallint(6) NULL,
-    helpful_votes   int(11) NULL,
-    total_votes   int(11) NULL,
-    vine   boolean NULL,
-    verified_purchase   boolean NULL,
-    review_headline   varchar(500) NULL,
-    review_body   string NULL,
-    NGRAM INDEX idx1 (review_body) gram_size = 10 bloom_size = 2097152
-) Engine = Fuse bloom_index_columns='review_body';
+CREATE TABLE articles (
+    id INT,
+    title VARCHAR,
+    content STRING,
+    NGRAM INDEX idx_content (content)
+);
 ```
 
-To show the created index, use the [SHOW INDEXES](../../50-administration-cmds/show-indexes.md) command:
+### Creating an NGRAM Index on an Existing Table
+
+```sql
+CREATE TABLE products (
+    id INT,
+    name VARCHAR,
+    description STRING
+);
+
+CREATE NGRAM INDEX idx_description
+ON products(description);
+```
+
+### Viewing Indexes
 
 ```sql
 SHOW INDEXES;
 ```
 
-```sql
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│  name  │  type  │ original │                              definition                              │         created_on         │      updated_on     │
-├────────┼────────┼──────────┼──────────────────────────────────────────────────────────────────────┼────────────────────────────┼─────────────────────┤
-│ idx1   │ NGRAM  │          │ amazon_reviews_ngram(review_body)bloom_size='2097152' gram_size='10' │ 2025-05-13 01:22:34.123927 │ NULL                │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+Result:
+```
+┌─────────────────┬───────┬──────────┬─────────────────────────┬──────────────────────────┐
+│ name            │ type  │ original │ definition              │ created_on               │
+├─────────────────┼───────┼──────────┼─────────────────────────┼──────────────────────────┤
+│ idx_content     │ NGRAM │          │ articles(content)       │ 2025-05-13 01:22:34.123  │
+│ idx_description │ NGRAM │          │ products(description)   │ 2025-05-13 01:23:45.678  │
+└─────────────────┴───────┴──────────┴─────────────────────────┴──────────────────────────┘
 ```
 
-Alternatively, you can create the table first, then create the Ngram index on the `review_body` column:
+### Using NGRAM Index
 
 ```sql
-CREATE TABLE amazon_reviews_ngram (
-    review_date   int(11) NULL,
-    marketplace   varchar(20) NULL,
-    customer_id   bigint(20) NULL,
-    review_id   varchar(40) NULL,
-    product_id   varchar(10) NULL,
-    product_parent   bigint(20) NULL,
-    product_title   varchar(500) NULL,
-    product_category   varchar(50) NULL,
-    star_rating   smallint(6) NULL,
-    helpful_votes   int(11) NULL,
-    total_votes   int(11) NULL,
-    vine   boolean NULL,
-    verified_purchase   boolean NULL,
-    review_headline   varchar(500) NULL,
-    review_body   string NULL
+-- Create a table with NGRAM index
+CREATE TABLE phrases (
+    id INT,
+    text STRING,
+    NGRAM INDEX idx_text (text)
 );
+
+-- Insert sample data
+INSERT INTO phrases VALUES
+(1, 'apple banana cherry'),
+(2, 'banana date fig'),
+(3, 'cherry elderberry fig'),
+(4, 'date grape kiwi');
+
+-- Query using fuzzy matching with the NGRAM index
+SELECT * FROM phrases WHERE text LIKE '%banana%';
 ```
 
+Result:
+```
+┌────┬─────────────────────┐
+│ id │ text                │
+├────┼─────────────────────┤
+│  1 │ apple banana cherry │
+│  2 │ banana date fig     │
+└────┴─────────────────────┘
+```
+
+### Dropping an NGRAM Index
+
 ```sql
-CREATE NGRAM INDEX idx1
-ON amazon_reviews_ngram(review_body)
-gram_size = 10 bloom_size = 2097152;
+DROP NGRAM INDEX idx_text ON phrases;
 ```
