@@ -11,7 +11,7 @@ User-Defined Functions (UDFs) allow you to create custom operations tailored to 
 | UDF Type | Description | Languages | Use Case |
 |----------|-------------|-----------|----------|
 | [Lambda UDFs](#lambda-udfs) | Simple expressions using SQL syntax | SQL | Quick transformations and calculations |
-| [Embedded UDFs](#embedded-udfs) | Full programming language support | Python (Enterprise), JavaScript | Complex logic and algorithms |
+| [Embedded UDFs](#embedded-udfs) | Full programming language support | Python (Enterprise), JavaScript, WASM | Complex logic and algorithms |
 
 ## Lambda UDFs
 
@@ -45,7 +45,7 @@ CREATE [OR REPLACE] FUNCTION <function_name> AS (<parameter_list>) -> <expressio
 
 ```sql
 -- Create a Lambda UDF to calculate age in years
-CREATE OR REPLACE FUNCTION age AS (dt) -> 
+CREATE OR REPLACE FUNCTION age AS (dt) ->
     date_diff(year, dt, now());
 
 -- Create a table with birthdates
@@ -199,15 +199,15 @@ export function calculateAge(birthDateStr) {
     // Parse the date string into a Date object
     const birthDate = new Date(birthDateStr);
     const today = new Date();
-    
+
     let age = today.getFullYear() - birthDate.getFullYear();
-    
+
     // Adjust age if birthday hasn't occurred yet this year
     const monthDiff = today.getMonth() - birthDate.getMonth();
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
-    
+
     return age;
 }
 $$;
@@ -221,6 +221,78 @@ SELECT calculate_age_js('1990-05-15') AS age_result;
 -- +------------+
 -- |         35 |
 -- +------------+
+```
+
+## WASM UDF
+
+WASM UDFs allow you to use rust to define the functions and build it into wasm module, then load it into Databend.
+
+#### Example: Fibonacci Calculation
+
+1. Create a new project name `arrow-udf-example`
+
+```bash
+cargo new arrow-udf-example
+```
+
+2. Add the following dependencies to `Cargo.toml`
+
+```toml
+[package]
+name = "arrow-udf-example"
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+arrow-udf = "0.8"
+```
+
+3. Implement the UDF in `src/lib.rs`
+
+```rust
+use arrow_udf::function;
+
+#[function("fib(int) -> int")]
+fn fib(n: i32) -> i32 {
+    let (mut a, mut b) = (0, 1);
+    for _ in 0..n {
+        let c = a + b;
+        a = b;
+        b = c;
+    }
+    a
+}
+```
+
+4. Build the project
+
+```bash
+cargo build --release --target wasm32-wasip1
+```
+
+5. Load the wasm module into Databend
+
+```bash
+cp /target/wasm32-wasip1/release/arrow_udf_example.wasm  /tmp
+```
+
+And create stage and put the wasm module into stage via bendsql
+```sql
+🐳 root@default:) create stage s_udf;
+🐳 root@default:) put fs:///tmp/arrow_udf_example.wasm @s_udf/;
+
+🐳 root@default:) CREATE OR REPLACE FUNCTION fib_wasm (INT) RETURNS INT LANGUAGE wasm HANDLER = 'fib' AS $$@s_udf/arrow_udf_example.wasm$$;
+
+
+🐳 root@default:) select fib_wasm(10::Int32);
+╭─────────────────────╮
+│ fib_wasm(10::Int32) │
+│   Nullable(Int32)   │
+├─────────────────────┤
+│                  55 │
+╰─────────────────────╯
 ```
 
 ## Managing UDFs
