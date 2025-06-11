@@ -15,7 +15,7 @@ This topic explains how to install and configure the Databend cluster on Kuberne
 
 **Scenario Description**
 
-- This example demonstrates how to create a Databend cluster within a Kubernetes cluster that supports multi-tenancy. As illustrated, `tenant1` and `tenant2` each have their own independent Databend Query clusters, while sharing a single Databend Meta cluster.
+- This example demonstrates how to create multiple Databend clusters within a Kubernetes cluster.
 - You will need administrative access to the Kubernetes cluster. You can choose any Kubernetes node to work on, but we recommend performing operations on the management node. For this example, you'll need to install both helm and the BendSQL tool on a worker node to execute commands.
 
 ## Before You Begin
@@ -234,7 +234,7 @@ data-databend-meta-2   Bound    pvc-08bd4ceb-15c2-47f3-a637-c1cc10441874   20Gi 
 
 ### Step 2. Deploy a Databend Query Cluster
 
-1. Create a values file with builtin user `databend:databend` and cluster name `example_cluster` with 3 nodes.
+1. Create a values file with builtin user `databend:databend` and cluster name `cluster1` with 3 nodes.
 
 Detailed and default values are available at [documentation](https://github.com/databendlabs/helm-charts/blob/main/charts/databend-query/values.yaml)
 
@@ -242,7 +242,7 @@ Detailed and default values are available at [documentation](https://github.com/
 replicaCount: 3
 config:
   query:
-    clusterId: example_cluster
+    clusterId: cluster1
     # add builtin user
     users:
       - name: databend
@@ -394,13 +394,13 @@ config:
 
 ````
 
-2. Deploy the query cluster for `tenant1` in namespace `databend-query`
+2. Deploy the query cluster `cluster1` in namespace `databend-query`
 
 ```shell
 helm repo add databend https://charts.databend.com
 helm repo update databend
 
-helm upgrade --install tenant1 databend/databend-query \
+helm upgrade --install cluster1 databend/databend-query \
     --namespace databend-query --create-namespace \
     --values values.yaml
 ```
@@ -410,13 +410,13 @@ helm upgrade --install tenant1 databend/databend-query \
 ```shell
 ❯ kubectl -n databend-query get pods
 NAME                                     READY   STATUS    RESTARTS   AGE
-tenant1-databend-query-66647594c-lkkm9   1/1     Running   0          36s
-tenant1-databend-query-66647594c-lpl2s   1/1     Running   0          36s
-tenant1-databend-query-66647594c-4hlpw   1/1     Running   0          36s
+cluster1-databend-query-66647594c-lkkm9   1/1     Running   0          36s
+cluster1-databend-query-66647594c-lpl2s   1/1     Running   0          36s
+cluster1-databend-query-66647594c-4hlpw   1/1     Running   0          36s
 
 ❯ kubectl -n databend-query get svc
 NAME                     TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                                                                                     AGE
-tenant1-databend-query   LoadBalancer   10.43.84.243   172.20.0.2    8080:32063/TCP,9000:31196/TCP,9090:30472/TCP,8000:30050/TCP,7070:31253/TCP,3307:31367/TCP   17m
+cluster1-databend-query   LoadBalancer   10.43.84.243   172.20.0.2    8080:32063/TCP,9000:31196/TCP,9090:30472/TCP,8000:30050/TCP,7070:31253/TCP,3307:31367/TCP   17m
 ```
 
 4. Access the query cluster
@@ -426,45 +426,45 @@ We use the builtin user `databend` here:
 - in-cluster access
 
   ```shell
-  bendsql -htenant1-databend-query.databend-query.svc -P8000 -udatabend -pdatabend
+  bendsql -hcluster1-databend-query.databend-query.svc -P8000 -udatabend -pdatabend
   ```
 
 - outside-cluster access with loadbalancer
 
   ```shell
-  # the address here is the `EXTERNAL-IP` for service tenant1-databend-query above
+  # the address here is the `EXTERNAL-IP` for service cluster1-databend-query above
   bendsql -h172.20.0.2 -P8000 -udatabend -pdatabend
   ```
 
 - local access with kubectl
 
   ```shell
-  nohup kubectl port-forward -n databend-query svc/tenant1-databend-query 3307:3307 &
+  nohup kubectl port-forward -n databend-query svc/cluster1-databend-query 3307:3307 &
   bendsql -h127.0.0.1 -P8000 -udatabend -pdatabend
   ```
 
-5. Deploy a second cluster for tenant2
+5. Deploy a second cluster `cluster2`
 
-modify the `values.yaml` for tenant2
+modify the `values.yaml` for cluster2
 
 ```shell
 # optional
 helm repo update databend
 
-helm upgrade --install tenant2 databend/databend-query \
+helm upgrade --install cluster2 databend/databend-query \
     --namespace databend-query --create-namespace \
     --values values.yaml
 ```
 
-```shell title="Verify the query service for tenant2 running"
+```shell title="Verify the query service for cluster2 running"
 ❯ kubectl -n databend-query get pods
 NAME                                      READY   STATUS    RESTARTS   AGE
-tenant1-databend-query-66647594c-lkkm9    1/1     Running   0          55m
-tenant1-databend-query-66647594c-lpl2s    1/1     Running   0          55m
-tenant1-databend-query-66647594c-4hlpw    1/1     Running   0          55m
-tenant2-databend-query-59dcc4949f-9qg9b   1/1     Running   0          53s
-tenant2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
-tenant2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
+cluster1-databend-query-66647594c-lkkm9    1/1     Running   0          55m
+cluster1-databend-query-66647594c-lpl2s    1/1     Running   0          55m
+cluster1-databend-query-66647594c-4hlpw    1/1     Running   0          55m
+cluster2-databend-query-59dcc4949f-9qg9b   1/1     Running   0          53s
+cluster2-databend-query-59dcc4949f-pfxxj   1/1     Running   0          53s
+cluster2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
 ```
 
 ## Maintain Databend Query Cluster
@@ -477,10 +477,10 @@ to scale up or down the query cluster, there are two ways
 
   ```shell
    # scale query cluster number to 0
-   kubectl -n databend-query scale statefulset tenant1-databend-query --replicas=0
+   kubectl -n databend-query scale statefulset cluster1-databend-query --replicas=0
 
    # scale query cluster number to 5
-   kubectl -n databend-query scale statefulset tenant1-databend-query --replicas=5
+   kubectl -n databend-query scale statefulset cluster1-databend-query --replicas=5
   ```
 
 - update `replicaCount` in `values.yaml` to any value, then helm upgrade again
@@ -491,7 +491,7 @@ to scale up or down the query cluster, there are two ways
   ```
 
   ```shell
-  helm upgrade --install tenant1 databend/databend-query \
+  helm upgrade --install cluster1 databend/databend-query \
       --namespace databend-query --create-namespace \
       --values values.yaml
   ```
@@ -506,7 +506,7 @@ replicaCount: 3
 +   tag: "v0.8.123-nightly"
 config:
   query:
-    clusterId: example_cluster
+    clusterId: cluster1
 ```
 
 then just run again helm upgrade
@@ -515,7 +515,7 @@ then just run again helm upgrade
 # optional
 helm repo update databend
 
-helm upgrade --install tenant1 databend/databend-query \
+helm upgrade --install cluster1 databend/databend-query \
     --namespace databend-query --create-namespace \
     --values values.yaml
 ```
