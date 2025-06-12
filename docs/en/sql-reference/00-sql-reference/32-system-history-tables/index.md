@@ -25,8 +25,7 @@ System history tables store persistent data in the `system_history` schema for a
 
 In self-hosted Databend, system history tables are disabled by default. To enable them, configure the `[log.history]` section in your `databend-query.toml` file.
 
-<details>
-<summary>Configuration Example</summary>
+Configuration Example:
 
 ```toml
 [log.history]
@@ -54,6 +53,5 @@ retention = 168
 
 > **Note:** The `log_history` table is enabled by default when history logging is turned on.
 
-</details>
 
 For more details about configuration options, see [Query Configuration: [log.history] Section](/guides/deploy/references/node-config/query-config#loghistory-section).
