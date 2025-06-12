@@ -2,6 +2,10 @@
 title: System History Tables
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.752"/>
+
 # System History Tables
 
 System history tables store persistent data in the `system_history` schema for auditing, troubleshooting, and compliance purposes. They track query execution, user logins, and system logs that can be queried using standard SQL.
