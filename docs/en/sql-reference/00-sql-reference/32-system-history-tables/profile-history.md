@@ -3,7 +3,7 @@ title: system_history.profile_history
 ---
 Stores detailed execution profiles for SQL queries in Databend. Each entry provides performance metrics and execution statistics, allowing users to analyze and optimize query performance.
 
-### Columns
+## Fields
 
 
 | Field           | Type      | Description                                                                 |
@@ -15,7 +15,7 @@ Stores detailed execution profiles for SQL queries in Databend. Each entry provi
 
 
 
-### Examples
+## Examples
 
 The `profiles` field can be used to extract specific information. For example, to get the `OutputRows` value for every physical plan, the following query can be used:
 ```sql

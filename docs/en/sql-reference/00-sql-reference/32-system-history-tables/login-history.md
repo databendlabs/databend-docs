@@ -5,7 +5,7 @@ title: system_history.login_history
 Records all login attempts in the system, including successful and failed login attempts. This table is useful for auditing user access and troubleshooting authentication issues.
 
 
-### Fields
+## Fields
 
 | Field          | Type      | Description                                                    |
 |----------------|-----------|------------------------------------------------------------    |
@@ -21,7 +21,7 @@ Records all login attempts in the system, including successful and failed login 
 | node_id        | VARCHAR   | The node ID where the login was processed                      |
 | error_message  | VARCHAR   | The error message if the login failed                          |
 
-### Examples
+## Examples
 
 Login successful example:
 ```sql

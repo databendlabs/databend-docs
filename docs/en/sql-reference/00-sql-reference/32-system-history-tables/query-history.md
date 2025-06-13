@@ -4,82 +4,88 @@ title: system_history.query_history
 
 Records detailed logs of all SQL query executions in Databend. For each query, two entries are generated: one when the query starts and another when it finishes. This table is valuable for monitoring query activity, auditing user actions, and analyzing performance metrics.
 
+## Fields
+
+| Field                     | Type             | Description                                                                                   |
+|---------------------------|------------------|-----------------------------------------------------------------------------------------------|
+| log_type                  | TINYINT          | The query status.                                     |
+| log_type_name             | VARCHAR          | The name of query status.                                           |
+| handler_type              | VARCHAR          | The protocol or handler used for the query (e.g., `HTTPQuery`, `MySQL`).                                 |
+| tenant_id                 | VARCHAR          | The tenant identifier.                                                                        |
+| cluster_id                | VARCHAR          | The cluster identifier.                                                                       |
+| node_id                   | VARCHAR          | The node identifier.                                             |
+| sql_user                  | VARCHAR          | The user who executed the query.                                                              |
+| sql_user_quota            | VARCHAR          | The quota information of the user.                                                            |
+| sql_user_privileges       | VARCHAR          | The privileges of the user.                                                                   |
+| query_id                  | VARCHAR          | The unique identifier for the query.                                                          |
+| query_kind                | VARCHAR          | The kind of query (e.g., `Query`, `Insert`, `CopyIntoTable`, etc.).                                                |
+| query_text                | VARCHAR          | The SQL text of the query.                                                               |
+| query_hash                | VARCHAR          | The hash value of the query text.                                                             |
+| query_parameterized_hash  | VARCHAR          | The hash value of the query regardless of the specific values.                                                    |
+| event_date                | DATE             | The date when the event occurred.                                                             |
+| event_time                | TIMESTAMP        | The timestamp when the event occurred.                                                        |
+| query_start_time          | TIMESTAMP        | The timestamp when the query started.                                                         |
+| query_duration_ms         | BIGINT           | The duration of the query in milliseconds.                                                    |
+| query_queued_duration_ms  | BIGINT           | The time the query spent in the queue in milliseconds.                                        |
+| current_database          | VARCHAR          | The database in use when the query was executed.                                              |
+| written_rows              | BIGINT UNSIGNED  | The number of rows written by the query.                                                      |
+| written_bytes             | BIGINT UNSIGNED  | The number of bytes written by the query.                                                     |
+| join_spilled_rows         | BIGINT UNSIGNED  | The number of rows spilled during join operations.                                            |
+| join_spilled_bytes        | BIGINT UNSIGNED  | The number of bytes spilled during join operations.                                           |
+| agg_spilled_rows          | BIGINT UNSIGNED  | The number of rows spilled during aggregation operations.                                     |
+| agg_spilled_bytes         | BIGINT UNSIGNED  | The number of bytes spilled during aggregation operations.                                    |
+| group_by_spilled_rows     | BIGINT UNSIGNED  | The number of rows spilled during group by operations.                                        |
+| group_by_spilled_bytes    | BIGINT UNSIGNED  | The number of bytes spilled during group by operations.                                       |
+| written_io_bytes          | BIGINT UNSIGNED  | The number of bytes written to IO.                                                            |
+| written_io_bytes_cost_ms  | BIGINT UNSIGNED  | The IO cost in milliseconds for writing.                                                      |
+| scan_rows                 | BIGINT UNSIGNED  | The number of rows scanned by the query.                                                      |
+| scan_bytes                | BIGINT UNSIGNED  | The number of bytes scanned by the query.                                                     |
+| scan_io_bytes             | BIGINT UNSIGNED  | The number of IO bytes read during scanning.                                                  |
+| scan_io_bytes_cost_ms     | BIGINT UNSIGNED  | The IO cost in milliseconds for scanning.                                                     |
+| scan_partitions           | BIGINT UNSIGNED  | The number of partitions scanned.                                                             |
+| total_partitions          | BIGINT UNSIGNED  | The total number of partitions involved.                                                      |
+| result_rows               | BIGINT UNSIGNED  | The number of rows in the query result.                                                       |
+| result_bytes              | BIGINT UNSIGNED  | The number of bytes in the query result.                                                      |
+| bytes_from_remote_disk    | BIGINT UNSIGNED  | The number of bytes read from remote disk.                                                    |
+| bytes_from_local_disk     | BIGINT UNSIGNED  | The number of bytes read from local disk.                                                     |
+| bytes_from_memory         | BIGINT UNSIGNED  | The number of bytes read from memory.                                                         |
+| client_address            | VARCHAR          | The address of the client that issued the query.                                              |
+| user_agent                | VARCHAR          | The user agent string of the client.                                                          |
+| exception_code            | INT              | The exception code if the query failed.                                                       |
+| exception_text            | VARCHAR          | The exception message if the query failed.                                                    |
+| server_version            | VARCHAR          | The version of the server that processed the query.                                           |
+| query_tag                 | VARCHAR          | The tag associated with the query.                                                            |
+| has_profile               | BOOLEAN          | Whether the query has an associated execution profile.                                        |
+| peek_memory_usage         | VARIANT          | The peak memory usage during query execution (as a JSON object).                              |
+| session_id                | VARCHAR          | The session identifier associated with the query.                                             |
 
 
-### Examples
+## Examples
+
+Query the history for a specific query using its `query_id`
 
 ```sql
-SELECT * FROM system_history.query_history LIMIT 2;
+SELECT * FROM system_history.query_history WHERE query_id = '4e1f50a9-bce2-45cc-86e4-c7a36b9b8d43';
 
 *************************** 1. row ***************************
-                log_type: 1
-           log_type_name: Start
-            handler_type: HTTPQuery
-               tenant_id: test_tenant
-              cluster_id: test_cluster
-                 node_id: CkdmtwYXLRMhJIvVzl6i11
-                sql_user: root
-          sql_user_quota: NULL
-     sql_user_privileges: NULL
-                query_id: 55758078-e85d-4fac-95fc-0203ba0d68b2
-              query_kind: Query
-              query_text: SELECT * FROM system_history.log_history LIMIT 1
-              query_hash: e67623933f7ca8c66be47f5645f02367
-query_parameterized_hash: 100446ab318d76cf2bfd2aaecff07305
-              event_date: 2025-06-03
-              event_time: 2025-06-03 01:32:49.864759
-        query_start_time: 2025-06-03 01:32:49.843950
-       query_duration_ms: 0
-query_queued_duration_ms: 0
-        current_database: default
-            written_rows: 0
-           written_bytes: 0
-       join_spilled_rows: 0
-      join_spilled_bytes: 0
-        agg_spilled_rows: 0
-       agg_spilled_bytes: 0
-   group_by_spilled_rows: 0
-  group_by_spilled_bytes: 0
-        written_io_bytes: 0
-written_io_bytes_cost_ms: 0
-               scan_rows: 0
-              scan_bytes: 0
-           scan_io_bytes: 0
-   scan_io_bytes_cost_ms: 0
-         scan_partitions: 0
-        total_partitions: 0
-             result_rows: 0
-            result_bytes: 0
-  bytes_from_remote_disk: 0
-   bytes_from_local_disk: 0
-       bytes_from_memory: 0
-          client_address: 127.0.0.1
-              user_agent: bendsql/0.26.2-unknown
-          exception_code: 0
-          exception_text: 
-          server_version: v1.2.747-nightly-1ed0ae8571(rust-1.88.0-nightly-2025-06-03T01:16:19.413296000Z)
-               query_tag: 
-             has_profile: NULL
-       peek_memory_usage: {}
-*************************** 2. row ***************************
                 log_type: 2
            log_type_name: Finish
             handler_type: HTTPQuery
                tenant_id: test_tenant
               cluster_id: test_cluster
-                 node_id: CkdmtwYXLRMhJIvVzl6i11
+                 node_id: jxSgvulZFAq1sDckR1bu85
                 sql_user: root
           sql_user_quota: NULL
      sql_user_privileges: NULL
-                query_id: 55758078-e85d-4fac-95fc-0203ba0d68b2
+                query_id: 4e1f50a9-bce2-45cc-86e4-c7a36b9b8d43
               query_kind: Query
-              query_text: SELECT * FROM system_history.log_history LIMIT 1
-              query_hash: e67623933f7ca8c66be47f5645f02367
-query_parameterized_hash: 100446ab318d76cf2bfd2aaecff07305
-              event_date: 2025-06-03
-              event_time: 2025-06-03 01:32:49.878900
-        query_start_time: 2025-06-03 01:32:49.843950
-       query_duration_ms: 34
+              query_text: SELECT * FROM t
+              query_hash: cd36a2072e7f9deaa746db7480200944
+query_parameterized_hash: cd36a2072e7f9deaa746db7480200944
+              event_date: 2025-06-12
+              event_time: 2025-06-12 03:31:35.135987
+        query_start_time: 2025-06-12 03:31:35.041725
+       query_duration_ms: 94
 query_queued_duration_ms: 0
         current_database: default
             written_rows: 0
@@ -92,23 +98,24 @@ query_queued_duration_ms: 0
   group_by_spilled_bytes: 0
         written_io_bytes: 0
 written_io_bytes_cost_ms: 0
-               scan_rows: 38
-              scan_bytes: 30922
-           scan_io_bytes: 0
+               scan_rows: 1
+              scan_bytes: 20
+           scan_io_bytes: 605
    scan_io_bytes_cost_ms: 0
-         scan_partitions: 0
-        total_partitions: 0
+         scan_partitions: 1
+        total_partitions: 1
              result_rows: 1
-            result_bytes: 1156
-  bytes_from_remote_disk: 7580
+            result_bytes: 20
+  bytes_from_remote_disk: 74
    bytes_from_local_disk: 0
        bytes_from_memory: 0
           client_address: 127.0.0.1
               user_agent: bendsql/0.26.2-unknown
           exception_code: 0
           exception_text: 
-          server_version: v1.2.747-nightly-1ed0ae8571(rust-1.88.0-nightly-2025-06-03T01:16:19.413296000Z)
+          server_version: v1.2.753-nightly-c3d5fabb79(rust-1.88.0-nightly-2025-06-12T01:48:36.733925000Z)
                query_tag: 
              has_profile: NULL
-       peek_memory_usage: {"CkdmtwYXLRMhJIvVzl6i11":571809}
+       peek_memory_usage: {"jxSgvulZFAq1sDckR1bu85":223840}
+              session_id: e3c54c32-f3c0-4ea9-bdd2-65701aa3f2a6
 ```
