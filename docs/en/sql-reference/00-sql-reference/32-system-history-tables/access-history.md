@@ -17,8 +17,14 @@ This table provides detailed logging of objects accessed and modified by each qu
 | objects_modified        | VARIANT   | The objects modified by the query.                                          |
 | object_modified_by_ddl  | VARIANT   | The objects modified by the DDL (e.g `CREATE TABLE`, `ALTER TABLE`).        |
 
-`base_objects_accessed`, `objects_modified` and `object_modified_by_ddl` are all arrays of objects. Every object is a JSON object that contains the following fields:
+The fields `base_objects_accessed`, `objects_modified`, and `object_modified_by_ddl` are all arrays of JSON objects. Each object may include the following fields:
 
+- `object_domain`: The type of object, one of [`Database`, `Table`, `Stage`].
+- `object_name`: The name of the object. For stages, this is the stage name.
+- `columns`: Column information, present only when `object_domain` is `Table`.
+- `stage_type`: The type of stage, present only when `object_domain` is `Stage`.
+- `operation_type`: The DDL operation type, one of [`Create`, `Alter`, `Drop`, `Undrop`], present only in the `object_modified_by_ddl` field.
+- `properties`: Detailed information about the DDL operation, present only in the `object_modified_by_ddl` field.
 
 ## Examples
 
@@ -26,7 +32,9 @@ This table provides detailed logging of objects accessed and modified by each qu
 ```sql
 CREATE TABLE t (a INT, b string);
 ```
+
 Will be recorded as:
+
 ```
                query_id: c2c1c7be-cee4-4868-a28e-8862b122c365
             query_start: 2025-06-12 03:31:19.042128
