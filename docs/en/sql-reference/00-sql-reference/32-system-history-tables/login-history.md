@@ -4,6 +4,25 @@ title: system_history.login_history
 
 Records all login attempts in the system, including successful and failed login attempts. This table is useful for auditing user access and troubleshooting authentication issues.
 
+
+### Fields
+
+| Field          | Type      | Description                                                    |
+|----------------|-----------|------------------------------------------------------------    |
+| event_time     | TIMESTAMP | The timestamp when the login event occurred                    |
+| handler        | VARCHAR   | The protocol or handler used for the login (e.g., `HTTP`)      |
+| event_type     | VARCHAR   | The type of login event (e.g., `LoginSuccess`, `LoginFailed`)  |
+| connection_uri | VARCHAR   | The URI used for the connection                    |
+| auth_type      | VARCHAR   | The authentication method used (e.g., Password)                |
+| user_name      | VARCHAR   | The name of the user attempting to log in                      |
+| client_ip      | VARCHAR   | The IP address of the client                                   |
+| user_agent     | VARCHAR   | The user agent string of the client                            |
+| session_id     | VARCHAR   | The session ID associated with the login attempt               |
+| node_id        | VARCHAR   | The node ID where the login was processed                      |
+| error_message  | VARCHAR   | The error message if the login failed                          |
+
+### Examples
+
 Login successful example:
 ```sql
 SELECT * FROM system_history.login_history LIMIT 1;
@@ -12,7 +31,7 @@ SELECT * FROM system_history.login_history LIMIT 1;
     event_time: 2025-06-03 06:04:57.353108
        handler: HTTP
     event_type: LoginSuccess
-connection_uri: /query
+connection_uri: /session/login?disable_session_token=true
      auth_type: Password
      user_name: root
      client_ip: 127.0.0.1

@@ -3,21 +3,19 @@ title: system_history.profile_history
 ---
 Stores detailed execution profiles for SQL queries in Databend. Each entry provides performance metrics and execution statistics, allowing users to analyze and optimize query performance.
 
-The `profiles` field contains a JSON object with detailed information.
+### Columns
 
-```sql
-DESCRIBE system_history.profile_history;
 
-╭─────────────────────────────────────────────────────────╮
-│      Field      │    Type   │  Null  │ Default │  Extra │
-│      String     │   String  │ String │  String │ String │
-├─────────────────┼───────────┼────────┼─────────┼────────┤
-│ timestamp       │ TIMESTAMP │ YES    │ NULL    │        │
-│ query_id        │ VARCHAR   │ YES    │ NULL    │        │
-│ profiles        │ VARIANT   │ YES    │ NULL    │        │
-│ statistics_desc │ VARIANT   │ YES    │ NULL    │        │
-╰─────────────────────────────────────────────────────────╯
-```
+| Field           | Type      | Description                                                                 |
+|-----------------|-----------|-----------------------------------------------------------------------------|
+| timestamp       | TIMESTAMP | The timestamp when the profile was recorded                                 |
+| query_id        | VARCHAR   | The ID of the query associated with this profile                            |
+| profiles        | VARIANT   | A JSON object containing detailed execution profile information             |
+| statistics_desc | VARIANT   | A JSON object describing statistics format                                  |
+
+
+
+### Examples
 
 The `profiles` field can be used to extract specific information. For example, to get the `OutputRows` value for every physical plan, the following query can be used:
 ```sql

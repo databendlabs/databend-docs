@@ -6,26 +6,35 @@ Stores raw log entries ingested from various nodes. This table acts as the prima
 
 All the other log tables are derived from this table, the difference is that other log tables will do some transformations to make the data more structured.
 
-```sql
-DESCRIBE system_history.log_history;
+## Fields
 
-╭──────────────────────────────────────────────────────╮
-│     Field    │    Type   │  Null  │ Default │  Extra │
-│    String    │   String  │ String │  String │ String │
-├──────────────┼───────────┼────────┼─────────┼────────┤
-│ timestamp    │ TIMESTAMP │ YES    │ NULL    │        │
-│ path         │ VARCHAR   │ YES    │ NULL    │        │
-│ target       │ VARCHAR   │ YES    │ NULL    │        │
-│ log_level    │ VARCHAR   │ YES    │ NULL    │        │
-│ cluster_id   │ VARCHAR   │ YES    │ NULL    │        │
-│ node_id      │ VARCHAR   │ YES    │ NULL    │        │
-│ warehouse_id │ VARCHAR   │ YES    │ NULL    │        │
-│ query_id     │ VARCHAR   │ YES    │ NULL    │        │
-│ message      │ VARCHAR   │ YES    │ NULL    │        │
-│ fields       │ VARIANT   │ YES    │ NULL    │        │
-│ batch_number │ BIGINT    │ YES    │ NULL    │        │
-╰──────────────────────────────────────────────────────╯
+| Field        | Type      | Description                                      |
+|--------------|-----------|--------------------------------------------------|
+| timestamp    | TIMESTAMP | The timestamp when the log entry was recorded    |
+| path         | VARCHAR   | Source file path and line number of the log      |
+| target       | VARCHAR   | Target module or component of the log            |
+| log_level    | VARCHAR   | Log level (e.g., `INFO`, `ERROR`)                    |
+| cluster_id   | VARCHAR   | Identifier of the cluster                        |
+| node_id      | VARCHAR   | Identifier of the node                           |
+| warehouse_id | VARCHAR   | Identifier of the warehouse                      |
+| query_id     | VARCHAR   | Query ID associated with the log                 |
+| message      | VARCHAR   | Log message content                              |
+| fields       | VARIANT   | Additional fields (as a JSON object)             |
+| batch_number | BIGINT    | Internal use, no special meaning                 |
+
+Note: The `message` field stores plain text logs, while the `fields` field stores logs in JSON format.
+
+For example, the `fields` field of a log entry might look like:
 ```
+fields: {"node_id":"8R5ZMF8q0HHE6x9H7U1gr4","query_id":"72d2319a-b6d6-4b1d-8694-670137a40d87","session_id":"189fd3e2-e6ac-48c3-97ef-73094c141312","sql":"select * from system_history.log_history"}
+```
+
+the `message` field of another log entry might appear as follows:
+```
+message: [HTTP-QUERY] Preparing to plan SQL query
+```
+
+## Examples
 
 ```sql
 SELECT * FROM system_history.log_history LIMIT 1;
