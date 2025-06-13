@@ -109,9 +109,10 @@ The following is a list of the parameters available within the [log.history] sec
 | Parameter         | Description                                                                                                                                                      |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | on                | Enables or disables the history logging feature. Defaults to false. Set to true to enable history tables.                                                        |
+| log_only          | Nodes with enabled will delegate transformation tasks to other nodes, reducing their own workload.                                                               |
 | interval          | Specifies the interval (in seconds) at which the history log is flushed. Defaults to 2.                                                                          |
 | stage_name        | Specifies the name of the staging area that temporarily holds log data before it is finally copied into the table. Defaults to a unique value to avoid conflicts.|
-| level             | Sets the log level  (DEBUG, TRACE, INFO, WARN, or ERROR)  for history logging. Defaults to WARN.                                                                 |
+| level             | Sets the log level (DEBUG, TRACE, INFO, WARN, or ERROR) for history logging. Defaults to WARN.                                                                   |
 | retention_interval| The interval (in hours) at which the retention process is triggered to check if need to clean up old data. Defaults to 24.                                       |
 | tables            | Specifies which history tables to enable and their retention policies. This is an array of objects, each with table_name (the name of the history table) and retention (the retention period in hours for that table). |
 

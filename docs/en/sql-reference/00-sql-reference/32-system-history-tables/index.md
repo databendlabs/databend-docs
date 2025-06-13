@@ -18,6 +18,7 @@ System history tables store persistent data in the `system_history` schema for a
 | [system_history.query_history](query-history.md)    | Stores structured details of query execution.                   |
 | [system_history.profile_history](profile-history.md)| Stores detailed query execution profiles and statistics.        |
 | [system_history.login_history](login-history.md)    | Records information about user login events.                    |
+| [system_history.access_history](access-history.md)  | Stores information about query access events.                   |
 
 ## Enabling System History Tables
 
@@ -51,7 +52,7 @@ table_name = "login_history"
 retention = 168
 ```
 
-> **Note:** The `log_history` table is enabled by default when history logging is turned on.
+> **Note:** The `log_history` table is enabled by default when history logging is turned on. The `level` configuration determines the number of log entries stored in the log_history table. A more detailed level will result in more entries.
 
 
 For more details about configuration options, see [Query Configuration: [log.history] Section](/guides/deploy/references/node-config/query-config#loghistory-section).
