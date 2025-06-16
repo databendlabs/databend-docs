@@ -17,7 +17,7 @@ Before you start, make sure you have completed the following preparations:
 
 - Plan your deployment. This topic is based on the following cluster deployment plan, which involves setting up a meta cluster comprising three meta nodes and a query cluster consisting of two query nodes:
 
-| Node #  | IP Address        | Leader Meta Node? | Tenant ID | Cluster ID |
+| Node #  | IP Address        | First Meta Node? | Tenant ID | Cluster ID |
 | ------- | ----------------- | ----------------- | --------- | ---------- |
 | Meta-1  | 172.16.125.128/24 | Yes               | -         | -          |
 | Meta-2  | 172.16.125.129/24 | No                | -         | -          |
