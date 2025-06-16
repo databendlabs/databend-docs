@@ -106,7 +106,7 @@ enable_virtual_host_style = false
 启动服务后，通过检查其运行状况端点来验证它们是否正在运行。成功的响应应返回 HTTP 状态 200 OK。
 
 ```bash
-curl -I  http://127.0.0.1:28101/v1/health
+curl -I  http://127.0.0.1:28002/v1/health
 
 curl -I  http://127.0.0.1:8080/v1/health
 ```

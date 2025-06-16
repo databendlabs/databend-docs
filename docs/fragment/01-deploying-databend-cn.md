@@ -194,7 +194,7 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 运行以下命令以检查 Meta 节点是否已成功启动：
 
 ```shell
-curl -I  http://127.0.0.1:28101/v1/health
+curl -I  http://127.0.0.1:28002/v1/health
 ```
 
 </StepContent>

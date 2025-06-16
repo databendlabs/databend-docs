@@ -31,7 +31,7 @@ raft_dir            = "metadata/datas7"
 raft_api_port       = 28703
 raft_listen_host    = "127.0.0.1"
 raft_advertise_host = "localhost"
-join                = ["localhost:28103"]
+join                = ["localhost:28004"]
 ```
 
 The arg `join` specifies a list of raft addresses(`<raft_advertise_host>:<raft_api_port>`) of nodes in the existing cluster it wants to
@@ -86,7 +86,7 @@ As part of the command, the node will be blocked from interacting with the clust
 At every step of adding or removing a node, the cluster state should be checked to ensure everything goes well.
 
 The `admin-api-address` defined in the config provides a administration HTTP service to examine cluster state:
-E.g., `curl -s localhost:28101/v1/cluster/nodes` will display the members in a cluster:
+E.g., `curl -s localhost:28002/v1/cluster/nodes` will display the members in a cluster:
 
 ```json
 [
@@ -94,7 +94,7 @@ E.g., `curl -s localhost:28101/v1/cluster/nodes` will display the members in a c
     "name": "1",
     "endpoint": {
       "addr": "localhost",
-      "port": 28103
+      "port": 28004
     }
   },
   {

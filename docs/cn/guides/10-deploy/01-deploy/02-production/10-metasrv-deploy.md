@@ -62,7 +62,7 @@ cd configs && nano databend-meta.toml
 
 ```toml title="databend-meta.toml"
 log_dir                 = "/var/log/databend"
-admin_api_address       = "0.0.0.0:28101"
+admin_api_address       = "0.0.0.0:28002"
 grpc_api_address        = "0.0.0.0:9191"
 # databend-query fetch this address to update its databend-meta endpoints list,
 # in case databend-meta cluster changes.
@@ -87,7 +87,7 @@ single        = true
 
 ```toml title="databend-meta.toml"
 log_dir                 = "/var/log/databend"
-admin_api_address       = "0.0.0.0:28101"
+admin_api_address       = "0.0.0.0:28002"
 grpc_api_address        = "0.0.0.0:9191"
 # databend-query fetch this address to update its databend-meta endpoints list,
 # in case databend-meta cluster changes.
@@ -113,7 +113,7 @@ join            = ["172.16.125.128:28103", "172.16.125.130:28103"]
 
 ```toml title="databend-meta.toml"
 log_dir                 = "/var/log/databend"
-admin_api_address       = "0.0.0.0:28101"
+admin_api_address       = "0.0.0.0:28002"
 grpc_api_address        = "0.0.0.0:9191"
 # databend-query fetch this address to update its databend-meta endpoints list,
 # in case databend-meta cluster changes.
@@ -147,7 +147,7 @@ cd .. && cd bin
 3. 启动所有 meta 节点后，您可以使用以下 curl 命令检查它们：
 
 ```shell
-curl 172.16.125.128:28101/v1/cluster/nodes
+curl 172.16.125.128:28002/v1/cluster/nodes
 [{"name":"1","endpoint":{"addr":"172.16.125.128","port":28103},"grpc_api_advertise_address":"172.16.125.128:9191"},{"name":"2","endpoint":{"addr":"172.16.125.129","port":28103},"grpc_api_advertise_address":"172.16.125.129:9191"},{"name":"3","endpoint":{"addr":"172.16.125.130","port":28103},"grpc_api_advertise_address":"172.16.125.130:9191"}]
 ```
 
@@ -236,8 +236,8 @@ FROM
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │          name          │ cluster │      host      │  port  │                                 version                                 │
 ├────────────────────────┼─────────┼────────────────┼────────┼─────────────────────────────────────────────────────────────────────────┤
-│ 7rwadq5otY2AlBDdT25QL4 │ default │ 172.16.125.132 │   9091 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
-│ cH331pYsoFmvMSZXKRrn2  │ default │ 172.16.125.131 │   9091 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
+│ 7rwadq5otY2AlBDdT25QL4 │ default │ 172.16.125.132 │   9090 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
+│ cH331pYsoFmvMSZXKRrn2  │ default │ 172.16.125.131 │   9090 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 2 rows read in 0.031 sec. Processed 2 rows, 327 B (64.1 rows/s, 10.23 KiB/s)
 ```

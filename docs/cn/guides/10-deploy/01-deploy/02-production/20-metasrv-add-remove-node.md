@@ -31,7 +31,7 @@ raft_dir            = "metadata/datas7"
 raft_api_port       = 28703
 raft_listen_host    = "127.0.0.1"
 raft_advertise_host = "localhost"
-join                = ["localhost:28103"]
+join                = ["localhost:28004"]
 ```
 
 参数 `join` 指定要加入的现有集群中节点的 raft 地址列表 (`<raft_advertise_host>:<raft_api_port>`)。
@@ -80,7 +80,7 @@ join                = ["localhost:28103"]
 在添加或删除节点的每个步骤中，都应检查集群状态，以确保一切顺利。
 
 在配置中定义的 `admin-api-address` 提供了一个管理 HTTP 服务来检查集群状态：
-例如，`curl -s localhost:28101/v1/cluster/nodes` 将显示集群中的成员：
+例如，`curl -s localhost:28002/v1/cluster/nodes` 将显示集群中的成员：
 
 ```json
 [
@@ -88,7 +88,7 @@ join                = ["localhost:28103"]
     "name": "1",
     "endpoint": {
       "addr": "localhost",
-      "port": 28103
+      "port": 28004
     }
   },
   {

@@ -106,7 +106,7 @@ enable_virtual_host_style = false
 After launching the services, verify they are running by checking their health endpoints. A successful response should return HTTP status 200 OK.
 
 ```bash
-curl -I  http://127.0.0.1:28101/v1/health
+curl -I  http://127.0.0.1:28002/v1/health
 
 curl -I  http://127.0.0.1:8080/v1/health
 ```

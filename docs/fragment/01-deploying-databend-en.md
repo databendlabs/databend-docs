@@ -143,7 +143,7 @@ Follow the instructions below to deploy a Meta node:
 Run the following command to check if the Meta node was started successfully:
 
 ```shell
-curl -I  http://127.0.0.1:28101/v1/health
+curl -I  http://127.0.0.1:28002/v1/health
 ```
 
 </StepContent>
