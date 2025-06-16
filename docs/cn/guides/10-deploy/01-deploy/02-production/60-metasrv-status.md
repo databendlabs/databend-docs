@@ -1,24 +1,24 @@
 ---
-title: Meta Service HTTP APIs
-sidebar_label: Meta Service HTTP APIs
-description: Meta Service HTTP APIs
+title: Meta Service HTTP API
+sidebar_label: Meta Service HTTP API
+description: Meta Service HTTP API
 ---
 
-为了捕获和跟踪各种对您的分析有用的元数据统计信息，Databend 提供了许多 HTTP API。
+为了捕获和跟踪对分析有用的各类元数据统计信息，Databend 提供了多种 HTTP API。
 
 :::note
-除非另有说明，否则这些 HTTP API 默认使用端口 `28002`。要更改默认端口，请编辑配置文件 `databend-meta.toml` 中的 `admin_api_address` 值。
+除非另有说明，这些 HTTP API 默认使用 `28002` 端口。要更改默认端口，请在配置文件 `databend-meta.toml` 中编辑 `admin_api_address` 的值。
 :::
 
-## Cluster Node API
+## 集群节点 API
 
-返回集群中的所有 meta 节点。
+返回集群中的所有元数据节点。
 
-### Request Endpoint
+### 请求端点
 
 `http://<address>:<port>/v1/cluster/nodes`
 
-### Response Example
+### 响应示例
 
 ```
 [
@@ -35,15 +35,15 @@ description: Meta Service HTTP APIs
 ];
 ```
 
-## Cluster Status API
+## 集群状态 API
 
-返回集群中每个 meta 节点的状态信息。
+返回集群中各元数据节点的状态信息。
 
-### Request Endpoint
+### 请求端点
 
 `http://<address>:<port>/v1/cluster/status`
 
-### Response Example
+### 响应示例
 
 ```json
 {
@@ -77,21 +77,21 @@ description: Meta Service HTTP APIs
 }
 ```
 
-### MetaCTL command
+### MetaCTL 命令
 
 ```shell
 databend-metactl status
 ```
 
-## Meta Metrics API
+## Meta 指标 API
 
-显示 Databend 捕获和跟踪的关于 meta service 性能的一系列指标。有关 meta service 指标的更多信息，请参见 [Databend Meta Metrics](../../03-monitor/10-metasrv-metrics.md)。
+展示 Databend 捕获并跟踪的元数据服务性能指标。更多指标说明请参阅 [Databend Meta 指标](../../03-monitor/10-metasrv-metrics.md)。
 
-### Request Endpoint
+### 请求端点
 
 `http://<address>:<port>/v1/metrics`
 
-### Response Example
+### 响应示例
 
 ```
 # TYPE metasrv_meta_network_recv_bytes counter
@@ -145,14 +145,14 @@ metasrv_meta_network_rpc_delay_seconds_sum 1.3146486719999995
 metasrv_meta_network_rpc_delay_seconds_count 3283
 ```
 
-## Snapshot Trigger API
+## 快照触发 API
 
-仅用于调试。强制 raft 创建快照并将其同步到所有节点。
+仅供调试使用。强制 Raft 创建快照并同步至所有节点。
 
-### Request Endpoint
+### 请求端点
 
 `http://<address>:<port>/v1/ctrl/trigger_snapshot`
 
-### Response Example
+### 响应示例
 
-None.
+无。
