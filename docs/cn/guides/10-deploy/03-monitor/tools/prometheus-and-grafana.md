@@ -13,7 +13,7 @@ title: Prometheus & Grafana
 按照[部署指南](/guides/deploy)部署本地 Databend。
 
 :::tip
-本教程使用安装包 `configs` 文件夹中的[默认配置文件](https://github.com/databendlabs/databend/tree/main/scripts/distribution/configs)。databend-meta 的 metrics API 是 `0.0.0.0:28101/v1/metrics`，databend-query 的 metrics API 是 `0.0.0.0:7070/metrics`。
+本教程使用安装包 `configs` 文件夹中的[默认配置文件](https://github.com/databendlabs/databend/tree/main/scripts/distribution/configs)。databend-meta 的 metrics API 是 `0.0.0.0:28002/v1/metrics`，databend-query 的 metrics API 是 `0.0.0.0:7070/metrics`。
 :::
 
 ### 步骤 2. 部署 Prometheus
@@ -49,7 +49,7 @@ title: Prometheus & Grafana
      # scheme defaults to 'http'.
 
      static_configs:
-       - targets: ["host.docker.internal:28101"]
+       - targets: ["host.docker.internal:28002"]
    ```
 
 3. 部署 Prometheus。

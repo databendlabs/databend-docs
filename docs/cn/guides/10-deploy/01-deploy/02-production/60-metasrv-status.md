@@ -7,7 +7,7 @@ description: Meta Service HTTP APIs
 为了捕获和跟踪各种对您的分析有用的元数据统计信息，Databend 提供了许多 HTTP API。
 
 :::note
-除非另有说明，否则这些 HTTP API 默认使用端口 `28101`。要更改默认端口，请编辑配置文件 `databend-meta.toml` 中的 `admin_api_address` 值。
+除非另有说明，否则这些 HTTP API 默认使用端口 `28002`。要更改默认端口，请编辑配置文件 `databend-meta.toml` 中的 `admin_api_address` 值。
 :::
 
 ## Cluster Node API
@@ -24,7 +24,7 @@ description: Meta Service HTTP APIs
 [
   {
     name: "1",
-    endpoint: { addr: "localhost", port: 28103 },
+    endpoint: { addr: "localhost", port: 28004 },
     grpc_api_addr: "0.0.0.0:9191",
   },
   {
@@ -48,7 +48,7 @@ description: Meta Service HTTP APIs
 ```json
 {
   "id": 1,
-  "endpoint": "localhost:28103",
+  "endpoint": "localhost:28004",
   "db_size": 18899209,
   "state": "Follower",
   "is_leader": false,
@@ -63,7 +63,7 @@ description: Meta Service HTTP APIs
   "voters": [
     {
       "name": "1",
-      "endpoint": { "addr": "localhost", "port": 28103 },
+      "endpoint": { "addr": "localhost", "port": 28004 },
       "grpc_api_addr": "0.0.0.0:9191"
     },
     {

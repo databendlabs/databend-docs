@@ -7,7 +7,7 @@ description: Meta Service HTTP APIs
 In order to capture and keep track of various meta stats that are useful for your analysis, Databend provides a number of HTTP APIs.
 
 :::note
-Unless otherwise specified, these HTTP APIs use the port `28101` by default. To change the default port, edit the value of `admin_api_address` in the configuration file `databend-meta.toml`.
+Unless otherwise specified, these HTTP APIs use the port `28002` by default. To change the default port, edit the value of `admin_api_address` in the configuration file `databend-meta.toml`.
 :::
 
 ## Cluster Node API
@@ -24,7 +24,7 @@ Returns all the meta nodes in the cluster.
 [
   {
     name: "1",
-    endpoint: { addr: "localhost", port: 28103 },
+    endpoint: { addr: "localhost", port: 28004 },
     grpc_api_addr: "0.0.0.0:9191",
   },
   {
@@ -48,7 +48,7 @@ Returns the status information of each meta node in the cluster.
 ```json
 {
   "id": 1,
-  "endpoint": "localhost:28103",
+  "endpoint": "localhost:28004",
   "db_size": 18899209,
   "state": "Follower",
   "is_leader": false,
@@ -63,7 +63,7 @@ Returns the status information of each meta node in the cluster.
   "voters": [
     {
       "name": "1",
-      "endpoint": { "addr": "localhost", "port": 28103 },
+      "endpoint": { "addr": "localhost", "port": 28004 },
       "grpc_api_addr": "0.0.0.0:9191"
     },
     {

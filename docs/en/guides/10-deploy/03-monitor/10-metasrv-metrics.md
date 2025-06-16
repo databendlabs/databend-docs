@@ -8,7 +8,7 @@ Metrics are crucial to monitor the performance and health of the system. Databen
 
 You can access the metrics through a web browser using the following URLs:
 
-- Meta Metrics: `http://<admin_api_address>/v1/metrics`. Defaults to `0.0.0.0:28101/v1/metrics`.
+- Meta Metrics: `http://<admin_api_address>/v1/metrics`. Defaults to `0.0.0.0:28002/v1/metrics`.
 - Query Metrics: `http://<metric_api_address>/metrics`. Defaults to `0.0.0.0:7070/metrics`.
 
 :::tip

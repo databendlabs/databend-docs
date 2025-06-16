@@ -8,7 +8,7 @@ This page describes the Meta node configurations available in the [databend-meta
 # Usage:
 # databend-meta -c databend-meta.toml
 
-admin_api_address       = "0.0.0.0:28101"
+admin_api_address       = "0.0.0.0:28002"
 grpc_api_address        = "0.0.0.0:9191"
 # databend-query fetch this address to update its databend-meta endpoints list,
 # in case databend-meta cluster changes.
@@ -17,7 +17,7 @@ grpc_api_advertise_host = "127.0.0.1"
 [raft_config]
 id            = 1
 raft_dir      = "/var/lib/databend/raft"
-raft_api_port = 28103
+raft_api_port = 28004
 
 # Assign raft_{listen|advertise}_host in test config.
 # This allows you to catch a bug in unit tests when something goes wrong in raft meta nodes communication.

@@ -51,7 +51,7 @@ root@meta-1:/usr/databend# tar -xzvf databend-v1.2.410-aarch64-unknown-linux-gnu
 | raft_listen_host        | 172.16.125.128 | 172.16.125.129                                  | 172.16.125.130                                  |
 | raft_advertise_host     | 172.16.125.128 | 172.16.125.129                                  | 172.16.125.130                                  |
 | single                  | true           | /                                               | /                                               |
-| join                    | /              | ["172.16.125.128:28103","172.16.125.130:28103"] | ["172.16.125.128:28103","172.16.125.129:28103"] |
+| join                    | /              | ["172.16.125.128:28004","172.16.125.130:28004"] | ["172.16.125.128:28004","172.16.125.129:28004"] |
 
 ```shell
 cd configs && nano databend-meta.toml
@@ -62,7 +62,7 @@ cd configs && nano databend-meta.toml
 
 ```toml title="databend-meta.toml"
 log_dir                 = "/var/log/databend"
-admin_api_address       = "0.0.0.0:28101"
+admin_api_address       = "0.0.0.0:28002"
 grpc_api_address        = "0.0.0.0:9191"
 # databend-query fetch this address to update its databend-meta endpoints list,
 # in case databend-meta cluster changes.
@@ -71,7 +71,7 @@ grpc_api_advertise_host = "172.16.125.128"
 [raft_config]
 id            = 1
 raft_dir      = "/var/lib/databend/raft"
-raft_api_port = 28103
+raft_api_port = 28004
 
 # Assign raft_{listen|advertise}_host in test config.
 # This allows you to catch a bug in unit tests when something goes wrong in raft meta nodes communication.
@@ -87,7 +87,7 @@ single        = true
 
 ```toml title="databend-meta.toml"
 log_dir                 = "/var/log/databend"
-admin_api_address       = "0.0.0.0:28101"
+admin_api_address       = "0.0.0.0:28002"
 grpc_api_address        = "0.0.0.0:9191"
 # databend-query fetch this address to update its databend-meta endpoints list,
 # in case databend-meta cluster changes.
@@ -96,7 +96,7 @@ grpc_api_advertise_host = "172.16.125.129"
 [raft_config]
 id            = 2
 raft_dir      = "/var/lib/databend/raft"
-raft_api_port = 28103
+raft_api_port = 28004
 
 # Assign raft_{listen|advertise}_host in test config.
 # This allows you to catch a bug in unit tests when something goes wrong in raft meta nodes communication.
@@ -105,7 +105,7 @@ raft_advertise_host = "172.16.125.129"
 
 # Start up mode: single node cluster
 # single        = true
-join            = ["172.16.125.128:28103", "172.16.125.130:28103"]
+join            = ["172.16.125.128:28004", "172.16.125.130:28004"]
 ```
 
   </TabItem>
@@ -113,7 +113,7 @@ join            = ["172.16.125.128:28103", "172.16.125.130:28103"]
 
 ```toml title="databend-meta.toml"
 log_dir                 = "/var/log/databend"
-admin_api_address       = "0.0.0.0:28101"
+admin_api_address       = "0.0.0.0:28002"
 grpc_api_address        = "0.0.0.0:9191"
 # databend-query fetch this address to update its databend-meta endpoints list,
 # in case databend-meta cluster changes.
@@ -122,7 +122,7 @@ grpc_api_advertise_host = "172.16.125.130"
 [raft_config]
 id            = 3
 raft_dir      = "/var/lib/databend/raft"
-raft_api_port = 28103
+raft_api_port = 28004
 
 # Assign raft_{listen|advertise}_host in test config.
 # This allows you to catch a bug in unit tests when something goes wrong in raft meta nodes communication.
@@ -131,7 +131,7 @@ raft_advertise_host = "172.16.125.130"
 
 # Start up mode: single node cluster
 # single        = true
-join            = ["172.16.125.128:28103", "172.16.125.129:28103"]
+join            = ["172.16.125.128:28004", "172.16.125.129:28004"]
 ```
 
   </TabItem>
@@ -147,8 +147,8 @@ cd .. && cd bin
 3. Once all the meta nodes have started, you can check them using the following curl command:
 
 ```shell
-curl 172.16.125.128:28101/v1/cluster/nodes
-[{"name":"1","endpoint":{"addr":"172.16.125.128","port":28103},"grpc_api_advertise_address":"172.16.125.128:9191"},{"name":"2","endpoint":{"addr":"172.16.125.129","port":28103},"grpc_api_advertise_address":"172.16.125.129:9191"},{"name":"3","endpoint":{"addr":"172.16.125.130","port":28103},"grpc_api_advertise_address":"172.16.125.130:9191"}]
+curl 172.16.125.128:28002/v1/cluster/nodes
+[{"name":"1","endpoint":{"addr":"172.16.125.128","port":28004},"grpc_api_advertise_address":"172.16.125.128:9191"},{"name":"2","endpoint":{"addr":"172.16.125.129","port":28004},"grpc_api_advertise_address":"172.16.125.129:9191"},{"name":"3","endpoint":{"addr":"172.16.125.130","port":28004},"grpc_api_advertise_address":"172.16.125.130:9191"}]
 ```
 
 ## Step 2: Deploy Query Nodes
@@ -235,8 +235,8 @@ FROM
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │          name          │ cluster │      host      │  port  │                                 version                                 │
 ├────────────────────────┼─────────┼────────────────┼────────┼─────────────────────────────────────────────────────────────────────────┤
-│ 7rwadq5otY2AlBDdT25QL4 │ default │ 172.16.125.132 │   9091 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
-│ cH331pYsoFmvMSZXKRrn2  │ default │ 172.16.125.131 │   9091 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
+│ 7rwadq5otY2AlBDdT25QL4 │ default │ 172.16.125.132 │   9090 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
+│ cH331pYsoFmvMSZXKRrn2  │ default │ 172.16.125.131 │   9090 │ v1.2.410-4b8cd16f0c(rust-1.77.0-nightly-2024-04-08T12:21:53.785045868Z) │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 2 rows read in 0.031 sec. Processed 2 rows, 327 B (64.1 rows/s, 10.23 KiB/s)
 ```

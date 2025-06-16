@@ -8,7 +8,7 @@ Metrics are crucial to monitor the performance and health of the system. Databen
 
 你可以通过 Web 浏览器使用以下 URL 访问 metrics：
 
-- Meta Metrics: `http://<admin_api_address>/v1/metrics`. 默认为 `0.0.0.0:28101/v1/metrics`.
+- Meta Metrics: `http://<admin_api_address>/v1/metrics`. 默认为 `0.0.0.0:28002/v1/metrics`.
 - Query Metrics: `http://<metric_api_address>/metrics`. 默认为 `0.0.0.0:7070/metrics`.
 
 :::tip
