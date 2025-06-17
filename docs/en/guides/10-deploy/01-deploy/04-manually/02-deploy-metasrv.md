@@ -149,7 +149,11 @@ If you encounter issues:
 
 2. View the logs for detailed error messages:
    ```bash
+   # View systemd logs
    sudo journalctl -u databend-meta -f
+
+   # View log files in /var/log/databend
+   sudo tail -f /var/log/databend/databend-meta-*.log
    ```
 
 3. Common issues and solutions:
