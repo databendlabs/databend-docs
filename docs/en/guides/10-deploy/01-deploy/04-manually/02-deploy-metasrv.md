@@ -127,6 +127,17 @@ The Meta Service is a critical component of Databend that manages metadata and c
 
    You should receive a response indicating the service is healthy.
 
+3. Check the Meta Service status using metactl:
+   ```bash
+   databend-metactl --status
+   ```
+
+   You should see the current status of the Meta Service, including:
+   - Node ID
+   - Raft status
+   - Leader information
+   - Cluster configuration
+
 ## Troubleshooting
 
 If you encounter issues:
