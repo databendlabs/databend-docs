@@ -27,4 +27,4 @@ This manual deployment approach gives you full control over your Databend cluste
 - [Scale Meta Service Nodes](04-scale-metasrv.md)
 - [Scale Query Service Nodes](05-scale-query.md)
 - [Upgrade Meta Service](06-upgrade-metasrv.md)
-- [Upgrade Query Service](07-upgrade-query.md) 
+- [Upgrade Query Service](07-upgrade-query.md)
