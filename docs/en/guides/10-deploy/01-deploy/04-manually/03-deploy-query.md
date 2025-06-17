@@ -135,6 +135,11 @@ The Query Service is the main component of Databend that handles SQL queries and
    sudo systemctl daemon-reload
    ```
 
+5. Enable the service to start on boot:
+   ```bash
+   sudo systemctl enable databend-query
+   ```
+
 ## Start Query Service
 
 1. Start the Query Service:
@@ -142,17 +147,12 @@ The Query Service is the main component of Databend that handles SQL queries and
    sudo systemctl start databend-query
    ```
 
-2. Enable the service to start on boot:
-   ```bash
-   sudo systemctl enable databend-query
-   ```
-
-3. Check the service status:
+2. Check the service status:
    ```bash
    sudo systemctl status databend-query
    ```
 
-4. View the logs:
+3. View the logs:
    ```bash
    sudo journalctl -u databend-query -f
    ```

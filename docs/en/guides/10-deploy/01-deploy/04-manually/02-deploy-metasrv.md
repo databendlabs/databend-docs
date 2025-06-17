@@ -91,6 +91,11 @@ The Meta Service is a critical component of Databend that manages metadata and c
    sudo systemctl daemon-reload
    ```
 
+5. Enable the service to start on boot:
+   ```bash
+   sudo systemctl enable databend-meta
+   ```
+
 ## Start Meta Service
 
 1. Start the Meta Service:
@@ -98,17 +103,12 @@ The Meta Service is a critical component of Databend that manages metadata and c
    sudo systemctl start databend-meta
    ```
 
-2. Enable the service to start on boot:
-   ```bash
-   sudo systemctl enable databend-meta
-   ```
-
-3. Check the service status:
+2. Check the service status:
    ```bash
    sudo systemctl status databend-meta
    ```
 
-4. View the logs:
+3. View the logs:
    ```bash
    sudo journalctl -u databend-meta -f
    ```
