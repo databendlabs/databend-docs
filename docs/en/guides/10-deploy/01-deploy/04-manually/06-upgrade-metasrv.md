@@ -17,7 +17,13 @@ This guide will walk you through the process of upgrading your Databend Meta Ser
 
 ## Upgrade Meta Service
 
-1. Replace the binary files:
+1. Check the current cluster status:
+   ```bash
+   databend-metactl status
+   ```
+   Verify that all nodes are healthy and note the current leader node.
+
+2. Replace the binary files:
    ```bash
    sudo cp bin/databend-meta /usr/bin/
    sudo cp bin/databend-metactl /usr/bin/
@@ -25,19 +31,23 @@ This guide will walk you through the process of upgrading your Databend Meta Ser
    sudo chmod +x /usr/bin/databend-metactl
    ```
 
-2. Restart the Meta Service:
+3. Restart the Meta Service:
    ```bash
    sudo systemctl restart databend-meta
    ```
 
-3. Check the service status:
+4. Check the service status:
    ```bash
    sudo systemctl status databend-meta
    ```
 
-4. Verify the upgrade:
+5. Verify the upgrade:
    ```bash
-   curl http://127.0.0.1:28002/v1/health
+   # Check the service is running
+   sudo systemctl status databend-meta
+
+   # Check the cluster status
+   databend-metactl status
    ```
 
 ## Troubleshooting

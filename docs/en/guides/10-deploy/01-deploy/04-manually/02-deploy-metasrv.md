@@ -129,7 +129,7 @@ The Meta Service is a critical component of Databend that manages metadata and c
 
 3. Check the Meta Service status using metactl:
    ```bash
-   databend-metactl --status
+   databend-metactl status
    ```
 
    You should see the current status of the Meta Service, including:
