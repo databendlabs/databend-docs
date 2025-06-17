@@ -128,6 +128,7 @@ The Query Service is the main component of Databend that handles SQL queries and
    Set the following variables when needed (Optional):
    ```bash
    RUST_BACKTRACE=1 # enable backtrace for debugging
+   SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt # set the path to the CA certificate file if you are using custom CA certificate
    ```
 
 4. Reload systemd to recognize the new service:
