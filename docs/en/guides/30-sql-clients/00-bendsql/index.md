@@ -155,7 +155,7 @@ BendSQL allows you to connect to both Databend Cloud and self-hosted Databend in
 
 A DSN (Data Source Name) is a simple yet powerful way to configure and manage your Databend connection in BendSQL using a single URI-style string. This method allows you to embed your credentials and connection settings directly into your environment, streamlining the connection process.
 
-#### DSN Format and Parmaeters
+#### DSN Format and Parameters
 
 ```bash title='DSN Format'
 databend[+flight]://user[:password]@host[:port]/[database][?sslmode=disable][&arg1=value1]
