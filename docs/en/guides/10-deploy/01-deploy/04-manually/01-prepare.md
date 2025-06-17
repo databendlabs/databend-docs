@@ -80,6 +80,7 @@ title: Prepare Package Environment
 2. Verify the binaries are executable:
    ```bash
    ./bin/databend-meta --version
+   ./bin/databend-metactl --version
    ./bin/databend-query --version
    ./bin/bendsql --version
    ```
