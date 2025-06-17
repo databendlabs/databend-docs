@@ -2,98 +2,98 @@
 title: 全文索引
 ---
 
-# 全文索引：实现闪电般快速的自动文本搜索
+# 全文索引：实现闪电般快速的自动化文本搜索
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='INVERTED INDEX'/>
 
-全文索引（倒排索引）通过建立词条到文档的映射关系，自动实现海量文档集合的闪电式文本检索，无需执行缓慢的全表扫描。
+全文索引（倒排索引）通过将词项映射到文档，自动实现对大型文档集合的闪电般快速文本搜索，从而无需进行缓慢的全表扫描。
 
-## 解决哪些问题？
+## 它解决了什么问题？
 
-大规模数据集上的文本搜索面临显著性能挑战：
+对大型数据集进行文本搜索操作面临着重大的性能挑战：
 
 | 问题 | 影响 | 全文索引解决方案 |
 |---------|--------|-------------------------|
-| **LIKE 查询缓慢** | `WHERE content LIKE '%keyword%'` 需扫描整表 | 直接词条定位，跳过无关文档 |
-| **全表扫描** | 每次文本搜索都需读取所有行 | 仅读取包含搜索词条的文档 |
-| **搜索体验差** | 用户需等待数秒/分钟获取结果 | 亚秒级搜索响应时间 |
-| **搜索功能有限** | 仅支持基础模式匹配 | 支持高级功能：模糊搜索、相关性评分 |
-| **资源消耗高** | 文本搜索过度消耗 CPU/内存 | 索引搜索仅需最少资源 |
+| **LIKE 查询缓慢** | `WHERE content LIKE '%keyword%'` 会扫描整个表 | 直接进行词项查找，跳过不相关的文档 |
+| **全表扫描** | 每次文本搜索都会读取所有行 | 仅读取包含搜索词的文档 |
+| **搜索体验差** | 用户需要等待数秒/分钟才能获得搜索结果 | 亚秒级搜索响应时间 |
+| **搜索能力有限** | 仅支持基本模式匹配 | 高级功能：模糊搜索、相关性评分 |
+| **资源消耗高** | 文本搜索消耗过多的 CPU/内存 | 索引搜索仅需最少资源 |
 
-**示例**：在 1000 万条日志中搜索 "kubernetes error"。无全文索引时需扫描全部 1000 万行，使用全文索引可直接定位约 1000 个匹配文档，瞬间返回结果。
+**示例**：在 1000 万条日志条目中搜索 “kubernetes error”。如果没有全文索引，它会扫描全部 1000 万行。有了全文索引，它能立即直接找到约 1000 个匹配的文档。
 
 ## 工作原理
 
-全文索引创建词条到文档的反向映射：
+全文索引创建了一个从词项到文档的倒排映射：
 
-| 词条 | 文档 ID |
+| 词项 | 文档 ID |
 |------|-------------|
 | "kubernetes" | 101, 205, 1847 |
 | "error" | 101, 892, 1847 |
 | "pod" | 205, 1847, 2901 |
 
-搜索 "kubernetes error" 时，索引直接定位同时包含两个词条的文档 (101, 1847)，无需扫描整表。
+当搜索 “kubernetes error” 时，索引会找到同时包含这两个词项的文档（101, 1847），而无需扫描整个表。
 
-## 快速配置
+## 快速设置
 
 ```sql
--- 创建含文本字段的表
+-- 创建包含文本内容的表
 CREATE TABLE logs(id INT, message TEXT, timestamp TIMESTAMP);
 
--- 创建全文索引 - 自动索引新数据
+-- 创建全文索引 - 自动为新数据建立索引
 CREATE INVERTED INDEX logs_message_idx ON logs(message);
 
--- 仅需对索引创建前已存在的数据执行一次性刷新
+-- 仅对索引创建前已存在的数据需要进行一次性刷新
 REFRESH INVERTED INDEX logs_message_idx ON logs;
 
--- 使用 MATCH 函数搜索 - 自动优化执行
+-- 使用 MATCH 函数进行搜索 - 全自动优化
 SELECT * FROM logs WHERE MATCH(message, 'error kubernetes');
 ```
 
 **自动索引管理**：
-- **新数据**：插入时自动索引，无需人工干预
-- **存量数据**：仅需对索引创建前存在的数据执行一次性刷新
-- **持续维护**：Databend 自动维护最优搜索性能
+- **新数据**：插入时自动建立索引 - 无需手动操作
+- **现有数据**：仅对索引创建前已存在的数据需要进行一次性刷新
+- **持续维护**：Databend 自动维护最佳搜索性能
 
 ## 搜索函数
 
 | 函数 | 用途 | 示例 |
 |----------|---------|---------|
-| `MATCH(column, 'terms')` | 基础文本搜索 | `MATCH(content, 'database performance')` |
+| `MATCH(column, 'terms')` | 基本文本搜索 | `MATCH(content, 'database performance')` |
 | `QUERY('column:terms')` | 高级查询语法 | `QUERY('title:"full text" AND content:search')` |
 | `SCORE()` | 相关性评分 | `SELECT *, SCORE() FROM docs WHERE MATCH(...)` |
 
 ## 高级搜索功能
 
-### 模糊搜索
+### 模糊搜索 (Fuzzy Search)
 ```sql
--- 支持容错匹配（fuzziness=1 允许 1 个字符差异）
-SELECT * FROM logs WHERE MATCH(message, 'kuberntes', 'fuzziness=1');
+-- 即使有拼写错误也能找到文档（fuzziness=1 允许 1 个字符的差异）
+SELECT * FROM logs WHERE MATCH(message, 'kubernetes', 'fuzziness=1');
 ```
 
-### 相关性评分
+### 相关性评分 (Relevance Scoring)
 ```sql
--- 获取带相关性评分的结果，按阈值过滤
+-- 获取带有相关性评分的结果，并按最低分进行筛选
 SELECT id, message, SCORE() as relevance 
 FROM logs 
 WHERE MATCH(message, 'critical error') AND SCORE() > 0.5
 ORDER BY SCORE() DESC;
 ```
 
-### 复合查询
+### 复杂查询
 ```sql
--- 支持布尔运算符的高级查询语法
+-- 使用布尔运算符的高级查询语法
 SELECT * FROM docs WHERE QUERY('title:"user guide" AND content:(tutorial OR example)');
 ```
 
 ## 完整示例
 
-此示例演示在 Kubernetes 日志数据上创建全文索引并执行多样化搜索：
+此示例演示了如何在 Kubernetes 日志数据上创建全文搜索索引，并使用各种函数进行搜索：
 
 ```sql
--- 创建含计算列的表
+-- 创建一个带有计算列的表
 CREATE TABLE k8s_logs (
     event_id INT,
     event_data VARIANT,
@@ -101,10 +101,10 @@ CREATE TABLE k8s_logs (
     event_message VARCHAR AS (event_data['message']::VARCHAR) STORED
 );
 
--- 在 event_message 列创建倒排索引
+-- 在 "event_message" 列上创建倒排索引
 CREATE INVERTED INDEX event_message_fulltext ON k8s_logs(event_message);
 
--- 插入示例数据
+-- 插入全面的示例数据
 INSERT INTO k8s_logs (event_id, event_data, event_timestamp)
 VALUES
     (1,
@@ -167,7 +167,7 @@ VALUES
     }'),
     '2024-04-08T12:00:00Z');
 
--- 基础搜索：查找含 "PersistentVolume" 的事件
+-- 基本搜索，查找包含 "PersistentVolume" 的事件
 SELECT
   event_id,
   event_message
@@ -180,7 +180,7 @@ WHERE
      event_id: 5
 event_message: PersistentVolume claim created
 
--- 使用 EXPLAIN 验证索引使用
+-- 使用 EXPLAIN 验证索引使用情况
 EXPLAIN SELECT event_id, event_message FROM k8s_logs WHERE MATCH(event_message, 'PersistentVolume');
 
 -[ EXPLAIN ]-----------------------------------
@@ -199,7 +199,7 @@ Filter
     ├── push downs: [filters: [k8s_logs._search_matched (#4)], limit: NONE]
     └── estimated rows: 5.00
 
--- 带相关性评分的高级搜索
+-- 使用相关性评分进行高级搜索
 SELECT
   event_id,
   event_message,
@@ -217,7 +217,7 @@ WHERE
 event_timestamp: 2024-04-08 12:00:00
         score(): 0.86304635
 
--- 模糊搜索示例（支持拼写容错）
+-- 模糊搜索示例（处理拼写错误）
 SELECT
     event_id, event_message, event_timestamp
 FROM
@@ -231,49 +231,49 @@ WHERE
 event_timestamp: 2024-04-08 12:00:00
 ```
 
-**示例核心要点**：
-- `inverted pruning: 5 to 1` 表明索引将扫描块数从 5 降至 1
-- 相关性评分实现按匹配质量排序结果
-- 模糊搜索支持拼写差异（如 "create" 与 "created"）
+**示例要点：**
+- `inverted pruning: 5 to 1` 显示索引将扫描的块从 5 个减少到 1 个
+- 相关性评分（Relevance scoring）有助于按匹配质量对结果进行排序
+- 模糊搜索（Fuzzy search）即使有拼写错误也能找到结果（"create" vs "created"）
 
 ## 最佳实践
 
-| 实践方案 | 优势 |
+| 实践 | 益处 |
 |----------|---------|
-| **为高频搜索列创建索引** | 聚焦搜索查询中的目标列 |
-| **使用 MATCH 替代 LIKE** | 充分发挥索引性能优势 |
-| **监控索引使用状态** | 通过 EXPLAIN 验证索引生效情况 |
-| **考虑多索引方案** | 不同列可建立独立索引 |
+| **为频繁搜索的列建立索引** | 专注于搜索查询中使用的列 |
+| **使用 MATCH 而非 LIKE** | 利用索引的自动性能优势 |
+| **监控索引使用情况** | 使用 EXPLAIN 验证索引利用率 |
+| **考虑多个索引** | 不同的列可以有独立的索引 |
 
-## 核心命令
+## 基本命令
 
-| 命令 | 用途 | 使用场景 |
+| 命令 | 用途 | 使用时机 |
 |---------|---------|-------------|
-| `CREATE INVERTED INDEX name ON table(column)` | 新建全文索引 | 初始配置 - 新数据自动索引 |
-| `REFRESH INVERTED INDEX name ON table` | 索引存量数据 | 仅需对索引前数据执行一次 |
-| `DROP INVERTED INDEX name ON table` | 删除索引 | 不再需要索引时 |
+| `CREATE INVERTED INDEX name ON table(column)` | 创建新的全文索引 | 初始设置 - 对新数据自动生效 |
+| `REFRESH INVERTED INDEX name ON table` | 为现有数据建立索引 | 仅对预先存在的数据一次性使用 |
+| `DROP INVERTED INDEX name ON table` | 删除索引 | 当不再需要索引时 |
 
 ## 重要说明
 
 :::tip
-**适用场景**：
-- 海量文本数据集（文档/日志/评论）
-- 高频文本搜索操作
-- 需要高级搜索功能（模糊匹配/相关性评分）
-- 性能敏感的搜索应用
+**何时使用全文索引：**
+- 大型文本数据集（文档、日志、评论）
+- 频繁的文本搜索操作
+- 需要高级搜索功能（模糊搜索、评分）
+- 对性能要求高的搜索应用
 
-**非适用场景**：
+**何时不使用：**
 - 小型文本数据集
-- 仅需精确字符串匹配
-- 低频搜索操作
+- 仅进行精确字符串匹配
+- 不频繁的搜索操作
 :::
 
 ## 索引限制
 
-- 单列仅能归属一个倒排索引
-- 数据插入后需手动刷新（针对索引创建前已存在的数据）
-- 需额外存储空间存放索引数据
+- 每个列只能存在于一个倒排索引中
+- 数据插入后需要刷新（如果数据在索引创建前已存在）
+- 索引数据会占用额外的存储空间
 
 ---
 
-*全文索引是处理海量文档集合并实现高速、复杂文本搜索的关键组件。*
+*对于需要在大型文档集合中实现快速、复杂文本搜索功能的应用来说，全文索引至关重要。*
