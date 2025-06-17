@@ -245,10 +245,6 @@ The `FILE_FORMAT` parameter supports different file types, each with specific fo
 | COLUMN_MATCH_MODE | For Parquet: column name matching mode | `case-insensitive` |
 
 :::tip
-When importing large volumes of data (like logs), set both `PURGE` and `FORCE` to `true` for efficient data import without Meta server interaction. Note this may lead to duplicate data imports.
-:::
-
-:::tip
 When importing large volumes of data, such as logs, it is recommended to set both `PURGE` and `FORCE` to `true`. This ensures efficient data import without the need for interaction with the Meta server (updating the copied-files set). However, it is important to be aware that this may lead to duplicate data imports.
 :::
 
