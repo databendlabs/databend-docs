@@ -21,7 +21,7 @@ This manual deployment approach gives you full control over your Databend cluste
 
 ## Table of Contents
 
-- [Download and Extract Package](01-download-extract.md)
+- [Prepare Package Environment](01-prepare.md)
 - [Deploy Meta Service](02-deploy-metasrv.md)
 - [Deploy Query Service](03-deploy-query.md)
 - [Scale Meta Service Nodes](04-scale-metasrv.md)
