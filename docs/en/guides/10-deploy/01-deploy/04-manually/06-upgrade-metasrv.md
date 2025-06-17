@@ -38,14 +38,12 @@ This guide will walk you through the process of upgrading your Databend Meta Ser
 
 4. Check the service status:
    ```bash
+   # Check the service is running
    sudo systemctl status databend-meta
    ```
 
 5. Verify the upgrade:
    ```bash
-   # Check the service is running
-   sudo systemctl status databend-meta
-
    # Check the cluster status
    databend-metactl status
    ```
