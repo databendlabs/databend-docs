@@ -71,7 +71,7 @@ SELECT * FROM logs WHERE MATCH(message, 'error kubernetes');
 ### Fuzzy Search
 ```sql
 -- Find documents even with typos (fuzziness=1 allows 1 character difference)
-SELECT * FROM logs WHERE MATCH(message, 'kuberntes', 'fuzziness=1');
+SELECT * FROM logs WHERE MATCH(message, 'kubernetes', 'fuzziness=1');
 ```
 
 ### Relevance Scoring

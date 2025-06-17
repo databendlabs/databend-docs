@@ -33,7 +33,7 @@ Go to the AWS Management Console, select the S3 service, enter the bucket name, 
 
 ### Bucket Lifecycle Policies
 
-Lifecyle rule is needed when Bucket Versioning is enabled. You can configure lifecycle policies to automatically delete old versions of objects or transition objects to different storage classes.
+Lifecycle rule is needed when Bucket Versioning is enabled. You can configure lifecycle policies to automatically delete old versions of objects or transition objects to different storage classes.
 
 - Configure lifecycle rule to delete old versions of objects.
 
