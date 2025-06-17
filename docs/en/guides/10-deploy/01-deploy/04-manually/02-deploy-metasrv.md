@@ -120,7 +120,7 @@ The Meta Service is a critical component of Databend that manages metadata and c
    sudo netstat -tulpn | grep databend-meta
    ```
 
-2. Test the API endpoint:
+2. Test the admin API endpoint:
    ```bash
    curl http://127.0.0.1:28002/v1/health
    ```
