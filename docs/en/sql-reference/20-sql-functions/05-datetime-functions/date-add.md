@@ -60,3 +60,33 @@ SELECT
 DATE_ADD(MINUTE, 1, now()): 2024-10-10 01:36:33.601312
 DATE_ADD(SECOND, 1, now()): 2024-10-10 01:35:34.601312
 ```
+
+:::note
+- When unit is MONTH, If date is the last day of the month or if the resulting month has fewer days than the day component of date,
+- then the result is the last day of the resulting month. Otherwise, the result has the same day component as date.
+
+When adding a month to a date that would result in an invalid date (e.g., January 31 → February 31), it returns the last valid day of the resulting month:
+
+```sql
+SELECT DATE_ADD(month, 1, '2023-01-31'::DATE) ;
+╭────────────────────────────────────────╮
+│ DATE_ADD(MONTH, 1, '2023-01-31'::DATE) │
+│                  Date                  │
+├────────────────────────────────────────┤
+│ 2023-02-28                             │
+╰────────────────────────────────────────╯
+
+```
+
+When adding a month to a date where the resulting month has sufficient days, it performs simple month arithmetic:
+
+```sql
+SELECT DATE_ADD(month, 1, '2023-02-28'::DATE);
+╭────────────────────────────────────────╮
+│ DATE_ADD(MONTH, 1, '2023-02-28'::DATE) │
+│                  Date                  │
+├────────────────────────────────────────┤
+│ 2023-03-28                             │
+╰────────────────────────────────────────╯
+
+```

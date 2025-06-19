@@ -20,12 +20,13 @@ This page provides a comprehensive overview of Numeric functions in Databend, or
 
 ## Rounding and Truncation Functions
 
-| Function | Description | Example |
-|----------|-------------|---------|
-| [ROUND](round.md) | Rounds a number to specified decimal places | `ROUND(123.456, 2)` → `123.46` |
-| [FLOOR](floor.md) | Returns the largest integer not greater than the argument | `FLOOR(123.456)` → `123` |
-| [CEIL](ceil.md) / [CEILING](ceiling.md) | Returns the smallest integer not less than the argument | `CEIL(123.456)` → `124` |
-| [TRUNCATE](truncate.md) | Truncates a number to specified decimal places | `TRUNCATE(123.456, 1)` → `123.4` |
+| Function                                | Description                                               | Example                          |
+|-----------------------------------------|-----------------------------------------------------------|----------------------------------|
+| [ROUND](round.md)                       | Rounds a number to specified decimal places               | `ROUND(123.456, 2)` → `123.46`   |
+| [FLOOR](floor.md)                       | Returns the largest integer not greater than the argument | `FLOOR(123.456)` → `123`         |
+| [CEIL](ceil.md) / [CEILING](ceiling.md) | Returns the smallest integer not less than the argument   | `CEIL(123.456)` → `124`          |
+| [TRUNCATE](truncate.md)                 | Truncates a number to specified decimal places            | `TRUNCATE(123.456, 1)` → `123.4` |
+| [TRUNC](trunc.md)                       | Truncates a number to specified decimal places            | `TRUNC(123.456, 1)` → `123.4`    |
 
 ## Exponential and Logarithmic Functions
 
