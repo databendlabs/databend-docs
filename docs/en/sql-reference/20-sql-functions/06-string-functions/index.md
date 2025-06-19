@@ -16,14 +16,16 @@ This page provides a comprehensive overview of String functions in Databend, org
 
 ## String Extraction
 
-| Function | Description | Example |
-|----------|-------------|---------|
-| [LEFT](left.md) | Returns leftmost characters | `LEFT('databend', 4)` → `'data'` |
-| [RIGHT](right.md) | Returns rightmost characters | `RIGHT('databend', 4)` → `'bend'` |
-| [SUBSTR](substr.md) / [SUBSTRING](substring.md) | Extracts a substring | `SUBSTR('databend', 5, 4)` → `'bend'` |
-| [MID](mid.md) | Extracts a substring (alias for SUBSTRING) | `MID('databend', 5, 4)` → `'bend'` |
-| [SPLIT](split.md) | Splits a string into an array | `SPLIT('data,bend', ',')` → `['data', 'bend']` |
-| [SPLIT_PART](split-part.md) | Returns a specific part after splitting | `SPLIT_PART('data,bend', ',', 2)` → `'bend'` |
+| Function                                        | Description                                                          | Example                                                                                |
+|-------------------------------------------------|----------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| [LEFT](left.md)                                 | Returns leftmost characters                                          | `LEFT('databend', 4)` → `'data'`                                                       |
+| [RIGHT](right.md)                               | Returns rightmost characters                                         | `RIGHT('databend', 4)` → `'bend'`                                                      |
+| [SUBSTR](substr.md) / [SUBSTRING](substring.md) | Extracts a substring                                                 | `SUBSTR('databend', 5, 4)` → `'bend'`                                                  |
+| [MID](mid.md)                                   | Extracts a substring (alias for SUBSTRING)                           | `MID('databend', 5, 4)` → `'bend'`                                                     |
+| [SPLIT](split.md)                               | Splits a string into an array                                        | `SPLIT('data,bend', ',')` → `['data', 'bend']`                                         |
+| [SPLIT_PART](split-part.md)                     | Returns a specific part after splitting                              | `SPLIT_PART('data,bend', ',', 2)` → `'bend'`                                           |
+| [REGEXP_SPLIT_TO_ARRAY](regexp-split-array.md)  | Split a string into an array of segments using the specified pattern | `regexp_split_to_array('apple,banana,orange', ',');` → `'['apple','banana','orange']'` |
+| [REGEXP_SPLIT_TO_TABLE](regexp-split-table.md)  | Split a string into a table of segments using the specified pattern  | `regexp_split_to_table('data,bend', ',', 2)`                                           |
 
 ## String Padding and Formatting
 

@@ -45,16 +45,17 @@ This page provides a comprehensive overview of Date & Time functions in Databend
 
 ## Date & Time Arithmetic Functions
 
-| Function | Description | Example |
-|----------|-------------|---------|
-| [DATE_ADD](date-add.md) | Adds a time interval to a date | `DATE_ADD(DAY, 7, '2024-06-04')` → `2024-06-11` |
-| [DATE_SUB](date-sub.md) | Subtracts a time interval from a date | `DATE_SUB(MONTH, 1, '2024-06-04')` → `2024-05-04` |
-| [ADD INTERVAL](addinterval.md) | Adds an interval to a date | `'2024-06-04' + INTERVAL 1 DAY` → `2024-06-05` |
-| [SUBTRACT INTERVAL](subtractinterval.md) | Subtracts an interval from a date | `'2024-06-04' - INTERVAL 1 MONTH` → `2024-05-04` |
-| [DATE_DIFF](date-diff.md) | Returns the difference between two dates | `DATE_DIFF(DAY, '2024-06-01', '2024-06-04')` → `3` |
-| [TIMESTAMP_DIFF](timestamp-diff.md) | Returns the difference between two timestamps | `TIMESTAMP_DIFF(HOUR, '2024-06-04 10:00:00', '2024-06-04 15:00:00')` → `5` |
-| [MONTHS_BETWEEN](months-between.md) | Returns the number of months between two dates | `MONTHS_BETWEEN('2024-06-04', '2024-01-04')` → `5` |
-| [DATE_BETWEEN](date-between.md) | Checks if a date is between two other dates | `DATE_BETWEEN('2024-06-04', '2024-06-01', '2024-06-10')` → `true` |
+| Function                                 | Description                                                                                  | Example                                                                              |
+|------------------------------------------|----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| [DATE_ADD](date-add.md)                  | Adds a time interval to a date                                                               | `DATE_ADD(DAY, 7, '2024-06-04')` → `2024-06-11`                                      |
+| [DATE_SUB](date-sub.md)                  | Subtracts a time interval from a date                                                        | `DATE_SUB(MONTH, 1, '2024-06-04')` → `2024-05-04`                                    |
+| [ADD INTERVAL](addinterval.md)           | Adds an interval to a date                                                                   | `'2024-06-04' + INTERVAL 1 DAY` → `2024-06-05`                                       |
+| [SUBTRACT INTERVAL](subtractinterval.md) | Subtracts an interval from a date                                                            | `'2024-06-04' - INTERVAL 1 MONTH` → `2024-05-04`                                     |
+| [DATE_DIFF](date-diff.md)                | Returns the difference between two dates                                                     | `DATE_DIFF(DAY, '2024-06-01', '2024-06-04')` → `3`                                   |
+| [TIMESTAMP_DIFF](timestamp-diff.md)      | Returns the difference between two timestamps                                                | `TIMESTAMP_DIFF(HOUR, '2024-06-04 10:00:00', '2024-06-04 15:00:00')` → `5`           |
+| [MONTHS_BETWEEN](months-between.md)      | Returns the number of months between two dates                                               | `MONTHS_BETWEEN('2024-06-04', '2024-01-04')` → `5`                                   |
+| [DATE_BETWEEN](date-between.md)          | Checks if a date is between two other dates                                                  | `DATE_BETWEEN('2024-06-04', '2024-06-01', '2024-06-10')` → `true`                    |
+| [AGE](age.md)                            | Calculate the difference between timestamps or between a timestamp and the current date/time | `AGE('2000-01-01'::TIMESTAMP, '1990-05-15'::TIMESTAMP)` → `9 years 7 months 17 days` |
 
 ## Date & Time Truncation Functions
 
