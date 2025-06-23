@@ -24,6 +24,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 | **&verbar;**          | Computes the bitwise or of numeric expression             | **32 &verbar; 3**          | 35        |
 | **#**                 | Computes the bitwise xor of numeric expression            | **17 # 5**                 | 20        |
 | **~**                 | Computes the bitwise not of numeric expression            | **~ 1**                    | ~2        |
-| `**<<**`              | Computes the bitwise shift left of numeric expression     | `**1 << 4**`               | 16        |
+| **`<<`**              | Computes the bitwise shift left of numeric expression     | **1 `<<` 4**               | 16        |
 | **>>**                | Computes the bitwise shift right of numeric expression    | **8 >> 2**                 | 2         |
-| `**<->**`             | Computes the Euclidean distance (L2 norm) between vectors | `**[1, 2] <-> [2, 3]**`    | 1.4142135 |
+| **`<->`**             | Computes the Euclidean distance (L2 norm) between vectors | **[1, 2] `<->` [2, 3]**    | 1.4142135 |
