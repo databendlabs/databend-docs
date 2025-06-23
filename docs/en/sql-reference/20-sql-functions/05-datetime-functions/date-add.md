@@ -90,3 +90,8 @@ SELECT DATE_ADD(month, 1, '2023-02-28'::DATE);
 ╰────────────────────────────────────────╯
 
 ```
+
+## See Also
+
+- [ADD_MONTH](add-months.md): Function for add months
+- [DATE_SUB](date-sub.md): Function for subtracting time intervals
