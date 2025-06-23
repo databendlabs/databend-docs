@@ -56,6 +56,7 @@ This page provides a comprehensive overview of Date & Time functions in Databend
 | [MONTHS_BETWEEN](months-between.md)      | Returns the number of months between two dates                                               | `MONTHS_BETWEEN('2024-06-04', '2024-01-04')` → `5`                                   |
 | [DATE_BETWEEN](date-between.md)          | Checks if a date is between two other dates                                                  | `DATE_BETWEEN('2024-06-04', '2024-06-01', '2024-06-10')` → `true`                    |
 | [AGE](age.md)                            | Calculate the difference between timestamps or between a timestamp and the current date/time | `AGE('2000-01-01'::TIMESTAMP, '1990-05-15'::TIMESTAMP)` → `9 years 7 months 17 days` |
+| [ADD_MONTHS](add-months.md)              | Adds months to a date while preserving end-of-month days.                                    | `ADD_MONTHS('2025-04-30',1)` → `2025-05-31`                                          |
 
 ## Date & Time Truncation Functions
 

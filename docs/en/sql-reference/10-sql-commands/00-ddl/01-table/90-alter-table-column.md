@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.415"/>
+<FunctionDescription description="Introduced or updated: v1.2.760"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -35,13 +35,18 @@ MODIFY [ COLUMN ] <column_name> DROP STORED
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 RENAME [ COLUMN ] <column_name> TO <new_column_name>
 
--- Change data type and/or comment
--- If you only want to modify or add a comment for a column, you must still specify the current data type for that column in the command
+-- Change data type
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name> 
-MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ]
-       [ , [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] [ COMMENT '<comment>' ] ]
+MODIFY [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ]
+       [ , [ COLUMN ] <column_name> <new_data_type> [ DEFAULT <constant_value> ] ]
        ...
 
+-- Change comment
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+MODIFY [ COLUMN ] <column_name> [ COMMENT '<comment>' ]
+[ , [ COLUMN ] <column_name> [ COMMENT '<comment>' ] ]
+...
+    
 -- Set / Unset masking policy for a column
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> SET MASKING POLICY <policy_name>
@@ -218,7 +223,7 @@ SHOW CREATE TABLE students_info;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- Add a comment to the 'age' column
-ALTER TABLE students_info MODIFY COLUMN age VARCHAR(10) COMMENT 'abc';
+ALTER TABLE students_info MODIFY COLUMN age COMMENT 'abc';
 
 SHOW CREATE TABLE students_info;
 

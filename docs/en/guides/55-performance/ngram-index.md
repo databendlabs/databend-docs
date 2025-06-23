@@ -165,11 +165,12 @@ TableScan
 
 For complete command reference, see [Ngram Index](/sql/sql-commands/ddl/ngram-index/).
 
-| Command | Purpose |
-|---------|---------|
+| Command                                                  | Purpose                                      |
+|----------------------------------------------------------|----------------------------------------------|
 | `CREATE NGRAM INDEX name ON table(column) gram_size = N` | Create ngram index with N-character segments |
-| `SHOW INDEXES` | List all indexes including ngram indexes |
-| `DROP NGRAM INDEX name ON table` | Remove ngram index |
+| `SHOW INDEXES`                                           | List all indexes including ngram indexes     |
+| `REFRESH NGRAM INDEX name ON table`                      | Refresh ngram index                          |
+| `DROP NGRAM INDEX name ON table`                         | Remove ngram index                           |
 
 :::tip **When to Use Ngram Indexes**
 **Ideal for:**

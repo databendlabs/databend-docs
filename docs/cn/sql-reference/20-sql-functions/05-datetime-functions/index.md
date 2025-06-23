@@ -2,7 +2,7 @@
 title: 日期和时间函数
 ---
 
-本页按功能对 Databend 中的日期和时间函数进行了全面概述，方便查阅。
+本页面全面概述了 Databend 中的日期和时间函数，并按功能进行组织，方便参考。
 
 ## 当前日期和时间函数
 
@@ -56,25 +56,26 @@ title: 日期和时间函数
 | [MONTHS_BETWEEN](months-between.md) | 返回两个日期的月数差 | `MONTHS_BETWEEN('2024-06-04', '2024-01-04')` → `5` |
 | [DATE_BETWEEN](date-between.md) | 检查日期是否在指定范围内 | `DATE_BETWEEN('2024-06-04', '2024-06-01', '2024-06-10')` → `true` |
 | [AGE](age.md) | 计算时间戳间或与当前时间的差值 | `AGE('2000-01-01'::TIMESTAMP, '1990-05-15'::TIMESTAMP)` → `9 years 7 months 17 days` |
+| [ADD_MONTHS](add-months.md) | 添加月份并保留月末日期 | `ADD_MONTHS('2025-04-30',1)` → `2025-05-31` |
 
 ## 日期和时间截断函数
 
 | 函数 | 描述 | 示例 |
 |----------|-------------|---------|
-| [DATE_TRUNC](date-trunc.md) | 将时间戳截断至指定精度 | `DATE_TRUNC('month', '2024-06-04')` → `2024-06-01` |
-| [TO_START_OF_DAY](to-start-of-day.md) | 返回日起始时间 | `TO_START_OF_DAY('2024-06-04 12:30:45')` → `2024-06-04 00:00:00` |
-| [TO_START_OF_HOUR](to-start-of-hour.md) | 返回小时起始时间 | `TO_START_OF_HOUR('2024-06-04 12:30:45')` → `2024-06-04 12:00:00` |
-| [TO_START_OF_MINUTE](to-start-of-minute.md) | 返回分钟起始时间 | `TO_START_OF_MINUTE('2024-06-04 12:30:45')` → `2024-06-04 12:30:00` |
-| [TO_START_OF_MONTH](to-start-of-month.md) | 返回月起始日期 | `TO_START_OF_MONTH('2024-06-04')` → `2024-06-01` |
-| [TO_START_OF_QUARTER](to-start-of-quarter.md) | 返回季度起始日期 | `TO_START_OF_QUARTER('2024-06-04')` → `2024-04-01` |
-| [TO_START_OF_YEAR](to-start-of-year.md) | 返回年起始日期 | `TO_START_OF_YEAR('2024-06-04')` → `2024-01-01` |
-| [TO_START_OF_WEEK](to-start-of-week.md) | 返回周起始日期 | `TO_START_OF_WEEK('2024-06-04')` → `2024-06-03` |
+| [DATE_TRUNC](date-trunc.md) | 将时间戳截断到指定精度 | `DATE_TRUNC('month', '2024-06-04')` → `2024-06-01` |
+| [TO_START_OF_DAY](to-start-of-day.md) | 返回一天的起始时间 | `TO_START_OF_DAY('2024-06-04 12:30:45')` → `2024-06-04 00:00:00` |
+| [TO_START_OF_HOUR](to-start-of-hour.md) | 返回一小时的起始时间 | `TO_START_OF_HOUR('2024-06-04 12:30:45')` → `2024-06-04 12:00:00` |
+| [TO_START_OF_MINUTE](to-start-of-minute.md) | 返回一分钟的起始时间 | `TO_START_OF_MINUTE('2024-06-04 12:30:45')` → `2024-06-04 12:30:00` |
+| [TO_START_OF_MONTH](to-start-of-month.md) | 返回月份的起始日期 | `TO_START_OF_MONTH('2024-06-04')` → `2024-06-01` |
+| [TO_START_OF_QUARTER](to-start-of-quarter.md) | 返回季度的起始日期 | `TO_START_OF_QUARTER('2024-06-04')` → `2024-04-01` |
+| [TO_START_OF_YEAR](to-start-of-year.md) | 返回年份的起始日期 | `TO_START_OF_YEAR('2024-06-04')` → `2024-01-01` |
+| [TO_START_OF_WEEK](to-start-of-week.md) | 返回一周的起始日期 | `TO_START_OF_WEEK('2024-06-04')` → `2024-06-03` |
 
 ## 日期和时间导航函数
 
 | 函数 | 描述 | 示例 |
 |----------|-------------|---------|
-| [LAST_DAY](last-day.md) | 返回月份最后一天 | `LAST_DAY('2024-06-04')` → `2024-06-30` |
+| [LAST_DAY](last-day.md) | 返回月份的最后一天 | `LAST_DAY('2024-06-04')` → `2024-06-30` |
 | [NEXT_DAY](next-day.md) | 返回下个指定周几的日期 | `NEXT_DAY('2024-06-04', 'SUNDAY')` → `2024-06-09` |
 | [PREVIOUS_DAY](previous-day.md) | 返回上个指定周几的日期 | `PREVIOUS_DAY('2024-06-04', 'MONDAY')` → `2024-06-03` |
 
