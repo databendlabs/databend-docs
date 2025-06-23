@@ -164,11 +164,12 @@ TableScan
 
 完整命令参考详见 [Ngram 索引](/sql/sql-commands/ddl/ngram-index/)。
 
-| 命令 | 用途 |
-|---------|---------|
+| 命令                                                       | 用途                   |
+|----------------------------------------------------------|----------------------|
 | `CREATE NGRAM INDEX name ON table(column) gram_size = N` | 创建含 N 字符片段的 ngram 索引 |
-| `SHOW INDEXES` | 列出所有索引（含 ngram 索引） |
-| `DROP NGRAM INDEX name ON table` | 删除 ngram 索引 |
+| `SHOW INDEXES`                                           | 列出所有索引（含 ngram 索引）   |
+| `REFRESH NGRAM INDEX name ON table`                      | 刷新 ngram 索引          |
+| `DROP NGRAM INDEX name ON table`                         | 删除 ngram 索引          |
 
 :::tip **使用场景**
 **适用：**
