@@ -79,7 +79,7 @@ FROM persons;
 
 ## Embedded UDFs
 
-Embedded UDFs allow you to write functions using full programming languages, giving you more flexibility and power than Lambda UDFs.
+AKA Script UDFs, Embedded UDFs allow you to write functions using full programming languages, giving you more flexibility and power than Lambda UDFs.
 
 ### Supported Languages
 
@@ -93,7 +93,10 @@ Embedded UDFs allow you to write functions using full programming languages, giv
 ```sql
 CREATE [OR REPLACE] FUNCTION <function_name>([<parameter_type>, ...])
 RETURNS <return_type>
-LANGUAGE <language_name> HANDLER = '<handler_name>'
+LANGUAGE <language_name>
+(IMPORTS = ("<import_path>", ...))
+(PACKAGES = ("<package_path>", ...))
+HANDLER = '<handler_name>'
 AS $$
 <function_code>
 $$;
@@ -107,6 +110,8 @@ $$;
 | `parameter_type` | Data type of each input parameter |
 | `return_type` | Data type of the function's return value |
 | `language_name` | Programming language (python or javascript) |
+| `imports` | List of stage files, such as `@s_udf/your_file.zip`, files will be downloaded from stage into path `sys._xoptions['databend_import_directory']`, you can read it and unzip it in your python codes |
+| `packages` | List of packages to be installed from pypi, such as `numpy`, `pandas` etc. |
 | `handler_name` | Name of the function in the code that will be called |
 | `function_code` | The actual code implementing the function |
 
@@ -165,6 +170,68 @@ SELECT calculate_age_py('1990-05-15') AS age_result;
 -- +------------+
 ```
 
+#### Example: use imports/packages in python udf
+
+```sql
+CREATE OR REPLACE FUNCTION package_udf()
+  RETURNS FLOAT
+  LANGUAGE PYTHON
+  IMPORTS = ('@s1/a.zip')
+  PACKAGES = ('scikit-learn')
+  HANDLER = 'udf'
+  AS
+$$
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+import fcntl
+import os
+import sys
+import threading
+import zipfile
+
+ # File lock class for synchronizing write access to /tmp.
+class FileLock:
+    def __enter__(self):
+        self._lock = threading.Lock()
+        self._lock.acquire()
+        self._fd = open('/tmp/lockfile.LOCK', 'w+')
+        fcntl.lockf(self._fd, fcntl.LOCK_EX)
+
+    def __exit__(self, type, value, traceback):
+        self._fd.close()
+        self._lock.release()
+
+import_dir = sys._xoptions['databend_import_directory']
+
+zip_file_path = import_dir + "/a.zip"
+extracted = '/tmp'
+
+# extract the zip to directory `/tmp/a`
+with FileLock():
+    if not os.path.isdir(extracted + '/a'):
+        with zipfile.ZipFile(zip_file_path, 'r') as myzip:
+            myzip.extractall(extracted)
+
+def udf():
+    X, y = load_iris(return_X_y=True)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+    model = RandomForestClassifier()
+    model.fit(X_train, y_train)
+    return model.score(X_test, y_test)
+$$;
+
+SELECT package_udf();
+
+╭───────────────────╮
+│   package_udf()   │
+│ Nullable(Float32) │
+├───────────────────┤
+│                 1 │
+╰───────────────────╯
+```
 
 ### JavaScript
 
@@ -182,7 +249,7 @@ JavaScript UDFs allow you to use modern JavaScript (ES6+) features within your S
 | VARCHAR | String |
 | BINARY | Uint8Array |
 | DATE/TIMESTAMP | Date |
-| LIST | Array |
+| ARRAY | Array |
 | MAP | Object |
 | STRUCT | Object |
 | JSON | Object/Array |
