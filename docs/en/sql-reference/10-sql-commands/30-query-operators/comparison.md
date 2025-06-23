@@ -6,7 +6,7 @@ title: Comparison Operators
 | ------------- | ------------------------------------------- | ------------------------- | ------ |
 | `=`           | a is equal to b                             | `2 = 2`                   | TRUE   |
 | `!=`          | a is not equal to b                         | `2 != 3`                  | TRUE   |
-| `<\>`         | a is not equal to b                         | `2 <\> 2`                 | FALSE  |
+| `<>`         | a is not equal to b                         | `2 <> 2`                 | FALSE  |
 | `>`           | a is greater than b                         | `2 > 3`                   | FALSE  |
 | `>=`          | a is greater than or equal to b             | `4 >= NULL`               | NULL   |
 | `<`           | a is less than b                            | `2 < 3`                   | TRUE   |
