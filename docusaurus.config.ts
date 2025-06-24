@@ -32,15 +32,7 @@ const config: Config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: lang,
-    locales: ['en', 'zh'],
-    localeConfigs: {
-      en: {
-        label: "English",
-      },
-      zh: {
-        label: "中文",
-      },
-    },
+    locales: [lang],
   },
   headTags: [
     {
@@ -244,22 +236,11 @@ const config: Config = {
           label: "SQL Reference",
           position: "right",
         },
-        //
         {
           to: "/release-notes/",
           label: "Releases",
           position: "right",
         },
-        {
-          type: 'localeDropdown',
-          position: 'right',
-        },
-        // { to: '/blog', label: 'Blog', position: 'left' }, // or position: 'right'
-        // {
-        //   to: "/download",
-        //   label: "Downloads",
-        //   position: "right",
-        // },
       ],
     },
     footer: {
