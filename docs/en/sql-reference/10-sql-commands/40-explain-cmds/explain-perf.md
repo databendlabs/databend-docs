@@ -18,7 +18,7 @@ EXPLAIN PERF <statement>
 bendsql --quote-style never --query="EXPLAIN PERF SELECT avg(number) FROM numbers(10000000)" > demo.html
 ```
 
-Then, you can open the `demo.html` file in your browser to view the flame graph:
+Then, you can open the `demo.html` file in your browser to view the flame graphs:
 
 <img src="https://github.com/user-attachments/assets/07acfefa-a1c3-4c00-8c43-8ca1aafc3224"/>
 
