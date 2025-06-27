@@ -13,7 +13,7 @@ Open `<your-ip>:8081` and select `Flame Graph` from the VIEW menus in the site h
 
 ## Query Level CPU Profiling
 
-`EXPLAIN PERF <statement>` can also be used for CPU profiling, which focuses on a specific query and gathers CPU profiling data from other nodes to help analyze query performance. Check [EXPLAIN PERF](/sql-reference/10-sql-commands/40-explain-cmds/explain-perf) for more details.
+`EXPLAIN PERF <statement>` can also be used for CPU profiling, which focuses on a specific query and gathers CPU profiling data from other nodes to help analyze query performance. Check [EXPLAIN PERF](/sql-reference/sql-commands/explain-cmds/explain-perf) for more details.
 
 ## Memory profiling
 
