@@ -115,6 +115,7 @@ The following is a list of the parameters available within the [log.history] sec
 | level             | Sets the log level (DEBUG, TRACE, INFO, WARN, or ERROR) for history logging. Defaults to WARN.                                                                   |
 | retention_interval| The interval (in hours) at which the retention process is triggered to check if need to clean up old data. Defaults to 24.                                       |
 | tables            | Specifies which history tables to enable and their retention policies. This is an array of objects, each with table_name (the name of the history table) and retention (the retention period in hours for that table). |
+| storage           | Specifies the storage location for history tables. By default, history tables use the same storage configuration as defined in the [storage] section, but you can specify an alternative storage location specifically for history tables. The format is exactly the same as the [storage] section.|
 
 `tables` are an array of objects, each object has two parameters:
 | Parameter  | Description |
@@ -122,6 +123,8 @@ The following is a list of the parameters available within the [log.history] sec
 | table_name | The name of the history table. (currently support: `log_history`, `profile_history`, `query_history`, `login_history`) |
 | retention  | The retention period in hours for that table.                                                                          |
 Note: `log_history` table will be enable in default
+ 
+If `storage` is specified, the original default history tables will be dropped and recreated with the new storage configuration. All nodes under the same tenant must maintain the same `storage` configuration to ensure consistency.
 
 ## [meta] Section
 

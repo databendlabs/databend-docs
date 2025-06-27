@@ -143,6 +143,9 @@ History versions that are not included in the above chart:
 - ⚠️ **Recommendation**: All nodes under the same tenant should be upgraded together
 - Avoid mixing nodes with versions before and after 1.2.709 to prevent potential data access issues
 
+### Version 1.2.764
+- If you need specify a different storage location for `system_history` tables. All nodes under the same tenant need to be upgraded to 1.2.764+
+
 ## Compatibility between databend-meta
 
 | Meta version        | Backward compatible with |
