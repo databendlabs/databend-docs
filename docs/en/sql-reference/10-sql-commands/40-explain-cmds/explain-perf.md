@@ -14,7 +14,7 @@ EXPLAIN PERF <statement>
 
 ## Examples
 
-```sql
+```shell
 bendsql --quote-style never --query="EXPLAIN PERF SELECT avg(number) FROM numbers(10000000)" > demo.html
 ```
 
