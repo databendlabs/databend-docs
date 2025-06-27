@@ -11,6 +11,10 @@ go tool pprof -http="0.0.0.0:8081" http://localhost:8080/debug/pprof/profile?sec
 Open `<your-ip>:8081` and select `Flame Graph` from the VIEW menus in the site header:
 <img src="https://user-images.githubusercontent.com/172204/208336392-5b64bb9b-cce8-4562-9e05-c3d538e9d8a6.png"/>
 
+## Query Level CPU Profiling
+
+`EXPLAIN PERF <statement>` can also be used for CPU profiling, which focuses on a specific query and gathers CPU profiling data from other nodes to help analyze query performance. Check [EXPLAIN PERF](/sql-reference/10-sql-commands/40-explain-cmds/explain-perf) for more details.
+
 ## Memory profiling
 
 `databend-query` and `databend-meta` can be built optionally with `jemalloc`,
