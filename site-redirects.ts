@@ -72,10 +72,6 @@ const siteRedirects = [
     to: '/sql/sql-functions/semi-structured-functions/object-construct-keep-null'
   },
   {
-    from: '/sql/sql-functions/semi-structured-functions/try-json-object-keep-null',
-    to: '/sql/sql-functions/semi-structured-functions/try-object-construct-keep-null'
-  },
-  {
     from: '/sql/sql-functions/semi-structured-functions/flatten',
     to: '/sql/sql-functions/table-functions/flatten'
   }
