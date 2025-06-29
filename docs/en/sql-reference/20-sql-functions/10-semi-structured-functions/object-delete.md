@@ -1,16 +1,20 @@
 ---
-title: JSON_OBJECT_DELETE
+title: OBJECT_DELETE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.650"/>
+<FunctionDescription description="Introduced or updated: v1.2.762"/>
 
 Deletes specified keys from a JSON object and returns the modified object. If a specified key doesn't exist in the object, it is ignored.
+
+## Aliases
+
+- `JSON_OBJECT_DELETE`
 
 ## Syntax
 
 ```sql
-json_object_delete(<json_object>, <key1> [, <key2>, ...])
+OBJECT_DELETE(<json_object>, <key1> [, <key2>, ...])
 ```
 
 ## Parameters
@@ -28,18 +32,18 @@ Returns a VARIANT containing the modified JSON object with specified keys remove
 
 Delete a single key:
 ```sql
-SELECT json_object_delete('{"a":1,"b":2,"c":3}'::VARIANT, 'a');
+SELECT OBJECT_DELETE('{"a":1,"b":2,"c":3}'::VARIANT, 'a');
 -- Result: {"b":2,"c":3}
 ```
 
 Delete multiple keys:
 ```sql
-SELECT json_object_delete('{"a":1,"b":2,"d":4}'::VARIANT, 'a', 'c');
+SELECT OBJECT_DELETE('{"a":1,"b":2,"d":4}'::VARIANT, 'a', 'c');
 -- Result: {"b":2,"d":4}
 ```
 
 Delete a non-existent key (key is ignored):
 ```sql
-SELECT json_object_delete('{"a":1,"b":2}'::VARIANT, 'x');
+SELECT OBJECT_DELETE('{"a":1,"b":2}'::VARIANT, 'x');
 -- Result: {"a":1,"b":2}
 ```

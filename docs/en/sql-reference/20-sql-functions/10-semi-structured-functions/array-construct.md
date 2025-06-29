@@ -1,16 +1,20 @@
 ---
-title: JSON_ARRAY
+title: ARRAY_CONSTRUCT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.98"/>
+<FunctionDescription description="Introduced or updated: v1.2.762"/>
 
 Creates a JSON array with specified values.
+
+## Aliases
+
+- `JSON_ARRAY`
 
 ## Syntax
 
 ```sql
-JSON_ARRAY(value1[, value2[, ...]])
+ARRAY_CONSTRUCT(value1[, value2[, ...]])
 ```
 
 ## Return Type
@@ -22,15 +26,15 @@ JSON array.
 ### Example 1: Creating JSON Array with Constant Values or Expressions
 
 ```sql
-SELECT JSON_ARRAY('Databend', 3.14, NOW(), TRUE, NULL);
+SELECT ARRAY_CONSTRUCT('Databend', 3.14, NOW(), TRUE, NULL);
 
-json_array('databend', 3.14, now(), true, null)         |
+array_construct('databend', 3.14, now(), true, null)         |
 --------------------------------------------------------+
 ["Databend",3.14,"2023-09-06 07:23:55.399070",true,null]|
 
-SELECT JSON_ARRAY('fruits', JSON_ARRAY('apple', 'banana', 'orange'), JSON_OBJECT('price', 1.2, 'quantity', 3));
+SELECT ARRAY_CONSTRUCT('fruits', ARRAY_CONSTRUCT('apple', 'banana', 'orange'), OBJECT_CONSTRUCT('price', 1.2, 'quantity', 3));
 
-json_array('fruits', json_array('apple', 'banana', 'orange'), json_object('price', 1.2, 'quantity', 3))|
+array_construct('fruits', array_construct('apple', 'banana', 'orange'), object_construct('price', 1.2, 'quantity', 3))|
 -------------------------------------------------------------------------------------------------------+
 ["fruits",["apple","banana","orange"],{"price":1.2,"quantity":3}]                                      |
 ```
@@ -49,9 +53,9 @@ VALUES
     ('Banana', 0.5),
     ('Orange', 0.8);
 
-SELECT JSON_ARRAY(ProductName, Price) FROM products;
+SELECT ARRAY_CONSTRUCT(ProductName, Price) FROM products;
 
-json_array(productname, price)|
+array_construct(productname, price)|
 ------------------------------+
 ["Apple",1.2]                 |
 ["Banana",0.5]                |
