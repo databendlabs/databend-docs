@@ -2,26 +2,16 @@
 title: Semi-Structured Functions
 ---
 
-This section provides reference information for the semi-structured data functions in Databend. These functions allow you to work with JSON and other semi-structured data formats efficiently.
+Semi-structured functions in Databend enable efficient processing of JSON and other semi-structured data formats. These functions provide comprehensive capabilities for parsing, querying, transforming, and manipulating JSON data.
 
-## Parsing and Validation
+## JSON Parsing & Validation
 
 | Function | Description | Example |
 |----------|-------------|--------|
 | [PARSE_JSON](parse-json) | Parses a JSON string into a variant value | `PARSE_JSON('{"name":"Databend"}')` |
 | [CHECK_JSON](check-json) | Validates if a string is valid JSON | `CHECK_JSON('{"name":"Databend"}')` → `true` |
 
-## Object Access and Extraction
-
-| Function | Description | Example |
-|----------|-------------|--------|
-| [GET](get) | Gets a value from a JSON object by key | `GET(parse_json('{"name":"Databend"}'), 'name')` → `'Databend'` |
-| [GET_PATH](get-path) | Gets a value from a JSON object by path | `GET_PATH(parse_json('{"user":{"name":"Databend"}}'), 'user.name')` → `'Databend'` |
-| [GET_IGNORE_CASE](get-ignore-case) | Gets a value with case-insensitive key matching | `GET_IGNORE_CASE(parse_json('{"Name":"Databend"}'), 'name')` → `'Databend'` |
-| [OBJECT_KEYS](object-keys) | Returns keys of a JSON object | `OBJECT_KEYS(parse_json('{"a":1,"b":2}'))` → `['a', 'b']` |
-| [JSON_OBJECT_KEYS](json-object-keys) | Returns keys of a JSON object as an array | `JSON_OBJECT_KEYS(parse_json('{"a":1,"b":2}'))` → `['a', 'b']` |
-
-## Type Inspection and Conversion
+## Type Checking & Conversion
 
 | Function | Description | Example |
 |----------|-------------|--------|
@@ -36,27 +26,55 @@ This section provides reference information for the semi-structured data functio
 | [IS_BOOLEAN](is-boolean) | Checks if a JSON value is a boolean | `IS_BOOLEAN(parse_json('true'))` → `true` |
 | [IS_NULL_VALUE](is-null-value) | Checks if a JSON value is null | `IS_NULL_VALUE(parse_json('null'))` → `true` |
 
-## JSON Object Operations
+## Data Access & Extraction
 
 | Function | Description | Example |
 |----------|-------------|--------|
-| [JSON_OBJECT](json-object) | Creates a JSON object from key-value pairs | `JSON_OBJECT('name', 'Databend', 'version', '1.0')` → `'{"name":"Databend","version":"1.0"}'` |
-| [JSON_OBJECT_INSERT](json-object-insert) | Inserts a value into a JSON object | `JSON_OBJECT_INSERT(parse_json('{"a":1}'), 'b', 2)` → `'{"a":1,"b":2}'` |
-| [JSON_OBJECT_DELETE](json-object-delete) | Deletes a key from a JSON object | `JSON_OBJECT_DELETE(parse_json('{"a":1,"b":2}'), 'b')` → `'{"a":1}'` |
-| [JSON_OBJECT_PICK](json-object-pick) | Creates a new object with selected keys | `JSON_OBJECT_PICK(parse_json('{"a":1,"b":2,"c":3}'), 'a', 'c')` → `'{"a":1,"c":3}'` |
-| [JSON_STRIP_NULLS](json-strip-nulls) | Removes null values from a JSON object | `JSON_STRIP_NULLS(parse_json('{"a":1,"b":null}'))` → `'{"a":1}'` |
-| [JSON_OBJECT_KEEP_NULL](json-object-keep-null) | Creates a JSON object preserving null values | `JSON_OBJECT_KEEP_NULL('a', 1, 'b', NULL)` → `'{"a":1,"b":null}'` |
+| [GET](get) | Gets a value from a JSON object by key | `GET(parse_json('{"name":"Databend"}'), 'name')` → `'Databend'` |
+| [GET_PATH](get-path) | Gets a value from a JSON object by path | `GET_PATH(parse_json('{"user":{"name":"Databend"}}'), 'user.name')` → `'Databend'` |
+| [GET_IGNORE_CASE](get-ignore-case) | Gets a value with case-insensitive key matching | `GET_IGNORE_CASE(parse_json('{"Name":"Databend"}'), 'name')` → `'Databend'` |
+| [OBJECT_KEYS](object-keys) | Returns all keys of a JSON object | `OBJECT_KEYS(parse_json('{"a":1,"b":2}'))` → `['a', 'b']` |
 
-## JSON Array Operations
+## Object Construction & Manipulation
 
 | Function | Description | Example |
 |----------|-------------|--------|
-| [JSON_ARRAY](json-array) | Creates a JSON array from input values | `JSON_ARRAY(1, 'text', true)` → `'[1,"text",true]'` |
-| [JSON_ARRAY_INSERT](json-array-insert) | Inserts a value into a JSON array | `JSON_ARRAY_INSERT(parse_json('[1,3]'), 1, 2)` → `'[1,2,3]'` |
-| [JSON_ARRAY_DISTINCT](json-array-distinct) | Returns an array with distinct elements | `JSON_ARRAY_DISTINCT(parse_json('[1,2,1,3,2]'))` → `'[1,2,3]'` |
-| [FLATTEN](flatten) | Flattens nested arrays into a single array | `FLATTEN(parse_json('[[1,2],[3,4]]'))` → `'[1,2,3,4]'` |
+| [OBJECT_CONSTRUCT](object-construct) | Creates a JSON object from key-value pairs | `OBJECT_CONSTRUCT('name', 'Databend')` → `'{"name":"Databend"}'` |
+| [OBJECT_CONSTRUCT_KEEP_NULL](object-construct-keep-null) | Creates a JSON object preserving null values | `OBJECT_CONSTRUCT_KEEP_NULL('a', 1, 'b', NULL)` → `'{"a":1,"b":null}'` |
+| [OBJECT_INSERT](object-insert) | Inserts a key-value pair into a JSON object | `OBJECT_INSERT(parse_json('{"a":1}'), 'b', 2)` → `'{"a":1,"b":2}'` |
+| [OBJECT_DELETE](object-delete) | Deletes a key from a JSON object | `OBJECT_DELETE(parse_json('{"a":1,"b":2}'), 'b')` → `'{"a":1}'` |
+| [OBJECT_PICK](object-pick) | Creates a new object with selected keys | `OBJECT_PICK(parse_json('{"a":1,"b":2,"c":3}'), 'a', 'c')` → `'{"a":1,"c":3}'` |
+| [STRIP_NULL_VALUE](strip-null-value) | Removes null values from a JSON object | `STRIP_NULL_VALUE(parse_json('{"a":1,"b":null}'))` → `'{"a":1}'` |
 
-## Path Queries
+## Object Transformations
+
+| Function | Description | Example |
+|----------|-------------|--------|
+| [MAP_FILTER](map-filter) | Filters key-value pairs using a lambda expression | `MAP_FILTER(parse_json('{"a":1,"b":2}'), (k,v) -> v > 1)` → `'{"b":2}'` |
+| [MAP_TRANSFORM_KEYS](map-transform-keys) | Transforms keys using a lambda expression | `MAP_TRANSFORM_KEYS(parse_json('{"a":1}'), k -> UPPER(k))` → `'{"A":1}'` |
+| [MAP_TRANSFORM_VALUES](map-transform-values) | Transforms values using a lambda expression | `MAP_TRANSFORM_VALUES(parse_json('{"a":1}'), v -> v * 10)` → `'{"a":10}'` |
+
+## Array Construction & Operations
+
+| Function | Description | Example |
+|----------|-------------|--------|
+| [ARRAY_CONSTRUCT](array-construct) | Creates a JSON array from input values | `ARRAY_CONSTRUCT(1, 'text', true)` → `'[1,"text",true]'` |
+| [ARRAY_INSERT](array-insert) | Inserts a value into a JSON array | `ARRAY_INSERT([1,3]::VARIANT, 1, 2::VARIANT)` → `[1,2,3]` |
+| [ARRAY_DISTINCT](array-distinct) | Returns an array with distinct elements | `ARRAY_DISTINCT([1,2,1,3,2])` → `[1,2,3]` |
+| [ARRAY_FLATTEN](array-flatten) | Flattens nested arrays into a single array | `ARRAY_FLATTEN([[1,2],[3,4]])` → `[1,2,3,4]` |
+| [ARRAY_INTERSECTION](array-intersection) | Returns common elements between arrays | `ARRAY_INTERSECTION([1,2,3], [2,3,4])` → `[2,3]` |
+| [ARRAY_EXCEPT](array-except) | Returns elements in first array but not in second | `ARRAY_EXCEPT([1,2,3], [2,3,4])` → `[1]` |
+| [ARRAY_OVERLAP](array-overlap) | Checks if arrays have common elements | `ARRAY_OVERLAP([1,2,3], [3,4,5])` → `true` |
+
+## Array Transformations
+
+| Function | Description | Example |
+|----------|-------------|--------|
+| [ARRAY_FILTER](array-filter) | Filters array elements using a lambda expression | `ARRAY_FILTER([1,2,3,4], x -> x > 2)` → `[3,4]` |
+| [ARRAY_TRANSFORM](array-transform) | Transforms array elements using a lambda expression | `ARRAY_TRANSFORM([1,2,3], x -> x * 2)` → `[2,4,6]` |
+| [ARRAY_REDUCE](array-reduce) | Reduces an array to a single value using a lambda expression | `ARRAY_REDUCE([1,2,3], 0, (acc, x) -> acc + x)` → `6` |
+
+## JSONPath & Advanced Queries
 
 | Function | Description | Example |
 |----------|-------------|--------|
@@ -68,36 +86,10 @@ This section provides reference information for the semi-structured data functio
 | [JSON_PATH_MATCH](json-path-match) | Matches JSON data against a path expression | `JSON_PATH_MATCH(parse_json('{"a":1}'), '$.a == 1')` → `true` |
 | [JQ](jq) | Provides jq-like JSON processing capabilities | `JQ(parse_json('{"a":{"b":1}}'), '.a.b')` → `1` |
 
-## Array Transformations
+## Data Expansion & Formatting
 
 | Function | Description | Example |
 |----------|-------------|--------|
-| [JSON_ARRAY_MAP](json-array-map) | Maps a function over array elements | `JSON_ARRAY_MAP(parse_json('[1,2,3]'), x -> x * 2)` → `'[2,4,6]'` |
-| [JSON_ARRAY_FILTER](json-array-filter) | Filters array elements using a condition | `JSON_ARRAY_FILTER(parse_json('[1,2,3,4]'), x -> x > 2)` → `'[3,4]'` |
-| [JSON_ARRAY_TRANSFORM](json-array-transform) | Transforms array elements using an expression | `JSON_ARRAY_TRANSFORM(parse_json('[{"a":1},{"a":2}]'), x -> x.a)` → `'[1,2]'` |
-| [JSON_ARRAY_APPLY](json-array-apply) | Applies a function to each array element | `JSON_ARRAY_APPLY(parse_json('[1,2,3]'), x -> x * x)` → `'[1,4,9]'` |
-| [JSON_ARRAY_REDUCE](json-array-reduce) | Reduces an array to a single value | `JSON_ARRAY_REDUCE(parse_json('[1,2,3]'), 0, (acc, x) -> acc + x)` → `6` |
-
-## Set Operations
-
-| Function | Description | Example |
-|----------|-------------|--------|
-| [JSON_ARRAY_INTERSECTION](json-array-intersection) | Returns common elements between arrays | `JSON_ARRAY_INTERSECTION(parse_json('[1,2,3]'), parse_json('[2,3,4]'))` → `'[2,3]'` |
-| [JSON_ARRAY_EXCEPT](json-array-except) | Returns elements in first array but not in second | `JSON_ARRAY_EXCEPT(parse_json('[1,2,3]'), parse_json('[2,3,4]'))` → `'[1]'` |
-| [JSON_ARRAY_OVERLAP](json-array-overlap) | Checks if arrays have common elements | `JSON_ARRAY_OVERLAP(parse_json('[1,2,3]'), parse_json('[3,4,5]'))` → `true` |
-
-## Object Transformations
-
-| Function | Description | Example |
-|----------|-------------|--------|
-| [JSON_MAP_FILTER](json-map-filter) | Filters key-value pairs in a JSON object | `JSON_MAP_FILTER(parse_json('{"a":1,"b":2}'), (k,v) -> v > 1)` → `'{"b":2}'` |
-| [JSON_MAP_TRANSFORM_KEYS](json-map-transform-keys) | Transforms keys in a JSON object | `JSON_MAP_TRANSFORM_KEYS(parse_json('{"a":1,"b":2}'), k -> UPPER(k))` → `'{"A":1,"B":2}'` |
-| [JSON_MAP_TRANSFORM_VALUES](json-map-transform-values) | Transforms values in a JSON object | `JSON_MAP_TRANSFORM_VALUES(parse_json('{"a":1,"b":2}'), v -> v * 10)` → `'{"a":10,"b":20}'` |
-
-## Expansion and Formatting
-
-| Function | Description | Example |
-|----------|-------------|--------|
-| [JSON_ARRAY_ELEMENTS](json-array-elements) | Expands a JSON array to a set of rows | `SELECT * FROM JSON_ARRAY_ELEMENTS(parse_json('[1,2,3]'))` → `3 rows with values 1, 2, 3` |
-| [JSON_EACH](json-each) | Expands the outermost JSON object into key-value pairs | `SELECT * FROM JSON_EACH(parse_json('{"a":1,"b":2}'))` → `2 rows with key-value pairs` |
-| [JSON_PRETTY](json-pretty) | Formats JSON with indentation for readability | `JSON_PRETTY(parse_json('{"a":1,"b":2}'))` → `'{\n  "a": 1,\n  "b": 2\n}'` |
+| [JSON_ARRAY_ELEMENTS](json-array-elements) | Expands a JSON array to a set of rows | `JSON_ARRAY_ELEMENTS(parse_json('[1,2,3]'))` |
+| [JSON_EACH](json-each) | Expands a JSON object into key-value pairs | `JSON_EACH(parse_json('{"a":1,"b":2}'))` |
+| [JSON_PRETTY](json-pretty) | Formats JSON with indentation for readability | `JSON_PRETTY(parse_json('{"a":1,"b":2}'))` |

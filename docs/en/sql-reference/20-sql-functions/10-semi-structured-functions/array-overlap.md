@@ -1,16 +1,20 @@
 ---
-title: JSON_ARRAY_OVERLAP
+title: ARRAY_OVERLAP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.644"/>
+<FunctionDescription description="Introduced or updated: v1.2.762"/>
 
 Checks if there is any overlap between two JSON arrays and returns `true` if there are common elements; otherwise, it returns `false`.
+
+## Aliases
+
+- `JSON_ARRAY_OVERLAP`
 
 ## Syntax
 
 ```sql
-JSON_ARRAY_OVERLAP(<json_array1>, <json_array2>)
+ARRAY_OVERLAP(<json_array1>, <json_array2>)
 ```
 
 ## Return Type
@@ -23,20 +27,20 @@ The function returns a boolean value:
 ## Examples
 
 ```sql
-SELECT json_array_overlap(
+SELECT ARRAY_OVERLAP(
     '["apple", "banana", "cherry"]'::JSON,  
     '["banana", "kiwi", "mango"]'::JSON
 );
 
 -[ RECORD 1 ]-----------------------------------
-json_array_overlap('["apple", "banana", "cherry"]'::VARIANT, '["banana", "kiwi", "mango"]'::VARIANT): true
+array_overlap('["apple", "banana", "cherry"]'::VARIANT, '["banana", "kiwi", "mango"]'::VARIANT): true
 
 
-SELECT json_array_overlap(
+SELECT ARRAY_OVERLAP(
     '["grape", "orange"]'::JSON,  
     '["apple", "kiwi"]'::JSON     
 );
 
 -[ RECORD 1 ]-----------------------------------
-json_array_overlap('["grape", "orange"]'::VARIANT, '["apple", "kiwi"]'::VARIANT): false
+array_overlap('["grape", "orange"]'::VARIANT, '["apple", "kiwi"]'::VARIANT): false
 ```

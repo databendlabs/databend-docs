@@ -1,17 +1,21 @@
 ---
-title: JSON_OBJECT_PICK
+title: OBJECT_PICK
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.650"/>
+<FunctionDescription description="Introduced or updated: v1.2.762"/>
 
 
 Creates a new JSON object containing only the specified keys from the input JSON object. If a specified key doesn't exist in the input object, it is omitted from the result.
 
+## Aliases
+
+- `JSON_OBJECT_PICK`
+
 ## Syntax
 
 ```sql
-json_object_pick(<json_object>, <key1> [, <key2>, ...])
+OBJECT_PICK(<json_object>, <key1> [, <key2>, ...])
 ```
 
 ## Parameters
@@ -29,18 +33,18 @@ Returns a VARIANT containing a new JSON object with only the specified keys and 
 
 Pick a single key:
 ```sql
-SELECT json_object_pick('{"a":1,"b":2,"c":3}'::VARIANT, 'a');
+SELECT OBJECT_PICK('{"a":1,"b":2,"c":3}'::VARIANT, 'a');
 -- Result: {"a":1}
 ```
 
 Pick multiple keys:
 ```sql
-SELECT json_object_pick('{"a":1,"b":2,"d":4}'::VARIANT, 'a', 'b');
+SELECT OBJECT_PICK('{"a":1,"b":2,"d":4}'::VARIANT, 'a', 'b');
 -- Result: {"a":1,"b":2}
 ```
 
 Pick with non-existent key (non-existent keys are ignored):
 ```sql
-SELECT json_object_pick('{"a":1,"b":2,"d":4}'::VARIANT, 'a', 'c');
+SELECT OBJECT_PICK('{"a":1,"b":2,"d":4}'::VARIANT, 'a', 'c');
 -- Result: {"a":1}
 ```

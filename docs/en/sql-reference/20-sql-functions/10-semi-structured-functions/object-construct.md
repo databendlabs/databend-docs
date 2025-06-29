@@ -1,26 +1,31 @@
 ---
-title: JSON_OBJECT
-title_includes: TRY_JSON_OBJECT
+title: OBJECT_CONSTRUCT
+title_includes: TRY_OBJECT_CONSTRUCT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.402"/>
+<FunctionDescription description="Introduced or updated: v1.2.762"/>
 
 Creates a JSON object with keys and values.
 
 - The arguments are zero or more key-value pairs(where keys are strings, and values are of any type).
 - If a key or value is NULL, the key-value pair is ommitted from the resulting object.
 - The keys must be distinct from each other, and their order in the resulting JSON might be different from the order you specify.
-- `TRY_JSON_OBJECT` returns a NULL value if an error occurs when building the object.
+- `TRY_OBJECT_CONSTRUCT` returns a NULL value if an error occurs when building the object.
 
-See also: [JSON_OBJECT_KEEP_NULL](json-object-keep-null.md)
+## Aliases
+
+- `JSON_OBJECT`
+- `TRY_JSON_OBJECT`
+
+See also: [OBJECT_CONSTRUCT_KEEP_NULL](object-construct-keep-null.md)
 
 ## Syntax
 
 ```sql
-JSON_OBJECT(key1, value1[, key2, value2[, ...]])
+OBJECT_CONSTRUCT(key1, value1[, key2, value2[, ...]])
 
-TRY_JSON_OBJECT(key1, value1[, key2, value2[, ...]])
+TRY_OBJECT_CONSTRUCT(key1, value1[, key2, value2[, ...]])
 ```
 
 ## Return Type
@@ -30,38 +35,38 @@ JSON object.
 ## Examples
 
 ```sql
-SELECT JSON_OBJECT();
-┌───────────────┐
-│ json_object() │
-├───────────────┤
+SELECT OBJECT_CONSTRUCT();
+┌────────────────┐
+│ object_construct() │
+├────────────────┤
 │ {}            │
-└───────────────┘
+└────────────────┘
 
-SELECT JSON_OBJECT('a', 3.14, 'b', 'xx', 'c', NULL);
+SELECT OBJECT_CONSTRUCT('a', 3.14, 'b', 'xx', 'c', NULL);
 ┌──────────────────────────────────────────────┐
-│ json_object('a', 3.14, 'b', 'xx', 'c', null) │
+│ object_construct('a', 3.14, 'b', 'xx', 'c', null) │
 ├──────────────────────────────────────────────┤
 │ {"a":3.14,"b":"xx"}                          │
 └──────────────────────────────────────────────┘
 
-SELECT JSON_OBJECT('fruits', ['apple', 'banana', 'orange'], 'vegetables', ['carrot', 'celery']);
+SELECT OBJECT_CONSTRUCT('fruits', ['apple', 'banana', 'orange'], 'vegetables', ['carrot', 'celery']);
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ json_object('fruits', ['apple', 'banana', 'orange'], 'vegetables', ['carrot', 'celery']) │
+│ object_construct('fruits', ['apple', 'banana', 'orange'], 'vegetables', ['carrot', 'celery']) │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
 │ {"fruits":["apple","banana","orange"],"vegetables":["carrot","celery"]}                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 
-SELECT JSON_OBJECT('key');
+SELECT OBJECT_CONSTRUCT('key');
   |
-1 | SELECT JSON_OBJECT('key')
-  |        ^^^^^^^^^^^^^^^^^^ The number of keys and values must be equal while evaluating function `json_object('key')`
+1 | SELECT OBJECT_CONSTRUCT('key')
+  |        ^^^^^^^^^^^^^^^^^^ The number of keys and values must be equal while evaluating function `object_construct('key')`
 
 
-SELECT TRY_JSON_OBJECT('key');
-┌────────────────────────┐
-│ try_json_object('key') │
-├────────────────────────┤
+SELECT TRY_OBJECT_CONSTRUCT('key');
+┌───────────────────────────┐
+│ try_object_construct('key') │
+├───────────────────────────┤
 │ NULL                   │
-└────────────────────────┘
+└───────────────────────────┘
 ```
 

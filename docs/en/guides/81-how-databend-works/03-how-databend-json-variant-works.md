@@ -237,10 +237,9 @@ Databend provides a comprehensive set of functions for working with JSON data, o
 │                                                                 │
 │  2. Construction and Modification:                              │
 │     • JSON Object Operations:                                   │
-│       - JSON_OBJECT, JSON_OBJECT_INSERT, JSON_OBJECT_DELETE     │
-│       - JSON_OBJECT_PICK, JSON_STRIP_NULLS                      │
+│       - OBJECT_CONSTRUCT, OBJECT_INSERT, OBJECT_DELETE          │
 │     • JSON Array Operations:                                    │
-│       - JSON_ARRAY, JSON_ARRAY_INSERT, JSON_ARRAY_DISTINCT      │
+│       - ARRAY_CONSTRUCT, ARRAY_INSERT, ARRAY_DISTINCT           │
 │       - FLATTEN                                                 │
 │                                                                 │
 │  3. Advanced Query and Transformation:                          │
@@ -251,8 +250,8 @@ Databend provides a comprehensive set of functions for working with JSON data, o
 │       - JSON_ARRAY_MAP, JSON_ARRAY_FILTER, JSON_ARRAY_TRANSFORM │
 │       - JSON_ARRAY_APPLY, JSON_ARRAY_REDUCE                     │
 │     • Set Operations:                                           │
-│       - JSON_ARRAY_INTERSECTION, JSON_ARRAY_EXCEPT              │
-│       - JSON_ARRAY_OVERLAP                                      │
+│       - ARRAY_INTERSECTION, ARRAY_EXCEPT                        │
+│       - ARRAY_OVERLAP                                           │
 │     • Object Transformations:                                   │
 │       - JSON_MAP_FILTER, JSON_MAP_TRANSFORM_KEYS/VALUES         │
 │     • Expansion and Formatting:                                 │
