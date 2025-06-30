@@ -29,14 +29,14 @@ engine = create_engine(
 cursor = engine.connect()
 cursor.execute(text('DROP TABLE IF EXISTS data'))
 cursor.execute(text('CREATE TABLE IF NOT EXISTS  data( Col1 TINYINT, Col2 VARCHAR )'))
-cursor.execute(text("INSERT INTO data (Col1, Col2) VALUES (%s, %s), (%s, %s)", [1, 'yy', 2, 'xx']))
-cursor.execute(text("SELECT * FROM data"))
-print(cursor.fetchall())
+cursor.execute(text("INSERT INTO data VALUES (1,'zz')"))
+res = cursor.execute(text("SELECT * FROM data"))
+print(res.fetchall())
 ```
 
 2. Run `python main.py`:
 
 ```bash
 python main.py
-[(1, 'yy'), (2, 'xx')]
+[(1, 'zz')]
 ```
