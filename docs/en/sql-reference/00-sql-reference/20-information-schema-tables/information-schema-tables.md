@@ -4,21 +4,6 @@ title: information_schema.tables
 
 The `information_schema.tables` system table is a view that provides metadata about all tables across all databases, including their schema, type, engine, and creation details. It also includes storage metrics such as data length, index length, and row count, offering insights into table structure and usage.
 
-See also: [system.tables](system-tables.md)
-
-```sql title='Examples:'
-SELECT * FROM information_schema.tables LIMIT 3;
-
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│    table_catalog   │    table_schema    │ table_name │ table_type │ engine │         create_time        │      drop_time      │    data_length   │   index_length   │    table_rows    │ auto_increment │ table_collation │ data_free │ table_comment │
-├────────────────────┼────────────────────┼────────────┼────────────┼────────┼────────────────────────────┼─────────────────────┼──────────────────┼──────────────────┼──────────────────┼────────────────┼─────────────────┼───────────┼───────────────┤
-│ default            │ default            │ json_table │ BASE TABLE │ FUSE   │ 2024-11-18 23:22:21.576421 │ NULL                │               68 │              425 │                1 │ NULL           │ NULL            │ NULL      │               │
-│ information_schema │ information_schema │ views      │ VIEW       │ VIEW   │ 2024-11-20 21:04:12.952792 │ NULL                │             NULL │             NULL │             NULL │ NULL           │ NULL            │ NULL      │               │
-│ information_schema │ information_schema │ statistics │ VIEW       │ VIEW   │ 2024-11-20 21:04:12.952795 │ NULL                │             NULL │             NULL │             NULL │ NULL           │ NULL            │ NULL      │               │
-└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
-To show the schema of `information_schema.tables`, use `DESCRIBE information_schema.tables`:
 
 ```sql
 DESCRIBE information_schema.tables;

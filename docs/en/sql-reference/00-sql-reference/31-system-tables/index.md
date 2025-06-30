@@ -12,15 +12,16 @@ System tables are organized in the `system` schema and can be queried using stan
 
 ### Database & Table Metadata
 
-| Table | Description |
-|-------|-------------|
-| [system.tables](system-tables.md) | Provides metadata information for all tables including properties, creation time, size, and more. |
-| [system.tables_with_history](system-tables-with-history.md) | Provides historical metadata information for tables, including dropped tables. |
-| [system.databases](system-databases.md) | Contains information about all databases in the system. |
-| [system.databases_with_history](system-databases-with-history.md) | Contains historical information about databases, including dropped databases. |
-| [system.columns](system-columns.md) | Provides information about columns in all tables. |
-| [system.indexes](system-indexes.md) | Contains information about table indexes. |
-| [system.virtual_columns](system-virtual-columns.md) | Lists virtual columns available in the system. |
+| Table                                                             | Description                                                                                       |
+|-------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| [system.tables](system-tables.md)                                 | Provides metadata information for all tables including properties, creation time, size, and more. |
+| [system.tables_with_history](system-tables-with-history.md)       | Provides historical metadata information for tables, including dropped tables.                    |
+| [system.databases](system-databases.md)                           | Contains information about all databases in the system.                                           |
+| [system.views](system-views.md)                                   | Contains information about all views in the system.                                               |
+| [system.databases_with_history](system-databases-with-history.md) | Contains historical information about databases, including dropped databases.                     |
+| [system.columns](system-columns.md)                               | Provides information about columns in all tables.                                                 |
+| [system.indexes](system-indexes.md)                               | Contains information about table indexes.                                                         |
+| [system.virtual_columns](system-virtual-columns.md)               | Lists virtual columns available in the system.                                                    |
 
 ### Query & Performance
 
@@ -59,10 +60,3 @@ System tables are organized in the `system` schema and can be queried using stan
 | [system.streams](system-streams.md) | Contains information about streams in the system. |
 | [system.temp_tables](system-temp-tables.md) | Contains information about temporary tables. |
 | [system.temp_files](system-temp-files.md) | Contains information about temporary files. |
-
-### Information Schema
-
-| Table | Description |
-|-------|-------------|
-| [information_schema.tables](information-schema-tables.md) | ANSI SQL standard metadata view for tables. |
-
