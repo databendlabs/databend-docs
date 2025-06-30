@@ -25,13 +25,169 @@ const siteRedirects = [
   },
   // Array Functions: 00-array-functions -> 10-semi-structured-functions/array
   {
-    from: '/sql/sql-functions/array-functions/*',
-    to: '/sql/sql-functions/semi-structured-functions/array/*'
+    from: '/sql/sql-functions/array-functions/array-aggregate',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-aggregate'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-append',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-append'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-compact',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-compact'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-concat',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-concat'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-construct',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-construct'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-contains',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-contains'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-distinct',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-distinct'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-except',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-except'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-filter',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-filter'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-flatten',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-flatten'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-get',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-get'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-indexof',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-indexof'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-insert',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-insert'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-intersection',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-intersection'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-overlap',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-overlap'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-prepend',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-prepend'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-reduce',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-reduce'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-remove-first',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-remove-first'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-remove-last',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-remove-last'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-remove',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-remove'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-reverse',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-reverse'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-slice',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-slice'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-transform',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-transform'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/array-unique',
+    to: '/sql/sql-functions/semi-structured-functions/array/array-unique'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/arrays-zip',
+    to: '/sql/sql-functions/semi-structured-functions/array/arrays-zip'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/contains',
+    to: '/sql/sql-functions/semi-structured-functions/array/contains'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/get',
+    to: '/sql/sql-functions/semi-structured-functions/array/get'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/range',
+    to: '/sql/sql-functions/semi-structured-functions/array/range'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/slice',
+    to: '/sql/sql-functions/semi-structured-functions/array/slice'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/unnest',
+    to: '/sql/sql-functions/semi-structured-functions/array/unnest'
   },
   // Map Functions: 10-map-functions -> 10-semi-structured-functions/map
   {
-    from: '/sql/sql-functions/map-functions/*',
-    to: '/sql/sql-functions/semi-structured-functions/map/*'
+    from: '/sql/sql-functions/map-functions/map-cat',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-cat'
+  },
+  {
+    from: '/sql/sql-functions/map-functions/map-contains-key',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-contains-key'
+  },
+  {
+    from: '/sql/sql-functions/map-functions/map-delete',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-delete'
+  },
+  {
+    from: '/sql/sql-functions/map-functions/map-filter',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-filter'
+  },
+  {
+    from: '/sql/sql-functions/map-functions/map-insert',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-insert'
+  },
+  {
+    from: '/sql/sql-functions/map-functions/map-keys',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-keys'
+  },
+  {
+    from: '/sql/sql-functions/map-functions/map-pick',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-pick'
+  },
+  {
+    from: '/sql/sql-functions/map-functions/map-size',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-size'
+  },
+  {
+    from: '/sql/sql-functions/map-functions/map-transform-keys',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-transform-keys'
+  },
+  {
+    from: '/sql/sql-functions/map-functions/map-transform-values',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-transform-values'
+  },
+  {
+    from: '/sql/sql-functions/map-functions/map-values',
+    to: '/sql/sql-functions/semi-structured-functions/map/map-values'
   },
   // JSON Functions: semi-structured root -> json subdirectory
   {
