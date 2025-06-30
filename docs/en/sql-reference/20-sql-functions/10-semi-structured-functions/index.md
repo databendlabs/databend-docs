@@ -91,13 +91,16 @@ Structured and semi-structured functions in Databend enable efficient processing
 ## Type Conversion Functions
 
 | Function | Description | Example |
-|----------|-------------|--------|
-| [AS_BOOLEAN](4-conversion/as-type) | Converts a VARIANT value to BOOLEAN | `AS_BOOLEAN(PARSE_JSON('true'))` |
-| [AS_INTEGER](4-conversion/as-type) | Converts a VARIANT value to BIGINT | `AS_INTEGER(PARSE_JSON('42'))` |
-| [AS_FLOAT](4-conversion/as-type) | Converts a VARIANT value to DOUBLE | `AS_FLOAT(PARSE_JSON('3.14'))` |
-| [AS_STRING](4-conversion/as-type) | Converts a VARIANT value to STRING | `AS_STRING(PARSE_JSON('"hello"'))` |
-| [AS_ARRAY](4-conversion/as-type) | Converts a VARIANT value to ARRAY | `AS_ARRAY(PARSE_JSON('[1,2,3]'))` |
-| [AS_OBJECT](4-conversion/as-type) | Converts a VARIANT value to OBJECT | `AS_OBJECT(PARSE_JSON('{"a":1}'))` |
+|----------|-------------|---------|
+| [AS_BOOLEAN](4-conversion/as-boolean) | Converts a VARIANT value to BOOLEAN | `AS_BOOLEAN(PARSE_JSON('true'))` |
+| [AS_INTEGER](4-conversion/as-integer) | Converts a VARIANT value to BIGINT | `AS_INTEGER(PARSE_JSON('42'))` |
+| [AS_FLOAT](4-conversion/as-float) | Converts a VARIANT value to DOUBLE | `AS_FLOAT(PARSE_JSON('3.14'))` |
+| [AS_DECIMAL](4-conversion/as-decimal) | Converts a VARIANT value to DECIMAL | `AS_DECIMAL(PARSE_JSON('12.34'))` |
+| [AS_STRING](4-conversion/as-string) | Converts a VARIANT value to STRING | `AS_STRING(PARSE_JSON('"hello"'))` |
+| [AS_BINARY](4-conversion/as-binary) | Converts a VARIANT value to BINARY | `AS_BINARY(TO_BINARY('abcd')::VARIANT)` |
+| [AS_DATE](4-conversion/as-date) | Converts a VARIANT value to DATE | `AS_DATE(TO_DATE('2025-10-11')::VARIANT)` |
+| [AS_ARRAY](4-conversion/as-array) | Converts a VARIANT value to ARRAY | `AS_ARRAY(PARSE_JSON('[1,2,3]'))` |
+| [AS_OBJECT](4-conversion/as-object) | Converts a VARIANT value to OBJECT | `AS_OBJECT(PARSE_JSON('{"a":1}'))` |
 
 ## Type Predicate Functions
 

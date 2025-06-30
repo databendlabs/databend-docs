@@ -8,12 +8,15 @@ This section provides reference information for type conversion functions in Dat
 
 | Function | Description | Example |
 |----------|-------------|---------|
-| [AS_BOOLEAN](as-type) | Converts a VARIANT value to BOOLEAN | `AS_BOOLEAN(PARSE_JSON('true'))` → `true` |
-| [AS_INTEGER](as-type) | Converts a VARIANT value to BIGINT | `AS_INTEGER(PARSE_JSON('42'))` → `42` |
-| [AS_FLOAT](as-type) | Converts a VARIANT value to DOUBLE | `AS_FLOAT(PARSE_JSON('3.14'))` → `3.14` |
-| [AS_STRING](as-type) | Converts a VARIANT value to STRING | `AS_STRING(PARSE_JSON('"hello"'))` → `'hello'` |
-| [AS_ARRAY](as-type) | Converts a VARIANT value to ARRAY | `AS_ARRAY(PARSE_JSON('[1,2,3]'))` → `[1,2,3]` |
-| [AS_OBJECT](as-type) | Converts a VARIANT value to OBJECT | `AS_OBJECT(PARSE_JSON('{"a":1}'))` → `{"a":1}` |
+| [AS_BOOLEAN](as-boolean) | Converts a VARIANT value to BOOLEAN | `AS_BOOLEAN(PARSE_JSON('true'))` → `true` |
+| [AS_INTEGER](as-integer) | Converts a VARIANT value to BIGINT | `AS_INTEGER(PARSE_JSON('42'))` → `42` |
+| [AS_FLOAT](as-float) | Converts a VARIANT value to DOUBLE | `AS_FLOAT(PARSE_JSON('3.14'))` → `3.14` |
+| [AS_DECIMAL](as-decimal) | Converts a VARIANT value to DECIMAL | `AS_DECIMAL(PARSE_JSON('12.34'))` → `12.34` |
+| [AS_STRING](as-string) | Converts a VARIANT value to STRING | `AS_STRING(PARSE_JSON('"hello"'))` → `'hello'` |
+| [AS_BINARY](as-binary) | Converts a VARIANT value to BINARY | `AS_BINARY(TO_BINARY('abcd')::VARIANT)` → `61626364` |
+| [AS_DATE](as-date) | Converts a VARIANT value to DATE | `AS_DATE(TO_DATE('2025-10-11')::VARIANT)` → `2025-10-11` |
+| [AS_ARRAY](as-array) | Converts a VARIANT value to ARRAY | `AS_ARRAY(PARSE_JSON('[1,2,3]'))` → `[1,2,3]` |
+| [AS_OBJECT](as-object) | Converts a VARIANT value to OBJECT | `AS_OBJECT(PARSE_JSON('{"a":1}'))` → `{"a":1}` |
 
 ## Important Notes
 
