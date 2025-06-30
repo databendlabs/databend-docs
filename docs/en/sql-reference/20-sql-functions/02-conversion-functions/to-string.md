@@ -59,7 +59,7 @@ When `date_format_style` is set to 'Oracle', the following format specifiers are
 ## Aliases
 
 - [DATE_FORMAT](../05-datetime-functions/date-format.md)
-- [JSON_TO_STRING](../10-semi-structured-functions/json-to-string.md)
+- [JSON_TO_STRING](../10-semi-structured-functions/0-json/json-to-string.md)
 - [TO_TEXT](../02-conversion-functions/to-text.md)
 - [TO_VARCHAR](to-varchar.md)
 - TO_CHAR (Oracle compatibility)

@@ -70,6 +70,10 @@ const siteRedirects = [
   {
     from: '/sql/sql-functions/semi-structured-functions/flatten',
     to: '/sql/sql-functions/table-functions/flatten'
+  },
+  {
+    from: '/sql/sql-functions/array-functions/*',
+    to: '/sql/sql-functions/semi-structured-functions/array/*'
   }
 ];
 export default siteRedirects;
