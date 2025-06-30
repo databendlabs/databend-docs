@@ -4,9 +4,9 @@ title: TO_STRING
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于: v1.2.745"/>
+<FunctionDescription description="引入或更新于：v1.2.745"/>
 
-将值转换为 String 数据类型，或将 Date 值转换为特定的字符串格式。要在 Databend 中自定义日期和时间的格式，您可以使用格式说明符。这些说明符允许您定义日期和时间值的所需格式。有关支持的格式说明符的完整列表，请参阅 [格式化日期和时间](../../00-sql-reference/10-data-types/datetime.md#formatting-date-and-time)。
+将值转换为字符串（String）数据类型，或将日期（Date）值转换为特定的字符串格式。要在 Databend 中自定义日期和时间的格式，您可以使用格式说明符（Specifiers）。这些格式说明符允许您为日期和时间值定义所需的格式。有关支持的格式说明符的完整列表，请参阅[格式化日期和时间](../../00-sql-reference/10-data-types/datetime.md#formatting-date-and-time)。
 
 ## 语法
 
@@ -20,37 +20,37 @@ TO_STRING( '<date>', '<format>' )
 
 Databend 支持两种日期格式样式，可以使用 `date_format_style` 设置进行选择：
 
-- **MySQL** (默认): 使用 MySQL 兼容的格式说明符，如 `%Y`、`%m`、`%d` 等。
-- **Oracle**: 使用格式说明符，如 `YYYY`、`MM`、`DD` 等，这些格式遵循许多数据库系统中常用的标准化格式。
+- **MySQL**（默认）：使用与 MySQL 兼容的格式说明符，如 `%Y`、`%m`、`%d` 等。
+- **Oracle**：使用 `YYYY`、`MM`、`DD` 等格式说明符，这些说明符遵循许多数据库系统中常用的标准化格式。
 
-要在格式样式之间切换，请使用 `date_format_style` 设置：
+要切换格式样式，请使用 `date_format_style` 设置：
 
 ```sql
--- 设置 Oracle 样式日期格式
+-- 设置 Oracle 风格的日期格式
 SETTINGS (date_format_style = 'Oracle') SELECT to_string('2024-04-05'::DATE, 'YYYY-MM-DD');
 
--- 设置 MySQL 日期格式样式 (默认)
+-- 设置 MySQL 日期格式样式（默认）
 SETTINGS (date_format_style = 'MySQL') SELECT to_string('2024-04-05'::DATE, '%Y-%m-%d');
 ```
 
-### Oracle 样式格式说明符
+### Oracle 风格的格式说明符
 
 当 `date_format_style` 设置为 'Oracle' 时，支持以下格式说明符：
 
-| 格式说明符 | 描述                                  | 示例输出 (对于 '2024-04-05 14:30:45.123456') |
+| 格式说明符 | 描述                                  | 示例输出（针对 '2024-04-05 14:30:45.123456'） |
 |------------------|----------------------------------------------|---------------------------------------------------|
-| YYYY             | 4 位年份                                 | 2024                                              |
-| YY               | 2 位年份                                 | 24                                                |
+| YYYY             | 4 位数年份                                 | 2024                                              |
+| YY               | 2 位数年份                                 | 24                                                |
 | MMMM             | 完整月份名称                              | April                                             |
-| MON              | 缩写月份名称                       | Apr                                               |
-| MM               | 月份数字 (01-12)                         | 04                                                |
-| DD               | 月份中的日期 (01-31)                         | 05                                                |
-| DY               | 缩写日期名称                         | Fri                                               |
-| HH24             | 一天中的小时 (00-23)                          | 14                                                |
-| HH12             | 一天中的小时 (01-12)                          | 02                                                |
-| AM/PM            | 上午/下午指示符                           | PM                                                |
-| MI               | 分钟 (00-59)                               | 30                                                |
-| SS               | 秒 (00-59)                               | 45                                                |
+| MON              | 月份名称缩写                       | Apr                                               |
+| MM               | 月份数字（01-12）                         | 04                                                |
+| DD               | 月份中的天数（01-31）                         | 05                                                |
+| DY               | 星期名称缩写                         | Fri                                               |
+| HH24             | 小时（00-23）                          | 14                                                |
+| HH12             | 小时（01-12）                          | 02                                                |
+| AM/PM            | 上下午指示符                           | PM                                                |
+| MI               | 分钟（00-59）                               | 30                                                |
+| SS               | 秒（00-59）                               | 45                                                |
 | FF               | 小数秒                           | 123456                                            |
 | UUUU             | ISO 周编号年份                      | 2024                                              |
 | TZH:TZM          | 带冒号的时区小时和分钟         | +08:00                                            |
@@ -59,14 +59,14 @@ SETTINGS (date_format_style = 'MySQL') SELECT to_string('2024-04-05'::DATE, '%Y-
 ## 别名
 
 - [DATE_FORMAT](../05-datetime-functions/date-format.md)
-- [JSON_TO_STRING](../10-semi-structured-functions/json-to-string.md)
+- [JSON_TO_STRING](../10-semi-structured-functions/0-json/json-to-string.md)
 - [TO_TEXT](../02-conversion-functions/to-text.md)
 - [TO_VARCHAR](to-varchar.md)
-- TO_CHAR (Oracle 兼容性)
+- TO_CHAR (Oracle 兼容)
 
 ## 返回类型
 
-String。
+字符串（String）。
 
 ## 示例
 
@@ -97,7 +97,7 @@ SELECT
 │ ["Cooking","Reading"]                          │ ["Cooking","Reading"]                        │ ["Cooking","Reading"]                      │ ["Cooking","Reading"]                         │ ["Cooking","Reading"]                             │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 使用一个参数时，该函数将输入转换为字符串而不验证其是否为日期
+-- 使用一个参数时，该函数将输入转换为字符串，而不会验证其是否为日期。
 SELECT
   DATE_FORMAT('20223-12-25'),
   TO_STRING('20223-12-25'),
@@ -111,7 +111,7 @@ SELECT
 │ 20223-12-25                │ 20223-12-25              │ 20223-12-25            │ 20223-12-25               │ 20223-12-25                   │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 使用 MySQL 格式样式 (默认)
+-- 使用 MySQL 格式样式（默认）
 SELECT
   DATE_FORMAT('2022-12-25', '%m/%d/%Y'),
   TO_STRING('2022-12-25', '%m/%d/%Y'),
@@ -125,7 +125,7 @@ SELECT
 │ 12/25/2022                            │ 12/25/2022                          │ 12/25/2022                        │ 12/25/2022                           │ 12/25/2022                               │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
--- 使用 Oracle 格式样式 (与上面 MySQL 示例相同的数据)
+-- 使用 Oracle 格式样式（与上面的 MySQL 示例数据相同）
 SETTINGS (date_format_style = 'Oracle') 
 SELECT
   TO_STRING('2022-12-25', 'MM/DD/YYYY'),
@@ -137,3 +137,4 @@ SELECT
 │ 12/25/2022                        │ 12/25/2022                        │
 
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```

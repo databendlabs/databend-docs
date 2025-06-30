@@ -1,0 +1,72 @@
+---
+title: OBJECT_CONSTRUCT
+title_includes: TRY_OBJECT_CONSTRUCT
+---
+
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="引入或更新于：v1.2.762"/>
+
+使用键和值创建 JSON 对象。
+
+- 参数为零个或多个键值对（键为字符串，值可为任意类型）。
+- 若键或值为 NULL，该键值对将从结果对象中省略。
+- 键必须互不相同，且结果 JSON 中的键顺序可能与指定顺序不同。
+- 如果构建对象时发生错误，`TRY_OBJECT_CONSTRUCT` 会返回 NULL 值。
+
+## 别名
+
+- `JSON_OBJECT`
+- `TRY_JSON_OBJECT`
+
+另请参阅：[OBJECT_CONSTRUCT_KEEP_NULL](object-construct-keep-null.md)
+
+## 语法
+
+```sql
+OBJECT_CONSTRUCT(key1, value1[, key2, value2[, ...]])
+
+TRY_OBJECT_CONSTRUCT(key1, value1[, key2, value2[, ...]])
+```
+
+## 返回类型
+
+JSON 对象。
+
+## 示例
+
+```sql
+SELECT OBJECT_CONSTRUCT();
+┌────────────────┐
+│ object_construct() │
+├────────────────┤
+│ {}            │
+└────────────────┘
+
+SELECT OBJECT_CONSTRUCT('a', 3.14, 'b', 'xx', 'c', NULL);
+┌──────────────────────────────────────────────┐
+│ object_construct('a', 3.14, 'b', 'xx', 'c', null) │
+├──────────────────────────────────────────────┤
+│ {"a":3.14,"b":"xx"}                          │
+└──────────────────────────────────────────────┘
+
+SELECT OBJECT_CONSTRUCT('fruits', ['apple', 'banana', 'orange'], 'vegetables', ['carrot', 'celery']);
+┌──────────────────────────────────────────────────────────────────────────────────────────┐
+│ object_construct('fruits', ['apple', 'banana', 'orange'], 'vegetables', ['carrot', 'celery']) │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ {"fruits":["apple","banana","orange"],"vegetables":["carrot","celery"]}                  │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+
+SELECT OBJECT_CONSTRUCT('key');
+  |
+1 | SELECT OBJECT_CONSTRUCT('key')
+  |        ^^^^^^^^^^^^^^^^^^ The number of keys and values must be equal while evaluating function `object_construct('key')`
+
+
+SELECT TRY_OBJECT_CONSTRUCT('key');
+┌───────────────────────────┐
+│ try_object_construct('key') │
+├───────────────────────────┤
+│ NULL                   │
+└───────────────────────────┘
+```
