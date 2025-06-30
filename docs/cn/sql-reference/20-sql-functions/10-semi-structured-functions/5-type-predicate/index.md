@@ -2,7 +2,7 @@
 title: 类型谓词函数
 ---
 
-本节提供了 Databend 中类型谓词函数 (Type Predicate Functions) 的参考信息。这些函数支持对 JSON 值进行类型检查、验证和转换。
+本节提供了 Databend 中类型推断 (Type Predicate Functions) 的参考信息。这些函数支持对 JSON 值进行类型检查、验证和转换。
 
 ## 类型检查
 
