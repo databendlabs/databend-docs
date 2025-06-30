@@ -19,9 +19,7 @@ This page provides a reference for all SQL functions available in Databend, orga
 | Category | Description |
 |----------|-------------|
 | [Conversion Functions](./02-conversion-functions/index.md) | Type conversion and casting operations between different data types |
-| [Array Functions](./00-array-functions/index.md) | Functions for creating and manipulating array collections |
-| [Map Functions](./10-map-functions/index.md) | Functions for working with key-value pair collections |
-| [Semi-structured Functions](./10-semi-structured-functions/index.md) | Functions for processing JSON and other semi-structured data |
+| [Structured & Semi-Structured Functions](./10-semi-structured-functions/index.md) | Functions for processing JSON, arrays, objects, maps, and other structured data types |
 
 ## Logical and Control Functions
 
