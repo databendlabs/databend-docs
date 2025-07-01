@@ -25,7 +25,7 @@ ARRAY_COMPACT(array)
 
 ## 说明
 
-此函数适用于标准数组类型和 VARIANT 数组类型。
+此函数适用于标准数组类型和 variant 数组类型。
 
 ## 示例
 
@@ -41,7 +41,7 @@ SELECT ARRAY_COMPACT([1, NULL, 2, NULL, 3]);
 [1, 2, 3]
 ```
 
-### 示例 2：从 VARIANT 数组中移除 NULL
+### 示例 2：从 Variant 数组中移除 NULL
 
 ```sql
 SELECT ARRAY_COMPACT(PARSE_JSON('["apple", null, "banana", null, "orange"]'));
