@@ -3,7 +3,7 @@ title: ARRAY_REMOVE_FIRST
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.762"/>
+<FunctionDescription description="新增或更新于：v1.2.762"/>
 
 从数组中移除第一个出现的指定元素。
 
@@ -15,18 +15,18 @@ ARRAY_REMOVE_FIRST(array, element)
 
 ## 参数
 
-| 参数 | 描述 |
+| 参数 | 说明 |
 |-----------|-------------|
-| array     | 要从中移除元素的源数组。 |
-| element   | 要从数组中移除的元素。 |
+| array | 要从中移除元素的源数组。 |
+| element | 要从数组中移除的元素。 |
 
 ## 返回类型
 
-移除了第一个指定元素后的数组。
+返回移除了首个指定元素的数组。
 
-## 说明
+## 注意事项
 
-此函数适用于标准数组类型 (Standard Array Types) 和变体数组类型 (Variant Array Types)。
+此函数适用于标准数组类型和 variant 数组类型。
 
 ## 示例
 
@@ -42,7 +42,7 @@ SELECT ARRAY_REMOVE_FIRST([1, 2, 2, 3], 2);
 [1, 2, 3]
 ```
 
-### 示例 2：从变体数组中移除
+### 示例 2：从 Variant 数组中移除
 
 ```sql
 SELECT ARRAY_REMOVE_FIRST(PARSE_JSON('["apple", "banana", "apple", "orange"]'), 'apple');
