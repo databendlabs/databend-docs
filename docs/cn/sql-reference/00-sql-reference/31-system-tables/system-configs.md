@@ -1,9 +1,13 @@
-包含 Databend 服务器配置的信息。
+---
+title: system.configs
+---
+
+包含有关 Databend 服务器配置的信息。
 
 :::note
-您可以使用配置选项 `disable_system_table_load` 禁用对 `configs` 表的访问。
+你可以使用配置选项 `disable_system_table_load` 禁用对 `configs` 表的访问。
 
-例如，Databend Cloud 的用户将无法看到此表。
+例如，DatabendCloud 的用户将无法查看此表。
 :::
 
 ```sql
