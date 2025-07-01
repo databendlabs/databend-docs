@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.368"/>
 
-检查输入值是否为 JSON 数组 (JSON Array)。请注意，JSON 数组与 [ARRAY](../../../00-sql-reference/10-data-types/array.md) 数据类型不同。JSON 数组是 JSON 中常用的数据结构，表示一个由方括号 `[ ]` 包围的有序值集合。它是一种灵活的格式，用于组织和交换各种数据类型，包括字符串、数字、布尔值、对象和空值。
+检查输入值是否为 JSON 数组 (JSON Array)。请注意，JSON 数组与 [ARRAY](../../../00-sql-reference/10-data-types/array.md) 数据类型不同。JSON 数组是 JSON 中常用的数据结构，表示一个由方括号 `[ ]` 包围的值的有序集合。它是一种灵活的格式，用于组织和交换各种数据类型，包括字符串、数字、布尔值、对象和空值。
 
 ```json title='JSON 数组示例：'
 [
