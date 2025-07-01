@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-在数组的开头添加一个元素。
+在数组开头前置一个元素。
 
 ## 语法
 
@@ -17,20 +17,20 @@ ARRAY_PREPEND(element, array)
 
 | 参数 | 说明 |
 |-----------|-------------|
-| element   | 要添加到数组开头的元素。 |
-| array     | 要添加元素的源数组。 |
+| element   | 需要前置到数组的元素 |
+| array     | 待修改的源数组 |
 
 ## 返回类型
 
-返回添加了元素后的数组。
+包含前置元素的数组。
 
 ## 说明
 
-此函数适用于标准数组类型和变体数组类型 (Variant Array Types)。
+此函数同时支持标准数组类型和变体数组 (Variant Array) 类型。
 
 ## 示例
 
-### 示例 1：向标准数组添加元素
+### 示例 1：向标准数组前置元素
 
 ```sql
 SELECT ARRAY_PREPEND(0, [1, 2, 3]);
@@ -42,7 +42,7 @@ SELECT ARRAY_PREPEND(0, [1, 2, 3]);
 [0, 1, 2, 3]
 ```
 
-### 示例 2：向变体数组添加元素
+### 示例 2：向变体数组前置元素
 
 ```sql
 SELECT ARRAY_PREPEND('apple', PARSE_JSON('["banana", "orange"]'));
@@ -54,7 +54,7 @@ SELECT ARRAY_PREPEND('apple', PARSE_JSON('["banana", "orange"]'));
 ["apple", "banana", "orange"]
 ```
 
-### 示例 3：添加复杂元素
+### 示例 3：前置复杂元素
 
 ```sql
 SELECT ARRAY_PREPEND(PARSE_JSON('{"value": 0}'), [1, 2, 3]);
