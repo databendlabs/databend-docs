@@ -1,7 +1,6 @@
 ---
 title: ARRAY_INTERSECTION
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
@@ -31,7 +30,7 @@ SELECT ARRAY_INTERSECTION('["Electronics", "Books", "Toys"]'::JSON, '["Books", "
 -[ RECORD 1 ]-----------------------------------
 array_intersection('["Electronics", "Books", "Toys"]'::VARIANT, '["Books", "Fashion", "Electronics"]'::VARIANT): ["Electronics","Books"]
 
--- 通过连续调用查找第一个查询结果与第三个 JSON 数组的交集
+-- 使用迭代方法查找第一个查询结果与第三个 JSON 数组的交集
 SELECT ARRAY_INTERSECTION(
     ARRAY_INTERSECTION('["Electronics", "Books", "Toys"]'::JSON, '["Books", "Fashion", "Electronics"]'::JSON),
     '["Electronics", "Books", "Clothing"]'::JSON
