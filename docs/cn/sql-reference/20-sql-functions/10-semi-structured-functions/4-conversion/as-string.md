@@ -4,7 +4,7 @@ title: AS_STRING
 
 将 `VARIANT` 值严格转换为 VARCHAR 数据类型。
 如果输入的数据类型不是 `VARIANT`，则输出为 `NULL`。
-如果 `VARIANT` 中包含的值不是字符串类型，则输出为 `NULL`。
+如果 `VARIANT` 中的值不是字符串类型，则输出为 `NULL`。
 
 ## 语法
 
