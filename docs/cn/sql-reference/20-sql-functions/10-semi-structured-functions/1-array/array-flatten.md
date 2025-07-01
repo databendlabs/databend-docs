@@ -26,7 +26,7 @@ ARRAY_FLATTEN(array)
 
 ## 说明
 
-此函数适用于标准数组类型和变体数组类型 (Variant Array Types)。
+此函数适用于标准数组类型和变体数组 (Variant Array) 类型。
 
 ## 示例
 
