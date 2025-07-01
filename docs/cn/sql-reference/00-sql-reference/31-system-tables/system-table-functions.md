@@ -2,11 +2,11 @@
 title: system.table_functions
 ---
 
-获取所有表函数的名称。
+获取所有表函数（Table Function）的名称。
 
 ```sql
 SELECT * FROM system.table_functions;
-``` 
+```
 
 ```text
 +----------------------------+
