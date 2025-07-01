@@ -2,7 +2,7 @@
 title: JSON_PATH_QUERY_ARRAY
 ---
 
-获取指定 JSON 值中由 JSON 路径返回的所有 JSON 项，并将结果封装为数组。
+提取指定 JSON 值中由 JSON 路径返回的所有元素，并将结果封装为数组。
 
 ## 语法
 
@@ -31,7 +31,7 @@ VALUES ('Laptop', '{"brand": "Dell", "colors": ["Black", "Silver"], "price": 120
        ('Headphones', '{"brand": "Sony", "colors": ["Black", "Blue", "Red"], "price": 150, "features": {"battery": "20h", "bluetooth": "5.0"}}');
 ```
 
-**查询演示：提取产品详情中的所有特性为数组**
+**查询演示：提取产品详情中的所有特性值并封装为数组**
 
 ```sql
 SELECT
