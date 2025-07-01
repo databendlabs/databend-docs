@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-创建一个新的 JSON 对象，仅包含输入 JSON 对象中指定的键。如果指定的键在输入对象中不存在，则在结果中省略该键。
+从输入的 JSON 对象（JSON Object）中创建一个只包含指定键的新 JSON 对象。如果指定的键在输入对象中不存在，则在结果中省略该键。
 
 ## 别名
 
@@ -21,29 +21,29 @@ OBJECT_PICK(<json_object>, <key1> [, <key2>, ...])
 
 | 参数 | 描述 |
 |-----------|-------------|
-| json_object | 一个 JSON 对象（VARIANT 类型），用于从中选取键。 |
-| key1, key2, ... | 一个或多个字符串字面量，表示要包含在结果对象中的键。 |
+| json_object | 用于挑选键的 JSON 对象（VARIANT 类型）。 |
+| key1, key2, ... | 一个或多个字符串字面量（string literals），表示要包含在结果对象中的键。 |
 
 ## 返回类型
 
-返回一个 VARIANT，其中包含一个仅带有指定键及其对应值的新 JSON 对象。
+返回包含新 JSON 对象的 VARIANT 类型结果，该对象仅包含指定键及其对应值。
 
 ## 示例
 
-选取单个键：
+挑选单个键：
 ```sql
 SELECT OBJECT_PICK('{"a":1,"b":2,"c":3}'::VARIANT, 'a');
--- 返回结果：{"a":1}
+-- 结果: {"a":1}
 ```
 
-选取多个键：
+挑选多个键：
 ```sql
 SELECT OBJECT_PICK('{"a":1,"b":2,"d":4}'::VARIANT, 'a', 'b');
--- 返回结果：{"a":1,"b":2}
+-- 结果: {"a":1,"b":2}
 ```
 
-选取不存在的键（不存在的键将被忽略）：
+挑选不存在的键（不存在的键将被忽略）：
 ```sql
 SELECT OBJECT_PICK('{"a":1,"b":2,"d":4}'::VARIANT, 'a', 'c');
--- 返回结果：{"a":1}
+-- 结果: {"a":1}
 ```
