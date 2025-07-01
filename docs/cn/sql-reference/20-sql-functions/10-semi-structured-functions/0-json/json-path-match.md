@@ -1,11 +1,12 @@
 ---
 title: JSON_PATH_MATCH
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.241"/>
 
-检查指定的 JSON 路径表达式 (JSON Path Expression) 是否匹配 JSON 数据中的特定条件。请注意，`@@` 操作符是此函数的同义词。有关详细信息，请参阅 [JSON 操作符](../../../10-sql-commands/30-query-operators/index.md)。
+检查指定的 JSON 路径表达式 (JSON Path Expression) 是否匹配 JSON 数据中的某些条件。请注意，`@@` 操作符是此函数的同义词。有关详细信息，请参阅 [JSON 操作符](../../../10-sql-commands/30-query-operators/index.md)。
 
 ## 语法
 
@@ -14,15 +15,15 @@ JSON_PATH_MATCH(<json_data>, <json_path_expression>)
 ```
 
 - `json_data`: 指定要检查的 JSON 数据。它可以是 JSON 对象或数组。
-- `json_path_expression`: 指定要在 JSON 数据中检查的条件。此表达式描述待匹配的路径或条件，例如验证 JSON 结构中特定字段值是否满足特定条件。`$` 符号表示 JSON 数据的根，用于起始路径表达式并指示 JSON 结构中的顶层对象。
+- `json_path_expression`: 指定要在 JSON 数据中检查的条件。该表达式描述要匹配的特定路径或条件，例如验证 JSON 结构中特定字段的值是否满足某些条件。`$` 符号表示 JSON 数据的根节点，用于起始路径表达式，代表 JSON 结构中的顶层对象。
 
 ## 返回类型
 
 该函数返回：
 
-- 若指定的 JSON 路径表达式匹配 JSON 数据中的条件，则返回 `true`
-- 若指定的 JSON 路径表达式不匹配 JSON 数据中的条件，则返回 `false`
-- 若 `json_data` 或 `json_path_expression` 为 NULL 或无效，则返回 NULL
+- 如果指定的 JSON 路径表达式匹配 JSON 数据中的条件，则返回 `true`。
+- 如果指定的 JSON 路径表达式不匹配 JSON 数据中的条件，则返回 `false`。
+- 如果 `json_data` 或 `json_path_expression` 为 NULL 或无效，则返回 NULL。
 
 ## 示例
 
@@ -55,7 +56,7 @@ SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), '$.b[1 to last] >= 2')
 │ true                                                                      │
 └───────────────────────────────────────────────────────────────────────────┘
 
--- 若 json_data 或 json_path_expression 为 NULL 或无效，则返回 NULL
+-- 如果 json_data 或 json_path_expression 为 NULL 或无效，则返回 NULL。
 SELECT JSON_PATH_MATCH(parse_json('{"a":1,"b":[1,2,3]}'), NULL);
 
 ┌──────────────────────────────────────────────────────────┐
