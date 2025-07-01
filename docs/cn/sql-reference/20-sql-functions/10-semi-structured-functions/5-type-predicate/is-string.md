@@ -3,7 +3,7 @@ title: IS_STRING
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.368"/>
+<FunctionDescription description="自 v1.2.368 版本引入或更新"/>
 
 检查输入的 JSON 值是否为字符串。
 

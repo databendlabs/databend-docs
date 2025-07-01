@@ -4,7 +4,7 @@ title: AS_BOOLEAN
 
 将 `VARIANT` 类型的值严格转换为布尔（BOOLEAN）数据类型。
 如果输入的数据类型不是 `VARIANT`，则输出为 `NULL`。
-如果 `VARIANT` 中的值类型与输出值类型不匹配，则输出为 `NULL`。
+如果 `VARIANT` 中的值类型与布尔类型不匹配，则输出为 `NULL`。
 
 ## 语法
 

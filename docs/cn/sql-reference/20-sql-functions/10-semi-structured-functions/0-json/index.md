@@ -2,13 +2,13 @@
 title: JSON 函数
 ---
 
-本节提供 Databend 中 JSON 函数 (JSON Functions) 的参考信息。JSON 函数能够解析、验证、查询和操作 JSON 数据结构。
+本节提供了 Databend 中 JSON 函数的参考信息。JSON 函数支持解析、验证、查询和操作 JSON 数据结构。
 
 ## JSON 解析与验证
 
 | 函数 | 描述 | 示例 |
 |----------|-------------|---------|
-| [PARSE_JSON](parse-json) | 将 JSON 字符串解析为 variant (variant) 值 | `PARSE_JSON('{"name":"John","age":30}')` → `{"name":"John","age":30}` |
+| [PARSE_JSON](parse-json) | 将 JSON 字符串解析为 VARIANT 值 | `PARSE_JSON('{"name":"John","age":30}')` → `{"name":"John","age":30}` |
 | [CHECK_JSON](check-json) | 验证字符串是否为有效的 JSON | `CHECK_JSON('{"valid": true}')` → `true` |
 
 ## JSON 类型信息
@@ -31,7 +31,7 @@ title: JSON 函数
 | [JSON_PATH_MATCH](json-path-match) | 根据路径模式匹配 JSON 值 | `JSON_PATH_MATCH('{"items":[1,2,3]}', '$.items[*]')` → `[1,2,3]` |
 | [JSON_PATH_QUERY](json-path-query) | 使用 JSONPath 查询 JSON 数据 | `JSON_PATH_QUERY('{"a":1,"b":2}', '$.a')` → `1` |
 | [JSON_PATH_QUERY_ARRAY](json-path-query-array) | 查询 JSON 数据并以数组形式返回结果 | `JSON_PATH_QUERY_ARRAY('[1,2,3]', '$[*]')` → `[1,2,3]` |
-| [JSON_PATH_QUERY_FIRST](json-path-query-first) | 从 JSON 路径查询中返回第一个结果 | `JSON_PATH_QUERY_FIRST('[1,2,3]', '$[*]')` → `1` |
+| [JSON_PATH_QUERY_FIRST](json-path-query-first) | 返回 JSON 路径查询的第一个结果 | `JSON_PATH_QUERY_FIRST('[1,2,3]', '$[*]')` → `1` |
 
 ## JSON 数据提取
 
@@ -45,6 +45,6 @@ title: JSON 函数
 
 | 函数 | 描述 | 示例 |
 |----------|-------------|---------|
-| [JSON_PRETTY](json-pretty) | 使用适当的缩进格式化 JSON | `JSON_PRETTY('{"a":1}')` → 格式化的 JSON 字符串 |
-| [STRIP_NULL_VALUE](strip-null-value) | 从 JSON 中移除空值 | `STRIP_NULL_VALUE('{"a":1,"b":null}')` → `{"a":1}` |
+| [JSON_PRETTY](json-pretty) | 使用适当的缩进格式化 JSON | `JSON_PRETTY('{"a":1}')` → 格式化后的 JSON 字符串 |
+| [STRIP_NULL_VALUE](strip-null-value) | 从 JSON 中移除 null 值 | `STRIP_NULL_VALUE('{"a":1,"b":null}')` → `{"a":1}` |
 | [JQ](jq) | 使用 jq 风格的查询处理 JSON | `JQ('{"name":"John"}', '.name')` → `"John"` |

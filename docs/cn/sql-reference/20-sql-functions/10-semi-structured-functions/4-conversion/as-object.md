@@ -2,9 +2,9 @@
 title: AS_OBJECT
 ---
 
-将 `半结构化（VARIANT）` 类型的值严格转换为 `对象（OBJECT）` 数据类型。
-如果输入的数据类型不是 `半结构化（VARIANT）`，则输出为 `NULL`。
-如果 `半结构化（VARIANT）` 中的值不是 `对象（OBJECT）` 类型，则输出为 `NULL`。
+将 `VARIANT` 值严格转换为 OBJECT 数据类型。
+如果输入的数据类型不是 `VARIANT`，则输出为 `NULL`。
+如果 `VARIANT` 中的值不是 OBJECT 类型，则输出为 `NULL`。
 
 ## 语法
 
@@ -14,13 +14,13 @@ AS_OBJECT( <variant> )
 
 ## 参数
 
-| 参数   | 描述       |
-|-------------|-------------------|
-| `<variant>` | `半结构化（VARIANT）` 类型的值 |
+| 参数         | 描述           |
+|-------------|----------------|
+| `<variant>` | VARIANT 值     |
 
 ## 返回类型
 
-包含 `对象（OBJECT）` 的 `半结构化（VARIANT）`
+包含 Object 的 Variant
 
 ## 示例
 
@@ -39,7 +39,7 @@ SELECT as_object(parse_json('{"name":"John","age":30}'));
 | {"name":"John","age":30}                      |
 +-----------------------------------------------+
 
--- 对于非对象值，返回 NULL
+-- 对于非对象值返回 NULL
 SELECT as_object(parse_json('[1,2,3]'));
 +----------------------------------+
 | as_object(parse_json('[1,2,3]')) |

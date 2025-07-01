@@ -17,19 +17,19 @@ ARRAY_REVERSE(array)
 
 | 参数 | 描述 |
 |-----------|-------------|
-| array     | 要反转的数组（Array）。 |
+| array     | 要反转的数组。 |
 
 ## 返回类型
 
-元素顺序反转后的数组（Array）。
+元素顺序反转后的数组。
 
 ## 说明
 
-此函数适用于标准数组（Array）类型和可变数组（Variant Array）类型。
+此函数适用于标准数组类型和可变数组（Variant Array）类型。
 
 ## 示例
 
-### 示例 1：反转标准数组（Array）
+### 示例 1：反转标准数组
 
 ```sql
 SELECT ARRAY_REVERSE([1, 2, 3, 4, 5]);
@@ -41,7 +41,7 @@ SELECT ARRAY_REVERSE([1, 2, 3, 4, 5]);
 [5, 4, 3, 2, 1]
 ```
 
-### 示例 2：反转可变数组（Variant Array）
+### 示例 2：反转可变数组
 
 ```sql
 SELECT ARRAY_REVERSE(PARSE_JSON('["apple", "banana", "orange"]'));
@@ -53,7 +53,7 @@ SELECT ARRAY_REVERSE(PARSE_JSON('["apple", "banana", "orange"]'));
 ["orange", "banana", "apple"]
 ```
 
-### 示例 3：反转空数组（Array）
+### 示例 3：反转空数组
 
 ```sql
 SELECT ARRAY_REVERSE([]);

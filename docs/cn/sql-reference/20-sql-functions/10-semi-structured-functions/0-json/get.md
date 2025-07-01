@@ -17,11 +17,11 @@ GET( <variant>, <field_name> )
 
 ## 参数
 
-| 参数          | 描述                                       |
-| :------------ | :----------------------------------------- |
-| `<variant>`   | 包含 ARRAY 或 OBJECT 的 VARIANT 值         |
-| `<index>`     | 指定 ARRAY 中元素位置的 Uint32 值          |
-| `<field_name>`| 指定 OBJECT 键值对中键的字符串值           |
+| 参数 | 描述 |
+| :--- | :--- |
+| `<variant>` | 包含 ARRAY 或 OBJECT 的 VARIANT 值 |
+| `<index>` | 指定 ARRAY 中值位置的 Uint32 值 |
+| `<field_name>` | 指定 OBJECT 键值对中键的字符串值 |
 
 ## 返回类型
 

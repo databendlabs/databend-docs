@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-返回一个新 JSON 数组，包含第一个 JSON 数组中有而第二个 JSON 数组中没有的元素。
+返回一个新的 JSON 数组，包含第一个 JSON 数组中有而第二个 JSON 数组中没有的元素。
 
 ## 别名
 
@@ -32,7 +32,7 @@ SELECT ARRAY_EXCEPT(
 -[ RECORD 1 ]-----------------------------------
 array_except('["apple", "banana", "orange"]'::VARIANT, '["banana", "grapes"]'::VARIANT): ["apple","orange"]
 
--- 返回空数组，因第一个数组所有元素均存在于第二个数组
+-- 返回一个空数组，因为第一个数组中的所有元素在第二个数组中都已存在。
 SELECT ARRAY_EXCEPT('["apple", "banana", "orange"]'::VARIANT, '["apple", "banana", "orange"]'::VARIANT)
 
 -[ RECORD 1 ]-----------------------------------

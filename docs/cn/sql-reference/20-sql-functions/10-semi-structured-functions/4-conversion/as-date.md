@@ -2,9 +2,9 @@
 title: AS_DATE
 ---
 
-将 `VARIANT` (VARIANT) 值严格转换为 DATE (DATE) 数据类型。
+将 `VARIANT` 值严格转换为 DATE 数据类型。
 如果输入的数据类型不是 `VARIANT`，则输出为 `NULL`。
-如果 `VARIANT` 中的值类型与输出值类型不匹配，则输出为 `NULL`。
+如果 `VARIANT` 中的值类型与目标数据类型（DATE）不匹配，则输出为 `NULL`。
 
 ## 语法
 

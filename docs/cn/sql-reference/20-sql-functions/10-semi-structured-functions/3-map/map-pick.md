@@ -1,12 +1,11 @@
 ---
 title: MAP_PICK
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.654"/>
+<FunctionDescription description="引入或更新于：v1.2.654"/>
 
-从一个现有的 MAP (Map) 中，根据指定的键 (Key)，返回一个新的 MAP，其中包含这些键值对。
+从一个现有的 MAP（映射）中返回一个包含指定键值对的新 MAP（映射）。
 
 ## 语法
 
@@ -17,20 +16,20 @@ MAP_PICK( <map>, <array> )
 
 ## 参数
 
-| 参数 | 描述 |
-|-----------|-------------------------------------------------------- |
-| `<map>` | 输入的 MAP。 |
-| `<keyN>` | 要包含在返回的 MAP 中的键（KEY）。 |
-| `<array>` | 要包含在返回的 MAP 中的键（KEY）数组 (Array)。 |
+| 参数     | 说明                                                         |
+|----------|--------------------------------------------------------------|
+| `<map>`   | 输入的 MAP（映射）。                                         |
+| `<keyN>`  | 要包含在返回的 MAP（映射）中的键（KEY）。                     |
+| `<array>` | 要包含在返回的 MAP（映射）中的键（KEY）的数组（Array）。      |
 
 :::note
-- 键表达式的类型必须与 MAP 中的键类型相同。
-- 在 MAP 中未找到的键值将被忽略。
+- 键表达式的类型必须与 MAP（映射）中的键的类型相同。
+- 在 MAP（映射）中未找到的键将被忽略。
 :::
 
 ## 返回类型
 
-Map。
+Map（映射）。
 
 ## 示例
 

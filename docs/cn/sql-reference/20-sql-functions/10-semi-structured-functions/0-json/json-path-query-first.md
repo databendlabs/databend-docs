@@ -2,7 +2,7 @@
 title: JSON_PATH_QUERY_FIRST
 ---
 
-获取指定 JSON 值中由 JSON 路径返回的第一个 JSON 项。
+获取对指定 JSON 值应用 JSON 路径 (JSON Path) 后返回的第一个 JSON 项。
 
 ## 语法
 
@@ -46,7 +46,7 @@ FROM
 
 ```sql
 +------------+--------------+---------------+
-| 名称       | 所有特性     | 首个特性      |
+| name       | all_features | first_feature |
 +------------+--------------+---------------+
 | Laptop     | "16GB"       | "16GB"        |
 | Laptop     | "512GB"      | "16GB"        |

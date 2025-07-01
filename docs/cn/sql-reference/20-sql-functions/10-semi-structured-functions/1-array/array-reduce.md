@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-通过应用指定的 Lambda 表达式 (Lambda Expression)，将 JSON 数组归约为单个值。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](../../../00-sql-reference/42-lambda-expressions.md)。
+通过应用指定的 Lambda 表达式（Lambda Expression），将一个 JSON 数组归约为单个值。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](../../../00-sql-reference/42-lambda-expressions.md)。
 
 ## 语法
 
@@ -16,7 +16,7 @@ ARRAY_REDUCE(<json_array>, <lambda_expression>)
 
 ## 示例
 
-此示例将数组中的所有元素相乘 (2 * 3 * 4)：
+此示例将数组中的所有元素相乘（2 * 3 * 4）：
 
 ```sql
 SELECT ARRAY_REDUCE(

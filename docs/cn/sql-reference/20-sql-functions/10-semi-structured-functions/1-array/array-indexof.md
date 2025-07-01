@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-返回数组中首次出现某个元素的索引。
+返回数组中某个元素首次出现的索引。
 
 ## 语法
 
@@ -15,23 +15,23 @@ ARRAY_INDEXOF(array, element)
 
 ## 参数
 
-| 参数     | 描述         |
-|----------|--------------|
-| array    | 待搜索的数组 |
-| element  | 要搜索的元素 |
+| 参数 | 描述 |
+|-----------|-------------|
+| array | 待搜索的数组。 |
+| element | 要搜索的元素。 |
 
 ## 返回类型
 
-INTEGER
+整数（INTEGER）
 
 ## 关于索引的重要说明
 
-- 对于标准数组类型 (Standard Array Types)：索引是 **基于 1** 的（第一个元素的位置是 1）。
-- 对于变体数组类型 (Variant Array Types)：索引是 **基于 0** 的（第一个元素的位置是 0），以兼容 Snowflake。
+- 对于标准数组类型 (Standard Array Types)：索引是**从 1 开始的**（第一个元素的位置是 1）。
+- 对于 VARIANT 数组类型：索引是**从 0 开始的**（第一个元素的位置是 0），以兼容 Snowflake。
 
 ## 示例
 
-### 示例 1：在标准数组中查找元素（基于 1 的索引）
+### 示例 1：在标准数组中查找元素（索引从 1 开始）
 
 ```sql
 SELECT ARRAY_INDEXOF([10, 20, 30, 20], 20);
@@ -43,7 +43,7 @@ SELECT ARRAY_INDEXOF([10, 20, 30, 20], 20);
 2
 ```
 
-### 示例 2：在变体数组中查找元素（基于 0 的索引）
+### 示例 2：在 VARIANT 数组中查找元素（索引从 0 开始）
 
 ```sql
 SELECT ARRAY_INDEXOF(PARSE_JSON('["apple", "banana", "orange"]'), 'banana');

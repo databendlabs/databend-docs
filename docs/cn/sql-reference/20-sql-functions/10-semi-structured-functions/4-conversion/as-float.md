@@ -4,7 +4,7 @@ title: AS_FLOAT
 
 将 `VARIANT` 值严格转换为 DOUBLE 数据类型。
 如果输入的数据类型不是 `VARIANT`，则输出为 `NULL`。
-如果 `VARIANT` 中的值类型与输出类型不匹配，则输出为 `NULL`。
+如果 `VARIANT` 中的值类型与 DOUBLE 类型不匹配，则输出为 `NULL`。
 
 ## 语法
 
@@ -14,7 +14,7 @@ AS_FLOAT( <variant> )
 
 ## 参数
 
-| 参数 | 描述 |
+| 参数         | 描述           |
 |-------------|-------------------|
 | `<variant>` | VARIANT 值 |
 
