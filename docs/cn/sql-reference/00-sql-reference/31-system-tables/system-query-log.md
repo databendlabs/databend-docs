@@ -4,19 +4,19 @@ title: system.query_log
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.696"/>
+<FunctionDescription description="引入或更新于：v1.2.696"/>
 
-`system.query_log` 是一个只读的内存表，用于存储所有的查询日志。有关查询日志中可用的特定字段，请参阅 [示例](#examples) 部分。
+一个只读的内存表，用于存储所有查询日志。有关查询日志中可用字段的具体信息，请参阅[示例](#examples)部分。
 
 ## 设置会话标签
 
-您可以选择为会话分配一个标签，以便更容易地根据分配的会话标签在日志表中筛选日志。例如，以下代码将标签 `eric` 分配给当前会话：
+可以选择为会话（Session）分配一个标签，便于根据分配的会话标签在日志表中筛选日志。例如，以下命令为当前会话分配标签`eric`：
 
 ```sql
 set session query_tag='eric';
 ```
 
-然后，我们可以运行一个查询，并使用分配的标签从日志表中检索日志：
+随后，运行查询（Query）并使用分配的标签从日志表中检索日志：
 
 ```sql
 show users;
@@ -24,7 +24,7 @@ show users;
 select query_tag, query_text from system.query_log where query_tag='eric' limit 1;
 ```
 
-在返回的结果中，您可以找到查询的记录，标记为 'eric'：
+返回结果中可找到该查询的记录，标签为'eric'：
 
 ```sql
 -[ RECORD 1 ]-----------------------------------
@@ -34,7 +34,7 @@ select query_tag, query_text from system.query_log where query_tag='eric' limit 
 
 ## 示例
 
-`system.query_log` 表存储已执行查询的详细日志。以下是日志条目的示例：
+`system.query_log`表存储已执行查询的详细日志。以下是日志条目的示例：
 
 ```sql
 SELECT * FROM system.query_log;
@@ -102,4 +102,3 @@ written_io_bytes_cost_ms: 0
                    extra:
              has_profile: true
        peek_memory_usage: {"bwElPLZxWt0F8LOFAqsIL2":576850}
-```
