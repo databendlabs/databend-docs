@@ -4,7 +4,7 @@ title: AS_INTEGER
 
 将 `VARIANT` 值严格转换为 BIGINT 数据类型。
 如果输入的数据类型不是 `VARIANT`，则输出为 `NULL`。
-如果 `VARIANT` 中的值类型与 BIGINT 类型不匹配，则输出为 `NULL`。
+如果 `VARIANT` 中的值类型与输出类型不匹配，则输出为 `NULL`。
 
 ## 语法
 
