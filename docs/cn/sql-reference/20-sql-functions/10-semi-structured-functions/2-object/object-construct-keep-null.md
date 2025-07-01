@@ -6,9 +6,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-使用键和值创建一个 JSON 对象 (JSON Object)。
+使用键和值创建一个 JSON 对象。
 
-- 参数是零个或多个键值对 (Key-Value Pair)（其中键是字符串，值是任意类型）。
+- 参数是零个或多个键值对（其中键是字符串，值是任意类型）。
 - 如果键为 NULL，则生成的对象中将省略该键值对。但是，如果值为 NULL，则该键值对将被保留。
 - 键必须互不相同，并且它们在生成的 JSON 中的顺序可能与您指定的顺序不同。
 - `TRY_OBJECT_CONSTRUCT_KEEP_NULL` 在构建对象时如果发生错误，则返回 NULL 值。
