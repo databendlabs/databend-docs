@@ -2,7 +2,7 @@
 title: JSON_PATH_QUERY
 ---
 
-根据指定的 JSON 路径，获取 JSON 值中所有匹配的项目。
+获取指定 JSON 值中由 JSON 路径返回的所有项目。
 
 ## 语法
 
