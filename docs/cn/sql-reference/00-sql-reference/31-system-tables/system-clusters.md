@@ -2,12 +2,12 @@
 title: system.clusters
 ---
 
-包含集群节点的信息。
+包含有关集群节点的信息。
 
-:::note 
-您可以使用配置选项 `disable_system_table_load` 来禁用对 `clusters` 表的访问。
+:::note
+你可以通过配置选项 `disable_system_table_load` 禁用对 `clusters` 表的访问。
 
-例如，Databend Cloud 的用户将无法看到此表。
+例如，DatabendCloud 用户将无法查看此表。
 :::
 
 ```sql

@@ -2,7 +2,7 @@
 title: system.columns
 ---
 
-包含表列的信息。
+包含表列的相关信息。
 
 ```sql
 DESC system.columns;
@@ -38,5 +38,4 @@ DESC system.columns;
 | scan_progress_read_bytes | system   | processes           | UInt64           | BIGINT UNSIGNED   |              |                    | NO          |         |
 | mysql_connection_id      | system   | processes           | Nullable(UInt32) | INT UNSIGNED      |              |                    | YES         |         |
 ....
-
 ```

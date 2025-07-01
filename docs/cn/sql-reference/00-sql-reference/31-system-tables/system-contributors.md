@@ -2,7 +2,7 @@
 title: system.contributors
 ---
 
-包含贡献者的信息。
+包含有关贡献者的信息。
 
 ```sql
 SELECT * FROM system.contributors LIMIT 20;
@@ -21,7 +21,7 @@ SELECT * FROM system.contributors LIMIT 20;
 | smallfish               |
 | sundy-li                |
 | sundyli                 |
-| taiyang-li               |
+| taiyang-li              |
 | TLightSky               |
 | Winter Zhang            |
 | wubx                    |

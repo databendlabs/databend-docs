@@ -13,7 +13,7 @@ title: system.views
 SELECT * FROM system.views LIMIT 3;
 
 ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ catalog │ database │ database_id │  name  │ table_id │ engine │ engine_full │         created_on         │      dropped_on     │         updated_on         │       owner      │ comment │            view_query           │
+│   目录  │  数据库  │  数据库 ID  │   名称   │  表 ID   │   引擎   │  引擎全称   │           创建于           │        删除于       │           更新于           │      所有者      │   注释  │             视图查询            │
 │  String │  String  │    UInt64   │ String │  UInt64  │ String │    String   │          Timestamp         │ Nullable(Timestamp) │          Timestamp         │ Nullable(String) │  String │              String             │
 ├─────────┼──────────┼─────────────┼────────┼──────────┼────────┼─────────────┼────────────────────────────┼─────────────────────┼────────────────────────────┼──────────────────┼─────────┼─────────────────────────────────┤
 │ default │ default  │           1 │ b      │   133095 │ VIEW   │ VIEW        │ 2025-06-30 04:59:27.844141 │ NULL                │ 2025-06-30 04:59:27.844142 │ NULL             │         │ SELECT * FROM hits.hits LIMIT 1 │
@@ -23,27 +23,27 @@ SELECT * FROM system.views LIMIT 3;
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-要显示 `system.views` 的结构，请使用 `DESCRIBE system.views`：
+要显示 `system.views` 的表结构，请使用 `DESCRIBE system.views`：
 
 ```sql
 DESCRIBE system.views;
 
 ╭────────────────────────────────────────────────────────────────────────────────╮
-│    Field    │       Type      │  Null  │            Default           │  Extra │
-│    String   │      String     │ String │            String            │ String │
+│    字段     │       类型      │  可为空  │            默认值            │ 额外信息 │
+│    String   │      String     │  String  │            String            │ String │
 ├─────────────┼─────────────────┼────────┼──────────────────────────────┼────────┤
-│ catalog     │ VARCHAR         │ NO     │ ''                           │        │
-│ database    │ VARCHAR         │ NO     │ ''                           │        │
-│ database_id │ BIGINT UNSIGNED │ NO     │ 0                            │        │
-│ name        │ VARCHAR         │ NO     │ ''                           │        │
-│ table_id    │ BIGINT UNSIGNED │ NO     │ 0                            │        │
-│ engine      │ VARCHAR         │ NO     │ ''                           │        │
-│ engine_full │ VARCHAR         │ NO     │ ''                           │        │
-│ created_on  │ TIMESTAMP       │ NO     │ '1970-01-01 00:00:00.000000' │        │
-│ dropped_on  │ TIMESTAMP       │ YES    │ NULL                         │        │
-│ updated_on  │ TIMESTAMP       │ NO     │ '1970-01-01 00:00:00.000000' │        │
-│ owner       │ VARCHAR         │ YES    │ NULL                         │        │
-│ comment     │ VARCHAR         │ NO     │ ''                           │        │
-│ view_query  │ VARCHAR         │ NO     │ ''                           │        │
+│ catalog     │ VARCHAR         │ NO      │ ''                           │        │
+│ database    │ VARCHAR         │ NO      │ ''                           │        │
+│ database_id │ BIGINT UNSIGNED │ NO      │ 0                            │        │
+│ name        │ VARCHAR         │ NO      │ ''                           │        │
+│ table_id    │ BIGINT UNSIGNED │ NO      │ 0                            │        │
+│ engine      │ VARCHAR         │ NO      │ ''                           │        │
+│ engine_full │ VARCHAR         │ NO      │ ''                           │        │
+│ created_on  │ TIMESTAMP       │ NO      │ '1970-01-01 00:00:00.000000' │        │
+│ dropped_on  │ TIMESTAMP       │ YES     │ NULL                         │        │
+│ updated_on  │ TIMESTAMP       │ NO      │ '1970-01-01 00:00:00.000000' │        │
+│ owner       │ VARCHAR         │ YES     │ NULL                         │        │
+│ comment     │ VARCHAR         │ NO      │ ''                           │        │
+│ view_query  │ VARCHAR         │ NO      │ ''                           │        │
 ╰────────────────────────────────────────────────────────────────────────────────╯
 ```
