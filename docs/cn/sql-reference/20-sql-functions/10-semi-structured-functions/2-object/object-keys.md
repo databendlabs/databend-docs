@@ -19,7 +19,7 @@ OBJECT_KEYS(<variant>)
 
 ## 返回类型
 
-ARRAY of STRING。
+字符串（STRING）的数组（ARRAY）。
 
 ## 示例
 
