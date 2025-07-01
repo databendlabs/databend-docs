@@ -1,11 +1,12 @@
 ---
 title: ARRAYS_ZIP
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.690"/>
 
-将多个数组合并为一个元组数组。
+将多个数组（Array）合并为一个由元组（Tuple）构成的数组。
 
 ## 语法
 
@@ -15,9 +16,9 @@ ARRAYS_ZIP( <array1> [, ...] )
 
 ## 参数
 
-| 参数      | 说明               |
-|-----------|--------------------|
-| `<arrayN>` | 输入的数组（ARRAY） |
+| 参数 | 说明 |
+|------------|-------------------|
+| `<arrayN>` | 输入的数组（ARRAY）。 |
 
 :::note
 - 每个数组的长度必须相同。
@@ -25,7 +26,7 @@ ARRAYS_ZIP( <array1> [, ...] )
 
 ## 返回类型
 
-Array(Tuple) (Array of Tuples)。
+元组数组（Array(Tuple)）。
 
 ## 示例
 
