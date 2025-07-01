@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="版本引入或更新：v1.2.368"/>
 
-检查输入值是否为 JSON 对象 (JSON Object)。
+检查输入值是否为 JSON 对象。
 
 ## 语法
 
@@ -21,8 +21,8 @@ IS_OBJECT( <expr> )
 
 ```sql
 SELECT
-  IS_OBJECT(PARSE_JSON('{"a":"b"}')), -- JSON Object
-  IS_OBJECT(PARSE_JSON('["a","b","c"]')); --JSON Array
+  IS_OBJECT(PARSE_JSON('{"a":"b"}')), -- JSON 对象
+  IS_OBJECT(PARSE_JSON('["a","b","c"]')); --JSON 数组
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │ is_object(parse_json('{"a":"b"}')) │ is_object(parse_json('["a","b","c"]')) │
