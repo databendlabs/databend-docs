@@ -22,7 +22,7 @@ SELECT UNNEST([1, 2]);
 │               2 │
 └─────────────────┘
 
--- UNNEST(array) 可以作为表函数使用
+-- UNNEST(array) 可以作为表函数 (Table Function) 使用。
 SELECT * FROM UNNEST([1, 2]);
 
 ┌─────────────────┐
