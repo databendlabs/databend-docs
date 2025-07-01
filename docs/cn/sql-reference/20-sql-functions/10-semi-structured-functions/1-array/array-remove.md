@@ -3,7 +3,7 @@ title: ARRAY_REMOVE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="新增或更新于：v1.2.762"/>
+<FunctionDescription description="引入或更新于：v1.2.762"/>
 
 从数组中移除所有出现的指定元素。
 
@@ -15,18 +15,18 @@ ARRAY_REMOVE(array, element)
 
 ## 参数
 
-| 参数 | 说明 |
+| 参数 | 描述 |
 |-----------|-------------|
 | array     | 要从中移除元素的源数组。 |
 | element   | 要从数组中移除的元素。 |
 
 ## 返回类型
 
-返回移除了所有指定元素的新数组。
+返回移除了所有指定元素后的数组。
 
 ## 说明
 
-此函数适用于标准数组类型和 VARIANT (Variant) 数组类型。
+此函数适用于标准数组类型和变体数组 (Variant Array) 类型。
 
 ## 示例
 
@@ -42,7 +42,7 @@ SELECT ARRAY_REMOVE([1, 2, 2, 3, 2], 2);
 [1, 3]
 ```
 
-### 示例 2：从 VARIANT 数组中移除
+### 示例 2：从变体数组中移除
 
 ```sql
 SELECT ARRAY_REMOVE(PARSE_JSON('["apple", "banana", "apple", "orange"]'), 'apple');
