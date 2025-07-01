@@ -1,6 +1,7 @@
 ---
 title: Worksheets
 ---
+
 import DbSVG from '@site/static/img/icon/database.svg'
 import RoleSVG from '@site/static/img/icon/role.svg'
 import WarehouseSVG from '@site/static/img/icon/warehouse.svg'
@@ -10,7 +11,7 @@ Worksheets in Databend Cloud are used to organize, run, and save SQL statements.
 
 ## Creating a Worksheet
 
-To create a new worksheet, click on **Worksheets** in the sidebar and select **New Worksheet**. 
+To create a new worksheet, click on **Worksheets** in the sidebar and select **New Worksheet**.
 
 If your SQL statements are already saved in an SQL file, you can also create a worksheet directly from the file. To do so, click the ellipsis icon <EllipsisSVG/> to the right of **New Worksheet**, then select **Create from SQL File**.
 
@@ -23,15 +24,17 @@ To edit and run an SQL statement:
 
 3. Edit the SQL statement in the SQL editor.
 4. Click on the warehouse icon <WarehouseSVG/> under the SQL editor and select a warehouse from the list.
-4. Click **Run Script**.
+5. Click **Run Script**.
 
 The query result shows in the output area. You can click **Export** to save the whole result to a CSV file, or select one or multiple cells in the output area and press Command + C (on Mac) or Ctrl + C (on Windows) to copy them to your clipboard.
 
 :::tip
+
+- Multiple SQL statements in a single API call are not supported. Ensure that each SQL query in the worksheet ends with a single semicolon (;).
 - To make it easier for you to edit SQL statements, you can select a table in the database list and click the "..." button next to it. Then, follow the menu prompts to choose to copy the table name or all column names to the SQL input area on the right in one click.
 
 - If you enter multiple statements in the SQL input area, Databend Cloud will only execute the statement where the cursor is located. You can move the cursor to execute other statements. Additionally, you can use keyboard shortcuts: Ctrl + Enter (Windows) or Command + Enter (Mac) to execute the current statement, and Ctrl + Shift + Enter (Windows) or Command + Shift + Enter (Mac) to execute all statements.
-:::
+  :::
 
 ## Sharing a Worksheet
 
