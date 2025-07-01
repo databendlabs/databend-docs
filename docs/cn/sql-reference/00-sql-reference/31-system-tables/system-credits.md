@@ -2,7 +2,7 @@
 title: system.credits
 ---
 
-包含有关 credits 的信息。
+包含有关鸣谢（credits）的信息。
 
 ```sql
 SELECT * FROM system.credits LIMIT 20;
@@ -29,5 +29,4 @@ SELECT * FROM system.credits LIMIT 20;
 | async-stream      | 0.3.2   | MIT                       |
 | async-stream-impl | 0.3.2   | MIT                       |
 | async-trait       | 0.1.51  | Apache-2.0 OR MIT         |
-+-------------------+---------+---------------------------+
-```
++-------------------+---------+---------------------------+```
