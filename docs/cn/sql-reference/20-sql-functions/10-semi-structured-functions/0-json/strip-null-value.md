@@ -1,7 +1,6 @@
 ---
 title: STRIP_NULL_VALUE
 ---
-
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
