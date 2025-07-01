@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-使用起始和结束参数提取子数组。
+使用起始和结束参数提取子数组切片。
 
 ## 语法
 
@@ -17,9 +17,9 @@ ARRAY_SLICE(array, start, end)
 
 | 参数 | 描述 |
 |-----------|-------------|
-| array     | 要提取切片的源数组。 |
-| start     | 切片的起始位置（包含）。 |
-| end       | 切片的结束位置（不包含）。 |
+| array | 要提取切片的源数组。 |
+| start | 切片的起始位置（包含）。 |
+| end | 切片的结束位置（不包含）。 |
 
 ## 返回类型
 
@@ -27,8 +27,8 @@ ARRAY_SLICE(array, start, end)
 
 ## 关于索引的重要说明
 
-- 对于标准数组类型：索引是 **基于 1 的 (1-based)**（第一个元素的位置是 1）。
-- 对于变体数组类型：索引是 **基于 0 的 (0-based)**（第一个元素的位置是 0），以兼容 Snowflake。
+- 对于标准数组类型 (Standard Array Types)：索引是 **基于 1 的**（第一个元素的位置是 1）。
+- 对于变体数组类型 (Variant Array Types)：索引是 **基于 0 的**（第一个元素的位置是 0），以兼容 Snowflake。
 
 ## 示例
 
