@@ -2,7 +2,20 @@
 title: system_history.access_history
 ---
 
-此表作为查询（Query）元数据的一部分，提供了每个查询访问和修改的对象的详细日志，包括表、列和暂存区（Stage）。它提供有关 DDL 和 DML 操作的结构化信息，以增强审计功能。
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="引入或更新于：v1.2.764"/>
+
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='ACCESS HISTORY'/>
+
+**数据血缘（Data Lineage）与访问控制审计** - 跟踪查询访问或修改的所有数据库对象（表、列、暂存区（Stage））。这对于以下方面至关重要：
+
+- **数据血缘（Data Lineage）**：了解整个数据库中的数据流和依赖关系。
+- **合规性报告（Compliance Reporting）**：跟踪谁在何时访问了敏感数据。
+- **变更管理（Change Management）**：监控 DDL 操作和模式修改。
+- **安全分析（Security Analysis）**：识别异常访问模式或未经授权的数据访问。
 
 ## 字段
 
@@ -14,16 +27,16 @@ title: system_history.access_history
 | base_objects_accessed   | VARIANT   | 查询访问的对象。                                          |
 | direct_objects_accessed | VARIANT   | 保留供将来使用；当前未使用。                              |
 | objects_modified        | VARIANT   | 查询修改的对象。                                          |
-| object_modified_by_ddl  | VARIANT   | DDL 修改的对象（例如 `CREATE TABLE`、`ALTER TABLE`）。        |
+| object_modified_by_ddl  | VARIANT   | DDL（例如 `CREATE TABLE`、`ALTER TABLE`）修改的对象。        |
 
 `base_objects_accessed`、`objects_modified` 和 `object_modified_by_ddl` 字段都是 JSON 对象数组。每个对象可能包含以下字段：
 
-- `object_domain`: 对象的类型，可以是 [`Database`（数据库）, `Table`（表）, `Stage`（暂存区）] 中的一种。
-- `object_name`: 对象的名称。对于暂存区（Stage），这是暂存区的名称。
-- `columns`: 列信息，仅当 `object_domain` 为 `Table`（表）时存在。
-- `stage_type`: 暂存区（Stage）的类型，仅当 `object_domain` 为 `Stage`（暂存区）时存在。
-- `operation_type`: DDL 操作类型，可以是 [`Create`（创建）, `Alter`（修改）, `Drop`（删除）, `Undrop`（恢复）] 中的一种，仅在 `object_modified_by_ddl` 字段中存在。
-- `properties`: 有关 DDL 操作的详细信息，仅在 `object_modified_by_ddl` 字段中存在。
+- `object_domain`：对象类型，为 [`Database`, `Table`, `Stage`] 之一。
+- `object_name`：对象名称。对于暂存区（Stage），这是暂存区（Stage）的名称。
+- `columns`：列信息，仅当 `object_domain` 为 `Table` 时存在。
+- `stage_type`：暂存区（Stage）的类型，仅当 `object_domain` 为 `Stage` 时存在。
+- `operation_type`：DDL 操作类型，为 [`Create`, `Alter`, `Drop`, `Undrop`] 之一，仅在 `object_modified_by_ddl` 字段中存在。
+- `properties`：DDL 操作的详细信息，仅在 `object_modified_by_ddl` 字段中存在。
 
 ## 示例
 
@@ -77,4 +90,4 @@ direct_objects_accessed: []
  object_modified_by_ddl: []
 ```
 
-从表 `t` 到内部暂存区（Stage） `s` 的 `COPY INTO` 操作涉及读和写操作。执行此查询后，源表将记录在 `base_objects_accessed` 字段中，目标暂存区（Stage）将记录在 `objects_modified` 字段中。
+`COPY INTO` 操作从表 `t` 复制到内部暂存区（Internal Stage） `s`，涉及读和写两种操作。执行此查询后，源表将被记录在 `base_objects_accessed` 字段中，目标暂存区（Stage）将被记录在 `objects_modified` 字段中。
