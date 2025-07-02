@@ -7,6 +7,7 @@ Databend offers **enterprise-grade security and reliability features** that safe
 | Security Feature | Purpose | When to Use |
 |-----------------|---------|------------|
 | [**Access Control**](/guides/security/access-control) | Manage user permissions | When you need to control data access with role-based security and object ownership |
+| [**Audit Trail**](audit-trail.md) | Track database activities | When you need comprehensive audit trails for security monitoring, compliance, and performance analysis |
 | [**Network Policy**](/guides/security/network-policy) | Restrict network access | When you want to limit connections to specific IP ranges even with valid credentials |
 | [**Password Policy**](/guides/security/password-policy) | Set password requirements | When you need to enforce password complexity, rotation, and account lockout rules |
 | [**Masking Policy**](/guides/security/masking-policy) | Hide sensitive data | When you need to protect confidential data while still allowing authorized access |

@@ -2,57 +2,84 @@
 title: System History Tables
 ---
 
-import FunctionDescription from '@site/src/components/FunctionDescription';
+import EEFeature from '@site/src/components/EEFeature';
 
-<FunctionDescription description="Introduced or updated: v1.2.752"/>
+<EEFeature featureName='SYSTEM HISTORY'/>
 
 # System History Tables
 
-System history tables store persistent data in the `system_history` schema for auditing, troubleshooting, and compliance purposes. They track query execution, user logins, and system logs that can be queried using standard SQL.
+Databend's system history tables provide **Data Governance** capabilities by automatically tracking database activities for compliance, security monitoring, and performance analysis.
 
-## Available System History Tables
+## Available Tables
 
-| Table                                               | Description                                                     |
-|-----------------------------------------------------|-----------------------------------------------------------------|
-| [system_history.log_history](log-history.md)        | Stores raw log entries from various system components.          |
-| [system_history.query_history](query-history.md)    | Stores structured details of query execution.                   |
-| [system_history.profile_history](profile-history.md)| Stores detailed query execution profiles and statistics.        |
-| [system_history.login_history](login-history.md)    | Records information about user login events.                    |
-| [system_history.access_history](access-history.md)  | Stores information about query access events.                   |
+| Table | Purpose | Key Use Cases |
+|-------|---------|---------------|
+| [query_history](query-history.md) | Complete SQL execution audit trail | Performance analysis, compliance tracking, usage monitoring |
+| [access_history](access-history.md) | Data access and modification logs | Data lineage, compliance reporting, change management |
+| [login_history](login-history.md) | User authentication tracking | Security auditing, failed login monitoring, access pattern analysis |
+| [profile_history](profile-history.md) | Detailed query execution profiles | Performance optimization, resource planning, bottleneck identification |
+| [log_history](log-history.md) | Raw system logs and events | System troubleshooting, error analysis, operational monitoring |
 
-## Enabling System History Tables
+## Configuration
 
-> **Note:** In **Databend Cloud**, system history tables are automatically enabled and ready to use without any configuration needed. The following section applies only to **self-hosted Databend**.
+### Databend Cloud
+✅ **Automatically enabled** - All system history tables are ready to use without any configuration.
 
-In self-hosted Databend, system history tables are disabled by default. To enable them, configure the `[log.history]` section in your `databend-query.toml` file.
+### Self-Hosted Databend
 
-Configuration Example:
+<details>
+<summary>📝 **Manual configuration required** - Click to expand configuration details</summary>
+
+#### Minimal Configuration
+To enable system history tables, you must configure all 5 tables in your `databend-query.toml`:
 
 ```toml
 [log.history]
-# Enable history tables
 on = true
-level = "INFO"
 
-# Configure retention policies for each table
-[[log.history.tables]]
-table_name = "log_history"
-retention = 168  # 7 days (in hours)
-
+# All 5 tables must be configured to enable history logging
+# retention is optional (default: 168 hours = 7 days)
 [[log.history.tables]]
 table_name = "query_history"
-retention = 168
-
-[[log.history.tables]]
-table_name = "profile_history"
-retention = 168
+retention = 168  # Optional: 7 days (default)
 
 [[log.history.tables]]
 table_name = "login_history"
-retention = 168
+retention = 168  # Optional: 7 days (default)
+
+[[log.history.tables]]
+table_name = "access_history"
+retention = 168  # Optional: 7 days (default)
+
+[[log.history.tables]]
+table_name = "profile_history"
+retention = 168  # Optional: 7 days (default)
+
+[[log.history.tables]]
+table_name = "log_history"
+retention = 168  # Optional: 7 days (default)
 ```
 
-> **Note:** The `log_history` table is enabled by default when history logging is turned on. The `level` configuration determines the number of log entries stored in the log_history table. A more detailed level will result in more entries.
+#### Custom Storage (Optional)
+By default, history tables use your main database storage. To use separate S3 storage:
 
+```toml
+[log.history]
+on = true
 
-For more details about configuration options, see [Query Configuration: [log.history] Section](/guides/deploy/references/node-config/query-config#loghistory-section).
+[log.history.storage]
+type = "s3"
+
+[log.history.storage.s3]
+bucket = "your-history-bucket"
+root = "history_tables"
+endpoint_url = "https://s3.amazonaws.com"
+access_key_id = "your-access-key"
+secret_access_key = "your-secret-key"
+```
+
+> ⚠️ **Note:** When changing storage configuration, existing history tables will be dropped and recreated.
+
+</details>
+
+For complete configuration options, see [Query Configuration: [log.history] Section](/guides/deploy/references/node-config/query-config#loghistory-section).

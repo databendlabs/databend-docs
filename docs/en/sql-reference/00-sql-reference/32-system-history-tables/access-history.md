@@ -2,7 +2,20 @@
 title: system_history.access_history
 ---
 
-This table provides detailed logging of objects accessed and modified by each query, including tables, columns, and stages, as part of the query metadata. It provides structured information about DDL and DML operations to enhance auditing.
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.764"/>
+
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='ACCESS HISTORY'/>
+
+**Data lineage and access control audit** - Tracks all database objects (tables, columns, stages) accessed or modified by queries. Essential for:
+
+- **Data Lineage**: Understand data flow and dependencies across your database
+- **Compliance Reporting**: Track who accessed sensitive data and when
+- **Change Management**: Monitor DDL operations and schema modifications
+- **Security Analysis**: Identify unusual access patterns or unauthorized data access
 
 
 ## Fields

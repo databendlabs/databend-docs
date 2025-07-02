@@ -2,7 +2,20 @@
 title: system_history.query_history
 ---
 
-Records detailed logs of all SQL query executions in Databend. For each query, two entries are generated: one when the query starts and another when it finishes. This table is valuable for monitoring query activity, auditing user actions, and analyzing performance metrics.
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.764"/>
+
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='QUERY HISTORY'/>
+
+**Complete SQL execution audit trail** - Records comprehensive details of all SQL queries executed in Databend. Each query generates two entries (start and finish), providing complete visibility into:
+
+- **Performance Analysis**: Query duration, resource usage, and optimization opportunities
+- **Security Auditing**: Who executed what queries, when, and from where
+- **Compliance Tracking**: Complete audit trail for regulatory requirements
+- **Usage Monitoring**: Database activity patterns and user behavior analysis
 
 ## Fields
 
