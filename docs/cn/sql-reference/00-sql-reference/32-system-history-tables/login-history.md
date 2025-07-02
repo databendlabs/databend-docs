@@ -2,23 +2,36 @@
 title: system_history.login_history
 ---
 
-记录系统中的所有登录尝试，包括成功和失败事件。该表可用于审计 (Audit) 用户访问行为及排查身份验证 (Authentication) 问题。
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.764"/>
+
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='LOGIN HISTORY'/>
+
+**身份验证安全审计** - 全面记录所有用户登录尝试（包括成功和失败）。这对于以下方面至关重要：
+
+- **安全监控**：检测暴力破解攻击和未经授权的访问尝试
+- **合规审计**：跟踪用户身份验证以满足法规要求
+- **访问模式分析**：监控用户访问系统的时间和方式
+- **事件调查**：调查安全事件和身份验证问题
 
 ## 字段
 
 | 字段          | 类型      | 描述                                                    |
-|---------------|-----------|---------------------------------------------------------|
-| event_time    | TIMESTAMP | 登录事件发生时的时间戳                                  |
-| handler       | VARCHAR   | 用于登录的协议或处理程序 (Handler)（例如 `HTTP`）       |
-| event_type    | VARCHAR   | 登录事件的类型（例如 `LoginSuccess`、`LoginFailed`）    |
-| connection_uri| VARCHAR   | 用于连接的 URI                                          |
-| auth_type     | VARCHAR   | 使用的身份验证方法（例如密码）                          |
-| user_name     | VARCHAR   | 尝试登录的用户名                                        |
-| client_ip     | VARCHAR   | 客户端的 IP 地址                                        |
-| user_agent    | VARCHAR   | 客户端的用户代理字符串                                  |
-| session_id    | VARCHAR   | 与登录尝试关联的会话 ID                                 |
-| node_id       | VARCHAR   | 处理登录的节点 ID                                       |
-| error_message | VARCHAR   | 登录失败时的错误消息                                    |
+|---------------|-----------|--------------------------------------------------------|
+| event_time    | TIMESTAMP | 登录事件发生时的时间戳                                 |
+| handler       | VARCHAR   | 用于登录的协议或处理程序（例如 `HTTP`）                |
+| event_type    | VARCHAR   | 登录事件的类型（例如 `LoginSuccess`、`LoginFailed`）   |
+| connection_uri| VARCHAR   | 用于连接的 URI                                         |
+| auth_type     | VARCHAR   | 使用的身份验证方法（例如密码）                         |
+| user_name     | VARCHAR   | 尝试登录的用户名称                                     |
+| client_ip     | VARCHAR   | 客户端的 IP 地址                                       |
+| user_agent    | VARCHAR   | 客户端的用户代理字符串                                 |
+| session_id    | VARCHAR   | 与登录尝试关联的会话 ID                                |
+| node_id       | VARCHAR   | 处理登录的节点 ID                                      |
+| error_message | VARCHAR   | 登录失败时的错误消息                                   |
 
 ## 示例
 
