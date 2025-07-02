@@ -1,7 +1,21 @@
 ---
 title: system_history.profile_history
 ---
-Stores detailed execution profiles for SQL queries in Databend. Each entry provides performance metrics and execution statistics, allowing users to analyze and optimize query performance.
+
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.764"/>
+
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='PROFILE HISTORY'/>
+
+**Query performance deep-dive analytics** - Detailed execution profiles and statistics for every SQL query. Essential for:
+
+- **Performance Optimization**: Identify bottlenecks and optimize slow queries
+- **Resource Planning**: Understand memory, CPU, and I/O usage patterns
+- **Execution Analysis**: Analyze query plans and execution statistics
+- **Capacity Management**: Monitor resource consumption trends over time
 
 ## Fields
 

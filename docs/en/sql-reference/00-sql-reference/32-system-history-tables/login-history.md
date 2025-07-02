@@ -2,7 +2,20 @@
 title: system_history.login_history
 ---
 
-Records all login attempts in the system, including successful and failed login attempts. This table is useful for auditing user access and troubleshooting authentication issues.
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.764"/>
+
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='LOGIN HISTORY'/>
+
+**Authentication security audit** - Comprehensive logging of all user login attempts (successful and failed). Critical for:
+
+- **Security Monitoring**: Detect brute force attacks and unauthorized access attempts
+- **Compliance Auditing**: Track user authentication for regulatory requirements
+- **Access Pattern Analysis**: Monitor when and how users access the system
+- **Incident Investigation**: Investigate security incidents and authentication issues
 
 
 ## Fields

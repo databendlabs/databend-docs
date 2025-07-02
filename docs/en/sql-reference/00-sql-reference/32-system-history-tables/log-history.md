@@ -2,9 +2,22 @@
 title: system_history.log_history
 ---
 
-Stores raw log entries ingested from various nodes. This table acts as the primary source for subsequent log transformations.
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-All the other log tables are derived from this table, the difference is that other log tables will do some transformations to make the data more structured.
+<FunctionDescription description="Introduced or updated: v1.2.764"/>
+
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='LOG HISTORY'/>
+
+**System operations audit trail** - Raw log repository from all Databend nodes and components. Foundation for operational intelligence:
+
+- **System Monitoring**: Track system health, performance, and resource usage
+- **Troubleshooting**: Debug issues with detailed error logs and system events
+- **Operational Analytics**: Analyze system behavior patterns and trends
+- **Root Cause Analysis**: Investigate system failures and performance bottlenecks
+
+> **Note:** This table contains raw log data that feeds into other specialized history tables. Other tables provide structured, query-specific views of this data.
 
 ## Fields
 
