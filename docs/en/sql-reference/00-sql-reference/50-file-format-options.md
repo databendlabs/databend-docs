@@ -36,6 +36,7 @@ formatTypeOptions ::=
   ESCAPE = '<character>'
   NAN_DISPLAY = '<string>'
   ROW_TAG = '<string>'
+  USE_LOGIC_TYPE = TRUE | FALSE
   COMPRESSION = AUTO | GZIP | BZ2 | BROTLI | ZSTD | DEFLATE | RAW_DEFLATE | XZ | NONE
 ```
 
@@ -231,6 +232,15 @@ Determines the behavior when encountering missing fields during data loading. Re
 | `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
 | `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
 
+### USE_LOGIC_TYPE (Load Only)
+
+Controls how temporal data types (date and timestamp) are interpreted during loading.
+
+| Available Values | Description                                                                                                                |
+|------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `TRUE` (Default) | Date and timestamp values are loaded as their logical data types (DATE and TIMESTAMP).                                    |
+| `FALSE`          | Date and timestamp values are loaded as raw integer values (INT32 for dates, INT64 for timestamps).                      |
+
 ### COMPRESSION (Unload Only)
 
 Specifies the compression algorithm, which is used for compressing internal blocks of the file rather than the entire file, so the output remains in Parquet format.
@@ -263,3 +273,12 @@ Determines the behavior when encountering missing fields during data loading. Re
 |------------------|-----------------------------------------------------------------------------------------------|
 | `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
 | `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
+
+### USE_LOGIC_TYPE (Load Only)
+
+Controls how temporal data types (date and timestamp) are interpreted during loading.
+
+| Available Values | Description                                                                                                                |
+|------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `TRUE` (Default) | Date and timestamp values are loaded as their logical data types (DATE and TIMESTAMP).                                    |
+| `FALSE`          | Date and timestamp values are loaded as raw integer values (INT32 for dates, INT64 for timestamps).                      |
