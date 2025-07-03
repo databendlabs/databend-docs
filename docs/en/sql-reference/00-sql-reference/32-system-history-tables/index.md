@@ -20,6 +20,28 @@ Databend's system history tables provide **Data Governance** capabilities by aut
 | [profile_history](profile-history.md) | Detailed query execution profiles | Performance optimization, resource planning, bottleneck identification |
 | [log_history](log-history.md) | Raw system logs and events | System troubleshooting, error analysis, operational monitoring |
 
+## Permissions
+
+**Access Restrictions:**
+- Only `SELECT` and `DROP` operations are allowed
+- ALTER operations are prohibited for all users
+- Ownership cannot be transferred
+
+**Required Permissions:**
+To query system history tables, users need one of:
+- `GRANT SELECT ON *.*` (global access)
+- `GRANT SELECT ON system_history.*` (database access)
+- `GRANT SELECT ON system_history.table_name` (table-specific access)
+
+**Example:**
+```sql
+-- Create audit role for compliance team
+CREATE ROLE audit_team;
+GRANT SELECT ON system_history.* TO ROLE audit_team;
+CREATE USER compliance_officer IDENTIFIED BY 'secure_password' WITH DEFAULT_ROLE='audit_team';
+GRANT ROLE audit_team TO USER compliance_officer;
+```
+
 ## Configuration
 
 ### Databend Cloud
