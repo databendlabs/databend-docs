@@ -23,9 +23,6 @@ const siteRedirects = [
     from: '/en/guides/deploy/upgrade/upgrade',
     to: '/guides/deploy/upgrade/compatibility/'
   },
-  {
-    from: ''
-  },
   // Array Functions: 00-array-functions -> 10-semi-structured-functions/array
   {
     from: '/sql/sql-functions/array-functions/array-aggregate',
