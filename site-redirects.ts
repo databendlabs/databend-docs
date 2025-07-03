@@ -20,8 +20,11 @@ const siteRedirects = [
     to: '/tutorials/migrate/migrating-from-mysql-with-db-archiver'
   },
   {
-    from: '/guides/migrate/snowflake',
-    to: '/tutorials/migrate/migrating-from-snowflake'
+    from: '/en/guides/deploy/upgrade/upgrade',
+    to: '/guides/deploy/upgrade/compatibility/'
+  },
+  {
+    from: ''
   },
   // Array Functions: 00-array-functions -> 10-semi-structured-functions/array
   {
