@@ -14,7 +14,7 @@ import Slack from "@site/static/icons/slack.svg";
 import YouTube from "@site/static/icons/youtube.svg";
 import Bili from "@site/static/icons/bili.svg";
 import GongzhonghaoImg from "@site/static/img/databend-gongzhonghao.jpeg";
-import LittleDImg from "@site/static/img/little-d.jpeg";
+import SalesImg from "@site/static/img/sales.jpeg";
 import { Tooltip } from "antd";
 interface TProps {
   titleAlign?:
@@ -98,11 +98,11 @@ const JoinCommunity: FC<TProps> = ({
       ),
     },
     {
-      title: "客服小 D",
+      title: "销售微信",
       icon: (
         <img
           style={{ borderRadius: "6px", height: "100%", width: "100%" }}
-          src={LittleDImg}
+          src={SalesImg}
         ></img>
       ),
     },
@@ -135,7 +135,7 @@ const JoinCommunity: FC<TProps> = ({
         })}
         {isChina && (
           <div>
-            <div style={{ marginBottom: "8px", fontSize: "13px" }}>微信</div>
+            <h6 style={{ marginBottom: "8px", textAlign: titleAlign }}>微信</h6>
             <div className={clsx("community-group", styles.CommunityGroup)}>
               {QRCode?.map((code, index) => {
                 return (
@@ -153,6 +153,18 @@ const JoinCommunity: FC<TProps> = ({
                   </Tooltip>
                 );
               })}
+            </div>
+            <h6
+              style={{
+                textAlign: titleAlign,
+                marginTop: "16px",
+                marginBottom: "8px",
+              }}
+            >
+              销售电话
+            </h6>
+            <div className={clsx("community-group", styles.CommunityGroup)}>
+              185 1688 8139
             </div>
           </div>
         )}
