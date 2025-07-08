@@ -29,9 +29,9 @@ This page provides an updated list of available enterprise features. To access t
 
 ## Databend Community vs. Enterprise
 
-This section compares Databend Community with Databend Enterprise in the following modules:
+This section compares Databend Community with Databend Enterprise across key capabilities:
 
-### Core Functionalities
+### Core Database Engine
 
 <DatabendTable
 width={['70%', '15%', '15%']}
@@ -60,46 +60,7 @@ tbody={[
 ]}
 />
 
-### Extended Functionalities
-
-<DatabendTable
-width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
-tbody={[
-['Cluster Mode', '✕', '✓'],
-['Materialized Views', '✕', '✓'],
-['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', '✓ (HuggingFace Open Source Models)'],
-['Python UDF (Advanced Analytics)', '✕', '✓'],
-]}
-/>
-
-### Deployment
-
-<DatabendTable
-width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
-tbody={[
-['Deployment Support: K8s, Baremetal, Installer', '✓', '✓'],
-['Backend Storage Support: S3, Azblob, GCS, OSS, COS', '✓', '✓'],
-['x86_64 & ARM64 Architecture', '✓', '✓'],
-['Compatible with LoongArch, openEuler, etc.', '✓', '✓'],
-['Monitoring and Alerting APIs', '✓', '✓'],
-]}
-/>
-
-### Ecosystem
-
-<DatabendTable
-width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
-tbody={[
-['Driver Support: Go, Java, Rust, JS, Python', '✓', '✓'],
-['Native REST APIs', '✓', '✓'],
-['Native Client BendSQL', '✓', '✓'],
-]}
-/>
-
-### Security
+### Enterprise Security & Compliance
 
 <DatabendTable
 width={['70%', '15%', '15%']}
@@ -115,7 +76,33 @@ tbody={[
 ]}
 />
 
-### Data Integration & Sharing
+### High-Performance Query Optimization
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Aggregating Index (Precomputed Aggregations)', '✕', '✓'],
+['Full-Text Index (Text Search)', '✕', '✓'],
+['Ngram Index (Pattern Matching)', '✕', '✓'],
+['Virtual Column (JSON Query Acceleration)', '✕', '✓'],
+['Dynamic Column (Computed Columns)', '✕', '✓'],
+]}
+/>
+
+### Advanced Analytics & AI
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Materialized Views', '✕', '✓'],
+['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', '✓ (HuggingFace Open Source Models)'],
+['Python UDF (Advanced Analytics)', '✕', '✓'],
+]}
+/>
+
+### Real-time Data Integration
 
 <DatabendTable
 width={['70%', '15%', '15%']}
@@ -129,22 +116,7 @@ tbody={[
 ]}
 />
 
-### Query Performance
-
-<DatabendTable
-width={['70%', '15%', '15%']}
-thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
-tbody={[
-['Aggregating Index (Precomputed Aggregations)', '✕', '✓'],
-['Full-Text Index (Text Search)', '✕', '✓'],
-['Ngram Index (Pattern Matching)', '✕', '✓'],
-['Virtual Column (JSON Query Acceleration)', '✕', '✓'],
-['Dynamic Column (Computed Columns)', '✕', '✓'],
-]}
-title="Query Performance"
-/>
-
-### Storage Management & Disaster Recovery
+### Enterprise Storage & Backup
 
 <DatabendTable
 width={['70%', '15%', '15%']}
@@ -156,10 +128,35 @@ tbody={[
 ['BendSave (Cluster Backup & Restore)', '✕', '✓'],
 ['Fail-Safe (Data Recovery from Object Storage)', '✕', '✓'],
 ]}
-title="Storage Management & Disaster Recovery"
 />
 
-### Customer Support
+### Production Deployment
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Deployment Support: K8s, Baremetal, Installer', '✓', '✓'],
+['Backend Storage Support: S3, Azblob, GCS, OSS, COS', '✓', '✓'],
+['x86_64 & ARM64 Architecture', '✓', '✓'],
+['Compatible with LoongArch, openEuler, etc.', '✓', '✓'],
+['Monitoring and Alerting APIs', '✓', '✓'],
+]}
+/>
+
+### Developer Tools & APIs
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Driver Support: Go, Java, Rust, JS, Python', '✓', '✓'],
+['Native REST APIs', '✓', '✓'],
+['Native Client BendSQL', '✓', '✓'],
+]}
+/>
+
+### Enterprise Support
 
 <DatabendTable
 width={['70%', '15%', '15%']}
@@ -169,5 +166,4 @@ tbody={[
 ['Deployment and Upgrade', '✕', '✓'],
 ['Operational Support', '✕', '✓'],
 ]}
-title="Customer Support"
 />
