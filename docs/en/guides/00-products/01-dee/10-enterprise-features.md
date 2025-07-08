@@ -16,8 +16,10 @@ This page provides an updated list of available enterprise features. To access t
 | [BendSave](/guides/data-management/data-recovery#bendsave) | Disaster Recovery | Backup and restore entire Databend cluster data for disaster recovery. |
 | [Fail-Safe](/guides/security/fail-safe)                                          | Disaster Recovery  | Recover lost or accidentally deleted data from S3-compatible object storage.                                                                                                                                                                                                                                                                                                                                                                                            |
 | [Aggregating Index](/sql/sql-commands/ddl/aggregating-index)                     | Query Performance  | Speed up queries with precomputed and indexed aggregations.                                                                                                                                                                                                                                                                                                                                                                                                             |
-| [Virtual Column](/sql/sql-commands/ddl/virtual-column)                           | Query Performance  | Accelerate Variant data queries and reduce memory usage with virtual columns.                                                                                                                                                                                                                                                                                                                                                                                           |
-| [Computed Column](/sql/sql-commands/ddl/table/ddl-create-table#computed-columns) | Query Performance  | Automatically derive new columns from existing ones (stored or virtual).                                                                                                                                                                                                                                                                                                                                                                                                |
+| [Full-Text Index](/guides/performance/fulltext-index)                           | Query Performance  | Enable lightning-fast text search with inverted indexes and relevance scoring.                                                                                                                                                                                                                                                                                                                                                                                          |
+| [Ngram Index](/guides/performance/ngram-index)                                  | Query Performance  | Accelerate LIKE pattern matching queries with wildcard searches.                                                                                                                                                                                                                                                                                                                                                                                                        |
+| [Virtual Column](/sql/sql-commands/ddl/virtual-column)                          | Query Performance  | Automatically accelerate JSON queries with zero-configuration performance optimization for VARIANT data.                                                                                                                                                                                                                                                                                                                                                                |
+| [Dynamic Column](/sql/sql-commands/ddl/table/ddl-create-table#computed-columns)  | Query Performance  | Generate columns automatically from scalar expressions with stored or virtual calculation modes.                                                                                                                                                                                                                                                                                                                                                                         |
 | [Python UDF](/guides/query/udf#python-requires-databend-enterprise)              | Advanced Analytics | Execute Python code within SQL queries using built-in handler.                                                                                                                                                                                                                                                                                                                                                                                                          |
 | [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table)                         | Data Sharing       | Create read-only links to existing table data with zero-copy access across environments.                                                                                                                                                                                                                                                                                                                                                                                |
 | [Stream](/sql/sql-commands/ddl/stream)                                           | Change Data Capture | Track and capture table changes for incremental data processing.                                                                                                                                                                                                                                                                                                                                                                                                        |
@@ -66,7 +68,8 @@ thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
 tbody={[
 ['Cluster Mode', '✕', '✓'],
 ['Materialized Views', '✕', '✓'],
-['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', '✓ (HuggingFace Open Source Models)']
+['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', '✓ (HuggingFace Open Source Models)'],
+['Python UDF (Advanced Analytics)', '✕', '✓'],
 ]}
 />
 
@@ -112,33 +115,36 @@ tbody={[
 ]}
 />
 
-### Data Import & Export
+### Data Integration & Sharing
 
 <DatabendTable
 width={['70%', '15%', '15%']}
 thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
 tbody={[
 ['Data Processing during Import', '✓', '✓'],
-['Data Streaming', '✕', '✓'],
+['Stream (Change Data Capture)', '✕', '✓'],
 ['CDC Real-time Data Import', '✕', '✓'],
+['ATTACH TABLE (Zero-copy Data Sharing)', '✕', '✓'],
 ['Data Export Formats', 'Parquet/ORC/CSV/NDJSON', 'Parquet/ORC/CSV/NDJSON'],
 ]}
 />
 
-### Query Optimizations
+### Query Performance
 
 <DatabendTable
 width={['70%', '15%', '15%']}
 thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
 tbody={[
-['Aggregation Query Acceleration Optimization', '✕', '✓'],
-['JSON Query Acceleration Optimization', '✕', '✓'],
-['Precomputation Capability', '✕', '✓'],
+['Aggregating Index (Precomputed Aggregations)', '✕', '✓'],
+['Full-Text Index (Text Search)', '✕', '✓'],
+['Ngram Index (Pattern Matching)', '✕', '✓'],
+['Virtual Column (JSON Query Acceleration)', '✕', '✓'],
+['Dynamic Column (Computed Columns)', '✕', '✓'],
 ]}
-title="Query Optimizations"
+title="Query Performance"
 />
 
-### Storage Optimizations
+### Storage Management & Disaster Recovery
 
 <DatabendTable
 width={['70%', '15%', '15%']}
@@ -147,8 +153,10 @@ tbody={[
 ['Cold/Hot Data Separation', '✕', '✓'],
 ['Automatic Expiry Data Cleaning', '✕', '✓'],
 ['Automatic Garbage Data Cleaning', '✕', '✓'],
+['BendSave (Cluster Backup & Restore)', '✕', '✓'],
+['Fail-Safe (Data Recovery from Object Storage)', '✕', '✓'],
 ]}
-title="Storage Optimizations"
+title="Storage Management & Disaster Recovery"
 />
 
 ### Customer Support
