@@ -8,7 +8,7 @@ title: Addax
 
 ### DatabendReader 与 DatabendWriter
 
-DatabendReader 和 DatabendWriter 是 Addax 的集成插件，可与 Databend 无缝集成。DatabendReader 插件用于从 Databend 读取数据。Databend 兼容 MySQL 客户端协议，因此你也可以使用 [MySQLReader](https://wgzhao.github.io/Addax/develop/reader/mysqlreader/) 插件从 Databend 检索数据。更多关于 DatabendReader 的信息，请参阅 https://wgzhao.github.io/Addax/develop/reader/databendreader/。
+DatabendReader 和 DatabendWriter 是 Addax 的集成插件，可与 Databend 无缝集成。DatabendReader 插件用于从 Databend 读取数据。Databend 兼容 MySQL 客户端协议，因此你也可以使用 MySQLReader 插件从 Databend 检索数据。
 
 ### 教程
 
