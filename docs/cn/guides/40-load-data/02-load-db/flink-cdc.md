@@ -2,4 +2,4 @@
 title: Flink CDC
 ---
 
-参见 [Flink CDC](/tutorials/migrate/migrating-from-mysql-with-flink-cdc)。
+请参阅 [Flink CDC (Change Data Capture)](/tutorials/migrate/migrating-from-mysql-with-flink-cdc)。
