@@ -125,6 +125,15 @@ copyOptions ::=
 | `SIZE_LIMIT = <num>` | Number (> 0) that specifies the maximum rows of data to be loaded for a given COPY statement. Default `0`                     | Optional |
 | `PURGE = <bool>`     | True specifies that the command will purge the files in the stage if they are loaded successfully into table. Default `false` | Optional |
 
+
+## Access control requirements
+
+| Privilege | Object Type   | Description                                                               |
+|:----------|:--------------|:--------------------------------------------------------------------------|
+| SUPER     | Global, Table | Operates a stage(Lists stages. Creates, Drops a stage), catalog or share. |
+
+To create a stage, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the SUPER [privilege](/guides/security/access-control/privileges).
+
 ## Examples
 
 ### Example 1: Create Internal Stage

@@ -192,6 +192,16 @@ When choosing between stored computed columns and virtual computed columns, cons
 
 Databend's syntax is difference from MySQL mainly in the data type and some specific index hints.
 
+## Access control requirements
+
+| Privilege | Object Type   | Description            |
+|:----------|:--------------|:-----------------------|
+| CREATE    | Global, Table | Creates a table.       |
+
+
+To create a table, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the CREATE [privilege](/guides/security/access-control/privileges#table-privileges).
+
+
 ## Examples
 
 ### Create Table
