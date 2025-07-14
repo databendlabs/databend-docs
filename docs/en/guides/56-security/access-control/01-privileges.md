@@ -109,7 +109,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | ALL              | All                           | Grants all the privileges for the specified object type.                                                                                           |
 | ALTER            | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                                                             |
 | CREATE           | Global, Table                 | Creates a table or UDF.                                                                                                                            |
-| CREATE DATABASE  | Global                        | Creates a database, table or UDF.                                                                                                                  |
+| CREATE DATABASE  | Global                        | Creates a database or UDF.                                                                                                                         |
 | CREATE WAREHOUSE | Global                        | Creates a warehouse.                                                                                                                               |
 | DELETE           | Table                         | Deletes or truncates rows in a table.                                                                                                              |
 | DROP             | Global, Database, Table, View | Drops a database, table, view or UDF. Undrops a table.                                                                                             |
