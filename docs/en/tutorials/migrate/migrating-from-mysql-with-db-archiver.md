@@ -143,7 +143,7 @@ Download the db-archiver from the [release page](https://github.com/databendclou
     "databendTable": "{database}.my_table",
     "batchSize": 2,
     "batchMaxInterval": 30,
-    "workers": 1,
+    "maxThread": 1,
     "copyPurge": false,
     "copyForce": false,
     "disableVariantCheck": false,
