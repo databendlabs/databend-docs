@@ -3,22 +3,22 @@ title: 使用 db-archiver 从 MySQL 迁移
 sidebar_label: 'MySQL → Databend: db-archiver'
 ---
 
-> **功能**: 全量加载, 增量
-> **✅ 推荐** 用于历史数据的批量迁移
+> **能力**：全量加载 (Full Load)、增量加载 (Incremental)  
+> **✅ 推荐**用于历史数据的批量迁移
 
 在本教程中，我们将引导你完成使用 db-archiver 从 MySQL 迁移到 Databend Cloud 的过程。
 
-## 开始之前
+## 准备工作
 
-在开始之前，请确保你已准备好以下先决条件：
+在开始之前，请确保你已满足以下先决条件：
 
-- 你的本地机器上已安装 [Docker](https://www.docker.com/)，因为它将用于启动 MySQL。
-- 你的本地机器上已安装 [Go](https://go.dev/dl/)，因为安装 db-archiver 需要它。
-- 你的本地机器上已安装 BendSQL。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- [Docker](https://www.docker.com/) 已安装在本地计算机，将用于启动 MySQL。
+- [Go](https://go.dev/dl/) 已安装在本地计算机，安装 db-archiver 需要它。
+- BendSQL 已安装在本地计算机。关于如何使用各种包管理器安装 BendSQL，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
 
-## 步骤 1：在 Docker 中启动 MySQL
+## 第 1 步：在 Docker 中启动 MySQL
 
-1. 在你的本地机器上启动一个 MySQL 容器。以下命令启动一个名为 **mysql-server** 的 MySQL 容器，创建一个名为 **mydb** 的数据库，并将 root 密码设置为 `root`：
+1. 在本地计算机启动 MySQL 容器。以下命令启动名为 **mysql-server** 的容器，创建 **mydb** 数据库，并将 root 密码设为 `root`：
 
 ```bash
 docker run \
@@ -29,22 +29,22 @@ docker run \
   -d mysql:8
 ```
 
-2. 验证 MySQL 是否正在运行：
+2. 验证 MySQL 运行状态：
 
 ```bash
 docker ps
 ```
 
-检查输出中是否有名为 **mysql-server** 的容器：
+检查输出中名为 **mysql-server** 的容器：
 
-```bash
+```bash 
 CONTAINER ID   IMAGE                          COMMAND                  CREATED        STATUS             PORTS                                                                                            NAMES
 1a8f8d7d0e1a   mysql:8                        "docker-entrypoint.s…"   10 hours ago   Up About an hour   0.0.0.0:3306->3306/tcp, 33060/tcp                                                                mysql-server
 ```
 
-## 步骤 2：使用示例数据填充 MySQL
+## 第 2 步：向 MySQL 填充示例数据
 
-1. 登录到 MySQL 容器，并在提示时输入密码 `root`：
+1. 登录 MySQL 容器，提示时输入密码 `root`：
 
 ```bash
 docker exec -it mysql-server mysql -u root -p
@@ -72,7 +72,7 @@ mysql> USE mydb;
 Database changed
 ```
 
-3. 复制并粘贴以下 SQL 以创建一个名为 **my_table** 的表并插入数据：
+3. 复制粘贴以下 SQL，创建 **my_table** 表并插入数据：
 
 ```sql
 CREATE TABLE my_table (
@@ -107,10 +107,10 @@ mysql> quit
 Bye
 ```
 
-## 步骤 3：在 Databend Cloud 中设置目标
+## 第 3 步：在 Databend Cloud 设置目标
 
-1. 使用 BendSQL 连接到 Databend Cloud。如果你不熟悉 BendSQL，请参阅本教程：[使用 BendSQL 连接到 Databend Cloud](../connect/connect-to-databendcloud-bendsql.md)。
-2. 复制并粘贴以下 SQL 以创建一个名为 **my_table** 的目标表：
+1. 使用 BendSQL 连接 Databend Cloud。若不熟悉 BendSQL，请参阅教程：[使用 BendSQL 连接 Databend Cloud](../connect/connect-to-databendcloud-bendsql.md)。
+2. 复制粘贴以下 SQL，创建目标表 **my_table**：
 
 ```sql
 CREATE TABLE my_table (
@@ -120,13 +120,13 @@ CREATE TABLE my_table (
 );
 ```
 
-## 步骤 4：安装 db-archiver
+## 第 4 步：安装 db-archiver
 
-从 [release page](https://github.com/databendcloud/db-archiver/releases/) 根据你的 arch 下载 db-archiver。
+根据系统架构，从[发布页面](https://github.com/databendcloud/db-archiver/releases/)下载 db-archiver。
 
-## 步骤 5：配置并运行 db-archiver
+## 第 5 步：配置并运行 db-archiver
 
-1. 在你的本地机器上创建一个名为 **conf.json** 的文件，内容如下：
+1. 在本地创建 **conf.json** 文件，内容如下：
 
 ```json
 {
@@ -143,7 +143,7 @@ CREATE TABLE my_table (
     "databendTable": "{database}.my_table",
     "batchSize": 2,
     "batchMaxInterval": 30,
-    "workers": 1,
+    "maxThread": 1,
     "copyPurge": false,
     "copyForce": false,
     "disableVariantCheck": false,
@@ -152,13 +152,13 @@ CREATE TABLE my_table (
 }
 ```
 
-2. 在你的 **conf.json** 文件所在的目录中运行以下命令以开始迁移：
+2. 在 **conf.json** 所在目录运行以下命令启动迁移：
 
 ```bash
 db-archiver -f conf.json
 ```
 
-迁移将如下开始：
+迁移开始输出如下：
 
 ```bash
 start time: 2025-01-22 21:45:33
@@ -200,7 +200,7 @@ end time: 2025-01-22 21:45:34
 total time: 1.269478875s
 ```
 
-3. 返回到你的 BendSQL 会话并验证迁移：
+3. 返回 BendSQL 会话验证迁移：
 
 ```sql
 SELECT * FROM my_table;
