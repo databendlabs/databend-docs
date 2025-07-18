@@ -2,23 +2,40 @@
 title: Workload Group
 ---
 
-This page provides a comprehensive overview of Workload Group operations in Databend, organized by functionality for easy reference.
+Workload groups enable resource management and query concurrency control in Databend by allocating CPU, memory quotas and limiting concurrent queries for different user groups.
 
-## Workload Group Management
+## How It Works
 
+1. **Create workload groups** with specific resource quotas (CPU, memory, concurrency limits)
+2. **Assign users** to workload groups using `ALTER USER`
+3. **Query execution** automatically applies the workload group's resource limits based on the user
+
+## Quick Example
+
+```sql
+-- Create workload group
+CREATE WORKLOAD GROUP analytics WITH cpu_quota = '50%', memory_quota = '30%', max_concurrency = 5;
+
+-- Assign user to workload group
+CREATE USER analyst IDENTIFIED BY 'password';
+ALTER USER analyst WITH SET WORKLOAD GROUP = 'analytics';
+```
+
+## Command Reference
+
+### Management
 | Command | Description |
 |---------|-------------|
-| [CREATE WORKLOAD GROUP](create-workload-group.md) | Creates a new workload group for resource management |
-| [ALTER WORKLOAD GROUP](alter-workload-group.md) | Modifies an existing workload group configuration |
+| [CREATE WORKLOAD GROUP](create-workload-group.md) | Creates a new workload group with resource quotas |
+| [ALTER WORKLOAD GROUP](alter-workload-group.md) | Modifies workload group configuration |
 | [DROP WORKLOAD GROUP](drop-workload-group.md) | Removes a workload group |
-| [RENAME WORKLOAD GROUP](rename-workload-group.md) | Changes the name of a workload group |
+| [RENAME WORKLOAD GROUP](rename-workload-group.md) | Renames a workload group |
 
-## Workload Group Information
-
+### Information
 | Command | Description |
 |---------|-------------|
-| [SHOW WORKLOAD GROUPS](show-workload-groups.md) | Lists all workload groups and their configurations |
+| [SHOW WORKLOAD GROUPS](show-workload-groups.md) | Lists all workload groups and their settings |
 
-:::note
-Workload groups in Databend allow you to manage and prioritize resource allocation for different types of queries and users, helping optimize performance and resource utilization.
+:::tip
+Resource quotas are normalized across all workload groups in a warehouse. For example, if two groups have 60% and 40% CPU quotas, they get 60% and 40% of actual resources respectively.
 :::

@@ -18,6 +18,6 @@ RENAME WORKLOAD GROUP <current_name> TO <new_name>
 This example renames `test_workload_group_1` to `test_workload_group`:
 
 ```sql
-RENAME WAREHOUSE test_workload_group_1 TO test_workload_group;
+RENAME WORKLOAD GROUP test_workload_group_1 TO test_workload_group;
 ```
 

@@ -18,5 +18,5 @@ DROP WORKLOAD GROUP [IF EXISTS] <workload_group_name>
 This example removes the `test_workload_group` workload group:
 
 ```sql
-DROP WORKLOAD GROUP test_warehouse;
+DROP WORKLOAD GROUP test_workload_group;
 ```
