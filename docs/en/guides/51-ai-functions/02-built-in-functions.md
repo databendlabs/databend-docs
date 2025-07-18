@@ -3,6 +3,7 @@ title: Built-in AI Functions
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
+
 <FunctionDescription description="Introduced or updated: v1.2.777"/>
 
 # Built-in AI Functions

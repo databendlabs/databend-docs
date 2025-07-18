@@ -3,6 +3,7 @@ title: 'L1_DISTANCE'
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
+
 <FunctionDescription description="Introduced or updated: v1.2.777"/>
 
 Calculates the Manhattan (L1) distance between two vectors, measuring the sum of absolute differences between corresponding elements.
@@ -71,8 +72,3 @@ FROM products
 ORDER BY distance ASC
 LIMIT 5;
 ```
-
-## Related Functions
-
-- [COSINE_DISTANCE](../cosine-distance): Calculates cosine distance for semantic similarity
-- [L2_DISTANCE](../vector-l2-distance): Calculates Euclidean distance for geometric similarity

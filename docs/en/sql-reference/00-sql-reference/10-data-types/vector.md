@@ -3,8 +3,12 @@ title: Vector
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
+
 <FunctionDescription description="Introduced or updated: v1.2.777"/>
 
+import EEFeature from '@site/src/components/EEFeature';
+
+<EEFeature featureName='VECTOR INDEX'/>
 
 
 The VECTOR data type stores multi-dimensional arrays of 32-bit floating-point numbers, designed for machine learning, AI applications, and similarity search operations. Each vector has a fixed dimension (length) specified at creation time.
@@ -20,10 +24,6 @@ Where:
 - Elements are 32-bit floating-point numbers.
 
 ## Vector Indexing
-
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='VECTOR INDEX'/>
 
 Databend supports creating vector indexes using the HNSW (Hierarchical Navigable Small World) algorithm for fast approximate nearest neighbor search, delivering **23x faster** query performance.
 
