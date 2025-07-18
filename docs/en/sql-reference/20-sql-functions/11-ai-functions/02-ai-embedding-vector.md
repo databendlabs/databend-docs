@@ -1,7 +1,9 @@
 ---
 title: "AI_EMBEDDING_VECTOR"
-description: "Creating embeddings using the ai_embedding_vector function in Databend"
 ---
+
+import FunctionDescription from '@site/src/components/FunctionDescription';
+<FunctionDescription description="Introduced or updated: v1.2.777"/>
 
 This document provides an overview of the ai_embedding_vector function in Databend and demonstrates how to create document embeddings using this function.
 
