@@ -25,7 +25,7 @@ column_name VECTOR(<dimension>)
 
 ## 向量索引
 
-Databend 支持使用 HNSW（分层可导航小世界）算法创建向量索引，以实现快速的近似最近邻搜索，查询性能提升 **23 倍**。
+Databend 支持使用 HNSW 算法创建向量索引，以实现快速的近似最近邻搜索，查询性能提升 **23 倍**。
 
 ### 索引语法
 
@@ -35,7 +35,7 @@ VECTOR INDEX index_name(column_name) distance='cosine,l1,l2'
 
 其中：
 - `index_name`: 向量索引的名称
-- `column_name`: 要索引的向量（VECTOR）列的名称
+- `column_name`: 需要索引向量（VECTOR）列的名称
 - `distance`: 支持的距离函数。可以是 `'cosine'`、`'l1'`、`'l2'`，或组合形式如 `'cosine,l1,l2'`
 
 
