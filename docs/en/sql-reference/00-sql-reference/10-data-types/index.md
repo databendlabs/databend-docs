@@ -34,6 +34,7 @@ The following is a list of semi-structured data types in Databend:
 | [TUPLE](tuple.md) | N/A   | ('2023-02-14','Valentine Day') | An ordered collection of values of different data types, accessed by their index.                                   |
 | [MAP](map.md)           | N/A   | `{"a":1, "b":2, "c":3}`        | A set of key-value pairs where each key is unique and maps to a value.                                              |
 | [VARIANT](variant.md)   | JSON  | `[1,{"a":1,"b":{"c":2}}]`      | Collection of elements of different data types, including `ARRAY` and `OBJECT`.                                     |
+| [VECTOR](vector.md)       | N/A   | [1.0, 2.1, 3.2]               | Multi-dimensional arrays of 32-bit floating-point numbers for machine learning and similarity search operations.    |
 | [BITMAP](bitmap.md)       | N/A   | 0101010101                     | A binary data type used to represent a set of values, where each bit represents the presence or absence of a value. |
 
 ## Data Type Conversions

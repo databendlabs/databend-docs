@@ -1,7 +1,10 @@
 ---
 title: "AI_EMBEDDING_VECTOR"
-description: "Creating embeddings using the ai_embedding_vector function in Databend"
 ---
+
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.777"/>
 
 This document provides an overview of the ai_embedding_vector function in Databend and demonstrates how to create document embeddings using this function.
 
@@ -50,7 +53,8 @@ CREATE TABLE documents (
                            id INT,
                            title VARCHAR,
                            content VARCHAR,
-                           embedding ARRAY(FLOAT NOT NULL)
+                           embedding VECTOR(1536),
+                           VECTOR INDEX idx_embedding(embedding) distance='cosine'
 );
 ```
 
