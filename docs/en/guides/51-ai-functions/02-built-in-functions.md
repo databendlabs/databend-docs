@@ -18,7 +18,7 @@ Databend provides built-in AI functions powered by Azure OpenAI Service for seam
 
 ## Vector Storage in Databend
 
-Databend stores embedding vectors using the `ARRAY(FLOAT NOT NULL)` data type, enabling direct similarity calculations with the `cosine_distance` function in SQL.
+Databend stores embedding vectors using the `VECTOR(1536)` data type, enabling direct similarity calculations with the `cosine_distance` function in SQL.
 
 ## Example: Semantic Search with Embeddings
 
@@ -28,7 +28,8 @@ CREATE TABLE articles (
     id INT,
     title VARCHAR,
     content VARCHAR,
-    embedding ARRAY(FLOAT NOT NULL)
+    embedding VECTOR(1536),
+    VECTOR INDEX idx_embedding(embedding) distance='cosine'
 );
 
 -- Store documents with their vector embeddings

@@ -50,7 +50,8 @@ CREATE TABLE documents (
                            id INT,
                            title VARCHAR,
                            content VARCHAR,
-                           embedding ARRAY(FLOAT NOT NULL)
+                           embedding VECTOR(1536),
+                           VECTOR INDEX idx_embedding(embedding) distance='cosine'
 );
 ```
 

@@ -13,8 +13,8 @@ COSINE_DISTANCE(vector1, vector2)
 
 ## Arguments
 
-- `vector1`: First vector (ARRAY(FLOAT NOT NULL))
-- `vector2`: Second vector (ARRAY(FLOAT NOT NULL))
+- `vector1`: First vector (VECTOR Data Type)
+- `vector2`: Second vector (VECTOR Data Type)
 
 ## Returns
 
@@ -51,7 +51,8 @@ Create a table with vector data:
 ```sql
 CREATE OR REPLACE TABLE vectors (
     id INT,
-    vec ARRAY(FLOAT NOT NULL)
+    vec VECTOR(3),
+    VECTOR INDEX idx_vec(vec) distance='cosine'
 );
 
 INSERT INTO vectors VALUES
@@ -65,7 +66,7 @@ Find the vector most similar to [1, 2, 3]:
 ```sql
 SELECT 
     vec, 
-    COSINE_DISTANCE(vec, [1.0000, 2.0000, 3.0000]) AS distance
+    COSINE_DISTANCE(vec, [1.0000, 2.0000, 3.0000]::VECTOR(3)) AS distance
 FROM 
     vectors
 ORDER BY 
