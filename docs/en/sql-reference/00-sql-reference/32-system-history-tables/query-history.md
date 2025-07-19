@@ -38,7 +38,7 @@ import EEFeature from '@site/src/components/EEFeature';
 | event_date                | DATE             | The date when the event occurred.                                                             |
 | event_time                | TIMESTAMP        | The timestamp when the event occurred.                                                        |
 | query_start_time          | TIMESTAMP        | The timestamp when the query started.                                                         |
-| query_duration_ms         | BIGINT           | The duration of the query in milliseconds.                                                    |
+| query_duration_ms         | BIGINT           | The total duration of the query in milliseconds (includes both queue time and execution time).                                                    |
 | query_queued_duration_ms  | BIGINT           | The time the query spent in the queue in milliseconds.                                        |
 | current_database          | VARCHAR          | The database in use when the query was executed.                                              |
 | written_rows              | BIGINT UNSIGNED  | The number of rows written by the query.                                                      |
