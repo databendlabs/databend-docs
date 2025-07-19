@@ -21,8 +21,8 @@ import EEFeature from '@site/src/components/EEFeature';
 
 | Field                     | Type             | Description                                                                                   |
 |---------------------------|------------------|-----------------------------------------------------------------------------------------------|
-| log_type                  | TINYINT          | The query status.                                     |
-| log_type_name             | VARCHAR          | The name of query status.                                           |
+| log_type                  | TINYINT          | Query status: 1=Start, 2=Finish, 3=Error, 4=Aborted, 5=Closed.                                     |
+| log_type_name             | VARCHAR          | String name of query status: "Start", "Finish", "Error", "Aborted", or "Closed".                                           |
 | handler_type              | VARCHAR          | The protocol or handler used for the query (e.g., `HTTPQuery`, `MySQL`).                                 |
 | tenant_id                 | VARCHAR          | The tenant identifier.                                                                        |
 | cluster_id                | VARCHAR          | The cluster identifier.                                                                       |
