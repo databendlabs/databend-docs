@@ -45,6 +45,26 @@ Table "gift": This table lists the gift options for the VIP clients.
 | Coffee    	 |
 | Soda      	 |
 
+Table trades: This table records trade transactions for various stock symbols.
+
+| Symbol | Time   | Price  |
+| ------ |--------|--------|
+| AAPL   | 100003 | 101    |
+| AAPL   | 100007 | 103    |
+| MSFT   | 100002 | 99     |
+| TSLA   | 100010 | 200    |
+
+
+Table quotes: This table provides quote snapshots (bid/ask) for symbols at various timestamps.
+
+| Symbol | Time   | Bid | Ask |
+| ------ |--------| --- | --- |
+| AAPL   | 100000 | 99  | 102 |
+| AAPL   | 100005 | 100 | 104 |
+| MSFT   | 100001 | 98  | 101 |
+| NVDA   | 100006 | 150 | 155 |
+
+
 ## Inner Join
 
 The *inner join* returns the rows that meet the join conditions in the result set.
@@ -411,4 +431,88 @@ Output:
 ```sql
 |100|Croissant|2000
 |106|Soda|4000
+```
+
+## Asof Join
+
+An Asof Join (Approximate Sort-Merge Join) returns rows from the left table matched with the most recent row in the
+right table whose timestamp is less than or equal to the left's. It is commonly used in time series data to attach the
+latest contextual information, such as quotes, status, or sensor readings.
+
+Unlike typical equi-joins, the join condition is based on inequality (usually <=) and may optionally include additional
+equality conditions.
+
+### Syntax
+
+```sql
+SELECT select_list
+FROM table_a ASOF
+         JOIN table_b
+              ON table_a.time >= table_b.time
+                  [ AND table_a.key = table_b.key]
+```
+
+### Examples
+
+The following example joins a trade record with the latest quote before or at the trade time for the same symbol:
+
+```sql
+SELECT *
+FROM trades
+    ASOF JOIN quotes
+              ON trades.symbol = quotes.symbol
+                  AND trades.time >= quotes.time;
+```
+
+For the definitions of the tables in the example, see [Example Tables](#example-tables).
+
+Output:
+
+```sql
+│ AAPL             │          100003 │             101 │ AAPL             │          100000 │              99 │             102 │
+│ AAPL             │          100007 │             103 │ AAPL             │          100005 │             100 │             104 │
+│ MSFT             │          100002 │              99 │ MSFT             │          100001 │              98 │             101 │
+
+```
+
+The following example performs an ASOF LEFT JOIN, returning all trade records along with the latest quote before or at the trade time for the same symbol, if such a quote exists. If no matching quote exists, the quote fields will be NULL.
+
+```sql
+SELECT *
+FROM trades
+    ASOF LEFT JOIN quotes
+              ON trades.symbol = quotes.symbol
+                  AND trades.time >= quotes.time;
+```
+
+For the definitions of the tables in the example, see [Example Tables](#example-tables).
+
+Output:
+
+```sql
+│ AAPL             │          100003 │             101 │ AAPL             │          100000 │              99 │             102 │
+│ MSFT             │          100002 │              99 │ MSFT             │          100001 │              98 │             101 │
+│ AAPL             │          100007 │             103 │ AAPL             │          100005 │             100 │             104 │
+│ TSLA             │          100010 │             200 │ NULL             │            NULL │            NULL │            NULL │
+```
+
+The following example performs an ASOF RIGHT JOIN, returning all quote records along with the latest trade after or at the quote time for the same symbol, if such a trade exists. If no matching trade exists, the trade fields will be NULL.
+
+```sql
+SELECT *
+FROM trades
+    ASOF RIGHT JOIN quotes
+              ON trades.symbol = quotes.symbol
+                  AND trades.time >= quotes.time;
+```
+
+For the definitions of the tables in the example, see [Example Tables](#example-tables).
+
+Output:
+
+```sql
+│ AAPL             │          100003 │             101 │ AAPL             │          100000 │              99 │             102 │
+│ AAPL             │          100007 │             103 │ AAPL             │          100005 │             100 │             104 │
+│ MSFT             │          100002 │              99 │ MSFT             │          100001 │              98 │             101 │
+│ NULL             │            NULL │            NULL │ NVDA             │          100006 │             150 │             155 │
 ```
