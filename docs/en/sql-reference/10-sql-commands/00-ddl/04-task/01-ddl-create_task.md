@@ -9,8 +9,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 The CREATE TASK statement is used to define a new task that executes a specified SQL statement on a scheduled basis or dag based task graph.
 
-**NOTICE:** this functionality works out of the box only in Databend Cloud.
-
 ## Syntax
 
 ```sql

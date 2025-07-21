@@ -3,6 +3,10 @@ title: Task
 ---
 
 This page provides a comprehensive overview of task operations in Databend, organized by functionality for easy reference.
+<EEFeature featureName='PRIVATE TASK'/>
+:::note
+Databend Cloud does not require this feature
+:::
 
 ## Task Management
 
