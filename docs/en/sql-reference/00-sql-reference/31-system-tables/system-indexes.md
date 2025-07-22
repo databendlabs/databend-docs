@@ -13,9 +13,9 @@ See also: [SHOW INDEXES](../../10-sql-commands/50-administration-cmds/show-index
 ```sql
 CREATE TABLE t1(a int,b int);
 
-CREATE AGGREGATING INDEX idx1 AS SELECT SUM(a), b FROM default.t1 WHERE b > 3 GROUP BY b；
+CREATE AGGREGATING INDEX idx1 AS SELECT SUM(a), b FROM default.t1 WHERE b > 3 GROUP BY b;
 
-SELECT * FROM system.indexes；
+SELECT * FROM system.indexes;
 
 +----------+-------------+------------------------------------------------------------+----------------------------+
 | name     | type        | definition                                                 | created_on                 |
