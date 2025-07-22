@@ -1,6 +1,7 @@
 ---
 title: CREATE WAREHOUSE
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.687"/>
@@ -10,7 +11,7 @@ Creates a warehouse with specified size or by assigning nodes from specific node
 ## Syntax
 
 ```sql
-CREATE WAREHOUSE <warehouse_name>  
+CREATE WAREHOUSE <warehouse_name>
 [WITH warehouse_size = <size> | ( ASSIGN <node_count> NODES FROM <node_group>[, <node_count> NODES FROM <node_group> ... ] ) ]
 ```
 
@@ -19,7 +20,7 @@ CREATE WAREHOUSE <warehouse_name>
 This example creates a warehouse with a size of 10:
 
 ```sql
-CREATE WAREHOUSE test_warehouse WITH warehouse_size = 10；
+CREATE WAREHOUSE test_warehouse WITH warehouse_size = 10;
 ```
 
 This example creates a warehouse by assigning specific nodes from node groups:
