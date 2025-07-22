@@ -439,7 +439,7 @@ An Asof Join (Approximate Sort-Merge Join) returns rows from the left table matc
 right table whose timestamp is less than or equal to the left's. It is commonly used in time series data to attach the
 latest contextual information, such as quotes, status, or sensor readings.
 
-Unlike typical equi-joins, the join condition is based on inequality (usually <=) and may optionally include additional
+Unlike typical equi-joins, the join condition is based on inequality (usually `<=`) and may optionally include additional
 equality conditions.
 
 ### Syntax
