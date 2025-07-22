@@ -102,7 +102,7 @@ type Book struct {
 }
 
 func dsn() string {
-	return fmt.Sprintf("http://%s:%s@%s", username, password, hostname)
+	return fmt.Sprintf("databend://%s:%s@%s?sslmode=disable", username, password, hostname)
 }
 
 func main() {
