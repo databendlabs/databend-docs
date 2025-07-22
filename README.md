@@ -43,7 +43,7 @@ To ensure a smooth collaboration process, we recommend following these best prac
 **If you have multiple Node.js versions on your machine, we recommend using [nvm](https://github.com/nvm-sh/nvm) to manage your Node versions.**
 
 ```bash
-yarn install
+yarn
 ```
 
 ```bash
