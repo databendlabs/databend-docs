@@ -25,7 +25,14 @@ const config: Config = {
   organizationName: "DatabendLabs",
   projectName: 'Databend', // Usually your repo name.
   future: {
-    experimental_faster: true,
+    experimental_faster: {
+      rspackBundler: true, // required flag
+      swcJsLoader: true,
+      swcJsMinimizer: true,
+      swcHtmlMinimizer: true,
+      lightningCssMinimizer: true,
+      mdxCrossCompilerCache: true,
+    }
   },
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
