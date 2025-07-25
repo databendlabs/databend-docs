@@ -1,10 +1,10 @@
 ---
-title: 连接（JOIN）
+title: JOIN
 ---
 
 ## 支持的连接类型
 
-*连接（Join）* 将两个或多个表的列组合到单个结果集中。Databend 支持以下 *连接（Join）* 类型：
+连接（Join）操作可以将两个或多个表中的列组合成一个结果集。Databend 支持以下连接（Join）类型：
 
 * [内连接（Inner Join）](#inner-join)
 * [自然连接（Natural Join）](#natural-join)
@@ -17,37 +17,57 @@ title: 连接（JOIN）
 
 ## 示例表
 
-除非明确指定，本页面的连接示例基于以下表创建：
+除非另有说明，本页上的连接示例均基于以下表格创建：
 
-表 "vip_info"：存储 VIP 客户信息。
+表 "vip_info"：此表存储 VIP 客户信息。
 
-| Client_ID 	   | Region    	 |
-|---------------|-------------|
-| 101         	 | Toronto   	 |
-| 102         	 | Quebec    	 |
-| 103         	 | Vancouver 	 |
+| 客户_ID     | 地区        |
+|-------------|-------------|
+| 101         | Toronto     |
+| 102         | Quebec      |
+| 103         | Vancouver   |
 
-表 "purchase_records"：记录所有客户的购买信息。
+表 "purchase_records"：此表列出了所有客户的购买记录。
 
-| Client_ID 	   | Item      	 | QTY 	     |
-|---------------|-------------|-----------|
-| 100         	 | Croissant 	 | 2,000   	 |
-| 102         	 | Donut     	 | 3,000   	 |
-| 103         	 | Coffee    	 | 6,000   	 |
-| 106         	 | Soda      	 | 4,000   	 |
+| 客户_ID     | 商品        | 数量      |
+|-------------|-------------|-----------|
+| 100         | Croissant   | 2,000     |
+| 102         | Donut       | 3,000     |
+| 103         | Coffee      | 6,000     |
+| 106         | Soda        | 4,000     |
 
-表 "gift"：列出 VIP 客户的礼品选项。
+表 "gift"：此表列出了 VIP 客户的礼品选项。
 
-| Gift      	 |
+| 礼物        |
 |-------------|
-| Croissant 	 |
-| Donut     	 |
-| Coffee    	 |
-| Soda      	 |
+| Croissant   |
+| Donut       |
+| Coffee      |
+| Soda        |
+
+表 trades：此表记录了各种股票代码的交易事务。
+
+| 代码   | 时间   | 价格   |
+| ------ |--------|--------|
+| AAPL   | 100003 | 101    |
+| AAPL   | 100007 | 103    |
+| MSFT   | 100002 | 99     |
+| TSLA   | 100010 | 200    |
+
+
+表 quotes：此表提供各种股票代码在不同时间戳的报价快照（买入价/卖出价）。
+
+| 代码   | 时间   | 买入价 | 卖出价 |
+| ------ |--------|--------|--------|
+| AAPL   | 100000 | 99     | 102    |
+| AAPL   | 100005 | 100    | 104    |
+| MSFT   | 100001 | 98     | 101    |
+| NVDA   | 100006 | 150    | 155    |
+
 
 ## 内连接（Inner Join）
 
-*内连接（Inner Join）* 返回结果集中满足连接条件的行。
+`内连接（Inner Join）` 会在结果集中返回满足连接条件的行。
 
 ### 语法
 
@@ -61,10 +81,10 @@ FROM table_a
 ```
 
 :::tip
-关键字 INNER 可选。
+关键字 INNER 是可选的。
 :::
 
-当基于公共列使用等值连接时，可用 USING 简化语法：
+当使用相等运算符连接两个表的公共列时，可以使用关键字 USING 来简化语法。
 
 ```sql    
 SELECT select_list
@@ -77,7 +97,7 @@ FROM table_a
 
 ### 示例
 
-返回 VIP 客户的购买记录：
+以下示例返回 VIP 客户的购买记录：
 
 ```sql    
 SELECT purchase_records.client_id,
@@ -88,7 +108,7 @@ FROM   vip_info
                ON vip_info.client_id = purchase_records.client_id; 
 ```
 
-表定义详见 [示例表](#example-tables)。
+有关示例中表的定义，请参见[示例表](#example-tables)。
 
 输出：
 
@@ -99,7 +119,7 @@ FROM   vip_info
 
 ## 自然连接（Natural Join）
 
-*自然连接（Natural Join）* 基于两个表所有同名列进行连接。
+`自然连接（Natural Join）` 会根据两个表中所有同名的列来连接这两个表。
 
 ### 语法
 
@@ -112,7 +132,7 @@ FROM table_a
 
 ### 示例
 
-返回 VIP 客户的购买记录：
+以下示例返回 VIP 客户的购买记录：
 
 ```sql    
 SELECT purchase_records.client_id,
@@ -122,7 +142,7 @@ FROM   vip_info
        NATURAL JOIN purchase_records; 
 ```
 
-表定义详见 [示例表](#example-tables)。
+有关示例中表的定义，请参见[示例表](#example-tables)。
 
 输出：
 
@@ -133,7 +153,7 @@ FROM   vip_info
 
 ## 交叉连接（Cross Join）
 
-*交叉连接（Cross Join）* 返回第一个表每行与第二个表每行的组合结果。
+`交叉连接（Cross Join）` 返回一个结果集，该结果集包含第一个表中的每一行与第二个表中的每一行连接后的组合。
 
 ### 语法
 
@@ -145,7 +165,7 @@ FROM table_a
 
 ### 示例
 
-为每位 VIP 客户分配所有礼品选项：
+以下示例返回一个结果集，为每个 VIP 客户分配每个礼品选项：
 
 ```sql    
 SELECT *
@@ -153,7 +173,7 @@ FROM   vip_info
        CROSS JOIN gift; 
 ```
 
-表定义详见 [示例表](#example-tables)。
+有关示例中表的定义，请参见[示例表](#example-tables)。
 
 输出：
 
@@ -174,7 +194,7 @@ FROM   vip_info
 
 ## 左连接（Left Join）
 
-*左连接（Left Join）* 返回左表所有记录及右表匹配记录。若无匹配，右表字段返回 NULL。
+`左连接（Left Join）` 返回左表中的所有记录，以及右表中的匹配记录。如果没有匹配项，则右侧的结果为 NULL 记录。
 
 ### 语法
 
@@ -185,12 +205,12 @@ FROM table_a
 		ON join_condition
 ```
 :::tip
-关键字 OUTER 可选。
+关键字 OUTER 是可选的。
 :::
 
 ### 示例
 
-返回所有 VIP 客户的购买记录（无购买记录时显示 NULL）：
+以下示例返回所有 VIP 客户的购买记录，如果 VIP 客户没有购买记录，则购买记录将为 NULL：
 
 ```sql    
 SELECT vip_info.client_id,
@@ -201,7 +221,7 @@ FROM   vip_info
               ON vip_info.client_id = purchase_records.client_id; 
 ```
 
-表定义详见 [示例表](#example-tables)。
+有关示例中表的定义，请参见[示例表](#example-tables)。
 
 输出：
 
@@ -213,7 +233,7 @@ FROM   vip_info
 
 ## 右连接（Right Join）
 
-*右连接（Right Join）* 返回右表所有记录及左表匹配记录。若无匹配，左表字段返回 NULL。
+`右连接（Right Join）` 返回右表中的所有记录，以及左表中的匹配记录。如果没有匹配项，则左侧的结果为 NULL 记录。
 
 ### 语法
 
@@ -225,12 +245,12 @@ FROM table_a
 ```
 
 :::tip
-关键字 OUTER 可选。
+关键字 OUTER 是可选的。
 :::
 
 ### 示例
 
-返回所有购买记录对应的 VIP 信息（无 VIP 信息时显示 NULL）：
+以下示例返回所有 purchase_records 对应的 vip_info，如果 purchase_record 没有相应的 vip_info，则 vip_info 将为 NULL。
 
 ```sql    
 SELECT vip_info.client_id,
@@ -240,7 +260,7 @@ FROM   vip_info
                ON vip_info.client_id = purchase_records.client_id; 
 ```
 
-表定义详见 [示例表](#example-tables)。
+有关示例中表的定义，请参见[示例表](#example-tables)。
 
 输出：
 
@@ -253,7 +273,7 @@ NULL|NULL
 
 ## 全外连接（Full Outer Join）
 
-*全外连接（Full Outer Join）* 返回两表所有行，匹配行合并显示，无匹配行处填充 NULL。
+`全外连接（Full Outer Join）` 返回两个表中的所有行，在可以匹配的地方将行匹配起来，在没有匹配行的地方则放置 NULL。
 
 ### 语法
 
@@ -265,12 +285,12 @@ FROM   table_a
 ```
 
 :::tip
-关键字 OUTER 可选。
+关键字 OUTER 是可选的。
 :::
 
 ### 示例
 
-返回两表所有匹配及未匹配的行：
+以下示例返回两个表中所有匹配和不匹配的行：
 
 ```sql
 SELECT vip_info.region,
@@ -280,7 +300,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-表定义详见 [示例表](#example-tables)。
+有关示例中表的定义，请参见[示例表](#example-tables)。
 
 输出：
 
@@ -294,7 +314,7 @@ NULL|Soda
 
 ## 左/右半连接（Left / Right Semi Join）
 
-*左半连接（Left Semi Join）* 返回左表中与右表匹配的行。*右半连接（Right Semi Join）* 返回右表中与左表匹配的行。
+`左半连接（Left Semi Join）` 返回左表中在右表有匹配行的行。`右半连接（Right Semi Join）` 返回右表中在左表有匹配行的行。
 
 ### 语法
 
@@ -314,7 +334,7 @@ FROM   table_a
 
 ### 示例
 
-返回有购买记录的 VIP 客户（Client_ID 和 Region）：
+以下示例返回有购买记录的 VIP 客户（Client_ID 和 Region）：
 
 ```sql
 SELECT *
@@ -323,7 +343,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-表定义详见 [示例表](#example-tables)。
+有关示例中表的定义，请参见[示例表](#example-tables)。
 
 输出：
 
@@ -332,7 +352,7 @@ FROM   vip_info
 103|Vancouver
 ```
 
-返回 VIP 客户的购买记录（Client_ID、Item 和 QTY）：
+以下示例返回 VIP 客户的购买记录（Client_ID、Item 和 QTY）：
 
 ```sql
 SELECT *
@@ -341,7 +361,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-表定义详见 [示例表](#example-tables)。
+有关示例中表的定义，请参见[示例表](#example-tables)。
 
 输出：
 
@@ -352,7 +372,7 @@ FROM   vip_info
 
 ## 左/右反连接（Left / Right Anti Join）
 
-*左反连接（Left Anti Join）* 返回左表中与右表不匹配的行。*右反连接（Right Anti Join）* 返回右表中与左表不匹配的行。
+`左反连接（Left Anti Join）` 返回左表中在右表没有匹配行的行。`右反连接（Right Anti Join）` 返回右表中在左表没有匹配行的行。
 
 ### 语法
 
@@ -372,7 +392,7 @@ FROM   table_a
 
 ### 示例
 
-返回无购买记录的 VIP 客户（Client_ID 和 Region）：
+以下示例返回没有购买记录的 VIP 客户（Client_ID 和 Region）：
 
 ```sql
 SELECT *
@@ -381,7 +401,7 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-表定义详见 [示例表](#example-tables)。
+有关示例中表的定义，请参见[示例表](#example-tables)。
 
 输出：
 
@@ -389,7 +409,7 @@ FROM   vip_info
 101|Toronto
 ```
 
-返回非 VIP 客户的购买记录（Client_ID、Item 和 QTY）：
+以下示例返回非 VIP 客户的购买记录（Client_ID、Item 和 QTY）：
 
 ```sql
 SELECT *
@@ -398,11 +418,92 @@ FROM   vip_info
                     ON vip_info.client_id = purchase_records.client_id;
 ```
 
-表定义详见 [示例表](#example-tables)。
+有关示例中表的定义，请参见[示例表](#example-tables)。
 
 输出：
 
 ```sql
 |100|Croissant|2000
 |106|Soda|4000
+```
+
+## Asof 连接（Asof Join）
+
+Asof 连接（Asof Join）（近似排序合并连接 (Approximate Sort-Merge Join)）会返回左表中的行，并与右表中时间戳小于或等于左表时间戳的最新行进行匹配。它通常用于时间序列数据，以附加最新的上下文信息，例如报价、状态或传感器读数。
+
+与典型的等值连接不同，其连接条件基于不等式（通常是 `<=`），并且可以选择性地包含额外的等值条件。
+
+### 语法
+
+```sql
+SELECT select_list
+FROM table_a ASOF
+         JOIN table_b
+              ON table_a.time >= table_b.time
+                  [ AND table_a.key = table_b.key]
+```
+
+### 示例
+
+以下示例将交易记录与相同代码在交易时间或之前最新的报价进行连接：
+
+```sql
+SELECT *
+FROM trades
+    ASOF JOIN quotes
+              ON trades.symbol = quotes.symbol
+                  AND trades.time >= quotes.time;
+```
+
+有关示例中表的定义，请参见[示例表](#example-tables)。
+
+输出：
+
+```sql
+│ AAPL             │          100003 │             101 │ AAPL             │          100000 │              99 │             102 │
+│ AAPL             │          100007 │             103 │ AAPL             │          100005 │             100 │             104 │
+│ MSFT             │          100002 │              99 │ MSFT             │          100001 │              98 │             101 │
+
+```
+
+以下示例执行 ASOF LEFT JOIN，返回所有交易记录以及相同代码在交易时间或之前的最新报价（如果存在）。如果不存在匹配的报价，则报价字段将为 NULL。
+
+```sql
+SELECT *
+FROM trades
+    ASOF LEFT JOIN quotes
+              ON trades.symbol = quotes.symbol
+                  AND trades.time >= quotes.time;
+```
+
+有关示例中表的定义，请参见[示例表](#example-tables)。
+
+输出：
+
+```sql
+│ AAPL             │          100003 │             101 │ AAPL             │          100000 │              99 │             102 │
+│ MSFT             │          100002 │              99 │ MSFT             │          100001 │              98 │             101 │
+│ AAPL             │          100007 │             103 │ AAPL             │          100005 │             100 │             104 │
+│ TSLA             │          100010 │             200 │ NULL             │            NULL │            NULL │            NULL │
+```
+
+以下示例执行 ASOF RIGHT JOIN，返回所有报价记录以及相同代码在报价时间或之后最新的交易（如果存在）。如果不存在匹配的交易，则交易字段将为 NULL。
+
+```sql
+SELECT *
+FROM trades
+    ASOF RIGHT JOIN quotes
+              ON trades.symbol = quotes.symbol
+                  AND trades.time >= quotes.time;
+```
+
+有关示例中表的定义，请参见[示例表](#example-tables)。
+
+输出：
+
+```sql
+│ AAPL             │          100003 │             101 │ AAPL             │          100000 │              99 │             102 │
+│ AAPL             │          100007 │             103 │ AAPL             │          100005 │             100 │             104 │
+│ MSFT             │          100002 │              99 │ MSFT             │          100001 │              98 │             101 │
+│ NULL             │            NULL │            NULL │ NVDA             │          100006 │             150 │             155 │
 ```
