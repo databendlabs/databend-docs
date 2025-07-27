@@ -59,7 +59,7 @@ const DocsOverview: FC = (): ReactElement => {
       <ContentCardWrap
         className={styles.top}
         title={$t("Introduction to Databend Products")}
-        description={$t("Check out the products you can choose from.")}
+        description={$t("Choose the deployment option that best fits your needs and scale.")}
       >
         <div style={{ height: "100%", width: "100%" }}>
           <Row gutter={[12, 12]} className={styles.topCard}>
@@ -68,7 +68,7 @@ const DocsOverview: FC = (): ReactElement => {
                 <h3>
                   <span>{$t("Databend Cloud")}</span>
                 </h3>
-                <div>{$t("Fully-Managed on Cloud")}</div>
+                <div>{$t("Fully-managed cloud service. No setup required.")}</div>
               </Card>
             </Col>
             <Col {...colLayout3}>
@@ -77,7 +77,7 @@ const DocsOverview: FC = (): ReactElement => {
                   <span> {$t("Databend Enterprise")}</span>
                 </h3>
                 <div>
-                  {$t("Self-Hosted with Additional Enterprise Features")}
+                  {$t("Self-hosted with enterprise features and support.")}
                 </div>
               </Card>
             </Col>
@@ -86,12 +86,92 @@ const DocsOverview: FC = (): ReactElement => {
                 <h3>
                   <span>{$t("Databend Community")}</span>
                 </h3>
-                <div>{$t("Self-Hosted & Free")}</div>
+                <div>{$t("Open-source and free for all use cases.")}</div>
               </Card>
             </Col>
           </Row>
         </div>
       </ContentCardWrap>
+      <div
+        className={styles.productFeatures}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <h3 className={styles.title}>{$t("Product Features")}</h3>
+        <Row gutter={[12, 12]} className={styles.topCard}>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("10x Faster Performance")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Rust-powered vectorized execution with SIMD optimization delivers exceptional performance."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("90% Cost Reduction")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "S3-native storage eliminates proprietary overhead and reduces costs significantly."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Snowflake Compatible")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Near 100% SQL compatibility enables zero-rewrite migration from Snowflake."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Universal Data Processing")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Process structured, semi-structured, and unstructured multimodal data in one platform."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Native AI Capabilities")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Built-in AI functions, vector search, and multimodal analytics for modern workloads."
+                )}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Multi-Cloud & No Lock-in")}</span>
+              </h3>
+              <div>
+                {$t(
+                  "Deploy on AWS, Azure, GCP, or on-premise with complete data sovereignty."
+                )}
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </div>
       <ContentCardWrap
         className={clsx(styles.commomCard, styles.gettingStart)}
         title={$t("Getting Started")}
@@ -109,33 +189,30 @@ const DocsOverview: FC = (): ReactElement => {
                 >
                   <LightDatabendCloudSingleSvg width={150} />
                   <div>
-                    <h5>{$t("Activate Databend Cloud")}</h5>
+                    <h5>{$t("Start with Databend Cloud")}</h5>
                     <div>
-                      <span className={styles.spanLine}>
-                        {$t("This topic")}
-                      </span>{" "}
                       {$t(
-                        `outlines the steps for applying for beta access as an organization.`
+                        "Get started in minutes with our fully-managed cloud service. No setup required."
                       )}
                     </div>
                   </div>
                 </Link>
                 <div className={styles.moreUseful}>
-                  <div>{$t("Topics you might find useful:")}</div>
+                  <div>{$t("What you need to know:")}</div>
                   <ul>
                     <li>
-                      <Link to={"/guides/products/dc/platforms"}>
-                        {$t("Supported Platforms & Regions")}
-                      </Link>
-                    </li>
-                    <li>
                       <Link to={"/guides/products/dc/editions"}>
-                        {$t("Databend Cloud Editions")}
+                        {$t("Choose Your Edition")}
                       </Link>
                     </li>
                     <li>
                       <Link to={"/guides/products/dc/pricing"}>
-                        {$t("Pricing & Billing")}
+                        {$t("Pricing & Plans")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={"/guides/cloud/using-databend-cloud"}>
+                        {$t("Using Databend Cloud")}
                       </Link>
                     </li>
                   </ul>
@@ -147,33 +224,30 @@ const DocsOverview: FC = (): ReactElement => {
                 <Link to={"/guides/deploy/"} className={"global-overview-card"}>
                   <LightDatabendSingleSvg width={150} />
                   <div>
-                    <h5>{$t("Self-Hosted Databend")}</h5>
+                    <h5>{$t("Deploy Your Own Instance")}</h5>
                     <div>
-                      <span className={styles.spanLine}>
-                        {$t("This topic")}
-                      </span>{" "}
                       {$t(
-                        "provide detailed instructions for deploying and upgrading Databend."
+                        "Install Databend on your infrastructure for complete control and customization."
                       )}
                     </div>
                   </div>
                 </Link>
                 <div className={styles.moreUseful}>
-                  <div>{$t("Topics you might find useful:")}</div>
+                  <div>{$t("What you need to know:")}</div>
                   <ul>
                     <li>
+                      <Link to={"/guides/deploy/QuickStart"}>
+                        {$t("5-Minute Quick Start")}
+                      </Link>
+                    </li>
+                    <li>
                       <Link to={"/guides/deploy/deploy/download"}>
-                        {$t("Downloading Databend")}
+                        {$t("Download & Install")}
                       </Link>
                     </li>
                     <li>
                       <Link to={"/guides/products/dee/license"}>
-                        {$t("Licensing Databend")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={"/guides/deploy/upgrade/upgrade"}>
-                        {$t("Upgrading Databend")}
+                        {$t("Enterprise Features & Licensing")}
                       </Link>
                     </li>
                   </ul>
@@ -520,82 +594,6 @@ const DocsOverview: FC = (): ReactElement => {
           </Row>
         </div>
       </ContentCardWrap>
-      <div
-        className={styles.productFeatures}
-        style={{ height: "100%", width: "100%" }}
-      >
-        <h3 className={styles.title}>{$t("Product Features")}</h3>
-        <Row gutter={[12, 12]} className={styles.topCard}>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Serverless Elastic Architecture")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "Stateless compute nodes with serverless elasticity enable rapid scaling and recovery based on workload."
-                )}
-              </div>
-            </Card>
-          </Col>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span> {$t("Object Storage")}</span>
-              </h3>
-              <div>{$t("Stores all data in object storage.")}</div>
-            </Card>
-          </Col>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Parquet Data Format")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "Uses the standard Parquet format, eliminating data lock-in risks."
-                )}
-              </div>
-            </Card>
-          </Col>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Decoupled Storage and Compute")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "Designed for multi-tenant data sharing with a truly decoupled architecture, enabling data marketplace functionality."
-                )}
-              </div>
-            </Card>
-          </Col>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Open Source with Flexible Deployment")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "Supports both public cloud SaaS and private deployments, with an open-source core to avoid vendor lock-in."
-                )}
-              </div>
-            </Card>
-          </Col>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Data Lake Support")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "Reads data from Iceberg, Hive, and Delta Lake seamlessly."
-                )}
-              </div>
-            </Card>
-          </Col>
-        </Row>
-      </div>
       {/* <hr></hr> */}
     </div>
   );
