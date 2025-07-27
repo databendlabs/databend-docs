@@ -342,10 +342,37 @@ const siteRedirects = [
     from: '/sql/sql-functions/semi-structured-functions/is-string',
     to: '/sql/sql-functions/semi-structured-functions/type-predicate/is-string'
   },
-  // Table Functions
   {
     from: '/sql/sql-functions/semi-structured-functions/flatten',
     to: '/sql/sql-functions/table-functions/flatten'
+  },
+  {
+    from: '/sql/sql-functions/vector-distance-functions/vector-cosine-distance',
+    to: '/sql/sql-functions/vector-functions/vector-cosine-distance'
+  },
+  {
+    from: '/sql/sql-functions/vector-distance-functions/vector-l1-distance',
+    to: '/sql/sql-functions/vector-functions/vector-l1-distance'
+  },
+  {
+    from: '/sql/sql-functions/vector-distance-functions/vector-l2-distance',
+    to: '/sql/sql-functions/vector-functions/vector-l2-distance'
+  },
+  {
+    from: '/sql/sql-functions/vector-distance-functions/vector-inner-product',
+    to: '/sql/sql-functions/vector-functions/vector-inner-product'
+  },
+  {
+    from: '/sql/sql-functions/vector-distance-functions/vector-norm',
+    to: '/sql/sql-functions/vector-functions/vector-norm'
+  },
+  {
+    from: '/sql/sql-functions/vector-distance-functions/vector-dims',
+    to: '/sql/sql-functions/vector-functions/vector-dims'
+  },
+  {
+    from: '/sql/sql-functions/vector-distance-functions/',
+    to: '/sql/sql-functions/vector-functions/'
   }
 ];
 export default siteRedirects;

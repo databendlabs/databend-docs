@@ -18,7 +18,7 @@ Databend provides built-in AI functions powered by Azure OpenAI Service for seam
 |----------|-------------|-----------|
 | [ai_text_completion](/sql/sql-functions/ai-functions/ai-text-completion) | Generates text based on prompts | • Content generation<br/>• Question answering<br/>• Summarization |
 | [ai_embedding_vector](/sql/sql-functions/ai-functions/ai-embedding-vector) | Converts text to vector representations | • Semantic search<br/>• Document similarity<br/>• Content recommendation |
-| [cosine_distance](/sql/sql-functions/vector-distance-functions/vector-cosine-distance) | Calculates similarity between vectors | • Finding similar documents<br/>• Ranking search results |
+| [cosine_distance](/sql/sql-functions/vector-functions/vector-cosine-distance) | Calculates similarity between vectors | • Finding similar documents<br/>• Ranking search results |
 
 ## Vector Storage in Databend
 

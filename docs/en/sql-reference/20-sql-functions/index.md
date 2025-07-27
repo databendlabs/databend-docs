@@ -49,7 +49,7 @@ This page provides a reference for all SQL functions available in Databend, orga
 | Category | Description |
 |----------|-------------|
 | [AI Functions](./11-ai-functions/index.md) | Natural language processing and AI capabilities |
-| [Vector Distance Functions](./11-vector-distance-functions/index.md) | Vector similarity and distance calculations |
+| [Vector Functions](./11-vector-functions/index.md) | Vector similarity and distance calculations |
 
 ## Data Integrity Functions
 
