@@ -9,7 +9,7 @@ const siteRedirects = [
   },
   {
     from: '/sql/sql-functions/ai-functions/ai-cosine-distance',
-    to: '/sql/sql-functions/vector-distance-functions/vector-cosine-distance/'
+    to: '/sql/sql-functions/vector-functions/vector-cosine-distance'
   },
   {
     from: '/guides/migrate/',
@@ -357,18 +357,6 @@ const siteRedirects = [
   {
     from: '/sql/sql-functions/vector-distance-functions/vector-l2-distance',
     to: '/sql/sql-functions/vector-functions/vector-l2-distance'
-  },
-  {
-    from: '/sql/sql-functions/vector-distance-functions/vector-inner-product',
-    to: '/sql/sql-functions/vector-functions/vector-inner-product'
-  },
-  {
-    from: '/sql/sql-functions/vector-distance-functions/vector-norm',
-    to: '/sql/sql-functions/vector-functions/vector-norm'
-  },
-  {
-    from: '/sql/sql-functions/vector-distance-functions/vector-dims',
-    to: '/sql/sql-functions/vector-functions/vector-dims'
   },
   {
     from: '/sql/sql-functions/vector-distance-functions/',
