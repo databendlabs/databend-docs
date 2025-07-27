@@ -12,13 +12,17 @@ Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> documentat
 cn=
 '
 
-**Databend** 是一个开源的、Serverless 产品形态、存算分离架构、基于对象存储构建的云原生数据湖仓，提供极致的性能、快速的弹性扩展能力，致力于打造开源版的 **Snowflake**。
+**Databend** 是新一代云原生 **[数据+AI] 分析平台**，支持结构化、半结构化和非结构化多模态数据。
+
+作为 **Snowflake 的开源替代方案**，具有**近 100% SQL 兼容性**和原生 AI 能力，受到世界级企业信赖，管理着 **800+ PB** 数据和**每日 1 亿+** 查询。
 
 '
 en=
 '
 
-**Databend** is an open-source, serverless, cloud-native data lakehouse built on object storage with a decoupled storage and compute architecture. It delivers exceptional performance and rapid elasticity, aiming to be the open-source alternative to **Snowflake**.
+**Databend** is the next-generation cloud **[Data+AI] Analytics** platform for structured, semi-structured & unstructured multimodal data.
+
+As the **open-source alternative to Snowflake** with **near 100% SQL compatibility** and native AI capabilities, trusted by world-class enterprises managing **800+ petabytes** and **100+ million queries daily**.
 
 '/>
 
@@ -26,13 +30,21 @@ en=
 
 **Here are some entries you might want to learn about**
 
+**Getting Started**
 - **[SQL Reference](/sql)**: Your swift-access guide for Databend essentials!
 - **[Connect to Databend](/guides/sql-clients)**: Connect with various SQL clients and programming languages.
+
+**Data Processing**
 - **[Data Loading](/guides/load-data)**: Import data from various sources into Databend.
 - **[Data Unloading](/guides/unload-data)**: Export data from Databend to different formats.
-- **[External Functions](/guides/query/external-function)**: Extend Databend's capabilities with custom functions.
+- **[Semi-Structured Data](/sql/sql-functions/semi-structured-functions)**: Process JSON, arrays, and nested data with VARIANT type.
+
+**AI & Advanced Analytics**
 - **[Databend AI and ML](/guides/ai-functions)**: Leverage AI capabilities in your data processing.
-- **[Data Management](/guides/data-management)**: Manage your data lifecycle effectively.
-- **[Data Lakehouse](/guides/access-data-lake)**: Seamless integration with Hive, Iceberg, and Delta Lake.
+- **[Vector Functions](/sql/sql-functions/vector-functions)**: Vector similarity and distance calculations for ML workloads.
+- **[Full-Text Search](/guides/performance/fulltext-index)**: Advanced text search and relevance scoring.
+
+**Performance & Scale**
 - **[Performance Optimization](/guides/performance)**: Enhance query performance with various strategies.
 - **[Benchmarks](/guides/benchmark)**: Compare Databend performance with other data warehouses.
+- **[Data Lakehouse](/guides/access-data-lake)**: Seamless integration with Hive, Iceberg, and Delta Lake.
