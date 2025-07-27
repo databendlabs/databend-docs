@@ -43,9 +43,9 @@ Where:
 
 | Function | Description | Use Case |
 |----------|-------------|----------|
-| **[cosine_distance](/sql/sql-functions/vector-distance-functions/vector-cosine-distance)** | Calculates cosine distance between vectors | Semantic similarity, text embeddings |
-| **[l1_distance](/sql/sql-functions/vector-distance-functions/vector-l1-distance)** | Calculates L1 distance (Manhattan distance) | Feature comparison, sparse data |
-| **[l2_distance](/sql/sql-functions/vector-distance-functions/vector-l2-distance)** | Calculates L2 distance (Euclidean distance) | Geometric similarity, image features |
+| **[cosine_distance](/sql/sql-functions/vector-functions/vector-cosine-distance)** | Calculates cosine distance between vectors | Semantic similarity, text embeddings |
+| **[l1_distance](/sql/sql-functions/vector-functions/vector-l1-distance)** | Calculates L1 distance (Manhattan distance) | Feature comparison, sparse data |
+| **[l2_distance](/sql/sql-functions/vector-functions/vector-l2-distance)** | Calculates L2 distance (Euclidean distance) | Geometric similarity, image features |
 
 ## Basic Usage
 
