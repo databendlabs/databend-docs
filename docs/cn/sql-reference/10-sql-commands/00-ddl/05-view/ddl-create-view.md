@@ -5,31 +5,35 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.339"/>
+<FunctionDescription description="引入或更新于：v1.2.339"/>
 
-基于查询创建一个新的视图；逻辑视图不存储任何物理数据，当我们访问一个逻辑视图时，它会将 SQL 转换为子查询格式来完成它。
+基于查询创建新视图；逻辑视图（Logical View）不存储任何物理数据，访问时会把 SQL 转换为子查询（Subquery）来完成。
 
-例如，如果您创建一个如下的逻辑视图：
+例如，创建如下逻辑视图：
 
 ```sql
 CREATE VIEW view_t1 AS SELECT a, b FROM t1;
 ```
-并执行如下查询：
+再执行查询：
 ```sql
 SELECT a FROM view_t1;
 ```
-结果等同于以下查询
+结果等同于：
 ```sql
 SELECT a FROM (SELECT a, b FROM t1);
 ```
 
-因此，如果您删除视图所依赖的表，则会发生原始表不存在的错误。您可能需要删除旧视图并重新创建所需的新视图。
+因此，如果删除视图依赖的表，会报“原始表不存在”的错误，此时需删除旧视图并重新创建所需的新视图。
 
 ## 语法
 
 ```sql
 CREATE [ OR REPLACE ] VIEW [ IF NOT EXISTS ] [ db. ]view_name [ (<column>, ...) ] AS SELECT query
 ```
+
+## 访问控制要求
+
+访问视图只需拥有该视图本身的 SELECT 权限，无需对底层表再单独授权，简化了访问控制并提升数据安全。
 
 ## 示例
 
