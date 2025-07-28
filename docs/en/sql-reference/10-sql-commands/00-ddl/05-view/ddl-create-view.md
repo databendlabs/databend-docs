@@ -31,6 +31,12 @@ So, if you delete the table which the view depends on, it occurs an error that t
 CREATE [ OR REPLACE ] VIEW [ IF NOT EXISTS ] [ db. ]view_name [ (<column>, ...) ] AS SELECT query
 ```
 
+## Access control requirements
+
+To access a view, users only require the SELECT privilege on the view itself. 
+
+Separate permissions are not required on the view’s underlying tables. This mechanism simplifies access control and enhances data security.
+
 ## Examples
 
 ```sql

@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.339"/>
+<FunctionDescription description="Introduced or updated: v1.2.780"/>
 
 Creates a connection to external storage.
 
@@ -61,6 +61,25 @@ CREATE CONNECTION <connection_name>
 |-----------|-------------|
 | ROLE_ARN  | The Amazon Resource Name (ARN) of the IAM role that Databend will assume to access your S3 resources. |
 
+
+## Access control requirements
+
+| Privilege         | Object Type | Description           |
+|:------------------|:------------|:----------------------|
+| CREATE CONNECTION | Global      | Creates a connection. |
+
+
+To create a connection, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the CREATE CONNECTION [privilege](/guides/security/access-control/privileges).
+
+:::note
+
+The enable_experimental_connection_rbac_check settings governs connection-level access control. It is disabled by default.
+Connection creation solely requires the user to possess superuser privileges, bypassing detailed RBAC checks.
+When enabled, granular permission verification is enforced during connection establishment.
+
+This is an experimental feature and may be enabled by default in the future.
+
+:::
 
 ## Examples
 
