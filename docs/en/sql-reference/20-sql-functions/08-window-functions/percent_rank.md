@@ -3,7 +3,7 @@ title: PERCENT_RANK
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced: v1.1.50"/>
+<FunctionDescription description="Introduced or updated: v1.2.780"/>
 
 Returns the relative rank of a given value within a set of values. The resulting value falls between 0 and 1, inclusive. Please note that the first row in any set has a PERCENT_RANK of 0.
 
@@ -20,46 +20,38 @@ PERCENT_RANK() OVER (
 
 ## Examples
 
-This example retrieves the students' names, scores, grades, and the percentile ranks (percent_rank) within each grade using the PERCENT_RANK() window function.
-
 ```sql
-CREATE TABLE students (
-    name VARCHAR(20),
-    score INT NOT NULL,
-    grade CHAR(1) NOT NULL
+-- Create sample data
+CREATE TABLE scores (
+    student VARCHAR(20),
+    score INT
 );
 
-INSERT INTO students (name, score, grade)
-VALUES
-    ('Smith', 81, 'A'),
-    ('Jones', 55, 'C'),
-    ('Williams', 55, 'C'),
-    ('Taylor', 62, 'B'),
-    ('Brown', 62, 'B'),
-    ('Davies', 84, 'A'),
-    ('Evans', 87, 'A'),
-    ('Wilson', 72, 'B'),
-    ('Thomas', 72, 'B'),
-    ('Johnson', 100, 'A');
+INSERT INTO scores VALUES
+    ('Alice', 85),
+    ('Bob', 92),
+    ('Carol', 78),
+    ('David', 95),
+    ('Eve', 88);
 
-SELECT
-    name,
+-- PERCENT_RANK example
+SELECT 
+    student,
     score,
-    grade,
-    PERCENT_RANK() OVER (PARTITION BY grade ORDER BY score) AS percent_rank
-FROM
-    students;
+    PERCENT_RANK() OVER (ORDER BY score) AS percent_rank,
+    ROUND(PERCENT_RANK() OVER (ORDER BY score) * 100, 1) AS percentile
+FROM scores
+ORDER BY score;
+```
 
-name    |score|grade|percent_rank      |
---------+-----+-----+------------------+
-Smith   |   81|A    |               0.0|
-Davies  |   84|A    |0.3333333333333333|
-Evans   |   87|A    |0.6666666666666666|
-Johnson |  100|A    |               1.0|
-Taylor  |   62|B    |               0.0|
-Brown   |   62|B    |               0.0|
-Wilson  |   72|B    |0.6666666666666666|
-Thomas  |   72|B    |0.6666666666666666|
-Jones   |   55|C    |               0.0|
-Williams|   55|C    |               0.0|
+Result:
+
+```
+student|score|percent_rank|percentile|
+-------+-----+------------+----------+
+Carol  |   78|         0.0|       0.0|
+Alice  |   85|        0.25|      25.0|
+Eve    |   88|         0.5|      50.0|
+Bob    |   92|        0.75|      75.0|
+David  |   95|         1.0|     100.0|
 ```
