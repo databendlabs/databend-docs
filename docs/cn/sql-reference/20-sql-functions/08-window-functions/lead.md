@@ -6,63 +6,90 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.45"/>
 
-LEAD 允许你访问同一结果集中后续行的列值。它通常用于根据指定的排序，检索下一行中某列的值。
+返回结果集中后续行的值。
 
 另请参阅：[LAG](lag.md)
 
 ## 语法
 
 ```sql
-LEAD(expression [, offset [, default]]) OVER (PARTITION BY partition_expression ORDER BY sort_expression)
+LEAD(
+    expression 
+    [, offset ]
+    [, default ]
+) 
+OVER (
+    [ PARTITION BY partition_expression ] 
+    ORDER BY sort_expression
+)
 ```
 
-- *offset*: 指定从当前行向前（LEAD）或向后（LAG）的行数，以检索值。默认为 1。
-> 注意，设置负的偏移量与使用 [LAG](lag.md) 函数效果相同。
+**参数：**
+- `expression`：要计算的列或表达式
+- `offset`：当前行之后的行数（默认：1）
+- `default`：当没有下一行时返回的值（默认：NULL）
 
-- *default*: 指定当 LEAD 或 LAG 函数由于偏移量超出分区边界而无法获取值时返回的值。默认为 NULL。
+**注意：**
+- 负的偏移量值的作用类似于 LAG 函数
+- 如果偏移量超出分区边界，则返回 NULL
 
 ## 示例
 
 ```sql
-CREATE TABLE sales (
-  sale_id INT,
-  product_name VARCHAR(50),
-  sale_amount DECIMAL(10, 2)
+-- 创建示例数据
+CREATE TABLE scores (
+    student VARCHAR(20),
+    test_date DATE,
+    score INT
 );
 
-INSERT INTO sales (sale_id, product_name, sale_amount)
-VALUES (1, 'Product A', 1000.00),
-       (2, 'Product A', 1500.00),
-       (3, 'Product A', 2000.00),
-       (4, 'Product B', 500.00),
-       (5, 'Product B', 800.00),
-       (6, 'Product B', 1200.00);
+INSERT INTO scores VALUES
+    ('Alice', '2024-01-01', 85),
+    ('Alice', '2024-02-01', 90),
+    ('Alice', '2024-03-01', 88),
+    ('Bob', '2024-01-01', 78),
+    ('Bob', '2024-02-01', 82),
+    ('Bob', '2024-03-01', 85);
+```
 
-SELECT product_name, sale_amount, LEAD(sale_amount) OVER (PARTITION BY product_name ORDER BY sale_id) AS next_sale_amount
-FROM sales;
+**获取每个学生的下一次考试成绩：**
 
-product_name | sale_amount | next_sale_amount
-----------------------------------------------
-Product A    | 1000.00     | 1500.00
-Product A    | 1500.00     | 2000.00
-Product A    | 2000.00     | NULL
-Product B    | 500.00      | 800.00
-Product B    | 800.00      | 1200.00
-Product B    | 1200.00     | NULL
+```sql
+SELECT student, test_date, score,
+       LEAD(score) OVER (PARTITION BY student ORDER BY test_date) AS next_score
+FROM scores
+ORDER BY student, test_date;
+```
 
--- 以下语句返回相同的结果。
-SELECT product_name, sale_amount, LEAD(sale_amount, -1) OVER (PARTITION BY product_name ORDER BY sale_id) AS previous_sale_amount
-FROM sales;
+结果：
+```
+student | test_date  | score | next_score
+--------+------------+-------+-----------
+Alice   | 2024-01-01 |    85 | 90
+Alice   | 2024-02-01 |    90 | 88
+Alice   | 2024-03-01 |    88 | NULL
+Bob     | 2024-01-01 |    78 | 82
+Bob     | 2024-02-01 |    82 | 85
+Bob     | 2024-03-01 |    85 | NULL
+```
 
-SELECT product_name, sale_amount, LAG(sale_amount) OVER (PARTITION BY product_name ORDER BY sale_id) AS previous_sale_amount
-FROM sales;
+**获取两次考试后的成绩：**
 
-product_name|sale_amount|previous_sale_amount|
-------------+-----------+--------------------+
-Product A   |    1000.00|                    |
-Product A   |    1500.00|             1000.00|
-Product A   |    2000.00|             1500.00|
-Product B   |     500.00|                    |
-Product B   |     800.00|              500.00|
-Product B   |    1200.00|              800.00|
+```sql
+SELECT student, test_date, score,
+       LEAD(score, 2, 0) OVER (PARTITION BY student ORDER BY test_date) AS score_2_tests_later
+FROM scores
+ORDER BY student, test_date;
+```
+
+结果：
+```
+student | test_date  | score | score_2_tests_later
+--------+------------+-------+--------------------
+Alice   | 2024-01-01 |    85 | 88
+Alice   | 2024-02-01 |    90 | 0
+Alice   | 2024-03-01 |    88 | 0
+Bob     | 2024-01-01 |    78 | 85
+Bob     | 2024-02-01 |    82 | 0
+Bob     | 2024-03-01 |    85 | 0
 ```
