@@ -6,63 +6,90 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.45"/>
 
-LAG allows you to access the value of a column from a preceding row within the same result set. It is typically used to retrieve the value of a column in the previous row, based on a specified ordering.
+Returns the value from a previous row in the result set.
 
 See also: [LEAD](lead.md)
 
 ## Syntax
 
 ```sql
-LAG(expression [, offset [, default]]) OVER (PARTITION BY partition_expression ORDER BY sort_expression)
+LAG(
+    expression 
+    [, offset ]
+    [, default ]
+) 
+OVER (
+    [ PARTITION BY partition_expression ] 
+    ORDER BY sort_expression
+)
 ```
 
-- *offset*: Specifies the number of rows ahead (LEAD) or behind (LAG) the current row within the partition to retrieve the value from. Defaults to 1.
-> Note that setting a negative offset has the same effect as using the [LEAD](lead.md) function.
+**Arguments:**
+- `expression`: The column or expression to evaluate
+- `offset`: Number of rows before the current row (default: 1)
+- `default`: Value to return when no previous row exists (default: NULL)
 
-- *default*: Specifies a value to be returned if the LEAD or LAG function encounters a situation where there is no value available due to the offset exceeding the partition's boundaries. Defaults to NULL.
+**Notes:**
+- Negative offset values work like LEAD function
+- Returns NULL if the offset goes beyond partition boundaries
 
 ## Examples
 
 ```sql
-CREATE TABLE sales (
-  sale_id INT,
-  product_name VARCHAR(50),
-  sale_amount DECIMAL(10, 2)
+-- Create sample data
+CREATE TABLE scores (
+    student VARCHAR(20),
+    test_date DATE,
+    score INT
 );
 
-INSERT INTO sales (sale_id, product_name, sale_amount)
-VALUES (1, 'Product A', 1000.00),
-       (2, 'Product A', 1500.00),
-       (3, 'Product A', 2000.00),
-       (4, 'Product B', 500.00),
-       (5, 'Product B', 800.00),
-       (6, 'Product B', 1200.00);
+INSERT INTO scores VALUES
+    ('Alice', '2024-01-01', 85),
+    ('Alice', '2024-02-01', 90),
+    ('Alice', '2024-03-01', 88),
+    ('Bob', '2024-01-01', 78),
+    ('Bob', '2024-02-01', 82),
+    ('Bob', '2024-03-01', 85);
+```
 
-SELECT product_name, sale_amount, LAG(sale_amount) OVER (PARTITION BY product_name ORDER BY sale_id) AS previous_sale_amount
-FROM sales;
+**Get previous test score for each student:**
 
-product_name | sale_amount | previous_sale_amount
------------------------------------------------
-Product A    | 1000.00     | NULL
-Product A    | 1500.00     | 1000.00
-Product A    | 2000.00     | 1500.00
-Product B    | 500.00      | NULL
-Product B    | 800.00      | 500.00
-Product B    | 1200.00     | 800.00
+```sql
+SELECT student, test_date, score,
+       LAG(score) OVER (PARTITION BY student ORDER BY test_date) AS previous_score
+FROM scores
+ORDER BY student, test_date;
+```
 
--- The following statements return the same result.
-SELECT product_name, sale_amount, LAG(sale_amount, -1) OVER (PARTITION BY product_name ORDER BY sale_id) AS next_sale_amount
-FROM sales;
+Result:
+```
+student | test_date  | score | previous_score
+--------+------------+-------+---------------
+Alice   | 2024-01-01 |    85 | NULL
+Alice   | 2024-02-01 |    90 | 85
+Alice   | 2024-03-01 |    88 | 90
+Bob     | 2024-01-01 |    78 | NULL
+Bob     | 2024-02-01 |    82 | 78
+Bob     | 2024-03-01 |    85 | 82
+```
 
-SELECT product_name, sale_amount, LEAD(sale_amount) OVER (PARTITION BY product_name ORDER BY sale_id) AS next_sale_amount
-FROM sales;
+**Get score from 2 tests ago:**
 
-product_name|sale_amount|next_sale_amount|
-------------+-----------+----------------+
-Product A   |    1000.00|         1500.00|
-Product A   |    1500.00|         2000.00|
-Product A   |    2000.00|                |
-Product B   |     500.00|          800.00|
-Product B   |     800.00|         1200.00|
-Product B   |    1200.00|                |
+```sql
+SELECT student, test_date, score,
+       LAG(score, 2, 0) OVER (PARTITION BY student ORDER BY test_date) AS score_2_tests_ago
+FROM scores
+ORDER BY student, test_date;
+```
+
+Result:
+```
+student | test_date  | score | score_2_tests_ago
+--------+------------+-------+------------------
+Alice   | 2024-01-01 |    85 | 0
+Alice   | 2024-02-01 |    90 | 0
+Alice   | 2024-03-01 |    88 | 85
+Bob     | 2024-01-01 |    78 | 0
+Bob     | 2024-02-01 |    82 | 0
+Bob     | 2024-03-01 |    85 | 78
 ```

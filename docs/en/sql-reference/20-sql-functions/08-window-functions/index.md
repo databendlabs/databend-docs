@@ -4,13 +4,13 @@ title: 'Window Functions'
 
 ## Overview 
 
-A window function operates on a group ("window") of related rows. For each input row, a window function returns one output row that depends on the specific row passed to the function and the values of the other rows in the window.
+Window functions perform calculations across a set of related rows while returning one result per input row. Unlike aggregate functions, window functions don't collapse rows into a single output.
 
-There are two main types of order-sensitive window functions:
-
-* **Rank-related functions**: List information based on the "rank" of a row. For example, ranking stores in descending order by profit per year, the store with the most profit will be ranked 1, and the second-most profitable store will be ranked 2, and so on.
-
-* **Window frame functions**: Enable you to perform rolling operations, such as calculating a running total or a moving average, on a subset of the rows in the window.
+**Key characteristics:**
+- Operate on a "window" of rows related to the current row
+- Return one value per input row (no grouping/collapsing)
+- Can access values from other rows in the window
+- Support partitioning and ordering for flexible calculations
 
 ## Window Function Categories
 
@@ -18,23 +18,40 @@ Databend supports two main categories of window functions:
 
 ### 1. Dedicated Window Functions
 
-These functions are specifically designed for window operations and provide ranking, navigation, and value analysis capabilities.
+These functions are specifically designed for window operations.
 
-| Function | Description | Example |
-|----------|-------------|---------|
-| [RANK](rank.md) | Returns rank with gaps | `RANK() OVER (ORDER BY salary DESC)` → `1, 2, 2, 4, ...` |
-| [DENSE_RANK](dense-rank.md) | Returns rank without gaps | `DENSE_RANK() OVER (ORDER BY salary DESC)` → `1, 2, 2, 3, ...` |
-| [ROW_NUMBER](row-number.md) | Returns sequential row number | `ROW_NUMBER() OVER (ORDER BY hire_date)` → `1, 2, 3, 4, ...` |
-| [CUME_DIST](cume-dist.md) | Returns cumulative distribution | `CUME_DIST() OVER (ORDER BY score)` → `0.2, 0.4, 0.8, 1.0, ...` |
-| [PERCENT_RANK](percent_rank.md) | Returns relative rank (0-1) | `PERCENT_RANK() OVER (ORDER BY score)` → `0.0, 0.25, 0.75, ...` |
-| [NTILE](ntile.md) | Divides rows into N groups | `NTILE(4) OVER (ORDER BY score)` → `1, 1, 2, 2, 3, 3, 4, 4, ...` |
-| [FIRST_VALUE](first-value.md) | Returns first value in window | `FIRST_VALUE(product) OVER (PARTITION BY category ORDER BY sales)` |
-| [LAST_VALUE](last-value.md) | Returns last value in window | `LAST_VALUE(product) OVER (PARTITION BY category ORDER BY sales)` |
-| [NTH_VALUE](nth-value.md) | Returns Nth value in window | `NTH_VALUE(product, 2) OVER (PARTITION BY category ORDER BY sales)` |
-| [LEAD](lead.md) | Access value from subsequent row | `LEAD(price, 1) OVER (ORDER BY date)` → next day's price |
-| [LAG](lag.md) | Access value from previous row | `LAG(price, 1) OVER (ORDER BY date)` → previous day's price |
-| [FIRST](first.md) | Returns first value (alias) | `FIRST(product) OVER (PARTITION BY category ORDER BY sales)` |
-| [LAST](last.md) | Returns last value (alias) | `LAST(product) OVER (PARTITION BY category ORDER BY sales)` |
+**Ranking Functions:**
+
+| Function | Description | Ties Handling | Example Output |
+|----------|-------------|---------------|----------------|
+| [ROW_NUMBER](row-number.md) | Sequential numbering | Always unique | `1, 2, 3, 4, 5` |
+| [RANK](rank.md) | Ranking with gaps | Same rank, gaps after | `1, 2, 2, 4, 5` |
+| [DENSE_RANK](dense-rank.md) | Ranking without gaps | Same rank, no gaps | `1, 2, 2, 3, 4` |
+
+**Distribution Functions:**
+
+| Function | Description | Range | Example Output |
+|----------|-------------|-------|----------------|
+| [PERCENT_RANK](percent_rank.md) | Relative rank as percentage | 0.0 to 1.0 | `0.0, 0.25, 0.5, 0.75, 1.0` |
+| [CUME_DIST](cume-dist.md) | Cumulative distribution | 0.0 to 1.0 | `0.2, 0.4, 0.6, 0.8, 1.0` |
+| [NTILE](ntile.md) | Divide into N buckets | 1 to N | `1, 1, 2, 2, 3, 3` |
+
+**Value Access Functions:**
+
+| Function | Description | Use Case |
+|----------|-------------|----------|
+| [FIRST_VALUE](first-value.md) | First value in window | Get highest/earliest value |
+| [LAST_VALUE](last-value.md) | Last value in window | Get lowest/latest value |
+| [NTH_VALUE](nth-value.md) | Nth value in window | Get specific positioned value |
+| [LAG](lag.md) | Previous row value | Compare with previous |
+| [LEAD](lead.md) | Next row value | Compare with next |
+
+**Aliases:**
+
+| Function | Alias For |
+|----------|----------|
+| [FIRST](first.md) | FIRST_VALUE |
+| [LAST](last.md) | LAST_VALUE |
 
 ### 2. Aggregate Functions Used as Window Functions
 
@@ -62,175 +79,28 @@ These are standard aggregate functions that can be used with the OVER clause to 
 | [MIN_IF](../07-aggregate-functions/aggregate-min-if.md) | Conditional minimum | ✓ | `MIN_IF(temp, location = 'outside') OVER (PARTITION BY day)` |
 | [MAX_IF](../07-aggregate-functions/aggregate-max-if.md) | Conditional maximum | ✓ | `MAX_IF(speed, vehicle = 'car') OVER (PARTITION BY test)` |
 
-## Window Function Syntax
+## Basic Syntax
+
+All window functions follow this pattern:
 
 ```sql
-<function> ( [ <arguments> ] ) OVER ( { named_window | inline_window } )
-```
-
-Where:
-
-```sql
-named_window ::= window_name
-
-inline_window ::=
-    [ PARTITION BY <expression_list> ]
-    [ ORDER BY <expression_list> ]
+FUNCTION() OVER (
+    [ PARTITION BY column ]
+    [ ORDER BY column ]
     [ window_frame ]
+)
 ```
 
-### Key Components
-
-| Component | Description | Example |
-|-----------|-------------|--------|
-| `<function>` | The window function to apply | `SUM()`, `RANK()`, etc. |
-| `OVER` | Indicates window function usage | Required for all window functions |
-| `PARTITION BY` | Groups rows into partitions | `PARTITION BY department` |
-| `ORDER BY` | Orders rows within each partition | `ORDER BY salary DESC` |
-| `window_frame` | Defines subset of rows to consider | `ROWS BETWEEN 1 PRECEDING AND CURRENT ROW` |
-| `named_window` | References a window defined in WINDOW clause | `SELECT sum(x) OVER w FROM t WINDOW w AS (PARTITION BY y)` |
+- **PARTITION BY**: Divides data into groups
+- **ORDER BY**: Sorts rows within each partition  
+- **window_frame**: Defines which rows to include (optional)
 
 
-## Window Frame Syntax
+## Common Use Cases
 
-A window frame defines which rows are included in the function calculation for each row. There are two types of window frames:
+- **Ranking**: Create leaderboards and top-N lists
+- **Analytics**: Calculate running totals, moving averages, percentiles
+- **Comparison**: Compare current vs previous/next values
+- **Grouping**: Divide data into buckets without losing detail
 
-### 1. Frame Types
-
-| Frame Type | Description | Example |
-|------------|-------------|--------|
-| `ROWS` | Physical row-based frame | `ROWS BETWEEN 3 PRECEDING AND CURRENT ROW` |
-| `RANGE` | Logical value-based frame | `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` |
-
-### 2. Frame Extent
-
-| Frame Extent Pattern | Description | Example |
-|----------------------|-------------|--------|
-| **Cumulative Frames** | | |
-| `BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` | All rows from start to current | Running total |
-| `BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING` | Current row to end | Running total from current position |
-| **Sliding Frames** | | |
-| `BETWEEN N PRECEDING AND CURRENT ROW` | N rows before current + current | 3-day moving average |
-| `BETWEEN CURRENT ROW AND N FOLLOWING` | Current + N rows after | Forward-looking calculation |
-| `BETWEEN N PRECEDING AND N FOLLOWING` | N rows before + current + N rows after | Centered moving average |
-| `BETWEEN UNBOUNDED PRECEDING AND N FOLLOWING` | All rows from start to N after current | Extended cumulative calculation |
-| `BETWEEN N PRECEDING AND UNBOUNDED FOLLOWING` | N rows before current to end | Extended backward calculation |
-
-
-## Window Function Examples
-
-The following examples demonstrate common window function use cases using an employee dataset.
-
-### Sample Data Setup
-
-```sql
--- Create employees table
-CREATE TABLE employees (
-  employee_id INT,
-  first_name VARCHAR,
-  last_name VARCHAR,
-  department VARCHAR,
-  salary INT
-);
-
--- Insert sample data
-INSERT INTO employees VALUES
-  (1, 'John', 'Doe', 'IT', 75000),
-  (2, 'Jane', 'Smith', 'HR', 85000),
-  (3, 'Mike', 'Johnson', 'IT', 90000),
-  (4, 'Sara', 'Williams', 'Sales', 60000),
-  (5, 'Tom', 'Brown', 'HR', 82000),
-  (6, 'Ava', 'Davis', 'Sales', 62000),
-  (7, 'Olivia', 'Taylor', 'IT', 72000),
-  (8, 'Emily', 'Anderson', 'HR', 77000),
-  (9, 'Sophia', 'Lee', 'Sales', 58000),
-  (10, 'Ella', 'Thomas', 'IT', 67000);
-```
-
-### Example 1: Ranking Functions
-
-Ranking employees by salary in descending order:
-
-```sql
-SELECT 
-  employee_id, 
-  first_name, 
-  last_name, 
-  department, 
-  salary,
-  RANK() OVER (ORDER BY salary DESC) AS rank,
-  DENSE_RANK() OVER (ORDER BY salary DESC) AS dense_rank,
-  ROW_NUMBER() OVER (ORDER BY salary DESC) AS row_num
-FROM employees
-ORDER BY salary DESC;
-```
-
-**Result:**
-
-| employee_id | first_name | last_name | department | salary | rank | dense_rank | row_num |
-|-------------|------------|-----------|------------|--------|------|------------|--------|
-| 3           | Mike       | Johnson   | IT         | 90000  | 1    | 1          | 1      |
-| 2           | Jane       | Smith     | HR         | 85000  | 2    | 2          | 2      |
-| 5           | Tom        | Brown     | HR         | 82000  | 3    | 3          | 3      |
-| 8           | Emily      | Anderson  | HR         | 77000  | 4    | 4          | 4      |
-| 1           | John       | Doe       | IT         | 75000  | 5    | 5          | 5      |
-
-### Example 2: Partitioning
-
-Calculating statistics per department:
-
-```sql
-SELECT DISTINCT
-  department,
-  COUNT(*) OVER (PARTITION BY department) AS employee_count,
-  SUM(salary) OVER (PARTITION BY department) AS total_salary,
-  AVG(salary) OVER (PARTITION BY department) AS avg_salary,
-  MIN(salary) OVER (PARTITION BY department) AS min_salary,
-  MAX(salary) OVER (PARTITION BY department) AS max_salary
-FROM employees
-ORDER BY department;
-```
-
-**Result:**
-
-| department | employee_count | total_salary | avg_salary | min_salary | max_salary |
-|------------|----------------|-------------|------------|------------|------------|
-| HR         | 3              | 244000      | 81333.33   | 77000      | 85000      |
-| IT         | 4              | 304000      | 76000.00   | 67000      | 90000      |
-| Sales      | 3              | 180000      | 60000.00   | 58000      | 62000      |
-
-### Example 3: Running Totals and Moving Averages
-
-Calculating running totals and moving averages within departments:
-
-```sql
-SELECT 
-  employee_id, 
-  first_name,
-  department, 
-  salary,
-  -- Running total (cumulative sum)
-  SUM(salary) OVER (
-    PARTITION BY department 
-    ORDER BY employee_id
-    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-  ) AS running_total,
-  -- Moving average of current and previous row
-  AVG(salary) OVER (
-    PARTITION BY department 
-    ORDER BY employee_id
-    ROWS BETWEEN 1 PRECEDING AND CURRENT ROW
-  ) AS moving_avg
-FROM employees
-ORDER BY department, employee_id;
-```
-
-**Result:**
-
-| employee_id | first_name | department | salary | running_total | moving_avg |
-|-------------|------------|------------|--------|---------------|------------|
-| 2           | Jane       | HR         | 85000  | 85000         | 85000.00   |
-| 5           | Tom        | HR         | 82000  | 167000        | 83500.00   |
-| 8           | Emily      | HR         | 77000  | 244000        | 79500.00   |
-| 1           | John       | IT         | 75000  | 75000         | 75000.00   |
-| 3           | Mike       | IT         | 90000  | 165000        | 82500.00   |
+For detailed syntax and examples, see individual function documentation above.
