@@ -140,3 +140,8 @@ FROM (
 )
 FILE_FORMAT = (TYPE = 'PARQUET');
 ```
+
+
+## Vector Functions
+
+See [Vector Functions](/sql/sql-functions/vector-functions/).
