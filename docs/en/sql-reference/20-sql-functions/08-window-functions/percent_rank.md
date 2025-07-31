@@ -5,18 +5,31 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.780"/>
 
-Returns the relative rank of a given value within a set of values. The resulting value falls between 0 and 1, inclusive. Please note that the first row in any set has a PERCENT_RANK of 0.
+Calculates the relative rank of each row as a percentage. Returns values between 0 and 1, where 0 represents the lowest rank and 1 represents the highest rank.
 
 See also: [CUME_DIST](cume-dist.md)
 
 ## Syntax
 
 ```sql
-PERCENT_RANK() OVER (
-	PARTITION BY expr, ...
-	ORDER BY expr [ASC | DESC], ...
+PERCENT_RANK()
+OVER (
+    [ PARTITION BY partition_expression ]
+    ORDER BY sort_expression [ ASC | DESC ]
 )
 ```
+
+**Arguments:**
+- `PARTITION BY`: Optional. Divides rows into partitions
+- `ORDER BY`: Required. Determines the ranking order
+- `ASC | DESC`: Optional. Sort direction (default: ASC)
+
+**Notes:**
+- Returns values between 0 and 1 (inclusive)
+- First row always has PERCENT_RANK of 0
+- Last row always has PERCENT_RANK of 1
+- Formula: (rank - 1) / (total_rows - 1)
+- Multiply by 100 to get percentile values
 
 ## Examples
 
@@ -28,30 +41,30 @@ CREATE TABLE scores (
 );
 
 INSERT INTO scores VALUES
-    ('Alice', 85),
-    ('Bob', 92),
-    ('Carol', 78),
-    ('David', 95),
-    ('Eve', 88);
+    ('Alice', 95),
+    ('Bob', 87),
+    ('Charlie', 87),
+    ('David', 82),
+    ('Eve', 78);
+```
 
--- PERCENT_RANK example
-SELECT 
-    student,
-    score,
-    PERCENT_RANK() OVER (ORDER BY score) AS percent_rank,
-    ROUND(PERCENT_RANK() OVER (ORDER BY score) * 100, 1) AS percentile
+**Calculate percent rank (showing percentile position):**
+
+```sql
+SELECT student, score,
+       PERCENT_RANK() OVER (ORDER BY score DESC) AS percent_rank,
+       ROUND(PERCENT_RANK() OVER (ORDER BY score DESC) * 100) AS percentile
 FROM scores
-ORDER BY score;
+ORDER BY score DESC, student;
 ```
 
 Result:
-
 ```
-student|score|percent_rank|percentile|
--------+-----+------------+----------+
-Carol  |   78|         0.0|       0.0|
-Alice  |   85|        0.25|      25.0|
-Eve    |   88|         0.5|      50.0|
-Bob    |   92|        0.75|      75.0|
-David  |   95|         1.0|     100.0|
+student | score | percent_rank | percentile
+--------+-------+--------------+-----------
+Alice   |    95 |          0.0 |          0
+Bob     |    87 |         0.25 |         25
+Charlie |    87 |         0.25 |         25
+David   |    82 |         0.75 |         75
+Eve     |    78 |          1.0 |        100
 ```

@@ -16,81 +16,59 @@ See also:
 ## Syntax
 
 ```sql
-FIRST_VALUE (expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
+FIRST_VALUE(expression)
+OVER (
+    [ PARTITION BY partition_expression ]
+    ORDER BY sort_expression [ ASC | DESC ]
+    [ window_frame ]
+)
 ```
 
-- `[ { IGNORE | RESPECT } NULLS ]`: Controls how NULL values are handled within the window function. 
-  - By default, `RESPECT NULLS` is used, meaning NULL values are included in the calculation and affect the result. 
-  - When set to `IGNORE NULLS`, NULL values are excluded from consideration, and the function operates only on non-NULL values.
-  - If all values in the window frame are NULL, the function returns NULL even when `IGNORE NULLS` is specified.
+**Arguments:**
+- `expression`: Required. The column or expression to return the first value from
+- `PARTITION BY`: Optional. Divides rows into partitions
+- `ORDER BY`: Required. Determines the ordering within the window
+- `window_frame`: Optional. Defines the window frame (default: RANGE UNBOUNDED PRECEDING)
 
-- For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
+**Notes:**
+- Returns the first value in the ordered window frame
+- Supports `IGNORE NULLS` and `RESPECT NULLS` options
+- Useful for finding the earliest/lowest value in each group
 
 ## Examples
 
 ```sql
-CREATE TABLE employees (
-  employee_id INT,
-  first_name VARCHAR(50),
-  last_name VARCHAR(50),
-  salary DECIMAL(10,2)
+-- Create sample data
+CREATE TABLE scores (
+    student VARCHAR(20),
+    score INT
 );
 
-INSERT INTO employees (employee_id, first_name, last_name, salary)
-VALUES
-  (1, 'John', 'Doe', 5000.00),
-  (2, 'Jane', 'Smith', 6000.00),
-  (3, 'David', 'Johnson', 5500.00),
-  (4, 'Mary', 'Williams', 7000.00),
-  (5, 'Michael', 'Brown', 4500.00);
-
--- Use FIRST_VALUE to retrieve the first name of the employee with the highest salary
-SELECT employee_id, first_name, last_name, salary,
-       FIRST_VALUE(first_name) OVER (ORDER BY salary DESC) AS highest_salary_first_name
-FROM employees;
-
-
-employee_id | first_name | last_name | salary  | highest_salary_first_name
-------------+------------+-----------+---------+--------------------------
-4           | Mary       | Williams  | 7000.00 | Mary
-2           | Jane       | Smith     | 6000.00 | Mary
-3           | David      | Johnson   | 5500.00 | Mary
-1           | John       | Doe       | 5000.00 | Mary
-5           | Michael    | Brown     | 4500.00 | Mary
-
+INSERT INTO scores VALUES
+    ('Alice', 95),
+    ('Bob', 87),
+    ('Charlie', 82),
+    ('David', 78),
+    ('Eve', 92);
 ```
 
-This example excludes the NULL values from the window frame with the `IGNORE NULLS` option:
+**Get the highest score (first value when ordered by score DESC):**
 
 ```sql
-CREATE or replace TABLE example AS SELECT * FROM (VALUES
-	(0, 1, 614),
-	(1, 1, null),
-	(2, 1, null),
-	(3, 1, 639),
-	(4, 1, 2027)
-) tbl(id, user_id, order_id);
+SELECT student, score,
+       FIRST_VALUE(score) OVER (ORDER BY score DESC) AS highest_score,
+       FIRST_VALUE(student) OVER (ORDER BY score DESC) AS top_student
+FROM scores
+ORDER BY score DESC;
+```
 
-
-SELECT
-  id,
-  user_id,
-  order_id,
-  FIRST_VALUE (order_id) IGNORE nulls over (
-    PARTITION BY user_id
-    ORDER BY
-      id ROWS BETWEEN 1 PRECEDING AND UNBOUNDED FOLLOWING
-  ) AS last_order_id
-FROM
-  example
-
-┌───────────────────────────────────────────────────────┐
-│   id  │ user_id │     order_id     │   last_order_id  │
-├───────┼─────────┼──────────────────┼──────────────────┤
-│     0 │       1 │              614 │              614 │
-│     1 │       1 │             NULL │              614 │
-│     2 │       1 │             NULL │              639 │
-│     3 │       1 │              639 │              639 │
-│     4 │       1 │             2027 │              639 │
-└───────────────────────────────────────────────────────┘
+Result:
+```
+student | score | highest_score | top_student
+--------+-------+---------------+------------
+Alice   |    95 |            95 | Alice
+Eve     |    92 |            95 | Alice
+Bob     |    87 |            95 | Alice
+Charlie |    82 |            95 | Alice
+David   |    78 |            95 | Alice
 ```
