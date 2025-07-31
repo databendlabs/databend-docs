@@ -67,6 +67,7 @@ function Footer() {
       {!isChina && (
         <Head>
           <script async src={useBaseUrl("/Koala/index.js")}></script>
+          <script async src={useBaseUrl("/ReoDev/index.js")}></script>
           <script type="application/ld+json">
             {`
             {
