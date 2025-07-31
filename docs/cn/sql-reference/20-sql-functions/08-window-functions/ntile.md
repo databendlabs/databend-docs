@@ -5,61 +5,96 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入版本：v1.1.50"/>
 
-将排序后的结果集划分为指定数量的桶或组。它将排序后的行均匀地分布到这些桶中，并为每一行分配一个桶号。NTILE 函数通常与 ORDER BY 子句一起使用以对结果进行排序。
-
-请注意，NTILE 函数根据行的排序顺序将行均匀地分布到桶中，并确保每个桶中的行数尽可能相等。如果行数无法均匀分布到桶中，某些桶可能会比其他桶多出一行。
+将行划分为指定数量的桶（bucket），并为每一行分配一个桶号。行在桶之间的分布尽可能均匀。
 
 ## 语法
 
 ```sql
-NTILE(n) OVER (
-	PARTITION BY expr, ...
-	ORDER BY expr [ASC | DESC], ...
+NTILE(bucket_count)
+OVER (
+    [ PARTITION BY partition_expression ]
+    ORDER BY sort_expression [ ASC | DESC ]
 )
 ```
 
+**参数：**
+- `bucket_count`：必需。要创建的桶的数量（必须是正整数）。
+- `PARTITION BY`：可选。将行划分为分区。
+- `ORDER BY`：必需。确定分布顺序。
+- `ASC | DESC`：可选。排序方向（默认为 ASC）。
+
+**注意：**
+- 桶号的范围从 1 到 `bucket_count`。
+- 行的分布尽可能均匀。
+- 如果行不能被平均分配，则较早的桶会多分配一行。
+- 可用于创建百分位数和等大小的分组。
+
 ## 示例
 
-此示例检索学生的姓名、分数、年级，并使用 NTILE() 窗口函数根据每个年级内的分数将他们分配到桶中。
-
 ```sql
-CREATE TABLE students (
-    name VARCHAR(20),
-    score INT NOT NULL,
-    grade CHAR(1) NOT NULL
+-- 创建示例数据
+CREATE TABLE scores (
+    student VARCHAR(20),
+    subject VARCHAR(20),
+    score INT
 );
 
-INSERT INTO students (name, score, grade)
-VALUES
-    ('Smith', 81, 'A'),
-    ('Jones', 55, 'C'),
-    ('Williams', 55, 'C'),
-    ('Taylor', 62, 'B'),
-    ('Brown', 62, 'B'),
-    ('Davies', 84, 'A'),
-    ('Evans', 87, 'A'),
-    ('Wilson', 72, 'B'),
-    ('Thomas', 72, 'B'),
-    ('Johnson', 100, 'A');
+INSERT INTO scores VALUES
+    ('Alice', 'Math', 95),
+    ('Alice', 'English', 87),
+    ('Alice', 'Science', 92),
+    ('Bob', 'Math', 85),
+    ('Bob', 'English', 85),
+    ('Bob', 'Science', 80),
+    ('Charlie', 'Math', 88),
+    ('Charlie', 'English', 85),
+    ('Charlie', 'Science', 85);
+```
 
-SELECT
-    name,
-    score,
-    grade,
-    ntile(3) OVER (PARTITION BY grade ORDER BY score DESC) AS bucket
-FROM
-    students;
+**将所有分数分为 3 个桶（tertile，三分位数）：**
 
-name    |score|grade|bucket|
---------+-----+-----+------+
-Johnson |  100|A    |     1|
-Evans   |   87|A    |     1|
-Davies  |   84|A    |     2|
-Smith   |   81|A    |     3|
-Wilson  |   72|B    |     1|
-Thomas  |   72|B    |     1|
-Taylor  |   62|B    |     2|
-Brown   |   62|B    |     3|
-Jones   |   55|C    |     1|
-Williams|   55|C    |     2|
+```sql
+SELECT student, subject, score,
+       NTILE(3) OVER (ORDER BY score DESC) AS score_bucket
+FROM scores
+ORDER BY score DESC, student, subject;
+```
+
+结果：
+```
+student | subject | score | score_bucket
+--------+---------+-------+-------------
+Alice   | Math    |    95 | 1
+Alice   | Science |    92 | 1
+Charlie | Math    |    88 | 1
+Alice   | English |    87 | 2
+Bob     | English |    85 | 2
+Bob     | Math    |    85 | 2
+Charlie | English |    85 | 3
+Charlie | Science |    85 | 3
+Bob     | Science |    80 | 3
+```
+
+**在每个学生内部将分数分为两半：**
+
+```sql
+SELECT student, subject, score,
+       NTILE(2) OVER (PARTITION BY student ORDER BY score DESC) AS performance_half
+FROM scores
+ORDER BY student, score DESC, subject;
+```
+
+结果：
+```
+student | subject | score | performance_half
+--------+---------+-------+-----------------
+Alice   | Math    |    95 | 1
+Alice   | Science |    92 | 1
+Alice   | English |    87 | 2
+Bob     | English |    85 | 1
+Bob     | Math    |    85 | 1
+Bob     | Science |    80 | 2
+Charlie | Math    |    88 | 1
+Charlie | English |    85 | 2
+Charlie | Science |    85 | 2
 ```
