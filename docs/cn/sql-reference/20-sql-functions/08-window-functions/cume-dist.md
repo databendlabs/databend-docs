@@ -5,61 +5,65 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入版本：v1.2.7"/>
 
-返回一组值中给定值的累积分布。它计算小于或等于指定值的行数占总行数的比例。请注意，结果值介于 0 和 1 之间，包括 0 和 1。
+计算每行值的累积分布（Cumulative Distribution）。返回小于或等于当前行值的行所占比例。
 
 另请参阅：[PERCENT_RANK](percent_rank.md)
 
 ## 语法
 
 ```sql
-CUME_DIST() OVER (
-	PARTITION BY expr, ...
-	ORDER BY expr [ASC | DESC], ...
+CUME_DIST()
+OVER (
+    [ PARTITION BY partition_expression ]
+    ORDER BY sort_expression [ ASC | DESC ]
 )
 ```
 
+**参数：**
+- `PARTITION BY`：可选。将行划分为分区。
+- `ORDER BY`：必选。确定分布顺序。
+- `ASC | DESC`：可选。排序方向（默认为 ASC）。
+
+**说明：**
+- 返回值介于 0 与 1 之间（不含 0，含 1）。
+- 公式：（小于或等于当前值的行数）/（总行数）
+- 对于最高值始终返回 1.0。
+- 可用于计算百分位数和累积百分比。
+
 ## 示例
 
-本示例使用 CUME_DIST() 窗口函数获取每个年级中学生的姓名、分数、年级以及累积分布值（cume_dist_val）。
-
 ```sql
-CREATE TABLE students (
-    name VARCHAR(20),
-    score INT NOT NULL,
-    grade CHAR(1) NOT NULL
+-- 创建示例数据
+CREATE TABLE scores (
+    student VARCHAR(20),
+    score INT
 );
 
-INSERT INTO students (name, score, grade)
-VALUES
-    ('Smith', 81, 'A'),
-    ('Jones', 55, 'C'),
-    ('Williams', 55, 'C'),
-    ('Taylor', 62, 'B'),
-    ('Brown', 62, 'B'),
-    ('Davies', 84, 'A'),
-    ('Evans', 87, 'A'),
-    ('Wilson', 72, 'B'),
-    ('Thomas', 72, 'B'),
-    ('Johnson', 100, 'A');
+INSERT INTO scores VALUES
+    ('Alice', 95),
+    ('Bob', 87),
+    ('Charlie', 87),
+    ('David', 82),
+    ('Eve', 78);
+```
 
-SELECT
-    name,
-    score,
-    grade,
-    CUME_DIST() OVER (PARTITION BY grade ORDER BY score) AS cume_dist_val
-FROM
-    students;
+**计算累积分布（显示得分等于或低于每个分数的学生所占百分比）：**
 
-name    |score|grade|cume_dist_val|
---------+-----+-----+-------------+
-Smith   |   81|A    |         0.25|
-Davies  |   84|A    |          0.5|
-Evans   |   87|A    |         0.75|
-Johnson |  100|A    |          1.0|
-Taylor  |   62|B    |          0.5|
-Brown   |   62|B    |          0.5|
-Wilson  |   72|B    |          1.0|
-Thomas  |   72|B    |          1.0|
-Jones   |   55|C    |          1.0|
-Williams|   55|C    |          1.0|
+```sql
+SELECT student, score,
+       CUME_DIST() OVER (ORDER BY score) AS cume_dist,
+       ROUND(CUME_DIST() OVER (ORDER BY score) * 100) AS cumulative_percent
+FROM scores
+ORDER BY score;
+```
+
+结果：
+```
+student | score | cume_dist | cumulative_percent
+--------+-------+-----------+-------------------
+Eve     |    78 |       0.2 |                20
+David   |    82 |       0.4 |                40
+Bob     |    87 |       0.8 |                80
+Charlie |    87 |       0.8 |                80
+Alice   |    95 |       1.0 |               100
 ```
