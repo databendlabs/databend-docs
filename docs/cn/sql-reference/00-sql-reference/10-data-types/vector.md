@@ -4,13 +4,14 @@ title: Vector
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.777"/>
+<FunctionDescription description="Introduced or updated: v1.2.777"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='VECTOR INDEX'/>
 
-VECTOR 数据类型用于存储由 32 位浮点数组成的多维数组，专为机器学习、人工智能（AI）应用和相似性搜索操作而设计。每个向量在创建时都指定了固定的维度（dimension，即长度）。
+
+VECTOR 数据类型用于存储由 32 位浮点数组成的多维数组，专为机器学习、人工智能应用和相似性搜索操作而设计。每个向量在创建时都指定了固定的维度（长度）。
 
 ## 语法
 
@@ -19,12 +20,12 @@ column_name VECTOR(<dimension>)
 ```
 
 其中：
-- `dimension`：向量的维度（dimension，即长度）。必须是正整数，最大值为 4096。
+- `dimension`：向量的维度（长度）。必须是正整数，最大值为 4096。
 - 元素为 32 位浮点数。
 
 ## 向量索引
 
-Databend 支持使用 HNSW（Hierarchical Navigable Small World）算法创建向量索引（Vector Index），以实现快速的近似最近邻搜索，可将查询（Query）性能提升 **23 倍**。
+Databend 支持使用 HNSW（Hierarchical Navigable Small World）算法创建向量索引，以实现快速的近似最近邻搜索，可将查询性能提升 **23 倍**。
 
 ### 索引语法
 
@@ -33,10 +34,9 @@ VECTOR INDEX index_name(column_name) distance='cosine,l1,l2'
 ```
 
 其中：
-- `index_name`：向量索引（Vector Index）的名称。
-- `column_name`：要索引的 VECTOR 列的名称。
-- `distance`：要支持的距离函数。可以是 `'cosine'`、`'l1'`、`'l2'`，或组合形式如 `'cosine,l1,l2'`。
-
+- `index_name`：向量索引的名称
+- `column_name`：要索引的 VECTOR 列的名称
+- `distance`：支持的距离函数。可以是 `'cosine'`、`'l1'`、`'l2'`，或组合形式如 `'cosine,l1,l2'`。
 
 ### 支持的距离函数
 
@@ -48,7 +48,7 @@ VECTOR INDEX index_name(column_name) distance='cosine,l1,l2'
 
 ## 基本用法
 
-### 步骤 1：创建带有向量的表
+### 步骤 1：创建带向量的表
 
 ```sql
 -- 创建带有向量索引的表，以实现高效的相似性搜索
@@ -60,7 +60,7 @@ CREATE OR REPLACE TABLE products (
 );
 ```
 
-**注意**：当数据插入表中时，向量索引（Vector Index）会自动构建。
+**注意**：当数据插入表中时，向量索引会自动构建。
 
 ### 步骤 2：插入向量数据
 
@@ -98,7 +98,7 @@ LIMIT 3;
 └─────┴───────────┴───────────────┴──────────────────┘
 ```
 
-**说明**：该查询（Query）找到了与搜索向量 `[1.2, 2.1, 2.8]` 最相似的 3 个产品。余弦距离值越小，表示相似度越高。
+**说明**：该查询找到了与搜索向量 `[1.2, 2.1, 2.8]` 最相似的 3 个产品。余弦距离值越小，表示相似度越高。
 
 ## 卸载和加载向量数据
 
@@ -139,3 +139,7 @@ FROM (
 )
 FILE_FORMAT = (TYPE = 'PARQUET');
 ```
+
+## 向量函数
+
+请参阅 [向量函数](/sql/sql-functions/vector-functions/)。
