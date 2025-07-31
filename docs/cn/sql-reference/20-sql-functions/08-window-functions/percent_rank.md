@@ -3,9 +3,9 @@ title: PERCENT_RANK
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入版本：v1.1.50"/>
+<FunctionDescription description="引入或更新于：v1.2.780"/>
 
-返回给定值在一组值中的相对排名。结果值介于 0 和 1 之间，包括 0 和 1。请注意，任何集合中的第一行的 PERCENT_RANK 为 0。
+返回给定值在一组值中的相对排名（Percent Rank）。结果值介于 0 和 1 之间（含 0 和 1）。请注意，任何集合中的第一行的 PERCENT_RANK 均为 0。
 
 另请参阅：[CUME_DIST](cume-dist.md)
 
@@ -20,46 +20,38 @@ PERCENT_RANK() OVER (
 
 ## 示例
 
-本示例使用 PERCENT_RANK() 窗口函数获取学生的姓名、分数、等级以及每个等级内的百分位排名（percent_rank）。
-
 ```sql
-CREATE TABLE students (
-    name VARCHAR(20),
-    score INT NOT NULL,
-    grade CHAR(1) NOT NULL
+-- 创建示例数据
+CREATE TABLE scores (
+    student VARCHAR(20),
+    score INT
 );
 
-INSERT INTO students (name, score, grade)
-VALUES
-    ('Smith', 81, 'A'),
-    ('Jones', 55, 'C'),
-    ('Williams', 55, 'C'),
-    ('Taylor', 62, 'B'),
-    ('Brown', 62, 'B'),
-    ('Davies', 84, 'A'),
-    ('Evans', 87, 'A'),
-    ('Wilson', 72, 'B'),
-    ('Thomas', 72, 'B'),
-    ('Johnson', 100, 'A');
+INSERT INTO scores VALUES
+    ('Alice', 85),
+    ('Bob', 92),
+    ('Carol', 78),
+    ('David', 95),
+    ('Eve', 88);
 
-SELECT
-    name,
+-- PERCENT_RANK 示例
+SELECT 
+    student,
     score,
-    grade,
-    PERCENT_RANK() OVER (PARTITION BY grade ORDER BY score) AS percent_rank
-FROM
-    students;
+    PERCENT_RANK() OVER (ORDER BY score) AS percent_rank,
+    ROUND(PERCENT_RANK() OVER (ORDER BY score) * 100, 1) AS percentile
+FROM scores
+ORDER BY score;
+```
 
-name    |score|grade|percent_rank      |
---------+-----+-----+------------------+
-Smith   |   81|A    |               0.0|
-Davies  |   84|A    |0.3333333333333333|
-Evans   |   87|A    |0.6666666666666666|
-Johnson |  100|A    |               1.0|
-Taylor  |   62|B    |               0.0|
-Brown   |   62|B    |               0.0|
-Wilson  |   72|B    |0.6666666666666666|
-Thomas  |   72|B    |0.6666666666666666|
-Jones   |   55|C    |               0.0|
-Williams|   55|C    |               0.0|
+结果：
+
+```
+student|score|percent_rank|percentile|
+-------+-----+------------+----------+
+Carol  |   78|         0.0|       0.0|
+Alice  |   85|        0.25|      25.0|
+Eve    |   88|         0.5|      50.0|
+Bob    |   92|        0.75|      75.0|
+David  |   95|         1.0|     100.0|
 ```
