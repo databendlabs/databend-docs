@@ -605,32 +605,32 @@
     "message": "Databend 产品介绍",
     "description": "Databend 产品介绍部分的标题"
   },
-  "Check out the products you can choose from.": {
-    "message": "查看您可以选择的产品。",
+  "Choose the deployment option that best fits your needs and scale.": {
+    "message": "选择最适合您需求并可扩展的部署方案。",
     "description": "Databend 产品介绍部分的描述"
   },
   "Databend Cloud": {
     "message": "Databend Cloud",
     "description": "Databend Cloud 产品的标题"
   },
-  "Fully-Managed on Cloud": {
-    "message": "公有云服务 Databend Cloud & 按需按量付费",
+  "Fully-managed cloud service. No setup required.": {
+    "message": "Databend Cloud 全托管的云服务。无需任何设置。",
     "description": "Databend Cloud 产品的描述"
   },
   "Databend Enterprise": {
     "message": "Databend 企业版",
     "description": "Databend Enterprise 产品的标题"
   },
-  "Self-Hosted with Additional Enterprise Features": {
-    "message": "私有化部署 & 更多功能 & 收取 License 费用",
+  "Self-hosted with enterprise features and support.": {
+    "message": "采用私有化部署方式，具备企业级功能及支持服务。",
     "description": "Databend Enterprise 产品的描述"
   },
   "Databend Community": {
     "message": "Databend 社区版",
     "description": "Databend 社区版 产品的标题"
   },
-  "Self-Hosted & Free": {
-    "message": "私有化部署 & 基础功能 & 免费",
+  "Open-source and free for all use cases.": {
+    "message": "开源且免费，适用于所有应用场景。",
     "description": "Databend 社区版 产品的描述"
   },
   "Getting Started": {
@@ -697,53 +697,9 @@
     "message": "产品特点",
     "description": "Product Features"
   },
-  "Serverless Elastic Architecture": {
-    "message": "Serverless 弹性架构",
-    "description": "Title for serverless elastic architecture card"
-  },
-  "Stateless compute nodes with serverless elasticity enable rapid scaling and recovery based on workload.": {
-    "message": "计算层采用 Serverless 弹性架构，计算节点无状态，根据业务感知负载，具有快速的弹性扩展能力和业务恢复能力。",
-    "description": "Description for serverless elastic architecture card"
-  },
-  "Object Storage & HDFS": {
-    "message": "底层存储采用对象存储&HDFS",
-    "description": "Title for object storage and HDFS card"
-  },
-  "Stores all data in object storage to reduce costs, while supporting HDFS for existing Hadoop and Hive clusters.": {
-    "message": "所有数据存储在对象存储中，降低企业存储成本。对于原有 Hadoop、Hive 集群，支持读取 HDFS 中数据。",
-    "description": "Description for object storage and HDFS card"
-  },
-  "Parquet Data Format": {
-    "message": "开放数据格式 Parquet",
-    "description": "Title for Parquet data format card"
-  },
-  "Uses the standard Parquet format, eliminating data lock-in risks.": {
-    "message": "存储采用标准 Parquet 格式，无需担心数据锁定风险。",
-    "description": "Description for Parquet data format card"
-  },
-  "Decoupled Storage and Compute": {
-    "message": "存算分离架构，一份数据多个租户共享",
-    "description": "Title for decoupled storage and compute card"
-  },
-  "Designed for multi-tenant data sharing with a truly decoupled architecture, enabling data marketplace functionality.": {
-    "message": "Databend 自创建以来就是基于存算分离架构进行设计开发，是真正的存算分离架构，一份数据可以共享给多个租户共享，实现数据集市的功能。",
-    "description": "Description for decoupled storage and compute card"
-  },
-  "Open Source with Flexible Deployment": {
-    "message": "开源，私有化部署和公有云服务均支持",
-    "description": "Title for open source with flexible deployment card"
-  },
-  "Supports both public cloud SaaS and private deployments, with an open-source core to avoid vendor lock-in.": {
-    "message": "Databend 支持公有云 SaaS 服务和私有化部署，内核开源，无需担心产品锁定，可以根据自身需求选择不同产品。",
-    "description": "Description for open source with flexible deployment card"
-  },
-  "Data Lake Support": {
-    "message": "支持数据湖",
-    "description": "Title for data lake support card"
-  },
-  "Reads data from Iceberg, Hive, and Delta Lake seamlessly.": {
-    "message": "支持读取 Iceberg、Hive、Delta Lake 中数据。",
-    "description": "Description for data lake support card"
+  "10x Faster Performance": {
+    "message": "10 倍更快的性能",
+    "description": "10x Faster Performance"
   },
   "NoDesc": {
     "message": "问题反馈",
@@ -760,5 +716,93 @@
   "Stores all data in object storage.": {
     "message": "所有数据存储在对象存储中。",
     "description": "Stores all data in object storage."
+  },
+  "Rust-powered vectorized execution with SIMD optimization delivers exceptional performance.": {
+    "message": "Rust 驱动的矢量化执行与 SIMD 优化提供卓越性能。",
+    "description": "delivers exceptional performance."
+  },
+  "90% Cost Reduction": {
+    "message": "90% 成本降低",
+    "description": "90% Cost Reduction"
+  },
+  "S3-native storage eliminates proprietary overhead and reduces costs significantly.": {
+    "message": "S3 原生存储消除了专有开销并显著降低成本。",
+    "description": "Description for Cost reduction and storage section"
+  },
+  "Snowflake Compatible": {
+    "message": "兼容 Snowflake",
+    "description": "Snowflake Compatible"
+  },
+  "Near 100% SQL compatibility enables zero-rewrite migration from Snowflake.": {
+    "message": "近 100% 的 SQL 兼容性支持从 Snowflake 的无重写迁移。",
+    "description": "Description for Snowflake compatible section"
+  },
+  "Universal Data Processing": {
+    "message": "通用数据处理",
+    "description": "Universal Data Processing"
+  },
+  "Process structured, semi-structured, and unstructured multimodal data in one platform.": {
+    "message": "在一个平台上处理结构化、半结构化和非结构化的多模态数据。",
+    "description": "Description for Universal data processing section"
+  },
+  "Native AI Capabilities": {
+    "message": "原生 AI 能力",
+    "description": "Native AI Capabilities"
+  },
+  "Built-in AI functions, vector search, and multimodal analytics for modern workloads.": {
+    "message": "内置 AI 功能、向量搜索和多模态分析，适用于现代工作负载。",
+    "description": "Description for Native AI capabilities section"
+  },
+  "Multi-Cloud & No Lock-in": {
+    "message": "多云与无锁定",
+    "description": "Multi-Cloud & No Lock-in"
+  },
+  "Deploy on AWS, Azure, GCP, or on-premise with complete data sovereignty.": {
+    "message": "在阿里云、腾讯云、AWS、Azure、GCP 或本地部署，拥有完全的数据主权。",
+    "description": "Description for Multi-cloud and no lock-in section"
+  },
+  "Start with Databend Cloud": {
+    "message": "注册 Databend Cloud",
+    "description": "Start with Databend Cloud"
+  },
+  "Get started in minutes with our fully-managed cloud service. No setup required.": {
+    "message": "使用我们完全托管的云服务，几分钟内即可开始，无需设置。",
+    "description": "Get started in minutes with our fully-managed cloud service. No setup required."
+  },
+  "What you need to know:": {
+    "message": "您需要了解的内容：",
+    "description": "What you need to know:"
+  },
+  "Choose Your Edition": {
+    "message": "选择您的云平台版本",
+    "description": "Choose Your Edition"
+  },
+  "Pricing & Plans": {
+    "message": "定价与计划",
+    "description": "Pricing & Plans"
+  },
+  "Using Databend Cloud": {
+    "message": "使用 Databend Cloud",
+    "description": "Using Databend Cloud"
+  },
+  "Deploy Your Own Instance": {
+    "message": "部署您自己的实例",
+    "description": "Deploy Your Own Instance"
+  },
+  "Install Databend on your infrastructure for complete control and customization.": {
+    "message": "在您的基础设施上安装 Databend，以实现完全控制和自定义。",
+    "description": "Install Databend on your infrastructure for complete control and customization."
+  },
+  "5-Minute Quick Start": {
+    "message": "5 分钟快速开始",
+    "description": "5-Minute Quick Start"
+  },
+  "Download & Install": {
+    "message": "下载与安装",
+    "description": "Download & Install"
+  },
+  "Enterprise Features & Licensing": {
+    "message": "企业功能与许可",
+    "description": "Enterprise Features & Licensing"
   }
 }
