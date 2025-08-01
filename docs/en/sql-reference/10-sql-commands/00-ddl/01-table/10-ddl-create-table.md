@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.714"/>
+<FunctionDescription description="Introduced or updated: v1.2.784"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -114,6 +114,7 @@ By default, **all columns are nullable(NULL)** in Databend. If you need a column
 - An expression with no input arguments and returns a scalar value, such as `1 + 1`, `NOW()` or `UUID()`.
 - A dynamically generated value from a sequence, such as `NEXTVAL(staff_id_seq)` for the `staff_id` column in the example below.
   - NEXTVAL must be used as a standalone default value; expressions like `NEXTVAL(seq1) + 1` are not supported.
+  - Users must adhere to their granted permissions for sequence utilization, including operations such as [NEXTVAL](/sql/sql-functions/sequence-functions/nextval#access-control-requirements)
 
 ```sql
 CREATE SEQUENCE staff_id_seq;
