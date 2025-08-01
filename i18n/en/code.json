@@ -593,32 +593,32 @@
     "message": "Introduction to Databend Products",
     "description": "Title for Introduction to Databend Products section"
   },
-  "Check out the products you can choose from.": {
-    "message": "Check out the products you can choose from.",
+  "Choose the deployment option that best fits your needs and scale.": {
+    "message": "Choose the deployment option that best fits your needs and scale.",
     "description": "Description for Introduction to Databend Products section"
   },
   "Databend Cloud": {
     "message": "Databend Cloud",
     "description": "Title for Databend Cloud product"
   },
-  "Fully-Managed on Cloud": {
-    "message": "Fully-Managed on Cloud",
+  "Fully-managed cloud service. No setup required.": {
+    "message": "Fully-managed cloud service. No setup required.",
     "description": "Description for Databend Cloud product"
   },
   "Databend Enterprise": {
     "message": "Databend Enterprise",
     "description": "Title for Databend Enterprise product"
   },
-  "Self-Hosted with Additional Enterprise Features": {
-    "message": "Self-Hosted with Additional Enterprise Features",
+  "Self-hosted with enterprise features and support.": {
+    "message": "Self-hosted with enterprise features and support.",
     "description": "Description for Databend Enterprise product"
   },
   "Databend Community": {
     "message": "Databend Community",
     "description": "Title for Databend Community product"
   },
-  "Self-Hosted & Free": {
-    "message": "Self-Hosted & Free",
+  "Open-source and free for all use cases.": {
+    "message": "Open-source and free for all use cases.",
     "description": "Description for Databend Community product"
   },
   "Create a Databend Cloud account or deploy your own Databend instance.": {
@@ -681,53 +681,9 @@
     "message": "Product Features",
     "description": "Product Features"
   },
-  "Serverless Elastic Architecture": {
-    "message": "Serverless Elastic Architecture",
-    "description": "Title for serverless elastic architecture card"
-  },
-  "Stateless compute nodes with serverless elasticity enable rapid scaling and recovery based on workload.": {
-    "message": "Stateless compute nodes with serverless elasticity enable rapid scaling and recovery based on workload.",
-    "description": "Description for serverless elastic architecture card"
-  },
-  "Object Storage & HDFS": {
-    "message": "Object Storage & HDFS",
-    "description": "Title for object storage and HDFS card"
-  },
-  "Stores all data in object storage to reduce costs, while supporting HDFS for existing Hadoop and Hive clusters.": {
-    "message": "Stores all data in object storage to reduce costs, while supporting HDFS for existing Hadoop and Hive clusters.",
-    "description": "Description for object storage and HDFS card"
-  },
-  "Parquet Data Format": {
-    "message": "Parquet Data Format",
-    "description": "Title for Parquet data format card"
-  },
-  "Uses the standard Parquet format, eliminating data lock-in risks.": {
-    "message": "Uses the standard Parquet format, eliminating data lock-in risks.",
-    "description": "Description for Parquet data format card"
-  },
-  "Decoupled Storage and Compute": {
-    "message": "Decoupled Storage and Compute",
-    "description": "Title for decoupled storage and compute card"
-  },
-  "Designed for multi-tenant data sharing with a truly decoupled architecture, enabling data marketplace functionality.": {
-    "message": "Designed for multi-tenant data sharing with a truly decoupled architecture, enabling data marketplace functionality.",
-    "description": "Description for decoupled storage and compute card"
-  },
-  "Open Source with Flexible Deployment": {
-    "message": "Open Source with Flexible Deployment",
-    "description": "Title for open source with flexible deployment card"
-  },
-  "Supports both public cloud SaaS and private deployments, with an open-source core to avoid vendor lock-in.": {
-    "message": "Supports both public cloud SaaS and private deployments, with an open-source core to avoid vendor lock-in.",
-    "description": "Description for open source with flexible deployment card"
-  },
-  "Data Lake Support": {
-    "message": "Data Lake Support",
-    "description": "Title for data lake support card"
-  },
-  "Reads data from Iceberg, Hive, and Delta Lake seamlessly.": {
-    "message": "Reads data from Iceberg, Hive, and Delta Lake seamlessly.",
-    "description": "Description for data lake support card"
+  "10x Faster Performance": {
+    "message": "10x Faster Performance",
+    "description": "10x Faster Performance"
   },
   "NoDesc": {
     "message": "FeedBack",
@@ -736,5 +692,93 @@
   "Please describe the specific errors or issues that": {
     "message": "*Please describe the specific errors or issues that you have identified in the document (such as: content mistakes, process getting stuck and unable to proceed, layout problems, broken links, etc.)",
     "description": "Please describe the specific errors or issues that you have identified in the document (such as: content mistakes, process getting stuck and unable to proceed, layout problems, broken links, etc.)"
+  },
+  "Rust-powered vectorized execution with SIMD optimization delivers exceptional performance.": {
+    "message": "Rust-powered vectorized execution with SIMD optimization delivers exceptional performance.",
+    "description": "delivers exceptional performance."
+  },
+  "90% Cost Reduction": {
+    "message": "90% Cost Reduction",
+    "description": "90% Cost Reduction"
+  },
+  "S3-native storage eliminates proprietary overhead and reduces costs significantly.": {
+    "message": "S3-native storage eliminates proprietary overhead and reduces costs significantly.",
+    "description": "Description for Cost reduction and storage section"
+  },
+  "Snowflake Compatible": {
+    "message": "Snowflake Compatible",
+    "description": "Snowflake Compatible"
+  },
+  "Near 100% SQL compatibility enables zero-rewrite migration from Snowflake.": {
+    "message": "Near 100% SQL compatibility enables zero-rewrite migration from Snowflake.",
+    "description": "Description for Snowflake compatible section"
+  },
+  "Universal Data Processing": {
+    "message": "Universal Data Processing",
+    "description": "Universal Data Processing"
+  },
+  "Process structured, semi-structured, and unstructured multimodal data in one platform.": {
+    "message": "Process structured, semi-structured, and unstructured multimodal data in one platform.",
+    "description": "Description for Universal data processing section"
+  },
+  "Native AI Capabilities": {
+    "message": "Native AI Capabilities",
+    "description": "Native AI Capabilities"
+  },
+  "Built-in AI functions, vector search, and multimodal analytics for modern workloads.": {
+    "message": "Built-in AI functions, vector search, and multimodal analytics for modern workloads.",
+    "description": "Description for Native AI capabilities section"
+  },
+  "Multi-Cloud & No Lock-in": {
+    "message": "Multi-Cloud & No Lock-in",
+    "description": "Multi-Cloud & No Lock-in"
+  },
+  "Deploy on AWS, Azure, GCP, or on-premise with complete data sovereignty.": {
+    "message": "Deploy on AWS, Azure, GCP, or on-premise with complete data sovereignty.",
+    "description": "Description for Multi-cloud and no lock-in section"
+  },
+  "Start with Databend Cloud": {
+    "message": "Start with Databend Cloud",
+    "description": "Start with Databend Cloud"
+  },
+  "Get started in minutes with our fully-managed cloud service. No setup required.": {
+    "message": "Get started in minutes with our fully-managed cloud service. No setup required.",
+    "description": "Get started in minutes with our fully-managed cloud service. No setup required."
+  },
+  "What you need to know:": {
+    "message": "What you need to know:",
+    "description": "What you need to know:"
+  },
+  "Choose Your Edition": {
+    "message": "Choose Your Edition",
+    "description": "Choose Your Edition"
+  },
+  "Pricing & Plans": {
+    "message": "Pricing & Plans",
+    "description": "Pricing & Plans"
+  },
+  "Using Databend Cloud": {
+    "message": "Using Databend Cloud",
+    "description": "Using Databend Cloud"
+  },
+  "Deploy Your Own Instance": {
+    "message": "Deploy Your Own Instance",
+    "description": "Deploy Your Own Instance"
+  },
+  "Install Databend on your infrastructure for complete control and customization.": {
+    "message": "Install Databend on your infrastructure for complete control and customization.",
+    "description": "Install Databend on your infrastructure for complete control and customization."
+  },
+  "5-Minute Quick Start": {
+    "message": "5-Minute Quick Start",
+    "description": "5-Minute Quick Start"
+  },
+  "Download & Install": {
+    "message": "Download & Install",
+    "description": "Download & Install"
+  },
+  "Enterprise Features & Licensing": {
+    "message": "Enterprise Features & Licensing",
+    "description": "Enterprise Features & Licensing"
   }
 }
