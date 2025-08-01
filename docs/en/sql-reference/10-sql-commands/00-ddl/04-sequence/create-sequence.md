@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.426"/>
+<FunctionDescription description="Introduced or updated: v1.2.784"/>
 
 Creates a new sequence in Databend.
 
@@ -24,6 +24,25 @@ CREATE [ OR REPLACE ] SEQUENCE [IF NOT EXISTS] <sequence>
 | Parameter    | Description                             |
 |--------------|-----------------------------------------|
 | `<sequence>` | The name of the sequence to be created. |
+
+## Access control requirements
+
+| Privilege       | Object Type | Description           |
+|:----------------|:------------|:----------------------|
+| CREATE SEQUENCE | Global      | Creates a sequence. |
+
+
+To create a sequence, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the CREATE SEQUENCE [privilege](/guides/security/access-control/privileges).
+
+:::note
+
+The enable_experimental_sequence_rbac_check settings governs sequence-level access control. It is disabled by default.
+sequence creation solely requires the user to possess superuser privileges, bypassing detailed RBAC checks.
+When enabled, granular permission verification is enforced during sequence establishment.
+
+This is an experimental feature and may be enabled by default in the future.
+
+:::
 
 ## Examples
 

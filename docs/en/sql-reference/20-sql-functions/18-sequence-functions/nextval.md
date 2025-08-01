@@ -3,7 +3,7 @@ title: NEXTVAL
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.453"/>
+<FunctionDescription description="Introduced or updated: v1.2.784"/>
 
 Retrieves the next value from a sequence.
 
@@ -16,6 +16,26 @@ NEXTVAL(<sequence_name>)
 ## Return Type
 
 Integer.
+
+## Access control requirements
+
+| Privilege       | Object Type | Description        |
+|:----------------|:------------|:-------------------|
+| ACCESS SEQUENCE | SEQUENCE    | Access a sequence. |
+
+
+To access a sequence, the user performing the operation or the roles must have the ACCESS SEQUENCE [privilege](/guides/security/access-control/privileges).
+
+:::note
+
+The enable_experimental_sequence_rbac_check settings governs sequence-level access control. It is disabled by default.
+sequence creation solely requires the user to possess superuser privileges, bypassing detailed RBAC checks.
+When enabled, granular permission verification is enforced during sequence establishment.
+
+This is an experimental feature and may be enabled by default in the future.
+
+:::
+
 
 ## Examples
 
