@@ -20,7 +20,7 @@ export const siteConfig = {
       appId: "XA8ZCKIEYU",
       apiKey: "81e5ee11f82ed1c5de63ef7ea0551abf",
       indexName: "databend",
-      contextualSearch: true
+      contextualSearch: false
     },
     trackingID: "G-KYDJ7HV75X"
   }
