@@ -2,258 +2,106 @@
 title: Rust
 ---
 
-import StepsWrap from '@site/src/components/StepsWrap';
-import StepContent from '@site/src/components/Steps/step-content';
+# Rust Driver for Databend
 
-Databend offers a driver ([crates.io - databend-driver](https://crates.io/crates/databend-driver)) written in Rust, which facilitates the development of applications using the Rust programming language and establishes connectivity with Databend. Please note that the driver currently does not support handling arrays.
+The official Rust driver providing native connectivity with async/await support and comprehensive type safety for Rust applications.
 
-For installation instructions, examples, and the source code, see [GitHub - databend-driver](https://github.com/databendlabs/BendSQL/tree/main/driver).
+## Installation
 
-## Data Type Mappings
+Add the driver to your `Cargo.toml`:
 
-This table illustrates the correspondence between Databend general data types and their corresponding Rust equivalents:
-
-| Databend  | Rust                  |
-| --------- | --------------------- |
-| BOOLEAN   | bool                  |
-| TINYINT   | i8,u8                 |
-| SMALLINT  | i16,u16               |
-| INT       | i32,u32               |
-| BIGINT    | i64,u64               |
-| FLOAT     | f32                   |
-| DOUBLE    | f64                   |
-| DECIMAL   | String                |
-| DATE      | chrono::NaiveDate     |
-| TIMESTAMP | chrono::NaiveDateTime |
-| VARCHAR   | String                |
-| BINARY    | `Vec<u8>`             |
-
-This table illustrates the correspondence between Databend semi-structured data types and their corresponding Rust equivalents:
-
-| Databend    | Rust            |
-| ----------- | --------------- |
-| ARRAY[T]    | `Vec<T> `       |
-| TUPLE[T, U] | (T, U)          |
-| MAP[K, V]   | `HashMap<K, V>` |
-| VARIANT     | String          |
-| BITMAP      | String          |
-| GEOMETRY    | String          |
-
-## Databend Rust Driver Behavior Summary
-
-The table below summarizes the main behaviors and functions of the Rust Driver and their purposes:
-
-| Function Name       | Description                                                                                                                                      |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `info`              | Returns the client's connection information.                                                                                                     |
-| `version`           | Returns the result of executing the `SELECT VERSION()` statement.                                                                                |
-| `exec`              | Executes an SQL statement and returns the number of rows affected.                                                                               |
-| `query_iter`        | Executes an SQL query and returns an iterator for processing results row by row.                                                                 |
-| `query_iter_ext`    | Executes an SQL query and returns an iterator that includes statistical information about the results.                                           |
-| `query_row`         | Executes an SQL query and returns a single row result.                                                                                           |
-| `get_presigned_url` | Generates a `PRESIGN` statement based on operation and Stage parameters, returning the HTTP method, headers, and URL.                            |
-| `upload_to_stage`   | Uploads data to a Stage. Uses `PRESIGN UPLOAD` by default for URL, or the `v1/upload_to_stage` API if PRESIGN is disabled.                       |
-| `load_data`         | Uploads data to a built-in Stage (`upload_to_stage`) and executes insert/replace with [stage attachment](/developer/apis/http#stage-attachment). |
-| `load_file`         | Reuses the `load_data` logic to upload a file and insert data.                                                                                   |
-| `stream_load`       | Reads data as a Vec, converts it to CSV, then calls the `load_data` method.                                                                      |
-
-## Tutorial-1: Integrating with Databend using Rust
-
-Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/deploy/deploy/non-production/deploying-local).
-
-### Step 1. Prepare a SQL User Account
-
-To connect your program to Databend and execute SQL operations, you must provide a SQL user account with appropriate privileges in your code. Create one in Databend if needed, and ensure that the SQL user has only the necessary privileges for security.
-
-This tutorial uses a SQL user named 'user1' with password 'abc123' as an example. As the program will write data into Databend, the user needs ALL privileges. For how to manage SQL users and their privileges, see [User & Role](/sql/sql-commands/ddl/user/).
-
-```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
-GRANT ALL on *.* TO user1;
-```
-
-### Step 2. Write a Rust Program
-
-In this step, you'll create a simple Rust program that communicates with Databend. The program will involve tasks such as creating a table, inserting data, and executing data queries.
-
-<StepsWrap>
-
-<StepContent number="1">
-
-### Create a new project
-
-```shell
-cargo new databend-demo --bin
-```
-
-```toml title='Cargo.toml'
-[package]
-name = "databend-demo"
-version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
+```toml
 [dependencies]
 databend-driver = "0.7"
 tokio = { version = "1", features = ["full"] }
-tokio-stream = "0.1.12"
 ```
 
-</StepContent>
+**Connection String**: See [Drivers Overview](./index.md#connection-string-dsn) for DSN format and connection examples.
 
-<StepContent number="2">
+---
 
-### Copy and paste the following code to the file main.rs
+## Key Features
 
-:::note
-The value of `hostname` in the code below must align with your HTTP handler settings for Databend query service.
-:::
+- ✅ **Async/Await Support**: Built for modern Rust async programming
+- ✅ **Type Safety**: Strong type mapping with Rust's type system
+- ✅ **Connection Pooling**: Efficient connection management
+- ✅ **Stage Operations**: Upload/download data to/from Databend stages
+- ✅ **Streaming Results**: Process large result sets efficiently
 
-```rust title='main.rs'
-use databend_driver::Client;
-use tokio_stream::StreamExt;
+## Data Type Mappings
 
-#[tokio::main]
-async fn main() {
-    // Connecting to a local Databend with a SQL user named 'user1' and password 'abc123' as an example.
-    // Feel free to use your own values while maintaining the same format.
-    let dsn = "databend://user1:abc123@localhost:8000/default?sslmode=disable";
-    let client = Client::new(dsn.to_string());
-    let conn = client.get_conn().await.unwrap();
+### Basic Types
+| Databend  | Rust                  | Notes                    |
+| --------- | --------------------- | ------------------------ |
+| BOOLEAN   | bool                  |                          |
+| TINYINT   | i8, u8                |                          |
+| SMALLINT  | i16, u16              |                          |
+| INT       | i32, u32              |                          |
+| BIGINT    | i64, u64              |                          |
+| FLOAT     | f32                   |                          |
+| DOUBLE    | f64                   |                          |
+| DECIMAL   | String                | Precision preserved      |
+| VARCHAR   | String                | UTF-8 encoded            |
+| BINARY    | `Vec<u8>`             |                          |
 
-    let sql_db_create = "CREATE DATABASE IF NOT EXISTS book_db;";
-    conn.exec(sql_db_create).await.unwrap();
+### Date/Time Types
+| Databend  | Rust                  | Notes                    |
+| --------- | --------------------- | ------------------------ |
+| DATE      | chrono::NaiveDate     | Requires chrono crate    |
+| TIMESTAMP | chrono::NaiveDateTime | Requires chrono crate    |
 
-    let sql_table_create = "CREATE TABLE book_db.books (
-    title VARCHAR,
-    author VARCHAR,
-    date VARCHAR
-);";
+### Complex Types
+| Databend    | Rust            | Notes                    |
+| ----------- | --------------- | ------------------------ |
+| ARRAY[T]    | `Vec<T>`        | Nested arrays supported  |
+| TUPLE[T, U] | (T, U)          | Multiple element tuples  |
+| MAP[K, V]   | `HashMap<K, V>` | Key-value mappings       |
+| VARIANT     | String          | JSON-encoded             |
+| BITMAP      | String          | Base64-encoded           |
+| GEOMETRY    | String          | WKT format               |
 
-    conn.exec(sql_table_create).await.unwrap();
-    let sql_insert = "INSERT INTO book_db.books VALUES ('mybook', 'author', '2022');";
-    conn.exec(sql_insert).await.unwrap();
+---
 
-    let mut rows = conn.query_iter("SELECT * FROM book_db.books;").await.unwrap();
-    while let Some(row) = rows.next().await {
-        let (title, author, date): (String, String, String) = row.unwrap().try_into().unwrap();
-        println!("{} {} {}", title, author, date);
-    }
+## Basic Usage
 
-    let sql_table_drop = "DROP TABLE book_db.books;";
-    conn.exec(sql_table_drop).await.unwrap();
-
-    let sql_db_drop = "DROP DATABASE book_db;";
-    conn.exec(sql_db_drop).await.unwrap();
-}
-```
-
-</StepContent>
-
-<StepContent number="3">
-
-### Run the program.
-
-```shell
-cargo run
-```
-
-```text title='Outputs'
-mybook author 2022
-```
-
-</StepContent>
-
-</StepsWrap>
-
-## Tutorial-2: Integrating with Databend Cloud using Rust
-
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how
-to do that, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
-
-### Step 1. Create a Rust Crate
-
-```shell
-$ cargo new databend-sample --bin
-```
-
-### Step 2. Add Dependencies
-
-Edit the file named `Cargo.toml` with the following code:
-
-```toml
-[package]
-name = "databend-sample"
-version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-chrono = "0.4"
-databend-driver = "0.6"
-tokio = { version = "1", features = ["full"] }
-tokio-stream = "0.1"
-```
-
-### Step 3. Connect with databend-driver
-
-Edit the file named `main.rs` with the following code:
+Here's a simple example demonstrating DDL, write, and query operations:
 
 ```rust
 use databend_driver::Client;
 use tokio_stream::StreamExt;
 
 #[tokio::main]
-async fn main() {
-    let dsn = "databend://{USER}:{PASSWORD}@${HOST}:443/{DATABASE}?&warehouse={WAREHOUSE_NAME}";
-    let client = Client::new(dsn.to_string());
-    let conn = client.get_conn().await.unwrap();
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Connect to Databend
+    let client = Client::new("<your-dsn>".to_string());
+    let conn = client.get_conn().await?;
 
-    let sql_table_dorp = "DROP TABLE IF EXISTS data;";
-    conn.exec(sql_table_drop).await.unwrap();
+    // DDL: Create table
+    conn.exec("CREATE TABLE IF NOT EXISTS users (id INT, name VARCHAR, created_at TIMESTAMP)")
+        .await?;
 
-    let sql_table_create = "CREATE TABLE IF NOT EXISTS data (
-		i64 Int64,
-		u64 UInt64,
-		f64 Float64,
-		s   String,
-		s2  String,
-		d   Date,
-		t   DateTime)";
+    // Write: Insert data
+    conn.exec("INSERT INTO users VALUES (1, 'Alice', '2023-12-01 10:00:00')")
+        .await?;
+    conn.exec("INSERT INTO users VALUES (2, 'Bob', '2023-12-01 11:00:00')")
+        .await?;
 
-    conn.exec(sql_table_create).await.unwrap();
-    let sql_insert = "INSERT INTO data VALUES ('1234', '2345', '3.1415', 'test', 'test2', '2021-01-01', '2021-01-01 00:00:00');";
-    conn.exec(sql_insert).await.unwrap();
-
-    let mut rows = conn.query_iter("SELECT * FROM data;").await.unwrap();
+    // Query: Select data
+    let mut rows = conn.query_iter("SELECT id, name, created_at FROM users ORDER BY id")
+        .await?;
+    
     while let Some(row) = rows.next().await {
-        let (col1, col2, col3, col4, col5, col6, col7): (
-            i64,
-            u64,
-            f64,
-            String,
-            String,
-            chrono::NaiveDate,
-            chrono::NaiveDateTime,
-        ) = row.unwrap().try_into().unwrap();
-        println!(
-            "{} {} {} {} {} {} {}",
-            col1, col2, col3, col4, col5, col6, col7
-        );
+        let (id, name, created_at): (i32, String, chrono::NaiveDateTime) = 
+            row?.try_into()?;
+        println!("User {}: {} (created: {})", id, name, created_at);
     }
+
+    Ok(())
 }
 ```
 
-:::tip
-Replace `{USER}, {PASSWORD}, {WAREHOUSE_HOST}, and {DATABASE}` in the code with your connection information. For how to
-obtain the connection information,
-see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
-:::
+## Resources
 
-### Step 4. Run sample with Cargo
-
-```shell
-$ cargo run
-```
+- **Crates.io**: [databend-driver](https://crates.io/crates/databend-driver)
+- **GitHub Repository**: [BendSQL/driver](https://github.com/databendlabs/BendSQL/tree/main/driver)
+- **Rust Documentation**: [docs.rs/databend-driver](https://docs.rs/databend-driver)
