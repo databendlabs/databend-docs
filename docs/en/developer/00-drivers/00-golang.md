@@ -95,6 +95,6 @@ fmt.Printf("User: %d, %s\n", id, name)
 ## Resources
 
 - **GitHub Repository**: [databend-go](https://github.com/databendlabs/databend-go)
-- **Go Package**: [pkg.go.dev](https://pkg.go.dev/github.com/databendlabs/databend-go)
+- **Go Package**: [pkg.go.dev](https://pkg.go.dev/github.com/datafuselabs/databend-go)
 - **Examples**: [GitHub Examples](https://github.com/databendlabs/databend-go/tree/main/examples)
 
