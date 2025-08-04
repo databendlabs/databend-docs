@@ -124,5 +124,4 @@ with engine.connect() as conn:
 ## Resources
 
 - **PyPI**: [databend-driver](https://pypi.org/project/databend-driver/) • [databend-sqlalchemy](https://pypi.org/project/databend-sqlalchemy/)
-- **GitHub**: [databend-driver](https://github.com/databendlabs/databend-py) • [databend-sqlalchemy](https://github.com/databendcloud/databend-sqlalchemy)
-- **Tutorials**: [Python Integration Guides](/tutorials/programming/python/)
+- **GitHub**: [databend-driver](https://github.com/databendlabs/databend-py) • [databend-sqlalchemy](https://github.com/databendlabs/databend-sqlalchemy)
