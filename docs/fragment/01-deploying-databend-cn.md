@@ -132,12 +132,6 @@ base64 -i <path-to-your-key-file> -o ~/Desktop/base64-encoded-key.txt
 2. 获取用于连接到您创建的存储桶或容器的端点 URL。
 3. 获取您账户的访问密钥 ID 和秘密访问密钥。
 
-有关如何管理 MinIO 的存储桶和访问密钥的信息，请参阅解决方案提供商的用户手册。以下是一些可能有用的链接：
-
-- [https://min.io/docs/minio/container/index.html](https://min.io/docs/minio/container/index.html)
-- [https://min.io/docs/minio/container/administration/console/managing-objects.html](https://min.io/docs/minio/container/administration/console/managing-objects.html)
-- [https://min.io/docs/minio/container/administration/console/security-and-access.html](https://min.io/docs/minio/container/administration/console/security-and-access.html)
-
 </TabItem>
 
 <TabItem value="CubeFS" label="CubeFS">
