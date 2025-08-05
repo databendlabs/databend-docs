@@ -81,12 +81,6 @@ For information about how to manage buckets and Access Keys for your cloud objec
 2. Get the endpoint URL for connecting to the bucket or container you created.
 3. Get the Access Key ID and Secret Access Key for your account.
 
-For information about how to manage buckets and Access Keys for your MinIO, refer to the user manual from the solution provider. Here are some useful links you may need:
-
-- [https://min.io/docs/minio/container/index.html](https://min.io/docs/minio/container/index.html)
-- [https://min.io/docs/minio/container/administration/console/managing-objects.html](https://min.io/docs/minio/container/administration/console/managing-objects.html)
-- [https://min.io/docs/minio/container/administration/console/security-and-access.html](https://min.io/docs/minio/container/administration/console/security-and-access.html)
-
 </TabItem>
 
 <TabItem value="CubeFS" label="CubeFS">
