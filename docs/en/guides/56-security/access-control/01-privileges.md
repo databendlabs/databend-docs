@@ -112,6 +112,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | CREATE DATABASE   | Global                        | Creates a database or UDF.                                                                                                                         |
 | CREATE WAREHOUSE  | Global                        | Creates a warehouse.                                                                                                                               |
 | CREATE CONNECTION | Global                        | Creates a connection.                                                                                                                              |
+| CREATE SEQUENCE   | Global                        | Creates a sequence.                                                                                                                                |
 | DELETE            | Table                         | Deletes or truncates rows in a table.                                                                                                              |
 | DROP              | Global, Database, Table, View | Drops a database, table, view or UDF. Undrops a table.                                                                                             |
 | INSERT            | Table                         | Inserts rows into a table.                                                                                                                         |
@@ -128,6 +129,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | READ              | Stage                         | Read a stage.                                                                                                                                      |
 | USAGE             | UDF                           | Use udf.                                                                                                                                           |
 | ACCESS CONNECTION | CONNECTION                    | Access connection.                                                                                                                                 |
+| ACCESS SEQUENCE   | SEQUENCE                      | Access sequence.                                                                                                                                   |
 
 ### Global Privileges
 
@@ -235,3 +237,11 @@ Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/d
 | Access Connection | Can access Connection.                                                                                             |
 | ALL               | Grants Access Connection privileges for the specified object type.                                                 |
 | OWNERSHIP         | Grants full control over a Connection.  Only a single role can hold this privilege on a specific object at a time. |
+
+### Sequence Privileges
+
+| Privilege       | Description                                                                                                      |
+|:----------------|:-----------------------------------------------------------------------------------------------------------------|
+| Access Sequence | Can access Sequence.(e.g. Drop,Desc)                                                                             |
+| ALL             | Grants Access Sequence privileges for the specified object type.                                                 |
+| OWNERSHIP       | Grants full control over a Sequence.  Only a single role can hold this privilege on a specific object at a time. |
