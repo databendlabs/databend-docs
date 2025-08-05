@@ -74,8 +74,7 @@ ORDER BY similarity ASC
 LIMIT 5;
 ```
 
-For detailed instructions on setting up external functions, see [External Functions](/guides/query/external-function).
+## Next Steps
 
-## Getting Started
-
-Try these AI capabilities on [Databend Cloud](https://databend.com) with a free trial.
+1. **[External Functions Guide](/guides/query/external-function)** - Detailed setup instructions
+2. **[Databend Cloud](https://databend.com)** - Try AI functions with a free trial

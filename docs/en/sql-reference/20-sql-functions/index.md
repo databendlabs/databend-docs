@@ -33,7 +33,6 @@ Databend provides comprehensive SQL functions for all types of data processing. 
 
 | Category | Description |
 |----------|-------------|
-| [AI Functions](./11-ai-functions/index.md) | Natural language processing and AI capabilities |
 | [Vector Functions](./11-vector-functions/index.md) | Vector similarity and distance calculations |
 | [Search Functions](./10-search-functions/index.md) | Full-text search and relevance scoring |
 
