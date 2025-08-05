@@ -107,7 +107,8 @@ exclude = [
   'https://docs.wasabi.com/docs/access-keys-1',
   'https://docs.wasabi.com/docs/creating-a-bucket',
   'https://www.snowflake.com/',
-  'https://www.sqlalchemy.org/'
+  'https://www.sqlalchemy.org/',
+  'https://tapdata.net/ '
 ]
 
 # URLs to check (supports regex). Has preference over all excludes.
