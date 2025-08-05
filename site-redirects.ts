@@ -7,9 +7,26 @@ const siteRedirects = [
     from: '/sql/sql-reference/table-engines/iceberg',
     to: '/guides/access-data-lake/iceberg/'
   },
+  // AI Functions redirects - functions moved to external implementation
   {
     from: '/sql/sql-functions/ai-functions/ai-cosine-distance',
     to: '/sql/sql-functions/vector-functions/vector-cosine-distance'
+  },
+  {
+    from: '/sql/sql-functions/ai-functions/ai-text-completion',
+    to: '/guides/ai-functions/'
+  },
+  {
+    from: '/sql/sql-functions/ai-functions/ai-embedding-vector',
+    to: '/guides/ai-functions/'
+  },
+  {
+    from: '/sql/sql-functions/ai-functions/ai-to-sql',
+    to: '/guides/ai-functions/'
+  },
+  {
+    from: '/sql/sql-functions/ai-functions/',
+    to: '/guides/ai-functions/'
   },
   {
     from: '/guides/migrate/',
