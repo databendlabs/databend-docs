@@ -15,15 +15,17 @@ Databend provides official drivers for multiple programming languages, enabling 
 All Databend drivers use the same DSN (Data Source Name) format:
 
 ```
-databend://user:pass@host[:port]/[database][?sslmode=disable][&arg1=value1]
+databend://user:pwd@host[:port]/[database][?sslmode=disable][&arg1=value1]
 ```
+
+> The `user:pwd` refers to SQL users in Databend. See [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) to create users and grant privileges.
 
 ### Connection Examples
 
 | Deployment | Connection String |
 |------------|-------------------|
-| **Self-hosted** | `databend://user:pass@host:8000/database?sslmode=disable` |
-| **Databend Cloud** | `databend://user:pass@host:443/database?warehouse=wh` |
+| **Self-hosted** | `databend://user:pwd@host:8000/database?sslmode=disable` |
+| **Databend Cloud** | `databend://user:pwd@host:443/database?warehouse=wh` |
 
 ### Parameters Reference
 
