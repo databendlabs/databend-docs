@@ -15,17 +15,24 @@ Databend provides official drivers for multiple programming languages, enabling 
 All Databend drivers use the same DSN (Data Source Name) format:
 
 ```
-databend://user[:password]@host[:port]/[database][?sslmode=disable][&arg1=value1]
+databend://user:pass@host[:port]/[database][?sslmode=disable][&arg1=value1]
 ```
 
-### Examples
+### Connection Examples
 
 | Deployment | Connection String |
 |------------|-------------------|
-| **Self-hosted** | `databend://user:pass@localhost:8000/database?sslmode=disable` |
-| **Databend Cloud** | `databend://cloudapp:pass@host:443/database?warehouse=wh` |
+| **Self-hosted** | `databend://user:pass@host:8000/database?sslmode=disable` |
+| **Databend Cloud** | `databend://user:pass@host:443/database?warehouse=wh` |
 
-> **Databend Cloud users**: [Get your connection info →](/guides/cloud/using-databend-cloud/warehouses#obtaining-connection-information)
+### Parameters Reference
+
+| Parameter | Description | Self-hosted | Databend Cloud | Example |
+|-----------|-------------|-------------|----------------|----------|
+| `sslmode` | SSL mode | `disable` (required) | Not used | `?sslmode=disable` |
+| `warehouse` | Warehouse name | Not used | Required | `?warehouse=compute_wh` |
+
+> **Databend Cloud**: [Get connection info →](/guides/cloud/using-databend-cloud/warehouses#obtaining-connection-information)
 
 ## Available Drivers
 
