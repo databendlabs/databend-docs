@@ -1,6 +1,6 @@
 ---
-sidebar_label: Databend Releases
-title: Databend Releases
+sidebar_label: Databend 版本发布
+title: Databend 版本发布
 sidebar_position: 1
 slug: /
 ---
@@ -8,7 +8,7 @@ slug: /
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-This page provides information about recent features, enhancements, and bug fixes for <a href="https://github.com/databendlabs/databend">Databend</a>.
+本页面提供 <a href="https://github.com/databendlabs/databend">Databend</a> 最新功能、增强与错误修复的相关信息。
 
 import MD1 from '@site/docs/release-stable/2025-04-21_v1.2.725.md';
 import MD2 from '@site/docs/release-stable/2025-02-14_v1.2.697.md';
@@ -32,7 +32,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.725" number="-1">
 
-## Apr 21, 2025 (v1.2.725)
+## 2025 年 4 月 21 日（v1.2.725）
 
 <MD1 />
 
@@ -40,7 +40,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.697" number="">
 
-## Feb 14, 2025 (v1.2.697)
+## 2025 年 2 月 14 日（v1.2.697）
 
 <MD2 />
 
@@ -48,7 +48,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.680" number="">
 
-## Jan 2, 2025 (v1.2.680)
+## 2025 年 1 月 2 日（v1.2.680）
 
 <MD3 />
 
@@ -56,7 +56,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.615" number="">
 
-## Aug 19, 2024 (v1.2.615)
+## 2024 年 8 月 19 日（v1.2.615）
 
 <MD4 />
 
@@ -64,7 +64,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.609" number="">
 
-## Aug 13, 2024 (v1.2.609)
+## 2024 年 8 月 13 日（v1.2.609）
 
 <MD5 />
 
@@ -72,7 +72,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.530" number="">
 
-## Jun 16, 2024 (v1.2.530)
+## 2024 年 6 月 16 日（v1.2.530）
 
 <MD6 />
 
@@ -80,7 +80,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.452" number="">
 
-## May 6, 2024 (v1.2.452)
+## 2024 年 5 月 6 日（v1.2.452）
 
 <MD7 />
 
@@ -88,7 +88,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.410" number="">
 
-## Apr 8, 2024 (v1.2.410)
+## 2024 年 4 月 8 日（v1.2.410）
 
 <MD8 />
 
@@ -96,7 +96,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.371" number="">
 
-## Mar 11, 2024 (v1.2.371)
+## 2024 年 3 月 11 日（v1.2.371）
 
 <MD9 />
 
@@ -104,7 +104,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.344" number="">
 
-## Feb 22, 2024 (v1.2.344)
+## 2024 年 2 月 22 日（v1.2.344）
 
 <MD10 />
 
@@ -112,7 +112,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.307" number="">
 
-## Jan 25, 2024 (v1.2.307)
+## 2024 年 1 月 25 日（v1.2.307）
 
 <MD11 />
 
@@ -120,7 +120,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.292" number="">
 
-## Jan 11, 2024 (v1.2.292)
+## 2024 年 1 月 11 日（v1.2.292）
 
 <MD12 />
 
@@ -128,7 +128,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.290" number="">
 
-## Jan 10, 2024 (v1.2.290)
+## 2024 年 1 月 10 日（v1.2.290）
 
 <MD13 />
 
@@ -136,7 +136,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.279" number="">
 
-## Jan 2, 2024 (v1.2.279)
+## 2024 年 1 月 2 日（v1.2.279）
 
 <MD14 />
 
@@ -144,7 +144,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.275" number="">
 
-## Dec 30, 2023 (v1.2.275)
+## 2023 年 12 月 30 日（v1.2.275）
 
 <MD15 />
 
@@ -152,7 +152,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.262" number="">
 
-## Dec 20, 2023 (v1.2.262)
+## 2023 年 12 月 20 日（v1.2.262）
 
 <MD16 />
 
@@ -160,7 +160,7 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.233" number="">
 
-## Dec 13, 2023 (v1.2.233)
+## 2023 年 12 月 13 日（v1.2.233）
 
 <MD17 />
 
