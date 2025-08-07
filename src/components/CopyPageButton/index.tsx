@@ -8,31 +8,38 @@ import CopiedSvg from "@site/static/icons/copied.svg";
 import { useDoc } from "@docusaurus/plugin-content-docs/client";
 import axios from "axios";
 import $t from "@site/src/utils/tools";
-// mark
-// import TurndownService from "turndown";
-// const turndownService = new TurndownService();
-// const getPageContentAsHtml = (): string | null => {
-//   const contentElement = document.querySelector("article");
-//   return contentElement ? contentElement.innerHTML : null;
-// };
+import TurndownService from "turndown";
+const SPECIAL_LINKS = [
+  "/guides/",
+  "/guides/products/dc/platforms",
+  "/guides/products/dc/pricing",
+  "guides/deploy/deploy/non-production/deploying-databend",
+  "/guides/cloud/new-account",
+];
 
-// const convertHtmlToMarkdown = (html: string): string => {
-//   return turndownService.turndown(html);
-// };
+const getPageContentAsHtml = (): string | null => {
+  const contentElement = document.querySelector("article");
+  return contentElement ? contentElement.innerHTML : null;
+};
+
+const convertHtmlToMarkdown = (html: string): string => {
+  const turndownService = new TurndownService();
+  return turndownService.turndown(html);
+};
 const CopyDropdownButton: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const { metadata } = useDoc();
-  const sourceUrl = useMemo(() => {
-    return (
-      metadata?.source?.replace(
-        "@site",
-        "https://raw.githubusercontent.com/databendlabs/databend-docs/refs/heads/main"
-      ) || ""
-    );
-  }, [metadata]);
-  const handleCopy = useCallback((url: string) => {
-    if (!url) return;
+  function copyHtml() {
+    setIsCopied(true);
+    const htmlContent = getPageContentAsHtml();
+    const markdownContent = convertHtmlToMarkdown(htmlContent);
+    navigator.clipboard.writeText(markdownContent?.replace("Copy Page", ""));
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 3000);
+  }
+  function copyMarkdown(url: string) {
     setLoading(true);
     axios
       .get(url)
@@ -50,18 +57,35 @@ const CopyDropdownButton: React.FC = () => {
           setIsCopied(false);
         }, 3000);
       });
+  }
+  const sourceUrl = useMemo(() => {
+    return (
+      metadata?.source?.replace(
+        "@site",
+        "https://raw.githubusercontent.com/databendlabs/databend-docs/refs/heads/main"
+      ) || ""
+    );
+  }, [metadata]);
+  const handleCopy = useCallback((url: string) => {
+    const nowLink = metadata?.permalink;
+    if (SPECIAL_LINKS?.some((link) => link === nowLink)) {
+      copyHtml();
+      return;
+    }
+    if (!url) return;
+    copyMarkdown(url);
   }, []);
   const menu = useMemo(() => {
     const items = [
       {
         key: "copy",
-        icon: <CopySvg width={16} />,
+        icon: <CopySvg width={16} height={16} />,
         label: $t("Copy Page"),
         description: $t("Copy page as Markdown for LLMs"),
       },
       {
         key: "markdown",
-        icon: <MarkdownSvg width={18} />,
+        icon: <MarkdownSvg width={18} height={18} />,
         label: $t("View as Markdown"),
         description: $t("View this page as plain text"),
       },
@@ -90,9 +114,9 @@ const CopyDropdownButton: React.FC = () => {
         {loading ? (
           <Spin size="small" />
         ) : isCopied ? (
-          <CopiedSvg width={16} />
+          <CopiedSvg width={16} height={16} />
         ) : (
-          <CopySvg width={16} />
+          <CopySvg width={16} height={16} />
         )}
         <span>{loading ? $t("Copying...") : $t("Copy Page")}</span>
       </Flex>
@@ -105,7 +129,7 @@ const CopyDropdownButton: React.FC = () => {
       onClick={() => handleCopy(sourceUrl)}
       menu={menu}
       placement="bottomRight"
-      icon={<DownArrow width={18} height={"auto"} />}
+      icon={<DownArrow width={18} height={18} />}
       className={styles.buttonCainter}
       trigger={["click"]}
     >

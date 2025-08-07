@@ -36,6 +36,7 @@
     "@docusaurus/preset-classic": "^3.8.1",
     "@docusaurus/theme-mermaid": "^3.8.1",
     "@mdx-js/react": "^3.0.0",
+    "@types/turndown": "^5.0.5",
     "ahooks": "^3.8.0",
     "antd": "^5.24.8",
     "axios": "^1.7.2",
@@ -54,6 +55,7 @@
     "react-scroll-progress-bar": "^2.0.3",
     "sass": "^1.77.8",
     "sass-resources-loader": "^2.2.5",
+    "turndown": "^7.2.0",
     "vanilla-cookieconsent": "^3.1.0",
     "xml2js": "^0.6.2"
   },
