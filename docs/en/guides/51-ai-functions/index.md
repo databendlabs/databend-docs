@@ -1,6 +1,6 @@
-# AI Functions in Databend
+# AI & ML Integration
 
-Databend provides AI and ML capabilities through two main approaches: external functions for custom AI/ML infrastructure, and MCP servers for natural language data interaction.
+Databend enables powerful AI and ML capabilities through two complementary approaches: build custom AI functions with your own infrastructure, or create conversational data experiences using natural language.
 
 ## External Functions - The Recommended Approach
 

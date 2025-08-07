@@ -1,26 +1,28 @@
 ---
-title: External Functions for AI/ML
+title: Custom AI/ML with External Functions
 ---
 
-# External Functions for Custom AI/ML
+# Custom AI/ML with External Functions
 
-For advanced AI/ML scenarios, Databend supports external functions that connect your data with custom AI/ML infrastructure written in languages like Python.
+Build powerful AI/ML capabilities by connecting Databend with your own infrastructure. External functions let you deploy custom models, leverage GPU acceleration, and integrate with any ML framework while keeping your data secure.
 
-| Feature | Description | Benefits |
-|---------|-------------|----------|
-| **Model Flexibility** | Use open-source models or your internal AI/ML infrastructure | • Freedom to choose any model<br/>• Leverage existing ML investments<br/>• Stay up-to-date with latest AI advancements |
-| **GPU Acceleration** | Deploy external function servers on GPU-equipped machines | • Faster inference for deep learning models<br/>• Handle larger batch sizes<br/>• Support compute-intensive workloads |
-| **Custom ML Models** | Deploy and use your own machine learning models | • Proprietary algorithms<br/>• Domain-specific models<br/>• Fine-tuned for your data |
-| **Advanced AI Pipelines** | Build complex AI workflows with specialized libraries | • Multi-step processing<br/>• Custom transformations<br/>• Integration with ML frameworks |
-| **Scalability** | Handle resource-intensive AI operations outside Databend | • Independent scaling<br/>• Optimized resource allocation<br/>• High-throughput processing |
+## Key Capabilities
 
-## Implementation Overview
+| Feature | Benefits |
+|---------|----------|
+| **Custom Models** | Use any open-source or proprietary AI/ML models |
+| **GPU Acceleration** | Deploy on GPU-equipped machines for faster inference |
+| **Data Privacy** | Keep your data within your infrastructure |
+| **Scalability** | Independent scaling and resource optimization |
+| **Flexibility** | Support for any programming language and ML framework |
 
-1. Create an external server with your AI/ML code (Python with [databend-udf](https://pypi.org/project/databend-udf))
-2. Register the server with Databend using `CREATE FUNCTION`
-3. Call your AI/ML functions directly in SQL queries
+## How It Works
 
-## Example: Custom AI Model Integration
+1. **Create AI Server**: Build your AI/ML server using Python and [databend-udf](https://pypi.org/project/databend-udf)
+2. **Register Function**: Connect your server to Databend with `CREATE FUNCTION`
+3. **Use in SQL**: Call your custom AI functions directly in SQL queries
+
+## Example: Text Embedding Function
 
 ```python
 # Simple embedding UDF server demo
@@ -74,7 +76,7 @@ ORDER BY similarity ASC
 LIMIT 5;
 ```
 
-## Next Steps
+## Learn More
 
-1. **[External Functions Guide](/guides/query/external-function)** - Detailed setup instructions
-2. **[Databend Cloud](https://databend.com)** - Try AI functions with a free trial
+- **[External Functions Guide](/guides/query/external-function)** - Complete setup and deployment instructions
+- **[Databend Cloud](https://databend.com)** - Try external functions with a free account
