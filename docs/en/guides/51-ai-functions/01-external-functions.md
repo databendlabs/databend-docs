@@ -1,5 +1,5 @@
 ---
-title: External Functions for Custom AI/ML
+title: External Functions for AI/ML
 ---
 
 # External Functions for Custom AI/ML

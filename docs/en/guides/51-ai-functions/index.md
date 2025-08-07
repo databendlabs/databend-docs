@@ -1,6 +1,6 @@
 # AI Functions in Databend
 
-Databend provides AI and ML capabilities through external functions, allowing you to integrate custom AI models and leverage advanced ML infrastructure while maintaining data privacy and control.
+Databend provides AI and ML capabilities through two main approaches: external functions for custom AI/ML infrastructure, and MCP servers for natural language data interaction.
 
 ## External Functions - The Recommended Approach
 
@@ -14,6 +14,18 @@ External functions enable you to connect your data with custom AI/ML infrastruct
 | **Scalability** | Independent scaling and resource optimization |
 | **Flexibility** | Support for any programming language and ML framework |
 
+## MCP Server - Natural Language Data Interaction
+
+The Model Context Protocol (MCP) server enables AI assistants to interact with your Databend database using natural language, perfect for building conversational BI tools.
+
+| Feature | Benefits |
+|---------|----------|
+| **Natural Language** | Query your data using plain English |
+| **AI Assistant Integration** | Works with Claude, ChatGPT, and custom agents |
+| **Real-time Analysis** | Get instant insights from your data |
+
 ## Getting Started
 
 **[External Functions Guide](01-external-functions.md)** - Learn how to create and deploy custom AI functions with practical examples and implementation guidance
+
+**[MCP Server Guide](02-mcp.md)** - Build a conversational BI tool using mcp-databend and natural language queries
