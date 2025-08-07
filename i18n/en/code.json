@@ -780,5 +780,29 @@
   "Enterprise Features & Licensing": {
     "message": "Enterprise Features & Licensing",
     "description": "Enterprise Features & Licensing"
+  },
+  "Copy Page": {
+    "message": "Copy Page",
+    "description": "Copy Page"
+  },
+  "Copy page as Markdown for LLMs": {
+    "message": "Copy page as Markdown for LLMs",
+    "description": "Copy page as Markdown for LLMs"
+  },
+  "View as Markdown": {
+    "message": "View as Markdown",
+    "description": "View as Markdown"
+  },
+  "View this page as plain text": {
+    "message": "View this page as plain text",
+    "description": "View this page as plain text"
+  },
+  "Failed to copy markdown": {
+    "message": "Failed to copy markdown",
+    "description": "Failed to copy markdown"
+  },
+  "Copying...": {
+    "message": "Copying...",
+    "description": "Copying..."
   }
 }

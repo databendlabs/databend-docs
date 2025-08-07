@@ -804,5 +804,29 @@
   "Enterprise Features & Licensing": {
     "message": "企业功能与许可",
     "description": "Enterprise Features & Licensing"
+  },
+  "Copy Page": {
+    "message": "复制页面",
+    "description": "Copy Page"
+  },
+  "Copy page as Markdown for LLMs": {
+    "message": "复制为 Markdown 格式，供大语言模型使用",
+    "description": "Copy page as Markdown for LLMs"
+  },
+  "View as Markdown": {
+    "message": "查看 Markdown 格式",
+    "description": "View as Markdown"
+  },
+  "View this page as plain text": {
+    "message": "查看纯文本",
+    "description": "View this page as plain text"
+  },
+  "Failed to copy markdown": {
+    "message": "无法复制 Markdown",
+    "description": "Failed to copy markdown"
+  },
+  "Copying...": {
+    "message": "正在复制...",
+    "description": "Copying..."
   }
 }
