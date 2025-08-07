@@ -11,9 +11,9 @@ sidebar_label: TSV
 
 ## 教程
 
-### 步骤 1：创建外部暂存区
+### 第 1 步：创建外部暂存区
 
-使用您自己的 S3 存储桶和凭据创建一个外部暂存区（Stage），其中存放了您的 TSV 文件。
+创建一个外部暂存区（Stage），并配置你的 S3 存储桶和凭据，你的 TSV 文件存储在该位置。
 ```sql
 CREATE STAGE tsv_query_stage 
 URL = 's3://load/tsv/' 
@@ -23,7 +23,7 @@ CONNECTION = (
 );
 ```
 
-### 步骤 2：创建自定义 TSV 文件格式
+### 第 2 步：创建自定义 TSV 文件格式
 
 ```sql
 CREATE FILE FORMAT tsv_query_format 
@@ -35,7 +35,7 @@ CREATE FILE FORMAT tsv_query_format
 
 - 更多 TSV 文件格式选项，请参阅 [TSV 文件格式选项](/sql/sql-reference/file-format-options#tsv-options)
 
-### 步骤 3：查询 TSV 文件
+### 第 3 步：查询 TSV 文件
 
 ```sql
 SELECT $1, $2, $3
@@ -46,7 +46,7 @@ FROM @tsv_query_stage
 );
 ```
 
-如果 TSV 文件使用 gzip 压缩，可以使用以下查询：
+如果 TSV 文件使用 gzip 压缩，我们可以使用以下查询：
 
 ```sql
 SELECT $1, $2, $3
@@ -58,7 +58,7 @@ FROM @tsv_query_stage
 ```
 ### 查询元数据
 
-直接从暂存区（Stage）查询 TSV 文件，并包含 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列：
+直接从暂存区（Stage）查询 TSV 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列：
 
 ```sql
 SELECT

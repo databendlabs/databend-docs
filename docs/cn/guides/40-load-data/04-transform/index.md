@@ -3,7 +3,7 @@ title: 查询与转换
 slug: querying-stage
 ---
 
-Databend 支持直接查询暂存文件，无需先将数据加载到表中。可以从任何类型的暂存区（用户暂存区、内部暂存区、外部暂存区）查询文件，或直接从对象存储和 HTTPS URL 查询。这非常适合在加载数据之前或之后进行数据检查、验证和转换。
+Databend 支持直接查询暂存区（Stage）中的文件，无需先将数据加载到表中。可以查询任何暂存区类型（用户、内部、外部）中的文件，或直接从对象存储和 HTTPS URL 查询。这非常适合在加载数据前后进行数据检查、验证和转换。
 
 ## 语法
 
@@ -48,9 +48,9 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 ```
 :::info 注意
 
-对比两种语法
-- 相同的 `Select List`
-- 相同的 ` FROM {@<stage_name>[/<path>] | '<uri>'}`
+比较两种语法：
+- 相同的 `Select 列表`
+- 相同的 `FROM {@<stage_name>[/<path>] | '<uri>'}`
 - 不同的参数：
   - 查询使用 `表函数参数`，即 `(<key> => <value>, ...)` 
   - 转换在 [Copy into table](/sql/sql-commands/dml/dml-copy-into-table) 的末尾使用选项
@@ -60,25 +60,25 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 
 ## FROM 子句
 
-FROM 子句使用与 `表函数` 类似的语法。与普通表一样，当与其他表连接时，可以使用表 `别名`。
+FROM 子句使用与 `表函数（Table Function）` 类似的语法。与普通表一样，在与其他表连接时可以使用表 `别名（alias）`。
 
 表函数参数：
 
-| 参数 | 描述 |
+| 参数                    | 描述                                                    |
 |-------------------------|---------------------------------------------------------|
-| `FILE_FORMAT` | 文件格式类型 (CSV, TSV, NDJSON, PARQUET, ORC, Avro) |
-| `PATTERN` | 用于筛选文件的正则表达式模式 |
-| `FILES` | 要查询的文件的显式列表 |
-| `CASE_SENSITIVE` | 列名大小写敏感（仅限 Parquet） |
-| `connection_parameters` | 外部存储连接详情 |
+| `FILE_FORMAT`           | 文件格式类型（CSV、TSV、NDJSON、PARQUET、ORC、Avro）      |
+| `PATTERN`               | 用于筛选文件的正则表达式模式                            |
+| `FILES`                 | 要查询的文件的显式列表                                  |
+| `CASE_SENSITIVE`        | 列名大小写敏感（仅限 Parquet）                          |
+| `connection_parameters` | 外部存储连接详情                                        |
 
 ## 查询文件数据
 
-select 列表支持三种语法；只能使用其中一种，不能混合使用。
+SELECT 列表支持三种语法；只能使用其中一种，不能混合使用。
 
 ### 将行作为 Variant 查询
 
-- 支持的文件格式：NDJSON, AVRO, Parquet, ORC
+- 支持的文件格式：NDJSON、AVRO、Parquet、ORC
 
 :::info 注意
 
@@ -95,11 +95,11 @@ SELECT [<alias>.]$1[:<column>] [, [<alias>.]$1[:<column>]  ...] <FROM Clause>
 - 示例：`SELECT $1:id, $1:name FROM ...`
 - 表结构：($1: Variant)。即，具有 Variant 对象类型的单列，每个 Variant 代表一整行
 - 注意：
-  - 像 `$1:column` 这样的路径表达式的类型也是 Variant，当在表达式中使用或加载到目标表列时，它可以自动转换为原生类型。有时你可能希望在进行特定类型操作之前手动转换（例如，`CAST($1:id AS INT)`），以使语义更明确。
+  - 像 `$1:column` 这样的路径表达式的类型也是 Variant，在表达式中使用或加载到目标表列时，它可以自动转换为原生类型。有时，为了进行特定类型的操作（例如，`CAST($1:id AS INT)`），你可能希望在之前手动转换，以使语义更明确。
 
 
 ### 按名称查询列
-- 支持的文件格式：NDJSON, AVRO, Parquet, ORC
+- 支持的文件格式：NDJSON、AVRO、Parquet、ORC
 
 ```sql
 SELECT [<alias>.]<column> [, [<alias>.]<column>  ...] <FROM Clause>
@@ -108,11 +108,11 @@ SELECT [<alias>.]<column> [, [<alias>.]<column>  ...] <FROM Clause>
 - 示例：`SELECT id, name FROM ...`
 - 表结构：从 Parquet 或 ORC 文件模式映射的列
 - 注意：
-  - 所有文件都要求具有相同的 Parquet/ORC 模式；否则，将返回错误
+  - 所有文件都必须具有相同的 Parquet/ORC 模式；否则，将返回错误
 
 
 ### 按位置查询列
-- 支持的文件格式：CSV, TSV
+- 支持的文件格式：CSV、TSV
 
 ```sql
 SELECT [<alias>.]$<col_position>[, [<alias>.]$<col_position>,  ...] <FROM Clause>
@@ -134,16 +134,16 @@ SELECT METADATA$FILENAME, METADATA$FILE_ROW_NUMBER, $1, <FROM Clause>
 );
 ```
 
-对于支持的文件格式，可以使用以下文件级元数据字段：
+以下文件级元数据字段适用于支持的文件格式：
 
-| 文件元数据 | 类型 | 描述 |
+| 文件元数据                 | 类型    | 描述                                             |
 | -------------------------- | ------- |--------------------------------------------------|
-| `METADATA$FILENAME` | VARCHAR | 读取行的文件路径 |
-| `METADATA$FILE_ROW_NUMBER` | INT | 文件内的行号（从 0 开始） |
+| `METADATA$FILENAME`        | VARCHAR | 读取行的文件路径                                 |
+| `METADATA$FILE_ROW_NUMBER` | INT     | 文件内的行号（从 0 开始）                        |
 
 
 **使用场景：**
-- **数据血缘**：跟踪每个记录来自哪个源文件
+- **数据血缘**：跟踪每条记录来自哪个源文件
 - **调试**：按文件和行号识别有问题的记录
 - **增量处理**：仅处理特定文件或文件内的范围
 
