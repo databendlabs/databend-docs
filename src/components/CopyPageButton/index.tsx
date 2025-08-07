@@ -110,7 +110,7 @@ const CopyDropdownButton: React.FC = () => {
   }, [sourceUrl, handleCopy]);
   const renderButtonContent = useMemo(
     () => (
-      <Flex align="center" gap={6}>
+      <Flex className={styles.buttonText} align="center" gap={6}>
         {loading ? (
           <Spin size="small" />
         ) : isCopied ? (
@@ -118,7 +118,9 @@ const CopyDropdownButton: React.FC = () => {
         ) : (
           <CopySvg width={16} height={16} />
         )}
-        <span>{loading ? $t("Copying...") : $t("Copy Page")}</span>
+        <span className={styles.buttonText}>
+          {loading ? $t("Copying...") : $t("Copy Page")}
+        </span>
       </Flex>
     ),
     [loading, isCopied]
@@ -129,7 +131,7 @@ const CopyDropdownButton: React.FC = () => {
       onClick={() => handleCopy(sourceUrl)}
       menu={menu}
       placement="bottomRight"
-      icon={<DownArrow width={18} height={18} />}
+      icon={<DownArrow className={styles.svg} width={18} height={18} />}
       className={styles.buttonCainter}
       trigger={["click"]}
     >
