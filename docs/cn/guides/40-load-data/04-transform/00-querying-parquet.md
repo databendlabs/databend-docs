@@ -1,59 +1,39 @@
 ---
-title: 查询 Stage 中的 Parquet 文件
+title: 查询暂存区中的 Parquet 文件
 sidebar_label: Parquet
 ---
 
-## 查询 Stage 中的 Parquet 文件
 
-语法:
-```sql
-SELECT [<alias>.]<column> [, <column> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
-  [<connection_parameters>],
-  [ PATTERN => '<regex_pattern>'],
-  [ FILE_FORMAT => 'PARQUET | <custom_format_name>'],
-  [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ],
-  [ CASE_SENSITIVE => true | false ]
-)]
-```
+## 语法：
 
-:::info 提示
-**查询返回内容说明:**
-
-* **返回格式**: 列值以其原生数据类型返回 (非 variant 类型)
-* **访问方式**: 直接使用列名 `column_name`
-* **示例**: `SELECT id, name, age FROM @stage_name`
-* **关键特性**:
-  * 无需使用路径表达式 (如 `$1:name`)
-  * 无需类型转换
-  * Parquet 文件包含内嵌的 schema 信息
-:::
+- [将行作为 Variant 查询](./index.md#query-rows-as-variants)
+- [按名称查询列](./index.md#query-columns-by-name)
+- [查询元数据](./index.md#query-metadata)
 
 ## 教程
 
-### 步骤 1. 创建外部 Stage
+### 步骤 1：创建外部暂存区（Stage）
 
-使用您自己的 S3 存储桶和凭证创建一个外部 stage，用于存储 Parquet 文件。
+使用您自己的 S3 存储桶和凭据创建一个外部暂存区（Stage），用于存放 Parquet 文件。
 ```sql
 CREATE STAGE parquet_query_stage 
 URL = 's3://load/parquet/' 
 CONNECTION = (
     ACCESS_KEY_ID = '<your-access-key-id>' 
-    SECRET_ = '< = '<your-secret-access-key>'
+    SECRET_ACCESS_KEY = '<your-secret-access-key>'
 );
 ```
 
-### 步骤 2. 创建自定义 Parquet 文件格式
+### 步骤 2：创建自定义 Parquet 文件格式
 
 ```sql
-CREATE FILE FORMAT parquet_query_format 
-    TYPE = PARQUET
-    ;
+CREATE FILE FORMAT parquet_query_format TYPE = PARQUET;
 ```
-- 更多 Parquet 文件格式选项请参考 [Parquet 文件格式选项](/sql/sql-reference/file-format-options#parquet-options)
+- 更多 Parquet 文件格式选项，请参阅 [Parquet 文件格式选项](/sql/sql-reference/file-format-options#parquet-options)
 
-### 步骤 3. 查询 Parquet 文件
+### 步骤 3：查询 Parquet 文件
+
+按列名查询：
 
 ```sql
 SELECT *
@@ -63,9 +43,23 @@ FROM @parquet_query_stage
     PATTERN => '.*[.]parquet'
 );
 ```
-### 包含元数据的查询
 
-直接从 stage 查询 Parquet 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列:
+按路径表达式查询：
+
+
+```sql
+SELECT $1
+FROM @parquet_query_stage
+(
+    FILE_FORMAT => 'parquet_query_format',
+    PATTERN => '.*[.]parquet'
+);
+```
+
+
+### 查询元数据（Metadata）
+
+直接从暂存区（Stage）查询 Parquet 文件，并包含 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据（Metadata）列：
 
 ```sql
 SELECT
