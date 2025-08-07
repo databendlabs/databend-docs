@@ -13,7 +13,7 @@ const SPECIAL_LINKS = [
   "/guides/",
   "/guides/products/dc/platforms",
   "/guides/products/dc/pricing",
-  "guides/deploy/deploy/non-production/deploying-databend",
+  "/guides/deploy/deploy/non-production/deploying-databend",
   "/guides/cloud/new-account",
   "/release-notes/",
 ];
