@@ -1,41 +1,19 @@
 ---
-title: 查询 Stage 中的 TSV 文件
+title: 查询暂存区中的 TSV 文件
 sidebar_label: TSV
 ---
 
-## 查询 Stage 中的 TSV 文件
+## 语法：
 
-语法：
-```sql
-SELECT [<alias>.]$<col_position> [, $<col_position> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
-  [<connection_parameters>],
-  [ PATTERN => '<regex_pattern>'],
-  [ FILE_FORMAT => 'TSV| <custom_format_name>'],
-  [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
-)]
-```
+- [按位置查询列](./index.md#query-columns-by-position)
+- [查询元数据](./index.md#query-metadata)
 
-
-:::info 提示
-**查询返回内容说明：**
-
-* **返回格式**：默认以字符串形式返回各列值
-* **访问方式**：使用位置引用 `$<col_position>` (例如 `$1`, `$2`, `$3`)
-* **示例**：`SELECT $1, $2, $3 FROM @stage_name`
-* **关键特性**：
-  * 通过位置而非列名访问数据
-  * 每个 `$<col_position>` 对应单个列而非整行
-  * 非字符串操作需类型转换 (例如 `CAST($1 AS INT)`)
-  * TSV 文件中不包含内嵌的 schema 信息
-:::
 
 ## 教程
 
-### 第一步：创建外部 Stage
+### 第 1 步：创建外部暂存区
 
-使用您的 S3 存储桶和凭证创建外部 stage，用于存储 TSV 文件。
+创建一个外部暂存区（Stage），并配置你的 S3 存储桶和凭据，你的 TSV 文件存储在该位置。
 ```sql
 CREATE STAGE tsv_query_stage 
 URL = 's3://load/tsv/' 
@@ -45,7 +23,7 @@ CONNECTION = (
 );
 ```
 
-### 第二步：创建自定义 TSV 文件格式
+### 第 2 步：创建自定义 TSV 文件格式
 
 ```sql
 CREATE FILE FORMAT tsv_query_format 
@@ -55,9 +33,9 @@ CREATE FILE FORMAT tsv_query_format
     COMPRESSION = AUTO;
 ```
 
-- 更多 TSV 文件格式选项请参考 [TSV 文件格式选项](/sql/sql-reference/file-format-options#tsv-options)
+- 更多 TSV 文件格式选项，请参阅 [TSV 文件格式选项](/sql/sql-reference/file-format-options#tsv-options)
 
-### 第三步：查询 TSV 文件
+### 第 3 步：查询 TSV 文件
 
 ```sql
 SELECT $1, $2, $3
@@ -68,7 +46,7 @@ FROM @tsv_query_stage
 );
 ```
 
-如果 TSV 文件使用 gzip 压缩，可以使用以下查询：
+如果 TSV 文件使用 gzip 压缩，我们可以使用以下查询：
 
 ```sql
 SELECT $1, $2, $3
@@ -78,10 +56,9 @@ FROM @tsv_query_stage
     PATTERN => '.*[.]tsv[.]gz'
 );
 ```
+### 查询元数据
 
-### 查询包含元数据
-
-直接从 stage 查询 TSV 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列：
+直接从暂存区（Stage）查询 TSV 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列：
 
 ```sql
 SELECT
