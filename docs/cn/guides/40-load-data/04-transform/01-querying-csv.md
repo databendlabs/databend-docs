@@ -1,5 +1,5 @@
 ---
-title: 查询暂存区中的 CSV 文件
+title: 查询暂存区（Stage）中的 CSV 文件
 sidebar_label: CSV
 ---
 
@@ -10,9 +10,9 @@ sidebar_label: CSV
 
 ## 教程
 
-### 步骤 1：创建外部暂存区
+### 步骤一：创建外部暂存区（Stage）
 
-创建一个外部暂存区（Stage），并配置你的 S3 存储桶和凭证，CSV 文件存储在该位置。
+创建一个外部暂存区（Stage），并配置您自己的 S3 存储桶和凭证，CSV 文件就存储在该存储桶中。
 ```sql
 CREATE STAGE csv_query_stage 
 URL = 's3://load/csv/' 
@@ -22,7 +22,7 @@ CONNECTION = (
 );
 ```
 
-### 步骤 2：创建自定义 CSV 文件格式
+### 步骤二：创建自定义 CSV 文件格式
 
 ```sql
 CREATE FILE FORMAT csv_query_format 
@@ -33,9 +33,9 @@ CREATE FILE FORMAT csv_query_format
     SKIP_HEADER = 1;        -- 如果 CSV 文件包含表头，查询时跳过第一行
 ```
 
-- 更多 CSV 文件格式选项，请参考 [CSV 文件格式选项](/sql/sql-reference/file-format-options#csv-options)
+- 更多 CSV 文件格式选项，请参阅 [CSV 文件格式选项](/sql/sql-reference/file-format-options#csv-options)
 
-### 步骤 3：查询 CSV 文件
+### 步骤三：查询 CSV 文件
 
 ```sql
 SELECT $1, $2, $3
@@ -46,7 +46,7 @@ FROM @csv_query_stage
 );
 ```
 
-如果 CSV 文件使用 gzip 压缩，我们可以使用以下查询：
+如果 CSV 文件使用 gzip 压缩，可使用以下查询：
 
 ```sql
 SELECT $1, $2, $3
@@ -56,9 +56,9 @@ FROM @csv_query_stage
     PATTERN => '.*[.]csv[.]gz'
 );
 ```
-### 查询元数据
+### 查询并包含元数据
 
-直接从暂存区（Stage）查询 CSV 文件，包括 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列：
+直接从暂存区（Stage）查询 CSV 文件，并包含 `METADATA$FILENAME` 和 `METADATA$FILE_ROW_NUMBER` 等元数据列：
 
 ```sql
 SELECT
