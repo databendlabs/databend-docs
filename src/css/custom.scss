@@ -372,3 +372,13 @@ textarea {
   display: flex;
   width: 100%;
 }
+
+.ant-dropdown .ant-dropdown-menu {
+  background-color: var(--color-bg-1);
+  .ant-dropdown-menu-item {
+    color: var(--color-text-1);
+    &:hover {
+      background-color: var(--color-fill-1);
+    }
+  }
+}
