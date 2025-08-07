@@ -1,3 +1,5 @@
+import DetailsWrap from '@site/src/components/DetailsWrap';
+
 # MCP Server for Databend
 
 [mcp-databend](https://github.com/databendlabs/mcp-databend) is an MCP (Model Context Protocol) server that enables AI assistants to interact directly with your Databend database using natural language.
@@ -27,10 +29,10 @@ First, you need a Databend database to connect to:
 
 For detailed DSN format and examples, see [Connection String Documentation](https://docs.databend.com/developer/drivers/#connection-string-dsn).
 
-| Deployment | Connection String Example |
-|------------|---------------------------|
-| **Databend Cloud** | `databend://user:pwd@host:443/database?warehouse=wh` |
-| **Self-hosted** | `databend://user:pwd@localhost:8000/database?sslmode=disable` |
+| Deployment         | Connection String Example                                     |
+| ------------------ | ------------------------------------------------------------- |
+| **Databend Cloud** | `databend://user:pwd@host:443/database?warehouse=wh`          |
+| **Self-hosted**    | `databend://user:pwd@localhost:8000/database?sslmode=disable` |
 
 ### Step 2: Install Dependencies
 
@@ -50,6 +52,7 @@ pip install packaging openai agno openrouter sqlalchemy fastapi mcp-databend
 Now create your ChatBI agent that uses mcp-databend to interact with your database.
 
 Create a file `agent.py`:
+<DetailsWrap>
 
 <details>
 <summary>Click to view agent.py code</summary>
@@ -76,16 +79,16 @@ def check_env_vars():
         "DATABEND_DSN": "https://docs.databend.com/developer/drivers/#connection-string-dsn",
         "OPENROUTER_API_KEY": "https://openrouter.ai/settings/keys"
     }
-    
+
     missing = [var for var in required if not os.getenv(var)]
-    
+
     if missing:
         print("❌ Missing environment variables:")
         for var in missing:
             print(f"  • {var}: {required[var]}")
         print("\nExample: export DATABEND_DSN='...' OPENROUTER_API_KEY='...'")
         sys.exit(1)
-    
+
     print("✅ Environment variables OK")
 
 check_env_vars()
@@ -94,7 +97,7 @@ class DatabendTool:
     def __init__(self):
         self.mcp = None
         self.dsn = os.getenv("DATABEND_DSN")
-        
+
     def create(self):
         env = os.environ.copy()
         env["DATABEND_DSN"] = self.dsn
@@ -104,7 +107,7 @@ class DatabendTool:
             timeout_seconds=300
         )
         return self.mcp
-    
+
     async def init(self):
         try:
             await self.mcp.connect()
@@ -144,12 +147,12 @@ async def lifespan(app: FastAPI):
     if not await databend.init():
         logger.error("Failed to initialize Databend")
         raise RuntimeError("Databend connection failed")
-    
+
     agent.tools.append(tool)
     logger.info("ChatBI initialized successfully")
-    
+
     yield
-    
+
     if databend.mcp:
         await databend.mcp.close()
 
@@ -168,7 +171,7 @@ if __name__ == "__main__":
 ```
 
 </details>
-
+</DetailsWrap>
 ### Step 4: Configure Environment
 
 Set up your API keys and database connection:
@@ -190,11 +193,12 @@ python agent.py
 ```
 
 You should see:
+
 ```
 ✅ Environment variables OK
 🤖 Starting MCP Server for Databend
 Open http://localhost:7777 to start chatting!
-INFO Starting playground on http://127.0.0.1:7777                                                                                                                                          
+INFO Starting playground on http://127.0.0.1:7777
 INFO:     Started server process [189851]
 INFO:     Waiting for application startup.
 INFO:agent:✓ Connected to Databend
@@ -216,11 +220,13 @@ cd agent-ui && npm run dev
 ```
 
 **Connect to Your Agent:**
+
 1. Open [http://localhost:3000](http://localhost:3000)
 2. Select "localhost:7777" as your endpoint
 3. Start asking questions about your data!
 
 **Try These Queries:**
+
 - "Show me all databases"
 - "What tables do I have?"
 - "Describe the structure of my tables"
