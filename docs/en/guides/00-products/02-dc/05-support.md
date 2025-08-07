@@ -34,11 +34,11 @@ You can access support through multiple channels:
 
 Databend Cloud offers different levels of support based on your subscription tier:
 
-| Feature | Personal | Business | Dedicated |
-|---------|----------|----------|-----------|
-| Logging and tracking support tickets | ✓ | ✓ | ✓ |
-| 4/7 coverage and response window for Severity 1 issues | 24 hours | 8 hours | 4 hours |
-| Response to non-severity-1 issues | 48 hours | 24 hours | 8 hours |
+| Feature                                                | Personal | Business | Dedicated |
+| ------------------------------------------------------ | -------- | -------- | --------- |
+| Logging and tracking support tickets                   | ✓        | ✓        | ✓         |
+| 4/7 coverage and response window for Severity 1 issues | 24 hours | 8 hours  | 4 hours   |
+| Response to non-severity-1 issues                      | 48 hours | 24 hours | 8 hours   |
 
 ### Severity Levels
 
@@ -51,8 +51,8 @@ Databend Cloud offers different levels of support based on your subscription tie
 Please note that only Business and Dedicated customers have a Service Level Agreement (SLA) on Support Incidents. If you are using the Personal edition – while we will try to answer your question as soon as possible, we'd encourage you to also explore our Community resources:
 
 - [Databend Community Slack Channel](https://link.databend.com/join-slack)
-- [GitHub Discussions](https://github.com/datafuselabs/databend/discussions)
-:::
+- [GitHub Discussions](https://github.com/databendlabs/databend/discussions)
+  :::
 
 ## Enterprise Support
 
