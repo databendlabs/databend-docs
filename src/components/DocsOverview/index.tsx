@@ -35,6 +35,7 @@ import AI from "@site/static/icons/AI.svg";
 import Cases from "@site/static/icons/cases.svg";
 import ChangeLog from "@site/static/icons/changelog.svg";
 import FAQ from "@site/static/icons/faq.svg";
+import MCP from "@site/static/icons/mcp.svg";
 import { Col, Row } from "antd";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import $t from "@site/src/utils/tools";
@@ -59,7 +60,9 @@ const DocsOverview: FC = (): ReactElement => {
       <ContentCardWrap
         className={styles.top}
         title={$t("Introduction to Databend Products")}
-        description={$t("Choose the deployment option that best fits your needs and scale.")}
+        description={$t(
+          "Choose the deployment option that best fits your needs and scale."
+        )}
       >
         <div style={{ height: "100%", width: "100%" }}>
           <Row gutter={[12, 12]} className={styles.topCard}>
@@ -68,7 +71,9 @@ const DocsOverview: FC = (): ReactElement => {
                 <h3>
                   <span>{$t("Databend Cloud")}</span>
                 </h3>
-                <div>{$t("Fully-managed cloud service. No setup required.")}</div>
+                <div>
+                  {$t("Fully-managed cloud service. No setup required.")}
+                </div>
               </Card>
             </Col>
             <Col {...colLayout3}>
@@ -310,6 +315,13 @@ const DocsOverview: FC = (): ReactElement => {
                 icon={<Rust></Rust>}
                 text={"Rust"}
                 to={"/developer/drivers/rust"}
+              />
+            </Col>
+            <Col {...colLayout}>
+              <SmallCard
+                icon={<MCP width={24}></MCP>}
+                text={"MCP Server"}
+                to={"/guides/ai-functions/mcp"}
               />
             </Col>
           </Row>
