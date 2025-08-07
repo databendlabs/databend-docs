@@ -13,6 +13,8 @@
 
 This tutorial shows you how to build a conversational Business Intelligence tool using mcp-databend and the Agno framework. You'll create a local agent that can answer data questions in natural language.
 
+![Databend MCP ChatBI](@site/static/img/connect/databend-mcp-chatbi.png)
+
 ## Step-by-Step Tutorial
 
 ### Step 1: Setup Databend Connection
@@ -48,6 +50,9 @@ pip install packaging openai agno openrouter sqlalchemy fastapi mcp-databend
 Now create your ChatBI agent that uses mcp-databend to interact with your database.
 
 Create a file `agent.py`:
+
+<details>
+<summary>Click to view agent.py code</summary>
 
 ```python
 from contextlib import asynccontextmanager
@@ -161,6 +166,8 @@ if __name__ == "__main__":
     print("Open http://localhost:7777 to start chatting!")
     playground.serve(app="agent:app", host="127.0.0.1", port=7777)
 ```
+
+</details>
 
 ### Step 4: Configure Environment
 
