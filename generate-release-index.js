@@ -25,7 +25,7 @@ mdFiles?.forEach((file, index) => {
   const V = version.slice(0, -3);
   const varName = `MD${index + 1}`;
   imports += `import ${varName} from '@site/docs/release-stable/${file}';\n`;
-  content += `\n\n<StepContent outLink="https://github.com/datafuselabs/databend/releases/tag/${V}" number="${
+  content += `\n\n<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/${V}" number="${
     index === 0 ? "-1" : ""
   }">
 
@@ -34,7 +34,7 @@ mdFiles?.forEach((file, index) => {
 <${varName} />
 
 </StepContent>`;
-  // posts.push({title: V, link: `https://github.com/datafuselabs/databend/releases/tag/${V}`, description: 'Databend release notes', pubDate: time})
+  // posts.push({title: V, link: `https://github.com/databendlabs/databend/releases/tag/${V}`, description: 'Databend release notes', pubDate: time})
 });
 
 const outputData = `---
@@ -47,7 +47,7 @@ slug: /
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-This page provides information about recent features, enhancements, and bug fixes for <a href="https://github.com/datafuselabs/databend">Databend</a>.
+This page provides information about recent features, enhancements, and bug fixes for <a href="https://github.com/databendlabs/databend">Databend</a>.
 
 
 

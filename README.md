@@ -1,10 +1,10 @@
 # Databend Docs: Your Contributions Matter
 
-[![GitHub stars](https://img.shields.io/github/stars/datafuselabs/databend-docs.svg?style=social&label=Stars)](https://github.com/datafuselabs/databend-docs/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/datafuselabs/databend-docs.svg?style=social&label=Forks)](https://github.com/datafuselabs/databend-docs/network/members)
-[![GitHub contributors](https://img.shields.io/github/contributors/datafuselabs/databend-docs.svg)](https://github.com/datafuselabs/databend-docs/graphs/contributors)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/datafuselabs/databend-docs.svg)](https://github.com/datafuselabs/databend-docs/pulls)
-[![GitHub issues](https://img.shields.io/github/issues/datafuselabs/databend-docs.svg)](https://github.com/datafuselabs/databend-docs/issues)
+[![GitHub stars](https://img.shields.io/github/stars/datafuselabs/databend-docs.svg?style=social&label=Stars)](https://github.com/databendlabs/databend-docs/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/datafuselabs/databend-docs.svg?style=social&label=Forks)](https://github.com/databendlabs/databend-docs/network/members)
+[![GitHub contributors](https://img.shields.io/github/contributors/datafuselabs/databend-docs.svg)](https://github.com/databendlabs/databend-docs/graphs/contributors)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/datafuselabs/databend-docs.svg)](https://github.com/databendlabs/databend-docs/pulls)
+[![GitHub issues](https://img.shields.io/github/issues/datafuselabs/databend-docs.svg)](https://github.com/databendlabs/databend-docs/issues)
 [![Twitter Follow](https://img.shields.io/twitter/follow/DatabendLabs?style=social)](https://x.com/DatabendLabs)
 [![YouTube Channel](https://img.shields.io/badge/YouTube-Subscribe-red?style=flat&logo=youtube)](https://www.youtube.com/@DatabendLabs)
 
@@ -16,9 +16,9 @@ The Databend docs are thoughtfully organized to provide users with a structured 
 
 | Tab            | Folder in this Repo                                                                                  | Description                                                                                                                                                                                                                          |
 | -------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Guides         | [docs/guides](https://github.com/datafuselabs/databend-docs/tree/main/docs/en/guides)                | Includes insights into the core features, data import/export, third-party tool integration, and programming interfaces across all Databend editions. Additionally, it offers valuable information on deploying Databend on-premises. |
-| Databend Cloud | [docs/guides/cloud](https://github.com/datafuselabs/databend-docs/tree/main/docs/en/guides/20-cloud) | Includes details on account registration, operational guidance, and organization management tailored for Databend Cloud. Whether you're new to the cloud environment or an experienced user, contribute here to share your insights. |
-| SQL Reference  | [docs/sql-reference](https://github.com/datafuselabs/databend-docs/tree/main/docs/en/sql-reference)  | Explains Databend general essentials and a variety of available SQL functions and commands. Contribute to this section to help fellow users navigate the world of SQL in Databend.                                                   |
+| Guides         | [docs/guides](https://github.com/databendlabs/databend-docs/tree/main/docs/en/guides)                | Includes insights into the core features, data import/export, third-party tool integration, and programming interfaces across all Databend editions. Additionally, it offers valuable information on deploying Databend on-premises. |
+| Databend Cloud | [docs/guides/cloud](https://github.com/databendlabs/databend-docs/tree/main/docs/en/guides/20-cloud) | Includes details on account registration, operational guidance, and organization management tailored for Databend Cloud. Whether you're new to the cloud environment or an experienced user, contribute here to share your insights. |
+| SQL Reference  | [docs/sql-reference](https://github.com/databendlabs/databend-docs/tree/main/docs/en/sql-reference)  | Explains Databend general essentials and a variety of available SQL functions and commands. Contribute to this section to help fellow users navigate the world of SQL in Databend.                                                   |
 | Releases       | -                                                                                                    | Contains release notes for Databend Cloud and updates on nightly builds.                                                                                                                                                             |
 
 ## What You can Contribute
@@ -70,7 +70,6 @@ If you have any questions or need support, please feel free to reach out via ema
 
 Happy contributing!
 
-> [!IMPORTANT]   
+> [!IMPORTANT]  
 > **Important Notice for Contributors**  
-> If you delete a document, you **must** provide the old URL and the new URL for a 301 redirect to ensure proper navigation. Additionally, please notify @Chasen-Zhang about the change, or you can directly modify the redirect configuration in the file: [site-redirects.ts](https://github.com/databendlabs/databend-docs/blob/main/site-redirects.ts). Failure to do so may disrupt user access.  
-
+> If you delete a document, you **must** provide the old URL and the new URL for a 301 redirect to ensure proper navigation. Additionally, please notify @Chasen-Zhang about the change, or you can directly modify the redirect configuration in the file: [site-redirects.ts](https://github.com/databendlabs/databend-docs/blob/main/site-redirects.ts). Failure to do so may disrupt user access.

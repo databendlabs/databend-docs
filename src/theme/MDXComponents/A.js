@@ -9,7 +9,7 @@ function hasProtocolPrefix(str) {
 export default function MDXA(props) {
   if (
     props?.href?.includes("https://github.com/databendlabs/databend/pull/") ||
-    props?.href?.includes("https://github.com/datafuselabs/databend/pull/")
+    props?.href?.includes("https://github.com/databendlabs/databend/pull/")
   ) {
     return <Link {...props} />;
   }

@@ -73,7 +73,7 @@ const config: Config = {
             // if (locale !== config.i18n.defaultLocale) {
             //     return `https://databend.crowdin.com/databend/${locale}`;
             // }
-            return `https://github.com/datafuselabs/databend-docs/tree/main/docs/${site}/guides/${docPath}`;
+            return `https://github.com/databendlabs/databend-docs/tree/main/docs/${site}/guides/${docPath}`;
           },
         },
         blog: false,
@@ -112,7 +112,7 @@ const config: Config = {
           // if (locale !== config.i18n.defaultLocale) {
           //     return `https://databend.crowdin.com/databend/${locale}`;
           // }
-          return `https://github.com/datafuselabs/databend-docs/edit/main/docs/dev/${devPath}`;
+          return `https://github.com/databendlabs/databend-docs/edit/main/docs/dev/${devPath}`;
         },
       },
     ],
@@ -125,7 +125,7 @@ const config: Config = {
         routeBasePath: "tutorials",
         sidebarPath: require.resolve("./docs/en/sidebars.js"),
         editUrl: ({ locale, docPath }) => {
-          return `https://github.com/datafuselabs/databend-docs/tree/main/docs/${site}/tutorials/${docPath}`;
+          return `https://github.com/databendlabs/databend-docs/tree/main/docs/${site}/tutorials/${docPath}`;
         },
       },
     ],
@@ -138,7 +138,7 @@ const config: Config = {
         routeBasePath: "sql",
         sidebarPath: require.resolve("./docs/en/sidebars.js"),
         editUrl: ({ locale, docPath }) => {
-          return `https://github.com/datafuselabs/databend-docs/edit/main/docs/${site}/sql-reference/${docPath}`;
+          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/sql-reference/${docPath}`;
         },
       },
     ],
@@ -151,7 +151,7 @@ const config: Config = {
         routeBasePath: "release-notes",
         sidebarPath: require.resolve("./docs/en/sidebars.js"),
         editUrl: ({ locale, docPath }) => {
-          return `https://github.com/datafuselabs/databend-docs/edit/main/docs/${site}/release-notes/${docPath}`;
+          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/release-notes/${docPath}`;
         },
       },
     ],
@@ -164,7 +164,7 @@ const config: Config = {
         routeBasePath: "developer",
         sidebarPath: require.resolve("./docs/en/sidebars.js"),
         editUrl: ({ locale, docPath }) => {
-          return `https://github.com/datafuselabs/databend-docs/edit/main/docs/${site}/developer/${docPath}`;
+          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/developer/${docPath}`;
         },
       },
     ],
