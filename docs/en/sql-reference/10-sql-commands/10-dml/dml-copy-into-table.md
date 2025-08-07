@@ -34,8 +34,14 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 
 /* Data load with transformation */
 COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
-     FROM ( SELECT [<alias>.]$<file_col_num>[.<element>] [ , [<alias>.]$<file_col_num>[.<element>] ... ]
-            FROM { userStage | internalStage | externalStage } )
+     FROM (
+        SELECT {
+            [<alias>.]<column> [, [<alias>.]<column> ...] -- Query columns by name
+            | [<alias>.]$<col_position> [, [<alias>.]$<col_position> ...] -- Query columns by position
+            | [<alias>.]$1[:<column>] [, [<alias>.]$1[:<column>]  ...] -- Query rows as Variants
+            } ]
+        FROM {@<stage_name>[/<path>] | '<uri>'} 
+    )
 [ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
 [ PATTERN = '<regex_pattern>' ]
 [ FILE_FORMAT = (

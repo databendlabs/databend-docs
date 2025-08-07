@@ -4,22 +4,7 @@ title: Transforming Data on Load
 
 Databend's `COPY INTO` command allows data transformation during the loading process. This streamlines your ETL pipeline by incorporating basic transformations, eliminating the need for temporary tables.
 
-The general syntax for `COPY INTO` with transformations is:
-
-```sql
-COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
-     FROM ( SELECT [<file_col> ... ]
-            FROM { userStage | internalStage | externalStage } )
-[ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
-[ PATTERN = '<regex_pattern>' ]
-[ FILE_FORMAT = (
-         FORMAT_NAME = '<your-custom-format>'
-         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | Avro } [ formatTypeOptions ]
-       ) ]
-[ copyOptions ]
-```
-
-For more details, see [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table).
+See [Querying & Transforming](./index.md) for syntax.
 
 Key transformations you can perform:
 

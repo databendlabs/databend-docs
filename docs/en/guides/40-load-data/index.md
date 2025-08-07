@@ -52,7 +52,7 @@ This guide provides detailed instructions on how to import data into Databend.
 <summary> ORC </summary>
 
 - [Load ORC into table](./03-load-semistructured/04-load-orc.md)
-- [Query ORC directly](./04-transform/03-querying-orc.md)
+- [Query ORC directly](./04-transform/05-querying-orc.md)
 
 </details>
 

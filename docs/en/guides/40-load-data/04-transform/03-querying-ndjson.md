@@ -21,33 +21,10 @@ NDJSON (Newline Delimited JSON) is a JSON-based file format where each line cont
 - **Big data compatible**: Widely used in log files, data exports, and ETL pipelines
 - **Easy to process**: Each line is an independent JSON object, enabling parallel processing
 
-## Query NDJSON Files in Stage
+## Syntax
 
-Syntax:
-```sql
-SELECT [<alias>.]$1:<column> [, $1:<column> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
-  [<connection_parameters>],
-  [ PATTERN => '<regex_pattern>'],
-  [ FILE_FORMAT => 'NDJSON| <custom_format_name>'],
-  [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
-)]
-```
-
-
-:::info Tips
-**Query Return Content Explanation:**
-
-* **Return Format**: Each row as a single variant object (referenced as `$1`)
-* **Access Method**: Use path expressions `$1:column_name`
-* **Example**: `SELECT $1:title, $1:author FROM @stage_name`
-* **Key Features**:
-  * Must use path notation to access specific fields
-  * Type casting required for type-specific operations (e.g., `CAST($1:id AS INT)`)
-  * Each NDJSON line is parsed as a complete JSON object
-  * Whole row is represented as a single variant object
-:::
+- [Query rows as Variants](./index.md#query-rows-as-variants)
+- [Query Metadata](./index.md#query-metadata)
 
 ## Tutorial
 
@@ -106,34 +83,9 @@ FROM @ndjson_query_stage
 ```
 
 **Key difference:** The pattern `.*[.]ndjson[.]gz` matches files ending with `.ndjson.gz`. Databend automatically decompresses gzip files during query execution thanks to the `COMPRESSION = AUTO` setting in the file format.
-### Query with Metadata
-
-You can also include file metadata in your queries, which is useful for tracking data lineage and debugging:
-
-```sql
-SELECT
-    METADATA$FILENAME,
-    METADATA$FILE_ROW_NUMBER,
-    $1:title, $1:author
-FROM @ndjson_query_stage
-(
-    FILE_FORMAT => 'ndjson_query_format',
-    PATTERN => '.*[.]ndjson'
-);
-```
-
-**Metadata columns explained:**
-- `METADATA$FILENAME`: Shows which file each row came from - helpful when querying multiple files
-- `METADATA$FILE_ROW_NUMBER`: Shows the line number within the source file - useful for tracking specific records
-
-**Use cases:**
-- **Data lineage**: Track which source file contributed each record
-- **Debugging**: Identify problematic records by file and line number
-- **Incremental processing**: Process only specific files or ranges within files
 
 ## Related Documentation
 
 - [Loading NDJSON Files](../03-load-semistructured/03-load-ndjson.md) - How to load NDJSON data into tables
 - [NDJSON File Format Options](/sql/sql-reference/file-format-options#ndjson-options) - Complete NDJSON format configuration
 - [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) - Managing external and internal stages
-- [Querying Metadata](./04-querying-metadata.md) - More details about metadata columns
