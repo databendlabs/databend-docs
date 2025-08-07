@@ -17,11 +17,11 @@ sidebar_label: 元数据
 
 ## 查询元数据详细指南
 
-| 文件格式 | 指南                                                                                |
-| ----------- | ------------------------------------------------------------------------------------ |
-| Parquet     | [使用元数据查询 Parquet 文件](./00-querying-parquet.md#query-with-metadata)         |
-| CSV         | [使用元数据查询 CSV 文件](./01-querying-csv.md#query-with-metadata)                 |
-| TSV         | [使用元数据查询 TSV 文件](./02-querying-tsv.md#query-with-metadata)                 |
-| NDJSON      | [使用元数据查询 NDJSON 文件](./03-querying-ndjson.md#query-with-metadata)           |
-| ORC         | [使用元数据查询 ORC 文件](./03-querying-orc.md#query-with-metadata)                 |
-| Avro        | [使用元数据查询 Avro 文件](./04-querying-avro.md#query-with-metadata)               |
+| 文件格式 | 指南                                                                 |
+| ----------- |--------------------------------------------------------------------|
+| Parquet     | [使用元数据查询 Parquet 文件](./00-querying-parquet.md#query-with-metadata) |
+| CSV         | [使用元数据查询 CSV 文件](./01-querying-csv.md#query-with-metadata)         |
+| TSV         | [使用元数据查询 TSV 文件](./02-querying-tsv.md#query-with-metadata)         |
+| NDJSON      | [使用元数据查询 NDJSON 文件](./03-querying-ndjson.md#query-with-metadata)   |
+| ORC         | [使用元数据查询 ORC 文件](./05-querying-orc.md#query-with-metadata)         |
+| Avro        | [使用元数据查询 Avro 文件](./04-querying-avro.md#query-with-metadata)       |

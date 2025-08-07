@@ -3,32 +3,10 @@ title: Querying Avro Files in Stage
 sidebar_label: Avro
 ---
 
-## Query Avro Files in Stage
+## Syntax:
 
-Syntax:
-```sql
-SELECT [<alias>.]$1:<column> [, $1:<column> ...]
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
-[(
-  [<connection_parameters>],
-  [ PATTERN => '<regex_pattern>'],
-  [ FILE_FORMAT => 'AVRO'],
-  [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
-)]
-```
-
-:::info Tips
-**Query Return Content Explanation:**
-
-* **Return Format**: Each row as a single variant object (referenced as `$1`)
-* **Access Method**: Use path expressions `$1:column_name`
-* **Example**: `SELECT $1:id, $1:name FROM @stage_name`
-* **Key Features**:
-  * Must use path notation to access specific fields
-  * Type casting required for type-specific operations (e.g., `CAST($1:id AS INT)`)
-  * Avro schema is mapped to variant structure
-  * Whole row is represented as a single variant object
-:::
+- [Query rows as Variants](./index.md#query-rows-as-variants)
+- [Query Metadata](./index.md#query-metadata)
 
 ## Avro Querying Features Overview
 

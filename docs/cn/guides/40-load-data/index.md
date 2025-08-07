@@ -52,7 +52,7 @@ Databend 强大的 ETL 能力支持从多种数据源和格式高效加载数据
 <summary> ORC </summary>
 
 - [将 ORC 数据导入表](./03-load-semistructured/04-load-orc.md)
-- [直接查询 ORC 文件](./04-transform/03-querying-orc.md)
+- [直接查询 ORC 文件](./04-transform/05-querying-orc.md)
 
 </details>
 

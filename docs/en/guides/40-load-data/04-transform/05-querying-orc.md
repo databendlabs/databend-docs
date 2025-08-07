@@ -7,20 +7,9 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ## Syntax
 
-```sql
-SELECT [<alias>.]<column> [, <column> ...]
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
-[(
-  [<connection_parameters>],
-  [ PATTERN => '<regex_pattern>'],
-  [ FILE_FORMAT => 'ORC | <custom_format_name>'],
-  [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
-)]
-```
-
-:::info Tips
-ORC has schema information, so we can query the columns `<column> [, <column> ...]` directly.
-:::
+- [Query rows as Variants](./index.md#query-rows-as-variants)
+- [Query columns by name](./index.md#query-columns-by-name)
+- [Query Metadata](./index.md#query-metadata)
 
 ## Tutorial
 
@@ -56,6 +45,8 @@ CREATE STAGE orc_query_stage
 
 ### Query ORC File
 
+query with columns
+
 ```sql
 SELECT *
 FROM @orc_query_stage
@@ -73,6 +64,18 @@ FROM @orc_query_stage
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+query with path expressions:
+
+```sql
+SELECT $1
+FROM @orc_query_stage
+(
+    FILE_FORMAT => 'orc',
+    PATTERN => '.*[.]orc'
+    
+);
+```
+
 You can also query the remote ORC file directly:
 
 ```sql
@@ -88,6 +91,8 @@ FROM
 ### Query with Metadata
 
 Query ORC files directly from a stage, including metadata columns like `METADATA$FILENAME` and `METADATA$FILE_ROW_NUMBER`:
+
+
 
 ```sql
 SELECT
