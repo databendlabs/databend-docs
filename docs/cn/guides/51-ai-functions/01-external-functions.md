@@ -4,7 +4,7 @@ title: 使用外部函数（External Function）自定义 AI/ML
 
 # 使用外部函数（External Function）自定义 AI/ML
 
-通过将 Databend 与您自己的基础设施连接，构建强大的 AI/ML 能力。外部函数（External Function）让您部署自定义模型、利用 GPU 加速，并与任何 ML 框架集成，同时确保数据安全。
+通过将 Databend 与您自己的基础设施连接，构建强大的 AI/ML 能力。外部函数（External Function）让您部署自定义模型、利用 GPU 加速并与任何 ML 框架集成，同时确保数据安全。
 
 ## 核心能力
 
@@ -18,9 +18,9 @@ title: 使用外部函数（External Function）自定义 AI/ML
 
 ## 工作原理
 
-1. **创建 AI 服务器**：使用 Python 和 [databend-udf](https://pypi.org/project/databend-udf) 构建您的 AI/ML 服务器
-2. **注册函数**：使用 `CREATE FUNCTION` 将您的服务器连接到 Databend
-3. **在 SQL 中使用**：直接在 SQL 查询中调用您的自定义 AI 函数
+1. **创建 AI 服务器**：使用 Python 和 [databend-udf](https://pypi.org/project/databend-udf) 构建 AI/ML 服务器  
+2. **注册函数**：通过 `CREATE FUNCTION` 将服务器接入 Databend  
+3. **在 SQL 中使用**：直接在 SQL 查询中调用自定义 AI 函数  
 
 ## 示例：文本嵌入函数
 
@@ -45,11 +45,11 @@ def ai_embed_768(inputs: list[str], headers) -> list[list[float]]:
         return [embedding.tolist() for embedding in embeddings]
     except Exception as e:
         print(f"生成嵌入时出错：{e}")
-        # 如果出错则返回空列表
+        # 出错时返回空列表
         return [[] for _ in inputs]
 
 if __name__ == '__main__':
-    print("在 8815 端口启动嵌入 UDF 服务器...")
+    print("在端口 8815 启动嵌入 UDF 服务器...")
     server = UDFServer("0.0.0.0:8815")
     server.add_function(ai_embed_768)
     server.serve()
@@ -78,5 +78,5 @@ LIMIT 5;
 
 ## 了解更多
 
-- **[外部函数（External Function）指南](/guides/query/external-function)** - 完整的设置和部署说明
-- **[Databend Cloud](https://databend.cn)** - 使用免费账户试用外部函数（External Function）
+- **[外部函数（External Function）指南](/guides/query/external-function)** - 完整的设置与部署说明  
+- **[Databend Cloud](https://databend.cn)** - 免费账户体验外部函数
