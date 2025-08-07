@@ -15,6 +15,7 @@ const SPECIAL_LINKS = [
   "/guides/products/dc/pricing",
   "guides/deploy/deploy/non-production/deploying-databend",
   "/guides/cloud/new-account",
+  "/release-notes/",
 ];
 
 const getPageContentAsHtml = (): string | null => {
