@@ -99,10 +99,20 @@ pstmt.close();
 conn.close();
 ```
 
+## Configuration Reference
+
+For complete databend-jdbc driver configuration options including:
+- Connection string parameters
+- SSL/TLS configuration
+- Authentication methods
+- Performance tuning parameters
+
+Please refer to the [official databend-jdbc Connection Guide](https://github.com/databendlabs/databend-jdbc/blob/main/docs/Connection.md).
+
 ## Resources
 
 - **Maven Central**: [databend-jdbc](https://repo1.maven.org/maven2/com/databend/databend-jdbc/)
-- **GitHub Repository**: [databend-jdbc](https://github.com/databendcloud/databend-jdbc)
+- **GitHub Repository**: [databend-jdbc](https://github.com/databendlabs/databend-jdbc)
 - **JDBC Documentation**: [Oracle JDBC Guide](https://docs.oracle.com/javase/tutorial/jdbc/)
 
 
