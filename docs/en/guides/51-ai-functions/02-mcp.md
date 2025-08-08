@@ -52,10 +52,6 @@ pip install packaging openai agno openrouter sqlalchemy fastapi mcp-databend
 Now create your ChatBI agent that uses mcp-databend to interact with your database.
 
 Create a file `agent.py`:
-<DetailsWrap>
-
-<details>
-<summary>Click to view agent.py code</summary>
 
 ```python
 from contextlib import asynccontextmanager
@@ -170,8 +166,6 @@ if __name__ == "__main__":
     playground.serve(app="agent:app", host="127.0.0.1", port=7777)
 ```
 
-</details>
-</DetailsWrap>
 ### Step 4: Configure Environment
 
 Set up your API keys and database connection:
