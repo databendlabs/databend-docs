@@ -5,6 +5,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useThemeConfig, type NavbarLogo } from "@docusaurus/theme-common";
 import ThemedImage from "@theme/ThemedImage";
 import type { Props } from "@theme/Logo";
+import $t from "@site/src/utils/tools";
 
 function LogoThemedImage({
   logo,
@@ -71,7 +72,9 @@ export default function Logo(props: Props): ReactNode {
           imageClassName={imageClassName}
         />
       )}
-      {navbarTitle != null && <b className={titleClassName}>DOCUMENTATION</b>}
+      {navbarTitle != null && (
+        <b className={titleClassName}>{$t("DOCUMENTATION")}</b>
+      )}
     </Link>
   );
 }

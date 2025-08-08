@@ -828,5 +828,9 @@
   "Copying...": {
     "message": "正在复制...",
     "description": "Copying..."
+  },
+  "DOCUMENTATION": {
+    "message": "文档",
+    "description": "DOCUMENTATION"
   }
 }
