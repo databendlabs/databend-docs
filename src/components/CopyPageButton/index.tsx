@@ -49,8 +49,11 @@ const CopyDropdownButton: React.FC = () => {
         if (response.status === 200) {
           navigator.clipboard.writeText(response.data);
         } else {
-          alert($t("Failed to copy markdown"));
+          copyHtml();
         }
+      })
+      .catch(() => {
+        copyHtml();
       })
       .finally(() => {
         setLoading(false);
