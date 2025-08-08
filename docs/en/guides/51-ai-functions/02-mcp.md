@@ -17,11 +17,18 @@ This tutorial shows you how to build a conversational Business Intelligence tool
 
 ![Databend MCP ChatBI](@site/static/img/connect/databend-mcp-chatbi.png)
 
+## Prerequisites
+
+Before getting started, you'll need:
+
+1. **Databend Database** - Either [Databend Cloud](https://app.databend.com) (free tier available) or a self-hosted instance
+2. **DeepSeek API Key** - Get your key from [https://platform.deepseek.com/api_keys](https://platform.deepseek.com/api_keys)
+
 ## Step-by-Step Tutorial
 
 ### Step 1: Setup Databend Connection
 
-First, you need a Databend database to connect to:
+If you don't already have a Databend database:
 
 1. **Sign up for [Databend Cloud](https://app.databend.com)** (free tier available)
 2. **Create a warehouse and database**
@@ -34,7 +41,19 @@ For detailed DSN format and examples, see [Connection String Documentation](http
 | **Databend Cloud** | `databend://user:pwd@host:443/database?warehouse=wh`          |
 | **Self-hosted**    | `databend://user:pwd@localhost:8000/database?sslmode=disable` |
 
-### Step 2: Install Dependencies
+### Step 2: Setup API Keys and Environment
+
+Set up your API key and database connection:
+
+```bash
+# Set your DeepSeek API key
+export DEEPSEEK_API_KEY="your-deepseek-api-key"
+
+# Set your Databend connection string
+export DATABEND_DSN="your-databend-connection-string"
+```
+
+### Step 3: Install Dependencies
 
 Create a virtual environment and install the required packages:
 
@@ -44,10 +63,10 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # Install packages
-pip install packaging openai agno openrouter sqlalchemy fastapi mcp-databend
+pip install packaging openai agno sqlalchemy fastapi mcp-databend
 ```
 
-### Step 3: Create ChatBI Agent
+### Step 4: Create ChatBI Agent
 
 Now create your ChatBI agent that uses mcp-databend to interact with your database.
 
@@ -63,17 +82,16 @@ from agno.agent import Agent
 from agno.playground import Playground
 from agno.storage.sqlite import SqliteStorage
 from agno.tools.mcp import MCPTools
-from agno.models.openrouter import OpenRouter
+from agno.models.deepseek import DeepSeek
 from fastapi import FastAPI
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def check_env_vars():
-    """Check required environment variables"""
     required = {
         "DATABEND_DSN": "https://docs.databend.com/developer/drivers/#connection-string-dsn",
-        "OPENROUTER_API_KEY": "https://openrouter.ai/settings/keys"
+        "DEEPSEEK_API_KEY": "https://platform.deepseek.com/api_keys"
     }
 
     missing = [var for var in required if not os.getenv(var)]
@@ -82,7 +100,7 @@ def check_env_vars():
         print("❌ Missing environment variables:")
         for var in missing:
             print(f"  • {var}: {required[var]}")
-        print("\nExample: export DATABEND_DSN='...' OPENROUTER_API_KEY='...'")
+        print("\nExample: export DATABEND_DSN='...' DEEPSEEK_API_KEY='...'")
         sys.exit(1)
 
     print("✅ Environment variables OK")
@@ -117,10 +135,7 @@ databend = DatabendTool()
 
 agent = Agent(
     name="ChatBI",
-    model=OpenRouter(
-        id=os.getenv("MODEL_ID", "anthropic/claude-sonnet-4"),
-        api_key=os.getenv("OPENROUTER_API_KEY")
-    ),
+    model=DeepSeek(),
     tools=[],
     instructions=[
         "You are ChatBI - a Business Intelligence assistant for Databend.",
@@ -164,18 +179,7 @@ if __name__ == "__main__":
     print("🤖 Starting MCP Server for Databend")
     print("Open http://localhost:7777 to start chatting!")
     playground.serve(app="agent:app", host="127.0.0.1", port=7777)
-```
 
-### Step 4: Configure Environment
-
-Set up your API keys and database connection:
-
-```bash
-# Set your OpenRouter API key
-export OPENROUTER_API_KEY="your-openrouter-key"
-
-# Set your Databend connection string
-export DATABEND_DSN="your-databend-connection-string"
 ```
 
 ### Step 5: Start Your ChatBI Agent
