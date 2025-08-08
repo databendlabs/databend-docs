@@ -372,25 +372,6 @@ textarea {
   display: flex;
   width: 100%;
 }
-.ant-btn {
-  font-size: 14px;
-  height: 32px;
-  padding: 0px 15px;
-  border-radius: 6px;
-  outline: none;
-  position: relative;
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  text-align: center;
-  background-image: none;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  user-select: none;
-  touch-action: manipulation;
-}
 
 .ant-dropdown .ant-dropdown-menu {
   background-color: var(--color-bg-1);
