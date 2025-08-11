@@ -189,7 +189,7 @@ const DocsOverview: FC = (): ReactElement => {
             <Col {...colLayout2}>
               <Card padding={[20, 0]} className={styles.cardActiveOut}>
                 <Link
-                  to={"/guides/cloud/new-account"}
+                  to={"/guides/cloud/new-account/"}
                   className={"global-overview-card"}
                 >
                   <LightDatabendCloudSingleSvg width={150} />
@@ -206,17 +206,17 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>{$t("What you need to know:")}</div>
                   <ul>
                     <li>
-                      <Link to={"/guides/products/dc/editions"}>
+                      <Link to={"/guides/products/dc/editions/"}>
                         {$t("Choose Your Edition")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/products/dc/pricing"}>
+                      <Link to={"/guides/products/dc/pricing/"}>
                         {$t("Pricing & Plans")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/cloud/using-databend-cloud"}>
+                      <Link to={"/guides/cloud/using-databend-cloud/"}>
                         {$t("Using Databend Cloud")}
                       </Link>
                     </li>
@@ -241,17 +241,17 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>{$t("What you need to know:")}</div>
                   <ul>
                     <li>
-                      <Link to={"/guides/deploy/QuickStart"}>
+                      <Link to={"/guides/deploy/QuickStart/"}>
                         {$t("5-Minute Quick Start")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/deploy/deploy/download"}>
+                      <Link to={"/guides/deploy/deploy/download/"}>
                         {$t("Download & Install")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/products/dee/license"}>
+                      <Link to={"/guides/products/dee/license/"}>
                         {$t("Enterprise Features & Licensing")}
                       </Link>
                     </li>
@@ -279,49 +279,49 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Cli></Cli>}
                 text={"BendSQL"}
-                to={"/guides/sql-clients/bendsql"}
+                to={"/guides/sql-clients/bendsql/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Java></Java>}
                 text={"Java"}
-                to={"/developer/drivers/jdbc"}
+                to={"/developer/drivers/jdbc/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Go></Go>}
                 text={"Golang"}
-                to={"/developer/drivers/golang"}
+                to={"/developer/drivers/golang/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Python></Python>}
                 text={"Python"}
-                to={"/developer/drivers/python"}
+                to={"/developer/drivers/python/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Node></Node>}
                 text={"Node.js"}
-                to={"/developer/drivers/nodejs"}
+                to={"/developer/drivers/nodejs/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Rust></Rust>}
                 text={"Rust"}
-                to={"/developer/drivers/rust"}
+                to={"/developer/drivers/rust/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<MCP width={24}></MCP>}
                 text={"MCP Server"}
-                to={"/guides/ai-functions/mcp"}
+                to={"/guides/ai-functions/mcp/"}
               />
             </Col>
           </Row>
@@ -344,28 +344,28 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Kafka></Kafka>}
                 text={"Kafka"}
-                to={"/guides/load-data/load-db/kafka"}
+                to={"/guides/load-data/load-db/kafka/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Dbt></Dbt>}
                 text={"dbt"}
-                to={"/guides/load-data/load-db/dbt"}
+                to={"/guides/load-data/load-db/dbt/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Airbyte></Airbyte>}
                 text={"Airbyte"}
-                to={"/guides/load-data/load-db/airbyte"}
+                to={"/guides/load-data/load-db/airbyte/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<FlinkCdc></FlinkCdc>}
                 text={"Flink CDC"}
-                to={"/guides/load-data/load-db/flink-cdc"}
+                to={"/guides/load-data/load-db/flink-cdc/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -377,11 +377,12 @@ const DocsOverview: FC = (): ReactElement => {
                       border: "unset",
                       padding: "4px",
                     }}
+                    alt="Addax"
                     src={Addax}
                   />
                 }
                 text={"Addax"}
-                to={"/guides/load-data/load-db/addax"}
+                to={"/guides/load-data/load-db/addax/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -397,7 +398,7 @@ const DocsOverview: FC = (): ReactElement => {
                   />
                 }
                 text={"DataX"}
-                to={"/guides/load-data/load-db/datax"}
+                to={"/guides/load-data/load-db/datax/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -412,7 +413,7 @@ const DocsOverview: FC = (): ReactElement => {
                   />
                 }
                 text={"Debezium"}
-                to={"/guides/load-data/load-db/debezium"}
+                to={"/guides/load-data/load-db/debezium/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -427,7 +428,7 @@ const DocsOverview: FC = (): ReactElement => {
                   />
                 }
                 text={"Tapdata"}
-                to={"/guides/load-data/load-db/tapdata"}
+                to={"/guides/load-data/load-db/tapdata/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -442,7 +443,7 @@ const DocsOverview: FC = (): ReactElement => {
                   />
                 }
                 text={"Vector"}
-                to={"/guides/load-data/load-db/vector"}
+                to={"/guides/load-data/load-db/vector/"}
               />
             </Col>
           </Row>
@@ -465,56 +466,56 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<DeepNote></DeepNote>}
                 text={"Deepnote"}
-                to={"/guides/visualize/deepnote"}
+                to={"/guides/visualize/deepnote/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Jpyter></Jpyter>}
                 text={"Jupyter"}
-                to={"/guides/visualize/jupyter"}
+                to={"/guides/visualize/jupyter/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Metabase></Metabase>}
                 text={"Metabase"}
-                to={"/guides/visualize/metabase"}
+                to={"/guides/visualize/metabase/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Grafana></Grafana>}
                 text={"Grafana"}
-                to={"/guides/visualize/grafana"}
+                to={"/guides/visualize/grafana/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Redash></Redash>}
                 text={"Redash"}
-                to={"/guides/visualize/redash"}
+                to={"/guides/visualize/redash/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Superset></Superset>}
                 text={"Superset"}
-                to={"/guides/visualize/superset"}
+                to={"/guides/visualize/superset/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Teableau></Teableau>}
                 text={"Tableau"}
-                to={"/guides/visualize/tableau"}
+                to={"/guides/visualize/tableau/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<MindsDB></MindsDB>}
                 text={"MindsDB"}
-                to={"/guides/visualize/mindsdb"}
+                to={"/guides/visualize/mindsdb/"}
               />
             </Col>
           </Row>
@@ -544,14 +545,14 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Stream></Stream>}
                 text={$t("Real-Time CDC Ingestion")}
-                to={"/guides/load-data/continuous-data-pipelines/stream"}
+                to={"/guides/load-data/continuous-data-pipelines/stream/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Task></Task>}
                 text={$t("Automated Data Pipelines")}
-                to={"/guides/load-data/continuous-data-pipelines/task"}
+                to={"/guides/load-data/continuous-data-pipelines/task/"}
               />
             </Col>
           </Row>
@@ -579,28 +580,28 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Contact></Contact>}
                 text={$t("Contact Support")}
-                to={`${homeLink}/contact-us`}
+                to={`${homeLink}/contact-us/`}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Cases></Cases>}
                 text={$t("Use Cases")}
-                to={`${homeLink}/use-cases`}
+                to={`${homeLink}/use-cases/`}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<FAQ></FAQ>}
                 text={$t("FAQ")}
-                to={`/guides/products/overview/faq`}
+                to={`/guides/products/overview/faq/`}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<ChangeLog></ChangeLog>}
                 text={$t("Changelog")}
-                to={`/release-notes`}
+                to={`/release-notes/`}
               />
             </Col>
           </Row>
