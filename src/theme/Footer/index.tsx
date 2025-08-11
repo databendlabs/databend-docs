@@ -113,47 +113,6 @@ function Footer() {
               "email": "hi@databend.com",
               "url": "https://www.databend.com/contact-us/"
             },
-            "offers": [
-              {
-                "@type": "Product",
-                "name": "Databend Cloud",
-                "description": "Databend is a Cost-Effective Cloud Data Warehouse, pay-as-you-use cloud data warehouse with enterprise features.",
-                "url": "https://www.databend.com/databend-cloud/",
-                "image": "https://www.databend.com/img/resource/product-databend-cloud.png",
-                "offers": {
-                  "@type": "Offer",
-                  "priceCurrency": "USD",
-                  "price": 0,
-                  "url": "https://www.databend.com/apply/"
-                }
-              },
-              {
-                "@type": "Product",
-                "name": "Databend Enterprise",
-                "description": "Self-hosted version with advanced enterprise features and support.",
-                "url": "https://www.databend.com/databend-enterprise/",
-                "image": "https://www.databend.com/img/resource/product-databend-enterprise.png",
-                "offers": {
-                  "@type": "Offer",
-                  "priceCurrency": "USD",
-                  "price": 1.5,
-                  "url": "https://www.databend.com/databend-enterprise/"
-                }
-              },
-              {
-                "@type": "Product",
-                "name": "Databend Community",
-                "description": "Free, self-hosted version for community-driven use.",
-                "url": "https://www.databend.com/databend/",
-                "image": "https://www.databend.com/img/resource/product-databend.png",
-                "offers": {
-                  "@type": "Offer",
-                  "priceCurrency": "USD",
-                  "price": 0,
-                  "url": "https://www.databend.com/databend/"
-                }
-              }
-            ],
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "401 RYLAND ST. STE 200-A",
@@ -162,24 +121,6 @@ function Footer() {
               "postalCode": "89502",
               "addressCountry": "USA"
             },
-            "blog": {
-              "@type": "Blog",
-              "url": "https://www.databend.com/blog",
-              "name": "Databend Blog",
-              "description": "Databend's official blog, featuring articles on cloud-native data warehousing, analytics, and industry insights."
-            },
-             "hasPart": [{
-              "@type": "WebSite",
-              "name": "Databend Documentation",
-              "url": "https://docs.databend.com/",
-              "description": "The official documentation site for Databend, providing guides, tutorials, and resources for Databend users."
-            },
-            {
-              "@type": "Blog",
-              "url": "https://www.databend.com/blog",
-              "name": "Databend Blog",
-              "description": "Databend's official blog, featuring articles on cloud-native data warehousing, analytics, and industry insights."
-            }]
           }
           `}
           </script>
