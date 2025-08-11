@@ -16,8 +16,4 @@ This page provides a comprehensive overview of virtual column operations in Data
 
 ## Related Topics
 
-- [Virtual Column](/guides/performance/virtual-column)
-
-:::note
-Virtual columns in Databend are derived columns that are computed from other columns in the table. They are not physically stored but calculated on-demand during query execution.
-:::
+- [Virtual Column Performance](/guides/performance/virtual-column)
