@@ -1,11 +1,11 @@
 ---
 title: Compatibility
 sidebar_label: Compatibility
-description:
-  Investigate and manage the compatibility
+description: Investigate and manage the compatibility
 ---
 
 This guideline will introduce how to investigate and manage the compatibility:
+
 - between databend-query and databend-meta.
 - between different versions of databend-meta.
 
@@ -74,6 +74,7 @@ When handshaking:
 Handshake succeeds if both of these two assertions hold.
 
 E.g.:
+
 - `S: (ver=3, min_cli_ver=1)` is compatible with `C: (ver=3, min_srv_ver=2)`.
 - `S: (ver=4, min_cli_ver=4)` is **NOT** compatible with `C: (ver=3, min_srv_ver=2)`.
   Because although `S.ver(4) >= C.min_srv_ver(3)` holds,
@@ -96,65 +97,67 @@ S.ver:           2      3      4
 The following is an illustration of the latest query-meta compatibility:
 
 | `Meta\Query`       | [0.9.41, 1.1.34) | [1.1.34, 1.2.287) | [1.2.287, 1.2.361) | [1.2.361, +∞) |
-|:-------------------|:-----------------|:---------------|:-----------|:-----------|
-| [0.8.30, 0.8.35)   | ❌                | ❌              | ❌          |❌          |
-| [0.8.35, 0.9.23)   | ✅                | ❌              | ❌          |❌          |
-| [0.9.23, 0.9.42)   | ✅                | ❌              | ❌          |❌          |
-| [0.9.42, 1.1.32)   | ✅                | ❌              | ❌          |❌          |
-| [1.1.32, 1.2.63)   | ✅                | ✅              | ❌          |❌          |
-| [1.2.63, 1.2.226)  | ✅                | ✅              | ❌          |❌          |
-| [1.2.226, 1.2.258) | ✅                | ✅              | ✅          |❌          |
-| [1.2.258, +∞)      | ✅                | ✅              | ✅          |✅          |
+| :----------------- | :--------------- | :---------------- | :----------------- | :------------ |
+| [0.8.30, 0.8.35)   | ❌               | ❌                | ❌                 | ❌            |
+| [0.8.35, 0.9.23)   | ✅               | ❌                | ❌                 | ❌            |
+| [0.9.23, 0.9.42)   | ✅               | ❌                | ❌                 | ❌            |
+| [0.9.42, 1.1.32)   | ✅               | ❌                | ❌                 | ❌            |
+| [1.1.32, 1.2.63)   | ✅               | ✅                | ❌                 | ❌            |
+| [1.2.63, 1.2.226)  | ✅               | ✅                | ❌                 | ❌            |
+| [1.2.226, 1.2.258) | ✅               | ✅                | ✅                 | ❌            |
+| [1.2.258, +∞)      | ✅               | ✅                | ✅                 | ✅            |
 
 History versions that are not included in the above chart:
 
 - Query `[0.7.59, 0.8.80)` is compatible with Meta `[0.8.30, 0.9.23)`.
 - Query `[0.8.80, 0.9.41)` is compatible with Meta `[0.8.35, 0.9.42)`.
 
-
-<img src="/img/deploy/compatibility.excalidraw.png"/>
+<img alt="Compatibility status" src="/img/deploy/compatibility.excalidraw.png"/>
 
 # Compatibility between databend-query
 
 ## Version Compatibility Matrix
 
-| Query version      | Backward compatible with  | Key Changes |
-|:-------------------|:--------------------------|:------------|
-| [-∞, 1.2.307)      | [-∞, 1.2.311)             | Original format |
-| [1.2.307, 1.2.311) | [-∞, 1.2.311)             | Added Role info with PB/JSON support |
-| [1.2.311, 1.2.709) | [1.2.307, +∞)             | Role info serialized to PB only |
-| [1.2.709, +∞)      | [1.2.709, +∞)             | **Important**: Fuse storage path changed |
+| Query version      | Backward compatible with | Key Changes                              |
+| :----------------- | :----------------------- | :--------------------------------------- |
+| [-∞, 1.2.307)      | [-∞, 1.2.311)            | Original format                          |
+| [1.2.307, 1.2.311) | [-∞, 1.2.311)            | Added Role info with PB/JSON support     |
+| [1.2.311, 1.2.709) | [1.2.307, +∞)            | Role info serialized to PB only          |
+| [1.2.709, +∞)      | [1.2.709, +∞)            | **Important**: Fuse storage path changed |
 
 ## Important Changes & Upgrade Instructions
 
 ### Version 1.2.307
+
 - Support deserialize Role info with PB and JSON
 - Only support serialize Role info to JSON
 - **Upgrade to this version first** if you're on an earlier version
 
 ### Version 1.2.311
+
 - Only support serialize Role info to PB
 - **Upgrade to this version next** after reaching 1.2.307
 - Example upgrade path: `1.2.306 -> 1.2.307 -> 1.2.311 -> 1.2.312`
 
 ### Version 1.2.709
+
 - **Important Change**: Fuse storage path modified
 - ⚠️ Versions before 1.2.709 may not be able to read some data from versions 1.2.709+
 - ⚠️ **Recommendation**: All nodes under the same tenant should be upgraded together
 - Avoid mixing nodes with versions before and after 1.2.709 to prevent potential data access issues
 
 ### Version 1.2.764
+
 - If you need specify a different storage location for `system_history` tables. All nodes under the same tenant need to be upgraded to 1.2.764+
 
 ## Compatibility between databend-meta
 
-| Meta version        | Backward compatible with |
-|:--------------------|:-------------------------|
-| [0.9.41,   1.2.212) | [0.9.41,  1.2.212)       |
-| [1.2.212,  1.2.479) | [0.9.41,  1.2.479)       |
-| [1.2.479,  1.2.655) | [1.2.288, 1.2.655)       |
-| [1.2.655, +∞)       | [1.2.288, +∞)            |
-
+| Meta version       | Backward compatible with |
+| :----------------- | :----------------------- |
+| [0.9.41, 1.2.212)  | [0.9.41, 1.2.212)        |
+| [1.2.212, 1.2.479) | [0.9.41, 1.2.479)        |
+| [1.2.479, 1.2.655) | [1.2.288, 1.2.655)       |
+| [1.2.655, +∞)      | [1.2.288, +∞)            |
 
 ![](@site/static/img/deploy/compat-meta-meta-1-2-655.svg)
 
@@ -182,16 +185,15 @@ History versions that are not included in the above chart:
 - `1.2.655` 2024-11-11 Introduce on-disk `V004`, using WAL based Raft log storage,
   which is compatible with `V002`. The oldest compatible version is `1.2.288`(`1.2.212~1.2.287` are removed).
 
-
 ## Compatibility of databend-meta on-disk data
 
 The on-disk data of Databend-meta evolves over time while maintaining backward compatibility.
 
 | DataVersion | Databend-version | Min Compatible with |
-|:------------|:-----------------|:--------------------|
-| V004        | 1.2.655          | V002                | 
-| V003        | 1.2.547          | V002                | 
-| V002        | 1.2.53           | V001                | 
+| :---------- | :--------------- | :------------------ |
+| V004        | 1.2.655          | V002                |
+| V003        | 1.2.547          | V002                |
+| V002        | 1.2.53           | V001                |
 | V001        | 1.1.40           | V0                  |
 
 ### Identifying the versions

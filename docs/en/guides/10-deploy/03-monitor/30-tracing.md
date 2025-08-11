@@ -235,12 +235,12 @@ tokio-console # for meta console, http://127.0.0.1:6669
 
 **databend-query**
 
-<img src="/img/tracing/query-console.png"/>
+<img alt="databend-query" src="/img/tracing/query-console.png"/>
 
 **databend-meta**
 
-<img src="/img/tracing/meta-console.png"/>
+<img alt="databend-meta" src="/img/tracing/meta-console.png"/>
 
 **task in console**
 
-<img src="/img/tracing/task-in-console.png"/>
+<img alt="task in console" src="/img/tracing/task-in-console.png"/>

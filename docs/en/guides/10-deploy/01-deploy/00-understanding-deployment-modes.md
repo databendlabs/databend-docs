@@ -24,7 +24,7 @@ Databend deployment provides two modes: standalone and cluster, each with differ
 
 In standalone mode, a standard configuration consists of a single Meta node and a single Query node. This minimal setup is suitable for testing purposes or small-scale deployments. However, it is important to note that standalone mode is not recommended for production environments due to its limited scalability and the absence of high availability features.
 
-<img src="/img/deploy/deploy-standalone-arch.png"/>
+<img alt="Standalone Deployment" src="/img/deploy/deploy-standalone-arch.png"/>
 
 In a Standalone Databend Deployment, it is possible to host both the Meta and Query nodes on a single server. The following topics in the documentation assist you in setting up and deploying a standalone Databend:
 
@@ -37,7 +37,7 @@ Cluster mode is designed for larger-scale deployments and provides enhanced capa
 
 In a Databend cluster, multiple Query nodes can be deployed, and it is possible to create a more powerful Query cluster by grouping specific Query nodes together (using Cluster IDs) for different query performance requirements. A Databend cluster has the capacity to accommodate multiple Query clusters. By default, Databend leverages computational concurrency to its maximum potential, allowing a single SQL query to utilize all available CPU cores within a single Query node. However, when utilizing a Query cluster, Databend takes advantage of concurrent scheduling and executes computations across the entire cluster. This approach maximizes system performance and provides enhanced computational capabilities.
 
-<img src="/img/deploy/deploy-cluster-arch.png"/>
+<img alt="Cluster Deployment" src="/img/deploy/deploy-cluster-arch.png"/>
 
 #### Query Cluster Size
 
