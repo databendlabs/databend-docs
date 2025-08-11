@@ -378,6 +378,10 @@ const siteRedirects = [
   {
     from: '/sql/sql-functions/vector-distance-functions/',
     to: '/sql/sql-functions/vector-functions/'
+  },
+  {
+    from: '/tutorials/load/automating_json_log_loading_with_vector/',
+    to: '/tutorials/load/automating-json-log-loading-with-vector/'
   }
 ];
 export default siteRedirects;

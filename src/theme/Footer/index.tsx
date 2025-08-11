@@ -98,7 +98,7 @@ function Footer() {
               { "@type": "WebPage", "url": "https://www.databend.com/apply/", "name": "Join the Databend Cloud for FREE" },
               { "@type": "WebPage", "url": "https://www.databend.com/contact-us/", "name": "Databend Support" },
               { "@type": "WebPage", "url": "https://www.databend.com/use-cases/", "name": "Databend Use Cases" },
-              { "@type": "WebPage", "url": "https://www.databend.com/blog", "name": "Databend Blog" },
+              { "@type": "WebPage", "url": "https://www.databend.com/blog/", "name": "Databend Blog" },
               { "@type": "WebPage", "url": "https://www.databend.com/about/", "name": "About Databend" },
               { "@type": "WebPage", "url": "https://www.databend.com/download/", "name": "Databend Download" },
               { "@type": "WebPage", "url": "https://www.databend.com/comparison/", "name": "Comparisons between Databend Cloud and Snowflake" },
