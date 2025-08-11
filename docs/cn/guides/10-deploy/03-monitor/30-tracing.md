@@ -1,41 +1,41 @@
 ---
-title: Tracing Databend
+title: 追踪 Databend
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.199"/>
+<FunctionDescription description="引入或更新于：v1.2.199"/>
 
-Databend 利用 Rust 的 tracing 生态系统，特别是 [tokio-tracing](https://github.com/tokio-rs/tracing)，用于日志记录和性能分析。
+Databend 利用 Rust 的追踪生态系统，特别是 [tokio-tracing](https://github.com/tokio-rs/tracing)，用于日志记录和性能分析。
 
-## 启用 Tracing
+## 启用追踪（Tracing）
 
-可以通过环境变量 `LOG_LEVEL` 或配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 在 Databend 中启用 Tracing。
+Databend 中的追踪（Tracing）可以通过环境变量 `LOG_LEVEL` 或配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 启用。
 
-### 使用环境变量启用
+### 通过环境变量启用
 
-1. 在您的系统上打开终端或命令提示符，然后导航到 `databend-query` 二进制文件所在的目录。
+1. 在系统上打开终端或命令提示符，然后导航到 `databend-query` 二进制文件所在的目录。
 
 ```bash
-# 将 "/path/to/databend" 替换为您系统上的实际路径
+# 将 "/path/to/databend" 替换为系统上的实际路径
 cd /path/to/databend
 ```
 
-2. 进入正确的目录后，运行以下命令来设置执行 databend-query 命令的日志级别。 根据您的具体要求调整日志级别。 在提供的示例中，DEBUG 用作说明性日志级别：
+2. 进入正确目录后，运行以下命令为 databend-query 命令的执行设置日志级别。请根据具体需求调整日志级别。示例中使用 DEBUG 作为示例日志级别：
 
 ```bash
 LOG_LEVEL=DEBUG ./databend-query
 ```
 
-3. 在跟踪查询的执行之前，在 Databend 中将 `max_threads` 设置为 1。 这确保了一个简化的环境，可以更轻松地跟踪和分析查询，从而有助于有效地进行故障排除和性能分析。
+3. 在追踪查询执行之前，请在 Databend 中将 `max_threads` 设置为 1。这可以确保一个简化的环境，从而更容易追踪和分析查询，有助于进行有效的故障排查和性能分析。
 
 ```sql
 SET max_threads=1;
 ```
 
-### 使用配置文件启用
+### 通过配置文件启用
 
-1. 将以下参数添加到配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中的 [log] 部分。 有关每个参数的详细说明，请参见 [[log.tracing] Section](../04-references/02-node-config/02-query-config.md#logtracing-section)。
+1. 将以下参数添加到配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 的 [log] 部分。有关每个参数的详细说明，请参阅 [[log.tracing] 部分](../04-references/02-node-config/02-query-config.md#logtracing-section)。
 
 ```toml title='databend-query.toml'
 ...
@@ -46,18 +46,17 @@ otlp_endpoint = "http://127.0.0.1:4317"
 ...
 ```
 
-2. 在跟踪查询的执行之前，在 Databend 中将 `max_threads` 设置为 1。 这确保了一个简化的环境，可以更轻松地跟踪和分析查询，从而有助于有效地进行故障排除和性能分析。
+2. 在追踪查询执行之前，请在 Databend 中将 `max_threads` 设置为 1。这可以确保一个简化的环境，从而更容易追踪和分析查询，有助于进行有效的故障排查和性能分析。
 
 ```sql
 SET max_threads=1;
 ```
 
-## Tracing 日志
+## 追踪日志
 
 :::note
-Databend 使用 [tokio-tracing](https://github.com/tokio-rs/tracing) 来跟踪日志，其中默认时区为 UTC，无法通过 Databend 时区设置进行更改，因此跟踪日志中的时间将始终为 UTC，并且不反映您的本地时间。
+Databend 使用 [tokio-tracing](https://github.com/tokio-rs/tracing) 来追踪日志，其默认时区为 UTC，且无法通过 Databend 的时区设置进行更改。因此，追踪日志中的时间将始终为 UTC 时间，而不会反映本地时间。
 :::
-
 
 ```sql
 [2021-06-10T08:40:36Z DEBUG clickhouse_srv::cmd] Got packet Query(QueryRequest { query_id: "bac2b254-6245-4cae-910d-3e5e979c8b68", client_info: QueryClientInfo { query_kind: 1, initial_user: "", initial_query_id: "", initial_address: "0.0.0.0:0", interface: 1, os_user: "bohu", client_hostname: "thinkpad", client_name: "ClickHouse ", client_version_major: 21, client_version_minor: 4, client_version_patch: 6, client_revision: 54447, http_method: 0, http_user_agent: "", quota_key: "" }, stage: 2, compression: 1, query: "SELECT sum(number+1)+1 from numbers(10000) where number>0 group by number%3;" })
@@ -189,25 +188,25 @@ Jun 10 16:40:36.168 DEBUG ThreadId(309) databend_query::pipelines::transforms::t
 Jun 10 16:40:36.168 DEBUG ThreadId(309) databend_query::pipelines::transforms::transform_projection: Projection cost: 241.864µs
 ```
 
-## 使用 tokio-console 探索和诊断
+## 使用 tokio-console 进行探索和诊断
 
-[tokio-console](https://github.com/tokio-rs/console) 是一个用于异步 Rust 程序的诊断和调试工具。请确保在使用前已安装该工具。
+[tokio-console](https://github.com/tokio-rs/console) 是一个用于异步 Rust 程序的诊断和调试工具。使用前请确保已安装该工具。
 
 ### 步骤
 
-1. 使用特定的 `RUSTFLAGS` 和 features 进行编译。我们可以使用 `--bin` 来指定二进制文件。
+1. 使用特定的 `RUSTFLAGS` 和功能进行编译。可使用 `--bin` 指定二进制文件。
 
    ```shell
    RUSTFLAGS="--cfg tokio_unstable" cargo build --features tokio-console
    ```
 
-2. 运行 `databend-meta` 或/和 `databend-query`，请记住将需要诊断的程序的日志级别设置为 `TRACE`。
+2. 运行 `databend-meta` 或/和 `databend-query`，记得将需要诊断的程序日志级别设为 `TRACE`。
 
    ```shell
    LOG_LEVEL=TRACE databend-query # 用于 query
    ```
 
-   或者
+   或
 
    ```shell
    databend-meta --single --log-level=TRACE # 用于 meta
@@ -221,27 +220,27 @@ Jun 10 16:40:36.168 DEBUG ThreadId(309) databend_query::pipelines::transforms::t
 
 ### 提示
 
-请注意，tokio-console 每次只支持对单个程序进行诊断，因此请确保**只有一个**程序的日志级别为 `TRACE`。否则，只有第一个占用端口的程序会被监控。
+请注意，tokio-console 一次仅支持对单个程序进行诊断，因此请确保**只有一个**程序的日志级别为 `TRACE`。否则，仅第一个占用端口的程序会被监控。
 
-如果需要同时诊断多个程序，可以考虑使用 `TOKIO_CONSOLE_BIND` 来分配不同的绑定，例如：
+如需同时诊断多个程序，可使用 `TOKIO_CONSOLE_BIND` 分配不同绑定，例如：
 
 ```shell
 TOKIO_CONSOLE_BIND=127.0.0.1:16667 LOG_LEVEL=TRACE target/debug/databend-query
-tokio-console http://127.0.0.1:16667 # 用于 query 控制台，http://127.0.0.1:16667
+tokio-console http://127.0.0.1:16667 # 用于 query 控制台，地址为 http://127.0.0.1:16667
 databend-meta --single --log-level=TRACE
-tokio-console # 用于 meta 控制台，http://127.0.0.1:6669
+tokio-console # 用于 meta 控制台，地址为 http://127.0.0.1:6669
 ```
 
 ### 示例
 
 **databend-query**
 
-<img src="/img/tracing/query-console.png"/>
+<img alt="databend-query" src="/img/tracing/query-console.png"/>
 
 **databend-meta**
 
-<img src="/img/tracing/meta-console.png"/>
+<img alt="databend-meta" src="/img/tracing/meta-console.png"/>
 
-**console 中的 task**
+**控制台中的任务**
 
-<img src="/img/tracing/task-in-console.png"/>
+<img alt="控制台中的任务" src="/img/tracing/task-in-console.png"/>
