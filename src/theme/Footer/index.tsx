@@ -123,12 +123,7 @@ function Footer() {
                 "offers": {
                   "@type": "Offer",
                   "priceCurrency": "USD",
-                  "price": "1",
-                  "url": "https://www.databend.com/pricing/"
-                },
-                "potentialAction": {
-                  "@type": "Action",
-                  "name": "Join the private beta for FREE",
+                  "price": 0,
                   "url": "https://www.databend.com/apply/"
                 }
               },
@@ -141,7 +136,7 @@ function Footer() {
                 "offers": {
                   "@type": "Offer",
                   "priceCurrency": "USD",
-                  "price": "1.5",
+                  "price": 1.5,
                   "url": "https://www.databend.com/databend-enterprise/"
                 }
               },
@@ -154,7 +149,7 @@ function Footer() {
                 "offers": {
                   "@type": "Offer",
                   "priceCurrency": "USD",
-                  "price": "0",
+                  "price": 0,
                   "url": "https://www.databend.com/databend/"
                 }
               }
@@ -173,19 +168,18 @@ function Footer() {
               "name": "Databend Blog",
               "description": "Databend's official blog, featuring articles on cloud-native data warehousing, analytics, and industry insights."
             },
-            "hasPart": {
+             "hasPart": [{
               "@type": "WebSite",
               "name": "Databend Documentation",
               "url": "https://docs.databend.com/",
-              "description": "The official documentation site for Databend, providing guides, tutorials, and resources for Databend users.",
-              "mainEntityOfPage": [
-                { "@type": "WebPage", "url": "https://docs.databend.com/guides/", "name": "Databend Guides" },
-                { "@type": "WebPage", "url": "https://docs.databend.com/tutorials/", "name": "Databend Tutorials" },
-                { "@type": "WebPage", "url": "https://docs.databend.com/developer/", "name": "Databend Developer Resources" },
-                { "@type": "WebPage", "url": "https://docs.databend.com/sql/", "name": "Databend SQL Reference" },
-                { "@type": "WebPage", "url": "https://docs.databend.com/release-notes/", "name": "Databend Release Notes" }
-              ]
-            }
+              "description": "The official documentation site for Databend, providing guides, tutorials, and resources for Databend users."
+            },
+            {
+              "@type": "Blog",
+              "url": "https://www.databend.com/blog",
+              "name": "Databend Blog",
+              "description": "Databend's official blog, featuring articles on cloud-native data warehousing, analytics, and industry insights."
+            }]
           }
           `}
           </script>
