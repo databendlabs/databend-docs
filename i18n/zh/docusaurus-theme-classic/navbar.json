@@ -23,6 +23,10 @@
     "message": "下载",
     "description": "Navbar item with label Downloads"
   },
+  "item.label.Integrations": {
+    "message": "集成",
+    "description": "Navbar item with label Integrations"
+  },
   "item.label.Developer": {
     "message": "开发者",
     "description": "Navbar item with label Developer"
