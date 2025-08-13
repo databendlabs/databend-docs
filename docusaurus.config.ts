@@ -173,7 +173,7 @@ const config: Config = {
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       {
         id: "integrations",
-        path: `./docs/${site}/Integrations`,
+        path: `./docs/${site}/integrations`,
         routeBasePath: "integrations",
         sidebarPath: require.resolve("./docs/en/sidebars.js"),
         editUrl: ({ locale, docPath }) => {
