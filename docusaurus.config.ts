@@ -169,6 +169,19 @@ const config: Config = {
       },
     ],
     [
+      "@docusaurus/plugin-content-docs",
+      /** @type {import('@docusaurus/plugin-content-docs').Options} */
+      {
+        id: "integrations",
+        path: `./docs/${site}/Integrations`,
+        routeBasePath: "integrations",
+        sidebarPath: require.resolve("./docs/en/sidebars.js"),
+        editUrl: ({ locale, docPath }) => {
+          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/integrations/${docPath}`;
+        },
+      },
+    ],
+    [
       "docusaurus-plugin-devserver",
       {
         devServer: {
@@ -241,6 +254,11 @@ const config: Config = {
         {
           to: "/sql/",
           label: "SQL Reference",
+          position: "right",
+        },
+        {
+          to: "/integrations/",
+          label: "Integrations",
           position: "right",
         },
         {
