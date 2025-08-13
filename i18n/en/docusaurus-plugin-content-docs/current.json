@@ -159,10 +159,6 @@
     "message": "System Tables",
     "description": "The label for category System Tables in sidebar docs"
   },
-  "sidebar.docs.category.Integrations": {
-    "message": "Integrations",
-    "description": "The label for category Integrations in sidebar docs"
-  },
   "sidebar.docs.category.Data Tools": {
     "message": "Data Tools",
     "description": "The label for category Data Tools in sidebar docs"
@@ -202,6 +198,10 @@
   "sidebar.docs.category.Releases": {
     "message": "Releases",
     "description": "The label for category Releases in sidebar docs"
+  },
+  "sidebar.docs.category.Integrations": {
+    "message": "Integrations",
+    "description": "The label for category Integrations in sidebar docs"
   },
   "sidebar.docs.category.Learn": {
     "message": "Learn",
