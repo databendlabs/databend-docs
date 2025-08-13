@@ -64,7 +64,8 @@ externalLocation ::=
   /* Amazon S3-like Storage */
   's3://<bucket>[/<path>]'
   CONNECTION = (
-    [ ENDPOINT_URL = '<endpoint-url>' ]
+    [ CONNECTION_NAME = '<connection-name>' ]
+    | [ ENDPOINT_URL = '<endpoint-url>' ]
     [ ACCESS_KEY_ID = '<your-access-key-ID>' ]
     [ SECRET_ACCESS_KEY = '<your-secret-access-key>' ]
     [ ENABLE_VIRTUAL_HOST_STYLE = TRUE | FALSE ]
@@ -78,7 +79,8 @@ externalLocation ::=
   /* Azure Blob Storage */
   | 'azblob://<container>[/<path>]'
     CONNECTION = (
-      ENDPOINT_URL = '<endpoint-url>'
+      [ CONNECTION_NAME = '<connection-name>' ]
+      | ENDPOINT_URL = '<endpoint-url>'
       ACCOUNT_NAME = '<account-name>'
       ACCOUNT_KEY = '<account-key>'
     )
@@ -86,13 +88,15 @@ externalLocation ::=
   /* Google Cloud Storage */
   | 'gcs://<bucket>[/<path>]'
     CONNECTION = (
-      CREDENTIAL = '<your-base64-encoded-credential>'
+      [ CONNECTION_NAME = '<connection-name>' ]
+      | CREDENTIAL = '<your-base64-encoded-credential>'
     )
   
   /* Alibaba Cloud OSS */
   | 'oss://<bucket>[/<path>]'
     CONNECTION = (
-      ACCESS_KEY_ID = '<your-ak>'
+      [ CONNECTION_NAME = '<connection-name>' ]
+      | ACCESS_KEY_ID = '<your-ak>'
       ACCESS_KEY_SECRET = '<your-sk>'
       ENDPOINT_URL = '<endpoint-url>'
       [ PRESIGN_ENDPOINT_URL = '<presign-endpoint-url>' ]
@@ -101,7 +105,8 @@ externalLocation ::=
   /* Tencent Cloud Object Storage */
   | 'cos://<bucket>[/<path>]'
     CONNECTION = (
-      SECRET_ID = '<your-secret-id>'
+      [ CONNECTION_NAME = '<connection-name>' ]
+      | SECRET_ID = '<your-secret-id>'
       SECRET_KEY = '<your-secret-key>'
       ENDPOINT_URL = '<endpoint-url>'
     )
@@ -183,13 +188,18 @@ For remote files, you can use glob patterns to specify multiple files. For examp
 
 The `FILE_FORMAT` parameter supports different file types, each with specific formatting options. Below are the available options for each supported file format:
 
-### Common Options for All Formats
+<Tabs>
+<TabItem value="common" label="Common Options" default>
+
+These options are available for all file formats:
 
 | Option | Description | Values | Default |
 |--------|-------------|--------|--------|
 | COMPRESSION | Compression algorithm for data files | AUTO, GZIP, BZ2, BROTLI, ZSTD, DEFLATE, RAW_DEFLATE, XZ, NONE | AUTO |
 
-### TYPE = CSV
+</TabItem>
+
+<TabItem value="csv" label="CSV">
 
 | Option | Description | Default |
 |--------|-------------|--------|
@@ -204,14 +214,18 @@ The `FILE_FORMAT` parameter supports different file types, each with specific fo
 | EMPTY_FIELD_AS | How to handle empty fields | null |
 | BINARY_FORMAT | Encoding format(HEX or BASE64) for binary data | HEX |
 
-### TYPE = TSV
+</TabItem>
+
+<TabItem value="tsv" label="TSV">
 
 | Option | Description | Default |
 |--------|-------------|--------|
 | RECORD_DELIMITER | Character(s) separating records | newline |
 | FIELD_DELIMITER | Character(s) separating fields | tab (\t) |
 
-### TYPE = NDJSON
+</TabItem>
+
+<TabItem value="ndjson" label="NDJSON">
 
 | Option | Description | Default |
 |--------|-------------|--------|
@@ -219,23 +233,32 @@ The `FILE_FORMAT` parameter supports different file types, each with specific fo
 | MISSING_FIELD_AS | How to handle missing fields | ERROR |
 | ALLOW_DUPLICATE_KEYS | Allow duplicate object keys | FALSE |
 
-### TYPE = PARQUET
+</TabItem>
+
+<TabItem value="parquet" label="PARQUET">
 
 | Option | Description | Default |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | How to handle missing fields | ERROR |
 
-### TYPE = ORC
+</TabItem>
+
+<TabItem value="orc" label="ORC">
 
 | Option | Description | Default |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | How to handle missing fields | ERROR |
 
-### TYPE = AVRO
+</TabItem>
+
+<TabItem value="avro" label="AVRO">
 
 | Option | Description | Default |
 |--------|-------------|--------|
 | MISSING_FIELD_AS | How to handle missing fields | ERROR |
+
+</TabItem>
+</Tabs>
 
 ## Copy Options
 
@@ -269,6 +292,10 @@ COPY INTO provides a summary of the data loading results with these columns:
 If `RETURN_FAILED_ONLY` is set to `true`, the output will only contain the files that failed to load.
 
 ## Examples
+
+:::tip Best Practice
+For external storage sources, it's recommended to use pre-created connections with the `CONNECTION_NAME` parameter instead of specifying credentials directly in the COPY statement. This approach provides better security, maintainability, and reusability. See [CREATE CONNECTION](../00-ddl/13-connection/create-connection.md) for details on creating connections.
+:::
 
 ### Example 1: Loading from Stages
 
@@ -314,16 +341,19 @@ These examples showcase data loading into Databend from various types of externa
 <Tabs groupId="external-example">
 <TabItem value="Amazon S3" label="Amazon S3">
 
-This example establishes a connection to Amazon S3 using AWS access keys and secrets, and it loads 10 rows from a CSV file:
+This example uses a pre-created connection to load data from Amazon S3:
 
 ```sql
--- Authenticated by AWS access keys and secrets.
+-- First create a connection (you only need to do this once)
+CREATE CONNECTION my_s3_conn 
+    STORAGE_TYPE = 's3' 
+    ACCESS_KEY_ID = '<your-access-key-ID>'
+    SECRET_ACCESS_KEY = '<your-secret-access-key>';
+
+-- Use the connection to load data
 COPY INTO mytable
     FROM 's3://mybucket/data.csv'
-    CONNECTION = (
-        ACCESS_KEY_ID = '<your-access-key-ID>',
-        SECRET_ACCESS_KEY = '<your-secret-access-key>'
-    )
+    CONNECTION = (CONNECTION_NAME = 'my_s3_conn')
     FILE_FORMAT = (
         TYPE = CSV,
         FIELD_DELIMITER = ',',
@@ -333,19 +363,20 @@ COPY INTO mytable
     SIZE_LIMIT = 10;
 ```
 
-This example connects to Amazon S3 using AWS IAM role authentication with an external ID and loads CSV files matching the specified pattern from 'mybucket':
+**Using IAM Role (Recommended for Production)**
 
 ```sql
--- Authenticated by AWS IAM role and external ID.
+-- Create connection using IAM role (more secure, recommended for production)
+CREATE CONNECTION my_iam_conn 
+    STORAGE_TYPE = 's3' 
+    ROLE_ARN = 'arn:aws:iam::123456789012:role/my_iam_role';
+
+-- Load CSV files using the IAM role connection
 COPY INTO mytable
     FROM 's3://mybucket/'
-    CONNECTION = (
-        ENDPOINT_URL = 'https://<endpoint-URL>',
-        ROLE_ARN = 'arn:aws:iam::123456789012:role/my_iam_role',
-        EXTERNAL_ID = '123456'
-    )
+    CONNECTION = (CONNECTION_NAME = 'my_iam_conn')
     PATTERN = '.*[.]csv'
-        FILE_FORMAT = (
+    FILE_FORMAT = (
         TYPE = CSV,
         FIELD_DELIMITER = ',',
         RECORD_DELIMITER = '\n',
@@ -360,14 +391,42 @@ COPY INTO mytable
 This example connects to Azure Blob Storage and loads data from 'data.csv' into Databend:
 
 ```sql
+-- Create connection for Azure Blob Storage
+CREATE CONNECTION my_azure_conn 
+    STORAGE_TYPE = 'azblob' 
+    ENDPOINT_URL = 'https://<account_name>.blob.core.windows.net'
+    ACCOUNT_NAME = '<account_name>'
+    ACCOUNT_KEY = '<account_key>';
+
+-- Use the connection to load data
 COPY INTO mytable
     FROM 'azblob://mybucket/data.csv'
-    CONNECTION = (
-        ENDPOINT_URL = 'https://<account_name>.blob.core.windows.net',
-        ACCOUNT_NAME = '<account_name>',
-        ACCOUNT_KEY = '<account_key>'
-    )
+    CONNECTION = (CONNECTION_NAME = 'my_azure_conn')
     FILE_FORMAT = (type = CSV);
+```
+
+</TabItem>
+
+<TabItem value="Google Cloud Storage" label="Google Cloud Storage">
+
+This example connects to Google Cloud Storage and loads data:
+
+```sql
+-- Create connection for Google Cloud Storage
+CREATE CONNECTION my_gcs_conn 
+    STORAGE_TYPE = 'gcs' 
+    CREDENTIAL = '<your-base64-encoded-credential>';
+
+-- Use the connection to load data
+COPY INTO mytable
+    FROM 'gcs://mybucket/data.csv'
+    CONNECTION = (CONNECTION_NAME = 'my_gcs_conn')
+    FILE_FORMAT = (
+        TYPE = CSV,
+        FIELD_DELIMITER = ',',
+        RECORD_DELIMITER = '\n',
+        SKIP_HEADER = 1
+    );
 ```
 
 </TabItem>
@@ -411,13 +470,16 @@ COPY INTO mytable
 This example loads a GZIP-compressed CSV file on Amazon S3 into Databend:
 
 ```sql
+-- Create connection for compressed data loading
+CREATE CONNECTION compressed_s3_conn 
+    STORAGE_TYPE = 's3' 
+    ACCESS_KEY_ID = '<your-access-key-ID>'
+    SECRET_ACCESS_KEY = '<your-secret-access-key>';
+
+-- Load GZIP-compressed CSV file using the connection
 COPY INTO mytable
     FROM 's3://mybucket/data.csv.gz'
-    CONNECTION = (
-        ENDPOINT_URL = 'https://<endpoint-URL>',
-        ACCESS_KEY_ID = '<your-access-key-ID>',
-        SECRET_ACCESS_KEY = '<your-secret-access-key>'
-    )
+    CONNECTION = (CONNECTION_NAME = 'compressed_s3_conn')
     FILE_FORMAT = (
         TYPE = CSV,
         FIELD_DELIMITER = ',',
@@ -432,8 +494,16 @@ COPY INTO mytable
 This example demonstrates how to load CSV files from Amazon S3 using pattern matching with the PATTERN parameter. It filters files with 'sales' in their names and '.csv' extensions:
 
 ```sql
+-- Create connection for pattern-based file loading
+CREATE CONNECTION pattern_s3_conn 
+    STORAGE_TYPE = 's3' 
+    ACCESS_KEY_ID = '<your-access-key-ID>'
+    SECRET_ACCESS_KEY = '<your-secret-access-key>';
+
+-- Load CSV files with 'sales' in their names using pattern matching
 COPY INTO mytable
     FROM 's3://mybucket/'
+    CONNECTION = (CONNECTION_NAME = 'pattern_s3_conn')
     PATTERN = '.*sales.*[.]csv'
     FILE_FORMAT = (
         TYPE = CSV,
@@ -445,11 +515,12 @@ COPY INTO mytable
 
 Where `.*` is interpreted as zero or more occurrences of any character. The square brackets escape the period character `.` that precedes a file extension.
 
-To load from all the CSV files:
+To load from all the CSV files using a connection:
 
 ```sql
 COPY INTO mytable
     FROM 's3://mybucket/'
+    CONNECTION = (CONNECTION_NAME = 'pattern_s3_conn')
     PATTERN = '.*[.]csv'
     FILE_FORMAT = (
         TYPE = CSV,
@@ -457,7 +528,6 @@ COPY INTO mytable
         RECORD_DELIMITER = '\n',
         SKIP_HEADER = 1
     );
-
 ```
 
 When specifying the pattern for a file path including multiple folders, consider your matching criteria:
@@ -605,7 +675,7 @@ DESC t2;
 An error would occur when attempting to load the data into a table:
 
 ```sql
-root@localhost:8000/default>  COPY INTO t2 FROM @~/invalid_json_string.parquet FILE_FORMAT = (TYPE = PARQUET) ON_ERROR = CONTINUE;
+COPY INTO t2 FROM @~/invalid_json_string.parquet FILE_FORMAT = (TYPE = PARQUET) ON_ERROR = CONTINUE;
 error: APIError: ResponseError with 1006: EOF while parsing a value, pos 3 while evaluating function `parse_json('[1,')`
 ```
 
