@@ -284,3 +284,10 @@
 .ant-image-error {
   display: none;
 }
+button.clean-btn {
+  &:hover {
+    svg {
+      color: #fff;
+    }
+  }
+}
