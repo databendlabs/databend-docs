@@ -14,6 +14,7 @@ The *join* combines columns from two or more tables into a single result set. Da
 * [Full Outer Join](#full-outer-join)
 * [Left / Right Semi-Join](#left--right-semi-join)
 * [Left / Right Anti-Join](#left--right-anti-join)
+* [AsOf Join](#asof-join)
 
 ## Example Tables
 
