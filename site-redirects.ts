@@ -36,10 +36,6 @@ const siteRedirects = [
     from: '/guides/migrate/mysql',
     to: '/tutorials/migrate/migrating-from-mysql-with-db-archiver'
   },
-  {
-    from: '/en/guides/deploy/upgrade/upgrade',
-    to: '/guides/deploy/upgrade/compatibility/'
-  },
   // Array Functions: 00-array-functions -> 10-semi-structured-functions/array
   {
     from: '/sql/sql-functions/array-functions/array-aggregate',
@@ -384,10 +380,6 @@ const siteRedirects = [
     to: '/tutorials/load/automating-json-log-loading-with-vector/'
   },
   // loading data
-  {
-    from: '/en/sql/sql-functions/table-functions/infer-schema',
-    to: '/sql/sql-functions/table-functions/infer-schema',
-  },
   {
     from: '/guides/load-data/transform/querying-metadata',
     to: '/tutorials/load/query-metadata'
