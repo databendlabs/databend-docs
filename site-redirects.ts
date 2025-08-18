@@ -385,6 +385,10 @@ const siteRedirects = [
   },
   // loading data
   {
+    from: '/en/sql/sql-functions/table-functions/infer-schema',
+    to: '/sql/sql-functions/table-functions/infer-schema',
+  },
+  {
     from: '/guides/load-data/transform/querying-metadata',
     to: '/tutorials/load/query-metadata'
   }
