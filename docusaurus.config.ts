@@ -206,9 +206,6 @@ const config: Config = {
           if (existingPath?.includes('/developer/community/rfcs/')) {
             return existingPath.replace('/developer/community/rfcs/', '/guides/community/rfcs/');
           }
-          if (existingPath?.includes('/sql/')) {
-            return existingPath.replace('/sql/', '/en/sql/');
-          }
           return undefined;
         }
       }
