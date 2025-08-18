@@ -10,6 +10,8 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 This page provides information about recent features, enhancements, and bug fixes for <a href="https://github.com/databendlabs/databend">Databend</a>.
 
+
+
 import MD1 from '@site/docs/release-stable/2025-04-21_v1.2.725.md';
 import MD2 from '@site/docs/release-stable/2025-02-14_v1.2.697.md';
 import MD3 from '@site/docs/release-stable/2025-01-02_v1.2.680.md';
@@ -28,7 +30,10 @@ import MD15 from '@site/docs/release-stable/2023-12-30_v1.2.275.md';
 import MD16 from '@site/docs/release-stable/2023-12-20_v1.2.262.md';
 import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
-<StepsWrap>
+
+<StepsWrap> 
+
+
 
 <StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.725" number="-1">
 
@@ -166,4 +171,4 @@ import MD17 from '@site/docs/release-stable/2023-12-13_v1.2.233.md';
 
 </StepContent>
 
-</StepsWrap>
+</StepsWrap> 

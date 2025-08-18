@@ -30,6 +30,7 @@ function Footer() {
     },
   } = useDocusaurusContext() as any;
   useMount(() => {
+    redirectPathname();
     if (ExecutionEnvironment.canUseDOM) {
       CookieConsent.run(pluginConfig);
       const html = document.documentElement;
@@ -59,6 +60,31 @@ function Footer() {
       };
     }
   });
+  function redirectPathname() {
+    const pathname = window.location.pathname;
+    const redirectRules = isChina
+      ? {
+          "/en/sql/": "/sql/",
+          "/en/developer/": "/developer/",
+          "/en/tutorials/": "/tutorials/",
+          "/en/guides/": "/guides/",
+        }
+      : {
+          "/zh/sql/": "/sql/",
+          "/zh/developer/": "/developer/",
+          "/zh/tutorials/": "/tutorials/",
+          "/zh/guides/": "/guides/",
+        };
+    const prefix = isChina ? "/en/" : "/zh/";
+    if (!pathname?.startsWith(prefix)) return;
+    for (let key in redirectRules) {
+      if (pathname.startsWith(key)) {
+        const newPathname = pathname.replace(key, redirectRules[key]);
+        window.location.href = newPathname;
+      }
+    }
+  }
+
   return (
     <footer className={clsx("footer", styles.footer)}>
       <Head>
