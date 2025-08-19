@@ -6,25 +6,43 @@ Structured and semi-structured functions in Databend enable efficient processing
 
 ## JSON Functions
 
+### Parsing & Validation
 | Function | Description | Example |
 |----------|-------------|--------|
 | [PARSE_JSON](json/parse-json) | Parses a JSON string into a variant value | `PARSE_JSON('[1,2,3]')` |
 | [CHECK_JSON](json/check-json) | Validates if a string is valid JSON | `CHECK_JSON('{"a":1}')` |
 | [JSON_TYPEOF](json/json-typeof) | Returns the type of a JSON value | `JSON_TYPEOF(PARSE_JSON('[1,2,3]'))` |
-| [JSON_TO_STRING](json/json-to-string) | Converts a JSON value to a string | `JSON_TO_STRING(PARSE_JSON('{"a":1}'))` |
+
+### Path-based Querying
+| Function | Description | Example |
+|----------|-------------|--------|
 | [JSON_PATH_EXISTS](json/json-path-exists) | Checks if a JSON path exists | `JSON_PATH_EXISTS(json_obj, '$.name')` |
-| [JSON_PATH_MATCH](json/json-path-match) | Matches JSON values against a path pattern | `JSON_PATH_MATCH(json_obj, '$.age')` |
 | [JSON_PATH_QUERY](json/json-path-query) | Queries JSON data using JSONPath | `JSON_PATH_QUERY(json_obj, '$.items[*]')` |
 | [JSON_PATH_QUERY_ARRAY](json/json-path-query-array) | Queries JSON data and returns results as an array | `JSON_PATH_QUERY_ARRAY(json_obj, '$.items')` |
 | [JSON_PATH_QUERY_FIRST](json/json-path-query-first) | Returns the first result from a JSON path query | `JSON_PATH_QUERY_FIRST(json_obj, '$.items[*]')` |
-| [JSON_EXTRACT_PATH_TEXT](json/json-extract-path-text) | Extracts text value from JSON using path | `JSON_EXTRACT_PATH_TEXT(json_obj, 'name')` |
+| [JSON_PATH_MATCH](json/json-path-match) | Matches JSON values against a path pattern | `JSON_PATH_MATCH(json_obj, '$.age')` |
+| [JQ](json/jq) | Advanced JSON processing using jq syntax | `JQ('.name', json_obj)` |
+
+### Value Extraction
+| Function | Description | Example |
+|----------|-------------|--------|
 | [GET](json/get) | Gets a value from a JSON object by key or array by index | `GET(PARSE_JSON('[1,2,3]'), 0)` |
 | [GET_PATH](json/get-path) | Gets a value from a JSON object using a path expression | `GET_PATH(json_obj, 'user.name')` |
 | [GET_IGNORE_CASE](json/get-ignore-case) | Gets a value with case-insensitive key matching | `GET_IGNORE_CASE(json_obj, 'NAME')` |
-| [JSON_EACH](json/json-each) | Expands JSON object into key-value pairs | `JSON_EACH(PARSE_JSON('{"a":1,"b":2}'))` |
-| [JSON_ARRAY_ELEMENTS](json/json-array-elements) | Expands JSON array into individual elements | `JSON_ARRAY_ELEMENTS(PARSE_JSON('[1,2,3]'))` |
+| [JSON_EXTRACT_PATH_TEXT](json/json-extract-path-text) | Extracts text value from JSON using path | `JSON_EXTRACT_PATH_TEXT(json_obj, 'name')` |
+
+### Transformation & Output
+| Function | Description | Example |
+|----------|-------------|--------|
+| [JSON_TO_STRING](json/json-to-string) | Converts a JSON value to a string | `JSON_TO_STRING(PARSE_JSON('{"a":1}'))` |
 | [JSON_PRETTY](json/json-pretty) | Formats JSON with proper indentation | `JSON_PRETTY(PARSE_JSON('{"a":1}'))` |
 | [STRIP_NULL_VALUE](json/strip-null-value) | Removes null values from JSON | `STRIP_NULL_VALUE(PARSE_JSON('{"a":1,"b":null}'))` |
+
+### Array/Object Expansion
+| Function | Description | Example |
+|----------|-------------|--------|
+| [JSON_EACH](json/json-each) | Expands JSON object into key-value pairs | `JSON_EACH(PARSE_JSON('{"a":1,"b":2}'))` |
+| [JSON_ARRAY_ELEMENTS](json/json-array-elements) | Expands JSON array into individual elements | `JSON_ARRAY_ELEMENTS(PARSE_JSON('[1,2,3]'))` |
 
 ## Array Functions
 
