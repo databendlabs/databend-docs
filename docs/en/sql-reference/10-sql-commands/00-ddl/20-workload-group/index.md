@@ -16,9 +16,15 @@ Workload groups enable resource management and query concurrency control in Data
 -- Create workload group
 CREATE WORKLOAD GROUP analytics WITH cpu_quota = '50%', memory_quota = '30%', max_concurrency = 5;
 
--- Assign user to workload group
+-- Create user and grant permissions
 CREATE USER analyst IDENTIFIED BY 'password';
+GRANT ALL ON *.* TO analyst;
+
+-- Assign user to workload group
 ALTER USER analyst WITH SET WORKLOAD GROUP = 'analytics';
+
+-- Remove user from workload group (user will use default unlimited resources)
+ALTER USER analyst WITH UNSET WORKLOAD GROUP;
 ```
 
 ## Command Reference

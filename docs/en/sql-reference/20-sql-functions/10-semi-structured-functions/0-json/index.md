@@ -37,6 +37,9 @@ This section provides reference information for JSON functions in Databend. JSON
 
 | Function | Description | Example |
 |----------|-------------|---------|
+| [GET](get) | Extracts value from JSON by index or field name | `GET('{"name":"John"}', 'name')` → `"John"` |
+| [GET_IGNORE_CASE](get-ignore-case) | Extracts value with case-insensitive field matching | `GET_IGNORE_CASE('{"Name":"John"}', 'name')` → `"John"` |
+| [GET_PATH](get-path) | Extracts value using path notation | `GET_PATH('{"user":{"name":"John"}}', 'user.name')` → `"John"` |
 | [JSON_EXTRACT_PATH_TEXT](json-extract-path-text) | Extracts text value from JSON using path | `JSON_EXTRACT_PATH_TEXT('{"name":"John"}', 'name')` → `'John'` |
 | [JSON_EACH](json-each) | Expands JSON object into key-value pairs | `JSON_EACH('{"a":1,"b":2}')` → `[("a",1),("b",2)]` |
 | [JSON_ARRAY_ELEMENTS](json-array-elements) | Expands JSON array into individual elements | `JSON_ARRAY_ELEMENTS('[1,2,3]')` → `1, 2, 3` |
