@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.558"/>
 
-Lists all user-defined functions (UDFs), including their names, types, descriptions, arguments, languages, and creation timestamps.
+Lists all user-defined functions (UDFs) and Tabular SQL UDFs (UDTFs), including their names, types, descriptions, arguments, languages, and creation timestamps.
 
 ## Syntax
 
