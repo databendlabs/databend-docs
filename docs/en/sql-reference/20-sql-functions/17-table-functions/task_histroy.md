@@ -15,9 +15,11 @@ TASK_HISTORY(
       [, ROOT_TASK_ID => '<string>'] )
 ```
 
-
-
 ## Arguments
+
+:::note
+When the Private Task feature is enabled, Arguments are not supported.
+:::
 
 All the arguments are optional.
 
