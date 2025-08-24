@@ -21,4 +21,10 @@ DICT_GET([db_name.]<dict_name>, '<attr_name>', <key_expr>)
 
 ## Examples
 
-See [Usage Example](/guides/query/dictionary#usage-example).
+This example demonstrates how to use DICT_GET to retrieve values from a dictionary:
+
+```sql
+-- Assume we have a dictionary named 'user_info' with 'user_id' as key
+-- and 'name' as an attribute
+SELECT DICT_GET('user_info', 'name', 12345);
+```

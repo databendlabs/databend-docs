@@ -29,7 +29,7 @@ $$;
 | `<procedure_name>`                      | Name of the procedure.                                                                                                    |
 | `<parameter_name> <data_type>`          | Input parameters (optional), each with a specified data type. Multiple parameters can be defined and separated by commas. |
 | `RETURNS <return_data_type> [NOT NULL]` | Specifies the data type of the return value. `NOT NULL` ensures the returned value cannot be NULL.                        |
-| `LANGUAGE`                              | Specifies the language in which the procedure body is written. Currently, only `SQL` is supported. For details, see [SQL Scripting](/guides/query/stored-procedure#sql-scripting).                       |
+| `LANGUAGE`                              | Specifies the language in which the procedure body is written. Currently, only `SQL` is supported.                       |
 | `COMMENT`                               | Optional text describing the procedure.                                                                                   |
 | `AS ...`                                | Encloses the procedure body, which contains SQL statements, variable declarations, loops, and a  RETURN statement.        |
 

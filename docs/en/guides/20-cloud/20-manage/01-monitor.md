@@ -27,7 +27,7 @@ The **SQL History** tab displays a list of SQL statements that have been execute
 Clicking a record on the **SQL History** page reveals detailed information on how Databend Cloud executed the SQL statement, providing access to the following tabs:
 
 - **Query Details**: Includes Query State (success or failure), Rows Scanned, Warehouse, Bytes Scanned, Start Time, End Time, and Handler Type.
-- **Query Profile**: Illustrates how the SQL statement was executed. For more information, see [Query Profile](/guides/query/query-profile).
+- **Query Profile**: Illustrates how the SQL statement was executed.
 
 ## Task History
 
