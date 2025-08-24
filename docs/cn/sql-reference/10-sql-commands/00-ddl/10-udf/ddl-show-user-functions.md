@@ -1,18 +1,29 @@
 ---
 title: SHOW USER FUNCTIONS
-sidebar_position: 1
+sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.558"/>
+<FunctionDescription description="引入或更新于：v1.2.558"/>
 
-列出所有用户定义函数 (UDF)，包括它们的名称、类型、描述、参数、语言和创建时间戳。
+列出所有用户定义函数（User-Defined Function，UDF），包括标量函数（Scalar Function）、表函数（Table Function）、嵌入式函数（Embedded Function）和外部函数（External Function）。
 
 ## 语法
 
 ```sql
 SHOW USER FUNCTIONS
 ```
+
+## 输出列
+
+| 列 | 描述 |
+|--------|-------------|
+| `name` | 函数名称 |
+| `is_aggregate` | 是否为聚合函数（对于 UDF 为 NULL） |
+| `description` | 函数描述（如果提供） |
+| `arguments` | 函数参数，以 JSON 格式表示 |
+| `language` | 编程语言：SQL、python、javascript、wasm 或 external |
+| `created_on` | 函数创建时间戳 |
 
 ## 示例
 
