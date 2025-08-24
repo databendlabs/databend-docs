@@ -383,6 +383,52 @@ const siteRedirects = [
   {
     from: '/guides/load-data/transform/querying-metadata',
     to: '/tutorials/load/query-metadata'
+  },
+  // Query guide restructuring - moved from flat to hierarchical structure
+  {
+    from: '/guides/query/filtering-selection',
+    to: '/guides/query/basics/filtering-selection'
+  },
+  {
+    from: '/guides/query/aggregating-data',
+    to: '/guides/query/basics/aggregating-data'
+  },
+  {
+    from: '/guides/query/joins',
+    to: '/guides/query/combining-data/joins'
+  },
+  {
+    from: '/guides/query/cte',
+    to: '/guides/query/combining-data/cte'
+  },
+  {
+    from: '/guides/query/udf',
+    to: '/guides/query/advanced/udf'
+  },
+  {
+    from: '/guides/query/external-function',
+    to: '/guides/query/advanced/external-function'
+  },
+  {
+    from: '/guides/query/stored-procedure',
+    to: '/guides/query/advanced/stored-procedure'
+  },
+  {
+    from: '/guides/query/sequences',
+    to: '/guides/query/advanced/sequences'
+  },
+  {
+    from: '/guides/query/query-profile',
+    to: '/guides/query/optimization/query-profile'
+  },
+  {
+    from: '/guides/query/query-hash',
+    to: '/guides/query/optimization/query-hash'
+  },
+  // Dictionary page removed - redirect to advanced features index
+  {
+    from: '/guides/query/dictionary',
+    to: '/guides/query/advanced/'
   }
 ];
 export default siteRedirects;
