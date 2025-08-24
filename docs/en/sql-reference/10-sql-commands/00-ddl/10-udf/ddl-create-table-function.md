@@ -1,12 +1,12 @@
 ---
-title: CREATE FUNCTION (Table Function)
-sidebar_position: 2
+title: CREATE TABLE FUNCTION
+sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.600"/>
+<FunctionDescription description="Introduced or updated: v1.2.799"/>
 
-Creates a Tabular SQL UDF (UDTF) that encapsulates SQL queries as a table function. Currently supports SQL-based table functions only.
+Creates a Tabular SQL UDF (UDTF) that encapsulates SQL queries as a table function. Uses the same unified `$$` syntax as scalar functions for consistency. Currently supports SQL-based table functions only.
 
 ## Syntax
 
@@ -18,9 +18,20 @@ CREATE [ OR REPLACE ] FUNCTION [ IF NOT EXISTS ] <function_name>
 ```
 
 Where:
-- `<parameter_list>`: Optional comma-separated list of input parameters with their types
+- `<parameter_list>`: Optional comma-separated list of input parameters with their types (e.g., `x INT, name VARCHAR`)
 - `<column_definition_list>`: Comma-separated list of column names and their types that the function returns
 - `<sql_statement>`: The SQL query that defines the function logic
+
+## Unified Function Syntax
+
+Databend uses a unified `$$` syntax for both scalar and table functions:
+
+| Function Type | Returns | Usage |
+|---------------|---------|-------|
+| **Scalar Function** | Single value | `RETURNS <type>` + `AS $$ <expression> $$` |
+| **Table Function** | Result set | `RETURNS TABLE(...)` + `AS $$ <query> $$` |
+
+This consistency makes it easy to understand and switch between function types.
 
 ## Examples
 

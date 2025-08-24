@@ -1,18 +1,29 @@
 ---
 title: SHOW USER FUNCTIONS
-sidebar_position: 1
+sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.558"/>
 
-Lists all user-defined functions (UDFs) and Tabular SQL UDFs (UDTFs), including their names, types, descriptions, arguments, languages, and creation timestamps.
+Lists all user-defined functions including scalar functions, table functions, embedded functions, and external functions.
 
 ## Syntax
 
 ```sql
 SHOW USER FUNCTIONS
 ```
+
+## Output Columns
+
+| Column | Description |
+|--------|-------------|
+| `name` | Function name |
+| `is_aggregate` | Whether it's an aggregate function (NULL for UDFs) |
+| `description` | Function description if provided |
+| `arguments` | Function parameters in JSON format |
+| `language` | Programming language: SQL, python, javascript, wasm, or external |
+| `created_on` | Function creation timestamp |
 
 ## Examples
 
