@@ -2,7 +2,7 @@
 title: Query Data in Databend
 ---
 
-Databend supports standard SQL with ANSI SQL:2003 analytics extensions. This guide covers essential query techniques from basic to advanced, organized by learning path.
+Databend supports standard SQL with ANSI SQL:2003 analytics extensions. This guide covers essential query techniques from basic to advanced, organized by learning path for optimal understanding.
 
 ## Learning Path
 
