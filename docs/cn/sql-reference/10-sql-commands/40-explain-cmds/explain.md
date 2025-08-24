@@ -2,9 +2,9 @@
 title: EXPLAIN
 ---
 
-显示 SQL 语句的执行计划。执行计划显示为一棵由不同算子组成的树，您可以在其中看到 Databend 将如何执行 SQL 语句。一个算子通常包含一个或多个字段，用于描述 Databend 将执行的操作或与查询相关的对象。
+显示 SQL 语句的执行计划。执行计划以树状结构展示，由不同的算子（Operator）组成，从中可以看到 Databend 将如何执行该 SQL 语句。一个算子（Operator）通常包含一个或多个字段，用于描述 Databend 将执行的操作或与查询相关的对象。
 
-例如，由 EXPLAIN 命令返回的以下执行计划包括一个名为 *TableScan* 的算子，其中包含多个字段。有关常见算子和字段的列表，请参见 [常见算子和字段](/guides/query/query-profile#common-operators--fields)。
+例如，以下 EXPLAIN 命令返回的执行计划包含一个名为 *TableScan* 的算子（Operator），该算子（Operator）包含多个字段。
 
 ```sql
 EXPLAIN SELECT * FROM allemployees;
@@ -19,7 +19,7 @@ TableScan
 └── push downs: [filters: [], limit: NONE]
 ```
 
-如果您正在使用 Databend Cloud，则可以利用查询 Profile 功能来可视化 SQL 语句的执行计划。有关更多信息，请参见 [查询 Profile](/guides/query/query-profile)。
+如果你正在使用 Databend Cloud，可以利用查询分析（Query Profile）功能来可视化 SQL 语句的执行计划。
 
 ## 语法
 

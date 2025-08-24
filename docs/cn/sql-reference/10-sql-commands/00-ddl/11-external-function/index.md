@@ -2,20 +2,16 @@
 title: 外部函数（External Function）
 ---
 
-本文档全面介绍 Databend 中的外部函数操作，按功能分类组织以便查阅。
+本页面全面概述了 Databend 中的外部函数（External Function）操作，并按功能进行组织，方便参考。
 
-## 外部函数管理
+## 外部函数（External Function）管理
 
 | 命令 | 描述 |
 |---------|-------------|
-| [CREATE EXTERNAL FUNCTION](ddl-create-function.md) | 创建新的外部函数 |
-| [ALTER EXTERNAL FUNCTION](ddl-alter-function.md) | 修改现有外部函数 |
-| [DROP EXTERNAL FUNCTION](ddl-drop-function.md) | 删除外部函数 |
-
-## 相关主题
-
-- [外部函数](/guides/query/external-function)
+| [CREATE EXTERNAL FUNCTION](ddl-create-function.md) | 创建一个新的外部函数（External Function） |
+| [ALTER EXTERNAL FUNCTION](ddl-alter-function.md) | 修改一个现有的外部函数（External Function） |
+| [DROP EXTERNAL FUNCTION](ddl-drop-function.md) | 移除一个外部函数（External Function） |
 
 :::note
-Databend 的外部函数支持通过 HTTP/HTTPS 端点与外部服务集成，从而扩展系统功能并利用外部计算资源。
+Databend 中的外部函数（External Function）允许你通过与 HTTP/HTTPS 端点集成的外部服务来扩展功能，从而利用外部处理能力。
 :::
