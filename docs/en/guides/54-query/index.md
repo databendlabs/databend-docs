@@ -2,47 +2,123 @@
 title: Query Data in Databend
 ---
 
-Databend supports standard SQL with ANSI SQL:1999 and SQL:2003 analytic extensions. This section covers query techniques, optimization tools, and advanced features for efficient data processing.
+Databend supports standard SQL with ANSI SQL:2003 analytics extensions. This guide covers essential query techniques from basic to advanced, organized by learning path for optimal understanding.
 
-## Core Query Features
+## Learning Path
 
-| Feature | Description | Key Benefits |
-|---------|-------------|--------------|
-| [**Common Table Expressions (CTE)**](00-cte.md) | Define named temporary result sets with WITH clause | Improved query readability, reusable subqueries |
-| [**JOIN**](02-join.md) | Combine data from multiple tables | Support for Inner, Outer, Cross, Semi, and Anti joins |
-| [**GROUP BY**](01-groupby/index.md) | Group and aggregate data with extensions | CUBE, ROLLUP, and GROUPING SETS support |
-| [**Sequence**](02-sequences.md) | Generate sequential numeric values | Auto-incrementing identifiers and counters |
-
-## Advanced Query Capabilities
-
-| Feature | Type | Description | Use Cases |
-|---------|------|-------------|-----------|
-| [**User-Defined Functions**](03-udf.md) | Lambda & Embedded | Custom operations with Python, JavaScript, WebAssembly | Complex data transformations, custom business logic |
-| [**External Functions**](04-external-function.md) | Cloud Feature | Custom operations using external servers | Scalable processing, external library integration |
-| [**Dictionary**](07-dictionary.md) | Data Integration | In-memory key-value store for external data | Fast lookups from MySQL, Redis sources |
-| [**Stored Procedures**](08-stored-procedure.md) | SQL Scripting | Reusable command sets with control flow | Multi-step operations, complex business logic |
-
-## Query Optimization & Analysis
-
-| Tool | Purpose | Access Method | Key Features |
-|------|---------|---------------|--------------|
-| [**Query Profile**](05-query-profile.md) | Performance analysis | Databend Cloud Monitor | Visual execution plan, performance metrics |
-| [**Query Hash**](06-query-hash.md) | Query identification | SQL functions | Unique query fingerprinting, performance tracking |
-
-## GROUP BY Extensions
-
-| Extension | Description | Best For |
-|-----------|-------------|----------|
-| [**CUBE**](01-groupby/group-by-cube.md) | All possible combinations of grouping columns | Multi-dimensional analysis |
-| [**ROLLUP**](01-groupby/group-by-rollup.md) | Hierarchical subtotals and grand totals | Hierarchical reporting |
-| [**GROUPING SETS**](01-groupby/group-by-grouping-sets.md) | Custom grouping combinations | Flexible aggregation scenarios |
-
-## Quick Start Guide
-
-1. **Basic Queries**: Start with [JOIN](02-join.md) and [GROUP BY](01-groupby/index.md) for fundamental data operations
-2. **Advanced Logic**: Use [CTE](00-cte.md) for complex query structures
-3. **Custom Functions**: Implement [UDF](03-udf.md) for specialized data processing
-4. **Performance**: Leverage [Query Profile](05-query-profile.md) for optimization insights
-5. **External Data**: Integrate external sources with [Dictionary](07-dictionary.md)
+**📚 New to SQL?** Start with [Basic Queries](./00-basics/index.md)  
+**🔗 Joining data?** Go to [Combining Data](./01-combining-data/index.md)  
+**⚡ Need custom logic?** Check [Advanced Features](./02-advanced/index.md)  
+**🚀 Performance issues?** Visit [Query Optimization](./03-optimization/index.md)
 
 ---
+
+## 📚 [Basic Queries](./00-basics/index.md)
+
+Master fundamental SQL operations for data selection and aggregation.
+
+### [Filtering & Selection](./00-basics/filtering-selection.md)
+```sql
+-- Select and filter data
+SELECT name, salary FROM employees 
+WHERE department = 'Engineering' 
+ORDER BY salary DESC;
+```
+
+### [Aggregating Data](./00-basics/aggregating-data.md)
+```sql
+-- Group and summarize data
+SELECT department, 
+       COUNT(*) as emp_count,
+       AVG(salary) as avg_salary
+FROM employees 
+GROUP BY department;
+```
+
+### [Advanced Grouping](./00-basics/groupby/index.md)
+Multi-dimensional analysis with CUBE, ROLLUP, and GROUPING SETS
+
+---
+
+## 🔗 [Combining Data](./01-combining-data/index.md)
+
+Connect data from multiple sources using JOINs and CTEs.
+
+### [JOINs](./01-combining-data/joins.md)
+```sql
+-- Combine related tables
+SELECT e.name, d.department_name
+FROM employees e
+JOIN departments d ON e.department_id = d.id;
+```
+
+### [Common Table Expressions (CTE)](./01-combining-data/cte.md)
+```sql
+-- Structure complex queries
+WITH high_earners AS (
+  SELECT * FROM employees WHERE salary > 75000
+)
+SELECT department, COUNT(*) as count
+FROM high_earners GROUP BY department;
+```
+
+---
+
+## ⚡ [Advanced Features](./02-advanced/index.md)
+
+Extend capabilities with custom functions and external integrations.
+
+### [User-Defined Functions](./02-advanced/udf.md)
+```sql
+-- Create reusable functions
+CREATE FUNCTION calculate_bonus(salary FLOAT, rating FLOAT)
+RETURNS FLOAT AS $$ salary * rating * 0.1 $$;
+```
+
+### More Advanced Features
+- [External Functions](./02-advanced/external-function.md) - Cloud ML integration
+- [Stored Procedures](./02-advanced/stored-procedure.md) - Multi-step operations
+- [Sequences](./02-advanced/sequences.md) - Unique ID generation
+
+---
+
+## 🚀 [Query Optimization](./03-optimization/index.md)
+
+Analyze and improve query performance with profiling tools.
+
+### [Query Profile](./03-optimization/query-profile.md)
+Visual execution plan analysis (Databend Cloud: Monitor → SQL History)
+
+### [Performance Analysis](./03-optimization/query-hash.md)
+```sql
+-- Analyze query execution
+EXPLAIN SELECT * FROM orders o
+JOIN customers c ON o.customer_id = c.id
+WHERE o.order_date >= '2023-01-01';
+```
+
+---
+
+## Quick Reference
+
+### Most Common Patterns
+```sql
+-- Top N query
+SELECT * FROM employees ORDER BY salary DESC LIMIT 10;
+
+-- Filter and aggregate  
+SELECT department, AVG(salary) 
+FROM employees 
+WHERE hire_date >= '2023-01-01'
+GROUP BY department
+HAVING AVG(salary) > 70000;
+
+-- Join with CTE
+WITH recent_orders AS (
+  SELECT * FROM orders WHERE order_date >= '2023-01-01'
+)
+SELECT c.name, COUNT(*) as order_count
+FROM customers c
+JOIN recent_orders o ON c.id = o.customer_id
+GROUP BY c.name;
+```

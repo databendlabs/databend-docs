@@ -1,5 +1,6 @@
 ---
 title: User-Defined Function
+sidebar_position: 1
 ---
 
 # User-Defined Functions (UDFs) in Databend

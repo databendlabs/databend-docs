@@ -31,4 +31,12 @@ CREATE [ OR REPLACE ] FUNCTION [ IF NOT EXISTS ] <function_name>
 
 ## Examples
 
-See [Usage Examples](/guides/query/external-function#usage-examples) for more information.
+This example creates an external function that calculates the greatest common divisor (GCD) of two integers:
+
+```sql
+CREATE FUNCTION gcd AS (INT, INT) 
+    RETURNS INT 
+    LANGUAGE python 
+    HANDLER = 'gcd' 
+    ADDRESS = 'http://localhost:8815';
+```

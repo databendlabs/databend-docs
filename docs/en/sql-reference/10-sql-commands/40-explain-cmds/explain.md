@@ -4,7 +4,7 @@ title: EXPLAIN
 
 Shows the execution plan of a SQL statement. An execution plan is shown as a tree consisting of different operators where you can see how Databend will execute the SQL statement. An operator usually includes one or more fields describing the actions Databend will perform or the objects related to the query.
 
-For example, the following execution plan returned by the EXPLAIN command includes an operator named *TableScan* with several fields. For a list of common operators and fields, see [Common Operators & Fields](/guides/query/query-profile#common-operators--fields).
+For example, the following execution plan returned by the EXPLAIN command includes an operator named *TableScan* with several fields.
 
 ```sql
 EXPLAIN SELECT * FROM allemployees;
@@ -19,7 +19,7 @@ TableScan
 └── push downs: [filters: [], limit: NONE]
 ```
 
-If you are using Databend Cloud, you can utilize the Query Profile feature to visualize the execution plan of your SQL statements. For more information, see [Query Profile](/guides/query/query-profile).
+If you are using Databend Cloud, you can utilize the Query Profile feature to visualize the execution plan of your SQL statements.
 
 ## Syntax
 

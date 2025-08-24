@@ -1,6 +1,7 @@
 ---
 title: "External Functions in Databend Cloud"
 sidebar_label: "External Function"
+sidebar_position: 2
 ---
 
 External functions in Databend allow you to define custom operations for processing data using external servers written in programming languages like Python. These functions enable you to extend Databend's capabilities by integrating custom logic, leveraging external libraries, and handling complex processing tasks. Key features of external functions include:

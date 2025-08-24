@@ -1,5 +1,6 @@
 ---
 title: Stored Procedure
+sidebar_position: 3
 ---
 
 A stored procedure is a set of executable commands or logic blocks stored within the database, written in SQL or other programming languages, designed to be reusable for efficiently performing specific tasks or operations.
