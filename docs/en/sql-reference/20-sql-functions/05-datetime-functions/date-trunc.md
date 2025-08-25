@@ -68,3 +68,4 @@ SELECT
 ## See Also
 
 - [TRUNC](trunc.md): Provides similar functionality with a different syntax for better SQL standard compatibility.
+- [TIME_SLICE](time-slice.md): Map a single date/timestamp value to a calendar-aligned interval.
