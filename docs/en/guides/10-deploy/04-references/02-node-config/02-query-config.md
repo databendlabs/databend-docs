@@ -5,7 +5,7 @@ title: Query Configurations
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
 
-<FunctionDescription description="Introduced or updated: v1.2.698"/>
+<FunctionDescription description="Introduced or updated: v1.2.901"/>
 
 This page describes the Query node configurations available in the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
 
@@ -273,20 +273,68 @@ The following is a list of the parameters available within the [cache.disk] sect
 
 ## [spill] Section
 
-The following is a list of the parameters available within the [spill] section:
+Databend supports spill storage to handle large queries that exceed available memory. The unified configuration format provides consistent patterns across all storage types with auto-detection capabilities.
+
+### [spill.storage] Section
+
+| Parameter | Description                                                                                    |
+|-----------|------------------------------------------------------------------------------------------------|
+| type      | Specifies the storage type. Available options: `fs` (filesystem), `s3`, `azblob`, `gcs`, `oss`, `cos`, etc. |
+
+### [spill.storage.fs] Section (Filesystem Storage)
+
+| Parameter                   | Description                                                                                   |
+|-----------------------------|-----------------------------------------------------------------------------------------------|
+| data_path                   | Specifies the directory path where spilled data will be stored on the local filesystem.       |
+| reserved_space_percentage   | Defines the percentage of disk space that will be reserved and not used for spill. This prevents the spill operations from completely filling the disk and ensures system stability. Default: `30`. |
+| max_bytes                   | Sets the maximum number of bytes allowed for spilling data to the local filesystem. When this limit is reached, new spill operations will automatically fallback to the main data storage (remote storage), ensuring queries continue without interruption. Default: unlimited.            |
+
+**Example (Filesystem Storage):**
+```toml
+[spill.storage]
+type = "fs"
+
+[spill.storage.fs]
+data_path = "/fast-ssd/spill"
+reserved_space_percentage = 25.0
+max_bytes = 107374182400  # 100GB
+```
+
+### [spill.storage.s3] Section (S3 Remote Storage)
+
+For S3-based spill storage, use the same parameters as defined in the [storage.s3 Section](#storages3-section).
+
+**Example (S3 Storage):**
+```toml
+[spill.storage]
+type = "s3"
+
+[spill.storage.s3]
+bucket = "my-spill-bucket"
+region = "us-west-2"
+access_key_id = "your-access-key"
+secret_access_key = "your-secret-key"
+```
+
+<details>
+<summary>Legacy Format (Backward Compatible)</summary>
+
+:::note
+The legacy format is maintained for backward compatibility. If your Databend version is older than v1.2.901, use this format. New deployments should use the unified format above.
+:::
 
 | Parameter                                  | Description                                                                                                   |
 |--------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | spill_local_disk_path                      | Specifies the directory path where spilled data will be stored on the local disk.                             |
-| spill_local_disk_reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. The default value is `30`. |
-| spill_local_disk_max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local disk. Defaults to unlimited.          |
+| spill_local_disk_reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. This prevents the spill operations from completely filling the disk and ensures system stability. Default: `30`. |
+| spill_local_disk_max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local disk. When this limit is reached, new spill operations will automatically fallback to the main data storage (remote storage), ensuring queries continue without interruption. Default: unlimited.          |
 
-### [spill.storage] Section
+**Example (Legacy Format):**
+```toml
+[spill]
+spill_local_disk_path = "/data/spill"
+spill_local_disk_reserved_space_percentage = 30.0
+spill_local_disk_max_bytes = 53687091200
+```
 
-The following is a list of the parameters available within the [spill.storage] section:
-
-| Parameter | Description                                                        |
-|-----------|--------------------------------------------------------------------|
-| type      | Specifies the storage type for remote spilling, for example, `s3`. |
-
-To specify a specific storage, use the parameters in the [storage Section](#storage-section). For examples, see [Configuring Spill Storage](/guides/data-management/data-recycle#configuring-spill-storage). 
+</details>
