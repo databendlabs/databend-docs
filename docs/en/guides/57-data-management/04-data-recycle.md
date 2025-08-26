@@ -19,37 +19,25 @@ Before DELETE:                After DELETE:                 After VACUUM:
                              Storage not freed            Storage freed
 ```
 
-## Types of Data to Clean
+## VACUUM Commands and Cleanup Scope
 
-Databend provides specific commands to clean different types of data. The following table summarizes the data types and their corresponding cleanup commands:
+Databend provides three VACUUM commands to clean different types of data. **Understanding what each command cleans is crucial** - some commands only clean storage data, while others clean both storage and metadata.
 
-| Data Type | Description | Cleanup Command |
-|-----------|-------------|-----------------|
-| **Dropped Table Data** | Data files from tables that have been dropped using the DROP TABLE command | `VACUUM DROP TABLE` |
-| **Table History Data** | Historical versions of tables, including snapshots created through UPDATE, DELETE, and other operations | `VACUUM TABLE` |
-| **Orphan Files** | Snapshots, segments, and blocks that are no longer associated with any table | `VACUUM TABLE` |
-| **Spill Temporary Files** | Temporary files created when memory usage exceeds available limits during query execution (for joins, aggregates, sorts, etc.) | `VACUUM TEMPORARY FILES` |
+| Command | Target Data | S3 Storage | Meta Service | Details |
+|---------|-------------|------------|--------------|---------|
+| **VACUUM DROP TABLE** | Dropped tables after `DROP TABLE` | ✅ **Removes**: All data files, segments, blocks, indexes, statistics | ✅ **Removes**: Table schema, permissions, metadata records | **Complete purge** - table cannot be recovered |
+| **VACUUM TABLE** | Table history & orphan files | ✅ **Removes**: Historical snapshots, orphan segments/blocks, old indexes/stats | ❌ **Preserves**: Table structure and current metadata | **Storage-only** - table remains active |
+| **VACUUM TEMPORARY FILES** | Spill files from queries (joins, aggregates, sorts) | ✅ **Removes**: Temporary spill files from crashed/interrupted queries | ❌ **No metadata**: Temp files have no associated metadata | **Storage-only** - rarely needed, auto-cleaned normally |
 
-> **Note**: Spill temporary files are typically cleaned automatically by Databend. Manual cleanup is only needed when Databend crashes or shuts down unexpectedly during query execution.
-
+> **Critical**: Only `VACUUM DROP TABLE` removes metadata from the meta service. The other commands only clean storage files.
 
 ## Using VACUUM Commands
 
-The VACUUM command family is the primary method for cleaning data in Databend ([Enterprise Edition Feature](/guides/products/dee/enterprise-features)). Different VACUUM subcommands are used depending on the type of data you need to clean.
-
-```
-VACUUM Commands:
-+------------------------+    +------------------------+    +------------------------+
-| VACUUM DROP TABLE      |    | VACUUM TABLE          |    | VACUUM TEMPORARY FILES |
-+------------------------+    +------------------------+    +------------------------+
-| Cleans dropped tables  |    | Cleans table history  |    | Cleans spill files     |
-| and their data files   |    | and orphan files      |    | (rarely needed)        |
-+------------------------+    +------------------------+    +------------------------+
-```
+The VACUUM command family is the primary method for cleaning data in Databend ([Enterprise Edition Feature](/guides/products/dee/enterprise-features)).
 
 ### VACUUM DROP TABLE
 
-This command permanently deletes data files of dropped tables, freeing up storage space.
+Permanently removes dropped tables from both storage and metadata.
 
 ```sql
 VACUUM DROP TABLE [FROM <database_name>] [DRY RUN [SUMMARY]] [LIMIT <file_count>];
@@ -78,7 +66,7 @@ VACUUM DROP TABLE LIMIT 1000;
 
 ### VACUUM TABLE
 
-This command removes historical data for a specified table, clearing old versions and freeing storage.
+Removes historical data and orphan files for active tables (storage-only cleanup).
 
 ```sql
 VACUUM TABLE <table_name> [DRY RUN [SUMMARY]];
@@ -102,13 +90,13 @@ VACUUM TABLE my_table;
 
 ### VACUUM TEMPORARY FILES
 
-This command clears temporary spilled files used for joins, aggregates, and sorts, freeing up storage space.
+Removes temporary spill files created during query execution.
 
 ```sql
 VACUUM TEMPORARY FILES;
 ```
 
-**Note:** While this command is provided as a manual method for cleaning up temporary files, it's rarely needed during normal operation since Databend automatically handles cleanup in most cases.
+> **Note**: Rarely needed during normal operation since Databend automatically handles cleanup. Manual cleanup is typically only required when Databend crashes during query execution.
 
 ## Adjusting Data Retention Time
 
