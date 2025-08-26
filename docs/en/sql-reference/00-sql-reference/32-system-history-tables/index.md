@@ -99,6 +99,19 @@ root = "history_tables"
 endpoint_url = "https://s3.amazonaws.com"
 access_key_id = "your-access-key"
 secret_access_key = "your-secret-key"
+
+
+[[log.history.tables]]
+table_name = "query_history"
+
+[[log.history.tables]]
+table_name = "profile_history"
+
+[[log.history.tables]]
+table_name = "login_history"
+
+[[log.history.tables]]
+table_name = "access_history"
 ```
 
 > ⚠️ **Note:** When changing storage configuration, existing history tables will be dropped and recreated.
