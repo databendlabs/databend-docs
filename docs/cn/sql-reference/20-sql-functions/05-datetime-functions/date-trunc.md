@@ -3,9 +3,9 @@ title: DATE_TRUNC
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新: v1.2.745"/>
+<FunctionDescription description="引入或更新于：v1.2.745"/>
 
-将日期或时间戳截断到指定精度，提供了一种标准化的日期和时间戳操作方式。此函数设计为与各种数据库系统兼容，使用户更容易迁移和使用不同的数据库。
+将日期或时间戳截断到指定精度，为日期和时间戳操作提供标准化方式。该函数旨在兼容多种数据库系统，便于用户迁移并在不同数据库间工作。
 
 ## 语法
 
@@ -13,25 +13,25 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 DATE_TRUNC(<precision>, <date_or_timestamp>)
 ```
 
-| 参数                    | 描述                                                                                                |
+| 参数             | 描述                                                                                                |
 |-----------------------|------------------------------------------------------------------------------------------------------------|
-| `<precision>`         | 必须是以下值之一: `YEAR`、`QUARTER`、`MONTH`、`WEEK`、`DAY`、`HOUR`、`MINUTE` 和 `SECOND`。 |
+| `<precision>`         | 必须是以下值之一：`YEAR`、`QUARTER`、`MONTH`、`WEEK`、`DAY`、`HOUR`、`MINUTE` 和 `SECOND`。 |
 | `<date_or_timestamp>` | `DATE` 或 `TIMESTAMP` 类型的值。                                                                     |
 
-## 周开始配置
+## 周起始日配置
 
-当使用 `WEEK` 作为精度参数时，结果取决于 `week_start` 设置，该设置定义了一周的第一天：
+当使用 `WEEK` 作为精度参数时，结果取决于 `week_start` 设置，该设置定义一周的第一天：
 
-- `week_start = 1` (默认): 周一被视为一周的第一天
-- `week_start = 0`: 周日被视为一周的第一天
+- `week_start = 1`（默认）：星期一被视为一周的第一天
+- `week_start = 0`：星期日被视为一周的第一天
 
-您可以使用 `SETTINGS` 子句为特定查询更改此设置：
+可使用 `SETTINGS` 子句为特定查询更改此设置：
 
 ```sql
--- 设置周日为一周的第一天
+-- 将星期日设为一周的第一天
 SETTINGS (week_start = 0) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05'));
 
--- 设置周一为一周的第一天 (默认)
+-- 将星期一设为一周的第一天（默认）
 SETTINGS (week_start = 1) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05'));
 ```
 
@@ -67,4 +67,5 @@ SELECT
 
 ## 另请参阅
 
-- [TRUNC](trunc.md): 提供类似功能，但使用不同的语法以更好地兼容 SQL 标准。
+- [TRUNC](trunc.md)：提供类似功能，语法不同，以更好地兼容 SQL 标准。
+- [TIME_SLICE](time-slice.md)：将单个日期/时间戳值映射到与日历对齐的区间。
