@@ -21,15 +21,31 @@ Before DELETE:                After DELETE:                 After VACUUM:
 
 ## VACUUM Commands and Cleanup Scope
 
-Databend provides three VACUUM commands to clean different types of data. **Understanding what each command cleans is crucial** - some commands only clean storage data, while others clean both storage and metadata.
+Databend provides three VACUUM commands with **different cleanup scopes**. Understanding what each command cleans is crucial for data management.
 
-| Command | Target Data | S3 Storage | Meta Service | Details |
-|---------|-------------|------------|--------------|---------|
-| **VACUUM DROP TABLE** | Dropped tables after `DROP TABLE` | ✅ **Removes**: All data files, segments, blocks, indexes, statistics | ✅ **Removes**: Table schema, permissions, metadata records | **Complete purge** - table cannot be recovered |
-| **VACUUM TABLE** | Table history & orphan files | ✅ **Removes**: Historical snapshots, orphan segments/blocks, old indexes/stats | ❌ **Preserves**: Table structure and current metadata | **Storage-only** - table remains active |
-| **VACUUM TEMPORARY FILES** | Spill files from queries (joins, aggregates, sorts) | ✅ **Removes**: Temporary spill files from crashed/interrupted queries | ❌ **No metadata**: Temp files have no associated metadata | **Storage-only** - rarely needed, auto-cleaned normally |
+```
+VACUUM DROP TABLE
+├── Target: Dropped tables (after DROP TABLE command)
+├── S3 Storage: ✅ Removes ALL data (files, segments, blocks, indexes, statistics)  
+├── Meta Service: ✅ Removes ALL metadata (schema, permissions, records)
+└── Result: Complete table removal - CANNOT be recovered
 
-> **Critical**: Only `VACUUM DROP TABLE` removes metadata from the meta service. The other commands only clean storage files.
+VACUUM TABLE
+├── Target: Historical data and orphan files for active tables
+├── S3 Storage: ✅ Removes old snapshots, orphan segments/blocks, indexes/stats
+├── Meta Service: ❌ Preserves table structure and current metadata
+└── Result: Table stays active, only history cleaned
+
+VACUUM TEMPORARY FILES  
+├── Target: Temporary spill files from queries (joins, sorts, aggregates)
+├── S3 Storage: ✅ Removes temp files from crashed/interrupted queries
+├── Meta Service: ❌ No metadata (temp files don't have any)
+└── Result: Storage cleanup only, rarely needed
+```
+
+---
+
+> **🚨 Critical**: Only `VACUUM DROP TABLE` affects the meta service. Other commands only clean storage files.
 
 ## Using VACUUM Commands
 
