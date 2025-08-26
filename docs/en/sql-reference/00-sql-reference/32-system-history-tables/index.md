@@ -88,6 +88,7 @@ By default, history tables use your main database storage. To use separate S3 st
 ```toml
 [log.history]
 on = true
+storage_on = true
 
 [log.history.storage]
 type = "s3"
