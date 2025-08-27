@@ -163,11 +163,7 @@ function Footer() {
         })}
       </div>
       <div className={styles.footerCopyright}>
-        <p>
-          Copyright © {year} The Databend Community. Apache, Apache OpenDAL and
-          OpenDAL are either registered trademarks or trademarks of the Apache
-          Software Foundation.
-        </p>
+        <p>Copyright © {year} The Databend Community. All rights reserved.</p>
       </div>
     </footer>
   );

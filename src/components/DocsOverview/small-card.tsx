@@ -12,7 +12,7 @@ interface IProps {
 const SmallCard: FC<IProps> = ({ icon, text, to }): ReactElement => {
   return (
     <div>
-      <Link to={to} className={styles.smallCard}>
+      <Link title={text} to={to} className={styles.smallCard}>
         <ButtonWithIcon>{icon}</ButtonWithIcon>
         <span>{text}</span>
       </Link>

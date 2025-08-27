@@ -39,6 +39,7 @@ const Title: FC<IProps> = ({
 
       {link?.text && (
         <Link
+          title={link?.text}
           style={{ marginTop: "12px", display: "inline-block" }}
           to={link?.to}
         >

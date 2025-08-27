@@ -16,6 +16,7 @@ import Bili from "@site/static/icons/bili.svg";
 import GongzhonghaoImg from "@site/static/img/databend-gongzhonghao.jpeg";
 import SalesImg from "@site/static/img/sales.jpeg";
 import { Tooltip } from "antd";
+import Contact from "@site/static/icons/contact.svg";
 interface TProps {
   titleAlign?:
     | "start"
@@ -118,7 +119,7 @@ const JoinCommunity: FC<TProps> = ({
       >
         {community.map((item, index) => {
           return (
-            <Link to={item.link} key={index}>
+            <Link title={item.title} to={item.link} key={index}>
               <div className={clsx("community-item", styles.communityItem)}>
                 <div className={clsx("icon", styles.Icon)}>{item.icon}</div>
                 <h6>{item.title}</h6>
@@ -133,7 +134,7 @@ const JoinCommunity: FC<TProps> = ({
             </Link>
           );
         })}
-        {isChina && (
+        {isChina ? (
           <div>
             <h6 style={{ marginBottom: "8px", textAlign: titleAlign }}>微信</h6>
             <div className={clsx("community-group", styles.CommunityGroup)}>
@@ -165,6 +166,36 @@ const JoinCommunity: FC<TProps> = ({
             </h6>
             <div className={clsx("community-group", styles.CommunityGroup)}>
               185 1688 8139
+            </div>
+          </div>
+        ) : (
+          <div>
+            <h6 style={{ textAlign: titleAlign, marginBottom: "24px" }}>
+              Or simply contact us directly
+            </h6>
+            <div className={clsx("community-group", styles.CommunityGroup)}>
+              <Link
+                title="Contact Us"
+                to="https://www.databend.com/contact-us/"
+                target="_blank"
+              >
+                <div className={clsx("community-item", styles.communityItem)}>
+                  <div className={clsx("icon", styles.Icon)}>
+                    <Contact></Contact>
+                  </div>
+                  <h6>Contact Us</h6>
+                </div>
+              </Link>
+              <Link
+                title="Explore Databend Cloud"
+                to="https://www.databend.com/apply/"
+                target="_blank"
+              >
+                <div className={clsx("community-item", styles.communityItem)}>
+                  <div className={clsx("icon", styles.Icon)}>🚀</div>
+                  <h6>Explore Databend Cloud</h6>
+                </div>
+              </Link>
             </div>
           </div>
         )}
