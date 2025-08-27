@@ -4,6 +4,7 @@ title: Query Configurations
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 import LanguageDocs from '@site/src/components/LanguageDocs';
+import DetailsWrap from '@site/src/components/DetailsWrap';
 
 <FunctionDescription description="Introduced or updated: v1.2.901"/>
 
@@ -66,7 +67,7 @@ This section can include these subsections: [log.file], [log.stderr], [log.query
 The following is a list of the parameters available within the [log.file] section:
 
 | Parameter | Description                                                                                                                                                                                 |
-|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | on        | Enables or disables file logging. Defaults to `true`.                                                                                                                                       |
 | dir       | Path to store log files.                                                                                                                                                                    |
 | level     | Log level, following [env_logger](https://docs.rs/env_logger/latest/env_logger/) syntax: `error`, `warn`, `info`, `debug`, `trace`, `off`. Defaults to `warn,databend_=info,openraft=info`. |
@@ -78,7 +79,7 @@ The following is a list of the parameters available within the [log.file] sectio
 The following is a list of the parameters available within the [log.stderr] section:
 
 | Parameter | Description                                                                                                                                                                                 |
-|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | on        | Enables or disables stderr logging. Defaults to `false`.                                                                                                                                    |
 | level     | Log level, following [env_logger](https://docs.rs/env_logger/latest/env_logger/) syntax: `error`, `warn`, `info`, `debug`, `trace`, `off`. Defaults to `warn,databend_=info,openraft=info`. |
 | format    | Log format: `json` or `text`. Defaults to `json`.                                                                                                                                           |
@@ -105,25 +106,24 @@ The following is a list of the parameters available within the [log.tracing] sec
 
 The following is a list of the parameters available within the [log.history] section:
 
-
-| Parameter         | Description                                                                                                                                                      |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| on                | Enables or disables the history logging feature. Defaults to false. Set to true to enable history tables.                                                        |
-| log_only          | Nodes with enabled will delegate transformation tasks to other nodes, reducing their own workload.                                                               |
-| interval          | Specifies the interval (in seconds) at which the history log is flushed. Defaults to 2.                                                                          |
-| stage_name        | Specifies the name of the staging area that temporarily holds log data before it is finally copied into the table. Defaults to a unique value to avoid conflicts.|
-| level             | Sets the log level (DEBUG, TRACE, INFO, WARN, or ERROR) for history logging. Defaults to WARN.                                                                   |
-| retention_interval| The interval (in hours) at which the retention process is triggered to check if need to clean up old data. Defaults to 24.                                       |
-| tables            | Specifies which history tables to enable and their retention policies. This is an array of objects, each with table_name (the name of the history table) and retention (the retention period in hours for that table). |
-| storage           | Specifies the storage location for history tables. By default, history tables use the same storage configuration as defined in the [storage] section, but you can specify an alternative storage location specifically for history tables. The format is exactly the same as the [storage] section.|
+| Parameter          | Description                                                                                                                                                                                                                                                                                         |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| on                 | Enables or disables the history logging feature. Defaults to false. Set to true to enable history tables.                                                                                                                                                                                           |
+| log_only           | Nodes with enabled will delegate transformation tasks to other nodes, reducing their own workload.                                                                                                                                                                                                  |
+| interval           | Specifies the interval (in seconds) at which the history log is flushed. Defaults to 2.                                                                                                                                                                                                             |
+| stage_name         | Specifies the name of the staging area that temporarily holds log data before it is finally copied into the table. Defaults to a unique value to avoid conflicts.                                                                                                                                   |
+| level              | Sets the log level (DEBUG, TRACE, INFO, WARN, or ERROR) for history logging. Defaults to WARN.                                                                                                                                                                                                      |
+| retention_interval | The interval (in hours) at which the retention process is triggered to check if need to clean up old data. Defaults to 24.                                                                                                                                                                          |
+| tables             | Specifies which history tables to enable and their retention policies. This is an array of objects, each with table_name (the name of the history table) and retention (the retention period in hours for that table).                                                                              |
+| storage            | Specifies the storage location for history tables. By default, history tables use the same storage configuration as defined in the [storage] section, but you can specify an alternative storage location specifically for history tables. The format is exactly the same as the [storage] section. |
 
 `tables` are an array of objects, each object has two parameters:
-| Parameter  | Description |
-| ---------  | ----------- |
+| Parameter | Description |
+| --------- | ----------- |
 | table_name | The name of the history table. (currently support: `log_history`, `profile_history`, `query_history`, `login_history`) |
-| retention  | The retention period in hours for that table.                                                                          |
+| retention | The retention period in hours for that table. |
 Note: `log_history` table will be enable in default
- 
+
 If `storage` is specified, the original default history tables will be dropped and recreated with the new storage configuration. All nodes under the same tenant must maintain the same `storage` configuration to ensure consistency.
 
 ## [meta] Section
@@ -143,17 +143,16 @@ The following is a list of the parameters available within the [meta] section:
 
 The following is a list of the parameters available within the [storage] section:
 
-| Parameter      | Description                                                                                                                                                                                                                                          |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type           | The type of storage used. It can be one of the following: fs, s3, azblob, gcs, oss, cos.                                                                                                                                              |
-| allow_insecure | Defaults to false. Set it to true when deploying Databend on MinIO or loading data via a URL prefixed by `http://`, otherwise, you may encounter the following error: "copy from insecure storage is not allowed. Please set `allow_insecure=true`". |
-| `storage_retry_timeout`             | *(in seconds)* Retries an OpenDAL read/write operation if it exceeds this threshold. Default: `10`. |
-| `storage_retry_io_timeout`          | *(in seconds)* Retries an OpenDAL HTTP request if it exceeds this threshold. Default: `60`. |
-| `storage_pool_max_idle_per_host`    | Maximum connection pool size per host. Default: unlimit. |
-| `storage_connect_timeout`           | *(in seconds)* TCP connection timeout. Default: `30`. |
-| `storage_tcp_keepalive`             | *(in seconds)* TCP keepalive duration. Default: None. |
-| `storage_max_concurrent_io_requests`| Maximum number of concurrent I/O requests. Default: unlimit. |
-
+| Parameter                            | Description                                                                                                                                                                                                                                          |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type                                 | The type of storage used. It can be one of the following: fs, s3, azblob, gcs, oss, cos.                                                                                                                                                             |
+| allow_insecure                       | Defaults to false. Set it to true when deploying Databend on MinIO or loading data via a URL prefixed by `http://`, otherwise, you may encounter the following error: "copy from insecure storage is not allowed. Please set `allow_insecure=true`". |
+| `storage_retry_timeout`              | _(in seconds)_ Retries an OpenDAL read/write operation if it exceeds this threshold. Default: `10`.                                                                                                                                                  |
+| `storage_retry_io_timeout`           | _(in seconds)_ Retries an OpenDAL HTTP request if it exceeds this threshold. Default: `60`.                                                                                                                                                          |
+| `storage_pool_max_idle_per_host`     | Maximum connection pool size per host. Default: unlimit.                                                                                                                                                                                             |
+| `storage_connect_timeout`            | _(in seconds)_ TCP connection timeout. Default: `30`.                                                                                                                                                                                                |
+| `storage_tcp_keepalive`              | _(in seconds)_ TCP keepalive duration. Default: None.                                                                                                                                                                                                |
+| `storage_max_concurrent_io_requests` | Maximum number of concurrent I/O requests. Default: unlimit.                                                                                                                                                                                         |
 
 ### [storage.fs] Section
 
@@ -257,10 +256,10 @@ The following is a list of the parameters available within the [storage.cos] sec
 
 The following is a list of the parameters available within the [cache] section:
 
-| Parameter          | Description                                                                                                                                            |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| data_cache_storage | The type of storage used for table data cache. Available options: "none" (disables table data cache), "disk" (enables disk cache). Defaults to "none". |
-| iceberg_table_meta_count | Controls the number of Iceberg table metadata entries to cache. Set to `0` to disable metadata caching.                         |
+| Parameter                | Description                                                                                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| data_cache_storage       | The type of storage used for table data cache. Available options: "none" (disables table data cache), "disk" (enables disk cache). Defaults to "none". |
+| iceberg_table_meta_count | Controls the number of Iceberg table metadata entries to cache. Set to `0` to disable metadata caching.                                                |
 
 ### [cache.disk] Section
 
@@ -277,19 +276,20 @@ Databend supports spill storage to handle large queries that exceed available me
 
 ### [spill.storage] Section
 
-| Parameter | Description                                                                                    |
-|-----------|------------------------------------------------------------------------------------------------|
+| Parameter | Description                                                                                                 |
+| --------- | ----------------------------------------------------------------------------------------------------------- |
 | type      | Specifies the storage type. Available options: `fs` (filesystem), `s3`, `azblob`, `gcs`, `oss`, `cos`, etc. |
 
 ### [spill.storage.fs] Section (Filesystem Storage)
 
-| Parameter                   | Description                                                                                   |
-|-----------------------------|-----------------------------------------------------------------------------------------------|
-| data_path                   | Specifies the directory path where spilled data will be stored on the local filesystem.       |
-| reserved_space_percentage   | Defines the percentage of disk space that will be reserved and not used for spill. This prevents the spill operations from completely filling the disk and ensures system stability. Default: `30`. |
-| max_bytes                   | Sets the maximum number of bytes allowed for spilling data to the local filesystem. When this limit is reached, new spill operations will automatically fallback to the main data storage (remote storage), ensuring queries continue without interruption. Default: unlimited.            |
+| Parameter                 | Description                                                                                                                                                                                                                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| data_path                 | Specifies the directory path where spilled data will be stored on the local filesystem.                                                                                                                                                                                         |
+| reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. This prevents the spill operations from completely filling the disk and ensures system stability. Default: `30`.                                                                             |
+| max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local filesystem. When this limit is reached, new spill operations will automatically fallback to the main data storage (remote storage), ensuring queries continue without interruption. Default: unlimited. |
 
 **Example (Filesystem Storage):**
+
 ```toml
 [spill.storage]
 type = "fs"
@@ -305,6 +305,7 @@ max_bytes = 107374182400  # 100GB
 For S3-based spill storage, use the same parameters as defined in the [storage.s3 Section](#storages3-section).
 
 **Example (S3 Storage):**
+
 ```toml
 [spill.storage]
 type = "s3"
@@ -316,6 +317,7 @@ access_key_id = "your-access-key"
 secret_access_key = "your-secret-key"
 ```
 
+<DetailsWrap>
 <details>
 <summary>Legacy Format (Backward Compatible)</summary>
 
@@ -323,13 +325,14 @@ secret_access_key = "your-secret-key"
 The legacy format is maintained for backward compatibility. If your Databend version is older than v1.2.901, use this format. New deployments should use the unified format above.
 :::
 
-| Parameter                                  | Description                                                                                                   |
-|--------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| spill_local_disk_path                      | Specifies the directory path where spilled data will be stored on the local disk.                             |
-| spill_local_disk_reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. This prevents the spill operations from completely filling the disk and ensures system stability. Default: `30`. |
-| spill_local_disk_max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local disk. When this limit is reached, new spill operations will automatically fallback to the main data storage (remote storage), ensuring queries continue without interruption. Default: unlimited.          |
+| Parameter                                  | Description                                                                                                                                                                                                                                                               |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| spill_local_disk_path                      | Specifies the directory path where spilled data will be stored on the local disk.                                                                                                                                                                                         |
+| spill_local_disk_reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. This prevents the spill operations from completely filling the disk and ensures system stability. Default: `30`.                                                                       |
+| spill_local_disk_max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local disk. When this limit is reached, new spill operations will automatically fallback to the main data storage (remote storage), ensuring queries continue without interruption. Default: unlimited. |
 
 **Example (Legacy Format):**
+
 ```toml
 [spill]
 spill_local_disk_path = "/data/spill"
@@ -338,3 +341,4 @@ spill_local_disk_max_bytes = 53687091200
 ```
 
 </details>
+</DetailsWrap>
