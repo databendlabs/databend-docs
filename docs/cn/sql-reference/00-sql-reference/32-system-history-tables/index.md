@@ -53,13 +53,13 @@ GRANT ROLE audit_team TO USER compliance_officer;
 <summary>📝 **需要手动配置** - 点击展开配置详情</summary>
 
 #### 最小化配置
-要启用系统历史表，您必须在 `databend-query.toml` 中配置所有 5 个表：
+要启用系统历史表，您必须在 `databend-query.toml` 中配置所有 5 张表：
 
 ```toml
 [log.history]
 on = true
 
-# 必须配置所有 5 个表才能启用历史记录
+# 必须配置所有 5 张表才能启用历史记录
 # retention 是可选的（默认：168 小时 = 7 天）
 [[log.history.tables]]
 table_name = "query_history"
