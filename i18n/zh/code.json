@@ -832,5 +832,9 @@
   "DOCUMENTATION": {
     "message": "文档",
     "description": "DOCUMENTATION"
+  },
+  "Raise issue": {
+    "message": "提 issue",
+    "description": "Raise issue"
   }
 }

@@ -91,3 +91,11 @@
     flex-direction: column;
   }
 }
+
+.RaiseButton {
+  margin-left: auto;
+  color: var(--color-text-2);
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+}
