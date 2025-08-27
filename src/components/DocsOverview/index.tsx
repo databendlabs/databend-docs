@@ -67,7 +67,11 @@ const DocsOverview: FC = (): ReactElement => {
         <div style={{ height: "100%", width: "100%" }}>
           <Row gutter={[12, 12]} className={styles.topCard}>
             <Col {...colLayout3}>
-              <Card href="/guides/products/dc/" padding={[16, 16]}>
+              <Card
+                title={$t("Databend Cloud")}
+                href="/guides/products/dc/"
+                padding={[16, 16]}
+              >
                 <h3>
                   <span>{$t("Databend Cloud")}</span>
                 </h3>
@@ -77,9 +81,13 @@ const DocsOverview: FC = (): ReactElement => {
               </Card>
             </Col>
             <Col {...colLayout3}>
-              <Card href="/guides/products/dee/" padding={[16, 16]}>
+              <Card
+                title={$t("Databend Enterprise")}
+                href="/guides/products/dee/"
+                padding={[16, 16]}
+              >
                 <h3>
-                  <span> {$t("Databend Enterprise")}</span>
+                  <span>{$t("Databend Enterprise")}</span>
                 </h3>
                 <div>
                   {$t("Self-hosted with enterprise features and support.")}
@@ -87,7 +95,11 @@ const DocsOverview: FC = (): ReactElement => {
               </Card>
             </Col>
             <Col {...colLayout3}>
-              <Card href="/guides/products/dce/" padding={[16, 16]}>
+              <Card
+                title={$t("Databend Community")}
+                href="/guides/products/dce/"
+                padding={[16, 16]}
+              >
                 <h3>
                   <span>{$t("Databend Community")}</span>
                 </h3>
@@ -189,6 +201,7 @@ const DocsOverview: FC = (): ReactElement => {
             <Col {...colLayout2}>
               <Card padding={[20, 0]} className={styles.cardActiveOut}>
                 <Link
+                  title={$t("Start with Databend Cloud")}
                   to={"/guides/cloud/new-account/"}
                   className={"global-overview-card"}
                 >
@@ -206,17 +219,26 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>{$t("What you need to know:")}</div>
                   <ul>
                     <li>
-                      <Link to={"/guides/products/dc/editions/"}>
+                      <Link
+                        title={$t("Choose Your Edition")}
+                        to={"/guides/products/dc/editions/"}
+                      >
                         {$t("Choose Your Edition")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/products/dc/pricing/"}>
+                      <Link
+                        title={$t("Pricing & Plans")}
+                        to={"/guides/products/dc/pricing/"}
+                      >
                         {$t("Pricing & Plans")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/cloud/using-databend-cloud/"}>
+                      <Link
+                        title={$t("Using Databend Cloud")}
+                        to={"/guides/cloud/using-databend-cloud/"}
+                      >
                         {$t("Using Databend Cloud")}
                       </Link>
                     </li>
@@ -226,7 +248,11 @@ const DocsOverview: FC = (): ReactElement => {
             </Col>
             <Col {...colLayout2}>
               <Card padding={[20, 0]} className={styles.cardActiveOut}>
-                <Link to={"/guides/deploy/"} className={"global-overview-card"}>
+                <Link
+                  title={$t("Deploy Your Own Instance")}
+                  to={"/guides/deploy/"}
+                  className={"global-overview-card"}
+                >
                   <LightDatabendSingleSvg width={150} />
                   <div>
                     <h5>{$t("Deploy Your Own Instance")}</h5>
@@ -241,17 +267,26 @@ const DocsOverview: FC = (): ReactElement => {
                   <div>{$t("What you need to know:")}</div>
                   <ul>
                     <li>
-                      <Link to={"/guides/deploy/QuickStart/"}>
+                      <Link
+                        title={$t("5-Minute Quick Start")}
+                        to={"/guides/deploy/QuickStart/"}
+                      >
                         {$t("5-Minute Quick Start")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/deploy/deploy/download/"}>
+                      <Link
+                        title={$t("Download & Install")}
+                        to={"/guides/deploy/deploy/download/"}
+                      >
                         {$t("Download & Install")}
                       </Link>
                     </li>
                     <li>
-                      <Link to={"/guides/products/dee/license/"}>
+                      <Link
+                        title={$t("Enterprise Features & Licensing")}
+                        to={"/guides/products/dee/license/"}
+                      >
                         {$t("Enterprise Features & Licensing")}
                       </Link>
                     </li>
