@@ -59,6 +59,7 @@ const config: Config = {
     cloudLink: siteConfig[lang].cloudLink,
     blogTags: ["weekly", "databend"],
     askBendUrl: isProduction ? ASKBEND_URL : "",
+    site
   },
   presets: [
     [

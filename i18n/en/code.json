@@ -808,5 +808,9 @@
   "DOCUMENTATION": {
     "message": "DOCUMENTATION",
     "description": "DOCUMENTATION"
+  },
+  "Raise issue": {
+    "message": "Raise issue",
+    "description": "Raise issue"
   }
 }
