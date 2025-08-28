@@ -222,6 +222,9 @@
     &:hover {
       background-color: var(--bg-hover-copy);
       opacity: 1;
+      svg {
+        color: #fff;
+      }
     }
   }
   .theme-code-block:hover {
@@ -283,11 +286,4 @@
 }
 .ant-image-error {
   display: none;
-}
-button.clean-btn {
-  &:hover {
-    svg {
-      color: #fff;
-    }
-  }
 }
