@@ -8,39 +8,39 @@ This page provides reference information for the system administration commands 
 
 | Command | Description |
 |---------|-------------|
-| **[SHOW PROCESSLIST](07-show-processlist)** | Display active queries and connections |
-| **[SHOW METRICS](08-show-metrics)** | View system performance metrics |
-| **[KILL](01-kill)** | Terminate running queries or connections |
-| **[RUST BACKTRACE](rust-backtrace)** | Debug Rust stack traces |
+| **[SHOW PROCESSLIST](07-show-processlist.md)** | Display active queries and connections |
+| **[SHOW METRICS](08-show-metrics.md)** | View system performance metrics |
+| **[KILL](01-kill.md)** | Terminate running queries or connections |
+| **[RUST BACKTRACE](rust-backtrace.md)** | Debug Rust stack traces |
 
 ## Configuration Management
 
 | Command | Description |
 |---------|-------------|
-| **[SET](02-set-global)** | Set global configuration parameters |
-| **[UNSET](02-unset)** | Remove configuration settings |
-| **[SET VARIABLE](03-set-var)** | Manage user-defined variables |
-| **[SHOW SETTINGS](03-show-settings)** | Display current system settings |
+| **[SET](02-set-global.md)** | Set global configuration parameters |
+| **[UNSET](02-unset.md)** | Remove configuration settings |
+| **[SET VARIABLE](03-set-var.md)** | Manage user-defined variables |
+| **[SHOW SETTINGS](03-show-settings.md)** | Display current system settings |
 
 ## Function Management
 
 | Command | Description |
 |---------|-------------|
-| **[SHOW FUNCTIONS](04-show-functions)** | List built-in functions |
-| **[SHOW USER FUNCTIONS](05-show-user-functions)** | List user-defined functions |
-| **[SHOW TABLE FUNCTIONS](06-show-table-functions)** | List table-valued functions |
+| **[SHOW FUNCTIONS](04-show-functions.md)** | List built-in functions |
+| **[SHOW USER FUNCTIONS](05-show-user-functions.md)** | List user-defined functions |
+| **[SHOW TABLE FUNCTIONS](06-show-table-functions.md)** | List table-valued functions |
 
 ## Storage Maintenance
 
 | Command | Description |
 |---------|-------------|
-| **[VACUUM TABLE](09-vacuum-table)** | Reclaim storage space from tables |
-| **[VACUUM DROP TABLE](09-vacuum-drop-table)** | Clean up dropped table data |
-| **[VACUUM TEMP FILES](09-vacuum-temp-files)** | Remove temporary files |
-| **[SHOW INDEXES](show-indexes)** | Display table indexes |
+| **[VACUUM TABLE](09-vacuum-table.md)** | Reclaim storage space from tables |
+| **[VACUUM DROP TABLE](09-vacuum-drop-table.md)** | Clean up dropped table data |
+| **[VACUUM TEMP FILES](09-vacuum-temp-files.md)** | Remove temporary files |
+| **[SHOW INDEXES](show-indexes.md)** | Display table indexes |
 
 ## Dynamic Execution
 
 | Command | Description |
 |---------|-------------|
-| **[EXECUTE IMMEDIATE](execute-immediate)** | Execute dynamically constructed SQL statements |
+| **[EXECUTE IMMEDIATE](execute-immediate.md)** | Execute dynamically constructed SQL statements |
