@@ -113,7 +113,7 @@ CREATE TASK my_daily_task
  WAREHOUSE = 'compute_wh'
  SCHEDULE = USING CRON '0 0 9 * * *' 'America/Los_Angeles'
  COMMENT = 'Daily summary task'
- AS
+AS
  INSERT INTO summary_table SELECT * FROM source_table;
 ```
 
@@ -127,7 +127,7 @@ CREATE TASK IF NOT EXISTS mytask
  SCHEDULE = 2 MINUTE
  SUSPEND_TASK_AFTER_NUM_FAILURES = 3
 AS
-INSERT INTO compaction_test.test VALUES((1));
+ INSERT INTO compaction_test.test VALUES((1));
 ```
 
 This example creates a task named `mytask`, if it doesn't already exist. The task is assigned to the **system** warehouse and is scheduled to run **every 2 minutes**. It will be **automatically suspended** if it **fails three times consecutively**. The task performs an INSERT operation into the compaction_test.test table.
@@ -139,9 +139,9 @@ CREATE TASK IF NOT EXISTS daily_sales_summary
  WAREHOUSE = 'analytics'
  SCHEDULE = 30 SECOND
 AS
-SELECT sales_date, SUM(amount) AS daily_total
-FROM sales_data
-GROUP BY sales_date;
+ SELECT sales_date, SUM(amount) AS daily_total
+ FROM sales_data
+ GROUP BY sales_date;
 ```
 
 In this example, a task named `daily_sales_summary` is created with **second-level scheduling**. It is scheduled to run **every 30 SECOND**. The task uses the **analytics** warehouse and calculates the daily sales summary by aggregating data from the sales_data table.
@@ -152,22 +152,24 @@ In this example, a task named `daily_sales_summary` is created with **second-lev
 CREATE TASK IF NOT EXISTS process_orders
  WAREHOUSE = 'etl'
  AFTER task1, task2
-ASINSERT INTO data_warehouse.orders
-SELECT * FROM staging.orders;
+AS
+ INSERT INTO data_warehouse.orders SELECT * FROM staging.orders;
 ```
 
 In this example, a task named `process_orders` is created, and it is defined to run **after the successful completion** of **task1** and **task2**. This is useful for creating **dependencies** in a **Directed Acyclic Graph (DAG)** of tasks. The task uses the **etl** warehouse and transfers data from the staging area to the data warehouse.
+
+> Tip: Using the AFLTER parameter does not require setting the SCHEDULE parameter.
 
 ### Conditional Execution
 
 ```sql
 CREATE TASK IF NOT EXISTS hourly_data_cleanup
  WAREHOUSE = 'maintenance'
- SCHEDULE = '0 0 * * * *'
+ SCHEDULE = USING CRON '0 0 9 * * *' 'America/Los_Angeles'
  WHEN STREAM_STATUS('db1.change_stream') = TRUE
 AS
-DELETE FROM archived_data
-WHERE archived_date < DATEADD(HOUR, -24, CURRENT_TIMESTAMP());
+ DELETE FROM archived_data
+ WHERE archived_date < DATEADD(HOUR, -24, CURRENT_TIMESTAMP());
 
 ```
 
@@ -181,12 +183,12 @@ CREATE TASK IF NOT EXISTS mytask
  SCHEDULE = 30 SECOND
  ERROR_INTEGRATION = 'myerror'
 AS
-BEGIN
+ BEGIN
     BEGIN;
     INSERT INTO mytable(ts) VALUES(CURRENT_TIMESTAMP);
     DELETE FROM mytable WHERE ts < DATEADD(MINUTE, -5, CURRENT_TIMESTAMP());
     COMMIT;
-END;
+ END;
 ```
 
 In this example, a task named `mytask` is created. It uses the **mywh** warehouse and is scheduled to run **every 30 seconds**. The task executes a **BEGIN block** that contains an INSERT statement and a DELETE statement. The task commits the transaction after both statements are executed. When the task fails, it will trigger the **error integration** named **myerror**.
@@ -201,10 +203,10 @@ CREATE TASK IF NOT EXISTS cache_enabled_task
  enable_query_result_cache = 1,
  query_result_cache_min_execute_secs = 5
 AS
-SELECT SUM(amount) AS total_sales
-FROM sales_data
-WHERE transaction_date >= DATEADD(DAY, -7, CURRENT_DATE())
-GROUP BY product_category;
+ SELECT SUM(amount) AS total_sales
+ FROM sales_data
+ WHERE transaction_date >= DATEADD(DAY, -7, CURRENT_DATE())
+ GROUP BY product_category;
 ```
 
 In this example, a task named `cache_enabled_task` is created with **session parameters** that enable query result caching. The task is scheduled to run **every 5 minutes** and uses the **analytics** warehouse. The session parameters **`enable_query_result_cache = 1`** and **`query_result_cache_min_execute_secs = 5`** are specified **after all other task parameters**, enabling the query result cache for queries that take at least 5 seconds to execute. This can **improve performance** for subsequent executions of the same task if the underlying data hasn't changed.
