@@ -33,80 +33,25 @@ CREATE STAGE [ IF NOT EXISTS ] <external_stage_name>
 
 ### externalStageParams
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-<Tabs groupId="externalstageparams">
-
-<TabItem value="Amazon S3-compatible Storage" label="Amazon S3-like Storage Services">
-
-```sql
-externalStageParams ::=
-  's3://<bucket>[<path/>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing Amazon S3-like storage services, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-
-:::note
-To create an external stage on Amazon S3, you can also use an IAM user account, enabling you to define fine-grained access controls for the stage, including specifying actions such as read or write access to specific S3 buckets. See [Example 3: Create External Stage with AWS IAM User](#example-3-create-external-stage-with-aws-iam-user).
+:::tip
+For external stages, it is recommended to use the `CONNECTION` parameter to reference pre-configured connection objects instead of inline credentials. This approach provides better security and maintainability.
 :::
-</TabItem>
-
-<TabItem value="Azure Blob Storage" label="Azure Blob Storage">
 
 ```sql
 externalStageParams ::=
-  'azblob://<container>[<path/>]'
+  '<protocol>://<location>'
   CONNECTION = (
         <connection_parameters>
   )
-```
-
-For the connection parameters available for accessing Azure Blob Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="Google Cloud Storage" label="Google Cloud Storage">
-
-```sql
-externalLocation ::=
-  'gcs://<bucket>[<path>]'
+|
   CONNECTION = (
-        <connection_parameters>
-  )
+        CONNECTION_NAME = '<your-connection-name>'
+  );
 ```
 
-For the connection parameters available for accessing Google Cloud Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
+For the connection parameters available for different storage services, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 
-<TabItem value="Alibaba Cloud OSS" label="Alibaba Cloud OSS">
-
-```sql
-externalLocation ::=
-  'oss://<bucket>[<path>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing Alibaba Cloud OSS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="Tencent Cloud Object Storage" label="Tencent Cloud Object Storage">
-
-```sql
-externalLocation ::=
-  'cos://<bucket>[<path>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing Tencent Cloud Object Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-</Tabs>
+For more information on `CONNECTION_NAME`, see [CREATE CONNECTION](../13-connection/create-connection.md).
 
 ### FILE_FORMAT
 
@@ -151,12 +96,21 @@ my_internal_stage|Internal  |StageParams { storage: Fs(StorageFsConfig { root: "
 
 ```
 
-### Example 2: Create External Stage with AWS Access Key
+### Example 2: Create External Stage with Connection
 
-This example creates an external stage named *my_s3_stage* on Amazon S3:
+This example creates an external stage named *my_s3_stage* on Amazon S3 using a connection:
 
 ```sql
-CREATE STAGE my_s3_stage URL='s3://load/files/' CONNECTION = (ACCESS_KEY_ID = '<your-access-key-id>' SECRET_ACCESS_KEY = '<your-secret-access-key>');
+-- First create a connection
+CREATE CONNECTION my_s3_connection
+  STORAGE_TYPE = 's3'
+  ACCESS_KEY_ID = '<your-access-key-id>'
+  SECRET_ACCESS_KEY = '<your-secret-access-key>';
+
+-- Create stage using the connection
+CREATE STAGE my_s3_stage 
+  URL='s3://load/files/' 
+  CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 
 DESC STAGE my_s3_stage;
 +-------------+------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------+--------------------------------------------------------------------------------------------------------------------+---------+
@@ -218,10 +172,19 @@ The procedure below creates an IAM user named *databend* and attach the access p
 
 #### Step 3: Create External Stage
 
-Use the access key and secret access key generated for the IAM user *databend* to create an external stage.
+Use the IAM role to create an external stage with better security.
 
 ```sql
-CREATE STAGE iam_external_stage url = 's3://databend-toronto' CONNECTION =(ACCESS_KEY_ID='<your-access-key-id>' SECRET_ACCESS_KEY='<your-secret-access-key>');
+-- First create a connection using IAM role
+CREATE CONNECTION iam_s3_connection
+  STORAGE_TYPE = 's3'
+  ROLE_ARN = 'arn:aws:iam::123456789012:role/databend-access'
+  EXTERNAL_ID = 'my-external-id-123';
+
+-- Create stage using the connection
+CREATE STAGE iam_external_stage 
+  URL = 's3://databend-toronto' 
+  CONNECTION = (CONNECTION_NAME = 'iam_s3_connection');
 ```
 
 ### Example 4: Create External Stage on Cloudflare R2
@@ -249,11 +212,16 @@ The procedure below creates an R2 API token that includes an Access Key ID and a
 Use the created Access Key ID and Secret Access Key to create an external stage named *r2_stage*.
 
 ```sql
+-- First create a connection
+CREATE CONNECTION r2_connection
+  STORAGE_TYPE = 's3'
+  REGION = 'auto'
+  ENDPOINT_URL = '<your-bucket-endpoint>'
+  ACCESS_KEY_ID = '<your-access-key-id>'
+  SECRET_ACCESS_KEY = '<your-secret-access-key>';
+
+-- Create stage using the connection
 CREATE STAGE r2_stage
   URL='s3://databend/'
-  CONNECTION = (
-    REGION = 'auto'
-    ENDPOINT_URL = '<your-bucket-endpoint>'
-    ACCESS_KEY_ID = '<your-access-key-id>'
-    SECRET_ACCESS_KEY = '<your-secret-access-key>');
+  CONNECTION = (CONNECTION_NAME = 'r2_connection');
 ```
