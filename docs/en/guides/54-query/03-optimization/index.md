@@ -171,10 +171,10 @@ LIMIT 10;
 
 ## Advanced Optimization
 
-### Materialized Views
+### Aggregating Indexes
 ```sql
--- Pre-compute expensive aggregations
-CREATE MATERIALIZED VIEW daily_sales AS
+-- Pre-compute expensive aggregations using Databend's aggregating indexes
+CREATE AGGREGATING INDEX daily_sales_agg AS
 SELECT 
     DATE(order_time) as order_date,
     product_id,
