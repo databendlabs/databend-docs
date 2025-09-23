@@ -99,6 +99,9 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
   - [Session Policy Privileges](#session-policy-privileges)
   - [Stage Privileges](#stage-privileges)
   - [UDF Privileges](#udf-privileges)
+  - [Sequence Privileges](#sequence-privileges)
+  - [Connection Privileges](#connection-privileges)
+  - [Procedure Privileges](#procedure-privileges)
   - [Catalog Privileges](#catalog-privileges)
   - [Share Privileges](#share-privileges)
 
@@ -113,6 +116,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | CREATE WAREHOUSE  | Global                        | Creates a warehouse.                                                                                                                               |
 | CREATE CONNECTION | Global                        | Creates a connection.                                                                                                                              |
 | CREATE SEQUENCE   | Global                        | Creates a sequence.                                                                                                                                |
+| CREATE PROCEDURE  | PROCEDURE                     | Creates a procedure.                                                                                                                               |
 | DELETE            | Table                         | Deletes or truncates rows in a table.                                                                                                              |
 | DROP              | Global, Database, Table, View | Drops a database, table, view or UDF. Undrops a table.                                                                                             |
 | INSERT            | Table                         | Inserts rows into a table.                                                                                                                         |
@@ -130,6 +134,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | USAGE             | UDF                           | Use udf.                                                                                                                                           |
 | ACCESS CONNECTION | CONNECTION                    | Access connection.                                                                                                                                 |
 | ACCESS SEQUENCE   | SEQUENCE                      | Access sequence.                                                                                                                                   |
+| ACCESS PROCEDURE  | PROCEDURE                     | Access procedure.                                                                                                                                  |
 
 ### Global Privileges
 
@@ -245,3 +250,12 @@ Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/d
 | Access Sequence | Can access Sequence.(e.g. Drop,Desc)                                                                             |
 | ALL             | Grants Access Sequence privileges for the specified object type.                                                 |
 | OWNERSHIP       | Grants full control over a Sequence.  Only a single role can hold this privilege on a specific object at a time. |
+
+### Procedure Privileges
+
+| Privilege        | Description                                                                                                       |
+|:-----------------|:------------------------------------------------------------------------------------------------------------------|
+| Access Procedure | Can access Procedure.(e.g. Drop,Call,Desc)                                                                        |
+| ALL              | Grants Access Procedure privileges for the specified object type.                                                 |
+| OWNERSHIP        | Grants full control over a Procedure.  Only a single role can hold this privilege on a specific object at a time. |
+
