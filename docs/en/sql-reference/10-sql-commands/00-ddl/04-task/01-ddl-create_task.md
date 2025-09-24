@@ -17,7 +17,7 @@ The CREATE TASK statement is used to define a new task that executes a specified
 CREATE [ OR REPLACE ] TASK [ IF NOT EXISTS ] <name>
  WAREHOUSE = <string>
  SCHEDULE = { <num> MINUTE | <num> SECOND | USING CRON <expr> <time_zone> }
- [ AFTER <string> [ , <string> , ... ]]
+ [ AFTER <string>
  [ WHEN <boolean_expr> ]
  [ SUSPEND_TASK_AFTER_NUM_FAILURES = <num> ]
  [ ERROR_INTEGRATION = <string> ]
@@ -34,7 +34,7 @@ AS
 | WAREHOUSE                                        | Required. Specifies the virtual warehouse to use for the task.                                                                                                               |
 | SCHEDULE                                         | Required. Defines the schedule on which the task will run. Can be specified in minutes or using a CRON expression along with a time zone.                                    |
 | SUSPEND_TASK_AFTER_NUM_FAILURES                  | Optional. The number of consecutive failures after which the task will be automatically suspended.                                                                           |
-| AFTER                                            | Lists tasks that must be completed before this task starts.                                                                                                                  |
+| AFTER                                            | List task that must be completed before this task starts.                                                                                                                  |
 | WHEN boolean_expr                                | A condition that must be true for the task to run.                                                                                                                           |
 | [ERROR_INTEGRATION](../16-notification/index.md) | Optional. The name of the notification integration to use for the task error notification with specific [task error payload ](./10-task-error-integration-payload.md)applied |
 | COMMENT                                          | Optional. A string literal that serves as a comment or description for the task.                                                                                             |
@@ -151,7 +151,7 @@ In this example, a task named `daily_sales_summary` is created with **second-lev
 ```sql
 CREATE TASK IF NOT EXISTS process_orders
  WAREHOUSE = 'etl'
- AFTER task1, task2
+ AFTER task1
 AS
  INSERT INTO data_warehouse.orders SELECT * FROM staging.orders;
 ```
