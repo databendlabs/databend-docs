@@ -3,11 +3,11 @@ title: Automating Data Loading with Tasks
 sidebar_label: Task
 ---
 
-A task encapsulates specific SQL statements that are designed to be executed either at predetermined intervals, triggered by specific events, or as part of a broader sequence of tasks. Tasks in Databend Cloud are commonly used to regularly capture data changes from streams, such as newly added records, and then synchronize this data with designated target destinations. Furthermore, tasks offer support for [Webhook](https://en.wikipedia.org/wiki/Webhook) and other messaging systems, facilitating the delivery of error messages and notifications as needed.
+A task encapsulates specific SQL statements that are designed to be executed either at predetermined intervals, triggered by specific events, or as part of a broader sequence of tasks. Tasks in Databend are commonly used to regularly capture data changes from streams, such as newly added records, and then synchronize this data with designated target destinations. Furthermore, tasks offer support for [Webhook](https://en.wikipedia.org/wiki/Webhook) and other messaging systems, facilitating the delivery of error messages and notifications as needed.
 
 ## Creating a Task
 
-This topic breaks down the procedure of creating a task in Databend Cloud. In Databend Cloud, you create a task using the [CREATE TASK](/sql/sql-commands/ddl/task/ddl-create_task) command. When creating a task, follow the illustration below to design the workflow:
+This topic breaks down the procedure of creating a task in Databend. In Databend, you create a task using the [CREATE TASK](/sql/sql-commands/ddl/task/ddl-create_task) command. When creating a task, follow the illustration below to design the workflow:
 
 ![alt text](/img/load/task.png)
 
@@ -89,13 +89,16 @@ SET age = age + 1;
 
 ## Viewing Created Tasks
 
-To view all tasks created by your organization, log in to Databend Cloud and go to **Data** > **Task**. You can see detailed information for each task, including their status and schedules.
+To view all tasks created by your organization, log in to Databend and go to **Data** > **Task**. You can see detailed information for each task, including their status and schedules.
 
 To view the task run history, go to **Monitor** > **Task History**. You can see each run of tasks with their result, completion time, and other details.
 
 ## Configuring Notification Integrations
 
-Databend Cloud allows you to configure error notifications for a task, automating the process of sending notifications when an error occurs during the task execution. It currently supports Webhook integrations, facilitating seamless communication of error events to external systems or services in real-time.
+Databend allows you to configure error notifications for a task, automating the process of sending notifications when an error occurs during the task execution. It currently supports Webhook integrations, facilitating seamless communication of error events to external systems or services in real-time.
+:::caution
+Supported only in Databend Cloud
+:::
 
 ### Task Error Payload
 

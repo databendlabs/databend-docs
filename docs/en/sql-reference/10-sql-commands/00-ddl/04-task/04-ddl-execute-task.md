@@ -8,8 +8,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 The EXECUTE TASK statement is used to execute an existing task manually
 
-**NOTICE:** this functionality works out of the box only in Databend Cloud.
-
 ## Syntax
 
 ```sql
