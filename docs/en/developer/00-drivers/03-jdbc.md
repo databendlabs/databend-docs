@@ -82,7 +82,19 @@ PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?, ?,
 pstmt.setInt(1, 1);
 pstmt.setString(2, "Alice");
 pstmt.setString(3, "alice@example.com");
-pstmt.executeUpdate();
+int result = pstmt.executeUpdate();
+
+// Write: Insert data with executeBatch
+pstmt = conn.prepareStatement("INSERT INTO users VALUES (?, ?, ?)");
+pstmt.setInt(1, 2);
+pstmt.setString(2, "Bob");
+pstmt.setString(3, "Bob@example.com");
+pstmt.addBatch();
+pstmt.setInt(1, 3);
+pstmt.setString(2, "John");
+pstmt.setString(3, "John@example.com");
+pstmt.addBatch();
+int[] results = pstmt.executeBatch();
 
 // Query: Select data
 ResultSet rs = stmt.executeQuery("SELECT id, name, email FROM users WHERE id = 1");
@@ -114,5 +126,3 @@ Please refer to the [official databend-jdbc Connection Guide](https://github.com
 - **Maven Central**: [databend-jdbc](https://repo1.maven.org/maven2/com/databend/databend-jdbc/)
 - **GitHub Repository**: [databend-jdbc](https://github.com/databendlabs/databend-jdbc)
 - **JDBC Documentation**: [Oracle JDBC Guide](https://docs.oracle.com/javase/tutorial/jdbc/)
-
-
