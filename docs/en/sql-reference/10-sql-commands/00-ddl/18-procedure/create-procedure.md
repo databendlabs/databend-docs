@@ -3,7 +3,7 @@ title: CREATE PROCEDURE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.637"/>
+<FunctionDescription description="Introduced or updated: v1.2.816"/>
 
 Defines a stored procedure that executes SQL operations and returns a result.
 
@@ -32,6 +32,16 @@ $$;
 | `LANGUAGE`                              | Specifies the language in which the procedure body is written. Currently, only `SQL` is supported.                       |
 | `COMMENT`                               | Optional text describing the procedure.                                                                                   |
 | `AS ...`                                | Encloses the procedure body, which contains SQL statements, variable declarations, loops, and a  RETURN statement.        |
+
+## Access control requirements
+
+| Privilege        | Object Type | Description          |
+|:-----------------|:------------|:---------------------|
+| CREATE PROCEDURE | Global      | Creates a procedure. |
+
+
+To create a procedure, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the CREATE PROCEDURE [privilege](/guides/security/access-control/privileges).
+
 
 ## Examples
 
@@ -73,6 +83,10 @@ BEGIN
     RETURN sum;
 END;
 $$;
+
+-- Grant ACCESS PROCEDURE Privilege TO role test
+GRANT ACCESS PROCEDURE ON PROCEDURE loop_test() to role test;
+
 ```
 
 ```sql
