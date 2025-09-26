@@ -429,6 +429,11 @@ const siteRedirects = [
   {
     from: '/guides/query/dictionary',
     to: '/guides/query/advanced/'
+  },
+  // ANY function redirect to ANY_VALUE
+  {
+    from: '/sql/sql-functions/aggregate-functions/aggregate-any',
+    to: '/sql/sql-functions/aggregate-functions/aggregate-any-value'
   }
 ];
 export default siteRedirects;

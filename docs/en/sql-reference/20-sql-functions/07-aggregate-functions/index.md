@@ -15,7 +15,7 @@ This page provides a comprehensive overview of aggregate functions in Databend, 
 | [AVG](aggregate-avg.md) | Calculates the average of values | `AVG(temperature)` → `72.5` |
 | [MIN](aggregate-min.md) | Returns the minimum value | `MIN(price)` → `9.99` |
 | [MAX](aggregate-max.md) | Returns the maximum value | `MAX(price)` → `99.99` |
-| [ANY](aggregate-any.md) | Returns any value from the group | `ANY(status)` → `'active'` |
+| [ANY_VALUE](aggregate-any-value.md) | Returns any value from the group | `ANY_VALUE(status)` → `'active'` |
 
 ## Conditional Aggregation
 
