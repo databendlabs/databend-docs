@@ -31,37 +31,37 @@ implementation 'com.databend:databend-jdbc:0.3.7'
 ## 主要特性
 
 - ✅ **兼容 JDBC 4.0**：支持标准 JDBC 接口
-- ✅ **连接池 (Connection Pooling)**：内置连接管理
-- ✅ **预处理语句 (Prepared Statements)**：高效的参数化查询
-- ✅ **批处理操作 (Batch Operations)**：支持批量插入和更新
+- ✅ **连接池**：内置连接管理
+- ✅ **预处理语句**：高效的参数化查询
+- ✅ **批量操作**：支持批量插入和更新
 
 ## 数据类型映射
 
-| Databend           | Java         | 说明              |
-|--------------------|--------------|-------------------|
-| **整数**           |              |                   |
-| `TINYINT`          | `Byte`       |                   |
-| `SMALLINT`         | `Short`      |                   |
-| `INT`              | `Integer`    |                   |
-| `BIGINT`           | `Long`       |                   |
-| `TINYINT UNSIGNED` | `Short`      |                   |
-| `SMALLINT UNSIGNED`| `Integer`    |                   |
-| `INT UNSIGNED`     | `Long`       |                   |
-| `BIGINT UNSIGNED`  | `BigInteger` |                   |
-| **浮点数**         |              |                   |
-| `FLOAT`            | `Float`      |                   |
-| `DOUBLE`           | `Double`     |                   |
-| `DECIMAL`          | `BigDecimal` | 精度保留          |
-| **其他类型**       |              |                   |
-| `BOOLEAN`          | `Boolean`    |                   |
-| `STRING`           | `String`     |                   |
-| `DATE`             | `Date`       |                   |
-| `TIMESTAMP`        | `Timestamp`  |                   |
-| `ARRAY(T)`         | `String`     | JSON 编码         |
-| `TUPLE(...)`       | `String`     | JSON 编码         |
-| `MAP(K,V)`         | `String`     | JSON 编码         |
-| `VARIANT`          | `String`     | JSON 编码         |
-| `BITMAP`           | `String`     | Base64 编码       |
+| Databend | Java | 备注 |
+|----------|------|---------|
+| **整数** | | |
+| `TINYINT` | `Byte` | |
+| `SMALLINT` | `Short` | |
+| `INT` | `Integer` | |
+| `BIGINT` | `Long` | |
+| `TINYINT UNSIGNED` | `Short` | |
+| `SMALLINT UNSIGNED` | `Integer` | |
+| `INT UNSIGNED` | `Long` | |
+| `BIGINT UNSIGNED` | `BigInteger` | |
+| **浮点数** | | |
+| `FLOAT` | `Float` | |
+| `DOUBLE` | `Double` | |
+| `DECIMAL` | `BigDecimal` | 保留精度 |
+| **其他类型** | | |
+| `BOOLEAN` | `Boolean` | |
+| `STRING` | `String` | |
+| `DATE` | `Date` | |
+| `TIMESTAMP` | `Timestamp` | |
+| `ARRAY(T)` | `String` | JSON 编码 |
+| `TUPLE(...)` | `String` | JSON 编码 |
+| `MAP(K,V)` | `String` | JSON 编码 |
+| `VARIANT` | `String` | JSON 编码 |
+| `BITMAP` | `String` | Base64 编码 |
 
 ---
 
@@ -82,7 +82,19 @@ PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?, ?,
 pstmt.setInt(1, 1);
 pstmt.setString(2, "Alice");
 pstmt.setString(3, "alice@example.com");
-pstmt.executeUpdate();
+int result = pstmt.executeUpdate();
+
+// 写入：使用 executeBatch 插入数据
+pstmt = conn.prepareStatement("INSERT INTO users VALUES (?, ?, ?)");
+pstmt.setInt(1, 2);
+pstmt.setString(2, "Bob");
+pstmt.setString(3, "Bob@example.com");
+pstmt.addBatch();
+pstmt.setInt(1, 3);
+pstmt.setString(2, "John");
+pstmt.setString(3, "John@example.com");
+pstmt.addBatch();
+int[] results = pstmt.executeBatch();
 
 // 查询：选择数据
 ResultSet rs = stmt.executeQuery("SELECT id, name, email FROM users WHERE id = 1");
@@ -101,16 +113,16 @@ conn.close();
 
 ## 配置参考
 
-关于 databend-jdbc 驱动的完整配置选项，包括：
+关于 databend-jdbc 驱动程序的完整配置选项，包括：
 - 连接字符串参数
 - SSL/TLS 配置
 - 身份验证方法
 - 性能调优参数
 
-请参考 [官方 databend-jdbc 连接指南](https://github.com/databendlabs/databend-jdbc/blob/main/docs/Connection.md)。
+请参阅 [官方 databend-jdbc 连接指南](https://github.com/databendlabs/databend-jdbc/blob/main/docs/Connection.md)。
 
-## 相关资源
+## 资源
 
-- **Maven Central**: [databend-jdbc](https://repo1.maven.org/maven2/com/databend/databend-jdbc/)
-- **GitHub Repository**: [databend-jdbc](https://github.com/databendlabs/databend-jdbc)
-- **JDBC Documentation**: [Oracle JDBC Guide](https://docs.oracle.com/javase/tutorial/jdbc/)
+- **Maven Central**：[databend-jdbc](https://repo1.maven.org/maven2/com/databend/databend-jdbc/)
+- **GitHub 仓库**：[databend-jdbc](https://github.com/databendlabs/databend-jdbc)
+- **JDBC 文档**：[Oracle JDBC 指南](https://docs.oracle.com/javase/tutorial/jdbc/)
