@@ -3,9 +3,9 @@ title: CREATE PROCEDURE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.637"/>
+<FunctionDescription description="Introduced or updated: v1.2.816"/>
 
-定义一个存储过程（Stored Procedure），用于执行 SQL 操作并返回结果。
+定义一个执行 SQL 操作并返回结果的存储过程（Stored Procedure）。
 
 ## 语法
 
@@ -26,16 +26,26 @@ $$;
 
 | 参数 | 描述 |
 |---|---|
-| `<procedure_name>` | 过程的名称。 |
-| `<parameter_name> <data_type>` | 输入参数（可选），每个参数都有指定的数据类型。可以定义多个参数，并用逗号分隔。 |
-| `RETURNS <return_data_type> [NOT NULL]` | 指定返回值的数据类型。`NOT NULL` 确保返回值不能为 NULL。 |
-| `LANGUAGE` | 指定编写过程主体的语言。目前仅支持 `SQL`。 |
-| `COMMENT` | 描述过程的可选文本。 |
-| `AS ...` | 包含过程主体，其中包含 SQL 语句、变量声明、循环和 RETURN 语句。 |
+| `<procedure_name>` | 存储过程的名称。 |
+| `<parameter_name> <data_type>` | 输入参数（可选），每个参数都指定了数据类型。可以定义多个参数，用逗号分隔。 |
+| `RETURNS <return_data_type> [NOT NULL]` | 指定返回值的数据类型。`NOT NULL` 确保返回值不为 NULL。 |
+| `LANGUAGE` | 指定编写存储过程主体的语言。目前仅支持 `SQL`。 |
+| `COMMENT` | 描述存储过程的可选文本。 |
+| `AS ...` | 包含存储过程的主体，其中包含 SQL 语句、变量声明、循环和 RETURN 语句。 |
+
+## 访问控制要求
+
+| 权限 | 对象类型 | 描述 |
+|:---|:---|:---|
+| CREATE PROCEDURE | Global | 创建存储过程。 |
+
+
+要创建存储过程，执行操作的用户或 [current_role](/guides/security/access-control/roles) 必须拥有 CREATE PROCEDURE [privilege](/guides/security/access-control/privileges)。
+
 
 ## 示例
 
-此示例定义了一个存储过程，用于将重量从千克（kg）转换为磅（lb）：
+此示例定义了一个将重量从千克（kg）转换为磅（lb）的存储过程：
 
 ```sql
 CREATE PROCEDURE convert_kg_to_lb(kg DECIMAL(4, 2))
@@ -49,7 +59,7 @@ END;
 $$;
 ```
 
-你还可以定义一个使用循环、条件和动态变量的存储过程。
+您还可以定义一个使用循环、条件和动态变量的存储过程。
 
 ```sql
 
@@ -73,12 +83,16 @@ BEGIN
     RETURN sum;
 END;
 $$;
+
+-- 授予角色 test ACCESS PROCEDURE 权限
+GRANT ACCESS PROCEDURE ON PROCEDURE loop_test() to role test;
+
 ```
 
 ```sql
 CALL PROCEDURE loop_test();
 
-┌─ 结果 ─┐
+┌─Result─┐
 │   -5   │
 └────────┘
 ```
