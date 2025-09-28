@@ -6,10 +6,13 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MASKING POLICY'/>
 
-A masking policy refers to rules and settings that control the display or access to sensitive data in a way that safeguards confidentiality while allowing authorized users to interact with the data. Databend enables you to define masking policies for displaying sensitive columns in a table, thus protecting confidential data while still permitting authorized roles to access specific parts of the data.
+Masking policies protect sensitive data by dynamically transforming column values during query execution. They enable role-based access to confidential information—authorized users see actual data, while others see masked values.
 
-To illustrate, consider a scenario where you want to present email addresses in a table exclusively to managers:
+## How It Works
 
+Masking policies apply transformation expressions to column data based on the current user's role:
+
+**For managers:**
 ```sql
 id | email           |
 ---|-----------------|
@@ -17,64 +20,71 @@ id | email           |
  1 | sue@example.com |
 ```
 
-And when non-manager users query the table, the email addresses would appear as:
-
+**For other users:**
 ```sql
-id|email    |
---+---------+
- 2|*********|
- 1|*********|
+id | email    |
+---|----------|
+ 2 | *********|
+ 1 | *********|
 ```
 
-### Implementing Masking Policy
+## Key Characteristics
 
-Before creating a masking policy, make sure you have properly defined or planned user roles and their corresponding access privileges, as the policy's implementation relies on these roles to ensure secure and effective data masking. To manage Databend users and roles, see [User & Role](/sql/sql-commands/ddl/user/).
+- **Query-time masking**: Policies transform data during SELECT operations only
+- **Role-based**: Access rules depend on the current user's role using `current_role()`
+- **Column-level**: Applied to specific table columns
+- **Reusable**: One policy can protect multiple columns across different tables
+- **Non-intrusive**: Original data remains unchanged in storage
 
-Masking policies are applied to the columns of a table. To implement a masking policy for a specific column, you must first create the masking policy and then associate the policy to the intended column with the [ALTER TABLE COLUMN](/sql/sql-commands/ddl/table/alter-table-column) command. By establishing this association, the masking policy becomes tailored to the exact context where data privacy is paramount. It's important to note that a single masking policy can be associated with multiple columns, as long as they align with the same policy criteria. For commands used to manage masking policies in Databend, see [Masking Policy](/sql/sql-commands/ddl/mask-policy/).
+## Read vs Write Operations
 
-### Usage Examples
+**Important**: Masking policies **only apply to read operations** (SELECT queries). Write operations (INSERT, UPDATE, DELETE) always process original, unmasked data. This ensures:
 
-This example illustrates the process of setting up a masking policy to selectively reveal or mask sensitive data based on user roles.
+- Query results are protected based on user permissions
+- Applications can store and modify actual data values
+- Data integrity is maintained in the underlying storage
+
+## Quick Start
+
+### 1. Create a Masking Policy
 
 ```sql
--- Create a table and insert sample data
-CREATE TABLE user_info (
-    id INT,
-    email STRING
-);
-
-INSERT INTO user_info (id, email) VALUES (1, 'sue@example.com');
-INSERT INTO user_info (id, email) VALUES (2, 'eric@example.com');
-
--- Create a role
-CREATE ROLE 'MANAGERS';
-GRANT ALL ON *.* TO ROLE 'MANAGERS';
-
--- Create a user and grant the role to the user
-CREATE USER manager_user IDENTIFIED BY 'databend';
-GRANT ROLE 'MANAGERS' TO 'manager_user';
-
--- Create a masking policy
 CREATE MASKING POLICY email_mask
-AS
-  (val nullable(string))
-  RETURNS nullable(string) ->
-  CASE
-  WHEN current_role() IN ('MANAGERS') THEN
-    val
-  ELSE
-    '*********'
-  END
-  COMMENT = 'hide_email';
-
--- Associate the masking policy with the 'email' column
-ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
-
--- Query with the Root user
-SELECT * FROM user_info;
-
-id|email    |
---+---------+
- 2|*********|
- 1|*********|
+AS (val STRING)
+RETURNS STRING ->
+CASE
+  WHEN current_role() IN ('MANAGERS') THEN val
+  ELSE '*********'
+END;
 ```
+
+### 2. Apply to Table Column
+
+```sql
+ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
+```
+
+### 3. Test the Policy
+
+```sql
+-- Create test data
+CREATE TABLE user_info (id INT, email STRING NOT NULL);
+INSERT INTO user_info VALUES (1, 'user@example.com');
+
+-- Query as different roles to see masking in action
+SELECT * FROM user_info;
+```
+
+## Prerequisites
+
+- Define user roles and their access privileges before creating policies
+- Ensure users have appropriate roles assigned
+- See [User & Role](/sql/sql-commands/ddl/user/) for role management
+
+## Policy Management
+
+For detailed commands to create, modify, and manage masking policies, see:
+- [CREATE MASKING POLICY](/sql/sql-commands/ddl/mask-policy/create-mask-policy)
+- [ALTER TABLE COLUMN](/sql/sql-commands/ddl/table/alter-table-column)
+- [Masking Policy Commands](/sql/sql-commands/ddl/mask-policy/)
+  
