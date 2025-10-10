@@ -5,25 +5,25 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.784"/>
+<FunctionDescription description="Introduced or updated: v1.2.807"/>
 
 Creates a new sequence in Databend.
 
-Sequence is an object employed to generate unique numerical identifiers automatically, frequently utilized for assigning distinct identifiers to rows in tables, such as user ID columns. Typically, sequences start with a specified value and increment by a specified amount. 
-
-:::note
-A sequence in Databend currently starts with 1 and increments by 1. While sequences guarantee unique values, they **do not** ensure contiguity (i.e., without gaps).
-:::
+A sequence is an object that automatically generates unique numeric identifiers, commonly used for assigning distinct values to table rows (e.g., user IDs). While sequences guarantee unique values, they **do not** ensure contiguity (i.e., gaps may occur).
 
 ## Syntax
 
 ```sql
-CREATE [ OR REPLACE ] SEQUENCE [IF NOT EXISTS] <sequence>
+CREATE [ OR REPLACE ] SEQUENCE [ IF NOT EXISTS ] <sequence>
+    [ START [ = ] <start_value> ]
+    [ INCREMENT [ = ] <increment_value> ]
 ```
 
-| Parameter    | Description                             |
-|--------------|-----------------------------------------|
-| `<sequence>` | The name of the sequence to be created. |
+| Parameter           | Description                                           | Default |
+|---------------------|-------------------------------------------------------|---------|
+| `<sequence>`        | The name of the sequence to be created.               | -       |
+| `START`             | The initial value of the sequence.                    | 1       |
+| `INCREMENT`         | The increment value for each call to NEXTVAL.         | 1       |
 
 ## Access control requirements
 
@@ -46,24 +46,22 @@ This is an experimental feature and may be enabled by default in the future.
 
 ## Examples
 
-This example showcases how sequences and the [NEXTVAL](/sql/sql-functions/sequence-functions/nextval) function are employed to automatically generate and assign unique identifiers to rows in a table.
+### Basic Sequence
+
+Create a sequence with default settings (starts at 1, increments by 1):
 
 ```sql
--- Create a new sequence named staff_id_seq
 CREATE SEQUENCE staff_id_seq;
 
--- Create a new table named staff with columns for staff_id, name, and department
 CREATE TABLE staff (
     staff_id INT,
     name VARCHAR(50),
     department VARCHAR(50)
 );
 
--- Insert a new row into the staff table, using the next value from the staff_id_seq sequence for the staff_id column
 INSERT INTO staff (staff_id, name, department)
 VALUES (NEXTVAL(staff_id_seq), 'John Doe', 'HR');
 
--- Insert another row into the staff table, using the next value from the staff_id_seq sequence for the staff_id column
 INSERT INTO staff (staff_id, name, department)
 VALUES (NEXTVAL(staff_id_seq), 'Jane Smith', 'Finance');
 
@@ -75,4 +73,32 @@ SELECT * FROM staff;
 │               2 │ Jane Smith       │ Finance          │
 │               1 │ John Doe         │ HR               │
 └───────────────────────────────────────────────────────┘
+```
+
+### Custom Start and Increment
+
+Create a sequence starting at 1000 with increment of 10:
+
+```sql
+CREATE SEQUENCE order_id_seq START = 1000 INCREMENT = 10;
+
+CREATE TABLE orders (
+    order_id BIGINT,
+    order_name VARCHAR(100)
+);
+
+INSERT INTO orders (order_id, order_name)
+VALUES (NEXTVAL(order_id_seq), 'Order A');
+
+INSERT INTO orders (order_id, order_name)
+VALUES (NEXTVAL(order_id_seq), 'Order B');
+
+SELECT * FROM orders;
+
+┌──────────────────────────────────┐
+│    order_id    │    order_name   │
+├────────────────┼─────────────────┤
+│           1000 │ Order A         │
+│           1010 │ Order B         │
+└──────────────────────────────────┘
 ```
