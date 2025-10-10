@@ -1,32 +1,33 @@
+---
 title: CREATE TABLE
 sidebar_position: 1
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.784"/>
+<FunctionDescription description="Introduced or updated: v1.2.821"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='COMPUTED COLUMN'/>
 
-对许多数据库来说，创建表是最复杂的操作之一，因为你可能需要：
+在许多数据库中，创建表是最复杂的操作之一，因为你可能需要：
 
-- 手动指定引擎
-- 手动指定索引
-- 甚至指定数据分区或数据分片
+- 手动指定引擎  
+- 手动指定索引  
+- 甚至指定数据分区或分片  
 
-Databend 的设计目标是易于使用，在创建表时不需要进行任何这些操作。此外，CREATE TABLE 语句提供了以下选项，使你在各种场景下创建表变得更加容易：
+Databend 以“开箱即用”为设计目标，创建表时无需上述任何操作。此外，CREATE TABLE 语句提供以下选项，帮助你在不同场景下轻松建表：
 
-- [CREATE TABLE](#create-table)：从头开始创建表。
-- [CREATE TABLE ... LIKE](#create-table--like)：创建一个与现有表具有相同列定义的表。
-- [CREATE TABLE ... AS](#create-table--as)：创建一个表，并使用 SELECT 查询的结果插入数据。
+- [CREATE TABLE](#create-table)：从零开始创建表。  
+- [CREATE TABLE ... LIKE](#create-table--like)：按已有表的列定义创建新表。  
+- [CREATE TABLE ... AS](#create-table--as)：创建表并将 SELECT 查询结果作为数据插入。  
 
 另请参阅：
 
-- [CREATE TEMP TABLE](10-ddl-create-temp-table.md)
-- [CREATE TRANSIENT TABLE](10-ddl-create-transient-table.md)
-- [CREATE EXTERNAL TABLE](10-ddl-create-table-external-location.md)
+- [CREATE TEMP TABLE](10-ddl-create-temp-table.md)  
+- [CREATE TRANSIENT TABLE](10-ddl-create-transient-table.md)  
+- [CREATE EXTERNAL TABLE](10-ddl-create-table-external-location.md)  
 
 ## CREATE TABLE
 
@@ -34,7 +35,12 @@ Databend 的设计目标是易于使用，在创建表时不需要进行任何�
 CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 (
     <column_name> <data_type> [ NOT NULL | NULL ]
-                              [ { DEFAULT <expr> } ]
+                              [ { DEFAULT <expr>
+                                | { AUTOINCREMENT | IDENTITY }
+                                  [ { ( <start_num> , <step_num> )
+                                    | START <num> INCREMENT <num> } ]
+                                  [ { ORDER | NOORDER } ]
+                                } ]
                               [ AS (<expr>) STORED | VIRTUAL ]
                               [ COMMENT '<comment>' ],
     <column_name> <data_type> ...
@@ -44,16 +50,14 @@ CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 
 :::note
 
-- 有关 Databend 中可用的数据类型，请参阅 [数据类型](../../../00-sql-reference/10-data-types/index.md)。
-
-- Databend 建议在命名列时尽量避免使用特殊字符。但是，如果在某些情况下必须使用特殊字符，别名应使用反引号括起来，例如：CREATE TABLE price(\`$CA\` int);
-
-- Databend 会自动将列名转换为小写。例如，如果你将一列命名为 _Total_，它在结果中将显示为 _total_。
-  :::
+- 关于 Databend 支持的数据类型，参见 [数据类型](../../../00-sql-reference/10-data-types/index.md)。  
+- 建议列名避免特殊字符；如必须使用，请用反引号包裹，例如：CREATE TABLE price(\`$CA\` int);  
+- Databend 会自动将列名转为小写。例如列名 _Total_ 在结果中显示为 _total_。  
+:::
 
 ## CREATE TABLE ... LIKE
 
-创建一个与现有表具有相同列定义的表。现有表的列名、数据类型及其非空约束将被复制到新表中。
+按已有表的列定义创建新表，复制列名、数据类型及非 NULL 约束，但不复制数据及其他属性（如 `CLUSTER BY`、`TRANSIENT`、`COMPRESSION`）。
 
 语法：
 
@@ -62,23 +66,19 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 LIKE [db.]origin_table_name
 ```
 
-此命令不包含原始表中的任何数据或属性（例如 `CLUSTER BY`、`TRANSIENT` 和 `COMPRESSION`），而是使用默认系统设置创建一个新表。
-
 :::note 解决方法
 
-- 在使用此命令创建新表时，可以显式指定 `TRANSIENT` 和 `COMPRESSION`。例如，
+可显式指定 `TRANSIENT` 或 `COMPRESSION`：
 
 ```sql
 create transient table t_new like t_old;
-
 create table t_new compression='lz4' like t_old;
 ```
-
 :::
 
 ## CREATE TABLE ... AS
 
-创建一个表，并用 SELECT 命令计算的数据填充它。
+创建表并用 SELECT 查询结果填充数据，不继承原表的任何属性（如 CLUSTER BY、TRANSIENT、COMPRESSION）。
 
 语法：
 
@@ -87,90 +87,100 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name
 AS SELECT query
 ```
 
-此命令不包含原始表中的任何属性（例如 CLUSTER BY、TRANSIENT 和 COMPRESSION），而是使用默认系统设置创建一个新表。
-
 :::note 解决方法
 
-- 在使用此命令创建新表时，可以显式指定 `TRANSIENT` 和 `COMPRESSION`。例如，
+可显式指定 `TRANSIENT` 或 `COMPRESSION`：
 
 ```sql
 create transient table t_new as select * from t_old;
-
 create table t_new compression='lz4' as select * from t_old;
 ```
-
 :::
 
 ## 列的可空性
 
-在 Databend 中，默认情况下**所有列都是可空的（NULL）**。如果需要一个不允许 NULL 值的列，请使用 NOT NULL 约束。更多信息，请参阅 [NULL 值和 NOT NULL 约束](../../../00-sql-reference/10-data-types/index.md)。
+默认情况下，**所有列都允许 NULL**。如需禁止 NULL，请使用 NOT NULL 约束。详见 [NULL 值与 NOT NULL 约束](../../../00-sql-reference/10-data-types/index.md)。
 
 ## 列默认值
 
-`DEFAULT <expr>` 在未提供显式表达式时为列设置默认值。默认表达式可以是：
+`DEFAULT <expr>` 为列设置默认值，支持：
 
-- 一个固定常量，例如下面示例中 `department` 列的 `Marketing`。
-- 一个没有输入参数并返回标量值的表达式，例如 `1 + 1`、`NOW()` 或 `UUID()`。
-- 从序列中动态生成的值，例如下面示例中 `staff_id` 列的 `NEXTVAL(staff_id_seq)`。
-  - NEXTVAL 必须作为独立的默认值使用；不支持类似 `NEXTVAL(seq1) + 1` 的表达式。
-  - 用户必须遵守其被授予的序列使用权限，包括 [NEXTVAL](/sql/sql-functions/sequence-functions/nextval#access-control-requirements) 等操作。
+- 固定常量，如 `Marketing`  
+- 无入参的标量表达式，如 `1 + 1`、`NOW()`、`UUID()`  
+- 序列动态值，如 `NEXTVAL(staff_id_seq)`  
+  - NEXTVAL 必须独立使用，不支持 `NEXTVAL(seq1) + 1`  
+  - 需具备相应序列权限  
+
+## 自增列
+
+<FunctionDescription description="Introduced or updated: v1.2.821"/>
+
+使用 `AUTOINCREMENT` 或 `IDENTITY` 创建自增列，自动生成顺序数字，常用于唯一标识。
+
+**语法：**
 
 ```sql
-CREATE SEQUENCE staff_id_seq;
+{ AUTOINCREMENT | IDENTITY }
+  [ { ( <start_num> , <step_num> )
+    | START <num> INCREMENT <num> } ]
+  [ { ORDER | NOORDER } ]
+```
 
-CREATE TABLE staff (
-    staff_id INT DEFAULT NEXTVAL(staff_id_seq), -- 如果未提供值，则从序列 'staff_id_seq' 中分配下一个数字
-    name VARCHAR(50),
-    department VARCHAR(50) DEFAULT 'Marketing' -- 如果未提供值，则默认为 'Marketing'
+**参数：**
+
+- `start_num`：起始值（默认 1）  
+- `step_num`：步长（默认 1）  
+- `ORDER`：保证单调递增（可能有间隙）  
+- `NOORDER`：不保证顺序（默认）  
+
+**要点：**
+
+- 内部由序列实现  
+- 删除列时关联序列一并删除  
+- 未指定值时自动生成  
+- `AUTOINCREMENT` 与 `IDENTITY` 等价  
+
+**示例：**
+
+```sql
+CREATE TABLE users (
+    user_id BIGINT AUTOINCREMENT,
+    order_id BIGINT AUTOINCREMENT START 100 INCREMENT 10,
+    username VARCHAR
 );
 
--- 当 COPY INTO 中不包含 staff_id 时，staff_id 会自动生成
-COPY INTO staff(name, department) FROM @stage ...
+INSERT INTO users (username) VALUES ('alice'), ('bob'), ('charlie');
 
--- staff_id 从暂存文件中加载
-COPY INTO staff FROM @stage ...
-COPY INTO staff(staff_id, name, department) FROM @stage ...
+SELECT * FROM users;
 ```
 
 ## 计算列
 
-计算列（Computed Column）是使用标量表达式从表中的其他列生成的列。当用于计算的任何列中的数据更新时，计算列将自动重新计算其值以反映更新。
+计算列通过标量表达式由其他列生成，支持两种类型：
 
-Databend 支持两种类型的计算列：存储型（Stored）和虚拟型（Virtual）。存储型计算列物理存储在数据库中并占用存储空间，而虚拟型计算列不进行物理存储，其值在访问时动态计算。
+- **STORED**：值持久化存储，依赖列变更时自动更新  
+- **VIRTUAL**：查询时实时计算，节省存储  
 
-Databend 支持两种创建计算列的语法选项：一种使用 `AS (<expr>)`，另一种使用 `GENERATED ALWAYS AS (<expr>)`。两种语法都允许指定计算列是存储型还是虚拟型。
+**语法：**
 
 ```sql
-CREATE TABLE [IF NOT EXISTS] [db.]table_name
-(
-    <column_name> <data_type> [ NOT NULL | NULL] AS (<expr>) STORED | VIRTUAL,
-    <column_name> <data_type> [ NOT NULL | NULL] AS (<expr>) STORED | VIRTUAL,
-    ...
-)
-
-CREATE TABLE [IF NOT EXISTS] [db.]table_name
-(
-    <column_name> <data_type> [NOT NULL | NULL] GENERATED ALWAYS AS (<expr>) STORED | VIRTUAL,
-    <column_name> <data_type> [NOT NULL | NULL] GENERATED ALWAYS AS (<expr>) STORED | VIRTUAL,
-    ...
-)
+<column_name> <data_type> [ NOT NULL | NULL ] AS (<expr>) { STORED | VIRTUAL }
+<column_name> <data_type> [ NOT NULL | NULL ] GENERATED ALWAYS AS (<expr>) { STORED | VIRTUAL }
 ```
 
-以下是创建存储型计算列的示例：每当 "price" 或 "quantity" 列的值更新时，"total_price" 列将自动重新计算并更新其存储值。
+**示例：**
 
 ```sql
-CREATE TABLE IF NOT EXISTS products (
+-- STORED：物理存储，立即更新
+CREATE TABLE products (
   id INT,
   price FLOAT64,
   quantity INT,
   total_price FLOAT64 AS (price * quantity) STORED
 );
-```
 
-以下是创建虚拟型计算列的示例："full_name" 列根据 "first_name" 和 "last_name" 列的当前值动态计算。它不占用额外的存储空间。每当访问 "first_name" 或 "last_name" 的值时，将计算并返回 "full_name" 列。
-
-```sql
-CREATE TABLE IF NOT EXISTS employees (
+-- VIRTUAL：查询时计算，无存储开销
+CREATE TABLE employees (
   id INT,
   first_name VARCHAR,
   last_name VARCHAR,
@@ -178,35 +188,27 @@ CREATE TABLE IF NOT EXISTS employees (
 );
 ```
 
-:::tip STORED 还是 VIRTUAL？
-在选择存储型计算列和虚拟型计算列时，请考虑以下因素：
-
-- 存储空间：存储型计算列会占用表中额外的存储空间，因为它们的计算值是物理存储的。如果你的数据库空间有限或希望最小化存储使用，虚拟型计算列可能是更好的选择。
-
-- 实时更新：当依赖的列更新时，存储型计算列会立即更新其计算值。这确保了在查询时始终能获得最新的计算值。而虚拟型计算列在查询期间动态计算其值，这可能会略微增加处理时间。
-
-- 数据完整性和一致性：存储型计算列在写入操作时更新其计算值，从而保持即时的数据一致性。然而，虚拟型计算列在查询时动态计算其值，这意味着在写入操作和后续查询之间可能存在短暂的不一致。
-  :::
+:::tip
+频繁查询且对性能敏感时选 **STORED**；计算成本可接受且需节省空间时选 **VIRTUAL**。  
+:::
 
 ## MySQL 兼容性
 
-Databend 的语法与 MySQL 的主要区别在于数据类型和一些特定的索引提示。
+Databend 语法与 MySQL 的差异主要在数据类型及部分索引提示。
 
 ## 访问控制要求
 
-| 权限 | 对象类型 | 描述 |
-|:----------|:--------------|:-----------------------|
-| CREATE | Global, Table | 创建表。 |
+| 权限   | 对象类型   | 描述     |
+|:-------|:-----------|:---------|
+| CREATE | 全局、表   | 创建表   |
 
-
-要创建表，执行操作的用户或 [current_role](/guides/security/access-control/roles) 必须具有 CREATE [权限](/guides/security/access-control/privileges#table-privileges)。
-
+创建表时，用户或 [current_role](/guides/security/access-control/roles) 需具备 CREATE [权限](/guides/security/access-control/privileges#table-privileges)。
 
 ## 示例
 
 ### 创建表
 
-创建一个列带有默认值的表（在本例中，`genre` 列的默认值为 'General'）：
+创建带默认值的表：
 
 ```sql
 CREATE TABLE books (
@@ -216,108 +218,43 @@ CREATE TABLE books (
 );
 ```
 
-描述该表以确认其结构和 `genre` 列的默认值：
+查看表结构：
 
 ```sql
 DESC books;
-+-------+-----------------+------+---------+-------+
-| Field | Type            | Null | Default | Extra |
-+-------+-----------------+------+---------+-------+
-| id    | BIGINT UNSIGNED | YES  | 0       |       |
-| title | VARCHAR         | YES  | ""      |       |
-| genre | VARCHAR         | YES  | 'General'|       |
-+-------+-----------------+------+---------+-------+
 ```
 
-插入一行时不指定 `genre`：
+插入数据：
 
 ```sql
 INSERT INTO books(id, title) VALUES(1, 'Invisible Stars');
 ```
 
-查询该表，注意 `genre` 列已被设置为默认值 'General'：
+查询结果：
 
 ```sql
 SELECT * FROM books;
-+----+----------------+---------+
-| id | title          | genre   |
-+----+----------------+---------+
-|  1 | Invisible Stars| General |
-+----+----------------+---------+
 ```
 
-### 创建表 ... Like
+### CREATE TABLE ... LIKE
 
-创建一个新表（`books_copy`），其结构与现有表（`books`）相同：
+按结构创建新表：
 
 ```sql
 CREATE TABLE books_copy LIKE books;
 ```
 
-检查新表的结构：
+### CREATE TABLE ... AS
 
-```sql
-DESC books_copy;
-+-------+-----------------+------+---------+-------+
-| Field | Type            | Null | Default | Extra |
-+-------+-----------------+------+---------+-------+
-| id    | BIGINT UNSIGNED | YES  | 0       |       |
-| title | VARCHAR         | YES  | ""      |       |
-| genre | VARCHAR         | YES  | 'General'|       |
-+-------+-----------------+------+---------+-------+
-```
-
-向新表中插入一行，注意 `genre` 列的默认值已被复制：
-
-```sql
-INSERT INTO books_copy(id, title) VALUES(1, 'Invisible Stars');
-
-SELECT * FROM books_copy;
-+----+----------------+---------+
-| id | title          | genre   |
-+----+----------------+---------+
-|  1 | Invisible Stars| General |
-+----+----------------+---------+
-```
-
-### 创建表 ... As
-
-创建一个新表（`books_backup`），其中包含现有表（`books`）的数据：
+创建并复制数据：
 
 ```sql
 CREATE TABLE books_backup AS SELECT * FROM books;
 ```
 
-描述新表，注意 `genre` 列的默认值未被复制：
+### 计算列示例
 
 ```sql
-DESC books_backup;
-+-------+-----------------+------+---------+-------+
-| Field | Type            | Null | Default | Extra |
-+-------+-----------------+------+---------+-------+
-| id    | BIGINT UNSIGNED | NO   | 0       |       |
-| title | VARCHAR         | NO   | ""      |       |
-| genre | VARCHAR         | NO   | NULL    |       |
-+-------+-----------------+------+---------+-------+
-```
-
-查询新表，注意原始表的数据已被复制：
-
-```sql
-SELECT * FROM books_backup;
-+----+----------------+---------+
-| id | title          | genre   |
-+----+----------------+---------+
-|  1 | Invisible Stars| General |
-+----+----------------+---------+
-```
-
-### 创建表 ... 列 AS STORED | VIRTUAL
-
-以下示例演示了一个带有存储型计算列的表，该列会根据 "price" 或 "quantity" 列的更新自动重新计算：
-
-```sql
--- 创建带有存储型计算列的表
 CREATE TABLE IF NOT EXISTS products (
   id INT,
   price FLOAT64,
@@ -325,50 +262,22 @@ CREATE TABLE IF NOT EXISTS products (
   total_price FLOAT64 AS (price * quantity) STORED
 );
 
--- 向表中插入数据
-INSERT INTO products (id, price, quantity)
-VALUES (1, 10.5, 3),
-       (2, 15.2, 5),
-       (3, 8.7, 2);
+INSERT INTO products VALUES (1,10.5,3),(2,15.2,5),(3,8.7,2);
 
--- 查询表以查看计算列
-SELECT id, price, quantity, total_price
-FROM products;
-
----
-+------+-------+----------+-------------+
-| id   | price | quantity | total_price |
-+------+-------+----------+-------------+
-|    1 |  10.5 |        3 |        31.5 |
-|    2 |  15.2 |        5 |        76.0 |
-|    3 |   8.7 |        2 |        17.4 |
-+------+-------+----------+-------------+
+SELECT * FROM products;
 ```
 
-在此示例中，我们创建一个名为 `student_profiles` 的表，其中包含一个名为 `profile` 的 Variant 类型列，用于存储 JSON 数据。我们还添加了一个名为 `age` 的虚拟计算列，它从 `profile` 列中提取 `age` 属性并将其转换为整数。
-
 ```sql
--- 创建带有虚拟型计算列的表
 CREATE TABLE student_profiles (
     id STRING,
     profile VARIANT,
     age INT NULL AS (profile['age']::INT) VIRTUAL
 );
 
--- 向表中插入数据
-INSERT INTO student_profiles (id, profile) VALUES
-    ('d78236', '{"id": "d78236", "name": "Arthur Read", "age": "16", "school": "PVPHS", "credits": 120, "sports": "none"}'),
-    ('f98112', '{"name": "Buster Bunny", "age": "15", "id": "f98112", "school": "TEO", "credits": 67, "clubs": "MUN"}'),
-    ('t63512', '{"name": "Ernie Narayan", "school" : "Brooklyn Tech", "id": "t63512", "sports": "Track and Field", "clubs": "Chess"}');
+INSERT INTO student_profiles VALUES
+  ('d78236','{"id":"d78236","name":"Arthur Read","age":"16"}'),
+  ('f98112','{"name":"Buster Bunny","age":"15","id":"f98112"}'),
+  ('t63512','{"name":"Ernie Narayan","id":"t63512"}');
 
--- 查询表以查看计算列
 SELECT * FROM student_profiles;
-
-+--------+------------------------------------------------------------------------------------------------------------+------+
-| id     | profile                                                                                                    | age  |
-+--------+------------------------------------------------------------------------------------------------------------+------+
-| d78236 | `{"age":"16","credits":120,"id":"d78236","name":"Arthur Read","school":"PVPHS","sports":"none"}`            |   16 |
-| f98112 | `{"age":"15","clubs":"MUN","credits":67,"id":"f98112","name":"Buster Bunny","school":"TEO"}`                |   15 |
-| t63512 | `{"clubs":"Chess","id":"t63512","name":"Ernie Narayan","school":"Brooklyn Tech","sports":"Track and Field"}` | NULL |
-+--------+------------------------------------------------------------------------------------------------------------+------+
 ```
