@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.823"/>
 
-包含复制历史的相关信息。
+包含 COPY 历史的相关信息。
 
 ```sql
 select * from copy_history('abc');
