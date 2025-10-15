@@ -49,7 +49,6 @@ This page provides a comprehensive overview of table operations in Databend, org
 
 | Command | Description |
 |---------|-------------|
-| [ANALYZE TABLE](80-analyze-table.md) | Calculates table statistics to improve query performance |
 | [OPTIMIZE TABLE](60-optimize-table.md) | Compacts or purges historical data to save storage space and enhance query performance |
 | [SET CLUSTER KEY](../06-clusterkey/dml-set-cluster-key.md) | Configures a cluster key to enhance query performance for large tables |
 
