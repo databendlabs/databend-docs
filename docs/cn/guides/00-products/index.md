@@ -29,7 +29,7 @@ Databend 是云端多模态 Data+AI 数仓，原生列式存储覆盖结构化�
 **AI 与高级分析**
 - **[Databend AI 与机器学习](/guides/ai-functions)**: 在数据处理中利用 AI 功能。
 - **[向量函数](/sql/sql-functions/vector-functions)**: 用于机器学习工作负载的向量相似度和距离计算。
-- **[全文搜索](/guides/performance/fulltext-index)**: 高级文本搜索和相关性评分。
+- **[全文索引](/guides/performance/fulltext-index)**: 高级文本搜索和相关性评分。
 
 **性能与扩展**
 - **[性能优化](/guides/performance)**: 通过各种策略提升查询性能。
