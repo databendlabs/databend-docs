@@ -20,9 +20,9 @@ cn=
 en=
 '
 
-**Databend** is the next-generation cloud **[Data+AI] Analytics** platform for structured, semi-structured & unstructured multimodal data.
+**Databend** is the multimodal cloud **[Data+AI]** warehouse bringing structured, semi-structured, unstructured, and vector data together in native columnar storage that runs directly on your object store—your data is ready the moment it lands.
 
-As the **open-source alternative to Snowflake** with **near 100% SQL compatibility** and native AI capabilities, trusted by world-class enterprises managing **800+ petabytes** and **100+ million queries daily**.
+Built-in Datastore, Vector Database, Analytics, Search, and Geospatial engines converge on one Snowflake-compatible SQL surface, so teams store anything, search everything, power semantic workloads, and deliver real-time insights without moving data.
 
 '/>
 
