@@ -8,23 +8,10 @@ import Speaker from '@site/src/components/Speaker'
 import LanguageDocs from '@site/src/components/LanguageDocs';
 
 欢迎来到 Databend（发音为 /ˈdeɪtəˌbɛnd/）<Speaker /> 文档。
-<LanguageDocs
-cn=
-'
 
-**Databend** 是新一代云原生 **[数据+AI] 分析平台**，支持结构化、半结构化和非结构化多模态数据。
+Databend 是云端多模态 Data+AI 数仓，原生列式存储覆盖结构化、半结构化、非结构化与向量数据，以对象存储为底座，数据写入即可使用。
 
-作为 **Snowflake 的开源替代方案**，具有**近 100% SQL 兼容性**和原生 AI 能力，受到世界级企业信赖，管理着 **800+ PB** 数据和**每日 1 亿+** 查询。
-
-'
-en=
-'
-
-**Databend** is the multimodal cloud **[Data+AI]** warehouse bringing structured, semi-structured, unstructured, and vector data together in native columnar storage that runs directly on your object store—your data is ready the moment it lands.
-
-Built-in Datastore, Vector Database, Analytics, Search, and Geospatial engines converge on one Snowflake-compatible SQL surface, so teams store anything, search everything, power semantic workloads, and deliver real-time insights without moving data.
-
-'/>
+它提供一体化的 Datastore、向量数据库、分析、搜索、地理空间引擎，并通过 SQL 统一对外服务，帮助团队集中管理数据、智能检索并实时获得洞察。
 
 <DocsOverview />
 
