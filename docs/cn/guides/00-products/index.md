@@ -9,7 +9,7 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 欢迎来到 Databend（发音为 /ˈdeɪtəˌbɛnd/）<Speaker /> 文档。
 
-Databend 是云端多模态 Data+AI 数仓，原生列式存储覆盖结构化、半结构化、非结构化与向量数据，以对象存储为底座，数据写入即可使用。
+Databend 是新一代多模态 Data+AI 数仓，原生列式存储覆盖结构化、半结构化、非结构化与向量数据，以对象存储为底座，数据写入即可使用。
 
 基于重新设计的统一架构，Datastore、向量数据、分析、搜索与地理空间等能力由同一引擎驱动，并通过 SQL 对外提供服务，帮助团队集中管理数据、快速检索并实时获得洞察。
 
