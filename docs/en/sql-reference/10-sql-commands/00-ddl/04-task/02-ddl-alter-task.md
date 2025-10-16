@@ -8,8 +8,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 The ALTER TASK statement is used to modify an existing task.
 
-**NOTICE:** this functionality works out of the box only in Databend Cloud.
-
 ## Syntax
 
 ```sql
