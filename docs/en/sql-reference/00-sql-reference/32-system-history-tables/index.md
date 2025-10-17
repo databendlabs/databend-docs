@@ -55,7 +55,7 @@ GRANT ROLE audit_team TO USER compliance_officer;
 ### Self-Hosted Databend
 
 <DetailsWrap>
-<details>
+<details open>
 <summary>📝 **Manual configuration required** - Click to expand configuration details</summary>
 
 #### Minimal Configuration
