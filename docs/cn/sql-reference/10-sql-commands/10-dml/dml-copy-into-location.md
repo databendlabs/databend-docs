@@ -26,6 +26,7 @@ FROM { [<database_name>.]<table_name> | ( <query> ) }
 [ copyOptions ]
 [ VALIDATION_MODE = RETURN_ROWS ]
 [ DETAILED_OUTPUT = true | false ]
+[ PARTITION BY <expr> ]
 ```
 
 ### internalStage
