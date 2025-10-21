@@ -47,4 +47,4 @@ Built-in Datastore, Vector Database, Analytics, Search, and Geospatial engines c
 **Performance & Scale**
 - **[Performance Optimization](/guides/performance)**: Enhance query performance with various strategies.
 - **[Benchmarks](/guides/benchmark)**: Compare Databend performance with other data warehouses.
-- **[Data Lakehouse](/guides/access-data-lake)**: Seamless integration with Hive, Iceberg, and Delta Lake.
+- **[Data Lakehouse](/sql/sql-reference/table-engines)**: Seamless integration with Hive, Iceberg, and Delta Lake.

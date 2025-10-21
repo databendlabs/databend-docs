@@ -1,6 +1,10 @@
 ---
-title: Delta Lake
+id: delta
+title: Delta Lake Engine
+sidebar_label: Delta Lake Engine
+slug: /sql-reference/table-engines/delta
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.262"/>
