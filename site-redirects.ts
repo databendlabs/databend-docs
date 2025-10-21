@@ -198,6 +198,711 @@ const siteRedirects = [
     from: '/sql/sql-functions/map-functions/map-transform-values',
     to: '/sql/sql-functions/semi-structured-functions/map/map-transform-values'
   },
+  // Geospatial Functions: merged geo- and geometry- into geospatial
+  {
+    from: '/sql/sql-functions/geo-functions/',
+    to: '/sql/sql-functions/geospatial-functions/'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/',
+    to: '/sql/sql-functions/geospatial-functions/'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/geo-to-h3',
+    to: '/sql/sql-functions/geospatial-functions/geo-to-h3'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/geohash-decode',
+    to: '/sql/sql-functions/geospatial-functions/geohash-decode'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/geohash-encode',
+    to: '/sql/sql-functions/geospatial-functions/geohash-encode'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-cell-area-m2',
+    to: '/sql/sql-functions/geospatial-functions/h3-cell-area-m2'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-cell-area-rads2',
+    to: '/sql/sql-functions/geospatial-functions/h3-cell-area-rads2'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-distance',
+    to: '/sql/sql-functions/geospatial-functions/h3-distance'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-edge-angle',
+    to: '/sql/sql-functions/geospatial-functions/h3-edge-angle'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-edge-length-km',
+    to: '/sql/sql-functions/geospatial-functions/h3-edge-length-km'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-edge-length-m',
+    to: '/sql/sql-functions/geospatial-functions/h3-edge-length-m'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-exact-edge-length-km',
+    to: '/sql/sql-functions/geospatial-functions/h3-exact-edge-length-km'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-exact-edge-length-m',
+    to: '/sql/sql-functions/geospatial-functions/h3-exact-edge-length-m'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-exact-edge-length-rads',
+    to: '/sql/sql-functions/geospatial-functions/h3-exact-edge-length-rads'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-get-base-cell',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-base-cell'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-get-destination-index-from-unidirectional-edge',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-destination-index-from-unidirectional-edge'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-get-faces',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-faces'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-get-indexes-from-unidirectional-edge',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-indexes-from-unidirectional-edge'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-get-origin-index-from-unidirectional-edge',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-origin-index-from-unidirectional-edge'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-get-resolution',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-resolution'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-get-unidirectional-edge',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-unidirectional-edge'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-get-unidirectional-edge-boundary',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-unidirectional-edge-boundary'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-get-unidirectional-edges-from-hexagon',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-unidirectional-edges-from-hexagon'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-hex-area-km2',
+    to: '/sql/sql-functions/geospatial-functions/h3-hex-area-km2'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-hex-area-m2',
+    to: '/sql/sql-functions/geospatial-functions/h3-hex-area-m2'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-hex-ring',
+    to: '/sql/sql-functions/geospatial-functions/h3-hex-ring'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-indexes-are-neighbors',
+    to: '/sql/sql-functions/geospatial-functions/h3-indexes-are-neighbors'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-is-pentagon',
+    to: '/sql/sql-functions/geospatial-functions/h3-is-pentagon'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-is-res-class-iii',
+    to: '/sql/sql-functions/geospatial-functions/h3-is-res-class-iii'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-is-valid',
+    to: '/sql/sql-functions/geospatial-functions/h3-is-valid'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-k-ring',
+    to: '/sql/sql-functions/geospatial-functions/h3-k-ring'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-line',
+    to: '/sql/sql-functions/geospatial-functions/h3-line'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-num-hexagons',
+    to: '/sql/sql-functions/geospatial-functions/h3-num-hexagons'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-to-center-child',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-center-child'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-to-children',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-children'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-to-geo-boundary',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-geo-boundary'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-to-geo',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-geo'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-to-parent',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-parent'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-to-string',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-string'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/h3-unidirectional-edge-is-valid',
+    to: '/sql/sql-functions/geospatial-functions/h3-unidirectional-edge-is-valid'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/haversine',
+    to: '/sql/sql-functions/geospatial-functions/haversine'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/point-in-polygon',
+    to: '/sql/sql-functions/geospatial-functions/point-in-polygon'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-asbinary',
+    to: '/sql/sql-functions/geospatial-functions/st-asbinary'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-asewkb',
+    to: '/sql/sql-functions/geospatial-functions/st-asewkb'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-asewkt',
+    to: '/sql/sql-functions/geospatial-functions/st-asewkt'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-asgeojson',
+    to: '/sql/sql-functions/geospatial-functions/st-asgeojson'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-astext',
+    to: '/sql/sql-functions/geospatial-functions/st-astext'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-aswkb',
+    to: '/sql/sql-functions/geospatial-functions/st-aswkb'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-aswkt',
+    to: '/sql/sql-functions/geospatial-functions/st-aswkt'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-contains',
+    to: '/sql/sql-functions/geospatial-functions/st-contains'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-dimension',
+    to: '/sql/sql-functions/geospatial-functions/st-dimension'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-distance',
+    to: '/sql/sql-functions/geospatial-functions/st-distance'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-endpoint',
+    to: '/sql/sql-functions/geospatial-functions/st-endpoint'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geohash',
+    to: '/sql/sql-functions/geospatial-functions/st-geohash'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geom-point',
+    to: '/sql/sql-functions/geospatial-functions/st-geom-point'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geometryfromewkb',
+    to: '/sql/sql-functions/geospatial-functions/st-geometryfromewkb'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geometryfromewkt',
+    to: '/sql/sql-functions/geospatial-functions/st-geometryfromewkt'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geometryfromtext',
+    to: '/sql/sql-functions/geospatial-functions/st-geometryfromtext'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geometryfromwkb',
+    to: '/sql/sql-functions/geospatial-functions/st-geometryfromwkb'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geometryfromwkt',
+    to: '/sql/sql-functions/geospatial-functions/st-geometryfromwkt'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geomfromewkb',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromewkb'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geomfromewkt',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromewkt'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geomfromgeohash',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromgeohash'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geomfromtext',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromtext'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geomfromwkb',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromwkb'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geomfromwkt',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromwkt'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-geompointfromgeohash',
+    to: '/sql/sql-functions/geospatial-functions/st-geompointfromgeohash'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-length',
+    to: '/sql/sql-functions/geospatial-functions/st-length'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-make-line',
+    to: '/sql/sql-functions/geospatial-functions/st-make-line'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-makegeompoint',
+    to: '/sql/sql-functions/geospatial-functions/st-makegeompoint'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-makeline',
+    to: '/sql/sql-functions/geospatial-functions/st-makeline'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-makepolygon',
+    to: '/sql/sql-functions/geospatial-functions/st-makepolygon'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-npoints',
+    to: '/sql/sql-functions/geospatial-functions/st-npoints'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-numpoints',
+    to: '/sql/sql-functions/geospatial-functions/st-numpoints'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-pointn',
+    to: '/sql/sql-functions/geospatial-functions/st-pointn'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-polygon',
+    to: '/sql/sql-functions/geospatial-functions/st-polygon'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-setsrid',
+    to: '/sql/sql-functions/geospatial-functions/st-setsrid'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-srid',
+    to: '/sql/sql-functions/geospatial-functions/st-srid'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-startpoint',
+    to: '/sql/sql-functions/geospatial-functions/st-startpoint'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-transform',
+    to: '/sql/sql-functions/geospatial-functions/st-transform'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-x',
+    to: '/sql/sql-functions/geospatial-functions/st-x'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-xmax',
+    to: '/sql/sql-functions/geospatial-functions/st-xmax'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-xmin',
+    to: '/sql/sql-functions/geospatial-functions/st-xmin'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-y',
+    to: '/sql/sql-functions/geospatial-functions/st-y'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-ymax',
+    to: '/sql/sql-functions/geospatial-functions/st-ymax'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/st-ymin',
+    to: '/sql/sql-functions/geospatial-functions/st-ymin'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/string-to-h3',
+    to: '/sql/sql-functions/geospatial-functions/string-to-h3'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/to-geometry',
+    to: '/sql/sql-functions/geospatial-functions/to-geometry'
+  },
+  {
+    from: '/sql/sql-functions/geo-functions/to-string',
+    to: '/sql/sql-functions/geospatial-functions/to-string'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/geo-to-h3',
+    to: '/sql/sql-functions/geospatial-functions/geo-to-h3'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/geohash-decode',
+    to: '/sql/sql-functions/geospatial-functions/geohash-decode'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/geohash-encode',
+    to: '/sql/sql-functions/geospatial-functions/geohash-encode'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-cell-area-m2',
+    to: '/sql/sql-functions/geospatial-functions/h3-cell-area-m2'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-cell-area-rads2',
+    to: '/sql/sql-functions/geospatial-functions/h3-cell-area-rads2'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-distance',
+    to: '/sql/sql-functions/geospatial-functions/h3-distance'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-edge-angle',
+    to: '/sql/sql-functions/geospatial-functions/h3-edge-angle'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-edge-length-km',
+    to: '/sql/sql-functions/geospatial-functions/h3-edge-length-km'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-edge-length-m',
+    to: '/sql/sql-functions/geospatial-functions/h3-edge-length-m'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-exact-edge-length-km',
+    to: '/sql/sql-functions/geospatial-functions/h3-exact-edge-length-km'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-exact-edge-length-m',
+    to: '/sql/sql-functions/geospatial-functions/h3-exact-edge-length-m'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-exact-edge-length-rads',
+    to: '/sql/sql-functions/geospatial-functions/h3-exact-edge-length-rads'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-get-base-cell',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-base-cell'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-get-destination-index-from-unidirectional-edge',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-destination-index-from-unidirectional-edge'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-get-faces',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-faces'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-get-indexes-from-unidirectional-edge',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-indexes-from-unidirectional-edge'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-get-origin-index-from-unidirectional-edge',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-origin-index-from-unidirectional-edge'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-get-resolution',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-resolution'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-get-unidirectional-edge',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-unidirectional-edge'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-get-unidirectional-edge-boundary',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-unidirectional-edge-boundary'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-get-unidirectional-edges-from-hexagon',
+    to: '/sql/sql-functions/geospatial-functions/h3-get-unidirectional-edges-from-hexagon'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-hex-area-km2',
+    to: '/sql/sql-functions/geospatial-functions/h3-hex-area-km2'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-hex-area-m2',
+    to: '/sql/sql-functions/geospatial-functions/h3-hex-area-m2'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-hex-ring',
+    to: '/sql/sql-functions/geospatial-functions/h3-hex-ring'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-indexes-are-neighbors',
+    to: '/sql/sql-functions/geospatial-functions/h3-indexes-are-neighbors'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-is-pentagon',
+    to: '/sql/sql-functions/geospatial-functions/h3-is-pentagon'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-is-res-class-iii',
+    to: '/sql/sql-functions/geospatial-functions/h3-is-res-class-iii'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-is-valid',
+    to: '/sql/sql-functions/geospatial-functions/h3-is-valid'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-k-ring',
+    to: '/sql/sql-functions/geospatial-functions/h3-k-ring'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-line',
+    to: '/sql/sql-functions/geospatial-functions/h3-line'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-num-hexagons',
+    to: '/sql/sql-functions/geospatial-functions/h3-num-hexagons'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-to-center-child',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-center-child'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-to-children',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-children'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-to-geo-boundary',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-geo-boundary'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-to-geo',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-geo'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-to-parent',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-parent'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-to-string',
+    to: '/sql/sql-functions/geospatial-functions/h3-to-string'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/h3-unidirectional-edge-is-valid',
+    to: '/sql/sql-functions/geospatial-functions/h3-unidirectional-edge-is-valid'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/haversine',
+    to: '/sql/sql-functions/geospatial-functions/haversine'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/point-in-polygon',
+    to: '/sql/sql-functions/geospatial-functions/point-in-polygon'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-asbinary',
+    to: '/sql/sql-functions/geospatial-functions/st-asbinary'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-asewkb',
+    to: '/sql/sql-functions/geospatial-functions/st-asewkb'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-asewkt',
+    to: '/sql/sql-functions/geospatial-functions/st-asewkt'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-asgeojson',
+    to: '/sql/sql-functions/geospatial-functions/st-asgeojson'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-astext',
+    to: '/sql/sql-functions/geospatial-functions/st-astext'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-aswkb',
+    to: '/sql/sql-functions/geospatial-functions/st-aswkb'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-aswkt',
+    to: '/sql/sql-functions/geospatial-functions/st-aswkt'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-contains',
+    to: '/sql/sql-functions/geospatial-functions/st-contains'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-dimension',
+    to: '/sql/sql-functions/geospatial-functions/st-dimension'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-distance',
+    to: '/sql/sql-functions/geospatial-functions/st-distance'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-endpoint',
+    to: '/sql/sql-functions/geospatial-functions/st-endpoint'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geohash',
+    to: '/sql/sql-functions/geospatial-functions/st-geohash'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geom-point',
+    to: '/sql/sql-functions/geospatial-functions/st-geom-point'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geometryfromewkb',
+    to: '/sql/sql-functions/geospatial-functions/st-geometryfromewkb'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geometryfromewkt',
+    to: '/sql/sql-functions/geospatial-functions/st-geometryfromewkt'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geometryfromtext',
+    to: '/sql/sql-functions/geospatial-functions/st-geometryfromtext'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geometryfromwkb',
+    to: '/sql/sql-functions/geospatial-functions/st-geometryfromwkb'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geometryfromwkt',
+    to: '/sql/sql-functions/geospatial-functions/st-geometryfromwkt'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geomfromewkb',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromewkb'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geomfromewkt',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromewkt'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geomfromgeohash',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromgeohash'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geomfromtext',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromtext'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geomfromwkb',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromwkb'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geomfromwkt',
+    to: '/sql/sql-functions/geospatial-functions/st-geomfromwkt'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-geompointfromgeohash',
+    to: '/sql/sql-functions/geospatial-functions/st-geompointfromgeohash'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-length',
+    to: '/sql/sql-functions/geospatial-functions/st-length'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-make-line',
+    to: '/sql/sql-functions/geospatial-functions/st-make-line'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-makegeompoint',
+    to: '/sql/sql-functions/geospatial-functions/st-makegeompoint'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-makeline',
+    to: '/sql/sql-functions/geospatial-functions/st-makeline'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-makepolygon',
+    to: '/sql/sql-functions/geospatial-functions/st-makepolygon'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-npoints',
+    to: '/sql/sql-functions/geospatial-functions/st-npoints'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-numpoints',
+    to: '/sql/sql-functions/geospatial-functions/st-numpoints'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-pointn',
+    to: '/sql/sql-functions/geospatial-functions/st-pointn'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-polygon',
+    to: '/sql/sql-functions/geospatial-functions/st-polygon'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-setsrid',
+    to: '/sql/sql-functions/geospatial-functions/st-setsrid'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-srid',
+    to: '/sql/sql-functions/geospatial-functions/st-srid'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-startpoint',
+    to: '/sql/sql-functions/geospatial-functions/st-startpoint'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-transform',
+    to: '/sql/sql-functions/geospatial-functions/st-transform'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-x',
+    to: '/sql/sql-functions/geospatial-functions/st-x'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-xmax',
+    to: '/sql/sql-functions/geospatial-functions/st-xmax'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-xmin',
+    to: '/sql/sql-functions/geospatial-functions/st-xmin'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-y',
+    to: '/sql/sql-functions/geospatial-functions/st-y'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-ymax',
+    to: '/sql/sql-functions/geospatial-functions/st-ymax'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/st-ymin',
+    to: '/sql/sql-functions/geospatial-functions/st-ymin'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/string-to-h3',
+    to: '/sql/sql-functions/geospatial-functions/string-to-h3'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/to-geometry',
+    to: '/sql/sql-functions/geospatial-functions/to-geometry'
+  },
+  {
+    from: '/sql/sql-functions/geometry-functions/to-string',
+    to: '/sql/sql-functions/geospatial-functions/to-string'
+  },
   {
     from: '/sql/sql-functions/map-functions/map-values',
     to: '/sql/sql-functions/semi-structured-functions/map/map-values'
