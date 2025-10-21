@@ -4,9 +4,9 @@ title: LAST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="新增或更新于：v1.2.697"/>
+<FunctionDescription description="引入或更新于：v1.2.697"/>
 
-返回窗口框架（Window Frame）中的最后一个值。
+返回窗口框架中的最后一个值。
 
 另请参阅：
 
@@ -16,7 +16,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
-LAST_VALUE(expression)
+LAST_VALUE(expression) [ { RESPECT | IGNORE } NULLS ]
 OVER (
     [ PARTITION BY partition_expression ]
     ORDER BY sort_expression [ ASC | DESC ]
@@ -26,56 +26,124 @@ OVER (
 
 **参数：**
 - `expression`：必需。要返回最后一个值的列或表达式。
-- `PARTITION BY`：可选。将行划分为分区。
+- `PARTITION BY`：可选。将行划分为分区（Partition）。
 - `ORDER BY`：必需。确定窗口内的排序方式。
-- `window_frame`：可选。定义窗口框架（默认为：RANGE UNBOUNDED PRECEDING）。
+- `window_frame`：可选。定义窗口框架。默认值为 `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`。
 
-**注意：**
+**说明：**
 - 返回有序窗口框架中的最后一个值。
-- 支持 `IGNORE NULLS` 和 `RESPECT NULLS` 选项。
-- 通常需要显式指定窗口框架才能获得预期结果。
-- 可用于查找每个组中的最新/最高值。
+- 支持使用 `IGNORE NULLS` 跳过空值，使用 `RESPECT NULLS` 保持默认行为。
+- 当需要获取分区（Partition）的真正最后一行时，请使用在当前行之后结束的框架（例如，`ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING`）。
+- 可用于查找每个组中的最新值，或在向前看的窗口中查找最近的值。
 
 ## 示例
 
 ```sql
--- 创建示例数据
-CREATE TABLE scores (
-    student VARCHAR(20),
-    score INT
+-- 示例订单数据
+CREATE OR REPLACE TABLE orders_window_demo (
+    customer VARCHAR,
+    order_id INT,
+    order_time TIMESTAMP,
+    amount INT,
+    sales_rep VARCHAR
 );
 
-INSERT INTO scores VALUES
-    ('Alice', 95),
-    ('Bob', 87),
-    ('Charlie', 82),
-    ('David', 78),
-    ('Eve', 92);
+INSERT INTO orders_window_demo VALUES
+    ('Alice', 1001, to_timestamp('2024-05-01 09:00:00'), 120, 'Erin'),
+    ('Alice', 1002, to_timestamp('2024-05-01 11:00:00'), 135, NULL),
+    ('Alice', 1003, to_timestamp('2024-05-02 14:30:00'), 125, 'Glen'),
+    ('Bob',   1004, to_timestamp('2024-05-01 08:30:00'),  90, NULL),
+    ('Bob',   1005, to_timestamp('2024-05-01 20:15:00'), 105, 'Kai'),
+    ('Bob',   1006, to_timestamp('2024-05-03 10:00:00'),  95, NULL),
+    ('Carol', 1007, to_timestamp('2024-05-04 09:45:00'),  80, 'Lily');
 ```
 
-**获取最低分（按分数降序排列时的最后一个值）：**
+**示例 1：每个客户分区中的最新订单**
 
 ```sql
-SELECT student, score,
-       LAST_VALUE(score) OVER (
-           ORDER BY score DESC 
-           ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS lowest_score,
-       LAST_VALUE(student) OVER (
-           ORDER BY score DESC 
-           ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-       ) AS lowest_student
-FROM scores
-ORDER BY score DESC;
+SELECT customer,
+       order_id,
+       order_time,
+       LAST_VALUE(order_id) OVER (
+           PARTITION BY customer
+           ORDER BY order_time
+           ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+       ) AS last_order_for_customer
+FROM orders_window_demo
+ORDER BY customer, order_time;
 ```
 
 结果：
 ```
-student | score | lowest_score | lowest_student
---------+-------+--------------+---------------
-Alice   |    95 |           78 | David
-Eve     |    92 |           78 | David
-Bob     |    87 |           78 | David
-Charlie |    82 |           78 | David
-David   |    78 |           78 | David
+customer | order_id | order_time           | last_order_for_customer
+---------+----------+----------------------+-------------------------
+Alice    |     1001 | 2024-05-01 09:00:00  |                    1003
+Alice    |     1002 | 2024-05-01 11:00:00  |                    1003
+Alice    |     1003 | 2024-05-02 14:30:00  |                    1003
+Bob      |     1004 | 2024-05-01 08:30:00  |                    1006
+Bob      |     1005 | 2024-05-01 20:15:00  |                    1006
+Bob      |     1006 | 2024-05-03 10:00:00  |                    1006
+Carol    |     1007 | 2024-05-04 09:45:00  |                    1007
+```
+
+**示例 2：在每个客户内向前查看 12 小时**
+
+```sql
+SELECT customer,
+       order_id,
+       order_time,
+       amount,
+       LAST_VALUE(amount) OVER (
+           PARTITION BY customer
+           ORDER BY order_time
+           RANGE BETWEEN CURRENT ROW AND INTERVAL 12 HOUR FOLLOWING
+       ) AS last_amount_next_12h
+FROM orders_window_demo
+ORDER BY customer, order_time;
+```
+
+结果：
+```
+customer | order_id | order_time           | amount | last_amount_next_12h
+---------+----------+----------------------+--------+----------------------
+Alice    |     1001 | 2024-05-01 09:00:00  |    120 |                  135
+Alice    |     1002 | 2024-05-01 11:00:00  |    135 |                  135
+Alice    |     1003 | 2024-05-02 14:30:00  |    125 |                  125
+Bob      |     1004 | 2024-05-01 08:30:00  |     90 |                  105
+Bob      |     1005 | 2024-05-01 20:15:00  |    105 |                  105
+Bob      |     1006 | 2024-05-03 10:00:00  |     95 |                   95
+Carol    |     1007 | 2024-05-04 09:45:00  |     80 |                   80
+```
+
+**示例 3：向前扫描最后一个销售代表时跳过空值**
+
+```sql
+SELECT customer,
+       order_id,
+       sales_rep,
+       LAST_VALUE(sales_rep) RESPECT NULLS OVER (
+           PARTITION BY customer
+           ORDER BY order_time
+           ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+       ) AS last_rep_respect,
+       LAST_VALUE(sales_rep) IGNORE NULLS OVER (
+           PARTITION BY customer
+           ORDER BY order_time
+           ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+       ) AS last_rep_ignore
+FROM orders_window_demo
+ORDER BY customer, order_id;
+```
+
+结果：
+```
+customer | order_id | sales_rep | last_rep_respect | last_rep_ignore
+---------+----------+-----------+------------------+-----------------
+Alice    |     1001 | Erin      | Glen             | Glen
+Alice    |     1002 | NULL      | Glen             | Glen
+Alice    |     1003 | Glen      | Glen             | Glen
+Bob      |     1004 | NULL      | NULL             | Kai
+Bob      |     1005 | Kai       | NULL             | Kai
+Bob      |     1006 | NULL      | NULL             | Kai
+Carol    |     1007 | Lily      | Lily             | Lily
 ```
