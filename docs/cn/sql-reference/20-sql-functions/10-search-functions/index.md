@@ -1,51 +1,92 @@
 ---
-title: 全文搜索函数（Full-Text Search Functions）
+title: 全文搜索函数
 ---
 
-本节提供 Databend 中全文搜索函数的参考信息。这些函数可实现与专用搜索引擎类似的强大文本搜索能力。
+Databend 的全文搜索函数为已建立倒排索引（inverted index）的半结构化 `VARIANT` 数据及纯文本列提供搜索引擎式的过滤能力，非常适合检索与资产一同存储的 AI 生成元数据，例如自动驾驶视频帧的感知结果。
 
 :::info
-Databend 的全文搜索函数设计灵感源自 [Elasticsearch 全文搜索函数](https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-functions-search.html)。
+Databend 的搜索函数借鉴自 [Elasticsearch 全文搜索函数](https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-functions-search.html)。
 :::
+
+在表定义中为待搜索的列添加倒排索引：
+
+```sql
+CREATE OR REPLACE TABLE frames (
+  id INT,
+  meta VARIANT,
+  INVERTED INDEX idx_meta (meta)
+);
+```
 
 ## 搜索函数
 
 | 函数 | 描述 | 示例 |
-|----------|-------------|--------|
-| [MATCH](match) | 在选定列中搜索包含指定关键词的文档 | `MATCH('title, body', 'technology')` |
-| [QUERY](query) | 使用高级语法搜索满足指定查询表达式的文档 | `QUERY('title:technology AND society')` |
-| [SCORE](score) | 配合 MATCH 或 QUERY 使用时返回搜索结果的相关性评分 | `SELECT title, SCORE() FROM articles WHERE MATCH('title', 'technology')` |
+|----------|-------------|---------|
+| [MATCH](match) | 对指定列执行相关性排序搜索。 | `MATCH('summary, tags', 'traffic light red')` |
+| [QUERY](query) | 解析 Lucene 风格查询表达式，支持嵌套 `VARIANT` 字段。 | `QUERY('meta.signals.traffic_light:red')` |
+| [SCORE](score) | 与 `MATCH` 或 `QUERY` 配合使用时，返回当前行的相关性得分。 | `SELECT summary, SCORE() FROM frame_notes WHERE MATCH('summary, tags', 'traffic light red')` |
 
-## 使用示例
+## 查询语法示例
 
-### 基本文本搜索
+### 示例：单个关键词
 
 ```sql
--- 在 title 或 body 列中搜索包含 'technology' 的文档
-SELECT * FROM articles 
-WHERE MATCH('title, body', 'technology');
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.detections.label:pedestrian')
+LIMIT 100;
 ```
 
-### 高级查询表达式
+### 示例：布尔 AND
 
 ```sql
--- 搜索 title 列包含 'technology' 且 body 列包含 'impact' 的文档
-SELECT * FROM articles 
-WHERE QUERY('title:technology AND body:impact');
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.signals.traffic_light:red AND meta.vehicle.lane:center')
+LIMIT 100;
 ```
 
-### 相关性评分
+### 示例：布尔 OR
 
 ```sql
--- 执行带相关性评分的搜索，并按评分降序排序
-SELECT title, body, SCORE() 
-FROM articles 
-WHERE MATCH('title^2, body', 'technology') 
-ORDER BY SCORE() DESC;
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.signals.traffic_light:red OR meta.detections.label:bike')
+LIMIT 100;
 ```
 
-使用这些函数前，需在目标列上创建倒排索引（Inverted Index）：
+### 示例：IN 列表
 
 ```sql
-CREATE INVERTED INDEX idx ON articles(title, body);
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.tags:IN [stop urban]')
+LIMIT 100;
+```
+
+### 示例：包含范围
+
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.vehicle.speed_kmh:[0 TO 10]')
+LIMIT 100;
+```
+
+### 示例：排除范围
+
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.vehicle.speed_kmh:{0 TO 10}')
+LIMIT 100;
+```
+
+### 示例：加权字段
+
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts, SCORE()
+FROM frames
+WHERE QUERY('meta.signals.traffic_light:red^1.0 AND meta.tags:urban^2.0')
+LIMIT 100;
 ```
