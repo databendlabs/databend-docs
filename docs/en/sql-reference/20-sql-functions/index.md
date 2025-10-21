@@ -23,18 +23,29 @@ Databend provides comprehensive SQL functions for all types of data processing. 
 | [Window Functions](./08-window-functions/index.md) | Advanced analytics with window operations |
 | [Bitmap Functions](./01-bitmap-functions/index.md) | High-performance bitmap operations and analytics |
 
+## Search Functions
+
+| Category | Description |
+|----------|-------------|
+| [Full-Text Search Functions](./10-search-functions/index.md) | Full-text search and relevance scoring |
+
+## Vector Functions
+
+| Category | Description |
+|----------|-------------|
+| [Vector Functions](./11-vector-functions/index.md) | Vector similarity and distance calculations |
+
+## Geospatial Functions
+
+| Category | Description |
+|----------|-------------|
+| [Geospatial Functions](./09-geospatial-functions/index.md) | Geometry, GeoHash, and H3 spatial operations |
+
 ## Semi-Structured Data
 
 | Category | Description |
 |----------|-------------|
 | [Semi-Structured Functions](./10-semi-structured-functions/index.md) | JSON, arrays, objects, and nested data processing |
-
-## AI & Search
-
-| Category | Description |
-|----------|-------------|
-| [Vector Functions](./11-vector-functions/index.md) | Vector similarity and distance calculations |
-| [Search Functions](./10-search-functions/index.md) | Full-text search and relevance scoring |
 
 ## Data Management
 
@@ -43,12 +54,6 @@ Databend provides comprehensive SQL functions for all types of data processing. 
 | [Table Functions](./17-table-functions/index.md) | File inspection, data generation, and system information |
 | [Dictionary Functions](./19-dictionary-functions/index.md) | Real-time external data source queries (MySQL, Redis) |
 | [Sequence Functions](./18-sequence-functions/index.md) | Auto-incrementing sequence value generation |
-
-## Spatial Functions
-
-| Category | Description |
-|----------|-------------|
-| [Geospatial Functions](./09-geospatial-functions/index.md) | Geometry, GeoHash, and H3 spatial operations |
 
 ## Security & Integrity
 
