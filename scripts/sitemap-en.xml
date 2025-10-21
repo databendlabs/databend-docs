@@ -3446,452 +3446,452 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/geo-to-h3</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/geo-to-h3</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/geohash-decode</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/geohash-decode</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/geohash-encode</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/geohash-encode</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-cell-area-m2</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-cell-area-m2</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-cell-area-rads2</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-cell-area-rads2</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-distance</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-distance</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-edge-angle</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-edge-angle</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-edge-length-km</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-edge-length-km</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-edge-length-m</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-edge-length-m</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-exact-edge-length-km</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-exact-edge-length-km</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-exact-edge-length-m</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-exact-edge-length-m</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-exact-edge-length-rads</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-exact-edge-length-rads</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-get-base-cell</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>
-      https://docs.databend.com/sql/sql-functions/geo-functions/h3-get-destination-index-from-unidirectional-edge</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-get-faces</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-get-base-cell</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>
-      https://docs.databend.com/sql/sql-functions/geo-functions/h3-get-indexes-from-unidirectional-edge</loc>
+      https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-get-destination-index-from-unidirectional-edge</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-get-faces</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>
-      https://docs.databend.com/sql/sql-functions/geo-functions/h3-get-origin-index-from-unidirectional-edge</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-get-resolution</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-get-unidirectional-edge</loc>
+      https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-get-indexes-from-unidirectional-edge</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>
-      https://docs.databend.com/sql/sql-functions/geo-functions/h3-get-unidirectional-edge-boundary</loc>
+      https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-get-origin-index-from-unidirectional-edge</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-get-resolution</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-get-unidirectional-edge</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>
-      https://docs.databend.com/sql/sql-functions/geo-functions/h3-get-unidirectional-edges-from-hexagon</loc>
+      https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-get-unidirectional-edge-boundary</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-hex-area-km2</loc>
+    <loc>
+      https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-get-unidirectional-edges-from-hexagon</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-hex-area-m2</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-hex-area-km2</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-hex-ring</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-hex-area-m2</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-indexes-are-neighbors</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-hex-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-is-pentagon</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-indexes-are-neighbors</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-is-res-class-iii</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-is-pentagon</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-is-valid</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-is-res-class-iii</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-k-ring</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-is-valid</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-line</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-k-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-num-hexagons</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-line</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-to-center-child</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-num-hexagons</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-to-children</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-to-center-child</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-to-geo</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-to-children</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-to-geo-boundary</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-to-geo</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-to-parent</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-to-geo-boundary</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-to-string</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-to-parent</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/h3-unidirectional-edge-is-valid</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-to-string</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/point-in-polygon</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/h3-unidirectional-edge-is-valid</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geo-functions/string-to-h3</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/point-in-polygon</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/string-to-h3</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/haversine</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-asbinary</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/haversine</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-asewkb</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-asbinary</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-asewkt</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-asewkb</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-asgeojson</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-asewkt</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-astext</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-asgeojson</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-aswkb</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-astext</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-aswkt</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-aswkb</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-contains</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-aswkt</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-dimension</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-contains</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-distance</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-dimension</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-endpoint</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-distance</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geohash</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-endpoint</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geom-point</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geohash</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geometryfromewkb</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geom-point</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geometryfromewkt</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geometryfromewkb</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geometryfromtext</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geometryfromewkt</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geometryfromwkb</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geometryfromtext</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geometryfromwkt</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geometryfromwkb</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geomfromewkb</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geometryfromwkt</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geomfromewkt</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geomfromewkb</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geomfromgeohash</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geomfromewkt</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geomfromtext</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geomfromgeohash</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geomfromwkb</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geomfromtext</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geomfromwkt</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geomfromwkb</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-geompointfromgeohash</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geomfromwkt</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-length</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-geompointfromgeohash</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-make-line</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-length</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-makegeompoint</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-make-line</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-makeline</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-makegeompoint</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-makepolygon</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-makeline</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-npoints</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-makepolygon</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-numpoints</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-npoints</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-pointn</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-numpoints</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-polygon</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-pointn</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-setsrid</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-polygon</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-srid</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-setsrid</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-startpoint</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-srid</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-transform</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-startpoint</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-x</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-transform</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-xmax</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-x</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-xmin</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-xmax</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-y</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-xmin</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-ymax</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-y</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/st-ymin</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-ymax</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/to-geometry</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/st-ymin</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-functions/geometry-functions/to-string</loc>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/to-geometry</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://docs.databend.com/sql/sql-functions/geospatial-functions/to-string</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

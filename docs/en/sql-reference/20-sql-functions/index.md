@@ -48,8 +48,7 @@ Databend provides comprehensive SQL functions for all types of data processing. 
 
 | Category | Description |
 |----------|-------------|
-| [Geo Functions](./09-geo-functions/index.md) | Geographic coordinates and H3 geospatial operations |
-| [Geometry Functions](./09-geometry-functions/index.md) | Geometric shapes and spatial calculations |
+| [Geospatial Functions](./09-geospatial-functions/index.md) | Geometry, GeoHash, and H3 spatial operations |
 
 ## Security & Integrity
 

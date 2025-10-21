@@ -50,8 +50,7 @@ SET geometry_output_format = 'geojson';
 
 Explore the links below to discover all the available geospatial functions organized by category.
 
-- [Geometry Functions](../../20-sql-functions/09-geometry-functions/index.md)
-- [H3](../../20-sql-functions/09-geo-functions/index.md)
+- [Geospatial Functions](../../20-sql-functions/09-geospatial-functions/index.md)
 
 ## Examples
 
