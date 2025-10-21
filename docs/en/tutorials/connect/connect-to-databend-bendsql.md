@@ -94,5 +94,14 @@ Bye~
 ➜  ~
 ```
 
+### Bendsql UI
+With `--ui` option, BendSQL will start a web server and open a browser to show the UI interface.
+We can execute sql or analyze query performance with BendSQL in the browser.
+Also we can share the results with others by copying the url.
+
+```bash
+❯ Bendsql -h 127.0.0.1 --port 8000 --ui
+```
+
 </StepContent>
 </StepsWrap>
