@@ -4,8 +4,20 @@ const siteRedirects = [
     to: '/guides/'
   },
   {
-    from: '/sql/sql-reference/table-engines/iceberg',
-    to: '/guides/access-data-lake/iceberg/'
+    from: '/guides/access-data-lake',
+    to: '/sql/sql-reference/table-engines/'
+  },
+  {
+    from: '/guides/access-data-lake/iceberg',
+    to: '/sql/sql-reference/table-engines/iceberg'
+  },
+  {
+    from: '/guides/access-data-lake/hive',
+    to: '/sql/sql-reference/table-engines/hive'
+  },
+  {
+    from: '/guides/access-data-lake/delta',
+    to: '/sql/sql-reference/table-engines/delta'
   },
   // AI Functions redirects - functions moved to external implementation
   {

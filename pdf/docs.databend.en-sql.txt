@@ -1,8 +1,8 @@
 https://docs.databend.com/guides/
-https://docs.databend.com/guides/access-data-lake/
-https://docs.databend.com/guides/access-data-lake/delta
-https://docs.databend.com/guides/access-data-lake/hive
-https://docs.databend.com/guides/access-data-lake/iceberg
+https://docs.databend.com/sql/sql-reference/table-engines/
+https://docs.databend.com/sql/sql-reference/table-engines/delta
+https://docs.databend.com/sql/sql-reference/table-engines/hive
+https://docs.databend.com/sql/sql-reference/table-engines/iceberg
 https://docs.databend.com/guides/ai-functions/
 https://docs.databend.com/guides/ai-functions/external-functions
 https://docs.databend.com/guides/ai-functions/mcp

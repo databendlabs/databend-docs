@@ -286,22 +286,22 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/guides/access-data-lake/</loc>
+    <loc>https://docs.databend.com/sql/sql-reference/table-engines/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/guides/access-data-lake/delta</loc>
+    <loc>https://docs.databend.com/sql/sql-reference/table-engines/delta</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/guides/access-data-lake/hive</loc>
+    <loc>https://docs.databend.com/sql/sql-reference/table-engines/hive</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/guides/access-data-lake/iceberg</loc>
+    <loc>https://docs.databend.com/sql/sql-reference/table-engines/iceberg</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
