@@ -3,9 +3,9 @@ title: QUERY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.619"/>
+<FunctionDescription description="Introduced or updated: v1.2.830"/>
 
-Searches for documents satisfying a specified query expression. Please note that the QUERY function can only be used in a WHERE clause.
+`QUERY` filters rows by matching a Lucene-style query expression against columns that have an inverted index. Use dot notation to navigate nested fields inside `VARIANT` columns. The function is valid only in a `WHERE` clause.
 
 :::info
 Databend's QUERY function is inspired by Elasticsearch's [QUERY](https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-functions-search.html#sql-functions-search-query).
@@ -14,118 +14,169 @@ Databend's QUERY function is inspired by Elasticsearch's [QUERY](https://www.ela
 ## Syntax
 
 ```sql
-QUERY( '<query_expr>'[, '<options>'] )
+QUERY('<query_expr>'[, '<options>'])
 ```
 
-The query expression supports the following syntaxes. Please note that `<keyword>` can also be used for suffix matching, where the search term followed by an asterisk (*) can match any number of characters or words.                                                                         
+`<options>` is an optional semicolon-separated list of `key=value` pairs that adjusts how the search works.
 
-| Syntax                                                  | Description                                                                                                                                                                                                                                             | Examples                                |
-|---------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
-| `<column>:<keyword>`                                    | Matches documents where the specified column contains the specified keyword.                                                                                                                                                                            | `QUERY('title:power')`                  |
-| `<column>:IN [<keyword1>, <keyword2>...]` | Matches documents where the specified column contains any of the keywords listed within the square brackets. | `QUERY('title:IN [power, art]')`|
-| `<column>:<keyword> AND / OR <keyword>`                 | Matches documents where the specified column contains both or either of the specified keywords. In queries with both AND and OR, AND operations are prioritized over OR, meaning that 'a AND b OR c' is read as '(a AND b) OR c'.                       | `QUERY('title:power AND art')`          |
-| `<column>:+<keyword> -<keyword>`                        | Matches documents where the specified positive keyword exists in the specified column and excludes documents where the specified negative keyword exists.                                                                                               | `QUERY('title:+the -reading')`          |
-| `<column>:"<phrase>"`                                   | Matches documents where the specified column contains the exact specified phrase.                                                                                                                                                                       | `QUERY('title:"Benefits of Exercise"')` |
-| `<column>:<keyword>^<boost> <column>:<keyword>^<boost>` | Matches documents where the specified keyword exists in the specified columns with the specified boosts to increase their relevance in the search. This syntax allows setting different weights for multiple columns to influence the search relevance. | `QUERY('title:art^5 body:reading^1.2')` |
+## Building Query Expressions
 
+| Expression | Purpose | Example |
+|------------|---------|---------|
+| `column:keyword` | Matches rows where `column` contains the keyword. Append `*` for suffix matching. | `QUERY('meta.detections.label:pedestrian')` |
+| `column:"exact phrase"` | Matches rows that contain the exact phrase. | `QUERY('meta.scene.summary:"vehicle stopped at red traffic light"')` |
+| `column:+required -excluded` | Requires or excludes terms in the same column. | `QUERY('meta.tags:+commute -cyclist')` |
+| `column:term1 AND term2` / `column:term1 OR term2` | Combines multiple terms with boolean operators. `AND` has higher precedence than `OR`. | `QUERY('meta.signals.traffic_light:red AND meta.vehicle.lane:center')` |
+| `column:IN [value1 value2 ...]` | Matches any value from the list. | `QUERY('meta.tags:IN [stop urban]')` |
+| `column:[min TO max]` | Performs inclusive range search. Use `*` to leave one side open. | `QUERY('meta.vehicle.speed_kmh:[0 TO 10]')` |
+| `column:{min TO max}` | Performs exclusive range search that omits the boundary values. | `QUERY('meta.vehicle.speed_kmh:{0 TO 10}')` |
+| `column:term^boost` | Increases the weight of matches in a specific column. | `QUERY('meta.signals.traffic_light:red^1.0 meta.tags:urban^2.0')` |
 
-| Option    | Description                                                                                                                                                                                         | Example                                                                                              | Explanation                                                                                                                                                                                                          |
-|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| fuzziness | Allows matching terms within a specified Levenshtein distance. `fuzziness` can be set to 1 or 2.                                                                                                    | SELECT id, score(), content FROM t WHERE query('content:box', 'fuzziness=1');                        | When matching the query term "box", `fuzziness=1` allows matching terms like "fox", since "box" and "fox" have a Levenshtein distance of 1.                                                                          |
-| operator  | Specifies how multiple query terms are combined. Can be set to OR (default) or AND. OR returns results containing any of the query terms, while AND returns results containing all query terms.     | SELECT id, score(), content FROM t WHERE query('content:action works', 'fuzziness=1;operator=AND');  | With `operator=AND`, the query requires both "action" and "works" to be present in the results. Due to `fuzziness=1`, it matches terms like "Actions" and "words", so "Actions speak louder than words" is returned. |
-| lenient   | Controls whether errors are reported when the query text is invalid. Defaults to `false`. If set to `true`, no error is reported, and an empty result set is returned if the query text is invalid. | SELECT id, score(), content FROM t WHERE query('content:()', 'lenient=true');                        | If the query text `()` is invalid, setting `lenient=true` prevents an error from being thrown and returns an empty result set instead.                                                                               |
+### Nested `VARIANT` Fields
+
+Use dot notation to address inner fields inside a `VARIANT` column. Databend evaluates the path across objects and arrays.
+
+| Pattern | Description | Example |
+|---------|-------------|---------|
+| `variant_col.field:value` | Matches an inner field. | `QUERY('meta.signals.traffic_light:red')` |
+| `variant_col.field:IN [ ... ]` | Matches any value inside arrays. | `QUERY('meta.detections.label:IN [pedestrian cyclist]')` |
+| `variant_col.field:[min TO max]` | Applies range search to numeric inner fields. | `QUERY('meta.vehicle.speed_kmh:[0 TO 10]')` |
+
+## Options
+
+| Option | Values | Description | Example |
+|--------|--------|-------------|---------|
+| `fuzziness` | `1` or `2` | Matches terms within the specified Levenshtein distance. | `SELECT id FROM frames WHERE QUERY('meta.detections.label:pedestrain', 'fuzziness=1');` |
+| `operator` | `OR` (default) or `AND` | Controls how multiple terms are combined when no explicit boolean operator is supplied. | `SELECT id FROM frames WHERE QUERY('meta.scene.weather:rain fog', 'operator=AND');` |
+| `lenient` | `true` or `false` | Suppresses parsing errors and returns an empty result set when `true`. | `SELECT id FROM frames WHERE QUERY('meta.detections.label:()', 'lenient=true');` |
 
 ## Examples
 
+### Set Up a Smart-Driving Dataset
+
 ```sql
-CREATE TABLE test(title STRING, body STRING);
+CREATE OR REPLACE TABLE frames (
+  id INT,
+  meta VARIANT,
+  INVERTED INDEX idx_meta (meta)
+);
 
-CREATE INVERTED INDEX idx ON test(title, body);
+INSERT INTO frames VALUES
+  (1, '{
+         "frame":{"source":"dashcam_front","timestamp":"2025-10-21T08:32:05Z","location":{"city":"San Francisco","intersection":"Market & 5th","gps":[37.7825,-122.4072]}},
+         "vehicle":{"speed_kmh":48,"acceleration":0.8,"lane":"center"},
+         "signals":{"traffic_light":"green","distance_m":55,"speed_limit_kmh":50},
+         "detections":[
+           {"label":"car","confidence":0.96,"distance_m":15,"relative_speed_kmh":2},
+           {"label":"pedestrian","confidence":0.88,"distance_m":12,"intent":"crossing"}
+         ],
+         "scene":{"weather":"clear","time_of_day":"day","visibility":"good"},
+         "tags":["downtown","commute","green-light"],
+         "model":"perception-net-v5"
+       }'),
+  (2, '{
+         "frame":{"source":"dashcam_front","timestamp":"2025-10-21T08:32:06Z","location":{"city":"San Francisco","intersection":"Mission & 6th","gps":[37.7829,-122.4079]}},
+         "vehicle":{"speed_kmh":9,"acceleration":-1.1,"lane":"center"},
+         "signals":{"traffic_light":"red","distance_m":18,"speed_limit_kmh":40},
+         "detections":[
+           {"label":"traffic_light","state":"red","confidence":0.99,"distance_m":18},
+           {"label":"bike","confidence":0.82,"distance_m":9,"relative_speed_kmh":3}
+         ],
+         "scene":{"weather":"clear","time_of_day":"day","visibility":"good"},
+         "tags":["stop","cyclist","urban"],
+         "model":"perception-net-v5"
+       }'),
+  (3, '{
+         "frame":{"source":"dashcam_front","timestamp":"2025-10-21T08:32:07Z","location":{"city":"San Francisco","intersection":"SOMA School Zone","gps":[37.7808,-122.4016]}},
+         "vehicle":{"speed_kmh":28,"acceleration":0.2,"lane":"right"},
+         "signals":{"traffic_light":"yellow","distance_m":32,"speed_limit_kmh":25},
+         "detections":[
+           {"label":"traffic_sign","text":"SCHOOL","confidence":0.91,"distance_m":25},
+           {"label":"pedestrian","confidence":0.76,"distance_m":8,"intent":"waiting"}
+         ],
+         "scene":{"weather":"overcast","time_of_day":"day","visibility":"moderate"},
+         "tags":["school-zone","caution"],
+         "model":"perception-net-v5"
+       }');
+```
 
-INSERT INTO test VALUES
-('The Importance of Reading', 'Reading is a crucial skill that opens up a world of knowledge and imagination.'),
-('The Benefits of Exercise', 'Exercise is essential for maintaining a healthy lifestyle.'),
-('The Power of Perseverance', 'Perseverance is the key to overcoming obstacles and achieving success.'),
-('The Art of Communication', 'Effective communication is crucial in everyday life.'),
-('The Impact of Technology on Society', 'Technology has revolutionized our society in countless ways.');
+### Example: Boolean AND
 
--- Retrieve documents where the 'title' column contains the keyword 'power'
-SELECT * FROM test WHERE QUERY('title:power');
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.signals.traffic_light:red AND meta.vehicle.speed_kmh:[0 TO 10]');
+-- Returns id 2
+```
 
-┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│           title           │                                  body                                  │
-├───────────────────────────┼────────────────────────────────────────────────────────────────────────┤
-│ The Power of Perseverance │ Perseverance is the key to overcoming obstacles and achieving success. │
-└────────────────────────────────────────────────────────────────────────────────────────────────────┘
+### Example: Boolean OR
 
--- Retrieve documents where the 'title' column contains values that start with 'The' followed by any characters
-SELECT * FROM test WHERE QUERY('title:The*');
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.signals.traffic_light:red OR meta.detections.label:bike');
+-- Returns id 2
+```
 
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                title                │                                      body                                      │
-├─────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────┤
-│ The Importance of Reading           │ Reading is a crucial skill that opens up a world of knowledge and imagination. │
-│ The Benefits of Exercise            │ Exercise is essential for maintaining a healthy lifestyle.                     │
-│ The Power of Perseverance           │ Perseverance is the key to overcoming obstacles and achieving success.         │
-│ The Art of Communication            │ Effective communication is crucial in everyday life.                           │
-│ The Impact of Technology on Society │ Technology has revolutionized our society in countless ways.                   │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+### Example: IN List Matching
 
--- Retrieve documents where the 'title' column contains either the keyword 'power' or 'art'
-SELECT * FROM test WHERE QUERY('title:power OR art');
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.tags:IN [stop urban]');
+-- Returns id 2
+```
 
-┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│           title           │                                  body                                  │
-├───────────────────────────┼────────────────────────────────────────────────────────────────────────┤
-│ The Power of Perseverance │ Perseverance is the key to overcoming obstacles and achieving success. │
-│ The Art of Communication  │ Effective communication is crucial in everyday life.                   │
-└────────────────────────────────────────────────────────────────────────────────────────────────────┘
+### Example: Inclusive Range
 
-SELECT * FROM test WHERE QUERY('title:IN [power, art]')
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.vehicle.speed_kmh:[0 TO 10]');
+-- Returns id 2
+```
 
-┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│           title           │                                  body                                  │
-│      Nullable(String)     │                            Nullable(String)                            │
-├───────────────────────────┼────────────────────────────────────────────────────────────────────────┤
-│ The Power of Perseverance │ Perseverance is the key to overcoming obstacles and achieving success. │
-│ The Art of Communication  │ Effective communication is crucial in everyday life.                   │
-└────────────────────────────────────────────────────────────────────────────────────────────────────┘
+### Example: Exclusive Range
 
--- Retrieve documents where the 'title' column contains the positive keyword 'the' but not 'reading'
-SELECT * FROM test WHERE QUERY('title:+the -reading');
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.vehicle.speed_kmh:{0 TO 10}');
+-- Returns id 2
+```
 
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                title                │                                  body                                  │
-├─────────────────────────────────────┼────────────────────────────────────────────────────────────────────────┤
-│ The Benefits of Exercise            │ Exercise is essential for maintaining a healthy lifestyle.             │
-│ The Power of Perseverance           │ Perseverance is the key to overcoming obstacles and achieving success. │
-│ The Art of Communication            │ Effective communication is crucial in everyday life.                   │
-│ The Impact of Technology on Society │ Technology has revolutionized our society in countless ways.           │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+### Example: Boost Across Fields
 
--- Retrieve documents where the 'title' column contains the exact phrase 'Benefits of Exercise'
-SELECT * FROM test WHERE QUERY('title:"Benefits of Exercise"');
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts, SCORE()
+FROM frames
+WHERE QUERY('meta.signals.traffic_light:red^1.0 AND meta.tags:urban^2.0');
+-- Returns id 2 with higher relevance
+```
 
-┌───────────────────────────────────────────────────────────────────────────────────────┐
-│           title          │                            body                            │
-├──────────────────────────┼────────────────────────────────────────────────────────────┤
-│ The Benefits of Exercise │ Exercise is essential for maintaining a healthy lifestyle. │
-└───────────────────────────────────────────────────────────────────────────────────────┘
+### Example: Detect High-Confidence Pedestrians
 
--- Retrieve documents where the 'title' column contains the keyword 'art' with a boost of 5 and the 'body' column contains the keyword 'reading' with a boost of 1.2
-SELECT *, score() FROM test WHERE QUERY('title:art^5 body:reading^1.2');
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.detections.label:IN [pedestrian cyclist] AND meta.detections.confidence:[0.8 TO *]');
+-- Returns ids 1 and 3
+```
 
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│           title           │                                      body                                      │  score()  │
-├───────────────────────────┼────────────────────────────────────────────────────────────────────────────────┼───────────┤
-│ The Importance of Reading │ Reading is a crucial skill that opens up a world of knowledge and imagination. │ 1.3860708 │
-│ The Art of Communication  │ Effective communication is crucial in everyday life.                           │ 7.1992116 │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+### Example: Filter by Phrase
 
--- Retrieve documents where the 'body' column contains both "knowledge" and "imagination" (allowing for minor typos).
-SELECT * FROM test WHERE QUERY('body:knowledg OR imaginatio', 'fuzziness = 1; operator = AND');
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.scene.summary:"vehicle stopped at red traffic light"');
+-- Returns id 2
+```
 
--[ RECORD 1 ]-----------------------------------
-title: The Importance of Reading
- body: Reading is a crucial skill that opens up a world of knowledge and imagination.
+### Example: School-Zone Filter
+
+```sql
+SELECT id, meta['frame']['timestamp'] AS ts
+FROM frames
+WHERE QUERY('meta.detections.text:SCHOOL AND meta.scene.time_of_day:day');
+-- Returns id 3
 ```
