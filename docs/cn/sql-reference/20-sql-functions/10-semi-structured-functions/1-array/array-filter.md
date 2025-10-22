@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-根据指定的 Lambda 表达式 (Lambda Expression) 筛选 JSON 数组中的元素，仅返回满足条件的元素。有关 Lambda 表达式的更多信息，请参见 [Lambda 表达式](../../../00-sql-reference/42-lambda-expressions.md)。
+根据指定的 Lambda 表达式（Lambda Expression）从 JSON 数组中筛选元素，仅返回满足条件的元素。有关 Lambda 表达式的更多信息，请参见 [Lambda 表达式](../../../00-sql-reference/42-lambda-expressions.md)。
 
 ## 语法
 
@@ -20,7 +20,7 @@ JSON 数组。
 
 ## 示例
 
-此示例筛选数组，仅返回以字母 `a` 开头的字符串，结果为 `["apple", "avocado"]`：
+以下示例筛选数组，仅返回以字母 `a` 开头的字符串，结果为 `["apple", "avocado"]`：
 
 ```sql
 SELECT ARRAY_FILTER(
