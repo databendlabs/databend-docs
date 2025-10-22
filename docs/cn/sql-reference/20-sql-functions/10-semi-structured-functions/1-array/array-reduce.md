@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-通过应用指定的 Lambda 表达式（Lambda Expression），将 JSON 数组归约为单个值。有关 Lambda 表达式的更多信息，请参见 [Lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions)。
+通过应用指定的 Lambda 表达式（Lambda Expression），将 JSON 数组归约为单个值。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions)。
 
 ## 语法
 
