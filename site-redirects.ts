@@ -19,6 +19,10 @@ const siteRedirects = [
     from: '/guides/access-data-lake/delta',
     to: '/sql/sql-reference/table-engines/delta'
   },
+  {
+    from: '/sql/sql-reference/sql-variables',
+    to: '/sql/sql-commands/ddl/variable/'
+  },
   // AI Functions redirects - functions moved to external implementation
   {
     from: '/sql/sql-functions/ai-functions/ai-cosine-distance',
