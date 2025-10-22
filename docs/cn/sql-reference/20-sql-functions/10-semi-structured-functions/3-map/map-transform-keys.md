@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-使用 [lambda 表达式 (Lambda Expression)](../../../00-sql-reference/42-lambda-expressions.md) 对 JSON 对象中的每个键应用转换。
+使用 [lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions) 对 JSON 对象中的每个键应用转换。
 
 ## 语法
 
@@ -19,7 +19,7 @@ MAP_TRANSFORM_KEYS(<json_object>, (<key>, <value>) -> <key_transformation>)
 
 ## 示例
 
-此示例将 "_v1" 附加到每个键上，从而创建一个具有修改后键的新 JSON 对象：
+此示例将 `_v1` 附加到每个键上，从而创建一个具有已修改键的新 JSON 对象：
 
 ```sql
 SELECT MAP_TRANSFORM_KEYS('{"name":"John", "role":"admin"}'::VARIANT, (k, v) -> CONCAT(k, '_v1')) AS versioned_metadata;
