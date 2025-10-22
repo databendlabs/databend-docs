@@ -3,23 +3,23 @@ title: 存储过程
 sidebar_position: 3
 ---
 
-存储过程（Stored Procedure）是一组存储在数据库中的可执行命令或逻辑块，用 SQL 或其他编程语言编写，旨在可重用以高效地执行特定任务或操作。
+存储过程（Stored Procedure）是一组存储在数据库中的可执行命令或逻辑块，用 SQL 或其他编程语言编写，旨在通过可重用的方式高效地执行特定任务或操作。
 
 ## 支持的语言
 
-**Databend 目前仅支持 [SQL 脚本](/sql/stored-procedure-scripting/)**。通过使用 SQL 脚本，用户可以定义带有控制流结构（如循环（FOR、WHILE、REPEAT）和条件（IF、CASE））的过程，从而实现复杂的逻辑和高效的多步操作。
+**Databend 目前仅支持 [SQL 脚本](/sql/stored-procedure-scripting/)**。通过使用 SQL 脚本，用户可以定义包含循环（FOR、WHILE、REPEAT）和条件（IF、CASE）等控制流结构的存储过程，从而实现复杂逻辑和高效的多步操作。
 
 ## 限制
 
 在使用存储过程时，存在以下限制：
 
-- 存储过程是一项实验性功能。在使用它们之前，请将 `enable_experimental_procedure` 设置为 1；
+- 存储过程是一项实验性功能。在使用之前，需要将 `enable_experimental_procedure` 设置为 1；
 
     ```sql
     SET enable_experimental_procedure = 1;
     ```
 
-- 存储过程以字符串形式返回结果，无论指定的返回类型是什么，都不会对返回的值强制执行声明的类型。
+- 无论指定的返回类型是什么，存储过程都以字符串形式返回结果，并且不会对返回的值强制执行声明的类型。
 
 ## 管理存储过程
 
@@ -27,7 +27,7 @@ Databend 提供了一系列用于管理存储过程的命令。更多详细信�
 
 ## 使用示例
 
-假设我们想要计算给定范围内所有偶数的和。此存储过程接受一个起始值 start_val 和一个结束值 end_val，并计算此范围内所有偶数的和。
+假设我们想要计算给定范围内所有偶数的和。这个存储过程接受一个起始值 `start_val` 和一个结束值 `end_val`，并计算该范围内所有偶数的和。
 
 ```sql
 SET enable_experimental_procedure = 1;
@@ -50,12 +50,12 @@ END;
 $$;
 ```
 
-如果我们想计算从 1 到 10 的所有偶数的和，可以如下调用该过程：
+如果我们想计算从 1 到 10 之间所有偶数的和，可以像下面这样调用该存储过程：
 
 ```sql
 CALL PROCEDURE sum_even_numbers(1, 10);
 
--- 结果: 2 + 4 + 6 + 8 + 10 = 30
+-- 结果：2 + 4 + 6 + 8 + 10 = 30
 ┌────────┐
 │ Result │
 ├────────┤
