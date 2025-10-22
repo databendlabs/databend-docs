@@ -3,9 +3,9 @@ title: 存储过程与 SQL 脚本
 slug: /stored-procedure-scripting/
 ---
 
-Databend 中的存储过程（Stored Procedure）允许你将 SQL 逻辑打包并在服务器端运行，同时可使用控制流（Control Flow）、变量（Variable）、游标（Cursor）和动态语句（Dynamic Statement）。本页介绍如何创建存储过程并编写其内联脚本。
+Databend 中的存储过程（Stored Procedure）允许您将运行在服务器上的 SQL 逻辑打包，并可以访问控制流（Control Flow）、变量（Variable）、游标（Cursor）和动态语句（Dynamic Statement）。本页将解释如何创建过程以及编写为其提供支持的内联脚本。
 
-## 定义存储过程
+## 定义过程
 
 ```sql
 CREATE [OR REPLACE] PROCEDURE <name>(<param_name> <data_type>, ...)
@@ -14,9 +14,9 @@ LANGUAGE SQL
 [COMMENT = '<text>']
 AS $$
 BEGIN
-    -- 声明与语句
+    -- 声明和语句
     RETURN <scalar_value>;
-    -- 或返回查询结果
+    -- 或者返回一个查询结果
     -- RETURN TABLE(<select_query>);
 END;
 $$;
@@ -24,13 +24,13 @@ $$;
 
 | 组件 | 描述 |
 |-----------|-------------|
-| `<name>` | 存储过程标识符，可省略模式限定。 |
-| `<param_name> <data_type>` | 使用 Databend 标量类型定义的输入参数，按值传递。 |
-| `RETURNS <return_type> [NOT NULL]` | 声明逻辑返回类型；`NOT NULL` 强制非空。 |
-| `LANGUAGE SQL` | 当前仅支持 `SQL`。 |
-| `RETURN` / `RETURN TABLE` | 结束执行并返回标量或表结果。 |
+| `<name>` | 过程的标识符。模式限定是可选的。 |
+| `<param_name> <data_type>` | 使用 Databend 标量类型定义的输入参数。参数按值传递。 |
+| `RETURNS <return_type> [NOT NULL]` | 声明逻辑返回类型。`NOT NULL` 强制返回非空响应。 |
+| `LANGUAGE SQL` | Databend 目前只接受 `SQL`。 |
+| `RETURN` / `RETURN TABLE` | 结束执行并提供标量或表格结果。 |
 
-使用 [`CREATE PROCEDURE`](/sql/sql-commands/ddl/procedure/create-procedure) 持久化定义，[`CALL`](/sql/sql-commands/ddl/procedure/call-procedure) 运行，[`DROP PROCEDURE`](/sql/sql-commands/ddl/procedure/drop-procedure) 删除。
+使用 [`CREATE PROCEDURE`](/sql/sql-commands/ddl/procedure/create-procedure) 持久化定义，使用 [`CALL`](/sql/sql-commands/ddl/procedure/call-procedure) 运行它，并使用 [`DROP PROCEDURE`](/sql/sql-commands/ddl/procedure/drop-procedure) 删除它。
 
 ### 最小示例
 
@@ -48,11 +48,11 @@ $$;
 CALL PROCEDURE convert_kg_to_lb(10);
 ```
 
-## 存储过程内的语言基础
+## 过程内的语言基础
 
-### 声明部分
+### Declare 部分
 
-存储过程可在可执行部分前使用可选的 `DECLARE` 块初始化变量。
+存储过程（Stored Procedure）可以在可执行部分之前使用一个可选的 `DECLARE` 块来初始化变量（Variable）。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_with_declare()
@@ -70,11 +70,11 @@ $$;
 CALL PROCEDURE sp_with_declare();
 ```
 
-`DECLARE` 部分支持 `LET` 的所有定义，包括 `RESULTSET` 和 `CURSOR` 声明；每项以分号结尾。
+`DECLARE` 部分接受与 `LET` 相同的定义，包括 `RESULTSET` 和 `CURSOR` 声明。每个项目后使用分号。
 
 ### 变量与赋值
 
-使用 `LET` 声明变量或常量；重新赋值时省略 `LET`。
+使用 `LET` 声明变量（Variable）或常量，省略 `LET` 进行重新赋值。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_demo_variables()
@@ -85,8 +85,8 @@ BEGIN
     LET total := 100;
     LET rate := 0.07;
 
-    total := total * rate; -- 乘以比率
-    total := total + 5;    -- 重新赋值
+    total := total * rate; -- 乘以速率
+    total := total + 5;    -- 不使用 LET 重新赋值
 
     RETURN total;
 END;
@@ -97,7 +97,7 @@ CALL PROCEDURE sp_demo_variables();
 
 ### 变量作用域
 
-变量作用域限定于所在块；内部块可遮蔽外部绑定，退出后恢复外部值。
+变量（Variable）的作用域限定在封闭块内。内部块可以遮蔽外部绑定，当块退出时，外部值会恢复。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_demo_scope()
@@ -123,7 +123,7 @@ CALL PROCEDURE sp_demo_scope();
 
 ### 注释
 
-支持单行（`-- text`）与多行（`/* text */`）注释。
+过程支持单行（`-- text`）和多行（`/* text */`）注释。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_demo_comments()
@@ -136,8 +136,8 @@ BEGIN
     LET tax_rate := 0.08;
 
     /*
-        多行注释便于记录复杂逻辑。
-        下一行返回含税价格。
+        多行注释对于记录复杂逻辑非常有用。
+        下面这行返回含税价格。
     */
     RETURN price * (1 + tax_rate);
 END;
@@ -148,10 +148,10 @@ CALL PROCEDURE sp_demo_comments();
 
 ### Lambda 表达式
 
-Lambda 表达式（Lambda Expression）定义可传递给数组函数或在查询中调用的内联逻辑，形式为 `<parameter> -> <expression>`；多参数时用括号包裹。表达式可含类型转换、条件逻辑，甚至引用过程变量。
+Lambda 表达式定义了可以传递给数组函数或在查询中调用的内联逻辑。它们遵循 `<parameter> -> <expression>` 的形式（当提供多个参数时，用括号将参数括起来）。表达式可以包括类型转换、条件逻辑，甚至对过程变量（Procedure Variable）的引用。
 
-- 在 SQL 语句中运行的 Lambda 内，用 `:variable_name` 引用过程变量。
-- `ARRAY_TRANSFORM`、`ARRAY_FILTER` 等函数会对输入数组的每个元素求值 Lambda。
+- 当 lambda 在 SQL 语句中运行时，使用 `:variable_name` 来引用 lambda 内部的过程变量（Procedure Variable）。
+- `ARRAY_TRANSFORM` 和 `ARRAY_FILTER` 等函数会对输入数组中的每个元素评估 lambda。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_demo_lambda_array()
@@ -168,7 +168,7 @@ $$;
 CALL PROCEDURE sp_demo_lambda_array();
 ```
 
-Lambda 也可出现在过程执行的查询中。
+Lambda 也可以出现在由过程执行的查询中。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_demo_lambda_query()
@@ -188,7 +188,7 @@ $$;
 CALL PROCEDURE sp_demo_lambda_query();
 ```
 
-在 SQL 上下文中，通过在变量名前加 `:` 捕获过程变量。
+当 lambda 在 SQL 语句上下文中运行时，通过在过程变量前加上 `:` 来捕获它们。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_lambda_filter()
@@ -206,7 +206,7 @@ $$;
 CALL PROCEDURE sp_lambda_filter();
 ```
 
-也可在 Lambda 体内放置复杂表达式，如 `CASE` 逻辑。
+您还可以在 lambda 主体内部放置复杂的表达式，例如 `CASE` 逻辑。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_lambda_case()
@@ -233,7 +233,7 @@ CALL PROCEDURE sp_lambda_case();
 
 ### IF 语句
 
-使用 `IF ... ELSEIF ... ELSE ... END IF;` 在过程内分支。
+在过程中使用 `IF ... ELSEIF ... ELSE ... END IF;` 进行分支。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_evaluate_score(score INT)
@@ -256,7 +256,7 @@ CALL PROCEDURE sp_evaluate_score(82);
 
 ### CASE 表达式
 
-`CASE` 表达式可替代嵌套 `IF`。
+`CASE` 表达式提供了嵌套 `IF` 语句的替代方案。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_membership_discount(level STRING)
@@ -275,9 +275,9 @@ $$;
 CALL PROCEDURE sp_membership_discount('silver');
 ```
 
-### Range `FOR`
+### 范围 `FOR`
 
-基于范围的循环从下限迭代到上限（含上限）。可选 `REVERSE` 关键字反向遍历。
+基于范围的循环从下限迭代到上限（含）。使用可选的 `REVERSE` 关键字向后遍历范围。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_sum_range(start_val INT, end_val INT)
@@ -296,7 +296,7 @@ $$;
 CALL PROCEDURE sp_sum_range(1, 5);
 ```
 
-正向步进时下限须 ≤ 上限。
+范围循环要求在向前步进时，下限小于或等于上限。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_reverse_count(start_val INT, end_val INT)
@@ -317,7 +317,7 @@ CALL PROCEDURE sp_reverse_count(1, 5);
 
 #### `FOR ... IN` 查询
 
-直接遍历查询结果；循环变量以字段形式暴露列。
+直接遍历查询（Query）的结果。循环变量将列作为字段公开。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_sum_query(limit_rows INT)
@@ -336,7 +336,7 @@ $$;
 CALL PROCEDURE sp_sum_query(5);
 ```
 
-`FOR` 也可遍历先前声明的 RESULTSET 变量或 CURSOR（见[使用查询结果](#working-with-query-results)）。
+`FOR` 也可以遍历先前声明的结果集变量或游标（请参阅[使用查询结果](#working-with-query-results)）。
 
 ### `WHILE`
 
@@ -404,9 +404,9 @@ $$;
 CALL PROCEDURE sp_retry_counter(5);
 ```
 
-### Break 与 Continue
+### Break 和 Continue
 
-使用 `BREAK` 提前退出循环，使用 `CONTINUE` 跳过本次迭代。
+使用 `BREAK` 提前退出循环，使用 `CONTINUE` 跳到下一次迭代。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_break_example(limit_val INT)
@@ -435,13 +435,13 @@ $$;
 CALL PROCEDURE sp_break_example(5);
 ```
 
-使用 `BREAK <label>` 或 `CONTINUE <label>` 退出或跳到带标签循环的下一次迭代；标签在结束关键字后声明，如 `END LOOP main_loop;`。
+使用 `BREAK <label>` 或 `CONTINUE <label>` 退出或跳到带标签循环的下一次迭代。通过在结束关键字后附加标签来声明标签，例如 `END LOOP main_loop;`。
 
 ## 使用查询结果
 
 ### 结果集变量
 
-使用 `RESULTSET` 物化查询结果以供后续迭代。
+使用 `RESULTSET` 将查询（Query）结果物化，以供后续迭代。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_total_active_salary()
@@ -466,7 +466,7 @@ CALL PROCEDURE sp_total_active_salary();
 
 ### 游标
 
-需要按需取行时声明游标（Cursor）。
+当需要按需获取行时，声明一个游标（Cursor）。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_fetch_two()
@@ -492,7 +492,7 @@ $$;
 CALL PROCEDURE sp_fetch_two();
 ```
 
-也可从 `RESULTSET` 派生游标。
+或者，从 `RESULTSET` 派生一个游标（Cursor）。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_first_number()
@@ -515,9 +515,9 @@ $$;
 CALL PROCEDURE sp_first_number();
 ```
 
-### 遍历行
+### 迭代行
 
-结果集（Result-Set）变量与游标（Cursor）均可通过 `FOR ... IN` 循环遍历。
+结果集变量（Result-set variable）和游标（Cursor）可以使用 `FOR ... IN` 循环进行遍历。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_low_stock_count()
@@ -543,7 +543,7 @@ CALL PROCEDURE sp_low_stock_count();
 
 ### 返回表
 
-使用 `RETURN TABLE(<query>)` 输出表结果。
+使用 `RETURN TABLE(<query>)` 输出表格结果。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_sales_summary()
@@ -564,7 +564,7 @@ $$;
 CALL PROCEDURE sp_sales_summary();
 ```
 
-返回已存储的结果集使用相同语法：
+返回存储的结果集使用相同的语法：
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_return_cached()
@@ -586,9 +586,9 @@ CALL PROCEDURE sp_return_cached();
 
 ### 带变量的动态块
 
-动态块将结果返回给 `EXECUTE IMMEDIATE` 调用者；在块内使用 `RETURN TABLE` 生成结果集。
+动态块将其结果返回给 `EXECUTE IMMEDIATE` 的调用者。在块内部使用 `RETURN TABLE` 来生成结果集。
 
-也可运行单个 SQL 字符串并捕获输出：
+您也可以运行单个 SQL 字符串并捕获其输出：
 
 ```sql
 EXECUTE IMMEDIATE $$
@@ -611,13 +611,13 @@ $$;
 CALL PROCEDURE sp_dynamic_resultset();
 ```
 
-## 注意事项与限制
+## 注意事项和限制
 
-- 存储过程（Stored Procedure）在单个事务（Transaction）内执行；任何错误将回滚过程内所有操作。
-- 返回值在客户端以字符串形式呈现，即使声明为数值类型。
-- 无 `TRY ... CATCH` 结构；需显式验证输入并预判错误。
-- 在将标识符拼接到动态 SQL 前，请先验证，避免执行非预期语句。
-- 脚本受 `script_max_steps` 限制（默认 10,000）。运行长循环前请提高该值：
+- 存储过程（Stored Procedure）在单个事务（Transaction）中执行；任何错误都会回滚在过程中执行的工作。
+- 返回值在客户端显示为字符串，即使声明的是数字类型。
+- 没有 `TRY ... CATCH` 结构；需要显式验证输入并预测错误条件。
+- 在将标识符连接到动态 SQL 文本之前进行验证，以避免执行意外的语句。
+- 脚本受 `script_max_steps` 设置（默认为 10,000）的限制。在运行长循环之前增加此值：
 
   ```sql
   SET script_max_steps = 100000;
