@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.762"/>
 
-Applies a transformation to each value in a JSON object using a [lambda expression](../../../00-sql-reference/42-lambda-expressions.md).
+Applies a transformation to each value in a JSON object using a [lambda expression](/sql/stored-procedure-scripting/#lambda-expressions).
 
 ## Syntax
 
