@@ -7,7 +7,7 @@ A stored procedure is a set of executable commands or logic blocks stored within
 
 ## Supported Languages
 
-**Databend currently supports [SQL Scripting](/sql/stored-procedure-scripting/) only**. Using SQL scripting, users can define procedures with control flow constructs like loops (FOR, WHILE, REPEAT) and conditionals (IF, CASE), enabling complex logic and effective multi-step operations.
+**Databend currently supports [SQL Scripting](/sql/sql-reference/sql-scripting) only**. Using SQL scripting, users can define procedures with control flow constructs like loops (FOR, WHILE, REPEAT) and conditionals (IF, CASE), enabling complex logic and effective multi-step operations.
 
 ## Limitations
 
@@ -62,3 +62,4 @@ CALL PROCEDURE sum_even_numbers(1, 10);
 │ 30     │
 └────────┘
 ```
+

@@ -130,14 +130,6 @@ const siteRedirects = [
     to: '/sql/sql-functions/semi-structured-functions/array/array-remove-last'
   },
   {
-    from: '/sql/sql-reference/00-sql-reference/42-lambda-expressions',
-    to: '/sql/stored-procedure-scripting/'
-  },
-  {
-    from: '/sql/sql-reference/00-sql-reference/98-sql-scripting',
-    to: '/sql/stored-procedure-scripting/'
-  },
-  {
     from: '/sql/sql-functions/array-functions/array-remove',
     to: '/sql/sql-functions/semi-structured-functions/array/array-remove'
   },
