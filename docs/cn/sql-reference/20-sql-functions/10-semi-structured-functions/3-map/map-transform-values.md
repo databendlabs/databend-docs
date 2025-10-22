@@ -1,11 +1,12 @@
 ---
 title: MAP_TRANSFORM_VALUES
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="新增或更新于：v1.2.762"/>
+<FunctionDescription description="引入或更新于：v1.2.762"/>
 
-使用 [Lambda 表达式（Lambda Expression）](../../../00-sql-reference/42-lambda-expressions.md) 对 JSON 对象（JSON Object）中的每个值执行转换。
+使用 [lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions) 对 JSON 对象中的每个值应用转换。
 
 ## 语法
 
@@ -15,7 +16,7 @@ MAP_TRANSFORM_VALUES(<json_object>, (<key>, <value>) -> <value_transformation>)
 
 ## 返回类型
 
-返回一个 JSON 对象（JSON Object），其键与输入的 JSON 对象（JSON Object）相同，但值已根据指定的 Lambda 变换（Lambda Transformation）进行了修改。
+返回一个 JSON 对象，其键与输入的 JSON 对象相同，但值已根据指定的 lambda 转换进行了修改。
 
 ## 示例
 
