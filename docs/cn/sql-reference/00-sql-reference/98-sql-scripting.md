@@ -2,13 +2,13 @@
 title: SQL 脚本
 ---
 
-本页面概述了 Databend 中可用的 SQL 脚本选项。你可以通过以下任一查询方法使用 SQL 脚本：
+本页概述了 Databend 中可用的 SQL 脚本选项。您可以通过以下任一查询方法使用 SQL 脚本：
 
 - [存储过程（Stored Procedure）](/sql/sql-commands/ddl/procedure/create-procedure)
 - [EXECUTE IMMEDIATE](/sql/sql-commands/administration-cmds/execute-immediate)
 
 :::note
-要使用存储过程，你需要启用实验性功能：
+要使用存储过程，您需要启用实验性功能：
 ```sql
 SET global enable_experimental_procedure=1;
 ```
@@ -16,7 +16,7 @@ SET global enable_experimental_procedure=1;
 
 ## 变量声明
 
-变量可以使用 `LET` 关键字声明，后跟变量名、可选的类型和初始值。
+可以使用 `LET` 关键字声明变量，后跟变量名、可选的类型和初始值。
 
 ```sql title='基本变量声明：'
 LET x := 100;
@@ -74,7 +74,7 @@ END FOR;
 
 ### FOR 循环
 
-遍历一个范围、结果集（Result Set）或游标（Cursor）。
+遍历一个范围、结果集或游标。
 
 ```sql title='FOR 循环示例：'
 -- 基于范围的 FOR 循环
@@ -249,7 +249,7 @@ $$;
 
 ## EXECUTE IMMEDIATE
 
-`EXECUTE IMMEDIATE` 允许你运行 SQL 脚本块，而无需创建存储过程。
+`EXECUTE IMMEDIATE` 允许您运行 SQL 脚本块，而无需创建存储过程。
 
 ```sql title='基本的 EXECUTE IMMEDIATE：'
 EXECUTE IMMEDIATE $$
@@ -272,7 +272,7 @@ EXECUTE IMMEDIATE 'select 1';
 
 ### RETURN
 
-从脚本或存储过程中返回，可以带一个可选值。如果未指定值，则默认返回。
+从脚本或存储过程中返回，可带一个可选值。如果未指定值，默认返回。
 
 ```sql title='RETURN 示例：'
 -- 返回一个简单值
@@ -287,7 +287,7 @@ RETURN 'Processing completed successfully';
 
 ### RETURN TABLE
 
-从脚本返回一个表结果。这在 `EXECUTE IMMEDIATE` 块中特别有用。
+从脚本中返回一个表结果。这在 EXECUTE IMMEDIATE 块中特别有用。
 
 ```sql title='RETURN TABLE 示例：'
 -- 基本的表返回
@@ -299,7 +299,7 @@ BEGIN
 END;
 $$;
 
--- 动态创建表并返回
+-- 动态创建并返回表
 EXECUTE IMMEDIATE $$
 BEGIN
     -- 创建摘要表
@@ -309,7 +309,7 @@ BEGIN
         order_count INT
     );
 
-    -- 使用聚合数据填充
+    -- 填充聚合数据
     INSERT INTO monthly_summary
     SELECT
         DATE_FORMAT(order_date, '%Y-%m') as month,
@@ -361,7 +361,7 @@ LET y := /* 内联注释 */ 20;
 
 ### 变量作用域
 
-变量具有块级作用域，并且可以在嵌套块中被遮蔽（shadowed）：
+变量具有块级作用域，并且可以在嵌套块中被覆盖：
 
 ```sql title='变量作用域示例：'
 CREATE PROCEDURE scope_demo()
@@ -372,11 +372,11 @@ BEGIN
     LET x := 'outer';
 
     IF TRUE THEN
-        LET x := 'inner'; -- 遮蔽外部的 x
+        LET x := 'inner'; -- 覆盖外部的 x
         -- 此处 x 是 'inner'
     END IF;
 
-    -- 此处 x 再次变为 'outer'
+    -- 此处 x 再次是 'outer'
     RETURN x;
 END;
 $$;
@@ -384,7 +384,7 @@ $$;
 
 ### 事务行为
 
-存储过程在事务（Transaction）中运行，并支持出错时自动回滚：
+存储过程在事务（Transaction）中运行，并支持出错时自动回滚（Rollback）：
 
 ```sql title='事务示例：'
 CREATE PROCEDURE transfer_with_log(from_id INT, to_id INT, amount DECIMAL(10,2))
@@ -392,7 +392,7 @@ RETURNS STRING
 LANGUAGE SQL
 AS $$
 BEGIN
-    -- 所有操作都在同一个事务（Transaction）中
+    -- 所有操作都在同一个事务中
     UPDATE accounts SET balance = balance - amount WHERE id = from_id;
     UPDATE accounts SET balance = balance + amount WHERE id = to_id;
 
@@ -408,11 +408,11 @@ $$;
 
 ## 最佳实践
 
-1. **使用有意义的变量名**：使用 `LET total_amount := 0;` 而不是 `LET x := 0;`
+1. **使用有意义的变量名**：`LET total_amount := 0;` 而不是 `LET x := 0;`
 
 2. **为复杂逻辑添加注释**：
    ```sql
-   -- 按月计算复利
+   -- 计算每月复利的复利
    FOR month IN 1 TO months DO
        balance := balance * (1 + annual_rate / 12);
    END FOR;
