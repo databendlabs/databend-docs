@@ -1,0 +1,232 @@
+name: GPT Translate by PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "Pull request URL or number (e.g., 123 or https://github.com/org/repo/pull/123)"
+        required: true
+
+permissions:
+  id-token: write
+  pull-requests: write
+  checks: write
+  statuses: write
+  contents: write
+
+jobs:
+  gpt_translate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Parse PR input
+        id: pr
+        uses: actions/github-script@v7
+        env:
+          PR_INPUT: ${{ inputs.pr }}
+        with:
+          script: |
+            const raw = process.env.PR_INPUT || '';
+            if (!raw || raw.trim() === '') {
+              throw new Error('PR input is required.');
+            }
+
+            const trimmed = raw.trim();
+            let prNumber = null;
+
+            if (/^\d+$/.test(trimmed)) {
+              prNumber = parseInt(trimmed, 10);
+            } else {
+              const matches = trimmed.match(/\d+/g);
+              if (matches && matches.length > 0) {
+                prNumber = parseInt(matches[matches.length - 1], 10);
+              }
+            }
+
+            if (!prNumber || Number.isNaN(prNumber)) {
+              throw new Error(`Unable to extract pull request number from input: ${trimmed}`);
+            }
+
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+
+            core.setOutput('pr_number', String(prNumber));
+            core.setOutput('head_ref', pr.head.ref);
+            core.setOutput('head_sha', pr.head.sha);
+            core.setOutput('base_ref', pr.base.ref);
+            core.setOutput('title', pr.title);
+            core.setOutput('html_url', pr.html_url);
+
+      - name: Collect changed documentation files
+        id: collect
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = parseInt('${{ steps.pr.outputs.pr_number }}', 10);
+            if (!prNumber) {
+              throw new Error('PR number is missing.');
+            }
+
+            const isDoc = (path) =>
+              path.startsWith('docs/en/') &&
+              (path.endsWith('.md') || path.endsWith('.json'));
+
+            const toCnPath = (path) =>
+              `docs/cn/${path.slice('docs/en/'.length)}`;
+
+            const files = await github.paginate(
+              github.rest.pulls.listFiles,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                per_page: 100,
+              }
+            );
+
+            const inputSet = new Set();
+            const removedSet = new Set();
+
+            for (const file of files) {
+              const { filename, status, previous_filename: prev } = file;
+
+              if (status === 'removed' && isDoc(filename)) {
+                removedSet.add(toCnPath(filename));
+                continue;
+              }
+
+              if (status === 'renamed' && prev && isDoc(prev)) {
+                removedSet.add(toCnPath(prev));
+              }
+
+              if (isDoc(filename) && status !== 'removed') {
+                inputSet.add(`./${filename}`);
+              }
+            }
+
+            core.setOutput('input_files', Array.from(inputSet).join(' '));
+            core.setOutput('removed_cn', Array.from(removedSet).join(' '));
+            core.setOutput('has_inputs', inputSet.size > 0 ? 'true' : 'false');
+            core.setOutput('has_removals', removedSet.size > 0 ? 'true' : 'false');
+
+      - name: Exit if no documentation changes
+        if: steps.collect.outputs.has_inputs != 'true' && steps.collect.outputs.has_removals != 'true'
+        run: |
+          echo "No English documentation additions, updates, or deletions detected for PR #${{ steps.pr.outputs.pr_number }} (${{ steps.pr.outputs.html_url }})."
+          exit 0
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout PR revision
+        if: steps.collect.outputs.has_inputs == 'true'
+        run: |
+          set -euo pipefail
+          PR=${{ steps.pr.outputs.pr_number }}
+          git fetch origin pull/${PR}/head
+          git checkout -B translation-source-${PR} FETCH_HEAD
+
+      - name: Snapshot existing translation branches
+        if: steps.collect.outputs.has_inputs == 'true'
+        id: snapshot
+        run: |
+          git ls-remote --heads origin 'translation-*' | awk '{print $2}' | sed 's#refs/heads/##' | sort > /tmp/translation-branches-before.txt
+          echo "before=/tmp/translation-branches-before.txt" >> "$GITHUB_OUTPUT"
+
+      - name: Run GPT Translate
+        if: steps.collect.outputs.has_inputs == 'true'
+        uses: BohuTANG/gpt-translate-refine@v1.4.4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          api_key: ${{ secrets.API_KEY }}
+          base_url: ${{ secrets.BASE_URL }}
+          ai_model: ${{ secrets.LLM_MODEL }}
+          refine_ai_model: ${{ secrets.REFINE_LLM_MODEL }}
+          target_lang: "Simplified-Chinese"
+          system_prompt: ".github/workflows/prompt.txt"
+          refine_system_prompt: ".github/workflows/refine_prompt.txt"
+          temperature: ${{ secrets.TEMPERATURE }}
+          refine_temperature: ${{ secrets.REFINE_TEMPERATURE }}
+          input_files: "${{ steps.collect.outputs.input_files }}"
+          output_files: "docs/cn/**/*.{md,json}"
+          pr_title: "Add LLM Translations V2 for PR #${{ steps.pr.outputs.pr_number }}"
+
+      - name: Identify translation branch
+        if: steps.collect.outputs.has_inputs == 'true'
+        id: branch
+        env:
+          SNAPSHOT_FILE: ${{ steps.snapshot.outputs.before }}
+        run: |
+          git ls-remote --heads origin 'translation-*' | awk '{print $2}' | sed 's#refs/heads/##' | sort > /tmp/translation-branches-after.txt
+          comm -13 "$SNAPSHOT_FILE" /tmp/translation-branches-after.txt > /tmp/new-translation-branches.txt
+          branch=$(tail -n 1 /tmp/new-translation-branches.txt)
+          if [ -n "$branch" ]; then
+            echo "Discovered translation branch: $branch"
+            echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          else
+            echo "Unable to determine translation branch created by GPT workflow."
+            echo "branch=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Apply deletions to translation branch
+        if: >
+          steps.collect.outputs.has_inputs == 'true' &&
+          steps.collect.outputs.has_removals == 'true' &&
+          steps.branch.outputs.branch != ''
+        env:
+          REMOVED_FILES: ${{ steps.collect.outputs.removed_cn }}
+          TRANSLATION_BRANCH: ${{ steps.branch.outputs.branch }}
+        run: |
+          set -euo pipefail
+          git fetch origin "$TRANSLATION_BRANCH"
+          git checkout "$TRANSLATION_BRANCH"
+
+          for file in $REMOVED_FILES; do
+            if [ -f "$file" ]; then
+              rm -f "$file"
+              echo "Removed $file"
+            fi
+          done
+
+          find docs/cn -mindepth 1 -type d -empty -print -delete
+
+          if git status --porcelain | grep .; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "chore: sync deletions for PR #${{ steps.pr.outputs.pr_number }}"
+            git push origin "$TRANSLATION_BRANCH"
+          else
+            echo "No deletions to commit."
+          fi
+
+      - name: Prepare deletion-only changes
+        if: steps.collect.outputs.has_inputs != 'true' && steps.collect.outputs.has_removals == 'true'
+        env:
+          REMOVED_FILES: ${{ steps.collect.outputs.removed_cn }}
+        run: |
+          set -euo pipefail
+          for file in $REMOVED_FILES; do
+            if [ -f "$file" ]; then
+              rm -f "$file"
+              echo "Removed $file"
+            fi
+          done
+          find docs/cn -mindepth 1 -type d -empty -print -delete
+
+      - name: Open deletion-only translation PR
+        if: steps.collect.outputs.has_inputs != 'true' && steps.collect.outputs.has_removals == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: translation-pr-${{ steps.pr.outputs.pr_number }}
+          base: main
+          commit-message: "chore: sync deletions for PR #${{ steps.pr.outputs.pr_number }}"
+          title: "AI Translate cleanup for PR #${{ steps.pr.outputs.pr_number }}"
+          body: |
+            This automated PR removes translated files that no longer have an English source from PR #${{ steps.pr.outputs.pr_number }}.
