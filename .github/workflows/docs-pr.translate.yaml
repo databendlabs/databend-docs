@@ -186,6 +186,10 @@ jobs:
           git fetch origin "$TRANSLATION_BRANCH"
           git checkout "$TRANSLATION_BRANCH"
 
+          if command -v sudo >/dev/null 2>&1; then
+            sudo chown -R "$(id -u)":"$(id -g)" .git docs || true
+          fi
+
           for file in $REMOVED_FILES; do
             if [ -f "$file" ]; then
               rm -f "$file"
