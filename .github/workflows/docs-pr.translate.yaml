@@ -123,13 +123,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout PR revision
+      - name: Populate PR content
         if: steps.collect.outputs.has_inputs == 'true'
+        env:
+          PR: ${{ steps.pr.outputs.pr_number }}
+          INPUT_FILES: ${{ steps.collect.outputs.input_files }}
         run: |
           set -euo pipefail
-          PR=${{ steps.pr.outputs.pr_number }}
-          git fetch origin pull/${PR}/head
-          git checkout -B translation-source-${PR} FETCH_HEAD
+          git fetch --no-tags --depth=1 origin pull/${PR}/head:refs/remotes/origin/pr-${PR}
+          for file in $INPUT_FILES; do
+            clean_path=${file#./}
+            mkdir -p "$(dirname "$clean_path")"
+            git show origin/pr-${PR}:"$clean_path" > "$clean_path"
+          done
 
       - name: Snapshot existing translation branches
         if: steps.collect.outputs.has_inputs == 'true'
