@@ -19,7 +19,7 @@ MAP_TRANSFORM_KEYS(<json_object>, (<key>, <value>) -> <key_transformation>)
 
 ## 示例
 
-此示例在每个键后追加 `_v1`，从而创建一个键已修改的新 JSON 对象：
+此示例将 `_v1` 附加到每个键上，创建一个具有已修改键的新 JSON 对象：
 
 ```sql
 SELECT MAP_TRANSFORM_KEYS('{"name":"John", "role":"admin"}'::VARIANT, (k, v) -> CONCAT(k, '_v1')) AS versioned_metadata;
