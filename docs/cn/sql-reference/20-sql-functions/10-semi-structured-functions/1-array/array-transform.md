@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-使用指定的转换 Lambda 表达式（Lambda Expression）转换 JSON 数组中的每个元素。有关 Lambda 表达式的更多信息，请参见 [Lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions)。
+使用指定的转换 Lambda 表达式（Lambda Expression）来转换 JSON 数组中的每个元素。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions)。
 
 ## 语法
 
