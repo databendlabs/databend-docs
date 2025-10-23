@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-使用 [lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions) 对 JSON 对象中的每个值应用转换。
+使用 [Lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions)对 JSON 对象中的每个值应用转换。
 
 ## 语法
 
@@ -15,7 +15,7 @@ MAP_TRANSFORM_VALUES(<json_object>, (<key>, <value>) -> <value_transformation>)
 
 ## 返回类型
 
-返回一个 JSON 对象，其键与输入的 JSON 对象相同，但值已根据指定的 lambda 转换进行了修改。
+返回一个 JSON 对象，其键与输入 JSON 对象相同，但值根据指定的 Lambda 转换进行了修改。
 
 ## 示例
 
