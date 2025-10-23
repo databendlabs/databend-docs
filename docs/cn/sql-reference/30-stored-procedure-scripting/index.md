@@ -30,7 +30,7 @@ $$;
 | `LANGUAGE SQL` | Databend 目前仅接受 `SQL`。 |
 | `RETURN` / `RETURN TABLE` | 结束执行并提供标量或表格结果。 |
 
-使用 [`CREATE PROCEDURE`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/create-procedure) 持久化定义，使用 [`CALL`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/call-procedure) 运行它，使用 [`DROP PROCEDURE`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/drop-procedure) 删除它。
+使用 [`CREATE PROCEDURE`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/create-procedure/) 持久化定义，使用 [`CALL`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/call-procedure/) 运行它，使用 [`DROP PROCEDURE`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/drop-procedure/) 删除它。
 
 ### 最小示例
 
@@ -625,8 +625,8 @@ CALL PROCEDURE sp_dynamic_resultset();
 
 ## 相关命令
 
-- [`CREATE PROCEDURE`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/create-procedure)
-- [`CALL`](https://docs.databend.cn/sql/s极光ql-commands/ddl/procedure/call-procedure)
-- [`SHOW PROCEDURES`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/show-procedures)
-- [`DESCRIBE PROCEDURE`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/desc-procedure)
-- [`EXECUTE IMMEDIATE`](https://docs.databend.cn/sql/sql-commands/administration-cmds/execute-immediate)
+- [`CREATE PROCEDURE`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/create-procedure/)
+- [`CALL`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/call-procedure/)
+- [`SHOW PROCEDURES`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/show-procedures/)
+- [`DESCRIBE PROCEDURE`](https://docs.databend.cn/sql/sql-commands/ddl/procedure/desc-procedure/)
+- [`EXECUTE IMMEDIATE`](https://docs.databend.cn/sql/sql-commands/administration-cmds/execute-immediate/)
