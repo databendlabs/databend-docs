@@ -8,6 +8,6 @@ Databend 支持通过 Apache Iceberg™ 目录访问外部数据湖表，从而�
 
 此章节的中文内容仍在完善中。您可以暂时参考英文版文档：
 
-- [Apache Iceberg™ Tables（英文）](https://docs.databend.com/sql/sql-reference/00-sql-reference/30-table-engines/iceberg)
+- [Apache Iceberg™ Tables（英文）](https://docs.databend.cn/sql/sql-reference/table-engines/iceberg/)
 
 如果您愿意帮助翻译，请在 GitHub 上提交 PR！
