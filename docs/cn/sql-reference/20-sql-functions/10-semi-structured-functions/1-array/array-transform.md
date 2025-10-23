@@ -4,9 +4,9 @@ title: JSON_ARRAY_TRANSFORM
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.762"/>
+<FunctionDescription description="引入或更新于：v1.2.762"/>
 
-使用指定的转换 Lambda 表达式（Lambda Expression）转换 JSON 数组的每个元素。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](../../../30-stored-procedure-scripting/index.md#lambda-表达式)。
+使用指定的转换 Lambda 表达式对 JSON 数组中的每个元素进行转换。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](../../../30-stored-procedure-scripting/index.md#lambda-expressions)。
 
 ## 语法
 
