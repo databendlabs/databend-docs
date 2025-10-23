@@ -4,9 +4,9 @@ title: ARRAY_FILTER
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.762"/>
+<FunctionDescription description="新增或更新于：v1.2.762"/>
 
-根据指定的 Lambda 表达式（Lambda Expression）筛选 JSON 数组中的元素，仅返回满足条件的元素。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions)。
+根据指定的 Lambda 表达式筛选 JSON 数组中的元素，仅返回满足条件的元素。有关 Lambda 表达式的更多信息，请参见 [Lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions)。
 
 ## 语法
 
