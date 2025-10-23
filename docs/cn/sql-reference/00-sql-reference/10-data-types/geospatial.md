@@ -50,8 +50,7 @@ SET geometry_output_format = 'geojson';
 
 浏览以下链接，了解按类别组织的所有可用地理空间函数。
 
-- [Geometry Functions](../../20-sql-functions/09-geometry-functions/index.md)
-- [H3](../../20-sql-functions/09-geo-functions/index.md)
+- [地理空间函数](../../20-sql-functions/09-geospatial-functions/index.md)
 
 ## 示例
 
