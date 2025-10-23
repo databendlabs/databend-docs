@@ -78,5 +78,5 @@ LIMIT 5;
 
 ## Learn More
 
-- **[External Functions Guide](/guides/query/advanced/external-function)** - Complete setup and deployment instructions
+- **[External Functions Guide](/guides/ai-functions/external-functions)** - Complete setup and deployment instructions
 - **[Databend Cloud](https://databend.com)** - Try external functions with a free account
