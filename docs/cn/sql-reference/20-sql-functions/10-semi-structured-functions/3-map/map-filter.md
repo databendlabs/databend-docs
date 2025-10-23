@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新版本：v1.2.762"/>
 
-根据指定条件过滤 JSON 对象中的键值对，条件使用 [Lambda 表达式](../../../30-stored-procedure-scripting/index.md#lambda-表达式)定义。
+根据指定条件过滤 JSON 对象中的键值对，条件使用 [Lambda 表达式](../../../30-stored-procedure-scripting/index.md#lambda-expressions)定义。
 
 ## 语法
 
