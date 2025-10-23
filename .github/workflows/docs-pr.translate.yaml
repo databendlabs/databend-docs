@@ -190,7 +190,6 @@ jobs:
           SOURCE_PR: ${{ steps.pr.outputs.pr_number }}
           SOURCE_PR_URL: ${{ steps.pr.outputs.html_url }}
           REMOVED_FILES: ${{ steps.collect.outputs.removed_cn }}
-          TRANSLATION_BRANCH: ${{ steps.branch.outputs.branch }}
         with:
           script: |
             const branch = '${{ steps.branch.outputs.branch }}';
