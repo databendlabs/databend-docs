@@ -4,9 +4,9 @@ title: ARRAY_FILTER
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.762"/>
+<FunctionDescription description="引入或更新版本：v1.2.762"/>
 
-根据指定的 Lambda 表达式（Lambda Expression）筛选 JSON 数组中的元素，仅返回满足条件的元素。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions)。
+根据指定的 Lambda 表达式从 JSON 数组中过滤元素，仅返回满足条件的元素。有关 Lambda 表达式的更多信息，请参阅 [Lambda 表达式](/sql/stored-procedure-scripting/#lambda-expressions)。
 
 ## 语法
 
@@ -20,7 +20,7 @@ JSON 数组。
 
 ## 示例
 
-此示例筛选数组，仅返回以字母 `a` 开头的字符串，结果为 `["apple", "avocado"]`：
+此示例过滤数组，仅返回以字母 `a` 开头的字符串，结果为 `["apple", "avocado"]`：
 
 ```sql
 SELECT ARRAY_FILTER(
