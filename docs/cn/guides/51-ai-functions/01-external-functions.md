@@ -78,5 +78,5 @@ LIMIT 5;
 
 ## 了解更多
 
-- **[外部函数指南](/guides/query/advanced/external-function)** - 完整的设置和部署说明
+- **[外部函数指南](/guides/ai-functions/external-functions)** - 完整的设置和部署说明
 - **[Databend Cloud](https://databend.cn)** - 使用免费账户试用外部函数

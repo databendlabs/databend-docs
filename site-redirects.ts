@@ -1116,48 +1116,48 @@ const siteRedirects = [
   // Query guide restructuring - moved from flat to hierarchical structure
   {
     from: '/guides/query/filtering-selection',
-    to: '/guides/query/basics/filtering-selection'
+    to: '/guides/query/sql-analytics'
   },
   {
     from: '/guides/query/aggregating-data',
-    to: '/guides/query/basics/aggregating-data'
+    to: '/guides/query/sql-analytics'
   },
   {
     from: '/guides/query/joins',
-    to: '/guides/query/combining-data/joins'
+    to: '/guides/query/sql-analytics'
   },
   {
     from: '/guides/query/cte',
-    to: '/guides/query/combining-data/cte'
+    to: '/guides/query/sql-analytics'
   },
   {
     from: '/guides/query/udf',
-    to: '/guides/query/advanced/udf'
+    to: '/guides/query/'
   },
   {
     from: '/guides/query/external-function',
-    to: '/guides/query/advanced/external-function'
+    to: '/guides/query/'
   },
   {
     from: '/guides/query/stored-procedure',
-    to: '/guides/query/advanced/stored-procedure'
+    to: '/guides/query/sql-analytics'
   },
   {
     from: '/guides/query/sequences',
-    to: '/guides/query/advanced/sequences'
+    to: '/guides/query/sql-analytics'
   },
   {
     from: '/guides/query/query-profile',
-    to: '/guides/query/optimization/query-profile'
+    to: '/guides/performance/'
   },
   {
     from: '/guides/query/query-hash',
-    to: '/guides/query/optimization/query-hash'
+    to: '/guides/performance/'
   },
-  // Dictionary page removed - redirect to advanced features index
+  // Dictionary page removed - redirect to unified query index
   {
     from: '/guides/query/dictionary',
-    to: '/guides/query/advanced/'
+    to: '/guides/query/'
   },
   // ANY function redirect to ANY_VALUE
   {

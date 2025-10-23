@@ -2,6 +2,10 @@
 title: Full-Text Index
 ---
 
+:::info
+Looking for a hands-on walkthrough? See [JSON & Search Guide](/guides/query/json-search).
+:::
+
 # Full-Text Index: Automatic Lightning-Fast Text Search
 
 import EEFeature from '@site/src/components/EEFeature';
