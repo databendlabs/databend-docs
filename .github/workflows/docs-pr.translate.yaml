@@ -254,6 +254,25 @@ jobs:
               title: updatedTitle,
               body: updatedBody,
             });
+      - name: Remove translation init marker
+        if: steps.branch.outputs.branch != ''
+        env:
+          TRANSLATION_BRANCH: ${{ steps.branch.outputs.branch }}
+        run: |
+          set -euo pipefail
+          git fetch origin "$TRANSLATION_BRANCH"
+          git checkout "$TRANSLATION_BRANCH"
+
+          if [ -f ".translation-init" ]; then
+            git rm -f .translation-init
+
+            if git status --porcelain | grep .; then
+              git config user.name "github-actions[bot]"
+              git config user.email "github-actions[bot]@users.noreply.github.com"
+              git commit -m "chore: remove translation init marker"
+              git push origin "$TRANSLATION_BRANCH"
+            fi
+          fi
       - name: Apply deletions to translation branch
         if: >
           steps.collect.outputs.has_inputs == 'true' &&
