@@ -254,11 +254,8 @@ jobs:
               title: updatedTitle,
               body: updatedBody,
             });
-      - name: Apply deletions to translation branch
-        if: >
-          steps.collect.outputs.has_inputs == 'true' &&
-          steps.collect.outputs.has_removals == 'true' &&
-          steps.branch.outputs.branch != ''
+      - name: Finalize translation branch
+        if: steps.branch.outputs.branch != ''
         env:
           REMOVED_FILES: ${{ steps.collect.outputs.removed_cn }}
           TRANSLATION_BRANCH: ${{ steps.branch.outputs.branch }}
@@ -271,23 +268,35 @@ jobs:
             sudo chown -R "$(id -u)":"$(id -g)" .git docs || true
           fi
 
-          for file in $REMOVED_FILES; do
-            if [ -f "$file" ]; then
-              rm -f "$file"
-              echo "Removed $file"
+          changed=0
+
+          if [ -f ".translation-init" ]; then
+            git rm -f .translation-init
+            echo "Removed .translation-init"
+            changed=1
+          fi
+
+          if [ -n "$REMOVED_FILES" ]; then
+            for file in $REMOVED_FILES; do
+              if [ -f "$file" ]; then
+                rm -f "$file"
+                echo "Removed $file"
+                changed=1
+              fi
+            done
+            if [ -d docs/cn ]; then
+              find docs/cn -mindepth 1 -type d -empty -print -delete
             fi
-          done
+          fi
 
-          find docs/cn -mindepth 1 -type d -empty -print -delete
-
-          if git status --porcelain | grep .; then
+          if [ "$changed" -eq 1 ]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add -A
-            git commit -m "chore: sync deletions for PR #${{ steps.pr.outputs.pr_number }}"
+            git commit -m "chore: finalize translation for PR #${{ steps.pr.outputs.pr_number }}"
             git push origin "$TRANSLATION_BRANCH"
           else
-            echo "No deletions to commit."
+            echo "No cleanup changes to commit."
           fi
 
       - name: Prepare deletion-only changes
