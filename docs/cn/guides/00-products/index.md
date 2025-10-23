@@ -34,4 +34,4 @@ Databend 是新一代多模态 Data+AI 数仓，原生列式存储覆盖结构�
 **性能与扩展**
 - **[性能优化](/guides/performance)**: 通过各种策略提升查询性能。
 - **[基准测试](/guides/benchmark)**: 将 Databend 的性能与其他数据仓库（Data Warehouse）进行比较。
-- **[数据湖仓](/guides/access-data-lake)**: 与 Hive、Iceberg 和 Delta Lake 无缝集成。
+- **[数据湖仓](/sql/sql-reference/table-engines)**: 与 Hive、Iceberg 和 Delta Lake 无缝集成。
