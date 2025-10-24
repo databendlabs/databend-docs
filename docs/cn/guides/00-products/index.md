@@ -12,11 +12,11 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 cn=
 '
 
-**Databend** —— ANY DATA. ANY SCALE. ONE DATABASE.
+**Databend** —— 任何数据，任意规模，一个数据库。
 
-内置存储、向量、分析、搜索与地理空间引擎共享一套 Snowflake 兼容 SQL 接口，让团队可以存任何数据、查任何内容、驱动语义工作负载，并实时交付洞察而无需搬运数据。
+Databend 将存储、向量、分析、搜索与地理空间能力统一到一个兼容 Snowflake 的 SQL 引擎中。你可以存储任何类型的数据，通过 SQL 完成所有查询和分析，驱动 AI 语义工作负载，实时获得洞察——全程无需数据搬运。
 
-无论是 Databend Cloud、Docker 自托管还是 `pip install databend`，统一引擎都直接运行在你的对象存储之上。
+无论选择 Databend Cloud 云服务、Docker 容器部署，还是 `pip install databend` 本地安装，都是同一套引擎，直接运行在你的对象存储上。
 
 '
 en=
