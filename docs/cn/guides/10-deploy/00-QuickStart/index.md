@@ -1,5 +1,6 @@
 ---
 title: 快速入门
+slug: /deploy/quickstart
 ---
 
 Databend 快速入门：5 分钟体验 Databend
