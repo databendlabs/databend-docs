@@ -60,7 +60,7 @@ https://docs.databend.cn/guides/deploy/monitor/server-logs
 https://docs.databend.cn/guides/deploy/monitor/tools/jaeger
 https://docs.databend.cn/guides/deploy/monitor/tools/prometheus-and-grafana
 https://docs.databend.cn/guides/deploy/monitor/tracing
-https://docs.databend.cn/guides/deploy/QuickStart/
+https://docs.databend.cn/guides/deploy/quickstart/
 https://docs.databend.cn/guides/deploy/references/
 https://docs.databend.cn/guides/deploy/references/admin-users
 https://docs.databend.cn/guides/deploy/references/node-config/

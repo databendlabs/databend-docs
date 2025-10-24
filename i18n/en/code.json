@@ -681,9 +681,9 @@
     "message": "Product Features",
     "description": "Product Features"
   },
-  "10x Faster Performance": {
-    "message": "10x Faster Performance",
-    "description": "10x Faster Performance"
+  "Unified Engine": {
+    "message": "Unified Engine",
+    "description": "Headline for unified engine feature"
   },
   "NoDesc": {
     "message": "FeedBack",
@@ -693,49 +693,21 @@
     "message": "*Please describe the specific errors or issues that you have identified in the document (such as: content mistakes, process getting stuck and unable to proceed, layout problems, broken links, etc.)",
     "description": "Please describe the specific errors or issues that you have identified in the document (such as: content mistakes, process getting stuck and unable to proceed, layout problems, broken links, etc.)"
   },
-  "Rust-powered vectorized execution with SIMD optimization delivers exceptional performance.": {
-    "message": "Rust-powered vectorized execution with SIMD optimization delivers exceptional performance.",
-    "description": "delivers exceptional performance."
+  "Unified Data": {
+    "message": "Unified Data",
+    "description": "Headline for unified data feature"
   },
-  "90% Cost Reduction": {
-    "message": "90% Cost Reduction",
-    "description": "90% Cost Reduction"
+  "Analytics Native": {
+    "message": "Analytics Native",
+    "description": "Headline for analytics native feature"
   },
-  "S3-native storage eliminates proprietary overhead and reduces costs significantly.": {
-    "message": "S3-native storage eliminates proprietary overhead and reduces costs significantly.",
-    "description": "Description for Cost reduction and storage section"
+  "Vector Native": {
+    "message": "Vector Native",
+    "description": "Headline for vector native feature"
   },
-  "Snowflake Compatible": {
-    "message": "Snowflake Compatible",
-    "description": "Snowflake Compatible"
-  },
-  "Near 100% SQL compatibility enables zero-rewrite migration from Snowflake.": {
-    "message": "Near 100% SQL compatibility enables zero-rewrite migration from Snowflake.",
-    "description": "Description for Snowflake compatible section"
-  },
-  "Universal Data Processing": {
-    "message": "Universal Data Processing",
-    "description": "Universal Data Processing"
-  },
-  "Process structured, semi-structured, and unstructured multimodal data in one platform.": {
-    "message": "Process structured, semi-structured, and unstructured multimodal data in one platform.",
-    "description": "Description for Universal data processing section"
-  },
-  "Native AI Capabilities": {
-    "message": "Native AI Capabilities",
-    "description": "Native AI Capabilities"
-  },
-  "Built-in AI functions, vector search, and multimodal analytics for modern workloads.": {
-    "message": "Built-in AI functions, vector search, and multimodal analytics for modern workloads.",
-    "description": "Description for Native AI capabilities section"
-  },
-  "Multi-Cloud & No Lock-in": {
-    "message": "Multi-Cloud & No Lock-in",
-    "description": "Multi-Cloud & No Lock-in"
-  },
-  "Deploy on AWS, Azure, GCP, or on-premise with complete data sovereignty.": {
-    "message": "Deploy on AWS, Azure, GCP, or on-premise with complete data sovereignty.",
-    "description": "Description for Multi-cloud and no lock-in section"
+  "Unified Deployment": {
+    "message": "Unified Deployment",
+    "description": "Headline for unified deployment feature"
   },
   "Start with Databend Cloud": {
     "message": "Start with Databend Cloud",
@@ -812,5 +784,33 @@
   "Raise issue": {
     "message": "Raise issue",
     "description": "Raise issue"
+  },
+  "Search & Geo Native": {
+    "message": "Search & Geo Native",
+    "description": "Headline for search native feature"
+  },
+  "Analytics, vector, search, and geo share one optimizer and runtime.": {
+    "message": "Analytics, vector, search, and geo share one optimizer and runtime.",
+    "description": "Description for unified engine feature"
+  },
+  "Structured, semi-structured, unstructured, and vector data share object storage.": {
+    "message": "Structured, semi-structured, unstructured, and vector data share object storage.",
+    "description": "Description for unified data feature"
+  },
+  "ANSI SQL, windowing, incremental aggregates, and streaming power BI.": {
+    "message": "ANSI SQL, windowing, incremental aggregates, and streaming power BI.",
+    "description": "Description for analytics native feature"
+  },
+  "Embeddings, vector indexes, and semantic retrieval all run in SQL.": {
+    "message": "Embeddings, vector indexes, and semantic retrieval all run in SQL.",
+    "description": "Description for vector native feature"
+  },
+  "JSON inverted indexes, geo functions, and ranking fuel hybrid maps.": {
+    "message": "JSON inverted indexes, geo functions, and ranking fuel hybrid maps.",
+    "description": "Description for search native feature"
+  },
+  "Databend runs the same in Cloud, Docker, or `pip install`.": {
+    "message": "Databend runs the same in Cloud, Docker, or `pip install`.",
+    "description": "Description for unified deployment feature"
   }
 }

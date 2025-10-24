@@ -12,17 +12,21 @@ Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> documentat
 cn=
 '
 
-**Databend** 是新一代云原生 **[数据+AI] 分析平台**，支持结构化、半结构化和非结构化多模态数据。
+**Databend** —— ANY DATA. ANY SCALE. ONE DATABASE.
 
-作为 **Snowflake 的开源替代方案**，具有**近 100% SQL 兼容性**和原生 AI 能力，受到世界级企业信赖，管理着 **800+ PB** 数据和**每日 1 亿+** 查询。
+内置存储、向量、分析、搜索与地理空间引擎共享一套 Snowflake 兼容 SQL 接口，让团队可以存任何数据、查任何内容、驱动语义工作负载，并实时交付洞察而无需搬运数据。
+
+无论是 Databend Cloud、Docker 自托管还是 `pip install databend`，统一引擎都直接运行在你的对象存储之上。
 
 '
 en=
 '
 
-**Databend** is the multimodal cloud **[Data+AI]** warehouse bringing structured, semi-structured, unstructured, and vector data together in native columnar storage that runs directly on your object store—your data is ready the moment it lands.
+**Databend** — **ANY DATA. ANY SCALE. ONE DATABASE.**
 
-Built-in Datastore, Vector Database, Analytics, Search, and Geospatial engines converge on one Snowflake-compatible SQL surface, so teams store anything, search everything, power semantic workloads, and deliver real-time insights without moving data.
+**Open-source** datastore, vector, analytics, search, and geospatial engines converge on one **Snowflake-compatible SQL surface** so teams store anything, search everything, power semantic workloads, and deliver real-time insights without moving data.
+
+Explore the engine on [**GitHub**](https://github.com/databendlabs/databend). Launch in Databend Cloud, `docker run`, or `pip install databend`—every option runs the same unified engine on your object store.
 
 '/>
 
@@ -31,20 +35,30 @@ Built-in Datastore, Vector Database, Analytics, Search, and Geospatial engines c
 **Here are some entries you might want to learn about**
 
 **Getting Started**
-- **[SQL Reference](/sql)**: Your swift-access guide for Databend essentials!
+- **[Quick Start](/guides/deploy/quickstart)**: Launch Databend with Docker and load sample data fast.
+- **[Databend Cloud](/guides/cloud)**: Spin up serverless warehouses and manage your organization.
 - **[Connect to Databend](/guides/sql-clients)**: Connect with various SQL clients and programming languages.
+- **[SQL Reference](/sql)**: Browse Databend SQL commands, functions, and syntax.
 
 **Data Processing**
 - **[Data Loading](/guides/load-data)**: Import data from various sources into Databend.
 - **[Data Unloading](/guides/unload-data)**: Export data from Databend to different formats.
 - **[Semi-Structured Data](/sql/sql-functions/semi-structured-functions)**: Process JSON, arrays, and nested data with VARIANT type.
 
-**AI & Advanced Analytics**
-- **[Databend AI and ML](/guides/ai-functions)**: Leverage AI capabilities in your data processing.
-- **[Vector Functions](/sql/sql-functions/vector-functions)**: Vector similarity and distance calculations for ML workloads.
-- **[Full-Text Search](/guides/performance/fulltext-index)**: Advanced text search and relevance scoring.
+**Unified Workloads**
+- **[SQL Analytics Guide](/guides/query/sql-analytics)**: Shared session tables for analytics, search, vector, and geo workloads.
+- **[JSON & Search Guide](/guides/query/json-search)**: Query VARIANT payloads with inverted indexes and Lucene-style `QUERY`.
+- **[Vector Database Guide](/guides/query/vector-db)**: Store embeddings and run semantic similarity inside Databend.
+- **[Geo Analytics Guide](/guides/query/geo-analytics)**: Map incidents with geospatial SQL for real-time insights.
+- **[Lakehouse ETL Guide](/guides/query/lakehouse-etl)**: Stream object storage files into managed tables without silos.
 
 **Performance & Scale**
 - **[Performance Optimization](/guides/performance)**: Enhance query performance with various strategies.
 - **[Benchmarks](/guides/benchmark)**: Compare Databend performance with other data warehouses.
 - **[Data Lakehouse](/sql/sql-reference/table-engines)**: Seamless integration with Hive, Iceberg, and Delta Lake.
+
+**Community & Support**
+- **[Join Slack](https://link.databend.com/join-slack)**: Chat with the Databend community and core engineers.
+- **[Docs Issues](https://github.com/databendlabs/databend-docs/issues)**: Report problems or request new coverage.
+- **[Roadmap](https://github.com/databendlabs/databend/issues/14167)**: Track upcoming features and share feedback.
+- **[Email Us](mailto:hi@databend.com)**: Reach the team directly when you need help.
