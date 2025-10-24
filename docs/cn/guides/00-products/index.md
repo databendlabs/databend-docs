@@ -8,30 +8,57 @@ import Speaker from '@site/src/components/Speaker'
 import LanguageDocs from '@site/src/components/LanguageDocs';
 
 欢迎来到 Databend（发音为 /ˈdeɪtəˌbɛnd/）<Speaker /> 文档。
+<LanguageDocs
+cn=
+'
 
-Databend 是新一代多模态 Data+AI 数仓，原生列式存储覆盖结构化、半结构化、非结构化与向量数据，以对象存储为底座，数据写入即可使用。
+**Databend** —— ANY DATA. ANY SCALE. ONE DATABASE.
 
-基于重新设计的统一架构，Datastore、向量数据、分析、搜索与地理空间等能力由同一引擎驱动，并通过 SQL 对外提供服务，帮助团队集中管理数据、快速检索并实时获得洞察。
+内置存储、向量、分析、搜索与地理空间引擎共享一套 Snowflake 兼容 SQL 接口，让团队可以存任何数据、查任何内容、驱动语义工作负载，并实时交付洞察而无需搬运数据。
+
+无论是 Databend Cloud、Docker 自托管还是 `pip install databend`，统一引擎都直接运行在你的对象存储之上。
+
+'
+en=
+'
+
+**Databend** — **ANY DATA. ANY SCALE. ONE DATABASE.**
+
+**Open-source** datastore, vector, analytics, search, and geospatial engines converge on one **Snowflake-compatible SQL surface** so teams store anything, search everything, power semantic workloads, and deliver real-time insights without moving data.
+
+Explore the engine on [**GitHub**](https://github.com/databendlabs/databend). Launch in Databend Cloud, `docker run`, or `pip install databend`—every option runs the same unified engine on your object store.
+
+'/>
 
 <DocsOverview />
 
 **以下是一些您可能感兴趣的入门主题**
 
 **快速上手**
-- **[SQL 参考](/sql)**: Databend 基础知识的快速访问指南！
+- **[快速开始](/guides/deploy/quickstart)**: 使用 Docker 快速启动 Databend 并加载示例数据。
+- **[Databend Cloud](/guides/cloud)**: 启动无服务器仓库并管理您的组织。
 - **[连接到 Databend](/guides/sql-clients)**: 使用各种 SQL 客户端和编程语言进行连接。
+- **[SQL 参考](/sql)**: 浏览 Databend SQL 命令、函数和语法。
 
 **数据处理**
 - **[数据加载](/guides/load-data)**: 将各种来源的数据导入 Databend。
 - **[数据卸载](/guides/unload-data)**: 将 Databend 中的数据导出为不同格式。
 - **[半结构化数据](/sql/sql-functions/semi-structured-functions)**: 使用 VARIANT 类型处理 JSON、数组和嵌套数据。
 
-**AI 与高级分析**
-- **[Databend AI 与机器学习](/guides/ai-functions)**: 在数据处理中利用 AI 功能。
-- **[向量函数](/sql/sql-functions/vector-functions)**: 用于机器学习工作负载的向量相似度和距离计算。
-- **[全文索引](/guides/performance/fulltext-index)**: 高级文本搜索和相关性评分。
+**统一工作负载**
+- **[SQL 分析指南](/guides/query/sql-analytics)**: 用于分析、搜索、向量和地理工作负载的共享会话表。
+- **[JSON 与搜索指南](/guides/query/json-search)**: 使用倒排索引和 Lucene 风格的 `QUERY` 查询 VARIANT 数据。
+- **[向量数据库指南](/guides/query/vector-db)**: 在 Databend 中存储嵌入向量并运行语义相似度搜索。
+- **[地理分析指南](/guides/query/geo-analytics)**: 使用地理空间 SQL 绘制事件地图以获得实时洞察。
+- **[湖仓 ETL 指南](/guides/query/lakehouse-etl)**: 将对象存储文件流式传输到托管表中，无需数据孤岛。
 
 **性能与扩展**
 - **[性能优化](/guides/performance)**: 通过各种策略提升查询性能。
-- **[基准测试](/guides/benchmark)**: 将 Databend 的性能与其他数据仓库（Data Warehouse）进行比较。
+- **[基准测试](/guides/benchmark)**: 将 Databend 的性能与其他数据仓库进行比较。
 - **[数据湖仓](/sql/sql-reference/table-engines)**: 与 Hive、Iceberg 和 Delta Lake 无缝集成。
+
+**社区与支持**
+- **[加入 Slack](https://link.databend.com/join-slack)**: 与 Databend 社区和核心工程师交流。
+- **[文档问题](https://github.com/databendlabs/databend-docs/issues)**: 报告问题或请求新内容。
+- **[路线图](https://github.com/databendlabs/databend/issues/14167)**: 跟踪即将推出的功能并分享反馈。
+- **[邮件联系](mailto:hi@databend.com)**: 需要帮助时直接联系团队。
