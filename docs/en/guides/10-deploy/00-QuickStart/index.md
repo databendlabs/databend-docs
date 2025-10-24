@@ -1,5 +1,6 @@
 ---
 title: QuickStart
+slug: /guides/deploy/quickstart
 ---
 
 Databend Quick Start: Experience Databend in 5 Minutes
