@@ -46,13 +46,28 @@ This function performs vector computations within Databend and does not rely on 
 
 ## Examples
 
+### Basic Usage
+
+```sql
+-- Calculate cosine distance between two vectors
+SELECT COSINE_DISTANCE([1.0, 2.0, 3.0]::vector(3), [4.0, 5.0, 6.0]::vector(3)) AS distance;
+```
+
+Result:
+```
+╭─────────────╮
+│   distance  │
+├─────────────┤
+│ 0.025368214 │
+╰─────────────╯
+```
+
 Create a table with vector data:
 
 ```sql
 CREATE OR REPLACE TABLE vectors (
     id INT,
-    vec VECTOR(3),
-    VECTOR INDEX idx_vec(vec) distance='cosine'
+    vec VECTOR(3)
 );
 
 INSERT INTO vectors VALUES
@@ -64,20 +79,22 @@ INSERT INTO vectors VALUES
 Find the vector most similar to [1, 2, 3]:
 
 ```sql
-SELECT 
+SELECT
+    id, 
     vec, 
     COSINE_DISTANCE(vec, [1.0000, 2.0000, 3.0000]::VECTOR(3)) AS distance
 FROM 
     vectors
 ORDER BY 
-    distance ASC
-LIMIT 1;
+    distance ASC;
 ```
 
 ```
-+-------------------------+----------+
-| vec                     | distance |
-+-------------------------+----------+
-| [1.0000,2.2000,3.0000]  | 0.0      |
-+-------------------------+----------+
+╭────────────────────────────────────╮
+│ id │    vec    │      distance     │
+├────┼───────────┼───────────────────┤
+│  1 │ [1,2,3]   │ 0.000000059604645 │
+│  2 │ [1,2.2,3] │     0.00096315145 │
+│  3 │ [4,5,6]   │       0.025368214 │
+╰────────────────────────────────────╯
 ```

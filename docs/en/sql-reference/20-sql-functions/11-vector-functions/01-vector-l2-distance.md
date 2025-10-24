@@ -49,13 +49,28 @@ Where v1ᵢ and v2ᵢ are the elements of the input vectors.
 
 ## Examples
 
+### Basic Usage
+
+```sql
+-- Calculate L2 distance between two vectors
+SELECT L2_DISTANCE([1.0, 2.0, 3.0]::vector(3), [4.0, 5.0, 6.0]::vector(3)) AS distance;
+```
+
+Result:
+```
+╭──────────╮
+│ distance │
+├──────────┤
+│ 5.196152 │
+╰──────────╯
+```
+
 Create a table with vector data:
 
 ```sql
 CREATE OR REPLACE TABLE vectors (
     id INT,
-    vec VECTOR(3),
-    VECTOR INDEX idx_vec(vec) distance='l2'
+    vec VECTOR(3)
 );
 
 INSERT INTO vectors VALUES
@@ -78,11 +93,12 @@ ORDER BY
 ```
 
 ```
-+----+-------------------------+----------+
-| id | vec                     | distance |
-+----+-------------------------+----------+
-| 1  | [1.0000,2.0000,3.0000]  | 0.0      |
-| 2  | [1.0000,2.2000,3.0000]  | 0.2      |
-| 3  | [4.0000,5.0000,6.0000]  | 5.196152 |
-+----+-------------------------+----------+
+╭─────────────────────────────╮
+│ id │    vec    │  distance  │
+├────┼───────────┼────────────┤
+│  1 │ [1,2,3]   │          0 │
+│  2 │ [1,2.2,3] │ 0.20000005 │
+│  3 │ [4,5,6]   │   5.196152 │
+╰─────────────────────────────╯
 ```
+
