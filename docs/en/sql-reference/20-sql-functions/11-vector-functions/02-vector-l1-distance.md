@@ -37,38 +37,52 @@ Formula: `L1_DISTANCE(a, b) = |a1 - b1| + |a2 - b2| + ... + |an - bn|`
 
 ```sql
 -- Calculate L1 distance between two vectors
-SELECT L1_DISTANCE([1.0, 2.0, 3.0], [4.0, 5.0, 6.0]) AS distance;
+SELECT L1_DISTANCE([1.0, 2.0, 3.0]::vector(3), [4.0, 5.0, 6.0]::vector(3)) AS distance;
 ```
 
 Result:
 ```
-┌──────────┐
+╭──────────╮
 │ distance │
 ├──────────┤
-│ 9.0      │
-└──────────┘
+│        9 │
+╰──────────╯
 ```
 
-### Using with VECTOR Type
+Create a table with vector data:
 
 ```sql
--- Create table with VECTOR columns
-CREATE TABLE products (
+CREATE OR REPLACE TABLE vectors (
     id INT,
-    features VECTOR(3),
-    VECTOR INDEX idx_features(features) distance='l1'
+    vec VECTOR(3)
 );
 
-INSERT INTO products VALUES 
-    (1, [1.0, 2.0, 3.0]::VECTOR(3)),
-    (2, [2.0, 3.0, 4.0]::VECTOR(3));
-
--- Find products similar to a query vector using L1 distance
-SELECT 
-    id,
-    features,
-    L1_DISTANCE(features, [1.5, 2.5, 3.5]::VECTOR(3)) AS distance
-FROM products
-ORDER BY distance ASC
-LIMIT 5;
+INSERT INTO vectors VALUES
+    (1, [1.0000, 2.0000, 3.0000]),
+    (2, [1.0000, 2.2000, 3.0000]),
+    (3, [4.0000, 5.0000, 6.0000]);
 ```
+
+Find the vector closest to [1, 2, 3] using L1 distance:
+
+```sql
+SELECT
+    id,
+    vec,
+    L1_DISTANCE(vec, [1.0000, 2.0000, 3.0000]::VECTOR(3)) AS distance
+FROM
+    vectors
+ORDER BY
+    distance ASC;
+```
+
+```
+╭─────────────────────────────╮
+│ id │    vec    │  distance  │
+├────┼───────────┼────────────┤
+│  1 │ [1,2,3]   │          0 │
+│  2 │ [1,2.2,3] │ 0.20000005 │
+│  3 │ [4,5,6]   │          9 │
+╰─────────────────────────────╯
+```
+
