@@ -592,7 +592,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/guides/deploy/QuickStart/</loc>
+    <loc>https://docs.databend.com/guides/deploy/quickstart/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

@@ -26,7 +26,6 @@ See the complete list in [Enterprise Features](/guides/products/dee/enterprise-f
 
 ## Getting Started
 
-- **[Quick Start Guide](/guides/deploy/QuickStart/)**: Get up and running in 5 minutes
+- **[Quick Start Guide](/guides/deploy/quickstart/)**: Get up and running in 5 minutes
 - **[Download & Install](/guides/deploy/deploy/download)**: Self-hosted deployment options
 - **[GitHub Repository](https://github.com/databendlabs/databend)**: Source code and community
-

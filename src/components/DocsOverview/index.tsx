@@ -257,7 +257,7 @@ const DocsOverview: FC = (): ReactElement => {
                     <li>
                       <Link
                         title={$t("5-Minute Quick Start")}
-                        to={"/guides/deploy/QuickStart/"}
+                  to={"/guides/deploy/quickstart/"}
                       >
                         {$t("5-Minute Quick Start")}
                       </Link>
