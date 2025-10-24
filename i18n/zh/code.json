@@ -697,9 +697,9 @@
     "message": "产品特点",
     "description": "Product Features"
   },
-  "10x Faster Performance": {
-    "message": "10 倍更快的性能",
-    "description": "10x Faster Performance"
+  "Unified Engine": {
+    "message": "统一引擎",
+    "description": "Headline for unified engine feature"
   },
   "NoDesc": {
     "message": "问题反馈",
@@ -717,49 +717,49 @@
     "message": "所有数据存储在对象存储中。",
     "description": "Stores all data in object storage."
   },
-  "Rust-powered vectorized execution with SIMD optimization delivers exceptional performance.": {
-    "message": "Rust 驱动的矢量化执行与 SIMD 优化提供卓越性能。",
-    "description": "delivers exceptional performance."
+  "Analytics, vector, search, and geo share one optimizer and runtime.": {
+    "message": "分析、向量、搜索、地理共用同一优化器与运行时。",
+    "description": "Description for unified engine feature"
   },
-  "90% Cost Reduction": {
-    "message": "90% 成本降低",
-    "description": "90% Cost Reduction"
+  "Unified Data": {
+    "message": "统一数据",
+    "description": "Headline for unified data feature"
   },
-  "S3-native storage eliminates proprietary overhead and reduces costs significantly.": {
-    "message": "S3 原生存储消除了专有开销并显著降低成本。",
-    "description": "Description for Cost reduction and storage section"
+  "Structured, semi-structured, unstructured, and vector data share object storage.": {
+    "message": "结构化、半结构化、非结构化与向量数据统一驻留对象存储。",
+    "description": "Description for unified data feature"
   },
-  "Snowflake Compatible": {
-    "message": "兼容 Snowflake",
-    "description": "Snowflake Compatible"
+  "Analytics Native": {
+    "message": "原生分析能力",
+    "description": "Headline for analytics native feature"
   },
-  "Near 100% SQL compatibility enables zero-rewrite migration from Snowflake.": {
-    "message": "近 100% 的 SQL 兼容性支持从 Snowflake 的无重写迁移。",
-    "description": "Description for Snowflake compatible section"
+  "ANSI SQL, windowing, incremental aggregates, and streaming power BI.": {
+    "message": "ANSI SQL、窗口、增量聚合与流式处理驱动 BI 分析。",
+    "description": "Description for analytics native feature"
   },
-  "Universal Data Processing": {
-    "message": "通用数据处理",
-    "description": "Universal Data Processing"
+  "Vector Native": {
+    "message": "原生向量能力",
+    "description": "Headline for vector native feature"
   },
-  "Process structured, semi-structured, and unstructured multimodal data in one platform.": {
-    "message": "在一个平台上处理结构化、半结构化和非结构化的多模态数据。",
-    "description": "Description for Universal data processing section"
+  "Embeddings, vector indexes, and semantic retrieval all run in SQL.": {
+    "message": "向量嵌入、索引与语义检索全都直接跑在 SQL 里。",
+    "description": "Description for vector native feature"
   },
-  "Native AI Capabilities": {
-    "message": "原生 AI 能力",
-    "description": "Native AI Capabilities"
+  "Search Native": {
+    "message": "原生搜索能力",
+    "description": "Headline for search native feature"
   },
-  "Built-in AI functions, vector search, and multimodal analytics for modern workloads.": {
-    "message": "内置 AI 功能、向量搜索和多模态分析，适用于现代工作负载。",
-    "description": "Description for Native AI capabilities section"
+  "JSON inverted indexes, geo functions, and ranking fuel hybrid maps.": {
+    "message": "JSON 倒排索引、地理函数与排序联合驱动地图级搜索。",
+    "description": "Description for search native feature"
   },
-  "Multi-Cloud & No Lock-in": {
-    "message": "多云与无锁定",
-    "description": "Multi-Cloud & No Lock-in"
+  "Unified Deployment": {
+    "message": "统一部署方式",
+    "description": "Headline for unified deployment feature"
   },
-  "Deploy on AWS, Azure, GCP, or on-premise with complete data sovereignty.": {
-    "message": "在阿里云、腾讯云、AWS、Azure、GCP 或本地部署，拥有完全的数据主权。",
-    "description": "Description for Multi-cloud and no lock-in section"
+  "Databend runs the same in Cloud, Docker, or `pip install`.": {
+    "message": "Cloud、Docker、`pip install` 全都跑同一套 Databend 引擎。",
+    "description": "Description for unified deployment feature"
   },
   "Start with Databend Cloud": {
     "message": "注册 Databend Cloud",
@@ -836,5 +836,9 @@
   "Raise issue": {
     "message": "提 issue",
     "description": "Raise issue"
+  },
+  "Search & Geo Native": {
+    "message": "原生搜索与地理",
+    "description": "Headline for search native feature"
   }
 }

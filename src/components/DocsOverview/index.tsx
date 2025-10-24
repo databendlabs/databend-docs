@@ -118,72 +118,60 @@ const DocsOverview: FC = (): ReactElement => {
           <Col {...colLayout2}>
             <Card style={{ height: "100%" }} padding={[16, 16]}>
               <h3>
-                <span>{$t("10x Faster Performance")}</span>
+                <span>{$t("Unified Engine")}</span>
               </h3>
               <div>
-                {$t(
-                  "Rust-powered vectorized execution with SIMD optimization delivers exceptional performance."
-                )}
+                {$t("Analytics, vector, search, and geo share one optimizer and runtime.")}
               </div>
             </Card>
           </Col>
           <Col {...colLayout2}>
             <Card style={{ height: "100%" }} padding={[16, 16]}>
               <h3>
-                <span>{$t("90% Cost Reduction")}</span>
+                <span>{$t("Unified Data")}</span>
               </h3>
               <div>
-                {$t(
-                  "S3-native storage eliminates proprietary overhead and reduces costs significantly."
-                )}
+                {$t("Structured, semi-structured, unstructured, and vector data share object storage.")}
               </div>
             </Card>
           </Col>
           <Col {...colLayout2}>
             <Card style={{ height: "100%" }} padding={[16, 16]}>
               <h3>
-                <span>{$t("Snowflake Compatible")}</span>
+                <span>{$t("Analytics Native")}</span>
               </h3>
               <div>
-                {$t(
-                  "Near 100% SQL compatibility enables zero-rewrite migration from Snowflake."
-                )}
+                {$t("ANSI SQL, windowing, incremental aggregates, and streaming power BI.")}
               </div>
             </Card>
           </Col>
           <Col {...colLayout2}>
             <Card style={{ height: "100%" }} padding={[16, 16]}>
               <h3>
-                <span>{$t("Universal Data Processing")}</span>
+                <span>{$t("Vector Native")}</span>
               </h3>
               <div>
-                {$t(
-                  "Process structured, semi-structured, and unstructured multimodal data in one platform."
-                )}
+                {$t("Embeddings, vector indexes, and semantic retrieval all run in SQL.")}
               </div>
             </Card>
           </Col>
           <Col {...colLayout2}>
             <Card style={{ height: "100%" }} padding={[16, 16]}>
               <h3>
-                <span>{$t("Native AI Capabilities")}</span>
+                <span>{$t("Search & Geo Native")}</span>
               </h3>
               <div>
-                {$t(
-                  "Built-in AI functions, vector search, and multimodal analytics for modern workloads."
-                )}
+                {$t("JSON inverted indexes, geo functions, and ranking fuel hybrid maps.")}
               </div>
             </Card>
           </Col>
           <Col {...colLayout2}>
             <Card style={{ height: "100%" }} padding={[16, 16]}>
               <h3>
-                <span>{$t("Multi-Cloud & No Lock-in")}</span>
+                <span>{$t("Unified Deployment")}</span>
               </h3>
               <div>
-                {$t(
-                  "Deploy on AWS, Azure, GCP, or on-premise with complete data sovereignty."
-                )}
+                {$t("Databend runs the same in Cloud, Docker, or `pip install`.")}
               </div>
             </Card>
           </Col>
