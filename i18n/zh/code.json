@@ -530,7 +530,7 @@
     "description": "开发者资源的链接文字"
   },
   "Connect your application to Databend in just a few minutes.": {
-    "message": "几分钟内将您的应用程序连接到 Databend。",
+    "message": "几分钟内即可让您的应用连上 Databend。",
     "description": "连接到 Databend 部分的描述"
   },
   "Load Data into Databend": {
@@ -542,7 +542,7 @@
     "description": "了解更多的链接文字"
   },
   "Bulk import data into Databend(Cloud) in multiple formats.": {
-    "message": "以多种格式批量导入数据到 Databend(Cloud)。",
+    "message": "支持多种格式批量导入数据至 Databend(Cloud)。",
     "description": "加载数据到 Databend 部分的描述"
   },
   "AI & BI & Visualization & Notebooks": {
@@ -554,7 +554,7 @@
     "description": "所有工具的链接文字"
   },
   "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.": {
-    "message": "Databend 提供连接器和插件，用于与主要数据导入工具集成，确保高效的数据同步。",
+    "message": "Databend 提供丰富的连接器与插件,可与主流数据导入工具无缝集成,保障数据高效同步。",
     "description": "AI & BI & 可视化 & 笔记本 部分的描述"
   },
   "Continuous Data Pipelines": {
@@ -562,7 +562,7 @@
     "description": "连续数据管道部分的标题"
   },
   "Data pipelines automate the process of moving and changing data from different sources into Databend.": {
-    "message": "数据管道自动化地将来自不同来源的数据移动和更改到 Databend 中。",
+    "message": "数据管道可自动完成多源数据的迁移、转换与加载到 Databend。",
     "description": "连续数据管道部分的描述"
   },
   "Real-Time CDC Ingestion": {
@@ -574,7 +574,7 @@
     "description": "自动化数据管道的文本"
   },
   "Additional Informations": {
-    "message": "额外信息",
+    "message": "更多信息",
     "description": "额外信息部分的标题"
   },
   "AI Capabilities": {
@@ -606,7 +606,7 @@
     "description": "Databend 产品介绍部分的标题"
   },
   "Choose the deployment option that best fits your needs and scale.": {
-    "message": "选择最适合您需求并可扩展的部署方案。",
+    "message": "选择最契合业务需求的部署方式,随需扩展。",
     "description": "Databend 产品介绍部分的描述"
   },
   "Databend Cloud": {
@@ -614,7 +614,7 @@
     "description": "Databend Cloud 产品的标题"
   },
   "Fully-managed cloud service. No setup required.": {
-    "message": "Databend Cloud 全托管的云服务。无需任何设置。",
+    "message": "全托管云服务,开箱即用。",
     "description": "Databend Cloud 产品的描述"
   },
   "Databend Enterprise": {
@@ -622,7 +622,7 @@
     "description": "Databend Enterprise 产品的标题"
   },
   "Self-hosted with enterprise features and support.": {
-    "message": "采用私有化部署方式，具备企业级功能及支持服务。",
+    "message": "自主部署,拥有企业级功能与专业支持。",
     "description": "Databend Enterprise 产品的描述"
   },
   "Databend Community": {
@@ -630,7 +630,7 @@
     "description": "Databend 社区版 产品的标题"
   },
   "Open-source and free for all use cases.": {
-    "message": "开源且免费，适用于所有应用场景。",
+    "message": "开源免费,适用于任何场景。",
     "description": "Databend 社区版 产品的描述"
   },
   "Getting Started": {
@@ -638,7 +638,7 @@
     "description": "入门指南部分的标题"
   },
   "Create a Databend Cloud account or deploy your own Databend instance.": {
-    "message": "创建一个 Databend Cloud 账户或部署您自己的 Databend 实例。",
+    "message": "注册 Databend Cloud 账户或自主部署 Databend 实例。",
     "description": "入门指南部分的描述"
   },
   "Activate Databend Cloud": {
@@ -718,7 +718,7 @@
     "description": "Stores all data in object storage."
   },
   "Analytics, vector, search, and geo share one optimizer and runtime.": {
-    "message": "分析、向量、搜索、地理共用同一优化器与运行时。",
+    "message": "分析、向量、搜索、地理信息共享统一的查询优化器与执行引擎。",
     "description": "Description for unified engine feature"
   },
   "Unified Data": {
@@ -726,7 +726,7 @@
     "description": "Headline for unified data feature"
   },
   "Structured, semi-structured, unstructured, and vector data share object storage.": {
-    "message": "结构化、半结构化、非结构化与向量数据统一驻留对象存储。",
+    "message": "结构化、半结构化、非结构化及向量数据统一存储于对象存储中。",
     "description": "Description for unified data feature"
   },
   "Analytics Native": {
@@ -734,7 +734,7 @@
     "description": "Headline for analytics native feature"
   },
   "ANSI SQL, windowing, incremental aggregates, and streaming power BI.": {
-    "message": "ANSI SQL、窗口、增量聚合与流式处理驱动 BI 分析。",
+    "message": "标准 SQL、窗口函数、增量聚合与流式计算为 BI 分析提供强力支撑。",
     "description": "Description for analytics native feature"
   },
   "Vector Native": {
@@ -742,7 +742,7 @@
     "description": "Headline for vector native feature"
   },
   "Embeddings, vector indexes, and semantic retrieval all run in SQL.": {
-    "message": "向量嵌入、索引与语义检索全都直接跑在 SQL 里。",
+    "message": "向量嵌入、向量索引与语义检索均可通过 SQL 直接完成。",
     "description": "Description for vector native feature"
   },
   "Search Native": {
@@ -750,7 +750,7 @@
     "description": "Headline for search native feature"
   },
   "JSON inverted indexes, geo functions, and ranking fuel hybrid maps.": {
-    "message": "JSON 倒排索引、地理函数与排序联合驱动地图级搜索。",
+    "message": "JSON 全文索引、地理函数与排序算法共同驱动混合检索。",
     "description": "Description for search native feature"
   },
   "Unified Deployment": {
@@ -758,7 +758,7 @@
     "description": "Headline for unified deployment feature"
   },
   "Databend runs the same in Cloud, Docker, or `pip install`.": {
-    "message": "Cloud、Docker、`pip install` 全都跑同一套 Databend 引擎。",
+    "message": "无论云端、Docker 还是 `pip install`,都是同一个 Databend 内核。",
     "description": "Description for unified deployment feature"
   },
   "Start with Databend Cloud": {
@@ -766,7 +766,7 @@
     "description": "Start with Databend Cloud"
   },
   "Get started in minutes with our fully-managed cloud service. No setup required.": {
-    "message": "使用我们完全托管的云服务，几分钟内即可开始，无需设置。",
+    "message": "几分钟即可上手我们的全托管云服务,无需任何配置。",
     "description": "Get started in minutes with our fully-managed cloud service. No setup required."
   },
   "What you need to know:": {
@@ -774,7 +774,7 @@
     "description": "What you need to know:"
   },
   "Choose Your Edition": {
-    "message": "选择您的云平台版本",
+    "message": "选择适合的版本",
     "description": "Choose Your Edition"
   },
   "Pricing & Plans": {
@@ -790,7 +790,7 @@
     "description": "Deploy Your Own Instance"
   },
   "Install Databend on your infrastructure for complete control and customization.": {
-    "message": "在您的基础设施上安装 Databend，以实现完全控制和自定义。",
+    "message": "部署在您自己的基础设施上,实现完全自主可控与深度定制。",
     "description": "Install Databend on your infrastructure for complete control and customization."
   },
   "5-Minute Quick Start": {
