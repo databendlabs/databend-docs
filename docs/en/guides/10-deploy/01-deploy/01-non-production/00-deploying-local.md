@@ -63,7 +63,7 @@ services:
       - "8080:8080"
     depends_on:
       minio:
-        condition: service_healthy
+        condition: service_started
 ```
 
 2. Start Databend
