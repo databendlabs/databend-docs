@@ -12,7 +12,7 @@ Add the driver to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-databend-driver = "0.7"
+databend-driver = "0.30"
 tokio = { version = "1", features = ["full"] }
 ```
 
