@@ -1,140 +1,77 @@
 ---
-title: JSON 与搜索（Search）
+title: JSON 与搜索
 ---
 
-> **场景（Scenario）：** EverDrive Smart Vision 的感知服务会为每个观察到的帧发出 JSON 有效载荷（payloads），安全分析师需要在不将数据移出 Databend 的情况下搜索检测结果。
+> **场景：** CityDrive 会为每个提取的帧附加一个元数据 JSON 负载，并需要在不将其从 Databend 中复制出去的情况下，对该 JSON 进行类似 Elasticsearch 的过滤。
 
-EverDrive 的感知 Pipeline（流水线）会发出 JSON 有效载荷，我们可以使用 Elasticsearch 风格的语法进行查询。通过将有效载荷存储为 VARIANT 类型并在创建表时声明倒排索引（inverted index），Databend 允许您直接在数据上运行 Lucene 的 `QUERY` 过滤器。
+Databend 将这些异构信号保存在同一个 warehouse 中。倒排索引为 VARIANT 列提供类似 Elasticsearch 的搜索能力，位图表汇总标签覆盖情况，向量索引回答相似性查找，原生 GEOMETRY 列支持空间过滤。
 
-## 1. 创建示例表
-每个帧都携带着来自感知模型（边界框、速度、分类）的结构化元数据。
+## 1. 创建元数据表
+为每个帧存储一个 JSON 负载，这样每次搜索都针对相同的结构。
 
 ```sql
-CREATE OR REPLACE TABLE frame_payloads (
-  frame_id   VARCHAR,
-  run_stage  VARCHAR,
-  payload    VARIANT,
-  logged_at  TIMESTAMP,
-  INVERTED INDEX idx_frame_payloads(payload) -- 声明倒排索引（inverted index）
-);
+CREATE DATABASE IF NOT EXISTS video_unified_demo;
+USE video_unified_demo;
 
-INSERT INTO frame_payloads VALUES
-  ('FRAME-0001', 'detection', PARSE_JSON('{
-    "objects": [
-      {"type":"vehicle","bbox":[545,220,630,380],"confidence":0.94},
-      {"type":"pedestrian","bbox":[710,200,765,350],"confidence":0.88}
-    ],
-    "ego": {"speed_kmh": 32.5, "accel": -2.1}
-  }'), '2024-08-01 09:32:16'),
-  ('FRAME-0002', 'detection', PARSE_JSON('{
-    "objects": [
-      {"type":"pedestrian","bbox":[620,210,670,360],"confidence":0.91}
-    ],
-    "scene": {"lighting":"daytime","weather":"sunny"}
-  }'), '2024-08-01 09:48:04'),
-  ('FRAME-0003', 'tracking', PARSE_JSON('{
-    "objects": [
-      {"type":"vehicle","speed_kmh": 18.0,"distance_m": 6.2},
-      {"type":"emergency_vehicle","sirens":true}
-    ],
-    "scene": {"lighting":"night","visibility":"low"}
-  }'), '2024-08-02 20:29:42');
+CREATE OR REPLACE TABLE frame_metadata_catalog (
+    doc_id      STRING,
+    meta_json   VARIANT,
+    captured_at TIMESTAMP,
+    INVERTED INDEX idx_meta_json (meta_json)
+) CLUSTER BY (captured_at);
 ```
 
-## 2. 提取 JSON 路径
-查看有效载荷以确认结构。
+> 需要多模态数据（向量嵌入、GPS 轨迹、标签位图）？可以从 [向量](./02-vector-db.md) 和 [地理](./03-geo-analytics.md) 指南中获取这些模式，以便与此处展示的搜索结果结合使用。
 
+## 2. 使用 `QUERY()` 的搜索模式
+### 数组匹配
 ```sql
-SELECT frame_id,
-       payload['objects'][0]['type']::STRING      AS first_object,
-       payload['ego']['speed_kmh']::DOUBLE        AS ego_speed,
-       payload['scene']['lighting']::STRING       AS lighting
-FROM frame_payloads
-ORDER BY logged_at;
-```
-
-使用 `::STRING` / `::DOUBLE` 进行类型转换（Casting）可以将 JSON 值暴露给常规的 SQL 过滤器。Databend 还通过 `QUERY` 函数支持在此数据之上进行 Elasticsearch 风格的搜索——通过在变体字段前加上列名（例如 `payload.objects.type`）来引用它们。更多提示：[加载半结构化数据](/guides/load-data/load-semistructured/load-ndjson)。
-
----
-
-## 3. Elasticsearch 风格的搜索（Search）
-`QUERY` 使用 Elasticsearch/Lucene 语法，因此您可以组合布尔逻辑、范围、权重（boosts）和列表。以下是 EverDrive 有效载荷上的几种模式：
-
-### 数组匹配（Array Match）
-查找检测到行人的帧：
-
-```sql
-SELECT frame_id
-FROM frame_payloads
-WHERE QUERY('payload.objects.type:pedestrian')
-ORDER BY logged_at DESC
-LIMIT 10;
+SELECT doc_id,
+       captured_at,
+       meta_json['detections'] AS detections
+FROM frame_metadata_catalog
+WHERE QUERY('meta_json.detections.objects.type:pedestrian')
+ORDER BY captured_at DESC
+LIMIT 5;
 ```
 
 ### 布尔 AND
-车辆行驶速度大于 30 km/h **且** 检测到行人：
-
 ```sql
-SELECT frame_id,
-       payload['ego']['speed_kmh']::DOUBLE AS ego_speed
-FROM frame_payloads
-WHERE QUERY('payload.objects.type:pedestrian AND payload.ego.speed_kmh:[30 TO *]')
-ORDER BY ego_speed DESC;
+SELECT doc_id, captured_at
+FROM frame_metadata_catalog
+WHERE QUERY('meta_json.scene.weather_code:rain
+             AND meta_json.camera.sensor_view:roof')
+ORDER BY captured_at;
 ```
 
 ### 布尔 OR / 列表
-夜间驾驶遇到紧急车辆或骑自行车的人：
-
 ```sql
-SELECT frame_id
-FROM frame_payloads
-WHERE QUERY('payload.scene.lighting:night AND payload.objects.type:(emergency_vehicle OR cyclist)');
-```
-
-### 数值范围
-速度在 10–25 km/h 之间（包含）或严格在 25–40 km/h 之间：
-
-```sql
-SELECT frame_id,
-       payload['ego']['speed_kmh'] AS speed
-FROM frame_payloads
-WHERE QUERY('payload.ego.speed_kmh:[10 TO 25] OR payload.ego.speed_kmh:{25 TO 40}')
-ORDER BY speed;
-```
-
-### 权重（Boosting）
-优先考虑同时出现行人和车辆的帧，但强调行人项：
-
-```sql
-SELECT frame_id,
-       SCORE() AS relevance
-FROM frame_payloads
-WHERE QUERY('payload.objects.type:pedestrian^2 AND payload.objects.type:vehicle')
-ORDER BY relevance DESC
+SELECT doc_id,
+       meta_json['media_meta']['tagging']['labels'] AS labels
+FROM frame_metadata_catalog
+WHERE QUERY('meta_json.media_meta.tagging.labels:(hard_brake OR swerve OR lane_merge)')
+ORDER BY captured_at DESC
 LIMIT 10;
 ```
 
-请参阅 [搜索函数](/sql/sql-functions/search-functions) 以了解 `QUERY`、`SCORE()` 和相关辅助函数支持的完整 Elasticsearch 语法。
-
----
-
-## 4. 交叉引用帧事件
-将查询结果连接回在分析指南中创建的帧级风险评分。
-
+### 数值范围
 ```sql
-WITH risky_frames AS (
-  SELECT frame_id,
-         payload['ego']['speed_kmh']::DOUBLE AS ego_speed
-  FROM frame_payloads
-  WHERE QUERY('payload.objects.type:pedestrian AND payload.ego.speed_kmh:[30 TO *]')
-)
-SELECT r.frame_id,
-       e.event_type,
-       e.risk_score,
-       r.ego_speed
-FROM risky_frames r
-JOIN frame_events e USING (frame_id)
-ORDER BY e.risk_score DESC;
+SELECT doc_id,
+       meta_json['vehicle']['speed_kmh']::DOUBLE AS speed
+FROM frame_metadata_catalog
+WHERE QUERY('meta_json.vehicle.speed_kmh:{30 TO 80}')
+ORDER BY speed DESC
+LIMIT 10;
 ```
 
-由于 `frame_id` 在表之间共享，您可以立即从原始有效载荷跳转到精选分析结果。
+### 提升
+```sql
+SELECT doc_id,
+       SCORE() AS relevance
+FROM frame_metadata_catalog
+WHERE QUERY('meta_json.scene.weather_code:rain AND (meta_json.media_meta.tagging.labels:hard_brake^2 OR meta_json.media_meta.tagging.labels:swerve)')
+ORDER BY relevance DESC
+LIMIT 8;
+```
+
+`QUERY()` 遵循 Elasticsearch 语义（布尔逻辑、范围、提升、列表）。`SCORE()` 暴露 Elasticsearch 相关性，可在 SQL 中对结果重新排序。完整的运算符列表请参阅 [搜索函数](/sql/sql-functions/search-functions)。

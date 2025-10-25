@@ -2,14 +2,14 @@
 title: 统一工作负载
 ---
 
-Databend 现已作为统一引擎，支持 SQL 分析、多模态搜索、向量相似度、地理空间分析及持续 ETL。本迷你系列以 **EverDrive 智能视觉** 场景为例（会话 ID 如 `SES-20240801-SEA01`，帧 ID 如 `FRAME-0001`），演示同一数据集如何在不跨系统复制的情况下流经所有工作负载。
+CityDrive Intelligence 记录每一次行车记录仪行程，将其拆分为帧，并为每个 `video_id` 存储多种信号：关系型元数据、JSON 清单、行为标签、嵌入向量以及 GPS 轨迹。本系列指南展示 Databend 如何将所有这些工作负载集中在同一个 Warehouse 中——无需复制作业，也不需要额外的搜索集群。
 
 | 指南 | 涵盖内容 |
 |-------|----------------|
-| [SQL 分析](./00-sql-analytics.md) | 构建共享表、切分会话、添加窗口/聚合加速 |
-| [JSON 与搜索](./01-json-search.md) | 存储检测负载并 `QUERY` 风险场景 |
-| [向量搜索](./02-vector-db.md) | 保留帧嵌入并查找语义邻居 |
-| [地理分析](./03-geo-analytics.md) | 使用 `HAVERSINE`、多边形、H3 映射事件 |
-| [湖仓 ETL](./04-lakehouse-etl.md) | 暂存文件、`COPY INTO` 表、可选流/任务 |
+| [SQL 分析（SQL Analytics）](./00-sql-analytics.md) | 基础表、筛选条件、连接（Join）、窗口、聚合索引 |
+| [JSON 与搜索（JSON & Search）](./01-json-search.md) | 加载 `frame_metadata_catalog`，运行 Elasticsearch `QUERY()`，关联位图标签 |
+| [向量搜索（Vector Search）](./02-vector-db.md) | 持久化嵌入向量，运行余弦搜索，连接风险指标 |
+| [地理分析（Geo Analytics）](./03-geo-analytics.md) | 使用 `GEOMETRY`，距离/多边形筛选，交通信号灯连接 |
+| [湖仓 ETL（Lakehouse ETL）](./04-lakehouse-etl.md) | 仅在 Stage 中预处理一次，向共享表执行 `COPY INTO`，添加 Stream/Task |
 
-按顺序完成即可看到 Databend 的单个查询优化器（Query Optimizer）如何为同一车队数据上的分析、搜索、向量、地理及加载流水线提供支持。
+按顺序阅读这些指南，可以看到相同的标识符如何从经典 SQL 延伸到文本搜索、向量、地理以及 ETL，全都基于同一个 CityDrive 场景。
