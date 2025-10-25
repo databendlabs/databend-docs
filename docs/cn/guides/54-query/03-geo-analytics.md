@@ -1,93 +1,98 @@
 ---
-title: 地理空间分析（Geo Analytics）
+title: 地理空间分析
 ---
 
-> **场景（Scenario）：** EverDrive Smart Vision 会记录每个关键帧的 GPS 坐标，以便运营团队在城市中绘制危险驾驶热点图。
+> **场景：** CityDrive 为每个被标记的帧记录精确的 GPS 定位与交通信号距离，运营团队仅凭 SQL 即可回答“事件发生在何处”。
 
-每帧都带有 GPS 坐标，因此我们可以把危险情况映射到整个城市。本指南新增一张地理空间表，并使用相同的 EverDrive 会话 ID 演示空间过滤、多边形和 H3 分桶。
+`frame_geo_points` 与 `signal_contact_points` 沿用本指南统一的 `video_id`/`frame_id` 键，无需复制数据即可从 SQL 指标直接切换到地图。
 
-## 1. 创建示例表
-每条记录表示捕获关键帧时自车（ego vehicle）的位置。将坐标存储为 `GEOMETRY` 类型，即可复用本工作负载中的 `ST_X`、`ST_Y` 和 `HAVERSINE` 等函数。
+## 1. 创建位置表
+若已按 JSON 指南操作，这些表已存在。下方代码展示其结构及部分深圳示例数据。
 
 ```sql
-CREATE OR REPLACE TABLE drive_geo (
-  frame_id    VARCHAR,
-  session_id  VARCHAR,
-  location    GEOMETRY,
-  speed_kmh   DOUBLE,
-  heading_deg DOUBLE
+CREATE OR REPLACE TABLE frame_geo_points (
+    video_id   STRING,
+    frame_id   STRING,
+    position_wgs84 GEOMETRY,
+    solution_grade INT,
+    source_system STRING,
+    created_at TIMESTAMP
 );
 
-INSERT INTO drive_geo VALUES
-  ('FRAME-0001', 'SES-20240801-SEA01', TO_GEOMETRY('SRID=4326;POINT(-122.3321 47.6062)'), 28.0,  90),
-  ('FRAME-0002', 'SES-20240801-SEA01', TO_GEOMETRY('SRID=4326;POINT(-122.3131 47.6105)'), 35.4, 120),
-  ('FRAME-0003', 'SES-20240802-SEA02', TO_GEOMETRY('SRID=4326;POINT(-122.3419 47.6205)'), 18.5,  45),
-  ('FRAME-0004', 'SES-20240802-SEA02', TO_GEOMETRY('SRID=4326;POINT(-122.3490 47.6138)'), 22.3,  60),
-  ('FRAME-0005', 'SES-20240803-SEA03', TO_GEOMETRY('SRID=4326;POINT(-122.3610 47.6010)'), 30.1, 210);
+INSERT INTO frame_geo_points VALUES
+  ('VID-20250101-001','FRAME-0101',TO_GEOMETRY('SRID=4326;POINT(114.0579 22.5431)'),104,'fusion_gnss','2025-01-01 08:15:21'),
+  ('VID-20250101-001','FRAME-0102',TO_GEOMETRY('SRID=4326;POINT(114.0610 22.5460)'),104,'fusion_gnss','2025-01-01 08:33:54'),
+  ('VID-20250101-002','FRAME-0201',TO_GEOMETRY('SRID=4326;POINT(114.1040 22.5594)'),104,'fusion_gnss','2025-01-01 11:12:02'),
+  ('VID-20250102-001','FRAME-0301',TO_GEOMETRY('SRID=4326;POINT(114.0822 22.5368)'),104,'fusion_gnss','2025-01-02 09:44:18'),
+  ('VID-20250103-001','FRAME-0401',TO_GEOMETRY('SRID=4326;POINT(114.1195 22.5443)'),104,'fusion_gnss','2025-01-03 21:18:07');
+
+CREATE OR REPLACE TABLE signal_contact_points (
+    node_id     STRING,
+    signal_position GEOMETRY,
+    video_id    STRING,
+    frame_id    STRING,
+    frame_position GEOMETRY,
+    distance_m  DOUBLE,
+    created_at  TIMESTAMP
+);
 ```
 
-文档：[地理空间数据类型](/sql/sql-reference/data-types/geospatial)。
+文档：[地理空间类型](/sql/sql-reference/data-types/geospatial)。
 
 ---
 
-## 2. ST_DISTANCE 半径过滤
-`ST_DISTANCE` 函数用于测量几何体之间的距离。将帧位置和热点均转换到 Web Mercator（SRID 3857），结果以米为单位，再过滤 500 米以内。
+## 2. 空间过滤
+计算每帧与市中心关键坐标的距离，或判断其是否落在某多边形内；需要米级精度时转换至 SRID 3857。
 
 ```sql
-SELECT g.frame_id,
-       g.session_id,
-       e.event_type,
-       e.risk_score,
+SELECT l.frame_id,
+       l.video_id,
+       f.event_tag,
        ST_DISTANCE(
-         ST_TRANSFORM(g.location, 3857),
-         ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(-122.3350 47.6080)'), 3857)
-       ) AS meters_from_hotspot
-FROM drive_geo g
-JOIN frame_events e USING (frame_id)
+         ST_TRANSFORM(l.position_wgs84, 3857),
+         ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(114.0600 22.5450)'), 3857)
+       ) AS meters_from_hq
+FROM frame_geo_points AS l
+JOIN frame_events AS f USING (frame_id)
 WHERE ST_DISTANCE(
-        ST_TRANSFORM(g.location, 3857),
-        ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(-122.3350 47.6080)'), 3857)
-      ) <= 500
-ORDER BY meters_from_hotspot;
+        ST_TRANSFORM(l.position_wgs84, 3857),
+        ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(114.0600 22.5450)'), 3857)
+      ) <= 400
+ORDER BY meters_from_hq;
 ```
 
-需要原始几何调试？在投影中加入 `ST_ASTEXT(g.location)`。偏好直接的大圆计算？改用 `HAVERSINE` 函数，它直接操作 `ST_X`/`ST_Y` 坐标。
-
----
-
-## 3. ST_CONTAINS 多边形过滤
-检查事件是否发生在划定安全区内（如学校区域）。
+提示：调试时可加 `ST_ASTEXT(l.geom)`，或改用 [`HAVERSINE`](/sql/sql-functions/geospatial-functions#trigonometric-distance-functions) 计算大圆距离。
 
 ```sql
 WITH school_zone AS (
-  SELECT TO_GEOMETRY('SRID=4326;POLYGON((
-    -122.3415 47.6150,
-    -122.3300 47.6150,
-    -122.3300 47.6070,
-    -122.3415 47.6070,
-    -122.3415 47.6150
-  ))') AS poly
+    SELECT TO_GEOMETRY('SRID=4326;POLYGON((
+        114.0505 22.5500,
+        114.0630 22.5500,
+        114.0630 22.5420,
+        114.0505 22.5420,
+        114.0505 22.5500
+    ))') AS poly
 )
-SELECT g.frame_id,
-       g.session_id,
-       e.event_type
-FROM drive_geo g
-JOIN frame_events e USING (frame_id)
+SELECT l.frame_id,
+       l.video_id,
+       f.event_tag
+FROM frame_geo_points AS l
+JOIN frame_events AS f USING (frame_id)
 CROSS JOIN school_zone
-WHERE ST_CONTAINS(poly, g.location);
+WHERE ST_CONTAINS(poly, l.position_wgs84);
 ```
 
 ---
 
-## 4. GEO_TO_H3 热力图
-按六边形单元聚合事件，构建路线热力图。
+## 3. Hex 聚合
+将风险帧聚合到六边形网格，便于仪表盘展示。
 
 ```sql
-SELECT GEO_TO_H3(ST_X(location), ST_Y(location), 8) AS h3_cell,
+SELECT GEO_TO_H3(ST_X(position_wgs84), ST_Y(position_wgs84), 8) AS h3_cell,
        COUNT(*) AS frame_count,
-       AVG(e.risk_score) AS avg_risk
-FROM drive_geo
-JOIN frame_events e USING (frame_id)
+       AVG(f.risk_score) AS avg_risk
+FROM frame_geo_points AS l
+JOIN frame_events AS f USING (frame_id)
 GROUP BY h3_cell
 ORDER BY avg_risk DESC;
 ```
@@ -96,44 +101,56 @@ ORDER BY avg_risk DESC;
 
 ---
 
-## 5. ST_DISTANCE + JSON 查询
-将空间距离检查与丰富的检测元数据（来自 JSON 指南）结合，生成精准告警。
+## 4. 交通上下文
+关联 `signal_contact_points` 与 `frame_geo_points` 以验证存储指标，或将空间谓词与 JSON 搜索结合使用。
 
 ```sql
-WITH near_intersection AS (
-  SELECT frame_id
-  FROM drive_geo
-  WHERE ST_DISTANCE(
-          ST_TRANSFORM(location, 3857),
-          ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(-122.3410 47.6130)'), 3857)
-        ) <= 200
-)
-SELECT n.frame_id,
-       p.payload['objects'][0]['type']::STRING AS first_object,
-       e.event_type,
-       e.risk_score
-FROM near_intersection n
-JOIN frame_payloads p USING (frame_id)
-JOIN frame_events  e USING (frame_id)
-WHERE QUERY('payload.objects.type:pedestrian');
+SELECT t.node_id,
+       t.video_id,
+       t.frame_id,
+       ST_DISTANCE(t.signal_position, t.frame_position) AS recomputed_distance,
+       t.distance_m AS stored_distance,
+       l.source_system
+FROM signal_contact_points AS t
+JOIN frame_geo_points AS l USING (frame_id)
+WHERE t.distance_m < 0.03  -- 约 < 30 米，视 SRID 而定
+ORDER BY t.distance_m;
 ```
 
-空间过滤器、JSON 运算符与经典 SQL 均可在一句话内完成。
+```sql
+WITH near_junction AS (
+    SELECT frame_id
+    FROM frame_geo_points
+    WHERE ST_DISTANCE(
+            ST_TRANSFORM(position_wgs84, 3857),
+            ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(114.0700 22.5400)'), 3857)
+          ) <= 150
+)
+SELECT f.frame_id,
+       f.event_tag,
+       meta.meta_json['media_meta']['tagging']['labels'] AS labels
+FROM near_junction nj
+JOIN frame_events AS f USING (frame_id)
+JOIN frame_metadata_catalog AS meta
+  ON meta.doc_id = nj.frame_id
+WHERE QUERY('meta_json.media_meta.tagging.labels:hard_brake');
+```
+
+该模式先按地理位置过滤，再对剩余帧执行 JSON 搜索。
 
 ---
 
-## 6. 创建视图热力图
-将六边形级摘要导出到可视化工具或地图图层。
+## 5. 发布热力图视图
+将地理热力图暴露给 BI 或 GIS 工具，无需重新执行繁重 SQL。
 
 ```sql
-CREATE OR REPLACE VIEW v_route_heatmap AS (
-  SELECT GEO_TO_H3(ST_X(location), ST_Y(location), 7) AS h3_cell,
-         COUNT(*)                                      AS frames,
-         AVG(e.risk_score)                             AS avg_risk
-  FROM drive_geo
-  JOIN frame_events e USING (frame_id)
-  GROUP BY h3_cell
-);
+CREATE OR REPLACE VIEW v_citydrive_geo_heatmap AS
+SELECT GEO_TO_H3(ST_X(position_wgs84), ST_Y(position_wgs84), 7) AS h3_cell,
+       COUNT(*)                              AS frames,
+       AVG(f.risk_score)                     AS avg_risk
+FROM frame_geo_points AS l
+JOIN frame_events AS f USING (frame_id)
+GROUP BY h3_cell;
 ```
 
-下游系统可直接查询 `v_route_heatmap`，在地图上渲染风险热点，无需重新处理原始遥测数据。
+Databend 现可基于同一 `video_id` 同时提供向量、文本与空间查询，调查团队无需再协调多条流水线。
