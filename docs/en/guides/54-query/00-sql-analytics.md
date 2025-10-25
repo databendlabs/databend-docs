@@ -44,7 +44,7 @@ INSERT INTO frame_events VALUES
   ('FRAME-0401', 'VID-20250103-001', 522, '2025-01-03 21:18:07', 'night_lowlight',  0.63, 38.9);
 ```
 
-Docs: [CREATE TABLE](/sql/sql-commands/ddl/table/ddl-create-table), [INSERT](/sql/sql-commands/ddl/table/ddl-insert-into).
+Docs: [CREATE TABLE](/sql/sql-commands/ddl/table/ddl-create-table), [INSERT](/sql/sql-commands/dml/dml-insert).
 
 ---
 
@@ -67,7 +67,7 @@ GROUP BY v.video_id, v.route_name, v.weather
 ORDER BY flagged_frames DESC;
 ```
 
-Docs: [DATEADD](/sql/sql-functions/expressions/dateadd), [GROUP BY](/sql/sql-commands/query-syntax/query-select#group-by-clause).
+Docs: [DATEADD](/sql/sql-functions/datetime-functions/date-add), [GROUP BY](/sql/sql-commands/query-syntax/query-select#group-by-clause).
 
 ---
 
@@ -107,7 +107,7 @@ WHERE f.event_tag = 'pedestrian'
 ORDER BY confidence DESC;
 ```
 
-Docs: [JOIN](/sql/sql-commands/query-syntax/query-join), [FLATTEN](/sql/sql-functions/json-functions/json-functions#flatten).
+Docs: [JOIN](/sql/sql-commands/query-syntax/query-join), [FLATTEN](/sql/sql-functions/table-functions/flatten).
 
 ---
 
@@ -213,7 +213,7 @@ GROUP BY v.route_name, e.event_tag
 ORDER BY avg_risk DESC;
 ```
 
-Docs: [Aggregating Index](/guides/performance/aggregating-index) and [EXPLAIN](/sql/sql-commands/ddl/explain).
+Docs: [Aggregating Index](/guides/performance/aggregating-index) and [EXPLAIN](/sql/sql-commands/explain-cmds/explain).
 
 ---
 
