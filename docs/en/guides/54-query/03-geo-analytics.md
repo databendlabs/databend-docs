@@ -2,92 +2,97 @@
 title: Geo Analytics
 ---
 
-> **Scenario:** EverDrive Smart Vision logs GPS coordinates for each key frame so operations teams can map risky driving hot spots across the city.
+> **Scenario:** CityDrive records precise GPS fixes and traffic-signal distances for each flagged frame so operations teams can answer “where did this happen?” entirely in SQL.
 
-Every frame is tagged with GPS coordinates so we can map risky situations across the city. This guide adds a geospatial table and demonstrates spatial filters, polygons, and H3 bucketing using the same EverDrive session IDs.
+`frame_geo_points` and `signal_contact_points` share the same `video_id`/`frame_id` keys as the rest of the guide, so you can move from SQL metrics to maps without copying data.
 
-## 1. CREATE SAMPLE TABLE
-Each record represents the ego vehicle at the moment a key frame was captured. Store coordinates as `GEOMETRY` so you can reuse functions like `ST_X`, `ST_Y`, and `HAVERSINE` shown throughout this workload.
+## 1. Create Location Tables
+If you followed the JSON guide, these tables already exist. The snippet below shows their structure plus a few Shenzhen samples.
 
 ```sql
-CREATE OR REPLACE TABLE drive_geo (
-  frame_id    VARCHAR,
-  session_id  VARCHAR,
-  location    GEOMETRY,
-  speed_kmh   DOUBLE,
-  heading_deg DOUBLE
+CREATE OR REPLACE TABLE frame_geo_points (
+    video_id   STRING,
+    frame_id   STRING,
+    position_wgs84 GEOMETRY,
+    solution_grade INT,
+    source_system STRING,
+    created_at TIMESTAMP
 );
 
-INSERT INTO drive_geo VALUES
-  ('FRAME-0001', 'SES-20240801-SEA01', TO_GEOMETRY('SRID=4326;POINT(-122.3321 47.6062)'), 28.0,  90),
-  ('FRAME-0002', 'SES-20240801-SEA01', TO_GEOMETRY('SRID=4326;POINT(-122.3131 47.6105)'), 35.4, 120),
-  ('FRAME-0003', 'SES-20240802-SEA02', TO_GEOMETRY('SRID=4326;POINT(-122.3419 47.6205)'), 18.5,  45),
-  ('FRAME-0004', 'SES-20240802-SEA02', TO_GEOMETRY('SRID=4326;POINT(-122.3490 47.6138)'), 22.3,  60),
-  ('FRAME-0005', 'SES-20240803-SEA03', TO_GEOMETRY('SRID=4326;POINT(-122.3610 47.6010)'), 30.1, 210);
+INSERT INTO frame_geo_points VALUES
+  ('VID-20250101-001','FRAME-0101',TO_GEOMETRY('SRID=4326;POINT(114.0579 22.5431)'),104,'fusion_gnss','2025-01-01 08:15:21'),
+  ('VID-20250101-001','FRAME-0102',TO_GEOMETRY('SRID=4326;POINT(114.0610 22.5460)'),104,'fusion_gnss','2025-01-01 08:33:54'),
+  ('VID-20250101-002','FRAME-0201',TO_GEOMETRY('SRID=4326;POINT(114.1040 22.5594)'),104,'fusion_gnss','2025-01-01 11:12:02'),
+  ('VID-20250102-001','FRAME-0301',TO_GEOMETRY('SRID=4326;POINT(114.0822 22.5368)'),104,'fusion_gnss','2025-01-02 09:44:18'),
+  ('VID-20250103-001','FRAME-0401',TO_GEOMETRY('SRID=4326;POINT(114.1195 22.5443)'),104,'fusion_gnss','2025-01-03 21:18:07');
+
+CREATE OR REPLACE TABLE signal_contact_points (
+    node_id     STRING,
+    signal_position GEOMETRY,
+    video_id    STRING,
+    frame_id    STRING,
+    frame_position GEOMETRY,
+    distance_m  DOUBLE,
+    created_at  TIMESTAMP
+);
 ```
 
-Docs: [Geospatial data types](/sql/sql-reference/data-types/geospatial).
+Docs: [Geospatial types](/sql/sql-reference/data-types/geospatial).
 
 ---
 
-## 2. ST_DISTANCE Radius Filter
-The `ST_DISTANCE` function measures the distance between geometries. Transform both the frame location and the hotspot into Web Mercator (SRID 3857) so the result is expressed in meters, then filter to 500 m.
+## 2. Spatial Filters
+Measure how far each frame was from a key downtown coordinate or check whether it falls inside a polygon. Convert to SRID 3857 when you need meter-level distances.
 
 ```sql
-SELECT g.frame_id,
-       g.session_id,
-       e.event_type,
-       e.risk_score,
+SELECT l.frame_id,
+       l.video_id,
+       f.event_tag,
        ST_DISTANCE(
-         ST_TRANSFORM(g.location, 3857),
-         ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(-122.3350 47.6080)'), 3857)
-       ) AS meters_from_hotspot
-FROM drive_geo g
-JOIN frame_events e USING (frame_id)
+         ST_TRANSFORM(l.position_wgs84, 3857),
+         ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(114.0600 22.5450)'), 3857)
+       ) AS meters_from_hq
+FROM frame_geo_points AS l
+JOIN frame_events AS f USING (frame_id)
 WHERE ST_DISTANCE(
-        ST_TRANSFORM(g.location, 3857),
-        ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(-122.3350 47.6080)'), 3857)
-      ) <= 500
-ORDER BY meters_from_hotspot;
+        ST_TRANSFORM(l.position_wgs84, 3857),
+        ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(114.0600 22.5450)'), 3857)
+      ) <= 400
+ORDER BY meters_from_hq;
 ```
 
-Need the raw geometry for debugging? Add `ST_ASTEXT(g.location)` to the projection. Prefer direct great-circle math instead? Swap in the `HAVERSINE` function, which operates on `ST_X`/`ST_Y` coordinates.
-
----
-
-## 3. ST_CONTAINS Polygon Filter
-Check whether an event occurred inside a defined safety zone (for example, a school area).
+Tip: add `ST_ASTEXT(l.geom)` while debugging or switch to [`HAVERSINE`](/sql/sql-functions/geospatial-functions#trigonometric-distance-functions) for great-circle math.
 
 ```sql
 WITH school_zone AS (
-  SELECT TO_GEOMETRY('SRID=4326;POLYGON((
-    -122.3415 47.6150,
-    -122.3300 47.6150,
-    -122.3300 47.6070,
-    -122.3415 47.6070,
-    -122.3415 47.6150
-  ))') AS poly
+    SELECT TO_GEOMETRY('SRID=4326;POLYGON((
+        114.0505 22.5500,
+        114.0630 22.5500,
+        114.0630 22.5420,
+        114.0505 22.5420,
+        114.0505 22.5500
+    ))') AS poly
 )
-SELECT g.frame_id,
-       g.session_id,
-       e.event_type
-FROM drive_geo g
-JOIN frame_events e USING (frame_id)
+SELECT l.frame_id,
+       l.video_id,
+       f.event_tag
+FROM frame_geo_points AS l
+JOIN frame_events AS f USING (frame_id)
 CROSS JOIN school_zone
-WHERE ST_CONTAINS(poly, g.location);
+WHERE ST_CONTAINS(poly, l.position_wgs84);
 ```
 
 ---
 
-## 4. GEO_TO_H3 Heatmap
-Aggregate events by hexagonal cell to build route heatmaps.
+## 3. Hex Aggregations
+Aggregate risky frames into hexagonal buckets for dashboards.
 
 ```sql
-SELECT GEO_TO_H3(ST_X(location), ST_Y(location), 8) AS h3_cell,
+SELECT GEO_TO_H3(ST_X(position_wgs84), ST_Y(position_wgs84), 8) AS h3_cell,
        COUNT(*) AS frame_count,
-       AVG(e.risk_score) AS avg_risk
-FROM drive_geo
-JOIN frame_events e USING (frame_id)
+       AVG(f.risk_score) AS avg_risk
+FROM frame_geo_points AS l
+JOIN frame_events AS f USING (frame_id)
 GROUP BY h3_cell
 ORDER BY avg_risk DESC;
 ```
@@ -96,44 +101,56 @@ Docs: [H3 functions](/sql/sql-functions/geospatial-functions#h3-indexing--conver
 
 ---
 
-## 5. ST_DISTANCE + JSON QUERY
-Combine spatial distance checks with rich detection metadata (from the JSON guide) to build precise alerts.
+## 4. Traffic Context
+Join `signal_contact_points` and `frame_geo_points` to validate stored metrics, or blend spatial predicates with JSON search.
 
 ```sql
-WITH near_intersection AS (
-  SELECT frame_id
-  FROM drive_geo
-  WHERE ST_DISTANCE(
-          ST_TRANSFORM(location, 3857),
-          ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(-122.3410 47.6130)'), 3857)
-        ) <= 200
-)
-SELECT n.frame_id,
-       p.payload['objects'][0]['type']::STRING AS first_object,
-       e.event_type,
-       e.risk_score
-FROM near_intersection n
-JOIN frame_payloads p USING (frame_id)
-JOIN frame_events  e USING (frame_id)
-WHERE QUERY('payload.objects.type:pedestrian');
+SELECT t.node_id,
+       t.video_id,
+       t.frame_id,
+       ST_DISTANCE(t.signal_position, t.frame_position) AS recomputed_distance,
+       t.distance_m AS stored_distance,
+       l.source_system
+FROM signal_contact_points AS t
+JOIN frame_geo_points AS l USING (frame_id)
+WHERE t.distance_m < 0.03  -- roughly < 30 meters depending on SRID
+ORDER BY t.distance_m;
 ```
 
-Spatial filters, JSON operators, and classic SQL all run in one statement.
+```sql
+WITH near_junction AS (
+    SELECT frame_id
+    FROM frame_geo_points
+    WHERE ST_DISTANCE(
+            ST_TRANSFORM(position_wgs84, 3857),
+            ST_TRANSFORM(TO_GEOMETRY('SRID=4326;POINT(114.0700 22.5400)'), 3857)
+          ) <= 150
+)
+SELECT f.frame_id,
+       f.event_tag,
+       meta.meta_json['media_meta']['tagging']['labels'] AS labels
+FROM near_junction nj
+JOIN frame_events AS f USING (frame_id)
+JOIN frame_metadata_catalog AS meta
+  ON meta.doc_id = nj.frame_id
+WHERE QUERY('meta_json.media_meta.tagging.labels:hard_brake');
+```
+
+This pattern lets you filter by geography first, then apply JSON search to the surviving frames.
 
 ---
 
-## 6. CREATE VIEW Heatmap
-Export hex-level summaries to visualization tools or map layers.
+## 5. Publish a Heatmap View
+Expose the geo heatmap to BI or GIS tools without re-running heavy SQL.
 
 ```sql
-CREATE OR REPLACE VIEW v_route_heatmap AS (
-  SELECT GEO_TO_H3(ST_X(location), ST_Y(location), 7) AS h3_cell,
-         COUNT(*)                                      AS frames,
-         AVG(e.risk_score)                             AS avg_risk
-  FROM drive_geo
-  JOIN frame_events e USING (frame_id)
-  GROUP BY h3_cell
-);
+CREATE OR REPLACE VIEW v_citydrive_geo_heatmap AS
+SELECT GEO_TO_H3(ST_X(position_wgs84), ST_Y(position_wgs84), 7) AS h3_cell,
+       COUNT(*)                              AS frames,
+       AVG(f.risk_score)                     AS avg_risk
+FROM frame_geo_points AS l
+JOIN frame_events AS f USING (frame_id)
+GROUP BY h3_cell;
 ```
 
-Downstream systems can query `v_route_heatmap` directly to render risk hot spots on maps without reprocessing raw telemetry.
+Databend now serves vector, text, and spatial queries off the exact same `video_id`, so investigation teams never have to reconcile separate pipelines.
