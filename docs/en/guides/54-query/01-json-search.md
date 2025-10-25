@@ -2,139 +2,76 @@
 title: JSON & Search
 ---
 
-> **Scenario:** EverDrive Smart Vision’s perception services emit JSON payloads for every observed frame, and safety analysts need to search detections without moving the data out of Databend.
+> **Scenario:** CityDrive attaches a metadata JSON payload to every extracted frame and needs Elasticsearch-style filtering on that JSON without copying it out of Databend.
 
-EverDrive’s perception pipeline emits JSON payloads that we query with Elasticsearch-style syntax. By storing payloads as VARIANT and declaring an inverted index during table creation, Databend lets you run Lucene `QUERY` filters directly on the data.
+Databend keeps these heterogeneous signals in one warehouse. Inverted indexes power Elasticsearch-style search on VARIANT columns, bitmap tables summarize label coverage, vector indexes answer similarity lookups, and native GEOMETRY columns support spatial filters.
 
-## 1. CREATE SAMPLE TABLE
-Each frame carries structured metadata from perception models (bounding boxes, velocities, classifications).
-
-```sql
-CREATE OR REPLACE TABLE frame_payloads (
-  frame_id   VARCHAR,
-  run_stage  VARCHAR,
-  payload    VARIANT,
-  logged_at  TIMESTAMP,
-  INVERTED INDEX idx_frame_payloads(payload)
-);
-
-INSERT INTO frame_payloads VALUES
-  ('FRAME-0001', 'detection', PARSE_JSON('{
-    "objects": [
-      {"type":"vehicle","bbox":[545,220,630,380],"confidence":0.94},
-      {"type":"pedestrian","bbox":[710,200,765,350],"confidence":0.88}
-    ],
-    "ego": {"speed_kmh": 32.5, "accel": -2.1}
-  }'), '2024-08-01 09:32:16'),
-  ('FRAME-0002', 'detection', PARSE_JSON('{
-    "objects": [
-      {"type":"pedestrian","bbox":[620,210,670,360],"confidence":0.91}
-    ],
-    "scene": {"lighting":"daytime","weather":"sunny"}
-  }'), '2024-08-01 09:48:04'),
-  ('FRAME-0003', 'tracking', PARSE_JSON('{
-    "objects": [
-      {"type":"vehicle","speed_kmh": 18.0,"distance_m": 6.2},
-      {"type":"emergency_vehicle","sirens":true}
-    ],
-    "scene": {"lighting":"night","visibility":"low"}
-  }'), '2024-08-02 20:29:42');
-```
-
-## 2. SELECT JSON Paths
-Peek into the payload to confirm the structure.
+## 1. Create the Metadata Table
+Store one JSON payload per frame so every search runs against the same structure.
 
 ```sql
-SELECT frame_id,
-       payload['objects'][0]['type']::STRING      AS first_object,
-       payload['ego']['speed_kmh']::DOUBLE        AS ego_speed,
-       payload['scene']['lighting']::STRING       AS lighting
-FROM frame_payloads
-ORDER BY logged_at;
+CREATE DATABASE IF NOT EXISTS video_unified_demo;
+USE video_unified_demo;
+
+CREATE OR REPLACE TABLE frame_metadata_catalog (
+    doc_id      STRING,
+    meta_json   VARIANT,
+    captured_at TIMESTAMP,
+    INVERTED INDEX idx_meta_json (meta_json)
+) CLUSTER BY (captured_at);
 ```
 
-Casting with `::STRING` / `::DOUBLE` exposes JSON values to regular SQL filters. Databend also supports Elasticsearch-style search on top of this data via the `QUERY` function—reference variant fields by prefixing them with the column name (for example `payload.objects.type`). More tips: [Semi-structured data](/guides/load-data/load-semistructured/load-ndjson).
+> Need multimodal data (vector embeddings, GPS trails, tag bitmaps)? Grab the schemas from the [Vector](./02-vector-db.md) and [Geo](./03-geo-analytics.md) guides so you can combine them with the search results shown here.
 
----
-
-## 3. Elasticsearch-style Search
-`QUERY` uses Elasticsearch/Lucene syntax, so you can combine boolean logic, ranges, boosts, and lists. Below are a few patterns on the EverDrive payloads:
-
+## 2. Search Patterns with `QUERY()`
 ### Array Match
-Find frames that detected a pedestrian:
-
 ```sql
-SELECT frame_id
-FROM frame_payloads
-WHERE QUERY('payload.objects.type:pedestrian')
-ORDER BY logged_at DESC
-LIMIT 10;
+SELECT doc_id,
+       captured_at,
+       meta_json['detections'] AS detections
+FROM frame_metadata_catalog
+WHERE QUERY('meta_json.detections.objects.type:pedestrian')
+ORDER BY captured_at DESC
+LIMIT 5;
 ```
 
 ### Boolean AND
-Vehicle travelling faster than 30 km/h **and** a pedestrian detected:
-
 ```sql
-SELECT frame_id,
-       payload['ego']['speed_kmh']::DOUBLE AS ego_speed
-FROM frame_payloads
-WHERE QUERY('payload.objects.type:pedestrian AND payload.ego.speed_kmh:[30 TO *]')
-ORDER BY ego_speed DESC;
+SELECT doc_id, captured_at
+FROM frame_metadata_catalog
+WHERE QUERY('meta_json.scene.weather_code:rain
+             AND meta_json.camera.sensor_view:roof')
+ORDER BY captured_at;
 ```
 
 ### Boolean OR / List
-Night drives encountering either an emergency vehicle or a cyclist:
-
 ```sql
-SELECT frame_id
-FROM frame_payloads
-WHERE QUERY('payload.scene.lighting:night AND payload.objects.type:(emergency_vehicle OR cyclist)');
-```
-
-### Numeric Ranges
-Speed between 10–25 km/h (inclusive) or strictly between 25–40 km/h:
-
-```sql
-SELECT frame_id,
-       payload['ego']['speed_kmh'] AS speed
-FROM frame_payloads
-WHERE QUERY('payload.ego.speed_kmh:[10 TO 25] OR payload.ego.speed_kmh:{25 TO 40}')
-ORDER BY speed;
-```
-
-### Boosting
-Prioritise frames where both a pedestrian and a vehicle appear, but emphasise the pedestrian term:
-
-```sql
-SELECT frame_id,
-       SCORE() AS relevance
-FROM frame_payloads
-WHERE QUERY('payload.objects.type:pedestrian^2 AND payload.objects.type:vehicle')
-ORDER BY relevance DESC
+SELECT doc_id,
+       meta_json['media_meta']['tagging']['labels'] AS labels
+FROM frame_metadata_catalog
+WHERE QUERY('meta_json.media_meta.tagging.labels:(hard_brake OR swerve OR lane_merge)')
+ORDER BY captured_at DESC
 LIMIT 10;
 ```
 
-See [Search functions](/sql/sql-functions/search-functions) for complete Elasticsearch syntax supported by `QUERY`, `SCORE()`, and related helpers.
-
----
-
-## 4. Cross-Reference Frame Events
-Join query results back to the frame-level risk scores created in the analytics guide.
-
+### Numeric Ranges
 ```sql
-WITH risky_frames AS (
-  SELECT frame_id,
-         payload['ego']['speed_kmh']::DOUBLE AS ego_speed
-  FROM frame_payloads
-  WHERE QUERY('payload.objects.type:pedestrian AND payload.ego.speed_kmh:[30 TO *]')
-)
-SELECT r.frame_id,
-       e.event_type,
-       e.risk_score,
-       r.ego_speed
-FROM risky_frames r
-JOIN frame_events e USING (frame_id)
-ORDER BY e.risk_score DESC;
+SELECT doc_id,
+       meta_json['vehicle']['speed_kmh']::DOUBLE AS speed
+FROM frame_metadata_catalog
+WHERE QUERY('meta_json.vehicle.speed_kmh:{30 TO 80}')
+ORDER BY speed DESC
+LIMIT 10;
 ```
 
-Because `frame_id` is shared across tables, you jump from raw payloads to curated analytics instantly.
+### Boosting
+```sql
+SELECT doc_id,
+       SCORE() AS relevance
+FROM frame_metadata_catalog
+WHERE QUERY('meta_json.scene.weather_code:rain AND (meta_json.media_meta.tagging.labels:hard_brake^2 OR meta_json.media_meta.tagging.labels:swerve)')
+ORDER BY relevance DESC
+LIMIT 8;
+```
+
+`QUERY()` follows Elasticsearch semantics (boolean logic, ranges, boosts, lists). `SCORE()` exposes the Elasticsearch relevance so you can re-rank results inside SQL. See [Search functions](/sql/sql-functions/search-functions) for the full operator list.

@@ -2,185 +2,223 @@
 title: Lakehouse ETL
 ---
 
-> **Scenario:** EverDrive Smart Vision’s data engineering team ships every road-test batch as Parquet files so the unified workloads can load, query, and enrich the same telemetry inside Databend.
+> **Scenario:** CityDrive’s data engineering team exports each dash-cam batch as Parquet (videos, frame events, metadata JSON, embeddings, GPS tracks, traffic-signal distances) and wants one COPY pipeline to refresh the shared tables in Databend.
 
-EverDrive’s ingest loop is straightforward:
+The loading loop is straightforward:
 
 ```
-Object-store export (Parquet for example) → Stage → COPY INTO → (optional) Stream & Task
+Object storage → STAGE → COPY INTO tables → (optional) STREAMS/TASKS
 ```
 
-Adjust bucket paths/credentials (and swap Parquet for your actual format if different), then paste the commands below. All syntax mirrors the official [Load Data guides](/guides/load-data/).
+Adjust the bucket path or format to match your environment, then paste the commands below. Syntax mirrors the [Load Data guides](/guides/load-data/).
 
 ---
 
-## 1. Stage
-EverDrive’s data engineering team exports four files per batch—sessions, frame events, detection payloads (with nested JSON fields), and frame embeddings—to an S3 bucket. This guide uses Parquet as the example format, but you can plug in CSV, JSON, or other supported formats by adjusting the `FILE_FORMAT` clause. Create a named connection once, then reuse it across stages.
+## 1. Create a Stage
+Point a reusable stage at the bucket that holds the CityDrive exports. Swap the credentials/URL for your own account; Parquet is used here, but any supported format works with a different `FILE_FORMAT`.
 
 ```sql
-CREATE OR REPLACE CONNECTION everdrive_s3
+CREATE OR REPLACE CONNECTION citydrive_s3
   STORAGE_TYPE = 's3'
   ACCESS_KEY_ID = '<AWS_ACCESS_KEY_ID>'
   SECRET_ACCESS_KEY = '<AWS_SECRET_ACCESS_KEY>';
 
-CREATE OR REPLACE STAGE drive_stage
-  URL = 's3://everdrive-lakehouse/raw/'
-  CONNECTION = (CONNECTION_NAME = 'everdrive_s3')
+CREATE OR REPLACE STAGE citydrive_stage
+  URL = 's3://citydrive-lakehouse/raw/'
+  CONNECTION = (CONNECTION_NAME = 'citydrive_s3')
   FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
-See [Create Stage](/sql/sql-commands/ddl/stage/ddl-create-stage) for additional options.
+> [!IMPORTANT]
+> Replace the placeholder AWS keys and bucket URL with real values from your environment. Without valid credentials, `LIST`, `SELECT ... FROM @citydrive_stage`, and `COPY INTO` statements will fail with `InvalidAccessKeyId`/403 errors from S3.
 
-List the export folders (Parquet in this walkthrough) to confirm they are visible:
+Quick sanity check:
 
 ```sql
-LIST @drive_stage/sessions/;
-LIST @drive_stage/frame-events/;
-LIST @drive_stage/payloads/;
-LIST @drive_stage/embeddings/;
+LIST @citydrive_stage/videos/;
+LIST @citydrive_stage/frame-events/;
+LIST @citydrive_stage/manifests/;
+LIST @citydrive_stage/frame-embeddings/;
+LIST @citydrive_stage/frame-locations/;
+LIST @citydrive_stage/traffic-lights/;
 ```
 
 ---
 
-## 2. Preview
-Before loading anything, peek inside the Parquet files to validate the schema and sample records.
+## 2. Peek at the Files
+Use a `SELECT` against the stage to confirm schema and sample rows before loading.
 
 ```sql
 SELECT *
-FROM @drive_stage/sessions/session_2024_08_16.parquet
+FROM @citydrive_stage/videos/capture_date=2025-01-01/videos.parquet
 LIMIT 5;
 
 SELECT *
-FROM @drive_stage/frame-events/frame_events_2024_08_16.parquet
+FROM @citydrive_stage/frame-events/batch_2025_01_01.parquet
 LIMIT 5;
 ```
 
-Repeat the preview for payloads and embeddings as needed. Databend automatically uses the file format specified on the stage.
+Databend infers the format from the stage definition, so no extra options are required here.
 
 ---
 
-## 3. COPY INTO
-Load each file into the tables used throughout the guides. Use inline casts to map incoming columns to table columns; the projections below assume Parquet but the same shape applies to other formats.
+## 3. COPY INTO the Unified Tables
+Each export maps to one of the shared tables used across the guides. Inline casts keep schemas consistent even if upstream ordering changes.
 
-### Sessions
+### `citydrive_videos`
 ```sql
-COPY INTO drive_sessions (session_id, vehicle_id, route_name, start_time, end_time, weather, camera_setup)
+COPY INTO citydrive_videos (video_id, vehicle_id, capture_date, route_name, weather, camera_source, duration_sec)
 FROM (
-  SELECT session_id::STRING,
+  SELECT video_id::STRING,
          vehicle_id::STRING,
+         capture_date::DATE,
          route_name::STRING,
-         start_time::TIMESTAMP,
-         end_time::TIMESTAMP,
          weather::STRING,
-         camera_setup::STRING
-  FROM @drive_stage/sessions/
+         camera_source::STRING,
+         duration_sec::INT
+  FROM @citydrive_stage/videos/
 )
 FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
-### Frame Events
+### `frame_events`
 ```sql
-COPY INTO frame_events (frame_id, session_id, frame_index, captured_at, event_type, risk_score)
+COPY INTO frame_events (frame_id, video_id, frame_index, collected_at, event_tag, risk_score, speed_kmh)
 FROM (
   SELECT frame_id::STRING,
-         session_id::STRING,
+         video_id::STRING,
          frame_index::INT,
-         captured_at::TIMESTAMP,
-         event_type::STRING,
-         risk_score::DOUBLE
-  FROM @drive_stage/frame-events/
+         collected_at::TIMESTAMP,
+         event_tag::STRING,
+         risk_score::DOUBLE,
+         speed_kmh::DOUBLE
+  FROM @citydrive_stage/frame-events/
 )
 FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
-### Detection Payloads
-The payload files include nested columns (`payload` column is a JSON object). Use the same projection to copy them into the `frame_payloads` table.
-
+### `frame_metadata_catalog`
 ```sql
-COPY INTO frame_payloads (frame_id, run_stage, payload, logged_at)
+COPY INTO frame_metadata_catalog (doc_id, meta_json, captured_at)
 FROM (
-  SELECT frame_id::STRING,
-         run_stage::STRING,
-         payload,
-         logged_at::TIMESTAMP
-  FROM @drive_stage/payloads/
+  SELECT doc_id::STRING,
+         meta_json::VARIANT,
+         captured_at::TIMESTAMP
+  FROM @citydrive_stage/manifests/
 )
 FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
-### Frame Embeddings
+### `frame_embeddings`
 ```sql
-COPY INTO frame_embeddings (frame_id, session_id, embedding, model_version, created_at)
+COPY INTO frame_embeddings (frame_id, video_id, sensor_view, embedding, encoder_build, created_at)
 FROM (
   SELECT frame_id::STRING,
-         session_id::STRING,
-         embedding::VECTOR(4),     -- Replace 4 with your actual embedding dimension
-         model_version::STRING,
+         video_id::STRING,
+         sensor_view::STRING,
+         embedding::VECTOR(768), -- replace with your actual dimension
+         encoder_build::STRING,
          created_at::TIMESTAMP
-  FROM @drive_stage/embeddings/
+  FROM @citydrive_stage/frame-embeddings/
 )
 FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
-All downstream guides (analytics/search/vector/geo) now see this batch.
+### `frame_geo_points`
+```sql
+COPY INTO frame_geo_points (video_id, frame_id, position_wgs84, solution_grade, source_system, created_at)
+FROM (
+  SELECT video_id::STRING,
+         frame_id::STRING,
+         position_wgs84::GEOMETRY,
+         solution_grade::INT,
+         source_system::STRING,
+         created_at::TIMESTAMP
+  FROM @citydrive_stage/frame-locations/
+)
+FILE_FORMAT = (TYPE = 'PARQUET');
+```
+
+### `signal_contact_points`
+```sql
+COPY INTO signal_contact_points (node_id, signal_position, video_id, frame_id, frame_position, distance_m, created_at)
+FROM (
+  SELECT node_id::STRING,
+         signal_position::GEOMETRY,
+         video_id::STRING,
+         frame_id::STRING,
+         frame_position::GEOMETRY,
+         distance_m::DOUBLE,
+         created_at::TIMESTAMP
+  FROM @citydrive_stage/traffic-lights/
+)
+FILE_FORMAT = (TYPE = 'PARQUET');
+```
+
+After this step, every downstream workload—SQL analytics, Elasticsearch `QUERY()`, vector similarity, geospatial filters—reads the exact same data.
 
 ---
 
-## 4. Stream (Optional)
-If you want downstream jobs to react to new rows after each `COPY INTO`, create a stream on the key tables (for example `frame_events`). Stream usage follows the [Continuous Pipeline → Streams](/guides/load-data/continuous-data-pipelines/stream) guide.
+## 4. Streams for Incremental Reactions (Optional)
+Use streams when you want downstream jobs to consume only the rows added since the last batch.
 
 ```sql
 CREATE OR REPLACE STREAM frame_events_stream ON TABLE frame_events;
 
-SELECT * FROM frame_events_stream;  -- Shows new rows since the last consumption
+SELECT * FROM frame_events_stream;   -- shows newly copied rows
+-- …process rows…
+SELECT * FROM frame_events_stream WITH CONSUME;  -- advance the offset
 ```
 
-After processing the stream, call `CONSUME STREAM frame_events_stream;` (or insert the rows into another table) to advance the offset.
+`WITH CONSUME` ensures the stream cursor moves forward after the rows are handled. Reference: [Streams](/guides/load-data/continuous-data-pipelines/stream).
 
 ---
 
-## 5. Task (Optional)
-Tasks execute **one SQL statement** on a schedule. Create a small task for each table (or call a stored procedure if you prefer a single entry point).
+## 5. Tasks for Scheduled Loads (Optional)
+Tasks run **one SQL statement** on a schedule. Create lightweight tasks per table or wrap the logic in a stored procedure if you prefer one entry point.
 
 ```sql
-CREATE OR REPLACE TASK task_load_sessions
+CREATE OR REPLACE TASK task_load_citydrive_videos
   WAREHOUSE = 'default'
-  SCHEDULE = 5 MINUTE
+  SCHEDULE = 10 MINUTE
 AS
-  COPY INTO drive_sessions (session_id, vehicle_id, route_name, start_time, end_time, weather, camera_setup)
+  COPY INTO citydrive_videos (video_id, vehicle_id, capture_date, route_name, weather, camera_source, duration_sec)
   FROM (
-    SELECT session_id::STRING,
+    SELECT video_id::STRING,
            vehicle_id::STRING,
+           capture_date::DATE,
            route_name::STRING,
-           start_time::TIMESTAMP,
-           end_time::TIMESTAMP,
            weather::STRING,
-           camera_setup::STRING
-    FROM @drive_stage/sessions/
+           camera_source::STRING,
+           duration_sec::INT
+    FROM @citydrive_stage/videos/
   )
   FILE_FORMAT = (TYPE = 'PARQUET');
 
-ALTER TASK task_load_sessions RESUME;
+ALTER TASK task_load_citydrive_videos RESUME;
 
 CREATE OR REPLACE TASK task_load_frame_events
   WAREHOUSE = 'default'
-  SCHEDULE = 5 MINUTE
-AS
-  COPY INTO frame_events (frame_id, session_id, frame_index, captured_at, event_type, risk_score)
+  SCHEDULE = 10 MINUTE
+ AS
+  COPY INTO frame_events (frame_id, video_id, frame_index, collected_at, event_tag, risk_score, speed_kmh)
   FROM (
     SELECT frame_id::STRING,
-           session_id::STRING,
+           video_id::STRING,
            frame_index::INT,
-           captured_at::TIMESTAMP,
-           event_type::STRING,
-           risk_score::DOUBLE
-    FROM @drive_stage/frame-events/
+           collected_at::TIMESTAMP,
+           event_tag::STRING,
+           risk_score::DOUBLE,
+           speed_kmh::DOUBLE
+    FROM @citydrive_stage/frame-events/
   )
   FILE_FORMAT = (TYPE = 'PARQUET');
 
 ALTER TASK task_load_frame_events RESUME;
-
--- Repeat for frame_payloads and frame_embeddings
 ```
 
-See [Continuous Pipeline → Tasks](/guides/load-data/continuous-data-pipelines/task) for cron syntax, dependencies, and error handling.
+Add more tasks for `frame_metadata_catalog`, embeddings, or GPS data using the same pattern. Full options: [Tasks](/guides/load-data/continuous-data-pipelines/task).
+
+---
+
+Once these jobs run, every guide in the Unified Workloads series reads from the same CityDrive tables—no extra ETL layers, no duplicate storage.
