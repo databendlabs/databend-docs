@@ -1,186 +1,224 @@
 ---
-title: 湖仓一体 ETL（Lakehouse ETL）
+title: 湖仓一体（Lakehouse）ETL
 ---
 
-> **场景（Scenario）：** EverDrive Smart Vision 的数据工程团队将每次路测批次导出为 Parquet 文件，以便统一工作负载在 Databend 内加载、查询并丰富同一份遥测数据。
+> **场景：** CityDrive 的数据工程团队将每个行车记录仪批次导出为 Parquet 文件（包括视频、帧事件、元数据 JSON、嵌入向量、GPS 轨迹、交通信号距离），并希望使用一条 COPY 流水线刷新 Databend 中的共享表。
 
-EverDrive 的摄取循环非常简单：
+加载循环非常直接：
 
 ```
-对象存储导出（例如 Parquet）→ Stage → COPY INTO →（可选）Stream & Task
+对象存储 → STAGE → COPY INTO 表 →（可选）STREAMS/TASKS
 ```
 
-调整桶路径/凭据（如格式不同，把 Parquet 换成实际格式），然后粘贴下方命令。所有语法均与官方[加载数据指南](/guides/load-data/)一致。
+调整桶路径或格式以匹配您的环境，然后粘贴以下命令。语法与[加载数据指南](/guides/load-data/)一致。
 
 ---
 
-## 1. Stage
-EverDrive 的数据工程团队每批次导出四个文件——sessions、frame events、detection payloads（含嵌套 JSON 字段）和 frame embeddings——到 S3 桶。本指南以 Parquet 为例，只需修改 `FILE_FORMAT` 即可接入 CSV、JSON 或其他支持的格式。一次性创建命名连接，后续所有 Stage 复用。
+## 1. 创建 Stage
+将可复用的 stage 指向保存 CityDrive 导出数据的桶。替换凭证/URL 为您自己的账户；此处使用 Parquet，但任何支持的格式只需更换 `FILE_FORMAT` 即可。
 
 ```sql
-CREATE OR REPLACE CONNECTION everdrive_s3
+CREATE OR REPLACE CONNECTION citydrive_s3
   STORAGE_TYPE = 's3'
   ACCESS_KEY_ID = '<AWS_ACCESS_KEY_ID>'
   SECRET_ACCESS_KEY = '<AWS_SECRET_ACCESS_KEY>';
 
-CREATE OR REPLACE STAGE drive_stage
-  URL = 's3://everdrive-lakehouse/raw/'
-  CONNECTION = (CONNECTION_NAME = 'everdrive_s3')
+CREATE OR REPLACE STAGE citydrive_stage
+  URL = 's3://citydrive-lakehouse/raw/'
+  CONNECTION = (CONNECTION_NAME = 'citydrive_s3')
   FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
-更多选项见[创建 Stage](/sql/sql-commands/ddl/stage/ddl-create-stage)。
+> [!IMPORTANT]
+> 请将占位符 AWS 密钥和桶 URL 替换为真实值。若无有效凭证，`LIST`、`SELECT ... FROM @citydrive_stage` 和 `COPY INTO` 将因 S3 返回 `InvalidAccessKeyId`/403 而失败。
 
-列出导出文件夹（本示例为 Parquet）确认可见：
+快速验证：
 
 ```sql
-LIST @drive_stage/sessions/;
-LIST @drive_stage/frame-events/;
-LIST @drive_stage/payloads/;
-LIST @drive_stage/embeddings/;
+LIST @citydrive_stage/videos/;
+LIST @citydrive_stage/frame-events/;
+LIST @citydrive_stage/manifests/;
+LIST @citydrive_stage/frame-embeddings/;
+LIST @citydrive_stage/frame-locations/;
+LIST @citydrive_stage/traffic-lights/;
 ```
 
 ---
 
-## 2. Preview
-加载前先查看 Parquet 文件，验证 schema 并抽样。
+## 2. 预览文件
+在加载前，用 `SELECT` 查看 stage 中的文件，确认模式并抽样。
 
 ```sql
 SELECT *
-FROM @drive_stage/sessions/session_2024_08_16.parquet
+FROM @citydrive_stage/videos/capture_date=2025-01-01/videos.parquet
 LIMIT 5;
 
 SELECT *
-FROM @drive_stage/frame-events/frame_events_2024_08_16.parquet
+FROM @citydrive_stage/frame-events/batch_2025_01_01.parquet
 LIMIT 5;
 ```
 
-按需对 payloads 与 embeddings 重复预览。Databend 会自动使用 Stage 上指定的文件格式。
+Databend 会依据 stage 定义自动推断格式，无需额外选项。
 
 ---
 
-## 3. COPY INTO
-将各文件加载到指南用到的表中。通过内联类型转换把输入列映射到表列；下方投影以 Parquet 为例，其他格式同理。
+## 3. COPY INTO 统一表
+每份导出对应指南中的共享表。内联类型转换可在上游字段顺序变化时保持模式一致。
 
-### Sessions
+### `citydrive_videos`
 ```sql
-COPY INTO drive_sessions (session_id, vehicle_id, route_name, start_time, end_time, weather, camera_setup)
+COPY INTO citydrive_videos (video_id, vehicle_id, capture_date, route_name, weather, camera_source, duration_sec)
 FROM (
-  SELECT session_id::STRING,
+  SELECT video_id::STRING,
          vehicle_id::STRING,
+         capture_date::DATE,
          route_name::STRING,
-         start_time::TIMESTAMP,
-         end_time::TIMESTAMP,
          weather::STRING,
-         camera_setup::STRING
-  FROM @drive_stage/sessions/
+         camera_source::STRING,
+         duration_sec::INT
+  FROM @citydrive_stage/videos/
 )
 FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
-### Frame Events
+### `frame_events`
 ```sql
-COPY INTO frame_events (frame_id, session_id, frame_index, captured_at, event_type, risk_score)
+COPY INTO frame_events (frame_id, video_id, frame_index, collected_at, event_tag, risk_score, speed_kmh)
 FROM (
   SELECT frame_id::STRING,
-         session_id::STRING,
+         video_id::STRING,
          frame_index::INT,
-         captured_at::TIMESTAMP,
-         event_type::STRING,
-         risk_score::DOUBLE
-  FROM @drive_stage/frame-events/
+         collected_at::TIMESTAMP,
+         event_tag::STRING,
+         risk_score::DOUBLE,
+         speed_kmh::DOUBLE
+  FROM @citydrive_stage/frame-events/
 )
 FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
-### Detection Payloads
-payload 文件含嵌套列（`payload` 列为 JSON 对象）。用相同投影复制到 `frame_payloads` 表。
-
+### `frame_metadata_catalog`
 ```sql
-COPY INTO frame_payloads (frame_id, run_stage, payload, logged_at)
+COPY INTO frame_metadata_catalog (doc_id, meta_json, captured_at)
 FROM (
-  SELECT frame_id::STRING,
-         run_stage::STRING,
-         payload,
-         logged_at::TIMESTAMP
-  FROM @drive_stage/payloads/
+  SELECT doc_id::STRING,
+         meta_json::VARIANT,
+         captured_at::TIMESTAMP
+  FROM @citydrive_stage/manifests/
 )
 FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
-### Frame Embeddings
+### `frame_embeddings`
 ```sql
-COPY INTO frame_embeddings (frame_id, session_id, embedding, model_version, created_at)
+COPY INTO frame_embeddings (frame_id, video_id, sensor_view, embedding, encoder_build, created_at)
 FROM (
   SELECT frame_id::STRING,
-         session_id::STRING,
-         embedding::VECTOR(4),     -- 将 4 替换为实际嵌入维度
-         model_version::STRING,
+         video_id::STRING,
+         sensor_view::STRING,
+         embedding::VECTOR(768), -- 替换为您的实际维度
+         encoder_build::STRING,
          created_at::TIMESTAMP
-  FROM @drive_stage/embeddings/
+  FROM @citydrive_stage/frame-embeddings/
 )
 FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
-下游所有指南（分析/搜索/向量/地理）均可看到本批次数据。
+### `frame_geo_points`
+```sql
+COPY INTO frame_geo_points (video_id, frame_id, position_wgs84, solution_grade, source_system, created_at)
+FROM (
+  SELECT video_id::STRING,
+         frame_id::STRING,
+         position_wgs84::GEOMETRY,
+         solution_grade::INT,
+         source_system::STRING,
+         created_at::TIMESTAMP
+  FROM @citydrive_stage/frame-locations/
+)
+FILE_FORMAT = (TYPE = 'PARQUET');
+```
+
+### `signal_contact_points`
+```sql
+COPY INTO signal_contact_points (node_id, signal_position, video_id, frame_id, frame_position, distance_m, created_at)
+FROM (
+  SELECT node_id::STRING,
+         signal_position::GEOMETRY,
+         video_id::STRING,
+         frame_id::STRING,
+         frame_position::GEOMETRY,
+         distance_m::DOUBLE,
+         created_at::TIMESTAMP
+  FROM @citydrive_stage/traffic-lights/
+)
+FILE_FORMAT = (TYPE = 'PARQUET');
+```
+
+完成后，所有下游负载——SQL 分析、Elasticsearch `QUERY()`、向量相似、地理空间过滤——都将读取同一份数据。
 
 ---
 
-## 4. Stream（可选）
-若希望下游作业在每次 `COPY INTO` 后感知新行，可在关键表（如 `frame_events`）上创建 Stream。用法参考[持续 Pipeline → Stream](/guides/load-data/continuous-data-pipelines/stream)。
+## 4. 增量响应 Stream（可选）
+若下游作业只需处理新增行，可创建 stream。
 
 ```sql
 CREATE OR REPLACE STREAM frame_events_stream ON TABLE frame_events;
 
-SELECT * FROM frame_events_stream;  -- 显示上次消费后的新行
+SELECT * FROM frame_events_stream;   -- 查看新写入的行
+-- …处理行…
+SELECT * FROM frame_events_stream WITH CONSUME;  -- 推进游标
 ```
 
-处理完毕后执行 `CONSUME STREAM frame_events_stream;`（或将行插入另一表）以推进偏移。
+`WITH CONSUME` 确保消费后游标前移。参考：[Streams](/guides/load-data/continuous-data-pipelines/stream)。
 
 ---
 
-## 5. Task（可选）
-Task 按调度执行**一条 SQL 语句**。可为每张表创建小 Task（或调用存储过程作为统一入口）。
+## 5. 定时加载 Task（可选）
+Task 按调度执行**一条 SQL**。可为每张表建轻量 task，或将逻辑封装到存储过程统一入口。
 
 ```sql
-CREATE OR REPLACE TASK task_load_sessions
+CREATE OR REPLACE TASK task_load_citydrive_videos
   WAREHOUSE = 'default'
-  SCHEDULE = 5 MINUTE
+  SCHEDULE = 10 MINUTE
 AS
-  COPY INTO drive_sessions (session_id, vehicle_id, route_name, start_time, end_time, weather, camera_setup)
+  COPY INTO citydrive_videos (video_id, vehicle_id, capture_date, route_name, weather, camera_source, duration_sec)
   FROM (
-    SELECT session_id::STRING,
+    SELECT video_id::STRING,
            vehicle_id::STRING,
+           capture_date::DATE,
            route_name::STRING,
-           start_time::TIMESTAMP,
-           end_time::TIMESTAMP,
            weather::STRING,
-           camera_setup::STRING
-    FROM @drive_stage/sessions/
+           camera_source::STRING,
+           duration_sec::INT
+    FROM @citydrive_stage/videos/
   )
   FILE_FORMAT = (TYPE = 'PARQUET');
 
-ALTER TASK task_load_sessions RESUME;
+ALTER TASK task_load_citydrive_videos RESUME;
 
 CREATE OR REPLACE TASK task_load_frame_events
   WAREHOUSE = 'default'
-  SCHEDULE = 5 MINUTE
-AS
-  COPY INTO frame_events (frame_id, session_id, frame_index, captured_at, event_type, risk_score)
+  SCHEDULE = 10 MINUTE
+ AS
+  COPY INTO frame_events (frame_id, video_id, frame_index, collected_at, event_tag, risk_score, speed_kmh)
   FROM (
     SELECT frame_id::STRING,
-           session_id::STRING,
+           video_id::STRING,
            frame_index::INT,
-           captured_at::TIMESTAMP,
-           event_type::STRING,
-           risk_score::DOUBLE
-    FROM @drive_stage/frame-events/
+           collected_at::TIMESTAMP,
+           event_tag::STRING,
+           risk_score::DOUBLE,
+           speed_kmh::DOUBLE
+    FROM @citydrive_stage/frame-events/
   )
   FILE_FORMAT = (TYPE = 'PARQUET');
 
 ALTER TASK task_load_frame_events RESUME;
-
--- 对 frame_payloads 与 frame_embeddings 重复即可
 ```
 
-cron 语法、依赖设置与错误处理见[持续 Pipeline → Task](/guides/load-data/continuous-data-pipelines/task)。
+按相同模式为 `frame_metadata_catalog`、嵌入或 GPS 数据添加更多 task。完整选项见：[Tasks](/guides/load-data/continuous-data-pipelines/task)。
+
+---
+
+作业运行后，统一工作负载系列的所有指南都将读取同一份 CityDrive 表——无需额外 ETL，也无需重复存储。
