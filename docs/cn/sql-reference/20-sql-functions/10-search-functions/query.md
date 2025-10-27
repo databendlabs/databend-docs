@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.830"/>
 
-`QUERY` 通过 Lucene 风格查询表达式与具备倒排索引（Inverted Index）的列进行匹配，从而过滤行。使用点记法可导航 `VARIANT` 列中的嵌套字段。该函数仅在 `WHERE` 子句中生效。
+`QUERY` 通过 Elasticsearch 风格查询表达式与具备倒排索引（Inverted Index）的列进行匹配，从而过滤行。使用点记法可导航 `VARIANT` 列中的嵌套字段。该函数仅在 `WHERE` 子句中生效。
 
 :::info
 Databend 的 QUERY 函数灵感源自 Elasticsearch 的 [QUERY](https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-functions-search.html#sql-functions-search-query)。

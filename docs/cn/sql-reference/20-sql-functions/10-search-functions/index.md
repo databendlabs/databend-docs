@@ -23,7 +23,7 @@ CREATE OR REPLACE TABLE frames (
 | 函数 | 描述 | 示例 |
 |----------|-------------|---------|
 | [MATCH](match) | 对指定列执行相关性排序搜索。 | `MATCH('summary, tags', 'traffic light red')` |
-| [QUERY](query) | 解析 Lucene 风格查询表达式，支持嵌套 `VARIANT` 字段。 | `QUERY('meta.signals.traffic_light:red')` |
+| [QUERY](query) | 解析 Elasticsearch 风格查询表达式，支持嵌套 `VARIANT` 字段。 | `QUERY('meta.signals.traffic_light:red')` |
 | [SCORE](score) | 与 `MATCH` 或 `QUERY` 配合使用时，返回当前行的相关性得分。 | `SELECT summary, SCORE() FROM frame_notes WHERE MATCH('summary, tags', 'traffic light red')` |
 
 ## 查询语法示例
