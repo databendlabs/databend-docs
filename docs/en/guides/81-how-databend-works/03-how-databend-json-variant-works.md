@@ -51,13 +51,23 @@ Databend inspects the incoming batch and converts recurring access patterns into
 
 ### Lightweight by Design
 
-Heuristics keep the process snappy:
+The pipeline relies on a handful of lightweight heuristics:
 
-- Databend samples only the first 10 rows in each block to learn the document shape.
-- Paths that are mostly `NULL`, or that lead to nested objects and arrays, are skipped.
-- Only leaf paths that remain stable across the sample are promoted, and each block caps out at 1,000 virtual columns.
-- Hash-based deduplication prevents the same key path from being analysed twice as data streams through memory.
-- If nothing qualifies, Databend simply keeps the JSONB document—queries stay correct.
+```
+┌─────────────────────────────┬──────────────────────────────────────────────┐
+│ Step                        │ Heuristic                                    │
+├─────────────────────────────┼──────────────────────────────────────────────┤
+│ Sampling                    │ Inspect only the first 10 rows of each block │
+│ Null & non-leaf filtering   │ Skip paths dominated by NULL or pointing to  │
+│                             │ objects/arrays                               │
+│ Stability check             │ Promote only leaf paths that stay consistent │
+│                             │ across the sample (max 1,000 per block)      │
+│ Deduplication               │ Use hashing to avoid analysing the same path │
+│                             │ repeatedly                                    │
+│ Fallback                    │ Keep the original JSONB document when no     │
+│                             │ candidate survives                           │
+└─────────────────────────────┴──────────────────────────────────────────────┘
+```
 
 The result: you load JSON once, and recurring patterns quietly turn into optimised, typed columns with no DDL and no tuning.
 
