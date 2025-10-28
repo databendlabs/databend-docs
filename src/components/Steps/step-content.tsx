@@ -119,11 +119,8 @@ const StepContent: FC<IProps> = ({
             </button>
           )}
           {childrenArray?.[0]}
-          {isCollapsed !== undefined ? (
-            <> {isCollapsed ? null : childrenArray?.slice(1)}</>
-          ) : (
-            childrenArray?.slice(1)
-          )}
+          {(isCollapsed === undefined || !isCollapsed) &&
+            childrenArray?.slice(1)}
         </div>
       </div>
     </div>
