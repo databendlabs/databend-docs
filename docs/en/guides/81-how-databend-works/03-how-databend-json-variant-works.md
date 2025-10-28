@@ -8,325 +8,170 @@ See also:
 - [Variant Data Type](/sql/sql-reference/data-types/variant)
 - [Semi-Structured Functions](/sql/sql-functions/semi-structured-functions/)
 
-## Core Concepts
+Databend reimagines JSON analytics by pairing a native binary layout with automatic JSON indexing so semi-structured data behaves like first-class columns.
 
-Databend's Variant type is a flexible data type designed to handle semi-structured data like JSON. It provides Snowflake-compatible syntax and functions while delivering high performance through an efficient storage format and optimized access mechanisms. Most Variant-related functions in Databend are directly compatible with their Snowflake counterparts, making migration seamless for users familiar with Snowflake's JSON handling capabilities.
+## Why Variant Matters
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│ Variant Type Core Components                                    │
-├─────────────────┬───────────────────────────────────────────────┤
-│ Storage Format  │ JSONB-based binary storage                    │
-│ Virtual Columns │ Automatic extraction of JSON paths            │
-│ Access Methods  │ Multiple syntax options for path navigation   │
-│ Functions       │ Rich set of JSON manipulation functions       │
-└─────────────────┴───────────────────────────────────────────────┘
-```
+Databend keeps JSON flexible while delivering MPP speed: you ingest documents as-is, query with familiar SQL, and the engine stitches together the performance story behind the scenes. Two pillars make it possible:
 
-## Writing Variant Data
+- A compact **JSONB** layout keeps types visible to the execution engine.
+- Automatic **virtual columns**—Databend’s JSON indexes—surface hot paths without manual work.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     Variant Write Process                       │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  JSON Input:                                                    │
-│  {                                                              │
-│    "customer_id": 123,                                          │
-│    "order_id": 1001,                                            │
-│    "items": [                                                   │
-│      {"name": "Shoes", "price": 59.99},                         │
-│      {"name": "T-shirt", "price": 19.99}                        │
-│    ]                                                            │
-│  }                                                              │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  JSONB Encoding:                                                │
-│  [Binary format with type information and optimized structure]  │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  Virtual Column Extraction:                                     │
-│  - ['customer_id'] → Int64 column                               │
-│  - ['order_id'] → Int64 column                                  │
-│  - ['items'][0]['name'] → String column                         │
-│  - ['items'][0]['price'] → Float64 column                       │
-│  - ['items'][1]['name'] → String column                         │
-│  - ['items'][1]['price'] → Float64 column                       │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  Storage:                                                       │
-│  - Main JSONB column (complete document)                        │
-│  - Virtual columns (extracted paths)                            │
-│  - Metadata updates                                             │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
+From storage to queries, the rest of this guide follows how those two ideas turn a raw JSON payload (think `orders.data`) into optimised, typed columns.
 
-### JSONB Storage Format
+## JSON Storage Layout
 
-Databend uses the [JSONB binary format](https://github.com/databendlabs/jsonb) for efficient storage of JSON data. This custom format provides:
+Databend stores Variant values in JSONB, a binary format optimised for analytics. In practice this means:
 
-- **Type Preservation**: Maintains data types (numbers, strings, booleans)
-- **Structure Optimization**: Preserves nested structures with efficient indexing
-- **Space Efficiency**: More compact than text JSON
-- **Direct Binary Operations**: Enables operations without full parsing
+- **Typed storage** – numbers, booleans, timestamps, and decimals remain native, so comparisons stay binary-safe.
+- **Predictable layout** – fields carry length prefixes and canonical key order, eliminating reparsing overhead.
+- **Zero-copy access** – operators read JSONB buffers directly during scans and sorts instead of rebuilding JSON text.
 
-The [databendlabs/jsonb](https://github.com/databendlabs/jsonb) library implements this binary format, providing high-performance JSON operations with minimal overhead.
+Every Variant column keeps the raw JSONB document for fidelity. When paths like `data['user']['id']` show up repeatedly, Databend tucks them into typed sidecar columns ready for pushdown.
 
-### Virtual Column Generation
+## Automatic JSON Index Generation
 
-During data ingestion, Databend automatically analyzes the JSON structure and creates virtual columns:
+When new data lands in Databend, a lightweight indexing pipeline immediately scans the JSON blocks to discover hot paths worth materialising as virtual columns—Databend’s built-in JSON indexes.
+
+### Ingestion Flow
+
+Databend inspects the incoming batch and converts recurring access patterns into typed columns:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                 Virtual Column Process                          │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  Nested JSON:                                                   │
-│  {                                                              │
-│    "user": {                                                    │
-│      "id": 123,                                                 │
-│      "profile": {                                               │
-│        "name": "Alice",                                         │
-│        "email": "alice@example.com"                             │
-│      },                                                         │
-│      "orders": [                                                │
-│        {"id": 1001, "total": 79.98},                            │
-│        {"id": 1002, "total": 129.99}                            │
-│      ]                                                          │
-│    }                                                            │
-│  }                                                              │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  Path Extraction:                                               │
-│  ┌─────────────────────────┬─────────────────┐                  │
-│  │ JSON Path               │ Inferred Type   │                  │
-│  ├─────────────────────────┼─────────────────┤                  │
-│  │ ['user']['id']          │ Int64           │                  │
-│  │ ['user']['profile']['name'] │ String      │                  │
-│  │ ['user']['profile']['email'] │ String     │                  │
-│  │ ['user']['orders'][0]['id'] │ Int64       │                  │
-│  │ ['user']['orders'][0]['total'] │ Float64  │                  │
-│  │ ['user']['orders'][1]['id'] │ Int64       │                  │
-│  │ ['user']['orders'][1]['total'] │ Float64  │                  │
-│  └─────────────────────────┴─────────────────┘                  │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  Virtual Columns Created                                        │
-│  [Each path becomes a separate column with native type]         │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────┐
+│ Variant Ingestion Flow                        │
+├──────────────┬────────────────────────────────┤
+│ Sample Rows  │ Peek at the first rows in block │
+│ Detect Paths │ Keep stable leaf key paths      │
+│ Infer Types  │ Pick native column types        │
+│ Materialize  │ Write values to virtual Parquet │
+│ Register     │ Attach metadata to base column  │
+└──────────────┴────────────────────────────────┘
 ```
 
-## Reading Variant Data
+### Lightweight by Design
+
+Heuristics keep the process snappy:
+
+- Databend samples only the first 10 rows in each block to learn the document shape.
+- Paths that are mostly `NULL`, or that lead to nested objects and arrays, are skipped.
+- Only leaf paths that remain stable across the sample are promoted, and each block caps out at 1,000 virtual columns.
+- Hash-based deduplication prevents the same key path from being analysed twice as data streams through memory.
+- If nothing qualifies, Databend simply keeps the JSONB document—queries stay correct.
+
+The result: you load JSON once, and recurring patterns quietly turn into optimised, typed columns with no DDL and no tuning.
+
+### Virtual Columns Are Automatic JSON Indexes
+
+In this context, a “virtual column” is simply **Databend’s JSON index**. The ingestion flow decides whether a path such as `data['items'][0]['price']` is stable enough, infers a native type, and writes those values to a columnar sidecar with metadata—no DDL, no knobs. Nested JSON remains in compact JSONB form, while primitive paths become native numbers, strings, or booleans.
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     Variant Read Process                        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  SQL Query:                                                     │
-│  SELECT data['user']['profile']['name'],                        │
-│         data['user']['orders'][0]['total']                      │
-│  FROM customer_data                                             │
-│  WHERE data['user']['id'] = 123                                 │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  Path Analysis:                                                 │
-│  ┌─────────────────────────┬─────────────────┐                  │
-│  │ JSON Path               │ Virtual Column? │                  │
-│  ├─────────────────────────┼─────────────────┤                  │
-│  │ ['user']['id']          │ Yes (Int64)     │                  │
-│  │ ['user']['profile']['name'] │ Yes (String) │                 │
-│  │ ['user']['orders'][0]['total'] │ Yes (Float64) │             │
-│  └─────────────────────────┴─────────────────┘                  │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  Optimized Execution:                                           │
-│  1. Apply filter on ['user']['id'] virtual column               │
-│  2. Read only required virtual columns:                         │
-│     - ['user']['profile']['name']                               │
-│     - ['user']['orders'][0]['total']                            │
-│  3. Skip reading main JSONB column                              │
-│  4. Return results directly from virtual columns                │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+Raw JSON block ──(auto sampling)──▶ Candidate paths ──(stable?)──▶ JSON index
 ```
 
-### Multiple Access Patterns
-
-Databend supports multiple syntax options for accessing and manipulating JSON data, including Snowflake-compatible and PostgreSQL-compatible patterns:
+Instead of building a separate B-tree, Databend snapshots the values for a JSON path into a columnar structure:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                 JSON Access Syntax Options                      │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  Original JSON:                                                 │
-│  {                                                              │
-│    "user": {                                                    │
-│      "profile": {                                               │
-│        "name": "Alice",                                         │
-│        "settings": {                                            │
-│          "theme": "dark"                                        │
-│        }                                                        │
-│      }                                                          │
-│    }                                                            │
-│  }                                                              │
-│                                                                 │
-│  Snowflake-Compatible Access:                                   │
-│  ┌──────────────────────────────────────────────────────┐       │
-│  │ 1. Square Bracket Notation:                          │       │
-│  │    data['user']['profile']['settings']['theme']      │       │
-│  │                                                      │       │
-│  │ 2. Colon Notation:                                   │       │
-│  │    data:user:profile:settings:theme                  │       │
-│  │                                                      │       │
-│  │ 3. Mixed Notation with Dots:                         │       │
-│  │    data['user']['profile'].settings.theme            │       │
-│  │    data:user:profile.settings.theme                  │       │
-│  └──────────────────────────────────────────────────────┘       │
-│                                                                 │
-│  PostgreSQL-Compatible Operators:                               │
-│  ┌──────────────────────────────────────────────────────┐       │
-│  │ 1. Arrow Operators:                                  │       │
-│  │    data->'user'->'profile'->'settings'->'theme'      │       │
-│  │    data->>'user'  (returns text instead of JSON)     │       │
-│  │                                                      │       │
-│  │ 2. Path Operators:                                   │       │
-│  │    data#>'{user,profile,settings,theme}'             │       │
-│  │    data#>>'{user,profile,settings,theme}'            │       │
-│  │                                                      │       │
-│  │ 3. Containment Operators:                            │       │
-│  │    data @> '{"user":{"profile":{"name":"Alice"}}}'   │       │
-│  │    data ? 'user'  (checks if key exists)             │       │
-│  │                                                      │       │
-│  │ 4. Modification Operators:                           │       │
-│  │    data - 'user'  (removes key)                      │       │
-│  │    data || '{"new_field":123}'  (concatenates)       │       │
-│  └──────────────────────────────────────────────────────┘       │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+JSON Path    ───────────▶  Virtual Column (typed values + stats + location)
 ```
 
-For more details on access syntax, see the [Variant documentation](/sql/sql-reference/data-types/variant#accessing-elements-in-json) and [JSON Operators documentation](/sql/sql-commands/query-operators/json).
+During queries the planner can jump directly to those pre-extracted values, just like hitting an index, while still falling back to the full JSON if an index entry is missing.
 
-### Rich Function Support
+### JSON Index Metadata
 
-Databend provides a comprehensive set of functions for working with JSON data, organized by their purpose:
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                 JSON Function Categories                        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  1. Basic Operations:                                           │
-│     • Parsing and Validation:                                   │
-│       - PARSE_JSON, CHECK_JSON                                  │
-│     • Object Access and Extraction:                             │
-│       - GET, GET_PATH, GET_IGNORE_CASE, OBJECT_KEYS             │
-│     • Type Inspection and Conversion:                           │
-│       - JSON_TYPEOF, AS_TYPE, IS_ARRAY, IS_OBJECT, IS_STRING    │
-│                                                                 │
-│  2. Construction and Modification:                              │
-│     • JSON Object Operations:                                   │
-│       - OBJECT_CONSTRUCT, OBJECT_INSERT, OBJECT_DELETE          │
-│     • JSON Array Operations:                                    │
-│       - ARRAY_CONSTRUCT, ARRAY_INSERT, ARRAY_DISTINCT           │
-│       - FLATTEN                                                 │
-│                                                                 │
-│  3. Advanced Query and Transformation:                          │
-│     • Path Queries:                                             │
-│       - JSON_PATH_EXISTS, JSON_PATH_QUERY, JSON_PATH_QUERY_ARRAY│
-│       - JSON_EXTRACT_PATH_TEXT, JQ                              │
-│     • Array Transformations:                                    │
-│       - JSON_ARRAY_MAP, JSON_ARRAY_FILTER, JSON_ARRAY_TRANSFORM │
-│       - JSON_ARRAY_APPLY, JSON_ARRAY_REDUCE                     │
-│     • Set Operations:                                           │
-│       - ARRAY_INTERSECTION, ARRAY_EXCEPT                        │
-│       - ARRAY_OVERLAP                                           │
-│     • Object Transformations:                                   │
-│       - JSON_MAP_FILTER, JSON_MAP_TRANSFORM_KEYS/VALUES         │
-│     • Expansion and Formatting:                                 │
-│       - JSON_ARRAY_ELEMENTS, JSON_EACH, JSON_PRETTY             │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-The full list of JSON functions is available in the [Semi-Structured Functions documentation](/sql/sql-functions/semi-structured-functions/).
-
-
-## Performance Comparison
-
-Databend's virtual column technology provides significant performance advantages:
+Metadata stored alongside each block summarises the extra columns:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                 Performance Comparison                          │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  Query: SELECT data['account_balance'],                         │
-│         data['address']['city'], data['phone']                  │
-│         FROM user_activity_logs                                 │
-│                                                                 │
-│  Without Virtual Columns:                                       │
-│  - 3.763 seconds                                                │
-│  - 11.90 GiB processed                                          │
-│                                                                 │
-│  With Virtual Columns:                                          │
-│  - 1.316 seconds (3x faster)                                    │
-│  - 461.34 MiB processed (26x less data)                         │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+┌────────────────────────────┬───────────────────────┐
+│ Virtual Column Metadata    │ Example               │
+├────────────────────────────┼───────────────────────┤
+│ Column Id & JSON Path      │ v123 -> ['user']['id'] │
+│ Type Code                  │ UInt64 / String       │
+│ Byte Offset & Length       │ Where values live     │
+│ Row Count                  │ Matches base block    │
+│ Statistics                 │ Min / Max / NDV       │
+└────────────────────────────┴───────────────────────┘
 ```
 
-For complex nested structures, the benefits are still substantial:
+The writer packages these details into the table snapshot and stores the sidecar alongside the main block. Each entry remembers the JSON path, native type, byte offsets, and statistics so Databend can jump straight to the extracted values—or fall back to the original JSON—on demand.
+
+## Query Execution with JSON Indexes
+
+Once the indexes exist, the read path reduces to three quick decisions:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  Query: SELECT data['purchase_history'],                        │
-│         data['wishlist'], data['last_purchase']['item']         │
-│         FROM user_activity_logs                                 │
-│                                                                 │
-│  Without Virtual Columns:                                       │
-│  - 5.509 seconds                                                │
-│  - 11.90 GiB processed                                          │
-│                                                                 │
-│  With Virtual Columns:                                          │
-│  - 3.924 seconds (1.4x faster)                                  │
-│  - 2.15 GiB processed (5.5x less data)                         │
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────┐   rewrite paths   ┌────────────────────┐
+│ SQL Planner  │------------------>│ Virtual Column Map │
+└──────┬───────┘                   └─────────┬──────────┘
+       │ pushdown request                   │ per-block check
+       ▼                                    ▼
+┌──────────────┐   has virtual?   ┌────────────────────┐
+│ Fuse Storage │----------------->│ Virtual File Read  │
+└──────┬───────┘        │        └─────────┬──────────┘
+       │ no             └------------------┘ fallback
+       ▼
+┌──────────────┐
+│ JSONB Reader │
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│ Query Output │
+└──────────────┘
 ```
+
+- During planning, Databend rewrites calls such as `get_by_keypath` into direct virtual-column reads whenever metadata says an index exists.
+- Storage hits the virtual column when it exists and reads only that Parquet slice, and it can even skip the original JSON column when every requested path is indexed.
+- Otherwise it falls back to evaluating `get_by_keypath` on the JSONB column, keeping semantics intact.
+- Filters, projections, and statistics operate on native types instead of reparsing JSON strings.
+
+Behind the scenes Databend keeps track of which JSON path produced each virtual column, so it knows exactly when the raw document can be skipped and when it needs to re-open it.
+
+## Working with Variant Data
+
+With indexing handled behind the scenes, you interact with Variant columns using familiar syntax and functions.
+
+### Access Syntax
+
+Databend understands both Snowflake-style and PostgreSQL-style selectors; whichever style you prefer, the engine routes them through the same key-path parser and reuses the JSON indexes. Continuing with an `orders` example, you can reach nested fields like this:
+
+```sql title="Snowflake-style examples"
+SELECT data['user']['profile']['name'],
+       data:user:profile.settings.theme,
+       data['items'][0]['price']
+FROM orders;
+```
+
+```sql title="PostgreSQL-style examples"
+SELECT data->'user'->'profile'->>'name',
+       data#>>'{user,profile,settings,theme}',
+       data @> '{"user":{"id":123}}'
+FROM orders;
+```
+
+### Function Highlights
+
+Beyond path accessors, Databend ships a rich Variant toolkit:
+
+- **Parsing & casting**: `parse_json`, `try_parse_json`, `to_variant`, `to_jsonb_binary`
+- **Navigation & projection**: `get_path`, `get_by_keypath`, `flatten`, arrow (`->`, `->>`), path (`#>`, `#>>`) and containment operators (`@>`, `?`)
+- **Modification**: `object_insert`, `object_remove_keys`, concatenation (`||`), `array_*` helpers
+- **Analytics**: `json_extract_keys`, `json_length`, `jsonb_array_elements`, aggregates such as `json_array_agg`
+
+All functions operate directly on JSONB buffers inside the vectorised engine.
+
+## Performance Characteristics
+
+- Internal benchmarks vs. raw JSON scanning:
+  - Single-path lookups: **≈3× faster**, **≈26×** less data scanned.
+  - Multi-path projections: **≈1.4× faster**, **≈5.5×** less data read.
+  - Predicate pushdown composes with bloom/inverted indexes to prune blocks.
+- The steadier the JSON shape, the more paths qualify for indexing.
 
 ## Databend Advantages for Variant Data
 
-Databend's Variant type delivers four key advantages:
+- **Snowflake-compatible surface area** – Bring existing queries and UDFs over intact.
+- **Native JSONB execution** – Typed encoding plus vectorised operators avoid string shuffling.
+- **Automatic JSON indexes** – Sampling, metadata, and pushdown make semi-structured data feel structured.
+- **Operational efficiency** – Virtual blocks share lifecycle tooling with regular Fuse blocks, keeping storage and compute predictable.
 
-1. **Snowflake Compatibility**
-   - Compatible syntax and functions
-   - Familiar access patterns: `data['field']`, `data:field`, `data.field`
-   - Seamless migration path
-
-2. **Superior Performance**
-   - 3x faster query execution
-   - 26x less data scanning
-   - Automatic virtual columns for common paths
-
-3. **Advanced JSON Capabilities**
-   - Rich function set for complex operations
-   - PostgreSQL-compatible path queries
-   - Powerful array and object transformations
-
-4. **Cost Efficiency**
-   - Optimized JSONB binary storage
-   - No schema definition required
-   - Reduced storage and compute costs
-
-Databend combines the familiarity of Snowflake with enhanced performance and cost efficiency, making it ideal for modern data analytics workloads.
+With automatic JSON indexing, Databend narrows the gap between flexible documents and high-performance analytics—semi-structured data becomes a first-class citizen in your warehouse.
