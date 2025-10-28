@@ -1,16 +1,14 @@
 name: GPT Translate per PR
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Optional: PR number or link to sync"
+        required: false
 
 jobs:
   gpt_translate:
-    if: >
-      github.event.pull_request.merged == true &&
-      !startsWith(github.event.pull_request.head.ref, 'translation-')
     runs-on: ubuntu-latest
 
     steps:
@@ -22,6 +20,8 @@ jobs:
       - name: Collect changed documentation files
         id: collect
         uses: actions/github-script@v7
+        env:
+          PR_INPUT: ${{ inputs.pr_number }}
         with:
           script: |
             const isDoc = (path) =>
@@ -31,7 +31,21 @@ jobs:
             const toCnPath = (path) =>
               `docs/cn/${path.slice('docs/en/'.length)}`;
 
-            const prNumber = context.payload.pull_request.number;
+            const rawInput = (process.env.PR_INPUT || '').trim();
+            let prNumber = null;
+            if (rawInput) {
+              const match = rawInput.match(/\d+$/);
+              if (match) {
+                prNumber = Number.parseInt(match[0], 10);
+              }
+            }
+            if (!prNumber) {
+              core.setFailed('Please provide the PR number (or a link ending with the number).');
+              return;
+            }
+
+            core.setOutput('pr_number', String(prNumber));
+
             const files = await github.paginate(
               github.rest.pulls.listFiles,
               {
@@ -69,11 +83,12 @@ jobs:
             core.setOutput('removed_cn', removals);
             core.setOutput('has_inputs', inputSet.size > 0 ? 'true' : 'false');
             core.setOutput('has_removals', removedSet.size > 0 ? 'true' : 'false');
+            core.setOutput('pr_number', String(prNumber));
 
       - name: Exit if no documentation changes
         if: steps.collect.outputs.has_inputs != 'true' && steps.collect.outputs.has_removals != 'true'
         run: |
-          echo "No English documentation additions, updates, or deletions detected in PR #${{ github.event.pull_request.number }}."
+          echo "No English documentation additions, updates, or deletions detected in PR #${{ steps.collect.outputs.pr_number }}."
           exit 0
 
       - name: Snapshot existing translation branches
@@ -145,7 +160,7 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add -A
-            git commit -m "chore: sync deletions for PR #${{ github.event.pull_request.number }}"
+            git commit -m "chore: sync deletions for PR #${{ steps.collect.outputs.pr_number }}"
             git push origin "$TRANSLATION_BRANCH"
           else
             echo "No deletions to commit."
@@ -170,9 +185,9 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: translation-pr-${{ github.event.pull_request.number }}
+          branch: translation-pr-${{ steps.collect.outputs.pr_number }}
           base: main
-          commit-message: "chore: sync deletions for PR #${{ github.event.pull_request.number }}"
-          title: "AI Translate cleanup for PR #${{ github.event.pull_request.number }}"
+          commit-message: "chore: sync deletions for PR #${{ steps.collect.outputs.pr_number }}"
+          title: "AI Translate cleanup for PR #${{ steps.collect.outputs.pr_number }}"
           body: |
-            This automated PR removes translated files that no longer have an English source from PR #${{ github.event.pull_request.number }}.
+            This automated PR removes translated files that no longer have an English source from PR #${{ steps.collect.outputs.pr_number }}.

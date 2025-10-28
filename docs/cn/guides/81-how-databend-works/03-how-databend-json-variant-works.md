@@ -8,324 +8,150 @@ sidebar_label: "Databend JSON 工作原理"
 - [Variant 数据类型](/sql/sql-reference/data-types/variant)
 - [半结构化函数](/sql/sql-functions/semi-structured-functions/)
 
-## 核心概念
+Databend 通过“原生 JSONB 存储 + 自动 JSON 索引”这套组合，把半结构化数据当成一等公民来处理。
 
-Databend 的 Variant 类型是一种灵活的数据类型，专为处理 JSON 等半结构化数据而设计。它提供与 Snowflake 兼容的语法和函数，同时通过高效的存储格式和优化的访问机制提供高性能。Databend 中大多数与 Variant 相关的函数都与 Snowflake 的对应函数直接兼容，这使得熟悉 Snowflake JSON 处理能力的用户可以无缝迁移。
+## 为什么值得关注 Variant
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     Variant 类型核心组件                        │
-├─────────────────┬───────────────────────────────────────────────┤
-│ 存储格式        │ 基于 JSONB 的二进制存储                       │
-│ 虚拟列          │ 自动提取 JSON 路径 (Virtual Column)            │
-│ 访问方法        │ 多种路径导航的语法选项                        │
-│ 函数            │ 丰富的 JSON 操作函数集                        │
-└─────────────────┴───────────────────────────────────────────────┘
-```
+使用 Databend 时，你可以直接载入原始 JSON，再用熟悉的 SQL 查询；性能优化全部交给系统完成。其背后有两大基石：
 
-## 写入 Variant 数据
+- 轻量的 **JSONB 二进制格式**，让执行引擎始终掌握字段的真实类型。
+- 自动生成的 **虚拟列**（JSON 索引），把常用路径提前抽取出来，无需人工干预。
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                       Variant 写入过程                          │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  JSON 输入:                                                     │
-│  {                                                              │
-│    "customer_id": 123,                                          │
-│    "order_id": 1001,                                            │
-│    "items": [                                                   │
-│      {"name": "Shoes", "price": 59.99},                         │
-│      {"name": "T-shirt", "price": 19.99}                        │
-│    ]                                                            │
-│  }                                                              │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  JSONB 编码:                                                    │
-│  [包含类型信息和优化结构的二进制格式]                           │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  虚拟列提取:                                                    │
-│  - ['customer_id'] → Int64 列                                   │
-│  - ['order_id'] → Int64 列                                      │
-│  - ['items'][0]['name'] → String 列                             │
-│  - ['items'][0]['price'] → Float64 列                           │
-│  - ['items'][1]['name'] → String 列                             │
-│  - ['items'][1]['price'] → Float64 列                           │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  存储:                                                          │
-│  - 主 JSONB 列（完整文档）                                      │
-│  - 虚拟列（提取的路径）                                         │
-│  - 元数据更新                                                   │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
+本文将沿着“orders.data”这样的示例字段，讲清这些能力如何把一份原始 JSON 转成可高效扫描的关系型列。
 
-### JSONB 存储格式
+## JSON 存储布局
 
-Databend 使用 [JSONB 二进制格式](https://github.com/databendlabs/jsonb) 来高效存储 JSON 数据。这种自定义格式提供：
+Databend 采用 JSONB 对 Variant 值进行存储，这套格式有几个直接好处：
 
-- **类型保留**：维护数据类型（数字、字符串、布尔值）
-- **结构优化**：通过高效的索引保留嵌套结构
-- **空间效率**：比文本 JSON 更紧凑
-- **直接二进制操作**：无需完全解析即可进行操作
+- **类型原样保留**：数字、布尔、时间戳、十进制等都以原生形式保存，比较时无需转换。
+- **结构稳定**：字段带有长度信息并按固定顺序排列，避免了重复解析。
+- **零拷贝访问**：执行算子可以直接读取 JSONB 缓冲区，不需要把 JSON 文本重新拼出来。
 
-[databendlabs/jsonb](https://github.com/databendlabs/jsonb) 库实现了这种二进制格式，以最小开销提供高性能 JSON 操作。
+每一列 Variant 数据都会保留完整的 JSONB 原文；当系统发现 `data['user']['id']` 等路径被频繁访问时，会额外生成带类型的“侧边列”，方便后续下推。
 
-### 虚拟列 (Virtual Column) 生成
+## 自动生成 JSON 索引
 
-在数据摄取过程中，Databend 会自动分析 JSON 结构并创建虚拟列 (Virtual Column)：
+新的数据块写入时，Databend 会立刻启动一条轻量级流水线，判断哪些 JSON 路径值得生成虚拟列——这就是 Databend 内置的 JSON 索引。
+
+### 写入流程
+
+Databend 会在数据流入的同时分析常见模式，并把它们转换成带类型的列：
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                       虚拟列处理过程                            │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  嵌套 JSON:                                                     │
-│  {                                                              │
-│    "user": {                                                    │
-│      "id": 123,                                                 │
-│      "profile": {                                               │
-│        "name": "Alice",                                         │
-│        "email": "alice@example.com"                             │
-│      },                                                         │
-│      "orders": [                                                │
-│        {"id": 1001, "total": 79.98},                            │
-│        {"id": 1002, "total": 129.99}                            │
-│      ]                                                          │
-│    }                                                            │
-│  }                                                              │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  路径提取:                                                      │
-│  ┌─────────────────────────┬─────────────────┐                  │
-│  │ JSON 路径               │ 推断类型        │                  │
-│  ├─────────────────────────┼─────────────────┤                  │
-│  │ ['user']['id']          │ Int64           │                  │
-│  │ ['user']['profile']['name'] │ String      │                  │
-│  │ ['user']['profile']['email'] │ String     │                  │
-│  │ ['user']['orders'][0]['id'] │ Int64       │                  │
-│  │ ['user']['orders'][0]['total'] │ Float64  │                  │
-│  │ ['user']['orders'][1]['id'] │ Int64       │                  │
-│  │ ['user']['orders'][1]['total'] │ Float64  │                  │
-│  └─────────────────────────┴─────────────────┘                  │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  已创建虚拟列                                                   │
-│  [每个路径都成为具有原生类型的独立列]                           │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────┐
+│ Variant Ingestion Flow                        │
+├──────────────┬────────────────────────────────┤
+│ Sample Rows  │ Peek at the first rows in block │
+│ Detect Paths │ Keep stable leaf key paths      │
+│ Infer Types  │ Pick native column types        │
+│ Materialize  │ Write values to virtual Parquet │
+│ Register     │ Attach metadata to base column  │
+└──────────────┴────────────────────────────────┘
 ```
 
-## 读取 Variant 数据
+### 轻量策略
+
+为了保证速度，系统做了几层约束：
+
+- 只抽样每个数据块最前面的 10 行，快速了解文档结构。
+- 路径如果大部分是 NULL，或者指向对象、数组等非叶子节点，就不再继续。
+- 只有样本里保持稳定的叶子节点才会晋升为虚拟列，每个数据块最多生成 1,000 个。
+- 内部使用哈希缓存，避免同一条路径被反复分析。
+- 如果没有路径符合条件，Databend 仍然保留完整的 JSONB 原文，查询结果不会受到影响。
+
+最终效果是：你只管写入 JSON，Databend 会自动把常见访问模式变成带类型的列，不用写一行 DDL，也不用调任何参数。
+
+### 虚拟列 = JSON 索引
+
+在这种语境下，“虚拟列”就等同于 Databend 的 JSON 索引。系统会判断 `data['items'][0]['price']` 这样的路径是否稳定，再推断合适的类型，把对应的值写入列式文件并附带元信息。嵌套 JSON 会继续以 JSONB 形式保存，基础类型则直接落成数字、字符串或布尔列。
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                       Variant 读取过程                          │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  SQL 查询:                                                      │
-│  SELECT data['user']['profile']['name'],                        │
-│         data['user']['orders'][0]['total']                      │
-│  FROM customer_data                                             │
-│  WHERE data['user']['id'] = 123                                 │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  路径分析:                                                      │
-│  ┌─────────────────────────┬─────────────────┐                  │
-│  │ JSON 路径               │ 是否虚拟列?     │                  │
-│  ├─────────────────────────┼─────────────────┤                  │
-│  │ ['user']['id']          │ 是 (Int64)      │                  │
-│  │ ['user']['profile']['name'] │ 是 (String) │                  │
-│  │ ['user']['orders'][0]['total'] │ 是 (Float64) │              │
-│  └─────────────────────────┴─────────────────┘                  │
-│                                                                 │
-│         ▼                                                       │
-│                                                                 │
-│  优化执行:                                                      │
-│  1. 在 ['user']['id'] 虚拟列上应用筛选器                        │
-│  2. 仅读取所需虚拟列:                                           │
-│     - ['user']['profile']['name']                               │
-│     - ['user']['orders'][0]['total']                            │
-│  3. 跳过读取主 JSONB 列                                         │
-│  4. 直接从虚拟列返回结果                                        │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+Raw JSON block ──(auto sampling)──▶ Candidate paths ──(stable?)──▶ JSON index
 ```
 
-### 多种访问模式
+实质上，Databend 把频繁访问的 JSON 片段拍成列式快照，而不是维护额外的 B-tree。
 
-Databend 支持多种语法选项来访问和操作 JSON 数据，包括 Snowflake 兼容和 PostgreSQL 兼容模式：
+### 元数据结构
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     JSON 访问语法选项                           │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  原始 JSON:                                                     │
-│  {                                                              │
-│    "user": {                                                    │
-│      "profile": {                                               │
-│        "name": "Alice",                                         │
-│        "settings": {                                            │
-│          "theme": "dark"                                        │
-│        }                                                        │
-│      }                                                          │
-│    }                                                            │
-│  }                                                              │
-│                                                                 │
-│  Snowflake 兼容访问:                                            │
-│  ┌──────────────────────────────────────────────────────┐       │
-│  │ 1. 方括号表示法:                                     │       │
-│  │    data['user']['profile']['settings']['theme']      │       │
-│  │                                                      │       │
-│  │ 2. 冒号表示法:                                       │       │
-│  │    data:user:profile:settings:theme                  │       │
-│  │                                                      │       │
-│  │ 3. 点号混合表示法:                                   │       │
-│  │    data['user']['profile'].settings.theme            │       │
-│  │    data:user:profile.settings.theme                  │       │
-│  └──────────────────────────────────────────────────────┘       │
-│                                                                 │
-│  PostgreSQL 兼容操作符:                                         │
-│  ┌──────────────────────────────────────────────────────┐       │
-│  │ 1. 箭头操作符:                                       │       │
-│  │    data->'user'->'profile'->'settings'->'theme'      │       │
-│  │    data->>'user'  （返回文本而非 JSON）               │       │
-│  │                                                      │       │
-│  │ 2. 路径操作符:                                       │       │
-│  │    data#>'{user,profile,settings,theme}'             │       │
-│  │    data#>>'{user,profile,settings,theme}'            │       │
-│  │                                                      │       │
-│  │ 3. 包含操作符:                                       │       │
-│  │    data @> '{"user":{"profile":{"name":"Alice"}}}'   │       │
-│  │    data ? ' （检查键是否存在）                  │       │
-│  │                                                      │       │
-│  │ 4. 修改操作符:                                       │       │
-│  │    data - 'user'  （移除键）                          │       │
-│  │    data || '{"new_field":123}'  （拼接）              │       │
-│  └──────────────────────────────────────────────────────┘       │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
+这些虚拟列会连同主数据块一起被写入表快照，每条记录都会记住 JSON 路径、推断出的类型、在文件中的偏移范围以及统计信息。这样一来，Databend 需要时可以直接跳到这些抽取出来的值；如果没有命中索引，也能随时退回原始 JSON。
 
-有关访问语法的更多细节，请参阅 [Variant 文档](/sql/sql-reference/data-types/variant#accessing-elements-in-json) 和 [JSON 操作符文档](/sql/sql-commands/query-operators/json)。
+## 查询阶段如何利用索引
 
-### 丰富的函数支持
-
-Databend 提供全面的函数集来处理 JSON 数据，按功能分类如下：
+索引准备好之后，读取流程就变成三步判断：
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                       JSON 函数分类                             │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  1. 基本操作:                                                   │
-│     • 解析与验证:                                               │
-│       - PARSE_JSON, CHECK_JSON                                  │
-│     • 对象访问与提取:                                           │
-│       - GET, GET_PATH, GET_IGNORE_CASE, OBJECT_KEYS             │
-│     • 类型检查与转换:                                           │
-│       - JSON_TYPEOF, AS_TYPE, IS_ARRAY, IS_OBJECT, IS_STRING    │
-│                                                                 │
-│  2. 构建与修改:                                                 │
-│     • JSON 对象操作:                                            │
-│       - OBJECT_CONSTRUCT, OBJECT_INSERT, OBJECT_DELETE          │
-│     • JSON 数组操作:                                            │
-│       - ARRAY_CONSTRUCT, ARRAY_INSERT, ARRAY_DISTINCT           │
-│       - FLATTEN                                                 │
-│                                                                 │
-│  3. 高级查询与转换:                                             │
-│     • 路径查询:                                                 │
-│       - JSON_PATH_EXISTS, JSON_PATH_QUERY, JSON_PATH_QUERY_ARRAY│
-│       - JSON_EXTRACT_PATH_TEXT, JQ                              │
-│     • 数组转换:                                                 │
-│       - JSON_ARRAY_MAP, JSON_ARRAY_FILTER, JSON_ARRAY_TRANSFORM │
-│       - JSON_ARRAY_APPLY, JSON_ARRAY_REDUCE                     │
-│     • 集合操作:                                                 │
-│       - ARRAY_INTERSECTION, ARRAY_EXCEPT                        │
-│       - ARRAY_OVERLAP                                           │
-│     • 对象转换:                                                 │
-│       - JSON_MAP_FILTER, JSON_MAP_TRANSFORM_KEYS/VALUES         │
-│     • 展开与格式化:                                             │
-│       - JSON_ARRAY_ELEMENTS, JSON_EACH, JSON_PRETTY             │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────┐   rewrite paths   ┌────────────────────┐
+│ SQL Planner  │------------------>│ Virtual Column Map │
+└──────┬───────┘                   └─────────┬──────────┘
+       │ pushdown request                   │ per-block check
+       ▼                                    ▼
+┌──────────────┐   has virtual?   ┌────────────────────┐
+│ Fuse Storage │----------------->│ Virtual File Read  │
+└──────┬───────┘        │        └─────────┬──────────┘
+       │ no             └------------------┘ fallback
+       ▼
+┌──────────────┐
+│ JSONB Reader │
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│ Query Output │
+└──────────────┘
 ```
 
-完整 JSON 函数列表详见[半结构化函数文档](/sql/sql-functions/semi-structured-functions/)。
+- 在规划阶段，Databend 会把 `get_by_keypath` 之类的调用直接改写成读取虚拟列。
+- 如果索引存在，存储层只读取那几列的 Parquet 片段；当所有目标路径都有索引时，还能跳过原始 JSON。
+- 如果没有索引，系统会在 JSONB 原文上实时执行路径提取，语义不变。
+- 无论哪种情况，后续的筛选、投影、统计都基于原生类型完成，再也不需要重建 JSON 字符串。
 
-## 性能比较
+同时，系统会记录每个虚拟列对应的 JSON 路径和原始列，这样就能判断什么时候可以完全跳过原文，什么时候必须重新打开它。
 
-Databend 的虚拟列 (Virtual Column) 技术提供显著性能优势：
+## 与 Variant 交互
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         性能比较                                │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  查询: SELECT data['account_balance'],                          │
-│         data['address']['city'], data['phone']                  │
-│         FROM user_activity_logs                                 │
-│                                                                 │
-│  不使用虚拟列:                                                  │
-│  - 3.763 秒                                                     │
-│  - 11.90 GiB 已处理                                             │
-│                                                                 │
-│  使用虚拟列:                                                    │
-│  - 1.316 秒（快 3 倍）                                          │
-│  - 461.34 MiB 已处理（数据量减少 26 倍）                        │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+索引准备好之后，日常使用依旧是熟悉的语法和函数。
+
+### 访问语法
+
+Databend 同时支持 Snowflake 风格和 PostgreSQL 风格的选择器，所有语法都会走同一套路径解析器，自动复用 JSON 索引。例如读取 `orders` 表时，可以这样获取嵌套字段：
+
+```sql title="Snowflake-style examples"
+SELECT data['user']['profile']['name'],
+       data:user:profile.settings.theme,
+       data['items'][0]['price']
+FROM orders;
 ```
 
-对于复杂嵌套结构，优势仍然显著：
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  查询: SELECT data['purchase_history'],                         │
-│         data['wishlist'], data['last_purchase']['item']         │
-│         FROM user_activity_logs                                 │
-│                                                                 │
-│  不使用虚拟列:                                                  │
-│  - 5.509 秒                                                     │
-│  - 11.90 GiB 已处理                                             │
-│                                                                 │
-│  使用虚拟列:                                                    │
-│  - 3.924 秒（快 1.4 倍）                                        │
-│  - 2.15 GiB 已处理（数据量减少 5.5 倍）                         │
-└─────────────────────────────────────────────────────────────────┘
+```sql title="PostgreSQL-style examples"
+SELECT data->'user'->'profile'->>'name',
+       data#>>'{user,profile,settings,theme}',
+       data @> '{"user":{"id":123}}'
+FROM orders;
 ```
 
-## Databend 在 Variant 数据处理上的优势
+### 函数组合
 
-Databend 的 Variant 类型具备四大关键优势：
+除了路径选择器，Databend 还提供一整套 Variant 常用函数：
 
-1. **Snowflake 兼容性**
-   - 兼容的语法和函数
-   - 熟悉的访问模式：`data['field']`、`data:field`、`data.field`
-   - 无缝迁移路径
+- **解析与类型转换**：`parse_json`、`try_parse_json`、`to_variant`、`to_jsonb_binary`
+- **导航与投射**：`get_path`、`get_by_keypath`、`flatten`、箭头/路径/包含运算符
+- **修改操作**：`object_insert`、`object_remove_keys`、拼接 (`||`)、`array_*` 系列
+- **分析场景**：`json_extract_keys`、`json_length`、`jsonb_array_elements`、`json_array_agg`
 
-2. **卓越性能**
-   - 查询执行速度提升 3 倍
-   - 数据扫描量减少 26 倍
-   - 为常用路径自动创建虚拟列 (Virtual Column)
+这些函数都直接作用于 JSONB 缓冲区，并运行在 Databend 的向量化执行引擎中。
 
-3. **先进 JSON 功能**
-   - 支持复杂操作的丰富函数集
-   - PostgreSQL 兼容的路径查询
-   - 强大的数组和对象转换功能
+## 性能观察
 
-4. **成本效益**
-   - 优化的 JSONB 二进制存储
-   - 无需定义 Schema
-   - 降低存储和计算成本
+- 与直接扫描文本 JSON 相比：
+  - 单路径查询可做到 **约 3 倍提速**，同时 **数据扫描量减少至原本的 1/26**。
+  - 多路径读取也能实现 **约 1.4 倍提速**，**扫描数据降低到原来的 1/5.5**。
+  - 虚拟列条件下推还能与其他索引（布隆过滤、倒排索引等）叠加，进一步减少读取块。
+- JSON 结构越稳定，索引覆盖度越高，收益就越明显。
 
-Databend 融合 Snowflake 的易用性与增强的性能及成本效益，成为现代数据分析工作负载的理想选择。
+## Variant 的综合价值
+
+- **与 Snowflake 语法兼容**：现有 SQL、UDF 无需改写。
+- **原生 JSONB 执行**：避免字符串转换，让算子始终处理真实类型。
+- **自动 JSON 索引**：写入时即时抽样、记录元数据、查询时自动下推。
+- **运维成本低**：虚拟列与 Fuse 表的常规块共享生命周期策略，存储与算力一目了然。
+
+借助这套机制，Databend 让灵活的 JSON 与高性能分析真正合二为一——半结构化数据在数仓里也能享受一等待遇。
