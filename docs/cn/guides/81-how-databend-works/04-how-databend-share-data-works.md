@@ -1,5 +1,5 @@
 ---
-title: Databend 免拷贝数据共享（Copy-Free Data Sharing）的工作原理
+title: Databend 数据共享原理
 ---
 
 ## 什么是数据共享（Data Sharing）？
