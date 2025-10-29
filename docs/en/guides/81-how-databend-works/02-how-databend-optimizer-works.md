@@ -157,7 +157,7 @@ These statistics drive selectivity estimation, join exploration, and the Cascade
 
 With statistics in place, the second phase reshapes the logical plan: filters move closer to the data, aggregates split into partial/final stages, and CTEs get the same predicate exposure as base tables. Rules not shown explicitly here cover projection pruning and expression simplification, ensuring only necessary columns and predicates reach the join search.
 
-### 6. Canonical rules (`DEFAULT_REWRITE_RULES`)
+### 6. Canonical rewrites
 
 `RecursiveRuleOptimizer` runs a curated set of rewrite rules until they reach a fixed point. Representative examples:
 
@@ -259,7 +259,7 @@ By examining build/probe cardinalities, the optimizer favours orders where the f
 
 `SingleToInnerOptimizer` converts outer joins into inner joins when filters above the join guarantee that null-extended rows would be discarded. Because our query filters on `p.is_active = TRUE`, the original `LEFT JOIN products p` is rewritten as an inner join—rows without a matching product would fail the predicate anyway.
 
-### 12. Join commutation (conditional)
+### 12. Join commutation
 
 If `enable_join_reorder` is true, a final `RecursiveRuleOptimizer` run with the `CommuteJoin` rule explores left and right swaps that were not considered by the dynamic-programming step. Databend prefers to build hash tables on the right side of a join, so swapping ensures the smaller input becomes the build side.
 
