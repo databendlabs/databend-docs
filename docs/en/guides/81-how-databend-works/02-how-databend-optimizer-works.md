@@ -63,14 +63,21 @@ WITH recent_orders AS (
   SELECT *
   FROM orders
   WHERE order_date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '3' MONTH
+    AND fulfillment_status <> 'CANCELLED'
 )
 SELECT c.region,
        COUNT(*) AS order_count,
+       COUNT(o.id) AS row_count,
+       COUNT(DISTINCT o.product_id) AS product_count,
+       MIN(o.total_amount) AS min_amount,
        AVG(o.total_amount) AS avg_amount
 FROM recent_orders o
 JOIN customers c ON o.customer_id = c.id
-JOIN products p ON o.product_id = p.id
+LEFT JOIN products p ON o.product_id = p.id
 WHERE c.status = 'ACTIVE'
+  AND o.total_amount > 0
+  AND p.is_active = TRUE
+  AND 1 = 1
   AND EXISTS (
         SELECT 1
         FROM support_tickets t
@@ -103,19 +110,23 @@ Transforms correlated subqueries into joins so the downstream optimizers operate
 ```text
 # Before
 Filter (EXISTS correlated_subquery)
-└─ Join (o.customer_id = c.id AND o.product_id = p.id)
-   ├─ Scan (customers AS c)
-   ├─ Scan (products AS p)
-   └─ Scan (recent_orders AS o)
-
-# After
-Filter (tickets.created_at > ...)
-└─ Join (Hash, c.id = tickets.customer_id)
-   ├─ Join (o.customer_id = c.id AND o.product_id = p.id)
+└─ Join (o.customer_id = c.id)
+   ├─ Join (o.product_id = p.id)
    │  ├─ Scan (customers AS c)
    │  ├─ Scan (products AS p)
    │  └─ Scan (recent_orders AS o)
-   └─ Aggregate (tickets.customer_id)
+   └─ Subquery
+      └─ Scan (support_tickets AS t)
+         └─ Filter (t.customer_id = c.id AND t.created_at > ... )
+
+# After
+Join (Left Semi, c.id = tickets.customer_id)
+├─ Join (o.customer_id = c.id AND o.product_id = p.id)
+│  ├─ Scan (customers AS c)
+│  ├─ Scan (products AS p)
+│  └─ Scan (recent_orders AS o)
+└─ Aggregate (tickets.customer_id)
+   └─ Filter (tickets.created_at > ... )
       └─ Scan (support_tickets AS tickets)
 ```
 
@@ -166,37 +177,38 @@ WHERE c.status = 'ACTIVE'
 - **Filter pushdown**
 
   ```text
-  Filter (region = 'APAC')
-  └─ Scan (orders)
+  Filter (o.total_amount > 0)
+  └─ Scan (recent_orders)
 
   # becomes
 
-  Scan (orders, pushdown_predicates=[region = 'APAC'])
+  Scan (recent_orders, pushdown_predicates=[total_amount > 0])
   ```
 
 - **Limit pushdown**
 
   ```text
   Limit (10)
-  └─ Sort (order_date)
-     └─ Scan (orders)
+  └─ Sort (order_count DESC)
+     └─ Join (...)
 
   # becomes
 
-  Sort (order_date)
+  Sort (order_count DESC)
   └─ Limit (10)
-     └─ Scan (orders)
+     └─ Join (...)
   ```
 
 - **Elimination**
 
   ```text
-  Filter (1 = 1)
-  └─ Scan (orders)
+  Filter (1 = 1 AND c.status = 'ACTIVE')
+  └─ ...
 
   # becomes
 
-  Scan (orders)
+  Filter (c.status = 'ACTIVE')
+  └─ ...
   ```
 
 The same batch also performs projection pruning, predicate normalization, and expression simplification.
@@ -242,21 +254,23 @@ JOIN products p ON o.product_id = p.id
 ```
 # Query graph
 customers ──(customer_id)── orders ──(product_id)── products
+           ╰──────────────┬──────────────╯
+                      support_tickets
 
 # One candidate ordering explored by DPhpy
 Join (Hash, build=customers, probe=products)
-├─ Build: customers (region = 'APAC')  -- small after filter
+├─ Build: customers (status = 'ACTIVE')  -- small after filter
 └─ Probe: products
      └─ Join (Hash, build=products, probe=orders)
-        ├─ Build: products           -- dimension table
-        └─ Probe: orders             -- fact table scanned last
+        ├─ Build: products (is_active = TRUE)
+        └─ Probe: orders (recent_orders CTE)
 ```
 
 By examining build/probe cardinalities, the optimizer favours orders where the filtered dimension tables build hash tables and the large fact table remains on the probe side.
 
 ### 10. Single-to-inner conversion
 
-`SingleToInnerOptimizer` converts outer joins into inner joins when filters above the join guarantee that null-extended rows would be discarded. In the running example the customer status filter sits above the join, so if the query originally requested a left join on `customers` the optimizer can safely rewrite it as an inner join.
+`SingleToInnerOptimizer` converts outer joins into inner joins when filters above the join guarantee that null-extended rows would be discarded. Because our query filters on `p.is_active = TRUE`, the original `LEFT JOIN products p` is rewritten as an inner join—rows without a matching product would fail the predicate anyway.
 
 ### 11. Deduplicate join conditions
 
