@@ -1,5 +1,5 @@
 ---
-title: How Databend Copy-Free Data Sharing Works
+title: How Databend Data Sharing Works
 ---
 
 ## What is Data Sharing?
