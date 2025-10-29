@@ -90,7 +90,7 @@ ORDER BY order_count DESC
 LIMIT 10;
 ```
 
-## Phase 1 - Preparation and Statistics
+## Phase 1: Prep & Stats
 
 The first phase normalizes the query tree, removes obviously redundant work, and attaches the statistics that the rest of the pipeline depends on. In practice this means decorrelating subqueries, folding aggregates when metadata already has the answer, and annotating scan nodes with row counts and value ranges for later costing.
 
@@ -153,7 +153,7 @@ These statistics drive selectivity estimation, join exploration, and the Cascade
 
 `RuleNormalizeAggregateOptimizer` simplifies aggregates so that redundant work is eliminated early. For instance, it converts `COUNT(o.id)` into `COUNT(*)` under the hood and deduplicates shared counters before pushing the work into the split aggregate phase.
 
-## Phase 2 - Heuristic rewrites
+## Phase 2: Heuristic Rewrites
 
 With statistics in place, the second phase reshapes the logical plan: filters move closer to the data, aggregates split into partial/final stages, and CTEs get the same predicate exposure as base tables. Rules not shown explicitly here cover projection pruning and expression simplification, ensuring only necessary columns and predicates reach the join search.
 
@@ -223,7 +223,7 @@ Aggregate (mode=Final, SUM(amount) BY region)
    └─ Scan (orders)
 ```
 
-## Phase 3 - Join strategy
+## Phase 3: Join Strategy
 
 Once the input has been cleaned up and annotated, Databend explores join alternatives and prepares the join tree for physical planning. Rules without dedicated examples (such as predicate deduplication) apply automatically before costing to keep hash tables and filter lists lean.
 
@@ -297,7 +297,7 @@ This extra pass reclaims cases where DPhpy produced a good join order but the ph
 └────────────────────────────┴──────────────────────────────────────────────┘
 ```
 
-## Phase 4 - Physical planning and cleanup
+## Phase 4: Physical & Cleanup
 
 The final phase turns the logical tree into physical operators, evaluates their cost, and removes any remaining scaffolding. Helper rules without diagrams here (for example removing redundant projections) run automatically after Cascades picks a plan.
 
