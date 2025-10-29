@@ -89,37 +89,45 @@ The first phase normalizes the query tree, removes obviously redundant work, and
 
 ### 1. Subquery decorrelator
 
-Transforms correlated subqueries into joins so the downstream optimizers operate on a join tree. In the running example, the `EXISTS (...)` clause gets rewritten:
+Transforms correlated subqueries into joins so the downstream optimizers operate on a join tree. In the running example, the `EXISTS` clause that checks recent support tickets is decorrelated:
 
 ```sql
-SELECT *
-FROM customers c
-WHERE c.total_orders > (
-  SELECT AVG(total_orders)
-  FROM customers
-  WHERE region = c.region
-);
+... AND EXISTS (
+      SELECT 1
+      FROM support_tickets t
+      WHERE t.customer_id = c.id
+        AND t.created_at > DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1' MONTH
+    )
 ```
 
 ```text
 # Before
-Filter (c.total_orders > Subquery)
-└─ Scan (customers AS c)
-   └─ Aggregate (AVG(total_orders))
-      └─ Filter (region = c.region)
-         └─ Scan (customers)
+Filter (EXISTS correlated_subquery)
+└─ Join (o.customer_id = c.id AND o.product_id = p.id)
+   ├─ Scan (customers AS c)
+   ├─ Scan (products AS p)
+   └─ Scan (recent_orders AS o)
 
 # After
-Filter (c.total_orders > r.avg_total)
-└─ Join (c.region = r.region)
-   ├─ Scan (customers AS c)
-   └─ Aggregate (region, AVG(total_orders) AS avg_total)
-      └─ Scan (customers)
+Filter (tickets.created_at > ...)
+└─ Join (Hash, c.id = tickets.customer_id)
+   ├─ Join (o.customer_id = c.id AND o.product_id = p.id)
+   │  ├─ Scan (customers AS c)
+   │  ├─ Scan (products AS p)
+   │  └─ Scan (recent_orders AS o)
+   └─ Aggregate (tickets.customer_id)
+      └─ Scan (support_tickets AS tickets)
 ```
 
 ### 2. Statistics-aware aggregates
 
 `RuleStatsAggregateOptimizer` replaces eligible aggregate functions with pre-computed statistics and surfaces statistics objects to downstream passes. In the running example, if the SELECT list contained `MIN(o.total_amount)` without filtering, the optimizer would short-circuit to metadata instead of scanning `recent_orders`.
+
+```sql
+SELECT ..., MIN(o.total_amount) AS min_amount
+FROM recent_orders o
+...
+```
 
 ### 3. Collect statistics
 
@@ -144,7 +152,12 @@ With statistics in place, the second phase reshapes the logical plan: filters mo
 
 ### 5. Pull up filters
 
-`PullUpFilterOptimizer` hoists predicates toward the root and gathers join conditions in a single filter node. Exposure of predicates at the top of the tree allows later rule batches to inspect and rearrange them.
+`PullUpFilterOptimizer` hoists predicates toward the root and gathers join conditions in a single filter node. Exposure of predicates at the top of the tree allows later rule batches to inspect and rearrange them. The filter section of our query becomes a single top-level predicate:
+
+```sql
+WHERE c.status = 'ACTIVE'
+  AND EXISTS (...)
+```
 
 ### 6. Canonical rules (`DEFAULT_REWRITE_RULES`)
 
@@ -192,6 +205,15 @@ The same batch also performs projection pruning, predicate normalization, and ex
 
 `CTEFilterPushdownOptimizer` pushes predicates from the outer query into common table expressions (CTEs) and inlines trivial CTEs. In our query the CTE `recent_orders` receives the predicate `c.status = 'ACTIVE'` so the storage layer only reads active customers for the last three months.
 
+```sql
+WITH recent_orders AS (
+  SELECT *
+  FROM orders
+  WHERE order_date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '3' MONTH
+    AND status = 'ACTIVE'          -- pushed into the CTE
+)
+```
+
 ### 8. Aggregate splitting
 
 The second `RecursiveRuleOptimizer` invocation runs only the `SplitAggregate` rule. It rewrites single-stage aggregates into partial/final pairs so that partial aggregation can happen close to the data. The COUNT/AVG in the running query therefore become partial/final pairs: partial COUNT/AVG on each partition, final COUNT/AVG before the ORDER BY/LIMIT.
@@ -211,11 +233,10 @@ Once the input has been cleaned up and annotated, Databend explores join alterna
 `DPhpyOptimizer` uses a dynamic-programming variant of the DP-Sub algorithm to enumerate alternative join orders. It relies on cardinality estimates produced earlier to rank candidates and keeps the cheapest plan for each join subset.
 
 ```sql
-SELECT *
-FROM orders o
+FROM recent_orders o
 JOIN customers c ON o.customer_id = c.id
 JOIN products p ON o.product_id = p.id
-WHERE c.region = 'APAC';
+...
 ```
 
 ```
@@ -244,6 +265,10 @@ By examining build/probe cardinalities, the optimizer favours orders where the f
 ### 12. Join commutation (conditional)
 
 If `enable_join_reorder` is true, a final `RecursiveRuleOptimizer` run with the `CommuteJoin` rule explores left and right swaps that were not considered by the dynamic-programming step. Databend prefers to build hash tables on the right side of a join, so swapping ensures the smaller input becomes the build side.
+
+```sql
+... JOIN customers c ON o.customer_id = c.id
+```
 
 ```
 # Before commutation
