@@ -92,7 +92,7 @@ LIMIT 10;
 
 ## Phase 1 - Preparation and Statistics
 
-The first phase normalizes the query tree, removes obviously redundant work, and attaches the statistics that the rest of the pipeline depends on.
+The first phase normalizes the query tree, removes obviously redundant work, and attaches the statistics that the rest of the pipeline depends on. In practice this means decorrelating subqueries, folding aggregates when metadata already has the answer, and annotating scan nodes with row counts and value ranges for later costing.
 
 ### 1. Subquery decorrelator
 
@@ -140,10 +140,6 @@ FROM recent_orders o
 ...
 ```
 
-### 3. Collect statistics
-
-`CollectStatisticsOptimizer` resolves on-demand statistics from the storage layer and attaches them to scan nodes.
-
 ```text
 Scan (orders)
   table_stats: { num_rows, data_size, ... }
@@ -159,16 +155,7 @@ These statistics drive selectivity estimation, join exploration, and the Cascade
 
 ## Phase 2 - Heuristic rewrites
 
-With statistics in place, the second phase reshapes the logical plan: filters move closer to the data, aggregates split into partial/final stages, and CTEs get the same predicate exposure as base tables. These rewrites shrink the amount of data flowing into the expensive join search that comes next.
-
-### 5. Pull up filters
-
-`PullUpFilterOptimizer` hoists predicates toward the root and gathers join conditions in a single filter node. Exposure of predicates at the top of the tree allows later rule batches to inspect and rearrange them. The filter section of our query becomes a single top-level predicate:
-
-```sql
-WHERE c.status = 'ACTIVE'
-  AND EXISTS (...)
-```
+With statistics in place, the second phase reshapes the logical plan: filters move closer to the data, aggregates split into partial/final stages, and CTEs get the same predicate exposure as base tables. Rules not shown explicitly here cover projection pruning and expression simplification, ensuring only necessary columns and predicates reach the join search.
 
 ### 6. Canonical rules (`DEFAULT_REWRITE_RULES`)
 
@@ -238,7 +225,7 @@ Aggregate (mode=Final, SUM(amount) BY region)
 
 ## Phase 3 - Join strategy
 
-Once the input has been cleaned up and annotated, Databend explores join alternatives and prepares the join tree for physical planning.
+Once the input has been cleaned up and annotated, Databend explores join alternatives and prepares the join tree for physical planning. Rules without dedicated examples (such as predicate deduplication) apply automatically before costing to keep hash tables and filter lists lean.
 
 ### 9. DPhpy join reordering
 
@@ -271,10 +258,6 @@ By examining build/probe cardinalities, the optimizer favours orders where the f
 ### 10. Single-to-inner conversion
 
 `SingleToInnerOptimizer` converts outer joins into inner joins when filters above the join guarantee that null-extended rows would be discarded. Because our query filters on `p.is_active = TRUE`, the original `LEFT JOIN products p` is rewritten as an inner join—rows without a matching product would fail the predicate anyway.
-
-### 11. Deduplicate join conditions
-
-`DeduplicateJoinConditionOptimizer` removes duplicate predicates (for example equality checks emitted both by decorrelation and by filter pushdown). Fewer predicates mean smaller hash tables and less CPU spent evaluating redundant expressions.
 
 ### 12. Join commutation (conditional)
 
@@ -316,7 +299,7 @@ This extra pass reclaims cases where DPhpy produced a good join order but the ph
 
 ## Phase 4 - Physical planning and cleanup
 
-The final phase turns the logical tree into physical operators, evaluates their cost, and removes any scaffolding introduced earlier.
+The final phase turns the logical tree into physical operators, evaluates their cost, and removes any remaining scaffolding. Helper rules without diagrams here (for example removing redundant projections) run automatically after Cascades picks a plan.
 
 ### 13. Cascades optimizer
 
@@ -332,14 +315,6 @@ The final phase turns the logical tree into physical operators, evaluates their 
 | `network_per_row` | 50 |
 
 Costs are computed per operator as `rows * factor` with adjustments for build and probe phases. The optimizer accumulates these estimates bottom-up and keeps the plan with the lowest total cost.
-
-### 14. Eliminate EvalScalar (conditional)
-
-Unless Databend is planning an aggregate index query, a final rule pass removes redundant scalar projections that may have been introduced to support rewrites.
-
-### 15. Cleanup unused CTEs
-
-`CleanupUnusedCTEOptimizer` walks the final plan and removes CTE definitions that are no longer referenced after the previous transformations. This keeps the executed plan compact.
 
 ## Observability
 
