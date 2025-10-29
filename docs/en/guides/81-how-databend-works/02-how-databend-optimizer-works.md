@@ -119,24 +119,7 @@ Filter (c.total_orders > r.avg_total)
 
 ### 2. Statistics-aware aggregates
 
-`RuleStatsAggregateOptimizer` replaces eligible aggregate functions with pre-computed statistics and surfaces statistics objects to downstream passes. When a query collapses to a simple aggregate—think `SELECT MIN(price) FROM products` pulled out of a dashboard—the optimizer can avoid the scan entirely.
-
-```sql
-SELECT MIN(price) FROM products;
-```
-
-```text
-# Before
-Aggregate (MIN(price))
-└─ EvalScalar
-   └─ Scan (products)
-
-# After
-EvalScalar (price_min)
-└─ DummyTableScan
-```
-
-The result avoids scanning the table when metadata already contains the answer.
+`RuleStatsAggregateOptimizer` replaces eligible aggregate functions with pre-computed statistics and surfaces statistics objects to downstream passes. In the running example, if the SELECT list contained `MIN(o.total_amount)` without filtering, the optimizer would short-circuit to metadata instead of scanning `recent_orders`.
 
 ### 3. Collect statistics
 
@@ -153,20 +136,7 @@ These statistics drive selectivity estimation, join exploration, and the Cascade
 
 ### 4. Normalize aggregates
 
-`RuleNormalizeAggregateOptimizer` simplifies aggregates so that redundant work is eliminated early.
-
-```sql
-SELECT COUNT(id), COUNT(*), COUNT(DISTINCT region)
-FROM orders
-GROUP BY region;
-```
-
-```text
-# COUNT(id) -> COUNT(*)
-# Shared COUNT(*) reused
-Aggregate (GROUP BY [region], COUNT(*), COUNT())
-└─ Scan (orders)
-```
+`RuleNormalizeAggregateOptimizer` simplifies aggregates so that redundant work is eliminated early. For instance, it converts `COUNT(o.id)` into `COUNT(*)` under the hood and deduplicates shared counters before pushing the work into the split aggregate phase.
 
 ## Phase 2 - Heuristic rewrites
 
@@ -220,20 +190,11 @@ The same batch also performs projection pruning, predicate normalization, and ex
 
 ### 7. CTE filter pushdown
 
-`CTEFilterPushdownOptimizer` pushes predicates from the outer query into common table expressions (CTEs) and inlines trivial CTEs. This limits the amount of data materialized by reusable subplans.
-
-```sql
-WITH recent_orders AS (
-  SELECT * FROM orders WHERE order_date > CURRENT_DATE - 30
-)
-SELECT * FROM recent_orders WHERE region = 'APAC';
-```
-
-After the optimizer, the inner CTE filter becomes `order_date > ... AND region = 'APAC'`, reducing the work required each time the CTE is referenced.
+`CTEFilterPushdownOptimizer` pushes predicates from the outer query into common table expressions (CTEs) and inlines trivial CTEs. In our query the CTE `recent_orders` receives the predicate `c.status = 'ACTIVE'` so the storage layer only reads active customers for the last three months.
 
 ### 8. Aggregate splitting
 
-The second `RecursiveRuleOptimizer` invocation runs only the `SplitAggregate` rule. It rewrites single-stage aggregates into partial/final pairs so that partial aggregation can happen close to the data.
+The second `RecursiveRuleOptimizer` invocation runs only the `SplitAggregate` rule. It rewrites single-stage aggregates into partial/final pairs so that partial aggregation can happen close to the data. The COUNT/AVG in the running query therefore become partial/final pairs: partial COUNT/AVG on each partition, final COUNT/AVG before the ORDER BY/LIMIT.
 
 ```text
 Aggregate (mode=Final, SUM(amount) BY region)
@@ -274,11 +235,11 @@ By examining build/probe cardinalities, the optimizer favours orders where the f
 
 ### 10. Single-to-inner conversion
 
-`SingleToInnerOptimizer` converts outer joins into inner joins when filters above the join guarantee that null-extended rows would be discarded. This conversion unlocks additional hash join implementations and helps the cost model evaluate cheaper alternatives.
+`SingleToInnerOptimizer` converts outer joins into inner joins when filters above the join guarantee that null-extended rows would be discarded. In the running example the customer status filter sits above the join, so if the query originally requested a left join on `customers` the optimizer can safely rewrite it as an inner join.
 
 ### 11. Deduplicate join conditions
 
-`DeduplicateJoinConditionOptimizer` removes duplicate predicates (for example the same equality added by multiple rules). Fewer predicates mean smaller hash tables and less CPU spent evaluating redundant expressions.
+`DeduplicateJoinConditionOptimizer` removes duplicate predicates (for example equality checks emitted both by decorrelation and by filter pushdown). Fewer predicates mean smaller hash tables and less CPU spent evaluating redundant expressions.
 
 ### 12. Join commutation (conditional)
 
@@ -356,4 +317,4 @@ Databend's optimizer blends rule-based rewrites with cost-based selection. Keep 
 - Phase 3 explores join orders, converts joins into their cheapest equivalents, and reshapes build/probe sides.
 - Phase 4 turns the surviving logical alternatives into physical operators using Cascades and cleans up scaffolding.
 
-When a query behaves differently from what you expect, walk through these phases: check the normalized plan (`EXPLAIN`), confirm predicate pushdown, inspect the join strategy in the query log, and only then look at runtime counters. The pipeline is designed so each step leaves the plan slightly better for the next, trimming CPU, memory, network, and I/O along the way.
+When a query behaves differently from what you expect, walk through these phases against a concrete query: check the normalized plan (`EXPLAIN`) to ensure subqueries became joins, confirm predicate pushdown, inspect the join strategy in the query log, and only then look at runtime counters. The pipeline is designed so each step leaves the plan slightly better for the next, trimming CPU, memory, network, and I/O along the way.
