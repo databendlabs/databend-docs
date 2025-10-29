@@ -2,67 +2,26 @@
 title: How Databend Optimizer Works
 ---
 
-Databend's query optimizer orchestrates a series of transformations that turn SQL text into an executable plan. The optimizer builds an abstract representation of the query, enriches it with statistics, applies rule-based rewrites, explores join alternatives, and finally picks the cheapest physical operators.
+Databend's query optimizer orchestrates a series of transformations that turn SQL text into an executable plan. The optimizer builds an abstract representation of the query, enriches it with real-time statistics, applies rule-based rewrites, explores join alternatives, and finally picks the cheapest physical operators.
 
-## Core Building Blocks
+The same optimizer pipeline powers analytic reporting, JSON search, vector retrieval, and geospatial search—**Databend maintains one optimizer that understands every data type it stores.**
 
-- **SExpr**: A tree representation of relational operators and expressions. Every optimizer works with the same SExpr interface, which keeps transformations consistent.
-- **Memo**: A shared data structure the Cascades optimizer uses to manage alternative SExprs along with their computed costs.
-- **Rules**: Pattern-based rewrites that transform part of a plan into an equivalent but cheaper shape. Rule groups (for example `DEFAULT_REWRITE_RULES`) are executed by recursive optimizers.
-- **Optimizer pipeline**: An ordered chain of optimizers. Each optimizer can transform the plan, enrich metadata, or decide whether the next optimizer should run.
-- **Cost model**: A small set of per-row factors (compute, hash table, aggregate, network) that estimates the runtime cost of each candidate physical plan.
+## What Makes Databend’s Optimizer Tick
 
-### Statistics Inputs
+- Statistics stay up to date automatically: when data is written, Databend immediately maintains row counts, value ranges, and NDVs, so the optimizer can use fresh information for selectivity, join ordering, and costing without any manual maintenance.
+- Shape first, cost second: the pipeline decorrelates, pushes predicates/limits, and splits aggregates before global search, shrinking the space and moving work to storage.
+- DP + Cascades together: DPhpy finds good join orders; a memo‑driven Cascades pass selects the cheapest physical operators over the same SExpr memo.
+- Distribution‑aware by design: planning decides local vs distributed and rewrites broadcasts into key‑based shuffles to avoid hotspots.
 
-Databend collects statistics lazily and attaches them to scan nodes when the pipeline requires them:
+## Example Query
 
-**Table statistics**
-
-- `num_rows`: Approximate row count used for cardinality estimation
-- `data_size`: Total uncompressed data size in bytes
-- `number_of_blocks`: Physical data blocks in object storage
-- `number_of_segments`: Higher-level storage segments
-
-**Column statistics**
-
-- `min` and `max`: Value ranges that enable range pruning
-- `null_count`: Number of null values for selectivity estimation
-- `number_of_distinct_values`: Distinct counts that help choose join and aggregation strategies
-- `histograms`: Optional buckets that improve selectivity for skewed data
-
-## Optimization Pipeline at a Glance
-
-The pipeline executed by Databend today is shown below (steps are executed in order unless noted as conditional):
-
-| Step | Optimizer | Type | Purpose |
-| --- | --- | --- | --- |
-| 1 | `SubqueryDecorrelatorOptimizer` | Logical | Rewrite correlated subqueries into joins or apply/exists filters |
-| 2 | `RuleStatsAggregateOptimizer` | Logical | Replace eligible aggregates (MIN/MAX) with statistics and propagate stats metadata |
-| 3 | `CollectStatisticsOptimizer` | Metadata | Attach table and column statistics to scans for later costing |
-| 4 | `RuleNormalizeAggregateOptimizer` | Logical | Simplify aggregates (shared `COUNT(*)`, remove redundant DISTINCT) |
-| 5 | `PullUpFilterOptimizer` | Logical | Hoist predicates to the top of the tree and expose join conditions |
-| 6 | `RecursiveRuleOptimizer` (`DEFAULT_REWRITE_RULES`) | Logical | Apply canonical rewrites such as filter and limit pushdown or projection pruning |
-| 7 | `CTEFilterPushdownOptimizer` | Logical | Push filters into common table expressions and inline them when safe |
-| 8 | `RecursiveRuleOptimizer` (`SplitAggregate`) | Logical | Build partial/final aggregate pairs for parallel execution |
-| 9 | `DPhpyOptimizer` | Cost-guided logical | Explore join orders using dynamic programming guided by statistics |
-| 10 | `SingleToInnerOptimizer` | Logical | Convert certain outer joins to inner joins once filters guarantee matchability |
-| 11 | `DeduplicateJoinConditionOptimizer` | Logical | Remove duplicated join predicates so the executor evaluates each condition once |
-| 12 | `RecursiveRuleOptimizer` (`CommuteJoin`) | Logical (conditional) | Explore commuted joins when `enable_join_reorder` is true |
-| 13 | `CascadesOptimizer` | Cost-based | Select the cheapest physical operators using the memo and cost model |
-| 14 | `RecursiveRuleOptimizer` (`EliminateEvalScalar`) | Cleanup (conditional) | Drop redundant projections when aggregate index planning is not active |
-| 15 | `CleanupUnusedCTEOptimizer` | Cleanup | Prune CTE definitions that are no longer referenced by the final plan |
-
-> Note: The optimizer pipeline is asynchronous. Each optimizer can short-circuit if it detects that more work is unnecessary (for example when Cascades times out and the pipeline falls back to the heuristic plan).
-
-### Running example
-
-To make the discussion concrete, keep the following analytics query in mind. Each phase highlights the part of the query that triggers the transformation being described.
+We’ll use the following analytics query and show how each stage transforms it.
 
 ```sql
 WITH recent_orders AS (
   SELECT *
   FROM orders
-  WHERE order_date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '3' MONTH
+  WHERE order_date >= DATE_TRUNC('month', today()) - INTERVAL '3' MONTH
     AND fulfillment_status <> 'CANCELLED'
 )
 SELECT c.region,
@@ -77,12 +36,11 @@ LEFT JOIN products p ON o.product_id = p.id
 WHERE c.status = 'ACTIVE'
   AND o.total_amount > 0
   AND p.is_active = TRUE
-  AND 1 = 1
   AND EXISTS (
         SELECT 1
         FROM support_tickets t
         WHERE t.customer_id = c.id
-          AND t.created_at > DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1' MONTH
+          AND t.created_at > DATE_TRUNC('month', today()) - INTERVAL '1' MONTH
       )
 GROUP BY c.region
 HAVING COUNT(*) > 100
@@ -92,243 +50,200 @@ LIMIT 10;
 
 ## Phase 1: Prep & Stats
 
-The first phase normalizes the query tree, removes obviously redundant work, and attaches the statistics that the rest of the pipeline depends on. In practice this means decorrelating subqueries, folding aggregates when metadata already has the answer, and annotating scan nodes with row counts and value ranges for later costing.
+Phase 1 makes the query easy to reason about and equips it with the data needed for costing. On our example, the optimizer performs these concrete steps:
 
-### 1. Subquery decorrelator
+### 1. Flatten the subquery
 
-Transforms correlated subqueries into joins so the downstream optimizers operate on a join tree. In the running example, the `EXISTS` clause that checks recent support tickets is decorrelated:
+Turn the `EXISTS (...)` check into a regular join so the rest of the pipeline sees a single join tree.
+
+```
+# Before (correlated)
+customers ─┐
+           ├─ JOIN ─ orders
+support ───┘        │
+                    └─ EXISTS (references customers)
+
+# After (semi-join)
+customers ─┐
+support ───┴─ SEMI JOIN ─ orders
+```
+
+Equivalent SQL (semantics preserved):
 
 ```sql
-... AND EXISTS (
-      SELECT 1
-      FROM support_tickets t
-      WHERE t.customer_id = c.id
-        AND t.created_at > DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1' MONTH
-    )
+FROM (
+  SELECT *
+  FROM orders
+  WHERE order_date >= DATE_TRUNC('month', today()) - INTERVAL '3' MONTH
+    AND fulfillment_status <> 'CANCELLED'
+) o
+JOIN customers c ON o.customer_id = c.id
+LEFT JOIN products p ON o.product_id = p.id
+JOIN (
+  SELECT DISTINCT customer_id
+  FROM support_tickets
+  WHERE created_at > DATE_TRUNC('month', today()) - INTERVAL '1' MONTH
+) t ON t.customer_id = c.id
 ```
 
-```text
-# Before
-Filter (EXISTS correlated_subquery)
-└─ Join (o.customer_id = c.id)
-   ├─ Join (o.product_id = p.id)
-   │  ├─ Scan (customers AS c)
-   │  ├─ Scan (products AS p)
-   │  └─ Scan (recent_orders AS o)
-   └─ Subquery
-      └─ Scan (support_tickets AS t)
-         └─ Filter (t.customer_id = c.id AND t.created_at > ... )
+### 2. Check metadata shortcuts
 
-# After
-Join (Left Semi, c.id = tickets.customer_id)
-├─ Join (o.customer_id = c.id AND o.product_id = p.id)
-│  ├─ Scan (customers AS c)
-│  ├─ Scan (products AS p)
-│  └─ Scan (recent_orders AS o)
-└─ Aggregate (tickets.customer_id)
-   └─ Filter (tickets.created_at > ... )
-      └─ Scan (support_tickets AS tickets)
+If an aggregate such as `MIN(o.total_amount)` has no filtering, the optimizer fetches it from table statistics instead of scanning:
+
+```
+-- Conceptual replacement when no filters apply
+SELECT MIN(total_amount)
+FROM orders
+
+# becomes
+
+SELECT table_stats.min_total_amount
 ```
 
-### 2. Statistics-aware aggregates
+In our query filters apply, so we keep the real computation.
 
-`RuleStatsAggregateOptimizer` replaces eligible aggregate functions with pre-computed statistics and surfaces statistics objects to downstream passes. In the running example, if the SELECT list contained `MIN(o.total_amount)` without filtering, the optimizer would short-circuit to metadata instead of scanning `recent_orders`.
+### 3. Attach statistics
 
-```sql
-SELECT ..., MIN(o.total_amount) AS min_amount
-FROM recent_orders o
-...
-```
-
-```text
-Scan (orders)
-  table_stats: { num_rows, data_size, ... }
-  column_stats: { region: { min, max, ndv, null_count }, ... }
-  histograms: { region: ... }
-```
-
-These statistics drive selectivity estimation, join exploration, and the Cascades cost model.
+During planning, Databend collects row counts, value ranges, and distinct counts for the scanned tables. No SQL changes, but later selectivity and cost estimates stay accurate without any `ANALYZE` jobs.
 
 ### 4. Normalize aggregates
 
-`RuleNormalizeAggregateOptimizer` simplifies aggregates so that redundant work is eliminated early. For instance, it converts `COUNT(o.id)` into `COUNT(*)` under the hood and deduplicates shared counters before pushing the work into the split aggregate phase.
+After statistics are attached, the optimizer rewrites counters it can share. `COUNT(o.id)` becomes `COUNT(*)`, so the engine maintains a single counter for both usages. Only the SELECT list changes:
 
-## Phase 2: Heuristic Rewrites
+```sql
+SELECT c.region,
+       COUNT(*)            AS order_count,
+       COUNT(*)            AS row_count,      -- was COUNT(o.id)
+       COUNT(DISTINCT o.product_id) AS product_count,
+       MIN(o.total_amount) AS min_amount,
+       AVG(o.total_amount) AS avg_amount
+...
+```
 
-With statistics in place, the second phase reshapes the logical plan: filters move closer to the data, aggregates split into partial/final stages, and CTEs get the same predicate exposure as base tables. Rules not shown explicitly here cover projection pruning and expression simplification, ensuring only necessary columns and predicates reach the join search.
+## Phase 2: Refine the Logic
 
-### 6. Canonical rewrites
+Phase 2 runs targeted rewrites that keep only the work we truly need:
 
-`RecursiveRuleOptimizer` runs a curated set of rewrite rules until they reach a fixed point. Representative examples:
+### 1. Push filters/limits down
 
-- **Filter pushdown**
+```
+# Before
+Filter (o.total_amount > 0)
+└─ Scan (recent_orders)
 
-  ```text
-  Filter (o.total_amount > 0)
-  └─ Scan (recent_orders)
+# After
+Scan (recent_orders, pushdown_predicates=[total_amount > 0])
+```
 
-  # becomes
+Sorting with a limit also tightens up:
 
-  Scan (recent_orders, pushdown_predicates=[total_amount > 0])
-  ```
+```
+# Before
+Limit (10)
+└─ Sort (order_count DESC)
+   └─ Join (...)
 
-- **Limit pushdown**
+# After
+Sort (order_count DESC)
+└─ Limit (10)
+   └─ Join (...)
+```
 
-  ```text
-  Limit (10)
-  └─ Sort (order_count DESC)
-     └─ Join (...)
+### 2. Drop redundancies
 
-  # becomes
+```
+# Before
+Filter (1 = 1 AND c.status = 'ACTIVE')
+└─ ...
 
-  Sort (order_count DESC)
-  └─ Limit (10)
-     └─ Join (...)
-  ```
+# After
+Filter (c.status = 'ACTIVE')
+└─ ...
+```
 
-- **Elimination**
+### 3. Split aggregates
 
-  ```text
-  Filter (1 = 1 AND c.status = 'ACTIVE')
-  └─ ...
+```
+# Before
+Aggregate (COUNT/AVG)
+└─ Scan (recent_orders)
 
-  # becomes
+# After
+Aggregate (final)
+└─ Aggregate (partial)
+   └─ Scan (recent_orders)
+```
 
-  Filter (c.status = 'ACTIVE')
-  └─ ...
-  ```
+Partial aggregates run close to the data, then a single final step merges the results.
 
-The same batch also performs projection pruning, predicate normalization, and expression simplification.
+### 4. Push filters into the CTE
 
-### 7. CTE filter pushdown
-
-`CTEFilterPushdownOptimizer` pushes predicates from the outer query into common table expressions (CTEs) and inlines trivial CTEs. In our query the CTE `recent_orders` receives the predicate `c.status = 'ACTIVE'` so the storage layer only reads active customers for the last three months.
+Predicates that reference only CTE columns are pushed inside the definition of `recent_orders`, shrinking the data before joins:
 
 ```sql
 WITH recent_orders AS (
   SELECT *
   FROM orders
-  WHERE order_date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '3' MONTH
-    AND status = 'ACTIVE'          -- pushed into the CTE
+  WHERE order_date >= DATE_TRUNC('month', today()) - INTERVAL '3' MONTH
+    AND fulfillment_status <> 'CANCELLED'
+    AND total_amount > 0              -- pushed from outer query
 )
 ```
 
-### 8. Aggregate splitting
+## Phase 3: Cost & Physical Plan
 
-The second `RecursiveRuleOptimizer` invocation runs only the `SplitAggregate` rule. It rewrites single-stage aggregates into partial/final pairs so that partial aggregation can happen close to the data. The COUNT/AVG in the running query therefore become partial/final pairs: partial COUNT/AVG on each partition, final COUNT/AVG before the ORDER BY/LIMIT.
+With a tidy logical plan and fresh statistics, the optimizer makes three decisions:
 
-```text
-Aggregate (mode=Final, SUM(amount) BY region)
-└─ Aggregate (mode=Partial, SUM(amount) BY region)
-   └─ Scan (orders)
-```
+### 1. Choose the join order
 
-## Phase 3: Join Strategy
-
-Once the input has been cleaned up and annotated, Databend explores join alternatives and prepares the join tree for physical planning. Rules without dedicated examples (such as predicate deduplication) apply automatically before costing to keep hash tables and filter lists lean.
-
-### 9. DPhpy join reordering
-
-`DPhpyOptimizer` uses a dynamic-programming variant of the DP-Sub algorithm to enumerate alternative join orders. It relies on cardinality estimates produced earlier to rank candidates and keeps the cheapest plan for each join subset.
-
-```sql
-FROM recent_orders o
-JOIN customers c ON o.customer_id = c.id
-JOIN products p ON o.product_id = p.id
-...
-```
+A statistics-guided dynamic program (`DPhpyOptimizer`) evaluates join permutations. It prefers building hash tables on the smaller filtered tables (`customers`, `products`, `support_tickets`) while the large fact table (`recent_orders`) probes them:
 
 ```
-# Query graph
-customers ──(customer_id)── orders ──(product_id)── products
-           ╰──────────────┬──────────────╯
-                      support_tickets
-
-# One candidate ordering explored by DPhpy
-Join (Hash, build=customers, probe=products)
-├─ Build: customers (status = 'ACTIVE')  -- small after filter
-└─ Probe: products
-     └─ Join (Hash, build=products, probe=orders)
-        ├─ Build: products (is_active = TRUE)
-        └─ Probe: orders (recent_orders CTE)
+    customers      products
+           \      /
+            HASH JOIN (build)
+                 |
+        recent_orders  (probe)
+                 |
+        SEMI JOIN support_tickets
 ```
 
-By examining build/probe cardinalities, the optimizer favours orders where the filtered dimension tables build hash tables and the large fact table remains on the probe side.
+### 2. Tighten join semantics
 
-### 10. Single-to-inner conversion
+Rule-based passes adjust joins discovered above.
 
-`SingleToInnerOptimizer` converts outer joins into inner joins when filters above the join guarantee that null-extended rows would be discarded. Because our query filters on `p.is_active = TRUE`, the original `LEFT JOIN products p` is rewritten as an inner join—rows without a matching product would fail the predicate anyway.
+#### a. Turn safe LEFT joins into INNER joins
 
-### 12. Join commutation
-
-If `enable_join_reorder` is true, a final `RecursiveRuleOptimizer` run with the `CommuteJoin` rule explores left and right swaps that were not considered by the dynamic-programming step. Databend prefers to build hash tables on the right side of a join, so swapping ensures the smaller input becomes the build side.
-
-```sql
-... JOIN customers c ON o.customer_id = c.id
-```
+Our query starts with `LEFT JOIN products p`, but the predicate `p.is_active = TRUE` guarantees we only keep rows with a matching product. The optimizer flips the join type:
 
 ```
-# Before commutation
-Join (Hash, build=orders, probe=customers)
-├─ Build: orders   -- large fact table
-└─ Probe: customers
+# Before
+recent_orders ──⊗── products   (LEFT)
+            filter: p.is_active = TRUE
 
-# After commutation
-Join (Hash, build=customers, probe=orders)
-├─ Build: customers -- dimension table (smaller)
-└─ Probe: orders    -- fact table
+# After
+recent_orders ──⋈── products   (INNER)
 ```
 
-This extra pass reclaims cases where DPhpy produced a good join order but the physical orientation (build versus probe) still favours the larger relation.
+#### b. Drop duplicate predicates
 
-**Join-strategy cheat sheet**
+If a join condition repeats (for example `o.customer_id = c.id` listed twice), `DeduplicateJoinConditionOptimizer` keeps just one copy so the executor evaluates it once.
+
+#### c. Optionally swap join sides
+
+If join reordering remains enabled, `CommuteJoin` can flip the join inputs so the optimizer aligns with the desired build/probe orientation (for example, making sure the smaller table builds the hash table or matching a distribution strategy):
 
 ```
-┌────────────────────────────┬──────────────────────────────────────────────┐
-│ Optimizer                  │ Key effect                                   │
-├────────────────────────────┼──────────────────────────────────────────────┤
-│ DPhpyOptimizer             │ Enumerates join orders based on cardinality   │
-│ SingleToInnerOptimizer     │ Turns eligible outer joins into cheaper inner │
-│                             │ joins when filters eliminate null-extended rows │
-│ DeduplicateJoinCondition   │ Removes repeated predicates to shrink hash    │
-│                             │ tables                                        │
-│ CommuteJoin (conditional)  │ Swaps build/probe sides to place the smaller  │
-│                             │ input on the hash-table side                 │
-└────────────────────────────┴──────────────────────────────────────────────┘
+# Before                     # After (smaller table builds)
+customers ──⋈── recent_orders   recent_orders ──⋈── customers
 ```
 
-## Phase 4: Physical & Cleanup
+### 3. Pick the physical plan and distribution
 
-The final phase turns the logical tree into physical operators, evaluates their cost, and removes any remaining scaffolding. Helper rules without diagrams here (for example removing redundant projections) run automatically after Cascades picks a plan.
-
-### 13. Cascades optimizer
-
-`CascadesOptimizer` populates the memo with logical expressions, expands possible physical implementations (for example hash join versus nested loop), and picks the cheapest plan according to the cost model.
-
-**Sample cost factors**
-
-| Factor | Default value |
-| --- | --- |
-| `compute_per_row` | 1 |
-| `hash_table_per_row` | 10 |
-| `aggregate_per_row` | 5 |
-| `network_per_row` | 50 |
-
-Costs are computed per operator as `rows * factor` with adjustments for build and probe phases. The optimizer accumulates these estimates bottom-up and keeps the plan with the lowest total cost.
+`CascadesOptimizer` picks between hash, merge, or nested-loop implementations using Databend’s cost model. The pipeline also decides whether the plan should remain local; if a warehouse cluster is available and joins are large, broadcast exchanges are rewritten into hash shuffles so work spreads evenly. Final cleanups drop redundant projections and unused CTEs.
 
 ## Observability
 
-- Use `EXPLAIN` or `EXPLAIN PIPELINE` to view the final optimized plan.
-- Query the system query log (`SELECT * FROM system.query_log WHERE query_id = ...`) and inspect the optimizer profile to see which stages ran, in what order, and how long each took.
-- `EXPLAIN ANALYZE` shows the optimized plan alongside runtime statistics so you can compare estimates with actual metrics.
-
-## Summary
-
-Databend's optimizer blends rule-based rewrites with cost-based selection. Keep in mind:
-
-- Phase 1 prepares the tree (decorrelate, fold in statistics) so later stages have clean inputs and realistic cardinalities.
-- Phase 2 reduces data volume early by pushing filters, splitting aggregates, and propagating predicates into CTEs.
-- Phase 3 explores join orders, converts joins into their cheapest equivalents, and reshapes build/probe sides.
-- Phase 4 turns the surviving logical alternatives into physical operators using Cascades and cleans up scaffolding.
-
-When a query behaves differently from what you expect, walk through these phases against a concrete query: check the normalized plan (`EXPLAIN`) to ensure subqueries became joins, confirm predicate pushdown, inspect the join strategy in the query log, and only then look at runtime counters. The pipeline is designed so each step leaves the plan slightly better for the next, trimming CPU, memory, network, and I/O along the way.
+- `EXPLAIN` shows the final optimized plan.
+- `EXPLAIN PIPELINE` reveals the execution topology.
+- `SET enable_optimizer_trace = 1` records every optimizer step in the query log.
