@@ -54,11 +54,42 @@ The pipeline executed by Databend today is shown below (steps are executed in or
 
 > Note: The optimizer pipeline is asynchronous. Each optimizer can short-circuit if it detects that more work is unnecessary (for example when Cascades times out and the pipeline falls back to the heuristic plan).
 
+### Running example
+
+To make the discussion concrete, keep the following analytics query in mind. Each phase highlights the part of the query that triggers the transformation being described.
+
+```sql
+WITH recent_orders AS (
+  SELECT *
+  FROM orders
+  WHERE order_date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '3' MONTH
+)
+SELECT c.region,
+       COUNT(*) AS order_count,
+       AVG(o.total_amount) AS avg_amount
+FROM recent_orders o
+JOIN customers c ON o.customer_id = c.id
+JOIN products p ON o.product_id = p.id
+WHERE c.status = 'ACTIVE'
+  AND EXISTS (
+        SELECT 1
+        FROM support_tickets t
+        WHERE t.customer_id = c.id
+          AND t.created_at > DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1' MONTH
+      )
+GROUP BY c.region
+HAVING COUNT(*) > 100
+ORDER BY order_count DESC
+LIMIT 10;
+```
+
 ## Phase 1 - Preparation and Statistics
+
+The first phase normalizes the query tree, removes obviously redundant work, and attaches the statistics that the rest of the pipeline depends on.
 
 ### 1. Subquery decorrelator
 
-Transforms correlated subqueries into joins so the downstream optimizers operate on a join tree.
+Transforms correlated subqueries into joins so the downstream optimizers operate on a join tree. In the running example, the `EXISTS (...)` clause gets rewritten:
 
 ```sql
 SELECT *
@@ -88,7 +119,7 @@ Filter (c.total_orders > r.avg_total)
 
 ### 2. Statistics-aware aggregates
 
-`RuleStatsAggregateOptimizer` replaces eligible aggregate functions with pre-computed statistics and surfaces statistics objects to downstream passes.
+`RuleStatsAggregateOptimizer` replaces eligible aggregate functions with pre-computed statistics and surfaces statistics objects to downstream passes. When a query collapses to a simple aggregate—think `SELECT MIN(price) FROM products` pulled out of a dashboard—the optimizer can avoid the scan entirely.
 
 ```sql
 SELECT MIN(price) FROM products;
@@ -138,6 +169,8 @@ Aggregate (GROUP BY [region], COUNT(*), COUNT())
 ```
 
 ## Phase 2 - Heuristic rewrites
+
+With statistics in place, the second phase reshapes the logical plan: filters move closer to the data, aggregates split into partial/final stages, and CTEs get the same predicate exposure as base tables. These rewrites shrink the amount of data flowing into the expensive join search that comes next.
 
 ### 5. Pull up filters
 
@@ -210,9 +243,34 @@ Aggregate (mode=Final, SUM(amount) BY region)
 
 ## Phase 3 - Join strategy
 
+Once the input has been cleaned up and annotated, Databend explores join alternatives and prepares the join tree for physical planning.
+
 ### 9. DPhpy join reordering
 
 `DPhpyOptimizer` uses a dynamic-programming variant of the DP-Sub algorithm to enumerate alternative join orders. It relies on cardinality estimates produced earlier to rank candidates and keeps the cheapest plan for each join subset.
+
+```sql
+SELECT *
+FROM orders o
+JOIN customers c ON o.customer_id = c.id
+JOIN products p ON o.product_id = p.id
+WHERE c.region = 'APAC';
+```
+
+```
+# Query graph
+customers ──(customer_id)── orders ──(product_id)── products
+
+# One candidate ordering explored by DPhpy
+Join (Hash, build=customers, probe=products)
+├─ Build: customers (region = 'APAC')  -- small after filter
+└─ Probe: products
+     └─ Join (Hash, build=products, probe=orders)
+        ├─ Build: products           -- dimension table
+        └─ Probe: orders             -- fact table scanned last
+```
+
+By examining build/probe cardinalities, the optimizer favours orders where the filtered dimension tables build hash tables and the large fact table remains on the probe side.
 
 ### 10. Single-to-inner conversion
 
@@ -226,7 +284,39 @@ Aggregate (mode=Final, SUM(amount) BY region)
 
 If `enable_join_reorder` is true, a final `RecursiveRuleOptimizer` run with the `CommuteJoin` rule explores left and right swaps that were not considered by the dynamic-programming step. Databend prefers to build hash tables on the right side of a join, so swapping ensures the smaller input becomes the build side.
 
+```
+# Before commutation
+Join (Hash, build=orders, probe=customers)
+├─ Build: orders   -- large fact table
+└─ Probe: customers
+
+# After commutation
+Join (Hash, build=customers, probe=orders)
+├─ Build: customers -- dimension table (smaller)
+└─ Probe: orders    -- fact table
+```
+
+This extra pass reclaims cases where DPhpy produced a good join order but the physical orientation (build versus probe) still favours the larger relation.
+
+**Join-strategy cheat sheet**
+
+```
+┌────────────────────────────┬──────────────────────────────────────────────┐
+│ Optimizer                  │ Key effect                                   │
+├────────────────────────────┼──────────────────────────────────────────────┤
+│ DPhpyOptimizer             │ Enumerates join orders based on cardinality   │
+│ SingleToInnerOptimizer     │ Turns eligible outer joins into cheaper inner │
+│                             │ joins when filters eliminate null-extended rows │
+│ DeduplicateJoinCondition   │ Removes repeated predicates to shrink hash    │
+│                             │ tables                                        │
+│ CommuteJoin (conditional)  │ Swaps build/probe sides to place the smaller  │
+│                             │ input on the hash-table side                 │
+└────────────────────────────┴──────────────────────────────────────────────┘
+```
+
 ## Phase 4 - Physical planning and cleanup
+
+The final phase turns the logical tree into physical operators, evaluates their cost, and removes any scaffolding introduced earlier.
 
 ### 13. Cascades optimizer
 
@@ -254,9 +344,16 @@ Unless Databend is planning an aggregate index query, a final rule pass removes 
 ## Observability
 
 - Use `EXPLAIN` or `EXPLAIN PIPELINE` to view the final optimized plan.
-- Set `SET enable_optimizer_profile = 1` and rerun your query to capture the optimizer pipeline trace in the query log.
+- Query the system query log (`SELECT * FROM system.query_log WHERE query_id = ...`) and inspect the optimizer profile to see which stages ran, in what order, and how long each took.
 - `EXPLAIN ANALYZE` shows the optimized plan alongside runtime statistics so you can compare estimates with actual metrics.
 
 ## Summary
 
-Databend's optimizer combines rule-based and cost-based techniques. The preparation phase collects statistics and normalizes the plan, heuristic rewrites push predicates and split work for distributed execution, dedicated join optimizers explore join orderings, and the Cascades stage picks the cheapest physical implementation. Cleanup passes ensure the final plan is minimal. Together these steps minimize CPU, memory, network, and I/O usage for each query.
+Databend's optimizer blends rule-based rewrites with cost-based selection. Keep in mind:
+
+- Phase 1 prepares the tree (decorrelate, fold in statistics) so later stages have clean inputs and realistic cardinalities.
+- Phase 2 reduces data volume early by pushing filters, splitting aggregates, and propagating predicates into CTEs.
+- Phase 3 explores join orders, converts joins into their cheapest equivalents, and reshapes build/probe sides.
+- Phase 4 turns the surviving logical alternatives into physical operators using Cascades and cleans up scaffolding.
+
+When a query behaves differently from what you expect, walk through these phases: check the normalized plan (`EXPLAIN`), confirm predicate pushdown, inspect the join strategy in the query log, and only then look at runtime counters. The pipeline is designed so each step leaves the plan slightly better for the next, trimming CPU, memory, network, and I/O along the way.
