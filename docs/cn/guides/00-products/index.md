@@ -14,7 +14,7 @@ cn=
 
 **Databend** —— **一套引擎撑起所有数据与场景（ANY DATA. ANY SCALE. ONE DATABASE）.**
 
-**Databend 是开源的**云原生数仓，把存储、向量搜索、SQL 分析、全文检索与地理计算统一到一套与**Snowflake 兼容的 SQL 接口上**。所有数据都放在对象存储里，写入、分析、搜索一次到位，无需折腾多套系统。
+**Databend 是开源的**云原生数仓，把存储、向量搜索、SQL 分析、全文检索与地理计算统一到一套与 **Snowflake 兼容的 SQL 接口上**。所有数据都放在对象存储里，写入、分析、搜索一次到位，无需折腾多套系统。
 
 在 [**GitHub**](https://github.com/databendlabs/databend) 上探索其引擎。您可以通过 [**Databend Cloud**](https://www.databend.cn/)、`docker run` 或 `pip install databend` 启动它，每种方式都在您的对象存储上运行着同一个统一的引擎。
 
