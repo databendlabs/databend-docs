@@ -129,13 +129,13 @@ copyOptions ::=
   [ USE_RAW_PATH = true | false ]
 ```
 
-| Parameter        | Default                | Description                                                                                                                                                           |
-|------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SINGLE           | false                  | When `true`, the command unloads data into one single file.                                                                                                             |
-| MAX_FILE_SIZE    | 67108864 bytes (64 MB) | The maximum size (in bytes) of each file to be created. Effective when `SINGLE` is false.                                                                             |
-| OVERWRITE        | false                  | When `true`, existing files with the same name at the target path will be overwritten. Note: `OVERWRITE = true` requires `USE_RAW_PATH = true` and `INCLUDE_QUERY_ID = false`.   |
-| INCLUDE_QUERY_ID | true                   | When `true`, a unique UUID will be included in the exported file names.                                                                                                 |
-| USE_RAW_PATH     | false                  | When `true`, the exact user-provided path (including the full file name) will be used for exporting the data. If set to `false`, the user must provide a directory path. |
+| Parameter        | Default                | Description                                                                                                                                                                    |
+| ---------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| SINGLE           | false                  | When `true`, the command unloads data into one single file.                                                                                                                    |
+| MAX_FILE_SIZE    | 67108864 bytes (64 MB) | The maximum size (in bytes) of each file to be created. Effective when `SINGLE` is false.                                                                                      |
+| OVERWRITE        | false                  | When `true`, existing files with the same name at the target path will be overwritten. Note: `OVERWRITE = true` requires `USE_RAW_PATH = true` and `INCLUDE_QUERY_ID = false`. |
+| INCLUDE_QUERY_ID | true                   | When `true`, a unique UUID will be included in the exported file names.                                                                                                        |
+| USE_RAW_PATH     | false                  | When `true`, the exact user-provided path (including the full file name) will be used for exporting the data. If set to `false`, the user must provide a directory path.       |
 
 ### DETAILED_OUTPUT
 
@@ -241,10 +241,10 @@ LIST @my_internal_stage;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- COPY INTO also works with custom file formats. See below:
--- Create a custom file format named my_cs_gzip with CSV format and gzip compression
+-- Create a custom file format named my_csv_gzip with CSV format and gzip compression
 CREATE FILE FORMAT my_csv_gzip TYPE = CSV COMPRESSION = gzip;
 
--- Unload data from the table to the stage using the custom file format my_cs_gzip
+-- Unload data from the table to the stage using the custom file format my_csv_gzip
 COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (FORMAT_NAME = 'my_csv_gzip');
