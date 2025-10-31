@@ -108,9 +108,9 @@ export default function DocPaginator(props) {
           path: window?.location?.pathname,
           action: type,
           comment: isChina
-            ? `我的建议是：${values?.commentValue}。领取人信息：${
-                values?.name || "未设置"
-              }, ${values?.contact || "未设置"}`
+            ? `${values?.commentValue}。领取人信息：姓名=>${
+                values?.name || "名称未设置"
+              }, 联系方式=>${values?.contact || "联系方式未设置"}`
             : values?.commentValue,
         });
         setIsVoted(true);
