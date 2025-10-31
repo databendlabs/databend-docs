@@ -94,8 +94,26 @@
 
 .RaiseButton {
   margin-left: auto;
+  background-color: var(--color-bg-1);
   color: var(--color-text-2);
   @media screen and (max-width: 500px) {
+    display: none;
+  }
+}
+
+.marquee {
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+  background-color: var(--scroll-banner-bg);
+  color: var(--color-text-2);
+  border-radius: 4px;
+  font-size: 14px;
+  margin-top: 6px;
+  @media screen and (max-width: 630px) {
+    display: none;
+  }
+  @media screen and (min-width: 997px) and (max-width: 1168px) {
     display: none;
   }
 }

@@ -15,6 +15,7 @@ import ThumbsDown from "./ThumbsDown.svg";
 import clsx from "clsx";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useLocation } from "@docusaurus/router";
+import ScrollBanner from "./scroll-banner";
 const { TextArea } = Input;
 function Alarm() {
   return (
@@ -162,7 +163,9 @@ export default function DocPaginator(props) {
             {$t("Raise issue")}
           </Button>
         </div>
+        {isChina && <ScrollBanner />}
       </Spin>
+
       <nav
         className="pagination-nav docusaurus-mt-lg"
         aria-label={translate({
