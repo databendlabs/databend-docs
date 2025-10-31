@@ -209,12 +209,14 @@
   --indigo-5: rgb(94, 110, 195);
   --prism-color2: #393A34;
   --prism-background-color2: #fff;
+    --scroll-banner-bg: rgb(243 248 255);
   ::selection {
     color: #fff;
     background: var(--color-primary);
     cursor: none;
     outline: none;
   }
+
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -410,6 +412,7 @@
   --indigo-5: rgb(63, 80, 180);
   --prism-color2: #F8F8F2;
   --prism-background-color2: #121a2a;
+    --scroll-banner-bg: #121a2a;
 }
 
 .cc--darkmode {
