@@ -19,18 +19,18 @@ const pluginConfig: CookieConsentConfig = {
     },
   },
   onFirstConsent: function () {
-    console.log('onFirstAction fired');
+    // console.log('onFirstAction fired');
   },
 
   onConsent: function ({ cookie }) {
-    console.log('onConsent fired ...');
+    // console.log('onConsent fired ...');
   },
 
   onChange: function ({ changedCategories, cookie }) {
-    console.log('onChange fired ...');
+    // console.log('onChange fired ...');
   },
   onModalReady: ({ modalName, modal }) => {
-    console.log('onModalReady fired ...', modalName, modal);
+    // console.log('onModalReady fired ...', modalName, modal);
   },
 
   categories: {
