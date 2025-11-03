@@ -241,7 +241,8 @@ If this `INSERT` transaction commits, the stream is consumed.
 | \_origin_version       | Identifies the table version in which this row was initially created.             |
 | \_origin_block_id      | Identifies the block ID to which this row belonged previously.                    |
 | \_origin_block_row_num | Identifies the row number within the block to which this row belonged previously. |
-| \_row_version          | Identifies the row version, starting at 0 and incrementing by 1 with each update. |
+
+The previously documented hidden column `_row_version` has been removed and is no longer available.
 
 To display the values of these columns, use the SELECT statement:
 
@@ -254,34 +255,32 @@ SELECT
   *,
   _origin_version,
   _origin_block_id,
-  _origin_block_row_num,
-  _row_version
+  _origin_block_row_num
 FROM
   t;
 
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │  _origin_version │     _origin_block_id     │ _origin_block_row_num │ _row_version │
-├─────────────────┼──────────────────┼──────────────────────────┼───────────────────────┼──────────────┤
-│               1 │             NULL │ NULL                     │                  NULL │            0 │
-│               2 │             NULL │ NULL                     │                  NULL │            0 │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │  _origin_version │     _origin_block_id     │ _origin_block_row_num │
+├─────────────────┼──────────────────┼──────────────────────────┼───────────────────────┤
+│               1 │             NULL │ NULL                     │                  NULL │
+│               2 │             NULL │ NULL                     │                  NULL │
+└──────────────────────────────────────────────────────────────────────────────────────────────┘
 
 UPDATE t SET a = 3 WHERE a = 2;
 SELECT
   *,
   _origin_version,
   _origin_block_id,
-  _origin_block_row_num,
-  _row_version
+  _origin_block_row_num
 FROM
   t;
 
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │  _origin_version │             _origin_block_id            │ _origin_block_row_num │ _row_version │
-├─────────────────┼──────────────────┼─────────────────────────────────────────┼───────────────────────┼──────────────┤
-│               3 │             2317 │ 132795849016460663684755265365603707394 │                     0 │            1 │
-│               1 │             NULL │ NULL                                    │                  NULL │            0 │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        a        │  _origin_version │             _origin_block_id            │ _origin_block_row_num │
+├─────────────────┼──────────────────┼─────────────────────────────────────────┼───────────────────────┤
+│               3 │             2317 │ 132795849016460663684755265365603707394 │                     0 │
+│               1 │             NULL │ NULL                                    │                  NULL │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Stream Columns
