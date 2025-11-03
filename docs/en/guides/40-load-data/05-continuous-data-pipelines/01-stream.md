@@ -37,13 +37,13 @@ CREATE STREAM s_append_only ON TABLE t_append_only APPEND_ONLY=true;
 You can view the created streams and their mode using the [SHOW FULL STREAMS](/sql/sql-commands/ddl/stream/show-streams) command:
 
 ```sql
-SHOW FULL STREAMS;
+SHOW FULL STREAMS WHERE name IN ('s_standard', 's_append_only');
 
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │         created_on         │      name     │ database │ catalog │        table_on       │       owner      │ comment │     mode    │ invalid_reason │
 ├────────────────────────────┼───────────────┼──────────┼─────────┼───────────────────────┼──────────────────┼─────────┼─────────────┼────────────────┤
-│ 2024-02-18 16:39:58.996763 │ s_append_only │ default  │ default │ default.t_append_only │ NULL             │         │ append_only │                │
-│ 2024-02-18 16:39:58.966942 │ s_standard    │ default  │ default │ default.t_standard    │ NULL             │         │ standard    │                │
+│ 2025-11-03 13:05:21.873473 │ s_append_only │ default  │ default │ default.t_append_only │ NULL             │         │ append_only │                │
+│ 2025-11-03 13:05:20.663258 │ s_standard    │ default  │ default │ default.t_standard    │ NULL             │         │ standard    │                │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -59,8 +59,8 @@ SELECT * FROM s_standard;
 ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        a        │   change$action  │              change$row_id             │ change$is_update │
 ├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
-│               2 │ INSERT           │ 8cd000827f8140d9921f897016e5a88e000000 │ false            │
-│               3 │ INSERT           │ 8cd000827f8140d9921f897016e5a88e000001 │ false            │
+│               2 │ INSERT           │ 019a4ef92ca4795d983d81745cf7642d000000 │ false            │
+│               3 │ INSERT           │ 019a4ef92ca4795d983d81745cf7642d000001 │ false            │
 └────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 SELECT * FROM s_append_only;
@@ -68,8 +68,8 @@ SELECT * FROM s_append_only;
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
 │        a        │ change$action │ change$is_update │              change$row_id             │
 ├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
-│               2 │ INSERT        │ false            │ 63dc9b84fe0a43528808c3304969b317000000 │
-│               3 │ INSERT        │ false            │ 63dc9b84fe0a43528808c3304969b317000001 │
+│               2 │ INSERT        │ false            │ 019a4ef9321a7160a8f0ffd072e89f10000000 │
+│               3 │ INSERT        │ false            │ 019a4ef9321a7160a8f0ffd072e89f10000001 │
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -174,14 +174,14 @@ UPDATE t_standard SET a = 4 WHERE a = 3;
 UPDATE t_append_only SET a = 4 WHERE a = 3;
 
 
-SELECT * FROM s_standard;
+SELECT * FROM s_standard ORDER BY change$action DESC, a;
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        a        │   change$action  │              change$row_id             │ change$is_update │
 │ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
 ├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
-│               3 │ DELETE           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ true             │
-│               4 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ true             │
+│               4 │ INSERT           │ 019a4ef92ca4795d983d81745cf7642d000001 │ true             │
+│               3 │ DELETE           │ 019a4ef92ca4795d983d81745cf7642d000001 │ true             │
 └────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- empty results
@@ -198,13 +198,13 @@ If we delete the value `4` now, we can obtain the following results:
 DELETE FROM t_standard WHERE a = 4;
 DELETE FROM t_append_only WHERE a = 4;
 
-SELECT * FROM s_standard;
+SELECT * FROM s_standard ORDER BY change$action, a;
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        a        │   change$action  │              change$row_id             │ change$is_update │
 │ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
 ├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
-│               3 │ DELETE           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ false            │
+│               3 │ DELETE           │ 019a4ef92ca4795d983d81745cf7642d000001 │ false            │
 └────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- empty results
@@ -278,8 +278,8 @@ FROM
 ┌───────────┬──────────────────┬─────────────────────────────────────────────┬───────────────────────┐
 │     a     │ _origin_version  │               _origin_block_id              │ _origin_block_row_num │
 ├───────────┼──────────────────┼─────────────────────────────────────────────┼───────────────────────┤
-│     3     │       2317       │   132795849016460663684755265365603707394   │           0           │
-│     1     │       NULL       │                     NULL                    │          NULL         │
+│     3     │    227840139     │   2130443572288719791821140981563066043    │           0           │
+│     1     │    227840175     │   2130443569213242557249235987258451000    │           0           │
 └───────────┴──────────────────┴─────────────────────────────────────────────┴───────────────────────┘
 ```
 
@@ -304,7 +304,7 @@ SELECT * FROM s;
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
 │        a        │ change$action │ change$is_update │              change$row_id             │
 ├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
-│               2 │ INSERT        │ false            │ a577745c6a404f3384fa95791eb43f22000000 │
+│               2 │ INSERT        │ false            │ 019a4efaa45d7a23b0062ec959c24748000000 │
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- If you add a new row and then update it,
@@ -315,7 +315,7 @@ SELECT * FROM s;
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
 │        a        │ change$action │ change$is_update │              change$row_id             │
 ├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
-│               3 │ INSERT        │ false            │ a577745c6a404f3384fa95791eb43f22000000 │
+│               3 │ INSERT        │ false            │ 019a4efaa45d7a23b0062ec959c24748000000 │
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -413,15 +413,17 @@ SELECT
   *
 FROM
   user_activity_profiles
+ORDER BY
+  activity_timestamp;
 
 ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
 │     user_id     │     username     │     location     │     activity     │  activity_timestamp │
 ├─────────────────┼──────────────────┼──────────────────┼──────────────────┼─────────────────────┤
+│             102 │ Bob              │ San Francisco    │ logout           │ 2023-12-19 09:00:00 │
 │             103 │ Charlie          │ Los Angeles      │ view_profile     │ 2023-12-19 09:15:00 │
 │             104 │ Dana             │ Chicago          │ edit_profile     │ 2023-12-19 10:00:00 │
 │             101 │ Alice            │ New York         │ purchase         │ 2023-12-19 10:30:00 │
 │             102 │ Bob              │ San Francisco    │ login            │ 2023-12-19 11:00:00 │
-│             102 │ Bob              │ San Francisco    │ logout           │ 2023-12-19 09:00:00 │
 └────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
