@@ -3,6 +3,10 @@ title: 存储过程（Stored Procedure）与 SQL 脚本
 slug: /stored-procedure-scripting/
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.833"/>
+
 Databend 中的存储过程（Stored Procedure）允许您将 SQL 逻辑打包在服务器上运行，并支持控制流（Control Flow）、变量（Variable）、游标（Cursor）和动态语句（Dynamic Statement）。本页面介绍如何创建存储过程以及编写驱动它们的内联脚本。
 
 ## 定义存储过程
@@ -52,7 +56,7 @@ CALL PROCEDURE convert_kg_to_lb(10);
 
 ### 声明部分
 
-存储过程可以以可选的 `DECLARE` 块开始，在可执行部分之前初始化变量（Variable）。
+存储过程可以以可选的 `DECLARE` 块开始，在可执行部分之前初始化变量（Variable）。每个条目遵循与 `LET` 相同的语法：`name [<data_type>] [:= <expr> | DEFAULT <expr>]`。如果省略初始化器，变量必须在读取之前被赋值；过早引用会触发错误 3129。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_with_declare()
@@ -60,7 +64,7 @@ RETURNS INT
 LANGUAGE SQL
 AS $$
 DECLARE
-    counter := 0;
+    counter INT DEFAULT 0;
 BEGIN
     counter := counter + 5;
     RETURN counter;
@@ -70,11 +74,11 @@ $$;
 CALL PROCEDURE sp_with_declare();
 ```
 
-`DECLARE` 部分接受与 `LET` 相同的定义，包括 `RESULTSET` 和 `CURSOR` 声明。每项后使用分号。
+`DECLARE` 部分接受与 `LET` 相同的定义，包括可选的数据类型、`RESULTSET` 和 `CURSOR` 声明。每项后使用分号。
 
 ### 变量与赋值
 
-使用 `LET` 声明变量（Variable）或常量（Constant），通过省略 `LET` 进行重新赋值。
+使用 `LET` 声明变量（Variable）或常量（Constant）。可以选择添加类型标注，并使用 `:=` 或 `DEFAULT` 关键字指定初始值。如果省略初始化器，变量必须在读取之前被赋值；提前引用会触发错误 3129。通过省略 `LET` 进行重新赋值。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_demo_variables()
@@ -82,11 +86,14 @@ RETURNS FLOAT
 LANGUAGE SQL
 AS $$
 BEGIN
-    LET total := 100;
-    LET rate := 0.07;
+    LET total DECIMAL(10, 2) DEFAULT 100;
+    LET rate FLOAT := 0.07;
+    LET surcharge FLOAT := NULL; -- 使用前显式初始化
+    LET tax FLOAT DEFAULT rate;  -- DEFAULT 可以引用已经初始化的变量
 
     total := total * rate; -- 乘以比率
-    total := total + 5;    -- 不使用 LET 重新赋值
+    total := total + COALESCE(surcharge, 5); -- 不使用 LET 重新赋值
+    total := total + tax;
 
     RETURN total;
 END;
@@ -94,6 +101,8 @@ $$;
 
 CALL PROCEDURE sp_demo_variables();
 ```
+
+在存储过程的任何位置引用未初始化的变量都会触发错误 3129。
 
 ### 变量作用域
 
