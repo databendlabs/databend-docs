@@ -19,8 +19,8 @@
 }
 
 .buttonText {
-  svg > path {
-    fill: var(--color-text-0) !important;
+  svg {
+    color: var(--color-text-0) !important;
   }
   span {
     color: var(--color-text-1);

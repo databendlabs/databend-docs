@@ -812,5 +812,9 @@
   "Databend runs the same in Cloud, Docker, or `pip install`.": {
     "message": "Databend runs the same in Cloud, Docker, or `pip install`.",
     "description": "Description for unified deployment feature"
+  },
+  "Ask questions about this page": {
+    "message": "Ask questions about this page",
+    "description": "Ask questions about this page"
   }
 }

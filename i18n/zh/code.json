@@ -27,7 +27,7 @@
     "description": "The first paragraph of the 404 page"
   },
   "theme.NotFound.p2": {
-    "message": "请联系原始链接来源网站的所有者,并告知他们链接已损坏。",
+    "message": "请联系原始链接来源网站的所有者，并告知他们链接已损坏。",
     "description": "The 2nd paragraph of the 404 page"
   },
   "theme.admonition.note": {
@@ -138,7 +138,7 @@
     "description": "The label used to tell the user that he's browsing an unreleased doc version"
   },
   "theme.docs.versions.unmaintainedVersionLabel": {
-    "message": "此为 {siteTitle} {versionLabel} 版的文档,现已不再积极维护。",
+    "message": "此为 {siteTitle} {versionLabel} 版的文档，现已不再积极维护。",
     "description": "The label used to tell the user that he's browsing an unmaintained doc version"
   },
   "theme.docs.versions.latestVersionSuggestionLabel": {
@@ -414,7 +414,7 @@
     "description": "Thanks for voting!"
   },
   "Did this page help you?": {
-    "message": "指出文档中的错误或问题,我们将会赠予您专属纪念 T 恤一件！",
+    "message": "指出文档中的错误或问题，我们将会赠予您专属纪念 T 恤一件！",
     "description": "Did this page help you?"
   },
   "Explore Databend Cloud for FREE": {
@@ -470,7 +470,7 @@
     "description": "Cloud Data Analytics"
   },
   "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics.": {
-    "message": "Databend - 替代 Snowflake 的最佳方案。高性价比且简单易用,适用于大规模数据分析。",
+    "message": "Databend - 替代 Snowflake 的最佳方案。高性价比且简单易用，适用于大规模数据分析。",
     "description": "Databend - Your best alternative to Snowflake. Cost-effective and simple for massive-scale analytics."
   },
   "PAGE NOT FOUND": {
@@ -478,7 +478,7 @@
     "description": "PAGE NOT FOUND"
   },
   "Please check your link or head Home to regroup.": {
-    "message": "页面地址可能有所变更或者不存在,请检查您的链接或返回到操作指南。",
+    "message": "页面地址可能有所变更或者不存在，请检查您的链接或返回到操作指南。",
     "description": "Either you're out of bounds or that page doesn't exist. Please check your link or head Home to regroup."
   },
   "BACK TO HOME": {
@@ -554,7 +554,7 @@
     "description": "所有工具的链接文字"
   },
   "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.": {
-    "message": "Databend 提供主流导入工具的连接器与插件,保障高效同步。",
+    "message": "Databend 提供主流导入工具的连接器与插件，保障高效同步。",
     "description": "AI & BI & 可视化 & 笔记本 部分的描述"
   },
   "Continuous Data Pipelines": {
@@ -614,7 +614,7 @@
     "description": "Databend Cloud 产品的标题"
   },
   "Fully-managed cloud service. No setup required.": {
-    "message": "全托管云服务,开箱即可使用。",
+    "message": "全托管云服务，开箱即可使用。",
     "description": "Databend Cloud 产品的描述"
   },
   "Databend Enterprise": {
@@ -622,7 +622,7 @@
     "description": "Databend Enterprise 产品的标题"
   },
   "Self-hosted with enterprise features and support.": {
-    "message": "自主部署,配备企业级功能与支持。",
+    "message": "自主部署，配备企业级功能与支持。",
     "description": "Databend Enterprise 产品的描述"
   },
   "Databend Community": {
@@ -766,7 +766,7 @@
     "description": "Start with Databend Cloud"
   },
   "Get started in minutes with our fully-managed cloud service. No setup required.": {
-    "message": "几分钟即可启用全托管云服务,无需任何额外配置。",
+    "message": "几分钟即可启用全托管云服务，无需任何额外配置。",
     "description": "Get started in minutes with our fully-managed cloud service. No setup required."
   },
   "What you need to know:": {
@@ -790,7 +790,7 @@
     "description": "Deploy Your Own Instance"
   },
   "Install Databend on your infrastructure for complete control and customization.": {
-    "message": "在自有基础设施上安装 Databend,配置完全可控。",
+    "message": "在自有基础设施上安装 Databend，配置完全可控。",
     "description": "Install Databend on your infrastructure for complete control and customization."
   },
   "5-Minute Quick Start": {
@@ -810,7 +810,7 @@
     "description": "Copy Page"
   },
   "Copy page as Markdown for LLMs": {
-    "message": "复制为 Markdown 格式,供大语言模型使用",
+    "message": "复制为 Markdown 格式，供大语言模型使用",
     "description": "Copy page as Markdown for LLMs"
   },
   "View as Markdown": {
@@ -840,5 +840,9 @@
   "Search & Geo Native": {
     "message": "原生搜索与地理",
     "description": "Headline for search native feature"
+  },
+  "Ask questions about this page": {
+    "message": "询问关于此页面的问题",
+    "description": "Ask questions about this page"
   }
 }
