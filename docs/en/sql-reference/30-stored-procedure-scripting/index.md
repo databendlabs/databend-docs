@@ -3,6 +3,10 @@ title: Stored Procedure & SQL Scripting
 slug: /stored-procedure-scripting/
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.833"/>
+
 Stored procedures in Databend let you package SQL logic that runs on the server with access to control flow, variables, cursors, and dynamic statements. This page explains how to create procedures and write the inline scripting that powers them.
 
 ## Defining a Procedure
@@ -52,7 +56,7 @@ CALL PROCEDURE convert_kg_to_lb(10);
 
 ### Declare Section
 
-Stored procedures can start with an optional `DECLARE` block to initialize variables before the executable section.
+Stored procedures can start with an optional `DECLARE` block to initialize variables before the executable section. Each entry in the block follows the same syntax as `LET`: `name [<data_type>] [:= <expr> | DEFAULT <expr>]`. When you omit the initializer, the variable must be assigned before it is read; referencing it too early raises error 3129.
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_with_declare()
@@ -60,7 +64,7 @@ RETURNS INT
 LANGUAGE SQL
 AS $$
 DECLARE
-    counter := 0;
+    counter INT DEFAULT 0;
 BEGIN
     counter := counter + 5;
     RETURN counter;
@@ -70,11 +74,11 @@ $$;
 CALL PROCEDURE sp_with_declare();
 ```
 
-The `DECLARE` section accepts the same definitions as `LET`, including `RESULTSET` and `CURSOR` declarations. Use a semicolon after each item.
+The `DECLARE` section accepts the same definitions as `LET`, including optional data types, `RESULTSET`, and `CURSOR` declarations. Use a semicolon after each item.
 
 ### Variables and Assignment
 
-Use `LET` to declare variables or constants, and reassign by omitting `LET`.
+Use `LET` to declare variables or constants. You can optionally provide a type annotation and an initializer with either `:=` or the `DEFAULT` keyword. Without an initializer, the variable must be assigned before it is read; referencing it beforehand raises error 3129. Reassign by omitting `LET`.
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_demo_variables()
@@ -82,11 +86,14 @@ RETURNS FLOAT
 LANGUAGE SQL
 AS $$
 BEGIN
-    LET total := 100;
-    LET rate := 0.07;
+    LET total DECIMAL(10, 2) DEFAULT 100;
+    LET rate FLOAT := 0.07;
+    LET surcharge FLOAT := NULL; -- Explicitly initialize before use
+    LET tax FLOAT DEFAULT rate;  -- DEFAULT can reference initialized variables
 
     total := total * rate; -- Multiply by the rate
-    total := total + 5;    -- Reassign without LET
+    total := total + COALESCE(surcharge, 5); -- Reassign without LET
+    total := total + tax;
 
     RETURN total;
 END;
@@ -94,6 +101,8 @@ $$;
 
 CALL PROCEDURE sp_demo_variables();
 ```
+
+Referencing an uninitialized variable anywhere in a procedure raises error 3129.
 
 ### Variable Scope
 
