@@ -7,10 +7,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.726"/>
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='NGRAM INDEX'/>
-
 刷新表上已有的 NGRAM 索引（NGRAM INDEX）。
 
 ## 语法

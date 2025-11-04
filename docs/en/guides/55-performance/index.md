@@ -22,6 +22,6 @@ Databend primarily accelerates query performance through **various indexing tech
 | Cluster Key | ✅ | ✅ | ✅ |
 | Query Result Cache | ✅ | ✅ | ✅ |
 | Virtual Column | ❌ | ✅ | ✅ |
-| Aggregating Index | ❌ | ✅ | ✅ |
-| Full-Text Index | ❌ | ✅ | ✅ |
-| Ngram Index | ❌ | ✅ | ✅ |
+| Aggregating Index | ✅ | ✅ | ✅ |
+| Full-Text Index | ✅ | ✅ | ✅ |
+| Ngram Index | ✅ | ✅ | ✅ |

@@ -1,10 +1,6 @@
 ---
 title: 倒排索引（Inverted Index）
 ---
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='INVERTED INDEX'/>
-
 本页面按功能分类，全面介绍 Databend 中的倒排索引操作，便于快速查阅。
 
 ## 倒排索引管理

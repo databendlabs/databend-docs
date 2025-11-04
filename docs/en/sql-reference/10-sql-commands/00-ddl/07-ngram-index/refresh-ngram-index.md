@@ -7,10 +7,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.726"/>
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='NGRAM INDEX'/>
-
 Refresh an existing NGRAM index from a table.
 
 ## Syntax

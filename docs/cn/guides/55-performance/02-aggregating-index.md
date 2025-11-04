@@ -4,10 +4,6 @@ title: 聚合索引
 
 # 聚合索引：预计算结果实现即时分析
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='AGGREGATING INDEX'/>
-
 聚合索引通过预计算和存储聚合结果，显著加速分析查询，避免对常见分析操作进行全表扫描。
 
 ## 解决了什么问题？

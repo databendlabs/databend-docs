@@ -4,10 +4,6 @@ title: Ngram 索引
 
 # Ngram 索引（Ngram Index）：为 LIKE 查询实现快速模式匹配
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='NGRAM INDEX'/>
-
 Ngram 索引（Ngram Index）能够加速使用 `LIKE` 操作符和通配符（`%`）的模式匹配查询，实现快速的子字符串搜索，而无需进行全表扫描。
 
 ## 它解决了什么问题？

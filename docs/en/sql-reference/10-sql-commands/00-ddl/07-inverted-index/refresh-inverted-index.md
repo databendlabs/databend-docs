@@ -7,10 +7,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.405"/>
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='INVERTED INDEX'/>
-
 Refreshes an inverted index in Databend. An inverted index requires refresh in the following scenarios:
 
 - When data is inserted into the table before creating the inverted index, manual refreshing of the inverted index is necessary post-creation to effectively index the inserted data.

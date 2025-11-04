@@ -7,10 +7,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.405"/>
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='INVERTED INDEX'/>
-
 刷新 Databend 中的倒排索引。在以下情况下，倒排索引需要刷新：
 
 - 当在创建倒排索引之前将数据插入到表中时，创建后需要手动刷新倒排索引，才能有效地索引插入的数据。
