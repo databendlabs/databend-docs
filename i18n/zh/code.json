@@ -844,5 +844,9 @@
   "Ask questions about this page": {
     "message": "询问关于此页面的问题",
     "description": "Ask questions about this page"
+  },
+  "Open in": {
+    "message": "打开",
+    "description": "Open in"
   }
 }

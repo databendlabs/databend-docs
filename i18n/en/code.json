@@ -816,5 +816,9 @@
   "Ask questions about this page": {
     "message": "Ask questions about this page",
     "description": "Ask questions about this page"
+  },
+  "Open in": {
+    "message": "Open in",
+    "description": "Open in"
   }
 }

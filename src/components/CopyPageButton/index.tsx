@@ -100,19 +100,19 @@ const CopyDropdownButton: React.FC = () => {
       {
         key: "gpt",
         icon: <RiOpenaiFill size={18} />,
-        label: $t("Open in ChatGPT"),
+        label: `${$t("Open in")} ChatGPT`,
         description: $t("Ask questions about this page"),
       },
       {
         key: "claude",
         icon: <RiClaudeFill size={18} />,
-        label: $t("Open in Claude"),
+        label: `${$t("Open in")} Claude`,
         description: $t("Ask questions about this page"),
       },
       {
         key: "perplexity",
         icon: <SiPerplexity size={18} />,
-        label: $t("Open in Perplexity"),
+        label: `${$t("Open in")} Perplexity`,
         description: $t("Ask questions about this page"),
       },
     ];
