@@ -101,8 +101,8 @@ SELECT f.frame_id,
        obj.value['type']::STRING AS detected_type,
        obj.value['confidence']::DOUBLE AS confidence
 FROM frame_events AS f
-JOIN frame_payloads AS p ON f.frame_id = p.frame_id,
-     LATERAL FLATTEN(input => p.payload['objects']) AS obj
+JOIN frame_metadata_catalog AS meta ON meta.doc_id = f.frame_id,
+     LATERAL FLATTEN(input => meta.meta_json['detections']['objects']) AS obj
 WHERE f.event_tag = 'pedestrian'
 ORDER BY confidence DESC;
 ```
