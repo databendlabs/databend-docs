@@ -4,7 +4,7 @@ title: 向量搜索
 
 > **场景：** CityDrive 把每个帧的嵌入直接存放在 Databend,语义相似搜索（“找出和它看起来像的帧”）便可与传统 SQL 分析一同运行,无需再部署独立的向量服务。
 
-`frame_embeddings` 表与 `frame_events`、`frame_payloads`、`frame_geo_points` 共用同一批 `frame_id`,让语义检索与常规 SQL 牢牢绑定在一起。
+`frame_embeddings` 表与 `frame_events`、`frame_metadata_catalog`、`frame_geo_points` 共用同一批 `frame_id`,让语义检索与常规 SQL 牢牢绑定在一起。
 
 ## 1. 准备嵌入表
 生产模型通常输出 512–1536 维,本例使用 512 维方便直接复制到演示集群。

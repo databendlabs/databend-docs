@@ -4,7 +4,7 @@ title: Vector Search
 
 > **Scenario:** CityDrive keeps per-frame embeddings in Databend so semantic similarity search (“find frames that look like this”) runs alongside traditional SQL analytics—no extra vector service required.
 
-The `frame_embeddings` table shares the same `frame_id` keys as `frame_events`, `frame_payloads`, and `frame_geo_points`, which keeps semantic search and classic SQL glued together.
+The `frame_embeddings` table shares the same `frame_id` keys as `frame_events`, `frame_metadata_catalog`, and `frame_geo_points`, which keeps semantic search and classic SQL glued together.
 
 ## 1. Prepare the Embedding Table
 Production models tend to emit 512–1536 dimensions. The example below uses 512 so you can copy it straight into a demo cluster without changing the DDL.
