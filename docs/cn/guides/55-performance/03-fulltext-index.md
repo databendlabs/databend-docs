@@ -8,11 +8,6 @@ title: 全文索引（Full-Text Index）
 
 # 全文索引（Full-Text Index）：自动实现闪电般快速的文本搜索
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='INVERTED INDEX'/>
-
-
 全文索引（倒排索引）通过将词条映射到文档，自动在大规模文档集合中实现闪电般快速的文本搜索，彻底告别缓慢的表扫描。
 
 ## 它解决了什么问题？

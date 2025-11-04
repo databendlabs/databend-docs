@@ -1,10 +1,6 @@
 ---
 title: Ngram 索引
 ---
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='NGRAM INDEX'/>
-
 本页面全面概述了 Databend 中的 Ngram 索引（Ngram Index）操作，并按功能进行组织，方便参考。
 
 ## Ngram 索引管理

@@ -22,6 +22,6 @@ Databend 主要通过**多种索引技术**加速查询性能，包括数据聚�
 | Cluster Key | ✅ | ✅ | ✅ |
 | Query Result Cache | ✅ | ✅ | ✅ |
 | Virtual Column | ❌ | ✅ | ✅ |
-| Aggregating Index | ❌ | ✅ | ✅ |
-| Full-Text Index | ❌ | ✅ | ✅ |
-| Ngram Index | ❌ | ✅ | ✅ |
+| Aggregating Index | ✅ | ✅ | ✅ |
+| Full-Text Index | ✅ | ✅ | ✅ |
+| Ngram Index | ✅ | ✅ | ✅ |

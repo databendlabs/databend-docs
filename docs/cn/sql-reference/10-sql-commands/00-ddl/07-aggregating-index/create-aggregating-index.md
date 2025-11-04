@@ -7,10 +7,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.339"/>
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='AGGREGATING INDEX'/>
-
 在 Databend 中创建一个新的聚合索引（Aggregating Index）。
 
 ## 语法

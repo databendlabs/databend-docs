@@ -1,10 +1,6 @@
 ---
 title: Inverted Index
 ---
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='INVERTED INDEX'/>
-
 This page provides a comprehensive overview of inverted index operations in Databend, organized by functionality for easy reference.
 
 ## Inverted Index Management

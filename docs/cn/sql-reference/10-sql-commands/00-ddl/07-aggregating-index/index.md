@@ -1,10 +1,6 @@
 ---
 title: 聚合索引（Aggregating Index）
 ---
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='AGGREGATING INDEX'/>
-
 本页面全面概述了 Databend 中的聚合索引操作，按功能组织以便参考。
 
 ## 聚合索引管理

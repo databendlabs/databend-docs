@@ -1,10 +1,6 @@
 ---
 title: Ngram Index
 ---
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='NGRAM INDEX'/>
-
 This page provides a comprehensive overview of Ngram index operations in Databend, organized by functionality for easy reference.
 
 ## Ngram Index Management

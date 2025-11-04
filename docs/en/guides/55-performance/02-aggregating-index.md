@@ -4,11 +4,6 @@ title: Aggregating Index
 
 # Aggregating Index: Precomputed Results for Instant Analytics
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='AGGREGATING INDEX'/>
-
-
 Aggregating indexes dramatically accelerate analytical queries by precomputing and storing aggregation results, eliminating the need to scan entire tables for common analytics operations.
 
 ## What Problem Does It Solve?

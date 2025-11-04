@@ -7,10 +7,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.151"/>
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='AGGREGATING INDEX'/>
-
 删除已存在的 aggregating index。请注意，删除 aggregating index 不会移除相关的存储块。要同时删除这些块，请使用 [VACUUM TABLE](../01-table/91-vacuum-table.md) 命令。要禁用 aggregating indexing 功能，请将 `enable_aggregating_index_scan` 设置为 0。
 
 ## 语法

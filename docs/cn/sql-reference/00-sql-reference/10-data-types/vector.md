@@ -6,11 +6,6 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.777"/>
 
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='VECTOR INDEX'/>
-
-
 VECTOR 数据类型用于存储由 32 位浮点数组成的多维数组，专为机器学习、人工智能应用和相似性搜索操作而设计。每个向量在创建时都指定了固定的维度（长度）。
 
 ## 语法

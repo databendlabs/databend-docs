@@ -1,10 +1,6 @@
 ---
 title: Aggregating Index
 ---
-import EEFeature from '@site/src/components/EEFeature';
-
-<EEFeature featureName='AGGREGATING INDEX'/>
-
 This page provides a comprehensive overview of aggregating index operations in Databend, organized by functionality for easy reference.
 
 ## Aggregating Index Management
