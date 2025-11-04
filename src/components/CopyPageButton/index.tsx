@@ -2,13 +2,17 @@ import React, { useState, useMemo, useCallback } from "react";
 import { Button, Dropdown, Flex, Spin } from "antd";
 import styles from "./styles.module.scss";
 import DownArrow from "@site/static/icons/down.svg";
-import MarkdownSvg from "@site/static/icons/markdown.svg";
-import CopySvg from "@site/static/icons/copy.svg";
-import CopiedSvg from "@site/static/icons/copied.svg";
 import { useDoc } from "@docusaurus/plugin-content-docs/client";
 import axios from "axios";
 import $t from "@site/src/utils/tools";
 import TurndownService from "turndown";
+import { LiaMarkdown } from "react-icons/lia";
+import { RiOpenaiFill } from "react-icons/ri";
+import { RiClaudeFill } from "react-icons/ri";
+import { SiPerplexity } from "react-icons/si";
+import { LuCopy } from "react-icons/lu";
+import { LuCopyCheck } from "react-icons/lu";
+
 const SPECIAL_LINKS = [
   "/guides/",
   "/guides/products/dc/platforms",
@@ -83,15 +87,33 @@ const CopyDropdownButton: React.FC = () => {
     const items = [
       {
         key: "copy",
-        icon: <CopySvg width={16} height={16} />,
+        icon: <LuCopy size={18} />,
         label: $t("Copy Page"),
         description: $t("Copy page as Markdown for LLMs"),
       },
       {
         key: "markdown",
-        icon: <MarkdownSvg width={18} height={18} />,
+        icon: <LiaMarkdown size={18} />,
         label: $t("View as Markdown"),
         description: $t("View this page as plain text"),
+      },
+      {
+        key: "gpt",
+        icon: <RiOpenaiFill size={18} />,
+        label: `${$t("Open in")} ChatGPT`,
+        description: $t("Ask questions about this page"),
+      },
+      {
+        key: "claude",
+        icon: <RiClaudeFill size={18} />,
+        label: `${$t("Open in")} Claude`,
+        description: $t("Ask questions about this page"),
+      },
+      {
+        key: "perplexity",
+        icon: <SiPerplexity size={18} />,
+        label: `${$t("Open in")} Perplexity`,
+        description: $t("Ask questions about this page"),
       },
     ];
 
@@ -109,6 +131,19 @@ const CopyDropdownButton: React.FC = () => {
       onClick: ({ key }: { key: string }) => {
         if (key === "copy") handleCopy(sourceUrl);
         if (key === "markdown") window.open(sourceUrl, "_blank");
+        if (key === "gpt")
+          window.open(
+            `https://chat.openai.com/?hints=search&q=Read from ${window.location.href} so I can ask questions about it.`
+          );
+        if (key === "claude")
+          window.open(
+            `https://claude.ai/new?q=Read from ${window.location.href} so I can ask questions about it.`
+          );
+        if (key === "perplexity") {
+          window.open(
+            `https://www.perplexity.ai/search/new?q=Read from ${window.location.href} so I can ask questions about it`
+          );
+        }
       },
     };
   }, [sourceUrl, handleCopy]);
@@ -118,9 +153,9 @@ const CopyDropdownButton: React.FC = () => {
         {loading ? (
           <Spin size="small" />
         ) : isCopied ? (
-          <CopiedSvg width={16} height={16} />
+          <LuCopyCheck size={18} />
         ) : (
-          <CopySvg width={16} height={16} />
+          <LuCopy size={18} />
         )}
         <span className={styles.buttonText}>
           {loading ? $t("Copying...") : $t("Copy Page")}
