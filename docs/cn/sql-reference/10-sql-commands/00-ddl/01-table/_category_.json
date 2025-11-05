@@ -1,4 +1,5 @@
 {
   "label": "表",
-  "position": 3
+  "position": 3,
+  "key": "ddl-table"
 }

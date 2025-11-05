@@ -20,7 +20,6 @@ const config: Config = {
   baseUrl: "/",
   onBrokenAnchors: "ignore",
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "throw",
   favicon: "img/rect-icon.png",
   organizationName: "DatabendLabs",
   projectName: 'Databend', // Usually your repo name.
@@ -68,7 +67,7 @@ const config: Config = {
         docs: {
           path: `./docs/${site}/guides`,
           routeBasePath: "guides",
-          sidebarPath: require.resolve("./docs/en/sidebars.js"),
+          sidebarPath: "./docs/en/sidebars.js",
           editUrl: ({ locale, docPath }) => {
             // // @ts-ignore
             // if (locale !== config.i18n.defaultLocale) {
@@ -107,8 +106,8 @@ const config: Config = {
         id: "dev",
         path: `./docs/${site}/dev`,
         routeBasePath: "dev",
-        sidebarPath: require.resolve("./docs/en/sidebars.js"),
-        editUrl: ({ locale, devPath }) => {
+        sidebarPath: "./docs/en/sidebars.js",
+        editUrl: ({ locale, devPath }: any) => {
           // @ts-ignore
           // if (locale !== config.i18n.defaultLocale) {
           //     return `https://databend.crowdin.com/databend/${locale}`;
@@ -124,8 +123,8 @@ const config: Config = {
         id: "tutorials",
         path: `./docs/${site}/tutorials`,
         routeBasePath: "tutorials",
-        sidebarPath: require.resolve("./docs/en/sidebars.js"),
-        editUrl: ({ locale, docPath }) => {
+        sidebarPath: "./docs/en/sidebars.js",
+        editUrl: ({ locale, docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/tree/main/docs/${site}/tutorials/${docPath}`;
         },
       },
@@ -137,8 +136,8 @@ const config: Config = {
         id: "sqlReference",
         path: `./docs/${site}/sql-reference`,
         routeBasePath: "sql",
-        sidebarPath: require.resolve("./docs/en/sidebars.js"),
-        editUrl: ({ locale, docPath }) => {
+        sidebarPath: "./docs/en/sidebars.js",
+        editUrl: ({ locale, docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/sql-reference/${docPath}`;
         },
       },
@@ -150,8 +149,8 @@ const config: Config = {
         id: "releaseNotes",
         path: `./docs/${site}/release-notes`,
         routeBasePath: "release-notes",
-        sidebarPath: require.resolve("./docs/en/sidebars.js"),
-        editUrl: ({ locale, docPath }) => {
+        sidebarPath: "./docs/en/sidebars.js",
+        editUrl: ({ locale, docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/release-notes/${docPath}`;
         },
       },
@@ -163,8 +162,8 @@ const config: Config = {
         id: "developer",
         path: `./docs/${site}/developer`,
         routeBasePath: "developer",
-        sidebarPath: require.resolve("./docs/en/sidebars.js"),
-        editUrl: ({ locale, docPath }) => {
+        sidebarPath: "./docs/en/sidebars.js",
+        editUrl: ({ locale, docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/developer/${docPath}`;
         },
       },
@@ -176,8 +175,8 @@ const config: Config = {
         id: "integrations",
         path: `./docs/${site}/integrations`,
         routeBasePath: "integrations",
-        sidebarPath: require.resolve("./docs/en/sidebars.js"),
-        editUrl: ({ locale, docPath }) => {
+        sidebarPath: "./docs/en/sidebars.js",
+        editUrl: ({ locale, docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/integrations/${docPath}`;
         },
       },
@@ -186,8 +185,9 @@ const config: Config = {
       "docusaurus-plugin-devserver",
       {
         devServer: {
-          proxy: {
-            "/query": {
+          proxy: [
+            {
+              context: "/query",
               target: ASKBEND_URL,
               // pathRewrite: { "^/query": "" },
               changeOrigin: true,
@@ -195,7 +195,7 @@ const config: Config = {
                 Origin: ASKBEND_URL,
               },
             },
-          },
+          ],
         },
       },
     ],
@@ -203,7 +203,7 @@ const config: Config = {
       '@docusaurus/plugin-client-redirects',
       {
         redirects: siteRedirects,
-        createRedirects(existingPath) {
+        createRedirects(existingPath: string) {
           if (existingPath?.includes('/developer/community/rfcs/')) {
             return existingPath.replace('/developer/community/rfcs/', '/guides/community/rfcs/');
           }
@@ -216,7 +216,12 @@ const config: Config = {
   themes: ['@docusaurus/theme-mermaid'],
   markdown: {
     mermaid: true,
+    // @ts-ignore
+    hooks: {
+      onBrokenMarkdownLinks: "throw",
+    }
   },
+
   themeConfig: {
     // Replace with your project's social card
     image: "img/logo/logo-no-text.png",
