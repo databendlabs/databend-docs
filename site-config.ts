@@ -5,6 +5,7 @@ export const siteConfig = {
     cloudLink: 'https://app.databend.cn',
     docsHomeLink: 'https://docs.databend.cn',
     algolia: {
+      askAi: 'oZ2gEdzflDvN',
       appId: "FUCSAUXK2Q",
       apiKey: "0f200c10999f19584ec9e31b5caa9065",
       indexName: "databend",
