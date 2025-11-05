@@ -11,7 +11,6 @@ import { translate } from "@docusaurus/Translate";
 import DocsSvg from "@site/static/icons/docs.svg";
 import FolderSvg from "@site/static/icons/folder.svg";
 
-import type { Props } from "@theme/DocCard";
 // import Heading from "@theme/Heading";
 import type {
   PropSidebarItemCategory,
@@ -115,7 +114,7 @@ function CardLink({ item }: { item: PropSidebarItemLink }): ReactNode {
   );
 }
 
-export default function DocCard({ item }: Props): ReactNode {
+export default function DocCard({ item }: any): ReactNode {
   switch (item.type) {
     case "link":
       return <CardLink item={item} />;
