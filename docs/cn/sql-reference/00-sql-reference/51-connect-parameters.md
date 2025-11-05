@@ -56,7 +56,7 @@ CREATE STAGE my_minio_stage
   CONNECTION = (CONNECTION_NAME = 'my_minio_conn');
 ```
 
-也可以改用 AWS IAM Role 和 External ID 认证，以更细粒度地控制可访问的 S3 Bucket，同时增加额外的安全校验。更多背景请参考 https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html。
+也可以改用 AWS IAM Role 和 External ID 认证，以更细粒度地控制可访问的 S3 Bucket，同时增加额外的安全校验。更多背景请参考 [AWS 文档](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html)。
 
 下表列出了使用 AWS IAM 角色访问 Amazon S3 的连接参数：
 
