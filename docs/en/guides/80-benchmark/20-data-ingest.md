@@ -115,13 +115,13 @@ The data ingestion benchmark can be reproduced using the following steps:
 1. **Snowflake Data Load**:
 
    - Log into your [Snowflake account](https://app.snowflake.com/).
-   - Create tables corresponding to the TPC-H schema. [SQL Script](https://github.com/databendlabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/snow/setup.sql#L1-L92).
-   - Use the `COPY INTO` command to load the data from AWS S3. [SQL Script](https://github.com/databendlabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/snow/setup.sql#L95-L102).
+   - Create tables corresponding to the TPC-H schema. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/snowflake/setup.sql).
+   - Use the `COPY INTO` command to load the data from AWS S3. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/snowflake/setup.sql).
 
 2. **Databend Cloud Data Load**:
    - Sign in to your [Databend Cloud account](https://app.databend.com).
-   - Create the necessary tables as per the TPC-H schema. [SQL Script](https://github.com/databendlabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/bend/setup.sql#L1-L92).
-   - Utilize a similar method to Snowflake for loading data from AWS S3. [SQL Script](https://github.com/databendlabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/bend/setup.sql#L95-L133).
+   - Create the necessary tables as per the TPC-H schema. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/setup.sql).
+   - Utilize a similar method to Snowflake for loading data from AWS S3. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/setup.sql).
 
 </details>
 

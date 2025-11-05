@@ -115,13 +115,13 @@ Snowflake 和 Databend Cloud 都在相似的条件下进行了测试：
 1. **Snowflake 数据加载**：
 
    - 登录您的 [Snowflake 账户](https://app.snowflake.com/)。
-   - 创建与 TPC-H 模式对应的表。[SQL 脚本](https://github.com/databendlabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/snow/setup.sql#L1-L92)。
-   - 使用 `COPY INTO` 命令从 AWS S3 加载数据。[SQL 脚本](https://github.com/databendlabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/snow/setup.sql#L95-L102)。
+   - 创建与 TPC-H 模式对应的表。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/snowflake/setup.sql)。
+   - 使用 `COPY INTO` 命令从 AWS S3 加载数据。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/snowflake/setup.sql)。
 
 2. **Databend Cloud 数据加载**：
    - 登录您的 [Databend Cloud 账户](https://app.databend.com)。
-   - 根据 TPC-H 模式创建必要的表。[SQL 脚本](https://github.com/databendlabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/bend/setup.sql#L1-L92)。
-   - 使用与 Snowflake 类似的方法从 AWS S3 加载数据。[SQL 脚本](https://github.com/databendlabs/wizard/blob/ee9b72a11ac5d977f9a81d17fa34eb47a02ef2ba/benchsb/sql/bend/setup.sql#L95-L133)。
+   - 根据 TPC-H 模式创建必要的表。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/setup.sql)。
+   - 使用与 Snowflake 类似的方法从 AWS S3 加载数据。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/setup.sql)。
 
 </details>
 
