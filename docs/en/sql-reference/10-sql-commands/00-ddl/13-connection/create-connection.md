@@ -3,6 +3,8 @@ title: CREATE CONNECTION
 sidebar_position: 1
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 <FunctionDescription description="Introduced or updated: v1.2.780"/>
 
@@ -23,17 +25,30 @@ CREATE [ OR REPLACE ] CONNECTION [ IF NOT EXISTS ] <connection_name>
 | Parameter        | Description                                                                                                                                        |
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
 | STORAGE_TYPE     | Type of storage service. Possible values include: `s3`, `azblob`, `gcs`, `oss`, and `cos`.                                                         |
-| storage_params   | Vary based on storage type and authentication method. See details below for common authentication methods. |
+| storage_params   | Vary based on storage type and authentication method. See [Connection Parameters](../../../00-sql-reference/51-connect-parameters.md) for the complete list. |
 
-For other storage types and additional parameters, see [Connection Parameters](../../../00-sql-reference/51-connect-parameters.md) for details.
+## Connection Parameters
 
-### Authentication Methods for Amazon S3
+Connections encapsulate the credentials and configuration for a specific storage backend. Choose the appropriate `STORAGE_TYPE` and provide the required parameters when creating the connection. The table highlights common options:
 
-Databend supports two primary authentication methods for Amazon S3 connections:
+| STORAGE_TYPE | Typical parameters | Description |
+|--------------|-------------------|-------------|
+| `s3`         | `ACCESS_KEY_ID`/`SECRET_ACCESS_KEY`, or `ROLE_ARN`/`EXTERNAL_ID`, optional `ENDPOINT_URL`, `REGION` | Amazon S3 and S3-compatible services (MinIO, Cloudflare R2, etc.). |
+| `azblob`     | `ACCOUNT_NAME`, `ACCOUNT_KEY`, `ENDPOINT_URL` | Azure Blob Storage. |
+| `gcs`        | `CREDENTIAL` (base64-encoded service account key) | Google Cloud Storage. |
+| `oss`        | `ACCESS_KEY_ID`, `ACCESS_KEY_SECRET`, `ENDPOINT_URL` | Alibaba Cloud Object Storage Service. |
+| `cos`        | `SECRET_ID`, `SECRET_KEY`, `ENDPOINT_URL` | Tencent Cloud Object Storage. |
+| `hf`         | `REPO_TYPE`, `REVISION`, optional `TOKEN` | Hugging Face Hub datasets and models. |
 
-#### 1. Access Keys Authentication
+For parameter meanings, optional flags, and additional storage types, refer to [Connection Parameters](../../../00-sql-reference/51-connect-parameters.md). Expand the tabs below to see storage-specific examples:
 
-Use AWS access keys for authentication. This is the traditional method using an access key ID and secret access key.
+<Tabs groupId="connection-storage-types">
+<TabItem value="s3" label="Amazon S3">
+
+Choose an authentication method for Amazon S3 and S3-compatible services:
+
+<Tabs groupId="s3-auth-methods">
+<TabItem value="access-keys" label="Access Keys">
 
 ```sql
 CREATE CONNECTION <connection_name> 
@@ -47,9 +62,8 @@ CREATE CONNECTION <connection_name>
 | ACCESS_KEY_ID | Your AWS access key ID. |
 | SECRET_ACCESS_KEY | Your AWS secret access key. |
 
-#### 2. IAM Role Authentication
-
-Use AWS IAM roles for authentication instead of access keys. This provides a more secure way to access your S3 buckets without managing credentials directly in Databend.
+</TabItem>
+<TabItem value="iam-role" label="IAM Role">
 
 ```sql
 CREATE CONNECTION <connection_name> 
@@ -61,6 +75,67 @@ CREATE CONNECTION <connection_name>
 |-----------|-------------|
 | ROLE_ARN  | The Amazon Resource Name (ARN) of the IAM role that Databend will assume to access your S3 resources. |
 
+</TabItem>
+</Tabs>
+
+</TabItem>
+<TabItem value="azblob" label="Azure Blob">
+
+```sql
+CREATE CONNECTION <connection_name>
+    STORAGE_TYPE = 'azblob'
+    ACCOUNT_NAME = '<account-name>'
+    ACCOUNT_KEY = '<account-key>'
+    ENDPOINT_URL = 'https://<account-name>.blob.core.windows.net';
+```
+
+</TabItem>
+<TabItem value="gcs" label="Google Cloud Storage">
+
+```sql
+CREATE CONNECTION <connection_name>
+    STORAGE_TYPE = 'gcs'
+    CREDENTIAL = '<base64-encoded-service-account>';
+```
+
+</TabItem>
+<TabItem value="oss" label="Alibaba Cloud OSS">
+
+```sql
+CREATE CONNECTION <connection_name>
+    STORAGE_TYPE = 'oss'
+    ACCESS_KEY_ID = '<your-ak>'
+    ACCESS_KEY_SECRET = '<your-sk>'
+    ENDPOINT_URL = 'https://<bucket-name>.<region-id>[-internal].aliyuncs.com';
+```
+
+</TabItem>
+<TabItem value="cos" label="Tencent COS">
+
+```sql
+CREATE CONNECTION <connection_name>
+    STORAGE_TYPE = 'cos'
+    SECRET_ID = '<your-secret-id>'
+    SECRET_KEY = '<your-secret-key>'
+    ENDPOINT_URL = '<your-endpoint-url>';
+```
+
+</TabItem>
+<TabItem value="hf" label="Hugging Face">
+
+```sql
+CREATE CONNECTION <connection_name>
+    STORAGE_TYPE = 'hf'
+    REPO_TYPE = 'dataset'
+    REVISION = 'main'
+    TOKEN = '<optional-access-token>';
+```
+
+Omit `TOKEN` for public repositories; include it for private or rate-limited assets.
+
+</TabItem>
+</Tabs>
+
 
 ## Access control requirements
 
@@ -71,15 +146,9 @@ CREATE CONNECTION <connection_name>
 
 To create a connection, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the CREATE CONNECTION [privilege](/guides/security/access-control/privileges).
 
-:::note
+## Update Table Connections
 
-The enable_experimental_connection_rbac_check settings governs connection-level access control. It is disabled by default.
-Connection creation solely requires the user to possess superuser privileges, bypassing detailed RBAC checks.
-When enabled, granular permission verification is enforced during connection establishment.
-
-This is an experimental feature and may be enabled by default in the future.
-
-:::
+To switch an existing table to a new connection, use [`ALTER TABLE ... CONNECTION`](/sql/sql-commands/ddl/table/alter-table-connection). This command rebinds external tables to a different connection without recreating the table.
 
 ## Examples
 
