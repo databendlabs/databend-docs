@@ -2,188 +2,217 @@
 title: 连接参数
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 <FunctionDescription description="Introduced or updated: v1.2.294"/>
 
-连接参数是用于建立与外部存储服务（如 Amazon S3）安全连接的键值对。这些参数对于创建 Stage、将数据复制到 Databend 以及查询外部文件等任务至关重要。
+运行 `CREATE CONNECTION` 时需要给出一组键值对作为连接参数，用来定义可复用的外部连接。创建好连接后，可以在 Stage、COPY 等语句中通过 `CONNECTION = (CONNECTION_NAME = '<connection-name>')` 直接引用。完整语法请参见 [CREATE CONNECTION](../10-sql-commands/00-ddl/13-connection/create-connection.md)。
 
-有关每个存储服务的具体连接详细信息，请参见下表。
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+不同存储服务的连接参数见下表。
 
 <Tabs groupId="operating-systems">
 <TabItem value="Amazon S3" label="Amazon S3">
 
-下表列出了用于访问类似 Amazon S3 的存储服务的连接参数：
+下表列出了访问 Amazon S3 及其兼容存储服务所需的连接参数：
 
 | Parameter                 	| Required? 	| Description                                                  	|
 |---------------------------	|-----------	|--------------------------------------------------------------	|
-| endpoint_url              	| Yes       	| 类似 Amazon S3 的存储服务的 Endpoint URL。                    	|
-| access_key_id             	| Yes       	| 用于标识请求者的 Access Key ID。                             	|
-| secret_access_key         	| Yes       	| 用于身份验证的 Secret Access Key。                            	|
-| enable_virtual_host_style 	| No        	| 是否使用虚拟主机样式的 URL。默认为 *false*。                  	|
-| master_key                	| No        	| 用于高级数据加密的可选 Master Key。                           	|
-| region                    	| No        	| Bucket 所在的 AWS 区域。                                   	|
-| security_token            	| No        	| 用于临时凭证的安全令牌。                                     	|
+| endpoint_url              	| Yes       	| Amazon S3 兼容存储的 Endpoint URL。                          	|
+| access_key_id             	| Yes       	| 请求方的 Access Key ID。                                     	|
+| secret_access_key         	| Yes       	| 用于认证的 Secret Access Key。                               	|
+| enable_virtual_host_style 	| No        	| 是否使用虚拟主机样式 URL，默认 *false*。                     	|
+| master_key                	| No        	| 用于高级加密的 Master Key。                                  	|
+| region                    	| No        	| Bucket 所在的 AWS 区域。                                     	|
+| security_token            	| No        	| 临时凭证的安全令牌。                                         	|
 
 :::note
-- 如果命令中未指定 **endpoint_url** 参数，则 Databend 默认在 Amazon S3 上创建 Stage。因此，当您在 S3 兼容的对象存储或其他对象存储解决方案上创建外部 Stage 时，请务必包含 **endpoint_url** 参数。
+- 如果命令里没有 **endpoint_url**，Databend 会默认把 Stage 建在 Amazon S3。因此在 S3 兼容对象存储或其他对象存储上建外部 Stage 时，记得显式填写 **endpoint_url**。
 
-- **region** 参数不是必需的，因为 Databend 可以自动检测区域信息。通常不需要手动为此参数指定值。如果自动检测失败，Databend 将默认使用 'us-east-1' 作为区域。当使用 MinIO 部署 Databend 且未配置区域信息时，它将自动默认使用 'us-east-1'，并且可以正常工作。但是，如果您收到诸如 "region is missing" 或 "The bucket you are trying to access requires a specific endpoint. Please direct all future requests to this particular endpoint" 之类的错误消息，则需要确定您的区域名称并将其显式分配给 **region** 参数。
+- **region** 通常不需手动填写，Databend 会自动识别区域信息；若识别失败，则回落到 `us-east-1`。例如在 MinIO 未配置区域时仍能正常工作。如果看到 “region is missing” 或 “The bucket you are trying to access requires a specific endpoint...” 之类的错误提示，请确认实际区域并为 **region** 指定正确值。
 :::
 
-```sql title='Examples'
+```sql title='示例'
+-- 创建可复用的 Amazon S3 连接
+CREATE CONNECTION my_s3_conn
+  STORAGE_TYPE = 's3'
+  ACCESS_KEY_ID = '<your-ak>'
+  SECRET_ACCESS_KEY = '<your-sk>';
+
+-- 创建 Stage 时引用连接
 CREATE STAGE my_s3_stage
-  's3://my-bucket'
-  CONNECTION = (
-    ACCESS_KEY_ID = '<your-ak>',
-    SECRET_ACCESS_KEY = '<your-sk>'
-  );
+  URL = 's3://my-bucket'
+  CONNECTION = (CONNECTION_NAME = 'my_s3_conn');
   
+-- 为 MinIO 等 S3 兼容服务创建连接
+CREATE CONNECTION my_minio_conn
+  STORAGE_TYPE = 's3'
+  ENDPOINT_URL = 'http://localhost:9000'
+  ACCESS_KEY_ID = 'ROOTUSER'
+  SECRET_ACCESS_KEY = 'CHANGEME123';
+
 CREATE STAGE my_minio_stage
-  's3://databend'
-  CONNECTION = (
-    ENDPOINT_URL = 'http://localhost:9000',
-    ACCESS_KEY_ID = 'ROOTUSER',
-    SECRET_ACCESS_KEY = 'CHANGEME123'
-  );
+  URL = 's3://databend'
+  CONNECTION = (CONNECTION_NAME = 'my_minio_conn');
 ```
 
+也可以改用 AWS IAM Role 和 External ID 认证，以更细粒度地控制可访问的 S3 Bucket，同时增加额外的安全校验。更多背景请参考 https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html。
 
-要访问您的 Amazon S3 Bucket，您还可以指定 AWS IAM 角色和外部 ID 进行身份验证。通过指定 AWS IAM 角色和外部 ID，您可以更精细地控制用户可以访问哪些 S3 Bucket。这意味着，如果 IAM 角色已被授予仅访问特定 S3 Bucket 的权限，则用户将只能访问这些 Bucket。外部 ID 可以通过提供额外的验证层来进一步增强安全性。有关更多信息，请参见 https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html
-
-下表列出了使用 AWS IAM 角色身份验证访问 Amazon S3 存储服务的连接参数：
+下表列出了使用 AWS IAM 角色访问 Amazon S3 的连接参数：
 
 | Parameter    	| Required? 	| Description                                           	|
 |--------------	|-----------	|-------------------------------------------------------	|
 | endpoint_url 	| No        	| Amazon S3 的 Endpoint URL。                           	|
-| role_arn     	| Yes       	| 用于授权访问 S3 的 AWS IAM 角色的 ARN。                	|
-| external_id  	| No        	| 用于增强角色承担安全性的外部 ID。                      	|
+| role_arn     	| Yes       	| 用于授权访问 S3 的 AWS IAM 角色 ARN。                  	|
+| external_id  	| No        	| 用于增强角色授权安全性的 External ID。                	|
 
-```sql title='Examples'
-CREATE STAGE my_s3_stage
-  's3://my-bucket'
-  CONNECTION = (
-    ROLE_ARN = 'arn:aws:iam::123456789012:role/my-role',
-    EXTERNAL_ID = 'my-external-id'
-  );
+```sql title='示例'
+-- 使用 IAM 角色创建连接
+CREATE CONNECTION my_iam_conn
+  STORAGE_TYPE = 's3'
+  ROLE_ARN = 'arn:aws:iam::123456789012:role/my-role'
+  EXTERNAL_ID = 'my-external-id';
+
+-- 创建 Stage 时引用连接
+CREATE STAGE my_iam_stage
+  URL = 's3://my-bucket'
+  CONNECTION = (CONNECTION_NAME = 'my_iam_conn');
 ```
 
 </TabItem>
 
 <TabItem value="Azure Blob" label="Azure Blob">
 
-下表列出了用于访问 Azure Blob Storage 的连接参数：
+下表列出了访问 Azure Blob Storage 的连接参数：
 
 | Parameter    	 | Required? 	 | Description                                         	 |
 |----------------|-------------|-------------------------------------------------------|
 | endpoint_url 	 | Yes       	 | Azure Blob Storage 的 Endpoint URL。                	 |
-| account_key  	 | Yes       	 | 用于身份验证的 Azure Blob Storage 帐户密钥。         	 |
-| account_name 	 | Yes       	 | 用于标识的 Azure Blob Storage 帐户名称。            	 |
+| account_key  	 | Yes       	 | Azure Blob Storage 帐户密钥。                          |
+| account_name 	 | Yes       	 | Azure Blob Storage 帐户名称。                          |
 
-```sql title='Examples'
+```sql title='示例'
+-- 创建 Azure Blob Storage 连接
+CREATE CONNECTION my_azure_conn
+  STORAGE_TYPE = 'azblob'
+  ACCOUNT_NAME = 'myaccount'
+  ACCOUNT_KEY = 'myaccountkey'
+  ENDPOINT_URL = 'https://<your-storage-account-name>.blob.core.windows.net';
+
+-- 创建 Stage 并引用该连接
 CREATE STAGE my_azure_stage
-  'azblob://my-container'
-  CONNECTION = (
-    ACCOUNT_NAME = 'myaccount',
-    ACCOUNT_KEY = 'myaccountkey',
-    ENDPOINT_URL = 'https://<your-storage-account-name>.blob.core.windows.net'
-  );
+  URL = 'azblob://my-container'
+  CONNECTION = (CONNECTION_NAME = 'my_azure_conn');
 ```
 
 </TabItem>
 
 <TabItem value="Google GCS" label="Google GCS">
 
-下表列出了用于访问 Google Cloud Storage 的连接参数：
+下表列出了访问 Google Cloud Storage 的连接参数：
 
 | Parameter    	 | Required? 	 | Description                                         	 |
 |----------------|-------------|-------------------------------------------------------|
-| credential   	 | Yes       	 | 用于身份验证的 Google Cloud Storage 凭据。           	 |
+| credential   	 | Yes       	 | 用于认证的 Google Cloud Storage 凭证。               	 |
 
-要获取 `credential`，您可以按照 Google 文档中的主题 [创建服务帐户密钥](https://cloud.google.com/iam/docs/keys-create-delete#creating)
-创建一个服务帐户密钥文件并下载。下载服务帐户密钥文件后，您可以
-通过以下命令将其转换为 base64 字符串：
+可以按照 Google 文档 [Create a service account key](https://cloud.google.com/iam/docs/keys-create-delete#creating) 生成服务账号密钥文件，并用下面的命令把它转成 base64：
 
 ```
-base64 -i -o ~/Desktop/base64-encoded-key.txt
+base64 -i <key.json> -o ~/Desktop/base64-encoded-key.txt
 ```
 
-```sql title='Examples'
+```sql title='示例'
+-- 创建 GCS 连接
+CREATE CONNECTION my_gcs_conn
+  STORAGE_TYPE = 'gcs'
+  CREDENTIAL = '<your-base64-encoded-credential>';
+
+-- 创建 Stage 时引用连接
 CREATE STAGE my_gcs_stage
-  'gcs://my-bucket'
-  CONNECTION = (
-    CREDENTIAL = '<your-base64-encoded-credential>'
-  );
+  URL = 'gcs://my-bucket'
+  CONNECTION = (CONNECTION_NAME = 'my_gcs_conn');
 ```
 
 </TabItem>
 
 <TabItem value="Alibaba OSS" label="Alibaba Cloud OSS">
 
-下表列出了用于访问阿里云 OSS 的连接参数：
+下表列出了访问阿里云 OSS 的连接参数：
 
 | Parameter            	| Required? 	| Description                                             	|
 |----------------------	|-----------	|---------------------------------------------------------	|
-| access_key_id        	| Yes       	| 用于身份验证的阿里云 OSS Access Key ID。                	|
-| access_key_secret    	| Yes       	| 用于身份验证的阿里云 OSS Access Key Secret。            	|
+| access_key_id        	| Yes       	| 阿里云 OSS Access Key ID。                              	|
+| access_key_secret    	| Yes       	| 阿里云 OSS Access Key Secret。                          	|
 | endpoint_url         	| Yes       	| 阿里云 OSS 的 Endpoint URL。                            	|
-| presign_endpoint_url 	| No        	| 用于预签名阿里云 OSS URL 的 Endpoint URL。              	|
+| presign_endpoint_url 	| No        	| 用于预签名 URL 的 Endpoint。                            	|
 
-```sql title='Examples'
+```sql title='示例'
+-- 创建阿里云 OSS 连接
+CREATE CONNECTION my_oss_conn
+  STORAGE_TYPE = 'oss'
+  ACCESS_KEY_ID = '<your-ak>'
+  ACCESS_KEY_SECRET = '<your-sk>'
+  ENDPOINT_URL = 'https://<bucket-name>.<region-id>[-internal].aliyuncs.com';
+
+-- 创建 Stage 并引用该连接
 CREATE STAGE my_oss_stage
-  'oss://my-bucket'
-  CONNECTION = (
-    ACCESS_KEY_ID = '<your-ak>',
-    ACCESS_KEY_SECRET = '<your-sk>',
-    ENDPOINT_URL = 'https://<bucket-name>.<region-id>[-internal].aliyuncs.com'
-  );
+  URL = 'oss://my-bucket'
+  CONNECTION = (CONNECTION_NAME = 'my_oss_conn');
 ```
 
 </TabItem>
 
 <TabItem value="Tencent COS" label="Tencent COS">
 
-下表列出了用于访问腾讯云对象存储（COS）的连接参数：
+下表列出了访问腾讯云对象存储（COS）的连接参数：
 
 | Parameter    	| Required? 	| Description                                                 	|
 |--------------	|-----------	|-------------------------------------------------------------	|
-| endpoint_url 	| Yes       	| 腾讯云对象存储的 Endpoint URL。                              	|
-| secret_id    	| Yes       	| 用于身份验证的腾讯云对象存储 Secret ID。                   	|
-| secret_key   	| Yes       	| 用于身份验证的腾讯云对象存储 Secret Key。                  	|
+| endpoint_url 	| Yes       	| 腾讯云 COS 的 Endpoint URL。                                	|
+| secret_id    	| Yes       	| 腾讯云 COS Secret ID。                                      	|
+| secret_key   	| Yes       	| 腾讯云 COS Secret Key。                                     	|
 
-```sql title='Examples'
+```sql title='示例'
+-- 创建腾讯云 COS 连接
+CREATE CONNECTION my_cos_conn
+  STORAGE_TYPE = 'cos'
+  SECRET_ID = '<your-secret-id>'
+  SECRET_KEY = '<your-secret-key>'
+  ENDPOINT_URL = '<your-endpoint-url>';
+
+-- 创建 Stage 并引用该连接
 CREATE STAGE my_cos_stage
-  'cos://my-bucket'
-  CONNECTION = (
-    SECRET_ID = '<your-secret-id>',
-    SECRET_KEY = '<your-secret-key>',
-    ENDPOINT_URL = '<your-endpoint-url>'
-  );
+  URL = 'cos://my-bucket'
+  CONNECTION = (CONNECTION_NAME = 'my_cos_conn');
 ```
 
 </TabItem>
 
 <TabItem value="Hugging Face" label="HuggingFace">
 
-下表列出了用于访问 Hugging Face 的连接参数：
+下表列出了访问 Hugging Face 的连接参数：
 
 | Parameter | Required?             | Description                                                                                                     |
 |-----------|-----------------------|-----------------------------------------------------------------------------------------------------------------|
-| repo_type | No (default: dataset) | Hugging Face 仓库的类型。可以是 `dataset` 或 `model`。                                                          |
-| revision  | No (default: main)    | Hugging Face URI 的修订版本。可以是仓库的分支、标签或提交。                                                       |
-| token     | No                    | 来自 Hugging Face 的 API 令牌，可能需要用于访问私有仓库或某些资源。                                               |
+| repo_type | No (default: dataset) | Hugging Face 仓库类型，可取 `dataset` 或 `model`。                                                             |
+| revision  | No (default: main)    | Hugging Face URI 的版本，可为分支、标签或提交。                                                                 |
+| token     | No                    | Hugging Face API Token，访问私有仓库或部分资源时需要。                                                          |
 
-```sql title='Examples'
+```sql title='示例'
+-- 创建 Hugging Face 连接
+CREATE CONNECTION my_hf_conn
+  STORAGE_TYPE = 'hf'
+  REPO_TYPE = 'dataset'
+  REVISION = 'main'
+  TOKEN = '<optional-access-token>';
+
+-- 创建 Stage 并引用该连接
 CREATE STAGE my_huggingface_stage
-  'hf://opendal/huggingface-testdata/'
-  CONNECTION = (
-    REPO_TYPE = 'dataset'
-    REVISION = 'main'
-  );
+  URL = 'hf://opendal/huggingface-testdata/'
+  CONNECTION = (CONNECTION_NAME = 'my_hf_conn');
 ```
 
-</TabItem>
+访问公开仓库可以省略 `TOKEN`，访问私有或受限仓库时再补上。
 
+</TabItem>
 </Tabs>

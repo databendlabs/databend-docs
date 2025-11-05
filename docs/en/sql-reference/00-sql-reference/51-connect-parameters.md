@@ -5,9 +5,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.294"/>
 
-Connection parameters are key-value pairs used to establish secure links to external storage services like Amazon S3. These parameters are crucial for tasks such as creating stages, copying data into Databend, and querying external files.
+Connection parameters are key-value pairs you supply when creating reusable connections with `CREATE CONNECTION`. After a connection is created, reference it from stages, COPY commands, and other SQL features by using `CONNECTION = (CONNECTION_NAME = '<connection-name>')`. For full syntax and usage, see [CREATE CONNECTION](../10-sql-commands/00-ddl/13-connection/create-connection.md).
 
-For specific connection details per storage service, see the tables below.
+For storage-specific connection details, see the tables below.
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -34,20 +34,27 @@ The following table lists connection parameters for accessing an Amazon S3-like 
 :::
 
 ```sql title='Examples'
+-- Create a reusable connection for Amazon S3
+CREATE CONNECTION my_s3_conn
+  STORAGE_TYPE = 's3'
+  ACCESS_KEY_ID = '<your-ak>'
+  SECRET_ACCESS_KEY = '<your-sk>';
+
+-- Use the connection when creating a stage
 CREATE STAGE my_s3_stage
-  's3://my-bucket'
-  CONNECTION = (
-    ACCESS_KEY_ID = '<your-ak>',
-    SECRET_ACCESS_KEY = '<your-sk>'
-  );
+  URL = 's3://my-bucket'
+  CONNECTION = (CONNECTION_NAME = 'my_s3_conn');
   
+-- Create a reusable connection for an S3-compatible service such as MinIO
+CREATE CONNECTION my_minio_conn
+  STORAGE_TYPE = 's3'
+  ENDPOINT_URL = 'http://localhost:9000'
+  ACCESS_KEY_ID = 'ROOTUSER'
+  SECRET_ACCESS_KEY = 'CHANGEME123';
+
 CREATE STAGE my_minio_stage
-  's3://databend'
-  CONNECTION = (
-    ENDPOINT_URL = 'http://localhost:9000',
-    ACCESS_KEY_ID = 'ROOTUSER',
-    SECRET_ACCESS_KEY = 'CHANGEME123'
-  );
+  URL = 's3://databend'
+  CONNECTION = (CONNECTION_NAME = 'my_minio_conn');
 ```
 
 
@@ -62,12 +69,16 @@ The following table lists connection parameters for accessing Amazon S3 storage 
 | external_id  	| No        	| External ID for enhanced security in role assumption. 	|
 
 ```sql title='Examples'
-CREATE STAGE my_s3_stage
-  's3://my-bucket'
-  CONNECTION = (
-    ROLE_ARN = 'arn:aws:iam::123456789012:role/my-role',
-    EXTERNAL_ID = 'my-external-id'
-  );
+-- Create the connection using IAM role authentication
+CREATE CONNECTION my_iam_conn
+  STORAGE_TYPE = 's3'
+  ROLE_ARN = 'arn:aws:iam::123456789012:role/my-role'
+  EXTERNAL_ID = 'my-external-id';
+
+-- Reference the connection when creating a stage
+CREATE STAGE my_iam_stage
+  URL = 's3://my-bucket'
+  CONNECTION = (CONNECTION_NAME = 'my_iam_conn');
 ```
 
 </TabItem>
@@ -83,13 +94,17 @@ The following table lists connection parameters for accessing Azure Blob Storage
 | account_name 	 | Yes       	 | Azure Blob Storage account name for identification. 	 |
 
 ```sql title='Examples'
+-- Create a connection for Azure Blob Storage
+CREATE CONNECTION my_azure_conn
+  STORAGE_TYPE = 'azblob'
+  ACCOUNT_NAME = 'myaccount'
+  ACCOUNT_KEY = 'myaccountkey'
+  ENDPOINT_URL = 'https://<your-storage-account-name>.blob.core.windows.net';
+
+-- Create a stage that uses the connection
 CREATE STAGE my_azure_stage
-  'azblob://my-container'
-  CONNECTION = (
-    ACCOUNT_NAME = 'myaccount',
-    ACCOUNT_KEY = 'myaccountkey',
-    ENDPOINT_URL = 'https://<your-storage-account-name>.blob.core.windows.net'
-  );
+  URL = 'azblob://my-container'
+  CONNECTION = (CONNECTION_NAME = 'my_azure_conn');
 ```
 
 </TabItem>
@@ -111,11 +126,15 @@ base64 -i -o ~/Desktop/base64-encoded-key.txt
 ```
 
 ```sql title='Examples'
+-- Create the connection with the base64-encoded credential
+CREATE CONNECTION my_gcs_conn
+  STORAGE_TYPE = 'gcs'
+  CREDENTIAL = '<your-base64-encoded-credential>';
+
+-- Use the connection when creating a stage
 CREATE STAGE my_gcs_stage
-  'gcs://my-bucket'
-  CONNECTION = (
-    CREDENTIAL = '<your-base64-encoded-credential>'
-  );
+  URL = 'gcs://my-bucket'
+  CONNECTION = (CONNECTION_NAME = 'my_gcs_conn');
 ```
 
 </TabItem>
@@ -132,13 +151,17 @@ The following table lists connection parameters for accessing Alibaba Cloud OSS:
 | presign_endpoint_url 	| No        	| Endpoint URL for presigning Alibaba Cloud OSS URLs.     	|
 
 ```sql title='Examples'
+-- Create a connection for Alibaba Cloud OSS
+CREATE CONNECTION my_oss_conn
+  STORAGE_TYPE = 'oss'
+  ACCESS_KEY_ID = '<your-ak>'
+  ACCESS_KEY_SECRET = '<your-sk>'
+  ENDPOINT_URL = 'https://<bucket-name>.<region-id>[-internal].aliyuncs.com';
+
+-- Create a stage using the connection
 CREATE STAGE my_oss_stage
-  'oss://my-bucket'
-  CONNECTION = (
-    ACCESS_KEY_ID = '<your-ak>',
-    ACCESS_KEY_SECRET = '<your-sk>',
-    ENDPOINT_URL = 'https://<bucket-name>.<region-id>[-internal].aliyuncs.com'
-  );
+  URL = 'oss://my-bucket'
+  CONNECTION = (CONNECTION_NAME = 'my_oss_conn');
 ```
 
 </TabItem>
@@ -154,13 +177,17 @@ The following table lists connection parameters for accessing Tencent Cloud Obje
 | secret_key   	| Yes       	| Tencent Cloud Object Storage secret key for authentication. 	|
 
 ```sql title='Examples'
+-- Create a connection for Tencent COS
+CREATE CONNECTION my_cos_conn
+  STORAGE_TYPE = 'cos'
+  SECRET_ID = '<your-secret-id>'
+  SECRET_KEY = '<your-secret-key>'
+  ENDPOINT_URL = '<your-endpoint-url>';
+
+-- Create a stage that uses the connection
 CREATE STAGE my_cos_stage
-  'cos://my-bucket'
-  CONNECTION = (
-    SECRET_ID = '<your-secret-id>',
-    SECRET_KEY = '<your-secret-key>',
-    ENDPOINT_URL = '<your-endpoint-url>'
-  );
+  URL = 'cos://my-bucket'
+  CONNECTION = (CONNECTION_NAME = 'my_cos_conn');
 ```
 
 </TabItem>
@@ -176,12 +203,16 @@ The following table lists connection parameters for accessing Hugging Face:
 | token     | No                    | The API token from Hugging Face, which may be required for accessing private repositories or certain resources. |
 
 ```sql title='Examples'
+-- Create a connection for Hugging Face
+CREATE CONNECTION my_hf_conn
+  STORAGE_TYPE = 'hf'
+  REPO_TYPE = 'dataset'
+  REVISION = 'main';
+
+-- Create a stage that uses the connection
 CREATE STAGE my_huggingface_stage
-  'hf://opendal/huggingface-testdata/'
-  CONNECTION = (
-    REPO_TYPE = 'dataset'
-    REVISION = 'main'
-  );
+  URL = 'hf://opendal/huggingface-testdata/'
+  CONNECTION = (CONNECTION_NAME = 'my_hf_conn');
 ```
 
 </TabItem>
