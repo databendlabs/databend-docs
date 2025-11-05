@@ -5,7 +5,7 @@ description: Databend's Date and Time data type supports standardization and com
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.745"/>
+<FunctionDescription description="Introduced or updated: v1.2.834"/>
 
 ## Date and Time Data Types
 
@@ -13,160 +13,138 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 |-----------|----------|--------------|-------------|----------------------------|--------------------------------|--------------------------------------------------------------------------------|
 | DATE      |          | 4 bytes      | Day         | 0001-01-01                 | 9999-12-31                     | `YYYY-MM-DD`                                                                   |
 | TIMESTAMP | DATETIME | 8 bytes      | Microsecond | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`, supports up to 6-digit microsecond precision |
+| TIMESTAMP_TZ | TIMESTAMP WITH TIME ZONE | 8 bytes | Microsecond | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]±hh:mm`, stores UTC value with timezone offset |
 
+## DATE
 
-## Examples
-
-```sql
-CREATE TABLE test_dt
-  (
-     date DATE,
-     ts   TIMESTAMP
-  );
-```
+The DATE type stores calendar dates (year, month, day).
 
 ```sql
-DESC test_dt;
-```
-
-Result:
-
-```
-┌────────────────────────────────────────────────┐
-│  Field │    Type   │  Null  │ Default │  Extra │
-├────────┼───────────┼────────┼─────────┼────────┤
-│ date   │ DATE      │ YES    │ NULL    │        │
-│ ts     │ TIMESTAMP │ YES    │ NULL    │        │
-└────────────────────────────────────────────────┘
-```
-
-A TIMESTAMP value can optionally include a trailing fractional seconds part in up to microseconds (6 digits) precision.
-
-```sql
--- Inserting values into the table
-INSERT INTO test_dt
-VALUES
-  ('2022-04-07', '2022-04-07 01:01:01.123456'),
-  ('2022-04-08', '2022-04-08 01:01:01');
-
-SELECT *
-FROM test_dt;
-```
-
-Result:
-
-```
-┌─────────────────────────────────────────────┐
-│      date      │             ts             │
-├────────────────┼────────────────────────────┤
-│ 2022-04-07     │ 2022-04-07 01:01:01.123456 │
-│ 2022-04-08     │ 2022-04-08 01:01:01        │
-└─────────────────────────────────────────────┘
-```
-
-Databend recognizes TIMESTAMP values in several formats.
-
-```sql
--- Create a table to test different timestamp formats
-CREATE TABLE test_formats (
-    id INT,
-    a TIMESTAMP
+CREATE TABLE events (
+    event_date DATE
 );
 
--- Insert values with different timestamp formats
-INSERT INTO test_formats
-VALUES
-    (1, '2022-01-01 02:00:11'),
-    (2, '2022-01-02T02:00:22'),
-    (3, '2022-02-02T04:00:03+00:00'),
-    (4, '2022-02-03');
-```
+INSERT INTO events VALUES
+    ('2024-01-15'),
+    ('2024-12-31');
 
-```sql
-SELECT *
-FROM test_formats;
-
+SELECT * FROM events;
 ```
 
 Result:
-
 ```
-┌───────────────────────────────────────┐
-│        id       │          a          │
-├─────────────────┼─────────────────────┤
-│               1 │ 2022-01-01 02:00:11 │
-│               2 │ 2022-01-02 02:00:22 │
-│               3 │ 2022-02-02 04:00:03 │
-│               4 │ 2022-02-03 00:00:00 │
-└───────────────────────────────────────┘
+┌────────────┐
+│ event_date │
+├────────────┤
+│ 2024-01-15 │
+│ 2024-12-31 │
+└────────────┘
 ```
 
-Databend automatically adjusts and shows TIMESTAMP values based on your current timezone.
+## TIMESTAMP
+
+TIMESTAMP stores a point in time as UTC internally, but displays it according to your session's timezone setting. This is useful when you want different users to see times in their local timezone.
 
 ```sql
--- Create a table to test timestamp values with timezone adjustments
-CREATE TABLE test_tz (
-    id INT,
-    t TIMESTAMP
+CREATE TABLE meetings (
+    meeting_id INT,
+    meeting_time TIMESTAMP
 );
 
--- Set timezone to UTC
+-- Insert a meeting time
+INSERT INTO meetings VALUES (1, '2024-01-15 14:00:00+08:00');
+
+-- View in UTC
 SET timezone = 'UTC';
-
--- Insert timestamp values considering different timezones
-INSERT INTO test_tz
-VALUES
-    (1, '2022-02-03T03:00:00'),
-    (2, '2022-02-03T03:00:00+08:00'),
-    (3, '2022-02-03T03:00:00-08:00'),
-    (4, '2022-02-03'),
-    (5, '2022-02-03T03:00:00+09:00'),
-    (6, '2022-02-03T03:00:00+06:00');
-```
-
-```
-SELECT *
-FROM test_tz;
+SELECT * FROM meetings;
 ```
 
 Result:
-
 ```
-┌───────────────────────────────────────┐
-│        id       │          t          │
-├─────────────────┼─────────────────────┤
-│               1 │ 2022-02-03 03:00:00 │
-│               2 │ 2022-02-02 19:00:00 │
-│               3 │ 2022-02-03 11:00:00 │
-│               4 │ 2022-02-03 00:00:00 │
-│               5 │ 2022-02-02 18:00:00 │
-│               6 │ 2022-02-02 21:00:00 │
-└───────────────────────────────────────┘
+┌────────────┬─────────────────────┐
+│ meeting_id │ meeting_time        │
+├────────────┼─────────────────────┤
+│          1 │ 2024-01-15 06:00:00 │
+└────────────┴─────────────────────┘
 ```
 
 ```sql
--- Change the timezone to Asia/Shanghai
-SET timezone = 'Asia/Shanghai';
-
--- Select data from the table with the new timezone setting
-SELECT *
-FROM test_tz;
+-- View in New York timezone
+SET timezone = 'America/New_York';
+SELECT * FROM meetings;
 ```
 
 Result:
+```
+┌────────────┬─────────────────────┐
+│ meeting_id │ meeting_time        │
+├────────────┼─────────────────────┤
+│          1 │ 2024-01-15 01:00:00 │
+└────────────┴─────────────────────┘
+```
 
+The same timestamp is displayed differently based on the session timezone setting.
+
+## TIMESTAMP_TZ
+
+TIMESTAMP_TZ stores both the UTC time and the original timezone offset. The display always includes the offset and never changes regardless of your session timezone. This is useful for audit logs, financial transactions, or when you need to preserve the exact timezone context.
+
+```sql
+CREATE TABLE system_logs (
+    log_id INT,
+    log_time TIMESTAMP_TZ
+);
+
+-- Insert logs from different locations
+INSERT INTO system_logs VALUES
+    (1, '2024-01-15 14:00:00+08:00'),  -- Beijing
+    (2, '2024-01-15 06:00:00+00:00'),  -- UTC
+    (3, '2024-01-15 01:00:00-05:00');  -- New York
+
+-- View with any session timezone
+SET timezone = 'UTC';
+SELECT * FROM system_logs;
 ```
-┌───────────────────────────────────────┐
-│        id       │          t          │
-├─────────────────┼─────────────────────┤
-│               1 │ 2022-02-03 11:00:00 │
-│               2 │ 2022-02-03 03:00:00 │
-│               3 │ 2022-02-03 19:00:00 │
-│               4 │ 2022-02-03 08:00:00 │
-│               5 │ 2022-02-03 02:00:00 │
-│               6 │ 2022-02-03 05:00:00 │
-└───────────────────────────────────────┘
+
+Result:
 ```
+┌────────┬───────────────────────────┐
+│ log_id │ log_time                  │
+├────────┼───────────────────────────┤
+│      1 │ 2024-01-15 14:00:00+08:00 │
+│      2 │ 2024-01-15 06:00:00+00:00 │
+│      3 │ 2024-01-15 01:00:00-05:00 │
+└────────┴───────────────────────────┘
+```
+
+```sql
+-- Change session timezone
+SET timezone = 'Asia/Shanghai';
+SELECT * FROM system_logs;
+```
+
+Result:
+```
+┌────────┬───────────────────────────┐
+│ log_id │ log_time                  │
+├────────┼───────────────────────────┤
+│      1 │ 2024-01-15 14:00:00+08:00 │
+│      2 │ 2024-01-15 06:00:00+00:00 │
+│      3 │ 2024-01-15 01:00:00-05:00 │
+└────────┴───────────────────────────┘
+```
+
+The timezone offset is always preserved and displayed.
+
+:::note
+TIMESTAMP_TZ only stores the numeric offset (e.g., `+08:00`), not the timezone name. The offset does NOT adjust for daylight saving time changes.
+:::
+
+## Choosing the Right Type
+
+- Use **DATE** for calendar dates without time information
+- Use **TIMESTAMP** when you want times to display in each user's local timezone
+- Use **TIMESTAMP_TZ** when you need to preserve the original timezone context
 
 ## Functions
 
