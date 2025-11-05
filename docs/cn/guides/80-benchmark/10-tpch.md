@@ -145,21 +145,21 @@ Snowflake 和 Databend Cloud 均在相似条件下进行了测试：
 1. **Snowflake 数据加载**:
 
    - 登录您的 [Snowflake 账户](https://app.snowflake.com/)。
-   - 创建与 TPC-H 模式对应的表。[SQL 脚本](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L1-L84)。
-   - 使用 `COPY INTO` 命令从 AWS S3 加载数据。[SQL 脚本](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L87-L94)。
+   - 创建与 TPC-H 模式对应的表。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/snowflake/setup.sql)。
+   - 使用 `COPY INTO` 命令从 AWS S3 加载数据。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/snowflake/setup.sql)。
 
 2. **Databend Cloud 数据加载**:
    - 登录您的 [Databend Cloud 账户](https://app.databend.com)。
-   - 按照 TPC-H 模式创建必要的表。[SQL 脚本](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L1-L84)。
-   - 使用类似于 Snowflake 的方法从 AWS S3 加载数据。[SQL 脚本](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L87-L117)。
+   - 按照 TPC-H 模式创建必要的表。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/setup.sql)。
+   - 使用类似于 Snowflake 的方法从 AWS S3 加载数据。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/setup.sql)。
 
 ### TPC-H 查询
 
 1. **Snowflake 查询**:
 
    - 登录您的 [Snowflake 账户](https://app.snowflake.com/)。
-   - 运行 TPC-H 查询。[SQL 脚本](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/queries.sql)。
+   - 运行 TPC-H 查询。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/snowflake/queries.sql)。
 
 2. **Databend Cloud 查询**:
    - 登录您的 [Databend Cloud 账户](https://app.databend.com)。
-   - 运行 TPC-H 查询。[SQL 脚本](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/queries.sql)。
+   - 运行 TPC-H 查询。[SQL 脚本](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/queries.sql)。

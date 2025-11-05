@@ -145,21 +145,21 @@ We conducted both Cold and Hot runs for query execution:
 1. **Snowflake Data Load**:
 
    - Log into your [Snowflake account](https://app.snowflake.com/).
-   - Create tables corresponding to the TPC-H schema. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L1-L84).
-   - Use the `COPY INTO` command to load the data from AWS S3. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/setup.sql#L87-L94).
+   - Create tables corresponding to the TPC-H schema. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/snowflake/setup.sql).
+   - Use the `COPY INTO` command to load the data from AWS S3. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/snowflake/setup.sql).
 
 2. **Databend Cloud Data Load**:
    - Sign in to your [Databend Cloud account](https://app.databend.com).
-   - Create the necessary tables as per the TPC-H schema. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L1-L84).
-   - Utilize a similar method to Snowflake for loading data from AWS S3. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/setup.sql#L87-L117).
+   - Create the necessary tables as per the TPC-H schema. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/setup.sql).
+   - Utilize a similar method to Snowflake for loading data from AWS S3. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/setup.sql).
 
 ### TPC-H Queries
 
 1. **Snowflake Queries**:
 
    - Log into your [Snowflake account](https://app.snowflake.com/).
-   - Run the TPC-H queries. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/snow/queries.sql).
+   - Run the TPC-H queries. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/snowflake/queries.sql).
 
 2. **Databend Cloud Queries**:
    - Sign in to your [Databend Cloud account](https://app.databend.com).
-   - Run the TPC-H queries. [SQL Script](https://github.com/databendlabs/wizard/blob/b34cc686d2e43c3e3b0b3311eac5a50e8f68afc9/benchsb/sql/bend/queries.sql).
+   - Run the TPC-H queries. [SQL Script](https://github.com/databendlabs/benchmarks/blob/main/tpch-100/databend/queries.sql).
