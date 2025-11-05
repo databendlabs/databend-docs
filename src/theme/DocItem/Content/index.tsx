@@ -2,9 +2,10 @@ import React, { type ReactNode } from "react";
 import clsx from "clsx";
 import { ThemeClassNames } from "@docusaurus/theme-common";
 import { useDoc } from "@docusaurus/plugin-content-docs/client";
+// @ts-ignore
 import Heading from "@theme/Heading";
+// @ts-ignore
 import MDXContent from "@theme/MDXContent";
-import type { Props } from "@theme/DocItem/Content";
 import styles from "./styles.module.css";
 import CopyPageButton from "@site/src/components/CopyPageButton";
 
@@ -28,7 +29,7 @@ function useSyntheticTitle(): string | null {
   return metadata.title;
 }
 
-export default function DocItemContent({ children }: Props): ReactNode {
+export default function DocItemContent({ children }: any): ReactNode {
   const syntheticTitle = useSyntheticTitle();
   return (
     <div className={clsx(ThemeClassNames.docs.docMarkdown, "markdown")}>

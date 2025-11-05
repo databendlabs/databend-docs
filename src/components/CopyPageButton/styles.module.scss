@@ -27,6 +27,8 @@
   }
 }
 .svg {
+  position: relative;
+  top: 1px !important;
   path {
     fill: var(--color-text-0) !important;
   }

@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { Button, Dropdown, Flex, Spin } from "antd";
 import styles from "./styles.module.scss";
-import DownArrow from "@site/static/icons/down.svg";
+import { FaAngleDown } from "react-icons/fa6";
+
 import { useDoc } from "@docusaurus/plugin-content-docs/client";
 import axios from "axios";
 import $t from "@site/src/utils/tools";
@@ -170,7 +171,7 @@ const CopyDropdownButton: React.FC = () => {
       onClick={() => handleCopy(sourceUrl)}
       menu={menu}
       placement="bottomRight"
-      icon={<DownArrow className={styles.svg} width={18} height={18} />}
+      icon={<FaAngleDown className={styles.svg} />}
       className={styles.buttonCainter}
       trigger={["click"]}
     >
