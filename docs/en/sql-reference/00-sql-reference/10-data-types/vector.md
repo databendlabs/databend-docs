@@ -66,7 +66,7 @@ CREATE OR REPLACE TABLE simple_wiki (
 ```sql
 -- Copy simple wiki embedding vectors
 COPY INTO simple_wiki
-FROM 'https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/simple_wiki.csv'
+FROM 'https://wizardbend.s3.us-east-2.amazonaws.com/databend-doc/dataset/wiki/simple_wiki.csv'
 FILE_FORMAT = (
     TYPE = 'CSV',
     FIELD_DELIMITER = '|',
