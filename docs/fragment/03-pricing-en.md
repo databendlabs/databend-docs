@@ -86,7 +86,7 @@ $2 / 10,000 \* 50,000= $10($2 per 10K API calls, eg:50K API calls)
 
 ### Total daily cost:
 
-Compute charges + Storage charges + Cloud service charges = 16 + 0.77 + 20 = $46.77
+Compute charges + Storage charges + Cloud service charges = $36 + 0.77 + 10 = $46.77
 
 ### The total cost for the month would be:
 
