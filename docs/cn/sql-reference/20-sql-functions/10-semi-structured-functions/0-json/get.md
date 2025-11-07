@@ -1,5 +1,6 @@
 ---
 title: GET
+title_includes: GET_STRING
 ---
 
 通过 `index` 从包含 `ARRAY` 的 `Variant` 中提取值，或通过 `field_name` 从包含 `OBJECT` 的 `Variant` 中提取值。

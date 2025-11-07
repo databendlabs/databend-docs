@@ -8,8 +8,10 @@ This section provides reference information for array functions in Databend. Arr
 
 | Function | Description | Example |
 |----------|-------------|---------|
+| [ARRAY](array) | Builds an array from expressions | `ARRAY(1, 2, 3)` → `[1,2,3]` |
 | [ARRAY_CONSTRUCT](array-construct) | Creates an array from individual values | `ARRAY_CONSTRUCT(1, 2, 3)` → `[1,2,3]` |
 | [RANGE](range) | Generates an array of sequential numbers | `RANGE(1, 5)` → `[1,2,3,4]` |
+| [ARRAY_GENERATE_RANGE](array-generate-range) | Generates a sequence with optional step | `ARRAY_GENERATE_RANGE(0, 6, 2)` → `[0,2,4]` |
 
 ## Array Access & Information
 
@@ -19,6 +21,9 @@ This section provides reference information for array functions in Databend. Arr
 | [ARRAY_GET](array-get) | Alias for GET function | `ARRAY_GET([1,2,3], 1)` → `1` |
 | [CONTAINS](contains) | Checks if an array contains a specific value | `CONTAINS([1,2,3], 2)` → `true` |
 | [ARRAY_CONTAINS](array-contains) | Checks if an array contains a specific value | `ARRAY_CONTAINS([1,2,3], 2)` → `true` |
+| [ARRAY_SIZE](array-size) | Returns array length (alias: `ARRAY_LENGTH`) | `ARRAY_SIZE([1,2,3])` → `3` |
+| [ARRAY_COUNT](array-count) | Counts non-`NULL` entries | `ARRAY_COUNT([1,NULL,2])` → `2` |
+| [ARRAY_ANY](array-any) | Returns the first non-`NULL` value | `ARRAY_ANY([NULL,'a','b'])` → `'a'` |
 
 ## Array Modification
 
@@ -39,6 +44,7 @@ This section provides reference information for array functions in Databend. Arr
 | [ARRAY_SLICE](array-slice) | Extracts a portion of an array | `ARRAY_SLICE([1,2,3,4], 1, 2)` → `[1,2]` |
 | [SLICE](slice) | Alias for ARRAY_SLICE function | `SLICE([1,2,3,4], 1, 2)` → `[1,2]` |
 | [ARRAYS_ZIP](arrays-zip) | Combines multiple arrays element-wise | `ARRAYS_ZIP([1,2], ['a','b'])` → `[(1,'a'),(2,'b')]` |
+| [ARRAY_SORT](array-sort) | Sorts values; variants control order/nulls | `ARRAY_SORT([3,1,2])` → `[1,2,3]` |
 
 ## Array Set Operations
 
@@ -58,6 +64,27 @@ This section provides reference information for array functions in Databend. Arr
 | [ARRAY_FILTER](array-filter) | Filters array elements based on a condition | `ARRAY_FILTER([1,2,3,4], x -> x > 2)` → `[3,4]` |
 | [ARRAY_REDUCE](array-reduce) | Reduces array to a single value using aggregation | `ARRAY_REDUCE([1,2,3], 0, (acc,x) -> acc + x)` → `6` |
 | [ARRAY_AGGREGATE](array-aggregate) | Aggregates array elements using a function | `ARRAY_AGGREGATE([1,2,3], 'sum')` → `6` |
+
+## Array Aggregations & Statistics
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| [ARRAY_SUM](array-sum) | Sum of numeric values | `ARRAY_SUM([1,2,3])` → `6` |
+| [ARRAY_AVG](array-avg) | Average of numeric values | `ARRAY_AVG([1,2,3])` → `2` |
+| [ARRAY_MEDIAN](array-median) | Median of numeric values | `ARRAY_MEDIAN([1,3,2])` → `2` |
+| [ARRAY_MIN](array-min) | Minimum value | `ARRAY_MIN([3,1,2])` → `1` |
+| [ARRAY_MAX](array-max) | Maximum value | `ARRAY_MAX([3,1,2])` → `3` |
+| [ARRAY_STDDEV_POP](array-stddev-pop) | Population standard deviation (alias: `ARRAY_STD`) | `ARRAY_STDDEV_POP([1,2,3])` |
+| [ARRAY_STDDEV_SAMP](array-stddev-samp) | Sample standard deviation (alias: `ARRAY_STDDEV`) | `ARRAY_STDDEV_SAMP([1,2,3])` |
+| [ARRAY_KURTOSIS](array-kurtosis) | Excess kurtosis of values | `ARRAY_KURTOSIS([1,2,3,4])` |
+| [ARRAY_SKEWNESS](array-skewness) | Skewness of values | `ARRAY_SKEWNESS([1,2,3,4])` |
+| [ARRAY_APPROX_COUNT_DISTINCT](array-approx-count-distinct) | Approximate distinct count | `ARRAY_APPROX_COUNT_DISTINCT([1,1,2])` → `2` |
+
+## Array Formatting
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| [ARRAY_TO_STRING](array-to-string) | Joins array elements into a string | `ARRAY_TO_STRING(['a','b'], ',')` → `'a,b'` |
 
 ## Array Utility Functions
 

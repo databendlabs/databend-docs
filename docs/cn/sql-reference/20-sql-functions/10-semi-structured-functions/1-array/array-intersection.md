@@ -1,5 +1,6 @@
 ---
 title: ARRAY_INTERSECTION
+title_includes: JSON_ARRAY_INTERSECTION
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

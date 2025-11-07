@@ -1,5 +1,6 @@
 ---
 title: GET
+title_includes: GET_STRING
 ---
 
 Extracts value from a `Variant` that contains `ARRAY` by `index`, or a `Variant` that contains `OBJECT` by `field_name`.

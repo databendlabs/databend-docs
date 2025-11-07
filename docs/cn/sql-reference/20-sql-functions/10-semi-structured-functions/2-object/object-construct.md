@@ -1,6 +1,6 @@
 ---
 title: OBJECT_CONSTRUCT
-title_includes: TRY_OBJECT_CONSTRUCT
+title_includes: TRY_OBJECT_CONSTRUCT, JSON_OBJECT, TRY_JSON_OBJECT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

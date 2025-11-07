@@ -1,5 +1,6 @@
 ---
 title: ARRAY_CONSTRUCT
+title_includes: JSON_ARRAY
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

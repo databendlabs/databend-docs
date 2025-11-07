@@ -1,5 +1,6 @@
 ---
 title: ARRAY_DISTINCT
+title_includes: JSON_ARRAY_DISTINCT
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

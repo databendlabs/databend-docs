@@ -1,5 +1,6 @@
 ---
 title: ARRAY_OVERLAP
+title_includes: JSON_ARRAY_OVERLAP
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
