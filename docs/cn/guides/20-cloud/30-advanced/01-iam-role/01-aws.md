@@ -1,10 +1,7 @@
 ---
-title: "使用 AWS IAM 角色创建外部 Stage"
+title: "使用 AWS IAM 角色进行认证"
+sidebar_label: "AWS IAM 角色"
 ---
-
-# 为什么选择 IAM 角色
-
-通过 AWS IAM 角色，您可以在 Databend Cloud 中访问自己的 AWS S3 存储桶。这种方式无需管理 AWS 凭证即可安全访问数据并进行数据分析。
 
 # 如何使用 IAM 角色
 
@@ -56,6 +53,11 @@ title: "使用 AWS IAM 角色创建外部 Stage"
          "Effect": "Allow",
          "Principal": {
            "AWS": "arn:aws:iam::123456789012:role/xxxxxxx/tnabcdefg/xxxxxxx-tnabcdefg"
+         },
+         "Condition": {
+           "StringEquals": {
+             "sts:ExternalId": "my-external-id-123"
+           }
          },
          "Action": "sts:AssumeRole"
        }

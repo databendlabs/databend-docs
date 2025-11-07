@@ -32,7 +32,7 @@ ALTER TABLE [ <database_name>. ]<table_name> CONNECTION = ( connection_name = '<
 - **自动轮换**：自动处理凭据轮换
 - **细粒度控制**：支持更精确的访问控制
 
-要在 Databend Cloud 中使用 IAM 角色，请参阅[使用 AWS IAM 角色创建外部暂存区（Stage）](/guides/load-data/stage/aws-iam-role)获取指南。
+要在 Databend Cloud 中使用 IAM 角色，请参阅[使用 AWS IAM 角色进行认证](/guides/cloud/advanced/iam-role)获取指南。
 
 ## 示例
 
@@ -57,8 +57,8 @@ CREATE OR REPLACE TABLE external_table_test (
     id INT,
     name VARCHAR,
     age INT
-) 
-'s3://testbucket/13_fuse_external_table/' 
+)
+'s3://testbucket/13_fuse_external_table/'
 CONNECTION=(connection_name = 'external_table_conn');
 
 -- 更新表以使用包含轮换凭据的新连接
@@ -80,8 +80,8 @@ CREATE TABLE sales_data (
     order_id INT,
     product_name VARCHAR,
     quantity INT
-) 
-'s3://sales-bucket/data/' 
+)
+'s3://sales-bucket/data/'
 CONNECTION=(connection_name = 's3_access_key_conn');
 
 -- 稍后，使用 IAM 角色身份验证创建新连接

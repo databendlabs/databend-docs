@@ -208,4 +208,4 @@ GRANT ALL ON my_database.* TO warehouse_user1;
 
 ### 连接安全性
 
-默认情况下，所有到 Databend Cloud 计算集群的连接都使用 TLS 加密。对于需要额外安全性的企业用户，可以使用 [AWS PrivateLink](/guides/sql-clients/privatelink) 在您的 VPC 和 Databend Cloud 之间建立私有连接。
+默认情况下，所有到 Databend Cloud 计算集群的连接都使用 TLS 加密。对于需要额外安全性的企业用户，可以使用 [AWS PrivateLink](/guides/cloud/advanced/private-link) 在您的 VPC 和 Databend Cloud 之间建立私有连接。

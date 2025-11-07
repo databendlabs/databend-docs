@@ -3,21 +3,11 @@ title: "通过 AWS PrivateLink 连接到 Databend Cloud"
 sidebar_label: "AWS PrivateLink"
 ---
 
-# 为什么选择 PrivateLink
-
-通过 AWS PrivateLink 连接到 Databend Cloud 提供了一种安全且私密的方式来访问 Databend Cloud 服务，而无需经过公共互联网。
-
-通过利用 AWS PrivateLink，您可以在您的 Virtual Private Cloud (VPC) 和 Databend Cloud 之间建立私有连接，确保您的数据保留在您的 VPC 边界内，并且不会暴露于互联网。此设置增强了数据的安全性，并最大限度地降低了未经授权访问的风险。
-
-要使用 AWS PrivateLink 连接到 Databend Cloud，您需要在 VPC 中配置一个 VPC 终端节点。此终端节点充当代理，允许流量在您的 VPC 和 Databend Cloud 之间安全地流动。VPC 终端节点在您的 VPC 中具有私有 IP 地址，并有助于与 Databend Cloud 服务进行直接通信。
-
-建立 VPC 终端节点后，您可以使用私有 IP 地址安全地访问 Databend Cloud 服务，例如数据存储、数据处理和分析工具。这确保了您的数据保留在 VPC 的安全边界内，从而提供额外的保护层。
-
 # 如何设置 AWS PrivateLink
 
 1. 提供您计划连接到 Databend Cloud 的 AWS 账户 ID：
 
-   例如：`952853449216`
+   例如：`123456789012`
 
 2. 验证您的 VPC 设置
 
@@ -25,10 +15,9 @@ sidebar_label: "AWS PrivateLink"
 
    确保选中 `启用 DNS 解析` 和 `启用 DNS 主机名`。
 
-3. 等待云管理员将您的帐户添加到白名单，并获取要连接的集群的服务名称：
+3. 等待云管理员将您的账户添加到白名单，并获取要连接的集群服务名称：
 
-   - `com.amazonaws.vpce.us-east-2.vpce-svc-0e494364a37d35445` (aws, us-east-2, white)
-   - `com.amazonaws.vpce.us-east-1.vpce-svc-0d9cd5a4a7c19796f` (aws, us-east-1, ivory)
+   例如：`com.amazonaws.vpce.us-east-2.vpce-svc-0123456789abcdef0`
 
 4. 准备一个打开 tcp 443 端口的安全组：
 
