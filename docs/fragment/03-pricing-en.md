@@ -82,16 +82,15 @@ A user is using an XSmall warehouse (Business) to continuously import data into 
 
 ### Cloud service charges:
 
-2 \* 10 = $20
-($2 per 10,000 API calls)
+$2 / 10,000 \* 50,000= $10($2 per 10K API calls, eg:50K API calls)
 
 ### Total daily cost:
 
-Compute charges + Storage charges + Cloud service charges = 36 + 0.77 + 20 = $56.77
+Compute charges + Storage charges + Cloud service charges = 16 + 0.77 + 20 = $46.77
 
 ### The total cost for the month would be:
 
-Assuming 24-hour continuous data import throughout the month, 56.77 \* 30 = $1703.1
+Assuming 24-hour continuous data import throughout the month, 46.77 \* 30 = $1403.1
 
 ## Databend Cloud Billing
 
