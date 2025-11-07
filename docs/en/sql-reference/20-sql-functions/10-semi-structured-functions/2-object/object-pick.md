@@ -1,5 +1,6 @@
 ---
 title: OBJECT_PICK
+title_includes: JSON_OBJECT_PICK
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

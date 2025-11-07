@@ -39,6 +39,7 @@ This section provides reference information for JSON functions in Databend. JSON
 |----------|-------------|---------|
 | [GET](get) | Extracts value from JSON by index or field name | `GET('{"name":"John"}', 'name')` → `"John"` |
 | [GET_IGNORE_CASE](get-ignore-case) | Extracts value with case-insensitive field matching | `GET_IGNORE_CASE('{"Name":"John"}', 'name')` → `"John"` |
+| [GET_BY_KEYPATH](get-by-keypath) | Extracts nested value using brace key paths | `GET_BY_KEYPATH('{"user":{"name":"Ada"}}', '{user,name}')` → `"Ada"` |
 | [GET_PATH](get-path) | Extracts value using path notation | `GET_PATH('{"user":{"name":"John"}}', 'user.name')` → `"John"` |
 | [JSON_EXTRACT_PATH_TEXT](json-extract-path-text) | Extracts text value from JSON using path | `JSON_EXTRACT_PATH_TEXT('{"name":"John"}', 'name')` → `'John'` |
 | [JSON_EACH](json-each) | Expands JSON object into key-value pairs | `JSON_EACH('{"a":1,"b":2}')` → `[("a",1),("b",2)]` |
@@ -51,3 +52,12 @@ This section provides reference information for JSON functions in Databend. JSON
 | [JSON_PRETTY](json-pretty) | Formats JSON with proper indentation | `JSON_PRETTY('{"a":1}')` → Formatted JSON string |
 | [STRIP_NULL_VALUE](strip-null-value) | Removes null values from JSON | `STRIP_NULL_VALUE('{"a":1,"b":null}')` → `{"a":1}` |
 | [JQ](jq) | Processes JSON using jq-style queries | `JQ('{"name":"John"}', '.name')` → `"John"` |
+
+## JSON Containment & Existence
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| [JSON_CONTAINS_IN_LEFT](json-contains) | Tests whether the left JSON contains the right JSON | `JSON_CONTAINS_IN_LEFT('{"a":1,"b":2}', '{"b":2}')` → `true` |
+| [JSON_EXISTS_KEY](json-exists-keys) | Checks whether specific keys exist | `JSON_EXISTS_KEY('{"a":1}', 'a')` → `true` |
+| [JSON_EXISTS_ANY_KEYS](json-exists-keys) | Returns `true` if any key in the list exists | `JSON_EXISTS_ANY_KEYS('{"a":1}', ['x','a'])` → `true` |
+| [JSON_EXISTS_ALL_KEYS](json-exists-keys) | Returns `true` only if all keys exist | `JSON_EXISTS_ALL_KEYS('{"a":1,"b":2}', ['a','b'])` → `true` |
