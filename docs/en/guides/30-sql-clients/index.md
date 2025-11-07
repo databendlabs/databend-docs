@@ -27,10 +27,3 @@ Databend supports multiple connection methods to suit different use cases. All S
 | **Node.js** | JavaScript Driver | Web Applications | [Node.js Guide](/guides/sql-clients/developers/nodejs) |
 | **Java** | JDBC Driver | Enterprise Applications | [JDBC Guide](/guides/sql-clients/developers/jdbc) |
 | **Rust** | Native Driver | System Programming | [Rust Guide](/guides/sql-clients/developers/rust) |
-
-## Connection Methods
-
-| Method | Security Level | Use Case | Setup Complexity |
-|--------|----------------|----------|------------------|
-| **Direct Connection** | Standard | Development, Testing | ⭐ Simple |
-| **[AWS PrivateLink](/guides/sql-clients/privatelink)** | High | Production, Enterprise | ⭐⭐⭐ Advanced |
