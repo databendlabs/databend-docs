@@ -27,8 +27,7 @@ Once the VPC endpoint is established, you can securely access Databend Cloud ser
 
 3. Wait for cloud admin adding your account to whitelist, and get a service name for the cluster to connect to:
 
-   - `com.amazonaws.vpce.us-east-2.vpce-svc-0e494364a37d35445` (aws, us-east-2, white)
-   - `com.amazonaws.vpce.us-east-1.vpce-svc-0d9cd5a4a7c19796f` (aws, us-east-1, ivory)
+   For example: `com.amazonaws.vpce.us-east-2.vpce-svc-fffffffffffffffff`
 
 4. Prepare a security group with tcp 443 port open:
 
