@@ -27,10 +27,3 @@ Databend 支持多种连接方式以适应不同的使用场景。以下所有 S
 | **Node.js** | JavaScript 驱动 | Web 应用程序 | [Node.js 指南](/guides/sql-clients/developers/nodejs) |
 | **Java** | JDBC 驱动 | 企业应用程序 | [JDBC 指南](/guides/sql-clients/developers/jdbc) |
 | **Rust** | 原生驱动 | 系统编程 | [Rust 指南](/guides/sql-clients/developers/rust) |
-
-## 连接方式
-
-| 方式 | 安全级别 | 使用场景 | 设置复杂度 |
-|--------|----------------|----------|------------------|
-| **直接连接** | 标准 | 开发、测试 | ⭐ 简单 |
-| **[AWS PrivateLink](/guides/sql-clients/privatelink)** | 高 | 生产、企业 | ⭐⭐⭐ 高级 |

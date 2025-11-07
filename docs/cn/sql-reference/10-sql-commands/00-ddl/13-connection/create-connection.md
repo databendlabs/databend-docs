@@ -17,8 +17,8 @@ import TabItem from '@theme/TabItem';
 ## 语法
 
 ```sql
-CREATE [ OR REPLACE ] CONNECTION [ IF NOT EXISTS ] <connection_name> 
-    STORAGE_TYPE = '<type>' 
+CREATE [ OR REPLACE ] CONNECTION [ IF NOT EXISTS ] <connection_name>
+    STORAGE_TYPE = '<type>'
     [ <storage_params> ]
 ```
 
@@ -51,9 +51,9 @@ Amazon S3 及兼容服务支持以下两种认证方式：
 <TabItem value="access-keys" label="Access Keys">
 
 ```sql
-CREATE CONNECTION <connection_name> 
-    STORAGE_TYPE = 's3' 
-    ACCESS_KEY_ID = '<your-access-key-id>' 
+CREATE CONNECTION <connection_name>
+    STORAGE_TYPE = 's3'
+    ACCESS_KEY_ID = '<your-access-key-id>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>';
 ```
 
@@ -66,8 +66,8 @@ CREATE CONNECTION <connection_name>
 <TabItem value="iam-role" label="IAM Role">
 
 ```sql
-CREATE CONNECTION <connection_name> 
-    STORAGE_TYPE = 's3' 
+CREATE CONNECTION <connection_name>
+    STORAGE_TYPE = 's3'
     ROLE_ARN = '<your-role-arn>';
 ```
 
@@ -155,13 +155,13 @@ CREATE CONNECTION <connection_name>
 示例：创建名为 toronto 的 Amazon S3 连接，并建立外部 Stage `my_s3_stage` 指向 `s3://databend-toronto`。更多与连接相关的示例请参阅 [使用示例](index.md#usage-examples)。
 
 ```sql
-CREATE CONNECTION toronto 
-    STORAGE_TYPE = 's3' 
+CREATE CONNECTION toronto
+    STORAGE_TYPE = 's3'
     ACCESS_KEY_ID = '<your-access-key-id>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>';
 
-CREATE STAGE my_s3_stage 
-    URL = 's3://databend-toronto' 
+CREATE STAGE my_s3_stage
+    URL = 's3://databend-toronto'
     CONNECTION = (CONNECTION_NAME = 'toronto');
 ```
 
@@ -170,12 +170,12 @@ CREATE STAGE my_s3_stage
 示例：使用 IAM Role 创建 Amazon S3 连接，并让 Stage 复用该连接，无需在 Databend 中存储访问密钥。
 
 ```sql
-CREATE CONNECTION databend_test 
-    STORAGE_TYPE = 's3' 
+CREATE CONNECTION databend_test
+    STORAGE_TYPE = 's3'
     ROLE_ARN = 'arn:aws:iam::987654321987:role/databend-test';
 
-CREATE STAGE databend_test 
-    URL = 's3://test-bucket-123' 
+CREATE STAGE databend_test
+    URL = 's3://test-bucket-123'
     CONNECTION = (CONNECTION_NAME = 'databend_test');
 
 -- 现在可直接查询 S3 桶中的数据
@@ -183,5 +183,5 @@ SELECT * FROM @databend_test/test.parquet LIMIT 1;
 ```
 
 :::info
-在 Databend Cloud 中使用 IAM 角色，需要在 AWS 账户与 Databend Cloud 之间建立信任关系。详见 [使用 AWS IAM 角色创建外部 Stage](/guides/load-data/stage/aws-iam-role)。
+在 Databend Cloud 中使用 IAM 角色，需要在 AWS 账户与 Databend Cloud 之间建立信任关系。详见 [使用 AWS IAM 角色进行认证](/guides/cloud/advanced/iam-role)。
 :::
