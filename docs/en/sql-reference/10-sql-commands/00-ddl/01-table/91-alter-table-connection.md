@@ -32,7 +32,7 @@ When working with external tables, AWS IAM roles provide significant security ad
 - **Automatic rotation**: Handles credential rotation automatically
 - **Fine-grained control**: Allows for more precise access control
 
-To use IAM roles with Databend Cloud, see [Creating External Stage with AWS IAM Role](/guides/load-data/stage/aws-iam-role) for instructions.
+To use IAM roles with Databend Cloud, see [Authenticate with AWS IAM Role](/guides/cloud/advanced/iam-role) for instructions.
 
 ## Examples
 
@@ -57,8 +57,8 @@ CREATE OR REPLACE TABLE external_table_test (
     id INT,
     name VARCHAR,
     age INT
-) 
-'s3://testbucket/13_fuse_external_table/' 
+)
+'s3://testbucket/13_fuse_external_table/'
 CONNECTION=(connection_name = 'external_table_conn');
 
 -- Update the table to use the new connection with rotated credentials
@@ -80,8 +80,8 @@ CREATE TABLE sales_data (
     order_id INT,
     product_name VARCHAR,
     quantity INT
-) 
-'s3://sales-bucket/data/' 
+)
+'s3://sales-bucket/data/'
 CONNECTION=(connection_name = 's3_access_key_conn');
 
 -- Later, create a new connection using IAM role authentication

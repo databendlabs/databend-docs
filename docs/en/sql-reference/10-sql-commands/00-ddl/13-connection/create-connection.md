@@ -17,8 +17,8 @@ IMPORTANT: When objects (stages, tables, etc.) use a connection, they copy and s
 ## Syntax
 
 ```sql
-CREATE [ OR REPLACE ] CONNECTION [ IF NOT EXISTS ] <connection_name> 
-    STORAGE_TYPE = '<type>' 
+CREATE [ OR REPLACE ] CONNECTION [ IF NOT EXISTS ] <connection_name>
+    STORAGE_TYPE = '<type>'
     [ <storage_params> ]
 ```
 
@@ -51,9 +51,9 @@ Choose an authentication method for Amazon S3 and S3-compatible services:
 <TabItem value="access-keys" label="Access Keys">
 
 ```sql
-CREATE CONNECTION <connection_name> 
-    STORAGE_TYPE = 's3' 
-    ACCESS_KEY_ID = '<your-access-key-id>' 
+CREATE CONNECTION <connection_name>
+    STORAGE_TYPE = 's3'
+    ACCESS_KEY_ID = '<your-access-key-id>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>';
 ```
 
@@ -66,8 +66,8 @@ CREATE CONNECTION <connection_name>
 <TabItem value="iam-role" label="IAM Role">
 
 ```sql
-CREATE CONNECTION <connection_name> 
-    STORAGE_TYPE = 's3' 
+CREATE CONNECTION <connection_name>
+    STORAGE_TYPE = 's3'
     ROLE_ARN = '<your-role-arn>';
 ```
 
@@ -154,16 +154,16 @@ To switch an existing table to a new connection, use [`ALTER TABLE ... CONNECTIO
 
 ### Using Access Keys
 
-This example creates a connection to Amazon S3 named 'toronto' and establishes an external stage named 'my_s3_stage' linked to the 's3://databend-toronto' URL, using the 'toronto' connection. For more practical examples about connection, see [Usage Examples](index.md#usage-examples).  
+This example creates a connection to Amazon S3 named 'toronto' and establishes an external stage named 'my_s3_stage' linked to the 's3://databend-toronto' URL, using the 'toronto' connection. For more practical examples about connection, see [Usage Examples](index.md#usage-examples).
 
 ```sql
-CREATE CONNECTION toronto 
-    STORAGE_TYPE = 's3' 
+CREATE CONNECTION toronto
+    STORAGE_TYPE = 's3'
     ACCESS_KEY_ID = '<your-access-key-id>'
     SECRET_ACCESS_KEY = '<your-secret-access-key>';
 
-CREATE STAGE my_s3_stage 
-    URL = 's3://databend-toronto' 
+CREATE STAGE my_s3_stage
+    URL = 's3://databend-toronto'
     CONNECTION = (CONNECTION_NAME = 'toronto');
 ```
 
@@ -172,12 +172,12 @@ CREATE STAGE my_s3_stage
 This example creates a connection to Amazon S3 using an IAM role and then creates a stage that uses this connection. This approach is more secure as it doesn't require storing access keys in Databend.
 
 ```sql
-CREATE CONNECTION databend_test 
-    STORAGE_TYPE = 's3' 
+CREATE CONNECTION databend_test
+    STORAGE_TYPE = 's3'
     ROLE_ARN = 'arn:aws:iam::987654321987:role/databend-test';
 
-CREATE STAGE databend_test 
-    URL = 's3://test-bucket-123' 
+CREATE STAGE databend_test
+    URL = 's3://test-bucket-123'
     CONNECTION = (CONNECTION_NAME = 'databend_test');
 
 -- You can now query data from your S3 bucket
@@ -185,5 +185,5 @@ SELECT * FROM @databend_test/test.parquet LIMIT 1;
 ```
 
 :::info
-To use IAM roles with Databend Cloud, you need to set up a trust relationship between your AWS account and Databend Cloud. See [Creating External Stage with AWS IAM Role](/guides/load-data/stage/aws-iam-role) for detailed instructions.
+To use IAM roles with Databend Cloud, you need to set up a trust relationship between your AWS account and Databend Cloud. See [Authenticate with AWS IAM Role](/guides/cloud/advanced/iam-role) for detailed instructions.
 :::
