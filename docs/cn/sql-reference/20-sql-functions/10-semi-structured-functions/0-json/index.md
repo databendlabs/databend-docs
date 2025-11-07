@@ -39,6 +39,7 @@ title: JSON 函数
 |----------|-------------|---------|
 | [GET](get) | 按索引或字段名从 JSON 提取值 | `GET('{"name":"John"}', 'name')` → `"John"` |
 | [GET_IGNORE_CASE](get-ignore-case) | 以不区分大小写的方式按字段名提取值 | `GET_IGNORE_CASE('{"Name":"John"}', 'name')` → `"John"` |
+| [GET_BY_KEYPATH](get-by-keypath) | 使用 `{segment}` 键路径提取嵌套值 | `GET_BY_KEYPATH('{"user":{"name":"Ada"}}', '{user,name}')` → `"Ada"` |
 | [GET_PATH](get-path) | 使用路径表示法提取值 | `GET_PATH('{"user":{"name":"John"}}', 'user.name')` → `"John"` |
 | [JSON_EXTRACT_PATH_TEXT](json-extract-path-text) | 使用路径从 JSON 提取文本值 | `JSON_EXTRACT_PATH_TEXT('{"name":"John"}', 'name')` → `'John'` |
 | [JSON_EACH](json-each) | 将 JSON 对象展开为键值对 | `JSON_EACH('{"a":1,"b":2}')` → `[("a",1),("b",2)]` |
@@ -51,3 +52,12 @@ title: JSON 函数
 | [JSON_PRETTY](json-pretty) | 以适当缩进格式化 JSON | `JSON_PRETTY('{"a":1}')` → 格式化后的 JSON 字符串 |
 | [STRIP_NULL_VALUE](strip-null-value) | 从 JSON 中移除 null 值 | `STRIP_NULL_VALUE('{"a":1,"b":null}')` → `{"a":1}` |
 | [JQ](jq) | 使用 jq 风格查询处理 JSON | `JQ('{"name":"John"}', '.name')` → `"John"` |
+
+## JSON 包含与键检测
+
+| 函数 | 描述 | 示例 |
+|----------|-------------|---------|
+| [JSON_CONTAINS_IN_LEFT](json-contains) | 判断左侧 JSON 是否包含右侧 JSON | `JSON_CONTAINS_IN_LEFT('{"a":1,"b":2}', '{"b":2}')` → `true` |
+| [JSON_EXISTS_KEY](json-exists-keys) | 检查单个键是否存在 | `JSON_EXISTS_KEY('{"a":1}', 'a')` → `true` |
+| [JSON_EXISTS_ANY_KEYS](json-exists-keys) | 只要键列表中任意一个存在即返回 `true` | `JSON_EXISTS_ANY_KEYS('{"a":1}', ['x','a'])` → `true` |
+| [JSON_EXISTS_ALL_KEYS](json-exists-keys) | 仅当所有键都存在时返回 `true` | `JSON_EXISTS_ALL_KEYS('{"a":1,"b":2}', ['a','b'])` → `true` |

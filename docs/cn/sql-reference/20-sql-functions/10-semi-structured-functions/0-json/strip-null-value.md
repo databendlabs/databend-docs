@@ -1,5 +1,6 @@
 ---
 title: STRIP_NULL_VALUE
+title_includes: JSON_STRIP_NULLS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
