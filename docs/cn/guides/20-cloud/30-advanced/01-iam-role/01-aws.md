@@ -74,7 +74,7 @@ sidebar_label: "AWS IAM 角色"
 4. 在 Databend Cloud 工作区或 `BendSQL` 中执行以下 SQL 语句：
 
    ```sql
-   CREATE CONNECTION databend_test STORAGE_TYPE = 's3' ROLE_ARN = 'arn:aws:iam::987654321987:role/databend-test';
+   CREATE CONNECTION databend_test STORAGE_TYPE = 's3' ROLE_ARN = 'arn:aws:iam::987654321987:role/databend-test' EXTERNAL_ID = 'my-external-id-123';
 
    CREATE STAGE databend_test URL = 's3://test-bucket-123' CONNECTION = (CONNECTION_NAME = 'databend_test');
 
