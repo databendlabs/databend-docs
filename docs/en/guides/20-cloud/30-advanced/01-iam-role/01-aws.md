@@ -1,17 +1,7 @@
 ---
-title: "AWS IAM Role"
+title: "Authenticate with AWS IAM Role"
+sidebar_label: "AWS IAM Role"
 ---
-
-# Why IAM Role
-
-AWS IAM (Identity and Access Management) Role provides a secure and flexible way to manage access to your AWS resources. When working with Databend Cloud, using IAM Role offers several key benefits:
-
-- **Enhanced Security**: Instead of storing AWS access keys and secrets, IAM Role enables temporary credential access, significantly reducing security risks.
-- **Simplified Access Management**: You can manage permissions centrally through AWS IAM, making it easier to control who can access your S3 buckets and what operations they can perform.
-- **Seamless Integration**: Databend Cloud can securely access your AWS S3 buckets without requiring you to manage or rotate credentials manually.
-- **Compliance and Audit**: IAM Role provides detailed audit trails of access to your S3 buckets, helping you maintain compliance with security policies.
-
-By using IAM Role, you can securely connect your Databend Cloud environment to your AWS S3 buckets while maintaining full control over access permissions and security policies.
 
 # How to Use IAM Role
 

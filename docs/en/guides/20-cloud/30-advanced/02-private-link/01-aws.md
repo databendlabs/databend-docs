@@ -3,16 +3,6 @@ title: "Connecting to Databend Cloud with AWS PrivateLink"
 sidebar_label: "AWS PrivateLink"
 ---
 
-# Why PrivateLink
-
-Connecting to Databend Cloud with AWS PrivateLink provides a secure and private way to access Databend Cloud services without traversing the public internet.
-
-By leveraging AWS PrivateLink, you can establish a private connection between your Virtual Private Cloud (VPC) and Databend Cloud, ensuring that your data remains within your VPC boundaries and is not exposed to the internet. This setup enhances the security of your data and minimizes the risk of unauthorized access.
-
-To connect to Databend Cloud using AWS PrivateLink, you need to configure a VPC endpoint in your VPC. This endpoint acts as a proxy that allows traffic to flow securely between your VPC and Databend Cloud. The VPC endpoint has a private IP address within your VPC and facilitates direct communication with Databend Cloud services.
-
-Once the VPC endpoint is established, you can securely access Databend Cloud services, such as data storage, data processing, and analytics tools, using private IP addresses. This ensures that your data remains within the secure boundaries of your VPC, providing an additional layer of protection.
-
 # How to Setup AWS PrivateLink
 
 1. Provide the AWS account ID you are planning to connect to Databend Cloud:
