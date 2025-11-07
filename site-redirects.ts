@@ -1163,6 +1163,14 @@ const siteRedirects = [
   {
     from: '/sql/sql-functions/aggregate-functions/aggregate-any',
     to: '/sql/sql-functions/aggregate-functions/aggregate-any-value'
+  },
+  {
+    from: '/guides/load-data/stage/aws-iam-role',
+    to: '/guides/cloud/advanced/iam-role'
+  },
+  {
+    from: '/guides/sql-clients/privatelink',
+    to: '/guides/cloud/advanced/private-link'
   }
 ];
 export default siteRedirects;
