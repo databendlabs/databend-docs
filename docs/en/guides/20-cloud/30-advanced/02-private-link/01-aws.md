@@ -17,7 +17,7 @@ Once the VPC endpoint is established, you can securely access Databend Cloud ser
 
 1. Provide the AWS account ID you are planning to connect to Databend Cloud:
 
-   For example: `952853449216`
+   For example: `123456789012`
 
 2. Verify your VPC settings
 

@@ -1,5 +1,5 @@
 ---
-title: "Creating External Stage with AWS IAM Role"
+title: "AWS IAM Role"
 ---
 
 # Why IAM Role

@@ -208,4 +208,4 @@ For more details, see [CREATE USER](/sql/sql-commands/ddl/user/user-create-user)
 
 ### Connection Security
 
-All connections to Databend Cloud warehouses use TLS encryption by default. For enterprise users requiring additional security, [AWS PrivateLink](/guides/sql-clients/privatelink) is available to establish private connections between your VPC and Databend Cloud.
+All connections to Databend Cloud warehouses use TLS encryption by default. For enterprise users requiring additional security, [AWS PrivateLink](/guides/cloud/advanced/private-link) is available to establish private connections between your VPC and Databend Cloud.
