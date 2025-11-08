@@ -2,26 +2,24 @@
 title: Continuous Data Pipelines
 ---
 
-## Introduction to Data Pipelines
+Build end-to-end change data capture (CDC) flows in Databend with two primitives:
 
-Data pipelines automate the process of moving and changing data from different sources into Databend. They make sure data flows smoothly and are vital for processing and analyzing data quickly and continuously.
+- **Streams** capture every INSERT/UPDATE/DELETE until you consume them.
+- **Tasks** run SQL on a schedule or when a stream reports new rows.
 
-In Continuous Data Pipelines, a special feature called **Change Data Capture (CDC)** plays a key role. With Databend, CDC becomes easy and efficient, requiring only a few simple commands through Streams and Tasks.
+## Quick Navigation
 
-## Understanding Change Data Capture (CDC)
+- [Example 1: Append-Only Stream Copy](./01-stream.md#example-1-append-only-stream-copy) – capture inserts and consume them into another table.
+- [Example 2: Standard Stream Updates](./01-stream.md#example-2-standard-stream-updates) – see how updates/deletes appear and why only one consumer can drain a stream.
+- [Example 3: Incremental Stream Metrics](./01-stream.md#example-3-incremental-stream-metrics) – join multiple streams with `WITH CONSUME` to compute deltas batch by batch.
+- [Example 1: Scheduled Copy Task](./02-task.md#example-1-scheduled-copy) – generate and load files with two recurring tasks.
+- [Example 2: Stream-Triggered Merge](./02-task.md#example-2-stream-triggered-merge) – fire a task only when `STREAM_STATUS` is true.
 
-CDC is a process where a stream object captures insertions, updates, and deletions—applied to database tables. It includes metadata about each change, enabling actions based on the modified data. CDC in Databend tracks changes at the row level in a source table, creating a "change table" that reflects modifications between two transactional points in time.
+## Why CDC in Databend
 
-## Advantages of Using Change Data Capture (CDC)
+- **Lightweight** – streams keep the latest change set without duplicating full tables.
+- **Transactional** – stream consumption succeeds or rolls back with your SQL statement.
+- **Incremental** – rerun the same query with `WITH CONSUME` to process only new rows.
+- **Schedulable** – tasks let you automate the copy, merge, or alert logic you already expressed in SQL.
 
-1. **Fast Real-Time Data Loading**: Streamlines the loading of real-time data from transactional databases, almost in seconds.
-2. **Doesn't Affect Original Data**: Safe to use as it doesn’t damage the data or the systems where the data comes from.
-3. **Overcoming Limitations of Batch ETL**: Surpasses traditional batch ETL methods, which are slower and less effective for continuous data updates.
-
-## Key Features of Databend's Continuous Data Pipelines
-
-Databend enhances continuous data pipelines with the following features:
-
-- **Continuous Data Tracking and Transformation**: Enables real-time tracking and transformation of data. [Discover more about Tracking and Transforming Data via Streams](./01-stream.md).
-
-- **Recurring Tasks**: Supports the scheduling and management of recurring data processing tasks to ensure efficiency and reliability of the data pipeline. This feature is currently in private preview.
+Dive into the stream examples first, then combine them with tasks to automate your pipeline.
