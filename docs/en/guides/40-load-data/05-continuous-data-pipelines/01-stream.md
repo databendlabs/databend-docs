@@ -65,7 +65,7 @@ FROM sensor_readings_stream WITH CONSUME;
 SELECT * FROM sensor_readings_stream; -- now empty
 ```
 
-`WITH CONSUME` 只读取一次并清空增量，便于下一轮继续捕获新的 INSERT。
+`WITH CONSUME` reads the stream once and clears the delta so the next round can capture fresh INSERTs.
 
 ## Example 2: Standard Stream (Updates & Deletes)
 

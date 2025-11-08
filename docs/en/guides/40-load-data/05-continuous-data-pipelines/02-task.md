@@ -3,90 +3,44 @@ title: Automating Data Loading with Tasks
 sidebar_label: Task
 ---
 
-A task encapsulates specific SQL statements that are designed to be executed either at predetermined intervals, triggered by specific events, or as part of a broader sequence of tasks. Tasks in Databend Cloud are commonly used to regularly capture data changes from streams, such as newly added records, and then synchronize this data with designated target destinations. Furthermore, tasks offer support for [Webhook](https://en.wikipedia.org/wiki/Webhook) and other messaging systems, facilitating the delivery of error messages and notifications as needed.
-
-## Task Building Blocks
-
-Create tasks with the [CREATE TASK](/sql/sql-commands/ddl/task/ddl-create_task) command. The illustration below shows how the clauses combine into a workflow:
+Tasks wrap SQL so Databend can run it for you on a schedule or when a condition is met. Keep the following knobs in mind when you define one with [CREATE TASK](/sql/sql-commands/ddl/task/ddl-create_task):
 
 ![alt text](/img/load/task.png)
 
-When defining a task, decide on the following building blocks:
-
-1. **Task name & warehouse** – Every task runs on a warehouse. To create or resize a warehouse, see [Work with Warehouses](/guides/cloud/using-databend-cloud/warehouses).
-
-```sql title='Example: set the identity of a task'
-CREATE TASK ingest_orders
-WAREHOUSE = 'etl_wh'
-AS
-SELECT 1;
-```
-
-2. **Trigger** – Choose a fixed schedule or make the task depend on another task.
-
-```sql title='Examples: schedule options'
--- Run every 2 minutes
-CREATE TASK mytask
-WAREHOUSE = 'default'
-// highlight-next-line
-SCHEDULE = 2 MINUTE
-AS ...;
-
--- Run daily at midnight in Asia/Tokyo
-CREATE TASK mytask
-WAREHOUSE = 'default'
-// highlight-next-line
-SCHEDULE = USING CRON '0 0 0 * * *' 'Asia/Tokyo'
-AS ...;
-
--- Run after another task in a DAG
-CREATE TASK mytask
-WAREHOUSE = 'default'
-// highlight-next-line
-AFTER task_root
-AS ...;
-```
-
-3. **Optional guard** – Gate the execution with a boolean expression such as `STREAM_STATUS`.
-
-```sql title='Example: only run when a stream has rows'
-CREATE TASK mytask
-WAREHOUSE = 'default'
-SCHEDULE = 2 MINUTE
-// highlight-next-line
-WHEN STREAM_STATUS('mystream') = TRUE
-AS ...;
-```
-
-4. **Error handling** – Suspend the task after repeated failures or route errors to an integration.
-
-```sql title='Examples: guard against failures'
-CREATE TASK mytask
-WAREHOUSE = 'default'
-SCHEDULE = 5 MINUTE
-// highlight-next-line
-SUSPEND_TASK_AFTER_NUM_FAILURES = 3
-AS ...;
-
-CREATE TASK mytask
-WAREHOUSE = 'default'
-SCHEDULE = 5 MINUTE
-// highlight-next-line
-ERROR_INTEGRATION = 'my_webhook'
-AS ...;
-```
-
-5. **SQL payload** – Provide the statements you want the task to run.
-
-```sql title='Example: run an update every year'
-CREATE TASK bump_age
-WAREHOUSE = 'default'
-SCHEDULE = USING CRON '0 0 1 1 * *' 'UTC'
-// highlight-next-line
-AS
-UPDATE employees
-SET age = age + 1;
-```
+- **Name & warehouse** – every task needs a warehouse.
+    ```sql
+    CREATE TASK ingest_orders
+    WAREHOUSE = 'etl_wh'
+    AS SELECT 1;
+    ```
+- **Trigger** – fixed interval, CRON, or `AFTER another_task`.
+    ```sql
+    CREATE TASK mytask
+    WAREHOUSE = 'default'
+    SCHEDULE = 2 MINUTE
+    AS ...;
+    ```
+- **Guards** – only run when a predicate is true.
+    ```sql
+    CREATE TASK mytask
+    WAREHOUSE = 'default'
+    WHEN STREAM_STATUS('mystream') = TRUE
+    AS ...;
+    ```
+- **Error handling** – pause after N failures or send notifications.
+    ```sql
+    CREATE TASK mytask
+    WAREHOUSE = 'default'
+    SUSPEND_TASK_AFTER_NUM_FAILURES = 3
+    AS ...;
+    ```
+- **SQL payload** – whatever you place after `AS` is what the task executes.
+    ```sql
+    CREATE TASK bump_age
+    WAREHOUSE = 'default'
+    SCHEDULE = USING CRON '0 0 1 1 * *' 'UTC'
+    AS UPDATE employees SET age = age + 1;
+    ```
 
 ## Example 1: Scheduled Copy
 
