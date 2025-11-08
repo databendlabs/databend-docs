@@ -22,7 +22,7 @@ Task 是“把 SQL 交给 Databend 代跑”的方式。你可以让它按固定
 
 持续生成 Parquet 并导入表。记得把 `'etl_wh_small'` 换成你自己的 Warehouse。
 
-### Step 1. 准备演示对象
+### 步骤 1： 准备演示对象
 
 ```sql
 CREATE DATABASE IF NOT EXISTS task_demo;
@@ -38,7 +38,7 @@ CREATE OR REPLACE TABLE sensor_events (
 CREATE OR REPLACE STAGE sensor_events_stage;
 ```
 
-### Step 2. Task 1 —— 生成文件
+### 步骤 2： Task 1 —— 生成文件
 
 ```sql
 CREATE OR REPLACE TASK task_generate_data
@@ -57,7 +57,7 @@ FROM (
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-### Step 3. Task 2 —— 将文件导入表
+### 步骤 3： Task 2 —— 将文件导入表
 
 ```sql
 CREATE OR REPLACE TASK task_consume_data
@@ -71,14 +71,14 @@ FILE_FORMAT = (TYPE = PARQUET)
 PURGE = TRUE;
 ```
 
-### Step 4. 恢复 Task
+### 步骤 4： 恢复 Task
 
 ```sql
 ALTER TASK task_generate_data RESUME;
 ALTER TASK task_consume_data RESUME;
 ```
 
-### Step 5. 观察运行情况
+### 步骤 5： 观察运行情况
 
 ```sql
 SHOW TASKS LIKE 'task_%';
@@ -87,7 +87,7 @@ SELECT * FROM sensor_events ORDER BY event_time DESC LIMIT 5;
 SELECT * FROM task_history('task_consume_data', 5);
 ```
 
-### Step 6. 调整或改写 Task
+### 步骤 6： 调整或改写 Task
 
 ```sql
 ALTER TASK task_consume_data
@@ -111,7 +111,7 @@ ORDER BY completed_time DESC;
 
 只有当 Stream 报告“有增量”时才运行，避免空跑。
 
-### Step 1. 创建 Stream 与结果表
+### 步骤 1： 创建 Stream 与结果表
 
 ```sql
 CREATE OR REPLACE STREAM sensor_events_stream
@@ -124,7 +124,7 @@ FROM sensor_events
 WHERE 1 = 0;
 ```
 
-### Step 2. 定义条件 Task
+### 步骤 2： 定义条件 Task
 
 ```sql
 CREATE OR REPLACE TASK task_stream_merge
@@ -139,7 +139,7 @@ FROM sensor_events_stream;
 ALTER TASK task_stream_merge RESUME;
 ```
 
-### Step 3. 查看增量与历史
+### 步骤 3： 查看增量与历史
 
 ```sql
 SELECT *

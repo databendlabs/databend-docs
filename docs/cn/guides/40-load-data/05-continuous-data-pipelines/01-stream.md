@@ -16,7 +16,7 @@ Stream 不复制整张表，只保留“尚未消费的增量”。消费由谁�
 
 ## 示例 1：Append-Only Stream
 
-### Step 1. 创建基表与 Stream
+### 步骤 1： 创建基表与 Stream
 
 ```sql
 CREATE OR REPLACE TABLE sensor_readings (
@@ -28,7 +28,7 @@ CREATE OR REPLACE STREAM sensor_readings_stream
     ON TABLE sensor_readings; -- APPEND_ONLY 默认即为 true
 ```
 
-### Step 2. 插入并查看增量
+### 步骤 2： 插入并查看增量
 
 ```sql
 INSERT INTO sensor_readings VALUES (1, 21.5), (2, 19.7);
@@ -46,7 +46,7 @@ FROM sensor_readings_stream;
 └────────────┴───────────────┴───────────────┴──────────────────┘
 ```
 
-### Step 3. 消费并写入目标表
+### 步骤 3： 消费并写入目标表
 
 ```sql
 CREATE OR REPLACE TABLE sensor_readings_latest AS
@@ -58,7 +58,7 @@ SELECT * FROM sensor_readings_stream; -- 已为空
 
 ## 示例 2：Standard Stream（含 UPDATE / DELETE）
 
-### Step 1. 为同一张表建立 Standard Stream
+### 步骤 1： 为同一张表建立 Standard Stream
 
 ```sql
 CREATE OR REPLACE STREAM sensor_readings_stream_std
@@ -66,7 +66,7 @@ CREATE OR REPLACE STREAM sensor_readings_stream_std
     APPEND_ONLY = false;
 ```
 
-### Step 2. 执行 UPDATE / DELETE / INSERT 并比较两个 Stream
+### 步骤 2： 执行 UPDATE / DELETE / INSERT 并比较两个 Stream
 
 ```sql
 UPDATE sensor_readings SET temperature = 22 WHERE sensor_id = 1; -- 更新
@@ -97,7 +97,7 @@ ORDER BY change$row_id;
 
 多条 Stream 可以在需要时“一次性消费”。借助 `WITH CONSUME`，每次只处理尚未消费的增量，既适合批式作业也能容忍不同步到达的变更。
 
-### Step 1. 创建基表与 Stream
+### 步骤 1： 创建基表与 Stream
 
 ```sql
 CREATE OR REPLACE TABLE customers (
@@ -116,7 +116,7 @@ CREATE OR REPLACE STREAM customers_stream ON TABLE customers;
 CREATE OR REPLACE STREAM orders_stream ON TABLE orders;
 ```
 
-### Step 2. 首批数据
+### 步骤 2： 首批数据
 
 ```sql
 INSERT INTO customers VALUES
@@ -130,7 +130,7 @@ INSERT INTO orders VALUES
     (5003, 102, 89.0);
 ```
 
-### Step 3. 第一次增量聚合
+### 步骤 3： 第一次增量聚合
 
 ```sql
 WITH
@@ -162,7 +162,7 @@ ORDER BY o.customer_id;
 └──────────────┴───────────┴────────────────────┘
 ```
 
-### Step 4. 下一批到达后再次运行
+### 步骤 4： 下一批到达后再次运行
 
 ```sql
 INSERT INTO customers VALUES (104, 'Standard', 'Guangzhou');
