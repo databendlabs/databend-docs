@@ -9,12 +9,12 @@ Stream 是 Databend 用来记录行级变更的“增量表”。每次提交 IN
 
 | 模式 | 捕获内容 | 适用场景 |
 | --- | --- | --- |
-| 标准（`APPEND_ONLY = false`） | INSERT + UPDATE + DELETE，并在被消费前合并为每行的最新状态 | 需要完整记录变更、可回放更新/删除 |
-| 仅追加（默认，`APPEND_ONLY = true`） | 只捕获 INSERT | 纯追加型事实/日志流水 |
+| Standard Stream（`APPEND_ONLY = false`） | INSERT + UPDATE + DELETE，并在被消费前合并为每行的最新状态 | 需要完整记录变更、可回放更新/删除 |
+| Append-Only Stream（默认，`APPEND_ONLY = true`） | 只捕获 INSERT | 纯追加型事实/日志流水 |
 
 Stream 不复制整张表，只保留“尚未消费的增量”。消费由谁触发、何时触发完全由你掌控。
 
-## 示例 1：仅追加 Stream
+## 示例 1：Append-Only Stream
 
 ### Step 1. 创建基表与 Stream
 
@@ -56,9 +56,9 @@ FROM sensor_readings_stream;
 SELECT * FROM sensor_readings_stream; -- 已为空
 ```
 
-## 示例 2：标准 Stream（含更新与删除）
+## 示例 2：Standard Stream（含更新与删除）
 
-### Step 1. 为同一张表建立标准模式 Stream
+### Step 1. 为同一张表建立 Standard Stream
 
 ```sql
 CREATE OR REPLACE STREAM sensor_readings_stream_std
@@ -73,7 +73,7 @@ UPDATE sensor_readings SET temperature = 22 WHERE sensor_id = 1; -- 更新
 DELETE FROM sensor_readings WHERE sensor_id = 2;                -- 删除
 INSERT INTO sensor_readings VALUES (3, 18.5);                   -- 新增
 
-SELECT * FROM sensor_readings_stream; -- 仍为空（仅追加模式忽略更新/删除）
+SELECT * FROM sensor_readings_stream; -- 仍为空（Append-Only Stream 模式忽略更新/删除）
 
 SELECT sensor_id, temperature, change$action, change$is_update
 FROM sensor_readings_stream_std
@@ -206,8 +206,8 @@ ORDER BY o.customer_id;
 - 同一条 Stream 同时只能被一个语句消费，其余会被回滚。
 
 **模式选择**
-- 仅追加 Stream 专注 INSERT，是事件、日志入湖的最佳拍档。
-- 标准 Stream 能保留更新/删除前后的最终状态，适合需要完整变更信息的场景。
+- Append-Only Stream 专注 INSERT，是事件、日志入湖的最佳拍档。
+- Standard Stream 能保留更新/删除前后的最终状态，适合需要完整变更信息的场景。
 
 **隐藏列**
 - 查询 Stream 时可使用 `change$action`、`change$is_update`、`change$row_id` 判断每条增量。

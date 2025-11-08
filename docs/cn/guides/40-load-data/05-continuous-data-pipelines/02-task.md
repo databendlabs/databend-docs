@@ -3,31 +3,24 @@ title: 使用任务（Task）自动化数据加载
 sidebar_label: 任务（Task）
 ---
 
-任务就是一段可复用的 SQL。你可以设定它按固定频率运行、在其它任务完成后运行，或者在某个 Stream 有新数据时触发。Databend 的任务在数据增量加载、流式入湖、异常通知等场景中都非常有用。
+Task 是“把 SQL 交给 Databend 代跑”的方式。你可以让它按固定频率运行、在另一任务结束后运行，或者在某个 Stream 报告有增量时再运行。下面先看定义 Task 时需要关注的几个开关，再通过两个动手示例理解它如何和 Stream 配合。
 
-## 任务构建模块
+## Task 构建要素
 
-使用 [CREATE TASK](/sql/sql-commands/ddl/task/ddl-create_task) 即可定义任务，建议在创建前先明确以下要素：
-
-1. **名称与计算集群** – 每个任务都运行在某个仓库（Warehouse）上，可随时调大/调小。
-2. **触发方式** – 固定间隔、CRON、或 `AFTER <task>`（DAG）。
-3. **执行条件** – 例如 `WHEN STREAM_STATUS('mystream') = TRUE`，只有当流里有增量时才运行。
-4. **错误策略** – `SUSPEND_TASK_AFTER_NUM_FAILURES`、`ERROR_INTEGRATION` 等参数可让任务在多次失败后暂停并发通知。
-5. **SQL 负载** – `AS` 后就是你要定期执行的 SQL，可以是一条 INSERT/COPY/MERGE，甚至多条语句包在 BEGIN/END 中。
-
-```sql title="示例：每 2 分钟检查一次 Stream"
-CREATE TASK sync_orders
-WAREHOUSE = 'etl_wh'
-SCHEDULE = 2 MINUTE
-WHEN STREAM_STATUS('dim_orders_stream') = TRUE
-AS
-INSERT INTO ods_orders
-SELECT * FROM dim_orders_stream;
-```
+- **名称与计算仓库** – 每个 Task 都需要一个 Warehouse。
+    ```sql
+    CREATE TASK ingest_orders
+    WAREHOUSE = 'etl_wh'
+    AS SELECT 1;
+    ```
+- **触发方式** – `SCHEDULE = 2 MINUTE`、CRON，或 `AFTER <task>`（适用于 DAG）。
+- **执行条件** – `WHEN STREAM_STATUS('mystream') = TRUE` 这类布尔表达式，只有条件满足才运行。
+- **错误策略** – `SUSPEND_TASK_AFTER_NUM_FAILURES`、`ERROR_INTEGRATION` 等参数可在失败多次后暂停并发通知。
+- **SQL 负载** – `AS` 后的内容就是 Task 要执行的语句，可以是一条 INSERT/COPY/MERGE，也可以是 BEGIN...END。
 
 ## 示例 1：定时 COPY
 
-这个示例持续生成 Parquet 文件并灌入表中。记得把 `'etl_wh_small'` 换成你自己的仓库。
+持续生成 Parquet 并导入表。记得把 `'etl_wh_small'` 换成你自己的 Warehouse。
 
 ### Step 1. 准备演示对象
 
@@ -45,11 +38,11 @@ CREATE OR REPLACE TABLE sensor_events (
 CREATE OR REPLACE STAGE sensor_events_stage;
 ```
 
-### Step 2. 任务 1 —— 生成文件
+### Step 2. Task 1 —— 生成文件
 
 ```sql
 CREATE OR REPLACE TASK task_generate_data
-    WAREHOUSE = 'etl_wh_small' -- 换成你的仓库
+    WAREHOUSE = 'etl_wh_small'
     SCHEDULE = 1 MINUTE
 AS
 COPY INTO @sensor_events_stage
@@ -64,7 +57,7 @@ FROM (
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-### Step 3. 任务 2 —— COPY INTO 表
+### Step 3. Task 2 —— 将文件导入表
 
 ```sql
 CREATE OR REPLACE TASK task_consume_data
@@ -78,53 +71,47 @@ FILE_FORMAT = (TYPE = PARQUET)
 PURGE = TRUE;
 ```
 
-### Step 4. 恢复任务
+### Step 4. 恢复 Task
 
 ```sql
 ALTER TASK task_generate_data RESUME;
 ALTER TASK task_consume_data RESUME;
 ```
 
-### Step 5. 监控运行情况
+### Step 5. 观察运行情况
 
 ```sql
-SHOW TASKS LIKE 'task_%';      -- 任务状态
-LIST @sensor_events_stage;     -- Stage 中的文件
-SELECT * FROM sensor_events
-ORDER BY event_time DESC
-LIMIT 5;                       -- 目标表增量
-
-SELECT *
-FROM task_history('task_consume_data', 5); -- 最近 5 次运行
+SHOW TASKS LIKE 'task_%';
+LIST @sensor_events_stage;
+SELECT * FROM sensor_events ORDER BY event_time DESC LIMIT 5;
+SELECT * FROM task_history('task_consume_data', 5);
 ```
 
-### Step 6. 修改任务配置
+### Step 6. 调整或改写 Task
 
 ```sql
-ALTER TASK task_consume_data          -- 修改调度/仓库
+ALTER TASK task_consume_data
     SET SCHEDULE = 30 SECOND,
         WAREHOUSE = 'etl_wh_medium';
 
-ALTER TASK task_consume_data          -- 改写 SQL
+ALTER TASK task_consume_data
     MODIFY AS
 COPY INTO sensor_events
 FROM @sensor_events_stage
 FILE_FORMAT = (TYPE = PARQUET);
 
-ALTER TASK task_consume_data RESUME;  -- SQL 改动后需重新 RESUME
+ALTER TASK task_consume_data RESUME;
 
 SELECT *
 FROM task_history('task_consume_data', 5)
 ORDER BY completed_time DESC;
 ```
 
-`task_history('<task_name>', <limit>)` 会返回运行时间、状态、查询 ID 等详细信息。
+## 示例 2：Stream 条件 Task
 
-## 示例 2：基于 Stream 的条件任务
+只有当 Stream 报告“有增量”时才运行，避免空跑。
 
-让任务只在 Stream 有增量时运行，避免“空跑”。依旧把仓库名称替换掉。
-
-### Step 1. 准备 Stream 和目标表
+### Step 1. 创建 Stream 与结果表
 
 ```sql
 CREATE OR REPLACE STREAM sensor_events_stream
@@ -137,7 +124,7 @@ FROM sensor_events
 WHERE 1 = 0;
 ```
 
-### Step 2. 创建条件任务
+### Step 2. 定义条件 Task
 
 ```sql
 CREATE OR REPLACE TASK task_stream_merge
@@ -164,9 +151,4 @@ SELECT *
 FROM task_history('task_stream_merge', 5);
 ```
 
-只要 `STREAM_STATUS('<database>.<stream_name>')` 返回 TRUE，任务就会运行；否则保持暂停状态。
-
-## 下一步怎么做？
-
-- 继续阅读 [Stream 示例](01-stream.md) 了解如何产生增量。
-- 在任务中添加 `WITH CONSUME` 或更多 SQL 逻辑，构建自己的 CDC/入湖流程。
+只要 `STREAM_STATUS('<database>.<stream_name>')` 返回 TRUE，Task 就会运行；否则保持暂停，直到下一批增量到达。
