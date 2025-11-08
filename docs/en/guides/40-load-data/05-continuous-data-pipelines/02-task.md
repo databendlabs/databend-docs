@@ -190,7 +190,7 @@ WHERE 1 = 0;
 CREATE OR REPLACE TASK task_stream_merge
     WAREHOUSE = 'etl_wh_small' -- replace with your warehouse
     SCHEDULE = 1 MINUTE
-    WHEN STREAM_STATUS('doc_task_demo.sensor_events_stream') = TRUE
+    WHEN STREAM_STATUS('task_demo.sensor_events_stream') = TRUE
 AS
 INSERT INTO sensor_events_latest
 SELECT *
@@ -211,5 +211,5 @@ SELECT *
 FROM task_history('task_stream_merge', 5);
 ```
 
-The task fires only when `STREAM_STATUS('<database>.<stream_name>')` returns `TRUE`. Always prefix the stream with its database (for example `doc_task_demo.sensor_events_stream`) so the task can resolve it regardless of the current schema, and use your own warehouse name in every `CREATE/ALTER TASK`.
+The task fires only when `STREAM_STATUS('<database>.<stream_name>')` returns `TRUE`. Always prefix the stream with its database (for example `task_demo.sensor_events_stream`) so the task can resolve it regardless of the current schema, and use your own warehouse name in every `CREATE/ALTER TASK`.
 

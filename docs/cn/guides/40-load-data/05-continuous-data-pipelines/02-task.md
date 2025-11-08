@@ -151,4 +151,4 @@ SELECT *
 FROM task_history('task_stream_merge', 5);
 ```
 
-只要 `STREAM_STATUS('<database>.<stream_name>')` 返回 TRUE，Task 就会运行；否则保持暂停，直到下一批增量到达。
+只要 `STREAM_STATUS('<database>.<stream_name>')` 返回 TRUE（例如 `task_demo.sensor_events_stream`），Task 就会运行；否则保持暂停，直到下一批增量到达。
