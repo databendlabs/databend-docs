@@ -19,7 +19,7 @@ A stream in Databend is an always-on change table: every committed INSERT, UPDAT
 | Standard (`APPEND_ONLY = false`) | INSERT + UPDATE + DELETE, collapsed to the latest state per row. | Slowly changing dimensions, compliance audits. |
 | Append-Only (`APPEND_ONLY = true`, default) | INSERT only. | Append-only fact/event ingestion. |
 
-## Example 1: Append-Only Stream Copy
+## Example 1: Append-Only Stream
 
 Run the statements below in any Databend deployment (Cloud worksheet or local) to see how the default append-only mode captures and consumes inserts.
 
