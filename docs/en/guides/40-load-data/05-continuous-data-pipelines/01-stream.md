@@ -67,7 +67,7 @@ SELECT * FROM sensor_readings_stream; -- now empty
 
 `WITH CONSUME` 只读取一次并清空增量，便于下一轮继续捕获新的 INSERT。
 
-## Example 2: Standard Stream Basics
+## Example 2: Standard Stream (Updates & Deletes)
 
 Switch to Standard mode when you must react to every mutation, including UPDATE or DELETE.
 
@@ -109,7 +109,7 @@ Output:
 
  Standard streams capture each change with context: updates show up as DELETE+INSERT on the same `sensor_id`, while standalone deletions/insertions appear individually. Append-Only streams stay empty because they track inserts only.
 
-## Example 3: Incremental Stream Metrics
+## Example 3: Incremental Stream Join
 
 Join multiple append-only streams to produce incremental KPIs. Because Databend streams keep new rows until they are consumed, you can run the same query after each load. Every execution drains only the new rows via [`WITH CONSUME`](/sql/sql-commands/query-syntax/with-consume), so updates that arrive at different times are still matched on the next iteration.
 
