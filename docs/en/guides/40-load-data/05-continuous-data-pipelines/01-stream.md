@@ -56,19 +56,18 @@ Output:
 └────────────┴───────────────┴───────────────┴──────────────────┘
 ```
 
-### 3. Consume into a table
+### 3. Consume (optional)
 
 ```sql
-CREATE OR REPLACE TABLE sensor_readings_latest AS
 SELECT sensor_id, temperature
-FROM sensor_readings_stream;
+FROM sensor_readings_stream WITH CONSUME;
 
 SELECT * FROM sensor_readings_stream; -- now empty
 ```
 
-`SELECT * FROM sensor_readings_stream` now returns no rows, confirming that consumption drains the captured changes. Future inserts into `sensor_readings` will show up again until you consume them.
+`WITH CONSUME` 只读取一次并清空增量，便于下一轮继续捕获新的 INSERT。
 
-## Example 2: Standard Stream Updates
+## Example 2: Standard Stream Basics
 
 Switch to Standard mode when you must react to every mutation, including UPDATE or DELETE.
 
@@ -83,11 +82,12 @@ CREATE OR REPLACE STREAM sensor_readings_stream_std
 ### 2. Mutate rows and compare
 
 ```sql
-UPDATE sensor_readings SET temperature = 22 WHERE sensor_id = 1;
-DELETE FROM sensor_readings WHERE sensor_id = 2;
-INSERT INTO sensor_readings VALUES (3, 18.5);
+DELETE FROM sensor_readings WHERE sensor_id = 1;     -- remove old reading
+INSERT INTO sensor_readings VALUES (1, 22);         -- same sensor, new value
+DELETE FROM sensor_readings WHERE sensor_id = 2;     -- pure deletion
+INSERT INTO sensor_readings VALUES (3, 18.5);        -- brand-new sensor
 
-SELECT * FROM sensor_readings_stream; -- still empty (Append-Only ignores updates/deletes)
+SELECT * FROM sensor_readings_stream; -- still empty (Append-Only ignores non-inserts)
 
 SELECT sensor_id, temperature, change$action, change$is_update
 FROM sensor_readings_stream_std
@@ -107,7 +107,7 @@ Output:
 └────────────┴───────────────┴───────────────┴──────────────────┘
 ```
 
- Standard streams keep the final state for each row until you consume them: the update on `sensor_id = 1` surfaces as a DELETE+INSERT pair (both with `change$is_update = true`), while the independent DELETE on `sensor_id = 2` and INSERT on `sensor_id = 3` are captured individually. Append-Only streams remain empty because they ignore updates and deletes entirely.
+ Standard streams capture each change with context: updates show up as DELETE+INSERT on the same `sensor_id`, while standalone deletions/insertions appear individually. Append-Only streams stay empty because they track inserts only.
 
 ## Example 3: Incremental Stream Metrics
 
