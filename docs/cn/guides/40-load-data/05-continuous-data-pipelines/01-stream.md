@@ -56,7 +56,7 @@ FROM sensor_readings_stream;
 SELECT * FROM sensor_readings_stream; -- 已为空
 ```
 
-## 示例 2：Standard Stream（含更新与删除）
+## 示例 2：Standard Stream（含 UPDATE / DELETE）
 
 ### Step 1. 为同一张表建立 Standard Stream
 
@@ -66,14 +66,14 @@ CREATE OR REPLACE STREAM sensor_readings_stream_std
     APPEND_ONLY = false;
 ```
 
-### Step 2. 执行更新、删除、插入并比较两个 Stream
+### Step 2. 执行 UPDATE / DELETE / INSERT 并比较两个 Stream
 
 ```sql
 UPDATE sensor_readings SET temperature = 22 WHERE sensor_id = 1; -- 更新
 DELETE FROM sensor_readings WHERE sensor_id = 2;                -- 删除
 INSERT INTO sensor_readings VALUES (3, 18.5);                   -- 新增
 
-SELECT * FROM sensor_readings_stream; -- 仍为空（Append-Only Stream 模式忽略更新/删除）
+SELECT * FROM sensor_readings_stream; -- 仍为空（Append-Only Stream 模式忽略 UPDATE / DELETE）
 
 SELECT sensor_id, temperature, change$action, change$is_update
 FROM sensor_readings_stream_std
@@ -207,7 +207,7 @@ ORDER BY o.customer_id;
 
 **模式选择**
 - Append-Only Stream 专注 INSERT，是事件、日志入湖的最佳拍档。
-- Standard Stream 能保留更新/删除前后的最终状态，适合需要完整变更信息的场景。
+- Standard Stream 能保留 UPDATE / DELETE 前后的最终状态，适合需要完整变更信息的场景。
 
 **隐藏列**
 - 查询 Stream 时可使用 `change$action`、`change$is_update`、`change$row_id` 判断每条增量。
