@@ -5,80 +5,81 @@ sidebar_label: Task
 
 A task encapsulates specific SQL statements that are designed to be executed either at predetermined intervals, triggered by specific events, or as part of a broader sequence of tasks. Tasks in Databend Cloud are commonly used to regularly capture data changes from streams, such as newly added records, and then synchronize this data with designated target destinations. Furthermore, tasks offer support for [Webhook](https://en.wikipedia.org/wiki/Webhook) and other messaging systems, facilitating the delivery of error messages and notifications as needed.
 
-## Creating a Task
+## Task Building Blocks
 
-This topic breaks down the procedure of creating a task in Databend Cloud. In Databend Cloud, you create a task using the [CREATE TASK](/sql/sql-commands/ddl/task/ddl-create_task) command. When creating a task, follow the illustration below to design the workflow:
+Create tasks with the [CREATE TASK](/sql/sql-commands/ddl/task/ddl-create_task) command. The illustration below shows how the clauses combine into a workflow:
 
 ![alt text](/img/load/task.png)
 
-1. Set a name for the task.
-2. Specify a warehouse to run the task. To create a warehouse, see [Work with Warehouses](/guides/cloud/using-databend-cloud/warehouses).
-3. Determine how to trigger the task to run.
+When defining a task, decide on the following building blocks:
 
-   - You can schedule the task to run by specifying the interval in minutes or seconds, or by using a CRON expression with an optional time zone for more precise scheduling.
+1. **Task name & warehouse** – Every task runs on a warehouse. To create or resize a warehouse, see [Work with Warehouses](/guides/cloud/using-databend-cloud/warehouses).
 
-```sql title='Examples:'
--- This task runs every 2 minutes
+```sql title='Example: set the identity of a task'
+CREATE TASK ingest_orders
+WAREHOUSE = 'etl_wh'
+AS
+SELECT 1;
+```
+
+2. **Trigger** – Choose a fixed schedule or make the task depend on another task.
+
+```sql title='Examples: schedule options'
+-- Run every 2 minutes
 CREATE TASK mytask
 WAREHOUSE = 'default'
 // highlight-next-line
 SCHEDULE = 2 MINUTE
-AS ...
+AS ...;
 
--- This task runs daily at midnight (local time) in the Asia/Tokyo timezone
+-- Run daily at midnight in Asia/Tokyo
 CREATE TASK mytask
 WAREHOUSE = 'default'
 // highlight-next-line
 SCHEDULE = USING CRON '0 0 0 * * *' 'Asia/Tokyo'
-AS ...
-```
+AS ...;
 
-    - Alternatively, you can establish dependencies between tasks, setting the task as a child task in a [Directed Acyclic Graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph).
-
-```sql title='Examples:'
---  This task is dependent on the completion of the 'task_root' task in the DAG
+-- Run after another task in a DAG
 CREATE TASK mytask
 WAREHOUSE = 'default'
 // highlight-next-line
 AFTER task_root
-AS ...
+AS ...;
 ```
 
-4. Specify the condition under which the task will execute, allowing you to optionally control task execution based on a boolean expression.
+3. **Optional guard** – Gate the execution with a boolean expression such as `STREAM_STATUS`.
 
-```sql title='Examples:'
--- This task runs every 2 minutes and executes the SQL after AS only if 'mystream' contains data changes
+```sql title='Example: only run when a stream has rows'
 CREATE TASK mytask
 WAREHOUSE = 'default'
 SCHEDULE = 2 MINUTE
 // highlight-next-line
 WHEN STREAM_STATUS('mystream') = TRUE
-AS ...
+AS ...;
 ```
 
-5. Specify what to do if the task results in an error, including options such as setting the number of consecutive failures to suspend the task and specifying the notification integration for error notifications. For more information about setting an error notification, see [Configuring Notification Integrations](#configuring-notification-integrations).
+4. **Error handling** – Suspend the task after repeated failures or route errors to an integration.
 
-```sql title='Examples:'
---  This task will suspend after 3 consecutive failures
+```sql title='Examples: guard against failures'
 CREATE TASK mytask
 WAREHOUSE = 'default'
+SCHEDULE = 5 MINUTE
 // highlight-next-line
 SUSPEND_TASK_AFTER_NUM_FAILURES = 3
-AS ...
+AS ...;
 
--- This task will utilize the 'my_webhook' integration for error notifications.
 CREATE TASK mytask
 WAREHOUSE = 'default'
+SCHEDULE = 5 MINUTE
 // highlight-next-line
 ERROR_INTEGRATION = 'my_webhook'
-AS ...
+AS ...;
 ```
 
-6. Specify the SQL statement the task will execute.
+5. **SQL payload** – Provide the statements you want the task to run.
 
-```sql title='Examples:'
--- This task updates the 'age' column in the 'employees' table, incrementing it by 1 every year.
-CREATE TASK mytask
+```sql title='Example: run an update every year'
+CREATE TASK bump_age
 WAREHOUSE = 'default'
 SCHEDULE = USING CRON '0 0 1 1 * *' 'UTC'
 // highlight-next-line
@@ -87,83 +88,191 @@ UPDATE employees
 SET age = age + 1;
 ```
 
-## Viewing Created Tasks
+## Example 1: Scheduled COPY Pipeline
 
-To view all tasks created by your organization, log in to Databend Cloud and go to **Data** > **Task**. You can see detailed information for each task, including their status and schedules.
+Continuously generate sensor data, land it as Parquet, and load it into a table. Replace `'etl_wh_small'` with **your** warehouse name in every `CREATE/ALTER TASK` statement.
 
-To view the task run history, go to **Monitor** > **Task History**. You can see each run of tasks with their result, completion time, and other details.
-
-## Configuring Notification Integrations
-
-Databend Cloud allows you to configure error notifications for a task, automating the process of sending notifications when an error occurs during the task execution. It currently supports Webhook integrations, facilitating seamless communication of error events to external systems or services in real-time.
-
-### Task Error Payload
-
-A task error payload refers to the data or information that is sent as part of an error notification when a task encounters an error during its execution. This payload typically includes details about the error, such as error codes, error messages, timestamps, and potentially other relevant contextual information that can help in diagnosing and resolving the issue.
-
-```json title='Task Error Payload Example:'
-{
-  "version": "1.0",
-  "messageId": "063e40ab-0b55-439e-9cd2-504c496e1566",
-  "messageType": "TASK_FAILED",
-  "timestamp": "2024-03-19T02:37:21.160705788Z",
-  "tenantId": "tn78p61xz",
-  "taskName": "my_task",
-  "taskId": "15",
-  "rootTaskName": "my_task",
-  "rootTaskId": "15",
-  "messages": [
-    {
-      "runId": "unknown",
-      "scheduledTime": "2024-03-19T02:37:21.157169855Z",
-      "queryStartTime": "2024-03-19T02:37:21.043090475Z",
-      "completedTime": "2024-03-19T02:37:21.157169205Z",
-      "queryId": "88bb9d5d-5d5e-4e52-92cc-b1953406245a",
-      "errorKind": "UnexpectedError",
-      "errorCode": "500",
-      "errorMessage": "query sync failed: All attempts fail:\n#1: query error: code: 1006, message: divided by zero while evaluating function `divide(1, 0)`"
-    }
-  ]
-}
-```
-
-### Usage Examples
-
-Before configuring error notifications for a task, you must create a notification integration with the [CREATE NOTIFICATION INTEGRATION](/sql/sql-commands/ddl/notification/ddl-create-notification) command. The following is an example of creating and configuring a notification integration for a task. The example utilizes [Webhook.site](http://webhook.site) to simulate the messaging system, receiving payloads from Databend Cloud.
-
-1. Open the [Webhook.site](http://webhook.site) in your web browser, and obtain the URL of your Webhook.
-
-![alt text](/img/load/webhook-1.png)
-
-2. In Databend Cloud, create a notification integration, and then create a task with the notification integration:
+### 1. Prepare the demo objects
 
 ```sql
--- Create a task named 'my_task' to run every minute, with error notifications sent to 'my_webhook'.
--- Intentionally divide by zero to generate an error.
-CREATE TASK my_task
-WAREHOUSE = 'default'
-SCHEDULE = 1 MINUTE
-ERROR_INTEGRATION = 'my_webhook'
-AS
-SELECT 1 / 0;
+-- Create a playground schema and target table
+CREATE DATABASE IF NOT EXISTS task_demo;
+USE task_demo;
 
--- Create a notification integration named 'my_webhook' for sending webhook notifications.
-CREATE NOTIFICATION INTEGRATION my_webhook
-TYPE = WEBHOOK
-ENABLED = TRUE
-WEBHOOK = (
-    url = '<YOUR-WEBHOOK_URL>',
-    method = 'POST'
+CREATE OR REPLACE TABLE sensor_events (
+    event_time  TIMESTAMP,
+    sensor_id   INT,
+    temperature DOUBLE,
+    humidity    DOUBLE
 );
 
--- Resume the task after creation
-ALTER TASK my_task RESUME;
+-- Stage that will store the generated Parquet files
+CREATE OR REPLACE STAGE sensor_events_stage;
 ```
 
-3. Wait for a moment, and you'll notice that your webhook starts to receive the payload from the created task.
+### 2. Task 1 — Generate Parquet files every minute
 
-![alt text](/img/load/webhook-2.png)
+`task_generate_data` writes 100 random readings to the stage once per minute. Each execution produces a fresh Parquet file that downstream consumers can ingest.
 
-## Usage Examples
+```sql
+CREATE OR REPLACE TASK task_generate_data
+    WAREHOUSE = 'etl_wh_small' -- replace with your warehouse
+    SCHEDULE = 1 MINUTE
+AS
+COPY INTO @sensor_events_stage
+FROM (
+    SELECT
+        NOW()            AS event_time,
+        number           AS sensor_id,
+        20 + RAND() * 5  AS temperature,
+        60 + RAND() * 10 AS humidity
+    FROM numbers(100)
+)
+FILE_FORMAT = (TYPE = PARQUET);
+```
 
-See [Example: Tracking and Transforming Data in Real-Time](01-stream.md#example-tracking-and-transforming-data-in-real-time) for a complete demo on how to capture data changes with a stream and sync them with a task.
+### 3. Task 2 — Consume new files into the table
+
+`task_consume_data` scans the stage on the same cadence and copies every newly generated Parquet file into the `sensor_events` table. The `PURGE = TRUE` clause cleans up files that were already ingested.
+
+```sql
+CREATE OR REPLACE TASK task_consume_data
+    WAREHOUSE = 'etl_wh_small' -- replace with your warehouse
+    SCHEDULE = 1 MINUTE
+AS
+COPY INTO sensor_events
+FROM @sensor_events_stage
+PATTERN = '.*[.]parquet'
+FILE_FORMAT = (TYPE = PARQUET)
+PURGE = TRUE;
+```
+
+### 4. Resume the tasks
+
+```sql
+ALTER TASK task_generate_data RESUME;
+ALTER TASK task_consume_data RESUME;
+```
+
+Both tasks start in a suspended state until you resume them. Expect the first files and copies to happen within the next minute.
+
+### 5. Watch the pipeline move data
+
+```sql
+-- Confirm that the tasks are running
+SHOW TASKS LIKE 'task_%';
+
+-- Inspect files on the stage (should shrink as PURGE removes processed files)
+LIST @sensor_events_stage;
+
+-- Check the ingested rows
+SELECT *
+FROM sensor_events
+ORDER BY event_time DESC
+LIMIT 5;
+
+-- Review recent executions for troubleshooting
+SELECT *
+FROM SYSTEM$TASK_HISTORY('task_consume_data')
+LIMIT 5;
+
+-- Change configuration later if needed
+ALTER TASK task_consume_data
+    SCHEDULE = 30 SECOND,
+    WAREHOUSE = 'etl_wh_medium'; -- replace with your warehouse
+```
+
+You can suspend either task with `ALTER TASK ... SUSPEND` when you finish testing.
+
+### 6. Update Tasks
+
+You can change schedules, warehouses, or even the SQL payload without dropping the task:
+
+```sql
+-- Tweak the schedule and warehouse
+ALTER TASK task_consume_data
+    SCHEDULE = 30 SECOND,
+    WAREHOUSE = 'etl_wh_medium'; -- replace with your warehouse
+
+-- Update the SQL payload (replace the existing body)
+ALTER TASK task_consume_data
+    AS
+COPY INTO sensor_events
+FROM @sensor_events_stage
+FILE_FORMAT = (TYPE = PARQUET);
+
+-- Resume after edits (tasks suspend when their SQL changes)
+ALTER TASK task_consume_data RESUME;
+
+-- Review execution history for verification
+SELECT *
+FROM SYSTEM$TASK_HISTORY('task_consume_data')
+ORDER BY completed_time DESC
+LIMIT 5;
+```
+
+`SYSTEM$TASK_HISTORY('<task_name>')` returns status, timing, and query IDs, making it easy to double-check changes.
+
+## Example 2: Stream-Triggered Merge
+
+Use `WHEN STREAM_STATUS(...)` to fire only when a stream has new rows. Reuse the `sensor_events` table from Example 1.
+
+### 1. Create a stream and a “latest” table
+
+```sql
+-- Create a stream on the sensor table (Standard mode to capture every mutation)
+CREATE OR REPLACE STREAM sensor_events_stream
+    ON TABLE sensor_events
+    APPEND_ONLY = false;
+
+-- Target table that keeps only the latest copy of each row
+CREATE OR REPLACE TABLE sensor_events_latest AS
+SELECT *
+FROM sensor_events
+WHERE 1 = 0;
+```
+
+### 2. Task — Merge stream rows only when data is waiting
+
+```sql
+CREATE OR REPLACE TASK task_stream_merge
+    WAREHOUSE = 'etl_wh_small' -- replace with your warehouse
+    SCHEDULE = 1 MINUTE
+    WHEN STREAM_STATUS('doc_task_demo.sensor_events_stream') = TRUE
+AS
+INSERT INTO sensor_events_latest
+SELECT *
+FROM sensor_events_stream;
+
+ALTER TASK task_stream_merge RESUME;
+```
+
+### 3. Verify the conditional behavior
+
+```sql
+SELECT *
+FROM sensor_events_latest
+ORDER BY event_time DESC
+LIMIT 5;
+
+SELECT *
+FROM SYSTEM$TASK_HISTORY('task_stream_merge')
+LIMIT 5;
+```
+
+The task fires only when `STREAM_STATUS('<database>.<stream_name>')` returns `TRUE`. Always prefix the stream with its database (for example `doc_task_demo.sensor_events_stream`) so the task can resolve it regardless of the current schema, and use your own warehouse name in every `CREATE/ALTER TASK`.
+
+## Monitor and Manage Tasks
+
+- **In the UI** – Open **Data > Task** in Databend Cloud to view definitions, or **Monitor > Task History** to review runs and failures.
+- **With SQL** – Use `SHOW TASKS`, `DESCRIBE TASK <name>`, and `SHOW TASK HISTORY` (or `SYSTEM$TASK_HISTORY('<name>')`) to check schedules and runs.
+- **Lifecycle commands** – `ALTER TASK <name> RESUME|SUSPEND`, `ALTER TASK ... WAREHOUSE = '<new_wh>'`, and `DROP TASK <name>` help you control execution.
+
+## Send Error Notifications (Optional)
+
+Tasks can deliver failures to external systems through `ERROR_INTEGRATION`. Define a webhook integration with [CREATE NOTIFICATION INTEGRATION](/sql/sql-commands/ddl/notification/ddl-create-notification) and reference it in `CREATE TASK` or `ALTER TASK`. Detailed payload fields are documented with the SQL command.
+
+## What's Next
+
+- Follow the [Stream hands-on guide](01-stream.md#hands-on-example-track-and-transform-user-activity-in-real-time) to capture changes that feed your tasks.
+- Review the [CREATE TASK](/sql/sql-commands/ddl/task/ddl-create_task) reference for every clause and advanced option.

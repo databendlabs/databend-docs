@@ -6,447 +6,197 @@ sidebar_label: Stream
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-A stream in Databend is a dynamic and real-time representation of changes to a table. Streams are created to capture and track modifications to the associated table, allowing continuous consumption and analysis of data changes as they occur.
+A stream in Databend is an always-on change table: every committed INSERT, UPDATE, or DELETE is captured until you consume it. This page stays lean—first a quick overview, then one lab with real outputs so you can see streams in action.
 
-### How Stream Works
+## Stream Overview
 
-A stream can operate in two modes: **Standard** and **Append-Only**. Specify a mode using the `APPEND_ONLY` parameter (defaults to `true`) when you [CREATE STREAM](/sql/sql-commands/ddl/stream/create-stream).
+- Streams don’t duplicate table storage; they list the latest change for each affected row until you consume it.
+- Consumption (task, INSERT ... SELECT, `WITH CONSUME`, etc.) clears the stream while keeping it ready for new data.
+- `APPEND_ONLY` defaults to `true`; set `APPEND_ONLY = false` only when you must capture UPDATE/DELETE events.
 
-- **Standard**: Captures all types of data changes, including insertions, updates, and deletions.
-- **Append-Only**: In this mode, the stream exclusively contains data insertion records; data updates or deletions are not captured.
+| Mode | Captures | Typical use |
+| --- | --- | --- |
+| Standard (`APPEND_ONLY = false`) | INSERT + UPDATE + DELETE, collapsed to the latest state per row. | Slowly changing dimensions, compliance audits. |
+| Append-Only (`APPEND_ONLY = true`, default) | INSERT only. | Append-only fact/event ingestion. |
 
-The design philosophy of Databend streams is to focus on capturing the final state of the data. For instance, if you insert a value and then update it multiple times, the stream only keeps the most recent state of the value before it is consumed. The following example illustrates what a stream looks like and how it works in both modes.
+## Quickstart: Append-Only vs. Standard Streams
+
+Run the statements below in any Databend deployment (Cloud worksheet or local). Start with the default append-only experience, then see how Standard streams extend it for UPDATE/DELETE workloads.
+
+### Append-Only Streams: Capture Inserts
 
 <StepsWrap>
 <StepContent number="1">
 
-#### Create streams to capture changes
-
-Let's create two tables first, and then create a stream for each table with different modes to capture changes to the tables.
+#### Step 1 · Create a table and an append-only stream
 
 ```sql
--- Create a table and insert a value
-CREATE TABLE t_standard(a INT);
-CREATE TABLE t_append_only(a INT);
+CREATE OR REPLACE TABLE sensor_readings (
+    sensor_id INT,
+    temperature DOUBLE
+);
 
--- Create two streams with different modes: Standard and Append_Only
-CREATE STREAM s_standard ON TABLE t_standard APPEND_ONLY=false;
-CREATE STREAM s_append_only ON TABLE t_append_only APPEND_ONLY=true;
+-- APPEND_ONLY defaults to true, so no extra clause is required.
+CREATE OR REPLACE STREAM sensor_readings_stream
+    ON TABLE sensor_readings;
 ```
-
-You can view the created streams and their mode using the [SHOW FULL STREAMS](/sql/sql-commands/ddl/stream/show-streams) command:
-
-```sql
-SHOW FULL STREAMS;
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│         created_on         │      name     │ database │ catalog │        table_on       │       owner      │ comment │     mode    │ invalid_reason │
-├────────────────────────────┼───────────────┼──────────┼─────────┼───────────────────────┼──────────────────┼─────────┼─────────────┼────────────────┤
-│ 2024-02-18 16:39:58.996763 │ s_append_only │ default  │ default │ default.t_append_only │ NULL             │         │ append_only │                │
-│ 2024-02-18 16:39:58.966942 │ s_standard    │ default  │ default │ default.t_standard    │ NULL             │         │ standard    │                │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
-Now, let's insert two values into each table and observe what the streams capture:
-
-```sql
--- Insert two new values
-INSERT INTO t_standard VALUES(2), (3);
-INSERT INTO t_append_only VALUES(2), (3);
-
-SELECT * FROM s_standard;
-
-┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │   change$action  │              change$row_id             │ change$is_update │
-├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
-│               2 │ INSERT           │ 8cd000827f8140d9921f897016e5a88e000000 │ false            │
-│               3 │ INSERT           │ 8cd000827f8140d9921f897016e5a88e000001 │ false            │
-└────────────────────────────────────────────────────────────────────────────────────────────────┘
-
-SELECT * FROM s_append_only;
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │ change$action │ change$is_update │              change$row_id             │
-├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
-│               2 │ INSERT        │ false            │ 63dc9b84fe0a43528808c3304969b317000000 │
-│               3 │ INSERT        │ false            │ 63dc9b84fe0a43528808c3304969b317000001 │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
-The results above indicate that both streams have successfully captured the new insertions. See [Stream Columns](#stream-columns) for details on the stream columns in the results. Now, let's update and then delete a newly inserted value and examine whether there are differences in the streams' captures.
-
-```sql
-UPDATE t_standard SET a = 4 WHERE a = 2;
-UPDATE t_append_only SET a = 4 WHERE a = 2;
-
-SELECT * FROM s_standard;
-
-┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │   change$action  │              change$row_id             │ change$is_update │
-│ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
-├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
-|               4 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000000 │ false            |
-│               3 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ false            │
-└────────────────────────────────────────────────────────────────────────────────────────────────┘
-
-SELECT * FROM s_append_only;
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │ change$action │ change$is_update │              change$row_id             │
-├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
-│               4 │ INSERT        │ false            │ 63dc9b84fe0a43528808c3304969b317000000 │
-│               3 │ INSERT        │ false            │ 63dc9b84fe0a43528808c3304969b317000001 │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
-
-DELETE FROM t_standard WHERE a = 4;
-DELETE FROM t_append_only WHERE a = 4;
-
-SELECT * FROM s_standard;
-
-┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │   change$action  │              change$row_id             │ change$is_update │
-│ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
-├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
-│               3 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ false            │
-└────────────────────────────────────────────────────────────────────────────────────────────────┘
-
-SELECT * FROM s_append_only;
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │ change$action │ change$is_update │              change$row_id             │
-├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
-│               3 │ INSERT        │ false            │ bfed6c91f3e4402fa477b6853a2d2b58000001 │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
-Up to this point, we haven't noticed any significant differences between the two modes as we haven't processed the streams yet. All changes have been consolidated and manifested as INSERT actions. **A stream can be consumed by a task, a DML (Data Manipulation Language) operation, or a query with [WITH CONSUME](/sql/sql-commands/query-syntax/with-consume) or [WITH Stream Hints](/sql/sql-commands/query-syntax/with-stream-hints)**. After consumption, the stream contains no data but can continue to capture new changes, if any. To further analyze the distinctions, let's proceed with consuming the streams and examining the output.
 
 </StepContent>
 <StepContent number="2">
 
-#### Consume streams
-
-Let's create two new tables and insert into them what the streams have captured.
+#### Step 2 · Insert sample rows and preview the stream
 
 ```sql
-CREATE TABLE t_consume_standard(b INT);
-CREATE TABLE t_consume_append_only(b INT);
+INSERT INTO sensor_readings VALUES (1, 21.5), (2, 19.7);
 
-INSERT INTO t_consume_standard SELECT a FROM s_standard;
-INSERT INTO t_consume_append_only SELECT a FROM s_append_only;
-
-SELECT * FROM t_consume_standard;
-
-┌─────────────────┐
-│        b        │
-├─────────────────┤
-│               3 │
-└─────────────────┘
-
-SELECT * FROM t_consume_append_only;
-
-┌─────────────────┐
-│        b        │
-├─────────────────┤
-│               3 │
-└─────────────────┘
+SELECT sensor_id, temperature, change$action, change$is_update
+FROM sensor_readings_stream;
 ```
 
-If you query the streams now, you'll find them empty because they have been consumed.
+Output:
 
-```sql
--- empty results
-SELECT * FROM s_standard;
-
--- empty results
-SELECT * FROM s_append_only;
+```
+┌────────────┬───────────────┬───────────────┬──────────────────┐
+│ sensor_id  │ temperature   │ change$action │ change$is_update │
+├────────────┼───────────────┼───────────────┼──────────────────┤
+│          1 │ 21.5          │ INSERT        │ false            │
+│          2 │ 19.7          │ INSERT        │ false            │
+└────────────┴───────────────┴───────────────┴──────────────────┘
 ```
 
 </StepContent>
 <StepContent number="3">
 
-#### Capture new changes
-
-Now, let's update the value from `3` to `4` in each table, and subsequently, check their streams again:
+#### Step 3 · Consume the stream into a target table
 
 ```sql
-UPDATE t_standard SET a = 4 WHERE a = 3;
-UPDATE t_append_only SET a = 4 WHERE a = 3;
+CREATE OR REPLACE TABLE sensor_readings_latest AS
+SELECT sensor_id, temperature
+FROM sensor_readings_stream;
 
-
-SELECT * FROM s_standard;
-
-┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │   change$action  │              change$row_id             │ change$is_update │
-│ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
-├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
-│               3 │ DELETE           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ true             │
-│               4 │ INSERT           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ true             │
-└────────────────────────────────────────────────────────────────────────────────────────────────┘
-
--- empty results
-SELECT * FROM s_append_only;
+SELECT * FROM sensor_readings_stream; -- now empty
 ```
 
-The results above show that the Standard stream processes the UPDATE operation as a combination of two actions: a DELETE action that removes the old value (`3`) and an INSERT action that adds the new value (`4`). When updating `3` to `4`, the existing value `3` must first be deleted because it no longer exists in the final state, followed by the insertion of the new value `4`. This behavior reflects how the Standard stream captures only the final changes, representing updates as a sequence of a deletion (removing the old value) and an insertion (adding the new value) for the same row. 
-
-On the other hand, the Append_Only stream does not capture anything because it is designed to log only new data additions (INSERT) and ignores updates or deletions.
-
-If we delete the value `4` now, we can obtain the following results:
-
-```sql
-DELETE FROM t_standard WHERE a = 4;
-DELETE FROM t_append_only WHERE a = 4;
-
-SELECT * FROM s_standard;
-
-┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │   change$action  │              change$row_id             │ change$is_update │
-│ Nullable(Int32) │ Nullable(String) │            Nullable(String)            │      Boolean     │
-├─────────────────┼──────────────────┼────────────────────────────────────────┼──────────────────┤
-│               3 │ DELETE           │ 1dd5cab0b1b64328a112db89d602ca04000001 │ false            │
-└────────────────────────────────────────────────────────────────────────────────────────────────┘
-
--- empty results
-SELECT * FROM s_append_only;
-```
-
-We can see that both stream modes have the capability to capture insertions, along with any subsequent updates and deletions made to the inserted values before the streams are consumed. However, after consumption, if there are updates or deletions to the previously inserted data, only the standard stream is able to capture these changes, recording them as DELETE and INSERT actions.
+`SELECT * FROM sensor_readings_stream` now returns no rows, confirming that consumption drains the captured changes. Future inserts into `sensor_readings` will show up again until you consume them.
 
 </StepContent>
 </StepsWrap>
 
-### Transactional Support for Stream Consumption
+### Standard Streams: Capture Updates and Deletes
 
-In Databend, stream consumption is transactional within single-statement transactions. This means:
+<StepsWrap>
+<StepContent number="1">
 
-**Successful Transaction**: If a transaction is committed, the stream is consumed. For instance:
-
-```sql
-INSERT INTO table SELECT * FROM stream;
-```
-
-If this `INSERT` transaction commits, the stream is consumed.
-
-**Failed Transaction**: If the transaction fails, the stream remains unchanged and available for future consumption.
-
-**Concurrent Access**: _Only one transaction can successfully consume a stream at a time_. If multiple transactions attempt to consume the same stream, only the first committed transaction succeeds, others fail.
-
-### Table Metadata for Stream
-
-**A stream does not store any data for a table**. After creating a stream for a table, Databend introduces specific hidden metadata columns to the table for change tracking purposes. These columns include:
-
-| Column                 | Description                                                                       |
-| ---------------------- | --------------------------------------------------------------------------------- |
-| \_origin_version       | Identifies the table version in which this row was initially created.             |
-| \_origin_block_id      | Identifies the block ID to which this row belonged previously.                    |
-| \_origin_block_row_num | Identifies the row number within the block to which this row belonged previously. |
-
-The previously documented hidden column `_row_version` has been removed and is no longer available.
-
-To display the values of these columns, use the SELECT statement:
-
-```sql title='Example:'
-CREATE TABLE t(a int);
-INSERT INTO t VALUES (1);
-CREATE STREAM s ON TABLE t;
-INSERT INTO t VALUES (2);
-SELECT
-  *,
-  _origin_version,
-  _origin_block_id,
-  _origin_block_row_num
-FROM
-  t;
-
-┌───────────┬──────────────────┬──────────────────────┬───────────────────────┐
-│     a     │ _origin_version  │   _origin_block_id   │ _origin_block_row_num │
-├───────────┼──────────────────┼──────────────────────┼───────────────────────┤
-│     1     │       NULL       │         NULL         │          NULL         │
-│     2     │       NULL       │         NULL         │          NULL         │
-└───────────┴──────────────────┴──────────────────────┴───────────────────────┘
-
-UPDATE t SET a = 3 WHERE a = 2;
-SELECT
-  *,
-  _origin_version,
-  _origin_block_id,
-  _origin_block_row_num
-FROM
-  t;
-
-┌───────────┬──────────────────┬─────────────────────────────────────────────┬───────────────────────┐
-│     a     │ _origin_version  │               _origin_block_id              │ _origin_block_row_num │
-├───────────┼──────────────────┼─────────────────────────────────────────────┼───────────────────────┤
-│     3     │       2317       │   132795849016460663684755265365603707394   │           0           │
-│     1     │       NULL       │                     NULL                    │          NULL         │
-└───────────┴──────────────────┴─────────────────────────────────────────────┴───────────────────────┘
-```
-
-### Stream Columns
-
-You can use the SELECT statement to directly query a stream and retrieve the tracked changes. When querying a stream, consider incorporating these hidden columns for additional details about the changes:
-
-| Column           | Description                                                                                                                                                                        |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| change$action    | Type of change: INSERT or DELETE.                                                                                                                                                  |
-| change$is_update | Indicates whether the `change$action` is part of an UPDATE. In a stream, an UPDATE is represented by a combination of DELETE and INSERT operations, with this field set to `true`. |
-| change$row_id    | Unique identifier for each row to track changes.                                                                                                                                   |
-
-```sql title='Example:'
-CREATE TABLE t(a int);
-INSERT INTO t VALUES (1);
-CREATE STREAM s ON TABLE t;
-INSERT INTO t VALUES (2);
-
-SELECT * FROM s;
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │ change$action │ change$is_update │              change$row_id             │
-├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
-│               2 │ INSERT        │ false            │ a577745c6a404f3384fa95791eb43f22000000 │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
-
--- If you add a new row and then update it,
--- the stream consolidates the changes as an INSERT with your updated value.
-UPDATE t SET a = 3 WHERE a = 2;
-SELECT * FROM s;
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│        a        │ change$action │ change$is_update │              change$row_id             │
-├─────────────────┼───────────────┼──────────────────┼────────────────────────────────────────┤
-│               3 │ INSERT        │ false            │ a577745c6a404f3384fa95791eb43f22000000 │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
-### Example: Tracking and Transforming Data in Real-Time
-
-The following example demonstrates how to use streams to capture and track user activities in real-time.
-
-#### 1. Creating Tables
-
-The example uses three tables:
-
-- `user_activities` table records user activities.
-- `user_profiles` table stores user profiles.
-- `user_activity_profiles` table is a combined view of the two tables.
-
-The `activities_stream` table is created as a stream to capture real-time changes to the `user_activities` table. The stream is then consumed by a query to update the` user_activity_profiles` table with the latest data.
+#### Step 1 · Create a Standard stream on the same table
 
 ```sql
--- Create a table to record user activities
-CREATE TABLE user_activities (
-    user_id INT,
-    activity VARCHAR,
-    timestamp TIMESTAMP
-);
-
--- Create a table to store user profiles
-CREATE TABLE user_profiles (
-    user_id INT,
-    username VARCHAR,
-    location VARCHAR
-);
-
--- Insert data into the user_profiles table
-INSERT INTO user_profiles VALUES (101, 'Alice', 'New York');
-INSERT INTO user_profiles VALUES (102, 'Bob', 'San Francisco');
-INSERT INTO user_profiles VALUES (103, 'Charlie', 'Los Angeles');
-INSERT INTO user_profiles VALUES (104, 'Dana', 'Chicago');
-
--- Create a table for the combined view of user activities and profiles
-CREATE TABLE user_activity_profiles (
-    user_id INT,
-    username VARCHAR,
-    location VARCHAR,
-    activity VARCHAR,
-    activity_timestamp TIMESTAMP
-);
+CREATE OR REPLACE STREAM sensor_readings_stream_std
+    ON TABLE sensor_readings
+    APPEND_ONLY = false;
 ```
 
-#### 2. Creating a Stream
+</StepContent>
+<StepContent number="2">
 
-Create a stream on the `user_activities` table to capture real-time changes:
+#### Step 2 · Mutate rows and compare both streams
 
 ```sql
-CREATE STREAM activities_stream ON TABLE user_activities;
+UPDATE sensor_readings SET temperature = 22 WHERE sensor_id = 1;
+DELETE FROM sensor_readings WHERE sensor_id = 2;
+
+SELECT * FROM sensor_readings_stream; -- still empty (Append-Only ignores updates/deletes)
+
+SELECT sensor_id, temperature, change$action, change$is_update
+FROM sensor_readings_stream_std
+ORDER BY change$row_id;
 ```
 
-#### 3. Inserting Data into the Source Table
+Output:
 
-Insert data into the `user_activities` table to make some changes:
+```
+┌────────────┬───────────────┬───────────────┬──────────────────┐
+│ sensor_id  │ temperature   │ change$action │ change$is_update │
+├────────────┼───────────────┼───────────────┼──────────────────┤
+│          1 │ 21.5          │ DELETE        │ true             │
+│          1 │ 22            │ INSERT        │ true             │
+│          2 │ 19.7          │ DELETE        │ false            │
+└────────────┴───────────────┴───────────────┴──────────────────┘
+```
+
+Append-Only streams are perfect for insert-only pipelines, while Standard streams let you react to every mutation.
+
+</StepContent>
+</StepsWrap>
+## Takeaways
+
+- Consuming a stream drains the captured rows without disabling future tracking.
+- Append-Only streams are the default and focus on INSERT workloads; switch to Standard when you must surface UPDATE or DELETE activity.
+- To automate the copy step, follow the [task-based sensor pipeline demo](02-task.md#hands-on-demo-build-a-sensor-events-pipeline).
+
+## Reference
+
+### Transaction Rules
+
+- Stream consumption is transactional per statement. When `INSERT INTO table SELECT * FROM stream` commits, the source stream is consumed. If the statement fails or is rolled back, the stream stays intact.
+- Only one transaction can successfully consume a given stream at a time; concurrent consumers beyond the first will fail.
+
+### Base Table Metadata Columns
+
+When you create a stream, Databend adds hidden metadata columns to the underlying table so it can reconstruct prior versions:
+
+| Column | Description |
+| --- | --- |
+| \_origin_version | Table version in which the row first appeared. |
+| \_origin_block_id | Block identifier that stored the previous version of the row. |
+| \_origin_block_row_num | Row number inside that previous block. |
+
+Inspect them by querying the base table:
 
 ```sql
-INSERT INTO user_activities VALUES (102, 'logout', '2023-12-19 09:00:00');
-INSERT INTO user_activities VALUES (103, 'view_profile', '2023-12-19 09:15:00');
-INSERT INTO user_activities VALUES (104, 'edit_profile', '2023-12-19 10:00:00');
-INSERT INTO user_activities VALUES (101, 'purchase', '2023-12-19 10:30:00');
-INSERT INTO user_activities VALUES (102, 'login', '2023-12-19 11:00:00');
+SELECT a, _origin_version, _origin_block_id, _origin_block_row_num
+FROM t;
 ```
 
-#### 4. Consuming the Stream to Update the Target Table
+Rows that have never been updated show NULLs; once you update a row, these columns record the source version metadata.
 
-Consume the stream to update the `user_activity_profiles` table:
+Example output:
+
+```
+┌────────┬─────────────────┬────────────────────────────────────────┬──────────────────────────┐
+│    a   │ _origin_version │            _origin_block_id            │ _origin_block_row_num    │
+├────────┼─────────────────┼────────────────────────────────────────┼──────────────────────────┤
+│    1   │ NULL            │ NULL                                   │ NULL                     │
+│    3   │ 1024            │ 6f1a9a3b5822499c9d1f63f95501dd9f       │ 0                        │
+└────────┴─────────────────┴────────────────────────────────────────┴──────────────────────────┘
+```
+
+### Stream Output Columns
+
+Every stream exposes helper columns alongside your business columns:
+
+| Column | Description |
+| --- | --- |
+| change$action | `INSERT` or `DELETE`. |
+| change$is_update | `true` when the action is part of an UPDATE pair (DELETE + INSERT). |
+| change$row_id | Unique identifier for the changed row. |
+
+Query a stream directly to inspect those values:
 
 ```sql
--- Inserting data into the user_activity_profiles table
-INSERT INTO user_activity_profiles
-SELECT
-    a.user_id, p.username, p.location, a.activity, a.timestamp
-FROM
-    -- Source table for changed data
-    activities_stream AS a
-JOIN
-    -- Joining with user profile data
-    user_profiles AS p
-ON
-    a.user_id = p.user_id
-
--- a.change$action is a column indicating the type of change (Databend only supports INSERT for now)
-WHERE a.change$action = 'INSERT';
+SELECT sensor_id, temperature, change$action, change$is_update
+FROM sensor_readings_stream_std;
 ```
 
-Then, check the updated `user_activity_profiles` table:
+In a Standard stream, updating a row repeatedly before consumption keeps a single `INSERT` entry whose values reflect the latest mutation.
 
-```sql
-SELECT
-  *
-FROM
-  user_activity_profiles
+Example:
 
-┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-│     user_id     │     username     │     location     │     activity     │  activity_timestamp │
-├─────────────────┼──────────────────┼──────────────────┼──────────────────┼─────────────────────┤
-│             103 │ Charlie          │ Los Angeles      │ view_profile     │ 2023-12-19 09:15:00 │
-│             104 │ Dana             │ Chicago          │ edit_profile     │ 2023-12-19 10:00:00 │
-│             101 │ Alice            │ New York         │ purchase         │ 2023-12-19 10:30:00 │
-│             102 │ Bob              │ San Francisco    │ login            │ 2023-12-19 11:00:00 │
-│             102 │ Bob              │ San Francisco    │ logout           │ 2023-12-19 09:00:00 │
-└────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+┌────────────┬───────────────┬───────────────┬──────────────────┐
+│ sensor_id  │ temperature   │ change$action │ change$is_update │
+├────────────┼───────────────┼───────────────┼──────────────────┤
+│          1 │ 22            │ INSERT        │ true             │
+└────────────┴───────────────┴───────────────┴──────────────────┘
 ```
 
-#### 5. Task Update for Real-Time Data Processing
-
-To keep the `user_activity_profiles` table current, it's important to periodically synchronize it with data from the `activities_stream`. This synchronization should be aligned with the update intervals of the `user_activities` table, ensuring that the user_activity_profiles accurately reflects the latest user activities and profiles for real-time data analysis.
-
-The Databend `TASK` command(currently in private preview), can be utilized to define a task that updates the `user_activity_profiles` table every minute or seconds.
-
-```sql
--- Define a task in Databend
-CREATE TASK user_activity_task
-WAREHOUSE = 'default'
-SCHEDULE = 1 MINUTE
--- Trigger task when new data arrives in activities_stream
-WHEN stream_status('activities_stream') AS
-    -- Insert new records into user_activity_profiles
-    INSERT INTO user_activity_profiles
-    SELECT
-        -- Join activities_stream with user_profiles based on user_id
-        a.user_id, p.username, p.location, a.activity, a.timestamp
-    FROM
-        activities_stream AS a
-        JOIN user_profiles AS p
-            ON a.user_id = p.user_id
-    -- Include only rows where the action is 'INSERT'
-    WHERE a.change$action = 'INSERT';
-```
+After another update to the same row (before consumption), the stream still shows a single row with the refreshed value.
