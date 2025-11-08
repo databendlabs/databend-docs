@@ -19,16 +19,11 @@ A stream in Databend is an always-on change table: every committed INSERT, UPDAT
 | Standard (`APPEND_ONLY = false`) | INSERT + UPDATE + DELETE, collapsed to the latest state per row. | Slowly changing dimensions, compliance audits. |
 | Append-Only (`APPEND_ONLY = true`, default) | INSERT only. | Append-only fact/event ingestion. |
 
-## Quickstart: Append-Only vs. Standard Streams
+## Example 1: Append-Only Stream Copy
 
-Run the statements below in any Databend deployment (Cloud worksheet or local). Start with the default append-only experience, then see how Standard streams extend it for UPDATE/DELETE workloads.
+Run the statements below in any Databend deployment (Cloud worksheet or local) to see how the default append-only mode captures and consumes inserts.
 
-### Append-Only Streams: Capture Inserts
-
-<StepsWrap>
-<StepContent number="1">
-
-#### Step 1 · Create a table and an append-only stream
+### 1. Create table and stream
 
 ```sql
 CREATE OR REPLACE TABLE sensor_readings (
@@ -41,10 +36,7 @@ CREATE OR REPLACE STREAM sensor_readings_stream
     ON TABLE sensor_readings;
 ```
 
-</StepContent>
-<StepContent number="2">
-
-#### Step 2 · Insert sample rows and preview the stream
+### 2. Insert rows and preview
 
 ```sql
 INSERT INTO sensor_readings VALUES (1, 21.5), (2, 19.7);
@@ -64,10 +56,7 @@ Output:
 └────────────┴───────────────┴───────────────┴──────────────────┘
 ```
 
-</StepContent>
-<StepContent number="3">
-
-#### Step 3 · Consume the stream into a target table
+### 3. Consume into a table
 
 ```sql
 CREATE OR REPLACE TABLE sensor_readings_latest AS
@@ -79,15 +68,11 @@ SELECT * FROM sensor_readings_stream; -- now empty
 
 `SELECT * FROM sensor_readings_stream` now returns no rows, confirming that consumption drains the captured changes. Future inserts into `sensor_readings` will show up again until you consume them.
 
-</StepContent>
-</StepsWrap>
+## Example 2: Standard Stream Updates
 
-### Standard Streams: Capture Updates and Deletes
+Switch to Standard mode when you must react to every mutation, including UPDATE or DELETE.
 
-<StepsWrap>
-<StepContent number="1">
-
-#### Step 1 · Create a Standard stream on the same table
+### 1. Create a Standard stream
 
 ```sql
 CREATE OR REPLACE STREAM sensor_readings_stream_std
@@ -95,14 +80,12 @@ CREATE OR REPLACE STREAM sensor_readings_stream_std
     APPEND_ONLY = false;
 ```
 
-</StepContent>
-<StepContent number="2">
-
-#### Step 2 · Mutate rows and compare both streams
+### 2. Mutate rows and compare
 
 ```sql
 UPDATE sensor_readings SET temperature = 22 WHERE sensor_id = 1;
 DELETE FROM sensor_readings WHERE sensor_id = 2;
+INSERT INTO sensor_readings VALUES (3, 18.5);
 
 SELECT * FROM sensor_readings_stream; -- still empty (Append-Only ignores updates/deletes)
 
@@ -120,83 +103,139 @@ Output:
 │          1 │ 21.5          │ DELETE        │ true             │
 │          1 │ 22            │ INSERT        │ true             │
 │          2 │ 19.7          │ DELETE        │ false            │
+│          3 │ 18.5          │ INSERT        │ false            │
 └────────────┴───────────────┴───────────────┴──────────────────┘
 ```
 
-Append-Only streams are perfect for insert-only pipelines, while Standard streams let you react to every mutation.
+ Standard streams keep the final state for each row until you consume them: the update on `sensor_id = 1` surfaces as a DELETE+INSERT pair (both with `change$is_update = true`), while the independent DELETE on `sensor_id = 2` and INSERT on `sensor_id = 3` are captured individually. Append-Only streams remain empty because they ignore updates and deletes entirely.
 
-</StepContent>
-</StepsWrap>
-## Takeaways
+## Example 3: Incremental Stream Metrics
 
-- Consuming a stream drains the captured rows without disabling future tracking.
-- Append-Only streams are the default and focus on INSERT workloads; switch to Standard when you must surface UPDATE or DELETE activity.
-- To automate the copy step, follow the [task-based sensor pipeline demo](02-task.md#hands-on-demo-build-a-sensor-events-pipeline).
+Join multiple append-only streams to produce incremental KPIs. Because Databend streams keep new rows until they are consumed, you can run the same query after each load. Every execution drains only the new rows via [`WITH CONSUME`](/sql/sql-commands/query-syntax/with-consume), so updates that arrive at different times are still matched on the next iteration.
 
-## Reference
-
-### Transaction Rules
-
-- Stream consumption is transactional per statement. When `INSERT INTO table SELECT * FROM stream` commits, the source stream is consumed. If the statement fails or is rolled back, the stream stays intact.
-- Only one transaction can successfully consume a given stream at a time; concurrent consumers beyond the first will fail.
-
-### Base Table Metadata Columns
-
-When you create a stream, Databend adds hidden metadata columns to the underlying table so it can reconstruct prior versions:
-
-| Column | Description |
-| --- | --- |
-| \_origin_version | Table version in which the row first appeared. |
-| \_origin_block_id | Block identifier that stored the previous version of the row. |
-| \_origin_block_row_num | Row number inside that previous block. |
-
-Inspect them by querying the base table:
+### 1. Create tables and streams
 
 ```sql
-SELECT a, _origin_version, _origin_block_id, _origin_block_row_num
-FROM t;
+CREATE OR REPLACE TABLE customers (
+    customer_id INT,
+    segment VARCHAR,
+    city VARCHAR
+);
+
+CREATE OR REPLACE TABLE orders (
+    order_id INT,
+    customer_id INT,
+    amount DOUBLE
+);
+
+CREATE OR REPLACE STREAM customers_stream ON TABLE customers;
+CREATE OR REPLACE STREAM orders_stream ON TABLE orders;
 ```
 
-Rows that have never been updated show NULLs; once you update a row, these columns record the source version metadata.
-
-Example output:
-
-```
-┌────────┬─────────────────┬────────────────────────────────────────┬──────────────────────────┐
-│    a   │ _origin_version │            _origin_block_id            │ _origin_block_row_num    │
-├────────┼─────────────────┼────────────────────────────────────────┼──────────────────────────┤
-│    1   │ NULL            │ NULL                                   │ NULL                     │
-│    3   │ 1024            │ 6f1a9a3b5822499c9d1f63f95501dd9f       │ 0                        │
-└────────┴─────────────────┴────────────────────────────────────────┴──────────────────────────┘
-```
-
-### Stream Output Columns
-
-Every stream exposes helper columns alongside your business columns:
-
-| Column | Description |
-| --- | --- |
-| change$action | `INSERT` or `DELETE`. |
-| change$is_update | `true` when the action is part of an UPDATE pair (DELETE + INSERT). |
-| change$row_id | Unique identifier for the changed row. |
-
-Query a stream directly to inspect those values:
+### 2. Load the first batch
 
 ```sql
-SELECT sensor_id, temperature, change$action, change$is_update
-FROM sensor_readings_stream_std;
+INSERT INTO customers VALUES
+    (101, 'VIP', 'Seattle'),
+    (102, 'Standard', 'Austin'),
+    (103, 'VIP', 'Austin');
+
+INSERT INTO orders VALUES
+    (5001, 101, 199.0),
+    (5002, 101, 59.0),
+    (5003, 102, 89.0);
 ```
 
-In a Standard stream, updating a row repeatedly before consumption keeps a single `INSERT` entry whose values reflect the latest mutation.
+### 3. Run the first incremental query
 
-Example:
+```sql
+WITH
+    orders_delta AS (
+        SELECT customer_id, amount
+        FROM orders_stream WITH CONSUME
+    ),
+    customers_delta AS (
+        SELECT customer_id, segment
+        FROM customers_stream WITH CONSUME
+    )
+SELECT
+    o.customer_id,
+    c.segment,
+    SUM(o.amount) AS incremental_sales
+FROM orders_delta AS o
+JOIN customers_delta AS c
+    ON o.customer_id = c.customer_id
+GROUP BY o.customer_id, c.segment
+ORDER BY o.customer_id;
+```
 
 ```
-┌────────────┬───────────────┬───────────────┬──────────────────┐
-│ sensor_id  │ temperature   │ change$action │ change$is_update │
-├────────────┼───────────────┼───────────────┼──────────────────┤
-│          1 │ 22            │ INSERT        │ true             │
-└────────────┴───────────────┴───────────────┴──────────────────┘
+┌──────────────┬───────────┬────────────────────┐
+│ customer_id  │ segment   │ incremental_sales  │
+├──────────────┼───────────┼────────────────────┤
+│          101 │ VIP       │ 258.0              │
+│          102 │ Standard  │  89.0              │
+└──────────────┴───────────┴────────────────────┘
 ```
 
-After another update to the same row (before consumption), the stream still shows a single row with the refreshed value.
+The streams are now empty. When more rows arrive, the same query will capture only the new data.
+
+### 4. Run again after the next batch
+
+```sql
+-- New data arrives later
+INSERT INTO customers VALUES (104, 'Standard', 'Denver');
+INSERT INTO orders VALUES
+    (5004, 101, 40.0),
+    (5005, 104, 120.0);
+
+-- Same incremental query as before
+WITH
+    orders_delta AS (
+        SELECT customer_id, amount
+        FROM orders_stream WITH CONSUME
+    ),
+    customers_delta AS (
+        SELECT customer_id, segment
+        FROM customers_stream WITH CONSUME
+    )
+SELECT
+    o.customer_id,
+    c.segment,
+    SUM(o.amount) AS incremental_sales
+FROM orders_delta AS o
+JOIN customers_delta AS c
+    ON o.customer_id = c.customer_id
+GROUP BY o.customer_id, c.segment
+ORDER BY o.customer_id;
+```
+
+```
+┌──────────────┬───────────┬────────────────────┐
+│ customer_id  │ segment   │ incremental_sales  │
+├──────────────┼───────────┼────────────────────┤
+│          101 │ VIP       │ 40.0               │
+│          104 │ Standard  │ 120.0              │
+└──────────────┴───────────┴────────────────────┘
+```
+
+Rows stay in each stream until `WITH CONSUME` runs, so inserts that arrive at different times are still matched on the next run. Leave the streams unconsumed when you expect more related rows, then rerun the query to pick up the incremental delta.
+
+## Stream Workflow Notes
+
+**Consumption**
+- Streams are drained inside a transaction: `INSERT INTO target SELECT ... FROM stream` empties the stream only when the statement commits.
+- Only one consumer can succeed at a time; other concurrent statements roll back.
+
+**Modes**
+- Append-Only streams capture INSERTs only and are ideal for append-heavy workloads.
+- Standard streams emit updates and deletes as long as you consume them; late-arriving updates remain until the next run.
+
+**Hidden Columns**
+- Streams expose `change$action`, `change$is_update`, and `change$row_id`; use them to understand how Databend recorded each row.
+- Base tables gain `_origin_version`, `_origin_block_id`, `_origin_block_row_num` for debugging row provenance.
+
+**Integrations**
+- Pair streams with tasks using `task_history('<name>', <limit>)` for scheduled incremental loads.
+- Use [`WITH CONSUME`](02-task.md) when you want to drain only the latest delta.
+

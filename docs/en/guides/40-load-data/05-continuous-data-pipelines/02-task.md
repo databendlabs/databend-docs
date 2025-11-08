@@ -88,11 +88,11 @@ UPDATE employees
 SET age = age + 1;
 ```
 
-## Example 1: Scheduled COPY Pipeline
+## Example 1: Scheduled Copy
 
 Continuously generate sensor data, land it as Parquet, and load it into a table. Replace `'etl_wh_small'` with **your** warehouse name in every `CREATE/ALTER TASK` statement.
 
-### 1. Prepare the demo objects
+### Step 1. Prepare demo objects
 
 ```sql
 -- Create a playground schema and target table
@@ -110,7 +110,7 @@ CREATE OR REPLACE TABLE sensor_events (
 CREATE OR REPLACE STAGE sensor_events_stage;
 ```
 
-### 2. Task 1 — Generate Parquet files every minute
+### Step 2. Task 1 — Generate files
 
 `task_generate_data` writes 100 random readings to the stage once per minute. Each execution produces a fresh Parquet file that downstream consumers can ingest.
 
@@ -131,7 +131,7 @@ FROM (
 FILE_FORMAT = (TYPE = PARQUET);
 ```
 
-### 3. Task 2 — Consume new files into the table
+### Step 3. Task 2 — Load the files
 
 `task_consume_data` scans the stage on the same cadence and copies every newly generated Parquet file into the `sensor_events` table. The `PURGE = TRUE` clause cleans up files that were already ingested.
 
@@ -147,7 +147,7 @@ FILE_FORMAT = (TYPE = PARQUET)
 PURGE = TRUE;
 ```
 
-### 4. Resume the tasks
+### Step 4. Resume tasks
 
 ```sql
 ALTER TASK task_generate_data RESUME;
@@ -156,7 +156,7 @@ ALTER TASK task_consume_data RESUME;
 
 Both tasks start in a suspended state until you resume them. Expect the first files and copies to happen within the next minute.
 
-### 5. Watch the pipeline move data
+### Step 5. Monitor the pipeline
 
 ```sql
 -- Confirm that the tasks are running
@@ -173,8 +173,7 @@ LIMIT 5;
 
 -- Review recent executions for troubleshooting
 SELECT *
-FROM SYSTEM$TASK_HISTORY('task_consume_data')
-LIMIT 5;
+FROM task_history('task_consume_data', 5);
 
 -- Change configuration later if needed
 ALTER TASK task_consume_data
@@ -184,7 +183,7 @@ ALTER TASK task_consume_data
 
 You can suspend either task with `ALTER TASK ... SUSPEND` when you finish testing.
 
-### 6. Update Tasks
+### Step 6. Update tasks
 
 You can change schedules, warehouses, or even the SQL payload without dropping the task:
 
@@ -206,18 +205,17 @@ ALTER TASK task_consume_data RESUME;
 
 -- Review execution history for verification
 SELECT *
-FROM SYSTEM$TASK_HISTORY('task_consume_data')
-ORDER BY completed_time DESC
-LIMIT 5;
+FROM task_history('task_consume_data', 5)
+ORDER BY completed_time DESC;
 ```
 
-`SYSTEM$TASK_HISTORY('<task_name>')` returns status, timing, and query IDs, making it easy to double-check changes.
+`TASK_HISTORY` returns status, timing, and query IDs, making it easy to double-check changes.
 
 ## Example 2: Stream-Triggered Merge
 
 Use `WHEN STREAM_STATUS(...)` to fire only when a stream has new rows. Reuse the `sensor_events` table from Example 1.
 
-### 1. Create a stream and a “latest” table
+### Step 1. Create stream + latest table
 
 ```sql
 -- Create a stream on the sensor table (Standard mode to capture every mutation)
@@ -232,7 +230,7 @@ FROM sensor_events
 WHERE 1 = 0;
 ```
 
-### 2. Task — Merge stream rows only when data is waiting
+### Step 2. Create the conditional task
 
 ```sql
 CREATE OR REPLACE TASK task_stream_merge
@@ -247,7 +245,7 @@ FROM sensor_events_stream;
 ALTER TASK task_stream_merge RESUME;
 ```
 
-### 3. Verify the conditional behavior
+### Step 3. Verify the behavior
 
 ```sql
 SELECT *
@@ -256,23 +254,8 @@ ORDER BY event_time DESC
 LIMIT 5;
 
 SELECT *
-FROM SYSTEM$TASK_HISTORY('task_stream_merge')
-LIMIT 5;
+FROM task_history('task_stream_merge', 5);
 ```
 
 The task fires only when `STREAM_STATUS('<database>.<stream_name>')` returns `TRUE`. Always prefix the stream with its database (for example `doc_task_demo.sensor_events_stream`) so the task can resolve it regardless of the current schema, and use your own warehouse name in every `CREATE/ALTER TASK`.
 
-## Monitor and Manage Tasks
-
-- **In the UI** – Open **Data > Task** in Databend Cloud to view definitions, or **Monitor > Task History** to review runs and failures.
-- **With SQL** – Use `SHOW TASKS`, `DESCRIBE TASK <name>`, and `SHOW TASK HISTORY` (or `SYSTEM$TASK_HISTORY('<name>')`) to check schedules and runs.
-- **Lifecycle commands** – `ALTER TASK <name> RESUME|SUSPEND`, `ALTER TASK ... WAREHOUSE = '<new_wh>'`, and `DROP TASK <name>` help you control execution.
-
-## Send Error Notifications (Optional)
-
-Tasks can deliver failures to external systems through `ERROR_INTEGRATION`. Define a webhook integration with [CREATE NOTIFICATION INTEGRATION](/sql/sql-commands/ddl/notification/ddl-create-notification) and reference it in `CREATE TASK` or `ALTER TASK`. Detailed payload fields are documented with the SQL command.
-
-## What's Next
-
-- Follow the [Stream hands-on guide](01-stream.md#hands-on-example-track-and-transform-user-activity-in-real-time) to capture changes that feed your tasks.
-- Review the [CREATE TASK](/sql/sql-commands/ddl/task/ddl-create_task) reference for every clause and advanced option.
