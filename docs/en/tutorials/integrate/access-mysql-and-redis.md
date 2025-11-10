@@ -189,7 +189,7 @@ SOURCE(MySQL(
 ));
 ```
 
-2. Create a dictionary named `mysql_users` in Databend that connects to the Redis instance:
+2. Create a dictionary named `redis_user_preferences` in Databend that connects to the Redis instance:
 
 ```sql
 CREATE DICTIONARY redis_user_preferences
