@@ -1,5 +1,5 @@
 ---
-title: JOIN（连接）
+title: JOIN
 ---
 
 ## 概述
