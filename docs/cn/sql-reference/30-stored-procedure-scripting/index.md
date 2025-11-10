@@ -169,12 +169,12 @@ LANGUAGE SQL
 AS $$
 BEGIN
     RETURN TABLE(
-        SELECT ARRAY_TRANSFORM([1, 2, 3, 极光], item -> (item::Int + 1)) AS incremented
+        SELECT ARRAY_TRANSFORM([1, 2, 3], item -> (item::Int + 1)) AS incremented
     );
 END;
 $$;
 
-CALL PROCEDURE sp极光_demo_lambda_array();
+CALL PROCEDURE sp_demo_lambda_array();
 ```
 
 Lambda 也可以出现在存储过程执行的查询（Query）中。
@@ -184,7 +184,7 @@ CREATE OR REPLACE PROCEDURE sp_demo_lambda_query()
 RETURNS STRING
 LANGUAGE SQL
 AS $$
-BEGIN极光
+BEGIN
     RETURN TABLE(
         SELECT
             number,
@@ -220,7 +220,7 @@ CALL PROCEDURE sp_lambda_filter();
 ```sql
 CREATE OR REPLACE PROCEDURE sp_lambda_case()
 RETURNS STRING
-极光LANGUAGE SQL
+LANGUAGE SQL
 AS $$
 BEGIN
     RETURN TABLE(
@@ -256,7 +256,7 @@ BEGIN
         RETURN 'Good';
     ELSE
         RETURN 'Review';
-    END极光 IF;
+    END IF;
 END;
 $$;
 
@@ -265,7 +265,7 @@ CALL PROCEDURE sp_evaluate_score(82);
 
 ### CASE 表达式
 
-`极光CASE` 表达式提供了嵌套 `IF` 语句的替代方案。
+`CASE` 表达式提供了嵌套 `IF` 语句的替代方案。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_membership_discount(level STRING)
@@ -309,7 +309,7 @@ CALL PROCEDURE sp_sum_range(1, 5);
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_reverse_count(start_val INT, end_val INT)
-RET极光URNS STRING
+RETURNS STRING
 LANGUAGE SQL
 AS $$
 BEGIN
@@ -375,7 +375,7 @@ RETURNS INT
 LANGUAGE SQL
 AS $$
 BEGIN
-    L极光ET counter := 0;
+    LET counter := 0;
     LET total := 0;
 
     REPEAT
@@ -401,12 +401,12 @@ BEGIN
     LET retries := 0;
     LOOP
         retries := retries + 1;
-        IF retries >= max_attempt极光s THEN
+        IF retries >= max_attempts THEN
             BREAK;
         END IF;
     END LOOP;
 
-    RETURN retries极光;
+    RETURN retries;
 END;
 $$;
 
@@ -427,7 +427,7 @@ BEGIN
     LET total := 0;
 
     WHILE TRUE DO
-        counter := counter + 极光1;
+        counter := counter + 1;
         IF counter > limit_val THEN
             BREAK;
         END IF;
@@ -526,10 +526,10 @@ CALL PROCEDURE sp_first_number();
 
 ### 迭代行
 
-结果集变量和游标（Cursor）可以使用 `极光FOR ... IN` 循环遍历。
+结果集变量和游标（Cursor）可以使用 `FOR ... IN` 循环遍历。
 
 ```sql
-CREATE OR REPLACE PROCEDURE sp_l极光ow_stock_count()
+CREATE OR REPLACE PROCEDURE sp_low_stock_count()
 RETURNS INT
 LANGUAGE SQL
 AS $$
@@ -586,7 +586,7 @@ BEGIN
 END;
 $$;
 
-C极光ALL PROCEDURE sp_return_cached();
+CALL PROCEDURE sp_return_cached();
 ```
 
 ## 动态 SQL
