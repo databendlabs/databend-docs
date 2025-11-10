@@ -43,21 +43,6 @@ CREATE OR REPLACE TABLE gift (gift VARCHAR);
 INSERT INTO gift VALUES
     ('Croissant'), ('Donut'), ('Coffee'), ('Soda');
 
--- Time-series market data
-CREATE OR REPLACE TABLE trades (symbol VARCHAR, time INT, price INT);
-INSERT INTO trades VALUES
-    ('AAPL', 100003, 101),
-    ('AAPL', 100007, 103),
-    ('MSFT', 100002,  99),
-    ('TSLA', 100010, 200);
-
-CREATE OR REPLACE TABLE quotes (symbol VARCHAR, time INT, bid INT, ask INT);
-INSERT INTO quotes VALUES
-    ('AAPL', 100000,  99, 102),
-    ('AAPL', 100005, 100, 104),
-    ('MSFT', 100001,  98, 101),
-    ('NVDA', 100006, 150, 155);
-
 -- IoT-style readings for ASOF examples
 CREATE OR REPLACE TABLE sensor_readings (
     room VARCHAR,
@@ -116,29 +101,6 @@ gift
 | Soda      |
 +-----------+
 ```
-
-Time-series examples use the following market data snapshots:
-
-```text
-trades
-+--------+--------+-------+
-| symbol | time   | price |
-+--------+--------+-------+
-| AAPL   | 100003 |   101 |
-| AAPL   | 100007 |   103 |
-| MSFT   | 100002 |    99 |
-| TSLA   | 100010 |   200 |
-+--------+--------+-------+
-
-quotes
-+--------+--------+-----+-----+
-| symbol | time   | bid | ask |
-+--------+--------+-----+-----+
-| AAPL   | 100000 |  99 | 102 |
-| AAPL   | 100005 | 100 | 104 |
-| MSFT   | 100001 |  98 | 101 |
-| NVDA   | 100006 | 150 | 155 |
-+--------+--------+-----+-----+
 
 sensor_readings
 +-----------+---------------------+-------------+
