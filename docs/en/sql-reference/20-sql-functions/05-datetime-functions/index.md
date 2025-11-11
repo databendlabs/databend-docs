@@ -42,6 +42,7 @@ This page provides a comprehensive overview of Date & Time functions in Databend
 | [TO_YYYYMMDDHH](to-yyyymmddhh.md)         | Formats date as YYYYMMDDHH                  | `TO_YYYYMMDDHH('2024-06-04 12:30:45')` → `2024060412`         |
 | [TO_YYYYMMDDHHMMSS](to-yyyymmddhhmmss.md) | Formats date as YYYYMMDDHHMMSS              | `TO_YYYYMMDDHHMMSS('2024-06-04 12:30:45')` → `20240604123045` |
 | [DATE_FORMAT](date-format.md)             | Formats a date according to a format string | `DATE_FORMAT('2024-06-04', '%Y-%m-%d')` → `'2024-06-04'`      |
+| [CONVERT_TIMEZONE](convert-timezone.md)   | Converts a timestamp to the target timezone | `CONVERT_TIMEZONE('America/Los_Angeles', '2024-11-01 11:36:10')` → `2024-10-31 20:36:10` |
 
 ## Date & Time Arithmetic Functions
 
