@@ -19,10 +19,7 @@ title: 表
 
 | 命令 | 描述 |
 |---------|-------------|
-| [ALTER TABLE COLUMN](90-alter-table-column.md) | 通过更改列来修改表结构 |
-| [ALTER TABLE CONNECTION](91-alter-table-connection.md) | 更新外部表的连接设置 |
-| [ALTER TABLE OPTION](90-alter-table-option.md) | 修改表的 Fuse 引擎选项 |
-| [ALTER TABLE COMMENT](90-alter-table-comment.md) | 更新表的注释 |
+| [ALTER TABLE](90-alter-table.md) | 修改表的列、注释、Fuse 选项、外部连接，或与另一张表交换元数据 |
 | [RENAME TABLE](30-ddl-rename-table.md) | 更改表名 |
 
 ## 查看表信息

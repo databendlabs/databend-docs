@@ -23,6 +23,27 @@ const siteRedirects = [
     from: '/sql/sql-reference/sql-variables',
     to: '/sql/sql-commands/ddl/variable/'
   },
+  // ALTER TABLE doc consolidation
+  {
+    from: '/sql/sql-commands/ddl/table/alter-table-column',
+    to: '/sql/sql-commands/ddl/table/alter-table'
+  },
+  {
+    from: '/sql/sql-commands/ddl/table/alter-table-comment',
+    to: '/sql/sql-commands/ddl/table/alter-table'
+  },
+  {
+    from: '/sql/sql-commands/ddl/table/alter-table-option',
+    to: '/sql/sql-commands/ddl/table/alter-table'
+  },
+  {
+    from: '/sql/sql-commands/ddl/table/alter-table-connection',
+    to: '/sql/sql-commands/ddl/table/alter-table'
+  },
+  {
+    from: '/sql/sql-commands/ddl/table/alter-table-swap',
+    to: '/sql/sql-commands/ddl/table/alter-table'
+  },
   // AI Functions redirects - functions moved to external implementation
   {
     from: '/sql/sql-functions/ai-functions/ai-cosine-distance',

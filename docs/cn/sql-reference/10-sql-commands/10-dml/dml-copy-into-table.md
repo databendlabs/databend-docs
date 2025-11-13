@@ -606,7 +606,7 @@ COPY INTO books_with_extra_columns
 ```
 
 :::note
-表中的额外列可通过 [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) 或 [ALTER TABLE COLUMN](../00-ddl/01-table/90-alter-table-column.md) 指定默认值。若未显式设置，则使用该数据类型的默认值。例如，整型列默认值为 0。
+表中的额外列可通过 [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) 或 [ALTER TABLE](../00-ddl/01-table/90-alter-table.md#column-operations) 指定默认值。若未显式设置，则使用该数据类型的默认值。例如，整型列默认值为 0。
 :::
 
 ### 示例 6：使用自定义格式加载 JSON

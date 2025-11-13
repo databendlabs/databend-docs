@@ -85,6 +85,6 @@ SELECT * FROM user_info;
 
 For detailed commands to create, modify, and manage masking policies, see:
 - [CREATE MASKING POLICY](/sql/sql-commands/ddl/mask-policy/create-mask-policy)
-- [ALTER TABLE COLUMN](/sql/sql-commands/ddl/table/alter-table-column)
+- [ALTER TABLE](/sql/sql-commands/ddl/table/alter-table#column-operations)
 - [Masking Policy Commands](/sql/sql-commands/ddl/mask-policy/)
   

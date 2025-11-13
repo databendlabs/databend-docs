@@ -146,7 +146,7 @@ CREATE CONNECTION <connection_name>
 
 ## 更新已存在表的连接
 
-若要将现有外部表切换到新的连接，可使用 [`ALTER TABLE ... CONNECTION`](/sql/sql-commands/ddl/table/alter-table-connection) 命令，无需重新创建表。
+若要将现有外部表切换到新的连接，可使用 [`ALTER TABLE ... CONNECTION`](/sql/sql-commands/ddl/table/alter-table#external-table-connection) 命令，无需重新创建表。
 
 ## 示例
 
