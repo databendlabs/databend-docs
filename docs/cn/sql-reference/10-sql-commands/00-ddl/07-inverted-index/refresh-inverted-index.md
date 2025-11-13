@@ -7,10 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.405"/>
 
-刷新 Databend 中的倒排索引。在以下情况下，倒排索引需要刷新：
-
-- 当在创建倒排索引之前将数据插入到表中时，创建后需要手动刷新倒排索引，才能有效地索引插入的数据。
-- 当倒排索引遇到问题或损坏时，需要刷新。如果由于某些块的倒排索引文件损坏而导致倒排索引中断，则诸如 `where match(body, 'wiki')` 之类的查询将返回错误。在这种情况下，您需要刷新倒排索引以解决此问题。
+倒排索引在默认的 `SYNC` 模式下会随着新数据写入自动刷新。仅在创建索引前表中已有数据、需要回填历史行时才需要执行 `REFRESH INVERTED INDEX`。
 
 ## 语法
 
@@ -25,6 +22,17 @@ REFRESH INVERTED INDEX <index> ON [<database>.]<table> [LIMIT <limit>]
 ## 示例
 
 ```sql
--- 刷新表 "customer_feedback" 的名为 "customer_feedback_idx" 的倒排索引
+-- 表中已有在创建索引之前写入的数据
+CREATE TABLE IF NOT EXISTS customer_feedback(id INT, body STRING);
+INSERT INTO customer_feedback VALUES
+  (1, 'Great coffee beans'),
+  (2, 'Needs fresh roasting');
+
+-- 之后才创建倒排索引
+CREATE INVERTED INDEX customer_feedback_idx ON customer_feedback(body);
+
+-- 通过 REFRESH 回填历史数据
 REFRESH INVERTED INDEX customer_feedback_idx ON customer_feedback;
+
+-- 之后的新写入会在 SYNC 模式下自动刷新
 ```

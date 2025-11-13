@@ -1,7 +1,7 @@
 ---
 title: ALTER TABLE
 sidebar_position: 4
-slug: /cn/sql/sql-commands/ddl/table/alter-table
+slug: /sql-commands/ddl/table/alter-table
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';

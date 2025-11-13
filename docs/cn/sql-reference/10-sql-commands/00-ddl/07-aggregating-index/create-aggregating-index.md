@@ -12,10 +12,8 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
-CREATE [ OR REPLACE ] [ ASYNC ] AGGREGATING INDEX <index_name> AS SELECT ...
+CREATE [ OR REPLACE ] AGGREGATING INDEX <index_name> AS SELECT ...
 ```
-
-- `ASYNC` 选项：添加 ASYNC 是可选的。它允许异步创建索引，即索引不会立即构建。要稍后构建，请使用 [REFRESH AGGREGATING INDEX](refresh-aggregating-index.md) 命令。
 
 - 创建聚合索引（Aggregating Index）时，请将其使用限制在标准的[聚合函数](../../../20-sql-functions/07-aggregate-functions/index.md)（例如 AVG、SUM、MIN、MAX、COUNT 和 GROUP BY）内，同时请注意，不支持 GROUPING SETS、[窗口函数](../../../20-sql-functions/08-window-functions/index.md)、[LIMIT](../../20-query-syntax/01-query-select.md#limit-clause) 和 [ORDER BY](../../20-query-syntax/01-query-select.md#order-by-clause)，否则将收到错误提示：`Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`。
 
