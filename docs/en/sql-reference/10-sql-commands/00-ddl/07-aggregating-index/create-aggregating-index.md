@@ -12,10 +12,8 @@ Create a new aggregating index in Databend.
 ## Syntax
 
 ```sql
-CREATE [ OR REPLACE ] [ ASYNC ] AGGREGATING INDEX <index_name> AS SELECT ...
+CREATE [ OR REPLACE ] AGGREGATING INDEX <index_name> AS SELECT ...
 ```
-
-- `ASYNC` Option: Adding ASYNC is optional. It allows the index to be created asynchronously. This means the index isn't built right away. To build it later, use the [REFRESH AGGREGATING INDEX](refresh-aggregating-index.md) command.
 
 - When creating aggregating indexes, limit their usage to standard [Aggregate Functions](../../../20-sql-functions/07-aggregate-functions/index.md) (e.g., AVG, SUM, MIN, MAX, COUNT and GROUP BY), while keeping in mind that GROUPING SETS, [Window Functions](../../../20-sql-functions/08-window-functions/index.md), [LIMIT](../../20-query-syntax/01-query-select.md#limit-clause), and [ORDER BY](../../20-query-syntax/01-query-select.md#order-by-clause) are not accepted, or you will get an error: `Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`.
 

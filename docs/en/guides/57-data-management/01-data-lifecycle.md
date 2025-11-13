@@ -35,7 +35,7 @@ Key Commands:
 - [`CREATE DATABASE`](/sql/sql-commands/ddl/database/ddl-create-database): To create a new database.
 - [`ALTER DATABASE`](/sql/sql-commands/ddl/database/ddl-alter-database): To modify an existing database.
 - [`CREATE TABLE`](/sql/sql-commands/ddl/table/ddl-create-table): To create a new table.
-- [`ALTER TABLE`](/sql/sql-commands/ddl/table/alter-table-column): To modify an existing table.
+- [`ALTER TABLE`](/sql/sql-commands/ddl/table/alter-table): To modify an existing table.
 
 ## Storing Data
 

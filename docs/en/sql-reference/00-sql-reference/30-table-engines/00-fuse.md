@@ -57,7 +57,7 @@ Below are the main parameters for creating a Fuse Engine table:
   The Fuse Engine offers various options (case-insensitive) that allow you to customize the table's properties.
   - See [Fuse Engine Options](#fuse-engine-options) for details.
   - Separate multiple options with a space.
-  - Use [ALTER TABLE OPTION](../../10-sql-commands/00-ddl/01-table/90-alter-table-option.md) to modify a table's options.
+  - Use [ALTER TABLE](../../10-sql-commands/00-ddl/01-table/90-alter-table.md#fuse-engine-options) to modify a table's options.
   - Use [SHOW CREATE TABLE](../../10-sql-commands/00-ddl/01-table/show-create-table.md) to show a table's options.
 
 ---

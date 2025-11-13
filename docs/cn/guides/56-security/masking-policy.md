@@ -85,5 +85,5 @@ SELECT * FROM user_info;
 
 有关创建、修改和管理动态脱敏策略（Masking Policy）的详细命令，请查阅：
 - [CREATE MASKING POLICY](/sql/sql-commands/ddl/mask-policy/create-mask-policy)
-- [ALTER TABLE COLUMN](/sql/sql-commands/ddl/table/alter-table-column)
+- [ALTER TABLE](/sql/sql-commands/ddl/table/alter-table#column-operations)
 - [Masking Policy Commands](/sql/sql-commands/ddl/mask-policy/)

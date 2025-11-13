@@ -606,7 +606,7 @@ COPY INTO books_with_extra_columns
 ```
 
 :::note
-Extra columns in a table can have default values specified by [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) or [ALTER TABLE COLUMN](../00-ddl/01-table/90-alter-table-column.md). If a default value is not explicitly set for an extra column, the default value associated with its data type will be applied. For instance, an integer-type column will default to 0 if no other value is specified.
+Extra columns in a table can have default values specified by [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) or [ALTER TABLE](../00-ddl/01-table/90-alter-table.md#column-operations). If a default value is not explicitly set for an extra column, the default value associated with its data type will be applied. For instance, an integer-type column will default to 0 if no other value is specified.
 :::
 
 ### Example 6: Loading JSON with Custom Format
