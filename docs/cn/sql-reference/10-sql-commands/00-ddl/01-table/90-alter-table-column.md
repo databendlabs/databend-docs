@@ -65,6 +65,14 @@ DROP [ COLUMN ] <column_name>
 - 尚不支持使用 ALTER TABLE 添加存储计算列。
 - 当更改表列的数据类型（Data Type）时，存在转换错误的风险。例如，如果尝试将文本（String）列转换为数字（Float）列，可能会引发问题。
 - 当为列设置脱敏策略（Masking Policy）时，请确保策略中定义的数据类型（请参考 [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md) 语法中的 *arg_type_to_mask* 参数）与列的数据类型相匹配。
+- 如果策略需要额外的列，可结合 `USING` 子句使用，按照参数顺序列出对应的列；第一个参数始终代表正在脱敏的列。
+- 当声明了 `USING (...)` 时，必须至少提供被脱敏的列以及策略所需的其他列，并确保 `USING` 中的第一个标识符与正在修改的列一致。
+- 只有常规表支持绑定脱敏策略；视图、流表以及临时表均无法执行 `SET MASKING POLICY`。
+- 单个列最多只能附加一个安全策略（无论是列脱敏还是行级策略）。在重新绑定之前，请先移除原有策略。
+:::
+
+:::caution
+如果列已绑定脱敏策略，修改列定义或删除该列前必须先执行 `ALTER TABLE ... MODIFY COLUMN <col> UNSET MASKING POLICY`，否则操作会因安全策略仍然生效而失败。
 :::
 
 ## 示例

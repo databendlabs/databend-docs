@@ -50,6 +50,7 @@ MODIFY [ COLUMN ] <column_name> [ COMMENT '<comment>' ]
 -- Set / Unset masking policy for a column
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> SET MASKING POLICY <policy_name>
+       [ USING ( <column_reference> [ , <column_reference> ... ] ) ]
 
 ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 MODIFY [ COLUMN ] <column_name> UNSET MASKING POLICY
@@ -64,6 +65,14 @@ DROP [ COLUMN ] <column_name>
 - Adding a stored computed column with ALTER TABLE is not supported yet.
 - When you change the data type of a table's columns, there's a risk of conversion errors. For example, if you try to convert a column with text (String) to numbers (Float), it might cause problems.
 - When you set a masking policy for a column, make sure that the data type (refer to the parameter *arg_type_to_mask* in the syntax of [CREATE MASKING POLICY](../12-mask-policy/create-mask-policy.md)) defined in the policy matches the column.
+- Use the optional `USING` clause when the policy definition expects additional parameters. List the column mapped to each policy argument in order; the first argument always represents the column being masked.
+- If you include `USING`, provide at least the masked column plus any additional columns needed by the policy. The first identifier in `USING (...)` must match the column being modified.
+- Masking policies can only be attached to regular tables. Views, streams, and temporary tables do not allow `SET MASKING POLICY`.
+- A column can belong to at most one security policy (masking or row-level). Remove the existing policy before attaching a new one.
+:::
+
+:::caution
+You must `ALTER TABLE ... MODIFY COLUMN <col> UNSET MASKING POLICY` before changing the column definition or dropping the column; otherwise the statement fails because the column is still protected by a security policy.
 :::
 
 ## Examples
@@ -234,19 +243,20 @@ SHOW CREATE TABLE students_info;
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Example 5: Setting Masking Policy for a Column
+### Example 5: Setting a Masking Policy with the USING Clause
 
-This example illustrates the process of setting up a masking policy to selectively reveal or mask sensitive data based on user roles.
+This example illustrates how to set up a masking policy that references additional columns by using the `USING` clause.
 
 ```sql
 -- Create a table and insert sample data
 CREATE TABLE user_info (
     id INT,
+    phone STRING,
     email STRING
 );
 
-INSERT INTO user_info (id, email) VALUES (1, 'sue@example.com');
-INSERT INTO user_info (id, email) VALUES (2, 'eric@example.com');
+INSERT INTO user_info (id, phone, email) VALUES (1, '91234567', 'sue@example.com');
+INSERT INTO user_info (id, phone, email) VALUES (2, '81234567', 'eric@example.com');
 
 -- Create a role
 CREATE ROLE 'MANAGERS';
@@ -256,27 +266,28 @@ GRANT ALL ON *.* TO ROLE 'MANAGERS';
 CREATE USER manager_user IDENTIFIED BY 'databend';
 GRANT ROLE 'MANAGERS' TO 'manager_user';
 
--- Create a masking policy
+-- Create a masking policy that inspects another column
 CREATE MASKING POLICY email_mask
 AS
-  (val string)
-  RETURNS string ->
+  (email_val nullable(string), phone_ref nullable(string))
+  RETURNS nullable(string) ->
   CASE
-  WHEN current_role() IN ('MANAGERS') THEN
-    val
-  ELSE
-    '*********'
+    WHEN current_role() IN ('MANAGERS') THEN email_val
+    WHEN phone_ref LIKE '91%' THEN email_val
+    ELSE '*********'
   END
-  COMMENT = 'hide_email';
+  COMMENT = 'hide_email_when_phone_is_masked';
 
--- Associate the masking policy with the 'email' column
-ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
+-- Associate the masking policy with the 'email' column and provide
+-- the additional column required by the policy by using USING(...)
+ALTER TABLE user_info
+MODIFY COLUMN email SET MASKING POLICY email_mask USING (email, phone);
 
 -- Query with the Root user
-SELECT * FROM user_info;
+SELECT id, phone, email FROM user_info ORDER BY id;
 
-id|email    |
---+---------+
- 2|*********|
- 1|*********|
+id|phone   |email          |
+--+--------+---------------+
+ 1|91234567|sue@example.com|
+ 2|81234567|*********      |
 ```

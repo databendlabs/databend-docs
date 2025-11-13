@@ -22,21 +22,23 @@ CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS
     [ COMMENT = '<comment>' ]
 ```
 
-| 参数              	| 描述                                                                                                                           	|
-|------------------------	|---------------------------------------------------------------------------------------------------------------------------------------	|
-| policy_name              	| 要创建的脱敏策略的名称。                                                                                          	|
-| arg_name_to_mask       	| 需要脱敏的原始数据参数的名称。                                                                      	|
-| arg_type_to_mask       	| 要脱敏的原始数据参数的数据类型。                                                                            	|
-| expression_on_arg_name 	| 一个表达式，用于确定如何处理原始数据以生成脱敏数据。                                    	|
-| comment                   | 提供有关脱敏策略信息或说明的可选注释。                                                          	|
+| 参数 | 描述 |
+|------|------|
+| `policy_name` | 要创建的脱敏策略名称。 |
+| `arg_name_to_mask` | 表示被脱敏列的参数。该参数必须放在第一位，并自动绑定到 `SET MASKING POLICY` 中指向的列。 |
+| `arg_type_to_mask` | 被脱敏列的数据类型，必须与实际列一致。 |
+| `arg_1 ... arg_n` | 策略逻辑需要的可选额外列参数。绑定策略时，通过 `USING` 子句提供这些列。 |
+| `arg_type_1 ... arg_type_n` | 每个额外参数对应的数据类型，需要与 `USING` 子句中的列匹配。 |
+| `expression_on_arg_name` | 描述如何处理输入列以生成脱敏结果的表达式。 |
+| `comment` | 可选注释，用于补充策略说明。 |
 
 :::note
-确保 *arg_type_to_mask* 与将应用脱敏策略的列的数据类型匹配。
+确保 *arg_type_to_mask* 与将应用脱敏策略的列的数据类型匹配。当策略包含多个参数时，必须在 `ALTER TABLE ... SET MASKING POLICY` 的 `USING` 子句中按相同顺序列出对应列。
 :::
 
 ## 示例
 
-此示例演示了设置脱敏策略以根据用户角色选择性地显示或脱敏敏感数据的过程。
+此示例演示了如何结合 `USING` 子句引用额外列，根据用户角色或其他列的值选择性地显示或脱敏敏感数据。
 
 ```sql
 -- 创建表并插入示例数据
@@ -57,37 +59,33 @@ GRANT ALL ON *.* TO ROLE 'MANAGERS';
 CREATE USER manager_user IDENTIFIED BY 'databend';
 GRANT ROLE 'MANAGERS' TO 'manager_user';
 
--- 创建脱敏策略
-CREATE MASKING POLICY email_mask
+-- 创建需要额外列参与判断的脱敏策略
+CREATE MASKING POLICY contact_mask
 AS
-  (val nullable(string))
+  (contact_val nullable(string), phone_ref nullable(string))
   RETURNS nullable(string) ->
   CASE
-  WHEN current_role() IN ('MANAGERS') THEN
-    val
-  ELSE
-    '*********'
+    WHEN current_role() IN ('MANAGERS') THEN contact_val
+    WHEN phone_ref LIKE '91%' THEN contact_val
+    ELSE '*********'
   END
-  COMMENT = 'hide_email';
+  COMMENT = 'mask contact data with phone check';
 
-CREATE MASKING POLICY phone_mask AS (val nullable(string)) RETURNS nullable(string) -> CASE
-  WHEN current_role() IN ('MANAGERS') THEN val
-  ELSE '*********'
-END COMMENT = 'hide_phone';
+-- 将脱敏策略与 'email' 列关联，并通过 USING 传入额外列
+ALTER TABLE user_info
+MODIFY COLUMN email SET MASKING POLICY contact_mask USING (email, phone);
 
--- 将脱敏策略与 'email' 列关联
-ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
-
--- 将脱敏策略与 'phone' 列关联
-ALTER TABLE user_info MODIFY COLUMN phone SET MASKING POLICY phone_mask;
+-- 将脱敏策略与 'phone' 列关联（此处同样传递自身和参考列）
+ALTER TABLE user_info
+MODIFY COLUMN phone SET MASKING POLICY contact_mask USING (phone, phone);
 
 -- 使用 Root 用户查询
-SELECT * FROM user_info;
+SELECT user_id, phone, email FROM user_info ORDER BY user_id;
 
      user_id     │        phone     │       email      │
  Nullable(Int32) │ Nullable(String) │ Nullable(String) │
 ─────────────────┼──────────────────┼──────────────────┤
+               1 │ 91234567         │ sue@example.com  │
                2 │ *********        │ *********        │
-               1 │ *********        │ *********        │
 
 ```
