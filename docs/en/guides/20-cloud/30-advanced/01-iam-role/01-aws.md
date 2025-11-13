@@ -41,7 +41,7 @@ sidebar_label: "AWS IAM Role"
 
    Click `Create role`, and select `Custom trust policy` in `Trusted entity type`:
 
-   ![Create Role](/img/cloud/iam/create-role.png)
+   ![Create Role](/img/cloud/iam/aws/create-role.png)
 
    Input the the trust policy document:
 
