@@ -41,7 +41,7 @@ sidebar_label: "AWS IAM 角色"
 
    点击 `Create role`，在 `Trusted entity type` 中选择 `Custom trust policy`：
 
-   ![创建角色](/img/cloud/iam/create-role.png)
+   ![创建角色](/img/cloud/iam/aws/create-role.png)
 
    输入信任策略文档：
 

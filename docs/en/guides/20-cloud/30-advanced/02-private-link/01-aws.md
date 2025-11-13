@@ -11,7 +11,7 @@ sidebar_label: "AWS PrivateLink"
 
 2. Verify your VPC settings
 
-   ![VPC Settings](/img/cloud/privatelink/vpc-settings.png)
+   ![VPC Settings](/img/cloud/privatelink/aws/vpc-settings.png)
 
    Ensure `Enable DNS resolution` and `Enable DNS hostnames` are checked.
 
@@ -21,7 +21,7 @@ sidebar_label: "AWS PrivateLink"
 
 4. Prepare a security group with tcp 443 port open:
 
-   ![Security Group](/img/cloud/privatelink/security-group.png)
+   ![Security Group](/img/cloud/privatelink/aws/security-group.png)
 
 5. Goto AWS Console:
 
@@ -29,39 +29,39 @@ sidebar_label: "AWS PrivateLink"
 
    Click `Create endpoint`:
 
-   ![Create Endpoint Button](/img/cloud/privatelink/create-endpoint-1.png)
+   ![Create Endpoint Button](/img/cloud/privatelink/aws/create-endpoint-1.png)
 
-   ![Create Endpoint Sheet](/img/cloud/privatelink/create-endpoint-2.png)
+   ![Create Endpoint Sheet](/img/cloud/privatelink/aws/create-endpoint-2.png)
 
    Select the previously created security group `HTTPS`
 
-   ![Create Endpoint SG](/img/cloud/privatelink/create-endpoint-3.png)
+   ![Create Endpoint SG](/img/cloud/privatelink/aws/create-endpoint-3.png)
 
-   ![Create Endpoint Done](/img/cloud/privatelink/create-endpoint-4.png)
+   ![Create Endpoint Done](/img/cloud/privatelink/aws/create-endpoint-4.png)
 
 6. Wait for cloud admin approving your connect request:
 
-   ![Request](/img/cloud/privatelink/request.png)
+   ![Request](/img/cloud/privatelink/aws/request.png)
 
 7. Wait for the PrivateLink creation:
 
-   ![Creation](/img/cloud/privatelink/creation.png)
+   ![Creation](/img/cloud/privatelink/aws/creation.png)
 
 8. Modify private DNS name setting:
 
-   ![DNS Menu](/img/cloud/privatelink/dns-1.png)
+   ![DNS Menu](/img/cloud/privatelink/aws/dns-1.png)
 
    Enable private DNS names:
 
-   ![DNS Sheet](/img/cloud/privatelink/dns-2.png)
+   ![DNS Sheet](/img/cloud/privatelink/aws/dns-2.png)
 
    Wait for changes to apply.
 
 9. Verify accessing Databend Cloud via PrivateLink:
 
-   ![Verify DNS](/img/cloud/privatelink/verify-1.png)
+   ![Verify DNS](/img/cloud/privatelink/aws/verify-1.png)
 
-   ![Verify Response](/img/cloud/privatelink/verify-2.png)
+   ![Verify Response](/img/cloud/privatelink/aws/verify-2.png)
 
    Gateway domain is resolved to VPC internal IP address.
 
