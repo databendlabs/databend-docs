@@ -61,7 +61,7 @@ CREATE TABLE <table_name> (
   Fuse Engine 提供了各种选项（不区分大小写），允许您自定义表的属性。
   - 有关详细信息，请参见 [Fuse Engine Options](#fuse-engine-options)。
   - 使用空格分隔多个选项。
-  - 使用 [ALTER TABLE OPTION](../../10-sql-commands/00-ddl/01-table/90-alter-table-option.md) 修改表的选项。
+  - 使用 [ALTER TABLE](../../10-sql-commands/00-ddl/01-table/90-alter-table.md#fuse-引擎选项) 修改表的选项。
   - 使用 [SHOW CREATE TABLE](../../10-sql-commands/00-ddl/01-table/show-create-table.md) 显示表的选项。
 
 ---

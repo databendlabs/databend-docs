@@ -148,7 +148,7 @@ To create a connection, the user performing the operation or the [current_role](
 
 ## Update Table Connections
 
-To switch an existing table to a new connection, use [`ALTER TABLE ... CONNECTION`](/sql/sql-commands/ddl/table/alter-table-connection). This command rebinds external tables to a different connection without recreating the table.
+To switch an existing table to a new connection, use [`ALTER TABLE ... CONNECTION`](/sql/sql-commands/ddl/table/alter-table#external-table-connection). This command rebinds external tables to a different connection without recreating the table.
 
 ## Examples
 

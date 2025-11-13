@@ -19,10 +19,7 @@ This page provides a comprehensive overview of table operations in Databend, org
 
 | Command | Description |
 |---------|-------------|
-| [ALTER TABLE COLUMN](90-alter-table-column.md) | Modifies the structure of a table by making changes to its columns |
-| [ALTER TABLE CONNECTION](91-alter-table-connection.md) | Updates the connection settings for an external table |
-| [ALTER TABLE OPTION](90-alter-table-option.md) | Modifies the Fuse engine options of a table |
-| [ALTER TABLE COMMENT](90-alter-table-comment.md) | Updates the comment for a table |
+| [ALTER TABLE](90-alter-table.md) | Modifies table columns, comments, Fuse options, external connections, or swaps metadata with another table |
 | [RENAME TABLE](30-ddl-rename-table.md) | Changes the name of a table |
 
 ## Table Information

@@ -35,7 +35,7 @@ Databend 支持创建和修改以下对象：
 - [`CREATE DATABASE`](/sql/sql-commands/ddl/database/ddl-create-database) : 创建新数据库。
 - [`ALTER DATABASE`](/sql/sql-commands/ddl/database/ddl-alter-database) : 修改现有数据库。
 - [`CREATE TABLE`](/sql/sql-commands/ddl/table/ddl-create-table) : 创建新表。
-- [`ALTER TABLE`](/sql/sql-commands/ddl/table/alter-table-column) : 修改现有表。
+- [`ALTER TABLE`](/sql/sql-commands/ddl/table/alter-table) : 修改现有表。
 
 ## 存储数据
 
