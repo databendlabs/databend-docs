@@ -49,7 +49,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 ```sql
 SELECT COUNT(*)
 FROM covid_19_us_2022_3812
-WHERE date IS NULL OR country IS NULL OR state IS NULL OR flip IS NULL OR cases IS NULL OR deaths IS NULL;
+WHERE date IS NULL OR country IS NULL OR state IS NULL OR fips IS NULL OR cases IS NULL OR deaths IS NULL;
 ```
 
 此 SQL 语句返回 `41571`，表示包含至少一个 NULL 值的行数。
@@ -58,7 +58,7 @@ WHERE date IS NULL OR country IS NULL OR state IS NULL OR flip IS NULL OR cases 
 
 ```sql
 DELETE FROM covid_19_us_2022_3812
-WHERE date IS NULL OR country IS NULL OR state IS NULL OR flip IS NULL OR cases IS NULL OR deaths IS NULL;
+WHERE date IS NULL OR country IS NULL OR state IS NULL OR fips IS NULL OR cases IS NULL OR deaths IS NULL;
 ```
 
 </StepContent>
@@ -71,9 +71,9 @@ WHERE date IS NULL OR country IS NULL OR state IS NULL OR flip IS NULL OR cases 
 1. 在同一个工作表中，使用以下 SQL 语句检查表中是否存在重复值：
 
 ```sql
-SELECT date, country, state, flip, cases, deaths, COUNT(*)
+SELECT date, country, state, fips, cases, deaths, COUNT(*)
 FROM covid_19_us_2022_3812
-GROUP BY date, country, state, flip, cases, deaths
+GROUP BY date, country, state, fips, cases, deaths
 HAVING COUNT(*) > 1;
 ```
 
