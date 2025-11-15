@@ -49,7 +49,7 @@ Before the analytics work, it is recommended to check for NULL and duplicate val
 ```sql
 SELECT COUNT(*)
 FROM covid_19_us_2022_3812
-WHERE date IS NULL OR country IS NULL OR state IS NULL OR flip IS NULL OR cases IS NULL OR deaths IS NULL;
+WHERE date IS NULL OR country IS NULL OR state IS NULL OR fips IS NULL OR cases IS NULL OR deaths IS NULL;
 ```
 
 This SQL statement returns `41571`, indicating the number of rows that contain at least one NULL value.
@@ -58,7 +58,7 @@ This SQL statement returns `41571`, indicating the number of rows that contain a
 
 ```sql
 DELETE FROM covid_19_us_2022_3812
-WHERE date IS NULL OR country IS NULL OR state IS NULL OR flip IS NULL OR cases IS NULL OR deaths IS NULL;
+WHERE date IS NULL OR country IS NULL OR state IS NULL OR fips IS NULL OR cases IS NULL OR deaths IS NULL;
 ```
 
 </StepContent>
@@ -71,9 +71,9 @@ WHERE date IS NULL OR country IS NULL OR state IS NULL OR flip IS NULL OR cases 
 1. In the same worksheet, check for duplicate values in the table with the following SQL statement:
 
 ```sql
-SELECT date, country, state, flip, cases, deaths, COUNT(*)
+SELECT date, country, state, fips, cases, deaths, COUNT(*)
 FROM covid_19_us_2022_3812
-GROUP BY date, country, state, flip, cases, deaths
+GROUP BY date, country, state, fips, cases, deaths
 HAVING COUNT(*) > 1;
 ```
 
