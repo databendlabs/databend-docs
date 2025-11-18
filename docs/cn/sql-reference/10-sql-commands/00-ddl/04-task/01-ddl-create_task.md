@@ -209,3 +209,18 @@ AS
 ```
 
 本例创建名为 `cache_enabled_task` 的任务，带启用查询结果缓存的**会话参数**，每 **5 分钟**运行一次，使用 **analytics** 计算集群。会话参数 **`enable_query_result_cache = 1`** 与 **`query_result_cache_min_execute_secs = 5`** 置于所有其他参数之后，为执行时间 ≥5 秒的查询启用缓存，若底层数据未变，可**提升**后续执行的**性能**。
+
+### 查看任务运行历史
+
+使用 `TASK_HISTORY()` 表函数查看任务何时、如何运行：
+
+```sql
+SELECT *
+FROM TASK_HISTORY(
+  TASK_NAME    => 'daily_sales_summary',
+  RESULT_LIMIT => 20
+)
+ORDER BY scheduled_time DESC;
+```
+
+更多参数（如按时间范围或 DAG 的根任务 ID 过滤）参见 [TASK HISTORY](../../../20-sql-functions/17-table-functions/task_histroy.md)。
