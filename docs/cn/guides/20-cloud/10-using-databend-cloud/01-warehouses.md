@@ -170,11 +170,6 @@ Databend Cloud 支持多种连接方法以满足您的特定需求。有关详�
 2. 选择您希望连接的数据库和计算集群。连接信息将根据您的选择进行更新。
 3. 连接详细信息包括一个名为 `cloudapp` 的 SQL 用户和一个随机生成的密码。Databend Cloud 不存储此密码。请务必复制并安全保存。如果您忘记了密码，请点击 **重置** 生成新密码。
 
-{/_ LANG_REPLACE:
-type=image
-en=@site/static/img/documents/warehouses/databend_cloud_dsn.gif
-cn=@site/static/img/documents_cn/warehouses/databend_cloud_dsn.gif
-_/}
 ![alt text](@site/static/img/documents_cn/warehouses/databend_cloud_dsn.gif)
 
 ### 连接字符串格式
