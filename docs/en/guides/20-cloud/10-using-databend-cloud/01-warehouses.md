@@ -27,7 +27,7 @@ In Databend Cloud, warehouses are available in various sizes, each defined by th
 | Medium                | Ideal for teams handling more complex queries and higher concurrency. Suitable for larger datasets (around 1TB).                                 |
 | Large                 | Perfect for organizations running many concurrent queries. Suitable for large datasets (around 5TB).                                             |
 | XLarge                | Built for enterprise-scale workloads with high concurrency. Suitable for very large datasets (over 10TB).                                        |
-| nXLarge               | n= 2,3,4,5,6 [Contace Us](https://www.databend.com/contact-us/)                                                                                  |
+| nXLarge               | n=2,3,4,5,6 [Contace Us](https://www.databend.com/contact-us/)                                                                                  |
 | Multi-Cluster Scaling | Automatically scales out and scales in to match your workload, providing the most cost-efficient way to improve concurrency based on your needs. |
 
 To choose the appropriate warehouse size, Databend recommends starting with a smaller size. Smaller warehouses may take longer to execute SQL tasks compared to medium or large ones. If you find that query execution is taking too long (for example, several minutes), consider scaling up to a medium or large warehouse for faster results.
@@ -47,7 +47,7 @@ A suspended warehouse does not consume any credits. You can manually suspend or 
 
 You can perform bulk operations on warehouses, including bulk restart, bulk suspend, bulk resume, and bulk delete. To do so, select the warehouses for bulk operations by checking the checkboxes <CheckboxSVG/> in the warehouse list, and then click the ellipse button <EllipsisSVG/> for the desired operation.
 
-![alt text](../../../../../static/img/cloud/bulk.gif)
+![alt text](@site/static/img/cloud/bulk.gif)
 
 ### Best Practices
 
