@@ -35,21 +35,13 @@ import EEFeature from '@site/src/components/EEFeature';
 
 ## 配置
 
-```sql
--- 启用功能（实验性）
-SET enable_experimental_virtual_column = 1;
-
--- 可选：控制自动刷新行为
-SET enable_refresh_virtual_column_after_write = 1;  -- 默认启用
-```
+虚拟列自 v1.2.832 起默认启用，无需额外配置。
 
 ## 完整示例
 
 演示自动虚拟列创建与性能优势：
 
 ```sql
-SET enable_experimental_virtual_column=1;
-
 -- 创建表 'test'，含整型 id 列和 Variant 类型 val 列
 CREATE TABLE test(id int, val variant);
 

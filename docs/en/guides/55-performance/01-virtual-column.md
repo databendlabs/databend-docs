@@ -36,21 +36,13 @@ When querying JSON data, traditional databases must parse the entire JSON struct
 
 ## Configuration
 
-```sql
--- Enable the feature (experimental)
-SET enable_experimental_virtual_column = 1;
-
--- Optional: Control auto-refresh behavior
-SET enable_refresh_virtual_column_after_write = 1;  -- Default: enabled
-```
+Virtual columns are enabled by default starting from v1.2.832 and require no additional configuration.
 
 ## Complete Example
 
 This example demonstrates automatic virtual column creation and performance benefits:
 
 ```sql
-SET enable_experimental_virtual_column=1;
-
 -- Create a table named 'test' with columns 'id' and 'val' of type Variant.
 CREATE TABLE test(id int, val variant);
 
@@ -169,4 +161,4 @@ Virtual columns typically provide:
 
 ---
 
-*Virtual columns work automatically in the background - simply enable the feature and let Databend optimize your JSON queries.*
+*Virtual columns work automatically in the background—Databend optimizes your JSON queries with zero configuration.*
