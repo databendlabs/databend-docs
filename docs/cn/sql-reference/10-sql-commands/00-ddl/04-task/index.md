@@ -17,6 +17,8 @@ title: 任务（Task）
 
 | 命令 | 描述 |
 |---------|-------------|
+| [SHOW TASKS](05-show-tasks.md) | 查看当前角色可见的任务 |
+| [TASK HISTORY](../../../20-sql-functions/17-table-functions/task_histroy.md) | 查看一个或多个任务的运行历史 |
 | [TASK ERROR INTEGRATION PAYLOAD](10-task-error-integration-payload.md) | 显示任务错误通知的错误载荷格式 |
 
 :::note

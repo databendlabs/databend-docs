@@ -210,3 +210,18 @@ AS
 ```
 
 In this example, a task named `cache_enabled_task` is created with **session parameters** that enable query result caching. The task is scheduled to run **every 5 minutes** and uses the **analytics** warehouse. The session parameters **`enable_query_result_cache = 1`** and **`query_result_cache_min_execute_secs = 5`** are specified **after all other task parameters**, enabling the query result cache for queries that take at least 5 seconds to execute. This can **improve performance** for subsequent executions of the same task if the underlying data hasn't changed.
+
+### View Task Run History
+
+Use the `TASK_HISTORY()` table function to see when and how tasks ran:
+
+```sql
+SELECT *
+FROM TASK_HISTORY(
+  TASK_NAME   => 'daily_sales_summary',
+  RESULT_LIMIT => 20
+)
+ORDER BY scheduled_time DESC;
+```
+
+See [TASK HISTORY](../../../20-sql-functions/17-table-functions/task_histroy.md) for all options, including filtering by time range or root task ID in a DAG.
