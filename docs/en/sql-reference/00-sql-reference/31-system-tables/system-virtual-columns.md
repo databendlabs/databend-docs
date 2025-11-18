@@ -4,15 +4,15 @@ title: system.virtual_columns
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.262"/>
+<FunctionDescription description="Introduced or updated: v1.2.832"/>
 
 Contains information about the created virtual columns in the system.
 
 See also: [SHOW VIRTUAL COLUMNS](../../10-sql-commands/00-ddl/07-virtual-column/show-virtual-columns.md)
 
-```sql
-SET enable_experimental_virtual_column=1;
+Virtual columns are enabled by default starting from v1.2.832.
 
+```sql
 SELECT * FROM system.virtual_columns;
 
 ╭───────────────────────────────────────────────────────────────────────────────────────────────────╮

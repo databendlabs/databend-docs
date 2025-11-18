@@ -140,6 +140,10 @@ Behind the scenes Databend keeps track of which JSON path produced each virtual 
 
 With indexing handled behind the scenes, you interact with Variant columns using familiar syntax and functions.
 
+### Inspect Virtual Columns
+
+Use [`SHOW VIRTUAL COLUMNS`](/sql/sql-commands/ddl/virtual-column/show-virtual-columns) to list the automatically generated virtual columns for a table when you want to verify what JSON paths Databend has materialised.
+
 ### Access Syntax
 
 Databend understands both Snowflake-style and PostgreSQL-style selectors; whichever style you prefer, the engine routes them through the same key-path parser and reuses the JSON indexes. Continuing with an `orders` example, you can reach nested fields like this:

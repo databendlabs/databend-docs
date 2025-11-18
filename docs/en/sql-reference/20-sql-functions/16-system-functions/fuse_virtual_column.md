@@ -13,8 +13,6 @@ FUSE_VIRTUAL_COLUMN('<database_name>', '<table_name>'[, '<snapshot_id>'])
 ## Examples
 
 ```sql
-SET enable_experimental_virtual_column=1;
-
 CREATE TABLE test(id int, val variant);
 
 INSERT INTO
