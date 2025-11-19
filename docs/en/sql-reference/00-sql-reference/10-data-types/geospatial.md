@@ -2,138 +2,210 @@
 title: Geospatial
 ---
 
-Databend supports these geospatial data types for handling spatial data:
+Databend stores spatial data through two data types:
 
-- **GEOMETRY**: Uses a planar coordinate system (Cartesian coordinates) suitable for 2D geometric objects. Coordinates are represented as (X, Y) pairs, with units determined by the associated spatial reference system (SRS). The default SRID is 0, but custom SRIDs can be specified. Ideal for small-scale measurements like city or provincial analyses, it offers high computational speed and low resource usage but may introduce significant errors over larger areas.
+- `GEOMETRY` is planar (default SRID 0, or any SRID you assign) and suits local/projected workloads.
+- `GEOGRAPHY` is spherical (WGS 84, SRID 4326) with latitude/longitude validation for global workloads.
 
-- **GEOGRAPHY**: Uses a geographic coordinate system (spherical coordinates) based on latitude (-90° to 90°) and longitude (-180° to 180°), adhering to WGS 84 (SRID 4326). Designed for global or large-scale spatial data, it provides accuracy over vast distances but with higher computational complexity and resource requirements. It can be converted to GEOMETRY when needed.
+Both types persist coordinates as IEEE 754 `Float64` values in EWKB, cover every common geometry (Point through GeometryCollection), emit WKT/WKB/GeoJSON, and can be reprojected with functions such as `ST_TRANSFORM`.
 
-:::note
-The GEOMETRY and GEOGRAPHY types are currently experimental features. To create tables using these types, execute `SET enable_geo_create_table = 1` to enable them first.
-:::
+## Data Types
+
+### GEOMETRY
+
+- Uses Cartesian coordinates and is ideal for campus-, city-, or province-scale data where planar math is sufficient.
+- Default SRID is 0; you can set another SRID when creating the column or writing data.
+- Works with most spatial operators and can be reprojected with `ST_TRANSFORM` for downstream consumers.
+
+### GEOGRAPHY
+
+- Stores longitude/latitude pairs on WGS 84 (SRID 4326); values outside [-180°, 180°] / [-90°, 90°] are rejected.
+- Recommended for continental or global distance/area calculations that need ellipsoidal formulas.
+- Can be converted to GEOMETRY when a planar algorithm is required.
+
+| Feature | GEOMETRY | GEOGRAPHY |
+| :--- | :--- | :--- |
+| **Coordinate System** | Cartesian (Planar) | Ellipsoidal (Spherical) |
+| **SRID** | 0 (default) or Custom | 4326 (WGS 84) only |
+| **X / Y Interpretation** | X, Y on a flat plane | Longitude, Latitude on a sphere |
+| **Edge Interpretation** | Straight line on a plane | Great circle arc (shortest path on sphere) |
+| **Primary Use Case** | Local / Projected data (e.g. city, building) | Global data (e.g. GPS tracks, shipping routes) |
+
+## Precision and Coordinate Control
+
+- **Double precision everywhere**: functions such as `ST_MAKEPOINT` and `ST_GEOMETRYFROMEWKT` ingest `Float64` values and persist them in EWKB, so coordinates keep their original digits.
+- **SRID behavior**: GEOMETRY keeps whatever SRID you assign (default 0), while GEOGRAPHY is fixed at SRID 4326 and rejects other SRIDs.
+- **Coordinate safety**: GEOGRAPHY inputs run through `check_point`, ensuring longitude/latitude stay within [-180°, 180°] / [-90°, 90°].
+- **Projection**: `ST_TRANSFORM` swaps GEOMETRY SRIDs (for example, 4326 → 3857) or converts GEOGRAPHY data to a planar system for downstream processing.
 
 ## Supported Object Types
 
-Databend supports a range of geospatial object types, enabling precise representation and analysis of spatial data for both planar (GEOMETRY) and spherical (GEOGRAPHY) coordinate systems.
+| Object Type | Description & Example | Precision Notes |
+| --- | --- | --- |
+| Point | Single coordinate, e.g. `POINT(113.98765432109876 23.456789012345678)` | Each coordinate is stored as a `Float64` and keeps ~15–16 digits of precision. |
+| LineString | Connected path, e.g. `LINESTRING(10 20, 30 40, 50 60)` | Every vertex uses the same double precision, so derived lengths rely on the original values. |
+| Polygon | Closed area, e.g. `POLYGON((10 20, 30 40, 50 60, 10 20))` | All rings share the `Float64` vertices, preserving polygon edges for area/containment tests. |
+| MultiPoint | Multiple points, e.g. `MULTIPOINT((10 20), (30 40))` | Each member point inherits the same double-precision storage as a standalone point. |
+| MultiLineString | Multiple paths, e.g. `MULTILINESTRING((10 20, 30 40), (50 60, 70 80))` | Precision is maintained per vertex, ensuring accurate length or intersection calculations. |
+| MultiPolygon | Multiple areas, e.g. `MULTIPOLYGON(((10 20, 30 40, 50 60, 10 20)), ((15 25, 25 35, 35 45, 15 25)))` | Each polygon’s coordinates remain `Float64`, so combined areas/overlaps retain full precision. |
+| GeometryCollection | Mixed objects, e.g. `GEOMETRYCOLLECTION(POINT(10 20), LINESTRING(10 20, 30 40))` | Members keep their native double-precision coordinates regardless of geometry type. |
 
-| Object Type        | Description                                                                                                     | GEOMETRY Example                                                                                  | GEOGRAPHY Example                                                                                  |
-|--------------------|-----------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| Point              | A zero-dimensional geometric object, representing a specific location or coordinate point.                      | POINT(10 20)                                                                                      | POINT(-122.4194 37.7749) (San Francisco coordinates)                                               |
-| LineString         | A one-dimensional geometric object formed by a series of connected points, representing paths or line segments. | LINESTRING(10 20, 30 40, 50 60)                                                                   | LINESTRING(-122.4194 37.7749, -73.9352 40.7306) (San Francisco to New York)                        |
-| Polygon            | A two-dimensional geometric object with an outer ring and optional inner rings, representing areas.             | POLYGON((10 20, 30 40, 50 60, 10 20))                                                             | POLYGON((-122.5 37.7, -122.4 37.8, -122.3 37.7, -122.5 37.7)) (A region in San Francisco)          |
-| MultiPoint         | A collection of multiple zero-dimensional geometric objects.                                                    | MULTIPOINT((10 20), (30 40), (50 60))                                                             | MULTIPOINT((-122.4194 37.7749), (-73.9352 40.7306)) (Points in San Francisco and New York)         |
-| MultiLineString    | A collection of multiple LineString objects.                                                                    | MULTILINESTRING((10 20, 30 40), (50 60, 70 80))                                                   | MULTILINESTRING((-122.5 37.7, -122.4 37.8), (-122.3 37.7, -122.2 37.8)) (Multiple paths in a city) |
-| MultiPolygon       | A collection of multiple Polygon objects, representing multiple regions or areas.                               | MULTIPOLYGON(((10 20, 30 40, 50 60, 10 20)), ((15 25, 25 35, 35 45, 15 25)))                      | MULTIPOLYGON(((-122.5 37.7, -122.4 37.8, -122.3 37.7, -122.5 37.7))) (Multiple regions in a city)  |
-| GeometryCollection | A collection of different types of geometric objects, such as points, lines, and polygons.                      | GEOMETRYCOLLECTION(POINT(10 20), LINESTRING(10 20, 30 40), POLYGON((10 20, 30 40, 50 60, 10 20))) | GEOMETRYCOLLECTION(POINT(-122.4194 37.7749), LINESTRING(-122.5 37.7, -122.4 37.8))                 |
+## Output Formats
 
-## Supported Output Formats
+Databend persists spatial values as EWKB but exposes several output formats. Set the `geometry_output_format` session setting (default: `WKT`) or call explicit conversion functions:
 
-Databend supports multiple geospatial output formats—[WKT (Well-Known Text)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry), EWKT (Extended Well-Known Text), [WKB (Well-Known Binary)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary), EWKB (Extended Well-Known Binary), and [GeoJSON](https://geojson.org/). EWKT and EWKB extend WKT and WKB by including an SRID (Spatial Reference System Identifier) to specify the coordinate reference system, e.g., `SRID=4326;POINT(-44.3 60.1)`. 
-
-| Object Type        | WKT Example                                                                                         | GeoJSON Example                                                                                                   |
-|--------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| Point              | `POINT(10 10)`                                                                                      | `{"coordinates":[10,10],"type":"Point"}`                                                                          |
-| LineString         | `LINESTRING(10 10, 20 30)`                                                                          | `{"coordinates":[[10,10],[20,30]],"type":"LineString"}`                                                           |
-| Polygon            | `POLYGON((10 10, 15 16, 22 10, 30 32))`                                                             | `{"coordinates":[[[10,10],[15,16],[22,10],[30,32],[10,10]]],"type":"Polygon"}`                                    |
-| MultiPoint         | `MULTIPOINT((10 20), (30 40), (50 60))`                                                             | `{"coordinates":[[10,20],[30,40],[50,60]],"type":"MultiPoint"}`                                                   |
-| MultiLineString    | `MULTILINESTRING((10 20, 30 40), (50 60, 70 80))`                                                   | `{"coordinates":[[[10,20],[30,40]],[[50,60],[70,80]]],"type":"MultiLineString"}`                                  |
-| MultiPolygon       | `MULTIPOLYGON(((10 20, 30 40, 50 60, 10 20)), ((15 25, 25 35, 35 45, 15 25)))`                      | `{"coordinates":[[[[10,20],[30,40],[50,60],[10,20]]],[[[15,25],[25,35],[35,45],[15,25]]]],"type":"MultiPolygon"}` |
-| GeometryCollection | `GEOMETRYCOLLECTION(POINT(10 20), LINESTRING(10 20, 30 40), POLYGON((10 20, 30 40, 50 60, 10 20)))` | `{"coordinates":[[[10,20],[30,40],[50,60],[10,20]]],"type":"Polygon"}`                                            |
-
-To switch the geospatial output format in Databend, configure the `SET geometry_output_format` setting with your desired format. For example, 
+- **WKT / EWKT** – Text representation; EWKT prefixes an SRID (for example, `SRID=4326;POINT(-44.3 60.1)`).
+- **WKB / EWKB** – Compact binary, useful for interop with other GIS runtimes.
+- **GeoJSON** – JSON representation for web maps and APIs.
 
 ```sql
-SET geometry_output_format = 'geojson';
+SET geometry_output_format = 'GeoJSON';
+SELECT ST_ASWKB(geo), ST_ASEWKT(geo), ST_ASGEOJSON(geo) FROM ...;
 ```
 
 ## Functions
 
-Explore the links below to discover all the available geospatial functions organized by category.
-
+Browse the catalogued list of spatial functions here:
 - [Geospatial Functions](../../20-sql-functions/09-geospatial-functions/index.md)
 
 ## Examples
 
+Each example below highlights one object type, the scenario it solves, the SQL to produce it, and a sample result table. `CAST('…' AS GEOMETRY)` parses the inline WKT literal so you can experiment without creating tables.
+
+### Point — pinpoint a single sensor
+
+*Scenario*: store the exact latitude/longitude produced by an IoT device and expose both GeoJSON and numeric coordinates.
+
 ```sql
--- Enable geospatial types
-SET enable_geo_create_table=1;
+SELECT
+    ST_ASGEOJSON(pt) AS sensor_geojson,
+    ST_X(pt) AS lon,
+    ST_Y(pt) AS lat
+FROM (SELECT CAST('POINT(113.98765432109876 23.456789012345678)' AS GEOMETRY) AS pt);
+```
 
--- Set the output format to WKT
-SET geometry_output_format='wkt';
+```
+┌──────────────────────────────────────────────────────────────────────────────┬──────────────────────┬──────────────────────┐
+│                              sensor_geojson                                  │         lon          │          lat         │
+├──────────────────────────────────────────────────────────────────────────────┼──────────────────────┼──────────────────────┤
+│ {"type":"Point","coordinates":[113.98765432109876,23.456789012345677]}       │ 113.98765432109876   │ 23.456789012345677   │
+└──────────────────────────────────────────────────────────────────────────────┴──────────────────────┴──────────────────────┘
+```
 
+### LineString — describe a route
 
-CREATE OR REPLACE TABLE test (id INT, geo GEOMETRY);
-INSERT INTO test VALUES
-    (1, 'POINT(66 12)'),
-    (2, 'MULTIPOINT((45 21), (12 54))'),
-    (3, 'LINESTRING(40 60, 50 50, 60 40)'),
-    (4, 'MULTILINESTRING((1 1, 32 17), (33 12, 73 49, 87.1 6.1))'),
-    (5, 'POLYGON((17 17, 17 30, 30 30, 30 17, 17 17))'),
-    (6, 'MULTIPOLYGON(((-10 0,0 10,10 0,-10 0)),((-10 40,10 40,0 20,-10 40)))'),
-    (7, 'GEOMETRYCOLLECTION(POLYGON((-10 0,0 10,10 0,-10 0)),LINESTRING(40 60, 50 50, 60 40), POINT(99 11))');
+*Scenario*: record a simple driving route and measure its length in coordinate units.
 
-SELECT id, geo FROM test;
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        id       │                                               geo                                               │
-├─────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────┤
-│               1 │ POINT(66 12)                                                                                    │
-│               2 │ MULTIPOINT(45 21,12 54)                                                                         │
-│               3 │ LINESTRING(40 60,50 50,60 40)                                                                   │
-│               4 │ MULTILINESTRING((1 1,32 17),(33 12,73 49,87.1 6.1))                                             │
-│               5 │ POLYGON((17 17,17 30,30 30,30 17,17 17))                                                        │
-│               6 │ MULTIPOLYGON(((-10 0,0 10,10 0,-10 0)),((-10 40,10 40,0 20,-10 40)))                            │
-│               7 │ GEOMETRYCOLLECTION(POLYGON((-10 0,0 10,10 0,-10 0)),LINESTRING(40 60,50 50,60 40),POINT(99 11)) │
-└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```sql
+SELECT
+    ST_ASWKT(route) AS road_segment,
+    ST_LENGTH(route) AS segment_length
+FROM (SELECT CAST('LINESTRING(10 20, 30 40, 50 60)' AS GEOMETRY) AS route);
+```
 
--- Convert to WKB format
-SELECT id, st_aswkb(geo) FROM test WHERE id=1;
-┌──────────────────────────────────────────────────────────────┐
-│        id       │                st_aswkb(geo)               │
-├─────────────────┼────────────────────────────────────────────┤
-│               1 │ 010100000000000000008050400000000000002840 │
-└──────────────────────────────────────────────────────────────┘
+```
+┌──────────────────────────────────────────────────────────────┬────────────────────┐
+│                      road_segment                            │  segment_length   │
+├──────────────────────────────────────────────────────────────┼────────────────────┤
+│ LINESTRING(10 20,30 40,50 60)                                │   56.568542495    │
+└──────────────────────────────────────────────────────────────┴────────────────────┘
+```
 
--- Convert to GeoJSON format
-SELECT id, st_asgeojson(geo) FROM test WHERE id=1;
-┌──────────────────────────────────────────────────────────┐
-│        id       │            st_asgeojson(geo)           │
-├─────────────────┼────────────────────────────────────────┤
-│               1 │ {"coordinates":[66,12],"type":"Point"} │
-└──────────────────────────────────────────────────────────┘
+### Polygon — capture an area or geofence
 
--- Get the X and Y coordinates of a Point
-SELECT id, st_x(geo), st_y(geo) FROM test WHERE id=1;
-┌─────────────────────────────────────────────────────────┐
-│        id       │     st_x(geo)     │     st_y(geo)     │
-├─────────────────┼───────────────────┼───────────────────┤
-│               1 │                66 │                12 │
-└─────────────────────────────────────────────────────────┘
+*Scenario*: define a rectangular geofence for a facility, read it back with SRID info, and compute its area.
 
--- Get the dimension of the data
-SELECT id, st_dimension(geo) FROM test;
-┌─────────────────────────────────────┐
-│        id       │ st_dimension(geo) │
-├─────────────────┼───────────────────┤
-│               1 │                 0 │
-│               2 │                 0 │
-│               3 │                 1 │
-│               4 │                 1 │
-│               5 │                 2 │
-│               6 │                 2 │
-│               7 │                 2 │
-└─────────────────────────────────────┘
+```sql
+SELECT
+    ST_ASEWKT(area) AS ewkt_polygon,
+    ST_AREA(area) AS area_units
+FROM (SELECT CAST('POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))' AS GEOMETRY) AS area);
+```
 
--- Transform the spatial reference system from 4326 to 3857
-SELECT id, st_transform(geo, 4326, 3857) FROM test;
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        id       │                                                                                                           st_transform(geo, 4326, 3857)                                                                                                          │
-├─────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│               1 │ POINT(7347086.392356 1345708.408409)                                                                                                                                                                                                             │
-│               2 │ MULTIPOINT(5009377.085697 2391878.587944,1335833.889519 7170156.294)                                                                                                                                                                             │
-│               3 │ LINESTRING(4452779.631731 8399737.889818,5565974.539664 6446275.841017,6679169.447596 4865942.279503)                                                                                                                                            │
-│               4 │ MULTILINESTRING((111319.490793 111325.142866,3562223.705385 1920825.040377),(3673543.196178 1345708.408409,8126322.827909 6274861.394007,9695927.648094 680335.356476))                                                                          │
-│               5 │ POLYGON((1892431.343486 1920825.040377,1892431.343486 3503549.843504,3339584.723798 3503549.843504,3339584.723798 1920825.040377,1892431.343486 1920825.040377))                                                                                 │
-│               6 │ MULTIPOLYGON(((-1113194.907933 0,0 1118889.974858,1113194.907933 0,-1113194.907933 0)),((-1113194.907933 4865942.279503,1113194.907933 4865942.279503,0 2273030.926988,-1113194.907933 4865942.279503)))                                         │
-│               7 │ GEOMETRYCOLLECTION(POLYGON((-1113194.907933 0,0 1118889.974858,1113194.907933 0,-1113194.907933 0)),LINESTRING(4452779.631731 8399737.889818,5565974.539664 6446275.841017,6679169.447596 4865942.279503),POINT(11020629.588534 1232106.801897)) │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+┌──────────────────────────────────────────────────────────────┬──────────────┐
+│                        ewkt_polygon                          │  area_units  │
+├──────────────────────────────────────────────────────────────┼──────────────┤
+│ POLYGON((0 0,0 10,10 10,10 0,0 0))                           │     100      │
+└──────────────────────────────────────────────────────────────┴──────────────┘
+```
+
+### MultiPoint — tag multiple sites together
+
+*Scenario*: keep the coordinates of three kiosks together and report both the GeoJSON payload and the total count.
+
+```sql
+SELECT
+    ST_ASGEOJSON(places) AS places_geojson,
+    ST_NUMPOINTS(places) AS total_sites
+FROM (SELECT CAST('MULTIPOINT((10 20), (30 40), (50 60))' AS GEOMETRY) AS places);
+```
+
+```
+┌──────────────────────────────────────────────────────────────┬──────────────┐
+│                      places_geojson                          │ total_sites  │
+├──────────────────────────────────────────────────────────────┼──────────────┤
+│ {"type":"MultiPoint","coordinates":[[10,20],[30,40],[50,60]]} │      3       │
+└──────────────────────────────────────────────────────────────┴──────────────┘
+```
+
+### MultiLineString — represent parallel lines
+
+*Scenario*: group two parallel road segments, read them back as WKT, and count the total vertices with `ST_NUMPOINTS`.
+
+```sql
+SELECT
+    ST_ASWKT(lines) AS multiline_wkt,
+    ST_NUMPOINTS(lines) AS vertex_count
+FROM (SELECT CAST('MULTILINESTRING((10 20, 30 40), (50 60, 70 80))' AS GEOMETRY) AS lines);
+```
+
+```
+┌──────────────────────────────────────────────────────────────┬──────────────┐
+│                       multiline_wkt                          │ vertex_count │
+├──────────────────────────────────────────────────────────────┼──────────────┤
+│ MULTILINESTRING((10 20,30 40),(50 60,70 80))                 │      4       │
+└──────────────────────────────────────────────────────────────┴──────────────┘
+```
+
+### MultiPolygon — cover disjoint districts
+
+*Scenario*: represent two disjoint service zones and calculate the combined area.
+
+```sql
+SELECT
+    ST_ASGEOJSON(zones) AS zones_geojson,
+    ST_AREA(zones) AS total_area
+FROM (
+    SELECT CAST('MULTIPOLYGON(((0 0, 0 10, 10 10, 10 0, 0 0)), ((20 0, 20 10, 30 10, 30 0, 20 0)))' AS GEOMETRY) AS zones
+);
+```
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┬──────────────┐
+│                                                      zones_geojson                                                      │  total_area  │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼──────────────┤
+│ {"type":"MultiPolygon","coordinates":[[[[0,0],[0,10],[10,10],[10,0],[0,0]]],[[[20,0],[20,10],[30,10],[30,0],[20,0]]]]}  │     200      │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴──────────────┘
+```
+
+### GeometryCollection — mix heterogenous shapes
+
+*Scenario*: keep a landmark marker and its connecting path together, exposing the mixed GeoJSON and the maximum dimension.
+
+```sql
+SELECT
+    ST_ASGEOJSON(feature) AS feature_geojson,
+    ST_DIMENSION(feature) AS max_dimension
+FROM (
+    SELECT CAST('GEOMETRYCOLLECTION(POINT(10 20), LINESTRING(10 20, 30 40))' AS GEOMETRY) AS feature
+);
+```
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┬───────────────┐
+│                                              feature_geojson                                                                               │ max_dimension │
+├────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼───────────────┤
+│ {"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[10,20]},{"type":"LineString","coordinates":[[10,20],[30,40]]}]}  │       1       │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴───────────────┘
 ```
