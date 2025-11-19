@@ -1,54 +1,59 @@
 ---
 title: Tuple
-description:  Tuple is a collection of ordered, immutable types.
+description: Tuple is a collection of ordered, immutable types.
+sidebar_position: 9
 ---
 
-## Tuple Data Types
+## Overview
 
-| Name  | Aliases | Values                                    | Description                                                                                               |
-|-------|---------|-------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| TUPLE |         | ('2023-02-14 08:00:00','Valentine's Day') | Collection of ordered,immutable,which requires the type of each element to be declared before being used. |
+`TUPLE(T1, T2, …)` stores a fixed ordered list of values with declared element types. Each tuple value can hold heterogeneous data (for example, `TUPLE(DATETIME, STRING)`) and behaves like a compact struct. Because tuples are immutable, insert the entire tuple value whenever you need to change its contents.
 
-A tuple is a collection of ordered, immutable, and heterogeneous elements, represented within parentheses () in most programming languages. In other words, a tuple is a finite ordered list of elements of different data types, and once created, its elements cannot be changed or modified.
+## Examples
 
-Tuples are commonly used to store related data, such as the coordinates of a point in a 2D space (x, y), or a name and its corresponding address, or a date and its corresponding event, and so on.
-
-> but it's not suggested to use it unless you really need it.
-
-## Example
-
-Create a table:
-```sql
-CREATE TABLE t_table(event tuple(datetime, varchar));
-```
-
-Insert a value with different type into the table:
-```sql
-insert into t_table values(('2023-02-14 8:00:00','Valentine\'s Day'));
-```
-
-Query the result:
-```sql
-SELECT * FROM t_table;
-+---------------------------------------------------+
-| event                                             |
-+---------------------------------------------------+
-| ('2023-02-14 08:00:00.000000','Valentine\'s Day') |
-+---------------------------------------------------+
-```
-
-## Get by index
-
-The elements of a Databend tuple can be accessed by their indices, **which start from 1**. 
-
-### Example
+### Create and Insert
 
 ```sql
-select event.1 from t_table;
-+----------------------------+
-| event.1                    |
-+----------------------------+
-| 2023-02-14 08:00:00.000000 |
-+----------------------------+
-1 row in set (0.03 sec)
+CREATE TABLE events_tuple (
+  event_info TUPLE(DATETIME, STRING)
+);
+
+INSERT INTO events_tuple VALUES
+  (('2023-02-14 08:00:00', 'Valentine''s Day')),
+  (('2023-03-17 19:30:00', 'Game Night'));
+
+SELECT event_info FROM events_tuple;
 ```
+
+Result:
+```
+┌──────────────────────────────────────────────────────┐
+│ event_info                                           │
+├──────────────────────────────────────────────────────┤
+│ ["2023-02-14T08:00:00","Valentine's Day"]            │
+│ ["2023-03-17T19:30:00","Game Night"]                 │
+└──────────────────────────────────────────────────────┘
+```
+
+### Access Elements
+
+Tuple fields use 1-based ordinal access (`tuple_column.1`) or aliases when you name the elements.
+
+```sql
+-- Ordinal access
+SELECT
+  event_info.1 AS event_time,
+  event_info.2 AS description
+FROM events_tuple;
+```
+
+Result:
+```
+┌──────────────────────────┬──────────────────┐
+│ event_time               │ description      │
+├──────────────────────────┼──────────────────┤
+│ 2023-02-14T08:00:00      │ Valentine's Day  │
+│ 2023-03-17T19:30:00      │ Game Night       │
+└──────────────────────────┴──────────────────┘
+```
+
+Tuples are handy when you need to pass grouped values through SQL expressions without introducing additional table columns.

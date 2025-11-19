@@ -1,33 +1,30 @@
 ---
 title: Date & Time
 description: Databend's Date and Time data type supports standardization and compatibility with various SQL standards, making it easier for users migrating from other database systems.
+sidebar_position: 6
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.834"/>
 
-## Date and Time Data Types
+## Overview
 
-| Name      | Aliases  | Storage Size | Resolution  | Min Value                  | Max Value                      | Format                                                                         |
-|-----------|----------|--------------|-------------|----------------------------|--------------------------------|--------------------------------------------------------------------------------|
-| DATE      |          | 4 bytes      | Day         | 0001-01-01                 | 9999-12-31                     | `YYYY-MM-DD`                                                                   |
-| TIMESTAMP | DATETIME | 8 bytes      | Microsecond | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`, supports up to 6-digit microsecond precision |
-| TIMESTAMP_TZ | TIMESTAMP WITH TIME ZONE | 8 bytes | Microsecond | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]±hh:mm`, stores UTC value with timezone offset |
+| Name         | Aliases                   | Storage Size | Resolution  | Min Value                  | Max Value                      | Format                                                                         |
+|--------------|---------------------------|--------------|-------------|----------------------------|--------------------------------|--------------------------------------------------------------------------------|
+| DATE         |                           | 4 bytes      | Day         | 0001-01-01                 | 9999-12-31                     | `YYYY-MM-DD`                                                                   |
+| TIMESTAMP    | DATETIME                  | 8 bytes      | Microsecond | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]`, uses session timezone for display            |
+| TIMESTAMP_TZ | TIMESTAMP WITH TIME ZONE  | 8 bytes      | Microsecond | 0001-01-01 00:00:00.000000 | 9999-12-31 23:59:59.999999 UTC | `YYYY-MM-DD hh:mm:ss[.fraction]±hh:mm`, stores UTC value plus offset           |
 
-## DATE
+`DATE` keeps only calendar values, `TIMESTAMP` stores UTC internally but renders through the current session timezone, and `TIMESTAMP_TZ` preserves the original offset for auditing or replication scenarios.
 
-The DATE type stores calendar dates (year, month, day).
+## Examples
+
+### DATE
 
 ```sql
-CREATE TABLE events (
-    event_date DATE
-);
-
-INSERT INTO events VALUES
-    ('2024-01-15'),
-    ('2024-12-31');
-
+CREATE TABLE events (event_date DATE);
+INSERT INTO events VALUES ('2024-01-15'), ('2024-12-31');
 SELECT * FROM events;
 ```
 
@@ -41,208 +38,198 @@ Result:
 └────────────┘
 ```
 
-## TIMESTAMP
-
-TIMESTAMP stores a point in time as UTC internally, but displays it according to your session's timezone setting. This is useful when you want different users to see times in their local timezone.
+### TIMESTAMP
 
 ```sql
 CREATE TABLE meetings (
-    meeting_id INT,
-    meeting_time TIMESTAMP
+  meeting_id INT,
+  meeting_time TIMESTAMP
 );
 
--- Insert a meeting time
 INSERT INTO meetings VALUES (1, '2024-01-15 14:00:00+08:00');
 
--- View in UTC
-SET timezone = 'UTC';
-SELECT * FROM meetings;
+SETTINGS (timezone = 'UTC')
+SELECT meeting_id, meeting_time FROM meetings;
+
+SETTINGS (timezone = 'America/New_York')
+SELECT meeting_id, meeting_time FROM meetings;
 ```
 
-Result:
+Result (timezone = 'UTC'):
 ```
-┌────────────┬─────────────────────┐
-│ meeting_id │ meeting_time        │
-├────────────┼─────────────────────┤
-│          1 │ 2024-01-15 06:00:00 │
-└────────────┴─────────────────────┘
-```
-
-```sql
--- View in New York timezone
-SET timezone = 'America/New_York';
-SELECT * FROM meetings;
+┌────────────┬──────────────────────┐
+│ meeting_id │ meeting_time         │
+├────────────┼──────────────────────┤
+│          1 │ 2024-01-15T06:00:00 │
+└────────────┴──────────────────────┘
 ```
 
-Result:
+Result (timezone = 'America/New_York'):
 ```
-┌────────────┬─────────────────────┐
-│ meeting_id │ meeting_time        │
-├────────────┼─────────────────────┤
-│          1 │ 2024-01-15 01:00:00 │
-└────────────┴─────────────────────┘
+┌────────────┬──────────────────────┐
+│ meeting_id │ meeting_time         │
+├────────────┼──────────────────────┤
+│          1 │ 2024-01-15T01:00:00 │
+└────────────┴──────────────────────┘
 ```
 
-The same timestamp is displayed differently based on the session timezone setting.
-
-## TIMESTAMP_TZ
-
-TIMESTAMP_TZ stores both the UTC time and the original timezone offset. The display always includes the offset and never changes regardless of your session timezone. This is useful for audit logs, financial transactions, or when you need to preserve the exact timezone context.
+### TIMESTAMP_TZ
 
 ```sql
 CREATE TABLE system_logs (
-    log_id INT,
-    log_time TIMESTAMP_TZ
+  log_id INT,
+  log_time TIMESTAMP_TZ
 );
 
--- Insert logs from different locations
 INSERT INTO system_logs VALUES
-    (1, '2024-01-15 14:00:00+08:00'),  -- Beijing
-    (2, '2024-01-15 06:00:00+00:00'),  -- UTC
-    (3, '2024-01-15 01:00:00-05:00');  -- New York
+  (1, '2024-01-15 14:00:00+08:00'),
+  (2, '2024-01-15 06:00:00+00:00'),
+  (3, '2024-01-15 01:00:00-05:00');
 
--- View with any session timezone
-SET timezone = 'UTC';
-SELECT * FROM system_logs;
+SETTINGS (timezone = 'UTC')
+SELECT log_id, TO_STRING(log_time) AS log_time FROM system_logs;
+
+SETTINGS (timezone = 'Asia/Shanghai')
+SELECT log_id, TO_STRING(log_time) AS log_time FROM system_logs;
 ```
 
-Result:
+Result (timezone = 'UTC'):
 ```
-┌────────┬───────────────────────────┐
-│ log_id │ log_time                  │
-├────────┼───────────────────────────┤
-│      1 │ 2024-01-15 14:00:00+08:00 │
-│      2 │ 2024-01-15 06:00:00+00:00 │
-│      3 │ 2024-01-15 01:00:00-05:00 │
-└────────┴───────────────────────────┘
-```
-
-```sql
--- Change session timezone
-SET timezone = 'Asia/Shanghai';
-SELECT * FROM system_logs;
+┌────────┬────────────────────────────────────────────┐
+│ log_id │ log_time                                   │
+├────────┼────────────────────────────────────────────┤
+│      1 │ 2024-01-15 14:00:00.000000 +0800           │
+│      2 │ 2024-01-15 06:00:00.000000 +0000           │
+│      3 │ 2024-01-15 01:00:00.000000 -0500           │
+└────────┴────────────────────────────────────────────┘
 ```
 
-Result:
+Result (timezone = 'Asia/Shanghai'):
 ```
-┌────────┬───────────────────────────┐
-│ log_id │ log_time                  │
-├────────┼───────────────────────────┤
-│      1 │ 2024-01-15 14:00:00+08:00 │
-│      2 │ 2024-01-15 06:00:00+00:00 │
-│      3 │ 2024-01-15 01:00:00-05:00 │
-└────────┴───────────────────────────┘
+┌────────┬────────────────────────────────────────────┐
+│ log_id │ log_time                                   │
+├────────┼────────────────────────────────────────────┤
+│      1 │ 2024-01-15 14:00:00.000000 +0800           │
+│      2 │ 2024-01-15 06:00:00.000000 +0000           │
+│      3 │ 2024-01-15 01:00:00.000000 -0500           │
+└────────┴────────────────────────────────────────────┘
 ```
 
-The timezone offset is always preserved and displayed.
-
-:::note
-TIMESTAMP_TZ only stores the numeric offset (e.g., `+08:00`), not the timezone name. The offset does NOT adjust for daylight saving time changes.
-:::
+The offset is part of the stored value, so the display never changes.
 
 ## Choosing the Right Type
 
-- Use **DATE** for calendar dates without time information
-- Use **TIMESTAMP** when you want times to display in each user's local timezone
-- Use **TIMESTAMP_TZ** when you need to preserve the original timezone context
+- Use `DATE` for calendar values without time of day.
+- Use `TIMESTAMP` when different sessions should display the same moment in their local timezone.
+- Use `TIMESTAMP_TZ` when you must keep the input offset for compliance or debugging.
 
-## Functions
+## Daylight Saving Time Adjustments
 
-See [Date & Time Functions](/sql/sql-functions/datetime-functions).
-
-## Handling Daylight Saving Time Adjustments
-
-In certain regions, daylight saving time is observed. On the day daylight saving time begins, the clock is set forward by one hour. Databend manages daylight saving time adjustments with the `enable_dst_hour_fix` setting. When enabled, Databend automatically advances the time by one hour (e.g., 2:10 AM will be processed as 3:10 AM).
-
-For example, daylight saving time in Toronto began on March 10, 2024, at 2:00 AM. As a result, the time between 2:00 AM and 3:00 AM on that day does not exist. Databend relies on [Chrono](https://github.com/chronotope/chrono) to determine daylight saving time for each timezone. If a time within this range is provided, Databend will return an error:
-
-```sql
-SET timezone = 'America/Toronto';
-
-SELECT to_datetime('2024-03-10 02:01:00');
-error: APIError: ResponseError with 1006: cannot parse to type `TIMESTAMP`. BadArguments. Code: 1006, Text = unexpected argument. while evaluating function `to_timestamp('2024-03-10 02:01:00')` in expr `to_timestamp('2024-03-10 02:01:00')`
-```
-
-To fix such errors, you can enable the `enable_dst_hour_fix` setting to advance the time by one hour:
+Enable `enable_dst_hour_fix` to make Databend automatically roll missing hours forward when daylight saving time skips part of the day.
 
 ```sql
 SET enable_dst_hour_fix = 1;
 
+SETTINGS (timezone = 'America/Toronto')
 SELECT to_datetime('2024-03-10 02:01:00');
+```
 
+Result:
+```
 ┌────────────────────────────────────┐
 │ to_datetime('2024-03-10 02:01:00') │
 ├────────────────────────────────────┤
-│ 2024-03-10 03:01:00                │
+│ 2024-03-10T03:01:00                │
 └────────────────────────────────────┘
 ```
+
+Use `SET enable_dst_hour_fix = 0` to return to the default behavior if you would rather raise errors for missing hours.
 
 ## Handling Invalid Values
 
-Databend automatically converts invalid Date or Timestamp values to their minimum valid equivalents, `1000-01-01` for dates and `1000-01-01 00:00:00` for timestamps, ensuring consistency when working with out-of-range or incorrectly formatted dates and timestamps. 
-
-Examples:
+Dates outside the supported range automatically clamp to their minimum values.
 
 ```sql
--- Attempts to add one day to the maximum date, exceeding the valid range.
--- Result: Returns DateMIN (1000-01-01) instead of an error.
-SELECT ADD_DAYS(TO_DATE('9999-12-31'), 1);
-
-┌────────────────────────────────────┐
-│ add_days(to_date('9999-12-31'), 1) │
-├────────────────────────────────────┤
-│ 1000-01-01                         │
-└────────────────────────────────────┘
+SELECT
+  ADD_DAYS(TO_DATE('9999-12-31'), 1)         AS overflow_date,
+  SUBTRACT_MINUTES(TO_DATE('1000-01-01'), 1) AS underflow_timestamp;
 ```
 
-```sql
--- Attempts to subtract one minute from the minimum date, which would be invalid.
--- Result: Returns DateMIN (1000-01-01 00:00:00), ensuring stability in results.
-SELECT SUBTRACT_MINUTES(TO_DATE('1000-01-01'), 1);
-
-┌────────────────────────────────────────────┐
-│ subtract_minutes(to_date('1000-01-01'), 1) │
-├────────────────────────────────────────────┤
-│ 1000-01-01 00:00:00                        │
-└────────────────────────────────────────────┘
+Result:
 ```
-
+┌───────────────┬──────────────────────────┐
+│ overflow_date │ underflow_timestamp      │
+├───────────────┼──────────────────────────┤
+│ 0001-01-01    │ 0999-12-31T18:41:28      │
+└───────────────┴──────────────────────────┘
+```
+The values wrap to the minimum representable date or timestamp instead of raising an error.
 ## Formatting Date and Time
 
-In Databend, certain date and time functions like [TO_DATE](../../20-sql-functions/05-datetime-functions/to-date.md) and [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md) require you to specify the desired format for date and time values. 
+Functions such as [TO_DATE](../../20-sql-functions/05-datetime-functions/to-date.md) and [TO_TIMESTAMP](../../20-sql-functions/05-datetime-functions/to-timestamp.md) accept explicit format strings. Control how they parse or render values by adjusting `date_format_style` and `week_start`.
 
 ### Date Format Styles
 
-Databend supports two date format styles that can be selected using the `date_format_style` setting:
+Use `date_format_style` to switch between two format vocabularies:
 
-- **MySQL** (default): Uses MySQL-compatible format specifiers like `%Y`, `%m`, `%d`, etc.
-- **Oracle**: Uses format specifiers like `YYYY`, `MM`, `DD`, etc., which follow a standardized format to ensure compatibility with common SQL standards.
-
-To switch between format styles, use the `date_format_style` setting:
+- **MySQL** (default) uses specifiers like `%Y`, `%m`, `%d`.
+- **Oracle** uses specifiers like `YYYY`, `MM`, `DD` to match ANSI-style masks.
 
 ```sql
--- Set Oracle-style date format
-SETTINGS (date_format_style = 'Oracle') SELECT to_string('2024-04-05'::DATE, 'YYYY-MM-DD');
+-- Oracle-style mask
+SETTINGS (date_format_style = 'Oracle')
+SELECT to_string('2024-04-05'::DATE, 'YYYY-MM-DD');
+```
 
--- Set MySQL date format style (default)
-SETTINGS (date_format_style = 'MySQL') SELECT to_string('2024-04-05'::DATE, '%Y-%m-%d');
+Result (Oracle):
+```
+┌──────────────────────────────────────┐
+│ to_string('2024-04-05'::DATE, 'YYYY-MM-DD') │
+├──────────────────────────────────────┤
+│ 2024-04-05                           │
+└──────────────────────────────────────┘
+```
+
+```sql
+-- Back to MySQL-style mask
+SETTINGS (date_format_style = 'MySQL')
+SELECT to_string('2024-04-05'::DATE, '%Y-%m-%d');
+```
+
+Result (MySQL):
+```
+┌──────────────────────────────────────┐
+│ to_string('2024-04-05'::DATE, '%Y-%m-%d') │
+├──────────────────────────────────────┤
+│ 2024-04-05                           │
+└──────────────────────────────────────┘
 ```
 
 ### Week Start Configuration
 
-Databend provides a `week_start` setting that defines which day is considered the first day of the week:
-
-- `week_start = 1` (default): Monday is considered the first day of the week
-- `week_start = 0`: Sunday is considered the first day of the week
-
-This setting affects week-related date functions like `DATE_TRUNC` and `TRUNC` when using `WEEK` as the precision parameter:
+`week_start` defines which day begins the week for functions such as `DATE_TRUNC` or `TRUNC` when using `WEEK` precision.
 
 ```sql
--- Set Sunday as the first day of the week
-SETTINGS (week_start = 0) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05'));
+SETTINGS (week_start = 0) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05')); -- Sunday
+SETTINGS (week_start = 1) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05')); -- Monday
+```
 
--- Set Monday as the first day of the week (default)
-SETTINGS (week_start = 1) SELECT DATE_TRUNC(WEEK, to_date('2024-04-05'));
+Result (week_start = 0):
+```
+┌────────────────────────────────┐
+│ DATE_TRUNC(WEEK, TO_DATE('2024-04-05')) │
+├────────────────────────────────┤
+│ 2024-03-31                     │
+└────────────────────────────────┘
+```
+
+Result (week_start = 1):
+```
+┌────────────────────────────────┐
+│ DATE_TRUNC(WEEK, TO_DATE('2024-04-05')) │
+├────────────────────────────────┤
+│ 2024-04-01                     │
+└────────────────────────────────┘
 ```
 
 ### MySQL Format Specifiers

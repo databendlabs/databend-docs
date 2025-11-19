@@ -1,57 +1,43 @@
 ---
 title: Boolean
-description: 基本的逻辑数据类型。
+description: 基本逻辑数据类型。
+sidebar_position: 1
 ---
 
-BOOLEAN 类型表示一个真值语句（`true` 或 `false`）。
+## 概览
 
-## Boolean 数据类型
+`BOOLEAN`（别名 `BOOL`）表示 `TRUE` 或 `FALSE`，始终占用 1 个字节的存储空间。数值和字符串输入在可能的情况下会自动强制转换为布尔值。
 
-| 名称    | 别名 | 存储大小 | 最小值 | 最大值 | 描述                   |
-|---------|---------|--------------|-----------|-----------|------------------------------|
-| BOOLEAN | BOOL    | 1 字节       |           |           | 逻辑布尔值（真/假）          |
-
-## 隐式转换
-
-布尔值可以从数值隐式转换为布尔值。
-
-数值转换：
-* 零 (0) 转换为 FALSE。
-* 任何非零值都转换为 TRUE。
-
-字符串转换：
-* 转换为 TRUE 的字符串：`true`
-* 转换为 FALSE 的字符串：`false`
-* 转换不区分大小写。
-* 所有其他文本字符串都无法转换为布尔值，会得到 `Code: 1010` 错误。
-
-## 函数
-
-请参阅 [条件函数](/sql/sql-functions/conditional-functions/)。
+| 输入类型 | 转换为 TRUE | 转换为 FALSE | 说明 |
+|----------|-------------|--------------|------|
+| 数值     | 任何非零值  | 0            | 负数也会转换为 TRUE。 |
+| 字符串   | `TRUE`      | `FALSE`      | 不区分大小写；其他文本无法转换。 |
 
 ## 示例
 
 ```sql
-SELECT 
-    0::BOOLEAN, 
-    1::BOOLEAN, 
-    'true'::BOOLEAN, 
-    'false'::BOOLEAN, 
-    'True'::BOOLEAN;
+SELECT
+  0::BOOLEAN            AS zero_is_false,
+  42::BOOLEAN           AS nonzero_is_true,
+  'True'::BOOLEAN       AS string_true,
+  'false'::BOOLEAN      AS string_false;
 ```
 
 结果：
 ```
-+------------+------------+-----------------+------------------+-----------------+
-| 0::Boolean | 1::Boolean | 'true'::Boolean | 'false'::Boolean | 'True'::Boolean |
-+------------+------------+-----------------+------------------+-----------------+
-|          0 |          1 |               1 |                0 |               1 |
-+------------+------------+-----------------+------------------+-----------------+
+┌───────────────┬──────────────────┬───────────────┬────────────────┐
+│ zero_is_false │ nonzero_is_true  │ string_true   │ string_false   │
+├───────────────┼──────────────────┼───────────────┼────────────────┤
+│ false         │ true             │ true          │ false          │
+└───────────────┴──────────────────┴───────────────┴────────────────┘
 ```
+
 ```sql
-SELECT 'xx'::BOOLEAN;
+-- 转换不支持的文本会引发错误。
+SELECT 'yes'::BOOLEAN;
 ```
+
 结果：
 ```
-ERROR 1105 (HY000): Code: 1010, Text = Cast error happens in casting from String to Boolean.
+ERROR 1105 (HY000): QueryFailed: [1006]cannot parse to type `BOOLEAN` while evaluating function `to_boolean('yes')` in expr `CAST('yes' AS Boolean)`
 ```

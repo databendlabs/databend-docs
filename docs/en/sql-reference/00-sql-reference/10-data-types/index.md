@@ -6,186 +6,99 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.100"/>
 
-This page explains various aspects of data types, including lists of data types, data type conversions, casting methods, and the handling of NULL values and NOT NULL constraints.
+Databend stores data in strongly typed columns. This page summarizes the supported data types, how automatic/explicit conversions work, and what happens with NULL or default values.
 
-## List of Data Types
+## Foundational Types
 
-The following is a list of general data types in Databend:
+| Data Type                                   | Alias      | Storage / Resolution              | Min Value                | Max Value                      |
+|--------------------------------------------|------------|-----------------------------------|--------------------------|--------------------------------|
+| [BOOLEAN](boolean.md)                      | BOOL       | 1 byte                            | –                        | –                              |
+| [BINARY](binary.md)                        | VARBINARY  | variable                          | –                        | –                              |
+| [VARCHAR](string.md)                       | STRING     | variable                          | –                        | –                              |
+| [TINYINT](numeric.md#integer-data-types)   | INT8       | 1 byte                            | -128                     | 127                            |
+| [SMALLINT](numeric.md#integer-data-types)  | INT16      | 2 bytes                           | -32768                   | 32767                          |
+| [INT](numeric.md#integer-data-types)       | INT32      | 4 bytes                           | -2147483648              | 2147483647                     |
+| [BIGINT](numeric.md#integer-data-types)    | INT64      | 8 bytes                           | -9223372036854775808     | 9223372036854775807            |
+| [FLOAT](numeric.md#floating-point-data-types) | –        | 4 bytes (Float32)                | -3.40e38                 | 3.40e38                        |
+| [DOUBLE](numeric.md#floating-point-data-types) | –       | 8 bytes (Float64)                | -1.79e308                | 1.79e308                       |
+| [DECIMAL](decimal.md)                      | –          | 16/32 bytes (precision ≤38/76)    | `-(10^P-1)/10^S`         | `(10^P-1)/10^S`                |
 
-| Data Type                                                           | Alias  | Storage Size | Min Value                | Max Value                      |
-| ------------------------------------------------------------------- | ------ | ------------ | ------------------------ | ------------------------------ |
-| [BOOLEAN](boolean.md)                          | BOOL   | 1 byte       | N/A                      | N/A                            |
-| [TINYINT](numeric.md#integer-data-types)       | INT8   | 1 byte       | -128                     | 127                            |
-| [SMALLINT](numeric.md#integer-data-types)      | INT16  | 2 bytes      | -32768                   | 32767                          |
-| [INT](numeric.md#integer-data-types)           | INT32  | 4 bytes      | -2147483648              | 2147483647                     |
-| [BIGINT](numeric.md#integer-data-types)        | INT64  | 8 bytes      | -9223372036854775808     | 9223372036854775807            |
-| [FLOAT](numeric#floating-point-data-types)  | N/A    | 4 bytes      | -3.40282347e+38          | 3.40282347e+38                 |
-| [DOUBLE](numeric#floating-point-data-types) | N/A    | 8 bytes      | -1.7976931348623157E+308 | 1.7976931348623157E+308        |
-| [DECIMAL](decimal.md)                          | N/A    | 16/32 bytes  | -10^P / 10^S             | 10^P / 10^S                    |
-| [DATE](datetime.md)                           | N/A    | 4 bytes      | 1000-01-01               | 9999-12-31                     |
-| [TIMESTAMP](datetime.md)                      | N/A    | 8 bytes      | 0001-01-01 00:00:00      | 9999-12-31 23:59:59.999999 UTC |
-| [VARCHAR](string.md)                           | STRING | N/A          | N/A                      | N/A                            |
+## Date & Time Types
 
-The following is a list of semi-structured data types in Databend:
+| Data Type                 | Alias     | Resolution / Notes                   |
+|---------------------------|-----------|--------------------------------------|
+| [DATE](datetime.md)       | –         | Day precision                        |
+| [TIMESTAMP](datetime.md)  | DATETIME  | Microsecond, session timezone output |
+| [TIMESTAMP_TZ](datetime.md) | –       | Microsecond + stored offset          |
+| [INTERVAL](interval.md)   | –         | Microseconds, supports negative span |
 
-| Data Type                              | Alias | Sample                         | Description                                                                                                         |
-| -------------------------------------- | ----- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| [ARRAY](array.md) | N/A   | [1, 2, 3, 4]                   | A collection of values of the same data type, accessed by their index.                                              |
-| [TUPLE](tuple.md) | N/A   | ('2023-02-14','Valentine Day') | An ordered collection of values of different data types, accessed by their index.                                   |
-| [MAP](map.md)           | N/A   | `{"a":1, "b":2, "c":3}`        | A set of key-value pairs where each key is unique and maps to a value.                                              |
-| [VARIANT](variant.md)   | JSON  | `[1,{"a":1,"b":{"c":2}}]`      | Collection of elements of different data types, including `ARRAY` and `OBJECT`.                                     |
-| [VECTOR](vector.md)       | N/A   | [1.0, 2.1, 3.2]               | Multi-dimensional arrays of 32-bit floating-point numbers for machine learning and similarity search operations.    |
-| [BITMAP](bitmap.md)       | N/A   | 0101010101                     | A binary data type used to represent a set of values, where each bit represents the presence or absence of a value. |
+## Structured & Semi-Structured Types
 
-## Data Type Conversions
+| Data Type             | Sample                                | Description |
+|-----------------------|----------------------------------------|-------------|
+| [ARRAY](array.md)     | `[1, 2, 3]`                            | Ordered list of values with the same inner type. |
+| [TUPLE](tuple.md)     | `('2023-02-14','Valentine's Day')`     | Fixed-length ordered list with declared element types. |
+| [MAP](map.md)         | `{'a': 1, 'b': 2}`                     | Key-value collection (internally tuples of key and value types). |
+| [VARIANT](variant.md) | `[1, {"name":"databend"}]`             | JSON-like container that can mix primitives, arrays, and objects. |
+| [BITMAP](bitmap.md)   | `<bitmap binary>`                      | Compressed bitmap optimized for membership and set operations. |
 
-### Explicit Castings
+## Domain-Specific Types
 
-We have two kinds of expression to cast a value to another datatype.
+| Data Type                           | Description |
+|------------------------------------|-------------|
+| [VECTOR](vector.md)                | Float32 embeddings for similarity search / ML workloads. |
+| [GEOMETRY](geospatial.md) / GEOGRAPHY | Spatial objects stored in WKB/EWKB format. |
 
-1. `CAST` function, if error happens during cast, it throws error.
+## Casting and Conversion
 
-We also support pg casting style: `CAST(c as INT)` is same as `c::Int`
+### Explicit Casting
 
-2. `TRY_CAST` function if error happens during cast, it returns NULL.
+- `CAST(expr AS TYPE)` uses ANSI syntax and fails when conversion is invalid.
+- `expr::TYPE` is the PostgreSQL-style shorthand.
+- `TRY_CAST(expr AS TYPE)` returns NULL instead of raising an error when conversion fails.
 
-### Implicit Castings ("Coercion")
+### Implicit Casting (Coercion)
 
-Some basic rules about "Coercion" aka (Auto casting)
+Databend performs automatic conversions in well-defined situations:
 
-1. All integer datatypes can be implicitly casted into `BIGINT` aka (`INT64`) datatype.
+1. Integers upcast to `INT64`. Example: `UInt8 -> INT64`.
+2. Numeric values upcast to `FLOAT64` when necessary.
+3. Any type `T` can become `Nullable(T)` if a NULL appears in an expression.
+4. All types can upcast to `VARIANT`.
+5. Complex types coerce element-wise (`Array<T> -> Array<U>` when `T -> U`; same for tuples/maps).
 
-e.g.
+When a target column is `NOT NULL`, explicitly cast to `Nullable<T>` or use `TRY_CAST` if your data may contain NULLs.
 
 ```sql
-Int --> bigint
-UInt8 --> bigint
-Int32 --> bigint
+SELECT CONCAT('1', col);      -- safe (strings)
+SELECT CONCAT(1, col);        -- may fail if `col` can't coerce to number
 ```
 
-2. All numeric datatypes can be implicitly cast into `Double` aka (`Float64`) datatype.
+## NULL Handling and Defaults
 
-e.g.
+Columns allow NULL values unless declared `NOT NULL`. When a `NOT NULL` column is omitted during INSERT, Databend writes a type-specific default value:
 
-```sql
-Int --> Double
-Float --> Double
-Int32 --> Double
-```
+| Type Category            | Default |
+|--------------------------|---------|
+| Integer                  | `0`     |
+| Floating-point           | `0.0`   |
+| String / Binary          | empty string / empty binary |
+| Date                     | `1970-01-01` |
+| Timestamp                | `1970-01-01 00:00:00` |
+| Boolean                  | `FALSE` |
 
-3. ALL non-nullable datatypes `T` can be implicitly casted into `Nullable(T)` datatype.
-
-e.g.
-
-```sql
-Int --> Nullable<Int>
-String -->  Nullable<String>
-```
-
-4. All datatypes can be implicitly casted into `Variant` datatype.
-
-e.g.
+Example:
 
 ```sql
-Int --> Variant
-```
-
-5. String datatype is the lowest datatype that can't be implicitly casted to other datatypes.
-6. `Array<T>` --> `Array<U>` if `T` --> `U`.
-7. `Nullable<T>` --> `Nullable<U>` if `T`--> `U`.
-8. `Null` --> `Nullable<T>` for any `T` datatype.
-9. Numeric can be implicitly casted to other numeric datatype if there is no lossy.
-
-### FAQ
-
-> Why can't the numeric type be automatically converted to the String type.
-
-It's trivial and even works in other popular databases. But it'll introduce ambiguity.
-
-e.g.
-
-```sql
-select 39 > '301';
-select 39 = '  39  ';
-```
-
-We don't know how to compare them with numeric rules or String rules. Because they are different result according to different rules.
-
-`select 39 > 301` is false where `select '39' > '301'` is true.
-
-To make the syntax more precise and less ambiguous, we throw the error to user and get more precise SQL.
-
-> Why can't the boolean type be automatically converted to the numeric type.
-
-This will also bring ambiguity.
-e.g.
-
-```sql
-select true > 0.5;
-```
-
-> What's the error message: "can't cast from nullable data into non-nullable type".
-
-That means you got a null in your source column. You can use `TRY_CAST` function or make your target type be a nullable type.
-
-> `select concat(1, col)` not work
-
-You can improve the SQL to `select concat('1', col)`.
-
-We may improve the expression in the future which could parse the literal `1` into String value if possible (the concat function just accept String parameters).
-
-## NULL Values and NOT NULL Constraint
-
-NULL values are employed to represent data that is either nonexistent or unknown. In Databend, every column is inherently capable of containing NULL values, which implies that a column can accommodate NULLs alongside regular data.
-
-If you need a column that does not allow NULL values, use the NOT NULL constraint. If a column is configured to disallow NULL values in Databend, and you do not explicitly provide a value for that column when inserting data, the default value associated with the column's data type will be automatically applied.
-
-| Data Type                 | Default Value                                              |
-| ------------------------- | ---------------------------------------------------------- |
-| Integer Data Types        | 0                                                          |
-| Floating-Point Data Types | 0.0                                                        |
-| Character and String      | Empty string ('')                                          |
-| Date and Time Data Types  | '1970-01-01' for DATE, '1970-01-01 00:00:00' for TIMESTAMP |
-| Boolean Data Type         | False                                                      |
-
-For example, if you create a table as follows:
-
-```sql
-CREATE TABLE test(
-    id Int64,
-    name String NOT NULL,
-    age Int32
+CREATE TABLE test (
+    id   INT64,
+    name STRING NOT NULL,
+    age  INT32
 );
 
-DESC test;
-
-Field|Type   |Null|Default|Extra|
------+-------+----+-------+-----+
-id   |BIGINT |YES |NULL   |     |
-name |VARCHAR|NO  |''     |     |
-age  |INT    |YES |NULL   |     |
+INSERT INTO test (id, name, age) VALUES (2, 'Alice', NULL);  -- allowed
+INSERT INTO test (id, name) VALUES (1, 'John');              -- age becomes NULL
+INSERT INTO test (id, age) VALUES (3, 45);                   -- name uses default ''
 ```
 
-- The "id" column can contain NULL values because it lacks the "NOT NULL" constraint. This means it can store integers or be left empty to represent missing data.
-
-- The "name" column must always have a value due to the "NOT NULL" constraint, disallowing NULL values.
-
-- The "age" column, like "id," can also hold NULL values as it doesn't have a "NOT NULL" constraint, allowing for empty entries or NULLs to indicate unknown ages.
-
-The following INSERT statement inserts a row with a NULL value for the "age" column. This is allowed because the "age" column does not have a NOT NULL constraint, so it can hold NULL values to represent missing or unknown data.
-
-```sql
-INSERT INTO test (id, name, age) VALUES (2, 'Alice', NULL);
-```
-
-The following INSERT statement inserts a row into the "test" table with values for the "id" and "name" columns, without providing a value for the "age" column. This is allowed because the "age" column does not have a NOT NULL constraint, so it can be left empty or assigned a NULL value to indicate missing or unknown data.
-
-```sql
-INSERT INTO test (id, name) VALUES (1, 'John');
-```
-
-The following INSERT statement attempts to insert a row without a value for the "name" column. The default value of the column type will be applied.
-
-```sql
-INSERT INTO test (id, age) VALUES (3, 45);
-```
+Use `DESC test` or `SHOW CREATE TABLE test` to inspect column defaults and nullability at any time.

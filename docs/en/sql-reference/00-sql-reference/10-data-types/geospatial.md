@@ -1,5 +1,6 @@
 ---
 title: Geospatial
+sidebar_position: 14
 ---
 
 Databend stores spatial data through two data types:

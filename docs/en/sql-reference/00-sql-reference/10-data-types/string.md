@@ -1,6 +1,7 @@
 ---
 title: String
 description: Basic String data type.
+sidebar_position: 3
 ---
 
 ## String Data Types
