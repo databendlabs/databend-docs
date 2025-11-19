@@ -1,5 +1,6 @@
 ---
 title: Vector
+sidebar_position: 13
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';

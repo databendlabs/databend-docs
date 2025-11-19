@@ -1,5 +1,7 @@
 ---
-title: 地理空间
+title: Geospatial
+description: Databend 提供 Geo 数据类型。
+sidebar_position: 14
 ---
 
 Databend 提供两种数据类型来存储空间数据：
@@ -209,4 +211,3 @@ FROM (
 │ {"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[10,20]},{"type":"LineString","coordinates":[[10,20],[30,40]]}]}  │       1       │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴───────────────┘
 ```
-

@@ -1,11 +1,12 @@
 ---
 title: Numeric
-description: Basic Numeric data type.
+description: 基本数值数据类型。
+sidebar_position: 4
 ---
 
-## Integer Data Types
+## 整数类型
 
-| Name     | Alias | Size    | Min Value            | Max Value           |
+| 名称     | 别名  | 大小    | 最小值               | 最大值              |
 |----------|-------|---------|----------------------|---------------------|
 | TINYINT  | INT8  | 1 byte  | -128                 | 127                 |
 | SMALLINT | INT16 | 2 bytes | -32768               | 32767               |
@@ -13,25 +14,25 @@ description: Basic Numeric data type.
 | BIGINT   | INT64 | 8 bytes | -9223372036854775808 | 9223372036854775807 |
 
 :::tip
-如果您想要无符号整数，请使用 `UNSIGNED` 约束，这与 MySQL 兼容，例如：
+如果需要无符号整数，请使用 `UNSIGNED` 约束（兼容 MySQL）。例如：
 
 ```sql
 CREATE TABLE test_numeric(tiny TINYINT, tiny_unsigned TINYINT UNSIGNED)
 ```
 :::
 
-## Floating-Point Data Types
+## 浮点类型
 
-| Name   | Size    | Min Value                | Max Value               |
+| 名称   | 大小    | 最小值                   | 最大值                  |
 |--------|---------|--------------------------|-------------------------|
 | FLOAT  | 4 bytes | -3.40282347e+38          | 3.40282347e+38          |
 | DOUBLE | 8 bytes | -1.7976931348623157E+308 | 1.7976931348623157E+308 |
 
-## Functions
+## 函数
 
 请参阅 [Numeric Functions](/sql/sql-functions/numeric-functions)。
 
-## Examples
+## 示例
 
 ```sql
 CREATE TABLE test_numeric
@@ -53,7 +54,7 @@ CREATE TABLE test_numeric
 DESC test_numeric;
 ```
 
-Result:
+结果：
 ```
 ┌───────────────────────────────────────────────────────────────────┐
 │       Field       │        Type       │  Null  │ Default │  Extra │

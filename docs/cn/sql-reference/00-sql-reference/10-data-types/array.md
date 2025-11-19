@@ -1,72 +1,52 @@
 ---
-title: Array(T)
-description: 定义数据类型的数组。
+title: Array
+description: 指定数据类型的数组。
+sidebar_position: 8
 ---
 
-## Array(T) 数据类型
+## 概览
 
-ARRAY(T) 由定义的可变长度内部 T 数据类型值组成，这与半结构化的 ARRAY 非常相似，不同之处在于需要定义内部数据类型，而不是任意类型。T 可以是任何数据类型。
+`ARRAY(T)` 存储元素类型均为 `T` 的变长集合。在创建表时定义元素类型，并使用数组函数来读取或转换这些值。
 
 :::note
-Databend 对数组使用从 1 开始的编号约定。一个包含 n 个元素的数组从 array[1] 开始，到 array[n] 结束。
+Databend 数组的索引从 1 开始。`arr[1]` 返回第一个元素，`arr[n]` 返回最后一个元素。
 :::
 
-### 示例
+## 示例
 
 ```sql
-CREATE TABLE array_int64_table(arr ARRAY(INT64));
-```
+CREATE TABLE array_samples (arr ARRAY(INT64));
 
-```sql
-DESC array_int64_table;
+INSERT INTO array_samples VALUES ([1, 2, 3]), ([10, 20]);
+
+SELECT
+  arr,
+  arr[1]   AS first_elem,
+  arr[2]   AS second_elem
+FROM array_samples;
 ```
 
 结果：
-
 ```
-┌───────────────────────────────────────────────────┐
-│  Field │     Type     │  Null  │ Default │  Extra │
-├────────┼──────────────┼────────┼─────────┼────────┤
-│ arr    │ ARRAY(INT64) │ YES    │ NULL    │        │
-└────────┼──────────────┼────────┼─────────┼────────┤
-```
-
-```sql
--- 将数组值插入到表中
-INSERT INTO array_int64_table
-VALUES
-([1, 2, 3, 4]),
-([5, 6, 7, 8]);
+┌────────────┬────────────┬──────────────┐
+│ arr        │ first_elem │ second_elem │
+├────────────┼────────────┼──────────────┤
+│ [1,2,3]    │          1 │            2 │
+│ [10,20]    │         10 │           20 │
+└────────────┴────────────┴──────────────┘
 ```
 
 ```sql
-SELECT arr FROM array_int64_table;
+-- 索引 0 总是返回 NULL，因为数组是从 1 开始索引的。
+SELECT arr[0] AS zeroth_elem FROM array_samples;
 ```
 
 结果：
-
 ```
-+-----------+
-| arr       |
-+-----------+
-| [1,2,3,4] |
-| [5,6,7,8] |
-+-----------+
-```
-
-```sql
--- 从表中选择 'arr' 数组的第零个元素
-SELECT arr[0]
-FROM array_int64_table;
-```
-
-结果：
-
-```
-┌─────────────────┐
-│      arr[0]     │
-├─────────────────┤
-│            NULL │
-│            NULL │
-└─────────────────┘
+┌─────────────┐
+│ zeroth_elem │
+├─────────────┤
+│ NULL        │
+│ NULL        │
+└─────────────┘
 ```

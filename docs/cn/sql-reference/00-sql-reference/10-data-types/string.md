@@ -1,20 +1,20 @@
 ---
 title: String
-description: Basic String data type.
+description: 基本字符串数据类型。
+sidebar_position: 3
 ---
 
-## String 数据类型
+## 字符串类型
 
-在 Databend 中，字符串可以存储在 `VARCHAR` 字段中，存储大小是可变的。
+在 Databend 中，字符串存储在 `VARCHAR` 字段中，其存储大小是可变的。
 
-| 名称    | 别名  | 存储大小 |
-|---------|---------|--------------|
-| VARCHAR | STRING  | variable     |
+| 名称    | 别名   | 存储大小 |
+|---------|--------|----------|
+| VARCHAR | STRING | 可变     |
 
 ## 函数
 
-请参考 [字符串函数](/sql/sql-functions/string-functions)。
-
+请参阅 [String Functions](/sql/sql-functions/string-functions)。
 
 ## 示例
 
@@ -22,9 +22,10 @@ description: Basic String data type.
 CREATE TABLE string_table(text VARCHAR);
 ```
 
-```
+```sql
 DESC string_table;
 ```
+
 结果：
 ```
 ┌──────────────────────────────────────────────┐
@@ -38,14 +39,14 @@ DESC string_table;
 INSERT INTO string_table VALUES('databend');
 ```
 
-```
+```sql
 SELECT * FROM string_table;
 ```
+
 结果：
 ```
 ┌──────────────────┐
 │       text       │
 ├──────────────────┤
-│ databend         │
 └──────────────────┘
 ```
