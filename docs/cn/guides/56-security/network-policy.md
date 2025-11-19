@@ -2,20 +2,20 @@
 title: 网络策略
 ---
 
-网络策略会根据客户端 IP 决定 Databend 是否接受登录。即使口令正确，只要 IP 不符合策略，连接请求都会立即被拒绝，因此它是账号密码之外的又一道防线。
+网络策略用于基于客户端 IP 地址控制 Databend 的登录权限。即使提供了正确的凭证，如果连接请求的来源 IP 不符合策略要求，该请求也会被拒绝。这为用户名和密码认证之外增加了一层额外的安全保障。
 
 ## 工作方式
 
-- `ALLOWED_IP_LIST` 接受单个 IPv4 地址或 CIDR（例如 `10.0.0.0/24`），列表之外的地址一律不得登录。
-- `BLOCKED_IP_LIST`（可选）用来在允许范围里再细分黑名单。系统会先检查阻止列表，再检查允许列表，所以同一 IP 同时出现在两个列表时仍会被拒绝。
-- 每个用户一次只能绑定一个网络策略；同一个策略可以复用到多个用户，方便集中维护。
-- 如果服务器拿不到客户端 IP，或者 IP 不在允许列表里，Databend 会直接返回 `AuthenticateFailure` 并拒绝连接。
+- `ALLOWED_IP_LIST` 接受单个 IPv4 地址或 CIDR 网段（例如 `10.0.0.0/24`）。只有在列表中的地址才允许登录。
+- `BLOCKED_IP_LIST`（可选）用于在允许的范围内明确排除某些 IP。Databend 会优先检查阻止列表，因此如果一个 IP 同时存在于两个列表中，它仍会被拒绝。
+- 一个用户同一时间只能关联一个网络策略，但同一个策略可以被多个用户共享，便于统一管理。
+- 如果服务器无法获取客户端 IP，或者 IP 不在允许列表里，Databend 会直接返回 `AuthenticateFailure` 并拒绝连接。
 
 ## 操作示例
 
-下面的示例覆盖网络策略的完整生命周期：创建 → 绑定 → 校验 → 集中更新 → 回收。
+本示例将涵盖网络策略的典型生命周期：创建策略、绑定到用户、验证状态、集中更新以及最终的解绑和删除。
 
-### 1. 创建策略并查看当前配置
+### 1. 创建并查看策略
 
 ```sql
 CREATE NETWORK POLICY corp_vpn_policy
@@ -30,7 +30,7 @@ Name            |Allowed Ip List           |Blocked Ip List|Comment          |
 corp_vpn_policy |10.1.0.0/16,172.16.8.12/32|10.1.10.25     |Only VPN ranges  |
 ```
 
-### 2. 将策略绑定到用户
+### 2. 绑定策略到用户
 
 ```sql
 CREATE USER alice IDENTIFIED BY 'Str0ngPass!' WITH SET NETWORK POLICY='corp_vpn_policy';
@@ -40,7 +40,7 @@ CREATE USER bob IDENTIFIED BY 'An0therPass!';
 ALTER USER bob WITH SET NETWORK POLICY='corp_vpn_policy';
 ```
 
-### 3. 检查策略是否生效
+### 3. 验证策略执行情况
 
 ```sql
 DESC USER alice;
@@ -58,7 +58,7 @@ Name            |Allowed Ip List           |Blocked Ip List|Comment         |
 corp_vpn_policy |10.1.0.0/16,172.16.8.12/32|10.1.10.25     |Only VPN ranges |
 ```
 
-### 4. 统一更新并复用策略
+### 4. 更新并复用策略
 
 借助 [ALTER NETWORK POLICY](/sql/sql-commands/ddl/network-policy/ddl-alter-policy) 可以直接修改允许或阻止的 IP 而无需逐个更新用户：
 
@@ -75,7 +75,7 @@ Name            |Allowed Ip List             |Blocked Ip List          |Comment 
 corp_vpn_policy |10.1.0.0/16,10.2.0.0/16     |10.1.10.25,10.2.5.5      |VPN + DR site    |
 ```
 
-策略与用户完全解耦，更新策略后所有引用它的用户都会立即得到新的 IP 规则。
+所有引用该策略的用户都会自动应用新的 IP 范围设置。
 
 ### 5. 解除绑定并清理
 
@@ -84,7 +84,7 @@ ALTER USER bob WITH UNSET NETWORK POLICY;
 DROP NETWORK POLICY corp_vpn_policy;
 ```
 
-在删除策略前，请确认没有用户仍然依赖它，否则这些用户后续会登录失败。
+在删除策略之前，请确认没有用户正在使用该策略；否则，相关用户的登录将会失败。
 
 ---
 
