@@ -4,7 +4,7 @@ sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.275"/>
+<FunctionDescription description="Introduced or updated: v1.2.845"/>
 
 撤销特定数据库对象的权限、角色和所有权。 这包括：
 
@@ -48,6 +48,9 @@ schemaObjectPrivileges ::=
 
 -- For UDF
   { USAGE }
+
+-- For MASKING POLICY
+  { CREATE MASKING POLICY | APPLY MASKING POLICY }
 ```
 
 ```sql
@@ -57,7 +60,18 @@ privileges_level ::=
   | db_name.tbl_name
   | STAGE <stage_name>
   | UDF <udf_name>
+  | MASKING POLICY <policy_name>
 ```
+
+### 撤销脱敏策略权限
+
+```sql
+REVOKE APPLY ON MASKING POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE OWNERSHIP ON MASKING POLICY <policy_name> FROM ROLE '<role_name>'
+```
+
+以上语句用于撤销针对特定脱敏策略的 APPLY 或 OWNERSHIP 权限。若需撤销全局 `CREATE MASKING POLICY` 或 `APPLY MASKING POLICY`，可结合 `ON *.*` 使用标准语法。
 
 ### 撤销角色
 
@@ -159,4 +173,14 @@ SHOW GRANTS FOR user1;
 | GRANT ALL ON 'default'.* TO 'user1'@'%' |
 | GRANT ALL ON *.* TO 'user1'@'%'         |
 +-----------------------------------------+
+```
+
+### 示例 4：撤销脱敏策略权限
+
+```sql
+-- 撤销针对单个脱敏策略的 APPLY 权限
+REVOKE APPLY ON MASKING POLICY email_mask FROM ROLE pii_readers;
+
+-- 撤销角色在整个账号范围创建脱敏策略的权限
+REVOKE CREATE MASKING POLICY ON *.* FROM ROLE security_admin;
 ```

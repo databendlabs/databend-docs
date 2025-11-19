@@ -81,6 +81,12 @@ SELECT * FROM user_info;
 - Ensure users have appropriate roles assigned
 - See [User & Role](/sql/sql-commands/ddl/user/) for role management
 
+### Required Privileges
+
+- Grant `CREATE MASKING POLICY` on `*.*` to any role that needs to create or replace masking policies. Databend automatically grants OWNERSHIP on a newly created policy to the current role.
+- Grant either the global `APPLY MASKING POLICY` privilege or `APPLY ON MASKING POLICY <policy_name>` to roles that attach/detach policies using `ALTER TABLE`. OWNERSHIP on the policy also allows these operations.
+- Use `SHOW GRANTS ON MASKING POLICY <policy_name>` to audit which roles can apply or own a specific policy.
+
 ## Policy Management
 
 For detailed commands to create, modify, and manage masking policies, see:

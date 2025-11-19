@@ -108,15 +108,17 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 ### 所有权限
 
 | 权限              | 对象类型                      | 描述                                                                                                                                        |
-|:------------------|:------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
-| ALL               | 所有                          | 授予指定对象类型的全部权限。                                                                                                                       |
-| ALTER             | Global, Database, Table, View | 修改数据库、表、用户或 UDF。                                                                                                                       |
-| CREATE            | Global, Table                 | 创建表或 UDF。                                                                                                                                     |
-| CREATE DATABASE   | Global                        | 创建数据库或 UDF。                                                                                                                                 |
-| CREATE WAREHOUSE  | Global                        | 创建 Warehouse。                                                                                                                                   |
-| CREATE CONNECTION | Global                        | 创建 Connection。                                                                                                                                  |
-| CREATE SEQUENCE   | Global                        | 创建 Sequence。                                                                                                                                    |
-| CREATE PROCEDURE  | PROCEDURE                     | 创建 Procedure。                                                                                                                                   |
+|:------------------|:------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
+| ALL               | 所有                          | 授予指定对象类型的全部权限。                                                                                                                |
+| APPLY MASKING POLICY | Global, Masking Policy     | 附加/解除、描述或删除脱敏策略。授予 `*.*` 时，可在整个账号范围管理所有脱敏策略。                                                           |
+| ALTER             | Global, Database, Table, View | 修改数据库、表、用户或 UDF。                                                                                                                |
+| CREATE            | Global, Table                 | 创建表或 UDF。                                                                                                                              |
+| CREATE DATABASE   | Global                        | 创建数据库或 UDF。                                                                                                                          |
+| CREATE WAREHOUSE  | Global                        | 创建 Warehouse。                                                                                                                            |
+| CREATE CONNECTION | Global                        | 创建 Connection。                                                                                                                           |
+| CREATE SEQUENCE   | Global                        | 创建 Sequence。                                                                                                                             |
+| CREATE PROCEDURE  | PROCEDURE                     | 创建 Procedure。                                                                                                                            |
+| CREATE MASKING POLICY | Global                    | 创建脱敏策略。                                                                                                                              |
 | DELETE            | Table                         | 删除或截断表中的行。                                                                                                                               |
 | DROP              | Global, Database, Table, View | 删除数据库、表、View 或 UDF；恢复已删除的表。                                                                                                      |
 | INSERT            | Table                         | 向表插入行。                                                                                                                                       |
@@ -257,3 +259,12 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 | Access Procedure | 可访问 Procedure（如 Drop、Call、Desc）。                                             |
 | ALL              | 授予指定对象类型的 Access Procedure 权限。                                            |
 | OWNERSHIP        | 授予对 Procedure 的完全控制权；在特定对象上一次只能有一个角色持有此权限。             |
+
+### 脱敏策略权限
+
+除 `CREATE MASKING POLICY` 与 `APPLY MASKING POLICY` 全局权限外，还可以针对单个脱敏策略授予权限：
+
+| 权限  | 描述                                                                                                   |
+|:------|:--------------------------------------------------------------------------------------------------------|
+| APPLY | 将脱敏策略绑定/解绑到列，同时允许执行 DESC/DROP 操作。                                                  |
+| OWNERSHIP | 授予对脱敏策略的完全控制权。Databend 会在策略创建时自动将 OWNERSHIP 授予当前角色，并在策略被删除时自动回收。 |

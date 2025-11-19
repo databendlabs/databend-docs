@@ -5,7 +5,7 @@ sidebar_position: 9
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.275"/>
+<FunctionDescription description="Introduced or updated: v1.2.845"/>
 
 为特定的数据库对象授予权限、角色和所有权。包括：
 
@@ -52,6 +52,9 @@ schemaObjectPrivileges ::=
 
 -- For UDF
   { USAGE }
+
+-- For MASKING POLICY
+  { CREATE MASKING POLICY | APPLY MASKING POLICY }
 ```
 
 ```sql
@@ -61,7 +64,23 @@ privileges_level ::=
   | db_name.tbl_name
   | STAGE <stage_name>
   | UDF <udf_name>
+  | MASKING POLICY <policy_name>
 ```
+
+### 授予脱敏策略权限
+
+要针对某个脱敏策略授予权限，可使用以下语句：
+
+```sql
+GRANT APPLY ON MASKING POLICY <policy_name> TO [ ROLE ] <grantee>
+GRANT ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> TO [ ROLE ] <grantee>
+GRANT OWNERSHIP ON MASKING POLICY <policy_name> TO ROLE '<role_name>'
+```
+
+- `CREATE MASKING POLICY` 允许创建策略。
+- `APPLY MASKING POLICY`（全局）允许在任意表上设置/解除、描述或删除任何脱敏策略。
+- `GRANT APPLY ON MASKING POLICY ...` 可针对单个策略授权，避免授予全局访问。
+- OWNERSHIP 赋予对策略的完全控制权。创建脱敏策略后，Databend 会自动将 OWNERSHIP 授予当前角色，并在策略删除时回收。
 
 ### Granting Role
 
@@ -250,4 +269,20 @@ GRANT OWNERSHIP ON STAGE ingestion_stage TO ROLE 'data_owner';
 
 -- Grant ownership of the user-defined function 'calculate_profit' to the role 'data_owner'
 GRANT OWNERSHIP ON UDF calculate_profit TO ROLE 'data_owner';
+```
+
+### Example 5: Granting Masking Policy Privileges
+
+```sql
+-- 授权角色创建脱敏策略
+GRANT CREATE MASKING POLICY ON *.* TO ROLE security_admin;
+
+-- 在 security_admin 角色下创建策略
+CREATE MASKING POLICY email_mask AS (val STRING) RETURNS STRING -> '***';
+
+-- 仅允许 pii_readers 角色在表列上应用该策略
+GRANT APPLY ON MASKING POLICY email_mask TO ROLE pii_readers;
+
+-- 查看策略的授权情况
+SHOW GRANTS ON MASKING POLICY email_mask;
 ```

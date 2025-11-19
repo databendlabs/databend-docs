@@ -6,7 +6,7 @@ slug: /sql-commands/ddl/table/alter-table
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.821"/>
+<FunctionDescription description="引入或更新于：v1.2.845"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -75,6 +75,7 @@ DROP [ COLUMN ] <column_name>
 - 当声明了 `USING (...)` 时，必须至少提供被脱敏的列以及策略所需的其他列，并确保 `USING` 中的第一个标识符与正在修改的列一致。
 - 只有常规表支持绑定脱敏策略；视图、流表以及临时表均无法执行 `SET MASKING POLICY`。
 - 单个列最多只能附加一个安全策略（无论是列脱敏还是行级策略）。在重新绑定之前，请先移除原有策略。
+- 设置或取消设置脱敏策略需要拥有全局 `APPLY MASKING POLICY` 权限，或针对目标策略具有 APPLY/OWNERSHIP 权限，否则 `ALTER TABLE` 会被拒绝。
 :::
 
 :::caution

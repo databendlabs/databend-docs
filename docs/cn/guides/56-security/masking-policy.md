@@ -81,6 +81,12 @@ SELECT * FROM user_info;
 - 确保用户已分配适当角色
 - 角色管理请参考 [User & Role](/sql/sql-commands/ddl/user/)
 
+### 所需权限
+
+- 需要将 `CREATE MASKING POLICY`（通常授予 `*.*`）赋予负责创建或替换脱敏策略的角色。Databend 会在策略创建完成后自动将该策略的 OWNERSHIP 授予当前角色。
+- 需要将全局 `APPLY MASKING POLICY` 权限，或使用 `GRANT APPLY ON MASKING POLICY <policy_name>` 为角色授予特定策略的控制权，才能在 `ALTER TABLE` 中设置/解除策略；拥有该策略的 OWNERSHIP 也可执行这些操作。
+- 通过 `SHOW GRANTS ON MASKING POLICY <policy_name>` 可以审计哪些角色拥有 APPLY 或 OWNERSHIP 权限。
+
 ## 策略管理
 
 有关创建、修改和管理动态脱敏策略（Masking Policy）的详细命令，请查阅：
