@@ -6,7 +6,7 @@ slug: /sql-commands/ddl/table/alter-table
  
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.821"/>
+<FunctionDescription description="Introduced or updated: v1.2.845"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -75,6 +75,7 @@ DROP [ COLUMN ] <column_name>
 - If you include `USING`, provide at least the masked column plus any additional columns needed by the policy. The first identifier in `USING (...)` must match the column being modified.
 - Masking policies can only be attached to regular tables. Views, streams, and temporary tables do not allow `SET MASKING POLICY`.
 - A column can belong to at most one security policy (masking or row-level). Remove the existing policy before attaching a new one.
+- Attaching, detaching, describing, or dropping a masking policy requires the global `APPLY MASKING POLICY` privilege or APPLY/OWNERSHIP on the specific masking policy.
 :::
 
 :::caution

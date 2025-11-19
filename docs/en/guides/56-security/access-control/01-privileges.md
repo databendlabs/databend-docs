@@ -110,6 +110,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | Privilege         | Object Type                   | Description                                                                                                                                        |
 |:------------------|:------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
 | ALL               | All                           | Grants all the privileges for the specified object type.                                                                                           |
+| APPLY MASKING POLICY | Global, Masking Policy     | Attaches, detaches, describes, or drops masking policies. When granted on *.*, the grantee can manage any masking policy.                          |
 | ALTER             | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                                                             |
 | CREATE            | Global, Table                 | Creates a table or UDF.                                                                                                                            |
 | CREATE DATABASE   | Global                        | Creates a database or UDF.                                                                                                                         |
@@ -117,6 +118,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | CREATE CONNECTION | Global                        | Creates a connection.                                                                                                                              |
 | CREATE SEQUENCE   | Global                        | Creates a sequence.                                                                                                                                |
 | CREATE PROCEDURE  | PROCEDURE                     | Creates a procedure.                                                                                                                               |
+| CREATE MASKING POLICY | Global                    | Creates a masking policy.                                                                                                                          |
 | DELETE            | Table                         | Deletes or truncates rows in a table.                                                                                                              |
 | DROP              | Global, Database, Table, View | Drops a database, table, view or UDF. Undrops a table.                                                                                             |
 | INSERT            | Table                         | Inserts rows into a table.                                                                                                                         |
@@ -259,3 +261,11 @@ Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/d
 | ALL              | Grants Access Procedure privileges for the specified object type.                                                 |
 | OWNERSHIP        | Grants full control over a Procedure.  Only a single role can hold this privilege on a specific object at a time. |
 
+### Masking Policy Privileges
+
+In addition to the global `CREATE MASKING POLICY` and `APPLY MASKING POLICY` privileges, you can grant access to individual masking policies:
+
+| Privilege | Description                                                                                                                           |
+|:----------|:--------------------------------------------------------------------------------------------------------------------------------------|
+| APPLY     | Attaches or detaches the masking policy from columns, and allows DESC/DROP operations on the policy.                                  |
+| OWNERSHIP | Grants full control over a masking policy. Databend grants OWNERSHIP to the role that creates the policy and revokes it automatically when the policy is dropped. |

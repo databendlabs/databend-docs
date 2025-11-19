@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.341"/>
+<FunctionDescription description="Introduced or updated: v1.2.845"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -35,6 +35,14 @@ CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS
 :::note
 Ensure that *arg_type_to_mask* matches the data type of the column where the masking policy will be applied. When your policy defines multiple parameters, list each referenced column in the same order within the `USING` clause of `ALTER TABLE ... SET MASKING POLICY`.
 :::
+
+## Access Control Requirements
+
+| Privilege | Description |
+|:----------|:------------|
+| CREATE MASKING POLICY | Required to create or replace a masking policy. Typically granted on `*.*`. |
+
+Databend automatically grants OWNERSHIP on the new masking policy to the current role so that it can manage the policy with others.
 
 ## Examples
 

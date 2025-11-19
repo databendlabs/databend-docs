@@ -5,7 +5,7 @@ sidebar_position: 3
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.45"/>
+<FunctionDescription description="Introduced or updated: v1.2.845"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -18,6 +18,14 @@ Deletes an existing masking policy from Databend. When you drop a masking policy
 ```sql
 DROP MASKING POLICY [ IF EXISTS ] <policy_name>
 ```
+
+## Access Control Requirements
+
+| Privilege | Description |
+|:----------|:------------|
+| APPLY MASKING POLICY | Required to drop a masking policy unless you own that policy. |
+
+You must have the global `APPLY MASKING POLICY` privilege or APPLY/OWNERSHIP on the target policy. Databend automatically revokes OWNERSHIP from the creator role after the policy is dropped.
 
 ## Examples
 

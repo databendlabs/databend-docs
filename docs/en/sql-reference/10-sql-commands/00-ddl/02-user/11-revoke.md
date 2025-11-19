@@ -4,7 +4,7 @@ sidebar_position: 11
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.275"/>
+<FunctionDescription description="Introduced or updated: v1.2.845"/>
 
 Revokes privileges, roles, and ownership of a specific database object. This includes:
 
@@ -48,6 +48,9 @@ schemaObjectPrivileges ::=
 
 -- For UDF
   { USAGE }
+
+-- For MASKING POLICY (account-level privileges)
+  { CREATE MASKING POLICY | APPLY MASKING POLICY }
 ```
 
 ```sql
@@ -57,7 +60,18 @@ privileges_level ::=
   | db_name.tbl_name
   | STAGE <stage_name>
   | UDF <udf_name>
+  | MASKING POLICY <policy_name>
 ```
+
+### Revoking Masking Policy Privileges
+
+```sql
+REVOKE APPLY ON MASKING POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE OWNERSHIP ON MASKING POLICY <policy_name> FROM ROLE '<role_name>'
+```
+
+Use these forms to remove access to individual masking policies. Global `CREATE MASKING POLICY` and `APPLY MASKING POLICY` privileges are revoked using the standard syntax with `ON *.*`.
 
 ### Revoking Role
 
@@ -159,4 +173,14 @@ SHOW GRANTS FOR user1;
 | GRANT ALL ON 'default'.* TO 'user1'@'%' |
 | GRANT ALL ON *.* TO 'user1'@'%'         |
 +-----------------------------------------+
+```
+
+### Example 4: Revoking Masking Policy Privileges
+
+```sql
+-- Remove per-policy access from a role
+REVOKE APPLY ON MASKING POLICY email_mask FROM ROLE pii_readers;
+
+-- Revoke the ability to create masking policies at the account level
+REVOKE CREATE MASKING POLICY ON *.* FROM ROLE security_admin;
 ```

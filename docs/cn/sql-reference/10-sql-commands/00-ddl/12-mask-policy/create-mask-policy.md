@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于: v1.2.341"/>
+<FunctionDescription description="引入或更新于: v1.2.845"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -35,6 +35,14 @@ CREATE [ OR REPLACE ] MASKING POLICY [ IF NOT EXISTS ] <policy_name> AS
 :::note
 确保 *arg_type_to_mask* 与将应用脱敏策略的列的数据类型匹配。当策略包含多个参数时，必须在 `ALTER TABLE ... SET MASKING POLICY` 的 `USING` 子句中按相同顺序列出对应列。
 :::
+
+## 访问控制要求
+
+| 权限 | 描述 |
+|:-----|:-----|
+| CREATE MASKING POLICY | 创建或替换脱敏策略时所需的权限（通常授予 `*.*`）。 |
+
+策略创建成功后，Databend 会自动将该策略的 OWNERSHIP 授予当前角色，方便与其他角色协同管理该策略。
 
 ## 示例
 

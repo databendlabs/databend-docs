@@ -4,7 +4,7 @@ sidebar_position: 9
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.275"/>
+<FunctionDescription description="Introduced or updated: v1.2.845"/>
 
 Grants privileges, roles, and ownership for a specific database object. This includes:
 
@@ -51,6 +51,9 @@ schemaObjectPrivileges ::=
            
 -- For UDF
   { USAGE }
+
+-- For MASKING POLICY (account-level privileges)
+  { CREATE MASKING POLICY | APPLY MASKING POLICY }
 ```
 
 ```sql
@@ -60,7 +63,23 @@ privileges_level ::=
   | db_name.tbl_name
   | STAGE <stage_name>
   | UDF <udf_name>
+  | MASKING POLICY <policy_name>
 ```
+
+### Granting Masking Policy Privileges
+
+Use the following forms to manage access to individual masking policies:
+
+```sql
+GRANT APPLY ON MASKING POLICY <policy_name> TO [ ROLE ] <grantee>
+GRANT ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> TO [ ROLE ] <grantee>
+GRANT OWNERSHIP ON MASKING POLICY <policy_name> TO ROLE '<role_name>'
+```
+
+- `CREATE MASKING POLICY` allows a user or role to create new masking policies.
+- `APPLY MASKING POLICY` lets grantees attach, detach, describe, or drop any masking policy when combined with the appropriate `ALTER TABLE` or policy commands.
+- `GRANT APPLY ON MASKING POLICY ...` authorizes the grantee to manage a specific masking policy without granting global access.
+- OWNERSHIP provides full control over the masking policy; Databend automatically grants OWNERSHIP on a new policy to the creator role and revokes it when the policy is dropped.
 
 ### Granting Role
 
@@ -239,4 +258,20 @@ GRANT OWNERSHIP ON STAGE ingestion_stage TO ROLE 'data_owner';
 
 -- Grant ownership of the user-defined function 'calculate_profit' to the role 'data_owner'
 GRANT OWNERSHIP ON UDF calculate_profit TO ROLE 'data_owner';
+```
+
+### Example 5: Granting Masking Policy Privileges
+
+```sql
+-- Allow the current user to create masking policies
+GRANT CREATE MASKING POLICY ON *.* TO ROLE security_admin;
+
+-- Create a masking policy while assuming the security_admin role
+CREATE MASKING POLICY email_mask AS (val STRING) RETURNS STRING -> '***';
+
+-- Grant a role the ability to apply the policy when altering tables
+GRANT APPLY ON MASKING POLICY email_mask TO ROLE pii_readers;
+
+-- Review the masking policy privileges
+SHOW GRANTS ON MASKING POLICY email_mask;
 ```

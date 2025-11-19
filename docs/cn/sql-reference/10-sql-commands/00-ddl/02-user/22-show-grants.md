@@ -4,7 +4,7 @@ sidebar_position: 10
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.487"/>
+<FunctionDescription description="Introduced or updated: v1.2.845"/>
 
 列出明确授予用户、角色或特定对象的权限。
 
@@ -24,7 +24,7 @@ SHOW GRANTS FOR <user_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 SHOW GRANTS FOR ROLE <role_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
 -- 列出授予对象的权限
-SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF } <object_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
+SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF | MASKING POLICY } <object_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
 -- 列出所有已直接授予 role_name 的用户和角色。
 SHOW GRANTS OF ROLE <role_name>
@@ -89,4 +89,7 @@ SHOW GRANTS OF ROLE analyst
 │ analyst │ USER       │ user1        │
 ╰─────────────────────────────────────╯
 
+
+-- 查看脱敏策略的授权
+SHOW GRANTS ON MASKING POLICY email_mask;
 ```
