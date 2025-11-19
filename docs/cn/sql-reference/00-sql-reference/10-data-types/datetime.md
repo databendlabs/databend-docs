@@ -2,6 +2,7 @@
 title: Date & Time
 description: Databend 的日期和时间数据类型支持标准化并兼容多种 SQL 标准，方便用户从其他数据库系统迁移。
 sidebar_position: 6
+---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
