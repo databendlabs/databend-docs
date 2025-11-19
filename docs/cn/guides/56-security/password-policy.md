@@ -2,52 +2,26 @@
 title: 密码策略
 ---
 
-Databend 包含密码策略，以增强系统安全性并简化用户帐户管理。此策略为创建或更改密码设置了规则，涵盖长度、字符类型、年龄限制、重试次数限制、锁定持续时间和密码历史记录等方面。创建密码策略时，您可以自定义特定规则以满足您的需求。有关密码策略因素的详细列表，请参阅 [密码策略属性](/sql/sql-commands/ddl/password-policy/create-password-policy#password-policy-attributes)。
+密码策略用于定义 Databend 密码的强度要求（如长度、字符组合、历史记录、重试限制等）以及密码的更换频率。它为每一次创建用户 (`CREATE USER`) 和修改密码的操作提供了可预期的安全保障。有关属性的完整列表，请参阅 [密码策略属性](/sql/sql-commands/ddl/password-policy/create-password-policy#password-policy-attributes)。
 
-## 密码策略的工作原理
+## 工作方式
 
-在 Databend 中，SQL 用户最初没有预定义的密码策略。这意味着在为用户设置或更改密码时，在将密码策略分配给他们之前，没有特定的规则需要遵循。要分配密码策略，您可以使用 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建一个具有密码策略的新用户，或者使用 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 命令将现有用户链接到密码策略。请注意，密码策略不适用于通过 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件配置的管理员用户。
-
-当您为具有密码策略的用户设置或更改密码时，Databend 会进行彻底的检查，以确保所选密码符合密码策略定义的规则。将验证以下方面：
+- SQL 用户默认不关联任何密码策略。您可以在创建用户时 (`CREATE USER ... WITH SET PASSWORD POLICY`) 指定策略，也可以稍后通过 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 进行关联。请注意，通过 [`databend-query.toml`](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 声明的管理员账号不受此策略约束。
+- 当受策略管理的用户设置或修改密码时，Databend 会验证密码是否符合复杂度规则（长度和字符组合）。对于修改密码的操作，还会强制检查密码的最短使用期限和历史记录。
+- 在登录时，Databend 会根据 `PASSWORD_MAX_RETRIES` 和 `PASSWORD_LOCKOUT_TIME_MINS` 跟踪失败尝试次数并锁定账号；同时，如果密码超过 `PASSWORD_MAX_AGE_DAYS`，系统会将其标记为过期。过期用户登录后只能进行修改密码操作。
 
 :::note
-通常，除非用户被分配了内置角色 `account-admin`，否则用户无法更改自己的密码。`account-admin` 用户可以设置或更改所有用户的密码。要更改用户的密码，请使用 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 命令。
+普通用户通常无法自行修改密码，除非他们拥有内置的 `account-admin` 角色。`account-admin` 可以运行 `ALTER USER ... IDENTIFIED BY ...` 来为任何用户轮换密码。
 :::
 
-- **复杂性要求**：
+## 操作示例
 
-  - **最小和最大长度**：验证密码长度是否在定义的范围内。
-  - **大写、小写、数字和特殊字符**：确认是否符合特定字符类型要求。
+本示例将演示如何为管理员和分析师创建专用策略，将其绑定到用户，以及后续如何修改或移除这些策略。
 
-- **密码更改期间的附加检查**：
-  - **最短年龄要求**：确保密码不会过于频繁地更改。
-  - **历史记录检查**：验证新密码是否与最近的密码重复。
-
-当用户尝试使用密码策略登录时，Databend 会执行必要的检查以增强安全性并规范用户访问。将进行以下验证：
-
-- **连续不正确的密码尝试**：
-
-  - 确保不超过连续不正确密码尝试的限制。
-  - 超过限制会导致用户登录被临时锁定。
-
-- **最长年龄要求**：
-  - 检查是否超过了最长密码更改间隔。
-  - 如果超过了间隔，用户可以在登录后更改密码，并且在更改密码之前无法执行任何其他操作。
-
-## 管理密码策略
-
-Databend 提供了一系列用于管理密码策略的命令。有关更多详细信息，请参阅 [密码策略](/sql/sql-commands/ddl/password-policy/)。
-
-## 使用示例
-
-此示例建立以下密码策略并为用户实施它们：
-
-- `DBA` 用于管理员用户：严格自定义每个密码策略属性。
-- `ReadOnlyUser` 用于普通用户：使用默认属性值。
+### 1. 创建并查看策略
 
 ```sql
--- 创建具有自定义属性值的“DBA”密码策略
-CREATE PASSWORD POLICY DBA
+CREATE PASSWORD POLICY dba_policy
     PASSWORD_MIN_LENGTH = 12
     PASSWORD_MAX_LENGTH = 18
     PASSWORD_MIN_UPPER_CASE_CHARS = 2
@@ -55,36 +29,83 @@ CREATE PASSWORD POLICY DBA
     PASSWORD_MIN_NUMERIC_CHARS = 2
     PASSWORD_MIN_SPECIAL_CHARS = 1
     PASSWORD_MIN_AGE_DAYS = 1
-    PASSWORD_MAX_AGE_DAYS = 30
+    PASSWORD_MAX_AGE_DAYS = 45
     PASSWORD_MAX_RETRIES = 3
     PASSWORD_LOCKOUT_TIME_MINS = 30
-    PASSWORD_HISTORY = 5;
+    PASSWORD_HISTORY = 5
+    COMMENT='Strict controls for DBAs';
 
--- 创建具有所有属性的默认值的“ReadOnlyUser”密码策略
-CREATE PASSWORD POLICY ReadOnlyUser;
+CREATE PASSWORD POLICY analyst_policy
+    COMMENT='Defaults for analysts';
 
 SHOW PASSWORD POLICIES;
 
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│     name     │ comment │                                                                                                 options                                                                                                 │
-├──────────────┼─────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ DBA          │         │ MIN_LENGTH=12, MAX_LENGTH=18, MIN_UPPER_CASE_CHARS=2, MIN_LOWER_CASE_CHARS=2, MIN_NUMERIC_CHARS=2, MIN_SPECIAL_CHARS=1, MIN_AGE_DAYS=1, MAX_AGE_DAYS=30, MAX_RETRIES=3, LOCKOUT_TIME_MINS=30, HISTORY=5 │
-│ ReadOnlyUser │         │ MIN_LENGTH=8, MAX_LENGTH=256, MIN_UPPER_CASE_CHARS=1, MIN_LOWER_CASE_CHARS=1, MIN_NUMERIC_CHARS=1, MIN_SPECIAL_CHARS=0, MIN_AGE_DAYS=0, MAX_AGE_DAYS=90, MAX_RETRIES=5, LOCKOUT_TIME_MINS=15, HISTORY=0 │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────┬───────────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ name            │ comment                       │ options                                                                                                                             │
+├─────────────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ analyst_policy  │ Defaults for analysts         │ MIN_LENGTH=8, MAX_LENGTH=256, MIN_UPPER_CASE_CHARS=1, MIN_LOWER_CASE_CHARS=1, MIN_NUMERIC_CHARS=1, MIN_SPECIAL_CHARS=0, ... HISTORY=0        │
+│ dba_policy      │ Strict controls for DBAs      │ MIN_LENGTH=12, MAX_LENGTH=18, MIN_UPPER_CASE_CHARS=2, MIN_LOWER_CASE_CHARS=2, MIN_NUMERIC_CHARS=2, MIN_SPECIAL_CHARS=1, ... HISTORY=5       │
+└─────────────────┴───────────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-假设您已经有一个名为“eric”的 DBA 用户，并使用 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 命令将 DBA 密码策略应用于该用户：
+### 2. 绑定策略到用户
 
 ```sql
--- 将“DBA”密码策略应用于用户“eric”
-ALTER USER eric WITH SET PASSWORD POLICY = 'DBA';
+CREATE USER dba_jane IDENTIFIED BY 'Str0ngPass123!' WITH SET PASSWORD POLICY='dba_policy';
+
+CREATE USER analyst_mike IDENTIFIED BY 'Abc12345'
+    WITH SET PASSWORD POLICY='analyst_policy';
+
+CREATE USER analyst_zoe IDENTIFIED BY 'Byt3Crush!';
+ALTER USER analyst_zoe WITH SET PASSWORD POLICY='analyst_policy';
 ```
 
-现在，让我们创建一个名为“frank”的新用户，并使用 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令应用“ReadOnlyUser”密码策略：
+### 3. 验证绑定结果
 
 ```sql
--- 注意：为用户“frank”设置的密码必须遵守
--- 由关联的“ReadOnlyUser”密码策略定义的约束。
-CREATE USER frank IDENTIFIED BY 'Abc12345'
-    WITH SET PASSWORD POLICY = 'ReadOnlyUser';
+DESC USER dba_jane;
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  name   │ hostname │       auth_type      │ default_role │ roles │ disabled │ network_policy │ password_policy │ must_change_password │
+├─────────┼──────────┼──────────────────────┼──────────────┼───────┼──────────┼────────────────┼─────────────────┼──────────────────────┤
+│ dba_jane│ %        │ double_sha1_password │              │       │ false    │                │ dba_policy      │ NULL                 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+DESC PASSWORD POLICY dba_policy;
+
+Name       |Comment                     |Options
+-----------+----------------------------+---------------------------------------------------------------------------------------------------------------------------------+
+dba_policy |Strict controls for DBAs    |MIN_LENGTH=12,MAX_LENGTH=18,MIN_UPPER_CASE_CHARS=2,MIN_LOWER_CASE_CHARS=2,MIN_NUMERIC_CHARS=2,MIN_SPECIAL_CHARS=1,...,HISTORY=5   |
 ```
+
+### 4. 集中更新策略
+
+使用 [ALTER PASSWORD POLICY](/sql/sql-commands/ddl/password-policy/alter-password-policy) 可以收紧规则，而无需逐个修改用户：
+
+```sql
+ALTER PASSWORD POLICY analyst_policy SET
+    PASSWORD_MIN_SPECIAL_CHARS = 1
+    PASSWORD_MAX_AGE_DAYS = 60
+    COMMENT='Analysts need specials now';
+
+DESC PASSWORD POLICY analyst_policy;
+
+Name           |Comment                      |Options
+---------------+-----------------------------+------------------------------------------------------------------------------------------------------------------------+
+analyst_policy |Analysts need specials now   |MIN_LENGTH=8,MAX_LENGTH=256,MIN_UPPER_CASE_CHARS=1,MIN_LOWER_CASE_CHARS=1,MIN_NUMERIC_CHARS=1,MIN_SPECIAL_CHARS=1,...    |
+```
+
+所有引用 `analyst_policy` 的用户现在都会自动继承更严格的密码组合规则和过期时间设置。
+
+### 5. 解绑并清理
+
+```sql
+ALTER USER analyst_zoe WITH UNSET PASSWORD POLICY;
+DROP PASSWORD POLICY analyst_policy;
+```
+
+Databend 禁止删除正在使用中的策略；在执行 `DROP PASSWORD POLICY` 之前，请先解除该策略与所有用户的关联。
+
+---
+
+有关完整语法，请参阅 [密码策略 SQL 参考](/sql/sql-commands/ddl/password-policy/)，其中涵盖了 `CREATE`、`ALTER`、`SHOW`、`DESC` 和 `DROP`。

@@ -2,52 +2,26 @@
 title: Password Policy
 ---
 
-Databend includes a password policy to strengthen system security and make user account management smoother. This policy sets rules for creating or changing passwords, covering aspects like length, types of characters, age restrictions, retry limits, lockout durations, and password history. When creating a password policy, you can customize specific rules to suit your needs. For a detailed list of the password policy factors, see [Password Policy Attributes](/sql/sql-commands/ddl/password-policy/create-password-policy#password-policy-attributes).
+Password policies define how strong a Databend password must be (length, characters, history, retry limits, and more) and how often it can change. They add predictable guardrails around every `CREATE USER` and password change. For the full list of attributes, see [Password Policy Attributes](/sql/sql-commands/ddl/password-policy/create-password-policy#password-policy-attributes).
 
-## How Password Policy Works
+## How It Works
 
-In Databend, SQL users don't initially have a predefined password policy. This implies that there are no specific rules to follow when setting or changing a password for a user until a password policy is assigned to them. To assign a password policy, you can either create a new user with a password policy using the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command or link an existing user to a password policy using the [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) command. Please note that, the password policy does not apply to admin users configured through the [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) configuration file.
-
-When you set or change the password for a user with a password policy, Databend conducts thorough checks to ensure the chosen password follows the rules defined by the password policy. The following aspects are verified:
+- SQL users start with no password policy. Assign one either when creating the user (`CREATE USER ... WITH SET PASSWORD POLICY`) or later via [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user). Policies do **not** apply to admin accounts declared in [`databend-query.toml`](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml).
+- Whenever a managed user sets or changes a password, Databend validates the complexity rules (length and character mix) and, for password changes, enforces minimum age and password history.
+- On login, Databend also tracks failed attempts and lockouts based on `PASSWORD_MAX_RETRIES`/`PASSWORD_LOCKOUT_TIME_MINS`, and it flags expired passwords after `PASSWORD_MAX_AGE_DAYS`. Expired users can log in only to change their password.
 
 :::note
-Generally, users cannot change their own passwords unless they are assigned the built-in role `account-admin`. An `account-admin` user can set or change passwords for all users. To change password for a user, use the [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) command.
+Users normally cannot change their own password unless they have the built-in `account-admin` role. An `account-admin` can run `ALTER USER ... IDENTIFIED BY ...` to rotate passwords for anyone.
 :::
 
-- **Complexity Requirements**:
+## End-to-End Example
 
-  - **Minimum and Maximum Length**: Validates password length within defined boundaries.
-  - **Uppercase, Lowercase, Numeric, and Special Characters**: Confirms adherence to specific character type requirements.
+This walkthrough creates dedicated policies for administrators and analysts, binds them to users, and shows how to revise or remove them later.
 
-- **Additional Checks during Password Change**:
-  - **Minimum Age Requirement**: Ensures passwords are not changed too frequently.
-  - **History Check**: Verifies that new passwords do not replicate recent ones.
-
-When a user attempts to log in with a password policy in place, Databend performs essential checks to enhance security and regulate user access. The following verifications take place:
-
-- **Consecutive Incorrect Password Attempts**:
-
-  - Ensures limits on consecutive incorrect password attempts are not exceeded.
-  - Exceeding limits results in a temporary lock on user login.
-
-- **Maximum Age Requirement**:
-  - Checks if the maximum password change interval has been exceeded.
-  - If the interval is exceeded, the user can change the password after login, and cannot perform any other operations before the password is changed.
-
-## Managing Password Policies
-
-Databend offers a range of commands for managing password policies. For more details, see [Password Policy](/sql/sql-commands/ddl/password-policy/).
-
-## Usage Examples
-
-This example establishes the following password policies and implements them for users:
-
-- `DBA` for admins users: Customizes each password policy attribute strictly.
-- `ReadOnlyUser` for general users: Uses the default attribute values.
+### 1. Create Policies and Inspect Them
 
 ```sql
--- Create the 'DBA' password policy with customized attribute values
-CREATE PASSWORD POLICY DBA
+CREATE PASSWORD POLICY dba_policy
     PASSWORD_MIN_LENGTH = 12
     PASSWORD_MAX_LENGTH = 18
     PASSWORD_MIN_UPPER_CASE_CHARS = 2
@@ -55,36 +29,83 @@ CREATE PASSWORD POLICY DBA
     PASSWORD_MIN_NUMERIC_CHARS = 2
     PASSWORD_MIN_SPECIAL_CHARS = 1
     PASSWORD_MIN_AGE_DAYS = 1
-    PASSWORD_MAX_AGE_DAYS = 30
+    PASSWORD_MAX_AGE_DAYS = 45
     PASSWORD_MAX_RETRIES = 3
     PASSWORD_LOCKOUT_TIME_MINS = 30
-    PASSWORD_HISTORY = 5;
+    PASSWORD_HISTORY = 5
+    COMMENT='Strict controls for DBAs';
 
--- Create the 'ReadOnlyUser' password policy with default values for all attributes
-CREATE PASSWORD POLICY ReadOnlyUser;
+CREATE PASSWORD POLICY analyst_policy
+    COMMENT='Defaults for analysts';
 
 SHOW PASSWORD POLICIES;
 
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│     name     │ comment │                                                                                                 options                                                                                                 │
-├──────────────┼─────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ DBA          │         │ MIN_LENGTH=12, MAX_LENGTH=18, MIN_UPPER_CASE_CHARS=2, MIN_LOWER_CASE_CHARS=2, MIN_NUMERIC_CHARS=2, MIN_SPECIAL_CHARS=1, MIN_AGE_DAYS=1, MAX_AGE_DAYS=30, MAX_RETRIES=3, LOCKOUT_TIME_MINS=30, HISTORY=5 │
-│ ReadOnlyUser │         │ MIN_LENGTH=8, MAX_LENGTH=256, MIN_UPPER_CASE_CHARS=1, MIN_LOWER_CASE_CHARS=1, MIN_NUMERIC_CHARS=1, MIN_SPECIAL_CHARS=0, MIN_AGE_DAYS=0, MAX_AGE_DAYS=90, MAX_RETRIES=5, LOCKOUT_TIME_MINS=15, HISTORY=0 │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────┬───────────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ name            │ comment                       │ options                                                                                                                             │
+├─────────────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ analyst_policy  │ Defaults for analysts         │ MIN_LENGTH=8, MAX_LENGTH=256, MIN_UPPER_CASE_CHARS=1, MIN_LOWER_CASE_CHARS=1, MIN_NUMERIC_CHARS=1, MIN_SPECIAL_CHARS=0, ... HISTORY=0        │
+│ dba_policy      │ Strict controls for DBAs      │ MIN_LENGTH=12, MAX_LENGTH=18, MIN_UPPER_CASE_CHARS=2, MIN_LOWER_CASE_CHARS=2, MIN_NUMERIC_CHARS=2, MIN_SPECIAL_CHARS=1, ... HISTORY=5       │
+└─────────────────┴───────────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Imagine you already have a DBA user named 'eric' and apply the DBA password policy to that user using the [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) command:
+### 2. Attach the Policy to Users
 
 ```sql
--- Apply 'DBA' password policy to the user 'eric'
-ALTER USER eric WITH SET PASSWORD POLICY = 'DBA';
+CREATE USER dba_jane IDENTIFIED BY 'Str0ngPass123!' WITH SET PASSWORD POLICY='dba_policy';
+
+CREATE USER analyst_mike IDENTIFIED BY 'Abc12345'
+    WITH SET PASSWORD POLICY='analyst_policy';
+
+CREATE USER analyst_zoe IDENTIFIED BY 'Byt3Crush!';
+ALTER USER analyst_zoe WITH SET PASSWORD POLICY='analyst_policy';
 ```
 
-Now, let's create a new user named 'frank' and apply the 'ReadOnlyUser' password policy using the [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) command:
+### 3. Verify the Assignments
 
 ```sql
--- Note: The password set for the user 'frank' must adhere to the constraints
--- defined by the associated 'ReadOnlyUser' password policy.
-CREATE USER frank IDENTIFIED BY 'Abc12345'
-    WITH SET PASSWORD POLICY = 'ReadOnlyUser';
+DESC USER dba_jane;
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  name   │ hostname │       auth_type      │ default_role │ roles │ disabled │ network_policy │ password_policy │ must_change_password │
+├─────────┼──────────┼──────────────────────┼──────────────┼───────┼──────────┼────────────────┼─────────────────┼──────────────────────┤
+│ dba_jane│ %        │ double_sha1_password │              │       │ false    │                │ dba_policy      │ NULL                 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+DESC PASSWORD POLICY dba_policy;
+
+Name       |Comment                     |Options
+-----------+----------------------------+---------------------------------------------------------------------------------------------------------------------------------+
+dba_policy |Strict controls for DBAs    |MIN_LENGTH=12,MAX_LENGTH=18,MIN_UPPER_CASE_CHARS=2,MIN_LOWER_CASE_CHARS=2,MIN_NUMERIC_CHARS=2,MIN_SPECIAL_CHARS=1,...,HISTORY=5   |
 ```
+
+### 4. Update a Policy Centrally
+
+Use [ALTER PASSWORD POLICY](/sql/sql-commands/ddl/password-policy/alter-password-policy) to tighten rules without touching each user:
+
+```sql
+ALTER PASSWORD POLICY analyst_policy SET
+    PASSWORD_MIN_SPECIAL_CHARS = 1
+    PASSWORD_MAX_AGE_DAYS = 60
+    COMMENT='Analysts need specials now';
+
+DESC PASSWORD POLICY analyst_policy;
+
+Name           |Comment                      |Options
+---------------+-----------------------------+------------------------------------------------------------------------------------------------------------------------+
+analyst_policy |Analysts need specials now   |MIN_LENGTH=8,MAX_LENGTH=256,MIN_UPPER_CASE_CHARS=1,MIN_LOWER_CASE_CHARS=1,MIN_NUMERIC_CHARS=1,MIN_SPECIAL_CHARS=1,...    |
+```
+
+Every user referencing `analyst_policy` now inherits the stricter password mix and expiry window automatically.
+
+### 5. Detach and Clean Up
+
+```sql
+ALTER USER analyst_zoe WITH UNSET PASSWORD POLICY;
+DROP PASSWORD POLICY analyst_policy;
+```
+
+Databend prevents you from dropping a policy that is still in use; unset it from all users before running `DROP PASSWORD POLICY`.
+
+---
+
+For full syntax, see the [Password Policy SQL reference](/sql/sql-commands/ddl/password-policy/), which covers `CREATE`, `ALTER`, `SHOW`, `DESC`, and `DROP`.

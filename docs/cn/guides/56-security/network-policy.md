@@ -2,34 +2,90 @@
 title: 网络策略
 ---
 
-Databend 中的网络策略是一种配置机制，旨在管理和实施系统中用户的网络访问控制。它允许您定义一组规则，用于管理特定用户允许和阻止的 IP 地址范围，从而有效地控制其网络级访问。
+网络策略用于基于客户端 IP 地址控制 Databend 的登录权限。即使提供了正确的凭证，如果连接请求的来源 IP 不符合策略要求，该请求也会被拒绝。这为用户名和密码认证之外增加了一层额外的安全保障。
 
-例如，假设您希望定义一个特定用户可用于访问 Databend 的不同 IP 地址范围。在这种情况下，如果用户尝试从超出预定义范围的 IP 地址与 Databend 建立连接，即使具有准确的登录凭据，Databend 也会拒绝该连接。这种机制保证了访问权限保持在指定的 IP 范围内，从而提高了安全性并在网络级别强制实施控制。
+## 工作方式
 
-### 实施网络策略
+- `ALLOWED_IP_LIST` 接受单个 IPv4 地址或 CIDR 网段（例如 `10.0.0.0/24`）。只有在列表中的地址才允许登录。
+- `BLOCKED_IP_LIST`（可选）用于在允许的范围内明确排除某些 IP。Databend 会优先检查阻止列表，因此如果一个 IP 同时存在于两个列表中，它仍会被拒绝。
+- 一个用户同一时间只能关联一个网络策略，但同一个策略可以被多个用户共享，便于统一管理。
+- 如果服务器无法获取客户端 IP，或者 IP 不在允许列表里，Databend 会直接返回 `AuthenticateFailure` 并拒绝连接。
 
-要在 Databend 中实施网络策略，您需要创建一个网络策略，在其中指定要允许或限制的 IP 地址。之后，使用 [ALTER USER](/sql/sql-commands/ddl/user/user-alter-user) 命令将此网络策略与特定用户关联。重要的是要注意，单个网络策略可以与多个用户关联，只要它们符合相同的策略标准即可。有关用于管理 Databend 中掩码策略的命令，请参阅 [网络策略](/sql/sql-commands/ddl/network-policy/)。
+## 操作示例
 
-### 使用示例
+本示例将涵盖网络策略的典型生命周期：创建策略、绑定到用户、验证状态、集中更新以及最终的解绑和删除。
 
-此示例演示了如何创建具有指定允许和阻止的 IP 地址的网络策略，然后将此策略与用户关联以控制网络访问。该网络策略允许 192.168.1.0 到 192.168.1.255 范围内的所有 IP 地址，但特定 IP 地址 192.168.1.99 除外。
+### 1. 创建并查看策略
 
 ```sql
--- 创建网络策略
-CREATE NETWORK POLICY sample_policy
-    ALLOWED_IP_LIST=('192.168.1.0/24')
-    BLOCKED_IP_LIST=('192.168.1.99')
-    COMMENT='Sample';
+CREATE NETWORK POLICY corp_vpn_policy
+    ALLOWED_IP_LIST=('10.1.0.0/16', '172.16.8.12/32')
+    BLOCKED_IP_LIST=('10.1.10.25')
+    COMMENT='Only VPN ranges';
 
 SHOW NETWORK POLICIES;
 
-Name         |Allowed Ip List          |Blocked Ip List|Comment    |
--------------+-------------------------+---------------+-----------+
-sample_policy|192.168.1.0/24           |192.168.1.99   |Sample     |
-
--- 创建用户
-CREATE USER sample_user IDENTIFIED BY 'databend';
-
--- 将网络策略与用户关联
-ALTER USER sample_user WITH SET NETWORK POLICY='sample_policy';
+Name            |Allowed Ip List           |Blocked Ip List|Comment          |
+----------------+--------------------------+---------------+-----------------+
+corp_vpn_policy |10.1.0.0/16,172.16.8.12/32|10.1.10.25     |Only VPN ranges  |
 ```
+
+### 2. 绑定策略到用户
+
+```sql
+CREATE USER alice IDENTIFIED BY 'Str0ngPass!' WITH SET NETWORK POLICY='corp_vpn_policy';
+CREATE USER bob IDENTIFIED BY 'An0therPass!';
+
+-- 给已存在的用户补充策略
+ALTER USER bob WITH SET NETWORK POLICY='corp_vpn_policy';
+```
+
+### 3. 验证策略执行情况
+
+```sql
+DESC USER alice;
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  name  │ hostname │       auth_type      │ default_role │ roles │ disabled │   network_policy  │ password_policy │ must_change_password │
+├────────┼──────────┼──────────────────────┼──────────────┼───────┼──────────┼───────────────────┼─────────────────┼──────────────────────┤
+│ alice  │ %        │ double_sha1_password │              │       │ false    │ corp_vpn_policy   │                 │ NULL                 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+DESC NETWORK POLICY corp_vpn_policy;
+
+Name            |Allowed Ip List           |Blocked Ip List|Comment         |
+----------------+--------------------------+---------------+----------------+
+corp_vpn_policy |10.1.0.0/16,172.16.8.12/32|10.1.10.25     |Only VPN ranges |
+```
+
+### 4. 更新并复用策略
+
+借助 [ALTER NETWORK POLICY](/sql/sql-commands/ddl/network-policy/ddl-alter-policy) 可以直接修改允许或阻止的 IP 而无需逐个更新用户：
+
+```sql
+ALTER NETWORK POLICY corp_vpn_policy
+    SET ALLOWED_IP_LIST=('10.1.0.0/16', '10.2.0.0/16')
+        BLOCKED_IP_LIST=('10.1.10.25', '10.2.5.5')
+        COMMENT='VPN + DR site';
+
+DESC NETWORK POLICY corp_vpn_policy;
+
+Name            |Allowed Ip List             |Blocked Ip List          |Comment          |
+----------------+----------------------------+-------------------------+-----------------+
+corp_vpn_policy |10.1.0.0/16,10.2.0.0/16     |10.1.10.25,10.2.5.5      |VPN + DR site    |
+```
+
+所有引用该策略的用户都会自动应用新的 IP 范围设置。
+
+### 5. 解除绑定并清理
+
+```sql
+ALTER USER bob WITH UNSET NETWORK POLICY;
+DROP NETWORK POLICY corp_vpn_policy;
+```
+
+在删除策略之前，请确认没有用户正在使用该策略；否则，相关用户的登录将会失败。
+
+---
+
+完整语法与更多命令请参阅 [网络策略 SQL 参考](/sql/sql-commands/ddl/network-policy/)，其中涵盖 `CREATE`、`ALTER`、`SHOW`、`DESC` 和 `DROP`。
