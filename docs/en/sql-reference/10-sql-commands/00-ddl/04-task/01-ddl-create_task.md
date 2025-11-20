@@ -24,8 +24,15 @@ CREATE [ OR REPLACE ] TASK [ IF NOT EXISTS ] <name>
  [ COMMENT = '<string_literal>' ]
  [ <session_parameter> = <value> [ , <session_parameter> = <value> ... ] ]
 AS
-<sql>
+{ <sql_statement>
+| BEGIN
+    <sql_statement>;
+    [ <sql_statement>; ... ]
+  END;
+}
 ```
+
+Wrap multiple SQL statements in a `BEGIN ... END;` block so the task executes them sequentially as a script.
 
 | Parameter                                        | Description                                                                                                                                                                  |
 | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -39,7 +46,7 @@ AS
 | [ERROR_INTEGRATION](../16-notification/index.md) | Optional. The name of the notification integration to use for the task error notification with specific [task error payload ](./10-task-error-integration-payload.md)applied |
 | COMMENT                                          | Optional. A string literal that serves as a comment or description for the task.                                                                                             |
 | session_parameter                                | Optional. Specifies session parameters to use for the task during task run. Note that session parameters must be placed after all other task parameters in the CREATE TASK statement. |
-| sql                                              | The SQL statement that the task will execute, it could be a single statement or a script This is a mandatory field.                                                          |
+| sql                                              | The SQL statement that the task will execute. It can be a single statement or a script wrapped in `BEGIN ... END;`. This is a mandatory field.                                |
 
 ### Usage Notes
 
@@ -118,6 +125,21 @@ AS
 ```
 
 In this example, a task named `my_daily_task` is created. It uses the **compute_wh** warehouse to run a SQL statement that inserts data into summary_table from source_table. The task is scheduled to run using a **CRON expression** that executes **daily at 9 AM Pacific Time**.
+
+### Multiple Statements
+
+```sql
+CREATE TASK IF NOT EXISTS nightly_refresh
+ WAREHOUSE = 'etl'
+ SCHEDULE = USING CRON '0 0 2 * * *' 'UTC'
+AS
+BEGIN
+    DELETE FROM staging.events WHERE event_time < DATEADD(DAY, -1, CURRENT_TIMESTAMP());
+    INSERT INTO mart.events SELECT * FROM staging.events;
+END;
+```
+
+This example creates a task named `nightly_refresh` that executes a script containing multiple statements. The script is wrapped in `BEGIN ... END;` so the DELETE runs before the INSERT each time the task executes.
 
 ### Automatic Suspension
 

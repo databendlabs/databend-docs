@@ -24,8 +24,15 @@ CREATE [ OR REPLACE ] TASK [ IF NOT EXISTS ] <name>
  [ COMMENT = '<string_literal>' ]
  [ <session_parameter> = <value> [ , <session_parameter> = <value> ... ] ]
 AS
-<sql>
+{ <sql_statement>
+| BEGIN
+    <sql_statement>;
+    [ <sql_statement>; ... ]
+  END;
+}
 ```
+
+若需执行多条 SQL 语句，请将其置于 `BEGIN ... END;` 块中作为脚本，以确保按顺序执行。
 
 | 参数 | 描述 |
 | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -39,7 +46,7 @@ AS
 | [ERROR_INTEGRATION](../16-notification/index.md) | 可选。用于任务错误通知的集成名称，附带特定的[任务错误负载](./10-task-error-integration-payload.md)。 |
 | COMMENT | 可选。作为任务注释或描述的字符串字面量。 |
 | session_parameter | 可选。指定任务运行时的会话参数。注意：会话参数必须放在 CREATE TASK 语句中所有其他任务参数之后。 |
-| sql | 任务将执行的 SQL 语句，可为单条语句或脚本。必填。 |
+| sql | 任务将执行的 SQL 语句。可为单条语句，也可为置于 `BEGIN ... END;` 块中的脚本。必填。 |
 
 ### 使用须知
 
@@ -118,6 +125,21 @@ AS
 ```
 
 本例创建名为 `my_daily_task` 的任务，使用 **compute_wh** 计算集群，将 source_table 的数据插入 summary_table，并按 **CRON 表达式**于**太平洋时间每天上午 9 点**执行。
+
+### 多语句脚本
+
+```sql
+CREATE TASK IF NOT EXISTS nightly_refresh
+ WAREHOUSE = 'etl'
+ SCHEDULE = USING CRON '0 0 2 * * *' 'UTC'
+AS
+BEGIN
+    DELETE FROM staging.events WHERE event_time < DATEADD(DAY, -1, CURRENT_TIMESTAMP());
+    INSERT INTO mart.events SELECT * FROM staging.events;
+END;
+```
+
+本例创建名为 `nightly_refresh` 的任务，脚本通过将多条语句置于 `BEGIN ... END;` 块中，确保每次执行时先删除过期数据，再插入最新数据。
 
 ### 自动挂起
 
