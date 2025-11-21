@@ -502,7 +502,7 @@
     "description": "学习如何使用 Databend 的描述"
   },
   "Quick Start": {
-    "message": "快速入门",
+    "message": "快速开始",
     "description": "快速入门部分的标题"
   },
   "Get started with Databend in 5 minutes": {
@@ -522,19 +522,19 @@
     "description": "Databend Cloud 部分的描述"
   },
   "Connect to Databend": {
-    "message": "连接 Databend",
+    "message": "客户端连接",
     "description": "连接到 Databend 部分的标题"
   },
   "Developer Resources": {
-    "message": "开发者资源",
+    "message": "开发者",
     "description": "开发者资源的链接文字"
   },
   "Connect your application to Databend in just a few minutes.": {
-    "message": "几分钟内就能让应用接入 Databend。",
+    "message": "仅需几分钟，即可将您的应用连接至 Databend。",
     "description": "连接到 Databend 部分的描述"
   },
   "Load Data into Databend": {
-    "message": "向 Databend 加载数据",
+    "message": "数据导入",
     "description": "加载数据到 Databend 部分的标题"
   },
   "Know More": {
@@ -542,7 +542,7 @@
     "description": "了解更多的链接文字"
   },
   "Bulk import data into Databend(Cloud) in multiple formats.": {
-    "message": "以多种格式批量把数据导入 Databend（含 Cloud）。",
+    "message": "支持多种格式，批量将数据导入 Databend 及 Databend Cloud。",
     "description": "加载数据到 Databend 部分的描述"
   },
   "AI & BI & Visualization & Notebooks": {
@@ -554,7 +554,7 @@
     "description": "所有工具的链接文字"
   },
   "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.": {
-    "message": "Databend 提供主流导入工具的连接器与插件，保障高效同步。",
+    "message": "提供主流工具的连接器与插件，确保与现有生态的无缝集成与高效同步。",
     "description": "AI & BI & 可视化 & 笔记本 部分的描述"
   },
   "Continuous Data Pipelines": {
@@ -562,7 +562,7 @@
     "description": "连续数据管道部分的标题"
   },
   "Data pipelines automate the process of moving and changing data from different sources into Databend.": {
-    "message": "数据管道自动完成多源采集、转换并写入 Databend。",
+    "message": "自动化数据管道，轻松实现多源数据的采集、转换与写入。",
     "description": "连续数据管道部分的描述"
   },
   "Real-Time CDC Ingestion": {
@@ -582,7 +582,7 @@
     "description": "AI 功能的文本"
   },
   "Databend Products": {
-    "message": "Databend 的产品",
+    "message": "产品",
     "description": "Databend 产品的文本"
   },
   "Security": {
@@ -594,47 +594,15 @@
     "description": "联系支持的文本"
   },
   "Pricing": {
-    "message": "价格相关",
+    "message": "性能",
     "description": "价格的文本"
   },
   "Use Cases": {
     "message": "典型场景",
     "description": "Use Cases"
   },
-  "Introduction to Databend Products": {
-    "message": "Databend 产品导览",
-    "description": "Databend 产品介绍部分的标题"
-  },
-  "Choose the deployment option that best fits your needs and scale.": {
-    "message": "按业务规模选择最合适的部署方式。",
-    "description": "Databend 产品介绍部分的描述"
-  },
-  "Databend Cloud": {
-    "message": "Databend Cloud",
-    "description": "Databend Cloud 产品的标题"
-  },
-  "Fully-managed cloud service. No setup required.": {
-    "message": "全托管云服务，开箱即可使用。",
-    "description": "Databend Cloud 产品的描述"
-  },
-  "Databend Enterprise": {
-    "message": "Databend 企业版",
-    "description": "Databend Enterprise 产品的标题"
-  },
-  "Self-hosted with enterprise features and support.": {
-    "message": "自主部署，配备企业级功能与支持。",
-    "description": "Databend Enterprise 产品的描述"
-  },
-  "Databend Community": {
-    "message": "Databend 社区版",
-    "description": "Databend 社区版 产品的标题"
-  },
-  "Open-source and free for all use cases.": {
-    "message": "开源且永久免费。",
-    "description": "Databend 社区版 产品的描述"
-  },
   "Getting Started": {
-    "message": "快速入门",
+    "message": "快速开始",
     "description": "入门指南部分的标题"
   },
   "Create a Databend Cloud account or deploy your own Databend instance.": {
@@ -674,7 +642,7 @@
     "description": "自托管 Databend 卡片的描述"
   },
   "Downloading Databend": {
-    "message": "下载 Databend",
+    "message": "下载",
     "description": "下载 Databend 的链接文字"
   },
   "Licensing Databend": {
@@ -694,11 +662,11 @@
     "description": "FAQ"
   },
   "Product Features": {
-    "message": "产品特性",
+    "message": "核心特性",
     "description": "Product Features"
   },
   "Unified Engine": {
-    "message": "统一引擎",
+    "message": "统一计算引擎",
     "description": "Headline for unified engine feature"
   },
   "NoDesc": {
@@ -718,55 +686,55 @@
     "description": "Stores all data in object storage."
   },
   "Analytics, vector, search, and geo share one optimizer and runtime.": {
-    "message": "分析、向量、搜索与地理能力共用一套优化器和执行引擎。",
+    "message": "分析、向量、搜索与地理计算，统一架构，一套引擎全覆盖。",
     "description": "Description for unified engine feature"
   },
   "Unified Data": {
-    "message": "统一数据层",
+    "message": "统一数据底座",
     "description": "Headline for unified data feature"
   },
   "Structured, semi-structured, unstructured, and vector data share object storage.": {
-    "message": "结构化、半结构化、非结构化与向量数据共享同一对象存储。",
+    "message": "结构化、半结构化与向量数据，统一存储，一份数据支撑全业务。",
     "description": "Description for unified data feature"
   },
   "Analytics Native": {
-    "message": "原生分析引擎",
+    "message": "原生 SQL 分析(Analytics)",
     "description": "Headline for analytics native feature"
   },
   "ANSI SQL, windowing, incremental aggregates, and streaming power BI.": {
-    "message": "ANSI SQL、窗口函数、增量聚合与流式处理为 BI 持续供能。",
+    "message": "兼容标准 SQL，支持流式聚合，为 BI 分析注入实时动力。",
     "description": "Description for analytics native feature"
   },
   "Vector Native": {
-    "message": "原生向量能力",
+    "message": "原生向量支持(Vector)",
     "description": "Headline for vector native feature"
   },
   "Embeddings, vector indexes, and semantic retrieval all run in SQL.": {
-    "message": "向量嵌入、索引与语义检索全部在 SQL 中完成。",
+    "message": "向量数据与语义检索，皆可使用 SQL 直接完成。",
     "description": "Description for vector native feature"
   },
   "Search Native": {
-    "message": "原生搜索能力",
+    "message": "原生搜索能力(Search)",
     "description": "Headline for search native feature"
   },
-  "JSON inverted indexes, geo functions, and ranking fuel hybrid maps.": {
-    "message": "JSON 倒排索引、地理函数与排序能力共同驱动混合检索。",
+  "Full-text search and inverted indexes fuel hybrid retrieval.": {
+    "message": "融合倒排索引与全文检索，高效支撑混合检索应用。",
     "description": "Description for search native feature"
   },
-  "Unified Deployment": {
-    "message": "统一部署选择",
-    "description": "Headline for unified deployment feature"
+  "Geo Native": {
+    "message": "原生地理空间(Geospatial)",
+    "description": "Headline for geo native feature"
   },
-  "Databend runs the same in Cloud, Docker, or `pip install`.": {
-    "message": "无论 Cloud、Docker 还是 `pip install`,体验的都是同一个 Databend 引擎。",
-    "description": "Description for unified deployment feature"
+  "Geospatial indexes and functions power map and location services.": {
+    "message": "支持地理空间数据检索与分析，高效支撑地图与位置服务。",
+    "description": "Description for geo native feature"
   },
   "Start with Databend Cloud": {
     "message": "从 Databend Cloud 起步",
     "description": "Start with Databend Cloud"
   },
   "Get started in minutes with our fully-managed cloud service. No setup required.": {
-    "message": "几分钟即可启用全托管云服务，无需任何额外配置。",
+    "message": "几分钟内即可启用全托管云服务，无需任何配置。",
     "description": "Get started in minutes with our fully-managed cloud service. No setup required."
   },
   "What you need to know:": {
@@ -786,11 +754,11 @@
     "description": "Using Databend Cloud"
   },
   "Deploy Your Own Instance": {
-    "message": "自主部署实例",
+    "message": "部署您的私有实例",
     "description": "Deploy Your Own Instance"
   },
   "Install Databend on your infrastructure for complete control and customization.": {
-    "message": "在自有基础设施上安装 Databend，配置完全可控。",
+    "message": "在您的基础设施上安装 Databend，实现完全的掌控与定制。",
     "description": "Install Databend on your infrastructure for complete control and customization."
   },
   "5-Minute Quick Start": {
@@ -830,16 +798,12 @@
     "description": "Copying..."
   },
   "DOCUMENTATION": {
-    "message": "文档",
+    "message": "文档首页",
     "description": "DOCUMENTATION"
   },
   "Raise issue": {
     "message": "提 issue",
     "description": "Raise issue"
-  },
-  "Search & Geo Native": {
-    "message": "原生搜索与地理",
-    "description": "Headline for search native feature"
   },
   "Ask questions about this page": {
     "message": "询问关于此页面的问题",
@@ -848,5 +812,41 @@
   "Open in": {
     "message": "打开",
     "description": "Open in"
+  },
+  "Products": {
+    "message": "产品",
+    "description": "Products"
+  },
+  "Performance": {
+    "message": "性能",
+    "description": "Performance"
+  },
+  "Downloads": {
+    "message": "下载",
+    "description": "Downloads"
+  },
+  "RESOURCES": {
+    "message": "资源",
+    "description": "RESOURCES"
+  },
+  "COMMUNITY": {
+    "message": "社区",
+    "description": "COMMUNITY"
+  },
+  "Tutorials": {
+    "message": "教程",
+    "description": "Tutorials"
+  },
+  "SQL Reference": {
+    "message": "SQL 参考",
+    "description": "SQL Reference"
+  },
+  "Integrations": {
+    "message": "集成",
+    "description": "Integrations"
+  },
+  "Releases": {
+    "message": "版本发布",
+    "description": "Releases"
   }
 }
