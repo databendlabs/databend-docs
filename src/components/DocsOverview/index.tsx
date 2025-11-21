@@ -57,58 +57,7 @@ const DocsOverview: FC = (): ReactElement => {
   } = useDocusaurusContext();
   return (
     <div className={styles.outWrap}>
-      <ContentCardWrap
-        className={styles.top}
-        title={$t("Introduction to Databend Products")}
-        description={$t(
-          "Choose the deployment option that best fits your needs and scale."
-        )}
-      >
-        <div style={{ height: "100%", width: "100%" }}>
-          <Row gutter={[12, 12]} className={styles.topCard}>
-            <Col {...colLayout3}>
-              <Card
-                title={$t("Databend Cloud")}
-                href="/guides/products/dc/"
-                padding={[16, 16]}
-              >
-                <h3>
-                  <span>{$t("Databend Cloud")}</span>
-                </h3>
-                <div>
-                  {$t("Fully-managed cloud service. No setup required.")}
-                </div>
-              </Card>
-            </Col>
-            <Col {...colLayout3}>
-              <Card
-                title={$t("Databend Enterprise")}
-                href="/guides/products/dee/"
-                padding={[16, 16]}
-              >
-                <h3>
-                  <span>{$t("Databend Enterprise")}</span>
-                </h3>
-                <div>
-                  {$t("Self-hosted with enterprise features and support.")}
-                </div>
-              </Card>
-            </Col>
-            <Col {...colLayout3}>
-              <Card
-                title={$t("Databend Community")}
-                href="/guides/products/dce/"
-                padding={[16, 16]}
-              >
-                <h3>
-                  <span>{$t("Databend Community")}</span>
-                </h3>
-                <div>{$t("Open-source and free for all use cases.")}</div>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-      </ContentCardWrap>
+
       <div
         className={styles.productFeatures}
         style={{ height: "100%", width: "100%" }}
@@ -158,20 +107,20 @@ const DocsOverview: FC = (): ReactElement => {
           <Col {...colLayout2}>
             <Card style={{ height: "100%" }} padding={[16, 16]}>
               <h3>
-                <span>{$t("Search & Geo Native")}</span>
+                <span>{$t("Search Native")}</span>
               </h3>
               <div>
-                {$t("JSON inverted indexes, geo functions, and ranking fuel hybrid maps.")}
+                {$t("Full-text search and inverted indexes fuel hybrid retrieval.")}
               </div>
             </Card>
           </Col>
           <Col {...colLayout2}>
             <Card style={{ height: "100%" }} padding={[16, 16]}>
               <h3>
-                <span>{$t("Unified Deployment")}</span>
+                <span>{$t("Geo Native")}</span>
               </h3>
               <div>
-                {$t("Databend runs the same in Cloud, Docker, or `pip install`.")}
+                {$t("Geospatial indexes and functions power map and location services.")}
               </div>
             </Card>
           </Col>
@@ -257,7 +206,7 @@ const DocsOverview: FC = (): ReactElement => {
                     <li>
                       <Link
                         title={$t("5-Minute Quick Start")}
-                  to={"/guides/deploy/quickstart/"}
+                        to={"/guides/deploy/quickstart/"}
                       >
                         {$t("5-Minute Quick Start")}
                       </Link>
