@@ -2,7 +2,7 @@
 title: 向量搜索
 ---
 
-> **场景：** CityDrive 将每一帧的向量嵌入（Embeddings）直接存储在 Databend 中。这样一来，语义相似度搜索（即“查找与此画面相似的帧”）就可以与传统的 SQL 分析任务并行运行，而无需部署额外的向量数据库服务。
+> **场景：** CityDrive 将每一帧的向量嵌入（Embeddings）直接存储在 Databend 中。这些向量数据是 AI 模型对视频关键帧进行推理的结果，用于捕捉画面的视觉语义特征。这样一来，语义相似度搜索（即“查找与此画面相似的帧”）就可以与传统的 SQL 分析任务并行运行，而无需部署额外的向量数据库服务。
 
 `frame_embeddings` 表与 `frame_events`、`frame_metadata_catalog` 以及 `frame_geo_points` 表共用同一套 `frame_id` 主键，这使得语义搜索能够与经典 SQL 查询紧密结合，无缝衔接。
 

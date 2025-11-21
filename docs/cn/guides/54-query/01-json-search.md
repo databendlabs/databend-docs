@@ -2,7 +2,7 @@
 title: JSON 与搜索
 ---
 
-> **场景：** CityDrive 会为每个提取的视频帧关联一份 JSON 元数据。我们需要直接在 Databend 中使用类似 Elasticsearch 的语法对这些 JSON 进行检索，避免将数据复制到外部系统。
+> **场景：** CityDrive 会为每个提取的视频帧关联一份 JSON 元数据。这些 JSON 数据由后台工具从视频关键帧中提取，包含了场景识别、物体检测等丰富的非结构化信息。我们需要直接在 Databend 中使用类似 Elasticsearch 的语法对这些 JSON 进行检索，避免将数据复制到外部系统。
 
 Databend 将这些多模态信号统一存储在一个数仓中。通过倒排索引，我们可以在 VARIANT 列上实现 ES 风格的搜索；利用位图索引（Bitmap）加速标签筛选；使用向量索引处理相似度查询；同时借助原生的 GEOMETRY 列支持地理空间过滤。
 

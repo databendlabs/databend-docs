@@ -2,7 +2,7 @@
 title: Vector Search
 ---
 
-> **Scenario:** CityDrive keeps per-frame embeddings in Databend so semantic similarity search (“find frames that look like this”) runs alongside traditional SQL analytics—no extra vector service required.
+> **Scenario:** CityDrive keeps embeddings for every frame directly in Databend. These vector embeddings are the result of AI models inferencing on video keyframes to capture visual semantic features. Semantic similarity search ("find frames that look like this") can run alongside traditional SQL analytics—no separate vector service required.
 
 The `frame_embeddings` table shares the same `frame_id` keys as `frame_events`, `frame_metadata_catalog`, and `frame_geo_points`, which keeps semantic search and classic SQL glued together.
 
