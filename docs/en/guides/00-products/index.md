@@ -5,30 +5,11 @@ slug: /
 
 import DocsOverview from '@site/src/components/DocsOverview'
 import Speaker from '@site/src/components/Speaker'
-import LanguageDocs from '@site/src/components/LanguageDocs';
 
 Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> documentation.
-<LanguageDocs
-cn=
-'
 
-**Databend** —— **一套引擎撑起所有数据与场景（ANY DATA. ANY SCALE. ONE DATABASE）.**
+[**Databend**](https://github.com/databendlabs/databend) is an open-source, cloud-native data warehouse built in Rust and fully based on object storage, evolved from a single analytics engine into a unified multimodal database. With a unified optimizer, compute, and storage engine, it supports **BI Analytics**, **AI Vectors**, **Full-Text Search**, and **Geospatial Analysis** on one platform through Snowflake-compatible SQL, and enables real-time data ingestion, transformation, and analysis via Stream + Task.
 
-**Databend 是开源的**云原生数仓，把存储、向量搜索、SQL 分析、全文检索与地理计算统一到一套与 **Snowflake 兼容的 SQL 接口上**。所有数据都放在对象存储里，写入、分析、搜索一次到位，无需折腾多套系统。
-
-在 [**GitHub**](https://github.com/databendlabs/databend) 上探索其引擎。您可以通过 [**Databend Cloud**](https://www.databend.cn/)、`docker run` 或 `pip install databend` 启动它，每种方式都在您的对象存储上运行着同一个统一的引擎。
-
-'
-en=
-'
-
-**Databend** — **ANY DATA. ANY SCALE. ONE DATABASE.**
-
-**Open-source** datastore, vector, analytics, search, and geospatial engines converge on one **Snowflake-compatible SQL surface** so teams store anything, search everything, power semantic workloads, and deliver real-time insights without moving data.
-
-Explore the engine on [**GitHub**](https://github.com/databendlabs/databend). Launch in [**Databend Cloud**](https://www.databend.com/), `docker run`, or `pip install databend`—every option runs the same unified engine on your object store.
-
-'/>
 
 <DocsOverview />
 
