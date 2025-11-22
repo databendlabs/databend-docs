@@ -5,28 +5,11 @@ slug: /
 
 import DocsOverview from '@site/src/components/DocsOverview'
 import Speaker from '@site/src/components/Speaker'
-import LanguageDocs from '@site/src/components/LanguageDocs';
 
 欢迎来到 Databend（发音为 /ˈdeɪtəˌbɛnd/）<Speaker /> 文档。
-<LanguageDocs
-cn=
-'
 
-**Databend 是一款基于 Rust 研发的开源**云原生数仓。它通过**标准 SQL 接口**，将存储、向量、分析、搜索及地理空间引擎融为一体。无需数据迁移，即可基于对象存储实现对各类数据的存储、检索、语义分析及实时洞察。
+[**Databend**](https://github.com/databendlabs/databend) 是一款基于 Rust 构建、完全基于对象存储的开源云原生数仓，已从单一分析引擎演进为统一的多模态数据库。基于统一的优化器、计算与存储引擎，在同一平台支持 BI 分析、AI 向量、全文检索和地理空间分析，并通过 Stream + Task 实现数据的实时接入、清洗与分析。
 
-访问 [**GitHub**](https://github.com/databendlabs/databend) 探索核心引擎。无论通过 [**Databend Cloud**](https://www.databend.cn/)、`docker run` 还是 `pip install databend` 启动，运行的都是同一套基于对象存储的统一引擎。
-
-'
-en=
-'
-
-**Databend** — **ANY DATA. ANY SCALE. ONE DATABASE.**
-
-**Open-source** datastore, vector, analytics, search, and geospatial engines converge on one **Snowflake-compatible SQL surface** so teams store anything, search everything, power semantic workloads, and deliver real-time insights without moving data.
-
-Explore the engine on [**GitHub**](https://github.com/databendlabs/databend). Launch in [**Databend Cloud**](https://www.databend.com/), `docker run`, or `pip install databend`—every option runs the same unified engine on your object store.
-
-'/>
 <DocsOverview />
 
 **核心主题概览：**
