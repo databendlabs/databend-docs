@@ -1,7 +1,5 @@
----
-从远程文件导入数据
+title: 从远程文件导入数据
 sidebar_label: 远程文件
----
 
 要将远程文件数据加载到 Databend 中，可以使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令。该命令支持从多种数据源（包括远程文件）轻松地将数据复制到 Databend。通过 COPY INTO 命令，您可以指定源文件位置、文件格式等相关参数来定制导入过程。请注意，文件必须是 Databend 支持的格式，否则无法导入数据。有关 Databend 支持的文件格式的更多信息，请参阅 [输入输出文件格式](/sql/sql-reference/file-format-options)。
 
