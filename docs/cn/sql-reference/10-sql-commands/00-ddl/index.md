@@ -11,7 +11,6 @@ title: DDL（Data Definition Language）命令
 | **[数据库](00-database/index.md)** | 创建、修改和删除数据库 |
 | **[表](01-table/index.md)** | 创建、修改和管理表 |
 | **[视图 (View)](05-view/index.md)** | 基于查询创建和管理虚拟表 |
-| **[字典 (Dictionary)](17-dictionary/index.md)** | 创建用于数据丰富的键值查找表 |
 
 ## 性能和索引
 
