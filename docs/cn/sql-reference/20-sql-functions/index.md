@@ -21,17 +21,17 @@ Databend 为各类数据处理提供了全面的 SQL 函数。函数按重要性
 | [聚合函数](./07-aggregate-functions/index.md) | 跨多行的统计计算 |
 | [窗口函数](./08-window-functions/index.md) | 基于窗口操作的高级分析 |
 
-## 结构化和半结构化数据
+## 半结构化数据
 
 | 类别 | 描述 |
 |----------|-------------|
-| [结构化和半结构化函数](./10-semi-structured-functions/index.md) | JSON、数组、对象及嵌套数据处理 |
+| [半结构化函数](./10-semi-structured-functions/index.md) | JSON、数组、对象及嵌套数据处理 |
 
 ## 搜索函数
 
 | 类别 | 描述 |
 |----------|-------------|
-| [全文搜索函数](./10-search-functions/index.md) | 全文搜索与相关性评分 |
+| [全文检索函数](./10-search-functions/index.md) | 全文搜索与相关性评分 |
 
 ## 向量函数
 

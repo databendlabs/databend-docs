@@ -1,15 +1,15 @@
 ---
-title: 输入 & 输出文件格式
+title: 文件格式选项
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新: v1.2.713"/>
 
-Databend 接受多种文件格式作为数据加载或卸载的源和目标。本页介绍了支持的文件格式及其可用选项。
+Databend 支持多种文件格式用于数据导入与导出。本页介绍支持的文件格式及其相关选项。
 
 ## 语法
 
-要在语句中指定文件格式，请使用以下语法：
+在语句中指定文件格式的语法如下：
 
 ```sql
 -- 指定标准文件格式
@@ -19,7 +19,7 @@ Databend 接受多种文件格式作为数据加载或卸载的源和目标。�
 ... FILE_FORMAT = ( FORMAT_NAME = '<your-custom-format>' )
 ```
 
-- Databend 目前仅支持 ORC 和 AVRO 作为数据源。尚不支持将数据卸载到 ORC 或 AVRO 文件中。
+- Databend 目前仅支持 ORC 和 AVRO 作为数据源。尚不支持将数据导出到 ORC 或 AVRO 文件中。
 - 如果在执行 COPY INTO 或 SELECT 操作时未指定 FILE_FORMAT，Databend 将使用您在最初创建 Stage 时为该 Stage 定义的文件格式。如果您在创建 Stage 期间未显式指定文件格式，Databend 默认使用 PARQUET 格式。如果您指定的 FILE_FORMAT 与创建 Stage 时定义的 FILE_FORMAT 不同，Databend 将优先使用操作期间指定的 FILE_FORMAT。
 - 有关在 Databend 中管理自定义文件格式的信息，请参阅 [文件格式](../10-sql-commands/00-ddl/13-file-format/index.md)。
 
@@ -41,7 +41,7 @@ formatTypeOptions ::=
 
 ## CSV 选项
 
-Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS 文件，并受以下条件约束：
+Databend 支持符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 标准的 CSV 文件，并遵循以下规则：
 
 - 如果字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，则必须引用该字符串。
 - 除了 [QUOTE](#quote) 之外，在带引号的字符串中不会转义任何字符。
@@ -72,9 +72,9 @@ Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS
 
 **默认值**: `,` (逗号)
 
-### QUOTE (仅加载)
+### QUOTE (仅导入)
 
-引用 CSV 文件中的字符串。对于数据加载，除非字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，否则不需要引号。
+引用 CSV 文件中的字符串。对于数据导入，除非字符串包含 [QUOTE](#quote)、[ESCAPE](#escape)、[RECORD_DELIMITER](#record_delimiter) 或 [FIELD_DELIMITER](#field_delimiter) 的字符，否则不需要引号。
 
 **可用值**: `'`、`"` 或 `(反引号)
 
@@ -88,13 +88,13 @@ Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS
 
 **默认值**: `''`
 
-### SKIP_HEADER (仅加载)
+### SKIP_HEADER (仅导入)
 
 指定从文件开头跳过的行数。
 
 **默认值**: `0`
 
-### NAN_DISPLAY (仅加载)
+### NAN_DISPLAY (仅导入)
 
 指定如何在查询结果中显示 "NaN"（非数字）值。
 
@@ -102,21 +102,21 @@ Databend 接受符合 [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) 的 CVS
 
 **默认值**: `'NaN'`
 
-### NULL_DISPLAY (仅加载)
+### NULL_DISPLAY (仅导入)
 
 指定如何在查询结果中显示 NULL 值。
 
 **默认值**: `'\N'`
 
-### ERROR_ON_COLUMN_COUNT_MISMATCH (仅加载)
+### ERROR_ON_COLUMN_COUNT_MISMATCH (仅导入)
 
 ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，指定如果数据文件中的列数与目标表中的列数不匹配，则应引发错误。将其设置为 true 有助于确保加载过程中的数据完整性和一致性。
 
 **默认值**: `true`
 
-### EMPTY_FIELD_AS (仅加载)
+### EMPTY_FIELD_AS (仅导入)
 
-指定在 CSV 数据加载到表中时，遇到空字段（包括 `,,` 和 `,"",`）时应使用的值。
+指定在 CSV 数据导入到表中时，遇到空字段（包括 `,,` 和 `,"",`）时应使用的值。
 
 | 可用值           | 描述                                                                              |
 |------------------|-----------------------------------------------------------------------------------|
@@ -124,7 +124,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 | `string`         | 将空字段解释为空字符串 ('')。仅适用于 String 列。                                 |
 | `field_default`  | 对空字段使用列的默认值。                                                          |
 
-### OUTPUT_HEADER (仅卸载)
+### OUTPUT_HEADER (仅导出)
 
 指定在使用 `COPY INTO <location>` 命令导出数据时，是否在 CSV 文件中包含标题行。默认为 `false`。
 
@@ -142,7 +142,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 | `AUTO`           | 通过文件扩展名自动检测压缩                                              |
 | `GZIP`           |                                                                       |
 | `BZ2`            |                                                                       |
-| `BROTLI`         | 如果加载/卸载 Brotli 压缩文件，则必须指定。                            |
+| `BROTLI`         | 如果导入/导出 Brotli 压缩文件，则必须指定。                            |
 | `ZSTD`           | 支持 Zstandard v0.8（及更高版本）。                                      |
 | `DEFLATE`        | Deflate 压缩文件（带有 zlib 标头，RFC1950）。                           |
 | `RAW_DEFLATE`    | Deflate 压缩文件（没有任何标头，RFC1951）。                            |
@@ -150,7 +150,7 @@ ERROR_ON_COLUMN_COUNT_MISMATCH 是一个布尔选项，当设置为 true 时，�
 
 ## TSV 选项
 
-Databend 在处理 TSV 文件时受以下条件约束：
+Databend 处理 TSV 文件时遵循以下规则：
 
 - TSV 文件中的这些字符将被转义：`\b`、`\f`、`\r`、`\n`、`\t`、`\0`、`\\`、`\'`、[RECORD_DELIMITER](#record_delimiter-1)、[FIELD_DELIMITER](#field_delimiter-1)。
 - 目前不支持引用或封闭。
@@ -195,18 +195,18 @@ Databend 在处理 TSV 文件时受以下条件约束：
 
 ## NDJSON 选项
 
-### NULL_FIELD_AS (仅加载)
+### NULL_FIELD_AS (仅导入)
 
-指定在数据加载期间如何处理 null 值。有关可能的配置，请参阅下表中的选项。
+指定在数据导入期间如何处理 null 值。有关可能的配置，请参阅下表中的选项。
 
 | 可用值                | 描述                                                                                              |
 |-----------------------|---------------------------------------------------------------------------------------------------|
 | `NULL` (默认)         | 将 null 值解释为可为空字段的 NULL。将为不可为空字段生成错误。                                        |
 | `FIELD_DEFAULT`       | 对 null 值使用字段的默认值。                                                                     |
 
-### MISSING_FIELD_AS (仅加载)
+### MISSING_FIELD_AS (仅导入)
 
-确定在数据加载期间遇到缺失字段时的行为。有关可能的配置，请参阅下表中的选项。
+确定在数据导入期间遇到缺失字段时的行为。有关可能的配置，请参阅下表中的选项。
 
 | 可用值          | 描述                                                                                      |
 |-----------------|-------------------------------------------------------------------------------------------|
@@ -220,16 +220,16 @@ Databend 在处理 TSV 文件时受以下条件约束：
 
 ## PARQUET 选项
 
-### MISSING_FIELD_AS (仅加载)
+### MISSING_FIELD_AS (仅导入)
 
-确定在数据加载期间遇到缺失字段时的行为。有关可能的配置，请参阅下表中的选项。
+确定在数据导入期间遇到缺失字段时的行为。有关可能的配置，请参阅下表中的选项。
 
 | 可用值          | 描述                                                                                      |
 |-----------------|-------------------------------------------------------------------------------------------|
 | `ERROR` (默认)  | 如果遇到缺失字段，则生成错误。                                                              |
 | `FIELD_DEFAULT` | 对缺失字段使用字段的默认值。                                                                |
 
-### COMPRESSION (仅卸载)
+### COMPRESSION ### OUTPUT_HEADER (仅导出)
 
 指定压缩算法，该算法用于压缩文件的内部块，而不是整个文件，因此输出仍为 Parquet 格式。
 
@@ -240,9 +240,9 @@ Databend 在处理 TSV 文件时受以下条件约束：
 
 ## ORC 选项
 
-### MISSING_FIELD_AS (仅加载)
+### MISSING_FIELD_AS (仅导入)
 
-确定在数据加载期间遇到缺失字段时的行为。有关可能的配置，请参阅下表中的选项。
+确定在数据导入期间遇到缺失字段时的行为。有关可能的配置，请参阅下表中的选项。
 
 | 可选值          | 描述                                                                                              |
 |------------------|----------------------------------------------------------------------------------------------------|
@@ -251,9 +251,9 @@ Databend 在处理 TSV 文件时受以下条件约束：
 
 ## AVRO 选项
 
-### MISSING_FIELD_AS (仅加载)
+### MISSING_FIELD_AS (仅导入)
 
-确定在数据加载期间遇到缺失字段时的行为。请参考下表中的选项以获取可能的配置。
+确定在数据导入期间遇到缺失字段时的行为。请参考下表中的选项以获取可能的配置。
 
 | 可选值          | 描述                                                                                              |
 |------------------|----------------------------------------------------------------------------------------------------|
