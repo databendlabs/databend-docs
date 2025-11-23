@@ -1,6 +1,6 @@
 ---
-title: Migrating from MySQL with Debezium
-sidebar_label: 'MySQL → Databend: Debezium'
+title: Migrate MySQL with Debezium (CDC)
+sidebar_label: 'MySQL → Databend: Debezium (CDC)'
 ---
 
 > **Capabilities**: CDC, Full Load  

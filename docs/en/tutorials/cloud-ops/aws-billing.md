@@ -1,5 +1,6 @@
 ---
-title: Analyzing AWS Billing
+title: "Databend Cloud: AWS Billing"
+sidebar_label: "AWS Billing"
 ---
 
 In this tutorial, we'll walk you through the process of importing AWS billing data and conducting cost analysis using SQL. You'll learn how to load the AWS billing data into Databend Cloud, query it to find key cost drivers, and gain insights into your AWS usage.

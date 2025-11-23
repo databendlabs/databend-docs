@@ -1,5 +1,5 @@
 ---
-title: Integrating with Self-Hosted Databend
+title: "Python: Self-hosted Databend"
 ---
 
 This tutorial demonstrates how to connect to a locally deployed Databend instance using Python. We'll cover three approaches—`databend-driver`, `databend-sqlalchemy` with the connector, and `databend-sqlalchemy` with the engine—to perform basic operations such as creating a database, adding a table, inserting data, querying, and cleaning up resources.

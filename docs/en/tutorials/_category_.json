@@ -1,3 +1,5 @@
 {
-  "label": "Tutorials"
+  "label": "Tutorials",
+  "link": { "type": "doc", "id": "index" },
+  "position": 0
 }

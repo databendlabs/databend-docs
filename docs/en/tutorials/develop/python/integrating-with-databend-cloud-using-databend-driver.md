@@ -1,5 +1,5 @@
 ---
-title: Integrating with Databend Cloud using databend-driver
+title: "Python: Databend Cloud with databend-driver"
 ---
 
 In this tutorial, we'll walk you through how to use the `databend-driver` to connect to Databend Cloud, create a table, insert data, and retrieve results with Python.

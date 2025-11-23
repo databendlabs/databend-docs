@@ -1,6 +1,6 @@
 ---
-title: Migrating from MySQL with DataX
-sidebar_label: 'MySQL → Databend: DataX'
+title: Migrate MySQL with DataX (Batch)
+sidebar_label: 'MySQL → Databend: DataX (Batch)'
 ---
 
 > **Capabilities**: Full Load, Incremental

@@ -1,7 +1,6 @@
 ---
-title: "Connecting to Self-Hosted Databend using BendSQL"
-sidebar_label: "Connecting to Self-Hosted Databend (BendSQL)"
-slug: /
+title: "Connect with BendSQL (Self-hosted)"
+sidebar_label: "Connect with BendSQL (Self-hosted)"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';

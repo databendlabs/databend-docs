@@ -1,5 +1,5 @@
 ---
-title: Integrating with Databend Cloud using databend-sqlalchemy
+title: "Python: Databend Cloud with SQLAlchemy"
 ---
 
 In this tutorial, we'll walk you through how to use the `databend-sqlalchemy` library to connect to Databend Cloud, create a table, insert data, and query results using Python.

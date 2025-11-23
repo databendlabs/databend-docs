@@ -1,6 +1,6 @@
 ---
-title: 'Connecting to Databend Cloud using DBeaver'
-sidebar_label: 'Connecting to Databend Cloud (DBeaver)'
+title: 'Connect to Databend Cloud with DBeaver'
+sidebar_label: 'Databend Cloud with DBeaver'
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
