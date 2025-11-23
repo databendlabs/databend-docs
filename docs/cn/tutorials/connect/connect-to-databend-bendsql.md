@@ -1,6 +1,6 @@
 ---
-title: "使用 BendSQL 连接到自托管 Databend"
-sidebar_label: "连接到自托管 Databend (BendSQL)"
+title: "连接 Databend (BendSQL)"
+sidebar_label: "BendSQL"
 slug: /
 ---
 

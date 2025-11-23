@@ -1,8 +1,8 @@
 ---
-title: 使用 databend-driver 集成 Databend Cloud
+title: 集成 (databend-driver)
 ---
 
-在本教程中，我们将引导您了解如何使用 `databend-driver` 连接到 Databend Cloud，创建表，插入数据以及使用 Python 检索结果。
+本教程介绍如何使用 `databend-driver` 连接 Databend Cloud，并使用 Python 进行数据操作。
 
 ## 开始之前
 

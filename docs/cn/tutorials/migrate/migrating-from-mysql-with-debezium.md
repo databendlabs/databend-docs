@@ -1,9 +1,9 @@
 ---
-title: 使用 Debezium 从 MySQL 迁移
-sidebar_label: 'MySQL → Databend: Debezium'
+title: 使用 Debezium 迁移 MySQL
+sidebar_label: 'Debezium'
 ---
 
-> **功能**: CDC, 全量加载  
+> **功能**: CDC, 全量导入  
 > **✅ 推荐** 用于实时迁移，具有完整变更数据捕获
 
 在本教程中，您将使用 Debezium 将数据从 MySQL 加载到 Databend。在开始之前，请确保您已在环境中成功设置 Databend、MySQL 和 Debezium。

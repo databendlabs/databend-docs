@@ -1,5 +1,5 @@
 ---
-title: 使用 Vector 自动加载 JSON 日志
+title: 自动导入 JSON 日志
 ---
 
 在本教程中，我们将模拟在本地生成日志，使用 [Vector](https://vector.dev/) 收集日志，将其存储到 S3，并通过定时任务自动将其摄取到 Databend Cloud。

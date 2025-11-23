@@ -1,9 +1,9 @@
 ---
-title: 使用 Kafka Connect 从 MySQL 迁移
-sidebar_label: 'MySQL → Databend: Kafka Connect'
+title: 使用 Kafka Connect 迁移 MySQL
+sidebar_label: 'Kafka Connect'
 ---
 
-> **功能**: CDC, 增量, 全量加载
+> **功能**: CDC, 增量导入, 全量导入
 
 本教程展示了如何使用 Kafka Connect 构建从 MySQL 到 Databend 的实时数据管道。
 

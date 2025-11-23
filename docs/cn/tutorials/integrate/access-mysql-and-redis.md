@@ -1,8 +1,8 @@
 ---
-title: 使用字典访问 MySQL 和 Redis
+title: 访问 MySQL 和 Redis
 ---
 
-在本教程中，我们将指导您如何使用 Databend 中的字典访问 MySQL 和 Redis 数据。您将学习如何创建映射到这些外部数据源的字典，从而实现无缝的数据查询和集成。
+本教程介绍如何使用 Databend 字典访问 MySQL 和 Redis 数据，实现无缝的数据查询和集成。
 
 ## 开始之前
 

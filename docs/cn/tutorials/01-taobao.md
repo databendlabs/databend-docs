@@ -1,5 +1,5 @@
 ---
-title: 淘宝用户购物行为分析
+title: 淘宝用户行为分析
 slug: /taobao-tutorial
 ---
 

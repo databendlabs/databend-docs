@@ -1,9 +1,9 @@
 ---
-title: 使用 db-archiver 从 MySQL 迁移
-sidebar_label: 'MySQL → Databend: db-archiver'
+title: 使用 db-archiver 迁移 MySQL
+sidebar_label: 'db-archiver'
 ---
 
-> **能力**：全量加载 (Full Load)、增量加载 (Incremental)  
+> **功能**：全量导入 (Full Load)、增量导入 (Incremental)  
 > **✅ 推荐**用于历史数据的批量迁移
 
 在本教程中，我们将引导你完成使用 db-archiver 从 MySQL 迁移到 Databend Cloud 的过程。
