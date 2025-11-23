@@ -2,7 +2,7 @@
 title: Python
 ---
 
-# Databend Python 驱动
+# Python 驱动
 
 使用我们的官方驱动通过 Python 连接 Databend，支持同步与异步操作。
 

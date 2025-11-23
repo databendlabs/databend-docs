@@ -2,7 +2,7 @@
 title: Java (JDBC)
 ---
 
-# Databend Java JDBC 驱动
+# Java (JDBC) 驱动
 
 官方 JDBC 驱动，提供标准 JDBC 4.0 兼容性，可与 Java 应用程序无缝集成。
 

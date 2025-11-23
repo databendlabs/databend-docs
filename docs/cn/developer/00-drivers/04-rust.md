@@ -2,7 +2,7 @@
 title: Rust
 ---
 
-# Databend Rust 驱动
+# Rust 驱动
 
 官方 Rust 驱动，为 Rust 应用程序提供原生连接、async/await 支持和全面的类型安全。
 
