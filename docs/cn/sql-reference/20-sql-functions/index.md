@@ -68,6 +68,6 @@ Databend 为各类数据处理提供了全面的 SQL 函数。函数按重要性
 |----------|-------------|
 | [间隔函数](./05-interval-functions/index.md) | 时间单位转换与间隔创建 |
 | [序列函数](./18-sequence-functions/index.md) | 自增序列值生成 |
-| [字典函数](./19-dictionary-functions/index.md) | 实时外部数据源查询（MySQL、Redis） |
+
 | [测试函数](./19-test-functions/index.md) | 测试与调试工具 |
 | [其他函数](./20-other-functions/index.md) | 杂项辅助与实用工具 |
