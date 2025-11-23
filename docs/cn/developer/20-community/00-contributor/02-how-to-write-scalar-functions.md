@@ -1,6 +1,6 @@
 ---
-title: 如何编写标量函数
-sidebar_label: 如何编写标量函数
+title: 编写标量函数
+sidebar_label: 编写标量函数
 ---
 
 ## 什么是标量函数

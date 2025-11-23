@@ -1,6 +1,6 @@
 ---
-title: 如何编写聚合函数
-sidebar_label: 如何编写聚合函数
+title: 编写聚合函数
+sidebar_label: 编写聚合函数
 ---
 
 聚合函数是一种将多行数据的值组合成单个汇总值的函数。常见的聚合函数包括 sum、count、avg 等。

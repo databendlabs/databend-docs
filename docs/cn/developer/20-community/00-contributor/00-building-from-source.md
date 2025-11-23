@@ -1,6 +1,6 @@
 ---
-title: 构建 Databend
-sidebar_label: 构建 Databend
+title: 从源码构建
+sidebar_label: 从源码构建
 description: 从源代码获取和构建 Databend
 ---
 

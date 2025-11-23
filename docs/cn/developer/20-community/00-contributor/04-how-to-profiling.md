@@ -1,5 +1,5 @@
 ---
-title: 如何对 Databend 进行性能分析
+title: 性能分析
 ---
 
 ## CPU 性能分析

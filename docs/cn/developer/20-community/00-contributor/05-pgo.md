@@ -1,6 +1,6 @@
 ---
-title: Profile Guided Optimization (PGO)
-sidebar_label: Profile Guided Optimization (PGO)
+title: PGO 优化
+sidebar_label: PGO 优化
 description: Building an optimized Databend with Profile Guided Optimization.
 ---
 
