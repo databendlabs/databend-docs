@@ -1,5 +1,5 @@
 ---
-title: 性能测试测试基础设施
+title: 性能测试基础设施
 description: 性能测试 RFC 的测试基础设施
 ---
 

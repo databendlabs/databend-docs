@@ -1,5 +1,5 @@
 ---
-title: 用户友好的发布
+title: 用户友好发布
 description: 关于用户友好的发布的 RFC
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: 新的 DataValues 系统
+title: 新 DataValues 系统
 description: 新的 DataValues 系统设计 RFC
 ---
 

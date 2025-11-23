@@ -1,5 +1,5 @@
 ---
-title: 全新的日志记录
+title: 全新日志系统
 description: 让 Databend 的日志记录更上一层楼！
 ---
 
