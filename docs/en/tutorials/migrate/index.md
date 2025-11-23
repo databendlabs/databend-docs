@@ -1,5 +1,5 @@
 ---
-title: Data Migration to Databend
+title: Plan Your Migration to Databend
 ---
 
 # Data Migration to Databend

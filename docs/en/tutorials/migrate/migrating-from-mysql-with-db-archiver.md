@@ -1,6 +1,6 @@
 ---
-title: Migrating from MySQL with db-archiver
-sidebar_label: 'MySQL → Databend: db-archiver'
+title: Migrate MySQL with db-archiver (Batch)
+sidebar_label: 'MySQL → Databend: db-archiver (Batch)'
 ---
 
 > **Capabilities**: Full Load, Incremental  
@@ -109,7 +109,7 @@ Bye
 
 ## Step 3: Set Up Target in Databend Cloud
 
-1. Connect to Databend Cloud using BendSQL. If you're unfamiliar with BendSQL, refer to this tutorial: [Connecting to Databend Cloud using BendSQL](../connect/connect-to-databendcloud-bendsql.md).
+1. Connect to Databend Cloud using BendSQL. If you're unfamiliar with BendSQL, refer to this tutorial: [Connecting to Databend Cloud using BendSQL](../getting-started/connect-to-databendcloud-bendsql.md).
 2. Copy and paste the following SQL to create a target table named **my_table**:
 
 ```sql

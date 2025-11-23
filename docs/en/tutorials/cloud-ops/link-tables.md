@@ -1,5 +1,6 @@
 ---
-title: Linking Tables with ATTACH TABLE
+title: "Databend Cloud: Data Sharing via ATTACH TABLE"
+sidebar_label: "Data Sharing"
 ---
 
 In this tutorial, we'll walk you through how to link a table in Databend Cloud with an existing Databend table stored in an S3 bucket using the [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) command.
@@ -57,7 +58,7 @@ SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'population');
 
 ## Step 2: Set Up Attached Tables in Databend Cloud
 
-1. Connect to Databend Cloud using BendSQL. If you're unfamiliar with BendSQL, refer to this tutorial: [Connecting to Databend Cloud using BendSQL](../connect/connect-to-databendcloud-bendsql.md).
+1. Connect to Databend Cloud using BendSQL. If you're unfamiliar with BendSQL, refer to this tutorial: [Connecting to Databend Cloud using BendSQL](../getting-started/connect-to-databendcloud-bendsql.md).
 
 2. Execute the following statements to create two attached tables:
     - The first table, `population_all_columns`, includes all columns from the source data.

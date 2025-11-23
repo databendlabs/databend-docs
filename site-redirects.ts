@@ -73,6 +73,71 @@ const siteRedirects = [
     from: '/guides/migrate/mysql',
     to: '/tutorials/migrate/migrating-from-mysql-with-db-archiver'
   },
+  // Tutorials reorg (EN) 2025-11
+  {
+    from: '/tutorials/connect/connect-to-databend-bendsql',
+    to: '/tutorials/getting-started/connect-to-databend-bendsql'
+  },
+  {
+    from: '/tutorials/connect/connect-to-databend-dbeaver',
+    to: '/tutorials/getting-started/connect-to-databend-dbeaver'
+  },
+  {
+    from: '/tutorials/connect/connect-to-databendcloud-bendsql',
+    to: '/tutorials/getting-started/connect-to-databendcloud-bendsql'
+  },
+  {
+    from: '/tutorials/connect/connect-to-databendcloud-dbeaver',
+    to: '/tutorials/getting-started/connect-to-databendcloud-dbeaver'
+  },
+  {
+    from: '/tutorials/load/automating-json-log-loading-with-vector',
+    to: '/tutorials/ingest-and-stream/automating-json-log-loading-with-vector'
+  },
+  {
+    from: '/tutorials/load/kafka-bend-ingest-kafka',
+    to: '/tutorials/ingest-and-stream/kafka-bend-ingest-kafka'
+  },
+  {
+    from: '/tutorials/load/kafka-databend-kafka-connect',
+    to: '/tutorials/ingest-and-stream/kafka-databend-kafka-connect'
+  },
+  {
+    from: '/tutorials/load/query-metadata',
+    to: '/tutorials/ingest-and-stream/query-metadata'
+  },
+  {
+    from: '/tutorials/integrate/access-mysql-and-redis',
+    to: '/tutorials/ingest-and-stream/access-mysql-and-redis'
+  },
+  {
+    from: '/tutorials/programming/python/integrating-with-databend-cloud-using-databend-driver',
+    to: '/tutorials/develop/python/integrating-with-databend-cloud-using-databend-driver'
+  },
+  {
+    from: '/tutorials/programming/python/integrating-with-databend-cloud-using-databend-sqlalchemy',
+    to: '/tutorials/develop/python/integrating-with-databend-cloud-using-databend-sqlalchemy'
+  },
+  {
+    from: '/tutorials/programming/python/integrating-with-self-hosted-databend',
+    to: '/tutorials/develop/python/integrating-with-self-hosted-databend'
+  },
+  {
+    from: '/tutorials/recovery/bendsave',
+    to: '/tutorials/operate-and-recover/bendsave'
+  },
+  {
+    from: '/tutorials/databend-cloud/aws-billing',
+    to: '/tutorials/cloud-ops/aws-billing'
+  },
+  {
+    from: '/tutorials/databend-cloud/dashboard',
+    to: '/tutorials/cloud-ops/dashboard'
+  },
+  {
+    from: '/tutorials/databend-cloud/link-tables',
+    to: '/tutorials/cloud-ops/link-tables'
+  },
   // Array Functions: 00-array-functions -> 10-semi-structured-functions/array
   {
     from: '/sql/sql-functions/array-functions/array-aggregate',
@@ -1127,12 +1192,12 @@ const siteRedirects = [
   },
   {
     from: '/tutorials/load/automating_json_log_loading_with_vector/',
-    to: '/tutorials/load/automating-json-log-loading-with-vector/'
+    to: '/tutorials/ingest-and-stream/automating-json-log-loading-with-vector'
   },
   // loading data
   {
     from: '/guides/load-data/transform/querying-metadata',
-    to: '/tutorials/load/query-metadata'
+    to: '/tutorials/ingest-and-stream/query-metadata'
   },
   // Query guide restructuring - moved from flat to hierarchical structure
   {

@@ -1,5 +1,5 @@
 ---
-title: Migrating from MySQL with Flink CDC
+title: Migrate MySQL with Flink CDC
 sidebar_label: 'MySQL → Databend: Flink CDC'
 ---
 
@@ -135,7 +135,7 @@ mysql> select * from products;
 
 ## Step 3: Set Up Target in Databend Cloud
 
-1. Connect to Databend Cloud using BendSQL. If you're unfamiliar with BendSQL, refer to this tutorial: [Connecting to Databend Cloud using BendSQL](../connect/connect-to-databendcloud-bendsql.md).
+1. Connect to Databend Cloud using BendSQL. If you're unfamiliar with BendSQL, refer to this tutorial: [Connecting to Databend Cloud using BendSQL](../getting-started/connect-to-databendcloud-bendsql.md).
 
 2. Copy and paste the following SQL to create a target table named **products**:
 

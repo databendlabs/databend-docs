@@ -1,5 +1,5 @@
 ---
-title: Accessing MySQL and Redis with Dictionaries
+title: Access MySQL & Redis via Dictionaries
 ---
 
 In this tutorial, we’ll guide you through accessing MySQL and Redis data using dictionaries in Databend. You’ll learn how to create dictionaries that map to these external data sources, enabling seamless data querying and integration.

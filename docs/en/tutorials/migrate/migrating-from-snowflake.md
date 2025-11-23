@@ -1,5 +1,5 @@
 ---
-title: Migrating from Snowflake
+title: Migrate from Snowflake to Databend
 sidebar_label: Snowflake → Databend
 
 ---

@@ -1,6 +1,6 @@
 ---
-title: "Connecting to Self-Hosted Databend using DBeaver"
-sidebar_label: "Connecting to Self-Hosted Databend (DBeaver)"
+title: "Connect with DBeaver (Self-hosted)"
+sidebar_label: "Connect with DBeaver (Self-hosted)"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';

@@ -1,6 +1,6 @@
 ---
-title: Migrating from MySQL with Addax
-sidebar_label: 'MySQL → Databend: Addax'
+title: Migrate MySQL with Addax (Batch)
+sidebar_label: 'MySQL → Databend: Addax (Batch)'
 ---
 
 > **Capabilities**: Full Load, Incremental

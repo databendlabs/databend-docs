@@ -1,6 +1,6 @@
 ---
-title: Migrating from MySQL with Kafka Connect
-sidebar_label: 'MySQL → Databend: Kafka Connect'
+title: Migrate MySQL with Kafka Connect (CDC)
+sidebar_label: 'MySQL → Databend: Kafka Connect (CDC)'
 ---
 
 > **Capabilities**: CDC, Incremental, Full Load

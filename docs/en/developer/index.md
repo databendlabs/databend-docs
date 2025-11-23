@@ -29,7 +29,7 @@ Databend provides REST APIs for direct integration and custom applications.
 
 ## Development Tools
 
-- **[BendSQL CLI](/tutorials/connect/connect-to-databendcloud-bendsql)** - Command-line interface for Databend
+- **[BendSQL CLI](/tutorials/getting-started/connect-to-databendcloud-bendsql)** - Command-line interface for Databend
 - **[Databend Cloud Console](/guides/cloud/using-databend-cloud/worksheet)** - Web-based management interface
 
 ## Additional Resources

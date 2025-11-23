@@ -1,5 +1,6 @@
 ---
-title: Dashboarding COVID-19 Data
+title: "Databend Cloud: Dashboard Tour"
+sidebar_label: "Dashboard"
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
