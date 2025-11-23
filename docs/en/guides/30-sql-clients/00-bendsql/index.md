@@ -242,7 +242,7 @@ bendsql
 ## Tutorials
 
 - [Connecting to Self-Hosted Databend using BendSQL](/tutorials/)
-- [Connecting to Databend Cloud using BendSQL](/tutorials/connect/connect-to-databendcloud-bendsql)
+- [Connecting to Databend Cloud using BendSQL](/tutorials/getting-started/connect-to-databendcloud-bendsql)
 
 ## BendSQL Settings
 

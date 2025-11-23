@@ -140,4 +140,4 @@ CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 
 ## Learn More
 
-- [Linking Tables with ATTACH TABLE](/tutorials/databend-cloud/link-tables)
+- [Linking Tables with ATTACH TABLE](/tutorials/cloud-ops/link-tables)

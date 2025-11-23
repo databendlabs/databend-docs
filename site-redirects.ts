@@ -1192,12 +1192,12 @@ const siteRedirects = [
   },
   {
     from: '/tutorials/load/automating_json_log_loading_with_vector/',
-    to: '/tutorials/load/automating-json-log-loading-with-vector/'
+    to: '/tutorials/ingest-and-stream/automating-json-log-loading-with-vector'
   },
   // loading data
   {
     from: '/guides/load-data/transform/querying-metadata',
-    to: '/tutorials/load/query-metadata'
+    to: '/tutorials/ingest-and-stream/query-metadata'
   },
   // Query guide restructuring - moved from flat to hierarchical structure
   {

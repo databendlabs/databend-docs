@@ -139,4 +139,4 @@ export AWS_SECRET_ACCESS_KEY=minioadmin
 
 ### Tutorials
 
-- [Backing Up and Restoring Data with BendSave](/tutorials/recovery/bendsave)
+- [Backing Up and Restoring Data with BendSave](/tutorials/operate-and-recover/bendsave)
