@@ -1,8 +1,8 @@
 ---
-title: 卸载 TSV 文件
+title: 导出 TSV
 ---
 
-## 卸载 TSV 文件
+## 导出 TSV
 
 语法：
 
@@ -14,17 +14,17 @@ FILE_FORMAT = (
     RECORD_DELIMITER = '<character>',
     FIELD_DELIMITER = '<character>',
     COMPRESSION = gzip,
-    OUTPUT_HEADER = true -- Unload with header
+    OUTPUT_HEADER = true -- 导出时带表头
 )
 [MAX_FILE_SIZE = <num>]
 [DETAILED_OUTPUT = true | false]
 ```
 
 - 更多 TSV 选项请参考 [TSV File Format Options](/sql/sql-reference/file-format-options#tsv-options)
-- 卸载到多个文件请使用 [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 导出到请使用 [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
 - 更多关于语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到。
 
-## Tutorial
+## 教程
 
 ### Step 1. 创建一个 External Stage
 
@@ -42,7 +42,7 @@ CONNECTION = (
 ```sql
 CREATE FILE FORMAT tsv_unload_format
     TYPE = TSV,
-    COMPRESSION = gzip;     -- Unload with gzip compression
+    COMPRESSION = gzip;     -- 导出时使用 gzip 压缩
 ```
 
 ### Step 3. 卸载到 TSV 文件
@@ -67,7 +67,7 @@ DETAILED_OUTPUT = true;
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Step 4. 验证卸载的 TSV 文件
+### Step 4. 验证导出的 TSV 文件
 
 ```
 SELECT COUNT($1)

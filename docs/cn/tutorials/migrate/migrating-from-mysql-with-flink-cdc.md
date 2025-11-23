@@ -1,9 +1,9 @@
 ---
-title: 使用 Flink CDC 从 MySQL 迁移
-sidebar_label: 'MySQL → Databend: Flink CDC'
+title: 使用 Flink CDC 迁移 MySQL
+sidebar_label: 'Flink CDC'
 ---
 
-> **功能**: CDC, 全量加载, 转换
+> **功能**: CDC, 全量导入, 转换
 
 在本教程中，我们将引导您完成使用 Apache Flink CDC 从 MySQL 迁移到 Databend Cloud 的过程。
 

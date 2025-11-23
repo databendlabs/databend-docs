@@ -1,8 +1,8 @@
 ---
-title: 使用 databend-sqlalchemy 集成 Databend Cloud
+title: 集成 (SQLAlchemy)
 ---
 
-在本教程中，我们将引导你使用 `databend-sqlalchemy` 库连接 Databend Cloud，并通过 Python 创建表、插入数据及查询结果。
+本教程介绍如何使用 `databend-sqlalchemy` 连接 Databend Cloud，并使用 Python 进行数据操作。
 
 ## 在开始之前
 

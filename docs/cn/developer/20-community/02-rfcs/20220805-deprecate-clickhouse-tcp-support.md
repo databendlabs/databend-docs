@@ -1,4 +1,4 @@
-## 概要
+title: 弃用 ClickHouse TCP 支持
 
 Databend 现在支持 ClickHouse 的 tcp 协议，但实现有限。许多用户反馈 `clickhouse-client` 与 databend 配合不佳。通常，我们会告诉他们改用 MySQL。
 

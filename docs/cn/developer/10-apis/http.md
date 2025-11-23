@@ -1,17 +1,19 @@
 ---
-title: HTTP Handler
-sidebar_label: REST API
+title: HTTP API
+sidebar_label: HTTP API
 ---
 
-Databend HTTP Handler 是一个 REST API，用于发送查询语句在服务器上执行，并将结果返回给客户端。
+# HTTP API
 
-HTTP Handler 由 databend-query 托管，可以通过使用 `--http_handler_host` 和 `--http_handler_port` 来指定（默认为 8000）。
+Databend HTTP API 是一个 REST API，用于发送查询语句在服务器上执行，并将结果返回给客户端。
+
+HTTP API 由 databend-query 托管，可以通过使用 `--http_handler_host` 和 `--http_handler_port` 来指定（默认为 8000）。
 
 ## HTTP 方法
 
 ### 概述
 
-此 Handler 以 `pages` 形式返回结果，并支持长轮询。
+此 API 以 `pages` 形式返回结果，并支持长轮询。
 
 1. 首先，通过 `POST` 方法向 `/v1/query` 发送一个类型为 `QueryRequest` 的 JSON，其中包含要执行的 SQL 语句，返回一个类型为 `QueryResponse` 的 JSON。
 2. 使用 `QueryResponse` 的字段进行进一步处理：

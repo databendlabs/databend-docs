@@ -1,4 +1,4 @@
-## 概述
+title: Stage Schema 选项
 
 Stage 支持 `schema` 选项。
 

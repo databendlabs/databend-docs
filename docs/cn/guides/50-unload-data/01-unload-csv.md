@@ -1,8 +1,8 @@
 ---
-title: 卸载 CSV 文件
+title: 导出 CSV
 ---
 
-## 卸载 CSV 文件
+## 导出 CSV
 
 语法：
 
@@ -14,14 +14,14 @@ FILE_FORMAT = (
     RECORD_DELIMITER = '<character>',
     FIELD_DELIMITER = '<character>',
     COMPRESSION = gzip,
-    OUTPUT_HEADER = true -- 卸载时带表头
+    OUTPUT_HEADER = true -- 导出时带表头
 )
 [MAX_FILE_SIZE = <num>]
 [DETAILED_OUTPUT = true | false]
 ```
 
 - 更多 CSV 选项请参考 [CSV 文件格式选项](/sql/sql-reference/file-format-options#csv-options)
-- 卸载到多个文件请使用 [MAX_FILE_SIZE Copy 选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 导出到多个文件请使用 [MAX_FILE_SIZE Copy 选项](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
 - 更多关于语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到
 
 ## 教程
@@ -44,12 +44,12 @@ CREATE FILE FORMAT csv_unload_format
     TYPE = CSV,
     RECORD_DELIMITER = '\n',
     FIELD_DELIMITER = ',',
-    COMPRESSION = gzip,     -- 卸载时使用 gzip 压缩
-    OUTPUT_HEADER = true,   -- 卸载时带表头
+    COMPRESSION = gzip,     -- 导出时使用 gzip 压缩
+    OUTPUT_HEADER = true,   -- 导出时带表头
     SKIP_HEADER = 1;        -- 仅用于加载，如果 CSV 文件有表头，查询时跳过第一行
 ```
 
-### Step 3. 卸载到 CSV 文件
+### Step 3. 导出到 CSV 文件
 
 ```sql
 COPY INTO @csv_unload_stage
@@ -71,7 +71,7 @@ DETAILED_OUTPUT = true;
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Step 4. 验证卸载的 CSV 文件
+### Step 4. 验证导出的 CSV 文件
 
 ```sql
 SELECT COUNT($1)

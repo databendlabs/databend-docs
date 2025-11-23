@@ -1,5 +1,5 @@
 ---
-title: User Stage
+title: 用户 Stage
 ---
 
 - RFC PR: [datafuselabs/databend#8519](https://github.com/databendlabs/databend/pull/8519)

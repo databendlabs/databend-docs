@@ -1,6 +1,6 @@
 ---
-title: 你的第一个 Databend PR
-sidebar_label: 第一个 Pull Request
+title: 提交 PR 指南
+sidebar_label: 提交 PR 指南
 description: 你的第一个好的 Databend pull request
 ---
 

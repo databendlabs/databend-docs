@@ -1,6 +1,6 @@
 ---
-title: "使用 DBeaver 连接到私有化部署 Databend"
-sidebar_label: "连接到私有化部署 Databend (DBeaver)"
+title: "连接 Databend (DBeaver)"
+sidebar_label: "DBeaver"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';

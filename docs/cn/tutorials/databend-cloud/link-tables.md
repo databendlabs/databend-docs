@@ -1,8 +1,8 @@
 ---
-title: 使用 ATTACH TABLE 链接表
+title: 使用 ATTACH TABLE
 ---
 
-在本教程中，我们将引导您了解如何使用 [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) 命令将 Databend Cloud 中的表与存储在 S3 bucket 中的现有 Databend 表链接起来。
+本教程介绍如何使用 [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) 命令将 Databend Cloud 中的表链接到 S3 中的现有表。
 
 ## 准备工作
 

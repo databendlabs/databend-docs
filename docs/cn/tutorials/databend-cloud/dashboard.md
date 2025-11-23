@@ -1,10 +1,10 @@
 ---
-title: 为 COVID-19 数据构建仪表盘（Dashboard）
+title: COVID-19 仪表盘
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在本教程中，我们将加载、分析名为“Covid-19 Data from New York Times”的数据集，并为其创建仪表盘（Dashboard）。该数据集包含美国全境每日更新的 Covid-19 病例、死亡及相关统计信息，可全面展示 2022 年全年疫情在全国、州、县各级的影响与细节。
+本教程演示如何加载和分析 Covid-19 数据集，并为其创建仪表盘。该数据集包含美国全境每日更新的 Covid-19 病例、死亡及相关统计信息，可全面展示 2022 年全年疫情在全国、州、县各级的影响与细节。
 
 | 字段    | 描述                                         |
 |---------|----------------------------------------------|

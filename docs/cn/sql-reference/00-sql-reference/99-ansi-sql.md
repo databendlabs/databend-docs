@@ -1,8 +1,8 @@
 ---
-title: SQL 方言 & 兼容性
+title: SQL 方言与兼容性
 ---
 
-本页详细介绍了 Databend 支持的 SQL 方言，以及其与 SQL 标准的兼容性，特别是关注 SQL:2011 的特性以及 Databend 对这些特性的支持状态。
+本页详细介绍了 Databend 支持的 SQL 方言及其与 SQL 标准（特别是 SQL:2011）的兼容性。
 
 ## 支持的 SQL 方言
 

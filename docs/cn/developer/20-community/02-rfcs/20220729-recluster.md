@@ -1,5 +1,5 @@
 ---
-title: recluster table
+title: 表重新聚簇 (Recluster)
 description: RFC for recluster a clustered table
 ---
 

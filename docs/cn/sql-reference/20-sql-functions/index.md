@@ -21,17 +21,17 @@ Databend 为各类数据处理提供了全面的 SQL 函数。函数按重要性
 | [聚合函数](./07-aggregate-functions/index.md) | 跨多行的统计计算 |
 | [窗口函数](./08-window-functions/index.md) | 基于窗口操作的高级分析 |
 
-## 结构化和半结构化数据
+## 半结构化数据
 
 | 类别 | 描述 |
 |----------|-------------|
-| [结构化和半结构化函数](./10-semi-structured-functions/index.md) | JSON、数组、对象及嵌套数据处理 |
+| [半结构化函数](./10-semi-structured-functions/index.md) | JSON、数组、对象及嵌套数据处理 |
 
 ## 搜索函数
 
 | 类别 | 描述 |
 |----------|-------------|
-| [全文搜索函数](./10-search-functions/index.md) | 全文搜索与相关性评分 |
+| [全文检索函数](./10-search-functions/index.md) | 全文搜索与相关性评分 |
 
 ## 向量函数
 
@@ -68,6 +68,6 @@ Databend 为各类数据处理提供了全面的 SQL 函数。函数按重要性
 |----------|-------------|
 | [间隔函数](./05-interval-functions/index.md) | 时间单位转换与间隔创建 |
 | [序列函数](./18-sequence-functions/index.md) | 自增序列值生成 |
-| [字典函数](./19-dictionary-functions/index.md) | 实时外部数据源查询（MySQL、Redis） |
+
 | [测试函数](./19-test-functions/index.md) | 测试与调试工具 |
 | [其他函数](./20-other-functions/index.md) | 杂项辅助与实用工具 |

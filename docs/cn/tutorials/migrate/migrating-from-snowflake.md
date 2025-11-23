@@ -1,10 +1,10 @@
 ---
-title: 从 Snowflake 迁移
-sidebar_label: Snowflake → Databend
+title: 迁移 Snowflake
+sidebar_label: 'Snowflake'
 
 ---
 
-> **功能**: 全量加载
+> **功能**: 全量导入
 
 本教程将指导您完成从 Snowflake 迁移数据到 Databend 的过程。迁移过程包括将数据从 Snowflake 导出到 Amazon S3 存储桶，然后将其加载到 Databend 中。该过程分为三个主要步骤：
 

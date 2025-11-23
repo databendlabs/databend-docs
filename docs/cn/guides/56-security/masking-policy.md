@@ -1,12 +1,12 @@
 ---
-title: 动态脱敏策略（Masking Policy）
+title: 动态脱敏
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MASKING POLICY'/>
 
-动态脱敏策略（Masking Policy）在查询时对列值进行转换，帮助你按照角色控制谁能看到真实数据、谁只能看到脱敏后的结果。
+动态脱敏策略在查询时对列值进行转换，帮助你按照角色控制谁能看到真实数据、谁只能看到脱敏后的结果。
 
 ## 脱敏策略如何工作
 

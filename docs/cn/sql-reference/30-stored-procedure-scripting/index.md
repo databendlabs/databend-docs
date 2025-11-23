@@ -1,5 +1,5 @@
 ---
-title: 存储过程（Stored Procedure）与 SQL 脚本
+title: 存储过程与 SQL 脚本
 slug: /stored-procedure-scripting/
 ---
 
@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.833"/>
 
-Databend 中的存储过程（Stored Procedure）允许您将 SQL 逻辑打包在服务器上运行，并支持控制流（Control Flow）、变量（Variable）、游标（Cursor）和动态语句（Dynamic Statement）。本页面介绍如何创建存储过程以及编写驱动它们的内联脚本。
+Databend 中的存储过程允许您将 SQL 逻辑打包在服务器上运行，并支持控制流、变量、游标和动态语句。本页介绍如何创建存储过程以及编写驱动它们的内联脚本。
 
 ## 定义存储过程
 
@@ -29,7 +29,7 @@ $$;
 | 组件 | 描述 |
 |-----------|-------------|
 | `<name>` | 存储过程的标识符。模式限定是可选的。 |
-| `<param_name> <data_type>` | 使用 Databend 标量类型定义的输入参数（Parameter）。参数按值传递。 |
+| `<param_name> <data_type>` | 使用 Databend 标量类型定义的输入参数。参数按值传递。 |
 | `RETURNS <return_type> [NOT NULL]` | 声明逻辑返回类型。`NOT NULL` 强制返回非空响应。 |
 | `LANGUAGE SQL` | Databend 目前仅接受 `SQL`。 |
 | `RETURN` / `RETURN TABLE` | 结束执行并提供标量或表格结果。 |
@@ -56,7 +56,7 @@ CALL PROCEDURE convert_kg_to_lb(10);
 
 ### 声明部分
 
-存储过程可以以可选的 `DECLARE` 块开始，在可执行部分之前初始化变量（Variable）。每个条目遵循与 `LET` 相同的语法：`name [<data_type>] [:= <expr> | DEFAULT <expr>]`。如果省略初始化器，变量必须在读取之前被赋值；过早引用会触发错误 3129。
+存储过程可以以可选的 `DECLARE` 块开始，在可执行部分之前初始化变量。每个条目遵循与 `LET` 相同的语法：`name [<data_type>] [:= <expr> | DEFAULT <expr>]`。如果省略初始化器，变量必须在读取之前被赋值；过早引用会触发错误 3129。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_with_declare()
@@ -78,7 +78,7 @@ CALL PROCEDURE sp_with_declare();
 
 ### 变量与赋值
 
-使用 `LET` 声明变量（Variable）或常量（Constant）。可以选择添加类型标注，并使用 `:=` 或 `DEFAULT` 关键字指定初始值。如果省略初始化器，变量必须在读取之前被赋值；提前引用会触发错误 3129。通过省略 `LET` 进行重新赋值。
+使用 `LET` 声明变量或常量。可以选择添加类型标注，并使用 `:=` 或 `DEFAULT` 关键字指定初始值。如果省略初始化器，变量必须在读取之前被赋值；提前引用会触发错误 3129。通过省略 `LET` 进行重新赋值。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_demo_variables()
@@ -106,7 +106,7 @@ CALL PROCEDURE sp_demo_variables();
 
 ### 变量作用域
 
-变量（Variable）的作用域限定在封闭块内。内部块可以遮蔽外部绑定，当块退出时恢复外部值。
+变量的作用域限定在封闭块内。内部块可以遮蔽外部绑定，当块退出时恢复外部值。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_demo_scope()
@@ -157,7 +157,7 @@ CALL PROCEDURE sp_demo_comments();
 
 ### Lambda 表达式
 
-Lambda 表达式定义可以传递给数组函数或在查询（Query）中调用的内联逻辑。它们遵循 `<parameter> -> <expression>` 形式（当提供多个参数时，将参数包装在括号中）。表达式可以包括类型转换、条件逻辑，甚至引用存储过程变量。
+Lambda 表达式定义可以传递给数组函数或在查询中调用的内联逻辑。它们遵循 `<parameter> -> <expression>` 形式（当提供多个参数时，将参数包装在括号中）。表达式可以包括类型转换、条件逻辑，甚至引用存储过程变量。
 
 - 在 SQL 语句中运行 Lambda 时，使用 `:variable_name` 引用存储过程变量。
 - `ARRAY_TRANSFORM` 和 `ARRAY_FILTER` 等函数会为输入数组中的每个元素评估 Lambda。
@@ -177,7 +177,7 @@ $$;
 CALL PROCEDURE sp_demo_lambda_array();
 ```
 
-Lambda 也可以出现在存储过程执行的查询（Query）中。
+Lambda 也可以出现在存储过程执行的查询中。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_demo_lambda_query()
@@ -326,7 +326,7 @@ CALL PROCEDURE sp_reverse_count(1, 5);
 
 #### `FOR ... IN` 查询
 
-直接迭代查询（Query）的结果。循环变量将列公开为字段。
+直接迭代查询的结果。循环变量将列公开为字段。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_sum_query(limit_rows INT)
@@ -345,7 +345,7 @@ $$;
 CALL PROCEDURE sp_sum_query(5);
 ```
 
-`FOR` 也可以迭代先前声明的结果集变量或游标（Cursor）（参见[处理查询结果](#处理查询结果)）。
+`FOR` 也可以迭代先前声明的结果集变量或游标（参见[处理查询结果](#处理查询结果)）。
 
 ### `WHILE`
 
@@ -450,7 +450,7 @@ CALL PROCEDURE sp_break_example(5);
 
 ### 结果集变量
 
-使用 `RESULTSET` 将查询（Query）结果具体化以供后续迭代。
+使用 `RESULTSET` 将查询结果具体化以供后续迭代。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_total_active_salary()
@@ -475,7 +475,7 @@ CALL PROCEDURE sp_total_active_salary();
 
 ### 游标
 
-当需要按需获取行时声明游标（Cursor）。
+当需要按需获取行时声明游标。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_fetch_two()
@@ -501,7 +501,7 @@ $$;
 CALL PROCEDURE sp_fetch_two();
 ```
 
-或者，从 `RESULTSET` 派生游标（Cursor）。
+或者，从 `RESULTSET` 派生游标。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_first_number()
@@ -526,7 +526,7 @@ CALL PROCEDURE sp_first_number();
 
 ### 迭代行
 
-结果集变量和游标（Cursor）可以使用 `FOR ... IN` 循环遍历。
+结果集变量和游标可以使用 `FOR ... IN` 循环遍历。
 
 ```sql
 CREATE OR REPLACE PROCEDURE sp_low_stock_count()
@@ -622,7 +622,7 @@ CALL PROCEDURE sp_dynamic_resultset();
 
 ## 注意事项和限制
 
-- 存储过程（Stored Procedure）在单个事务（Transaction）中执行；任何错误都会回滚存储过程内执行的工作。
+- 存储过程在单个事务中执行；任何错误都会回滚存储过程内执行的工作。
 - 返回值在客户端显示为字符串，即使声明了数字类型。
 - 没有 `TRY ... CATCH` 结构；显式验证输入并预测错误条件。
 - 在将标识符连接到动态 SQL 文本之前验证它们，以避免执行意外语句。

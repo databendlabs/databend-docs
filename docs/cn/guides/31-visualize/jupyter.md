@@ -1,5 +1,5 @@
 ---
-title: Jupyter Notebook 集成指南
+title: Jupyter Notebook
 sidebar_position: 6
 ---
 

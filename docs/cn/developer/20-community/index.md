@@ -1,10 +1,10 @@
 ---
-title: 社区
+title: Databend 社区
 ---
 
 # 欢迎来到 Databend 社区！
 
-加入我们，为 Databend 项目的成长贡献力量。以下是您可以参与的方式：
+加入我们，为 Databend 项目的成长贡献力量。参与方式如下：
 
 - **[RFCs](/developer/community/rfcs)**: 分享您对提议的功能和更改的见解。
 
@@ -14,9 +14,9 @@ title: 社区
 
 - **[贡献者指南](/developer/community/contributor)**: 了解如何为我们的成功做出贡献。
 
-# 与我们联系
+# 联系我们
 
-成为我们充满活力的社区的一员，向所有数据爱好者开放。通过以下方式与我们联系：
+加入我们充满活力的社区，通过以下方式与我们互动：
 
 - **Slack**: [加入我们的频道](https://link.databend.com/join-slack) 进行实时讨论。
 - **GitHub**: [访问我们的代码仓库](https://github.com/databendlabs/databend) 并帮助开发 Databend。

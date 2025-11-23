@@ -1,8 +1,8 @@
 ---
-title: 从文件加载数据
+title: 文件导入
 ---
 
-Databend 提供了简单而强大的命令，可将数据文件加载到表中。大多数操作只需一条命令即可完成。您的数据必须采用[支持的格式](/sql/sql-reference/file-format-options)。
+Databend 提供了简单而强大的命令，可将数据文件导入到表中。大多数操作只需一条命令即可完成。您的数据必须采用[支持的格式](/sql/sql-reference/file-format-options)。
 
 ![数据加载与卸载概览](/img/load/load-unload.jpeg)
 
@@ -22,7 +22,7 @@ Databend 提供了简单而强大的命令，可将数据文件加载到表中�
 
 | 数据源 | 推荐工具 | 描述 | 文档 |
 |-------------|-----------------|-------------|---------------|
-| **暂存数据文件** | **COPY INTO** | 从内部/外部 stage 或用户 stage 快速高效加载 | [从 Stage 加载](stage) |
-| **云存储** | **COPY INTO** | 从 Amazon S3、Google 云存储、Microsoft Azure 加载 | [从存储桶加载](s3) |
-| **本地文件** | [**BendSQL**](https://github.com/databendlabs/BendSQL) | Databend 原生 CLI 工具，用于本地文件加载 | [从本地文件加载](local) |
-| **远程文件** | **COPY INTO** | 从远程 HTTP/HTTPS 位置加载数据 | [从远程文件加载](http) |
+| **暂存数据文件** | **COPY INTO** | 从内部/外部 stage 或用户 stage 快速高效导入 | [从 Stage 加载](stage) |
+| **云存储** | **COPY INTO** | 从 Amazon S3、Google 云存储、Microsoft Azure 导入 | [从存储桶加载](s3) |
+| **本地文件** | [**BendSQL**](https://github.com/databendlabs/BendSQL) | Databend 原生 CLI 工具，用于本地文件导入 | [从本地文件加载](local) |
+| **远程文件** | **COPY INTO** | 从远程 HTTP/HTTPS 位置导入数据 | [从远程文件加载](http) |

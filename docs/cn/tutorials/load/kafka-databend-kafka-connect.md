@@ -1,5 +1,5 @@
 ---
-title: Loading from Kafka with databend-kafka-connect
+title: 从 Kafka 导入 (Kafka Connect)
 ---
 
 在本教程中，我们将使用 Kafka Connect sink connector 插件 [databend-kafka-connect](https://github.com/databendcloud/databend-kafka-connect) 建立 Confluent Cloud 中 Kafka 和 Databend Cloud 之间的连接。然后，我们将演示如何生成消息并将其加载到 Databend Cloud 中。

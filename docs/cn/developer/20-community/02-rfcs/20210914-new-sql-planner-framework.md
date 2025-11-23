@@ -1,5 +1,5 @@
 ---
-title: 新的 SQL Planner 框架设计
+title: 新 SQL Planner 框架设计
 description: 新的 SQL planner 框架设计 RFC
 ---
 

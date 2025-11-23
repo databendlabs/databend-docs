@@ -2,7 +2,7 @@
 title: 分析 AWS 账单
 ---
 
-在本教程中，我们将引导你完成导入 AWS 账单数据并使用 SQL 进行成本分析的过程。你将学习如何将 AWS 账单数据加载到 Databend Cloud 中，查询它以查找关键的成本驱动因素，并深入了解你的 AWS 使用情况。
+在本教程中，我们将介绍如何导入 AWS 账单数据并使用 SQL 进行成本分析。你将学习如何将 AWS 账单数据加载到 Databend Cloud 中，查询它以查找关键的成本驱动因素，并深入了解你的 AWS 使用情况。
 
 AWS 账单数据提供了你的云服务使用情况和相关成本的全面细分，可以直接从 AWS Billing Console 中的 AWS Cost and Usage Reports (CUR) 服务中以 Parquet 格式导出。在本教程中，我们将使用 Parquet 格式的示例数据集，该数据集可在 [https://datasets.databend.com/aws-billing.parquet](https://datasets.databend.com/aws-billing.parquet) 获得。该数据集遵循 CUR 标准，其中包括服务名称、使用类型和定价详细信息等字段。有关完整的架构参考，你可以参考 [AWS Cost and Usage Report Data Dictionary](https://docs.aws.amazon.com/cur/latest/userguide/data-dictionary.html)。
 

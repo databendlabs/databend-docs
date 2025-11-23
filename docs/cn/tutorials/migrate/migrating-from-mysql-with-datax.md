@@ -1,9 +1,9 @@
 ---
-title: 使用 DataX 从 MySQL 迁移
-sidebar_label: 'MySQL → Databend: DataX'
+title: 使用 DataX 迁移 MySQL
+sidebar_label: 'DataX'
 ---
 
-> **能力**: 全量加载, 增量
+> **功能**: 全量导入, 增量导入
 
 在本教程中，您将使用 DataX 将数据从 MySQL 加载到 Databend。在开始之前，请确保您已在您的环境中成功设置了 Databend、MySQL 和 DataX。
 

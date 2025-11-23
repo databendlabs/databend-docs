@@ -2,7 +2,7 @@
 title: Go
 ---
 
-# Databend Go 驱动
+# Go 驱动
 
 官方 Go 驱动，提供标准的 `database/sql` 接口，可与现有 Go 应用程序无缝集成。
 

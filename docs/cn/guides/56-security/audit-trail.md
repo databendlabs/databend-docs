@@ -1,12 +1,12 @@
 ---
-title: 审计追踪（Audit Trail）
+title: 审计追踪
 ---
 
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='AUDIT TRAIL'/>
 
-Databend 的系统历史表 (System History Tables) 会自动捕获数据库活动的详细记录，为合规性 (Compliance) 和安全监控 (Security Monitoring) 提供完整的审计追踪 (Audit Trail)。
+Databend 的系统历史表会自动捕获数据库活动的详细记录，为合规性和安全监控提供完整的审计追踪。
 
 支持对用户以下活动进行审计：
 - **查询执行** - 完整的 SQL 执行审计追踪 (`query_history`)
@@ -20,7 +20,7 @@ Databend 提供了五个系统历史表，用于捕获数据库活动的不同�
 | 表 | 用途 | 关键用例 |
 |-------|---------|---------------|
 | [query_history](/sql/sql-reference/system-history-tables/query-history) | 完整的 SQL 执行审计追踪 | 性能监控、安全审计、合规报告 |
-| [access_history](/sql/sql-reference/system-history-tables/access-history) | 数据库对象访问和修改 | 数据血缘 (Data Lineage) 追踪、合规审计、变更管理 (Change Management) |
+| [access_history](/sql/sql-reference/system-history-tables/access-history) | 数据库对象访问和修改 | 数据血缘追踪、合规审计、变更管理 |
 | [login_history](/sql/sql-reference/system-history-tables/login-history) | 身份验证尝试和会话 | 安全监控、失败登录检测、访问模式分析 |
 
 ## 审计用例与示例
@@ -49,7 +49,7 @@ error_message: UnknownUser. Code: 2201, Text = User 'root1'@'%' does not exist.
 
 ### 合规报告
 
-**跟踪数据库模式 (Schema) 变更**
+**跟踪数据库模式变更**
 
 监控 DDL 操作，以满足合规性和变更管理要求。
 

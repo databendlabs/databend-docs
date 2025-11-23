@@ -2,7 +2,7 @@
 title: Node.js
 ---
 
-# Databend Node.js 驱动
+# Node.js 驱动
 
 官方 Node.js 驱动，为现代 JavaScript 应用程序提供 TypeScript 支持和基于 Promise 的 API。
 
