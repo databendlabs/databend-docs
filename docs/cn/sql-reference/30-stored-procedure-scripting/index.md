@@ -1,5 +1,5 @@
 ---
-title: 存储过程（Stored Procedure）与 SQL 脚本
+title: 存储过程与 SQL 脚本
 slug: /stored-procedure-scripting/
 ---
 
