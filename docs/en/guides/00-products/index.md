@@ -31,7 +31,7 @@ Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> documentat
 **Unified Workloads**
 
 - **[SQL Analytics Guide](/guides/query/sql-analytics)**: Shared session tables for analytics, search, vector, and geo workloads.
-- **[JSON & Search Guide](/guides/query/json-search)**: Query VARIANT payloads with inverted indexes and Lucene-style `QUERY`.
+- **[JSON & Search Guide](/guides/query/json-search)**: Query VARIANT payloads with inverted indexes and Elasticsearch-style `QUERY`.
 - **[Vector Database Guide](/guides/query/vector-db)**: Store embeddings and run semantic similarity inside Databend.
 - **[Geo Analytics Guide](/guides/query/geo-analytics)**: Map incidents with geospatial SQL for real-time insights.
 - **[Lakehouse ETL Guide](/guides/query/lakehouse-etl)**: Stream object storage files into managed tables without silos.
