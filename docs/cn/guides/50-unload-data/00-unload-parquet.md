@@ -15,7 +15,7 @@ FILE_FORMAT = (TYPE = PARQUET)
 ```
 
 - 更多 Parquet 选项请参考 [Parquet File Format Options](/sql/sql-reference/file-format-options#parquet-options)
-- 卸载到多个文件请使用 [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
+- 导出到多个文件请使用 [MAX_FILE_SIZE Copy Option](/sql/sql-commands/dml/dml-copy-into-location#copyoptions)
 - 更多关于语法的细节可以在 [COPY INTO location](/sql/sql-commands/dml/dml-copy-into-location) 中找到
 
 ## 教程
@@ -39,7 +39,7 @@ CREATE FILE FORMAT parquet_unload_format
     ;
 ```
 
-### Step 3. 卸载到 Parquet 文件
+### Step 3. 导出到 Parquet 文件
 
 ```sql
 COPY INTO @parquet_unload_stage
@@ -62,7 +62,7 @@ DETAILED_OUTPUT = true;
 └───────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Step 4. 验证卸载的 Parquet 文件
+### Step 4. 验证导出的 Parquet 文件
 
 ```sql
 SELECT COUNT($1)
