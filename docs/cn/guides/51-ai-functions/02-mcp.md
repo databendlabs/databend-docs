@@ -1,6 +1,10 @@
+---
+title: 集成 MCP Server
+---
+
 import DetailsWrap from '@site/src/components/DetailsWrap';
 
-# 适用于 Databend 的 MCP Server
+# 集成 MCP Server
 
 [mcp-databend](https://github.com/databendlabs/mcp-databend) 是一个 MCP（Model Context Protocol）服务器，使 AI 助手能够使用自然语言直接与你的 Databend 数据库交互。
 

@@ -1,8 +1,8 @@
 ---
-title: 卸载 Parquet 文件
+title: 导出 Parquet
 ---
 
-## 卸载 Parquet 文件
+## 导出 Parquet
 
 语法：
 

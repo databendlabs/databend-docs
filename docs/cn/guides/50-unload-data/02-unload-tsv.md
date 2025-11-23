@@ -1,8 +1,8 @@
 ---
-title: 卸载 TSV 文件
+title: 导出 TSV
 ---
 
-## 卸载 TSV 文件
+## 导出 TSV
 
 语法：
 

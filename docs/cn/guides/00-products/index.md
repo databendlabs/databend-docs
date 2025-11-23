@@ -12,38 +12,38 @@ import Speaker from '@site/src/components/Speaker'
 
 <DocsOverview />
 
-**核心主题概览：**
+**核心功能概览：**
 
 **快速上手**
 
-- **[快速开始](/guides/deploy/quickstart)**: 使用 Docker 快速启动 Databend，加载示例数据并体验核心功能。
-- **[Databend Cloud](/guides/cloud)**: 创建 Serverless 数仓，高效管理组织与数据资源。
-- **[连接 Databend](/guides/sql-clients)**: 支持主流 SQL 客户端及编程语言，连接并使用 Databend。
-- **[SQL 参考](/sql)**: 查阅 Databend 支持的 SQL 命令、函数及语法详情。
+- **[快速开始](/guides/deploy/quickstart)**: 使用 Docker 快速启动，轻松加载示例数据。
+- **[Databend Cloud](/guides/cloud)**: 启动 Serverless 数仓，轻松管理组织与数据。
+- **[连接 Databend](/guides/sql-clients)**: 使用各类 SQL 客户端及编程语言连接 Databend。
+- **[SQL 参考](/sql)**: 浏览 Databend SQL 命令、函数及语法。
 
 **数据处理**
 
-- **[数据加载](/guides/load-data)**: 支持从多种数据源高效导入数据。
-- **[数据卸载](/guides/unload-data)**: 将数据导出为多种格式，满足下游处理需求。
-- **[半结构化数据](/sql/sql-functions/semi-structured-functions)**: 利用 VARIANT 类型，高效处理 JSON、数组及嵌套数据。
+- **[数据导入](/guides/load-data)**: 从多种数据源将数据导入 Databend。
+- **[数据导出](/guides/unload-data)**: 将数据导出为不同格式，适配下游需求。
+- **[半结构化数据](/sql/sql-functions/semi-structured-functions)**: 使用 VARIANT 类型处理 JSON、数组及嵌套数据。
 
-**统一分析场景**
+**多模态分析**
 
-- **[SQL 分析指南](/guides/query/sql-analytics)**: 基于统一平台，处理分析、搜索、向量及地理空间任务。
-- **[JSON 与搜索指南](/guides/query/json-search)**: 结合倒排索引与 Elasticsearch 语法，实现 VARIANT 数据的高效检索。
-- **[向量数据库指南](/guides/query/vector-db)**: 原生存储向量数据（Embeddings），直接在 SQL 中进行语义相似度计算。
-- **[地理分析指南](/guides/query/geo-analytics)**: 利用地理空间 SQL 能力，进行地图绘制与位置分析。
-- **[湖仓 ETL 指南](/guides/query/lakehouse-etl)**: 将对象存储文件流式写入托管表，消除数据孤岛。
+- **[SQL 分析](/guides/query/sql-analytics)**: 基于共享会话表，统一处理分析、搜索、向量和地理空间任务。
+- **[JSON 与搜索](/guides/query/json-search)**: 利用倒排索引和 Elasticsearch 语法高效查询 VARIANT 数据。
+- **[向量数据库](/guides/query/vector-db)**: 存储向量数据（Embeddings）并进行语义相似度计算。
+- **[地理分析](/guides/query/geo-analytics)**: 使用地理空间 SQL 进行地图绘制与实时分析。
+- **[湖仓 ETL](/guides/query/lakehouse-etl)**: 将对象存储文件流式写入托管表，消除数据孤岛。
 
 **性能与扩展**
 
-- **[性能优化](/guides/performance)**: 了解核心优化策略，提升查询性能。
-- **[基准测试](/guides/benchmark)**: 查看 Databend 与其他数仓的性能对比报告。
-- **[数据湖仓](/sql/sql-reference/table-engines)**: 集成 Hive, Iceberg 和 Delta Lake，构建开放的数据湖仓。
+- **[性能优化](/guides/performance)**: 利用多种策略提升查询性能。
+- **[基准测试](/guides/benchmark)**: 查看 Databend 与其他数仓的性能对比。
+- **[数据湖仓](/sql/sql-reference/table-engines)**: 无缝集成 Hive、Iceberg 和 Delta Lake。
 
 **社区与支持**
 
-- **[加入 Slack](https://link.databend.com/join-slack)**: 加入社区，与核心开发团队及用户交流。
-- **[文档反馈](https://github.com/databendlabs/databend-docs/issues)**: 提交文档问题或改进建议。
-- **[路线图](https://github.com/databendlabs/databend/issues/14167)**: 关注开发计划，了解未来功能规划。
-- **[联系我们](mailto:hi@databend.com)**: 如需帮助，请邮件联系我们。
+- **[加入 Slack](https://link.databend.com/join-slack)**: 与核心团队及社区成员实时交流。
+- **[文档反馈](https://github.com/databendlabs/databend-docs/issues)**: 提交问题或改进建议。
+- **[路线图](https://github.com/databendlabs/databend/issues/14167)**: 跟踪功能规划与开发进度。
+- **[联系我们](mailto:hi@databend.com)**: 获取直接帮助与支持。

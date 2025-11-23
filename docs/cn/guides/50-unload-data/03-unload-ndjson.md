@@ -1,8 +1,8 @@
 ---
-title: Unloading NDJSON File
+title: 导出 NDJSON
 ---
 
-## Unloading TSV File
+## 导出 NDJSON
 
 语法：
 

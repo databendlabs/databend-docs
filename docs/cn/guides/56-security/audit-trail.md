@@ -1,5 +1,5 @@
 ---
-title: 审计追踪（Audit Trail）
+title: 审计追踪
 ---
 
 import EEFeature from '@site/src/components/EEFeature';

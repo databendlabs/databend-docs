@@ -1,5 +1,5 @@
 ---
-title: MindsDB 集成指南
+title: MindsDB
 sidebar_position: 7
 ---
 

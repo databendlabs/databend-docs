@@ -1,5 +1,5 @@
 ---
-title: Databend 企业版（Enterprise）
+title: Databend 企业版
 sidebar_position: 3
 ---
 
