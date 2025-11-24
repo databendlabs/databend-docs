@@ -1,6 +1,6 @@
 ---
-title: 使用 Kafka Connect 迁移 MySQL（CDC）
-sidebar_label: 'MySQL → Databend：Kafka Connect（CDC）'
+title: 使用 Kafka Connect 实时同步 MySQL
+sidebar_label: 'Kafka Connect 实时同步 MySQL'
 ---
 
 > **能力**：CDC、增量、全量

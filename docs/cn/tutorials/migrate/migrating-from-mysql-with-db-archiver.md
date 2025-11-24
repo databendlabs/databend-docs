@@ -1,6 +1,6 @@
 ---
-title: 使用 db-archiver 迁移 MySQL（批量）
-sidebar_label: 'MySQL → Databend：db-archiver（批量）'
+title: 使用 db-archiver 离线迁移 MySQL
+sidebar_label: 'db-archiver 离线迁移 MySQL'
 ---
 
 > **能力**：全量、增量  

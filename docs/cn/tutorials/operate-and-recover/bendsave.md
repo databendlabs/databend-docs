@@ -1,5 +1,6 @@
 ---
-title: 使用 BendSave 备份与恢复
+title: 使用 BendSave 备份与恢复数据
+sidebar_label: 'BendSave 备份与恢复'
 ---
 
 本教程将演示如何使用 BendSave 备份与恢复数据。我们会以本地 MinIO 作为 Databend 的 S3 兼容存储以及备份目标。
