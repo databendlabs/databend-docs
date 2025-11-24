@@ -1,5 +1,5 @@
 ---
-title: "Python Driver（Cloud）"
+title: "基于 Python Driver 开发 (Cloud)"
 ---
 
 本教程将演示如何使用 `databend-driver` 连接 Databend Cloud，并通过 Python 创建表、插入数据与查询结果。

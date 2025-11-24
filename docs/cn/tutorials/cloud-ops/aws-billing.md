@@ -1,6 +1,6 @@
 ---
-title: "AWS 账单"
-sidebar_label: "AWS 账单"
+title: "查看 AWS 账单"
+sidebar_label: "查看账单"
 ---
 
 在本教程中，我们将演示如何导入 AWS 账单数据，并通过 SQL 进行成本分析。你会学习如何把 AWS 账单数据加载进 Databend Cloud、使用查询找出主要成本驱动因素，并洞察 AWS 的使用方式。

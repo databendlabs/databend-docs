@@ -1,5 +1,5 @@
 ---
-title: Vector 自动摄取日志
+title: 使用 Vector 自动同步日志
 ---
 
 本教程将模拟本地生成日志，借助 [Vector](https://vector.dev/) 收集后写入 S3，并通过定时任务在 Databend Cloud 中自动加载。

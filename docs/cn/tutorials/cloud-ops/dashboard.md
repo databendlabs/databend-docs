@@ -1,6 +1,6 @@
 ---
-title: "仪表盘导览"
-sidebar_label: "仪表盘导览"
+title: "使用仪表盘"
+sidebar_label: "使用仪表盘"
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
