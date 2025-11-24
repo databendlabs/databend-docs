@@ -9,13 +9,13 @@ description: 查找覆盖连接、摄取、迁移、开发与运维 Databend 的
 
 挑选一个任务开始上手：
 
-## 连接 Databend
+## 客户端连接
 - [使用 BendSQL 连接自建 Databend](/tutorials/getting-started/connect-to-databend-bendsql)
 - [使用 DBeaver 连接自建 Databend](/tutorials/getting-started/connect-to-databend-dbeaver)
 - [使用 BendSQL 连接 Databend Cloud](/tutorials/getting-started/connect-to-databendcloud-bendsql)
 - [使用 DBeaver 连接 Databend Cloud](/tutorials/getting-started/connect-to-databendcloud-dbeaver)
 
-## 数据导入
+## 数据接入
 - [使用 Bend Ingest 导入 Kafka 数据](/tutorials/ingest-and-stream/kafka-bend-ingest-kafka)
 - [使用 Kafka Connect 导入 Kafka 数据](/tutorials/ingest-and-stream/kafka-databend-kafka-connect)
 - [使用 Vector 同步 JSON 日志](/tutorials/ingest-and-stream/automating-json-log-loading-with-vector)
@@ -36,7 +36,7 @@ description: 查找覆盖连接、摄取、迁移、开发与运维 Databend 的
 - [SQLAlchemy 开发指南（Cloud）](/tutorials/develop/python/integrating-with-databend-cloud-using-databend-sqlalchemy)
 - [Python Driver 开发指南（自建）](/tutorials/develop/python/integrating-with-self-hosted-databend)
 
-## 备份与还原
+## 备份与恢复
 - [使用 BendSave 备份与恢复数据](/tutorials/operate-and-recover/bendsave)
 
 ## Cloud 平台功能
