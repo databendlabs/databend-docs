@@ -418,19 +418,19 @@
     "description": "Did this page help you?"
   },
   "Try Databend Cloud for FREE": {
-    "message": "开始使用 Databend Cloud",
+    "message": "欢迎体验 Databend Cloud",
     "description": "Try Databend Cloud for FREE"
   },
   "Multimodal, object-storage-native warehouse for BI, vectors, search, and geo.": {
-    "message": "基于对象存储的一体化多模仓库：BI/向量/搜索/地理。",
+    "message": "基于 Rust + 对象存储构建的新一代多模态数仓，一个平台即可进行 BI、向量、全文检索及地理空间分析。",
     "description": "Try Cloud card body line 1"
   },
   "Snowflake-compatible SQL with automatic scaling.": {
-    "message": "Snowflake 兼容 SQL，自动弹性扩展。",
+    "message": "支持标准 SQL，自动弹性伸缩，助您快速构建现代化数据平台。",
     "description": "Try Cloud card body line 2"
   },
   "Sign up and get $200 in credits.": {
-    "message": "注册即享 $200 额度。",
+    "message": "注册即领 ￥200 代金券。",
     "description": "Try Cloud card body line 3"
   },
   "Low-cost": {
@@ -450,7 +450,7 @@
     "description": "Elastic Scaling"
   },
   "Try it today": {
-    "message": "注册",
+    "message": "注册体验",
     "description": "Try it today"
   },
   "Join our growing community": {
