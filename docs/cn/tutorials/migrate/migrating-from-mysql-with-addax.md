@@ -1,5 +1,5 @@
 ---
-title: Addax 迁移 MySQL
+title: MySQL 离线迁移 (Addax)
 sidebar_label: Addax
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Debezium 同步 MySQL
+title: MySQL 实时同步 (Debezium)
 sidebar_label: Debezium
 ---
 

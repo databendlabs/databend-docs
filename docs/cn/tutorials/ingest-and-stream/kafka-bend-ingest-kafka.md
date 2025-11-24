@@ -1,5 +1,5 @@
 ---
-title: Bend Ingest 接入 Kafka
+title: 从 Kafka 导入数据 (Bend Ingest)
 sidebar_label: Bend Ingest
 ---
 

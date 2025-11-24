@@ -1,5 +1,5 @@
 ---
-title: "跨库数据共享"
+title: "跨库共享数据"
 sidebar_label: "数据共享"
 ---
 

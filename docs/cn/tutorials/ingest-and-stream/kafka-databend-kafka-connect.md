@@ -1,5 +1,5 @@
 ---
-title: Kafka Connect 接入 Kafka
+title: 从 Kafka 导入数据 (Kafka Connect)
 sidebar_label: Kafka Connect
 ---
 

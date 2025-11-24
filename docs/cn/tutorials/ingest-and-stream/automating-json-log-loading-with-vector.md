@@ -1,5 +1,5 @@
 ---
-title: Vector 同步 JSON 日志
+title: 自动同步 JSON 日志 (Vector)
 sidebar_label: Vector
 ---
 

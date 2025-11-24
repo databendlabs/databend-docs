@@ -1,5 +1,5 @@
 ---
-title: Kafka Connect 同步 MySQL
+title: MySQL 实时同步 (Kafka Connect)
 sidebar_label: Kafka Connect
 ---
 

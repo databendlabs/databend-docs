@@ -1,5 +1,5 @@
 ---
-title: 挂载 MySQL / Redis 外部字典
+title: 访问外部字典 (MySQL / Redis)
 sidebar_label: 外部字典
 ---
 

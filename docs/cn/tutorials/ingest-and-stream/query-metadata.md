@@ -1,5 +1,5 @@
 ---
-title: 查询元数据
+title: 查询系统元数据
 sidebar_label: 系统元数据
 ---
 

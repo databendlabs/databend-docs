@@ -1,5 +1,5 @@
 ---
-title: DataX 迁移 MySQL
+title: MySQL 离线迁移 (DataX)
 sidebar_label: DataX
 ---
 
