@@ -1,6 +1,6 @@
 ---
 title: MySQL 实时同步 (Kafka Connect)
-sidebar_label: Kafka Connect
+sidebar_label: 'Kafka Connect (MySQL)'
 ---
 
 > **能力**：CDC、增量、全量

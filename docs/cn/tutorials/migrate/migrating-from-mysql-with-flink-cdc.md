@@ -1,6 +1,6 @@
 ---
 title: MySQL 实时同步 (Flink CDC)
-sidebar_label: Flink CDC
+sidebar_label: 'Flink CDC (MySQL)'
 ---
 
 > **能力**：CDC、全量、转换

@@ -1,6 +1,6 @@
 ---
 title: MySQL 实时同步 (Debezium)
-sidebar_label: Debezium
+sidebar_label: 'Debezium (MySQL)'
 ---
 
 > **能力**：CDC、全量  
