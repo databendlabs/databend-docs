@@ -1,5 +1,5 @@
 ---
-title: 从 Snowflake 迁移数据
+title: Snowflake 迁移指南
 sidebar_label: Snowflake
 
 ---

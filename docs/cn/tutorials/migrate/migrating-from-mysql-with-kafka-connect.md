@@ -1,6 +1,6 @@
 ---
-title: 使用 Kafka Connect 同步 MySQL
-sidebar_label: 'Kafka Connect'
+title: Kafka Connect 同步 MySQL
+sidebar_label: Kafka Connect
 ---
 
 > **能力**：CDC、增量、全量

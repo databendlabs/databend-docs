@@ -1,6 +1,6 @@
 ---
-title: 使用 db-archiver 迁移 MySQL
-sidebar_label: 'db-archiver'
+title: db-archiver 迁移 MySQL
+sidebar_label: db-archiver
 ---
 
 > **能力**：全量、增量  
