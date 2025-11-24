@@ -39,7 +39,7 @@ description: 查找覆盖连接、摄取、迁移、开发与运维 Databend 的
 ## 备份与还原
 - [使用 BendSave 备份与恢复数据](/tutorials/operate-and-recover/bendsave)
 
-## Cloud 平台管理
+## 管理 Databend Cloud
 - [查看 AWS 账单](/tutorials/cloud-ops/aws-billing)
 - [仪表盘使用指南](/tutorials/cloud-ops/dashboard)
 - [跨库共享数据](/tutorials/cloud-ops/link-tables)
