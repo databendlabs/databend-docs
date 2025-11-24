@@ -10,35 +10,35 @@ description: 查找覆盖连接、摄取、迁移、开发与运维 Databend 的
 挑选一个任务开始上手：
 
 ## 连接 Databend
-- [连接自建 Databend（BendSQL）](/tutorials/getting-started/connect-to-databend-bendsql)
-- [连接自建 Databend（DBeaver）](/tutorials/getting-started/connect-to-databend-dbeaver)
-- [连接 Databend Cloud（BendSQL）](/tutorials/getting-started/connect-to-databendcloud-bendsql)
-- [连接 Databend Cloud（DBeaver）](/tutorials/getting-started/connect-to-databendcloud-dbeaver)
+- [使用 BendSQL 连接自建 Databend](/tutorials/getting-started/connect-to-databend-bendsql)
+- [使用 DBeaver 连接自建 Databend](/tutorials/getting-started/connect-to-databend-dbeaver)
+- [使用 BendSQL 连接 Databend Cloud](/tutorials/getting-started/connect-to-databendcloud-bendsql)
+- [使用 DBeaver 连接 Databend Cloud](/tutorials/getting-started/connect-to-databendcloud-dbeaver)
 
 ## 数据导入
-- [Kafka 数据导入（Bend Ingest）](/tutorials/ingest-and-stream/kafka-bend-ingest-kafka)
-- [Kafka 数据导入（Kafka Connect）](/tutorials/ingest-and-stream/kafka-databend-kafka-connect)
-- [JSON 日志同步（Vector）](/tutorials/ingest-and-stream/automating-json-log-loading-with-vector)
-- [挂载外部字典（MySQL / Redis）](/tutorials/ingest-and-stream/access-mysql-and-redis)
+- [使用 Bend Ingest 导入 Kafka 数据](/tutorials/ingest-and-stream/kafka-bend-ingest-kafka)
+- [使用 Kafka Connect 导入 Kafka 数据](/tutorials/ingest-and-stream/kafka-databend-kafka-connect)
+- [使用 Vector 同步 JSON 日志](/tutorials/ingest-and-stream/automating-json-log-loading-with-vector)
+- [挂载 MySQL / Redis 外部字典](/tutorials/ingest-and-stream/access-mysql-and-redis)
 - [查询系统元数据](/tutorials/ingest-and-stream/query-metadata)
 
 ## 数据迁移
 - [迁移方案概览](/tutorials/migrate/)
-- [MySQL 实时同步（Debezium）](/tutorials/migrate/migrating-from-mysql-with-debezium)
-- [MySQL 实时同步（Flink CDC）](/tutorials/migrate/migrating-from-mysql-with-flink-cdc)
-- [MySQL 实时同步（Kafka Connect）](/tutorials/migrate/migrating-from-mysql-with-kafka-connect)
-- [MySQL 离线迁移（db-archiver）](/tutorials/migrate/migrating-from-mysql-with-db-archiver)
-- [MySQL 离线迁移（DataX）](/tutorials/migrate/migrating-from-mysql-with-datax)
-- [MySQL 离线迁移（Addax）](/tutorials/migrate/migrating-from-mysql-with-addax)
-- [Snowflake 数据迁移](/tutorials/migrate/migrating-from-snowflake)
+- [使用 Debezium 实时同步 MySQL](/tutorials/migrate/migrating-from-mysql-with-debezium)
+- [使用 Flink CDC 实时同步 MySQL](/tutorials/migrate/migrating-from-mysql-with-flink-cdc)
+- [使用 Kafka Connect 实时同步 MySQL](/tutorials/migrate/migrating-from-mysql-with-kafka-connect)
+- [使用 db-archiver 离线迁移 MySQL](/tutorials/migrate/migrating-from-mysql-with-db-archiver)
+- [使用 DataX 离线迁移 MySQL](/tutorials/migrate/migrating-from-mysql-with-datax)
+- [使用 Addax 离线迁移 MySQL](/tutorials/migrate/migrating-from-mysql-with-addax)
+- [从 Snowflake 迁移数据](/tutorials/migrate/migrating-from-snowflake)
 
 ## 应用开发
-- [Python Driver 开发（Cloud）](/tutorials/develop/python/integrating-with-databend-cloud-using-databend-driver)
-- [SQLAlchemy 开发（Cloud）](/tutorials/develop/python/integrating-with-databend-cloud-using-databend-sqlalchemy)
-- [Python Driver 开发（自建）](/tutorials/develop/python/integrating-with-self-hosted-databend)
+- [Python Driver 开发指南（Cloud）](/tutorials/develop/python/integrating-with-databend-cloud-using-databend-driver)
+- [SQLAlchemy 开发指南（Cloud）](/tutorials/develop/python/integrating-with-databend-cloud-using-databend-sqlalchemy)
+- [Python Driver 开发指南（自建）](/tutorials/develop/python/integrating-with-self-hosted-databend)
 
 ## 备份与还原
-- [数据备份与恢复（BendSave）](/tutorials/operate-and-recover/bendsave)
+- [使用 BendSave 备份与恢复数据](/tutorials/operate-and-recover/bendsave)
 
 ## Cloud 平台管理
 - [查看 AWS 账单](/tutorials/cloud-ops/aws-billing)

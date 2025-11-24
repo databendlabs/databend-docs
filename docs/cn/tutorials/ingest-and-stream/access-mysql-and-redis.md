@@ -1,6 +1,6 @@
 ---
-title: 挂载外部字典 (MySQL / Redis)
-sidebar_label: 挂载外部字典 (MySQL / Redis)
+title: 挂载 MySQL / Redis 外部字典
+sidebar_label: 挂载 MySQL / Redis 字典
 ---
 
 本教程将演示如何在 Databend 中通过 Dictionary 访问 MySQL 与 Redis 数据。你将学习如何为外部数据源创建 Dictionary，并像查询本地表一样无缝读取这些数据。

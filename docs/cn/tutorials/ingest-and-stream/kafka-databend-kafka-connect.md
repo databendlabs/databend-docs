@@ -1,6 +1,6 @@
 ---
-title: Kafka 数据导入 (Kafka Connect)
-sidebar_label: 'Kafka 数据导入 (Kafka Connect)'
+title: 使用 Kafka Connect 导入 Kafka 数据
+sidebar_label: 'Kafka Connect 导入 Kafka'
 ---
 
 本教程将演示如何在 Confluent Cloud 中的 Kafka 与 Databend Cloud 之间搭建 Kafka Connect Sink 流水线，使用 [databend-kafka-connect](https://github.com/databendcloud/databend-kafka-connect) 插件生产消息并写入 Databend Cloud。

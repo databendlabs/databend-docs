@@ -1,6 +1,6 @@
 ---
-title: MySQL 离线迁移 (DataX)
-sidebar_label: 'MySQL 离线迁移 (DataX)'
+title: 使用 DataX 离线迁移 MySQL
+sidebar_label: 'DataX 离线迁移 MySQL'
 ---
 
 > **能力**：全量、增量

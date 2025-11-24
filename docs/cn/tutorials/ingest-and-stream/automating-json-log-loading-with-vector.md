@@ -1,6 +1,6 @@
 ---
-title: JSON 日志同步 (Vector)
-sidebar_label: 'JSON 日志同步 (Vector)'
+title: 使用 Vector 同步 JSON 日志
+sidebar_label: 'Vector 同步 JSON 日志'
 ---
 
 本教程将模拟本地生成日志，借助 [Vector](https://vector.dev/) 收集后写入 S3，并通过定时任务在 Databend Cloud 中自动加载。
