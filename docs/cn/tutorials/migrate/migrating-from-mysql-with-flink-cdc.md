@@ -1,6 +1,6 @@
 ---
-title: 使用 Flink CDC 迁移 MySQL
-sidebar_label: 'MySQL → Databend：Flink CDC'
+title: MySQL 实时同步：Flink CDC
+sidebar_label: 'MySQL 实时同步：Flink CDC'
 ---
 
 > **能力**：CDC、全量、转换

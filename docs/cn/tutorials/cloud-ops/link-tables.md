@@ -1,6 +1,6 @@
 ---
-title: "Databend Cloud：通过 ATTACH TABLE 共享数据"
-sidebar_label: "数据共享"
+title: "跨库关联表"
+sidebar_label: "跨库关联表"
 ---
 
 本教程将演示如何在 Databend Cloud 中使用 [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) 命令，将一张 Databend Cloud 表链接到存放在 S3 Bucket 中的自建 Databend 表。

@@ -1,6 +1,6 @@
 ---
-title: 使用 Addax 迁移 MySQL（批量）
-sidebar_label: 'MySQL → Databend：Addax（批量）'
+title: MySQL 离线迁移：Addax
+sidebar_label: 'MySQL 离线迁移：Addax'
 ---
 
 > **能力**：全量、增量

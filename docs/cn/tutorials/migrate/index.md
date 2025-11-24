@@ -1,5 +1,5 @@
 ---
-title: 规划向 Databend 的迁移
+title: 迁移方案概览
 ---
 
 # 数据迁移到 Databend

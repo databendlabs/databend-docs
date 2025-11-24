@@ -1,6 +1,6 @@
 ---
-title: "Databend Cloud：仪表盘导览"
-sidebar_label: "Dashboard"
+title: "仪表盘导览"
+sidebar_label: "仪表盘导览"
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';

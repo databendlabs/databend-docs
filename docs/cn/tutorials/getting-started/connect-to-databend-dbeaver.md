@@ -1,5 +1,5 @@
 ---
-title: "使用 DBeaver 连接（自建版）"
+title: "DBeaver 连接（自建版）"
 sidebar_label: "DBeaver（自建版）"
 ---
 

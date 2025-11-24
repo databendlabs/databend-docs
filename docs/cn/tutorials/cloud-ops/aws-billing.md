@@ -1,5 +1,5 @@
 ---
-title: "Databend Cloud：AWS 账单"
+title: "AWS 账单"
 sidebar_label: "AWS 账单"
 ---
 

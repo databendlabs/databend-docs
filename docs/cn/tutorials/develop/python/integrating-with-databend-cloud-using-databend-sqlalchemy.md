@@ -1,5 +1,5 @@
 ---
-title: "Python：使用 SQLAlchemy 连接 Databend Cloud"
+title: "SQLAlchemy（Cloud）"
 ---
 
 本教程将演示如何借助 `databend-sqlalchemy` 连接 Databend Cloud，并使用 Python 创建表、插入数据与查询结果。

@@ -1,5 +1,5 @@
 ---
-title: "使用 BendSQL 连接（自建版）"
+title: "BendSQL 连接（自建版）"
 sidebar_label: "BendSQL（自建版）"
 ---
 

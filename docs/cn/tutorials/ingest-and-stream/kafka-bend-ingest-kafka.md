@@ -1,5 +1,5 @@
 ---
-title: 使用 Bend Ingest 接入 Kafka
+title: Kafka 写入：Bend Ingest
 ---
 
 本教程将指导你通过 Docker 搭建 Kafka 环境，并使用 [bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka) 将 Kafka 消息加载到 Databend Cloud。
