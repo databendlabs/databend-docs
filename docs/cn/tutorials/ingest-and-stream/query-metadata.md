@@ -1,6 +1,6 @@
 ---
-title: 查询系统元数据
-sidebar_label: 查询系统元数据
+title: 查询 Stage 文件元数据
+sidebar_label: 查询 Stage 文件元数据
 ---
 
 本教程将演示如何把示例 Parquet 文件上传到 Internal Stage、推断其列定义，并创建带有文件级元数据字段的表，以便追踪每行数据来自哪个文件、对应的行号等。

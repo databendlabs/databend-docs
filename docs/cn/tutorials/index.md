@@ -19,7 +19,7 @@ description: 查找覆盖连接、摄取、迁移、开发与运维 Databend 的
 - [使用 Bend Ingest 导入 Kafka 数据](/tutorials/ingest-and-stream/kafka-bend-ingest-kafka)
 - [使用 Kafka Connect 导入 Kafka 数据](/tutorials/ingest-and-stream/kafka-databend-kafka-connect)
 - [使用 Vector 同步 JSON 日志](/tutorials/ingest-and-stream/automating-json-log-loading-with-vector)
-- [查询系统元数据](/tutorials/ingest-and-stream/query-metadata)
+- [查询 Stage 文件元数据](/tutorials/ingest-and-stream/query-metadata)
 
 ## 数据迁移
 - [迁移方案概览](/tutorials/migrate/)
