@@ -42,6 +42,7 @@
     "antd": "^6.0.0",
     "axios": "^1.13.2",
     "clsx": "^2.0.0",
+    "copy-to-clipboard": "^3.3.3",
     "copyforjs": "^1.0.6",
     "databend-logos": "^0.0.16",
     "docusaurus-plugin-devserver": "^1.0.6",
