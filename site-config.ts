@@ -2,6 +2,7 @@ import XSvg from './static/icons/x';
 export const siteConfig = {
   zh: {
     homeLink: 'https://www.databend.cn',
+    iconLink: '/guides/',
     cloudLink: 'https://app.databend.cn',
     docsHomeLink: 'https://docs.databend.cn',
     algolia: {
@@ -15,6 +16,7 @@ export const siteConfig = {
   },
   en: {
     homeLink: 'https://www.databend.com',
+    iconLink: '/guides/',
     cloudLink: 'https://app.databend.com',
     docsHomeLink: 'https://docs.databend.com',
     algolia: {

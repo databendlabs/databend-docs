@@ -1,14 +1,15 @@
 ---
-title: 分析 AWS 账单
+title: "Databend Cloud：AWS 账单"
+sidebar_label: "AWS 账单"
 ---
 
-在本教程中，我们将介绍如何导入 AWS 账单数据并使用 SQL 进行成本分析。你将学习如何将 AWS 账单数据加载到 Databend Cloud 中，查询它以查找关键的成本驱动因素，并深入了解你的 AWS 使用情况。
+在本教程中，我们将演示如何导入 AWS 账单数据，并通过 SQL 进行成本分析。你会学习如何把 AWS 账单数据加载进 Databend Cloud、使用查询找出主要成本驱动因素，并洞察 AWS 的使用方式。
 
-AWS 账单数据提供了你的云服务使用情况和相关成本的全面细分，可以直接从 AWS Billing Console 中的 AWS Cost and Usage Reports (CUR) 服务中以 Parquet 格式导出。在本教程中，我们将使用 Parquet 格式的示例数据集，该数据集可在 [https://datasets.databend.com/aws-billing.parquet](https://datasets.databend.com/aws-billing.parquet) 获得。该数据集遵循 CUR 标准，其中包括服务名称、使用类型和定价详细信息等字段。有关完整的架构参考，你可以参考 [AWS Cost and Usage Report Data Dictionary](https://docs.aws.amazon.com/cur/latest/userguide/data-dictionary.html)。
+AWS 账单数据详细记录了云服务的用量及对应费用，可直接在 AWS Billing Console 的 Cost and Usage Reports (CUR) 服务中以 Parquet 格式导出。本教程所用的数据集位于 [https://datasets.databend.com/aws-billing.parquet](https://datasets.databend.com/aws-billing.parquet)，遵循 CUR 规范，包含服务名称、用量类型、定价等字段。完整的字段释义请参考 [AWS Cost and Usage Report Data Dictionary](https://docs.aws.amazon.com/cur/latest/userguide/data-dictionary.html)。
 
-## Step 1: 创建目标表
+## 步骤 1：创建目标表
 
-打开一个 worksheet，创建一个名为 `doc` 的数据库，然后创建一个名为 `aws_billing` 的表：
+打开 Worksheet，创建名为 `doc` 的数据库，并创建 `aws_billing` 表：
 
 ```sql
 CREATE DATABASE doc;
@@ -176,27 +177,26 @@ CREATE TABLE aws_billing (
 );
 ```
 
-## Step 2: 加载 AWS 账单数据集
+## 步骤 2：加载 AWS 账单数据集
 
-在此步骤中，你只需点击几下即可将 AWS 账单数据集加载到 Databend Cloud 中。
+本步骤将在 Databend Cloud 中通过几次点击完成数据加载。
 
-1. 在 Databend Cloud 中，选择 **Overview** > **Load Data** 以启动数据加载向导。
-
-2. 选择将数据加载到 **An existing table**，然后选择 **Load from a URL** 并输入数据集 URL：`https://datasets.databend.com/aws-billing.parquet`。
+1. 在 Databend Cloud 内，选择 **Overview** > **Load Data** 打开数据导入向导。
+2. 选择 **An existing table** 作为目标表，点击 **Load from a URL** 并输入数据集地址 `https://datasets.databend.com/aws-billing.parquet`。
 
 ![alt text](../../../../static/img/documents/tutorials/aws-billing-1.png)
 
-3. 选择你创建的数据库和表，然后选择一个计算集群。
+3. 选择刚刚创建的数据库及表，并指定要使用的 Warehouse。
 
 ![alt text](../../../../static/img/documents/tutorials/aws-billing-2.png)
 
-4. 单击 **Confirm** 开始数据加载。
+4. 点击 **Confirm** 开始加载。
 
-## Step 3: 使用 SQL 分析成本
+## 步骤 3：使用 SQL 分析成本
 
-现在你的账单数据已就绪，你可以使用 SQL 查询来分析 AWS 账单信息。此步骤提供了一些示例，可以帮助你了解支出并发现关键见解。
+账单数据加载完毕后，就可以用 SQL 查询来分析 AWS 账单。本节提供了一些示例，帮助你快速识别花费最多的部分。
 
-以下查询标识了你使用过的最昂贵的服务：
+以下查询会找出花费最高的服务：
 
 ```sql
 SELECT
@@ -211,7 +211,7 @@ ORDER BY Total_Cost DESC
 LIMIT 25;
 ```
 
-以下查询标识了最昂贵的 AWS EC2 资源：
+以下查询会标出成本最高的 AWS EC2 资源：
 
 ```sql
 SELECT
@@ -227,7 +227,7 @@ ORDER BY Total_Cost DESC
 LIMIT 25;
 ```
 
-以下查询标识了最昂贵的 S3 存储桶：
+以下查询会找出花费最高的 S3 Bucket：
 
 ```sql
 SELECT
@@ -242,7 +242,7 @@ ORDER BY Cost DESC
 LIMIT 25;
 ```
 
-以下查询根据混合成本标识了前 25 个最昂贵的区域：
+以下查询会根据综合成本找出最贵的 25 个 Region：
 
 ```sql
 SELECT
@@ -257,7 +257,7 @@ ORDER BY Total_Cost DESC
 LIMIT 25;
 ```
 
-以下查询将你的成本分为预留实例和按需实例，以帮助你了解每种类型对总支出的贡献：
+以下查询会把成本按照实例类型（Reserved Instances 与 On-Demand）分类，方便了解各类型的支出贡献：
 
 ```sql
 SELECT

@@ -1,6 +1,7 @@
 ---
 title: 仪表盘
 ---
+
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 import EllipsisSVG from '@site/static/img/icon/ellipsis.svg';
@@ -25,17 +26,16 @@ import EllipsisSVG from '@site/static/img/icon/ellipsis.svg';
 
 请注意，这些聚合函数有助于汇总和揭示查询结果中原始数据的有价值模式。可用的聚合函数根据您选择的不同数据类型和图表类型而有所不同。
 
-
-| 函数             | 描述                                                    |
-|----------------------|----------------------------------------------------------------|
-| None                 | 不对数据进行任何更改。                          |
-| Count                | 计算查询结果中该字段的记录数 (不包括包含 NULL 和 '' 值的记录)。 |
-| Min                  | 计算查询结果中的最小值。           |
-| Max                  | 计算查询结果中的最大值。           |
-| Median               | 计算查询结果中的中位数。          |
-| Sum                  | 计算查询结果中数值的总和。 |
-| Average              | 计算查询结果中数值数据的平均值。 |
-| Mode                 | 识别查询结果中出现频率最高的值。 |
+| 函数    | 描述                                                            |
+| ------- | --------------------------------------------------------------- |
+| None    | 不对数据进行任何更改。                                          |
+| Count   | 计算查询结果中该字段的记录数 (不包括包含 NULL 和 '' 值的记录)。 |
+| Min     | 计算查询结果中的最小值。                                        |
+| Max     | 计算查询结果中的最大值。                                        |
+| Median  | 计算查询结果中的中位数。                                        |
+| Sum     | 计算查询结果中数值的总和。                                      |
+| Average | 计算查询结果中数值数据的平均值。                                |
+| Mode    | 识别查询结果中出现频率最高的值。                                |
 
 4. 返回 Databend Cloud 主页，在左侧导航菜单中选择**仪表盘**，然后点击**新建仪表盘**。
 
@@ -61,4 +61,4 @@ import EllipsisSVG from '@site/static/img/icon/ellipsis.svg';
 
 ## 教程
 
-- [COVID-19 数据仪表盘制作](/tutorials/databend-cloud/dashboard)
+- [COVID-19 数据仪表盘制作](/tutorials/cloud-ops/dashboard)

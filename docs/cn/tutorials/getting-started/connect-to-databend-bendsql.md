@@ -1,28 +1,27 @@
 ---
-title: "连接 Databend (BendSQL)"
-sidebar_label: "BendSQL"
-slug: /
+title: "使用 BendSQL 连接（自建版）"
+sidebar_label: "BendSQL（自建版）"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
 
-在本教程中，我们将指导你如何使用 BendSQL 连接到自托管的 Databend 实例。
+本教程将指导你如何使用 BendSQL 连接自建 Databend 实例。
 
 <StepsWrap>
 <StepContent number="1">
 
 ### 开始之前
 
-- 确保本地已安装 [Docker](https://www.docker.com/)，我们将用它启动 Databend。
-- 确保本地已安装 BendSQL。安装方法请参考 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 请先在本地安装 [Docker](https://www.docker.com/)，用于启动 Databend。
+- 请先安装 BendSQL，参见 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
 
 </StepContent>
 <StepContent number="2">
 
 ### 启动 Databend
 
-在终端运行以下命令启动 Databend 实例：
+在终端运行以下命令启动 Databend：
 
 ```bash
 docker run -d --name databend \
@@ -34,23 +33,23 @@ docker run -d --name databend \
 
 该命令会在本地 Docker 容器中启动 Databend，连接信息如下：
 
-- 主机：`127.0.0.1`
-- 端口：`8000`
-- 用户：`eric`
-- 密码：`abc123`
+- Host：`127.0.0.1`
+- Port：`8000`
+- User：`eric`
+- Password：`abc123`
 
 </StepContent>
 <StepContent number="3">
 
 ### 启动 BendSQL
 
-Databend 实例运行后，即可用 BendSQL 连接。打开终端并执行：
+Databend 成功运行后，即可通过 BendSQL 连接。在终端执行：
 
 ```bash
 bendsql --host 127.0.0.1 --port 8000 --user eric --password abc123
 ```
 
-该命令通过 `127.0.0.1:8000` 的 HTTP API，以用户 `eric` 和密码 `abc123` 连接 Databend。成功后可见如下提示：
+该命令会使用 HTTP API 连接到 `127.0.0.1:8000`，用户名 `eric`、密码 `abc123`。成功连接后会看到类似输出：
 
 ```bash
 Welcome to BendSQL 0.24.7-ff9563a(2024-12-27T03:23:17.723492000Z).
@@ -65,7 +64,7 @@ Started web server at 127.0.0.1:8080
 
 ### 执行查询
 
-连接成功后，可在 BendSQL Shell 中执行 SQL。例如输入 `SELECT NOW();` 查看当前时间：
+连接成功后即可在 BendSQL shell 内执行 SQL。例如输入 `SELECT NOW();` 查询当前时间：
 
 ```bash
 eric@127.0.0.1:8000/default> SELECT NOW();
@@ -74,7 +73,7 @@ SELECT NOW()
 
 ┌────────────────────────────┐
 │            now()           │
-│         Timestamp          │
+│          Timestamp         │
 ├────────────────────────────┤
 │ 2025-04-24 13:24:06.640616 │
 └────────────────────────────┘
@@ -86,7 +85,7 @@ SELECT NOW()
 
 ### 退出 BendSQL
 
-输入 `quit` 即可退出 BendSQL。
+输入 `quit` 即可退出。
 
 ```bash
 eric@127.0.0.1:8000/default> quit
@@ -95,10 +94,10 @@ Bye~
 ```
 
 ### BendSQL UI
-使用 `--ui` 选项，BendSQL 会启动 Web 服务器并自动打开浏览器展示图形界面。你可以在浏览器中执行 SQL、分析查询性能，还可通过复制 URL 与他人共享结果。
+使用 `--ui` 选项时，BendSQL 会启动一个 Web Server 并打开浏览器展示 UI，可在浏览器中执行 SQL、分析查询性能，也可以复制 URL 与他人分享结果。
 
 ```bash
-❯ bendsql -h 127.0.0.1 --port 8000 --ui
+❯ Bendsql -h 127.0.0.1 --port 8000 --ui
 ```
 
 </StepContent>

@@ -30,5 +30,5 @@ Databend 提供了以下插件和工具，用于从 Kafka 主题中摄取数据�
 
 ## 教程
 
-- [使用 bend-ingest-kafka 从 Kafka 加载](/tutorials/load/kafka-bend-ingest-kafka)
-- [使用 databend-kafka-connect 从 Kafka 加载](/tutorials/load/kafka-databend-kafka-connect)
+- [使用 bend-ingest-kafka 从 Kafka 加载](/tutorials/ingest-and-stream/kafka-databend-kafka-connect)
+- [使用 databend-kafka-connect 从 Kafka 加载](/tutorials/migrate/migrating-from-mysql-with-kafka-connect)

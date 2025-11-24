@@ -185,7 +185,7 @@ ORDER BY day;
 
 ![Alt text](@site/static/public/img/usecase/taobao-2.png)
 
-也可以通过 [使用仪表盘](/guides/cloud/using-databend-cloud/dashboard) 功能，生成折线图：
+也可以通过 [使用仪表盘](/tutorials/cloud-ops/dashboard) 功能，生成折线图：
 
 ![Alt text](@site/static/public/img/usecase/taobao-3.png)
 
@@ -292,7 +292,7 @@ order by hour;
 
 ![Alt text](@site/static/public/img/usecase/taobao-7.png)
 
-也可以通过 [使用仪表盘](/guides/cloud/using-databend-cloud/dashboard) 功能，生成折线图：
+也可以通过 [使用仪表盘](/tutorials/cloud-ops/dashboard) 功能，生成折线图：
 
 ![Alt text](@site/static/public/img/usecase/taobao-8.png)
 
@@ -316,7 +316,7 @@ order by weekday;
 
 ![Alt text](@site/static/public/img/usecase/taobao-9.png)
 
-也可以通过 [使用仪表盘](/guides/cloud/using-databend-cloud/dashboard) 功能，生成柱状图：
+也可以通过 [使用仪表盘](/tutorials/cloud-ops/dashboard) 功能，生成柱状图：
 
 ![Alt text](@site/static/public/img/usecase/taobao-10.png)
 

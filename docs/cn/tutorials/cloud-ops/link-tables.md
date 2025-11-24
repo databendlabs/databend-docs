@@ -1,21 +1,22 @@
 ---
-title: 使用 ATTACH TABLE
+title: "Databend Cloud：通过 ATTACH TABLE 共享数据"
+sidebar_label: "数据共享"
 ---
 
-本教程介绍如何使用 [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) 命令将 Databend Cloud 中的表链接到 S3 中的现有表。
+本教程将演示如何在 Databend Cloud 中使用 [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table) 命令，将一张 Databend Cloud 表链接到存放在 S3 Bucket 中的自建 Databend 表。
 
-## 准备工作
+## 开始之前
 
-在开始之前，请确保您已准备好以下先决条件：
+请确保已经满足以下前提条件：
 
-- 您的本地机器上已安装 [Docker](https://www.docker.com/)，因为它将用于启动私有化部署的 Databend。
-- 一个 AWS S3 bucket，用作您的私有化部署 Databend 的存储。[了解如何创建 S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)。
-- 具有足够权限访问您的 S3 bucket 的 AWS Access Key ID 和 Secret Access Key。[管理您的 AWS 凭证](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys)。
-- 您的本地机器上已安装 BendSQL。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 本地已安装 [Docker](https://www.docker.com/)，用于启动自建 Databend。
+- 已有一个供自建 Databend 使用的 AWS S3 Bucket。参见 [创建 S3 Bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)。
+- 拥有具备目标 Bucket 访问权限的 AWS Access Key ID 与 Secret Access Key。参见 [管理 AWS 凭证](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys)。
+- 本地已安装 BendSQL。安装方法请见 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
 
 ## 步骤 1：在 Docker 中启动 Databend
 
-1. 在您的本地机器上启动一个 Databend 容器。以下命令启动一个以 S3 作为存储后端的 Databend 容器，使用 `databend-doc` bucket，以及指定的 S3 endpoint 和身份验证凭证。
+1. 在本地启动 Databend 容器。以下命令以 `databend-doc` 作为存储 Bucket，并填写了 S3 Endpoint 与访问凭证：
 
 ```bash
 docker run \
@@ -28,7 +29,7 @@ docker run \
     datafuselabs/databend:v1.2.699-nightly
 ```
 
-2. 创建一个名为 `population` 的表来存储城市、省份和人口数据，并插入示例如下：
+2. 创建名为 `population` 的表来保存城市、省份与人口数据，并插入示例记录：
 
 ```sql
 CREATE TABLE population (
@@ -43,7 +44,7 @@ INSERT INTO population (city, province, population) VALUES
   ('Vancouver', 'British Columbia', 631486);
 ```
 
-3. 运行以下语句以检索表在 S3 中的位置。如下面的结果所示，本教程中该表的 S3 URI 为 `s3://databend-doc/1/16/`。
+3. 运行以下语句获取该表在 S3 上的位置。下列结果显示表的 S3 URI 为 `s3://databend-doc/1/16/`：
 
 ```sql
 SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'population');
@@ -55,33 +56,31 @@ SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'population');
 └──────────────────────────────────────────────────┘
 ```
 
-## 步骤 2：在 Databend Cloud 中设置 Attached Tables
+## 步骤 2：在 Databend Cloud 中创建附加表
 
-1. 使用 BendSQL 连接到 Databend Cloud。如果您不熟悉 BendSQL，请参阅本教程：[使用 BendSQL 连接到 Databend Cloud](../connect/connect-to-databendcloud-bendsql.md)。
+1. 使用 BendSQL 连接 Databend Cloud。如需了解 BendSQL 连接方法，可参考教程：[使用 BendSQL 连接 Databend Cloud](../getting-started/connect-to-databendcloud-bendsql.md)。
 
-2. 执行以下语句以创建两个 attached tables：
-    - 第一个表 `population_all_columns` 包含源数据中的所有列。
-    - 第二个表 `population_only` 仅包含选定的列（`city` 和 `population`）。
+2. 执行以下语句创建两张附加表：
+   - `population_all_columns`：包含来源表的全部列。
+   - `population_only`：仅包含 `city` 与 `population` 两列。
 
 ```sql
--- 创建一个包含源数据中所有列的 attached table
+-- 附加包含所有列的表
 ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' CONNECTION = (
-  REGION='us-east-2',
-  AWS_KEY_ID = '<your_aws_key_id>',
-  AWS_SECRET_KEY = '<your_aws_secret_key>'
+  ACCESS_KEY_ID = '<your_aws_key_id>',
+  SECRET_ACCESS_KEY = '<your_aws_secret_key>'
 );
 
--- 创建一个仅包含源数据中选定列（city 和 population）的 attached table
+-- 附加只保留 city 与 population 的表
 ATTACH TABLE population_only (city, population) 's3://databend-doc/1/16/' CONNECTION = (
-  REGION='us-east-2',
-  AWS_KEY_ID = '<your_aws_key_id>',
-  AWS_SECRET_KEY = '<your_aws_secret_key>'
+  ACCESS_KEY_ID = '<your_aws_key_id>',
+  SECRET_ACCESS_KEY = '<your_aws_secret_key>'
 );
 ```
 
-## 步骤 3：验证 Attached Tables
+## 步骤 3：验证附加表
 
-1. 查询两个 attached tables 以验证其内容：
+1. 查询两张附加表，确认数据一致：
 
 ```sql
 SELECT * FROM population_all_columns;
@@ -105,7 +104,7 @@ SELECT * FROM population_only;
 └────────────────────────────────────┘
 ```
 
-2. 如果您更新 Databend 中的源表，您可以在 Databend Cloud 上的 attached table 中观察到相同的更改。例如，如果您将源表中 Toronto 的人口更改为 2,371,571：
+2. 如果在自建 Databend 中更新原表（例如把 Toronto 的人口改为 2,371,571），附加表也会反映同样的变更：
 
 ```sql
 UPDATE population
@@ -113,17 +112,17 @@ SET population = 2371571
 WHERE city = 'Toronto';
 ```
 
-执行更新后，您可以查询两个 attached tables 以验证是否反映了更改：
+随后再次查询即可看到变化：
 
 ```sql
--- 检查包含所有列的 attached table 中更新后的人口
+-- 查询包含全部列的附加表
 SELECT population FROM population_all_columns WHERE city = 'Toronto';
 
--- 检查仅包含人口列的 attached table 中更新后的人口
+-- 查询仅包含 population 列的附加表
 SELECT population FROM population_only WHERE city = 'Toronto';
 ```
 
-上述两个查询的预期输出：
+预期输出：
 
 ```sql
 ┌─────────────────┐
@@ -133,15 +132,15 @@ SELECT population FROM population_only WHERE city = 'Toronto';
 └─────────────────┘
 ```
 
-3. 如果您从源表中删除 `province` 列，则该列将不再在 attached table 中可用于查询。
+3. 如果在原表中删除 `province` 列，附加表中同样无法再查询该列：
 
 ```sql
 ALTER TABLE population DROP province;
 ```
 
-删除列后，任何引用它的查询都将导致错误。但是，仍然可以成功查询剩余的列。
+之后任何引用 `province` 的查询都会报错，而其他列仍可正常使用。
 
-例如，尝试查询删除的 `province` 列将失败：
+示例：查询已删除的列会失败：
 
 ```sql
 SELECT province FROM population_all_columns;
@@ -152,7 +151,7 @@ error: APIError: QueryFailed: [1065]error:
   |        ^^^^^^^^ column province doesn't exist
 ```
 
-但是，您仍然可以检索 `city` 和 `population` 列：
+但 `city`、`population` 仍可照常查询：
 
 ```sql
 SELECT city, population FROM population_all_columns;

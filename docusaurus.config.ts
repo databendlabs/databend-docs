@@ -236,8 +236,7 @@ const config: Config = {
     navbar: {
       title: "DOCUMENTATION",
       logo: {
-        href: siteConfig[lang].homeLink,
-        target: "_blank",
+        href: siteConfig[lang].iconLink,
         srcDark: "img/logo-dark.svg",
         src: "img/logo.svg",
       },
@@ -280,6 +279,10 @@ const config: Config = {
           title: "RESOURCES",
           items: [
             {
+              label: "Visit Databend",
+              to: `${siteConfig[lang].homeLink}`,
+            },
+            {
               label: "Products",
               to: `/guides/`,
             },
@@ -289,11 +292,7 @@ const config: Config = {
             },
             {
               label: "Performance",
-              to: `/guides/benchmark/tpch`,
-            },
-            {
-              label: "Changelog",
-              to: "/release-notes/",
+              to: `/guides/benchmark/`,
             },
             {
               label: "Downloads",
