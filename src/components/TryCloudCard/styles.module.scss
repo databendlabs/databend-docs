@@ -10,6 +10,14 @@
   @media only screen and (max-width: 1110px) {
     display: none;
    } 
+  &.zh {
+    .header h6 {
+      font-size: 13px;
+    }
+    .desc {
+      font-size: 12px;
+    }
+  }
   .header {
     position: relative;
     align-items: center;

@@ -10,6 +10,7 @@ const TryCloudCard: FC = (): ReactElement => {
     siteConfig: {
       customFields: { isChina },
     },
+    i18n: { currentLocale },
   } = useDocusaurusContext() as any;
   const [hidden, setHiddenFlag] = useSessionStorageState("DATABEND_TOC_CARD", {
     defaultValue: "",
@@ -26,13 +27,13 @@ const TryCloudCard: FC = (): ReactElement => {
   ];
   return (
     <>
-          {!hidden && (
-            <div className={styles.card}>
-              <div className={styles.header}>
-                <h6>{$t("Try Databend Cloud for FREE")}</h6>
-                <span onClick={closeCard} className={styles.close}>
-                  <Close />
-                </span>
+      {!hidden && (
+        <div className={`${styles.card} ${currentLocale === 'zh' ? styles.zh : ''}`}>
+          <div className={styles.header}>
+            <h6>{$t("Try Databend Cloud for FREE")}</h6>
+            <span onClick={closeCard} className={styles.close}>
+              <Close />
+            </span>
           </div>
           <div className={styles.desc}>
             {lines.map((text, idx) => (
