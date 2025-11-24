@@ -1,25 +1,25 @@
 ---
-title: 检查 Databend 元数据
+title: 查询元数据
 ---
 
-本教程将演示如何把示例 Parquet 文件上传到 Internal Stage、推断其列定义，并创建带有文件级元数据字段的表，以便追踪每行数据来自哪个文件、对应的行号等。
+在本教程中，我们将引导您完成以下步骤：将示例 Parquet 文件上传到内部 Stage，推断列定义，并创建一个包含文件级别元数据字段的表。当您想要跟踪每一行的来源或在数据集中包含文件名和行号等元数据时，这将非常有用。
 
 ### 开始之前
 
-请先完成以下准备：
+在开始之前，请确保您已准备好以下先决条件：
 
-- [下载示例数据集](https://datasets.databend.com/iris.parquet) 并保存到本地。
-- 在本地安装 BendSQL。参见 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- [下载示例数据集](https://datasets.databend.com/iris.parquet) 并将其保存到您的本地文件夹。
+- BendSQL 已安装在您的本地机器上。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
 
-### 步骤 1：创建 Internal Stage
+### 步骤 1：创建一个内部 Stage
 
 ```sql
 CREATE STAGE my_internal_stage;
 ```
 
-### 步骤 2：通过 BendSQL 上传文件
+### 步骤 2：使用 BendSQL 上传示例文件
 
-假设示例文件位于 `/Users/eric/Documents/iris.parquet`，可在 BendSQL 中运行：
+假设您的示例数据集位于 `/Users/eric/Documents/iris.parquet`，请在 BendSQL 中运行以下命令将其上传到 Stage：
 
 ```sql
 PUT fs:///Users/eric/Documents/iris.parquet @my_internal_stage;
@@ -33,10 +33,11 @@ PUT fs:///Users/eric/Documents/iris.parquet @my_internal_stage;
 └───────────────────────────────────────────────────────┘
 ```
 
-### 步骤 3：从 Stage 文件推断列定义
-
+### 步骤 3：从暂存文件中查询列定义
 :::caution
-`infer_schema` 目前仅支持 Parquet 文件。
+
+`infer_schema` 目前仅支持 parquet 文件格式。
+
 :::
 
 ```sql
@@ -56,9 +57,9 @@ SELECT * FROM INFER_SCHEMA(location => '@my_internal_stage/iris.parquet');
 └──────────────────────────────────────────────┘
 ```
 
-### 步骤 4：带元数据字段的预览
+### 步骤 4：使用元数据字段预览文件内容
 
-可以使用 `metadata$filename`、`metadata$file_row_number` 等字段查看文件级信息：
+您可以使用 `metadata$filename` 和 `metadata$file_row_number` 等元数据字段来检查文件级别的信息：
 
 ```sql
 SELECT
@@ -81,7 +82,9 @@ LIMIT 5;
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 步骤 5：创建包含元数据字段的表
+### 步骤 5：创建一个包含元数据字段的表
+
+让我们创建一个表，其中包含推断的列以及文件名和行号等元数据字段：
 
 ```sql
 CREATE TABLE iris_with_meta AS
@@ -96,7 +99,7 @@ SELECT
 FROM @my_internal_stage/iris.parquet;
 ```
 
-### 步骤 6：查询带元数据的数据
+### 步骤 6：查询带有元数据的数据
 
 ```sql
 SELECT * FROM iris_with_meta LIMIT 5;

@@ -161,30 +161,30 @@ DSN（数据源名称）是一种简单而强大的方式，可以使用单个 U
 databend[+flight]://user[:password]@host[:port]/[database][?sslmode=disable][&arg1=value1]
 ```
 
-| 通用 DSN 参数     | 描述                                 |
-| ----------------- | ------------------------------------ |
-| `tenant`          | 租户 ID，仅限 Databend Cloud。       |
-| `warehouse`       | 计算集群名称，仅限 Databend Cloud。  |
-| `sslmode`         | 如果不使用 TLS，则设置为 `disable`。 |
-| `tls_ca_file`     | 自定义根 CA 证书路径。               |
-| `connect_timeout` | 连接超时时间（秒）。                 |
+| 通用 DSN 参数 | 描述 |
+|-----------------------|--------------------------------------|
+| `tenant` | 租户 ID，仅限 Databend Cloud。 |
+| `warehouse` | 计算集群名称，仅限 Databend Cloud。 |
+| `sslmode` | 如果不使用 TLS，则设置为 `disable`。 |
+| `tls_ca_file` | 自定义根 CA 证书路径。 |
+| `connect_timeout` | 连接超时时间（秒）。 |
 
-| RestAPI 客户端参数          | 描述                                                                                                   |
-| --------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `wait_time_secs`            | 页面请求等待时间，默认为 `1`。                                                                         |
-| `max_rows_in_buffer`        | 页面缓冲区中的最大行数。                                                                               |
-| `max_rows_per_page`         | 单个页面的最大响应行数。                                                                               |
-| `page_request_timeout_secs` | 单个页面请求的超时时间，默认为 `30`。                                                                  |
-| `presign`                   | 启用数据加载的预签名。选项：`auto`、`detect`、`on`、`off`。默认为 `auto`（仅对 Databend Cloud 启用）。 |
+| RestAPI 客户端参数 | 描述 |
+|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| `wait_time_secs` | 页面请求等待时间，默认为 `1`。 |
+| `max_rows_in_buffer` | 页面缓冲区中的最大行数。 |
+| `max_rows_per_page` | 单个页面的最大响应行数。 |
+| `page_request_timeout_secs` | 单个页面请求的超时时间，默认为 `30`。 |
+| `presign` | 启用数据加载的预签名。选项：`auto`、`detect`、`on`、`off`。默认为 `auto`（仅对 Databend Cloud 启用）。 |
 
-| FlightSQL 客户端参数        | 描述                                                           |
-| --------------------------- | -------------------------------------------------------------- |
-| `query_timeout`             | 查询超时时间（秒）。                                           |
-| `tcp_nodelay`               | 默认为 `true`。                                                |
-| `tcp_keepalive`             | TCP keepalive 时间（秒）（默认为 `3600`，设置为 `0` 以禁用）。 |
-| `http2_keep_alive_interval` | Keep-alive 间隔时间（秒），默认为 `300`。                      |
-| `keep_alive_timeout`        | Keep-alive 超时时间（秒），默认为 `20`。                       |
-| `keep_alive_while_idle`     | 默认为 `true`。                                                |
+| FlightSQL 客户端参数 | 描述 |
+|-----------------------------|----------------------------------------------------------------------|
+| `query_timeout` | 查询超时时间（秒）。 |
+| `tcp_nodelay` | 默认为 `true`。 |
+| `tcp_keepalive` | TCP keepalive 时间（秒）（默认为 `3600`，设置为 `0` 以禁用）。 |
+| `http2_keep_alive_interval` | Keep-alive 间隔时间（秒），默认为 `300`。 |
+| `keep_alive_timeout` | Keep-alive 超时时间（秒），默认为 `20`。 |
+| `keep_alive_while_idle` | 默认为 `true`。 |
 
 #### DSN 示例
 
@@ -209,10 +209,10 @@ databend+flight://root:@localhost:8900/database1?connect_timeout=10
 
 3. 您的 DSN 将在 **Examples** 部分中自动生成。在 DSN 下方，您会找到一个 BendSQL 代码段，该代码段将 DSN 导出为名为 `BENDSQL_DSN` 的环境变量，并使用正确的配置启动 BendSQL。您可以直接将其复制并粘贴到您的终端中。
 
-```bash title='Example'
-export BENDSQL_DSN="databend://cloudapp:******@tn3ftqihs.gw.aws-us-east-2.default.databend.com:443/information_schema?warehouse=small-xy2t"
-bendsql
-```
+  ```bash title='Example'
+  export BENDSQL_DSN="databend://cloudapp:******@tn3ftqihs.gw.aws-us-east-2.default.databend.com:443/information_schema?warehouse=small-xy2t"
+  bendsql
+  ```
 
 ### 连接到私有化部署的 Databend
 
@@ -242,26 +242,27 @@ bendsql
 ## 教程
 
 - [使用 BendSQL 连接到私有化部署的 Databend](/tutorials/)
-- [使用 BendSQL 连接到 Databend Cloud](/tutorials/getting-started/connect-to-databend-bendsql)
+- [使用 BendSQL 连接到 Databend Cloud](/tutorials/connect/connect-to-databendcloud-bendsql)
 
 ## BendSQL 设置
 
 BendSQL 提供了一系列设置，允许您定义查询结果的呈现方式：
 
-| 设置项               | 描述                                                                                            |
-| -------------------- | ----------------------------------------------------------------------------------------------- |
-| `display_pretty_sql` | 设置为 `true` 时，SQL 查询将以视觉上吸引人的方式进行格式化，使其更易于阅读和理解。              |
-| `prompt`             | 命令行界面中显示的提示符，通常指示正在访问的用户、计算集群和数据库。                            |
-| `progress_color`     | 指定用于进度指示器的颜色，例如在执行需要一些时间才能完成的查询时。                              |
-| `show_progress`      | 设置为 `true` 时，将显示进度指示器以显示长时间运行的查询或操作的进度。                          |
-| `show_stats`         | 如果为 `true`，则在执行每个查询后，将显示查询统计信息，例如执行时间、读取的行数和处理的字节数。 |
-| `max_display_rows`   | 设置查询结果输出中将显示的最大行数。                                                            |
-| `max_col_width`      | 设置每列显示渲染的最大字符宽度。小于 3 的值将禁用此限制。                                       |
-| `max_width`          | 设置整个显示输出的最大字符宽度。值为 0 时，默认为终端窗口的宽度。                               |
-| `output_format`      | 设置用于显示查询结果的格式 (`table`、`csv`、`tsv`、`null`)。                                    |
-| `expand`             | 控制查询的输出是显示为单独的记录还是以表格格式显示。可用值：`on`、`off` 和 `auto`。             |
-| `multi_line`         | 确定是否允许多行输入 SQL 查询。设置为 `true` 时，查询可以跨越多行以提高可读性。                 |
-| `replace_newline`    | 指定是否应将查询结果输出中的换行符替换为空格。这可以防止显示中出现意外的换行。                  |
+
+| 设置项              | 描述                                                                                                                                                   |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `display_pretty_sql` | 设置为 `true` 时，SQL 查询将以视觉上吸引人的方式进行格式化，使其更易于阅读和理解。                                                                                |
+| `prompt`             | 命令行界面中显示的提示符，通常指示正在访问的用户、计算集群和数据库。                                                                                              |
+| `progress_color`     | 指定用于进度指示器的颜色，例如在执行需要一些时间才能完成的查询时。                                                                                              |
+| `show_progress`      | 设置为 `true` 时，将显示进度指示器以显示长时间运行的查询或操作的进度。                                                                                              |
+| `show_stats`         | 如果为 `true`，则在执行每个查询后，将显示查询统计信息，例如执行时间、读取的行数和处理的字节数。                                                                                  |
+| `max_display_rows`   | 设置查询结果输出中将显示的最大行数。                                                                                                                             |
+| `max_col_width`      | 设置每列显示渲染的最大字符宽度。小于 3 的值将禁用此限制。                                                                                                                |
+| `max_width`          | 设置整个显示输出的最大字符宽度。值为 0 时，默认为终端窗口的宽度。                                                                                                            |
+| `output_format`      | 设置用于显示查询结果的格式 (`table`、`csv`、`tsv`、`null`)。                                                                                                      |
+| `expand`             | 控制查询的输出是显示为单独的记录还是以表格格式显示。可用值：`on`、`off` 和 `auto`。                                                                                       |
+| `multi_line`         | 确定是否允许多行输入 SQL 查询。设置为 `true` 时，查询可以跨越多行以提高可读性。                                                                                              |
+| `replace_newline`    | 指定是否应将查询结果输出中的换行符替换为空格。这可以防止显示中出现意外的换行。                                                                                              |
 
 有关每个设置的详细信息，请参阅以下参考信息：
 
@@ -407,6 +408,7 @@ root@localhost:8000/default> SELECT * FROM system.configs;
 #### `max_col_width` & `max_width`
 
 `max_col_width` 和 `max_width` 设置分别指定单个列和整个显示输出中允许的最大字符宽度。以下示例将列显示宽度设置为 10 个字符，并将整个显示宽度设置为 100 个字符：
+
 
 ```sql title='Example:'
 // highlight-next-line
@@ -597,13 +599,13 @@ root@localhost:8000/default> .max_width 100
 
 BendSQL 为用户提供了各种命令，以简化其工作流程并自定义其体验。以下是 BendSQL 中可用命令的概述：
 
-| 命令                     | 描述                      |
-| ------------------------ | ------------------------- |
-| `!exit`                  | 退出 BendSQL。            |
-| `!quit`                  | 退出 BendSQL。            |
-| `!configs`               | 显示当前的 BendSQL 设置。 |
-| `!set <setting> <value>` | 修改 BendSQL 设置。       |
-| `!source <sql_file>`     | 执行 SQL 文件。           |
+| 命令                      | 描述                               |
+| ------------------------ | ---------------------------------- |
+| `!exit`                  | 退出 BendSQL。                     |
+| `!quit`                  | 退出 BendSQL。                     |
+| `!configs`               | 显示当前的 BendSQL 设置。           |
+| `!set <setting> <value>` | 修改 BendSQL 设置。                |
+| `!source <sql_file>`     | 执行 SQL 文件。                    |
 
 有关每个命令的示例，请参阅下面的参考信息：
 

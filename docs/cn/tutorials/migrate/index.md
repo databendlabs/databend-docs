@@ -1,62 +1,62 @@
 ---
-title: 规划向 Databend 的迁移
+title: 数据迁移到 Databend
 ---
 
 # 数据迁移到 Databend
 
-请选择源数据库与迁移需求，找到最适合的 Databend 迁移方案。
+选择您的源数据库和迁移需求，找到最适合迁移到 Databend 的方法。
 
-## MySQL → Databend
+## MySQL 到 Databend
 
-Databend 支持两类主要迁移方式：
+Databend 支持从 MySQL 迁移的两种主要方法：
 
-| 迁移方式 | 推荐工具 | 支持的 MySQL 版本 |
-|----------|----------|-------------------|
-| 批量加载 | db-archiver | 所有 MySQL 版本 |
-| 以 CDC 实时同步 | Debezium | 所有 MySQL 版本 |
+| 迁移方法                 | 推荐工具                     | 支持的 MySQL 版本        |
+|--------------------------|------------------------------|--------------------------|
+| 批量加载                 | db-archiver                  | 所有 MySQL 版本          |
+| CDC 持续同步             | Debezium                     | 所有 MySQL 版本          |
 
-### 何时选择实时迁移（CDC）
+### 何时选择实时迁移 (CDC)
 
-> **推荐**：实时迁移优先选择 **Debezium**。
+> **推荐**：对于实时迁移，我们推荐 **Debezium** 作为默认选择。
 
-- 需要持续同步，延迟尽量低
-- 需要捕获所有数据变更（插入、更新、删除）
+- 您需要最小延迟的持续数据同步
+- 您需要捕获所有数据变更 (插入、更新、删除)
 
-| 工具 | 能力 | 最适合场景 | 适用情形 |
-|------|------|------------|----------|
-| [Debezium](/tutorials/migrate/migrating-from-mysql-with-debezium) | CDC、全量 | 以极低延迟捕获行级变更 | 需要完整的 INSERT/UPDATE/DELETE CDC；希望基于 binlog 的复制以降低源库压力 |
-| [Flink CDC](/tutorials/migrate/migrating-from-mysql-with-flink-cdc) | CDC、全量、转换 | 复杂 ETL + 实时转换 | 迁移过程中需要过滤/转换；需要可扩展的计算框架；希望使用 SQL 完成转换 |
-| [Kafka Connect](/tutorials/migrate/migrating-from-mysql-with-kafka-connect) | CDC、增量、全量 | 已有 Kafka 基础设施 | 已经使用 Kafka；需要简单配置；可以依赖时间戳或自增字段做增量同步 |
+| 工具 | 功能 | 最适合 | 选择条件 |
+|------|------------|----------|-------------|
+| [Debezium](/tutorials/migrate/migrating-from-mysql-with-debezium) | CDC、全量加载 | 以最小延迟捕获行级变更 | 您需要完整的 CDC 以及所有 DML 操作 (INSERT/UPDATE/DELETE)；您希望基于 binlog 的复制对源数据库影响最小 |
+| [Flink CDC](/tutorials/migrate/migrating-from-mysql-with-flink-cdc) | CDC、全量加载、转换 | 具有实时转换的复杂 ETL | 您需要在迁移过程中过滤或转换数据；您需要可扩展的处理框架；您希望基于 SQL 的转换功能 |
+| [Kafka Connect](/tutorials/migrate/migrating-from-mysql-with-kafka-connect) | CDC、增量、全量加载 | 现有的 Kafka 基础设施 | 您已经在使用 Kafka；您需要简单的配置；您可以使用时间戳或自增列进行增量同步 |
 
 ### 何时选择批量迁移
 
-> **推荐**：批量迁移优先选择 **db-archiver**。
+> **推荐**：对于批量迁移，我们推荐 **db-archiver** 作为默认选择。
 
-- 需要一次性或定期批量迁移
-- 需要迁移大量历史数据
-- 对实时性没有要求
+- 您需要一次性或定时数据传输
+- 您有大量历史数据需要迁移
+- 您不需要实时同步
 
-| 工具 | 能力 | 最适合场景 | 适用情形 |
-|------|------|------------|----------|
-| [db-archiver](/tutorials/migrate/migrating-from-mysql-with-db-archiver) | 全量、增量 | 高效归档历史数据 | 数据按时间分区；需要归档历史；希望轻量化工具 |
-| [DataX](/tutorials/migrate/migrating-from-mysql-with-datax) | 全量、增量 | 大规模数据高速迁移 | 需要高吞吐；希望并行处理；需要成熟广泛使用的工具 |
-| [Addax](/tutorials/migrate/migrating-from-mysql-with-addax) | 全量、增量 | DataX 增强版，更高性能 | 相比 DataX 需要更好的错误处理；想要监控增强；希望使用更新的功能 |
+| 工具 | 功能 | 最适合 | 选择条件 |
+|------|------------|----------|-------------|
+| [db-archiver](/tutorials/migrate/migrating-from-mysql-with-db-archiver) | 全量加载、增量 | 高效的历史数据归档 | 您有按时间分区的数据；您需要归档历史数据；您希望使用轻量级、专注的工具 |
+| [DataX](/tutorials/migrate/migrating-from-mysql-with-datax) | 全量加载、增量 | 大数据集的高性能传输 | 您需要大数据集的高吞吐量；您希望并行处理能力；您需要成熟、广泛使用的工具 |
+| [Addax](/tutorials/migrate/migrating-from-mysql-with-addax) | 全量加载、增量 | 性能更好的增强版 DataX | 您需要比 DataX 更好的错误处理；您希望改进的监控功能；您需要更新的特性和功能 |
 
-## Snowflake → Databend
+## Snowflake 到 Databend
 
-Snowflake 迁移 Databend 需要三步：
+从 Snowflake 迁移到 Databend 包含三个步骤：
 
-1. **为 Amazon S3 配置 Snowflake Storage Integration**：建立 Snowflake 与 S3 的安全访问
-2. **准备并导出数据到 S3**：将 Snowflake 数据导出为 Parquet
-3. **加载数据到 Databend**：从 S3 导入 Databend
+1. **为 Amazon S3 配置 Snowflake Storage Integration**：在 Snowflake 和 S3 之间建立安全访问
+2. **准备并导出数据到 Amazon S3**：将您的 Snowflake 数据以 Parquet 格式导出到 S3
+3. **将数据加载到 Databend**：从 S3 将数据导入到 Databend
 
 ### 何时选择 Snowflake 迁移
 
-| 工具 | 能力 | 最适合场景 | 适用情形 |
-|------|------|------------|----------|
-| [Snowflake 迁移](/tutorials/migrate/migrating-from-snowflake) | 全量 | 整体数据仓库迁移 | 需要迁出整个 Snowflake 仓库；希望通过 Parquet 高效传输；需要保持两边的 schema 兼容 |
+| 工具 | 功能 | 最适合 | 选择条件 |
+|------|------------|----------|-------------|
+| [Snowflake 迁移](/tutorials/migrate/migrating-from-snowflake) | 全量加载 | 完整的数仓转换 | 您需要迁移整个 Snowflake 数仓；您希望使用 Parquet 格式进行高效数据传输；您需要在系统间保持 schema 兼容性 |
 
 ## 相关主题
 
 - [加载数据](/guides/load-data/)
-- [导出数据](/guides/unload-data/)
+- [卸载数据](/guides/unload-data/)

@@ -1,5 +1,3 @@
 {
-  "label": "教程",
-  "link": { "type": "doc", "id": "index" },
-  "position": 0
+  "label": "教程"
 }

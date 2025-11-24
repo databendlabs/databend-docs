@@ -58,6 +58,11 @@
   --ifm-navbar-search-input-background-color: var(--color-fill-0) !important;
   --ifm-navbar-search-input-color: var(--color-text-1);
 }
+.navbar__items {
+  div[class*="colorModeToggle"] {
+    margin-left: 1.5rem;
+  }
+}
 // navbar end
 
 .navbar__title {

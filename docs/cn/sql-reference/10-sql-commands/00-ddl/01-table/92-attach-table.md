@@ -32,13 +32,11 @@ CONNECTION = ( CONNECTION_NAME = '<connection_name>' )
 - **`<target_table_name>`**：新建附加表的名称
 
 - **`<column_list>`**：可选列清单（从源表选择）
-
   - 缺省时包含所有列
   - 提供列级安全与访问控制
   - 示例：`(customer_id, product, amount)`
 
 - **`<source_table_data_URI>`**：对象存储中的源表数据路径
-
   - 格式：`s3://<bucket-name>/<database_ID>/<table_ID>/`
   - 示例：`s3://databend-toronto/1/23351/`
 
@@ -73,13 +71,13 @@ SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'employees');
 
 ### 核心优势
 
-| 传统方法             | Databend ATTACH TABLE |
-| -------------------- | --------------------- |
-| 多份数据副本         | 单副本全局共享        |
-| ETL 延迟与同步问题   | 实时更新永不滞后      |
-| 复杂维护流程         | 零维护成本            |
-| 副本增加安全风险     | 细粒度列级访问        |
-| 数据移动导致性能下降 | 基于原始数据全面优化  |
+| 传统方法 | Databend ATTACH TABLE |
+|---------------------|----------------------|
+| 多份数据副本 | 单副本全局共享 |
+| ETL 延迟与同步问题 | 实时更新永不滞后 |
+| 复杂维护流程 | 零维护成本 |
+| 副本增加安全风险 | 细粒度列级访问 |
+| 数据移动导致性能下降 | 基于原始数据全面优化 |
 
 ### 安全与性能
 
@@ -94,13 +92,13 @@ SELECT snapshot_location FROM FUSE_SNAPSHOT('default', 'employees');
 
 ```sql
 -- 1. 创建存储连接
-CREATE CONNECTION my_s3_connection
-    STORAGE_TYPE = 's3'
+CREATE CONNECTION my_s3_connection 
+    STORAGE_TYPE = 's3' 
     ACCESS_KEY_ID = '<your_aws_key_id>'
     SECRET_ACCESS_KEY = '<your_aws_secret_key>';
 
 -- 2. 附加全列数据表
-ATTACH TABLE population_all_columns 's3://databend-doc/1/16/'
+ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' 
     CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 ```
 
@@ -108,7 +106,7 @@ ATTACH TABLE population_all_columns 's3://databend-doc/1/16/'
 
 ```sql
 -- 附加选定列保障数据安全
-ATTACH TABLE population_selected (city, population) 's3://databend-doc/1/16/'
+ATTACH TABLE population_selected (city, population) 's3://databend-doc/1/16/' 
     CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 ```
 
@@ -116,12 +114,12 @@ ATTACH TABLE population_selected (city, population) 's3://databend-doc/1/16/'
 
 ```sql
 -- 创建 IAM 角色连接（比密钥更安全）
-CREATE CONNECTION s3_role_connection
-    STORAGE_TYPE = 's3'
+CREATE CONNECTION s3_role_connection 
+    STORAGE_TYPE = 's3' 
     ROLE_ARN = 'arn:aws:iam::123456789012:role/databend-role';
 
 -- 通过 IAM 角色附加表
-ATTACH TABLE population_all_columns 's3://databend-doc/1/16/'
+ATTACH TABLE population_all_columns 's3://databend-doc/1/16/' 
     CONNECTION = (CONNECTION_NAME = 's3_role_connection');
 ```
 
@@ -129,16 +127,16 @@ ATTACH TABLE population_all_columns 's3://databend-doc/1/16/'
 
 ```sql
 -- 市场分析视图
-ATTACH TABLE marketing_view (customer_id, product, amount, order_date)
-'s3://your-bucket/1/23351/'
+ATTACH TABLE marketing_view (customer_id, product, amount, order_date) 
+'s3://your-bucket/1/23351/' 
 CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 
 -- 财务分析视图（不同列）
-ATTACH TABLE finance_view (order_id, amount, profit, order_date)
-'s3://your-bucket/1/23351/'
+ATTACH TABLE finance_view (order_id, amount, profit, order_date) 
+'s3://your-bucket/1/23351/' 
 CONNECTION = (CONNECTION_NAME = 'my_s3_connection');
 ```
 
 ## 扩展阅读
 
-- [使用 ATTACH TABLE 链接表](/tutorials/cloud-ops/link-tables)
+- [使用 ATTACH TABLE 链接表](/tutorials/databend-cloud/link-tables)

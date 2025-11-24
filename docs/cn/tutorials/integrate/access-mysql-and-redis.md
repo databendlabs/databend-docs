@@ -1,24 +1,24 @@
 ---
-title: 使用 Dictionary 访问 MySQL 与 Redis
+title: 访问 MySQL 和 Redis
 ---
 
-本教程将演示如何在 Databend 中通过 Dictionary 访问 MySQL 与 Redis 数据。你将学习如何为外部数据源创建 Dictionary，并像查询本地表一样无缝读取这些数据。
+本教程介绍如何使用 Databend 字典访问 MySQL 和 Redis 数据，实现无缝的数据查询和集成。
 
 ## 开始之前
 
-请在本地安装 [Docker](https://www.docker.com/)，用于启动 Databend、MySQL 与 Redis 容器。同时需要一个连接 MySQL 的 SQL 客户端，推荐使用 [BendSQL](/guides/sql-clients/bendsql/) 连接 Databend。
+在开始之前，请确保您的本地机器上安装了 [Docker](https://www.docker.com/)。我们需要 Docker 来为 Databend、MySQL 和 Redis 设置必要的容器。您还需要一个 SQL 客户端来连接到 MySQL；我们建议使用 [BendSQL](/guides/sql-clients/bendsql/) 连接到 Databend。
 
-## 步骤 1：搭建环境
+## 步骤 1：设置环境
 
-本步骤会在本地通过 Docker 启动 Databend、MySQL 与 Redis。
+在这一步中，我们将在您的本地机器上使用 Docker 启动 Databend、MySQL 和 Redis 的实例。
 
-1. 创建名为 `mynetwork` 的 Docker 网络，供各容器互通：
+1. 创建一个名为 `mynetwork` 的 Docker 网络，以启用您的 Databend、MySQL 和 Redis 容器之间的通信：
 
 ```bash
 docker network create mynetwork
 ```
 
-2. 在该网络内启动名为 `mysql` 的 MySQL 容器：
+2. 运行以下命令以在 `mynetwork` 网络中启动一个名为 `mysql` 的 MySQL 容器：
 
 ```bash
 docker run -d \
@@ -29,7 +29,7 @@ docker run -d \
   mysql:latest
 ```
 
-3. 启动名为 `databend` 的 Databend 容器：
+3. 运行以下命令以在 `mynetwork` 网络中启动一个名为 `databend` 的 Databend 容器：
 
 ```bash
 docker run -d \
@@ -42,7 +42,7 @@ docker run -d \
   datafuselabs/databend:nightly
 ```
 
-4. 启动名为 `redis` 的 Redis 容器：
+4. 运行以下命令以在 `mynetwork` 网络中启动一个名为 `redis` 的 Redis 容器：
 
 ```bash
 docker run -d \
@@ -52,43 +52,70 @@ docker run -d \
   redis:latest
 ```
 
-5. 检查 `mynetwork`，确认三个容器都在同一网络：
+5. 通过检查 `mynetwork` Docker 网络，验证 Databend、MySQL 和 Redis 容器是否连接到同一网络：
 
 ```bash
 docker network inspect mynetwork
-```
 
-输出示例：
-
-```bash
 [
     {
         "Name": "mynetwork",
-        ...
-            "Containers": {
-                "14d50cc4d075158a6d5fa4e6c8b7db60960f8ba1f64d6bceff0692c7e99f37b5": {
-                    "Name": "redis",
-                    ...
-                },
-                "276bc1023f0ea999afc41e063f1f3fe7404cb6fbaaf421005d5c05be343ce5e5": {
-                    "Name": "databend",
-                    ...
-                },
-                "95c21de94d27edc5e6fa8e335e0fd5bff12557fa30889786de9f483b8d111dbc": {
-                    "Name": "mysql",
-                    ...
+        "Id": "ba8984e9ca07f49dd6493fd7c8be9831bda91c44595fc54305fc6bc241a77485",
+        "Created": "2024-09-23T21:24:34.59324771Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
                 }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "14d50cc4d075158a6d5fa4e6c8b7db60960f8ba1f64d6bceff0692c7e99f37b5": {
+                "Name": "redis",
+                "EndpointID": "e1d1015fea745bbbb34c6a9fb11010b6960a139914b7cc2c6a20fbca4f3b77d8",
+                "MacAddress": "02:42:ac:12:00:04",
+                "IPv4Address": "172.18.0.4/16",
+                "IPv6Address": ""
             },
-        ...
+            "276bc1023f0ea999afc41e063f1f3fe7404cb6fbaaf421005d5c05be343ce5e5": {
+                "Name": "databend",
+                "EndpointID": "ac915b9df2fef69c5743bf16b8f07e0bb8c481ca7122b171d63fb9dc2239f873",
+                "MacAddress": "02:42:ac:12:00:03",
+                "IPv4Address": "172.18.0.3/16",
+                "IPv6Address": ""
+            },
+            "95c21de94d27edc5e6fa8e335e0fd5bff12557fa30889786de9f483b8d111dbc": {
+                "Name": "mysql",
+                "EndpointID": "44fdf40de8c3d4c8fec39eb03ef1219c9cf1548e9320891694a9758dd0540ce3",
+                "MacAddress": "02:42:ac:12:00:02",
+                "IPv4Address": "172.18.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
     }
 ]
 ```
 
-## 步骤 2：准备示例数据
+## 步骤 2：填充示例数据
 
-本步骤将在 Databend、MySQL 与 Redis 中写入示例数据。
+在这一步中，我们将向 MySQL 和 Redis 以及 Databend 添加示例数据。
 
-1. 在 Databend 中创建 `users_databend` 表并插入示例数据：
+1. 在 Databend 中，创建一个名为 `users_databend` 的表，并插入示例用户数据：
 
 ```sql
 CREATE TABLE users_databend (
@@ -102,7 +129,7 @@ INSERT INTO users_databend (id, name) VALUES
 (3, 'Charlie');
 ```
 
-2. 在 MySQL 中创建 `dict` 数据库与 `users` 表，并插入示例数据：
+2. 在 MySQL 中，创建一个名为 `dict` 的数据库，创建一个 `users` 表，并插入示例数据：
 
 ```sql
 CREATE DATABASE dict;
@@ -120,17 +147,17 @@ INSERT INTO users (name, email) VALUES
 ('Charlie', 'charlie@example.com');
 ```
 
-3. 通过 Docker Desktop 或运行 `docker ps` 找到 Redis 容器 ID：
+3. 在 Docker Desktop 上或通过在终端中运行 `docker ps` 找到您的 Redis 容器 ID：
 
 ![alt text](../../../../static/img/documents/tutorials/redis-container-id.png)
 
-4. 使用容器 ID 进入 Redis CLI（将 `14d50cc4d075` 替换为实际 ID）：
+4. 使用您的 Redis 容器 ID 访问 Redis CLI（将 `14d50cc4d075` 替换为您实际的容器 ID）：
 
 ```bash
 docker exec -it 14d50cc4d075 redis-cli
 ```
 
-5. 在 Redis CLI 中插入示例数据：
+5. 通过在 Redis CLI 中运行以下命令，将示例用户数据插入到 Redis 中：
 
 ```bash
 SET user:1 '{"notifications": "enabled", "theme": "dark"}'
@@ -138,11 +165,11 @@ SET user:2 '{"notifications": "disabled", "theme": "light"}'
 SET user:3 '{"notifications": "enabled", "theme": "dark"}'
 ```
 
-## 步骤 3：创建 Dictionary
+## 步骤 3：创建字典
 
-本步骤将在 Databend 中为 MySQL 与 Redis 创建 Dictionary，并通过查询提取外部数据。
+在这一步中，我们将在 Databend 中为 MySQL 和 Redis 创建字典，然后从这些外部源查询数据。
 
-1. 在 Databend 中创建名为 `mysql_users` 的 Dictionary 指向 MySQL：
+1. 在 Databend 中，创建一个名为 `mysql_users` 的字典，该字典连接到 MySQL 实例：
 
 ```sql
 CREATE DICTIONARY mysql_users
@@ -162,7 +189,7 @@ SOURCE(MySQL(
 ));
 ```
 
-2. 创建名为 `redis_user_preferences` 的 Dictionary 指向 Redis：
+2. 在 Databend 中，创建一个名为 `mysql_users` 的字典，该字典连接到 Redis 实例：
 
 ```sql
 CREATE DICTIONARY redis_user_preferences
@@ -177,7 +204,7 @@ SOURCE(Redis(
 ));
 ```
 
-3. 查询两个 Dictionary：
+3. 查询我们之前创建的 MySQL 和 Redis 字典中的数据。
 
 ```sql
 SELECT 
@@ -189,7 +216,7 @@ FROM
     users_databend AS u;
 ```
 
-该查询会返回用户的 ID、姓名，同时通过 MySQL Dictionary 获取 email，通过 Redis Dictionary 获取偏好设置。
+上面的查询检索用户信息，包括来自 `users_databend` 表的 ID 和姓名，以及来自 MySQL 字典的电子邮件和来自 Redis 字典的用户偏好设置。
 
 ```sql title='Result:'
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
