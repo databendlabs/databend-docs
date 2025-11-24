@@ -1,6 +1,6 @@
 ---
-title: 从 Snowflake 迁移数据
-sidebar_label: 从 Snowflake 迁移数据
+title: Snowflake 数据迁移
+sidebar_label: Snowflake 数据迁移
 
 ---
 

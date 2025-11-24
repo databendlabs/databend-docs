@@ -1,6 +1,6 @@
 ---
-title: Addax 迁移 MySQL
-sidebar_label: 'Addax 迁移 MySQL'
+title: MySQL 离线迁移 (Addax)
+sidebar_label: 'MySQL 离线迁移 (Addax)'
 ---
 
 > **能力**：全量、增量

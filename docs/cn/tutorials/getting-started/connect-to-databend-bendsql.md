@@ -1,6 +1,6 @@
 ---
 title: "使用 BendSQL 连接自建 Databend"
-sidebar_label: "BendSQL 连接自建"
+sidebar_label: "连接自建 Databend (BendSQL)"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';

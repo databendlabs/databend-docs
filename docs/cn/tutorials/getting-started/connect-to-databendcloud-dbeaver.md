@@ -1,6 +1,6 @@
 ---
 title: '使用 DBeaver 连接 Databend Cloud'
-sidebar_label: 'DBeaver 连接 Cloud'
+sidebar_label: '连接 Databend Cloud (DBeaver)'
 ---
 import StepsWrap from '@site/src/components/StepsWrap';
 import StepContent from '@site/src/components/Steps/step-content';
