@@ -14,14 +14,14 @@ The official JDBC driver providing standard JDBC 4.0 compatibility for seamless 
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.3.7</version>
+    <version>0.4.1</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```gradle
-implementation 'com.databend:databend-jdbc:0.3.7'
+implementation 'com.databend:databend-jdbc:0.4.1'
 ```
 
 **Connection String**: See [Drivers Overview](./index.md#connection-string-dsn) for DSN format and connection examples.
