@@ -1,5 +1,6 @@
 ---
-title: "Python：连接自建 Databend"
+title: "Python Driver 开发 (自建)"
+sidebar_label: "Python Driver 开发 (自建)"
 ---
 
 本教程介绍如何通过 Python 连接本地部署的 Databend，并分别使用 `databend-driver`、`databend-sqlalchemy` Connector 以及 Engine 三种方式完成建库、建表、写入、查询与清理等操作。

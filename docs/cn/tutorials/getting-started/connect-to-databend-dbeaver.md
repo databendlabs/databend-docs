@@ -1,6 +1,6 @@
 ---
-title: "使用 DBeaver 连接（自建版）"
-sidebar_label: "DBeaver（自建版）"
+title: "使用 DBeaver 连接自建 Databend"
+sidebar_label: "DBeaver 连接自建 Databend"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';

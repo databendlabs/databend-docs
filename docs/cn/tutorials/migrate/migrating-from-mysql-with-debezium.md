@@ -1,6 +1,6 @@
 ---
-title: 使用 Debezium 迁移 MySQL（CDC）
-sidebar_label: 'MySQL → Databend：Debezium（CDC）'
+title: 使用 Debezium 实时同步 MySQL
+sidebar_label: 'Debezium 实时同步 MySQL'
 ---
 
 > **能力**：CDC、全量  

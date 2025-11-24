@@ -1,6 +1,6 @@
 ---
-title: 从 Snowflake 迁移到 Databend
-sidebar_label: Snowflake → Databend
+title: 从 Snowflake 迁移数据
+sidebar_label: Snowflake 数据迁移
 
 ---
 

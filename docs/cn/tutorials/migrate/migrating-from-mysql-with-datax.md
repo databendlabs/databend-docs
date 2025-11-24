@@ -1,6 +1,6 @@
 ---
-title: 使用 DataX 迁移 MySQL（批量）
-sidebar_label: 'MySQL → Databend：DataX（批量）'
+title: 使用 DataX 离线迁移 MySQL
+sidebar_label: 'DataX 离线迁移 MySQL'
 ---
 
 > **能力**：全量、增量
