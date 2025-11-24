@@ -1,6 +1,6 @@
 ---
-title: MySQL 离线迁移 (db-archiver)
-sidebar_label: 'db-archiver (MySQL)'
+title: db-archiver 迁移 MySQL
+sidebar_label: 'db-archiver 迁移 MySQL'
 ---
 
 > **能力**：全量、增量  

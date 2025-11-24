@@ -1,6 +1,6 @@
 ---
-title: "SQLAlchemy 开发指南 (Cloud)"
-sidebar_label: "SQLAlchemy (Cloud)"
+title: "SQLAlchemy 开发 (Cloud)"
+sidebar_label: "SQLAlchemy 开发 (Cloud)"
 ---
 
 本教程将演示如何借助 `databend-sqlalchemy` 连接 Databend Cloud，并使用 Python 创建表、插入数据与查询结果。

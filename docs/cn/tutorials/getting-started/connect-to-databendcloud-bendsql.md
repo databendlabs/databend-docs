@@ -1,6 +1,6 @@
 ---
 title: "使用 BendSQL 连接 Databend Cloud"
-sidebar_label: "BendSQL (Cloud)"
+sidebar_label: "BendSQL 连接 Cloud"
 ---
 
 import StepsWrap from '@site/src/components/StepsWrap';
