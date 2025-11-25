@@ -107,10 +107,6 @@ const siteRedirects = [
     to: '/tutorials/ingest-and-stream/query-metadata'
   },
   {
-    from: '/tutorials/integrate/access-mysql-and-redis',
-    to: '/tutorials/ingest-and-stream/access-mysql-and-redis'
-  },
-  {
     from: '/tutorials/programming/python/integrating-with-databend-cloud-using-databend-driver',
     to: '/tutorials/develop/python/integrating-with-databend-cloud-using-databend-driver'
   },
