@@ -14,14 +14,14 @@ title: Java (JDBC)
 <dependency>
     <groupId>com.databend</groupId>
     <artifactId>databend-jdbc</artifactId>
-    <version>0.3.7</version>
+    <version>0.4.1</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```gradle
-implementation 'com.databend:databend-jdbc:0.3.7'
+implementation 'com.databend:databend-jdbc:0.4.1'
 ```
 
 **连接字符串**：关于 DSN 格式和连接示例，请参见 [驱动程序概述](./index.md#connection-string-dsn)。
