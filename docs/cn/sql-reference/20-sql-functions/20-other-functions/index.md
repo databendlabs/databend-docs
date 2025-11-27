@@ -14,3 +14,5 @@ title: 其他函数
 | [REMOVE_NULLABLE](remove-nullable.md) | 从列值中去除可空性 |
 | [TO_NULLABLE](to-nullable.md) | 将值转换为可空类型 |
 | [TYPEOF](typeof.md) | 返回值的数据类型名称 |
+| [MARKOV_GENERATE](markov_generate.md) | 字符串类型匿名化生成 |
+| [FEISTEL_OBFUSCATE](feistel_obfuscate.md) | 数字类型匿名化 |

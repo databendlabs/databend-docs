@@ -4,9 +4,9 @@ title: SLEEP
 
 在每个数据块上休眠 `seconds` 秒。
 
-!!! warning 
-    仅用于需要休眠的测试场景。
-
+:::caution
+仅用于需要休眠的测试场景。
+:::
 
 ## 语法
 
