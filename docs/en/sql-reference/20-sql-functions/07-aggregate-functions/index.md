@@ -89,3 +89,9 @@ This page provides a comprehensive overview of aggregate functions in Databend, 
 |----------|-------------|---------|
 | [RETENTION](aggregate-retention.md) | Calculates retention rates | `RETENTION(action = 'signup', action = 'purchase')` → `[100, 40]` |
 | [WINDOWFUNNEL](aggregate-windowfunnel.md) | Searches for event sequences within time window | `WINDOWFUNNEL(1800)(timestamp, event='view', event='click', event='purchase')` → `2` |
+
+## Anonymization
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| [MARKOV_TRAIN](aggregate-markov-train.md) | train markov model | `MARKOV_TRAIN(address)` |
