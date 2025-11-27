@@ -41,4 +41,4 @@ title: 表函数 (Table Functions)
 
 | 函数 | 描述 | 示例 |
 |----------|-------------|---------|
-| [OBFUSCATE](obfuscate.md) | 生成匿名化的数据 | `SELECT * FROM OBFUSCATE(users)` |
+| [OBFUSCATE](../19-data-anonymization-functions/obfuscate.md) | 生成匿名化的数据 | `SELECT * FROM OBFUSCATE(users)` |
