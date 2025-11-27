@@ -61,6 +61,7 @@ Databend provides comprehensive SQL functions for all types of data processing. 
 | [Bitmap Functions](./01-bitmap-functions/index.md) | High-performance bitmap operations and analytics |
 | [UUID Functions](./13-uuid-functions/index.md) | Universally unique identifier generation |
 | [IP Address Functions](./14-ip-address-functions/index.md) | Network address manipulation and validation |
+| [Data Anonymization Functions](./21-data-anonymization-functions/index.md) | Data masking and anonymization utilities |
 
 ## Utility Functions
 
