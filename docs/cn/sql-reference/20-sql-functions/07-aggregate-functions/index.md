@@ -89,3 +89,9 @@ title: '聚合函数'
 |----------|-------------|---------|
 | [RETENTION](aggregate-retention.md) | 计算留存率 | `RETENTION(action = 'signup', action = 'purchase')` → `[100, 40]` |
 | [WINDOWFUNNEL](aggregate-windowfunnel.md) | 在时间窗口内搜索事件序列 | `WINDOWFUNNEL(1800)(timestamp, event='view', event='click', event='purchase')` → `2` |
+
+## 匿名化
+
+| 函数 | 描述 | 示例 |
+|----------|-------------|---------|
+| [MARKOV_TRAIN](aggregate-markov-train.md) | 训练马尔可夫模型 | `MARKOV_TRAIN(address)` |

@@ -4,9 +4,9 @@ title: SLEEP
 
 Sleeps `seconds` seconds on each data block.
 
-!!! warning 
-    Only used for testing where sleep is required.
-
+:::caution
+Only used for testing where sleep is required.
+:::
 
 ## Syntax
 

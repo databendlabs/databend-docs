@@ -14,3 +14,5 @@ This section collects assorted utilities that do not fit into the major function
 | [REMOVE_NULLABLE](remove-nullable.md) | Strip NULLability from a column value |
 | [TO_NULLABLE](to-nullable.md) | Convert a value to a nullable type |
 | [TYPEOF](typeof.md) | Return the name of a value’s data type |
+| [MARKOV_GENERATE](markov_generate.md) | Generate anonymized strings |
+| [FEISTEL_OBFUSCATE](feistel_obfuscate.md) | Transformed numbers for anonymization |

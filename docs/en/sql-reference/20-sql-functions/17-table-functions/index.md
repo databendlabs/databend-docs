@@ -52,3 +52,9 @@ This page provides reference information for the table functions in Databend. Ta
 |----------|-------------|--------|
 | [ICEBERG_MANIFEST](./iceberg-manifest.md) | Shows Iceberg table manifest information | `SELECT * FROM ICEBERG_MANIFEST('mytable')` |
 | [ICEBERG_SNAPSHOT](./iceberg-snapshot.md) | Shows Iceberg table snapshot information | `SELECT * FROM ICEBERG_SNAPSHOT('mytable')` |
+
+## Anonymization
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| [OBFUSCATE](obfuscate.md) | dataset anonymization | `SELECT * FROM OBFUSCATE(users)` |

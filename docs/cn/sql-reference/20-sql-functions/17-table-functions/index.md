@@ -36,3 +36,9 @@ title: 表函数 (Table Functions)
 |------|------|------|
 | [ICEBERG_MANIFEST](iceberg-manifest) | 显示 Iceberg 表清单信息 | `SELECT * FROM ICEBERG_MANIFEST('mytable')` |
 | [ICEBERG_SNAPSHOT](iceberg-snapshot) | 显示 Iceberg 表快照信息 | `SELECT * FROM ICEBERG_SNAPSHOT('mytable')` |
+
+## 匿名化
+
+| 函数 | 描述 | 示例 |
+|----------|-------------|---------|
+| [OBFUSCATE](obfuscate.md) | 生成匿名化的数据 | `SELECT * FROM OBFUSCATE(users)` |
