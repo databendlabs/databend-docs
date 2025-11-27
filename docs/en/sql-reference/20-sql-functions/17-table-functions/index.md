@@ -57,4 +57,4 @@ This page provides reference information for the table functions in Databend. Ta
 
 | Function | Description | Example |
 |----------|-------------|---------|
-| [OBFUSCATE](obfuscate.md) | dataset anonymization | `SELECT * FROM OBFUSCATE(users)` |
+| [OBFUSCATE](../19-data-anonymization-functions/obfuscate.md) | dataset anonymization | `SELECT * FROM OBFUSCATE(users)` |

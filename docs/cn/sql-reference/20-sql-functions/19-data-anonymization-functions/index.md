@@ -16,7 +16,7 @@ title: 数据匿名化函数
 
 Databend 提供了一系列函数来支持多种匿名化技术，涵盖数据脱敏、假名化处理以及合成数据生成：
 
-- **数据脱敏 (Data Masking)**：使用 [`OBFUSCATE` 表函数](../17-table-functions/obfuscate.md) 自动对列应用脱敏规则，用格式逼真但无实际关联的合成数据替换原始值。
+- **数据脱敏 (Data Masking)**：使用 [`OBFUSCATE` 表函数](obfuscate.md) 自动对列应用脱敏规则，用格式逼真但无实际关联的合成数据替换原始值。
 - **假名化 (Pseudonymization)**：使用 [FEISTEL_OBFUSCATE](feistel_obfuscate.md) 将标识符替换为确定性的混淆值。该方法保留了数据的基数（Cardinality）和位宽，非常适合处理需要进行关联查询（Join）的键值字段。
 - **合成数据 (Synthetic Data)**：结合使用 [MARKOV_TRAIN](../07-aggregate-functions/aggregate-markov-train.md) 和 [MARKOV_GENERATE](markov_generate.md) 生成机器合成数据。这些数据在统计特征上与原始数据集相似，但与真实记录没有任何直接联系。
 
@@ -24,3 +24,4 @@ Databend 提供了一系列函数来支持多种匿名化技术，涵盖数据�
 |----------|-------------|
 | [MARKOV_GENERATE](markov_generate.md) | 基于马尔可夫模型生成匿名化数据 |
 | [FEISTEL_OBFUSCATE](feistel_obfuscate.md) | 对数值类型进行匿名化处理 |
+| [OBFUSCATE](obfuscate.md) | 表级快速脱敏 |
