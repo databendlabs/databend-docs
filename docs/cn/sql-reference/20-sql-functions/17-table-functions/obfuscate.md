@@ -6,7 +6,7 @@ title: OBFUSCATE
 OBFUSCATE 表函数用于生成匿名化数据。这是一个快速工具，对于更复杂的场景，推荐直接使用底层函数 [MARKOV_TRAIN](../07-aggregate-functions/aggregate-markov-train.md)、[MARKOV_GENERATE](../20-other-functions/markov_generate.md) 和 [FEISTEL_OBFUSCATE](../20-other-functions/feistel_obfuscate.md)。该函数支持对 String、Integer 和 Float 类型的数据进行匿名化处理。
 
 :::note
-对于 Date 类型，该函数目前不进行处理，直接返回原值。
+对于其他暂时不支持的类型（如 Date），该函数目前不进行处理，直接返回原值。
 :::
 
 ## 语法
