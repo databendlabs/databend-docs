@@ -2,7 +2,7 @@
 title: FEISTEL_OBFUSCATE
 ---
 
-Transformed numbers for anonymization
+Deterministically obfuscate integers (e.g. IDs or phone numbers) while preserving bit length and value cardinality so joins still work.
 
 ## Syntax
 
@@ -40,4 +40,23 @@ SELECT feistel_obfuscate(10,1561819567875);
 +------------------------------------------+
 | 13                                       |
 +------------------------------------------+
+```
+
+Phone-number style example (seed = 4242):
+
+```sql
+SELECT 13000000000 + number AS phone,
+       feistel_obfuscate(13000000000 + number, 4242) AS masked_phone
+FROM numbers(5);
+
+-- Sample output
++-------------+--------------+
+|    phone    | masked_phone |
++-------------+--------------+
+| 13000000000 | 12221668677  |
+| 13000000001 | 10245458699  |
+| 13000000002 | 15398657780  |
+| 13000000003 | 9910824758   |
+| 13000000004 | 13299971128  |
++-------------+--------------+
 ```
