@@ -2,22 +2,22 @@
 title: MARKOV_GENERATE
 ---
 
-MARKOV_GENERATE 函数用于使用经 [MARKOV_TRAIN](../07-aggregate-functions/aggregate-markov-train.md) 训练的模型，生成匿名化数据
+MARKOV_GENERATE 函数利用由 [MARKOV_TRAIN](../07-aggregate-functions/aggregate-markov-train.md) 训练生成的模型来生成匿名化数据。
 
 ## 语法
 
 ```sql
-FEISTEL_OBFUSCATE( <model>, <params>, <seed>, <determinator> )
+MARKOV_GENERATE( <model>, <params>, <seed>, <determinator> )
 ```
 
 ## 参数
 
 | 参数        | 描述        |
 | ----------- | ----------- |
-| `model` | markov_train 生成的模型 |
-| `params`| 生成参数，json 字符串，`{"order": 5, "sliding_window_size": 8}` <br/> order：模型上下文长度，<br/> 源字符串中滑动窗口的大小-其哈希值用作模型中RNG的种子 |
+| `model` | 由 markov_train 生成的模型。 |
+| `params`| 生成参数，为 JSON 字符串格式，例如 `{"order": 5, "sliding_window_size": 8}`。<br/> `order`：模型上下文长度。<br/> `sliding_window_size`：源字符串中滑动窗口的大小，其哈希值将用作模型中随机数生成器 (RNG) 的种子。 |
 | `seed` | 生成种子。|
-| `determinator`| 输入 |
+| `determinator`| 输入数据（决定因子）。 |
 
 ## 返回类型
 

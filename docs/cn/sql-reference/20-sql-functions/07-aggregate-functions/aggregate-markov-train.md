@@ -2,7 +2,7 @@
 title: MARKOV_TRAIN
 ---
 
-使用马尔可夫模型提取数据集中的模式
+MARKOV_TRAIN 函数用于训练马尔可夫模型，以便生成匿名化数据。
 
 ## 语法
 
@@ -16,12 +16,12 @@ MARKOV_TRAIN(<order>, <frequency_cutoff>, <num_buckets_cutoff>, <frequency_add>,
 
 | 参数             | 描述               |
 |------------------| ------------------ |
-| `string` | 输入 |
-| `order` | 模型上下文长度 |
-| `frequency-cutoff` | 频率截断: 移除所以计数小于阈值的桶 |
-| `num-buckets-cutoff` | 同一上下文不同后继桶的截断：移除所有桶数量少于指定值的直方图 |
-| `frequency-add` | 对每个计数加一个常数以降低概率分布的偏斜 |
-| `frequency-desaturate` | 0..1 - 将每个频率移向平均值以降低概率分布的偏斜 |
+| `string` | 输入数据。 |
+| `order` | 模型上下文长度。 |
+| `frequency-cutoff` | 频率截断：移除所有计数小于阈值的桶。 |
+| `num-buckets-cutoff` | 桶数量截断：如果同一上下文的后继桶数量少于指定值，则移除该直方图。 |
+| `frequency-add` | 频率平滑：对每个计数增加一个常数，以降低概率分布的偏斜。 |
+| `frequency-desaturate` | 频率去饱和：取值范围 0 到 1，将每个频率移向平均值，以降低概率分布的偏斜。 |
 
 ## 返回类型
 

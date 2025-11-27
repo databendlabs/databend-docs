@@ -1,14 +1,22 @@
+
 ---
 title: OBFUSCATE
 ---
 
-生成匿名化的数据。这是一个快速工具，对于更复杂的场景，更推荐直接使用底层函数 [MARKOV_TRAIN](../07-aggregate-functions/aggregate-markov-train.md)，[MARKOV_GENERATE](../20-other-functions/markov_generate.md)，[FEISTEL_OBFUSCATE](../20-other-functions/feistel_obfuscate.md) 。
+OBFUSCATE 表函数用于生成匿名化数据。这是一个快速工具，对于更复杂的场景，推荐直接使用底层函数 [MARKOV_TRAIN](../07-aggregate-functions/aggregate-markov-train.md)、[MARKOV_GENERATE](../20-other-functions/markov_generate.md) 和 [FEISTEL_OBFUSCATE](../20-other-functions/feistel_obfuscate.md)。该函数支持的类型包括 Email、String、Date、Integer 和 Float。
 
 ## 语法
 
 ```sql
 OBFUSCATE('<table>'[, seed => <seed>])
 ```
+
+## 参数
+
+| 参数        | 描述        |
+| ----------- | ----------- |
+| `<table>` | 输入表。|
+| `seed` | 随机种子。|
 
 ## 示例
 
