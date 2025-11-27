@@ -25,7 +25,7 @@ MARKOV_TRAIN(<order>, <frequency_cutoff>, <num_buckets_cutoff>, <frequency_add>,
 
 ## 返回类型
 
-取决于实现，仅用于作为 [MARKOV_GENERATE](../20-other-functions/markov_generate.md) 的参数。
+取决于实现，仅用于作为 [MARKOV_GENERATE](../19-data-anonymization-functions/markov_generate.md) 的参数。
 
 ## 示例
 
