@@ -68,6 +68,7 @@ Databend provides comprehensive SQL functions for all types of data processing. 
 |----------|-------------|
 | [Interval Functions](./05-interval-functions/index.md) | Time unit conversion and interval creation |
 | [Sequence Functions](./18-sequence-functions/index.md) | Auto-incrementing sequence value generation |
+| [Data Anonymization Functions](./19-data-anonymization-functions/index.md) | Data masking and anonymization utilities |
 | [Dictionary Functions](./19-dictionary-functions/index.md) | Real-time external data source queries (MySQL, Redis) |
 | [Test Functions](./19-test-functions/index.md) | Testing and debugging utilities |
 | [Other Functions](./20-other-functions/index.md) | Miscellaneous helpers and utilities |
