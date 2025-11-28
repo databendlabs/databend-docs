@@ -710,7 +710,7 @@
     "description": "Description for unified data feature"
   },
   "Analytics Native": {
-    "message": "原生 SQL 分析(Analytics)",
+    "message": "原生 SQL 分析 (Analytics)",
     "description": "Headline for analytics native feature"
   },
   "ANSI SQL, windowing, incremental aggregates, and streaming power BI.": {
@@ -718,7 +718,7 @@
     "description": "Description for analytics native feature"
   },
   "Vector Native": {
-    "message": "原生向量支持(Vector)",
+    "message": "原生向量支持 (Vector)",
     "description": "Headline for vector native feature"
   },
   "Embeddings, vector indexes, and semantic retrieval all run in SQL.": {
@@ -726,7 +726,7 @@
     "description": "Description for vector native feature"
   },
   "Search Native": {
-    "message": "原生搜索能力(Search)",
+    "message": "原生搜索能力 (Search)",
     "description": "Headline for search native feature"
   },
   "Full-text search and inverted indexes fuel hybrid retrieval.": {
@@ -734,7 +734,7 @@
     "description": "Description for search native feature"
   },
   "Geo Native": {
-    "message": "原生地理空间(Geospatial)",
+    "message": "原生地理空间 (Geospatial)",
     "description": "Headline for geo native feature"
   },
   "Geospatial indexes and functions power map and location services.": {
@@ -860,5 +860,9 @@
   "Releases": {
     "message": "版本发布",
     "description": "Releases"
+  },
+  "All rights reserved.": {
+    "message": "© {year} Databend 社区。版权所有。",
+    "description": "All rights reserved."
   }
 }
