@@ -43,15 +43,23 @@ cursor.execute('SELECT * FROM data')
 # 读取所有结果
 rows = cursor.fetchall()
 
+# 获取列名
+# cursor.description 返回一个元组列表，其中每个元组的第一个元素是列名
+column_names = [desc[0] for desc in cursor.description]
+print(f"Columns: {column_names}")
+
 # 打印结果
 for row in rows:
-    print(row.values())
+    # row 是一个 databend_driver.Row 对象
+    # 通过列名访问
+    print(f"x: {row['x']}, y: {row['y']}")
 ```
 
 2. 执行 `python main.py`：
 
 ```bash
 python main.py
-(1, 'yy')
-(2, 'xx')
+Columns: ['x', 'y']
+x: 1, y: yy
+x: 2, y: xx
 ```

@@ -43,11 +43,39 @@ cursor.execute("CREATE TABLE users (id INT, name STRING)")
 cursor.execute("INSERT INTO users VALUES (?, ?)", (1, 'Alice'))
 
 # 查询：读取数据
+# 查询：读取数据
 cursor.execute("SELECT * FROM users")
+
+# 获取列名
+# cursor.description 返回一个元组列表，其中每个元组的第一个元素是列名
+print(f"Columns: {[desc[0] for desc in cursor.description]}")
+
 for row in cursor.fetchall():
-    print(row.values())
+    # row 是一个 databend_driver.Row 对象
+    # 通过列名访问
+    print(f"id: {row['id']}, name: {row['name']}")
 
 cursor.close()
+```
+
+### Row 对象使用
+
+`Row` 对象支持多种访问模式和方法：
+
+```python
+for row in cursor.fetchall():
+    # 1. 通过列名访问（推荐）
+    print(f"Name: {row['name']}")
+    
+    # 2. 通过索引访问
+    print(f"First column: {row[0]}")
+    
+    # 3. 转换为元组
+    print(f"Values: {row.values()}")
+    
+    # 4. 显式方法调用
+    print(row.get_by_field('name'))
+    print(row.get_by_index(0))
 ```
 
 ### 异步用法
