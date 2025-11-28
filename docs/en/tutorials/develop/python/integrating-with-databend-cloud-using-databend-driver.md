@@ -42,15 +42,23 @@ cursor.execute('SELECT * FROM data')
 # Fetch all rows from the result
 rows = cursor.fetchall()
 
+# Get column names from cursor.description
+# cursor.description returns a list of tuples, where the first element is the column name
+column_names = [desc[0] for desc in cursor.description]
+print(f"Columns: {column_names}")
+
 # Print the result
 for row in rows:
-    print(row.values())
+    # row is a databend_driver.Row object
+    # Access by column name
+    print(f"x: {row['x']}, y: {row['y']}")
 ```
 
 2. Run `python main.py`:
 
 ```bash
 python main.py
-(1, 'yy')
-(2, 'xx')
+Columns: ['x', 'y']
+x: 1, y: yy
+x: 2, y: xx
 ```

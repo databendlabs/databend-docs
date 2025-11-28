@@ -43,11 +43,39 @@ cursor.execute("CREATE TABLE users (id INT, name STRING)")
 cursor.execute("INSERT INTO users VALUES (?, ?)", (1, 'Alice'))
 
 # Query: Read data
+# Query: Read data
 cursor.execute("SELECT * FROM users")
+
+# Get column names
+# cursor.description returns a list of tuples, where the first element is the column name
+print(f"Columns: {[desc[0] for desc in cursor.description]}")
+
 for row in cursor.fetchall():
-    print(row.values())
+    # row is a databend_driver.Row object
+    # Access by column name
+    print(f"id: {row['id']}, name: {row['name']}")
 
 cursor.close()
+```
+
+### Working with Row Objects
+
+The `Row` object supports multiple access patterns and methods:
+
+```python
+for row in cursor.fetchall():
+    # 1. Access by column name (Recommended)
+    print(f"Name: {row['name']}")
+    
+    # 2. Access by index
+    print(f"First column: {row[0]}")
+    
+    # 3. Convert to tuple
+    print(f"Values: {row.values()}")
+    
+    # 4. Explicit methods
+    print(row.get_by_field('name'))
+    print(row.get_by_index(0))
 ```
 
 ### Asynchronous Usage
