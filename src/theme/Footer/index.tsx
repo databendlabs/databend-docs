@@ -18,7 +18,7 @@ import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import * as CookieConsent from "vanilla-cookieconsent";
 import pluginConfig from "@site/src/components/Config/CookieConsentConfig";
-import { shouldShowConsent } from "@site/src/utils/tools";
+import $t, { shouldShowConsent } from "@site/src/utils/tools";
 // import ProgressBar from "react-scroll-progress-bar";
 const COOKIES_CLASS = "show--consent";
 
@@ -163,7 +163,7 @@ function Footer() {
         })}
       </div>
       <div className={styles.footerCopyright}>
-        <p>Copyright © {year} The Databend Community. All rights reserved.</p>
+        <p>{$t("All rights reserved.", true, { year })}</p>
       </div>
     </footer>
   );

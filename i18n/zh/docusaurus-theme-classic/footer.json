@@ -8,8 +8,8 @@
     "description": "The title of the footer links column with title=COMMUNITY in the footer"
   },
   "link.item.label.Performance": {
-    "message": "Performance",
-    "description": "The label of footer link with label=Performance linking to https://www.databend.cn/blog/clickbench-databend-top"
+    "message": "性能",
+    "description": "The label of footer link with label=Performance linking to /guides/benchmark/"
   },
   "link.item.label.Deployment": {
     "message": "Deployment",
@@ -30,5 +30,33 @@
   "copyright": {
     "message": "Copyright © 2023 Datafuse Labs, Inc. Built with Docusaurus. <br><br> <img src=\"https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg\">",
     "description": "The footer copyright"
+  },
+  "link.item.label.Visit Databend": {
+    "message": "访问官网",
+    "description": "The label of footer link with label=Visit Databend linking to https://www.databend.cn"
+  },
+  "link.item.label.Products": {
+    "message": "Databend 产品",
+    "description": "The label of footer link with label=Products linking to /guides/"
+  },
+  "link.item.label.AI": {
+    "message": "AI",
+    "description": "The label of footer link with label=AI linking to /guides/ai-functions"
+  },
+  "link.item.label.Downloads": {
+    "message": "下载",
+    "description": "The label of footer link with label=Downloads linking to https://www.databend.cn/download/"
+  },
+  "link.item.label.Developer": {
+    "message": "开发者",
+    "description": "The label of footer link with label=Developer linking to /developer/"
+  },
+  "link.item.label.Blog": {
+    "message": "博客",
+    "description": "The label of footer link with label=Blog linking to https://www.databend.cn/blog/"
+  },
+  "link.item.label.X": {
+    "message": "X",
+    "description": "The label of footer link with label=X linking to https://x.com/DatabendLabs"
   }
 }

@@ -6,7 +6,8 @@ import siteRedirects from './site-redirects';
 
 
 const { site } = process.env;
-const isCN = (site || "cn") === "cn";
+const siteName = site || "cn";
+const isCN = siteName === "cn";
 const lang = isCN ? "zh" : "en";
 
 const { site_env } = process.env;
@@ -58,14 +59,14 @@ const config: Config = {
     cloudLink: siteConfig[lang].cloudLink,
     blogTags: ["weekly", "databend"],
     askBendUrl: isProduction ? ASKBEND_URL : "",
-    site
+    site: siteName,
   },
   presets: [
     [
       'classic',
       {
         docs: {
-          path: `./docs/${site}/guides`,
+          path: `./docs/${siteName}/guides`,
           routeBasePath: "guides",
           sidebarPath: "./docs/en/sidebars.js",
           editUrl: ({ locale, docPath }) => {
@@ -73,7 +74,7 @@ const config: Config = {
             // if (locale !== config.i18n.defaultLocale) {
             //     return `https://databend.crowdin.com/databend/${locale}`;
             // }
-            return `https://github.com/databendlabs/databend-docs/tree/main/docs/${site}/guides/${docPath}`;
+            return `https://github.com/databendlabs/databend-docs/tree/main/docs/${siteName}/guides/${docPath}`;
           },
         },
         blog: false,
@@ -104,7 +105,7 @@ const config: Config = {
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       {
         id: "dev",
-        path: `./docs/${site}/dev`,
+        path: `./docs/${siteName}/dev`,
         routeBasePath: "dev",
         sidebarPath: "./docs/en/sidebars.js",
         editUrl: ({ locale, devPath }: any) => {
@@ -112,7 +113,7 @@ const config: Config = {
           // if (locale !== config.i18n.defaultLocale) {
           //     return `https://databend.crowdin.com/databend/${locale}`;
           // }
-          return `https://github.com/databendlabs/databend-docs/edit/main/docs/dev/${devPath}`;
+          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/dev/${devPath}`;
         },
       },
     ],
@@ -121,11 +122,11 @@ const config: Config = {
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       {
         id: "tutorials",
-        path: `./docs/${site}/tutorials`,
+        path: `./docs/${siteName}/tutorials`,
         routeBasePath: "tutorials",
         sidebarPath: "./docs/en/sidebars.js",
         editUrl: ({ locale, docPath }: any) => {
-          return `https://github.com/databendlabs/databend-docs/tree/main/docs/${site}/tutorials/${docPath}`;
+          return `https://github.com/databendlabs/databend-docs/tree/main/docs/${siteName}/tutorials/${docPath}`;
         },
       },
     ],
@@ -134,11 +135,11 @@ const config: Config = {
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       {
         id: "sqlReference",
-        path: `./docs/${site}/sql-reference`,
+        path: `./docs/${siteName}/sql-reference`,
         routeBasePath: "sql",
         sidebarPath: "./docs/en/sidebars.js",
         editUrl: ({ locale, docPath }: any) => {
-          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/sql-reference/${docPath}`;
+          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/sql-reference/${docPath}`;
         },
       },
     ],
@@ -147,11 +148,11 @@ const config: Config = {
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       {
         id: "releaseNotes",
-        path: `./docs/${site}/release-notes`,
+        path: `./docs/${siteName}/release-notes`,
         routeBasePath: "release-notes",
         sidebarPath: "./docs/en/sidebars.js",
         editUrl: ({ locale, docPath }: any) => {
-          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/release-notes/${docPath}`;
+          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/release-notes/${docPath}`;
         },
       },
     ],
@@ -160,11 +161,11 @@ const config: Config = {
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       {
         id: "developer",
-        path: `./docs/${site}/developer`,
+        path: `./docs/${siteName}/developer`,
         routeBasePath: "developer",
         sidebarPath: "./docs/en/sidebars.js",
         editUrl: ({ locale, docPath }: any) => {
-          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/developer/${docPath}`;
+          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/developer/${docPath}`;
         },
       },
     ],
@@ -173,11 +174,11 @@ const config: Config = {
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
       {
         id: "integrations",
-        path: `./docs/${site}/integrations`,
+        path: `./docs/${siteName}/integrations`,
         routeBasePath: "integrations",
         sidebarPath: "./docs/en/sidebars.js",
         editUrl: ({ locale, docPath }: any) => {
-          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${site}/integrations/${docPath}`;
+          return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/integrations/${docPath}`;
         },
       },
     ],

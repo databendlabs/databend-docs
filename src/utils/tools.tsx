@@ -31,11 +31,14 @@ export function shouldShowConsent() {
   return !cookie;
 }
 
-function $t(text: string, isText = true): string | any {
+function $t(text: string, isText = true, values?: any): string | any {
   if (isText) {
-    return translate({
-      message: text,
-    });
+    return translate(
+      {
+        message: text,
+      },
+      values
+    );
   }
   return <Translate>{text}</Translate>;
 }

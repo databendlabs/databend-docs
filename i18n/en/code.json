@@ -832,5 +832,9 @@
   "Open in": {
     "message": "Open in",
     "description": "Open in"
+  },
+  "All rights reserved.": {
+    "message": "Copyright © {year} The Databend Community. All rights reserved.",
+    "description": "All rights reserved."
   }
 }
