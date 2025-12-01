@@ -1,9 +1,5 @@
 const siteRedirects = [
   {
-    from: '/',
-    to: '/guides/'
-  },
-  {
     from: '/guides/access-data-lake',
     to: '/sql/sql-reference/table-engines/'
   },
