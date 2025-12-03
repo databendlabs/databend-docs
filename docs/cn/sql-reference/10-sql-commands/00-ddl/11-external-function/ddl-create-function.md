@@ -6,7 +6,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.339"/>
 
-创建外部函数（External Function）。
+创建外部函数（External Function），通过 Flight 协议调用远程处理程序（通常为 Python 或其他服务）。
+
+### 支持语言
+
+- 由远程服务器实现决定（常见为 Python，只要实现了 Flight 接口，可以使用任意语言）
 
 ## 语法
 

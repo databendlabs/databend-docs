@@ -6,7 +6,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.799"/>
 
-Creates a Scalar SQL UDF using Databend's unified function syntax.
+Creates a scalar SQL UDF using Databend's unified function syntax. Logic is expressed purely in SQL; no external language support is required.
+
+### Supported Languages
+
+- SQL expressions only (no external runtimes)
 
 ## Syntax
 
@@ -60,4 +64,3 @@ SELECT area_of_circle(5.0) AS circle_area;
 SELECT calculate_age('1990-05-15') AS age;
 SELECT calculate_bmi(70.0, 1.75) AS bmi;
 ```
-
