@@ -1,6 +1,6 @@
 ---
 title: SHOW USER FUNCTIONS
-sidebar_position: 2
+sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

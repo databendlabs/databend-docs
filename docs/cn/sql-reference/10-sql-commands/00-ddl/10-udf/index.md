@@ -10,8 +10,8 @@ Databend 中的用户自定义函数（User-Defined Function，UDF）允许您�
 |---|---|
 | [CREATE SCALAR FUNCTION](ddl-create-function.md) | 纯 SQL 标量函数（无外部语言） |
 | [CREATE AGGREGATE FUNCTION](ddl-create-aggregate-function.md) | 脚本 UDAF（JavaScript/Python 运行时） |
-| [CREATE TABLE FUNCTION](ddl-create-table-function.md) | 纯 SQL 表函数（返回结果集） |
 | [CREATE EMBEDDED FUNCTION](ddl-create-function-embedded.md) | 嵌入式函数（Python/JavaScript/WASM） |
+| [CREATE TABLE FUNCTION](ddl-create-table-function.md) | 纯 SQL 表函数（返回结果集） |
 | [SHOW USER FUNCTIONS](ddl-show-user-functions.md) | 列出所有用户自定义函数 |
 | [ALTER FUNCTION](ddl-alter-function.md) | 修改现有函数 |
 | [DROP FUNCTION](ddl-drop-function.md) | 移除函数 |
