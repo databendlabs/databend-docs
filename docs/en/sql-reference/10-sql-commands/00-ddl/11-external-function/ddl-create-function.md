@@ -6,7 +6,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.339"/>
 
-Creates an external function.
+Creates an external function that calls a remote handler over Flight (typically Python or other services).
+
+### Supported Languages
+
+- Determined by the remote server (commonly Python, but any language can be used as long as it implements the Flight endpoint)
 
 ## Syntax
 

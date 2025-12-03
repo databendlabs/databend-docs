@@ -1,6 +1,6 @@
 ---
 title: CREATE EMBEDDED FUNCTION
-sidebar_position: 2
+sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
@@ -208,4 +208,3 @@ AS $$@s_udf/arrow_udf_example.wasm$$;
 -- Use the function
 SELECT fib_wasm(10) AS fibonacci_result;
 ```
-

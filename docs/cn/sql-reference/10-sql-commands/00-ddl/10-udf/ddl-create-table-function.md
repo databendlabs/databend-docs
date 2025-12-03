@@ -1,12 +1,16 @@
 ---
 title: CREATE TABLE FUNCTION
-sidebar_position: 1
+sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.799"/>
 
-创建表格式 SQL UDF（UDTF），将 SQL 查询封装为表函数。为保持一致性，使用与标量函数相同的统一 `$$` 语法。当前仅支持基于 SQL 的表函数。
+创建表值 SQL UDF (UDTF)，将 SQL 查询封装为表函数。此类函数完全使用 SQL 编写，不涉及外部编程语言。
+
+### 支持语言
+
+- 仅支持 SQL 查询（无需外部运行时环境）
 
 ## 语法
 

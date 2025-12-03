@@ -1,6 +1,6 @@
 ---
 title: CREATE EMBEDDED FUNCTION
-sidebar_position: 2
+sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 

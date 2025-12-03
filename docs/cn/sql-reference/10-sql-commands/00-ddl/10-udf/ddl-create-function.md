@@ -6,7 +6,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.799"/>
 
-使用 Databend 的统一函数语法创建标量 SQL UDF（User-Defined Function）。
+使用 Databend 的统一函数语法创建标量 SQL UDF。其逻辑完全由 SQL 定义，无需外部编程语言支持。
+
+### 支持语言
+
+- 仅支持 SQL 表达式（无需外部运行时环境）
 
 ## 语法
 

@@ -1,12 +1,16 @@
 ---
 title: CREATE TABLE FUNCTION
-sidebar_position: 1
+sidebar_position: 2
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.799"/>
 
-Creates a Tabular SQL UDF (UDTF) that encapsulates SQL queries as a table function. Uses the same unified `$$` syntax as scalar functions for consistency. Currently supports SQL-based table functions only.
+Creates a tabular SQL UDF (UDTF) that encapsulates SQL queries as a table function. Table functions are written in SQL; no external languages are involved.
+
+### Supported Languages
+
+- SQL queries only (no external runtimes)
 
 ## Syntax
 
