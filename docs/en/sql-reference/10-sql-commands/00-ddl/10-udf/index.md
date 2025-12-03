@@ -10,8 +10,8 @@ User-Defined Functions (UDFs) in Databend allow you to create custom operations 
 |---------|-------------|
 | [CREATE SCALAR FUNCTION](ddl-create-function.md) | SQL-only scalar function (no external language) |
 | [CREATE AGGREGATE FUNCTION](ddl-create-aggregate-function.md) | Script UDAF (JavaScript/Python runtimes) |
-| [CREATE TABLE FUNCTION](ddl-create-table-function.md) | SQL-only table function returning result sets |
 | [CREATE EMBEDDED FUNCTION](ddl-create-function-embedded.md) | Embedded scalar functions (Python/JavaScript/WASM) |
+| [CREATE TABLE FUNCTION](ddl-create-table-function.md) | SQL-only table function returning result sets |
 | [SHOW USER FUNCTIONS](ddl-show-user-functions.md) | Lists all user-defined functions |
 | [ALTER FUNCTION](ddl-alter-function.md) | Modifies existing functions |
 | [DROP FUNCTION](ddl-drop-function.md) | Removes functions |

@@ -1,6 +1,6 @@
 ---
 title: DROP FUNCTION
-sidebar_position: 4
+sidebar_position: 6
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
