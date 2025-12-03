@@ -2,14 +2,14 @@
 title: 安全与可靠性
 ---
 
-Databend 提供**企业级的安全与可靠性功能**，在数据的整个生命周期内保护您的数据安全。从控制数据访问权限、防范网络威胁到从操作失误中恢复，Databend 的**多层安全方法**帮助您维护数据完整性、合规性和业务连续性。
+Databend 提供**企业级安全与可靠性功能**，全方位保护您的数据。无论是权限管控、网络防护，还是误操作恢复，Databend 的**多层安全机制**都能帮您守护数据完整性、满足合规要求、保障业务连续运行。
 
-| 安全功能 | 用途 | 使用场景 |
+| 功能 | 作用 | 适用场景 |
 |-----------------|---------|------------|
-| [**访问控制（Access Control）**](/guides/security/access-control) | 管理用户权限 | 当您需要通过基于角色的安全性和对象所有权来控制数据访问时 |
-| [**审计追踪**](audit-trail.md) | 追踪数据库活动 | 当您需要全面的审计追踪来进行安全监控、合规性检查和性能分析时 |
-| [**网络策略（Network Policy）**](/guides/security/network-policy) | 限制网络访问 | 当您希望即便拥有有效凭据，也只允许来自特定 IP 范围的连接时 |
-| [**密码策略（Password Policy）**](/guides/security/password-policy) | 设置密码要求 | 当您需要强制执行密码复杂度、轮换和账户锁定规则时 |
-| [**脱敏策略（Masking Policy）**](/guides/security/masking-policy) | 隐藏敏感数据 | 当您需要在保护机密数据的同时，仍然允许授权访问时 |
-| [**故障保护（Fail-Safe）**](/guides/security/fail-safe) | 防止数据丢失 | 当您需要从兼容 S3 的存储中恢复意外删除的数据时 |
-| [**从操作失误中恢复（Recovery from Errors）**](/guides/security/recovery-from-operational-errors) | 修复操作失误 | 当您需要从被删除的数据库/表或错误的数据修改中恢复时 |
+| [**访问控制**](/guides/security/access-control) | 管理用户权限 | 需要通过角色和对象所有权精细控制数据访问 |
+| [**审计追踪**](audit-trail.md) | 记录数据库活动 | 需要完整审计日志用于安全监控、合规检查或性能分析 |
+| [**网络策略**](/guides/security/network-policy) | 限制网络访问 | 需要限制只有特定 IP 段才能连接，即使凭据正确也拒绝其他来源 |
+| [**密码策略**](/guides/security/password-policy) | 设定密码规则 | 需要强制密码复杂度、定期轮换或账户锁定策略 |
+| [**脱敏策略**](/guides/security/masking-policy) | 隐藏敏感信息 | 需要在保护敏感数据的同时允许授权用户访问 |
+| [**故障保护**](/guides/security/fail-safe) | 防止数据丢失 | 需要从 S3 兼容存储中恢复误删数据 |
+| [**误操作恢复**](/guides/security/recovery-from-operational-errors) | 修复操作失误 | 需要恢复被删除的数据库/表，或撤销错误的数据修改 |
