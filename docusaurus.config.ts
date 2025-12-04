@@ -86,9 +86,6 @@ const config: Config = {
           priority: 0.5,
         },
         gtag: {
-          // com: G-KYDJ7HV75X
-          // cn: G-M88HSQF3DK
-          // rs: G-WBQPTTG4ZG
           trackingID: siteConfig[lang].trackingID,
           anonymizeIP: true,
         },
