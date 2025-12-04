@@ -38,9 +38,8 @@ To ensure a smooth collaboration process, we recommend following these best prac
 
 3. Preview Locally:
 
-- To preview your changes locally and ensure they meet your expectations, ensure you have [Node.js](https://nodejs.org/)(**Please install a version greater than 22**) installed on your machine. Run the following commands in your terminal to initiate a local preview:
+- To preview your changes locally and ensure they meet your expectations, ensure you have [Node.js](https://nodejs.org/)(**Please install a version greater than 22，If you have multiple Node.js versions on your machine, we recommend using [nvm](https://github.com/nvm-sh/nvm) to manage your Node versions.**) installed on your machine. Run the following commands in your terminal to initiate a local preview:
 
-**If you have multiple Node.js versions on your machine, we recommend using [nvm](https://github.com/nvm-sh/nvm) to manage your Node versions.**
 
 ```bash
 yarn
