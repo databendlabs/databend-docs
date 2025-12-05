@@ -98,4 +98,4 @@ The billing period is set for every calendar month, starting from the 1st day to
 
 To check your billing details, go to **Manage** and then click on **Billing**. From there, you can review your bills and link a credit card for payment.
 
-When billing users, Databend Cloud applies coupons first. If multiple coupons are available, the system prioritizes deduction from the coupon with the earliest expiration date. Please ensure coupons are used before their expiration date.
+When billing users, Databend Cloud applies vouchers first. If multiple vouchers are available, the system prioritizes deduction from the voucher with the earliest expiration date. Please ensure vouchers are used before their expiration date.

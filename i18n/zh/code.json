@@ -465,9 +465,9 @@
     "message": "Databend Cloud 现已开放注册",
     "description": "Databend Cloud Now Available"
   },
-  "Register now and get a $200 coupon": {
-    "message": "现在注册即可获得价值 200 元的优惠券",
-    "description": "Register now and get a $200 coupon."
+  "Register now and get a $200 voucher": {
+    "message": "现在注册即可获得价值 200 元的代金券",
+    "description": "Register now and get a $200 voucher."
   },
   "What is Databend?": {
     "message": "什么是 Databend?",
