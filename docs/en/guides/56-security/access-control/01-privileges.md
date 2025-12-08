@@ -111,6 +111,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 |:------------------|:------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
 | ALL               | All                           | Grants all the privileges for the specified object type.                                                                                           |
 | APPLY MASKING POLICY | Global, Masking Policy     | Attaches, detaches, describes, or drops masking policies. When granted on *.*, the grantee can manage any masking policy.                          |
+| APPLY ROW ACCESS POLICY | Global, Row Access Policy | Adds or removes row access policies from tables and allows DESCRIBE/DROP operations on any policy. When granted on *.*, the grantee can manage every row access policy. |
 | ALTER             | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                                                             |
 | CREATE            | Global, Table                 | Creates a table or UDF.                                                                                                                            |
 | CREATE DATABASE   | Global                        | Creates a database or UDF.                                                                                                                         |
@@ -119,6 +120,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | CREATE SEQUENCE   | Global                        | Creates a sequence.                                                                                                                                |
 | CREATE PROCEDURE  | PROCEDURE                     | Creates a procedure.                                                                                                                               |
 | CREATE MASKING POLICY | Global                    | Creates a masking policy.                                                                                                                          |
+| CREATE ROW ACCESS POLICY | Global                 | Creates a row access policy.                                                                                                                       |
 | DELETE            | Table                         | Deletes or truncates rows in a table.                                                                                                              |
 | DROP              | Global, Database, Table, View | Drops a database, table, view or UDF. Undrops a table.                                                                                             |
 | INSERT            | Table                         | Inserts rows into a table.                                                                                                                         |
@@ -269,3 +271,12 @@ In addition to the global `CREATE MASKING POLICY` and `APPLY MASKING POLICY` pri
 |:----------|:--------------------------------------------------------------------------------------------------------------------------------------|
 | APPLY     | Attaches or detaches the masking policy from columns, and allows DESC/DROP operations on the policy.                                  |
 | OWNERSHIP | Grants full control over a masking policy. Databend grants OWNERSHIP to the role that creates the policy and revokes it automatically when the policy is dropped. |
+
+### Row Access Policy Privileges
+
+Row access policies share the same governance model. Beyond the global `CREATE ROW ACCESS POLICY` and `APPLY ROW ACCESS POLICY` privileges, grant access per policy when needed:
+
+| Privilege | Description                                                                                                                                        |
+|:----------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
+| APPLY     | Adds or removes the row access policy from tables and allows DESC/DROP operations on the policy.                                                   |
+| OWNERSHIP | Grants full control over a row access policy. Databend grants OWNERSHIP to the creator role and revokes it automatically when the policy is dropped. |

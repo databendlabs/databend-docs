@@ -51,6 +51,9 @@ schemaObjectPrivileges ::=
 
 -- For MASKING POLICY
   { CREATE MASKING POLICY | APPLY MASKING POLICY }
+
+-- For ROW ACCESS POLICY
+  { CREATE ROW ACCESS POLICY | APPLY ROW ACCESS POLICY }
 ```
 
 ```sql
@@ -61,6 +64,7 @@ privileges_level ::=
   | STAGE <stage_name>
   | UDF <udf_name>
   | MASKING POLICY <policy_name>
+  | ROW ACCESS POLICY <policy_name>
 ```
 
 ### 撤销脱敏策略权限
@@ -72,6 +76,16 @@ REVOKE OWNERSHIP ON MASKING POLICY <policy_name> FROM ROLE '<role_name>'
 ```
 
 以上语句用于撤销针对特定脱敏策略的 APPLY 或 OWNERSHIP 权限。若需撤销全局 `CREATE MASKING POLICY` 或 `APPLY MASKING POLICY`，可结合 `ON *.*` 使用标准语法。
+
+### 撤销 Row Access Policy 权限
+
+```sql
+REVOKE APPLY ON ROW ACCESS POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE OWNERSHIP ON ROW ACCESS POLICY <policy_name> FROM ROLE '<role_name>'
+```
+
+以上语句用于撤销针对单个 Row Access Policy 的权限。若需撤销全局 `CREATE ROW ACCESS POLICY` 或 `APPLY ROW ACCESS POLICY`，请结合 `ON *.*` 使用通用语法。
 
 ### 撤销角色
 
@@ -183,4 +197,14 @@ REVOKE APPLY ON MASKING POLICY email_mask FROM ROLE pii_readers;
 
 -- 撤销角色在整个账号范围创建脱敏策略的权限
 REVOKE CREATE MASKING POLICY ON *.* FROM ROLE security_admin;
+```
+
+### 示例 5：撤销 Row Access Policy 权限
+
+```sql
+-- 撤销针对单个 Row Access Policy 的 APPLY 权限
+REVOKE APPLY ON ROW ACCESS POLICY rap_region FROM ROLE apac_only;
+
+-- 撤销全局行访问策略创建权限
+REVOKE CREATE ROW ACCESS POLICY ON *.* FROM ROLE row_policy_admin;
 ```

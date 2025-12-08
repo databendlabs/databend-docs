@@ -76,6 +76,7 @@ DROP [ COLUMN ] <column_name>
 - Masking policies can only be attached to regular tables. Views, streams, and temporary tables do not allow `SET MASKING POLICY`.
 - A column can belong to at most one security policy (masking or row-level). Remove the existing policy before attaching a new one.
 - Attaching, detaching, describing, or dropping a masking policy requires the global `APPLY MASKING POLICY` privilege or APPLY/OWNERSHIP on the specific masking policy.
+- Adding, removing, describing, or dropping a row access policy requires the global `APPLY ROW ACCESS POLICY` privilege or APPLY/OWNERSHIP on that policy.
 :::
 
 :::caution

@@ -23,8 +23,7 @@ SHOW GRANTS FOR <user_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 -- 列出授予角色的权限
 SHOW GRANTS FOR ROLE <role_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
--- 列出授予对象的权限
-SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF | MASKING POLICY } <object_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
+SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF | MASKING POLICY | ROW ACCESS POLICY } <object_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
 -- 列出所有已直接授予 role_name 的用户和角色。
 SHOW GRANTS OF ROLE <role_name>
@@ -90,6 +89,8 @@ SHOW GRANTS OF ROLE analyst
 ╰─────────────────────────────────────╯
 
 
--- 查看脱敏策略的授权
 SHOW GRANTS ON MASKING POLICY email_mask;
+
+-- 查看 Row Access Policy 的授权
+SHOW GRANTS ON ROW ACCESS POLICY rap_region;
 ```

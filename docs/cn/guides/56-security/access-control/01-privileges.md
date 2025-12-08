@@ -111,6 +111,7 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 |:------------------|:------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
 | ALL               | 所有                          | 授予指定对象类型的全部权限。                                                                                                                |
 | APPLY MASKING POLICY | Global, Masking Policy     | 附加/解除、描述或删除脱敏策略。授予 `*.*` 时，可在整个账号范围管理所有脱敏策略。                                                           |
+| APPLY ROW ACCESS POLICY | Global, Row Access Policy | 将行访问策略（Row Access Policy）附加/解除到表，并允许执行 DESCRIBE/DROP 操作。授予 `*.*` 时，可管理账号内所有 Row Access Policy。 |
 | ALTER             | Global, Database, Table, View | 修改数据库、表、用户或 UDF。                                                                                                                |
 | CREATE            | Global, Table                 | 创建表或 UDF。                                                                                                                              |
 | CREATE DATABASE   | Global                        | 创建数据库或 UDF。                                                                                                                          |
@@ -119,6 +120,7 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 | CREATE SEQUENCE   | Global                        | 创建 Sequence。                                                                                                                             |
 | CREATE PROCEDURE  | PROCEDURE                     | 创建 Procedure。                                                                                                                            |
 | CREATE MASKING POLICY | Global                    | 创建脱敏策略。                                                                                                                              |
+| CREATE ROW ACCESS POLICY | Global                 | 创建 Row Access Policy。                                                                                                                    |
 | DELETE            | Table                         | 删除或截断表中的行。                                                                                                                               |
 | DROP              | Global, Database, Table, View | 删除数据库、表、View 或 UDF；恢复已删除的表。                                                                                                      |
 | INSERT            | Table                         | 向表插入行。                                                                                                                                       |
@@ -268,3 +270,12 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 |:------|:--------------------------------------------------------------------------------------------------------|
 | APPLY | 将脱敏策略绑定/解绑到列，同时允许执行 DESC/DROP 操作。                                                  |
 | OWNERSHIP | 授予对脱敏策略的完全控制权。Databend 会在策略创建时自动将 OWNERSHIP 授予当前角色，并在策略被删除时自动回收。 |
+
+### Row Access Policy 权限
+
+Row Access Policy（行访问策略）沿用相同的权限模型。除了全局 `CREATE ROW ACCESS POLICY` 和 `APPLY ROW ACCESS POLICY` 外，还可以针对单个策略授予权限：
+
+| 权限  | 描述                                                                                                          |
+|:------|:---------------------------------------------------------------------------------------------------------------|
+| APPLY | 将 Row Access Policy 绑定/解绑到表，并允许执行 DESC/DROP 操作。                                                |
+| OWNERSHIP | 授予对 Row Access Policy 的完全控制权。Databend 会在策略创建时自动将 OWNERSHIP 授予当前角色，并在策略被删除时自动回收。 |

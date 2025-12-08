@@ -51,6 +51,9 @@ schemaObjectPrivileges ::=
 
 -- For MASKING POLICY (account-level privileges)
   { CREATE MASKING POLICY | APPLY MASKING POLICY }
+
+-- For ROW ACCESS POLICY (account-level privileges)
+  { CREATE ROW ACCESS POLICY | APPLY ROW ACCESS POLICY }
 ```
 
 ```sql
@@ -61,6 +64,7 @@ privileges_level ::=
   | STAGE <stage_name>
   | UDF <udf_name>
   | MASKING POLICY <policy_name>
+  | ROW ACCESS POLICY <policy_name>
 ```
 
 ### Revoking Masking Policy Privileges
@@ -72,6 +76,16 @@ REVOKE OWNERSHIP ON MASKING POLICY <policy_name> FROM ROLE '<role_name>'
 ```
 
 Use these forms to remove access to individual masking policies. Global `CREATE MASKING POLICY` and `APPLY MASKING POLICY` privileges are revoked using the standard syntax with `ON *.*`.
+
+### Revoking Row Access Policy Privileges
+
+```sql
+REVOKE APPLY ON ROW ACCESS POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE OWNERSHIP ON ROW ACCESS POLICY <policy_name> FROM ROLE '<role_name>'
+```
+
+Use these forms to revoke access to specific row access policies. Revoke global `CREATE ROW ACCESS POLICY` and `APPLY ROW ACCESS POLICY` privileges with the standard syntax against `ON *.*`.
 
 ### Revoking Role
 
@@ -183,4 +197,14 @@ REVOKE APPLY ON MASKING POLICY email_mask FROM ROLE pii_readers;
 
 -- Revoke the ability to create masking policies at the account level
 REVOKE CREATE MASKING POLICY ON *.* FROM ROLE security_admin;
+```
+
+### Example 5: Revoking Row Access Policy Privileges
+
+```sql
+-- Remove per-policy access from a role
+REVOKE APPLY ON ROW ACCESS POLICY rap_region FROM ROLE apac_only;
+
+-- Revoke the ability to create row access policies globally
+REVOKE CREATE ROW ACCESS POLICY ON *.* FROM ROLE row_policy_admin;
 ```

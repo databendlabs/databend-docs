@@ -54,6 +54,9 @@ schemaObjectPrivileges ::=
 
 -- For MASKING POLICY (account-level privileges)
   { CREATE MASKING POLICY | APPLY MASKING POLICY }
+
+-- For ROW ACCESS POLICY (account-level privileges)
+  { CREATE ROW ACCESS POLICY | APPLY ROW ACCESS POLICY }
 ```
 
 ```sql
@@ -64,6 +67,7 @@ privileges_level ::=
   | STAGE <stage_name>
   | UDF <udf_name>
   | MASKING POLICY <policy_name>
+  | ROW ACCESS POLICY <policy_name>
 ```
 
 ### Granting Masking Policy Privileges
@@ -80,6 +84,21 @@ GRANT OWNERSHIP ON MASKING POLICY <policy_name> TO ROLE '<role_name>'
 - `APPLY MASKING POLICY` lets grantees attach, detach, describe, or drop any masking policy when combined with the appropriate `ALTER TABLE` or policy commands.
 - `GRANT APPLY ON MASKING POLICY ...` authorizes the grantee to manage a specific masking policy without granting global access.
 - OWNERSHIP provides full control over the masking policy; Databend automatically grants OWNERSHIP on a new policy to the creator role and revokes it when the policy is dropped.
+
+### Granting Row Access Policy Privileges
+
+Use these forms to manage access to individual row access policies:
+
+```sql
+GRANT APPLY ON ROW ACCESS POLICY <policy_name> TO [ ROLE ] <grantee>
+GRANT ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> TO [ ROLE ] <grantee>
+GRANT OWNERSHIP ON ROW ACCESS POLICY <policy_name> TO ROLE '<role_name>'
+```
+
+- `CREATE ROW ACCESS POLICY` allows a user or role to create new row access policies.
+- `APPLY ROW ACCESS POLICY` authorizes attaching or detaching any row access policy from tables, along with DESCRIBE/DROP commands.
+- `GRANT APPLY ON ROW ACCESS POLICY ...` limits access to a specific row access policy.
+- OWNERSHIP delivers full control over the row access policy; the creator role receives OWNERSHIP automatically and loses it when the policy is dropped.
 
 ### Granting Role
 
@@ -274,4 +293,20 @@ GRANT APPLY ON MASKING POLICY email_mask TO ROLE pii_readers;
 
 -- Review the masking policy privileges
 SHOW GRANTS ON MASKING POLICY email_mask;
+```
+
+### Example 6: Granting Row Access Policy Privileges
+
+```sql
+-- Allow the current role to create row access policies
+GRANT CREATE ROW ACCESS POLICY ON *.* TO ROLE row_policy_admin;
+
+-- Define a row access policy while assuming the row_policy_admin role
+CREATE ROW ACCESS POLICY rap_region AS (region STRING) RETURNS BOOLEAN -> region = 'APAC';
+
+-- Allow a role to apply the policy when altering tables
+GRANT APPLY ON ROW ACCESS POLICY rap_region TO ROLE apac_only;
+
+-- Review the row access policy privileges
+SHOW GRANTS ON ROW ACCESS POLICY rap_region;
 ```
