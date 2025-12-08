@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.799"/>
 
-创建表值 SQL UDF (UDTF)，将 SQL 查询封装为表函数。此类函数完全使用 SQL 编写，不涉及外部编程语言。
+允许创建表值 SQL UDF (UDTF)，将 SQL 查询封装为表函数。此类函数完全由 SQL 编写，无需依赖外部编程语言。
 
 ### 支持语言
 
@@ -35,7 +35,7 @@ Databend 对标量函数和表函数使用统一的 `$$` 语法：
 | **标量函数** | 单个值 | `RETURNS <type>` + `AS $$ <expression> $$` |
 | **表函数** | 结果集 | `RETURNS TABLE(...)` + `AS $$ <query> $$` |
 
-这种一致性便于理解并在不同函数类型间切换。
+这种一致性使得语法易于理解，也方便用户在不同类型的函数之间进行切换。
 
 ## 示例
 
@@ -56,7 +56,7 @@ INSERT INTO employees VALUES
     (3, 'Bob', 'Engineering', 80000),
     (4, 'Alice', 'Marketing', 70000);
 
--- 创建简单表函数获取所有员工
+-- 创建一个简单的表函数来获取所有员工信息
 CREATE OR REPLACE FUNCTION get_all_employees() 
 RETURNS TABLE (id INT, name VARCHAR(100), department VARCHAR(100), salary DECIMAL(10,2))
 AS $$ SELECT id, name, department, salary FROM employees $$;
@@ -68,7 +68,7 @@ SELECT * FROM get_all_employees();
 ### 参数化表函数
 
 ```sql
--- 创建按部门筛选员工的表函数
+-- 创建一个按部门筛选员工的表函数
 CREATE OR REPLACE FUNCTION get_employees_by_dept(dept_name VARCHAR)
 RETURNS TABLE (id INT, name VARCHAR(100), department VARCHAR(100), salary DECIMAL(10,2))
 AS $$ SELECT id, name, department, salary FROM employees WHERE department = dept_name $$;
@@ -80,7 +80,7 @@ SELECT * FROM get_employees_by_dept('Engineering');
 ### 复杂表函数
 
 ```sql
--- 创建聚合数据的表函数
+-- 创建一个用于聚合数据的表函数
 CREATE OR REPLACE FUNCTION get_department_stats()
 RETURNS TABLE (department VARCHAR(100), employee_count INT, avg_salary DECIMAL(10,2))
 AS $$ SELECT department, COUNT(*) as employee_count, AVG(salary) as avg_salary FROM employees GROUP BY department $$;
