@@ -24,7 +24,7 @@ SHOW GRANTS FOR <user_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 SHOW GRANTS FOR ROLE <role_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
 -- List privileges granted on an object
-SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF | MASKING POLICY } <object_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
+SHOW GRANTS ON { STAGE | TABLE | DATABASE | UDF | MASKING POLICY | ROW ACCESS POLICY } <object_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
 -- Lists all users and roles that have been directly granted role_name.
 SHOW GRANTS OF ROLE <role_name>
@@ -89,6 +89,8 @@ SHOW GRANTS OF ROLE analyst
 │ analyst │ USER       │ user1        │
 ╰─────────────────────────────────────╯
 
--- Inspect masking policy privileges
 SHOW GRANTS ON MASKING POLICY email_mask;
+
+-- Inspect row access policy privileges
+SHOW GRANTS ON ROW ACCESS POLICY rap_region;
 ```

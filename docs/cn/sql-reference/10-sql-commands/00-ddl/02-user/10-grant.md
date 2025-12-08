@@ -55,6 +55,9 @@ schemaObjectPrivileges ::=
 
 -- For MASKING POLICY
   { CREATE MASKING POLICY | APPLY MASKING POLICY }
+
+-- For ROW ACCESS POLICY
+  { CREATE ROW ACCESS POLICY | APPLY ROW ACCESS POLICY }
 ```
 
 ```sql
@@ -65,6 +68,7 @@ privileges_level ::=
   | STAGE <stage_name>
   | UDF <udf_name>
   | MASKING POLICY <policy_name>
+  | ROW ACCESS POLICY <policy_name>
 ```
 
 ### 授予脱敏策略权限
@@ -81,6 +85,21 @@ GRANT OWNERSHIP ON MASKING POLICY <policy_name> TO ROLE '<role_name>'
 - `APPLY MASKING POLICY`（全局）允许在任意表上设置/解除、描述或删除任何脱敏策略。
 - `GRANT APPLY ON MASKING POLICY ...` 可针对单个策略授权，避免授予全局访问。
 - OWNERSHIP 赋予对策略的完全控制权。创建脱敏策略后，Databend 会自动将 OWNERSHIP 授予当前角色，并在策略删除时回收。
+
+### 授予 Row Access Policy 权限
+
+要针对某个 Row Access Policy 授权，可使用以下语句：
+
+```sql
+GRANT APPLY ON ROW ACCESS POLICY <policy_name> TO [ ROLE ] <grantee>
+GRANT ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> TO [ ROLE ] <grantee>
+GRANT OWNERSHIP ON ROW ACCESS POLICY <policy_name> TO ROLE '<role_name>'
+```
+
+- `CREATE ROW ACCESS POLICY` 允许创建或替换行访问策略。
+- `APPLY ROW ACCESS POLICY`（全局）允许在任意表上添加/移除、描述或删除所有 Row Access Policy。
+- `GRANT APPLY ON ROW ACCESS POLICY ...` 可限制在单个策略上授予 APPLY 权限。
+- OWNERSHIP 赋予对 Row Access Policy 的完全控制权，创建者会自动获得 OWNERSHIP 并在策略被删除时自动回收。
 
 ### Granting Role
 
@@ -285,4 +304,20 @@ GRANT APPLY ON MASKING POLICY email_mask TO ROLE pii_readers;
 
 -- 查看策略的授权情况
 SHOW GRANTS ON MASKING POLICY email_mask;
+```
+
+### Example 6: Granting Row Access Policy Privileges
+
+```sql
+-- 授权角色创建 Row Access Policy
+GRANT CREATE ROW ACCESS POLICY ON *.* TO ROLE row_policy_admin;
+
+-- 在 row_policy_admin 角色下定义策略
+CREATE ROW ACCESS POLICY rap_region AS (region STRING) RETURNS BOOLEAN -> region = 'APAC';
+
+-- 授权角色在表上应用该策略
+GRANT APPLY ON ROW ACCESS POLICY rap_region TO ROLE apac_only;
+
+-- 查看策略授权
+SHOW GRANTS ON ROW ACCESS POLICY rap_region;
 ```

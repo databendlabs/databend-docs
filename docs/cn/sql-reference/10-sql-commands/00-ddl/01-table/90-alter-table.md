@@ -76,6 +76,7 @@ DROP [ COLUMN ] <column_name>
 - 只有常规表支持绑定脱敏策略；视图、流表以及临时表均无法执行 `SET MASKING POLICY`。
 - 单个列最多只能附加一个安全策略（无论是列脱敏还是行级策略）。在重新绑定之前，请先移除原有策略。
 - 设置或取消设置脱敏策略需要拥有全局 `APPLY MASKING POLICY` 权限，或针对目标策略具有 APPLY/OWNERSHIP 权限，否则 `ALTER TABLE` 会被拒绝。
+- 添加、移除、描述或删除 Row Access Policy 需要拥有全局 `APPLY ROW ACCESS POLICY` 权限，或针对目标策略具有 APPLY/OWNERSHIP 权限。
 :::
 
 :::caution
