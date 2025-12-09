@@ -31,6 +31,7 @@ title: 存储阶段（Stage）
 - [使用 Stage](/guides/load-data/stage/)
 - [从 Stage 加载数据](/guides/load-data/load/stage)
 - [查询和转换](/guides/load-data/transform/querying-stage)
+- [文件格式 (DDL)](/sql/sql-commands/ddl/file-format/)
 
 :::note
 Databend 中的 Stage 用作临时存储位置，用于存放需加载到表或从表卸载的数据文件。
