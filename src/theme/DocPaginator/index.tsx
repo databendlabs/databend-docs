@@ -61,7 +61,7 @@ export default function DocPaginator(props) {
               <Form.Item
                 name={"name"}
                 style={{ marginBottom: "16px", marginTop: "12px" }}
-                label={$t("领取人信息（可选）")}
+                label={$t("您的信息（可选）")}
               >
                 <Input size="large" placeholder="您的姓名" />
               </Form.Item>
@@ -109,9 +109,9 @@ export default function DocPaginator(props) {
           path: window?.location?.pathname,
           action: type,
           comment: isChina
-            ? `${values?.commentValue}。领取人信息：姓名=>${
+            ? `${values?.commentValue}。【领取人信息：姓名=>${
                 values?.name || "名称未设置"
-              }, 联系方式=>${values?.contact || "联系方式未设置"}`
+              }, 联系方式=>${values?.contact || "联系方式未设置"}】`
             : values?.commentValue,
         });
         setIsVoted(true);
