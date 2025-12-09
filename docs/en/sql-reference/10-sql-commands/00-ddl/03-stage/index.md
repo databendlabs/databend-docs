@@ -31,6 +31,7 @@ This page provides a comprehensive overview of stage operations in Databend, org
 - [Working with Stages](/guides/load-data/stage/)
 - [Loading from Stage](/guides/load-data/load/stage)
 - [Querying & Transforming](/guides/load-data/transform/querying-stage)
+- [File Format (DDL)](/sql/sql-commands/ddl/file-format/) 
 
 :::note
 Stages in Databend are used as temporary storage locations for data files that you want to load into tables or unload from tables.
