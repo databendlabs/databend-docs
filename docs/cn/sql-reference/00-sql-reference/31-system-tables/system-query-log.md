@@ -6,17 +6,17 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.696"/>
 
-一个只读的内存表，用于存储所有查询日志。有关查询日志中可用字段的具体信息，请参阅[示例](#examples)部分。
+这是一个只读的内存表，用于存储所有的查询日志。关于查询日志中可用字段的具体信息，请参阅[示例](#examples)部分。
 
 ## 设置会话标签
 
-可以选择为会话（Session）分配一个标签，便于根据分配的会话标签在日志表中筛选日志。例如，以下命令为当前会话分配标签`eric`：
+您可以为会话（Session）设置标签，以便在日志表中通过标签筛选日志。例如，使用以下命令为当前会话分配标签 `eric`：
 
 ```sql
 set session query_tag='eric';
 ```
 
-随后，运行查询（Query）并使用分配的标签从日志表中检索日志：
+然后，运行查询（Query）并使用该标签在日志表中检索对应的日志记录：
 
 ```sql
 show users;
@@ -24,7 +24,7 @@ show users;
 select query_tag, query_text from system.query_log where query_tag='eric' limit 1;
 ```
 
-返回结果中可找到该查询的记录，标签为'eric'：
+结果将显示带有 `eric` 标签的查询记录：
 
 ```sql
 -[ RECORD 1 ]-----------------------------------
@@ -34,7 +34,7 @@ select query_tag, query_text from system.query_log where query_tag='eric' limit 
 
 ## 示例
 
-`system.query_log`表存储已执行查询的详细日志。以下是日志条目的示例：
+`system.query_log` 表存储了已执行查询的详细日志。以下是一个日志条目的示例：
 
 ```sql
 SELECT * FROM system.query_log;
