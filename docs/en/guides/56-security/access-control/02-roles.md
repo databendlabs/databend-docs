@@ -4,12 +4,6 @@ title: Roles
 
 Roles in Databend play a pivotal role in simplifying the management of permissions. When multiple users require the same set of privileges, granting privileges individually can be cumbersome. Roles provide a solution by allowing the assignment of a set of privileges to a role, which can then be easily assigned to multiple users.
 
-:::note
-At present, Databend does not enforce Role-Based Access Control (RBAC) checks by default for User Defined Functions (UDFs) and stages. However, if you require RBAC for these objects, you have the option to enable it globally by manually setting `SET GLOBAL enable_experimental_rbac_check=1`.
-
-If `enable_experimental_rbac_check` is not manually set to `1`, UDFs and stages will operate without RBAC restrictions. In other words, users will have unrestricted access to execute UDFs and access data within stages without undergoing RBAC permission checks.
-:::
-
 ![Alt text](/img/guides/access-control-3.png)
 
 ## Inheriting Roles & Establishing Hierarchy
