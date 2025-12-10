@@ -13,6 +13,12 @@ This page provides reference information for the system administration commands 
 | **[KILL](01-kill.md)** | Terminate running queries or connections |
 | **[RUST BACKTRACE](rust-backtrace.md)** | Debug Rust stack traces |
 
+## Access Control
+
+| Command | Description |
+|---------|-------------|
+| **[FLUSH PRIVILEGES](flush-privileges.md)** | Force every query node to reload role and privilege metadata |
+
 ## Configuration Management
 
 | Command | Description |
