@@ -13,6 +13,12 @@ title: 管理命令
 | **[KILL](01-kill.md)** | 终止正在运行的查询或连接 |
 | **[RUST BACKTRACE](rust-backtrace.md)** | 调试 Rust 堆栈跟踪 |
 
+## 访问控制
+
+| 命令 | 说明 |
+|---------|-------------|
+| **[FLUSH PRIVILEGES](flush-privileges.md)** | 让每个查询节点立即重新加载角色与权限缓存 |
+
 ## 配置管理
 
 | 命令 | 说明 |
