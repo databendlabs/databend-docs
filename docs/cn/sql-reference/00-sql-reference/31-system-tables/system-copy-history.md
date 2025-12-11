@@ -8,8 +8,16 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 包含 COPY 历史的相关信息。
 
+## Syntax
+
 ```sql
-select * from copy_history('abc');
+SELECT * FROM copy_history('<table_name>');
+```
+
+- `table_name`: 表名。
+
+```sql
+select * from copy_history('my_table');
 
 ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │                          file_name                          │ content_length │        last_modified       │       etag       │
