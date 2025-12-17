@@ -272,39 +272,53 @@ The following is a list of the parameters available within the [cache.disk] sect
 
 ## [spill] Section
 
-Databend supports spill storage to handle large queries that exceed available memory. The unified configuration format provides consistent patterns across all storage types with auto-detection capabilities.
+Databend can spill intermediate data to reduce memory pressure.
 
-### [spill.storage] Section
+### Default Spill Storage Backend (No Extra Config)
 
-| Parameter | Description                                                                                                 |
-| --------- | ----------------------------------------------------------------------------------------------------------- |
-| type      | Specifies the storage type. Available options: `fs` (filesystem), `s3`, `azblob`, `gcs`, `oss`, `cos`, etc. |
+- Backend: same as the main [storage].
+- Prefix: `_query_spill/` (under the configured `root`).
+- Location: for object storage (S3/Azure/GCS/...), `<bucket>/<root>/_query_spill/`.
+- Also used as fallback when local disk spill is enabled.
 
-### [spill.storage.fs] Section (Filesystem Storage)
+### Local Disk Spill (With Fallback)
 
-| Parameter                 | Description                                                                                                                                                                                                                                                                     |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| data_path                 | Specifies the directory path where spilled data will be stored on the local filesystem.                                                                                                                                                                                         |
-| reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. This prevents the spill operations from completely filling the disk and ensures system stability. Default: `30`.                                                                             |
-| max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local filesystem. When this limit is reached, new spill operations will automatically fallback to the main data storage (remote storage), ensuring queries continue without interruption. Default: unlimited. |
+- Writes spill files to local disk first.
+- Falls back to the spill storage backend (default or [spill.storage]) when local quota is exhausted or disk is too full.
 
-**Example (Filesystem Storage):**
+| Parameter                                  | Description                                                                                                                                                                                                                                                               |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| spill_local_disk_path                      | Specifies the directory path where spilled data will be stored on the local disk. Leave it empty to disable local disk spill.                                                                                                                                            |
+| spill_local_disk_reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. This prevents spill operations from completely filling the disk and ensures system stability. Default: `10`.                                                                          |
+| spill_local_disk_max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local disk. When the local spill quota is exhausted, new spill operations automatically fall back to the spill storage backend (default or [spill.storage]), ensuring queries continue without interruption. Default: unlimited. |
+
+**Example (Local Disk Spill):**
 
 ```toml
-[spill.storage]
-type = "fs"
-
-[spill.storage.fs]
-data_path = "/fast-ssd/spill"
-reserved_space_percentage = 25.0
-max_bytes = 107374182400  # 100GB
+[spill]
+spill_local_disk_path = "/data/spill"
+spill_local_disk_reserved_space_percentage = 10.0
+spill_local_disk_max_bytes = 53687091200
 ```
+
+### Dedicated Spill Storage Backend (Separate From Data)
+
+- Configure via [spill.storage].
+- Affects spill files only (including local-disk fallback target); does not change where table data is stored.
+- Still uses the `_query_spill/` prefix under the configured `root`.
+
+| Parameter | Description                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------- |
+| type      | Specifies the storage type. Available options: `fs`, `s3`, `azblob`, `gcs`, `oss`, `cos`, etc. (same as the [storage] section). |
 
 ### [spill.storage.s3] Section (S3 Remote Storage)
 
-For S3-based spill storage, use the same parameters as defined in the [storage.s3 Section](#storages3-section).
+Same parameters as [storage.s3 Section](#storages3-section).
 
-**Example (S3 Storage):**
+- Prefix: `_query_spill/` (under `root`).
+- AWS S3: spill objects use `STANDARD` storage class.
+
+**Example (Dedicated S3 Spill Backend):**
 
 ```toml
 [spill.storage]
@@ -315,30 +329,5 @@ bucket = "my-spill-bucket"
 region = "us-west-2"
 access_key_id = "your-access-key"
 secret_access_key = "your-secret-key"
+root = "spill/"
 ```
-
-<DetailsWrap>
-<details>
-<summary>Legacy Format (Backward Compatible)</summary>
-
-:::note
-The legacy format is maintained for backward compatibility. If your Databend version is older than v1.2.901, use this format. New deployments should use the unified format above.
-:::
-
-| Parameter                                  | Description                                                                                                                                                                                                                                                               |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| spill_local_disk_path                      | Specifies the directory path where spilled data will be stored on the local disk.                                                                                                                                                                                         |
-| spill_local_disk_reserved_space_percentage | Defines the percentage of disk space that will be reserved and not used for spill. This prevents the spill operations from completely filling the disk and ensures system stability. Default: `30`.                                                                       |
-| spill_local_disk_max_bytes                 | Sets the maximum number of bytes allowed for spilling data to the local disk. When this limit is reached, new spill operations will automatically fallback to the main data storage (remote storage), ensuring queries continue without interruption. Default: unlimited. |
-
-**Example (Legacy Format):**
-
-```toml
-[spill]
-spill_local_disk_path = "/data/spill"
-spill_local_disk_reserved_space_percentage = 30.0
-spill_local_disk_max_bytes = 53687091200
-```
-
-</details>
-</DetailsWrap>
