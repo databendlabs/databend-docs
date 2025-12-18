@@ -141,6 +141,29 @@ END;
 
 本例创建名为 `nightly_refresh` 的任务，脚本通过将多条语句置于 `BEGIN ... END;` 块中，确保每次执行时先删除过期数据，再插入最新数据。
 
+### 动态 SQL（EXECUTE IMMEDIATE）
+
+```sql
+CREATE OR REPLACE TASK alb_log_ingestion
+  WAREHOUSE = 'default'
+  SCHEDULE = USING CRON '0 * * * * *' 'Asia/Shanghai'
+AS
+EXECUTE IMMEDIATE $$
+BEGIN
+    LET path := CONCAT('@mylog/', DATE_FORMAT(CURRENT_DATE - INTERVAL 3 DAY, '%m/%d/'));
+
+    LET sql := CONCAT(
+        'COPY INTO alb_logs FROM ', path,
+        ' PATTERN = ''.*[.]gz'' FILE_FORMAT = (type = NDJSON compression = AUTO) MAX_FILES = 10000'
+    );
+
+    EXECUTE IMMEDIATE :sql;
+END;
+$$;
+```
+
+本例创建一个每分钟运行的任务：根据当前日期动态计算 **3 天前**的日志路径（如 `@mylog/12/15/`），拼接出 `COPY INTO` 语句并通过 `EXECUTE IMMEDIATE` 执行，从而按日期分区持续加载数据。
+
 ### 自动挂起
 
 ```sql

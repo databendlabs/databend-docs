@@ -141,6 +141,29 @@ END;
 
 This example creates a task named `nightly_refresh` that executes a script containing multiple statements. The script is wrapped in `BEGIN ... END;` so the DELETE runs before the INSERT each time the task executes.
 
+### Dynamic SQL (EXECUTE IMMEDIATE)
+
+```sql
+CREATE OR REPLACE TASK alb_log_ingestion
+  WAREHOUSE = 'default'
+  SCHEDULE = USING CRON '0 * * * * *' 'Asia/Shanghai'
+AS
+EXECUTE IMMEDIATE $$
+BEGIN
+    LET path := CONCAT('@mylog/', DATE_FORMAT(CURRENT_DATE - INTERVAL 3 DAY, '%m/%d/'));
+
+    LET sql := CONCAT(
+        'COPY INTO alb_logs FROM ', path,
+        ' PATTERN = ''.*[.]gz'' FILE_FORMAT = (type = NDJSON compression = AUTO) MAX_FILES = 10000'
+    );
+
+    EXECUTE IMMEDIATE :sql;
+END;
+$$;
+```
+
+This example creates a task that runs every minute. It dynamically computes the stage path for **3 days ago** (for example, `@mylog/12/15/`), builds a `COPY INTO` statement, and executes it via `EXECUTE IMMEDIATE`.
+
 ### Automatic Suspension
 
 ```sql
