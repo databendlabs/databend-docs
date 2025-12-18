@@ -144,16 +144,16 @@ END;
 ### 动态 SQL（EXECUTE IMMEDIATE）
 
 ```sql
-CREATE OR REPLACE TASK alb_log_ingestion
+CREATE OR REPLACE TASK log_ingestion
   WAREHOUSE = 'default'
-  SCHEDULE = USING CRON '0 * * * * *' 'Asia/Shanghai'
+  SCHEDULE = 1 MINUTE
 AS
 EXECUTE IMMEDIATE $$
 BEGIN
     LET path := CONCAT('@mylog/', DATE_FORMAT(CURRENT_DATE - INTERVAL 3 DAY, '%m/%d/'));
 
     LET sql := CONCAT(
-        'COPY INTO logs.alb_logs FROM ', path,
+        'COPY INTO logs.web_logs FROM ', path,
         ' PATTERN = ''.*[.]gz'' FILE_FORMAT = (type = NDJSON compression = AUTO) MAX_FILES = 10000'
     );
 
