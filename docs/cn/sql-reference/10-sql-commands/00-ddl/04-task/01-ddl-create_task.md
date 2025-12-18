@@ -153,7 +153,7 @@ BEGIN
     LET path := CONCAT('@mylog/', DATE_FORMAT(CURRENT_DATE - INTERVAL 3 DAY, '%m/%d/'));
 
     LET sql := CONCAT(
-        'COPY INTO alb_logs FROM ', path,
+        'COPY INTO logs.alb_logs FROM ', path,
         ' PATTERN = ''.*[.]gz'' FILE_FORMAT = (type = NDJSON compression = AUTO) MAX_FILES = 10000'
     );
 
