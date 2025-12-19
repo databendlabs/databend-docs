@@ -29,3 +29,5 @@ MCP（Model Context Protocol）服务器让 AI 助手能够用自然语言查询
 **[外部函数指南](01-external-functions.md)** —— 通过示例学习如何创建和部署自定义 AI 函数
 
 **[MCP 服务器指南](02-mcp.md)** —— 使用 mcp-databend 构建自然语言驱动的 BI 工具
+
+**[MCP Client 集成](03-mcp-integration.md)** —— 配置通用 MCP 客户端（如 Codex）连接 Databend

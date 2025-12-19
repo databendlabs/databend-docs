@@ -1,8 +1,8 @@
 ---
-title: Custom AI/ML with External Functions
+title: External AI Functions
 ---
 
-# Custom AI/ML with External Functions
+# External AI Functions
 
 Build powerful AI/ML capabilities by connecting Databend with your own infrastructure. External functions let you deploy custom models, leverage GPU acceleration, and integrate with any ML framework while keeping your data secure.
 

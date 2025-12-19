@@ -1,8 +1,8 @@
 ---
-title: 集成自定义 AI 模型
+title: AI 自定义函数
 ---
 
-# 集成自定义 AI 模型
+# AI 自定义函数
 
 通过将 Databend 与您自己的基础设施连接，构建强大的 AI/ML 能力。外部函数（External Functions）允许您部署自定义模型、利用 GPU 加速，并与任何 ML 框架集成，同时确保数据安全。
 
