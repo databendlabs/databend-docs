@@ -63,6 +63,27 @@ claude mcp add databend -e DATABEND_DSN="databend://user:password@host:port/data
 
 </TabItem>
 
+<TabItem value="gemini-cli" label="Gemini CLI">
+
+Add to `~/.gemini/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "databend": {
+      "command": "uv",
+      "args": ["tool", "run", "mcp-databend"],
+      "env": {
+        "DATABEND_DSN": "databend://user:password@host:port/database?warehouse=your_warehouse",
+        "SAFE_MODE": "false"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+
 <TabItem value="cursor" label="Cursor">
 
 Add to `~/.cursor/mcp.json`:
@@ -138,16 +159,6 @@ uv tool run mcp-databend
 </TabItem>
 
 </Tabs>
-
-### 3. Test Installation
-
-```bash
-# For Claude Code
-claude mcp list
-
-# For Codex
-codex mcp list
-```
 
 ## Available Tools
 
