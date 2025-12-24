@@ -36,7 +36,7 @@ CREATE OR REPLACE CONNECTION aws_s3
     SECRET_ACCESS_KEY='your-sk';
 
 CREATE OR REPLACE STAGE orc_data_stage
-    URL='s3://wizardbend/sample-data/orc/'
+    URL='s3://wizardbend/databend-doc/sample-data/orc/'
     CONNECTION=(CONNECTION_NAME='aws_s3');
 ```
 
