@@ -1336,6 +1336,27 @@ const siteRedirects = [
     from: '/guides/products/overview/faq',
     to: '/'
   },
+  // Products subpages redirects
+  {
+    from: '/guides/products/dc/editions',
+    to: '/guides/cloud/overview/editions'
+  },
+  {
+    from: '/guides/products/dc/pricing',
+    to: '/guides/cloud/overview/pricing'
+  },
+  {
+    from: '/guides/products/dee/license',
+    to: '/guides/self-hosted/editions/enterprise/license'
+  },
+  {
+    from: '/guides/products/dee/features',
+    to: '/guides/self-hosted/editions/enterprise/features'
+  },
+  {
+    from: '/guides/products/dce',
+    to: '/guides/self-hosted/editions/community'
+  },
   {
     from: '/guides/cloud/new-account',
     to: '/guides/cloud/getting-started'
@@ -1365,8 +1386,32 @@ const siteRedirects = [
     to: '/guides/cloud/administration'
   },
   {
+    from: '/guides/cloud/manage/costs',
+    to: '/guides/cloud/administration/costs'
+  },
+  {
+    from: '/guides/cloud/manage/metrics',
+    to: '/guides/cloud/administration/metrics'
+  },
+  {
+    from: '/guides/cloud/manage/monitor',
+    to: '/guides/cloud/administration/monitor'
+  },
+  {
+    from: '/guides/cloud/manage/ai-features',
+    to: '/guides/cloud/administration/ai-features'
+  },
+  {
     from: '/guides/cloud/advanced',
     to: '/guides/cloud/security'
+  },
+  {
+    from: '/guides/cloud/advanced/private-link',
+    to: '/guides/cloud/security/private-link'
+  },
+  {
+    from: '/guides/cloud/advanced/iam-role',
+    to: '/guides/cloud/security/iam-role'
   },
   {
     from: '/guides/overview/dc',
