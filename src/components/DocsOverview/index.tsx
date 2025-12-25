@@ -186,7 +186,7 @@ const DocsOverview: FC = (): ReactElement => {
                   <div className={styles.productCardTags}>
                     <span className={styles.tag}>🦀 Rust</span>
                     <span className={styles.tag}>Apache 2.0</span>
-                    <span className={styles.tag}>S3 / GCS / Azure</span>
+                    <span className={styles.tag}>☁️ Cloud-Native</span>
                   </div>
                 </Link>
               </Card>
