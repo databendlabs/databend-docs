@@ -13,7 +13,7 @@ This tutorial guides you through the process of integrating Databend Cloud with 
 
 ### Step 1. Set up Environment
 
-Make sure you can log in to your Databend Cloud account and obtain the connection information for a warehouse. For more details, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+Make sure you can log in to your Databend Cloud account and obtain the connection information for a warehouse. For more details, see [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting).
 
 ### Step 2. Connect to Databend Cloud
 

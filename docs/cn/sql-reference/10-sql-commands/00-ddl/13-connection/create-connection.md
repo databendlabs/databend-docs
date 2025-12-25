@@ -183,5 +183,5 @@ SELECT * FROM @databend_test/test.parquet LIMIT 1;
 ```
 
 :::info
-在 Databend Cloud 中使用 IAM 角色，需要在 AWS 账户与 Databend Cloud 之间建立信任关系。详见 [使用 AWS IAM 角色进行认证](/guides/cloud/advanced/iam-role)。
+在 Databend Cloud 中使用 IAM 角色，需要在 AWS 账户与 Databend Cloud 之间建立信任关系。详见 [使用 AWS IAM 角色进行认证](/guides/cloud/security/iam-role)。
 :::

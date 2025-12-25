@@ -129,106 +129,66 @@ const DocsOverview: FC = (): ReactElement => {
       <ContentCardWrap
         className={clsx(styles.commomCard, styles.gettingStart)}
         title={$t("Getting Started")}
-        description={$t(
-          "Create a Databend Cloud account or deploy your own Databend instance."
-        )}
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
             <Col {...colLayout2}>
-              <Card padding={[20, 0]} className={styles.cardActiveOut}>
+              <Card padding={[24, 24]} className={clsx(styles.cardActiveOut, styles.productCard)}>
                 <Link
-                  title={$t("Start with Databend Cloud")}
-                  to={"/guides/cloud/new-account/"}
-                  className={"global-overview-card"}
+                  title={$t("Databend Cloud")}
+                  to={"/guides/cloud/"}
+                  className={styles.productCardLink}
                 >
-                  <LightDatabendCloudSingleSvg width={150} />
-                  <div>
-                    <h5>{$t("Start with Databend Cloud")}</h5>
-                    <div>
-                      {$t(
-                        "Get started in minutes with our fully-managed cloud service. No setup required."
-                      )}
+                  <div className={styles.productCardHeader}>
+                    <LightDatabendCloudSingleSvg width={120} />
+                    <div className={styles.productCardTitle}>
+                      <h5>Databend Cloud</h5>
+                      <span className={styles.productCardBadge}>{$t("Recommended")}</span>
+                    </div>
+                  </div>
+                  <p className={styles.productCardDesc}>
+                    {$t("Fully-managed serverless data warehouse. Zero infrastructure.")}
+                  </p>
+                  <div className={styles.productCardMetrics}>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>&lt;500ms</span>
+                      <span className={styles.metricLabel}>{$t("Cold Start")}</span>
+                    </div>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>&gt;50%</span>
+                      <span className={styles.metricLabel}>{$t("Cost Savings")}</span>
+                    </div>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>99.95%</span>
+                      <span className={styles.metricLabel}>SLA</span>
                     </div>
                   </div>
                 </Link>
-                <div className={styles.moreUseful}>
-                  <div>{$t("What you need to know:")}</div>
-                  <ul>
-                    <li>
-                      <Link
-                        title={$t("Choose Your Edition")}
-                        to={"/guides/products/dc/editions/"}
-                      >
-                        {$t("Choose Your Edition")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        title={$t("Pricing & Plans")}
-                        to={"/guides/products/dc/pricing/"}
-                      >
-                        {$t("Pricing & Plans")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        title={$t("Using Databend Cloud")}
-                        to={"/guides/cloud/using-databend-cloud/"}
-                      >
-                        {$t("Using Databend Cloud")}
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
               </Card>
             </Col>
             <Col {...colLayout2}>
-              <Card padding={[20, 0]} className={styles.cardActiveOut}>
+              <Card padding={[24, 24]} className={clsx(styles.cardActiveOut, styles.productCard)}>
                 <Link
-                  title={$t("Deploy Your Own Instance")}
-                  to={"/guides/deploy/"}
-                  className={"global-overview-card"}
+                  title={$t("Self-Hosted")}
+                  to={"/guides/self-hosted/"}
+                  className={styles.productCardLink}
                 >
-                  <LightDatabendSingleSvg width={150} />
-                  <div>
-                    <h5>{$t("Deploy Your Own Instance")}</h5>
-                    <div>
-                      {$t(
-                        "Install Databend on your infrastructure for complete control and customization."
-                      )}
+                  <div className={styles.productCardHeader}>
+                    <LightDatabendSingleSvg width={120} />
+                    <div className={styles.productCardTitle}>
+                      <h5>Databend Self-Hosted</h5>
+                      <span className={styles.productCardBadgeAlt}>{$t("Open Source")}</span>
                     </div>
                   </div>
+                  <p className={styles.productCardDesc}>
+                    {$t("Deploy on your infrastructure. Full control over data and environment.")}
+                  </p>
+                  <div className={styles.productCardTags}>
+                    <span className={styles.tag}>🦀 Rust</span>
+                    <span className={styles.tag}>Apache 2.0</span>
+                    <span className={styles.tag}>☁️ Cloud-Native</span>
+                  </div>
                 </Link>
-                <div className={styles.moreUseful}>
-                  <div>{$t("What you need to know:")}</div>
-                  <ul>
-                    <li>
-                      <Link
-                        title={$t("5-Minute Quick Start")}
-                        to={"/guides/deploy/quickstart/"}
-                      >
-                        {$t("5-Minute Quick Start")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        title={$t("Download & Install")}
-                        to={"/guides/deploy/deploy/download/"}
-                      >
-                        {$t("Download & Install")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        title={$t("Enterprise Features & Licensing")}
-                        to={"/guides/products/dee/license/"}
-                      >
-                        {$t("Enterprise Features & Licensing")}
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
               </Card>
             </Col>
           </Row>
@@ -566,7 +526,7 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<FAQ></FAQ>}
                 text={$t("FAQ")}
-                to={`/guides/products/overview/faq/`}
+                to={`/`}
               />
             </Col>
             <Col {...colLayout}>

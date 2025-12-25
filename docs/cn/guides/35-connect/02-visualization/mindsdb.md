@@ -146,7 +146,7 @@ parameters={
 ```
 
 :::tip
-上述 SQL 语句将 Databend Cloud 中的 `default` 数据库连接到您的 MindsDB Cloud 账户。参数值可从计算集群的连接信息中获取。详情请参阅 [连接计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。参数说明请参考 https://docs.mindsdb.com/data-integrations/all-data-integrations#databend
+上述 SQL 语句将 Databend Cloud 中的 `default` 数据库连接到您的 MindsDB Cloud 账户。参数值可从计算集群的连接信息中获取。详情请参阅 [连接计算集群](/guides/cloud/resources/warehouses#connecting)。参数说明请参考 https://docs.mindsdb.com/data-integrations/all-data-integrations#databend
 :::
 
 2. 在 MindsDB Cloud Editor 中执行以下 SQL 语句验证集成：

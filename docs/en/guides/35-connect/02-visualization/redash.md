@@ -13,7 +13,7 @@ In this tutorial, you'll deploy a local Databend and install Redash with Docker.
 
 ### Step 1. Deploy Databend
 
-Follow the [Deployment Guide](/guides/deploy) to deploy a local Databend.
+Follow the [Deployment Guide](/guides/self-hosted) to deploy a local Databend.
 
 ### Step 2. Deploy Redash
 
@@ -92,7 +92,7 @@ In this tutorial, you'll install Redash with Docker. Before you start, ensure th
 
 ### Step 1. Obtain Connection Information
 
-Obtain the connection information from Databend Cloud. For how to do that, refer to [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+Obtain the connection information from Databend Cloud. For how to do that, refer to [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting).
 
 ### Step 2. Deploy Redash
 

@@ -15,7 +15,7 @@ Databend 目前提供两种与 Tableau 的集成方式。第一种方法通过 T
 
 ### 步骤 1. 部署 Databend
 
-1. 参照[本地与 Docker 部署](../../10-deploy/01-deploy/01-non-production/00-deploying-local.md)指南部署本地 Databend。
+1. 参照[本地与 Docker 部署](../../20-self-hosted/02-deployment/01-non-production/00-deploying-local.md)指南部署本地 Databend。
 2. 在 Databend 中创建 SQL 用户，该账户将用于在 Tableau Desktop 中连接 Databend。
 
 ```sql
@@ -61,7 +61,7 @@ GRANT ALL ON *.* TO tableau;
 
 ### 步骤 1. 部署 Databend
 
-1. 参照[本地与 Docker 部署](../../10-deploy/01-deploy/01-non-production/00-deploying-local.md)指南部署本地 Databend。
+1. 参照[本地与 Docker 部署](../../20-self-hosted/02-deployment/01-non-production/00-deploying-local.md)指南部署本地 Databend。
 2. 在 Databend 中创建 SQL 用户，该账户将用于在 Tableau Desktop 中连接 Databend。
 
 ```sql
@@ -115,7 +115,7 @@ GRANT ALL ON *.* TO tableau;
 
 ### 步骤 1. 获取连接信息
 
-从 Databend Cloud 获取连接信息，具体操作请参考[连接计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+从 Databend Cloud 获取连接信息，具体操作请参考[连接计算集群](/guides/cloud/resources/warehouses#connecting)。
 
 ### 步骤 2. 安装 databend-jdbc
 

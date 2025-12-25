@@ -49,7 +49,7 @@ VACUUM TEMPORARY FILES
 
 ## 使用 VACUUM 命令
 
-VACUUM 命令系列是 Databend 中清理数据的主要方法（[企业版功能](/guides/products/dee/enterprise-features)）。
+VACUUM 命令系列是 Databend 中清理数据的主要方法（[企业版功能](/guides/self-hosted/editions/enterprise/features)）。
 
 ### VACUUM DROP TABLE
 

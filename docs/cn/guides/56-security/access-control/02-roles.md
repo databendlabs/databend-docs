@@ -23,7 +23,7 @@ Databend 附带以下内置角色：
 | account-admin | 拥有所有权限，是所有其他角色的父角色，可以无缝切换为租户内的任何角色。 |
 | public        | 不继承任何权限，所有其他角色都是它的父角色。任何角色都可以切换为 public 角色。 |
 
-在 Databend Cloud 中，您可以在邀请用户时直接分配 `account-admin` 角色，或者在用户加入后进行分配。如果您使用的是 Databend 社区版或企业版，请在部署时先配置好 `account-admin` 用户，然后再按需分配给其他用户。关于管理员用户的配置详情，请参阅[配置管理员用户](../../10-deploy/04-references/01-admin-users.md)。
+在 Databend Cloud 中，您可以在邀请用户时直接分配 `account-admin` 角色，或者在用户加入后进行分配。如果您使用的是 Databend 社区版或企业版，请在部署时先配置好 `account-admin` 用户，然后再按需分配给其他用户。关于管理员用户的配置详情，请参阅[配置管理员用户](../../20-self-hosted/04-references/admin-users.md)。
 
 ## 设置默认角色
 
@@ -73,7 +73,7 @@ ALTER USER eric WITH DEFAULT_ROLE = 'account_admin';
 CREATE ROLE billing;
 ```
 
-角色名称不区分大小写，`billing` 和 `Billing` 视为相同。关于该角色的设置和分配步骤，请参阅[授予财务人员访问权限](/guides/cloud/manage/costs#granting-access-to-finance-personnel)。
+角色名称不区分大小写，`billing` 和 `Billing` 视为相同。关于该角色的设置和分配步骤，请参阅[授予财务人员访问权限](/guides/cloud/administration/costs#granting-access-to-finance-personnel)。
 
 ## 使用示例
 

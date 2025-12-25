@@ -73,7 +73,7 @@ LIST @mycsv;
 
 ### 上传数据集到外部 Stage
 
-使用 [BendSQL](https://github.com/databendlabs/BendSQL)将压缩后的数据集文件 (UserBehavior.csv.gz) 上传到外部 Stage。获取计算集群的连接信息，请参考[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+使用 [BendSQL](https://github.com/databendlabs/BendSQL)将压缩后的数据集文件 (UserBehavior.csv.gz) 上传到外部 Stage。获取计算集群的连接信息，请参考[连接到计算集群](/guides/cloud/resources/warehouses#connecting)。
 
 ```bash
 (base) eric@Erics-iMac ~ % bendsql --host tenantID--YOUR_WAREHOUSE.gw.aliyun-cn-beijing.default.databend.cn \

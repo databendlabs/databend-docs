@@ -59,7 +59,7 @@ password = "abc123" # Databend 密码
 
 #### 1.1 安装 Databend
 
-按照 [Docker 和本地部署](../../10-deploy/01-deploy/01-non-production/00-deploying-local.md) 指南部署本地 Databend，或在 Databend Cloud 中部署一个计算集群（Warehouse）。
+按照 [Docker 和本地部署](../../20-self-hosted/02-deployment/01-non-production/00-deploying-local.md) 指南部署本地 Databend，或在 Databend Cloud 中部署一个计算集群（Warehouse）。
 
 #### 1.2 创建数据库和表
 

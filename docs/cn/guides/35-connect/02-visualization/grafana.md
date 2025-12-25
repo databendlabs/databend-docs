@@ -17,8 +17,8 @@ sidebar_position: 1
 
 -：
 
-- 若选择与本地 Databend 实例集成，请先按照 [部署指南](/guides/deploy) 完成部署（如尚未部署）。
-- 若选择与 Databend Cloud 集成，请确保可登录账户并获取计算集群的连接信息。详见 [连接计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+- 若选择与本地 Databend 实例集成，请先按照 [部署指南](/guides/self-hosted) 完成部署（如尚未部署）。
+- 若选择与 Databend Cloud 集成，请确保可登录账户并获取计算集群的连接信息。详见 [连接计算集群](/guides/cloud/resources/warehouses#connecting)。
 
 ### 步骤 2. 修改 Grafana 配置
 

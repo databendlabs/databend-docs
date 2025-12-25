@@ -19,7 +19,7 @@ In this tutorial, we will guide you through the process of connecting to Databen
 
 ### Obtain Connection Information
 
-Before creating a connection to Databend Cloud, you need to log in to Databend Cloud to obtain connection information. For more information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting). In this tutorial, we will use the following connection information:
+Before creating a connection to Databend Cloud, you need to log in to Databend Cloud to obtain connection information. For more information, see [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting). In this tutorial, we will use the following connection information:
 
 ![alt text](@site/static/img/connect/dbeaver-connect-info.png)
 > **Note**:

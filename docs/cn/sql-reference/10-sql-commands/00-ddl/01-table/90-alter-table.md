@@ -210,7 +210,7 @@ ALTER TABLE [ <database_name>. ]<table_name> CONNECTION = ( connection_name = '<
 - 自动轮换凭证，减少人工维护。
 - 具备更细粒度的访问控制能力。
 
-如需在 Databend Cloud 中使用 IAM 角色，请参阅 [Authenticate with AWS IAM Role](/guides/cloud/advanced/iam-role)。
+如需在 Databend Cloud 中使用 IAM 角色，请参阅 [Authenticate with AWS IAM Role](/guides/cloud/security/iam-role)。
 
 ### 示例
 

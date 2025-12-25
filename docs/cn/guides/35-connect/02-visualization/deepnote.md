@@ -13,7 +13,7 @@ Databend 和 Databend Cloud 均支持与 Deepnote 集成，需建立安全连接
 
 ### 步骤 1. 环境准备
 
-确保您已登录 Databend Cloud 账户并获取计算集群的连接信息。详见[连接计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+确保您已登录 Databend Cloud 账户并获取计算集群的连接信息。详见[连接计算集群](/guides/cloud/resources/warehouses#connecting)。
 
 ### 步骤 2. 连接 Databend Cloud
 

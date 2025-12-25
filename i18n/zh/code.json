@@ -745,6 +745,54 @@
     "message": "从 Databend Cloud 起步",
     "description": "Start with Databend Cloud"
   },
+  "Fully-managed serverless data warehouse. No infrastructure, instant analytics.": {
+    "message": "全托管 Serverless 数仓，开箱即用，即时分析。",
+    "description": "Databend Cloud description"
+  },
+  "Serverless · <500ms start · >50% cost savings · 99.95% SLA": {
+    "message": "Serverless · 秒级启动 · 成本降低 50%+ · 99.95% SLA",
+    "description": "Databend Cloud highlights"
+  },
+  "Choose the deployment option that fits your needs.": {
+    "message": "选择适合您的部署方式",
+    "description": "Getting Started description"
+  },
+  "Recommended": {
+    "message": "推荐",
+    "description": "Recommended badge"
+  },
+  "Fully-managed serverless data warehouse. Zero infrastructure.": {
+    "message": "全托管 Serverless 数仓，无需运维。",
+    "description": "Databend Cloud short description"
+  },
+  "Cold Start": {
+    "message": "冷启动",
+    "description": "Cold Start metric label"
+  },
+  "Cost Savings": {
+    "message": "成本节省",
+    "description": "Cost Savings metric label"
+  },
+  "Open Source": {
+    "message": "开源",
+    "description": "Open Source badge"
+  },
+  "Deploy on your infrastructure. Full control over data and environment.": {
+    "message": "部署在您的环境，数据和配置完全掌控。",
+    "description": "Self-Hosted short description"
+  },
+  "Self-Hosted": {
+    "message": "私有部署",
+    "description": "Self-Hosted title"
+  },
+  "Deploy on your own infrastructure. Full control, open source.": {
+    "message": "部署在自己的环境，完全掌控，开源免费。",
+    "description": "Self-Hosted description"
+  },
+  "Rust-powered · Open source · S3/GCS/Azure/MinIO": {
+    "message": "Rust 打造 · 开源免费 · 支持 S3/GCS/Azure/MinIO",
+    "description": "Self-Hosted highlights"
+  },
   "Get started in minutes with our fully-managed cloud service. No setup required.": {
     "message": "几分钟内即可启用全托管云服务，无需任何配置。",
     "description": "Get started in minutes with our fully-managed cloud service. No setup required."

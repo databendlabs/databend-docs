@@ -7,7 +7,7 @@ sidebar_label: "SQLAlchemy 开发 (Cloud)"
 
 ## 开始之前
 
-请确保已创建 Warehouse 并获取连接信息，参考 [连接计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+请确保已创建 Warehouse 并获取连接信息，参考 [连接计算集群](/guides/cloud/resources/warehouses#connecting)。
 
 ## 步骤 1：使用 pip 安装依赖
 

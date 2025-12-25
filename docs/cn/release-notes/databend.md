@@ -12,7 +12,25 @@ This page provides information about recent features, enhancements, and bug fixe
 
 <StepsWrap> 
 
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.860-nightly" number="-1" defaultCollapsed={false}>
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.861-nightly" number="-1" defaultCollapsed={false}>
+
+## Dec 25, 2025 (v1.2.861-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat(storage): organize storage credential configs for security by **@BohuTANG** in [#19147](https://github.com/databendlabs/databend/pull/19147)
+### Thoughtful Bug Fix 🔧
+* fix(query): fix fragment not found in warehouse level table by **@zhang2014** in [#19152](https://github.com/databendlabs/databend/pull/19152)
+* fix: recluster final infinite loop by **@zhyass** in [#19151](https://github.com/databendlabs/databend/pull/19151)
+### Others 📒
+* chore(query): revert "fix(query): update opendal (#19110)" by **@zhang2014** in [#19146](https://github.com/databendlabs/databend/pull/19146)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.861-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.860-nightly" number="" defaultCollapsed={false}>
 
 ## Dec 24, 2025 (v1.2.860-nightly)
 
@@ -37,7 +55,7 @@ This page provides information about recent features, enhancements, and bug fixe
 
 </StepContent>
 
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.859-nightly" number="" defaultCollapsed={false}>
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.859-nightly" number="" defaultCollapsed={true}>
 
 ## Dec 22, 2025 (v1.2.859-nightly)
 
@@ -625,25 +643,6 @@ This page provides information about recent features, enhancements, and bug fixe
 * **@camilesing** made their first contribution in [#18841](https://github.com/databendlabs/databend/pull/18841)
 
 **Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.832-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.831-nightly" number="" defaultCollapsed={true}>
-
-## Oct 20, 2025 (v1.2.831-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat(query): better script engine with dynamic schema support by **@sundy-li** in [#18838](https://github.com/databendlabs/databend/pull/18838)
-### Thoughtful Bug Fix 🔧
-* fix: memory size of string view should count views array. by **@youngsofun** in [#18867](https://github.com/databendlabs/databend/pull/18867)
-### Code Refactor 🎉
-* refactor: rewrite meta-meta compat test with python by **@drmingdrmer** in [#18870](https://github.com/databendlabs/databend/pull/18870)
-### Others 📒
-* chore: remove common-password feature to reduce binary size by **@TCeason** in [#18868](https://github.com/databendlabs/databend/pull/18868)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.831-nightly
 
 </StepContent>
 

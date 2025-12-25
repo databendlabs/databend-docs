@@ -127,4 +127,4 @@ table_name = "access_history"
 </details>
 </DetailsWrap>
 
-有关完整配置选项，请参阅 [查询配置：[log.history] 部分](/guides/deploy/references/node-config/query-config#loghistory-section)。
+有关完整配置选项，请参阅 [查询配置：[log.history] 部分](/guides/self-hosted/references/node-config/query-config#loghistory-section)。

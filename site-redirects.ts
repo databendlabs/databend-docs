@@ -1244,11 +1244,11 @@ const siteRedirects = [
   },
   {
     from: '/guides/load-data/stage/aws-iam-role',
-    to: '/guides/cloud/advanced/iam-role'
+    to: '/guides/cloud/security/iam-role'
   },
   {
     from: '/guides/sql-clients/privatelink',
-    to: '/guides/cloud/advanced/private-link'
+    to: '/guides/cloud/security/private-link'
   },
   // SQL Clients & Visualize reorganization - merged into /guides/connect/
   {
@@ -1322,6 +1322,315 @@ const siteRedirects = [
   {
     from: '/guides/visualize/redash',
     to: '/guides/connect/visualization/redash'
+  },
+  // Cloud and Self-Hosted reorganization
+  {
+    from: '/guides/products',
+    to: '/'
+  },
+  {
+    from: '/guides/products/overview',
+    to: '/'
+  },
+  {
+    from: '/guides/products/overview/ecosystem',
+    to: '/'
+  },
+  {
+    from: '/guides/products/overview/faq',
+    to: '/'
+  },
+  // Products subpages redirects
+  {
+    from: '/guides/products/dc',
+    to: '/guides/cloud/overview'
+  },
+  {
+    from: '/guides/products/dc/editions',
+    to: '/guides/cloud/overview/editions'
+  },
+  {
+    from: '/guides/products/dc/pricing',
+    to: '/guides/cloud/overview/pricing'
+  },
+  {
+    from: '/guides/products/dc/architecture',
+    to: '/guides/cloud/overview/architecture'
+  },
+  {
+    from: '/guides/products/dc/platforms',
+    to: '/guides/cloud/overview/platforms'
+  },
+  {
+    from: '/guides/products/dc/compliance',
+    to: '/guides/cloud/overview/compliance'
+  },
+  {
+    from: '/guides/products/dc/support',
+    to: '/guides/cloud/overview/support'
+  },
+  {
+    from: '/guides/products/dee',
+    to: '/guides/self-hosted/editions/enterprise'
+  },
+  {
+    from: '/guides/products/dee/license',
+    to: '/guides/self-hosted/editions/enterprise/license'
+  },
+  {
+    from: '/guides/products/dee/features',
+    to: '/guides/self-hosted/editions/enterprise/features'
+  },
+  {
+    from: '/guides/products/dee/enterprise-features',
+    to: '/guides/self-hosted/editions/enterprise/features'
+  },
+  {
+    from: '/guides/products/dce',
+    to: '/guides/self-hosted/editions/community'
+  },
+  {
+    from: '/guides/cloud/new-account',
+    to: '/guides/cloud/getting-started'
+  },
+  {
+    from: '/guides/cloud/using-databend-cloud',
+    to: '/guides/cloud/resources'
+  },
+  {
+    from: '/guides/cloud/using-databend-cloud/warehouses',
+    to: '/guides/cloud/resources/warehouses'
+  },
+  {
+    from: '/guides/cloud/using-databend-cloud/organization',
+    to: '/guides/cloud/resources/organization'
+  },
+  {
+    from: '/guides/cloud/using-databend-cloud/worksheet',
+    to: '/guides/cloud/resources/worksheet'
+  },
+  {
+    from: '/guides/cloud/using-databend-cloud/dashboard',
+    to: '/guides/cloud/resources/dashboard'
+  },
+  {
+    from: '/guides/cloud/manage',
+    to: '/guides/cloud/administration'
+  },
+  {
+    from: '/guides/cloud/manage/costs',
+    to: '/guides/cloud/administration/costs'
+  },
+  {
+    from: '/guides/cloud/manage/metrics',
+    to: '/guides/cloud/administration/metrics'
+  },
+  {
+    from: '/guides/cloud/manage/monitor',
+    to: '/guides/cloud/administration/monitor'
+  },
+  {
+    from: '/guides/cloud/manage/ai-features',
+    to: '/guides/cloud/administration/ai-features'
+  },
+  {
+    from: '/guides/cloud/advanced',
+    to: '/guides/cloud/security'
+  },
+  {
+    from: '/guides/cloud/advanced/private-link',
+    to: '/guides/cloud/security/private-link'
+  },
+  {
+    from: '/guides/cloud/advanced/private-link/aws',
+    to: '/guides/cloud/security/private-link/aws'
+  },
+  {
+    from: '/guides/cloud/advanced/iam-role',
+    to: '/guides/cloud/security/iam-role'
+  },
+  {
+    from: '/guides/cloud/advanced/iam-role/aws',
+    to: '/guides/cloud/security/iam-role/aws'
+  },
+  {
+    from: '/guides/overview/dc',
+    to: '/guides/cloud/overview'
+  },
+  {
+    from: '/guides/deploy',
+    to: '/guides/self-hosted'
+  },
+  {
+    from: '/guides/deploy/quickstart',
+    to: '/guides/self-hosted/quickstart'
+  },
+  {
+    from: '/guides/deploy/deploy/production/preparing-storage',
+    to: '/guides/self-hosted/deployment/production/preparing-storage'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-deploy',
+    to: '/guides/self-hosted/deployment/production/metasrv-deploy'
+  },
+  {
+    from: '/guides/deploy/deploy/production/deploying-databend-on-kubernetes',
+    to: '/guides/self-hosted/deployment/production/deploying-databend-on-kubernetes'
+  },
+  {
+    from: '/guides/deploy/deploy/production/manage-query-warehouse-through-SQL',
+    to: '/guides/self-hosted/deployment/production/manage-query-warehouse-through-SQL'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-grpc',
+    to: '/guides/self-hosted/deployment/production/metasrv-grpc'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-backup-restore',
+    to: '/guides/self-hosted/deployment/production/metasrv-backup-restore'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-status',
+    to: '/guides/self-hosted/deployment/production/metasrv-status'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-cli-api',
+    to: '/guides/self-hosted/deployment/production/metasrv-cli-api'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-add-remove-node',
+    to: '/guides/self-hosted/deployment/production/metasrv-add-remove-node'
+  },
+  {
+    from: '/guides/deploy/deploy/non-production/deploying-databend',
+    to: '/guides/self-hosted/deployment/non-production/deploying-databend'
+  },
+  {
+    from: '/guides/deploy/deploy/non-production/deploying-local',
+    to: '/guides/self-hosted/deployment/non-production/deploying-local'
+  },
+  {
+    from: '/guides/deploy/deploy/understanding-deployment-modes',
+    to: '/guides/self-hosted/deployment/understanding-deployment-modes'
+  },
+  {
+    from: '/guides/deploy/deploy/download',
+    to: '/guides/self-hosted/deployment/download'
+  },
+  {
+    from: '/guides/deploy/deploy',
+    to: '/guides/self-hosted/deployment'
+  },
+  {
+    from: '/guides/deploy/deploy/production',
+    to: '/guides/self-hosted/deployment/production'
+  },
+  {
+    from: '/guides/deploy/deploy/non-production',
+    to: '/guides/self-hosted/deployment/non-production'
+  },
+  {
+    from: '/guides/deploy/deploy/benddeploy',
+    to: '/guides/self-hosted/deployment/benddeploy'
+  },
+  {
+    from: '/guides/deploy/deploy/benddeploy/getting-started',
+    to: '/guides/self-hosted/deployment/benddeploy/getting-started'
+  },
+  {
+    from: '/guides/deploy/deploy/benddeploy/installing-benddeploy',
+    to: '/guides/self-hosted/deployment/benddeploy/installing-benddeploy'
+  },
+  {
+    from: '/guides/deploy/deploy/manually',
+    to: '/guides/self-hosted/deployment/manually'
+  },
+  // Upgrade redirects
+  {
+    from: '/guides/deploy/upgrade',
+    to: '/guides/self-hosted/operations/upgrade'
+  },
+  {
+    from: '/guides/deploy/upgrade/backup-and-restore-schema',
+    to: '/guides/self-hosted/operations/upgrade/backup-and-restore-schema'
+  },
+  {
+    from: '/guides/deploy/upgrade/compatibility',
+    to: '/guides/self-hosted/operations/upgrade/compatibility'
+  },
+  {
+    from: '/guides/deploy/upgrade/upgrade',
+    to: '/guides/self-hosted/operations/upgrade/upgrade'
+  },
+  // Monitor redirects
+  {
+    from: '/guides/deploy/monitor',
+    to: '/guides/self-hosted/operations/monitoring'
+  },
+  {
+    from: '/guides/deploy/monitor/metasrv-metrics',
+    to: '/guides/self-hosted/operations/monitoring/metasrv-metrics'
+  },
+  {
+    from: '/guides/deploy/monitor/server-logs',
+    to: '/guides/self-hosted/operations/monitoring/server-logs'
+  },
+  {
+    from: '/guides/deploy/monitor/tracing',
+    to: '/guides/self-hosted/operations/monitoring/tracing'
+  },
+  {
+    from: '/guides/deploy/monitor/tools/jaeger',
+    to: '/guides/self-hosted/operations/monitoring/tools/jaeger'
+  },
+  {
+    from: '/guides/deploy/monitor/tools/prometheus-and-grafana',
+    to: '/guides/self-hosted/operations/monitoring/tools/prometheus-and-grafana'
+  },
+  // References redirects
+  {
+    from: '/guides/deploy/references',
+    to: '/guides/self-hosted/references'
+  },
+  {
+    from: '/guides/deploy/references/admin-users',
+    to: '/guides/self-hosted/references/admin-users'
+  },
+  {
+    from: '/guides/deploy/references/node-config',
+    to: '/guides/self-hosted/references/node-config'
+  },
+  {
+    from: '/guides/deploy/references/node-config/metasrv-config',
+    to: '/guides/self-hosted/references/node-config/metasrv-config'
+  },
+  {
+    from: '/guides/deploy/references/node-config/query-config',
+    to: '/guides/self-hosted/references/node-config/query-config'
+  },
+  {
+    from: '/guides/deploy/references/node-config/environment-variables',
+    to: '/guides/self-hosted/references/node-config/environment-variables'
+  },
+  {
+    from: '/guides/self-hosted/deploy',
+    to: '/guides/self-hosted/deployment'
+  },
+  {
+    from: '/guides/self-hosted/upgrade',
+    to: '/guides/self-hosted/operations/upgrade'
+  },
+  {
+    from: '/guides/self-hosted/monitor',
+    to: '/guides/self-hosted/operations/monitoring'
+  },
+  {
+    from: '/guides/overview/dee',
+    to: '/guides/self-hosted/editions/enterprise'
+  },
+  {
+    from: '/guides/overview/dce',
+    to: '/guides/self-hosted/editions/community'
   }
 ];
 export default siteRedirects;

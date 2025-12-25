@@ -19,7 +19,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 获取连接信息
 
-在 DBeaver 建立连接前，需要先登录 Databend Cloud 获取连接详情。参见 [连接计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。本教程示例使用如下信息：
+在 DBeaver 建立连接前，需要先登录 Databend Cloud 获取连接详情。参见 [连接计算集群](/guides/cloud/resources/warehouses#connecting)。本教程示例使用如下信息：
 
 ![alt text](@site/static/img/connect/dbeaver-connect-info.png)
 > **注意**：
