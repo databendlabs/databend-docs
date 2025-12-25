@@ -129,9 +129,6 @@ const DocsOverview: FC = (): ReactElement => {
       <ContentCardWrap
         className={clsx(styles.commomCard, styles.gettingStart)}
         title={$t("Getting Started")}
-        description={$t(
-          "Choose the deployment option that fits your needs."
-        )}
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
