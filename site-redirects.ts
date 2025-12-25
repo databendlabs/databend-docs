@@ -1330,7 +1330,7 @@ const siteRedirects = [
   },
   {
     from: '/guides/cloud/new-account',
-    to: '/guides/cloud/getting-started/signup'
+    to: '/guides/cloud/getting-started'
   },
   {
     from: '/guides/cloud/using-databend-cloud',

@@ -139,7 +139,7 @@ const DocsOverview: FC = (): ReactElement => {
               <Card padding={[20, 0]} className={styles.cardActiveOut}>
                 <Link
                   title={$t("Start with Databend Cloud")}
-                  to={"/guides/cloud/getting-started/signup/"}
+                  to={"/guides/cloud/getting-started/"}
                   className={"global-overview-card"}
                 >
                   <LightDatabendCloudSingleSvg width={150} />

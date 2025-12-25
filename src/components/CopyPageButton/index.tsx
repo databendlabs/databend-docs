@@ -19,7 +19,7 @@ const SPECIAL_LINKS = [
   "/guides/cloud/overview/platforms",
   "/guides/cloud/overview/pricing",
   "/guides/self-hosted/deployment/non-production/deploying-databend",
-  "/guides/cloud/getting-started/signup",
+  "/guides/cloud/getting-started",
   "/release-notes/",
 ];
 

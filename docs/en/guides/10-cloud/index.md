@@ -10,7 +10,7 @@ Databend Cloud is a fully-managed cloud data warehouse service that provides a s
 
 | Category | Resource | Description |
 |----------|----------|-------------|
-| **Getting Started** | [Creating a New Account](/guides/cloud/getting-started/signup) | Sign up for Databend Cloud and create your organization |
+| **Getting Started** | [Creating a New Account](/guides/cloud/getting-started) | Sign up for Databend Cloud and create your organization |
 | **Fundamentals** | [Organization & Members](/guides/cloud/resources/organization) | Understand how organizations work and manage team members |
 | | [Warehouses](/guides/cloud/resources/warehouses) | Learn about compute resources, sizes, and best practices |
 | | [Worksheets](/guides/cloud/resources/worksheet) | Execute SQL queries and analyze data |

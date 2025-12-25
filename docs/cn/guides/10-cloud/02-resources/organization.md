@@ -14,7 +14,7 @@ title: 组织与成员
 
 ### 创建组织
 
-当您在注册过程中提供组织名称时，您就在 Databend Cloud 中创建了一个组织，您的账户将作为管理员账户。您还需要为新组织选择定价计划、云提供商和区域。更多信息请参见 [快速入门](../01-getting-started/signup.md)。
+当您在注册过程中提供组织名称时，您就在 Databend Cloud 中创建了一个组织，您的账户将作为管理员账户。您还需要为新组织选择定价计划、云提供商和区域。更多信息请参见 [快速入门](../01-getting-started.md)。
 
 ![](@site/static/img/documents/getting-started/01.jpg)
 
