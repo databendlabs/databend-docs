@@ -5,12 +5,29 @@ slug: /
 
 # 集成
 
-Databend 集成按支持级别划分：
+连接 Databend 与您常用的工具和平台。
 
-**核心集成**：由 Databend 构建或维护，由 Databend 官方支持，并托管在 Databend GitHub 组织。
+## 按类别
 
-**合作伙伴集成**：由第三方软件供应商构建、维护并提供支持。
+| 类别 | 工具 |
+|------|------|
+| **SQL 客户端** | [BendSQL](/guides/connect/sql-clients/bendsql)、[DBeaver / JDBC](/guides/connect/sql-clients/jdbc) |
+| **驱动** | [Python](/developer/drivers/python)、[Go](/developer/drivers/golang)、[Java](/developer/drivers/jdbc)、[Node.js](/developer/drivers/nodejs)、[Rust](/developer/drivers/rust) |
+| **BI & 可视化** | [Metabase](/guides/connect/visualization/metabase)、[Grafana](/guides/connect/visualization/grafana)、[Tableau](/guides/connect/visualization/tableau)、[Superset](/guides/connect/visualization/superset)、[Redash](/guides/connect/visualization/redash) |
+| **Notebook** | [Jupyter](/guides/connect/visualization/jupyter)、[Deepnote](/guides/connect/visualization/deepnote) |
+| **数据导入** | [Kafka](/guides/load-data/load-db/kafka)、[Airbyte](/guides/load-data/load-db/airbyte)、[dbt](/guides/load-data/load-db/dbt)、[Flink CDC](/guides/load-data/load-db/flink-cdc)、[Debezium](/guides/load-data/load-db/debezium) |
+| **AI** | [MindsDB](/guides/connect/visualization/mindsdb)、[MCP Server](/guides/ai-functions/mcp) |
 
-**社区集成**：由社区成员构建、维护并提供支持。除公开的 GitHub 仓库和社区 Slack 频道外，无其他直接支持。
+## 支持级别
 
-每个集成进一步归类为[语言客户端](/developer/)、[数据导入](/guides/load-data/load-db/)、[数据可视化](/guides/connect/visualization/)和 [SQL 客户端](/guides/connect/)等类别。
+| 级别 | 说明 |
+|------|------|
+| **核心** | Databend 官方构建维护，提供官方支持 |
+| **合作伙伴** | 第三方厂商构建，由合作伙伴提供支持 |
+| **社区** | 社区成员构建，通过 GitHub 和 Slack 获取帮助 |
+
+## 快速链接
+
+- [开发者资源](/developer) — SDK、API 和驱动文档
+- [连接 Databend](/guides/connect) — 各类工具连接指南
+- [数据导入](/guides/load-data) — 多种数据源导入方式
