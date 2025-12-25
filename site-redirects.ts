@@ -1338,6 +1338,10 @@ const siteRedirects = [
   },
   // Products subpages redirects
   {
+    from: '/guides/products/dc',
+    to: '/guides/cloud/overview'
+  },
+  {
     from: '/guides/products/dc/editions',
     to: '/guides/cloud/overview/editions'
   },
@@ -1346,11 +1350,35 @@ const siteRedirects = [
     to: '/guides/cloud/overview/pricing'
   },
   {
+    from: '/guides/products/dc/architecture',
+    to: '/guides/cloud/overview/architecture'
+  },
+  {
+    from: '/guides/products/dc/platforms',
+    to: '/guides/cloud/overview/platforms'
+  },
+  {
+    from: '/guides/products/dc/compliance',
+    to: '/guides/cloud/overview/compliance'
+  },
+  {
+    from: '/guides/products/dc/support',
+    to: '/guides/cloud/overview/support'
+  },
+  {
+    from: '/guides/products/dee',
+    to: '/guides/self-hosted/editions/enterprise'
+  },
+  {
     from: '/guides/products/dee/license',
     to: '/guides/self-hosted/editions/enterprise/license'
   },
   {
     from: '/guides/products/dee/features',
+    to: '/guides/self-hosted/editions/enterprise/features'
+  },
+  {
+    from: '/guides/products/dee/enterprise-features',
     to: '/guides/self-hosted/editions/enterprise/features'
   },
   {
