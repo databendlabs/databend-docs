@@ -9,7 +9,7 @@ description:
 
 ## 准备工作
 
-* **Databend :** 确保 Databend 正在运行且可访问，请参阅 [如何部署 Databend](/guides/deploy)。
+* **Databend :** 确保 Databend 正在运行且可访问，请参阅 [如何部署 Databend](/guides/self-hosted)。
 * **mydumper**: [如何安装 mydumper](https://github.com/mydumper/mydumper)。
 
 :::caution

@@ -19,7 +19,7 @@ import EEFeature from '@site/src/components/EEFeature';
 ![本地计算集群](/img/deploy/on-premise-warehouse.png)
 
 **场景描述**
-之前，我们介绍了如何在 [部署](https://docs.databend.com/guides/deploy/deploy/production/metasrv-deploy#step-2-deploy-query-nodes) 中使用静态 `tenant_id` 和 `cluster_id` 部署 Databend。
+之前，我们介绍了如何在 [部署](https://docs.databend.com/guides/self-hosted/deploy/production/metasrv-deploy#step-2-deploy-query-nodes) 中使用静态 `tenant_id` 和 `cluster_id` 部署 Databend。
 
 为了成功进行本地部署，必须配备一支熟练的 DevOps 团队，以有效地管理部署和配置。这包括：
 1. 在高峰使用时段，策略性地将查询路由到各个集群，以提高并发性。

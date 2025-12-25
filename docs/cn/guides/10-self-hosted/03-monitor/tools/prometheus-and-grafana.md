@@ -10,7 +10,7 @@ title: Prometheus & Grafana
 
 ### 步骤一：部署 Databend
 
-请遵循 [部署指南](/guides/deploy) 在本地部署 Databend。
+请遵循 [部署指南](/guides/self-hosted) 在本地部署 Databend。
 
 :::tip
 本教程使用安装包 `configs` 文件夹中的[默认配置文件](https://github.com/databendlabs/databend/tree/main/scripts/distribution/configs)。databend-meta 的指标 API 是 `0.0.0.0:28002/v1/metrics`，databend-query 的指标 API 是 `0.0.0.0:7070/metrics`。

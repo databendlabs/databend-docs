@@ -34,7 +34,7 @@ docker run --rm -d --name jaeger \
 
 ### 步骤 2. 部署 Databend
 
-1. 按照 [部署指南](/guides/deploy) 部署 Databend。
+1. 按照 [部署指南](/guides/self-hosted) 部署 Databend。
 
 2. 在配置文件 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中启用 tracing。更多信息，请参见 [通过配置文件启用](../30-tracing.md#enabling-with-configuration-file)。
 

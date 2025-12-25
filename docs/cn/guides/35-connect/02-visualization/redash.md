@@ -13,7 +13,7 @@ Databend 和 Databend Cloud 均可作为数据源与 Redash 集成。以下教�
 
 ### 步骤 1. 部署 Databend
 
-按照 [部署指南](/guides/deploy) 部署本地 Databend。
+按照 [部署指南](/guides/self-hosted) 部署本地 Databend。
 
 ### 步骤 2. 部署 Redash
 

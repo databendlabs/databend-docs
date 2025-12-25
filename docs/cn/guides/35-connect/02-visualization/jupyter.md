@@ -20,7 +20,7 @@ sidebar_position: 6
 
 ### 步骤 1. 部署 Databend
 
-1. 按照 [部署指南](/guides/deploy) 部署本地 Databend  
+1. 按照 [部署指南](/guides/self-hosted) 部署本地 Databend  
 2. 在 Databend 中创建 SQL 用户，该账户将用于在 Jupyter Notebook 中连接 Databend
 
 ```sql
@@ -70,7 +70,7 @@ jupyter notebook
 
 ### 步骤 1. 部署 Databend
 
-1. 按照 [部署指南]/guides/deploy) 部署本地 Databend  
+1. 按照 [部署指南]/guides/self-hosted) 部署本地 Databend  
 2. 在 Databend 中创建 SQL 用户，该账户将用于在 Jupyter Notebook 中连接 Databend
 
 ```sql

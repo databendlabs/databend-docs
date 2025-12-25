@@ -37,7 +37,7 @@ java -jar metabase.jar
 
 本教程可选择与本地 Databend 或 Databend Cloud 集成：
 
-- 如选择本地 Databend 实例，请先按[部署指南](/guides/deploy)完成部署（如尚未部署）。
+- 如选择本地 Databend 实例，请先按[部署指南](/guides/self-hosted)完成部署（如尚未部署）。
 - 如选择 Databend Cloud，请确保可登录账户并获取计算集群的连接信息。详情参见[连接计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
 
 ### 步骤 2. 部署 Metabase

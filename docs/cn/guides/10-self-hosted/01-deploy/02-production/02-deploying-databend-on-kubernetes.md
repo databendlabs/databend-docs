@@ -28,7 +28,7 @@ import TabItem from '@theme/TabItem';
   在本示例中，您将部署一个由 3 个节点组成的 Databend Meta 集群，以及两个独立的 Databend Query 集群，每个集群也由 3 个节点组成。您应根据实际的部署计划和使用场景来管理和分配资源，以确保服务平稳运行。
 
   :::info 生产环境部署提示
-  请参考 [部署环境](https://docs.databend.cn/guides/deploy/deploy/understanding-deployment-modes#deployment-environments) 为您的集群预留适当的资源。
+  请参考 [部署环境](https://docs.databend.cn/guides/self-hosted/deploy/understanding-deployment-modes#deployment-environments) 为您的集群预留适当的资源。
   :::
 
 - 确保已安装 `helm` 命令，请参阅 [指南](https://helm.sh/docs/intro/install/)
@@ -58,7 +58,7 @@ import TabItem from '@theme/TabItem';
   - 其他 [Apache OpenDAL](https://github.com/databendlabs/opendal#services) 支持的存储服务
 
   :::tip 推荐的存储设置
-  [准备存储](https://docs.databend.cn/guides/deploy/deploy/production/preparing-storage) 提供了关于推荐存储设置的详细说明。
+  [准备存储](https://docs.databend.cn/guides/self-hosted/deploy/production/preparing-storage) 提供了关于推荐存储设置的详细说明。
   :::
 
   :::info 高级用户

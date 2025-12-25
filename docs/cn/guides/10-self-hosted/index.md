@@ -10,7 +10,7 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 Databend 是一款基于 Rust 构建的开源高性能云数仓。您可以将它部署在自有基础设施上，完全掌控运行环境和数据安全，同时享受出色的性能与灵活性。
 
-可选 [社区版](../00-products/00-dce.md) 或 [企业版](../00-products/01-dee/index.md)。
+可选 [社区版](../00-overview/00-dce.md) 或 [企业版](../00-overview/01-dee/index.md)。
 
 ## 核心优势
 

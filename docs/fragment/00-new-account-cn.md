@@ -10,7 +10,7 @@ Databend Cloud 是以 Databend 企业版为核心引擎，提供 SaaS 化服务�
 - 在 [阿里云市场](https://www.aliyun.com/search?k=%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%20Databend%20Cloud&scene=market) 购买 Databend Cloud
 - 在 [腾讯云市场](https://market.cloud.tencent.com/products/40683?keyword=databend) 购买 Databend Cloud
 
-需要注意的是，以上几种方式的付费方式略有差异，详情请参考 [定价与计费](/guides/products/dc/pricing)。
+需要注意的是，以上几种方式的付费方式略有差异，详情请参考 [定价与计费](/guides/overview/dc/pricing)。
 
 ### 在 Databend Cloud 官网直接注册
 
