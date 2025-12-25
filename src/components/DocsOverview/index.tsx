@@ -147,7 +147,7 @@ const DocsOverview: FC = (): ReactElement => {
                     <h5>{$t("Databend Cloud")}</h5>
                     <div>
                       {$t(
-                        "Fully-managed serverless data warehouse. No infrastructure, instant analytics."
+                        "Serverless · <500ms start · >50% cost savings · 99.95% SLA"
                       )}
                     </div>
                   </div>
@@ -166,7 +166,7 @@ const DocsOverview: FC = (): ReactElement => {
                     <h5>{$t("Self-Hosted")}</h5>
                     <div>
                       {$t(
-                        "Deploy on your own infrastructure. Full control, open source."
+                        "Rust-powered · Open source · S3/GCS/Azure/MinIO"
                       )}
                     </div>
                   </div>
