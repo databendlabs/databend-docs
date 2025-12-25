@@ -753,6 +753,34 @@
     "message": "Serverless · 秒级启动 · 成本降低 50%+ · 99.95% SLA",
     "description": "Databend Cloud highlights"
   },
+  "Choose the deployment option that fits your needs.": {
+    "message": "选择适合您的部署方式",
+    "description": "Getting Started description"
+  },
+  "Recommended": {
+    "message": "推荐",
+    "description": "Recommended badge"
+  },
+  "Fully-managed serverless data warehouse. Zero infrastructure.": {
+    "message": "全托管 Serverless 数仓，无需运维。",
+    "description": "Databend Cloud short description"
+  },
+  "Cold Start": {
+    "message": "冷启动",
+    "description": "Cold Start metric label"
+  },
+  "Cost Savings": {
+    "message": "成本节省",
+    "description": "Cost Savings metric label"
+  },
+  "Open Source": {
+    "message": "开源",
+    "description": "Open Source badge"
+  },
+  "Deploy on your infrastructure. Full control over data and environment.": {
+    "message": "部署在您的环境，数据和配置完全掌控。",
+    "description": "Self-Hosted short description"
+  },
   "Self-Hosted": {
     "message": "私有部署",
     "description": "Self-Hosted title"

@@ -130,45 +130,66 @@ const DocsOverview: FC = (): ReactElement => {
         className={clsx(styles.commomCard, styles.gettingStart)}
         title={$t("Getting Started")}
         description={$t(
-          "Create a Databend Cloud account or deploy your own Databend instance."
+          "Choose the deployment option that fits your needs."
         )}
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
             <Col {...colLayout2}>
-              <Card padding={[20, 0]} className={styles.cardActiveOut}>
+              <Card padding={[24, 24]} className={clsx(styles.cardActiveOut, styles.productCard)}>
                 <Link
                   title={$t("Databend Cloud")}
                   to={"/guides/cloud/"}
-                  className={"global-overview-card"}
+                  className={styles.productCardLink}
                 >
-                  <LightDatabendCloudSingleSvg width={150} />
-                  <div>
-                    <h5>{$t("Databend Cloud")}</h5>
-                    <div>
-                      {$t(
-                        "Serverless · <500ms start · >50% cost savings · 99.95% SLA"
-                      )}
+                  <div className={styles.productCardHeader}>
+                    <LightDatabendCloudSingleSvg width={120} />
+                    <div className={styles.productCardTitle}>
+                      <h5>Databend Cloud</h5>
+                      <span className={styles.productCardBadge}>{$t("Recommended")}</span>
+                    </div>
+                  </div>
+                  <p className={styles.productCardDesc}>
+                    {$t("Fully-managed serverless data warehouse. Zero infrastructure.")}
+                  </p>
+                  <div className={styles.productCardMetrics}>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>&lt;500ms</span>
+                      <span className={styles.metricLabel}>{$t("Cold Start")}</span>
+                    </div>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>&gt;50%</span>
+                      <span className={styles.metricLabel}>{$t("Cost Savings")}</span>
+                    </div>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>99.95%</span>
+                      <span className={styles.metricLabel}>SLA</span>
                     </div>
                   </div>
                 </Link>
               </Card>
             </Col>
             <Col {...colLayout2}>
-              <Card padding={[20, 0]} className={styles.cardActiveOut}>
+              <Card padding={[24, 24]} className={clsx(styles.cardActiveOut, styles.productCard)}>
                 <Link
                   title={$t("Self-Hosted")}
                   to={"/guides/self-hosted/"}
-                  className={"global-overview-card"}
+                  className={styles.productCardLink}
                 >
-                  <LightDatabendSingleSvg width={150} />
-                  <div>
-                    <h5>{$t("Self-Hosted")}</h5>
-                    <div>
-                      {$t(
-                        "Rust-powered · Open source · S3/GCS/Azure/MinIO"
-                      )}
+                  <div className={styles.productCardHeader}>
+                    <LightDatabendSingleSvg width={120} />
+                    <div className={styles.productCardTitle}>
+                      <h5>Databend Self-Hosted</h5>
+                      <span className={styles.productCardBadgeAlt}>{$t("Open Source")}</span>
                     </div>
+                  </div>
+                  <p className={styles.productCardDesc}>
+                    {$t("Deploy on your infrastructure. Full control over data and environment.")}
+                  </p>
+                  <div className={styles.productCardTags}>
+                    <span className={styles.tag}>🦀 Rust</span>
+                    <span className={styles.tag}>Apache 2.0</span>
+                    <span className={styles.tag}>S3 / GCS / Azure</span>
                   </div>
                 </Link>
               </Card>

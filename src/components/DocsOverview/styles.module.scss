@@ -112,6 +112,111 @@
 .cardActiveOut {
   height: 100%;
 }
+
+.productCard {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.productCardLink {
+  display: block;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.productCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.productCardTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+}
+
+.productCardBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(135deg, #0070f3, #00a8ff);
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.productCardBadgeAlt {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  background: var(--color-fill-0);
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.productCardDesc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: hsl(var(--muted-foreground));
+  margin: 0 0 16px 0;
+}
+
+.productCardMetrics {
+  display: flex;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  text-align: center;
+}
+
+.metricValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0070f3;
+}
+
+.metricLabel {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+
+.productCardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: hsl(var(--foreground));
+  background: var(--color-fill-0);
+  border-radius: 4px;
+}
 .cardActive {
   width: 100%;
   display: flex;
