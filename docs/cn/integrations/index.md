@@ -13,4 +13,4 @@ Databend 集成按支持级别划分：
 
 **社区集成**：由社区成员构建、维护并提供支持。除公开的 GitHub 仓库和社区 Slack 频道外，无其他直接支持。
 
-每个集成进一步归类为[语言客户端](/developer/)、[数据导入](/guides/load-data/load-db/)、[数据可视化](/guides/visualize/)和 [SQL 客户端](/guides/sql-clients/)等类别。
+每个集成进一步归类为[语言客户端](/developer/)、[数据导入](/guides/load-data/load-db/)、[数据可视化](/guides/connect/visualization/)和 [SQL 客户端](/guides/connect/)等类别。

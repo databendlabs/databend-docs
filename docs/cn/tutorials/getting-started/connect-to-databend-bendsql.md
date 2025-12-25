@@ -14,7 +14,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 ### 开始之前
 
 - 请先在本地安装 [Docker](https://www.docker.com/)，用于启动 Databend。
-- 请先安装 BendSQL，参见 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 请先安装 BendSQL，参见 [安装 BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql)。
 
 </StepContent>
 <StepContent number="2">

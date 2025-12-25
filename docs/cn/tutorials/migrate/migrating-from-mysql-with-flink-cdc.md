@@ -13,7 +13,7 @@ sidebar_label: 'Flink CDC 实时同步 MySQL'
 
 - 本地已安装 [Docker](https://www.docker.com/)，用于启动 MySQL。
 - 本地安装 Java 8 或 11，用于运行 [Flink Databend Connector](https://github.com/databendcloud/flink-connector-databend)。
-- 本地安装 BendSQL，参见 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 本地安装 BendSQL，参见 [安装 BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql)。
 
 ## 步骤 1：在 Docker 中启动 MySQL
 

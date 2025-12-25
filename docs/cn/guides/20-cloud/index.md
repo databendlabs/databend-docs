@@ -24,11 +24,11 @@ Databend Cloud 是全托管的云数仓服务，开箱即用、弹性扩展、�
 
 | 类型     | 工具                                             | 适用场景                                |
 | -------------- | ------------------------------------------------ | --------------------------------------- |
-| **SQL 客户端** | [BendSQL](/guides/sql-clients/bendsql)           | 命令行工具，适合开发者和脚本调用            |
-|                | [DBeaver](/guides/sql-clients/jdbc)              | 图形界面，适合可视化查询和数据分析 |
-| **编程语言**   | [Python](/guides/sql-clients/developers/python)  | 数据科学、分析、机器学习                |
-|                | [Go](/guides/sql-clients/developers/golang)      | 后端服务和微服务                    |
-|                | [Node.js](/guides/sql-clients/developers/nodejs) | Web 应用开发                      |
-|                | [Java](/guides/sql-clients/developers/jdbc)      | 企业级应用                            |
+| **SQL 客户端** | [BendSQL](/guides/connect/sql-clients/bendsql)           | 命令行工具，适合开发者和脚本调用            |
+|                | [DBeaver](/guides/connect/sql-clients/jdbc)              | 图形界面，适合可视化查询和数据分析 |
+| **编程语言**   | [Python](/guides/connect/drivers/python)  | 数据科学、分析、机器学习                |
+|                | [Go](/guides/connect/drivers/golang)      | 后端服务和微服务                    |
+|                | [Node.js](/guides/connect/drivers/nodejs) | Web 应用开发                      |
+|                | [Java](/guides/connect/drivers/java)      | 企业级应用                            |
 
-更多连接方式请参阅 [SQL 客户端](/guides/sql-clients/)。
+更多连接方式请参阅 [SQL 客户端](/guides/connect/)。

@@ -16,7 +16,7 @@ import VideoCN from '@site/docs/fragment/01-deploying-local-cnvideo.md' -->
 在开始之前，请确保你已具备以下先决条件：
 
 - 确保你的本地机器上已安装 [Docker](https://www.docker.com/)。
-- 确保你的机器上已安装 BendSQL。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 确保你的机器上已安装 BendSQL。有关如何使用各种包管理器安装 BendSQL 的说明，请参阅 [安装 BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql)。
 
 ### 部署 MinIO
 

@@ -13,7 +13,7 @@ sidebar_label: 'BendSave 备份与恢复'
   - [Docker](https://www.docker.com/)：用于部署本地 MinIO。
   - [AWS CLI](https://aws.amazon.com/cli/)：用于管理 MinIO 中的 Bucket。
   - 如果在 AWS EC2 上操作，请确保安全组放开 `8000` 端口，以便 BendSQL 连接 Databend。
-- 本地安装 BendSQL，参见 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 本地安装 BendSQL，参见 [安装 BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql)。
 - Databend 发布包：从 [Databend GitHub Releases](https://github.com/databendlabs/databend/releases) 下载。该包的 `bin` 目录包含本教程所需的 `databend-bendsave` 二进制：
 
 ```bash

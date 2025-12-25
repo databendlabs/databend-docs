@@ -14,7 +14,7 @@ sidebar_label: 'db-archiver 离线迁移 MySQL'
 
 - 本地安装 [Docker](https://www.docker.com/)，用于启动 MySQL。
 - 本地安装 [Go](https://go.dev/dl/)，用于安装 db-archiver。
-- 本地安装 BendSQL，参见 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 本地安装 BendSQL，参见 [安装 BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql)。
 
 ## 步骤 1：在 Docker 中启动 MySQL
 

@@ -18,7 +18,7 @@ import Speaker from '@site/src/components/Speaker'
 
 - **[快速开始](/guides/deploy/quickstart)**: 使用 Docker 快速启动，轻松加载示例数据。
 - **[Databend Cloud](/guides/cloud)**: 启动 Serverless 数仓，轻松管理组织与数据。
-- **[连接 Databend](/guides/sql-clients)**: 使用各类 SQL 客户端及编程语言连接 Databend。
+- **[连接 Databend](/guides/connect)**: 使用各类 SQL 客户端及编程语言连接 Databend。
 - **[SQL 参考](/sql)**: 浏览 Databend SQL 命令、函数及语法。
 
 **数据处理**
