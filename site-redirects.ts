@@ -1478,6 +1478,30 @@ const siteRedirects = [
     to: '/guides/self-hosted/deployment/production/deploying-databend-on-kubernetes'
   },
   {
+    from: '/guides/deploy/deploy/production/manage-query-warehouse-through-SQL',
+    to: '/guides/self-hosted/deployment/production/manage-query-warehouse-through-SQL'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-grpc',
+    to: '/guides/self-hosted/deployment/production/metasrv-grpc'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-backup-restore',
+    to: '/guides/self-hosted/deployment/production/metasrv-backup-restore'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-status',
+    to: '/guides/self-hosted/deployment/production/metasrv-status'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-cli-api',
+    to: '/guides/self-hosted/deployment/production/metasrv-cli-api'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-add-remove-node',
+    to: '/guides/self-hosted/deployment/production/metasrv-add-remove-node'
+  },
+  {
     from: '/guides/deploy/deploy/non-production/deploying-databend',
     to: '/guides/self-hosted/deployment/non-production/deploying-databend'
   },
@@ -1508,6 +1532,14 @@ const siteRedirects = [
   {
     from: '/guides/deploy/deploy/benddeploy',
     to: '/guides/self-hosted/deployment/benddeploy'
+  },
+  {
+    from: '/guides/deploy/deploy/benddeploy/getting-started',
+    to: '/guides/self-hosted/deployment/benddeploy/getting-started'
+  },
+  {
+    from: '/guides/deploy/deploy/benddeploy/installing-benddeploy',
+    to: '/guides/self-hosted/deployment/benddeploy/installing-benddeploy'
   },
   {
     from: '/guides/deploy/deploy/manually',
