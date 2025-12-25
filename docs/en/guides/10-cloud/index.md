@@ -6,9 +6,20 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 # Databend Cloud
 
-A fully-managed, serverless cloud data warehouse. Zero infrastructure, instant analytics.
+The fully-managed cloud data warehouse built on the open-source [Databend](https://github.com/databendlabs/databend) engine.
+
+Databend Cloud is not just Databend hosted in the cloud — it's a complete cloud-native data platform with multi-tenant, serverless architecture. Like Snowflake, it delivers instant elasticity, true pay-per-query economics, and enterprise-grade capabilities, all without infrastructure overhead.
 
 ## Why Databend Cloud?
+
+### 🏗️ Cloud-Native Architecture
+
+| Capability | Description |
+|------------|-------------|
+| **Serverless** | No clusters to manage. Compute starts in milliseconds, scales to zero when idle |
+| **Storage-Compute Separation** | Scale independently, optimize costs with hot/warm/cold tiering |
+| **Multi-Tenant** | Secure isolation with shared infrastructure efficiency |
+| **Snowflake Compatible** | Familiar SQL syntax, smooth migration path |
 
 ### ⚡ Instant On. Always Ready.
 
