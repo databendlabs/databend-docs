@@ -6,34 +6,34 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 # Databend Cloud
 
-全托管、Serverless 云数仓。零运维，即时分析。
+全托管 Serverless 云数仓，开箱即用，专注分析。
 
 ## 为什么选择 Databend Cloud？
 
-### ⚡ 秒级启动，随时就绪
+### ⚡ 开箱即用，秒级响应
 
-| 指标 | 数值 | 说明 |
+| 亮点 | 数据 | 详情 |
 |------|------|------|
-| **启动耗时** | < 500ms | 无状态架构，零冷启动 |
-| **成本节省** | > 50% | 对比 Snowflake Standard |
-| **可用性 SLA** | 99.95% | 高可用服务，跨区容灾 |
+| **极速启动** | < 500ms | 无状态架构，告别冷启动 |
+| **降本增效** | > 50% | 较 Snowflake Standard 成本更低 |
+| **稳定可靠** | 99.95% SLA | 多可用区部署，自动容灾 |
 
-### 🔐 安全内置
+### 🔐 安全无忧
 
-| 类别 | 特性 |
+| 能力 | 详情 |
 |------|------|
-| **访问控制** | 细粒度权限、RBAC + DAC、数据脱敏、网络策略 |
-| **加密** | 全链路 TLS 1.2、存储加密、AWS PrivateLink |
-| **合规** | SOC 2 Type II、GDPR 合规、定期审计 |
-| **可观测性** | 查询审计日志、实时监控、异常检测 |
+| **权限管控** | 细粒度授权、RBAC + DAC、数据脱敏、网络隔离 |
+| **数据加密** | 全链路 TLS 1.2、存储加密、AWS PrivateLink |
+| **合规认证** | SOC 2 Type II、GDPR、定期安全审计 |
+| **全面可观测** | 查询审计、实时监控、智能告警 |
 
 ## 快速开始
 
 | 步骤 | 操作 |
 |------|------|
-| 1 | [**注册账号**](01-getting-started.md) — 几分钟完成注册 |
-| 2 | [**探索资源**](02-resources/) — 计算集群、工作区、仪表盘 |
-| 3 | [**连接**](/guides/connect/) — BendSQL、Python、Go、Java、Node.js |
+| 1 | [**注册账号**](01-getting-started.md) — 几分钟搞定 |
+| 2 | [**熟悉功能**](02-resources/) — 计算集群、工作区、仪表盘 |
+| 3 | [**连接使用**](/guides/connect/) — BendSQL、Python、Go、Java、Node.js |
 
 ## 了解更多
 
