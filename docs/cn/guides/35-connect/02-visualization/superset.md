@@ -88,7 +88,7 @@ docker exec -it superset superset init
 
 ![Alt text](/img/integration/superset-select-other.png)
 
-4. 在 **BASIC** 选项卡中，设置显示名称（例如 `Databend`），然后输入连接 Databend Cloud 的 URI。URI 格式为：`databend://<host>`，其中 `<host>` 对应您计算集群连接信息中的 host 字段。有关如何获取连接详情的说明，请参阅 [连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting-to-a-warehouse)。
+4. 在 **BASIC** 选项卡中，设置显示名称（例如 `Databend`），然后输入连接 Databend Cloud 的 URI。URI 格式为：`databend://<host>`，其中 `<host>` 对应您计算集群连接信息中的 host 字段。有关如何获取连接详情的说明，请参阅 [连接到计算集群](/guides/cloud/resources/warehouses#connecting-to-a-warehouse)。
 
 ![Alt text](/img/integration/superset-uri.png)
 

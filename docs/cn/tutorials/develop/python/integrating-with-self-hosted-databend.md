@@ -7,7 +7,7 @@ sidebar_label: "Python Driver 开发 (自建)"
 
 ## 开始之前
 
-请确认已成功安装本地 Databend，详见 [本地与 Docker 部署](/guides/self-hosted/deploy/non-production/deploying-local)。
+请确认已成功安装本地 Databend，详见 [本地与 Docker 部署](/guides/self-hosted/deployment/non-production/deploying-local)。
 
 ## 步骤 1：准备 SQL 账号
 

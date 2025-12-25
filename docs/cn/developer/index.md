@@ -30,7 +30,7 @@ Databend 提供 REST API，用于直接集成和自定义应用程序。
 ## 开发工具
 
 - **[BendSQL CLI](/tutorials/getting-started/connect-to-databend-bendsql)** - Databend 的命令行界面
-- **[Databend Cloud Console](/guides/cloud/using-databend-cloud/worksheet)** - 基于 Web 的管理界面
+- **[Databend Cloud Console](/guides/cloud/resources/worksheet)** - 基于 Web 的管理界面
 
 ## 其他资源
 

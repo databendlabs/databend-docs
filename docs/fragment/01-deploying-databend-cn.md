@@ -7,7 +7,7 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="引入或更新：v1.2.168"/>
 
-本主题介绍如何使用对象存储部署 Databend。有关支持的对象存储解决方案的列表，请参见 [了解部署模式](/guides/self-hosted/deploy/understanding-deployment-modes)。
+本主题介绍如何使用对象存储部署 Databend。有关支持的对象存储解决方案的列表，请参见 [了解部署模式](/guides/self-hosted/deployment/understanding-deployment-modes)。
 
 ### 开始之前
 
@@ -329,7 +329,7 @@ access_key_id = "<your-key-id>"
 access_key_secret = "<your-access-key>"
 ```
 
-Databend 企业版支持 OSS 中的服务器端加密。此功能使您能够通过为存储在 OSS 中的数据激活服务器端加密来增强数据安全性和隐私。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参阅 [Databend 授权](/guides/overview/dee/license)。
+Databend 企业版支持 OSS 中的服务器端加密。此功能使您能够通过为存储在 OSS 中的数据激活服务器端加密来增强数据安全性和隐私。您可以选择最适合您需求的加密方法。请注意，您必须拥有有效的 Databend 企业版许可证才能使用此功能。要获取许可证，请参阅 [Databend 授权](/guides/self-hosted/editions/enterprise/license)。
 
 要在 Databend 中启用服务器端加密，请将以下参数添加到 [storage.oss] 部分：
 

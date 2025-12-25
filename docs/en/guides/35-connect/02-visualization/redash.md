@@ -92,7 +92,7 @@ In this tutorial, you'll install Redash with Docker. Before you start, ensure th
 
 ### Step 1. Obtain Connection Information
 
-Obtain the connection information from Databend Cloud. For how to do that, refer to [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+Obtain the connection information from Databend Cloud. For how to do that, refer to [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting).
 
 ### Step 2. Deploy Redash
 

@@ -92,7 +92,7 @@ docker-compose up
 
 ### 步骤 1. 获取连接信息
 
-从 Databend Cloud 获取连接信息，具体操作请参考 [连接计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+从 Databend Cloud 获取连接信息，具体操作请参考 [连接计算集群](/guides/cloud/resources/warehouses#connecting)。
 
 ### 步骤 2. 部署 Redash
 

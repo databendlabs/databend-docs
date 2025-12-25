@@ -70,7 +70,7 @@ Once the download is complete, the test connection should succeed:
 
 ### Obtain Connection Information
 
-Log in to Databend Cloud to obtain connection information. For more information, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+Log in to Databend Cloud to obtain connection information. For more information, see [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting).
 
 ![alt text](@site/static/img/connect/dbeaver-connect-info.png)
 

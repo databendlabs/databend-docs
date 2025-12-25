@@ -1244,11 +1244,11 @@ const siteRedirects = [
   },
   {
     from: '/guides/load-data/stage/aws-iam-role',
-    to: '/guides/cloud/advanced/iam-role'
+    to: '/guides/cloud/security/iam-role'
   },
   {
     from: '/guides/sql-clients/privatelink',
-    to: '/guides/cloud/advanced/private-link'
+    to: '/guides/cloud/security/private-link'
   },
   // SQL Clients & Visualize reorganization - merged into /guides/connect/
   {
@@ -1323,10 +1323,30 @@ const siteRedirects = [
     from: '/guides/visualize/redash',
     to: '/guides/connect/visualization/redash'
   },
-  // Products -> Overview (root), Deploy -> Self-Hosted reorganization
+  // Cloud and Self-Hosted reorganization
   {
     from: '/guides/products',
     to: '/'
+  },
+  {
+    from: '/guides/cloud/new-account',
+    to: '/guides/cloud/getting-started/signup'
+  },
+  {
+    from: '/guides/cloud/using-databend-cloud',
+    to: '/guides/cloud/resources'
+  },
+  {
+    from: '/guides/cloud/manage',
+    to: '/guides/cloud/administration'
+  },
+  {
+    from: '/guides/cloud/advanced',
+    to: '/guides/cloud/security'
+  },
+  {
+    from: '/guides/overview/dc',
+    to: '/guides/cloud/overview'
   },
   {
     from: '/guides/deploy',
@@ -1337,24 +1357,24 @@ const siteRedirects = [
     to: '/guides/self-hosted/quickstart'
   },
   {
-    from: '/deploy/quickstart',
-    to: '/guides/self-hosted/quickstart'
+    from: '/guides/self-hosted/deploy',
+    to: '/guides/self-hosted/deployment'
   },
   {
-    from: '/guides/deploy/deploy',
-    to: '/guides/self-hosted/deploy'
+    from: '/guides/self-hosted/upgrade',
+    to: '/guides/self-hosted/operations/upgrade'
   },
   {
-    from: '/guides/deploy/upgrade',
-    to: '/guides/self-hosted/upgrade'
+    from: '/guides/self-hosted/monitor',
+    to: '/guides/self-hosted/operations/monitoring'
   },
   {
-    from: '/guides/deploy/monitor',
-    to: '/guides/self-hosted/monitor'
+    from: '/guides/overview/dee',
+    to: '/guides/self-hosted/editions/enterprise'
   },
   {
-    from: '/guides/deploy/references',
-    to: '/guides/self-hosted/references'
+    from: '/guides/overview/dce',
+    to: '/guides/self-hosted/editions/community'
   }
 ];
 export default siteRedirects;

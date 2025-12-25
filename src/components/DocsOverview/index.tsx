@@ -139,7 +139,7 @@ const DocsOverview: FC = (): ReactElement => {
               <Card padding={[20, 0]} className={styles.cardActiveOut}>
                 <Link
                   title={$t("Start with Databend Cloud")}
-                  to={"/guides/cloud/new-account/"}
+                  to={"/guides/cloud/getting-started/signup/"}
                   className={"global-overview-card"}
                 >
                   <LightDatabendCloudSingleSvg width={150} />
@@ -158,7 +158,7 @@ const DocsOverview: FC = (): ReactElement => {
                     <li>
                       <Link
                         title={$t("Choose Your Edition")}
-                        to={"/guides/overview/dc/editions/"}
+                        to={"/guides/cloud/overview/editions/"}
                       >
                         {$t("Choose Your Edition")}
                       </Link>
@@ -166,7 +166,7 @@ const DocsOverview: FC = (): ReactElement => {
                     <li>
                       <Link
                         title={$t("Pricing & Plans")}
-                        to={"/guides/overview/dc/pricing/"}
+                        to={"/guides/cloud/overview/pricing/"}
                       >
                         {$t("Pricing & Plans")}
                       </Link>
@@ -174,7 +174,7 @@ const DocsOverview: FC = (): ReactElement => {
                     <li>
                       <Link
                         title={$t("Using Databend Cloud")}
-                        to={"/guides/cloud/using-databend-cloud/"}
+                        to={"/guides/cloud/resources/"}
                       >
                         {$t("Using Databend Cloud")}
                       </Link>
@@ -214,7 +214,7 @@ const DocsOverview: FC = (): ReactElement => {
                     <li>
                       <Link
                         title={$t("Download & Install")}
-                        to={"/guides/self-hosted/deploy/download/"}
+                        to={"/guides/self-hosted/deployment/download/"}
                       >
                         {$t("Download & Install")}
                       </Link>
@@ -222,7 +222,7 @@ const DocsOverview: FC = (): ReactElement => {
                     <li>
                       <Link
                         title={$t("Enterprise Features & Licensing")}
-                        to={"/guides/overview/dee/license/"}
+                        to={"/guides/self-hosted/editions/enterprise/license/"}
                       >
                         {$t("Enterprise Features & Licensing")}
                       </Link>
@@ -566,7 +566,7 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<FAQ></FAQ>}
                 text={$t("FAQ")}
-                to={`/guides/overview/overview/faq/`}
+                to={`/`}
               />
             </Col>
             <Col {...colLayout}>

@@ -232,7 +232,7 @@ Before you start, ensure that you have [Python](https://www.python.org/) install
 
 ### Step 1. Obtain Connection Information
 
-Obtain the connection information from Databend Cloud. For how to do that, refer to [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+Obtain the connection information from Databend Cloud. For how to do that, refer to [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting).
 
 ### Step 2. Deploy Jupyter Notebook
 

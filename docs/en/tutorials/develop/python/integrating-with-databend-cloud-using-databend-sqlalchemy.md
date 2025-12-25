@@ -6,7 +6,7 @@ In this tutorial, we'll walk you through how to use the `databend-sqlalchemy` li
 
 ## Before You Start
 
-Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
+Before you start, make sure you have successfully created a warehouse and obtained the connection information. For how to do that, see [Connecting to a Warehouse](/guides/cloud/resources/warehouses#connecting).
 
 ## Step 1: Install Dependencies with pip
 

@@ -1,0 +1,163 @@
+---
+title: Enterprise Features
+---
+
+import DatabendTable from '@site/src/components/DatabendTable';
+
+This page provides an updated list of available enterprise features. To access these features, you will need an enterprise or trial license. For more details, see [Licensing Databend](license.md).
+
+### Enterprise Feature List
+
+| Feature                                                                          | Category       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| -------------------------------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [Audit Trail](/guides/security/audit-trail)                                     | Security & Compliance | Monitor database activities with comprehensive audit logs for compliance and security.                                                                                                                                                                                                                                                                                                                                                                                   |
+| [Masking Policy](/sql/sql-commands/ddl/mask-policy/)                             | Security & Compliance | Protect sensitive data with role-based masking policies.                                                                                                                                                                                                                                                                                                                                                                                                                |
+| Storage Encryption                                                               | Security & Compliance | Encrypt data at rest with service-managed, KMS, or customer-managed keys.                                                                                                                                                                                                                                                                                                                                                                                               |
+| [BendSave](/guides/data-management/data-recovery#bendsave) | Disaster Recovery | Backup and restore entire Databend cluster data for disaster recovery. |
+| [Fail-Safe](/guides/security/fail-safe)                                          | Disaster Recovery  | Recover lost or accidentally deleted data from S3-compatible object storage.                                                                                                                                                                                                                                                                                                                                                                                            |
+| [Virtual Column](/sql/sql-commands/ddl/virtual-column)                          | Query Performance  | Automatically accelerate JSON queries with zero-configuration performance optimization for VARIANT data.                                                                                                                                                                                                                                                                                                                                                                |
+| [Dynamic Column](/sql/sql-commands/ddl/table/ddl-create-table#computed-columns)  | Query Performance  | Generate columns automatically from scalar expressions with stored or virtual calculation modes.                                                                                                                                                                                                                                                                                                                                                                         |
+| [Python UDF](/sql/sql-commands/ddl/udf/ddl-create-function-embedded#python)              | Advanced Analytics | Execute Python code within SQL queries using built-in handler.                                                                                                                                                                                                                                                                                                                                                                                                          |
+| [ATTACH TABLE](/sql/sql-commands/ddl/table/attach-table)                         | Data Sharing       | Create read-only links to existing table data with zero-copy access across environments.                                                                                                                                                                                                                                                                                                                                                                                |
+| [Stream](/sql/sql-commands/ddl/stream)                                           | Change Data Capture | Track and capture table changes for incremental data processing.                                                                                                                                                                                                                                                                                                                                                                                                        |
+| [Vacuum Temp Files](/sql/sql-commands/administration-cmds/vacuum-temp-files)     | Storage Management | Clean up temporary files (join, aggregate, sort spills) to free storage space.                                                                                                                                                                                                                                                                                                                                                                                          |
+| [Vacuum Dropped Table](/sql/sql-commands/ddl/table/vacuum-drop-table)            | Storage Management | Delete data files of dropped tables to optimize storage with recovery option.                                                                                                                                                                                                                                                                                                                                                                                           |
+| [Vacuum Historical Data](/sql/sql-commands/ddl/table/vacuum-table)               | Storage Management | Remove orphan segment and block files to deep clean storage space.                                                                                                                                                                                                                                                                                                                                                                                                      |
+
+## Databend Community vs. Enterprise
+
+This section compares Databend Community with Databend Enterprise across key capabilities:
+
+### Core Database Engine
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Distributed Metadata Management', '✓', '✓'],
+['Distributed SQL Engine', '✓', '✓'],
+['Distributed Storage Engine', '✓', '✓'],
+['Distributed Scheduling Engine', '✓', '✓'],
+['Vectorized Engine', '✓', '✓'],
+['Distributed Transaction', '✓', '✓'],
+['Multi-version Data', '✓', '✓'],
+['Time Travel', '✓', '✓'],
+['Performance Optimizer', '✓', '✓'],
+['Multi-tenancy and Permission Management', '✓', '✓'],
+['Standard Data Types', '✓', '✓'],
+['Semi-structured Data Type (JSON)', '✓', '✓'],
+['Unstructured Data Types', 'Parquet/CSV/TSV/JSON/ORC/AVRO', 'Parquet/CSV/TSV/JSON/ORC/AVRO'],
+['Advanced Compression', '✓', '✓'],
+['Vector Storage', '✓', '✓'],
+['Apache Hive Query', '✓', '✓'],
+['Apache Iceberg Query', '✓', '✓'],
+['Semi-structured Data Query', '✓', '✓'],
+['External User-defined Functions', '✓', '✓'],
+['Large Query Resource Isolation Protection (Spill)', '✓', '✓'],
+]}
+/>
+
+### Enterprise Security & Compliance
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Basic Audit Functionality', '✓', '✓'],
+['Comprehensive Audit Trail (System History Tables)', '✕', '✓'],
+['Access Control RBAC', '✓', '✓'],
+['Password Strength and Expiry Policy', '✓', '✓'],
+['Whitelist Management', '✓', '✓'],
+['Storage Encryption', '✕', '✓'],
+['Data Dynamic Masking Policy', '✕', '✓'],
+]}
+/>
+
+### High-Performance Query Optimization
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Virtual Column (JSON Query Acceleration)', '✕', '✓'],
+['Dynamic Column (Computed Columns)', '✕', '✓'],
+]}
+/>
+
+### Advanced Analytics & AI
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Materialized Views', '✕', '✓'],
+['AI Functions (Sentiment Analysis, Data Annotation, etc.)', '✕', '✓ (HuggingFace Open Source Models)'],
+['Python UDF (Advanced Analytics)', '✕', '✓'],
+]}
+/>
+
+### Real-time Data Integration
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Data Processing during Import', '✓', '✓'],
+['Stream (Change Data Capture)', '✕', '✓'],
+['CDC Real-time Data Import', '✕', '✓'],
+['ATTACH TABLE (Zero-copy Data Sharing)', '✕', '✓'],
+['Data Export Formats', 'Parquet/ORC/CSV/NDJSON', 'Parquet/ORC/CSV/NDJSON'],
+]}
+/>
+
+### Enterprise Storage & Backup
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Cold/Hot Data Separation', '✕', '✓'],
+['Automatic Expiry Data Cleaning', '✕', '✓'],
+['Automatic Garbage Data Cleaning', '✕', '✓'],
+['BendSave (Cluster Backup & Restore)', '✕', '✓'],
+['Fail-Safe (Data Recovery from Object Storage)', '✕', '✓'],
+]}
+/>
+
+### Production Deployment
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Deployment Support: K8s, Baremetal, Installer', '✓', '✓'],
+['Backend Storage Support: S3, Azblob, GCS, OSS, COS', '✓', '✓'],
+['x86_64 & ARM64 Architecture', '✓', '✓'],
+['Compatible with LoongArch, openEuler, etc.', '✓', '✓'],
+['Monitoring and Alerting APIs', '✓', '✓'],
+]}
+/>
+
+### Developer Tools & APIs
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['Driver Support: Go, Java, Rust, JS, Python', '✓', '✓'],
+['Native REST APIs', '✓', '✓'],
+['Native Client BendSQL', '✓', '✓'],
+]}
+/>
+
+### Enterprise Support
+
+<DatabendTable
+width={['70%', '15%', '15%']}
+thead={['Functionality', 'Databend Community', 'Databend Enterprise']}
+tbody={[
+['24/7 Support & Emergency Response', '✕', '✓'],
+['Deployment and Upgrade', '✕', '✓'],
+['Operational Support', '✕', '✓'],
+]}
+/>

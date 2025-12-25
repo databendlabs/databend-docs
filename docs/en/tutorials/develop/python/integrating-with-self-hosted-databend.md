@@ -6,7 +6,7 @@ This tutorial demonstrates how to connect to a locally deployed Databend instanc
 
 ## Before You Start
 
-Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/self-hosted/deploy/non-production/deploying-local).
+Before you start, make sure you have successfully installed a local Databend. For detailed instructions, see [Local and Docker Deployments](/guides/self-hosted/deployment/non-production/deploying-local).
 
 ## Step 1: Prepare a SQL User Account
 

@@ -7,7 +7,7 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="Introduced or updated: v1.2.168"/>
 
-This topic explains how to deploy Databend with your object storage. For a list of supported object storage solutions, see [Understanding Deployment Modes](/guides/self-hosted/deploy/understanding-deployment-modes).
+This topic explains how to deploy Databend with your object storage. For a list of supported object storage solutions, see [Understanding Deployment Modes](/guides/self-hosted/deployment/understanding-deployment-modes).
 
 ### Before You start
 

@@ -34,7 +34,7 @@ databend://user:pwd@host[:port]/[database][?sslmode=disable][&arg1=value1]
 | `sslmode`   | SSL mode       | `disable` (required) | Not used       | `?sslmode=disable`      |
 | `warehouse` | Warehouse name | Not used             | Required       | `?warehouse=compute_wh` |
 
-> **Databend Cloud**: [Get connection info →](/guides/cloud/using-databend-cloud/warehouses#obtaining-connection-information)
+> **Databend Cloud**: [Get connection info →](/guides/cloud/resources/warehouses#obtaining-connection-information)
 
 ## Available Drivers
 

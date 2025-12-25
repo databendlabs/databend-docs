@@ -70,7 +70,7 @@ docker run -d --name databend \
 
 ### 获取连接信息
 
-登录 Databend Cloud 获取连接信息。更多信息请参阅 [连接计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+登录 Databend Cloud 获取连接信息。更多信息请参阅 [连接计算集群](/guides/cloud/resources/warehouses#connecting)。
 
 ![alt text](@site/static/img/connect/dbeaver-connect-info.png)
 

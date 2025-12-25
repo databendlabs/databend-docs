@@ -34,7 +34,7 @@ databend://user:pwd@host[:port]/[database][?sslmode=disable][&arg1=value1]
 | `sslmode`   | SSL 模式       | `disable`（必需）    | 不使用         | `?sslmode=disable`      |
 | `warehouse` | Warehouse 名称 | 不使用               | 必需           | `?warehouse=compute_wh` |
 
-> **Databend Cloud**：[获取连接信息 →](/guides/cloud/using-databend-cloud/warehouses#obtaining-connection-information)
+> **Databend Cloud**：[获取连接信息 →](/guides/cloud/resources/warehouses#obtaining-connection-information)
 
 ## 可用驱动
 
