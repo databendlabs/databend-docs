@@ -1,1 +1,7 @@
-{"label": "参考"}
+{
+  "label": "参考",
+  "link": {
+    "type": "doc",
+    "id": "guides/20-self-hosted/04-references/index"
+  }
+}
