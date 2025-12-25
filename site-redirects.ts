@@ -1329,6 +1329,14 @@ const siteRedirects = [
     to: '/'
   },
   {
+    from: '/guides/products/overview/ecosystem',
+    to: '/'
+  },
+  {
+    from: '/guides/products/overview/faq',
+    to: '/'
+  },
+  {
     from: '/guides/cloud/new-account',
     to: '/guides/cloud/getting-started'
   },
