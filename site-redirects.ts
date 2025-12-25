@@ -1329,6 +1329,10 @@ const siteRedirects = [
     to: '/'
   },
   {
+    from: '/guides/products/overview',
+    to: '/'
+  },
+  {
     from: '/guides/products/overview/ecosystem',
     to: '/'
   },
