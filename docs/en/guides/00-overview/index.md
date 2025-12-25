@@ -17,7 +17,7 @@ Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> documentat
 
 **Getting Started**
 
-- **[Quick Start](/guides/deploy/quickstart)**: Launch Databend with Docker and load sample data fast.
+- **[Quick Start](/guides/self-hosted/quickstart)**: Launch Databend with Docker and load sample data fast.
 - **[Databend Cloud](/guides/cloud)**: Spin up serverless warehouses and manage your organization.
 - **[Connect to Databend](/guides/connect)**: Connect with various SQL clients and programming languages.
 - **[SQL Reference](/sql)**: Browse Databend SQL commands, functions, and syntax.

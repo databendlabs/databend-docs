@@ -15,7 +15,7 @@ Before you start, please refer to the official installation guide to install Gra
 
 For this tutorial, you can integrate either with Databend or Databend Cloud:
 
-- If you choose to integrate with a local Databend instance, follow the [Deployment Guide](/guides/deploy) to deploy it if you don't have one already.
+- If you choose to integrate with a local Databend instance, follow the [Deployment Guide](/guides/self-hosted) to deploy it if you don't have one already.
 - If you prefer to integrate with Databend Cloud, make sure you can log in to your account and obtain the connection information for a warehouse. For more details, see [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses#connecting).
 
 ### Step 2. Modify Grafana Configuration

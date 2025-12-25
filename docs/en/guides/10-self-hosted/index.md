@@ -10,7 +10,7 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
 Deploy and manage Databend — an open-source, high-performance cloud data warehouse built with Rust — on your own infrastructure with complete flexibility. Experience exceptional performance and efficiency while retaining full control over your environment and data security.
 
-Available as [Community Edition](../00-products/00-dce.md) or [Enterprise Edition](../00-products/01-dee/index.md).
+Available as [Community Edition](../00-overview/00-dce.md) or [Enterprise Edition](../00-overview/01-dee/index.md).
 
 ## Key Benefits
 

@@ -28,7 +28,7 @@ import TabItem from '@theme/TabItem';
   In this example, you will deploy a Databend Meta cluster consisting of 3 nodes, as well as two separate Databend Query clusters, each also consisting of 3 nodes. You should manage and allocate resources according to your actual deployment plans and usage scenarios to ensure that services run smoothly.
 
   :::info For Production Deployments
-  Please refer to [Deployment Environments](/guides/deploy/deploy/understanding-deployment-modes#deployment-environments) to reserve appropriate resources for your clusters.
+  Please refer to [Deployment Environments](/guides/self-hosted/deploy/understanding-deployment-modes#deployment-environments) to reserve appropriate resources for your clusters.
   :::
 
 - Ensure `helm` command installed, see [guide](https://helm.sh/docs/intro/install/)
@@ -58,7 +58,7 @@ import TabItem from '@theme/TabItem';
   - Other storage services supported by [Apache OpenDAL](https://github.com/databendlabs/opendal#services)
 
   :::tip Recommended Storage Settings
-  [Preparing Storage](/guides/deploy/deploy/production/preparing-storage) provides detailed instructions on recommended storage settings.
+  [Preparing Storage](/guides/self-hosted/deploy/production/preparing-storage) provides detailed instructions on recommended storage settings.
   :::
 
   :::info For advanced user

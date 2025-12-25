@@ -49,7 +49,7 @@ VACUUM TEMPORARY FILES
 
 ## Using VACUUM Commands
 
-The VACUUM command family is the primary method for cleaning data in Databend ([Enterprise Edition Feature](/guides/products/dee/enterprise-features)).
+The VACUUM command family is the primary method for cleaning data in Databend ([Enterprise Edition Feature](/guides/overview/dee/enterprise-features)).
 
 ### VACUUM DROP TABLE
 

@@ -1322,6 +1322,39 @@ const siteRedirects = [
   {
     from: '/guides/visualize/redash',
     to: '/guides/connect/visualization/redash'
+  },
+  // Products -> Overview (root), Deploy -> Self-Hosted reorganization
+  {
+    from: '/guides/products',
+    to: '/'
+  },
+  {
+    from: '/guides/deploy',
+    to: '/guides/self-hosted'
+  },
+  {
+    from: '/guides/deploy/quickstart',
+    to: '/guides/self-hosted/quickstart'
+  },
+  {
+    from: '/deploy/quickstart',
+    to: '/guides/self-hosted/quickstart'
+  },
+  {
+    from: '/guides/deploy/deploy',
+    to: '/guides/self-hosted/deploy'
+  },
+  {
+    from: '/guides/deploy/upgrade',
+    to: '/guides/self-hosted/upgrade'
+  },
+  {
+    from: '/guides/deploy/monitor',
+    to: '/guides/self-hosted/monitor'
+  },
+  {
+    from: '/guides/deploy/references',
+    to: '/guides/self-hosted/references'
   }
 ];
 export default siteRedirects;

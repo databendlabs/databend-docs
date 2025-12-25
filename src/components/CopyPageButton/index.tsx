@@ -16,9 +16,9 @@ import { LuCopyCheck } from "react-icons/lu";
 
 const SPECIAL_LINKS = [
   "/guides/",
-  "/guides/products/dc/platforms",
-  "/guides/products/dc/pricing",
-  "/guides/deploy/deploy/non-production/deploying-databend",
+  "/guides/overview/dc/platforms",
+  "/guides/overview/dc/pricing",
+  "/guides/self-hosted/deploy/non-production/deploying-databend",
   "/guides/cloud/new-account",
   "/release-notes/",
 ];

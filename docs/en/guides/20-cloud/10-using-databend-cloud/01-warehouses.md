@@ -14,7 +14,7 @@ The warehouse is an essential component of Databend Cloud. A warehouse represent
 - Modifying data with the INSERT, UPDATE, or DELETE statement
 - Loading data into a table with the COPY INTO command
 
-Running a warehouse incurs expenses. For more information, see [Warehouse Pricing](/guides/products/dc/pricing#warehouse-pricing).
+Running a warehouse incurs expenses. For more information, see [Warehouse Pricing](/guides/overview/dc/pricing#warehouse-pricing).
 
 ## Warehouse Sizes
 

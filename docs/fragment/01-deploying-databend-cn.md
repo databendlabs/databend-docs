@@ -7,7 +7,7 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="引入或更新：v1.2.168"/>
 
-本主题介绍如何使用对象存储部署 Databend。有关支持的对象存储解决方案的列表，请参见 [了解部署模式](/guides/deploy/deploy/understanding-deployment-modes)。
+本主题介绍如何使用对象存储部署 Databend。有关支持的对象存储解决方案的列表，请参见 [了解部署模式](/guides/self-hosted/deploy/understanding-deployment-modes)。
 
 ### 开始之前
 
@@ -448,7 +448,7 @@ secret_access_key = "<your-access-key>"
 
 </Tabs>
 
-3. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参阅 [配置管理员用户](/guides/deploy/references/admin-users)。要继续使用默认的 root 用户和 "no_password" 身份验证类型，请确保删除文件 `databend-query.toml` 中以下行之前的 '#' 字符：
+3. 使用 [query.users] 部分配置管理员用户。有关更多信息，请参阅 [配置管理员用户](/guides/self-hosted/references/admin-users)。要继续使用默认的 root 用户和 "no_password" 身份验证类型，请确保删除文件 `databend-query.toml` 中以下行之前的 '#' 字符：
 
 :::caution
 在本教程中使用 "no_password" 身份验证 root 用户只是一个示例，由于潜在的安全风险，不建议在生产环境中使用。

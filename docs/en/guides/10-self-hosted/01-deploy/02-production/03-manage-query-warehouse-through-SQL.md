@@ -19,7 +19,7 @@ This topic explains how to manage scalable and flexible query warehouse through 
 ![Warehouse On Premise](/img/deploy/on-premise-warehouse.png)
 
 **Scenario Description**
-Previously, we introduced to deploy databend using static `tenant_id` and `cluster_id` in the [deployment](https://docs.databend.com/guides/deploy/deploy/production/metasrv-deploy#step-2-deploy-query-nodes).
+Previously, we introduced to deploy databend using static `tenant_id` and `cluster_id` in the [deployment](https://docs.databend.com/guides/self-hosted/deploy/production/metasrv-deploy#step-2-deploy-query-nodes).
 
 For on-premise deployments to be successful, it's essential to have a skilled DevOps team in place to effectively manage the deployment and configuration. This includes:
 1. Strategically routing queries to various clusters to enhance concurrency during peak usage times.

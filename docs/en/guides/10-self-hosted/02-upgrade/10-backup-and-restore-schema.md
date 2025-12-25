@@ -9,7 +9,7 @@ This guideline will introduce how to back up and restore the schema data which i
 
 ## Before You Begin
 
-* **Databend :** Make sure Databend is running and accessible, see [How to deploy Databend](/guides/deploy).
+* **Databend :** Make sure Databend is running and accessible, see [How to deploy Databend](/guides/self-hosted).
 * **mydumper**: [How to Install mydumper](https://github.com/mydumper/mydumper).
 
 :::caution

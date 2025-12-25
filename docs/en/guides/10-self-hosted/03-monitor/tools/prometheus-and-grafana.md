@@ -10,7 +10,7 @@ This following tutorial guides you through deploying and integrating Databend, P
 
 ### Step 1. Deploy Databend
 
-Follow the [Deployment Guide](/guides/deploy) to deploy a local Databend.
+Follow the [Deployment Guide](/guides/self-hosted) to deploy a local Databend.
 
 :::tip
 This tutorial uses the [default configuration files](https://github.com/databendlabs/databend/tree/main/scripts/distribution/configs) in the `configs` folder of the install package. The metrics API for databend-meta is `0.0.0.0:28002/v1/metrics`, and the metrics API for databend-query is `0.0.0.0:7070/metrics`.

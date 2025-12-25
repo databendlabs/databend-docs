@@ -7,7 +7,7 @@ import LanguageDocs from '@site/src/components/LanguageDocs';
 
 <FunctionDescription description="Introduced or updated: v1.2.168"/>
 
-This topic explains how to deploy Databend with your object storage. For a list of supported object storage solutions, see [Understanding Deployment Modes](/guides/deploy/deploy/understanding-deployment-modes).
+This topic explains how to deploy Databend with your object storage. For a list of supported object storage solutions, see [Understanding Deployment Modes](/guides/self-hosted/deploy/understanding-deployment-modes).
 
 ### Before You start
 
@@ -280,7 +280,7 @@ secret_access_key = "<your-access-key>"
 
 </Tabs>
 
-3. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](/guides/deploy/references/admin-users). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
+3. Configure an admin user with the [query.users] sections. For more information, see [Configuring Admin Users](/guides/self-hosted/references/admin-users). To proceed with the default root user and the authentication type "no_password", ensure that you remove the '#' character before the following lines in the file `databend-query.toml`:
 
 :::caution
 Using "no_password" authentication for the root user in this tutorial is just an example and not recommended for production due to potential security risks.
