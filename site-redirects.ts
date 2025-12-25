@@ -1337,6 +1337,22 @@ const siteRedirects = [
     to: '/guides/cloud/resources'
   },
   {
+    from: '/guides/cloud/using-databend-cloud/warehouses',
+    to: '/guides/cloud/resources/warehouses'
+  },
+  {
+    from: '/guides/cloud/using-databend-cloud/organization',
+    to: '/guides/cloud/resources/organization'
+  },
+  {
+    from: '/guides/cloud/using-databend-cloud/worksheet',
+    to: '/guides/cloud/resources/worksheet'
+  },
+  {
+    from: '/guides/cloud/using-databend-cloud/dashboard',
+    to: '/guides/cloud/resources/dashboard'
+  },
+  {
     from: '/guides/cloud/manage',
     to: '/guides/cloud/administration'
   },
@@ -1355,6 +1371,34 @@ const siteRedirects = [
   {
     from: '/guides/deploy/quickstart',
     to: '/guides/self-hosted/quickstart'
+  },
+  {
+    from: '/guides/deploy/deploy/production/preparing-storage',
+    to: '/guides/self-hosted/deployment/production/preparing-storage'
+  },
+  {
+    from: '/guides/deploy/deploy/production/metasrv-deploy',
+    to: '/guides/self-hosted/deployment/production/metasrv-deploy'
+  },
+  {
+    from: '/guides/deploy/deploy/production/deploying-databend-on-kubernetes',
+    to: '/guides/self-hosted/deployment/production/deploying-databend-on-kubernetes'
+  },
+  {
+    from: '/guides/deploy/deploy/non-production/deploying-databend',
+    to: '/guides/self-hosted/deployment/non-production/deploying-databend'
+  },
+  {
+    from: '/guides/deploy/deploy/non-production/deploying-local',
+    to: '/guides/self-hosted/deployment/non-production/deploying-local'
+  },
+  {
+    from: '/guides/deploy/deploy/understanding-deployment-modes',
+    to: '/guides/self-hosted/deployment/understanding-deployment-modes'
+  },
+  {
+    from: '/guides/deploy/deploy/download',
+    to: '/guides/self-hosted/deployment/download'
   },
   {
     from: '/guides/self-hosted/deploy',
