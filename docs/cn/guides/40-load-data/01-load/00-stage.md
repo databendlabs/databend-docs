@@ -3,7 +3,7 @@ title: 从 Stage 导入数据
 sidebar_label: Stage
 ---
 
-Databend 允许您轻松导入从用户 Stage 或内部/外部 Stage 上传的文件数据。为此，您可以先使用 [BendSQL](../../35-connect/00-sql-clients/bendsql/index.md) 将文件上传至 Stage，然后使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令从暂存文件导入数据。请注意，文件格式必须是 Databend 支持的格式，否则无法导入数据。有关 Databend 支持的文件格式的更多信息，请参阅 [输入输出文件格式](/sql/sql-reference/file-format-options)。
+Databend 允许您轻松导入从用户 Stage 或内部/外部 Stage 上传的文件数据。为此，您可以先使用 [BendSQL](../../35-connect/00-sql-clients/bendsql.md) 将文件上传至 Stage，然后使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令从暂存文件导入数据。请注意，文件格式必须是 Databend 支持的格式，否则无法导入数据。有关 Databend 支持的文件格式的更多信息，请参阅 [输入输出文件格式](/sql/sql-reference/file-format-options)。
 
 ![image](/img/load/load-data-from-stage.jpeg)
 
@@ -36,7 +36,7 @@ CREATE TABLE books
 
 本教程将指导您将示例文件上传至用户 Stage，并从暂存文件导入数据到 Databend。
 
-1. 使用 [BendSQL](../../35-connect/00-sql-clients/bendsql/index.md) 上传示例文件：
+1. 使用 [BendSQL](../../35-connect/00-sql-clients/bendsql.md) 上传示例文件：
 
 ```sql
 root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @~
@@ -94,7 +94,7 @@ my_internal_stage|Internal  |              0|'root'@'%'|       |
 
 ### 步骤 2：上传示例文件
 
-1. 使用 [BendSQL](../../35-connect/00-sql-clients/bendsql/index.md) 上传示例文件：
+1. 使用 [BendSQL](../../35-connect/00-sql-clients/bendsql.md) 上传示例文件：
 
 ```sql
 root@localhost:8000/default> CREATE STAGE my_internal_stage;
@@ -173,7 +173,7 @@ my_external_stage|External  |               |'root'@'%'|       |
 
 ### 步骤 2：上传示例文件
 
-1. 使用 [BendSQL](../../35-connect/00-sql-clients/bendsql/index.md) 上传示例文件：
+1. 使用 [BendSQL](../../35-connect/00-sql-clients/bendsql.md) 上传示例文件：
 
 ```sql
 root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @my_external_stage
