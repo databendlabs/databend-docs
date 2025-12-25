@@ -2,14 +2,10 @@
 title: 版本选择
 ---
 
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
-
 Databend 私有化部署提供两个版本：
 
 | 版本 | 许可证 | 适用场景 |
 |------|--------|----------|
 | [**社区版**](community.md) | Apache 2.0（免费） | 开发、测试、小规模生产 |
 | [**企业版**](enterprise/) | 商业许可 | 需要企业级特性的生产环境 |
-
-<IndexOverviewList />
 
