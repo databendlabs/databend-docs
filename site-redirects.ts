@@ -1442,10 +1442,6 @@ const siteRedirects = [
     to: '/guides/cloud/security/private-link/aws'
   },
   {
-    from: '/guides/cloud/advanced/private-link/aliyun',
-    to: '/guides/cloud/security/private-link/aliyun'
-  },
-  {
     from: '/guides/cloud/advanced/iam-role',
     to: '/guides/cloud/security/iam-role'
   },
