@@ -2,8 +2,6 @@
 title: Databend Cloud
 ---
 
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
-
 # Databend Cloud
 
 基于开源 [Databend](https://github.com/databendlabs/databend) 内核打造的全托管云数仓——不是简单的托管部署，而是从架构层重新设计的多租户 Serverless 云原生平台。
@@ -29,5 +27,3 @@ import IndexOverviewList from '@site/src/components/IndexOverviewList';
 1. [**注册账号**](01-getting-started.md) — 几分钟搞定
 2. [**熟悉功能**](02-resources/) — 计算集群、工作区、仪表盘
 3. [**连接使用**](/guides/connect/) — BendSQL、Python、Go、Java、Node.js
-
-<IndexOverviewList />

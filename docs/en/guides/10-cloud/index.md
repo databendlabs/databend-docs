@@ -2,8 +2,6 @@
 title: Databend Cloud
 ---
 
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
-
 # Databend Cloud
 
 The fully-managed cloud data warehouse built on the open-source [Databend](https://github.com/databendlabs/databend) engine — not just hosted Databend, but a complete cloud-native platform with multi-tenant serverless architecture.
@@ -29,5 +27,3 @@ The fully-managed cloud data warehouse built on the open-source [Databend](https
 1. [**Sign Up**](01-getting-started.md) — Create your account in minutes
 2. [**Explore**](02-resources/) — Warehouses, Worksheets, Dashboards
 3. [**Connect**](/guides/connect/) — BendSQL, Python, Go, Java, Node.js
-
-<IndexOverviewList />
