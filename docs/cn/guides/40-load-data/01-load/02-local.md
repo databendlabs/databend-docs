@@ -3,13 +3,13 @@ title: 从本地文件导入数据
 sidebar_label: 本地文件
 ---
 
-在将本地数据文件加载到 Databend 之前，无需先上传到 stage 或存储桶。您可以直接使用 Databend 原生 CLI 工具 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 导入数据，这简化了工作流程并可能节省存储费用。
+在将本地数据文件加载到 Databend 之前，无需先上传到 stage 或存储桶。您可以直接使用 Databend 原生 CLI 工具 [BendSQL](../../35-connect/00-sql-clients/bendsql/index.md) 导入数据，这简化了工作流程并可能节省存储费用。
 
 请注意，文件必须是 Databend 支持的格式，否则无法导入数据。有关 Databend 支持的文件格式的更多信息，请参阅 [输入输出文件格式](/sql/sql-reference/file-format-options)。
 
 ## 教程 1 - 从本地文件导入
 
-本教程以 CSV 文件为例，演示如何使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 从本地源将数据导入 Databend。
+本教程以 CSV 文件为例，演示如何使用 [BendSQL](../../35-connect/00-sql-clients/bendsql/index.md) 从本地源将数据导入 Databend。
 
 ### 准备工作
 

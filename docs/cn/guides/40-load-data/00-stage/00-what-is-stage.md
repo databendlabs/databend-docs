@@ -6,7 +6,7 @@ Stage 是 Databend 中用于存放数据文件的虚拟位置。您可以直接�
 
 Stage 的好处在于使用简单，就像操作电脑里的文件夹：您只需指定 Stage 名称和文件名（如 `@mystage/mydatafile.csv`），无需关心文件在对象存储中的实际路径。您可以按需创建任意数量的 Stage，但 Stage 之间相互独立，不能嵌套。
 
-Stage 还能提升文件管理效率。通过 [BendSQL](../../30-sql-clients/00-bendsql/index.md)，一条命令即可完成文件上传或下载。加载数据时，可在 COPY INTO 命令中指定 Stage，实现文件读取和筛选；导出数据时，同样可以将文件写入 Stage。
+Stage 还能提升文件管理效率。通过 [BendSQL](../../35-connect/00-sql-clients/bendsql/index.md)，一条命令即可完成文件上传或下载。加载数据时，可在 COPY INTO 命令中指定 Stage，实现文件读取和筛选；导出数据时，同样可以将文件写入 Stage。
 
 ## Stage 类型
 

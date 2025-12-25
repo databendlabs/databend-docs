@@ -30,19 +30,19 @@ title: 生态系统
 
 - **BI 与可视化**
 
-  - [Metabase](../../31-visualize/metabase.md)
-  - [Grafana](../../31-visualize/grafana.md)
-  - [Redash](../../31-visualize/redash.md)
-  - [Tableau](../../31-visualize/tableau.md)
+  - [Metabase](../../35-connect/02-visualization/metabase.md)
+  - [Grafana](../../35-connect/02-visualization/grafana.md)
+  - [Redash](../../35-connect/02-visualization/redash.md)
+  - [Tableau](../../35-connect/02-visualization/tableau.md)
 
 - **Notebooks**
 
-  - [Deepnote](../../31-visualize/deepnote.md)
-  - [Jupyter Notebook](../../31-visualize/jupyter.md)
+  - [Deepnote](../../35-connect/02-visualization/deepnote.md)
+  - [Jupyter Notebook](../../35-connect/02-visualization/jupyter.md)
 
 - **日志收集器**
 
   - [Vector](../../40-load-data/02-load-db/vector.md)
 
 - **AI**
-  - [MindsDB](../../31-visualize/mindsdb.md)
+  - [MindsDB](../../35-connect/02-visualization/mindsdb.md)
