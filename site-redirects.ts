@@ -1438,8 +1438,20 @@ const siteRedirects = [
     to: '/guides/cloud/security/private-link'
   },
   {
+    from: '/guides/cloud/advanced/private-link/aws',
+    to: '/guides/cloud/security/private-link/aws'
+  },
+  {
+    from: '/guides/cloud/advanced/private-link/aliyun',
+    to: '/guides/cloud/security/private-link/aliyun'
+  },
+  {
     from: '/guides/cloud/advanced/iam-role',
     to: '/guides/cloud/security/iam-role'
+  },
+  {
+    from: '/guides/cloud/advanced/iam-role/aws',
+    to: '/guides/cloud/security/iam-role/aws'
   },
   {
     from: '/guides/overview/dc',
@@ -1480,6 +1492,93 @@ const siteRedirects = [
   {
     from: '/guides/deploy/deploy/download',
     to: '/guides/self-hosted/deployment/download'
+  },
+  {
+    from: '/guides/deploy/deploy',
+    to: '/guides/self-hosted/deployment'
+  },
+  {
+    from: '/guides/deploy/deploy/production',
+    to: '/guides/self-hosted/deployment/production'
+  },
+  {
+    from: '/guides/deploy/deploy/non-production',
+    to: '/guides/self-hosted/deployment/non-production'
+  },
+  {
+    from: '/guides/deploy/deploy/benddeploy',
+    to: '/guides/self-hosted/deployment/benddeploy'
+  },
+  {
+    from: '/guides/deploy/deploy/manually',
+    to: '/guides/self-hosted/deployment/manually'
+  },
+  // Upgrade redirects
+  {
+    from: '/guides/deploy/upgrade',
+    to: '/guides/self-hosted/operations/upgrade'
+  },
+  {
+    from: '/guides/deploy/upgrade/backup-and-restore-schema',
+    to: '/guides/self-hosted/operations/upgrade/backup-and-restore-schema'
+  },
+  {
+    from: '/guides/deploy/upgrade/compatibility',
+    to: '/guides/self-hosted/operations/upgrade/compatibility'
+  },
+  {
+    from: '/guides/deploy/upgrade/upgrade',
+    to: '/guides/self-hosted/operations/upgrade/upgrade'
+  },
+  // Monitor redirects
+  {
+    from: '/guides/deploy/monitor',
+    to: '/guides/self-hosted/operations/monitoring'
+  },
+  {
+    from: '/guides/deploy/monitor/metasrv-metrics',
+    to: '/guides/self-hosted/operations/monitoring/metasrv-metrics'
+  },
+  {
+    from: '/guides/deploy/monitor/server-logs',
+    to: '/guides/self-hosted/operations/monitoring/server-logs'
+  },
+  {
+    from: '/guides/deploy/monitor/tracing',
+    to: '/guides/self-hosted/operations/monitoring/tracing'
+  },
+  {
+    from: '/guides/deploy/monitor/tools/jaeger',
+    to: '/guides/self-hosted/operations/monitoring/tools/jaeger'
+  },
+  {
+    from: '/guides/deploy/monitor/tools/prometheus-and-grafana',
+    to: '/guides/self-hosted/operations/monitoring/tools/prometheus-and-grafana'
+  },
+  // References redirects
+  {
+    from: '/guides/deploy/references',
+    to: '/guides/self-hosted/references'
+  },
+  {
+    from: '/guides/deploy/references/admin-users',
+    to: '/guides/self-hosted/references/admin-users'
+  },
+  {
+    from: '/guides/deploy/references/node-config',
+    to: '/guides/self-hosted/references/node-config'
+  },
+  {
+    from: '/guides/deploy/references/node-config/metasrv-config',
+    to: '/guides/self-hosted/references/node-config/metasrv-config'
+  },
+  {
+    from: '/guides/deploy/references/node-config/query-config',
+    to: '/guides/self-hosted/references/node-config/query-config'
+  },
+  {
+    from: '/guides/deploy/references/node-config/environment-variables',
+    to: '/guides/self-hosted/references/node-config/environment-variables'
   },
   {
     from: '/guides/self-hosted/deploy',
