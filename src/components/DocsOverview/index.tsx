@@ -138,97 +138,39 @@ const DocsOverview: FC = (): ReactElement => {
             <Col {...colLayout2}>
               <Card padding={[20, 0]} className={styles.cardActiveOut}>
                 <Link
-                  title={$t("Start with Databend Cloud")}
-                  to={"/guides/cloud/getting-started/"}
+                  title={$t("Databend Cloud")}
+                  to={"/guides/cloud/"}
                   className={"global-overview-card"}
                 >
                   <LightDatabendCloudSingleSvg width={150} />
                   <div>
-                    <h5>{$t("Start with Databend Cloud")}</h5>
+                    <h5>{$t("Databend Cloud")}</h5>
                     <div>
                       {$t(
-                        "Get started in minutes with our fully-managed cloud service. No setup required."
+                        "Fully-managed serverless data warehouse. No infrastructure, instant analytics."
                       )}
                     </div>
                   </div>
                 </Link>
-                <div className={styles.moreUseful}>
-                  <div>{$t("What you need to know:")}</div>
-                  <ul>
-                    <li>
-                      <Link
-                        title={$t("Choose Your Edition")}
-                        to={"/guides/cloud/overview/editions/"}
-                      >
-                        {$t("Choose Your Edition")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        title={$t("Pricing & Plans")}
-                        to={"/guides/cloud/overview/pricing/"}
-                      >
-                        {$t("Pricing & Plans")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        title={$t("Using Databend Cloud")}
-                        to={"/guides/cloud/resources/"}
-                      >
-                        {$t("Using Databend Cloud")}
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
               </Card>
             </Col>
             <Col {...colLayout2}>
               <Card padding={[20, 0]} className={styles.cardActiveOut}>
                 <Link
-                  title={$t("Deploy Your Own Instance")}
+                  title={$t("Self-Hosted")}
                   to={"/guides/self-hosted/"}
                   className={"global-overview-card"}
                 >
                   <LightDatabendSingleSvg width={150} />
                   <div>
-                    <h5>{$t("Deploy Your Own Instance")}</h5>
+                    <h5>{$t("Self-Hosted")}</h5>
                     <div>
                       {$t(
-                        "Install Databend on your infrastructure for complete control and customization."
+                        "Deploy on your own infrastructure. Full control, open source."
                       )}
                     </div>
                   </div>
                 </Link>
-                <div className={styles.moreUseful}>
-                  <div>{$t("What you need to know:")}</div>
-                  <ul>
-                    <li>
-                      <Link
-                        title={$t("5-Minute Quick Start")}
-                        to={"/guides/self-hosted/quickstart/"}
-                      >
-                        {$t("5-Minute Quick Start")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        title={$t("Download & Install")}
-                        to={"/guides/self-hosted/deployment/download/"}
-                      >
-                        {$t("Download & Install")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        title={$t("Enterprise Features & Licensing")}
-                        to={"/guides/self-hosted/editions/enterprise/license/"}
-                      >
-                        {$t("Enterprise Features & Licensing")}
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
               </Card>
             </Col>
           </Row>

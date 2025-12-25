@@ -745,6 +745,18 @@
     "message": "从 Databend Cloud 起步",
     "description": "Start with Databend Cloud"
   },
+  "Fully-managed serverless data warehouse. No infrastructure, instant analytics.": {
+    "message": "全托管 Serverless 数仓，开箱即用，即时分析。",
+    "description": "Databend Cloud description"
+  },
+  "Self-Hosted": {
+    "message": "私有部署",
+    "description": "Self-Hosted title"
+  },
+  "Deploy on your own infrastructure. Full control, open source.": {
+    "message": "部署在自己的环境，完全掌控，开源免费。",
+    "description": "Self-Hosted description"
+  },
   "Get started in minutes with our fully-managed cloud service. No setup required.": {
     "message": "几分钟内即可启用全托管云服务，无需任何配置。",
     "description": "Get started in minutes with our fully-managed cloud service. No setup required."
