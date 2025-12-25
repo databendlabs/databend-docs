@@ -251,7 +251,7 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Cli></Cli>}
                 text={"BendSQL"}
-                to={"/guides/sql-clients/bendsql/"}
+                to={"/guides/connect/sql-clients/bendsql/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -425,7 +425,7 @@ const DocsOverview: FC = (): ReactElement => {
       <ContentCardWrap
         title={$t("AI & BI & Visualization & Notebooks")}
         link={{
-          to: "/guides/visualize/",
+          to: "/guides/connect/visualization/",
           text: $t("All Tools"),
         }}
         description={$t(
@@ -438,56 +438,56 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<DeepNote></DeepNote>}
                 text={"Deepnote"}
-                to={"/guides/visualize/deepnote/"}
+                to={"/guides/connect/visualization/deepnote/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Jpyter></Jpyter>}
                 text={"Jupyter"}
-                to={"/guides/visualize/jupyter/"}
+                to={"/guides/connect/visualization/jupyter/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Metabase></Metabase>}
                 text={"Metabase"}
-                to={"/guides/visualize/metabase/"}
+                to={"/guides/connect/visualization/metabase/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Grafana></Grafana>}
                 text={"Grafana"}
-                to={"/guides/visualize/grafana/"}
+                to={"/guides/connect/visualization/grafana/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Redash></Redash>}
                 text={"Redash"}
-                to={"/guides/visualize/redash/"}
+                to={"/guides/connect/visualization/redash/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Superset></Superset>}
                 text={"Superset"}
-                to={"/guides/visualize/superset/"}
+                to={"/guides/connect/visualization/superset/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Teableau></Teableau>}
                 text={"Tableau"}
-                to={"/guides/visualize/tableau/"}
+                to={"/guides/connect/visualization/tableau/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<MindsDB></MindsDB>}
                 text={"MindsDB"}
-                to={"/guides/visualize/mindsdb/"}
+                to={"/guides/connect/visualization/mindsdb/"}
               />
             </Col>
           </Row>
