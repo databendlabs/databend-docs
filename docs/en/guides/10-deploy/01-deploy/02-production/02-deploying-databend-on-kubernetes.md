@@ -622,7 +622,7 @@ Note the `serviceMonitor` should be enabled when deploying meta and query cluste
 After deploying Databend, you might need to learn about the following topics:
 
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
-- [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
+- [Visualize](/guides/connect/visualization): Integrate Databend with visualization tools for insights.
 
 <!-- <LanguageFileParse
 cn={<VideoCN />}

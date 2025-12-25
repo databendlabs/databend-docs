@@ -24,13 +24,13 @@ Databend Cloud is a fully-managed cloud data warehouse service that provides a s
 
 | Client Type | Options | Use Cases |
 |-------------|---------|----------|
-| **SQL Clients** | [BendSQL](/guides/sql-clients/bendsql) | Command line interface for developers and scripts |
-| | [DBeaver](/guides/sql-clients/jdbc) | GUI application for data analysis and visual queries |
-| **Programming** | [Python](/guides/sql-clients/developers/python) | Data science, analytics, and machine learning |
-| | [Go](/guides/sql-clients/developers/golang) | Backend applications and microservices |
-| | [Node.js](/guides/sql-clients/developers/nodejs) | Web applications and services |
-| | [Java](/guides/sql-clients/developers/jdbc) | Enterprise applications |
+| **SQL Clients** | [BendSQL](/guides/connect/sql-clients/bendsql) | Command line interface for developers and scripts |
+| | [DBeaver](/guides/connect/sql-clients/jdbc) | GUI application for data analysis and visual queries |
+| **Programming** | [Python](/guides/connect/drivers/python) | Data science, analytics, and machine learning |
+| | [Go](/guides/connect/drivers/golang) | Backend applications and microservices |
+| | [Node.js](/guides/connect/drivers/nodejs) | Web applications and services |
+| | [Java](/guides/connect/drivers/java) | Enterprise applications |
 
-For detailed connection instructions and more options, see the [SQL Clients](/guides/sql-clients/) section.
+For detailed connection instructions and more options, see the [SQL Clients](/guides/connect/) section.
 
 

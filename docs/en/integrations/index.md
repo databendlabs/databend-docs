@@ -13,4 +13,4 @@ Databend integrations are organized by their support level:
 
 **Community integrations**: built or maintained and supported by community members. No direct support is available besides the public GitHub repositories and community Slack channels
 
-Each integration is further categorized into [Language client](/developer/), [Data ingestion](/guides/load-data/load-db/), [Data visualization](/guides/visualize/) and [SQL client](/guides/sql-clients/) categories.
+Each integration is further categorized into [Language client](/developer/), [Data ingestion](/guides/load-data/load-db/), [Data visualization](/guides/connect/visualization/) and [SQL client](/guides/connect/) categories.

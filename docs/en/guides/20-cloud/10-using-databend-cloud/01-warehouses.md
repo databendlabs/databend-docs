@@ -143,24 +143,24 @@ Connecting to a warehouse provides the compute resources required to run queries
 
 ### Connection Methods
 
-Databend Cloud supports multiple connection methods to meet your specific needs. For detailed connection instructions, see the [SQL Clients documentation](/guides/sql-clients/).
+Databend Cloud supports multiple connection methods to meet your specific needs. For detailed connection instructions, see the [SQL Clients documentation](/guides/connect/).
 
 #### SQL Clients & Tools
 
 | Client                                     | Type            | Best For                      | Key Features                                          |
 | ------------------------------------------ | --------------- | ----------------------------- | ----------------------------------------------------- |
-| **[BendSQL](/guides/sql-clients/bendsql)** | Command Line    | Developers, Scripts           | Native CLI, Rich formatting, Multiple install options |
-| **[DBeaver](/guides/sql-clients/jdbc)**    | GUI Application | Data Analysis, Visual Queries | Built-in driver, Cross-platform, Query builder        |
+| **[BendSQL](/guides/connect/sql-clients/bendsql)** | Command Line    | Developers, Scripts           | Native CLI, Rich formatting, Multiple install options |
+| **[DBeaver](/guides/connect/sql-clients/jdbc)**    | GUI Application | Data Analysis, Visual Queries | Built-in driver, Cross-platform, Query builder        |
 
 #### Developer Drivers
 
 | Language    | Driver            | Use Case                | Documentation                                          |
 | ----------- | ----------------- | ----------------------- | ------------------------------------------------------ |
-| **Go**      | Golang Driver     | Backend Applications    | [Golang Guide](/guides/sql-clients/developers/golang)  |
-| **Python**  | Python Connector  | Data Science, Analytics | [Python Guide](/guides/sql-clients/developers/python)  |
-| **Node.js** | JavaScript Driver | Web Applications        | [Node.js Guide](/guides/sql-clients/developers/nodejs) |
-| **Java**    | JDBC Driver       | Enterprise Applications | [JDBC Guide](/guides/sql-clients/developers/jdbc)      |
-| **Rust**    | Rust Driver       | System Programming      | [Rust Guide](/guides/sql-clients/developers/rust)      |
+| **Go**      | Golang Driver     | Backend Applications    | [Golang Guide](/guides/connect/drivers/golang)  |
+| **Python**  | Python Connector  | Data Science, Analytics | [Python Guide](/guides/connect/drivers/python)  |
+| **Node.js** | JavaScript Driver | Web Applications        | [Node.js Guide](/guides/connect/drivers/nodejs) |
+| **Java**    | JDBC Driver       | Enterprise Applications | [JDBC Guide](/guides/connect/drivers/java)      |
+| **Rust**    | Rust Driver       | System Programming      | [Rust Guide](/guides/connect/drivers/rust)      |
 
 ### Obtaining Connection Information
 

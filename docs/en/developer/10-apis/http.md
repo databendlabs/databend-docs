@@ -7,7 +7,7 @@ The Databend HTTP Handler is a REST API that enables you to send SQL queries to 
 
 :::tip Recommended Alternatives
 For most use cases, we recommend using:
-- **[BendSQL](/guides/sql-clients/bendsql)** - Official command-line client for interactive queries
+- **[BendSQL](/guides/connect/sql-clients/bendsql)** - Official command-line client for interactive queries
 - **[Python Driver](/developer/drivers/python)** - For Python applications
 - **[Go Driver](/developer/drivers/golang)** - For Go applications
 - **[Node.js Driver](/developer/drivers/nodejs)** - For Node.js applications
