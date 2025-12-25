@@ -13,7 +13,7 @@ Deploy [Databend](https://github.com/databendlabs/databend) — an open-source, 
 | 🦀 **Rust-Powered** | Memory-safe, high performance | 
 | 🔓 **Open Source** | Apache 2.0, active community |
 | 🏢 **Your Infrastructure** | Full control over data & environment |
-| ☁️ **Cloud-Native** | S3, GCS, Azure Blob, MinIO |
+| ☁️ **Cloud-Native** | Object storage first architecture |
 
 ## Editions
 
