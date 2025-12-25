@@ -12,7 +12,286 @@ This page provides information about recent features, enhancements, and bug fixe
 
 <StepsWrap> 
 
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.848-nightly" number="-1" defaultCollapsed={false}>
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.860-nightly" number="-1" defaultCollapsed={false}>
+
+## Dec 24, 2025 (v1.2.860-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat: enhance table function fuse_encoding by **@dantengsky** in [#19127](https://github.com/databendlabs/databend/pull/19127)
+* feat(query): support flight keepalive settings by **@zhang2014** in [#19141](https://github.com/databendlabs/databend/pull/19141)
+### Thoughtful Bug Fix 🔧
+* fix: where comparing old and new bitmap versions occurred when directly comparing bytes in join and group by operations. by **@KKould** in [#19082](https://github.com/databendlabs/databend/pull/19082)
+* fix: distinct_eliminated is rewritten as distinct_on_group_key by **@KKould** in [#19142](https://github.com/databendlabs/databend/pull/19142)
+### Code Refactor 🎉
+* refactor: system.build_options as key-value by **@BohuTANG** in [#19137](https://github.com/databendlabs/databend/pull/19137)
+* refactor: release table lock earlier during DML execution by **@dantengsky** in [#19113](https://github.com/databendlabs/databend/pull/19113)
+* refactor(query): window supports const columns by **@forsaken628** in [#19140](https://github.com/databendlabs/databend/pull/19140)
+* refactor: reduce max page size of http handler to 4MB. by **@youngsofun** in [#19136](https://github.com/databendlabs/databend/pull/19136)
+### Others 📒
+* chore(query): add release profile for aarch64 by **@zhang2014** in [#19135](https://github.com/databendlabs/databend/pull/19135)
+* chore(query): allow_anonymous when key token is empty by **@sundy-li** in [#19143](https://github.com/databendlabs/databend/pull/19143)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.860-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.859-nightly" number="" defaultCollapsed={false}>
+
+## Dec 22, 2025 (v1.2.859-nightly)
+
+## What's Changed
+### Others 📒
+* chore(query): add aarch64 profile with optimization level 3  by **@dantengsky** in [#19105](https://github.com/databendlabs/databend/pull/19105)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.859-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.858-nightly" number="" defaultCollapsed={true}>
+
+## Dec 22, 2025 (v1.2.858-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat(query): Inverted Index and Vector Index support hybrid cache by **@b41sh** in [#19124](https://github.com/databendlabs/databend/pull/19124)
+### Thoughtful Bug Fix 🔧
+* fix: change history tables' clean operations timing check and update mechanism by **@dqhl76** in [#19095](https://github.com/databendlabs/databend/pull/19095)
+* fix(query): update opendal by **@sundy-li** in [#19110](https://github.com/databendlabs/databend/pull/19110)
+* fix(query): Fix drop Aggregating index failed by **@b41sh** in [#19131](https://github.com/databendlabs/databend/pull/19131)
+### Code Refactor 🎉
+* refactor(optimizer): simplify the implementation of rule eager aggregation by **@forsaken628** in [#19112](https://github.com/databendlabs/databend/pull/19112)
+* refactor: `vacuum temporary files` also cleans inactive temp table data by **@dantengsky** in [#19092](https://github.com/databendlabs/databend/pull/19092)
+### Build/Testing/CI Infra Changes 🔌
+* ci: prepare upgrade toolchain by **@everpcpc** in [#19116](https://github.com/databendlabs/databend/pull/19116)
+* ci: fix build build-tool image by **@everpcpc** in [#19117](https://github.com/databendlabs/databend/pull/19117)
+* ci: cargo-nextest install target by **@everpcpc** in [#19118](https://github.com/databendlabs/databend/pull/19118)
+* ci: fix install cargo nextest by **@everpcpc** in [#19119](https://github.com/databendlabs/databend/pull/19119)
+* ci: fix install cargo-nextest by **@everpcpc** in [#19120](https://github.com/databendlabs/databend/pull/19120)
+* ci: fix install rust tools by **@everpcpc** in [#19121](https://github.com/databendlabs/databend/pull/19121)
+* ci: install tools binary without binstall by **@everpcpc** in [#19122](https://github.com/databendlabs/databend/pull/19122)
+* ci: remove some tools from build-tool image by **@everpcpc** in [#19123](https://github.com/databendlabs/databend/pull/19123)
+* ci: sccache prefix with toolchain version by **@everpcpc** in [#19129](https://github.com/databendlabs/databend/pull/19129)
+* ci: remove mold from build & tmp disable unit test by **@everpcpc** in [#19130](https://github.com/databendlabs/databend/pull/19130)
+### Others 📒
+* chore: adjust cloud image build timeout from 60 minutes to 120 minutes by **@dantengsky** in [#19102](https://github.com/databendlabs/databend/pull/19102)
+* chore: remove unused settings for aggregation by **@dqhl76** in [#19103](https://github.com/databendlabs/databend/pull/19103)
+* chore(ci): try enable ENABLE_SCCACHE again by **@sundy-li** in [#19128](https://github.com/databendlabs/databend/pull/19128)
+* chore: rename body_format query_result_format. by **@youngsofun** in [#19132](https://github.com/databendlabs/databend/pull/19132)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.858-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.857-nightly" number="" defaultCollapsed={true}>
+
+## Dec 15, 2025 (v1.2.857-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat(query): tighten procedure overload resolution by **@TCeason** in [#19084](https://github.com/databendlabs/databend/pull/19084)
+* feat: basic support of schema evolution in copy for parquet by **@youngsofun** in [#19094](https://github.com/databendlabs/databend/pull/19094)
+* feat: extend join condition dedup to anti/semi joins by **@SkyFan2002** in [#19097](https://github.com/databendlabs/databend/pull/19097)
+* feat(query): add create_query to /v1/catalog/list_database_tables by **@everpcpc** in [#19099](https://github.com/databendlabs/databend/pull/19099)
+### Thoughtful Bug Fix 🔧
+* fix: udf args recursion crash and binding not found on table by **@KKould** in [#19091](https://github.com/databendlabs/databend/pull/19091)
+* fix(query): fix stale indices in process_or by **@sundy-li** in [#19085](https://github.com/databendlabs/databend/pull/19085)
+### Code Refactor 🎉
+* refactor: reduce the memory of the HashIndex in the AggregateHashTable by **@forsaken628** in [#19046](https://github.com/databendlabs/databend/pull/19046)
+### Others 📒
+* chore: avoid bloom filter clone by **@SkyFan2002** in [#19098](https://github.com/databendlabs/databend/pull/19098)
+* chore: remove format! in heavy IO loop  by **@dqhl76** in [#19077](https://github.com/databendlabs/databend/pull/19077)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.857-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.856-nightly" number="" defaultCollapsed={true}>
+
+## Dec 10, 2025 (v1.2.856-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat: add explicit FLUSH PRIVILEGES to refresh role cache for query node by **@camilesing** in [#19066](https://github.com/databendlabs/databend/pull/19066)
+* feat: heuristic rule for fuse parquet dictionary page by **@dantengsky** in [#19024](https://github.com/databendlabs/databend/pull/19024)
+* feat: spill profile metrics by **@BohuTANG** in [#19075](https://github.com/databendlabs/databend/pull/19075)
+* feat(query): add metrics session_acquired_queries_total by **@everpcpc** in [#19087](https://github.com/databendlabs/databend/pull/19087)
+### Code Refactor 🎉
+* refactor(query): supports parallel data transmission between nodes by **@zhang2014** in [#18984](https://github.com/databendlabs/databend/pull/18984)
+* refactor: build the runtime filter during the HashJoin block collection process by **@SkyFan2002** in [#19058](https://github.com/databendlabs/databend/pull/19058)
+### Build/Testing/CI Infra Changes 🔌
+* ci: benchmark optimize by **@everpcpc** in [#19086](https://github.com/databendlabs/databend/pull/19086)
+### Others 📒
+* chore: combine the logic that triggers automatic compression upon write by **@zhyass** in [#19050](https://github.com/databendlabs/databend/pull/19050)
+* chore: revert structured spill config by **@BohuTANG** in [#19088](https://github.com/databendlabs/databend/pull/19088)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.856-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.855-nightly" number="" defaultCollapsed={true}>
+
+## Dec 9, 2025 (v1.2.855-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat: perf small_union and small_symmetric_difference by **@KKould** in [#19069](https://github.com/databendlabs/databend/pull/19069)
+### Thoughtful Bug Fix 🔧
+* fix: http handler cut block to pages using memory size after gc. by **@youngsofun** in [#19071](https://github.com/databendlabs/databend/pull/19071)
+* fix: query error when stream_consume_batch_size_hint is not 0 by **@zhyass** in [#19074](https://github.com/databendlabs/databend/pull/19074)
+### Code Refactor 🎉
+* refactor: try reduce aggregate hash index cost on hot path by **@dqhl76** in [#19072](https://github.com/databendlabs/databend/pull/19072)
+### Build/Testing/CI Infra Changes 🔌
+* ci: fix do not sync debug symbols to R2 by **@everpcpc** in [#19078](https://github.com/databendlabs/databend/pull/19078)
+* ci: rename debug symbol for publish by **@everpcpc** in [#19080](https://github.com/databendlabs/databend/pull/19080)
+* ci: benchmark tpch1000 with local disk cache by **@everpcpc** in [#19081](https://github.com/databendlabs/databend/pull/19081)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.855-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.854-nightly" number="" defaultCollapsed={true}>
+
+## Dec 8, 2025 (v1.2.854-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat(query): row access policy support rbac by **@TCeason** in [#19064](https://github.com/databendlabs/databend/pull/19064)
+* feat(query): add THROW support to SQL procedures by **@TCeason** in [#19067](https://github.com/databendlabs/databend/pull/19067)
+### Build/Testing/CI Infra Changes 🔌
+* ci: fix missing token for publish dbg by **@everpcpc** in [#19070](https://github.com/databendlabs/databend/pull/19070)
+### Others 📒
+* chore(query): replace custom wrappers with intrinsics::assume by **@zhang2014** in [#19063](https://github.com/databendlabs/databend/pull/19063)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.854-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.853-nightly" number="" defaultCollapsed={true}>
+
+## Dec 5, 2025 (v1.2.853-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat: perf bitmap intersect by **@KKould** in [#19041](https://github.com/databendlabs/databend/pull/19041)
+* feat(query): speed up string→timestamp/date/timestamptz parsing via DayLUT fast path by **@TCeason** in [#19045](https://github.com/databendlabs/databend/pull/19045)
+* feat: improve scan IO profile metrics by **@BohuTANG** in [#18975](https://github.com/databendlabs/databend/pull/18975)
+* feat: impl `bitmap_construct_agg` by **@KKould** in [#19053](https://github.com/databendlabs/databend/pull/19053)
+### Thoughtful Bug Fix 🔧
+* fix(query): fix filter bug  with small block-size by **@sundy-li** in [#19047](https://github.com/databendlabs/databend/pull/19047)
+* fix: Pruning multithreading without accumulating time by **@KKould** in [#19044](https://github.com/databendlabs/databend/pull/19044)
+### Code Refactor 🎉
+* refactor: bytes view calc `total_bytes_len` lazy. by **@youngsofun** in [#19056](https://github.com/databendlabs/databend/pull/19056)
+### Build/Testing/CI Infra Changes 🔌
+* ci: add benchmark for tpch1000 by **@everpcpc** in [#19057](https://github.com/databendlabs/databend/pull/19057)
+* ci: fix bendsql run for benchmark by **@everpcpc** in [#19059](https://github.com/databendlabs/databend/pull/19059)
+* ci: fix benchmark database by **@everpcpc** in [#19060](https://github.com/databendlabs/databend/pull/19060)
+* ci: adjust tpch1000 benchmark timeout by **@everpcpc** in [#19061](https://github.com/databendlabs/databend/pull/19061)
+* ci: fix tpch1000 benchmark timeout by **@everpcpc** in [#19062](https://github.com/databendlabs/databend/pull/19062)
+* ci: comment ignore ndjson files for benchmark by **@everpcpc** in [#19065](https://github.com/databendlabs/databend/pull/19065)
+* ci: update database for benchmark by **@everpcpc** in [#19068](https://github.com/databendlabs/databend/pull/19068)
+### Others 📒
+* chore: revert "fix: fix memory_size of sliced string view. (#19014)" by **@youngsofun** in [#19051](https://github.com/databendlabs/databend/pull/19051)
+* chore:  map log target to short semantic categories by **@forsaken628** in [#18925](https://github.com/databendlabs/databend/pull/18925)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.853-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.852-nightly" number="" defaultCollapsed={true}>
+
+## Dec 2, 2025 (v1.2.852-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat: improve runtime filter check via SIMD by **@SkyFan2002** in [#19039](https://github.com/databendlabs/databend/pull/19039)
+### Build/Testing/CI Infra Changes 🔌
+* ci: add a flag to allow skip trim debug info by **@dqhl76** in [#19043](https://github.com/databendlabs/databend/pull/19043)
+### Others 📒
+* chore: eliminate several unnecessary branches from the hot path of the aggregate function by **@forsaken628** in [#19028](https://github.com/databendlabs/databend/pull/19028)
+* chore: improve `explain perf` to support flag inlined function by **@dqhl76** in [#19042](https://github.com/databendlabs/databend/pull/19042)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.852-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.851-nightly" number="" defaultCollapsed={true}>
+
+## Dec 1, 2025 (v1.2.851-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat: better display of retained identity by **@camilesing** in [#19029](https://github.com/databendlabs/databend/pull/19029)
+### Thoughtful Bug Fix 🔧
+* fix(query): Fix inverted index matched score caused panic by **@b41sh** in [#19032](https://github.com/databendlabs/databend/pull/19032)
+* fix: implements bitmap comparison by **@dantengsky** in [#19038](https://github.com/databendlabs/databend/pull/19038)
+* fix(query): fix stack overflow errors thrown during serialization by **@zhang2014** in [#19040](https://github.com/databendlabs/databend/pull/19040)
+### Code Refactor 🎉
+* refactor: Optimize timestamp/timestamptz function by DayLUT by **@TCeason** in [#19031](https://github.com/databendlabs/databend/pull/19031)
+### Others 📒
+* chore(query): set `enable_experimental_virtual_column` default as 0 by **@b41sh** in [#19033](https://github.com/databendlabs/databend/pull/19033)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.851-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.850-nightly" number="" defaultCollapsed={true}>
+
+## Dec 1, 2025 (v1.2.850-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat: add cost to explain pruning stats by **@KKould** in [#19015](https://github.com/databendlabs/databend/pull/19015)
+* feat: add column update_on for user functions table by **@KKould** in [#19018](https://github.com/databendlabs/databend/pull/19018)
+* feat(query): add DATE ± INTERVAL -&gt; DATE function by **@TCeason** in [#19022](https://github.com/databendlabs/databend/pull/19022)
+### Code Refactor 🎉
+* refactor(query): decrease call tzdb parse by **@TCeason** in [#19004](https://github.com/databendlabs/databend/pull/19004)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.850-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.849-nightly" number="" defaultCollapsed={true}>
+
+## Nov 27, 2025 (v1.2.849-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat: support position column in common sql query by **@KKould** in [#19012](https://github.com/databendlabs/databend/pull/19012)
+* feat: improve runtime filter [Part 3] by **@SkyFan2002** in [#19006](https://github.com/databendlabs/databend/pull/19006)
+* feat: enable Decimal64 handling in fuse table deserialization by **@dantengsky** in [#19008](https://github.com/databendlabs/databend/pull/19008)
+* feat(query): Inverted Index Top-N Pruning for ORDER BY + LIMIT Queries by **@b41sh** in [#19016](https://github.com/databendlabs/databend/pull/19016)
+### Thoughtful Bug Fix 🔧
+* fix: load of large zip file. by **@youngsofun** in [#19010](https://github.com/databendlabs/databend/pull/19010)
+* fix(rbac): forbiden grant create-ownership-object privilege to user by **@TCeason** in [#18987](https://github.com/databendlabs/databend/pull/18987)
+* fix: fix memory_size of sliced string view. by **@youngsofun** in [#19014](https://github.com/databendlabs/databend/pull/19014)
+* fix: runtime filters not work when probe keys are simple casts of non-nullable columns to nullable types by **@SkyFan2002** in [#19020](https://github.com/databendlabs/databend/pull/19020)
+### Code Refactor 🎉
+* refactor(func): optimize function `array_aggregate` by **@forsaken628** in [#19005](https://github.com/databendlabs/databend/pull/19005)
+* refactor: move aggregation spill logic into partial aggregate by **@dqhl76** in [#18999](https://github.com/databendlabs/databend/pull/18999)
+* refactor(query): add the matcher id when calling the optimizer apply by **@zhang2014** in [#19017](https://github.com/databendlabs/databend/pull/19017)
+### Build/Testing/CI Infra Changes 🔌
+* ci: ttc test with arrow body format. by **@youngsofun** in [#18985](https://github.com/databendlabs/databend/pull/18985)
+* ci: 'onlyif http'-&gt;'skipif mysql' to cover ttc tests by **@youngsofun** in [#19011](https://github.com/databendlabs/databend/pull/19011)
+* ci: refactor databend-go compat test. by **@youngsofun** in [#19023](https://github.com/databendlabs/databend/pull/19023)
+
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.849-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.848-nightly" number="" defaultCollapsed={true}>
 
 ## Nov 24, 2025 (v1.2.848-nightly)
 
@@ -31,7 +310,7 @@ This page provides information about recent features, enhancements, and bug fixe
 
 </StepContent>
 
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.847-nightly" number="" defaultCollapsed={false}>
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.847-nightly" number="" defaultCollapsed={true}>
 
 ## Nov 21, 2025 (v1.2.847-nightly)
 
@@ -365,232 +644,6 @@ This page provides information about recent features, enhancements, and bug fixe
 
 
 **Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.831-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.830-nightly" number="" defaultCollapsed={true}>
-
-## Oct 20, 2025 (v1.2.830-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat(query): Inverted index support search Variant inner fields by **@b41sh** in [#18861](https://github.com/databendlabs/databend/pull/18861)
-### Thoughtful Bug Fix 🔧
-* fix: config rename for file logging max_size by **@everpcpc** in [#18772](https://github.com/databendlabs/databend/pull/18772)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.830-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.829-nightly" number="" defaultCollapsed={true}>
-
-## Oct 20, 2025 (v1.2.829-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat: implement irreversible vacuum drop table protection by **@dantengsky** in [#18809](https://github.com/databendlabs/databend/pull/18809)
-* feat(query): Show Statistics add Virtual Column Stats and Min/Max Fields by **@b41sh** in [#18849](https://github.com/databendlabs/databend/pull/18849)
-* feat: meta: add I/O timing tracking for log entry application by **@drmingdrmer** in [#18854](https://github.com/databendlabs/databend/pull/18854)
-* feat: meta: add detailed version output for databend-meta -V by **@drmingdrmer** in [#18856](https://github.com/databendlabs/databend/pull/18856)
-* feat: add isnan and isinf functions for float types by **@RiversJin** in [#18858](https://github.com/databendlabs/databend/pull/18858)
-* feat: metactl: add dump-raft-log-wal subcommand by **@drmingdrmer** in [#18865](https://github.com/databendlabs/databend/pull/18865)
-### Thoughtful Bug Fix 🔧
-* fix(query): optimize JWT key lookup to avoid unnecessary JWKS refresh by **@everpcpc** in [#18845](https://github.com/databendlabs/databend/pull/18845)
-* fix(query): NULL constraint checking in column modification by **@TCeason** in [#18855](https://github.com/databendlabs/databend/pull/18855)
-### Others 📒
-* chore(storage): merge_io_reader passes through `opendal::Buffer` and no longer copies by **@forsaken628** in [#18840](https://github.com/databendlabs/databend/pull/18840)
-* chore: upgrade openraft from from v0.10.0-alpha.9 to v0.10.0-alpha.11 by **@drmingdrmer** in [#18862](https://github.com/databendlabs/databend/pull/18862)
-* chore: upgrade raft-log and display-more by **@drmingdrmer** in [#18864](https://github.com/databendlabs/databend/pull/18864)
-
-## New Contributors
-* **@RiversJin** made their first contribution in [#18858](https://github.com/databendlabs/databend/pull/18858)
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.829-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.828-nightly" number="" defaultCollapsed={true}>
-
-## Oct 16, 2025 (v1.2.828-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat: support optional arg name for create function by **@KKould** in [#18848](https://github.com/databendlabs/databend/pull/18848)
-### Thoughtful Bug Fix 🔧
-* fix: use compile-time cfg for platform-specific DMA flags by **@drmingdrmer** in [#18846](https://github.com/databendlabs/databend/pull/18846)
-* fix: pipeline max_threads should use max width of Pipes. by **@youngsofun** in [#18837](https://github.com/databendlabs/databend/pull/18837)
-### Code Refactor 🎉
-* refactor: meta: unify FetchAddU64 into FetchIncreaseU64 by **@drmingdrmer** in [#18847](https://github.com/databendlabs/databend/pull/18847)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.828-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.827-nightly" number="" defaultCollapsed={true}>
-
-## Oct 16, 2025 (v1.2.827-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat(query): introduce BackpressureSpiller by **@forsaken628** in [#18802](https://github.com/databendlabs/databend/pull/18802)
-* feat: External UDF support STAGE_LOCATION param by **@KKould** in [#18833](https://github.com/databendlabs/databend/pull/18833)
-### Thoughtful Bug Fix 🔧
-* fix: deserialize parquet error when stream's base table modify column type by **@zhyass** in [#18828](https://github.com/databendlabs/databend/pull/18828)
-### Code Refactor 🎉
-* refactor: meta-client: consolidate RPC timing into RpcHandler by **@drmingdrmer** in [#18832](https://github.com/databendlabs/databend/pull/18832)
-* refactor: clarify the HTTP query lifecycle. by **@youngsofun** in [#18787](https://github.com/databendlabs/databend/pull/18787)
-* refactor: simplify mask policy storage structure by **@TCeason** in [#18836](https://github.com/databendlabs/databend/pull/18836)
-### Others 📒
-* chore: reduce log in update_multi_table_meta by **@SkyFan2002** in [#18844](https://github.com/databendlabs/databend/pull/18844)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.827-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.826-nightly" number="" defaultCollapsed={true}>
-
-## Oct 13, 2025 (v1.2.826-nightly)
-
-## What's Changed
-### Thoughtful Bug Fix 🔧
-* fix: copy from CSV OOM when file is large. by **@youngsofun** in [#18830](https://github.com/databendlabs/databend/pull/18830)
-### Others 📒
-* chore: fix some meta typo by **@forsaken628** in [#18824](https://github.com/databendlabs/databend/pull/18824)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.826-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.825-nightly" number="" defaultCollapsed={true}>
-
-## Oct 13, 2025 (v1.2.825-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat: impl INNER/LEFT/RIGHT ANY JOIN by **@KKould** in [#18779](https://github.com/databendlabs/databend/pull/18779)
-### Others 📒
-* chore(query): add ruff toml file by **@sundy-li** in [#18823](https://github.com/databendlabs/databend/pull/18823)
-* chore(query): constant folder support exclusive check by **@sundy-li** in [#18822](https://github.com/databendlabs/databend/pull/18822)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.825-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.824-nightly" number="" defaultCollapsed={true}>
-
-## Oct 9, 2025 (v1.2.824-nightly)
-
-## What's Changed
-### Code Refactor 🎉
-* refactor(query): add left join for experimental new hash join by **@zhang2014** in [#18814](https://github.com/databendlabs/databend/pull/18814)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.824-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.823-nightly" number="" defaultCollapsed={true}>
-
-## Oct 6, 2025 (v1.2.823-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat(query): decouple row access policy argument names from column names by **@TCeason** in [#18799](https://github.com/databendlabs/databend/pull/18799)
-* feat: meta-service: add snapshot keys layout API with depth filtering by **@drmingdrmer** in [#18807](https://github.com/databendlabs/databend/pull/18807)
-* feat(query): add copy_history table by **@sundy-li** in [#18806](https://github.com/databendlabs/databend/pull/18806)
-* feat(query): Generate column statistics for virtual columns by **@b41sh** in [#18801](https://github.com/databendlabs/databend/pull/18801)
-* feat: meta-service: add `proposed_at` tracking the time when a key is written by **@drmingdrmer** in [#18812](https://github.com/databendlabs/databend/pull/18812)
-### Thoughtful Bug Fix 🔧
-* fix(query): handle database ID properly in columns table permission check by **@TCeason** in [#18798](https://github.com/databendlabs/databend/pull/18798)
-* fix: invalid sequence step by **@KKould** in [#18800](https://github.com/databendlabs/databend/pull/18800)
-* fix(meta): use transaction instead of direct request for UpsertKV by **@drmingdrmer** in [#18813](https://github.com/databendlabs/databend/pull/18813)
-### Code Refactor 🎉
-* refactor(user): redesign ALTER USER implementation with improved API consistency by **@TCeason** in [#18804](https://github.com/databendlabs/databend/pull/18804)
-* refactor(query): add new experimental hash join for inner join by **@zhang2014** in [#18783](https://github.com/databendlabs/databend/pull/18783)
-* refactor(meta): extract TableMeta operations to dedicated ops module by **@drmingdrmer** in [#18816](https://github.com/databendlabs/databend/pull/18816)
-* refactor: extract table identifier types to ident.rs by **@drmingdrmer** in [#18817](https://github.com/databendlabs/databend/pull/18817)
-* refactor(meta): move get_db_id_or_err to DatabaseApi with nested Result by **@drmingdrmer** in [#18818](https://github.com/databendlabs/databend/pull/18818)
-* refactor(meta): simplify stream metrics collection with Drop pattern by **@drmingdrmer** in [#18820](https://github.com/databendlabs/databend/pull/18820)
-### Others 📒
-* chore: log more info on jwks refresh by **@everpcpc** in [#18803](https://github.com/databendlabs/databend/pull/18803)
-* chore: refine stream http api test by **@dantengsky** in [#18810](https://github.com/databendlabs/databend/pull/18810)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.823-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.822-nightly" number="" defaultCollapsed={true}>
-
-## Sep 29, 2025 (v1.2.822-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat(query): RoleInfo support comment by **@TCeason** in [#18788](https://github.com/databendlabs/databend/pull/18788)
-### Thoughtful Bug Fix 🔧
-* fix: prevent panic in multi-table insert commit by **@SkyFan2002** in [#18793](https://github.com/databendlabs/databend/pull/18793)
-* fix: remove incorrect assertion in collecting dropped table ids by **@dantengsky** in [#18780](https://github.com/databendlabs/databend/pull/18780)
-* fix: forbid SRF in copy transform. by **@youngsofun** in [#18795](https://github.com/databendlabs/databend/pull/18795)
-### Build/Testing/CI Infra Changes 🔌
-* ci: fix publish debug symbols by **@everpcpc** in [#18796](https://github.com/databendlabs/databend/pull/18796)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.822-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.821-nightly" number="" defaultCollapsed={true}>
-
-## Sep 28, 2025 (v1.2.821-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat(query): pivot support any order by expression by **@sundy-li** in [#18770](https://github.com/databendlabs/databend/pull/18770)
-* feat(query): enable swap between tables by **@TCeason** in [#18767](https://github.com/databendlabs/databend/pull/18767)
-* feat: impl Keyword `AUTOINCREMENT` by **@KKould** in [#18715](https://github.com/databendlabs/databend/pull/18715)
-* feat: enable analyze hook after DML by **@zhyass** in [#18754](https://github.com/databendlabs/databend/pull/18754)
-### Thoughtful Bug Fix 🔧
-* fix: /v1/status return  stop time without start time.  by **@youngsofun** in [#18792](https://github.com/databendlabs/databend/pull/18792)
-### Build/Testing/CI Infra Changes 🔌
-* ci: publish debug symbols to R2 by **@everpcpc** in [#18784](https://github.com/databendlabs/databend/pull/18784)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.821-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.820-nightly" number="" defaultCollapsed={true}>
-
-## Sep 25, 2025 (v1.2.820-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat: /v1/status merge status of HttpQueryManager. by **@youngsofun** in [#18778](https://github.com/databendlabs/databend/pull/18778)
-### Thoughtful Bug Fix 🔧
-* fix: the result of the first parameter of `eval_or_filters` will affect the subsequent parameters by **@KKould** in [#18782](https://github.com/databendlabs/databend/pull/18782)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.820-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.819-nightly" number="" defaultCollapsed={true}>
-
-## Sep 25, 2025 (v1.2.819-nightly)
-
-## What's Changed
-### Thoughtful Bug Fix 🔧
-* fix: clean up temp table with external location by **@SkyFan2002** in [#18775](https://github.com/databendlabs/databend/pull/18775)
-### Code Refactor 🎉
-* refactor(meta-service): move raft to separate runtime by **@drmingdrmer** in [#18777](https://github.com/databendlabs/databend/pull/18777)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.819-nightly
 
 </StepContent>
 

@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /404
 Disallow: /tags/
-Sitemap: https://www.databend.cn/sitemap.xml
+Sitemap: https://www.databend.com/sitemap.xml
