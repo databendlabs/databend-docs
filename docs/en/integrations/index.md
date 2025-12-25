@@ -70,17 +70,3 @@ Integrate Databend with AI/ML platforms.
 | **MindsDB** | In-database machine learning | [→ Guide](/guides/connect/visualization/mindsdb) |
 | **MCP Server** | AI assistant integration | [→ Guide](/guides/ai-functions/mcp) |
 
----
-
-## Support & Resources
-
-:::info Support Levels
-- **🟢 Core** — Built by Databend. Full official support.
-- **🟡 Partner** — Built by vendors. Partner-supported.
-- **🔵 Community** — Built by community. GitHub & Slack support.
-:::
-
-**Need help?**
-- [Developer Documentation](/developer) — APIs, SDKs, and examples
-- [Connection Guides](/guides/connect) — Step-by-step setup instructions
-- [Community Slack](https://link.databend.com/join-slack) — Get help from the community
