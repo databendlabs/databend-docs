@@ -19,13 +19,13 @@ title: Databend 私有部署
 
 | 版本 | 适合 |
 |------|------|
-| [**社区版**](00-editions/community.md) | 开发测试、中小规模 |
-| [**企业版**](00-editions/enterprise/) | 规模化生产、企业特性 |
+| [**社区版**](editions/community) | 开发测试、中小规模 |
+| [**企业版**](editions/enterprise/) | 规模化生产、企业特性 |
 
 ## 快速开始
 
-1. [**先跑起来**](01-quickstart/) — 单节点，几分钟搞定
-2. [**生产部署**](02-deployment/) — 集群部署指南
+1. [**先跑起来**](quickstart/) — 单节点，几分钟搞定
+2. [**生产部署**](deployment/) — 集群部署指南
 3. [**连接使用**](/guides/connect/) — BendSQL、Python、Go、Java、Node.js
 
 :::tip 不想折腾？
