@@ -1,36 +1,40 @@
 ---
-title: Working with Databend Cloud
+title: Databend Cloud
 ---
 
-# Databend Cloud Overview
+import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-Databend Cloud is a fully-managed cloud data warehouse service that provides a seamless, scalable, and cost-effective solution for your data analytics needs. This guide will help you navigate through the essential aspects of using Databend Cloud.
+# Databend Cloud
 
-## Quick Navigation
+A fully-managed, serverless cloud data warehouse. Zero infrastructure, instant analytics.
 
-| Category | Resource | Description |
-|----------|----------|-------------|
-| **Getting Started** | [Creating a New Account](/guides/cloud/getting-started) | Sign up for Databend Cloud and create your organization |
-| **Fundamentals** | [Organization & Members](/guides/cloud/resources/organization) | Understand how organizations work and manage team members |
-| | [Warehouses](/guides/cloud/resources/warehouses) | Learn about compute resources, sizes, and best practices |
-| | [Worksheets](/guides/cloud/resources/worksheet) | Execute SQL queries and analyze data |
-| | [Dashboard](/guides/cloud/resources/dashboard) | Monitor your data analytics with visualizations |
-| **Management** | [Managing Costs](/guides/cloud/administration/costs) | Set spending limits and control your expenses |
-| | [Monitoring](/guides/cloud/administration/monitor) | Track usage and performance |
-| | [AI Features](/guides/cloud/administration/ai-features) | Leverage AI capabilities for data analysis |
-| | [Metrics](/guides/cloud/administration/metrics) | Analyze performance metrics |
+## Why Databend Cloud?
 
-## 🔗 Connection Options
+### ⚡ Instant On. Always Ready.
 
-| Client Type | Options | Use Cases |
-|-------------|---------|----------|
-| **SQL Clients** | [BendSQL](/guides/connect/sql-clients/bendsql) | Command line interface for developers and scripts |
-| | [DBeaver](/guides/connect/sql-clients/jdbc) | GUI application for data analysis and visual queries |
-| **Programming** | [Python](/guides/connect/drivers/python) | Data science, analytics, and machine learning |
-| | [Go](/guides/connect/drivers/golang) | Backend applications and microservices |
-| | [Node.js](/guides/connect/drivers/nodejs) | Web applications and services |
-| | [Java](/guides/connect/drivers/java) | Enterprise applications |
+| Metric | Value | Detail |
+|--------|-------|--------|
+| **Provisioning** | < 500ms | Stateless architecture, zero cold start |
+| **Cost Savings** | > 50% | Benchmarked vs Snowflake Standard |
+| **Uptime SLA** | 99.95% | HA services with cross-region failover |
 
-For detailed connection instructions and more options, see the [SQL Clients](/guides/connect/) section.
+### 🔐 Security Built In
 
+| Category | Features |
+|----------|----------|
+| **Access Control** | Fine-grained permissions, RBAC + DAC, Masking Policy, Network Policy |
+| **Encryption** | TLS 1.2 everywhere, Storage encryption, AWS PrivateLink |
+| **Compliance** | SOC 2 Type II, GDPR compliant, Regular audits |
+| **Observability** | Query audit logs, Real-time monitoring, Anomaly detection |
 
+## Get Started
+
+| Step | Action |
+|------|--------|
+| 1 | [**Sign Up**](01-getting-started.md) — Create your account in minutes |
+| 2 | [**Explore Resources**](02-resources/) — Warehouses, Worksheets, Dashboards |
+| 3 | [**Connect**](/guides/connect/) — BendSQL, Python, Go, Java, Node.js |
+
+## Learn More
+
+<IndexOverviewList />
