@@ -13,7 +13,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 ### 开始之前
 
-- 请先安装 BendSQL，参见 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 请先安装 BendSQL，参见 [安装 BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql)。
 - 请确认你已拥有 Databend Cloud 账号并可成功登录。
 
 </StepContent>

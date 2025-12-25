@@ -136,24 +136,24 @@ Databend Cloud 支持基于角色的访问控制（RBAC）。您可以为计算�
 
 ### 连接方式
 
-Databend Cloud 支持多种连接方式以满足不同需求。详细说明请参阅 [SQL 客户端文档](/guides/sql-clients/)。
+Databend Cloud 支持多种连接方式以满足不同需求。详细说明请参阅 [SQL 客户端文档](/guides/connect/)。
 
 #### SQL 客户端与工具
 
 | 客户端 | 类型 | 适用场景 | 主要特点 |
 | :--- | :--- | :--- | :--- |
-| **[BendSQL](/guides/sql-clients/bendsql)** | 命令行 | 开发人员、脚本自动化 | 原生 CLI，丰富的格式化支持，多种安装选项 |
-| **[DBeaver](/guides/sql-clients/jdbc)** | GUI 应用 | 数据分析、可视化查询 | 内置驱动，跨平台，图形化查询构建器 |
+| **[BendSQL](/guides/connect/sql-clients/bendsql)** | 命令行 | 开发人员、脚本自动化 | 原生 CLI，丰富的格式化支持，多种安装选项 |
+| **[DBeaver](/guides/connect/sql-clients/jdbc)** | GUI 应用 | 数据分析、可视化查询 | 内置驱动，跨平台，图形化查询构建器 |
 
 #### 开发者驱动 (Drivers)
 
 | 语言 | 驱动程序 | 用例 | 文档 |
 | :--- | :--- | :--- | :--- |
-| **Go** | Golang Driver | 后端应用 | [Golang 开发指南](/guides/sql-clients/developers/golang) |
-| **Python** | Python Connector | 数据科学、分析 | [Python 开发指南](/guides/sql-clients/developers/python) |
-| **Node.js** | JavaScript Driver | Web 应用 | [Node.js 开发指南](/guides/sql-clients/developers/nodejs) |
-| **Java** | JDBC Driver | 企业级应用 | [JDBC 开发指南](/guides/sql-clients/developers/jdbc) |
-| **Rust** | Rust Driver | 系统编程 | [Rust 开发指南](/guides/sql-clients/developers/rust) |
+| **Go** | Golang Driver | 后端应用 | [Golang 开发指南](/guides/connect/drivers/golang) |
+| **Python** | Python Connector | 数据科学、分析 | [Python 开发指南](/guides/connect/drivers/python) |
+| **Node.js** | JavaScript Driver | Web 应用 | [Node.js 开发指南](/guides/connect/drivers/nodejs) |
+| **Java** | JDBC Driver | 企业级应用 | [JDBC 开发指南](/guides/connect/drivers/java) |
+| **Rust** | Rust Driver | 系统编程 | [Rust 开发指南](/guides/connect/drivers/rust) |
 
 ### 获取连接信息
 

@@ -16,7 +16,7 @@ The MinIO deployment covered in this guide is only suitable for development and 
 Before you start, ensure you have the following prerequisites in place:
 
 - Ensure that [Docker](https://www.docker.com/) is installed on your local machine.
-- Ensure that BendSQL is installed on your machine. See [Installing BendSQL](/guides/sql-clients/bendsql/#installing-bendsql) for instructions on how to install BendSQL using various package managers.
+- Ensure that BendSQL is installed on your machine. See [Installing BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql) for instructions on how to install BendSQL using various package managers.
 
 ### Deploy Databend
 

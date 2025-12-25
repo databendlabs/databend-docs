@@ -14,7 +14,7 @@ In this tutorial, we will guide you through the process of connecting to a self-
 ### Before You Start
 
 - Ensure that [Docker](https://www.docker.com/) is installed on your local machine, as it will be used to launch Databend.
-- Ensure that BendSQL is installed on your machine. See [Installing BendSQL](/guides/sql-clients/bendsql/#installing-bendsql) for instructions on how to install BendSQL using various package managers.
+- Ensure that BendSQL is installed on your machine. See [Installing BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql) for instructions on how to install BendSQL using various package managers.
 
 </StepContent>
 <StepContent number="2">

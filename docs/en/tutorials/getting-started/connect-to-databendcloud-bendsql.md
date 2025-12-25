@@ -13,7 +13,7 @@ In this tutorial, we will guide you through the process of connecting to Databen
 
 ### Before You Start
 
-- Ensure that BendSQL is installed on your machine. See [Installing BendSQL](/guides/sql-clients/bendsql/#installing-bendsql) for instructions on how to install BendSQL using various package managers.
+- Ensure that BendSQL is installed on your machine. See [Installing BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql) for instructions on how to install BendSQL using various package managers.
 - Ensure that you already have a Databend Cloud account and can log in successfully.
 
 </StepContent>

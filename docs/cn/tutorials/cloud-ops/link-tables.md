@@ -12,7 +12,7 @@ sidebar_label: "跨库共享数据"
 - 本地已安装 [Docker](https://www.docker.com/)，用于启动自建 Databend。
 - 已有一个供自建 Databend 使用的 AWS S3 Bucket。参见 [创建 S3 Bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)。
 - 拥有具备目标 Bucket 访问权限的 AWS Access Key ID 与 Secret Access Key。参见 [管理 AWS 凭证](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys)。
-- 本地已安装 BendSQL。安装方法请见 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 本地已安装 BendSQL。安装方法请见 [安装 BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql)。
 
 ## 步骤 1：在 Docker 中启动 Databend
 

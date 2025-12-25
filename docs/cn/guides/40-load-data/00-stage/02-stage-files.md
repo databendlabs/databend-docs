@@ -11,7 +11,7 @@ Databend 推荐两种文件上传至 Stage 的方法：[PRESIGN](/sql/sql-comman
 
 PRESIGN 方法会生成一个带签名且有时效性的 URL，客户端可用其安全地发起文件上传。该 URL 授予对指定 Stage 的临时访问权限，允许客户端直接传输数据而无需依赖 Databend 服务器全程参与，既提升安全性又提高效率。
 
-若使用 [BendSQL](../../30-sql-clients/00-bendsql/index.md) 管理 Stage 中的文件，可通过 PUT 命令上传文件，GET 命令下载文件。
+若使用 [BendSQL](../../35-connect/00-sql-clients/bendsql.md) 管理 Stage 中的文件，可通过 PUT 命令上传文件，GET 命令下载文件。
 
 - 当前 GET 命令仅能下载 Stage 中的所有文件，无法单独下载特定文件。
 - 这些命令仅适用于 BendSQL，且当 Databend 使用文件系统作为存储后端时，GET 命令将无法使用。

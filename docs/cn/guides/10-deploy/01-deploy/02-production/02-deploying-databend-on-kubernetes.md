@@ -618,7 +618,7 @@ SELECT count(*) FROM t1;
 部署 Databend 后，您可能需要了解以下主题：
 
 - [加载和卸载数据](https://docs.databend.cn/guides/load-data)：管理 Databend 中的数据导入/导出。
-- [可视化](https://docs.databend.cn/guides/visualize)：将 Databend 与可视化工具集成以获得洞察。
+- [可视化](https://docs.databend.cn/guides/connect/visualization)：将 Databend 与可视化工具集成以获得洞察。
 
 <!-- <LanguageFileParse
 cn={<VideoCN />}

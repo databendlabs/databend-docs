@@ -10,7 +10,7 @@ sidebar_label: 查询 Stage 文件元数据
 请先完成以下准备：
 
 - [下载示例数据集](https://datasets.databend.com/iris.parquet) 并保存到本地。
-- 在本地安装 BendSQL。参见 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql)。
+- 在本地安装 BendSQL。参见 [安装 BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql)。
 
 ### 步骤 1：创建 Internal Stage
 

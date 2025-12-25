@@ -214,7 +214,7 @@ cd .. && cd bin
 
 ## 步骤三：验证部署
 
-通过 [BendSQL](/guides/sql-clients/bendsql/) 连接任一查询节点，检索现有节点信息：
+通过 [BendSQL](/guides/connect/sql-clients/bendsql/) 连接任一查询节点，检索现有节点信息：
 
 ```shell
 bendsql -h 172.16.125.131
@@ -243,7 +243,7 @@ FROM
 部署完成后，您可能需要了解以下主题：
 
 - [数据导入导出](/guides/load-data)：管理 Databend 数据导入/导出
-- [可视化分析](/guides/visualize)：将 Databend 与可视化工具集成
+- [可视化分析](/guides/connect/visualization)：将 Databend 与可视化工具集成
 
 <!-- <LanguageFileParse
 cn={<VideoCN />}

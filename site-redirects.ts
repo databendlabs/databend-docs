@@ -1249,6 +1249,79 @@ const siteRedirects = [
   {
     from: '/guides/sql-clients/privatelink',
     to: '/guides/cloud/advanced/private-link'
+  },
+  // SQL Clients & Visualize reorganization - merged into /guides/connect/
+  {
+    from: '/guides/sql-clients',
+    to: '/guides/connect'
+  },
+  {
+    from: '/guides/sql-clients/bendsql',
+    to: '/guides/connect/sql-clients/bendsql'
+  },
+  {
+    from: '/guides/sql-clients/jdbc',
+    to: '/guides/connect/sql-clients/jdbc'
+  },
+  {
+    from: '/guides/sql-clients/developers',
+    to: '/guides/connect/drivers'
+  },
+  {
+    from: '/guides/sql-clients/developers/golang',
+    to: '/guides/connect/drivers/golang'
+  },
+  {
+    from: '/guides/sql-clients/developers/python',
+    to: '/guides/connect/drivers/python'
+  },
+  {
+    from: '/guides/sql-clients/developers/nodejs',
+    to: '/guides/connect/drivers/nodejs'
+  },
+  {
+    from: '/guides/sql-clients/developers/jdbc',
+    to: '/guides/connect/drivers/java'
+  },
+  {
+    from: '/guides/sql-clients/developers/rust',
+    to: '/guides/connect/drivers/rust'
+  },
+  {
+    from: '/guides/visualize',
+    to: '/guides/connect/visualization'
+  },
+  {
+    from: '/guides/visualize/grafana',
+    to: '/guides/connect/visualization/grafana'
+  },
+  {
+    from: '/guides/visualize/tableau',
+    to: '/guides/connect/visualization/tableau'
+  },
+  {
+    from: '/guides/visualize/superset',
+    to: '/guides/connect/visualization/superset'
+  },
+  {
+    from: '/guides/visualize/metabase',
+    to: '/guides/connect/visualization/metabase'
+  },
+  {
+    from: '/guides/visualize/jupyter',
+    to: '/guides/connect/visualization/jupyter'
+  },
+  {
+    from: '/guides/visualize/deepnote',
+    to: '/guides/connect/visualization/deepnote'
+  },
+  {
+    from: '/guides/visualize/mindsdb',
+    to: '/guides/connect/visualization/mindsdb'
+  },
+  {
+    from: '/guides/visualize/redash',
+    to: '/guides/connect/visualization/redash'
   }
 ];
 export default siteRedirects;

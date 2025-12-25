@@ -501,7 +501,7 @@ curl -I  http://127.0.0.1:8080/v1/health
 
 ### 安装 BendSQL
 
-按照 [安装 BendSQL](/guides/sql-clients/bendsql/#installing-bendsql) 在您的机器上安装 BendSQL。
+按照 [安装 BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql) 在您的机器上安装 BendSQL。
 
 </StepContent>
 
@@ -542,4 +542,4 @@ root@localhost:8000/default>
 部署 Databend 后，您可能需要了解以下主题：
 
 - [加载和卸载数据](/guides/load-data)：管理 Databend 中的数据导入/导出。
-- [可视化](/guides/visualize)：将 Databend 与可视化工具集成以获取见解。
+- [可视化](/guides/connect/visualization)：将 Databend 与可视化工具集成以获取见解。

@@ -7,7 +7,7 @@ Databend HTTP Handler 是一个 REST API，可以让你通过 HTTP 请求直接�
 
 :::tip 推荐替代方案
 对于大多数场景，我们推荐使用：
-- **[BendSQL](/guides/sql-clients/bendsql)** - 官方命令行客户端，用于交互式查询
+- **[BendSQL](/guides/connect/sql-clients/bendsql)** - 官方命令行客户端，用于交互式查询
 - **[Python 驱动](/developer/drivers/python)** - 适用于 Python 应用
 - **[Go 驱动](/developer/drivers/golang)** - 适用于 Go 应用
 - **[Node.js 驱动](/developer/drivers/nodejs)** - 适用于 Node.js 应用

@@ -333,7 +333,7 @@ In this step, you will run a simple query against Databend using [BendSQL](https
 
 ### Install BendSQL
 
-Follow [Installing BendSQL](/guides/sql-clients/bendsql/#installing-bendsql) to install BendSQL on your machine.
+Follow [Installing BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql) to install BendSQL on your machine.
 
 </StepContent>
 
@@ -374,4 +374,4 @@ root@localhost:8000/default>
 After deploying Databend, you might need to learn about the following topics:
 
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
-- [Visualize](/guides/visualize): Integrate Databend with visualization tools for insights.
+- [Visualize](/guides/connect/visualization): Integrate Databend with visualization tools for insights.
