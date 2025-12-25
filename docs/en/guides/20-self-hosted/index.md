@@ -2,25 +2,32 @@
 title: Databend Self-Hosted
 ---
 
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
-
 # Databend Self-Hosted
 
-## Open-Source Performance, Your Infrastructure
+Deploy [Databend](https://github.com/databendlabs/databend) — an open-source, Rust-powered cloud data warehouse — on your own infrastructure.
 
-Deploy and manage Databend — an open-source, high-performance cloud data warehouse built with Rust — on your own infrastructure with complete flexibility. Experience exceptional performance and efficiency while retaining full control over your environment and data security.
+## At a Glance
 
-Available as [Community Edition](00-editions/community.md) or [Enterprise Edition](00-editions/enterprise/index.md).
+| | |
+|---|---|
+| 🦀 **Rust-Powered** | Memory-safe, high performance | 
+| 🔓 **Open Source** | Apache 2.0, active community |
+| 🏢 **Your Infrastructure** | Full control over data & environment |
+| ☁️ **Cloud-Native** | S3, GCS, Azure Blob, MinIO |
 
- {/* LANG_REPLACE: 
-        type=link
-        en=https://www.databend.com/apply/?r=doc-card
-        cn=https://www.databend.cn/apply/?r=doc-card
-*/}
-:::tip Try Databend Cloud
-Prefer a zero-maintenance option? Databend Cloud manages all deployment and upgrade complexities for you. [Sign up here](https://www.databend.com/apply/?r=doc-card) to experience the ease of a fully-managed service.
+## Editions
+
+| Edition | Best For |
+|---------|----------|
+| [**Community**](00-editions/community.md) | Development, testing, small-scale production |
+| [**Enterprise**](00-editions/enterprise/) | Large-scale production with enterprise features |
+
+## Get Started
+
+1. [**Quick Start**](01-quickstart/) — Single-node setup in minutes
+2. [**Deploy**](02-deployment/) — Production deployment guides
+3. [**Connect**](/guides/connect/) — BendSQL, Python, Go, Java, Node.js
+
+:::tip Prefer Zero Maintenance?
+[Databend Cloud](/guides/cloud/) handles all infrastructure for you — same engine, fully managed.
 :::
-
-## Quick Navigation
-
-<IndexOverviewList />
