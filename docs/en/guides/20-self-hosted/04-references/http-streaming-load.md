@@ -185,6 +185,38 @@ curl -sS -u databend:databend \
   http://localhost:8000/v1/query/
 ```
 
+### (Optional) Step 6. Load into selected columns with `VALUES`
+
+This step shows how to load only some columns from the uploaded file, and fill the rest with constants.
+
+1. Prepare a CSV file that contains only `name` and `age`:
+
+```shell
+cat > people_name_age.csv << 'EOF'
+name,age
+Carol,25
+Dave,52
+EOF
+```
+
+2. Load the file into `demo.people`, set `city` to a constant:
+
+```shell
+curl -sS -u databend:databend \
+  -H "X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)" \
+  -F "upload=@./people_name_age.csv" \
+  -X PUT "http://localhost:8000/v1/streaming_load"
+```
+
+3. Verify:
+
+```shell
+curl -sS -u databend:databend \
+  -H 'Content-Type: application/json' \
+  -d '{"sql":"select id,name,age,city from demo.people order by name"}' \
+  http://localhost:8000/v1/query/
+```
+
 ## Troubleshooting
 
 - `404 Not Found` on `/v1/streaming_load`: use `datafuselabs/databend:nightly` (or build Databend from source).

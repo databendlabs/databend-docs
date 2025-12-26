@@ -174,6 +174,38 @@ curl -sS -u databend:databend \
   http://localhost:8000/v1/query/
 ```
 
+### （可选）步骤 6：只导入部分列，并用 `VALUES` 补齐其它列
+
+这一小节演示：上传的文件只包含部分列，其它列用常量补齐写入。
+
+1. 准备一个只包含 `name`、`age` 的 CSV：
+
+```shell
+cat > people_name_age.csv << 'EOF'
+name,age
+Carol,25
+Dave,52
+EOF
+```
+
+2. 导入到 `demo.people`，并把 `city` 固定写成常量：
+
+```shell
+curl -sS -u databend:databend \
+  -H "X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)" \
+  -F "upload=@./people_name_age.csv" \
+  -X PUT "http://localhost:8000/v1/streaming_load"
+```
+
+3. 验证：
+
+```shell
+curl -sS -u databend:databend \
+  -H 'Content-Type: application/json' \
+  -d '{"sql":"select id,name,age,city from demo.people order by name"}' \
+  http://localhost:8000/v1/query/
+```
+
 ## 常见问题排查
 
 - `/v1/streaming_load` 返回 `404 Not Found`：使用 `datafuselabs/databend:nightly`（或自行编译）。
