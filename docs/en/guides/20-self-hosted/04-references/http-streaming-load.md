@@ -56,13 +56,34 @@ X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from 
 ### Column mapping rules
 
 - **No column list, no `VALUES`**: file fields map to table columns by table definition order.
+  - CSV header: `id,name,age`
+  - SQL:
+    ```text
+    X-Databend-SQL: insert into demo.people from @_databend_load file_format=(type=csv skip_header=1)
+    ```
 - **With column list, no `VALUES`**: file fields map to the listed columns in order.
+  - CSV header: `id,name`
+  - SQL:
+    ```text
+    X-Databend-SQL: insert into demo.people(id,name) from @_databend_load file_format=(type=csv skip_header=1)
+    ```
 - **With column list and `VALUES`**:
   - Each target column gets the corresponding expression in `VALUES`.
   - Each `?` consumes one field from the uploaded file, in order.
+  - CSV header: `name,age`
+  - SQL:
+    ```text
+    X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)
+    ```
 - **Columns not provided**:
   - Use column `DEFAULT` value if defined.
   - Otherwise insert `NULL` (and fail if the column is `NOT NULL`).
+- **Read only part of a CSV (ignore extra fields)**:
+  - By default, Databend errors if the file has more fields than the target column list.
+  - To ignore extra fields, set `error_on_column_count_mismatch=false`:
+    ```text
+    X-Databend-SQL: insert into demo.people(id,name) from @_databend_load file_format=(type=csv skip_header=1 error_on_column_count_mismatch=false)
+    ```
 
 **cURL template:**
 
@@ -102,6 +123,7 @@ Common CSV options:
 - `field_delimiter=','`: Use a custom delimiter (default is `,`).
 - `quote='\"'`: Quote character.
 - `record_delimiter='\n'`: Line delimiter.
+- `error_on_column_count_mismatch=false`: Allow column count mismatch and ignore extra fields.
 
 Examples:
 
