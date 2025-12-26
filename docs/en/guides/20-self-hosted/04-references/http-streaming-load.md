@@ -32,9 +32,25 @@ It is useful when you:
 **SQL format (required):**
 
 ```sql
-INSERT INTO <db>.<table>
+INSERT INTO <db>.<table>[(<col1>, <col2>, ...)]
+[(VALUES (<expr_or_?>, ...))]
 FROM @_databend_load
 FILE_FORMAT=(type=<format> [<options>...])
+```
+
+### Specifying columns and using `VALUES`
+
+You can:
+
+- Specify the target columns: `INSERT INTO t(col1, col2, ...) ...`
+- Provide `VALUES (...)` before `FROM`:
+  - Use `?` as placeholders for fields read from the uploaded file (in order).
+  - Mix `?` with constants.
+
+Example (load two columns from a CSV file and set a constant):
+
+```text
+X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)
 ```
 
 **cURL template:**
@@ -155,7 +171,7 @@ Send a `PUT /v1/streaming_load` request:
 
 ```shell
 curl -sS -u databend:databend \
-  -H "X-Databend-SQL: insert into demo.people from @_databend_load file_format=(type=csv field_delimiter=',' skip_header=1)" \
+  -H "X-Databend-SQL: insert into demo.people(id,name,age) from @_databend_load file_format=(type=csv field_delimiter=',' skip_header=1)" \
   -F "upload=@./people.csv" \
   -X PUT "http://localhost:8000/v1/streaming_load"
 ```

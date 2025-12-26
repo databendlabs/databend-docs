@@ -32,9 +32,25 @@ HTTP Streaming Load 是一个专门用来“边传边导入”的接口：服务
 **SQL 结构（必需）：**
 
 ```sql
-INSERT INTO <db>.<table>
+INSERT INTO <db>.<table>[(<col1>, <col2>, ...)]
+[(VALUES (<expr_or_?>, ...))]
 FROM @_databend_load
 FILE_FORMAT=(type=<format> [<options>...])
+```
+
+### 指定目标列与 `VALUES`
+
+你可以：
+
+- 指定写入的目标列：`INSERT INTO t(col1, col2, ...) ...`
+- 在 `FROM` 前写 `VALUES (...)`：
+  - 用 `?` 表示从上传文件中读取的字段（按顺序对应）。
+  - `?` 可以与常量混用。
+
+示例（从 CSV 读取两列，并补一个常量列）：
+
+```text
+X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)
 ```
 
 **cURL 模板：**
@@ -144,7 +160,7 @@ EOF
 
 ```shell
 curl -sS -u databend:databend \
-  -H "X-Databend-SQL: insert into demo.people from @_databend_load file_format=(type=csv field_delimiter=',' skip_header=1)" \
+  -H "X-Databend-SQL: insert into demo.people(id,name,age) from @_databend_load file_format=(type=csv field_delimiter=',' skip_header=1)" \
   -F "upload=@./people.csv" \
   -X PUT "http://localhost:8000/v1/streaming_load"
 ```
