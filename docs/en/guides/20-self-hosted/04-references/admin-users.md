@@ -1,5 +1,6 @@
 ---
 title: Configuring Admin Users
+sidebar_position: 10
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
