@@ -757,6 +757,10 @@
     "message": "选择适合您的部署方式",
     "description": "Getting Started description"
   },
+  "Choose Cloud (managed) or Enterprise (self-hosted).": {
+    "message": "选择 Cloud（托管）或 Enterprise（自建）。",
+    "description": "Getting Started hint under title"
+  },
   "Recommended": {
     "message": "推荐",
     "description": "Recommended badge"
@@ -765,9 +769,21 @@
     "message": "全托管 Serverless 数仓，无需运维。",
     "description": "Databend Cloud short description"
   },
+  "Start Free": {
+    "message": "免费开始",
+    "description": "CTA button text for Databend Cloud"
+  },
   "Cold Start": {
     "message": "冷启动",
     "description": "Cold Start metric label"
+  },
+  "Free Credits": {
+    "message": "免费额度",
+    "description": "Free credits metric label"
+  },
+  "Type II": {
+    "message": "Type II",
+    "description": "Compliance label for SOC 2 Type II"
   },
   "Cost Savings": {
     "message": "成本节省",
@@ -776,6 +792,46 @@
   "Open Source": {
     "message": "开源",
     "description": "Open Source badge"
+  },
+  "Databend Cloud": {
+    "message": "Databend Cloud",
+    "description": "Title for Databend Cloud product"
+  },
+  "Databend Enterprise": {
+    "message": "Databend 企业版",
+    "description": "Title for Databend Enterprise product"
+  },
+  "Enterprise": {
+    "message": "企业版",
+    "description": "Enterprise badge"
+  },
+  "Self-hosted on the open-source core, with enterprise support.": {
+    "message": "基于开源核心自建部署，并提供企业级支持。",
+    "description": "Databend Enterprise card description"
+  },
+  "Deploy": {
+    "message": "部署",
+    "description": "Enterprise metric value"
+  },
+  "Your Infra": {
+    "message": "自有基础设施",
+    "description": "Enterprise metric label"
+  },
+  "Control": {
+    "message": "掌控",
+    "description": "Enterprise metric value"
+  },
+  "Your Data": {
+    "message": "自有数据",
+    "description": "Enterprise metric label"
+  },
+  "Support": {
+    "message": "支持",
+    "description": "Enterprise metric value"
+  },
+  "Install Locally": {
+    "message": "本地安装",
+    "description": "CTA button text for self-hosted quickstart"
   },
   "Deploy on your infrastructure. Full control over data and environment.": {
     "message": "部署在您的环境，数据和配置完全掌控。",

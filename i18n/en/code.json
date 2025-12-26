@@ -833,6 +833,54 @@
     "message": "Open in",
     "description": "Open in"
   },
+  "Choose Cloud (managed) or Enterprise (self-hosted).": {
+    "message": "Choose Cloud (managed) or Enterprise (self-hosted).",
+    "description": "Getting Started hint under title"
+  },
+  "Start Free": {
+    "message": "Start Free",
+    "description": "CTA button text for Databend Cloud"
+  },
+  "Free Credits": {
+    "message": "Free Credits",
+    "description": "Free credits metric label"
+  },
+  "Type II": {
+    "message": "Type II",
+    "description": "Compliance label for SOC 2 Type II"
+  },
+  "Enterprise": {
+    "message": "Enterprise",
+    "description": "Enterprise badge"
+  },
+  "Self-hosted on the open-source core, with enterprise support.": {
+    "message": "Self-hosted on the open-source core, with enterprise support.",
+    "description": "Databend Enterprise card description"
+  },
+  "Deploy": {
+    "message": "Deploy",
+    "description": "Enterprise metric value"
+  },
+  "Your Infra": {
+    "message": "Your Infra",
+    "description": "Enterprise metric label"
+  },
+  "Control": {
+    "message": "Control",
+    "description": "Enterprise metric value"
+  },
+  "Your Data": {
+    "message": "Your Data",
+    "description": "Enterprise metric label"
+  },
+  "Support": {
+    "message": "Support",
+    "description": "Enterprise metric value"
+  },
+  "Install Locally": {
+    "message": "Install Locally",
+    "description": "CTA button text for self-hosted quickstart"
+  },
   "All rights reserved.": {
     "message": "Copyright © {year} The Databend Community. All rights reserved.",
     "description": "All rights reserved."

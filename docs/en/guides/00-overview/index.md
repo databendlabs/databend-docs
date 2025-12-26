@@ -13,8 +13,6 @@ Welcome to the Databend (pronounced as /ˈdeɪtəˌbɛnd/)<Speaker /> documentat
 
 <DocsOverview />
 
-**Here are some entries you might want to learn about**
-
 **Getting Started**
 
 - **[Quick Start](/guides/self-hosted/quickstart)**: Launch Databend with Docker and load sample data fast.

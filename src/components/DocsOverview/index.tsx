@@ -57,6 +57,7 @@ const DocsOverview: FC = (): ReactElement => {
     },
   } = useDocusaurusContext();
   const history = useHistory();
+  const cloudAppUrl = isChina ? "https://app.databend.cn" : "https://app.databend.com";
   return (
     <div className={styles.outWrap}>
 
@@ -155,7 +156,7 @@ const DocsOverview: FC = (): ReactElement => {
                   <div className={styles.productCardHeader}>
                     <LightDatabendCloudSingleSvg width={120} />
                     <div className={styles.productCardTitle}>
-                      <h5>Databend Cloud</h5>
+                      <h5>{$t("Databend Cloud")}</h5>
                       <span className={styles.productCardBadge}>{$t("Recommended")}</span>
                     </div>
                   </div>
@@ -179,7 +180,7 @@ const DocsOverview: FC = (): ReactElement => {
                   <div className={styles.productCardCtas}>
                     <Link
                       className={styles.productCardCtaPrimary}
-                      to="https://app.databend.com"
+                      to={cloudAppUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
@@ -209,7 +210,7 @@ const DocsOverview: FC = (): ReactElement => {
                   <div className={styles.productCardHeader}>
                     <LightDatabendSingleSvg width={120} />
                     <div className={styles.productCardTitle}>
-                      <h5>Databend Enterprise</h5>
+                      <h5>{$t("Databend Enterprise")}</h5>
                       <span className={styles.productCardBadgeAlt}>{$t("Enterprise")}</span>
                     </div>
                   </div>
