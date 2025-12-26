@@ -53,6 +53,40 @@ Example (load two columns from a CSV file and set a constant):
 X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)
 ```
 
+### Column mapping rules
+
+- **No column list, no `VALUES`**: file fields map to table columns by table definition order.
+  - CSV header: `id,name,age`
+  - SQL:
+    ```text
+    X-Databend-SQL: insert into demo.people from @_databend_load file_format=(type=csv skip_header=1)
+    ```
+- **With column list, no `VALUES`**: file fields map to the listed columns in order.
+  - CSV header: `id,name`
+  - SQL:
+    ```text
+    X-Databend-SQL: insert into demo.people(id,name) from @_databend_load file_format=(type=csv skip_header=1)
+    ```
+- **With column list and `VALUES`**:
+  - Each target column gets the corresponding expression in `VALUES`.
+  - Each `?` consumes one field from the uploaded file, in order.
+  - CSV header: `name,age`
+  - SQL:
+    ```text
+    X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)
+    ```
+- **Columns not provided**:
+  - Use column `DEFAULT` value if defined.
+  - Otherwise insert `NULL` (and fail if the column is `NOT NULL`).
+- **Read only part of a CSV (ignore extra fields)**:
+  - By default, Databend errors if the file has more fields than the target column list.
+  - To ignore extra fields, set `error_on_column_count_mismatch=false`:
+    ```text
+    X-Databend-SQL: insert into demo.people(id,name) from @_databend_load file_format=(type=csv skip_header=1 error_on_column_count_mismatch=false)
+    ```
+  - This only helps when you want the **first N fields**. Streaming load maps CSV fields by position and does not support selecting non-adjacent fields (for example, `id,name,age` → insert only `id` and `age`).
+    - Workaround: preprocess the CSV to keep only the needed columns, or load via stage and project columns (for example, `SELECT $1, $3 FROM @stage/file.csv`).
+
 **cURL template:**
 
 ```shell
@@ -91,6 +125,7 @@ Common CSV options:
 - `field_delimiter=','`: Use a custom delimiter (default is `,`).
 - `quote='\"'`: Quote character.
 - `record_delimiter='\n'`: Line delimiter.
+- `error_on_column_count_mismatch=false`: Allow column count mismatch and ignore extra fields.
 
 Examples:
 
@@ -135,6 +170,8 @@ docker logs -f databend-streaming-load
 
 ### Step 2. Create a Table
 
+Create a table with an extra `city` column (used later in the optional step):
+
 ```shell
 curl -sS -u databend:databend \
   -H 'Content-Type: application/json' \
@@ -143,7 +180,7 @@ curl -sS -u databend:databend \
 
 curl -sS -u databend:databend \
   -H 'Content-Type: application/json' \
-  -d '{"sql":"create or replace table demo.people (id int, name string, age int)"}' \
+  -d '{"sql":"create or replace table demo.people (id int, name string, age int, city string)"}' \
   http://localhost:8000/v1/query/ >/dev/null
 ```
 
@@ -182,6 +219,38 @@ curl -sS -u databend:databend \
 curl -sS -u databend:databend \
   -H 'Content-Type: application/json' \
   -d '{"sql":"select * from demo.people order by id"}' \
+  http://localhost:8000/v1/query/
+```
+
+### (Optional) Step 6. Load into selected columns with `VALUES`
+
+This step shows how to load only some columns from the uploaded file, and fill the rest with constants.
+
+1. Prepare a CSV file that contains only `name` and `age`:
+
+```shell
+cat > people_name_age.csv << 'EOF'
+name,age
+Carol,25
+Dave,52
+EOF
+```
+
+2. Load the file into `demo.people`, set `city` to a constant:
+
+```shell
+curl -sS -u databend:databend \
+  -H "X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)" \
+  -F "upload=@./people_name_age.csv" \
+  -X PUT "http://localhost:8000/v1/streaming_load"
+```
+
+3. Verify:
+
+```shell
+curl -sS -u databend:databend \
+  -H 'Content-Type: application/json' \
+  -d '{"sql":"select id,name,age,city from demo.people order by name"}' \
   http://localhost:8000/v1/query/
 ```
 

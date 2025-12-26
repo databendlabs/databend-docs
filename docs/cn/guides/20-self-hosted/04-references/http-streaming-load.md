@@ -53,6 +53,40 @@ FILE_FORMAT=(type=<format> [<options>...])
 X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)
 ```
 
+### 列映射规则
+
+- **不写列清单，也不写 `VALUES`**：按表的列定义顺序写入（文件字段依次对应表列）。
+  - CSV 表头：`id,name,age`
+  - SQL：
+    ```text
+    X-Databend-SQL: insert into demo.people from @_databend_load file_format=(type=csv skip_header=1)
+    ```
+- **写了列清单，但不写 `VALUES`**：按列清单的顺序写入（文件字段依次对应列清单）。
+  - CSV 表头：`id,name`
+  - SQL：
+    ```text
+    X-Databend-SQL: insert into demo.people(id,name) from @_databend_load file_format=(type=csv skip_header=1)
+    ```
+- **写了列清单且写 `VALUES`**：
+  - 每个目标列对应 `VALUES` 中的一个表达式。
+  - `VALUES` 里的每个 `?` 会依次消费上传文件里的一个字段。
+  - CSV 表头：`name,age`
+  - SQL：
+    ```text
+    X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)
+    ```
+- **未提供的列**：
+  - 如果该列有 `DEFAULT`，则使用默认值；
+  - 否则写入 `NULL`（若列是 `NOT NULL` 则会失败）。
+- **只读取 CSV 的部分字段（忽略多余字段）**：
+  - 默认情况下，如果文件字段数多于目标列清单，会直接报错。
+  - 如需忽略多余字段，设置 `error_on_column_count_mismatch=false`：
+    ```text
+    X-Databend-SQL: insert into demo.people(id,name) from @_databend_load file_format=(type=csv skip_header=1 error_on_column_count_mismatch=false)
+    ```
+  - 这个能力只适用于“取前 N 列”的场景。Streaming load 按字段位置映射，不支持挑选非连续列（例如 `id,name,age` 想只导入 `id` 和 `age`）。
+    - 解决思路：先在本地把 CSV 预处理成只包含需要的列，或先上传到 stage 再用 `SELECT $1, $3 FROM @stage/file.csv` 这种方式做列投影。
+
 **cURL 模板：**
 
 ```shell
@@ -85,6 +119,7 @@ CSV 的解析规则通过 `FILE_FORMAT=(...)` 指定，语法与 Databend 的文
 - `field_delimiter=','`：字段分隔符（默认 `,`）。
 - `quote='\"'`：引用符号。
 - `record_delimiter='\n'`：行分隔符。
+- `error_on_column_count_mismatch=false`：允许列数不匹配并忽略多余字段。
 
 示例：
 
@@ -129,6 +164,8 @@ docker logs -f databend-streaming-load
 
 ### 步骤 2：建库建表
 
+建一张带 `city` 列的表（在后面的可选步骤里会用到）：
+
 ```shell
 curl -sS -u databend:databend \
   -H 'Content-Type: application/json' \
@@ -137,7 +174,7 @@ curl -sS -u databend:databend \
 
 curl -sS -u databend:databend \
   -H 'Content-Type: application/json' \
-  -d '{"sql":"create or replace table demo.people (id int, name string, age int)"}' \
+  -d '{"sql":"create or replace table demo.people (id int, name string, age int, city string)"}' \
   http://localhost:8000/v1/query/ >/dev/null
 ```
 
@@ -171,6 +208,38 @@ curl -sS -u databend:databend \
 curl -sS -u databend:databend \
   -H 'Content-Type: application/json' \
   -d '{"sql":"select * from demo.people order by id"}' \
+  http://localhost:8000/v1/query/
+```
+
+### （可选）步骤 6：只导入部分列，并用 `VALUES` 补齐其它列
+
+这一小节演示：上传的文件只包含部分列，其它列用常量补齐写入。
+
+1. 准备一个只包含 `name`、`age` 的 CSV：
+
+```shell
+cat > people_name_age.csv << 'EOF'
+name,age
+Carol,25
+Dave,52
+EOF
+```
+
+2. 导入到 `demo.people`，并把 `city` 固定写成常量：
+
+```shell
+curl -sS -u databend:databend \
+  -H "X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)" \
+  -F "upload=@./people_name_age.csv" \
+  -X PUT "http://localhost:8000/v1/streaming_load"
+```
+
+3. 验证：
+
+```shell
+curl -sS -u databend:databend \
+  -H 'Content-Type: application/json' \
+  -d '{"sql":"select id,name,age,city from demo.people order by name"}' \
   http://localhost:8000/v1/query/
 ```
 
