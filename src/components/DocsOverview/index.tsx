@@ -198,11 +198,11 @@ const DocsOverview: FC = (): ReactElement => {
                   role="link"
                   tabIndex={0}
                   aria-label={$t("Databend Enterprise")}
-                  onClick={() => history.push("/guides/self-hosted/editions/enterprise/")}
+                  onClick={() => history.push("/guides/self-hosted/")}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
-                      history.push("/guides/self-hosted/editions/enterprise/");
+                      history.push("/guides/self-hosted/");
                     }
                   }}
                 >
@@ -233,13 +233,11 @@ const DocsOverview: FC = (): ReactElement => {
                   <div className={styles.productCardCtas}>
                     <Link
                       className={styles.productCardCtaSecondary}
-                      to="https://www.databend.com/contact-us/"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      to="/guides/self-hosted/quickstart/"
                       onClick={(e) => e.stopPropagation()}
                       onKeyDown={(e) => e.stopPropagation()}
                     >
-                      {$t("Contact Sales")} →
+                      {$t("Install Locally")} →
                     </Link>
                   </div>
                 </div>
