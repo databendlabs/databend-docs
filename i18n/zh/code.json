@@ -758,7 +758,7 @@
     "description": "Getting Started description"
   },
   "Choose Cloud (managed) or Enterprise (self-hosted).": {
-    "message": "选择 Cloud（托管）或 Enterprise（自建）。",
+    "message": "选择 Databend Cloud（云端产品）或 Databend Enterprise（本地部署）。",
     "description": "Getting Started hint under title"
   },
   "Recommended": {
@@ -774,11 +774,11 @@
     "description": "CTA button text for Databend Cloud"
   },
   "Cold Start": {
-    "message": "冷启动",
+    "message": "毫秒级启动",
     "description": "Cold Start metric label"
   },
   "Free Credits": {
-    "message": "免费额度",
+    "message": "代金券",
     "description": "Free credits metric label"
   },
   "Type II": {
@@ -806,7 +806,7 @@
     "description": "Enterprise badge"
   },
   "Self-hosted on the open-source core, with enterprise support.": {
-    "message": "基于开源核心自建部署，并提供企业级支持。",
+    "message": "基于开源内核本地部署，提供企业功能与支持。",
     "description": "Databend Enterprise card description"
   },
   "Deploy": {
@@ -829,8 +829,12 @@
     "message": "支持",
     "description": "Enterprise metric value"
   },
+  "Enterprise Support": {
+    "message": "企业支持",
+    "description": "Enterprise metric label"
+  },
   "Install Locally": {
-    "message": "本地安装",
+    "message": "本地部署",
     "description": "CTA button text for self-hosted quickstart"
   },
   "Deploy on your infrastructure. Full control over data and environment.": {

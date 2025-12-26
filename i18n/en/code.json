@@ -877,6 +877,10 @@
     "message": "Support",
     "description": "Enterprise metric value"
   },
+  "Enterprise Support": {
+    "message": "Enterprise Support",
+    "description": "Enterprise metric label"
+  },
   "Install Locally": {
     "message": "Install Locally",
     "description": "CTA button text for self-hosted quickstart"

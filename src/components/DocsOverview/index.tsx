@@ -58,6 +58,7 @@ const DocsOverview: FC = (): ReactElement => {
   } = useDocusaurusContext();
   const history = useHistory();
   const cloudAppUrl = isChina ? "https://app.databend.cn" : "https://app.databend.com";
+  const cloudCreditsValue = isChina ? "200元" : "$200";
   return (
     <div className={styles.outWrap}>
 
@@ -169,7 +170,7 @@ const DocsOverview: FC = (): ReactElement => {
                       <span className={styles.metricLabel}>{$t("Cold Start")}</span>
                     </div>
                     <div className={styles.metric}>
-                      <span className={styles.metricValue}>$200</span>
+                      <span className={styles.metricValue}>{cloudCreditsValue}</span>
                       <span className={styles.metricLabel}>{$t("Free Credits")}</span>
                     </div>
                     <div className={styles.metric}>
@@ -228,7 +229,7 @@ const DocsOverview: FC = (): ReactElement => {
                     </div>
                     <div className={styles.metric}>
                       <span className={styles.metricValue}>{$t("Support")}</span>
-                      <span className={styles.metricLabel}>{$t("Enterprise")}</span>
+                      <span className={styles.metricLabel}>{$t("Enterprise Support")}</span>
                     </div>
                   </div>
                   <div className={styles.productCardCtas}>
