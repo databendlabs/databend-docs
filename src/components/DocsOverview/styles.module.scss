@@ -94,11 +94,16 @@
 // }
 .gettingStart {
   flex-direction: column;
+  padding-top: 24px;
+  padding-bottom: 24px;
   .homPpageSectionLeft {
     width: auto !important;
+    h3 {
+      margin-bottom: 12px;
+    }
   }
   .content {
-    margin-top: 30px;
+    margin-top: 16px;
   }
 }
 .topEnhancedCard {
@@ -125,6 +130,18 @@
   display: block;
   text-decoration: none !important;
   color: inherit !important;
+}
+
+.productCardContainer {
+  display: block;
+  height: 100%;
+  cursor: pointer;
+}
+
+.productCardContainer:focus-visible {
+  outline: 2px solid #0070f3;
+  outline-offset: 4px;
+  border-radius: 8px;
 }
 
 .productCardHeader {
@@ -182,6 +199,35 @@
   border-top: 1px solid var(--color-border);
 }
 
+.productCardCtas {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.productCardCtaPrimary {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff !important;
+  background: linear-gradient(135deg, #0070f3, #00a8ff);
+  text-decoration: none !important;
+}
+
+.productCardCtaSecondary {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: hsl(var(--foreground)) !important;
+  background: var(--color-fill-0);
+  border: 1px solid var(--color-border);
+  text-decoration: none !important;
+}
+
 .metric {
   display: flex;
   flex-direction: column;
@@ -237,14 +283,14 @@
   padding-top: 20px;
 }
 .productFeatures {
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   h3 {
     font-weight: 600;
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
   .title {
     border-top: 1px solid var(--color-border);
-    padding-top: 40px;
+    padding-top: 24px;
   }
 }

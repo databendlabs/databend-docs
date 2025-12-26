@@ -534,7 +534,7 @@
     "description": "Databend Cloud 部分的描述"
   },
   "Connect to Databend": {
-    "message": "客户端连接",
+    "message": "客户端接入",
     "description": "连接到 Databend 部分的标题"
   },
   "Developer Resources": {
@@ -542,7 +542,7 @@
     "description": "开发者资源的链接文字"
   },
   "Connect your application to Databend in just a few minutes.": {
-    "message": "仅需几分钟，即可将您的应用连接至 Databend。",
+    "message": "几分钟即可接入 Databend。",
     "description": "连接到 Databend 部分的描述"
   },
   "Load Data into Databend": {
@@ -554,7 +554,7 @@
     "description": "了解更多的链接文字"
   },
   "Bulk import data into Databend(Cloud) in multiple formats.": {
-    "message": "支持多种格式，批量将数据导入 Databend 及 Databend Cloud。",
+    "message": "多格式批量导入 Databend。",
     "description": "加载数据到 Databend 部分的描述"
   },
   "AI & BI & Visualization & Notebooks": {
@@ -566,7 +566,7 @@
     "description": "所有工具的链接文字"
   },
   "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.": {
-    "message": "提供主流工具的连接器与插件，确保与现有生态的无缝集成与高效同步。",
+    "message": "主流 BI/Notebook 即插即用。",
     "description": "AI & BI & 可视化 & 笔记本 部分的描述"
   },
   "Continuous Data Pipelines": {
@@ -574,7 +574,7 @@
     "description": "连续数据管道部分的标题"
   },
   "Data pipelines automate the process of moving and changing data from different sources into Databend.": {
-    "message": "自动化数据管道，轻松实现多源数据的采集、转换与写入。",
+    "message": "自动化管道持续导入 Databend。",
     "description": "连续数据管道部分的描述"
   },
   "Real-Time CDC Ingestion": {
@@ -757,6 +757,10 @@
     "message": "选择适合您的部署方式",
     "description": "Getting Started description"
   },
+  "Choose Cloud (managed) or Enterprise (self-hosted).": {
+    "message": "选择 Databend Cloud 或 Databend Enterprise（本地部署）。",
+    "description": "Getting Started hint under title"
+  },
   "Recommended": {
     "message": "推荐",
     "description": "Recommended badge"
@@ -765,9 +769,21 @@
     "message": "全托管 Serverless 数仓，无需运维。",
     "description": "Databend Cloud short description"
   },
+  "Start Free": {
+    "message": "免费开始",
+    "description": "CTA button text for Databend Cloud"
+  },
   "Cold Start": {
-    "message": "冷启动",
+    "message": "毫秒级启动",
     "description": "Cold Start metric label"
+  },
+  "Free Credits": {
+    "message": "代金券",
+    "description": "Free credits metric label"
+  },
+  "Type II": {
+    "message": "Type II",
+    "description": "Compliance label for SOC 2 Type II"
   },
   "Cost Savings": {
     "message": "成本节省",
@@ -776,6 +792,50 @@
   "Open Source": {
     "message": "开源",
     "description": "Open Source badge"
+  },
+  "Databend Cloud": {
+    "message": "Databend Cloud",
+    "description": "Title for Databend Cloud product"
+  },
+  "Databend Enterprise": {
+    "message": "Databend 企业版",
+    "description": "Title for Databend Enterprise product"
+  },
+  "Enterprise": {
+    "message": "企业版",
+    "description": "Enterprise badge"
+  },
+  "Self-hosted on the open-source core, with enterprise support.": {
+    "message": "基于开源内核本地部署，提供企业功能与支持。",
+    "description": "Databend Enterprise card description"
+  },
+  "Deploy": {
+    "message": "部署",
+    "description": "Enterprise metric value"
+  },
+  "Your Infra": {
+    "message": "自有基础设施",
+    "description": "Enterprise metric label"
+  },
+  "Control": {
+    "message": "掌控",
+    "description": "Enterprise metric value"
+  },
+  "Your Data": {
+    "message": "自有数据",
+    "description": "Enterprise metric label"
+  },
+  "Support": {
+    "message": "服务",
+    "description": "Enterprise metric value"
+  },
+  "Enterprise Support": {
+    "message": "企业级支持",
+    "description": "Enterprise metric label"
+  },
+  "Install Locally": {
+    "message": "本地部署",
+    "description": "CTA button text for self-hosted quickstart"
   },
   "Deploy on your infrastructure. Full control over data and environment.": {
     "message": "部署在您的环境，数据和配置完全掌控。",

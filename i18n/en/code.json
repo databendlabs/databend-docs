@@ -526,7 +526,7 @@
     "description": "Link text for Developer Resources"
   },
   "Connect your application to Databend in just a few minutes.": {
-    "message": "Connect your application to Databend in just a few minutes.",
+    "message": "Connect to Databend in minutes.",
     "description": "Description for Connect to Databend section"
   },
   "Load Data into Databend": {
@@ -538,7 +538,7 @@
     "description": "Link text for Know More"
   },
   "Bulk import data into Databend(Cloud) in multiple formats.": {
-    "message": "Bulk import data into Databend(Cloud) in multiple formats.",
+    "message": "Bulk import into Databend, multiple formats.",
     "description": "Description for Load Data into Databend section"
   },
   "AI & BI & Visualization & Notebooks": {
@@ -550,7 +550,7 @@
     "description": "Link text for All Tools"
   },
   "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.": {
-    "message": "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.",
+    "message": "Plug into popular BI tools and notebooks.",
     "description": "Description for AI & BI & Visualization & Notebooks section"
   },
   "Continuous Data Pipelines": {
@@ -558,7 +558,7 @@
     "description": "Title for Continuous Data Pipelines section"
   },
   "Data pipelines automate the process of moving and changing data from different sources into Databend.": {
-    "message": "Data pipelines automate the process of moving and changing data from different sources into Databend.",
+    "message": "Automate continuous ingestion into Databend.",
     "description": "Description for Continuous Data Pipelines section"
   },
   "Real-Time CDC Ingestion": {
@@ -832,6 +832,58 @@
   "Open in": {
     "message": "Open in",
     "description": "Open in"
+  },
+  "Choose Cloud (managed) or Enterprise (self-hosted).": {
+    "message": "Choose Cloud (managed) or Enterprise (self-hosted).",
+    "description": "Getting Started hint under title"
+  },
+  "Start Free": {
+    "message": "Start Free",
+    "description": "CTA button text for Databend Cloud"
+  },
+  "Free Credits": {
+    "message": "Free Credits",
+    "description": "Free credits metric label"
+  },
+  "Type II": {
+    "message": "Type II",
+    "description": "Compliance label for SOC 2 Type II"
+  },
+  "Enterprise": {
+    "message": "Enterprise",
+    "description": "Enterprise badge"
+  },
+  "Self-hosted on the open-source core, with enterprise support.": {
+    "message": "Self-hosted on the open-source core, with enterprise support.",
+    "description": "Databend Enterprise card description"
+  },
+  "Deploy": {
+    "message": "Deploy",
+    "description": "Enterprise metric value"
+  },
+  "Your Infra": {
+    "message": "Your Infra",
+    "description": "Enterprise metric label"
+  },
+  "Control": {
+    "message": "Control",
+    "description": "Enterprise metric value"
+  },
+  "Your Data": {
+    "message": "Your Data",
+    "description": "Enterprise metric label"
+  },
+  "Support": {
+    "message": "Support",
+    "description": "Enterprise metric value"
+  },
+  "Enterprise Support": {
+    "message": "Enterprise Support",
+    "description": "Enterprise metric label"
+  },
+  "Install Locally": {
+    "message": "Install Locally",
+    "description": "CTA button text for self-hosted quickstart"
   },
   "All rights reserved.": {
     "message": "Copyright © {year} The Databend Community. All rights reserved.",

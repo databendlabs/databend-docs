@@ -45,6 +45,7 @@ import {
 } from "databend-logos";
 import Link from "@docusaurus/Link";
 import clsx from "clsx";
+import { useHistory } from "@docusaurus/router";
 const colLayout = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 12 };
 const colLayout2 = { xl: 12, xxl: 12, lg: 24, md: 24, sm: 24, xs: 24 };
 const colLayout3 = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 24 };
@@ -55,6 +56,9 @@ const DocsOverview: FC = (): ReactElement => {
       customFields: { homeLink, isChina },
     },
   } = useDocusaurusContext();
+  const history = useHistory();
+  const cloudAppUrl = isChina ? "https://app.databend.cn" : "https://app.databend.com";
+  const cloudCreditsValue = isChina ? "200元" : "$200";
   return (
     <div className={styles.outWrap}>
 
@@ -129,20 +133,31 @@ const DocsOverview: FC = (): ReactElement => {
       <ContentCardWrap
         className={clsx(styles.commomCard, styles.gettingStart)}
         title={$t("Getting Started")}
+        description={$t(
+          "Choose Cloud (managed) or Enterprise (self-hosted)."
+        )}
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
             <Col {...colLayout2}>
               <Card padding={[24, 24]} className={clsx(styles.cardActiveOut, styles.productCard)}>
-                <Link
-                  title={$t("Databend Cloud")}
-                  to={"/guides/cloud/"}
-                  className={styles.productCardLink}
+                <div
+                  className={styles.productCardContainer}
+                  role="link"
+                  tabIndex={0}
+                  aria-label={$t("Databend Cloud")}
+                  onClick={() => history.push("/guides/cloud/")}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      history.push("/guides/cloud/");
+                    }
+                  }}
                 >
                   <div className={styles.productCardHeader}>
                     <LightDatabendCloudSingleSvg width={120} />
                     <div className={styles.productCardTitle}>
-                      <h5>Databend Cloud</h5>
+                      <h5>{$t("Databend Cloud")}</h5>
                       <span className={styles.productCardBadge}>{$t("Recommended")}</span>
                     </div>
                   </div>
@@ -155,40 +170,79 @@ const DocsOverview: FC = (): ReactElement => {
                       <span className={styles.metricLabel}>{$t("Cold Start")}</span>
                     </div>
                     <div className={styles.metric}>
-                      <span className={styles.metricValue}>&gt;50%</span>
-                      <span className={styles.metricLabel}>{$t("Cost Savings")}</span>
+                      <span className={styles.metricValue}>{cloudCreditsValue}</span>
+                      <span className={styles.metricLabel}>{$t("Free Credits")}</span>
                     </div>
                     <div className={styles.metric}>
-                      <span className={styles.metricValue}>99.95%</span>
-                      <span className={styles.metricLabel}>SLA</span>
+                      <span className={styles.metricValue}>SOC 2</span>
+                      <span className={styles.metricLabel}>{$t("Type II")}</span>
                     </div>
                   </div>
-                </Link>
+                  <div className={styles.productCardCtas}>
+                    <Link
+                      className={styles.productCardCtaPrimary}
+                      to={cloudAppUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    >
+                      {$t("Start Free")} →
+                    </Link>
+                  </div>
+                </div>
               </Card>
             </Col>
             <Col {...colLayout2}>
               <Card padding={[24, 24]} className={clsx(styles.cardActiveOut, styles.productCard)}>
-                <Link
-                  title={$t("Self-Hosted")}
-                  to={"/guides/self-hosted/"}
-                  className={styles.productCardLink}
+                <div
+                  className={styles.productCardContainer}
+                  role="link"
+                  tabIndex={0}
+                  aria-label={$t("Databend Enterprise")}
+                  onClick={() => history.push("/guides/self-hosted/")}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      history.push("/guides/self-hosted/");
+                    }
+                  }}
                 >
                   <div className={styles.productCardHeader}>
                     <LightDatabendSingleSvg width={120} />
                     <div className={styles.productCardTitle}>
-                      <h5>Databend Self-Hosted</h5>
-                      <span className={styles.productCardBadgeAlt}>{$t("Open Source")}</span>
+                      <h5>{$t("Databend Enterprise")}</h5>
+                      <span className={styles.productCardBadgeAlt}>{$t("Enterprise")}</span>
                     </div>
                   </div>
                   <p className={styles.productCardDesc}>
-                    {$t("Deploy on your infrastructure. Full control over data and environment.")}
+                    {$t("Self-hosted on the open-source core, with enterprise support.")}
                   </p>
-                  <div className={styles.productCardTags}>
-                    <span className={styles.tag}>🦀 Rust</span>
-                    <span className={styles.tag}>Apache 2.0</span>
-                    <span className={styles.tag}>☁️ Cloud-Native</span>
+                  <div className={styles.productCardMetrics}>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>{$t("Deploy")}</span>
+                      <span className={styles.metricLabel}>{$t("Your Infra")}</span>
+                    </div>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>{$t("Control")}</span>
+                      <span className={styles.metricLabel}>{$t("Your Data")}</span>
+                    </div>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>{$t("Support")}</span>
+                      <span className={styles.metricLabel}>{$t("Enterprise Support")}</span>
+                    </div>
                   </div>
-                </Link>
+                  <div className={styles.productCardCtas}>
+                    <Link
+                      className={styles.productCardCtaSecondary}
+                      to="/guides/self-hosted/quickstart/"
+                      onClick={(e) => e.stopPropagation()}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    >
+                      {$t("Install Locally")} →
+                    </Link>
+                  </div>
+                </div>
               </Card>
             </Col>
           </Row>
