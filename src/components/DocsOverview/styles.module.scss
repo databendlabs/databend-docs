@@ -127,6 +127,18 @@
   color: inherit !important;
 }
 
+.productCardContainer {
+  display: block;
+  height: 100%;
+  cursor: pointer;
+}
+
+.productCardContainer:focus-visible {
+  outline: 2px solid #0070f3;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
 .productCardHeader {
   display: flex;
   align-items: center;
@@ -180,6 +192,35 @@
   gap: 16px;
   padding-top: 16px;
   border-top: 1px solid var(--color-border);
+}
+
+.productCardCtas {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.productCardCtaPrimary {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff !important;
+  background: linear-gradient(135deg, #0070f3, #00a8ff);
+  text-decoration: none !important;
+}
+
+.productCardCtaSecondary {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: hsl(var(--foreground)) !important;
+  background: var(--color-fill-0);
+  border: 1px solid var(--color-border);
+  text-decoration: none !important;
 }
 
 .metric {
