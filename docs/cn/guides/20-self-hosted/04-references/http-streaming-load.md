@@ -164,6 +164,8 @@ docker logs -f databend-streaming-load
 
 ### 步骤 2：建库建表
 
+建一张带 `city` 列的表（在后面的可选步骤里会用到）：
+
 ```shell
 curl -sS -u databend:databend \
   -H 'Content-Type: application/json' \
@@ -172,7 +174,7 @@ curl -sS -u databend:databend \
 
 curl -sS -u databend:databend \
   -H 'Content-Type: application/json' \
-  -d '{"sql":"create or replace table demo.people (id int, name string, age int)"}' \
+  -d '{"sql":"create or replace table demo.people (id int, name string, age int, city string)"}' \
   http://localhost:8000/v1/query/ >/dev/null
 ```
 

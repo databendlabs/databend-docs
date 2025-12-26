@@ -170,6 +170,8 @@ docker logs -f databend-streaming-load
 
 ### Step 2. Create a Table
 
+Create a table with an extra `city` column (used later in the optional step):
+
 ```shell
 curl -sS -u databend:databend \
   -H 'Content-Type: application/json' \
@@ -178,7 +180,7 @@ curl -sS -u databend:databend \
 
 curl -sS -u databend:databend \
   -H 'Content-Type: application/json' \
-  -d '{"sql":"create or replace table demo.people (id int, name string, age int)"}' \
+  -d '{"sql":"create or replace table demo.people (id int, name string, age int, city string)"}' \
   http://localhost:8000/v1/query/ >/dev/null
 ```
 
