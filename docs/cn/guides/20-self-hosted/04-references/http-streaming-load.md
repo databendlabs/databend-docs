@@ -53,6 +53,17 @@ FILE_FORMAT=(type=<format> [<options>...])
 X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)
 ```
 
+### 列映射规则
+
+- **不写列清单，也不写 `VALUES`**：按表的列定义顺序写入（文件字段依次对应表列）。
+- **写了列清单，但不写 `VALUES`**：按列清单的顺序写入（文件字段依次对应列清单）。
+- **写了列清单且写 `VALUES`**：
+  - 每个目标列对应 `VALUES` 中的一个表达式。
+  - `VALUES` 里的每个 `?` 会依次消费上传文件里的一个字段。
+- **未提供的列**：
+  - 如果该列有 `DEFAULT`，则使用默认值；
+  - 否则写入 `NULL`（若列是 `NOT NULL` 则会失败）。
+
 **cURL 模板：**
 
 ```shell

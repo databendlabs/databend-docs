@@ -53,6 +53,17 @@ Example (load two columns from a CSV file and set a constant):
 X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from @_databend_load file_format=(type=csv skip_header=1)
 ```
 
+### Column mapping rules
+
+- **No column list, no `VALUES`**: file fields map to table columns by table definition order.
+- **With column list, no `VALUES`**: file fields map to the listed columns in order.
+- **With column list and `VALUES`**:
+  - Each target column gets the corresponding expression in `VALUES`.
+  - Each `?` consumes one field from the uploaded file, in order.
+- **Columns not provided**:
+  - Use column `DEFAULT` value if defined.
+  - Otherwise insert `NULL` (and fail if the column is `NOT NULL`).
+
 **cURL template:**
 
 ```shell
