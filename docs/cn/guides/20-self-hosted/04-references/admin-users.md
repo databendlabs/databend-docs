@@ -1,5 +1,6 @@
 ---
 title: 配置管理用户
+sidebar_position: 10
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
