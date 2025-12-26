@@ -84,6 +84,8 @@ X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from 
     ```text
     X-Databend-SQL: insert into demo.people(id,name) from @_databend_load file_format=(type=csv skip_header=1 error_on_column_count_mismatch=false)
     ```
+  - This only helps when you want the **first N fields**. Streaming load maps CSV fields by position and does not support selecting non-adjacent fields (for example, `id,name,age` → insert only `id` and `age`).
+    - Workaround: preprocess the CSV to keep only the needed columns, or load via stage and project columns (for example, `SELECT $1, $3 FROM @stage/file.csv`).
 
 **cURL template:**
 

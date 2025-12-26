@@ -84,6 +84,8 @@ X-Databend-SQL: insert into demo.people(name,age,city) values (?, ?, 'BJ') from 
     ```text
     X-Databend-SQL: insert into demo.people(id,name) from @_databend_load file_format=(type=csv skip_header=1 error_on_column_count_mismatch=false)
     ```
+  - 这个能力只适用于“取前 N 列”的场景。Streaming load 按字段位置映射，不支持挑选非连续列（例如 `id,name,age` 想只导入 `id` 和 `age`）。
+    - 解决思路：先在本地把 CSV 预处理成只包含需要的列，或先上传到 stage 再用 `SELECT $1, $3 FROM @stage/file.csv` 这种方式做列投影。
 
 **cURL 模板：**
 
