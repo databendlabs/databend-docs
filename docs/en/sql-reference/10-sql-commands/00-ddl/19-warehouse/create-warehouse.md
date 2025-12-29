@@ -15,6 +15,8 @@ CREATE WAREHOUSE <warehouse_name>
     WITH WAREHOUSE_SIZE = { XSMALL | SMALL | MEDIUM | LARGE | XLARGE | XXLARGE | XXXLARGE }
 ```
 
+Tip: If `<warehouse_name>` contains `-`, quote it with backticks or double quotes.
+
 ## Examples
 
 This example creates an `XSMALL` warehouse:

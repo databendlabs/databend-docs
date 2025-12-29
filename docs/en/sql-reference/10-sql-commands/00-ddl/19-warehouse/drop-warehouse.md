@@ -13,6 +13,8 @@ Removes the specified warehouse and frees up the resources associated with it.
 DROP WAREHOUSE <warehouse_name>
 ```
 
+Tip: If `<warehouse_name>` contains `-`, quote it with backticks or double quotes.
+
 ## Examples
 
 This example removes the `testwarehouse` warehouse:
