@@ -6,25 +6,24 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.687"/>
 
-创建一个具有指定大小的计算集群（Warehouse），或通过从特定节点组分配节点来创建。
+创建一个具有指定大小的计算集群。
 
 ## 语法
 
 ```sql
-CREATE WAREHOUSE <warehouse_name>
-[WITH warehouse_size = <size> | ( ASSIGN <node_count> NODES FROM <node_group>[, <node_count> NODES FROM <node_group> ... ] ) ]
+CREATE WAREHOUSE '<warehouse_name>'
+    WITH WAREHOUSE_SIZE = '<warehouse_size>'
 ```
+
+说明：
+
+- `<warehouse_name>` 只能包含英文字母、数字和 `-`。建议统一使用单引号包裹。
+- `<warehouse_size>` 不区分大小写，可选值为：`XSMALL`、`SMALL`、`MEDIUM`、`LARGE`、`XLARGE`、`XXLARGE`、`XXXLARGE`。建议统一使用单引号包裹。
 
 ## 示例
 
-此示例创建一个大小为 10 的计算集群（Warehouse）：
+此示例创建一个 `XSMALL` 规格的计算集群：
 
 ```sql
-CREATE WAREHOUSE test_warehouse WITH warehouse_size = 10;
-```
-
-此示例通过从特定节点组分配节点来创建一个计算集群（Warehouse）：
-
-```sql
-CREATE WAREHOUSE test_warehouse (ASSIGN 1 NODES FROM log_node, ASSIGN 2 NODES FROM infra_node);
+CREATE WAREHOUSE 'testwarehouse' WITH WAREHOUSE_SIZE = 'XSMALL';
 ```

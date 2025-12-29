@@ -10,13 +10,15 @@ Sets the active warehouse for executing queries.
 ## Syntax
 
 ```sql
-USE WAREHOUSE <warehouse_name>
+USE WAREHOUSE '<warehouse_name>'
 ```
+
+We recommend always using single quotes for `<warehouse_name>`.
 
 ## Examples
 
-This example sets `test_warehouse` as the active warehouse:
+This example sets `testwarehouse` as the active warehouse:
 
 ```sql
-USE WAREHOUSE test_warehouse;
+USE WAREHOUSE 'testwarehouse';
 ```

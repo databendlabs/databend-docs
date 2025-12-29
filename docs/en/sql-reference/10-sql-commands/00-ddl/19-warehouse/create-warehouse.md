@@ -6,25 +6,24 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.687"/>
 
-Creates a warehouse with specified size or by assigning nodes from specific node groups.
+Creates a warehouse.
 
 ## Syntax
 
 ```sql
-CREATE WAREHOUSE <warehouse_name>
-[WITH warehouse_size = <size> | ( ASSIGN <node_count> NODES FROM <node_group>[, <node_count> NODES FROM <node_group> ... ] ) ]
+CREATE WAREHOUSE '<warehouse_name>'
+    WITH WAREHOUSE_SIZE = '<warehouse_size>'
 ```
+
+Where:
+
+- `<warehouse_name>` must contain only English letters, digits, and `-`. We recommend always using single quotes.
+- `<warehouse_size>` is case-insensitive and can be one of: `XSMALL`, `SMALL`, `MEDIUM`, `LARGE`, `XLARGE`, `XXLARGE`, `XXXLARGE`. We recommend using single quotes.
 
 ## Examples
 
-This example creates a warehouse with a size of 10:
+This example creates an `XSMALL` warehouse:
 
 ```sql
-CREATE WAREHOUSE test_warehouse WITH warehouse_size = 10;
-```
-
-This example creates a warehouse by assigning specific nodes from node groups:
-
-```sql
-CREATE WAREHOUSE test_warehouse (ASSIGN 1 NODES FROM log_node, ASSIGN 2 NODES FROM infra_node);
+CREATE WAREHOUSE 'testwarehouse' WITH WAREHOUSE_SIZE = 'XSMALL';
 ```

@@ -10,13 +10,15 @@ Removes the specified warehouse and frees up the resources associated with it.
 ## Syntax
 
 ```sql
-DROP WAREHOUSE <warehouse_name>
+DROP WAREHOUSE '<warehouse_name>'
 ```
+
+We recommend always using single quotes for `<warehouse_name>`.
 
 ## Examples
 
-This example removes the `test_warehouse` warehouse:
+This example removes the `testwarehouse` warehouse:
 
 ```sql
-DROP WAREHOUSE test_warehouse;
+DROP WAREHOUSE 'testwarehouse';
 ```

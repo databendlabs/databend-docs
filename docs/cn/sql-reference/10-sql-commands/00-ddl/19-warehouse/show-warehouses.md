@@ -3,9 +3,11 @@ title: SHOW WAREHOUSES
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.687"/>
+<FunctionDescription description="引入或更新于：v1.2.687"/>
 
-返回所有现有计算集群的列表，以及它们的类型和状态。
+列出当前租户下的所有计算集群。
+
+结果包含 `name`、`state`、`size`、`version`、`auto_suspend`、`cache_size`、`spill_size`、`created_on` 等列。
 
 ## 语法
 
@@ -17,10 +19,4 @@ SHOW WAREHOUSES
 
 ```sql
 SHOW WAREHOUSES;
-
-┌───────────────────────────────────────────┐
-│    warehouse   │      type      │  status │
-├────────────────┼────────────────┼─────────┤
-│ test_warehouse │ System-Managed │ Running │
-└───────────────────────────────────────────┘
 ```
