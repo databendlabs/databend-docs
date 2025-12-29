@@ -2182,11 +2182,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-commands/ddl/warehouse/alter-warehouse</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://docs.databend.com/sql/sql-commands/ddl/warehouse/create-warehouse</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -2197,27 +2192,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.databend.com/sql/sql-commands/ddl/warehouse/rename-warehouse</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-commands/ddl/warehouse/resume-warehouse</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-commands/ddl/warehouse/show-online-nodes</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://docs.databend.com/sql/sql-commands/ddl/warehouse/show-warehouses</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://docs.databend.com/sql/sql-commands/ddl/warehouse/suspend-warehouse</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

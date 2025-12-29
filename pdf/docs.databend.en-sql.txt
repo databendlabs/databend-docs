@@ -431,14 +431,9 @@ https://docs.databend.com/sql/sql-commands/ddl/virtual-column/
 https://docs.databend.com/sql/sql-commands/ddl/virtual-column/refresh-virtual-column
 https://docs.databend.com/sql/sql-commands/ddl/virtual-column/show-virtual-columns
 https://docs.databend.com/sql/sql-commands/ddl/warehouse/
-https://docs.databend.com/sql/sql-commands/ddl/warehouse/alter-warehouse
 https://docs.databend.com/sql/sql-commands/ddl/warehouse/create-warehouse
 https://docs.databend.com/sql/sql-commands/ddl/warehouse/drop-warehouse
-https://docs.databend.com/sql/sql-commands/ddl/warehouse/rename-warehouse
-https://docs.databend.com/sql/sql-commands/ddl/warehouse/resume-warehouse
-https://docs.databend.com/sql/sql-commands/ddl/warehouse/show-online-nodes
 https://docs.databend.com/sql/sql-commands/ddl/warehouse/show-warehouses
-https://docs.databend.com/sql/sql-commands/ddl/warehouse/suspend-warehouse
 https://docs.databend.com/sql/sql-commands/ddl/warehouse/use-warehouse
 https://docs.databend.com/sql/sql-commands/ddl/workload-group/
 https://docs.databend.com/sql/sql-commands/ddl/workload-group/alter-workload-group

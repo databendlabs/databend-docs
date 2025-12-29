@@ -6,16 +6,19 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.687"/>
 
-Creates a warehouse with specified size.
+Creates a warehouse.
 
 ## Syntax
 
 ```sql
-CREATE WAREHOUSE <warehouse_name>
-    WITH WAREHOUSE_SIZE = { XSMALL | SMALL | MEDIUM | LARGE | XLARGE | XXLARGE | XXXLARGE }
+CREATE WAREHOUSE '<warehouse_name>'
+    WITH WAREHOUSE_SIZE = '<warehouse_size>'
 ```
 
-Tip: If `<warehouse_name>` contains `-`, quote it with quotes (for example, `'name-with-hyphen'`, `` `name-with-hyphen` ``, or `"name-with-hyphen"`).
+Where:
+
+- `<warehouse_name>` must contain only English letters, digits, and `-`. We recommend always using single quotes.
+- `<warehouse_size>` is case-insensitive and can be one of: `XSMALL`, `SMALL`, `MEDIUM`, `LARGE`, `XLARGE`, `XXLARGE`, `XXXLARGE`. We recommend using single quotes.
 
 ## Examples
 
