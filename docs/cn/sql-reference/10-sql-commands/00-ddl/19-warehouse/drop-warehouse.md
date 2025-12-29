@@ -3,7 +3,7 @@ title: DROP WAREHOUSE
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.687"/>
+<FunctionDescription description="引入或更新于：v1.2.687"/>
 
 删除指定的计算集群并释放与其关联的资源。
 

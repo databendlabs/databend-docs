@@ -5,7 +5,9 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.687"/>
 
-Returns a list of all existing warehouses along with their type and status.
+Lists all warehouses in the current tenant.
+
+The result includes columns like `name`, `state`, `size`, `version`, `auto_suspend`, `cache_size`, `spill_size`, and `created_on`.
 
 ## Syntax
 
@@ -17,10 +19,4 @@ SHOW WAREHOUSES
 
 ```sql
 SHOW WAREHOUSES;
-
-┌───────────────────────────────────────────┐
-│    warehouse   │      type      │  status │
-├────────────────┼────────────────┼─────────┤
-│ test_warehouse │ System-Managed │ Running │
-└───────────────────────────────────────────┘
 ```
