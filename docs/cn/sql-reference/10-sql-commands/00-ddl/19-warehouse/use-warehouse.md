@@ -13,12 +13,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 USE WAREHOUSE <warehouse_name>
 ```
 
-提示：如果 `<warehouse_name>` 包含 `-`，请用反引号或双引号包裹。
+提示：如果 `<warehouse_name>` 包含 `-`，请用引号包裹，例如：`'name-with-hyphen'`、`` `name-with-hyphen` `` 或 `"name-with-hyphen"`。
 
 ## 示例
 
 此示例将 `testwarehouse` 设置为当前使用的计算集群：
 
 ```sql
-USE WAREHOUSE testwarehouse;
+USE WAREHOUSE 'testwarehouse';
 ```

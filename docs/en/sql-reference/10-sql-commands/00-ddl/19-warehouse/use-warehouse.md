@@ -13,12 +13,12 @@ Sets the active warehouse for executing queries.
 USE WAREHOUSE <warehouse_name>
 ```
 
-Tip: If `<warehouse_name>` contains `-`, quote it with backticks or double quotes.
+Tip: If `<warehouse_name>` contains `-`, quote it with quotes (for example, `'name-with-hyphen'`, `` `name-with-hyphen` ``, or `"name-with-hyphen"`).
 
 ## Examples
 
 This example sets `testwarehouse` as the active warehouse:
 
 ```sql
-USE WAREHOUSE testwarehouse;
+USE WAREHOUSE 'testwarehouse';
 ```

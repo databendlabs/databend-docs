@@ -15,12 +15,12 @@ CREATE WAREHOUSE <warehouse_name>
     WITH WAREHOUSE_SIZE = { XSMALL | SMALL | MEDIUM | LARGE | XLARGE | XXLARGE | XXXLARGE }
 ```
 
-Tip: If `<warehouse_name>` contains `-`, quote it with backticks or double quotes.
+Tip: If `<warehouse_name>` contains `-`, quote it with quotes (for example, `'name-with-hyphen'`, `` `name-with-hyphen` ``, or `"name-with-hyphen"`).
 
 ## Examples
 
 This example creates an `XSMALL` warehouse:
 
 ```sql
-CREATE WAREHOUSE testwarehouse WITH WAREHOUSE_SIZE = XSMALL;
+CREATE WAREHOUSE 'testwarehouse' WITH WAREHOUSE_SIZE = 'XSMALL';
 ```

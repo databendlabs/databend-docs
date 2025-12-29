@@ -15,12 +15,12 @@ CREATE WAREHOUSE <warehouse_name>
     WITH WAREHOUSE_SIZE = { XSMALL | SMALL | MEDIUM | LARGE | XLARGE | XXLARGE | XXXLARGE }
 ```
 
-提示：如果 `<warehouse_name>` 包含 `-`，请用反引号或双引号包裹。
+提示：如果 `<warehouse_name>` 包含 `-`，请用引号包裹，例如：`'name-with-hyphen'`、`` `name-with-hyphen` `` 或 `"name-with-hyphen"`。
 
 ## 示例
 
 此示例创建一个 `XSMALL` 规格的计算集群：
 
 ```sql
-CREATE WAREHOUSE testwarehouse WITH WAREHOUSE_SIZE = XSMALL;
+CREATE WAREHOUSE 'testwarehouse' WITH WAREHOUSE_SIZE = 'XSMALL';
 ```
