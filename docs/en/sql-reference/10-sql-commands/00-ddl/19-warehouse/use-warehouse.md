@@ -15,8 +15,8 @@ USE WAREHOUSE <warehouse_name>
 
 ## Examples
 
-This example sets `test_warehouse` as the active warehouse:
+This example sets `testwarehouse` as the active warehouse:
 
 ```sql
-USE WAREHOUSE test_warehouse;
+USE WAREHOUSE testwarehouse;
 ```

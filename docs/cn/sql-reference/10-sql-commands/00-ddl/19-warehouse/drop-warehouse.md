@@ -15,8 +15,8 @@ DROP WAREHOUSE <warehouse_name>
 
 ## 示例
 
-此示例删除 `test_warehouse` 计算集群：
+此示例删除 `testwarehouse` 计算集群：
 
 ```sql
-DROP WAREHOUSE test_warehouse;
+DROP WAREHOUSE testwarehouse;
 ```

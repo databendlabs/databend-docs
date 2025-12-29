@@ -10,9 +10,6 @@ title: 计算集群（Warehouse）
 |---------|-------------|
 | [CREATE WAREHOUSE](create-warehouse.md) | 创建新的计算集群用于计算资源 |
 | [DROP WAREHOUSE](drop-warehouse.md) | 删除计算集群 |
-| [RENAME WAREHOUSE](rename-warehouse.md) | 更改计算集群的名称 |
-| [SUSPEND WAREHOUSE](suspend-warehouse.md) | 临时停止计算集群以节省资源 |
-| [RESUME WAREHOUSE](resume-warehouse.md) | 重启已暂停的计算集群 |
 | [USE WAREHOUSE](use-warehouse.md) | 为当前会话设置计算集群 |
 
 ## 计算集群信息

@@ -15,8 +15,8 @@ USE WAREHOUSE <warehouse_name>
 
 ## 示例
 
-此示例将 `test_warehouse` 设置为活动计算集群：
+此示例将 `testwarehouse` 设置为当前使用的计算集群：
 
 ```sql
-USE WAREHOUSE test_warehouse;
+USE WAREHOUSE testwarehouse;
 ```

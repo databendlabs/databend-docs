@@ -20,5 +20,5 @@ CREATE WAREHOUSE <warehouse_name>
 此示例创建一个 `XSMALL` 规格的计算集群：
 
 ```sql
-CREATE WAREHOUSE test_warehouse WITH WAREHOUSE_SIZE = XSMALL;
+CREATE WAREHOUSE testwarehouse WITH WAREHOUSE_SIZE = XSMALL;
 ```

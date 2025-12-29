@@ -20,5 +20,5 @@ CREATE WAREHOUSE <warehouse_name>
 This example creates an `XSMALL` warehouse:
 
 ```sql
-CREATE WAREHOUSE test_warehouse WITH WAREHOUSE_SIZE = XSMALL;
+CREATE WAREHOUSE testwarehouse WITH WAREHOUSE_SIZE = XSMALL;
 ```

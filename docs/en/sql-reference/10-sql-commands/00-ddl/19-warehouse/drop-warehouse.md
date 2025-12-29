@@ -15,8 +15,8 @@ DROP WAREHOUSE <warehouse_name>
 
 ## Examples
 
-This example removes the `test_warehouse` warehouse:
+This example removes the `testwarehouse` warehouse:
 
 ```sql
-DROP WAREHOUSE test_warehouse;
+DROP WAREHOUSE testwarehouse;
 ```

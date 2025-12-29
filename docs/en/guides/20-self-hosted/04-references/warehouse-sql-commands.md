@@ -70,3 +70,63 @@ ALTER WAREHOUSE wh1 ADD CLUSTER c1 WITH CLUSTER_SIZE = 2;
 ```sql
 ALTER WAREHOUSE wh1 ASSIGN NODES (ASSIGN 1 NODES FOR default);
 ```
+
+## USE WAREHOUSE
+
+Sets the current warehouse for the session.
+
+```sql
+USE WAREHOUSE <warehouse_name>
+```
+
+```sql
+USE WAREHOUSE wh1;
+```
+
+## RENAME WAREHOUSE
+
+Renames a warehouse.
+
+```sql
+RENAME WAREHOUSE <current_name> TO <new_name>
+```
+
+```sql
+RENAME WAREHOUSE wh1 TO wh1_new;
+```
+
+## SUSPEND WAREHOUSE
+
+Suspends a warehouse.
+
+```sql
+SUSPEND WAREHOUSE <warehouse_name>
+```
+
+```sql
+SUSPEND WAREHOUSE wh1;
+```
+
+## RESUME WAREHOUSE
+
+Resumes a suspended warehouse.
+
+```sql
+RESUME WAREHOUSE <warehouse_name>
+```
+
+```sql
+RESUME WAREHOUSE wh1;
+```
+
+## DROP WAREHOUSE
+
+Drops a warehouse.
+
+```sql
+DROP WAREHOUSE <warehouse_name>
+```
+
+```sql
+DROP WAREHOUSE wh1;
+```

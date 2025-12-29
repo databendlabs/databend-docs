@@ -70,3 +70,63 @@ ALTER WAREHOUSE wh1 ADD CLUSTER c1 WITH CLUSTER_SIZE = 2;
 ```sql
 ALTER WAREHOUSE wh1 ASSIGN NODES (ASSIGN 1 NODES FOR default);
 ```
+
+## USE WAREHOUSE
+
+设置当前会话使用的计算集群。
+
+```sql
+USE WAREHOUSE <warehouse_name>
+```
+
+```sql
+USE WAREHOUSE wh1;
+```
+
+## RENAME WAREHOUSE
+
+重命名计算集群。
+
+```sql
+RENAME WAREHOUSE <current_name> TO <new_name>
+```
+
+```sql
+RENAME WAREHOUSE wh1 TO wh1_new;
+```
+
+## SUSPEND WAREHOUSE
+
+暂停计算集群。
+
+```sql
+SUSPEND WAREHOUSE <warehouse_name>
+```
+
+```sql
+SUSPEND WAREHOUSE wh1;
+```
+
+## RESUME WAREHOUSE
+
+恢复已暂停的计算集群。
+
+```sql
+RESUME WAREHOUSE <warehouse_name>
+```
+
+```sql
+RESUME WAREHOUSE wh1;
+```
+
+## DROP WAREHOUSE
+
+删除计算集群。
+
+```sql
+DROP WAREHOUSE <warehouse_name>
+```
+
+```sql
+DROP WAREHOUSE wh1;
+```
