@@ -1,22 +1,48 @@
 ---
 title: SHOW WAREHOUSES
+sidebar_position: 3
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.687"/>
 
-Lists all warehouses in the current tenant.
-
-The result includes columns like `name`, `state`, `size`, `version`, `auto_suspend`, `cache_size`, `spill_size`, and `created_on`.
+Lists all warehouses visible to the current tenant.
 
 ## Syntax
 
 ```sql
-SHOW WAREHOUSES
+SHOW WAREHOUSES [ LIKE '<pattern>' ]
 ```
+
+| Parameter | Description |
+|-----------|-------------|
+| `LIKE '<pattern>'` | Optional. Filters warehouse names using SQL `LIKE` semantics (`%` matches any sequence, `_` matches any single character). |
+
+## Output Columns
+
+| Column | Description |
+|--------|-------------|
+| `name` | Warehouse name |
+| `state` | Current state (e.g., Running, Suspended) |
+| `size` | Warehouse size |
+| `auto_suspend` | Auto-suspend timeout in seconds |
+| `auto_resume` | Whether auto-resume is enabled |
+| `min_cluster_count` | Minimum cluster count for auto-scaling |
+| `max_cluster_count` | Maximum cluster count for auto-scaling |
+| `comment` | User-defined comment |
+| `created_on` | Creation timestamp |
 
 ## Examples
 
+List all warehouses:
+
 ```sql
 SHOW WAREHOUSES;
+```
+
+List warehouses matching a pattern:
+
+```sql
+SHOW WAREHOUSES LIKE '%prod%';
 ```
