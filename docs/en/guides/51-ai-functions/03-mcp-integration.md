@@ -38,7 +38,10 @@ We recommend using **Databend Cloud** for the best experience.
 <TabItem value="codex" label="Codex">
 
 ```bash
-codex mcp add databend -- -e DATABEND_DSN="databend://user:password@host:port/database?warehouse=your_warehouse" -e SAFE_MODE=false -- uv tool run mcp-databend
+codex mcp add databend \
+  --env DATABEND_DSN='databend://user:password@host:port/database?warehouse=your_warehouse' \
+  --env SAFE_MODE='false' \
+  -- uv tool run mcp-databend
 ```
 
 Or add to `~/.codex/config.toml`:
@@ -58,7 +61,10 @@ SAFE_MODE = "false"
 <TabItem value="claude-code" label="Claude Code">
 
 ```bash
-claude mcp add databend -e DATABEND_DSN="databend://user:password@host:port/database?warehouse=your_warehouse" -e SAFE_MODE=false -- uv tool run mcp-databend
+claude mcp add databend \
+  --env DATABEND_DSN='databend://user:password@host:port/database?warehouse=your_warehouse' \
+  --env SAFE_MODE='false' \
+  -- uv tool run mcp-databend
 ```
 
 </TabItem>
