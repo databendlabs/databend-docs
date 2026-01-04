@@ -38,7 +38,10 @@ import TabItem from '@theme/TabItem';
 <TabItem value="codex" label="Codex">
 
 ```bash
-codex mcp add databend -- -e DATABEND_DSN="databend://user:password@host:port/database?warehouse=your_warehouse" -e SAFE_MODE=false -- uv tool run mcp-databend
+codex mcp add databend \
+  --env DATABEND_DSN='databend://user:password@host:port/database?warehouse=your_warehouse' \
+  --env SAFE_MODE='false' \
+  -- uv tool run mcp-databend
 ```
 
 或添加到 `~/.codex/config.toml`:
@@ -58,7 +61,10 @@ SAFE_MODE = "false"
 <TabItem value="claude-code" label="Claude Code">
 
 ```bash
-claude mcp add databend -e DATABEND_DSN="databend://user:password@host:port/database?warehouse=your_warehouse" -e SAFE_MODE=false -- uv tool run mcp-databend
+claude mcp add databend \
+  --env DATABEND_DSN='databend://user:password@host:port/database?warehouse=your_warehouse' \
+  --env SAFE_MODE='false' \
+  -- uv tool run mcp-databend
 ```
 
 </TabItem>
