@@ -32,7 +32,7 @@ https://vpc.console.aliyun.com/endpoint/cn-beijing/endpoints/new
 
 7. 开启自定义服务域名
 
-![Custom Service Domain](/img/cloud/privatelink/aliyun/custom-service-domain.png)
+![Custom Service Domain](/img/cloud/privatelink/aliyun/endpoint-domain.png)
 
 8. 验证终端连接可用
 
