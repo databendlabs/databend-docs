@@ -11,7 +11,6 @@ These topics provide reference information for the DDL (Data Definition Language
 | **[Database](00-database/index.md)** | Create, alter, and drop databases |
 | **[Table](01-table/index.md)** | Create, alter, and manage tables |
 | **[View](05-view/index.md)** | Create and manage virtual tables based on queries |
-| **[Dictionary](17-dictionary/index.md)** | Create key-value lookup tables for data enrichment |
 
 ## Performance & Indexing
 
