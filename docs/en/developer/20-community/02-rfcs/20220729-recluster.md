@@ -13,8 +13,6 @@ By default, data is stored in tables according to natural dimensions. We need to
 
 ## Design
 
-For more detailed principles and pictures, please refer to [snowflake auto clustering](https://sundy-li.github.io/posts/探索snowflake-auto-clustering/).
-
 The cost of performing full table sorting is very expensive, especially for the tables that constantly have new data inflow. In order to make a balance between efficient pruning and low cost, the tables only need to be roughly sorted instead of fully sorted. Therefore, two metrics are introduced in [Metrics](#metrics) to determine whether the table is well clustered. The goal of recluster is to reduce `overlap` and `depth`.
 
 To avoid churning on the same piece of data many times, we divides the blocks into different levels like LSM trees. The recluster is similar to the LSM compact operation. The `level` represents the number of times the data in that block has been clustered. The recluster operation is performed on the same level.

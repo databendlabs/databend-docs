@@ -13,8 +13,6 @@ description: RFC for recluster a clustered table
 
 ## 设计
 
-有关更详细的原则和图片，请参考 [snowflake auto clustering](https://sundy-li.github.io/posts/探索snowflake-auto-clustering/)。
-
 执行全表排序的成本非常高，特别是对于不断有新数据流入的表。为了在高效修剪和低成本之间取得平衡，表只需要大致排序，而不是完全排序。因此，在 [指标](#metrics) 中引入了两个指标来确定表是否聚簇良好。重新聚簇的目标是减少 `overlap` 和 `depth`。
 
 为了避免多次重复处理同一块数据，我们将块分成不同的级别，类似于 LSM 树。重新聚簇类似于 LSM 压缩操作。`level` 表示该块中的数据已被聚簇的次数。重新聚簇操作在同一级别上执行。
