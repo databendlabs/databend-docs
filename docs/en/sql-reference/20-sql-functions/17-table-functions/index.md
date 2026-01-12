@@ -38,6 +38,7 @@ This page provides reference information for the table functions in Databend. Ta
 | [SHOW_VARIABLES](./show-variables.md) | Shows system variables | `SELECT * FROM SHOW_VARIABLES()` |
 | [STREAM_STATUS](./stream-status.md) | Shows stream status information | `SELECT * FROM STREAM_STATUS('mystream')` |
 | [TASK_HISTROY](./task_histroy.md) | Shows task execution history | `SELECT * FROM TASK_HISTROY('mytask')` |
+| [POLICY_REFERENCES](./policy-references.md) | Returns associations between security policies and tables/views | `SELECT * FROM POLICY_REFERENCES(POLICY_NAME => 'mypolicy')` |
 
 ## Storage Engine Functions
 
