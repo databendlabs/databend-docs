@@ -5,8 +5,8 @@ title: POLICY_REFERENCES
 返回安全策略（Masking Policy 或 Row Access Policy）与表/视图之间的关联关系。可以通过策略名查找使用该策略的所有表，或通过表名查找应用到该表的所有策略。
 
 另请参阅：
-- [ROW ACCESS POLICY](/sql/sql-commands/ddl/row-access-policy/)
-- [MASKING POLICY](/sql/sql-commands/ddl/mask-policy/)
+
+- [MASKING POLICY](/guides/security/masking-policy)
 
 ## 语法
 

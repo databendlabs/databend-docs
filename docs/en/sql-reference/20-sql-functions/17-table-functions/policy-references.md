@@ -5,8 +5,8 @@ title: POLICY_REFERENCES
 Returns the associations between security policies (Masking Policy or Row Access Policy) and tables/views. You can query by policy name to find all tables using it, or by table name to find all policies applied to it.
 
 See also:
-- [ROW ACCESS POLICY](/sql/sql-commands/ddl/row-access-policy/)
-- [MASKING POLICY](/sql/sql-commands/ddl/mask-policy/)
+
+- [MASKING POLICY](/guides/security/masking-policy)
 
 ## Syntax
 
