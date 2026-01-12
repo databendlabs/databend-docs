@@ -27,6 +27,7 @@ title: 表函数 (Table Functions)
 | [SHOW_VARIABLES](./show-variables.md) | 显示系统变量 | `SELECT * FROM SHOW_VARIABLES()` |
 | [STREAM_STATUS](./stream-status.md) | 显示流状态信息 | `SELECT * FROM STREAM_STATUS('mystream')` |
 | [TASK_HISTORY](./task_histroy.md) | 显示任务执行历史 | `SELECT * FROM TASK_HISTORY('mytask')` |
+| [POLICY_REFERENCES](./policy-references.md) | 返回安全策略与表/视图之间的关联关系 | `SELECT * FROM POLICY_REFERENCES(POLICY_NAME => 'mypolicy')` |
 | [FUSE_VACUUM_TEMPORARY_TABLE](./fuse-vacuum-temporary-table.md) | 清理临时表 | `SELECT * FROM FUSE_VACUUM_TEMPORARY_TABLE()` |
 | [FUSE_AMEND](./fuse-amend.md) | 执行数据修正操作 | `SELECT * FROM FUSE_AMEND()` |
 
