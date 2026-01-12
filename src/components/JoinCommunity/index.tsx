@@ -164,9 +164,12 @@ const JoinCommunity: FC<TProps> = ({
             >
               销售电话
             </h6>
-            <div className={clsx("community-group", styles.CommunityGroup)}>
+            <a
+              href="tel:18516888139"
+              className={clsx("community-group", styles.CommunityGroup)}
+            >
               185 1688 8139
-            </div>
+            </a>
           </div>
         ) : (
           <div>
