@@ -19,9 +19,15 @@ To specify a file format in a statement, use the following syntax:
 ... FILE_FORMAT = ( FORMAT_NAME = '<your-custom-format>' )
 ```
 
+Databend determines the file format used by a COPY or Select statement in the following order of priority:
+1. First, it checks if a FILE_FORMAT is explicitly specified within the statement.
+2. If no FILE_FORMAT is specified in the operation, it uses the file format initially defined for the stage at the time of stage creation.
+3. If no file format was defined for the stage during its creation, Databend defaults to using the PARQUET format.
+
+:::note
 - Databend currently supports ORC and AVRO as a source ONLY. Unloading data into an ORC or AVRO file is not supported yet.
-- If you don't specify the FILE_FORMAT when performing a COPY INTO or SELECT operation from a stage, Databend will use the file format that you initially defined for the stage when you created it. In cases where you didn't explicitly specify a file format during the stage creation, Databend defaults to using the PARQUET format. If you specify a different FILE_FORMAT from the one you defined when creating the stage, Databend will prioritize the FILE_FORMAT specified during the operation.
 - For managing custom file formats in Databend, see [File Format](../10-sql-commands/00-ddl/13-file-format/index.md).
+:::
 
 ### formatTypeOptions
 
@@ -41,17 +47,15 @@ formatTypeOptions ::=
 
 ## CSV Options
 
-Databend accepts CVS files that are compliant with [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) and is subject to the following conditions:
+Databend CSV is compliant with [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) and is subject to the following conditions:
 
 - A string must be quoted if it contains the character of a [QUOTE](#quote), [ESCAPE](#escape), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
 - No character will be escaped in a quoted string except [QUOTE](#quote).
 - No space should be left between a [FIELD_DELIMITER](#field_delimiter) and a [QUOTE](#quote).
-- A string will be quoted in CSV if it comes from a serialized Array or Struct field.
-- If you develop a program and generate the CSV files from it, Databend recommends using the CSV library from the programing language.
 
 ### RECORD_DELIMITER
 
-Separates records in an input file.
+Delimiter character(s) to separates records in a file.
 
 **Available Values**:
 
@@ -63,7 +67,7 @@ Separates records in an input file.
 
 ### FIELD_DELIMITER
 
-Separates fields in a record.
+Delimiter character to separates fields in a record.
 
 **Available Values**:
 
@@ -74,71 +78,109 @@ Separates fields in a record.
 
 ### QUOTE (Load Only)
 
-Quotes strings in a CSV file. For data loading, the quote is not necessary unless a string contains the character of a [QUOTE](#quote), [ESCAPE](#escape), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
+Character used to quote values.
 
-**Available Values**: `'`, `"`, or `(backtick)
+For data loading, the quote is not necessary unless a string contains the character of a [QUOTE](#quote-load-only), [ESCAPE](#escape), [RECORD_DELIMITER](#record_delimiter), or [FIELD_DELIMITER](#field_delimiter).
 
-**Default**: `"`
+**Available Values**: `'\''`, `'"'`, or ``'`'``(backtick)
+
+**Default**: `'"'`
 
 ### ESCAPE
 
-Escapes a quote in a quoted string.
+Character used to escape the quote character within quoted values, in addition to [QUOTE](#quote-load-only) itself. 
 
-**Available Values**: `'\\'` or `''`
+In some variants of CSV, quotes are escaped using a special escape character like `\`, instead of escaping quotes by doubling quoting.
+
+**Available Values**: `'\\'` or `''` (emtpy, means only use double quoting)
 
 **Default**: `''`
 
 ### SKIP_HEADER (Load Only)
 
-Specifies how many lines to be skipped from the beginning of the file.
+Number of lines to be skipped from the beginning of the file.
 
 **Default**: `0`
 
-### NAN_DISPLAY (Load Only)
+### OUTPUT_HEADER (Unload Only)
 
-Specifies how "NaN" (Not-a-Number) values are displayed in query results.
+Include a header row with column names.
+
+**Default**: `false`
+
+### NAN_DISPLAY
+
+String that represent a "NaN" (Not-a-Number).
 
 **Available Values**: Must be literal `'nan'` or `'null'` (case-insensitive)
 
 **Default**: `'NaN'`
 
-### NULL_DISPLAY (Load Only)
+### NULL_DISPLAY
 
-Specifies how NULL values are displayed in query results. 
+String that represent a NULL value.
+
+When loading data, unquoted matches always become NULL, quoted matches convert to NULL only when `ALLOW_QUOTED_NULLS=true`.
 
 **Default**: `'\N'`
 
+### ALLOW_QUOTED_NULLS (Load Only)
+
+Allow the conversion of quoted strings to NULL values. 
+
+Quoted strings that match `NULL_DISPLAY` become NULL only when this flag is true. Unquoted matches become NULL regardless of this option.
+
+**Default**: `false`
+
 ### ERROR_ON_COLUMN_COUNT_MISMATCH (Load Only)
 
-ERROR_ON_COLUMN_COUNT_MISMATCH is a boolean option that, when set to true, specifies that an error should be raised if the number of columns in the data file doesn't match the number of columns in the destination table. Setting it to true helps ensure data integrity and consistency during the loading process.
+Return error if the number of columns in the data file doesn't match the number of columns in the destination table.
 
 **Default**: `true`
 
 ### EMPTY_FIELD_AS (Load Only)
 
-Specifies the value that should be used when encountering empty fields, including both `,,` and `,"",`, in the CSV data being loaded into the table.
+The value that unquoted empty fields(i.e `,,`) is converted to.
 
-| Available Values | Description                                                                       |
-|------------------|-----------------------------------------------------------------------------------|
-| `null` (Default) | Interprets empty fields as NULL values. Applicable to nullable columns only.      |
-| `string`         | Interprets empty fields as empty strings (''). Applicable to String columns only. |
-| `field_default`  | Uses the column's default value for empty fields.                                 |
+| Available Values | Convert to                                                          |
+|------------------|----------------------------------------------------------------------------------|
+| `NULL`           | `NULL`. Error if column is not nullable.                                         |
+| `STRING`         | For String columns:`''`. <br/> For other columns: `NULL`. Error if not nullable. |
+| `FIELD_DEFAULT`  | The column's default value.                                                      |
 
-### OUTPUT_HEADER (Unload Only)
+**Default**: `NULL`
 
-Specifies whether to include a header row in the CSV file when exporting data with the `COPY INTO <location>` command. Defaults to `false`.
+### QUOTED_EMPTY_FIELD_AS (Load Only)
+
+The value that quoted empty fields(i.e `,"",`) is converted to.
+
+**Available Values**: same as [EMPTY_FIELD_AS](#empty_field_as-load-only)
+
+**Default**: `STRING`
 
 ### BINARY_FORMAT
 
-Controls the binary encoding format during both data export and import operations, with available values `HEX` (default) and `BASE64`.
+Encoding format for `Binary` column.
+
+**Available Values**: `HEX` or `BASE64`
+
+**Default**: `HEX`
+
+### GEOMETRY_FORMAT
+
+Encoding format for `Geometry` column.
+
+**Available Values**: `EWKT`, `WKB`, `WKB`, `EWKB`, `GEOJSON`
+
+**Default**: `EWKT`
 
 ### COMPRESSION
 
-Specifies the compression algorithm.
+The compression algorithm.
 
 | Available Values | Description                                                     |
 |------------------|-----------------------------------------------------------------|
-| `NONE` (Default) | Indicates that the files are not compressed.                    |
+| `NONE`           | Indicates that the files are not compressed.                    |
 | `AUTO`           | Auto detect compression via file extensions                     |
 | `GZIP`           |                                                                 |
 | `BZ2`            |                                                                 |
@@ -148,29 +190,32 @@ Specifies the compression algorithm.
 | `RAW_DEFLATE`    | Deflate-compressed files (without any header, RFC1951).         |
 | `XZ`             |                                                                 |
 
+**Default**: `NONE`
+
 ## TSV Options
 
-Databend is subject to the following conditions when dealing with a TSV file:
+Databend TSV is subject to the following conditions:
 
-- These characters in a TSV file will be escaped: `\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\\`, `\'`, [RECORD_DELIMITER](#record_delimiter-1), [FIELD_DELIMITER](#field_delimiter-1).
-- Neither quoting nor enclosing is currently supported.
-- A string will be quoted in CSV if it comes from a serialized Array or Struct field.
-- Null is serialized as `\N`.
-
+- [RECORD_DELIMITER](#record_delimiter-1), [FIELD_DELIMITER](#field_delimiter-1) are escaped by `\` to resolve [delimter collision](https://en.wikipedia.org/wiki/Delimiter#Delimiter_collision)
+- In addition to delimters, these characters in are also escaped: `\b`, `\f`, `\r`, `\n`, `\t`, `\0`, `\\`, `\'`.
+- [QUOTE](#quote-load-only) is NOT part of the format.
+- NULL is represent as `\N`.
 
 :::note
 1. In Databend, the main difference between TSV and CSV is NOT using a tab instead of a comma as a field delemiter (which can be changed by options), but using escaping instead of quoting for 
 [delimter collision](https://en.wikipedia.org/wiki/Delimiter#Delimiter_collision)
 2. We recommend CSV over TSV as a storage format since it has a formal standard.
 3. TSV can be used to load files generated by
-   1. Clickhouse TSV file format.
-   2. MySQL `mysqldump` command with option `--tab` without `--fields-enclosed-by` or `--fields-optinally-enclosed-by`, if the later two is specified, use CSV instead.
-   3. Snowflake CSV without `ESCAPE_UNENCLOSED_FIELD`. if `ESCAPE_UNENCLOSED_FIELD` is specified, use CSV instead.
+   1. [Clickhouse TSV](https://clickhouse.com/docs/integrations/data-formats/csv-tsv#tsv-tab-separated-files)
+   2. [MySQL TabSeperated](https://dev.mysql.com/doc/refman/8.4/en/mysqldump.html) MySQL `mysqldump --tab`. If `--fields-enclosed-by` or `--fields-optinally-enclosed-by`, use CSV instead.
+   3. [Postgresql TEXT](https://www.postgresql.org/docs/current/sql-copy.html).
+   4. [Snowflake CSV](https://docs.snowflake.com/en/sql-reference/sql/create-file-format#type-csv) with default options. If `ESCAPE_UNENCLOSED_FIELD` is specified, use CSV instead.
+   5. Hive Textfile.
 :::
 
 ### RECORD_DELIMITER
 
-Separates records in an input file.
+Delimiter character(s) to separates records in a file.
 
 **Available Values**:
 
@@ -182,7 +227,7 @@ Separates records in an input file.
 
 ### FIELD_DELIMITER
 
-Separates fields in a record.
+Delimiter character to separates fields in a record.
 
 **Available Values**:
 
@@ -199,22 +244,22 @@ Same as [the COMPRESSION option for CSV](#compression).
 
 ### NULL_FIELD_AS (Load Only)
 
-Specifies how to handle null values during data loading. Refer to the options in the table below for possible configurations.
+The value that `null` is converted to.
 
-| Available Values        | Description                                                                                             |
-|-------------------------|---------------------------------------------------------------------------------------------------------|
-| `NULL` (Default)        | Interprets null values as NULL for nullable fields. An error will be generated for non-nullable fields. |
-| `FIELD_DEFAULT`         | Uses the default value of the field for null values.                                                    |
+| Available Values        | Convert to                                               |
+|-------------------------|----------------------------------------------------------|
+| `NULL` (Default)        | NULL for nullable fields. Error for non-nullable fields. |
+| `FIELD_DEFAULT`         | The default value of the field.                          |
 
 ### MISSING_FIELD_AS (Load Only)
 
-Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
+The value that missing field is converted to.
 
-| Available Values | Description                                                                                   |
-|------------------|-----------------------------------------------------------------------------------------------|
-| `ERROR` (Default)  | Generates an error if a missing field is encountered.                                         |
-| `NULL`             | Interprets missing fields as NULL values. An error will be generated for non-nullable fields. |
-| `FIELD_DEFAULT`    | Uses the default value of the field for missing fields.                                       |
+| Available Values | Convert to                                               |
+|------------------|----------------------------------------------------------|
+| `ERROR` (Default)| Error.                                                   |
+| `NULL`           | NULL for nullable fields. Error for non-nullable fields. |
+| `FIELD_DEFAULT`  | The default value of the field.                          |
 
 ### COMPRESSION
 
@@ -224,16 +269,16 @@ Same as [the COMPRESSION option for CSV](#compression).
 
 ### MISSING_FIELD_AS (Load Only)
 
-Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
+The value that missing field is converted to.
 
-| Available Values | Description                                                                                   |
-|------------------|-----------------------------------------------------------------------------------------------|
-| `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
-| `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
+| Available Values | Convert to                                               |
+|------------------|----------------------------------------------------------|
+| `ERROR` (Default)| Error.                                                   |
+| `FIELD_DEFAULT`  | The default value of the field.                          |
 
 ### COMPRESSION (Unload Only)
 
-Specifies the compression algorithm, which is used for compressing internal blocks of the file rather than the entire file, so the output remains in Parquet format.
+Compression algorithm for internal blocks of parquet file.
 
 | Available Values | Description                                                                 |
 |------------------|-----------------------------------------------------------------------------|
@@ -243,23 +288,24 @@ Specifies the compression algorithm, which is used for compressing internal bloc
 
 ## ORC Options
 
+
 ### MISSING_FIELD_AS (Load Only)
 
-Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
+The value that missing field is converted to.
 
-| Available Values | Description                                                                                   |
-|------------------|-----------------------------------------------------------------------------------------------|
-| `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
-| `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
+| Available Values | Convert to                                               |
+|------------------|----------------------------------------------------------|
+| `ERROR` (Default)| Error.                                                   |
+| `FIELD_DEFAULT`  | The default value of the field.                          |
 
 
 ## AVRO Options
 
 ### MISSING_FIELD_AS (Load Only)
 
-Determines the behavior when encountering missing fields during data loading. Refer to the options in the table below for possible configurations.
+The value that missing field is converted to.
 
-| Available Values | Description                                                                                   |
-|------------------|-----------------------------------------------------------------------------------------------|
-| `ERROR` (Default)| Generates an error if a missing field is encountered.                                         |
-| `FIELD_DEFAULT`  | Uses the default value of the field for missing fields.                                       |
+| Available Values | Convert to                                               |
+|------------------|----------------------------------------------------------|
+| `ERROR` (Default)| Error.                                                   |
+| `FIELD_DEFAULT`  | The default value of the field.                          |
