@@ -1,4 +1,9 @@
 const siteRedirects = [
+  // UDF doc consolidation (Embedded -> Scalar Function)
+  {
+    from: '/sql/sql-commands/ddl/udf/ddl-create-function-embedded',
+    to: '/sql/sql-commands/ddl/udf/ddl-create-function#python'
+  },
   {
     from: '/guides/access-data-lake',
     to: '/sql/sql-reference/table-engines/'
