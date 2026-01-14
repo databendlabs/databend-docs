@@ -130,7 +130,8 @@ function Footer() {
               { "@type": "WebPage", "url": "https://www.databend.com/download/", "name": "Databend Download" },
               { "@type": "WebPage", "url": "https://www.databend.com/comparison/", "name": "Comparisons between Databend Cloud and Snowflake" },
               { "@type": "WebPage", "url": "https://www.databend.com/join-us/", "name": "Join Us" },
-              { "@type": "WebPage", "url": "https://www.databend.com/resource/", "name": "Databend Resources & Logos" }
+              { "@type": "WebPage", "url": "https://www.databend.com/resource/", "name": "Databend Resources & Logos" },
+              { "@type": "WebPage", "url": "https://www.databend.com/mcp/", "name": "Connect AI Agents to Databend" }
             ],
             "foundingDate": "2021",
             "contactPoint": {
