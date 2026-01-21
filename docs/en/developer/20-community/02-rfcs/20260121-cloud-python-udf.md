@@ -1,6 +1,6 @@
 ---
-title: Cloud Python UDF
-description: RFC for cloud python udf
+title: Sandbox Python UDF
+description: RFC for sandbox python udf
 ---
 
 # Motivation
@@ -13,8 +13,8 @@ The current Python UDF implementation has the following issues:
 This RFC proposes addressing these issues by moving the execution and resource management of Python UDFs to a cloud-based environment.
 
 # Guide-level explanation
-From the user’s perspective, the UDF syntax remains unchanged. When CloudScriptUDF is not enabled, the existing ScriptUDF behavior is unaffected. 
-Once CloudScriptUDF is enabled, users no longer need to deploy and manage their own Python UDF servers, as execution and resource management are handled by the cloud.
+From the user’s perspective, the UDF syntax remains unchanged. When SandboxUDF is not enabled, the existing ScriptUDF behavior is unaffected.
+Once SandboxUDF is enabled, users no longer need to deploy and manage their own Python UDF servers, as execution and resource management are handled by the cloud.
 
 # Reference-level explanation
 The architecture is divided into three layers:
@@ -83,7 +83,7 @@ service UdfService {
 }
 ```
 ### Query Execution Flow
-On the Query side, when the `cloud_script_udf` configuration is enabled,
+On the Query side, when the `enable_udf_sandbox` configuration is enabled,
 executing a Script UDF follows the workflow below:
 
 1. The Python code and metadata are packaged into a JSON runtime spec.
@@ -119,10 +119,10 @@ workers, is responsible for the following:
 Two new configuration options are introduced under the [query] section:
 ```toml
 [query]
-enable_udf_cloud_script = true
+enable_udf_sandbox = true
 cloud_control_grpc_server_address = "http://0.0.0.0:50051"
 ```
-- enable_udf_cloud_script
+- enable_udf_sandbox
   - Enables execution of Script UDFs through the Cloud Control Plane. When
   enabled, Script UDFs are packaged and executed in isolated sandbox
   environments instead of the local runtime.
