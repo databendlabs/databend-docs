@@ -20,6 +20,7 @@ CREATE WAREHOUSE [ IF NOT EXISTS ] <warehouse_name>
     [ WITH ] max_cluster_count = <nullable_unsigned_number>
     [ WITH ] min_cluster_count = <nullable_unsigned_number>
     [ WITH ] comment = '<string_literal>'
+    [ WITH ] TAG ( <tag_name> = '<tag_value>' [ , <tag_name> = '<tag_value>' , ... ] )
 ```
 
 | Parameter | Description |
@@ -38,6 +39,7 @@ CREATE WAREHOUSE [ IF NOT EXISTS ] <warehouse_name>
 | `MAX_CLUSTER_COUNT` | `NULL` or non-negative integer | `0` | Upper bound for auto-scaling clusters. `0` disables auto-scale. |
 | `MIN_CLUSTER_COUNT` | `NULL` or non-negative integer | `0` | Lower bound for auto-scaling clusters; should be ≤ `MAX_CLUSTER_COUNT`. |
 | `COMMENT` | String | Empty | Free-form text surfaced by `SHOW WAREHOUSES`. |
+| `TAG` | Key-value pairs: `TAG ( key1 = 'value1', key2 = 'value2' )` | None | Resource tags for categorization and organization (similar to AWS tags). Used for cost allocation, environment identification, or team ownership. |
 
 - Options may appear in any order and may repeat (the later value wins).
 - `AUTO_SUSPEND`, `MAX_CLUSTER_COUNT`, and `MIN_CLUSTER_COUNT` accept `= NULL` to reset to `0`.
@@ -54,7 +56,8 @@ CREATE WAREHOUSE IF NOT EXISTS etl_wh
     auto_resume = FALSE
     max_cluster_count = 4
     min_cluster_count = 2
-    comment = 'Nightly ETL warehouse';
+    comment = 'Nightly ETL warehouse'
+    TAG (environment = 'production', team = 'data-engineering', cost_center = 'analytics');
 ```
 
 This example creates a basic Small warehouse:

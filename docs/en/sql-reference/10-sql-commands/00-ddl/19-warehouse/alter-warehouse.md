@@ -23,6 +23,12 @@ ALTER WAREHOUSE <warehouse_name>
     [ WITH ] max_cluster_count = <nullable_unsigned_number>
     [ WITH ] min_cluster_count = <nullable_unsigned_number>
     [ WITH ] comment = '<string_literal>'
+
+ALTER WAREHOUSE <warehouse_name> SET TAG <tag_name> = '<tag_value>' [ , <tag_name> = '<tag_value>' ... ]
+
+ALTER WAREHOUSE <warehouse_name> UNSET TAG <tag_name> [ , <tag_name> ... ]
+
+ALTER WAREHOUSE <warehouse_name> RENAME TO <new_name>
 ```
 
 | Parameter | Description |
@@ -46,6 +52,9 @@ The `SET` clause accepts the same options as [CREATE WAREHOUSE](create-warehouse
 
 - `NULL` is valid for numeric options to reset them to `0`.
 - Supplying `SET` with no options raises an error.
+- `SET TAG` adds or updates one or more tags. Multiple tags can be set in a single statement separated by commas.
+- `UNSET TAG` removes one or more tags by their keys. Non-existent tag keys are silently ignored.
+- `RENAME TO` requires the warehouse to be suspended and uses the same naming rules as `CREATE`.
 
 ## Examples
 
@@ -74,4 +83,13 @@ Disable auto-suspend:
 
 ```sql
 ALTER WAREHOUSE my_wh SET auto_suspend = NULL;
+
+Manage tags:
+
+```sql
+ALTER WAREHOUSE wh_hot SET TAG environment = 'production';
+ALTER WAREHOUSE wh_hot SET TAG environment = 'staging', owner = 'john', cost_center = 'eng';
+ALTER WAREHOUSE wh_hot UNSET TAG environment;
+ALTER WAREHOUSE wh_hot UNSET TAG environment, owner, cost_center;
+```
 ```

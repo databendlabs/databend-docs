@@ -20,6 +20,7 @@ REPLACE WAREHOUSE <warehouse_name>
     [ WITH ] max_cluster_count = <nullable_unsigned_number>
     [ WITH ] min_cluster_count = <nullable_unsigned_number>
     [ WITH ] comment = '<string_literal>'
+    [ WITH ] TAG ( <tag_name> = '<tag_value>' [ , <tag_name> = '<tag_value>' , ... ] )
 ```
 
 | Parameter | Description |
