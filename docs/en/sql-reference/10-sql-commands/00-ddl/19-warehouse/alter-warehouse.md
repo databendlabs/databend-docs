@@ -83,6 +83,7 @@ Disable auto-suspend:
 
 ```sql
 ALTER WAREHOUSE my_wh SET auto_suspend = NULL;
+```
 
 Manage tags:
 
@@ -91,5 +92,4 @@ ALTER WAREHOUSE wh_hot SET TAG environment = 'production';
 ALTER WAREHOUSE wh_hot SET TAG environment = 'staging', owner = 'john', cost_center = 'eng';
 ALTER WAREHOUSE wh_hot UNSET TAG environment;
 ALTER WAREHOUSE wh_hot UNSET TAG environment, owner, cost_center;
-```
 ```
