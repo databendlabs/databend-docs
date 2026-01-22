@@ -15,10 +15,10 @@ Removes a warehouse and frees up the resources associated with it.
 DROP WAREHOUSE [ IF EXISTS ] <warehouse_name>
 ```
 
-| Parameter | Description |
-|-----------|-------------|
-| `IF EXISTS` | Optional. If specified, the command succeeds silently when the warehouse does not exist. Without it, the command fails if the warehouse is absent. |
-| warehouse_name | The name of the warehouse to remove. |
+| Parameter      | Description                                                                                                                                        |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `IF EXISTS`    | Optional. If specified, the command succeeds silently when the warehouse does not exist. Without it, the command fails if the warehouse is absent. |
+| warehouse_name | The name of the warehouse to remove.                                                                                                               |
 
 ## Examples
 

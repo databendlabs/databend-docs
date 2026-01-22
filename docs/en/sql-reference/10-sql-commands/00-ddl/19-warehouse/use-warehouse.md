@@ -15,8 +15,8 @@ Binds the current session to a specific warehouse. Subsequent queries in the ses
 USE WAREHOUSE <warehouse_name>
 ```
 
-| Parameter | Description |
-|-----------|-------------|
+| Parameter      | Description                                                                                          |
+| -------------- | ---------------------------------------------------------------------------------------------------- |
 | warehouse_name | The name of the warehouse to use. The command validates that the warehouse exists and is accessible. |
 
 ## Examples
