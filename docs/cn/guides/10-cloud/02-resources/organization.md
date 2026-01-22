@@ -30,25 +30,30 @@ title: 组织与成员
 
 ## 管理成员
 
-要查看组织中的所有成员，请转到 **管理** > **成员**。此页面提供所有成员的列表，包括他们的电子邮件地址、角色、加入时间和最后活跃时间。如果您是 `account_admin`，您还可以更改成员的角色或从组织中移除成员。
+要查看组织中的所有成员，请转到 **管理** > **用户 & 角色**。此页面提供所有成员的列表，包括他们的电子邮件地址、角色、加入时间和最后活跃时间。如果您是 `account_admin`，您还可以更改成员的角色或从组织中移除成员。
 
 - 列出的角色显示用户被邀请时分配给他们的角色。虽然这些角色可以在页面上更改，但无法使用 SQL 撤销。但是，您可以根据用户的电子邮件地址向他们授予额外的角色或权限。这些由电子邮件地址标识的用户账户也可以在 Databend Cloud 中作为 SQL 用户使用。示例：
 
-    ```sql
-    GRANT ROLE writer to 'eric@databend.com';
-    GRANT SELECT ON *.* TO 'eric@databend.com';
-    ```
+  ```sql
+  GRANT ROLE writer to 'eric@databend.com';
+  GRANT SELECT ON *.* TO 'eric@databend.com';
+  ```
 
-- 该页面不显示使用 SQL 创建的用户。要查看已创建的 SQL 用户，请使用 [SHOW USERS](/sql/sql-commands/ddl/user/user-show-users) 命令。
+- 该页面不显示使用 SQL 创建的用户。要查看已创建的 SQL 用户 ([**CREATE USER**](/sql/sql-commands/ddl/user/user-create-user)、[**CREATE ROLE**](/sql/sql-commands/ddl/user/user-create-role))，请使用 [SHOW USERS](/sql/sql-commands/ddl/user/user-show-users) 命令。
 
 ### 邀请新成员
 
-要邀请新成员加入您的组织，请导航到 **管理** > **成员** 页面并点击 **邀请新成员**。在出现的对话框中，输入用户的电子邮件地址并从列表中选择一个角色。此列表包括内置角色和为您的组织创建的任何自定义角色。有关角色的更多信息，请参见 [角色](/guides/security/access-control/roles)。
+要邀请新成员加入您的组织，请导航到 **管理** > **用户 & 角色** 页面并点击 **邀请新成员**。在出现的对话框中，输入用户的电子邮件地址并从列表中选择一个角色。此列表包括内置角色和为您的组织创建的任何自定义角色。有关角色的更多信息，请参见 [角色](/guides/security/access-control/roles)。
 
 邀请邮件将发送给被邀请的用户。邮件中将包含一个链接，用户可以点击该链接启动注册流程。
 
+![Alt text](@site/static/img/documents/overview/invitecn.png)
+
+![Alt text](@site/static/img/documents/overview/invitecn2.png)
+
 :::note
+
 - 邀请新成员加入组织是仅限于 account_admin 角色的权限。
 
 - 如果您的组织使用试用计划，最多允许一个用户。在这种情况下，您将无法邀请其他成员。
-:::
+  :::

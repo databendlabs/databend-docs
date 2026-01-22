@@ -45,3 +45,13 @@ Databend Cloud 中的工作区（Worksheet）用于组织、运行和保存 SQL 
 
 - 查看他人共享的工作区（Worksheet）：单击侧边栏的 **Worksheets**，然后选择右侧的 **Shared with Me** 选项卡。
 - 共享工作区（Worksheet）后，具备权限的接收者可执行其中 SQL 语句，但无法编辑这些语句。
+
+## 导出查询结果
+
+Databend Cloud 提供导出查询结果的功能。但此功能需要组织 Owner 为团队成员授予 **EXPORT** 权限。出于数据安全考虑，该功能默认处于禁用状态。
+
+![导出按钮](@site/static/img/documents/worksheet/download.png)
+
+如需使用此功能，请联系组织 Owner 开启相应权限 (**管理** > **用户和角色**)：
+
+![导出权限设置](@site/static/img/documents/worksheet/export.png)

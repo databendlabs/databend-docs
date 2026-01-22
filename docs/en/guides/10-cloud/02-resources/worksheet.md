@@ -46,3 +46,13 @@ In the dialog box that appears, select the sharing scope. You can copy and share
 
 - To view the worksheets shared with you by others, click **Worksheets** in the sidebar, then click the **Shared with Me** tab on the right.
 - When you share a worksheet with others, they can execute the SQL statements in it if they have the necessary permissions, but they won't be able to make any edits to the statements.
+
+## Exporting Query Results
+
+Databend Cloud provides the ability to export query results. However, this feature requires the organization Owner to grant the **EXPORT** permission to team members. For data security purposes, this feature is disabled by default.
+
+![Alt text](@site/static/img/documents/worksheet/download.png)
+
+If you need to use this feature, please contact your organization Owner to enable the permission(**Admin** > **Users & Roles**):
+
+![Alt text](@site/static/img/documents/worksheet/export.png)
