@@ -24,6 +24,7 @@ Tags are key-value pairs that help categorize and organize warehouses, similar t
 - **Custom metadata**: Add any arbitrary metadata for organizational purposes
 
 Tag keys and values are arbitrary strings (enclosed in quotes if they contain spaces or special characters). Tags can be:
+
 - Added at warehouse creation time using `WITH TAG (key = 'value', ...)`
 - Updated or added later using `ALTER WAREHOUSE ... SET TAG key = 'value'`
 - Removed using `ALTER WAREHOUSE ... UNSET TAG key`
@@ -31,33 +32,32 @@ Tag keys and values are arbitrary strings (enclosed in quotes if they contain sp
 Tags are returned in API responses and visible through `SHOW WAREHOUSES`.
 
 **Tag Limits:**
+
 - Maximum 10 tags per warehouse
 - Tag name (key) maximum length: 128 characters
 - Tag value maximum length: 256 characters
 
 ## Supported Statements
 
-| Statement           | Purpose                      | Notes                                                               |
-| ------------------- | ---------------------------- | ------------------------------------------------------------------- |
-| `CREATE WAREHOUSE`  | Create a warehouse           | Supports `IF NOT EXISTS` and option list                            |
-| `REPLACE WAREHOUSE` | Recreate a warehouse         | Same semantics as `CREATE WAREHOUSE`, handy for overwriting configs |
-| `ALTER WAREHOUSE`   | Suspend/resume/mutate/rename | `SUSPEND`/`RESUME`, `SET <options>`, or `RENAME TO <name>`          |
-| `DROP WAREHOUSE`    | Delete a warehouse           | Optional `IF EXISTS`                                                |
-| `USE WAREHOUSE`     | Bind the current session     | Validates existence only                                            |
-| `SHOW WAREHOUSES`   | List warehouses              | Optional `LIKE` filter                                              |
-| `QUERY_HISTORY`     | Inspect query logs           | Filter by warehouse, time range, limit                              |
+| Statement          | Purpose                      | Notes                                                      |
+| ------------------ | ---------------------------- | ---------------------------------------------------------- |
+| `CREATE WAREHOUSE` | Create a warehouse           | Supports `IF NOT EXISTS` and option list                   |
+| `ALTER WAREHOUSE`  | Suspend/resume/mutate/rename | `SUSPEND`/`RESUME`, `SET <options>`, or `RENAME TO <name>` |
+| `DROP WAREHOUSE`   | Delete a warehouse           | Optional `IF EXISTS`                                       |
+| `USE WAREHOUSE`    | Bind the current session     | Validates existence only                                   |
+| `SHOW WAREHOUSES`  | List warehouses              | Optional `LIKE` filter                                     |
+| `QUERY_HISTORY`    | Inspect query logs           | Filter by warehouse, time range, limit                     |
 
 ## Warehouse Management
 
-| Command | Description |
-|---------|-------------|
-| [CREATE WAREHOUSE](create-warehouse.md) | Creates a new warehouse |
-| [USE WAREHOUSE](use-warehouse.md) | Sets the current warehouse for the session |
-| [SHOW WAREHOUSES](show-warehouses.md) | Lists all warehouses with optional filtering |
-| [ALTER WAREHOUSE](alter-warehouse.md) | Suspends, resumes, or modifies warehouse settings |
-| [DROP WAREHOUSE](drop-warehouse.md) | Removes a warehouse |
-| [REPLACE WAREHOUSE](replace-warehouse.md) | Recreates a warehouse with new configuration |
-| [QUERY_HISTORY](query-history.md) | Inspects query logs for a warehouse |
+| Command                                 | Description                                       |
+| --------------------------------------- | ------------------------------------------------- |
+| [CREATE WAREHOUSE](create-warehouse.md) | Creates a new warehouse                           |
+| [USE WAREHOUSE](use-warehouse.md)       | Sets the current warehouse for the session        |
+| [SHOW WAREHOUSES](show-warehouses.md)   | Lists all warehouses with optional filtering      |
+| [ALTER WAREHOUSE](alter-warehouse.md)   | Suspends, resumes, or modifies warehouse settings |
+| [DROP WAREHOUSE](drop-warehouse.md)     | Removes a warehouse                               |
+| [QUERY_HISTORY](query-history.md)       | Inspects query logs for a warehouse               |
 
 :::note
 A warehouse represents compute resources used to run queries in Databend Cloud.

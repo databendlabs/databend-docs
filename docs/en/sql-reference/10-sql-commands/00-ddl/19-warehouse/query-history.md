@@ -19,23 +19,23 @@ QUERY_HISTORY
     [ LIMIT <unsigned_integer> ]
 ```
 
-| Parameter | Description |
-|-----------|-------------|
-| `BY WAREHOUSE` | Optional. Filters logs to a specific warehouse. Empty names raise an error. |
-| `FROM` | Optional. Start timestamp for the query range. Format: `YYYY-MM-DD HH:MM:SS` (UTC or explicit timezone). Defaults to 1 hour before `TO`. |
-| `TO` | Optional. End timestamp for the query range. Format: `YYYY-MM-DD HH:MM:SS` (UTC or explicit timezone). Defaults to current time. |
-| `LIMIT` | Optional. Maximum number of records to return. Defaults to `10`. Must be a positive integer. |
+| Parameter      | Description                                                                                                                              |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `BY WAREHOUSE` | Optional. Filters logs to a specific warehouse. Empty names raise an error.                                                              |
+| `FROM`         | Optional. Start timestamp for the query range. Format: `YYYY-MM-DD HH:MM:SS` (UTC or explicit timezone). Defaults to 1 hour before `TO`. |
+| `TO`           | Optional. End timestamp for the query range. Format: `YYYY-MM-DD HH:MM:SS` (UTC or explicit timezone). Defaults to current time.         |
+| `LIMIT`        | Optional. Maximum number of records to return. Defaults to `10`. Must be a positive integer.                                             |
 
 ## Output Columns
 
 The result includes columns such as:
 
-| Column | Description |
-|--------|-------------|
-| `query_id` | Unique identifier for the query |
-| `query_text` | The SQL statement executed |
-| `scan_bytes` | Amount of data scanned |
-| ... | Additional query metrics and metadata |
+| Column       | Description                           |
+| ------------ | ------------------------------------- |
+| `query_id`   | Unique identifier for the query       |
+| `query_text` | The SQL statement executed            |
+| `scan_bytes` | Amount of data scanned                |
+| ...          | Additional query metrics and metadata |
 
 ## Examples
 
