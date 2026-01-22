@@ -101,7 +101,7 @@ Both Snowflake and Databend Cloud was tested under similar conditions:
 ### Prerequisites
 
 - Have a [Snowflake account](https://singup.snowflake.com)
-- Create a [Databend Cloud account](https://www.databend.com/apply/).
+- Create a [Databend Cloud account](https://app.databend.com/register/)
 
 ### Data Ingestion Benchmark
 

@@ -138,7 +138,7 @@ We conducted both Cold and Hot runs for query execution:
 ### Prerequisites
 
 - Have a [Snowflake account](https://singup.snowflake.com)
-- Create a [Databend Cloud account](https://www.databend.com/apply/).
+- Create a [Databend Cloud account](https://app.databend.com/register/)
 
 ### Data Loading
 

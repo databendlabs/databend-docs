@@ -28,7 +28,11 @@ const TryCloudCard: FC = (): ReactElement => {
   return (
     <>
       {!hidden && (
-        <div className={`${styles.card} ${currentLocale === 'zh' ? styles.zh : ''}`}>
+        <div
+          className={`${styles.card} ${
+            currentLocale === "zh" ? styles.zh : ""
+          }`}
+        >
           <div className={styles.header}>
             <h6>{$t("Try Databend Cloud for FREE")}</h6>
             <span onClick={closeCard} className={styles.close}>
@@ -44,7 +48,7 @@ const TryCloudCard: FC = (): ReactElement => {
             href={
               isChina
                 ? "https://app.databend.cn/register?r=doc-card"
-                : "https://www.databend.com/apply/?r=doc-card"
+                : "https://app.databend.cn/register/?r=doc-card"
             }
             className={styles.button}
           >
