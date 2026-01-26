@@ -50,6 +50,8 @@ const TryCloudCard: FC = (): ReactElement => {
                 ? "https://app.databend.cn/register?r=doc-card"
                 : "https://app.databend.cn/register/?r=doc-card"
             }
+            target="_blank"
+            rel="noreferrer"
             className={styles.button}
           >
             {$t("Try it today")}
