@@ -30,7 +30,7 @@ If you're a Databend Cloud user who has accepted invitations from multiple organ
 
 ## Managing Members
 
-To view all the members in your organization, go to **Manage** > **Members**. This page provides a list of all members, including their email addresses, roles, join times, and last active times. If you're an `account_admin`, you can also change a member's role or remove a member from your organization.
+To view all the members in your organization, go to **Admin** > **Users & Roles**. This page provides a list of all members, including their email addresses, roles, join times, and last active times. If you're an `account_admin`, you can also change a member's role or remove a member from your organization.
 
 - The roles listed show the roles assigned to users when they were invited. While these roles can be changed on the page, they cannot be revoked using SQL. However, you can grant additional roles or privileges to users based on their email addresses. These user accounts, identified by their email addresses, can also function as SQL users in Databend Cloud. Example:
 
@@ -39,13 +39,17 @@ GRANT ROLE writer to 'eric@databend.com';
 GRANT SELECT ON *.* TO 'eric@databend.com';
 ```
 
-- The page does not display users created using SQL. To view the SQL users that have been created, use the [SHOW USERS](/sql/sql-commands/ddl/user/user-show-users) command.
+- The page does not display users created using SQL. To view the SQL users that have been created([**CREATE USER**](/sql/sql-commands/ddl/user/user-create-user)、[**CREATE ROLE**](/sql/sql-commands/ddl/user/user-create-role)), use the [SHOW USERS](/sql/sql-commands/ddl/user/user-show-users) command.
 
 ### Inviting New Members
 
-To invite a new member to your organization, navigate to the **Manage** > **Members** page and click on **Invite New Member**. In the dialog box that appears, enter the user's email address and select a role from the list. This list includes built-in roles and any created roles created for your organization. For more information about the roles, see [Roles](/guides/security/access-control/roles).
+To invite a new member to your organization, navigate to the **Admin** > **Users & Roles** page and click on **Invite New Member**. In the dialog box that appears, enter the user's email address and select a role from the list. This list includes built-in roles and any created roles created for your organization. For more information about the roles, see [Roles](/guides/security/access-control/roles).
 
 An invitation email will be sent to the invited user. Inside the email, there will be a link that the user can click on to initiate the signup process.
+
+![Alt text](@site/static/img/documents/overview/invite.png)
+
+![Alt text](@site/static/img/documents/overview/invite2.png)
 
 :::note
 
