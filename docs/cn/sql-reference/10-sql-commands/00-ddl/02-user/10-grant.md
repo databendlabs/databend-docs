@@ -26,6 +26,24 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 要了解什么是权限以及它是如何工作的，请参见 [Privileges](/guides/security/access-control/privileges)。
 
+:::note 重要
+创建 Ownership 对象的 CREATE 类权限不能直接授予用户，必须先授予角色，再将角色授予用户。这些权限包括：
+- CREATE
+- CREATE DATABASE
+- CREATE WAREHOUSE
+- CREATE CONNECTION
+- CREATE SEQUENCE
+- CREATE PROCEDURE
+- CREATE MASKING POLICY
+- CREATE ROW ACCESS POLICY
+
+由于 `ALL` 包含上述 CREATE 权限，`GRANT ALL ... TO USER` 也会失败。例如，`GRANT ALL ON *.* TO USER u1` 或 `GRANT CREATE DATABASE ON *.* TO USER u1` 都会失败。正确做法：
+```sql
+GRANT ALL ON *.* TO ROLE r1;
+GRANT ROLE r1 TO USER u1;
+```
+:::
+
 ```sql
 GRANT {
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
