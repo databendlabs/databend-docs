@@ -24,8 +24,10 @@ sidebar_position: 6
 2. 在 Databend 中创建 SQL 用户，该账户将用于在 Jupyter Notebook 中连接 Databend
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
-GRANT ALL ON *.* TO user1;
+CREATE ROLE user1_role;
+GRANT ALL ON *.* TO ROLE user1_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'user1_role';
+GRANT ROLE user1_role TO user1;
 ```
 
 ### 步骤 2. 部署 Jupyter Notebook
@@ -74,8 +76,10 @@ jupyter notebook
 2. 在 Databend 中创建 SQL 用户，该账户将用于在 Jupyter Notebook 中连接 Databend
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
-GRANT ALL ON *.* TO user1;
+CREATE ROLE user1_role;
+GRANT ALL ON *.* TO ROLE user1_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'user1_role';
+GRANT ROLE user1_role TO user1;
 ```
 
 ### 步骤 2. 部署 Jupyter Notebook

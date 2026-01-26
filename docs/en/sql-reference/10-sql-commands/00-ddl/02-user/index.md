@@ -28,9 +28,9 @@ This page provides a comprehensive overview of user and role operations in Datab
 
 | Command | Description |
 |---------|-------------|
-| [GRANT](10-grant.md) | Assigns privileges to users or roles |
-| [REVOKE](11-revoke.md) | Removes privileges from users or roles |
-| [SHOW GRANTS](22-show-grants.md) | Shows privileges granted to users or roles |
+| [GRANT](10-grant.md) | Assigns privileges to roles |
+| [REVOKE](11-revoke.md) | Removes privileges from roles |
+| [SHOW GRANTS](22-show-grants.md) | Shows role grants and role assignments |
 
 :::note
 Proper user and role management is essential for database security. Always follow the principle of least privilege when granting permissions.

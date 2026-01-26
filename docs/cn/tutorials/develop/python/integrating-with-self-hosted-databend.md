@@ -14,8 +14,10 @@ sidebar_label: "Python Driver 开发 (自建)"
 要让程序连接 Databend 并执行 SQL，需要在代码中提供具备相应权限的 SQL 用户。请在 Databend 中创建账号并授予必要权限。本教程示例使用用户名 `user1`、密码 `abc123`，由于程序会写入数据，因此用户需要 ALL 权限。关于 SQL 用户与权限管理，参见 [User & Role](/sql/sql-commands/ddl/user/)。
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
-GRANT ALL on *.* TO user1;
+CREATE ROLE user1_role;
+GRANT ALL ON *.* TO ROLE user1_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'user1_role';
+GRANT ROLE user1_role TO user1;
 ```
 
 ## 步骤 2：编写 Python 程序

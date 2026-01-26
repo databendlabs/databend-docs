@@ -39,7 +39,8 @@ mysql -h127.0.0.1 -uroot -P3307
 创建用户：
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
+CREATE ROLE airbyte_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'airbyte_role';
 ```
 
 创建数据库：
@@ -48,10 +49,11 @@ CREATE USER user1 IDENTIFIED BY 'abc123';
 CREATE DATABASE airbyte;
 ```
 
-为用户授予权限：
+为角色授予权限并授予给用户：
 
 ```sql
-GRANT ALL PRIVILEGES ON airbyte.* TO user1;
+GRANT ALL PRIVILEGES ON airbyte.* TO ROLE airbyte_role;
+GRANT ROLE airbyte_role TO user1;
 ```
 
 ## 配置 Airbyte

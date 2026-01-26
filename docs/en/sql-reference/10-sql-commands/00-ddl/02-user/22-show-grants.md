@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.845"/>
 
-Lists privileges explicitly granted to a user, to a role, or on a specific object.
+Lists privileges granted to roles, role assignments for users, or privileges on a specific object.
 
 See also:
 
@@ -17,7 +17,7 @@ See also:
 ## Syntax
 
 ```sql
--- List privileges granted to a user
+-- List grants for a user
 SHOW GRANTS FOR <user_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
 -- List privileges granted to a role
@@ -33,7 +33,7 @@ SHOW GRANTS OF ROLE <role_name>
 
 ## Examples
 
-This example illustrates how to list privileges granted to a user, a role, and on a specific object.
+This example illustrates how to list grants for a user, privileges granted to a role, and privileges on a specific object.
 
 ```sql
 -- Create a new user
@@ -54,11 +54,12 @@ GRANT OWNERSHIP ON my_db.* TO ROLE analyst;
 -- List privileges granted to the user
 SHOW GRANTS FOR user1;
 
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ privileges │ object_name │     object_id    │ grant_to │  name  │                         grants                        │
-├────────────┼─────────────┼──────────────────┼──────────┼────────┼───────────────────────────────────────────────────────┤
-│ OWNERSHIP  │ my_db       │               16 │ USER     │ user1  │ GRANT OWNERSHIP ON 'default'.'my_db'.* TO 'user1'@'%' │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ privileges │ object_name │     object_id    │ grant_to │  name  │                       grants                         │
+├────────────┼─────────────┼──────────────────┼──────────┼────────┼──────────────────────────────────────────────────────┤
+│ ROLE       │ NULL        │             NULL │ USER     │ user1  │ GRANT ROLE analyst TO 'user1'@'%'                    │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- List privileges granted to the role
 SHOW GRANTS FOR ROLE analyst;

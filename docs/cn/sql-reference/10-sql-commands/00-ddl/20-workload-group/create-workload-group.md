@@ -42,9 +42,11 @@ WITH cpu_quota = '70%', memory_quota = '80%', max_concurrency = 10;
 用户必须被分配到工作负载组才能启用资源限制。当用户执行查询时，系统会自动应用工作负载组的限制。
 
 ```sql
--- 创建用户并授予权限
-CREATE USER analytics_user IDENTIFIED BY 'password123';
-GRANT ALL ON *.* TO analytics_user;
+-- 创建角色并授予权限
+CREATE ROLE analytics_role;
+GRANT ALL ON *.* TO ROLE analytics_role;
+CREATE USER analytics_user IDENTIFIED BY 'password123' WITH DEFAULT_ROLE = 'analytics_role';
+GRANT ROLE analytics_role TO analytics_user;
 
 -- 将用户分配到工作负载组
 ALTER USER analytics_user WITH SET WORKLOAD GROUP = 'interactive_queries';

@@ -19,8 +19,10 @@ In this tutorial, you'll deploy and integrate a local Databend with [Tableau Des
 2. Create a SQL user in Databend. You will use this account to connect to Databend in Tableau Desktop.
 
 ```sql
-CREATE USER tableau IDENTIFIED BY 'tableau';
-GRANT ALL ON *.* TO tableau;
+CREATE ROLE tableau_role;
+GRANT ALL ON *.* TO ROLE tableau_role;
+CREATE USER tableau IDENTIFIED BY 'tableau' WITH DEFAULT_ROLE = 'tableau_role';
+GRANT ROLE tableau_role TO tableau;
 ```
 
 ### Step 2. Install databend-jdbc
@@ -65,8 +67,10 @@ In this tutorial, you'll deploy and integrate a local Databend with [Tableau Des
 2. Create a SQL user in Databend. You will use this account to connect to Databend in Tableau Desktop.
 
 ```sql
-CREATE USER tableau IDENTIFIED BY 'tableau';
-GRANT ALL ON *.* TO tableau;
+CREATE ROLE tableau_role;
+GRANT ALL ON *.* TO ROLE tableau_role;
+CREATE USER tableau IDENTIFIED BY 'tableau' WITH DEFAULT_ROLE = 'tableau_role';
+GRANT ROLE tableau_role TO tableau;
 ```
 
 ### Step 2. Install databend-jdbc
