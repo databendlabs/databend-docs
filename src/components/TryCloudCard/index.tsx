@@ -48,7 +48,7 @@ const TryCloudCard: FC = (): ReactElement => {
             href={
               isChina
                 ? "https://app.databend.cn/register?r=doc-card"
-                : "https://app.databend.cn/register/?r=doc-card"
+                : "https://app.databend.com/register/?r=doc-card"
             }
             target="_blank"
             rel="noreferrer"
