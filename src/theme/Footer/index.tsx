@@ -122,7 +122,7 @@ function Footer() {
               { "@type": "WebPage", "url": "https://www.databend.com/databend-enterprise/", "name": "Databend Enterprise" },
               { "@type": "WebPage", "url": "https://www.databend.com/databend/", "name": "Databend Community" },
               { "@type": "WebPage", "url": "https://www.databend.com/security/", "name": "Databend Security" },
-              { "@type": "WebPage", "url": "https://www.databend.com/apply/", "name": "Join the Databend Cloud for FREE" },
+              { "@type": "WebPage", "url": "https://app.databend.com/register/", "name": "Join the Databend Cloud for FREE" },
               { "@type": "WebPage", "url": "https://www.databend.com/contact-us/", "name": "Databend Support" },
               { "@type": "WebPage", "url": "https://www.databend.com/use-cases/", "name": "Databend Use Cases" },
               { "@type": "WebPage", "url": "https://www.databend.com/blog/", "name": "Databend Blog" },

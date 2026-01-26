@@ -138,7 +138,7 @@ Snowflake 和 Databend Cloud 均在相似条件下进行了测试：
 ### 前提条件
 
 - 拥有一个 [Snowflake 账户](https://singup.snowflake.com)
-- 创建一个 [Databend Cloud 账户](https://www.databend.com/apply/)。
+- 创建一个 [Databend Cloud 账户](https://app.databend.cn/register/)
 
 ### 数据加载
 
