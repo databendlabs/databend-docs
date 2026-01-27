@@ -26,7 +26,7 @@ Pick a task to get started:
 - [How to choose a MySQL migration path](/tutorials/migrate/)
 - [MySQL CDC with Debezium](/tutorials/migrate/migrating-from-mysql-with-debezium)
 - [MySQL CDC with Flink](/tutorials/migrate/migrating-from-mysql-with-flink-cdc)
-- [MySQL batch: db-archiver / DataX / Addax](/tutorials/migrate/migrating-from-mysql-with-db-archiver)
+- [MySQL batch: bend-archiver / DataX / Addax](/tutorials/migrate/migrating-from-mysql-with-db-archiver)
 - [Snowflake to Databend](/tutorials/migrate/migrating-from-snowflake)
 
 ## Develop with Databend

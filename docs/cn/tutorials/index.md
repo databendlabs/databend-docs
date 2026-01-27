@@ -26,7 +26,7 @@ description: 查找覆盖连接、摄取、迁移、开发与运维 Databend 的
 - [使用 Debezium 实时同步 MySQL](/tutorials/migrate/migrating-from-mysql-with-debezium)
 - [使用 Flink CDC 实时同步 MySQL](/tutorials/migrate/migrating-from-mysql-with-flink-cdc)
 - [使用 Kafka Connect 实时同步 MySQL](/tutorials/migrate/migrating-from-mysql-with-kafka-connect)
-- [使用 db-archiver 离线迁移 MySQL](/tutorials/migrate/migrating-from-mysql-with-db-archiver)
+- [使用 bend-archiver 离线迁移 MySQL](/tutorials/migrate/migrating-from-mysql-with-db-archiver)
 - [使用 DataX 离线迁移 MySQL](/tutorials/migrate/migrating-from-mysql-with-datax)
 - [使用 Addax 离线迁移 MySQL](/tutorials/migrate/migrating-from-mysql-with-addax)
 - [从 Snowflake 迁移数据](/tutorials/migrate/migrating-from-snowflake)

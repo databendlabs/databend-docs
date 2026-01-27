@@ -1,19 +1,19 @@
 ---
-title: Migrate MySQL with db-archiver (Batch)
-sidebar_label: 'MySQL → Databend: db-archiver (Batch)'
+title: Migrate MySQL with bend-archiver (Batch)
+sidebar_label: 'MySQL → Databend: bend-archiver (Batch)'
 ---
 
 > **Capabilities**: Full Load, Incremental  
 > **✅ Recommended** for batch migration of historical data
 
-In this tutorial, we'll walk you through the process of migrating from MySQL to Databend Cloud using db-archiver.
+In this tutorial, we'll walk you through the process of migrating from MySQL to Databend Cloud using bend-archiver.
 
 ## Before You Start
 
 Before you start, ensure you have the following prerequisites in place:
 
 - [Docker](https://www.docker.com/) is installed on your local machine, as it will be used to launch MySQL.
-- [Go](https://go.dev/dl/) is installed on your local machine, as it is required to install db-archiver.
+- [Go](https://go.dev/dl/) is installed on your local machine, as it is required to install bend-archiver.
 - BendSQL is installed on your local machine. See [Installing BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql) for instructions on how to install BendSQL using various package managers.
 
 ## Step 1: Launch MySQL in Docker
@@ -120,11 +120,11 @@ CREATE TABLE my_table (
 );
 ```
 
-## Step 4: Install db-archiver
+## Step 4: Install bend-archiver
 
-Download the db-archiver from the [release page](https://github.com/databendcloud/db-archiver/releases/) according to your arch.
+Download bend-archiver from the [release page](https://github.com/databendlabs/bend-archiver/releases/) according to your arch.
 
-## Step 5: Configure & Run db-archiver
+## Step 5: Configure & Run bend-archiver
 
 1. Create a file named **conf.json** on your local machine with the following content:
 
@@ -155,7 +155,7 @@ Download the db-archiver from the [release page](https://github.com/databendclou
 2. Run the following command in the directory where your **conf.json** file is located to start the migration:
 
 ```bash
-db-archiver -f conf.json
+bend-archiver -f conf.json
 ```
 
 Migration will begin as follows:
@@ -195,7 +195,7 @@ INFO[0001] thread-1: copy into cost: 407 ms              ingest_databend=IngestD
 INFO[0001] thread-1: copy into cost: 475 ms              ingest_databend=IngestData
 2025/01/22 21:45:34 thread-1: ingest 2 rows (2.401148 rows/s), 70 bytes (81.639015 bytes/s)
 2025/01/22 21:45:34 Globla speed: total ingested 6 rows (2.400957 rows/s), 93 bytes (34.813873 bytes/s)
-INFO[0001] Worker dbarchiver finished and data correct, source data count is 6, target data count is 6
+INFO[0001] Worker bendarchiver finished and data correct, source data count is 6, target data count is 6
 end time: 2025-01-22 21:45:34
 total time: 1.269478875s
 ```

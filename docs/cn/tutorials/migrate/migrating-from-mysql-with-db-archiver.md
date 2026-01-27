@@ -1,19 +1,19 @@
 ---
-title: 使用 db-archiver 离线迁移 MySQL
-sidebar_label: 'db-archiver 离线迁移 MySQL'
+title: 使用 bend-archiver 离线迁移 MySQL
+sidebar_label: 'bend-archiver 离线迁移 MySQL'
 ---
 
 > **能力**：全量、增量  
 > **✅ 推荐**：批量迁移历史数据
 
-本教程将演示如何通过 db-archiver 将 MySQL 迁移到 Databend Cloud。
+本教程将演示如何通过 bend-archiver 将 MySQL 迁移到 Databend Cloud。
 
 ## 开始之前
 
 请准备以下环境：
 
 - 本地安装 [Docker](https://www.docker.com/)，用于启动 MySQL。
-- 本地安装 [Go](https://go.dev/dl/)，用于安装 db-archiver。
+- 本地安装 [Go](https://go.dev/dl/)，用于安装 bend-archiver。
 - 本地安装 BendSQL，参见 [安装 BendSQL](/guides/connect/sql-clients/bendsql/#installing-bendsql)。
 
 ## 步骤 1：在 Docker 中启动 MySQL
@@ -98,11 +98,11 @@ CREATE TABLE my_table (
 );
 ```
 
-## 步骤 4：安装 db-archiver
+## 步骤 4：安装 bend-archiver
 
-从 [Releases](https://github.com/databendcloud/db-archiver/releases/) 下载适合你架构的版本。
+从 [Releases](https://github.com/databendlabs/bend-archiver/releases/) 下载适合你架构的版本。
 
-## 步骤 5：配置并运行 db-archiver
+## 步骤 5：配置并运行 bend-archiver
 
 1. 新建本地文件 **conf.json**：
 
@@ -133,7 +133,7 @@ CREATE TABLE my_table (
 2. 在 conf.json 所在目录运行：
 
 ```bash
-db-archiver -f conf.json
+bend-archiver -f conf.json
 ```
 
 控制台将显示迁移进度：
@@ -141,7 +141,7 @@ db-archiver -f conf.json
 ```bash
 start time: 2025-01-22 21:45:33
 ...
-INFO[0001] Worker dbarchiver finished and data correct, source data count is 6, target data count is 6
+INFO[0001] Worker bendarchiver finished and data correct, source data count is 6, target data count is 6
 end time: 2025-01-22 21:45:34
 total time: 1.269478875s
 ```
