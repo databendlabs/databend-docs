@@ -35,24 +35,26 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 
 ### 示例 1：创建用户并授予数据库权限
 
-创建用户并授予数据库权限：
+创建角色并授予数据库权限，然后将角色授予用户：
 
 ```sql
--- 创建新用户
-CREATE USER data_analyst IDENTIFIED BY 'secure_password123';
+-- 创建角色并授予数据库权限
+CREATE ROLE data_analyst_role;
+GRANT SELECT, INSERT ON default.* TO ROLE data_analyst_role;
 
--- 授予数据库权限
-GRANT SELECT, INSERT ON default.* TO data_analyst;
+-- 创建用户并授予角色
+CREATE USER data_analyst IDENTIFIED BY 'secure_password123' WITH DEFAULT_ROLE = 'data_analyst_role';
+GRANT ROLE data_analyst_role TO data_analyst;
 ```
 
-验证用户及权限：
+验证角色及权限：
 ```sql
-SHOW GRANTS FOR data_analyst;
-+---------------------------------------------------+
-| Grants                                            |
-+---------------------------------------------------+
-| GRANT SELECT,INSERT ON 'default'.* TO 'data_analyst'@'%' |
-+---------------------------------------------------+
+SHOW GRANTS FOR ROLE data_analyst_role;
++----------------------------------------------------------------+
+| Grants                                                         |
++----------------------------------------------------------------+
+| GRANT SELECT,INSERT ON 'default'.* TO ROLE 'data_analyst_role' |
++----------------------------------------------------------------+
 ```
 
 ### 示例 2：创建用户并授予角色
@@ -76,8 +78,7 @@ SHOW GRANTS FOR john_analyst;
 +------------------------------------------+
 | Grants                                   |
 +------------------------------------------+
-| GRANT SELECT ON *.* TO 'analyst_role'    |
-| GRANT INSERT ON 'default'.* TO 'analyst_role' |
+| GRANT ROLE analyst_role TO 'john_analyst'@'%' |
 +------------------------------------------+
 ```
 

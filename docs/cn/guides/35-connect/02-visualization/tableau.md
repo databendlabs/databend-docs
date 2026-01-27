@@ -19,8 +19,10 @@ Databend 目前提供两种与 Tableau 的集成方式。第一种方法通过 T
 2. 在 Databend 中创建 SQL 用户，该账户将用于在 Tableau Desktop 中连接 Databend。
 
 ```sql
-CREATE USER tableau IDENTIFIED BY 'tableau';
-GRANT ALL ON *.* TO tableau;
+CREATE ROLE tableau_role;
+GRANT ALL ON *.* TO ROLE tableau_role;
+CREATE USER tableau IDENTIFIED BY 'tableau' WITH DEFAULT_ROLE = 'tableau_role';
+GRANT ROLE tableau_role TO tableau;
 ```
 
 ### 步骤 2. 安装 databend-jdbc
@@ -65,8 +67,10 @@ GRANT ALL ON *.* TO tableau;
 2. 在 Databend 中创建 SQL 用户，该账户将用于在 Tableau Desktop 中连接 Databend。
 
 ```sql
-CREATE USER tableau IDENTIFIED BY 'tableau';
-GRANT ALL ON *.* TO tableau;
+CREATE ROLE tableau_role;
+GRANT ALL ON *.* TO ROLE tableau_role;
+CREATE USER tableau IDENTIFIED BY 'tableau' WITH DEFAULT_ROLE = 'tableau_role';
+GRANT ROLE tableau_role TO tableau;
 ```
 
 ### 步骤 2. 安装 databend-jdbc

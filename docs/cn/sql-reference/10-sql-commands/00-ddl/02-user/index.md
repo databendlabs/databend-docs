@@ -28,9 +28,9 @@ title: 用户与角色
 
 | 命令 | 描述 |
 |---------|-------------|
-| [GRANT](10-grant.md) | 向用户或角色授予权限 |
-| [REVOKE](11-revoke.md) | 撤销用户或角色的权限 |
-| [SHOW GRANTS](22-show-grants.md) | 显示授予用户或角色的权限 |
+| [GRANT](10-grant.md) | 向角色授予权限 |
+| [REVOKE](11-revoke.md) | 撤销角色的权限 |
+| [SHOW GRANTS](22-show-grants.md) | 显示角色授权与用户角色分配 |
 
 :::note
 完善的用户与角色管理是数据库安全的核心。授予权限时请始终遵循最小权限原则。

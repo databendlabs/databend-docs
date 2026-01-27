@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.704"/>
 
-列出显式授予用户、角色或特定对象的权限。
+列出授予角色的权限、授予用户的角色，以及特定对象的权限。
 
 另请参阅：[SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
 
@@ -91,7 +91,7 @@ SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
 
 ## 示例
 
-此示例展示了如何列出授予用户、角色和特定对象的权限。
+此示例展示了如何列出用户的角色授权、角色权限以及特定对象的权限。
 
 ```sql
 -- 创建新用户
@@ -109,7 +109,7 @@ CREATE STAGE my_stage;
 -- 将 stage 上的权限授予角色
 GRANT READ ON STAGE my_stage TO ROLE analyst;
 
--- 列出授予用户的权限
+-- 列出用户的授权
 SELECT * FROM SHOW_GRANTS('user', 'user1');
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐

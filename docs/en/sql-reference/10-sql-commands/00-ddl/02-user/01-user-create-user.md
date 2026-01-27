@@ -35,24 +35,26 @@ CREATE [ OR REPLACE ] USER <name> IDENTIFIED [ WITH <auth_type> ] BY '<password>
 
 ### Example 1: Create User and Grant Database Privileges
 
-Create a user and grant database privileges:
+Create a role, grant database privileges, and assign the role to a user:
 
 ```sql
--- Create a new user
-CREATE USER data_analyst IDENTIFIED BY 'secure_password123';
+-- Create a role and grant database privileges
+CREATE ROLE data_analyst_role;
+GRANT SELECT, INSERT ON default.* TO ROLE data_analyst_role;
 
--- Grant database privileges to the user
-GRANT SELECT, INSERT ON default.* TO data_analyst;
+-- Create a new user and assign the role
+CREATE USER data_analyst IDENTIFIED BY 'secure_password123' WITH DEFAULT_ROLE = 'data_analyst_role';
+GRANT ROLE data_analyst_role TO data_analyst;
 ```
 
-Verify the user and permissions:
+Verify the role and permissions:
 ```sql
-SHOW GRANTS FOR data_analyst;
-+---------------------------------------------------+
-| Grants                                            |
-+---------------------------------------------------+
-| GRANT SELECT,INSERT ON 'default'.* TO 'data_analyst'@'%' |
-+---------------------------------------------------+
+SHOW GRANTS FOR ROLE data_analyst_role;
++-----------------------------------------------------------------+
+| Grants                                                          |
++-----------------------------------------------------------------+
+| GRANT SELECT,INSERT ON 'default'.* TO ROLE  'data_analyst_role' |
++-----------------------------------------------------------------+
 ```
 
 ### Example 2: Create User and Grant Role
@@ -76,8 +78,7 @@ SHOW GRANTS FOR john_analyst;
 +------------------------------------------+
 | Grants                                   |
 +------------------------------------------+
-| GRANT SELECT ON *.* TO 'analyst_role'    |
-| GRANT INSERT ON 'default'.* TO 'analyst_role' |
+| GRANT ROLE analyst_role TO 'john_analyst'@'%' |
 +------------------------------------------+
 ```
 

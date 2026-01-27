@@ -77,7 +77,7 @@ CREATE ROLE billing;
 
 ## 使用示例
 
-此示例展示了基于角色的权限管理。首先创建一个 `writer` 角色并授予权限，然后将这些权限授予用户 `eric`，使其继承这些权限。最后，撤销角色的权限，演示其对用户权限的影响。
+此示例展示了基于角色的权限管理。首先创建一个 `writer` 角色并授予权限，然后将 `writer` 角色授予用户 `eric`，使其继承这些权限。最后，撤销角色的权限，演示其对用户权限的影响。
 
 ```sql title='Example:'
 -- 创建一个名为 'writer' 的新角色
@@ -86,25 +86,25 @@ CREATE ROLE writer;
 -- 将 'default' schema 中所有对象的所有权限授予给角色 'writer'
 GRANT ALL ON default.* TO ROLE writer;
 
--- 创建一个密码为 'abc123' 的新用户 'eric'
-CREATE USER eric IDENTIFIED BY 'abc123';
+-- 创建一个密码为 'abc123' 的新用户 'eric' 并设置默认角色
+CREATE USER eric IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'writer';
 
 -- 将角色 'writer' 授予给用户 'eric'
 GRANT ROLE writer TO eric;
 
--- 显示授予给用户 'eric' 的权限
-SHOW GRANTS FOR eric;
+-- 显示授予给角色 'writer' 的权限
+SHOW GRANTS FOR ROLE writer;
 
-┌──────────────────────────────────────────────────┐
-│                      Grants                      │
-├──────────────────────────────────────────────────┤
-│ GRANT ALL ON 'default'.'default'.* TO 'eric'@'%' │
-└──────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│                      Grants                           │
+├───────────────────────────────────────────────────────┤
+│ GRANT ALL ON 'default'.'default'.* TO ROLE 'writer'   │
+└───────────────────────────────────────────────────────┘
 
 -- 从角色 'writer' 中撤销 'default' schema 中所有对象的所有权限
 REVOKE ALL ON default.* FROM ROLE writer;
 
--- 显示授予给用户 'eric' 的权限
+-- 显示授予给角色 'writer' 的权限
 -- 由于已从角色中撤销权限，因此不显示任何权限
-SHOW GRANTS FOR eric;
+SHOW GRANTS FOR ROLE writer;
 ```

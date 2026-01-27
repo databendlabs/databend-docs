@@ -32,11 +32,11 @@ If you're a Databend Cloud user who has accepted invitations from multiple organ
 
 To view all the members in your organization, go to **Admin** > **Users & Roles**. This page provides a list of all members, including their email addresses, roles, join times, and last active times. If you're an `account_admin`, you can also change a member's role or remove a member from your organization.
 
-- The roles listed show the roles assigned to users when they were invited. While these roles can be changed on the page, they cannot be revoked using SQL. However, you can grant additional roles or privileges to users based on their email addresses. These user accounts, identified by their email addresses, can also function as SQL users in Databend Cloud. Example:
+- The roles listed show the roles assigned to users when they were invited. While these roles can be changed on the page, they cannot be revoked using SQL. However, you can grant additional roles, or grant privileges to roles and assign them to users based on their email addresses. These user accounts, identified by their email addresses, can also function as SQL users in Databend Cloud. Example:
 
 ```sql
+GRANT SELECT ON *.* TO ROLE writer;
 GRANT ROLE writer to 'eric@databend.com';
-GRANT SELECT ON *.* TO 'eric@databend.com';
 ```
 
 - The page does not display users created using SQL. To view the SQL users that have been created([**CREATE USER**](/sql/sql-commands/ddl/user/user-create-user)、[**CREATE ROLE**](/sql/sql-commands/ddl/user/user-create-role)), use the [SHOW USERS](/sql/sql-commands/ddl/user/user-show-users) command.

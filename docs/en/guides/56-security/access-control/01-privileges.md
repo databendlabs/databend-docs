@@ -4,85 +4,55 @@ title: Privileges
 
 A privilege is a permission to perform an action. Users must have specific privileges to execute particular actions within Databend. For example, when querying a table, a user needs `SELECT` privileges to the table. Similarly, to read a dataset within a stage, the user must possess `READ` privileges.
 
-In Databend, users can obtain a privilege in two ways. One approach is to directly grant the privilege to the user. The other method involves granting the privilege to a role first, and then assigning that role to the user.
+In Databend, privileges are granted to roles. Users receive privileges through the roles assigned to them.
 
 ![Alt text](/img/guides/access-control-2.png)
 
 ## Managing Privileges
 
-To manage privileges for a user or a role, use the following commands:
+To manage privileges for a role, use the following commands:
 
 - [GRANT](/sql/sql-commands/ddl/user/grant)
 - [REVOKE](/sql/sql-commands/ddl/user/revoke)
 - [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
 
-### Granting Privileges to User / Role
+### Granting Privileges to Roles
 
-To grant a privilege, you have two options: you can either directly grant the privilege to a user, or you can grant the privilege to a role first, and then grant that role to the user. In the following example, privileges are directly granted to the user 'david'. 'david' is created as a new user with the password 'abc123', and then all privileges on objects in the 'default' schema are granted directly to 'david'. Finally, the granted privileges for 'david' are shown.
+To grant a privilege, create a role, grant the privilege to the role, and then grant that role to users who need it. In the following example, a new role named 'writer' is created and granted all privileges on objects in the 'default' schema. Subsequently, 'david' is created as a new user with the password 'abc123', and the 'writer' role is granted to 'david'. Finally, the granted privileges for 'writer' are shown.
 
-```sql title='Example-1:'
--- Create a new user named 'david' with the password 'abc123'
-CREATE USER david IDENTIFIED BY 'abc123';
-
--- Grant all privileges on all objects in the 'default' schema to the user 'david'
-GRANT ALL ON default.* TO david;
-
--- Show the granted privileges for the user 'david'
-SHOW GRANTS FOR david;
-
-┌───────────────────────────────────────────────────┐
-│                       Grants                      │
-├───────────────────────────────────────────────────┤
-│ GRANT ALL ON 'default'.'default'.* TO 'david'@'%' │
-└───────────────────────────────────────────────────┘
-```
-
-In the following example, privileges are granted to a role first, and then the role is granted to the user 'eric'. Initially, a new role named 'writer' is created and granted all privileges on objects in the 'default' schema. Subsequently, 'eric' is created as a new user with the password 'abc123', and the 'writer' role is granted to 'eric'. Finally, the granted privileges for 'eric' are shown.
-
-```sql title='Example-2:'
+```sql title='Example:'
 -- Create a new role named 'writer'
 CREATE ROLE writer;
 
 -- Grant all privileges on all objects in the 'default' schema to the role 'writer'
 GRANT ALL ON default.* TO ROLE writer;
 
--- Create a new user named 'eric' with the password 'abc123'
-CREATE USER eric IDENTIFIED BY 'abc123';
+-- Create a new user named 'david' with the password 'abc123' and set the default role
+CREATE USER david IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'writer';
 
--- Grant the role 'writer' to the user 'eric'
-GRANT ROLE writer TO eric;
+-- Grant the role 'writer' to the user 'david'
+GRANT ROLE writer TO david;
 
--- Show the granted privileges for the user 'eric'
-SHOW GRANTS FOR eric;
+-- Show the granted privileges for the role 'writer'
+SHOW GRANTS FOR ROLE writer;
 
-┌──────────────────────────────────────────────────┐
-│                      Grants                      │
-├──────────────────────────────────────────────────┤
-│ GRANT ALL ON 'default'.'default'.* TO 'eric'@'%' │
-└──────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│                      Grants                           │
+├───────────────────────────────────────────────────────┤
+│ GRANT ALL ON 'default'.'default'.* TO ROLE 'writer'   │
+└───────────────────────────────────────────────────────┘
 ```
 
-### Revoking Privileges from User / Role
+### Revoking Privileges from Roles
 
-In the context of access control, privileges can be revoked either from individual users or from roles. In the following example, we revoke all privileges on all objects in the 'default' schema from user 'david', and then we display the granted privileges for user 'david':
+In the context of access control, privileges are revoked from roles. In the following example, we revoke all privileges on all objects in the 'default' schema from role 'writer', and then we display the granted privileges for role 'writer':
 
-```sql title='Example-1(Continued):'
--- Revoke all privileges on all objects in the 'default' schema from user 'david'
-REVOKE ALL ON default.* FROM david;
-
--- Show the granted privileges for the user 'david'
-SHOW GRANTS FOR david;
-```
-
-In the following example, privileges are revoked for role 'writer' on all objects in the 'default' schema. Following this, the granted privileges for user 'eric' are displayed. 
-
-```sql title='Example-2(Continued):'
+```sql title='Example (Continued):'
 -- Revoke all privileges on all objects in the 'default' schema from role 'writer'
 REVOKE ALL ON default.* FROM ROLE writer;
 
--- Show the granted privileges for the user 'eric'
--- No privileges are displayed as they have been revoked from the role
-SHOW GRANTS FOR eric;
+-- Show the granted privileges for the role 'writer'
+SHOW GRANTS FOR ROLE writer;
 ```
 
 
@@ -126,7 +96,7 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
 | INSERT            | Table                         | Inserts rows into a table.                                                                                                                         |
 | SELECT            | Database, Table               | Selects rows from a table. Shows or uses a database.                                                                                               |
 | UPDATE            | Table                         | Updates rows in a table.                                                                                                                           |
-| GRANT             | Global                        | Grants / revokes privileges to / from a user or role.                                                                                              |
+| GRANT             | Global                        | Grants / revokes privileges to / from a role.                                                                                                      |
 | SUPER             | Global, Table                 | Kills a query. Sets global configs. Optimizes a table. Analyzes a table. Operates a stage(Lists stages. Creates, Drops a stage), catalog or share. |
 | USAGE             | Global                        | Synonym for “no privileges”.                                                                                                                       |
 | CREATE ROLE       | Global                        | Creates a role.                                                                                                                                    |

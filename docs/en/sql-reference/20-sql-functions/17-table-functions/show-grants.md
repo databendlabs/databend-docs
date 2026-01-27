@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.704"/>
 
-Lists privileges explicitly granted to a user, to a role, or on a specific object.
+Lists privileges granted to roles, role assignments for users, or privileges on a specific object.
 
 See also: [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
 
@@ -91,7 +91,7 @@ SELECT grants FROM show_grants('role', 'a') ORDER BY object_id;
 
 ## Examples
 
-This example illustrates how to list privileges granted to a user, a role, and on a specific object.
+This example illustrates how to list grants for a user, privileges granted to a role, and privileges on a specific object.
 
 ```sql
 -- Create a new user
@@ -109,7 +109,7 @@ CREATE STAGE my_stage;
 -- Grant privileges on the stage to the role
 GRANT READ ON STAGE my_stage TO ROLE analyst;
 
--- List privileges granted to the user
+-- List grants for the user
 SELECT * FROM SHOW_GRANTS('user', 'user1');
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐

@@ -19,11 +19,13 @@ Vector 原生支持将数据传输到 [Databend 作为接收器（Sink）](https
 有关如何在 Databend 中创建 SQL 用户并授予适当权限的说明，请参见 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user)。以下是创建一个名为 *user1*、密码为 *abc123* 的用户的示例：
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
+CREATE ROLE vector_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'vector_role';
 
 CREATE DATABASE nginx;
 
-GRANT INSERT ON nginx.* TO user1;
+GRANT INSERT ON nginx.* TO ROLE vector_role;
+GRANT ROLE vector_role TO user1;
 ```
 
 ### 第 2 步：在 Vector 中将 Databend 配置为接收器（Sink）
@@ -94,13 +96,15 @@ CREATE TABLE nginx.access_logs (
 创建用户：
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
+CREATE ROLE vector_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'vector_role';
 ```
 
-为用户授予权限：
+为角色授予权限并授予给用户：
 
 ```sql
-GRANT INSERT ON nginx.* TO user1;
+GRANT INSERT ON nginx.* TO ROLE vector_role;
+GRANT ROLE vector_role TO user1;
 ```
 
 ### 第 2 步：部署 Nginx

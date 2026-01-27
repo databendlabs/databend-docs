@@ -42,9 +42,11 @@ WITH cpu_quota = '70%', memory_quota = '80%', max_concurrency = 10;
 Users must be assigned to workload groups to enable resource limiting. When users execute queries, the system applies the workload group's restrictions automatically.
 
 ```sql
--- Create user and grant permissions
-CREATE USER analytics_user IDENTIFIED BY 'password123';
-GRANT ALL ON *.* TO analytics_user;
+-- Create role and grant permissions
+CREATE ROLE analytics_role;
+GRANT ALL ON *.* TO ROLE analytics_role;
+CREATE USER analytics_user IDENTIFIED BY 'password123' WITH DEFAULT_ROLE = 'analytics_role';
+GRANT ROLE analytics_role TO analytics_user;
 
 -- Assign user to workload group
 ALTER USER analytics_user WITH SET WORKLOAD GROUP = 'interactive_queries';
@@ -89,4 +91,3 @@ Actual Allocation = (Group Quota) / (Sum of All Group Quotas) × 100%
 - Total quotas: 30%
 
 **Special Case:** When only one workload group exists, it gets 100% of warehouse resources regardless of its configured quota.
-
