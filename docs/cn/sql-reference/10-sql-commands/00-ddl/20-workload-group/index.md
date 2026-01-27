@@ -16,9 +16,11 @@ title: 工作负载组（Workload Group）
 -- 创建工作负载组
 CREATE WORKLOAD GROUP analytics WITH cpu_quota = '50%', memory_quota = '30%', max_concurrency = 5;
 
--- 创建用户并授予权限
-CREATE USER analyst IDENTIFIED BY 'password';
-GRANT ALL ON *.* TO analyst;
+-- 创建角色并授予权限
+CREATE ROLE analyst_role;
+GRANT ALL ON *.* TO ROLE analyst_role;
+CREATE USER analyst IDENTIFIED BY 'password' WITH DEFAULT_ROLE = 'analyst_role';
+GRANT ROLE analyst_role TO analyst;
 
 -- 将用户分配到工作负载组
 ALTER USER analyst WITH SET WORKLOAD GROUP = 'analytics';

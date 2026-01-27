@@ -186,12 +186,13 @@ databend://<username>:<password>@<tenant>.gw.<region>.default.databend.com:443/<
 除默认的 `cloudapp` 用户外，您可以创建额外的 SQL 用户以实现更细粒度的安全管控：
 
 ```sql
--- 创建新的 SQL 用户
-CREATE USER warehouse_user1 IDENTIFIED BY 'StrongPassword123';
+-- 创建包含数据库权限的角色
+CREATE ROLE warehouse_user1_role;
+GRANT ALL ON my_database.* TO ROLE warehouse_user1_role;
 
--- 授予数据库所有权限
--- 该用户将可以访问 my_database 中的所有表
-GRANT ALL ON my_database.* TO warehouse_user1;
+-- 创建新的 SQL 用户并授予角色
+CREATE USER warehouse_user1 IDENTIFIED BY 'StrongPassword123' WITH DEFAULT_ROLE = 'warehouse_user1_role';
+GRANT ROLE warehouse_user1_role TO warehouse_user1;
 ```
 
 更多详情请参阅 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 和 [GRANT](/sql/sql-commands/ddl/user/grant) 文档。

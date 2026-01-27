@@ -6,7 +6,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.845"/>
 
-列出明确授予用户、角色或特定对象的权限。
+列出授予角色的权限、授予用户的角色，以及特定对象的权限。
 
 参阅：
 
@@ -17,7 +17,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
--- 列出授予用户的权限
+-- 列出用户的授权
 SHOW GRANTS FOR <user_name> [ LIKE '<pattern>' | WHERE <expr> | LIMIT <limit> ]
 
 -- 列出授予角色的权限
@@ -32,7 +32,7 @@ SHOW GRANTS OF ROLE <role_name>
 
 ## 示例
 
-此示例说明如何列出授予用户、角色和特定对象的权限。
+此示例说明如何列出用户的角色授权、角色权限以及特定对象的权限。
 
 ```sql
 -- 创建新用户
@@ -50,14 +50,14 @@ CREATE DATABASE my_db;
 -- 授予角色数据库权限
 GRANT OWNERSHIP ON my_db.* TO ROLE analyst;
 
--- 列出授予用户的权限
+-- 列出用户的授权
 SHOW GRANTS FOR user1;
 
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ privileges │ object_name │     object_id    │ grant_to │  name  │                         grants                        │
-├────────────┼─────────────┼──────────────────┼──────────┼────────┼───────────────────────────────────────────────────────┤
-│ OWNERSHIP  │ my_db       │               16 │ USER     │ user1  │ GRANT OWNERSHIP ON 'default'.'my_db'.* TO 'user1'@'%' │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ privileges │ object_name │     object_id    │ grant_to │  name  │                       grants                         │
+├────────────┼─────────────┼──────────────────┼──────────┼────────┼──────────────────────────────────────────────────────┤
+│ ROLE       │ NULL        │             NULL │ USER     │ user1  │ GRANT ROLE analyst TO 'user1'@'%'                    │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- 列出授予角色的权限
 SHOW GRANTS FOR ROLE analyst;

@@ -4,87 +4,57 @@ title: 权限
 
 权限（Privilege）是执行某项操作的许可。用户必须拥有特定权限才能在 Databend 中执行相应操作。例如，查询表时需要对该表拥有 `SELECT` 权限；读取 Stage 中的数据集则必须拥有 `READ` 权限。
 
-在 Databend 中，用户可通过两种方式获得权限：一是直接将权限授予用户；二是先将权限授予角色，再将该角色赋予用户。
+在 Databend 中，权限授予角色，用户通过被授予的角色获得权限。
 
 ![Alt text](/img/guides/access-control-2.png)
 
 ## 管理权限
 
-使用以下命令管理用户或角色的权限：
+使用以下命令管理角色权限：
 
 - [GRANT](/sql/sql-commands/ddl/user/grant)
 - [REVOKE](/sql/sql-commands/ddl/user/revoke)
 - [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
 
-### 向用户/角色授予权限
+### 向角色授予权限
 
-授予权限时，您可以选择直接授予用户，或先授予角色再授予用户。  
-示例 1 中，权限直接授予用户 david：先创建密码为 abc123 的新用户 david，再将 default 模式中所有对象的全部权限直接授予 david，最后查看 david 的权限。
+授予权限时，先将权限授予角色，再将该角色授予用户。  
+示例中，创建角色 writer 并授予其对 default 模式中所有对象的全部权限；然后创建密码为 abc123 的新用户 david 并设置默认角色为 writer；最后查看 writer 的权限。
 
-```sql title='示例 1:'
--- 创建用户 david，密码 abc123
-CREATE USER david IDENTIFIED BY 'abc123';
-
--- 将 default 模式中所有对象的全部权限授予 david
-GRANT ALL ON default.* TO david;
-
--- 查看 david 的权限
-SHOW GRANTS FOR david;
-
-┌───────────────────────────────────────────────────┐
-│                      Grants                       │
-├───────────────────────────────────────────────────┤
-│ GRANT ALL ON 'default'.'default'.* TO 'david'@'%' │
-└───────────────────────────────────────────────────┘
-```
-
-示例 2 中，权限先授予角色，再授予用户 eric：先创建角色 writer 并授予其对 default 模式中所有对象的全部权限；再创建密码为 abc123 的新用户 eric，并将 writer 角色授予 eric；最后查看 eric 的权限。
-
-```sql title='示例 2:'
+```sql title='示例:'
 -- 创建角色 writer
 CREATE ROLE writer;
 
 -- 将 default 模式中所有对象的全部权限授予 writer
 GRANT ALL ON default.* TO ROLE writer;
 
--- 创建用户 eric，密码 abc123
-CREATE USER eric IDENTIFIED BY 'abc123';
+-- 创建用户 david，密码 abc123，并设置默认角色
+CREATE USER david IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'writer';
 
--- 将 writer 角色授予 eric
-GRANT ROLE writer TO eric;
+-- 将 writer 角色授予 david
+GRANT ROLE writer TO david;
 
--- 查看 eric 的权限
-SHOW GRANTS FOR eric;
+-- 查看 writer 的权限
+SHOW GRANTS FOR ROLE writer;
 
-┌──────────────────────────────────────────────────┐
-│                      Grants                       │
-├──────────────────────────────────────────────────┤
-│ GRANT ALL ON 'default'.'default'.* TO 'eric'@'%' │
-└───────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────┐
+│                      Grants                            │
+├────────────────────────────────────────────────────────┤
+│ GRANT ALL ON 'default'.'default'.* TO ROLE 'writer'    │
+└────────────────────────────────────────────────────────┘
 ```
 
-### 从用户/角色撤销权限
+### 从角色撤销权限
 
-在访问控制中，权限可从用户或角色撤销。  
-示例 1（续）中，从用户 david 撤销 default 模式中所有对象的全部权限，并查看 david 的权限：
+在访问控制中，权限从角色撤销。  
+示例（续）中，从角色 writer 撤销 default 模式中所有对象的全部权限，并查看 writer 的权限：
 
-```sql title='示例 1（续）:'
--- 从 david 撤销 default 模式中所有对象的全部权限
-REVOKE ALL ON default.* FROM david;
-
--- 查看 david 的权限
-SHOW GRANTS FOR david;
-```
-
-示例 2（续）中，从角色 writer 撤销 default 模式中所有对象的全部权限，并查看 eric 的权限：
-
-```sql title='示例 2（续）:'
+```sql title='示例（续）:'
 -- 从 writer 撤销 default 模式中所有对象的全部权限
 REVOKE ALL ON default.* FROM ROLE writer;
 
--- 查看 eric 的权限
--- 权限已从角色撤销，因此不显示任何权限
-SHOW GRANTS FOR eric;
+-- 查看 writer 的权限
+SHOW GRANTS FOR ROLE writer;
 ```
 
 ## 访问控制权限
@@ -126,7 +96,7 @@ Databend 提供多种权限，实现对数据库对象的细粒度控制，可�
 | INSERT            | Table                         | 向表插入行。                                                                                                                                       |
 | SELECT            | Database, Table               | 从表选择行；显示或使用数据库。                                                                                                                     |
 | UPDATE            | Table                         | 更新表中的行。                                                                                                                                     |
-| GRANT             | Global                        | 向用户或角色授予/撤销权限。                                                                                                                        |
+| GRANT             | Global                        | 向角色授予/撤销权限。                                                                                                                               |
 | SUPER             | Global, Table                 | 终止查询；设置全局配置；优化表；分析表；操作 Stage（列出、创建、删除 Stage）、Catalog 或 Share。 |
 | USAGE             | Global                        | “无权限”的同义词。                                                                                                                                 |
 | CREATE ROLE       | Global                        | 创建角色。                                                                                                                                         |

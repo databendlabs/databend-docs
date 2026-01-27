@@ -15,8 +15,10 @@ To connect your program to Databend and execute SQL operations, you must provide
 This tutorial uses a SQL user named 'user1' with password 'abc123' as an example. As the program will write data into Databend, the user needs ALL privileges. For how to manage SQL users and their privileges, see [User & Role](/sql/sql-commands/ddl/user/).
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
-GRANT ALL on *.* TO user1;
+CREATE ROLE user1_role;
+GRANT ALL ON *.* TO ROLE user1_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'user1_role';
+GRANT ROLE user1_role TO user1;
 ```
 
 ## Step 2: Write a Python Program

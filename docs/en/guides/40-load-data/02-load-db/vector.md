@@ -19,11 +19,13 @@ To integrate Databend with Vector, start by creating an SQL account in Databend 
 For instructions on how to create a SQL user in Databend and grant appropriate privileges, see [Create User](/sql/sql-commands/ddl/user/user-create-user). Here's an example of creating a user named *user1* with the password *abc123*:
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
+CREATE ROLE vector_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'vector_role';
 
 CREATE DATABASE nginx;
 
-GRANT INSERT ON nginx.* TO user1;
+GRANT INSERT ON nginx.* TO ROLE vector_role;
+GRANT ROLE vector_role TO user1;
 ```
 
 ### Step 2: Configure Databend as a Sink in Vector
@@ -94,13 +96,15 @@ CREATE TABLE nginx.access_logs (
 Create a user:
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
+CREATE ROLE vector_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'vector_role';
 ```
 
-Grant privileges for the user:
+Grant privileges to the role and assign it to the user:
 
 ```sql
-GRANT INSERT ON nginx.* TO user1;
+GRANT INSERT ON nginx.* TO ROLE vector_role;
+GRANT ROLE vector_role TO user1;
 ```
 
 ### Step 2. Deploy Nginx

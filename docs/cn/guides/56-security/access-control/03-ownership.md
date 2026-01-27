@@ -52,3 +52,15 @@ u1> INSERT INTO db.t VALUES(1);
 u1> SELECT * FROM db.t;
 u1> SELECT * FROM db.t_old_exists; -- 失败，因为此表的所有者不是 role1
 ```
+
+此示例展示如何让某个用户创建数据库，并且这些数据库仅由其角色拥有，其他用户除非显式授权否则不可见：
+
+```sql
+CREATE ROLE part1_role;
+GRANT CREATE DATABASE ON *.* TO ROLE part1_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT ROLE 'part1_role';
+GRANT ROLE part1_role TO user1;
+
+-- 当 user1 创建数据库时，所有权会被赋予 part1_role。
+-- 其他用户无法查看或访问该数据库，除非其角色被授予权限或所有权。
+```

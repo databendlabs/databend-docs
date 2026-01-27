@@ -32,11 +32,11 @@ title: 组织与成员
 
 要查看组织中的所有成员，请转到 **管理** > **用户 & 角色**。此页面提供所有成员的列表，包括他们的电子邮件地址、角色、加入时间和最后活跃时间。如果您是 `account_admin`，您还可以更改成员的角色或从组织中移除成员。
 
-- 列出的角色显示用户被邀请时分配给他们的角色。虽然这些角色可以在页面上更改，但无法使用 SQL 撤销。但是，您可以根据用户的电子邮件地址向他们授予额外的角色或权限。这些由电子邮件地址标识的用户账户也可以在 Databend Cloud 中作为 SQL 用户使用。示例：
+- 列出的角色显示用户被邀请时分配给他们的角色。虽然这些角色可以在页面上更改，但无法使用 SQL 撤销。但是，您可以授予额外的角色，或先将权限授予角色再将角色授予用户。这些由电子邮件地址标识的用户账户也可以在 Databend Cloud 中作为 SQL 用户使用。示例：
 
   ```sql
+  GRANT SELECT ON *.* TO ROLE writer;
   GRANT ROLE writer to 'eric@databend.com';
-  GRANT SELECT ON *.* TO 'eric@databend.com';
   ```
 
 - 该页面不显示使用 SQL 创建的用户。要查看已创建的 SQL 用户 ([**CREATE USER**](/sql/sql-commands/ddl/user/user-create-user)、[**CREATE ROLE**](/sql/sql-commands/ddl/user/user-create-role))，请使用 [SHOW USERS](/sql/sql-commands/ddl/user/user-show-users) 命令。

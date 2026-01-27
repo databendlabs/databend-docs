@@ -85,25 +85,25 @@ CREATE ROLE writer;
 -- Grant all privileges on all objects in the 'default' schema to the role 'writer'
 GRANT ALL ON default.* TO ROLE writer;
 
--- Create a new user named 'eric' with the password 'abc123'
-CREATE USER eric IDENTIFIED BY 'abc123';
+-- Create a new user named 'eric' with the password 'abc123' and set the default role
+CREATE USER eric IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'writer';
 
 -- Grant the role 'writer' to the user 'eric'
 GRANT ROLE writer TO eric;
 
--- Show the granted privileges for the user 'eric'
-SHOW GRANTS FOR eric;
+-- Show the granted privileges for the role 'writer'
+SHOW GRANTS FOR ROLE writer;
 
-┌──────────────────────────────────────────────────┐
-│                      Grants                      │
-├──────────────────────────────────────────────────┤
-│ GRANT ALL ON 'default'.'default'.* TO 'eric'@'%' │
-└──────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│                      Grants                           │
+├───────────────────────────────────────────────────────┤
+│ GRANT ALL ON 'default'.'default'.* TO ROLE 'writer'   │
+└───────────────────────────────────────────────────────┘
 
 -- Revoke all privileges on all objects in the 'default' schema from role 'writer'
 REVOKE ALL ON default.* FROM ROLE writer;
 
--- Show the granted privileges for the user 'eric'
+-- Show the granted privileges for the role 'writer'
 -- No privileges are displayed as they have been revoked from the role
-SHOW GRANTS FOR eric;
+SHOW GRANTS FOR ROLE writer;
 ```

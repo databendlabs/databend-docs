@@ -25,8 +25,10 @@ mysql -h127.0.0.1 -uroot -P3307
 ```
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
-GRANT ALL on *.* TO user1;
+CREATE ROLE user1_role;
+GRANT ALL ON *.* TO ROLE user1_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'user1_role';
+GRANT ROLE user1_role TO user1;
 ```
 
 ## Export Schema from Databend

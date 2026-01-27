@@ -193,12 +193,13 @@ Where:
 Besides the default `cloudapp` user, you can create additional SQL users for better security and access control:
 
 ```sql
--- Create a new SQL user
-CREATE USER warehouse_user1 IDENTIFIED BY 'StrongPassword123';
+-- Create a role with database access
+CREATE ROLE warehouse_user1_role;
+GRANT ALL ON my_database.* TO ROLE warehouse_user1_role;
 
--- Grant ALL on database
--- This user can access all tables in the database
-GRANT ALL ON my_database.* TO warehouse_user1;
+-- Create a new SQL user and assign the role
+CREATE USER warehouse_user1 IDENTIFIED BY 'StrongPassword123' WITH DEFAULT_ROLE = 'warehouse_user1_role';
+GRANT ROLE warehouse_user1_role TO warehouse_user1;
 ```
 
 For more details, see [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) and [GRANT](/sql/sql-commands/ddl/user/grant) documentation.

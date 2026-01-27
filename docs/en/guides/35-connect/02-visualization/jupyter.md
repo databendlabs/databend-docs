@@ -24,8 +24,10 @@ Before you start, make sure you have completed the following tasks:
 2. Create a SQL user in Databend. You will use this account to connect to Databend in Jupyter Notebook.
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
-GRANT ALL ON *.* TO user1;
+CREATE ROLE user1_role;
+GRANT ALL ON *.* TO ROLE user1_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'user1_role';
+GRANT ROLE user1_role TO user1;
 ```
 
 ### Step 2. Deploy Jupyter Notebook
@@ -74,8 +76,10 @@ Before you start, ensure that you have [Python](https://www.python.org/) install
 2. Create a SQL user in Databend. You will use this account to connect to Databend in Jupyter Notebook.
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
-GRANT ALL ON *.* TO user1;
+CREATE ROLE user1_role;
+GRANT ALL ON *.* TO ROLE user1_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'user1_role';
+GRANT ROLE user1_role TO user1;
 ```
 
 ### Step 2. Deploy Jupyter Notebook

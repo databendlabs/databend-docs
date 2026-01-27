@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Revokes privileges, roles, and ownership of a specific database object. This includes:
 
-- Revoking privileges from users or roles.
+- Revoking privileges from roles.
 - Removing roles from users or other roles.
 
 See also:
@@ -24,7 +24,7 @@ See also:
 REVOKE { 
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
        }
-FROM [ ROLE <role_name> ] [ <user> ]
+FROM ROLE <role_name>
 ```
 
 Where:
@@ -70,8 +70,8 @@ privileges_level ::=
 ### Revoking Masking Policy Privileges
 
 ```sql
-REVOKE APPLY ON MASKING POLICY <policy_name> FROM [ ROLE ] <grantee>
-REVOKE ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE APPLY ON MASKING POLICY <policy_name> FROM ROLE <role_name>
+REVOKE ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> FROM ROLE <role_name>
 REVOKE OWNERSHIP ON MASKING POLICY <policy_name> FROM ROLE '<role_name>'
 ```
 
@@ -80,8 +80,8 @@ Use these forms to remove access to individual masking policies. Global `CREATE 
 ### Revoking Row Access Policy Privileges
 
 ```sql
-REVOKE APPLY ON ROW ACCESS POLICY <policy_name> FROM [ ROLE ] <grantee>
-REVOKE ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE APPLY ON ROW ACCESS POLICY <policy_name> FROM ROLE <role_name>
+REVOKE ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> FROM ROLE <role_name>
 REVOKE OWNERSHIP ON ROW ACCESS POLICY <policy_name> FROM ROLE '<role_name>'
 ```
 
@@ -99,43 +99,42 @@ REVOKE ROLE <role_name> FROM ROLE <role_name>
 
 ## Examples
 
-### Example 1: Revoking Privileges from a User
+### Example 1: Revoking Privileges from a Role
 
-
-Create a user:
+Create a role:
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
+CREATE ROLE user1_role;
 ```
 
-Grant the `SELECT,INSERT` privilege on all existing tables in the `default` database to the user `user1`:
+Grant the `SELECT,INSERT` privilege on all existing tables in the `default` database to the role `user1_role`:
  
 ```sql
-GRANT SELECT,INSERT ON default.* TO user1;
+GRANT SELECT,INSERT ON default.* TO ROLE user1_role;
 ```
 ```sql
-SHOW GRANTS FOR user1;
+SHOW GRANTS FOR ROLE user1_role;
++---------------------------------------------------------+
+| Grants                                                  |
++---------------------------------------------------------+
+| GRANT SELECT,INSERT ON 'default'.* TO ROLE 'user1_role' |
++---------------------------------------------------------+
+```
+
+Revoke `INSERT` privilege from role `user1_role`:
+```sql
+REVOKE INSERT ON default.* FROM ROLE user1_role;
+```
+
+```sql
+SHOW GRANTS FOR ROLE user1_role;
 +---------------------------------------------------+
 | Grants                                            |
 +---------------------------------------------------+
-| GRANT SELECT,INSERT ON 'default'.* TO 'user1'@'%' |
+| GRANT SELECT ON 'default'.* TO 'user1_role'       |
 +---------------------------------------------------+
 ```
 
-Revoke `INSERT` privilege from user `user1`:
-```sql
-REVOKE INSERT ON default.* FROM user1;
-```
-
-```sql
-SHOW GRANTS FOR user1;
-+--------------------------------------------+
-| Grants                                     |
-+--------------------------------------------+
-| GRANT SELECT ON 'default'.* TO 'user1'@'%' |
-+--------------------------------------------+
-```
-
-### Example 2: Revoking Privileges from a Role
+### Example 2: Revoking Privileges from Another Role
 
 Grant the `SELECT,INSERT` privilege on all existing tables in the `mydb` database to the role `role1`:
 
@@ -181,12 +180,6 @@ REVOKE ROLE role1 FROM USER user1;
 
 ```sql
 SHOW GRANTS FOR user1;
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-| GRANT ALL ON *.* TO 'user1'@'%'         |
-+-----------------------------------------+
 ```
 
 ### Example 4: Revoking Masking Policy Privileges

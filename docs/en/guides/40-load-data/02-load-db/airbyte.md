@@ -39,7 +39,8 @@ mysql -h127.0.0.1 -uroot -P3307
 Create a user:
 
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
+CREATE ROLE airbyte_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'airbyte_role';
 ```
 
 Create a Database:
@@ -48,10 +49,11 @@ Create a Database:
 CREATE DATABASE airbyte;
 ```
 
-Grant privileges for the user:
+Grant privileges to the role and assign it to the user:
 
 ```sql
-GRANT ALL PRIVILEGES ON airbyte.* TO user1;
+GRANT ALL PRIVILEGES ON airbyte.* TO ROLE airbyte_role;
+GRANT ROLE airbyte_role TO user1;
 ```
 
 ## Configure Airbyte

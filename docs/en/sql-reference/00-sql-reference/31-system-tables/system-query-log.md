@@ -51,7 +51,7 @@ SELECT * FROM system.query_log;
                  node_id: bwElPLZxWt0F8LOFAqsIL2
                 sql_user: root
           sql_user_quota: UserQuota<cpu:0,mem:0,store:0>
-     sql_user_privileges: GRANT ALL ON *.*, ROLES: ["account_admin"]
+     sql_user_privileges: ROLES: ["account_admin"]
                 query_id: 1957f343-564e-471f-b036-a10ff853357e
               query_kind: Other
               query_text: SHOW USERS

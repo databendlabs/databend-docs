@@ -52,3 +52,16 @@ u1> INSERT INTO db.t VALUES(1);
 u1> SELECT * FROM db.t;
 u1> SELECT * FROM db.t_old_exists; -- Failed because the owner of this table is not role1
 ```
+
+This example shows how to let a user create databases that are owned only by their role, so other users cannot see them unless explicitly granted access:
+
+```sql
+CREATE ROLE part1_role;
+GRANT CREATE DATABASE ON *.* TO ROLE part1_role;
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT ROLE 'part1_role';
+GRANT ROLE part1_role TO user1;
+
+-- When user1 creates a database, ownership is assigned to part1_role.
+-- Other users will not be able to see or access that database unless
+-- privileges or ownership are granted to their roles.
+```

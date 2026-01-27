@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Grants privileges, roles, and ownership for a specific database object. This includes:
 
-- Granting privileges to users or roles.
+- Granting privileges to roles.
 - Assigning roles to users or other roles.
 - Transferring ownership to a role.
 
@@ -25,11 +25,29 @@ See also:
 
 To understand what a privilege is and how it works, see [Privileges](/guides/security/access-control/privileges).
 
+:::note Important
+CREATE-like privileges that create ownership objects cannot be granted directly to a user. These privileges must be granted to a role first, and then the role can be assigned to users. This includes:
+- CREATE
+- CREATE DATABASE
+- CREATE WAREHOUSE
+- CREATE CONNECTION
+- CREATE SEQUENCE
+- CREATE PROCEDURE
+- CREATE MASKING POLICY
+- CREATE ROW ACCESS POLICY
+
+Since `ALL` includes these CREATE privileges, `GRANT ALL ... TO USER` will also fail. For example, `GRANT ALL ON *.* TO USER u1` or `GRANT CREATE DATABASE ON *.* TO USER u1` will fail. Instead, use:
+```sql
+GRANT ALL ON *.* TO ROLE r1;
+GRANT ROLE r1 TO USER u1;
+```
+:::
+
 ```sql
 GRANT { 
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
       }
-TO [ ROLE <role_name> ] [ <user_name> ]
+TO ROLE <role_name>
 ```
 
 Where:
@@ -77,12 +95,12 @@ privileges_level ::=
 Use the following forms to manage access to individual masking policies:
 
 ```sql
-GRANT APPLY ON MASKING POLICY <policy_name> TO [ ROLE ] <grantee>
-GRANT ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> TO [ ROLE ] <grantee>
+GRANT APPLY ON MASKING POLICY <policy_name> TO ROLE <role_name>
+GRANT ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> TO ROLE <role_name>
 GRANT OWNERSHIP ON MASKING POLICY <policy_name> TO ROLE '<role_name>'
 ```
 
-- `CREATE MASKING POLICY` allows a user or role to create new masking policies.
+- `CREATE MASKING POLICY` allows a role to create new masking policies.
 - `APPLY MASKING POLICY` lets grantees attach, detach, describe, or drop any masking policy when combined with the appropriate `ALTER TABLE` or policy commands.
 - `GRANT APPLY ON MASKING POLICY ...` authorizes the grantee to manage a specific masking policy without granting global access.
 - OWNERSHIP provides full control over the masking policy; Databend automatically grants OWNERSHIP on a new policy to the creator role and revokes it when the policy is dropped.
@@ -92,12 +110,12 @@ GRANT OWNERSHIP ON MASKING POLICY <policy_name> TO ROLE '<role_name>'
 Use these forms to manage access to individual row access policies:
 
 ```sql
-GRANT APPLY ON ROW ACCESS POLICY <policy_name> TO [ ROLE ] <grantee>
-GRANT ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> TO [ ROLE ] <grantee>
+GRANT APPLY ON ROW ACCESS POLICY <policy_name> TO ROLE <role_name>
+GRANT ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> TO ROLE <role_name>
 GRANT OWNERSHIP ON ROW ACCESS POLICY <policy_name> TO ROLE '<role_name>'
 ```
 
-- `CREATE ROW ACCESS POLICY` allows a user or role to create new row access policies.
+- `CREATE ROW ACCESS POLICY` allows a role to create new row access policies.
 - `APPLY ROW ACCESS POLICY` authorizes attaching or detaching any row access policy from tables, along with DESCRIBE/DROP commands.
 - `GRANT APPLY ON ROW ACCESS POLICY ...` limits access to a specific row access policy.
 - OWNERSHIP delivers full control over the row access policy; the creator role receives OWNERSHIP automatically and loses it when the policy is dropped.
@@ -131,77 +149,72 @@ GRANT OWNERSHIP ON UDF <udf_name> TO ROLE '<role_name>'
 
 ## Examples
 
-### Example 1: Granting Privileges to a User
+### Example 1: Granting Privileges to a Role
 
-Create a user:
+Create a role:
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
+CREATE ROLE user1_role;
 ```
 
-Grant the `ALL` privilege on all existing tables in the `default` database to the user `user1`:
+Grant the `ALL` privilege on all existing tables in the `default` database to the role `user1_role`:
  
 ```sql
-GRANT ALL ON default.* TO user1;
+GRANT ALL ON default.* TO ROLE user1_role;
 ```
 
 ```sql
-SHOW GRANTS FOR user1;
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-+-----------------------------------------+
+SHOW GRANTS FOR ROLE user1_role;
++--------------------------------------------------+
+| Grants                                           |
++--------------------------------------------------+
+| GRANT ALL ON 'default'.* TO ROLE 'user1_role'    |
++--------------------------------------------------+
 ```
 
-Grant the `ALL` privilege to all the database to the user `user1`:
+Grant the `ALL` privilege on all databases to the role `user1_role`:
 
 ```sql
-GRANT ALL ON *.* TO 'user1';
+GRANT ALL ON *.* TO ROLE user1_role;
 ```
 ```sql
-SHOW GRANTS FOR user1;
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-| GRANT ALL ON *.* TO 'user1'@'%'         |
-+-----------------------------------------+
+SHOW GRANTS FOR ROLE user1_role;
++--------------------------------------------------+
+| Grants                                           |
++--------------------------------------------------+
+| GRANT ALL ON 'default'.* TO ROLE 'user1_role'    |
+| GRANT ALL ON *.* TO ROLE 'user1_role'            |
++--------------------------------------------------+
 ```
 
-
-Grant the `ALL` privilege to the stage that named `s1` to the user `user1`:
+Grant the `ALL` privilege on the stage named `s1` to the role `user1_role`:
 
 ```sql
-GRANT ALL ON STAGE s1 TO 'user1';
+GRANT ALL ON STAGE s1 TO ROLE user1_role;
 ```
 ```sql
-SHOW GRANTS FOR user1;
-+-----------------------------------------------------------------+
-| Grants                                                          |
-+-----------------------------------------------------------------+
-| GRANT ALL ON STAGE s1 TO 'user1'@'%'                            |
-| GRANT SELECT ON 'default'.'system'.'one' TO 'user1'@'%'         |
-| GRANT SELECT ON 'default'.'information_schema'.* TO 'user1'@'%' |
-+-----------------------------------------------------------------+
+SHOW GRANTS FOR ROLE user1_role;
++--------------------------------------------------+
+| Grants                                           |
++--------------------------------------------------+
+| GRANT ALL ON STAGE s1 TO ROLE 'user1_role'       |
++--------------------------------------------------+
 ```
 
-Grant the `ALL` privilege to the UDF that named `f1` to the user `user1`:
+Grant the `ALL` privilege on the UDF named `f1` to the role `user1_role`:
 
 ```sql
-GRANT ALL ON UDF f1 TO 'user1';
+GRANT ALL ON UDF f1 TO ROLE user1_role;
 ```
 ```sql
-SHOW GRANTS FOR user1;
-+-----------------------------------------------------------------+
-| Grants                                                          |
-+-----------------------------------------------------------------+
-| GRANT ALL ON UDF f1 TO 'user1'@'%'                              |
-| GRANT SELECT ON 'default'.'system'.'one' TO 'user1'@'%'         |
-| GRANT SELECT ON 'default'.'information_schema'.* TO 'user1'@'%' |
-+-----------------------------------------------------------------+
+SHOW GRANTS FOR ROLE user1_role;
++--------------------------------------------------+
+| Grants                                           |
++--------------------------------------------------+
+| GRANT ALL ON UDF f1 TO ROLE 'user1_role'         |
++--------------------------------------------------+
 ```
 
-### Example 2: Granting Privileges to a Role
+### Example 2: Granting Specific Privileges to a Role
 
 Grant the `SELECT` privilege on all existing tables in the `mydb` database to the role `role1`:
 
@@ -227,15 +240,9 @@ SHOW GRANTS FOR ROLE role1;
 
 ### Example 3: Granting a Role to a User
 
-User `user1` grants are:
+Create a user:
 ```sql
-SHOW GRANTS FOR user1;
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-| GRANT ALL ON *.* TO 'user1'@'%'         |
-+-----------------------------------------+
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'role1';
 ```
 
 Role `role1` grants are:
@@ -256,13 +263,11 @@ Grant role `role1` to user `user1`:
 Now, user `user1` grants are:
 ```sql
 SHOW GRANTS FOR user1;
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-| GRANT ALL ON *.* TO 'user1'@'%'         |
-| GRANT SELECT ON 'mydb'.* TO 'role1'     |
-+-----------------------------------------+
++-------------------------------------+
+| Grants                              |
++-------------------------------------+
+| GRANT ROLE role1 TO 'user1'@'%'     |
++-------------------------------------+
 ```
 
 ### Example 4: Granting Ownership to a Role

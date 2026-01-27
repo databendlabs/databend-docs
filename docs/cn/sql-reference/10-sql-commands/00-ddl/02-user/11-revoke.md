@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 撤销特定数据库对象的权限、角色和所有权。 这包括：
 
-- 撤销用户或角色的权限。
+- 撤销角色的权限。
 - 从用户或其他角色中删除角色。
 
 参见：
@@ -24,7 +24,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 REVOKE { 
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
        }
-FROM [ ROLE <role_name> ] [ <user> ]
+FROM ROLE <role_name>
 ```
 
 其中：
@@ -70,8 +70,8 @@ privileges_level ::=
 ### 撤销脱敏策略权限
 
 ```sql
-REVOKE APPLY ON MASKING POLICY <policy_name> FROM [ ROLE ] <grantee>
-REVOKE ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE APPLY ON MASKING POLICY <policy_name> FROM ROLE <role_name>
+REVOKE ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> FROM ROLE <role_name>
 REVOKE OWNERSHIP ON MASKING POLICY <policy_name> FROM ROLE '<role_name>'
 ```
 
@@ -80,8 +80,8 @@ REVOKE OWNERSHIP ON MASKING POLICY <policy_name> FROM ROLE '<role_name>'
 ### 撤销 Row Access Policy 权限
 
 ```sql
-REVOKE APPLY ON ROW ACCESS POLICY <policy_name> FROM [ ROLE ] <grantee>
-REVOKE ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> FROM [ ROLE ] <grantee>
+REVOKE APPLY ON ROW ACCESS POLICY <policy_name> FROM ROLE <role_name>
+REVOKE ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> FROM ROLE <role_name>
 REVOKE OWNERSHIP ON ROW ACCESS POLICY <policy_name> FROM ROLE '<role_name>'
 ```
 
@@ -99,43 +99,42 @@ REVOKE ROLE <role_name> FROM ROLE <role_name>
 
 ## 示例
 
-### 示例 1：从用户撤销权限
+### 示例 1：从角色撤销权限
 
-
-创建用户：
+创建角色：
 ```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
+CREATE ROLE user1_role;
 ```
 
-授予用户 `user1` 在 `default` 数据库中所有现有表的 `SELECT,INSERT` 权限：
+授予角色 `user1_role` 在 `default` 数据库中所有现有表的 `SELECT,INSERT` 权限：
  
 ```sql
-GRANT SELECT,INSERT ON default.* TO user1;
+GRANT SELECT,INSERT ON default.* TO ROLE user1_role;
 ```
 ```sql
-SHOW GRANTS FOR user1;
+SHOW GRANTS FOR ROLE user1_role;
++---------------------------------------------------------+
+| Grants                                                  |
++---------------------------------------------------------+
+| GRANT SELECT,INSERT ON 'default'.* TO ROLE 'user1_role' |
++---------------------------------------------------------+
+```
+
+撤销角色 `user1_role` 的 `INSERT` 权限：
+```sql
+REVOKE INSERT ON default.* FROM ROLE user1_role;
+```
+
+```sql
+SHOW GRANTS FOR ROLE user1_role;
 +---------------------------------------------------+
 | Grants                                            |
 +---------------------------------------------------+
-| GRANT SELECT,INSERT ON 'default'.* TO 'user1'@'%' |
+| GRANT SELECT ON 'default'.* TO 'user1_role'       |
 +---------------------------------------------------+
 ```
 
-撤销用户 `user1` 的 `INSERT` 权限：
-```sql
-REVOKE INSERT ON default.* FROM user1;
-```
-
-```sql
-SHOW GRANTS FOR user1;
-+--------------------------------------------+
-| Grants                                     |
-+--------------------------------------------+
-| GRANT SELECT ON 'default'.* TO 'user1'@'%' |
-+--------------------------------------------+
-```
-
-### 示例 2：从角色撤销权限
+### 示例 2：从另一个角色撤销权限
 
 授予角色 `role1` 在 `mydb` 数据库中所有现有表的 `SELECT,INSERT` 权限：
 
@@ -181,12 +180,6 @@ REVOKE ROLE role1 FROM USER user1;
 
 ```sql
 SHOW GRANTS FOR user1;
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-| GRANT ALL ON *.* TO 'user1'@'%'         |
-+-----------------------------------------+
 ```
 
 ### 示例 4：撤销脱敏策略权限
