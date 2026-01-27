@@ -45,52 +45,13 @@ The cloud service fee currently includes fees for the API requests. Each time yo
 
 ## Example-1:
 
-A user is using an XSmall warehouse (Business) and occasionally queries data. This specific query took 5 minutes and 20 seconds, and the data storage size is 100GB. The charges for the day are as follows:
+import BillingExample from '@site/src/components/BillingExample';
 
-### Compute charges:
-
-0.000416667 \* (5 \* 60 + 20) = $0.13
-(XSmall cluster charges $0.000416667 per second, and the query duration is 5 minutes and 20 seconds)
-
-### Storage charges:
-
-23 / 1024 / 30 \* 100 = $0.75
-(Storage price is $23 per TB/month, 1TB = 1024GB, 30 days in a month)
-
-### Total daily cost:
-
-Compute charges + Storage charges = $0.13 + $0.75 = $0.88
-
-### The total cost for the month would be:
-
-Assuming one query per day, 0.88 \* 30 = $26.4
-(Note: Because the API calls are infrequent, the cloud service fee is negligible. Only frequent queries will generate cloud service fees, as shown in Example 2.)
+<BillingExample example={1} />
 
 ## Example-2:
 
-A user is using an XSmall warehouse (Business) to continuously import data into Databend Cloud. The warehouse runs 24 hours a day, and the data storage is 1TB. To facilitate continuous data loading, the user has set up a task to run every minute, loading data into Databend Cloud. The estimated number of API calls is 100,000. The charges for the day are as follows:
-
-### Compute charges:
-
-1.50 \* 24 = $36
-(XSmall cluster charges $1.50 per hour)
-
-### Storage charges:
-
-23 / 30 = $0.77
-(Storage price is $23 per TB/month, 1TB = 1024GB, 30 days in a month)
-
-### Cloud service charges:
-
-$2 / 10,000 \* 50,000= $10($2 per 10K API calls, eg:50K API calls)
-
-### Total daily cost:
-
-Compute charges + Storage charges + Cloud service charges = $36 + 0.77 + 10 = $46.77
-
-### The total cost for the month would be:
-
-Assuming 24-hour continuous data import throughout the month, 46.77 \* 30 = $1403.1
+<BillingExample example={2} />
 
 ## Databend Cloud Billing
 
