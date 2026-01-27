@@ -12,7 +12,7 @@ Databend 支持两类主要迁移方式：
 
 | 迁移方式 | 推荐工具 | 支持的 MySQL 版本 |
 |----------|----------|-------------------|
-| 批量加载 | db-archiver | 所有 MySQL 版本 |
+| 批量加载 | bend-archiver | 所有 MySQL 版本 |
 | 以 CDC 实时同步 | Debezium | 所有 MySQL 版本 |
 
 ### 何时选择实时迁移（CDC）
@@ -30,7 +30,7 @@ Databend 支持两类主要迁移方式：
 
 ### 何时选择批量迁移
 
-> **推荐**：批量迁移优先选择 **db-archiver**。
+> **推荐**：批量迁移优先选择 **bend-archiver**。
 
 - 需要一次性或定期批量迁移
 - 需要迁移大量历史数据
@@ -38,7 +38,7 @@ Databend 支持两类主要迁移方式：
 
 | 工具 | 能力 | 最适合场景 | 适用情形 |
 |------|------|------------|----------|
-| [db-archiver](/tutorials/migrate/migrating-from-mysql-with-db-archiver) | 全量、增量 | 高效归档历史数据 | 数据按时间分区；需要归档历史；希望轻量化工具 |
+| [bend-archiver](/tutorials/migrate/migrating-from-mysql-with-db-archiver) | 全量、增量 | 高效归档历史数据 | 数据按时间分区；需要归档历史；希望轻量化工具 |
 | [DataX](/tutorials/migrate/migrating-from-mysql-with-datax) | 全量、增量 | 大规模数据高速迁移 | 需要高吞吐；希望并行处理；需要成熟广泛使用的工具 |
 | [Addax](/tutorials/migrate/migrating-from-mysql-with-addax) | 全量、增量 | DataX 增强版，更高性能 | 相比 DataX 需要更好的错误处理；想要监控增强；希望使用更新的功能 |
 

@@ -12,7 +12,7 @@ Databend supports two main migration approaches from MySQL:
 
 | Migration Approach       | Recommended Tool             | Supported MySQL versions |
 |--------------------------|------------------------------|--------------------------|
-| Batch Loading            | db-archiver                  | All MySQL versions       |
+| Batch Loading            | bend-archiver                | All MySQL versions       |
 | Continuous Sync with CDC | Debezium                     | All MySQL versions       |
 
 ### When to Choose Real-time Migration (CDC)
@@ -30,7 +30,7 @@ Databend supports two main migration approaches from MySQL:
 
 ### When to Choose Batch Migration
 
-> **Recommendation**: For batch migration, we recommend **db-archiver** as the default choice.
+> **Recommendation**: For batch migration, we recommend **bend-archiver** as the default choice.
 
 - You need one-time or scheduled data transfers
 - You have large volumes of historical data to migrate
@@ -38,7 +38,7 @@ Databend supports two main migration approaches from MySQL:
 
 | Tool | Capabilities | Best For | Choose When |
 |------|------------|----------|-------------|
-| [db-archiver](/tutorials/migrate/migrating-from-mysql-with-db-archiver) | Full Load, Incremental | Efficient historical data archiving | You have time-partitioned data; You need to archive historical data; You want a lightweight, focused tool |
+| [bend-archiver](/tutorials/migrate/migrating-from-mysql-with-db-archiver) | Full Load, Incremental | Efficient historical data archiving | You have time-partitioned data; You need to archive historical data; You want a lightweight, focused tool |
 | [DataX](/tutorials/migrate/migrating-from-mysql-with-datax) | Full Load, Incremental | High-performance large dataset transfers | You need high throughput for large datasets; You want parallel processing capabilities; You need a mature, widely-used tool |
 | [Addax](/tutorials/migrate/migrating-from-mysql-with-addax) | Full Load, Incremental | Enhanced DataX with better performance | You need better error handling than DataX; You want improved monitoring capabilities; You need more recent updates and features |
 
