@@ -1331,19 +1331,19 @@ const siteRedirects = [
   // Cloud and Self-Hosted reorganization
   {
     from: '/guides/products',
-    to: '/'
+    to: '/guides/'
   },
   {
     from: '/guides/products/overview',
-    to: '/'
+    to: '/guides/'
   },
   {
     from: '/guides/products/overview/ecosystem',
-    to: '/'
+    to: '/guides/'
   },
   {
     from: '/guides/products/overview/faq',
-    to: '/'
+    to: '/guides/'
   },
   // Products subpages redirects
   {

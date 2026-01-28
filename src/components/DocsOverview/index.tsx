@@ -580,7 +580,7 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<FAQ></FAQ>}
                 text={$t("FAQ")}
-                to={`/`}
+                to={`/guides/`}
               />
             </Col>
             <Col {...colLayout}>
