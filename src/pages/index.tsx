@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
-import { useHistory } from "@docusaurus/router";
+import { Redirect } from '@docusaurus/router';
 
-export default function HomeRedirect() {
-  const history = useHistory();
-  useEffect(() => {
-    history.replace("/guides/");
-  }, []);
-  return null;
+// Production: Vercel rewrites / to /guides/ (URL stays /)
+// Development: Client-side redirect to /guides/
+export default function Home(): JSX.Element {
+  return <Redirect to="/guides/" />;
 }
