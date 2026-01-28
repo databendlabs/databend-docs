@@ -330,6 +330,22 @@ CREATE TABLE commerce_mart.orders (
   amount DECIMAL(18, 2)
 );
 
+SET ROLE payment_owner;
+CREATE TABLE payment_mart.transactions (
+  transaction_id STRING,
+  order_id STRING,
+  user_id STRING,
+  transaction_ts TIMESTAMP,
+  amount DECIMAL(18, 2)
+);
+
+SET ROLE identity_owner;
+CREATE TABLE identity_mart.users (
+  user_id STRING,
+  email STRING,
+  created_at TIMESTAMP
+);
+
 -- 6) 跨域协作授权
 CREATE ROLE collab_marketing_commerce;
 GRANT SELECT ON commerce_mart.orders TO ROLE collab_marketing_commerce;
