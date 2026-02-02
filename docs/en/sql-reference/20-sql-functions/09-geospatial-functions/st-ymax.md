@@ -5,25 +5,27 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.512"/>
 
-Returns the maximum latitude (Y coordinate) of all points contained in the specified GEOMETRY object.
+Returns the maximum latitude (Y coordinate) of all points contained in the specified GEOMETRY or GEOGRAPHY object.
 
 ## Syntax
 
 ```sql
-ST_YMAX(<geometry>)
+ST_YMAX(<geometry_or_geography>)
 ```
 
 ## Arguments
 
 | Arguments    | Description                                          |
 |--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| `<geometry_or_geography>` | The argument must be an expression of type GEOMETRY or GEOGRAPHY. |
 
 ## Return Type
 
 Double.
 
 ## Examples
+
+### GEOMETRY examples
 
 ```sql
 SELECT
@@ -50,5 +52,22 @@ SELECT
 │ pipeline_ymax │
 ├───────────────┤
 │            45 │
+└───────────────┘
+```
+
+### GEOGRAPHY examples
+
+```sql
+SELECT
+  ST_YMAX(
+    ST_GEOGFROMWKT(
+      'LINESTRING(-179 10, 179 22)'
+    )
+  ) AS pipeline_ymax;
+
+┌───────────────┐
+│ pipeline_ymax │
+├───────────────┤
+│            22 │
 └───────────────┘
 ```

@@ -5,12 +5,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.436"/>
 
-Converts a GEOMETRY object into a [WKB(well-known-binary)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) format representation.
+Converts a GEOMETRY or GEOGRAPHY object into a [WKB(well-known-binary)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) format representation.
 
 ## Syntax
 
 ```sql
-ST_ASWKB(<geometry>)
+ST_ASWKB(<geometry_or_geography>)
 ```
 
 ## Aliases
@@ -21,13 +21,15 @@ ST_ASWKB(<geometry>)
 
 | Arguments    | Description                                          |
 |--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| `<geometry_or_geography>` | The argument must be an expression of type GEOMETRY or GEOGRAPHY. |
 
 ## Return Type
 
 Binary.
 
 ## Examples
+
+### GEOMETRY examples
 
 ```sql
 SELECT
@@ -55,4 +57,21 @@ SELECT
 ├────────────────────────────────────────────┤
 │ 01010000006666666666965EC06666666666C64240 │
 └────────────────────────────────────────────┘
+```
+
+### GEOGRAPHY examples
+
+```sql
+SELECT
+  ST_ASWKB(
+    ST_GEOGFROMWKT(
+      'SRID=4326;POINT(-122.35 37.55)'
+    )
+  ) AS pipeline_wkb;
+
+╭────────────────────────────────────────────╮
+│                pipeline_wkb                │
+├────────────────────────────────────────────┤
+│ 01010000006666666666965EC06666666666C64240 │
+╰────────────────────────────────────────────╯
 ```

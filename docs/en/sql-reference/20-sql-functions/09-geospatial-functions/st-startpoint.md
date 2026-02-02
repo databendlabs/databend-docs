@@ -10,20 +10,22 @@ Returns the first Point in a LineString.
 ## Syntax
 
 ```sql
-ST_STARTPOINT(<geometry>)
+ST_STARTPOINT(<geometry_or_geography>)
 ```
 
 ## Arguments
 
 | Arguments    | Description                                                                       |
 |--------------|-----------------------------------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY that represents a LineString. |
+| `<geometry_or_geography>` | The argument must be an expression of type GEOMETRY or GEOGRAPHY that represents a LineString. |
 
 ## Return Type
 
 Geometry.
 
 ## Examples
+
+### GEOMETRY examples
 
 ```sql
 SELECT
@@ -38,4 +40,21 @@ SELECT
 ├───────────────────┤
 │ POINT(1 1)        │
 └───────────────────┘
+```
+
+### GEOGRAPHY examples
+
+```sql
+SELECT
+  ST_STARTPOINT(
+    ST_GEOGFROMWKT(
+      'LINESTRING(1 1, 2 2, 3 3, 4 4)'
+    )
+  ) AS pipeline_startpoint;
+
+┌─────────────────────┐
+│ pipeline_startpoint │
+├─────────────────────┤
+│ POINT(1 1)          │
+└─────────────────────┘
 ```
