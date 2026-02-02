@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.555"/>
 
-Returns the area of a GEOMETRY or GEOGRAPHY object.
+Returns the area of a GEOMETRY or GEOGRAPHY object. For GEOMETRY inputs, the function uses planar area based on the [shoelace formula](https://en.wikipedia.org/wiki/Shoelace_formula). For GEOGRAPHY inputs, the function measures geodesic area on an ellipsoidal model of the earth using the method described in [Karney (2013)](https://arxiv.org/pdf/1109.4448.pdf).
 
 ## Syntax
 
