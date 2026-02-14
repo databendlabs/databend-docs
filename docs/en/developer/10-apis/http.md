@@ -475,3 +475,53 @@ curl -u "user:password" \
 
 - **Official CLI**: [BendSQL](https://github.com/databendlabs/bendsql) - Built on this HTTP handler
 - **Reference Implementation**: [sqllogictest client](https://github.com/databendlabs/databend/blob/main/tests/sqllogictests/src/client/http_client.rs)
+
+---
+
+## Admin API: Procedure Management
+
+The following admin API endpoints are available for managing stored procedures. These endpoints are served on the admin API address (configured via `admin_api_address`) and require management mode.
+
+### List All Procedures
+
+```
+GET /v1/tenants/<tenant>/procedures
+```
+
+Returns a JSON array of all procedures for the given tenant. The response format aligns with the [SHOW PROCEDURES](/sql-reference/10-sql-commands/00-ddl/18-procedure/show-procedures) SQL command.
+
+**Response fields:**
+
+| Field        | Description                                |
+| ------------ | ------------------------------------------ |
+| name         | The procedure name                         |
+| procedure_id | The unique procedure ID                    |
+| arguments    | The procedure signature with return types  |
+| comment      | User-provided comment                      |
+| description  | Description (e.g., "user-defined procedure") |
+| created_on   | Creation timestamp (UTC)                   |
+
+### Get Procedure by ID
+
+```
+GET /v1/tenants/<tenant>/procedures/<procedure_id>
+```
+
+Returns the details of a specific procedure by its numeric ID. Returns `404` if not found.
+
+### Get Procedure by Name
+
+```
+GET /v1/tenants/<tenant>/procedures/<name>?args=<arg_types>
+```
+
+Returns the details of a procedure by name. The `args` query parameter is a comma-separated list of argument types (e.g., `INT32,STRING`). Omit `args` for procedures that take no arguments.
+
+**Response fields:**
+
+| Field     | Description                          |
+| --------- | ------------------------------------ |
+| signature | The full procedure signature         |
+| returns   | The return type                      |
+| language  | The procedure language (e.g., SQL)   |
+| body      | The procedure body                   |
