@@ -16,6 +16,7 @@ This page provides reference information for the table functions in Databend. Ta
 | Function | Description | Example |
 |----------|-------------|--------|
 | [LIST_STAGE](./03-list-stage.md) | Lists files in a stage | `SELECT * FROM LIST_STAGE(LOCATION => '@mystage/data/')` |
+| [READ_FILE](./read-file.md) | Reads file content from a stage as binary | `SELECT read_file('@mystage/file.csv')` |
 | [RESULT_SCAN](./result-scan.md) | Retrieves the result set of a previous query | `SELECT * FROM RESULT_SCAN(LAST_QUERY_ID())` |
 
 ## Data Generation
