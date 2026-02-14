@@ -5,12 +5,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.391"/>
 
-Constructs a GEOMETRY object that represents a line connecting the points in the input two GEOMETRY objects.
+Constructs a GEOMETRY or GEOGRAPHY object that represents a line connecting the points in the input two GEOMETRY or GEOGRAPHY objects.
 
 ## Syntax
 
 ```sql
-ST_MAKELINE(<geometry1>, <geometry2>)
+ST_MAKELINE(<geometry_or_geography1>, <geometry_or_geography2>)
 ```
 
 ## Aliases
@@ -21,14 +21,16 @@ ST_MAKELINE(<geometry1>, <geometry2>)
 
 | Arguments     | Description                                                                                                 |
 |---------------|-------------------------------------------------------------------------------------------------------------|
-| `<geometry1>` | A GEOMETRY object containing the points to connect. This object must be a Point, MultiPoint, or LineString. |
-| `<geometry2>` | A GEOMETRY object containing the points to connect. This object must be a Point, MultiPoint, or LineString. |
+| `<geometry_or_geography1>` | A GEOMETRY or GEOGRAPHY object containing the points to connect. This object must be a Point, MultiPoint, or LineString. |
+| `<geometry_or_geography2>` | A GEOMETRY or GEOGRAPHY object containing the points to connect. This object must be a Point, MultiPoint, or LineString. |
 
 ## Return Type
 
 Geometry.
 
 ## Examples
+
+### GEOMETRY examples
 
 ```sql
 SELECT
@@ -46,4 +48,24 @@ SELECT
 ├───────────────────────────────────────────────────────┤
 │ LINESTRING(-122.3061 37.554162,-104.874173 56.714538) │
 └───────────────────────────────────────────────────────┘
+```
+
+### GEOGRAPHY examples
+
+```sql
+SELECT
+  ST_MAKELINE(
+    ST_GEOGFROMWKT(
+      'POINT(-122.306100 37.554162)'
+    ),
+    ST_GEOGFROMWKT(
+      'POINT(-104.874173 56.714538)'
+    )
+  ) AS pipeline_line;
+
+╭───────────────────────────────────────────────────────╮
+│                     pipeline_line                     │
+├───────────────────────────────────────────────────────┤
+│ LINESTRING(-122.3061 37.554162,-104.874173 56.714538) │
+╰───────────────────────────────────────────────────────╯
 ```

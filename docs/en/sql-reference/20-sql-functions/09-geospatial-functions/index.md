@@ -9,6 +9,7 @@ Databend ships with two complementary sets of geospatial capabilities: PostGIS-s
 | Function | Description | Example |
 |----------|-------------|---------|
 | [ST_MAKEGEOMPOINT](st-makegeompoint.md) / [ST_GEOM_POINT](st-geom-point.md) | Construct a Point geometry | `ST_MAKEGEOMPOINT(-122.35, 37.55)` → `POINT(-122.35 37.55)` |
+| [ST_MAKEPOINT](st-makepoint.md) / [ST_POINT](st-point.md) | Construct a Point geography | `ST_MAKEPOINT(-122.35, 37.55)` → `POINT(-122.35 37.55)` |
 | [ST_MAKELINE](st-makeline.md) / [ST_MAKE_LINE](st-make-line.md) | Create a LineString from points | `ST_MAKELINE(ST_MAKEGEOMPOINT(-122.35, 37.55), ST_MAKEGEOMPOINT(-122.40, 37.60))` → `LINESTRING(-122.35 37.55, -122.40 37.60)` |
 | [ST_MAKEPOLYGON](st-makepolygon.md) | Create a Polygon from a closed LineString | `ST_MAKEPOLYGON(ST_MAKELINE(...))` → `POLYGON(...)` |
 | [ST_POLYGON](st-polygon.md) | Create a Polygon from coordinate rings | `ST_POLYGON(...)` → `POLYGON(...)` |
@@ -21,9 +22,14 @@ Databend ships with two complementary sets of geospatial capabilities: PostGIS-s
 | [ST_GEOMETRYFROMWKB](st-geometryfromwkb.md) / [ST_GEOMFROMWKB](st-geomfromwkb.md) | Convert WKB to geometry | `ST_GEOMETRYFROMWKB(...)` → `POINT(...)` |
 | [ST_GEOMETRYFROMEWKT](st-geometryfromewkt.md) / [ST_GEOMFROMEWKT](st-geomfromewkt.md) | Convert EWKT to geometry | `ST_GEOMETRYFROMEWKT('SRID=4326;POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
 | [ST_GEOMETRYFROMEWKB](st-geometryfromewkb.md) / [ST_GEOMFROMEWKB](st-geomfromewkb.md) | Convert EWKB to geometry | `ST_GEOMETRYFROMEWKB(...)` → `POINT(...)` |
+| [ST_GEOGRAPHYFROMWKT](st-geographyfromwkt.md) / [ST_GEOGFROMWKT](st-geogfromwkt.md) | Convert WKT/EWKT to geography | `ST_GEOGRAPHYFROMWKT('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
+| [ST_GEOGRAPHYFROMWKB](st-geographyfromwkb.md) / [ST_GEOGFROMWKB](st-geogfromwkb.md) | Convert WKB/EWKB to geography | `ST_GEOGRAPHYFROMWKB(...)` → `POINT(...)` |
 | [ST_GEOMFROMGEOHASH](st-geomfromgeohash.md) | Convert GeoHash to geometry | `ST_GEOMFROMGEOHASH('9q8yyk8')` → `POLYGON(...)` |
 | [ST_GEOMPOINTFROMGEOHASH](st-geompointfromgeohash.md) | Convert GeoHash to Point geometry | `ST_GEOMPOINTFROMGEOHASH('9q8yyk8')` → `POINT(...)` |
+| [ST_GEOGFROMGEOHASH](st-geogfromgeohash.md) | Convert GeoHash to geography polygon | `ST_GEOGFROMGEOHASH('9q8yyk8')` → `POLYGON(...)` |
+| [ST_GEOGPOINTFROMGEOHASH](st-geogpointfromgeohash.md) | Convert GeoHash to geography point | `ST_GEOGPOINTFROMGEOHASH('9q8yyk8')` → `POINT(...)` |
 | [TO_GEOMETRY](to-geometry.md) | Parse various formats into geometry | `TO_GEOMETRY('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
+| [TO_GEOGRAPHY](to-geography.md) / [TRY_TO_GEOGRAPHY](to-geography.md) | Parse various formats into geography | `TO_GEOGRAPHY('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
 
 ## Geometry Output
 

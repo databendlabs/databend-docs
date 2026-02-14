@@ -5,25 +5,27 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.458"/>
 
-Returns the maximum longitude (X coordinate) of all points contained in the specified GEOMETRY object.
+Returns the maximum longitude (X coordinate) of all points contained in the specified GEOMETRY or GEOGRAPHY object.
 
 ## Syntax
 
 ```sql
-ST_XMAX(<geometry>)
+ST_XMAX(<geometry_or_geography>)
 ```
 
 ## Arguments
 
 | Arguments    | Description                                          |
 |--------------|------------------------------------------------------|
-| `<geometry>` | The argument must be an expression of type GEOMETRY. |
+| `<geometry_or_geography>` | The argument must be an expression of type GEOMETRY or GEOGRAPHY. |
 
 ## Return Type
 
 Double.
 
 ## Examples
+
+### GEOMETRY examples
 
 ```sql
 SELECT
@@ -50,5 +52,22 @@ SELECT
 │ pipeline_xmax │
 ├───────────────┤
 │            45 │
+└───────────────┘
+```
+
+### GEOGRAPHY examples
+
+```sql
+SELECT
+  ST_XMAX(
+    ST_GEOGFROMWKT(
+      'LINESTRING(-179 0, 179 0)'
+    )
+  ) AS pipeline_xmax;
+
+┌───────────────┐
+│ pipeline_xmax │
+├───────────────┤
+│           179 │
 └───────────────┘
 ```
