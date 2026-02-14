@@ -488,7 +488,7 @@ The following admin API endpoints are available for managing stored procedures. 
 GET /v1/tenants/<tenant>/procedures
 ```
 
-Returns a JSON array of all procedures for the given tenant. The response format aligns with the [SHOW PROCEDURES](/sql-reference/10-sql-commands/00-ddl/18-procedure/show-procedures) SQL command.
+Returns a JSON array of all procedures for the given tenant. The response format aligns with the [SHOW PROCEDURES](/sql/sql-commands/ddl/procedure/show-procedures) SQL command.
 
 **Response fields:**
 
