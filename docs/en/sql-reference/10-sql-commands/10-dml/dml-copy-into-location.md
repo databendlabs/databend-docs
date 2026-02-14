@@ -329,9 +329,11 @@ INSERT INTO sales_data VALUES
 CREATE STAGE partitioned_stage;
 
 -- Unload data partitioned by year-month derived from sale_date
+-- When sale_date is NULL, to_varchar() returns NULL, so the entire
+-- concatenation evaluates to NULL and the row lands in the _NULL_ folder.
 COPY INTO @partitioned_stage
     FROM sales_data
-    PARTITION BY ('month=' || COALESCE(to_varchar(sale_date, 'YYYY-MM'), 'unknown'))
+    PARTITION BY ('month=' || to_varchar(sale_date, 'YYYY-MM'))
     FILE_FORMAT = (TYPE = PARQUET);
 
 -- Verify the partitioned folder layout
