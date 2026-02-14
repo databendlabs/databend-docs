@@ -7,7 +7,7 @@ slug: /sql-reference/table-engines/iceberg
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.668"/>
+<FunctionDescription description="Introduced or updated: v1.2.725"/>
 
 Databend supports the integration of an [Apache Iceberg™](https://iceberg.apache.org/) catalog, enhancing its compatibility and versatility for data management and analytics. This extends Databend's capabilities by seamlessly incorporating the powerful metadata and storage management capabilities of Apache Iceberg™ into the platform.
 
@@ -415,6 +415,129 @@ iceberg_table_meta_count = 0
 ```
 
 In addition to metadata caching, Databend also supports table data caching for Iceberg catalog tables, similar to Fuse tables. For more information on data caching, refer to the [cache section](/guides/self-hosted/references/node-config/query-config#cache-section) in the Query Configurations reference.
+
+## Writing to Iceberg Tables
+
+Databend supports writing data to Iceberg tables using `INSERT INTO`. You can create Iceberg tables directly with the `ENGINE = ICEBERG` clause and optionally define partition columns using `PARTITION BY`.
+
+### Creating Iceberg Tables
+
+#### Syntax
+
+```sql
+CREATE TABLE <table_name> (
+    <column_definitions>
+) ENGINE = ICEBERG
+[PARTITION BY (<column1>[, <column2>, ...])];
+```
+
+- `ENGINE = ICEBERG`: Specifies that the table is stored in Iceberg format.
+- `PARTITION BY`: Optional. Defines one or more columns for partitioning the table data.
+
+#### Supported Data Types
+
+The following Databend data types are supported for writing to Iceberg tables:
+
+| Databend Type | Iceberg Type |
+|---------------|-------------|
+| BOOLEAN       | Boolean     |
+| INT           | Int         |
+| BIGINT        | Long        |
+| FLOAT         | Float       |
+| DOUBLE        | Double      |
+| STRING        | String      |
+| DATE          | Date        |
+| TIMESTAMP     | Timestamp   |
+
+### Inserting Data
+
+Use standard `INSERT INTO` statements to write data into Iceberg tables:
+
+```sql
+INSERT INTO <table_name> VALUES (...), (...);
+```
+
+Both partitioned and non-partitioned tables support single-row and multi-row inserts. For partitioned tables, Databend automatically routes rows to the correct partitions. Null values in partition columns are also supported.
+
+### Examples
+
+#### Non-Partitioned Table
+
+```sql
+CREATE TABLE t_scores(id INT, name STRING, score DOUBLE) ENGINE = ICEBERG;
+
+INSERT INTO t_scores VALUES (1, 'alice', 85.5);
+INSERT INTO t_scores VALUES (2, 'bob', 90.0), (3, 'charlie', 75.5);
+
+SELECT * FROM t_scores;
+
+┌──────────────────────────────────────────┐
+│   id   │   name   │       score         │
+├────────┼──────────┼─────────────────────┤
+│ 1      │ alice    │ 85.5                │
+│ 2      │ bob      │ 90.0                │
+│ 3      │ charlie  │ 75.5                │
+└──────────────────────────────────────────┘
+```
+
+#### Single-Field Partitioned Table
+
+```sql
+CREATE TABLE t_partitioned(id INT, category STRING, amount DOUBLE)
+ENGINE = ICEBERG
+PARTITION BY (category);
+
+INSERT INTO t_partitioned VALUES (1, 'A', 100.5);
+INSERT INTO t_partitioned VALUES (2, 'B', 200.0), (3, 'A', 150.5), (4, 'C', 400.0);
+
+SELECT * FROM t_partitioned;
+
+┌──────────────────────────────────────────────┐
+│   id   │  category  │       amount           │
+├────────┼────────────┼────────────────────────┤
+│ 1      │ A          │ 100.5                  │
+│ 3      │ A          │ 150.5                  │
+│ 2      │ B          │ 200.0                  │
+│ 4      │ C          │ 400.0                  │
+└──────────────────────────────────────────────┘
+```
+
+#### Multi-Field Partitioned Table
+
+```sql
+CREATE TABLE t_multi_part(id INT, region STRING, year INT, amount DOUBLE)
+ENGINE = ICEBERG
+PARTITION BY (region, year);
+
+INSERT INTO t_multi_part VALUES
+    (1, 'US', 2023, 100.5),
+    (2, 'EU', 2023, 200.5),
+    (3, 'US', 2024, 300.5),
+    (4, 'EU', 2024, 400.5);
+
+-- Insert into existing partitions
+INSERT INTO t_multi_part VALUES
+    (5, 'US', 2023, 500.5);
+
+-- Null values in partition columns are supported
+INSERT INTO t_multi_part VALUES
+    (6, NULL, 2023, 600.5),
+    (7, 'US', NULL, 700.5);
+
+SELECT * FROM t_multi_part;
+
+┌──────────────────────────────────────────────────────┐
+│   id   │  region  │   year   │       amount          │
+├────────┼──────────┼──────────┼───────────────────────┤
+│ 1      │ US       │ 2023     │ 100.5                 │
+│ 5      │ US       │ 2023     │ 500.5                 │
+│ 3      │ US       │ 2024     │ 300.5                 │
+│ 2      │ EU       │ 2023     │ 200.5                 │
+│ 4      │ EU       │ 2024     │ 400.5                 │
+│ 6      │ NULL     │ 2023     │ 600.5                 │
+│ 7      │ US       │ NULL     │ 700.5                 │
+└──────────────────────────────────────────────────────┘
+```
 
 ## Apache Iceberg™ Table Functions
 
