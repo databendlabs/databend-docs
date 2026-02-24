@@ -174,6 +174,7 @@ ORDER BY sensor_id, reading_time;
 ## Common Patterns
 
 ### Time-Based Windows
+**Syntax examples:**
 ```sql
 -- 7-day rolling window
 RANGE BETWEEN INTERVAL '7' DAY PRECEDING AND CURRENT ROW
@@ -181,11 +182,24 @@ RANGE BETWEEN INTERVAL '7' DAY PRECEDING AND CURRENT ROW
 -- 1-hour centered window
 RANGE BETWEEN INTERVAL '30' MINUTE PRECEDING AND INTERVAL '30' MINUTE FOLLOWING
 
--- Month-to-date
-RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW  -- When ORDER BY is date
+-- Month-to-date (when ORDER BY is date)
+RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+```
+
+**Complete example:**
+```sql
+-- 7-day rolling average
+SELECT sale_date, amount,
+       AVG(amount) OVER (
+           ORDER BY sale_date 
+           RANGE BETWEEN INTERVAL '7' DAY PRECEDING AND CURRENT ROW
+       ) AS avg_7day
+FROM sales
+ORDER BY sale_date;
 ```
 
 ### Value-Based Windows
+**Syntax examples:**
 ```sql
 -- Within ±10 units
 RANGE BETWEEN 10 PRECEDING AND 10 FOLLOWING
@@ -193,17 +207,42 @@ RANGE BETWEEN 10 PRECEDING AND 10 FOLLOWING
 -- Values up to 100 less than current
 RANGE BETWEEN 100 PRECEDING AND CURRENT ROW
 
--- Values within current ±5%
-RANGE BETWEEN (current * 0.05) PRECEDING AND (current * 0.05) FOLLOWING
+-- Note: Complex expressions like (current * 0.05) may not be supported
+-- Use fixed values or simple expressions
+```
+
+**Complete example:**
+```sql
+-- Include rows within ±0.5 units
+SELECT temperature, reading_time,
+       COUNT(*) OVER (
+           ORDER BY temperature 
+           RANGE BETWEEN 0.5 PRECEDING AND 0.5 FOLLOWING
+       ) AS similar_readings
+FROM temperature_readings
+ORDER BY temperature;
 ```
 
 ### Handling Duplicates
+**Syntax examples:**
 ```sql
 -- Include all duplicate values in same window
 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
 
--- Value-based grouping
-RANGE BETWEEN 0 PRECEDING AND 0 FOLLOWING  -- Groups identical values
+-- Value-based grouping (groups identical values)
+RANGE BETWEEN 0 PRECEDING AND 0 FOLLOWING
+```
+
+**Complete example:**
+```sql
+-- RANGE treats duplicate dates as same window
+SELECT sale_date, amount,
+       SUM(amount) OVER (
+           ORDER BY sale_date 
+           RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+       ) AS running_total_range
+FROM sales_duplicates
+ORDER BY sale_date;
 ```
 
 ## Best Practices

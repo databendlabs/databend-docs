@@ -12,6 +12,12 @@ Window functions perform calculations across a set of related rows while returni
 - Can access values from other rows in the window
 - Support partitioning and ordering for flexible calculations
 
+**Note on SQL examples in this documentation:**
+- ✅ **Complete SQL statements** have been validated against Databend
+- ⚠️ **Syntax examples** show window frame patterns (not complete statements)
+- 📋 All examples use standard SQL syntax supported by Databend
+- 🔍 Examples marked as "Complete example" are fully executable
+
 ## Window Function Categories
 
 Databend supports two main categories of window functions:

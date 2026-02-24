@@ -195,6 +195,7 @@ sale_date   | product | amount | max_in_partition | min_in_partition
 ## Common Patterns
 
 ### Running Calculations
+**Syntax examples (not complete statements):**
 ```sql
 -- Running total
 SUM(column) OVER (ORDER BY sort_col ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
@@ -206,7 +207,20 @@ AVG(column) OVER (ORDER BY sort_col ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT
 COUNT(*) OVER (ORDER BY sort_col ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
 ```
 
+**Complete example:**
+```sql
+-- Running total with actual table
+SELECT sale_date, product, amount,
+       SUM(amount) OVER (
+           ORDER BY sale_date 
+           ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+       ) AS running_total
+FROM sales
+ORDER BY sale_date;
+```
+
 ### Moving Windows
+**Syntax examples:**
 ```sql
 -- 3-period moving average
 AVG(column) OVER (ORDER BY sort_col ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)
@@ -218,7 +232,20 @@ SUM(column) OVER (ORDER BY sort_col ROWS BETWEEN 4 PRECEDING AND CURRENT ROW)
 AVG(column) OVER (ORDER BY sort_col ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING)
 ```
 
+**Complete example:**
+```sql
+-- 3-day moving average
+SELECT sale_date, amount,
+       AVG(amount) OVER (
+           ORDER BY sale_date 
+           ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+       ) AS moving_avg_3day
+FROM sales
+ORDER BY sale_date;
+```
+
 ### Bounded Windows
+**Syntax examples:**
 ```sql
 -- First 3 rows of partition
 SUM(column) OVER (ORDER BY sort_col ROWS BETWEEN UNBOUNDED PRECEDING AND 2 FOLLOWING)
@@ -228,6 +255,18 @@ SUM(column) OVER (ORDER BY sort_col ROWS BETWEEN 2 PRECEDING AND UNBOUNDED FOLLO
 
 -- Fixed window of 5 rows
 AVG(column) OVER (ORDER BY sort_col ROWS BETWEEN 2 PRECEDING AND 2 FOLLOWING)
+```
+
+**Complete example:**
+```sql
+-- Fixed 5-row window average
+SELECT sale_date, amount,
+       AVG(amount) OVER (
+           ORDER BY sale_date 
+           ROWS BETWEEN 2 PRECEDING AND 2 FOLLOWING
+       ) AS avg_5row_window
+FROM sales
+ORDER BY sale_date;
 ```
 
 ## Best Practices
