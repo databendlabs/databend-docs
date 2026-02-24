@@ -126,6 +126,8 @@ RANGE BETWEEN frame_start AND frame_end
 - `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` - Cumulative by value
 - `RANGE BETWEEN INTERVAL '7' DAY PRECEDING AND CURRENT ROW` - 7-day window
 
+For detailed examples and usage, see [RANGE BETWEEN](range-between.md).
+
 ## Common Use Cases
 
 - **Ranking**: Create leaderboards and top-N lists
