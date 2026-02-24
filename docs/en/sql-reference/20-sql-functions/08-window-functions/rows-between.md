@@ -42,7 +42,6 @@ FUNCTION() OVER (
 
 ### Sample Data
 
-**Option 1: Using CREATE OR REPLACE TABLE (for self-hosted Databend)**
 ```sql
 CREATE OR REPLACE TABLE sales (
     sale_date DATE,
@@ -63,43 +62,9 @@ INSERT INTO sales VALUES
     ('2024-01-05', 'B', 150.00);
 ```
 
-**Option 2: Using WITH clause (for Databend Cloud or temporary data)**
-```sql
-WITH sales AS (
-    SELECT * FROM (VALUES
-        ('2024-01-01', 'A', 100.00),
-        ('2024-01-02', 'A', 150.00),
-        ('2024-01-03', 'A', 200.00),
-        ('2024-01-04', 'A', 250.00),
-        ('2024-01-05', 'A', 300.00),
-        ('2024-01-01', 'B', 50.00),
-        ('2024-01-02', 'B', 75.00),
-        ('2024-01-03', 'B', 100.00),
-        ('2024-01-04', 'B', 125.00),
-        ('2024-01-05', 'B', 150.00)
-    ) AS t(sale_date, product, amount)
-)
--- Your SELECT queries go here, using "sales" as the table
-SELECT * FROM sales ORDER BY product, sale_date;
-```
-
 ### 1. Running Total (Cumulative Sum)
 
 ```sql
-WITH sales AS (
-    SELECT * FROM (VALUES
-        ('2024-01-01', 'A', 100.00),
-        ('2024-01-02', 'A', 150.00),
-        ('2024-01-03', 'A', 200.00),
-        ('2024-01-04', 'A', 250.00),
-        ('2024-01-05', 'A', 300.00),
-        ('2024-01-01', 'B', 50.00),
-        ('2024-01-02', 'B', 75.00),
-        ('2024-01-03', 'B', 100.00),
-        ('2024-01-04', 'B', 125.00),
-        ('2024-01-05', 'B', 150.00)
-    ) AS t(sale_date, product, amount)
-)
 SELECT sale_date, product, amount,
        SUM(amount) OVER (
            PARTITION BY product 
@@ -129,15 +94,6 @@ sale_date   | product | amount | running_total
 ### 2. Moving Average (3-Day Window)
 
 ```sql
-WITH sales AS (
-    SELECT * FROM (VALUES
-        ('2024-01-01', 'A', 100.00),
-        ('2024-01-02', 'A', 150.00),
-        ('2024-01-03', 'A', 200.00),
-        ('2024-01-04', 'A', 250.00),
-        ('2024-01-05', 'A', 300.00)
-    ) AS t(sale_date, product, amount)
-)
 SELECT sale_date, product, amount,
        AVG(amount) OVER (
            PARTITION BY product 
@@ -162,15 +118,6 @@ sale_date   | product | amount | moving_avg_3day
 ### 3. Centered Window (Current + 1 Before + 1 After)
 
 ```sql
-WITH sales AS (
-    SELECT * FROM (VALUES
-        ('2024-01-01', 'A', 100.00),
-        ('2024-01-02', 'A', 150.00),
-        ('2024-01-03', 'A', 200.00),
-        ('2024-01-04', 'A', 250.00),
-        ('2024-01-05', 'A', 300.00)
-    ) AS t(sale_date, product, amount)
-)
 SELECT sale_date, product, amount,
        SUM(amount) OVER (
            PARTITION BY product 
