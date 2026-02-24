@@ -237,6 +237,29 @@ AVG(column) OVER (ORDER BY sort_col ROWS BETWEEN 2 PRECEDING AND 2 FOLLOWING)
 3. **Consider performance** with large windows - smaller windows are more efficient
 4. **Handle edge cases** - windows may be smaller at partition boundaries
 5. **Combine with PARTITION BY** for per-group calculations
+6. **Understand boundary behavior** - windows shrink at partition edges
+
+### Boundary Behavior Examples
+
+**Centered window at partition edges:**
+```sql
+-- For row 1: ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING
+-- Actual window: CURRENT ROW AND 1 FOLLOWING (no preceding row exists)
+
+-- For last row: ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING  
+-- Actual window: 1 PRECEDING AND CURRENT ROW (no following row exists)
+```
+
+**Moving average at start:**
+```sql
+-- For row 1: ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+-- Actual window: CURRENT ROW only (no preceding rows)
+
+-- For row 2: ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+-- Actual window: 1 PRECEDING AND CURRENT ROW (only 1 preceding row exists)
+```
+
+This is normal behavior - the window frame adapts to available rows at partition boundaries.
 
 ## Limitations
 
