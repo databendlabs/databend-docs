@@ -12,6 +12,12 @@ Window functions perform calculations across a set of related rows while returni
 - Can access values from other rows in the window
 - Support partitioning and ordering for flexible calculations
 
+**Note on SQL examples in this documentation:**
+- ✅ **Complete SQL statements** have been validated against Databend
+- ⚠️ **Syntax examples** show window frame patterns (not complete statements)
+- 📋 All examples use standard SQL syntax supported by Databend
+- 🔍 Examples marked as "Complete example" are fully executable
+
 ## Window Function Categories
 
 Databend supports two main categories of window functions:
@@ -95,6 +101,38 @@ FUNCTION() OVER (
 - **ORDER BY**: Sorts rows within each partition  
 - **window_frame**: Defines which rows to include (optional)
 
+## Window Frame Specification
+
+The window frame defines which rows are included in the calculation for each row. Databend supports two types of window frames:
+
+### 1. ROWS BETWEEN
+Defines a window frame using physical row counts.
+
+**Syntax:**
+```sql
+ROWS BETWEEN frame_start AND frame_end
+```
+
+**Examples:**
+- `ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` - Running total
+- `ROWS BETWEEN 2 PRECEDING AND CURRENT ROW` - 3-day moving average
+- `ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING` - Centered window
+
+For detailed examples and usage, see [ROWS BETWEEN](rows-between.md).
+
+### 2. RANGE BETWEEN  
+Defines a window frame using logical value ranges.
+
+**Syntax:**
+```sql
+RANGE BETWEEN frame_start AND frame_end
+```
+
+**Examples:**
+- `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` - Cumulative by value
+- `RANGE BETWEEN INTERVAL '7' DAY PRECEDING AND CURRENT ROW` - 7-day window
+
+For detailed examples and usage, see [RANGE BETWEEN](range-between.md).
 
 ## Common Use Cases
 
