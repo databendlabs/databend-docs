@@ -93,6 +93,7 @@ const config: Config = {
     ],
   ],
   plugins: [
+    "./src/plugins/markdown-source-plugin",
     "docusaurus-plugin-sass",
     "./src/plugins/global-sass-var-inject",
     "./src/plugins/fetch-databend-releases",
@@ -240,32 +241,32 @@ const config: Config = {
       },
       items: [
         {
-          to: "/guides/",
+          to: "/guides",
           label: "Guides",
           position: "right",
         },
         {
-          to: "/tutorials/",
+          to: "/tutorials",
           label: "Tutorials",
           position: "right",
         },
         {
-          to: "/developer/",
+          to: "/developer",
           label: "Developer",
           position: "right",
         },
         {
-          to: "/sql/",
+          to: "/sql",
           label: "SQL Reference",
           position: "right",
         },
         {
-          to: "/integrations/",
+          to: "/integrations",
           label: "Integrations",
           position: "right",
         },
         {
-          to: "/release-notes/",
+          to: "/release-notes",
           label: "Releases",
           position: "right",
         },
@@ -282,7 +283,7 @@ const config: Config = {
             },
             {
               label: "Products",
-              to: `/guides/`,
+              to: `/guides`,
             },
             {
               label: "AI",
@@ -290,19 +291,19 @@ const config: Config = {
             },
             {
               label: "Performance",
-              to: `/guides/benchmark/`,
+              to: `/guides/benchmark`,
             },
             {
               label: "Downloads",
-              to: `${siteConfig[lang].homeLink}/download/`,
+              to: `${siteConfig[lang].homeLink}/download`,
             },
             {
               label: "Developer",
-              to: "/developer/",
+              to: "/developer",
             },
             {
               label: "Blog",
-              to: `${siteConfig[lang].homeLink}/blog/`,
+              to: `${siteConfig[lang].homeLink}/blog`,
             },
           ],
         },
