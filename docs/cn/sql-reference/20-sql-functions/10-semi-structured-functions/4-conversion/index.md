@@ -8,15 +8,15 @@ title: 类型转换函数
 
 | 函数 | 描述 | 示例 |
 |----------|-------------|---------|
-| [AS_BOOLEAN](as-boolean) | 将 VARIANT 值转换为布尔值（BOOLEAN） | `AS_BOOLEAN(PARSE_JSON('true'))` → `true` |
-| [AS_INTEGER](as-integer) | 将 VARIANT 值转换为大整数（BIGINT） | `AS_INTEGER(PARSE_JSON('42'))` → `42` |
-| [AS_FLOAT](as-float) | 将 VARIANT 值转换为双精度浮点数（DOUBLE） | `AS_FLOAT(PARSE_JSON('3.14'))` → `3.14` |
-| [AS_DECIMAL](as-decimal) | 将 VARIANT 值转换为定点数（DECIMAL） | `AS_DECIMAL(PARSE_JSON('12.34'))` → `12.34` |
-| [AS_STRING](as-string) | 将 VARIANT 值转换为字符串（STRING） | `AS_STRING(PARSE_JSON('"hello"'))` → `'hello'` |
-| [AS_BINARY](as-binary) | 将 VARIANT 值转换为二进制（BINARY） | `AS_BINARY(TO_BINARY('abcd')::VARIANT)` → `61626364` |
-| [AS_DATE](as-date) | 将 VARIANT 值转换为日期（DATE） | `AS_DATE(TO_DATE('2025-10-11')::VARIANT)` → `2025-10-11` |
-| [AS_ARRAY](as-array) | 将 VARIANT 值转换为数组（ARRAY） | `AS_ARRAY(PARSE_JSON('[1,2,3]'))` → `[1,2,3]` |
-| [AS_OBJECT](as-object) | 将 VARIANT 值转换为对象（OBJECT） | `AS_OBJECT(PARSE_JSON('{"a":1}'))` → `{"a":1}` |
+| [AS_BOOLEAN](conversion/as-boolean) | 将 VARIANT 值转换为布尔值（BOOLEAN） | `AS_BOOLEAN(PARSE_JSON('true'))` → `true` |
+| [AS_INTEGER](conversion/as-integer) | 将 VARIANT 值转换为大整数（BIGINT） | `AS_INTEGER(PARSE_JSON('42'))` → `42` |
+| [AS_FLOAT](conversion/as-float) | 将 VARIANT 值转换为双精度浮点数（DOUBLE） | `AS_FLOAT(PARSE_JSON('3.14'))` → `3.14` |
+| [AS_DECIMAL](conversion/as-decimal) | 将 VARIANT 值转换为定点数（DECIMAL） | `AS_DECIMAL(PARSE_JSON('12.34'))` → `12.34` |
+| [AS_STRING](conversion/as-string) | 将 VARIANT 值转换为字符串（STRING） | `AS_STRING(PARSE_JSON('"hello"'))` → `'hello'` |
+| [AS_BINARY](conversion/as-binary) | 将 VARIANT 值转换为二进制（BINARY） | `AS_BINARY(TO_BINARY('abcd')::VARIANT)` → `61626364` |
+| [AS_DATE](conversion/as-date) | 将 VARIANT 值转换为日期（DATE） | `AS_DATE(TO_DATE('2025-10-11')::VARIANT)` → `2025-10-11` |
+| [AS_ARRAY](conversion/as-array) | 将 VARIANT 值转换为数组（ARRAY） | `AS_ARRAY(PARSE_JSON('[1,2,3]'))` → `[1,2,3]` |
+| [AS_OBJECT](conversion/as-object) | 将 VARIANT 值转换为对象（OBJECT） | `AS_OBJECT(PARSE_JSON('{"a":1}'))` → `{"a":1}` |
 
 ## 重要说明
 

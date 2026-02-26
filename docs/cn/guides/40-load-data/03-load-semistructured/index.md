@@ -10,9 +10,9 @@ title: 加载半结构化格式
 
 | 文件格式 | 描述 | 指南 |
 | ----------- | ----------- | ----- |
-| **Parquet** | 高效的列式存储格式 | [加载 Parquet](load-parquet) |
-| **CSV** | 逗号分隔值 | [加载 CSV](load-csv) |
-| **TSV** | 制表符分隔值 | [加载 TSV](load-tsv) |
-| **NDJSON** | 换行符分隔的 JSON | [加载 NDJSON](load-ndjson) |
-| **ORC** | 优化的行列存储格式 | [加载 ORC](load-orc) |
-| **Avro** | 带有模式定义的行式格式 | [加载 Avro](load-avro) |
+| **Parquet** | 高效的列式存储格式 | [加载 Parquet](load-semistructured/load-parquet) |
+| **CSV** | 逗号分隔值 | [加载 CSV](load-semistructured/load-csv) |
+| **TSV** | 制表符分隔值 | [加载 TSV](load-semistructured/load-tsv) |
+| **NDJSON** | 换行符分隔的 JSON | [加载 NDJSON](load-semistructured/load-ndjson) |
+| **ORC** | 优化的行列存储格式 | [加载 ORC](load-semistructured/load-orc) |
+| **Avro** | 带有模式定义的行式格式 | [加载 Avro](load-semistructured/load-avro) |

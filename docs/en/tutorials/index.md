@@ -23,7 +23,7 @@ Pick a task to get started:
 - [Query system metadata](/tutorials/ingest-and-stream/query-metadata)
 
 ## Migrate Databases
-- [How to choose a MySQL migration path](/tutorials/migrate/)
+- [How to choose a MySQL migration path](/tutorials/migrate)
 - [MySQL CDC with Debezium](/tutorials/migrate/migrating-from-mysql-with-debezium)
 - [MySQL CDC with Flink](/tutorials/migrate/migrating-from-mysql-with-flink-cdc)
 - [MySQL batch: bend-archiver / DataX / Addax](/tutorials/migrate/migrating-from-mysql-with-db-archiver)

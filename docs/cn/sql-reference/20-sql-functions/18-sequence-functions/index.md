@@ -8,4 +8,4 @@ title: 序列函数（Sequence Functions）
 
 | 函数 | 描述 | 示例 |
 |------|------|------|
-| [NEXTVAL](nextval) | 从序列中检索下一个值 | `NEXTVAL(my_sequence)` |
+| [NEXTVAL](sequence-functions/nextval) | 从序列中检索下一个值 | `NEXTVAL(my_sequence)` |

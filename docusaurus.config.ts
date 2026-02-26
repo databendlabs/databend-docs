@@ -19,6 +19,7 @@ const config: Config = {
   tagline,
   url: siteConfig[lang].docsHomeLink, // Your website URL
   baseUrl: "/",
+  trailingSlash: false,
   onBrokenAnchors: "ignore",
   onBrokenLinks: "throw",
   favicon: "img/rect-icon.png",

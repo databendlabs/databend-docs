@@ -19,15 +19,15 @@ Deploy [Databend](https://github.com/databendlabs/databend) — an open-source, 
 
 | Edition | Best For |
 |---------|----------|
-| [**Community**](editions/community) | Development, testing, small-scale production |
-| [**Enterprise**](editions/enterprise/) | Large-scale production with enterprise features |
+| [**Community**](self-hosted/editions/community) | Development, testing, small-scale production |
+| [**Enterprise**](self-hosted/editions/enterprise/) | Large-scale production with enterprise features |
 
 ## Get Started
 
-1. [**Quick Start**](quickstart/) — Single-node setup in minutes
-2. [**Deploy**](deployment/) — Production deployment guides
-3. [**Connect**](/guides/connect/) — BendSQL, Python, Go, Java, Node.js
+1. [**Quick Start**](self-hosted/quickstart/) — Single-node setup in minutes
+2. [**Deploy**](self-hosted/deployment/) — Production deployment guides
+3. [**Connect**](/guides/connect) — BendSQL, Python, Go, Java, Node.js
 
 :::tip Prefer Zero Maintenance?
-[Databend Cloud](/guides/cloud/) handles all infrastructure for you — same engine, fully managed.
+[Databend Cloud](/guides/cloud) handles all infrastructure for you — same engine, fully managed.
 :::

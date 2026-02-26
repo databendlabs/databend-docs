@@ -108,4 +108,4 @@ Databend 禁止删除正在使用中的策略；在执行 `DROP PASSWORD POLICY`
 
 ---
 
-有关完整语法，请参阅 [密码策略 SQL 参考](/sql/sql-commands/ddl/password-policy/)，其中涵盖了 `CREATE`、`ALTER`、`SHOW`、`DESC` 和 `DROP`。
+有关完整语法，请参阅 [密码策略 SQL 参考](/sql/sql-commands/ddl/password-policy)，其中涵盖了 `CREATE`、`ALTER`、`SHOW`、`DESC` 和 `DROP`。

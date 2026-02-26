@@ -24,6 +24,6 @@ The fully-managed cloud data warehouse built on the open-source [Databend](https
 
 ## Get Started
 
-1. [**Sign Up**](getting-started) — Create your account in minutes
-2. [**Explore**](resources/) — Warehouses, Worksheets, Dashboards
-3. [**Connect**](/guides/connect/) — BendSQL, Python, Go, Java, Node.js
+1. [**Sign Up**](cloud/getting-started) — Create your account in minutes
+2. [**Explore**](cloud/resources/) — Warehouses, Worksheets, Dashboards
+3. [**Connect**](/guides/connect) — BendSQL, Python, Go, Java, Node.js

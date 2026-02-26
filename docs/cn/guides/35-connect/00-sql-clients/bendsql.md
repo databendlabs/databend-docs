@@ -145,7 +145,7 @@ cargo install bendsql
 
 如果您连接到私有化部署的 Databend 实例，则可以使用 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中指定的管理员用户，或者可以使用使用 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户进行连接。
 
-对于与 Databend Cloud 的连接，您可以使用默认的 `cloudapp` 用户或使用 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户。请注意，您用于登录 [Databend Cloud 控制台](https://app.databend.com/) 的用户帐户不能用于连接到 Databend Cloud。
+对于与 Databend Cloud 的连接，您可以使用默认的 `cloudapp` 用户或使用 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户。请注意，您用于登录 [Databend Cloud 控制台](https://app.databend.com) 的用户帐户不能用于连接到 Databend Cloud。
 
 ## 使用 BendSQL 连接
 

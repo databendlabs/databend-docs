@@ -3,7 +3,7 @@ title: Databend Community
 sidebar_position: 4
 ---
 
-Databend Community Edition is the open-source version of Databend, released under the **Apache 2.0 license** for free commercial and non-commercial use. It provides the same core analytics engine as [Databend Enterprise](/guides/self-hosted/editions/enterprise/) and [Databend Cloud](/guides/cloud/overview/), but without enterprise-specific features.
+Databend Community Edition is the open-source version of Databend, released under the **Apache 2.0 license** for free commercial and non-commercial use. It provides the same core analytics engine as [Databend Enterprise](/guides/self-hosted/editions/enterprise) and [Databend Cloud](/guides/cloud/overview), but without enterprise-specific features.
 
 ## Core Features
 
@@ -16,7 +16,7 @@ Databend Community Edition is the open-source version of Databend, released unde
 
 ## Enterprise Features
 
-For advanced capabilities, consider upgrading to [Databend Enterprise](/guides/self-hosted/editions/enterprise/) or [Databend Cloud](/guides/cloud/overview/), which include:
+For advanced capabilities, consider upgrading to [Databend Enterprise](/guides/self-hosted/editions/enterprise) or [Databend Cloud](/guides/cloud/overview), which include:
 - Advanced authentication and security
 - Priority technical support
 - Enterprise connectors and integrations
@@ -26,6 +26,6 @@ See the complete list in [Enterprise Features](/guides/self-hosted/editions/ente
 
 ## Getting Started
 
-- **[Quick Start Guide](/guides/self-hosted/quickstart/)**: Get up and running in 5 minutes
+- **[Quick Start Guide](/guides/self-hosted/quickstart)**: Get up and running in 5 minutes
 - **[Download & Install](/guides/self-hosted/deployment/download)**: Self-hosted deployment options
 - **[GitHub Repository](https://github.com/databendlabs/databend)**: Source code and community

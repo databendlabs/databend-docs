@@ -8,38 +8,38 @@ This page provides reference information for the query syntax in Databend. Each 
 
 | Component | Description |
 |-----------|-------------|
-| **[SELECT](query-select)** | Retrieve data from tables - the foundation of all queries |
-| **[FROM / JOIN](query-join)** | Specify data sources and combine multiple tables |
-| **[WHERE](query-select#where-clause)** | Filter rows based on conditions |
-| **[GROUP BY](query-group-by)** | Group rows and perform aggregations (SUM, COUNT, AVG, etc.) |
-| **[HAVING](query-group-by#having-clause)** | Filter grouped results |
-| **[ORDER BY](query-select#order-by-clause)** | Sort query results |
-| **[LIMIT / TOP](top)** | Restrict the number of rows returned |
+| **[SELECT](query-syntax/query-select)** | Retrieve data from tables - the foundation of all queries |
+| **[FROM / JOIN](query-syntax/query-join)** | Specify data sources and combine multiple tables |
+| **[WHERE](query-syntax/query-select#where-clause)** | Filter rows based on conditions |
+| **[GROUP BY](query-syntax/query-group-by)** | Group rows and perform aggregations (SUM, COUNT, AVG, etc.) |
+| **[HAVING](query-syntax/query-group-by#having-clause)** | Filter grouped results |
+| **[ORDER BY](query-syntax/query-select#order-by-clause)** | Sort query results |
+| **[LIMIT / TOP](query-syntax/top)** | Restrict the number of rows returned |
 
 ## Advanced Features
 
 | Component | Description |
 |-----------|-------------|
-| **[WITH (CTE)](with-clause)** | Define reusable query blocks for complex logic |
-| **[PIVOT](query-pivot)** | Convert rows to columns (wide format) |
-| **[UNPIVOT](query-unpivot)** | Convert columns to rows (long format) |
-| **[QUALIFY](qualify)** | Filter rows after window function calculations |
-| **[VALUES](values)** | Create inline temporary data sets |
+| **[WITH (CTE)](query-syntax/with-clause)** | Define reusable query blocks for complex logic |
+| **[PIVOT](query-syntax/query-pivot)** | Convert rows to columns (wide format) |
+| **[UNPIVOT](query-syntax/query-unpivot)** | Convert columns to rows (long format) |
+| **[QUALIFY](query-syntax/qualify)** | Filter rows after window function calculations |
+| **[VALUES](query-syntax/values)** | Create inline temporary data sets |
 
 ## Time Travel & Streaming
 
 | Component | Description |
 |-----------|-------------|
-| **[AT](query-at)** | Query data at a specific point in time |
-| **[CHANGES](changes)** | Track insertions, updates, and deletions |
-| **[WITH CONSUME](with-consume)** | Process streaming data with offset management |
-| **[WITH STREAM HINTS](with-stream-hints)** | Optimize stream processing behavior |
+| **[AT](query-syntax/query-at)** | Query data at a specific point in time |
+| **[CHANGES](query-syntax/changes)** | Track insertions, updates, and deletions |
+| **[WITH CONSUME](query-syntax/with-consume)** | Process streaming data with offset management |
+| **[WITH STREAM HINTS](query-syntax/with-stream-hints)** | Optimize stream processing behavior |
 
 ## Query Execution
 
 | Component | Description |
 |-----------|-------------|
-| **[Settings](settings)** | Configure query optimization and execution parameters |
+| **[Settings](query-syntax/settings)** | Configure query optimization and execution parameters |
 
 ## Query Structure
 

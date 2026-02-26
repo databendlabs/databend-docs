@@ -3,7 +3,7 @@ title: Databend 社区版
 sidebar_position: 4
 ---
 
-Databend 社区版（Community）是 Databend 的开源版本，基于 **Apache 2.0 许可证**发布，可免费用于商业和非商业用途。它提供了与 [Databend 企业版（Enterprise）](/guides/self-hosted/editions/enterprise/) 和 [Databend Cloud](/guides/cloud/overview/) 相同的核心分析引擎，但不包含企业级特有功能。
+Databend 社区版（Community）是 Databend 的开源版本，基于 **Apache 2.0 许可证**发布，可免费用于商业和非商业用途。它提供了与 [Databend 企业版（Enterprise）](/guides/self-hosted/editions/enterprise) 和 [Databend Cloud](/guides/cloud/overview) 相同的核心分析引擎，但不包含企业级特有功能。
 
 ## 核心功能
 
@@ -16,7 +16,7 @@ Databend 社区版（Community）是 Databend 的开源版本，基于 **Apache 
 
 ## 企业版功能
 
-如需更高级的功能，请考虑升级到 [Databend 企业版（Enterprise）](/guides/self-hosted/editions/enterprise/) 或 [Databend Cloud](/guides/cloud/overview/)，其中包括：
+如需更高级的功能，请考虑升级到 [Databend 企业版（Enterprise）](/guides/self-hosted/editions/enterprise) 或 [Databend Cloud](/guides/cloud/overview)，其中包括：
 - 高级身份验证和安全
 - 优先技术支持
 - 企业级连接器和集成
@@ -26,6 +26,6 @@ Databend 社区版（Community）是 Databend 的开源版本，基于 **Apache 
 
 ## 快速入门
 
-- **[快速入门指南](/guides/self-hosted/quickstart/)**：5 分钟快速上手
+- **[快速入门指南](/guides/self-hosted/quickstart)**：5 分钟快速上手
 - **[下载与安装](/guides/self-hosted/deployment/download)**：私有化部署选项
 - **[GitHub 仓库](https://github.com/databendlabs/databend)**：源代码与社区

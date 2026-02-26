@@ -138,4 +138,4 @@ FILE_FORMAT = (TYPE = 'PARQUET');
 
 ## 向量函数
 
-请参阅 [向量函数](/sql/sql-functions/vector-functions/)。
+请参阅 [向量函数](/sql/sql-functions/vector-functions)。

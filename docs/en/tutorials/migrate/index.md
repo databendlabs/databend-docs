@@ -58,5 +58,5 @@ Migrating from Snowflake to Databend involves a three-step process:
 
 ## Related Topics
 
-- [Loading Data](/guides/load-data/)
-- [Unloading Data](/guides/unload-data/)
+- [Loading Data](/guides/load-data)
+- [Unloading Data](/guides/unload-data)

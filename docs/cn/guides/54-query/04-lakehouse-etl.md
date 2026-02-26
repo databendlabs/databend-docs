@@ -10,7 +10,7 @@ title: Lakehouse ETL
 对象存储 -> STAGE -> COPY INTO 表 -> (可选) STREAMS/TASKS
 ```
 
-请根据您的环境调整存储桶路径或文件格式，然后粘贴以下命令。语法与 [数据加载指南](/guides/load-data/) 保持一致。
+请根据您的环境调整存储桶路径或文件格式，然后粘贴以下命令。语法与 [数据加载指南](/guides/load-data) 保持一致。
 
 ---
 

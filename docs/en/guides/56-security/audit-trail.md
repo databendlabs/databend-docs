@@ -105,4 +105,4 @@ query_duration_ms: 94
 client_address: 127.0.0.1
 ```
 
-For detailed information about each audit table and their specific fields, see the [System History Tables](/sql/sql-reference/system-history-tables/) reference documentation.
+For detailed information about each audit table and their specific fields, see the [System History Tables](/sql/sql-reference/system-history-tables) reference documentation.

@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.452"/>
 
-执行 SQL 脚本。有关如何为 Databend 编写 SQL 脚本，请参阅[存储过程与 SQL 脚本](/sql/stored-procedure-scripting/)。
+执行 SQL 脚本。有关如何为 Databend 编写 SQL 脚本，请参阅[存储过程与 SQL 脚本](/sql/stored-procedure-scripting)。
 
 ## 语法
 

@@ -143,7 +143,7 @@ Connecting to a warehouse provides the compute resources required to run queries
 
 ### Connection Methods
 
-Databend Cloud supports multiple connection methods to meet your specific needs. For detailed connection instructions, see the [SQL Clients documentation](/guides/connect/).
+Databend Cloud supports multiple connection methods to meet your specific needs. For detailed connection instructions, see the [SQL Clients documentation](/guides/connect).
 
 #### SQL Clients & Tools
 

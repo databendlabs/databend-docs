@@ -40,8 +40,8 @@ databend://user:pwd@host[:port]/[database][?sslmode=disable][&arg1=value1]
 
 | 语言                    | 包                                          | 主要特性                                                                  |
 | ----------------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
-| **[Python](./python)**  | `databend-driver`<br/>`databend-sqlalchemy` | • 同步/异步支持<br/>• SQLAlchemy 方言<br/>• 兼容 PEP 249                  |
-| **[Go](./golang)**      | `databend-go`                               | • database/sql 接口<br/>• 连接池<br/>• 批量操作                           |
-| **[Node.js](./nodejs)** | `databend-driver`                           | • TypeScript 支持<br/>• 基于 Promise 的 API<br/>• 流式结果                |
-| **[Java](./jdbc)**      | `databend-jdbc`                             | • 兼容 JDBC 4.0<br/>• 连接池<br/>• 预处理语句                             |
-| **[Rust](./rust)**      | `databend-driver`                           | • Async/await 支持<br/>• 类型安全查询<br/>• 零拷贝反序列化                |
+| **[Python](drivers/python)**  | `databend-driver`<br/>`databend-sqlalchemy` | • 同步/异步支持<br/>• SQLAlchemy 方言<br/>• 兼容 PEP 249                  |
+| **[Go](drivers/golang)**      | `databend-go`                               | • database/sql 接口<br/>• 连接池<br/>• 批量操作                           |
+| **[Node.js](drivers/nodejs)** | `databend-driver`                           | • TypeScript 支持<br/>• 基于 Promise 的 API<br/>• 流式结果                |
+| **[Java](drivers/jdbc)**      | `databend-jdbc`                             | • 兼容 JDBC 4.0<br/>• 连接池<br/>• 预处理语句                             |
+| **[Rust](drivers/rust)**      | `databend-driver`                           | • Async/await 支持<br/>• 类型安全查询<br/>• 零拷贝反序列化                |

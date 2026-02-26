@@ -10,7 +10,7 @@ The loading loop is straightforward:
 Object storage → STAGE → COPY INTO tables → (optional) STREAMS/TASKS
 ```
 
-Adjust the bucket path or format to match your environment, then paste the commands below. Syntax mirrors the [Load Data guides](/guides/load-data/).
+Adjust the bucket path or format to match your environment, then paste the commands below. Syntax mirrors the [Load Data guides](/guides/load-data).
 
 ---
 
