@@ -72,4 +72,4 @@ CREATE WORKER read_env WITH size='small', auto_suspend='300', auto_resume='true'
 - [ALTER WORKER](alter-worker.md) - Modify worker settings
 - [SHOW WORKERS](show-workers.md) - List available workers
 - [DROP WORKER](drop-worker.md) - Remove a worker
-- [User-Defined Functions](../../../../guides/60-udf/index.md) - Learn about UDFs in Databend
+- [User-Defined Functions](../10-udf/index.md) - Learn about UDFs in Databend

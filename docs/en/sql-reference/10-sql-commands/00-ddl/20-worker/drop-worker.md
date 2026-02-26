@@ -58,4 +58,4 @@ DROP WORKER IF EXISTS read_env;
 - [CREATE WORKER](create-worker.md) - Create a new worker
 - [SHOW WORKERS](show-workers.md) - List available workers
 - [ALTER WORKER](alter-worker.md) - Modify worker settings
-- [User-Defined Functions](../../../../guides/60-udf/index.md) - Learn about UDFs in Databend
+- [User-Defined Functions](../10-udf/index.md) - Learn about UDFs in Databend
