@@ -164,7 +164,7 @@ id | email              | is_vip
 - 需要在全局授予 `APPLY MASKING POLICY`，或针对单个策略授予 `APPLY ON MASKING POLICY <policy_name>`，角色才能使用 `ALTER TABLE` 设置或解除策略；拥有 OWNERSHIP 的角色也可以执行这些操作。
 - 使用 `SHOW GRANTS ON MASKING POLICY <policy_name>` 审计哪些角色拥有 APPLY/OWNERSHIP。
 - 延伸阅读：
-  - [User & Role](/sql/sql-commands/ddl/user/)
+  - [User & Role](/sql/sql-commands/ddl/user)
   - [CREATE MASKING POLICY](/sql/sql-commands/ddl/mask-policy/create-mask-policy)
   - [ALTER TABLE](/sql/sql-commands/ddl/table/alter-table#column-operations)
-  - [Masking Policy Commands](/sql/sql-commands/ddl/mask-policy/)
+  - [Masking Policy Commands](/sql/sql-commands/ddl/mask-policy)

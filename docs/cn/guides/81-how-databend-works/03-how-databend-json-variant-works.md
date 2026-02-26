@@ -6,7 +6,7 @@ sidebar_label: "Databend JSON 工作原理"
 另请参阅：
 
 - [Variant 数据类型](/sql/sql-reference/data-types/variant)
-- [半结构化函数](/sql/sql-functions/semi-structured-functions/)
+- [半结构化函数](/sql/sql-functions/semi-structured-functions)
 
 Databend 通过“原生 JSONB 存储 + 自动 JSON 索引”这套组合，把半结构化数据当成一等公民来处理。
 

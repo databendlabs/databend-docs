@@ -61,7 +61,7 @@ Send loading data request with the following command:
 ```
 
 - The `@_databend_load` is a placeholder representing local file data.
-- The [file_format clause](/sql/sql-reference/file-format-options/) uses the same syntax as the COPY command.
+- The [file_format clause](/sql/sql-reference/file-format-options) uses the same syntax as the COPY command.
 
 Alternatively, use a Python script:
 

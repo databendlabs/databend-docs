@@ -24,6 +24,6 @@ title: Databend Cloud
 
 ## 快速开始
 
-1. [**注册账号**](getting-started) — 几分钟搞定
-2. [**熟悉功能**](resources/) — 计算集群、工作区、仪表盘
-3. [**连接使用**](/guides/connect/) — BendSQL、Python、Go、Java、Node.js
+1. [**注册账号**](cloud/getting-started) — 几分钟搞定
+2. [**熟悉功能**](cloud/resources/) — 计算集群、工作区、仪表盘
+3. [**连接使用**](/guides/connect) — BendSQL、Python、Go、Java、Node.js

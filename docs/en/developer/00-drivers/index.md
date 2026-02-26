@@ -40,8 +40,8 @@ databend://user:pwd@host[:port]/[database][?sslmode=disable][&arg1=value1]
 
 | Language                | Package                                     | Key Features                                                                  |
 | ----------------------- | ------------------------------------------- | ----------------------------------------------------------------------------- |
-| **[Python](./python)**  | `databend-driver`<br/>`databend-sqlalchemy` | • Sync/async support<br/>• SQLAlchemy dialect<br/>• PEP 249 compatible        |
-| **[Go](./golang)**      | `databend-go`                               | • database/sql interface<br/>• Connection pooling<br/>• Bulk operations       |
-| **[Node.js](./nodejs)** | `databend-driver`                           | • TypeScript support<br/>• Promise-based API<br/>• Streaming results          |
-| **[Java](./jdbc)**      | `databend-jdbc`                             | • JDBC 4.0 compatible<br/>• Connection pooling<br/>• Prepared statements      |
-| **[Rust](./rust)**      | `databend-driver`                           | • Async/await support<br/>• Type-safe queries<br/>• Zero-copy deserialization |
+| **[Python](drivers/python)**  | `databend-driver`<br/>`databend-sqlalchemy` | • Sync/async support<br/>• SQLAlchemy dialect<br/>• PEP 249 compatible        |
+| **[Go](drivers/golang)**      | `databend-go`                               | • database/sql interface<br/>• Connection pooling<br/>• Bulk operations       |
+| **[Node.js](drivers/nodejs)** | `databend-driver`                           | • TypeScript support<br/>• Promise-based API<br/>• Streaming results          |
+| **[Java](drivers/jdbc)**      | `databend-jdbc`                             | • JDBC 4.0 compatible<br/>• Connection pooling<br/>• Prepared statements      |
+| **[Rust](drivers/rust)**      | `databend-driver`                           | • Async/await support<br/>• Type-safe queries<br/>• Zero-copy deserialization |

@@ -158,7 +158,7 @@ TableScan
 
 ## Essential Commands
 
-For complete command reference, see [Ngram Index](/sql/sql-commands/ddl/ngram-index/).
+For complete command reference, see [Ngram Index](/sql/sql-commands/ddl/ngram-index).
 
 | Command                                                  | Purpose                                      |
 |----------------------------------------------------------|----------------------------------------------|

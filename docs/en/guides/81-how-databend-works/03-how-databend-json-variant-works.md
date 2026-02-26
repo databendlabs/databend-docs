@@ -6,7 +6,7 @@ sidebar_label: "How Databend JSON Works"
 See also:
 
 - [Variant Data Type](/sql/sql-reference/data-types/variant)
-- [Semi-Structured Functions](/sql/sql-functions/semi-structured-functions/)
+- [Semi-Structured Functions](/sql/sql-functions/semi-structured-functions)
 
 Databend reimagines JSON analytics by pairing a native binary layout with automatic JSON indexing so semi-structured data behaves like first-class columns.
 

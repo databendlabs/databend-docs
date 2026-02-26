@@ -304,12 +304,12 @@ This is normal behavior - the window frame adapts to available rows at partition
 
 1. **n must be non-negative integer** - cannot use negative values or expressions
 2. **ORDER BY required** for most window frames (except full partition)
-3. **Frame boundaries must be ordered** - start_bound <= end_bound
+3. **Frame boundaries must be ordered** - start_bound &lt;= end_bound
 4. **Cannot mix PRECEDING and FOLLOWING arbitrarily** - must form valid window
 
 ## See Also
 
 - [Window Functions Overview](index.md)
 - [RANGE BETWEEN](range-between.md) - Value-based window frames
-- [Aggregate Functions](../07-aggregate-functions/) - Functions that can use window frames
+- [Aggregate Functions](../07-aggregate-functions/index.md) - Functions that can use window frames
 - [FIRST_VALUE](first-value.md) - Window function examples with frames

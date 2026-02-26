@@ -88,4 +88,4 @@ DROP NETWORK POLICY corp_vpn_policy;
 
 ---
 
-完整语法与更多命令请参阅 [网络策略 SQL 参考](/sql/sql-commands/ddl/network-policy/)，其中涵盖 `CREATE`、`ALTER`、`SHOW`、`DESC` 和 `DROP`。
+完整语法与更多命令请参阅 [网络策略 SQL 参考](/sql/sql-commands/ddl/network-policy)，其中涵盖 `CREATE`、`ALTER`、`SHOW`、`DESC` 和 `DROP`。

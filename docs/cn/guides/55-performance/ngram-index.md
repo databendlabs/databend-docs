@@ -158,7 +158,7 @@ TableScan
 
 ## 基本命令
 
-有关完整的命令参考，请参见 [Ngram 索引（Ngram Index）](/sql/sql-commands/ddl/ngram-index/)。
+有关完整的命令参考，请参见 [Ngram 索引（Ngram Index）](/sql/sql-commands/ddl/ngram-index)。
 
 | 命令 | 目的 |
 |----------------------------------------------------------|----------------------------------------------|

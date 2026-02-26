@@ -214,7 +214,7 @@ cd .. && cd bin
 
 ## 步骤三：验证部署
 
-通过 [BendSQL](/guides/connect/sql-clients/bendsql/) 连接任一查询节点，检索现有节点信息：
+通过 [BendSQL](/guides/connect/sql-clients/bendsql) 连接任一查询节点，检索现有节点信息：
 
 ```shell
 bendsql -h 172.16.125.131

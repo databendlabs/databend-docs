@@ -169,7 +169,7 @@ LIMIT 2;
 
 ### 选择距离度量
 
-根据你的使用场景选择合适的距离度量。查询时使用距离函数，参见 [Vector 函数](/sql/sql-functions/vector-functions/)。
+根据你的使用场景选择合适的距离度量。查询时使用距离函数，参见 [Vector 函数](/sql/sql-functions/vector-functions)。
 
 - **余弦距离（Cosine）**：适用于 BERT、GPT 等模型生成的文本 embedding，向量长度不重要的场景
 - **L2 距离（欧几里得）**：适用于图像特征、空间数据等关注绝对差异的场景

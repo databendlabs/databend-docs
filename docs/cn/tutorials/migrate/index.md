@@ -58,5 +58,5 @@ Snowflake 迁移 Databend 需要三步：
 
 ## 相关主题
 
-- [加载数据](/guides/load-data/)
-- [导出数据](/guides/unload-data/)
+- [加载数据](/guides/load-data)
+- [导出数据](/guides/unload-data)

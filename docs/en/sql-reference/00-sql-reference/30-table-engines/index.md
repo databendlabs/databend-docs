@@ -8,10 +8,10 @@ Databend provides several table engines so that you can balance performance and 
 
 | Engine | Best For | Highlights |
 | ------ | -------- | ---------- |
-| [Fuse Engine Tables](fuse) | Native Databend tables | Snapshot-based storage, automatic clustering, change tracking |
-| [Apache Iceberg™ Tables](iceberg) | Lakehouse catalogs | Time-travel, schema evolution, REST/Hive/Storage catalogs |
-| [Apache Hive Tables](hive) | Hive metastore data | Query Hive-managed data stores through external tables |
-| [Delta Lake Engine](delta) | Delta Lake datasets | Read Delta tables in object storage with ACID guarantees |
+| [Fuse Engine Tables](table-engines/fuse) | Native Databend tables | Snapshot-based storage, automatic clustering, change tracking |
+| [Apache Iceberg™ Tables](table-engines/iceberg) | Lakehouse catalogs | Time-travel, schema evolution, REST/Hive/Storage catalogs |
+| [Apache Hive Tables](table-engines/hive) | Hive metastore data | Query Hive-managed data stores through external tables |
+| [Delta Lake Engine](table-engines/delta) | Delta Lake datasets | Read Delta tables in object storage with ACID guarantees |
 
 ## Choosing an Engine
 

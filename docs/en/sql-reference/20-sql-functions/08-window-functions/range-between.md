@@ -265,5 +265,5 @@ ORDER BY sale_date;
 
 - [Window Functions Overview](index.md)
 - [ROWS BETWEEN](rows-between.md) - Row-based window frames
-- [Aggregate Functions](../07-aggregate-functions/) - Functions that can use window frames
-- [Date and Time Functions](../10-date-time-functions/) - Useful with RANGE intervals
+- [Aggregate Functions](../07-aggregate-functions/index.md) - Functions that can use window frames
+- [Date and Time Functions](../05-datetime-functions/index.md) - Useful with RANGE intervals

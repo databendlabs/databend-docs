@@ -8,4 +8,4 @@ title: 测试函数（Test Functions）
 
 | 函数 | 描述 | 示例 |
 |----------|-------------|--------|
-| [SLEEP](sleep) | 暂停执行指定秒数 | `SELECT SLEEP(2)` → `0` |
+| [SLEEP](test-functions/sleep) | 暂停执行指定秒数 | `SELECT SLEEP(2)` → `0` |

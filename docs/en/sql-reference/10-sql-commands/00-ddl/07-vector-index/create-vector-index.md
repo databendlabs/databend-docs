@@ -169,7 +169,7 @@ Result:
 
 ### Choosing Distance Metrics
 
-Choose the appropriate distance metric based on your use case. See [Vector Functions](/sql/sql-functions/vector-functions/) for querying with distance functions.
+Choose the appropriate distance metric based on your use case. See [Vector Functions](/sql/sql-functions/vector-functions) for querying with distance functions.
 
 - **Cosine distance**: Best for text embeddings from models like BERT, GPT, where vector magnitude doesn't matter
 - **L2 (Euclidean) distance**: Best for image features, spatial data where absolute differences matter

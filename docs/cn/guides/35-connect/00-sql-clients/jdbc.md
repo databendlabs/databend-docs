@@ -18,7 +18,7 @@ import StepContent from '@site/src/components/Steps/step-content';
 
 如果您连接的是私有化部署的 Databend 实例，可以使用 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 配置文件中指定的管理员用户，或者通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户进行连接。
 
-对于连接 Databend Cloud，可以使用默认的 `cloudapp` 用户或通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户。请注意，用于登录 [Databend Cloud 控制台](https://app.databend.com/) 的用户账号不能用于连接 Databend Cloud。
+对于连接 Databend Cloud，可以使用默认的 `cloudapp` 用户或通过 [CREATE USER](/sql/sql-commands/ddl/user/user-create-user) 命令创建的 SQL 用户。请注意，用于登录 [Databend Cloud 控制台](https://app.databend.com) 的用户账号不能用于连接 Databend Cloud。
 
 ## 连接私有化部署的 Databend
 

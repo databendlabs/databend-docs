@@ -98,3 +98,45 @@ In the above commands, the cluster info are all identical.
 But each databend-meta node has a different node id specified.
 
 After that, it is ready to start a new three nodes databend-meta cluster.
+
+## Dump Raft Log WAL
+
+The `dump-raft-log-wal` subcommand inspects the raw Raft write-ahead log stored on disk. This is useful for diagnosing meta service issues.
+
+```shell
+databend-metactl dump-raft-log-wal --raft-dir .databend/meta1
+```
+
+### --decode-values
+
+By default, protobuf-encoded values are displayed as raw bytes. Use the `--decode-values` (`-V`) flag to decode them into human-readable structs based on key prefixes (e.g., `__fd_database_by_id`, `__fd_roles`):
+
+```shell
+databend-metactl dump-raft-log-wal --raft-dir .databend/meta1 --decode-values
+```
+
+Example output:
+
+```text
+RaftLog:
+ChunkId(00_000_000_000_000_000_000)
+  R-00015: ... Append(... txn:TxnRequest{if:[...] then:[Put(Put key=__fd_database_by_id/1),...] else:[]})
+    txn.if_then[0].put __fd_database_by_id/1:
+      DatabaseMeta { engine: "", engine_options: {}, options: {}, ... }
+    txn.if_then[1].put __fd_db_id_list/test_tenant/default:
+      DbIdList { id_list: [1] }
+```
+
+### --raw
+
+Use the `--raw` (`-R`) flag to display the raw protobuf bytes for values:
+
+```shell
+databend-metactl dump-raft-log-wal --raft-dir .databend/meta1 --raw
+```
+
+Both flags can be combined:
+
+```shell
+databend-metactl dump-raft-log-wal --raft-dir .databend/meta1 --decode-values --raw
+```

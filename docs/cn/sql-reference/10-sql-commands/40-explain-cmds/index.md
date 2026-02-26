@@ -8,10 +8,10 @@ title: EXPLAIN 命令
 
 | 命令 | 使用场景 |
 |---------|----------|
-| [`EXPLAIN`](./explain) | 理解查询结构与优化 |
-| [`EXPLAIN ANALYZE`](./explain-analyze) | 通过运行时统计信息进行性能分析 |
-| [`EXPLAIN ANALYZE GRAPHICAL`](./explain-analyze-graphical) | 可视化性能分析（仅限 BendSQL） |
-| [`EXPLAIN AST`](./explain-ast) | SQL 解析与语法分析 |
-| [`EXPLAIN PERF`](./explain-perf) | 查询性能剖析（仅限 BendSQL） |
-| [`EXPLAIN RAW`](./explain-raw) | 内部查询处理分析 |
-| [`EXPLAIN SYNTAX`](./explain-syntax) | SQL 代码格式化与标准化 |
+| [`EXPLAIN`](explain-cmds/explain) | 理解查询结构与优化 |
+| [`EXPLAIN ANALYZE`](explain-cmds/explain-analyze) | 通过运行时统计信息进行性能分析 |
+| [`EXPLAIN ANALYZE GRAPHICAL`](explain-cmds/explain-analyze-graphical) | 可视化性能分析（仅限 BendSQL） |
+| [`EXPLAIN AST`](explain-cmds/explain-ast) | SQL 解析与语法分析 |
+| [`EXPLAIN PERF`](explain-cmds/explain-perf) | 查询性能剖析（仅限 BendSQL） |
+| [`EXPLAIN RAW`](explain-cmds/explain-raw) | 内部查询处理分析 |
+| [`EXPLAIN SYNTAX`](explain-cmds/explain-syntax) | SQL 代码格式化与标准化 |

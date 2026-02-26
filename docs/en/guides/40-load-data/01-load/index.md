@@ -22,7 +22,7 @@ Select the location of your files to find the recommended loading method:
 
 | Data Source | Recommended Tool | Description | Documentation |
 |-------------|-----------------|-------------|---------------|
-| **Staged Data Files** | **COPY INTO** | Fast, efficient loading from internal/external stages or user stage | [Loading from Stage](stage) |
-| **Cloud Storage** | **COPY INTO** | Load from Amazon S3, Google Cloud Storage, Microsoft Azure | [Loading from Bucket](s3) |
-| **Local Files** | [**BendSQL**](https://github.com/databendlabs/BendSQL) | Databend's native CLI tool for local file loading | [Loading from Local File](local) |
-| **Remote Files** | **COPY INTO** | Load data from remote HTTP/HTTPS locations | [Loading from Remote File](http) |
+| **Staged Data Files** | **COPY INTO** | Fast, efficient loading from internal/external stages or user stage | [Loading from Stage](load/stage) |
+| **Cloud Storage** | **COPY INTO** | Load from Amazon S3, Google Cloud Storage, Microsoft Azure | [Loading from Bucket](load/s3) |
+| **Local Files** | [**BendSQL**](https://github.com/databendlabs/BendSQL) | Databend's native CLI tool for local file loading | [Loading from Local File](load/local) |
+| **Remote Files** | **COPY INTO** | Load data from remote HTTP/HTTPS locations | [Loading from Remote File](load/http) |

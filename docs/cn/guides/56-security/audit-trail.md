@@ -105,4 +105,4 @@ query_duration_ms: 94
 client_address: 127.0.0.1
 ```
 
-有关每个审计表及其特定字段的详细信息，请参阅[系统历史表](/sql/sql-reference/system-history-tables/)参考文档。
+有关每个审计表及其特定字段的详细信息，请参阅[系统历史表](/sql/sql-reference/system-history-tables)参考文档。

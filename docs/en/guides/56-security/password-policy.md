@@ -108,4 +108,4 @@ Databend prevents you from dropping a policy that is still in use; unset it from
 
 ---
 
-For full syntax, see the [Password Policy SQL reference](/sql/sql-commands/ddl/password-policy/), which covers `CREATE`, `ALTER`, `SHOW`, `DESC`, and `DROP`.
+For full syntax, see the [Password Policy SQL reference](/sql/sql-commands/ddl/password-policy), which covers `CREATE`, `ALTER`, `SHOW`, `DESC`, and `DROP`.
