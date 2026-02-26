@@ -186,6 +186,7 @@ export function calculateAge(birthDateStr) {
     return age;
 }
 $$;
+```
 
 ## Worker Management for UDFs
 

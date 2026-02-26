@@ -278,6 +278,6 @@ ALTER WORKER my_worker SET
 
 ## Related Topics
 
-- [User-Defined Functions](../../../../guides/60-udf/index.md) - Learn about creating and using UDFs
-- [Cloud Control](../../../../guides/90-cloud-control/index.md) - Understand cloud integration
-- [Resource Management](../../../../guides/80-resource-management/index.md) - Best practices for resource allocation
+- [User-Defined Functions (UDFs)](../10-udf/index.md) - Learn about creating and using UDFs
+- [Warehouse Management](../19-warehouse/index.md) - Manage compute resources for query execution
+- [Workload Groups](../20-workload-group/index.md) - Control resource allocation and priorities
