@@ -44,6 +44,11 @@ const config: Config = {
   },
   headTags: [
     {
+      tagName: "script",
+      attributes: {},
+      innerHTML: `if(location.pathname.endsWith('.md'))location.replace(location.href);`,
+    },
+    {
       tagName: "link",
       attributes: {
         rel: "mask-icon",
