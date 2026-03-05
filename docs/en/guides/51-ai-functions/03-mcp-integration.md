@@ -12,12 +12,13 @@ import TabItem from '@theme/TabItem';
 [Databend MCP](https://github.com/databendlabs/mcp-databend) connects AI assistants to Databend via Model Context Protocol. Works with Claude Code, Codex, Cursor, Claude Desktop, VS Code, and other MCP-compatible clients.
 
 **What you can do:**
+
 - Generate complex SQL queries based on your requirements
-- Create and manage scheduled data pipeline tasks  
+- Create and manage scheduled data pipeline tasks
 - Explore database schemas and validate query syntax
 - Build ETL workflows with COPY, MERGE, and Stage operations
 
-For example: *"Create a scheduled task that copies parquet files from @my_stage to the orders table every minute, and verify it's running correctly."*
+For example: _"Create a scheduled task that copies parquet files from @my_stage to the orders table every minute, and verify it's running correctly."_
 
 ## Installation
 
@@ -26,7 +27,7 @@ For example: *"Create a scheduled task that copies parquet files from @my_stage 
 We recommend using **Databend Cloud** for the best experience.
 
 1.  Log in to [Databend Cloud](https://app.databend.com).
-2.  Click **Connect** in the navigation bar.
+2.  Click **Use with AI Tools** in the navigation bar.
 3.  Select regular connection information (Host, User, Password, etc.).
 4.  Copy your DSN, which looks like:
     `databend://user:pwd@host:443/database?warehouse=warehouse_name`
@@ -170,33 +171,33 @@ uv tool run mcp-databend
 
 ### Database Operations
 
-| Tool | Description |
-|------|-------------|
-| `execute_sql` | Execute SQL queries with timeout protection |
-| `show_databases` | List all databases |
-| `show_tables` | List tables in a database (with optional filter) |
-| `describe_table` | Get table schema information |
+| Tool             | Description                                      |
+| ---------------- | ------------------------------------------------ |
+| `execute_sql`    | Execute SQL queries with timeout protection      |
+| `show_databases` | List all databases                               |
+| `show_tables`    | List tables in a database (with optional filter) |
+| `describe_table` | Get table schema information                     |
 
 ### Stage Management
 
-| Tool | Description |
-|------|-------------|
-| `show_stages` | List all available stages |
-| `list_stage_files` | List files in a specific stage |
-| `create_stage` | Create a new stage with connection support |
+| Tool               | Description                                |
+| ------------------ | ------------------------------------------ |
+| `show_stages`      | List all available stages                  |
+| `list_stage_files` | List files in a specific stage             |
+| `create_stage`     | Create a new stage with connection support |
 
 ### Connection Management
 
-| Tool | Description |
-|------|-------------|
+| Tool               | Description                    |
+| ------------------ | ------------------------------ |
 | `show_connections` | List all available connections |
 
 ## Configuration
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `DATABEND_DSN` | Connection string | Required |
-| `SAFE_MODE` | Block dangerous SQL operations (`DROP`, `DELETE`, etc.) | `true` |
-| `DATABEND_QUERY_TIMEOUT` | Query timeout in seconds | `300` |
+| Variable                 | Description                                             | Default  |
+| ------------------------ | ------------------------------------------------------- | -------- |
+| `DATABEND_DSN`           | Connection string                                       | Required |
+| `SAFE_MODE`              | Block dangerous SQL operations (`DROP`, `DELETE`, etc.) | `true`   |
+| `DATABEND_QUERY_TIMEOUT` | Query timeout in seconds                                | `300`    |
 
 For more details on building conversational BI tools, see [MCP Server Guide](02-mcp.md).
