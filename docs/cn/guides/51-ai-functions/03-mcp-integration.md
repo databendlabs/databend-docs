@@ -32,6 +32,8 @@ import TabItem from '@theme/TabItem';
 4.  复制完整 DSN，格式如下：
     `databend://user:pwd@host:443/database?warehouse=warehouse_name`
 
+![与 AI 工具连接](@site/static/img/connect/ai-tools.png)
+
 ### 2. 配置 MCP 客户端
 
 <Tabs groupId="mcp-clients">
