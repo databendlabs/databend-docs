@@ -1,79 +1,99 @@
 ---
-title: 全文索引
+title: 全文索引（Full-Text Index）
 ---
-import EEFeature from '@site/src/components/EEFeature';
 
-<EEFeature featureName='INVERTED INDEX'/>
+:::info
+想要动手实践？请参考 [JSON 与搜索指南](/guides/query/json-search)。
+:::
 
-## 什么是全文索引？
+# 全文索引（Full-Text Index）：自动实现闪电般快速的文本搜索
 
-全文索引，也称为倒排索引，是一种用于高效映射术语与包含这些术语的文档或记录的数据结构。在典型的倒排索引中，文档文本中的每个术语都与出现该术语的文档ID相关联。这使得能够进行快速的全文搜索并根据搜索词检索相关文档。
+全文索引（倒排索引）通过将词条映射到文档，自动在大规模文档集合中实现闪电般快速的文本搜索，彻底告别缓慢的表扫描。
 
-Databend 使用 [Tantivy](https://github.com/quickwit-oss/tantivy)，一个全文搜索引擎库，来实现倒排索引。假设我们有一组代表产品评论的文档。每个文档由一个唯一的ID和一些描述评论的文本内容组成。以下是几个示例文档：
+## 它解决了什么问题？
 
-| 文档ID | 内容                                                             |
-|-------------|---------------------------------------------------------------------|
-| 101         | "This product is amazing! It exceeded all my expectations."         |
-| 102         | "I'm disappointed with this product. It didn't work as advertised." |
-| 103         | "Highly recommended! Best purchase I've made in a long time."       |
+在大数据量场景下，文本搜索面临严峻的性能挑战：
 
-这些文档的倒排索引将如下表所示。倒排索引使我们能够快速找到包含特定术语的文档。例如，如果我们搜索术语 `recommended`，我们可以轻松地从倒排索引中检索到文档ID 103。
+| 问题 | 影响 | 全文索引解决方案 |
+|---------|--------|-------------------------|
+| **LIKE 查询慢** | `WHERE content LIKE '%keyword%'` 需全表扫描 | 直接词条查找，跳过无关文档 |
+| **全表扫描** | 每次文本搜索都要读取所有行 | 仅读取包含搜索词条的文档 |
+| **搜索体验差** | 用户需等待数秒甚至数分钟 | 亚秒级响应 |
+| **搜索能力有限** | 仅支持基础模式匹配 | 支持模糊搜索、相关性评分等高级功能 |
+| **资源消耗高** | 文本搜索占用大量 CPU/内存 | 索引搜索资源消耗极低 |
 
-| 术语           | 文档IDs |
-|----------------|--------------|
-| "product"      | 101, 102     |
-| "amazing"      | 101          |
-| "disappointed" | 102          |
-| "recommended"  | 103          |
+**示例**：在 1000 万条日志中搜索 "kubernetes error"。无全文索引时需扫描 1000 万行；有全文索引时瞬间定位约 1000 条匹配文档。
 
-## 全文索引与LIKE模式匹配
+## 工作原理
 
-全文索引和LIKE模式匹配都是用于在数据库中搜索文本数据的方法。然而，全文索引相比LIKE模式匹配提供了显著更快的查询性能，尤其是在具有大量文本内容的大型数据库中。
+全文索引建立“词条 → 文档”的倒排映射：
 
-LIKE操作符允许在文本字段中进行模式匹配。它在字符串中搜索指定的模式，并返回找到该模式的行。对于如下示例的查询，Databend将执行全表扫描以检查每一行是否存在指定的模式 `%Starbucks%`。这种方法可能会消耗大量资源，并导致查询执行速度变慢，尤其是在大型表中。
+| 词条 | 文档 ID |
+|------|-------------|
+| "kubernetes" | 101, 205, 1847 |
+| "error" | 101, 892, 1847 |
+| "pod" | 205, 1847, 2901 |
 
-```sql title='示例:'
-SELECT * FROM table WHERE content LIKE '%Starbucks%';
-```
+搜索 "kubernetes error" 时，索引直接返回同时包含这两个词条的文档（101、1847），无需全表扫描。
 
-相比之下，全文索引涉及创建倒排索引，这些索引将术语映射到包含这些术语的文档或记录。这些索引使得能够基于特定关键词或短语高效地搜索文本数据。利用倒排索引，Databend可以直接访问包含指定术语 `Starbucks` 的文档，无需扫描整个表，从而显著减少查询执行时间，特别是在具有大量文本内容的场景中。
+## 快速上手
 
-```sql title='示例:'
-CREATE INVERTED INDEX table_content_idx ON table(content);
-SELECT * FROM table WHERE match(content, 'Starbucks');
-```
-
-## 使用倒排索引进行搜索
-
-在使用倒排索引进行搜索之前，您必须创建它们：
-
-- 您可以使用 [CREATE INVERTED INDEX](/sql/sql-commands/ddl/inverted-index/create-inverted-index) 命令为一个表创建多个倒排索引，但每个列在倒排索引中必须是唯一的。换句话说，一个列只能由一个倒排索引索引。
-- 如果您的数据在倒排索引创建之前已插入表中，您必须在使用 [REFRESH INVERTED INDEX](/sql/sql-commands/ddl/inverted-index/refresh-inverted-index) 命令进行搜索之前刷新倒排索引，以便数据可以被正确索引。
-
-```sql title='示例:'
--- 为表 'user_comments' 中的 'comment_title' 和 'comment_body' 列创建倒排索引
-CREATE INVERTED INDEX customer_feedback_idx ON customer_feedback(comment_title, comment_body);
-
--- 如果表中在创建索引之前已存在数据，刷新索引以确保现有数据的索引。
-REFRESH INVERTED INDEX customer_feedback_idx ON customer_feedback;
-```
-
-### 全文搜索函数
-
-Databend 提供了一系列全文搜索函数，使您能够高效地搜索文档。有关其语法和示例的更多信息，请参阅 [全文搜索函数](/sql/sql-functions/search-functions/)。
-
-## 管理倒排索引
-
-Databend 提供了多种命令来管理倒排索引。有关详细信息，请参阅 [倒排索引](/sql/sql-commands/ddl/inverted-index/)。
-
-## 使用示例
-
-在以下示例中，我们首先在一个包含Kubernetes日志数据的表上创建全文搜索索引，然后使用 [全文搜索函数](#全文搜索函数) 搜索日志数据。
-
-1. 创建一个名为 "k8s_logs" 的表用于Kubernetes日志数据，其中包含一个从 "event_data" 派生的计算列 "event_message"。然后，在 "event_message" 列上创建一个名为 "event_message_fulltext" 的倒排索引。
- 
 ```sql
--- 创建带有计算列的表
+-- 创建带文本列的表
+CREATE TABLE logs(id INT, message TEXT, timestamp TIMESTAMP);
+
+-- 创建全文索引——新数据自动进入索引
+CREATE INVERTED INDEX logs_message_idx ON logs(message);
+
+-- 仅对索引创建前已存在的数据需一次性刷新
+REFRESH INVERTED INDEX logs_message_idx ON logs;
+
+-- 使用 MATCH 函数搜索，优化全自动
+SELECT * FROM logs WHERE MATCH(message, 'error kubernetes');
+```
+
+**索引自动管理**：
+- **新数据**：写入即自动索引，无需干预
+- **旧数据**：仅需在索引创建后执行一次 REFRESH
+- **后续维护**：Databend 自动保持最佳性能
+
+## 搜索函数
+
+| 函数 | 用途 | 示例 |
+|----------|---------|---------|
+| `MATCH(column, 'terms')` | 基础文本搜索 | `MATCH(content, 'database performance')` |
+| `QUERY('column:terms')` | 高级查询语法 | `QUERY('title:"full text" AND content:search')` |
+| `SCORE()` | 相关性评分 | `SELECT *, SCORE() FROM docs WHERE MATCH(...)` |
+
+## 高级搜索特性
+
+### 模糊搜索
+```sql
+-- 容忍 1 个字符拼写错误（fuzziness=1）
+SELECT * FROM logs WHERE MATCH(message, 'kubernetes', 'fuzziness=1');
+```
+
+### 相关性评分
+```sql
+-- 返回带评分的结果，并按分值过滤/排序
+SELECT id, message, SCORE() as relevance 
+FROM logs 
+WHERE MATCH(message, 'critical error') AND SCORE() > 0.5
+ORDER BY SCORE() DESC;
+```
+
+### 复杂查询
+```sql
+-- 布尔运算符组合多条件
+SELECT * FROM docs WHERE QUERY('title:"user guide" AND content:(tutorial OR example)');
+```
+
+## 完整示例
+
+以下示例在 Kubernetes 日志上创建全文索引，并演示多种搜索方式：
+
+```sql
+-- 创建含计算列的表
 CREATE TABLE k8s_logs (
     event_id INT,
     event_data VARIANT,
@@ -81,13 +101,10 @@ CREATE TABLE k8s_logs (
     event_message VARCHAR AS (event_data['message']::VARCHAR) STORED
 );
 
--- 在 "event_message" 列上创建倒排索引
+-- 为 event_message 列创建倒排索引
 CREATE INVERTED INDEX event_message_fulltext ON k8s_logs(event_message);
-```
 
-2. 向表中插入数据。
- 
-```sql
+-- 写入示例数据
 INSERT INTO k8s_logs (event_id, event_data, event_timestamp)
 VALUES
     (1,
@@ -149,13 +166,8 @@ VALUES
         "volume": "pv-logs"
     }'),
     '2024-04-08T12:00:00Z');
-```
 
-3. 使用全文搜索函数搜索日志。
-
-以下查询在 "k8s_logs" 表中存储的事件消息中搜索包含 "PersistentVolume" 的事件：
-
-```sql
+-- 基础搜索：包含 "PersistentVolume" 的事件
 SELECT
   event_id,
   event_message
@@ -167,11 +179,8 @@ WHERE
 -[ RECORD 1 ]-----------------------------------
      event_id: 5
 event_message: PersistentVolume claim created
-```
 
-要检查全文索引是否将用于搜索，请使用 [EXPLAIN](/sql/sql-commands/explain-cmds/explain) 命令：
-
-```sql
+-- 用 EXPLAIN 验证索引生效
 EXPLAIN SELECT event_id, event_message FROM k8s_logs WHERE MATCH(event_message, 'PersistentVolume');
 
 -[ EXPLAIN ]-----------------------------------
@@ -189,14 +198,8 @@ Filter
     ├── pruning stats: [segments: <range pruning: 5 to 5>, blocks: <range pruning: 5 to 5, inverted pruning: 5 to 1>]
     ├── push downs: [filters: [k8s_logs._search_matched (#4)], limit: NONE]
     └── estimated rows: 5.00
-```
 
-`pruning stats: [segments: <range pruning: 5 to 5>, blocks: <range pruning: 5 to 5, inverted pruning: 5 to 1>]`
-表示将使用全文索引，从而将5个数据块修剪为1个。
-
-以下查询搜索事件消息包含 "PersistentVolume claim created" 的事件，并确保相关性评分阈值为0.5或更高：
-
-```sql
+-- 高级搜索：带相关性评分
 SELECT
   event_id,
   event_message,
@@ -213,12 +216,8 @@ WHERE
   event_message: PersistentVolume claim created
 event_timestamp: 2024-04-08 12:00:00
         score(): 0.86304635
-```
 
-以下查询使用 `fuzziness` 选项进行模糊搜索：
-
-```sql
--- 'PersistentVolume claim create' 故意拼写错误
+-- 模糊搜索：拼写错误也能命中
 SELECT
     event_id, event_message, event_timestamp
 FROM
@@ -231,3 +230,50 @@ WHERE
   event_message: PersistentVolume claim created
 event_timestamp: 2024-04-08 12:00:00
 ```
+
+**示例亮点**：
+- `inverted pruning: 5 to 1` 表明索引把待扫描块从 5 减到 1
+- 相关性评分按匹配质量排序
+- 模糊搜索容忍拼写差异（"create" vs "created"）
+
+## 最佳实践
+
+| 实践 | 收益 |
+|----------|---------|
+| **为高频搜索列建索引** | 聚焦出现在 WHERE 中的文本列 |
+| **用 MATCH 替代 LIKE** | 自动享受索引加速 |
+| **监控索引使用** | EXPLAIN 确认命中索引 |
+| **可建多个索引** | 不同文本列可独立索引 |
+
+## 常用命令
+
+| 命令 | 用途 | 使用场景 |
+|---------|---------|-------------|
+| `CREATE INVERTED INDEX name ON table(column)` | 新建全文索引 | 初始部署；新数据自动索引 |
+| `REFRESH INVERTED INDEX name ON table` | 为历史数据建索引 | 仅对索引创建前已存在的数据执行一次 |
+| `DROP INVERTED INDEX name ON table` | 删除索引 | 索引不再需要时 |
+
+## 使用建议
+
+:::tip
+**适合全文索引的场景**：
+- 大文本数据集（文档、日志、评论）
+- 频繁文本搜索
+- 需要模糊搜索、相关性评分等高级能力
+- 对搜索性能敏感的应用
+
+**不适合的场景**：
+- 小文本数据集
+- 仅做精确字符串匹配
+- 搜索频率极低
+:::
+
+## 索引限制
+
+- 每列只能加入一个倒排索引
+- 索引创建前已存在的数据需手动 REFRESH
+- 会占用额外存储空间
+
+---
+
+*全文索引是面向大规模文档集合、需要快速复杂文本搜索能力的应用必备利器。*

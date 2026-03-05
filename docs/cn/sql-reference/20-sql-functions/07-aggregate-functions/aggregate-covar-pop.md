@@ -1,8 +1,11 @@
 ---
 title: COVAR_POP
 ---
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-COVAR_POP 返回一组数值对的总体协方差。
+<FunctionDescription description="Introduced or updated: v1.2.738"/>
+
+返回一组数字对的总体协方差。
 
 ## 语法
 
@@ -12,10 +15,15 @@ COVAR_POP(<expr1>, <expr2>)
 
 ## 参数
 
-| 参数       | 描述                 |
-|-----------| -------------------- |
-| `<expr1>` | 任何数值表达式       |
-| `<expr2>` | 任何数值表达式       |
+| 参数      |        描述       |
+|-----------| ------------------------ |
+| `<expr1>` | 任何数值表达式 |
+| `<expr2>` | 任何数值表达式 |
+
+## 别名
+
+- [VAR_POP](aggregate-var-pop.md)
+- [VARIANCE_POP](aggregate-variance-pop.md)
 
 ## 返回类型
 
@@ -40,7 +48,7 @@ VALUES (1, 1, 10, 1000),
        (5, 5, 50, 5000);
 ```
 
-**查询示例：计算销售数量与收入的总体协方差**
+**查询演示：计算销量和收入之间的总体协方差**
 
 ```sql
 SELECT COVAR_POP(units_sold, revenue) AS covar_pop_units_revenue

@@ -1,256 +1,308 @@
 ---
-title: "COPY INTO <表>"
-sidebar_label: "COPY INTO <表>"
+title: "COPY INTO <table>"
+sidebar_label: "COPY INTO <table>"
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-<FunctionDescription description="引入或更新: v1.2.666"/>
+<FunctionDescription description="引入或更新于：v1.2.704"/>
 
-COPY INTO 允许您从以下位置之一的文件中加载数据：
+COPY INTO 允许你从以下任一位置的文件中加载数据：
 
-- 用户 / 内部 / 外部阶段: 请参阅 [什么是 Stage?](/guides/load-data/stage/what-is-stage) 以了解 Databend 中的阶段。
-- 存储服务中创建的存储桶或容器。
-- 远程服务器，您可以通过其 URL（以 "https://..." 开头）访问文件。
-- [IPFS](https://ipfs.tech)。
+- 用户 / 内部 / 外部 Stage：关于 Databend 中的 Stage，请参阅 [什么是 Stage？](/guides/load-data/stage/what-is-stage)。
+- 在存储服务中创建的 Bucket 或容器。
+- 可通过 URL（以 "https://..." 开头）访问文件的远程服务器。
+- [IPFS](https://ipfs.tech) 和 Hugging Face 仓库。
 
-另请参阅: [`COPY INTO <位置>`](dml-copy-into-location.md)
+另请参阅：[`COPY INTO <location>`](dml-copy-into-location.md)
 
 ## 语法
 
 ```sql
-COPY INTO [<数据库名>.]<表名>
-     FROM { userStage | internalStage | externalStage | externalLocation |
-            ( SELECT [<文件列> ... ]
-              FROM { userStage | internalStage | externalStage } ) }
-[ FILES = ( '<文件名>' [ , '<文件名>' ] [ , ... ] ) ]
-[ PATTERN = '<正则表达式模式>' ]
+/* 标准数据加载 */
+COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
+     FROM { userStage | internalStage | externalStage | externalLocation }
+[ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
+[ PATTERN = '<regex_pattern>' ]
 [ FILE_FORMAT = (
-         FORMAT_NAME = '<您的自定义格式>'
-         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC } [ formatTypeOptions ]
+         FORMAT_NAME = '<your-custom-format>'
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ]
+       ) ]
+[ copyOptions ]
+
+/* 带转换的数据加载 */
+COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
+     FROM (
+        SELECT {
+            [<alias>.]<column> [, [<alias>.]<column> ...] -- 按名称查询列
+            | [<alias>.]$<col_position> [, [<alias>.]$<col_position> ...] -- 按位置查询列
+            | [<alias>.]$1[:<column>] [, [<alias>.]$1[:<column>]  ...] -- 将行作为 Variant 查询
+            } ]
+        FROM {@<stage_name>[/<path>] | '<uri>'} 
+    )
+[ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
+[ PATTERN = '<regex_pattern>' ]
+[ FILE_FORMAT = (
+         FORMAT_NAME = '<your-custom-format>'
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ]
        ) ]
 [ copyOptions ]
 ```
 
-### FROM ...
+其中：
 
-FROM 子句指定数据将通过 COPY INTO 命令加载到指定表中的源位置（用户阶段、内部阶段、外部阶段或外部位置）。您还可以嵌套一个 SELECT ... FROM 子查询来转换您要加载的数据。有关更多信息，请参阅 [加载时转换数据](/guides/load-data/transform/data-load-transform)。
+```sql
+userStage ::= @~[/<path>]
+
+internalStage ::= @<internal_stage_name>[/<path>]
+
+externalStage ::= @<external_stage_name>[/<path>]
+
+externalLocation ::=
+  /* Amazon S3 兼容存储 */
+  's3://<bucket>[/<path>]'
+  CONNECTION = (
+    [ CONNECTION_NAME = '<connection-name>' ]
+    | [ ENDPOINT_URL = '<endpoint-url>' ]
+    [ ACCESS_KEY_ID = '<your-access-key-ID>' ]
+    [ SECRET_ACCESS_KEY = '<your-secret-access-key>' ]
+    [ ENABLE_VIRTUAL_HOST_STYLE = TRUE | FALSE ]
+    [ MASTER_KEY = '<your-master-key>' ]
+    [ REGION = '<region>' ]
+    [ SECURITY_TOKEN = '<security-token>' ]
+    [ ROLE_ARN = '<role-arn>' ]
+    [ EXTERNAL_ID = '<external-id>' ]
+  )
+  
+  /* Azure Blob Storage */
+  | 'azblob://<container>[/<path>]'
+    CONNECTION = (
+      [ CONNECTION_NAME = '<connection-name>' ]
+      | ENDPOINT_URL = '<endpoint-url>'
+      ACCOUNT_NAME = '<account-name>'
+      ACCOUNT_KEY = '<account-key>'
+    )
+  
+  /* Google Cloud Storage */
+  | 'gcs://<bucket>[/<path>]'
+    CONNECTION = (
+      [ CONNECTION_NAME = '<connection-name>' ]
+      | CREDENTIAL = '<your-base64-encoded-credential>'
+    )
+  
+  /* 阿里云 OSS */
+  | 'oss://<bucket>[/<path>]'
+    CONNECTION = (
+      [ CONNECTION_NAME = '<connection-name>' ]
+      | ACCESS_KEY_ID = '<your-ak>'
+      ACCESS_KEY_SECRET = '<your-sk>'
+      ENDPOINT_URL = '<endpoint-url>'
+      [ PRESIGN_ENDPOINT_URL = '<presign-endpoint-url>' ]
+    )
+  
+  /* 腾讯云对象存储 */
+  | 'cos://<bucket>[/<path>]'
+    CONNECTION = (
+      [ CONNECTION_NAME = '<connection-name>' ]
+      | SECRET_ID = '<your-secret-id>'
+      SECRET_KEY = '<your-secret-key>'
+      ENDPOINT_URL = '<endpoint-url>'
+    )
+  
+  /* 远程文件 */
+  | 'https://<url>'
+  
+  /* IPFS */
+  | 'ipfs://<your-ipfs-hash>'
+    CONNECTION = (ENDPOINT_URL = 'https://<your-ipfs-gateway>')
+  
+  /* Hugging Face */
+  | 'hf://<repo-id>[/<path>]'
+    CONNECTION = (
+      [ REPO_TYPE = 'dataset' | 'model' ]
+      [ REVISION = '<revision>' ]
+      [ TOKEN = '<your-api-token>' ]
+    )
+
+formatTypeOptions ::=
+  /* 所有格式通用选项 */
+  [ COMPRESSION = AUTO | GZIP | BZ2 | BROTLI | ZSTD | DEFLATE | RAW_DEFLATE | XZ | NONE ]
+  
+  /* CSV 专用选项 */
+  [ RECORD_DELIMITER = '<character>' ]
+  [ FIELD_DELIMITER = '<character>' ]
+  [ SKIP_HEADER = <integer> ]
+  [ QUOTE = '<character>' ]
+  [ ESCAPE = '<character>' ]
+  [ NAN_DISPLAY = '<string>' ]
+  [ NULL_DISPLAY = '<string>' ]
+  [ ERROR_ON_COLUMN_COUNT_MISMATCH = TRUE | FALSE ]
+  [ EMPTY_FIELD_AS = null | string | field_default ]
+  [ BINARY_FORMAT = HEX | BASE64 ]
+  
+  /* TSV 专用选项 */
+  [ RECORD_DELIMITER = '<character>' ]
+  [ FIELD_DELIMITER = '<character>' ]
+  
+  /* NDJSON 专用选项 */
+  [ NULL_FIELD_AS = NULL | FIELD_DEFAULT ]
+  [ MISSING_FIELD_AS = ERROR | NULL | FIELD_DEFAULT ]
+  [ ALLOW_DUPLICATE_KEYS = TRUE | FALSE ]
+  
+  /* PARQUET 专用选项 */
+  [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  
+  /* ORC 专用选项 */
+  [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+  
+  /* AVRO 专用选项 */
+  [ MISSING_FIELD_AS = ERROR | FIELD_DEFAULT ]
+
+copyOptions ::=
+  [ SIZE_LIMIT = <num> ]
+  [ PURGE = <bool> ]
+  [ FORCE = <bool> ]
+  [ DISABLE_VARIANT_CHECK = <bool> ]
+  [ ON_ERROR = { continue | abort | abort_N } ]
+  [ MAX_FILES = <num> ]
+  [ RETURN_FAILED_ONLY = <bool> ]
+  [ COLUMN_MATCH_MODE = { case-sensitive | case-insensitive } ]
+
+```
 
 :::note
-当您从阶段文件加载数据且阶段路径包含空格或括号等特殊字符时，您可以将整个路径用单引号括起来，如下面的 SQL 语句所示：
-
-COPY INTO mytable FROM 's3://mybucket/dataset(databend)/' ...
-COPY INTO mytable FROM 's3://mybucket/dataset databend/' ...
+对于远程文件，你可以使用 glob 模式指定多个文件。例如：
+- `ontime_200{6,7,8}.csv` 表示 `ontime_2006.csv`、`ontime_2007.csv`、`ontime_2008.csv`
+- `ontime_200[6-8].csv` 表示相同的文件
 :::
 
-#### userStage
+## 关键参数
 
-```sql
-userStage ::= @~[/<路径>]
-```
+- **FILES**：指定一个或多个待加载文件名（以逗号分隔）。
 
-#### internalStage
+- **PATTERN**：基于 [PCRE2](https://www.pcre.org/current/doc/html/) 的正则表达式模式字符串，用于匹配文件名。参见 [示例 4：使用模式过滤文件](#example-4-filtering-files-with-pattern)。
 
-```sql
-internalStage ::= @<内部阶段名>[/<路径>]
-```
+## 格式类型选项
 
-#### externalStage
+`FILE_FORMAT` 参数支持多种文件类型，每种类型都有专属的格式选项。下表列出各支持格式的可用选项：
 
-```sql
-externalStage ::= @<外部阶段名>[/<路径>]
-```
+<Tabs>
+<TabItem value="common" label="通用选项" default>
 
-#### externalLocation
+以下选项适用于所有文件格式：
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-<Tabs groupId="externallocation">
-
-<TabItem value="Amazon S3-like Storage" label="Amazon S3-like Storage">
-
-```sql
-externalLocation ::=
-  's3://<存储桶>[<路径>]'
-  CONNECTION = (
-        <连接参数>
-  )
-```
-
-有关访问 Amazon S3-like 存储服务的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
-</TabItem>
-
-<TabItem value="Azure Blob Storage" label="Azure Blob Storage">
-
-```sql
-externalLocation ::=
-  'azblob://<容器>[<路径>]'
-  CONNECTION = (
-        <连接参数>
-  )
-```
-
-有关访问 Azure Blob Storage 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
-</TabItem>
-
-<TabItem value="Google Cloud Storage" label="Google Cloud Storage">
-
-```sql
-externalLocation ::=
-  'gcs://<存储桶>[<路径>]'
-  CONNECTION = (
-        <连接参数>
-  )
-```
-
-有关访问 Google Cloud Storage 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
-</TabItem>
-
-<TabItem value="Alibaba Cloud OSS" label="Alibaba Cloud OSS">
-
-```sql
-externalLocation ::=
-  'oss://<存储桶>[<路径>]'
-  CONNECTION = (
-        <连接参数>
-  )
-```
-
-有关访问 Alibaba Cloud OSS 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
-</TabItem>
-
-<TabItem value="Tencent Cloud Object Storage" label="Tencent Cloud Object Storage">
-
-```sql
-externalLocation ::=
-  'cos://<存储桶>[<路径>]'
-  CONNECTION = (
-        <连接参数>
-  )
-```
-
-有关访问 Tencent Cloud Object Storage 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
-</TabItem>
-
-<TabItem value="Hadoop Distributed File System (HDFS)" label="HDFS">
-
-```sql
-externalLocation ::=
-  'hdfs://<端点URL>[<路径>]'
-  CONNECTION = (
-        <连接参数>
-  )
-```
-
-有关访问 HDFS 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
-</TabItem>
-
-<TabItem value="WebHDFS" label="WebHDFS">
-
-```sql
-externalLocation ::=
-  'webhdfs://<端点URL>[<路径>]'
-  CONNECTION = (
-        <连接参数>
-  )
-```
-
-有关访问 WebHDFS 的可用连接参数，请参阅 [连接参数](/00-sql-reference/51-connect-parameters.md)。
-</TabItem>
-
-<TabItem value="Remote Files" label="Remote Files">
-
-```sql
-externalLocation ::=
-  'https://<URL>'
-```
-
-您可以使用 glob 模式指定多个文件。例如，使用
-
-- `ontime_200{6,7,8}.csv` 表示 `ontime_2006.csv`,`ontime_2007.csv`,`ontime_2008.csv`。
-- `ontime_200[6-8].csv` 表示 `ontime_2006.csv`,`ontime_2007.csv`,`ontime_2008.csv`。
+| 选项 | 描述 | 取值 | 默认值 |
+|--------|-------------|--------|--------|
+| COMPRESSION | 数据文件的压缩算法 | AUTO, GZIP, BZ2, BROTLI, ZSTD, DEFLATE, RAW_DEFLATE, XZ, NONE | AUTO |
 
 </TabItem>
 
-<TabItem value="IPFS" label="IPFS">
+<TabItem value="csv" label="CSV">
 
-```sql
-externalLocation ::=
-  'ipfs://<您的IPFS哈希>'
-  CONNECTION = (ENDPOINT_URL = 'https://<您的IPFS网关>')
-```
+| 选项 | 描述 | 默认值 |
+|--------|-------------|--------|
+| RECORD_DELIMITER | 分隔记录的字符 | 换行符 |
+| FIELD_DELIMITER | 分隔字段的字符 | 逗号 (,) |
+| SKIP_HEADER | 跳过的标题行数 | 0 |
+| QUOTE | 用于引用字段的字符 | 双引号 (") |
+| ESCAPE | 用于转义被引用字段的字符 | NONE |
+| NAN_DISPLAY | 表示 NaN 值的字符串 | NaN |
+| NULL_DISPLAY | 表示 NULL 值的字符串 | \N |
+| ERROR_ON_COLUMN_COUNT_MISMATCH | 列数不匹配时报错 | TRUE |
+| EMPTY_FIELD_AS | 空字段的处理方式 | null |
+| BINARY_FORMAT | 二进制数据的编码格式（HEX 或 BASE64） | HEX |
+
+</TabItem>
+
+<TabItem value="tsv" label="TSV">
+
+| 选项 | 描述 | 默认值 |
+|--------|-------------|--------|
+| RECORD_DELIMITER | 分隔记录的字符 | 换行符 |
+| FIELD_DELIMITER | 分隔字段的字符 | 制表符 (\t) |
+
+</TabItem>
+
+<TabItem value="ndjson" label="NDJSON">
+
+| 选项 | 描述 | 默认值 |
+|--------|-------------|--------|
+| NULL_FIELD_AS | 空字段的处理方式 | NULL |
+| MISSING_FIELD_AS | 缺失字段的处理方式 | ERROR |
+| ALLOW_DUPLICATE_KEYS | 是否允许对象键重复 | FALSE |
+
+</TabItem>
+
+<TabItem value="parquet" label="PARQUET">
+
+| 选项 | 描述 | 默认值 |
+|--------|-------------|--------|
+| MISSING_FIELD_AS | 缺失字段的处理方式 | ERROR |
+
+</TabItem>
+
+<TabItem value="orc" label="ORC">
+
+| 选项 | 描述 | 默认值 |
+|--------|-------------|--------|
+| MISSING_FIELD_AS | 缺失字段的处理方式 | ERROR |
+
+</TabItem>
+
+<TabItem value="avro" label="AVRO">
+
+| 选项 | 描述 | 默认值 |
+|--------|-------------|--------|
+| MISSING_FIELD_AS | 缺失字段的处理方式 | ERROR |
 
 </TabItem>
 </Tabs>
 
-### FILES
+## 复制选项
 
-FILES 指定要加载的一个或多个文件名（用逗号分隔）。
-
-### PATTERN
-
-一个基于 [PCRE2](https://www.pcre.org/current/doc/html/) 的正则表达式模式字符串，用单引号括起来，指定要匹配的文件名。有关 PCRE2 语法，请参阅 http://www.pcre.org/current/doc/html/pcre2syntax.html。请参阅 [示例 4: 使用模式过滤文件](#example-4-filtering-files-with-pattern) 以获取示例和有关使用 PATTERN 参数过滤文件的有用提示。
-
-### FILE_FORMAT
-
-有关详细信息，请参阅 [输入 & 输出文件格式](../../00-sql-reference/50-file-format-options.md)。
-
-### copyOptions
-
-```sql
-copyOptions ::=
-  [ SIZE_LIMIT = <数字> ]
-  [ PURGE = <布尔值> ]
-  [ FORCE = <布尔值> ]
-  [ DISABLE_VARIANT_CHECK = <布尔值> ]
-  [ ON_ERROR = { continue | abort | abort_N } ]
-  [ MAX_FILES = <数字> ]
-  [ RETURN_FAILED_ONLY = <布尔值> ]
-  [ COLUMN_MATCH_MODE =  { case-sensitive | case-insensitive } ]
-```
-
-| 参数                  | 描述                                                                                                                                                                                                                                                                                                                                                                                                        | 是否必需 |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
-| SIZE_LIMIT            | 指定给定 COPY 语句要加载的最大数据行数。默认为 `0`，表示没有限制。                                                                                                                                                                                                                                                                                                     | 可选     |
-| PURGE                 | 如果为 `true`，命令将在文件成功加载到表中后清除阶段中的文件。默认值：`false`。                                                                                                                                                                                                                                                                                      | 可选     |
-| FORCE                 | COPY INTO 通过自动跟踪和防止在默认 12 小时期间内重新加载文件来确保幂等性。可以使用 `load_file_metadata_expire_hours` 设置自定义文件元数据过期时间。<br/>此参数默认为 `false`，表示 COPY INTO 在复制数据时会跳过重复文件。如果为 `true`，则不会跳过重复文件。 | 可选     |
-| DISABLE_VARIANT_CHECK | 如果为 `true`，在 COPY INTO 期间，无效的 JSON 数据将被替换为 null 值。如果为 `false`（默认），COPY INTO 在遇到无效 JSON 数据时会失败。                                                                                                                                                                                                                                                                            | 可选     |
-| ON_ERROR              | 决定如何处理包含错误的文件：`continue` 跳过并继续，`abort`（默认）在错误时终止，`abort_N` 在错误 ≥ N 时终止。注意：`abort_N` 不适用于 Parquet 文件。                                                                                                                                                                                     | 可选     |
-| MAX_FILES             | 设置要加载的未加载文件的最大数量。该值可以设置为最多 15,000；任何大于 15,000 的值都将被视为 15,000。                                                                                                                                                                                                                                               | 可选     |
-| RETURN_FAILED_ONLY    | 当设置为 `true` 时，输出中仅返回加载失败的文件。默认值：`false`。                                                                                                                                                                                                                                                                                                               | 可选     |
-| COLUMN_MATCH_MODE     | （仅适用于 Parquet）确定 COPY INTO 期间列名匹配是 `区分大小写` 还是 `不区分大小写`（默认）。 | 可选 |
+| 参数 | 描述 | 默认值 |
+|-----------|-------------|----------|
+| SIZE_LIMIT | 最大加载行数 | `0`（无限制） |
+| PURGE | 成功加载后删除文件 | `false` |
+| FORCE | 允许重新加载重复文件 | `false`（跳过重复） |
+| DISABLE_VARIANT_CHECK | 将无效 JSON 替换为 null | `false`（无效 JSON 时报错） |
+| ON_ERROR | 错误处理方式：`continue`、`abort` 或 `abort_N` | `abort` |
+| MAX_FILES | 最大加载文件数（上限 15,000） | - |
+| RETURN_FAILED_ONLY | 仅返回失败的文件 | `false` |
+| COLUMN_MATCH_MODE | Parquet 列名匹配模式 | `case-insensitive` |
 
 :::tip
-在导入大量数据（如日志）时，建议将 `PURGE` 和 `FORCE` 都设置为 `true`。这样可以确保高效的数据导入，而无需与 Meta 服务器交互（更新已复制文件集）。但需要注意的是，这可能会导致重复数据导入。
+导入大量数据（如日志）时，建议将 `PURGE` 和 `FORCE` 均设为 `true`，可高效导入数据且无需与 Meta 服务器交互（更新已复制文件集）。但请注意，这可能导致重复数据导入。
 :::
 
 ## 输出
 
-COPY INTO 提供数据加载结果的摘要，包含以下列：
+COPY INTO 返回数据加载结果摘要，包含以下列：
 
-| 列名               | 类型    | 可空性 | 描述                                     |
+| 列 | 类型 | 可空 | 描述 |
 | ---------------- | ------- | -------- | ----------------------------------------------- |
-| FILE             | VARCHAR | 否       | 源文件的相对路径。           |
-| ROWS_LOADED      | INT     | 否       | 从源文件加载的行数。 |
-| ERRORS_SEEN      | INT     | 否       | 源文件中的错误行数         |
-| FIRST_ERROR      | VARCHAR | 是       | 源文件中发现的第一个错误。       |
-| FIRST_ERROR_LINE | INT     | 是       | 第一个错误的行号。                 |
+| FILE | VARCHAR | NO | 源文件的相对路径 |
+| ROWS_LOADED | INT | NO | 从源文件加载的行数 |
+| ERRORS_SEEN | INT | NO | 源文件中的错误行数 |
+| FIRST_ERROR | VARCHAR | YES | 源文件中发现的第一个错误 |
+| FIRST_ERROR_LINE | INT | YES | 第一个错误的行号 |
 
-如果 `RETURN_FAILED_ONLY` 设置为 `true`，输出将仅包含加载失败的文件。
-
-## 分布式 COPY INTO
-
-Databend 中的 COPY INTO 功能在集群环境中自动激活分布式执行，增强数据加载效率和可扩展性。
+若 `RETURN_FAILED_ONLY` 设为 `true`，则仅输出加载失败的文件。
 
 ## 示例
 
-### 示例 1：从阶段加载
+:::tip 最佳实践
+对于外部存储源，建议使用预先创建的连接并通过 `CONNECTION_NAME` 参数引用，而非在 COPY 语句中直接指定凭据。该方式更安全、易维护且可复用。详见 [CREATE CONNECTION](../00-ddl/13-connection/create-connection.md)。
+:::
 
-这些示例展示了从不同类型的阶段将数据加载到 Databend 中：
+### 示例 1：从 Stage 加载
+
+以下示例展示如何从各类 Stage 向 Databend 加载数据：
 
 <Tabs>
-  <TabItem value="user" label="用户阶段" default>
+  <TabItem value="user" label="用户 Stage" default>
 
 ```sql
 COPY INTO mytable
@@ -260,7 +312,7 @@ COPY INTO mytable
 ```
 
   </TabItem>
-  <TabItem value="internal" label="内部阶段">
+  <TabItem value="internal" label="内部 Stage">
 
 ```sql
 COPY INTO mytable
@@ -270,7 +322,7 @@ COPY INTO mytable
 ```
 
   </TabItem>
-  <TabItem value="external" label="外部阶段">
+  <TabItem value="external" label="外部 Stage">
 
 ```sql
 COPY INTO mytable
@@ -284,21 +336,24 @@ COPY INTO mytable
 
 ### 示例 2：从外部位置加载
 
-这些示例展示了从不同类型的外部源将数据加载到 Databend 中：
+以下示例展示如何从各类外部源向 Databend 加载数据：
 
 <Tabs groupId="external-example">
 <TabItem value="Amazon S3" label="Amazon S3">
 
-此示例使用 AWS 访问密钥和秘密建立与 Amazon S3 的连接，并从 CSV 文件加载 10 行数据：
+本示例使用预创建连接从 Amazon S3 加载数据：
 
 ```sql
--- 通过 AWS 访问密钥和秘密进行身份验证。
+-- 先创建连接（仅需一次）
+CREATE CONNECTION my_s3_conn 
+    STORAGE_TYPE = 's3' 
+    ACCESS_KEY_ID = '<your-access-key-ID>'
+    SECRET_ACCESS_KEY = '<your-secret-access-key>';
+
+-- 使用连接加载数据
 COPY INTO mytable
     FROM 's3://mybucket/data.csv'
-    CONNECTION = (
-        ACCESS_KEY_ID = '<your-access-key-ID>',
-        SECRET_ACCESS_KEY = '<your-secret-access-key>'
-    )
+    CONNECTION = (CONNECTION_NAME = 'my_s3_conn')
     FILE_FORMAT = (
         TYPE = CSV,
         FIELD_DELIMITER = ',',
@@ -308,19 +363,20 @@ COPY INTO mytable
     SIZE_LIMIT = 10;
 ```
 
-此示例使用 AWS IAM 角色身份验证和外部 ID 连接到 Amazon S3，并从 'mybucket' 中加载与指定模式匹配的 CSV 文件：
+**使用 IAM 角色（生产环境推荐）**
 
 ```sql
--- 通过 AWS IAM 角色和外部 ID 进行身份验证。
+-- 使用 IAM 角色创建连接（更安全，生产环境推荐）
+CREATE CONNECTION my_iam_conn 
+    STORAGE_TYPE = 's3' 
+    ROLE_ARN = 'arn:aws:iam::123456789012:role/my_iam_role';
+
+-- 使用 IAM 角色连接加载 CSV 文件
 COPY INTO mytable
     FROM 's3://mybucket/'
-    CONNECTION = (
-        ENDPOINT_URL = 'https://<endpoint-URL>',
-        ROLE_ARN = 'arn:aws:iam::123456789012:role/my_iam_role',
-        EXTERNAL_ID = '123456'
-    )
+    CONNECTION = (CONNECTION_NAME = 'my_iam_conn')
     PATTERN = '.*[.]csv'
-        FILE_FORMAT = (
+    FILE_FORMAT = (
         TYPE = CSV,
         FIELD_DELIMITER = ',',
         RECORD_DELIMITER = '\n',
@@ -332,28 +388,56 @@ COPY INTO mytable
 
 <TabItem value="Azure Blob Storage" label="Azure Blob Storage">
 
-此示例连接到 Azure Blob Storage 并将 'data.csv' 中的数据加载到 Databend 中：
+本示例连接 Azure Blob Storage 并将 'data.csv' 加载到 Databend：
 
 ```sql
+-- 为 Azure Blob Storage 创建连接
+CREATE CONNECTION my_azure_conn 
+    STORAGE_TYPE = 'azblob' 
+    ENDPOINT_URL = 'https://<account_name>.blob.core.windows.net'
+    ACCOUNT_NAME = '<account_name>'
+    ACCOUNT_KEY = '<account_key>';
+
+-- 使用连接加载数据
 COPY INTO mytable
     FROM 'azblob://mybucket/data.csv'
-    CONNECTION = (
-        ENDPOINT_URL = 'https://<account_name>.blob.core.windows.net',
-        ACCOUNT_NAME = '<account_name>',
-        ACCOUNT_KEY = '<account_key>'
-    )
+    CONNECTION = (CONNECTION_NAME = 'my_azure_conn')
     FILE_FORMAT = (type = CSV);
+```
+
+</TabItem>
+
+<TabItem value="Google Cloud Storage" label="Google Cloud Storage">
+
+本示例连接 Google Cloud Storage 并加载数据：
+
+```sql
+-- 为 Google Cloud Storage 创建连接
+CREATE CONNECTION my_gcs_conn 
+    STORAGE_TYPE = 'gcs' 
+    CREDENTIAL = '<your-base64-encoded-credential>';
+
+-- 使用连接加载数据
+COPY INTO mytable
+    FROM 'gcs://mybucket/data.csv'
+    CONNECTION = (CONNECTION_NAME = 'my_gcs_conn')
+    FILE_FORMAT = (
+        TYPE = CSV,
+        FIELD_DELIMITER = ',',
+        RECORD_DELIMITER = '\n',
+        SKIP_HEADER = 1
+    );
 ```
 
 </TabItem>
 
 <TabItem value="Remote Files" label="远程文件">
 
-此示例从三个远程 CSV 文件加载数据，并在出现错误时跳过文件。
+本示例从三个远程 CSV 文件加载数据，出错时跳过文件：
 
 ```sql
 COPY INTO mytable
-    FROM 'https://ci.databend.org/dataset/stateful/ontime_200{6,7,8}_200.csv'
+    FROM 'https://ci.databend.cn/dataset/stateful/ontime_200{6,7,8}_200.csv'
     FILE_FORMAT = (type = CSV)
     ON_ERROR = continue;
 ```
@@ -362,7 +446,7 @@ COPY INTO mytable
 
 <TabItem value="IPFS" label="IPFS">
 
-此示例从 IPFS 上的 CSV 文件加载数据：
+本示例从 IPFS 上的 CSV 文件加载数据：
 
 ```sql
 COPY INTO mytable
@@ -383,16 +467,19 @@ COPY INTO mytable
 
 ### 示例 3：加载压缩数据
 
-此示例将 Amazon S3 上的 GZIP 压缩 CSV 文件加载到 Databend 中：
+本示例将 Amazon S3 上的 GZIP 压缩 CSV 文件加载到 Databend：
 
 ```sql
+-- 为加载压缩数据创建连接
+CREATE CONNECTION compressed_s3_conn 
+    STORAGE_TYPE = 's3' 
+    ACCESS_KEY_ID = '<your-access-key-ID>'
+    SECRET_ACCESS_KEY = '<your-secret-access-key>';
+
+-- 使用连接加载 GZIP 压缩 CSV 文件
 COPY INTO mytable
     FROM 's3://mybucket/data.csv.gz'
-    CONNECTION = (
-        ENDPOINT_URL = 'https://<endpoint-URL>',
-        ACCESS_KEY_ID = '<your-access-key-ID>',
-        SECRET_ACCESS_KEY = '<your-secret-access-key>'
-    )
+    CONNECTION = (CONNECTION_NAME = 'compressed_s3_conn')
     FILE_FORMAT = (
         TYPE = CSV,
         FIELD_DELIMITER = ',',
@@ -404,11 +491,19 @@ COPY INTO mytable
 
 ### 示例 4：使用模式过滤文件
 
-此示例演示如何使用 PATTERN 参数从 Amazon S3 加载 CSV 文件。它过滤名称中包含 'sales' 且扩展名为 '.csv' 的文件：
+本示例演示如何使用 PATTERN 参数通过模式匹配从 Amazon S3 加载 CSV 文件，仅加载文件名包含 'sales' 且扩展名为 '.csv' 的文件：
 
 ```sql
+-- 为基于模式的文件加载创建连接
+CREATE CONNECTION pattern_s3_conn 
+    STORAGE_TYPE = 's3' 
+    ACCESS_KEY_ID = '<your-access-key-ID>'
+    SECRET_ACCESS_KEY = '<your-secret-access-key>';
+
+-- 使用模式匹配加载文件名含 'sales' 的 CSV 文件
 COPY INTO mytable
     FROM 's3://mybucket/'
+    CONNECTION = (CONNECTION_NAME = 'pattern_s3_conn')
     PATTERN = '.*sales.*[.]csv'
     FILE_FORMAT = (
         TYPE = CSV,
@@ -418,13 +513,14 @@ COPY INTO mytable
     );
 ```
 
-其中 `.*` 被解释为零个或多个任意字符的匹配。方括号用于转义紧随文件扩展名之前的句点字符 `.`。
+其中 `.*` 表示任意字符出现零次或多次，方括号用于转义文件扩展名前的点字符 `.`。
 
-要加载所有 CSV 文件：
+使用连接加载所有 CSV 文件：
 
 ```sql
 COPY INTO mytable
     FROM 's3://mybucket/'
+    CONNECTION = (CONNECTION_NAME = 'pattern_s3_conn')
     PATTERN = '.*[.]csv'
     FILE_FORMAT = (
         TYPE = CSV,
@@ -432,28 +528,27 @@ COPY INTO mytable
         RECORD_DELIMITER = '\n',
         SKIP_HEADER = 1
     );
-
 ```
 
-在指定包含多个文件夹的文件路径模式时，请考虑您的匹配标准：
+为包含多级目录的文件路径指定模式时，请根据匹配需求选择：
 
-- 如果您想匹配前缀后的特定子路径，请在模式中包含前缀（例如，'multi_page/'），然后在子路径中指定您想要匹配的模式（例如，'\_page_1'）。
+- 若要匹配前缀后的特定子路径，请在模式中包含该前缀（如 'multi_page/'），再指定子路径内的匹配模式（如 '\_page_1'）。
 
 ```sql
 -- 文件路径：parquet/multi_page/multi_page_1.parquet
 COPY INTO ... FROM @data/parquet/ PATTERN = 'multi_page/.*_page_1.*') ...
 ```
 
-- 如果您想匹配文件路径中包含所需模式的任何部分，请在模式前后使用 '.*'（例如，'.*multi_page_1.\*'）以匹配路径中任何位置的 'multi_page_1'。
+- 若要匹配文件路径中任意位置出现的目标模式，请在模式前后加 '.*'（如 '.*multi_page_1.\*'）以匹配路径中任意位置的 'multi_page_1'。
 
 ```sql
 -- 文件路径：parquet/multi_page/multi_page_1.parquet
 COPY INTO ... FROM @data/parquet/ PATTERN ='.*multi_page_1.*') ...
 ```
 
-### 示例 5：加载到具有额外列的表中
+### 示例 5：加载到含额外列的表
 
-本节演示如何将数据加载到具有额外列的表中，使用示例文件 [books.csv](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.csv)：
+本节使用示例文件 [books.csv](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.csv) 演示如何向含额外列的表加载数据：
 
 ```text title='books.csv'
 Transaction Processing,Jim Gray,1992
@@ -462,7 +557,7 @@ Readings in Database Systems,Michael Stonebraker,2004
 
 ![Alt text](/img/load/load-extra.png)
 
-默认情况下，COPY INTO 通过将文件中的字段顺序与表中的相应列匹配来加载数据。确保文件和表之间的数据正确对齐至关重要。例如，
+默认情况下，COPY INTO 按文件字段顺序与表列顺序一一对应加载数据，需确保文件与表的数据对齐。例如：
 
 ```sql
 CREATE TABLE books
@@ -477,7 +572,7 @@ COPY INTO books
     FILE_FORMAT = (TYPE = CSV);
 ```
 
-如果您的表比文件多列，您可以指定要将数据加载到的列。例如，
+若表列多于文件字段，可显式指定加载列：
 
 ```sql
 CREATE TABLE books_with_language
@@ -493,7 +588,7 @@ COPY INTO books_with_language (title, author, date)
     FILE_FORMAT = (TYPE = CSV);
 ```
 
-如果您的表比文件多列，并且额外列位于表的末尾，您可以使用 [FILE_FORMAT](#file_format) 选项 `ERROR_ON_COLUMN_COUNT_MISMATCH` 加载数据。这允许您在不指定每个列的情况下加载数据。请注意，ERROR_ON_COLUMN_COUNT_MISMATCH 目前仅适用于 CSV 文件格式。
+若表列多于文件字段且额外列位于表末尾，可使用 [FILE_FORMAT](#file_format) 选项 `ERROR_ON_COLUMN_COUNT_MISMATCH` 加载数据，无需逐列指定。目前该选项仅支持 CSV 格式。
 
 ```sql
 CREATE TABLE books_with_extra_columns
@@ -511,30 +606,30 @@ COPY INTO books_with_extra_columns
 ```
 
 :::note
-表中的额外列可以有由 [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) 或 [ALTER TABLE COLUMN](../00-ddl/01-table/90-alter-table-column.md) 指定的默认值。如果未为额外列显式设置默认值，将应用与其数据类型关联的默认值。例如，整数类型列在没有其他值指定时将默认为 0。
+表中的额外列可通过 [CREATE TABLE](../00-ddl/01-table/10-ddl-create-table.md) 或 [ALTER TABLE](../00-ddl/01-table/90-alter-table.md#column-operations) 指定默认值。若未显式设置，则使用该数据类型的默认值。例如，整型列默认值为 0。
 :::
 
-### 示例 6：加载具有自定义格式的 JSON
+### 示例 6：使用自定义格式加载 JSON
 
-此示例从包含以下内容的 CSV 文件 "data.csv" 加载数据：
+本示例从 CSV 文件 "data.csv" 加载数据，内容如下：
 
 ```json
-1,"U00010","{\"carPriceList\":[{\"carTypeId":10,\"distance":5860},{\"carTypeId":11,\"distance":5861}]}"
-2,"U00011","{\"carPriceList\":[{\"carTypeId":12,\"distance":5862},{\"carTypeId":13,\"distance":5863}]}"
+1,"U00010","{\"carPriceList\":[{\"carTypeId":10,\"distance":5860},{\"carTypeId":11,\"distance\":5861}]}"
+2,"U00011","{\"carPriceList\":[{\"carTypeId":12,\"distance":5862},{\"carTypeId":13,\"distance\":5863}]}"
 ```
 
-每行包含三列数据，第三列是一个包含 JSON 数据的字符串。要正确加载带有 JSON 字段的 CSV 数据，我们需要设置正确的转义字符。此示例使用反斜杠 \ 作为转义字符，因为 JSON 数据包含双引号 "。
+每行三列，第三列为含 JSON 数据的字符串。为正确加载含 JSON 字段的 CSV，需设置合适的转义字符。本例使用反斜杠 \ 作为转义字符，因 JSON 内含双引号 "。
 
-#### 步骤 1：创建自定义文件格式。
+#### 步骤 1：创建自定义文件格式
 
 ```sql
--- 定义一个自定义 CSV 文件格式，转义字符设置为反斜杠 \
+-- 定义自定义 CSV 文件格式，转义字符设为反斜杠 \
 CREATE FILE FORMAT my_csv_format
     TYPE = CSV
     ESCAPE = '\\';
 ```
 
-#### 步骤 2：创建目标表。
+#### 步骤 2：创建目标表
 
 ```sql
 CREATE TABLE t
@@ -545,16 +640,16 @@ CREATE TABLE t
   );
 ```
 
-#### 步骤 3：使用自定义文件格式加载。
+#### 步骤 3：使用自定义文件格式加载
 
 ```sql
 COPY INTO t FROM @t_stage FILES=('data.csv')
 FILE_FORMAT=(FORMAT_NAME='my_csv_format');
 ```
 
-### 示例 7：加载无效的 JSON
+### 示例 7：加载无效 JSON
 
-当将数据加载到 Variant 列时，Databend 会自动检查数据的合法性，并在遇到任何无效数据时抛出错误。例如，如果您在用户阶段有一个包含无效 JSON 数据的 Parquet 文件 `invalid_json_string.parquet`，如下所示：
+向 Variant 列加载数据时，Databend 会自动校验数据有效性，遇到无效数据将报错。例如，用户 Stage 中的 Parquet 文件 `invalid_json_string.parquet` 含无效 JSON：
 
 ```sql
 SELECT *
@@ -577,14 +672,14 @@ DESC t2;
 └──────────────────────────────────────────────┘
 ```
 
-尝试将数据加载到表中时会出现错误：
+尝试加载将报错：
 
 ```sql
-root@localhost:8000/default>  COPY INTO t2 FROM @~/invalid_json_string.parquet FILE_FORMAT = (TYPE = PARQUET) ON_ERROR = CONTINUE;
+COPY INTO t2 FROM @~/invalid_json_string.parquet FILE_FORMAT = (TYPE = PARQUET) ON_ERROR = CONTINUE;
 error: APIError: ResponseError with 1006: EOF while parsing a value, pos 3 while evaluating function `parse_json('[1,')`
 ```
 
-要加载而不检查 JSON 的合法性，请在 COPY INTO 语句中将选项 `DISABLE_VARIANT_CHECK` 设置为 `true`：
+若需跳过 JSON 有效性检查，可在 COPY INTO 语句中设置 `DISABLE_VARIANT_CHECK = true`：
 
 ```sql
 COPY INTO t2 FROM @~/invalid_json_string.parquet
@@ -599,7 +694,7 @@ ON_ERROR = CONTINUE;
 └───────────────────────────────────────────────────────────────────────────────────────────────┘
 
 SELECT * FROM t2;
--- 无效的 JSON 在 Variant 列中存储为 null。
+-- 无效 JSON 在 Variant 列中以 null 存储
 ┌──────────────────────────────────────┐
 │         a        │         b         │
 ├──────────────────┼───────────────────┤

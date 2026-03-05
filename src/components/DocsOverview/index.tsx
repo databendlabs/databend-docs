@@ -27,7 +27,6 @@ import Redash from "@site/static/icons/redash.svg";
 import Superset from "@site/static/icons/superset.svg";
 import Teableau from "@site/static/icons/tableau.svg";
 import MindsDB from "@site/static/icons/mindsdb.svg";
-import Pipeline from "@site/static/icons/pipeline.svg";
 import Stream from "@site/static/icons/stream.svg";
 import Task from "@site/static/icons/task.svg";
 import Contact from "@site/static/icons/contact.svg";
@@ -36,6 +35,7 @@ import AI from "@site/static/icons/AI.svg";
 import Cases from "@site/static/icons/cases.svg";
 import ChangeLog from "@site/static/icons/changelog.svg";
 import FAQ from "@site/static/icons/faq.svg";
+import MCP from "@site/static/icons/mcp.svg";
 import { Col, Row } from "antd";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import $t from "@site/src/utils/tools";
@@ -45,6 +45,7 @@ import {
 } from "databend-logos";
 import Link from "@docusaurus/Link";
 import clsx from "clsx";
+import { useHistory } from "@docusaurus/router";
 const colLayout = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 12 };
 const colLayout2 = { xl: 12, xxl: 12, lg: 24, md: 24, sm: 24, xs: 24 };
 const colLayout3 = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 24 };
@@ -52,132 +53,195 @@ const colLayout3 = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 24 };
 const DocsOverview: FC = (): ReactElement => {
   const {
     siteConfig: {
-      customFields: { homeLink },
+      customFields: { homeLink, isChina },
     },
   } = useDocusaurusContext();
+  const history = useHistory();
+  const cloudAppUrl = isChina ? "https://app.databend.cn" : "https://app.databend.com";
+  const cloudCreditsValue = isChina ? "200元" : "$200";
   return (
     <div className={styles.outWrap}>
-      <ContentCardWrap
-        className={styles.top}
-        title={$t("Introduction to Databend Products")}
-        description={$t("Check out the products you can choose from.")}
+
+      <div
+        className={styles.productFeatures}
+        style={{ height: "100%", width: "100%" }}
       >
-        <div style={{ height: "100%", width: "100%" }}>
-          <Row gutter={[12, 12]} className={styles.topCard}>
-            <Col {...colLayout3}>
-              <Card href="/guides/overview/editions/dc/" padding={[16, 16]}>
-                <h3>
-                  <span>{$t("Databend Cloud")}</span>
-                </h3>
-                <div>{$t("Fully-Managed on Cloud")}</div>
-              </Card>
-            </Col>
-            <Col {...colLayout3}>
-              <Card href="/guides/overview/editions/dee/" padding={[16, 16]}>
-                <h3>
-                  <span> {$t("Databend Enterprise")}</span>
-                </h3>
-                <div>
-                  {$t("Self-Hosted with Additional Enterprise Features")}
-                </div>
-              </Card>
-            </Col>
-            <Col {...colLayout3}>
-              <Card href="/guides/overview/editions/dce/" padding={[16, 16]}>
-                <h3>
-                  <span>{$t("Databend Community")}</span>
-                </h3>
-                <div>{$t("Self-Hosted & Free")}</div>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-      </ContentCardWrap>
+        <h3 className={styles.title}>{$t("Product Features")}</h3>
+        <Row gutter={[12, 12]} className={styles.topCard}>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Unified Engine")}</span>
+              </h3>
+              <div>
+                {$t("Analytics, vector, search, and geo share one optimizer and runtime.")}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Unified Data")}</span>
+              </h3>
+              <div>
+                {$t("Structured, semi-structured, unstructured, and vector data share object storage.")}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Analytics Native")}</span>
+              </h3>
+              <div>
+                {$t("ANSI SQL, windowing, incremental aggregates, and streaming power BI.")}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Vector Native")}</span>
+              </h3>
+              <div>
+                {$t("Embeddings, vector indexes, and semantic retrieval all run in SQL.")}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Search Native")}</span>
+              </h3>
+              <div>
+                {$t("Full-text search and inverted indexes fuel hybrid retrieval.")}
+              </div>
+            </Card>
+          </Col>
+          <Col {...colLayout2}>
+            <Card style={{ height: "100%" }} padding={[16, 16]}>
+              <h3>
+                <span>{$t("Geo Native")}</span>
+              </h3>
+              <div>
+                {$t("Geospatial indexes and functions power map and location services.")}
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </div>
       <ContentCardWrap
         className={clsx(styles.commomCard, styles.gettingStart)}
         title={$t("Getting Started")}
         description={$t(
-          "Create a Databend Cloud account or deploy your own Databend instance."
+          "Choose Cloud (managed) or Enterprise (self-hosted)."
         )}
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
             <Col {...colLayout2}>
-              <Card padding={[20, 0]} className={styles.cardActiveOut}>
-                <Link
-                  to={"/guides/cloud/new-account"}
-                  className={"global-overview-card"}
+              <Card padding={[24, 24]} className={clsx(styles.cardActiveOut, styles.productCard)}>
+                <div
+                  className={styles.productCardContainer}
+                  role="link"
+                  tabIndex={0}
+                  aria-label={$t("Databend Cloud")}
+                  onClick={() => history.push("/guides/cloud/")}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      history.push("/guides/cloud/");
+                    }
+                  }}
                 >
-                  <LightDatabendCloudSingleSvg></LightDatabendCloudSingleSvg>
-                  <div>
-                    <h5>{$t("Activate Databend Cloud")}</h5>
-                    <div>
-                      <span className={styles.spanLine}>
-                        {$t("This topic")}
-                      </span>{" "}
-                      {$t(
-                        `outlines the steps for applying for beta access as an organization.`
-                      )}
+                  <div className={styles.productCardHeader}>
+                    <LightDatabendCloudSingleSvg width={120} />
+                    <div className={styles.productCardTitle}>
+                      <h5>{$t("Databend Cloud")}</h5>
+                      <span className={styles.productCardBadge}>{$t("Recommended")}</span>
                     </div>
                   </div>
-                </Link>
-                <div className={styles.moreUseful}>
-                  <div>{$t("Topics you might find useful:")}</div>
-                  <ul>
-                    <li>
-                      <Link to={"/guides/overview/editions/dc/platforms"}>
-                        {$t("Supported Platforms & Regions")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={"/guides/overview/editions/dc/editions"}>
-                        {$t("Databend Cloud Editions")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={"/guides/overview/editions/dc/pricing"}>
-                        {$t("Pricing & Billing")}
-                      </Link>
-                    </li>
-                  </ul>
+                  <p className={styles.productCardDesc}>
+                    {$t("Fully-managed serverless data warehouse. Zero infrastructure.")}
+                  </p>
+                  <div className={styles.productCardMetrics}>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>&lt;500ms</span>
+                      <span className={styles.metricLabel}>{$t("Cold Start")}</span>
+                    </div>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>{cloudCreditsValue}</span>
+                      <span className={styles.metricLabel}>{$t("Free Credits")}</span>
+                    </div>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>SOC 2</span>
+                      <span className={styles.metricLabel}>{$t("Type II")}</span>
+                    </div>
+                  </div>
+                  <div className={styles.productCardCtas}>
+                    <Link
+                      className={styles.productCardCtaPrimary}
+                      to={cloudAppUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    >
+                      {$t("Start Free")} →
+                    </Link>
+                  </div>
                 </div>
               </Card>
             </Col>
             <Col {...colLayout2}>
-              <Card padding={[20, 0]} className={styles.cardActiveOut}>
-                <Link to={"/guides/deploy/"} className={"global-overview-card"}>
-                  <LightDatabendSingleSvg></LightDatabendSingleSvg>
-                  <div>
-                    <h5>{$t("Self-Hosted Databend")}</h5>
-                    <div>
-                      <span className={styles.spanLine}>
-                        {$t("This topic")}
-                      </span>{" "}
-                      {$t(
-                        "provide detailed instructions for deploying and upgrading Databend."
-                      )}
+              <Card padding={[24, 24]} className={clsx(styles.cardActiveOut, styles.productCard)}>
+                <div
+                  className={styles.productCardContainer}
+                  role="link"
+                  tabIndex={0}
+                  aria-label={$t("Databend Enterprise")}
+                  onClick={() => history.push("/guides/self-hosted/")}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      history.push("/guides/self-hosted/");
+                    }
+                  }}
+                >
+                  <div className={styles.productCardHeader}>
+                    <LightDatabendSingleSvg width={120} />
+                    <div className={styles.productCardTitle}>
+                      <h5>{$t("Databend Enterprise")}</h5>
+                      <span className={styles.productCardBadgeAlt}>{$t("Enterprise")}</span>
                     </div>
                   </div>
-                </Link>
-                <div className={styles.moreUseful}>
-                  <div>{$t("Topics you might find useful:")}</div>
-                  <ul>
-                    <li>
-                      <Link to={"/guides/overview/editions/dce/download"}>
-                        {$t("Downloading Databend")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={"/guides/overview/editions/dee/license"}>
-                        {$t("Licensing Databend")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={"/guides/deploy/upgrade/upgrade"}>
-                        {$t("Upgrading Databend")}
-                      </Link>
-                    </li>
-                  </ul>
+                  <p className={styles.productCardDesc}>
+                    {$t("Self-hosted on the open-source core, with enterprise support.")}
+                  </p>
+                  <div className={styles.productCardMetrics}>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>{$t("Deploy")}</span>
+                      <span className={styles.metricLabel}>{$t("Your Infra")}</span>
+                    </div>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>{$t("Control")}</span>
+                      <span className={styles.metricLabel}>{$t("Your Data")}</span>
+                    </div>
+                    <div className={styles.metric}>
+                      <span className={styles.metricValue}>{$t("Support")}</span>
+                      <span className={styles.metricLabel}>{$t("Enterprise Support")}</span>
+                    </div>
+                  </div>
+                  <div className={styles.productCardCtas}>
+                    <Link
+                      className={styles.productCardCtaSecondary}
+                      to="/guides/self-hosted/quickstart/"
+                      onClick={(e) => e.stopPropagation()}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    >
+                      {$t("Install Locally")} →
+                    </Link>
+                  </div>
                 </div>
               </Card>
             </Col>
@@ -201,42 +265,49 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Cli></Cli>}
                 text={"BendSQL"}
-                to={"/guides/sql-clients/bendsql"}
+                to={"/guides/connect/sql-clients/bendsql/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Java></Java>}
                 text={"Java"}
-                to={"/developer/drivers/jdbc"}
+                to={"/developer/drivers/jdbc/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Go></Go>}
                 text={"Golang"}
-                to={"/developer/drivers/golang"}
+                to={"/developer/drivers/golang/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Python></Python>}
                 text={"Python"}
-                to={"/developer/drivers/python"}
+                to={"/developer/drivers/python/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Node></Node>}
                 text={"Node.js"}
-                to={"/developer/drivers/nodejs"}
+                to={"/developer/drivers/nodejs/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Rust></Rust>}
                 text={"Rust"}
-                to={"/developer/drivers/rust"}
+                to={"/developer/drivers/rust/"}
+              />
+            </Col>
+            <Col {...colLayout}>
+              <SmallCard
+                icon={<MCP width={24}></MCP>}
+                text={"MCP Server"}
+                to={"/guides/ai-functions/mcp/"}
               />
             </Col>
           </Row>
@@ -259,28 +330,28 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Kafka></Kafka>}
                 text={"Kafka"}
-                to={"/guides/load-data/load-db/kafka"}
+                to={"/guides/load-data/load-db/kafka/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Dbt></Dbt>}
                 text={"dbt"}
-                to={"/guides/load-data/load-db/dbt"}
+                to={"/guides/load-data/load-db/dbt/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Airbyte></Airbyte>}
                 text={"Airbyte"}
-                to={"/guides/load-data/load-db/airbyte"}
+                to={"/guides/load-data/load-db/airbyte/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<FlinkCdc></FlinkCdc>}
                 text={"Flink CDC"}
-                to={"/guides/load-data/load-db/flink-cdc"}
+                to={"/guides/load-data/load-db/flink-cdc/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -292,11 +363,12 @@ const DocsOverview: FC = (): ReactElement => {
                       border: "unset",
                       padding: "4px",
                     }}
+                    alt="Addax"
                     src={Addax}
                   />
                 }
                 text={"Addax"}
-                to={"/guides/load-data/load-db/addax"}
+                to={"/guides/load-data/load-db/addax/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -312,7 +384,7 @@ const DocsOverview: FC = (): ReactElement => {
                   />
                 }
                 text={"DataX"}
-                to={"/guides/load-data/load-db/datax"}
+                to={"/guides/load-data/load-db/datax/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -327,7 +399,7 @@ const DocsOverview: FC = (): ReactElement => {
                   />
                 }
                 text={"Debezium"}
-                to={"/guides/load-data/load-db/debezium"}
+                to={"/guides/load-data/load-db/debezium/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -342,7 +414,7 @@ const DocsOverview: FC = (): ReactElement => {
                   />
                 }
                 text={"Tapdata"}
-                to={"/guides/load-data/load-db/tapdata"}
+                to={"/guides/load-data/load-db/tapdata/"}
               />
             </Col>
             <Col {...colLayout}>
@@ -357,7 +429,7 @@ const DocsOverview: FC = (): ReactElement => {
                   />
                 }
                 text={"Vector"}
-                to={"/guides/load-data/load-db/vector"}
+                to={"/guides/load-data/load-db/vector/"}
               />
             </Col>
           </Row>
@@ -367,7 +439,7 @@ const DocsOverview: FC = (): ReactElement => {
       <ContentCardWrap
         title={$t("AI & BI & Visualization & Notebooks")}
         link={{
-          to: "/guides/visualize/",
+          to: "/guides/connect/visualization/",
           text: $t("All Tools"),
         }}
         description={$t(
@@ -380,56 +452,56 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<DeepNote></DeepNote>}
                 text={"Deepnote"}
-                to={"/guides/visualize/deepnote"}
+                to={"/guides/connect/visualization/deepnote/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Jpyter></Jpyter>}
                 text={"Jupyter"}
-                to={"/guides/visualize/jupyter"}
+                to={"/guides/connect/visualization/jupyter/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Metabase></Metabase>}
                 text={"Metabase"}
-                to={"/guides/visualize/metabase"}
+                to={"/guides/connect/visualization/metabase/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Grafana></Grafana>}
                 text={"Grafana"}
-                to={"/guides/visualize/grafana"}
+                to={"/guides/connect/visualization/grafana/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Redash></Redash>}
                 text={"Redash"}
-                to={"/guides/visualize/redash"}
+                to={"/guides/connect/visualization/redash/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Superset></Superset>}
                 text={"Superset"}
-                to={"/guides/visualize/superset"}
+                to={"/guides/connect/visualization/superset/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Teableau></Teableau>}
                 text={"Tableau"}
-                to={"/guides/visualize/tableau"}
+                to={"/guides/connect/visualization/tableau/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<MindsDB></MindsDB>}
                 text={"MindsDB"}
-                to={"/guides/visualize/mindsdb"}
+                to={"/guides/connect/visualization/mindsdb/"}
               />
             </Col>
           </Row>
@@ -459,14 +531,14 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Stream></Stream>}
                 text={$t("Real-Time CDC Ingestion")}
-                to={"/guides/load-data/continuous-data-pipelines/stream"}
+                to={"/guides/load-data/continuous-data-pipelines/stream/"}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Task></Task>}
                 text={$t("Automated Data Pipelines")}
-                to={"/guides/load-data/continuous-data-pipelines/task"}
+                to={"/guides/load-data/continuous-data-pipelines/task/"}
               />
             </Col>
           </Row>
@@ -494,34 +566,34 @@ const DocsOverview: FC = (): ReactElement => {
               <SmallCard
                 icon={<Contact></Contact>}
                 text={$t("Contact Support")}
-                to={`${homeLink}/contact-us`}
+                to={`${homeLink}/contact-us/`}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<Cases></Cases>}
                 text={$t("Use Cases")}
-                to={`${homeLink}/use-cases`}
+                to={`${homeLink}/use-cases/`}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<FAQ></FAQ>}
                 text={$t("FAQ")}
-                to={`/guides/overview/faq`}
+                to={`/`}
               />
             </Col>
             <Col {...colLayout}>
               <SmallCard
                 icon={<ChangeLog></ChangeLog>}
                 text={$t("Changelog")}
-                to={`/release-notes`}
+                to={`/release-notes/`}
               />
             </Col>
           </Row>
         </div>
       </ContentCardWrap>
-      <hr></hr>
+      {/* <hr></hr> */}
     </div>
   );
 };

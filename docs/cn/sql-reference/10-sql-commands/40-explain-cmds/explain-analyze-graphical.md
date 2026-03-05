@@ -4,13 +4,9 @@ title: EXPLAIN ANALYZE GRAPHICAL
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入: v1.2.647"/>
+<FunctionDescription description="引入或更新于：v1.2.647"/>
 
-`EXPLAIN ANALYZE GRAPHICAL` 用于打开一个浏览器页面，显示查询执行计划以及实际运行时的性能统计数据。
-
-这对于分析查询性能和识别查询中的瓶颈非常有用。
-
-**注意:** 此功能仅在 BendSQL 中可用。
+通过浏览器中的交互式可视化界面分析查询性能。仅在 BendSQL v0.22.2 及以上版本可用。
 
 ## 语法
 
@@ -18,36 +14,30 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 EXPLAIN ANALYZE GRAPHICAL <statement>
 ```
 
+## 配置
+
+在 BendSQL 配置文件 `~/.config/bendsql/config.toml` 中添加：
+
+```toml
+[server]
+bind_address = "127.0.0.1"        
+auto_open_browser = true      
+```
+
 ## 示例
 
-TPC-H Q21:
-
 ```sql
-EXPLAIN ANALYZE GRAPHICAL SELECT s_name,
-    ->        Count(*) AS numwait
-    -> FROM   supplier,
-    ->        lineitem l1,
-    ->        orders,
-    ->        nation
-    -> WHERE  s_suppkey = l1.l_suppkey
-    ->        AND o_orderkey = l1.l_orderkey
-    ->        AND o_orderstatus = 'F'
-    ->        AND l1.l_receiptdate > l1.l_commitdate
-    ->        AND EXISTS (SELECT *
-    ->                    FROM   lineitem l2
-    ->                    WHERE  l2.l_orderkey = l1.l_orderkey
-    ->                           AND l2.l_suppkey <> l1.l_suppkey)
-    ->        AND NOT EXISTS (SELECT *
-    ->                        FROM   lineitem l3
-    ->                        WHERE  l3.l_orderkey = l1.l_orderkey
-    ->                               AND l3.l_suppkey <> l1.l_suppkey
-    ->                               AND l3.l_receiptdate > l3.l_commitdate)
-    ->        AND s_nationkey = n_nationkey
-    ->        AND n_name = 'EGYPT'
-    -> GROUP  BY s_name
-    -> ORDER  BY numwait DESC,
-    ->           s_name
-    -> LIMIT  100;
-
-// 将打开一个浏览器页面以显示查询执行计划和性能统计数据。
+EXPLAIN ANALYZE GRAPHICAL SELECT l_returnflag, COUNT(*) 
+FROM lineitem 
+WHERE l_shipdate <= '1998-09-01' 
+GROUP BY l_returnflag;
 ```
+
+输出：
+```bash
+View graphical online: http://127.0.0.1:8080?perf_id=1
+```
+
+将打开交互式视图，展示执行计划、算子运行时长及数据流。
+
+![图形化分析](@site/static/img/documents/sql/explain-graphical.png)

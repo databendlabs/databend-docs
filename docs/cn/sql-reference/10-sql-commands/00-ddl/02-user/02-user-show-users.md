@@ -4,9 +4,9 @@ sidebar_position: 3
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.644"/>
+<FunctionDescription description="Introduced or updated: v1.2.644"/>
 
-列出系统中的所有 SQL 用户。如果您使用的是 Databend Cloud，此命令还会显示您组织中用于登录 Databend Cloud 的用户账户（电子邮件地址）。
+列出系统中所有的 SQL 用户。如果您正在使用 Databend Cloud，此命令还会显示您的组织内用于登录 Databend Cloud 的用户帐户（电子邮件地址）。
 
 ## 语法
 

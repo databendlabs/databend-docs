@@ -1,0 +1,58 @@
+name: GPT Translate by Input-V2
+
+on:
+  workflow_dispatch:
+    inputs:
+      path:
+        description: "The path to the directory containing the files to translate (e.g., docs/en/sql-reference/)"
+        required: true
+        default: "docs/en/sql-reference/"
+
+permissions:
+  id-token: write
+  pull-requests: write
+  checks: write
+  statuses: write
+  contents: write
+
+jobs:
+  gpt_translate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Delete all files in specified cn directory
+        run: |
+          TRANSLATION_DIR="${{ github.event.inputs.path }}"
+          CN_DIR=$(echo $TRANSLATION_DIR | sed 's/en/cn/')
+          echo "Deleting all files in $CN_DIR"
+          rm -rf $CN_DIR
+          echo "All files in $CN_DIR have been deleted."
+
+
+      - name: Set up branch for PR
+        run: |
+          BRANCH_NAME="translate-${{ github.run_id }}"
+          git checkout -b $BRANCH_NAME
+          git push -u origin $BRANCH_NAME
+
+      - name: Run GPT Translate
+        uses: BohuTANG/gpt-translate-refine@v1.4.4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          api_key: ${{ secrets.API_KEY }}
+          base_url: ${{ secrets.BASE_URL }}
+          ai_model: ${{ secrets.LLM_MODEL }}
+          refine_ai_model: ${{ secrets.REFINE_LLM_MODEL }}
+          target_lang: "Simplified-Chinese"
+          system_prompt: ".github/workflows/prompt.txt"
+          refine_system_prompt: ".github/workflows/refine_prompt.txt"
+          temperature:  ${{ secrets.TEMPERATURE }}
+          refine_temperature:  ${{ secrets.REFINE_TEMPERATURE }}
+          input_files: "${{ github.event.inputs.path }}"
+          output_files: "docs/cn/**/*.{md,json}"
+          pr_title: "Add LLM Translations V2"

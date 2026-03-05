@@ -2,7 +2,7 @@
 title: TRIM_TRAILING
 ---
 
-Removes specific characters from the end (right side) of a string.
+Removes all occurrences of the specified trim string from the end of the string.
 
 See also: 
 
@@ -12,17 +12,17 @@ See also:
 ## Syntax
 
 ```sql
-TRIM_TRAILING(<string>, <trim_character>)
+TRIM_TRAILING(<string>, <trim_string>)
 ```
 
 ## Examples
 
 ```sql
-SELECT TRIM_TRAILING('databendxx', 'xx');
+SELECT TRIM_TRAILING('databendxx', 'xxx'), TRIM_TRAILING('databendxx', 'xx'), TRIM_TRAILING('databendxx', 'x');
 
-┌───────────────────────────────────┐
-│ trim_trailing('databendxx', 'xx') │
-├───────────────────────────────────┤
-│ databend                          │
-└───────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ trim_trailing('databendxx', 'xxx') │ trim_trailing('databendxx', 'xx') │ trim_trailing('databendxx', 'x') │
+├────────────────────────────────────┼───────────────────────────────────┼──────────────────────────────────┤
+│ databendxx                         │ databend                          │ databend                         │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```

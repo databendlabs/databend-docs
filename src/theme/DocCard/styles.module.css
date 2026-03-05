@@ -2,11 +2,11 @@
   --ifm-link-color: var(--ifm-color-emphasis-800);
   --ifm-link-hover-color: var(--ifm-color-emphasis-700);
   --ifm-link-hover-decoration: none;
+
   box-shadow: 0 1.5px 3px 0 rgb(0 0 0 / 15%);
-  border: 1px solid hsl(var(--border));
+  border: 1px solid var(--ifm-color-emphasis-200);
   transition: all var(--ifm-transition-fast) ease;
   transition-property: border, box-shadow;
-  border-radius: calc(var(--radius) - 2px);
 }
 
 .cardContainer:hover {
@@ -23,13 +23,9 @@
 }
 
 .cardDescription {
-  width: 100%;
-  display: block;
   font-size: 0.8rem;
-  color: hsl(var(--muted-foreground));
-  font-size: 0.875rem;
-  line-height: 1.25rem;
 }
+
 .databendCard {
   width: 100% !important;
   gap: 1rem !important;

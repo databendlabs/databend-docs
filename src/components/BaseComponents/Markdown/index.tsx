@@ -8,7 +8,7 @@ import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import styles from "./styles.module.scss";
 import React from "react";
-import RightSvg from "../@site/static/icons/arrowright.svg";
+import { FaArrowRight } from "react-icons/fa";
 
 interface IProps {
   textContent: string;
@@ -45,7 +45,7 @@ const AskDatabendMarkdown: FC<IProps> = ({ textContent }): ReactElement => {
                   setIsCopy(true);
                 }}
               >
-                {isCopy ? <RightSvg /> : <>Copy</>}
+                {isCopy ? <FaArrowRight /> : <>Copy</>}
               </span>
             </div>
           ) : (

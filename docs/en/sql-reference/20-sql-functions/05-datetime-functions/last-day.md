@@ -11,13 +11,13 @@ Returns the last day of the specified interval (week, month, quarter, or year) b
 ## Syntax
 
 ```sql
-LAST_DAY(<date_expression>, <interval>)
+LAST_DAY(<date_expression>, <date_part>)
 ```
 
 | Parameter           | Description                                                                                                   |
 |---------------------|---------------------------------------------------------------------------------------------------------------|
 | `<date_expression>` | A DATE or TIMESTAMP value to calculate the last day of the specified interval.                                |
-| `<interval>`        | The interval type for which to find the last day. Accepted values are `week`, `month`, `quarter`, and `year`. |
+| `<date_part>`       | The date_part for which to find the last day. Accepted values are `week`, `month`, `quarter`, and `year`.     |
 
 ## Return Type
 

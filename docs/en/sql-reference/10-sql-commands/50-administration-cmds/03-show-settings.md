@@ -10,7 +10,7 @@ Databend provides a variety of system settings that enable you to control how Da
 - Some Databend behaviors cannot be changed through the system settings; you must take them into consideration while working with Databend. For example,
     - Databend encodes strings to the UTF-8 charset.
     - Databend uses a 1-based numbering convention for arrays.
-- Databend stores the system settings in the system table [system.settings](../../00-sql-reference/20-system-tables/system-settings.md).
+- Databend stores the system settings in the system table [system.settings](../../00-sql-reference/31-system-tables/system-settings.md).
 
 ## Syntax
 

@@ -94,11 +94,16 @@
 // }
 .gettingStart {
   flex-direction: column;
+  padding-top: 24px;
+  padding-bottom: 24px;
   .homPpageSectionLeft {
     width: auto !important;
+    h3 {
+      margin-bottom: 12px;
+    }
   }
   .content {
-    margin-top: 30px;
+    margin-top: 16px;
   }
 }
 .topEnhancedCard {
@@ -111,6 +116,152 @@
 }
 .cardActiveOut {
   height: 100%;
+}
+
+.productCard {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.productCardLink {
+  display: block;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.productCardContainer {
+  display: block;
+  height: 100%;
+  cursor: pointer;
+}
+
+.productCardContainer:focus-visible {
+  outline: 2px solid #0070f3;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.productCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.productCardTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+}
+
+.productCardBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(135deg, #0070f3, #00a8ff);
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.productCardBadgeAlt {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  background: var(--color-fill-0);
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.productCardDesc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: hsl(var(--muted-foreground));
+  margin: 0 0 16px 0;
+}
+
+.productCardMetrics {
+  display: flex;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.productCardCtas {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.productCardCtaPrimary {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff !important;
+  background: linear-gradient(135deg, #0070f3, #00a8ff);
+  text-decoration: none !important;
+}
+
+.productCardCtaSecondary {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: hsl(var(--foreground)) !important;
+  background: var(--color-fill-0);
+  border: 1px solid var(--color-border);
+  text-decoration: none !important;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  text-align: center;
+}
+
+.metricValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0070f3;
+}
+
+.metricLabel {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+}
+
+.productCardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: hsl(var(--foreground));
+  background: var(--color-fill-0);
+  border-radius: 4px;
 }
 .cardActive {
   width: 100%;
@@ -130,4 +281,16 @@
 .moreUseful {
   padding-left: 20px;
   padding-top: 20px;
+}
+.productFeatures {
+  margin-bottom: 24px;
+  h3 {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .title {
+    border-top: 1px solid var(--color-border);
+    padding-top: 24px;
+  }
 }

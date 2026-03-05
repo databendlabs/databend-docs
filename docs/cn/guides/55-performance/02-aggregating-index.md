@@ -2,39 +2,84 @@
 title: 聚合索引
 ---
 
-import EEFeature from '@site/src/components/EEFeature';
+# 聚合索引：预计算结果实现即时分析
 
-<EEFeature featureName='AGGREGATING INDEX'/>
+聚合索引通过预计算和存储聚合结果，显著加速分析查询，避免对常见分析操作进行全表扫描。
 
-聚合索引的主要目的是提升查询性能，特别是在涉及聚合查询（如MIN、MAX和SUM）的场景中。它通过预先计算并存储查询结果在单独的块中，从而无需扫描整个表，加快数据检索速度。在使用聚合索引时，请注意以下事项：
+## 解决了什么问题？
 
-- 创建聚合索引时，限制其使用于标准的[聚合函数](/sql/sql-functions/aggregate-functions/)（例如，AVG、SUM、MIN、MAX、COUNT和GROUP BY），同时注意[GROUPING SETS](../54-query/01-groupby/group-by-grouping-sets.md)、[窗口函数](/sql/sql-functions/window-functions/)、[LIMIT](/sql/sql-commands/query-syntax/query-select#limit-clause)和[ORDER BY](/sql/sql-commands/query-syntax/query-select#order-by-clause)不被接受，否则会报错：`Currently create aggregating index just support simple query, like: SELECT ... FROM ... WHERE ... GROUP BY ...`。
+大型数据集上的分析查询面临重大性能挑战：
 
-- 创建聚合索引时定义的查询过滤范围应与实际查询的范围匹配或包含实际查询的范围。
+| 问题 | 影响 | 聚合索引解决方案 |
+|---------|--------|---------------------------|
+| **全表扫描** | SUM、COUNT、MIN、MAX 查询扫描数百万行 | 即时读取预计算结果 |
+| **重复计算** | 相同聚合被反复计算 | 存储一次，重复使用 |
+| **缓慢的仪表盘查询** | 分析仪表盘需数分钟加载 | 常见指标亚秒级响应 |
+| **高计算成本** | 繁重的聚合工作负载消耗资源 | 缓存结果的计算开销极小 |
+| **糟糕的用户体验** | 用户等待报表和分析 | 即时获取商业智能结果 |
 
-- 要确认聚合索引是否对查询有效，请使用[EXPLAIN](/sql/sql-commands/explain-cmds/explain)命令分析查询。
+**示例**：在包含 1 亿行数据的表上执行销售分析查询 `SELECT SUM(revenue), COUNT(*) FROM sales WHERE region = 'US'`。无聚合索引时需扫描所有美国销售记录；使用聚合索引可即时返回预计算结果。
 
-- 如果不再需要聚合索引，请考虑删除它。请注意，删除聚合索引不会移除关联的存储块。要同时删除块，请使用[VACUUM TABLE](/sql/sql-commands/ddl/table/vacuum-table)命令。要禁用聚合索引功能，请将`enable_aggregating_index_scan`设置为0。
+## 工作原理
 
-## 刷新聚合索引
+1. **索引创建** → 定义需预计算的聚合查询
+2. **结果存储** → Databend 在优化块中存储聚合结果
+3. **查询匹配** → 传入查询自动使用预计算结果
+4. **自动更新** → 底层数据变更时结果自动刷新
 
-由于表在创建聚合索引后可能会进行数据插入和更新，因此聚合索引需要定期刷新。您有以下选项来刷新聚合索引：
+## 快速设置
 
-- **自动刷新**：如果聚合索引**使用SYNC关键字创建**，当表接收到可能影响查询结果的数据更新时，聚合索引将自动刷新。更多信息，请参见[CREATE AGGREGATING INDEX](/sql/sql-commands/ddl/aggregating-index/create-aggregating-index)。
+```sql
+-- 创建包含示例数据的表
+CREATE TABLE sales(region VARCHAR, product VARCHAR, revenue DECIMAL, quantity INT);
 
-- **手动刷新**：如果聚合索引**未使用SYNC关键字创建**，聚合索引不会自动刷新。您可以使用[REFRESH AGGREGATING INDEX](/sql/sql-commands/ddl/aggregating-index/refresh-aggregating-index)命令手动刷新。在这种情况下，Databend建议在执行相关查询之前刷新聚合索引。
+-- 为常见分析创建聚合索引
+CREATE AGGREGATING INDEX sales_summary AS 
+SELECT region, SUM(revenue), COUNT(*), AVG(quantity) 
+FROM sales 
+GROUP BY region;
 
-:::note 自动还是手动？
-Databend中的自动刷新机制可能会影响大量数据加载的持续时间。这是因为Databend会延迟数据加载结果，直到自动刷新的聚合索引已更新以反映最新结果。Databend Cloud用户建议使用手动刷新机制。这是因为Databend Cloud会自动在后台更新聚合索引，即使对于未使用SYNC关键字创建的索引，也会响应表数据的变化进行更新。
-:::
+-- 刷新索引（手动模式）
+REFRESH AGGREGATING INDEX sales_summary;
 
-## 管理聚合索引
+-- 验证索引使用情况
+EXPLAIN SELECT region, SUM(revenue) FROM sales GROUP BY region;
+```
 
-Databend提供了多种命令来管理聚合索引。详情请参见[聚合索引](/sql/sql-commands/ddl/aggregating-index/)。
+## 支持的操作
 
-## 使用示例
+| ✅ 支持 | ❌ 不支持 |
+|-------------|-----------------|
+| SUM、COUNT、MIN、MAX、AVG | Window Functions |
+| GROUP BY 子句 | GROUPING SETS |
+| WHERE 过滤器 | ORDER BY、LIMIT |
+| 简单聚合 | 复杂子查询 |
 
-此示例展示了聚合索引的利用方式，并说明了它们对查询执行计划的影响。
+## 刷新策略
+
+| 策略 | 适用场景 | 配置 |
+|----------|-------------|---------------|
+| **自动（SYNC）** | 实时分析，小数据集 | `CREATE AGGREGATING INDEX ... SYNC` |
+| **手动** | 大数据集，批处理 | `CREATE AGGREGATING INDEX ...`（默认） |
+| **后台（Cloud）** | 生产工作负载 | Databend Cloud 自动处理 |
+
+### 自动 vs 手动刷新
+
+```sql
+-- 自动刷新（每次数据变更时更新）
+CREATE AGGREGATING INDEX auto_summary AS 
+SELECT region, SUM(revenue) FROM sales GROUP BY region SYNC;
+
+-- 手动刷新（按需更新）
+CREATE AGGREGATING INDEX manual_summary AS 
+SELECT region, SUM(revenue) FROM sales GROUP BY region;
+
+REFRESH AGGREGATING INDEX manual_summary;
+```
+
+## 性能示例
+
+该示例展示显著的性能提升：
 
 ```sql
 -- 准备数据
@@ -47,59 +92,57 @@ CREATE AGGREGATING INDEX my_agg_index AS SELECT MIN(a), MAX(c) FROM agg;
 -- 刷新聚合索引
 REFRESH AGGREGATING INDEX my_agg_index;
 
--- 验证聚合索引是否有效
+-- 验证聚合索引是否生效
 EXPLAIN SELECT MIN(a), MAX(c) FROM agg;
 
-explain                                                                                                               |
-----------------------------------------------------------------------------------------------------------------------+
-AggregateFinal                                                                                                        |
-├── output columns: [MIN(a) (#8), MAX(c) (#9)]                                                                        |
-├── group by: []                                                                                                      |
-├── aggregate functions: [min(a), max(c)]                                                                             |
-├── estimated rows: 1.00                                                                                              |
-└── AggregatePartial                                                                                                  |
-    ├── output columns: [MIN(a) (#8), MAX(c) (#9)]                                                                    |
-    ├── group by: []                                                                                                  |
-    ├── aggregate functions: [min(a), max(c)]                                                                         |
-    ├── estimated rows: 1.00                                                                                          |
-    └── TableScan                                                                                                     |
-        ├── table: default.default.agg                                                                                |
-        ├── output columns: [a (#5), c (#7)]                                                                          |
-        ├── read rows: 4                                                                                              |
-        ├── read bytes: 61                                                                                            |
-        ├── partitions total: 1                                                                                       |
-        ├── partitions scanned: 1                                                                                     |
-        ├── pruning stats: [segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1, bloom pruning: 0 to 0>]|
-        ├── push downs: [filters: [], limit: NONE]                                                                    |
-        ├── aggregating index: [SELECT MIN(a), MAX(c) FROM default.agg]                                               |
-        ├── rewritten query: [selection: [index_col_0 (#0), index_col_1 (#1)]]                                        |
-        └── estimated rows: 4.00                                                                                      |
-
--- 删除聚合索引
-DROP AGGREGATING INDEX my_agg_index;
-
-EXPLAIN SELECT MIN(a), MAX(c) FROM agg;
+-- 执行计划关键指标：
+-- ├── aggregating index: [SELECT MIN(a), MAX(c) FROM default.agg]
+-- ├── rewritten query: [selection: [index_col_0 (#0), index_col_1 (#1)]]
+-- 表明查询使用预计算结果而非原始数据
 ```
 
-explain                                                                                                               |
-----------------------------------------------------------------------------------------------------------------------+
-AggregateFinal                                                                                                        |
-├── 输出列: [MIN(a) (#3), MAX(c) (#4)]                                                                                |
-├── 分组依据: []                                                                                                      |
-├── 聚合函数: [min(a), max(c)]                                                                                        |
-├── 估计行数: 1.00                                                                                                    |
-└── AggregatePartial                                                                                                  |
-    ├── 输出列: [MIN(a) (#3), MAX(c) (#4)]                                                                            |
-    ├── 分组依据: []                                                                                                  |
-    ├── 聚合函数: [min(a), max(c)]                                                                                    |
-    ├── 估计行数: 1.00                                                                                                |
-    └── TableScan                                                                                                     |
-        ├── 表: default.default.agg                                                                                   |
-        ├── 输出列: [a (#0), c (#2)]                                                                                  |
-        ├── 读取行数: 4                                                                                               |
-        ├── 读取字节数: 61                                                                                            |
-        ├── 分区总数: 1                                                                                               |
-        ├── 扫描分区数: 1                                                                                             |
-        ├── 剪枝统计: `[segments: <range pruning: 1 to 1>, blocks: <range pruning: 1 to 1, bloom pruning: 0 to 0>]` |
-        ├── 下推: [filters: [], limit: NONE]                                                                          |
-        └── 估计行数: 4.00                                                                                            |
+## 最佳实践
+
+| 实践 | 优势 |
+|----------|---------|
+| **索引高频查询** | 聚焦频繁执行的分析 |
+| **采用手动刷新** | 更精准控制更新时间 |
+| **监控索引使用** | 使用 EXPLAIN 验证索引效果 |
+| **清理闲置索引** | 移除未使用的索引 |
+| **匹配查询模式** | 索引过滤器需契合实际查询 |
+
+## 管理命令
+
+| 命令 | 用途 |
+|---------|---------|
+| `CREATE AGGREGATING INDEX` | 创建新聚合索引 |
+| `REFRESH AGGREGATING INDEX` | 使用最新数据更新索引 |
+| `DROP AGGREGATING INDEX` | 删除索引（使用 VACUUM TABLE 清理存储） |
+| `SHOW AGGREGATING INDEXES` | 列出所有索引 |
+
+## 重要说明
+
+:::tip
+**适用场景：**
+- 高频分析查询（仪表盘、报表）
+- 含重复聚合的大数据集
+- 稳定的查询模式
+- 性能关键型应用
+
+**不适用场景：**
+- 频繁变更的数据
+- 一次性分析查询
+- 小表的简单查询
+:::
+
+## 配置
+
+```sql
+-- 启用/禁用聚合索引功能
+SET enable_aggregating_index_scan = 1;  -- 启用（默认）
+SET enable_aggregating_index_scan = 0;  -- 禁用
+```
+
+---
+
+*聚合索引对大数据集上的重复分析工作负载效果最佳，建议从高频仪表盘和报表查询开始实施。*

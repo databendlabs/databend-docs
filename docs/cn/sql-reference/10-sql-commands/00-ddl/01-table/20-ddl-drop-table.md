@@ -4,11 +4,11 @@ sidebar_position: 19
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.155"/>
+<FunctionDescription description="Introduced or updated: v1.2.155"/>
 
-删除一个表。
+删除表。
 
-**另请参阅：**
+**参见：**
 
 - [CREATE TABLE](./10-ddl-create-table.md)
 - [UNDROP TABLE](./21-ddl-undrop-table.md)
@@ -20,7 +20,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 DROP TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 ```
 
-该命令仅在元数据服务中将表模式标记为已删除，确保实际数据保持不变。如果需要恢复已删除的表模式，可以使用 [UNDROP TABLE](./21-ddl-undrop-table.md) 命令。
+此命令仅将表模式标记为在元数据服务中已删除，从而确保实际数据保持完整。如果需要恢复已删除的表模式，可以使用 [UNDROP TABLE](./21-ddl-undrop-table.md) 命令。
 
 要完全删除表及其数据文件，请考虑使用 [VACUUM DROP TABLE](91-vacuum-drop-table.md) 命令。
 
@@ -28,7 +28,7 @@ DROP TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
 
 ### 删除表
 
-此示例展示了使用 DROP TABLE 命令删除 "test" 表的用法。删除表后，任何尝试从中 SELECT 的操作都会导致“未知表”错误。它还演示了如何使用 UNDROP TABLE 命令恢复已删除的 "test" 表，从而允许您再次从中 SELECT 数据。
+此示例重点介绍了使用 DROP TABLE 命令删除 "test" 表。删除表后，任何尝试从中进行 SELECT 操作都会导致 "Unknown table" 错误。它还演示了如何使用 UNDROP TABLE 命令恢复已删除的 "test" 表，从而允许您再次从中 SELECT 数据。
 
 ```sql
 CREATE TABLE test(a INT, b VARCHAR);

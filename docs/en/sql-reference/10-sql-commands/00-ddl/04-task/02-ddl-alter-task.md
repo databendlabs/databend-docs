@@ -29,7 +29,7 @@ ALTER TASK [ IF EXISTS ] <name> SET
 ALTER TASK [ IF EXISTS ] <name> MODIFY AS <sql>
 
 --- modify DAG when condition and after condition
-ALTER TASK [ IF EXISTS ] <name> REMOVE AFTER <string> [ , <string> , ... ] | ADD AFTER <string> [ , <string> , ... ]
+ALTER TASK [ IF EXISTS ] <name> REMOVE AFTER <string> | ADD AFTER <string>
 --- allow to change condition for task execution
 ALTER TASK [ IF EXISTS ] <name> MODIFY WHEN <boolean_expr>
 ```
@@ -41,8 +41,8 @@ ALTER TASK [ IF EXISTS ] <name> MODIFY WHEN <boolean_expr>
 | RESUME \| SUSPEND                | Resume or suspend the task.                                                                          |
 | SET                              | Change task settings. details parameter descriptions could be found on see [Create Task](01-ddl-create_task.md).                                                                               |
 | MODIFY AS                        | Change task SQL.                                                                                     |
-| REMOVE AFTER |  Remove predecessor tasks from the task dag, task would become a standalone task or a root task if no predecessor tasks left. |
-| ADD AFTER | Add predecessor tasks to the task dag. |
+| REMOVE AFTER |  Remove predecessor task from the task dag, task would become a standalone task or a root task if no predecessor tasks left. |
+| ADD AFTER | Add predecessor task to the task dag. |
 | MODIFY WHEN | Change the condition for task execution. |
 
 ## Examples
@@ -72,7 +72,7 @@ ALTER TASK mytaskchild MODIFY WHEN STREAM_STATUS('stream3') = False;
 In this example, we are modifying the mytaskchild task to change its WHEN condition. The task will now only run if the STREAM_STATUS function for 'stream3' evaluates to False. This means the task will execute when 'stream3' does not contain change data.
 
 ```sql
-ALTER TASK MyTask1 ADD AFTER 'task2', 'task3';
+ALTER TASK MyTask1 ADD AFTER 'task2';
 ```
 In this example, we are adding dependencies to the MyTask1 task. It will now run after the successful completion of both 'task2' and 'task3'. This creates a dependency relationship in a Directed Acyclic Graph (DAG) of tasks.
 

@@ -10,15 +10,17 @@ interface IProps extends ICommonProps {
   isDownload?: boolean;
   padding?: number[];
   onClick?: () => void;
+  title?: string;
 }
 const Card: FC<IProps> = ({
   children,
-  padding,
+  padding = [28, 24],
   className,
   href,
-  isDownload,
+  isDownload = false,
   style,
   onClick,
+  title,
 }): ReactElement => {
   const p = padding || [28, 24];
   const props = {
@@ -28,7 +30,13 @@ const Card: FC<IProps> = ({
   return (
     <>
       {href ? (
-        <Link onClick={onClick} download={isDownload} to={href} {...props}>
+        <Link
+          title={title}
+          onClick={onClick}
+          download={isDownload}
+          to={href}
+          {...props}
+        >
           {children}
         </Link>
       ) : (
@@ -38,9 +46,5 @@ const Card: FC<IProps> = ({
       )}
     </>
   );
-};
-Card.defaultProps = {
-  padding: [28, 24],
-  isDownload: false,
 };
 export default Card;

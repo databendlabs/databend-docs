@@ -4,85 +4,55 @@ title: Privileges
 
 A privilege is a permission to perform an action. Users must have specific privileges to execute particular actions within Databend. For example, when querying a table, a user needs `SELECT` privileges to the table. Similarly, to read a dataset within a stage, the user must possess `READ` privileges.
 
-In Databend, users can obtain a privilege in two ways. One approach is to directly grant the privilege to the user. The other method involves granting the privilege to a role first, and then assigning that role to the user.
+In Databend, privileges are granted to roles. Users receive privileges through the roles assigned to them.
 
 ![Alt text](/img/guides/access-control-2.png)
 
 ## Managing Privileges
 
-To manage privileges for a user or a role, use the following commands:
+To manage privileges for a role, use the following commands:
 
 - [GRANT](/sql/sql-commands/ddl/user/grant)
 - [REVOKE](/sql/sql-commands/ddl/user/revoke)
 - [SHOW GRANTS](/sql/sql-commands/ddl/user/show-grants)
 
-### Granting Privileges to User / Role
+### Granting Privileges to Roles
 
-To grant a privilege, you have two options: you can either directly grant the privilege to a user, or you can grant the privilege to a role first, and then grant that role to the user. In the following example, privileges are directly granted to the user 'david'. 'david' is created as a new user with the password 'abc123', and then all privileges on objects in the 'default' schema are granted directly to 'david'. Finally, the granted privileges for 'david' are shown.
+To grant a privilege, create a role, grant the privilege to the role, and then grant that role to users who need it. In the following example, a new role named 'writer' is created and granted all privileges on objects in the 'default' schema. Subsequently, 'david' is created as a new user with the password 'abc123', and the 'writer' role is granted to 'david'. Finally, the granted privileges for 'writer' are shown.
 
-```sql title='Example-1:'
--- Create a new user named 'david' with the password 'abc123'
-CREATE USER david IDENTIFIED BY 'abc123';
-
--- Grant all privileges on all objects in the 'default' schema to the user 'david'
-GRANT ALL ON default.* TO david;
-
--- Show the granted privileges for the user 'david'
-SHOW GRANTS FOR david;
-
-┌───────────────────────────────────────────────────┐
-│                       Grants                      │
-├───────────────────────────────────────────────────┤
-│ GRANT ALL ON 'default'.'default'.* TO 'david'@'%' │
-└───────────────────────────────────────────────────┘
-```
-
-In the following example, privileges are granted to a role first, and then the role is granted to the user 'eric'. Initially, a new role named 'writer' is created and granted all privileges on objects in the 'default' schema. Subsequently, 'eric' is created as a new user with the password 'abc123', and the 'writer' role is granted to 'eric'. Finally, the granted privileges for 'eric' are shown.
-
-```sql title='Example-2:'
+```sql title='Example:'
 -- Create a new role named 'writer'
 CREATE ROLE writer;
 
 -- Grant all privileges on all objects in the 'default' schema to the role 'writer'
 GRANT ALL ON default.* TO ROLE writer;
 
--- Create a new user named 'eric' with the password 'abc123'
-CREATE USER eric IDENTIFIED BY 'abc123';
+-- Create a new user named 'david' with the password 'abc123' and set the default role
+CREATE USER david IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'writer';
 
--- Grant the role 'writer' to the user 'eric'
-GRANT ROLE writer TO eric;
+-- Grant the role 'writer' to the user 'david'
+GRANT ROLE writer TO david;
 
--- Show the granted privileges for the user 'eric'
-SHOW GRANTS FOR eric;
+-- Show the granted privileges for the role 'writer'
+SHOW GRANTS FOR ROLE writer;
 
-┌──────────────────────────────────────────────────┐
-│                      Grants                      │
-├──────────────────────────────────────────────────┤
-│ GRANT ALL ON 'default'.'default'.* TO 'eric'@'%' │
-└──────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│                      Grants                           │
+├───────────────────────────────────────────────────────┤
+│ GRANT ALL ON 'default'.'default'.* TO ROLE 'writer'   │
+└───────────────────────────────────────────────────────┘
 ```
 
-### Revoking Privileges from User / Role
+### Revoking Privileges from Roles
 
-In the context of access control, privileges can be revoked either from individual users or from roles. In the following example, we revoke all privileges on all objects in the 'default' schema from user 'david', and then we display the granted privileges for user 'david':
+In the context of access control, privileges are revoked from roles. In the following example, we revoke all privileges on all objects in the 'default' schema from role 'writer', and then we display the granted privileges for role 'writer':
 
-```sql title='Example-1(Continued):'
--- Revoke all privileges on all objects in the 'default' schema from user 'david'
-REVOKE ALL ON default.* FROM david;
-
--- Show the granted privileges for the user 'david'
-SHOW GRANTS FOR david;
-```
-
-In the following example, privileges are revoked for role 'writer' on all objects in the 'default' schema. Following this, the granted privileges for user 'eric' are displayed. 
-
-```sql title='Example-2(Continued):'
+```sql title='Example (Continued):'
 -- Revoke all privileges on all objects in the 'default' schema from role 'writer'
 REVOKE ALL ON default.* FROM ROLE writer;
 
--- Show the granted privileges for the user 'eric'
--- No privileges are displayed as they have been revoked from the role
-SHOW GRANTS FOR eric;
+-- Show the granted privileges for the role 'writer'
+SHOW GRANTS FOR ROLE writer;
 ```
 
 
@@ -99,47 +69,65 @@ Databend offers a range of privileges that allow you to exercise fine-grained co
   - [Session Policy Privileges](#session-policy-privileges)
   - [Stage Privileges](#stage-privileges)
   - [UDF Privileges](#udf-privileges)
+  - [Sequence Privileges](#sequence-privileges)
+  - [Connection Privileges](#connection-privileges)
+  - [Procedure Privileges](#procedure-privileges)
   - [Catalog Privileges](#catalog-privileges)
   - [Share Privileges](#share-privileges)
 
 ### All Privileges
 
-| Privilege    | Object Type                   | Description                                                                                                                                        |
-|:-------------|:------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
-| ALL          | All                           | Grants all the privileges for the specified object type.                                                                                           |
-| ALTER        | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                                                             |
-| CREATE       | Global, Database, Table       | Creates a database, table or UDF.                                                                                                                  |
-| DELETE       | Table                         | Deletes or truncates rows in a table.                                                                                                              |
-| DROP         | Global, Database, Table, View | Drops a database, table, view or UDF. Undrops a table.                                                                                             |
-| INSERT       | Table                         | Inserts rows into a table.                                                                                                                         |
-| SELECT       | Database, Table               | Selects rows from a table. Shows or uses a database.                                                                                               |
-| UPDATE       | Table                         | Updates rows in a table.                                                                                                                           |
-| GRANT        | Global                        | Grants / revokes privileges to / from a user or role.                                                                                              |
-| SUPER        | Global, Table                 | Kills a query. Sets global configs. Optimizes a table. Analyzes a table. Operates a stage(Lists stages. Creates, Drops a stage), catalog or share. |
-| USAGE        | Global                        | Synonym for “no privileges”.                                                                                                                       |
-| CREATE ROLE  | Global                        | Creates a role.                                                                                                                                    |
-| DROP ROLE    | Global                        | Drops a role.                                                                                                                                      |
-| CREATE USER  | Global                        | Creates a SQL user.                                                                                                                                |
-| DROP USER    | Global                        | Drops a SQL user.                                                                                                                                  |
-| WRITE        | Stage                         | Write into a stage.                                                                                                                                |
-| READ         | Stage                         | Read a stage.                                                                                                                                      |
-| USAGE        | UDF                           | Use udf.                                                                                                                                           |
+| Privilege         | Object Type                   | Description                                                                                                                                        |
+|:------------------|:------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
+| ALL               | All                           | Grants all the privileges for the specified object type.                                                                                           |
+| APPLY MASKING POLICY | Global, Masking Policy     | Attaches, detaches, describes, or drops masking policies. When granted on *.*, the grantee can manage any masking policy.                          |
+| APPLY ROW ACCESS POLICY | Global, Row Access Policy | Adds or removes row access policies from tables and allows DESCRIBE/DROP operations on any policy. When granted on *.*, the grantee can manage every row access policy. |
+| ALTER             | Global, Database, Table, View | Alters a database, table, user or UDF.                                                                                                             |
+| CREATE            | Global, Table                 | Creates a table or UDF.                                                                                                                            |
+| CREATE DATABASE   | Global                        | Creates a database or UDF.                                                                                                                         |
+| CREATE WAREHOUSE  | Global                        | Creates a warehouse.                                                                                                                               |
+| CREATE CONNECTION | Global                        | Creates a connection.                                                                                                                              |
+| CREATE SEQUENCE   | Global                        | Creates a sequence.                                                                                                                                |
+| CREATE PROCEDURE  | PROCEDURE                     | Creates a procedure.                                                                                                                               |
+| CREATE MASKING POLICY | Global                    | Creates a masking policy.                                                                                                                          |
+| CREATE ROW ACCESS POLICY | Global                 | Creates a row access policy.                                                                                                                       |
+| DELETE            | Table                         | Deletes or truncates rows in a table.                                                                                                              |
+| DROP              | Global, Database, Table, View | Drops a database, table, view or UDF. Undrops a table.                                                                                             |
+| INSERT            | Table                         | Inserts rows into a table.                                                                                                                         |
+| SELECT            | Database, Table               | Selects rows from a table. Shows or uses a database.                                                                                               |
+| UPDATE            | Table                         | Updates rows in a table.                                                                                                                           |
+| GRANT             | Global                        | Grants / revokes privileges to / from a role.                                                                                                      |
+| SUPER             | Global, Table                 | Kills a query. Sets global configs. Optimizes a table. Analyzes a table. Operates a stage(Lists stages. Creates, Drops a stage), catalog or share. |
+| USAGE             | Global                        | Synonym for “no privileges”.                                                                                                                       |
+| CREATE ROLE       | Global                        | Creates a role.                                                                                                                                    |
+| DROP ROLE         | Global                        | Drops a role.                                                                                                                                      |
+| CREATE USER       | Global                        | Creates a SQL user.                                                                                                                                |
+| DROP USER         | Global                        | Drops a SQL user.                                                                                                                                  |
+| WRITE             | Stage                         | Write into a stage.                                                                                                                                |
+| READ              | Stage                         | Read a stage.                                                                                                                                      |
+| USAGE             | UDF                           | Use udf.                                                                                                                                           |
+| ACCESS CONNECTION | CONNECTION                    | Access connection.                                                                                                                                 |
+| ACCESS SEQUENCE   | SEQUENCE                      | Access sequence.                                                                                                                                   |
+| ACCESS PROCEDURE  | PROCEDURE                     | Access procedure.                                                                                                                                  |
 
 ### Global Privileges
 
-| Privilege  | Description                                                                                                       |
-|:-----------|:------------------------------------------------------------------------------------------------------------------|
-| ALL        | Grants all the privileges for the specified object type.                                                          |
-| ALTER      | Adds or drops a table column. Alters a cluster key. Re-clusters a table.                                          |
-| CREATEROLE | Creates a role.                                                                                                   |
-| DROPUSER   | Drops a user.                                                                                                     |
-| CREATEUSER | Creates a user.                                                                                                   |
-| DROPROLE   | Drops a role.                                                                                                     |
-| SUPER      | Kills a query. Sets or unsets a setting. Operates a stage, catalog or share. Calls a function. COPY INTO a stage. |
-| USAGE      | Connects to a databend query only.                                                                                |
-| CREATE     | Creates a UDF.                                                                                                    |
-| DROP       | Drops a UDF.                                                                                                      |
-| ALTER      | Alters a UDF. Alters a SQL user.                                                                                  |
+| Privilege         | Description                                                                                                       |
+|:------------------|:------------------------------------------------------------------------------------------------------------------|
+| ALL               | Grants all the privileges for the specified object type.                                                          |
+| ALTER             | Adds or drops a table column. Alters a cluster key. Re-clusters a table.                                          |
+| CREATEROLE        | Creates a role.                                                                                                   |
+| CREAT DATABASE    | Creates a DATABASE.                                                                                               |
+| CREATE WAREHOUSE  | Creates a WAREHOUSE.                                                                                              |
+| CREATE CONNECTION | Creates a CONNECTION.                                                                                             |
+| DROPUSER          | Drops a user.                                                                                                     |
+| CREATEUSER        | Creates a user.                                                                                                   |
+| DROPROLE          | Drops a role.                                                                                                     |
+| SUPER             | Kills a query. Sets or unsets a setting. Operates a stage, catalog or share. Calls a function. COPY INTO a stage. |
+| USAGE             | Connects to a databend query only.                                                                                |
+| CREATE            | Creates a UDF.                                                                                                    |
+| DROP              | Drops a UDF.                                                                                                      |
+| ALTER             | Alters a UDF. Alters a SQL user.                                                                                  |
 
 ### Table Privileges
 
@@ -170,15 +158,15 @@ Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/d
 
 | Privilege | Description                                                                                                      |
 |:----------|:-----------------------------------------------------------------------------------------------------------------|
-| Alter     | Renames a database.                                                                                              |
-| CREATE    | Creates a database.                                                                                              |
+| ALTER     | Renames a database.                                                                                              |
 | DROP      | Drops or undrops a database. Restores the recent version of a dropped database.                                  |
 | SELECT    | SHOW CREATE a database.                                                                                          |
 | OWNERSHIP | Grants full control over a database.  Only a single role can hold this privilege on a specific object at a time. |
+| USAGE     | Allows entering a database using `USE <database>`, without granting access to any contained objects.             |
 
 > Note:
 >
-> 1. If a role own a database, this role can access all tables under this database.
+> 1. If a role owns a database, the role can access all the tables in the database.
  
 
 ### Session Policy Privileges
@@ -220,3 +208,45 @@ Please note that you can use the [USE DATABASE](/sql/sql-commands/ddl/database/d
 |:----------|:---------------------------------------------------------|
 | SUPER     | SHOW CREATE catalog. Creates or drops a catalog.         |
 | ALL       | Grants all the privileges for the specified object type. |
+
+### Connection Privileges
+
+| Privilege         | Description                                                                                                        |
+|:------------------|:-------------------------------------------------------------------------------------------------------------------|
+| Access Connection | Can access Connection.                                                                                             |
+| ALL               | Grants Access Connection privileges for the specified object type.                                                 |
+| OWNERSHIP         | Grants full control over a Connection.  Only a single role can hold this privilege on a specific object at a time. |
+
+### Sequence Privileges
+
+| Privilege       | Description                                                                                                      |
+|:----------------|:-----------------------------------------------------------------------------------------------------------------|
+| Access Sequence | Can access Sequence.(e.g. Drop,Desc)                                                                             |
+| ALL             | Grants Access Sequence privileges for the specified object type.                                                 |
+| OWNERSHIP       | Grants full control over a Sequence.  Only a single role can hold this privilege on a specific object at a time. |
+
+### Procedure Privileges
+
+| Privilege        | Description                                                                                                       |
+|:-----------------|:------------------------------------------------------------------------------------------------------------------|
+| Access Procedure | Can access Procedure.(e.g. Drop,Call,Desc)                                                                        |
+| ALL              | Grants Access Procedure privileges for the specified object type.                                                 |
+| OWNERSHIP        | Grants full control over a Procedure.  Only a single role can hold this privilege on a specific object at a time. |
+
+### Masking Policy Privileges
+
+In addition to the global `CREATE MASKING POLICY` and `APPLY MASKING POLICY` privileges, you can grant access to individual masking policies:
+
+| Privilege | Description                                                                                                                           |
+|:----------|:--------------------------------------------------------------------------------------------------------------------------------------|
+| APPLY     | Attaches or detaches the masking policy from columns, and allows DESC/DROP operations on the policy.                                  |
+| OWNERSHIP | Grants full control over a masking policy. Databend grants OWNERSHIP to the role that creates the policy and revokes it automatically when the policy is dropped. |
+
+### Row Access Policy Privileges
+
+Row access policies share the same governance model. Beyond the global `CREATE ROW ACCESS POLICY` and `APPLY ROW ACCESS POLICY` privileges, grant access per policy when needed:
+
+| Privilege | Description                                                                                                                                        |
+|:----------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
+| APPLY     | Adds or removes the row access policy from tables and allows DESC/DROP operations on the policy.                                                   |
+| OWNERSHIP | Grants full control over a row access policy. Databend grants OWNERSHIP to the creator role and revokes it automatically when the policy is dropped. |

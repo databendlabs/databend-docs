@@ -4,7 +4,7 @@ sidebar_position: 4
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.271"/>
+<FunctionDescription description="Introduced or updated: v1.2.832"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -12,22 +12,41 @@ import EEFeature from '@site/src/components/EEFeature';
 
 Shows the created virtual columns in the system. Equivalent to `SELECT * FROM system.virtual_columns`.
 
-See also: [system.virtual_columns](../../../00-sql-reference/20-system-tables/system-virtual-columns.md)
+Virtual columns are enabled by default starting from v1.2.832.
 
-## Syntax
+See also: [system.virtual_columns](../../../00-sql-reference/31-system-tables/system-virtual-columns.md)
+
+## Preferred Syntax
+
+Use the command in its simplest, most useful form to inspect a specific table or list all virtual columns:
 
 ```sql
-SHOW VIRTUAL COLUMNS [ LIKE '<pattern>' | WHERE <expr> ] | [ LIMIT <limit> ]
+SHOW VIRTUAL COLUMNS [WHERE table = '<table_name>' AND database = '<database_name>']
 ```
 
 ## Example
 
 ```sql
-SHOW VIRTUAL COLUMNS;
+CREATE TABLE test(id int, val variant);
 
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ database │  table │                     virtual_columns                     │
-├──────────┼────────┼─────────────────────────────────────────────────────────┤
-│ default  │ test   │ val['name'], val['pricings'][0]['type'], val['tags'][0] │
-└─────────────────────────────────────────────────────────────────────────────┘
+INSERT INTO
+  test
+VALUES
+  (
+    1,
+    '{"id":1,"name":"databend"}'
+  ),
+  (
+    2,
+    '{"id":2,"name":"databricks"}'
+  );
+
+SHOW VIRTUAL COLUMNS WHERE table = 'test' AND database = 'default';
+╭───────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ database │  table │ source_column │ virtual_column_id │ virtual_column_name │ virtual_column_type │
+│  String  │ String │     String    │       UInt32      │        String       │        String       │
+├──────────┼────────┼───────────────┼───────────────────┼─────────────────────┼─────────────────────┤
+│ default  │ test   │ val           │        3000000000 │ ['id']              │ UInt64              │
+│ default  │ test   │ val           │        3000000001 │ ['name']            │ String              │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```

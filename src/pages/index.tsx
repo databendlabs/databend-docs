@@ -1,14 +1,7 @@
-import React, { useEffect } from "react";
-import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
+import { Redirect } from '@docusaurus/router';
 
-const Home = () => {
-  useEffect(() => {
-    if (ExecutionEnvironment.canUseDOM) {
-      window.location.href = "/guides";
-    }
-  }, []);
-
-  return <></>;
-};
-
-export default Home;
+// Production: Vercel rewrites / to /guides/ (URL stays /)
+// Development: Client-side redirect to /guides/
+export default function Home(): JSX.Element {
+  return <Redirect to="/guides" />;
+}

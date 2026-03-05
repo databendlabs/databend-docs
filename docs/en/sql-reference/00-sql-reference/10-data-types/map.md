@@ -1,38 +1,93 @@
 ---
 title: Map
+sidebar_position: 10
 ---
 
-The MAP data structure is utilized for holding a set of `Key:Value` pairs, and stores data using a nested data structure of Array(Tuple(key, value)). It is appropriate in situations where the data type is constant, but the `Key`'s value cannot be entirely ascertained.
+## Overview
 
-## Understanding Key:Value
-
-The `Key` is of a specified basic data type, including Boolean, Number, Decimal, String, Date, or Timestamp. A `Key`'s value cannot be Null, and duplicates are not allowed. The `Value` can be any data type, including nested arrays, tuples, and so on.
-
-Map data can be generated through `Key:Value` pairs enclosed in curly braces or by using the Map function to convert two arrays into a Map. The Map function takes two arrays as input, where the elements in the first array serve as the keys and the elements in the second array serve as the values. See an example below:
+`MAP(K, V)` stores key-value pairs internally as `ARRAY(TUPLE(key, value))`. Define the key type `K` up front (Boolean, numeric, decimal, string, date, or timestamp). Keys must be non-null and unique; values can be any type, including nested structures. Use map literals (`{key: value}`) or the `MAP(keys, values)` function to build a map expression.
 
 ```sql
--- Input arrays: [1, 2] and ['v1', 'v2']
--- Resulting Map: {1: 'v1', 2: 'v2'}
-
-SELECT {'k1': 1, 'k2': 2}, map([1, 2], ['v1', 'v2']);
-+-----------------+---------------------------+
-| {'k1':1,'k2':2} | map([1, 2], ['v1', 'v2']) |
-+-----------------+---------------------------+
-| {'k1':1,'k2':2} | {1:'v1',2:'v2'}           |
-+-----------------+---------------------------+
+SELECT
+  {'k1': 1, 'k2': 2}                      AS literal_map,
+  MAP(['x', 'y'], [10, 20])               AS from_arrays;
 ```
 
-## Map and Bloom Filter Index
+Result:
+```
+┌───────────────────────┬──────────────────┐
+│ literal_map           │ from_arrays      │
+├───────────────────────┼──────────────────┤
+│ {'k1':1,'k2':2}       │ {'x':10,'y':20}  │
+└───────────────────────┴──────────────────┘
+```
 
-In Databend Map, a bloom filter index is created for the value with certain data types: `Numeric`, `String`, `Timestamp`, and `Date`.
+## Examples
 
-This makes it easier and faster to search for values in the MAP data structure.
+### Create and Query
 
-The implementation of the bloom filter index in Databend Map is in [PR#10457](https://github.com/databendlabs/databend/pull/10457).
+```sql
+CREATE TABLE web_traffic_data (
+  id INT64,
+  traffic_info MAP(STRING, STRING)
+);
 
-The bloom filter is particularly effective in reducing query time when the queried value does not exist.
+INSERT INTO web_traffic_data VALUES
+  (1, {'ip': '192.168.1.1', 'url': 'example.com/home'}),
+  (2, {'ip': '192.168.1.2', 'url': 'example.com/about'}),
+  (3, {'ip': '192.168.1.1', 'url': 'example.com/contact'});
 
-For example:
+SELECT
+  id,
+  traffic_info['ip']  AS ip_address,
+  traffic_info['url'] AS url
+FROM web_traffic_data;
+```
+
+Result:
+```
+┌────┬─────────────┬───────────────────────┐
+│ id │ ip_address  │ url                   │
+├────┼─────────────┼───────────────────────┤
+│ 1  │ 192.168.1.1 │ example.com/home      │
+│ 2  │ 192.168.1.2 │ example.com/about     │
+│ 3  │ 192.168.1.1 │ example.com/contact   │
+└────┴─────────────┴───────────────────────┘
+```
+
+```sql
+SELECT
+  traffic_info['ip'] AS ip_address,
+  COUNT(*)           AS visits
+FROM web_traffic_data
+GROUP BY traffic_info['ip']
+ORDER BY visits DESC;
+```
+
+Result:
+```
+┌─────────────┬────────┐
+│ ip_address  │ visits │
+├─────────────┼────────┤
+│ 192.168.1.1 │      2 │
+│ 192.168.1.2 │      1 │
+└─────────────┴────────┘
+```
+
+### Bloom Filter Index
+
+Map columns automatically maintain a bloom filter for supported value types (numeric, string, timestamp, date). Filtering on `map['key']` skips blocks quickly when the value is absent.
+
+```sql
+CREATE TABLE nginx_log (
+  id INT,
+  log MAP(STRING, STRING)
+);
+
+INSERT INTO nginx_log VALUES
+  (1, {'ip': '205.91.162.148', 'url': 'test-1'}),
+  (2, {'ip': '205.91.162.141', 'url': 'test-2'});
+```
 
 ```sql
 SELECT *
@@ -41,7 +96,6 @@ WHERE log['ip'] = '205.91.162.148';
 ```
 
 Result:
-
 ```
 ┌────┬─────────────────────────────────────────┐
 │ id │ log                                     │
@@ -53,109 +107,13 @@ Result:
 ```sql
 SELECT *
 FROM nginx_log
-WHERE log['ip'] = '205.91.162.141';
+WHERE log['ip'] = '205.91.162.200';
 ```
 
 Result:
-
 ```
-┌────┬─────┐
+┌────┬────┐
 │ id │ log │
-├────┼─────┤
-└────┴─────┘
-```
-
-## Examples
-
-**Create a table with a Map column for storing web traffic data**
-
-```sql
-CREATE TABLE web_traffic_data(
-    id INT64,
-    traffic_info MAP(STRING, STRING)
-);
-```
-
-```sql
-DESC web_traffic_data;
-```
-
-Result:
-
-```
-┌─────────────┬─────────────────────┬──────┬─────────┬───────┐
-│ Field       │ Type                │ Null │ Default │ Extra │
-├─────────────┼─────────────────────┼──────┼─────────┼───────┤
-│ id          │ INT64               │ NO   │         │       │
-│ traffic_info│ MAP(STRING, STRING) │ NO   │ {}      │       │
-└─────────────┴─────────────────────┴──────┴─────────┴───────┘
-```
-
-**Insert Map data containing IP addresses and URLs visited**
-
-```sql
-INSERT INTO web_traffic_data
-VALUES
-    (1, {'ip': '192.168.1.1', 'url': 'example.com/home'}),
-    (2, {'ip': '192.168.1.2', 'url': 'example.com/about'}),
-    (3, {'ip': '192.168.1.1', 'url': 'example.com/contact'});
-```
-
-**Query**
-
-```sql
-SELECT * FROM web_traffic_data;
-```
-
-Result:
-
-```
-┌────┬─────────────────────────────────────────────────┐
-│ id │ traffic_info                                    │
-├────┼─────────────────────────────────────────────────┤
-│ 1  │ {'ip':'192.168.1.1','url':'example.com/home'}    │
-│ 2  │ {'ip':'192.168.1.2','url':'example.com/about'}   │
-│ 3  │ {'ip':'192.168.1.1','url':'example.com/contact'} │
-└────┴─────────────────────────────────────────────────┘
-```
-
-**Query the number of visits per IP address**
-
-```sql
-SELECT traffic_info['ip'] AS ip_address, COUNT(*) AS visits
-FROM web_traffic_data
-GROUP BY traffic_info['ip'];
-```
-
-Result:
-
-```
-┌─────────────┬────────┐
-│ ip_address  │ visits │
-├─────────────┼────────┤
-│ 192.168.1.1 │      2 │
-│ 192.168.1.2 │      1 │
-└─────────────┴────────┘
-```
-
-**Query the most visited URLs**
-
-```sql
-SELECT traffic_info['url'] AS url, COUNT(*) AS visits
-FROM web_traffic_data
-GROUP BY traffic_info['url']
-ORDER BY visits DESC
-LIMIT 3;
-```
-
-Result:
-
-```
-┌─────────────────────┬────────┐
-│ url                 │ visits │
-├─────────────────────┼────────┤
-│ example.com/home    │      1 │
-│ example.com/about   │      1 │
-│ example.com/contact │      1 │
-└─────────────────────┴────────┘
+├────┼────┤
+└────┴────┘
 ```

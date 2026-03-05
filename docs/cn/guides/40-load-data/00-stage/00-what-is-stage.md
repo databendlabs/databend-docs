@@ -2,50 +2,56 @@
 title: 什么是 Stage？
 ---
 
-在 Databend 中，stage 是一个虚拟位置，数据文件存放在其中。stage 中的文件可以直接查询或加载到表中。或者，您可以将表中的数据卸载到 stage 中作为文件。使用 stage 的好处是，您可以像访问计算机上的文件夹一样方便地访问它进行数据加载和卸载。就像您将文件放入文件夹时，不一定需要知道它在硬盘上的确切位置一样。访问 stage 中的文件时，您只需要指定 stage 名称和文件名，例如 `@mystage/mydatafile.csv`，而不是指定其在对象存储桶中的位置。与计算机上的文件夹类似，您可以在 Databend 中创建任意数量的 stage。但需要注意的是，一个 stage 不能包含另一个 stage。每个 stage 独立运行，不包含其他 stage。
+Stage 是 Databend 中用于存放数据文件的虚拟位置。您可以直接查询 Stage 中的文件，也可以将其加载到表里；反过来，也可以把表数据导出到 Stage。
 
-利用 stage 加载数据还可以提高上传、管理和过滤数据文件的效率。通过 [BendSQL](../../30-sql-clients/00-bendsql/index.md)，您可以使用单个命令轻松地将文件上传或下载到 stage 中。在将数据加载到 Databend 时，您可以直接在 COPY INTO 命令中指定一个 stage，使该命令能够从该 stage 读取甚至过滤数据文件。同样，在从 Databend 导出数据时，您可以将数据文件转储到 stage 中。
+Stage 的好处在于使用简单，就像操作电脑里的文件夹：您只需指定 Stage 名称和文件名（如 `@mystage/mydatafile.csv`），无需关心文件在对象存储中的实际路径。您可以按需创建任意数量的 Stage，但 Stage 之间相互独立，不能嵌套。
+
+Stage 还能提升文件管理效率。通过 [BendSQL](../../35-connect/00-sql-clients/bendsql.md)，一条命令即可完成文件上传或下载。加载数据时，可在 COPY INTO 命令中指定 Stage，实现文件读取和筛选；导出数据时，同样可以将文件写入 Stage。
 
 ## Stage 类型
 
-根据实际存储位置和可访问性，stage 可以分为以下几种类型：内部 Stage、外部 Stage 和用户 Stage。下表总结了 Databend 中不同 stage 类型的特点，包括其存储位置、可访问性和推荐的使用场景：
+根据存储位置和访问权限的不同，Stage 分为三种类型：
 
-| Stage 类型     | 存储位置                           | 可访问性                                   | 何时选择                                    |
-| -------------- | ---------------------------------- | ----------------------------------------------- | ------------------------------------------------- |
-| 内部 Stage     | Databend 所在的对象存储             | 组织内所有用户均可访问                         | 适用于组织内共享数据                              |
-| 外部 Stage     | 外部对象存储                       | 组织内所有用户均可访问                         | 适用于与外部数据源集成                            |
-| 用户 Stage     | Databend 所在的对象存储             | 仅对应用户可访问                               | 适用于个人数据文件或临时数据                      |
+|                      | 用户 Stage                      | 内部 Stage                                   | 外部 Stage                                                                                                |
+|----------------------|--------------------------------|----------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| **存储位置**         | Databend 内部对象存储       | Databend 内部对象存储                     | 外部对象存储（如 S3、Azure）                                                                              |
+| **创建方式**         | 系统自动创建                       | 手动创建：`CREATE STAGE stage_name;`         | 手动创建：`CREATE STAGE stage_name` `'s3://bucket/prefix/'` `CONNECTION=(endpoint_url='x', ...);`         |
+| **访问权限**         | 仅本人可用               | 可共享给其他用户或角色                       | 可共享给其他用户或角色                                                                                    |
+| **删除行为**       | 不可删除                     | 删除 Stage 同时清空文件                    | 仅删除 Stage 定义，外部文件保留                                                                        |
+| **文件上传**         | 需上传到 Databend        | 需上传到 Databend                      | 无需上传，直接读写外部存储                                                                    |
+| **适用场景**         | 个人私有数据                  | 团队共享数据                                | 对接外部数据源或导出数据                                                                                        |
+| **路径格式**         | `@~/`                          | `@stage_name/`                               | `@stage_name/`                                                                                            |
 
 ### 内部 Stage
 
-内部 stage 中的文件实际上存储在 Databend 所在的对象存储中。内部 stage 对组织内的所有用户都是可访问的，允许每个用户利用 stage 进行数据加载或导出任务。与创建文件夹类似，创建 stage 时需要指定名称。以下是使用 [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令创建内部 stage 的示例：
+内部 Stage 的文件存储在 Databend 所在的对象存储中，组织内所有用户都可以访问。创建时需指定名称：
 
 ```sql
--- 创建名为 my_internal_stage 的内部 stage
+-- 创建名为 my_internal_stage 的内部 Stage
 CREATE STAGE my_internal_stage;
 ```
 
 ### 外部 Stage
 
-外部 stage 允许您指定 Databend 所在位置之外的对象存储位置。例如，如果您在 Google Cloud Storage 容器中有数据集，可以使用该容器创建外部 stage。创建外部 stage 时，必须提供连接信息，以便 Databend 连接到外部位置。
+外部 Stage 用于对接 Databend 之外的对象存储。例如，您的数据存放在 Google Cloud Storage 或 Amazon S3 中，就可以创建外部 Stage 来访问。创建时需提供连接信息。
 
-以下是创建外部 stage 的示例。假设您在名为 `databend-doc` 的 Amazon S3 桶中有数据集：
+假设您有一个名为 `databend-doc` 的 S3 存储桶：
 
 ![alt text](/img/guides/external-stage.png)
 
-您可以使用 [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令创建外部 stage，将 Databend 连接到该桶：
+可以用 [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令创建外部 Stage：
 
 ```sql
--- 创建名为 my_external_stage 的外部 stage
+-- 创建外部 Stage
 CREATE STAGE my_external_stage
     URL = 's3://databend-doc'
     CONNECTION = (
-        AWS_KEY_ID = '<YOUR-KEY-ID>',
-        AWS_SECRET_KEY = '<YOUR-SECRET-KEY>'
+        AWS_KEY_ID = '<您的密钥ID>',
+        AWS_SECRET_KEY = '<您的密钥>'
     );
 ```
 
-外部 stage 创建后，您可以从 Databend 访问数据集。例如，列出文件：
+创建后即可访问其中的数据，比如列出文件：
 
 ```sql
 LIST @my_external_stage;
@@ -58,13 +64,13 @@ LIST @my_external_stage;
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-请注意，外部存储必须是 Databend 支持的对象存储解决方案之一。[CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 命令页面提供了如何为常用对象存储解决方案指定连接信息的示例。
+> 外部存储必须是 Databend 支持的对象存储。[CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) 页面列出了各类对象存储的连接配置示例。
 
 ### 用户 Stage
 
-用户 stage 可以视为一种特殊的内部 stage：用户 stage 中的文件存储在 Databend 所在的对象存储中，但不能被其他用户访问。每个用户都有自己的用户 stage，开箱即用，您在使用前不需要创建或命名您的用户 stage。此外，您不能删除您的用户 stage。
+用户 Stage 是一种特殊的内部 Stage：文件存储在 Databend 内部，但仅本人可见。每个用户自动拥有一个用户 Stage，无需手动创建，也无法删除。
 
-用户 stage 可以作为您的数据文件的便捷存储库，这些数据文件不需要与其他人共享。要访问您的用户 stage，请使用 `@~`。例如，列出您 stage 中的所有文件：
+用户 Stage 适合存放不需要共享的私有文件。访问时使用 `@~`，例如列出所有文件：
 
 ```sql
 LIST @~;
@@ -72,13 +78,13 @@ LIST @~;
 
 ## 管理 Stage
 
-Databend 提供了多种命令来帮助您管理 stage 及其中的文件：
+Databend 提供以下命令来管理 Stage 及其中的文件：
 
-| 命令                                                         | 描述                                                                                                                                                                                                                          | 适用于用户 Stage | 适用于内部 Stage | 适用于外部 Stage |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------- | ------------------------- | ------------------------- |
-| [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) | 创建内部或外部 stage。                                                                                                                                                                                               | 否                    | 是                       | 是                       |
-| [DROP STAGE](/sql/sql-commands/ddl/stage/ddl-drop-stage)     | 删除内部或外部 stage。                                                                                                                                                                                               | 否                    | 是                       | 是                       |
-| [DESC STAGE](/sql/sql-commands/ddl/stage/ddl-desc-stage)     | 显示内部或外部 stage 的属性。                                                                                                                                                                               | 否                    | 是                       | 是                       |
-| [LIST](/sql/sql-commands/ddl/stage/ddl-list-stage)           | 返回 stage 中已暂存的文件列表。或者，表函数 [LIST_STAGE](/sql/sql-functions/table-functions/list-stage) 提供了类似的功能，并增加了获取特定文件信息的灵活性 | 是                   | 是                       | 是                       |
-| [REMOVE](/sql/sql-commands/ddl/stage/ddl-remove-stage)       | 从 stage 中删除已暂存的文件。                                                                                                                                                                                                   | 是                   | 是                       | 是                       |
-| [SHOW STAGES](/sql/sql-commands/ddl/stage/ddl-show-stages)   | 返回已创建的内部和外部 stage 列表。                                                                                                                                                                          | 否                    | 是                       | 是                       |
+| 命令                                                         | 说明                                                                                                                                                                                                                               | 用户 Stage      | 内部 Stage          | 外部 Stage          |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------- | ------------------------- |
+| [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) | 创建内部或外部 Stage                                                                                                                                                                                                               | ✗                    | ✓                        | ✓                        |
+| [DROP STAGE](/sql/sql-commands/ddl/stage/ddl-drop-stage)     | 删除 Stage                                                                                                                                                                                                               | ✗                    | ✓                        | ✓                        |
+| [DESC STAGE](/sql/sql-commands/ddl/stage/ddl-desc-stage)     | 查看 Stage 属性                                                                                                                                                                                                        | ✗                    | ✓                        | ✓                        |
+| [LIST](/sql/sql-commands/ddl/stage/ddl-list-stage)           | 列出 Stage 中的文件。也可使用表函数 [LIST_STAGE](/sql/sql-functions/table-functions/list-stage)，支持更灵活的文件查询                                                                                | ✓                    | ✓                        | ✓                        |
+| [REMOVE](/sql/sql-commands/ddl/stage/ddl-remove-stage)       | 删除 Stage 中的文件                                                                                                                                                                                                            | ✓                    | ✓                        | ✓                        |
+| [SHOW STAGES](/sql/sql-commands/ddl/stage/ddl-show-stages)   | 列出已创建的 Stage                                                                                                                                                                                                  | ✗                    | ✓                        | ✓                        |

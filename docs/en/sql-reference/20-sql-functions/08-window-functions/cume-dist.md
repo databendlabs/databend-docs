@@ -5,61 +5,64 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced: v1.2.7"/>
 
-Returns the cumulative distribution of a given value in a set of values. It calculates the proportion of rows that have values less than or equal to the specified value, divided by the total number of rows. Please note that the resulting value falls between 0 and 1, inclusive.
+Calculates the cumulative distribution of each row's value. Returns the fraction of rows with values less than or equal to the current row's value.
 
 See also: [PERCENT_RANK](percent_rank.md)
 
 ## Syntax
 
 ```sql
-CUME_DIST() OVER (
-	PARTITION BY expr, ...
-	ORDER BY expr [ASC | DESC], ...
+CUME_DIST()
+OVER (
+    [ PARTITION BY partition_expression ]
+    ORDER BY sort_expression [ ASC | DESC ]
 )
 ```
 
+**Arguments:**
+- `PARTITION BY`: Optional. Divides rows into partitions
+- `ORDER BY`: Required. Determines the distribution order
+- `ASC | DESC`: Optional. Sort direction (default: ASC)
+
+**Notes:**
+- Returns values between 0 and 1 (exclusive of 0, inclusive of 1)
+- Formula: (number of rows ≤ current value) / (total rows)
+- Always returns 1.0 for the highest value(s)
+- Useful for calculating percentiles and cumulative percentages
+
 ## Examples
 
-This example retrieves the students' names, scores, grades, and the cumulative distribution values (cume_dist_val) within each grade using the CUME_DIST() window function.
-
 ```sql
-CREATE TABLE students (
-    name VARCHAR(20),
-    score INT NOT NULL,
-    grade CHAR(1) NOT NULL
+-- Create sample data
+CREATE TABLE scores (
+    student VARCHAR(20),
+    score INT
 );
 
-INSERT INTO students (name, score, grade)
-VALUES
-    ('Smith', 81, 'A'),
-    ('Jones', 55, 'C'),
-    ('Williams', 55, 'C'),
-    ('Taylor', 62, 'B'),
-    ('Brown', 62, 'B'),
-    ('Davies', 84, 'A'),
-    ('Evans', 87, 'A'),
-    ('Wilson', 72, 'B'),
-    ('Thomas', 72, 'B'),
-    ('Johnson', 100, 'A');
-
-SELECT
-    name,
-    score,
-    grade,
-    CUME_DIST() OVER (PARTITION BY grade ORDER BY score) AS cume_dist_val
-FROM
-    students;
-
-name    |score|grade|cume_dist_val|
---------+-----+-----+-------------+
-Smith   |   81|A    |         0.25|
-Davies  |   84|A    |          0.5|
-Evans   |   87|A    |         0.75|
-Johnson |  100|A    |          1.0|
-Taylor  |   62|B    |          0.5|
-Brown   |   62|B    |          0.5|
-Wilson  |   72|B    |          1.0|
-Thomas  |   72|B    |          1.0|
-Jones   |   55|C    |          1.0|
-Williams|   55|C    |          1.0|
+INSERT INTO scores VALUES
+    ('Alice', 95),
+    ('Bob', 87),
+    ('Charlie', 87),
+    ('David', 82),
+    ('Eve', 78);
 ```
+
+**Calculate cumulative distribution (showing what percentage of students scored at or below each score):**
+
+```sql
+SELECT student, score,
+       CUME_DIST() OVER (ORDER BY score) AS cume_dist,
+       ROUND(CUME_DIST() OVER (ORDER BY score) * 100) AS cumulative_percent
+FROM scores
+ORDER BY score;
+```
+
+Result:
+```
+student | score | cume_dist | cumulative_percent
+--------+-------+-----------+-------------------
+Eve     |    78 |       0.2 |                20
+David   |    82 |       0.4 |                40
+Bob     |    87 |       0.8 |                80
+Charlie |    87 |       0.8 |                80
+Alice   |    95 |       1.0 |               100

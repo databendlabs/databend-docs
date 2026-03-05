@@ -1,6 +1,6 @@
 ---
-title: Loading ORC File into Databend
-sidebar_label: Loading ORC File
+title: Loading ORC into Databend
+sidebar_label: ORC
 ---
 
 ## What is ORC?
@@ -18,7 +18,8 @@ COPY INTO [<database>.]<table_name>
 FILE_FORMAT = (TYPE = ORC)
 ```
 
-More details about the syntax can be found in [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
+- For more ORC file format options, refer to [ORC File Format Options](/sql/sql-reference/file-format-options#orc-options).
+- For more COPY INTO table options, refer to [COPY INTO table](/sql/sql-commands/dml/dml-copy-into-table).
 
 ## Tutorial: Loading Data from ORC Files
 
@@ -35,7 +36,7 @@ CREATE OR REPLACE CONNECTION aws_s3
     SECRET_ACCESS_KEY='your-sk';
 
 CREATE OR REPLACE STAGE orc_data_stage
-    URL='s3://wizardbend/sample-data/orc/'
+    URL='s3://wizardbend/databend-doc/sample-data/orc/'
     CONNECTION=(CONNECTION_NAME='aws_s3');
 ```
 

@@ -6,10 +6,13 @@ import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MASKING POLICY'/>
 
-A masking policy refers to rules and settings that control the display or access to sensitive data in a way that safeguards confidentiality while allowing authorized users to interact with the data. Databend enables you to define masking policies for displaying sensitive columns in a table, thus protecting confidential data while still permitting authorized roles to access specific parts of the data.
+Masking policies protect sensitive data by dynamically transforming column values during query execution. They enable role-based access to confidential information—authorized users see actual data, while others see masked values.
 
-To illustrate, consider a scenario where you want to present email addresses in a table exclusively to managers:
+## How Masking Works
 
+Policies transform column data at query time, usually based on the caller’s role.
+
+**Managers see actual values**
 ```sql
 id | email           |
 ---|-----------------|
@@ -17,64 +20,151 @@ id | email           |
  1 | sue@example.com |
 ```
 
-And when non-manager users query the table, the email addresses would appear as:
-
+**Other roles see masked values**
 ```sql
-id|email    |
---+---------+
- 2|*********|
- 1|*********|
+id | email    |
+---|----------|
+ 2 | *********|
+ 1 | *********|
 ```
 
-### Implementing Masking Policy
+### Key Traits
 
-Before creating a masking policy, make sure you have properly defined or planned user roles and their corresponding access privileges, as the policy's implementation relies on these roles to ensure secure and effective data masking. To manage Databend users and roles, see [User & Role](/sql/sql-commands/ddl/user/).
+- **Query-time** – transformations only occur during SELECTs.
+- **Role-aware** – expressions can reference `current_role()` or any condition.
+- **Column-scoped** – attach a policy per column; reuse across tables.
+- **Non-destructive** – stored data never changes.
 
-Masking policies are applied to the columns of a table. To implement a masking policy for a specific column, you must first create the masking policy and then associate the policy to the intended column with the [ALTER TABLE COLUMN](/sql/sql-commands/ddl/table/alter-table-column) command. By establishing this association, the masking policy becomes tailored to the exact context where data privacy is paramount. It's important to note that a single masking policy can be associated with multiple columns, as long as they align with the same policy criteria. For commands used to manage masking policies in Databend, see [Masking Policy](/sql/sql-commands/ddl/mask-policy/).
+## End-to-End Workflow
 
-### Usage Examples
+Follow this streamlined sequence to introduce masking on a column.
 
-This example illustrates the process of setting up a masking policy to selectively reveal or mask sensitive data based on user roles.
+### 1. Create the target table
 
 ```sql
--- Create a table and insert sample data
-CREATE TABLE user_info (
-    id INT,
-    email STRING
-);
+CREATE TABLE user_info (id INT, email STRING NOT NULL);
+```
 
-INSERT INTO user_info (id, email) VALUES (1, 'sue@example.com');
-INSERT INTO user_info (id, email) VALUES (2, 'eric@example.com');
+### 2. Define the masking policy
 
--- Create a role
-CREATE ROLE 'MANAGERS';
-GRANT ALL ON *.* TO ROLE 'MANAGERS';
-
--- Create a user and grant the role to the user
-CREATE USER manager_user IDENTIFIED BY 'databend';
-GRANT ROLE 'MANAGERS' TO 'manager_user';
-
--- Create a masking policy
+```sql
 CREATE MASKING POLICY email_mask
-AS
-  (val nullable(string))
-  RETURNS nullable(string) ->
-  CASE
-  WHEN current_role() IN ('MANAGERS') THEN
-    val
-  ELSE
-    '*********'
-  END
-  COMMENT = 'hide_email';
-
--- Associate the masking policy with the 'email' column
-ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
-
--- Query with the Root user
-SELECT * FROM user_info;
-
-id|email    |
---+---------+
- 2|*********|
- 1|*********|
+AS (val STRING)
+RETURNS STRING ->
+CASE
+  WHEN current_role() IN ('MANAGERS') THEN val
+  ELSE '*********'
+END;
 ```
+
+### 3. Attach the policy
+
+```sql
+ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
+```
+
+### 4. Insert and query data
+
+```sql
+INSERT INTO user_info VALUES (1, 'user@example.com');
+SELECT * FROM user_info;
+```
+
+**Result**
+
+```sql
+id | email
+---|----------
+ 1 | *********
+```
+
+## Read vs Write Behavior
+
+Masking policies affect read paths only. Write statements always handle true values so applications can store and modify accurate data.
+
+```sql
+-- Write original data
+INSERT INTO user_info VALUES (2, 'admin@example.com');
+
+-- Read masked data
+SELECT * FROM user_info WHERE id = 2;
+```
+
+**Result**
+
+```sql
+id | email
+---|----------
+ 2 | *********
+```
+
+## Managing Policies
+
+### DESCRIBE MASKING POLICY
+
+View metadata, including creation time, signature, and definition.
+
+```sql
+DESCRIBE MASKING POLICY email_mask;
+```
+
+**Result**
+
+```sql
+Name       | Created On                  | Signature    | Return Type | Body                                                     | Comment
+-----------+-----------------------------+--------------+-------------+----------------------------------------------------------+---------
+email_mask | 2025-11-19 09:49:10.949 UTC | (val STRING) | STRING      | CASE WHEN current_role() IN('MANAGERS') THEN val ELSE... |
+```
+
+### DROP MASKING POLICY
+
+Remove a policy definition you no longer need.
+
+```sql
+DROP MASKING POLICY [IF EXISTS] email_mask;
+```
+
+### Detach from a column
+
+```sql
+ALTER TABLE user_info MODIFY COLUMN email UNSET MASKING POLICY;
+```
+
+## Conditional Masking
+
+Use the `USING` clause to reference additional columns when the masking logic depends on other values.
+
+```sql
+CREATE MASKING POLICY vip_mask
+AS (val STRING, is_vip BOOLEAN)
+RETURNS STRING ->
+CASE
+  WHEN is_vip = true THEN val
+  ELSE '*********'
+END;
+
+ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY vip_mask USING (email, is_vip);
+INSERT INTO user_info (id, email, is_vip)
+VALUES (1, 'vip@example.com', true), (2, 'normal@example.com', false);
+SELECT * FROM user_info;
+```
+
+**Result**
+
+```sql
+id | email              | is_vip
+---|--------------------|-------
+ 1 | vip@example.com    | true
+ 2 | *********          | false
+```
+
+## Privileges & References
+
+- Grant `CREATE MASKING POLICY` on `*.*` to any role responsible for creating or replacing policies; the creator automatically owns the policy.
+- Grant the global `APPLY MASKING POLICY` privilege or `APPLY ON MASKING POLICY <policy_name>` to roles that attach or detach policies via `ALTER TABLE`.
+- Audit access with `SHOW GRANTS ON MASKING POLICY <policy_name>`.
+- Additional references:
+  - [User & Role](/sql/sql-commands/ddl/user)
+  - [CREATE MASKING POLICY](/sql/sql-commands/ddl/mask-policy/create-mask-policy)
+  - [ALTER TABLE](/sql/sql-commands/ddl/table/alter-table#column-operations)
+  - [Masking Policy Commands](/sql/sql-commands/ddl/mask-policy)

@@ -5,9 +5,9 @@ sidebar_position: 2
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新版本：v1.2.26"/>
+<FunctionDescription description="Introduced or updated: v1.2.26"/>
 
-显示 Databend 中特定网络策略的详细信息。它提供了与该策略关联的允许和阻止的 IP 地址列表以及描述策略目的或功能的注释（如果有）。
+显示有关 Databend 中特定网络策略的详细信息。它提供有关与策略关联的允许和阻止的 IP 地址列表的信息，以及描述策略用途或功能的注释（如果有）。
 
 ## 语法
 

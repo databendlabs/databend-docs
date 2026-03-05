@@ -2,7 +2,7 @@
 title: DIV
 ---
 
-返回第一个数字除以第二个数字的商，向下取整至最接近的较小整数。等效于除法运算符 `//`。
+返回第一个数字除以第二个数字的商，向下取整到最接近的较小整数。等同于除法运算符“//”。
 
 另请参阅：
 
@@ -22,7 +22,7 @@ title: DIV
 ## 示例
 
 ```sql
--- 等效于除法运算符 "//"
+-- 等同于除法运算符“//”
 SELECT 6.1 DIV 2, 6.1//2;
 
 ┌──────────────────────────┐
@@ -39,7 +39,7 @@ SELECT 6.1 DIV 2, INTDIV(6.1, 2), 6.1 DIV NULL;
 │           3 │              3 │ NULL           │
 └───────────────────────────────────────────────┘
 
--- 除以 0 时出错
+-- 除以零时出错
 root@localhost:8000/default> SELECT 6.1 DIV 0;
 error: APIError: ResponseError with 1006: divided by zero while evaluating function `div(6.1, 0)`
 ```

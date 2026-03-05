@@ -1,22 +1,34 @@
 // Copyright 2023 DatabendLabs.
-import React, { FC, ReactElement, ReactNode, useEffect, useRef } from "react";
+import React, {
+  FC,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import LinkSvg from "../../../static/icons/link";
 import copy from "copy-to-clipboard";
 import Tooltip from "../BaseComponents/Tooltip";
-// import { MDXProvider } from '@mdx-js/react';
+import DownArrow from "@site/static/icons/down.svg";
 interface IProps {
   number: number | string;
-  children: ReactNode;
+  children: ReactNode | ReactNode[];
   title: string;
   outLink?: string;
+  defaultCollapsed?: boolean;
 }
 const StepContent: FC<IProps> = ({
   number,
   children,
   title,
   outLink,
+  defaultCollapsed = undefined,
 }): ReactElement => {
   const wrapRef = useRef<any>(null);
+  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+
   useEffect(() => {
     if (!title) {
       const h3 = wrapRef?.current?.getElementsByClassName("anchor")[0];
@@ -40,6 +52,13 @@ const StepContent: FC<IProps> = ({
       }
     }
   }, []);
+  const childrenArray = useMemo(() => {
+    if (Array.isArray(children)) {
+      return children;
+    } else {
+      return [children];
+    }
+  }, [children]);
   return (
     <div
       className="global-step-container"
@@ -86,7 +105,23 @@ const StepContent: FC<IProps> = ({
         )}
       </span>
       <div className="step-content" ref={wrapRef}>
-        {children}
+        <div>
+          {isCollapsed !== undefined && (
+            <button
+              onClick={() => setIsCollapsed((v) => !v)}
+              className="collapsible-btn"
+              aria-expanded={!isCollapsed}
+            >
+              <span className={`collapsible-icon ${isCollapsed ? "" : "open"}`}>
+                <DownArrow width={16} height={16} />
+              </span>
+              {isCollapsed ? "Show Details" : "Hide Details"}
+            </button>
+          )}
+          {childrenArray?.[0]}
+          {(isCollapsed === undefined || !isCollapsed) &&
+            childrenArray?.slice(1)}
+        </div>
       </div>
     </div>
   );

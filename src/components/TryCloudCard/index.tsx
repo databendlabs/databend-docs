@@ -3,7 +3,6 @@ import React, { FC, ReactElement } from "react";
 import styles from "./styles.module.scss";
 import Close from "@site/static/icons/close.svg";
 import { useSessionStorageState } from "ahooks";
-import CheckIcon from "./CheckIcon";
 import $t from "@site/src/utils/tools";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 const TryCloudCard: FC = (): ReactElement => {
@@ -11,6 +10,7 @@ const TryCloudCard: FC = (): ReactElement => {
     siteConfig: {
       customFields: { isChina },
     },
+    i18n: { currentLocale },
   } = useDocusaurusContext() as any;
   const [hidden, setHiddenFlag] = useSessionStorageState("DATABEND_TOC_CARD", {
     defaultValue: "",
@@ -18,41 +18,40 @@ const TryCloudCard: FC = (): ReactElement => {
   const closeCard = () => {
     setHiddenFlag("closed");
   };
-  const features = [
-    $t("Low-cost"),
-    $t("Fast Analytics"),
-    $t("Easy Data Ingestion"),
-    $t("Elastic Scaling"),
+  const lines = [
+    $t(
+      "Multimodal, object-storage-native warehouse for BI, vectors, search, and geo."
+    ),
+    $t("Snowflake-compatible SQL with automatic scaling."),
+    $t("Sign up and get $200 in credits."),
   ];
   return (
     <>
       {!hidden && (
-        <div className={styles.card}>
+        <div
+          className={`${styles.card} ${
+            currentLocale === "zh" ? styles.zh : ""
+          }`}
+        >
           <div className={styles.header}>
-            <h6>{$t("Explore Databend Cloud for FREE")}</h6>
+            <h6>{$t("Try Databend Cloud for FREE")}</h6>
             <span onClick={closeCard} className={styles.close}>
               <Close />
             </span>
           </div>
           <div className={styles.desc}>
-            {features?.map((item, index) => {
-              return (
-                <div className={styles.descItem} key={index}>
-                  <span>
-                    {" "}
-                    <CheckIcon />
-                  </span>
-                  <span>{item}</span>
-                </div>
-              );
-            })}
+            {lines.map((text, idx) => (
+              <p key={idx}>{text}</p>
+            ))}
           </div>
           <a
             href={
               isChina
                 ? "https://app.databend.cn/register?r=doc-card"
-                : "https://www.databend.com/apply/?r=doc-card"
+                : "https://app.databend.com/register/?r=doc-card"
             }
+            target="_blank"
+            rel="noreferrer"
             className={styles.button}
           >
             {$t("Try it today")}

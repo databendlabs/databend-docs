@@ -1,19 +1,26 @@
 ---
 title: Connection
 ---
-import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-### What is Connection?
+## What is Connection?
 
 A connection in Databend refers to a designated configuration that encapsulates the details required to interact with an external storage service. It serves as a centralized and reusable set of parameters, such as access credentials, endpoint URLs, and storage types, facilitating the integration of Databend with various storage services.
 
-Connection can be utilized for creating external stages, external tables, and attaching tables, offering a streamlined and modular approach to managing and accessing data stored in external storage services through Databend. See [Usage Examples](#usage-examples) for examples.
+Connection can be utilized for creating external stages, external tables, and attaching tables, offering a streamlined and modular approach to managing and accessing data stored in external storage services through Databend.
 
-### Managing Connections
+## Connection Management
 
-To manage connections in Databend, use the following commands:
+| Command | Description |
+|---------|-------------|
+| [CREATE CONNECTION](create-connection.md) | Creates a new connection to an external storage service |
+| [DROP CONNECTION](drop-connection.md) | Removes an existing connection |
 
-<IndexOverviewList />
+## Connection Information
+
+| Command | Description |
+|---------|-------------|
+| [DESCRIBE CONNECTION](desc-connection.md) | Shows details of a specific connection |
+| [SHOW CONNECTIONS](show-connections.md) | Lists all connections in the current database |
 
 ### Usage Examples
 
@@ -24,8 +31,8 @@ This statement initiates a connection to Amazon S3, specifying essential connect
 ```sql
 CREATE CONNECTION toronto 
     STORAGE_TYPE = 's3' 
-    SECRET_ACCESS_KEY = '<your-secret-access-key>' 
-    ACCESS_KEY_ID = '<your-access-key-id>';
+    ACCESS_KEY_ID = '<your-access-key-id>'
+    SECRET_ACCESS_KEY = '<your-secret-access-key>';
 
 ```
 
@@ -44,8 +51,8 @@ CREATE STAGE my_s3_stage
 CREATE STAGE my_s3_stage 
     URL = 's3://databend-toronto' 
     CONNECTION = (
+        ACCESS_KEY_ID = '<your-access-key-id>',
         SECRET_ACCESS_KEY = '<your-secret-access-key>' 
-        ACCESS_KEY_ID = '<your-access-key-id>'
     );
 
 ```

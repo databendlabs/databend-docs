@@ -1,81 +1,97 @@
 ---
 title: Interval
+sidebar_position: 7
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.677"/>
 
-The INTERVAL data type represents a duration of time, allowing precise manipulation and storage of time intervals across various units.
+## Overview
 
-- Accepts natural language formats (e.g., '1 year 2 months ago') or numeric values interpreted as microseconds.
+`INTERVAL` represents a duration that can be written in natural-language text (`'1 year 2 months'`, `'3 days ago'`) or as an integer number of microseconds. Databend supports units from millennia down to microseconds and allows arithmetic on intervals, dates, and timestamps.
 
-    - Supports time units including `Millennium`, `Century`, `Decade`, `Year`, `Quarter`, `Month`, `Week`, `Day`, `Hour`, `Minute`, `Second`, `Millisecond`, and `Microsecond`.
+:::note
+Fractional parts are discarded when parsing numeric intervals. `'1.6 seconds'` becomes a 1-second interval.
+:::
 
-    ```sql title='Examples:'
-    -- Create a table with one INTERVAL column
-    CREATE OR REPLACE TABLE intervals (duration INTERVAL);
+## Examples
 
-    -- Insert different types of INTERVAL data
-    INSERT INTO intervals VALUES 
-        ('1 year 2 months ago'),     -- Natural language format with 'ago' (negative interval)
-        ('1 year 2 months'),         -- Natural language format without 'ago' (positive interval)
-        ('1000000'),                 -- Positive numeric value interpreted as microseconds
-        ('-1000000');                -- Negative numeric value interpreted as microseconds
+### Literals and Numeric Values
 
-    -- Query the table to see the results
-    SELECT * FROM intervals;
+```sql
+CREATE OR REPLACE TABLE intervals (duration INTERVAL);
 
-    ┌──────────────────────────┐
-    │         duration         │
-    ├──────────────────────────┤
-    │ -1 year -2 months        │
-    │ 1 year 2 months          │
-    │ 0:00:01                  │
-    │ -1 month -1 day -0:00:01 │
-    └──────────────────────────┘
-    ```
+INSERT INTO intervals VALUES
+  ('1 year 2 months'),       -- positive natural language
+  ('1 year 2 months ago'),   -- negative because of "ago"
+  ('1000000'),               -- 1 second in microseconds
+  ('-1000000');              -- -1 second
 
-    - When given a numeric value, Databend only recognizes the integer part of the value. For example, both `TO_INTERVAL('1 seconds')` and `TO_INTERVAL('1.6 seconds')` represent an interval of 1 second. The fractional part after the decimal point is ignored.
+SELECT TO_STRING(duration) AS duration_text FROM intervals;
+```
 
-    ```sql title='Examples:'
-    SELECT TO_INTERVAL('1 seconds'), TO_INTERVAL('1.6 seconds');
+Result:
+```
+┌──────────────────────┐
+│ duration_text        │
+├──────────────────────┤
+│ 1 year 2 months      │
+│ -1 year -2 months    │
+│ 0:00:01              │
+│ -0:00:01             │
+└──────────────────────┘
+```
 
-    ┌───────────────────────────────────────────────────────┐
-    │ to_interval('1 seconds') │ to_interval('1.6 seconds') │
-    ├──────────────────────────┼────────────────────────────┤
-    │ 0:00:01                  │ 0:00:01                    │
-    └───────────────────────────────────────────────────────┘
-    ```
-- Handles both positive and negative intervals with precision down to microseconds.
-- An interval can be added to or subtracted from another interval.
+```sql
+SELECT
+  TO_STRING(TO_INTERVAL('1 seconds'))   AS whole,
+  TO_STRING(TO_INTERVAL('1.6 seconds')) AS fractional;
+```
 
-    ```sql title='Examples:'
-    SELECT TO_DAYS(3) + TO_DAYS(1), TO_DAYS(3) - TO_DAYS(1);
+Result:
+```
+┌────────┬────────────┐
+│ whole  │ fractional │
+├────────┼────────────┤
+│ 0:00:01 │ 0:00:01   │
+└────────┴────────────┘
+```
 
-    ┌───────────────────────────────────────────────────┐
-    │ to_days(3) + to_days(1) │ to_days(3) - to_days(1) │
-    ├─────────────────────────┼─────────────────────────┤
-    │ 4 days                  │ 2 days                  │
-    └───────────────────────────────────────────────────┘
-    ```
-- Intervals can be added to or subtracted from DATE and TIMESTAMP values. 
+### Interval Arithmetic
 
-    ```sql title='Examples:'
-    SELECT DATE '2024-12-20' + TO_DAYS(2),  DATE '2024-12-20' - TO_DAYS(2);
+```sql
+SELECT
+  TO_STRING(TO_DAYS(3) + TO_DAYS(1)) AS add_interval,
+  TO_STRING(TO_DAYS(3) - TO_DAYS(1)) AS subtract_interval;
+```
 
-    ┌───────────────────────────────────────────────────────────────────────────────────┐
-    │ CAST('2024-12-20' AS DATE) + to_days(2) │ CAST('2024-12-20' AS DATE) - to_days(2) │
-    ├─────────────────────────────────────────┼─────────────────────────────────────────┤
-    │ 2024-12-22 00:00:00                     │ 2024-12-18 00:00:00                     │
-    └───────────────────────────────────────────────────────────────────────────────────┘
+Result:
+```
+┌──────────────┬──────────────────┐
+│ add_interval │ subtract_interval │
+├──────────────┼──────────────────┤
+│ 4 days       │ 2 days           │
+└──────────────┴──────────────────┘
+```
 
-    SELECT TIMESTAMP '2024-12-20 10:00:00' + TO_DAYS(2), TIMESTAMP '2024-12-20 10:00:00' - TO_DAYS(2);
+### Apply to DATE and TIMESTAMP
 
-    ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-    │ CAST('2024-12-20 10:00:00' AS TIMESTAMP) + to_days(2) │ CAST('2024-12-20 10:00:00' AS TIMESTAMP) - to_days(2) │
-    ├───────────────────────────────────────────────────────┼───────────────────────────────────────────────────────┤
-    │ 2024-12-22 10:00:00                                   │ 2024-12-18 10:00:00                                   │
-    └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-    ```
-- It is *not* recommended to use the MySQL client to query INTERVAL columns in Databend, as the MySQL protocol does not fully support the INTERVAL type. This may result in errors or unexpected behavior.
+```sql
+SELECT
+  DATE '2024-12-20' + TO_DAYS(2) AS add_days,
+  DATE '2024-12-20' - TO_DAYS(2) AS subtract_days,
+  TIMESTAMP '2024-12-20 10:00:00' + TO_HOURS(36) AS add_hours,
+  TIMESTAMP '2024-12-20 10:00:00' - TO_HOURS(36) AS subtract_hours;
+```
+
+Result:
+```
+┌────────────────────┬────────────────────┬────────────────────┬────────────────────┐
+│ add_days           │ subtract_days      │ add_hours          │ subtract_hours     │
+├────────────────────┼────────────────────┼────────────────────┼────────────────────┤
+│ 2024-12-22T00:00:00 │ 2024-12-18T00:00:00 │ 2024-12-21T22:00:00 │ 2024-12-18T22:00:00 │
+└────────────────────┴────────────────────┴────────────────────┴────────────────────┘
+```
+
+Intervals are added or subtracted just like numbers, making it easy to slide windows or compute offsets with precise control down to microseconds.
