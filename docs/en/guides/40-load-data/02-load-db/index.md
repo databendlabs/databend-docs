@@ -5,7 +5,11 @@ title: Loading Data with Tools
 Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization. See the below table for supported tools and their Databend connectors.
 
 :::info
-These connectors also support Databend Cloud. For setup instructions, visit: [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses/#connecting) 
+These connectors also support Databend Cloud. For setup instructions, visit: [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses/#connecting)
+:::
+
+:::tip
+If you are using Databend Cloud, the built-in [Data Integration](/guides/cloud/using-databend-cloud/data-integration) feature provides a no-code way to sync MySQL and S3 data into Databend — no external tools required.
 :::
 
 | Tool      	| Plugin / Connector                                                                                                                                                 	|
