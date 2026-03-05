@@ -46,7 +46,7 @@ const config: Config = {
     {
       tagName: "script",
       attributes: {},
-      innerHTML: `if(location.hostname!=='localhost'&&location.pathname.endsWith('.md'))location.replace(location.href);`,
+      innerHTML: `if(location.hostname!=='localhost'&&location.pathname.endsWith('.md')&&!location.search.includes('_r'))location.replace(location.href+(location.search?'&':'?')+'_r=1');`,
     },
     {
       tagName: "link",
