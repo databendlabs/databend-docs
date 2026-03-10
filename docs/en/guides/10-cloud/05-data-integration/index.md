@@ -10,8 +10,8 @@ The Data Integration feature in Databend Cloud enables you to load data from ext
 
 | Data Source | Description                                                                                          |
 |-------------|------------------------------------------------------------------------------------------------------|
-| [MySQL](./mysql)   | Sync data from MySQL databases with support for Snapshot, CDC, and Snapshot + CDC modes.        |
-| [Amazon S3](./s3)  | Import files from Amazon S3 buckets with support for CSV, Parquet, and NDJSON formats.          |
+| [MySQL](./mysql.md)   | Sync data from MySQL databases with support for Snapshot, CDC, and Snapshot + CDC modes.        |
+| [Amazon S3](./s3.md)  | Import files from Amazon S3 buckets with support for CSV, Parquet, and NDJSON formats.          |
 
 ## Key Concepts
 
