@@ -401,12 +401,12 @@
     "message": "标签",
     "description": "The title of the tag list page"
   },
-  "Leave an optional comment…": {
-    "message": "留下您宝贵的意见…",
-    "description": "Leave an optional comment…"
+  "Help Us Improve Our Documentation": {
+    "message": "意见/建议/文档错误",
+    "description": "Help Us Improve Our Documentation"
   },
   "Vote": {
-    "message": "确认",
+    "message": "提交反馈",
     "description": "Vote"
   },
   "Thanks for voting!": {
@@ -414,12 +414,24 @@
     "description": "Thanks for voting!"
   },
   "Did this page help you?": {
-    "message": "这篇文章对您有帮助吗？",
+    "message": "指出文档中的错误或问题，我们将会赠予您专属纪念 T 恤一件！",
     "description": "Did this page help you?"
   },
-  "Explore Databend Cloud for FREE": {
-    "message": "开始使用 Databend Cloud",
-    "description": "Explore Databend Cloud for FREE"
+  "Try Databend Cloud for FREE": {
+    "message": "欢迎体验 Databend Cloud",
+    "description": "Try Databend Cloud for FREE"
+  },
+  "Multimodal, object-storage-native warehouse for BI, vectors, search, and geo.": {
+    "message": "基于 Rust + 对象存储构建的新一代多模态数仓，一个平台即可进行 BI、向量、全文检索及地理空间分析。",
+    "description": "Try Cloud card body line 1"
+  },
+  "Snowflake-compatible SQL with automatic scaling.": {
+    "message": "支持标准 SQL，自动弹性伸缩，助您快速构建现代化数据平台。",
+    "description": "Try Cloud card body line 2"
+  },
+  "Sign up and get $200 in credits.": {
+    "message": "注册即领 ￥200 代金券。",
+    "description": "Try Cloud card body line 3"
   },
   "Low-cost": {
     "message": "低成本",
@@ -438,7 +450,7 @@
     "description": "Elastic Scaling"
   },
   "Try it today": {
-    "message": "注册",
+    "message": "注册体验",
     "description": "Try it today"
   },
   "Join our growing community": {
@@ -453,9 +465,9 @@
     "message": "Databend Cloud 现已开放注册",
     "description": "Databend Cloud Now Available"
   },
-  "Register now and get a $200 coupon": {
-    "message": "现在注册即可获得价值 200 元的优惠券",
-    "description": "Register now and get a $200 coupon."
+  "Register now and get a $200 voucher": {
+    "message": "现在注册即可获得价值 200 元的代金券",
+    "description": "Register now and get a $200 voucher."
   },
   "What is Databend?": {
     "message": "什么是 Databend?",
@@ -502,7 +514,7 @@
     "description": "学习如何使用 Databend 的描述"
   },
   "Quick Start": {
-    "message": "快速入门",
+    "message": "快速开始",
     "description": "快速入门部分的标题"
   },
   "Get started with Databend in 5 minutes": {
@@ -522,19 +534,19 @@
     "description": "Databend Cloud 部分的描述"
   },
   "Connect to Databend": {
-    "message": "连接到 Databend",
+    "message": "客户端接入",
     "description": "连接到 Databend 部分的标题"
   },
   "Developer Resources": {
-    "message": "开发者资源",
+    "message": "开发者",
     "description": "开发者资源的链接文字"
   },
   "Connect your application to Databend in just a few minutes.": {
-    "message": "几分钟内将您的应用程序连接到 Databend。",
+    "message": "几分钟即可接入 Databend。",
     "description": "连接到 Databend 部分的描述"
   },
   "Load Data into Databend": {
-    "message": "加载数据到 Databend",
+    "message": "数据导入",
     "description": "加载数据到 Databend 部分的标题"
   },
   "Know More": {
@@ -542,27 +554,27 @@
     "description": "了解更多的链接文字"
   },
   "Bulk import data into Databend(Cloud) in multiple formats.": {
-    "message": "以多种格式批量导入数据到 Databend(Cloud)。",
+    "message": "多格式批量导入 Databend。",
     "description": "加载数据到 Databend 部分的描述"
   },
   "AI & BI & Visualization & Notebooks": {
-    "message": "AI & BI & 可视化 & 笔记本",
+    "message": "AI · BI · 可视化 · Notebook",
     "description": "AI & BI & 可视化 & 笔记本 部分的标题"
   },
   "All Tools": {
-    "message": "所有工具",
+    "message": "全部工具",
     "description": "所有工具的链接文字"
   },
   "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.": {
-    "message": "Databend 提供连接器和插件，用于与主要数据导入工具集成，确保高效的数据同步。",
+    "message": "主流 BI/Notebook 即插即用。",
     "description": "AI & BI & 可视化 & 笔记本 部分的描述"
   },
   "Continuous Data Pipelines": {
-    "message": "连续数据管道",
+    "message": "持续数据管道",
     "description": "连续数据管道部分的标题"
   },
   "Data pipelines automate the process of moving and changing data from different sources into Databend.": {
-    "message": "数据管道自动化地将来自不同来源的数据移动和更改到 Databend 中。",
+    "message": "自动化管道持续导入 Databend。",
     "description": "连续数据管道部分的描述"
   },
   "Real-Time CDC Ingestion": {
@@ -574,15 +586,15 @@
     "description": "自动化数据管道的文本"
   },
   "Additional Informations": {
-    "message": "额外信息",
+    "message": "更多资料",
     "description": "额外信息部分的标题"
   },
   "AI Capabilities": {
-    "message": "AI 功能",
+    "message": "AI 能力",
     "description": "AI 功能的文本"
   },
   "Databend Products": {
-    "message": "Databend 的产品",
+    "message": "产品",
     "description": "Databend 产品的文本"
   },
   "Security": {
@@ -590,55 +602,23 @@
     "description": "安全的文本"
   },
   "Contact Support": {
-    "message": "联系客服",
+    "message": "联系支持团队",
     "description": "联系支持的文本"
   },
   "Pricing": {
-    "message": "价格相关",
+    "message": "性能",
     "description": "价格的文本"
   },
   "Use Cases": {
-    "message": "用户案例",
+    "message": "典型场景",
     "description": "Use Cases"
   },
-  "Introduction to Databend Products": {
-    "message": "Databend 产品介绍",
-    "description": "Databend 产品介绍部分的标题"
-  },
-  "Check out the products you can choose from.": {
-    "message": "查看您可以选择的产品。",
-    "description": "Databend 产品介绍部分的描述"
-  },
-  "Databend Cloud": {
-    "message": "Databend Cloud",
-    "description": "Databend Cloud 产品的标题"
-  },
-  "Fully-Managed on Cloud": {
-    "message": "全托管云服务",
-    "description": "Databend Cloud 产品的描述"
-  },
-  "Databend Enterprise": {
-    "message": "Databend 企业版",
-    "description": "Databend Enterprise 产品的标题"
-  },
-  "Self-Hosted with Additional Enterprise Features": {
-    "message": "自托管与额外的企业功能",
-    "description": "Databend Enterprise 产品的描述"
-  },
-  "Databend Community": {
-    "message": "Databend 社区版",
-    "description": "Databend 社区版 产品的标题"
-  },
-  "Self-Hosted & Free": {
-    "message": "自托管 & 免费",
-    "description": "Databend 社区版 产品的描述"
-  },
   "Getting Started": {
-    "message": "入门指南",
+    "message": "快速开始",
     "description": "入门指南部分的标题"
   },
   "Create a Databend Cloud account or deploy your own Databend instance.": {
-    "message": "创建一个 Databend Cloud 账户或部署您自己的 Databend 实例。",
+    "message": "注册 Databend Cloud 或自行部署实例。",
     "description": "入门指南部分的描述"
   },
   "Activate Databend Cloud": {
@@ -674,7 +654,7 @@
     "description": "自托管 Databend 卡片的描述"
   },
   "Downloading Databend": {
-    "message": "下载 Databend",
+    "message": "下载",
     "description": "下载 Databend 的链接文字"
   },
   "Licensing Databend": {
@@ -686,11 +666,311 @@
     "description": "升级 Databend 的链接文字"
   },
   "Changelog": {
-    "message": "发布记录",
+    "message": "更新日志",
     "description": "Changelog"
   },
   "FAQ": {
     "message": "常见问题",
     "description": "FAQ"
+  },
+  "Product Features": {
+    "message": "核心特性",
+    "description": "Product Features"
+  },
+  "Unified Engine": {
+    "message": "统一计算引擎",
+    "description": "Headline for unified engine feature"
+  },
+  "NoDesc": {
+    "message": "问题反馈",
+    "description": "NoDesc"
+  },
+  "Please describe the specific errors or issues that": {
+    "message": "*请描述您在文档中发现的具体错误或问题（例如：内容错误、流程卡住走不通、排版问题、链接失效等）",
+    "description": "Please describe the specific errors or issues that you have identified in the document (such as: content mistakes, process getting stuck and unable to proceed, layout problems, broken links, etc.)"
+  },
+  "Object Storage": {
+    "message": "对象存储",
+    "description": "Object Storage"
+  },
+  "Stores all data in object storage.": {
+    "message": "所有数据存储在对象存储中。",
+    "description": "Stores all data in object storage."
+  },
+  "Analytics, vector, search, and geo share one optimizer and runtime.": {
+    "message": "分析、向量、搜索与地理计算，统一架构，一套引擎全覆盖。",
+    "description": "Description for unified engine feature"
+  },
+  "Unified Data": {
+    "message": "统一数据底座",
+    "description": "Headline for unified data feature"
+  },
+  "Structured, semi-structured, unstructured, and vector data share object storage.": {
+    "message": "结构化、半结构化与向量数据，统一存储，一份数据支撑全业务。",
+    "description": "Description for unified data feature"
+  },
+  "Analytics Native": {
+    "message": "原生 SQL 分析 (Analytics)",
+    "description": "Headline for analytics native feature"
+  },
+  "ANSI SQL, windowing, incremental aggregates, and streaming power BI.": {
+    "message": "兼容标准 SQL，支持流式聚合，为 BI 分析注入实时动力。",
+    "description": "Description for analytics native feature"
+  },
+  "Vector Native": {
+    "message": "原生向量支持 (Vector)",
+    "description": "Headline for vector native feature"
+  },
+  "Embeddings, vector indexes, and semantic retrieval all run in SQL.": {
+    "message": "向量数据与语义检索，皆可使用 SQL 直接完成。",
+    "description": "Description for vector native feature"
+  },
+  "Search Native": {
+    "message": "原生搜索能力 (Search)",
+    "description": "Headline for search native feature"
+  },
+  "Full-text search and inverted indexes fuel hybrid retrieval.": {
+    "message": "融合倒排索引与全文检索，高效支撑混合检索应用。",
+    "description": "Description for search native feature"
+  },
+  "Geo Native": {
+    "message": "原生地理空间 (Geospatial)",
+    "description": "Headline for geo native feature"
+  },
+  "Geospatial indexes and functions power map and location services.": {
+    "message": "支持地理空间数据检索与分析，高效支撑地图与位置服务。",
+    "description": "Description for geo native feature"
+  },
+  "Start with Databend Cloud": {
+    "message": "从 Databend Cloud 起步",
+    "description": "Start with Databend Cloud"
+  },
+  "Fully-managed serverless data warehouse. No infrastructure, instant analytics.": {
+    "message": "全托管 Serverless 数仓，开箱即用，即时分析。",
+    "description": "Databend Cloud description"
+  },
+  "Serverless · <500ms start · >50% cost savings · 99.95% SLA": {
+    "message": "Serverless · 秒级启动 · 成本降低 50%+ · 99.95% SLA",
+    "description": "Databend Cloud highlights"
+  },
+  "Choose the deployment option that fits your needs.": {
+    "message": "选择适合您的部署方式",
+    "description": "Getting Started description"
+  },
+  "Choose Cloud (managed) or Enterprise (self-hosted).": {
+    "message": "选择 Databend Cloud 或 Databend Enterprise（本地部署）。",
+    "description": "Getting Started hint under title"
+  },
+  "Recommended": {
+    "message": "推荐",
+    "description": "Recommended badge"
+  },
+  "Fully-managed serverless data warehouse. Zero infrastructure.": {
+    "message": "全托管 Serverless 数仓，无需运维。",
+    "description": "Databend Cloud short description"
+  },
+  "Start Free": {
+    "message": "免费开始",
+    "description": "CTA button text for Databend Cloud"
+  },
+  "Cold Start": {
+    "message": "毫秒级启动",
+    "description": "Cold Start metric label"
+  },
+  "Free Credits": {
+    "message": "代金券",
+    "description": "Free credits metric label"
+  },
+  "Type II": {
+    "message": "Type II",
+    "description": "Compliance label for SOC 2 Type II"
+  },
+  "Cost Savings": {
+    "message": "成本节省",
+    "description": "Cost Savings metric label"
+  },
+  "Open Source": {
+    "message": "开源",
+    "description": "Open Source badge"
+  },
+  "Databend Cloud": {
+    "message": "Databend Cloud",
+    "description": "Title for Databend Cloud product"
+  },
+  "Databend Enterprise": {
+    "message": "Databend 企业版",
+    "description": "Title for Databend Enterprise product"
+  },
+  "Enterprise": {
+    "message": "企业版",
+    "description": "Enterprise badge"
+  },
+  "Self-hosted on the open-source core, with enterprise support.": {
+    "message": "基于开源内核本地部署，提供企业功能与支持。",
+    "description": "Databend Enterprise card description"
+  },
+  "Deploy": {
+    "message": "部署",
+    "description": "Enterprise metric value"
+  },
+  "Your Infra": {
+    "message": "自有基础设施",
+    "description": "Enterprise metric label"
+  },
+  "Control": {
+    "message": "掌控",
+    "description": "Enterprise metric value"
+  },
+  "Your Data": {
+    "message": "自有数据",
+    "description": "Enterprise metric label"
+  },
+  "Support": {
+    "message": "服务",
+    "description": "Enterprise metric value"
+  },
+  "Enterprise Support": {
+    "message": "企业级支持",
+    "description": "Enterprise metric label"
+  },
+  "Install Locally": {
+    "message": "本地部署",
+    "description": "CTA button text for self-hosted quickstart"
+  },
+  "Deploy on your infrastructure. Full control over data and environment.": {
+    "message": "部署在您的环境，数据和配置完全掌控。",
+    "description": "Self-Hosted short description"
+  },
+  "Self-Hosted": {
+    "message": "私有部署",
+    "description": "Self-Hosted title"
+  },
+  "Deploy on your own infrastructure. Full control, open source.": {
+    "message": "部署在自己的环境，完全掌控，开源免费。",
+    "description": "Self-Hosted description"
+  },
+  "Rust-powered · Open source · S3/GCS/Azure/MinIO": {
+    "message": "Rust 打造 · 开源免费 · 支持 S3/GCS/Azure/MinIO",
+    "description": "Self-Hosted highlights"
+  },
+  "Get started in minutes with our fully-managed cloud service. No setup required.": {
+    "message": "几分钟内即可启用全托管云服务，无需任何配置。",
+    "description": "Get started in minutes with our fully-managed cloud service. No setup required."
+  },
+  "What you need to know:": {
+    "message": "重点信息：",
+    "description": "What you need to know:"
+  },
+  "Choose Your Edition": {
+    "message": "选择适合的版本",
+    "description": "Choose Your Edition"
+  },
+  "Pricing & Plans": {
+    "message": "价格与套餐",
+    "description": "Pricing & Plans"
+  },
+  "Using Databend Cloud": {
+    "message": "使用 Databend Cloud",
+    "description": "Using Databend Cloud"
+  },
+  "Deploy Your Own Instance": {
+    "message": "部署您的私有实例",
+    "description": "Deploy Your Own Instance"
+  },
+  "Install Databend on your infrastructure for complete control and customization.": {
+    "message": "在您的基础设施上安装 Databend，实现完全的掌控与定制。",
+    "description": "Install Databend on your infrastructure for complete control and customization."
+  },
+  "5-Minute Quick Start": {
+    "message": "5 分钟快速上手",
+    "description": "5-Minute Quick Start"
+  },
+  "Download & Install": {
+    "message": "下载并安装",
+    "description": "Download & Install"
+  },
+  "Enterprise Features & Licensing": {
+    "message": "企业特性与许可",
+    "description": "Enterprise Features & Licensing"
+  },
+  "Copy Page": {
+    "message": "复制页面",
+    "description": "Copy Page"
+  },
+  "Copy page as Markdown for LLMs": {
+    "message": "复制为 Markdown 格式，供大语言模型使用",
+    "description": "Copy page as Markdown for LLMs"
+  },
+  "View as Markdown": {
+    "message": "查看 Markdown 格式",
+    "description": "View as Markdown"
+  },
+  "View this page as plain text": {
+    "message": "查看纯文本",
+    "description": "View this page as plain text"
+  },
+  "Failed to copy markdown": {
+    "message": "无法复制 Markdown",
+    "description": "Failed to copy markdown"
+  },
+  "Copying...": {
+    "message": "正在复制...",
+    "description": "Copying..."
+  },
+  "DOCUMENTATION": {
+    "message": "文档首页",
+    "description": "DOCUMENTATION"
+  },
+  "Raise issue": {
+    "message": "提 issue",
+    "description": "Raise issue"
+  },
+  "Ask questions about this page": {
+    "message": "询问关于此页面的问题",
+    "description": "Ask questions about this page"
+  },
+  "Open in": {
+    "message": "打开",
+    "description": "Open in"
+  },
+  "Products": {
+    "message": "产品",
+    "description": "Products"
+  },
+  "Performance": {
+    "message": "性能",
+    "description": "Performance"
+  },
+  "Downloads": {
+    "message": "下载",
+    "description": "Downloads"
+  },
+  "RESOURCES": {
+    "message": "资源",
+    "description": "RESOURCES"
+  },
+  "COMMUNITY": {
+    "message": "社区",
+    "description": "COMMUNITY"
+  },
+  "Tutorials": {
+    "message": "教程",
+    "description": "Tutorials"
+  },
+  "SQL Reference": {
+    "message": "SQL 参考",
+    "description": "SQL Reference"
+  },
+  "Integrations": {
+    "message": "集成",
+    "description": "Integrations"
+  },
+  "Releases": {
+    "message": "版本发布",
+    "description": "Releases"
+  },
+  "All rights reserved.": {
+    "message": "© {year} Databend 社区。版权所有。",
+    "description": "All rights reserved."
   }
 }

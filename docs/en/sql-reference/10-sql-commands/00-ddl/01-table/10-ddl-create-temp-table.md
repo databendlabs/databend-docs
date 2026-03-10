@@ -10,10 +10,10 @@ Creates a temporary table that is automatically dropped at the end of the sessio
 
 - A temporary table is visible only within the session that created it and is automatically dropped, with all data vacuumed, when the session ends.
        - In cases where automatic cleanup of temporary tables fails—for example, due to a query node crash—you can use the [FUSE_VACUUM_TEMPORARY_TABLE](../../../20-sql-functions/17-table-functions/fuse-vacuum-temporary-table.md) function to manually clean up leftover files from temporary tables.
-- To show the existing temporary tables in the session, query the [system.temporary_tables](../../../00-sql-reference/20-system-tables/system-temp-tables.md) system table. See [Example-1](#example-1).
+- To show the existing temporary tables in the session, query the [system.temporary_tables](../../../00-sql-reference/31-system-tables/system-temp-tables.md) system table. See [Example-1](#example-1).
 - A temporary table with the same name as a normal table takes precedence, hiding the normal table until dropped. See [Example-2](#example-2).
 - No privileges are required to create or operate on a temporary table.
-- Databend supports creating temporary tables with both the [Fuse Engine](../../../00-sql-reference/30-table-engines/00-fuse.md) and [Memory Engine](../../../00-sql-reference/30-table-engines/01-memory.md).
+- Databend supports creating temporary tables with the [Fuse Engine](../../../00-sql-reference/30-table-engines/00-fuse.md).
 - To create temporary tables using BendSQL, ensure you are using the latest version of BendSQL.
 
 ## Syntax
@@ -31,7 +31,7 @@ The omitted parts follow the syntax of [CREATE TABLE](10-ddl-create-table.md).
 
 ### Example-1
 
-This example demonstrates how to create a temporary table and verify its existence by querying the [system.temporary_tables](../../../00-sql-reference/20-system-tables/system-temp-tables.md) system table:
+This example demonstrates how to create a temporary table and verify its existence by querying the [system.temporary_tables](../../../00-sql-reference/31-system-tables/system-temp-tables.md) system table:
 
 ```sql
 CREATE TEMP TABLE my_table (id INT, description STRING);

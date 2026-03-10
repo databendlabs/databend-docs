@@ -1,8 +1,9 @@
 ---
 title: Loading from Stage
+sidebar_label: Stage
 ---
 
-Databend enables you to easily import data from files uploaded to either the user stage or an internal/external stage. To do so, you can first upload the files to a stage using [BendSQL](../../30-sql-clients/00-bendsql/index.md), and then employ the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command to load the data from the staged file. Please note that the files must be in a format supported by Databend, otherwise the data cannot be imported. For more information on the file formats supported by Databend, see [Input & Output File Formats](/sql/sql-reference/file-format-options).
+Databend enables you to easily import data from files uploaded to either the user stage or an internal/external stage. To do so, you can first upload the files to a stage using [BendSQL](../../35-connect/00-sql-clients/bendsql.md), and then employ the [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) command to load the data from the staged file. Please note that the files must be in a format supported by Databend, otherwise the data cannot be imported. For more information on the file formats supported by Databend, see [Input & Output File Formats](/sql/sql-reference/file-format-options).
 
 ![image](/img/load/load-data-from-stage.jpeg)
 
@@ -37,7 +38,7 @@ Follow this tutorial to upload the sample file to the user stage and load data f
 
 ### Step 1: Upload Sample File
 
-1. Upload the sample file using [BendSQL](../../30-sql-clients/00-bendsql/index.md):
+1. Upload the sample file using [BendSQL](../../35-connect/00-sql-clients/bendsql.md):
 
 ```sql
 root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @~
@@ -103,7 +104,7 @@ my_internal_stage|Internal  |              0|'root'@'%'|       |
 
 ### Step 2: Upload Sample File
 
-1. Upload the sample file using [BendSQL](../../30-sql-clients/00-bendsql/index.md):
+1. Upload the sample file using [BendSQL](../../35-connect/00-sql-clients/bendsql.md):
 
 ```sql
 root@localhost:8000/default> CREATE STAGE my_internal_stage;
@@ -165,8 +166,8 @@ CREATE STAGE my_external_stage
     URL = 's3://databend'
     CONNECTION = (
         ENDPOINT_URL = 'http://127.0.0.1:9000', 
-        AWS_KEY_ID = 'ROOTUSER', 
-        AWS_SECRET_KEY = 'CHANGEME123'
+        ACCESS_KEY_ID = 'ROOTUSER', 
+        SECRET_ACCESS_KEY = 'CHANGEME123'
     );
 ```
 
@@ -182,7 +183,7 @@ my_external_stage|External  |               |'root'@'%'|       |
 
 ### Step 2: Upload Sample File
 
-1. Upload the sample file using [BendSQL](../../30-sql-clients/00-bendsql/index.md):
+1. Upload the sample file using [BendSQL](../../35-connect/00-sql-clients/bendsql.md):
 
 ```sql
 root@localhost:8000/default> PUT fs:///Users/eric/Documents/books.parquet @my_external_stage

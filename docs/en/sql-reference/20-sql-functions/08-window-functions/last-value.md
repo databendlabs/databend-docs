@@ -4,7 +4,7 @@ title: LAST_VALUE
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.568"/>
+<FunctionDescription description="Introduced or updated: v1.2.697"/>
 
 Returns the last value in the window frame.
 
@@ -16,78 +16,134 @@ See also:
 ## Syntax
 
 ```sql
-LAST_VALUE (expression) [ { IGNORE | RESPECT } NULLS ] OVER ([PARTITION BY partition_expression] ORDER BY order_expression [window_frame])
+LAST_VALUE(expression) [ { RESPECT | IGNORE } NULLS ]
+OVER (
+    [ PARTITION BY partition_expression ]
+    ORDER BY sort_expression [ ASC | DESC ]
+    [ window_frame ]
+)
 ```
 
-- `[ { IGNORE | RESPECT } NULLS ]`: This option controls how NULL values are handled within the window function. By default, `RESPECT NULLS` is used, meaning NULL values are included in the calculation and affect the result. When set to `IGNORE NULLS`, NULL values are excluded from consideration, and the function operates only on non-NULL values.
+**Arguments:**
+- `expression`: Required. The column or expression to return the last value from.
+- `PARTITION BY`: Optional. Divides rows into partitions.
+- `ORDER BY`: Required. Determines the ordering within the window.
+- `window_frame`: Optional. Defines the window frame. The default is `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`.
 
-- For the syntax of window frame, see [Window Frame Syntax](index.md#window-frame-syntax).
+**Notes:**
+- Returns the last value in the ordered window frame.
+- Supports `IGNORE NULLS` to skip null values and `RESPECT NULLS` to keep the default behaviour.
+- Use a frame that ends after the current row (for example, `ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING`) when you need the true last row of a partition.
+- Useful for finding the latest value in each group, or the most recent value inside a look-ahead window.
 
 ## Examples
 
 ```sql
-CREATE TABLE employees (
-  employee_id INT,
-  first_name VARCHAR(50),
-  last_name VARCHAR(50),
-  salary DECIMAL(10,2)
+-- Sample order data
+CREATE OR REPLACE TABLE orders_window_demo (
+    customer VARCHAR,
+    order_id INT,
+    order_time TIMESTAMP,
+    amount INT,
+    sales_rep VARCHAR
 );
 
-INSERT INTO employees (employee_id, first_name, last_name, salary)
-VALUES
-  (1, 'John', 'Doe', 5000.00),
-  (2, 'Jane', 'Smith', 6000.00),
-  (3, 'David', 'Johnson', 5500.00),
-  (4, 'Mary', 'Williams', 7000.00),
-  (5, 'Michael', 'Brown', 4500.00);
-
--- Use LAST_VALUE to retrieve the first name of the employee with the lowest salary
-SELECT employee_id, first_name, last_name, salary,
-       LAST_VALUE(first_name) OVER (ORDER BY salary DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS lowest_salary_first_name
-FROM employees;
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│   employee_id   │    first_name    │     last_name    │          salary          │ lowest_salary_first_name │
-├─────────────────┼──────────────────┼──────────────────┼──────────────────────────┼──────────────────────────┤
-│               4 │ Mary             │ Williams         │ 7000.00                  │ Michael                  │
-│               2 │ Jane             │ Smith            │ 6000.00                  │ Michael                  │
-│               3 │ David            │ Johnson          │ 5500.00                  │ Michael                  │
-│               1 │ John             │ Doe              │ 5000.00                  │ Michael                  │
-│               5 │ Michael          │ Brown            │ 4500.00                  │ Michael                  │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+INSERT INTO orders_window_demo VALUES
+    ('Alice', 1001, to_timestamp('2024-05-01 09:00:00'), 120, 'Erin'),
+    ('Alice', 1002, to_timestamp('2024-05-01 11:00:00'), 135, NULL),
+    ('Alice', 1003, to_timestamp('2024-05-02 14:30:00'), 125, 'Glen'),
+    ('Bob',   1004, to_timestamp('2024-05-01 08:30:00'),  90, NULL),
+    ('Bob',   1005, to_timestamp('2024-05-01 20:15:00'), 105, 'Kai'),
+    ('Bob',   1006, to_timestamp('2024-05-03 10:00:00'),  95, NULL),
+    ('Carol', 1007, to_timestamp('2024-05-04 09:45:00'),  80, 'Lily');
 ```
 
-This example excludes the NULL values from the window frame with the `IGNORE NULLS` option:
+**Example 1. Latest order in each customer partition**
 
 ```sql
-CREATE or replace TABLE example AS SELECT * FROM (VALUES
-	(0, 1, 614),
-	(1, 1, null),
-	(2, 1, null),
-	(3, 1, 639),
-	(4, 1, 2027)
-) tbl(id, user_id, order_id);
+SELECT customer,
+       order_id,
+       order_time,
+       LAST_VALUE(order_id) OVER (
+           PARTITION BY customer
+           ORDER BY order_time
+           ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+       ) AS last_order_for_customer
+FROM orders_window_demo
+ORDER BY customer, order_time;
+```
 
+Result:
+```
+customer | order_id | order_time           | last_order_for_customer
+---------+----------+----------------------+-------------------------
+Alice    |     1001 | 2024-05-01 09:00:00  |                    1003
+Alice    |     1002 | 2024-05-01 11:00:00  |                    1003
+Alice    |     1003 | 2024-05-02 14:30:00  |                    1003
+Bob      |     1004 | 2024-05-01 08:30:00  |                    1006
+Bob      |     1005 | 2024-05-01 20:15:00  |                    1006
+Bob      |     1006 | 2024-05-03 10:00:00  |                    1006
+Carol    |     1007 | 2024-05-04 09:45:00  |                    1007
+```
 
-SELECT
-  id,
-  user_id,
-  order_id,
-  LAST_VALUE (order_id) IGNORE NULLS over (
-    PARTITION BY user_id
-    ORDER BY
-      id ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
-  ) AS last_order_id
-FROM
-  example
+**Example 2. Peek 12 hours ahead within each customer**
 
-┌───────────────────────────────────────────────────────┐
-│   id  │ user_id │     order_id     │   last_order_id  │
-├───────┼─────────┼──────────────────┼──────────────────┤
-│     0 │       1 │              614 │             NULL │
-│     1 │       1 │             NULL │              614 │
-│     2 │       1 │             NULL │              614 │
-│     3 │       1 │              639 │              614 │
-│     4 │       1 │             2027 │              639 │
-└───────────────────────────────────────────────────────┘
+```sql
+SELECT customer,
+       order_id,
+       order_time,
+       amount,
+       LAST_VALUE(amount) OVER (
+           PARTITION BY customer
+           ORDER BY order_time
+           RANGE BETWEEN CURRENT ROW AND INTERVAL 12 HOUR FOLLOWING
+       ) AS last_amount_next_12h
+FROM orders_window_demo
+ORDER BY customer, order_time;
+```
+
+Result:
+```
+customer | order_id | order_time           | amount | last_amount_next_12h
+---------+----------+----------------------+--------+----------------------
+Alice    |     1001 | 2024-05-01 09:00:00  |    120 |                  135
+Alice    |     1002 | 2024-05-01 11:00:00  |    135 |                  135
+Alice    |     1003 | 2024-05-02 14:30:00  |    125 |                  125
+Bob      |     1004 | 2024-05-01 08:30:00  |     90 |                  105
+Bob      |     1005 | 2024-05-01 20:15:00  |    105 |                  105
+Bob      |     1006 | 2024-05-03 10:00:00  |     95 |                   95
+Carol    |     1007 | 2024-05-04 09:45:00  |     80 |                   80
+```
+
+**Example 3. Skip nulls when scanning forward for the last sales rep**
+
+```sql
+SELECT customer,
+       order_id,
+       sales_rep,
+       LAST_VALUE(sales_rep) RESPECT NULLS OVER (
+           PARTITION BY customer
+           ORDER BY order_time
+           ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+       ) AS last_rep_respect,
+       LAST_VALUE(sales_rep) IGNORE NULLS OVER (
+           PARTITION BY customer
+           ORDER BY order_time
+           ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+       ) AS last_rep_ignore
+FROM orders_window_demo
+ORDER BY customer, order_id;
+```
+
+Result:
+```
+customer | order_id | sales_rep | last_rep_respect | last_rep_ignore
+---------+----------+-----------+------------------+-----------------
+Alice    |     1001 | Erin      | Glen             | Glen
+Alice    |     1002 | NULL      | Glen             | Glen
+Alice    |     1003 | Glen      | Glen             | Glen
+Bob      |     1004 | NULL      | NULL             | Kai
+Bob      |     1005 | Kai       | NULL             | Kai
+Bob      |     1006 | NULL      | NULL             | Kai
+Carol    |     1007 | Lily      | Lily             | Lily
 ```

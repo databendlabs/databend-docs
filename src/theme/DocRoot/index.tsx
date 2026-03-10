@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type ReactNode } from "react";
 import clsx from "clsx";
 import {
   HtmlClassNameProvider,
@@ -7,13 +7,14 @@ import {
 import {
   DocsSidebarProvider,
   useDocRootMetadata,
-} from "@docusaurus/theme-common/internal";
+} from "@docusaurus/plugin-content-docs/client";
 import DocRootLayout from "@theme/DocRoot/Layout";
 import NotFoundContent from "@theme/NotFound/Content";
 import type { Props } from "@theme/DocRoot";
 import styles from "./style.module.scss";
-
-export default function DocRoot(props: Props): JSX.Element {
+import { StyleProvider, createCache } from "@ant-design/cssinjs";
+const cache = createCache();
+export default function DocRoot(props: Props): ReactNode {
   const currentDocRouteMetadata = useDocRootMetadata(props);
   if (!currentDocRouteMetadata) {
     // We only render the not found content to avoid a double layout
@@ -22,12 +23,14 @@ export default function DocRoot(props: Props): JSX.Element {
   }
   const { docElement, sidebarName, sidebarItems } = currentDocRouteMetadata;
   return (
-    <HtmlClassNameProvider className={clsx(ThemeClassNames.page.docsDocPage)}>
-      <div className={styles.fakeBg}></div>
-      <div className={styles.cell}></div>
-      <DocsSidebarProvider name={sidebarName} items={sidebarItems}>
-        <DocRootLayout>{docElement}</DocRootLayout>
-      </DocsSidebarProvider>
-    </HtmlClassNameProvider>
+    <StyleProvider hashPriority="high" cache={cache}>
+      <HtmlClassNameProvider className={clsx(ThemeClassNames.page.docsDocPage)}>
+        <div className={styles.fakeBg}></div>
+        <div className={styles.cell}></div>
+        <DocsSidebarProvider name={sidebarName} items={sidebarItems}>
+          <DocRootLayout>{docElement}</DocRootLayout>
+        </DocsSidebarProvider>
+      </HtmlClassNameProvider>
+    </StyleProvider>
   );
 }

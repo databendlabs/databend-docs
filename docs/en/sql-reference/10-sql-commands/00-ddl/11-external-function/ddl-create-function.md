@@ -6,7 +6,11 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.339"/>
 
-Creates an external function.
+Creates an external function that calls a remote handler over Flight (typically Python or other services).
+
+### Supported Languages
+
+- Determined by the remote server (commonly Python, but any language can be used as long as it implements the Flight endpoint)
 
 ## Syntax
 
@@ -31,4 +35,12 @@ CREATE [ OR REPLACE ] FUNCTION [ IF NOT EXISTS ] <function_name>
 
 ## Examples
 
-See [Usage Examples](/guides/query/external-function#usage-examples) for more information.
+This example creates an external function that calculates the greatest common divisor (GCD) of two integers:
+
+```sql
+CREATE FUNCTION gcd AS (INT, INT) 
+    RETURNS INT 
+    LANGUAGE python 
+    HANDLER = 'gcd' 
+    ADDRESS = 'http://localhost:8815';
+```

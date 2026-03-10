@@ -74,7 +74,8 @@
         background-color: hsl(var(--muted));
         text-align: center;
         text-indent: -1px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          Liberation Mono, Courier New, monospace;
         font-size: 1rem;
         line-height: 1.5rem;
         font-weight: 500;
@@ -93,6 +94,39 @@
       display: none;
     }
     .step-content {
+      .collapsible-btn {
+        position: relative;
+        top: -15px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 8px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #374151;
+        background: var(--color-fill-0);
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .collapsible-btn:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+      }
+
+      .collapsible-icon {
+        display: flex;
+        transition: transform 0.2s ease;
+      }
+
+      .collapsible-icon.open {
+        transform: rotate(180deg);
+      }
+      .collapsible-content {
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+      }
       h3:first-child {
         color: var(--h3-title-color);
         font-size: 1.25rem;

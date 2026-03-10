@@ -14,8 +14,9 @@ import Slack from "@site/static/icons/slack.svg";
 import YouTube from "@site/static/icons/youtube.svg";
 import Bili from "@site/static/icons/bili.svg";
 import GongzhonghaoImg from "@site/static/img/databend-gongzhonghao.jpeg";
-import LittleDImg from "@site/static/img/little-d.jpeg";
+import SalesImg from "@site/static/img/sales.jpeg";
 import { Tooltip } from "antd";
+import Contact from "@site/static/icons/contact.svg";
 interface TProps {
   titleAlign?:
     | "start"
@@ -78,7 +79,7 @@ const JoinCommunity: FC<TProps> = ({
         },
         {
           icon: <X />,
-          title: "Twitter",
+          title: "X(Twitter)",
           link: "https://x.com/DatabendLabs",
         },
         {
@@ -98,11 +99,11 @@ const JoinCommunity: FC<TProps> = ({
       ),
     },
     {
-      title: "客服小 D",
+      title: "销售微信",
       icon: (
         <img
           style={{ borderRadius: "6px", height: "100%", width: "100%" }}
-          src={LittleDImg}
+          src={SalesImg}
         ></img>
       ),
     },
@@ -118,7 +119,7 @@ const JoinCommunity: FC<TProps> = ({
       >
         {community.map((item, index) => {
           return (
-            <Link to={item.link} key={index}>
+            <Link title={item.title} to={item.link} key={index}>
               <div className={clsx("community-item", styles.communityItem)}>
                 <div className={clsx("icon", styles.Icon)}>{item.icon}</div>
                 <h6>{item.title}</h6>
@@ -133,9 +134,9 @@ const JoinCommunity: FC<TProps> = ({
             </Link>
           );
         })}
-        {isChina && (
+        {isChina ? (
           <div>
-            <div style={{ marginBottom: "8px", fontSize: "13px" }}>微信</div>
+            <h6 style={{ marginBottom: "8px", textAlign: titleAlign }}>微信</h6>
             <div className={clsx("community-group", styles.CommunityGroup)}>
               {QRCode?.map((code, index) => {
                 return (
@@ -153,6 +154,51 @@ const JoinCommunity: FC<TProps> = ({
                   </Tooltip>
                 );
               })}
+            </div>
+            <h6
+              style={{
+                textAlign: titleAlign,
+                marginTop: "16px",
+                marginBottom: "8px",
+              }}
+            >
+              销售电话
+            </h6>
+            <a
+              href="tel:18516888139"
+              className={clsx("community-group", styles.CommunityGroup)}
+            >
+              185 1688 8139
+            </a>
+          </div>
+        ) : (
+          <div>
+            <h6 style={{ textAlign: titleAlign, marginBottom: "24px" }}>
+              Or simply contact us directly
+            </h6>
+            <div className={clsx("community-group", styles.CommunityGroup)}>
+              <Link
+                title="Contact Us"
+                to="https://www.databend.com/contact-us/"
+                target="_blank"
+              >
+                <div className={clsx("community-item", styles.communityItem)}>
+                  <div className={clsx("icon", styles.Icon)}>
+                    <Contact></Contact>
+                  </div>
+                  <h6>Contact Us</h6>
+                </div>
+              </Link>
+              <Link
+                title="Explore Databend Cloud"
+                to="https://app.databend.com/register/"
+                target="_blank"
+              >
+                <div className={clsx("community-item", styles.communityItem)}>
+                  <div className={clsx("icon", styles.Icon)}>🚀</div>
+                  <h6>Explore Databend Cloud</h6>
+                </div>
+              </Link>
             </div>
           </div>
         )}

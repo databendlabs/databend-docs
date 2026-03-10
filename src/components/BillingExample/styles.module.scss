@@ -1,0 +1,381 @@
+// BillingExample styles with dark theme support
+.container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background: linear-gradient(
+    135deg,
+    rgba(247, 248, 250, 0.8) 0%,
+    rgba(240, 242, 245, 0.6) 100%
+  );
+  backdrop-filter: blur(8px);
+  margin: 1.5rem 0;
+}
+
+// Dark theme
+[data-theme="dark"] .container {
+  background: linear-gradient(
+    135deg,
+    rgba(58, 61, 74, 0.8) 0%,
+    rgba(42, 45, 55, 0.6) 100%
+  );
+}
+
+// Decorative background elements
+.bgBlur1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: rgba(50, 147, 248, 0.05);
+  border-radius: 50%;
+  filter: blur(100px);
+  transform: translate(50%, -50%);
+  pointer-events: none;
+}
+
+.bgBlur2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+  background: rgba(139, 92, 246, 0.05);
+  border-radius: 50%;
+  filter: blur(80px);
+  transform: translate(-50%, 50%);
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 24px;
+}
+
+// Scenario Header
+.scenarioHeader {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.scenarioTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+}
+
+.pulseIndicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.scenarioDesc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-1);
+}
+
+.specTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px !important;
+}
+
+.specTag {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-2);
+  background: var(--color-fill-0);
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-text-1);
+  }
+}
+
+// Cost Cards Grid
+.costsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.costCard {
+  position: relative;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: linear-gradient(
+    135deg,
+    rgba(50, 147, 248, 0.08) 0%,
+    rgba(50, 147, 248, 0.02) 100%
+  );
+  transition: all 0.3s ease;
+  animation: fadeIn 0.4s ease-out forwards;
+  opacity: 0;
+
+  &:hover {
+    border-color: rgba(50, 147, 248, 0.3);
+    transform: translateY(-2px);
+  }
+
+  &.blue {
+    background: linear-gradient(
+      135deg,
+      rgba(50, 147, 248, 0.08) 0%,
+      rgba(50, 147, 248, 0.02) 100%
+    );
+    &:hover {
+      border-color: rgba(50, 147, 248, 0.3);
+    }
+  }
+
+  &.emerald {
+    background: linear-gradient(
+      135deg,
+      rgba(16, 185, 129, 0.08) 0%,
+      rgba(16, 185, 129, 0.02) 100%
+    );
+    &:hover {
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+  }
+
+  &.violet {
+    background: linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.08) 0%,
+      rgba(139, 92, 246, 0.02) 100%
+    );
+    &:hover {
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.costHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.iconWrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--color-fill-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-2);
+  transition: all 0.3s ease;
+
+  .costCard:hover & {
+    color: var(--color-text-0);
+    background: var(--color-fill-2);
+  }
+}
+
+.costLabel {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-2);
+}
+
+.formulaWrap {
+  margin-bottom: 8px;
+}
+
+.formula {
+  font-size: 12px;
+  font-family: monospace;
+  color: var(--color-text-2);
+  background: rgba(0, 0, 0, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .formula {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.resultWrap {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.resultValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-0);
+  letter-spacing: -0.02em;
+}
+
+.resultUnit {
+  font-size: 14px;
+  color: var(--color-text-2);
+}
+
+.costNote {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--color-text-2);
+  line-height: 1.4;
+}
+
+// Totals Section
+.totalsSection {
+  position: relative;
+  padding: 16px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(50, 147, 248, 0.08) 0%,
+    rgba(139, 92, 246, 0.08) 50%,
+    rgba(50, 147, 248, 0.08) 100%
+  );
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.totalsGradientLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(50, 147, 248, 0.5) 50%,
+    transparent 100%
+  );
+}
+
+.totalsContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+  }
+}
+
+.totalItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.totalLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-2);
+  font-size: 14px;
+}
+
+.totalValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-0);
+}
+
+.totalUnit {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-2);
+  margin-left: 4px;
+}
+
+.arrowIcon {
+  display: none;
+  color: var(--color-text-3);
+
+  @media (min-width: 640px) {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.monthlyTotal {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(50, 147, 248, 0.1);
+  border: 1px solid rgba(50, 147, 248, 0.2);
+
+  .totalLabel {
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+}
+
+.monthlyValue {
+  font-size: 24px;
+}
+
+// Responsive
+@media (max-width: 640px) {
+  .content {
+    padding: 16px;
+  }
+
+  .costsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .resultValue {
+    font-size: 20px;
+  }
+
+  .monthlyValue {
+    font-size: 20px;
+  }
+}

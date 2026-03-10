@@ -5,7 +5,7 @@ sidebar_position: 1
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.666"/>
+<FunctionDescription description="Introduced or updated: v1.2.821"/>
 
 import EEFeature from '@site/src/components/EEFeature';
 
@@ -35,7 +35,12 @@ See also:
 CREATE [ OR REPLACE ] TABLE [ IF NOT EXISTS ] [ <database_name>. ]<table_name>
 (
     <column_name> <data_type> [ NOT NULL | NULL ]
-                              [ { DEFAULT <expr> } ]
+                              [ { DEFAULT <expr>
+                                | { AUTOINCREMENT | IDENTITY }
+                                  [ { ( <start_num> , <step_num> )
+                                    | START <num> INCREMENT <num> } ]
+                                  [ { ORDER | NOORDER } ]
+                                } ]
                               [ AS (<expr>) STORED | VIRTUAL ]
                               [ COMMENT '<comment>' ],
     <column_name> <data_type> ...
@@ -106,87 +111,97 @@ create table t_new compression='lz4' as select * from t_old;
 
 By default, **all columns are nullable(NULL)** in Databend. If you need a column that does not allow NULL values, use the NOT NULL constraint. For more information, see [NULL Values and NOT NULL Constraint](../../../00-sql-reference/10-data-types/index.md).
 
-## Default Values
+## Column Default Values
+
+`DEFAULT <expr>` sets a default value for the column when no explicit expression is provided. The default expression can be:
+
+- A fixed constant, such as `Marketing` for the `department` column in the example below.
+- An expression with no input arguments and returns a scalar value, such as `1 + 1`, `NOW()` or `UUID()`.
+- A dynamically generated value from a sequence, such as `NEXTVAL(staff_id_seq)` for the `staff_id` column in the example below.
+  - NEXTVAL must be used as a standalone default value; expressions like `NEXTVAL(seq1) + 1` are not supported.
+  - Users must adhere to their granted permissions for sequence utilization, including operations such as [NEXTVAL](/sql/sql-functions/sequence-functions/nextval#access-control-requirements)
+
+## Auto-Increment Columns
+
+<FunctionDescription description="Introduced or updated: v1.2.821"/>
+
+`AUTOINCREMENT` or `IDENTITY` can be used to create auto-incrementing columns that automatically generate sequential numeric values. This is particularly useful for creating unique identifiers.
+
+**Syntax:**
 
 ```sql
-DEFAULT <expr>
+{ AUTOINCREMENT | IDENTITY }
+  [ { ( <start_num> , <step_num> )
+    | START <num> INCREMENT <num> } ]
+  [ { ORDER | NOORDER } ]
 ```
 
-Specify a default value inserted in the column if a value is not specified via an `INSERT` or `CREATE TABLE AS SELECT` statement.
+**Parameters:**
 
-For example:
+- `start_num`: The initial value for the auto-increment sequence (default: 1)
+- `step_num`: The increment value for each new row (default: 1)
+- `ORDER`: Guarantees monotonically increasing values (with potential gaps)
+- `NOORDER`: Does not guarantee order (default)
 
-```sql
-CREATE TABLE t_default_value(a TINYINT UNSIGNED, b VARCHAR DEFAULT 'b');
-```
+**Key Points:**
 
-Desc the `t_default_value` table:
+- Auto-increment columns are internally backed by a sequence
+- When a column with AUTOINCREMENT/IDENTITY is dropped, its associated sequence is also dropped
+- If no explicit value is provided during insertion, the next value is automatically generated
+- Both `AUTOINCREMENT` and `IDENTITY` are synonyms and behave identically
 
-```sql
-DESC t_default_value;
-
-Field|Type            |Null|Default|Extra|
------+----------------+----+-------+-----+
-a    |TINYINT UNSIGNED|YES |NULL   |     |
-b    |VARCHAR         |YES |'b'    |     |
-```
-
-Insert a value:
+**Example:**
 
 ```sql
-INSERT INTO T_default_value(a) VALUES(1);
-```
+-- Create a table with auto-increment columns
+CREATE TABLE users (
+    user_id BIGINT AUTOINCREMENT,
+    order_id BIGINT AUTOINCREMENT START 100 INCREMENT 10,
+    username VARCHAR
+);
 
-Check the table values:
+-- Insert data without specifying auto-increment columns
+INSERT INTO users (username) VALUES ('alice'), ('bob'), ('charlie');
 
-```sql
-SELECT * FROM t_default_value;
-+------+------+
-| a    | b    |
-+------+------+
-|    1 | b    |
-+------+------+
+-- Query the table to see auto-generated values
+SELECT * FROM users;
+
++----------+----------+----------+
+| user_id  | order_id | username |
++----------+----------+----------+
+|        0 |      100 | alice    |
+|        1 |      110 | bob      |
+|        2 |      120 | charlie  |
++----------+----------+----------+
 ```
 
 ## Computed Columns
 
-Computed columns are columns that are generated from other columns in a table using a scalar expression. When data in any of the columns used in the computation is updated, the computed column will automatically recalculate its value to reflect the update.
+Computed columns are generated from other columns using scalar expressions. Databend supports two types:
 
-Databend supports two types of computed columns: stored and virtual. Stored computed columns are physically stored in the database and occupy storage space, while virtual computed columns are not physically stored and their values are calculated on the fly when accessed.
+- **STORED**: Values are physically stored and automatically updated when dependent columns change
+- **VIRTUAL**: Values are calculated on-the-fly during queries, saving storage space
 
-Databend supports two syntax options for creating computed columns: one using `AS (<expr>)` and the other using `GENERATED ALWAYS AS (<expr>)`. Both syntaxes allow specifying whether the computed column is stored or virtual.
+**Syntax:**
 
 ```sql
-CREATE TABLE [IF NOT EXISTS] [db.]table_name
-(
-    <column_name> <data_type> [ NOT NULL | NULL] AS (<expr>) STORED | VIRTUAL,
-    <column_name> <data_type> [ NOT NULL | NULL] AS (<expr>) STORED | VIRTUAL,
-    ...
-)
-
-CREATE TABLE [IF NOT EXISTS] [db.]table_name
-(
-    <column_name> <data_type> [NOT NULL | NULL] GENERATED ALWAYS AS (<expr>) STORED | VIRTUAL,
-    <column_name> <data_type> [NOT NULL | NULL] GENERATED ALWAYS AS (<expr>) STORED | VIRTUAL,
-    ...
-)
+<column_name> <data_type> [ NOT NULL | NULL ] AS (<expr>) { STORED | VIRTUAL }
+<column_name> <data_type> [ NOT NULL | NULL ] GENERATED ALWAYS AS (<expr>) { STORED | VIRTUAL }
 ```
 
-The following is an example of creating a stored computed column: Whenever the values of the "price" or "quantity" columns are updated, the "total_price" column will automatically recalculate and update its stored value.
+**Examples:**
 
 ```sql
-CREATE TABLE IF NOT EXISTS products (
+-- Stored: physically stored, updates immediately
+CREATE TABLE products (
   id INT,
   price FLOAT64,
   quantity INT,
   total_price FLOAT64 AS (price * quantity) STORED
 );
-```
 
-The following is an example of creating a virtual computed column: The "full_name" column is dynamically calculated based on the current values of the "first_name" and "last_name" columns. It does not occupy additional storage space. Whenever the "first_name" or "last_name" values are accessed, the "full_name" column will be computed and returned.
-
-```sql
-CREATE TABLE IF NOT EXISTS employees (
+-- Virtual: computed on query, no storage overhead
+CREATE TABLE employees (
   id INT,
   first_name VARCHAR,
   last_name VARCHAR,
@@ -194,19 +209,23 @@ CREATE TABLE IF NOT EXISTS employees (
 );
 ```
 
-:::tip STORED or VIRTUAL?
-When choosing between stored computed columns and virtual computed columns, consider the following factors:
-
-- Storage Space: Stored computed columns occupy additional storage space in the table because their computed values are physically stored. If you have limited database space or want to minimize storage usage, virtual computed columns can be a better choice.
-
-- Real-time Updates: Stored computed columns update their computed values immediately when the dependent columns are updated. This ensures that you always have the latest computed values when querying. Virtual computed columns, on the other hand, compute their values dynamically during queries, which may slightly increase the processing time.
-
-- Data Integrity and Consistency: Stored computed columns maintain immediate data consistency since their computed values are updated upon write operations. Virtual computed columns, however, calculate their values on-the-fly during queries, which means there might be a momentary inconsistency between write operations and subsequent queries.
-  :::
+:::tip
+Choose **STORED** for frequently queried columns where performance matters. Choose **VIRTUAL** to save storage space when computation cost is acceptable.
+:::
 
 ## MySQL Compatibility
 
 Databend's syntax is difference from MySQL mainly in the data type and some specific index hints.
+
+## Access control requirements
+
+| Privilege | Object Type   | Description            |
+|:----------|:--------------|:-----------------------|
+| CREATE    | Global, Table | Creates a table.       |
+
+
+To create a table, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the CREATE [privilege](/guides/security/access-control/privileges#table-privileges).
+
 
 ## Examples
 

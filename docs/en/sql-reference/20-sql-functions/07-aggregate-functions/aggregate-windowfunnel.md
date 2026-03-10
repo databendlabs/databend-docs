@@ -4,7 +4,7 @@ description: Funnel Analysis
 ---
 
 <p align="center">
-<img src="https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/learn/databend-funnel.png" width="550"/>
+<img alt="Databend Funnel Analysis" src="https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/learn/databend-funnel.png" width="550"/>
 </p>
 
 ## WINDOW_FUNNEL
@@ -13,12 +13,11 @@ Similar to `windowFunnel` in ClickHouse (they were created by the same author), 
 
 The function works according to the algorithm:
 
--   The function searches for data that triggers the first condition in the chain and sets the event counter to 1. This is the moment when the sliding window starts.
+- The function searches for data that triggers the first condition in the chain and sets the event counter to 1. This is the moment when the sliding window starts.
 
--   If events from the chain occur sequentially within the window, the counter is incremented. If the sequence of events is disrupted, the counter isn’t incremented.
+- If events from the chain occur sequentially within the window, the counter is incremented. If the sequence of events is disrupted, the counter isn’t incremented.
 
--   If the data has multiple event chains at varying completion points, the function will only output the size of the longest chain.
-
+- If the data has multiple event chains at varying completion points, the function will only output the size of the longest chain.
 
 ```sql
 WINDOW_FUNNEL( <window> )( <timestamp>, <cond1>, <cond2>, ..., <condN> )
@@ -26,12 +25,12 @@ WINDOW_FUNNEL( <window> )( <timestamp>, <cond1>, <cond2>, ..., <condN> )
 
 **Arguments**
 
--   `<timestamp>` — Name of the column containing the timestamp. Data types supported: integer types and datetime types.
--   `<cond>` — Conditions or data describing the chain of events. Must be `Boolean` datatype.
+- `<timestamp>` — Name of the column containing the timestamp. Data types supported: integer types and datetime types.
+- `<cond>` — Conditions or data describing the chain of events. Must be `Boolean` datatype.
 
 **Parameters**
 
--   `<window>` — Length of the sliding window, it is the time interval between the first and the last condition. The unit of `window` depends on the `timestamp` itself and varies. Determined using the expression `timestamp of cond1 <= timestamp of cond2 <= ... <= timestamp of condN <= timestamp of cond1 + window`.
+- `<window>` — Length of the sliding window, it is the time interval between the first and the last condition. The unit of `window` depends on the `timestamp` itself and varies. Determined using the expression `timestamp of cond1 <= timestamp of cond2 <= ... <= timestamp of condN <= timestamp of cond1 + window`.
 
 **Returned value**
 
@@ -39,7 +38,6 @@ The maximum number of consecutive triggered conditions from the chain within the
 All the chains in the selection are analyzed.
 
 Type: `UInt8`.
-
 
 **Example**
 
@@ -51,7 +49,6 @@ Set the following chain of events:
 2. The user land the page (`event_name = 'visit'`).
 3. The user adds to the shopping cart(`event_name = 'cart'`).
 4. The user complete the purchase (`event_name = 'purchase'`).
-
 
 ```sql
 CREATE TABLE events(user_id BIGINT, event_name VARCHAR, event_timestamp TIMESTAMP);
@@ -124,7 +121,6 @@ Result:
 +-------+-------+
 ```
 
-* User `100126` level is 2 (`login -> visit`) .
-* user `100125` level is 3 (`login -> visit -> cart`).
-* User `100123` level is 4 (`login -> visit -> cart -> purchase`).
-
+- User `100126` level is 2 (`login -> visit`) .
+- user `100125` level is 3 (`login -> visit -> cart`).
+- User `100123` level is 4 (`login -> visit -> cart -> purchase`).

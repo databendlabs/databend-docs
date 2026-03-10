@@ -2,7 +2,6 @@
   display: flex;
   width: 100%;
 }
-
 @media (min-width: 997px) {
   .docMainContainer {
     flex-grow: 1;

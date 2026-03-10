@@ -8,7 +8,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Shows the list of databases that exist on the instance.
 
-See also: [system.databases](../../../00-sql-reference/20-system-tables/system-databases.md)
+See also: [system.databases](../../../00-sql-reference/31-system-tables/system-databases.md)
 
 ## Syntax
 

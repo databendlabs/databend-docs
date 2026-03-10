@@ -1,6 +1,6 @@
-import React, { MouseEvent, useState } from "react";
+import React, { MouseEvent, useState, type ReactNode } from "react";
 import clsx from "clsx";
-import { useDocsSidebar } from "@docusaurus/theme-common/internal";
+import { useDocsSidebar } from "@docusaurus/plugin-content-docs/client";
 import type { Props } from "@theme/DocRoot/Layout/Main";
 
 import styles from "./styles.module.css";
@@ -9,7 +9,7 @@ import { Image } from "antd";
 export default function DocRootLayoutMain({
   hiddenSidebarContainer,
   children,
-}: Props): JSX.Element {
+}: Props): ReactNode {
   const sidebar = useDocsSidebar();
   const [previewImage, setPreviewImage] = useState(false);
   const [previewImageSrc, setPreviewImageSrc] = useState("");

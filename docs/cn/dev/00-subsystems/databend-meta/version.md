@@ -1,41 +1,38 @@
 ---
-title: Manage protocol version for meta server and client
+title: 管理 Meta Server 和客户端的协议版本
 sidebar_label: Meta Service Version
 description:
-  When to upgrade protocol versions for meta server or meta client
+  何时升级 Meta Server 或 Meta Client 的协议版本
 ---
 
 :::tip
 
-Expected deployment time: **5 minutes ⏱**
+预计部署时间：**5 分钟 ⏱**
 
 :::
 
-Meta server has a build version(`METASRV_COMMIT_VERSION`) and the minimal compatible version of meta client(`MIN_METACLI_SEMVER`),
-which are defined in `src/meta/service/src/version.rs`.
+Meta Server 有一个构建版本（`METASRV_COMMIT_VERSION`）和 Meta Client 的最小兼容版本（`MIN_METACLI_SEMVER`），
+它们在 `src/meta/service/src/version.rs` 中定义。
 
-Meta client has a build version(`METACLI_COMMIT_SEMVER`) and the minimal compatible version of meta server(`MIN_METASRV_SEMVER`),
-which are defined in `src/meta/grpc/src/lib.rs`.
+Meta Client 有一个构建版本（`METACLI_COMMIT_SEMVER`）和 Meta Server 的最小兼容版本（`MIN_METASRV_SEMVER`），
+它们在 `src/meta/grpc/src/lib.rs` 中定义。
 
-These four versions defines compatibility between meta server and meta client.
-[Compatibility][Compatibility] explains how it works.
+这四个版本定义了 Meta Server 和 Meta Client 之间的兼容性。
+[兼容性][Compatibility] 解释了它的工作原理。
 
-For developers, if incompatible or compatible changes are introduced, either `MIN_METACLI_SEMVER` or `MIN_METASRV_SEMVER` should be increased,
-in order to report a compatibility issue before actual data exchange between meta server and meta client.
+对于开发人员，如果引入了不兼容或兼容的更改，则应增加 `MIN_METACLI_SEMVER` 或 `MIN_METASRV_SEMVER`，
+以便在 Meta Server 和 Meta Client 之间进行实际数据交换之前报告兼容性问题。
 
-According to the algorithm [Compatibility][Compatibility] defines:
+根据 [兼容性][Compatibility] 定义的算法：
 
-- If no protocol related types change is introduced, do **NOT** change `MIN_METACLI_SEMVER` or `MIN_METASRV_SEMVER`;
-- If new API is added to meta server, but very other API are still valid, do **NOT** change `MIN_METACLI_SEMVER` or `MIN_METASRV_SEMVER`;
-- If meta client starts using a new API provided by meta server, upgrade `MIN_METASRV_SEMVER` to the build version in which this new API was introduced.
-- If meta server removes an API, upgrade `MIN_METACLI_SEMVER` to a client build version since which this API is never used.
+- 如果没有引入与协议相关的类型更改，请**不要**更改 `MIN_METACLI_SEMVER` 或 `MIN_METASRV_SEMVER`；
+- 如果向 Meta Server 添加了新 API，但其他 API 仍然有效，请**不要**更改 `MIN_METACLI_SEMVER` 或 `MIN_METASRV_SEMVER`；
+- 如果 Meta Client 开始使用 Meta Server 提供的新 API，请将 `MIN_METASRV_SEMVER` 升级到引入此新 API 的构建版本。
+- 如果 Meta Server 删除了一个 API，请将 `MIN_METACLI_SEMVER` 升级到自此不再使用此 API 的客户端构建版本。
 
+与协议相关的 crates 有（如果在将来引入新类型，则此列表可能不详尽）：
+- `src/meta/protos`：定义 Meta Client 与 Meta Server 通信的 protobuf 消息。
+- `src/meta/proto-conv`：定义如何将 rust 中的元数据类型从 protobuf 消息转换为 protobuf 消息。
+- `src/meta/types`：定义元数据的 rust 类型。
 
-Protocol related crates are(this list may not be exhausted if new types are introduced in future):
-- `src/meta/protos`: defines the protobuf messages a meta client talks to a meta server.
-- `src/meta/proto-conv`: defines how to convert metadata types in rust from and to protobuf messages.
-- `src/meta/types`: defines the rust types for metadata.
-
-
-[Compatibility](/guides/deploy/upgrade/compatibility)
-
+[兼容性][Compatibility]

@@ -1,15 +1,18 @@
 ---
-title: 掩码策略
+title: 动态脱敏
 ---
 import IndexOverviewList from '@site/src/components/IndexOverviewList';
 import EEFeature from '@site/src/components/EEFeature';
 
 <EEFeature featureName='MASKING POLICY'/>
 
-掩码策略指的是控制敏感数据展示或访问的规则和设置，以保护机密性，同时允许授权用户与数据交互。Databend 使您能够为表中的敏感列定义掩码策略，从而在允许授权角色访问特定数据部分的同时保护机密数据。
+动态脱敏策略在查询时对列值进行转换，帮助你按照角色控制谁能看到真实数据、谁只能看到脱敏后的结果。
 
-举例来说，假设您希望仅向经理展示表中的电子邮件地址：
+## 脱敏策略如何工作
 
+策略会在查询阶段读取 `current_role()` 等信息并决定返回值。
+
+**Managers 查看真实数据**
 ```sql
 id | email           |
 ---|-----------------|
@@ -17,64 +20,151 @@ id | email           |
  1 | sue@example.com |
 ```
 
-而当非经理用户查询表时，电子邮件地址将显示为：
-
+**其他角色看到掩码**
 ```sql
-id|email    |
---+---------+
- 2|*********|
- 1|*********|
+id | email    |
+---|----------|
+ 2 | *********|
+ 1 | *********|
 ```
 
-### 实施掩码策略
+### 核心特性
 
-在创建掩码策略之前，请确保已正确定义或规划用户角色及其相应的访问权限，因为策略的实施依赖于这些角色以确保安全和有效的数据掩码。要管理 Databend 用户和角色，请参阅 [用户与角色](/sql/sql-commands/ddl/user/)。
+- **查询时生效**：仅在 SELECT 中转换值。
+- **逻辑灵活**：可结合 `current_role()` 或其他表达式判断。
+- **列级控制**：策略附着在列上，可跨表复用。
+- **不改原值**：存储中的真实数据不会被修改。
 
-掩码策略应用于表的列。要为特定列实施掩码策略，您必须首先创建掩码策略，然后使用 [ALTER TABLE COLUMN](/sql/sql-commands/ddl/table/alter-table-column) 命令将策略关联到目标列。通过建立这种关联，掩码策略将针对数据隐私至关重要的特定上下文进行定制。需要注意的是，单个掩码策略可以与多个列关联，只要它们符合相同的策略标准。有关用于管理 Databend 中掩码策略的命令，请参阅 [掩码策略](/sql/sql-commands/ddl/mask-policy/)。
+## 全流程示例
 
-### 使用示例
+下面的步骤展示了如何为列添加脱敏保护。
 
-此示例展示了基于用户角色选择性展示或掩码敏感数据的掩码策略设置过程。
+### 1. 创建目标表
 
 ```sql
--- 创建表并插入示例数据
-CREATE TABLE user_info (
-    id INT,
-    email STRING
-);
+CREATE TABLE user_info (id INT, email STRING NOT NULL);
+```
 
-INSERT INTO user_info (id, email) VALUES (1, 'sue@example.com');
-INSERT INTO user_info (id, email) VALUES (2, 'eric@example.com');
+### 2. 定义脱敏策略
 
--- 创建角色
-CREATE ROLE 'MANAGERS';
-GRANT ALL ON *.* TO ROLE 'MANAGERS';
-
--- 创建用户并授予角色给用户
-CREATE USER manager_user IDENTIFIED BY 'databend';
-GRANT ROLE 'MANAGERS' TO 'manager_user';
-
--- 创建掩码策略
+```sql
 CREATE MASKING POLICY email_mask
-AS
-  (val string)
-  RETURNS string ->
-  CASE
-  WHEN current_role() IN ('MANAGERS') THEN
-    val
-  ELSE
-    '*********'
-  END
-  COMMENT = 'hide_email';
-
--- 将掩码策略关联到 'email' 列
-ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
-
--- 使用 Root 用户查询
-SELECT * FROM user_info;
-
-id|email    |
---+---------+
- 2|*********|
- 1|*********|
+AS (val STRING)
+RETURNS STRING ->
+CASE
+  WHEN current_role() IN ('MANAGERS') THEN val
+  ELSE '*********'
+END;
 ```
+
+### 3. 绑定到列
+
+```sql
+ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY email_mask;
+```
+
+### 4. 写入并查询
+
+```sql
+INSERT INTO user_info VALUES (1, 'user@example.com');
+SELECT * FROM user_info;
+```
+
+**返回结果**
+
+```sql
+id | email
+---|----------
+ 1 | *********
+```
+
+## 读写行为
+
+脱敏策略只影响读取路径。INSERT/UPDATE/DELETE 始终写入真实值，保证应用逻辑和存储一致。
+
+```sql
+-- 写入真实数据
+INSERT INTO user_info VALUES (2, 'admin@example.com');
+
+-- 读取时应用脱敏
+SELECT * FROM user_info WHERE id = 2;
+```
+
+**返回结果**
+
+```sql
+id | email
+---|----------
+ 2 | *********
+```
+
+## 管理策略
+
+### DESCRIBE MASKING POLICY
+
+查看策略的创建时间、签名、返回类型及定义。
+
+```sql
+DESCRIBE MASKING POLICY email_mask;
+```
+
+**返回结果**
+
+```sql
+Name       | Created On                  | Signature    | Return Type | Body                                                     | Comment
+-----------+-----------------------------+--------------+-------------+----------------------------------------------------------+---------
+email_mask | 2025-11-19 10:29:06.005 UTC | (val STRING) | STRING      | CASE WHEN current_role() IN('MANAGERS') THEN val ELSE... |
+```
+
+### DROP MASKING POLICY
+
+删除不再需要的策略（删除前需先从所有列上解除）。
+
+```sql
+DROP MASKING POLICY [IF EXISTS] email_mask;
+```
+
+### 解除列上的策略
+
+```sql
+ALTER TABLE user_info MODIFY COLUMN email UNSET MASKING POLICY;
+```
+
+## 条件脱敏（Conditional Masking）
+
+使用 `USING` 子句可以让策略引用其他列。例如根据 `is_vip` 字段判断是否需要掩码：
+
+```sql
+CREATE MASKING POLICY vip_mask
+AS (val STRING, is_vip BOOLEAN)
+RETURNS STRING ->
+CASE
+  WHEN is_vip = true THEN val
+  ELSE '*********'
+END;
+
+ALTER TABLE user_info MODIFY COLUMN email SET MASKING POLICY vip_mask USING (email, is_vip);
+INSERT INTO user_info (id, email, is_vip)
+VALUES (1, 'vip@example.com', true), (2, 'normal@example.com', false);
+SELECT * FROM user_info;
+```
+
+**返回结果**
+
+```sql
+id | email              | is_vip
+---|--------------------|-------
+ 1 | vip@example.com    | true
+ 2 | *********          | false
+```
+
+## 权限与参考
+
+- 将 `CREATE MASKING POLICY`（通常授予 `*.*`）赋予负责创建或替换策略的角色，创建者会自动获得策略的 OWNERSHIP。
+- 需要在全局授予 `APPLY MASKING POLICY`，或针对单个策略授予 `APPLY ON MASKING POLICY <policy_name>`，角色才能使用 `ALTER TABLE` 设置或解除策略；拥有 OWNERSHIP 的角色也可以执行这些操作。
+- 使用 `SHOW GRANTS ON MASKING POLICY <policy_name>` 审计哪些角色拥有 APPLY/OWNERSHIP。
+- 延伸阅读：
+  - [User & Role](/sql/sql-commands/ddl/user)
+  - [CREATE MASKING POLICY](/sql/sql-commands/ddl/mask-policy/create-mask-policy)
+  - [ALTER TABLE](/sql/sql-commands/ddl/table/alter-table#column-operations)
+  - [Masking Policy Commands](/sql/sql-commands/ddl/mask-policy)

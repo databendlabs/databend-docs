@@ -1,202 +1,105 @@
-请粘贴需要翻译的Markdown或JSON内容，我将按照您提供的规则进行翻译。
-
 ---
-title: '窗口函数'
+title: '窗口函数（Window Function）'
 ---
 
-## 概述 {/*overview*/}
+## 概述
 
-窗口函数操作于一组相关行（称为“窗口”）。
+窗口函数（Window Function）对一组相关行进行计算，同时为每个输入行返回一个结果。与聚合函数（Aggregate Function）不同，窗口函数不会将多行折叠为单个输出。
 
-对于每个输入行，窗口函数返回一个依赖于特定行及窗口中其他行值的输出行。
+**主要特点：**
+- 对与当前行相关的行“窗口”进行操作
+- 为每个输入行返回一个值（不进行分组/折叠）
+- 可以访问窗口中其他行的值
+- 支持分区（Partitioning）和排序（Ordering），以实现灵活的计算
 
-主要有两种类型的顺序敏感窗口函数：
+## 窗口函数类别
 
-* `排名相关函数`：排名相关函数根据行的“排名”列出信息。例如，按年度利润降序排列商店，利润最高的商店排名为1，次高的商店排名为2，依此类推。
+Databend 支持两大类窗口函数：
 
-* `窗口框架函数`：窗口框架函数使您能够在窗口中的子集行上执行滚动操作，例如计算运行总计或移动平均值。
+### 1. 专用窗口函数
 
-## 支持窗口的函数列表 {/*list-of-functions-that-support-windows*/}
+这些函数专为窗口操作而设计。
 
-以下列表展示了所有支持窗口的函数。
+**排名函数：**
 
-| 函数名称                                                                 | 类别         | 窗口   | 窗口框架 | 备注  |
-|-------------------------------------------------------------------------|--------------|--------|----------|-------|
-| [ARRAY_AGG](../07-aggregate-functions/aggregate-array-agg.md)           | 通用         | ✔      |          |       |
-| [AVG](../07-aggregate-functions/aggregate-avg.md)                       | 通用         | ✔      | ✔        |       |
-| [AVG_IF](../07-aggregate-functions/aggregate-avg-if.md)                 | 通用         | ✔      | ✔        |       |
-| [COUNT](../07-aggregate-functions/aggregate-count.md)                   | 通用         | ✔      | ✔        |       |
-| [COUNT_IF](../07-aggregate-functions/aggregate-count-if.md)             | 通用         | ✔      | ✔        |       |
-| [COVAR_POP](../07-aggregate-functions/aggregate-covar-pop.md)           | 通用         | ✔      |          |       |
-| [COVAR_SAMP](../07-aggregate-functions/aggregate-covar-samp.md)         | 通用         | ✔      |          |       |
-| [MAX](../07-aggregate-functions/aggregate-max.md)                       | 通用         | ✔      | ✔        |       |
-| [MAX_IF](../07-aggregate-functions/aggregate-max-if.md)                 | 通用         | ✔      | ✔        |       |
-| [MIN](../07-aggregate-functions/aggregate-min.md)                       | 通用         | ✔      | ✔        |       |
-| [MIN_IF](../07-aggregate-functions/aggregate-min-if.md)                 | 通用         | ✔      | ✔        |       |
-| [STDDEV_POP](../07-aggregate-functions/aggregate-stddev-pop.md)         | 通用         | ✔      | ✔        |       |
-| [STDDEV_SAMP](../07-aggregate-functions/aggregate-stddev-samp.md)       | 通用         | ✔      | ✔        |       |
-| [MEDIAN](../07-aggregate-functions/aggregate-median.md)                 | 通用         | ✔      | ✔        |       |
-| [QUANTILE_CONT](../07-aggregate-functions/aggregate-quantile-cont.md)   | 通用         | ✔      | ✔        |       |
-| [QUANTILE_DISC](../07-aggregate-functions/aggregate-quantile-disc.md)   | 通用         | ✔      | ✔        |       |
-| [KURTOSIS](../07-aggregate-functions/aggregate-kurtosis.md)             | 通用         | ✔      | ✔        |       |
-| [SKEWNESS](../07-aggregate-functions/aggregate-skewness.md)             | 通用         | ✔      | ✔        |       |
-| [SUM](../07-aggregate-functions/aggregate-sum.md)                       | 通用         | ✔      | ✔        |       |
-| [SUM_IF](../07-aggregate-functions/aggregate-sum-if.md)                 | 通用         | ✔      | ✔        |       |
-| [CUME_DIST](cume-dist.md)                                               | 排名相关     | ✔      |          |       |
-| [PERCENT_RANK](percent_rank.md)                                         | 排名相关     | ✔      | ✔        |       |
-| [DENSE_RANK](dense-rank.md)                                             | 排名相关     | ✔      | ✔        |       |
-| [RANK](rank.md)                                                         | 排名相关     | ✔      | ✔        |       |
-| [ROW_NUMBER](row-number.md)                                             | 排名相关     | ✔      |          |       |
-| [NTILE](ntile.md)                                                       | 排名相关     | ✔      |          |       |
-| [FIRST_VALUE](first-value.md)                                           | 排名相关     | ✔      | ✔        |       |
-| [FIRST](first.md)                                                       | 排名相关     | ✔      | ✔        |       |
-| [LAST_VALUE](last-value.md)                                             | 排名相关     | ✔      | ✔        |       |
-| [LAST](last.md)                                                         | 排名相关     | ✔      | ✔        |       |
-| [NTH_VALUE](nth-value.md)                                               | 排名相关     | ✔      | ✔        |       |
-| [LEAD](lead.md)                                                         | 排名相关     | ✔      |          |       |
-| [LAG](lag.md)                                                           | 排名相关     | ✔      |          |       |
+| 函数 | 描述 | 并列处理 | 示例输出 |
+|----------|-------------|---------------|----------------|
+| [ROW_NUMBER](row-number.md) | 顺序编号 | 始终唯一 | `1, 2, 3, 4, 5` |
+| [RANK](rank.md) | 带间隙排名 | 相同排名，后续有间隙 | `1, 2, 2, 4, 5` |
+| [DENSE_RANK](dense-rank.md) | 无间隙排名 | 相同排名，无间隙 | `1, 2, 2, 3, 4` |
 
-## 窗口语法 {/*window-syntax*/}
+**分布函数：**
 
-```sql
-<function> ( [ <arguments> ] ) OVER ( { named window | inline window } )
+| 函数 | 描述 | 范围 | 示例输出 |
+|----------|-------------|-------|----------------|
+| [PERCENT_RANK](percent_rank.md) | 相对排名的百分比 | 0.0 到 1.0 | `0.0, 0.25, 0.5, 0.75, 1.0` |
+| [CUME_DIST](cume-dist.md) | 累积分布 | 0.0 到 1.0 | `0.2, 0.4, 0.6, 0.8, 1.0` |
+| [NTILE](ntile.md) | 划分为 N 个桶 | 1 到 N | `1, 1, 2, 2, 3, 3` |
 
-named window ::=
-    { window_name | ( window_name ) }
+**值访问函数：**
 
-inline window ::=
-    [ PARTITION BY <expression_list> ]
-    [ ORDER BY <expression_list> ]
-    [ window frame ]
-```
-`named window` 是在 `SELECT` 语句的 `WINDOW` 子句中定义的窗口，例如：`SELECT a, SUM(a) OVER w FROM t WINDOW w AS ( inline window )`。
+| 函数 | 描述 | 用例 |
+|----------|-------------|----------|
+| [FIRST_VALUE](first-value.md) | 窗口中的第一个值 | 获取最高/最早的值 |
+| [LAST_VALUE](last-value.md) | 窗口中的最后一个值 | 获取最低/最晚的值 |
+| [NTH_VALUE](nth-value.md) | 窗口中的第 N 个值 | 获取特定位置的值 |
+| [LAG](lag.md) | 上一行的值 | 与上一行比较 |
+| [LEAD](lead.md) | 下一行的值 | 与下一行比较 |
 
-`<function>` 是其中之一（[聚合函数](../07-aggregate-functions/index.md)、排名函数、值函数）。
+**别名：**
 
-`OVER` 子句指定该函数作为窗口函数使用。
+| 函数 | 别名 |
+|----------|----------|
+| [FIRST](first.md) | FIRST_VALUE |
+| [LAST](last.md) | LAST_VALUE |
 
-`PARTITION BY` 子句允许将行分组为子组，例如按城市、按年等。`PARTITION BY` 子句是可选的。您可以分析整个行组而不将其分解为子组。
+### 2. 用作窗口函数的聚合函数
 
-`ORDER BY` 子句在窗口内对行进行排序。
+这些是标准的聚合函数，可以与 OVER 子句一起使用以执行窗口操作。
 
-`window frame` 子句指定窗口框架类型和窗口框架范围。`window frame` 子句是可选的。如果您省略 `window frame` 子句，默认的窗口框架类型是 `RANGE`，默认的窗口框架范围是 `UNBOUNDED PRECEDING AND CURRENT ROW`。
+| 函数 | 描述 | 窗口框架支持 | 示例 |
+|----------|-------------|---------------------|---------|  
+| [SUM](../07-aggregate-functions/aggregate-sum.md) | 计算窗口内的总和 | ✓ | `SUM(sales) OVER (PARTITION BY region ORDER BY date)` |
+| [AVG](../07-aggregate-functions/aggregate-avg.md) | 计算窗口内的平均值 | ✓ | `AVG(score) OVER (ORDER BY id ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)` |
+| [COUNT](../07-aggregate-functions/aggregate-count.md) | 计算窗口内的行数 | ✓ | `COUNT(*) OVER (PARTITION BY department)` |
+| [MIN](../07-aggregate-functions/aggregate-min.md) | 返回窗口内的最小值 | ✓ | `MIN(price) OVER (PARTITION BY category)` |
+| [MAX](../07-aggregate-functions/aggregate-max.md) | 返回窗口内的最大值 | ✓ | `MAX(price) OVER (PARTITION BY category)` |
+| [ARRAY_AGG](../07-aggregate-functions/aggregate-array-agg.md) | 将值收集到数组中 | | `ARRAY_AGG(product) OVER (PARTITION BY category)` |
+| [STDDEV_POP](../07-aggregate-functions/aggregate-stddev-pop.md) | 总体标准差 | ✓ | `STDDEV_POP(value) OVER (PARTITION BY group)` |
+| [STDDEV_SAMP](../07-aggregate-functions/aggregate-stddev-samp.md) | 样本标准差 | ✓ | `STDDEV_SAMP(value) OVER (PARTITION BY group)` |
+| [MEDIAN](../07-aggregate-functions/aggregate-median.md) | 中位数 | ✓ | `MEDIAN(response_time) OVER (PARTITION BY server)` |
 
-## 窗口框架语法 {/*window-frame-syntax*/}
+**条件变体**
 
-`window frame` 可以是以下类型之一：
+| 函数 | 描述 | 窗口框架支持 | 示例 |
+|----------|-------------|---------------------|---------|  
+| [COUNT_IF](../07-aggregate-functions/aggregate-count-if.md) | 条件计数 | ✓ | `COUNT_IF(status = 'complete') OVER (PARTITION BY dept)` |
+| [SUM_IF](../07-aggregate-functions/aggregate-sum-if.md) | 条件求和 | ✓ | `SUM_IF(amount, status = 'paid') OVER (PARTITION BY customer)` |
+| [AVG_IF](../07-aggregate-functions/aggregate-avg-if.md) | 条件平均值 | ✓ | `AVG_IF(score, passed = true) OVER (PARTITION BY class)` |
+| [MIN_IF](../07-aggregate-functions/aggregate-min-if.md) | 条件最小值 | ✓ | `MIN_IF(temp, location = 'outside') OVER (PARTITION BY day)` |
+| [MAX_IF](../07-aggregate-functions/aggregate-max-if.md) | 条件最大值 | ✓ | `MAX_IF(speed, vehicle = 'car') OVER (PARTITION BY test)` |
 
-```sql
-cumulativeFrame ::=
-    {
-       { ROWS | RANGE } BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-     | { ROWS | RANGE } BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
-    }
-```
+## 基本语法
+
+所有窗口函数都遵循以下模式：
 
 ```sql
-slidingFrame ::=
-    {
-       ROWS BETWEEN <N> { PRECEDING | FOLLOWING } AND <N> { PRECEDING | FOLLOWING }
-     | ROWS BETWEEN UNBOUNDED PRECEDING AND <N> { PRECEDING | FOLLOWING }
-     | ROWS BETWEEN <N> { PRECEDING | FOLLOWING } AND UNBOUNDED FOLLOWING
-    }
+FUNCTION() OVER (
+    [ PARTITION BY column ]
+    [ ORDER BY column ]
+    [ window_frame ]
+)
 ```
 
-## 示例 {/*examples*/}
+- **PARTITION BY**：将数据划分为组
+- **ORDER BY**：对每个分区内的行进行排序
+- **window_frame**：定义要包含的行（可选）
 
-**创建表**
-```sql
-CREATE TABLE employees (
-  employee_id INT,
-  first_name VARCHAR,
-  last_name VARCHAR,
-  department VARCHAR,
-  salary INT
-);
-```
+## 常见用例
 
-**插入数据**
-```sql
-INSERT INTO employees (employee_id, first_name, last_name, department, salary) VALUES
-  (1, 'John', 'Doe', 'IT', 75000),
-  (2, 'Jane', 'Smith', 'HR', 85000),
-  (3, 'Mike', 'Johnson', 'IT', 90000),
-  (4, 'Sara', 'Williams', 'Sales', 60000),
-  (5, 'Tom', 'Brown', 'HR', 82000),
-  (6, 'Ava', 'Davis', 'Sales', 62000),
-  (7, 'Olivia', 'Taylor', 'IT', 72000),
-  (8, 'Emily', 'Anderson', 'HR', 77000),
-  (9, 'Sophia', 'Lee', 'Sales', 58000),
-  (10, 'Ella', 'Thomas', 'IT', 67000);
-```
+- **排名**：创建排行榜和 Top-N 列表
+- **分析**：计算累计总和、移动平均值、百分位数
+- **比较**：比较当前值与前一个/后一个值
+- **分组**：在不丢失细节的情况下将数据划分为桶
 
-**示例1：按工资排名员工**
-
-在此示例中，我们使用 RANK() 函数根据工资降序对员工进行排名。最高工资将获得排名1，最低工资将获得最高排名数。
-```sql
-SELECT employee_id, first_name, last_name, department, salary, RANK() OVER (ORDER BY salary DESC) AS rank
-FROM employees;
-```
-
-结果：
-
-| employee_id | first_name | last_name | department | salary | rank |
-|-------------|------------|-----------|------------|--------|------|
-| 3           | Mike       | Johnson   | IT         | 90000  | 1    |
-| 2           | Jane       | Smith     | HR         | 85000  | 2    |
-| 5           | Tom        | Brown     | HR         | 82000  | 3    |
-| 8           | Emily      | Anderson  | HR         | 77000  | 4    |
-| 1           | John       | Doe       | IT         | 75000  | 5    |
-| 7           | Olivia     | Taylor    | IT         | 72000  | 6    |
-| 10          | Ella       | Thomas    | IT         | 67000  | 7    |
-| 6           | Ava        | Davis     | Sales      | 62000  | 8    |
-| 4           | Sara       | Williams  | Sales      | 60000  | 9    |
-| 9           | Sophia     | Lee       | Sales      | 58000  | 10   |
-
-**示例2：计算每个部门的工资总额**
-
-在此示例中，我们使用带有 PARTITION BY 的 SUM() 函数来计算每个部门的工资总额。每行将显示部门和该部门的工资总额。
-```sql
-SELECT department, SUM(salary) OVER (PARTITION BY department) AS total_salary
-FROM employees;
-```
-
-结果：
-
-| department | total_salary |
-|------------|--------------|
-| HR         | 244000       |
-| HR         | 244000       |
-| HR         | 244000       |
-| IT         | 304000       |
-| IT         | 304000       |
-| IT         | 304000       |
-| IT         | 304000       |
-| Sales      | 180000       |
-| Sales      | 180000       |
-| Sales      | 180000       |
-
-**示例3：计算每个部门的工资累计总额**
-
-在此示例中，我们使用带有累积窗口框架的 SUM() 函数来计算每个部门内的工资累计总额。累计总额是根据员工的工资按 employee_id 排序计算的。
-```sql
-SELECT employee_id, first_name, last_name, department, salary, 
-       SUM(salary) OVER (PARTITION BY department ORDER BY employee_id
-                         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_total
-FROM employees;
-```
-
-结果：
-
-| employee_id | first_name | last_name | department | salary | running_total |
-|-------------|------------|-----------|------------|--------|---------------|
-| 2           | Jane       | Smith     | HR         | 85000  | 85000         |
-| 5           | Tom        | Brown     | HR         | 82000  | 167000        |
-| 8           | Emily      | Anderson  | HR         | 77000  | 244000        |
-| 1           | John       | Doe       | IT         | 75000  | 75000         |
-| 3           | Mike       | Johnson   | IT         | 90000  | 165000        |
-| 7           | Olivia     | Taylor    | IT         | 72000  | 237000        |
-| 10          | Ella       | Thomas    | IT         | 67000  | 304000        |
-| 4           | Sara       | Williams  | Sales      | 60000  | 60000         |
-| 6           | Ava        | Davis     | Sales      | 62000  | 122000        |
-| 9           | Sophia     | Lee       | Sales      | 58000  | 180000        |
+有关详细的语法和示例，请参阅上面各个函数的文档。

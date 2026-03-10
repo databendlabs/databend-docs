@@ -1,81 +1,97 @@
 ---
 title: Interval
+sidebar_position: 7
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.677"/>
+<FunctionDescription description="引入或更新于: v1.2.677"/>
 
-INTERVAL 数据类型表示时间间隔，允许精确操作和存储跨不同单位的时间间隔。
+## 概览
 
-- 接受自然语言格式（例如，'1 year 2 months ago'）或解释为微秒的数值。
+`INTERVAL` 表示一段时间，可以用自然语言文本（如 `'1 year 2 months'`、`'3 days ago'`）或微秒数的整数来表示。Databend 支持从千年到微秒的单位，并允许对区间、日期和时间戳进行算术运算。
 
-    - 支持的时间单位包括 `Millennium`、`Century`、`Decade`、`Year`、`Quarter`、`Month`、`Week`、`Day`、`Hour`、`Minute`、`Second`、`Millisecond` 和 `Microsecond`。
+:::note
+解析数值区间时会丢弃小数部分。`'1.6 seconds'` 会变成 1 秒的区间。
+:::
 
-    ```sql title='示例：'
-    -- 创建一个包含 INTERVAL 列的表
-    CREATE OR REPLACE TABLE intervals (duration INTERVAL);
+## 示例
 
-    -- 插入不同类型的 INTERVAL 数据
-    INSERT INTO intervals VALUES 
-        ('1 year 2 months ago'),     -- 自然语言格式，带有 'ago'（负间隔）
-        ('1 year 2 months'),         -- 自然语言格式，不带 'ago'（正间隔）
-        ('1000000'),                 -- 正数值，解释为微秒
-        ('-1000000');                -- 负数值，解释为微秒
+### 字面量和数值
 
-    -- 查询表以查看结果
-    SELECT * FROM intervals;
+```sql
+CREATE OR REPLACE TABLE intervals (duration INTERVAL);
 
-    ┌──────────────────────────┐
-    │         duration         │
-    ├──────────────────────────┤
-    │ -1 year -2 months        │
-    │ 1 year 2 months          │
-    │ 0:00:01                  │
-    │ -1 month -1 day -0:00:01 │
-    └──────────────────────────┘
-    ```
+INSERT INTO intervals VALUES
+  ('1 year 2 months'),       -- 正向自然语言
+  ('1 year 2 months ago'),   -- 负向，因为有 "ago"
+  ('1000000'),               -- 1 秒（微秒单位）
+  ('-1000000');              -- -1 秒
 
-    - 当给定一个数值时，Databend 只识别该值的整数部分。例如，`TO_INTERVAL('1 seconds')` 和 `TO_INTERVAL('1.6 seconds')` 都表示 1 秒的间隔。小数点后的部分被忽略。
+SELECT TO_STRING(duration) AS duration_text FROM intervals;
+```
 
-    ```sql title='示例：'
-    SELECT TO_INTERVAL('1 seconds'), TO_INTERVAL('1.6 seconds');
+结果：
+```
+┌──────────────────────┐
+│ duration_text        │
+├──────────────────────┤
+│ 1 year 2 months      │
+│ -1 year -2 months    │
+│ 0:00:01              │
+│ -0:00:01             │
+└──────────────────────┘
+```
 
-    ┌───────────────────────────────────────────────────────┐
-    │ to_interval('1 seconds') │ to_interval('1.6 seconds') │
-    ├──────────────────────────┼────────────────────────────┤
-    │ 0:00:01                  │ 0:00:01                    │
-    └───────────────────────────────────────────────────────┘
-    ```
-- 处理正负间隔，精度可达微秒。
-- 一个间隔可以加上或减去另一个间隔。
+```sql
+SELECT
+  TO_STRING(TO_INTERVAL('1 seconds'))   AS whole,
+  TO_STRING(TO_INTERVAL('1.6 seconds')) AS fractional;
+```
 
-    ```sql title='示例：'
-    SELECT TO_DAYS(3) + TO_DAYS(1), TO_DAYS(3) - TO_DAYS(1);
+结果：
+```
+┌────────┬────────────┐
+│ whole  │ fractional │
+├────────┼────────────┤
+│ 0:00:01 │ 0:00:01   │
+└────────┴────────────┘
+```
 
-    ┌───────────────────────────────────────────────────┐
-    │ to_days(3) + to_days(1) │ to_days(3) - to_days(1) │
-    ├─────────────────────────┼─────────────────────────┤
-    │ 4 days                  │ 2 days                  │
-    └───────────────────────────────────────────────────┘
-    ```
-- 间隔可以加上或减去 DATE 和 TIMESTAMP 值。
+### 区间运算
 
-    ```sql title='示例：'
-    SELECT DATE '2024-12-20' + TO_DAYS(2),  DATE '2024-12-20' - TO_DAYS(2);
+```sql
+SELECT
+  TO_STRING(TO_DAYS(3) + TO_DAYS(1)) AS add_interval,
+  TO_STRING(TO_DAYS(3) - TO_DAYS(1)) AS subtract_interval;
+```
 
-    ┌───────────────────────────────────────────────────────────────────────────────────┐
-    │ CAST('2024-12-20' AS DATE) + to_days(2) │ CAST('2024-12-20' AS DATE) - to_days(2) │
-    ├─────────────────────────────────────────┼─────────────────────────────────────────┤
-    │ 2024-12-22 00:00:00                     │ 2024-12-18 00:00:00                     │
-    └───────────────────────────────────────────────────────────────────────────────────┘
+结果：
+```
+┌──────────────┬──────────────────┐
+│ add_interval │ subtract_interval │
+├──────────────┼──────────────────┤
+│ 4 days       │ 2 days           │
+└──────────────┴──────────────────┘
+```
 
-    SELECT TIMESTAMP '2024-12-20 10:00:00' + TO_DAYS(2), TIMESTAMP '2024-12-20 10:00:00' - TO_DAYS(2);
+### 应用于 DATE 和 TIMESTAMP
 
-    ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-    │ CAST('2024-12-20 10:00:00' AS TIMESTAMP) + to_days(2) │ CAST('2024-12-20 10:00:00' AS TIMESTAMP) - to_days(2) │
-    ├───────────────────────────────────────────────────────┼───────────────────────────────────────────────────────┤
-    │ 2024-12-22 10:00:00                                   │ 2024-12-18 10:00:00                                   │
-    └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-    ```
-- *不* 建议使用 MySQL 客户端查询 Databend 中的 INTERVAL 列，因为 MySQL 协议不完全支持 INTERVAL 类型。这可能导致错误或意外行为。
+```sql
+SELECT
+  DATE '2024-12-20' + TO_DAYS(2) AS add_days,
+  DATE '2024-12-20' - TO_DAYS(2) AS subtract_days,
+  TIMESTAMP '2024-12-20 10:00:00' + TO_HOURS(36) AS add_hours,
+  TIMESTAMP '2024-12-20 10:00:00' - TO_HOURS(36) AS subtract_hours;
+```
+
+结果：
+```
+┌────────────────────┬────────────────────┬────────────────────┬────────────────────┐
+│ add_days           │ subtract_days      │ add_hours          │ subtract_hours     │
+├────────────────────┼────────────────────┼────────────────────┼────────────────────┤
+│ 2024-12-22T00:00:00 │ 2024-12-18T00:00:00 │ 2024-12-21T22:00:00 │ 2024-12-18T22:00:00 │
+└────────────────────┴────────────────────┴────────────────────┴────────────────────┘
+```
+
+区间的加减运算就像数字一样，使得滑动窗口或计算偏移量变得容易，并且可以精确控制到微秒。

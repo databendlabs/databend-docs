@@ -4,18 +4,21 @@ title: What is Stage?
 
 In Databend, a stage is a virtual location where data files reside. Files in a stage can be queried directly or loaded into a table. Alternatively, you can unload data from a table into a stage as a file. The beauty of using a stage is that you can access it for data loading and unloading as conveniently as you would with folders on your computer. Just as when you put a file in a folder, you don't necessarily need to know its exact location on your hard disk. When accessing a file in a stage, you only need to specify the stage name and the file name, such as `@mystage/mydatafile.csv`, rather than specifying its location in the bucket of your object storage. Similar to folders on your computer, you can create as many stages as you need in Databend. However, it's important to note that a stage cannot contain another stage. Each stage operates independently and does not encompass other stages.
 
-Utilizing a stage for loading data also improves the efficiency of uploading, managing, and filtering your data files. With [BendSQL](../../30-sql-clients/00-bendsql/index.md), you can easily upload or download files to or from a stage using a single command. When loading data into Databend, you can directly specify a stage in the COPY INTO command, allowing the command to read and even filter data files from that stage. Similarly, when exporting data from Databend, you can dump your data files into a stage.
+Utilizing a stage for loading data also improves the efficiency of uploading, managing, and filtering your data files. With [BendSQL](../../35-connect/00-sql-clients/bendsql.md), you can easily upload or download files to or from a stage using a single command. When loading data into Databend, you can directly specify a stage in the COPY INTO command, allowing the command to read and even filter data files from that stage. Similarly, when exporting data from Databend, you can dump your data files into a stage.
 
 ## Stage Types
 
 Based on the actual storage location and accessibility, stages can be categorized into these types: Internal Stage, External Stage, and User Stage. The following table summarizes the characteristics of different stage types in Databend, including their storage locations, accessibility, and recommended usage scenarios:
 
-| Stage Type     | Storage Location                   | Accessibility                                   | When to Choose                                    |
-| -------------- | ---------------------------------- | ----------------------------------------------- | ------------------------------------------------- |
-| Internal Stage | Object storage where Databend sits | Accessible to all users within the organization | Suitable for shared data within the organization  |
-| External Stage | External object storage            | Accessible to all users within the organization | Ideal for integrating with external data sources  |
-| User Stage     | Object storage where Databend sits | Accessible only to the respective user          | Perfect for personal data files or temporary data |
-
+|                      | User Stage                         | Internal Stage                                   | External Stage                                                                                                |
+|----------------------|------------------------------------|--------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Storage Location** | Internal object storage (Databend) | Internal object storage (Databend)               | External object storage (e.g., S3, Azure)                                                                     |
+| **Creation Method**  | Automatically created              | Manually created via: `CREATE STAGE stage_name;` | Manually created via: `CREATE STAGE stage_name` `'s3://bucket/prefix/'` `CONNECTION=(endpoint_url='x', ...);` |
+| **Access Control**   | Only accessible by the user        | Can be shared with other users or roles          | Can be shared with other users or roles                                                                       |
+| **Drop Stage**       | Not allowed                        | Deletes the stage and clears files in it         | Deletes only the stage; files in the external location are retained                                           |
+| **File Upload**      | Must upload files to Databend      | Must upload files to Databend                    | No upload needed; used to read or unload data from/to external storage                                        |
+| **Usage Scenario**   | Personal/private data              | Team/shared data                                 | External data integration or unloading                                                                        |
+| **Path Format**      | `@~/`                              | `@stage_name/`                                   | `@stage_name/`                                                                                                |
 ### Internal Stage
 
 Files in an internal stage are actually stored in the object storage where Databend resides. An internal stage is accessible to all users within your organization, allowing each user to utilize the stage for their data loading or export tasks. Similar to creating a folder, specifying a name is necessary when creating a stage. Below is an example of creating an internal stage with the [CREATE STAGE](/sql/sql-commands/ddl/stage/ddl-create-stage) command:
@@ -40,8 +43,8 @@ You can create an external stage with the [CREATE STAGE](/sql/sql-commands/ddl/s
 CREATE STAGE my_external_stage
     URL = 's3://databend-doc'
     CONNECTION = (
-        AWS_KEY_ID = '<YOUR-KEY-ID>',
-        AWS_SECRET_KEY = '<YOUR-SECRET-KEY>'
+        ACCESS_KEY_ID = '<YOUR-KEY-ID>',
+        SECRET_ACCESS_KEY = '<YOUR-SECRET-KEY>'
     );
 ```
 

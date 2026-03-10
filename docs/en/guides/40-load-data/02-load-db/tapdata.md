@@ -20,7 +20,7 @@ For Tapdata Agent download and installation instructions, please refer to [Step 
 
 ### Step 2: Create Connections
 
-You need to establish a connection for each of the data source and data destination for data synchronization. For example, if you want to synchronize data from MySQL to Databend Cloud, you need to create two connections on Tapdata Cloud—one connecting to MySQL and the other to Databend Cloud. Follow the steps outlined in [Step 2: Connect Data Sources](https://docs.tapdata.io/quick-start/connect-database) for creating connections.
+You need to establish a connection for each of the data source and data destination for data synchronization. For example, if you want to synchronize data from MySQL to Databend Cloud, you need to create two connections on Tapdata Cloud—one connecting to MySQL and the other to Databend Cloud. Follow the steps outlined in [Step 2: Connect Data Sources](https://docs.tapdata.io/connectors/) for creating connections.
 
 Here is an example of connecting to Databend Cloud:
 
@@ -28,4 +28,4 @@ Here is an example of connecting to Databend Cloud:
 
 ### Step 3: Create Data Replication Tasks
 
-Once connections to the data source and Databend Cloud are established, you can begin data synchronization by creating data replication tasks. Refer to [Create a Data Replication Task](https://docs.tapdata.io/user-guide/copy-data/create-task/) for the operational steps.
+Once connections to the data source and Databend Cloud are established, you can begin data synchronization by creating data replication tasks. Refer to [Create a Data Replication Task](https://docs.tapdata.io/data-replication/create-task/) for the operational steps.

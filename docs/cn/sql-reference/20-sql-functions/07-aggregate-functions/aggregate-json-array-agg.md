@@ -1,5 +1,6 @@
 ---
 title: JSON_ARRAY_AGG
+title_includes: JSON_AGG
 ---
 
 import FunctionDescription from '@site/src/components/FunctionDescription';

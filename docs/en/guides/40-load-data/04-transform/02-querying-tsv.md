@@ -1,26 +1,13 @@
 ---
 title: Querying TSV Files in Stage
-sidebar_label: Querying TSV File
+sidebar_label: TSV
 ---
 
-## Query TSV Files in Stage
+## Syntax:
 
-Syntax:
-```sql
-SELECT [<alias>.]$<col_position> [, $<col_position> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
-  [<connection_parameters>],
-  [ PATTERN => '<regex_pattern>'],
-  [ FILE_FORMAT => 'TSV| <custom_format_name>'],
-  [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
-)]
-```
+- [Query columns by position](./index.md#query-columns-by-position)
+- [Query Metadata](./index.md#query-metadata)
 
-
-:::info Tips
-TSV doesn't have schema information, so we can only query the columns `$<col_position> [, $<col_position> ...]` by position.
-:::
 
 ## Tutorial
 
@@ -67,5 +54,20 @@ FROM @tsv_query_stage
 (
     FILE_FORMAT => 'tsv_query_format',
     PATTERN => '.*[.]tsv[.]gz'
+);
+```
+### Query with Metadata
+
+Query TSV files directly from a stage, including metadata columns like `METADATA$FILENAME` and `METADATA$FILE_ROW_NUMBER`:
+
+```sql
+SELECT
+    METADATA$FILENAME,
+    METADATA$FILE_ROW_NUMBER,
+    $1, $2, $3
+FROM @tsv_query_stage
+(
+    FILE_FORMAT => 'tsv_query_format',
+    PATTERN => '.*[.]tsv'
 );
 ```

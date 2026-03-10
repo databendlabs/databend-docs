@@ -1,20 +1,13 @@
 ---
-title: Loading Data with Tools
+title: Loading with Platforms
 ---
 
-Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization. See the below table for supported tools and their Databend connectors.
+import IndexOverviewList from '@site/src/components/IndexOverviewList';
 
-:::info
-These connectors also support Databend Cloud. For setup instructions, visit: [Connecting to a Warehouse](/guides/cloud/using-databend-cloud/warehouses/#connecting) 
+This guide introduces platforms for loading data into Databend, including:
+
+:::tip
+If you are using Databend Cloud, the built-in [Data Integration](/guides/cloud/data-integration) feature provides a no-code way to sync MySQL and S3 data into Databend — no external tools required.
 :::
 
-| Tool      	| Plugin / Connector                                                                                                                                                 	|
-|-----------	|--------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| Addax     	| [DatabendReader](https://wgzhao.github.io/Addax/develop/reader/databendreader/) &  [DatabendWriter](https://wgzhao.github.io/Addax/develop/writer/databendwriter/) 	|
-| Airbyte   	| [datafuselabs/destination-databend:alpha](https://hub.docker.com/r/airbyte/destination-databend)                                                                   	|
-| DataX     	| [DatabendWriter](https://github.com/alibaba/DataX/blob/master/databendwriter/doc/databendwriter.md)                                                                	|
-| dbt       	| [dbt-databend-cloud](https://github.com/databendcloud/dbt-databend)                                                                                                	|
-| Debezium       	| [debezium-server-databend](https://github.com/databendcloud/debezium-server-databend)                                                                                    	|
-| Flink CDC 	| [Flink SQL connector for Databend](https://github.com/databendcloud/flink-connector-databend)                                                                      	|
-| Kafka     	| [bend-ingest-kafka](https://github.com/databendcloud/bend-ingest-kafka)                                                                                            	|
-| Vector    	| [Databend sink](https://vector.dev/docs/reference/configuration/sinks/databend/)                                                                                   	|
+<IndexOverviewList />

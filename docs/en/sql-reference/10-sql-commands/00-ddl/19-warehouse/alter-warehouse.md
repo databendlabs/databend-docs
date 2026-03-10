@@ -1,70 +1,95 @@
 ---
 title: ALTER WAREHOUSE
+sidebar_position: 4
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.687"/>
 
-Dynamically adjusts the configuration of a warehouse, including adding/removing clusters, renaming clusters, and assigning/unassigning nodes. 
+Suspends, resumes, or modifies settings of an existing warehouse.
 
 ## Syntax
 
 ```sql
-ALTER WAREHOUSE <warehouse_name>
-    [ADD CLUSTER <cluster_name> [WITH CLUSTER_SIZE = <size>] | (ASSIGN <node_count> NODES FROM <node_group>) ]
-  | [RENAME CLUSTER <old_cluster_name> TO <new_cluster_name>]
-  | [DROP CLUSTER <cluster_name>]
-  | [ASSIGN NODES (ASSIGN <node_count> NODES [FROM <node_group>] FOR <cluster_name>)]
-  | [UNASSIGN NODES (UNASSIGN <node_count> NODES [FROM <node_group>] FOR <cluster_name>)]
+-- Suspend or resume a warehouse
+ALTER WAREHOUSE <warehouse_name> { SUSPEND | RESUME }
 
+-- Modify warehouse settings
+ALTER WAREHOUSE <warehouse_name>
+    SET [ warehouse_size = <size> ]
+    [ auto_suspend = <nullable_unsigned_number> ]
+    [ auto_resume = <bool> ]
+    [ max_cluster_count = <nullable_unsigned_number> ]
+    [ min_cluster_count = <nullable_unsigned_number> ]
+    [ comment = '<string_literal>' ]
+
+ALTER WAREHOUSE <warehouse_name> SET TAG <tag_name> = '<tag_value>' [ , <tag_name> = '<tag_value>' ... ]
+
+ALTER WAREHOUSE <warehouse_name> UNSET TAG <tag_name> [ , <tag_name> ... ]
+
+ALTER WAREHOUSE <warehouse_name> RENAME TO <new_name>
 ```
+
+| Parameter | Description                                                                  |
+| --------- | ---------------------------------------------------------------------------- |
+| `SUSPEND` | Immediately suspends the warehouse.                                          |
+| `RESUME`  | Immediately resumes the warehouse.                                           |
+| `SET`     | Modifies one or more warehouse options. Unspecified fields remain unchanged. |
+
+## Options
+
+The `SET` clause accepts the same options as [CREATE WAREHOUSE](create-warehouse.md):
+
+| Option              | Type / Values                                                       | Description                                                          |
+| ------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `WAREHOUSE_SIZE`    | `XSmall`, `Small`, `Medium`, `Large`, `XLarge`, `2XLarge`–`6XLarge` | Changes compute size.                                                |
+| `AUTO_SUSPEND`      | `NULL`, `0`, or ≥300 seconds                                        | Idle timeout before automatic suspend. `NULL` disables auto-suspend. |
+| `AUTO_RESUME`       | Boolean                                                             | Controls whether incoming queries wake the warehouse automatically.  |
+| `MAX_CLUSTER_COUNT` | `NULL` or non-negative integer                                      | Upper bound for auto-scaling clusters.                               |
+| `MIN_CLUSTER_COUNT` | `NULL` or non-negative integer                                      | Lower bound for auto-scaling clusters.                               |
+| `COMMENT`           | String                                                              | Free-form text description.                                          |
+
+- `NULL` is valid for numeric options to reset them to `0`.
+- Supplying `SET` with no options raises an error.
+- `SET TAG` adds or updates one or more tags. Multiple tags can be set in a single statement separated by commas.
+- `UNSET TAG` removes one or more tags by their keys. Non-existent tag keys are silently ignored.
+- `RENAME TO` requires the warehouse to be suspended and uses the same naming rules as `CREATE`.
 
 ## Examples
 
-This example adds a cluster to an existing warehouse:
+Suspend a warehouse:
 
 ```sql
-ALTER WAREHOUSE test_warehouse ADD CLUSTER test_cluster WITH CLUSTER_SIZE = 3;
+ALTER WAREHOUSE my_wh SUSPEND;
 ```
 
-This example renames an existing cluster:
+Resume a warehouse:
 
 ```sql
-ALTER WAREHOUSE test_warehouse RENAME CLUSTER default TO test_cluster_2;
+ALTER WAREHOUSE my_wh RESUME;
 ```
 
-This example removes an existing cluster:
+Modify warehouse settings:
 
 ```sql
-ALTER WAREHOUSE test_warehouse DROP CLUSTER test_cluster_2;
+ALTER WAREHOUSE my_wh
+    SET warehouse_size = Large
+    auto_resume = TRUE
+    comment = 'Serving tier';
 ```
 
-This example adds nodes to an existing warehouse:
+Disable auto-suspend:
 
 ```sql
-ALTER WAREHOUSE test_warehouse ASSIGN NODES (ASSIGN 2 NODES FOR test_cluster);
+ALTER WAREHOUSE my_wh SET auto_suspend = NULL;
 ```
 
-This example removes nodes from an existing warehouse:
+Manage tags:
 
 ```sql
-ALTER WAREHOUSE test_warehouse UNASSIGN NODES (UNASSIGN 1 NODES FOR test_cluster);
-```
-
-This example creates a cluster by selecting nodes from specific node groups:
-
-```sql
-ALTER WAREHOUSE test_warehouse ADD CLUSTER test_cluster (ASSIGN 1 NODES FROM dev_node, ASSIGN 1 NODES FROM infra_node);
-```
-
-This example adds nodes from specific node groups to an existing warehouse:
-
-```sql
-ALTER WAREHOUSE test_warehouse ASSIGN NODES (ASSIGN 1 NODES FROM dev_node FOR default, ASSIGN 1 NODES FROM infra_node FOR default);
-```
-
-This example removes nodes from specific node groups in a warehouse:
-
-```sql
-ALTER WAREHOUSE test_warehouse UNASSIGN NODES (UNASSIGN 1 NODES FROM dev_node FOR default, UNASSIGN 2 NODES FROM infra_node FOR default);
+ALTER WAREHOUSE wh_hot SET TAG environment = 'production';
+ALTER WAREHOUSE wh_hot SET TAG environment = 'staging', owner = 'john', cost_center = 'eng';
+ALTER WAREHOUSE wh_hot UNSET TAG environment;
+ALTER WAREHOUSE wh_hot UNSET TAG environment, owner, cost_center;
 ```

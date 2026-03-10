@@ -10,10 +10,17 @@ import Head from "@docusaurus/Head";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Link from "@docusaurus/Link";
 import { useThemeConfig } from "@docusaurus/theme-common";
-import CookiesConsent from "../../components/CookiesConsent";
 import styles from "./index.module.scss";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { useMount } from "ahooks";
+import "@ant-design/v5-patch-for-react-19";
+import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
+import "vanilla-cookieconsent/dist/cookieconsent.css";
+import * as CookieConsent from "vanilla-cookieconsent";
+import pluginConfig from "@site/src/components/Config/CookieConsentConfig";
+import $t, { shouldShowConsent } from "@site/src/utils/tools";
 // import ProgressBar from "react-scroll-progress-bar";
+const COOKIES_CLASS = "show--consent";
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -23,6 +30,62 @@ function Footer() {
       customFields: { isChina },
     },
   } = useDocusaurusContext() as any;
+  useMount(() => {
+    redirectPathname();
+    if (ExecutionEnvironment.canUseDOM) {
+      CookieConsent.run(pluginConfig);
+      const html = document.documentElement;
+      const updateHtmlClass = () => {
+        const shouldShow = shouldShowConsent();
+        if (shouldShow && !html.classList.contains(COOKIES_CLASS)) {
+          html.classList.add(COOKIES_CLASS);
+          // html.classList.add("cc--darkmode");
+        } else if (!shouldShow && html.classList.contains(COOKIES_CLASS)) {
+          html.classList.remove(COOKIES_CLASS);
+        }
+      };
+      updateHtmlClass();
+      const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          if (
+            mutation.type === "attributes" &&
+            mutation.attributeName === "class"
+          ) {
+            updateHtmlClass();
+          }
+        }
+      });
+      observer.observe(html, { attributes: true, attributeFilter: ["class"] });
+      return () => {
+        observer.disconnect();
+      };
+    }
+  });
+  function redirectPathname() {
+    const pathname = window.location.pathname;
+    const redirectRules = isChina
+      ? {
+          "/en/sql/": "/sql/",
+          "/en/developer/": "/developer/",
+          "/en/tutorials/": "/tutorials/",
+          "/en/guides/": "/guides/",
+        }
+      : {
+          "/zh/sql/": "/sql/",
+          "/zh/developer/": "/developer/",
+          "/zh/tutorials/": "/tutorials/",
+          "/zh/guides/": "/guides/",
+        };
+    const prefix = isChina ? "/en/" : "/zh/";
+    if (!pathname?.startsWith(prefix)) return;
+    for (let key in redirectRules) {
+      if (pathname.startsWith(key)) {
+        const newPathname = pathname.replace(key, redirectRules[key]);
+        window.location.href = newPathname;
+      }
+    }
+  }
+
   return (
     <footer className={clsx("footer", styles.footer)}>
       <Head>
@@ -31,6 +94,7 @@ function Footer() {
       {!isChina && (
         <Head>
           <script async src={useBaseUrl("/Koala/index.js")}></script>
+          <script async src={useBaseUrl("/ReoDev/index.js")}></script>
           <script type="application/ld+json">
             {`
             {
@@ -58,15 +122,16 @@ function Footer() {
               { "@type": "WebPage", "url": "https://www.databend.com/databend-enterprise/", "name": "Databend Enterprise" },
               { "@type": "WebPage", "url": "https://www.databend.com/databend/", "name": "Databend Community" },
               { "@type": "WebPage", "url": "https://www.databend.com/security/", "name": "Databend Security" },
-              { "@type": "WebPage", "url": "https://www.databend.com/apply/", "name": "Join the Databend Cloud for FREE" },
+              { "@type": "WebPage", "url": "https://app.databend.com/register/", "name": "Join the Databend Cloud for FREE" },
               { "@type": "WebPage", "url": "https://www.databend.com/contact-us/", "name": "Databend Support" },
               { "@type": "WebPage", "url": "https://www.databend.com/use-cases/", "name": "Databend Use Cases" },
-              { "@type": "WebPage", "url": "https://www.databend.com/blog", "name": "Databend Blog" },
+              { "@type": "WebPage", "url": "https://www.databend.com/blog/", "name": "Databend Blog" },
               { "@type": "WebPage", "url": "https://www.databend.com/about/", "name": "About Databend" },
               { "@type": "WebPage", "url": "https://www.databend.com/download/", "name": "Databend Download" },
               { "@type": "WebPage", "url": "https://www.databend.com/comparison/", "name": "Comparisons between Databend Cloud and Snowflake" },
               { "@type": "WebPage", "url": "https://www.databend.com/join-us/", "name": "Join Us" },
-              { "@type": "WebPage", "url": "https://www.databend.com/resource/", "name": "Databend Resources & Logos" }
+              { "@type": "WebPage", "url": "https://www.databend.com/resource/", "name": "Databend Resources & Logos" },
+              { "@type": "WebPage", "url": "https://www.databend.com/mcp/", "name": "Connect AI Agents to Databend" }
             ],
             "foundingDate": "2021",
             "contactPoint": {
@@ -76,52 +141,6 @@ function Footer() {
               "email": "hi@databend.com",
               "url": "https://www.databend.com/contact-us/"
             },
-            "offers": [
-              {
-                "@type": "Product",
-                "name": "Databend Cloud",
-                "description": "Databend is a Cost-Effective Cloud Data Warehouse, pay-as-you-use cloud data warehouse with enterprise features.",
-                "url": "https://www.databend.com/databend-cloud/",
-                "image": "https://www.databend.com/img/resource/product-databend-cloud.png",
-                "offers": {
-                  "@type": "Offer",
-                  "priceCurrency": "USD",
-                  "price": "1",
-                  "url": "https://www.databend.com/pricing/"
-                },
-                "potentialAction": {
-                  "@type": "Action",
-                  "name": "Join the private beta for FREE",
-                  "url": "https://www.databend.com/apply/"
-                }
-              },
-              {
-                "@type": "Product",
-                "name": "Databend Enterprise",
-                "description": "Self-hosted version with advanced enterprise features and support.",
-                "url": "https://www.databend.com/databend-enterprise/",
-                "image": "https://www.databend.com/img/resource/product-databend-enterprise.png",
-                "offers": {
-                  "@type": "Offer",
-                  "priceCurrency": "USD",
-                  "price": "1.5",
-                  "url": "https://www.databend.com/databend-enterprise/"
-                }
-              },
-              {
-                "@type": "Product",
-                "name": "Databend Community",
-                "description": "Free, self-hosted version for community-driven use.",
-                "url": "https://www.databend.com/databend/",
-                "image": "https://www.databend.com/img/resource/product-databend.png",
-                "offers": {
-                  "@type": "Offer",
-                  "priceCurrency": "USD",
-                  "price": "0",
-                  "url": "https://www.databend.com/databend/"
-                }
-              }
-            ],
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "401 RYLAND ST. STE 200-A",
@@ -130,25 +149,6 @@ function Footer() {
               "postalCode": "89502",
               "addressCountry": "USA"
             },
-            "blog": {
-              "@type": "Blog",
-              "url": "https://www.databend.com/blog",
-              "name": "Databend Blog",
-              "description": "Databend's official blog, featuring articles on cloud-native data warehousing, analytics, and industry insights."
-            },
-            "hasPart": {
-              "@type": "WebSite",
-              "name": "Databend Documentation",
-              "url": "https://docs.databend.com/",
-              "description": "The official documentation site for Databend, providing guides, tutorials, and resources for Databend users.",
-              "mainEntityOfPage": [
-                { "@type": "WebPage", "url": "https://docs.databend.com/guides/", "name": "Databend Guides" },
-                { "@type": "WebPage", "url": "https://docs.databend.com/tutorials/", "name": "Databend Tutorials" },
-                { "@type": "WebPage", "url": "https://docs.databend.com/developer/", "name": "Databend Developer Resources" },
-                { "@type": "WebPage", "url": "https://docs.databend.com/sql/", "name": "Databend SQL Reference" },
-                { "@type": "WebPage", "url": "https://docs.databend.com/release-notes/", "name": "Databend Release Notes" }
-              ]
-            }
           }
           `}
           </script>
@@ -162,36 +162,10 @@ function Footer() {
             </Link>
           );
         })}
-        {/* <span>|</span>
-        {(footer.links[1].items as any[])?.map((item, index) => {
-          const Icon = icons[item.label];
-          return (
-            <Link to={item.href} key={index}>
-              <h6>
-                <span className={clsx("icon", styles.icon)}>
-                  <Icon size={20} />
-                </span>
-                {item.label}
-              </h6>
-            </Link>
-          );
-        })} */}
       </div>
       <div className={styles.footerCopyright}>
-        <p>
-          Copyright © {year} The Databend Community. Apache, Apache OpenDAL and
-          OpenDAL are either registered trademarks or trademarks of the Apache
-          Software Foundation.
-        </p>
+        <p>{$t("All rights reserved.", true, { year })}</p>
       </div>
-      <CookiesConsent />
-      {/* <div className={styles.ProgressBar}>
-        <ProgressBar
-          height="2px"
-          bgcolor="var(--ifm-color-primary)"
-          duration="0.2"
-        />
-      </div> */}
     </footer>
   );
 }

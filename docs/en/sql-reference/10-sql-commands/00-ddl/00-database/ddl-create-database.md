@@ -15,6 +15,15 @@ Create a database.
 CREATE [ OR REPLACE ] DATABASE [ IF NOT EXISTS ] <database_name>
 ```
 
+## Access control requirements
+
+| Privilege       | Object Type | Description         |
+|:----------------|:------------|:--------------------|
+| CREATE DATABASE | Global      | Creates a database. |
+
+
+To create a database, the user performing the operation or the [current_role](/guides/security/access-control/roles) must have the CREATE DATABASE [privilege](/guides/security/access-control/privileges).
+
 ## Examples
 
 The following example creates a database named `test`:

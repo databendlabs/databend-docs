@@ -1,26 +1,12 @@
 ---
 title: Querying CSV Files in Stage
-sidebar_label: Querying CSV File
+sidebar_label: CSV
 ---
 
-## Query CSV Files in Stage
+## Syntax:
 
-Syntax:
-```sql
-SELECT [<alias>.]$<col_position> [, $<col_position> ...] 
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]} 
-[( 
-  [<connection_parameters>],
-  [ PATTERN => '<regex_pattern>'],
-  [ FILE_FORMAT => 'CSV| <custom_format_name>'],
-  [ FILES => ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
-)]
-```
-
-
-:::info Tips
-CSV doesn't have schema information, so we can only query the columns `$<col_position> [, $<col_position> ...]` by position.
-:::
+- [Query columns by position](./index.md#query-columns-by-position)
+- [Query Metadata](./index.md#query-metadata)
 
 ## Tutorial
 
@@ -68,5 +54,20 @@ FROM @csv_query_stage
 (
     FILE_FORMAT => 'csv_query_format',
     PATTERN => '.*[.]csv[.]gz'
+);
+```
+### Query with Metadata
+
+Query CSV files directly from a stage, including metadata columns like `METADATA$FILENAME` and `METADATA$FILE_ROW_NUMBER`:
+
+```sql
+SELECT
+    METADATA$FILENAME,
+    METADATA$FILE_ROW_NUMBER,
+    $1, $2, $3
+FROM @csv_query_stage
+(
+    FILE_FORMAT => 'csv_query_format',
+    PATTERN => '.*[.]csv'
 );
 ```

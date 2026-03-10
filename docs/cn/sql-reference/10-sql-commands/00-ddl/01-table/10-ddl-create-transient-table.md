@@ -14,8 +14,8 @@ Transient 表用于保存不需要数据保护或恢复机制的临时数据。D
 ## 语法
 
 ```sql
-CREATE [ OR REPLACE ] TRANSIENT TABLE 
-       [ IF NOT EXISTS ] 
+CREATE [ OR REPLACE ] TRANSIENT TABLE
+       [ IF NOT EXISTS ]
        [ <database_name>. ]<table_name>
        ...
 ```

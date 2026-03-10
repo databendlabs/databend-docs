@@ -2,13 +2,10 @@
 title: STDDEV_SAMP
 ---
 
-聚合函数。
+返回表达式的样本标准差（VAR_SAMP() 的平方根）。
 
-STDDEV_SAMP() 函数返回表达式的样本标准差（VAR_SAMP() 的平方根）。
-
-:::caution
-NULL 值不计入。
-:::
+- 忽略 NULL 值。
+- 当只有一条输入记录时，STDDEV_SAMP() 返回 `NULL` 而不是 `0`。
 
 ## 语法
 
@@ -20,11 +17,11 @@ STDDEV_SAMP(<expr>)
 
 | 参数      | 描述               |
 | --------- | ------------------ |
-| `<expr>`  | 任何数值表达式     |
+| `<expr>`  | 任意数值表达式     |
 
 ## 返回类型
 
-double
+Double。
 
 ## 示例
 

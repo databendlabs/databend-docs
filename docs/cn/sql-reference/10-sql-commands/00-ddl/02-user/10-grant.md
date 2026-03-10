@@ -2,55 +2,82 @@
 title: GRANT
 sidebar_position: 9
 ---
+
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.275"/>
+<FunctionDescription description="Introduced or updated: v1.2.845"/>
 
-授予特定数据库对象的权限、角色和所有权。包括：
+为特定的数据库对象授予权限、角色和所有权。包括：
 
-- 授予用户或角色权限。
+- 向角色授予权限。
 - 将角色分配给用户或其他角色。
-- 将所有权转移给角色。
+- 将所有权转让给角色。
 
-另请参阅：
+参见：
 
 - [REVOKE](11-revoke.md)
 - [SHOW GRANTS](22-show-grants.md)
 
-## 语法
+> 使用 `GRANT` 或 `REVOKE` 变更角色与权限后，执行 [SYSTEM FLUSH PRIVILEGES](../../50-administration-cmds/flush-privileges.md) 可立即让所有查询节点刷新缓存。
 
-### 授予权限
+## Syntax
 
-要了解什么是权限及其工作原理，请参阅[权限](/guides/security/access-control/privileges)。
+### Granting Privileges
+
+要了解什么是权限以及它是如何工作的，请参见 [Privileges](/guides/security/access-control/privileges)。
+
+:::note 重要
+创建 Ownership 对象的 CREATE 类权限不能直接授予用户，必须先授予角色，再将角色授予用户。这些权限包括：
+- CREATE
+- CREATE DATABASE
+- CREATE WAREHOUSE
+- CREATE CONNECTION
+- CREATE SEQUENCE
+- CREATE PROCEDURE
+- CREATE MASKING POLICY
+- CREATE ROW ACCESS POLICY
+
+由于 `ALL` 包含上述 CREATE 权限，`GRANT ALL ... TO USER` 也会失败。例如，`GRANT ALL ON *.* TO USER u1` 或 `GRANT CREATE DATABASE ON *.* TO USER u1` 都会失败。正确做法：
+```sql
+GRANT ALL ON *.* TO ROLE r1;
+GRANT ROLE r1 TO USER u1;
+```
+:::
 
 ```sql
-GRANT { 
+GRANT {
         schemaObjectPrivileges | ALL [ PRIVILEGES ] ON <privileges_level>
       }
-TO [ ROLE <role_name> ] [ <user_name> ]
+TO ROLE <role_name>
 ```
 
 其中：
 
 ```sql
 schemaObjectPrivileges ::=
--- 对于 TABLE
+-- For TABLE
   { SELECT | INSERT }
-  
--- 对于 SCHEMA
+
+-- For SCHEMA
   { CREATE | DROP | ALTER }
-  
--- 对于 USER
+
+-- For USER
   { CREATE USER }
-  
--- 对于 ROLE
+
+-- For ROLE
   { CREATE ROLE}
-  
--- 对于 STAGE
+
+-- For STAGE
   { READ, WRITE }
-           
--- 对于 UDF
+
+-- For UDF
   { USAGE }
+
+-- For MASKING POLICY
+  { CREATE MASKING POLICY | APPLY MASKING POLICY }
+
+-- For ROW ACCESS POLICY
+  { CREATE ROW ACCESS POLICY | APPLY ROW ACCESS POLICY }
 ```
 
 ```sql
@@ -60,121 +87,156 @@ privileges_level ::=
   | db_name.tbl_name
   | STAGE <stage_name>
   | UDF <udf_name>
+  | MASKING POLICY <policy_name>
+  | ROW ACCESS POLICY <policy_name>
 ```
 
-### 授予角色
+### 授予脱敏策略权限
 
-要了解什么是角色及其工作原理，请参阅[角色](/guides/security/access-control/roles)。
+要针对某个脱敏策略授予权限，可使用以下语句：
 
 ```sql
--- 将角色授予用户
+GRANT APPLY ON MASKING POLICY <policy_name> TO ROLE <role_name>
+GRANT ALL [ PRIVILEGES ] ON MASKING POLICY <policy_name> TO ROLE <role_name>
+GRANT OWNERSHIP ON MASKING POLICY <policy_name> TO ROLE '<role_name>'
+```
+
+- `CREATE MASKING POLICY` 允许角色创建策略。
+- `APPLY MASKING POLICY`（全局）允许在任意表上设置/解除、描述或删除任何脱敏策略。
+- `GRANT APPLY ON MASKING POLICY ...` 可针对单个策略授权，避免授予全局访问。
+- OWNERSHIP 赋予对策略的完全控制权。创建脱敏策略后，Databend 会自动将 OWNERSHIP 授予当前角色，并在策略删除时回收。
+
+### 授予 Row Access Policy 权限
+
+要针对某个 Row Access Policy 授权，可使用以下语句：
+
+```sql
+GRANT APPLY ON ROW ACCESS POLICY <policy_name> TO ROLE <role_name>
+GRANT ALL [ PRIVILEGES ] ON ROW ACCESS POLICY <policy_name> TO ROLE <role_name>
+GRANT OWNERSHIP ON ROW ACCESS POLICY <policy_name> TO ROLE '<role_name>'
+```
+
+- `CREATE ROW ACCESS POLICY` 允许角色创建或替换行访问策略。
+- `APPLY ROW ACCESS POLICY`（全局）允许在任意表上添加/移除、描述或删除所有 Row Access Policy。
+- `GRANT APPLY ON ROW ACCESS POLICY ...` 可限制在单个策略上授予 APPLY 权限。
+- OWNERSHIP 赋予对 Row Access Policy 的完全控制权，创建者会自动获得 OWNERSHIP 并在策略被删除时自动回收。
+
+### Granting Role
+
+要了解什么是角色以及它是如何工作的，请参见 [Roles](/guides/security/access-control/roles)。
+
+```sql
+-- Grant a role to a user
 GRANT ROLE <role_name> TO <user_name>
 
--- 将角色授予角色
+-- Grant a role to a role
 GRANT ROLE <role_name> TO ROLE <role_name>
 ```
 
-### 授予所有权
+### Granting Ownership
 
-要了解什么是所有权及其工作原理，请参阅[所有权](/guides/security/access-control/ownership)。
+要了解什么是所有权以及它是如何工作的，请参见 [Ownership](/guides/security/access-control/ownership)。
 
 ```sql
--- 将数据库中特定表的所有权授予角色
+-- Grant ownership of a specific table within a database to a role
 GRANT OWNERSHIP ON <database_name>.<table_name> TO ROLE '<role_name>'
 
--- 将 stage 的所有权授予角色
+-- Grant ownership of a stage to a role
 GRANT OWNERSHIP ON STAGE <stage_name> TO ROLE '<role_name>'
 
--- 将用户定义函数 (UDF) 的所有权授予角色
+-- Grant ownership of a user-defined function (UDF) to a role
 GRANT OWNERSHIP ON UDF <udf_name> TO ROLE '<role_name>'
 ```
 
-## 示例
+## Examples
 
-### 示例 1：授予用户权限
+### Example 1: Granting Privileges to a Role
 
-创建用户：
-```sql
-CREATE USER user1 IDENTIFIED BY 'abc123';
-```
-
-将 `default` 数据库中所有现有表的 `ALL` 权限授予用户 `user1`：
- 
-```sql
-GRANT ALL ON default.* TO user1;
-```
+创建一个角色：
 
 ```sql
-SHOW GRANTS FOR user1;
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-+-----------------------------------------+
+CREATE ROLE user1_role;
 ```
 
-将所有数据库的 `ALL` 权限授予用户 `user1`：
+将 `default` 数据库中所有现有表的 `ALL` 权限授予角色 `user1_role`：
 
 ```sql
-GRANT ALL ON *.* TO 'user1';
-```
-```sql
-SHOW GRANTS FOR user1;
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-| GRANT ALL ON *.* TO 'user1'@'%'         |
-+-----------------------------------------+
+GRANT ALL ON default.* TO ROLE user1_role;
 ```
 
-将名为 `s1` 的 stage 的 `ALL` 权限授予用户 `user1`：
-
 ```sql
-GRANT ALL ON STAGE s1 TO 'user1';
-```
-```sql
-SHOW GRANTS FOR user1;
-+-----------------------------------------------------------------+
-| Grants                                                          |
-+-----------------------------------------------------------------+
-| GRANT ALL ON STAGE s1 TO 'user1'@'%'                            |
-| GRANT SELECT ON 'default'.'system'.'one' TO 'user1'@'%'         |
-| GRANT SELECT ON 'default'.'information_schema'.* TO 'user1'@'%' |
-+-----------------------------------------------------------------+
+SHOW GRANTS FOR ROLE user1_role;
++-------------------------------------------------+
+| Grants                                          |
++-------------------------------------------------+
+| GRANT ALL ON 'default'.* TO ROLE 'user1_role'   |
++-------------------------------------------------+
 ```
 
-将名为 `f1` 的 UDF 的 `ALL` 权限授予用户 `user1`：
+将所有数据库的 `ALL` 权限授予角色 `user1_role`：
 
 ```sql
-GRANT ALL ON UDF f1 TO 'user1';
-```
-```sql
-SHOW GRANTS FOR user1;
-+-----------------------------------------------------------------+
-| Grants                                                          |
-+-----------------------------------------------------------------+
-| GRANT ALL ON UDF f1 TO 'user1'@'%'                              |
-| GRANT SELECT ON 'default'.'system'.'one' TO 'user1'@'%'         |
-| GRANT SELECT ON 'default'.'information_schema'.* TO 'user1'@'%' |
-+-----------------------------------------------------------------+
+GRANT ALL ON *.* TO ROLE user1_role;
 ```
 
-### 示例 2：授予角色权限
+```sql
+SHOW GRANTS FOR ROLE user1_role;
++-------------------------------------------------+
+| Grants                                          |
++-------------------------------------------------+
+| GRANT ALL ON 'default'.* TO ROLE 'user1_role'   |
+| GRANT ALL ON *.* TO ROLE 'user1_role'           |
++-------------------------------------------------+
+```
+
+将名为 `s1` 的 Stage 的 `ALL` 权限授予角色 `user1_role`：
+
+```sql
+GRANT ALL ON STAGE s1 TO ROLE user1_role;
+```
+
+```sql
+SHOW GRANTS FOR ROLE user1_role;
++--------------------------------------------------+
+| Grants                                           |
++--------------------------------------------------+
+| GRANT ALL ON STAGE s1 TO ROLE 'user1_role'       |
++--------------------------------------------------+
+```
+
+将名为 `f1` 的 UDF 的 `ALL` 权限授予角色 `user1_role`：
+
+```sql
+GRANT ALL ON UDF f1 TO ROLE user1_role;
+```
+
+```sql
+SHOW GRANTS FOR ROLE user1_role;
++--------------------------------------------------+
+| Grants                                           |
++--------------------------------------------------+
+| GRANT ALL ON UDF f1 TO ROLE 'user1_role'         |
++--------------------------------------------------+
+```
+
+### Example 2: Granting Specific Privileges to a Role
 
 将 `mydb` 数据库中所有现有表的 `SELECT` 权限授予角色 `role1`：
 
 创建角色：
-```sql 
+
+```sql
 CREATE ROLE role1;
 ```
 
 将权限授予角色：
+
 ```sql
 GRANT SELECT ON mydb.* TO ROLE role1;
 ```
 
-显示角色的权限：
+显示角色的授权：
+
 ```sql
 SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
@@ -184,20 +246,16 @@ SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
 ```
 
-### 示例 3：将角色授予用户
+### Example 3: Granting a Role to a User
 
-用户 `user1` 的权限：
+创建用户：
+
 ```sql
-SHOW GRANTS FOR user1;
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-| GRANT ALL ON *.* TO 'user1'@'%'         |
-+-----------------------------------------+
+CREATE USER user1 IDENTIFIED BY 'abc123' WITH DEFAULT_ROLE = 'role1';
 ```
 
-角色 `role1` 的权限：
+角色 `role1` 的授权是：
+
 ```sql
 SHOW GRANTS FOR ROLE role1;
 +-------------------------------------+
@@ -208,34 +266,66 @@ SHOW GRANTS FOR ROLE role1;
 ```
 
 将角色 `role1` 授予用户 `user1`：
+
 ```sql
  GRANT ROLE role1 TO user1;
 ```
 
-现在，用户 `user1` 的权限：
+现在，用户 `user1` 的授权是：
+
 ```sql
 SHOW GRANTS FOR user1;
-+-----------------------------------------+
-| Grants                                  |
-+-----------------------------------------+
-| GRANT ALL ON 'default'.* TO 'user1'@'%' |
-| GRANT ALL ON *.* TO 'user1'@'%'         |
-| GRANT SELECT ON 'mydb'.* TO 'role1'     |
-+-----------------------------------------+
++-------------------------------------+
+| Grants                              |
++-------------------------------------+
+| GRANT ROLE role1 TO 'user1'@'%'     |
++-------------------------------------+
 ```
 
-### 示例 4：将所有权授予角色
+### Example 4: Granting Ownership to a Role
 
 ```sql
--- 将 'finance_data' 数据库中所有表的所有权授予角色 'data_owner'
+-- Grant ownership of all tables in the 'finance_data' database to the role 'data_owner'
 GRANT OWNERSHIP ON finance_data.* TO ROLE 'data_owner';
 
--- 将 'finance_data' 模式中的表 'transactions' 的所有权授予角色 'data_owner'
+-- Grant ownership of the table 'transactions' in the 'finance_data' schema to the role 'data_owner'
 GRANT OWNERSHIP ON finance_data.transactions TO ROLE 'data_owner';
 
--- 将 stage 'ingestion_stage' 的所有权授予角色 'data_owner'
+-- Grant ownership of the stage 'ingestion_stage' to the role 'data_owner'
 GRANT OWNERSHIP ON STAGE ingestion_stage TO ROLE 'data_owner';
 
--- 将用户定义函数 'calculate_profit' 的所有权授予角色 'data_owner'
+-- Grant ownership of the user-defined function 'calculate_profit' to the role 'data_owner'
 GRANT OWNERSHIP ON UDF calculate_profit TO ROLE 'data_owner';
+```
+
+### Example 5: Granting Masking Policy Privileges
+
+```sql
+-- 授权角色创建脱敏策略
+GRANT CREATE MASKING POLICY ON *.* TO ROLE security_admin;
+
+-- 在 security_admin 角色下创建策略
+CREATE MASKING POLICY email_mask AS (val STRING) RETURNS STRING -> '***';
+
+-- 仅允许 pii_readers 角色在表列上应用该策略
+GRANT APPLY ON MASKING POLICY email_mask TO ROLE pii_readers;
+
+-- 查看策略的授权情况
+SHOW GRANTS ON MASKING POLICY email_mask;
+```
+
+### Example 6: Granting Row Access Policy Privileges
+
+```sql
+-- 授权角色创建 Row Access Policy
+GRANT CREATE ROW ACCESS POLICY ON *.* TO ROLE row_policy_admin;
+
+-- 在 row_policy_admin 角色下定义策略
+CREATE ROW ACCESS POLICY rap_region AS (region STRING) RETURNS BOOLEAN -> region = 'APAC';
+
+-- 授权角色在表上应用该策略
+GRANT APPLY ON ROW ACCESS POLICY rap_region TO ROLE apac_only;
+
+-- 查看策略授权
+SHOW GRANTS ON ROW ACCESS POLICY rap_region;
 ```

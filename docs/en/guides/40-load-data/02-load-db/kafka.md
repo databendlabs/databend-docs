@@ -30,5 +30,5 @@ To download bend-ingest-kafka and learn more about the tool, visit the [GitHub r
 
 ## Tutorials
 
-- [Loading from Kafka with bend-ingest-kafka](/tutorials/load/kafka-bend-ingest-kafka)
-- [Loading from Kafka with databend-kafka-connect](/tutorials/load/kafka-databend-kafka-connect)
+- [Loading from Kafka with bend-ingest-kafka](/tutorials/ingest-and-stream/kafka-bend-ingest-kafka)
+- [Loading from Kafka with databend-kafka-connect](/tutorials/ingest-and-stream/kafka-databend-kafka-connect)

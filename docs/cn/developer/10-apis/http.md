@@ -1,44 +1,101 @@
 ---
-title: HTTP 处理程序
+title: HTTP Handler
 sidebar_label: REST API
 ---
 
-Databend 的 HTTP 处理程序是一个 REST API，用于向服务器发送查询语句以执行，并将结果返回给客户端。
+Databend HTTP Handler 是一个 REST API，可以让你通过 HTTP 请求直接向 Databend 发送 SQL 查询并获取结果。它适用于构建自定义集成、自动化脚本，或者需要在不使用驱动程序的情况下进行编程访问的场景。
 
-HTTP 处理程序由 databend-query 托管，可以通过使用 `--http_handler_host` 和 `--http_handler_port`（默认为 8000）来指定。
+:::tip 推荐替代方案
+对于大多数场景，我们推荐使用：
+- **[BendSQL](/guides/connect/sql-clients/bendsql)** - 官方命令行客户端，用于交互式查询
+- **[Python 驱动](/developer/drivers/python)** - 适用于 Python 应用
+- **[Go 驱动](/developer/drivers/golang)** - 适用于 Go 应用
+- **[Node.js 驱动](/developer/drivers/nodejs)** - 适用于 Node.js 应用
 
-## HTTP 方法
+HTTP API 适合需要轻量级 HTTP 集成或构建自定义工具的场景。
+:::
 
-### 概览
+## 快速开始：连接 Databend
 
-此处理程序通过长轮询以 `页` 的形式返回结果。
+### Databend Cloud
 
-1. 从向 `/v1/query` 发送一个 `POST` 请求开始，包含类型为 `QueryRequest` 的 JSON，其中包含要执行的 SQL，返回类型为 `QueryResponse` 的 JSON。
-2. 使用 `QueryResponse` 的字段进行进一步处理：
-   1. 向 `next_uri` 发送一个 `GET` 请求，返回查询结果的下一页。同样返回 `QueryResponse`，以此类推，直到 `next_uri` 为空。
-   2. （可选）向 `kill_uri` 发送一个 `GET` 请求以终止查询。返回空体。
-   3. （可选）向 `stats_uri` 发送一个 `GET` 请求，一次性获取统计信息（不使用长轮询），返回 `QueryResponse` 且 `data` 字段为空。
+连接到 Databend Cloud 时，您会获得如下格式的 DSN（数据源名称）：
 
-请注意，在查询完成之前，应始终使用最新的 `next_uri` 获取下一页结果，否则可能会错过某些结果或在会话超时之前泄露会话资源。当您收到查询的所有结果时，`next_uri` 将为空。
-
-### 快速示例
-
-```shell
-curl -u root: \
-  --request POST \
-  '127.0.0.1:8001/v1/query/' \
-  --header 'Content-Type: application/json' \
-  --data-raw '{"sql": "SELECT avg(number) FROM numbers(100000000)"}'
+```
+databend://user:password@tn3ftqihs.gw.aws-us-east-2.default.databend.com:443/default?warehouse=my-warehouse
 ```
 
-SQL 将使用默认会话和分页设置运行，主要为：
+使用 HTTP API 时，按如下方式提取各组件：
 
-1. 使用 `default` 数据库的新一次性会话。
-2. 每次请求最多等待 1 秒以获取结果后返回。
+| DSN 组件 | 说明 | HTTP API 用法 |
+|----------|------|---------------|
+| `user:password` | 您的凭证 | 基础认证：`-u "user:password"` |
+| `tn3ftqihs` | 您的租户 ID | 端点 host 的一部分 |
+| `tn3ftqihs.gw...databend.com` | 完整 host | 端点：`https://<host>/v1/query/` |
+| `warehouse=my-warehouse` | Warehouse 名称 | 请求头：`X-DATABEND-WAREHOUSE: my-warehouse` |
+| `default` | 数据库名称 | 请求体中：`"session": {"database": "default"}` |
 
-更多高级配置，请参阅下面的参考：
+**完整示例：**
 
-您应该会收到如下 JSON（格式化）：
+```bash
+curl -u "user:password" \
+  --request POST \
+  'https://tn3ftqihs.gw.aws-us-east-2.default.databend.com/v1/query/' \
+  --header 'Content-Type: application/json' \
+  --header 'X-DATABEND-WAREHOUSE: my-warehouse' \
+  --data-raw '{"sql": "SELECT 1"}'
+```
+
+### 自托管 Databend
+
+自托管安装时，HTTP Handler 默认运行在 8000 端口：
+
+```bash
+curl -u root: \
+  --request POST \
+  'http://localhost:8000/v1/query/' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{"sql": "SELECT 1"}'
+```
+
+---
+
+## API 端点
+
+| 端点 | 方法 | 描述 |
+|------|------|------|
+| `/v1/query` | POST | 执行 SQL 查询 |
+| `/v1/query/<query_id>` | GET | 获取查询状态和统计信息 |
+| `/v1/query/<query_id>/page/<page_no>` | GET | 获取指定页的结果 |
+| `/v1/query/<query_id>/kill` | GET | 取消正在执行的查询 |
+| `/v1/query/<query_id>/final` | GET | 获取最终结果并关闭查询 |
+| `/v1/upload_to_stage` | PUT | 上传文件到 Stage |
+
+---
+
+## 执行查询
+
+执行 SQL 语句并获取结果。
+
+**端点：** `POST /v1/query`
+
+### 请求
+
+```bash
+curl -u "user:password" \
+  --request POST \
+  'https://<endpoint>/v1/query/' \
+  --header 'Content-Type: application/json' \
+  --header 'X-DATABEND-WAREHOUSE: <warehouse>' \
+  --data-raw '{
+    "sql": "SELECT number, number * 2 AS double FROM numbers(5)",
+    "pagination": {
+      "wait_time_secs": 5
+    }
+  }'
+```
+
+### 响应
 
 ```json
 {
@@ -46,343 +103,375 @@ SQL 将使用默认会话和分页设置运行，主要为：
   "session_id": "5643627c-a900-43ac-978f-8c76026d9944",
   "session": {},
   "schema": [
-    {
-      "name": "avg(number)",
-      "type": "Nullable(Float64)"
-    }
+    {"name": "number", "type": "UInt64"},
+    {"name": "double", "type": "UInt64"}
   ],
-  "data": [["49999999.5"]],
+  "data": [
+    ["0", "0"],
+    ["1", "2"],
+    ["2", "4"],
+    ["3", "6"],
+    ["4", "8"]
+  ],
   "state": "Succeeded",
   "error": null,
   "stats": {
-    "scan_progress": {
-      "rows": 100000000,
-      "bytes": 800000000
-    },
-    "write_progress": {
-      "rows": 0,
-      "bytes": 0
-    },
-    "result_progress": {
-      "rows": 1,
-      "bytes": 9
-    },
-    "total_scan": {
-      "rows": 100000000,
-      "bytes": 800000000
-    },
-    "running_time_ms": 446.748083
+    "scan_progress": {"rows": 5, "bytes": 40},
+    "write_progress": {"rows": 0, "bytes": 0},
+    "result_progress": {"rows": 5, "bytes": 80},
+    "running_time_ms": 12.443044
   },
-  "affect": null,
   "stats_uri": "/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5",
   "final_uri": "/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/final",
-  "next_uri": "/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/final",
+  "next_uri": null,
   "kill_uri": "/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/kill"
 }
 ```
 
-## 查询请求
+### 请求参数
 
-QueryRequest
+| 字段 | 类型 | 必填 | 默认值 | 描述 |
+|------|------|------|--------|------|
+| sql | string | 是 | - | 要执行的 SQL 语句 |
+| session_id | string | 否 | - | 复用已有会话 |
+| session | object | 否 | - | 会话配置（见下方） |
+| pagination | object | 否 | - | 分页设置（见下方） |
 
-| 字段       | 类型         | 必填 | 默认值 | 描述                        |
-| ---------- | ------------ | ---- | ------ | --------------------------- |
-| sql        | 字符串       | 是   |        | 要执行的 SQL                |
-| session_id | 字符串       | 否   |        | 仅在重用服务器端会话时使用  |
-| session    | SessionState | 否   |        |                             |
-| pagination | Pagination   | 否   |        | 此 POST 请求的唯一 query_id |
+**Session 对象：**
 
-SessionState
+| 字段 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| database | string | "default" | 当前数据库 |
+| keep_server_session_secs | int | 0 | 查询完成后保持会话的秒数 |
+| settings | map | {} | 查询设置（值为字符串） |
 
-| 字段                     | 类型                | 必填 | 默认值    | 描述                                 |
-| ------------------------ | ------------------- | ---- | --------- | ------------------------------------ |
-| database                 | 字符串              | 否   | "default" | 设置 current_database                |
-| keep_server_session_secs | 整数                | 否   | 0         | 会话在最后一个查询完成后将保留的秒数 |
-| settings                 | map(字符串, 字符串) | 否   | 0         |                                      |
+**Pagination 对象：**
 
-OldSession
+| 字段 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| wait_time_secs | int | 1 | 等待结果的最大秒数 |
 
-| 字段 | 类型   | 必填 | 默认值 | 描述                                        |
-| ---- | ------ | ---- | ------ | ------------------------------------------- |
-| id   | 字符串 | 是   |        | 来自 QueryResponse.session_id 的 session_id |
+### 响应字段
 
-Pagination: 每个 HTTP 请求返回的关键条件（在所有剩余结果准备好返回之前）
+| 字段 | 类型 | 描述 |
+|------|------|------|
+| id | string | 唯一查询 ID |
+| session_id | string | 会话 ID，用于复用 |
+| state | string | `Running`、`Succeeded` 或 `Failed` |
+| schema | array | 列定义 |
+| data | array | 结果行，以字符串数组形式返回 |
+| error | object | 错误详情（成功时为 null） |
+| stats | object | 执行统计信息 |
+| next_uri | string | 下一页结果的 URL（无更多结果时为 null） |
+| final_uri | string | 完成并关闭查询的 URL |
+| kill_uri | string | 取消查询的 URL |
 
-| 字段           | 类型 | 必填 | 默认值 | 描述       |
-| -------------- | ---- | ---- | ------ | ---------- |
-| wait_time_secs | u32  | 否   | 1      | 长轮询时间 |
+---
 
-## 查询响应
+## 获取查询状态
 
-QueryResponse:
+获取查询的当前状态和统计信息，不获取更多数据。
 
-| 字段       | 类型         | 描述                                  |
-| ---------- | ------------ | ------------------------------------- |
-| state      | 字符串       | 选项："Running","Failed", "Succeeded" |
-| error      | QueryError   | SQL 解析或执行的错误                  |
-| id         | 字符串       | 此 POST 请求的唯一 query_id           |
-| data       | 数组         | 每个项是结果的一行                    |
-| schema     | 数组         | 字段的顺序序列                        |
-| affect     | Affect       | 某些查询的影响                        |
-| session_id | 字符串       |                                       |
-| session    | SessionState |                                       |
+**端点：** `GET /v1/query/<query_id>`
 
-Field:
+### 请求
 
-| 字段 | 类型   |
-| ---- | ------ |
-| name | 字符串 |
-| type | 字符串 |
+```bash
+curl -u "user:password" \
+  'https://<endpoint>/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5' \
+  --header 'X-DATABEND-WAREHOUSE: <warehouse>'
+```
 
-Stats:
-
-| 字段            | 类型          | 描述                                                                       |
-| --------------- | ------------- | -------------------------------------------------------------------------- |
-| running_time_ms | 浮点数        | 自查询开始执行内部以来经过的百万秒，当查询完成（状态 != 运行中）时停止计时 |
-| scan_progress   | QueryProgress | 查询扫描进度                                                               |
-
-Progress:
-
-| 字段       | 类型 |
-| ---------- | ---- |
-| read_rows  | 整数 |
-| read_bytes | 整数 |
-
-Error:
-
-| 字段      | 类型   | 描述                        |
-| --------- | ------ | --------------------------- |
-| stats     | 整数   | Databend 内部使用的错误代码 |
-| message   | 字符串 | 错误消息                    |
-| backtrace | 字符串 |                             |
-
-Affect:
-
-| 字段 | 类型   | 描述                |
-| ---- | ------ | ------------------- |
-| type | 字符串 | ChangeSetting/UseDB |
-| ...  |        | 根据类型            |
-
-### 响应状态码
-
-不同类型错误的状态码使用：
-
-| 代码 | 错误                                                   |
-| ---- | ------------------------------------------------------ |
-| 200  | 如果 SQL 无效或失败，详细信息在 JSON 的 `error` 字段中 |
-| 404  | "query_id" 或 "page" 未找到                            |
-| 400  | 无效的请求格式                                         |
-
-当状态码不是 200 时，检查响应体中的错误原因作为字符串。
-
-### 数据格式
-
-`.data` 中的所有字段值都以字符串表示，
-客户端需要借助 `schema` 字段中的信息来解释这些值。
-
-### 客户端会话
-
-由于 HTTP 的无状态特性，很难在服务器端维护会话。
-客户端需要在开始新请求时在 `session` 字段中配置会话。
+### 响应
 
 ```json
 {
-  "sql": "select 1",
-  "session": {
-    "database": "db2",
-    "settings": {
-      "max_threads": "1"
-    }
+  "id": "b22c5bba-5e78-4e50-87b0-ec3855c757f5",
+  "session_id": "5643627c-a900-43ac-978f-8c76026d9944",
+  "session": {},
+  "schema": [],
+  "data": [],
+  "state": "Succeeded",
+  "error": null,
+  "stats": {
+    "scan_progress": {"rows": 5, "bytes": 40},
+    "write_progress": {"rows": 0, "bytes": 0},
+    "result_progress": {"rows": 5, "bytes": 80},
+    "running_time_ms": 12.443044
+  },
+  "next_uri": null
+}
+```
+
+---
+
+## 获取下一页
+
+获取正在运行或已完成查询的下一页结果。
+
+**端点：** `GET /v1/query/<query_id>/page/<page_no>`
+
+### 请求
+
+```bash
+curl -u "user:password" \
+  'https://<endpoint>/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/page/1' \
+  --header 'X-DATABEND-WAREHOUSE: <warehouse>'
+```
+
+### 响应
+
+```json
+{
+  "id": "b22c5bba-5e78-4e50-87b0-ec3855c757f5",
+  "session_id": "5643627c-a900-43ac-978f-8c76026d9944",
+  "schema": [
+    {"name": "number", "type": "UInt64"}
+  ],
+  "data": [
+    ["5"],
+    ["6"],
+    ["7"],
+    ["8"],
+    ["9"]
+  ],
+  "state": "Succeeded",
+  "next_uri": "/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/page/2"
+}
+```
+
+---
+
+## 取消查询
+
+终止正在执行的查询。
+
+**端点：** `GET /v1/query/<query_id>/kill`
+
+### 请求
+
+```bash
+curl -u "user:password" \
+  'https://<endpoint>/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/kill' \
+  --header 'X-DATABEND-WAREHOUSE: <warehouse>'
+```
+
+### 响应
+
+成功时返回空 body，状态码 200。
+
+---
+
+## 完成查询
+
+关闭查询并释放服务器资源。如果还有剩余结果，也会一并返回。
+
+**端点：** `GET /v1/query/<query_id>/final`
+
+### 请求
+
+```bash
+curl -u "user:password" \
+  'https://<endpoint>/v1/query/b22c5bba-5e78-4e50-87b0-ec3855c757f5/final' \
+  --header 'X-DATABEND-WAREHOUSE: <warehouse>'
+```
+
+### 响应
+
+```json
+{
+  "id": "b22c5bba-5e78-4e50-87b0-ec3855c757f5",
+  "state": "Succeeded",
+  "data": [],
+  "error": null,
+  "stats": {
+    "running_time_ms": 12.443044
   }
 }
 ```
 
-设置中的所有值都应该是字符串。
+---
 
-如果 SQL 是 `set` 或 `use`，`session` 将会改变，可以在响应中带回给客户端，
-客户端需要记录它并在后续请求中放入。
+## 上传到 Stage
 
-### QueryAffect（实验性）
+上传文件到内部或外部 Stage。
 
-对于每个 SQL，客户端会得到一个可选的表格形式的 `result`。
-客户端还会得到关于读/写行/字节的 `progress` 信息。
-由于它们的限制，客户端可能无法获得有关查询的所有有趣信息。
-因此，我们添加了 `QueryAffect` 来携带有关查询的一些额外信息。
+**端点：** `PUT /v1/upload_to_stage`
 
-请注意，`QueryAffect` 是为高级用户准备的，并且不稳定。
-不建议使用 QueryAffect 来维护会话。
+### 请求
 
-### 会话和 QueryAffect 示例：
+```bash
+curl -u "user:password" \
+  -H "stage_name:my_stage" \
+  -F "upload=@./data.csv" \
+  -XPUT 'https://<endpoint>/v1/upload_to_stage'
+```
 
-设置语句：
+### 响应
 
 ```json
 {
-  "sql": "set max_threads=1;",
-  "session": {
-    "database": "db1",
-    "settings": {
-      "max_threads": "6"
+  "id": "bf44e659-7d2b-4c0f-ae09-693e77258183",
+  "stage_name": "my_stage",
+  "state": "SUCCESS",
+  "files": ["data.csv"]
+}
+```
+
+---
+
+## 从 Stage 插入数据
+
+使用 Stage Attachment 将 Stage 中的文件数据插入到表中。
+
+**端点：** `POST /v1/query`
+
+### 请求
+
+```bash
+curl -u "user:password" \
+  --request POST \
+  'https://<endpoint>/v1/query/' \
+  --header 'Content-Type: application/json' \
+  --header 'X-DATABEND-WAREHOUSE: <warehouse>' \
+  --data-raw '{
+    "sql": "INSERT INTO my_table (id, name, value) VALUES",
+    "stage_attachment": {
+      "location": "@my_stage/data.csv",
+      "file_format_options": {
+        "type": "CSV",
+        "skip_header": "1"
+      },
+      "copy_options": {
+        "purge": "true"
+      }
     }
+  }'
+```
+
+### 响应
+
+```json
+{
+  "id": "92182fc6-11b9-461b-8fbd-f82ecaa637ef",
+  "session_id": "f5caf18a-5dc8-422d-80b7-719a6da76039",
+  "schema": [],
+  "data": [],
+  "state": "Succeeded",
+  "error": null,
+  "stats": {
+    "scan_progress": {"rows": 100, "bytes": 2560},
+    "write_progress": {"rows": 100, "bytes": 2560},
+    "running_time_ms": 143.632441
   }
 }
 ```
 
-响应：
+:::tip
+可以使用 [COPY INTO](/sql/sql-commands/dml/dml-copy-into-table) 命令中提供的 FILE_FORMAT 和 COPY_OPTIONS。设置 `purge: true` 可在插入成功后删除源文件。
+:::
+
+---
+
+## 会话示例
+
+### 使用会话设置
+
+**请求：**
+
+```bash
+curl -u "user:password" \
+  --request POST \
+  'https://<endpoint>/v1/query/' \
+  --header 'Content-Type: application/json' \
+  --header 'X-DATABEND-WAREHOUSE: <warehouse>' \
+  --data-raw '{
+    "sql": "SELECT * FROM my_table",
+    "session": {
+      "database": "production",
+      "settings": {
+        "max_threads": "4",
+        "max_memory_usage": "10737418240"
+      }
+    }
+  }'
+```
+
+### SET 语句
+
+**请求：**
 
 ```json
 {
+  "sql": "SET max_threads = 8",
+  "session": {
+    "database": "default",
+    "settings": {"max_threads": "4"}
+  }
+}
+```
+
+**响应：**
+
+```json
+{
+  "id": "abc123",
+  "state": "Succeeded",
+  "session": {
+    "database": "default",
+    "settings": {"max_threads": "8"}
+  },
   "affect": {
     "type": "ChangeSetting",
     "key": "max_threads",
-    "value": "1",
+    "value": "8",
     "is_global": false
+  }
+}
+```
+
+### USE 语句
+
+**请求：**
+
+```json
+{
+  "sql": "USE production",
+  "session": {
+    "database": "default"
+  }
+}
+```
+
+**响应：**
+
+```json
+{
+  "id": "abc123",
+  "state": "Succeeded",
+  "session": {
+    "database": "production"
   },
-  "session": {
-    "database": "db1",
-    "settings": {
-      "max_threads": "1"
-    }
-  }
-}
-```
-
-使用语句：
-
-```json
-{
-  "sql": "use db2",
-  "session": {
-    "database": "db1",
-    "settings": {
-      "max_threads": "6"
-    }
-  }
-}
-```
-
-响应：
-
-```json
-{
   "affect": {
     "type": "UseDB",
-    "name": "db2"
-  },
-  "session": {
-    "database": "db2",
-    "settings": {
-      "max_threads": "1"
-    }
+    "name": "production"
   }
 }
 ```
 
-## Stage 附件
+---
 
-Databend 允许您通过使用带有其 HTTP 处理程序的 `INSERT INTO` 或 `REPLACE INTO` 语句，从 Stage 文件向表插入或更新数据。
+## HTTP 状态码
 
-### 示例：从 Stage 文件插入数据
+| 状态码 | 描述 |
+|--------|------|
+| 200 | 成功（检查 `error` 字段以了解查询级别的错误） |
+| 400 | 请求格式无效 |
+| 404 | 查询或页面不存在 |
 
-```sql
-create table t_insert_stage(a int null, b int default 2, c float, d varchar default 'd');
-```
-
-将 `values.csv` 上传到一个 Stage：
-
-```plain title='values.csv'
-1,1.0
-2,2.0
-3,3.0
-4,4.0
-```
-
-```shell title='请求 /v1/upload_to_stage' API
-curl -H "stage_name:my_int_stage" -F "upload=@./values.csv" -XPUT http://root:@localhost:8000/v1/upload_to_stage
-```
-
-使用上传的文件进行插入操作：
-
-```shell
-curl -d '{"sql": "insert into t_insert_stage (a, c) values", "stage_attachment": {"location": "@my_int_stage/values.csv", "file_format_options": {}, "copy_options": {}}}' -H 'Content-type: application/json' http://root:@localhost:8000/v1/query
-```
-
-:::tip
-您可以通过[COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)命令中提供的 FILE_FORMAT 和 COPY_OPTIONS 来指定文件格式及各种复制相关设置。当`purge`设置为`true`时，只有数据更新成功后，原始文件才会被删除。
-:::
-
-验证插入的数据：
-
-```sql
-select * from t_insert_stage;
-+------+------+------+------+
-| a    | b    | c    | d    |
-+------+------+------+------+
-|    1 |    2 |  1.0 | d    |
-|    2 |    2 |  2.0 | d    |
-|    3 |    2 |  3.0 | d    |
-|    4 |    2 |  4.0 | d    |
-+------+------+------+------+
-```
-
-### 示例：使用暂存文件替换数据
-
-首先，创建一个名为"sample"的表：
-
-```sql
-CREATE TABLE sample
-(
-    Id      INT,
-    City    VARCHAR,
-    Score   INT,
-    Country VARCHAR DEFAULT 'China'
-);
-```
-
-然后，创建一个内部 Stage 并上传名为[sample_3_replace.csv](https://github.com/ZhiHanZ/databend/blob/0f333a13fc38548595ea58242a37c5f4a73e9c88/tests/data/sample_3_replace.csv)的示例 CSV 文件到该 Stage：
-
-```sql
-CREATE STAGE s1 FILE_FORMAT = (TYPE = CSV);
-```
-
-```shell
-curl -u root: -H "stage_name:s1" -F "upload=@sample_3_replace.csv" -XPUT "http://localhost:8000/v1/upload_to_stage"
-{"id":"b8305187-c816-4bb5-8350-c441b85baaf9","stage_name":"s1","state":"SUCCESS","files":["sample_3_replace.csv"]}
-```
-
-```sql
-LIST @s1;
-name                |size|md5|last_modified                |creator|
---------------------+----+---+-----------------------------+-------+
-sample_3_replace.csv|  83|   |2023-06-12 03:01:56.522 +0000|       |
-```
-
-使用 REPLACE INTO 通过 HTTP 处理程序从暂存的 CSV 文件插入数据：
-
-:::tip
-您可以通过[COPY INTO](/sql/sql-commands/dml/dml-copy-into-table)命令中提供的 FILE_FORMAT 和 COPY_OPTIONS 来指定文件格式及各种复制相关设置。当`purge`设置为`true`时，只有数据更新成功后，原始文件才会被删除。
-:::
-
-```shell
-curl -s -u root: -XPOST "http://localhost:8000/v1/query" --header 'Content-Type: application/json' -d '{"sql": "REPLACE INTO sample (Id, City, Score) ON(Id) VALUES", "stage_attachment": {"location": "@s1/sample_3_replace.csv", "copy_options": {"purge": "true"}}}'
-{"id":"92182fc6-11b9-461b-8fbd-f82ecaa637ef","session_id":"f5caf18a-5dc8-422d-80b7-719a6da76039","session":{},"schema":[],"data":[],"state":"Succeeded","error":null,"stats":{"scan_progress":{"rows":5,"bytes":83},"write_progress":{"rows":5,"bytes":277},"result_progress":{"rows":0,"bytes":0},"total_scan":{"rows":0,"bytes":0},"running_time_ms":143.632441},"affect":null,"stats_uri":"/v1/query/92182fc6-11b9-461b-8fbd-f82ecaa637ef","final_uri":"/v1/query/92182fc6-11b9-461b-8fbd-f82ecaa637ef/final","next_uri":"/v1/query/92182fc6-11b9-461b-8fbd-f82ecaa637ef/final","kill_uri":"/v1/query/92182fc6-11b9-461b-8fbd-f82ecaa637ef/kill"}
-```
-
-验证插入的数据：
-
-```sql
-SELECT * FROM sample;
-id|city       |score|country|
---+-----------+-----+-------+
- 1|'Chengdu'  |   80|China  |
- 3|'Chongqing'|   90|China  |
- 6|'HangZhou' |   92|China  |
- 9|'Changsha' |   91|China  |
-10|'Hong Kong'|   88|China  |
-```
+---
 
 ## 客户端实现
 
-官方客户端[bendsql](https://github.com/databendlabs/bendsql)主要基于 HTTP 处理程序。
-
-最简单的 HTTP 处理程序客户端实现示例位于[sqllogictest](https://github.com/databendlabs/databend/blob/main/tests/sqllogictests/src/client/http_client.rs)中，用于 databend。
+- **官方命令行客户端**：[BendSQL](https://github.com/databendlabs/bendsql) - 基于此 HTTP Handler 构建
+- **参考实现**：[sqllogictest client](https://github.com/databendlabs/databend/blob/main/tests/sqllogictests/src/client/http_client.rs)

@@ -6,13 +6,13 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="Introduced or updated: v1.2.241"/>
 
-Performs INSERT, UPDATE, or DELETE operations on rows within a target table, all in accordance with conditions and matching criteria specified within the statement, using data from a specified source.
+Performs **INSERT**, **UPDATE**, or **DELETE** operations on rows within a target table, all in accordance with conditions and matching criteria specified within the statement, using data from a specified source.
 
 The data source, which can be a subquery, is linked to the target data via a JOIN expression. This expression assesses whether each row in the source can find a match in the target table and then determines which type of clause (MATCHED or NOT MATCHED) it should move to in the next execution step.
 
 ![Alt text](/img/sql/merge-into-single-clause.jpeg)
 
-A MERGE statement usually contains a MATCHED and / or a NOT MATCHED clause, instructing Databend on how to handle matched and unmatched scenarios. For a MATCHED clause, you have the option to choose between performing an UPDATE or DELETE operation on the target table. Conversely, in the case of a NOT MATCHED clause, the available choice is INSERT.
+A MERGE statement usually contains a MATCHED and / or a NOT MATCHED clause, instructing Databend on how to handle matched and unmatched scenarios. For a MATCHED clause, you have the option to choose between performing an **UPDATE** or **DELETE** operation on the target table. Conversely, in the case of a NOT MATCHED clause, the available choice is **INSERT**.
 
 ## Multiple MATCHED & NOT MATCHED Clauses
 
@@ -30,17 +30,22 @@ MERGE INTO <target_table>
 
 matchedClause ::=
   WHEN MATCHED [ AND <condition> ] THEN
-  { UPDATE SET <col_name> = <expr> [ , <col_name2> = <expr2> ... ] | UPDATE * | DELETE }
+  {
+    UPDATE SET <col_name> = <expr> [ , <col_name2> = <expr2> ... ] |
+    UPDATE * |
+    DELETE  /* Removes matched rows from the target table */
+  }
 
 notMatchedClause ::=
   WHEN NOT MATCHED [ AND <condition> ] THEN
   { INSERT ( <col_name> [ , <col_name2> ... ] ) VALUES ( <expr> [ , ... ] ) | INSERT * }
 ```
 
-| Parameter | Description                                                                                                                                                                                                                                                                                                   |
+| Parameter | Description                                                                                                                                                                                                                                                                                   |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | UPDATE \* | Updates all columns of the matched row in the target table with values from the corresponding row in the source. This requires the column names between the source and target are consistent (though their order can be different) because during the update process, matching is done based on column names. |
 | INSERT \* | Inserts a new row into the target table with values from the source row.                                                                                                                                                                                                                                      |
+| DELETE    | Removes the matched row from the target table. This is a powerful operation that can be used for data cleanup, removing obsolete records, or implementing conditional deletion logic based on source data.                                                                                                     |
 
 ## Output
 
@@ -182,4 +187,53 @@ SELECT * FROM target_table order by ID;
 │               3 │ Carol            │              28 │ Montreal         │
 │               4 │ Frank            │              32 │ Edmonton         │
 └─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Example 3: Merge with DELETE Operation
+
+This example demonstrates how to use MERGE to delete records from the target table based on specific conditions from the source table.
+
+```sql
+-- Create the customers table (target)
+CREATE TABLE customers (
+    customer_id INT,
+    customer_name VARCHAR(50),
+    status VARCHAR(20),
+    last_purchase_date DATE
+);
+
+-- Insert initial customer data
+INSERT INTO customers VALUES
+    (101, 'John Smith', 'Active', '2023-01-15'),
+    (102, 'Emma Johnson', 'Active', '2023-02-20'),
+    (103, 'Michael Brown', 'Inactive', '2022-11-05'),
+    (104, 'Sarah Wilson', 'Active', '2023-03-10'),
+    (105, 'David Lee', 'Inactive', '2022-09-30');
+
+-- Create the removals table (source with customers to be removed)
+CREATE TABLE removals (
+    customer_id INT,
+    removal_reason VARCHAR(50),
+    removal_date DATE
+);
+
+-- Insert data for customers to be removed
+INSERT INTO removals VALUES
+    (103, 'Account Closed', '2023-04-01'),
+    (105, 'Customer Request', '2023-04-05');
+
+-- Enable MERGE INTO
+
+-- Use MERGE to delete inactive customers that appear in the removals table
+MERGE INTO customers AS c
+    USING removals AS r
+    ON c.customer_id = r.customer_id
+    WHEN MATCHED AND c.status = 'Inactive' THEN
+        DELETE;
+
+┌────────────────────────┐
+│ number of rows deleted │
+├────────────────────────┤
+│                     2  │
+└────────────────────────┘
 ```

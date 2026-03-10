@@ -16,17 +16,13 @@
 @import "./pagination.scss"; // 底部导航
 @import "./icons-color.scss"; // 自定义 icon 颜色类
 @import "./toc.scss"; // TOC
+@import "./table.scss"; // table
 
 .container {
   padding-right: 2rem;
   padding-left: 2rem;
   margin-left: 0;
   margin-right: 0;
-}
-@media (min-width: 1440px) {
-  .container {
-    width: 3000000px;
-  }
 }
 @media (max-width: 997px) {
   .container {
@@ -323,5 +319,66 @@ div[class*="searchQueryColumn"] {
   color: hsl(var(--foreground)) !important;
   > div {
     flex: 1;
+  }
+}
+
+.ant-input-outlined {
+  border-color: transparent !important;
+  background: var(--color-bg-0) !important;
+  &:focus {
+    border-color: var(--color-primary) !important;
+  }
+}
+.ant-input-lg,
+.ant-input {
+  font-size: 12px;
+  &::placeholder {
+    color: var(--color-text-2);
+  }
+}
+.ant-alert {
+  color: var(--color-text-1) !important;
+}
+.ant-btn-lg {
+  font-size: 14px;
+}
+.ant-alert {
+  border: unset;
+  font-size: 12px;
+}
+textarea {
+  padding-top: 12px !important;
+}
+
+.ant-popover .ant-popover-inner {
+  background-color: var(--color-bg-1);
+}
+.ant-alert-info {
+  background: var(--color-info-light-default);
+}
+.ant-form-item .ant-form-item-label > label {
+  color: var(--color-text-1);
+}
+.ant-popover {
+  --antd-arrow-background-color: var(--color-bg-1);
+}
+.ant-input {
+  color: var(--color-text-1);
+}
+#cc-main .cm {
+  border: 1px solid var(--color-border);
+}
+.ant-space-compact-block {
+  display: flex;
+  width: 100%;
+}
+
+.ant-dropdown .ant-dropdown-menu {
+  background-color: var(--color-bg-1);
+  .ant-dropdown-menu-item {
+    color: var(--color-text-1);
+    &:hover {
+      background-color: var(--color-fill-1);
+    }
   }
 }

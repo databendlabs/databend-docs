@@ -1,5 +1,6 @@
 // Copyright 2023 DatabendLabs.
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import MDXA from "@site/src/theme/MDXComponents/A";
 import React, { FC } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -13,9 +14,11 @@ const LanguageDocs: FC<IProps> = ({ cn = "", en = "" }): any => {
       customFields: { isChina },
     },
   } = useDocusaurusContext() as any;
-
+  const components = {
+    a: MDXA,
+  };
   return (
-    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+    <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
       {isChina ? cn : en}
     </ReactMarkdown>
   );

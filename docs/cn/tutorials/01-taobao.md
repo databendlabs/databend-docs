@@ -1,5 +1,5 @@
 ---
-title: 淘宝用户购物行为分析
+title: 淘宝用户行为分析
 slug: /taobao-tutorial
 ---
 
@@ -73,7 +73,7 @@ LIST @mycsv;
 
 ### 上传数据集到外部 Stage
 
-使用 [BendSQL](https://github.com/databendlabs/BendSQL)将压缩后的数据集文件 (UserBehavior.csv.gz) 上传到外部 Stage。获取计算集群的连接信息，请参考[连接到计算集群](/guides/cloud/using-databend-cloud/warehouses#connecting)。
+使用 [BendSQL](https://github.com/databendlabs/BendSQL)将压缩后的数据集文件 (UserBehavior.csv.gz) 上传到外部 Stage。获取计算集群的连接信息，请参考[连接到计算集群](/guides/cloud/resources/warehouses#connecting)。
 
 ```bash
 (base) eric@Erics-iMac ~ % bendsql --host tenantID--YOUR_WAREHOUSE.gw.aliyun-cn-beijing.default.databend.cn \
@@ -185,7 +185,7 @@ ORDER BY day;
 
 ![Alt text](@site/static/public/img/usecase/taobao-2.png)
 
-也可以通过 [使用仪表盘](/guides/cloud/using-databend-cloud/dashboard) 功能，生成折线图：
+也可以通过 [使用仪表盘](/tutorials/cloud-ops/dashboard) 功能，生成折线图：
 
 ![Alt text](@site/static/public/img/usecase/taobao-3.png)
 
@@ -292,7 +292,7 @@ order by hour;
 
 ![Alt text](@site/static/public/img/usecase/taobao-7.png)
 
-也可以通过 [使用仪表盘](/guides/cloud/using-databend-cloud/dashboard) 功能，生成折线图：
+也可以通过 [使用仪表盘](/tutorials/cloud-ops/dashboard) 功能，生成折线图：
 
 ![Alt text](@site/static/public/img/usecase/taobao-8.png)
 
@@ -316,7 +316,7 @@ order by weekday;
 
 ![Alt text](@site/static/public/img/usecase/taobao-9.png)
 
-也可以通过 [使用仪表盘](/guides/cloud/using-databend-cloud/dashboard) 功能，生成柱状图：
+也可以通过 [使用仪表盘](/tutorials/cloud-ops/dashboard) 功能，生成柱状图：
 
 ![Alt text](@site/static/public/img/usecase/taobao-10.png)
 

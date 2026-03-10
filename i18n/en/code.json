@@ -385,12 +385,12 @@
     "message": "Search docs",
     "description": "The placeholder of the input of the DocSearch pop-up modal"
   },
-  "Leave an optional comment…": {
-    "message": "Leave an optional comment…",
-    "description": "Leave an optional comment…"
+  "Help Us Improve Our Documentation": {
+    "message": "Help Us Improve Our Documentation",
+    "description": "Help Us Improve Our Documentation"
   },
   "Vote": {
-    "message": "Vote",
+    "message": "Submit",
     "description": "Vote"
   },
   "Thanks for voting!": {
@@ -401,9 +401,21 @@
     "message": "Did this page help you?",
     "description": "Did this page help you?"
   },
-  "Explore Databend Cloud for FREE": {
-    "message": "Explore Databend Cloud for FREE",
+  "Try Databend Cloud for FREE": {
+    "message": "Try Databend Cloud for FREE",
     "description": "Try Databend Cloud for FREE"
+  },
+  "Multimodal, object-storage-native warehouse for BI, vectors, search, and geo.": {
+    "message": "Multimodal, object-storage-native warehouse for BI, vectors, search, and geo.",
+    "description": "Try Cloud card body line 1"
+  },
+  "Snowflake-compatible SQL with automatic scaling.": {
+    "message": "Snowflake-compatible SQL with automatic scaling.",
+    "description": "Try Cloud card body line 2"
+  },
+  "Sign up and get $200 in credits.": {
+    "message": "Sign up and get $200 in credits.",
+    "description": "Try Cloud card body line 3"
   },
   "Low-cost": {
     "message": "Low-cost",
@@ -437,9 +449,9 @@
     "message": "Databend Cloud Now Available",
     "description": "Databend Cloud Now Available"
   },
-  "Register now and get a $200 coupon": {
-    "message": "Register now and get a $200 coupon",
-    "description": "Register now and get a $200 coupon."
+  "Register now and get a $200 voucher": {
+    "message": "Register now and get a $200 voucher",
+    "description": "Register now and get a $200 voucher."
   },
   "What is Databend?": {
     "message": "What is Databend?",
@@ -514,7 +526,7 @@
     "description": "Link text for Developer Resources"
   },
   "Connect your application to Databend in just a few minutes.": {
-    "message": "Connect your application to Databend in just a few minutes.",
+    "message": "Connect to Databend in minutes.",
     "description": "Description for Connect to Databend section"
   },
   "Load Data into Databend": {
@@ -526,7 +538,7 @@
     "description": "Link text for Know More"
   },
   "Bulk import data into Databend(Cloud) in multiple formats.": {
-    "message": "Bulk import data into Databend(Cloud) in multiple formats.",
+    "message": "Bulk import into Databend, multiple formats.",
     "description": "Description for Load Data into Databend section"
   },
   "AI & BI & Visualization & Notebooks": {
@@ -538,7 +550,7 @@
     "description": "Link text for All Tools"
   },
   "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.": {
-    "message": "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.",
+    "message": "Plug into popular BI tools and notebooks.",
     "description": "Description for AI & BI & Visualization & Notebooks section"
   },
   "Continuous Data Pipelines": {
@@ -546,7 +558,7 @@
     "description": "Title for Continuous Data Pipelines section"
   },
   "Data pipelines automate the process of moving and changing data from different sources into Databend.": {
-    "message": "Data pipelines automate the process of moving and changing data from different sources into Databend.",
+    "message": "Automate continuous ingestion into Databend.",
     "description": "Description for Continuous Data Pipelines section"
   },
   "Real-Time CDC Ingestion": {
@@ -593,32 +605,32 @@
     "message": "Introduction to Databend Products",
     "description": "Title for Introduction to Databend Products section"
   },
-  "Check out the products you can choose from.": {
-    "message": "Check out the products you can choose from.",
+  "Choose the deployment option that best fits your needs and scale.": {
+    "message": "Choose the deployment option that best fits your needs and scale.",
     "description": "Description for Introduction to Databend Products section"
   },
   "Databend Cloud": {
     "message": "Databend Cloud",
     "description": "Title for Databend Cloud product"
   },
-  "Fully-Managed on Cloud": {
-    "message": "Fully-Managed on Cloud",
+  "Fully-managed cloud service. No setup required.": {
+    "message": "Fully-managed cloud service. No setup required.",
     "description": "Description for Databend Cloud product"
   },
   "Databend Enterprise": {
     "message": "Databend Enterprise",
     "description": "Title for Databend Enterprise product"
   },
-  "Self-Hosted with Additional Enterprise Features": {
-    "message": "Self-Hosted with Additional Enterprise Features",
+  "Self-hosted with enterprise features and support.": {
+    "message": "Self-hosted with enterprise features and support.",
     "description": "Description for Databend Enterprise product"
   },
   "Databend Community": {
     "message": "Databend Community",
     "description": "Title for Databend Community product"
   },
-  "Self-Hosted & Free": {
-    "message": "Self-Hosted & Free",
+  "Open-source and free for all use cases.": {
+    "message": "Open-source and free for all use cases.",
     "description": "Description for Databend Community product"
   },
   "Create a Databend Cloud account or deploy your own Databend instance.": {
@@ -676,5 +688,205 @@
   "FAQ": {
     "message": "FAQ",
     "description": "FAQ"
+  },
+  "Product Features": {
+    "message": "Product Features",
+    "description": "Product Features"
+  },
+  "Unified Engine": {
+    "message": "Unified Engine",
+    "description": "Headline for unified engine feature"
+  },
+  "NoDesc": {
+    "message": "FeedBack",
+    "description": "NoDesc"
+  },
+  "Please describe the specific errors or issues that": {
+    "message": "*Please describe the specific errors or issues that you have identified in the document (such as: content mistakes, process getting stuck and unable to proceed, layout problems, broken links, etc.)",
+    "description": "Please describe the specific errors or issues that you have identified in the document (such as: content mistakes, process getting stuck and unable to proceed, layout problems, broken links, etc.)"
+  },
+  "Unified Data": {
+    "message": "Unified Data",
+    "description": "Headline for unified data feature"
+  },
+  "Analytics Native": {
+    "message": "Analytics Native",
+    "description": "Headline for analytics native feature"
+  },
+  "Vector Native": {
+    "message": "Vector Native",
+    "description": "Headline for vector native feature"
+  },
+  "Unified Deployment": {
+    "message": "Unified Deployment",
+    "description": "Headline for unified deployment feature"
+  },
+  "Start with Databend Cloud": {
+    "message": "Start with Databend Cloud",
+    "description": "Start with Databend Cloud"
+  },
+  "Get started in minutes with our fully-managed cloud service. No setup required.": {
+    "message": "Get started in minutes with our fully-managed cloud service. No setup required.",
+    "description": "Get started in minutes with our fully-managed cloud service. No setup required."
+  },
+  "What you need to know:": {
+    "message": "What you need to know:",
+    "description": "What you need to know:"
+  },
+  "Choose Your Edition": {
+    "message": "Choose Your Edition",
+    "description": "Choose Your Edition"
+  },
+  "Pricing & Plans": {
+    "message": "Pricing & Plans",
+    "description": "Pricing & Plans"
+  },
+  "Using Databend Cloud": {
+    "message": "Using Databend Cloud",
+    "description": "Using Databend Cloud"
+  },
+  "Deploy Your Own Instance": {
+    "message": "Deploy Your Own Instance",
+    "description": "Deploy Your Own Instance"
+  },
+  "Install Databend on your infrastructure for complete control and customization.": {
+    "message": "Install Databend on your infrastructure for complete control and customization.",
+    "description": "Install Databend on your infrastructure for complete control and customization."
+  },
+  "5-Minute Quick Start": {
+    "message": "5-Minute Quick Start",
+    "description": "5-Minute Quick Start"
+  },
+  "Download & Install": {
+    "message": "Download & Install",
+    "description": "Download & Install"
+  },
+  "Enterprise Features & Licensing": {
+    "message": "Enterprise Features & Licensing",
+    "description": "Enterprise Features & Licensing"
+  },
+  "Copy Page": {
+    "message": "Copy Page",
+    "description": "Copy Page"
+  },
+  "Copy page as Markdown for LLMs": {
+    "message": "Copy page as Markdown for LLMs",
+    "description": "Copy page as Markdown for LLMs"
+  },
+  "View as Markdown": {
+    "message": "View as Markdown",
+    "description": "View as Markdown"
+  },
+  "View this page as plain text": {
+    "message": "View this page as plain text",
+    "description": "View this page as plain text"
+  },
+  "Failed to copy markdown": {
+    "message": "Failed to copy markdown",
+    "description": "Failed to copy markdown"
+  },
+  "Copying...": {
+    "message": "Copying...",
+    "description": "Copying..."
+  },
+  "DOCUMENTATION": {
+    "message": "DOCUMENTATION",
+    "description": "DOCUMENTATION"
+  },
+  "Raise issue": {
+    "message": "Raise issue",
+    "description": "Raise issue"
+  },
+  "Search & Geo Native": {
+    "message": "Search & Geo Native",
+    "description": "Headline for search native feature"
+  },
+  "Analytics, vector, search, and geo share one optimizer and runtime.": {
+    "message": "Analytics, vector, search, and geo share one optimizer and runtime.",
+    "description": "Description for unified engine feature"
+  },
+  "Structured, semi-structured, unstructured, and vector data share object storage.": {
+    "message": "Structured, semi-structured, unstructured, and vector data share object storage.",
+    "description": "Description for unified data feature"
+  },
+  "ANSI SQL, windowing, incremental aggregates, and streaming power BI.": {
+    "message": "ANSI SQL, windowing, incremental aggregates, and streaming power BI.",
+    "description": "Description for analytics native feature"
+  },
+  "Embeddings, vector indexes, and semantic retrieval all run in SQL.": {
+    "message": "Embeddings, vector indexes, and semantic retrieval all run in SQL.",
+    "description": "Description for vector native feature"
+  },
+  "JSON inverted indexes, geo functions, and ranking fuel hybrid maps.": {
+    "message": "JSON inverted indexes, geo functions, and ranking fuel hybrid maps.",
+    "description": "Description for search native feature"
+  },
+  "Databend runs the same in Cloud, Docker, or `pip install`.": {
+    "message": "Databend runs the same in Cloud, Docker, or `pip install`.",
+    "description": "Description for unified deployment feature"
+  },
+  "Ask questions about this page": {
+    "message": "Ask questions about this page",
+    "description": "Ask questions about this page"
+  },
+  "Open in": {
+    "message": "Open in",
+    "description": "Open in"
+  },
+  "Choose Cloud (managed) or Enterprise (self-hosted).": {
+    "message": "Choose Cloud (managed) or Enterprise (self-hosted).",
+    "description": "Getting Started hint under title"
+  },
+  "Start Free": {
+    "message": "Start Free",
+    "description": "CTA button text for Databend Cloud"
+  },
+  "Free Credits": {
+    "message": "Free Credits",
+    "description": "Free credits metric label"
+  },
+  "Type II": {
+    "message": "Type II",
+    "description": "Compliance label for SOC 2 Type II"
+  },
+  "Enterprise": {
+    "message": "Enterprise",
+    "description": "Enterprise badge"
+  },
+  "Self-hosted on the open-source core, with enterprise support.": {
+    "message": "Self-hosted on the open-source core, with enterprise support.",
+    "description": "Databend Enterprise card description"
+  },
+  "Deploy": {
+    "message": "Deploy",
+    "description": "Enterprise metric value"
+  },
+  "Your Infra": {
+    "message": "Your Infra",
+    "description": "Enterprise metric label"
+  },
+  "Control": {
+    "message": "Control",
+    "description": "Enterprise metric value"
+  },
+  "Your Data": {
+    "message": "Your Data",
+    "description": "Enterprise metric label"
+  },
+  "Support": {
+    "message": "Support",
+    "description": "Enterprise metric value"
+  },
+  "Enterprise Support": {
+    "message": "Enterprise Support",
+    "description": "Enterprise metric label"
+  },
+  "Install Locally": {
+    "message": "Install Locally",
+    "description": "CTA button text for self-hosted quickstart"
+  },
+  "All rights reserved.": {
+    "message": "Copyright © {year} The Databend Community. All rights reserved.",
+    "description": "All rights reserved."
   }
 }

@@ -1,79 +1,63 @@
 ---
 title: Decimal
-description:  Decimal types are high-precision numeric values to be stored and manipulated.
+description: Decimal types are high-precision numeric values to be stored and manipulated.
+sidebar_position: 5
 ---
 
-The Decimal type is useful for applications that require exact decimal representations, such as financial calculations or scientific computations.
+## Overview
 
-We can use `DECIMAL(P, S)` to indicate decimal types. 
-
-- `P` is the precision, which is the total number of digits in the number, it's range is [1, 76].
-- `S` is the scale, which is the number of digits to the right of the decimal point, it's range is [0, P].
-
-If `P` is less than 38, the physical datatype of decimal is `Decimal128`, otherwise it's `Decimal256`.
-
-For a DECIMAL(P, S) data type:
-* The minimum value is `-10^P + 1` divided by `10^S`.
-* The maximum value is `10^P - 1` divided by `10^S`.
- 
-If you have a `DECIMAL(10, 2)` , you can store values with up to `10 digits`, with `2 digits` to the right of the decimal point. The minimum value is `-9999999.99`, and the maximum value is `9999999.99`.
+`DECIMAL(P, S)` stores exact numeric values with precision `P` (total digits, 1–76) and scale `S` (digits to the right of the decimal point, 0–P). Values must sit within ±`(10^P - 1) / 10^S`. Precisions up to 38 use `DECIMAL128`, and larger values use `DECIMAL256`.
 
 ## Examples
 
 ```sql
--- Create a table with decimal data type.
-CREATE TABLE decimal (
-    value DECIMAL(36, 18)
+CREATE TABLE invoices (
+  description STRING,
+  amount DECIMAL(10, 2),
+  tax_rate DECIMAL(5, 4)
 );
 
--- Insert two values.
-INSERT INTO decimal 
-VALUES
-    (0.152587668674722117), 
-    (0.017820781941443176);
+INSERT INTO invoices VALUES
+  ('Laptop', 1299.99, 0.1300),
+  ('Monitor', 399.50, 0.0750);
 
--- Select all values from the table.
-SELECT * FROM decimal;
+SELECT
+  description,
+  amount,
+  tax_rate,
+  amount * tax_rate          AS tax_value,
+  amount + amount * tax_rate AS total_due
+FROM invoices;
 ```
 
 Result:
 ```
-┌────────────────────────────┐
-│ value                      │
-├────────────────────────────┤
-│ 0.152587668674722117       │
-│ 0.017820781941443176       │
-└────────────────────────────┘
+┌─────────────┬──────────┬──────────┬────────────┬────────────┐
+│ description │ amount   │ tax_rate │ tax_value  │ total_due  │
+├─────────────┼──────────┼──────────┼────────────┼────────────┤
+│ Laptop      │ 1299.99  │ 0.1300   │ 168.998700 │ 1468.988700 │
+│ Monitor     │  399.50  │ 0.0750   │  29.962500 │  429.462500 │
+└─────────────┴──────────┴──────────┴────────────┴────────────┘
 ```
 
-## Precision Inference
+Arithmetic preserves precision automatically: additions keep the widest integer and fractional parts, multiplication adds precisions, and division keeps the left operand's scale. Use explicit casts if you need a specific result shape.
 
-DECIMAL has a set of complex rules for precision inference. Different rules will be applied for different expressions to infer the precision.
+```sql
+SELECT
+  SUM(amount)                              AS sum_default,
+  CAST(SUM(amount) AS DECIMAL(12, 2))      AS sum_cast,
+  AVG(amount)                              AS avg_default,
+  CAST(AVG(amount) AS DECIMAL(12, 4))      AS avg_cast
+FROM invoices;
+```
 
-### Arithmetic Operations
+Result:
+```
+┌─────────────┬───────────┬────────────────┬──────────┐
+│ sum_default │ sum_cast  │ avg_default    │ avg_cast │
+├─────────────┼───────────┼────────────────┼──────────┤
+│ 1699.49     │ 1699.49   │ 849.74500000   │ 849.7450 │
+└─────────────┴───────────┴────────────────┴──────────┘
+```
 
-- Addition/Subtraction: `DECIMAL(a, b) + DECIMAL(x, y) -> DECIMAL(max(a - b, x - y) + max(b, y) + 1, max(b, y))`, which means both integer and decimal parts use the larger value of the two operands.
-
-- Multiplication: `DECIMAL(a, b) * DECIMAL(x, y) -> DECIMAL(a + x, b + y)`.
-
-- Division: `DECIMAL(a, b) / DECIMAL(x, y) -> DECIMAL(a + y, b)`.
-
-### Comparison Operations
-
-- Decimal can be compared with other numeric types.
-- Decimal can be compared with other decimal types.
-
-### Aggregate Operations
-
-- SUM: `SUM(DECIMAL(a, b)) -> DECIMAL(MAX, b)`
-- AVG: `AVG(DECIMAL(a, b)) -> DECIMAL(MAX, max(b, 4))`
-
-where `MAX` is 38 for decimal128 and 76 for decimal256.
-
-## Adjusting Result Precision
-
-Different users have different precision requirements for DECIMAL. The above rules are the default behavior of databend. If users have different precision requirements, they can adjust the precision in the following ways:
-
-If the expected result precision is higher than the default precision, adjust the input precision to adjust the result precision. For example, if the user expects to compute AVG(col) to get DECIMAL(x, y) as the result, where col is of type DECIMAL(a, b), the expression can be rewritten as `cast(AVG(col) as Decimal(x, y)` or `AVG(col)::Decimal(x, y)`.
-
-Note that in the conversion or calculation of decimal types, if the integer part overflows, an error will be thrown, and if the precision of the decimal part overflows, it will be directly discarded instead of being rounded.
+If an operation would overflow the integer part, Databend raises an error; extra fractional digits are truncated rather than rounded. Adjust `P`/`S` or cast the result to control both behaviors.

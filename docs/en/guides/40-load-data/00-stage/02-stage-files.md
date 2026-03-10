@@ -11,7 +11,7 @@ Databend recommends two file upload methods for stages: [PRESIGN](/sql/sql-comma
 
 The PRESIGN method generates a time-limited URL with a signature, which clients can use to securely initiate file uploads. This URL grants temporary access to the designated stage, allowing clients to directly transfer data without relying on Databend servers for the entire process, enhancing both security and efficiency.
 
-If you're using [BendSQL](../../30-sql-clients/00-bendsql/index.md) to manage files in a stage, you can use the PUT command for uploading files and the GET command for downloading files.
+If you're using [BendSQL](../../35-connect/00-sql-clients/bendsql.md) to manage files in a stage, you can use the PUT command for uploading files and the GET command for downloading files.
 
 - The GET command currently can only download all files in a stage, not individual ones.
 - These commands are exclusive to BendSQL and the GET command will not function when Databend uses the file system as the storage backend.
@@ -112,8 +112,8 @@ CREATE STAGE my_external_stage
 URL = 's3://databend'
 CONNECTION = (
     ENDPOINT_URL = 'http://127.0.0.1:9000',
-    aws_key_id = 'ROOTUSER',
-    aws_secret_key = 'CHANGEME123'
+    ACCESS_KEY_ID = 'ROOTUSER',
+    SECRET_ACCESS_KEY = 'CHANGEME123'
 );
 ```
 
@@ -238,8 +238,8 @@ CREATE STAGE my_external_stage
     URL = 's3://databend'
     CONNECTION = (
         ENDPOINT_URL = 'http://127.0.0.1:9000',
-        AWS_KEY_ID = 'ROOTUSER',
-        AWS_SECRET_KEY = 'CHANGEME123'
+        ACCESS_KEY_ID = 'ROOTUSER',
+        SECRET_ACCESS_KEY = 'CHANGEME123'
     );
 ```
 
@@ -275,6 +275,26 @@ Result:
 
 </TabItem>
 </Tabs>
+
+### Uploading a Directory with PUT Command
+
+You can also upload multiple files from a directory using the PUT command with wildcards. This is useful when you need to stage a large number of files at once.
+
+```sql
+PUT fs:///home/ubuntu/datas/event_data/*.parquet @your_stage;
+```
+
+Result:
+
+```
+┌───────────────────────────────────────────────────────┐
+│                 file                        │status   │
+├─────────────────────────────────────────────┼─────────┤
+│ /home/ubuntu/datas/event_data/file1.parquet │ SUCCESS │
+│ /home/ubuntu/datas/event_data/file2.parquet │ SUCCESS │
+│ /home/ubuntu/datas/event_data/file3.parquet │ SUCCESS │
+└───────────────────────────────────────────────────────┘
+```
 
 ### Downloading with GET Command
 
@@ -348,7 +368,9 @@ Result:
 <TabItem value="external" label="Download from External Stage">
 
 ```sql
+
 LIST @my_external_stage;
+
 ```
 
 Result:

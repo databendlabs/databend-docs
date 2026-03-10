@@ -2,7 +2,7 @@
 title: TRIM_LEADING
 ---
 
-Removes specific characters from the beginning (left side) of a string.
+Removes all occurrences of the specified trim string from the beginning of the string.
 
 See also: 
 
@@ -12,17 +12,17 @@ See also:
 ## Syntax
 
 ```sql
-TRIM_LEADING(<string>, <trim_character>)
+TRIM_LEADING(<string>, <trim_string>)
 ```
 
 ## Examples
 
 ```sql
-SELECT TRIM_LEADING('xxdatabend', 'xx');
+SELECT TRIM_LEADING('xxdatabend', 'xxx'), TRIM_LEADING('xxdatabend', 'xx'), TRIM_LEADING('xxdatabend', 'x');
 
-┌──────────────────────────────────┐
-│ trim_leading('xxdatabend', 'xx') │
-├──────────────────────────────────┤
-│ databend                         │
-└──────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ trim_leading('xxdatabend', 'xxx') │ trim_leading('xxdatabend', 'xx') │ trim_leading('xxdatabend', 'x') │
+├───────────────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ xxdatabend                        │ databend                         │ databend                        │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```

@@ -3,248 +3,154 @@ title: Querying & Transforming
 slug: querying-stage
 ---
 
-Databend introduces a transformative approach to data processing with its ELT (Extract, Load, Transform) model. The important aspect of this model is to query data in staged files.
+Databend enables direct querying of staged files without loading data into tables first. Query files from any stage type (user, internal, external) or directly from object storage and HTTPS URLs. Ideal for data inspection, validation, and transformation before or after loading.
 
-You can query data in staged files using the `SELECT` statement. This feature is available for the following types of stages:
+## Syntax
 
-- User stage, internal stage, or external stage.
-- Bucket or container created within your object storage, such as Amazon S3, Google Cloud Storage, and Microsoft Azure.
-- Remote servers accessible via HTTPS.
-
-This feature can be particularly useful for inspecting or viewing the contents of staged files, whether it's before or after loading data.
-
-## Syntax and Parameters
+query only
 
 ```sql
-SELECT [<alias>.]<column> [, <column> ...] | [<alias>.]$<col_position> [, $<col_position> ...]
-FROM {@<stage_name>[/<path>] [<table_alias>] | '<uri>' [<table_alias>]}
-[(
-  [<connection_parameters>],
-  [ PATTERN => '<regex_pattern>'],
-  [ FILE_FORMAT => 'CSV | TSV | NDJSON | PARQUET | ORC | <custom_format_name>'],
-  [ FILES => ( '<file_name>' [ , '<file_name>' ... ])],
-  [ CASE_SENSITIVE => true | false ]
-)]
+SELECT {
+    [<alias>.]<column> [, [<alias>.]<column> ...] -- Query columns by name
+  | [<alias>.]$<col_position> [, [<alias>.]$<col_position> ...] -- Query columns by position
+  | [<alias>.]$1[:<column>] [, [<alias>.]$1[:<column>]  ...] -- Query rows as Variants
+}
+FROM {@<stage_name>[/<path>] | '<uri>'}  -- stage table function
+  [( -- stage table function parameters
+    [<connection_parameters>],
+    [ PATTERN => '<regex_pattern>'],
+    [ FILE_FORMAT => 'CSV | TSV | NDJSON | PARQUET | ORC | Avro | <custom_format_name>'],
+    [ FILES => ( '<file_name>' [ , '<file_name>' ... ])],
+    [ CASE_SENSITIVE => true | false ]
+  )]
+  [<alias>]
 ```
 
-:::note
-When the stage path contains special characters such as spaces or parentheses, you can enclose the entire path in single quotes, as demonstrated in the following SQL statements:
+copy with transform
 
 ```sql
-SELECT * FROM 's3://mybucket/dataset(databend)/' ...
-
-SELECT * FROM 's3://mybucket/dataset databend/' ...
+COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
+     FROM (
+        SELECT {
+            [<alias>.]<column> [, [<alias>.]<column> ...] -- Query columns by name
+            | [<alias>.]$<col_position> [, [<alias>.]$<col_position> ...] -- Query columns by position
+            | [<alias>.]$1[:<column>] [, [<alias>.]$1[:<column>]  ...] -- Query rows as Variants
+            } ]
+        FROM {@<stage_name>[/<path>] | '<uri>'} 
+    )
+[ FILES = ( '<file_name>' [ , '<file_name>' ] [ , ... ] ) ]
+[ PATTERN = '<regex_pattern>' ]
+[ FILE_FORMAT = (
+         FORMAT_NAME = '<your-custom-format>'
+         | TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ]
+       ) ]
+[ copyOptions ]
 ```
+:::info Note
+
+compared the two syntaxes
+- Same `Select List` 
+- Same ` FROM {@<stage_name>[/<path>] | '<uri>'}`
+- diff parameters:
+  - query use `table function parameters`, i.e. `(<key> => <value>, ...)` 
+  - transform use Options at the end of [Copy into table](/sql/sql-commands/dml/dml-copy-into-table)
 
 :::
 
-### FILE_FORMAT
 
-The FILE_FORMAT parameter allows you to specify the format of your file, which can be one of the following options: CSV, TSV, NDJSON, PARQUET, or a custom format that you've defined using the [CREATE FILE FORMAT](/sql/sql-commands/ddl/file-format/ddl-create-file-format) command. For example,
+## FROM Clause
 
-```sql
-CREATE FILE FORMAT my_custom_csv TYPE=CSV FIELD_DELIMITER='\t';
+the FROM Clause use similar syntax of `Table Function`. Like ordinary tables, table `alias` can be used when join with other tables.
 
-SELECT $1 FROM @my_stage/file (FILE_FORMAT=>'my_custom_csv');
-```
+table function parameters:
 
-Please note that when you need to query or perform a COPY INTO operation from a staged file, it is necessary to explicitly specify the file format during the creation of the stage. Otherwise, the default format, Parquet, will be applied. See an example below:
+| Parameter               | Description                                             |
+|-------------------------|---------------------------------------------------------|
+| `FILE_FORMAT`           | File format type (CSV, TSV, NDJSON, PARQUET, ORC, Avro) |
+| `PATTERN`               | Regex pattern to filter files                           |
+| `FILES`                 | Explicit list of files to query                         |
+| `CASE_SENSITIVE`        | Column name case sensitivity (Parquet only)             |
+| `connection_parameters` | External storage connection details                     |
 
-```sql
-CREATE STAGE my_stage FILE_FORMAT = (TYPE = CSV);
-```
+## Query File Data
 
-In cases where you have staged a file in a format different from the specified stage format, you can explicitly specify the file format within the SELECT or COPY INTO statement. Here are examples:
+The select list supports three syntaxes; only one may be used, with no mixing.
 
-```sql
-SELECT $1 FROM @my_stage (FILE_FORMAT=>'NDJSON');
+### Query rows as Variants
 
-COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (TYPE = NDJSON);
-```
+- Supported File Formats: NDJSON, AVRO, Parquet, ORC
 
-### PATTERN
+:::info Note
 
-The PATTERN option allows you to specify a [PCRE2](https://www.pcre.org/current/doc/html/)-based regular expression pattern enclosed in single quotes to match file names. It is used to filter and select files based on the provided pattern. For example, you can use a pattern like '.\*parquet' to match all file names ending with "parquet". For detailed information on the PCRE2 syntax, you can refer to the documentation available at http://www.pcre.org/current/doc/html/pcre2syntax.html.
+Currently for Parquet and ORC, `Query rows as Variants` is slower than `Query columns by name`, and the two methods can not be mix used.
 
-### FILES
+:::
 
-The FILES option, on the other hand, enables you to explicitly specify one or more file names separated by commas. This option allows you to directly filter and query data from specific files within a folder. For example, if you want to query data from the Parquet files "books-2023.parquet", "books-2022.parquet", and "books-2021.parquet", you can provide these file names within the FILES option.
-
-### CASE_SENSITIVE
-
-The CASE_SENSITIVE parameter determines whether column names in the queried Parquet files are treated with case sensitivity:
-
-- `CASE_SENSITIVE => false` (default): Column names are treated as case-insensitive, meaning `b` and `B` are considered the same.
-- `CASE_SENSITIVE => true`: Column names are treated as case-sensitive, meaning only exact matches (including case) are valid. For example, querying `B` will succeed if the column in the file is named `B`, but not if it is named `b`.
-
-For example, if you have a column named `MinTemp` in a Parquet file, you can query it using one of the following statements when `CASE_SENSITIVE` is set to `false`:
+syntax: 
 
 ```sql
-SELECT MinTemp FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
-
-SELECT MINTEMP FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
-
-SELECT mintemp FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>false);
+SELECT [<alias>.]$1[:<column>] [, [<alias>.]$1[:<column>]  ...] <FROM Clause>
 ```
 
-When `CASE_SENSITIVE` is set to `true`, you must use the exact column name as it appears in the file:
+- Example: `SELECT $1:id, $1:name FROM ...`
+- Table Schema: ($1: Variant). i.e. Single Column with Variant Object Type, each Variant representing a whole row
+- Notes:
+  - The type of path expressions like `$1:column` is Variant too, it can be auto cast to native types when used in expressions or load to dest table column, sometimes you may want to cast manually before for type-specific operations (e.g., `CAST($1:id AS INT)`) to make the semantics more explicit.
+
+
+### Query columns by name
+- supported File Formats: NDJSON, AVRO, Parquet, ORC
 
 ```sql
-SELECT `MinTemp` FROM '@mystage/weather.parquet'(CASE_SENSITIVE=>true);
+SELECT [<alias>.]<column> [, [<alias>.]<column>  ...] <FROM Clause>
 ```
 
-### table_alias
+- Example: `SELECT id, name FROM ...`
+- Table Schema: Columns Mapping from Parquet or ORC file schema
+- Notes:
+  - All files are required to have the same Parquet/ORC schema; otherwise, an error will be returned
 
-When working with staged files in a SELECT statement where no table name is available, you can assign an alias to the files. This allows you to treat the files as a table, with its fields serving as columns within the table. This is useful when working with multiple tables within the SELECT statement or when selecting specific columns. Here's an example:
+
+### Query columns by Position 
+- supported File Formats: CSV, TSV
 
 ```sql
--- The alias 't1' represents the staged file, while 't2' is a regular table
-SELECT t1.$1, t2.$2 FROM @my_stage t1, t2;
+SELECT [<alias>.]$<col_position>[, [<alias>.]$<col_position>,  ...] <FROM Clause>
 ```
+- Example: `SELECT $1, $2 FROM ...`
+- Table Schema: Columns of type `VARCHAR NULL`
+- Notes
+  - `<col_position>` starts from 1
 
-### $col_position
+## Query Metadata 
 
-When selecting from a staged file, you can use column positions, and these positions start from 1. At present, the feature to utilize column positions for SELECT operations from staged files is limited to Parquet, NDJSON, CSV, and TSV formats.
+You can also include file metadata in your queries, which is useful for tracking data lineage and debugging:
 
 ```sql
-SELECT $2 FROM @my_stage (FILES=>('sample.csv')) ORDER BY $1;
+SELECT METADATA$FILENAME, METADATA$FILE_ROW_NUMBER, $1, <FROM Clause>
+(
+    FILE_FORMAT => 'ndjson_query_format',
+    PATTERN => '.*[.]ndjson'
+);
 ```
 
-It is important to note that when working with NDJSON, only $1 is allowed, representing the entire row and having the data type Variant. To select a specific field, use `$1:<field_name>`.
+The following file-level metadata fields are available for the supported file formats:
 
-```sql
--- Select the entire row using column position:
-SELECT $1 FROM @my_stage (FILE_FORMAT=>'NDJSON')
+| File Metadata              | Type    | Description                                      |
+| -------------------------- | ------- |--------------------------------------------------|
+| `METADATA$FILENAME`        | VARCHAR | The path of the file from which the row was read |
+| `METADATA$FILE_ROW_NUMBER` | INT     | The row number within the file (starting from 0) |
 
---Select a specific field named "a" using column position:
-SELECT $1:a FROM @my_stage (FILE_FORMAT=>'NDJSON')
-```
 
-When using COPY INTO to copy data from a staged file, Databend matches the field names at the top level of the NDJSON file with the column names in the destination table, rather than relying on column positions. In the example below, the table _my_table_ should have identical column definitions as the top-level field names in the NDJSON files:
+**Use cases:**
+- **Data lineage**: Track which source file contributed each record
+- **Debugging**: Identify problematic records by file and line number
+- **Incremental processing**: Process only specific files or ranges within files
 
-```sql
-COPY INTO my_table FROM (SELECT $1 SELECT @my_stage t) FILE_FORMAT = (type = NDJSON)
-```
-
-### connection_parameters
-
-To query data files in a bucket or container on your storage service, provide the necessary connection parameters. For the available connection parameters for each storage service, refer to [Connection Parameters](/sql/sql-reference/connect-parameters).
-
-### uri
-
-Specify the URI of remote files accessible via HTTPS.
-
-## Limitations
-
-When querying a staged file, the following limitations are applicable in terms of format-specific constraints:
-
-- Selecting all fields with the symbol \* is only supported for Parquet files.
-- When selecting from a CSV or TSV file, all fields are parsed as strings, and the SELECT statement only allows the use of column positions. Additionally, there is a restriction on the number of fields in the file, which must not exceed max.N+1000. For example, if the statement is `SELECT $1, $2 FROM @my_stage (FILES=>('sample.csv'))`, the sample.csv file can have a maximum of 1,002 fields.
-
-## Tutorials
-
-### Tutorial 1: Querying Data from Stage
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-This example shows how to query data in a Parquet file stored in different locations. Click the tabs below to see details.
-
-<Tabs groupId="query2stage">
-<TabItem value="Stages" label="Stages">
-
-Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) and you have uploaded it to your user stage, an internal stage named _my_internal_stage_, and an external stage named _my_external_stage_. To upload files to a stage, use the [PRESIGN](/sql/sql-commands/ddl/stage/presign) method.
-
-```sql
--- Query file in user stage
-SELECT * FROM @~/books.parquet;
-
--- Query file in internal stage
-SELECT * FROM @my_internal_stage/books.parquet;
-
--- Query file in external stage
-SELECT * FROM @my_external_stage/books.parquet;
-```
-
-</TabItem>
-<TabItem value="Bucket" label="Bucket">
-
-Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) stored in a bucket named _databend-toronto_ on Amazon S3 in the region _us-east-2_. You can query the data by specifying the connection parameters:
-
-```sql
-SELECT
-    *
-FROM
-    's3://databend-toronto' (
-        CONNECTION => (
-            ACCESS_KEY_ID = '<your-access-key-id>',
-            SECRET_ACCESS_KEY = '<your-secret-access-key>',
-            ENDPOINT_URL = 'https://databend-toronto.s3.us-east-2.amazonaws.com',
-            REGION = 'us-east-2'
-        ),
-        FILES => ('books.parquet')
-    );
-```
-
-</TabItem>
-<TabItem value="Remote" label="Remote">
-
-Let's assume you have a sample file named [books.parquet](https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet) stored in a remote server. You can query the data by specifying the file URI:
-
-```sql
-SELECT * FROM 'https://datafuse-1253727613.cos.ap-hongkong.myqcloud.com/data/books.parquet';
-```
-
-</TabItem>
-</Tabs>
-
-### Tutorial 2: Querying Data with PATTERN
-
-Let's assume you have the following Parquet files with the same schema, as well as some files of other formats, stored in a bucket named _databend-toronto_ on Amazon S3 in the region _us-east-2_.
-
-```text
-databend-toronto/
-  ├── books-2023.parquet
-  ├── books-2022.parquet
-  ├── books-2021.parquet
-  ├── books-2020.parquet
-  └── books-2019.parquet
-```
-
-To query data from all Parquet files in the folder, you can use the `PATTERN` option:
-
-```sql
-SELECT
-    *
-FROM
-    's3://databend-toronto' (
-        CONNECTION => (
-            ACCESS_KEY_ID = '<your-access-key-id>',
-            SECRET_ACCESS_KEY = '<your-secret_access_key>',
-            ENDPOINT_URL = 'https://databend-toronto.s3.us-east-2.amazonaws.com',
-            REGION = 'us-east-2'
-        ),
-        PATTERN => '.*parquet'
-    );
-```
-
-To query data from the Parquet files "books-2023.parquet", "books-2022.parquet", and "books-2021.parquet" in the folder, you can use the FILES option:
-
-```sql
-SELECT
-    *
-FROM
-    's3://databend-toronto' (
-        CONNECTION => (
-            ACCESS_KEY_ID = '<your-access-key-id>',
-            SECRET_ACCESS_KEY = '<your-secret_access_key>',
-            ENDPOINT_URL = 'https://databend-toronto.s3.us-east-2.amazonaws.com',
-            REGION = 'us-east-2'
-        ),
-        FILES => (
-            'books-2023.parquet',
-            'books-2022.parquet',
-            'books-2021.parquet'
-        )
-    );
-```
+## Tutorials by File Formats
+- [Querying Parquet Files](./00-querying-parquet.md) 
+- [Querying ORC Files](./05-querying-orc.md)
+- [Querying NDJSON Files](./03-querying-ndjson.md)
+- [Querying Avro Files](./04-querying-avro.md)
+- [Querying CSV Files](./01-querying-csv.md)
+- [Querying TSV Files](./02-querying-tsv.md)

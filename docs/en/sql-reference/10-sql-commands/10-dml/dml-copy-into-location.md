@@ -5,7 +5,7 @@ sidebar_label: "COPY INTO <location>"
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.647"/>
+<FunctionDescription description="Introduced or updated: v1.2.881"/>
 
 COPY INTO allows you to unload data from a table or query into one or more files in one of the following locations:
 
@@ -19,6 +19,7 @@ See also: [`COPY INTO <table>`](dml-copy-into-table.md)
 ```sql
 COPY INTO { internalStage | externalStage | externalLocation }
 FROM { [<database_name>.]<table_name> | ( <query> ) }
+[ PARTITION BY ( <expr> ) ]
 [ FILE_FORMAT = (
          FORMAT_NAME = '<your-custom-format>'
          | TYPE = { CSV | TSV | NDJSON | PARQUET } [ formatTypeOptions ]
@@ -112,36 +113,27 @@ externalLocation ::=
 For the connection parameters available for accessing Tencent Cloud Object Storage, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
 </TabItem>
 
-<TabItem value="Hadoop Distributed File System (HDFS)" label="HDFS">
-
-```sql
-externalLocation ::=
-  'hdfs://<endpoint_url>[<path>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing HDFS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
-
-<TabItem value="WebHDFS" label="WebHDFS">
-
-```sql
-externalLocation ::=
-  'webhdfs://<endpoint_url>[<path>]'
-  CONNECTION = (
-        <connection_parameters>
-  )
-```
-
-For the connection parameters available for accessing WebHDFS, see [Connection Parameters](/00-sql-reference/51-connect-parameters.md).
-</TabItem>
 </Tabs>
 
 ### FILE_FORMAT
 
 See [Input & Output File Formats](../../00-sql-reference/50-file-format-options.md) for details.
+
+### PARTITION BY
+
+Specifies an expression used to partition the unloaded data into separate folders. The expression must evaluate to a `STRING` type. Each distinct value produced by the expression creates a subfolder in the destination path, and the corresponding rows are written into files under that subfolder.
+
+- If the expression evaluates to `NULL`, the rows are placed in a special `_NULL_` folder.
+- The expression can reference any columns from the source table or query.
+- Path traversal (`..`) is not allowed in partition values.
+
+The following options are incompatible with `PARTITION BY` and will cause an error if set:
+
+| Option              | Restriction                                      |
+| ------------------- | ------------------------------------------------ |
+| SINGLE              | Cannot be `TRUE` when using `PARTITION BY`.      |
+| OVERWRITE           | Cannot be `TRUE` when using `PARTITION BY`.      |
+| INCLUDE_QUERY_ID    | Cannot be `FALSE` when using `PARTITION BY`.     |
 
 ### copyOptions
 
@@ -154,13 +146,13 @@ copyOptions ::=
   [ USE_RAW_PATH = true | false ]
 ```
 
-| Parameter        | Default                | Description                                                                                                                                                           |
-|------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SINGLE           | false                  | When `true`, the command unloads data into one single file.                                                                                                             |
-| MAX_FILE_SIZE    | 67108864 bytes (64 MB) | The maximum size (in bytes) of each file to be created. Effective when `SINGLE` is false.                                                                             |
-| OVERWRITE        | false                  | When `true`, existing files with the same name at the target path will be overwritten. Note: `OVERWRITE = true` requires `USE_RAW_PATH = true` and `INCLUDE_QUERY_ID = false`.   |
-| INCLUDE_QUERY_ID | true                   | When `true`, a unique UUID will be included in the exported file names.                                                                                                 |
-| USE_RAW_PATH     | false                  | When `true`, the exact user-provided path (including the full file name) will be used for exporting the data. If set to `false`, the user must provide a directory path. |
+| Parameter        | Default                | Description                                                                                                                                                                    |
+| ---------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| SINGLE           | false                  | When `true`, the command unloads data into one single file.                                                                                                                    |
+| MAX_FILE_SIZE    | 67108864 bytes (64 MB) | The maximum size (in bytes) of each file to be created. Effective when `SINGLE` is false.                                                                                      |
+| OVERWRITE        | false                  | When `true`, existing files with the same name at the target path will be overwritten. Note: `OVERWRITE = true` requires `USE_RAW_PATH = true` and `INCLUDE_QUERY_ID = false`. |
+| INCLUDE_QUERY_ID | true                   | When `true`, a unique UUID will be included in the exported file names.                                                                                                        |
+| USE_RAW_PATH     | false                  | When `true`, the exact user-provided path (including the full file name) will be used for exporting the data. If set to `false`, the user must provide a directory path.       |
 
 ### DETAILED_OUTPUT
 
@@ -266,10 +258,10 @@ LIST @my_internal_stage;
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 -- COPY INTO also works with custom file formats. See below:
--- Create a custom file format named my_cs_gzip with CSV format and gzip compression
+-- Create a custom file format named my_csv_gzip with CSV format and gzip compression
 CREATE FILE FORMAT my_csv_gzip TYPE = CSV COMPRESSION = gzip;
 
--- Unload data from the table to the stage using the custom file format my_cs_gzip
+-- Unload data from the table to the stage using the custom file format my_csv_gzip
 COPY INTO @my_internal_stage
     FROM canadian_city_population
     FILE_FORMAT = (FORMAT_NAME = 'my_csv_gzip');
@@ -314,3 +306,46 @@ COPY INTO 's3://databend'
 ```
 
 ![Alt text](/img/sql/copy-into-bucket.png)
+
+### Example 4: Unloading with PARTITION BY
+
+This example unloads data into partitioned folders based on a derived expression:
+
+```sql
+-- Create a sample table
+CREATE TABLE sales_data (
+    sale_date DATE,
+    region VARCHAR,
+    amount INT
+);
+
+INSERT INTO sales_data VALUES
+    ('2025-01-15', 'east', 100),
+    ('2025-01-20', 'west', 200),
+    ('2025-02-10', 'east', 150),
+    (NULL, 'west', 50);
+
+-- Create an internal stage
+CREATE STAGE partitioned_stage;
+
+-- Unload data partitioned by year-month derived from sale_date
+-- When sale_date is NULL, to_varchar() returns NULL, so the entire
+-- concatenation evaluates to NULL and the row lands in the _NULL_ folder.
+COPY INTO @partitioned_stage
+    FROM sales_data
+    PARTITION BY ('month=' || to_varchar(sale_date, 'YYYY-MM'))
+    FILE_FORMAT = (TYPE = PARQUET);
+
+-- Verify the partitioned folder layout
+SELECT name FROM list_stage(location => '@partitioned_stage') ORDER BY name;
+
+┌──────────────────────────────────────────────────────────────────┐
+│                              name                                │
+├──────────────────────────────────────────────────────────────────┤
+│ _NULL_/data_<query_id>_0000_00000000.parquet                     │
+│ month=2025-01/data_<query_id>_0000_00000000.parquet              │
+│ month=2025-02/data_<query_id>_0000_00000000.parquet              │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+When the partition expression evaluates to `NULL`, the data is placed in a `_NULL_` folder. Each unique partition value creates its own subfolder containing the corresponding data files.

@@ -1,6 +1,7 @@
 ---
 title: Numeric
 description: Basic Numeric data type.
+sidebar_position: 4
 ---
 
 ## Integer Data Types

@@ -4,11 +4,11 @@ title: SHOW FUNCTIONS
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="引入或更新于：v1.2.315"/>
+<FunctionDescription description="Introduced or updated: v1.2.315"/>
 
-列出当前支持的标量和聚合函数。
+列出当前支持的内置标量函数和聚合函数。
 
-另请参阅：[system.functions](../../00-sql-reference/20-system-tables/system-functions.md)
+另请参阅：[system.functions](../../00-sql-reference/31-system-tables/system-functions.md)
 
 ## 语法
 
