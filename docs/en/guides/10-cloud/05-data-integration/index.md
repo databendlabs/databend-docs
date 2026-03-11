@@ -8,10 +8,10 @@ The Data Integration feature in Databend Cloud enables you to load data from ext
 
 ## Supported Data Sources
 
-| Data Source | Description                                                                                          |
-|-------------|------------------------------------------------------------------------------------------------------|
-| [MySQL](./mysql.md)   | Sync data from MySQL databases with support for Snapshot, CDC, and Snapshot + CDC modes.        |
-| [Amazon S3](./s3.md)  | Import files from Amazon S3 buckets with support for CSV, Parquet, and NDJSON formats.          |
+| Data Source          | Description                                                                              |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| [MySQL](./mysql.md)  | Sync data from MySQL databases with support for Snapshot, CDC, and Snapshot + CDC modes. |
+| [Amazon S3](./s3.md) | Import files from Amazon S3 buckets with support for CSV, Parquet, and NDJSON formats.   |
 
 ## Key Concepts
 
@@ -20,6 +20,7 @@ The Data Integration feature in Databend Cloud enables you to load data from ext
 A data source represents a connection to an external system. It stores the credentials and connection details needed to access the source data. Once configured, a data source can be reused across multiple integration tasks.
 
 Databend Cloud currently supports two types of data sources:
+
 - **MySQL - Credentials**: Connection to a MySQL database (host, port, username, password, database).
 - **AWS - Credentials**: Connection to Amazon S3 (Access Key and Secret Key).
 
@@ -56,11 +57,11 @@ To stop a running task, click the **Stop** button. The task will gracefully shut
 
 The Data Integration page displays all tasks with their current status:
 
-| Status      | Description                        |
-|-------------|------------------------------------|
-| Running     | Task is actively syncing data      |
-| Stopped     | Task is not running                |
-| Failed      | Task encountered an error          |
+| Status  | Description                   |
+| ------- | ----------------------------- |
+| Running | Task is actively syncing data |
+| Stopped | Task is not running           |
+| Failed  | Task encountered an error     |
 
 ### Viewing Run History
 
@@ -73,3 +74,7 @@ Click on a task to view its execution history. The run history includes:
 ![Run History](/img/cloud/dataintegration/dataintegration-run-history-page.png)
 
 <IndexOverviewList />
+
+## Video Tour
+
+<iframe width="853" height="505" className="iframe-video"  src="https://www.youtube.com/embed/yfYAPVD-oHE?si=m1Gyp3KPinO1JQ17" title="YouTube video player" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" allowfullscreen></iframe>
