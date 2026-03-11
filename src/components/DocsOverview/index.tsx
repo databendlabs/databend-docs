@@ -57,11 +57,12 @@ const DocsOverview: FC = (): ReactElement => {
     },
   } = useDocusaurusContext();
   const history = useHistory();
-  const cloudAppUrl = isChina ? "https://app.databend.cn" : "https://app.databend.com";
+  const cloudAppUrl = isChina
+    ? "https://app.databend.cn"
+    : "https://app.databend.com";
   const cloudCreditsValue = isChina ? "200元" : "$200";
   return (
     <div className={styles.outWrap}>
-
       <div
         className={styles.productFeatures}
         style={{ height: "100%", width: "100%" }}
@@ -74,7 +75,9 @@ const DocsOverview: FC = (): ReactElement => {
                 <span>{$t("Unified Engine")}</span>
               </h3>
               <div>
-                {$t("Analytics, vector, search, and geo share one optimizer and runtime.")}
+                {$t(
+                  "Analytics, vector, search, and geo share one optimizer and runtime.",
+                )}
               </div>
             </Card>
           </Col>
@@ -84,7 +87,9 @@ const DocsOverview: FC = (): ReactElement => {
                 <span>{$t("Unified Data")}</span>
               </h3>
               <div>
-                {$t("Structured, semi-structured, unstructured, and vector data share object storage.")}
+                {$t(
+                  "Structured, semi-structured, unstructured, and vector data share object storage.",
+                )}
               </div>
             </Card>
           </Col>
@@ -94,7 +99,9 @@ const DocsOverview: FC = (): ReactElement => {
                 <span>{$t("Analytics Native")}</span>
               </h3>
               <div>
-                {$t("ANSI SQL, windowing, incremental aggregates, and streaming power BI.")}
+                {$t(
+                  "ANSI SQL, windowing, incremental aggregates, and streaming power BI.",
+                )}
               </div>
             </Card>
           </Col>
@@ -104,7 +111,9 @@ const DocsOverview: FC = (): ReactElement => {
                 <span>{$t("Vector Native")}</span>
               </h3>
               <div>
-                {$t("Embeddings, vector indexes, and semantic retrieval all run in SQL.")}
+                {$t(
+                  "Embeddings, vector indexes, and semantic retrieval all run in SQL.",
+                )}
               </div>
             </Card>
           </Col>
@@ -114,7 +123,9 @@ const DocsOverview: FC = (): ReactElement => {
                 <span>{$t("Search Native")}</span>
               </h3>
               <div>
-                {$t("Full-text search and inverted indexes fuel hybrid retrieval.")}
+                {$t(
+                  "Full-text search and inverted indexes fuel hybrid retrieval.",
+                )}
               </div>
             </Card>
           </Col>
@@ -124,7 +135,9 @@ const DocsOverview: FC = (): ReactElement => {
                 <span>{$t("Geo Native")}</span>
               </h3>
               <div>
-                {$t("Geospatial indexes and functions power map and location services.")}
+                {$t(
+                  "Geospatial indexes and functions power map and location services.",
+                )}
               </div>
             </Card>
           </Col>
@@ -133,14 +146,15 @@ const DocsOverview: FC = (): ReactElement => {
       <ContentCardWrap
         className={clsx(styles.commomCard, styles.gettingStart)}
         title={$t("Getting Started")}
-        description={$t(
-          "Choose Cloud (managed) or Enterprise (self-hosted)."
-        )}
+        description={$t("Choose Cloud (managed) or Enterprise (self-hosted).")}
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
             <Col {...colLayout2}>
-              <Card padding={[24, 24]} className={clsx(styles.cardActiveOut, styles.productCard)}>
+              <Card
+                padding={[24, 24]}
+                className={clsx(styles.cardActiveOut, styles.productCard)}
+              >
                 <div
                   className={styles.productCardContainer}
                   role="link"
@@ -158,24 +172,36 @@ const DocsOverview: FC = (): ReactElement => {
                     <LightDatabendCloudSingleSvg width={120} />
                     <div className={styles.productCardTitle}>
                       <h5>{$t("Databend Cloud")}</h5>
-                      <span className={styles.productCardBadge}>{$t("Recommended")}</span>
+                      <span className={styles.productCardBadge}>
+                        {$t("Recommended")}
+                      </span>
                     </div>
                   </div>
                   <p className={styles.productCardDesc}>
-                    {$t("Fully-managed serverless data warehouse. Zero infrastructure.")}
+                    {$t(
+                      "Fully-managed serverless data warehouse. Zero infrastructure.",
+                    )}
                   </p>
                   <div className={styles.productCardMetrics}>
                     <div className={styles.metric}>
                       <span className={styles.metricValue}>&lt;500ms</span>
-                      <span className={styles.metricLabel}>{$t("Cold Start")}</span>
+                      <span className={styles.metricLabel}>
+                        {$t("Cold Start")}
+                      </span>
                     </div>
                     <div className={styles.metric}>
-                      <span className={styles.metricValue}>{cloudCreditsValue}</span>
-                      <span className={styles.metricLabel}>{$t("Free Credits")}</span>
+                      <span className={styles.metricValue}>
+                        {cloudCreditsValue}
+                      </span>
+                      <span className={styles.metricLabel}>
+                        {$t("Free Credits")}
+                      </span>
                     </div>
                     <div className={styles.metric}>
                       <span className={styles.metricValue}>SOC 2</span>
-                      <span className={styles.metricLabel}>{$t("Type II")}</span>
+                      <span className={styles.metricLabel}>
+                        {$t("Type II")}
+                      </span>
                     </div>
                   </div>
                   <div className={styles.productCardCtas}>
@@ -194,7 +220,10 @@ const DocsOverview: FC = (): ReactElement => {
               </Card>
             </Col>
             <Col {...colLayout2}>
-              <Card padding={[24, 24]} className={clsx(styles.cardActiveOut, styles.productCard)}>
+              <Card
+                padding={[24, 24]}
+                className={clsx(styles.cardActiveOut, styles.productCard)}
+              >
                 <div
                   className={styles.productCardContainer}
                   role="link"
@@ -212,24 +241,38 @@ const DocsOverview: FC = (): ReactElement => {
                     <LightDatabendSingleSvg width={120} />
                     <div className={styles.productCardTitle}>
                       <h5>{$t("Databend Enterprise")}</h5>
-                      <span className={styles.productCardBadgeAlt}>{$t("Enterprise")}</span>
+                      <span className={styles.productCardBadgeAlt}>
+                        {$t("Enterprise")}
+                      </span>
                     </div>
                   </div>
                   <p className={styles.productCardDesc}>
-                    {$t("Self-hosted on the open-source core, with enterprise support.")}
+                    {$t(
+                      "Self-hosted on the open-source core, with enterprise support.",
+                    )}
                   </p>
                   <div className={styles.productCardMetrics}>
                     <div className={styles.metric}>
                       <span className={styles.metricValue}>{$t("Deploy")}</span>
-                      <span className={styles.metricLabel}>{$t("Your Infra")}</span>
+                      <span className={styles.metricLabel}>
+                        {$t("Your Infra")}
+                      </span>
                     </div>
                     <div className={styles.metric}>
-                      <span className={styles.metricValue}>{$t("Control")}</span>
-                      <span className={styles.metricLabel}>{$t("Your Data")}</span>
+                      <span className={styles.metricValue}>
+                        {$t("Control")}
+                      </span>
+                      <span className={styles.metricLabel}>
+                        {$t("Your Data")}
+                      </span>
                     </div>
                     <div className={styles.metric}>
-                      <span className={styles.metricValue}>{$t("Support")}</span>
-                      <span className={styles.metricLabel}>{$t("Enterprise Support")}</span>
+                      <span className={styles.metricValue}>
+                        {$t("Support")}
+                      </span>
+                      <span className={styles.metricLabel}>
+                        {$t("Enterprise Support")}
+                      </span>
                     </div>
                   </div>
                   <div className={styles.productCardCtas}>
@@ -256,7 +299,7 @@ const DocsOverview: FC = (): ReactElement => {
           text: $t("Developer Resources"),
         }}
         description={$t(
-          "Connect your application to Databend in just a few minutes."
+          "Connect your application to Databend in just a few minutes.",
         )}
       >
         <div style={{ width: "100%" }}>
@@ -310,6 +353,13 @@ const DocsOverview: FC = (): ReactElement => {
                 to={"/guides/ai-functions/mcp/"}
               />
             </Col>
+            <Col {...colLayout}>
+              <SmallCard
+                icon={<MCP width={24}></MCP>}
+                text={"MCP Client"}
+                to={"/guides/ai-functions/mcp-integration"}
+              />
+            </Col>
           </Row>
         </div>
       </ContentCardWrap>
@@ -321,7 +371,7 @@ const DocsOverview: FC = (): ReactElement => {
           text: $t("Know More"),
         }}
         description={$t(
-          "Bulk import data into Databend(Cloud) in multiple formats."
+          "Bulk import data into Databend(Cloud) in multiple formats.",
         )}
       >
         <div style={{ width: "100%" }}>
@@ -443,7 +493,7 @@ const DocsOverview: FC = (): ReactElement => {
           text: $t("All Tools"),
         }}
         description={$t(
-          "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization."
+          "Databend offers connectors and plugins for integrating with major data import tools, ensuring efficient data synchronization.",
         )}
       >
         <div style={{ width: "100%" }}>
@@ -515,7 +565,7 @@ const DocsOverview: FC = (): ReactElement => {
           text: $t("Know More"),
         }}
         description={$t(
-          "Data pipelines automate the process of moving and changing data from different sources into Databend."
+          "Data pipelines automate the process of moving and changing data from different sources into Databend.",
         )}
       >
         <div style={{ width: "100%" }}>
@@ -577,11 +627,7 @@ const DocsOverview: FC = (): ReactElement => {
               />
             </Col>
             <Col {...colLayout}>
-              <SmallCard
-                icon={<FAQ></FAQ>}
-                text={$t("FAQ")}
-                to={`/`}
-              />
+              <SmallCard icon={<FAQ></FAQ>} text={$t("FAQ")} to={`/`} />
             </Col>
             <Col {...colLayout}>
               <SmallCard
