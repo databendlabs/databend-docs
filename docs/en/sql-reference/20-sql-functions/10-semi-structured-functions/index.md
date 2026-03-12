@@ -37,7 +37,7 @@ Structured and semi-structured functions in Databend enable efficient processing
 | [JSON_TO_STRING](semi-structured-functions/json/json-to-string) | Converts a JSON value to a string | `JSON_TO_STRING(PARSE_JSON('{"a":1}'))` |
 | [JSON_PRETTY](semi-structured-functions/json/json-pretty) | Formats JSON with proper indentation | `JSON_PRETTY(PARSE_JSON('{"a":1}'))` |
 | [STRIP_NULL_VALUE](semi-structured-functions/json/strip-null-value) | Converts a JSON null value to a SQL NULL value | `STRIP_NULL_VALUE(PARSE_JSON('{"a":1,"b":null}'))` |
-| [STRIP_NULL_VALUE](semi-structured-functions/json/json-strip-nulls) | Removes null values from JSON Object | `JSON_STRIP_NULLS(PARSE_JSON('{"a":1,"b":null}'))` |
+| [JSON_STRIP_NULLS](semi-structured-functions/json/json-strip-nulls) | Removes null values from JSON Object | `JSON_STRIP_NULLS(PARSE_JSON('{"a":1,"b":null}'))` |
 
 ### Array/Object Expansion
 | Function | Description | Example |
