@@ -4,7 +4,7 @@ title: Geospatial Functions
 
 Databend ships with two complementary sets of geospatial capabilities: PostGIS-style geometry functions for building and analysing shapes, and H3 utilities for global hexagonal indexing. The tables below group the functions by task so you can quickly locate the right tool, similar to the layout used in the Snowflake documentation.
 
-## Geometry Constructors
+## Constructors
 
 | Function | Description | Example |
 |----------|-------------|---------|
@@ -14,7 +14,7 @@ Databend ships with two complementary sets of geospatial capabilities: PostGIS-s
 | [ST_MAKEPOLYGON](st-makepolygon.md) | Create a Polygon from a closed LineString | `ST_MAKEPOLYGON(ST_MAKELINE(...))` → `POLYGON(...)` |
 | [ST_POLYGON](st-polygon.md) | Create a Polygon from coordinate rings | `ST_POLYGON(...)` → `POLYGON(...)` |
 
-## Geometry Conversion
+## Conversion
 
 | Function | Description | Example |
 |----------|-------------|---------|
@@ -31,7 +31,7 @@ Databend ships with two complementary sets of geospatial capabilities: PostGIS-s
 | [TO_GEOMETRY](to-geometry.md) | Parse various formats into geometry | `TO_GEOMETRY('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
 | [TO_GEOGRAPHY](to-geography.md) / [TRY_TO_GEOGRAPHY](to-geography.md) | Parse various formats into geography | `TO_GEOGRAPHY('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
 
-## Geometry Output
+## Output
 
 | Function | Description | Example |
 |----------|-------------|---------|
@@ -44,36 +44,42 @@ Databend ships with two complementary sets of geospatial capabilities: PostGIS-s
 | [ST_GEOHASH](st-geohash.md) | Convert geometry to GeoHash | `ST_GEOHASH(ST_MAKEGEOMPOINT(-122.35, 37.55), 7)` → `'9q8yyk8'` |
 | [TO_STRING](to-string.md) | Convert geometry to string | `TO_STRING(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'POINT(-122.35 37.55)'` |
 
-## Geometry Accessors & Properties
+## Accessors & Properties
 
 | Function | Description | Example |
 |----------|-------------|---------|
 | [ST_DIMENSION](st-dimension.md) | Return the topological dimension | `ST_DIMENSION(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `0` |
 | [ST_SRID](st-srid.md) | Return the SRID of a geometry | `ST_SRID(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `4326` |
-| [ST_SETSRID](st-setsrid.md) | Assign an SRID to a geometry | `ST_SETSRID(ST_MAKEGEOMPOINT(-122.35, 37.55), 3857)` → `POINT(-122.35 37.55)` |
-| [ST_TRANSFORM](st-transform.md) | Transform geometry to a new SRID | `ST_TRANSFORM(ST_MAKEGEOMPOINT(-122.35, 37.55), 3857)` → `POINT(-13618288.8 4552395.0)` |
-| [ST_NPOINTS](st-npoints.md) / [ST_NUMPOINTS](st-numpoints.md) | Count points in a geometry | `ST_NPOINTS(ST_MAKELINE(...))` → `2` |
 | [ST_POINTN](st-pointn.md) | Return a specific point from a LineString | `ST_POINTN(ST_MAKELINE(...), 1)` → `POINT(-122.35 37.55)` |
 | [ST_STARTPOINT](st-startpoint.md) | Return the first point in a LineString | `ST_STARTPOINT(ST_MAKELINE(...))` → `POINT(-122.35 37.55)` |
 | [ST_ENDPOINT](st-endpoint.md) | Return the last point in a LineString | `ST_ENDPOINT(ST_MAKELINE(...))` → `POINT(-122.40 37.60)` |
-| [ST_LENGTH](st-length.md) | Measure the length of a LineString | `ST_LENGTH(ST_MAKELINE(...))` → `5.57` |
 | [ST_X](st-x.md) / [ST_Y](st-y.md) | Return the X or Y coordinate of a Point | `ST_X(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `-122.35` |
 | [ST_XMIN](st-xmin.md) / [ST_XMAX](st-xmax.md) | Return the min/max X coordinate | `ST_XMIN(ST_MAKELINE(...))` → `-122.40` |
 | [ST_YMIN](st-ymin.md) / [ST_YMAX](st-ymax.md) | Return the min/max Y coordinate | `ST_YMAX(ST_MAKELINE(...))` → `37.60` |
 
-## Spatial Relationships
+## Relationship and measurement
 
 | Function | Description | Example |
 |----------|-------------|---------|
-| [ST_CONTAINS](st-contains.md) | Test whether one geometry contains another | `ST_CONTAINS(ST_MAKEPOLYGON(...), ST_MAKEGEOMPOINT(...))` → `TRUE` |
-| [POINT_IN_POLYGON](point-in-polygon.md) | Check if a point lies inside a polygon | `POINT_IN_POLYGON([lon, lat], [[p1_lon, p1_lat], ...])` → `TRUE` |
-
-## Distance & Measurements
-
-| Function | Description | Example |
-|----------|-------------|---------|
-| [ST_DISTANCE](st-distance.md) | Measure the distance between geometries | `ST_DISTANCE(ST_MAKEGEOMPOINT(-122.35, 37.55), ST_MAKEGEOMPOINT(-122.40, 37.60))` → `5.57` |
 | [HAVERSINE](haversine.md) | Compute great-circle distance between coordinates | `HAVERSINE(37.55, -122.35, 37.60, -122.40)` → `6.12` |
+| [ST_AREA](st-area.md) | Measure the area of geometry or geography object | `ST_AREA(TO_GEOMETRY('POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))'))` → `1.0` |
+| [ST_CONTAINS](st-contains.md) | Test whether one geometry contains another | `ST_CONTAINS(ST_MAKEPOLYGON(...), ST_MAKEGEOMPOINT(...))` → `TRUE` |
+| [ST_CONVEXHULL](st-convexhull.md) | Compute the convex hull of a geometry | `ST_CONVEXHULL(TO_GEOMETRY('POLYGON((0 0,2 0,2 2,0 2,0 0))'))` → `POLYGON((0 0,2 0,2 2,0 2,0 0))` |
+| [ST_NPOINTS](st-npoints.md) / [ST_NUMPOINTS](st-numpoints.md) | Count points in a geometry | `ST_NPOINTS(ST_MAKELINE(...))` → `2` |
+| [ST_INTERSECTS](st-intersects.md) | Test whether two geometries intersect | `ST_INTERSECTS(TO_GEOMETRY('LINESTRING(0 0, 2 2)'), TO_GEOMETRY('LINESTRING(0 2, 2 0)'))` → `TRUE` |
+| [ST_DISJOINT](st-disjoint.md) | Test whether two geometries are disjoint | `ST_DISJOINT(TO_GEOMETRY('POINT(3 3)'), TO_GEOMETRY('POLYGON((0 0,2 0,2 2,0 2,0 0))'))` → `TRUE` |
+| [ST_WITHIN](st-within.md) | Test whether one geometry is within another | `ST_WITHIN(TO_GEOMETRY('POINT(1 1)'), TO_GEOMETRY('POLYGON((0 0,2 0,2 2,0 2,0 0))'))` → `TRUE` |
+| [ST_EQUALS](st-equals.md) | Test whether two geometries are spatially equal | `ST_EQUALS(TO_GEOMETRY('POINT(1 1)'), TO_GEOMETRY('POINT(1 1)'))` → `TRUE` |
+| [ST_LENGTH](st-length.md) | Measure the length of a LineString | `ST_LENGTH(ST_MAKELINE(...))` → `5.57` |
+| [ST_DISTANCE](st-distance.md) | Measure the distance between geometries | `ST_DISTANCE(ST_MAKEGEOMPOINT(-122.35, 37.55), ST_MAKEGEOMPOINT(-122.40, 37.60))` → `5.57` |
+
+## Transformation
+
+| Function | Description | Example |
+|----------|-------------|---------|
+| [ST_HILBERT](st-hilbert.md) | Encode geometry or geography into a Hilbert curve index | `ST_HILBERT(TO_GEOMETRY('POINT(0.5 0.5)'), [0, 0, 1, 1])` → `715827882` |
+| [ST_SETSRID](st-setsrid.md) | Assign an SRID to a geometry | `ST_SETSRID(ST_MAKEGEOMPOINT(-122.35, 37.55), 3857)` → `POINT(-122.35 37.55)` |
+| [ST_TRANSFORM](st-transform.md) | Transform geometry to a new SRID | `ST_TRANSFORM(ST_MAKEGEOMPOINT(-122.35, 37.55), 3857)` → `POINT(-13618288.8 4552395.0)` |
 
 ## H3 Indexing & Conversion
 
@@ -105,6 +111,7 @@ Databend ships with two complementary sets of geospatial capabilities: PostGIS-s
 | [H3_HEX_AREA_M2](h3-hex-area-m2.md) | Return the average hexagon area in m² | `H3_HEX_AREA_M2(10)` → `15200` |
 | [H3_TO_GEO_BOUNDARY](h3-to-geo-boundary.md) | Return the boundary of a cell | `H3_TO_GEO_BOUNDARY(644325524701193974)` → `[[lon1,lat1], ...]` |
 | [H3_NUM_HEXAGONS](h3-num-hexagons.md) | Return the number of hexagons at a resolution | `H3_NUM_HEXAGONS(2)` → `5882` |
+| [POINT_IN_POLYGON](point-in-polygon.md) | Check if a point lies inside a polygon | `POINT_IN_POLYGON([lon, lat], [[p1_lon, p1_lat], ...])` → `TRUE` |
 
 ## H3 Neighborhoods
 
