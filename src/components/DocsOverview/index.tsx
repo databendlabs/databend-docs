@@ -1,5 +1,5 @@
 // Copyright 2024 DatabendLabs.
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, ReactNode } from "react";
 import styles from "./styles.module.scss";
 import ContentCardWrap from "./content-card-wrap";
 import Card from "../BaseComponents/Card";
@@ -36,6 +36,8 @@ import Cases from "@site/static/icons/cases.svg";
 import ChangeLog from "@site/static/icons/changelog.svg";
 import FAQ from "@site/static/icons/faq.svg";
 import MCP from "@site/static/icons/mcp.svg";
+import MySQL from "@site/static/icons/mysql.svg";
+import S3 from "@site/static/icons/s3.svg";
 import { Col, Row } from "antd";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import $t from "@site/src/utils/tools";
@@ -46,9 +48,11 @@ import {
 import Link from "@docusaurus/Link";
 import clsx from "clsx";
 import { useHistory } from "@docusaurus/router";
+
+type CardItem = { icon: ReactNode; text: string; to: string };
+
 const colLayout = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 12 };
 const colLayout2 = { xl: 12, xxl: 12, lg: 24, md: 24, sm: 24, xs: 24 };
-const colLayout3 = { xl: 8, xxl: 8, lg: 8, md: 8, sm: 12, xs: 24 };
 
 const DocsOverview: FC = (): ReactElement => {
   const {
@@ -61,6 +65,184 @@ const DocsOverview: FC = (): ReactElement => {
     ? "https://app.databend.cn"
     : "https://app.databend.com";
   const cloudCreditsValue = isChina ? "200元" : "$200";
+
+  const imgIcon = (src: string, alt?: string) => (
+    <img
+      style={{ pointerEvents: "none", border: "unset" }}
+      src={src}
+      alt={alt || ""}
+    />
+  );
+
+  const featureItems = [
+    {
+      title: "Unified Engine",
+      desc: "Analytics, vector, search, and geo share one optimizer and runtime.",
+    },
+    {
+      title: "Unified Data",
+      desc: "Structured, semi-structured, unstructured, and vector data share object storage.",
+    },
+    {
+      title: "Analytics Native",
+      desc: "ANSI SQL, windowing, incremental aggregates, and streaming power BI.",
+    },
+    {
+      title: "Vector Native",
+      desc: "Embeddings, vector indexes, and semantic retrieval all run in SQL.",
+    },
+    {
+      title: "Search Native",
+      desc: "Full-text search and inverted indexes fuel hybrid retrieval.",
+    },
+    {
+      title: "Geo Native",
+      desc: "Geospatial indexes and functions power map and location services.",
+    },
+  ];
+
+  const connectItems: CardItem[] = [
+    {
+      icon: <Cli />,
+      text: "BendSQL",
+      to: "/guides/connect/sql-clients/bendsql/",
+    },
+    { icon: <Java />, text: "Java", to: "/developer/drivers/jdbc/" },
+    { icon: <Go />, text: "Golang", to: "/developer/drivers/golang/" },
+    { icon: <Python />, text: "Python", to: "/developer/drivers/python/" },
+    { icon: <Node />, text: "Node.js", to: "/developer/drivers/nodejs/" },
+    { icon: <Rust />, text: "Rust", to: "/developer/drivers/rust/" },
+    {
+      icon: <MCP width={24} />,
+      text: "MCP Server",
+      to: "/guides/ai-functions/mcp/",
+    },
+    {
+      icon: <MCP width={24} />,
+      text: "MCP Client",
+      to: "/guides/ai-functions/mcp-integration",
+    },
+  ];
+
+  const loadDataItems: CardItem[] = [
+    { icon: <Kafka />, text: "Kafka", to: "/guides/load-data/load-db/kafka/" },
+    { icon: <Dbt />, text: "dbt", to: "/guides/load-data/load-db/dbt/" },
+    {
+      icon: <Airbyte />,
+      text: "Airbyte",
+      to: "/guides/load-data/load-db/airbyte/",
+    },
+    {
+      icon: <FlinkCdc />,
+      text: "Flink CDC",
+      to: "/guides/load-data/load-db/flink-cdc/",
+    },
+    {
+      icon: imgIcon(Addax, "Addax"),
+      text: "Addax",
+      to: "/guides/load-data/load-db/addax/",
+    },
+    {
+      icon: imgIcon(Datax),
+      text: "DataX",
+      to: "/guides/load-data/load-db/datax/",
+    },
+    {
+      icon: imgIcon(Debezium),
+      text: "Debezium",
+      to: "/guides/load-data/load-db/debezium/",
+    },
+    {
+      icon: imgIcon(Tapdata),
+      text: "Tapdata",
+      to: "/guides/load-data/load-db/tapdata/",
+    },
+    {
+      icon: imgIcon(Vector),
+      text: "Vector",
+      to: "/guides/load-data/load-db/vector/",
+    },
+    {
+      icon: <MySQL width={24} />,
+      text: "MySQL",
+      to: "/guides/cloud/data-integration/mysql",
+    },
+    {
+      icon: <S3 width={24} />,
+      text: "Amazon S3",
+      to: "/guides/cloud/data-integration/s3",
+    },
+  ];
+
+  const biItems: CardItem[] = [
+    {
+      icon: <DeepNote />,
+      text: "Deepnote",
+      to: "/guides/connect/visualization/deepnote/",
+    },
+    {
+      icon: <Jpyter />,
+      text: "Jupyter",
+      to: "/guides/connect/visualization/jupyter/",
+    },
+    {
+      icon: <Metabase />,
+      text: "Metabase",
+      to: "/guides/connect/visualization/metabase/",
+    },
+    {
+      icon: <Grafana />,
+      text: "Grafana",
+      to: "/guides/connect/visualization/grafana/",
+    },
+    {
+      icon: <Redash />,
+      text: "Redash",
+      to: "/guides/connect/visualization/redash/",
+    },
+    {
+      icon: <Superset />,
+      text: "Superset",
+      to: "/guides/connect/visualization/superset/",
+    },
+    {
+      icon: <Teableau />,
+      text: "Tableau",
+      to: "/guides/connect/visualization/tableau/",
+    },
+    {
+      icon: <MindsDB />,
+      text: "MindsDB",
+      to: "/guides/connect/visualization/mindsdb/",
+    },
+  ];
+
+  const pipelineItems: CardItem[] = [
+    {
+      icon: <Stream />,
+      text: $t("Real-Time CDC Ingestion"),
+      to: "/guides/load-data/continuous-data-pipelines/stream/",
+    },
+    {
+      icon: <Task />,
+      text: $t("Automated Data Pipelines"),
+      to: "/guides/load-data/continuous-data-pipelines/task/",
+    },
+  ];
+
+  const additionalItems: CardItem[] = [
+    { icon: <AI />, text: $t("AI Capabilities"), to: "/guides/ai-functions/" },
+    { icon: <Security />, text: $t("Security"), to: "/guides/security/" },
+    {
+      icon: <Contact />,
+      text: $t("Contact Support"),
+      to: `${homeLink}/contact-us/`,
+    },
+    { icon: <Cases />, text: $t("Use Cases"), to: `${homeLink}/use-cases/` },
+    { icon: <FAQ />, text: $t("FAQ"), to: "/" },
+    { icon: <ChangeLog />, text: $t("Changelog"), to: "/release-notes/" },
+  ];
+
   return (
     <div className={styles.outWrap}>
       <div
@@ -69,78 +251,16 @@ const DocsOverview: FC = (): ReactElement => {
       >
         <h3 className={styles.title}>{$t("Product Features")}</h3>
         <Row gutter={[12, 12]} className={styles.topCard}>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Unified Engine")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "Analytics, vector, search, and geo share one optimizer and runtime.",
-                )}
-              </div>
-            </Card>
-          </Col>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Unified Data")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "Structured, semi-structured, unstructured, and vector data share object storage.",
-                )}
-              </div>
-            </Card>
-          </Col>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Analytics Native")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "ANSI SQL, windowing, incremental aggregates, and streaming power BI.",
-                )}
-              </div>
-            </Card>
-          </Col>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Vector Native")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "Embeddings, vector indexes, and semantic retrieval all run in SQL.",
-                )}
-              </div>
-            </Card>
-          </Col>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Search Native")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "Full-text search and inverted indexes fuel hybrid retrieval.",
-                )}
-              </div>
-            </Card>
-          </Col>
-          <Col {...colLayout2}>
-            <Card style={{ height: "100%" }} padding={[16, 16]}>
-              <h3>
-                <span>{$t("Geo Native")}</span>
-              </h3>
-              <div>
-                {$t(
-                  "Geospatial indexes and functions power map and location services.",
-                )}
-              </div>
-            </Card>
-          </Col>
+          {featureItems.map((item) => (
+            <Col key={item.title} {...colLayout2}>
+              <Card style={{ height: "100%" }} padding={[16, 16]}>
+                <h3>
+                  <span>{$t(item.title)}</span>
+                </h3>
+                <div>{$t(item.desc)}</div>
+              </Card>
+            </Col>
+          ))}
         </Row>
       </div>
       <ContentCardWrap
@@ -304,62 +424,11 @@ const DocsOverview: FC = (): ReactElement => {
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Cli></Cli>}
-                text={"BendSQL"}
-                to={"/guides/connect/sql-clients/bendsql/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Java></Java>}
-                text={"Java"}
-                to={"/developer/drivers/jdbc/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Go></Go>}
-                text={"Golang"}
-                to={"/developer/drivers/golang/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Python></Python>}
-                text={"Python"}
-                to={"/developer/drivers/python/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Node></Node>}
-                text={"Node.js"}
-                to={"/developer/drivers/nodejs/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Rust></Rust>}
-                text={"Rust"}
-                to={"/developer/drivers/rust/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<MCP width={24}></MCP>}
-                text={"MCP Server"}
-                to={"/guides/ai-functions/mcp/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<MCP width={24}></MCP>}
-                text={"MCP Client"}
-                to={"/guides/ai-functions/mcp-integration"}
-              />
-            </Col>
+            {connectItems.map((item) => (
+              <Col key={item.text} {...colLayout}>
+                <SmallCard icon={item.icon} text={item.text} to={item.to} />
+              </Col>
+            ))}
           </Row>
         </div>
       </ContentCardWrap>
@@ -376,112 +445,11 @@ const DocsOverview: FC = (): ReactElement => {
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Kafka></Kafka>}
-                text={"Kafka"}
-                to={"/guides/load-data/load-db/kafka/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Dbt></Dbt>}
-                text={"dbt"}
-                to={"/guides/load-data/load-db/dbt/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Airbyte></Airbyte>}
-                text={"Airbyte"}
-                to={"/guides/load-data/load-db/airbyte/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<FlinkCdc></FlinkCdc>}
-                text={"Flink CDC"}
-                to={"/guides/load-data/load-db/flink-cdc/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={
-                  <img
-                    style={{
-                      pointerEvents: "none",
-                      border: "unset",
-                      padding: "4px",
-                    }}
-                    alt="Addax"
-                    src={Addax}
-                  />
-                }
-                text={"Addax"}
-                to={"/guides/load-data/load-db/addax/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={
-                  <img
-                    style={{
-                      pointerEvents: "none",
-                      border: "unset",
-                      padding: "4px",
-                    }}
-                    src={Datax}
-                  />
-                }
-                text={"DataX"}
-                to={"/guides/load-data/load-db/datax/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={
-                  <img
-                    style={{
-                      pointerEvents: "none",
-                      border: "unset",
-                    }}
-                    src={Debezium}
-                  />
-                }
-                text={"Debezium"}
-                to={"/guides/load-data/load-db/debezium/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={
-                  <img
-                    style={{
-                      pointerEvents: "none",
-                      border: "unset",
-                    }}
-                    src={Tapdata}
-                  />
-                }
-                text={"Tapdata"}
-                to={"/guides/load-data/load-db/tapdata/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={
-                  <img
-                    style={{
-                      pointerEvents: "none",
-                      border: "unset",
-                    }}
-                    src={Vector}
-                  />
-                }
-                text={"Vector"}
-                to={"/guides/load-data/load-db/vector/"}
-              />
-            </Col>
+            {loadDataItems.map((item) => (
+              <Col key={item.text} {...colLayout}>
+                <SmallCard icon={item.icon} text={item.text} to={item.to} />
+              </Col>
+            ))}
           </Row>
         </div>
       </ContentCardWrap>
@@ -498,62 +466,11 @@ const DocsOverview: FC = (): ReactElement => {
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<DeepNote></DeepNote>}
-                text={"Deepnote"}
-                to={"/guides/connect/visualization/deepnote/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Jpyter></Jpyter>}
-                text={"Jupyter"}
-                to={"/guides/connect/visualization/jupyter/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Metabase></Metabase>}
-                text={"Metabase"}
-                to={"/guides/connect/visualization/metabase/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Grafana></Grafana>}
-                text={"Grafana"}
-                to={"/guides/connect/visualization/grafana/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Redash></Redash>}
-                text={"Redash"}
-                to={"/guides/connect/visualization/redash/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Superset></Superset>}
-                text={"Superset"}
-                to={"/guides/connect/visualization/superset/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Teableau></Teableau>}
-                text={"Tableau"}
-                to={"/guides/connect/visualization/tableau/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<MindsDB></MindsDB>}
-                text={"MindsDB"}
-                to={"/guides/connect/visualization/mindsdb/"}
-              />
-            </Col>
+            {biItems.map((item) => (
+              <Col key={item.text} {...colLayout}>
+                <SmallCard icon={item.icon} text={item.text} to={item.to} />
+              </Col>
+            ))}
           </Row>
         </div>
       </ContentCardWrap>
@@ -570,27 +487,11 @@ const DocsOverview: FC = (): ReactElement => {
       >
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
-            {/* <Col {...colLayout}>
-              <SmallCard
-                icon={<Pipeline></Pipeline>}
-                text={"Pipeline"}
-                to={"/guides/load-data/continuous-data-pipelines/pipeline"}
-              />
-            </Col> */}
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Stream></Stream>}
-                text={$t("Real-Time CDC Ingestion")}
-                to={"/guides/load-data/continuous-data-pipelines/stream/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Task></Task>}
-                text={$t("Automated Data Pipelines")}
-                to={"/guides/load-data/continuous-data-pipelines/task/"}
-              />
-            </Col>
+            {pipelineItems.map((item) => (
+              <Col key={item.text} {...colLayout}>
+                <SmallCard icon={item.icon} text={item.text} to={item.to} />
+              </Col>
+            ))}
           </Row>
         </div>
       </ContentCardWrap>
@@ -598,44 +499,11 @@ const DocsOverview: FC = (): ReactElement => {
       <ContentCardWrap title={$t("Additional Informations")}>
         <div style={{ width: "100%" }}>
           <Row gutter={[20, 20]}>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<AI></AI>}
-                text={$t("AI Capabilities")}
-                to={"/guides/ai-functions/"}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Security></Security>}
-                text={$t("Security")}
-                to={`/guides/security/`}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Contact></Contact>}
-                text={$t("Contact Support")}
-                to={`${homeLink}/contact-us/`}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<Cases></Cases>}
-                text={$t("Use Cases")}
-                to={`${homeLink}/use-cases/`}
-              />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard icon={<FAQ></FAQ>} text={$t("FAQ")} to={`/`} />
-            </Col>
-            <Col {...colLayout}>
-              <SmallCard
-                icon={<ChangeLog></ChangeLog>}
-                text={$t("Changelog")}
-                to={`/release-notes/`}
-              />
-            </Col>
+            {additionalItems.map((item) => (
+              <Col key={item.text} {...colLayout}>
+                <SmallCard icon={item.icon} text={item.text} to={item.to} />
+              </Col>
+            ))}
           </Row>
         </div>
       </ContentCardWrap>
