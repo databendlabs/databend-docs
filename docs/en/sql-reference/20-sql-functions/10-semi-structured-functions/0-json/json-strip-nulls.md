@@ -1,6 +1,5 @@
 ---
-title: STRIP_NULL_VALUE
-title_includes: JSON_STRIP_NULLS
+title: JSON_STRIP_NULLS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
@@ -11,7 +10,7 @@ Removes all properties with null values from a JSON object.
 ## Syntax
 
 ```sql
-STRIP_NULL_VALUE(<variant_expr>)
+JSON_STRIP_NULLS(<variant_expr>)
 ```
 
 ## Arguments
