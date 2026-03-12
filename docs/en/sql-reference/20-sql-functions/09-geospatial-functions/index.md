@@ -111,7 +111,11 @@ Databend ships with two complementary sets of geospatial capabilities: PostGIS-s
 | [H3_HEX_AREA_M2](h3-hex-area-m2.md) | Return the average hexagon area in m² | `H3_HEX_AREA_M2(10)` → `15200` |
 | [H3_TO_GEO_BOUNDARY](h3-to-geo-boundary.md) | Return the boundary of a cell | `H3_TO_GEO_BOUNDARY(644325524701193974)` → `[[lon1,lat1], ...]` |
 | [H3_NUM_HEXAGONS](h3-num-hexagons.md) | Return the number of hexagons at a resolution | `H3_NUM_HEXAGONS(2)` → `5882` |
+| [GEO_DISTANCE](geo-distance.md) | Approximate distance in meters using WGS84 | `GEO_DISTANCE(0, 0, 0, 0)` → `0` |
+| [GREAT_CIRCLE_DISTANCE](great-circle-distance.md) | Great-circle distance in meters | `GREAT_CIRCLE_DISTANCE(0, 0, 0, 0)` → `0` |
+| [GREAT_CIRCLE_ANGLE](great-circle-angle.md) | Great-circle central angle in degrees | `GREAT_CIRCLE_ANGLE(0, 0, 45, 0)` → `45` |
 | [POINT_IN_POLYGON](point-in-polygon.md) | Check if a point lies inside a polygon | `POINT_IN_POLYGON([lon, lat], [[p1_lon, p1_lat], ...])` → `TRUE` |
+| [POINT_IN_ELLIPSES](point-in-ellipses.md) | Check if a point lies inside any ellipse | `POINT_IN_ELLIPSES(10, 10, 10, 9.1, 1, 0.9999)` → `1` |
 
 ## H3 Neighborhoods
 
