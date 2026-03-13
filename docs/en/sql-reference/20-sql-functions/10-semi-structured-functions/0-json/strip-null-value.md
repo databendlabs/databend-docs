@@ -19,8 +19,8 @@ An expression of type VARIANT.
 
 ## Return Type
 
-- If the expression contains a JSON null value, the function returns a SQL NULL.
-- If the expression does not contain a JSON null value, the function returns the input value.
+- If the expression is a JSON null value, the function returns a SQL NULL.
+- If the expression is not a JSON null value, the function returns the input value.
 
 ## Examples
 
