@@ -4,70 +4,83 @@ title: 地理空间函数
 
 Databend 内置两套互补的地理空间能力：PostGIS 风格的几何（Geometry）函数，用于构建与分析形状；以及 H3 实用工具，用于全球六边形索引。下表按任务对函数进行分组，方便您快速定位所需工具，布局方式与 Snowflake 文档类似。
 
-## 几何构造函数
+## 构造函数
 
-| 函数 | 描述 | 示例 |
-|----------|-------------|---------|
-| [ST_MAKEGEOMPOINT](st-makegeompoint.md) / [ST_GEOM_POINT](st-geom-point.md) | 构造 Point（点）几何体 | `ST_MAKEGEOMPOINT(-122.35, 37.55)` → `POINT(-122.35 37.55)` |
-| [ST_MAKELINE](st-makeline.md) / [ST_MAKE_LINE](st-make-line.md) | 由若干 Point 创建 LineString（线串） | `ST_MAKELINE(ST_MAKEGEOMPOINT(-122.35, 37.55), ST_MAKEGEOMPOINT(-122.40, 37.60))` → `LINESTRING(-122.35 37.55, -122.40 37.60)` |
-| [ST_MAKEPOLYGON](st-makepolygon.md) | 由闭合 LineString 创建 Polygon（多边形） | `ST_MAKEPOLYGON(ST_MAKELINE(...))` → `POLYGON(...)` |
-| [ST_POLYGON](st-polygon.md) | 由坐标环创建 Polygon | `ST_POLYGON(...)` → `POLYGON(...)` |
+| 函数 | 描述 | 说明 | 示例 |
+|----------|-------------|------|---------|
+| [ST_MAKEGEOMPOINT](st-makegeompoint.md) / [ST_GEOM_POINT](st-geom-point.md) | 构造 Point 几何体 | 仅 GEOMETRY | `ST_MAKEGEOMPOINT(-122.35, 37.55)` → `POINT(-122.35 37.55)` |
+| [ST_MAKEPOINT](st-makepoint.md) / [ST_POINT](st-point.md) | 构造 Point 地理体 | 仅 GEOGRAPHY | `ST_MAKEPOINT(-122.35, 37.55)` → `POINT(-122.35 37.55)` |
+| [ST_MAKELINE](st-makeline.md) / [ST_MAKE_LINE](st-make-line.md) | 由若干 Point 创建 LineString |  | `ST_MAKELINE(ST_MAKEGEOMPOINT(-122.35, 37.55), ST_MAKEGEOMPOINT(-122.40, 37.60))` → `LINESTRING(-122.35 37.55, -122.40 37.60)` |
+| [ST_MAKEPOLYGON](st-makepolygon.md) | 由闭合 LineString 创建 Polygon |  | `ST_MAKEPOLYGON(ST_MAKELINE(...))` → `POLYGON(...)` |
+| [ST_POLYGON](st-polygon.md) | 由坐标环创建 Polygon | 仅 GEOMETRY | `ST_POLYGON(...)` → `POLYGON(...)` |
 
-## 几何转换
+## 转换
 
-| 函数 | 描述 | 示例 |
-|----------|-------------|---------|
-| [ST_GEOMETRYFROMTEXT](st-geometryfromtext.md) / [ST_GEOMFROMTEXT](st-geomfromtext.md) | 将 WKT 转换为几何体 | `ST_GEOMETRYFROMTEXT('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
-| [ST_GEOMETRYFROMWKB](st-geometryfromwkb.md) / [ST_GEOMFROMWKB](st-geomfromwkb.md) | 将 WKB 转换为几何体 | `ST_GEOMETRYFROMWKB(...)` → `POINT(...)` |
-| [ST_GEOMETRYFROMEWKT](st-geometryfromewkt.md) / [ST_GEOMFROMEWKT](st-geomfromewkt.md) | 将 EWKT 转换为几何体 | `ST_GEOMETRYFROMEWKT('SRID=4326;POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
-| [ST_GEOMETRYFROMEWKB](st-geometryfromewkb.md) / [ST_GEOMFROMEWKB](st-geomfromewkb.md) | 将 EWKB 转换为几何体 | `ST_GEOMETRYFROMEWKB(...)` → `POINT(...)` |
-| [ST_GEOMFROMGEOHASH](st-geomfromgeohash.md) | 将 GeoHash 转换为几何体 | `ST_GEOMFROMGEOHASH('9q8yyk8')` → `POLYGON(...)` |
-| [ST_GEOMPOINTFROMGEOHASH](st-geompointfromgeohash.md) | 将 GeoHash 转换为 Point 几何体 | `ST_GEOMPOINTFROMGEOHASH('9q8yyk8')` → `POINT(...)` |
-| [TO_GEOMETRY](to-geometry.md) | 解析多种格式为几何体 | `TO_GEOMETRY('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
+| 函数 | 描述 | 说明 | 示例 |
+|----------|-------------|------|---------|
+| [ST_GEOMETRYFROMTEXT](st-geometryfromtext.md) / [ST_GEOMFROMTEXT](st-geomfromtext.md) | 将 WKT 转换为几何体 | 仅 GEOMETRY | `ST_GEOMETRYFROMTEXT('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
+| [ST_GEOMETRYFROMWKB](st-geometryfromwkb.md) / [ST_GEOMFROMWKB](st-geomfromwkb.md) | 将 WKB 转换为几何体 | 仅 GEOMETRY | `ST_GEOMETRYFROMWKB(...)` → `POINT(...)` |
+| [ST_GEOMETRYFROMEWKT](st-geometryfromewkt.md) / [ST_GEOMFROMEWKT](st-geomfromewkt.md) | 将 EWKT 转换为几何体 | 仅 GEOMETRY | `ST_GEOMETRYFROMEWKT('SRID=4326;POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
+| [ST_GEOMETRYFROMEWKB](st-geometryfromewkb.md) / [ST_GEOMFROMEWKB](st-geomfromewkb.md) | 将 EWKB 转换为几何体 | 仅 GEOMETRY | `ST_GEOMETRYFROMEWKB(...)` → `POINT(...)` |
+| [ST_GEOGRAPHYFROMWKT](st-geographyfromwkt.md) / [ST_GEOGFROMWKT](st-geogfromwkt.md) | 将 WKT/EWKT 转换为地理体 | 仅 GEOGRAPHY | `ST_GEOGRAPHYFROMWKT('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
+| [ST_GEOGRAPHYFROMWKB](st-geographyfromwkb.md) / [ST_GEOGFROMWKB](st-geogfromwkb.md) | 将 WKB/EWKB 转换为地理体 | 仅 GEOGRAPHY | `ST_GEOGRAPHYFROMWKB(...)` → `POINT(...)` |
+| [ST_GEOMFROMGEOHASH](st-geomfromgeohash.md) | 将 GeoHash 转换为几何体 | 仅 GEOMETRY | `ST_GEOMFROMGEOHASH('9q8yyk8')` → `POLYGON(...)` |
+| [ST_GEOMPOINTFROMGEOHASH](st-geompointfromgeohash.md) | 将 GeoHash 转换为 Point 几何体 | 仅 GEOMETRY | `ST_GEOMPOINTFROMGEOHASH('9q8yyk8')` → `POINT(...)` |
+| [ST_GEOGFROMGEOHASH](st-geogfromgeohash.md) | 将 GeoHash 转换为地理体多边形 | 仅 GEOGRAPHY | `ST_GEOGFROMGEOHASH('9q8yyk8')` → `POLYGON(...)` |
+| [ST_GEOGPOINTFROMGEOHASH](st-geogpointfromgeohash.md) | 将 GeoHash 转换为 Point 地理体 | 仅 GEOGRAPHY | `ST_GEOGPOINTFROMGEOHASH('9q8yyk8')` → `POINT(...)` |
+| [TO_GEOMETRY](to-geometry.md) | 解析多种格式为几何体 | 仅 GEOMETRY | `TO_GEOMETRY('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
+| [TO_GEOGRAPHY](to-geography.md) / [TRY_TO_GEOGRAPHY](to-geography.md) | 解析多种格式为地理体 | 仅 GEOGRAPHY | `TO_GEOGRAPHY('POINT(-122.35 37.55)')` → `POINT(-122.35 37.55)` |
 
-## 几何输出
+## 输出
 
-| 函数 | 描述 | 示例 |
-|----------|-------------|---------|
-| [ST_ASTEXT](st-astext.md) | 将几何体转换为 WKT | `ST_ASTEXT(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'POINT(-122.35 37.55)'` |
-| [ST_ASWKT](st-aswkt.md) | 将几何体转换为 WKT | `ST_ASWKT(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'POINT(-122.35 37.55)'` |
-| [ST_ASBINARY](st-asbinary.md) / [ST_ASWKB](st-aswkb.md) | 将几何体转换为 WKB | `ST_ASBINARY(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `WKB representation` |
-| [ST_ASEWKT](st-asewkt.md) | 将几何体转换为 EWKT | `ST_ASEWKT(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'SRID=4326;POINT(-122.35 37.55)'` |
-| [ST_ASEWKB](st-asewkb.md) | 将几何体转换为 EWKB | `ST_ASEWKB(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `EWKB representation` |
-| [ST_ASGEOJSON](st-asgeojson.md) | 将几何体转换为 GeoJSON | `ST_ASGEOJSON(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'{"type":"Point","coordinates":[-122.35,37.55]}'` |
-| [ST_GEOHASH](st-geohash.md) | 将几何体转换为 GeoHash | `ST_GEOHASH(ST_MAKEGEOMPOINT(-122.35, 37.55), 7)` → `'9q8yyk8'` |
-| [TO_STRING](to-string.md) | 将几何体转换为字符串 | `TO_STRING(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'POINT(-122.35 37.55)'` |
+| 函数 | 描述 | 说明 | 示例 |
+|----------|-------------|------|---------|
+| [ST_ASTEXT](st-astext.md) | 将几何体转换为 WKT |  | `ST_ASTEXT(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'POINT(-122.35 37.55)'` |
+| [ST_ASWKT](st-aswkt.md) | 将几何体转换为 WKT |  | `ST_ASWKT(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'POINT(-122.35 37.55)'` |
+| [ST_ASBINARY](st-asbinary.md) / [ST_ASWKB](st-aswkb.md) | 将几何体转换为 WKB |  | `ST_ASBINARY(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `WKB representation` |
+| [ST_ASEWKT](st-asewkt.md) | 将几何体转换为 EWKT |  | `ST_ASEWKT(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'SRID=4326;POINT(-122.35 37.55)'` |
+| [ST_ASEWKB](st-asewkb.md) | 将几何体转换为 EWKB |  | `ST_ASEWKB(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `EWKB representation` |
+| [ST_ASGEOJSON](st-asgeojson.md) | 将几何体转换为 GeoJSON |  | `ST_ASGEOJSON(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'{"type":"Point","coordinates":[-122.35,37.55]}'` |
+| [ST_GEOHASH](st-geohash.md) | 将几何体转换为 GeoHash |  | `ST_GEOHASH(ST_MAKEGEOMPOINT(-122.35, 37.55), 7)` → `'9q8yyk8'` |
+| [TO_STRING](to-string.md) | 将几何体转换为字符串 |  | `TO_STRING(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `'POINT(-122.35 37.55)'` |
 
-## 几何访问器与属性
+## 访问器与属性
 
-| 函数 | 描述 | 示例 |
-|----------|-------------|---------|
-| [ST_DIMENSION](st-dimension.md) | 返回拓扑维度 | `ST_DIMENSION(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `0` |
-| [ST_SRID](st-srid.md) | 返回几何体的 SRID | `ST_SRID(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `4326` |
-| [ST_SETSRID](st-setsrid.md) | 为几何体设置 SRID | `ST_SETSRID(ST_MAKEGEOMPOINT(-122.35, 37.55), 3857)` → `POINT(-122.35 37.55)` |
-| [ST_TRANSFORM](st-transform.md) | 将几何体转换到新的 SRID | `ST_TRANSFORM(ST_MAKEGEOMPOINT(-122.35, 37.55), 3857)` → `POINT(-13618288.8 4552395.0)` |
-| [ST_NPOINTS](st-npoints.md) / [ST_NUMPOINTS](st-numpoints.md) | 统计几何体中的点数 | `ST_NPOINTS(ST_MAKELINE(...))` → `2` |
-| [ST_POINTN](st-pointn.md) | 返回 LineString 中的指定点 | `ST_POINTN(ST_MAKELINE(...), 1)` → `POINT(-122.35 37.55)` |
-| [ST_STARTPOINT](st-startpoint.md) | 返回 LineString 的起点 | `ST_STARTPOINT(ST_MAKELINE(...))` → `POINT(-122.35 37.55)` |
-| [ST_ENDPOINT](st-endpoint.md) | 返回 LineString 的终点 | `ST_ENDPOINT(ST_MAKELINE(...))` → `POINT(-122.40 37.60)` |
-| [ST_LENGTH](st-length.md) | 测量 LineString 的长度 | `ST_LENGTH(ST_MAKELINE(...))` → `5.57` |
-| [ST_X](st-x.md) / [ST_Y](st-y.md) | 返回 Point 的 X 或 Y 坐标 | `ST_X(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `-122.35` |
-| [ST_XMIN](st-xmin.md) / [ST_XMAX](st-xmax.md) | 返回最小/最大 X 坐标 | `ST_XMIN(ST_MAKELINE(...))` → `-122.40` |
-| [ST_YMIN](st-ymin.md) / [ST_YMAX](st-ymax.md) | 返回最小/最大 Y 坐标 | `ST_YMAX(ST_MAKELINE(...))` → `37.60` |
+| 函数 | 描述 | 说明 | 示例 |
+|----------|-------------|------|---------|
+| [ST_DIMENSION](st-dimension.md) | 返回拓扑维度 |  | `ST_DIMENSION(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `0` |
+| [ST_SRID](st-srid.md) | 返回几何体的 SRID |  | `ST_SRID(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `4326` |
+| [ST_POINTN](st-pointn.md) | 返回 LineString 中的指定点 |  | `ST_POINTN(ST_MAKELINE(...), 1)` → `POINT(-122.35 37.55)` |
+| [ST_STARTPOINT](st-startpoint.md) | 返回 LineString 的起点 |  | `ST_STARTPOINT(ST_MAKELINE(...))` → `POINT(-122.35 37.55)` |
+| [ST_ENDPOINT](st-endpoint.md) | 返回 LineString 的终点 |  | `ST_ENDPOINT(ST_MAKELINE(...))` → `POINT(-122.40 37.60)` |
+| [ST_X](st-x.md) / [ST_Y](st-y.md) | 返回 Point 的 X 或 Y 坐标 |  | `ST_X(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `-122.35` |
+| [ST_XMIN](st-xmin.md) / [ST_XMAX](st-xmax.md) | 返回最小/最大 X 坐标 |  | `ST_XMIN(ST_MAKELINE(...))` → `-122.40` |
+| [ST_YMIN](st-ymin.md) / [ST_YMAX](st-ymax.md) | 返回最小/最大 Y 坐标 |  | `ST_YMAX(ST_MAKELINE(...))` → `37.60` |
 
-## 空间关系
+## 关系与测量
 
-| 函数 | 描述 | 示例 |
-|----------|-------------|---------|
-| [ST_CONTAINS](st-contains.md) | 测试一个几何体是否包含另一个几何体 | `ST_CONTAINS(ST_MAKEPOLYGON(...), ST_MAKEGEOMPOINT(...))` → `TRUE` |
-| [POINT_IN_POLYGON](point-in-polygon.md) | 检查点是否位于多边形内部 | `POINT_IN_POLYGON([lon, lat], [[p1_lon, p1_lat], ...])` → `TRUE` |
+| 函数 | 描述 | 说明 | 示例 |
+|----------|-------------|------|---------|
+| [HAVERSINE](haversine.md) | 计算坐标间的大圆距离 |  | `HAVERSINE(37.55, -122.35, 37.60, -122.40)` → `6.12` |
+| [ST_AREA](st-area.md) | 测量几何体或地理体的面积 |  | `ST_AREA(TO_GEOMETRY('POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))'))` → `1.0` |
+| [ST_CONTAINS](st-contains.md) | 测试一个几何体是否包含另一个几何体 | 仅 GEOMETRY | `ST_CONTAINS(ST_MAKEPOLYGON(...), ST_MAKEGEOMPOINT(...))` → `TRUE` |
+| [ST_CONVEXHULL](st-convexhull.md) | 计算几何体的凸包 | 仅 GEOMETRY | `ST_CONVEXHULL(TO_GEOMETRY('POLYGON((0 0,2 0,2 2,0 2,0 0))'))` → `POLYGON((0 0,2 0,2 2,0 2,0 0))` |
+| [ST_NPOINTS](st-npoints.md) | 统计几何体中的点数 |  | `ST_NPOINTS(ST_MAKELINE(...))` → `2` |
+| [ST_NUMPOINTS](st-numpoints.md) | 统计几何体中的点数 | 仅 GEOMETRY | `ST_NUMPOINTS(ST_MAKELINE(...))` → `2` |
+| [ST_INTERSECTS](st-intersects.md) | 测试两个几何体是否相交 | 仅 GEOMETRY | `ST_INTERSECTS(TO_GEOMETRY('LINESTRING(0 0, 2 2)'), TO_GEOMETRY('LINESTRING(0 2, 2 0)'))` → `TRUE` |
+| [ST_DISJOINT](st-disjoint.md) | 测试两个几何体是否相离 | 仅 GEOMETRY | `ST_DISJOINT(TO_GEOMETRY('POINT(3 3)'), TO_GEOMETRY('POLYGON((0 0,2 0,2 2,0 2,0 0))'))` → `TRUE` |
+| [ST_WITHIN](st-within.md) | 测试一个几何体是否完全位于另一个几何体内 | 仅 GEOMETRY | `ST_WITHIN(TO_GEOMETRY('POINT(1 1)'), TO_GEOMETRY('POLYGON((0 0,2 0,2 2,0 2,0 0))'))` → `TRUE` |
+| [ST_EQUALS](st-equals.md) | 测试两个几何体是否空间相等 | 仅 GEOMETRY | `ST_EQUALS(TO_GEOMETRY('POINT(1 1)'), TO_GEOMETRY('POINT(1 1)'))` → `TRUE` |
+| [ST_LENGTH](st-length.md) | 测量 LineString 的长度 |  | `ST_LENGTH(ST_MAKELINE(...))` → `5.57` |
+| [ST_DISTANCE](st-distance.md) | 测量几何体之间的距离 |  | `ST_DISTANCE(ST_MAKEGEOMPOINT(-122.35, 37.55), ST_MAKEGEOMPOINT(-122.40, 37.60))` → `5.57` |
 
-## 距离与测量
+## 变换
 
-| 函数 | 描述 | 示例 |
-|----------|-------------|---------|
-| [ST_DISTANCE](st-distance.md) | 测量几何体之间的距离 | `ST_DISTANCE(ST_MAKEGEOMPOINT(-122.35, 37.55), ST_MAKEGEOMPOINT(-122.40, 37.60))` → `5.57` |
-| [HAVERSINE](haversine.md) | 计算坐标间的大圆距离 | `HAVERSINE(37.55, -122.35, 37.60, -122.40)` → `6.12` |
+| 函数 | 描述 | 说明 | 示例 |
+|----------|-------------|------|---------|
+| [ST_HILBERT](st-hilbert.md) | 将几何体或地理体编码为 Hilbert 曲线索引 |  | `ST_HILBERT(TO_GEOMETRY('POINT(0.5 0.5)'), [0, 0, 1, 1])` → `715827882` |
+| [ST_SETSRID](st-setsrid.md) | 为几何体设置 SRID | 仅 GEOMETRY | `ST_SETSRID(ST_MAKEGEOMPOINT(-122.35, 37.55), 3857)` → `POINT(-122.35 37.55)` |
+| [ST_TRANSFORM](st-transform.md) | 将几何体转换到新的 SRID | 仅 GEOMETRY | `ST_TRANSFORM(ST_MAKEGEOMPOINT(-122.35, 37.55), 3857)` → `POINT(-13618288.8 4552395.0)` |
 
 ## H3 索引与转换
 
@@ -99,6 +112,11 @@ Databend 内置两套互补的地理空间能力：PostGIS 风格的几何（Geo
 | [H3_HEX_AREA_M2](h3-hex-area-m2.md) | 返回平均六边形面积（平方米） | `H3_HEX_AREA_M2(10)` → `15200` |
 | [H3_TO_GEO_BOUNDARY](h3-to-geo-boundary.md) | 返回单元格边界 | `H3_TO_GEO_BOUNDARY(644325524701193974)` → `[[lon1,lat1], ...]` |
 | [H3_NUM_HEXAGONS](h3-num-hexagons.md) | 返回指定分辨率下的六边形数量 | `H3_NUM_HEXAGONS(2)` → `5882` |
+| [GEO_DISTANCE](geo-distance.md) | 使用 WGS84 近似计算米级距离 | `GEO_DISTANCE(0, 0, 0, 0)` → `0` |
+| [GREAT_CIRCLE_DISTANCE](great-circle-distance.md) | 球面大圆距离（米） | `GREAT_CIRCLE_DISTANCE(0, 0, 0, 0)` → `0` |
+| [GREAT_CIRCLE_ANGLE](great-circle-angle.md) | 球面中心角（度） | `GREAT_CIRCLE_ANGLE(0, 0, 45, 0)` → `45` |
+| [POINT_IN_POLYGON](point-in-polygon.md) | 检查点是否位于多边形内部 | `POINT_IN_POLYGON([lon, lat], [[p1_lon, p1_lat], ...])` → `TRUE` |
+| [POINT_IN_ELLIPSES](point-in-ellipses.md) | 检查点是否位于任一椭圆内 | `POINT_IN_ELLIPSES(10, 10, 10, 9.1, 1, 0.9999)` → `1` |
 
 ## H3 邻域
 
