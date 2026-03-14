@@ -24,7 +24,8 @@ ST_SRID(<geometry_or_geography>)
 INT32.
 
 :::note
-If the Geometry don't have a SRID, a default value 4326 will be returned.
+- If the Geometry don't have a SRID, a default value 0 will be returned.
+- For Geography, the SRID is always 4326.
 :::
 
 ## Examples
@@ -56,7 +57,7 @@ SELECT
 ┌───────────────┐
 │ pipeline_srid │
 ├───────────────┤
-│          4326 │
+│             0 │
 └───────────────┘
 ```
 

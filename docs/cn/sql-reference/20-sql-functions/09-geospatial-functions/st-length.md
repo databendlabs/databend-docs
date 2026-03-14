@@ -5,23 +5,23 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.555"/>
 
-返回 GEOMETRY 对象中 LineString 的欧几里得长度。
+返回 GEOMETRY 或 GEOGRAPHY 对象中 LineString 的欧几里得长度。
 
 ## 语法
 
 ```sql
-ST_LENGTH(<geometry>)
+ST_LENGTH(<geometry_or_geography>)
 ```
 
 ## 参数
 
 | 参数 | 描述 |
 |--------------|-----------------------------------------------------------------------------|
-| `<geometry>` | 参数必须是包含线串（linestrings）的 GEOMETRY 类型表达式。 |
+| `<geometry_or_geography>` | 参数必须是 GEOMETRY 或 GEOGRAPHY 类型的表达式，且包含 LineString。 |
 
 :::note
-- 如果 `<geometry>` 不是 `LineString`、`MultiLineString` 或包含线串（linestrings）的 `GeometryCollection`，则返回 0。
-- 如果 `<geometry>` 是一个 `GeometryCollection`，则返回集合中所有线串（linestrings）的长度之和。
+- 如果 `<geometry_or_geography>` 不是 `LineString`、`MultiLineString` 或包含 LineString 的 `GeometryCollection`，返回 0。
+- 如果 `<geometry_or_geography>` 是 `GeometryCollection`，返回集合中所有 LineString 长度的总和。
 :::
 
 ## 返回类型
@@ -29,6 +29,8 @@ ST_LENGTH(<geometry>)
 Double。
 
 ## 示例
+
+### GEOMETRY 示例
 
 ```sql
 SELECT
@@ -59,4 +61,21 @@ SELECT
 ├─────────┤
 │       0 │
 └─────────┘
+```
+
+### GEOGRAPHY 示例
+
+```sql
+SELECT
+  ST_LENGTH(
+    ST_GEOGFROMWKT(
+      'LINESTRING(0 0, 1 0)'
+    )
+  ) AS length
+
+╭──────────────────╮
+│      length      │
+├──────────────────┤
+│ 111319.490793274 │
+╰──────────────────╯
 ```

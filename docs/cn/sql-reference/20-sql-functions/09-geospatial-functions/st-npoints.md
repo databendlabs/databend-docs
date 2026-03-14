@@ -5,12 +5,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.566"/>
 
-返回 GEOMETRY 对象中的点数。
+返回 GEOMETRY 或 GEOGRAPHY 对象中的点数。
 
 ## 语法
 
 ```sql
-ST_NPOINTS(<geometry>)
+ST_NPOINTS(<geometry_or_geography>)
 ```
 
 ## 别名
@@ -19,15 +19,17 @@ ST_NPOINTS(<geometry>)
 
 ## 参数
 
-| 参数         | 描述                                   |
-|--------------|----------------------------------------|
-| `<geometry>` | 参数必须是 GEOMETRY 对象类型的表达式。 |
+| 参数 | 描述 |
+|--------------|-------------------------------------------------------------|
+| `<geometry_or_geography>` | 参数必须是 GEOMETRY 或 GEOGRAPHY 类型的表达式。 |
 
 ## 返回类型
 
 UInt8。
 
 ## 示例
+
+### GEOMETRY 示例
 
 ```sql
 SELECT ST_NPOINTS(TO_GEOMETRY('POINT(66 12)')) AS npoints
@@ -68,5 +70,17 @@ SELECT ST_NPOINTS(TO_GEOMETRY('GEOMETRYCOLLECTION(POLYGON((-10 0,0 10,10 0,-10 0
 │ npoints │
 ├─────────┤
 │       8 │
+└─────────┘
+```
+
+### GEOGRAPHY 示例
+
+```sql
+SELECT ST_NPOINTS(ST_GEOGFROMWKT('LINESTRING(40 60,50 50,60 40)')) AS npoints
+
+┌─────────┐
+│ npoints │
+├─────────┤
+│       3 │
 └─────────┘
 ```

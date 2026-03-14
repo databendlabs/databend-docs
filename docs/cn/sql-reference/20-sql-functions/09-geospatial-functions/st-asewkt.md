@@ -5,25 +5,27 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.436"/>
 
-将 GEOMETRY 对象转换为 [EWKT（Extended Well-Known Text）](https://postgis.net/docs/ST_GeomFromEWKT.html) 格式的表示。
+将 GEOMETRY 或 GEOGRAPHY 对象转换为 [EWKT(extended well-known-text)](https://postgis.net/docs/ST_GeomFromEWKT.html) 表示形式。
 
 ## 语法
 
 ```sql
-ST_ASEWKT(<geometry>)
+ST_ASEWKT(<geometry_or_geography>)
 ```
 
 ## 参数
 
-| 参数         | 描述                               |
-|--------------|------------------------------------|
-| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。 |
+| 参数 | 描述 |
+|--------------|------------------------------------------------------|
+| `<geometry_or_geography>` | 参数必须是 GEOMETRY 或 GEOGRAPHY 类型的表达式。 |
 
 ## 返回类型
 
-字符串。
+String。
 
 ## 示例
+
+### GEOMETRY 示例
 
 ```sql
 SELECT
@@ -51,4 +53,21 @@ SELECT
 ├────────────────────────────────┤
 │ SRID=4326;POINT(-122.35 37.55) │
 └────────────────────────────────┘
+```
+
+### GEOGRAPHY 示例
+
+```sql
+SELECT
+  ST_ASEWKT(
+    ST_GEOGFROMWKT(
+      'SRID=4326;POINT(-122.35 37.55)'
+    )
+  ) AS pipeline_ewkt;
+
+╭────────────────────────────────╮
+│          pipeline_ewkt         │
+├────────────────────────────────┤
+│ SRID=4326;POINT(-122.35 37.55) │
+╰────────────────────────────────╯
 ```
