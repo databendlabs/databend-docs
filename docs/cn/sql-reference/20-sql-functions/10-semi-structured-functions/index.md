@@ -36,7 +36,8 @@ Databend 中的结构化与半结构化函数能够高效处理数组（Array）
 |----------|-------------|--------|
 | [JSON_TO_STRING](semi-structured-functions/json/json-to-string) | 将 JSON 值转换为字符串 | `JSON_TO_STRING(PARSE_JSON('{"a":1}'))` |
 | [JSON_PRETTY](semi-structured-functions/json/json-pretty) | 使用适当缩进格式化 JSON | `JSON_PRETTY(PARSE_JSON('{"a":1}'))` |
-| [STRIP_NULL_VALUE](semi-structured-functions/json/strip-null-value) | 从 JSON 中移除 null 值 | `STRIP_NULL_VALUE(PARSE_JSON('{"a":1,"b":null}'))` |
+| [STRIP_NULL_VALUE](semi-structured-functions/json/strip-null-value) | 将 JSON 中的 null 值转换为 SQL 中的 NULL 值 | `STRIP_NULL_VALUE(parse_json('null'))` → `NULL` |
+| [JSON_STRIP_NULLS](semi-structured-functions/json/json-strip-nulls) | 从 JSON 对象中移除 null 值 | `JSON_STRIP_NULLS(PARSE_JSON('{"a":1,"b":null}'))` → `{"a":1}` |
 
 ### 数组/对象展开
 | 函数 | 描述 | 示例 |
