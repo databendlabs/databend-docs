@@ -5,12 +5,12 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.436"/>
 
-将 GEOMETRY 对象转换为 [WKT（Well-Known Text）](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 格式的表示。
+将 GEOMETRY 或 GEOGRAPHY 对象转换为 [WKT(well-known-text)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 表示形式。
 
 ## 语法
 
 ```sql
-ST_ASWKT(<geometry>)
+ST_ASWKT(<geometry_or_geography>)
 ```
 
 ## 别名
@@ -19,15 +19,17 @@ ST_ASWKT(<geometry>)
 
 ## 参数
 
-| 参数         | 说明                                         |
-|--------------|----------------------------------------------|
-| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。 |
+| 参数 | 描述 |
+|--------------|------------------------------------------------------|
+| `<geometry_or_geography>` | 参数必须是 GEOMETRY 或 GEOGRAPHY 类型的表达式。 |
 
 ## 返回类型
 
-字符串。
+String。
 
 ## 示例
+
+### GEOMETRY 示例
 
 ```sql
 SELECT
@@ -55,4 +57,21 @@ SELECT
 ├──────────────────────┤
 │ POINT(-122.35 37.55) │
 └──────────────────────┘
+```
+
+### GEOGRAPHY 示例
+
+```sql
+SELECT
+  ST_ASWKT(
+    ST_GEOGFROMWKT(
+      'SRID=4326;POINT(-122.35 37.55)'
+    )
+  ) AS pipeline_wkt;
+
+╭──────────────────────╮
+│     pipeline_wkt     │
+├──────────────────────┤
+│ POINT(-122.35 37.55) │
+╰──────────────────────╯
 ```
