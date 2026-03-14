@@ -51,7 +51,7 @@ title: JSON 函数
 | 函数 | 描述 | 示例 |
 |----------|-------------|---------|
 | [JSON_PRETTY](json/json-pretty) | 以适当缩进格式化 JSON | `JSON_PRETTY('{"a":1}')` → 格式化后的 JSON 字符串 |
-| [STRIP_NULL_VALUE](json/strip-null-value) | 将 JSON 中的 null 值转换为 SQL 中的 NULL 值 | `STRIP_NULL_VALUE(parse_json('null'))` → `NULL` |
+| [STRIP_NULL_VALUE](json/strip-null-value) | 将 JSON 的 null 值转换为 SQL 的 NULL 值 | `STRIP_NULL_VALUE(parse_json('null'))` → `NULL` |
 | [JSON_STRIP_NULLS](json/json-strip-nulls) | 从 JSON 对象中移除 null 值 | `JSON_STRIP_NULLS(PARSE_JSON('{"a":1,"b":null}'))` → `{"a":1}` |
 
 ## JSON 包含与键检测
