@@ -13,7 +13,7 @@ To specify a file format in a statement, use the following syntax:
 
 ```sql
 -- Specify a standard file format
-... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | ORC | AVRO } [ formatTypeOptions ] )
+... FILE_FORMAT = ( TYPE = { CSV | TSV | NDJSON | PARQUET | LANCE | ORC | AVRO } [ formatTypeOptions ] )
 
 -- Specify a custom file format
 ... FILE_FORMAT = ( FORMAT_NAME = '<your-custom-format>' )
@@ -26,6 +26,7 @@ Databend determines the file format used by a COPY or Select statement in the fo
 
 :::note
 - Databend currently supports ORC and AVRO as a source ONLY. Unloading data into an ORC or AVRO file is not supported yet.
+- Databend currently supports LANCE as an unload target ONLY. `COPY INTO <location>` writes a Lance dataset directory instead of a standalone file, so it is intended for downstream Lance tooling rather than stage-table reads or `COPY INTO <table>`.
 - For managing custom file formats in Databend, see [File Format](../10-sql-commands/00-ddl/13-file-format/index.md).
 :::
 
@@ -284,6 +285,33 @@ Compression algorithm for internal blocks of parquet file.
 |------------------|-----------------------------------------------------------------------------|
 | `ZSTD` (default) | Zstandard v0.8 (and higher) is supported.                                   |
 | `SNAPPY`         | Snappy is a popular and fast compression algorithm often used with Parquet. |
+
+## LANCE Options
+
+`LANCE` is only supported when unloading with `COPY INTO <location>`.
+
+Compared with CSV, TSV, NDJSON, and Parquet, a Lance export does **not** produce one or more standalone files that Databend can read back directly. Instead, Databend writes a dataset directory containing `.lance` data files together with dataset metadata such as `_versions/`.
+
+This makes Lance a better fit for downstream machine learning, vector, and Arrow-based workflows that consume the dataset with Lance tooling such as Python `lance` (`pip install pylance`).
+
+### Format-Specific Options
+
+Lance has no format-specific options. Use:
+
+```sql
+FILE_FORMAT = (TYPE = LANCE)
+```
+
+### Behavioral Differences
+
+| Item | LANCE behavior |
+|------|----------------|
+| Supported direction | Unload only |
+| Read back in Databend stage query | Not supported |
+| `COPY INTO <table>` | Not supported |
+| Output layout | A dataset directory with `.lance` files and metadata |
+| `SINGLE` copy option | Not supported |
+| `PARTITION BY` | Not supported |
 
 
 ## ORC Options

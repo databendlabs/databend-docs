@@ -11,8 +11,8 @@ This section collects assorted utilities that do not fit into the major function
 | [GROUPING](grouping.md) | Reveal whether an output column was aggregated in GROUPING SETS |
 | [HUMANIZE_NUMBER](humanize-number.md) | Format large numbers with unit suffixes |
 | [HUMANIZE_SIZE](humanize-size.md) | Format byte counts into readable units |
+| [READ_FILE](read-file.md) | Read a file from a stage and return its raw bytes |
 | [REMOVE_NULLABLE](remove-nullable.md) | Strip NULLability from a column value |
 | [TO_NULLABLE](to-nullable.md) | Convert a value to a nullable type |
 | [TYPEOF](typeof.md) | Return the name of a value’s data type |
-
 
