@@ -11,7 +11,7 @@ title: 其他函数
 | [GROUPING](grouping.md) | 揭示输出列是否在 GROUPING SETS 中被聚合 |
 | [HUMANIZE_NUMBER](humanize-number.md) | 使用单位后缀格式化大数字 |
 | [HUMANIZE_SIZE](humanize-size.md) | 将字节数格式化为可读单位 |
+| [READ_FILE](read-file.md) | 读取 Stage 中的文件并返回原始二进制内容 |
 | [REMOVE_NULLABLE](remove-nullable.md) | 从列值中去除可空性 |
 | [TO_NULLABLE](to-nullable.md) | 将值转换为可空类型 |
 | [TYPEOF](typeof.md) | 返回值的数据类型名称 |
-

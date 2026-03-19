@@ -50,3 +50,23 @@ COPY INTO analytics.orders
 FROM @sales_stage/2024/order.parquet
 FILE_FORMAT = (FORMAT_NAME = 'my_parquet');
 ```
+
+## 关于 LANCE 的说明
+
+你也可以创建一个命名的 Lance 文件格式：
+
+```sql
+CREATE FILE FORMAT my_lance TYPE = LANCE;
+```
+
+但与 CSV、TSV、NDJSON、PARQUET 不同，命名的 `LANCE` 格式只能复用于 `COPY INTO <location>`，不能用于 Stage 文件查询，也不能用于 `COPY INTO <table>`，因为 Databend 写出的是 Lance 数据集目录，而不是单个文件。
+
+```sql
+COPY INTO @ml_stage/datasets/train
+FROM my_training_table
+FILE_FORMAT = (FORMAT_NAME = 'my_lance')
+USE_RAW_PATH = TRUE
+OVERWRITE = TRUE;
+```
+
+关于 Lance 的行为差异和限制，请参阅 [文件格式选项](../../../00-sql-reference/50-file-format-options.md#lance-选项) 和 [`COPY INTO <location>`](../../10-dml/dml-copy-into-location.md)。
