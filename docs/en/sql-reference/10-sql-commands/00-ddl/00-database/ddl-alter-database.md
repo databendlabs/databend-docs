@@ -1,17 +1,42 @@
 ---
-title: RENAME DATABASE
+title: ALTER DATABASE
 sidebar_position: 4
 ---
 
-Changes the name of a database.
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced or updated: v1.2.866"/>
+
+Changes the name of a database, or sets default storage options for a database.
 
 ## Syntax
 
 ```sql
+-- Rename a database
 ALTER DATABASE [ IF EXISTS ] <name> RENAME TO <new_db_name>
+
+-- Set default storage options
+ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
+    DEFAULT_STORAGE_CONNECTION = '<connection_name>'
+  | DEFAULT_STORAGE_PATH = '<path>'
+)
 ```
 
+## Parameters
+
+| Parameter                    | Description                                                                                                                                      |
+|:-----------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|
+| `DEFAULT_STORAGE_CONNECTION` | The name of an existing connection (created via `CREATE CONNECTION`) to use as the default storage connection for tables in this database.        |
+| `DEFAULT_STORAGE_PATH`       | The default storage path URI (e.g., `s3://bucket/path/`) for tables in this database. Must end with `/` and match the connection's storage type. |
+
+:::note
+- `SET OPTIONS` only affects tables created after the statement is executed. Existing tables are not changed.
+- You can update one option at a time, as long as the other option already exists on the database.
+:::
+
 ## Examples
+
+### Rename a database
 
 ```sql
 CREATE DATABASE DATABEND;
@@ -43,4 +68,13 @@ SHOW DATABASES;
 | default            |
 | system             |
 +--------------------+
+```
+
+### Set default storage options
+
+```sql
+ALTER DATABASE analytics SET OPTIONS (
+    DEFAULT_STORAGE_CONNECTION = 'my_s3',
+    DEFAULT_STORAGE_PATH = 's3://mybucket/analytics_v2/'
+);
 ```

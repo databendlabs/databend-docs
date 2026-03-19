@@ -1,17 +1,42 @@
 ---
-title: RENAME DATABASE
+title: ALTER DATABASE
 sidebar_position: 4
 ---
 
-更改数据库的名称。
+import FunctionDescription from '@site/src/components/FunctionDescription';
 
-## 句法
+<FunctionDescription description="引入或更新于：v1.2.866"/>
+
+更改数据库的名称，或为数据库设置默认存储选项。
+
+## 语法
 
 ```sql
+-- 重命名数据库
 ALTER DATABASE [ IF EXISTS ] <name> RENAME TO <new_db_name>
+
+-- 设置默认存储选项
+ALTER DATABASE [ IF EXISTS ] <name> SET OPTIONS (
+    DEFAULT_STORAGE_CONNECTION = '<connection_name>'
+  | DEFAULT_STORAGE_PATH = '<path>'
+)
 ```
 
+## 参数
+
+| 参数                          | 描述                                                                                                                          |
+|:-----------------------------|:------------------------------------------------------------------------------------------------------------------------------|
+| `DEFAULT_STORAGE_CONNECTION` | 已有连接的名称（通过 `CREATE CONNECTION` 创建），作为该数据库中表的默认存储连接。                                               |
+| `DEFAULT_STORAGE_PATH`       | 该数据库中表的默认存储路径 URI（如 `s3://bucket/path/`），必须以 `/` 结尾，且与连接的存储类型匹配。                            |
+
+:::note
+- `SET OPTIONS` 只对执行该语句后新建的表生效，已有表不受影响。
+- 每次可以单独更新一个选项，但前提是另一个选项已在该数据库上设置。
+:::
+
 ## 示例
+
+### 重命名数据库
 
 ```sql
 CREATE DATABASE DATABEND;
@@ -43,4 +68,13 @@ SHOW DATABASES;
 | default            |
 | system             |
 +--------------------+
+```
+
+### 设置默认存储选项
+
+```sql
+ALTER DATABASE analytics SET OPTIONS (
+    DEFAULT_STORAGE_CONNECTION = 'my_s3',
+    DEFAULT_STORAGE_PATH = 's3://mybucket/analytics_v2/'
+);
 ```
