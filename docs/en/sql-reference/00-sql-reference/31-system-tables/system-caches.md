@@ -46,3 +46,23 @@ An overview of various caches managed in Databend, including usage and hit rate 
 ```sql
 SELECT * FROM system.caches;
 ```
+
+Check utilization and hit rate for all caches:
+
+```sql
+SELECT
+    node,
+    name,
+    capacity,
+    if(unit = 'count', (num_items + 1) / (capacity + 1),
+       unit = 'bytes', (size + 1) / (capacity + 1), -1) AS utilization,
+    if(access = 0, 0, hit / access)  AS hit_rate,
+    if(access = 0, 0, miss / access) AS miss_rate,
+    num_items,
+    size,
+    unit,
+    access,
+    hit,
+    miss
+FROM system.caches;
+```
