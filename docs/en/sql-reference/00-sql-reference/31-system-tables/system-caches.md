@@ -6,40 +6,17 @@ An overview of various caches managed in Databend, including usage and hit rate 
 
 ## Columns
 
-| Column       | Description                                                                                 |
-|--------------|---------------------------------------------------------------------------------------------|
-| node         | The node name                                                                               |
-| name         | Cache name (same as the first parameter in `system$set_cache_capacity`)                     |
-| capacity     | Maximum capacity (count or bytes depending on `unit`)                                       |
-| utilization  | Cache utilization ratio. If close to 1.0 and misses are increasing, the cache may be too small |
-| hit_rate     | Hit rate (`hit / access`)                                                                   |
-| miss_rate    | Miss rate (`miss / access`)                                                                 |
-| num_items    | Number of cached entries                                                                    |
-| size         | Size of cached entries (count or bytes depending on `unit`)                                 |
-| unit         | Unit of `size` and `capacity`: `count` or `bytes`                                          |
-| access       | Total number of cache accesses                                                              |
-| hit          | Number of cache hits                                                                        |
-| miss         | Number of cache misses                                                                      |
-
-## Example
-
-```sql
-SELECT
-    node,
-    name,
-    capacity,
-    if(unit = 'count', (num_items + 1) / (capacity + 1),
-       unit = 'bytes', (size + 1) / (capacity + 1), -1) AS utilization,
-    if(access = 0, 0, hit / access)  AS hit_rate,
-    if(access = 0, 0, miss / access) AS miss_rate,
-    num_items,
-    size,
-    unit,
-    access,
-    hit,
-    miss
-FROM system.caches;
-```
+| Column    | Description                                                              |
+|-----------|--------------------------------------------------------------------------|
+| node      | The node name                                                            |
+| name      | Cache name (same as the first parameter in `system$set_cache_capacity`)  |
+| num_items | Number of cached entries                                                 |
+| size      | Size of cached entries (count or bytes depending on `unit`)              |
+| capacity  | Maximum capacity (count or bytes depending on `unit`)                    |
+| unit      | Unit of `size` and `capacity`: `count` or `bytes`                       |
+| access    | Total number of cache accesses                                           |
+| hit       | Number of cache hits                                                     |
+| miss      | Number of cache misses                                                   |
 
 ## Cache List
 
@@ -63,3 +40,9 @@ FROM system.caches;
 | memory_cache_prune_partitions                | Partition pruning cache                            | count | Enabled by default. Caches pruning results for deterministic queries. Set capacity to 0 to bypass for pruning testing. |
 | memory_cache_parquet_meta_data               | Parquet file metadata                              | count | Used by Hive tables and other sources |
 | memory_cache_iceberg_table                   | Iceberg table metadata                             | count | |
+
+## Example
+
+```sql
+SELECT * FROM system.caches;
+```

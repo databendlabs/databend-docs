@@ -6,40 +6,17 @@ Databend 中各类缓存的概览，包含使用量和命中率统计信息。
 
 ## 列说明
 
-| 列名         | 说明                                                                                         |
-|--------------|----------------------------------------------------------------------------------------------|
-| node         | 节点名称                                                                                     |
-| name         | 缓存名称（与 `system$set_cache_capacity` 第一个参数相同）                                    |
-| capacity     | 容量上限（根据 `unit` 为个数或字节数）                                                       |
-| utilization  | 缓存使用率。若接近 1.0 且 miss 持续增加，说明缓存容量可能不足                                |
-| hit_rate     | 命中率（`hit / access`）                                                                     |
-| miss_rate    | 未命中率（`miss / access`）                                                                  |
-| num_items    | 已缓存的条目数量                                                                             |
-| size         | 已缓存条目的大小（根据 `unit` 为个数或字节数）                                               |
-| unit         | `size` 和 `capacity` 的单位：`count`（个数）或 `bytes`（字节）                              |
-| access       | 缓存访问总次数                                                                               |
-| hit          | 命中次数                                                                                     |
-| miss         | 未命中次数                                                                                   |
-
-## 示例
-
-```sql
-SELECT
-    node,
-    name,
-    capacity,
-    if(unit = 'count', (num_items + 1) / (capacity + 1),
-       unit = 'bytes', (size + 1) / (capacity + 1), -1) AS utilization,
-    if(access = 0, 0, hit / access)  AS hit_rate,
-    if(access = 0, 0, miss / access) AS miss_rate,
-    num_items,
-    size,
-    unit,
-    access,
-    hit,
-    miss
-FROM system.caches;
-```
+| 列名      | 说明                                                                      |
+|-----------|---------------------------------------------------------------------------|
+| node      | 节点名称                                                                  |
+| name      | 缓存名称（与 `system$set_cache_capacity` 第一个参数相同）                 |
+| num_items | 已缓存的条目数量                                                          |
+| size      | 已缓存条目的大小（根据 `unit` 为个数或字节数）                            |
+| capacity  | 容量上限（根据 `unit` 为个数或字节数）                                    |
+| unit      | `size` 和 `capacity` 的单位：`count`（个数）或 `bytes`（字节）           |
+| access    | 缓存访问总次数                                                            |
+| hit       | 命中次数                                                                  |
+| miss      | 未命中次数                                                                |
 
 ## 缓存列表
 
@@ -63,3 +40,9 @@ FROM system.caches;
 | memory_cache_prune_partitions                | Partition pruning 缓存                             | count | 默认开启。对满足条件的确定性查询缓存 pruning 结果。如需测试 pruning 效果可将容量设为 0 以绕过缓存。 |
 | memory_cache_parquet_meta_data               | Parquet 文件元数据                                 | count | Hive 表及其他数据源使用 |
 | memory_cache_iceberg_table                   | Iceberg 表元数据                                   | count | |
+
+## 示例
+
+```sql
+SELECT * FROM system.caches;
+```
