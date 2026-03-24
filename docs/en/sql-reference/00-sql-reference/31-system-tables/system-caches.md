@@ -43,20 +43,22 @@ FROM system.caches;
 
 ## Cache List
 
-| Cache Name                                  | Cached Object                                      | Unit  | Notes |
-|---------------------------------------------|----------------------------------------------------|-------|-------|
-| memory_cache_table_snapshot                 | Table snapshot                                     | count | Enabled by default; default capacity is usually sufficient |
-| memory_cache_compact_segment_info           | Compressed table segment metadata                  | bytes | |
-| memory_cache_bloom_index_file_meta_data     | Bloom filter metadata                              | count | Each table can cache up to as many entries as it has blocks. Memory usage is small. Monitor hit rate for point-lookup workloads. |
-| memory_cache_bloom_index_filter             | Bloom filter data                                  | bytes | One entry per column per block. Memory usage is small. Monitor hit rate for point-lookup workloads. |
-| memory_cache_segment_block_metas            | Deserialized table segment metadata                | count | Addresses slow pruning when segment-level filtering is insufficient. One entry per segment. Disabled by default (memory-intensive); enable on memory-rich nodes. |
-| memory_cache_block_meta                     | Table block metadata                               | count | Currently used only by `REPLACE INTO`; can be ignored for now |
-| memory_cache_prune_partitions               | Partition pruning cache                            | count | Enabled by default. Caches pruning results for deterministic queries. Set capacity to 0 to bypass for pruning testing. |
-| memory_cache_table_data                     | Fully deserialized table data                      | bytes | High memory usage — estimate actual memory as capacity × 8. Monitor hit rate; disable if hit rate is low. |
-| memory_cache_parquet_meta_data              | Parquet file metadata                              | count | Used by Hive tables and other sources |
-| memory_cache_inverted_index_file            | Inverted index data                                | bytes | |
-| memory_cache_inverted_index_file_meta_data  | Inverted index metadata                            | bytes | |
-| memory_cache_table_statistics               | Table statistics                                   | count | |
-| disk_cache_table_data                       | On-disk table data cache                           | bytes | Cannot be adjusted via `system$set_cache_capacity` |
-| disk_cache_table_bloom_index_filter_size    | On-disk Bloom filter data                          | bytes | Stored at the disk cache location |
-| disk_cache_table_bloom_index_meta_size      | On-disk Bloom filter metadata                      | bytes | Stored at the disk cache location |
+| Cache Name                                   | Cached Object                                      | Unit  | Notes |
+|----------------------------------------------|----------------------------------------------------|-------|-------|
+| memory_cache_table_snapshot                  | Table snapshot                                     | count | Enabled by default; default capacity is usually sufficient |
+| memory_cache_table_statistics                | Table statistics                                   | count | |
+| memory_cache_compact_segment_info            | Compressed table segment metadata                  | bytes | |
+| memory_cache_segment_statistics              | Segment-level statistics                           | bytes | |
+| memory_cache_column_oriented_segment_info    | Column-oriented segment metadata                   | bytes | |
+| memory_cache_bloom_index_filter              | Bloom filter data                                  | bytes | One entry per column per block. Memory usage is small. Monitor hit rate for point-lookup workloads. |
+| memory_cache_bloom_index_file_meta_data      | Bloom filter metadata                              | count | Each table can cache up to as many entries as it has blocks. Memory usage is small. Monitor hit rate for point-lookup workloads. |
+| memory_cache_inverted_index_file_meta_data   | Inverted index metadata                            | count | |
+| memory_cache_inverted_index_file             | Inverted index data                                | bytes | |
+| memory_cache_vector_index_file_meta_data     | Vector index metadata                              | count | |
+| memory_cache_vector_index_file               | Vector index data                                  | bytes | |
+| memory_cache_spatial_index_file_meta_data    | Spatial index metadata                             | count | |
+| memory_cache_spatial_index_file              | Spatial index data                                 | bytes | |
+| memory_cache_virtual_column_file_meta_data   | Virtual column file metadata                       | count | |
+| memory_cache_prune_partitions                | Partition pruning cache                            | count | Enabled by default. Caches pruning results for deterministic queries. Set capacity to 0 to bypass for pruning testing. |
+| memory_cache_parquet_meta_data               | Parquet file metadata                              | count | Used by Hive tables and other sources |
+| memory_cache_iceberg_table                   | Iceberg table metadata                             | count | |
