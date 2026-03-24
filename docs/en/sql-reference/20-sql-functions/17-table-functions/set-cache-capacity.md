@@ -4,7 +4,7 @@ title: SYSTEM$SET_CACHE_CAPACITY
 
 Sets the maximum capacity for a named cache at runtime. Changes take effect immediately but are **not persisted** — the cache reverts to the value in the configuration file after a restart.
 
-See also: [system.caches](../../../00-sql-reference/31-system-tables/system-caches.md)
+See also: [system.caches](../../00-sql-reference/31-system-tables/system-caches.md)
 
 ## Syntax
 
@@ -14,7 +14,7 @@ CALL system$set_cache_capacity('<cache_name>', <new_capacity>)
 
 | Parameter    | Description                                                                                                                          |
 |--------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| cache_name   | The name of the cache (see the cache list in [system.caches](../../../00-sql-reference/31-system-tables/system-caches.md)) |
+| cache_name   | The name of the cache (see the cache list in [system.caches](../../00-sql-reference/31-system-tables/system-caches.md)) |
 | new_capacity | New capacity value. Unit (count or bytes) depends on the cache type.                                                                 |
 
 ## Notes
