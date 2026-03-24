@@ -50,6 +50,7 @@ FROM system.caches;
 | memory_cache_compact_segment_info            | 压缩形式的 Table Segment 元数据                    | bytes | |
 | memory_cache_segment_statistics              | Segment 级别统计信息                               | bytes | |
 | memory_cache_column_oriented_segment_info    | 列式 Segment 元数据                                | bytes | |
+| disk_cache_column_data                       | 磁盘列数据缓存                                     | bytes | 不能通过 `system$set_cache_capacity` 调整 |
 | memory_cache_bloom_index_filter              | 布隆过滤器数据                                     | bytes | 每个 block 中每列对应一个条目，内存占用不大。有点查场景时建议关注命中率，尽量全部缓存。 |
 | memory_cache_bloom_index_file_meta_data      | 布隆过滤器元数据                                   | count | 每张表最多可缓存与 block 数量相同的条目，内存占用不大。有点查场景时建议关注命中率，尽量全部缓存。 |
 | memory_cache_inverted_index_file_meta_data   | 倒排索引元数据                                     | count | |

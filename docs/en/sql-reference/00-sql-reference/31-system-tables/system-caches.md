@@ -50,6 +50,7 @@ FROM system.caches;
 | memory_cache_compact_segment_info            | Compressed table segment metadata                  | bytes | |
 | memory_cache_segment_statistics              | Segment-level statistics                           | bytes | |
 | memory_cache_column_oriented_segment_info    | Column-oriented segment metadata                   | bytes | |
+| disk_cache_column_data                       | On-disk column data cache                          | bytes | Cannot be adjusted via `system$set_cache_capacity` |
 | memory_cache_bloom_index_filter              | Bloom filter data                                  | bytes | One entry per column per block. Memory usage is small. Monitor hit rate for point-lookup workloads. |
 | memory_cache_bloom_index_file_meta_data      | Bloom filter metadata                              | count | Each table can cache up to as many entries as it has blocks. Memory usage is small. Monitor hit rate for point-lookup workloads. |
 | memory_cache_inverted_index_file_meta_data   | Inverted index metadata                            | count | |
