@@ -1,10 +1,10 @@
 ---
-title: CALL system$set_cache_capacity
+title: SYSTEM$SET_CACHE_CAPACITY
 ---
 
 Sets the maximum capacity for a named cache at runtime. Changes take effect immediately but are **not persisted** — the cache reverts to the value in the configuration file after a restart.
 
-See also: [system.caches](../../00-sql-reference/31-system-tables/system-caches.md)
+See also: [system.caches](../../../00-sql-reference/31-system-tables/system-caches.md)
 
 ## Syntax
 
@@ -12,17 +12,17 @@ See also: [system.caches](../../00-sql-reference/31-system-tables/system-caches.
 CALL system$set_cache_capacity('<cache_name>', <new_capacity>)
 ```
 
-| Parameter      | Description                                                                 |
-|----------------|-----------------------------------------------------------------------------|
-| cache_name     | The name of the cache (see the cache list in [system.caches](../../00-sql-reference/31-system-tables/system-caches.md)) |
-| new_capacity   | New capacity value. Unit (count or bytes) depends on the cache type.        |
+| Parameter    | Description                                                                                                                          |
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| cache_name   | The name of the cache (see the cache list in [system.caches](../../../00-sql-reference/31-system-tables/system-caches.md)) |
+| new_capacity | New capacity value. Unit (count or bytes) depends on the cache type.                                                                 |
 
 ## Notes
 
 - If the new capacity is **larger** than the current value, existing cache entries are retained.
 - If the new capacity is **smaller**, entries may be evicted according to the LRU policy.
 - Changes are **not persisted**. After a restart, the capacity reverts to the configuration file value.
-- `disk_cache_table_data` cannot be adjusted with this command.
+- `disk_cache_column_data` cannot be adjusted with this command.
 
 ## Examples
 
