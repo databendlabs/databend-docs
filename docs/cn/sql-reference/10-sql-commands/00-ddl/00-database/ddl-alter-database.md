@@ -78,3 +78,22 @@ ALTER DATABASE analytics SET OPTIONS (
     DEFAULT_STORAGE_PATH = 's3://mybucket/analytics_v2/'
 );
 ```
+
+## Tag 操作 {#tag-operations}
+
+为数据库分配或移除 Tag。Tag 必须先通过 [CREATE TAG](../08-tag/01-ddl-create-tag.md) 创建。完整说明请参阅 [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md)。
+
+### 语法
+
+```sql
+ALTER DATABASE [ IF EXISTS ] <name> SET TAG <tag_name> = '<value>' [, <tag_name> = '<value>' ...]
+
+ALTER DATABASE [ IF EXISTS ] <name> UNSET TAG <tag_name> [, <tag_name> ...]
+```
+
+### 示例
+
+```sql
+ALTER DATABASE mydb SET TAG env = 'prod', owner = 'team_a';
+ALTER DATABASE mydb UNSET TAG env, owner;
+```
