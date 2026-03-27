@@ -5,7 +5,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.442"/>
 
-返回几何对象的维度。GEOMETRY 对象的维度如下：
+返回几何对象的维度。GEOMETRY 或 GEOGRAPHY 对象的维度如下：
 
 | 地理空间对象类型       | 维度 |
 |------------------------|------|
@@ -16,20 +16,22 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 ## 语法
 
 ```sql
-ST_DIMENSION(<geometry>)
+ST_DIMENSION(<geometry_or_geography>)
 ```
 
 ## 参数
 
-| 参数         | 描述                                          |
+| 参数 | 描述 |
 |--------------|-----------------------------------------------|
-| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。 |
+| `<geometry_or_geography>` | 参数必须是 GEOMETRY 或 GEOGRAPHY 类型的表达式。 |
 
 ## 返回类型
 
 UInt8。
 
 ## 示例
+
+### GEOMETRY 示例
 
 ```sql
 SELECT
@@ -70,4 +72,21 @@ SELECT
 ├────────────────────┤
 │                  2 │
 └────────────────────┘
+```
+
+### GEOGRAPHY 示例
+
+```sql
+SELECT
+  ST_DIMENSION(
+    ST_GEOGFROMWKT(
+      'LINESTRING(-124.20 42.00, -120.01 41.99)'
+    )
+  ) AS pipeline_dimension;
+
+╭────────────────────╮
+│ pipeline_dimension │
+├────────────────────┤
+│                  1 │
+╰────────────────────╯
 ```

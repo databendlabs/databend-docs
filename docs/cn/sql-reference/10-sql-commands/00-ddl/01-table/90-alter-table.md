@@ -295,3 +295,24 @@ ALTER TABLE t1 SWAP WITH t2;
 DESC t1;
 DESC t2;
 ```
+
+## Tag 操作 {#tag-operations}
+
+为表分配或移除 Tag。Tag 必须先通过 [CREATE TAG](../08-tag/01-ddl-create-tag.md) 创建。完整说明请参阅 [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md)。
+
+### 语法
+
+```sql
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+    SET TAG <tag_name> = '<value>' [, <tag_name> = '<value>' ...]
+
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+    UNSET TAG <tag_name> [, <tag_name> ...]
+```
+
+### 示例
+
+```sql
+ALTER TABLE default.users SET TAG env = 'prod', owner = 'team_a';
+ALTER TABLE default.users UNSET TAG env, owner;
+```

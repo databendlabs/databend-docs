@@ -108,6 +108,7 @@ Databend 强大的 ETL 能力支持从多种数据源和格式高效加载数据
 <details>
 <summary> MySQL 数据导入 Databend </summary>
 
+- [通过 Databend Cloud Data Integration 同步 MySQL 数据](/guides/cloud/data-integration/mysql)（推荐 Databend Cloud 用户使用）
 - [全量加载 MySQL 表数据](./02-load-db/datax.md)
 - [同步 MySQL 变更 (全量+增量)](./02-load-db/debezium.md)
 

@@ -44,14 +44,15 @@ This section provides reference information for JSON functions in Databend. JSON
 | [JSON_EXTRACT_PATH_TEXT](json/json-extract-path-text) | Extracts text value from JSON using path | `JSON_EXTRACT_PATH_TEXT('{"name":"John"}', 'name')` → `'John'` |
 | [JSON_EACH](json/json-each) | Expands JSON object into key-value pairs | `JSON_EACH('{"a":1,"b":2}')` → `[("a",1),("b",2)]` |
 | [JSON_ARRAY_ELEMENTS](json/json-array-elements) | Expands JSON array into individual elements | `JSON_ARRAY_ELEMENTS('[1,2,3]')` → `1, 2, 3` |
+| [JQ](json/jq) | Processes JSON using jq-style queries | `JQ('{"name":"John"}', '.name')` → `"John"` |
 
 ## JSON Formatting & Processing
 
 | Function | Description | Example |
 |----------|-------------|---------|
 | [JSON_PRETTY](json/json-pretty) | Formats JSON with proper indentation | `JSON_PRETTY('{"a":1}')` → Formatted JSON string |
-| [STRIP_NULL_VALUE](json/strip-null-value) | Removes null values from JSON | `STRIP_NULL_VALUE('{"a":1,"b":null}')` → `{"a":1}` |
-| [JQ](json/jq) | Processes JSON using jq-style queries | `JQ('{"name":"John"}', '.name')` → `"John"` |
+| [STRIP_NULL_VALUE](json/strip-null-value) | Converts a JSON null value to a SQL NULL value | `STRIP_NULL_VALUE(parse_json('null'))` → `NULL` |
+| [JSON_STRIP_NULLS](json/json-strip-nulls) | Removes null values from JSON Object | `JSON_STRIP_NULLS(PARSE_JSON('{"a":1,"b":null}'))` → `{"a":1}` |
 
 ## JSON Containment & Existence
 

@@ -30,6 +30,7 @@ title: 表函数 (Table Functions)
 | [POLICY_REFERENCES](./policy-references.md) | 返回安全策略与表/视图之间的关联关系 | `SELECT * FROM POLICY_REFERENCES(POLICY_NAME => 'mypolicy')` |
 | [FUSE_VACUUM_TEMPORARY_TABLE](./fuse-vacuum-temporary-table.md) | 清理临时表 | `SELECT * FROM FUSE_VACUUM_TEMPORARY_TABLE()` |
 | [FUSE_AMEND](./fuse-amend.md) | 执行数据修正操作 | `SELECT * FROM FUSE_AMEND()` |
+| [TAG_REFERENCES](./tag-references.md) | 返回指定对象上分配的所有 Tag | `SELECT * FROM TAG_REFERENCES('default.users', 'TABLE')` |
 
 ## Iceberg 集成函数
 

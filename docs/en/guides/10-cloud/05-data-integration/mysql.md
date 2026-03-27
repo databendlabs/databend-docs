@@ -9,7 +9,7 @@ The MySQL data integration enables you to sync data from MySQL databases into Da
 | Sync Mode      | Description                                                                                                  |
 |----------------|--------------------------------------------------------------------------------------------------------------|
 | Snapshot       | Performs a one-time full data load from the source table. Ideal for initial data migration or periodic bulk imports. |
-| CDC Only       | Continuously captures real-time changes (inserts, updates, deletes) from MySQL binlog. Requires a conflict key for merge operations. |
+| CDC Only       | Continuously captures real-time changes (inserts, updates, deletes) from MySQL binlog. Requires a primary key for merge operations. |
 | Snapshot + CDC | First performs a full snapshot, then seamlessly transitions to continuous CDC. Recommended for most use cases. |
 
 ## Prerequisites
@@ -82,8 +82,8 @@ Ensure the MySQL instance is accessible from Databend Cloud. Check your firewall
 | **Source Database**        | —           | Automatically displayed based on the selected data source                                        |
 | **Source Table**           | Yes         | Select the table to sync from the MySQL database                                                 |
 | **Sync Mode**             | Yes         | Choose from **Snapshot**, **CDC Only**, or **Snapshot + CDC**                                    |
-| **Conflict Key**          | Conditional | The unique identifier column for merge operations. Required for CDC Only and Snapshot + CDC modes |
-| **Merge Interval**        | Yes         | Interval (in seconds) between write operations (default: 3)                                      |
+| **Primary Key**          | Conditional | The unique identifier column for merge operations. Required for CDC Only and Snapshot + CDC modes |
+| **Sync Interval**        | Yes         | Interval (in seconds) between write operations (default: 3)                                      |
 | **Batch Size**            | No          | Number of rows per batch                                                                         |
 | **Allow Delete**          | No          | Whether to permit DELETE operations in CDC. Available for CDC Only and Snapshot + CDC modes       |
 
@@ -166,11 +166,11 @@ CDC mode continuously monitors the MySQL binlog and captures real-time row-level
 1. Connects to MySQL binlog using a unique server ID
 2. Captures row-level changes in real-time
 3. Writes changes to a raw staging table in Databend
-4. Periodically merges changes into the target table using the conflict key
+4. Periodically merges changes into the target table using the primary key
 5. Saves checkpoint (binlog position) for crash recovery
 
 :::note
-CDC mode requires MySQL binlog to be enabled with ROW format, and a conflict key (unique column) must be specified. The MySQL user must have `REPLICATION SLAVE` and `REPLICATION CLIENT` privileges.
+CDC mode requires MySQL binlog to be enabled with ROW format, and a primary key (unique column) must be specified. The MySQL user must have `REPLICATION SLAVE` and `REPLICATION CLIENT` privileges.
 :::
 
 ### Snapshot + CDC
@@ -179,13 +179,13 @@ This mode combines both approaches: it first performs a full snapshot of the sou
 
 ## Advanced Configuration
 
-### Conflict Key
+### Primary Key
 
-The conflict key specifies the unique identifier column used for MERGE operations during CDC. When a change event is captured, Databend uses this key to determine whether to insert a new row or update an existing one. Typically, this should be the primary key of the source table.
+The primary key specifies the unique identifier column used for MERGE operations during CDC. When a change event is captured, Databend uses this key to determine whether to insert a new row or update an existing one. Typically, this should be the primary key of the source table.
 
-### Merge Interval
+### Sync Interval
 
-The merge interval (in seconds) controls how frequently captured changes are merged into the target table. A shorter interval provides lower latency but may increase resource usage. The default value of 3 seconds is suitable for most workloads.
+The sync interval (in seconds) controls how frequently captured changes are merged into the target table. A shorter interval provides lower latency but may increase resource usage. The default value of 3 seconds is suitable for most workloads.
 
 ### Batch Size
 

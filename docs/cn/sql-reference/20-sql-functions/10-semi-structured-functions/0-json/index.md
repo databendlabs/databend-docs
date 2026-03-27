@@ -44,14 +44,15 @@ title: JSON 函数
 | [JSON_EXTRACT_PATH_TEXT](json/json-extract-path-text) | 使用路径从 JSON 提取文本值 | `JSON_EXTRACT_PATH_TEXT('{"name":"John"}', 'name')` → `'John'` |
 | [JSON_EACH](json/json-each) | 将 JSON 对象展开为键值对 | `JSON_EACH('{"a":1,"b":2}')` → `[("a",1),("b",2)]` |
 | [JSON_ARRAY_ELEMENTS](json/json-array-elements) | 将 JSON 数组展开为单个元素 | `JSON_ARRAY_ELEMENTS('[1,2,3]')` → `1, 2, 3` |
+| [JQ](json/jq) | 使用 jq 风格查询处理 JSON | `JQ('{"name":"John"}', '.name')` → `"John"` |
 
 ## JSON 格式化与处理
 
 | 函数 | 描述 | 示例 |
 |----------|-------------|---------|
 | [JSON_PRETTY](json/json-pretty) | 以适当缩进格式化 JSON | `JSON_PRETTY('{"a":1}')` → 格式化后的 JSON 字符串 |
-| [STRIP_NULL_VALUE](json/strip-null-value) | 从 JSON 中移除 null 值 | `STRIP_NULL_VALUE('{"a":1,"b":null}')` → `{"a":1}` |
-| [JQ](json/jq) | 使用 jq 风格查询处理 JSON | `JQ('{"name":"John"}', '.name')` → `"John"` |
+| [STRIP_NULL_VALUE](json/strip-null-value) | 将 JSON 的 null 值转换为 SQL 的 NULL 值 | `STRIP_NULL_VALUE(parse_json('null'))` → `NULL` |
+| [JSON_STRIP_NULLS](json/json-strip-nulls) | 从 JSON 对象中移除 null 值 | `JSON_STRIP_NULLS(PARSE_JSON('{"a":1,"b":null}'))` → `{"a":1}` |
 
 ## JSON 包含与键检测
 

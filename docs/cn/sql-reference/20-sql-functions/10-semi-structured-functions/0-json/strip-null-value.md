@@ -1,29 +1,43 @@
 ---
 title: STRIP_NULL_VALUE
-title_includes: JSON_STRIP_NULLS
 ---
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.762"/>
 
-从 JSON 对象中移除所有值为 null 的属性。
+将 JSON 的 null 值转换为 SQL 的 NULL 值。所有其它 Variant 值均保持不变。
 
 ## 语法
 
 ```sql
-STRIP_NULL_VALUE(<json_string>)
+STRIP_NULL_VALUE(<variant_expr>)
 ```
+
+## 参数
+
+VARIANT 类型的表达式。
 
 ## 返回类型
 
-返回与输入 JSON 值相同类型的值。
+- 如果表达式为 JSON 的 null 值，则该函数返回 SQL NULL。
+- 如果表达式不是 JSON 的 null 值，则该函数返回输入值。
 
 ## 示例
 
 ```sql
-SELECT STRIP_NULL_VALUE(PARSE_JSON('{"name": "Alice", "age": 30, "city": null}'));
+SELECT STRIP_NULL_VALUE(PARSE_JSON('null')) AS value;
 
-strip_null_value(parse_json('{"name": "alice", "age": 30, "city": null}'))|
---------------------------------------------------------------------------+
-{"age":30,"name":"Alice"}                                                 |
+╭───────╮
+│ value │
+├───────┤
+│ NULL  │
+╰───────╯
+
+SELECT STRIP_NULL_VALUE(PARSE_JSON('{"name": "Alice", "age": 30, "city": null}')) AS value;
+
+╭───────────────────────────────────────╮
+│                 value                 │
+├───────────────────────────────────────┤
+│ {"age":30,"city":null,"name":"Alice"} │
+╰───────────────────────────────────────╯
 ```
