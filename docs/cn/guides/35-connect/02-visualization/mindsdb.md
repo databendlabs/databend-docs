@@ -9,7 +9,7 @@ Databend 和 Databend Cloud 均可作为数据源与 MindsDB 集成，从而为 
 
 ## 教程一：Databend 与 MindsDB 集成
 
-开始前，请安装本地 MindsDB 或注册 MindsDB Cloud 账户。本教程使用 MindsDB Cloud。如需了解本地安装 MindsDB 的详细信息，请参考 https://docs.mindsdb.com/quickstart#1-create-a-mindsdb-cloud-account-or-install-mindsdb-locally
+开始前，请安装本地 MindsDB 或注册 MindsDB Cloud 账户。本教程使用 MindsDB Cloud。如需了解本地安装 MindsDB 的详细信息，请参考 [https://docs.mindsdb.com/quickstart-tutorial](https://docs.mindsdb.com/quickstart-tutorial)
 
 ### 步骤 1. 加载数据集到 Databend
 
@@ -104,7 +104,7 @@ WHERE (NO2 = 0.005)
 
 ## 教程二：Databend Cloud 与 MindsDB 集成
 
-开始前，请安装本地 MindsDB 或注册 MindsDB Cloud 账户。本教程使用 MindsDB Cloud。如需了解本地安装 MindsDB 的详细信息，请参考 https://docs.mindsdb.com/quickstart#1-create-a-mindsdb-cloud-account-or-install-mindsdb-locally
+开始前，请安装本地 MindsDB 或注册 MindsDB Cloud 账户。本教程使用 MindsDB Cloud。如需了解本地安装 MindsDB 的详细信息，请参考 [https://docs.mindsdb.com/quickstart-tutorial](https://docs.mindsdb.com/quickstart-tutorial)
 
 ### 步骤 1. 加载数据集到 Databend Cloud
 

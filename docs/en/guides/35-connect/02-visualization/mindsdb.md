@@ -9,7 +9,7 @@ Both Databend and Databend Cloud can integrate with MindsDB as a data source, wh
 
 ## Tutorial-1: Integrating Databend with MindsDB
 
-Before you start, install a local MindsDB or sign up an account for MindsDB Cloud. This tutorial uses MindsDB Cloud. For more information about how to install a local MindsDB, refer to https://docs.mindsdb.com/quickstart#1-create-a-mindsdb-cloud-account-or-install-mindsdb-locally
+Before you start, install a local MindsDB or sign up an account for MindsDB Cloud. This tutorial uses MindsDB Cloud. For more information about how to install a local MindsDB, refer to [https://docs.mindsdb.com/quickstart-tutorial](https://docs.mindsdb.com/quickstart-tutorial)
 
 ### Step 1. Load Dataset into Databend
 
@@ -104,7 +104,7 @@ Output:
 
 ## Tutorial-2: Integrating Databend Cloud with MindsDB
 
-Before you start, install a local MindsDB or sign up an account for MindsDB Cloud. This tutorial uses MindsDB Cloud. For more information about how to install a local MindsDB, refer to https://docs.mindsdb.com/quickstart#1-create-a-mindsdb-cloud-account-or-install-mindsdb-locally
+Before you start, install a local MindsDB or sign up an account for MindsDB Cloud. This tutorial uses MindsDB Cloud. For more information about how to install a local MindsDB, refer to [https://docs.mindsdb.com/quickstart-tutorial](https://docs.mindsdb.com/quickstart-tutorial)
 
 ### Step 1. Load Dataset into Databend Cloud
 
