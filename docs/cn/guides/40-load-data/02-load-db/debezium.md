@@ -6,7 +6,7 @@ title: Debezium
 
 [debezium-server-databend](https://github.com/databendcloud/debezium-server-databend) 是 Databend 基于 Debezium Engine 开发的轻量级 CDC 工具，用于捕获关系型数据库的实时变更，将其作为事件流传递，并最终将数据写入目标数据库 Databend。该工具提供简洁的数据库变更监控与捕获方案，无需依赖 Flink、Kafka 或 Spark 等大型数据基础设施即可将变更转换为可消费事件。
 
-### 安装 debezium-server-databend
+### 安装 debezium-server-databend {#installing-debezium-server-databend}
 
 debezium-server-databend 可独立安装，无需预装 Debezium。安装时有两种选择：下载源代码自行构建，或通过 Docker 快速安装。
 
