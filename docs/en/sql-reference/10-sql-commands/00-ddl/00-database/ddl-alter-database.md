@@ -78,3 +78,22 @@ ALTER DATABASE analytics SET OPTIONS (
     DEFAULT_STORAGE_PATH = 's3://mybucket/analytics_v2/'
 );
 ```
+
+## Tag Operations {#tag-operations}
+
+Assigns or removes tags on a database. Tags must be created with [CREATE TAG](../08-tag/01-ddl-create-tag.md) first. For full details, see [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md).
+
+### Syntax
+
+```sql
+ALTER DATABASE [ IF EXISTS ] <name> SET TAG <tag_name> = '<value>' [, <tag_name> = '<value>' ...]
+
+ALTER DATABASE [ IF EXISTS ] <name> UNSET TAG <tag_name> [, <tag_name> ...]
+```
+
+### Examples
+
+```sql
+ALTER DATABASE mydb SET TAG env = 'prod', owner = 'team_a';
+ALTER DATABASE mydb UNSET TAG env, owner;
+```

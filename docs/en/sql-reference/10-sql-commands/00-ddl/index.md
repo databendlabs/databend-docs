@@ -27,6 +27,7 @@ These topics provide reference information for the DDL (Data Definition Language
 | Component | Description |
 |-----------|-------------|
 | **[User](02-user/index.md)** | Create and manage database users |
+| **[Tag](08-tag/index.md)** | Attach key-value metadata to objects for governance and classification |
 | **[Network Policy](12-network-policy/index.md)** | Control network access to databases |
 | **[Mask Policy](12-mask-policy/index.md)** | Apply data masking for sensitive information |
 | **[Password Policy](12-password-policy/index.md)** | Enforce password requirements and rotation |

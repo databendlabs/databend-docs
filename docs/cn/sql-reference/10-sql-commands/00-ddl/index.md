@@ -27,6 +27,7 @@ title: DDL（Data Definition Language）命令
 | 组件 | 描述 |
 |-----------|-------------|
 | **[用户](02-user/index.md)** | 创建和管理数据库用户 |
+| **[标签 (Tag)](08-tag/index.md)** | 将键值元数据附加到对象上，用于治理和分类 |
 | **[网络策略 (Network Policy)](12-network-policy/index.md)** | 控制对数据库的网络访问 |
 | **[掩码策略 (Mask Policy)](12-mask-policy/index.md)** | 为敏感信息应用数据掩码 |
 | **[密码策略 (Password Policy)](12-password-policy/index.md)** | 强制执行密码要求和轮换 |
