@@ -57,7 +57,7 @@ ALTER TABLE t1 CREATE TAG v1_0;
 INSERT INTO t1 VALUES (4, 'd'), (5, 'e');
 
 -- Query the tagged snapshot (returns 3 rows, not 5)
-SELECT * FROM t1 AT (TAG => "v1_0") ORDER BY a;
+SELECT * FROM t1 AT (TAG => v1_0) ORDER BY a;
 ```
 
 ### Tag from an Existing Reference

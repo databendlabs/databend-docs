@@ -43,6 +43,6 @@ ALTER TABLE t1 CREATE TAG v1_0;
 ALTER TABLE t1 DROP TAG v1_0;
 
 -- 查询已删除的标签会返回错误
-SELECT * FROM t1 AT (TAG => "v1_0");
+SELECT * FROM t1 AT (TAG => v1_0);
 -- Error: tag 'v1_0' not found
 ```

@@ -22,7 +22,7 @@ AT (
        TIMESTAMP => <timestamp> |
        STREAM => <stream_name> |
        OFFSET => <time_interval> |
-       TAG => '<tag_name>'
+       TAG => <tag_name>
    )
 ```
 
@@ -109,7 +109,7 @@ ALTER TABLE t CREATE TAG v1_0;
 INSERT INTO t VALUES(4);
 
 -- 查询标签对应的快照（返回最后一次插入之前的数据）
-SELECT * FROM t AT (TAG => "v1_0") ORDER BY a;
+SELECT * FROM t AT (TAG => v1_0) ORDER BY a;
 
 ┌─────────────────┐
 │        a        │

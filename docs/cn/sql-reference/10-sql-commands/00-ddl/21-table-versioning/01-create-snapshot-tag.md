@@ -57,7 +57,7 @@ ALTER TABLE t1 CREATE TAG v1_0;
 INSERT INTO t1 VALUES (4, 'd'), (5, 'e');
 
 -- 查询标签对应的快照（返回 3 行，而非 5 行）
-SELECT * FROM t1 AT (TAG => "v1_0") ORDER BY a;
+SELECT * FROM t1 AT (TAG => v1_0) ORDER BY a;
 ```
 
 ### 从已有引用创建标签

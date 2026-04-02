@@ -21,7 +21,7 @@ AT (
        TIMESTAMP => <timestamp> | 
        STREAM => <stream_name> |
        OFFSET => <time_interval> |
-       TAG => '<tag_name>'
+       TAG => <tag_name>
    )
 ```
 
@@ -108,7 +108,7 @@ ALTER TABLE t CREATE TAG v1_0;
 INSERT INTO t VALUES(4);
 
 -- Query the tagged snapshot (returns data before the last insert)
-SELECT * FROM t AT (TAG => "v1_0") ORDER BY a;
+SELECT * FROM t AT (TAG => v1_0) ORDER BY a;
 
 ┌─────────────────┐
 │        a        │
