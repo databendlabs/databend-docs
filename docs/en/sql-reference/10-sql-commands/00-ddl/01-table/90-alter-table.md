@@ -401,3 +401,24 @@ ALTER TABLE t1 SWAP WITH t2;
 DESC t1;
 DESC t2;
 ```
+
+## Tag Operations {#tag-operations}
+
+Assigns or removes tags on a table. Tags must be created with [CREATE TAG](../08-tag/01-ddl-create-tag.md) first. For full details, see [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md).
+
+### Syntax
+
+```sql
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+    SET TAG <tag_name> = '<value>' [, <tag_name> = '<value>' ...]
+
+ALTER TABLE [ IF EXISTS ] [ <database_name>. ]<table_name>
+    UNSET TAG <tag_name> [, <tag_name> ...]
+```
+
+### Examples
+
+```sql
+ALTER TABLE default.users SET TAG env = 'prod', owner = 'team_a';
+ALTER TABLE default.users UNSET TAG env, owner;
+```
