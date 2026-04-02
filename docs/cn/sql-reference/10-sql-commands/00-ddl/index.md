@@ -10,6 +10,7 @@ title: DDL（Data Definition Language）命令
 |-----------|-------------|
 | **[数据库](00-database/index.md)** | 创建、修改和删除数据库 |
 | **[表](01-table/index.md)** | 创建、修改和管理表 |
+| **[表版本管理 (Table Versioning)](21-table-versioning/index.md)** | 创建命名快照标签用于时间回溯 |
 | **[视图 (View)](05-view/index.md)** | 基于查询创建和管理虚拟表 |
 
 ## 性能和索引

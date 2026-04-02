@@ -25,6 +25,7 @@ Databend supports the following objects to create and modify them:
 - Grants
 - Warehouse
 - Task
+- Tag
 
 ## Organizing Data
 

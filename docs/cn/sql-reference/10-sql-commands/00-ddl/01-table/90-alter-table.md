@@ -296,9 +296,28 @@ DESC t1;
 DESC t2;
 ```
 
+## 快照标签操作 {#snapshot-tag-operations}
+
+<FunctionDescription description="Introduced or updated: v1.2.891"/>
+
+创建或删除引用特定 FUSE 表快照的命名快照标签。快照标签允许您为表的某个时间点状态创建书签，以便稍后通过 [AT](../../20-query-syntax/03-query-at.md) 子句进行查询。
+
+完整语法和示例请参阅：
+- [CREATE SNAPSHOT TAG](../21-table-versioning/01-create-snapshot-tag.md)
+- [DROP SNAPSHOT TAG](../21-table-versioning/02-drop-snapshot-tag.md)
+
+### 快照标签 vs. 治理标签 {#snapshot-tags-vs-governance-tags}
+
+| | 快照标签 | 治理标签 |
+|---|---|---|
+| 用途 | 为表快照创建书签，用于时间回溯 | 附加键值元数据，用于分类 |
+| 语法 | `ALTER TABLE ... CREATE TAG <name>` | `ALTER TABLE ... SET TAG <key> = '<value>'` |
+| 查询 | `SELECT ... AT (TAG => "<name>")` | `SELECT * FROM TAG_REFERENCES(...)` |
+| 范围 | 仅限表，引用快照 | 任何对象（表、数据库、视图等） |
+
 ## Tag 操作 {#tag-operations}
 
-为表分配或移除 Tag。Tag 必须先通过 [CREATE TAG](../08-tag/01-ddl-create-tag.md) 创建。完整说明请参阅 [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md)。
+为表分配或移除治理标签。治理标签是用于分类和数据治理的键值元数据。Tag 必须先通过 [CREATE TAG](../08-tag/01-ddl-create-tag.md) 创建。完整说明请参阅 [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md)。
 
 ### 语法
 

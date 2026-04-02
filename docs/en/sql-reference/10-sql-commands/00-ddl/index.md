@@ -10,6 +10,7 @@ These topics provide reference information for the DDL (Data Definition Language
 |-----------|-------------|
 | **[Database](00-database/index.md)** | Create, alter, and drop databases |
 | **[Table](01-table/index.md)** | Create, alter, and manage tables |
+| **[Table Versioning](21-table-versioning/index.md)** | Create named snapshot tags for time travel |
 | **[View](05-view/index.md)** | Create and manage virtual tables based on queries |
 
 ## Performance & Indexing

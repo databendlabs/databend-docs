@@ -21,7 +21,8 @@ AT (
        SNAPSHOT => '<snapshot_id>' |
        TIMESTAMP => <timestamp> |
        STREAM => <stream_name> |
-       OFFSET => <time_interval>
+       OFFSET => <time_interval> |
+       TAG => '<tag_name>'
    )
 ```
 
@@ -31,6 +32,7 @@ AT (
 | TIMESTAMP | 指定要从中检索数据的特定时间戳。                                                                                                |
 | STREAM    | 表示查询创建指定流时的数据。                                                                                                    |
 | OFFSET    | 指定从当前时间回溯的秒数。它应该采用负整数的形式，其中绝对值表示以秒为单位的时间差。例如，`-3600` 表示回溯 1 小时（3,600 秒）。 |
+| TAG       | 指定通过 `ALTER TABLE ... CREATE TAG` 创建的命名标签，用于查询该标签关联的快照。这是一个实验性功能，需要 `SET enable_experimental_table_ref = 1`。参见[快照标签操作](/sql/sql-commands/ddl/table/alter-table#snapshot-tag-operations)。 |
 
 ## 获取快照 ID 和时间戳
 
@@ -93,4 +95,27 @@ SELECT * FROM t AT (STREAM => s);
 
 -- 检索表 't' 中的所有列，其中包含 60 秒前的数据
 SELECT * FROM t AT (OFFSET => -60);
+```
+
+4. 使用命名标签查询数据（实验性功能）。
+
+```sql
+SET enable_experimental_table_ref = 1;
+
+-- 在当前快照创建标签
+ALTER TABLE t CREATE TAG v1_0;
+
+-- 插入更多数据
+INSERT INTO t VALUES(4);
+
+-- 查询标签对应的快照（返回最后一次插入之前的数据）
+SELECT * FROM t AT (TAG => "v1_0") ORDER BY a;
+
+┌─────────────────┐
+│        a        │
+├─────────────────┤
+│               1 │
+│               2 │
+│               3 │
+└─────────────────┘
 ```
