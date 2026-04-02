@@ -27,9 +27,9 @@ ALTER TABLE [<database_name>.]<table_name> CREATE TAG <tag_name>
         TIMESTAMP => <timestamp> |
         STREAM => <stream_name> |
         OFFSET => <time_interval> |
-        TAG => <existing_tag_name>
+        TAG => <tag_name>
     ) ]
-    [ RETAIN <n> DAYS | SECONDS ]
+    [ RETAIN <n> { DAYS | SECONDS } ]
 ```
 
 ## Parameters

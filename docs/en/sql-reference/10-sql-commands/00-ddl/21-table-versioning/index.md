@@ -18,7 +18,22 @@ SET enable_experimental_table_ref = 1;
 
 ## Snapshot Tags
 
-A snapshot tag pins a specific point-in-time state of a table by name. You can query the tagged state at any time using the [AT](../../20-query-syntax/03-query-at.md) clause, without needing to track snapshot IDs or timestamps.
+Snapshot tags pin a specific point-in-time state of a table by name. Once created, a tag holds a reference to a particular snapshot so you can query that exact state at any time using the [AT](../../20-query-syntax/03-query-at.md) clause, without needing to track snapshot IDs or timestamps.
+
+**Use cases:**
+- **Release checkpoints**: Tag the table state before and after a data pipeline run so you can compare or roll back.
+- **Audit and compliance**: Preserve a named snapshot for regulatory review without worrying about retention expiry.
+- **Safe experimentation**: Tag the current state, run experimental transforms, then query the tag to verify what changed.
+- **Reproducible analytics**: Pin a dataset version so dashboards and reports always reference the same data.
+
+**How it works:**
+
+A snapshot tag attaches a human-readable name to a snapshot. As long as the tag exists, the referenced snapshot is protected from vacuum and garbage collection — even if the retention period has passed.
+
+- A tag without `RETAIN` lives until explicitly dropped.
+- A tag with `RETAIN <n> { DAYS | SECONDS }` is automatically removed after the specified duration during the next vacuum operation.
+
+**SQL Commands:**
 
 | Command | Description |
 |---------|-------------|
