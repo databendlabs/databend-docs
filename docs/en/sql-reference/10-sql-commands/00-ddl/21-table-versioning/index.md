@@ -16,7 +16,7 @@ SET enable_experimental_table_ref = 1;
 ```
 :::
 
-## Snapshot Tags
+## Snapshot Tags {#snapshot-tags}
 
 Snapshot tags pin a specific point-in-time state of a table by name. Once created, a tag holds a reference to a particular snapshot so you can query that exact state at any time using the [AT](../../20-query-syntax/03-query-at.md) clause, without needing to track snapshot IDs or timestamps.
 

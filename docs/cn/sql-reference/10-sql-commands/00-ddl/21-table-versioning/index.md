@@ -16,7 +16,7 @@ SET enable_experimental_table_ref = 1;
 ```
 :::
 
-## 快照标签
+## 快照标签 {#snapshot-tags}
 
 快照标签通过名称固定表的某个时间点状态。创建后，标签会持有对特定快照的引用，您可以随时通过 [AT](../../20-query-syntax/03-query-at.md) 子句查询该状态，无需记录快照 ID 或时间戳。
 
