@@ -57,7 +57,7 @@ INSERT INTO t VALUES (1, 'Databend');
 SELECT * FROM t;
 ```
 
-完成！如需了解分组件部署的方式，请参考[在 Docker 上部署](../02-deployment/01-non-production/00-deploying-local.md)。
+完成！如需了解分组件部署的方式，请参考[在 Docker 上部署](../02-deployment/20-deploying-local.md)。
 
 ## 替代方案：Databend Cloud
 

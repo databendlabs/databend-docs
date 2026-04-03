@@ -50,7 +50,7 @@ INSERT INTO t VALUES (1, 'Databend');
 SELECT * FROM t;
 ```
 
-You're all set. For a more realistic setup with separate components, see [Deploying on Docker](../02-deployment/01-non-production/00-deploying-local.md).
+You're all set. For a more realistic setup with separate components, see [Deploying on Docker](../02-deployment/20-deploying-local.md).
 
 ## Alternative: Databend Cloud
 

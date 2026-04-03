@@ -203,7 +203,7 @@ endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
   </TabItem>
 </Tabs>
 
-2. 每个查询节点还需在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中配置对象存储和管理员用户，详见[此文档](../01-non-production/01-deploying-databend.md#部署查询节点)。
+2. 每个查询节点还需在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中配置对象存储和管理员用户，详见[此文档](../21-deploying-databend.md#部署查询节点)。
 
 3. 在每个查询节点执行启动脚本：
 
