@@ -6,7 +6,7 @@ sidebar_label: 部署 Databend 集群
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Databend 建议在生产环境中部署至少包含三个元节点（Meta Node）和一个查询节点（Query Node）的集群。要深入了解 Databend 集群部署，请参阅[理解 Databend 部署模式](../00-understanding-deployment-modes.md)，该文档将帮助您掌握相关概念。本文旨在提供部署 Databend 集群的实践指南。
+Databend 建议在生产环境中部署至少包含三个元节点（Meta Node）和一个查询节点（Query Node）的集群。要深入了解 Databend 集群部署，请参阅[理解 Databend 部署模式](../10-understanding-deployment-modes.md)，该文档将帮助您掌握相关概念。本文旨在提供部署 Databend 集群的实践指南。
 
 ## 准备工作
 

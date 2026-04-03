@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 <!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
 import VideoCN from '@site/docs/fragment/10-metasrv-deploy-cnvideo.md' -->
 
-Databend recommends deploying a cluster with a minimum of three meta nodes and one query node for production environments. To gain a better understanding of Databend cluster deployment, see [Understanding Databend Deployments](../00-understanding-deployment-modes.md), which will familiarize you with the concept. This topic aims to provide a practical guide for deploying a Databend cluster.
+Databend recommends deploying a cluster with a minimum of three meta nodes and one query node for production environments. To gain a better understanding of Databend cluster deployment, see [Understanding Databend Deployments](../10-understanding-deployment-modes.md), which will familiarize you with the concept. This topic aims to provide a practical guide for deploying a Databend cluster.
 
 ## Before You Begin
 
