@@ -27,5 +27,5 @@ Databend 社区版（Community）是 Databend 的开源版本，基于 **Apache 
 ## 快速入门
 
 - **[快速入门指南](/guides/self-hosted/quickstart)**：5 分钟快速上手
-- **[下载与安装](/guides/self-hosted/deployment/download)**：私有化部署选项
+- **[Docker 部署](/guides/self-hosted/deployment/deploying-local)**：私有化部署选项
 - **[GitHub 仓库](https://github.com/databendlabs/databend)**：源代码与社区

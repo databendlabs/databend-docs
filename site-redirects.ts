@@ -1528,7 +1528,11 @@ const siteRedirects = [
   },
   {
     from: '/guides/deploy/deploy/download',
-    to: '/guides/self-hosted/deployment/download'
+    to: '/guides/self-hosted/deployment'
+  },
+  {
+    from: '/guides/self-hosted/deployment/download',
+    to: '/guides/self-hosted/deployment'
   },
   {
     from: '/guides/deploy/deploy',
