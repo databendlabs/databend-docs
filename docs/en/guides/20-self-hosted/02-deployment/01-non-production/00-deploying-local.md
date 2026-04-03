@@ -46,22 +46,25 @@ services:
     depends_on:
       - minio
     volumes:
-      - databend-meta-data:/var/lib/databend/meta
+      - databend-meta-data:/data/
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:28101/v1/health"]
       interval: 5s
       timeout: 3s
       retries: 10
-    command: >
-      --log-file-level=warn
-      --log-file-dir=/var/log/databend
-      --admin-api-address=0.0.0.0:28101
-      --grpc-api-address=0.0.0.0:9191
-      --raft-listen-host=0.0.0.0
-      --raft-api-port=28103
-      --raft-dir=/var/lib/databend/meta
-      --id=1
-      --single
+    entrypoint: sh -c "/databend-meta \
+        --log-file-level='warn' \
+        --log-file-format='text' \
+        --log-file-dir='/data/logs/' \
+        --log-file-limit=24 \
+        --admin-api-address='0.0.0.0:28101' \
+        --grpc-api-address='0.0.0.0:9191' \
+        --grpc-api-advertise-host='0.0.0.0' \
+        --raft-listen-host='0.0.0.0' \
+        --raft-api-port='28103' \
+        --raft-dir='/data/metadata' \
+        --id=1 \
+        --single"
 
   databend-query:
     image: datafuselabs/databend-query:latest
@@ -69,22 +72,63 @@ services:
     depends_on:
       databend-meta:
         condition: service_healthy
-    environment:
-      QUERY_DEFAULT_USER: databend
-      QUERY_DEFAULT_PASSWORD: databend
-      QUERY_STORAGE_TYPE: s3
-      AWS_S3_ENDPOINT: http://127.0.0.1:9000
-      AWS_S3_BUCKET: databend
-      AWS_ACCESS_KEY_ID: minioadmin
-      AWS_SECRET_ACCESS_KEY: minioadmin
-      META_ENDPOINTS: 0.0.0.0:9191
     volumes:
-      - query-logs:/var/log/databend
+      - query-logs:/var/log/databend/
+      - query-config:/etc/databend/
+    environment:
+      RUST_BACKTRACE: 1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7070/metrics"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    entrypoint: |
+      sh -c "
+      cat <<'EOF' > /etc/databend/databend-query.toml
+      [query]
+      max_active_sessions = 256
+      shutdown_wait_timeout_ms = 5000
+      flight_api_address = '0.0.0.0:9090'
+      metric_api_address = '0.0.0.0:7070'
+      tenant_id = 'default'
+      cluster_id = 'c01'
+
+      [[query.users]]
+      name = 'databend'
+      auth_type = 'double_sha1_password'
+      # password: databend
+      auth_string = '3081f32caef285c232d066033c89a96d542d09d7'
+
+      [log]
+      [log.file]
+      level = 'WARN'
+      format = 'text'
+      dir = '/var/log/databend'
+
+      [meta]
+      endpoints = ['0.0.0.0:9191']
+      username = 'root'
+      password = 'root'
+      client_timeout_in_second = 30
+      auto_sync_interval = 30
+
+      [storage]
+      type = 's3'
+      [storage.s3]
+      endpoint_url = 'http://127.0.0.1:9000'
+      region = 'us-east-1'
+      access_key_id = 'minioadmin'
+      secret_access_key = 'minioadmin'
+      bucket = 'databend'
+      EOF
+      exec /usr/bin/databend-query --config-file=/etc/databend/databend-query.toml
+      "
 
 volumes:
   minio-data:
   databend-meta-data:
   query-logs:
+  query-config:
 ```
 
 ### Step 2: Start Databend
@@ -99,13 +143,13 @@ Check that all three containers are running:
 docker compose ps
 ```
 
-You should see `minio`, `databend-meta`, and `databend-query` all in a running state. To follow the logs:
+To follow the query logs:
 
 ```shell
 docker compose logs -f databend-query
 ```
 
-Wait until you see a line like `Databend Query started`.
+Wait until you see `Databend Query started`.
 
 ### Step 3: Connect to Databend
 
@@ -130,6 +174,13 @@ To remove containers and volumes entirely:
 ```shell
 docker compose down -v
 ```
+
+### Advanced Configuration
+
+To customize the configuration, you can mount your own config files instead of generating them in the entrypoint. Reference configs:
+
+- databend-meta: https://github.com/databendlabs/databend/blob/main/scripts/ci/deploy/config/databend-meta-node-1.toml
+- databend-query: https://github.com/databendlabs/databend/blob/main/scripts/ci/deploy/config/databend-query-node-1.toml
 
 ### Next Steps
 

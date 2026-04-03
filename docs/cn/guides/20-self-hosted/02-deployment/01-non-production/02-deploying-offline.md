@@ -21,7 +21,7 @@ docker save minio/minio:latest | gzip > minio.tar.gz
 :::tip 国内用户
 也可以从国内镜像源拉取，速度更快：
 ```shell
-VERSION=v1.2.735-nightly
+VERSION=latest
 docker pull registry.databend.cn/public/databend-meta:${VERSION}
 docker pull registry.databend.cn/public/databend-query:${VERSION}
 ```
@@ -30,7 +30,7 @@ docker pull registry.databend.cn/public/databend-query:${VERSION}
 如需固定版本（生产环境推荐）：
 
 ```shell
-VERSION=v1.2.735-nightly
+VERSION=latest
 docker pull datafuselabs/databend-meta:${VERSION}
 docker pull datafuselabs/databend-query:${VERSION}
 docker save datafuselabs/databend-meta:${VERSION} | gzip > databend-meta-${VERSION}.tar.gz
@@ -66,7 +66,7 @@ docker compose up -d
 如果公司内部有私有镜像仓库（例如 `registry.example.com`）：
 
 ```shell
-VERSION=v1.2.735-nightly
+VERSION=latest
 REGISTRY=registry.example.com
 
 docker tag datafuselabs/databend-meta:${VERSION} ${REGISTRY}/databend-meta:${VERSION}

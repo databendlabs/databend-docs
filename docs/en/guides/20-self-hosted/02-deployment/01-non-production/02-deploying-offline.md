@@ -21,7 +21,7 @@ docker save minio/minio:latest | gzip > minio.tar.gz
 To pin a specific version (recommended for production):
 
 ```shell
-VERSION=v1.2.735-nightly
+VERSION=latest
 docker pull datafuselabs/databend-meta:${VERSION}
 docker pull datafuselabs/databend-query:${VERSION}
 docker save datafuselabs/databend-meta:${VERSION} | gzip > databend-meta-${VERSION}.tar.gz
@@ -57,7 +57,7 @@ docker compose up -d
 If your organization uses a private Docker registry (e.g., `registry.example.com`):
 
 ```shell
-VERSION=v1.2.735-nightly
+VERSION=latest
 REGISTRY=registry.example.com
 
 docker tag datafuselabs/databend-meta:${VERSION} ${REGISTRY}/databend-meta:${VERSION}
