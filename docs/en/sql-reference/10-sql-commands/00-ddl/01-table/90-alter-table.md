@@ -359,6 +359,20 @@ CREATE CONNECTION s3_role_conn
 ALTER TABLE sales_data CONNECTION=( connection_name = 's3_role_conn' );
 ```
 
+## Snapshot Tag Operations {#snapshot-tag-operations}
+
+<FunctionDescription description="Introduced or updated: v1.2.891"/>
+
+Creates or drops a named snapshot tag that references a specific FUSE table snapshot. Snapshot tags let you bookmark a point-in-time state of a table so you can query it later with the [AT](../../20-query-syntax/03-query-at.md) clause.
+
+For full details, see:
+- [CREATE SNAPSHOT TAG](../21-table-versioning/01-create-snapshot-tag.md)
+- [DROP SNAPSHOT TAG](../21-table-versioning/02-drop-snapshot-tag.md)
+
+:::note
+Snapshot tags are different from [governance tags](#tag-operations). Snapshot tags bookmark a table snapshot for time travel, while governance tags attach key-value metadata to objects for classification.
+:::
+
 ## Swap Tables {#swap-tables}
 
 Swaps all table metadata and data between two tables atomically in a single transaction. This operation exchanges the table schemas, including all columns, constraints, and data, effectively making each table take on the identity of the other.
@@ -404,7 +418,7 @@ DESC t2;
 
 ## Tag Operations {#tag-operations}
 
-Assigns or removes tags on a table. Tags must be created with [CREATE TAG](../08-tag/01-ddl-create-tag.md) first. For full details, see [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md).
+Assigns or removes governance tags on a table. Governance tags are key-value metadata for classification and data governance. Tags must be created with [CREATE TAG](../08-tag/01-ddl-create-tag.md) first. For full details, see [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md).
 
 ### Syntax
 

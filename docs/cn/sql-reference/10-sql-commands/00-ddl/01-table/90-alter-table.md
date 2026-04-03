@@ -257,6 +257,20 @@ CREATE CONNECTION s3_role_conn
 ALTER TABLE sales_data CONNECTION=( connection_name = 's3_role_conn' );
 ```
 
+## 快照标签操作 {#snapshot-tag-operations}
+
+<FunctionDescription description="Introduced or updated: v1.2.891"/>
+
+创建或删除引用特定 FUSE 表快照的命名快照标签。快照标签允许您为表的某个时间点状态创建书签，以便稍后通过 [AT](../../20-query-syntax/03-query-at.md) 子句进行查询。
+
+完整语法和示例请参阅：
+- [CREATE SNAPSHOT TAG](../21-table-versioning/01-create-snapshot-tag.md)
+- [DROP SNAPSHOT TAG](../21-table-versioning/02-drop-snapshot-tag.md)
+
+:::note
+快照标签与[治理标签](#tag-operations)不同。快照标签为表快照创建书签用于时间回溯，而治理标签为对象附加键值元数据用于分类。
+:::
+
 ## 交换表 {#swap-tables}
 
 在同一个事务中交换两张表的所有元数据和数据，使双方的列、约束以及数据完全互换。
@@ -298,7 +312,7 @@ DESC t2;
 
 ## Tag 操作 {#tag-operations}
 
-为表分配或移除 Tag。Tag 必须先通过 [CREATE TAG](../08-tag/01-ddl-create-tag.md) 创建。完整说明请参阅 [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md)。
+为表分配或移除治理标签。治理标签是用于分类和数据治理的键值元数据。Tag 必须先通过 [CREATE TAG](../08-tag/01-ddl-create-tag.md) 创建。完整说明请参阅 [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md)。
 
 ### 语法
 

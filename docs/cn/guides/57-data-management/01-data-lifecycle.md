@@ -25,6 +25,7 @@ Databend 支持创建和修改以下对象：
 - 授权
 - 计算集群
 - 任务
+- [快照标签](/sql/sql-commands/ddl/table-versioning#snapshot-tags)
 
 ## 组织数据
 
