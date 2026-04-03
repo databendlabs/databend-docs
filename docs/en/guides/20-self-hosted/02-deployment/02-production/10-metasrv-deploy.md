@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 <!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
 import VideoCN from '@site/docs/fragment/10-metasrv-deploy-cnvideo.md' -->
 
-Databend recommends deploying a cluster with a minimum of three meta nodes and one query node for production environments. To gain a better understanding of Databend cluster deployment, see [Understanding Databend Deployments](../10-understanding-deployment-modes.md), which will familiarize you with the concept. This topic aims to provide a practical guide for deploying a Databend cluster.
+Databend recommends deploying a cluster with a minimum of three meta nodes and one query node for production environments. To gain a better understanding of Databend cluster deployment, see [Understanding Databend Deployments](../05-understanding-deployment-modes.md), which will familiarize you with the concept. This topic aims to provide a practical guide for deploying a Databend cluster.
 
 ## Before You Begin
 
@@ -206,7 +206,7 @@ endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
   </TabItem>
 </Tabs>
 
-2. For each query node, you also need to configure the object storage and admin users in the file [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For detailed instructions, see [here](../21-deploying-databend.md#deploying-a-query-node).
+2. For each query node, you also need to configure the object storage and admin users in the file [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For detailed instructions, see [here](../03-deploying-databend.md#deploying-a-query-node).
 
 3. Run the following script on each query node to start them:
 

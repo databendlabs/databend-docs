@@ -26,7 +26,7 @@ PRESIGN UPLOAD @airbyte_stage/test.csv;
 ```
 
 如果你收到类似 `Code: 501, Text = Presign is not supported` 的错误，则表示你无法使用此集成。
-请阅读[此文档](../../20-self-hosted/02-deployment/20-deploying-local.md)了解如何使用 S3 作为存储后端。
+请阅读[此文档](../../20-self-hosted/02-deployment/01-deploying-local.md)了解如何使用 S3 作为存储后端。
 
 ## 创建 Databend 用户
 
