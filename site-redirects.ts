@@ -1552,15 +1552,27 @@ const siteRedirects = [
   },
   {
     from: '/guides/deploy/deploy/benddeploy',
-    to: '/guides/self-hosted/deployment/benddeploy'
+    to: '/guides/self-hosted/deployment/production/benddeploy'
+  },
+  {
+    from: '/guides/self-hosted/deployment/benddeploy',
+    to: '/guides/self-hosted/deployment/production/benddeploy'
   },
   {
     from: '/guides/deploy/deploy/benddeploy/getting-started',
-    to: '/guides/self-hosted/deployment/benddeploy/getting-started'
+    to: '/guides/self-hosted/deployment/production/benddeploy/getting-started'
+  },
+  {
+    from: '/guides/self-hosted/deployment/benddeploy/getting-started',
+    to: '/guides/self-hosted/deployment/production/benddeploy/getting-started'
   },
   {
     from: '/guides/deploy/deploy/benddeploy/installing-benddeploy',
-    to: '/guides/self-hosted/deployment/benddeploy/installing-benddeploy'
+    to: '/guides/self-hosted/deployment/production/benddeploy/installing-benddeploy'
+  },
+  {
+    from: '/guides/self-hosted/deployment/benddeploy/installing-benddeploy',
+    to: '/guides/self-hosted/deployment/production/benddeploy/installing-benddeploy'
   },
   {
     from: '/guides/deploy/deploy/manually',
