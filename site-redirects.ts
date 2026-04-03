@@ -1560,7 +1560,11 @@ const siteRedirects = [
   },
   {
     from: '/guides/deploy/deploy/manually',
-    to: '/guides/self-hosted/deployment/manually'
+    to: '/guides/self-hosted/deployment'
+  },
+  {
+    from: '/guides/self-hosted/deployment/manually',
+    to: '/guides/self-hosted/deployment'
   },
   // Upgrade redirects
   {
