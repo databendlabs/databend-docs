@@ -12,7 +12,45 @@ This page provides information about recent features, enhancements, and bug fixe
 
 <StepsWrap> 
 
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.890-nightly" number="-1" defaultCollapsed={false}>
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.888-patch-3" number="-1" defaultCollapsed={false}>
+
+## Mar 31, 2026 (v1.2.888-patch-3)
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.888-patch-3
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.891-nightly" number="" defaultCollapsed={false}>
+
+## Mar 30, 2026 (v1.2.891-nightly)
+
+## What's Changed
+### Exciting New Features ✨
+* feat(stage): add TEXT file format params by **@youngsofun** in [#19588](https://github.com/databendlabs/databend/pull/19588)
+* feat(http): add server-side parameter binding to /v1/query by **@cliftonc** in [#19601](https://github.com/databendlabs/databend/pull/19601)
+* feat: enable TCP_NODELAY on gRPC listener sockets by **@drmingdrmer** in [#19619](https://github.com/databendlabs/databend/pull/19619)
+* feat(query): support experimental table tags for FUSE table snapshots by **@zhyass** in [#19549](https://github.com/databendlabs/databend/pull/19549)
+### Thoughtful Bug Fix 🔧
+* fix(storage): split oversized compact blocks during recluster by **@zhyass** in [#19577](https://github.com/databendlabs/databend/pull/19577)
+* fix(query): preserve parentheses in UNION queries by **@sundy-li** in [#19587](https://github.com/databendlabs/databend/pull/19587)
+* fix(query): avoid create or alter recursive views by **@TCeason** in [#19584](https://github.com/databendlabs/databend/pull/19584)
+* fix(query): escape LIKE ESCAPE literals in display by **@sundy-li** in [#19596](https://github.com/databendlabs/databend/pull/19596)
+* fix: clarify AGENTS.md guidance for conflicts and patterns by **@forsaken628** in [#19617](https://github.com/databendlabs/databend/pull/19617)
+* fix(query): enforce row access policy for Direct UPDATE and split predicate fields by **@TCeason** in [#19625](https://github.com/databendlabs/databend/pull/19625)
+* fix: rename PanicError and fix executor OOM mapping by **@sundy-li** in [#19614](https://github.com/databendlabs/databend/pull/19614)
+* fix: restore enable_merge_into_row_fetch by **@dqhl76** in [#19624](https://github.com/databendlabs/databend/pull/19624)
+### Code Refactor 🎉
+* refactor(storage): extract fuse block format abstraction by **@SkyFan2002** in [#19576](https://github.com/databendlabs/databend/pull/19576)
+* refactor(sql): separate aggregate registration and reuse in binder by **@forsaken628** in [#19579](https://github.com/databendlabs/databend/pull/19579)
+
+## New Contributors
+* **@cliftonc** made their first contribution in [#19601](https://github.com/databendlabs/databend/pull/19601)
+
+**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.891-nightly
+
+</StepContent>
+
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.890-nightly" number="" defaultCollapsed={true}>
 
 ## Mar 23, 2026 (v1.2.890-nightly)
 
@@ -43,7 +81,7 @@ This page provides information about recent features, enhancements, and bug fixe
 
 </StepContent>
 
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.889-nightly" number="" defaultCollapsed={false}>
+<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.889-nightly" number="" defaultCollapsed={true}>
 
 ## Mar 16, 2026 (v1.2.889-nightly)
 
@@ -670,55 +708,6 @@ This page provides information about recent features, enhancements, and bug fixe
 
 
 **Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.863-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.862-nightly" number="" defaultCollapsed={true}>
-
-## Dec 29, 2025 (v1.2.862-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat: clustering_statistics support specify snapshot by **@zhyass** in [#19148](https://github.com/databendlabs/databend/pull/19148)
-* feat(query): Enhanced Inverted Index for VARIANT Type to precise matching Object within Arrays by **@b41sh** in [#19096](https://github.com/databendlabs/databend/pull/19096)
-### Thoughtful Bug Fix 🔧
-* fix: allow credential chain for system_history tables by **@dqhl76** in [#19167](https://github.com/databendlabs/databend/pull/19167)
-### Code Refactor 🎉
-* refactor(query): use unchecked utf8 for payload flush by **@zhang2014** in [#19159](https://github.com/databendlabs/databend/pull/19159)
-* refactor: prioritize table options for retention policy by **@dantengsky** in [#19162](https://github.com/databendlabs/databend/pull/19162)
-* refactor(query): send runtime filter packets as data blocks by **@zhang2014** in [#19170](https://github.com/databendlabs/databend/pull/19170)
-* refactor(query): streamline flight exchange coordination by **@zhang2014** in [#19175](https://github.com/databendlabs/databend/pull/19175)
-### Build/Testing/CI Infra Changes 🔌
-* ci: upgrade llvm in build-tool image by **@everpcpc** in [#19166](https://github.com/databendlabs/databend/pull/19166)
-* ci: install missing packages by **@everpcpc** in [#19171](https://github.com/databendlabs/databend/pull/19171)
-* ci: enable unit test by **@everpcpc** in [#19172](https://github.com/databendlabs/databend/pull/19172)
-* ci: update unit test. by **@youngsofun** in [#19168](https://github.com/databendlabs/databend/pull/19168)
-### Others 📒
-* chore: ndv upper cutoff by **@forsaken628** in [#19133](https://github.com/databendlabs/databend/pull/19133)
-* chore(query): add stats for new final aggregators by **@dqhl76** in [#19156](https://github.com/databendlabs/databend/pull/19156)
-* chore(query): add probe rows log for hash join by **@zhang2014** in [#19165](https://github.com/databendlabs/databend/pull/19165)
-* chore: Date/Time elements are used in AggregateDistinct in numerical form, reducing the memory usage of the Set. by **@KKould** in [#19157](https://github.com/databendlabs/databend/pull/19157)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.862-nightly
-
-</StepContent>
-
-<StepContent outLink="https://github.com/databendlabs/databend/releases/tag/v1.2.861-nightly" number="" defaultCollapsed={true}>
-
-## Dec 25, 2025 (v1.2.861-nightly)
-
-## What's Changed
-### Exciting New Features ✨
-* feat(storage): organize storage credential configs for security by **@BohuTANG** in [#19147](https://github.com/databendlabs/databend/pull/19147)
-### Thoughtful Bug Fix 🔧
-* fix(query): fix fragment not found in warehouse level table by **@zhang2014** in [#19152](https://github.com/databendlabs/databend/pull/19152)
-* fix: recluster final infinite loop by **@zhyass** in [#19151](https://github.com/databendlabs/databend/pull/19151)
-### Others 📒
-* chore(query): revert "fix(query): update opendal (#19110)" by **@zhang2014** in [#19146](https://github.com/databendlabs/databend/pull/19146)
-
-
-**Full Changelog**: https://github.com/databendlabs/databend/releases/tag/v1.2.861-nightly
 
 </StepContent>
 

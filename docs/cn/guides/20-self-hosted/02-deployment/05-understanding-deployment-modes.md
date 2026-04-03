@@ -28,8 +28,8 @@ Databend 部署提供两种模式：单机（Standalone）和集群（Cluster）
 
 在 Databend 单机部署中，可以将 Meta 节点和 Query 节点都托管在同一台服务器上。文档中的以下主题可帮助您设置和部署单机版 Databend：
 
-- [部署单机版 Databend](01-non-production/01-deploying-databend.md)
-- [本地和 Docker 部署](01-non-production/00-deploying-local.md)
+- [部署单机版 Databend](03-deploying-databend.md)
+- [本地和 Docker 部署](01-deploying-local.md)
 
 ### 集群部署
 
