@@ -186,4 +186,4 @@ To customize the configuration, you can mount your own config files instead of g
 
 - [Load data with COPY INTO](/guides/load-data/load/s3)
 - [Connect with MySQL client or JDBC](/guides/connect/)
-- For production deployment, see [Deploying on Kubernetes](/guides/deploy/deploy/production/deploying-databend-on-kubernetes)
+- For production deployment, see [Deploying on Kubernetes](/guides/self-hosted/deployment/production/deploying-databend-on-kubernetes)

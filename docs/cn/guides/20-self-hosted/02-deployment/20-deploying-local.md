@@ -192,4 +192,4 @@ docker compose down -v
 
 - [使用 COPY INTO 加载数据](/guides/load-data/load/s3)
 - [通过 MySQL 客户端或 JDBC 连接](/guides/connect/)
-- 生产环境部署请参考 [在 Kubernetes 上部署](/guides/deploy/deploy/production/deploying-databend-on-kubernetes)
+- 生产环境部署请参考 [在 Kubernetes 上部署](/guides/self-hosted/deployment/production/deploying-databend-on-kubernetes)
