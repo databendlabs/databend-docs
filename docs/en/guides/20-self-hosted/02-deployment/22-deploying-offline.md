@@ -46,7 +46,7 @@ docker images | grep -E "databend|minio"
 
 ## Step 3: Deploy
 
-Use the same `docker-compose.yml` from [Deploying on Docker](./00-deploying-local.md) — no changes needed since the images are now available locally.
+Use the same `docker-compose.yml` from [Deploying on Docker](./20-deploying-local.md) — no changes needed since the images are now available locally.
 
 ```shell
 docker compose up -d

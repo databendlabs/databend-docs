@@ -55,7 +55,7 @@ docker images | grep -E "databend|minio"
 
 ## 第三步：启动
 
-使用[在 Docker 上部署](./00-deploying-local.md)中的 `docker-compose.yml`，无需修改，镜像已在本地可用。
+使用[在 Docker 上部署](./20-deploying-local.md)中的 `docker-compose.yml`，无需修改，镜像已在本地可用。
 
 ```shell
 docker compose up -d
