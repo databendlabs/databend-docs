@@ -4,7 +4,7 @@ title: Fuse Engine Tables
 
 import FunctionDescription from '@site/src/components/FunctionDescription';
 
-<FunctionDescription description="Introduced or updated: v1.2.736"/>
+<FunctionDescription description="Introduced or updated: v1.2.892"/>
 
 ## Overview
 
@@ -114,6 +114,28 @@ Below are the available Fuse Engine options, grouped by their purpose:
   `bloom_index_columns = '<column> [, <column> ...]'`
 - **Description:**
   Specifies the columns to be used for the bloom index. The data type of these columns can be Map, Number, String, Date, or Timestamp. If no specific columns are specified, the bloom index is created by default on all supported columns. `bloom_index_columns=''` disables the bloom indexing.
+
+---
+
+### `bloom_index_type`
+- **Syntax:**
+  `bloom_index_type = 'xor8' | 'binary_fuse32'`
+- **Description:**
+  Specifies the filter algorithm used for the bloom index. Defaults to `xor8`. Use `binary_fuse32` for tables with heavy point-lookup workloads — it offers a lower false-positive rate at the cost of a larger index size (approximately 4x that of `xor8`).
+
+  Note that `ALTER TABLE ... SET OPTIONS(bloom_index_type = ...)` only affects new writes and rebuilt bloom indexes. Existing `xor8` index files and new `binary_fuse32` index files can coexist in the same table.
+
+  **Examples:**
+  ```sql
+  -- Set bloom_index_type at table creation
+  CREATE TABLE t (a INT) bloom_index_type = 'binary_fuse32';
+
+  -- Change bloom_index_type for an existing table (affects new writes only)
+  ALTER TABLE t SET OPTIONS(bloom_index_type = 'binary_fuse32');
+
+  -- Revert to xor8
+  ALTER TABLE t SET OPTIONS(bloom_index_type = 'xor8');
+  ```
 
 ---
 
