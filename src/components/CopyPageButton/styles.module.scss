@@ -17,6 +17,11 @@
     }
   }
 }
+@media print {
+  .buttonCainter {
+    display: none !important;
+  }
+}
 
 .buttonText {
   svg {
