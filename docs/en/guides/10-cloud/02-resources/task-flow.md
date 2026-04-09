@@ -53,6 +53,8 @@ The dependency graph between tasks. If Task B depends on Task A, Databend Cloud 
 
 ![Alt text](@site/static/img/documents/task-flow/create.png)
 
+![Alt text](@site/static/img/documents/task-flow/add-node.png)
+
 ### Configuring a Task
 
 In the task form, fill in the following:
