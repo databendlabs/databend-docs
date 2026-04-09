@@ -55,6 +55,8 @@ Flow 是一组有依赖关系的任务集合，具有：
 
 ![Alt text](@site/static/img/documents/task-flow/create.png)
 
+![Alt text](@site/static/img/documents/task-flow/add-node.png)
+
 ### 配置任务
 
 在任务表单中填写以下内容：
