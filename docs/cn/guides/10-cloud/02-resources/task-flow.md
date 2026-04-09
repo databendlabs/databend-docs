@@ -6,6 +6,8 @@ Task Flow 是 Databend Cloud 内置的工作流编排功能。你可以将多个
 
 图中每个节点是一个 **Task（任务）**，包含一条 SQL 语句及其调度配置。多个任务组合成一个 **Flow（流）**，Databend Cloud 根据依赖关系自动决定执行顺序。
 
+![Alt text](@site/static/img/documents/task-flow/node.png)
+
 ## 功能概览
 
 Task Flow 是对旧版 Task 列表 的全面升级：

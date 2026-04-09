@@ -4,6 +4,8 @@ title: Task Flow
 
 Task Flow is Databend Cloud's built-in workflow orchestration feature. It lets you define, schedule, and monitor SQL-based data pipelines as directed acyclic graphs (DAGs). Each node in the graph is a **Task** — a SQL statement with its own schedule, dependencies, and execution settings. A **Flow** groups multiple tasks together and manages their execution order automatically.
 
+![Alt text](@site/static/img/documents/task-flow/node.png)
+
 ## Overview
 
 Task Flow replaces the legacy Task List with a more powerful model:
