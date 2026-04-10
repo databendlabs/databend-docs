@@ -185,11 +185,11 @@ In this step, you'll load the AWS billing dataset into Databend Cloud with just 
 
 2. Select to load data into **An existing table**, then choose **Load from a URL** and enter the dataset URL: `https://datasets.databend.com/aws-billing.parquet`.
 
-![alt text](../../../../static/img/documents/tutorials/aws-billing-1.png)
+![alt text](@site/static/img/documents/tutorials/aws-billing-1.png)
 
 3. Select the database and table you created, then choose a warehouse.
 
-![alt text](../../../../static/img/documents/tutorials/aws-billing-2.png)
+![alt text](@site/static/img/documents/tutorials/aws-billing-2.png)
 
 4. Click **Confirm** to start the data loading.
 
@@ -233,7 +233,7 @@ The following query identifies the most expensive S3 buckets:
 ```sql
 SELECT
     line_item_line_item_description,
-    SUM(line_item_blended_cost) AS Cost    
+    SUM(line_item_blended_cost) AS Cost
 FROM aws_billing
 WHERE
     line_item_product_code = 'AmazonS3'

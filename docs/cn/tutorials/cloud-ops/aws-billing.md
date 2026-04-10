@@ -184,11 +184,11 @@ CREATE TABLE aws_billing (
 1. 在 Databend Cloud 内，选择 **Overview** > **Load Data** 打开数据导入向导。
 2. 选择 **An existing table** 作为目标表，点击 **Load from a URL** 并输入数据集地址 `https://datasets.databend.com/aws-billing.parquet`。
 
-![alt text](../../../../static/img/documents/tutorials/aws-billing-1.png)
+![alt text](@site/static/img/documents/tutorials/aws-billing-1.png)
 
 3. 选择刚刚创建的数据库及表，并指定要使用的 Warehouse。
 
-![alt text](../../../../static/img/documents/tutorials/aws-billing-2.png)
+![alt text](@site/static/img/documents/tutorials/aws-billing-2.png)
 
 4. 点击 **Confirm** 开始加载。
 
@@ -232,7 +232,7 @@ LIMIT 25;
 ```sql
 SELECT
     line_item_line_item_description,
-    SUM(line_item_blended_cost) AS Cost    
+    SUM(line_item_blended_cost) AS Cost
 FROM aws_billing
 WHERE
     line_item_product_code = 'AmazonS3'

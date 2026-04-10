@@ -24,7 +24,7 @@ In this tutorial, we will guide you through the process of connecting to a self-
 Run the following command in your terminal to launch a Databend instance:
 
 :::note
-If no custom values for `QUERY_DEFAULT_USER` or `QUERY_DEFAULT_PASSWORD` are specified when starting the container, a default `root` user will be created with no password. 
+If no custom values for `QUERY_DEFAULT_USER` or `QUERY_DEFAULT_PASSWORD` are specified when starting the container, a default `root` user will be created with no password.
 :::
 
 ```bash
@@ -52,7 +52,7 @@ docker run -d --name databend \
 
 Once the download is complete, the test connection should succeed, as shown below:
 
-![alt text](../../../../static/img/connect/dbeaver-success.png)
+![alt text](@site/static/img/connect/dbeaver-success.png)
 
 </StepContent>
 </StepsWrap>
