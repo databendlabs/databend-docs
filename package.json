@@ -38,7 +38,7 @@
     "@mdx-js/react": "^3.0.0",
     "@types/turndown": "^5.0.5",
     "ahooks": "^3.8.0",
-    "antd": "^6.3.5",
+    "antd": "6.0.0",
     "axios": "^1.14.0",
     "clsx": "^2.0.0",
     "copy-to-clipboard": "^3.3.3",

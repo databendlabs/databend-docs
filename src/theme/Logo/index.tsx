@@ -43,7 +43,7 @@ function LogoThemedImage({
 export default function Logo(props: Props): ReactNode {
   const {
     siteConfig: { title },
-  } = useDocusaurusContext();
+  } = useDocusaurusContext() as any;
   const {
     navbar: { title: navbarTitle, logo },
   } = useThemeConfig();
