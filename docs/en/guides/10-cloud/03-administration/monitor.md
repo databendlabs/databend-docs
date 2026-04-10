@@ -29,6 +29,8 @@ Clicking a record on the **SQL History** page reveals detailed information on ho
 - **Query Details**: Includes Query State (success or failure), Rows Scanned, Warehouse, Bytes Scanned, Start Time, End Time, and Handler Type.
 - **Query Profile**: Illustrates how the SQL statement was executed.
 
+![alt text](@site/static/img/documents/profile.png)
+
 ## Task History
 
 The **Task History** tab offers a comprehensive log of all executed tasks within your organization, enabling users to review task settings and monitor their status.
