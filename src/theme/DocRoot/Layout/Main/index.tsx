@@ -26,7 +26,7 @@ export default function DocRootLayoutMain({
     <main
       className={clsx(
         styles.docMainContainer,
-        (hiddenSidebarContainer || !sidebar) && styles.docMainContainerEnhanced
+        (hiddenSidebarContainer || !sidebar) && styles.docMainContainerEnhanced,
       )}
     >
       <div
@@ -34,7 +34,7 @@ export default function DocRootLayoutMain({
         className={clsx(
           "container padding-top--md padding-bottom--lg",
           styles.docItemWrapper,
-          hiddenSidebarContainer && styles.docItemWrapperEnhanced
+          hiddenSidebarContainer && styles.docItemWrapperEnhanced,
         )}
       >
         {children}
@@ -44,9 +44,9 @@ export default function DocRootLayoutMain({
         style={{ display: "none" }}
         preview={{
           scaleStep: 0.25,
-          visible: previewImage,
+          open: previewImage,
           src: previewImageSrc,
-          onVisibleChange: (value) => {
+          onOpenChange: (value) => {
             setPreviewImage(value);
           },
         }}

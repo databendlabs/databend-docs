@@ -17,7 +17,7 @@ export default function MDXA(props) {
   if (hasProtocolPrefix(props?.href)) {
     return (
       <Tooltip
-        destroyTooltipOnHide
+        destroyOnHidden
         classNames={{
           root: styles.tooltip,
         }}
