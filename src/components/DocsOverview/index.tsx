@@ -59,7 +59,7 @@ const DocsOverview: FC = (): ReactElement => {
     siteConfig: {
       customFields: { homeLink, isChina },
     },
-  } = useDocusaurusContext();
+  } = useDocusaurusContext() as any;
   const history = useHistory();
   const cloudAppUrl = isChina
     ? "https://app.databend.cn"

@@ -46,8 +46,8 @@ export default function DocRootLayoutMain({
           scaleStep: 0.25,
           open: previewImage,
           src: previewImageSrc,
-          onOpenChange: (value) => {
-            setPreviewImage(value);
+          onOpenChange: (visible) => {
+            setPreviewImage(visible);
           },
         }}
       />
