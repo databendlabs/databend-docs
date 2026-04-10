@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 将一行或多行插入到表中。
 
-:::tip atomic operations
+:::tip[atomic operations]
 Databend 通过原子操作确保数据完整性。插入、更新、替换和删除要么完全成功，要么完全失败。
 :::
 

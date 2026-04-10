@@ -18,7 +18,7 @@ docker run -d \
     datafuselabs/databend
 ```
 
-:::tip 国内用户
+:::tip[国内用户]
 如果拉取镜像较慢，可替换为国内镜像：
 ```shell
 registry.databend.cn/public/databend:latest

@@ -245,6 +245,6 @@ FROM
 - [数据导入导出](/guides/load-data)：管理 Databend 数据导入/导出
 - [可视化分析](/guides/connect/visualization)：将 Databend 与可视化工具集成
 
-<!-- <LanguageFileParse
+{/* <LanguageFileParse
 cn={<VideoCN />}
-/> -->
+/> */}

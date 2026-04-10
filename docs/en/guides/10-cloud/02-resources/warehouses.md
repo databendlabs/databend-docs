@@ -32,7 +32,7 @@ In Databend Cloud, warehouses are available in various sizes, each defined by th
 
 To choose the appropriate warehouse size, Databend recommends starting with a smaller size. Smaller warehouses may take longer to execute SQL tasks compared to medium or large ones. If you find that query execution is taking too long (for example, several minutes), consider scaling up to a medium or large warehouse for faster results.
 
-## Managing Warehouses {#managing}
+## Managing Warehouses
 
 An organization can have as many warehouses as needed. The **Warehouses** page displays all the warehouses in your organization and allows you to manage them. Please note that only `account_admin` can create or delete a warehouse.
 
@@ -137,7 +137,7 @@ Multi-Cluster Warehouses are billed based on the number of active clusters used 
 
 For example, for an XSmall Warehouse priced at $1 per hour, if one cluster is actively used from 13:00 to 14:00 and two clusters are actively used from 14:00 to 15:00, the total cost incurred from 13:00 to 15:00 is $3 ((1 cluster × 1 hour × $1) + (2 clusters × 1 hour × $1)).
 
-## Connecting to a Warehouse {#connecting}
+## Connecting to a Warehouse
 
 Connecting to a warehouse provides the compute resources required to run queries and analyze data within Databend Cloud. This connection is necessary when accessing Databend Cloud from your applications or SQL clients.
 

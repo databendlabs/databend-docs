@@ -6,7 +6,7 @@ This page provides an overview of the available methods for configuring the Data
 
 Databend allows you to configure your Meta and Query nodes through the following methods, giving you the flexibility to tune Databend to your needs:
 
-:::note priority order
+:::note[priority order]
 When configuring Databend nodes through various methods, Databend follows the following priority order: Command-Line Parameters take precedence, followed by Environment Variables, and finally Configuration Files.
 :::
 
@@ -27,6 +27,6 @@ When configuring Databend nodes through various methods, Databend follows the fo
   ./bin/databend-query --help
   ```
 
-:::note About Command-Line Parameter Descriptions
+:::note[About Command-Line Parameter Descriptions]
 We understand that some users may have experienced confusion due to certain parameter descriptions. In the past, the descriptions included placeholders like `<OSS_ACCESS_KEY_ID>` that led to misunderstandings. Please be aware that they were NOT intended as environment variable names but rather as placeholders for the parameter values. To enhance clarity and avoid confusion, we have updated the parameter descriptions to use `<VALUE>` as the placeholders in a recent release.
 :::
