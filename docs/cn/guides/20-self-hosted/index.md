@@ -28,6 +28,6 @@ title: Databend 私有部署
 2. [**生产部署**](self-hosted/deployment/) — 集群部署指南
 3. [**连接使用**](/guides/connect) — BendSQL、Python、Go、Java、Node.js
 
-:::tip 不想折腾？
+:::tip[不想折腾？]
 [Databend Cloud](/guides/cloud) 帮你搞定一切，同款内核，全托管。
 :::

@@ -293,7 +293,7 @@ If `RETURN_FAILED_ONLY` is set to `true`, the output will only contain the files
 
 ## Examples
 
-:::tip Best Practice
+:::tip[Best Practice]
 For external storage sources, it's recommended to use pre-created connections with the `CONNECTION_NAME` parameter instead of specifying credentials directly in the COPY statement. This approach provides better security, maintainability, and reusability. See [CREATE CONNECTION](../00-ddl/13-connection/create-connection.md) for details on creating connections.
 :::
 

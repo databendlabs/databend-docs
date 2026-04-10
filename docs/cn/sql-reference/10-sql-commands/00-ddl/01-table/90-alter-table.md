@@ -12,7 +12,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 `ALTER TABLE` 可用于修改现有表的列、注释、Fuse 引擎选项、外部连接等属性，甚至可以与另一张表互换所有元数据。下列小节按能力进行划分。
 
-## 列操作 {#column-operations}
+## 列操作
 
 <EEFeature featureName='脱敏策略（MASKING POLICY）'/>
 
@@ -124,7 +124,7 @@ ALTER TABLE users
 MODIFY COLUMN email UNSET MASKING POLICY;
 ```
 
-## 表注释 {#table-comment}
+## 表注释
 
 用于修改表的注释。如果表尚未设置注释，该命令会为表添加指定的注释。
 
@@ -145,7 +145,7 @@ CREATE TABLE s(id INT);
 ALTER TABLE s COMMENT = 'new-comment';
 ```
 
-## Fuse 引擎选项 {#fuse-engine-options}
+## Fuse 引擎选项
 
 用于设置或取消设置表的 [Fuse 引擎选项](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options)。
 
@@ -188,7 +188,7 @@ INSERT INTO t VALUES(3);
 ALTER TABLE fuse_table UNSET OPTIONS (block_per_segment, data_retention_period_in_hours);
 ```
 
-## 外部表连接 {#external-table-connection}
+## 外部表连接
 
 更新外部表的连接设置。执行命令时，仅凭证相关字段（`access_key_id`、`secret_access_key`、`role_arn`）会被应用，`bucket`、`region`、`root` 等其他属性保持不变。
 
@@ -257,7 +257,7 @@ CREATE CONNECTION s3_role_conn
 ALTER TABLE sales_data CONNECTION=( connection_name = 's3_role_conn' );
 ```
 
-## 快照标签操作 {#snapshot-tag-operations}
+## 快照标签操作
 
 <FunctionDescription description="Introduced or updated: v1.2.891"/>
 
@@ -271,7 +271,7 @@ ALTER TABLE sales_data CONNECTION=( connection_name = 's3_role_conn' );
 快照标签与[治理标签](#tag-operations)不同。快照标签为表快照创建书签用于时间回溯，而治理标签为对象附加键值元数据用于分类。
 :::
 
-## 交换表 {#swap-tables}
+## 交换表
 
 在同一个事务中交换两张表的所有元数据和数据，使双方的列、约束以及数据完全互换。
 
@@ -310,7 +310,7 @@ DESC t1;
 DESC t2;
 ```
 
-## Tag 操作 {#tag-operations}
+## Tag 操作
 
 为表分配或移除治理标签。治理标签是用于分类和数据治理的键值元数据。Tag 必须先通过 [CREATE TAG](../08-tag/01-ddl-create-tag.md) 创建。完整说明请参阅 [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md)。
 

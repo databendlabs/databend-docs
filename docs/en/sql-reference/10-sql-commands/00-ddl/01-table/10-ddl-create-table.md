@@ -70,7 +70,7 @@ LIKE [db.]origin_table_name
 
 This command does not include any data or attributes (such as `CLUSTER BY`, `TRANSIENT`, and `COMPRESSION`) from the original table, and instead creates a new table using the default system settings.
 
-:::note WORKAROUND
+:::note[WORKAROUND]
 
 - `TRANSIENT` and `COMPRESSION` can be explicitly specified when you create a new table with this command. For example,
 
@@ -95,7 +95,7 @@ AS SELECT query
 
 This command does not include any attributes (such as CLUSTER BY, TRANSIENT, and COMPRESSION) from the original table, and instead creates a new table using the default system settings.
 
-:::note WORKAROUND
+:::note[WORKAROUND]
 
 - `TRANSIENT` and `COMPRESSION` can be explicitly specified when you create a new table with this command. For example,
 

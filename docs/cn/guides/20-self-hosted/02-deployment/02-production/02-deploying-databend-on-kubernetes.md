@@ -4,9 +4,6 @@ sidebar_label: 在 Kubernetes 上部署集群
 description: 如何在 Kubernetes 上部署 Databend 查询集群。
 ---
 
-<!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
-import VideoCN from '@site/docs/fragment/02-deploying-databend-on-kubernetes-cnvideo.md' -->
-
 本主题介绍如何在 Kubernetes 上安装和配置 Databend 集群。
 
 ## 部署架构
@@ -27,7 +24,7 @@ import TabItem from '@theme/TabItem';
 
   在本示例中，您将部署一个由 3 个节点组成的 Databend Meta 集群，以及两个独立的 Databend Query 集群，每个集群也由 3 个节点组成。您应根据实际的部署计划和使用场景来管理和分配资源，以确保服务平稳运行。
 
-  :::info 生产环境部署提示
+  :::info[生产环境部署提示]
   请参考 [部署环境](https://docs.databend.cn/guides/self-hosted/deployment/understanding-deployment-modes#deployment-environments) 为您的集群预留适当的资源。
   :::
 
@@ -35,7 +32,6 @@ import TabItem from '@theme/TabItem';
 
 - 确保您有一个正在运行的 Kubernetes 集群。
   例如：
-
   - `AWS` 上的 [EKS](https://aws.amazon.com/eks/)
   - `GCP` 上的 [GKE](https://cloud.google.com/kubernetes-engine/)
   - `Azure` 上的 [AKS](https://azure.microsoft.com/products/kubernetes-service/)
@@ -43,28 +39,25 @@ import TabItem from '@theme/TabItem';
   - `腾讯云` 上的 [TKE](https://cloud.tencent.com/product/tke)
 
   此外，还有一些用于本地测试的简易 Kubernetes 引擎：
-
   - [k3d](https://k3d.io)
   - [minikube](https://minikube.sigs.k8s.io/docs/start/)
 
-  :::info 对于远程服务器上的 Kubernetes 集群
+  :::info[对于远程服务器上的 Kubernetes 集群]
   建议设置外部负载均衡器（Load Balancer）或选择合适的端口转发（Port Forwarding）规则，以确保服务可以访问。
   :::
 
 - 创建云对象存储（Object Storage）并提供相应的凭据，即 `access_key_id` 和 `secret_access_key`。
-
   - AWS S3 或其他 S3 兼容的存储服务
   - Azure Storage Blob
   - 其他 [Apache OpenDAL](https://github.com/databendlabs/opendal#services) 支持的存储服务
 
-  :::tip 推荐的存储设置
+  :::tip[推荐的存储设置]
   [准备存储](https://docs.databend.cn/guides/self-hosted/deployment/production/preparing-storage) 提供了关于推荐存储设置的详细说明。
   :::
 
-  :::info 高级用户
+  :::info[高级用户]
 
   也支持不使用访问密钥的身份验证方法：
-
   - AWS 上的 [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)
   - 阿里云上的 [RRSA](https://www.alibabacloud.com/help/container-service-for-kubernetes/latest/use-rrsa-to-enforce-access-control)
   - AWS 上的 [InstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) (即将支持)
@@ -73,7 +66,7 @@ import TabItem from '@theme/TabItem';
 
 - 确保 Kubernetes 集群有一个默认的存储类（Storage Class）。
 
-  :::tip 对于云平台
+  :::tip[对于云平台]
 
   <Tabs>
   <TabItem value="aws" label="EKS(AWS)">
@@ -128,8 +121,7 @@ import TabItem from '@theme/TabItem';
 
 - **推荐** 确保 Prometheus Operator 在 Kubernetes 集群中运行，以便监控 Databend Meta 和 Databend Query 的状态。
 
-  :::tip 简易 Kube Prometheus Stack 的安装步骤
-
+  :::tip[简易 Kube Prometheus Stack 的安装步骤]
   1. 为 kube-prometheus-stack 添加图表仓库
 
      ```shell
@@ -317,7 +309,7 @@ service:
 
 ````mdx-code-block
 
-:::tip 云存储提示
+:::tip[云存储提示]
 
 <Tabs>
 <TabItem value="aws" label="S3(aws)">
@@ -476,7 +468,7 @@ cluster2-databend-query-59dcc4949f-mmwr9   1/1     Running   0          53s
    kubectl -n databend-query scale statefulset cluster1-databend-query --replicas=0
 
    # 将查询集群数量扩展到 5
-   kubectl -n databend-query scale statefulset cluster极简风格：1-databend-query --replicas=5
+   kubectl -n databend-query scale statefulset cluster 极简风格：1-databend-query --replicas=5
   ```
 
 - 在 `values.yaml` 中将 `replicaCount` 更新为任意值，然后再次执行 helm upgrade
@@ -599,12 +591,11 @@ SELECT count(*) FROM t1;
 
 - 为您的集群打开 grafana 网页。
 
-- 选择右上角的 `+` 展开菜单，点击 “Import dashboard” 导入仪表盘（Dashboard），并上传两个下载的 JSON 文件。
+- 选择右上角的 `+` 展开菜单，点击“Import dashboard”导入仪表盘（Dashboard），并上传两个下载的 JSON 文件。
 
   ![Alt text](/img/deploy/import-dashboard.png)
 
 - 然后您应该能看到两个仪表盘（Dashboard）：
-
   - Databend Meta Runtime
 
     ![Alt text](/img/deploy/databend-meta-runtime.png)
@@ -619,7 +610,3 @@ SELECT count(*) FROM t1;
 
 - [加载和卸载数据](https://docs.databend.cn/guides/load-data)：管理 Databend 中的数据导入/导出。
 - [可视化](https://docs.databend.cn/guides/connect/visualization)：将 Databend 与可视化工具集成以获得洞察。
-
-<!-- <LanguageFileParse
-cn={<VideoCN />}
-/> -->

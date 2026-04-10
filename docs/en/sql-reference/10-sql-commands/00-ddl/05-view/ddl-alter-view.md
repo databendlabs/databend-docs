@@ -37,7 +37,7 @@ SELECT * FROM tmp_view;
 +------+
 ```
 
-## Tag Operations {#tag-operations}
+## Tag Operations
 
 Assigns or removes tags on a view. Tags must be created with [CREATE TAG](../08-tag/01-ddl-create-tag.md) first. For full details, see [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md).
 

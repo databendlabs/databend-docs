@@ -4,7 +4,7 @@ title: Deploying on Docker
 
 This guide walks you through deploying Databend using Docker Compose with separate **databend-meta**, **databend-query**, and **MinIO** containers — giving you a clear picture of how the components fit together.
 
-:::note Non-production use only
+:::note[Non-production use only]
 This setup is intended for development and local testing only. It is not suitable for production environments or performance benchmarking.
 :::
 

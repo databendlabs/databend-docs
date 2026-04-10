@@ -9,7 +9,7 @@ title: SOUNDEX
 - 字符串中的所有非字母字符都会被忽略。
 - 所有超出 A-Z 范围的国际字母字符都会被忽略，除非它们是第一个字母。
 
-:::tip 什么是 Soundex？
+:::tip[什么是 Soundex？]
 Soundex 将字母数字字符串转换为基于字符串在英语中发音的四字符代码。有关更多信息，请参见 https://en.wikipedia.org/wiki/Soundex
 :::
 

@@ -37,7 +37,7 @@ SELECT * FROM tmp_view;
 +------+
 ```
 
-## Tag 操作 {#tag-operations}
+## Tag 操作
 
 为视图分配或移除 Tag。Tag 必须先通过 [CREATE TAG](../08-tag/01-ddl-create-tag.md) 创建。完整说明请参阅 [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md)。
 

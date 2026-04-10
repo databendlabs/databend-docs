@@ -9,7 +9,7 @@ sidebar_label: "TPC-H SF100 Benchmark"
 
 The TPC-H benchmark is a standard for evaluating decision support systems, focusing on complex queries and data maintenance. In this analysis, we compare Databend Cloud with Snowflake using the TPC-H SF100(SF1 = 6 Million Rows) dataset, encompassing 100GB of data and approximately 600 million rows across 22 queries.
 
-:::info Disclaimer
+:::info[Disclaimer]
 The TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing Performance Council ([TPC](http://www.tpc.org)). Our benchmark, while inspired by TPC-H, is not directly comparable to official TPC-H results.
 :::
 
@@ -25,7 +25,7 @@ The TPC Benchmark™ and TPC-H™ are trademarks of the Transaction Processing P
 - **Data Loading Costs**: Databend achieves a **67% cost reduction** in data loading compared to Snowflake.
 - **Query Execution Costs**: Databend approximately **60% less expensive** for query execution than Snowflake.
 
-:::info Note
+:::info[Note]
 
 For this benchmark, no special tuning was applied. Both Snowflake and Databend Cloud were used with their default settings.
 And remember, **don't just take our word for it — you're encouraged to run and verify these results yourself.**

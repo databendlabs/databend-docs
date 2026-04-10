@@ -11,11 +11,11 @@ Automatically detects the file metadata schema and retrieves the column definiti
 
 **Compression Support**: All formats also support compressed files with extensions `.zip`, `.xz`, `.zst`.
 
-:::info File Size Limit
+:::info[File Size Limit]
 Each individual file has a maximum size limit of **100MB** for schema inference.
 :::
 
-:::info Schema Merging
+:::info[Schema Merging]
 When processing multiple files, `infer_schema` automatically merges different schemas:
 
 - **Compatible types** are promoted (e.g., INT8 + INT16 → INT16)

@@ -293,7 +293,7 @@ COPY INTO 返回数据加载结果摘要，包含以下列：
 
 ## 示例
 
-:::tip 最佳实践
+:::tip[最佳实践]
 对于外部存储源，建议使用预先创建的连接并通过 `CONNECTION_NAME` 参数引用，而非在 COPY 语句中直接指定凭据。该方式更安全、易维护且可复用。详见 [CREATE CONNECTION](../00-ddl/13-connection/create-connection.md)。
 :::
 

@@ -25,7 +25,7 @@ See also:
 
 To understand what a privilege is and how it works, see [Privileges](/guides/security/access-control/privileges).
 
-:::note Important
+:::note[Important]
 CREATE-like privileges that create ownership objects cannot be granted directly to a user. These privileges must be granted to a role first, and then the role can be assigned to users. This includes:
 - CREATE
 - CREATE DATABASE

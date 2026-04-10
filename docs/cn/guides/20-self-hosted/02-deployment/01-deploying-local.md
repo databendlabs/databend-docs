@@ -4,7 +4,7 @@ title: 在 Docker 上部署
 
 本指南使用 Docker Compose 分别启动 **databend-meta**、**databend-query** 和 **MinIO** 三个容器，帮助你理解 Databend 各组件的关系。
 
-:::note 仅用于非生产环境
+:::note[仅用于非生产环境]
 本方案仅适用于开发和本地测试，不适合生产环境或性能测试。
 :::
 
@@ -17,7 +17,7 @@ title: 在 Docker 上部署
 
 创建文件 `docker-compose.yml`，内容如下：
 
-:::tip 国内用户
+:::tip[国内用户]
 如果拉取 Docker Hub 镜像较慢，可将以下镜像替换为国内镜像源：
 - `datafuselabs/databend-meta:latest` → `registry.databend.cn/public/databend-meta:latest`
 - `datafuselabs/databend-query:latest` → `registry.databend.cn/public/databend-query:latest`

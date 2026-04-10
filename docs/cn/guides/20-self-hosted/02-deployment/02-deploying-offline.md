@@ -18,7 +18,7 @@ docker save datafuselabs/databend-query:latest | gzip > databend-query.tar.gz
 docker save minio/minio:latest | gzip > minio.tar.gz
 ```
 
-:::tip 国内用户
+:::tip[国内用户]
 也可以从国内镜像源拉取，速度更快：
 ```shell
 VERSION=latest

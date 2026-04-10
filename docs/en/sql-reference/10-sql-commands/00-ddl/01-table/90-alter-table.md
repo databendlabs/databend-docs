@@ -12,7 +12,7 @@ import EEFeature from '@site/src/components/EEFeature';
 
 Use `ALTER TABLE` to modify the structure and properties of an existing table, including its columns, comment, storage options, external connection, or even swapping metadata with another table. The subsections below cover each supported capability.
 
-## Column Operations {#column-operations}
+## Column Operations
 
 <EEFeature featureName='MASKING POLICY'/>
 
@@ -185,7 +185,7 @@ ALTER TABLE users
 MODIFY COLUMN email UNSET MASKING POLICY;
 ```
 
-## Table Comment {#table-comment}
+## Table Comment
 
 Modifies the comment of a table. If the table does not have a comment yet, this command adds the specified comment to the table.
 
@@ -230,7 +230,7 @@ CREATE TABLE t(id INT);
 ALTER TABLE t COMMENT = 'new-comment';
 ```
 
-## Fuse Engine Options {#fuse-engine-options}
+## Fuse Engine Options
 
 Sets or unsets [Fuse Engine options](../../../00-sql-reference/30-table-engines/00-fuse.md#fuse-engine-options) for a table.
 
@@ -284,7 +284,7 @@ INSERT INTO t VALUES(3);
 ALTER TABLE fuse_table UNSET OPTIONS (block_per_segment, data_retention_period_in_hours);
 ```
 
-## External Table Connection {#external-table-connection}
+## External Table Connection
 
 Updates the connection settings for an external table. Only credential-related fields (`access_key_id`, `secret_access_key`, `role_arn`) are applied when the command runs. Other properties such as `bucket`, `region`, or `root` remain unchanged.
 
@@ -359,7 +359,7 @@ CREATE CONNECTION s3_role_conn
 ALTER TABLE sales_data CONNECTION=( connection_name = 's3_role_conn' );
 ```
 
-## Snapshot Tag Operations {#snapshot-tag-operations}
+## Snapshot Tag Operations
 
 <FunctionDescription description="Introduced or updated: v1.2.891"/>
 
@@ -373,7 +373,7 @@ For full details, see:
 Snapshot tags are different from [governance tags](#tag-operations). Snapshot tags bookmark a table snapshot for time travel, while governance tags attach key-value metadata to objects for classification.
 :::
 
-## Swap Tables {#swap-tables}
+## Swap Tables
 
 Swaps all table metadata and data between two tables atomically in a single transaction. This operation exchanges the table schemas, including all columns, constraints, and data, effectively making each table take on the identity of the other.
 
@@ -416,7 +416,7 @@ DESC t1;
 DESC t2;
 ```
 
-## Tag Operations {#tag-operations}
+## Tag Operations
 
 Assigns or removes governance tags on a table. Governance tags are key-value metadata for classification and data governance. Tags must be created with [CREATE TAG](../08-tag/01-ddl-create-tag.md) first. For full details, see [SET TAG / UNSET TAG](../08-tag/04-ddl-set-tag.md).
 
