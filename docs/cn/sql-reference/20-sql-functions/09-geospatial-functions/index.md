@@ -49,6 +49,8 @@ Databend 内置两套互补的地理空间能力：PostGIS 风格的几何（Geo
 | 函数 | 描述 | 说明 | 示例 |
 |----------|-------------|------|---------|
 | [ST_DIMENSION](st-dimension.md) | 返回拓扑维度 |  | `ST_DIMENSION(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `0` |
+| [ST_CENTROID](st-centroid.md) | 返回几何体的质心 | 仅 GEOMETRY | `ST_CENTROID(TO_GEOMETRY('LINESTRING(0 0, 2 0)'))` → `POINT(1 0)` |
+| [ST_ENVELOPE](st-envelope.md) | 返回最小外接矩形 | 仅 GEOMETRY | `ST_ENVELOPE(TO_GEOMETRY('LINESTRING(0 0, 2 3)'))` → `POLYGON((0 0,2 0,2 3,0 3,0 0))` |
 | [ST_SRID](st-srid.md) | 返回几何体的 SRID |  | `ST_SRID(ST_MAKEGEOMPOINT(-122.35, 37.55))` → `4326` |
 | [ST_POINTN](st-pointn.md) | 返回 LineString 中的指定点 |  | `ST_POINTN(ST_MAKELINE(...), 1)` → `POINT(-122.35 37.55)` |
 | [ST_STARTPOINT](st-startpoint.md) | 返回 LineString 的起点 |  | `ST_STARTPOINT(ST_MAKELINE(...))` → `POINT(-122.35 37.55)` |
@@ -73,6 +75,11 @@ Databend 内置两套互补的地理空间能力：PostGIS 风格的几何（Geo
 | [ST_EQUALS](st-equals.md) | 测试两个几何体是否空间相等 | 仅 GEOMETRY | `ST_EQUALS(TO_GEOMETRY('POINT(1 1)'), TO_GEOMETRY('POINT(1 1)'))` → `TRUE` |
 | [ST_LENGTH](st-length.md) | 测量 LineString 的长度 |  | `ST_LENGTH(ST_MAKELINE(...))` → `5.57` |
 | [ST_DISTANCE](st-distance.md) | 测量几何体之间的距离 |  | `ST_DISTANCE(ST_MAKEGEOMPOINT(-122.35, 37.55), ST_MAKEGEOMPOINT(-122.40, 37.60))` → `5.57` |
+| [ST_DWITHIN](st-dwithin.md) | 测试两个几何体是否在指定距离内 | 仅 GEOMETRY | `ST_DWITHIN(TO_GEOMETRY('POINT(0 0)'), TO_GEOMETRY('POINT(1 1)'), 1.5)` → `TRUE` |
+| [ST_UNION](st-union.md) | 返回两个几何体的合并结果 | 仅 GEOMETRY | `ST_UNION(TO_GEOMETRY('POINT(0 0)'), TO_GEOMETRY('POINT(1 1)'))` → `MULTIPOINT(0 0,1 1)` |
+| [ST_INTERSECTION](st-intersection.md) | 返回两个几何体的重叠部分 | 仅 GEOMETRY | `ST_INTERSECTION(TO_GEOMETRY('LINESTRING(0 0, 1 1)'), TO_GEOMETRY('LINESTRING(0 0, 1 1)'))` → `LINESTRING(0 0,1 1)` |
+| [ST_DIFFERENCE](st-difference.md) | 返回第一个几何体中未被第二个覆盖的部分 | 仅 GEOMETRY | `ST_DIFFERENCE(TO_GEOMETRY('POINT(0 0)'), TO_GEOMETRY('POINT(1 1)'))` → `POINT(0 0)` |
+| [ST_SYMDIFFERENCE](st-symdifference.md) | 返回两个几何体中不重叠的部分 | 仅 GEOMETRY | `ST_SYMDIFFERENCE(TO_GEOMETRY('POINT(0 0)'), TO_GEOMETRY('POINT(1 1)'))` → `MULTIPOINT(0 0,1 1)` |
 
 ## 变换
 
