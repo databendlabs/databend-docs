@@ -13,5 +13,5 @@ title: 外部函数（External Function）
 | [DROP EXTERNAL FUNCTION](ddl-drop-function.md) | 移除一个外部函数（External Function） |
 
 :::note
-Databend 中的外部函数（External Function）允许你通过与 HTTP/HTTPS 端点集成的外部服务来扩展功能，从而利用外部处理能力。
+Databend 外部函数允许你用自定义逻辑扩展 SQL，逻辑运行在远程服务器上，通过 [Apache Arrow Flight](https://arrow.apache.org/docs/format/Flight.html) 协议与 Databend 通信。远程处理程序可以用任意语言实现，Python 是最常见的选择，可通过 [databend-udf](https://pypi.org/project/databend-udf) 包快速上手。
 :::
