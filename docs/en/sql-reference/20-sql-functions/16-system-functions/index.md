@@ -18,6 +18,7 @@ This page provides reference information for the system-related functions in Dat
 | [FUSE_SEGMENT](fuse_segment.md) | Returns segment information of a table | `FUSE_SEGMENT('default', 'mytable')` |
 | [FUSE_BLOCK](fuse_block.md) | Returns block information of a table | `FUSE_BLOCK('default', 'mytable')` |
 | [FUSE_COLUMN](fuse_column.md) | Returns column information of a table | `FUSE_COLUMN('default', 'mytable')` |
+| [FUSE_TAG](fuse_tag.md) | Returns snapshot tag information of a table | `FUSE_TAG('default', 'mytable')` |
 
 ## Storage Optimization Functions
 

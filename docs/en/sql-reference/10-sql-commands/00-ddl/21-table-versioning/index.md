@@ -39,3 +39,4 @@ A snapshot tag attaches a human-readable name to a snapshot. As long as the tag 
 |---------|-------------|
 | [CREATE SNAPSHOT TAG](01-create-snapshot-tag.md) | Create a named tag on a table snapshot |
 | [DROP SNAPSHOT TAG](02-drop-snapshot-tag.md) | Remove a snapshot tag |
+| [FUSE_TAG](../../../20-sql-functions/16-system-functions/fuse_tag.md) | List all snapshot tags on a table |
