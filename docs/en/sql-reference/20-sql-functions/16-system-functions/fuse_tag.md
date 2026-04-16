@@ -29,17 +29,19 @@ FUSE_TAG('<database_name>', '<table_name>')
 ## Examples
 
 ```sql
+SET enable_experimental_table_ref = 1;
+
 CREATE TABLE mytable(a INT, b INT);
 
 INSERT INTO mytable VALUES(1, 1),(2, 2);
 
 -- Create a snapshot tag
-CREATE SNAPSHOT TAG FOR mytable TAG v1;
+ALTER TABLE mytable CREATE TAG v1;
 
 INSERT INTO mytable VALUES(3, 3);
 
 -- Create another tag with expiration
-CREATE SNAPSHOT TAG FOR mytable TAG temp RETAIN 2 DAYS;
+ALTER TABLE mytable CREATE TAG temp RETAIN 2 DAYS;
 
 SELECT * FROM FUSE_TAG('default', 'mytable');
 
