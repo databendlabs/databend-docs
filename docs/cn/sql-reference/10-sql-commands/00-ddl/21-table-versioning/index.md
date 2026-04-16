@@ -39,3 +39,4 @@ SET enable_experimental_table_ref = 1;
 |------|------|
 | [CREATE SNAPSHOT TAG](01-create-snapshot-tag.md) | 在表快照上创建命名标签 |
 | [DROP SNAPSHOT TAG](02-drop-snapshot-tag.md) | 删除快照标签 |
+| [FUSE_TAG](../../../20-sql-functions/16-system-functions/fuse_tag.md) | 列出表上所有快照标签 |
