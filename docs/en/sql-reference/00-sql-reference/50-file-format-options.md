@@ -20,9 +20,9 @@ To specify a file format in a statement, use the following syntax:
 ```
 
 :::note
-- Starting in Databend `v1.2.890-nightly`, `TEXT` is supported as an alias for `TSV`.
+- Starting in Databend `v1.2.891-nightly`, `TEXT` is supported as an alias for `TSV`.
 - Older servers may reject `TYPE = TEXT`, so this page continues to use `TSV` in syntax and examples for cross-version compatibility.
-- If you only target Databend `v1.2.890-nightly` or later, prefer `TYPE = TEXT` for new configurations.
+- If you only target Databend `v1.2.891-nightly` or later, prefer `TYPE = TEXT` for new configurations.
 :::
 
 Databend determines the file format used by a COPY or Select statement in the following order of priority:
@@ -201,7 +201,7 @@ The compression algorithm.
 
 ## TSV Options
 
-Databend TSV (called `TEXT` in `v1.2.890-nightly` and later) uses the same format and options under both names. This page keeps `TSV` as the primary term for compatibility with older server versions.
+Databend TSV (also called `TEXT` in `v1.2.891-nightly` and later) uses the same format and options under both names. This page keeps `TSV` as the primary term for compatibility with older server versions.
 
 Databend TSV is subject to the following conditions:
 

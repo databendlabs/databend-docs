@@ -5,7 +5,7 @@ sidebar_label: TSV
 
 ## 什么是 TSV？
 
-TSV (制表符分隔值) 是一种用于存储表格数据的简单文件格式，类似于电子表格或数据库。TSV 文件格式与 CSV 非常相似，记录由换行符分隔，每个字段由制表符分隔。
+TSV（制表符分隔值，在 Databend `v1.2.890-nightly` 及之后版本中称为 `TEXT`）是一种用于存储表格数据的简单文件格式，类似于电子表格或数据库。TSV 文件格式与 CSV 非常相似，记录由换行符分隔，每个字段由制表符分隔。
 以下示例展示了一个包含两条记录的 TSV 文件：
 
 ```text
@@ -27,6 +27,10 @@ FROM { userStage | internalStage | externalStage | externalLocation }
     COMPRESSION = AUTO
 ) ]
 ```
+
+:::note
+从 Databend `v1.2.890-nightly` 开始，`TEXT` 可作为 `TSV` 的别名使用。本指南中的示例仍然使用 `TYPE = TSV`，以确保在旧版本 Server 上也能正常工作。如果你的环境只面向 `v1.2.890-nightly` 及之后版本，也可以使用 `TYPE = TEXT`。
+:::
 
 - 更多 TSV 文件格式选项，请参考 [TSV 文件格式选项](/sql/sql-reference/file-format-options#tsv-options) 。
 - 更多 COPY INTO 表选项，请参考 [COPY INTO 表](/sql/sql-commands/dml/dml-copy-into-table) 。

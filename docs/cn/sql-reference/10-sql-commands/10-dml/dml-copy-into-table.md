@@ -51,6 +51,10 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 [ copyOptions ]
 ```
 
+:::note
+从 Databend `v1.2.890-nightly` 开始，`TEXT` 可在 `FILE_FORMAT` 中作为 `TSV` 的别名使用。较旧版本的 Server 可能不支持 `TYPE = TEXT`，因此本页在语法和示例中仍使用 `TSV` 以保持兼容性。
+:::
+
 其中：
 
 ```sql
