@@ -41,6 +41,7 @@ title: DDL（Data Definition Language）命令
 | **[流 (Stream)](04-stream/index.md)** | 捕获和处理数据变更 |
 | **[任务 (Task)](04-task/index.md)** | 调度和自动化 SQL 操作 |
 | **[序列 (Sequence)](04-sequence/index.md)** | 生成唯一的序列号 |
+| **[字典 (Dictionary)](17-dictionary/index.md)** | 查看由外部数据源驱动的外部字典 |
 | **[连接 (Connection)](13-connection/index.md)** | 配置外部数据源连接 |
 | **[文件格式 (File Format)](13-file-format/index.md)** | 为数据导入/导出定义格式 |
 
