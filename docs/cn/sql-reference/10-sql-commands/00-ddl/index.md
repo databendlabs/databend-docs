@@ -58,6 +58,7 @@ title: DDL（Data Definition Language）命令
 | 组件 | 描述 |
 |-----------|-------------|
 | **[计算集群 (Warehouse)](19-warehouse/index.md)** | 管理用于查询执行的计算资源 |
+| **[工作节点 (Worker)](20-worker/index.md)** | 通过 cloud control 管理 worker 资源 |
 | **[工作负载组 (Workload Group)](20-workload-group/index.md)** | 控制资源分配和优先级 |
 | **[事务 (Transaction)](14-transaction/index.md)** | 管理数据库事务 |
 | **[变量 (Variable)](15-variable/index.md)** | 设置和使用会话/全局变量 |
