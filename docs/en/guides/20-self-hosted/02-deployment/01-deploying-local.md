@@ -48,11 +48,11 @@ services:
     volumes:
       - databend-meta-data:/data/
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:28101/v1/health"]
+      test: ["CMD", "databend-metactl", "--grpc-api-address", "0.0.0.0:9191", "status"]
       interval: 5s
       timeout: 3s
       retries: 10
-    entrypoint: sh -c "/databend-meta \
+    entrypoint: sh -c "databend-meta \
         --log-file-level='warn' \
         --log-file-format='text' \
         --log-file-dir='/data/logs/' \
