@@ -121,7 +121,7 @@ services:
       secret_access_key = 'minioadmin'
       bucket = 'databend'
       EOF
-      exec /usr/bin/databend-query --config-file=/etc/databend/databend-query.toml
+      exec databend-query --config-file=/etc/databend/databend-query.toml
       "
 
 volumes:
