@@ -8,6 +8,7 @@ These topics provide reference information for the DDL (Data Definition Language
 
 | Component | Description |
 |-----------|-------------|
+| **[Catalog](09-catalog/index.md)** | Inspect catalog definitions |
 | **[Database](00-database/index.md)** | Create, alter, and drop databases |
 | **[Table](01-table/index.md)** | Create, alter, and manage tables |
 | **[Table Versioning](21-table-versioning/index.md)** | Create named snapshot tags for time travel |
