@@ -3,7 +3,7 @@ title: CREATE DICTIONARY
 sidebar_position: 1
 ---
 
-创建一个外部字典。
+创建一个字典。
 
 ## 语法
 
@@ -33,7 +33,13 @@ SOURCE(
 | `SOURCE(...)` | 定义数据源连接器名称及其键值参数。 |
 | `COMMENT` | 可选的字典备注。 |
 
+:::note
+- SOURCE 仅支持 `MySQL` 和 `Redis`。
+:::
+
 ## 示例
+
+MySQL 示例：
 
 ```sql
 CREATE DICTIONARY user_info
@@ -53,5 +59,23 @@ SOURCE(
         table = 'users'
     )
 )
-COMMENT '来自 MySQL 的用户字典';
+COMMENT 'User dictionary from MySQL';
+```
+
+Redis 示例：
+
+```sql
+CREATE DICTIONARY cache
+(
+    key String,
+    value String
+)
+PRIMARY KEY key
+SOURCE(
+    redis(
+        host = '127.0.0.1'
+        port = '6379'
+    )
+)
+COMMENT 'cache dictionary from Redis';
 ```

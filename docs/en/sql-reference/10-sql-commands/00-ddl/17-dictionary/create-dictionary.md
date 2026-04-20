@@ -3,7 +3,7 @@ title: CREATE DICTIONARY
 sidebar_position: 1
 ---
 
-Creates an external dictionary.
+Creates a dictionary.
 
 ## Syntax
 
@@ -33,7 +33,13 @@ SOURCE(
 | `SOURCE(...)` | Defines the source connector name and its key-value options. |
 | `COMMENT` | Optional dictionary comment. |
 
+:::note
+- SOURCE only support `MySQL` and `Redis`.
+:::
+
 ## Examples
+
+MySQL example:
 
 ```sql
 CREATE DICTIONARY user_info
@@ -54,4 +60,22 @@ SOURCE(
     )
 )
 COMMENT 'User dictionary from MySQL';
+```
+
+Redis example:
+
+```sql
+CREATE DICTIONARY cache
+(
+    key String,
+    value String
+)
+PRIMARY KEY key
+SOURCE(
+    redis(
+        host = '127.0.0.1'
+        port = '6379'
+    )
+)
+COMMENT 'cache dictionary from Redis';
 ```
