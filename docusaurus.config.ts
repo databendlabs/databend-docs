@@ -69,8 +69,6 @@ const config: Config = {
           path: `./docs/${siteName}/guides`,
           routeBasePath: "guides",
           sidebarPath: "./docs/en/sidebars.js",
-          showLastUpdateTime: true,
-          showLastUpdateAuthor: true,
           editUrl: ({ docPath }) => {
             return `https://github.com/databendlabs/databend-docs/tree/main/docs/${siteName}/guides/${docPath}`;
           },
@@ -103,8 +101,6 @@ const config: Config = {
         path: `./docs/${siteName}/dev`,
         routeBasePath: "dev",
         sidebarPath: "./docs/en/sidebars.js",
-        showLastUpdateTime: true,
-        showLastUpdateAuthor: true,
         editUrl: ({ devPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/dev/${devPath}`;
         },
@@ -118,8 +114,6 @@ const config: Config = {
         path: `./docs/${siteName}/tutorials`,
         routeBasePath: "tutorials",
         sidebarPath: "./docs/en/sidebars.js",
-        showLastUpdateTime: true,
-        showLastUpdateAuthor: true,
         editUrl: ({ docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/tree/main/docs/${siteName}/tutorials/${docPath}`;
         },
@@ -133,8 +127,6 @@ const config: Config = {
         path: `./docs/${siteName}/sql-reference`,
         routeBasePath: "sql",
         sidebarPath: "./docs/en/sidebars.js",
-        showLastUpdateTime: true,
-        showLastUpdateAuthor: true,
         editUrl: ({ docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/sql-reference/${docPath}`;
         },
@@ -148,8 +140,6 @@ const config: Config = {
         path: `./docs/${siteName}/release-notes`,
         routeBasePath: "release-notes",
         sidebarPath: "./docs/en/sidebars.js",
-        showLastUpdateTime: true,
-        showLastUpdateAuthor: true,
         editUrl: ({ docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/release-notes/${docPath}`;
         },
@@ -163,8 +153,6 @@ const config: Config = {
         path: `./docs/${siteName}/developer`,
         routeBasePath: "developer",
         sidebarPath: "./docs/en/sidebars.js",
-        showLastUpdateTime: true,
-        showLastUpdateAuthor: true,
         editUrl: ({ docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/developer/${docPath}`;
         },
@@ -178,8 +166,6 @@ const config: Config = {
         path: `./docs/${siteName}/integrations`,
         routeBasePath: "integrations",
         sidebarPath: "./docs/en/sidebars.js",
-        showLastUpdateTime: true,
-        showLastUpdateAuthor: true,
         editUrl: ({ docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/integrations/${docPath}`;
         },

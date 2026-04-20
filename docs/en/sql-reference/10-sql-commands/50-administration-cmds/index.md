@@ -43,6 +43,7 @@ This page provides reference information for the system administration commands 
 | **[VACUUM TABLE](09-vacuum-table.md)** | Reclaim storage space from tables |
 | **[VACUUM DROP TABLE](09-vacuum-drop-table.md)** | Clean up dropped table data |
 | **[VACUUM TEMP FILES](09-vacuum-temp-files.md)** | Remove temporary files |
+| **[VACUUM VIRTUAL COLUMN](10-vacuum-virtual-column.md)** | Remove obsolete virtual column files |
 | **[SHOW INDEXES](show-indexes.md)** | Display table indexes |
 
 ## Dynamic Execution
