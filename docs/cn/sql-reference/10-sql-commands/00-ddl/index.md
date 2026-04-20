@@ -8,6 +8,7 @@ title: DDL（Data Definition Language）命令
 
 | 组件 | 描述 |
 |-----------|-------------|
+| **[Catalog](09-catalog/index.md)** | 删除 catalog |
 | **[数据库](00-database/index.md)** | 创建、修改和删除数据库 |
 | **[表](01-table/index.md)** | 创建、修改和管理表 |
 | **[表版本管理 (Table Versioning)](21-table-versioning/index.md)** | 创建命名快照标签用于时间回溯 |
