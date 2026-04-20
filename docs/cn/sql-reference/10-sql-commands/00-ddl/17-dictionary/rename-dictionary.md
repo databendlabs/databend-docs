@@ -1,6 +1,6 @@
 ---
 title: RENAME DICTIONARY
-sidebar_position: 1
+sidebar_position: 3
 ---
 
 重命名一个字典。
