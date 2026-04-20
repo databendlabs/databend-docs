@@ -9,3 +9,5 @@ Dictionary 提供了一种基于键值对的方法，用于从各种外部数据
 | 命令 | 描述 |
 |---------|-------------|
 | [CREATE DICTIONARY](create-dictionary.md) | 创建字典 |
+| [DROP DICTIONARY](drop-dictionary.md) | 删除字典 |
+
