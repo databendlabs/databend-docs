@@ -9,5 +9,5 @@ Dictionary provides a key-value approach for reading data from various external 
 | Command | Description |
 |---------|-------------|
 | [CREATE DICTIONARY](create-dictionary.md) | Creates a dictionary |
-| [DROP DICTIONARY](drop-dictionary.md) | Deletes an external dictionary |
+| [DROP DICTIONARY](drop-dictionary.md) | Deletes a dictionary |
 
