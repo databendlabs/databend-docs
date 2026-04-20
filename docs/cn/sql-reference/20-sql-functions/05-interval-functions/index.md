@@ -36,5 +36,5 @@ title: 间隔函数（Interval Functions）
 | 函数 | 描述 | 示例 |
 |----------|-------------|--------|
 | [TO_DECADES](interval-functions/to-decades) | 将数字转换为十年间隔 | `TO_DECADES(2)` → `20 years` |
-| [TO_CENTRIES](interval-functions/to-centries) | 将数字转换为世纪间隔 | `TO_CENTRIES(1)` → `100 years` |
+| [TO_CENTURIES](interval-functions/to-centuries) | 将数字转换为世纪间隔 | `TO_CENTURIES(1)` → `100 years` |
 | [TO_MILLENNIA](interval-functions/to-millennia) | 将数字转换为千年间隔 | `TO_MILLENNIA(1)` → `1000 years` |
