@@ -17,3 +17,4 @@ Dictionary 提供了一种基于键值对的方法，用于从各种外部数据
 | 命令 | 描述 |
 |---------|-------------|
 | [SHOW CREATE DICTIONARY](show-create-dictionary.md) | 显示字典的 CREATE 语句 |
+| [SHOW DICTIONARIES](show-dictionaries.md) | 列出字典 |

@@ -17,3 +17,4 @@ Dictionary provides a key-value approach for reading data from various external 
 | Command | Description |
 |---------|-------------|
 | [SHOW CREATE DICTIONARY](show-create-dictionary.md) | Shows the CREATE statement for a dictionary |
+| [SHOW DICTIONARIES](show-dictionaries.md) | Lists dictionaries |
