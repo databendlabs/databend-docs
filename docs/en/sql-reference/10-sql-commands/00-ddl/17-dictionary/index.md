@@ -2,16 +2,12 @@
 title: Dictionary
 ---
 
-Dictionary-related SQL commands for external dictionaries in Databend.
+Dictionary provides a key-value approach for reading data from various external data sources, including MySQL and Redis.
 
-## Supported Statements
-
-| Statement | Purpose |
-|-----------|---------|
-| `DROP DICTIONARY` | Deletes a dictionary |
-
-## Command Reference
+## Dictionary Management
 
 | Command | Description |
 |---------|-------------|
+| [CREATE DICTIONARY](create-dictionary.md) | Creates a dictionary |
 | [DROP DICTIONARY](drop-dictionary.md) | Deletes an external dictionary |
+

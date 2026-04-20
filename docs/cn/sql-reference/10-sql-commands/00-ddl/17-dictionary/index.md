@@ -2,16 +2,12 @@
 title: 字典（Dictionary）
 ---
 
-Databend 中外部字典相关的 SQL 命令。
+Dictionary 提供了一种基于键值对的方法，用于从各种外部数据源（包括 MySQL 和 Redis）读取数据。
 
-## 支持的语句
-
-| 语句 | 用途 |
-|-----------|---------|
-| `DROP DICTIONARY` | 删除字典 |
-
-## 命令参考
+## 字典管理
 
 | 命令 | 描述 |
 |---------|-------------|
-| [DROP DICTIONARY](drop-dictionary.md) | 删除外部字典 |
+| [CREATE DICTIONARY](create-dictionary.md) | 创建字典 |
+| [DROP DICTIONARY](drop-dictionary.md) | 删除字典 |
+
