@@ -8,7 +8,7 @@ title: DDL（Data Definition Language）命令
 
 | 组件 | 描述 |
 |-----------|-------------|
-| **[Catalog](09-catalog/index.md)** | 查看可用 catalog 列表 |
+| **[Catalog](09-catalog/index.md)** | 创建、删除和查看 catalog 列表 |
 | **[数据库](00-database/index.md)** | 创建、修改和删除数据库 |
 | **[表](01-table/index.md)** | 创建、修改和管理表 |
 | **[表版本管理 (Table Versioning)](21-table-versioning/index.md)** | 创建命名快照标签用于时间回溯 |
@@ -46,6 +46,7 @@ title: DDL（Data Definition Language）命令
 | **[序列 (Sequence)](04-sequence/index.md)** | 生成唯一的序列号 |
 | **[连接 (Connection)](13-connection/index.md)** | 配置外部数据源连接 |
 | **[文件格式 (File Format)](13-file-format/index.md)** | 为数据导入/导出定义格式 |
+| **[字典 (Dictionary)](17-dictionary/index.md)** | 定义由外部数据源驱动的字典 |
 
 ## 函数和存储过程
 
