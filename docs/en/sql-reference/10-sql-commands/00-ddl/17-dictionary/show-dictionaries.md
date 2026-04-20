@@ -25,10 +25,6 @@ SHOW DICTIONARIES [ FROM <database_name> | IN <database_name> ]
 ## Examples
 
 ```sql
-SHOW DICTIONARIES;
-```
-
-```sql
 CREATE DICTIONARY user_info
 (
     user_id UInt64,
