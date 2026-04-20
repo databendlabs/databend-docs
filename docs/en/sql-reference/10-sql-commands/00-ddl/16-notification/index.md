@@ -12,6 +12,12 @@ This page provides a comprehensive overview of Notification operations in Databe
 | [ALTER NOTIFICATION](02-ddl-alter-notification.md) | Modifies an existing notification integration |
 | [DROP NOTIFICATION](03-ddl-drop-notification.md) | Removes a notification integration |
 
+## Notification Information
+
+| Command | Description |
+|---------|-------------|
+| [DESCRIBE NOTIFICATION](04-desc-notification.md) | Shows the properties of a notification integration |
+
 :::note
 Notifications in Databend Cloud allow you to configure integrations with external services like email or Slack to receive alerts about database events and operations.
 :::
