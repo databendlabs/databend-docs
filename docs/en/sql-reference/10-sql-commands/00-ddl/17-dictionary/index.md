@@ -11,3 +11,4 @@ Dictionary provides a key-value approach for reading data from various external 
 | [CREATE DICTIONARY](create-dictionary.md) | Creates a dictionary |
 | [DROP DICTIONARY](drop-dictionary.md) | Deletes a dictionary |
 | [RENAME DICTIONARY](rename-dictionary.md) | Renames a dictionary |
+
