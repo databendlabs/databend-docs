@@ -24,5 +24,5 @@ The result includes the notification's creation time, name, identifier, type, en
 ## Example
 
 ```sql
-DESCRIBE NOTIFICATION INTEGRATION error_notification;
+DESCRIBE NOTIFICATION INTEGRATION SampleNotification;
 ```
