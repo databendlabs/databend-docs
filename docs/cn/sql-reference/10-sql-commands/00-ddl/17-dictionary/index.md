@@ -1,0 +1,11 @@
+---
+title: 字典（Dictionary）
+---
+
+Dictionary 提供了一种基于键值对的方法，用于从各种外部数据源（包括 MySQL 和 Redis）读取数据。
+
+## 字典管理
+
+| 命令 | 描述 |
+|---------|-------------|
+| [CREATE DICTIONARY](create-dictionary.md) | 创建字典 |

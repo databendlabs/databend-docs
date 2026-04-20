@@ -44,6 +44,7 @@ These topics provide reference information for the DDL (Data Definition Language
 | **[Sequence](04-sequence/index.md)** | Generate unique sequential numbers |
 | **[Connection](13-connection/index.md)** | Configure external data source connections |
 | **[File Format](13-file-format/index.md)** | Define formats for data import/export |
+| **[Dictionary](17-dictionary/index.md)** | Define dictionaries backed by external sources |
 
 ## Functions & Procedures
 
