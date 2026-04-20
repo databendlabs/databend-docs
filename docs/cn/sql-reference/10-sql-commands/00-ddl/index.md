@@ -22,6 +22,8 @@ title: DDL（Data Definition Language）命令
 | **[聚合索引 (Aggregating Index)](07-aggregating-index/index.md)** | 预计算聚合以加快查询速度 |
 | **[倒排索引 (Inverted Index)](07-inverted-index/index.md)** | 用于文本列的全文搜索索引 |
 | **[Ngram 索引 (Ngram Index)](07-ngram-index/index.md)** | 用于 LIKE 模式的子字符串搜索索引 |
+| **[空间索引 (Spatial Index)](07-spatial-index/index.md)** | 用于 `GEOMETRY` 列的空间裁剪索引 |
+| **[向量索引 (Vector Index)](07-vector-index/index.md)** | 向量嵌入的相似度搜索索引 |
 | **[虚拟列 (Virtual Column)](07-virtual-column/index.md)** | 将 JSON 字段提取并索引为虚拟列 |
 
 ## 安全和访问控制

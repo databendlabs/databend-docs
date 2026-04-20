@@ -22,6 +22,8 @@ These topics provide reference information for the DDL (Data Definition Language
 | **[Aggregating Index](07-aggregating-index/index.md)** | Pre-compute aggregations for faster queries |
 | **[Inverted Index](07-inverted-index/index.md)** | Full-text search index for text columns |
 | **[Ngram Index](07-ngram-index/index.md)** | Substring search index for LIKE patterns |
+| **[Spatial Index](07-spatial-index/index.md)** | Spatial pruning index for GEOMETRY columns |
+| **[Vector Index](07-vector-index/index.md)** | Similarity search index for vector embeddings |
 | **[Virtual Column](07-virtual-column/index.md)** | Extract and index JSON fields as virtual columns |
 
 ## Security & Access Control
