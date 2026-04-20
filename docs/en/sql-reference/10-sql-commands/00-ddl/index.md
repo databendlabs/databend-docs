@@ -8,6 +8,7 @@ These topics provide reference information for the DDL (Data Definition Language
 
 | Component | Description |
 |-----------|-------------|
+| **[Catalog](09-catalog/index.md)** | Create, drop and list catalogs |
 | **[Database](00-database/index.md)** | Create, alter, and drop databases |
 | **[Table](01-table/index.md)** | Create, alter, and manage tables |
 | **[Table Versioning](21-table-versioning/index.md)** | Create named snapshot tags for time travel |
@@ -41,9 +42,9 @@ These topics provide reference information for the DDL (Data Definition Language
 | **[Stream](04-stream/index.md)** | Capture and process data changes |
 | **[Task](04-task/index.md)** | Schedule and automate SQL operations |
 | **[Sequence](04-sequence/index.md)** | Generate unique sequential numbers |
-| **[Dictionary](17-dictionary/index.md)** | Inspect the CREATE statement of external dictionaries |
 | **[Connection](13-connection/index.md)** | Configure external data source connections |
 | **[File Format](13-file-format/index.md)** | Define formats for data import/export |
+| **[Dictionary](17-dictionary/index.md)** | Define dictionaries backed by external sources |
 
 ## Functions & Procedures
 

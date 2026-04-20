@@ -1,6 +1,6 @@
 ---
 title: SHOW CREATE DICTIONARY
-sidebar_position: 1
+sidebar_position: 4
 ---
 
 Shows the SQL statement used to create a dictionary.
@@ -26,5 +26,36 @@ Sensitive source options such as `password` are masked in the returned SQL.
 ## Examples
 
 ```sql
+CREATE DICTIONARY user_info
+(
+    user_id UInt64,
+    user_name String,
+    user_email String
+)
+PRIMARY KEY user_id
+SOURCE(
+    mysql(
+        host = '127.0.0.1'
+        port = '3306'
+        username = 'root'
+        password = 'root'
+        db = 'app'
+        table = 'users'
+    )
+)
+COMMENT 'User dictionary from MySQL';
+
 SHOW CREATE DICTIONARY user_info;
+
+*************************** 1. row ***************************
+       Dictionary: user_info
+Create Dictionary: CREATE DICTIONARY user_info
+(
+  user_id BIGINT UNSIGNED NULL,
+  user_name VARCHAR NULL,
+  user_email VARCHAR NULL
+)
+PRIMARY KEY user_id
+SOURCE(mysql(db='app' host='127.0.0.1' password='[HIDDEN]' port='3306' table='users' username='root'))
+COMMENT 'User dictionary from MySQL'
 ```
