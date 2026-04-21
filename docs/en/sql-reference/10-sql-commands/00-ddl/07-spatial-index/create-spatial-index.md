@@ -25,6 +25,7 @@ CREATE [ OR REPLACE ] SPATIAL INDEX [IF NOT EXISTS] <index>
 - Spatial indexes are supported on Fuse tables only.
 - Spatial indexes support `GEOMETRY` columns only. `GEOGRAPHY` columns are not supported.
 - Multiple columns can be indexed in a single spatial index definition as long as all of them are `GEOMETRY` columns.
+- For better pruning, it is recommended to physically cluster geospatial data with `CLUSTER BY` and `ST_HILBERT`, so nearby objects are more likely to be written into the same block.
 
 ## Examples
 
@@ -35,7 +36,9 @@ CREATE TABLE stores (
     store_id INT,
     store_name STRING,
     location GEOMETRY
-) ENGINE = FUSE;
+) CLUSTER BY (
+    ST_HILBERT(location, [-180, -90, 180, 90])
+);
 ```
 
 Create a spatial index on the `location` column:
@@ -57,11 +60,11 @@ SHOW CREATE TABLE stores;
 │        │   store_name VARCHAR NULL,                                                        │
 │        │   location GEOMETRY NULL,                                                         │
 │        │   SYNC SPATIAL INDEX stores_location_idx (location)                               │
-│        │ ) ENGINE=FUSE                                                                     │
+│        │ ) ENGINE=FUSE CLUSTER BY linear(st_hilbert(location, [-180, -90, 180, 90]))       │
 └──────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Load a slightly richer dataset for spatial filtering:
+Load a slightly richer dataset for spatial filtering, and run RECLUSTER command:
 
 ```sql
 INSERT INTO stores VALUES
@@ -69,6 +72,8 @@ INSERT INTO stores VALUES
   (2, 'Costa', TO_GEOMETRY('POINT(11 11)')),
   (3, 'Gong Cha', TO_GEOMETRY('POINT(20 20)')),
   (4, 'Dunkin', TO_GEOMETRY('POINT(-10 -10)'));
+
+ALTER TABLE stores RECLUSTER FINAL;
 ```
 
 ### Filter with `ST_WITHIN`, `ST_INTERSECTS`, and `ST_CONTAINS`
@@ -132,7 +137,9 @@ CREATE TABLE districts (
     district_id INT,
     district_name STRING,
     geom GEOMETRY
-) ENGINE = FUSE;
+) CLUSTER BY (
+    ST_HILBERT(geom, [-180, -90, 180, 90])
+);
 
 INSERT INTO districts VALUES
   (1, 'Central', TO_GEOMETRY('POLYGON((8 8, 8 13, 13 13, 13 8, 8 8))')),

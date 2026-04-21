@@ -25,6 +25,7 @@ CREATE [ OR REPLACE ] SPATIAL INDEX [IF NOT EXISTS] <index>
 - 空间索引仅支持 Fuse 表。
 - 空间索引仅支持 `GEOMETRY` 列，不支持 `GEOGRAPHY` 列。
 - 一个空间索引定义中可以包含多个列，这些列都必须是 `GEOMETRY` 类型。
+- 为了获得更好的 pruning 效果，建议结合 `CLUSTER BY` 和 `ST_HILBERT` 对地理空间数据做物理聚簇，让空间上接近的对象更有机会被写入同一个 block。
 
 ## 示例
 
@@ -35,7 +36,9 @@ CREATE TABLE stores (
     store_id INT,
     store_name STRING,
     location GEOMETRY
-) ENGINE = FUSE;
+) CLUSTER BY (
+    ST_HILBERT(location, [-180, -90, 180, 90])
+);
 ```
 
 在 `location` 列上创建空间索引：
@@ -57,11 +60,11 @@ SHOW CREATE TABLE stores;
 │        │   store_name VARCHAR NULL,                                                        │
 │        │   location GEOMETRY NULL,                                                         │
 │        │   SYNC SPATIAL INDEX stores_location_idx (location)                               │
-│        │ ) ENGINE=FUSE                                                                     │
+│        │ ) ENGINE=FUSE CLUSTER BY linear(st_hilbert(location, [-180, -90, 180, 90]))       │
 └──────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-插入一些用于空间过滤的示例数据：
+插入一些用于空间过滤的示例数据，并执行 RECLUSTER 命令：
 
 ```sql
 INSERT INTO stores VALUES
@@ -69,6 +72,8 @@ INSERT INTO stores VALUES
   (2, 'Costa', TO_GEOMETRY('POINT(11 11)')),
   (3, 'Gong Cha', TO_GEOMETRY('POINT(20 20)')),
   (4, 'Dunkin', TO_GEOMETRY('POINT(-10 -10)'));
+
+ALTER TABLE stores RECLUSTER FINAL;
 ```
 
 ### 使用 `ST_WITHIN`、`ST_INTERSECTS` 和 `ST_CONTAINS` 过滤
@@ -132,7 +137,9 @@ CREATE TABLE districts (
     district_id INT,
     district_name STRING,
     geom GEOMETRY
-) ENGINE = FUSE;
+) CLUSTER BY (
+    ST_HILBERT(geom, [-180, -90, 180, 90])
+);
 
 INSERT INTO districts VALUES
   (1, 'Central', TO_GEOMETRY('POLYGON((8 8, 8 13, 13 13, 13 8, 8 8))')),
