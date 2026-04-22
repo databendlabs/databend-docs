@@ -71,7 +71,7 @@ jobs:
 
       - name: Write evot.env
         run: |
-          cat > /tmp/evot.env << EOF
+          cat > /tmp/evot.env << ENVEOF
           EVOT_LLM_PROVIDER=${{ secrets.EVOT_LLM_PROVIDER }}
           EVOT_LLM_ANTHROPIC_BASE_URL=${{ secrets.EVOT_LLM_ANTHROPIC_BASE_URL }}
           EVOT_LLM_ANTHROPIC_API_KEY=${{ secrets.EVOT_LLM_ANTHROPIC_API_KEY }}
@@ -79,7 +79,8 @@ jobs:
           EVOT_LLM_OPENAI_BASE_URL=${{ secrets.EVOT_LLM_OPENAI_BASE_URL }}
           EVOT_LLM_OPENAI_API_KEY=${{ secrets.EVOT_LLM_OPENAI_API_KEY }}
           EVOT_LLM_OPENAI_MODEL=${{ secrets.EVOT_LLM_OPENAI_MODEL }}
-          EOF
+          ENVEOF
+          sed -i 's/^[[:space:]]*//' /tmp/evot.env
 
       - name: Run
         run: |
