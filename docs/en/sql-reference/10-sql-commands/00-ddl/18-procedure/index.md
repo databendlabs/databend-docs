@@ -4,6 +4,14 @@ title: Stored Procedure
 
 This page provides a comprehensive overview of Stored Procedure operations in Databend, organized by functionality for easy reference.
 
+:::note
+Stored procedures are an experimental feature. The `enable_experimental_procedure` setting controls availability and is enabled by default (`1`). If disabled, set it back to enable procedures:
+
+```sql
+SET enable_experimental_procedure = 1;
+```
+:::
+
 ## Procedure Management
 
 | Command | Description |

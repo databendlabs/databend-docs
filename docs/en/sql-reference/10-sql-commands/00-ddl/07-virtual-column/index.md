@@ -7,6 +7,14 @@ import EEFeature from '@site/src/components/EEFeature';
 
 This page provides a comprehensive overview of virtual column operations in Databend, organized by functionality for easy reference.
 
+:::note
+Virtual columns are an experimental feature controlled by the `enable_experimental_virtual_column` setting (default: `0`). Enable it before using virtual column commands:
+
+```sql
+SET enable_experimental_virtual_column = 1;
+```
+:::
+
 ## Virtual Column Management
 
 | Command | Description |
