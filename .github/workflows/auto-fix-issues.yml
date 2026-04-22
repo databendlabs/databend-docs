@@ -58,8 +58,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          TAG=$(gh release list --repo evotai/evot --limit 20 --json tagName,assets --jq '[.[] | select(.assets | length > 0)][0].tagName')
-          gh release download "$TAG" --repo evotai/evot --pattern "evot-*-x86_64-unknown-linux-gnu.tar.gz"
+          for TAG in $(gh release list --repo evotai/evot --limit 10 --json tagName --jq '.[].tagName'); do
+            if gh release download "$TAG" --repo evotai/evot --pattern "evot-*-x86_64-unknown-linux-gnu.tar.gz" 2>/dev/null; then
+              echo "Downloaded evot from $TAG"
+              break
+            fi
+          done
           tar -xzf evot-*.tar.gz && chmod +x bin/evot
           echo "$PWD/bin" >> "$GITHUB_PATH"
 
