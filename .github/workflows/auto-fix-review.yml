@@ -1,0 +1,107 @@
+name: Auto Fix PR Review
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number (empty = scan all auto-fix PRs)'
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.find.outputs.matrix }}
+    steps:
+      - id: find
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          PR_NUMBER: ${{ inputs.pr_number || '' }}
+        run: |
+          REPO="${{ github.repository }}"
+          if [ -n "$PR_NUMBER" ]; then
+            PRS=$(gh pr view "$PR_NUMBER" --repo "$REPO" --json number,headRefName --jq '[.]')
+          else
+            PRS=$(gh pr list --repo "$REPO" --label auto-fix --state open --json number,headRefName)
+          fi
+          # Filter PRs that have unresolved review comments
+          NEEDS_FIX="[]"
+          for row in $(echo "$PRS" | jq -c '.[]'); do
+            NUM=$(echo "$row" | jq -r '.number')
+            BRANCH=$(echo "$row" | jq -r '.headRefName')
+            # Get review comments not from bots, or all if manual trigger
+            COMMENTS=$(gh api "repos/${REPO}/pulls/${NUM}/comments" --jq '[.[] | select(.user.login != "github-actions[bot]")] | length' 2>/dev/null || echo "0")
+            if [ "$COMMENTS" -gt 0 ]; then
+              NEEDS_FIX=$(echo "$NEEDS_FIX" | jq --argjson r "$row" '. + [$r]')
+            fi
+          done
+          if [ "$(echo "$NEEDS_FIX" | jq 'length')" -eq 0 ]; then
+            echo "No PRs need fixing"
+            echo "matrix=" >> "$GITHUB_OUTPUT"
+          else
+            echo "matrix=$(echo "$NEEDS_FIX" | jq -c '{include: .}')" >> "$GITHUB_OUTPUT"
+          fi
+
+  fix:
+    needs: scan
+    if: needs.scan.outputs.matrix != ''
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.scan.outputs.matrix) }}
+      max-parallel: 1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.headRefName }}
+
+      - name: Checkout databend source
+        uses: actions/checkout@v4
+        with:
+          repository: databendlabs/databend
+          path: _databend
+          sparse-checkout: src
+          fetch-depth: 1
+
+      - name: Install evot
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          for TAG in $(gh release list --repo evotai/evot --limit 10 --json tagName --jq '.[].tagName'); do
+            if gh release download "$TAG" --repo evotai/evot --pattern "evot-*-x86_64-unknown-linux-gnu.tar.gz" 2>/dev/null; then
+              echo "Downloaded evot from $TAG"
+              break
+            fi
+          done
+          tar -xzf evot-*.tar.gz && chmod +x bin/evot
+          mkdir -p ~/.evotai/lib
+          cp lib/*.node ~/.evotai/lib/
+          echo "$PWD/bin" >> "$GITHUB_PATH"
+
+      - name: Write evot.env
+        run: |
+          mkdir -p ~/.evotai
+          cat > ~/.evotai/evot.env << ENVEOF
+          EVOT_LLM_PROVIDER=anthropic
+          EVOT_LLM_ANTHROPIC_BASE_URL=${{ secrets.EVOT_LLM_ANTHROPIC_BASE_URL }}
+          EVOT_LLM_ANTHROPIC_API_KEY=${{ secrets.EVOT_LLM_ANTHROPIC_API_KEY }}
+          EVOT_LLM_ANTHROPIC_MODEL=${{ secrets.EVOT_LLM_ANTHROPIC_MODEL }}
+          EVOT_LLM_OPENAI_BASE_URL=${{ secrets.EVOT_LLM_OPENAI_BASE_URL }}
+          EVOT_LLM_OPENAI_API_KEY=${{ secrets.EVOT_LLM_OPENAI_API_KEY }}
+          EVOT_LLM_OPENAI_MODEL=${{ secrets.EVOT_LLM_OPENAI_MODEL }}
+          ENVEOF
+          sed -i 's/^[[:space:]]*//' ~/.evotai/evot.env
+
+      - name: Address review comments
+        env:
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ matrix.number }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          EVOT_ID: auto-fix-review
+        run: |
+          bash .github/scripts/auto-fix-review.sh
