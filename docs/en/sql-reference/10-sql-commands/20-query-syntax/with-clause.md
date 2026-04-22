@@ -102,3 +102,15 @@ ORDER BY num DESC;
 - A CTE can reference previously defined CTEs in the same WITH clause
 - Recursive CTEs require both an anchor clause and a recursive clause connected by UNION ALL
 - The RECURSIVE keyword is required when using recursive CTEs
+
+## CTE Materialization Settings
+
+Databend provides three session settings that control CTE materialization behavior:
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `enable_auto_materialize_cte` | `1` | Enables automatic CTE materialization. When on, the optimizer decides whether to materialize a CTE based on its usage count and estimated cost. |
+| `enable_materialized_cte` | `1` | Enables CTE materialization globally. When off, CTEs are always inlined and never materialized. |
+| `persist_materialized_cte` | `1` | Controls whether materialized CTEs are persisted to disk (`1`) or kept in memory (`0`). |
+
+When `enable_auto_materialize_cte` is enabled, Databend automatically materializes CTEs that are referenced multiple times, avoiding redundant computation. To force or prevent materialization regardless of cost, adjust `enable_materialized_cte` directly.

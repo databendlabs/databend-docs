@@ -64,6 +64,13 @@ SET geometry_output_format = 'GeoJSON';
 SELECT ST_ASWKB(geo), ST_ASEWKT(geo), ST_ASGEOJSON(geo) FROM ...;
 ```
 
+## Related Settings
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `enable_geo_create_table` | `1` | Controls whether tables with `GEOMETRY` or `GEOGRAPHY` columns can be created or altered. Set to `0` to disallow geospatial column types in DDL. |
+| `geometry_output_format` | `GeoJSON` | Sets the output format for spatial values. Available values: `WKT`, `WKB`, `EWKT`, `EWKB`, `GeoJSON`. |
+
 ## Functions
 
 Browse the catalogued list of spatial functions here:
