@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MAIN=$(git rev-parse --abbrev-ref HEAD)
+MAIN="main"
 NUM=$(echo "$ISSUE_JSON" | jq -r '.number')
 TITLE=$(echo "$ISSUE_JSON" | jq -r '.title')
 BODY=$(echo "$ISSUE_JSON" | jq -r '.body')
-BRANCH="auto-fix/issue-${NUM}"
 
-echo "=== #${NUM}: ${TITLE} ==="
+# Reuse existing PR branch if provided, otherwise create new
+if [ -n "${EXISTING_BRANCH:-}" ]; then
+  BRANCH="$EXISTING_BRANCH"
+  echo "=== #${NUM}: ${TITLE} (appending to ${BRANCH}) ==="
+  git fetch origin "$BRANCH"
+  git checkout "$BRANCH"
+else
+  BRANCH="auto-fix/issue-${NUM}"
+  echo "=== #${NUM}: ${TITLE} ==="
+fi
 
 # Rollback label on failure
 cleanup_on_failure() {
@@ -15,11 +23,13 @@ cleanup_on_failure() {
 }
 trap cleanup_on_failure ERR
 
-# Skip if PR exists
-if [ "$(gh pr list --repo "$REPO" --head "$BRANCH" --json number --jq 'length')" -gt 0 ]; then
-  echo "PR exists, skip"
-  gh issue edit "$NUM" --repo "$REPO" --add-label auto-fix-done --remove-label auto-fix-in-progress
-  exit 0
+# Skip if PR exists (only for new branches, not when appending)
+if [ -z "${EXISTING_BRANCH:-}" ]; then
+  if [ "$(gh pr list --repo "$REPO" --head "$BRANCH" --json number --jq 'length')" -gt 0 ]; then
+    echo "PR exists, skip"
+    gh issue edit "$NUM" --repo "$REPO" --add-label auto-fix-done --remove-label auto-fix-in-progress
+    exit 0
+  fi
 fi
 
 # Build model args
@@ -63,7 +73,10 @@ format_stats() {
 PR_LOG=""
 log() { PR_LOG="${PR_LOG}${1}\n"; echo "$1"; }
 
-git checkout -b "$BRANCH"
+# Create branch only if not appending to existing
+if [ -z "${EXISTING_BRANCH:-}" ]; then
+  git checkout -b "$BRANCH"
+fi
 
 # --- Step 1: Generate fix ---
 log "### Step 1: Generate (\`${GEN_LABEL}\`)"
@@ -178,14 +191,34 @@ Do NOT run git, gh, or any shell commands that modify the repository state." \
   log "</details>"
 done
 
-# --- Step 3: Create PR ---
+# --- Step 3: Create or update PR ---
 git add docs/
-git commit -m "docs: ${TITLE}" || { cleanup_on_failure; exit 0; }
+git commit -m "docs: ${TITLE} (#${NUM})" || { cleanup_on_failure; exit 0; }
 git push origin "$BRANCH" --force
 
 STATUS=$( [ "$APPROVED" = true ] && echo "✅ Approved" || echo "⚠️ Needs human review (not approved after ${REVIEW_ROUND} rounds)" )
 
-PR_BODY="Fixes #${NUM}.
+if [ -n "${EXISTING_PR:-}" ] && [ "$EXISTING_PR" != "" ]; then
+  # Append to existing PR — add comment and update body to reference new issue
+  gh pr comment "$EXISTING_PR" --repo "$REPO" \
+    --body "### Also fixes #${NUM}: ${TITLE}
+
+**Status:** ${STATUS}
+**Generator:** \`${GEN_LABEL}\` | **Reviewer:** \`${REV_LABEL}\` | **Review rounds:** ${REVIEW_ROUND}
+
+<details><summary>Process log</summary>
+
+$(echo -e "$PR_LOG")
+
+</details>" || true
+
+  # Append issue reference to PR body
+  OLD_BODY=$(gh pr view "$EXISTING_PR" --repo "$REPO" --json body --jq '.body')
+  gh pr edit "$EXISTING_PR" --repo "$REPO" \
+    --body "${OLD_BODY}
+Also fixes #${NUM}." || true
+else
+  PR_BODY="Fixes #${NUM}.
 
 **Status:** ${STATUS}
 **Generator:** \`${GEN_LABEL}\` | **Reviewer:** \`${REV_LABEL}\` | **Review rounds:** ${REVIEW_ROUND}
@@ -196,10 +229,11 @@ PR_BODY="Fixes #${NUM}.
 
 $(echo -e "$PR_LOG")"
 
-gh pr create --repo "$REPO" --base "$MAIN" --head "$BRANCH" \
-  --title "${TITLE}" \
-  --body "$PR_BODY" \
-  --label auto-fix || true
+  gh pr create --repo "$REPO" --base "$MAIN" --head "$BRANCH" \
+    --title "${TITLE}" \
+    --body "$PR_BODY" \
+    --label auto-fix || true
+fi
 
 # Mark done
 gh issue edit "$NUM" --repo "$REPO" --add-label auto-fix-done --remove-label auto-fix-in-progress

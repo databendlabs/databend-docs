@@ -17,7 +17,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     outputs:
-      issue: ${{ steps.pick.outputs.issue }}
+      matrix: ${{ steps.pick.outputs.matrix }}
     steps:
       - id: pick
         env:
@@ -25,24 +25,80 @@ jobs:
           ISSUE_NUMBER: ${{ inputs.issue_number || '' }}
         run: |
           REPO="${{ github.repository }}"
+
+          # Collect issues
           if [ -n "$ISSUE_NUMBER" ]; then
-            ISSUE=$(gh issue view "$ISSUE_NUMBER" --repo "$REPO" --json number,title,body -q '.')
+            ISSUES=$(gh issue view "$ISSUE_NUMBER" --repo "$REPO" --json number,title,body -q '[.]')
           else
-            ISSUE=$(gh issue list --repo "$REPO" --label auto-fix --state open --limit 1 --json number,title,body -q '.[0] // empty')
+            ISSUES=$(gh issue list --repo "$REPO" --label auto-fix --state open --limit 10 --json number,title,body)
           fi
-          if [ -z "$ISSUE" ]; then
+
+          COUNT=$(echo "$ISSUES" | jq 'length')
+          if [ "$COUNT" -eq 0 ]; then
             echo "No auto-fix issues"
-            echo "issue=" >> "$GITHUB_OUTPUT"
-          else
-            NUM=$(echo "$ISSUE" | jq -r '.number')
+            echo "matrix=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Collect open auto-fix PRs and their changed file paths
+          OPEN_PRS=$(gh pr list --repo "$REPO" --label auto-fix --state open \
+            --json number,headRefName,files --jq '[.[] | {number, branch: .headRefName, paths: [.files[].path]}]' 2>/dev/null || echo '[]')
+
+          # For each issue, check if an existing PR touches the same doc category
+          # Category = first two path segments under docs/en/ (e.g. docs/en/sql-reference, docs/en/guides)
+          MATRIX="[]"
+          for row in $(echo "$ISSUES" | jq -c '.[]'); do
+            NUM=$(echo "$row" | jq -r '.number')
+            TITLE=$(echo "$row" | jq -r '.title')
+            BODY=$(echo "$row" | jq -r '.body')
+
+            # Guess the doc category from issue title/body keywords
+            CATEGORY=""
+            TEXT=$(echo "${TITLE} ${BODY}" | tr '[:upper:]' '[:lower:]')
+            if echo "$TEXT" | grep -qE 'function|func[ _-]'; then
+              CATEGORY="docs/en/sql-reference/20-sql-functions"
+            elif echo "$TEXT" | grep -qE 'command|statement|ddl|dml|dql'; then
+              CATEGORY="docs/en/sql-reference/10-sql-commands"
+            elif echo "$TEXT" | grep -qE 'sql.reference|sql-reference'; then
+              CATEGORY="docs/en/sql-reference"
+            elif echo "$TEXT" | grep -qE 'guide|load|unload|stage|warehouse|security'; then
+              CATEGORY="docs/en/guides"
+            fi
+
+            # Find existing PR with overlapping category
+            EXISTING_BRANCH=""
+            EXISTING_PR=""
+            if [ -n "$CATEGORY" ]; then
+              MATCH=$(echo "$OPEN_PRS" | jq -c --arg cat "$CATEGORY" \
+                '[.[] | select(.paths[] | startswith($cat))] | first // empty')
+              if [ -n "$MATCH" ] && [ "$MATCH" != "null" ]; then
+                EXISTING_BRANCH=$(echo "$MATCH" | jq -r '.branch')
+                EXISTING_PR=$(echo "$MATCH" | jq -r '.number')
+                echo "Issue #${NUM} matches existing PR #${EXISTING_PR} (branch: ${EXISTING_BRANCH})"
+              fi
+            fi
+
+            # Mark in-progress
             gh issue edit "$NUM" --repo "$REPO" --add-label auto-fix-in-progress --remove-label auto-fix
-            echo "issue=$(echo "$ISSUE" | jq -c .)" >> "$GITHUB_OUTPUT"
+
+            ENTRY=$(echo "$row" | jq -c --arg eb "$EXISTING_BRANCH" --arg ep "$EXISTING_PR" \
+              '. + {existing_branch: $eb, existing_pr: $ep}')
+            MATRIX=$(echo "$MATRIX" | jq -c --argjson e "$ENTRY" '. + [$e]')
+          done
+
+          if [ "$(echo "$MATRIX" | jq 'length')" -eq 0 ]; then
+            echo "matrix=" >> "$GITHUB_OUTPUT"
+          else
+            echo "matrix=$(echo "$MATRIX" | jq -c '{include: .}')" >> "$GITHUB_OUTPUT"
           fi
 
   fix:
     needs: check
-    if: needs.check.outputs.issue != ''
+    if: needs.check.outputs.matrix != ''
     runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.check.outputs.matrix) }}
+      max-parallel: 1
     steps:
       - uses: actions/checkout@v4
 
@@ -98,7 +154,9 @@ jobs:
           bash .github/scripts/auto-fix.sh
         env:
           REPO: ${{ github.repository }}
-          ISSUE_JSON: ${{ needs.check.outputs.issue }}
+          ISSUE_JSON: ${{ toJson(matrix) }}
+          EXISTING_BRANCH: ${{ matrix.existing_branch }}
+          EXISTING_PR: ${{ matrix.existing_pr }}
           GENERATOR_MODEL: ''
           REVIEWER_MODEL: gpt-5.4
           EVOT_ID: auto-fix-ci
