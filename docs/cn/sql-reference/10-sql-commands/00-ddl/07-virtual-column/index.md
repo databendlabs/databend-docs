@@ -17,3 +17,11 @@ import EEFeature from '@site/src/components/EEFeature';
 ## 相关主题
 
 - [虚拟列（Virtual Column）性能](/guides/performance/virtual-column)
+
+:::note
+使用虚拟列命令前，需先启用实验性功能标志：
+
+```sql
+SET enable_experimental_virtual_column = 1;
+```
+:::

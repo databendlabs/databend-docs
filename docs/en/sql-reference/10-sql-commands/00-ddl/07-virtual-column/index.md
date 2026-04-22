@@ -17,3 +17,11 @@ This page provides a comprehensive overview of virtual column operations in Data
 ## Related Topics
 
 - [Virtual Column Performance](/guides/performance/virtual-column)
+
+:::note
+To use virtual column commands, enable the experimental feature flag first:
+
+```sql
+SET enable_experimental_virtual_column = 1;
+```
+:::

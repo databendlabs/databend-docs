@@ -28,9 +28,13 @@ To access a sequence, the user performing the operation or the roles must have t
 
 :::note
 
-The enable_experimental_sequence_rbac_check settings governs sequence-level access control. It is disabled by default.
-sequence creation solely requires the user to possess superuser privileges, bypassing detailed RBAC checks.
-When enabled, granular permission verification is enforced during sequence establishment.
+`enable_experimental_sequence_privilege_check` governs sequence-level access control. It is disabled by default. When disabled, accessing a sequence solely requires the user to possess superuser privileges, bypassing detailed RBAC checks. When enabled, granular permission verification is enforced.
+
+To enable it:
+
+```sql
+SET enable_experimental_sequence_privilege_check = 1;
+```
 
 This is an experimental feature and may be enabled by default in the future.
 

@@ -250,3 +250,11 @@ Row access policies share the same governance model. Beyond the global `CREATE R
 |:----------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
 | APPLY     | Adds or removes the row access policy from tables and allows DESC/DROP operations on the policy.                                                   |
 | OWNERSHIP | Grants full control over a row access policy. Databend grants OWNERSHIP to the creator role and revokes it automatically when the policy is dropped. |
+
+:::note
+Row access policy is an experimental feature. Enable it before use:
+
+```sql
+SET enable_experimental_row_access_policy = 1;
+```
+:::

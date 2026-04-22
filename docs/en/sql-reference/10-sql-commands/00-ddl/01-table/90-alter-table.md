@@ -77,6 +77,7 @@ DROP [ COLUMN ] <column_name>
 - A column can belong to at most one security policy (masking or row-level). Remove the existing policy before attaching a new one.
 - Attaching, detaching, describing, or dropping a masking policy requires the global `APPLY MASKING POLICY` privilege or APPLY/OWNERSHIP on the specific masking policy.
 - Adding, removing, describing, or dropping a row access policy requires the global `APPLY ROW ACCESS POLICY` privilege or APPLY/OWNERSHIP on that policy.
+- Row access policy is an experimental feature. Enable it before use: `SET enable_experimental_row_access_policy = 1;`
 :::
 
 :::caution

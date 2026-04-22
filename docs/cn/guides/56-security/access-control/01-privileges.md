@@ -249,3 +249,11 @@ Row Access Policy（行访问策略）沿用相同的权限模型。除了全局
 |:------|:---------------------------------------------------------------------------------------------------------------|
 | APPLY | 将 Row Access Policy 绑定/解绑到表，并允许执行 DESC/DROP 操作。                                                |
 | OWNERSHIP | 授予对 Row Access Policy 的完全控制权。Databend 会在策略创建时自动将 OWNERSHIP 授予当前角色，并在策略被删除时自动回收。 |
+
+:::note
+行访问策略（Row Access Policy）是实验性功能，使用前需先启用：
+
+```sql
+SET enable_experimental_row_access_policy = 1;
+```
+:::

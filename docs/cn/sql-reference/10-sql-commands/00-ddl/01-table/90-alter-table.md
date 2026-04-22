@@ -77,6 +77,7 @@ DROP [ COLUMN ] <column_name>
 - 单个列最多只能附加一个安全策略（无论是列脱敏还是行级策略）。在重新绑定之前，请先移除原有策略。
 - 设置或取消设置脱敏策略需要拥有全局 `APPLY MASKING POLICY` 权限，或针对目标策略具有 APPLY/OWNERSHIP 权限，否则 `ALTER TABLE` 会被拒绝。
 - 添加、移除、描述或删除 Row Access Policy 需要拥有全局 `APPLY ROW ACCESS POLICY` 权限，或针对目标策略具有 APPLY/OWNERSHIP 权限。
+- 行访问策略（Row Access Policy）是实验性功能，使用前需先启用：`SET enable_experimental_row_access_policy = 1;`
 :::
 
 :::caution

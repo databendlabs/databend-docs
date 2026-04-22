@@ -27,9 +27,13 @@ NEXTVAL(<sequence_name>)
 
 :::note
 
-`enable_experimental_sequence_rbac_check` 设置控制序列级访问控制，默认禁用。
-创建序列仅需超级用户权限，跳过详细 RBAC 检查。
-启用后，在创建序列时将强制执行细粒度权限验证。
+`enable_experimental_sequence_privilege_check` 设置控制序列级访问控制，默认禁用。禁用时，访问序列仅需超级用户权限，跳过详细 RBAC 检查。启用后，将强制执行细粒度权限验证。
+
+启用方式：
+
+```sql
+SET enable_experimental_sequence_privilege_check = 1;
+```
 
 此为实验性功能，未来可能默认启用。
 

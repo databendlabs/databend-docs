@@ -9,18 +9,24 @@ title: 存储过程（Stored Procedure）
 | 命令 | 描述 |
 |---------|-------------|
 | [CREATE PROCEDURE](create-procedure.md) | 创建新的存储过程（Stored Procedure） |
-| [DROP PROCEDURE](drop-procedure（Stored Procedure）) | 删除存储过程（Stored Procedure） |
-| [CALL](call-procedure（Stored Procedure）) | 执行存储过程（Stored Procedure） |
+| [DROP PROCEDURE](drop-procedure.md) | 删除存储过程（Stored Procedure） |
+| [CALL](call-procedure.md) | 执行存储过程（Stored Procedure） |
 
 ## 过程信息
 
-| 命令 |  | 描述 |
-|---------|---------|-------------|
-| [DESCRIBE PROCEDURE](desc-procedure（Stored Procedure）) | 显示特定存储过程（Stored Procedure）的详细信息 |
-| [SHOW PROCEDURES](show-procedures（Stored Procedures）) | 显示当前数据库中的所有存储过程（Stored Procedure） |
+| 命令 | 描述 |
+|---------|-------------|
+| [DESCRIBE PROCEDURE](desc-procedure.md) | 显示特定存储过程（Stored Procedure）的详细信息 |
+| [SHOW PROCEDURES](show-procedures.md) | 显示当前数据库中的所有存储过程（Stored Procedure） |
 
 :::note
 Databend 中的存储过程（Stored Procedure）允许您将一系列 SQL 语句封装到可重用的单元中，该单元可以作为单个命令执行，从而提高代码组织性和可维护性。
+
+使用存储过程前，需先启用实验性功能标志：
+
+```sql
+SET enable_experimental_procedure = 1;
+```
 :::
 
 ## 延伸阅读
