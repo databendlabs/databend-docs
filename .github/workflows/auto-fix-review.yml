@@ -60,6 +60,11 @@ jobs:
         with:
           ref: ${{ matrix.headRefName }}
 
+      - name: Get scripts from main
+        run: |
+          git fetch origin main
+          git checkout origin/main -- .github/scripts/
+
       - name: Checkout databend source
         uses: actions/checkout@v4
         with:
