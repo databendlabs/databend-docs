@@ -21,6 +21,12 @@ This page provides a comprehensive overview of Stored Procedure operations in Da
 
 :::note
 Stored procedures in Databend allow you to encapsulate a series of SQL statements into a reusable unit that can be executed as a single command, improving code organization and maintainability.
+
+The stored procedure feature is experimental. It is enabled by default (`enable_experimental_procedure = 1`). If it has been disabled, re-enable it with:
+
+```sql
+SET enable_experimental_procedure = 1;
+```
 :::
 
 ## Further Reading

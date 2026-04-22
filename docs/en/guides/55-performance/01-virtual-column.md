@@ -38,6 +38,12 @@ When querying JSON data, traditional databases must parse the entire JSON struct
 
 Virtual columns are enabled by default starting from v1.2.832 and require no additional configuration.
 
+If you are running an older version or the feature is not active, enable it with:
+
+```sql
+SET enable_experimental_virtual_column = 1;
+```
+
 ## Complete Example
 
 This example demonstrates automatic virtual column creation and performance benefits:
