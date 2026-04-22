@@ -43,7 +43,7 @@ OUTPUT=$(evot -p "You are addressing review feedback on a documentation PR.
 
 PR #${PR_NUMBER}: ${PR_TITLE}
 
-The Databend source code is available at _databend/src/ for reference.
+The Databend source code is available at _databend/src/ for reference. Check _databend/RELEASES.txt for recent release tags to determine version numbers.
 
 ## Inline review comments:
 ${FORMATTED}
@@ -60,7 +60,12 @@ Task:
 Rules:
 - Only modify files under docs/en/ and docs/cn/.
 - Do NOT run git, gh, or any shell commands that modify the repository state.
-- The CI script handles git commit, push, and PR replies." \
+- The CI script handles git commit, push, and PR replies.
+- Analyze the Databend source code in _databend/src/ and release tags to determine which version introduced or updated the feature being documented. Then add or update the FunctionDescription component at the top of the doc (after the frontmatter):
+  For docs/en/: import FunctionDescription from '@site/src/components/FunctionDescription'; then <FunctionDescription description=\"Introduced or updated: vX.Y.Z\"/>
+  For docs/cn/: import FunctionDescription from '@site/src/components/FunctionDescription'; then <FunctionDescription description=\"引入或更新于：vX.Y.Z\"/>
+  If the doc already has a FunctionDescription, update the version if the change is newer.
+- Keep documentation concise and clear. If a setting defaults to true (enabled), do not document it separately — only mention settings that users need to explicitly change." \
   --output-format stream-json \
   --max-turns 300 --max-duration 600 2>&1 || true)
 

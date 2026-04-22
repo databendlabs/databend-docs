@@ -73,7 +73,7 @@ SELECT ST_ASWKB(geo), ST_ASEWKT(geo), ST_ASGEOJSON(geo) FROM ...;
 SET enable_geo_create_table = 0;
 ```
 
-完整的参数参考请参阅[系统参数](../../31-system-tables/system-settings.md)。
+完整的参数参考请参阅[系统参数](../31-system-tables/system-settings.md)。
 
 ## 函数
 

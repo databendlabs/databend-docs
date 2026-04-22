@@ -102,7 +102,7 @@ Databend 提供三个会话参数来控制 CTE 的物化行为：
 |------|--------|------|
 | `enable_auto_materialize_cte` | `1` | 启用后，优化器根据 CTE 的使用次数和估算成本自动决定是否对其进行物化。禁用此参数可强制优化器始终内联 CTE。 |
 | `enable_materialized_cte` | `1` | 控制是否启用 CTE 物化。设置为 `0` 时，无论 `enable_auto_materialize_cte` 的值如何，CTE 始终以内联方式执行。 |
-| `persist_materialized_cte` | `0` | 启用后，物化的 CTE 结果将持久化到存储中，而不是保留在内存中。适用于内存无法容纳的超大 CTE。 |
+| `persist_materialized_cte` | `1` | 启用后，物化的 CTE 结果将持久化到存储中，而不是保留在内存中。适用于内存无法容纳的超大 CTE。 |
 
 三个参数的关系如下：`enable_materialized_cte` 是总开关——若设置为 `0`，则不会发生任何物化。当其为 `1` 时，`enable_auto_materialize_cte` 决定优化器是否自动选择物化。`persist_materialized_cte` 仅在物化生效时才起作用。
 

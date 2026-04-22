@@ -72,7 +72,7 @@ The `enable_geo_create_table` session setting controls whether `CREATE TABLE` an
 SET enable_geo_create_table = 0;
 ```
 
-See [System Settings](../../31-system-tables/system-settings.md) for the full settings reference.
+See [System Settings](../31-system-tables/system-settings.md) for the full settings reference.
 
 ## Functions
 

@@ -103,7 +103,7 @@ Databend provides three session settings that control how CTEs are materialized:
 |---------|---------|-------------|
 | `enable_auto_materialize_cte` | `1` | When enabled, the optimizer automatically decides whether to materialize a CTE based on its usage count and estimated cost. Disable this to force the optimizer to always inline CTEs. |
 | `enable_materialized_cte` | `1` | Enables CTE materialization in general. When set to `0`, CTEs are always inlined regardless of `enable_auto_materialize_cte`. |
-| `persist_materialized_cte` | `0` | When enabled, materialized CTE results are persisted to storage rather than kept in memory. Useful for very large CTEs that would otherwise exhaust memory. |
+| `persist_materialized_cte` | `1` | When enabled, materialized CTE results are persisted to storage rather than kept in memory. Useful for very large CTEs that would otherwise exhaust memory. |
 
 These settings interact as follows: `enable_materialized_cte` acts as the master switch — if it is `0`, no materialization occurs. When it is `1`, `enable_auto_materialize_cte` determines whether the optimizer chooses materialization automatically. `persist_materialized_cte` only takes effect when materialization is active.
 
