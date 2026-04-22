@@ -71,7 +71,7 @@ GEN_RAW=$(evot -p "You are fixing a documentation issue in the databend-docs rep
 
 Task:
 1. Read the issue carefully and understand what documentation is missing or wrong.
-2. Look at _databend/src/ for the actual Databend source code to verify implementation details.
+2. Look at _databend/src/ for the actual Databend source code to verify implementation details. Check _databend/RELEASES.txt for recent release tags to determine version numbers.
 3. Read existing docs under docs/en/ to match the style and find the right location.
 4. Make the fix in docs/en/.
 5. If you modified any file under docs/en/, also update the corresponding file under docs/cn/ (Chinese translation). Keep technical terms in English, translate descriptions to Chinese.
@@ -80,6 +80,11 @@ Rules:
 - Only modify files under docs/en/ and docs/cn/.
 - Do NOT run git, gh, or any shell commands that modify the repository state.
 - The CI script handles git commit, push, and PR creation.
+- Analyze the Databend source code in _databend/src/ and release tags to determine which version introduced or updated the feature being documented. Then add or update the FunctionDescription component at the top of the doc (after the frontmatter):
+  For docs/en/: import FunctionDescription from '@site/src/components/FunctionDescription'; then <FunctionDescription description=\"Introduced or updated: vX.Y.Z\"/>
+  For docs/cn/: import FunctionDescription from '@site/src/components/FunctionDescription'; then <FunctionDescription description=\"引入或更新于：vX.Y.Z\"/>
+  If the doc already has a FunctionDescription, update the version if the change is newer.
+- Keep documentation concise and clear. If a setting defaults to true (enabled), do not document it separately — only mention settings that users need to explicitly change.
 
 Issue #${NUM}: ${TITLE}
 ${BODY}" \

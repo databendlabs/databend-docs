@@ -73,6 +73,14 @@ jobs:
           sparse-checkout: src
           fetch-depth: 1
 
+      - name: Fetch databend release tags
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          gh release list --repo databendlabs/databend --limit 50 \
+            --json tagName,publishedAt --jq '.[] | "\(.tagName) \(.publishedAt)"' \
+            > _databend/RELEASES.txt
+
       - name: Install evot
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
