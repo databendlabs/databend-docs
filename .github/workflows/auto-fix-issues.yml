@@ -65,6 +65,8 @@ jobs:
             fi
           done
           tar -xzf evot-*.tar.gz && chmod +x bin/evot
+          mkdir -p ~/.evotai/lib
+          cp lib/*.node ~/.evotai/lib/
           echo "$PWD/bin" >> "$GITHUB_PATH"
 
       - name: Write evot.env
