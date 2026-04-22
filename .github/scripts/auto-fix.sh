@@ -30,15 +30,44 @@ REV_MODEL_ARG=""
 GEN_LABEL="${GENERATOR_MODEL:-default}"
 REV_LABEL="${REVIEWER_MODEL:-default}"
 
+# Extract assistant log from stream-json output
+# Collects all assistant_completed text entries, truncated to keep PR body readable
+extract_assistant_log() {
+  local output="$1"
+  echo "$output" | grep '"assistant_completed"' | jq -r '
+    .payload.content[]? | select(.type=="text") | .text // empty
+  ' 2>/dev/null | head -100
+}
+
+# Extract stats from run_finished event
+extract_stats() {
+  local output="$1"
+  echo "$output" | grep '"run_finished"' | tail -1 | jq -r '{
+    turns: .payload.turn_count,
+    duration_s: ((.payload.duration_ms // 0) / 1000 | floor),
+    input: .payload.usage.input,
+    output: .payload.usage.output
+  }' 2>/dev/null || echo '{"turns":"?","duration_s":0,"input":"?","output":"?"}'
+}
+
+format_stats() {
+  local stats="$1"
+  local turns=$(echo "$stats" | jq -r '.turns // "?"')
+  local dur=$(echo "$stats" | jq -r '.duration_s // 0')
+  local inp=$(echo "$stats" | jq -r '.input // "?"')
+  local out=$(echo "$stats" | jq -r '.output // "?"')
+  echo "Turns: ${turns} | Duration: ${dur}s | Tokens: ${inp} in / ${out} out"
+}
+
 # PR body log
 PR_LOG=""
 log() { PR_LOG="${PR_LOG}${1}\n"; echo "$1"; }
 
 git checkout -b "$BRANCH"
 
-# Step 1: Generate fix
-log "### Step 1: Generate fix (\`${GEN_LABEL}\`)"
-GEN_OUTPUT=$(evot -p "You are fixing a documentation issue in the databend-docs repository.
+# --- Step 1: Generate fix ---
+log "### Step 1: Generate (\`${GEN_LABEL}\`)"
+GEN_RAW=$(evot -p "You are fixing a documentation issue in the databend-docs repository.
 
 Task:
 1. Read the issue carefully and understand what documentation is missing or wrong.
@@ -58,14 +87,15 @@ ${BODY}" \
   --output-format stream-json \
   --max-turns 300 --max-duration 600 2>&1 || true)
 
-# Extract stats from run_finished event
-GEN_STATS=$(echo "$GEN_OUTPUT" | grep '"run_finished"' | tail -1 | jq -r '{turns: .payload.turn_count, duration_ms: .payload.duration_ms, input_tokens: .payload.usage.input, output_tokens: .payload.usage.output}' 2>/dev/null || echo '{}')
-GEN_TURNS=$(echo "$GEN_STATS" | jq -r '.turns // "?"')
-GEN_DURATION=$(echo "$GEN_STATS" | jq -r '.duration_ms // 0')
-GEN_INPUT=$(echo "$GEN_STATS" | jq -r '.input_tokens // "?"')
-GEN_OUTPUT_T=$(echo "$GEN_STATS" | jq -r '.output_tokens // "?"')
-GEN_DURATION_S=$((GEN_DURATION / 1000))
-log "- Turns: ${GEN_TURNS}, Duration: ${GEN_DURATION_S}s, Tokens: ${GEN_INPUT} in / ${GEN_OUTPUT_T} out"
+GEN_STATS=$(extract_stats "$GEN_RAW")
+log "$(format_stats "$GEN_STATS")"
+log ""
+log "<details><summary>Generator log</summary>"
+log ""
+log '```'
+log "$(extract_assistant_log "$GEN_RAW")"
+log '```'
+log "</details>"
 
 if git diff --quiet && git diff --cached --quiet && [ -z "$(git ls-files --others --exclude-standard docs/)" ]; then
   echo "No changes"
@@ -73,7 +103,7 @@ if git diff --quiet && git diff --cached --quiet && [ -z "$(git ls-files --other
   exit 0
 fi
 
-# Step 2: Review loop (max 2 rounds)
+# --- Step 2: Review loop (max 2 rounds) ---
 APPROVED=false
 REVIEW_ROUND=0
 for round in 1 2; do
@@ -83,9 +113,9 @@ for round in 1 2; do
   [ -z "$DIFF" ] && { APPROVED=true; break; }
 
   log ""
-  log "### Step 2: Review round ${round} (\`${REV_LABEL}\`)"
+  log "### Review round ${round} (\`${REV_LABEL}\`)"
 
-  REV_OUTPUT=$(evot -p "Review this diff for issue #${NUM}: ${TITLE}
+  REV_RAW=$(evot -p "Review this diff for issue #${NUM}: ${TITLE}
 ${BODY}
 
 Respond ONLY with JSON: {\"approved\": bool, \"comments\": \"...\"}
@@ -93,18 +123,11 @@ Respond ONLY with JSON: {\"approved\": bool, \"comments\": \"...\"}
 ${DIFF}" \
     $REV_MODEL_ARG \
     --output-format stream-json \
-    --max-turns 1 --max-duration 60 2>&1 || true)
+    --max-turns 1 --max-duration 120 2>&1 || true)
 
-  # Extract review text
-  REVIEW=$(echo "$REV_OUTPUT" | grep '"run_finished"' | tail -1 | jq -r '.payload.text // ""' 2>/dev/null || true)
-
-  # Extract stats
-  REV_STATS=$(echo "$REV_OUTPUT" | grep '"run_finished"' | tail -1 | jq -r '{duration_ms: .payload.duration_ms, input_tokens: .payload.usage.input, output_tokens: .payload.usage.output}' 2>/dev/null || echo '{}')
-  REV_DURATION=$(echo "$REV_STATS" | jq -r '.duration_ms // 0')
-  REV_INPUT=$(echo "$REV_STATS" | jq -r '.input_tokens // "?"')
-  REV_OUTPUT_T=$(echo "$REV_STATS" | jq -r '.output_tokens // "?"')
-  REV_DURATION_S=$((REV_DURATION / 1000))
-  log "- Duration: ${REV_DURATION_S}s, Tokens: ${REV_INPUT} in / ${REV_OUTPUT_T} out"
+  REVIEW=$(echo "$REV_RAW" | grep '"run_finished"' | tail -1 | jq -r '.payload.text // ""' 2>/dev/null || true)
+  REV_STATS=$(extract_stats "$REV_RAW")
+  log "$(format_stats "$REV_STATS")"
 
   if echo "$REVIEW" | grep -q '"approved"[[:space:]]*:[[:space:]]*true'; then
     COMMENTS=$(echo "$REVIEW" | python3 -c "
@@ -124,10 +147,11 @@ try: print(json.loads(m.group())['comments']) if m else print(t[:500])
 except: print(t[:500])" 2>/dev/null || echo "$REVIEW" | head -10)
 
   log "- ❌ **Rejected**: ${COMMENTS}"
-  log ""
-  log "### Step 3: Address review round ${round} (\`${GEN_LABEL}\`)"
 
-  FIX_OUTPUT=$(evot -p "A reviewer found issues with your documentation fix for issue #${NUM}.
+  log ""
+  log "### Address review ${round} (\`${GEN_LABEL}\`)"
+
+  FIX_RAW=$(evot -p "A reviewer found issues with your documentation fix for issue #${NUM}.
 
 Feedback:
 ${COMMENTS}
@@ -136,20 +160,22 @@ Address the feedback. Only modify files under docs/en/ and docs/cn/.
 Do NOT run git, gh, or any shell commands that modify the repository state." \
     $GEN_MODEL_ARG \
     --output-format stream-json \
-    --max-turns 300 --max-duration 300 2>&1 || true)
+    --max-turns 300 --max-duration 600 2>&1 || true)
 
-  FIX_STATS=$(echo "$FIX_OUTPUT" | grep '"run_finished"' | tail -1 | jq -r '{turns: .payload.turn_count, duration_ms: .payload.duration_ms, input_tokens: .payload.usage.input, output_tokens: .payload.usage.output}' 2>/dev/null || echo '{}')
-  FIX_TURNS=$(echo "$FIX_STATS" | jq -r '.turns // "?"')
-  FIX_DURATION=$(echo "$FIX_STATS" | jq -r '.duration_ms // 0')
-  FIX_INPUT=$(echo "$FIX_STATS" | jq -r '.input_tokens // "?"')
-  FIX_OUTPUT_T=$(echo "$FIX_STATS" | jq -r '.output_tokens // "?"')
-  FIX_DURATION_S=$((FIX_DURATION / 1000))
-  log "- Turns: ${FIX_TURNS}, Duration: ${FIX_DURATION_S}s, Tokens: ${FIX_INPUT} in / ${FIX_OUTPUT_T} out"
+  FIX_STATS=$(extract_stats "$FIX_RAW")
+  log "$(format_stats "$FIX_STATS")"
+  log ""
+  log "<details><summary>Fix log</summary>"
+  log ""
+  log '```'
+  log "$(extract_assistant_log "$FIX_RAW")"
+  log '```'
+  log "</details>"
 done
 
-# Step 4: PR
+# --- Step 3: Create PR ---
 git add docs/
-git commit -m "docs: auto-fix #${NUM}" || { cleanup_on_failure; exit 0; }
+git commit -m "docs: ${TITLE}" || { cleanup_on_failure; exit 0; }
 git push origin "$BRANCH" --force
 
 STATUS=$( [ "$APPROVED" = true ] && echo "✅ Approved" || echo "⚠️ Needs human review (not approved after ${REVIEW_ROUND} rounds)" )
@@ -166,7 +192,7 @@ PR_BODY="Fixes #${NUM}.
 $(echo -e "$PR_LOG")"
 
 gh pr create --repo "$REPO" --base "$MAIN" --head "$BRANCH" \
-  --title "docs: auto-fix #${NUM}" \
+  --title "${TITLE}" \
   --body "$PR_BODY" \
   --label auto-fix || true
 
