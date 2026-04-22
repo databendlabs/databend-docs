@@ -8,7 +8,7 @@ These topics provide reference information for the DDL (Data Definition Language
 
 | Component | Description |
 |-----------|-------------|
-| **[Catalog](09-catalog/index.md)** | Inspect catalog definitions |
+| **[Catalog](09-catalog/index.md)** | Create, drop and list catalogs |
 | **[Database](00-database/index.md)** | Create, alter, and drop databases |
 | **[Table](01-table/index.md)** | Create, alter, and manage tables |
 | **[Table Versioning](21-table-versioning/index.md)** | Create named snapshot tags for time travel |
@@ -22,6 +22,8 @@ These topics provide reference information for the DDL (Data Definition Language
 | **[Aggregating Index](07-aggregating-index/index.md)** | Pre-compute aggregations for faster queries |
 | **[Inverted Index](07-inverted-index/index.md)** | Full-text search index for text columns |
 | **[Ngram Index](07-ngram-index/index.md)** | Substring search index for LIKE patterns |
+| **[Spatial Index](07-spatial-index/index.md)** | Spatial pruning index for GEOMETRY columns |
+| **[Vector Index](07-vector-index/index.md)** | Similarity search index for vector embeddings |
 | **[Virtual Column](07-virtual-column/index.md)** | Extract and index JSON fields as virtual columns |
 
 ## Security & Access Control
@@ -44,6 +46,7 @@ These topics provide reference information for the DDL (Data Definition Language
 | **[Sequence](04-sequence/index.md)** | Generate unique sequential numbers |
 | **[Connection](13-connection/index.md)** | Configure external data source connections |
 | **[File Format](13-file-format/index.md)** | Define formats for data import/export |
+| **[Dictionary](17-dictionary/index.md)** | Define dictionaries backed by external sources |
 
 ## Functions & Procedures
 
@@ -59,6 +62,7 @@ These topics provide reference information for the DDL (Data Definition Language
 | Component | Description |
 |-----------|-------------|
 | **[Warehouse](19-warehouse/index.md)** | Manage compute resources for query execution |
+| **[Worker](20-worker/index.md)** | Manage worker resources through cloud control |
 | **[Workload Group](20-workload-group/index.md)** | Control resource allocation and priorities |
 | **[Transaction](14-transaction/index.md)** | Manage database transactions |
 | **[Variable](15-variable/index.md)** | Set and use session/global variables |
