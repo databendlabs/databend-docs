@@ -38,21 +38,25 @@ git checkout -b "$BRANCH"
 
 # Step 1: Generate fix
 log "### Step 1: Generate fix (\`${GEN_LABEL}\`)"
-GEN_OUTPUT=$(evot -p "Fix this issue in databend-docs by modifying files under docs/en/.
-Follow existing doc style. Read related files first.
+GEN_OUTPUT=$(evot -p "You are fixing a documentation issue in the databend-docs repository.
 
-The Databend source code is available at _databend/src/ for reference.
-Use it to check actual implementation details (settings, functions, SQL syntax, etc.)
-when writing documentation.
+Task:
+1. Read the issue carefully and understand what documentation is missing or wrong.
+2. Look at _databend/src/ for the actual Databend source code to verify implementation details.
+3. Read existing docs under docs/en/ to match the style and find the right location.
+4. Make the fix in docs/en/.
+5. If you modified any file under docs/en/, also update the corresponding file under docs/cn/ (Chinese translation). Keep technical terms in English, translate descriptions to Chinese.
 
-IMPORTANT: Only modify files. Do NOT run git commit, git push, gh pr create, or any git/gh commands.
-The CI script handles all git operations.
+Rules:
+- Only modify files under docs/en/ and docs/cn/.
+- Do NOT run git, gh, or any shell commands that modify the repository state.
+- The CI script handles git commit, push, and PR creation.
 
 Issue #${NUM}: ${TITLE}
 ${BODY}" \
   $GEN_MODEL_ARG \
   --output-format stream-json \
-  --max-turns 30 --max-duration 600 2>&1 || true)
+  --max-turns 300 --max-duration 600 2>&1 || true)
 
 # Extract stats from run_finished event
 GEN_STATS=$(echo "$GEN_OUTPUT" | grep '"run_finished"' | tail -1 | jq -r '{turns: .payload.turn_count, duration_ms: .payload.duration_ms, input_tokens: .payload.usage.input, output_tokens: .payload.usage.output}' 2>/dev/null || echo '{}')
@@ -123,13 +127,16 @@ except: print(t[:500])" 2>/dev/null || echo "$REVIEW" | head -10)
   log ""
   log "### Step 3: Address review round ${round} (\`${GEN_LABEL}\`)"
 
-  FIX_OUTPUT=$(evot -p "Address this review for issue #${NUM}:
+  FIX_OUTPUT=$(evot -p "A reviewer found issues with your documentation fix for issue #${NUM}.
+
+Feedback:
 ${COMMENTS}
 
-IMPORTANT: Only modify files. Do NOT run git commit, git push, gh pr create, or any git/gh commands." \
+Address the feedback. Only modify files under docs/en/ and docs/cn/.
+Do NOT run git, gh, or any shell commands that modify the repository state." \
     $GEN_MODEL_ARG \
     --output-format stream-json \
-    --max-turns 20 --max-duration 300 2>&1 || true)
+    --max-turns 300 --max-duration 300 2>&1 || true)
 
   FIX_STATS=$(echo "$FIX_OUTPUT" | grep '"run_finished"' | tail -1 | jq -r '{turns: .payload.turn_count, duration_ms: .payload.duration_ms, input_tokens: .payload.usage.input, output_tokens: .payload.usage.output}' 2>/dev/null || echo '{}')
   FIX_TURNS=$(echo "$FIX_STATS" | jq -r '.turns // "?"')
