@@ -35,9 +35,13 @@ CREATE [ OR REPLACE ] SEQUENCE [ IF NOT EXISTS ] <sequence>
 
 :::note
 
-`enable_experimental_sequence_rbac_check` 设置控制序列级别的访问控制，默认禁用。  
-此时创建序列仅需用户拥有超级用户权限，绕过详细的 RBAC 检查。  
-启用后，将在创建序列时执行细粒度权限验证。  
+`enable_experimental_sequence_privilege_check` 设置控制序列级别的权限检查，默认禁用。禁用时，创建序列仅需用户拥有超级用户权限，绕过详细的 RBAC 检查。启用后，将对序列对象强制执行细粒度权限验证。
+
+如需启用：
+
+```sql
+SET enable_experimental_sequence_privilege_check = 1;
+```
 
 该功能为实验性质，未来可能默认开启。
 

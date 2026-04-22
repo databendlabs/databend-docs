@@ -4,6 +4,14 @@ title: POLICY_REFERENCES
 
 Returns the associations between security policies (Masking Policy or Row Access Policy) and tables/views. You can query by policy name to find all tables using it, or by table name to find all policies applied to it.
 
+:::note
+Row Access Policy is an experimental feature. To use `CREATE ROW ACCESS POLICY` and `DROP ROW ACCESS POLICY`, you must first enable it:
+
+```sql
+SET enable_experimental_row_access_policy = 1;
+```
+:::
+
 See also:
 
 - [MASKING POLICY](/guides/security/masking-policy)

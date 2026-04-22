@@ -7,6 +7,14 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 Defines a stored procedure that executes SQL operations and returns a result.
 
+:::note
+Stored procedures are an experimental feature enabled by default (`enable_experimental_procedure = 1`). If disabled, you can re-enable with:
+
+```sql
+SET enable_experimental_procedure = 1;
+```
+:::
+
 ## Syntax
 
 ```sql
