@@ -38,6 +38,9 @@ The Databend source code is available at _databend/src/ for reference.
 Use it to check actual implementation details (settings, functions, SQL syntax, etc.)
 when writing documentation.
 
+IMPORTANT: Only modify files. Do NOT run git commit, git push, gh pr create, or any git/gh commands.
+The CI script handles all git operations.
+
 Issue #${NUM}: ${TITLE}
 ${BODY}" \
   $GEN_MODEL_ARG \
@@ -77,7 +80,9 @@ try: print(json.loads(m.group())['comments']) if m else print(t[:500])
 except: print(t[:500])" 2>/dev/null || echo "$REVIEW" | head -10)
 
   evot -p "Address this review for issue #${NUM}:
-${COMMENTS}" \
+${COMMENTS}
+
+IMPORTANT: Only modify files. Do NOT run git commit, git push, gh pr create, or any git/gh commands." \
     $GEN_MODEL_ARG \
     --max-turns 20 --max-duration 300 || true
 done
