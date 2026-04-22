@@ -54,7 +54,7 @@ Databend 提供两种数据类型来存储空间数据：
 
 ## 输出格式
 
-Databend 将空间值持久化为 EWKB，但也提供多种输出格式。你可以设置 `geometry_output_format` 会话参数（默认：`WKT`）或调用显式转换函数：
+Databend 将空间值持久化为 EWKB，但也提供多种输出格式。你可以设置 `geometry_output_format` 会话参数（默认：`GeoJSON`）或调用显式转换函数：
 
 - **WKT / EWKT** – 文本表示；EWKT 会添加 SRID 前缀（例如 `SRID=4326;POINT(-44.3 60.1)`）。
 - **WKB / EWKB** – 紧凑的二进制格式，便于与其他 GIS 运行时互操作。
@@ -64,6 +64,16 @@ Databend 将空间值持久化为 EWKB，但也提供多种输出格式。你可
 SET geometry_output_format = 'GeoJSON';
 SELECT ST_ASWKB(geo), ST_ASEWKT(geo), ST_ASGEOJSON(geo) FROM ...;
 ```
+
+## 会话参数
+
+`enable_geo_create_table` 会话参数控制 `CREATE TABLE` 和 `ALTER TABLE` 语句是否允许包含 `GEOMETRY` 或 `GEOGRAPHY` 列。默认值为 `1`（启用）。将其设置为 `0` 可禁止在 DDL 中使用地理空间列类型：
+
+```sql
+SET enable_geo_create_table = 0;
+```
+
+完整的参数参考请参阅[系统参数](../../31-system-tables/system-settings.md)。
 
 ## 函数
 

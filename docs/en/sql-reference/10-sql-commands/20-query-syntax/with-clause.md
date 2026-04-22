@@ -95,6 +95,31 @@ SELECT num FROM countdown
 ORDER BY num DESC;
 ```
 
+## CTE Materialization Settings
+
+Databend provides three session settings that control how CTEs are materialized:
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `enable_auto_materialize_cte` | `1` | When enabled, the optimizer automatically decides whether to materialize a CTE based on its usage count and estimated cost. Disable this to force the optimizer to always inline CTEs. |
+| `enable_materialized_cte` | `1` | Enables CTE materialization in general. When set to `0`, CTEs are always inlined regardless of `enable_auto_materialize_cte`. |
+| `persist_materialized_cte` | `0` | When enabled, materialized CTE results are persisted to storage rather than kept in memory. Useful for very large CTEs that would otherwise exhaust memory. |
+
+These settings interact as follows: `enable_materialized_cte` acts as the master switch — if it is `0`, no materialization occurs. When it is `1`, `enable_auto_materialize_cte` determines whether the optimizer chooses materialization automatically. `persist_materialized_cte` only takes effect when materialization is active.
+
+```sql
+-- Let the optimizer decide (default behavior)
+SET enable_auto_materialize_cte = 1;
+
+-- Force all CTEs to be inlined
+SET enable_materialized_cte = 0;
+
+-- Persist materialized CTEs to storage
+SET persist_materialized_cte = 1;
+```
+
+See [System Settings](../../../00-sql-reference/31-system-tables/system-settings.md) for the full settings reference.
+
 ## Usage Notes
 
 - CTEs are temporary named result sets that exist only for the duration of the query

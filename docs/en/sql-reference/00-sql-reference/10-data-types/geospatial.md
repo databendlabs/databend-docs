@@ -53,7 +53,7 @@ Both types persist coordinates as IEEE 754 `Float64` values in EWKB, cover every
 
 ## Output Formats
 
-Databend persists spatial values as EWKB but exposes several output formats. Set the `geometry_output_format` session setting (default: `WKT`) or call explicit conversion functions:
+Databend persists spatial values as EWKB but exposes several output formats. Set the `geometry_output_format` session setting (default: `GeoJSON`) or call explicit conversion functions:
 
 - **WKT / EWKT** – Text representation; EWKT prefixes an SRID (for example, `SRID=4326;POINT(-44.3 60.1)`).
 - **WKB / EWKB** – Compact binary, useful for interop with other GIS runtimes.
@@ -63,6 +63,16 @@ Databend persists spatial values as EWKB but exposes several output formats. Set
 SET geometry_output_format = 'GeoJSON';
 SELECT ST_ASWKB(geo), ST_ASEWKT(geo), ST_ASGEOJSON(geo) FROM ...;
 ```
+
+## Session Settings
+
+The `enable_geo_create_table` session setting controls whether `CREATE TABLE` and `ALTER TABLE` statements may include `GEOMETRY` or `GEOGRAPHY` columns. It defaults to `1` (enabled). Set it to `0` to disallow geospatial column types in DDL:
+
+```sql
+SET enable_geo_create_table = 0;
+```
+
+See [System Settings](../../31-system-tables/system-settings.md) for the full settings reference.
 
 ## Functions
 
