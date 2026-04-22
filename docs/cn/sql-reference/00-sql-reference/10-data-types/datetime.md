@@ -125,7 +125,7 @@ SELECT log_id, TO_STRING(log_time) AS log_time FROM system_logs;
 
 ## 夏令时调整
 
-启用 `enable_dst_hour_fix` 后，当夏令时导致某些时间段缺失（跳过）时，Databend 会自动将缺失的时间向后推移。
+启用 [`enable_dst_hour_fix`](../31-system-tables/system-settings.md) 后，当夏令时导致某些时间段缺失（跳过）时，Databend 会自动将缺失的时间向后推移。
 
 ```sql
 SET enable_dst_hour_fix = 1;

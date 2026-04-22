@@ -125,7 +125,7 @@ The offset is part of the stored value, so the display never changes.
 
 ## Daylight Saving Time Adjustments
 
-Enable `enable_dst_hour_fix` to make Databend automatically roll missing hours forward when daylight saving time skips part of the day.
+Enable [`enable_dst_hour_fix`](../31-system-tables/system-settings.md) to make Databend automatically roll missing hours forward when daylight saving time skips part of the day.
 
 ```sql
 SET enable_dst_hour_fix = 1;
