@@ -53,7 +53,7 @@ Both types persist coordinates as IEEE 754 `Float64` values in EWKB, cover every
 
 ## Output Formats
 
-Databend persists spatial values as EWKB but exposes several output formats. Set the `geometry_output_format` session setting (default: `WKT`) or call explicit conversion functions:
+Databend persists spatial values as EWKB but exposes several output formats. Set the `geometry_output_format` session setting (default: `GeoJSON`) or call explicit conversion functions:
 
 - **WKT / EWKT** – Text representation; EWKT prefixes an SRID (for example, `SRID=4326;POINT(-44.3 60.1)`).
 - **WKB / EWKB** – Compact binary, useful for interop with other GIS runtimes.
