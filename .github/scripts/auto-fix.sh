@@ -22,6 +22,12 @@ if [ "$(gh pr list --repo "$REPO" --head "$BRANCH" --json number --jq 'length')"
   exit 0
 fi
 
+# Build model args
+GEN_MODEL_ARG=""
+[ -n "${GENERATOR_MODEL:-}" ] && GEN_MODEL_ARG="--model $GENERATOR_MODEL"
+REV_MODEL_ARG=""
+[ -n "${REVIEWER_MODEL:-}" ] && REV_MODEL_ARG="--model $REVIEWER_MODEL"
+
 git checkout -b "$BRANCH"
 
 # Step 1: Generate fix
@@ -34,7 +40,7 @@ when writing documentation.
 
 Issue #${NUM}: ${TITLE}
 ${BODY}" \
-  --model "$GENERATOR_MODEL" --env-file "$EVOT_ENV_FILE" \
+  $GEN_MODEL_ARG \
   --max-turns 30 --max-duration 600 || true
 
 if git diff --quiet; then
@@ -55,7 +61,7 @@ ${BODY}
 Respond ONLY with JSON: {\"approved\": bool, \"comments\": \"...\"}
 
 ${DIFF}" \
-    --model "$REVIEWER_MODEL" --env-file "$EVOT_ENV_FILE" \
+    $REV_MODEL_ARG \
     --max-turns 1 --max-duration 60 2>&1 || true)
 
   if echo "$REVIEW" | grep -q '"approved"[[:space:]]*:[[:space:]]*true'; then
@@ -70,7 +76,7 @@ except: print(t[:500])" 2>/dev/null || echo "$REVIEW" | head -10)
 
   evot -p "Address this review for issue #${NUM}:
 ${COMMENTS}" \
-    --model "$GENERATOR_MODEL" --env-file "$EVOT_ENV_FILE" \
+    $GEN_MODEL_ARG \
     --max-turns 20 --max-duration 300 || true
 done
 

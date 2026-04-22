@@ -71,8 +71,9 @@ jobs:
 
       - name: Write evot.env
         run: |
-          cat > /tmp/evot.env << ENVEOF
-          EVOT_LLM_PROVIDER=${{ secrets.EVOT_LLM_PROVIDER }}
+          mkdir -p ~/.evotai
+          cat > ~/.evotai/evot.env << ENVEOF
+          EVOT_LLM_PROVIDER=anthropic
           EVOT_LLM_ANTHROPIC_BASE_URL=${{ secrets.EVOT_LLM_ANTHROPIC_BASE_URL }}
           EVOT_LLM_ANTHROPIC_API_KEY=${{ secrets.EVOT_LLM_ANTHROPIC_API_KEY }}
           EVOT_LLM_ANTHROPIC_MODEL=${{ secrets.EVOT_LLM_ANTHROPIC_MODEL }}
@@ -80,7 +81,7 @@ jobs:
           EVOT_LLM_OPENAI_API_KEY=${{ secrets.EVOT_LLM_OPENAI_API_KEY }}
           EVOT_LLM_OPENAI_MODEL=${{ secrets.EVOT_LLM_OPENAI_MODEL }}
           ENVEOF
-          sed -i 's/^[[:space:]]*//' /tmp/evot.env
+          sed -i 's/^[[:space:]]*//' ~/.evotai/evot.env
 
       - name: Run
         run: |
@@ -90,8 +91,7 @@ jobs:
         env:
           REPO: ${{ github.repository }}
           ISSUE_JSON: ${{ needs.check.outputs.issue }}
-          GENERATOR_MODEL: anthropic
-          REVIEWER_MODEL: openai
-          EVOT_ENV_FILE: /tmp/evot.env
+          GENERATOR_MODEL: ''
+          REVIEWER_MODEL: gpt-5.4
           EVOT_ID: auto-fix-ci
           GH_TOKEN: ${{ secrets.GH_PAT }}
