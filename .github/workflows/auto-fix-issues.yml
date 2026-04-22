@@ -1,0 +1,90 @@
+name: Auto Fix Issues
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number (empty = pick oldest)'
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      issue: ${{ steps.pick.outputs.issue }}
+    steps:
+      - id: pick
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          ISSUE_NUMBER: ${{ inputs.issue_number || '' }}
+        run: |
+          REPO="${{ github.repository }}"
+          if [ -n "$ISSUE_NUMBER" ]; then
+            ISSUE=$(gh issue view "$ISSUE_NUMBER" --repo "$REPO" --json number,title,body -q '.')
+          else
+            ISSUE=$(gh issue list --repo "$REPO" --label auto-fix --state open --limit 1 --json number,title,body -q '.[0] // empty')
+          fi
+          if [ -z "$ISSUE" ]; then
+            echo "No auto-fix issues"
+            echo "issue=" >> "$GITHUB_OUTPUT"
+          else
+            NUM=$(echo "$ISSUE" | jq -r '.number')
+            gh issue edit "$NUM" --repo "$REPO" --add-label auto-fix-in-progress --remove-label auto-fix
+            echo "issue=$(echo "$ISSUE" | jq -c .)" >> "$GITHUB_OUTPUT"
+          fi
+
+  fix:
+    needs: check
+    if: needs.check.outputs.issue != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout databend source
+        uses: actions/checkout@v4
+        with:
+          repository: databendlabs/databend
+          path: _databend
+          sparse-checkout: src
+          fetch-depth: 1
+
+      - name: Install evot
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          TAG=$(gh release list --repo evotai/evot --limit 1 --json tagName --jq '.[0].tagName')
+          gh release download "$TAG" --repo evotai/evot --pattern "evot-*-x86_64-unknown-linux-gnu.tar.gz"
+          tar -xzf evot-*.tar.gz && chmod +x bin/evot
+          echo "$PWD/bin" >> "$GITHUB_PATH"
+
+      - name: Write evot.env
+        run: |
+          cat > /tmp/evot.env << EOF
+          EVOT_LLM_PROVIDER=${{ secrets.EVOT_LLM_PROVIDER }}
+          EVOT_LLM_ANTHROPIC_BASE_URL=${{ secrets.EVOT_LLM_ANTHROPIC_BASE_URL }}
+          EVOT_LLM_ANTHROPIC_API_KEY=${{ secrets.EVOT_LLM_ANTHROPIC_API_KEY }}
+          EVOT_LLM_ANTHROPIC_MODEL=${{ secrets.EVOT_LLM_ANTHROPIC_MODEL }}
+          EVOT_LLM_OPENAI_BASE_URL=${{ secrets.EVOT_LLM_OPENAI_BASE_URL }}
+          EVOT_LLM_OPENAI_API_KEY=${{ secrets.EVOT_LLM_OPENAI_API_KEY }}
+          EVOT_LLM_OPENAI_MODEL=${{ secrets.EVOT_LLM_OPENAI_MODEL }}
+          EOF
+
+      - name: Run
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash .github/scripts/auto-fix.sh
+        env:
+          REPO: ${{ github.repository }}
+          ISSUE_JSON: ${{ needs.check.outputs.issue }}
+          GENERATOR_MODEL: anthropic
+          REVIEWER_MODEL: openai
+          EVOT_ENV_FILE: /tmp/evot.env
+          EVOT_ID: auto-fix-ci
+          GH_TOKEN: ${{ secrets.GH_PAT }}
