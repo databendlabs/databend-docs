@@ -161,16 +161,16 @@ const BillingExample: FC<IBillingExampleProps> = ({
       scenario: {
         title: "使用场景",
         description:
-          "某用户使用商业版 XSmall 集群，偶尔查询一次数据，此次查询耗时 5 分 20 秒，数据存储容量为 100GB。",
-        specs: ["XSmall 集群", "5分20秒查询", "100GB 存储", "偶发查询"],
+          "某用户使用商业版 XSmall 集群，偶尔查询一次数据，此次查询耗时 20 分钟，数据存储容量为 100GB。",
+        specs: ["XSmall 集群", "20分钟查询", "100GB 存储", "偶发查询"],
       },
       costs: [
         {
           type: "compute",
           label: "计算费用",
           icon: ComputeIcon,
-          formula: "0.00125 × (5×60+20)",
-          result: "0.4",
+          formula: "0.00125 × (20×60)",
+          result: "1.5",
           unit: "元",
           note: "XSmall 集群 0.00125 元/秒",
           colorClass: "blue",
@@ -187,8 +187,8 @@ const BillingExample: FC<IBillingExampleProps> = ({
         },
       ],
       totals: {
-        daily: { label: "日总费用", value: "0.92", unit: "元" },
-        monthly: { label: "月总费用", value: "27.6", unit: "元" },
+        daily: { label: "日总费用", value: "2.02", unit: "元" },
+        monthly: { label: "月总费用", value: "60.6", unit: "元" },
       },
       currency: "¥",
     },
@@ -196,16 +196,16 @@ const BillingExample: FC<IBillingExampleProps> = ({
       scenario: {
         title: "Usage Scenario",
         description:
-          "A user is using an XSmall warehouse (Business) and occasionally queries data. This specific query took 5 minutes and 20 seconds, and the data storage size is 100GB.",
-        specs: ["XSmall Warehouse", "5m 20s Query", "100GB Storage", "Occasional"],
+          "A user is using an XSmall warehouse (Business) and occasionally queries data. This specific query took 20 minutes. Data storage size is 100GB.",
+        specs: ["XSmall Warehouse", "20min Query", "100GB Storage", "Occasional"],
       },
       costs: [
         {
           type: "compute",
           label: "Compute",
           icon: ComputeIcon,
-          formula: "$0.000416667 × (5×60+20)",
-          result: "0.13",
+          formula: "$0.000416667 × (20×60)",
+          result: "0.50",
           unit: "",
           note: "XSmall cluster $0.000416667/sec",
           colorClass: "blue",
@@ -215,15 +215,15 @@ const BillingExample: FC<IBillingExampleProps> = ({
           label: "Storage",
           icon: StorageIcon,
           formula: "$23 ÷ 1024 ÷ 30 × 100",
-          result: "0.75",
+          result: "0.075",
           unit: "",
           note: "Storage $23/TB/month",
           colorClass: "emerald",
         },
       ],
       totals: {
-        daily: { label: "Daily Total", value: "0.88", unit: "" },
-        monthly: { label: "Monthly Total", value: "26.4", unit: "" },
+        daily: { label: "Daily Total", value: "0.58", unit: "" },
+        monthly: { label: "Monthly Total", value: "17.40", unit: "" },
       },
       currency: "$",
     },
