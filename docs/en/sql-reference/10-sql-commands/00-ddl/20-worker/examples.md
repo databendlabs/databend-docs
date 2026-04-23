@@ -28,12 +28,12 @@ CREATE WORKER IF NOT EXISTS read_env;
 Create a worker with custom configuration:
 
 ```sql
-CREATE WORKER read_env WITH 
-    size='small', 
-    auto_suspend='300', 
-    auto_resume='true', 
-    max_cluster_count='3', 
-    min_cluster_count='1';
+CREATE WORKER read_env
+    WITH size = 'small',
+         auto_suspend = '300',
+         auto_resume = 'true',
+         max_cluster_count = '3',
+         min_cluster_count = '1';
 ```
 
 ### 2. List Workers
@@ -49,7 +49,7 @@ SHOW WORKERS;
 Change worker size and auto-suspend settings:
 
 ```sql
-ALTER WORKER read_env SET size='medium', auto_suspend='600';
+ALTER WORKER read_env SET size = 'medium', auto_suspend = '600';
 ```
 
 Reset specific options to defaults:
@@ -63,7 +63,7 @@ ALTER WORKER read_env UNSET size, auto_suspend;
 Add tags to categorize workers:
 
 ```sql
-ALTER WORKER read_env SET TAG purpose='sandbox', owner='ci';
+ALTER WORKER read_env SET TAG purpose = 'sandbox', owner = 'ci';
 ```
 
 Remove tags when no longer needed:
@@ -104,44 +104,28 @@ DROP WORKER IF EXISTS read_env;
 
 ### Worker for Different Environments
 
-Create workers with environment-specific configurations:
+Create workers with environment-specific configurations, then tag them separately:
 
 ```sql
 -- Development worker
 CREATE WORKER dev_processor WITH
-    size='small',
-    auto_suspend='60',
-    auto_resume='true',
-    max_cluster_count='1',
-    min_cluster_count='1';
+    size = 'small',
+    auto_suspend = '60',
+    auto_resume = 'true',
+    max_cluster_count = '1',
+    min_cluster_count = '1';
 
--- Production worker  
+ALTER WORKER dev_processor SET TAG environment = 'development', purpose = 'testing';
+
+-- Production worker
 CREATE WORKER prod_processor WITH
-    size='large',
-    auto_suspend='1800',
-    auto_resume='true',
-    max_cluster_count='5',
-    min_cluster_count='2';
-```
+    size = 'large',
+    auto_suspend = '1800',
+    auto_resume = 'true',
+    max_cluster_count = '5',
+    min_cluster_count = '2';
 
-### Worker with Comprehensive Tagging
-
-Create a worker with detailed tags for organization:
-
-```sql
-CREATE WORKER data_processor WITH
-    size='medium',
-    auto_suspend='900',
-    auto_resume='true',
-    max_cluster_count='3',
-    min_cluster_count='1'
-    TAG (
-        environment='production',
-        team='data-engineering',
-        project='etl-pipeline',
-        cost_center='analytics',
-        created_by='ci-system'
-    );
+ALTER WORKER prod_processor SET TAG environment = 'production', team = 'data-engineering';
 ```
 
 ### Dynamic Worker Management
@@ -151,13 +135,16 @@ Script to ensure a worker exists with specific configuration:
 ```sql
 -- Create worker if it doesn't exist
 CREATE WORKER IF NOT EXISTS my_worker WITH
-    size='small',
-    auto_suspend='300';
+    size = 'small',
+    auto_suspend = '300';
 
 -- Update tags
-ALTER WORKER my_worker SET TAG 
-    environment='staging',
-    last_updated=CAST(CURRENT_TIMESTAMP() AS STRING);
+ALTER WORKER my_worker SET TAG
+    environment = 'staging',
+    owner = 'ci';
+
+-- Tune options later
+ALTER WORKER my_worker SET auto_resume = 'true', max_cluster_count = '2';
 
 -- Show current configuration
 SHOW WORKERS;
@@ -196,15 +183,17 @@ SHOW WORKERS;
 ```sql
 -- Create a worker for UDF development
 CREATE WORKER dev_transform WITH
-    size='small',
-    auto_suspend='60',
-    TAG (environment='development', purpose='testing');
+    size = 'small',
+    auto_suspend = '60';
+
+ALTER WORKER dev_transform SET TAG environment = 'development', purpose = 'testing';
 
 -- After UDF is developed and tested
-ALTER WORKER dev_transform SET 
-    size='medium',
-    auto_suspend='300',
-    TAG purpose='production-ready';
+ALTER WORKER dev_transform SET
+    size = 'medium',
+    auto_suspend = '300';
+
+ALTER WORKER dev_transform SET TAG purpose = 'production-ready';
 ```
 
 ### 2. Batch Processing
@@ -212,14 +201,14 @@ ALTER WORKER dev_transform SET
 ```sql
 -- Worker for nightly batch jobs
 CREATE WORKER nightly_etl WITH
-    size='large',
-    auto_suspend='3600',  -- Suspend after 1 hour of inactivity
-    auto_resume='false',  -- Don't auto-resume (manual control)
-    TAG (
-        schedule='nightly',
-        job_type='etl',
-        criticality='high'
-    );
+    size = 'large',
+    auto_suspend = '3600',  -- Suspend after 1 hour of inactivity
+    auto_resume = 'false';  -- Don't auto-resume (manual control)
+
+ALTER WORKER nightly_etl SET TAG
+    schedule = 'nightly',
+    job_type = 'etl',
+    criticality = 'high';
 ```
 
 ### 3. Multi-tenant Environments
@@ -227,12 +216,14 @@ CREATE WORKER nightly_etl WITH
 ```sql
 -- Workers for different teams
 CREATE WORKER team_a_processor WITH
-    size='medium',
-    TAG (team='team-a', billing_code='TA-2024');
+    size = 'medium';
 
-CREATE WORKER team_b_processor WITH  
-    size='small',
-    TAG (team='team-b', billing_code='TB-2024');
+ALTER WORKER team_a_processor SET TAG team = 'team-a', billing_code = 'TA-2024';
+
+CREATE WORKER team_b_processor WITH
+    size = 'small';
+
+ALTER WORKER team_b_processor SET TAG team = 'team-b', billing_code = 'TB-2024';
 ```
 
 ## Troubleshooting
@@ -243,13 +234,13 @@ If a worker doesn't start as expected:
 
 1. Check if the UDF exists and is properly configured
 2. Verify environment variables are set in the cloud console
-3. Ensure the worker is not suspended:
+3. Review the current worker metadata and resume it if needed:
 
 ```sql
--- Check worker state
+-- Inspect current worker metadata
 SHOW WORKERS;
 
--- Resume if suspended
+-- Resume the worker
 ALTER WORKER my_worker RESUME;
 ```
 
@@ -268,12 +259,12 @@ If experiencing performance issues:
 
 ```sql
 -- Increase worker size
-ALTER WORKER my_worker SET size='large';
+ALTER WORKER my_worker SET size = 'large';
 
 -- Adjust cluster counts
-ALTER WORKER my_worker SET 
-    max_cluster_count='5',
-    min_cluster_count='2';
+ALTER WORKER my_worker SET
+    max_cluster_count = '5',
+    min_cluster_count = '2';
 ```
 
 ## Related Topics

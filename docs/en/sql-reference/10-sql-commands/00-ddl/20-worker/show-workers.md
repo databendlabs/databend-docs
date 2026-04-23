@@ -19,18 +19,13 @@ SHOW WORKERS
 
 The command returns a table with the following columns:
 
-| Column Name     | Data Type | Description                                      |
-| --------------- | --------- | ------------------------------------------------ |
-| name            | String    | The name of the worker                           |
-| size            | String    | The compute size of the worker                   |
-| auto_suspend    | String    | Auto-suspend timeout in seconds                  |
-| auto_resume     | String    | Whether auto-resume is enabled ('true'/'false')  |
-| max_cluster_count | String  | Maximum cluster count for auto-scaling           |
-| min_cluster_count | String  | Minimum cluster count for auto-scaling           |
-| tags            | Map       | Key-value tags associated with the worker        |
-| created_at      | Timestamp | When the worker was created                      |
-| updated_at      | Timestamp | When the worker was last updated                 |
-| state           | String    | Current state of the worker (e.g., ACTIVE, SUSPENDED) |
+| Column Name  | Data Type | Description                                      |
+| ------------ | --------- | ------------------------------------------------ |
+| `name`       | String    | The worker name.                                 |
+| `tags`       | String    | Worker tags serialized as a JSON string.         |
+| `options`    | String    | Worker options serialized as a JSON string.      |
+| `created_at` | String    | Worker creation timestamp.                       |
+| `updated_at` | String    | Worker last update timestamp.                    |
 
 ## Examples
 
@@ -43,18 +38,17 @@ SHOW WORKERS;
 Sample output:
 
 ```
-name       | size  | auto_suspend | auto_resume | max_cluster_count | min_cluster_count | tags                           | created_at          | updated_at          | state
------------+-------+--------------+-------------+-------------------+-------------------+--------------------------------+---------------------+---------------------+--------
-read_env   | small | 300          | true        | 3                 | 1                 | {purpose: sandbox, owner: ci} | 2024-01-15 10:30:00 | 2024-01-15 10:30:00 | ACTIVE
-process_csv| medium| 600          | true        | 5                 | 2                 | {environment: production}      | 2024-01-14 09:15:00 | 2024-01-15 08:45:00 | ACTIVE
+name      | tags                               | options                                                                 | created_at           | updated_at
+----------+------------------------------------+-------------------------------------------------------------------------+----------------------+----------------------
+read_env  | {"owner":"ci","purpose":"sandbox"} | {"auto_resume":"true","auto_suspend":"300","size":"small"}              | 2024-01-15T10:30:00Z | 2024-01-15T10:30:00Z
+csv_job   | {"environment":"production"}       | {"auto_resume":"true","max_cluster_count":"5","min_cluster_count":"2"}  | 2024-01-14T09:15:00Z | 2024-01-15T08:45:00Z
 ```
 
 ## Notes
 
-1. **Tenant Scope**: The command shows workers for the current tenant only.
-2. **State Information**: The state column indicates whether the worker is active, suspended, or in another state.
-3. **Tag Display**: Tags are displayed as a map of key-value pairs.
-4. **Time Zones**: Timestamps are displayed in UTC.
+1. **Tenant scope**: The command shows workers for the current tenant only.
+2. **Raw metadata**: Option values are returned in the `options` JSON string instead of expanded columns.
+3. **Tag display**: Tags are returned in the `tags` JSON string.
 
 ## Related Topics
 

@@ -12,12 +12,9 @@ Workers are execution environments for User-Defined Functions (UDFs) in Databend
 ## General Rules
 
 - **Worker naming**: Follows standard identifier naming conventions
-- **Strings and identifiers**: Bare identifiers may omit quotes when they contain no spaces; otherwise enclose with single quotes
-- **Numeric parameters**: Accept integers or string representations
-- **Boolean parameters**: Accept `'true'`/`'false'` string values
-- **Options**: Specified using `WITH` keyword followed by key-value pairs
-
-## Worker Management
+- **Option lists**: `CREATE WORKER` uses an optional single `WITH` clause followed by comma-separated `key = value` pairs
+- **Option values**: Worker option values accept string literals, bare identifiers, unsigned integers, and booleans
+- **Tag values**: `ALTER WORKER ... SET TAG` requires string literal values
 
 Tags are key-value pairs that help categorize and organize workers, similar to warehouse tags. They are commonly used for:
 
@@ -28,7 +25,6 @@ Tags are key-value pairs that help categorize and organize workers, similar to w
 
 Tag keys and values are arbitrary strings. Tags can be:
 
-- Added at worker creation time using options
 - Updated or added later using `ALTER WORKER ... SET TAG key = 'value'`
 - Removed using `ALTER WORKER ... UNSET TAG key`
 
@@ -38,10 +34,10 @@ Tag keys and values are arbitrary strings. Tags can be:
 | ----------------- | ---------------------------- | ---------------------------------------------------------- |
 | `CREATE WORKER`   | Create a worker              | Supports `IF NOT EXISTS` and option list                   |
 | `ALTER WORKER`    | Modify worker settings       | Supports `SET`, `UNSET`, `SET TAG`, `UNSET TAG`, `SUSPEND`, `RESUME` |
-| `SHOW WORKERS`    | List workers                 | Shows all available workers                                |
+| `SHOW WORKERS`    | List workers                 | Returns `name`, `tags`, `options`, `created_at`, and `updated_at` |
 | `DROP WORKER`     | Delete a worker              | Optional `IF EXISTS`                                       |
 
-## Worker Management
+## Commands
 
 | Command                             | Description                                       |
 | ----------------------------------- | ------------------------------------------------- |
