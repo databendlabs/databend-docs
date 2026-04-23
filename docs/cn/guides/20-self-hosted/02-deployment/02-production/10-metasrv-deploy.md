@@ -6,7 +6,7 @@ sidebar_label: 部署 Databend 集群
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Databend 建议在生产环境中部署至少包含三个元节点（Meta Node）和一个查询节点（Query Node）的集群。要深入了解 Databend 集群部署，请参阅[理解 Databend 部署模式](../00-understanding-deployment-modes.md)，该文档将帮助您掌握相关概念。本文旨在提供部署 Databend 集群的实践指南。
+Databend 建议在生产环境中部署至少包含三个元节点（Meta Node）和一个查询节点（Query Node）的集群。要深入了解 Databend 集群部署，请参阅[理解 Databend 部署模式](../05-understanding-deployment-modes.md)，该文档将帮助您掌握相关概念。本文旨在提供部署 Databend 集群的实践指南。
 
 ## 准备工作
 
@@ -203,7 +203,7 @@ endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
   </TabItem>
 </Tabs>
 
-2. 每个查询节点还需在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中配置对象存储和管理员用户，详见[此文档](../01-non-production/01-deploying-databend.md#部署查询节点)。
+2. 每个查询节点还需在 [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml) 中配置对象存储和管理员用户，详见[此文档](../03-deploying-databend.md#部署查询节点)。
 
 3. 在每个查询节点执行启动脚本：
 
@@ -245,6 +245,6 @@ FROM
 - [数据导入导出](/guides/load-data)：管理 Databend 数据导入/导出
 - [可视化分析](/guides/connect/visualization)：将 Databend 与可视化工具集成
 
-<!-- <LanguageFileParse
+{/* <LanguageFileParse
 cn={<VideoCN />}
-/> -->
+/> */}

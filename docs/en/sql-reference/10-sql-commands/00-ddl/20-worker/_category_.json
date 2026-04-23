@@ -1,8 +1,4 @@
 {
   "label": "Worker",
-  "position": 20,
-  "link": {
-    "type": "generated-index",
-    "description": "Worker management commands for UDF execution environments in Databend Cloud sandbox."
-  }
+  "position": 20
 }

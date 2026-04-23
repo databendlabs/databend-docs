@@ -149,7 +149,7 @@ INSERT INTO users (name, email) VALUES
 
 3. Find your Redis container ID on Docker Desktop or by running `docker ps` in the terminal:
 
-![alt text](../../../../static/img/documents/tutorials/redis-container-id.png)
+![alt text](@site/static/img/documents/tutorials/redis-container-id.png)
 
 4. Access the Redis CLI using your Redis container ID (replace `14d50cc4d075` with your actual container ID):
 
@@ -204,15 +204,15 @@ SOURCE(Redis(
 ));
 ```
 
-3. Query data from the MySQL and Redis dictionaries we created earlier. 
+3. Query data from the MySQL and Redis dictionaries we created earlier.
 
 ```sql
-SELECT 
+SELECT
     u.id,
     u.name,
     DICT_GET(mysql_users, 'email', u.id) AS email,
     DICT_GET(redis_user_preferences, 'preferences', CONCAT('user:', TO_STRING(u.id))) AS user_preferences
-FROM 
+FROM
     users_databend AS u;
 ```
 

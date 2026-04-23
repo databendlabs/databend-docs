@@ -27,5 +27,5 @@ See the complete list in [Enterprise Features](/guides/self-hosted/editions/ente
 ## Getting Started
 
 - **[Quick Start Guide](/guides/self-hosted/quickstart)**: Get up and running in 5 minutes
-- **[Download & Install](/guides/self-hosted/deployment/download)**: Self-hosted deployment options
+- **[Deploy with Docker](/guides/self-hosted/deployment/deploying-local)**: Self-hosted deployment options
 - **[GitHub Repository](https://github.com/databendlabs/databend)**: Source code and community

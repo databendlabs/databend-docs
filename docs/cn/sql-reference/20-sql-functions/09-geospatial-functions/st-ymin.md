@@ -5,25 +5,27 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 <FunctionDescription description="引入或更新于：v1.2.512"/>
 
-返回指定 GEOMETRY 对象中所有点的最小纬度（Y 坐标）。
+返回指定 GEOMETRY 或 GEOGRAPHY 对象中所有点的最小纬度（Y 坐标）。
 
 ## 语法
 
 ```sql
-ST_YMIN(<geometry>)
+ST_YMIN(<geometry_or_geography>)
 ```
 
 ## 参数
 
-| 参数         | 描述                               |
-|--------------|------------------------------------|
-| `<geometry>` | 参数必须是 GEOMETRY 类型的表达式。 |
+| 参数 | 描述 |
+|--------------|------------------------------------------------------|
+| `<geometry_or_geography>` | 参数必须是 GEOMETRY 或 GEOGRAPHY 类型的表达式。 |
 
 ## 返回类型
 
 Double。
 
 ## 示例
+
+### GEOMETRY 示例
 
 ```sql
 SELECT
@@ -50,5 +52,22 @@ SELECT
 │ pipeline_ymin │
 ├───────────────┤
 │           -30 │
+└───────────────┘
+```
+
+### GEOGRAPHY 示例
+
+```sql
+SELECT
+  ST_YMIN(
+    ST_GEOGFROMWKT(
+      'LINESTRING(-179 10, 179 22)'
+    )
+  ) AS pipeline_ymin;
+
+┌───────────────┐
+│ pipeline_ymin │
+├───────────────┤
+│            10 │
 └───────────────┘
 ```

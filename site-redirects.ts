@@ -1508,11 +1508,19 @@ const siteRedirects = [
   },
   {
     from: '/guides/deploy/deploy/non-production/deploying-databend',
-    to: '/guides/self-hosted/deployment/non-production/deploying-databend'
+    to: '/guides/self-hosted/deployment/deploying-databend'
+  },
+  {
+    from: '/guides/self-hosted/deployment/non-production/deploying-databend',
+    to: '/guides/self-hosted/deployment/deploying-databend'
   },
   {
     from: '/guides/deploy/deploy/non-production/deploying-local',
-    to: '/guides/self-hosted/deployment/non-production/deploying-local'
+    to: '/guides/self-hosted/deployment/deploying-local'
+  },
+  {
+    from: '/guides/self-hosted/deployment/non-production/deploying-local',
+    to: '/guides/self-hosted/deployment/deploying-local'
   },
   {
     from: '/guides/deploy/deploy/understanding-deployment-modes',
@@ -1520,7 +1528,11 @@ const siteRedirects = [
   },
   {
     from: '/guides/deploy/deploy/download',
-    to: '/guides/self-hosted/deployment/download'
+    to: '/guides/self-hosted/deployment'
+  },
+  {
+    from: '/guides/self-hosted/deployment/download',
+    to: '/guides/self-hosted/deployment'
   },
   {
     from: '/guides/deploy/deploy',
@@ -1532,23 +1544,43 @@ const siteRedirects = [
   },
   {
     from: '/guides/deploy/deploy/non-production',
-    to: '/guides/self-hosted/deployment/non-production'
+    to: '/guides/self-hosted/deployment'
+  },
+  {
+    from: '/guides/self-hosted/deployment/non-production',
+    to: '/guides/self-hosted/deployment'
   },
   {
     from: '/guides/deploy/deploy/benddeploy',
-    to: '/guides/self-hosted/deployment/benddeploy'
+    to: '/guides/self-hosted/deployment/production/benddeploy'
+  },
+  {
+    from: '/guides/self-hosted/deployment/benddeploy',
+    to: '/guides/self-hosted/deployment/production/benddeploy'
   },
   {
     from: '/guides/deploy/deploy/benddeploy/getting-started',
-    to: '/guides/self-hosted/deployment/benddeploy/getting-started'
+    to: '/guides/self-hosted/deployment/production/benddeploy/getting-started'
+  },
+  {
+    from: '/guides/self-hosted/deployment/benddeploy/getting-started',
+    to: '/guides/self-hosted/deployment/production/benddeploy/getting-started'
   },
   {
     from: '/guides/deploy/deploy/benddeploy/installing-benddeploy',
-    to: '/guides/self-hosted/deployment/benddeploy/installing-benddeploy'
+    to: '/guides/self-hosted/deployment/production/benddeploy/installing-benddeploy'
+  },
+  {
+    from: '/guides/self-hosted/deployment/benddeploy/installing-benddeploy',
+    to: '/guides/self-hosted/deployment/production/benddeploy/installing-benddeploy'
   },
   {
     from: '/guides/deploy/deploy/manually',
-    to: '/guides/self-hosted/deployment/manually'
+    to: '/guides/self-hosted/deployment'
+  },
+  {
+    from: '/guides/self-hosted/deployment/manually',
+    to: '/guides/self-hosted/deployment'
   },
   // Upgrade redirects
   {

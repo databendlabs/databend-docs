@@ -7,7 +7,7 @@ import FunctionDescription from '@site/src/components/FunctionDescription';
 
 使用新值更新表中的行，可以选择使用其他表中的值。
 
-:::tip atomic operations
+:::tip[atomic operations]
 Databend 通过原子操作确保数据完整性。插入、更新、替换和删除要么完全成功，要么完全失败。
 :::
 

@@ -1,7 +1,6 @@
 ---
 title: Migrate from Snowflake to Databend
 sidebar_label: Snowflake → Databend
-
 ---
 
 > **Capabilities**: Full Load
@@ -24,39 +23,34 @@ Before you start, ensure you have the following prerequisites in place:
 
 In this step, we'll configure Snowflake to access Amazon S3 using IAM roles. First, we'll create an IAM role, and then use that role to establish a Snowflake Storage Integration for secure data access.
 
-1. Sign in to the AWS Management Console, then create a policy on **IAM** > **Policies** with the following JSON code: 
+1. Sign in to the AWS Management Console, then create a policy on **IAM** > **Policies** with the following JSON code:
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-              "s3:PutObject",
-              "s3:GetObject",
-              "s3:GetObjectVersion",
-              "s3:DeleteObject",
-              "s3:DeleteObjectVersion"
-            ],
-            "Resource": "arn:aws:s3:::databend-doc/snowflake/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket",
-                "s3:GetBucketLocation"
-            ],
-            "Resource": "arn:aws:s3:::databend-doc",
-            "Condition": {
-                "StringLike": {
-                    "s3:prefix": [
-                        "snowflake/*"
-                    ]
-                }
-            }
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:DeleteObject",
+        "s3:DeleteObjectVersion"
+      ],
+      "Resource": "arn:aws:s3:::databend-doc/snowflake/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket", "s3:GetBucketLocation"],
+      "Resource": "arn:aws:s3:::databend-doc",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["snowflake/*"]
         }
-    ]
+      }
+    }
+  ]
 }
 ```
 
@@ -66,15 +60,13 @@ This policy applies to the S3 bucket named `databend-doc` and specifically to th
 - `s3:ListBucket`, `s3:GetBucketLocation`: Allows listing the contents of the `databend-doc` bucket and retrieving its location. The `Condition` element ensures that listing is restricted to objects within the `snowflake` folder.
 
 2. Create a role named `databend-doc-role` on **IAM** > **Roles** and attach the policy we created.
-    - In the first step of creating the role, select **AWS account** for **Trusted entity type**, and **This account (xxxxx)** for **An AWS account**.
+   - In the first step of creating the role, select **AWS account** for **Trusted entity type**, and **This account (xxxxx)** for **An AWS account**.
 
-    ![alt text](../../../../static/img/documents/tutorials/trusted-entity.png)
+   ![alt text](@site/static/img/documents/tutorials/trusted-entity.png)
+   - After the role is created, copy and save the role ARN in a secure location, for example, `arn:aws:iam::123456789012:role/databend-doc-role`.
+   - We'll update the **Trust Relationships** for the role later, after we obtain the IAM user ARN for the Snowflake account.
 
-    - After the role is created, copy and save the role ARN in a secure location, for example, `arn:aws:iam::123456789012:role/databend-doc-role`.
-    - We'll update the **Trust Relationships** for the role later, after we obtain the IAM user ARN for the Snowflake account.
-
-
-3. Open a SQL worksheet in Snowflake and create a storage integration named `my_s3_integration` using the role ARN. 
+3. Open a SQL worksheet in Snowflake and create a storage integration named `my_s3_integration` using the role ARN.
 
 ```sql
 CREATE OR REPLACE STORAGE INTEGRATION my_s3_integration
@@ -82,7 +74,7 @@ CREATE OR REPLACE STORAGE INTEGRATION my_s3_integration
   STORAGE_PROVIDER = 'S3'
   STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::123456789012:role/databend-doc-role'
   STORAGE_ALLOWED_LOCATIONS = ('s3://databend-doc/snowflake/')
-  ENABLED = TRUE; 
+  ENABLED = TRUE;
 ```
 
 4. Show the storage integration details and obtain the value for the `STORAGE_AWS_IAM_USER_ARN` property in the result, for example, `arn:aws:iam::123456789012:user/example`. We'll use this value to update the **Trust Relationships** for the role `databend-doc-role` in the next step.
@@ -95,30 +87,29 @@ DESCRIBE INTEGRATION my_s3_integration;
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::123456789012:user/example"
-            },
-            "Action": "sts:AssumeRole"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:user/example"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
 }
 ```
 
     The ARN `arn:aws:iam::123456789012:user/example` is the IAM user ARN for the Snowflake account that we obtained in the previous step.
-
 
 ## Step 2: Preparing and Exporting Data to Amazon S3
 
 1. Create an external stage in Snowflake with the Snowflake storage integration `my_s3_integration`:
 
 ```sql
-CREATE OR REPLACE STAGE my_external_stage 
-    URL = 's3://databend-doc/snowflake/' 
-    STORAGE_INTEGRATION = my_s3_integration 
+CREATE OR REPLACE STAGE my_external_stage
+    URL = 's3://databend-doc/snowflake/'
+    STORAGE_INTEGRATION = my_s3_integration
     FILE_FORMAT = (TYPE = 'PARQUET');
 ```
 
@@ -152,7 +143,7 @@ COPY INTO @my_external_stage/my_table_data_
 
 If you open the bucket `databend-doc` now, you should see a Parquet file in the `snowflake` folder:
 
-![alt text](../../../../static/img/documents/tutorials/bucket-folder.png)
+![alt text](@site/static/img/documents/tutorials/bucket-folder.png)
 
 ## Step 3: Loading Data into Databend Cloud
 

@@ -6,10 +6,10 @@ sidebar_label: Deploying Databend Cluster
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-<!-- import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
-import VideoCN from '@site/docs/fragment/10-metasrv-deploy-cnvideo.md' -->
+{/* import LanguageFileParse from '@site/src/components/LanguageDocs/file-parse'
+import VideoCN from '@site/docs/fragment/10-metasrv-deploy-cnvideo.md' */}
 
-Databend recommends deploying a cluster with a minimum of three meta nodes and one query node for production environments. To gain a better understanding of Databend cluster deployment, see [Understanding Databend Deployments](../00-understanding-deployment-modes.md), which will familiarize you with the concept. This topic aims to provide a practical guide for deploying a Databend cluster.
+Databend recommends deploying a cluster with a minimum of three meta nodes and one query node for production environments. To gain a better understanding of Databend cluster deployment, see [Understanding Databend Deployments](../05-understanding-deployment-modes.md), which will familiarize you with the concept. This topic aims to provide a practical guide for deploying a Databend cluster.
 
 ## Before You Begin
 
@@ -206,7 +206,7 @@ endpoints = ["172.16.125.128:9191","172.16.125.129:9191","172.16.125.130:9191"]
   </TabItem>
 </Tabs>
 
-2. For each query node, you also need to configure the object storage and admin users in the file [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For detailed instructions, see [here](../01-non-production/01-deploying-databend.md#deploying-a-query-node).
+2. For each query node, you also need to configure the object storage and admin users in the file [databend-query.toml](https://github.com/databendlabs/databend/blob/main/scripts/distribution/configs/databend-query.toml). For detailed instructions, see [here](../03-deploying-databend.md#deploying-a-query-node).
 
 3. Run the following script on each query node to start them:
 
@@ -248,6 +248,6 @@ After deploying Databend, you might need to learn about the following topics:
 - [Load & Unload Data](/guides/load-data): Manage data import/export in Databend.
 - [Visualize](/guides/connect/visualization): Integrate Databend with visualization tools for insights.
 
-<!-- <LanguageFileParse
+{/* <LanguageFileParse
 cn={<VideoCN />}
-/> -->
+/> */}

@@ -48,7 +48,7 @@ docker run -d --name databend \
 
 3. 点击 **Test Connection** 进行测试。如果是首次连接 Databend，DBeaver 会提示下载驱动，点击 **Download**。下载完成后连接测试应成功，如下图：
 
-![alt text](../../../../static/img/connect/dbeaver-success.png)
+![alt text](@site/static/img/connect/dbeaver-success.png)
 
 </StepContent>
 </StepsWrap>

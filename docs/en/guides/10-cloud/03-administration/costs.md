@@ -20,11 +20,11 @@ When you set up a spending limit, you need to decide what action Databend Cloud 
 
 For the "Send Notifications Only" option, Databend Cloud will send email notifications to administrators based on the following frequency cycle:
 
-| Spending Range 	| Notification Frequency 	|
-|----------------	|------------------------	|
-| 80% - 90%      	| Every three days       	|
-| 90% - 100%     	| Every three days       	|
-| 100% or above     | Every three days       	|
+| Spending Range | Notification Frequency |
+| -------------- | ---------------------- |
+| 80% - 90%      | Every three days       |
+| 90% - 100%     | Every three days       |
+| 100% or above  | Every three days       |
 
 ## Granting Access to Finance Personnel
 
@@ -34,10 +34,10 @@ To facilitate the work of your finance team while ensuring data security, you ca
 CREATE ROLE billing;
 ```
 
-When inviting finance personnel to your organization, assign them this `billing` role. 
+When inviting finance personnel to your organization, assign them this `billing` role.
 
-![alt text](../../../../../static/img/documents/pricing-billing/billing-role.png)
+![alt text](@site/static/img/documents/pricing-billing/billing-role.png)
 
 Once they log in to Databend Cloud, they will have restricted access, limited to only the billing page, with all other business-related pages hidden from view. This approach helps to safeguard sensitive data by restricting unnecessary access to other parts of your Databend Cloud environment.
 
-![alt text](../../../../../static/img/documents/pricing-billing/billing-only-view.png)
+![alt text](@site/static/img/documents/pricing-billing/billing-only-view.png)

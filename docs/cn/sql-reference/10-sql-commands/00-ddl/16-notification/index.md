@@ -12,6 +12,12 @@ title: 通知（Notification）
 | [ALTER NOTIFICATION](02-ddl-alter-notification.md) | 修改现有通知集成 |
 | [DROP NOTIFICATION](03-ddl-drop-notification.md) | 删除通知集成 |
 
+## 通知信息
+
+| 命令 | 描述 |
+|---------|-------------|
+| [DESCRIBE NOTIFICATION](04-desc-notification.md) | 显示通知集成的属性信息 |
+
 :::note
 Databend Cloud 的通知功能支持配置电子邮件或 Slack 等外部服务集成，用于接收数据库事件及操作相关的告警。
 :::

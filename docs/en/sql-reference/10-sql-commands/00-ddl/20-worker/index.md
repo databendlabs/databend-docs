@@ -1,56 +1,35 @@
 ---
 title: Worker
-sidebar_position: 0
 ---
 
-Worker-related SQL commands for managing sandbox UDF execution environments in Databend Cloud.
+Worker-related SQL commands for deployments with cloud control enabled.
 
-## Introduction
-
-Workers are execution environments for User-Defined Functions (UDFs) in Databend Cloud's sandbox environment. Each worker corresponds to a single UDF, and the cloud starts the corresponding worker based on the function name. The Worker management interface provides full lifecycle control over these execution environments.
-
-## General Rules
-
-- **Worker naming**: Follows standard identifier naming conventions
-- **Option lists**: `CREATE WORKER` uses an optional single `WITH` clause followed by comma-separated `key = value` pairs
-- **Option values**: Worker option values accept string literals, bare identifiers, unsigned integers, and booleans
-- **Tag values**: `ALTER WORKER ... SET TAG` requires string literal values
-
-Tags are key-value pairs that help categorize and organize workers, similar to warehouse tags. They are commonly used for:
-
-- **Environment identification**: Mark workers as dev, staging, or production
-- **Purpose tracking**: Identify the purpose of the worker (e.g., sandbox, testing)
-- **Ownership**: Identify which team or user owns the worker
-- **Custom metadata**: Add any arbitrary metadata for organizational purposes
-
-Tag keys and values are arbitrary strings. Tags can be:
-
-- Updated or added later using `ALTER WORKER ... SET TAG key = 'value'`
-- Removed using `ALTER WORKER ... UNSET TAG key`
+:::note
+Worker management commands require cloud control. If `cloud_control_grpc_server_address` is not configured, Databend returns a `CloudControlNotEnabled` error when you run these commands.
+:::
 
 ## Supported Statements
 
-| Statement         | Purpose                      | Notes                                                      |
-| ----------------- | ---------------------------- | ---------------------------------------------------------- |
-| `CREATE WORKER`   | Create a worker              | Supports `IF NOT EXISTS` and option list                   |
-| `ALTER WORKER`    | Modify worker settings       | Supports `SET`, `UNSET`, `SET TAG`, `UNSET TAG`, `SUSPEND`, `RESUME` |
-| `SHOW WORKERS`    | List workers                 | Returns `name`, `tags`, `options`, `created_at`, and `updated_at` |
-| `DROP WORKER`     | Delete a worker              | Optional `IF EXISTS`                                       |
+| Statement | Purpose |
+|-----------|---------|
+| `CREATE WORKER` | Creates a worker with an optional key-value option list |
+| `ALTER WORKER` | Updates worker tags or options, or changes worker state |
+| `DROP WORKER` | Deletes a worker |
+| `SHOW WORKERS` | Lists workers in the current tenant |
 
-## Commands
+## Command Reference
 
-| Command                             | Description                                       |
-| ----------------------------------- | ------------------------------------------------- |
-| [CREATE WORKER](create-worker.md)   | Creates a new worker for UDF execution            |
-| [SHOW WORKERS](show-workers.md)     | Lists all workers                                 |
-| [ALTER WORKER](alter-worker.md)     | Modifies worker settings and state                |
-| [DROP WORKER](drop-worker.md)       | Removes a worker                                  |
-| [Examples](examples.md)             | Comprehensive usage examples and best practices   |
+| Command | Description |
+|---------|-------------|
+| [CREATE WORKER](create-worker.md) | Creates a worker definition |
+| [ALTER WORKER](alter-worker.md) | Modifies worker tags, options, or state |
+| [DROP WORKER](drop-worker.md) | Removes a worker definition |
+| [SHOW WORKERS](show-workers.md) | Lists workers and their metadata |
+| [Examples](examples.md) | Shows validated worker SQL examples |
 
-:::note
-A worker represents an execution environment for a specific UDF in Databend Cloud's sandbox. Each UDF has a corresponding worker that manages its runtime environment and resources.
-:::
+## Notes
 
-:::tip
-Environment variables for UDFs are managed by the cloud for security reasons. After creating a UDF, users need to configure environment variables in the cloud console.
-:::
+- Option names are case-insensitive. Databend normalizes them to lowercase during planning.
+- `SHOW WORKERS` returns the columns `name`, `tags`, `options`, `created_at`, and `updated_at`.
+- `ALTER WORKER` supports `SET TAG`, `UNSET TAG`, `SET`, `UNSET`, `SUSPEND`, and `RESUME`.
+- `CREATE WORKER` does not support a `TAG` clause.

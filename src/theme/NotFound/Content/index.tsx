@@ -11,7 +11,7 @@ export default function Content() {
     siteConfig: {
       customFields: { homeLink },
     },
-  } = useDocusaurusContext();
+  } = useDocusaurusContext() as any;
   return (
     <div
       className={clsx("g-align-c global-container-width", styles.rowContainer)}

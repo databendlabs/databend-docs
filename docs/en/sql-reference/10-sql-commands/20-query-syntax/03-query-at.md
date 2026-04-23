@@ -20,8 +20,9 @@ AT (
        SNAPSHOT => '<snapshot_id>' |
        TIMESTAMP => <timestamp> | 
        STREAM => <stream_name> |
-       OFFSET => <time_interval> 
-   )   
+       OFFSET => <time_interval> |
+       TAG => <tag_name>
+   )
 ```
 
 | Parameter | Description                                                                                                                                                                                                                                                                                                      |
@@ -30,6 +31,7 @@ AT (
 | TIMESTAMP | Specifies a particular timestamp to retrieve data from.                                                                                                                                                                                                                                                          |
 | STREAM    | Indicates querying the data at the time the specified stream was created.                                                                                                                                                                                                                                        |
 | OFFSET    | Specifies the number of seconds to go back from the current time. It should be in the form of a negative integer, where the absolute value represents the time difference in seconds. For example, `-3600` represents traveling back in time by 1 hour (3,600 seconds). |
+| TAG       | Specifies a named tag created by `ALTER TABLE ... CREATE TAG` to query the snapshot associated with that tag. This is an experimental feature and requires `SET enable_experimental_table_ref = 1`. See [Snapshot Tag Operations](/sql/sql-commands/ddl/table/alter-table#snapshot-tag-operations). |
 
 ## Obtaining Snapshot ID and Timestamp
 
@@ -92,4 +94,27 @@ SELECT * FROM t AT (STREAM => s);
 
 -- Retrieve all columns from table 't' with data from 60 seconds ago
 SELECT * FROM t AT (OFFSET => -60);
+```
+
+4. Query data using a named tag (experimental).
+
+```sql
+SET enable_experimental_table_ref = 1;
+
+-- Create a tag at the current snapshot
+ALTER TABLE t CREATE TAG v1_0;
+
+-- Insert more data
+INSERT INTO t VALUES(4);
+
+-- Query the tagged snapshot (returns data before the last insert)
+SELECT * FROM t AT (TAG => v1_0) ORDER BY a;
+
+┌─────────────────┐
+│        a        │
+├─────────────────┤
+│               1 │
+│               2 │
+│               3 │
+└─────────────────┘
 ```

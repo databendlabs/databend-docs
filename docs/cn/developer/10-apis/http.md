@@ -5,7 +5,7 @@ sidebar_label: REST API
 
 Databend HTTP Handler 是一个 REST API，可以让你通过 HTTP 请求直接向 Databend 发送 SQL 查询并获取结果。它适用于构建自定义集成、自动化脚本，或者需要在不使用驱动程序的情况下进行编程访问的场景。
 
-:::tip 推荐替代方案
+:::tip[推荐替代方案]
 对于大多数场景，我们推荐使用：
 - **[BendSQL](/guides/connect/sql-clients/bendsql)** - 官方命令行客户端，用于交互式查询
 - **[Python 驱动](/developer/drivers/python)** - 适用于 Python 应用

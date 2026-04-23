@@ -26,14 +26,13 @@ const config: Config = {
   organizationName: "DatabendLabs",
   projectName: 'Databend', // Usually your repo name.
   future: {
-    experimental_faster: {
-      rspackBundler: true, // required flag
-      swcJsLoader: true,
-      swcJsMinimizer: true,
-      swcHtmlMinimizer: true,
-      lightningCssMinimizer: true,
-      mdxCrossCompilerCache: true,
-    }
+    v4: true,
+    faster: true,
+    experimental_vcs: 'default-v2',
+  },
+  storage: {
+    type: 'localStorage',
+    namespace: true,
   },
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -70,11 +69,7 @@ const config: Config = {
           path: `./docs/${siteName}/guides`,
           routeBasePath: "guides",
           sidebarPath: "./docs/en/sidebars.js",
-          editUrl: ({ locale, docPath }) => {
-            // // @ts-ignore
-            // if (locale !== config.i18n.defaultLocale) {
-            //     return `https://databend.crowdin.com/databend/${locale}`;
-            // }
+          editUrl: ({ docPath }) => {
             return `https://github.com/databendlabs/databend-docs/tree/main/docs/${siteName}/guides/${docPath}`;
           },
         },
@@ -98,7 +93,6 @@ const config: Config = {
     "docusaurus-plugin-sass",
     "./src/plugins/global-sass-var-inject",
     "./src/plugins/fetch-databend-releases",
-    "./src/plugins/gurubase-widget",
     [
       "@docusaurus/plugin-content-docs",
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
@@ -107,11 +101,7 @@ const config: Config = {
         path: `./docs/${siteName}/dev`,
         routeBasePath: "dev",
         sidebarPath: "./docs/en/sidebars.js",
-        editUrl: ({ locale, devPath }: any) => {
-          // @ts-ignore
-          // if (locale !== config.i18n.defaultLocale) {
-          //     return `https://databend.crowdin.com/databend/${locale}`;
-          // }
+        editUrl: ({ devPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/dev/${devPath}`;
         },
       },
@@ -124,7 +114,7 @@ const config: Config = {
         path: `./docs/${siteName}/tutorials`,
         routeBasePath: "tutorials",
         sidebarPath: "./docs/en/sidebars.js",
-        editUrl: ({ locale, docPath }: any) => {
+        editUrl: ({ docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/tree/main/docs/${siteName}/tutorials/${docPath}`;
         },
       },
@@ -137,7 +127,7 @@ const config: Config = {
         path: `./docs/${siteName}/sql-reference`,
         routeBasePath: "sql",
         sidebarPath: "./docs/en/sidebars.js",
-        editUrl: ({ locale, docPath }: any) => {
+        editUrl: ({ docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/sql-reference/${docPath}`;
         },
       },
@@ -150,7 +140,7 @@ const config: Config = {
         path: `./docs/${siteName}/release-notes`,
         routeBasePath: "release-notes",
         sidebarPath: "./docs/en/sidebars.js",
-        editUrl: ({ locale, docPath }: any) => {
+        editUrl: ({ docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/release-notes/${docPath}`;
         },
       },
@@ -163,7 +153,7 @@ const config: Config = {
         path: `./docs/${siteName}/developer`,
         routeBasePath: "developer",
         sidebarPath: "./docs/en/sidebars.js",
-        editUrl: ({ locale, docPath }: any) => {
+        editUrl: ({ docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/developer/${docPath}`;
         },
       },
@@ -176,7 +166,7 @@ const config: Config = {
         path: `./docs/${siteName}/integrations`,
         routeBasePath: "integrations",
         sidebarPath: "./docs/en/sidebars.js",
-        editUrl: ({ locale, docPath }: any) => {
+        editUrl: ({ docPath }: any) => {
           return `https://github.com/databendlabs/databend-docs/edit/main/docs/${siteName}/integrations/${docPath}`;
         },
       },
@@ -216,7 +206,6 @@ const config: Config = {
   themes: ['@docusaurus/theme-mermaid'],
   markdown: {
     mermaid: true,
-    // @ts-ignore
     hooks: {
       onBrokenMarkdownLinks: "throw",
     }

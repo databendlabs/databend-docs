@@ -13,5 +13,5 @@ This page provides a comprehensive overview of External Function operations in D
 | [DROP EXTERNAL FUNCTION](ddl-drop-function.md) | Removes an external function |
 
 :::note
-External Functions in Databend allow you to extend functionality by integrating with external services through HTTP/HTTPS endpoints, enabling you to leverage external processing capabilities.
+External Functions in Databend allow you to extend SQL with custom logic running on a remote server. The server communicates with Databend over the [Apache Arrow Flight](https://arrow.apache.org/docs/format/Flight.html) protocol. The remote handler can be written in any language — Python is the most common choice via the [databend-udf](https://pypi.org/project/databend-udf) package.
 :::

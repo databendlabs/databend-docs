@@ -108,6 +108,7 @@ This guide provides detailed instructions on how to import data into Databend.
 <details>
 <summary> MySQL Data to Databend </summary>
 
+- [Sync MySQL Data via Databend Cloud Data Integration](/guides/cloud/data-integration/mysql) (Recommended for Databend Cloud users)
 - [Load Full MySQL Tables](./02-load-db/datax.md)
 - [Sync MySQL Changes (Full & Incremental)](./02-load-db/debezium.md)
 

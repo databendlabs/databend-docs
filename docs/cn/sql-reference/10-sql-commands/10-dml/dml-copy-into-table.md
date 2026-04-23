@@ -51,6 +51,10 @@ COPY INTO [<database_name>.]<table_name> [ ( <col_name> [ , <col_name> ... ] ) ]
 [ copyOptions ]
 ```
 
+:::note
+从 Databend `v1.2.890-nightly` 开始，`TEXT` 可在 `FILE_FORMAT` 中作为 `TSV` 的别名使用。较旧版本的 Server 可能不支持 `TYPE = TEXT`，因此本页在语法和示例中仍使用 `TSV` 以保持兼容性。
+:::
+
 其中：
 
 ```sql
@@ -293,7 +297,7 @@ COPY INTO 返回数据加载结果摘要，包含以下列：
 
 ## 示例
 
-:::tip 最佳实践
+:::tip[最佳实践]
 对于外部存储源，建议使用预先创建的连接并通过 `CONNECTION_NAME` 参数引用，而非在 COPY 语句中直接指定凭据。该方式更安全、易维护且可复用。详见 [CREATE CONNECTION](../00-ddl/13-connection/create-connection.md)。
 :::
 

@@ -41,7 +41,7 @@ CREATE DATABASE debezium;
 
 ## Step 3. Create application.properties
 
-Create the file _application.properties_, then start debezium-server-databend. For how to install and start the tool, see [Installing debezium-server-databend](#installing-debezium-server-databend).
+Create the file _application.properties_, then start debezium-server-databend. For how to install and start the tool, see [Installing debezium-server-databend](/guides/load-data/load-db/debezium#installing-debezium-server-databend).
 
 When started for the first time, the tool performs a full synchronization of data from MySQL to Databend using the specified Batch Size. As a result, the data from MySQL is now visible in Databend after successful replication.
 
