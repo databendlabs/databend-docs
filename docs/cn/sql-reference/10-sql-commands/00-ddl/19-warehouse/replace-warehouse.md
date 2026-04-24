@@ -35,7 +35,7 @@ REPLACE WAREHOUSE <warehouse_name>
 使用新配置重建计算集群：
 
 ```sql
-REPLACE WAREHOUSE etl_wh
+REPLACE WAREHOUSE 'etl-wh'
     WITH warehouse_size = Large
     auto_suspend = 300
     auto_resume = TRUE

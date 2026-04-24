@@ -47,7 +47,7 @@ CREATE WAREHOUSE [ IF NOT EXISTS ] <warehouse_name>
 创建带自动扩缩容的 XLarge 计算集群：
 
 ```sql
-CREATE WAREHOUSE IF NOT EXISTS etl_wh
+CREATE WAREHOUSE IF NOT EXISTS 'etl-wh'
     WITH warehouse_size = XLarge
     auto_suspend = 600
     initially_suspended = TRUE
@@ -60,6 +60,6 @@ CREATE WAREHOUSE IF NOT EXISTS etl_wh
 创建 Small 规格的计算集群：
 
 ```sql
-CREATE WAREHOUSE my_warehouse
+CREATE WAREHOUSE 'my-warehouse'
     WITH warehouse_size = Small;
 ```
