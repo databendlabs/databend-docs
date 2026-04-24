@@ -27,7 +27,7 @@ In Databend Cloud, warehouses are available in various sizes, each defined by th
 | Medium                | Ideal for teams handling more complex queries and higher concurrency. Suitable for larger datasets (around 1TB).                                 |
 | Large                 | Perfect for organizations running many concurrent queries. Suitable for large datasets (around 5TB).                                             |
 | XLarge                | Built for enterprise-scale workloads with high concurrency. Suitable for very large datasets (over 10TB).                                        |
-| nXLarge               | n=2,3,4,5,6 [Contace Us](https://www.databend.com/contact-us/)                                                                                  |
+| nXLarge               | n=2,3,4,5,6 [Contace Us](https://www.databend.com/contact-us/)                                                                                   |
 | Multi-Cluster Scaling | Automatically scales out and scales in to match your workload, providing the most cost-efficient way to improve concurrency based on your needs. |
 
 To choose the appropriate warehouse size, Databend recommends starting with a smaller size. Smaller warehouses may take longer to execute SQL tasks compared to medium or large ones. If you find that query execution is taking too long (for example, several minutes), consider scaling up to a medium or large warehouse for faster results.
@@ -49,41 +49,50 @@ You can perform bulk operations on warehouses, including bulk restart, bulk susp
 
 ![alt text](@site/static/img/cloud/bulk.gif)
 
+### Tagging Warehouses
+
+You can attach tags to warehouses to organize and categorize them — for example, by environment, team, or cost center. Tags are key-value pairs and are visible in the warehouse list, where you can filter and sort by them.
+
+**Constraints:**
+
+- Maximum **10 tags** per warehouse
+- Key: up to **128 characters**
+- Value: up to **256 characters**
+
+To add tags, expand the **Tags** section when creating or editing a warehouse and enter your key-value pairs:
+
+![alt text](@site/static/img/cloud/tags.png)
+
+Tags are displayed as `key: value` in the warehouse list and can be used to filter warehouses by key or value.
+
 ### Best Practices
 
 To effectively manage your warehouses and ensure optimal performance and cost-efficiency, consider the following best practices. These guidelines will help you size, organize, and fine-tune your warehouses for various workloads and environments:
 
 - **Choose the Right Size**
-
   - For **development & testing**, use smaller warehouses (XSmall, Small).
   - For **production**, opt for larger warehouses (Medium, Large, XLarge).
 
 - **Separate Warehouses**
-
   - Use separate warehouses for **data loading** and **query execution**.
   - Create distinct warehouses for **development**, **testing**, and **production** environments.
 
 - **Data Loading Tips**
-
   - Smaller warehouses (Small, Medium) are suitable for data loading.
   - Optimize file size and the number of files to enhance performance.
 
 - **Optimize for Cost & Performance**
-
   - Avoid running simple queries like `SELECT 1` to minimize credit usage.
   - Use bulk loading (`COPY`) rather than individual `INSERT` statements.
   - Monitor long-running queries and optimize them to improve performance.
 
 - **Auto-Suspend**
-
   - Enable auto-suspend to save credits when the warehouse is idle.
 
 - **Disable Auto-Suspend for Frequent Queries**
-
   - Keep warehouses active for frequent or repetitive queries to maintain cache and avoid delays.
 
 - **Use Auto-Scaling (Business & Dedicated Plans Only)**
-
   - Multi-cluster scaling automatically adjusts resources based on workload demand.
 
 - **Monitor & Adjust Usage**
@@ -114,7 +123,7 @@ To assign a role to a warehouse, select the desired role in the **Advanced Optio
 A multi-cluster warehouse automatically adjusts compute resources by adding or removing clusters based on workload demand. It ensures high concurrency and performance while optimizing cost by scaling up or down as needed.
 
 :::note
-Multi-Cluster is only available for Databend Cloud users on the Business and Dedicated plans.
+Multi-Cluster Warehouses is not enabled by default. To enable it, go to **Support** > **Create New Ticket** and submit a request. This feature is only available for Databend Cloud users on the Business and Dedicated plans.
 :::
 
 ### How it Works
@@ -137,6 +146,28 @@ Multi-Cluster Warehouses are billed based on the number of active clusters used 
 
 For example, for an XSmall Warehouse priced at $1 per hour, if one cluster is actively used from 13:00 to 14:00 and two clusters are actively used from 14:00 to 15:00, the total cost incurred from 13:00 to 15:00 is $3 ((1 cluster × 1 hour × $1) + (2 clusters × 1 hour × $1)).
 
+## MySQL Endpoint
+
+The MySQL Endpoint feature enables a warehouse to accept connections from BI tools and applications that only support the MySQL protocol, such as Tableau, Grafana, or other MySQL-compatible clients.
+
+:::note
+MySQL Endpoint is not enabled by default. To enable it, go to **Support** > **Create New Ticket** and submit a request.
+:::
+
+### Enabling MySQL Endpoint
+
+You can enable the MySQL Endpoint for a warehouse when you create it or modify it later. The option is available in the **Advanced Options** section as a toggle switch.
+
+![alt text](@site/static/img/cloud/mysql-endpoint.png)
+
+:::caution
+When MySQL Endpoint is enabled, **Auto Suspend is automatically disabled** (set to 0) for the warehouse. This means the warehouse will remain running continuously and incur costs even when idle. Plan your usage accordingly.
+:::
+
+### Connecting via MySQL Protocol
+
+Once enabled, you can connect to the warehouse using any MySQL-compatible client with the standard MySQL connection details shown in the **Connect** dialog. This is useful for integrating with tools that do not natively support the Databend protocol.
+
 ## Connecting to a Warehouse
 
 Connecting to a warehouse provides the compute resources required to run queries and analyze data within Databend Cloud. This connection is necessary when accessing Databend Cloud from your applications or SQL clients.
@@ -147,15 +178,15 @@ Databend Cloud supports multiple connection methods to meet your specific needs.
 
 #### SQL Clients & Tools
 
-| Client                                     | Type            | Best For                      | Key Features                                          |
-| ------------------------------------------ | --------------- | ----------------------------- | ----------------------------------------------------- |
+| Client                                             | Type            | Best For                      | Key Features                                          |
+| -------------------------------------------------- | --------------- | ----------------------------- | ----------------------------------------------------- |
 | **[BendSQL](/guides/connect/sql-clients/bendsql)** | Command Line    | Developers, Scripts           | Native CLI, Rich formatting, Multiple install options |
 | **[DBeaver](/guides/connect/sql-clients/jdbc)**    | GUI Application | Data Analysis, Visual Queries | Built-in driver, Cross-platform, Query builder        |
 
 #### Developer Drivers
 
-| Language    | Driver            | Use Case                | Documentation                                          |
-| ----------- | ----------------- | ----------------------- | ------------------------------------------------------ |
+| Language    | Driver            | Use Case                | Documentation                                   |
+| ----------- | ----------------- | ----------------------- | ----------------------------------------------- |
 | **Go**      | Golang Driver     | Backend Applications    | [Golang Guide](/guides/connect/drivers/golang)  |
 | **Python**  | Python Connector  | Data Science, Analytics | [Python Guide](/guides/connect/drivers/python)  |
 | **Node.js** | JavaScript Driver | Web Applications        | [Node.js Guide](/guides/connect/drivers/nodejs) |
@@ -168,7 +199,7 @@ To obtain the connection information for a warehouse:
 
 1. Click **Connect** on the **Overview** page.
 2. Select the database and warehouse you wish to connect to. The connection information will update based on your selection.
-3. The connection details include a SQL user named `cloudapp` with a randomly generated password. Databend Cloud does not store this password. Be sure to copy and save it securely. If you forget the password, click **Reset** to generate a new one.
+3. The connection details include a SQL user named `cloudapp` with a randomly generated password. Databend Cloud does not store this password. Be sure to copy and save it securely. If you forget the password, click **Reset** to generate a new one(It requires an Admin to reset.).
 
 ![alt text](@site/static/img/documents/warehouses/databend_cloud_dsn.gif)
 
