@@ -62,7 +62,7 @@ These topics provide reference information for the DDL (Data Definition Language
 | Component | Description |
 |-----------|-------------|
 | **[Warehouse](19-warehouse/index.md)** | Manage compute resources for query execution |
-| **[Worker](20-worker/index.md)** | Manage worker resources through cloud control |
+| **[Worker](20-worker/index.md)** | Manage sandbox UDF execution environments through cloud control |
 | **[Workload Group](20-workload-group/index.md)** | Control resource allocation and priorities |
 | **[Transaction](14-transaction/index.md)** | Manage database transactions |
 | **[Variable](15-variable/index.md)** | Set and use session/global variables |

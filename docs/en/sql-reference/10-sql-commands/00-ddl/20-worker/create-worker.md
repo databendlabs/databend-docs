@@ -3,6 +3,10 @@ title: CREATE WORKER
 sidebar_position: 1
 ---
 
+import FunctionDescription from '@site/src/components/FunctionDescription';
+
+<FunctionDescription description="Introduced: v1.3.0"/>
+
 Creates a worker.
 
 :::note
@@ -13,7 +17,7 @@ This command requires cloud control to be enabled.
 
 ```sql
 CREATE WORKER [ IF NOT EXISTS ] <worker_name>
-    [ WITH <option_name> = '<option_value>' [ , <option_name> = '<option_value>' , ... ] ]
+    [ WITH <option_name> = <option_value> [ , <option_name> = <option_value> ... ] ]
 ```
 
 ## Parameters
@@ -22,19 +26,54 @@ CREATE WORKER [ IF NOT EXISTS ] <worker_name>
 |-----------|-------------|
 | `IF NOT EXISTS` | Optional. Succeeds without changes if the worker already exists. |
 | `<worker_name>` | The worker name. |
-| `WITH ...` | Optional comma-separated key-value options. Option names are normalized to lowercase. |
+| `<option_name>` | Worker option key. |
+| `<option_value>` | Worker option value. |
+
+## Options
+
+Databend accepts a single `WITH` clause followed by a comma-separated option list. Common worker options include:
+
+| Option | Example Value | Description |
+|--------|---------------|-------------|
+| `size` | `'small'` | Controls the compute size of the worker. |
+| `auto_suspend` | `'300'` | Idle timeout before automatic suspend. |
+| `auto_resume` | `'true'` | Controls whether the worker resumes automatically. |
+| `max_cluster_count` | `'3'` | Upper bound for auto-scaling clusters. |
+| `min_cluster_count` | `'1'` | Lower bound for auto-scaling clusters. |
+
+- `WITH` appears at most once.
+- Options are separated by commas.
+- Option names are normalized to lowercase before the request is sent.
+- `option_value` can be written as a string literal, bare identifier, unsigned integer, or boolean.
+- `CREATE WORKER` does not support a `TAG` clause.
 
 ## Examples
 
 Create a worker without options:
 
 ```sql
-CREATE WORKER ingest_worker;
+CREATE WORKER read_env;
+```
+
+Create a worker with `IF NOT EXISTS`:
+
+```sql
+CREATE WORKER IF NOT EXISTS read_env;
 ```
 
 Create a worker with custom options:
 
 ```sql
-CREATE WORKER IF NOT EXISTS ingest_worker
-WITH region = 'us-east-1', pool = 'etl';
+CREATE WORKER IF NOT EXISTS read_env
+WITH size = 'small',
+     auto_suspend = '300',
+     auto_resume = 'true',
+     max_cluster_count = '3',
+     min_cluster_count = '1';
 ```
+
+## Related Topics
+
+- [ALTER WORKER](alter-worker.md) - Modify worker tags, options, or state
+- [SHOW WORKERS](show-workers.md) - List workers and their metadata
+- [DROP WORKER](drop-worker.md) - Remove a worker
