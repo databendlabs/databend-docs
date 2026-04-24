@@ -36,6 +36,10 @@ To choose the appropriate warehouse size, Databend recommends starting with a sm
 
 An organization can have as many warehouses as needed. The **Warehouses** page displays all the warehouses in your organization and allows you to manage them. Please note that only `account_admin` can create or delete a warehouse.
 
+:::tip
+You can also manage warehouses using SQL commands. See [Warehouse DDL Commands](/sql/sql-commands/ddl/warehouse) for details.
+:::
+
 ### Suspending / Resuming Warehouses
 
 A suspended warehouse does not consume any credits. You can manually suspend or resume a warehouse by clicking the <SuspendSVG/> or <PlaySVG/> button on the warehouse. However, a warehouse can automatically suspend or resume in the following scenarios:
