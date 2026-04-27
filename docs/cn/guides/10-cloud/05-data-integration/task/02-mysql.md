@@ -1,5 +1,6 @@
 ---
 title: MySQL 集成任务
+slug: /cloud/data-integration/mysql
 ---
 
 本页介绍如何创建一个 MySQL 集成任务，将 MySQL 数据库中的数据同步到 Databend。MySQL 任务支持全量 `Snapshot` 加载、持续 `Change Data Capture (CDC)`，或两者结合的模式。

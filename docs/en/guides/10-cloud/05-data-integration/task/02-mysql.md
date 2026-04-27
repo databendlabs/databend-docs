@@ -1,5 +1,6 @@
 ---
 title: MySQL Integration Task
+slug: /cloud/data-integration/mysql
 ---
 
 This page describes how to create a MySQL integration task that synchronizes data from a MySQL database into Databend. MySQL tasks support full `Snapshot` loads, continuous `Change Data Capture (CDC)`, or a combination of both.
