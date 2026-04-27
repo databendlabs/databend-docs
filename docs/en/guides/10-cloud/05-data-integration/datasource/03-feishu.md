@@ -49,9 +49,7 @@ On the create or edit page, set **Error Notification** to the corresponding `Fei
 
 ![FeiShuBot data source in Task Flow UI](/img/cloud/dataintegration/create-datasource-feishubot.png)
 
-### Customize the Template
-
-#### Task Error
+### Customize the Task Error Template
 
 Default template:
 
