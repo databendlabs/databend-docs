@@ -20,6 +20,7 @@ Databend Cloud 计算集群相关的 SQL 命令。
 | [CREATE WAREHOUSE](create-warehouse.md) | 创建计算集群 |
 | [USE WAREHOUSE](use-warehouse.md) | 切换当前会话的计算集群 |
 | [SHOW WAREHOUSES](show-warehouses.md) | 查看计算集群列表 |
+| [ALTER WAREHOUSE ... ASSIGN NODES](assign-warehouse-nodes.md) | 为计算集群中的 cluster 分配节点 |
 | [ALTER WAREHOUSE](alter-warehouse.md) | 暂停、恢复或修改计算集群配置 |
 | [DROP WAREHOUSE](drop-warehouse.md) | 删除计算集群 |
 | [REPLACE WAREHOUSE](replace-warehouse.md) | 重建计算集群 |
