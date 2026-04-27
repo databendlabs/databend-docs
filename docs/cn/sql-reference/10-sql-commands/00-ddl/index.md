@@ -41,6 +41,7 @@ title: DDL（Data Definition Language）命令
 | 组件 | 描述 |
 |-----------|-------------|
 | **[暂存区 (Stage)](03-stage/index.md)** | 为数据加载定义存储位置 |
+| **[Pipe](17-pipe/index.md)** | 查看导入管道信息 |
 | **[流 (Stream)](04-stream/index.md)** | 捕获和处理数据变更 |
 | **[任务 (Task)](04-task/index.md)** | 调度和自动化 SQL 操作 |
 | **[序列 (Sequence)](04-sequence/index.md)** | 生成唯一的序列号 |

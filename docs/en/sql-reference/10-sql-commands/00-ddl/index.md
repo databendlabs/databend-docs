@@ -41,6 +41,7 @@ These topics provide reference information for the DDL (Data Definition Language
 | Component | Description |
 |-----------|-------------|
 | **[Stage](03-stage/index.md)** | Define storage locations for data loading |
+| **[Pipe](17-pipe/index.md)** | Inspect ingestion pipes |
 | **[Stream](04-stream/index.md)** | Capture and process data changes |
 | **[Task](04-task/index.md)** | Schedule and automate SQL operations |
 | **[Sequence](04-sequence/index.md)** | Generate unique sequential numbers |
