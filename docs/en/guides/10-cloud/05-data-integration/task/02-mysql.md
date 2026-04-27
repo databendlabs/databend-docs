@@ -1,8 +1,10 @@
 ---
-title: MySQL
+title: MySQL Integration Task
 ---
 
-The MySQL data integration enables you to sync data from MySQL databases into Databend in real-time, with support for full snapshot loads, continuous Change Data Capture (CDC), or a combination of both.
+This page describes how to create a MySQL integration task that synchronizes data from a MySQL database into Databend. MySQL tasks support full `Snapshot` loads, continuous `Change Data Capture (CDC)`, or a combination of both.
+
+If you need to create reusable MySQL connection settings first, see [MySQL - Credentials](../datasource/02-mysql.md).
 
 ## Sync Modes
 
@@ -15,6 +17,9 @@ The MySQL data integration enables you to sync data from MySQL databases into Da
 ## Prerequisites
 
 Before setting up MySQL data integration, ensure your MySQL instance meets the following requirements:
+
+- A **MySQL - Credentials** data source has already been created
+- The target MySQL instance is reachable from Databend Cloud
 
 ### Enable Binlog
 
@@ -44,27 +49,6 @@ FLUSH PRIVILEGES;
 
 Ensure the MySQL instance is accessible from Databend Cloud. Check your firewall rules and security groups to allow inbound connections on the MySQL port.
 
-## Creating a MySQL Data Source
-
-1. Navigate to **Data** > **Data Sources** and click **Create Data Source**.
-
-2. Select **MySQL - Credentials** as the service type, and fill in the connection details:
-
-| Field           | Required | Description                                                                 |
-|-----------------|----------|-----------------------------------------------------------------------------|
-| **Name**        | Yes      | A descriptive name for this data source                                     |
-| **Hostname**    | Yes      | MySQL server hostname or IP address                                         |
-| **Port Number** | Yes      | MySQL server port (default: 3306)                                           |
-| **DB Username** | Yes      | MySQL user with replication permissions                                     |
-| **DB Password** | Yes      | Password for the MySQL user                                                 |
-| **Database Name** | Yes    | The source database name                                                    |
-| **DB Charset**  | No       | Character set (default: utf8mb4)                                            |
-| **Server ID**   | No       | Unique binlog replication identifier. Auto-generated if not provided        |
-
-![Create MySQL Data Source](/img/cloud/dataintegration/databendcloud-dataintegration-create-mysql-source.png)
-
-3. Click **Test Connectivity** to verify the connection. If the test succeeds, click **OK** to save the data source.
-
 ## Creating a MySQL Integration Task
 
 ### Step 1: Basic Info
@@ -77,7 +61,7 @@ Ensure the MySQL instance is accessible from Databend Cloud. Check your firewall
 
 | Field                      | Required    | Description                                                                                      |
 |----------------------------|-------------|--------------------------------------------------------------------------------------------------|
-| **Data Source**             | Yes         | Select an existing MySQL data source from the dropdown                                           |
+| **Data Source**             | Yes         | Select an existing **MySQL - Credentials** data source from the dropdown                         |
 | **Name**                   | Yes         | A name for this integration task                                                                 |
 | **Source Database**        | —           | Automatically displayed based on the selected data source                                        |
 | **Source Table**           | Yes         | Select the table to sync from the MySQL database                                                 |

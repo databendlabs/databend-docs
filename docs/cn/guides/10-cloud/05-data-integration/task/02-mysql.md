@@ -1,8 +1,10 @@
 ---
-title: MySQL
+title: MySQL 集成任务
 ---
 
-MySQL 数据集成功能支持将 MySQL 数据库中的数据实时同步到 Databend，并支持全量 `Snapshot` 加载、持续 `Change Data Capture (CDC)`，或两者结合的模式。
+本页介绍如何创建一个 MySQL 集成任务，将 MySQL 数据库中的数据同步到 Databend。MySQL 任务支持全量 `Snapshot` 加载、持续 `Change Data Capture (CDC)`，或两者结合的模式。
+
+如需先创建可复用的 MySQL 连接配置，请参见 [MySQL - Credentials](../datasource/02-mysql.md)。
 
 ## 同步模式
 
@@ -15,6 +17,9 @@ MySQL 数据集成功能支持将 MySQL 数据库中的数据实时同步到 Dat
 ## 前置条件
 
 在配置 MySQL 数据集成前，请确保您的 MySQL 实例满足以下要求：
+
+- 已创建 **MySQL - Credentials** 数据源
+- Databend Cloud 可以通过网络访问目标 MySQL 实例
 
 ### 启用 Binlog
 
@@ -44,27 +49,6 @@ FLUSH PRIVILEGES;
 
 请确保 Databend Cloud 可以访问该 MySQL 实例。请检查防火墙规则和安全组设置，允许通过 MySQL 端口进行入站连接。
 
-## 创建 MySQL 数据源
-
-1. 前往 **Data** > **Data Sources**，点击 **Create Data Source**。
-
-2. 将服务类型选择为 **MySQL - Credentials**，然后填写连接信息：
-
-| 字段 | 是否必填 | 说明 |
-|------|----------|------|
-| **Name** | 是 | 当前数据源的描述性名称 |
-| **Hostname** | 是 | MySQL 服务器主机名或 IP 地址 |
-| **Port Number** | 是 | MySQL 服务端口，默认值为 `3306` |
-| **DB Username** | 是 | 具有复制权限的 MySQL 用户 |
-| **DB Password** | 是 | MySQL 用户密码 |
-| **Database Name** | 是 | 源数据库名称 |
-| **DB Charset** | 否 | 字符集，默认值为 `utf8mb4` |
-| **Server ID** | 否 | 唯一的 binlog 复制标识；如不填写则自动生成 |
-
-![创建 MySQL 数据源](/img/cloud/dataintegration/databendcloud-dataintegration-create-mysql-source.png)
-
-3. 点击 **Test Connectivity** 验证连接；如果测试成功，点击 **OK** 保存数据源。
-
 ## 创建 MySQL 集成任务
 
 ### 步骤 1：基本信息
@@ -77,7 +61,7 @@ FLUSH PRIVILEGES;
 
 | 字段 | 是否必填 | 说明 |
 |------|----------|------|
-| **Data Source** | 是 | 从下拉列表中选择已有的 MySQL 数据源 |
+| **Data Source** | 是 | 从下拉列表中选择已有的 **MySQL - Credentials** 数据源 |
 | **Name** | 是 | 当前集成任务名称 |
 | **Source Database** | — | 根据所选数据源自动显示 |
 | **Source Table** | 是 | 选择要从 MySQL 数据库同步的表 |
