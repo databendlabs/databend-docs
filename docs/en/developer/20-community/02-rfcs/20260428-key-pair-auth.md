@@ -164,7 +164,7 @@ When a Bearer JWT token arrives at the HTTP handler:
    - If `AuthInfo::KeyPair`: iterate over stored public keys, attempt to verify the JWT signature with each. Accept on first match.
    - If `AuthInfo::JWT`: fall through to existing JWKS-based verification (unchanged).
    - Otherwise: reject with an authentication error.
-5. Validate standard JWT claims: `exp` must not be in the past.
+5. Validate standard JWT claims: `exp` must not be in the past, `iat` must be present and not in the future.
 6. Enforce network policy, set authenticated user in session.
 
 This approach requires no changes to the HTTP middleware — routing between key-pair and JWKS verification is handled entirely in `AuthMgr::auth()` based on the user's stored auth type.
