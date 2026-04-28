@@ -152,9 +152,15 @@ ALTER USER <username> WITH ADD PUBLIC_KEY = '<public_key_pem>';
 ALTER USER <username> WITH REMOVE PUBLIC_KEY = '<sha256_fingerprint>';
 ```
 
-在 ALTER USER 中使用 `IDENTIFIED WITH key_pair BY '<pem>'` 会替换所有现有密钥。
+如果用户已经使用密钥对认证，在 ALTER USER 中使用 `IDENTIFIED WITH key_pair BY '<pem>'` 会被拒绝 — 请使用 `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` 来管理密钥。这可以防止意外替换所有现有密钥。
 
 **DESCRIBE USER**：显示所有存储公钥的 SHA256 指纹。
+
+### 约束
+
+- **Root 用户限制**：密钥对认证不支持 `root` 用户。只有非内置用户可以使用密钥对认证。
+- **每用户最大密钥数**：全局设置 `max_public_keys_per_user`（默认：10，范围：1–100）限制每个用户的公钥数量。超过此限制的添加操作会被拒绝。
+- **最后一个密钥保护**：不允许移除密钥对用户的最后一个公钥。用户必须始终至少有一个密钥。
 
 ### 认证流程
 
@@ -277,9 +283,7 @@ Snowflake 去掉 PEM header/footer 是因为它只支持 RSA，使用 `SET RSA_P
 
 ## 未解决的问题
 
-- 每个用户的公钥数量是否应该有上限？合理的默认限制（例如 10 个）可以防止滥用而不限制合法使用。
 - 是否应该验证 JWT `iss`（签发者）声明？Snowflake 使用 `<account>.<user>.SHA256:<fingerprint>` 作为签发者。我们可以采用类似的约定或初始阶段保持可选。
-- 密钥对认证是否应该支持 `root` 用户，还是限制为非内置用户？
 
 ## 未来可能性
 

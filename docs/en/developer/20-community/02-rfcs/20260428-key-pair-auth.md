@@ -152,9 +152,15 @@ ALTER USER <username> WITH ADD PUBLIC_KEY = '<public_key_pem>';
 ALTER USER <username> WITH REMOVE PUBLIC_KEY = '<sha256_fingerprint>';
 ```
 
-Using `IDENTIFIED WITH key_pair BY '<pem>'` in ALTER USER replaces all existing keys with the new one.
+Using `IDENTIFIED WITH key_pair BY '<pem>'` in ALTER USER is rejected if the user already uses key-pair authentication — use `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` to manage keys instead. This prevents accidental replacement of all existing keys.
 
 **DESCRIBE USER**: Shows SHA256 fingerprints of all stored public keys.
+
+### Constraints
+
+- **Root user restriction**: Key-pair authentication is not supported for the `root` user. Only non-built-in users can use key-pair auth.
+- **Maximum keys per user**: A global setting `max_public_keys_per_user` (default: 10, range: 1–100) limits the number of public keys per user. Attempting to add a key beyond this limit is rejected.
+- **Last key protection**: Removing the last public key from a key-pair user is rejected. The user must always have at least one key.
 
 ### Authentication Flow
 
@@ -277,9 +283,7 @@ Mutual TLS is another approach to certificate-based authentication. However, it 
 
 ## Unresolved Questions
 
-- Should there be a maximum number of public keys per user? A reasonable default limit (e.g., 10) could prevent abuse without restricting legitimate use.
 - Should the JWT `iss` (issuer) claim be validated? Snowflake uses `<account>.<user>.SHA256:<fingerprint>` as the issuer. We could adopt a similar convention or leave it optional initially.
-- Should key-pair auth be supported for the `root` user, or restricted to non-built-in users only?
 
 ## Future Possibilities
 
