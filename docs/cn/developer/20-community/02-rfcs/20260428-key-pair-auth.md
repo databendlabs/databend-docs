@@ -263,6 +263,14 @@ token 使用用户的私钥签名，算法与密钥类型匹配。
 
 PEM 格式已经在其 header 和 ASN.1 结构中编码了密钥类型。存储冗余的密钥类型字段增加了一致性风险（存储的类型与实际密钥类型不匹配）。验证时检测既可靠又简单。
 
+### 为什么存储完整 PEM 而不是像 Snowflake 那样去掉 header？
+
+Snowflake 去掉 PEM header/footer 是因为它只支持 RSA，使用 `SET RSA_PUBLIC_KEY='MIIBIj...'`。我们支持多种密钥类型，存储完整 PEM 有实际好处：`jwt-simple` 的 `from_pem()` 直接接受完整 PEM（无需重新拼接 header），用户可以直接复制粘贴 `openssl` 输出而无需手动编辑，存储开销可以忽略不计（几十字节）。
+
+### 依次检测密钥类型是否有性能开销？
+
+几乎没有。`from_pem()` 内部解析 DER AlgorithmIdentifier OID（几个字节的比较），不匹配时立即返回 — 微秒级。而实际的 JWT 签名验证（RSA/ECDSA）是毫秒级的，差了三个数量级。如果将来需要优化，可以先解析一次 DER OID 来确定类型，但目前没有必要。
+
 ### 替代方案：mTLS
 
 双向 TLS 是另一种基于证书的认证方式。但它要求 TLS 终止在 Databend 服务器（而非负载均衡器），配置更困难，且不与 Databend 现有的用户管理集成。密钥对 JWT 认证更轻量，可以通过任何 HTTP 代理工作。

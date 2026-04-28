@@ -263,6 +263,14 @@ A list is more flexible and doesn't artificially limit the number of active keys
 
 PEM format already encodes the key type in its header and ASN.1 structure. Storing a redundant key type field adds a consistency risk (stored type vs. actual key type mismatch). Detection at verification time is reliable and simple.
 
+### Why store full PEM instead of stripping headers like Snowflake?
+
+Snowflake strips PEM headers/footers because it only supports RSA and uses `SET RSA_PUBLIC_KEY='MIIBIj...'`. We support multiple key types and store the full PEM for practical reasons: `jwt-simple`'s `from_pem()` accepts full PEM directly (no need to reconstruct headers), users can copy-paste `openssl` output without manual editing, and the storage overhead is negligible (a few dozen bytes).
+
+### Does sequential key type detection have a performance cost?
+
+Negligible. `from_pem()` internally parses the DER AlgorithmIdentifier OID (a few-byte comparison) and returns immediately on mismatch — microsecond-level. The actual JWT signature verification (RSA/ECDSA) is millisecond-level, three orders of magnitude more expensive. If optimization is ever needed, we could parse the DER OID once to determine the type upfront, but this is unnecessary for now.
+
 ### Alternative: mTLS
 
 Mutual TLS is another approach to certificate-based authentication. However, it requires TLS termination at the Databend server (not a load balancer), is harder to configure, and doesn't integrate with Databend's existing user management. Key-pair JWT auth is lighter-weight and works through any HTTP proxy.
