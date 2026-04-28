@@ -171,6 +171,7 @@ ALTER USER <username> WITH REMOVE PUBLIC_KEY = '<label_or_fingerprint>';
 - **Root 用户限制**：密钥对认证不支持 `root` 用户。只有非内置用户可以使用密钥对认证。
 - **每用户最大密钥数**：全局设置 `max_public_keys_per_user`（默认：10，范围：1–100）限制每个用户的公钥数量。超过此限制的添加操作会被拒绝。
 - **最后一个密钥保护**：不允许移除密钥对用户的最后一个公钥。用户必须始终至少有一个密钥。
+- **标签约束**：标签在输入时会被 trim，长度不超过 128 个字符，且在同一用户下必须唯一。重复标签会被拒绝。
 
 ### 认证流程
 
@@ -279,9 +280,9 @@ token 使用用户的私钥签名，算法与密钥类型匹配。
 
 PEM 格式已经在其 header 和 ASN.1 结构中编码了密钥类型。存储冗余的密钥类型字段增加了一致性风险（存储的类型与实际密钥类型不匹配）。验证时检测既可靠又简单。
 
-### 为什么存储完整 PEM 而不是像 Snowflake 那样去掉 header？
+### 为什么存储 base64 体而不是完整 PEM？
 
-Snowflake 去掉 PEM header/footer 是因为它只支持 RSA，使用 `SET RSA_PUBLIC_KEY='MIIBIj...'`。我们支持多种密钥类型，存储完整 PEM 有实际好处：`jwt-simple` 的 `from_pem()` 直接接受完整 PEM（无需重新拼接 header），用户可以直接复制粘贴 `openssl` 输出而无需手动编辑，存储开销可以忽略不计（几十字节）。
+参照 Snowflake 的做法，我们去掉 PEM header/footer，只存储 base64 编码的密钥体。这使存储紧凑且统一。输入时接受完整 PEM 和纯 base64 两种格式 — 服务端在写入时统一归一化为 base64 体。验证时通过添加标准 header 重建 PEM。DER 编码的密钥体仍然通过 ASN.1 OID 自描述算法，因此密钥类型检测不受影响。
 
 ### 依次检测密钥类型是否有性能开销？
 

@@ -172,6 +172,7 @@ Using `IDENTIFIED WITH key_pair BY '<key>'` in ALTER USER is rejected if the use
 - **Root user restriction**: Key-pair authentication is not supported for the `root` user. Only non-built-in users can use key-pair auth.
 - **Maximum keys per user**: A global setting `max_public_keys_per_user` (default: 10, range: 1–100) limits the number of public keys per user. Attempting to add a key beyond this limit is rejected.
 - **Last key protection**: Removing the last public key from a key-pair user is rejected. The user must always have at least one key.
+- **Label constraints**: Labels are trimmed on input, must be 128 characters or fewer, and must be unique per user. Duplicate labels are rejected.
 
 ### Authentication Flow
 
@@ -280,9 +281,9 @@ A list is more flexible and doesn't artificially limit the number of active keys
 
 PEM format already encodes the key type in its header and ASN.1 structure. Storing a redundant key type field adds a consistency risk (stored type vs. actual key type mismatch). Detection at verification time is reliable and simple.
 
-### Why store full PEM instead of stripping headers like Snowflake?
+### Why store base64 body instead of full PEM?
 
-Snowflake strips PEM headers/footers because it only supports RSA and uses `SET RSA_PUBLIC_KEY='MIIBIj...'`. We support multiple key types and store the full PEM for practical reasons: `jwt-simple`'s `from_pem()` accepts full PEM directly (no need to reconstruct headers), users can copy-paste `openssl` output without manual editing, and the storage overhead is negligible (a few dozen bytes).
+Following Snowflake's approach, we strip PEM headers/footers and store only the base64-encoded key body. This keeps storage compact and uniform. Both full PEM and bare base64 are accepted as input — the server normalizes to base64 body on write. At verification time, the PEM is reconstructed by wrapping the stored body with standard headers. The DER-encoded key body still self-describes the algorithm via its ASN.1 OID, so key type detection is unaffected.
 
 ### Does sequential key type detection have a performance cost?
 
