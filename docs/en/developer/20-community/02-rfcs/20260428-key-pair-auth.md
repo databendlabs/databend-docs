@@ -75,18 +75,21 @@ DESC USER service_account;
 
 ### Authenticating with a Key Pair
 
-The client generates a short-lived JWT signed with the private key and sends it as a Bearer token:
+The client generates a short-lived JWT signed with the private key and sends it as a Bearer token with a custom header to distinguish from JWKS-based JWT auth:
 
 ```
 Authorization: Bearer <jwt_token>
+X-DATABEND-AUTH-METHOD: keypair
 ```
+
+The `X-DATABEND-AUTH-METHOD: keypair` header is required. Without it, the server routes the Bearer token to the existing JWKS-based JWT verification flow.
 
 The JWT must contain:
 - `sub` (subject): the username
 - `iat` (issued at): current timestamp
 - `exp` (expiration): a short TTL (e.g., 60 seconds)
 
-The server decodes the JWT to extract the username, looks up the user's stored public keys, and verifies the signature. If any stored key validates the signature, authentication succeeds.
+The server extracts the username from the `sub` claim, looks up the user's stored public keys, and verifies the JWT signature. If any stored key validates the signature, authentication succeeds.
 
 ### Passphrase Support
 
@@ -158,16 +161,16 @@ Using `IDENTIFIED WITH key_pair BY '<pem>'` in ALTER USER replaces all existing 
 When a Bearer JWT token arrives at the HTTP handler:
 
 1. Check if the token is a Databend session token (`bend-v1-*`). If so, handle as before.
-2. Decode the JWT **without verification** to extract the `sub` (subject) claim, which contains the username.
-3. Look up the user in meta by username.
-4. Check the user's `auth_info`:
-   - If `AuthInfo::KeyPair`: iterate over stored public keys, attempt to verify the JWT signature with each. Accept on first match.
-   - If `AuthInfo::JWT`: fall through to existing JWKS-based verification (unchanged).
-   - Otherwise: reject with an authentication error.
-5. Validate standard JWT claims: `exp` must not be in the past, `iat` must be present and not in the future.
-6. Enforce network policy, set authenticated user in session.
-
-This approach requires no changes to the HTTP middleware — routing between key-pair and JWKS verification is handled entirely in `AuthMgr::auth()` based on the user's stored auth type.
+2. Check the `X-DATABEND-AUTH-METHOD` header:
+   - If `keypair`: route to key-pair authentication flow.
+   - Otherwise: route to existing JWKS-based JWT verification (unchanged).
+3. Key-pair flow:
+   a. Decode the JWT payload without verification to extract the `sub` (username) claim.
+   b. Look up the user in meta by username.
+   c. Verify the user's `auth_info` is `AuthInfo::KeyPair`.
+   d. Iterate over stored public keys, attempt to verify the JWT signature with each. Accept on first match.
+   e. Validate standard JWT claims: `exp` must not be in the past, `iat` must be present and not in the future.
+   f. Enforce network policy, set authenticated user in session.
 
 ### Key Validation
 
