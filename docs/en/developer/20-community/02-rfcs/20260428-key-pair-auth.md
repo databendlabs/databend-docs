@@ -56,22 +56,21 @@ openssl ec -in ec_private_key.pem -pubout -out ec_public_key.pem
 ### Assigning a Public Key to a User
 
 ```sql
--- Create a new user with key-pair authentication
-CREATE USER service_account IDENTIFIED WITH key_pair BY '-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...
------END PUBLIC KEY-----';
+-- Create a new user with key-pair authentication (full PEM or bare base64 both accepted)
+CREATE USER service_account IDENTIFIED WITH key_pair BY 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...';
 
--- Add an additional public key for rotation
-ALTER USER service_account WITH ADD PUBLIC_KEY = '-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...
------END PUBLIC KEY-----';
+-- Add an additional public key with a label for identification
+ALTER USER service_account WITH ADD PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...' LABEL = 'ci-pipeline';
 
--- Remove a key by its SHA256 fingerprint
+-- Remove a key by its label or SHA256 fingerprint
+ALTER USER service_account WITH REMOVE PUBLIC_KEY = 'ci-pipeline';
 ALTER USER service_account WITH REMOVE PUBLIC_KEY = 'SHA256:abc123...';
 
--- View key fingerprints
+-- View key fingerprints, labels, and creation times
 DESC USER service_account;
 ```
+
+Both full PEM format (with `-----BEGIN PUBLIC KEY-----` headers) and bare base64-encoded key body are accepted as input. Internally, only the base64 body is stored.
 
 ### Authenticating with a Key Pair
 
@@ -102,23 +101,34 @@ If the private key is encrypted with a passphrase, the client is responsible for
 A new `AuthInfo` variant is added:
 
 ```rust
+pub struct PublicKeyEntry {
+    pub key: String,        // base64-encoded public key body (no PEM headers)
+    pub label: String,      // user-provided label for identification
+    pub created_at: String, // ISO 8601 timestamp when the key was added
+}
+
 pub enum AuthInfo {
     None,
     Password { hash_value: Vec<u8>, hash_method: PasswordHashMethod, need_change: bool },
     JWT,
-    KeyPair { public_keys: Vec<String> },  // PEM-encoded public keys
+    KeyPair { public_keys: Vec<PublicKeyEntry> },
 }
 ```
 
-The PEM format self-describes the key type (RSA, EC, Ed25519), so no separate key type field is needed. The key type is detected at verification time.
+The DER-encoded key body self-describes the key type (RSA, EC, Ed25519) via its ASN.1 AlgorithmIdentifier OID, so no separate key type field is needed. The key type is detected at verification time by reconstructing the PEM and attempting to parse.
 
 ### Protobuf Schema
 
 ```protobuf
 message AuthInfo {
   // ... existing fields ...
+  message PublicKeyEntry {
+    string key = 1;
+    string label = 2;
+    string created_at = 3;
+  }
   message KeyPair {
-    repeated string public_keys = 1;
+    repeated PublicKeyEntry public_keys = 1;
   }
 
   oneof info {
@@ -137,24 +147,25 @@ message AuthInfo {
 **CREATE USER**:
 
 ```sql
-CREATE USER <username> IDENTIFIED WITH key_pair BY '<public_key_pem>';
+CREATE USER <username> IDENTIFIED WITH key_pair BY '<public_key>';
 ```
 
-This creates the user with a single public key. The `BY` clause carries the PEM-encoded public key.
+This creates the user with a single public key. The `BY` clause accepts either full PEM or bare base64 body.
 
 **ALTER USER** (key management via user options):
 
 ```sql
--- Add a public key to the user's key list
-ALTER USER <username> WITH ADD PUBLIC_KEY = '<public_key_pem>';
+-- Add a public key with an optional label
+ALTER USER <username> WITH ADD PUBLIC_KEY = '<public_key>' LABEL = '<label>';
 
--- Remove a public key by its SHA256 fingerprint
-ALTER USER <username> WITH REMOVE PUBLIC_KEY = '<sha256_fingerprint>';
+-- Remove a public key by its label or SHA256 fingerprint
+ALTER USER <username> WITH REMOVE PUBLIC_KEY = '<label_or_fingerprint>';
+
 ```
 
-Using `IDENTIFIED WITH key_pair BY '<pem>'` in ALTER USER is rejected if the user already uses key-pair authentication — use `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` to manage keys instead. This prevents accidental replacement of all existing keys.
+Using `IDENTIFIED WITH key_pair BY '<key>'` in ALTER USER is rejected if the user already uses key-pair authentication — use `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` to manage keys instead. This prevents accidental replacement of all existing keys.
 
-**DESCRIBE USER**: Shows SHA256 fingerprints of all stored public keys.
+**DESCRIBE USER**: Shows SHA256 fingerprints, labels, and creation timestamps of all stored public keys.
 
 ### Constraints
 

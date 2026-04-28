@@ -56,22 +56,21 @@ openssl ec -in ec_private_key.pem -pubout -out ec_public_key.pem
 ### 为用户分配公钥
 
 ```sql
--- 创建使用密钥对认证的新用户
-CREATE USER service_account IDENTIFIED WITH key_pair BY '-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...
------END PUBLIC KEY-----';
+-- 创建使用密钥对认证的新用户（完整 PEM 或纯 base64 均可）
+CREATE USER service_account IDENTIFIED WITH key_pair BY 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...';
 
--- 添加额外的公钥用于轮换
-ALTER USER service_account WITH ADD PUBLIC_KEY = '-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...
------END PUBLIC KEY-----';
+-- 添加额外的公钥并指定标签
+ALTER USER service_account WITH ADD PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...' LABEL = 'ci-pipeline';
 
--- 通过 SHA256 指纹移除密钥
+-- 通过标签或 SHA256 指纹移除密钥
+ALTER USER service_account WITH REMOVE PUBLIC_KEY = 'ci-pipeline';
 ALTER USER service_account WITH REMOVE PUBLIC_KEY = 'SHA256:abc123...';
 
--- 查看密钥指纹
+-- 查看密钥指纹、标签和创建时间
 DESC USER service_account;
 ```
+
+输入时接受完整 PEM 格式（带 `-----BEGIN PUBLIC KEY-----` header）或纯 base64 编码的密钥体。内部只存储 base64 体。
 
 ### 使用密钥对认证
 
@@ -102,23 +101,34 @@ JWT 必须包含：
 新增 `AuthInfo` 变体：
 
 ```rust
+pub struct PublicKeyEntry {
+    pub key: String,        // base64 编码的公钥体（无 PEM header）
+    pub label: String,      // 用户提供的标识标签
+    pub created_at: String, // 添加时的 ISO 8601 时间戳
+}
+
 pub enum AuthInfo {
     None,
     Password { hash_value: Vec<u8>, hash_method: PasswordHashMethod, need_change: bool },
     JWT,
-    KeyPair { public_keys: Vec<String> },  // PEM 编码的公钥
+    KeyPair { public_keys: Vec<PublicKeyEntry> },
 }
 ```
 
-PEM 格式自描述密钥类型（RSA、EC、Ed25519），因此不需要单独的密钥类型字段。密钥类型在验证时检测。
+DER 编码的密钥体通过 ASN.1 AlgorithmIdentifier OID 自描述密钥类型（RSA、EC、Ed25519），因此不需要单独的密钥类型字段。验证时通过重建 PEM 并尝试解析来检测密钥类型。
 
 ### Protobuf Schema
 
 ```protobuf
 message AuthInfo {
   // ... 现有字段 ...
+  message PublicKeyEntry {
+    string key = 1;
+    string label = 2;
+    string created_at = 3;
+  }
   message KeyPair {
-    repeated string public_keys = 1;
+    repeated PublicKeyEntry public_keys = 1;
   }
 
   oneof info {
@@ -137,24 +147,24 @@ message AuthInfo {
 **CREATE USER**：
 
 ```sql
-CREATE USER <username> IDENTIFIED WITH key_pair BY '<public_key_pem>';
+CREATE USER <username> IDENTIFIED WITH key_pair BY '<public_key>';
 ```
 
-创建用户时设置单个公钥。`BY` 子句携带 PEM 编码的公钥。
+创建用户时设置单个公钥。`BY` 子句接受完整 PEM 或纯 base64 体。
 
 **ALTER USER**（通过用户选项管理密钥）：
 
 ```sql
--- 向用户的密钥列表添加公钥
-ALTER USER <username> WITH ADD PUBLIC_KEY = '<public_key_pem>';
+-- 向用户的密钥列表添加公钥，可选指定标签
+ALTER USER <username> WITH ADD PUBLIC_KEY = '<public_key>' LABEL = '<label>';
 
--- 通过 SHA256 指纹移除公钥
-ALTER USER <username> WITH REMOVE PUBLIC_KEY = '<sha256_fingerprint>';
+-- 通过标签或 SHA256 指纹移除公钥
+ALTER USER <username> WITH REMOVE PUBLIC_KEY = '<label_or_fingerprint>';
 ```
 
-如果用户已经使用密钥对认证，在 ALTER USER 中使用 `IDENTIFIED WITH key_pair BY '<pem>'` 会被拒绝 — 请使用 `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` 来管理密钥。这可以防止意外替换所有现有密钥。
+如果用户已经使用密钥对认证，在 ALTER USER 中使用 `IDENTIFIED WITH key_pair BY '<key>'` 会被拒绝 — 请使用 `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` 来管理密钥。这可以防止意外替换所有现有密钥。
 
-**DESCRIBE USER**：显示所有存储公钥的 SHA256 指纹。
+**DESCRIBE USER**：显示所有存储公钥的 SHA256 指纹、标签和创建时间。
 
 ### 约束
 
