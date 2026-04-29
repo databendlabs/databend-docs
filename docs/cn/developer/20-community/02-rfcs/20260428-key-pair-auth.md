@@ -63,8 +63,8 @@ CREATE USER service_account IDENTIFIED WITH key_pair BY 'MIIBIjANBgkqhkiG9w0BAQE
 ALTER USER service_account WITH ADD PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...' LABEL = 'ci-pipeline';
 
 -- 通过标签或 SHA256 指纹移除密钥
-ALTER USER service_account WITH REMOVE PUBLIC_KEY = 'ci-pipeline';
-ALTER USER service_account WITH REMOVE PUBLIC_KEY = 'SHA256:abc123...';
+ALTER USER service_account WITH REMOVE PUBLIC_KEY LABEL = 'ci-pipeline';
+ALTER USER service_account WITH REMOVE PUBLIC_KEY FINGERPRINT = 'SHA256:abc123...';
 
 -- 查看密钥指纹、标签和创建时间
 DESC USER service_account;
@@ -158,8 +158,11 @@ CREATE USER <username> IDENTIFIED WITH key_pair BY '<public_key>';
 -- 向用户的密钥列表添加公钥，可选指定标签
 ALTER USER <username> WITH ADD PUBLIC_KEY = '<public_key>' LABEL = '<label>';
 
--- 通过标签或 SHA256 指纹移除公钥
-ALTER USER <username> WITH REMOVE PUBLIC_KEY = '<label_or_fingerprint>';
+-- 通过标签移除公钥
+ALTER USER <username> WITH REMOVE PUBLIC_KEY LABEL = '<label>';
+
+-- 通过 SHA256 指纹移除公钥
+ALTER USER <username> WITH REMOVE PUBLIC_KEY FINGERPRINT = '<sha256_fingerprint>';
 ```
 
 如果用户已经使用密钥对认证，在 ALTER USER 中使用 `IDENTIFIED WITH key_pair BY '<key>'` 会被拒绝 — 请使用 `ADD PUBLIC_KEY` / `REMOVE PUBLIC_KEY` 来管理密钥。这可以防止意外替换所有现有密钥。

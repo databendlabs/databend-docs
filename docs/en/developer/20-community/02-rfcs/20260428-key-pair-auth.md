@@ -62,9 +62,9 @@ CREATE USER service_account IDENTIFIED WITH key_pair BY 'MIIBIjANBgkqhkiG9w0BAQE
 -- Add an additional public key with a label for identification
 ALTER USER service_account WITH ADD PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...' LABEL = 'ci-pipeline';
 
--- Remove a key by its label or SHA256 fingerprint
-ALTER USER service_account WITH REMOVE PUBLIC_KEY = 'ci-pipeline';
-ALTER USER service_account WITH REMOVE PUBLIC_KEY = 'SHA256:abc123...';
+-- Remove a key by its label or fingerprint
+ALTER USER service_account WITH REMOVE PUBLIC_KEY LABEL = 'ci-pipeline';
+ALTER USER service_account WITH REMOVE PUBLIC_KEY FINGERPRINT = 'SHA256:abc123...';
 
 -- View key fingerprints, labels, and creation times
 DESC USER service_account;
@@ -158,8 +158,11 @@ This creates the user with a single public key. The `BY` clause accepts either f
 -- Add a public key with an optional label
 ALTER USER <username> WITH ADD PUBLIC_KEY = '<public_key>' LABEL = '<label>';
 
--- Remove a public key by its label or SHA256 fingerprint
-ALTER USER <username> WITH REMOVE PUBLIC_KEY = '<label_or_fingerprint>';
+-- Remove a public key by its label
+ALTER USER <username> WITH REMOVE PUBLIC_KEY LABEL = '<label>';
+
+-- Remove a public key by its SHA256 fingerprint
+ALTER USER <username> WITH REMOVE PUBLIC_KEY FINGERPRINT = '<sha256_fingerprint>';
 
 ```
 
